@@ -1,0 +1,58 @@
+[
+    {
+        "title": "群魔乱舞-乱战三国",
+        "path": "libs/qmlw-LZSG.lib"
+    },
+    {
+        "title": "群魔乱舞-血色华夏",
+        "path": "libs/qmlw-XSHX.lib"
+    },
+    {
+        "title": "群魔乱舞-三国杀",
+        "path": "libs/qmlw-SGS211.lib"
+    },
+    {
+        "title": "梦幻三国",
+        "path": "libs/梦幻三国dat.lib"
+    },
+    {
+        "title": "三国PLUS修正版",
+        "path": "libs/plus.gam-mod.lib"
+    },
+     {
+        "title": "无痕修复版",
+        "path": "libs/whxf.lib"
+    },
+    {
+        "title": "平衡版2.1三国战纪-旧地址",
+        "path": "libs/balance2.0.lib"
+    },
+    {
+        "title": "平衡版2.1修罗模式-旧地址",
+        "path": "libs/balance2.0-max.lib"
+    },
+    {
+        "title": "平衡版-1.6",
+        "path": "libs/ysh-easy1.6.lib"
+    },
+    {
+        "title": "华强版-1.8",
+        "path": "libs/balance1.8-max-mod.lib"
+    }
+    ,
+    {
+        "title": "昭烈版1.9-三国战纪",
+        "path": "libs/balance1.9C-test-mod.lib"
+    }
+    ,
+    {
+        "title": "真·三国霸业世界版",
+        "path": "libs/balance1.9C-bigMap.lib"
+    }
+    , 
+    {
+        "title": "中庸版2.0",
+        "path": "libs/balance1.99-mod.lib"
+    }
+
+]
