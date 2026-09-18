@@ -2,9 +2,9 @@
   "designWidth": 1920,
   "designHeight": 1080,
   "style": "modern-2d-strategy",
-  "version": "2",
-  "source": "historically-oriented-geography",
-  "note": "Terrain is a historically oriented geography pack (see GEOGRAPHY.md). Cities stay on g_CityPositions. Not original Bubugao art. Do not merge to main until approved.",
+  "version": "3",
+  "source": "historically-oriented-geography-v2",
+  "note": "Terrain is historically oriented geography v2 (finer rivers/mountains/forests; see GEOGRAPHY.md). Cities stay on g_CityPositions. Not original Bubugao art. Do not merge to main until approved.",
   "layers": {
     "terrain": [
       "terrain/base_plains.png",
