@@ -109,7 +109,7 @@
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
-| 道路 / 关隘 | partial | 无 Exit/Link。路网来自 `g_CityPositions` Chebyshev≤1（`roads/adjacency.json` 注明 runtime）。5px 土色曲线画在地形上、城标下。关隘仅当路中点压到河/山 overlay |
+| 道路 / 关隘 | partial | 无 Exit/Link。路网来自 `g_CityPositions` Chebyshev≤1（`roads/adjacency.json` 注明 runtime）。5px 土色曲线画在地形上、城标下。关隘仅过河（中点在河、两端不在河） |
 | 手机页 HD 地图 | missing | 非 P0 |
 
 ## 刻意未做

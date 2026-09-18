@@ -764,7 +764,7 @@
         return null;
     }
 
-    function overlayOpaqueAt(img, x, y) {
+    function overlayOpaqueAt(img, x, y, threshold) {
         if (!img || !img.width || !img.height) {
             return false;
         }
@@ -782,7 +782,7 @@
         var sy = y / DESIGN_H * img.height;
         try {
             sctx.drawImage(img, sx, sy, 1, 1, 0, 0, 1, 1);
-            return sctx.getImageData(0, 0, 1, 1).data[3] > 72;
+            return sctx.getImageData(0, 0, 1, 1).data[3] > (threshold || 160);
         } catch (e) {
             return false;
         }
@@ -906,8 +906,11 @@
             return null;
         }
         var ctrl = curveControl(a, b);
-        var river = overlayOpaqueAt(terrainImageByPart('rivers'), ctrl.x, ctrl.y);
-        var mountain = overlayOpaqueAt(terrainImageByPart('mountains'), ctrl.x, ctrl.y);
+        var riverImg = terrainImageByPart('rivers');
+        var riverMid = overlayOpaqueAt(riverImg, ctrl.x, ctrl.y, 180);
+        var riverA = overlayOpaqueAt(riverImg, a.hdX, a.hdY, 180);
+        var riverB = overlayOpaqueAt(riverImg, b.hdX, b.hdY, 180);
+        var pass = riverMid && !riverA && !riverB;
         return {
             a: edge.a,
             b: edge.b,
@@ -917,8 +920,8 @@
             by: b.hdY,
             cx: ctrl.x,
             cy: ctrl.y,
-            pass: !!(river || mountain),
-            passReason: river && mountain ? 'river+mountain' : (river ? 'river' : (mountain ? 'mountain' : ''))
+            pass: pass,
+            passReason: pass ? 'river-crossing' : ''
         };
     }
 
