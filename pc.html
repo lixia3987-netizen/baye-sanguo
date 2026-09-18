@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/flex.css"/>
     <link rel="stylesheet" type="text/css" href="css/baye.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-overworld.css"/>
     <script>
         var _hmt = _hmt || [];
         (function () {
@@ -32,9 +33,11 @@
             try {
                 var scale = localStorage.getItem('baye/lcdCssScale') === '2' ? '2' : '1';
                 var theme = localStorage.getItem('baye/lcdTheme') === 'hd' ? 'hd' : 'classic';
+                var overworld = localStorage.getItem('baye/overworldMode') === 'hd-map' ? 'hd-map' : 'classic';
                 document.documentElement.style.setProperty('--baye-lcd-scale', scale);
                 document.documentElement.setAttribute('data-baye-lcd-scale', scale);
                 document.documentElement.setAttribute('data-baye-theme', theme);
+                document.documentElement.setAttribute('data-baye-overworld', overworld);
             } catch (e) {}
         })();
     </script>
@@ -45,6 +48,15 @@
         <div class="dummy"></div>
         <div class="element lcd">
             <canvas class="fill no_blur lcd-crisp" id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
+        </div>
+    </div>
+</div>
+<div id="hd-overworld" class="hd-overworld" aria-hidden="true">
+    <div class="hd-overworld-stage">
+        <canvas id="hd-overworld-canvas" width="1920" height="1080"></canvas>
+        <div class="hd-overworld-hud">
+            <div id="hd-overworld-hud-left" class="hd-overworld-hud-left">HD 大地图</div>
+            <div id="hd-overworld-hud-right" class="hd-overworld-hud-right">切回经典可继续键操</div>
         </div>
     </div>
 </div>
@@ -61,7 +73,10 @@
             <span class="baye-hd-sep" aria-hidden="true"></span>
             <button type="button" data-hd-theme="classic">经典外壳</button>
             <button type="button" data-hd-theme="hd">HD 外壳</button>
-            <span class="baye-hd-hint">仅放大 LCD 显示，不改游戏数据。默认 1× 与改之前一致。说明见 docs/hd-graphics.md</span>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-overworld="classic">经典地图</button>
+            <button type="button" data-hd-overworld="hd-map">HD 地图</button>
+            <span class="baye-hd-hint">1×/2× 只放大经典 LCD。HD 地图是 1080p 表现层，默认关闭，可随时切回。说明见 docs/hd-graphics.md 与 docs/hd-overworld-spec.md</span>
         </div>
         <div layout="row center-stretch">
             <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
@@ -94,15 +109,23 @@
 <script src="js/bridge.js?ver=20260329"></script>
 <script src="js/lcd.js?ver=20260329"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
+<script src="js/hd-overworld-probe.js?ver=20260918"></script>
+<script src="js/hd-overworld.js?ver=20260918"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
         BayeHd.applyPcPage();
     }
+    if (window.BayeHdOverworld) {
+        BayeHdOverworld.applyPcPage();
+    }
     Module.postRun = function () {
         lcdInit();
         if (window.BayeHd) {
             BayeHd.applyPcPage();
+        }
+        if (window.BayeHdOverworld) {
+            BayeHdOverworld.start();
         }
         var libName = getLibName();
         $("#lib-name").html("当前版本: " + libName);

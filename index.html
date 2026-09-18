@@ -5,6 +5,7 @@
         <title>三国霸业</title>
         <link rel="stylesheet" type="text/css" href="css/baye.css" />
         <link rel="stylesheet" type="text/css" href="css/hd-graphics.css" />
+        <link rel="stylesheet" type="text/css" href="css/hd-overworld.css" />
         <link rel="icon" href="favicon.png">
         <link rel="manifest" href="manifest.json">
         <link rel="apple-touch-icon" href="favicon.png">
@@ -29,12 +30,17 @@
                     if (localStorage.getItem('baye/lcdTheme') === 'hd') {
                         document.documentElement.setAttribute('data-baye-theme', 'hd');
                     }
+                    document.documentElement.setAttribute(
+                        'data-baye-overworld',
+                        localStorage.getItem('baye/overworldMode') === 'hd-map' ? 'hd-map' : 'classic'
+                    );
                 } catch (e) {}
             })();
         </script>
         <script src="js/jquery.min.js"></script>
         <script src="js/lcd.js?ver=20260329"></script>
         <script src="js/hd-graphics.js?ver=20260918"></script>
+        <script src="js/hd-overworld.js?ver=20260918"></script>
         <style>
             .index-tip {
                 color: red;
@@ -104,7 +110,14 @@
                     <option value="hd">HD 外壳（仅页面框，不改游戏图）</option>
                 </select>
             </div>
-            <p class="hd-graphics-note">画质缩放目前只作用于 PC 键盘版（<code>pc.html</code>）。手机页已铺满屏幕，强行 2× 会破坏触控与虚拟键布局。计划与禁区见 <a href="docs/hd-graphics.md">docs/hd-graphics.md</a>。</p>
+            <div class="config-item">
+                大地图:
+                <select id="overworld-mode-select">
+                    <option value="classic">经典 LCD（默认）</option>
+                    <option value="hd-map">HD 策略地图（pc.html 1080p 壳）</option>
+                </select>
+            </div>
+            <p class="hd-graphics-note">画质缩放目前只作用于 PC 键盘版（<code>pc.html</code>）。手机页已铺满屏幕，强行 2× 会破坏触控与虚拟键布局。HD 地图是另一套开关（<code>baye/overworldMode</code>），默认经典；在 <code>pc.html</code> 画质条可即时切换。计划见 <a href="docs/hd-graphics.md">docs/hd-graphics.md</a> 与 <a href="docs/hd-overworld-spec.md">docs/hd-overworld-spec.md</a>。</p>
             <div class="config-item">
                 交流QQ群: 526266208<br>
             </div>
@@ -131,6 +144,7 @@
                     bindHd("#lcd-scale-select", "baye/lcdCssScale", "1");
                     bindHd("#lcd-filter-select", "baye/lcdFilter", "crisp");
                     bindHd("#lcd-theme-select", "baye/lcdTheme", "classic");
+                    bindHd("#overworld-mode-select", "baye/overworldMode", "classic");
                     if (window.BayeHd) {
                         BayeHd.applyTheme();
                         $("#lcd-theme-select").change(function () {

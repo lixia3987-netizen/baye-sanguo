@@ -10,9 +10,9 @@
 
 | 功能 | 状态 | 说明 |
 |------|------|------|
-| 首页 `index.html` | done | 选择版本 / 进入游戏 / 存档管理，以及操作模式、分辨率、终端、PC 画质（缩放/滤镜/外壳） |
+| 首页 `index.html` | done | 选择版本 / 进入游戏 / 存档管理，以及操作模式、分辨率、终端、PC 画质（缩放/滤镜/外壳）与大地图模式 |
 | 版本选择 `choose.html` | done | 读取 `libs.json`，写入 `localStorage` 后跳转游戏 |
-| PC 端 `pc.html` | done | 160×96 LCD + 键盘说明；WASM 从 `js/baye.wasm` 同目录加载；可逆 1×/2× 画质条 |
+| PC 端 `pc.html` | done | 160×96 LCD + 键盘说明；WASM 从 `js/baye.wasm` 同目录加载；可逆 1×/2× 画质条；可选 HD 大地图壳 |
 | 横屏触控 `m.html` | done | 页面在；本地可用 `?debug=1` 避免无 hash 回首页 |
 | 横屏手势 `m-ges.html` | done | 同上 |
 | 竖屏键盘 `m-old.html` | done | 页面在；无 hash 时会回首页（上游逻辑，与 `m.html` 的 debug 例外不同） |
@@ -93,6 +93,22 @@
 | 云存档上传下载 | partial | 需 bbkgames 登录，离线不可用 |
 | 脚本 / Mod hook | done | `bridge.js` + 文档 https://bgwp.gitee.io/baye-doc/script/index.html |
 
+## HD 大地图表现壳（P0）
+
+规格：[docs/hd-overworld-spec.md](docs/hd-overworld-spec.md)。只停在 `feature/hd-graphics`，不合 `main`。
+
+| 功能 | 状态 | 说明 |
+|------|------|------|
+| `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
+| 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
+| 地形合成 | done | 读 `assets/hd-overworld/manifest.json`，叠加 plains / mountains / rivers / forest；缺文件回退椭圆大陆 |
+| 城池标记 | done | `g_Cities` / `g_CityPositions` / `Belong` / `getCityName`；无坐标时用城名表或 12 列网格，并打标定日志 |
+| 点击入城 | partial | 点城后尝试写光标字段 / 方向键逼近 / LCD 触摸，再 `sendKey(ENTER)` 开**经典**菜单。字段未暴露时可能对不齐，可切回经典键操 |
+| 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；`cityMakeCommand` → 菜单；标题/选君主期 LCD 缩到右下角。势力形势图可能被误判，可切回经典 |
+| 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
+| 道路 / 关隘 / 年月 HUD | missing / partial | 道路为 P2。年月若探测到 `g_YearN`/`g_MonthN` 等键会显示，否则只显示时期名或「HD 大地图」 |
+| 手机页 HD 地图 | missing | 非 P0 |
+
 ## 刻意未做
 
 - 未自造科技树、抽卡、联机对战。
@@ -105,3 +121,4 @@
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
 3. **完整一场战斗**：军备「出征」菜单已打开；打完一整场需在地图上派兵接敌，耗时较长，未在本次浏览器里打完。天气/地形/六兵种/计谋均在引擎内，不是占位。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
+5. **HD 大地图 P0**：表现壳已接线，但引擎光标字段 / 年月份 / 「正在大地图」仍靠运行时探测与启发式；点城入城不是 100% 对齐。完整键操请切回经典。
