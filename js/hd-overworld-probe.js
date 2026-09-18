@@ -41,6 +41,29 @@
         });
     }
 
+    function walkNumbers(obj, prefix, out, depth) {
+        if (!obj || typeof obj !== 'object' || depth > 3) {
+            return;
+        }
+        var names = listProps(obj);
+        for (var i = 0; i < names.length; i++) {
+            var name = names[i];
+            if (!name || name.charAt(0) === '_') {
+                continue;
+            }
+            var path = prefix ? prefix + '.' + name : name;
+            var raw = obj[name];
+            var num = readNumber(obj, name);
+            if (num !== null && (typeof raw === 'number' || (raw !== null && raw !== undefined && typeof raw !== 'object'))) {
+                out.push({ path: path, name: name, value: num });
+                continue;
+            }
+            if (raw && typeof raw === 'object' && typeof raw.length !== 'number') {
+                walkNumbers(raw, path, out, depth + 1);
+            }
+        }
+    }
+
     function snapshotPositions(data) {
         var raw = data && data.g_CityPositions;
         var cities = data && data.g_Cities;
@@ -55,12 +78,16 @@
             var x = pos ? readNumber(pos, 'x') : null;
             var y = pos ? readNumber(pos, 'y') : null;
             var name = null;
+            var belong = null;
             try {
                 if (window.baye && typeof baye.getCityName === 'function') {
                     name = baye.getCityName(i);
                 }
             } catch (e) {}
-            rows.push({ i: i, name: name, x: x, y: y });
+            if (cities && cities[i]) {
+                belong = readNumber(cities[i], 'Belong');
+            }
+            rows.push({ i: i, name: name, x: x, y: y, belong: belong });
             if (x !== null && y !== null) {
                 minX = Math.min(minX, x);
                 maxX = Math.max(maxX, x);
@@ -88,21 +115,50 @@
         return null;
     }
 
+    function guessDate(data) {
+        var nums = [];
+        walkNumbers(data, '', nums, 0);
+        var years = [];
+        var months = [];
+        for (var i = 0; i < nums.length; i++) {
+            var item = nums[i];
+            var n = item.name || '';
+            if (/year|nian/i.test(n) && item.value >= 180 && item.value <= 300) {
+                years.push(item);
+            } else if (/month|yue/i.test(n) && item.value >= 1 && item.value <= 12) {
+                months.push(item);
+            } else if (!/year|month|day|date/i.test(n) && item.value >= 184 && item.value <= 280) {
+                years.push({ path: item.path, name: item.name, value: item.value, weak: true });
+            }
+        }
+        return {
+            years: years,
+            months: months,
+            year: years.length ? years[0] : null,
+            month: months.length ? months[0] : null
+        };
+    }
+
     function run() {
         var data = window.baye && baye.data;
         if (!data) {
             console.log('[hd-overworld-probe] baye.data 尚未就绪');
             return null;
         }
+        var city0 = data.g_Cities && data.g_Cities[0] ? listProps(data.g_Cities[0]) : [];
+        var pos0 = data.g_CityPositions && data.g_CityPositions[0] ? listProps(data.g_CityPositions[0]) : [];
         var report = {
             fields: listProps(data),
-            dateLike: findFields(data, /year|month|date|pidx|time/i),
+            dateLike: findFields(data, /year|month|date|pidx|time|nian|yue/i),
             cityLike: findFields(data, /city|cursor|focus|foucs|map|crt/i),
-            year: pickFirstNumber(data, ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year']),
-            month: pickFirstNumber(data, ['g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month']),
+            cityObjectFields: city0,
+            positionObjectFields: pos0,
+            dateGuess: guessDate(data),
+            year: pickFirstNumber(data, ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear']),
+            month: pickFirstNumber(data, ['g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month', 'g_PMonth']),
             cursorCity: pickFirstNumber(data, [
                 'g_CityCrt', 'g_CityCur', 'g_CurCity', 'g_CityIndex',
-                'g_CrtCity', 'g_iCity', 'g_currentCity', 'g_CityId'
+                'g_CrtCity', 'g_iCity', 'g_currentCity', 'g_CityId', 'g_CityIdx'
             ]),
             focus: {
                 x: pickFirstNumber(data, ['g_FoucsX', 'g_FocusX', 'g_MapFocusX']),
@@ -112,10 +168,12 @@
                 x: pickFirstNumber(data, ['g_MapSX', 'g_LandMapSX', 'g_CityMapSX']),
                 y: pickFirstNumber(data, ['g_MapSY', 'g_LandMapSY', 'g_CityMapSY'])
             },
+            cityCursorRange: data.g_cityCursorRange || null,
             playerKing: readNumber(data, 'g_PlayerKing'),
             period: readNumber(data, 'g_PIdx'),
             positions: snapshotPositions(data)
         };
+        global.BayeHdOverworldProbe.last = report;
         console.log('[hd-overworld-probe]', report);
         if (report.positions && report.positions.rows) {
             console.table(report.positions.rows);
@@ -128,6 +186,9 @@
         listProps: listProps,
         findFields: findFields,
         readNumber: readNumber,
-        pickFirstNumber: pickFirstNumber
+        pickFirstNumber: pickFirstNumber,
+        walkNumbers: walkNumbers,
+        guessDate: guessDate,
+        last: null
     };
 })(window);

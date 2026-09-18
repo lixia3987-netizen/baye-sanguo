@@ -1,5 +1,5 @@
 /**
- * HD 大地图表现壳（P0）。
+ * HD 大地图表现壳（P0 容器 + P1 城态/点选）。
  * 不改 WASM / 不改 dat.lib。经典模式默认，可切回。
  * 规格：docs/hd-overworld-spec.md
  */
@@ -12,12 +12,14 @@
     var HIT_RADIUS = 36;
     var PERIOD_NAMES = { 1: '董卓弄权', 2: '曹操崛起', 3: '赤壁之战', 4: '三国鼎立' };
 
-    var YEAR_FIELDS = ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year'];
-    var MONTH_FIELDS = ['g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month'];
+    var YEAR_FIELDS = ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear'];
+    var MONTH_FIELDS = ['g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month', 'g_PMonth'];
+    var DATE_OBJECT_FIELDS = ['g_DateN', 'g_Date', 'g_GameDate', 'DateN'];
     var CURSOR_FIELDS = [
         'g_CityCrt', 'g_CityCur', 'g_CurCity', 'g_CityIndex',
-        'g_CrtCity', 'g_iCity', 'g_currentCity', 'g_CityId'
+        'g_CrtCity', 'g_iCity', 'g_currentCity', 'g_CityId', 'g_CityIdx'
     ];
+    var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var FOCUS_X_FIELDS = ['g_FoucsX', 'g_FocusX', 'g_MapFocusX'];
     var FOCUS_Y_FIELDS = ['g_FoucsY', 'g_FocusY', 'g_MapFocusY'];
     var MAP_SX_FIELDS = ['g_MapSX', 'g_LandMapSX', 'g_CityMapSX'];
@@ -40,7 +42,12 @@
         empty: '#8a8f98',
         player: '#3d8bfd',
         byBelongId: {},
-        fallback: ['#e0a14a', '#5cb87a', '#9b6bdb', '#d97b3e', '#4aa3a3', '#c43c3c', '#6b8cae', '#d4a574']
+        fallback: [
+            '#e0a14a', '#5cb87a', '#9b6bdb', '#d97b3e', '#4aa3a3', '#c43c3c',
+            '#6b8cae', '#d4a574', '#7ec8e3', '#e07bb0', '#b7c75b', '#8d6e63',
+            '#5c6bc0', '#ef6c00', '#26a69a', '#8e24aa', '#c0ca33', '#546e7a',
+            '#ec407a', '#66bb6a', '#29b6f6', '#ff7043', '#ab47bc', '#9ccc65'
+        ]
     };
 
     var state = {
@@ -67,7 +74,15 @@
         inputBound: false,
         inputFallbackNoted: false,
         alignLog: null,
-        hint: '经典 LCD 可随时切回。点城尝试打开经典城池菜单。'
+        aligning: false,
+        alignToken: 0,
+        alignTimer: 0,
+        learnedCursorField: null,
+        engineCursorIndex: -1,
+        menuDepth: 0,
+        hdOpenedMenu: false,
+        dateInfo: { year: null, month: null, source: 'none' },
+        hint: '经典 LCD 可随时切回。点己方城打开经典城池菜单。'
     };
 
     function readStorage(key, fallback) {
@@ -323,20 +338,40 @@
         return 'neutral';
     }
 
+    function activePalette() {
+        var pal = state.palette || {};
+        var fallback = DEFAULT_PALETTE.fallback.slice();
+        if (pal.fallback && pal.fallback.length) {
+            var i;
+            for (i = 0; i < pal.fallback.length; i++) {
+                if (fallback.indexOf(pal.fallback[i]) < 0) {
+                    fallback.push(pal.fallback[i]);
+                }
+            }
+            fallback = pal.fallback.concat(DEFAULT_PALETTE.fallback);
+        }
+        return {
+            empty: pal.empty || DEFAULT_PALETTE.empty,
+            player: pal.player || DEFAULT_PALETTE.player,
+            byBelongId: pal.byBelongId || {},
+            fallback: fallback
+        };
+    }
+
     function factionColor(belong) {
-        var pal = state.palette || DEFAULT_PALETTE;
+        var pal = activePalette();
         if (!belong || belong === 0xff || belong === 255) {
-            return pal.empty || DEFAULT_PALETTE.empty;
+            return pal.empty;
         }
         var kingId = playerKingId();
         if (kingId && belong === kingId) {
-            return pal.player || DEFAULT_PALETTE.player;
+            return pal.player;
         }
         if (pal.byBelongId && pal.byBelongId[String(belong)]) {
             return pal.byBelongId[String(belong)];
         }
-        var fb = pal.fallback || DEFAULT_PALETTE.fallback;
-        return fb[Math.abs(belong) % fb.length];
+        var fb = pal.fallback;
+        return fb[Math.abs(belong * 17) % fb.length];
     }
 
     function mapEngineToHd(engX, engY, bounds) {
@@ -427,15 +462,7 @@
             rows[r].labelY = hd.y + 44;
             labels.push(rows[r]);
         }
-        labels.sort(function (a, b) { return a.hdY - b.hdY || a.hdX - b.hdX; });
-        for (var a = 0; a < labels.length; a++) {
-            for (var b = 0; b < a; b++) {
-                if (Math.abs(labels[a].hdX - labels[b].hdX) < 70 &&
-                    Math.abs(labels[a].labelY - labels[b].labelY) < 18) {
-                    labels[a].labelY = labels[b].labelY + 18;
-                }
-            }
-        }
+        dodgeLabels(rows);
 
         if (!state.probed) {
             state.probed = true;
@@ -461,7 +488,35 @@
         }
 
         state.cities = rows;
+        refreshDateInfo();
         return rows;
+    }
+
+    function dodgeLabels(rows) {
+        var labels = rows.slice().sort(function (a, b) {
+            return a.hdY - b.hdY || a.hdX - b.hdX;
+        });
+        for (var a = 0; a < labels.length; a++) {
+            labels[a].labelX = labels[a].hdX;
+            labels[a].labelY = labels[a].hdY + 44;
+            var guard = 0;
+            while (guard++ < 8) {
+                var hit = false;
+                for (var b = 0; b < a; b++) {
+                    if (Math.abs(labels[a].labelX - labels[b].labelX) < 72 &&
+                        Math.abs(labels[a].labelY - labels[b].labelY) < 20) {
+                        labels[a].labelY = labels[b].labelY + 20;
+                        hit = true;
+                    }
+                }
+                if (!hit) {
+                    break;
+                }
+            }
+            if (labels[a].labelY > SAFE.bottom - 8) {
+                labels[a].labelY = labels[a].hdY - 52;
+            }
+        }
     }
 
     function isFightActive(data) {
@@ -515,6 +570,10 @@
         return 'other';
     }
 
+    function hitsEnabled() {
+        return state.mode === 'hd-map' && state.phase === 'map' && !state.aligning;
+    }
+
     function setPhase(phase) {
         if (state.phase === phase) {
             applyChrome();
@@ -526,13 +585,16 @@
 
     function onHook(name) {
         if (name === 'cityMakeCommand') {
+            state.menuDepth = Math.max(2, state.menuDepth + 1);
             setPhase('classic-menu');
-            state.hint = '经典城池菜单（内政/外交/军备/状况）。空格返回大地图。';
+            state.hint = '经典城池菜单。空格关子菜单；再空格或点地图空白回 HD。';
             return;
         }
         if (name === 'willCloseMenu' && state.phase === 'classic-menu') {
-            setPhase('map');
-            state.hint = '已回到大地图。点城或用方向键。';
+            state.menuDepth = Math.max(0, state.menuDepth - 1);
+            if (state.menuDepth <= 0) {
+                leaveClassicMenu('已回到大地图。点城打开经典菜单。');
+            }
             return;
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
@@ -626,11 +688,20 @@
         for (var i = 0; i < cities.length; i++) {
             var city = cities[i];
             var selected = city.index === state.selectedIndex;
-            var hover = city.index === state.hoverIndex;
-            var img = markerImage(city.kind, selected);
-            var size = selected ? 72 : 56;
-            if (img) {
-                ctx.drawImage(img, city.hdX - size / 2, city.hdY - size / 2 - 6, size, size);
+            var hover = city.index === state.hoverIndex && hitsEnabled();
+            var base = markerImage(city.kind, false);
+            var sel = selected ? markerImage(city.kind, true) : null;
+            var size = selected ? 64 : 56;
+
+            ctx.beginPath();
+            ctx.fillStyle = city.color;
+            ctx.globalAlpha = city.kind === 'empty' ? 0.28 : 0.42;
+            ctx.arc(city.hdX, city.hdY + 6, selected ? 22 : 18, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+
+            if (base) {
+                ctx.drawImage(base, city.hdX - size / 2, city.hdY - size / 2 - 8, size, size);
             } else {
                 ctx.beginPath();
                 ctx.fillStyle = city.color;
@@ -640,55 +711,130 @@
                 ctx.strokeStyle = '#1b1f27';
                 ctx.stroke();
             }
+            if (selected && sel && sel !== base) {
+                ctx.drawImage(sel, city.hdX - 40, city.hdY - 48, 80, 80);
+            }
 
             ctx.beginPath();
             ctx.strokeStyle = city.color;
-            ctx.lineWidth = hover || selected ? 3 : 2;
-            ctx.globalAlpha = 0.9;
-            ctx.arc(city.hdX, city.hdY + 2, selected ? 28 : 22, 0, Math.PI * 2);
+            ctx.lineWidth = selected ? 3.5 : 2.5;
+            ctx.arc(city.hdX, city.hdY + 2, selected ? 30 : 24, 0, Math.PI * 2);
             ctx.stroke();
-            ctx.globalAlpha = 1;
+
+            if (hover) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(255,244,200,0.95)';
+                ctx.lineWidth = 2;
+                ctx.arc(city.hdX, city.hdY + 2, 34, 0, Math.PI * 2);
+                ctx.stroke();
+            }
 
             if (selected) {
-                var pulse = 26 + Math.sin(now / 220) * 4;
+                var pulse = 30 + Math.sin(now / 200) * 4;
                 ctx.beginPath();
-                ctx.strokeStyle = 'rgba(255,255,255,0.7)';
+                ctx.strokeStyle = 'rgba(255,255,255,0.75)';
                 ctx.lineWidth = 2;
                 ctx.arc(city.hdX, city.hdY + 2, pulse, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
-            var label = city.name || ('#' + city.index);
+            var label = city.name || ('城' + (city.index + 1));
+            var lx = city.labelX != null ? city.labelX : city.hdX;
+            var ly = city.labelY != null ? city.labelY : city.hdY + 44;
             ctx.font = (hover || selected ? 'bold ' : '') + '20px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
             var tw = ctx.measureText(label).width;
-            ctx.fillStyle = 'rgba(14,17,22,0.62)';
-            ctx.fillRect(city.hdX - tw / 2 - 6, city.labelY - 2, tw + 12, 22);
+            ctx.fillStyle = 'rgba(14,17,22,0.72)';
+            ctx.fillRect(lx - tw / 2 - 7, ly - 2, tw + 14, 24);
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'rgba(14,17,22,0.85)';
+            ctx.strokeText(label, lx, ly);
             ctx.fillStyle = '#f4f7fb';
-            ctx.fillText(label, city.hdX, city.labelY);
+            ctx.fillText(label, lx, ly);
         }
     }
 
-    function dateLabel() {
+    function readNestedNumber(obj, names) {
+        if (!obj) {
+            return null;
+        }
+        for (var i = 0; i < names.length; i++) {
+            var v = readNumber(obj, names[i]);
+            if (v !== null) {
+                return { name: names[i], value: v };
+            }
+        }
+        return null;
+    }
+
+    function refreshDateInfo() {
         var data = engineData();
+        var info = { year: null, month: null, yearPath: null, monthPath: null, source: 'none' };
         if (!data) {
-            return '';
+            state.dateInfo = info;
+            return info;
         }
         var year = pickField(data, YEAR_FIELDS);
         var month = pickField(data, MONTH_FIELDS);
-        var period = readNumber(data, 'g_PIdx');
-        var parts = [];
-        if (year) {
-            parts.push(year.value + '年');
+        if ((!year || !month) && DATE_OBJECT_FIELDS) {
+            for (var i = 0; i < DATE_OBJECT_FIELDS.length; i++) {
+                var obj = data[DATE_OBJECT_FIELDS[i]];
+                if (obj && typeof obj === 'object') {
+                    if (!year) {
+                        year = readNestedNumber(obj, ['year', 'Year', 'y', 'YearN']);
+                        if (year) {
+                            year.name = DATE_OBJECT_FIELDS[i] + '.' + year.name;
+                        }
+                    }
+                    if (!month) {
+                        month = readNestedNumber(obj, ['month', 'Month', 'm', 'MonthN']);
+                        if (month) {
+                            month.name = DATE_OBJECT_FIELDS[i] + '.' + month.name;
+                        }
+                    }
+                }
+            }
         }
-        if (month) {
-            parts.push(month.value + '月');
+        if ((!year || !month) && global.BayeHdOverworldProbe && typeof BayeHdOverworldProbe.guessDate === 'function') {
+            var guess = BayeHdOverworldProbe.guessDate(data);
+            if (!year && guess.year && !guess.year.weak) {
+                year = guess.year;
+            }
+            if (!month && guess.month) {
+                month = guess.month;
+            }
         }
-        if (!parts.length && period && PERIOD_NAMES[period]) {
-            parts.push(PERIOD_NAMES[period]);
+        if (year && year.value >= 180 && year.value <= 300) {
+            info.year = year.value;
+            info.yearPath = year.name || year.path;
+            info.source = 'probe';
         }
-        return parts.join('');
+        if (month && month.value >= 1 && month.value <= 12) {
+            info.month = month.value;
+            info.monthPath = month.name || month.path;
+            if (info.source === 'none') {
+                info.source = 'probe';
+            }
+        }
+        state.dateInfo = info;
+        return info;
+    }
+
+    function dateLabel() {
+        var info = state.dateInfo || refreshDateInfo();
+        var period = readNumber(engineData(), 'g_PIdx');
+        var periodName = period && PERIOD_NAMES[period] ? PERIOD_NAMES[period] : '';
+        if (info.year != null && info.month != null) {
+            return info.year + '年' + info.month + '月';
+        }
+        if (info.year != null) {
+            return info.year + '年';
+        }
+        if (periodName) {
+            return periodName + ' · 年月未探测到';
+        }
+        return '年月未探测到';
     }
 
     function kingLabel() {
@@ -717,12 +863,14 @@
         }
         var date = dateLabel();
         var king = kingLabel();
-        var title = date || 'HD 大地图';
+        var title = date;
         if (king) {
             title += '  ·  ' + king;
         }
         if (state.phase === 'other') {
             title += '  ·  预览';
+        } else if (state.phase === 'classic-menu') {
+            title += '  ·  经典菜单';
         }
         state.hudLeft.textContent = title;
         var n = state.cities.length;
@@ -752,9 +900,14 @@
             }
         }
         sampleCities();
-        var cur = pickField(engineData(), CURSOR_FIELDS);
-        if (cur && cur.value >= 0 && cur.value < state.cities.length && state.phase === 'map') {
-            state.selectedIndex = cur.value;
+        if (state.phase === 'map' && !state.aligning) {
+            var cursor = inferCurrentCity();
+            if (validCityIndex(cursor)) {
+                state.engineCursorIndex = cursor;
+                if (state.selectedIndex < 0) {
+                    state.selectedIndex = cursor;
+                }
+            }
         }
         applyChrome();
     }
@@ -792,6 +945,7 @@
         body.classList.toggle('baye-hd-overworld-map', show && state.phase === 'map');
         body.classList.toggle('baye-hd-overworld-menu', show && state.phase === 'classic-menu');
         body.classList.toggle('baye-hd-overworld-preview', show && state.phase === 'other');
+        body.classList.toggle('baye-hd-overworld-aligning', show && state.aligning);
         var layer = document.getElementById('hd-overworld');
         if (layer) {
             layer.setAttribute('aria-hidden', show ? 'false' : 'true');
@@ -883,118 +1037,403 @@
         }
     }
 
-    function currentCursorIndex() {
-        var cur = pickField(engineData(), CURSOR_FIELDS);
-        if (cur && cur.value >= 0 && cur.value < state.cities.length) {
-            return cur.value;
-        }
-        return state.selectedIndex;
+    function validCityIndex(value) {
+        return value !== null && value >= 0 && value < state.cities.length;
     }
 
-    function alignCursor(index) {
+    function snapshotIndexFields() {
         var data = engineData();
-        var city = state.cities[index];
-        var tried = [];
+        var snap = {};
+        if (!data) {
+            return snap;
+        }
+        var names = CURSOR_FIELDS.slice();
+        if (state.learnedCursorField && names.indexOf(state.learnedCursorField) < 0) {
+            names.push(state.learnedCursorField);
+        }
+        var extra = [];
+        if (global.BayeHdOverworldProbe && data._baye_properties) {
+            extra = data._baye_properties;
+        }
+        var i;
+        for (i = 0; i < names.length; i++) {
+            snap[names[i]] = readNumber(data, names[i]);
+        }
+        for (i = 0; i < extra.length; i++) {
+            var n = extra[i];
+            if (/city|cursor|crt|idx|index/i.test(n) && snap[n] === undefined) {
+                snap[n] = readNumber(data, n);
+            }
+        }
+        return snap;
+    }
+
+    function learnCursorField(before, after) {
+        if (!before || !after) {
+            return;
+        }
+        var name;
+        for (name in after) {
+            if (!Object.prototype.hasOwnProperty.call(after, name)) {
+                continue;
+            }
+            var a = after[name];
+            var b = before[name];
+            if (a !== b && validCityIndex(a) && validCityIndex(b)) {
+                state.learnedCursorField = name;
+                console.log('[hd-overworld] learned cursor field', name, b, '→', a);
+                return name;
+            }
+        }
+        return null;
+    }
+
+    function inferCurrentCity() {
+        var data = engineData();
+        if (state.learnedCursorField && data) {
+            var learned = readNumber(data, state.learnedCursorField);
+            if (validCityIndex(learned)) {
+                return learned;
+            }
+        }
+        var cur = pickField(data, CURSOR_FIELDS);
+        if (cur && validCityIndex(cur.value)) {
+            return cur.value;
+        }
+        var fx = pickField(data, FOCUS_X_FIELDS);
+        var fy = pickField(data, FOCUS_Y_FIELDS);
+        if (fx && fy) {
+            var nearest = nearestCityToEng(fx.value, fy.value);
+            if (nearest >= 0) {
+                var city = state.cities[nearest];
+                if (Math.abs(city.engX - fx.value) <= 1 && Math.abs(city.engY - fy.value) <= 1) {
+                    return nearest;
+                }
+            }
+        }
+        if (validCityIndex(state.engineCursorIndex)) {
+            return state.engineCursorIndex;
+        }
+        return -1;
+    }
+
+    function nearestCityToEng(x, y) {
+        var best = -1;
+        var bestD = Infinity;
+        for (var i = 0; i < state.cities.length; i++) {
+            var dx = state.cities[i].engX - x;
+            var dy = state.cities[i].engY - y;
+            var d = dx * dx + dy * dy;
+            if (d < bestD) {
+                bestD = d;
+                best = i;
+            }
+        }
+        return best;
+    }
+
+    function dirCode(dir) {
+        if (dir === 'L') {
+            return VK.LEFT;
+        }
+        if (dir === 'R') {
+            return VK.RIGHT;
+        }
+        if (dir === 'U') {
+            return VK.UP;
+        }
+        return VK.DOWN;
+    }
+
+    function nearestCityInDir(fromIdx, dir) {
+        var from = state.cities[fromIdx];
+        if (!from) {
+            return -1;
+        }
+        var best = -1;
+        var bestScore = Infinity;
+        for (var i = 0; i < state.cities.length; i++) {
+            if (i === fromIdx) {
+                continue;
+            }
+            var dx = state.cities[i].engX - from.engX;
+            var dy = state.cities[i].engY - from.engY;
+            var score = Infinity;
+            if (dir === 'R' && dx > 0) {
+                score = dx + Math.abs(dy) * 1.4;
+            } else if (dir === 'L' && dx < 0) {
+                score = -dx + Math.abs(dy) * 1.4;
+            } else if (dir === 'D' && dy > 0) {
+                score = dy + Math.abs(dx) * 1.4;
+            } else if (dir === 'U' && dy < 0) {
+                score = -dy + Math.abs(dx) * 1.4;
+            }
+            if (score < bestScore) {
+                bestScore = score;
+                best = i;
+            }
+        }
+        return best;
+    }
+
+    function buildCityPath(fromIdx, toIdx) {
+        var keys = [];
+        if (!validCityIndex(fromIdx) || !validCityIndex(toIdx) || fromIdx === toIdx) {
+            return { keys: keys, landed: fromIdx === toIdx };
+        }
+        var cur = fromIdx;
+        var visited = {};
+        var guard = 0;
+        while (cur !== toIdx && guard++ < 24) {
+            if (visited[cur]) {
+                break;
+            }
+            visited[cur] = true;
+            var from = state.cities[cur];
+            var to = state.cities[toIdx];
+            var dx = to.engX - from.engX;
+            var dy = to.engY - from.engY;
+            var order = Math.abs(dx) >= Math.abs(dy)
+                ? [dx >= 0 ? 'R' : 'L', dy >= 0 ? 'D' : 'U', dy >= 0 ? 'U' : 'D', dx >= 0 ? 'L' : 'R']
+                : [dy >= 0 ? 'D' : 'U', dx >= 0 ? 'R' : 'L', dx >= 0 ? 'L' : 'R', dy >= 0 ? 'U' : 'D'];
+            var next = -1;
+            var used = null;
+            for (var i = 0; i < order.length; i++) {
+                var cand = nearestCityInDir(cur, order[i]);
+                if (cand >= 0 && cand !== cur && !visited[cand]) {
+                    next = cand;
+                    used = order[i];
+                    break;
+                }
+            }
+            if (next < 0 || !used) {
+                break;
+            }
+            keys.push(used);
+            cur = next;
+        }
+        return { keys: keys, landed: cur === toIdx, end: cur };
+    }
+
+    function coordsLookLikeTiles() {
+        var max = 0;
+        for (var i = 0; i < state.cities.length; i++) {
+            max = Math.max(max, Math.abs(state.cities[i].engX), Math.abs(state.cities[i].engY));
+        }
+        return max > 0 && max <= 40;
+    }
+
+    function tryWriteCursor(index, tried) {
+        var data = engineData();
         var wrote = false;
-        if (!city) {
-            return { wrote: false, tried: tried };
+        if (!data) {
+            return false;
         }
-        if (data) {
-            for (var i = 0; i < CURSOR_FIELDS.length; i++) {
-                if (data[CURSOR_FIELDS[i]] !== undefined) {
-                    tried.push(CURSOR_FIELDS[i]);
-                    if (writeNumber(data, CURSOR_FIELDS[i], index)) {
-                        wrote = true;
-                    }
-                }
+        var names = CURSOR_FIELDS.slice();
+        if (state.learnedCursorField) {
+            names.unshift(state.learnedCursorField);
+        }
+        for (var i = 0; i < names.length; i++) {
+            if (data[names[i]] === undefined) {
+                continue;
             }
-            for (var fx = 0; fx < FOCUS_X_FIELDS.length; fx++) {
-                if (data[FOCUS_X_FIELDS[fx]] !== undefined) {
-                    tried.push(FOCUS_X_FIELDS[fx]);
-                    writeNumber(data, FOCUS_X_FIELDS[fx], city.engX);
-                }
+            var current = readNumber(data, names[i]);
+            if (!validCityIndex(current) && names[i] !== state.learnedCursorField) {
+                continue;
             }
-            for (var fy = 0; fy < FOCUS_Y_FIELDS.length; fy++) {
-                if (data[FOCUS_Y_FIELDS[fy]] !== undefined) {
-                    tried.push(FOCUS_Y_FIELDS[fy]);
-                    writeNumber(data, FOCUS_Y_FIELDS[fy], city.engY);
-                }
-            }
-            var sx = pickField(data, MAP_SX_FIELDS);
-            var sy = pickField(data, MAP_SY_FIELDS);
-            var lcdW = typeof lcdWidth === 'number' ? lcdWidth : 160;
-            var lcdH = typeof lcdHeight === 'number' ? lcdHeight : 96;
-            if (sx && sy) {
-                var lx = (city.engX - sx.value) * 16 + 8;
-                var ly = (city.engY - sy.value) * 16 + 8;
-                if (lx >= 0 && ly >= 0 && lx < lcdW && ly < lcdH) {
-                    if (sendTouch(lx, ly)) {
-                        tried.push('_bayeSendTouchEvent');
-                        wrote = true;
-                    }
-                }
+            tried.push('write:' + names[i]);
+            if (writeNumber(data, names[i], index) && readNumber(data, names[i]) === index) {
+                wrote = true;
+                state.learnedCursorField = names[i];
+                state.engineCursorIndex = index;
             }
         }
+        return wrote;
+    }
 
-        var from = currentCursorIndex();
-        var VK_UP = 0x22, VK_DOWN = 0x23, VK_LEFT = 0x24, VK_RIGHT = 0x25;
-        if (from >= 0 && from !== index && state.cities[from]) {
-            var dx = city.engX - state.cities[from].engX;
-            var dy = city.engY - state.cities[from].engY;
-            var stepsX = Math.max(1, Math.min(8, Math.round(Math.abs(dx)) || 1));
-            var stepsY = Math.max(1, Math.min(8, Math.round(Math.abs(dy)) || 1));
-            var delay = 0;
-            if (dx !== 0) {
-                for (var kx = 0; kx < stepsX; kx++) {
-                    (function (code, t) {
-                        setTimeout(function () { engineSendKey(code); }, t);
-                    })(dx > 0 ? VK_RIGHT : VK_LEFT, delay);
-                    delay += 45;
-                }
-            }
-            if (dy !== 0) {
-                for (var ky = 0; ky < stepsY; ky++) {
-                    (function (code, t) {
-                        setTimeout(function () { engineSendKey(code); }, t);
-                    })(dy > 0 ? VK_DOWN : VK_UP, delay);
-                    delay += 45;
-                }
-            }
-            tried.push('arrow-keys');
-            city._enterDelay = delay + 80;
-        } else {
-            city._enterDelay = 60;
+    function tryWriteFocusAndTouch(city, tried) {
+        var data = engineData();
+        if (!data || !city) {
+            return false;
         }
+        var i;
+        for (i = 0; i < FOCUS_X_FIELDS.length; i++) {
+            if (data[FOCUS_X_FIELDS[i]] !== undefined) {
+                writeNumber(data, FOCUS_X_FIELDS[i], city.engX);
+                tried.push('focusX:' + FOCUS_X_FIELDS[i]);
+            }
+        }
+        for (i = 0; i < FOCUS_Y_FIELDS.length; i++) {
+            if (data[FOCUS_Y_FIELDS[i]] !== undefined) {
+                writeNumber(data, FOCUS_Y_FIELDS[i], city.engY);
+                tried.push('focusY:' + FOCUS_Y_FIELDS[i]);
+            }
+        }
+        var tile = coordsLookLikeTiles();
+        var sx = pickField(data, MAP_SX_FIELDS);
+        var sy = pickField(data, MAP_SY_FIELDS);
+        var lcdW = typeof lcdWidth === 'number' ? lcdWidth : 160;
+        var lcdH = typeof lcdHeight === 'number' ? lcdHeight : 96;
+        if (tile && sx && data[sx.name] !== undefined) {
+            var tilesX = Math.max(1, Math.round(lcdW / 16));
+            var tilesY = Math.max(1, Math.round(lcdH / 16));
+            writeNumber(data, sx.name, Math.max(0, city.engX - Math.floor(tilesX / 2)));
+            if (sy) {
+                writeNumber(data, sy.name, Math.max(0, city.engY - Math.floor(tilesY / 2)));
+            }
+            tried.push('map-scroll');
+            sx = pickField(data, MAP_SX_FIELDS);
+            sy = pickField(data, MAP_SY_FIELDS);
+        }
+        if (sx && sy) {
+            var scale = tile ? 16 : 1;
+            var lx = (city.engX - sx.value) * scale + (tile ? 8 : 0);
+            var ly = (city.engY - sy.value) * scale + (tile ? 8 : 0);
+            if (lx >= 0 && ly >= 0 && lx < lcdW && ly < lcdH) {
+                if (sendTouch(lx, ly)) {
+                    tried.push('_bayeSendTouchEvent');
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
+    function cancelAlign() {
+        state.alignToken += 1;
+        if (state.alignTimer) {
+            clearTimeout(state.alignTimer);
+            state.alignTimer = 0;
+        }
+        state.aligning = false;
+    }
+
+    function later(token, ms, fn) {
+        state.alignTimer = setTimeout(function () {
+            if (token !== state.alignToken) {
+                return;
+            }
+            fn();
+        }, ms);
+    }
+
+    function leaveClassicMenu(hint) {
+        state.menuDepth = 0;
+        state.hdOpenedMenu = false;
+        state.aligning = false;
+        setPhase(playerKingId() !== null && citiesHaveBelong(engineData()) ? 'map' : inferPhase());
+        state.hint = hint || '已回到大地图。';
+    }
+
+    function sendEnterAndOpenMenu(token, tried, wrote) {
+        if (token !== state.alignToken) {
+            return;
+        }
+        var enter = (window.baye && baye.VK_ENTER) || VK.ENTER;
+        engineSendKey(enter);
+        state.aligning = false;
+        state.hdOpenedMenu = true;
+        state.menuDepth = 1;
+        setPhase('classic-menu');
+        state.hint = '经典城池菜单（内政/外交/军备/状况）。空格关闭；点地图空白回 HD。';
+        state.alignLog = {
+            wroteField: wrote,
+            tried: tried,
+            target: state.selectedIndex,
+            cursor: inferCurrentCity(),
+            learned: state.learnedCursorField
+        };
         if (!state.inputFallbackNoted) {
             state.inputFallbackNoted = true;
-            state.alignLog = {
-                wroteField: wrote,
-                tried: tried,
-                note: wrote
-                    ? '已尝试写入光标/当前城字段并回车。'
-                    : '未找到可写的当前城字段；已尝试方向键逼近 + ENTER。若没打开菜单，请切回经典用键盘入城。'
-            };
-            console.warn('[hd-overworld] input v1', state.alignLog);
+            console.log('[hd-overworld] input P1', state.alignLog);
         }
-        return { wrote: wrote, tried: tried, enterDelay: city._enterDelay };
+        if (!wrote && inferCurrentCity() !== state.selectedIndex) {
+            console.warn('[hd-overworld] cursor may not match target', state.alignLog);
+            state.hint = '已回车。若不是目标城，切回经典用方向键入城。';
+        }
+    }
+
+    function alignAndEnter(index) {
+        var city = state.cities[index];
+        var tried = [];
+        var token = state.alignToken;
+        if (!city) {
+            state.aligning = false;
+            return;
+        }
+        var wrote = tryWriteCursor(index, tried);
+        tryWriteFocusAndTouch(city, tried);
+        if (wrote && readNumber(engineData(), state.learnedCursorField) === index) {
+            tried.push('verified-write');
+            later(token, 70, function () {
+                sendEnterAndOpenMenu(token, tried, true);
+            });
+            return;
+        }
+        var from = inferCurrentCity();
+        if (from === index) {
+            tried.push('already-on-target');
+            later(token, 60, function () {
+                sendEnterAndOpenMenu(token, tried, wrote);
+            });
+            return;
+        }
+        if (from >= 0) {
+            var path = buildCityPath(from, index);
+            tried.push('path:' + path.keys.join('') + (path.landed ? ':ok' : ':partial'));
+            var step = 0;
+            function sendNext() {
+                if (token !== state.alignToken) {
+                    return;
+                }
+                if (step >= path.keys.length) {
+                    state.engineCursorIndex = path.landed ? index : path.end;
+                    later(token, 70, function () {
+                        sendEnterAndOpenMenu(token, tried, wrote || path.landed);
+                    });
+                    return;
+                }
+                var before = snapshotIndexFields();
+                engineSendKey(dirCode(path.keys[step]));
+                step += 1;
+                later(token, 55, function () {
+                    learnCursorField(before, snapshotIndexFields());
+                    var now = inferCurrentCity();
+                    if (validCityIndex(now)) {
+                        state.engineCursorIndex = now;
+                    }
+                    sendNext();
+                });
+            }
+            sendNext();
+            return;
+        }
+        tried.push('no-current-city');
+        later(token, 80, function () {
+            sendEnterAndOpenMenu(token, tried, wrote);
+        });
     }
 
     function openClassicCity(index) {
+        if (state.phase === 'classic-menu') {
+            return;
+        }
         if (state.phase !== 'map') {
             state.selectedIndex = index;
             state.hint = '预览中：进入大地图后点击才会向引擎发送入城。现在可切回经典继续开局。';
             return;
         }
+        if (state.aligning) {
+            return;
+        }
+        cancelAlign();
         state.selectedIndex = index;
+        state.aligning = true;
+        state.alignToken += 1;
         state.hint = '对齐光标并打开经典菜单…';
-        var align = alignCursor(index);
-        var VK_ENTER = (window.baye && baye.VK_ENTER) || 0x27;
-        setTimeout(function () {
-            engineSendKey(VK_ENTER);
-            setPhase('classic-menu');
-            state.hint = '已发送回车。若菜单未开，切回经典用键盘入城。';
-        }, align && align.enterDelay ? align.enterDelay : 80);
+        later(state.alignToken, 20, function () {
+            alignAndEnter(index);
+        });
     }
 
     function bindInput() {
@@ -1003,7 +1442,8 @@
         }
         state.inputBound = true;
         state.canvas.addEventListener('mousemove', function (ev) {
-            if (state.mode !== 'hd-map' || state.phase === 'classic-menu') {
+            if (!hitsEnabled()) {
+                state.hoverIndex = -1;
                 return;
             }
             var pt = eventToDesign(ev);
@@ -1016,7 +1456,15 @@
             state.hoverIndex = -1;
         });
         state.canvas.addEventListener('click', function (ev) {
-            if (state.mode !== 'hd-map' || state.phase === 'classic-menu') {
+            if (state.mode !== 'hd-map') {
+                return;
+            }
+            if (state.phase === 'classic-menu') {
+                ev.preventDefault();
+                leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
+                return;
+            }
+            if (!hitsEnabled()) {
                 return;
             }
             var pt = eventToDesign(ev);
@@ -1036,12 +1484,16 @@
             }
             var code = e.keyCode;
             if ((code === 32 || code === 27) && state.phase === 'classic-menu') {
-                setTimeout(function () {
-                    if (state.phase === 'classic-menu') {
-                        setPhase(inferPhase() === 'map' ? 'map' : 'other');
-                        state.hint = '已返回。点城或切回经典继续。';
-                    }
-                }, 220);
+                state.menuDepth = Math.max(0, state.menuDepth - 1);
+                if (state.menuDepth <= 0 && state.hdOpenedMenu) {
+                    setTimeout(function () {
+                        if (state.phase === 'classic-menu' && state.menuDepth <= 0) {
+                            leaveClassicMenu('已回到大地图。点城打开经典菜单。');
+                        }
+                    }, 280);
+                } else {
+                    state.hint = '仍在经典菜单。再按空格或点地图空白回 HD。';
+                }
             }
         });
     }
@@ -1121,6 +1573,8 @@
         getPhase: function () { return state.phase; },
         getCities: function () { return state.cities; },
         getAlignLog: function () { return state.alignLog; },
+        getDateInfo: function () { return state.dateInfo; },
+        getLearnedCursor: function () { return state.learnedCursorField; },
         applyPcPage: applyPcPage,
         applyEarlyDocumentAttrs: applyEarlyDocumentAttrs,
         start: start

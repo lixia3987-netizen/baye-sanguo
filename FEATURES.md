@@ -93,7 +93,7 @@
 | 云存档上传下载 | partial | 需 bbkgames 登录，离线不可用 |
 | 脚本 / Mod hook | done | `bridge.js` + 文档 https://bgwp.gitee.io/baye-doc/script/index.html |
 
-## HD 大地图表现壳（P0）
+## HD 大地图表现壳（P0–P1）
 
 规格：[docs/hd-overworld-spec.md](docs/hd-overworld-spec.md)。只停在 `feature/hd-graphics`，不合 `main`。
 
@@ -102,11 +102,14 @@
 | `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
 | 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
 | 地形合成 | done | 读 `assets/hd-overworld/manifest.json`，叠加 plains / mountains / rivers / forest；缺文件回退椭圆大陆 |
-| 城池标记 | done | `g_Cities` / `g_CityPositions` / `Belong` / `getCityName`；无坐标时用城名表或 12 列网格，并打标定日志 |
-| 点击入城 | partial | 点城后尝试写光标字段 / 方向键逼近 / LCD 触摸，再 `sendKey(ENTER)` 开**经典**菜单。字段未暴露时可能对不齐，可切回经典键操 |
-| 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；`cityMakeCommand` → 菜单；标题/选君主期 LCD 缩到右下角。势力形势图可能被误判，可切回经典 |
+| 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
+| 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
+| 点击入城 | partial | 写光标字段（读回校验）或邻城方向键路径后再 `ENTER`。菜单期关掉 HD 命中。对不齐则切回经典 |
+| 悬停 / 选中 | done | 悬停浅色描边；选中 `marker_selected` + 脉动 |
+| 年月 HUD | partial | 探测到 Year/Month 才显示「N年N月」；否则「年月未探测到」。结果写入 spec §8 |
+| 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
-| 道路 / 关隘 / 年月 HUD | missing / partial | 道路为 P2。年月若探测到 `g_YearN`/`g_MonthN` 等键会显示，否则只显示时期名或「HD 大地图」 |
+| 道路 / 关隘 | missing | P2 |
 | 手机页 HD 地图 | missing | 非 P0 |
 
 ## 刻意未做
@@ -121,4 +124,4 @@
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
 3. **完整一场战斗**：军备「出征」菜单已打开；打完一整场需在地图上派兵接敌，耗时较长，未在本次浏览器里打完。天气/地形/六兵种/计谋均在引擎内，不是占位。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
-5. **HD 大地图 P0**：表现壳已接线，但引擎光标字段 / 年月份 / 「正在大地图」仍靠运行时探测与启发式；点城入城不是 100% 对齐。完整键操请切回经典。
+5. **HD 大地图 P1**：四态/城名/悬停已接线；年月与当前城字段仍靠探测；点城入城比 P0 稳，仍可能进错城。完整键操请切回经典。
