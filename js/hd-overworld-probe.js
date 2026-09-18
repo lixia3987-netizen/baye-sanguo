@@ -147,8 +147,15 @@
         }
         var city0 = data.g_Cities && data.g_Cities[0] ? listProps(data.g_Cities[0]) : [];
         var pos0 = data.g_CityPositions && data.g_CityPositions[0] ? listProps(data.g_CityPositions[0]) : [];
+        var nums = [];
+        walkNumbers(data, '', nums, 0);
+        var interesting = nums.filter(function (item) {
+            return (item.value >= 180 && item.value <= 300) ||
+                (/month|year|date|pidx|city|cursor|foucs|focus/i.test(item.name) && item.value < 10000);
+        });
         var report = {
             fields: listProps(data),
+            interestingNumbers: interesting,
             dateLike: findFields(data, /year|month|date|pidx|time|nian|yue/i),
             cityLike: findFields(data, /city|cursor|focus|foucs|map|crt/i),
             cityObjectFields: city0,

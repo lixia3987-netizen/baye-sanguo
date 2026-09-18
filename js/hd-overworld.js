@@ -82,6 +82,7 @@
         menuDepth: 0,
         hdOpenedMenu: false,
         dateInfo: { year: null, month: null, source: 'none' },
+        sawFightHook: false,
         hint: '经典 LCD 可随时切回。点己方城打开经典城池菜单。'
     };
 
@@ -426,7 +427,13 @@
                 engY = Math.floor(i / 12);
                 usedGrid += 1;
             }
-            var belong = city ? Number(city.Belong) : 0;
+            var belong = city ? readNumber(city, 'Belong') : 0;
+            if (belong === null) {
+                belong = Number(city && city.Belong);
+                if (!isFinite(belong)) {
+                    belong = 0;
+                }
+            }
             rows.push({
                 index: i,
                 name: name,
@@ -519,25 +526,13 @@
         }
     }
 
-    function isFightActive(data) {
-        if (!data || !data.g_FgtParam) {
-            return false;
-        }
-        try {
-            var gens = data.g_FgtParam.GenArray;
-            if (!gens) {
-                return false;
-            }
-            var n = 0;
-            for (var i = 0; i < Math.min(gens.length, 20); i++) {
-                if (gens[i]) {
-                    n += 1;
-                }
-            }
-            return n >= 2;
-        } catch (e) {
-            return false;
-        }
+    function inCampaign() {
+        var p = readNumber(engineData(), 'g_PIdx');
+        return p !== null && p >= 1 && p <= 8;
+    }
+
+    function isFightActive() {
+        return !!state.sawFightHook;
     }
 
     function citiesHaveBelong(data) {
@@ -545,7 +540,10 @@
             return false;
         }
         for (var i = 0; i < data.g_Cities.length; i++) {
-            var b = Number(data.g_Cities[i].Belong);
+            var b = readNumber(data.g_Cities[i], 'Belong');
+            if (b === null) {
+                b = Number(data.g_Cities[i].Belong);
+            }
             if (b && b !== 0xff && b !== 255) {
                 return true;
             }
@@ -561,8 +559,11 @@
         if (!data) {
             return 'other';
         }
-        if (isFightActive(data)) {
+        if (isFightActive()) {
             return 'other';
+        }
+        if (inCampaign() && (citiesHaveBelong(data) || playerKingId() !== null || (state.cities && state.cities.length >= 20))) {
+            return 'map';
         }
         if (playerKingId() !== null && citiesHaveBelong(data)) {
             return 'map';
@@ -599,6 +600,7 @@
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
             state.probed = false;
+            state.sawFightHook = false;
             sampleCities();
             state.phase = 'other';
             state.hint = '开局/读档后进入大地图才会同步城池归属。';
@@ -610,6 +612,7 @@
             return;
         }
         if (name === 'fightOpenMainMenu' || name === 'meetFight') {
+            state.sawFightHook = true;
             setPhase('other');
             state.hint = '战斗仍走经典 LCD。';
         }
@@ -798,7 +801,7 @@
         }
         if ((!year || !month) && global.BayeHdOverworldProbe && typeof BayeHdOverworldProbe.guessDate === 'function') {
             var guess = BayeHdOverworldProbe.guessDate(data);
-            if (!year && guess.year && !guess.year.weak) {
+            if (!year && guess.year && (!guess.year.weak || inCampaign())) {
                 year = guess.year;
             }
             if (!month && guess.month) {
@@ -1516,8 +1519,15 @@
         state.mode = mode;
         if (mode === 'hd-map') {
             state.hint = 'HD 地图。默认仍可切回经典；1×/2× 只作用于经典 LCD。';
+            state.probed = false;
+            if (global.BayeHdOverworldProbe) {
+                global.BayeHdOverworldProbe.run();
+            }
+            state.phase = inferPhase();
             loadAssets(function () {
                 sampleCities();
+                state.phase = inferPhase();
+                applyChrome();
                 draw();
             });
             ensureLoop();
