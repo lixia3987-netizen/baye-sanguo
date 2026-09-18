@@ -12,16 +12,16 @@
     var HIT_RADIUS = 52;
     var PERIOD_NAMES = { 1: '董卓弄权', 2: '曹操崛起', 3: '赤壁之战', 4: '三国鼎立' };
 
-    var YEAR_FIELDS = ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear'];
-    var MONTH_FIELDS = ['g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month', 'g_PMonth'];
+    var YEAR_FIELDS = ['g_YearDate', 'g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear'];
+    var MONTH_FIELDS = ['g_MonthDate', 'g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month', 'g_PMonth'];
     var DATE_OBJECT_FIELDS = ['g_DateN', 'g_Date', 'g_GameDate', 'DateN'];
     var CURSOR_FIELDS = [
         'g_CityCrt', 'g_CityCur', 'g_CurCity', 'g_CityIndex',
         'g_CrtCity', 'g_iCity', 'g_currentCity', 'g_CityId', 'g_CityIdx'
     ];
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
-    var FOCUS_X_FIELDS = ['g_FoucsX', 'g_FocusX', 'g_MapFocusX'];
-    var FOCUS_Y_FIELDS = ['g_FoucsY', 'g_FocusY', 'g_MapFocusY'];
+    var FOCUS_X_FIELDS = ['g_CityX', 'g_FoucsX', 'g_FocusX', 'g_MapFocusX'];
+    var FOCUS_Y_FIELDS = ['g_CityY', 'g_FoucsY', 'g_FocusY', 'g_MapFocusY'];
     var MAP_SX_FIELDS = ['g_MapSX', 'g_LandMapSX', 'g_CityMapSX'];
     var MAP_SY_FIELDS = ['g_MapSY', 'g_LandMapSY', 'g_CityMapSY'];
 
@@ -1155,6 +1155,17 @@
         if (cur && validCityIndex(cur.value)) {
             return cur.value;
         }
+        var cx = readNumber(data, 'g_CityX');
+        var cy = readNumber(data, 'g_CityY');
+        if (cx !== null && cy !== null) {
+            var byCityXY = nearestCityToEng(cx, cy);
+            if (byCityXY >= 0) {
+                var at = state.cities[byCityXY];
+                if (Math.abs(at.engX - cx) <= 1 && Math.abs(at.engY - cy) <= 1) {
+                    return byCityXY;
+                }
+            }
+        }
         var fx = pickField(data, FOCUS_X_FIELDS);
         var fy = pickField(data, FOCUS_Y_FIELDS);
         if (fx && fy) {
@@ -1306,6 +1317,36 @@
         return wrote;
     }
 
+    function tryWriteCityXY(city, tried) {
+        var data = engineData();
+        if (!data || !city) {
+            return false;
+        }
+        var wroteX = false;
+        var wroteY = false;
+        if (data.g_CityX !== undefined) {
+            tried.push('write:g_CityX');
+            wroteX = writeNumber(data, 'g_CityX', city.engX);
+        }
+        if (data.g_CityY !== undefined) {
+            tried.push('write:g_CityY');
+            wroteY = writeNumber(data, 'g_CityY', city.engY);
+        }
+        if (data.g_CityPos && typeof data.g_CityPos === 'object') {
+            if (data.g_CityPos.x !== undefined) {
+                tried.push('write:g_CityPos.x');
+                writeNumber(data.g_CityPos, 'x', city.engX);
+            }
+            if (data.g_CityPos.y !== undefined) {
+                tried.push('write:g_CityPos.y');
+                writeNumber(data.g_CityPos, 'y', city.engY);
+            }
+        }
+        return wroteX && wroteY &&
+            readNumber(data, 'g_CityX') === city.engX &&
+            readNumber(data, 'g_CityY') === city.engY;
+    }
+
     function tryWriteFocusAndTouch(city, tried) {
         var data = engineData();
         if (!data || !city) {
@@ -1423,7 +1464,15 @@
             }
         });
         var wrote = tryWriteCursor(index, tried);
+        var wroteXY = tryWriteCityXY(city, tried);
         tryWriteFocusAndTouch(city, tried);
+        if (wroteXY) {
+            tried.push('verified-city-xy');
+            later(token, 70, function () {
+                sendEnterAndOpenMenu(token, tried, true);
+            });
+            return;
+        }
         if (wrote && readNumber(engineData(), state.learnedCursorField) === index) {
             tried.push('verified-write');
             later(token, 70, function () {
@@ -1488,6 +1537,7 @@
             return;
         }
         cancelAlign();
+        var city = state.cities[index];
         state.selectedIndex = index;
         state.aligning = true;
         state.alignToken += 1;
@@ -1653,6 +1703,29 @@
         getLearnedCursor: function () { return state.learnedCursorField; },
         applyPcPage: applyPcPage,
         applyEarlyDocumentAttrs: applyEarlyDocumentAttrs,
-        start: start
+        start: start,
+        debugSnapshot: function () {
+            var data = engineData();
+            return {
+                mode: state.mode,
+                phase: state.phase,
+                aligning: state.aligning,
+                selectedIndex: state.selectedIndex,
+                hoverIndex: state.hoverIndex,
+                dateInfo: state.dateInfo,
+                learnedCursor: state.learnedCursorField,
+                alignLog: state.alignLog,
+                playerKingRaw: data ? readNumber(data, 'g_PlayerKing') : null,
+                playerBelong: playerKingId(),
+                yearDate: data ? readNumber(data, 'g_YearDate') : null,
+                monthDate: data ? readNumber(data, 'g_MonthDate') : null,
+                cityX: data ? readNumber(data, 'g_CityX') : null,
+                cityY: data ? readNumber(data, 'g_CityY') : null,
+                focusX: data ? readNumber(data, 'g_FoucsX') : null,
+                focusY: data ? readNumber(data, 'g_FoucsY') : null,
+                owned: state.cities.filter(function (c) { return c.kind === 'owned'; })
+                    .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; })
+            };
+        }
     };
 })(window);

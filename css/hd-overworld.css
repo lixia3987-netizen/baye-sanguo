@@ -84,7 +84,8 @@ html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar {
     top: 8px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 70;
+    z-index: 80;
+    pointer-events: auto;
     max-width: calc(100vw - 24px);
     padding: 8px 12px;
     border-radius: 8px;

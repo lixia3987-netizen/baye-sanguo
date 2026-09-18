@@ -161,15 +161,21 @@
             cityObjectFields: city0,
             positionObjectFields: pos0,
             dateGuess: guessDate(data),
-            year: pickFirstNumber(data, ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear']),
-            month: pickFirstNumber(data, ['g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month', 'g_PMonth']),
+            year: pickFirstNumber(data, ['g_YearDate', 'g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear']),
+            month: pickFirstNumber(data, ['g_MonthDate', 'g_MonthN', 'g_Month', 'MonthN', 'g_DateMonth', 'month', 'g_PMonth']),
+            yearDate: readNumber(data, 'g_YearDate'),
+            monthDate: readNumber(data, 'g_MonthDate'),
+            cityXY: {
+                x: readNumber(data, 'g_CityX'),
+                y: readNumber(data, 'g_CityY')
+            },
             cursorCity: pickFirstNumber(data, [
                 'g_CityCrt', 'g_CityCur', 'g_CurCity', 'g_CityIndex',
                 'g_CrtCity', 'g_iCity', 'g_currentCity', 'g_CityId', 'g_CityIdx'
             ]),
             focus: {
-                x: pickFirstNumber(data, ['g_FoucsX', 'g_FocusX', 'g_MapFocusX']),
-                y: pickFirstNumber(data, ['g_FoucsY', 'g_FocusY', 'g_MapFocusY'])
+                x: pickFirstNumber(data, ['g_CityX', 'g_FoucsX', 'g_FocusX', 'g_MapFocusX']),
+                y: pickFirstNumber(data, ['g_CityY', 'g_FoucsY', 'g_FocusY', 'g_MapFocusY'])
             },
             mapScroll: {
                 x: pickFirstNumber(data, ['g_MapSX', 'g_LandMapSX', 'g_CityMapSX']),

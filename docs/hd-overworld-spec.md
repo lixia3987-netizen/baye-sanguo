@@ -207,10 +207,10 @@ HD 地图选城并确认后：
 
 | 探测项 | 词典原版运行时结果（P1） |
 |--------|--------------------------|
-| 年 / 月 | 待本轮浏览器补：若 `dateGuess` / `g_YearN` 为空，HUD 显示「年月未探测到」 |
-| 当前光标城 | 待补。箭头后若某 0..37 字段变化，会记入 `BayeHdOverworld.learnedCursor` |
+| 年 / 月 | WASM 导出字段名为 `g_YearDate` / `g_MonthDate`（不是 `g_YearN`）。HUD 只在 184–220 / 1–12 时显示「N年N月」，否则「年月未探测到」。运行时数值待本轮浏览器对照 LCD「190年1月」补记 |
+| 当前光标城 | 无 `g_CityCrt`。可写坐标 `g_CityX` / `g_CityY`（及 `g_FoucsX` / `g_FoucsY`）。点城优先写这对坐标再 `VK_ENTER`；箭头后若 0..37 字段变化会记入 `BayeHdOverworld.learnedCursor` |
 | `g_CityPositions` 单位 | P0 已打 min/max 日志；本轮对照西凉再记一笔 |
-| 「正在大地图」 | 仍用 `g_PlayerKing` + 城有归属；未找到独立画面枚举 |
+| 「正在大地图」 | 仍用 `g_PIdx` 1–8 + `g_PlayerKing` + 城有归属；未找到独立画面枚举 |
 
 ---
 
@@ -251,7 +251,7 @@ P1 已实现：
 - 城名：`getCityName(i)`，20px 暗底+描边，纵向避让
 - 悬停：浅色描边；菜单期关掉 HD 命中；点地图空白或关菜单后壳再接管
 - 点城：先写已暴露且读回成功的光标字段；否则按城坐标做邻城方向键路径，再 `VK_ENTER`。箭头过程中 diff 数值字段以学习光标键名
-- 年月：深搜 `Year/Month` 与 `g_DateN` 一类对象；对不上 HUD 写「年月未探测到」
+- 年月：优先读 `g_YearDate` / `g_MonthDate`（WASM 符号）；对不上 HUD 写「年月未探测到」
 
 P1 诚实缺口：
 

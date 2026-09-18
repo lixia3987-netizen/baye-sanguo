@@ -104,9 +104,9 @@
 | 地形合成 | done | 读 `assets/hd-overworld/manifest.json`，叠加 plains / mountains / rivers / forest；缺文件回退椭圆大陆 |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
-| 点击入城 | partial | 写光标字段（读回校验）或邻城方向键路径后再 `ENTER`。菜单期关掉 HD 命中。对不齐则切回经典 |
+| 点击入城 | partial | 优先写 `g_CityX`/`g_CityY`（读回校验），否则邻城方向键路径后再 `ENTER`。菜单期关掉 HD 命中。对不齐则切回经典 |
 | 悬停 / 选中 | done | 悬停浅色描边；选中 `marker_selected` + 脉动 |
-| 年月 HUD | partial | 探测到 Year/Month 才显示「N年N月」；否则「年月未探测到」。结果写入 spec §8 |
+| 年月 HUD | partial | 优先读 WASM 字段 `g_YearDate` / `g_MonthDate`（184–220 / 1–12）才显示「N年N月」；否则「年月未探测到」。结果写入 spec §8 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | missing | P2 |
