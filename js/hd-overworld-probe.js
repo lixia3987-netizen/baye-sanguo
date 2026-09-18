@@ -256,6 +256,12 @@
                 x: pickFirstNumber(data, ['g_MapSX', 'g_LandMapSX', 'g_CityMapSX']),
                 y: pickFirstNumber(data, ['g_MapSY', 'g_LandMapSY', 'g_CityMapSY'])
             },
+            cityPos: {
+                x: data.g_CityPos ? readNumber(data.g_CityPos, 'x') : null,
+                y: data.g_CityPos ? readNumber(data.g_CityPos, 'y') : null,
+                setx: data.g_CityPos ? readNumber(data.g_CityPos, 'setx') : null,
+                sety: data.g_CityPos ? readNumber(data.g_CityPos, 'sety') : null
+            },
             cityCursorRange: data.g_cityCursorRange || null,
             playerKing: readNumber(data, 'g_PlayerKing'),
             period: readNumber(data, 'g_PIdx'),

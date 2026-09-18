@@ -104,7 +104,7 @@
 | 地形合成 | done | 读 `assets/hd-overworld/manifest.json`，叠加 plains / mountains / rivers / forest；缺文件回退椭圆大陆 |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
-| 点击入城 | partial | 已在目标城则只发 `ENTER`，等 `onMenuIdle` 再弹出 LCD。词典原版张杨/晋阳已见到四项菜单。他城仍走邻城方向键，未在本轮点开。对不齐则切回经典 |
+| 点击入城 | partial | 当前城用 `g_CityPos.setx/sety`（格坐标，与 `g_CityPositions` 对齐）。先尝试写这对字段，不行则按格走方向键，对齐后再 `ENTER`。无 `g_CityPos` 的 lib 回退 P2 邻接 BFS。对不齐则留在 HD、不盲发 ENTER |
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
@@ -127,4 +127,4 @@
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
 3. **完整一场战斗**：军备「出征」菜单已打开；打完一整场需在地图上派兵接敌，耗时较长，未在本次浏览器里打完。天气/地形/六兵种/计谋均在引擎内，不是占位。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
-5. **HD 大地图 P1–P3**：四态/城名/年月/路网已接线。P3 悬停亮环、选中脉动、入城 150ms 闪、邻路加亮已做。自定义光标跳过（叠影/禁止符）。路网仍是 67 条格邻接 + 10 过河关，不是 `SearchRoad`。点己方当前城可开四项菜单；光标不在目标城时仍可能进不去。
+5. **HD 大地图 P1–P3**：四态/城名/年月/路网/悬停闪已接线。跨城点选：词典原版光标是 `g_CityPos.setx/sety`（西凉 1,0；安定 2,1），不是 `g_CityX`。写字段或格走后对齐再 ENTER。无这对字段的 lib、或光标不在城格上时仍可能失败，见控制台 `align … method=…`。

@@ -91,6 +91,7 @@
         enterFx: { index: -1, start: 0, duration: 150 },
         /* os-pointer：不画自定义光标。cursor.png 会与系统指针叠影；cursor_hover.png 像禁止符。 */
         cursorPolicy: 'os-pointer',
+        haveCityPos: false,
         hint: '经典 LCD 可随时切回。点己方城打开经典城池菜单。'
     };
 
@@ -1535,7 +1536,69 @@
         return null;
     }
 
+    function readCityPos() {
+        var data = engineData();
+        var pos = data && data.g_CityPos;
+        if (!pos) {
+            return null;
+        }
+        var x = readNumber(pos, 'setx');
+        var y = readNumber(pos, 'sety');
+        if (x === null) {
+            x = readNumber(pos, 'x');
+        }
+        if (y === null) {
+            y = readNumber(pos, 'y');
+        }
+        if (x === null || y === null) {
+            return null;
+        }
+        return { x: x, y: y };
+    }
+
+    function cityAtTile(x, y) {
+        for (var i = 0; i < state.cities.length; i++) {
+            if (state.cities[i].engX === x && state.cities[i].engY === y) {
+                return state.cities[i].index;
+            }
+        }
+        return -1;
+    }
+
+    function writeCityPos(x, y, tried) {
+        var data = engineData();
+        var pos = data && data.g_CityPos;
+        if (!pos) {
+            return false;
+        }
+        var namesX = ['setx', 'x'];
+        var namesY = ['sety', 'y'];
+        var i;
+        for (i = 0; i < namesX.length; i++) {
+            if (pos[namesX[i]] !== undefined) {
+                tried.push('write:g_CityPos.' + namesX[i]);
+                writeNumber(pos, namesX[i], x);
+            }
+        }
+        for (i = 0; i < namesY.length; i++) {
+            if (pos[namesY[i]] !== undefined) {
+                tried.push('write:g_CityPos.' + namesY[i]);
+                writeNumber(pos, namesY[i], y);
+            }
+        }
+        var now = readCityPos();
+        return !!(now && now.x === x && now.y === y);
+    }
+
     function inferCurrentCity() {
+        var pos = readCityPos();
+        if (pos) {
+            var atPos = cityAtTile(pos.x, pos.y);
+            if (atPos >= 0) {
+                state.haveCityPos = true;
+                return atPos;
+            }
+        }
         var data = engineData();
         if (state.learnedCursorField && data) {
             var learned = readNumber(data, state.learnedCursorField);
@@ -1625,10 +1688,119 @@
         return best;
     }
 
+    function adjacencyNeighbors(index) {
+        var edges = state.roads && state.roads.edges ? state.roads.edges : [];
+        var out = [];
+        var i;
+        for (i = 0; i < edges.length; i++) {
+            if (edges[i].a === index) {
+                out.push(edges[i].b);
+            } else if (edges[i].b === index) {
+                out.push(edges[i].a);
+            }
+        }
+        return out;
+    }
+
+    function dirBetweenCities(fromIdx, toIdx) {
+        var from = state.cities[fromIdx];
+        var to = state.cities[toIdx];
+        if (!from || !to) {
+            return null;
+        }
+        var dx = to.engX - from.engX;
+        var dy = to.engY - from.engY;
+        if (dx === 0 && dy === 0) {
+            return null;
+        }
+        if (Math.abs(dx) >= Math.abs(dy)) {
+            return dx >= 0 ? 'R' : 'L';
+        }
+        return dy >= 0 ? 'D' : 'U';
+    }
+
+    function bfsCityPath(fromIdx, toIdx) {
+        var keys = [];
+        var hops = [];
+        if (!validCityIndex(fromIdx) || !validCityIndex(toIdx) || fromIdx === toIdx) {
+            return { keys: keys, hops: hops, landed: fromIdx === toIdx, end: fromIdx };
+        }
+        var queue = [fromIdx];
+        var prev = {};
+        prev[fromIdx] = null;
+        var qi = 0;
+        while (qi < queue.length) {
+            var cur = queue[qi++];
+            if (cur === toIdx) {
+                break;
+            }
+            var neigh = adjacencyNeighbors(cur);
+            var i;
+            for (i = 0; i < neigh.length; i++) {
+                if (prev[neigh[i]] === undefined) {
+                    prev[neigh[i]] = cur;
+                    queue.push(neigh[i]);
+                }
+            }
+        }
+        if (prev[toIdx] === undefined) {
+            return { keys: keys, hops: hops, landed: false, end: fromIdx };
+        }
+        var walk = [];
+        var node = toIdx;
+        while (node !== fromIdx) {
+            walk.push(node);
+            node = prev[node];
+        }
+        walk.reverse();
+        var at = fromIdx;
+        var s;
+        for (s = 0; s < walk.length; s++) {
+            var dir = dirBetweenCities(at, walk[s]);
+            if (!dir) {
+                break;
+            }
+            keys.push(dir);
+            hops.push(walk[s]);
+            at = walk[s];
+        }
+        return { keys: keys, hops: hops, landed: at === toIdx, end: at };
+    }
+
+    function tileKeySequence(fromTile, toTile) {
+        var keys = [];
+        if (!fromTile || !toTile) {
+            return keys;
+        }
+        var x = fromTile.x;
+        var y = fromTile.y;
+        while (x < toTile.x) {
+            keys.push('R');
+            x += 1;
+        }
+        while (x > toTile.x) {
+            keys.push('L');
+            x -= 1;
+        }
+        while (y < toTile.y) {
+            keys.push('D');
+            y += 1;
+        }
+        while (y > toTile.y) {
+            keys.push('U');
+            y -= 1;
+        }
+        return keys;
+    }
+
     function buildCityPath(fromIdx, toIdx) {
+        var bfs = bfsCityPath(fromIdx, toIdx);
+        if (bfs.keys.length) {
+            return bfs;
+        }
         var keys = [];
         if (!validCityIndex(fromIdx) || !validCityIndex(toIdx) || fromIdx === toIdx) {
-            return { keys: keys, landed: fromIdx === toIdx };
+            return { keys: keys, landed: fromIdx === toIdx, end: fromIdx };
         }
         var cur = fromIdx;
         var visited = {};
@@ -1838,20 +2010,78 @@
         return owned;
     }
 
-    function sendEnterWaitMenu(token, tried, wrote) {
+    function logAlign(from, to, method, ok, extra) {
+        var fromCity = validCityIndex(from) ? state.cities[from] : null;
+        var toCity = validCityIndex(to) ? state.cities[to] : null;
+        var line = '[hd-overworld] align ' +
+            (fromCity ? fromCity.name : '?') + '(' + from + ') → ' +
+            (toCity ? toCity.name : '?') + '(' + to + ') method=' + method +
+            (ok ? ' ok' : ' fail');
+        if (extra) {
+            line += ' ' + extra;
+        }
+        if (ok) {
+            console.log(line);
+        } else {
+            console.warn(line);
+        }
+        return line;
+    }
+
+    function finishAlignFail(token, tried, from, to, method, extra) {
         if (token !== state.alignToken) {
             return;
         }
-        var enter = (window.baye && baye.VK_ENTER) || VK.ENTER;
-        state.pendingEnter = true;
-        engineSendKey(enter);
+        state.pendingEnter = false;
+        state.aligning = false;
+        state.hdOpenedMenu = false;
         state.alignLog = {
-            wroteField: wrote,
+            ok: false,
+            method: method,
+            from: from,
+            to: to,
             tried: tried,
-            target: state.selectedIndex,
             cursor: inferCurrentCity(),
+            cityPos: readCityPos(),
             learned: state.learnedCursorField
         };
+        logAlign(from, to, method, false, extra || '');
+        state.hint = '未能对齐到目标城，已留在 HD。可再点一次或切回经典键操。';
+        applyChrome();
+    }
+
+    function sendEnterWaitMenu(token, tried, wrote, meta) {
+        if (token !== state.alignToken) {
+            return;
+        }
+        meta = meta || {};
+        var enter = (window.baye && baye.VK_ENTER) || VK.ENTER;
+        var from = meta.from;
+        var to = meta.to != null ? meta.to : state.selectedIndex;
+        var method = meta.method || (wrote ? 'write' : 'enter');
+        var cursor = inferCurrentCity();
+        if (validCityIndex(to) && cursor !== to && !meta.skipCursorCheck) {
+            finishAlignFail(token, tried, from, to, method, 'cursor=' + cursor + ' before ENTER');
+            return;
+        }
+        state.pendingEnter = true;
+        if (validCityIndex(to)) {
+            state.engineCursorIndex = to;
+        }
+        engineSendKey(enter);
+        state.alignLog = {
+            ok: true,
+            method: method,
+            from: from,
+            to: to,
+            wroteField: wrote,
+            tried: tried,
+            target: to,
+            cursor: cursor,
+            cityPos: readCityPos(),
+            learned: state.learnedCursorField
+        };
+        logAlign(from, to, method, true, 'enter');
         console.log('[hd-overworld] input P1', state.alignLog);
         state.hint = '已发送确认，等待经典菜单…';
         later(token, 420, function () {
@@ -1864,18 +2094,65 @@
                 if (state.phase === 'classic-menu') {
                     return;
                 }
-                state.pendingEnter = false;
-                state.aligning = false;
-                state.hdOpenedMenu = false;
-                console.warn('[hd-overworld] enter did not open city menu', state.alignLog);
-                state.hint = '未能打开城池菜单。已留在 HD，可再点己方城或切回经典键操。';
-                applyChrome();
+                finishAlignFail(token, tried, from, to, method, 'menu-timeout');
             });
         });
     }
 
     function sendEnterAndOpenMenu(token, tried, wrote) {
-        sendEnterWaitMenu(token, tried, wrote);
+        sendEnterWaitMenu(token, tried, wrote, { method: 'enter-fallback', skipCursorCheck: true });
+    }
+
+    function walkKeysThenEnter(token, tried, from, to, keys, method, expectTile) {
+        var step = 0;
+        var maxSteps = Math.max(keys.length, 1) + 4;
+        function sendNext() {
+            if (token !== state.alignToken) {
+                return;
+            }
+            if (step >= keys.length) {
+                var landed = inferCurrentCity();
+                var pos = readCityPos();
+                var tileOk = !expectTile || (pos && pos.x === expectTile.x && pos.y === expectTile.y);
+                if (landed === to || tileOk) {
+                    if (landed === to) {
+                        state.engineCursorIndex = to;
+                    }
+                    later(token, 70, function () {
+                        sendEnterWaitMenu(token, tried, false, {
+                            from: from,
+                            to: to,
+                            method: method,
+                            skipCursorCheck: tileOk && landed !== to
+                        });
+                    });
+                    return;
+                }
+                finishAlignFail(token, tried, from, to, method, 'landed=' + landed);
+                return;
+            }
+            if (step >= maxSteps) {
+                finishAlignFail(token, tried, from, to, method, 'step-timeout');
+                return;
+            }
+            var beforePos = readCityPos();
+            var before = snapshotIndexFields();
+            engineSendKey(dirCode(keys[step]));
+            step += 1;
+            later(token, 80, function () {
+                learnCursorField(before, snapshotIndexFields());
+                var nowPos = readCityPos();
+                if (beforePos && nowPos && beforePos.x === nowPos.x && beforePos.y === nowPos.y) {
+                    tried.push('stuck:' + keys[step - 1]);
+                }
+                var now = inferCurrentCity();
+                if (validCityIndex(now)) {
+                    state.engineCursorIndex = now;
+                }
+                sendNext();
+            });
+        }
+        sendNext();
     }
 
     function alignAndEnter(index) {
@@ -1887,12 +2164,41 @@
             return;
         }
         var from = guessCurrentCity();
+        var fromPos = readCityPos();
+        var toTile = { x: city.engX, y: city.engY };
         tried.push('from:' + from);
+        if (fromPos) {
+            tried.push('fromTile:' + fromPos.x + ',' + fromPos.y);
+        }
 
         if (from === index) {
             tried.push('already-on-target');
             later(token, 50, function () {
-                sendEnterWaitMenu(token, tried, false);
+                sendEnterWaitMenu(token, tried, false, { from: from, to: index, method: 'already-on-target' });
+            });
+            return;
+        }
+
+        if (writeCityPos(toTile.x, toTile.y, tried)) {
+            later(token, 40, function () {
+                var pos = readCityPos();
+                var landed = inferCurrentCity();
+                if (pos && pos.x === toTile.x && pos.y === toTile.y) {
+                    state.haveCityPos = true;
+                    if (landed === index) {
+                        state.engineCursorIndex = index;
+                    }
+                    tried.push('verified-write-citypos');
+                    sendEnterWaitMenu(token, tried, true, {
+                        from: from,
+                        to: index,
+                        method: 'write-citypos',
+                        skipCursorCheck: landed !== index
+                    });
+                    return;
+                }
+                tried.push('write-citypos-reverted');
+                alignByKeys(token, tried, from, index, fromPos, toTile);
             });
             return;
         }
@@ -1902,47 +2208,36 @@
             if (wrote && inferCurrentCity() === index) {
                 tried.push('verified-write');
                 later(token, 70, function () {
-                    sendEnterWaitMenu(token, tried, true);
+                    sendEnterWaitMenu(token, tried, true, { from: from, to: index, method: 'write-index' });
                 });
                 return;
             }
         }
 
-        if (from >= 0) {
-            var path = buildCityPath(from, index);
-            tried.push('path:' + path.keys.join('') + (path.landed ? ':ok' : ':partial'));
-            var step = 0;
-            function sendNext() {
-                if (token !== state.alignToken) {
-                    return;
-                }
-                if (step >= path.keys.length) {
-                    state.engineCursorIndex = path.landed ? index : path.end;
-                    later(token, 70, function () {
-                        sendEnterWaitMenu(token, tried, path.landed);
-                    });
-                    return;
-                }
-                var before = snapshotIndexFields();
-                engineSendKey(dirCode(path.keys[step]));
-                step += 1;
-                later(token, 55, function () {
-                    learnCursorField(before, snapshotIndexFields());
-                    var now = inferCurrentCity();
-                    if (validCityIndex(now)) {
-                        state.engineCursorIndex = now;
-                    }
-                    sendNext();
-                });
-            }
-            sendNext();
-            return;
-        }
+        alignByKeys(token, tried, from, index, fromPos, toTile);
+    }
 
-        tried.push('no-current-city');
-        later(token, 80, function () {
-            sendEnterWaitMenu(token, tried, false);
-        });
+    function alignByKeys(token, tried, from, index, fromPos, toTile) {
+        if (fromPos && toTile) {
+            var tileKeys = tileKeySequence(fromPos, toTile);
+            tried.push('tileKeys:' + tileKeys.join(''));
+            if (tileKeys.length) {
+                walkKeysThenEnter(token, tried, from, index, tileKeys, 'tile-walk', toTile);
+                return;
+            }
+        }
+        if (from >= 0) {
+            var path = bfsCityPath(from, index);
+            if (!path.keys.length) {
+                path = buildCityPath(from, index);
+            }
+            tried.push('bfs:' + path.keys.join('') + (path.landed ? ':ok' : ':partial'));
+            if (path.keys.length) {
+                walkKeysThenEnter(token, tried, from, index, path.keys, 'bfs-adj', null);
+                return;
+            }
+        }
+        finishAlignFail(token, tried, from, index, 'none', 'no-path');
     }
 
     function openClassicCity(index) {
@@ -1960,7 +2255,6 @@
         cancelAlign();
         var city = state.cities[index];
         state.selectedIndex = index;
-        state.engineCursorIndex = index;
         state.aligning = true;
         state.alignToken += 1;
         state.enterFx = { index: index, start: Date.now(), duration: 150 };
@@ -1972,7 +2266,7 @@
                 alignAndEnter(index);
             } catch (err) {
                 console.warn('[hd-overworld] align failed', err);
-                sendEnterAndOpenMenu(state.alignToken, ['align-error'], false);
+                finishAlignFail(state.alignToken, ['align-error'], inferCurrentCity(), index, 'error', String(err));
             }
         });
     }
@@ -2173,6 +2467,9 @@
                 enterFx: state.enterFx,
                 dateInfo: state.dateInfo,
                 learnedCursor: state.learnedCursorField,
+                haveCityPos: state.haveCityPos,
+                engineCursorIndex: state.engineCursorIndex,
+                cityPos: readCityPos(),
                 alignLog: state.alignLog,
                 playerKingRaw: data ? readNumber(data, 'g_PlayerKing') : null,
                 playerBelong: playerKingId(),

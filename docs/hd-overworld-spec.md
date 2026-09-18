@@ -208,7 +208,7 @@ HD 地图选城并确认后：
 | 探测项 | 词典原版运行时结果（P1） |
 |--------|--------------------------|
 | 年 / 月 | **已确认。** 字段是 `g_YearDate` / `g_MonthDate`（不是 `g_YearN`）。董卓弄权开局读到 **190 / 1**，与 LCD「190年1月」一致。HUD 只接受 184–220 / 1–12 |
-| 当前光标城 | **无 `g_CityCrt`。** `g_CityX`/`g_CityY` 与 `g_FoucsX`/`g_FoucsY` 在晋阳开局读到 **(8,0)**，而 `g_CityPositions[晋阳]=(5,1)`，**不是**当前城坐标。盲写这对字段会把引擎光标弄偏。P1 改为：已在目标城则只发 `VK_ENTER`；否则邻城方向键。`onMenuIdle`（需先挂空 hook 引擎才会回调）用来确认菜单已开 |
+| 当前光标城 | **无 `g_CityCrt`。** `g_CityX`/`g_CityY`/`g_FoucsX`/`g_FoucsY` **不是**大地图光标（晋阳开局曾读到 (8,0)）。词典原版真正跟着方向键走的是 **`g_CityPos.setx` / `g_CityPos.sety`**（格坐标，西凉=1,0，安定=2,1）。箭头一次走一格，不是跳城。HD 先写这对字段，读回不对则按 Δx/Δy 发方向键，对齐后再 `VK_ENTER`。`onMenuIdle` 确认菜单 |
 | `g_CityPositions` 单位 | **格坐标。** 38 城约 x 0–11、y 0–7。西凉 `(1,0)` Belong 6；晋阳 `(5,1)` Belong 10。线性映射到 1080p 安全区 |
 | 玩家君主 | `g_PlayerKing` 开局张杨为 **9**（0-based）；城 `Belong` 为 **10**。`resolvePlayerBelong` 按城计数对齐。`getPersonNameByID(10)` → 张杨 |
 | 「正在大地图」 | 仍用 `g_PIdx` 1–8 + 城有归属。本次开局 `g_PIdx=3` 但年是 190（董卓弄权），时期名映射不可靠，只当「在战役中」启发式 |
@@ -253,12 +253,12 @@ P1 已实现：
 - 四态：`empty`（Belong 0 / 0xff）/ `owned`（`Belong` 对齐 `g_PlayerKing`，运行时按城计数 +0/+1）/ `neutral`（其它势力，色环按 `factions.json` 24 槽哈希）/ `selected`（`marker_selected` + 脉动）
 - 城名：`getCityName(i)`，20px 暗底+描边，纵向避让
 - 悬停：浅色描边；菜单期关掉 HD 命中；点地图空白或关菜单后壳再接管
-- 点城：已在目标城则只发 `VK_ENTER`（不盲写 `g_CityX`）。等 `onMenuIdle` 再弹出经典 LCD。词典原版张杨/晋阳已见到 内政/外交/军备/状况。他城走邻城方向键
+- 点城：已在目标城则只发 `VK_ENTER`。跨城：写 `g_CityPos.setx/sety` 或按格走方向键，对齐失败不盲发 ENTER。等 `onMenuIdle` 再弹出经典 LCD。控制台有 `align 西凉(0) → 安定(3) method=…`
 - 年月：读 `g_YearDate` / `g_MonthDate`；董卓弄权开局 HUD「190年1月」
 
 P1 诚实缺口：
 
-- 没有可写当前城 index。邻城路径假设「方向键跳到该方向最近城」，点尚未对齐的他城仍可能进错 → 切回经典
+- 无城 index 字段。词典原版用 `g_CityPos.setx/sety` 做格光标；其它 lib 若没有这对字段，回退 P2 邻接 BFS，仍可能对不齐 → 切回经典。对齐失败会 timeout 留在 HD，不挂死
 - 选君主形势图仍可能被当成大地图（P0 启发式未改）。`g_PIdx` 开局读到 3，不能当时期名
 - 己方色环比 P0 明显，但占位塔楼本身仍偏灰，主要靠色环区分势力
 - P2：路网按格邻接画，**不是**出征可达全集。隔一格的历史官道（若有）会缺。无引擎关隘字段。
@@ -281,7 +281,7 @@ P3 已实现：
 
 - 悬停：程序化亮环（约 3.5px `#fff8d2` + 外晕）+ 城名加粗金色；HUD 右栏写「悬停 {名}」。不用 `ui/cursor_hover.png`
 - 选中：保留 `marker_selected`，外环 rAF 脉动（半径 32±5，约 180ms 正弦）
-- 入城：点城后 150ms 白闪 + 微缩放（正弦包络），再 160ms 走既有 P1 `alignAndEnter`
+- 入城：点城后 150ms 白闪 + 微缩放（正弦包络），再 160ms 走 `alignAndEnter`（`g_CityPos` 写字段 / 格走 / 邻接 BFS）
 - 可达邻接：从 `selected` / 引擎光标 / `guessCurrentCity` 取焦点城，把 P2 已有边上接到该城的路加亮（10px 浅金晕 + 8px `#f0c75a`）；邻城细金环。不新建图
 - 光标策略：`cursorPolicy='os-pointer'`。CSS `cursor:pointer`。不画 `ui/cursor.png`
 - 绘制顺序与菜单期关 HD 命中沿用 P1（`hitsEnabled` = hd-map + map + !aligning）
