@@ -67,6 +67,7 @@ pnpm start
 
 ```
 css/           样式
+docs/          画质等说明
 fonts/         字体
 js/            引擎与桥接
   baye.js      Emscripten 加载器（来自上游预编译）
@@ -82,6 +83,22 @@ LICENSE        上游 GPL-2.0
 ```
 
 `js/baye.wasm`（约 4MB）与 `js/baye.js` 直接取自 Gitee 上游仓库 [bgwp/baye-alpha](https://gitee.com/bgwp/baye-alpha) 提交 `5d19e8f`（2026-09-02），**未在本仓库重新用 Emscripten 编译**。该预编译产物可正常加载，无需本机安装 emsdk。
+
+## 画质优化
+
+本仓库在 `feature/hd-graphics` 上准备了**可逆的画质脚手架**，不换 `dat.lib` 图块、不改 WASM 引擎。完整管线、后续步骤与「不要做什么」见 [docs/hd-graphics.md](docs/hd-graphics.md)。
+
+默认仍是经典观感（PC 显示框 480×288，邻近取样）。PC 键盘版可以整数倍放大 LCD，方便阅读：
+
+1. 用上面的静态服务打开首页 <http://localhost:8080/>
+2. （可选）把「PC 画质缩放」设为「清晰 2×」，滤镜保持「锐利」
+3. 选择版本后进入游戏，或直接打开 `pc.html`
+4. 也可在 PC 页下方画质条即时切换：
+   - **经典 1× / 清晰 2×**：只改 CSS 外壳大小（480→960），键盘操作不变
+   - **锐利 / 平滑**：邻近取样 vs 双线性
+   - **经典外壳 / HD 外壳**：只改页面底色与边框，不改游戏像素
+
+手机页（`m.html` 等）已经拉满视口；v1 **不**做 2×，以免挤掉触控和虚拟键命中区。回到 1× + 锐利 + 经典外壳即还原。
 
 ## 从 iBaye 重新编译引擎（可选）
 

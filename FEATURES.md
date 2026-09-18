@@ -10,9 +10,9 @@
 
 | 功能 | 状态 | 说明 |
 |------|------|------|
-| 首页 `index.html` | done | 选择版本 / 进入游戏 / 存档管理，以及操作模式、分辨率、终端 |
+| 首页 `index.html` | done | 选择版本 / 进入游戏 / 存档管理，以及操作模式、分辨率、终端、PC 画质（缩放/滤镜/外壳） |
 | 版本选择 `choose.html` | done | 读取 `libs.json`，写入 `localStorage` 后跳转游戏 |
-| PC 端 `pc.html` | done | 160×96 LCD + 键盘说明；WASM 从 `js/baye.wasm` 同目录加载 |
+| PC 端 `pc.html` | done | 160×96 LCD + 键盘说明；WASM 从 `js/baye.wasm` 同目录加载；可逆 1×/2× 画质条 |
 | 横屏触控 `m.html` | done | 页面在；本地可用 `?debug=1` 避免无 hash 回首页 |
 | 横屏手势 `m-ges.html` | done | 同上 |
 | 竖屏键盘 `m-old.html` | done | 页面在；无 hash 时会回首页（上游逻辑，与 `m.html` 的 debug 例外不同） |

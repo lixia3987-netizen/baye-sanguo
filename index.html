@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>三国霸业</title>
         <link rel="stylesheet" type="text/css" href="css/baye.css" />
+        <link rel="stylesheet" type="text/css" href="css/hd-graphics.css" />
         <link rel="icon" href="favicon.png">
         <link rel="manifest" href="manifest.json">
         <link rel="apple-touch-icon" href="favicon.png">
@@ -22,8 +23,18 @@
           s.parentNode.insertBefore(hm, s);
         })();
         </script>
+        <script>
+            (function () {
+                try {
+                    if (localStorage.getItem('baye/lcdTheme') === 'hd') {
+                        document.documentElement.setAttribute('data-baye-theme', 'hd');
+                    }
+                } catch (e) {}
+            })();
+        </script>
         <script src="js/jquery.min.js"></script>
         <script src="js/lcd.js?ver=20260329"></script>
+        <script src="js/hd-graphics.js?ver=20260918"></script>
         <style>
             .index-tip {
                 color: red;
@@ -73,6 +84,28 @@
                 </select>
             </div>
             <div class="config-item">
+                PC 画质缩放:
+                <select id="lcd-scale-select">
+                    <option value="1">经典 1×（480×288，默认）</option>
+                    <option value="2">清晰 2×（960×576，锐利放大）</option>
+                </select>
+            </div>
+            <div class="config-item">
+                缩放滤镜:
+                <select id="lcd-filter-select">
+                    <option value="crisp">锐利（邻近取样，默认）</option>
+                    <option value="smooth">平滑（双线性）</option>
+                </select>
+            </div>
+            <div class="config-item">
+                外壳主题:
+                <select id="lcd-theme-select">
+                    <option value="classic">经典（默认）</option>
+                    <option value="hd">HD 外壳（仅页面框，不改游戏图）</option>
+                </select>
+            </div>
+            <p class="hd-graphics-note">画质缩放目前只作用于 PC 键盘版（<code>pc.html</code>）。手机页已铺满屏幕，强行 2× 会破坏触控与虚拟键布局。计划与禁区见 <a href="docs/hd-graphics.md">docs/hd-graphics.md</a>。</p>
+            <div class="config-item">
                 交流QQ群: 526266208<br>
             </div>
         </div>
@@ -87,6 +120,23 @@
                     bind("#mode-select", "baye/mpage");
                     bind("#resolution-select", "baye/resolution");
                     bind("#device-select", "baye/uiKind");
+
+                    function bindHd(id, key, fallback) {
+                        var current = window.localStorage[key];
+                        $(id).val(current || fallback);
+                        $(id).change(function () {
+                            window.localStorage[key] = $(this).val();
+                        });
+                    }
+                    bindHd("#lcd-scale-select", "baye/lcdCssScale", "1");
+                    bindHd("#lcd-filter-select", "baye/lcdFilter", "crisp");
+                    bindHd("#lcd-theme-select", "baye/lcdTheme", "classic");
+                    if (window.BayeHd) {
+                        BayeHd.applyTheme();
+                        $("#lcd-theme-select").change(function () {
+                            BayeHd.setTheme($(this).val());
+                        });
+                    }
                 });
             </script>
     </body>
