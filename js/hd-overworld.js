@@ -1969,6 +1969,7 @@
     }
 
     function leaveClassicMenu(hint) {
+        engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
         state.pendingEnter = false;
@@ -2144,6 +2145,14 @@
                 var nowPos = readCityPos();
                 if (beforePos && nowPos && beforePos.x === nowPos.x && beforePos.y === nowPos.y) {
                     tried.push('stuck:' + keys[step - 1]);
+                    if (!tried._exitedForStuck) {
+                        tried._exitedForStuck = true;
+                        tried.push('exit-to-map');
+                        engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
+                        step -= 1;
+                        later(token, 160, sendNext);
+                        return;
+                    }
                 }
                 var now = inferCurrentCity();
                 if (validCityIndex(now)) {
