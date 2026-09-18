@@ -164,8 +164,28 @@
         }
     }
 
-    function engineData() {
+    function ensureEngineData() {
+        if (window.baye && baye.data) {
+            return baye.data;
+        }
+        if (typeof _bayeGetGlobal === 'function' && typeof baye_bridge_value === 'function') {
+            try {
+                if (window.baye === undefined) {
+                    window.baye = {};
+                }
+                if (window.baye.hooks === undefined) {
+                    window.baye.hooks = {};
+                }
+                window.baye.data = baye_bridge_value(_bayeGetGlobal());
+            } catch (e) {
+                console.warn('[hd-overworld] bind baye.data failed', e);
+            }
+        }
         return window.baye && baye.data ? baye.data : null;
+    }
+
+    function engineData() {
+        return ensureEngineData();
     }
 
     function loadImage(url, done) {
