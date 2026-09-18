@@ -1,0 +1,352 @@
+# 真·HD 大地图规格（已锁定）
+
+本文是 **大地图（overworld）** 的产品与技术规格。它不是 CSS 2× 放大说明书——那一层见 [hd-graphics.md](hd-graphics.md)。  
+本文件只定规格与实现路径，**不附美术、不伪造截图、不替换 `dat.lib`**。素材由用户稍后提供；未到货前用几何占位。
+
+状态：产品方向已与用户锁定。实现代码尚未开工（本提交只落文档）。
+
+---
+
+## 1. 目标 / 非目标
+
+### 目标
+
+- 优先画面：**大地图**。城池菜单、战斗、开局选君主等仍走原 WASM，可继续用经典 LCD。
+- 视觉方向：**现代 2D 策略地图**（清晰分层、势力色、可读标注），不是「把 160×96 像素块放大」，不是水墨风，也不是照搬某款《三国志》商业作。
+- 目标显示：**1080p 级铺满**。游戏区 / 布局按约 **1920×1080** 设计，在常见 1080p 窗口里铺满（可 `object-fit: contain` 到更大屏，避免拉伸变形）。
+- 下列元素都要做成「精细的策略地图部件」，不能只靠邻近取样：
+  1. 城池与势力色（标记、归属色、选中）
+  2. 地形底图（山、河、平原等）
+  3. 道路与连线（邻接、关隘）
+  4. 地图文字（城名、年月、提示）
+  5. 交互反馈（光标、高亮、入城/打开菜单的反馈）
+- 规则、存档、时期、城池指令、战斗仍由原引擎负责。
+- **经典 LCD 大地图必须可切回**（与现有 HD 脚手架同一哲学：可逆、默认不强迫）。
+
+### 非目标（本轨道不做）
+
+- 不重写整局游戏，不另开一套科技树 / 联机 / 抽卡。
+- 不盲换、不重打包 `libs/*.lib` 图块。
+- 不在本仓库发明立绘、假地图截图或未提供的 PNG。
+- 不把战斗地图、城内菜单先做成 HD（那些是后续轨道）。
+- 不把引擎逻辑分辨率改成 1920×1080——菜单坐标仍按原 16px 格。
+- 手机竖屏虚拟键页不作为 P0 目标（PC 1080p 窗口优先）。
+
+---
+
+## 2. 已锁定的产品规格
+
+| 项 | 锁定值 |
+|----|--------|
+| 优先画面 | 大地图 |
+| 风格 | 现代 2D 策略地图 |
+| 分辨率 | 约 1920×1080 游戏区，铺满典型 1080p 窗口 |
+| 必须精细化的层 | 城池/势力色、地形、道路连线、文字、交互反馈 |
+| 素材 | 用户稍后提供；先规格与清单 |
+| 经典观感 | 始终可切换回去 |
+
+词典原版大地图规模（引擎侧，已在本仓库验证）：**约 12×9 格、38 城**。HD 层一次展示**整张大地图**，不再用 160×96 窗口去「窥视」一小块。
+
+---
+
+## 3. 选定架构：HD 表现壳 + 原 baye WASM
+
+### 为什么不用另外三条路
+
+1. **只做 CSS / canvas 整数倍放大**  
+   引擎逻辑 LCD 约 160×96。2×/6× 只能让色块变大，变不成现代 1080p 策略地图（城名仍是点阵、地形仍是 16px 瓦片）。[hd-graphics.md](hd-graphics.md) 的 1×/2× 只解决「原作更好认」，不是本轨道。
+2. **盲换 `dat.lib` 图块**  
+   图块管线仍受 16×16 与引擎绘制顺序限制；原作包版权敏感；Mod 一换就碎。即使用户给了高清图，也不该写进 `.lib` 当 v1。
+3. **整游戏重写**  
+   丢掉存档、时期、城池指令、战斗与现有 Mod 兼容。成本与风险都不可接受。
+
+### 选定路径
+
+**在原 WASM 引擎外包一层 HTML/CSS/Canvas（P0–P3 用 2D Canvas；P4 素材图集变多时可再评估 Pixi）的大地图表现层。**
+
+1. WASM 继续管规则、存档、时期、城池指令、战斗等。
+2. 新增 1080p **overworld presentation layer**，按现代策略地图来画。
+3. 从引擎状态同步城池、归属、光标、日期；能走现有 `bridge.js` / `baye.data` / `baye.hooks` 就走；不够的字段只做探测记录，不改 WASM、不抹掉 GPL/MIT 版权声明。
+4. 玩家在 HD 地图上的选择（点城、确认）回传给引擎；**v1 入城后仍打开经典城池菜单**（内政 / 外交 / 军备 / 状况）。
+5. 经典 LCD 与 HD 地图可切换，默认保留经典可用。
+6. 本提交**不要求新美术**，只定规格、清单与分期。
+
+P0 不引入 Pixi / 其它渲染库：静态服务零新依赖。若 P4 图集与粒子明显吃力，再单独立项加 Pixi，接口仍读同一份 `OverworldViewModel`。
+
+---
+
+## 4. 分层示意
+
+```mermaid
+flowchart TB
+  subgraph engine ["WASM 引擎（不动规则）"]
+    wasm["js/baye.wasm\n时期 / 城池 / 存档 / 战斗 / 菜单"]
+    lcd["经典 LCD 缓冲\n160×96 · lcd.js"]
+  end
+
+  subgraph bridge ["已有桥（优先用）"]
+    data["baye.data\ng_Cities / g_CityPositions / g_PlayerKing / theme"]
+    names["baye.getCityName\nbaye.sendKey / _bayeSendTouchEvent"]
+    hooks["baye.hooks\ndidOpenNewGame / didLoadGame / cityMakeCommand …"]
+  end
+
+  subgraph hd ["HD 表现壳（本轨道）"]
+    sync["OverworldSync\n读状态 → ViewModel"]
+    view["OverworldCanvas 1920×1080\n地形 / 路 / 城 / 字 / 反馈"]
+    input["输入：点击城 / 光标 / 确认"]
+    toggle["classic / hd-map 切换"]
+  end
+
+  wasm --> data
+  wasm --> lcd
+  data --> sync
+  names --> sync
+  hooks --> sync
+  sync --> view
+  input --> names
+  input --> wasm
+  toggle --> lcd
+  toggle --> view
+```
+
+```
+玩家看到的两种模式（可逆）
+
+[经典]  现有 <canvas id="lcd"> + 1×/2× CSS     ← 默认，与 PR #2 脚手架一致
+[HD地图] 全屏/铺满的 #hd-overworld（1080p）
+         引擎 LCD 可隐藏或缩到角落作对照；菜单弹出时再显示经典 LCD
+```
+
+---
+
+## 5. 显示与坐标
+
+| 项 | 规格 |
+|----|------|
+| 设计分辨率 | 1920×1080 CSS 像素（1:1 位图，`devicePixelRatio` 为 2 时可画 3840×2160 再缩小，避免糊） |
+| 铺满 | 外层 `width:100%; height:100%; object-fit: contain; background:#0e1116`，超 1080p 留边，不拉变形 |
+| HUD | 顶栏约 56–64px：年/月、君主、提示；不挡城名 |
+| 地图安全区 | 约 `(48, 72)` – `(1872, 1048)`，城点不得贴边 |
+| 引擎格 | 原作约 12×9、城坐标来自 `g_CityPositions[i].x/y`（单位须运行时标定，见 §8） |
+| 映射 | `hdX = padX + (engX - minX) / spanX * layoutW`（Y 同理）。P0 先用标定表，禁止猜偏移 |
+
+城点最小间距在 1080p 上建议 ≥ 72px，避免点选打架。若原坐标过近，允许 **标签避让**（名牌偏移），城标锚点仍跟引擎坐标走。
+
+---
+
+## 6. 必须精细化的五层
+
+绘制顺序（后画在上）：
+
+1. **地形底图** — 平原底 + 山/林/河叠加。P0 用色块多边形；P2 换用户图层或矢量。不要把 `dat.lib` 16px 瓦片拉满 1080p 当成品。
+2. **道路与连线** — 邻接城之间的曲线/折线；关隘用独立标记。线宽约 4–6px（普通）、8px（当前可达/出征预览，P3）。
+3. **城池与势力色** — 每城一枚标记 + 归属色环/底。空城、己方、他方、选中四态。色相跟 `city.Belong`（君主人物 id）走，空为 `0`，俘虏为 `0xff`（与 `getPersonNameByID` 一致）。
+4. **地图文字** — 城名（引擎 `getCityName(i)`）、顶栏年/月、短提示。HD 用 Web 字体，不把 LCD 点阵字拉大。
+5. **交互反馈** — 悬停描边、选中脉动/光标、入城前闪一下再切经典菜单。反馈只画在壳上，不改引擎逻辑。
+
+势力色：P1 用内置调色板（20+ 槽，按 `Belong` 哈希或先到先得）。用户可在 P4 丢 `palette/factions.json` 覆盖。`baye.data.theme.ownedCityColor` 等是给经典 LCD 用的，HD 壳不要直接拿 1-bit 色号当最终色。
+
+---
+
+## 7. 与引擎同步（已有钩子优先）
+
+下列名称均来自本仓库 `js/bridge.js`、`js/examples.js`、`js/demos.js`，实现时以运行时 `baye.data` 为准。
+
+### 7.1 已确认可读
+
+| 用途 | 来源 |
+|------|------|
+| 城列表 | `baye.data.g_Cities[]`（长度即城数，词典原版 38） |
+| 城名 | `baye.getCityName(i)` |
+| 城坐标 | `baye.data.g_CityPositions[i].x` / `.y` |
+| 归属 | `city.Belong`（0 空，`0xff` 俘虏，其它为君主人物 id） |
+| 玩家君主 | `baye.data.g_PlayerKing`（demos 里 `playerKingId = g_PlayerKing + 1` 与 Belong 对齐） |
+| 时期 | `baye.data.g_PIdx` |
+| 城数值（HUD/Tooltip） | `Food` `Money` `Commerce` `PeopleDevotion` `State` 等（状况菜单已验证同类字段） |
+| 经典地图主题色 | `baye.data.theme.landMapColor` / `ownedCityColor` / `emptyCityColor` / `otherCityColor` / `landCursorColor` |
+| 新开局 / 读档 | `baye.hooks.didOpenNewGame` / `didLoadGame` |
+| 入城指令点 | `baye.hooks.cityMakeCommand`（菜单已打开时） |
+| 回传按键 | `sendKey(VK_*)`（`js/lcd.js`） |
+| 回传点触 | `_bayeSendTouchEvent`（逻辑 LCD 坐标） |
+
+### 7.2 输入怎么回传（v1）
+
+HD 地图选城并确认后：
+
+1. 把引擎光标对齐到该城（优先写已暴露的光标/当前城字段；没有则用方向键序列逼近，并在文档里记下这条退路）。
+2. 再 `sendKey(VK_ENTER)`，打开**经典**城池菜单（四项主菜单不变）。
+3. 菜单打开期间 HD 地图可暂停刷新或退到背景；关菜单（`VK_EXIT` 回到大地图）后壳再接管。
+
+不要在 P0 重做内政/外交/军备 UI。
+
+### 7.3 建议刷新节奏
+
+- `requestAnimationFrame` 画反馈动画。
+- 状态抽样：地图空闲时 4–10 Hz 读 `g_Cities` + 光标 + 日期。
+- 在 `didOpenNewGame` / `didLoadGame` / 月份推进相关 hook（探测到就挂）强制全量刷新。
+
+---
+
+## 8. 还需探测、先不要猜死的字段
+
+实现 P0/P1 前用 `pc.html` 控制台对「词典原版」跑一遍，把结果补进本节（不要改 WASM）。
+
+| 缺口 | 为什么要 | 建议怎么探 |
+|------|----------|------------|
+| 年 / 月 | 顶栏「190年1月」 | 枚举 `baye.data` 里含 Year/Month/Date 的键；对照 LCD 已显示的年月 |
+| 当前光标城 index | HD 选中框与引擎同步 | 找 `g_CityCrt` / `g_MapSX` 类字段，或移动一次方向键看谁变 |
+| 城邻接 / 关隘 | 道路层 | 看 `city` 上是否有 Exit/Link 数组；没有就从出征/移动目标列表建邻接表，并缓存为 `docs` 旁的 JSON **草稿**（仍不是美术） |
+| `g_CityPositions` 单位 | 映射 1080p | 打印 38 城 min/max，对照西凉等已知城 |
+| 「正在大地图」 | 避免选君主/战斗时误开 HD 壳 | hook 或画面模式枚举；不确定时用「LCD 像大地图且 `g_Cities` 已有归属」作启发式，并允许用户手动切 |
+| 地形底图数据 | P2 | 大地图是否另有地格数组（战场 `g_FightMap` **不是** 大地图）。没有就只用用户图层 + 几何占位 |
+
+探测代码可以进 `js/hd-overworld-probe.js`（后续 commit）。保持只读，保留 `LICENSE` / `LICENSE.ENGINE` 与上游注释。
+
+---
+
+## 9. 分期计划
+
+| 阶段 | 内容 | 美术 | 玩家能看到 |
+|------|------|------|------------|
+| **P0** | 1080p 容器、`classic` / `hd-map` 切换、占位几何图（椭圆大陆 + 38 个圆点按标定坐标）、读 `g_Cities.length` | 无 | 能切到一张「空策略图」，点还不是精美城 |
+| **P1** | 城标四态、势力色、城名、年月（探测到就上）、点击选城、回车开经典菜单 | 无或色块 | 能玩：HD 选城 → 经典菜单 |
+| **P2** | 地形色带/图层、道路折线、关隘标记 | 用户未到则继续几何 | 像地图而不像点阵放大 |
+| **P3** | 光标、悬停、选中、入城闪白/缩放、可达邻接高亮 | 可用程序化 | 反馈完整 |
+| **P4** | 按清单换上用户素材；`manifest.json` 对得上才换，缺项回退占位 | **用户提供** | 真 HD 外观；对不上的层不硬上 |
+
+P0 开关建议键（实现时再写，本文先占位）：
+
+- `localStorage['baye/overworldMode']` = `classic`（默认）\| `hd-map`
+- 与现有 `baye/lcdCssScale` 独立：经典模式下 1×/2× 仍有效；HD 地图模式下 CSS 2× 不再作用于大地图本身。
+
+完成标准：
+
+- P0：默认经典与现在 PR #2 无回归；切 HD 不崩溃；切回经典 LCD 仍能键操。
+- P1：归属色随 `Belong` 变；点己方可入城出菜单。
+- P2：路网与地形层次可读，仍无假截图。
+- P4：缺文件时该层自动占位，不 404 卡死。
+
+---
+
+## 10. 用户素材清单（稍后投放）
+
+投放根目录（实现时再建，现在不要塞假 PNG）：
+
+`assets/hd-overworld/`
+
+所有位图：**PNG-24 + alpha**（或 WebP 无损/高质量），sRGB。矢量可用 SVG，但要提供 PNG 后备。不要用原作 `.lib` 里扒出来的图当「用户新美术」除非用户明确授权。
+
+### 10.1 `manifest.json`（P4 必填）
+
+```json
+{
+  "designWidth": 1920,
+  "designHeight": 1080,
+  "style": "modern-2d-strategy",
+  "version": "1",
+  "layers": {
+    "terrain": ["terrain/base_plains.png", "terrain/overlay_mountains.png", "terrain/overlay_rivers.png", "terrain/overlay_forest.png"],
+    "roads": { "stroke": "roads/stroke.png", "pass": "roads/pass.png" },
+    "cities": {
+      "empty": "cities/marker_empty.png",
+      "neutral": "cities/marker_neutral.png",
+      "owned": "cities/marker_owned.png",
+      "selected": "cities/marker_selected.png"
+    },
+    "ui": { "cursor": "ui/cursor.png", "cursorHover": "ui/cursor_hover.png" },
+    "palette": "palette/factions.json"
+  }
+}
+```
+
+文件名必须对得上；多出来的文件可以忽略，少了的层用占位。
+
+### 10.2 尺寸与命名
+
+| 资产 | 路径 | 尺寸 | 说明 |
+|------|------|------|------|
+| 平原底 | `terrain/base_plains.png` | 1920×1080 | 最底层，可无透明 |
+| 山 | `terrain/overlay_mountains.png` | 1920×1080 | 透明叠加 |
+| 河 / 湖 | `terrain/overlay_rivers.png` | 1920×1080 | 透明叠加 |
+| 林 | `terrain/overlay_forest.png` | 1920×1080 | 透明叠加 |
+| 可选地格 | `terrain/tileset.png` | 网格 128×128，每格一种 | 仅当不用整屏图层时 |
+| 路笔刷 | `roads/stroke.png` | 高 16 或 32、可横向平铺 | 程序沿线刷；没有则用纯色描边 |
+| 关隘 | `roads/pass.png` | 48×48 或 64×64 | 锚点中心 |
+| 空城 | `cities/marker_empty.png` | 64×64 | 锚点中心；选中可用 96×96 的 `marker_selected` |
+| 他方 | `cities/marker_neutral.png` | 64×64 | 再乘势力色或留可染色的灰模 |
+| 己方 | `cities/marker_owned.png` | 64×64 | |
+| 选中 | `cities/marker_selected.png` | 96×96 | |
+| 光标 | `ui/cursor.png` | 48×48 | |
+| 悬停光标 | `ui/cursor_hover.png` | 48×48 或 72×72 | |
+| 顶栏条（可选） | `ui/hud_panel.png` | 1920×64 | 没有则 CSS 半透明条 |
+| 字体（可选） | `fonts/ui.woff2` | CJK | 缺则用现有 `fonts/HarmonyOS_Sans_SC_*.ttf` |
+| 势力色 | `palette/factions.json` | 见下 | |
+
+城标若做成「灰模 + 可乘色」，请保证非染色部分（石墙、描边）在单独通道或约定不乘色区域。否则势力色会把整座城染脏。
+
+### 10.3 `palette/factions.json`
+
+```json
+{
+  "empty": "#8a8f98",
+  "player": "#3d8bfd",
+  "byBelongId": {
+    "1": "#c43c3c"
+  },
+  "fallback": ["#e0a14a", "#5cb87a", "#9b6bdb", "#d97b3e", "#4aa3a3"]
+}
+```
+
+`byBelongId` 的键是引擎 `Belong`（人物 id），不是城 index。
+
+### 10.4 文字与反馈（可不供图）
+
+| 用途 | 规格 | 无素材时 |
+|------|------|----------|
+| 城名 | 18–22px，描边或暗底牌，居中于城标下方 8–12px | `HarmonyOS_Sans_SC` |
+| 年月 | 24–28px，顶栏左 | 同上 |
+| 提示 | 16–18px，顶栏右或底 | 同上 |
+| 悬停 | 1.5–2px 亮边 + 名称加粗 | 程序化 |
+| 选中 | 外环或 `marker_selected` | 程序化圆环 |
+| 入城 | 120–180ms 闪白/微缩 | 程序化 |
+
+不要提供「游戏已做成这样」的假截图当素材。
+
+---
+
+## 11. 风险与未决问题
+
+| 风险 | 处理 |
+|------|------|
+| 邻接表引擎未暴露 | P2 用出征/移动目标建表，或用户给一份 `roads/adjacency.json`（城 index 对） |
+| 坐标单位不明 | P0 只画点并打印标定；映射表单独提交 |
+| 菜单期误把点击送给 HD 层 | 明确「模式」：`map` / `classic-menu` / `other`；菜单期关掉 HD 命中 |
+| 1080p 在小笔记本上裁切 | contain + 内部滚动禁用；低于 1280×720 建议回经典 |
+| 用户美术风格漂移（水墨/像素） | 清单写明 modern-2d-strategy；不合层就回退占位 |
+| 版权 | 不把原作瓦片当 HD 素材；用户素材需其自己有权 |
+| 手机 | 非 P0；横屏以后再 contain，不做竖屏 2× |
+| 战斗/菜单 HD | 另一轨道，避免本图膨胀 |
+
+未决（不阻塞写规格，阻塞 P1/P2 编码）：
+
+1. 年/月、当前城、邻接的准确 `baye.data` 字段名。
+2. HD 地图打开时经典 LCD 是隐藏、缩到左下 480×288，还是只在菜单时弹出（建议：**地图期隐藏 LCD，菜单期弹出经典 LCD**）。
+3. 是否允许用户提供一张手绘整图底图（1920×1080）代替分层地形——允许，但城点仍必须按引擎坐标叠，不能「画死」38 城在底图像素上却对不齐归属。
+
+---
+
+## 12. 和现有 HD 脚手架的关系
+
+| 文件 | 角色 |
+|------|------|
+| [hd-graphics.md](hd-graphics.md) / `js/hd-graphics.js` | 经典 LCD 的 1×/2×、锐利/平滑、外壳主题 |
+| **本文** | 真 HD 大地图的下一产品轨道 |
+| 未来 `js/hd-overworld.js` 等 | 按本文 P0 起，尚未建立 |
+
+两套开关并存，互不覆盖。没有用户美术时，**不得**把 CSS 2× 说成「已经是现代策略大地图」。
+
+---
+
+## 13. 许可证
+
+不改 `LICENSE`（GPL-2.0 前端）与 `LICENSE.ENGINE`（MIT）。表现壳是后加的 JS/CSS，沿用仓库前端许可。游戏数据与原作美术版权仍归原厂商；用户后投的素材版权归提供方，本仓库不冒充已有成品图。
