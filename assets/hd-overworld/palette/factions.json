@@ -1,21 +1,15 @@
 {
   "empty": "#8a8f98",
   "player": "#3d8bfd",
-  "byBelongId": {
-    "1": "#c43c3c"
-  },
+  "byBelongId": {},
   "fallback": [
     "#e0a14a",
     "#5cb87a",
     "#9b6bdb",
     "#d97b3e",
     "#4aa3a3",
-    "#d45d8c",
-    "#6f8f3a",
-    "#4d6fd6",
-    "#b56a3c",
-    "#7a7f8c",
-    "#c9a227",
-    "#3f8f7a"
+    "#c43c3c",
+    "#6b8cae",
+    "#d4a574"
   ]
 }
