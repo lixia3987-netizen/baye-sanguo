@@ -2139,7 +2139,7 @@
             var before = snapshotIndexFields();
             engineSendKey(dirCode(keys[step]));
             step += 1;
-            later(token, 80, function () {
+            later(token, 100, function () {
                 learnCursorField(before, snapshotIndexFields());
                 var nowPos = readCityPos();
                 if (beforePos && nowPos && beforePos.x === nowPos.x && beforePos.y === nowPos.y) {
@@ -2179,33 +2179,11 @@
             return;
         }
 
-        if (writeCityPos(toTile.x, toTile.y, tried)) {
-            later(token, 40, function () {
-                var pos = readCityPos();
-                var landed = inferCurrentCity();
-                if (pos && pos.x === toTile.x && pos.y === toTile.y) {
-                    state.haveCityPos = true;
-                    if (landed === index) {
-                        state.engineCursorIndex = index;
-                    }
-                    tried.push('verified-write-citypos');
-                    sendEnterWaitMenu(token, tried, true, {
-                        from: from,
-                        to: index,
-                        method: 'write-citypos',
-                        skipCursorCheck: landed !== index
-                    });
-                    return;
-                }
-                tried.push('write-citypos-reverted');
-                alignByKeys(token, tried, from, index, fromPos, toTile);
-            });
-            return;
-        }
-
+        // g_CityPos.setx/sety 读回可写，但 ENTER 仍走引擎内部光标（西凉点安定会进错城）。
+        // 只按探测到的格坐标发方向键，不靠盲写。
         if (state.learnedCursorField) {
             var wrote = tryWriteCursor(index, tried);
-            if (wrote && inferCurrentCity() === index) {
+            if (wrote && inferCurrentCity() === index && !fromPos) {
                 tried.push('verified-write');
                 later(token, 70, function () {
                     sendEnterWaitMenu(token, tried, true, { from: from, to: index, method: 'write-index' });

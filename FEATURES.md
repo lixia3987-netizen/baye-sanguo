@@ -104,7 +104,7 @@
 | 地形合成 | done | 读 `assets/hd-overworld/manifest.json`，叠加 plains / mountains / rivers / forest；缺文件回退椭圆大陆 |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
-| 点击入城 | partial | 当前城用 `g_CityPos.setx/sety`（格坐标，与 `g_CityPositions` 对齐）。先尝试写这对字段，不行则按格走方向键，对齐后再 `ENTER`。无 `g_CityPos` 的 lib 回退 P2 邻接 BFS。对不齐则留在 HD、不盲发 ENTER |
+| 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`（与城坐标同格）。写这对字段读回成功但 ENTER 仍进原城，故按 Δ 发方向键对齐后再 ENTER。无 `g_CityPos` 则 P2 邻接 BFS。对不齐不盲发 ENTER |
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |

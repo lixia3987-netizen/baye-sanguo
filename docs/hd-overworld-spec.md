@@ -208,7 +208,7 @@ HD 地图选城并确认后：
 | 探测项 | 词典原版运行时结果（P1） |
 |--------|--------------------------|
 | 年 / 月 | **已确认。** 字段是 `g_YearDate` / `g_MonthDate`（不是 `g_YearN`）。董卓弄权开局读到 **190 / 1**，与 LCD「190年1月」一致。HUD 只接受 184–220 / 1–12 |
-| 当前光标城 | **无 `g_CityCrt`。** `g_CityX`/`g_CityY`/`g_FoucsX`/`g_FoucsY` **不是**大地图光标（晋阳开局曾读到 (8,0)）。词典原版真正跟着方向键走的是 **`g_CityPos.setx` / `g_CityPos.sety`**（格坐标，西凉=1,0，安定=2,1）。箭头一次走一格，不是跳城。HD 先写这对字段，读回不对则按 Δx/Δy 发方向键，对齐后再 `VK_ENTER`。`onMenuIdle` 确认菜单 |
+| 当前光标城 | **无 `g_CityCrt`。** `g_CityX`/`g_CityY`/`g_FoucsX`/`g_FoucsY` **不是**大地图光标。词典原版方向键改的是 **`g_CityPos.setx` / `sety`**（西凉=1,0，安定=2,1），一次一格。**写这对字段读回会成功，但 ENTER 仍进原城**（西凉点安定曾进西凉菜单）。HD 只按 Δ 发方向键，对齐后再 `VK_ENTER`。`onMenuIdle` 确认菜单 |
 | `g_CityPositions` 单位 | **格坐标。** 38 城约 x 0–11、y 0–7。西凉 `(1,0)` Belong 6；晋阳 `(5,1)` Belong 10。线性映射到 1080p 安全区 |
 | 玩家君主 | `g_PlayerKing` 开局张杨为 **9**（0-based）；城 `Belong` 为 **10**。`resolvePlayerBelong` 按城计数对齐。`getPersonNameByID(10)` → 张杨 |
 | 「正在大地图」 | 仍用 `g_PIdx` 1–8 + 城有归属。本次开局 `g_PIdx=3` 但年是 190（董卓弄权），时期名映射不可靠，只当「在战役中」启发式 |
