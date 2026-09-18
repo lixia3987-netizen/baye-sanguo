@@ -4,7 +4,7 @@
   "style": "modern-2d-strategy",
   "version": "3",
   "source": "historically-oriented-geography-v2",
-  "note": "Terrain is historically oriented geography v2 (finer rivers/mountains/forests; see GEOGRAPHY.md). Cities stay on g_CityPositions. Not original Bubugao art. Do not merge to main until approved.",
+  "note": "Terrain is historically oriented geography v2; mountain overlay is shaded-relief photo-real patches (see GEOGRAPHY.md). Cities stay on g_CityPositions. Not original Bubugao art. Do not merge to main until approved.",
   "layers": {
     "terrain": [
       "terrain/base_plains.png",

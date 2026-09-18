@@ -101,7 +101,7 @@
 |------|------|------|
 | `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
 | 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
-| 地形合成 | done | 史实向地理包 **v2**：黄河/长江/淮河 + 渭汉湘支流与洞庭/鄱阳示意湖，秦岭/太行/南岭分层，南林更密。西左北上，对齐引擎城格。仍不是经纬度 1:1。城标不挪。缺文件回退椭圆大陆 |
+| 地形合成 | done | 史实向地理包 **v2**：黄河/长江/淮河 + 渭汉湘支流与洞庭/鄱阳示意湖，南林更密。山叠加为西侧/秦岭/太行/四川缘/南岭的 shaded-relief 浮雕，不是平涂色块。西左北上，对齐引擎城格。仍不是经纬度 1:1。城标不挪。缺文件回退椭圆大陆 |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
 | 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`。词典原版马腾已核验：西凉→安定、安定→天水均打开对应四项菜单（`tile-walk` RD）。写字段会进错城，已不用。无 `g_CityPos` 的 lib 回退邻接 BFS，未测 |
