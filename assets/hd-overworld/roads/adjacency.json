@@ -1,0 +1,7 @@
+{
+  "source": "engine-tile-neighbors",
+  "rule": "chebyshev<=1",
+  "useRuntimePositions": true,
+  "edges": [],
+  "note": "g_Cities has no Exit/Link array. WASM has SearchRoad/GetRoundSelfCity/AttackCityRoad but they are not exported to JS. Edges are computed at runtime from g_CityPositions: connect city index pairs whose Chebyshev distance is 0 or 1. This is a verified tile-neighbor subset, not a full march-range mesh. Do not replace with a guessed complete graph."
+}

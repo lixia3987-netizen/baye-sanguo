@@ -6,7 +6,7 @@
 **素材现状（分支内）：** `assets/hd-overworld/` 已放入一套 **AI 生成的占位包**（品红抠透明 PNG + `manifest.json`）。**不是**步步高原作美术。用户可随时用正式图覆盖同路径文件。  
 **分支策略：本轨道只停在 `feature/hd-graphics`，在用户明确要求之前不要合入 `main`。**
 
-状态：产品方向已锁定；占位素材已进本分支。**P0 容器 + P1 城态/点选已在本分支落地（P1 partial）**：四态城标与势力色、城名、年月 HUD（`g_YearDate`/`g_MonthDate`）。点己方当前城可开经典四项菜单（张杨/晋阳已验证）；他城仍走邻城方向键。缺口见 §8–§9 与 FEATURES.md。
+状态：产品方向已锁定；占位素材已进本分支。**P0–P2 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网。邻接来自 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。关隘只标在路中点压到河/山叠加处。缺口见 §8–§9 与 FEATURES.md。
 
 ---
 
@@ -212,6 +212,7 @@ HD 地图选城并确认后：
 | `g_CityPositions` 单位 | **格坐标。** 38 城约 x 0–11、y 0–7。西凉 `(1,0)` Belong 6；晋阳 `(5,1)` Belong 10。线性映射到 1080p 安全区 |
 | 玩家君主 | `g_PlayerKing` 开局张杨为 **9**（0-based）；城 `Belong` 为 **10**。`resolvePlayerBelong` 按城计数对齐。`getPersonNameByID(10)` → 张杨 |
 | 「正在大地图」 | 仍用 `g_PIdx` 1–8 + 城有归属。本次开局 `g_PIdx=3` 但年是 190（董卓弄权），时期名映射不可靠，只当「在战役中」启发式 |
+| 城邻接 / 关隘 | **无引擎邻接字段。** `g_Cities` 已探字段无 Exit/Link。WASM 内有 `SearchRoad` / `GetRoundSelfCity` / `AttackCityRoad`，**未导出到 JS**（不改 WASM 调不到）。P2 用 `g_CityPositions` Chebyshev≤1 的城 index 对，草稿在 `assets/hd-overworld/roads/adjacency.json`（`useRuntimePositions: true`）。关隘：无引擎关隘表；只在路中点压到河/山 overlay 时放 `pass.png` |
 
 ---
 
@@ -239,7 +240,7 @@ P0 诚实缺口：
 - 年月 / 当前城：按 `g_YearN` `g_MonthN` `g_CityCrt` 等候选名探测；对不上就空着，不猜死。
 - 「正在大地图」：启发式（`g_PlayerKing` 有效且城有归属）+ `cityMakeCommand` / `willCloseMenu`。选君主「势力形势图」可能被当成地图，LCD 会缩到角落；切回经典即可。
 - 点击入城：写已暴露的光标字段 → 方向键逼近 → 可见格上 `_bayeSendTouchEvent` → `sendKey(VK_ENTER)`。字段不足时可能对不齐目标城，**完整玩法请切回经典键操**。
-- 道路 / 关隘 / 精细四态反馈仍是 P2–P3。
+- 道路 / 关隘已按格邻接落地（P2 partial）；可达邻接高亮仍是 P3。
 
 完成标准：
 
@@ -259,8 +260,21 @@ P1 诚实缺口：
 - 没有可写当前城 index。邻城路径假设「方向键跳到该方向最近城」，点尚未对齐的他城仍可能进错 → 切回经典
 - 选君主形势图仍可能被当成大地图（P0 启发式未改）。`g_PIdx` 开局读到 3，不能当时期名
 - 己方色环比 P0 明显，但占位塔楼本身仍偏灰，主要靠色环区分势力
-- P2：路网与地形层次可读，仍无假截图。
+- P2：路网按格邻接画，**不是**出征可达全集。隔一格的历史官道（若有）会缺。无引擎关隘字段。
 - P4：缺文件时该层自动占位，不 404 卡死。
+
+P2 已实现：
+
+- 绘制顺序：地形 → 路（5px 土色二次曲线，选中城邻边略亮）→ 城标/势力 → 城名 → 悬停/选中
+- 邻接优先读城对象 Exit/Link；没有则用 `adjacency.json` 里写死的边；再没有则运行时 Chebyshev≤1
+- 当前词典原版走第三条：`source=tile-neighbors`。`stroke.png`（64×16 土色）作 pattern，不行就纯色
+- 关隘：`pass.png` 只放在路中点碰到河/山叠加的边上；平原路不放
+
+P2 诚实缺口：
+
+- 未调用 `SearchRoad`（需改 WASM 导出）
+- 格上不相邻的城没有路，避免臆造全连接
+- 关隘是 overlay 启发式，不是引擎关隘数据
 
 ---
 

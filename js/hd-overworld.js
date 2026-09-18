@@ -1,5 +1,5 @@
 /**
- * HD 大地图表现壳（P0 容器 + P1 城态/点选）。
+ * HD 大地图表现壳（P0 容器 + P1 城态/点选 + P2 路网）。
  * 不改 WASM / 不改 dat.lib。经典模式默认，可切回。
  * 规格：docs/hd-overworld-spec.md
  */
@@ -85,6 +85,8 @@
         hdOpenedMenu: false,
         dateInfo: { year: null, month: null, source: 'none' },
         sawFightHook: false,
+        adjacencyJson: null,
+        roads: { source: 'none', edges: [], passes: 0 },
         hint: '经典 LCD 可随时切回。点己方城打开经典城池菜单。'
     };
 
@@ -275,9 +277,12 @@
             var ui = layers.ui || {};
             add('ui:cursor', ui.cursor);
             add('ui:cursorHover', ui.cursorHover);
+            var roadsLayer = layers.roads || {};
+            add('road:stroke', roadsLayer.stroke || 'roads/stroke.png');
+            add('road:pass', roadsLayer.pass || 'roads/pass.png');
             var paletteRel = layers.palette || 'palette/factions.json';
 
-            var left = pending.length + 1;
+            var left = pending.length + 2;
             function tick() {
                 left -= 1;
                 if (left <= 0) {
@@ -292,6 +297,10 @@
                 if (palette) {
                     state.palette = palette;
                 }
+                tick();
+            });
+            loadJSON(assetUrl('roads/adjacency.json'), function (adj) {
+                state.adjacencyJson = adj;
                 tick();
             });
             for (var p = 0; p < pending.length; p++) {
@@ -543,6 +552,7 @@
         }
 
         state.cities = rows;
+        rebuildRoads();
         refreshDateInfo();
         return rows;
     }
@@ -653,6 +663,7 @@
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
             state.probed = false;
+            state._roadsLogged = false;
             state.sawFightHook = false;
             sampleCities();
             state.phase = 'other';
@@ -739,6 +750,285 @@
             try {
                 ctx.drawImage(layers[i], 0, 0, DESIGN_W, DESIGN_H);
             } catch (e) {}
+        }
+    }
+
+    function terrainImageByPart(part) {
+        var keys = Object.keys(state.images);
+        var i;
+        for (i = 0; i < keys.length; i++) {
+            if (keys[i].indexOf('terrain:') === 0 && keys[i].indexOf(part) >= 0) {
+                return state.images[keys[i]];
+            }
+        }
+        return null;
+    }
+
+    function overlayOpaqueAt(img, x, y) {
+        if (!img || !img.width || !img.height) {
+            return false;
+        }
+        var scratch = state._overlayScratch;
+        if (!scratch) {
+            scratch = document.createElement('canvas');
+            scratch.width = 1;
+            scratch.height = 1;
+            state._overlayScratch = scratch;
+            state._overlayScratchCtx = scratch.getContext('2d', { willReadFrequently: true });
+        }
+        var sctx = state._overlayScratchCtx;
+        sctx.clearRect(0, 0, 1, 1);
+        var sx = x / DESIGN_W * img.width;
+        var sy = y / DESIGN_H * img.height;
+        try {
+            sctx.drawImage(img, sx, sy, 1, 1, 0, 0, 1, 1);
+            return sctx.getImageData(0, 0, 1, 1).data[3] > 72;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function validPairIndex(value, n) {
+        return value !== null && value >= 0 && value < n && value === Math.floor(value);
+    }
+
+    function extractEngineAdjacency(cities) {
+        var data = engineData();
+        var rawCities = data && data.g_Cities;
+        var n = cities.length;
+        if (!rawCities || !rawCities.length) {
+            return { fieldHits: 0, edges: [] };
+        }
+        var re = /exit|link|road|out|neighbor|adjacent|gate|pass|round/i;
+        var p = probe();
+        var listProps = p && p.listProps ? p.listProps : function () { return []; };
+        var seen = {};
+        var edges = [];
+        var hits = 0;
+        var i;
+        function add(a, b) {
+            if (!validPairIndex(a, n) || !validPairIndex(b, n) || a === b) {
+                return;
+            }
+            var lo = Math.min(a, b);
+            var hi = Math.max(a, b);
+            var key = lo + '-' + hi;
+            if (seen[key]) {
+                return;
+            }
+            seen[key] = true;
+            edges.push({ a: lo, b: hi });
+        }
+        for (i = 0; i < n && i < rawCities.length; i++) {
+            var city = rawCities[i];
+            var names = listProps(city);
+            var f;
+            for (f = 0; f < names.length; f++) {
+                var name = names[f];
+                if (!re.test(name)) {
+                    continue;
+                }
+                hits += 1;
+                var raw = city[name];
+                if (raw && typeof raw.length === 'number') {
+                    var k;
+                    for (k = 0; k < raw.length; k++) {
+                        var v = readNumber(raw, k);
+                        if (v === null) {
+                            v = Number(raw[k]);
+                        }
+                        add(i, v);
+                    }
+                } else {
+                    add(i, readNumber(city, name));
+                }
+            }
+        }
+        return { fieldHits: hits, edges: edges };
+    }
+
+    function tileNeighborEdges(cities) {
+        var edges = [];
+        var i;
+        var j;
+        for (i = 0; i < cities.length; i++) {
+            for (j = i + 1; j < cities.length; j++) {
+                var dx = Math.abs(cities[i].engX - cities[j].engX);
+                var dy = Math.abs(cities[i].engY - cities[j].engY);
+                if (Math.max(dx, dy) <= 1) {
+                    edges.push({ a: cities[i].index, b: cities[j].index });
+                }
+            }
+        }
+        return edges;
+    }
+
+    function normalizeJsonEdges(list, n) {
+        var edges = [];
+        var seen = {};
+        var i;
+        for (i = 0; i < list.length; i++) {
+            var item = list[i];
+            var a = item && (item.a != null ? item.a : item[0]);
+            var b = item && (item.b != null ? item.b : item[1]);
+            a = Number(a);
+            b = Number(b);
+            if (!validPairIndex(a, n) || !validPairIndex(b, n) || a === b) {
+                continue;
+            }
+            var lo = Math.min(a, b);
+            var hi = Math.max(a, b);
+            var key = lo + '-' + hi;
+            if (seen[key]) {
+                continue;
+            }
+            seen[key] = true;
+            edges.push({ a: lo, b: hi });
+        }
+        return edges;
+    }
+
+    function curveControl(a, b) {
+        var dx = b.hdX - a.hdX;
+        var dy = b.hdY - a.hdY;
+        var len = Math.sqrt(dx * dx + dy * dy) || 1;
+        var bulge = Math.min(40, Math.max(14, len * 0.14));
+        return {
+            x: (a.hdX + b.hdX) / 2 - dy / len * bulge,
+            y: (a.hdY + b.hdY) / 2 + dx / len * bulge
+        };
+    }
+
+    function decorateRoadEdge(edge, cities) {
+        var a = cities[edge.a];
+        var b = cities[edge.b];
+        if (!a || !b) {
+            return null;
+        }
+        var ctrl = curveControl(a, b);
+        var river = overlayOpaqueAt(terrainImageByPart('rivers'), ctrl.x, ctrl.y);
+        var mountain = overlayOpaqueAt(terrainImageByPart('mountains'), ctrl.x, ctrl.y);
+        return {
+            a: edge.a,
+            b: edge.b,
+            ax: a.hdX,
+            ay: a.hdY,
+            bx: b.hdX,
+            by: b.hdY,
+            cx: ctrl.x,
+            cy: ctrl.y,
+            pass: !!(river || mountain),
+            passReason: river && mountain ? 'river+mountain' : (river ? 'river' : (mountain ? 'mountain' : ''))
+        };
+    }
+
+    function rebuildRoads() {
+        var cities = state.cities;
+        var info = { source: 'none', edges: [], passes: 0, isolated: [] };
+        if (!cities.length) {
+            state.roads = info;
+            return info;
+        }
+        var engine = extractEngineAdjacency(cities);
+        var rawEdges = [];
+        if (engine.edges.length) {
+            info.source = 'engine';
+            rawEdges = engine.edges;
+        } else if (state.adjacencyJson && state.adjacencyJson.edges && state.adjacencyJson.edges.length &&
+            state.adjacencyJson.useRuntimePositions !== true) {
+            info.source = 'json';
+            rawEdges = normalizeJsonEdges(state.adjacencyJson.edges, cities.length);
+        } else {
+            info.source = 'tile-neighbors';
+            rawEdges = tileNeighborEdges(cities);
+        }
+        var decorated = [];
+        var connected = {};
+        var i;
+        for (i = 0; i < rawEdges.length; i++) {
+            var row = decorateRoadEdge(rawEdges[i], cities);
+            if (!row) {
+                continue;
+            }
+            decorated.push(row);
+            connected[row.a] = true;
+            connected[row.b] = true;
+            if (row.pass) {
+                info.passes += 1;
+            }
+        }
+        info.edges = decorated;
+        for (i = 0; i < cities.length; i++) {
+            if (!connected[cities[i].index]) {
+                info.isolated.push({ i: cities[i].index, name: cities[i].name });
+            }
+        }
+        state.roads = info;
+        if (!state._roadsLogged) {
+            state._roadsLogged = true;
+            console.log('[hd-overworld] roads', {
+                source: info.source,
+                edges: info.edges.length,
+                passes: info.passes,
+                isolated: info.isolated,
+                engineFieldHits: engine.fieldHits
+            });
+        }
+        return info;
+    }
+
+    function strokeRoad(ctx, edge, width, color) {
+        ctx.beginPath();
+        ctx.moveTo(edge.ax, edge.ay);
+        ctx.quadraticCurveTo(edge.cx, edge.cy, edge.bx, edge.by);
+        ctx.lineWidth = width;
+        ctx.strokeStyle = color;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.stroke();
+    }
+
+    function drawRoads(ctx) {
+        var roads = state.roads && state.roads.edges ? state.roads.edges : [];
+        if (!roads.length) {
+            return;
+        }
+        var focus = state.selectedIndex;
+        if (!validCityIndex(focus)) {
+            focus = state.engineCursorIndex;
+        }
+        var pattern = null;
+        if (state.images['road:stroke'] && state.ctx) {
+            try {
+                pattern = ctx.createPattern(state.images['road:stroke'], 'repeat');
+            } catch (e) {
+                pattern = null;
+            }
+        }
+        var i;
+        for (i = 0; i < roads.length; i++) {
+            strokeRoad(ctx, roads[i], 7, 'rgba(42, 30, 18, 0.55)');
+        }
+        for (i = 0; i < roads.length; i++) {
+            var lit = focus >= 0 && (roads[i].a === focus || roads[i].b === focus);
+            strokeRoad(ctx, roads[i], lit ? 6 : 5, pattern || (lit ? '#c4a36a' : '#8b6a45'));
+        }
+        var passImg = state.images['road:pass'];
+        for (i = 0; i < roads.length; i++) {
+            if (!roads[i].pass) {
+                continue;
+            }
+            if (passImg) {
+                ctx.drawImage(passImg, roads[i].cx - 16, roads[i].cy - 16, 32, 32);
+            } else {
+                ctx.beginPath();
+                ctx.fillStyle = '#d8c4a0';
+                ctx.strokeStyle = '#3b2a18';
+                ctx.lineWidth = 2;
+                ctx.arc(roads[i].cx, roads[i].cy, 7, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
         }
     }
 
@@ -942,7 +1232,13 @@
         state.hudLeft.textContent = title;
         var n = state.cities.length;
         var extra = state.hint || '';
-        state.hudRight.textContent = n + ' 城  ·  ' + extra;
+        var roadN = state.roads && state.roads.edges ? state.roads.edges.length : 0;
+        var passN = state.roads && state.roads.passes ? state.roads.passes : 0;
+        var roadBit = roadN ? (roadN + ' 路') : '无路网';
+        if (passN) {
+            roadBit += '/' + passN + ' 关';
+        }
+        state.hudRight.textContent = n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
     }
 
     function draw() {
@@ -954,6 +1250,7 @@
         var now = Date.now();
         ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
         drawTerrain(ctx);
+        drawRoads(ctx);
         drawCities(ctx, now);
         updateHud();
         state.lastDraw = now;
@@ -1683,6 +1980,7 @@
         if (mode === 'hd-map') {
             state.hint = 'HD 地图。默认仍可切回经典；1×/2× 只作用于经典 LCD。';
             state.probed = false;
+            state._roadsLogged = false;
             if (global.BayeHdOverworldProbe) {
                 global.BayeHdOverworldProbe.run();
             }
@@ -1751,6 +2049,7 @@
         getAlignLog: function () { return state.alignLog; },
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },
+        getRoads: function () { return state.roads; },
         applyPcPage: applyPcPage,
         applyEarlyDocumentAttrs: applyEarlyDocumentAttrs,
         start: start,
@@ -1774,7 +2073,13 @@
                 focusX: data ? readNumber(data, 'g_FoucsX') : null,
                 focusY: data ? readNumber(data, 'g_FoucsY') : null,
                 owned: state.cities.filter(function (c) { return c.kind === 'owned'; })
-                    .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; })
+                    .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; }),
+                roads: {
+                    source: state.roads.source,
+                    edges: state.roads.edges ? state.roads.edges.length : 0,
+                    passes: state.roads.passes || 0,
+                    isolated: state.roads.isolated || []
+                }
             };
         }
     };

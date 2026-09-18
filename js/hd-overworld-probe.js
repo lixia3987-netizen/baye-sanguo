@@ -139,6 +139,81 @@
         };
     }
 
+    function scanCityLinkFields(data) {
+        var cities = data && data.g_Cities;
+        var n = cities && cities.length ? cities.length : 0;
+        var fieldHits = [];
+        var edges = [];
+        var seen = {};
+        var re = /exit|link|road|out|neighbor|adjacent|gate|pass|round/i;
+        function addEdge(a, b, field) {
+            a = Number(a);
+            b = Number(b);
+            if (!isFinite(a) || !isFinite(b) || a === b || a < 0 || b < 0 || a >= n || b >= n) {
+                return;
+            }
+            var lo = Math.min(a, b);
+            var hi = Math.max(a, b);
+            var key = lo + '-' + hi;
+            if (seen[key]) {
+                return;
+            }
+            seen[key] = true;
+            edges.push({ a: lo, b: hi, field: field });
+        }
+        if (!n) {
+            return { fieldHits: fieldHits, edges: edges };
+        }
+        var i;
+        for (i = 0; i < n; i++) {
+            var city = cities[i];
+            var names = listProps(city);
+            var f;
+            for (f = 0; f < names.length; f++) {
+                var name = names[f];
+                if (!re.test(name)) {
+                    continue;
+                }
+                var raw = city[name];
+                fieldHits.push({ city: i, field: name, kind: raw && typeof raw.length === 'number' ? 'array' : typeof raw });
+                if (raw && typeof raw.length === 'number') {
+                    var k;
+                    for (k = 0; k < raw.length; k++) {
+                        var v = readNumber(raw, k);
+                        if (v === null && raw[k] !== undefined) {
+                            v = Number(raw[k]);
+                        }
+                        addEdge(i, v, name);
+                    }
+                } else {
+                    var one = readNumber(city, name);
+                    addEdge(i, one, name);
+                }
+            }
+        }
+        return { fieldHits: fieldHits, edges: edges };
+    }
+
+    function tileNeighborEdges(positions) {
+        var rows = positions && positions.rows ? positions.rows : [];
+        var edges = [];
+        var i;
+        var j;
+        for (i = 0; i < rows.length; i++) {
+            for (j = i + 1; j < rows.length; j++) {
+                if (rows[i].x === null || rows[j].x === null) {
+                    continue;
+                }
+                var dx = Math.abs(rows[i].x - rows[j].x);
+                var dy = Math.abs(rows[i].y - rows[j].y);
+                if (Math.max(dx, dy) <= 1) {
+                    edges.push({ a: rows[i].i, b: rows[j].i, dx: dx, dy: dy });
+                }
+            }
+        }
+        return edges;
+    }
+
     function run() {
         var data = window.baye && baye.data;
         if (!data) {
@@ -184,12 +259,22 @@
             cityCursorRange: data.g_cityCursorRange || null,
             playerKing: readNumber(data, 'g_PlayerKing'),
             period: readNumber(data, 'g_PIdx'),
-            positions: snapshotPositions(data)
+            positions: snapshotPositions(data),
+            wasmRoadSymbols: ['SearchRoad', 'AttackCityRoad', 'GetRoundSelfCity', 'GetRoundEnemyCity'],
+            wasmRoadExported: typeof wasmExports !== 'undefined' && !!(wasmExports.SearchRoad || wasmExports.AttackCityRoad),
+            cityLinks: scanCityLinkFields(data)
         };
+        report.tileNeighborEdges = tileNeighborEdges(report.positions);
+        report.linkLikeFields = findFields(data, /exit|link|road|pass|gate|adjacent|neighbor/i);
         global.BayeHdOverworldProbe.last = report;
         console.log('[hd-overworld-probe]', report);
         if (report.positions && report.positions.rows) {
             console.table(report.positions.rows);
+        }
+        if (report.cityLinks && report.cityLinks.fieldHits && report.cityLinks.fieldHits.length) {
+            console.log('[hd-overworld-probe] city link fields', report.cityLinks);
+        } else {
+            console.log('[hd-overworld-probe] no Exit/Link fields on g_Cities; tile-neighbor edges', report.tileNeighborEdges.length);
         }
         return report;
     }
@@ -202,6 +287,8 @@
         pickFirstNumber: pickFirstNumber,
         walkNumbers: walkNumbers,
         guessDate: guessDate,
+        scanCityLinkFields: scanCityLinkFields,
+        tileNeighborEdges: tileNeighborEdges,
         last: null
     };
 })(window);
