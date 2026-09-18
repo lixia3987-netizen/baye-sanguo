@@ -93,7 +93,7 @@
 | 云存档上传下载 | partial | 需 bbkgames 登录，离线不可用 |
 | 脚本 / Mod hook | done | `bridge.js` + 文档 https://bgwp.gitee.io/baye-doc/script/index.html |
 
-## HD 大地图表现壳（P0–P2）
+## HD 大地图表现壳（P0–P3）
 
 规格：[docs/hd-overworld-spec.md](docs/hd-overworld-spec.md)。只停在 `feature/hd-graphics`，不合 `main`。
 
@@ -105,11 +105,14 @@
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
 | 点击入城 | partial | 已在目标城则只发 `ENTER`，等 `onMenuIdle` 再弹出 LCD。词典原版张杨/晋阳已见到四项菜单。他城仍走邻城方向键，未在本轮点开。对不齐则切回经典 |
-| 悬停 / 选中 | done | 悬停浅色描边；选中 `marker_selected` + 脉动 |
+| 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | partial | 无 Exit/Link。词典原版运行时 67 条格邻接路 + 10 个过河关。`adjacency.json` 为 runtime 草稿。云南（城 30）无邻格故无路 |
+| 可达邻接高亮 | done | 焦点城（选中 / 引擎光标 / 猜测）的 P2 邻边加亮金线；不另建图 |
+| 入城闪白 | done | 点城后 150ms 白闪+缩放，再走 P1 对齐/ENTER |
+| 自定义光标 | skipped | `ui/cursor.png` 会与系统指针叠影；`cursor_hover.png` 像禁止符。Canvas 用 `cursor:pointer` |
 | 手机页 HD 地图 | missing | 非 P0 |
 
 ## 刻意未做
@@ -124,4 +127,4 @@
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
 3. **完整一场战斗**：军备「出征」菜单已打开；打完一整场需在地图上派兵接敌，耗时较长，未在本次浏览器里打完。天气/地形/六兵种/计谋均在引擎内，不是占位。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
-5. **HD 大地图 P1–P2**：四态/城名/悬停/年月已接线。路网 67 条格邻接 + 10 过河关（马腾 190年1月已见）。点己方当前城可开四项菜单；光标不在目标城时仍可能进不去。隔格官道故意不画。
+5. **HD 大地图 P1–P3**：四态/城名/年月/路网已接线。P3 悬停亮环、选中脉动、入城 150ms 闪、邻路加亮已做。自定义光标跳过（叠影/禁止符）。路网仍是 67 条格邻接 + 10 过河关，不是 `SearchRoad`。点己方当前城可开四项菜单；光标不在目标城时仍可能进不去。

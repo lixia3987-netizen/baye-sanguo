@@ -1,5 +1,5 @@
 /**
- * HD 大地图表现壳（P0 容器 + P1 城态/点选 + P2 路网）。
+ * HD 大地图表现壳（P0 容器 + P1 城态/点选 + P2 路网 + P3 反馈）。
  * 不改 WASM / 不改 dat.lib。经典模式默认，可切回。
  * 规格：docs/hd-overworld-spec.md
  */
@@ -87,6 +87,10 @@
         sawFightHook: false,
         adjacencyJson: null,
         roads: { source: 'none', edges: [], passes: 0 },
+        pointer: { x: 0, y: 0, on: false },
+        enterFx: { index: -1, start: 0, duration: 150 },
+        /* os-pointer：不画自定义光标。cursor.png 会与系统指针叠影；cursor_hover.png 像禁止符。 */
+        cursorPolicy: 'os-pointer',
         hint: '经典 LCD 可随时切回。点己方城打开经典城池菜单。'
     };
 
@@ -991,15 +995,26 @@
         ctx.stroke();
     }
 
+    function focusCityIndex() {
+        if (validCityIndex(state.selectedIndex)) {
+            return state.selectedIndex;
+        }
+        if (validCityIndex(state.engineCursorIndex)) {
+            return state.engineCursorIndex;
+        }
+        return guessCurrentCity();
+    }
+
+    function isReachableEdge(edge, focus) {
+        return focus >= 0 && (edge.a === focus || edge.b === focus);
+    }
+
     function drawRoads(ctx) {
         var roads = state.roads && state.roads.edges ? state.roads.edges : [];
         if (!roads.length) {
             return;
         }
-        var focus = state.selectedIndex;
-        if (!validCityIndex(focus)) {
-            focus = state.engineCursorIndex;
-        }
+        var focus = focusCityIndex();
         var pattern = null;
         if (state.images['road:stroke'] && state.ctx) {
             try {
@@ -1013,8 +1028,17 @@
             strokeRoad(ctx, roads[i], 7, 'rgba(42, 30, 18, 0.55)');
         }
         for (i = 0; i < roads.length; i++) {
-            var lit = focus >= 0 && (roads[i].a === focus || roads[i].b === focus);
-            strokeRoad(ctx, roads[i], lit ? 6 : 5, pattern || (lit ? '#c4a36a' : '#8b6a45'));
+            if (isReachableEdge(roads[i], focus)) {
+                continue;
+            }
+            strokeRoad(ctx, roads[i], 5, pattern || '#8b6a45');
+        }
+        for (i = 0; i < roads.length; i++) {
+            if (!isReachableEdge(roads[i], focus)) {
+                continue;
+            }
+            strokeRoad(ctx, roads[i], 10, 'rgba(255, 228, 140, 0.35)');
+            strokeRoad(ctx, roads[i], 8, '#f0c75a');
         }
         var passImg = state.images['road:pass'];
         for (i = 0; i < roads.length; i++) {
@@ -1043,15 +1067,35 @@
         return state.images[key] || state.images['city:neutral'] || state.images['city:empty'] || null;
     }
 
+    function enterFxAmount(index, now) {
+        var fx = state.enterFx;
+        if (!fx || fx.index !== index || !fx.start) {
+            return 0;
+        }
+        var t = (now - fx.start) / (fx.duration || 150);
+        if (t < 0 || t > 1) {
+            return 0;
+        }
+        return Math.sin(t * Math.PI);
+    }
+
     function drawCities(ctx, now) {
         var cities = state.cities;
+        var focus = focusCityIndex();
         for (var i = 0; i < cities.length; i++) {
             var city = cities[i];
             var selected = city.index === state.selectedIndex;
             var hover = city.index === state.hoverIndex && hitsEnabled();
+            var neighbor = !selected && focus >= 0 && city.index !== focus &&
+                state.roads && state.roads.edges && state.roads.edges.some(function (edge) {
+                    return (edge.a === focus && edge.b === city.index) ||
+                        (edge.b === focus && edge.a === city.index);
+                });
+            var flash = enterFxAmount(city.index, now);
             var base = markerImage(city.kind, false);
             var sel = selected ? markerImage(city.kind, true) : null;
-            var size = selected ? 64 : 56;
+            var size = selected || flash ? 64 : (hover ? 60 : 56);
+            size = Math.round(size * (1 + flash * 0.16));
 
             ctx.beginPath();
             ctx.fillStyle = city.color;
@@ -1081,36 +1125,62 @@
             ctx.arc(city.hdX, city.hdY + 2, selected ? 32 : (city.kind === 'owned' ? 28 : 24), 0, Math.PI * 2);
             ctx.stroke();
 
+            if (neighbor) {
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(240,199,90,0.7)';
+                ctx.lineWidth = 2;
+                ctx.arc(city.hdX, city.hdY + 2, 30, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
             if (hover) {
                 ctx.beginPath();
-                ctx.strokeStyle = 'rgba(255,244,200,0.95)';
-                ctx.lineWidth = 2;
-                ctx.arc(city.hdX, city.hdY + 2, 34, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255,248,210,0.98)';
+                ctx.lineWidth = 3.5;
+                ctx.arc(city.hdX, city.hdY + 2, 38, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+                ctx.lineWidth = 1.5;
+                ctx.arc(city.hdX, city.hdY + 2, 42, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
             if (selected) {
-                var pulse = 30 + Math.sin(now / 200) * 4;
+                var pulse = 32 + Math.sin(now / 180) * 5;
                 ctx.beginPath();
-                ctx.strokeStyle = 'rgba(255,255,255,0.75)';
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(255,255,255,0.88)';
+                ctx.lineWidth = 2.5;
                 ctx.arc(city.hdX, city.hdY + 2, pulse, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            if (flash > 0) {
+                ctx.beginPath();
+                ctx.fillStyle = 'rgba(255,255,255,' + (0.18 + flash * 0.42) + ')';
+                ctx.arc(city.hdX, city.hdY + 2, 22 + flash * 18, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.strokeStyle = 'rgba(255,255,255,' + (0.55 + flash * 0.4) + ')';
+                ctx.lineWidth = 3;
+                ctx.arc(city.hdX, city.hdY + 2, 36 + flash * 10, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
             var label = city.name || ('城' + (city.index + 1));
             var lx = city.labelX != null ? city.labelX : city.hdX;
             var ly = city.labelY != null ? city.labelY : city.hdY + 44;
-            ctx.font = (hover || selected ? 'bold ' : '') + '20px BayeUI, "Noto Sans CJK SC", sans-serif';
+            var labelPx = hover || selected ? 22 : 20;
+            ctx.font = (hover || selected ? 'bold ' : '') + labelPx + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
             var tw = ctx.measureText(label).width;
-            ctx.fillStyle = 'rgba(14,17,22,0.72)';
-            ctx.fillRect(lx - tw / 2 - 7, ly - 2, tw + 14, 24);
+            ctx.fillStyle = hover ? 'rgba(40, 28, 8, 0.86)' : 'rgba(14,17,22,0.72)';
+            ctx.fillRect(lx - tw / 2 - 8, ly - 3, tw + 16, hover || selected ? 28 : 24);
             ctx.lineWidth = 3;
             ctx.strokeStyle = 'rgba(14,17,22,0.85)';
             ctx.strokeText(label, lx, ly);
-            ctx.fillStyle = '#f4f7fb';
+            ctx.fillStyle = hover ? '#ffe9a8' : '#f4f7fb';
             ctx.fillText(label, lx, ly);
         }
     }
@@ -1240,6 +1310,10 @@
         var roadBit = roadN ? (roadN + ' 路') : '无路网';
         if (passN) {
             roadBit += '/' + passN + ' 关';
+        }
+        var hoverCity = hitsEnabled() && validCityIndex(state.hoverIndex) ? state.cities[state.hoverIndex] : null;
+        if (hoverCity) {
+            extra = '悬停 ' + hoverCity.name + (hoverCity.kind === 'owned' ? '（己方）' : '') + '  ·  ' + extra;
         }
         state.hudRight.textContent = n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
     }
@@ -1886,12 +1960,14 @@
         cancelAlign();
         var city = state.cities[index];
         state.selectedIndex = index;
+        state.engineCursorIndex = index;
         state.aligning = true;
         state.alignToken += 1;
+        state.enterFx = { index: index, start: Date.now(), duration: 150 };
         state.hint = city && city.kind === 'owned'
             ? '对齐己方城并打开经典菜单…'
             : '对齐光标…他方/空城可能只查看，己方城才能内政。';
-        later(state.alignToken, 20, function () {
+        later(state.alignToken, 160, function () {
             try {
                 alignAndEnter(index);
             } catch (err) {
@@ -1907,11 +1983,16 @@
         }
         state.inputBound = true;
         state.canvas.addEventListener('mousemove', function (ev) {
+            var pt = eventToDesign(ev);
+            if (pt) {
+                state.pointer.x = pt.x;
+                state.pointer.y = pt.y;
+                state.pointer.on = true;
+            }
             if (!hitsEnabled()) {
                 state.hoverIndex = -1;
                 return;
             }
-            var pt = eventToDesign(ev);
             if (!pt) {
                 return;
             }
@@ -1919,6 +2000,7 @@
         });
         state.canvas.addEventListener('mouseleave', function () {
             state.hoverIndex = -1;
+            state.pointer.on = false;
         });
         state.canvas.addEventListener('click', function (ev) {
             if (state.mode !== 'hd-map') {
@@ -2053,6 +2135,8 @@
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },
         getRoads: function () { return state.roads; },
+        getCursorPolicy: function () { return state.cursorPolicy; },
+        getFocusCity: function () { return focusCityIndex(); },
         applyPcPage: applyPcPage,
         applyEarlyDocumentAttrs: applyEarlyDocumentAttrs,
         start: start,
@@ -2064,6 +2148,9 @@
                 aligning: state.aligning,
                 selectedIndex: state.selectedIndex,
                 hoverIndex: state.hoverIndex,
+                focusCity: focusCityIndex(),
+                cursorPolicy: state.cursorPolicy,
+                enterFx: state.enterFx,
                 dateInfo: state.dateInfo,
                 learnedCursor: state.learnedCursorField,
                 alignLog: state.alignLog,

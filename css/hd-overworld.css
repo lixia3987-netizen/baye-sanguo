@@ -32,6 +32,7 @@ html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on .hd-overworld {
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
+/* P3：沿用系统指针。cursor.png 会叠在 OS 光标上；cursor_hover.png 像禁止符。 */
 #hd-overworld-canvas {
     display: block;
     width: 100%;
