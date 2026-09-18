@@ -77,7 +77,9 @@
         aligning: false,
         alignToken: 0,
         alignTimer: 0,
+        pendingEnter: false,
         learnedCursorField: null,
+        learnedCityXY: false,
         engineCursorIndex: -1,
         menuDepth: 0,
         hdOpenedMenu: false,
@@ -631,10 +633,15 @@
     }
 
     function onHook(name) {
+        if (state.aligning || state.pendingEnter) {
+            console.log('[hd-overworld] hook while entering', name);
+        }
+        if (name === 'onMenuIdle' && (state.pendingEnter || state.aligning || state.hdOpenedMenu)) {
+            confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
+            return;
+        }
         if (name === 'cityMakeCommand') {
-            state.menuDepth = Math.max(2, state.menuDepth + 1);
-            setPhase('classic-menu');
-            state.hint = '经典城池菜单。空格关子菜单；再空格或点地图空白回 HD。';
+            confirmClassicMenu('经典城池菜单。空格关子菜单；再空格或点地图空白回 HD。');
             return;
         }
         if (name === 'willCloseMenu' && state.phase === 'classic-menu') {
@@ -665,7 +672,18 @@
     }
 
     function wrapCallHook() {
-        if (state.hookWrapped || !window.baye || typeof baye.callHook !== 'function') {
+        if (state.hookWrapped || !window.baye) {
+            return;
+        }
+        if (!baye.hooks) {
+            baye.hooks = {};
+        }
+        ['onMenuIdle', 'cityMakeCommand', 'willCloseMenu', 'didOpenNewGame', 'didLoadGame'].forEach(function (name) {
+            if (typeof baye.hooks[name] !== 'function') {
+                baye.hooks[name] = function () {};
+            }
+        });
+        if (typeof baye.callHook !== 'function') {
             return;
         }
         var orig = baye.callHook;
@@ -744,8 +762,8 @@
 
             ctx.beginPath();
             ctx.fillStyle = city.color;
-            ctx.globalAlpha = city.kind === 'empty' ? 0.28 : 0.42;
-            ctx.arc(city.hdX, city.hdY + 6, selected ? 22 : 18, 0, Math.PI * 2);
+            ctx.globalAlpha = city.kind === 'empty' ? 0.35 : (city.kind === 'owned' ? 0.62 : 0.5);
+            ctx.arc(city.hdX, city.hdY + 6, selected ? 26 : (city.kind === 'owned' ? 22 : 18), 0, Math.PI * 2);
             ctx.fill();
             ctx.globalAlpha = 1;
 
@@ -766,8 +784,8 @@
 
             ctx.beginPath();
             ctx.strokeStyle = city.color;
-            ctx.lineWidth = selected ? 3.5 : 2.5;
-            ctx.arc(city.hdX, city.hdY + 2, selected ? 30 : 24, 0, Math.PI * 2);
+            ctx.lineWidth = selected ? 5 : (city.kind === 'owned' ? 4 : 3);
+            ctx.arc(city.hdX, city.hdY + 2, selected ? 32 : (city.kind === 'owned' ? 28 : 24), 0, Math.PI * 2);
             ctx.stroke();
 
             if (hover) {
@@ -1155,25 +1173,16 @@
         if (cur && validCityIndex(cur.value)) {
             return cur.value;
         }
-        var cx = readNumber(data, 'g_CityX');
-        var cy = readNumber(data, 'g_CityY');
-        if (cx !== null && cy !== null) {
-            var byCityXY = nearestCityToEng(cx, cy);
-            if (byCityXY >= 0) {
-                var at = state.cities[byCityXY];
-                if (Math.abs(at.engX - cx) <= 1 && Math.abs(at.engY - cy) <= 1) {
-                    return byCityXY;
-                }
-            }
-        }
-        var fx = pickField(data, FOCUS_X_FIELDS);
-        var fy = pickField(data, FOCUS_Y_FIELDS);
-        if (fx && fy) {
-            var nearest = nearestCityToEng(fx.value, fy.value);
-            if (nearest >= 0) {
-                var city = state.cities[nearest];
-                if (Math.abs(city.engX - fx.value) <= 1 && Math.abs(city.engY - fy.value) <= 1) {
-                    return nearest;
+        if (state.learnedCityXY) {
+            var cx = readNumber(data, 'g_CityX');
+            var cy = readNumber(data, 'g_CityY');
+            if (cx !== null && cy !== null) {
+                var byCityXY = nearestCityToEng(cx, cy);
+                if (byCityXY >= 0) {
+                    var at = state.cities[byCityXY];
+                    if (at.engX === cx && at.engY === cy) {
+                        return byCityXY;
+                    }
                 }
             }
         }
@@ -1416,22 +1425,52 @@
     function leaveClassicMenu(hint) {
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
+        state.pendingEnter = false;
         state.aligning = false;
         setPhase(playerKingId() !== null && citiesHaveBelong(engineData()) ? 'map' : inferPhase());
         state.hint = hint || '已回到大地图。';
     }
 
-    function sendEnterAndOpenMenu(token, tried, wrote) {
+    function confirmClassicMenu(hint) {
+        state.pendingEnter = false;
+        state.aligning = false;
+        state.hdOpenedMenu = true;
+        state.menuDepth = Math.max(1, state.menuDepth);
+        setPhase('classic-menu');
+        state.hint = hint || '经典城池菜单（内政/外交/军备/状况）。空格关闭；点地图空白回 HD。';
+    }
+
+    function guessCurrentCity() {
+        var cur = inferCurrentCity();
+        if (validCityIndex(cur)) {
+            return cur;
+        }
+        if (validCityIndex(state.engineCursorIndex)) {
+            return state.engineCursorIndex;
+        }
+        var owned = -1;
+        var ownedCount = 0;
+        for (var i = 0; i < state.cities.length; i++) {
+            if (state.cities[i].kind === 'owned') {
+                ownedCount += 1;
+                if (owned < 0) {
+                    owned = i;
+                }
+            }
+        }
+        if (ownedCount === 1) {
+            return owned;
+        }
+        return owned;
+    }
+
+    function sendEnterWaitMenu(token, tried, wrote) {
         if (token !== state.alignToken) {
             return;
         }
         var enter = (window.baye && baye.VK_ENTER) || VK.ENTER;
+        state.pendingEnter = true;
         engineSendKey(enter);
-        state.aligning = false;
-        state.hdOpenedMenu = true;
-        state.menuDepth = 1;
-        setPhase('classic-menu');
-        state.hint = '经典城池菜单（内政/外交/军备/状况）。空格关闭；点地图空白回 HD。';
         state.alignLog = {
             wroteField: wrote,
             tried: tried,
@@ -1439,14 +1478,30 @@
             cursor: inferCurrentCity(),
             learned: state.learnedCursorField
         };
-        if (!state.inputFallbackNoted) {
-            state.inputFallbackNoted = true;
-            console.log('[hd-overworld] input P1', state.alignLog);
-        }
-        if (!wrote && inferCurrentCity() !== state.selectedIndex) {
-            console.warn('[hd-overworld] cursor may not match target', state.alignLog);
-            state.hint = '已回车。若不是目标城，切回经典用方向键入城。';
-        }
+        console.log('[hd-overworld] input P1', state.alignLog);
+        state.hint = '已发送确认，等待经典菜单…';
+        later(token, 420, function () {
+            if (state.phase === 'classic-menu') {
+                return;
+            }
+            tried.push('retry-enter');
+            engineSendKey(enter);
+            later(token, 480, function () {
+                if (state.phase === 'classic-menu') {
+                    return;
+                }
+                state.pendingEnter = false;
+                state.aligning = false;
+                state.hdOpenedMenu = false;
+                console.warn('[hd-overworld] enter did not open city menu', state.alignLog);
+                state.hint = '未能打开城池菜单。已留在 HD，可再点己方城或切回经典键操。';
+                applyChrome();
+            });
+        });
+    }
+
+    function sendEnterAndOpenMenu(token, tried, wrote) {
+        sendEnterWaitMenu(token, tried, wrote);
     }
 
     function alignAndEnter(index) {
@@ -1457,37 +1512,28 @@
             state.aligning = false;
             return;
         }
-        later(token, 520, function () {
-            if (state.phase !== 'classic-menu') {
-                tried.push('timeout-enter');
-                sendEnterAndOpenMenu(token, tried, false);
-            }
-        });
-        var wrote = tryWriteCursor(index, tried);
-        var wroteXY = tryWriteCityXY(city, tried);
-        tryWriteFocusAndTouch(city, tried);
-        if (wroteXY) {
-            tried.push('verified-city-xy');
-            later(token, 70, function () {
-                sendEnterAndOpenMenu(token, tried, true);
-            });
-            return;
-        }
-        if (wrote && readNumber(engineData(), state.learnedCursorField) === index) {
-            tried.push('verified-write');
-            later(token, 70, function () {
-                sendEnterAndOpenMenu(token, tried, true);
-            });
-            return;
-        }
-        var from = inferCurrentCity();
+        var from = guessCurrentCity();
+        tried.push('from:' + from);
+
         if (from === index) {
             tried.push('already-on-target');
-            later(token, 60, function () {
-                sendEnterAndOpenMenu(token, tried, wrote);
+            later(token, 50, function () {
+                sendEnterWaitMenu(token, tried, false);
             });
             return;
         }
+
+        if (state.learnedCursorField) {
+            var wrote = tryWriteCursor(index, tried);
+            if (wrote && inferCurrentCity() === index) {
+                tried.push('verified-write');
+                later(token, 70, function () {
+                    sendEnterWaitMenu(token, tried, true);
+                });
+                return;
+            }
+        }
+
         if (from >= 0) {
             var path = buildCityPath(from, index);
             tried.push('path:' + path.keys.join('') + (path.landed ? ':ok' : ':partial'));
@@ -1499,7 +1545,7 @@
                 if (step >= path.keys.length) {
                     state.engineCursorIndex = path.landed ? index : path.end;
                     later(token, 70, function () {
-                        sendEnterAndOpenMenu(token, tried, wrote || path.landed);
+                        sendEnterWaitMenu(token, tried, path.landed);
                     });
                     return;
                 }
@@ -1518,9 +1564,10 @@
             sendNext();
             return;
         }
+
         tried.push('no-current-city');
         later(token, 80, function () {
-            sendEnterAndOpenMenu(token, tried, wrote);
+            sendEnterWaitMenu(token, tried, false);
         });
     }
 
@@ -1643,6 +1690,9 @@
             loadAssets(function () {
                 sampleCities();
                 state.phase = inferPhase();
+                if (!validCityIndex(state.engineCursorIndex)) {
+                    state.engineCursorIndex = guessCurrentCity();
+                }
                 applyChrome();
                 draw();
             });
