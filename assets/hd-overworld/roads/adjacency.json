@@ -7,10 +7,10 @@
     "lib": "libs/dat-mod.lib",
     "period": "董卓弄权 190年1月",
     "edgeCount": 67,
-    "passCount": 10,
+    "passCount": 5,
     "isolatedCityIndex": [30],
     "isolatedName": "云南",
     "engineLinkFields": []
   },
-  "note": "g_Cities has no Exit/Link array (probed Farming/Commerce/Food/Belong/SatrapId/PersonQueue/ToolQueue/…). WASM has SearchRoad/GetRoundSelfCity/AttackCityRoad but they are not exported to JS. Edges are computed at runtime from g_CityPositions: connect city index pairs whose Chebyshev distance is <= 1. Verified 67 edges / 10 river-crossing passes on 词典原版. City 30 云南 has no tile neighbor. Not a full march-range mesh."
+  "note": "g_Cities has no Exit/Link array (probed Farming/Commerce/Food/Belong/SatrapId/PersonQueue/ToolQueue/…). WASM has SearchRoad/GetRoundSelfCity/AttackCityRoad but they are not exported to JS. Edges are computed at runtime from g_CityPositions: connect city index pairs whose Chebyshev distance is <= 1. Verified 67 edges / 5 river-crossing passes on historically-oriented river overlay (was 10 on the thicker placeholder rivers). City 30 云南 has no tile neighbor. Not a full march-range mesh."
 }

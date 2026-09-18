@@ -212,7 +212,7 @@ HD 地图选城并确认后：
 | `g_CityPositions` 单位 | **格坐标。** 38 城约 x 0–11、y 0–7。西凉 `(1,0)` Belong 6；晋阳 `(5,1)` Belong 10。线性映射到 1080p 安全区 |
 | 玩家君主 | `g_PlayerKing` 开局张杨为 **9**（0-based）；城 `Belong` 为 **10**。`resolvePlayerBelong` 按城计数对齐。`getPersonNameByID(10)` → 张杨 |
 | 「正在大地图」 | 仍用 `g_PIdx` 1–8 + 城有归属。本次开局 `g_PIdx=3` 但年是 190（董卓弄权），时期名映射不可靠，只当「在战役中」启发式 |
-| 城邻接 / 关隘 | **无引擎邻接字段。** 词典原版 `g_Cities[0]` 字段为 Farming/Commerce/Food/Belong/SatrapId/PeopleDevotion/PersonQueue/ToolQueue 等，无 Exit/Link。`SearchRoad` 等未导出（`wasmRoadExported=false`）。运行时 Chebyshev≤1 得 **67** 条边；过河关隘 **10**；城 30 云南孤立。见 `roads/adjacency.json` |
+| 城邻接 / 关隘 | **无引擎邻接字段。** 词典原版 `g_Cities[0]` 字段为 Farming/Commerce/Food/Belong/SatrapId/PeopleDevotion/PersonQueue/ToolQueue 等，无 Exit/Link。`SearchRoad` 等未导出（`wasmRoadExported=false`）。运行时 Chebyshev≤1 得 **67** 条边；过河关隘 **5**（史实向河线更细，旧占位河曾为 10）；城 30 云南孤立。见 `roads/adjacency.json` |
 
 ---
 
@@ -275,7 +275,7 @@ P2 诚实缺口：
 
 - 未调用 `SearchRoad`（需改 WASM 导出）
 - 格上不相邻的城没有路，避免臆造全连接
-- 关隘是 overlay 启发式，不是引擎关隘数据
+- 关隘是 overlay 启发式，不是引擎关隘数据。史实向河叠加更细后，词典原版过河关从 10 降为 **5**
 
 P3 已实现：
 
