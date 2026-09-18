@@ -101,10 +101,10 @@
 |------|------|------|
 | `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
 | 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
-| 地形合成 | done | 读 `assets/hd-overworld/manifest.json`，叠加 plains / mountains / rivers / forest；缺文件回退椭圆大陆 |
+| 地形合成 | done | 史实向地理包：黄河偏北、长江偏南、秦岭带等，西左北上，对齐引擎城格相对方位。仍不是经纬度 1:1。城标不挪。缺文件回退椭圆大陆 |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
-| 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`（与城坐标同格）。写这对字段读回成功但 ENTER 仍进原城，故按 Δ 发方向键对齐后再 ENTER。无 `g_CityPos` 则 P2 邻接 BFS。对不齐不盲发 ENTER |
+| 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`。词典原版马腾已核验：西凉→安定、安定→天水均打开对应四项菜单（`tile-walk` RD）。写字段会进错城，已不用。无 `g_CityPos` 的 lib 回退邻接 BFS，未测 |
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
@@ -127,4 +127,4 @@
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
 3. **完整一场战斗**：军备「出征」菜单已打开；打完一整场需在地图上派兵接敌，耗时较长，未在本次浏览器里打完。天气/地形/六兵种/计谋均在引擎内，不是占位。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
-5. **HD 大地图 P1–P3**：四态/城名/年月/路网/悬停闪已接线。跨城点选：词典原版光标是 `g_CityPos.setx/sety`（西凉 1,0；安定 2,1），不是 `g_CityX`。盲写读回会骗过检测，ENTER 仍进原城，所以按格走方向键。无这对字段的 lib 回退邻接 BFS，仍可能失败。
+5. **HD 大地图 P1–P3**：四态/城名/年月/路网/悬停闪已接线。跨城：词典原版用 `g_CityPos.setx/sety` 格走，马腾局西凉→安定、安定→天水菜单城名正确。盲写会进错城。其它 lib / 深子菜单 / 引擎不在大地图时仍可能失败。
