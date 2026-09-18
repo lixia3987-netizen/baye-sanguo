@@ -9,7 +9,7 @@
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
     var SAFE = { left: 48, top: 72, right: 1872, bottom: 1048 };
-    var HIT_RADIUS = 36;
+    var HIT_RADIUS = 52;
     var PERIOD_NAMES = { 1: '董卓弄权', 2: '曹操崛起', 3: '赤壁之战', 4: '三国鼎立' };
 
     var YEAR_FIELDS = ['g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear'];
@@ -326,7 +326,33 @@
         if (raw === null || raw === 0xff || raw === 255 || raw === 0xffff) {
             return null;
         }
-        return raw + 1;
+        return resolvePlayerBelong(raw);
+    }
+
+    function resolvePlayerBelong(rawKing) {
+        var data = engineData();
+        var oneBased = rawKing + 1;
+        if (!data || !data.g_Cities) {
+            return oneBased;
+        }
+        var ca = 0;
+        var cb = 0;
+        for (var i = 0; i < data.g_Cities.length; i++) {
+            var bel = readNumber(data.g_Cities[i], 'Belong');
+            if (bel === oneBased) {
+                ca += 1;
+            }
+            if (bel === rawKing) {
+                cb += 1;
+            }
+        }
+        if (ca > 0) {
+            return oneBased;
+        }
+        if (cb > 0) {
+            return rawKing;
+        }
+        return oneBased;
     }
 
     function cityName(index) {
@@ -821,14 +847,14 @@
         }
         if ((!year || !month) && global.BayeHdOverworldProbe && typeof BayeHdOverworldProbe.guessDate === 'function') {
             var guess = BayeHdOverworldProbe.guessDate(data);
-            if (!year && guess.year && (!guess.year.weak || inCampaign())) {
+            if (!year && guess.year && guess.year.value >= 184 && guess.year.value <= 220) {
                 year = guess.year;
             }
             if (!month && guess.month) {
                 month = guess.month;
             }
         }
-        if (year && year.value >= 180 && year.value <= 300) {
+        if (year && year.value >= 184 && year.value <= 220) {
             info.year = year.value;
             info.yearPath = year.name || year.path;
             info.source = 'probe';
@@ -1027,8 +1053,14 @@
             var dx = pt.x - c.hdX;
             var dy = pt.y - c.hdY;
             var d = Math.sqrt(dx * dx + dy * dy);
+                var lx = c.labelX != null ? c.labelX : c.hdX;
+            var ly = c.labelY != null ? c.labelY : c.hdY + 44;
+            var dl = Math.sqrt((pt.x - lx) * (pt.x - lx) + (pt.y - ly) * (pt.y - ly));
             if (d < bestD) {
                 bestD = d;
+                best = c.index;
+            } else if (dl < 28 && dl < bestD) {
+                bestD = dl;
                 best = c.index;
             }
         }
@@ -1207,7 +1239,7 @@
         var cur = fromIdx;
         var visited = {};
         var guard = 0;
-        while (cur !== toIdx && guard++ < 24) {
+        while (cur !== toIdx && guard++ < 10) {
             if (visited[cur]) {
                 break;
             }
@@ -1384,6 +1416,12 @@
             state.aligning = false;
             return;
         }
+        later(token, 520, function () {
+            if (state.phase !== 'classic-menu') {
+                tried.push('timeout-enter');
+                sendEnterAndOpenMenu(token, tried, false);
+            }
+        });
         var wrote = tryWriteCursor(index, tried);
         tryWriteFocusAndTouch(city, tried);
         if (wrote && readNumber(engineData(), state.learnedCursorField) === index) {
@@ -1453,9 +1491,16 @@
         state.selectedIndex = index;
         state.aligning = true;
         state.alignToken += 1;
-        state.hint = '对齐光标并打开经典菜单…';
+        state.hint = city && city.kind === 'owned'
+            ? '对齐己方城并打开经典菜单…'
+            : '对齐光标…他方/空城可能只查看，己方城才能内政。';
         later(state.alignToken, 20, function () {
-            alignAndEnter(index);
+            try {
+                alignAndEnter(index);
+            } catch (err) {
+                console.warn('[hd-overworld] align failed', err);
+                sendEnterAndOpenMenu(state.alignToken, ['align-error'], false);
+            }
         });
     }
 
@@ -1534,6 +1579,7 @@
     }
 
     function setMode(value) {
+        cancelAlign();
         var mode = normalizeMode(value);
         writeStorage(STORAGE_KEY, mode);
         state.mode = mode;
