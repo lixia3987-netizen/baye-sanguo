@@ -2137,6 +2137,26 @@
         getRoads: function () { return state.roads; },
         getCursorPolicy: function () { return state.cursorPolicy; },
         getFocusCity: function () { return focusCityIndex(); },
+        debugPaintFeedback: function (opts) {
+            opts = opts || {};
+            if (opts.hoverIndex != null) {
+                state.hoverIndex = opts.hoverIndex;
+            }
+            if (opts.selectedIndex != null) {
+                state.selectedIndex = opts.selectedIndex;
+            }
+            if (opts.flashIndex != null) {
+                state.enterFx = {
+                    index: opts.flashIndex,
+                    start: Date.now() - (opts.flashAt != null ? opts.flashAt : 75),
+                    duration: opts.duration || 150
+                };
+            }
+            if (state.mode === 'hd-map') {
+                draw();
+            }
+            return this.debugSnapshot();
+        },
         applyPcPage: applyPcPage,
         applyEarlyDocumentAttrs: applyEarlyDocumentAttrs,
         start: start,
