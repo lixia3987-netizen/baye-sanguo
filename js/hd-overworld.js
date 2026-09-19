@@ -846,6 +846,9 @@
     }
 
     function inferPhase() {
+        if (global.BayeHdSystemUi && BayeHdSystemUi.isOpen()) {
+            return 'other';
+        }
         if (state.phase === 'classic-menu') {
             return 'classic-menu';
         }
@@ -891,6 +894,13 @@
                 BayeHdBattle.onEngineHook(name, context);
             } catch (e) {
                 console.warn('[hd-overworld] battle hook', name, e);
+            }
+        }
+        if (global.BayeHdSystemUi && typeof BayeHdSystemUi.onEngineHook === 'function') {
+            try {
+                BayeHdSystemUi.onEngineHook(name, context);
+            } catch (e) {
+                console.warn('[hd-overworld] system-ui hook', name, e);
             }
         }
         if (state.aligning || state.pendingEnter) {

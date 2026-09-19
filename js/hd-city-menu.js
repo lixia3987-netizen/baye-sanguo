@@ -1,5 +1,5 @@
 /**
- * HD 城池四项菜单表现壳（M0–M2）。
+ * HD 城池四项菜单表现壳（M0–M3）。
  * 只发 sendKey；不改 WASM / dat.lib。规格：docs/hd-city-menu-spec.md
  */
 (function (global) {
@@ -39,6 +39,12 @@
         ['State', '状态']
     ];
     var STATE_LABELS = ['正常', '饥荒', '旱灾', '水灾', '暴动'];
+    /* 一层之后常见深层：人物 / 城池 / 数量。项名已核验，种类是启发式。 */
+    var DEEP = {
+        neizheng: ['person', 'person', 'lcd', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'city', 'city'],
+        waijiao: ['city', 'city', 'city', 'city', 'city'],
+        junbei: ['city', 'qty', 'person', 'city', 'person-city']
+    };
 
     var state = {
         mode: 'auto',
@@ -57,7 +63,11 @@
         closingSub: false,
         bound: false,
         listKind: '',
-        probedCityKeys: []
+        probedCityKeys: [],
+        deepKind: '',
+        deepLabel: '',
+        deepStep: 0,
+        deepItems: []
     };
 
     function readStorage(key, fallback) {
@@ -208,6 +218,77 @@
         return data.g_Cities[index];
     }
 
+    function cityPersons(index) {
+        var data = window.baye && baye.data;
+        var city = readCity(index);
+        var list = [];
+        if (!data || !city || !data.g_PersonsQueue) {
+            return list;
+        }
+        var n = readNumber(city, 'Persons') || 0;
+        var q0 = readNumber(city, 'PersonQueue') || 0;
+        var i;
+        for (i = 0; i < n && i < 40; i++) {
+            var pind = readNumber(data.g_PersonsQueue, q0 + i);
+            if (pind === null && data.g_PersonsQueue[q0 + i] != null) {
+                pind = Number(data.g_PersonsQueue[q0 + i]);
+            }
+            if (pind === null || !isFinite(pind)) {
+                continue;
+            }
+            var name = '';
+            try {
+                name = baye.getPersonName(pind) || '';
+            } catch (e) {}
+            list.push({ i: list.length, pind: pind, name: name || ('人物 ' + pind) });
+        }
+        return list;
+    }
+
+    function otherCities(except) {
+        var data = window.baye && baye.data;
+        var list = [];
+        if (!data || !data.g_Cities) {
+            return list;
+        }
+        var i;
+        for (i = 0; i < data.g_Cities.length; i++) {
+            if (i === except) {
+                continue;
+            }
+            var name = cityName(i);
+            var belong = readNumber(data.g_Cities[i], 'Belong');
+            var owner = belong ? personNameById(belong) : '';
+            list.push({
+                i: list.length,
+                cityIndex: i,
+                name: name || ('城' + (i + 1)),
+                owner: owner
+            });
+        }
+        return list;
+    }
+
+    function deepKindFor(subKind, index) {
+        var row = DEEP[subKind];
+        if (!row) {
+            return 'lcd';
+        }
+        return row[index] || 'lcd';
+    }
+
+    function probeDeepItems() {
+        var kind = state.deepKind;
+        var step = state.deepStep;
+        if (kind === 'person' || (kind === 'person-city' && step === 0)) {
+            return cityPersons(state.cityIndex);
+        }
+        if (kind === 'city' || (kind === 'person-city' && step === 1)) {
+            return otherCities(state.cityIndex);
+        }
+        return [];
+    }
+
     function listProps(obj) {
         if (!obj) {
             return [];
@@ -341,6 +422,40 @@
             var si = Number(items[i].getAttribute('data-hd-sub'));
             items[i].classList.toggle('is-idle', state.layer === 'sub' && state.idleIndex === si);
         }
+        var deeps = document.querySelectorAll('[data-hd-deep]');
+        for (i = 0; i < deeps.length; i++) {
+            var di = Number(deeps[i].getAttribute('data-hd-deep'));
+            deeps[i].classList.toggle('is-idle', state.layer === 'deep' && state.idleIndex === di);
+        }
+    }
+
+    function fillDeepList() {
+        var list = el('hd-city-menu-deep');
+        if (!list) {
+            return;
+        }
+        state.deepItems = probeDeepItems();
+        list.innerHTML = '';
+        var i;
+        if (!state.deepItems.length) {
+            var empty = document.createElement('div');
+            empty.className = 'hd-city-menu-deep-empty';
+            empty.textContent = state.deepKind === 'qty'
+                ? '数量输入仍走经典 LCD，不编造兵力数字。'
+                : '未探测到人物/城池名单，经典 LCD 对照。';
+            list.appendChild(empty);
+            return;
+        }
+        for (i = 0; i < state.deepItems.length; i++) {
+            var it = state.deepItems[i];
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'hd-city-menu-item';
+            btn.setAttribute('data-hd-deep', String(i));
+            btn.textContent = it.owner ? (it.name + ' · ' + it.owner) : it.name;
+            list.appendChild(btn);
+        }
+        applyHighlight();
     }
 
     function fillSubList(kind) {
@@ -386,20 +501,9 @@
         var grid = el('hd-city-menu-root');
         var list = el('hd-city-menu-sublist');
         var status = el('hd-city-menu-status');
+        var deep = el('hd-city-menu-deep');
         var probe = el('hd-city-menu-probe');
-        if (state.layer === 'root') {
-            setText(sub, '城池指令 · 与引擎四项一致');
-            if (grid) {
-                grid.hidden = false;
-            }
-            if (list) {
-                list.hidden = true;
-            }
-            if (status) {
-                status.hidden = true;
-            }
-        } else if (state.layer === 'status') {
-            setText(sub, '状况 · 只列出读到的 g_Cities 字段');
+        function hideAllLayers() {
             if (grid) {
                 grid.hidden = true;
             }
@@ -407,9 +511,35 @@
                 list.hidden = true;
             }
             if (status) {
+                status.hidden = true;
+            }
+            if (deep) {
+                deep.hidden = true;
+            }
+        }
+        if (state.layer === 'root') {
+            setText(sub, '城池指令 · 与引擎四项一致');
+            hideAllLayers();
+            if (grid) {
+                grid.hidden = false;
+            }
+        } else if (state.layer === 'status') {
+            setText(sub, '状况 · 只列出读到的 g_Cities 字段');
+            hideAllLayers();
+            if (status) {
                 status.hidden = false;
             }
             renderStatus();
+        } else if (state.layer === 'deep') {
+            var stepHint = (state.deepKind === 'person-city' && state.deepStep === 1)
+                ? '出征目标城（探测名，顺序可能不同于引擎）'
+                : (state.deepKind === 'city' ? '目标城池' : (state.deepKind === 'qty' ? '数量' : '人物'));
+            setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint + ' · 经典 LCD 对照');
+            hideAllLayers();
+            if (deep) {
+                deep.hidden = false;
+                fillDeepList();
+            }
         } else {
             var items = SUBS[state.subKind] || [];
             var kindName = '';
@@ -420,12 +550,7 @@
                 }
             }
             setText(sub, kindName + ' · 点选发方向键 + 确认，引擎执行');
-            if (grid) {
-                grid.hidden = true;
-            }
-            if (status) {
-                status.hidden = true;
-            }
+            hideAllLayers();
             if (list) {
                 list.hidden = false;
                 fillSubList(state.subKind);
@@ -498,6 +623,17 @@
         if (!state.open) {
             return;
         }
+        if (state.layer === 'deep') {
+            state.closingSub = true;
+            state.layer = 'sub';
+            state.deepKind = '';
+            state.deepLabel = '';
+            state.deepStep = 0;
+            state.idleIndex = 0;
+            enqueueKeys([VK.EXIT], 60);
+            render();
+            return;
+        }
         if (state.layer !== 'root') {
             state.closingSub = true;
             state.layer = 'root';
@@ -529,12 +665,31 @@
 
     function chooseSub(index) {
         pickIndex(index, true);
-        /* 一层点选后引擎常进人物/数量/出征目标等 M3 LCD。露出对照，避免挡操作。 */
+        var names = SUBS[state.subKind] || [];
+        state.deepKind = deepKindFor(state.subKind, index);
+        state.deepLabel = names[index] || '';
+        state.deepStep = 0;
+        state.layer = 'deep';
+        state.idleIndex = 0;
         state.showLcd = true;
         applyDocAttr();
         var lcdBtn = document.querySelector('[data-hd-menu-lcd]');
         if (lcdBtn) {
             lcdBtn.textContent = '隐藏经典 LCD';
+        }
+        render();
+    }
+
+    function chooseDeep(index) {
+        pickIndex(index, true);
+        if (state.deepKind === 'person-city' && state.deepStep === 0) {
+            state.deepStep = 1;
+            state.idleIndex = 0;
+            setTimeout(function () {
+                if (state.open && state.layer === 'deep') {
+                    render();
+                }
+            }, 280);
         }
     }
 
@@ -561,8 +716,13 @@
         if (name === 'willCloseMenu') {
             if (state.closingSub) {
                 state.closingSub = false;
-                state.layer = 'root';
-                state.subKind = '';
+                if (state.layer === 'deep') {
+                    state.layer = 'sub';
+                    state.deepKind = '';
+                } else {
+                    state.layer = 'root';
+                    state.subKind = '';
+                }
                 render();
             }
         }
@@ -603,6 +763,12 @@
                     ev.preventDefault();
                     ev.stopPropagation();
                     chooseSub(Number(t.getAttribute('data-hd-sub')));
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-deep') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    chooseDeep(Number(t.getAttribute('data-hd-deep')));
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-menu-back') != null) {
@@ -715,7 +881,10 @@
                 idleKeys: state.idleKeys.slice(),
                 lastHook: state.lastHook,
                 showLcd: state.showLcd,
-                probedCityKeys: state.probedCityKeys.slice()
+                probedCityKeys: state.probedCityKeys.slice(),
+                deepKind: state.deepKind,
+                deepLabel: state.deepLabel,
+                deepCount: state.deepItems.length
             };
         }
     };

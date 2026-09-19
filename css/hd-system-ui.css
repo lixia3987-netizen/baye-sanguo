@@ -1,0 +1,128 @@
+/* HD 系统界面（标题 / 时期 / 君主 / 存档）。经典模式无可见效果。 */
+
+.hd-system-ui {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 10, 16, 0.72);
+    pointer-events: none;
+}
+
+.hd-system-ui.is-open {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-system-ui-stage {
+    width: min(980px, calc(100vw - 48px));
+    min-height: 420px;
+    max-height: min(720px, calc(100vh - 80px));
+    padding: 28px 32px 22px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(30, 36, 50, 0.97), rgba(14, 18, 26, 0.97));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 64px rgba(0, 0, 0, 0.5);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.hd-system-ui-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+}
+
+.hd-system-ui-sub {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #c5cdd8;
+    line-height: 1.45;
+}
+
+.hd-system-ui-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 22px 0 16px;
+    overflow: auto;
+}
+
+.hd-system-ui-item {
+    appearance: none;
+    border: 0;
+    border-radius: 12px;
+    min-height: 64px;
+    padding: 12px 16px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #f7f4ea;
+    background: #2c3648;
+    text-align: left;
+}
+
+.hd-system-ui-item:hover,
+.hd-system-ui-item:focus {
+    background: #3d4b63;
+    outline: none;
+}
+
+.hd-system-ui-item.is-idle {
+    box-shadow: 0 0 0 2px #f0c75a, 0 0 0 5px rgba(240, 199, 90, 0.25);
+}
+
+.hd-system-ui-empty {
+    grid-column: 1 / -1;
+    padding: 24px 8px;
+    color: #9aa3b2;
+    font-size: 16px;
+}
+
+.hd-system-ui-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.hd-system-ui-footer button {
+    appearance: none;
+    border: 0;
+    border-radius: 10px;
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+}
+
+.hd-system-ui-footer button[data-hd-sys-back] {
+    background: #8a4b32;
+}
+
+.hd-system-ui-probe {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #8b93a1;
+}
+
+html[data-baye-system-ui="hd"] #hd-overworld {
+    visibility: hidden;
+}
+
+html[data-baye-system-ui="hd"] body.baye-hd-system-ui-lcd .container.js-baye-pc-lcd {
+    visibility: visible;
+    pointer-events: auto;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 280px !important;
+    z-index: 72;
+}

@@ -22,8 +22,8 @@
 ### 非目标（本切片不做）
 
 - **战斗地图 HD**（见 [hd-battle-spec.md](hd-battle-spec.md)）。
-- **标题 / 选时期 / 选君主 / 存读档 UI HD**（另开轨道）。
-- 不重做人物选择、输送数量、出征走格子等深层对话框（仍走引擎 LCD，可作对照）。
+- **标题 / 选时期 / 选君主 / 存读档 UI HD**（见 [hd-system-ui-spec.md](hd-system-ui-spec.md)）。
+- 不重写数量输入、道具详情、出征走格子规则（M3 有名单则 HD，否则框 LCD）。
 - 不改 WASM / `bridge.js` 菜单几何、不写死假粮饷。
 - 不把引擎逻辑分辨率改成 1920×1080。
 
@@ -36,9 +36,9 @@
 | **M0** | 根菜单四钮 + 按键回传 + LCD 可藏/对照 + 与 overworld `classic-menu` 接线 | 已做 |
 | **M1** | 可读现代面板：城名标题、四块大操作、返回=`VK_EXIT`；一层子列表（至少内政 / 军备） | 已做 |
 | **M2** | 外交列表、军备全表、状况只列探测字段、`onMenuIdle` `ctx.index` 高亮 | 已做 |
-| M3 | 人物/道具/数量等深层 UI HD | 后续（LCD residual） |
+| **M3** | 人物/目标城 HD 列表（本城 PersonQueue / 其它城名）；数量仍框 LCD | 部分 |
 
-**下一切片：** 标题 / 选君主 / 存读档 HD + M3 深层对话框。战场见 [hd-battle-spec.md](hd-battle-spec.md)。
+系统界面见 [hd-system-ui-spec.md](hd-system-ui-spec.md)。战场见 [hd-battle-spec.md](hd-battle-spec.md)。
 
 ---
 
@@ -183,7 +183,7 @@
 
 ---
 
-## 9. 成功标准（M0–M2）
+## 9. 成功标准（M0–M3）
 
 1. HD 地图进入安定 → 见 HD 四项面板（城名=安定）。
 2. 点「内政 / 外交 / 军备」→ 对应一层 HD 列表；点「状况」只显示读到的 `g_Cities` 字段。
@@ -191,4 +191,4 @@
 4. 返回 / `VK_EXIT` → 回到 HD 大地图。
 5. `overworldMode=classic` 不出现 HD 菜单强迫。
 6. 不改 WASM / `dat.lib`。
-7. 人物/数量等深层对话框仍可落回 LCD（M3）。
+7. M3：一层之后尽量出本城人物 / 目标城 HD 列表；数量与对不上的顺序仍框 LCD。

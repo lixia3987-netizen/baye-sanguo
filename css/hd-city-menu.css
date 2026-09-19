@@ -45,6 +45,7 @@
 
 .hd-city-menu-grid[hidden],
 .hd-city-menu-sublist[hidden],
+.hd-city-menu-deep[hidden],
 .hd-city-menu-status[hidden] {
     display: none !important;
 }
@@ -122,6 +123,13 @@
 .hd-city-menu-item.is-idle,
 .hd-city-menu-card.is-idle {
     box-shadow: 0 0 0 2px #f0c75a, 0 0 0 5px rgba(240, 199, 90, 0.25);
+}
+
+.hd-city-menu-deep-empty {
+    grid-column: 1 / -1;
+    padding: 16px 8px;
+    color: #9aa3b2;
+    font-size: 15px;
 }
 
 .hd-city-menu-status {
