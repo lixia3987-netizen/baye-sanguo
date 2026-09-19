@@ -190,9 +190,9 @@ U8 GamVarInit(void)
         g_engineConfig.enableScript = 1;
     }
 
-    if (g_engineConfig.enableScript) {
-        script_init();
-    }
+    /* HD 壳需要 baye.data，即使当前 lib 没有 ENGINE_SCRIPT。 */
+    script_init();
+    baye_hd_set_ready(1);
     return 0;
 }
 /***********************************************************************

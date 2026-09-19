@@ -213,8 +213,15 @@
         return String(id);
     }
 
+    function engineData() {
+        if (window.baye && typeof baye.ensureData === 'function') {
+            return baye.ensureData();
+        }
+        return window.baye && baye.data ? baye.data : null;
+    }
+
     function readCity(index) {
-        var data = window.baye && baye.data;
+        var data = engineData();
         if (!data || !data.g_Cities || index < 0 || !data.g_Cities[index]) {
             return null;
         }
@@ -222,7 +229,7 @@
     }
 
     function cityPersons(index) {
-        var data = window.baye && baye.data;
+        var data = engineData();
         var city = readCity(index);
         var list = [];
         if (!data || !city || !data.g_PersonsQueue) {
@@ -249,7 +256,7 @@
     }
 
     function otherCities(except) {
-        var data = window.baye && baye.data;
+        var data = engineData();
         var list = [];
         if (!data || !data.g_Cities) {
             return list;

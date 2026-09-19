@@ -46,6 +46,8 @@ function lcdInit()
     }
     lcdBlur(false);
     baye_bridge_init();
+    /* 不要在 lcdInit / postRun 里调用 _bayeGetGlobal：lib 尚未加载，
+     * bind_init 会把 g_var.def 钉死，script_init 就无法再绑 HD 字段。 */
 }
 
 function bayeResizeScreen(width, height) {

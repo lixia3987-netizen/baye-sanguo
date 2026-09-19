@@ -45,7 +45,13 @@ U8* bind_get_error_string(void) {
 
 void bind_init(void) {
     static ObjectDef* def = NULL;
+    static int inited = 0;
     static ValueDef vref;
+
+    if (inited) {
+        return;
+    }
+    inited = 1;
 
     typedef struct {
         U8 x;

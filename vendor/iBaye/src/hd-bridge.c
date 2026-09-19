@@ -5,6 +5,7 @@
 #include "baye/bind-objects.h"
 #include <string.h>
 
+U8 g_hdEngineReady = 0;
 U16 g_hdKingCount = 0;
 U16 g_hdKingIndex = 0;
 U16 g_hdKingId = 0xffff;
@@ -39,6 +40,11 @@ static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
         memcpy(dst, src, n);
     }
     dst[n] = 0;
+}
+
+void baye_hd_set_ready(U8 ready)
+{
+    g_hdEngineReady = ready;
 }
 
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
@@ -97,6 +103,12 @@ void baye_hd_set_fight(U8 active, U8 over)
 }
 
 EMSCRIPTEN_KEEPALIVE
+U8 bayeHdReady(void)
+{
+    return g_hdEngineReady;
+}
+
+EMSCRIPTEN_KEEPALIVE
 U8* bayeHdGetReport(void)
 {
     return g_hdReportGbk;
@@ -116,6 +128,7 @@ U16 bayeHdGetKingCount(void)
 
 void baye_hd_bind(ObjectDef* def)
 {
+    DEFADDF(g_hdEngineReady, U8);
     DEFADDF(g_hdKingCount, U16);
     DEFADDF(g_hdKingIndex, U16);
     DEFADDF(g_hdKingId, U16);

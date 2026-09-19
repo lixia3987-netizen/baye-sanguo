@@ -80,6 +80,9 @@
     }
 
     function engineData() {
+        if (window.baye && typeof baye.ensureData === 'function') {
+            return baye.ensureData();
+        }
         return window.baye && baye.data ? baye.data : null;
     }
 

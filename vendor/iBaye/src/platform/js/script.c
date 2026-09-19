@@ -25,8 +25,14 @@ void script_init(void)
         if (window.baye.hooks == undefined) {
             window.baye.hooks = {};
         }
-
-        window.baye.data = baye_bridge_value(_bayeGetGlobal());
+        try {
+            window.baye.data = baye_bridge_value(_bayeGetGlobal());
+            console.log('[hd-bridge] baye.data bound fields=' +
+                (window.baye.data && window.baye.data._baye_properties
+                    ? window.baye.data._baye_properties.length : 0));
+        } catch (e) {
+            console.error('[hd-bridge] bind baye.data failed', e);
+        }
     });
 
     U8* script = ResLoadStringWithId(ENGINE_SCRIPT);

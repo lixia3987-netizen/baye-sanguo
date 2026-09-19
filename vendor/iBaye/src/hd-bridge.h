@@ -16,6 +16,7 @@
 #define VK_DIGIT0 0x40
 
 void baye_hd_bind(ObjectDef* def);
+void baye_hd_set_ready(U8 ready);
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind);
 void baye_hd_set_kings(const PersonID* kings, U32 count);
 void baye_hd_set_king_highlight(U32 index, PersonID id);

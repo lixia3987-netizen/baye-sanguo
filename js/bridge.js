@@ -857,6 +857,29 @@ function baye_bridge_init() {
         pd.y = baye.data.g_FoucsY;
     };
 
+    baye.ensureData = function () {
+        if (baye.data) {
+            return baye.data;
+        }
+        if (typeof _bayeHdReady === 'function') {
+            try {
+                if (!_bayeHdReady()) {
+                    return null;
+                }
+            } catch (e) {
+                return null;
+            }
+        }
+        if (typeof _bayeGetGlobal === 'function' && typeof baye_bridge_value === 'function') {
+            try {
+                baye.data = baye_bridge_value(_bayeGetGlobal());
+            } catch (e) {
+                console.warn('[hd-bridge] ensureData failed', e);
+            }
+        }
+        return baye.data || null;
+    };
+
     function hdReadNum(obj, name) {
         if (!obj || obj[name] == null) {
             return 0;
@@ -867,6 +890,21 @@ function baye_bridge_init() {
         }
         v = Number(v);
         return isFinite(v) ? v : 0;
+    }
+
+    function hdDecodePtr(ptr) {
+        if (!ptr) {
+            return '';
+        }
+        try {
+            var n = (typeof _bayeStrLen === 'function') ? _bayeStrLen(ptr) : 0;
+            if (!n) {
+                return '';
+            }
+            return gbkDecoder.decode(bayeU8Array(ptr, n)).replace(/\s+$/g, '');
+        } catch (e) {
+            return '';
+        }
     }
 
     function hdDecodeSlice(bytes, start, len) {
@@ -897,32 +935,50 @@ function baye_bridge_init() {
 
     baye.hd = {
         report: function () {
-            var d = baye.data;
+            var d = baye.ensureData();
             var text = '';
             if (d && typeof d.g_hdReportGbk === 'string') {
                 text = d.g_hdReportGbk;
             }
+            if (!text && typeof _bayeHdGetReport === 'function') {
+                try {
+                    text = hdDecodePtr(_bayeHdGetReport());
+                } catch (e) {}
+            }
+            var seq = hdReadNum(d, 'g_hdReportSeq');
+            if (!seq && typeof _bayeHdGetReportSeq === 'function') {
+                try { seq = Number(_bayeHdGetReportSeq()) || 0; } catch (e) {}
+            }
             return {
                 text: text,
-                seq: hdReadNum(d, 'g_hdReportSeq'),
+                seq: seq,
                 kind: hdReadNum(d, 'g_hdReportKind'),
                 person: hdReadNum(d, 'g_hdReportPerson')
             };
         },
         kings: function () {
-            var d = baye.data;
+            var d = baye.ensureData();
             var list = [];
             var n = hdReadNum(d, 'g_hdKingCount');
+            if (!n && typeof _bayeHdGetKingCount === 'function') {
+                try { n = Number(_bayeHdGetKingCount()) || 0; } catch (e) {}
+            }
             var i;
             for (i = 0; i < n && i < 128; i++) {
-                var id = hdReadNum(d.g_hdKingIds, i);
-                if (d.g_hdKingIds && d.g_hdKingIds[i] != null && (id === 0 || !id)) {
+                var id = hdReadNum(d && d.g_hdKingIds, i);
+                if (d && d.g_hdKingIds && d.g_hdKingIds[i] != null && (id === 0 || !id)) {
                     id = Number(d.g_hdKingIds[i]);
                 }
                 var name = '';
                 try {
                     name = baye.getPersonName(id) || '';
                 } catch (e) {}
+                if ((!name || name === '-') && d && typeof d.g_hdKingNames === 'string') {
+                    name = d.g_hdKingNames.slice(i * 8, (i + 1) * 8).replace(/\s+$/g, '');
+                }
+                if ((!name || name === '-') && d && d.g_hdKingNames) {
+                    name = hdDecodeSlice(d.g_hdKingNames, i * 8, 8);
+                }
                 list.push({ id: id, name: name });
             }
             return {
@@ -933,7 +989,7 @@ function baye_bridge_init() {
             };
         },
         menuItems: function () {
-            var d = baye.data;
+            var d = baye.ensureData();
             var itemLen = hdReadNum(d, 'g_hdMenuItemLen');
             var count = hdReadNum(d, 'g_hdMenuCount');
             var names = [];

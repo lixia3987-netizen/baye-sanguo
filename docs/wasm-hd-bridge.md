@@ -6,6 +6,7 @@
 
 | 字段 | 类型 | 含义 |
 |------|------|------|
+| `g_hdEngineReady` | u8 | `GamVarInit`+`script_init` 完成后为 1 |
 | `g_hdReportGbk` | GBK 字符串 | 最近一次 `GamMsgBox` / `ShowGReport` 正文 |
 | `g_hdReportPerson` | u16 | 报告武将 PersonID；消息框为 `0xffff` |
 | `g_hdReportKind` | u16 | `1` 消息框 · `2` 武将报告 |
@@ -29,6 +30,7 @@
 
 `EMSCRIPTEN_KEEPALIVE`：
 
+- `bayeHdReady()` → `U8`（lib 未加载时 JS 不要调用 `_bayeGetGlobal`）
 - `bayeHdGetReport()` → `U8*`
 - `bayeHdGetReportSeq()` → `U16`
 - `bayeHdGetKingCount()` → `U16`
@@ -44,7 +46,8 @@
 ## JS 助手（`js/bridge.js`）
 
 ```js
-baye.hd.report()     // { text, seq, kind, person }
+baye.ensureData()    // 仅在 bayeHdReady() 后绑 baye.data
+baye.hd.report()     // { text, seq, kind, person }；无 data 时走 keepalive 指针
 baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
 baye.hd.menuItems()  // { itemLen, count, index, names:[] }
 ```

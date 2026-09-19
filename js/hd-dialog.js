@@ -40,6 +40,9 @@
     }
 
     function engineData() {
+        if (window.baye && typeof baye.ensureData === 'function') {
+            return baye.ensureData();
+        }
         return window.baye && baye.data ? baye.data : null;
     }
 
@@ -146,6 +149,17 @@
     function readAsync() {
         var data = engineData();
         var info = { id: 0, min: null, max: null, init: null, text: '', keys: [] };
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.report === 'function') {
+                var hd0 = baye.hd.report();
+                info.hdSeq = hd0.seq;
+                info.hdKind = hd0.kind;
+                info.hdPerson = hd0.person;
+                if (looksLikeSpeech(hd0.text)) {
+                    info.text = hd0.text;
+                }
+            }
+        } catch (e) {}
         if (!data) {
             return info;
         }
@@ -156,18 +170,9 @@
             info.max = readNumber(params, 1);
             info.init = readNumber(params, 2);
         }
-        info.text = readString(data, 'g_asyncActionStringParam');
-        try {
-            if (window.baye && baye.hd && typeof baye.hd.report === 'function') {
-                var hd = baye.hd.report();
-                info.hdSeq = hd.seq;
-                info.hdKind = hd.kind;
-                info.hdPerson = hd.person;
-                if (looksLikeSpeech(hd.text)) {
-                    info.text = hd.text;
-                }
-            }
-        } catch (e) {}
+        if (!looksLikeSpeech(info.text)) {
+            info.text = readString(data, 'g_asyncActionStringParam');
+        }
         if (!looksLikeSpeech(info.text)) {
             var extras = probeExtraStrings(data);
             if (extras.length) {
