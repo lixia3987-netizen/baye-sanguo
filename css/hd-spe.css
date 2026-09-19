@@ -1,0 +1,82 @@
+/* HD SPE overlay. Classic mode: no visible effect. */
+
+.hd-spe {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 82;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 8, 12, 0.78);
+    pointer-events: none;
+}
+
+.hd-spe.is-open {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-spe-stage {
+    width: min(1920px, calc(100vw - 32px));
+    height: min(1080px, calc(100vh - 32px));
+    max-width: 1920px;
+    max-height: 1080px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 20px 12px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(28, 34, 46, 0.98), rgba(12, 16, 22, 0.98));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 56px rgba(0, 0, 0, 0.5);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.hd-spe-title {
+    align-self: flex-start;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.hd-spe-canvas {
+    display: block;
+    max-width: min(1760px, calc(100vw - 80px));
+    max-height: min(960px, calc(100vh - 180px));
+    width: auto;
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    background: #e6edd4;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.hd-spe-footer {
+    align-self: stretch;
+    display: flex;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.hd-spe-footer button {
+    min-height: 36px;
+    padding: 0 16px;
+    border: 0;
+    border-radius: 8px;
+    background: #3a4458;
+    color: #f3f6fb;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.hd-spe-footer button:hover {
+    background: #4a5670;
+}
+
+.hd-spe-probe {
+    margin-top: 8px;
+    align-self: flex-start;
+    font-size: 12px;
+    opacity: 0.65;
+}

@@ -10,9 +10,9 @@
 
 | 功能 | 状态 | 说明 |
 |------|------|------|
-| 首页 `index.html` | done | 选择版本 / 进入游戏 / 存档管理，以及操作模式、分辨率、终端 |
+| 首页 `index.html` | done | 选择版本 / 进入游戏 / 存档管理，以及操作模式、分辨率、终端、PC 画质（缩放/滤镜/外壳）与大地图模式 |
 | 版本选择 `choose.html` | done | 读取 `libs.json`，写入 `localStorage` 后跳转游戏 |
-| PC 端 `pc.html` | done | 160×96 LCD + 键盘说明；WASM 从 `js/baye.wasm` 同目录加载 |
+| PC 端 `pc.html` | done | 160×96 LCD + 键盘说明；WASM 从 `js/baye.wasm` 同目录加载；可逆 1×/2× 画质条；可选 HD 大地图壳 |
 | 横屏触控 `m.html` | done | 页面在；本地可用 `?debug=1` 避免无 hash 回首页 |
 | 横屏手势 `m-ges.html` | done | 同上 |
 | 竖屏键盘 `m-old.html` | done | 页面在；无 hash 时会回首页（上游逻辑，与 `m.html` 的 debug 例外不同） |
@@ -93,10 +93,36 @@
 | 云存档上传下载 | partial | 需 bbkgames 登录，离线不可用 |
 | 脚本 / Mod hook | done | `bridge.js` + 文档 https://bgwp.gitee.io/baye-doc/script/index.html |
 
+## HD 大地图表现壳（P0–P3）
+
+规格：[docs/hd-overworld-spec.md](docs/hd-overworld-spec.md)。只停在 `feature/hd-graphics`，不合 `main`。
+
+| 功能 | 状态 | 说明 |
+|------|------|------|
+| `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
+| 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
+| 地形合成 | done | Wikimedia China LCC 全图（无国界，CC BY-SA 4.0）+ 南海垫高 3840×4000，含海南/南沙。1080p 摄像机可拖动，四边硬夹在可玩矩形内。开局对准中东部。城标 `china-lcc-cities.json` |
+| 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
+| 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
+| 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`。词典原版马腾已核验：西凉→安定、安定→天水均打开对应四项菜单（`tile-walk` RD）。写字段会进错城，已不用。无 `g_CityPos` 的 lib 回退邻接 BFS，未测 |
+| 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
+| 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
+| 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
+| HD 城池四项菜单 M0–M3 | partial | 根+一层+状况 done；M3 人物/城列表 + 征兵步进器 |
+| HD 系统界面 | done | 标题/时期/君主/存档。君主：城 Belong，否则人物自归属 |
+| HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有 `g_asyncActionStringParam` 则显示；数量发方向键 |
+| HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位，否则框 LCD。B0 已用 `debugPreview()` 核验 16×16 格+LCD 对照；真出征接敌仍走 M3 |
+| 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
+| 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
+| 可达邻接高亮 | done | 焦点城（选中 / 引擎光标 / 猜测）的 P2 邻边加亮金线；不另建图 |
+| 入城闪白 | done | 点城后 150ms 白闪+缩放，再走 P1 对齐/ENTER |
+| 自定义光标 | skipped | `ui/cursor.png` 会与系统指针叠影；`cursor_hover.png` 像禁止符。Canvas 用 `cursor:pointer` |
+| 手机页 HD 地图 | missing | 非 P0 |
+
 ## 刻意未做
 
 - 未自造科技树、抽卡、联机对战。
-- 未用占位菜单替换引擎城池指令。
+- 未用假数值替换引擎城池指令；HD 菜单只是按键壳。
 - 未重新编译 WASM：使用上游 baye-alpha 预编译二进制。
 
 ## 已知缺口
@@ -105,3 +131,4 @@
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
 3. **完整一场战斗**：军备「出征」菜单已打开；打完一整场需在地图上派兵接敌，耗时较长，未在本次浏览器里打完。天气/地形/六兵种/计谋均在引擎内，不是占位。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
+5. **HD 大地图 P1–P3**：四态/城名/年月/路网/悬停闪已接线。跨城：词典原版用 `g_CityPos.setx/sety` 格走，马腾局西凉→安定、安定→天水菜单城名正确。盲写会进错城。其它 lib / 深子菜单 / 引擎不在大地图时仍可能失败。

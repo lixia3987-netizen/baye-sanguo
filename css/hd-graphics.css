@@ -1,0 +1,142 @@
+/* PC 画质脚手架：CSS 放大 / 锐利取样 / 可逆外壳。不替换游戏图块。 */
+
+html {
+    --baye-lcd-scale: 1;
+}
+
+.container.js-baye-pc-lcd,
+.js-baye-pc-chrome {
+    width: calc(480px * var(--baye-lcd-scale, 1));
+    max-width: 100%;
+}
+
+html[data-baye-lcd-scale="2"] body {
+    overflow-y: auto;
+}
+
+/* 锐利：邻近取样。与 css/baye.css 的 .no_blur 叠加，补上 crisp-edges。 */
+#lcd.no_blur,
+#lcd.lcd-crisp,
+.lcd-crisp {
+    image-rendering: optimizeSpeed;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: -o-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#lcd.lcd-smooth,
+.lcd-smooth {
+    image-rendering: auto;
+    -ms-interpolation-mode: bicubic;
+}
+
+.baye-hd-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.baye-hd-toolbar .baye-hd-label {
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.baye-hd-toolbar .baye-hd-hint {
+    flex-basis: 100%;
+    color: #666;
+    font-size: 12px;
+}
+
+.baye-hd-toolbar button {
+    appearance: none;
+    border: 1px solid #bbb;
+    background: #fff;
+    color: #222;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.baye-hd-toolbar button.is-active {
+    border-color: #0074d9;
+    background: #0074d9;
+    color: #fff;
+}
+
+.baye-hd-sep {
+    width: 1px;
+    height: 1.2em;
+    background: #ccc;
+    margin: 0 4px;
+}
+
+html[data-baye-theme="hd"] body,
+body.baye-theme-hd {
+    background: #1c1c1c;
+    color: #e8e8e8;
+}
+
+html[data-baye-theme="hd"] .baye-hd-toolbar .baye-hd-hint,
+body.baye-theme-hd .baye-hd-toolbar .baye-hd-hint {
+    color: #aaa;
+}
+
+html[data-baye-theme="hd"] .baye-hd-toolbar button,
+body.baye-theme-hd .baye-hd-toolbar button {
+    background: #2a2a2a;
+    color: #eee;
+    border-color: #555;
+}
+
+html[data-baye-theme="hd"] .baye-hd-toolbar button.is-active,
+body.baye-theme-hd .baye-hd-toolbar button.is-active {
+    background: #3d8bfd;
+    border-color: #3d8bfd;
+    color: #fff;
+}
+
+html[data-baye-theme="hd"] .js-baye-pc-lcd .element.lcd,
+html[data-baye-theme="hd"] .pc-lcd-frame,
+body.baye-theme-hd .js-baye-pc-lcd .element.lcd,
+body.baye-theme-hd .pc-lcd-frame {
+    box-shadow: 0 0 0 8px #2a2a2a, 0 10px 28px rgba(0, 0, 0, 0.45);
+    background: #111;
+}
+
+html[data-baye-theme="hd"] #lcd,
+body.baye-theme-hd #lcd {
+    background-color: #c8c8c8;
+}
+
+html[data-baye-theme="hd"] .baye-hd-help,
+body.baye-theme-hd .baye-hd-help {
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* 首页选项说明 */
+.hd-graphics-note {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #444;
+    max-width: 36em;
+}
+
+html[data-baye-theme="hd"] .hd-graphics-note,
+body.baye-theme-hd .hd-graphics-note {
+    color: #bbb;
+}
+
+html[data-baye-theme="hd"] .hd-graphics-note a,
+body.baye-theme-hd .hd-graphics-note a {
+    color: #8cb4ff;
+}

@@ -46,6 +46,8 @@ function lcdInit()
     }
     lcdBlur(false);
     baye_bridge_init();
+    /* 不要在 lcdInit / postRun 里调用 _bayeGetGlobal：lib 尚未加载，
+     * bind_init 会把 g_var.def 钉死，script_init 就无法再绑 HD 字段。 */
 }
 
 function bayeResizeScreen(width, height) {
@@ -87,6 +89,9 @@ function lcdFlushBuffer(buffer) {
     var buffer_wrp = new Uint8ClampedArray(wasmMemory.buffer, buffer, w*h*4);
     var img = new ImageData(buffer_wrp, w, h);
     lcd.putImageData(img, 0, 0);
+    if (window.BayeHdSpe && typeof BayeHdSpe.onLcdFlush === 'function') {
+        try { BayeHdSpe.onLcdFlush(img, w, h); } catch (e) {}
+    }
 }
 
 function sendKey(key) {
@@ -144,6 +149,10 @@ function onKeyDown(e) {
             break;
         case 39:
             sendKey(VK_RIGHT);
+            break;
+        case 48: case 49: case 50: case 51: case 52:
+        case 53: case 54: case 55: case 56: case 57:
+            sendKey(0x40 + (event.keyCode - 48));
             break;
     }
 }

@@ -1,0 +1,160 @@
+/* HD 战场壳。经典战役不加可见效果。 */
+
+.hd-battle {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    align-items: center;
+    justify-content: center;
+    background: #0e1116;
+    pointer-events: none;
+}
+
+.hd-battle.is-open {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-battle-stage {
+    position: relative;
+    width: min(100vw, calc(100vh * 1920 / 1080));
+    height: min(100vh, calc(100vw * 1080 / 1920));
+    background: #141820;
+}
+
+#hd-battle-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hd-battle-result {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -50%);
+    min-width: 280px;
+    padding: 18px 28px;
+    border-radius: 14px;
+    background: rgba(20, 24, 32, 0.92);
+    color: #f4e2a8;
+    font: 28px/1.4 BayeUI, "Noto Sans CJK SC", sans-serif;
+    text-align: center;
+    box-shadow: 0 12px 40px #0008;
+    pointer-events: none;
+}
+
+.hd-battle-hud {
+    position: absolute;
+    left: 20px;
+    top: 16px;
+    right: 20px;
+    color: #f2f4f7;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", sans-serif;
+    font-size: 18px;
+    text-shadow: 0 1px 2px #000;
+    pointer-events: none;
+}
+
+.hd-battle-menu {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    transform: translateX(-50%);
+    width: min(420px, calc(100% - 80px));
+    padding: 18px 20px 16px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(32, 38, 52, 0.96), rgba(16, 20, 28, 0.96));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 48px rgba(0, 0, 0, 0.45);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", sans-serif;
+}
+
+.hd-battle-menu[hidden] {
+    display: none !important;
+}
+
+.hd-battle-menu-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.hd-battle-menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hd-battle-menu-item {
+    appearance: none;
+    border: 0;
+    border-radius: 10px;
+    min-height: 46px;
+    padding: 0 16px;
+    text-align: left;
+    cursor: pointer;
+    color: #f7f4ea;
+    background: #2a3344;
+    font-size: 18px;
+}
+
+.hd-battle-menu-item.is-on {
+    background: #3d5a8c;
+    box-shadow: inset 0 0 0 2px #f0c75a;
+}
+
+.hd-battle-menu-actions {
+    margin-top: 12px;
+}
+
+.hd-battle-menu-actions button {
+    appearance: none;
+    border: 0;
+    border-radius: 8px;
+    min-height: 36px;
+    padding: 0 14px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+    font-size: 15px;
+}
+
+.hd-battle-footer {
+    position: absolute;
+    left: 20px;
+    bottom: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.hd-battle-footer button {
+    appearance: none;
+    border: 0;
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 0 14px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+    font-size: 15px;
+}
+
+html[data-baye-battle="hd"] body.baye-hd-overworld-on #hd-overworld {
+    visibility: hidden;
+}
+
+html[data-baye-battle="hd"] body.baye-hd-battle-lcd .container.js-baye-pc-lcd {
+    visibility: visible;
+    pointer-events: auto;
+    position: fixed;
+    right: 24px;
+    bottom: 72px;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 320px !important;
+    z-index: 70;
+    box-shadow: 0 0 0 4px #1b1f27, 0 12px 32px rgba(0, 0, 0, 0.5);
+}
