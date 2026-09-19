@@ -43,7 +43,7 @@
     var DEEP = {
         neizheng: ['person', 'person', 'lcd', 'person', 'person', 'person', 'person', 'person', 'goods', 'person-goods', 'person', 'person', 'city', 'city'],
         waijiao: ['city', 'city', 'city', 'city', 'city'],
-        junbei: ['city', 'qty', 'person', 'city', 'person-city']
+        junbei: ['city', 'person-qty', 'person', 'city', 'person-city']
     };
 
     var state = {
@@ -123,7 +123,7 @@
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
         if (document.body) {
-            var deepEmpty = show && state.layer === 'deep' && state.deepKind !== 'qty' && !state.deepItems.length;
+            var deepEmpty = show && state.layer === 'deep' && !showingQty() && !state.deepItems.length;
             document.body.classList.toggle('baye-hd-city-menu-on', show);
             document.body.classList.toggle('baye-hd-city-menu-lcd', show && state.showLcd);
             document.body.classList.toggle('baye-hd-city-menu-deep-empty', deepEmpty);
@@ -255,6 +255,21 @@
 
     function usesGoodsMenu(kind, step) {
         return kind === 'goods' || (kind === 'person-goods' && step === 1);
+    }
+
+    function engineQty() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.qty === 'function') {
+                return baye.hd.qty();
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function showingQty() {
+        var q = engineQty();
+        return !!(state.deepKind === 'qty' || (state.deepKind === 'person-qty' && state.deepStep === 1) ||
+            (q && q.active));
     }
 
     function cityName(index) {
@@ -392,7 +407,7 @@
                 return mapped;
             }
         }
-        if (kind === 'person' || kind === 'person-goods' ||
+        if (kind === 'person' || kind === 'person-goods' || kind === 'person-qty' ||
             (kind === 'person-city' && step === 0)) {
             return cityPersons(state.cityIndex);
         }
@@ -562,9 +577,11 @@
             return;
         }
         state.deepItems = probeDeepItems();
-        var sig = state.deepKind + ':' + state.deepStep + ':' + state.deepItems.map(function (it) {
-            return it.name;
-        }).join(',');
+        var liveQty = engineQty();
+        var sig = (showingQty() ? 'qty:' + (liveQty && liveQty.value) : state.deepKind + ':' + state.deepStep) +
+            ':' + state.deepItems.map(function (it) {
+                return it.name;
+            }).join(',');
         if (state.deepSig === sig && list.children.length) {
             applyHighlight();
             return;
@@ -572,7 +589,7 @@
         state.deepSig = sig;
         list.innerHTML = '';
         var i;
-        if (state.deepKind === 'qty') {
+        if (showingQty()) {
             var bar = document.createElement('div');
             bar.className = 'hd-city-menu-qty';
             var q = { value: '', min: '', max: '' };
@@ -715,9 +732,10 @@
             }
             renderStatus();
         } else if (state.layer === 'deep') {
-            var stepHint = usesMapCursor(state.deepKind, state.deepStep)
-                ? '目标城池（方向键对齐引擎光标）'
-                : (state.deepKind === 'qty' ? '数量'
+            var stepHint = showingQty()
+                ? '数量'
+                : (usesMapCursor(state.deepKind, state.deepStep)
+                    ? '目标城池（方向键对齐引擎光标）'
                     : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物'));
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
@@ -725,10 +743,10 @@
             if (deep) {
                 deep.hidden = false;
                 fillDeepList();
-                if (state.deepKind !== 'qty' && state.deepItems.length) {
+                if (!showingQty() && state.deepItems.length) {
                     state.showLcd = false;
                     applyDocAttr();
-                } else if (state.deepKind !== 'qty' && !state.deepItems.length) {
+                } else if (!showingQty() && !state.deepItems.length) {
                     state.showLcd = true;
                     applyDocAttr();
                 }
@@ -881,7 +899,8 @@
             return;
         }
         pickIndex(index, true);
-        if ((state.deepKind === 'person-city' || state.deepKind === 'person-goods') &&
+        if ((state.deepKind === 'person-city' || state.deepKind === 'person-goods' ||
+            state.deepKind === 'person-qty') &&
             state.deepStep === 0) {
             state.deepStep = 1;
             state.idleIndex = 0;
@@ -1119,21 +1138,19 @@
             if (!(state.open && state.layer === 'deep')) {
                 return;
             }
-            if (state.deepKind === 'qty') {
+            if (showingQty()) {
+                fillDeepList();
                 var node = el('hd-city-qty-val');
-                if (node && window.baye && baye.hd && baye.hd.qty) {
-                    try {
-                        var q = baye.hd.qty();
-                        if (q) {
-                            node.textContent = q.active ? q.value : (q.value || '—');
-                        }
-                    } catch (e) {}
+                var q = engineQty();
+                if (node && q) {
+                    node.textContent = q.active ? q.value : (q.value || '—');
                 }
                 return;
             }
             if (usesGoodsMenu(state.deepKind, state.deepStep) ||
                 state.deepKind === 'person' ||
                 state.deepKind === 'person-goods' ||
+                state.deepKind === 'person-qty' ||
                 (state.deepKind === 'person-city' && state.deepStep === 0)) {
                 fillDeepList();
             }
