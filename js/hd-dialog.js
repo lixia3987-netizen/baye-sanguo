@@ -272,7 +272,7 @@
         }
         var caption = el('hd-dialog-caption');
         if (caption) {
-            caption.hidden = !!(state.body && state.kind !== 'help');
+            caption.hidden = !!state.body;
         }
         setText(el('hd-dialog-probe'), 'kind=' + state.kind + '  async=' + state.asyncId +
             '  hook=' + (state.lastHook || '—') +
