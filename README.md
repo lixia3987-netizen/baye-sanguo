@@ -82,7 +82,7 @@ v0/            早期版本前端
 LICENSE        上游 GPL-2.0
 ```
 
-`js/baye.wasm`（约 4MB）与 `js/baye.js` 直接取自 Gitee 上游仓库 [bgwp/baye-alpha](https://gitee.com/bgwp/baye-alpha) 提交 `5d19e8f`（2026-09-02），**未在本仓库重新用 Emscripten 编译**。该预编译产物可正常加载，无需本机安装 emsdk。
+`js/baye.wasm` 与 `js/baye.js` 可按 [docs/wasm-build.md](docs/wasm-build.md) 从 `vendor/iBaye` 用 Emscripten 3.1.51 重编。HD 桥接字段见 [docs/wasm-hd-bridge.md](docs/wasm-hd-bridge.md)。
 
 ## 画质优化
 

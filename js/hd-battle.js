@@ -14,7 +14,10 @@
         drawMapUnit: 1,
         drawOneGeneral: 1,
         fightChooseAction: 1,
-        fightStatusBarTouched: 1
+        fightStatusBarTouched: 1,
+        enterBattle: 1,
+        exitBattle: 1,
+        battleStage1: 1
     };
 
     var state = {
@@ -452,6 +455,10 @@
         }
         state.lastHook = name;
         state.lastHookAt = Date.now();
+        if (name === 'exitBattle') {
+            refresh();
+            return;
+        }
         if (shouldShowHd()) {
             enterBattle({ hook: name });
         }

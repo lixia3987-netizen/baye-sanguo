@@ -17,7 +17,8 @@
         asyncId: 0,
         showLcd: true,
         bound: false,
-        lastHook: ''
+        lastHook: '',
+        lastReportSeq: 0
     };
 
     function overworldIsHd() {
@@ -156,6 +157,17 @@
             info.init = readNumber(params, 2);
         }
         info.text = readString(data, 'g_asyncActionStringParam');
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.report === 'function') {
+                var hd = baye.hd.report();
+                info.hdSeq = hd.seq;
+                info.hdKind = hd.kind;
+                info.hdPerson = hd.person;
+                if (looksLikeSpeech(hd.text)) {
+                    info.text = hd.text;
+                }
+            }
+        } catch (e) {}
         if (!looksLikeSpeech(info.text)) {
             var extras = probeExtraStrings(data);
             if (extras.length) {
@@ -271,6 +283,16 @@
             return;
         }
         var info = readAsync();
+        if (info.hdSeq && info.hdSeq !== state.lastReportSeq && looksLikeSpeech(info.text)) {
+            state.lastReportSeq = info.hdSeq;
+            openDialog({
+                kind: 'report',
+                title: info.hdKind === 2 ? '对话' : '报告',
+                body: info.text,
+                asyncId: info.id
+            });
+            return;
+        }
         if (info.id === 1 || info.id === 2 || info.id === 13) {
             state.asyncId = info.id;
             openDialog({

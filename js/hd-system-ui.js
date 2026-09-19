@@ -154,6 +154,26 @@
         var list = [];
         var seen = {};
         var i;
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.kings === 'function') {
+                var hd = baye.hd.kings();
+                if (hd && hd.kings && hd.kings.length) {
+                    for (i = 0; i < hd.kings.length; i++) {
+                        var hk = hd.kings[i];
+                        if (!hk || !hk.name || hk.name === '-') {
+                            continue;
+                        }
+                        list.push({ id: hk.id + 1, name: hk.name, city: '' });
+                    }
+                    if (list.length) {
+                        if (hd.index != null) {
+                            state.idleIndex = hd.index;
+                        }
+                        return list;
+                    }
+                }
+            }
+        } catch (e) {}
         if (data && data.g_Cities) {
             for (i = 0; i < data.g_Cities.length; i++) {
                 var b = readNumber(data.g_Cities[i], 'Belong');
@@ -579,7 +599,7 @@
                 state.screen = 'title';
             } else if (name === 'loadPeriod') {
                 state.screen = 'period';
-            } else if (name === 'chooseActor') {
+            } else if (name === 'chooseActor' || name === 'willChooseActor' || name === 'choosingActorUpdate') {
                 state.screen = 'king';
                 state.kings = probeKings();
                 state.showLcd = !state.kings.length;

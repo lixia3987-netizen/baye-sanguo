@@ -816,6 +816,7 @@ function baye_bridge_init() {
     baye.VK_DEL =       0x31;
     baye.VK_MODIFY =    0x32;
     baye.VK_SEARCH =    0x33;
+    baye.VK_DIGIT0 =    0x40;
 
     baye.VT_TOUCH_DOWN =    0x01;
     baye.VT_TOUCH_UP =      0x02;
@@ -854,6 +855,107 @@ function baye_bridge_init() {
         var pd = baye.data.g_GenPos[i];
         pd.x = baye.data.g_FoucsX;
         pd.y = baye.data.g_FoucsY;
+    };
+
+    function hdReadNum(obj, name) {
+        if (!obj || obj[name] == null) {
+            return 0;
+        }
+        var v = obj[name];
+        if (v && typeof v === 'object' && 'value' in v) {
+            v = v.value;
+        }
+        v = Number(v);
+        return isFinite(v) ? v : 0;
+    }
+
+    function hdDecodeSlice(bytes, start, len) {
+        if (!bytes || !len) {
+            return '';
+        }
+        var slice = [];
+        var i;
+        for (i = 0; i < len; i++) {
+            var b = bytes[start + i];
+            if (b == null) {
+                break;
+            }
+            slice.push(b);
+        }
+        while (slice.length && (slice[slice.length - 1] === 0 || slice[slice.length - 1] === 0x20)) {
+            slice.pop();
+        }
+        if (!slice.length) {
+            return '';
+        }
+        try {
+            return gbkDecoder.decode(new Uint8Array(slice)).replace(/\s+$/g, '');
+        } catch (e) {
+            return '';
+        }
+    }
+
+    baye.hd = {
+        report: function () {
+            var d = baye.data;
+            var text = '';
+            if (d && typeof d.g_hdReportGbk === 'string') {
+                text = d.g_hdReportGbk;
+            }
+            return {
+                text: text,
+                seq: hdReadNum(d, 'g_hdReportSeq'),
+                kind: hdReadNum(d, 'g_hdReportKind'),
+                person: hdReadNum(d, 'g_hdReportPerson')
+            };
+        },
+        kings: function () {
+            var d = baye.data;
+            var list = [];
+            var n = hdReadNum(d, 'g_hdKingCount');
+            var i;
+            for (i = 0; i < n && i < 128; i++) {
+                var id = hdReadNum(d.g_hdKingIds, i);
+                if (d.g_hdKingIds && d.g_hdKingIds[i] != null && (id === 0 || !id)) {
+                    id = Number(d.g_hdKingIds[i]);
+                }
+                var name = '';
+                try {
+                    name = baye.getPersonName(id) || '';
+                } catch (e) {}
+                list.push({ id: id, name: name });
+            }
+            return {
+                count: n,
+                index: hdReadNum(d, 'g_hdKingIndex'),
+                currentId: hdReadNum(d, 'g_hdKingId'),
+                kings: list
+            };
+        },
+        menuItems: function () {
+            var d = baye.data;
+            var itemLen = hdReadNum(d, 'g_hdMenuItemLen');
+            var count = hdReadNum(d, 'g_hdMenuCount');
+            var names = [];
+            var i;
+            if (itemLen && count && d.g_hdMenuBytes) {
+                for (i = 0; i < count && i < 80; i++) {
+                    names.push(hdDecodeSlice(d.g_hdMenuBytes, i * itemLen, itemLen));
+                }
+            } else if (d && typeof d.g_hdMenuGbk === 'string' && count) {
+                var raw = d.g_hdMenuGbk;
+                var step = Math.max(1, Math.floor(raw.length / count));
+                for (i = 0; i < count; i++) {
+                    names.push(raw.slice(i * step, (i + 1) * step).replace(/\s+$/g, ''));
+                }
+            }
+            return {
+                itemLen: itemLen,
+                count: count,
+                index: hdReadNum(d, 'g_hdMenuIndex'),
+                names: names
+            };
+        }
     };
 }
 

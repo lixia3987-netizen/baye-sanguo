@@ -9,16 +9,16 @@
 |------|------|------|
 | **标题 / 主菜单** | **HD done** | 新君登基 / 重返沙场 / 制作群组 / 解甲归田 |
 | **选时期** | **HD done** | 董卓弄权四时期 |
-| **选君主 / 势力形势图** | **partial** | 形势图阶段名单常空：放大 LCD + 说明；`didOpenNewGame` / `chooseActor` / 分时重扫 Belong·自归属·`person.name`，名单一变就填表并收起 LCD。形势图点击坐标仍对不齐 |
+| **选君主 / 势力形势图** | **partial** | WASM `g_hdKingIds`/`g_hdKingIndex`：GetAllKings 后应能填表。形势图点击坐标仍可能对不齐 |
 | 开场动画 | LCD residual | 引擎播片，回车跳过；无独立图文接口，重做要改 WASM |
 | **大地图** | **HD done** | P0–P3 |
 | **城池根 / 一层 / 状况** | **HD done** | M0–M2 |
-| **人物选择** | **partial** | PersonQueue + idle 金框滚入视野；有名单就藏 LCD，空名单才对照 |
-| **出征 / 外交目标城** | **partial** | 同上；引擎列表序仍可能与扫描序不同 |
-| **数量 / 征兵步进** | **HD done** | UP/DOWN/LEFT/RIGHT 步进；词典无 0–9 键码 |
-| **报告 / 对话** | **partial** | 只收已暴露的中文；类型数组 dump（如 `Array[10240]`）丢掉。没有正文则顶栏说明 + 底部放大 LCD 镜 |
-| **帮助 / 查找** | **partial** | 工具栏「帮助 HD / 查找 HD」发 VK_HELP / VK_SEARCH；放大 LCD；不 stub `showMainHelp` |
-| **战场格网 / 单位** | **partial** | 棋盘底 + 图元色 + 将/HP/图例；无 g_GenPos 仍不画假坐标 |
+| **人物选择** | **HD done** | `onMenuIdle` + `g_hdMenuBytes` 引擎项名；金框滚入；空名单才 LCD |
+| **出征 / 外交目标城** | **HD done** | 同上，名单序跟引擎菜单缓冲 |
+| **数量 / 征兵步进** | **HD done** | 方向键步进 + PC 数字键 `0x40–0x49`（不占用词典 0x30–0x33） |
+| **报告 / 对话** | **HD done** | `g_hdReportGbk` 来自 `GamMsgBox`/`ShowGReport`；无正文才 LCD 镜 |
+| **帮助 / 查找** | **partial** | VK_HELP / VK_SEARCH + 放大 LCD；帮助正文仍多在 LCD |
+| **战场格网 / 单位** | **partial** | `enterBattle`/`exitBattle` + `g_hdFightActive`；格/将仍要开打后的 `g_FightMap`/`g_GenPos` |
 | 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`，否则会替换系统菜单 |
 | **策略结束 / 存读档** | **partial** | HD 三项 + 只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
@@ -31,13 +31,7 @@
 
 - `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js`
 
-## 本轮 polish（壳 only）
+## 本轮 WASM 桥
 
-君主空态/收起 LCD、人物金框滚入、报告/帮助放大镜、战场棋盘与 HP。  
-本轮仍 **partial**：形势图坐标、原生报告正文、真战斗 `g_GenPos` 要引擎开打后才有。不改 WASM。
-
-## 无法在不改 WASM 的前提下做完的
-
-- 开场动画重绘、计谋动画/SPE、道具列表项名、数字键输入。
-- 形势图点击坐标与 HD 名单一一对应（引擎不暴露当前高亮君主名）。
-- 原生报告正文（WASM 不写 `g_asyncActionStringParam`）。
+`vendor/iBaye` + `scripts/build-wasm.sh` 重编 `js/baye.wasm`。导出见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。  
+仍 residual：开场动画、计谋 SPE、帮助图文、道具详情独立页、战场系统菜单（不 stub）。

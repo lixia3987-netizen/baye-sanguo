@@ -280,7 +280,32 @@
         return row[index] || 'lcd';
     }
 
+    function engineMenuItems() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
+                return baye.hd.menuItems();
+            }
+        } catch (e) {}
+        return { names: [], index: null, count: 0 };
+    }
+
     function probeDeepItems() {
+        var eng = engineMenuItems();
+        if (eng.names && eng.names.length) {
+            var mapped = [];
+            var ei;
+            for (ei = 0; ei < eng.names.length; ei++) {
+                if (eng.names[ei]) {
+                    mapped.push({ i: ei, name: eng.names[ei] });
+                }
+            }
+            if (mapped.length) {
+                if (eng.index != null) {
+                    state.idleIndex = eng.index;
+                }
+                return mapped;
+            }
+        }
         var kind = state.deepKind;
         var step = state.deepStep;
         if (kind === 'person' || (kind === 'person-city' && step === 0)) {
@@ -764,6 +789,17 @@
             if (ctx.index != null && isFinite(Number(ctx.index))) {
                 state.idleIndex = Number(ctx.index);
                 if (state.open) {
+                    applyHighlight();
+                }
+            }
+            if (name === 'onMenuIdle') {
+                var engIdle = engineMenuItems();
+                if (engIdle.index != null) {
+                    state.idleIndex = engIdle.index;
+                }
+                if (state.layer === 'deep' && engIdle.names && engIdle.names.length) {
+                    state.deepSig = '';
+                    fillDeepList();
                     applyHighlight();
                 }
             }
