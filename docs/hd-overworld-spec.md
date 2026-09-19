@@ -3,7 +3,7 @@
 本文是 **大地图（overworld）** 的产品与技术规格。它不是 CSS 2× 放大说明书——那一层见 [hd-graphics.md](hd-graphics.md)。  
 规格与实现路径仍不替换 `dat.lib`、不伪造游戏截图。几何占位可继续用于未接线的层。
 
-**素材现状（分支内）：** HD 视觉地理以 Wikimedia **China LCC topographic map - Without border**（Flappiefh / Augusta 89，CC BY-SA 4.0，eqdc）为**主参考**（见 `GEOGRAPHY.md` 与 [china-lcc-city-alignment.md](china-lcc-city-alignment.md)）。可玩底图是该 SVG **全幅、无南裁** 的 3840×3309 栅格（含海南 / 南海南沙一带；源图已无标注）。1080p 画布是可拖动摄像机窗口，开局对准中东部（西凉–襄平–建业–成都），**不把全国塞进一屏**。**城标按史实经纬度投影到全图地图坐标**，绘制 / 点选用 `map - camera`。建安郡国图仅作可选史实对照。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
+**素材现状（分支内）：** HD 视觉地理以 Wikimedia **China LCC topographic map - Without border**（Flappiefh / Augusta 89，CC BY-SA 4.0，eqdc）为**主参考**（见 `GEOGRAPHY.md` 与 [china-lcc-city-alignment.md](china-lcc-city-alignment.md)）。可玩底图是该 SVG **全幅、无南裁** 的 3840×3309 栅格，南侧垫海到 3840×4000（含海南 / 南海南沙一带；源图已无标注）。1080p 画布是可拖动摄像机窗口，开局对准中东部（西凉–襄平–建业–成都），**不把全国塞进一屏**。**城标按史实经纬度投影到全图地图坐标**，绘制 / 点选用 `map - camera`。建安郡国图仅作可选史实对照。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
 **分支策略：本轨道只停在 `feature/hd-graphics`，在用户明确要求之前不要合入 `main`。**
 
 状态：产品方向已锁定；史实向地形已进本分支。**P0–P3 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网。邻接来自 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。关隘只标在路中点压到河叠加处。缺口见 §8–§9 与 FEATURES.md。
@@ -335,7 +335,7 @@ P3 诚实缺口：
 
 | 资产 | 路径 | 尺寸 | 说明 |
 |------|------|------|------|
-| 平原底 | `terrain/base_plains.jpg` | 3840×3309（全 SVG） | 最底层；视口是 1920×1080 摄像机，可拖动 |
+| 平原底 | `terrain/base_plains.jpg` | 3840×4000（全 SVG + 南海垫） | 最底层；视口是 1920×1080 摄像机，可拖动 |
 | 山 | `terrain/overlay_mountains.png` | 与底图同范围或占位 | 透明叠加；当前关隘检测用，可不绘制 |
 | 河 / 湖 | `terrain/overlay_rivers.png` | 与底图同范围 | 透明叠加；当前关隘检测用，河已在底图上 |
 | 林 | `terrain/overlay_forest.png` | 与底图同范围或占位 | 透明叠加 |

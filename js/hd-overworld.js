@@ -953,9 +953,17 @@
         }
         var sctx = state._overlayScratchCtx;
         sctx.clearRect(0, 0, 1, 1);
-        var m = mapSize();
-        var sx = x / m.w * img.width;
-        var sy = y / m.h * img.height;
+        var alignW = 3840;
+        var alignH = 3309;
+        if (state.geoMeta && state.geoMeta.fit && state.geoMeta.fit.rasterSize) {
+            alignW = Number(state.geoMeta.fit.rasterSize[0]) || alignW;
+            alignH = Number(state.geoMeta.fit.rasterSize[1]) || alignH;
+        }
+        if (x < 0 || y < 0 || x > alignW || y > alignH) {
+            return false;
+        }
+        var sx = x / alignW * img.width;
+        var sy = y / alignH * img.height;
         try {
             sctx.drawImage(img, sx, sy, 1, 1, 0, 0, 1, 1);
             return sctx.getImageData(0, 0, 1, 1).data[3] > (threshold || 160);

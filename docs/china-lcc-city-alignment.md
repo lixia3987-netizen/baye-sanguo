@@ -12,14 +12,15 @@ HD 大地图的**视觉地理**以 Wikimedia Commons
 ## 授权
 
 可玩底图：`assets/hd-overworld/terrain/base_plains.jpg`（与
-`reference/base_china_lcc_full.jpg` 同像素），**全 SVG 无竖裁** 3840×3309。
+`reference/base_china_lcc_full.jpg` 同像素），**全 SVG 无竖裁** 3840×3309，
+南侧海面垫到 3840×4000 以便拖到海南 / 南沙。
 许可原文：`assets/hd-overworld/reference/LICENSE.txt`。
 
 ## 投影与摄像机
 
 - PROJ：`+proj=eqdc +lat_1=22 +lat_2=50 +lon_0=105 +ellps=WGS84`
 - 源 SVG viewBox：`0 0 1920 1654`，**不裁海南 / 南海**
-- 出荷地图：3840×3309（2× viewBox）
+- 出荷地图：3840×3309（2× viewBox），再垫海到 3840×4000
 - SVG 仿射后再按比例落到出荷栅格：
 
 ```

@@ -101,7 +101,7 @@
 |------|------|------|
 | `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
 | 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
-| 地形合成 | done | Wikimedia China LCC 全图（无国界，CC BY-SA 4.0）3840×3309，含海南/南海。1080p 摄像机可拖动，开局对准中东部。城标 `china-lcc-cities.json` |
+| 地形合成 | done | Wikimedia China LCC 全图（无国界，CC BY-SA 4.0）+ 南海垫高 3840×4000，含海南/南沙。1080p 摄像机可拖动，开局对准中东部。城标 `china-lcc-cities.json` |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
 | 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`。词典原版马腾已核验：西凉→安定、安定→天水均打开对应四项菜单（`tile-walk` RD）。写字段会进错城，已不用。无 `g_CityPos` 的 lib 回退邻接 BFS，未测 |

@@ -11,14 +11,18 @@
   ],
   "mapSize": [
     3840,
-    3309
+    4000
   ],
   "svgViewBox": [
     1920,
     1654
   ],
   "fit": {
-    "mode": "full SVG, no vertical crop; rasterized 3840×3309 (2× viewBox)",
+    "mode": "full SVG, no vertical crop; rasterized 3840×3309 then ocean-padded to 3840×4000 so Hainan/Nansha are reachable",
+    "rasterSize": [
+      3840,
+      3309
+    ],
     "cropTop": 0,
     "affineSvg": {
       "x": "3.842713776266e-04 * E + 1042.047274",
@@ -36,7 +40,7 @@
       "成都"
     ]
   },
-  "note": "Map-space HD positions on the full uncropped China LCC raster (Hainan + South China Sea included). Viewport is a pannable 1920×1080 camera. Engine IDs unchanged.",
+  "note": "Map-space HD positions on the full uncropped China LCC raster (Hainan + South China Sea included). Playable map is 3840×4000 after a southern ocean pad. Viewport is a pannable 1920×1080 camera. Engine IDs unchanged.",
   "cities": [
     {
       "i": 0,
