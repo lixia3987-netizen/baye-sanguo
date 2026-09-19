@@ -101,7 +101,7 @@
 |------|------|------|
 | `classic` / `hd-map` 切换 | done | `localStorage['baye/overworldMode']`，默认 `classic`。首页下拉 + `pc.html` 画质条「经典地图 / HD 地图」 |
 | 1080p 容器 `#hd-overworld` | done | Canvas 2D，设计 1920×1080，窗口内 `contain`；DPR≤2 提高清 backing store |
-| 地形合成 | done | Wikimedia Jian'an Commanderies（219 CE，CC BY-SA 4.0）1920×1080 裁切并 **去掉原图文字/图例**，只留地形与水体。城标按建安史实 UV（`jianan-cities.json`）。缺文件回退椭圆大陆 |
+| 地形合成 | done | Wikimedia China LCC topographic（无国界，CC BY-SA 4.0）1920×1080 全图竖裁。城标按史实经纬度 eqdc 投影（`china-lcc-cities.json`）。缺文件回退椭圆大陆 |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
 | 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`。词典原版马腾已核验：西凉→安定、安定→天水均打开对应四项菜单（`tile-walk` RD）。写字段会进错城，已不用。无 `g_CityPos` 的 lib 回退邻接 BFS，未测 |
@@ -109,7 +109,7 @@
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
-| 道路 / 关隘 | partial | 画面路网按建安近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
+| 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
 | 可达邻接高亮 | done | 焦点城（选中 / 引擎光标 / 猜测）的 P2 邻边加亮金线；不另建图 |
 | 入城闪白 | done | 点城后 150ms 白闪+缩放，再走 P1 对齐/ENTER |
 | 自定义光标 | skipped | `ui/cursor.png` 会与系统指针叠影；`cursor_hover.png` 像禁止符。Canvas 用 `cursor:pointer` |

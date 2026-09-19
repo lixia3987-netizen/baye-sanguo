@@ -1,6 +1,6 @@
 /**
  * HD 大地图表现壳（P0 容器 + P1 城态/点选 + P2 路网 + P3 反馈）。
- * 视觉地理：建安郡国图（Jian'an Commanderies）。不改 WASM / dat.lib。
+ * 视觉地理：中国 LCC 地形全图（China LCC topographic, eqdc）。不改 WASM / dat.lib。
  * 经典模式默认，可切回。规格：docs/hd-overworld-spec.md
  */
 (function (global) {
@@ -86,7 +86,7 @@
         dateInfo: { year: null, month: null, source: 'none' },
         sawFightHook: false,
         adjacencyJson: null,
-        jiananCities: null,
+        geoCities: null,
         engineTileEdges: [],
         roads: { source: 'none', edges: [], passes: 0 },
         pointer: { x: 0, y: 0, on: false },
@@ -310,8 +310,8 @@
                 state.adjacencyJson = adj;
                 tick();
             });
-            loadJSON(assetUrl('jianan-cities.json'), function (jianan) {
-                state.jiananCities = jianan && jianan.cities ? jianan.cities : null;
+            loadJSON(assetUrl('china-lcc-cities.json'), function (geo) {
+                state.geoCities = geo && geo.cities ? geo.cities : null;
                 tick();
             });
             for (var p = 0; p < pending.length; p++) {
@@ -454,8 +454,8 @@
         };
     }
 
-    function jiananRecord(row) {
-        var table = state.jiananCities;
+    function geoRecord(row) {
+        var table = state.geoCities;
         if (!table || !table.length) {
             return null;
         }
@@ -544,21 +544,21 @@
 
         var bounds = { minX: minX, maxX: maxX, minY: minY, maxY: maxY };
         var labels = [];
-        var usedJianan = 0;
+        var usedGeo = 0;
         for (var r = 0; r < rows.length; r++) {
-            var rec = jiananRecord(rows[r]);
+            var rec = geoRecord(rows[r]);
             if (rec && rec.hdX != null && rec.hdY != null) {
                 rows[r].hdX = rec.hdX;
                 rows[r].hdY = rec.hdY;
-                rows[r].layout = 'jianan';
-                usedJianan += 1;
+                rows[r].layout = 'china-lcc';
+                usedGeo += 1;
             } else {
                 var hd = mapEngineToHd(rows[r].engX, rows[r].engY, bounds);
                 rows[r].hdX = hd.x;
                 rows[r].hdY = hd.y;
                 rows[r].layout = rows[r].source;
             }
-            rows[r].labelY = rows[r].hdY + 44;
+            rows[r].labelY = rows[r].hdY > 1000 ? rows[r].hdY - 28 : rows[r].hdY + 44;
             labels.push(rows[r]);
         }
         dodgeLabels(rows);
@@ -573,7 +573,7 @@
                 usedEngine: usedEngine,
                 usedNameLayout: usedName,
                 usedGrid: usedGrid,
-                usedJianan: usedJianan,
+                usedGeo: usedGeo,
                 safe: SAFE
             });
             for (var c = 0; c < rows.length; c++) {
@@ -912,7 +912,7 @@
             seen[key] = true;
             edges.push({ a: lo, b: hi });
         }
-        var maxDist = 380;
+        var maxDist = 260;
         var i;
         var j;
         var k;
@@ -1010,8 +1010,8 @@
         var engine = extractEngineAdjacency(cities);
         state.engineTileEdges = tileNeighborEdges(cities);
         var rawEdges = [];
-        if (state.jiananCities && state.jiananCities.length) {
-            info.source = 'jianan-neighbors';
+        if (state.geoCities && state.geoCities.length) {
+            info.source = 'lcc-neighbors';
             rawEdges = historicalNeighborEdges(cities);
         } else if (engine.edges.length) {
             info.source = 'engine';
@@ -2544,7 +2544,7 @@
                 focusY: data ? readNumber(data, 'g_FoucsY') : null,
                 owned: state.cities.filter(function (c) { return c.kind === 'owned'; })
                     .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; }),
-                layout: state.jiananCities ? 'jianan' : 'engine-grid',
+                layout: state.geoCities ? 'china-lcc' : 'engine-grid',
                 roads: {
                     source: state.roads.source,
                     edges: state.roads.edges ? state.roads.edges.length : 0,

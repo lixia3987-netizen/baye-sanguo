@@ -1,15 +1,17 @@
-# 建安郡国图对齐（Jian'an Commanderies, 219 CE）
+# 建安郡国图对齐（可选史实对照）
 
-HD 大地图的**视觉地理**以 Wikimedia Commons
+**可玩 HD 底图已改用中国 LCC 全图。** 本文只保留建安郡国图上的郡治名称匹配，供对照。
+现行投影与出荷坐标见 [china-lcc-city-alignment.md](china-lcc-city-alignment.md)。
+
+Wikimedia Commons
 [Jian'an Commanderies](https://commons.wikimedia.org/wiki/File:Jian%27an_Commanderies.png)
-（作者 [Esiymbro](https://commons.wikimedia.org/wiki/User:Esiymbro)，**CC BY-SA 4.0**）为严格参考。
-
-引擎城 ID、`g_CityPositions` 格坐标、存档与经典菜单**不改**。HD 只把城标画到建安图上的史实相对位置；点选仍按城 index 走 `g_CityPos` 格对齐再 ENTER。
+（作者 [Esiymbro](https://commons.wikimedia.org/wiki/User:Esiymbro)，**CC BY-SA 4.0**）
+不再作为可玩地形。引擎城 ID、`g_CityPositions`、存档与经典菜单仍不改。
 
 ## 授权
 
-全图参考：`assets/hd-overworld/reference/Jianan_Commanderies_full.png`（2500×1800，由上传条带竖拼）。
-1920×1080 裁切（凉州→岭南 / 黄河·长江核心）再 **inpaint 去掉原图全部文字/图例/比例尺**，只把地形与水体写入可玩底图 `terrain/base_plains.png`。带字原图只留在 `reference/`。属该图的衍生作品，遵循同一 CC BY-SA 4.0。许可原文见 `assets/hd-overworld/reference/LICENSE.txt`。
+全图参考仍在 `assets/hd-overworld/reference/Jianan_Commanderies_full.png`（2500×1800）与带字 `jianan-crop-1920.png`。
+这些文件**不再写入**可玩底图；属 Esiymbro 作品衍生，CC BY-SA 4.0。许可原文见 `assets/hd-overworld/reference/LICENSE.txt`。
 
 ## 投影
 
@@ -70,4 +72,4 @@ HD 大地图的**视觉地理**以 Wikimedia Commons
 - **天水**：建安朝称汉阳。
 - 词典原版没有交州/南海独立城，裁切南缘到桂阳、零陵、建宁即可。
 
-不是经纬度 1:1 的 GIS，而是「建安图上的相对位置」。
+不是经纬度 1:1 的 GIS，而是「建安图上的相对位置」。现行可玩坐标以 LCC 全图为准。

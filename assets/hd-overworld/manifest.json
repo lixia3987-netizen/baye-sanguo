@@ -2,9 +2,9 @@
   "designWidth": 1920,
   "designHeight": 1080,
   "style": "modern-2d-strategy",
-  "version": "4",
-  "source": "wikimedia-jianan-commanderies",
-  "note": "Terrain + city UVs follow Wikimedia Jian'an Commanderies (219 CE, Esiymbro, CC BY-SA 4.0). Engine city IDs unchanged. Do not merge to main until approved.",
+  "version": "5",
+  "source": "wikimedia-china-lcc-topographic",
+  "note": "Terrain + city UVs follow Wikimedia China LCC topographic (Flappiefh / Augusta 89, CC BY-SA 4.0, eqdc). Engine city IDs unchanged. Do not merge to main until approved.",
   "layers": {
     "terrain": [
       "terrain/base_plains.png",
