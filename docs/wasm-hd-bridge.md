@@ -30,6 +30,8 @@
 | `g_hdHelpGbk` | GBK | `FgtShowHlp` 将领/地形正文，或大地图 HELP 的 `Ver …` |
 | `g_hdHelpActive` / `g_hdHelpSeq` | u8 / u16 | 帮助打开时为 1；每次写入 +1 |
 | `g_hdMovieActive` / `g_hdMovieId` | u8 / u16 | `GamMovie(MAIN_SPE)` 播放中 |
+| `g_hdSpeActive` / `Id` / `Kind` | u8 / u16 / u8 | 任意 `PlcMovie`：1 开场 · 2 计谋 · 3 攻击 · 4 状态 |
+| `g_hdSpeX` / `Y` / `StartFrm` / `EndFrm` / `Seq` | u8 / u8 / u8 / u8 / u16 | 播放坐标、帧窗、每 `GamShowFrame` +1 |
 | `g_hdSkillActive` / `Count` / `NameLen` | u8 | `FgtGetJNIdx` 打开计谋列表 |
 | `g_hdSkillIds` | u16[10] | 当前将领技能 id（1-based 资源号） |
 | `g_hdSkillNames` | GBK | 8 字节槽，来自 `FgtMakeSklNam` |
@@ -57,7 +59,8 @@
 - `GamFight` 进入/离开 → fight flags + 结算 GBK；`EM_ASM` 调 `BayeHdBattle.onEngineFight()`
 - `FgtGetFoucs` → `g_hdFightWait`
 - `FgtShowHlp` / 大地图 `VK_HELP` 版本串 → `g_hdHelp*`；`EM_ASM` `BayeHdDialog.onEngineHelp()`
-- `GamMovie(MAIN_SPE)` → `g_hdMovie*`；`EM_ASM` `BayeHdDialog.onEngineMovie()`
+- `GamMovie(MAIN_SPE)` → `g_hdMovie*`；`EM_ASM` `BayeHdSpe.onEngineSpe()` + `BayeHdDialog.onEngineMovie()`
+- `PlcMovie` → `g_hdSpe*`；计谋前 `baye_hd_begin_spe(SKILL)`；每帧 `baye_hd_spe_tick()`
 - `FgtGetJNIdx` → `g_hdSkill*` + 立刻 `baye_hd_set_menu`（不 stub `fightChooseSkill`）
 
 ## JS 助手（`js/bridge.js`）
@@ -72,6 +75,7 @@ baye.hd.qty()        // { active, value, min, max }
 baye.hd.fight()      // { active, over, wait, result, mapW, mapH, bout, boutMax, focusX, focusY }
 baye.hd.help()       // { active, seq, text }
 baye.hd.movie()      // { active, id }
+baye.hd.spe()        // { active, id, kind, x, y, startFrm, endFrm, seq }
 baye.hd.skills()     // { active, count, ids, names }
 baye.hd.toolName(id) // GetGoodsName
 ```
@@ -102,11 +106,11 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - `GetCitySet` 必须方向键走到目标格再回车，不能当菜单下标
 - 观察 `cityMakeCommand` 必须 `return -1`，否则 `CityCommon` 会跳过 `AssartMake`
 - 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图
-- 开场 `GamMovie(MAIN_SPE)` / 帮助正文 / 计谋 SPE：无薄字符串可导出，保持 residual
+- 开场 / 计谋 SPE：`g_hdSpe*` + `#hd-spe` LCD-blit（见 [hd-spe-spec.md](hd-spe-spec.md)）；帮助查找图文仍 partial
 - 天水 出征 马腾 → 方向键走到河内 → `部队已出发` → FunctionMenu「策略结束」→ `GamFight`
 - `g_hdFightWait=1` 后 EXIT 打开原生战场菜单 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`
 - 选「全军撤退」确认：`g_hdFightOver=2`，`baye.hd.fight().result==="我军全军覆没"`，HD `#hd-battle-result` 同文
 - HD 战场系统菜单：`menuKind=sys` 画出 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`，点「全军撤退」再确认，不 stub `fightOpenMainMenu`
 - 大地图 HELP：`g_hdHelpGbk==="Ver 260919 14:37"`；战场 HELP：马腾 `等级:1 |兵种:骑兵|武力:89 …`
-- `GamMovie(MAIN_SPE)`：`g_hdMovieActive=1 id=3`，HD 铬框可跳过
+- `GamMovie(MAIN_SPE)`：`g_hdSpeActive=1 kind=1`，`#hd-spe-canvas` 11× 开场；跳过发回车
 - 计谋：马腾 `g_hdSkillActive=1` `ids=[30,1]` 名 **谍报 / 践踏**；HD `menuKind=skill`，不 stub `fightChooseSkill`

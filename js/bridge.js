@@ -1122,6 +1122,19 @@ function baye_bridge_init() {
                 id: hdReadNum(d, 'g_hdMovieId')
             };
         },
+        spe: function () {
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive'),
+                id: hdReadNum(d, 'g_hdSpeId') || hdReadNum(d, 'g_hdMovieId'),
+                kind: hdReadNum(d, 'g_hdSpeKind'),
+                x: hdReadNum(d, 'g_hdSpeX'),
+                y: hdReadNum(d, 'g_hdSpeY'),
+                startFrm: hdReadNum(d, 'g_hdSpeStartFrm'),
+                endFrm: hdReadNum(d, 'g_hdSpeEndFrm'),
+                seq: hdReadNum(d, 'g_hdSpeSeq')
+            };
+        },
         menuItems: function () {
             var d = baye.ensureData();
             var itemLen = hdReadNum(d, 'g_hdMenuItemLen');

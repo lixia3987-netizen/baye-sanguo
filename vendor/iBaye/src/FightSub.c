@@ -280,6 +280,7 @@ static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx)
         {
             if(dJNMode[param])
                 PlcRPicShow(SPE_BACKPIC,1,FGT_SPESX,FGT_SPESY,false);
+            baye_hd_begin_spe(BAYE_HD_SPE_KIND_SKILL);
             PlcMovie(dJNSpeId[param],0,dJNSpeSFrm[param],dJNSpeEFrm[param],0,FGT_SPESX + dJNSpeSX[param],FGT_SPESY);
         }
     }

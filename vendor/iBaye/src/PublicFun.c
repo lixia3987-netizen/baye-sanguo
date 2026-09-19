@@ -65,6 +65,20 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
         gamTraceP(speid);
         return(0xff);
     }
+    {
+        U8 speKind = g_hdSpePendingKind;
+        g_hdSpePendingKind = 0;
+        if (!speKind) {
+            if (speid == MAIN_SPE || speid == MAKER_SPE) {
+                speKind = BAYE_HD_SPE_KIND_OPENING;
+            } else if (speid == STACHG_SPE) {
+                speKind = BAYE_HD_SPE_KIND_STATUS;
+            } else if (g_hdFightActive) {
+                speKind = BAYE_HD_SPE_KIND_ATTACK;
+            }
+        }
+        baye_hd_set_spe(speid, speKind, (U8)x, (U8)y, startfrm, endfrm, 1);
+    }
     endfrm = min(((SPERES*)srsptr)->endfrm, endfrm);
 
     count  = *(srsptr+2);
@@ -157,6 +171,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
         if (showflag == 1 || clsflag == 1)
         {
             GamShowFrame(g_VisScr);
+            baye_hd_spe_tick();
             showflag = 0;
             clsflag = 0;
         }
@@ -164,6 +179,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
         {
             U8 key = GamDelay(1, keyflag);				/* 延时1%秒 */
             if (key && (keyflag & 0x01)) {
+                baye_hd_set_spe(0, 0, 0, 0, 0, 0, 0);
                 return key;
             }
         }
@@ -185,6 +201,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
                 break;
         }
     }
+    baye_hd_set_spe(0, 0, 0, 0, 0, 0, 0);
     return(0xff);
 }
 /***********************************************************************

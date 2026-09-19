@@ -10,7 +10,7 @@
 | **标题 / 主菜单** | **HD done** | 新君登基 / 重返沙场 / 制作群组 / 解甲归田 |
 | **选时期** | **HD done** | 董卓弄权四时期 |
 | **选君主 / 势力形势图** | **HD done** | `GetAllKings` 写入 `g_hdKingIds`（董卓弄权 18 人：马腾/董卓/曹操…）；高亮 `g_hdKingIndex`。形势图底图仍可开 LCD 对照 |
-| 开场动画 | **partial** | `GamMovie(MAIN_SPE)` 仍播 SPE 帧；HD 铬框 + 跳过（回车）。无独立图文可导出，重做要改 SPE 播放 |
+| 开场动画 | **HD done** | `PlcMovie(MAIN_SPE)` 每帧 blit `#lcd` → `#hd-spe-canvas` 11×（1760×1056）。跳过发回车。经典模式仍只走 160×96 LCD |
 | **大地图** | **HD done** | P0–P3 |
 | **城池根 / 一层 / 状况** | **HD done** | M0–M2；一层名只在首项/项数对得上时才用 `menuItems()`，避免 FunctionMenu 盖住 内政 |
 | **人物选择** | **HD done** | `PlcSplMenu` + `ShowPersonControl` 写入 `g_hdMenuBytes` |
@@ -21,6 +21,7 @@
 | **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
 | **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳（回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动；确认撤退；攻击/计谋/查看/待机）。不 stub `fightOpenMainMenu` |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
+| **计谋 / 开场 SPE** | **HD done** | `g_hdSpe*` + LCD 整数倍 overlay。`践踏`→`QIBING_SPE`；`谍报` 无 SPE id 时引擎不播（不编造）。规格 [hd-spe-spec.md](hd-spe-spec.md) |
 | **策略结束 / 存读档** | **partial** | HD 三项 + 只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
 | **战斗结算** | **HD done** | 原生系统菜单选「全军撤退」后 `over=2`，`#hd-battle-result` 显示导出串 **我军全军覆没** |
@@ -30,9 +31,9 @@
 
 ## 本分支壳
 
-- `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js`
+- `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
 
 ## 本轮 WASM 桥
 
 `vendor/iBaye` + `scripts/build-wasm.sh` 重编 `js/baye.wasm`。导出见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。  
-仍 residual：开场 SPE 帧本身、计谋施放 SPE、查找图文。安定开局无道具不是代码 bug。战斗指令路径（系统菜单 / 行动 / 计谋 / 结算）已有 HD 壳。
+仍 residual：查找图文。安定开局无道具不是代码 bug。开场 / 计谋 SPE 已走 LCD-blit HD 层（见 [hd-spe-spec.md](hd-spe-spec.md)）。

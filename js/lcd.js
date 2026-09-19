@@ -89,6 +89,9 @@ function lcdFlushBuffer(buffer) {
     var buffer_wrp = new Uint8ClampedArray(wasmMemory.buffer, buffer, w*h*4);
     var img = new ImageData(buffer_wrp, w, h);
     lcd.putImageData(img, 0, 0);
+    if (window.BayeHdSpe && typeof BayeHdSpe.onLcdFlush === 'function') {
+        try { BayeHdSpe.onLcdFlush(); } catch (e) {}
+    }
 }
 
 function sendKey(key) {

@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260919ag"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20260919q"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20260919ab"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20260919ak"/>
     <script>
         var _hmt = _hmt || [];
         (function () {
@@ -120,6 +121,17 @@
         <div id="hd-system-ui-probe" class="hd-system-ui-probe"></div>
     </div>
 </div>
+<div id="hd-spe" class="hd-spe" aria-hidden="true">
+    <div class="hd-spe-stage" role="dialog" aria-labelledby="hd-spe-title">
+        <div id="hd-spe-title" class="hd-spe-title">开场动画</div>
+        <canvas id="hd-spe-canvas" class="hd-spe-canvas" width="1600" height="960"></canvas>
+        <div class="hd-spe-footer">
+            <button type="button" id="hd-spe-skip" data-hd-spe-skip>跳过</button>
+            <button type="button" data-hd-spe-lcd>经典 LCD</button>
+        </div>
+        <div id="hd-spe-probe" class="hd-spe-probe"></div>
+    </div>
+</div>
 <div id="hd-dialog" class="hd-dialog" aria-hidden="true">
     <div class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title">
         <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
@@ -171,7 +183,7 @@
             <span class="baye-hd-sep" aria-hidden="true"></span>
             <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openHelp()">帮助 HD</button>
             <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openSearch()">查找 HD</button>
-            <span class="baye-hd-hint">HD 地图 / 城菜单 / 战场 / 系统 / 报告是 1080p 壳。清单 docs/hd-full-replacement-checklist.md</span>
+            <span class="baye-hd-hint">HD 地图 / 城菜单 / 战场 / 系统 / 报告 / SPE 是 1080p 壳。清单 docs/hd-full-replacement-checklist.md</span>
         </div>
         <div layout="row center-stretch">
             <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
@@ -201,15 +213,16 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20260329"></script>
-<script src="js/bridge.js?ver=20260919aj"></script>
-<script src="js/lcd.js?ver=20260919y"></script>
+<script src="js/bridge.js?ver=20260919ak"></script>
+<script src="js/lcd.js?ver=20260919ak"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
 <script src="js/hd-overworld-probe.js?ver=20260918k"></script>
 <script src="js/hd-overworld.js?ver=20260919y"></script>
 <script src="js/hd-city-menu.js?ver=20260919ae"></script>
 <script src="js/hd-battle.js?ver=20260919ai"></script>
 <script src="js/hd-system-ui.js?ver=20260919y"></script>
-<script src="js/hd-dialog.js?ver=20260919ah"></script>
+<script src="js/hd-dialog.js?ver=20260919ak"></script>
+<script src="js/hd-spe.js?ver=20260919ak"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
@@ -230,6 +243,9 @@
     if (window.BayeHdDialog) {
         BayeHdDialog.applyPcPage();
     }
+    if (window.BayeHdSpe) {
+        BayeHdSpe.applyPcPage();
+    }
     Module.postRun = function () {
         lcdInit();
         if (window.BayeHd) {
@@ -249,6 +265,9 @@
         }
         if (window.BayeHdDialog) {
             BayeHdDialog.start();
+        }
+        if (window.BayeHdSpe) {
+            BayeHdSpe.start();
         }
         var libName = getLibName();
         $("#lib-name").html("当前版本: " + libName);
@@ -392,5 +411,5 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20260919ai"></script>
+<script src="js/baye.js?ver=20260919ak"></script>
 

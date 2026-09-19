@@ -46,6 +46,16 @@ U8 g_hdHelpActive = 0;
 U8 g_hdMovieActive = 0;
 U16 g_hdMovieId = 0;
 
+U8 g_hdSpePendingKind = 0;
+U8 g_hdSpeActive = 0;
+U16 g_hdSpeId = 0;
+U8 g_hdSpeKind = 0;
+U8 g_hdSpeX = 0;
+U8 g_hdSpeY = 0;
+U8 g_hdSpeStartFrm = 0;
+U8 g_hdSpeEndFrm = 0;
+U16 g_hdSpeSeq = 0;
+
 U8 g_hdSkillActive = 0;
 U8 g_hdSkillCount = 0;
 U8 g_hdSkillNameLen = 0;
@@ -217,11 +227,54 @@ void baye_hd_set_movie(U16 speId, U8 active)
     g_hdMovieId = active ? speId : 0;
     EM_ASM({
         try {
+            if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') {
+                BayeHdSpe.onEngineSpe();
+            }
             if (window.BayeHdDialog && typeof BayeHdDialog.onEngineMovie === 'function') {
                 BayeHdDialog.onEngineMovie();
             }
         } catch (e) {}
     });
+}
+
+void baye_hd_begin_spe(U8 kind)
+{
+    g_hdSpePendingKind = kind;
+}
+
+void baye_hd_set_spe(U16 speId, U8 kind, U8 x, U8 y, U8 startfrm, U8 endfrm, U8 active)
+{
+    g_hdSpeActive = active;
+    g_hdSpeId = active ? speId : 0;
+    g_hdSpeKind = active ? kind : 0;
+    g_hdSpeX = active ? x : 0;
+    g_hdSpeY = active ? y : 0;
+    g_hdSpeStartFrm = active ? startfrm : 0;
+    g_hdSpeEndFrm = active ? endfrm : 0;
+    if (active) {
+        g_hdSpeSeq = (U16)(g_hdSpeSeq + 1);
+        if (g_hdSpeSeq == 0) {
+            g_hdSpeSeq = 1;
+        }
+    }
+    EM_ASM({
+        try {
+            if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') {
+                BayeHdSpe.onEngineSpe();
+            }
+        } catch (e) {}
+    });
+}
+
+void baye_hd_spe_tick(void)
+{
+    if (!g_hdSpeActive) {
+        return;
+    }
+    g_hdSpeSeq = (U16)(g_hdSpeSeq + 1);
+    if (g_hdSpeSeq == 0) {
+        g_hdSpeSeq = 1;
+    }
 }
 
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
@@ -334,6 +387,14 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdHelpActive, U8);
     DEFADDF(g_hdMovieActive, U8);
     DEFADDF(g_hdMovieId, U16);
+    DEFADDF(g_hdSpeActive, U8);
+    DEFADDF(g_hdSpeId, U16);
+    DEFADDF(g_hdSpeKind, U8);
+    DEFADDF(g_hdSpeX, U8);
+    DEFADDF(g_hdSpeY, U8);
+    DEFADDF(g_hdSpeStartFrm, U8);
+    DEFADDF(g_hdSpeEndFrm, U8);
+    DEFADDF(g_hdSpeSeq, U16);
     DEFADDF(g_hdSkillActive, U8);
     DEFADDF(g_hdSkillCount, U8);
     DEFADDF(g_hdSkillNameLen, U8);

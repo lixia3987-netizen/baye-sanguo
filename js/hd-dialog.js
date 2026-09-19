@@ -348,7 +348,17 @@
         }
     }
 
+    function speOverlayHandlesMovie() {
+        return !!(global.BayeHdSpe && typeof BayeHdSpe.isHandling === 'function' && BayeHdSpe.isHandling());
+    }
+
     function onEngineMovie() {
+        if (speOverlayHandlesMovie()) {
+            if (state.open && state.kind === 'movie') {
+                closeDialog({ silent: true });
+            }
+            return;
+        }
         var info = null;
         try {
             info = window.baye && baye.hd && baye.hd.movie ? baye.hd.movie() : null;
@@ -419,7 +429,11 @@
         try {
             if (window.baye && baye.hd && baye.hd.movie) {
                 var mv = baye.hd.movie();
-                if (mv && mv.active) {
+                if (speOverlayHandlesMovie()) {
+                    if (state.open && state.kind === 'movie') {
+                        closeDialog({ silent: true });
+                    }
+                } else if (mv && mv.active) {
                     openDialog({
                         kind: 'movie',
                         title: '开场动画',
