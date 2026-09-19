@@ -915,7 +915,7 @@ function baye_bridge_init() {
         var i;
         for (i = 0; i < len; i++) {
             var b = bytes[start + i];
-            if (b == null) {
+            if (b == null || b === 0) {
                 break;
             }
             slice.push(b);

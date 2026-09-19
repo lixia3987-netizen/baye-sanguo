@@ -16,7 +16,7 @@
 | **人物选择** | **HD done** | `onMenuIdle` + `g_hdMenuBytes` 引擎项名；金框滚入；空名单才 LCD |
 | **出征 / 外交目标城** | **HD done** | 同上，名单序跟引擎菜单缓冲 |
 | **数量 / 征兵步进** | **HD done** | 方向键步进 + PC 数字键 `0x40–0x49`（不占用词典 0x30–0x33） |
-| **报告 / 对话** | **partial** | `g_hdReportGbk` 已挂 `GamMsgBox`/`ShowGReport`。开垦先走人物菜单；结果报告要等确认后 `ShowDMsg`。本轮 CDP 未读到正文 |
+| **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文。CDP：`农业开发度变为 730 (+34)。` 无 LCD OCR |
 | **帮助 / 查找** | **partial** | VK_HELP / VK_SEARCH + 放大 LCD；帮助正文仍多在 LCD |
 | **战场格网 / 单位** | **partial** | `enterBattle`/`exitBattle` + `g_hdFightActive`；格/将仍要开打后的 `g_FightMap`/`g_GenPos` |
 | 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`，否则会替换系统菜单 |
