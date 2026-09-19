@@ -472,6 +472,9 @@
             state.lastHook = meta.hook;
             state.lastHookAt = Date.now();
         }
+        if (!state.preview) {
+            state.showLcd = false;
+        }
         applyChrome();
         refresh();
         ensureLoop();

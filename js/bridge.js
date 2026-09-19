@@ -998,6 +998,9 @@ function baye_bridge_init() {
             if (d && typeof d.g_hdFightResultGbk === 'string') {
                 result = d.g_hdFightResultGbk;
             }
+            if (!result && d && d.g_hdFightResultGbk) {
+                result = hdDecodeSlice(d.g_hdFightResultGbk, 0, 64);
+            }
             return {
                 active: hdReadNum(d, 'g_hdFightActive'),
                 over: hdReadNum(d, 'g_hdFightOver'),

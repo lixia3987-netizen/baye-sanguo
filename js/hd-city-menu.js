@@ -41,7 +41,7 @@
     var STATE_LABELS = ['正常', '饥荒', '旱灾', '水灾', '暴动'];
     /* 一层之后常见深层：人物 / 城池 / 数量。项名已核验，种类是启发式。 */
     var DEEP = {
-        neizheng: ['person', 'person', 'lcd', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'city', 'city'],
+        neizheng: ['person', 'person', 'lcd', 'person', 'person', 'person', 'person', 'person', 'goods', 'person-goods', 'person', 'person', 'city', 'city'],
         waijiao: ['city', 'city', 'city', 'city', 'city'],
         junbei: ['city', 'qty', 'person', 'city', 'person-city']
     };
@@ -197,6 +197,66 @@
         enqueueKeys(keys, 55);
     }
 
+    function readEngineCursor() {
+        var data = engineData();
+        var pos = data && data.g_CityPos;
+        if (!pos) {
+            return null;
+        }
+        var x = readNumber(pos, 'setx');
+        var y = readNumber(pos, 'sety');
+        if (x === null) {
+            x = readNumber(pos, 'x');
+        }
+        if (y === null) {
+            y = readNumber(pos, 'y');
+        }
+        if (x === null || y === null) {
+            return null;
+        }
+        return { x: x, y: y };
+    }
+
+    function cityEngineTile(cityIndex) {
+        if (global.BayeHdOverworld && typeof BayeHdOverworld.getCities === 'function') {
+            var cities = BayeHdOverworld.getCities();
+            var i;
+            for (i = 0; i < cities.length; i++) {
+                if (cities[i].index === cityIndex) {
+                    return { x: cities[i].engX, y: cities[i].engY, name: cities[i].name };
+                }
+            }
+        }
+        return null;
+    }
+
+    function walkCursorToCity(cityIndex, thenEnter) {
+        var to = cityEngineTile(cityIndex);
+        var from = readEngineCursor();
+        var keys = [];
+        if (from && to && to.x != null && to.y != null) {
+            var x = from.x;
+            var y = from.y;
+            while (y > to.y) { keys.push(VK.UP); y -= 1; }
+            while (y < to.y) { keys.push(VK.DOWN); y += 1; }
+            while (x > to.x) { keys.push(VK.LEFT); x -= 1; }
+            while (x < to.x) { keys.push(VK.RIGHT); x += 1; }
+        }
+        if (thenEnter !== false) {
+            keys.push(VK.ENTER);
+        }
+        enqueueKeys(keys, 70);
+        return { from: from, to: to, keys: keys.length };
+    }
+
+    function usesMapCursor(kind, step) {
+        return kind === 'city' || (kind === 'person-city' && step === 1);
+    }
+
+    function usesGoodsMenu(kind, step) {
+        return kind === 'goods' || (kind === 'person-goods' && step === 1);
+    }
+
     function cityName(index) {
         try {
             if (window.baye && typeof baye.getCityName === 'function' && index >= 0) {
@@ -307,6 +367,11 @@
     }
 
     function probeDeepItems() {
+        var kind = state.deepKind;
+        var step = state.deepStep;
+        if (usesMapCursor(kind, step)) {
+            return otherCities(state.cityIndex);
+        }
         var eng = engineMenuItems();
         var subNames = SUBS[state.subKind] || [];
         var stillParentMenu = !!(eng.names && subNames.length &&
@@ -327,13 +392,9 @@
                 return mapped;
             }
         }
-        var kind = state.deepKind;
-        var step = state.deepStep;
-        if (kind === 'person' || (kind === 'person-city' && step === 0)) {
+        if (kind === 'person' || kind === 'person-goods' ||
+            (kind === 'person-city' && step === 0)) {
             return cityPersons(state.cityIndex);
-        }
-        if (kind === 'city' || (kind === 'person-city' && step === 1)) {
-            return otherCities(state.cityIndex);
         }
         return [];
     }
@@ -654,9 +715,10 @@
             }
             renderStatus();
         } else if (state.layer === 'deep') {
-            var stepHint = (state.deepKind === 'person-city' && state.deepStep === 1)
-                ? '出征目标城（探测名，顺序可能不同于引擎）'
-                : (state.deepKind === 'city' ? '目标城池' : (state.deepKind === 'qty' ? '数量' : '人物'));
+            var stepHint = usesMapCursor(state.deepKind, state.deepStep)
+                ? '目标城池（方向键对齐引擎光标）'
+                : (state.deepKind === 'qty' ? '数量'
+                    : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物'));
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
             hideAllLayers();
@@ -813,10 +875,17 @@
     }
 
     function chooseDeep(index) {
+        var item = state.deepItems[index];
+        if (usesMapCursor(state.deepKind, state.deepStep) && item && item.cityIndex != null) {
+            walkCursorToCity(item.cityIndex, true);
+            return;
+        }
         pickIndex(index, true);
-        if (state.deepKind === 'person-city' && state.deepStep === 0) {
+        if ((state.deepKind === 'person-city' || state.deepKind === 'person-goods') &&
+            state.deepStep === 0) {
             state.deepStep = 1;
             state.idleIndex = 0;
+            state.deepSig = '';
             setTimeout(function () {
                 if (state.open && state.layer === 'deep') {
                     render();
@@ -1047,19 +1116,27 @@
         applyDocAttr();
         render();
         setInterval(function () {
-            if (!(state.open && state.layer === 'deep' && state.deepKind === 'qty')) {
+            if (!(state.open && state.layer === 'deep')) {
                 return;
             }
-            var node = el('hd-city-qty-val');
-            if (!node || !window.baye || !baye.hd || !baye.hd.qty) {
-                return;
-            }
-            try {
-                var q = baye.hd.qty();
-                if (q) {
-                    node.textContent = q.active ? q.value : (q.value || '—');
+            if (state.deepKind === 'qty') {
+                var node = el('hd-city-qty-val');
+                if (node && window.baye && baye.hd && baye.hd.qty) {
+                    try {
+                        var q = baye.hd.qty();
+                        if (q) {
+                            node.textContent = q.active ? q.value : (q.value || '—');
+                        }
+                    } catch (e) {}
                 }
-            } catch (e) {}
+                return;
+            }
+            if (usesGoodsMenu(state.deepKind, state.deepStep) ||
+                state.deepKind === 'person' ||
+                state.deepKind === 'person-goods' ||
+                (state.deepKind === 'person-city' && state.deepStep === 0)) {
+                fillDeepList();
+            }
         }, 200);
     }
 
@@ -1094,8 +1171,10 @@
                 probedCityKeys: state.probedCityKeys.slice(),
                 deepKind: state.deepKind,
                 deepLabel: state.deepLabel,
-                deepCount: state.deepItems.length
+                deepCount: state.deepItems.length,
+                deepItems: state.deepItems.slice(0, 20)
             };
-        }
+        },
+        walkToCity: walkCursorToCity
     };
 })(window);
