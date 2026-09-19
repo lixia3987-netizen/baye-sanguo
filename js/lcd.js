@@ -90,7 +90,7 @@ function lcdFlushBuffer(buffer) {
     var img = new ImageData(buffer_wrp, w, h);
     lcd.putImageData(img, 0, 0);
     if (window.BayeHdSpe && typeof BayeHdSpe.onLcdFlush === 'function') {
-        try { BayeHdSpe.onLcdFlush(); } catch (e) {}
+        try { BayeHdSpe.onLcdFlush(img, w, h); } catch (e) {}
     }
 }
 

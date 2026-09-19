@@ -32,7 +32,10 @@
         canvasW: 0,
         canvasH: 0,
         bound: false,
-        scratch: null
+        scratch: null,
+        flushW: 0,
+        flushH: 0,
+        hasFlush: false
     };
 
     function readStorage(key, fallback) {
@@ -216,24 +219,54 @@
         state.canvasW = dstW;
         state.canvasH = dstH;
 
-        var tmp = scratchCanvas();
-        if (tmp.width !== LOGICAL_W || tmp.height !== LOGICAL_H) {
-            tmp.width = LOGICAL_W;
-            tmp.height = LOGICAL_H;
+        var src = scratchCanvas();
+        var srcPixW = state.hasFlush ? state.flushW : lcd.width;
+        var srcPixH = state.hasFlush ? state.flushH : lcd.height;
+        if (!state.hasFlush) {
+            if (src.width !== srcPixW || src.height !== srcPixH) {
+                src.width = srcPixW;
+                src.height = srcPixH;
+            }
+            var copy = src.getContext('2d');
+            copy.imageSmoothingEnabled = false;
+            copy.clearRect(0, 0, srcPixW, srcPixH);
+            copy.drawImage(lcd, 0, 0, lcd.width, lcd.height, 0, 0, srcPixW, srcPixH);
         }
-        var tctx = tmp.getContext('2d');
-        tctx.imageSmoothingEnabled = false;
-        tctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H);
-        tctx.drawImage(lcd, 0, 0, lcd.width, lcd.height, 0, 0, LOGICAL_W, LOGICAL_H);
+
+        var logical = scratchLogical();
+        var lctx = logical.getContext('2d');
+        lctx.imageSmoothingEnabled = false;
+        lctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H);
+        lctx.drawImage(src, 0, 0, srcPixW, srcPixH, 0, 0, LOGICAL_W, LOGICAL_H);
 
         var ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
         ctx.clearRect(0, 0, dstW, dstH);
-        ctx.drawImage(tmp, srcX, srcY, srcW, srcH, 0, 0, dstW, dstH);
+        ctx.drawImage(logical, srcX, srcY, srcW, srcH, 0, 0, dstW, dstH);
         updateProbe(info);
     }
 
-    function onLcdFlush() {
+    function scratchLogical() {
+        if (!state.logical) {
+            state.logical = document.createElement('canvas');
+            state.logical.width = LOGICAL_W;
+            state.logical.height = LOGICAL_H;
+        }
+        return state.logical;
+    }
+
+    function onLcdFlush(img, w, h) {
+        if (img && w && h) {
+            var src = scratchCanvas();
+            if (src.width !== w || src.height !== h) {
+                src.width = w;
+                src.height = h;
+            }
+            src.getContext('2d').putImageData(img, 0, 0);
+            state.flushW = w;
+            state.flushH = h;
+            state.hasFlush = true;
+        }
         if (!state.open && !shouldShowFor(readSpe())) {
             return;
         }
@@ -297,11 +330,27 @@
         applyPcPage: start,
         debugSnapshot: function () {
             var info = readSpe();
+            var canvas = el('hd-spe-canvas');
+            var lit = 0;
+            if (canvas && canvas.width && canvas.height) {
+                try {
+                    var pix = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+                    var i;
+                    for (i = 0; i < pix.length; i += 16) {
+                        if (pix[i] + pix[i + 1] + pix[i + 2] > 40) {
+                            lit += 1;
+                        }
+                    }
+                } catch (e) {}
+            }
             return {
                 open: state.open,
                 scale: state.scale,
                 canvasW: state.canvasW,
                 canvasH: state.canvasH,
+                flushW: state.flushW,
+                flushH: state.flushH,
+                lit: lit,
                 spe: info
             };
         }
