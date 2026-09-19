@@ -32,6 +32,12 @@
       "c": -0.0003871437493673,
       "d": 2388.103445
     },
+    "playableBounds": [
+      0,
+      0,
+      3840,
+      4000
+    ],
     "neighborMaxDist": 520,
     "initialFrame": [
       "西凉",

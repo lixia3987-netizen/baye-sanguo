@@ -90,7 +90,10 @@
         geoMeta: null,
         engineTileEdges: [],
         roads: { source: 'none', edges: [], passes: 0 },
-        camera: { x: 0, y: 0, scale: 1, mapW: 1920, mapH: 1080, inited: false },
+        camera: {
+            x: 0, y: 0, scale: 1, mapW: 1920, mapH: 1080,
+            minX: 0, minY: 0, maxX: 0, maxY: 0, inited: false
+        },
         pan: { on: false, lastX: 0, lastY: 0, moved: false, suppressClick: false },
         pointer: { x: 0, y: 0, on: false },
         enterFx: { index: -1, start: 0, duration: 150 },
@@ -344,38 +347,123 @@
     }
 
     function mapSize() {
+        var r = playableMapRect();
+        return { w: r.w, h: r.h };
+    }
+
+    /*
+     * Planned playable rectangle in map-space pixels.
+     * Camera offset is the top-left of the viewport on this rect:
+     *   offsetX ∈ [rect.x, rect.x + max(0, rect.w - DESIGN_W / scale)]
+     *   offsetY ∈ [rect.y, rect.y + max(0, rect.h - DESIGN_H / scale)]
+     * Viewport never samples outside the texture (intersection of
+     * geoMeta.mapSize / fit.playableBounds and the base image).
+     */
+    function playableMapRect() {
+        var x = 0;
+        var y = 0;
+        var w = DESIGN_W;
+        var h = DESIGN_H;
+        var meta = state.geoMeta && state.geoMeta.mapSize;
+        if (meta && meta.length >= 2 && Number(meta[0]) > 0 && Number(meta[1]) > 0) {
+            w = Number(meta[0]);
+            h = Number(meta[1]);
+        } else if (state.manifest && state.manifest.mapWidth && state.manifest.mapHeight) {
+            w = Number(state.manifest.mapWidth);
+            h = Number(state.manifest.mapHeight);
+        } else {
+            var fallback = terrainImageByPart('base_plains') || terrainImages()[0];
+            if (fallback && fallback.width && fallback.height) {
+                w = fallback.width;
+                h = fallback.height;
+            }
+        }
+        var bounds = state.geoMeta && state.geoMeta.fit && state.geoMeta.fit.playableBounds;
+        if (bounds && bounds.length >= 4) {
+            x = Number(bounds[0]) || 0;
+            y = Number(bounds[1]) || 0;
+            if (Number(bounds[2]) > 0) {
+                w = Number(bounds[2]);
+            }
+            if (Number(bounds[3]) > 0) {
+                h = Number(bounds[3]);
+            }
+        }
         var img = terrainImageByPart('base_plains') || terrainImages()[0];
         if (img && img.width && img.height) {
-            return { w: img.width, h: img.height };
+            if (x < 0) {
+                x = 0;
+            }
+            if (y < 0) {
+                y = 0;
+            }
+            if (x + w > img.width) {
+                w = Math.max(0, img.width - x);
+            }
+            if (y + h > img.height) {
+                h = Math.max(0, img.height - y);
+            }
         }
-        var meta = state.geoMeta && state.geoMeta.mapSize;
-        if (meta && meta.length >= 2) {
-            return { w: Number(meta[0]), h: Number(meta[1]) };
+        return { x: x, y: y, w: w, h: h };
+    }
+
+    function cameraLimits() {
+        var r = playableMapRect();
+        var scale = state.camera.scale || 1;
+        var minScale = Math.max(DESIGN_W / r.w, DESIGN_H / r.h);
+        if (!isFinite(minScale) || minScale <= 0) {
+            minScale = 1;
         }
-        return { w: DESIGN_W, h: DESIGN_H };
+        var maxScale = 2.2;
+        if (scale < minScale) {
+            scale = minScale;
+        }
+        if (scale > maxScale) {
+            scale = maxScale;
+        }
+        var vw = DESIGN_W / scale;
+        var vh = DESIGN_H / scale;
+        var minX = r.x;
+        var minY = r.y;
+        var maxX = r.x + Math.max(0, r.w - vw);
+        var maxY = r.y + Math.max(0, r.h - vh);
+        return {
+            minX: minX,
+            minY: minY,
+            maxX: maxX,
+            maxY: maxY,
+            vw: vw,
+            vh: vh,
+            scale: scale,
+            minScale: minScale,
+            maxScale: maxScale,
+            mapW: r.w,
+            mapH: r.h
+        };
     }
 
     function clampCamera() {
-        var m = mapSize();
-        var scale = state.camera.scale || 1;
-        var vw = DESIGN_W / scale;
-        var vh = DESIGN_H / scale;
-        var maxX = Math.max(0, m.w - vw);
-        var maxY = Math.max(0, m.h - vh);
-        if (state.camera.x < 0) {
-            state.camera.x = 0;
+        var lim = cameraLimits();
+        state.camera.scale = lim.scale;
+        if (state.camera.x < lim.minX) {
+            state.camera.x = lim.minX;
         }
-        if (state.camera.y < 0) {
-            state.camera.y = 0;
+        if (state.camera.y < lim.minY) {
+            state.camera.y = lim.minY;
         }
-        if (state.camera.x > maxX) {
-            state.camera.x = maxX;
+        if (state.camera.x > lim.maxX) {
+            state.camera.x = lim.maxX;
         }
-        if (state.camera.y > maxY) {
-            state.camera.y = maxY;
+        if (state.camera.y > lim.maxY) {
+            state.camera.y = lim.maxY;
         }
-        state.camera.mapW = m.w;
-        state.camera.mapH = m.h;
+        state.camera.mapW = lim.mapW;
+        state.camera.mapH = lim.mapH;
+        state.camera.minX = lim.minX;
+        state.camera.minY = lim.minY;
+        state.camera.maxX = lim.maxX;
+        state.camera.maxY = lim.maxY;
+        return lim;
     }
 
     function ensureCamera() {
@@ -895,34 +983,36 @@
             drawFallbackContinent(ctx);
             return;
         }
-        var m = mapSize();
-        var scale = state.camera.scale || 1;
+        var lim = clampCamera();
         var sx = state.camera.x;
         var sy = state.camera.y;
-        var sw = DESIGN_W / scale;
-        var sh = DESIGN_H / scale;
+        var sw = lim.vw;
+        var sh = lim.vh;
         if (sx < 0) {
-            sw += sx;
             sx = 0;
         }
         if (sy < 0) {
-            sh += sy;
             sy = 0;
         }
-        if (sx + sw > m.w) {
-            sw = m.w - sx;
+        if (sx + sw > base.width) {
+            sx = Math.max(0, base.width - sw);
         }
-        if (sy + sh > m.h) {
-            sh = m.h - sy;
+        if (sy + sh > base.height) {
+            sy = Math.max(0, base.height - sh);
+        }
+        if (sx + sw > base.width) {
+            sw = base.width - sx;
+        }
+        if (sy + sh > base.height) {
+            sh = base.height - sy;
         }
         if (sw <= 0 || sh <= 0) {
             drawFallbackContinent(ctx);
             return;
         }
-        var dx = (sx - state.camera.x) * scale;
-        var dy = (sy - state.camera.y) * scale;
         try {
-            ctx.drawImage(base, sx, sy, sw, sh, dx, dy, sw * scale, sh * scale);
+            /* Dest is always the full 1920×1080 viewport — no edge sliver of empty void. */
+            ctx.drawImage(base, sx, sy, sw, sh, 0, 0, DESIGN_W, DESIGN_H);
         } catch (e) {
             drawFallbackContinent(ctx);
         }
@@ -2556,6 +2646,8 @@
         function endPan(ev) {
             if (state.pan.on) {
                 state.pan.on = false;
+                /* Hard clamp on release. No inertia / leftover velocity. */
+                clampCamera();
                 state.canvas.classList.remove('hd-panning');
                 try {
                     state.canvas.releasePointerCapture(ev.pointerId);
@@ -2692,6 +2784,7 @@
     global.addEventListener('resize', function () {
         if (state.mode === 'hd-map') {
             syncCanvasSize();
+            clampCamera();
             draw();
         }
     });
@@ -2712,7 +2805,23 @@
             }
             return state.camera;
         },
+        setScale: function (scale, aroundSx, aroundSy) {
+            var ax = aroundSx != null ? aroundSx : DESIGN_W / 2;
+            var ay = aroundSy != null ? aroundSy : DESIGN_H / 2;
+            var before = toMap(ax, ay);
+            state.camera.scale = scale;
+            clampCamera();
+            var s = state.camera.scale || 1;
+            state.camera.x = before.x - ax / s;
+            state.camera.y = before.y - ay / s;
+            clampCamera();
+            if (state.mode === 'hd-map') {
+                draw();
+            }
+            return state.camera;
+        },
         getCamera: function () { return state.camera; },
+        getCameraBounds: cameraLimits,
         getAlignLog: function () { return state.alignLog; },
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },
@@ -2771,11 +2880,15 @@
                     .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; }),
                 layout: state.geoCities ? 'china-lcc' : 'engine-grid',
                 camera: {
-                    x: Math.round(state.camera.x),
-                    y: Math.round(state.camera.y),
+                    x: Number(state.camera.x.toFixed(3)),
+                    y: Number(state.camera.y.toFixed(3)),
                     scale: Number(state.camera.scale.toFixed(3)),
                     mapW: state.camera.mapW,
                     mapH: state.camera.mapH,
+                    minX: state.camera.minX,
+                    minY: state.camera.minY,
+                    maxX: state.camera.maxX,
+                    maxY: state.camera.maxY,
                     inited: state.camera.inited
                 },
                 roads: {
