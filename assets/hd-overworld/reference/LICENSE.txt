@@ -5,7 +5,9 @@ Source: https://commons.wikimedia.org/wiki/File:Jian%27an_Commanderies.png
 License: Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
 https://creativecommons.org/licenses/by-sa/4.0/
 
-The files in this directory and the derived 1920×1080 terrain crop
-(assets/hd-overworld/terrain/base_plains.png and extracted water overlay)
-are derivatives of that map and remain under CC BY-SA 4.0.
-City markers, roads, and UI chrome are not part of the Commons work.
+The files in this directory (including the labeled 2500×1800 stitch and
+the labeled 1920×1080 crop) and the playable terrain
+`assets/hd-overworld/terrain/base_plains.png` (a cleaned / inpainted
+derivative with source lettering and legend removed) plus the extracted
+water overlay remain under CC BY-SA 4.0.
+City markers, roads, HUD, and UI chrome are not part of the Commons work.

@@ -3,7 +3,7 @@
 本文是 **大地图（overworld）** 的产品与技术规格。它不是 CSS 2× 放大说明书——那一层见 [hd-graphics.md](hd-graphics.md)。  
 规格与实现路径仍不替换 `dat.lib`、不伪造游戏截图。几何占位可继续用于未接线的层。
 
-**素材现状（分支内）：** HD 视觉地理以 Wikimedia **Jian'an Commanderies**（219 CE，Esiymbro，CC BY-SA 4.0）为严格参考（见 `GEOGRAPHY.md` 与 [jianan-city-alignment.md](jianan-city-alignment.md)）。地形/河湖海是该图 1920×1080 裁切衍生；**城标按建安图史实相对位置**，不再按引擎 12×8 格铺开。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
+**素材现状（分支内）：** HD 视觉地理以 Wikimedia **Jian'an Commanderies**（219 CE，Esiymbro，CC BY-SA 4.0）为严格参考（见 `GEOGRAPHY.md` 与 [jianan-city-alignment.md](jianan-city-alignment.md)）。可玩底图是该图 1920×1080 裁切的 **去字衍生**（原图郡名/州名/图例已 inpaint）；**城标按建安图史实相对位置**。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
 **分支策略：本轨道只停在 `feature/hd-graphics`，在用户明确要求之前不要合入 `main`。**
 
 状态：产品方向已锁定；史实向地形已进本分支。**P0–P3 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网。邻接来自 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。关隘只标在路中点压到河叠加处。缺口见 §8–§9 与 FEATURES.md。

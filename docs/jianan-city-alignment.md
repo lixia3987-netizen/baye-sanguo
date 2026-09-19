@@ -9,7 +9,7 @@ HD 大地图的**视觉地理**以 Wikimedia Commons
 ## 授权
 
 全图参考：`assets/hd-overworld/reference/Jianan_Commanderies_full.png`（2500×1800，由上传条带竖拼）。
-1920×1080 裁切（凉州→岭南 / 黄河·长江核心，去掉右侧图例）用作地形底图，属该图的衍生作品，遵循同一 CC BY-SA 4.0。许可原文见 `assets/hd-overworld/reference/LICENSE.txt`。
+1920×1080 裁切（凉州→岭南 / 黄河·长江核心）再 **inpaint 去掉原图全部文字/图例/比例尺**，只把地形与水体写入可玩底图 `terrain/base_plains.png`。带字原图只留在 `reference/`。属该图的衍生作品，遵循同一 CC BY-SA 4.0。许可原文见 `assets/hd-overworld/reference/LICENSE.txt`。
 
 ## 投影
 
