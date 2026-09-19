@@ -87,14 +87,17 @@
         sawFightHook: false,
         adjacencyJson: null,
         geoCities: null,
+        geoMeta: null,
         engineTileEdges: [],
         roads: { source: 'none', edges: [], passes: 0 },
+        camera: { x: 0, y: 0, scale: 1, mapW: 1920, mapH: 1080, inited: false },
+        pan: { on: false, lastX: 0, lastY: 0, moved: false, suppressClick: false },
         pointer: { x: 0, y: 0, on: false },
         enterFx: { index: -1, start: 0, duration: 150 },
         /* os-pointer：不画自定义光标。cursor.png 会与系统指针叠影；cursor_hover.png 像禁止符。 */
         cursorPolicy: 'os-pointer',
         haveCityPos: false,
-        hint: '经典 LCD 可随时切回。点己方城打开经典城池菜单。'
+        hint: '经典 LCD 可随时切回。拖动平移地图；点己方城打开经典城池菜单。'
     };
 
     function readStorage(key, fallback) {
@@ -252,7 +255,7 @@
                 designHeight: DESIGN_H,
                 layers: {
                     terrain: [
-                        'terrain/base_plains.png',
+                        'terrain/base_plains.jpg',
                         'terrain/overlay_mountains.png',
                         'terrain/overlay_rivers.png',
                         'terrain/overlay_forest.png'
@@ -311,6 +314,7 @@
                 tick();
             });
             loadJSON(assetUrl('china-lcc-cities.json'), function (geo) {
+                state.geoMeta = geo;
                 state.geoCities = geo && geo.cities ? geo.cities : null;
                 tick();
             });
@@ -337,6 +341,113 @@
             }
         }
         return list;
+    }
+
+    function mapSize() {
+        var img = terrainImageByPart('base_plains') || terrainImages()[0];
+        if (img && img.width && img.height) {
+            return { w: img.width, h: img.height };
+        }
+        var meta = state.geoMeta && state.geoMeta.mapSize;
+        if (meta && meta.length >= 2) {
+            return { w: Number(meta[0]), h: Number(meta[1]) };
+        }
+        return { w: DESIGN_W, h: DESIGN_H };
+    }
+
+    function clampCamera() {
+        var m = mapSize();
+        var scale = state.camera.scale || 1;
+        var vw = DESIGN_W / scale;
+        var vh = DESIGN_H / scale;
+        var maxX = Math.max(0, m.w - vw);
+        var maxY = Math.max(0, m.h - vh);
+        if (state.camera.x < 0) {
+            state.camera.x = 0;
+        }
+        if (state.camera.y < 0) {
+            state.camera.y = 0;
+        }
+        if (state.camera.x > maxX) {
+            state.camera.x = maxX;
+        }
+        if (state.camera.y > maxY) {
+            state.camera.y = maxY;
+        }
+        state.camera.mapW = m.w;
+        state.camera.mapH = m.h;
+    }
+
+    function ensureCamera() {
+        var m = mapSize();
+        if (!m.w || !state.cities.length) {
+            return;
+        }
+        var geoReady = !!(state.geoCities && state.geoCities.length);
+        var img = terrainImageByPart('base_plains') || terrainImages()[0];
+        var imgReady = !!(img && img.width > DESIGN_W);
+        if (state.camera.inited) {
+            if (!(geoReady && imgReady && !state.camera.lockedFull)) {
+                clampCamera();
+                return;
+            }
+        }
+        if (!geoReady || !imgReady) {
+            return;
+        }
+        var want = { '西凉': 1, '襄平': 1, '建业': 1, '成都': 1 };
+        var xs = [];
+        var ys = [];
+        var i;
+        for (i = 0; i < state.cities.length; i++) {
+            if (want[state.cities[i].name]) {
+                xs.push(state.cities[i].hdX);
+                ys.push(state.cities[i].hdY);
+            }
+        }
+        if (xs.length < 2) {
+            state.camera.scale = 1;
+            state.camera.x = Math.max(0, m.w * 0.40);
+            state.camera.y = Math.max(0, m.h * 0.30);
+        } else {
+            var minX = Math.min.apply(null, xs);
+            var maxX = Math.max.apply(null, xs);
+            var minY = Math.min.apply(null, ys);
+            var maxY = Math.max.apply(null, ys);
+            var padX = Math.max(140, (maxX - minX) * 0.18);
+            var padY = Math.max(120, (maxY - minY) * 0.18);
+            var bw = (maxX - minX) + padX * 2;
+            var bh = (maxY - minY) + padY * 2;
+            var scale = Math.min(DESIGN_W / bw, DESIGN_H / bh);
+            if (scale < 0.85) {
+                scale = 0.85;
+            }
+            if (scale > 2.2) {
+                scale = 2.2;
+            }
+            state.camera.scale = scale;
+            state.camera.x = (minX + maxX) / 2 - DESIGN_W / scale / 2;
+            state.camera.y = (minY + maxY) / 2 - DESIGN_H / scale / 2;
+        }
+        clampCamera();
+        state.camera.inited = true;
+        state.camera.lockedFull = true;
+    }
+
+    function toScreen(mx, my) {
+        var s = state.camera.scale || 1;
+        return {
+            x: (mx - state.camera.x) * s,
+            y: (my - state.camera.y) * s
+        };
+    }
+
+    function toMap(sx, sy) {
+        var s = state.camera.scale || 1;
+        return {
+            x: sx / s + state.camera.x,
+            y: sy / s + state.camera.y
+        };
     }
 
     function playerKingId() {
@@ -558,7 +669,7 @@
                 rows[r].hdY = hd.y;
                 rows[r].layout = rows[r].source;
             }
-            rows[r].labelY = rows[r].hdY > 1000 ? rows[r].hdY - 28 : rows[r].hdY + 44;
+            rows[r].labelY = rows[r].hdY + 44;
             labels.push(rows[r]);
         }
         dodgeLabels(rows);
@@ -589,6 +700,7 @@
 
         state.cities = rows;
         rebuildRoads();
+        ensureCamera();
         refreshDateInfo();
         return rows;
     }
@@ -614,7 +726,7 @@
                     break;
                 }
             }
-            if (labels[a].labelY > SAFE.bottom - 8) {
+            if (state.camera.mapH && labels[a].labelY > state.camera.mapH - 12) {
                 labels[a].labelY = labels[a].hdY - 52;
             }
         }
@@ -777,15 +889,42 @@
     }
 
     function drawTerrain(ctx) {
-        var layers = terrainImages();
-        if (!layers.length) {
+        ensureCamera();
+        var base = terrainImageByPart('base_plains') || terrainImages()[0];
+        if (!base) {
             drawFallbackContinent(ctx);
             return;
         }
-        for (var i = 0; i < layers.length; i++) {
-            try {
-                ctx.drawImage(layers[i], 0, 0, DESIGN_W, DESIGN_H);
-            } catch (e) {}
+        var m = mapSize();
+        var scale = state.camera.scale || 1;
+        var sx = state.camera.x;
+        var sy = state.camera.y;
+        var sw = DESIGN_W / scale;
+        var sh = DESIGN_H / scale;
+        if (sx < 0) {
+            sw += sx;
+            sx = 0;
+        }
+        if (sy < 0) {
+            sh += sy;
+            sy = 0;
+        }
+        if (sx + sw > m.w) {
+            sw = m.w - sx;
+        }
+        if (sy + sh > m.h) {
+            sh = m.h - sy;
+        }
+        if (sw <= 0 || sh <= 0) {
+            drawFallbackContinent(ctx);
+            return;
+        }
+        var dx = (sx - state.camera.x) * scale;
+        var dy = (sy - state.camera.y) * scale;
+        try {
+            ctx.drawImage(base, sx, sy, sw, sh, dx, dy, sw * scale, sh * scale);
+        } catch (e) {
+            drawFallbackContinent(ctx);
         }
     }
 
@@ -814,8 +953,9 @@
         }
         var sctx = state._overlayScratchCtx;
         sctx.clearRect(0, 0, 1, 1);
-        var sx = x / DESIGN_W * img.width;
-        var sy = y / DESIGN_H * img.height;
+        var m = mapSize();
+        var sx = x / m.w * img.width;
+        var sy = y / m.h * img.height;
         try {
             sctx.drawImage(img, sx, sy, 1, 1, 0, 0, 1, 1);
             return sctx.getImageData(0, 0, 1, 1).data[3] > (threshold || 160);
@@ -912,7 +1052,10 @@
             seen[key] = true;
             edges.push({ a: lo, b: hi });
         }
-        var maxDist = 260;
+        var maxDist = 520;
+        if (state.geoMeta && state.geoMeta.fit && state.geoMeta.fit.neighborMaxDist) {
+            maxDist = Number(state.geoMeta.fit.neighborMaxDist) || maxDist;
+        }
         var i;
         var j;
         var k;
@@ -1060,9 +1203,12 @@
     }
 
     function strokeRoad(ctx, edge, width, color) {
+        var a = toScreen(edge.ax, edge.ay);
+        var b = toScreen(edge.bx, edge.by);
+        var c = toScreen(edge.cx, edge.cy);
         ctx.beginPath();
-        ctx.moveTo(edge.ax, edge.ay);
-        ctx.quadraticCurveTo(edge.cx, edge.cy, edge.bx, edge.by);
+        ctx.moveTo(a.x, a.y);
+        ctx.quadraticCurveTo(c.x, c.y, b.x, b.y);
         ctx.lineWidth = width;
         ctx.strokeStyle = color;
         ctx.lineCap = 'round';
@@ -1120,14 +1266,15 @@
             if (!roads[i].pass) {
                 continue;
             }
+            var pc = toScreen(roads[i].cx, roads[i].cy);
             if (passImg) {
-                ctx.drawImage(passImg, roads[i].cx - 16, roads[i].cy - 16, 32, 32);
+                ctx.drawImage(passImg, pc.x - 16, pc.y - 16, 32, 32);
             } else {
                 ctx.beginPath();
                 ctx.fillStyle = '#d8c4a0';
                 ctx.strokeStyle = '#3b2a18';
                 ctx.lineWidth = 2;
-                ctx.arc(roads[i].cx, roads[i].cy, 7, 0, Math.PI * 2);
+                ctx.arc(pc.x, pc.y, 7, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.stroke();
             }
@@ -1159,6 +1306,7 @@
         var focus = focusCityIndex();
         for (var i = 0; i < cities.length; i++) {
             var city = cities[i];
+            var scr = toScreen(city.hdX, city.hdY);
             var selected = city.index === state.selectedIndex;
             var hover = city.index === state.hoverIndex && hitsEnabled();
             var neighbor = !selected && focus >= 0 && city.index !== focus &&
@@ -1175,36 +1323,36 @@
             ctx.beginPath();
             ctx.fillStyle = city.color;
             ctx.globalAlpha = city.kind === 'empty' ? 0.35 : (city.kind === 'owned' ? 0.62 : 0.5);
-            ctx.arc(city.hdX, city.hdY + 6, selected ? 26 : (city.kind === 'owned' ? 22 : 18), 0, Math.PI * 2);
+            ctx.arc(scr.x, scr.y + 6, selected ? 26 : (city.kind === 'owned' ? 22 : 18), 0, Math.PI * 2);
             ctx.fill();
             ctx.globalAlpha = 1;
 
             if (base) {
-                ctx.drawImage(base, city.hdX - size / 2, city.hdY - size / 2 - 8, size, size);
+                ctx.drawImage(base, scr.x - size / 2, scr.y - size / 2 - 8, size, size);
             } else {
                 ctx.beginPath();
                 ctx.fillStyle = city.color;
-                ctx.arc(city.hdX, city.hdY, selected ? 14 : 11, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y, selected ? 14 : 11, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.lineWidth = 2;
                 ctx.strokeStyle = '#1b1f27';
                 ctx.stroke();
             }
             if (selected && sel && sel !== base) {
-                ctx.drawImage(sel, city.hdX - 40, city.hdY - 48, 80, 80);
+                ctx.drawImage(sel, scr.x - 40, scr.y - 48, 80, 80);
             }
 
             ctx.beginPath();
             ctx.strokeStyle = city.color;
             ctx.lineWidth = selected ? 5 : (city.kind === 'owned' ? 4 : 3);
-            ctx.arc(city.hdX, city.hdY + 2, selected ? 32 : (city.kind === 'owned' ? 28 : 24), 0, Math.PI * 2);
+            ctx.arc(scr.x, scr.y + 2, selected ? 32 : (city.kind === 'owned' ? 28 : 24), 0, Math.PI * 2);
             ctx.stroke();
 
             if (neighbor) {
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(240,199,90,0.7)';
                 ctx.lineWidth = 2;
-                ctx.arc(city.hdX, city.hdY + 2, 30, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, 30, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
@@ -1212,12 +1360,12 @@
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(255,248,210,0.98)';
                 ctx.lineWidth = 3.5;
-                ctx.arc(city.hdX, city.hdY + 2, 38, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, 38, 0, Math.PI * 2);
                 ctx.stroke();
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(255,255,255,0.45)';
                 ctx.lineWidth = 1.5;
-                ctx.arc(city.hdX, city.hdY + 2, 42, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, 42, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
@@ -1226,25 +1374,29 @@
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(255,255,255,0.88)';
                 ctx.lineWidth = 2.5;
-                ctx.arc(city.hdX, city.hdY + 2, pulse, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, pulse, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
             if (flash > 0) {
                 ctx.beginPath();
                 ctx.fillStyle = 'rgba(255,255,255,' + (0.18 + flash * 0.42) + ')';
-                ctx.arc(city.hdX, city.hdY + 2, 22 + flash * 18, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, 22 + flash * 18, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.beginPath();
                 ctx.strokeStyle = 'rgba(255,255,255,' + (0.55 + flash * 0.4) + ')';
                 ctx.lineWidth = 3;
-                ctx.arc(city.hdX, city.hdY + 2, 36 + flash * 10, 0, Math.PI * 2);
+                ctx.arc(scr.x, scr.y + 2, 36 + flash * 10, 0, Math.PI * 2);
                 ctx.stroke();
             }
 
             var label = city.name || ('城' + (city.index + 1));
-            var lx = city.labelX != null ? city.labelX : city.hdX;
-            var ly = city.labelY != null ? city.labelY : city.hdY + 44;
+            var lab = toScreen(
+                city.labelX != null ? city.labelX : city.hdX,
+                city.labelY != null ? city.labelY : city.hdY + 44
+            );
+            var lx = lab.x;
+            var ly = lab.y;
             var labelPx = hover || selected ? 22 : 20;
             ctx.font = (hover || selected ? 'bold ' : '') + labelPx + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
@@ -1517,12 +1669,15 @@
         var bestD = HIT_RADIUS;
         for (var i = 0; i < state.cities.length; i++) {
             var c = state.cities[i];
-            var dx = pt.x - c.hdX;
-            var dy = pt.y - c.hdY;
+            var scr = toScreen(c.hdX, c.hdY);
+            var dx = pt.x - scr.x;
+            var dy = pt.y - scr.y;
             var d = Math.sqrt(dx * dx + dy * dy);
-                var lx = c.labelX != null ? c.labelX : c.hdX;
-            var ly = c.labelY != null ? c.labelY : c.hdY + 44;
-            var dl = Math.sqrt((pt.x - lx) * (pt.x - lx) + (pt.y - ly) * (pt.y - ly));
+            var lab = toScreen(
+                c.labelX != null ? c.labelX : c.hdX,
+                c.labelY != null ? c.labelY : c.hdY + 44
+            );
+            var dl = Math.sqrt((pt.x - lab.x) * (pt.x - lab.x) + (pt.y - lab.y) * (pt.y - lab.y));
             if (d < bestD) {
                 bestD = d;
                 best = c.index;
@@ -2339,12 +2494,47 @@
             return;
         }
         state.inputBound = true;
-        state.canvas.addEventListener('mousemove', function (ev) {
+        state.canvas.addEventListener('pointerdown', function (ev) {
+            if (state.mode !== 'hd-map' || state.phase !== 'map' || state.aligning) {
+                return;
+            }
+            state.pan.on = true;
+            state.pan.moved = false;
+            state.pan.suppressClick = false;
+            state.pan.lastX = ev.clientX;
+            state.pan.lastY = ev.clientY;
+            try {
+                state.canvas.setPointerCapture(ev.pointerId);
+            } catch (e) {}
+            state.canvas.classList.add('hd-panning');
+        });
+        state.canvas.addEventListener('pointermove', function (ev) {
             var pt = eventToDesign(ev);
             if (pt) {
                 state.pointer.x = pt.x;
                 state.pointer.y = pt.y;
                 state.pointer.on = true;
+            }
+            if (state.pan.on && state.mode === 'hd-map' && state.phase === 'map') {
+                var s = state.camera.scale || 1;
+                var dx = ev.clientX - state.pan.lastX;
+                var dy = ev.clientY - state.pan.lastY;
+                if (Math.abs(dx) + Math.abs(dy) > 2) {
+                    state.pan.moved = true;
+                    state.pan.suppressClick = true;
+                }
+                if (state.pan.moved) {
+                    var rect = state.canvas.getBoundingClientRect();
+                    var sx = rect.width ? DESIGN_W / rect.width : 1;
+                    var sy = rect.height ? DESIGN_H / rect.height : 1;
+                    state.camera.x -= dx * sx / s;
+                    state.camera.y -= dy * sy / s;
+                    clampCamera();
+                    state.pan.lastX = ev.clientX;
+                    state.pan.lastY = ev.clientY;
+                    state.hoverIndex = -1;
+                    return;
+                }
             }
             if (!hitsEnabled()) {
                 state.hoverIndex = -1;
@@ -2355,12 +2545,28 @@
             }
             state.hoverIndex = hitCity(pt);
         });
+        function endPan(ev) {
+            if (state.pan.on) {
+                state.pan.on = false;
+                state.canvas.classList.remove('hd-panning');
+                try {
+                    state.canvas.releasePointerCapture(ev.pointerId);
+                } catch (e) {}
+            }
+        }
+        state.canvas.addEventListener('pointerup', endPan);
+        state.canvas.addEventListener('pointercancel', endPan);
         state.canvas.addEventListener('mouseleave', function () {
             state.hoverIndex = -1;
             state.pointer.on = false;
         });
         state.canvas.addEventListener('click', function (ev) {
             if (state.mode !== 'hd-map') {
+                return;
+            }
+            if (state.pan.suppressClick) {
+                state.pan.suppressClick = false;
+                ev.preventDefault();
                 return;
             }
             if (state.phase === 'classic-menu') {
@@ -2420,7 +2626,7 @@
         writeStorage(STORAGE_KEY, mode);
         state.mode = mode;
         if (mode === 'hd-map') {
-            state.hint = 'HD 地图。默认仍可切回经典；1×/2× 只作用于经典 LCD。';
+            state.hint = '拖动平移。点己方城打开经典菜单；可切回经典 LCD。';
             state.probed = false;
             state._roadsLogged = false;
             if (global.BayeHdOverworldProbe) {
@@ -2488,6 +2694,17 @@
         setMode: setMode,
         getPhase: function () { return state.phase; },
         getCities: function () { return state.cities; },
+        mapToScreen: toScreen,
+        panBy: function (dx, dy) {
+            state.camera.x += dx;
+            state.camera.y += dy;
+            clampCamera();
+            if (state.mode === 'hd-map') {
+                draw();
+            }
+            return state.camera;
+        },
+        getCamera: function () { return state.camera; },
         getAlignLog: function () { return state.alignLog; },
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },
@@ -2545,6 +2762,14 @@
                 owned: state.cities.filter(function (c) { return c.kind === 'owned'; })
                     .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; }),
                 layout: state.geoCities ? 'china-lcc' : 'engine-grid',
+                camera: {
+                    x: Math.round(state.camera.x),
+                    y: Math.round(state.camera.y),
+                    scale: Number(state.camera.scale.toFixed(3)),
+                    mapW: state.camera.mapW,
+                    mapH: state.camera.mapH,
+                    inited: state.camera.inited
+                },
                 roads: {
                     source: state.roads.source,
                     edges: state.roads.edges ? state.roads.edges.length : 0,

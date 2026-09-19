@@ -2,12 +2,14 @@
   "designWidth": 1920,
   "designHeight": 1080,
   "style": "modern-2d-strategy",
-  "version": "5",
+  "version": "6",
   "source": "wikimedia-china-lcc-topographic",
-  "note": "Terrain + city UVs follow Wikimedia China LCC topographic (Flappiefh / Augusta 89, CC BY-SA 4.0, eqdc). Engine city IDs unchanged. Do not merge to main until approved.",
+  "note": "Full uncropped China LCC (3840×3309). Viewport is a pannable 1920×1080 camera. Engine city IDs unchanged. Do not merge to main until approved.",
+  "mapWidth": 3840,
+  "mapHeight": 3309,
   "layers": {
     "terrain": [
-      "terrain/base_plains.png",
+      "terrain/base_plains.jpg",
       "terrain/overlay_mountains.png",
       "terrain/overlay_rivers.png",
       "terrain/overlay_forest.png"

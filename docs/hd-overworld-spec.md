@@ -3,7 +3,7 @@
 本文是 **大地图（overworld）** 的产品与技术规格。它不是 CSS 2× 放大说明书——那一层见 [hd-graphics.md](hd-graphics.md)。  
 规格与实现路径仍不替换 `dat.lib`、不伪造游戏截图。几何占位可继续用于未接线的层。
 
-**素材现状（分支内）：** HD 视觉地理以 Wikimedia **China LCC topographic map - Without border**（Flappiefh / Augusta 89，CC BY-SA 4.0，eqdc）为**主参考**（见 `GEOGRAPHY.md` 与 [china-lcc-city-alignment.md](china-lcc-city-alignment.md)）。可玩底图是该 SVG 宽锁定后竖裁的 1920×1080 全图（源图已无标注）；**城标按史实经纬度投影到本栅格**。建安郡国图仅作可选史实对照。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
+**素材现状（分支内）：** HD 视觉地理以 Wikimedia **China LCC topographic map - Without border**（Flappiefh / Augusta 89，CC BY-SA 4.0，eqdc）为**主参考**（见 `GEOGRAPHY.md` 与 [china-lcc-city-alignment.md](china-lcc-city-alignment.md)）。可玩底图是该 SVG **全幅、无南裁** 的 3840×3309 栅格（含海南 / 南海南沙一带；源图已无标注）。1080p 画布是可拖动摄像机窗口，开局对准中东部（西凉–襄平–建业–成都），**不把全国塞进一屏**。**城标按史实经纬度投影到全图地图坐标**，绘制 / 点选用 `map - camera`。建安郡国图仅作可选史实对照。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
 **分支策略：本轨道只停在 `feature/hd-graphics`，在用户明确要求之前不要合入 `main`。**
 
 状态：产品方向已锁定；史实向地形已进本分支。**P0–P3 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网。邻接来自 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。关隘只标在路中点压到河叠加处。缺口见 §8–§9 与 FEATURES.md。
@@ -315,7 +315,7 @@ P3 诚实缺口：
   "style": "modern-2d-strategy",
   "version": "1",
   "layers": {
-    "terrain": ["terrain/base_plains.png", "terrain/overlay_mountains.png", "terrain/overlay_rivers.png", "terrain/overlay_forest.png"],
+    "terrain": ["terrain/base_plains.jpg", "terrain/overlay_mountains.png", "terrain/overlay_rivers.png", "terrain/overlay_forest.png"],
     "roads": { "stroke": "roads/stroke.png", "pass": "roads/pass.png" },
     "cities": {
       "empty": "cities/marker_empty.png",
@@ -335,10 +335,10 @@ P3 诚实缺口：
 
 | 资产 | 路径 | 尺寸 | 说明 |
 |------|------|------|------|
-| 平原底 | `terrain/base_plains.png` | 1920×1080 | 最底层，可无透明 |
-| 山 | `terrain/overlay_mountains.png` | 1920×1080 | 透明叠加 |
-| 河 / 湖 | `terrain/overlay_rivers.png` | 1920×1080 | 透明叠加 |
-| 林 | `terrain/overlay_forest.png` | 1920×1080 | 透明叠加 |
+| 平原底 | `terrain/base_plains.jpg` | 3840×3309（全 SVG） | 最底层；视口是 1920×1080 摄像机，可拖动 |
+| 山 | `terrain/overlay_mountains.png` | 与底图同范围或占位 | 透明叠加；当前关隘检测用，可不绘制 |
+| 河 / 湖 | `terrain/overlay_rivers.png` | 与底图同范围 | 透明叠加；当前关隘检测用，河已在底图上 |
+| 林 | `terrain/overlay_forest.png` | 与底图同范围或占位 | 透明叠加 |
 | 可选地格 | `terrain/tileset.png` | 网格 128×128，每格一种 | 仅当不用整屏图层时 |
 | 路笔刷 | `roads/stroke.png` | 高 16 或 32、可横向平铺 | 程序沿线刷；没有则用纯色描边 |
 | 关隘 | `roads/pass.png` | 48×48 或 64×64 | 锚点中心 |
@@ -401,7 +401,7 @@ P3 诚实缺口：
 
 1. 年/月、当前城、邻接的准确 `baye.data` 字段名。
 2. HD 地图打开时经典 LCD 是隐藏、缩到左下 480×288，还是只在菜单时弹出（建议：**地图期隐藏 LCD，菜单期弹出经典 LCD**）。
-3. 是否允许用户提供一张手绘整图底图（1920×1080）代替分层地形——允许，但城点仍必须按引擎坐标叠，不能「画死」38 城在底图像素上却对不齐归属。
+3. 是否允许用户提供一张手绘整图底图代替分层地形——允许，但城点仍必须按全图地图坐标叠，不能「画死」38 城在视口像素上却对不齐归属。
 
 ---
 
