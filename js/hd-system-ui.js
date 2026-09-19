@@ -124,12 +124,29 @@
     }
 
     function personNameById(id) {
+        var name = '';
         try {
             if (window.baye && typeof baye.getPersonNameByID === 'function') {
-                return baye.getPersonNameByID(id);
+                name = baye.getPersonNameByID(id) || '';
             }
         } catch (e) {}
-        return String(id);
+        if (!name || name === '-' || name === String(id)) {
+            try {
+                if (window.baye && typeof baye.getPersonName === 'function' && id > 0) {
+                    name = baye.getPersonName(id - 1) || name;
+                }
+            } catch (e) {}
+        }
+        if (!name || name === '-') {
+            try {
+                var data = engineData();
+                var p = data && data.g_Persons && data.g_Persons[id - 1];
+                if (p && typeof p.name === 'string' && p.name && p.name !== '-') {
+                    name = p.name;
+                }
+            } catch (e) {}
+        }
+        return name && name !== '-' ? name : '';
     }
 
     function probeKings() {
@@ -145,11 +162,14 @@
                 }
                 seen[b] = true;
                 var name = personNameById(b);
+                if (!name) {
+                    continue;
+                }
                 var cityName = '';
                 try {
                     cityName = baye.getCityName(i) || '';
                 } catch (e) {}
-                list.push({ id: b, name: name || ('ID ' + b), city: cityName });
+                list.push({ id: b, name: name, city: cityName });
             }
         }
         if (list.length) {
@@ -176,6 +196,25 @@
                     continue;
                 }
                 list.push({ id: i + 1, name: pname, city: '' });
+            }
+        }
+        if (list.length) {
+            return list;
+        }
+        /* 再扫已挂到人物对象上的 name（demos/printPersons 会写）。 */
+        if (data && data.g_Persons) {
+            var n2 = data.g_Persons.length || 0;
+            for (i = 0; i < n2 && i < 260; i++) {
+                var p2 = data.g_Persons[i];
+                var belong2 = readNumber(p2, 'Belong');
+                if (belong2 !== i + 1) {
+                    continue;
+                }
+                var n2name = (p2 && typeof p2.name === 'string') ? p2.name : '';
+                if (!n2name || n2name === '-') {
+                    continue;
+                }
+                list.push({ id: i + 1, name: n2name, city: '' });
             }
         }
         return list;
@@ -294,8 +333,12 @@
         document.documentElement.setAttribute('data-baye-system-ui', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-system-ui-pref', getMode());
         if (document.body) {
+            var kingEmpty = show && state.screen === 'king' && !state.kings.length;
+            var hasKings = show && state.screen === 'king' && state.kings.length > 0;
             document.body.classList.toggle('baye-hd-system-ui-on', show);
-            document.body.classList.toggle('baye-hd-system-ui-lcd', show && state.showLcd);
+            document.body.classList.toggle('baye-hd-system-ui-lcd', show && state.showLcd && !hasKings);
+            document.body.classList.toggle('baye-hd-system-ui-king-empty', kingEmpty);
+            document.body.classList.toggle('baye-hd-system-ui-has-kings', hasKings);
         }
         var root = el('hd-system-ui');
         if (root) {
@@ -340,8 +383,8 @@
     function screenHint() {
         if (state.screen === 'king') {
             return state.kings.length
-                ? '名单来自各城 Belong，点选按光标发键；形势图顺序可能不同，经典 LCD 可对照。'
-                : '城归属尚未写入。请用经典 LCD 势力形势图选君主，不编造名单。';
+                ? '已读到 ' + state.kings.length + ' 个势力。点选按 onMenuIdle 光标发键；形势图顺序可能不同。'
+                : '形势图阶段城归属通常还没写入。请用右侧放大的经典 LCD 选君主；名单一出现会自动填入并收起 LCD。';
         }
         if (state.screen === 'saveload') {
             return state.saves.length
@@ -370,7 +413,9 @@
             empty.className = 'hd-system-ui-empty';
             empty.textContent = state.screen === 'saveload'
                 ? '未探测到存档。请用经典 LCD 或先在游戏内存储进度。'
-                : '暂无探测项。';
+                : (state.screen === 'king'
+                    ? '还没有可读的君主名。右侧是引擎势力形势图：方向键移动，回车选定。不编造名单。'
+                    : '暂无探测项。');
             list.appendChild(empty);
             return;
         }
@@ -384,6 +429,14 @@
             }
             btn.textContent = items[i];
             list.appendChild(btn);
+        }
+        var idle = list.querySelector('.hd-system-ui-item.is-idle');
+        if (idle && idle.scrollIntoView) {
+            try {
+                idle.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            } catch (e) {
+                idle.scrollIntoView(false);
+            }
         }
     }
 
@@ -429,6 +482,9 @@
             if (nextKings.length || !state.kings.length) {
                 state.kings = nextKings;
             }
+            if (state.kings.length) {
+                state.showLcd = false;
+            }
         }
         if (next === 'saveload') {
             state.saves = probeSaves();
@@ -440,6 +496,26 @@
             console.log('[hd-system-ui] open', next);
         }
         render();
+    }
+
+    function scheduleKingRefresh() {
+        [120, 280, 560, 1100, 2000, 3200].forEach(function (ms) {
+            setTimeout(function () {
+                if (!state.open || state.screen !== 'king') {
+                    return;
+                }
+                var next = probeKings();
+                var prevSig = state.kings.map(function (k) { return k.id + ':' + k.name; }).join(',');
+                var nextSig = next.map(function (k) { return k.id + ':' + k.name; }).join(',');
+                if (nextSig !== prevSig) {
+                    state.kings = next;
+                    if (next.length) {
+                        state.showLcd = false;
+                    }
+                    render();
+                }
+            }, ms);
+        });
     }
 
     function closeUi(opts) {
@@ -468,8 +544,9 @@
         } else if (state.screen === 'period') {
             state.screen = 'king';
             state.idleIndex = 0;
-            state.showLcd = true;
             state.kings = probeKings();
+            state.showLcd = !state.kings.length;
+            scheduleKingRefresh();
         } else if (state.screen === 'insystem' && index === 1) {
             state.screen = 'saveload';
             state.showLcd = true;
@@ -505,6 +582,8 @@
             } else if (name === 'chooseActor') {
                 state.screen = 'king';
                 state.kings = probeKings();
+                state.showLcd = !state.kings.length;
+                scheduleKingRefresh();
             } else if (name === 'mainSystemMenu') {
                 state.screen = 'insystem';
             }
@@ -515,6 +594,13 @@
             state.idleIndex = Number(ctx.index);
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
+            if (state.screen === 'king') {
+                state.kings = probeKings();
+                if (state.kings.length) {
+                    state.showLcd = false;
+                    render();
+                }
+            }
             closeUi({ silent: true });
             return;
         }

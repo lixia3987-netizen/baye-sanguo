@@ -13,13 +13,16 @@
 
 .hd-dialog.is-open {
     display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 32px;
     pointer-events: auto;
 }
 
 .hd-dialog-stage {
     width: min(720px, calc(100vw - 48px));
-    min-height: 280px;
-    max-height: min(640px, calc(100vh - 80px));
+    min-height: 220px;
+    max-height: min(420px, calc(100vh - 280px));
     padding: 26px 28px 20px;
     border-radius: 16px;
     background: linear-gradient(180deg, rgba(32, 38, 52, 0.98), rgba(16, 20, 28, 0.98));
@@ -42,6 +45,15 @@
     white-space: pre-wrap;
     overflow: auto;
     min-height: 80px;
+}
+
+.hd-dialog.is-empty-text .hd-dialog-body {
+    color: #c5cdd8;
+    font-size: 17px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(240, 199, 90, 0.35);
 }
 
 .hd-dialog-range {
@@ -105,11 +117,17 @@ html[data-baye-dialog="hd"] body.baye-hd-dialog-lcd .container.js-baye-pc-lcd {
     visibility: visible;
     pointer-events: auto;
     position: fixed;
-    right: 20px;
-    bottom: 20px;
-    left: auto;
+    left: 50%;
+    right: auto;
+    bottom: 24px;
     top: auto;
-    transform: none;
-    width: 280px !important;
+    transform: translateX(-50%);
+    width: 520px !important;
     z-index: 78;
+    box-shadow: 0 0 0 5px #141820, 0 18px 48px rgba(0, 0, 0, 0.55);
+}
+
+html[data-baye-dialog="hd"] body.baye-hd-dialog-help .container.js-baye-pc-lcd,
+html[data-baye-dialog="hd"] body.baye-hd-dialog-empty-text .container.js-baye-pc-lcd {
+    width: 560px !important;
 }

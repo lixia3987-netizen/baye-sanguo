@@ -90,6 +90,48 @@
         return false;
     }
 
+    function looksLikeSpeech(text) {
+        if (!text || typeof text !== 'string') {
+            return false;
+        }
+        var t = text.replace(/\s+/g, '');
+        return t.length >= 2 && t.length < 400 && !/^\[object/.test(t);
+    }
+
+    function probeExtraStrings(data) {
+        var found = [];
+        var names = [
+            'g_asyncActionStringParam', 'g_sysMsg', 'g_Message', 'g_TalkMsg',
+            'g_HelpText', 'g_Report', 'g_InfoText'
+        ];
+        var i;
+        for (i = 0; i < names.length; i++) {
+            var s = readString(data, names[i]);
+            if (looksLikeSpeech(s)) {
+                found.push(s);
+            }
+        }
+        try {
+            if (typeof baye.getCustomData === 'function') {
+                var custom = baye.getCustomData();
+                if (looksLikeSpeech(custom)) {
+                    found.push(custom);
+                }
+            }
+        } catch (e) {}
+        var props = data && data._baye_properties ? data._baye_properties : [];
+        for (i = 0; i < props.length; i++) {
+            if (!/string|msg|talk|text|help|report|info/i.test(props[i])) {
+                continue;
+            }
+            var extra = readString(data, props[i]);
+            if (looksLikeSpeech(extra) && found.indexOf(extra) < 0) {
+                found.push(extra);
+            }
+        }
+        return found;
+    }
+
     function readAsync() {
         var data = engineData();
         var info = { id: 0, min: null, max: null, init: null, text: '', keys: [] };
@@ -104,6 +146,12 @@
             info.init = readNumber(params, 2);
         }
         info.text = readString(data, 'g_asyncActionStringParam');
+        if (!looksLikeSpeech(info.text)) {
+            var extras = probeExtraStrings(data);
+            if (extras.length) {
+                info.text = extras[0];
+            }
+        }
         if (data._baye_properties) {
             info.keys = data._baye_properties.filter(function (name) {
                 return /msg|talk|text|help|report|string/i.test(name);
@@ -118,11 +166,14 @@
         if (document.body) {
             document.body.classList.toggle('baye-hd-dialog-on', show);
             document.body.classList.toggle('baye-hd-dialog-lcd', show && state.showLcd);
+            document.body.classList.toggle('baye-hd-dialog-help', show && (state.kind === 'help'));
+            document.body.classList.toggle('baye-hd-dialog-empty-text', show && !state.body);
         }
         var root = el('hd-dialog');
         if (root) {
             root.classList.toggle('is-open', show);
             root.classList.toggle('is-qty', state.kind === 'qty');
+            root.classList.toggle('is-empty-text', !state.body);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
         }
     }
@@ -137,10 +188,13 @@
         if (body) {
             if (state.body) {
                 body.textContent = state.body;
+            } else if (state.kind === 'qty') {
+                body.textContent = '数量由引擎保存。词典无 0–9 键，HD 只发上下左右 / 确认。区间来自探测，没有就不写。';
+            } else if (state.kind === 'help') {
+                body.textContent = (state.title === '查找' ? '已发 VK_SEARCH。' : '已发 VK_HELP。') +
+                    ' 引擎帮助/查找正文画在下方放大的经典屏上，这里不编造条目。';
             } else {
-                body.textContent = state.kind === 'qty'
-                    ? '数量由引擎保存。词典无 0–9 键，HD 只发上下左右 / 确认。区间来自探测，没有就不写。'
-                    : '未读到 g_asyncActionStringParam。不编造台词，请看经典 LCD。';
+                body.textContent = '引擎没把报告字符串写进 JS 桥。下方放大的经典屏是原文；确认 / 返回仍发回引擎。';
             }
         }
         var range = el('hd-dialog-range');
@@ -328,11 +382,11 @@
         },
         openHelp: function () {
             engineSendKey(VK.HELP);
-            return openDialog({ kind: 'help', title: '帮助', body: '已向引擎发 VK_HELP。正文以经典 LCD 为准。', showLcd: true });
+            return openDialog({ kind: 'help', title: '帮助', body: '', showLcd: true });
         },
         openSearch: function () {
             engineSendKey(VK.SEARCH);
-            return openDialog({ kind: 'help', title: '查找', body: '已向引擎发 VK_SEARCH。', showLcd: true });
+            return openDialog({ kind: 'help', title: '查找', body: '', showLcd: true });
         },
         close: closeDialog,
         onEngineHook: onEngineHook,

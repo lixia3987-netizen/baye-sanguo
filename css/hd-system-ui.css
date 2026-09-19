@@ -77,9 +77,13 @@
 
 .hd-system-ui-empty {
     grid-column: 1 / -1;
-    padding: 24px 8px;
-    color: #9aa3b2;
+    padding: 22px 18px;
+    color: #c5cdd8;
     font-size: 16px;
+    line-height: 1.55;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(240, 199, 90, 0.35);
 }
 
 .hd-system-ui-footer {
@@ -130,4 +134,16 @@ html[data-baye-system-ui="hd"] body.baye-hd-system-ui-lcd .container.js-baye-pc-
     transform: none;
     width: 280px !important;
     z-index: 72;
+}
+
+html[data-baye-system-ui="hd"] body.baye-hd-system-ui-king-empty .container.js-baye-pc-lcd {
+    width: 440px !important;
+    right: 28px;
+    bottom: 72px;
+    box-shadow: 0 0 0 4px #1b1f27, 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+
+html[data-baye-system-ui="hd"] body.baye-hd-system-ui-has-kings .container.js-baye-pc-lcd {
+    visibility: hidden !important;
+    pointer-events: none;
 }

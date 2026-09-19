@@ -271,7 +271,7 @@
         }
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.clearRect(0, 0, DESIGN_W, DESIGN_H);
-        ctx.fillStyle = '#141820';
+        ctx.fillStyle = '#12161d';
         ctx.fillRect(0, 0, DESIGN_W, DESIGN_H);
 
         var pad = 80;
@@ -285,7 +285,6 @@
         var oy = 72;
         var r;
         var c;
-        /* B2：按图元取色，ID 未在引擎文档写死，只作分类色不标地形名。 */
         var pal = ['#2f5d32', '#c2b280', '#6b5a4a', '#1f4d2e', '#8a6a3a', '#7a3a3a', '#5a4a3a', '#2a4a6a'];
         var painted = 0;
         if (state.tiles && state.tiles.length) {
@@ -295,18 +294,22 @@
                 }
             }
         }
-        if (state.tiles && state.tiles.length && cols && rows && (painted || !state.preview)) {
-            for (r = 0; r < rows; r++) {
-                for (c = 0; c < cols; c++) {
+        var useTiles = state.tiles && state.tiles.length && cols && rows && (painted || !state.preview);
+        for (r = 0; r < rows; r++) {
+            for (c = 0; c < cols; c++) {
+                if (useTiles) {
                     var tile = state.tiles[r * cols + c] || 0;
                     ctx.fillStyle = pal[Math.abs(tile) % pal.length];
-                    ctx.globalAlpha = 0.55;
-                    ctx.fillRect(ox + c * cw, oy + r * ch, cw + 0.5, ch + 0.5);
+                    ctx.globalAlpha = 0.62;
+                } else {
+                    ctx.fillStyle = (r + c) % 2 ? '#1a2030' : '#161b26';
+                    ctx.globalAlpha = 1;
                 }
+                ctx.fillRect(ox + c * cw, oy + r * ch, cw + 0.5, ch + 0.5);
             }
-            ctx.globalAlpha = 1;
         }
-        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.globalAlpha = 1;
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
         ctx.lineWidth = 1;
         for (r = 0; r <= rows; r++) {
             ctx.beginPath();
@@ -320,35 +323,61 @@
             ctx.lineTo(ox + c * cw, oy + rows * ch);
             ctx.stroke();
         }
+        ctx.fillStyle = 'rgba(220,226,236,0.45)';
+        ctx.font = '11px BayeUI, sans-serif';
+        ctx.textAlign = 'center';
+        for (c = 0; c < cols; c += Math.max(1, Math.floor(cols / 8))) {
+            ctx.fillText(String(c), ox + (c + 0.5) * cw, oy - 8);
+        }
+        ctx.textAlign = 'right';
+        for (r = 0; r < rows; r += Math.max(1, Math.floor(rows / 8))) {
+            ctx.fillText(String(r), ox - 8, oy + (r + 0.65) * ch);
+        }
         if (state.focus.x != null && state.focus.y != null) {
             ctx.strokeStyle = '#f0c75a';
             ctx.lineWidth = 3;
             ctx.strokeRect(ox + state.focus.x * cw + 2, oy + state.focus.y * ch + 2, cw - 4, ch - 4);
         }
         var i;
+        var drawn = 0;
         for (i = 0; i < state.units.length; i++) {
             var u = state.units[i];
             if (u.x == null || u.y == null) {
                 continue;
             }
+            drawn += 1;
             var ux = ox + (u.x + 0.5) * cw;
             var uy = oy + (u.y + 0.5) * ch;
+            var rad = Math.min(cw, ch) * 0.3;
             ctx.beginPath();
             ctx.fillStyle = u.side === 'player' ? '#3d8bfd' : '#c43c3c';
-            ctx.arc(ux, uy, Math.min(cw, ch) * 0.28, 0, Math.PI * 2);
+            ctx.arc(ux, uy, rad, 0, Math.PI * 2);
             ctx.fill();
+            ctx.strokeStyle = u.active ? '#f4f7fb' : 'rgba(244,247,251,0.35)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            if (u.hp != null) {
+                ctx.fillStyle = '#1b1f27';
+                ctx.fillRect(ux - rad, uy + rad * 0.55, rad * 2, 5);
+                ctx.fillStyle = '#6bcf7a';
+                ctx.fillRect(ux - rad, uy + rad * 0.55, rad * 2 * Math.max(0, Math.min(1, u.hp / 100)), 5);
+            }
             ctx.fillStyle = '#f4f7fb';
-            ctx.font = '14px BayeUI, "Noto Sans CJK SC", sans-serif';
+            ctx.font = '13px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText(u.name || ('#' + u.i), ux, uy - Math.min(cw, ch) * 0.34);
+            ctx.fillText(u.name || ('#' + u.i), ux, uy - rad - 4);
         }
-        if (!state.units.length) {
-            ctx.fillStyle = 'rgba(243,246,251,0.72)';
+        ctx.textAlign = 'left';
+        ctx.font = '15px BayeUI, "Noto Sans CJK SC", sans-serif';
+        ctx.fillStyle = '#9aa6b8';
+        ctx.fillText('蓝=己方  红=敌方  ·  格色来自 g_FightMap 图元  ·  无坐标的将不画', ox, oy + rows * ch + 28);
+        if (!drawn) {
+            ctx.fillStyle = 'rgba(243,246,251,0.82)';
             ctx.font = '22px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
             ctx.fillText(state.preview
-                ? 'B0 预览：尚未读到战场单位。经典 LCD 可对照。'
-                : '等待引擎战场数组 / fight hook…', DESIGN_W / 2, DESIGN_H / 2);
+                ? '预览棋盘。进战斗后从 g_GenPos / GenArray 画将。'
+                : '等待 fight hook 或 g_GenPos 坐标…', DESIGN_W / 2, DESIGN_H / 2);
         }
     }
 

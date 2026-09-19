@@ -67,7 +67,8 @@
         deepKind: '',
         deepLabel: '',
         deepStep: 0,
-        deepItems: []
+        deepItems: [],
+        deepSig: ''
     };
 
     function readStorage(key, fallback) {
@@ -122,8 +123,10 @@
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
         if (document.body) {
+            var deepEmpty = show && state.layer === 'deep' && state.deepKind !== 'qty' && !state.deepItems.length;
             document.body.classList.toggle('baye-hd-city-menu-on', show);
             document.body.classList.toggle('baye-hd-city-menu-lcd', show && state.showLcd);
+            document.body.classList.toggle('baye-hd-city-menu-deep-empty', deepEmpty);
         }
     }
 
@@ -423,9 +426,26 @@
             items[i].classList.toggle('is-idle', state.layer === 'sub' && state.idleIndex === si);
         }
         var deeps = document.querySelectorAll('[data-hd-deep]');
+        var idleNode = null;
         for (i = 0; i < deeps.length; i++) {
             var di = Number(deeps[i].getAttribute('data-hd-deep'));
-            deeps[i].classList.toggle('is-idle', state.layer === 'deep' && state.idleIndex === di);
+            var on = state.layer === 'deep' && state.idleIndex === di;
+            deeps[i].classList.toggle('is-idle', on);
+            if (on) {
+                idleNode = deeps[i];
+            }
+        }
+        for (i = 0; i < items.length; i++) {
+            if (items[i].classList.contains('is-idle')) {
+                idleNode = items[i];
+            }
+        }
+        if (idleNode && idleNode.scrollIntoView) {
+            try {
+                idleNode.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            } catch (e) {
+                idleNode.scrollIntoView(false);
+            }
         }
     }
 
@@ -435,6 +455,14 @@
             return;
         }
         state.deepItems = probeDeepItems();
+        var sig = state.deepKind + ':' + state.deepStep + ':' + state.deepItems.map(function (it) {
+            return it.name;
+        }).join(',');
+        if (state.deepSig === sig && list.children.length) {
+            applyHighlight();
+            return;
+        }
+        state.deepSig = sig;
         list.innerHTML = '';
         var i;
         if (state.deepKind === 'qty') {
@@ -454,7 +482,7 @@
         if (!state.deepItems.length) {
             var empty = document.createElement('div');
             empty.className = 'hd-city-menu-deep-empty';
-            empty.textContent = '未探测到人物/城池名单，经典 LCD 对照。';
+            empty.textContent = '还没有读到人物/城池名单。右侧放大的经典 LCD 是引擎当前列表；名单一对上就收起对照。';
             list.appendChild(empty);
             return;
         }
@@ -546,11 +574,19 @@
             var stepHint = (state.deepKind === 'person-city' && state.deepStep === 1)
                 ? '出征目标城（探测名，顺序可能不同于引擎）'
                 : (state.deepKind === 'city' ? '目标城池' : (state.deepKind === 'qty' ? '数量' : '人物'));
-            setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint + ' · 经典 LCD 对照');
+            setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
+                (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
             hideAllLayers();
             if (deep) {
                 deep.hidden = false;
                 fillDeepList();
+                if (state.deepKind !== 'qty' && state.deepItems.length) {
+                    state.showLcd = false;
+                    applyDocAttr();
+                } else if (state.deepKind !== 'qty' && !state.deepItems.length) {
+                    state.showLcd = true;
+                    applyDocAttr();
+                }
             }
         } else {
             var items = SUBS[state.subKind] || [];
@@ -683,11 +719,12 @@
         state.deepStep = 0;
         state.layer = 'deep';
         state.idleIndex = 0;
-        state.showLcd = true;
+        state.deepSig = '';
+        state.showLcd = false;
         applyDocAttr();
         var lcdBtn = document.querySelector('[data-hd-menu-lcd]');
         if (lcdBtn) {
-            lcdBtn.textContent = '隐藏经典 LCD';
+            lcdBtn.textContent = '经典 LCD';
         }
         render();
     }
@@ -704,13 +741,12 @@
             }, 280);
             return;
         }
-        if (global.BayeHdDialog && (state.deepKind === 'person' || state.deepKind === 'city')) {
+        if (global.BayeHdDialog) {
             setTimeout(function () {
                 if (global.BayeHdDialog) {
-                    BayeHdDialog.openReport('', state.deepLabel || '报告');
                     BayeHdDialog.poll();
                 }
-            }, 320);
+            }, 360);
         }
     }
 
