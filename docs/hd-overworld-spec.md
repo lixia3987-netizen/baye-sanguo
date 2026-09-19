@@ -3,7 +3,7 @@
 本文是 **大地图（overworld）** 的产品与技术规格。它不是 CSS 2× 放大说明书——那一层见 [hd-graphics.md](hd-graphics.md)。  
 规格与实现路径仍不替换 `dat.lib`、不伪造游戏截图。几何占位可继续用于未接线的层。
 
-**素材现状（分支内）：** `assets/hd-overworld/` 地形是 **史实向地理包 v2**（见同目录 `GEOGRAPHY.md`）：西左北上，黄河/长江/淮河 + 渭水/汉水/湘水支流与洞庭/鄱阳示意湖，南林更密。**山叠加**已换成沿西侧/秦岭/太行/四川缘/南岭放置的 shaded-relief 写真浮雕（脊线高光 + 接触阴影），不是平涂色块。与引擎城格相对方位对齐，**不是**经纬度 1:1。城标仍只读 `g_CityPositions`，不随底图挪动。其它层仍是 AI 占位。**不是**步步高原作美术。  
+**素材现状（分支内）：** HD 视觉地理以 Wikimedia **Jian'an Commanderies**（219 CE，Esiymbro，CC BY-SA 4.0）为严格参考（见 `GEOGRAPHY.md` 与 [jianan-city-alignment.md](jianan-city-alignment.md)）。地形/河湖海是该图 1920×1080 裁切衍生；**城标按建安图史实相对位置**，不再按引擎 12×8 格铺开。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
 **分支策略：本轨道只停在 `feature/hd-graphics`，在用户明确要求之前不要合入 `main`。**
 
 状态：产品方向已锁定；史实向地形已进本分支。**P0–P3 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网。邻接来自 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。关隘只标在路中点压到河叠加处。缺口见 §8–§9 与 FEATURES.md。
@@ -209,7 +209,7 @@ HD 地图选城并确认后：
 |--------|--------------------------|
 | 年 / 月 | **已确认。** 字段是 `g_YearDate` / `g_MonthDate`（不是 `g_YearN`）。董卓弄权开局读到 **190 / 1**，与 LCD「190年1月」一致。HUD 只接受 184–220 / 1–12 |
 | 当前光标城 | **无 `g_CityCrt`。** `g_CityX`/`g_CityY`/`g_FoucsX`/`g_FoucsY` **不是**大地图光标。词典原版方向键改的是 **`g_CityPos.setx` / `sety`**（西凉=1,0，安定=2,1），一次一格。**写这对字段读回会成功，但 ENTER 仍进原城**（西凉点安定曾进西凉菜单）。HD 只按 Δ 发方向键，对齐后再 `VK_ENTER`。`onMenuIdle` 确认菜单 |
-| `g_CityPositions` 单位 | **格坐标。** 38 城约 x 0–11、y 0–7。西凉 `(1,0)` Belong 6；晋阳 `(5,1)` Belong 10。线性映射到 1080p 安全区 |
+| `g_CityPositions` 单位 | **格坐标仍在。** 38 城约 x 0–11、y 0–7，只供 WASM / 格走入城。HD 城标改走 `jianan-cities.json`（建安图 UV） |
 | 玩家君主 | `g_PlayerKing` 开局张杨为 **9**（0-based）；城 `Belong` 为 **10**。`resolvePlayerBelong` 按城计数对齐。`getPersonNameByID(10)` → 张杨 |
 | 「正在大地图」 | 仍用 `g_PIdx` 1–8 + 城有归属。本次开局 `g_PIdx=3` 但年是 190（董卓弄权），时期名映射不可靠，只当「在战役中」启发式 |
 | 城邻接 / 关隘 | **无引擎邻接字段。** 词典原版 `g_Cities[0]` 字段为 Farming/Commerce/Food/Belong/SatrapId/PeopleDevotion/PersonQueue/ToolQueue 等，无 Exit/Link。`SearchRoad` 等未导出（`wasmRoadExported=false`）。运行时 Chebyshev≤1 得 **67** 条边；过河关隘 **5**（史实向河线更细，旧占位河曾为 10）；城 30 云南孤立。见 `roads/adjacency.json` |
@@ -266,7 +266,7 @@ P1 诚实缺口：
 
 P2 已实现：
 
-- 绘制顺序：地形（史实向地理包 v2：plains + shaded-relief mountains + rivers + forest，1920×1080）→ 路（5px 土色二次曲线）→ 城标/势力 → 城名 → 悬停/选中/入城闪（P3）。城点不随地形重绘移动
+- 绘制顺序：地形（建安郡国图裁切 + 提取河）→ 路（史实近邻，5px 土色二次曲线）→ 城标/势力 → 城名 → 悬停/选中/入城闪（P3）。城标 HD 坐标来自 `jianan-cities.json`
 - 邻接优先读城对象 Exit/Link；没有则用 `adjacency.json` 里写死的边；再没有则运行时 Chebyshev≤1
 - 当前词典原版走第三条：`source=tile-neighbors`。`stroke.png`（64×16 土色）作 pattern，不行就纯色
 - 关隘：`pass.png` 只放在路中点压到河、且两端城不在河上的边上（过河）。山 overlay 误报太多，不单独标关

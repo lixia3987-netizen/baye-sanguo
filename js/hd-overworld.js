@@ -1,7 +1,7 @@
 /**
  * HD 大地图表现壳（P0 容器 + P1 城态/点选 + P2 路网 + P3 反馈）。
- * 不改 WASM / 不改 dat.lib。经典模式默认，可切回。
- * 规格：docs/hd-overworld-spec.md
+ * 视觉地理：建安郡国图（Jian'an Commanderies）。不改 WASM / dat.lib。
+ * 经典模式默认，可切回。规格：docs/hd-overworld-spec.md
  */
 (function (global) {
     var STORAGE_KEY = 'baye/overworldMode';
@@ -86,6 +86,8 @@
         dateInfo: { year: null, month: null, source: 'none' },
         sawFightHook: false,
         adjacencyJson: null,
+        jiananCities: null,
+        engineTileEdges: [],
         roads: { source: 'none', edges: [], passes: 0 },
         pointer: { x: 0, y: 0, on: false },
         enterFx: { index: -1, start: 0, duration: 150 },
@@ -287,7 +289,7 @@
             add('road:pass', roadsLayer.pass || 'roads/pass.png');
             var paletteRel = layers.palette || 'palette/factions.json';
 
-            var left = pending.length + 2;
+            var left = pending.length + 3;
             function tick() {
                 left -= 1;
                 if (left <= 0) {
@@ -306,6 +308,10 @@
             });
             loadJSON(assetUrl('roads/adjacency.json'), function (adj) {
                 state.adjacencyJson = adj;
+                tick();
+            });
+            loadJSON(assetUrl('jianan-cities.json'), function (jianan) {
+                state.jiananCities = jianan && jianan.cities ? jianan.cities : null;
                 tick();
             });
             for (var p = 0; p < pending.length; p++) {
@@ -448,6 +454,20 @@
         };
     }
 
+    function jiananRecord(row) {
+        var table = state.jiananCities;
+        if (!table || !table.length) {
+            return null;
+        }
+        var i;
+        for (i = 0; i < table.length; i++) {
+            if (table[i].i === row.index || table[i].name === row.name) {
+                return table[i];
+            }
+        }
+        return null;
+    }
+
     function sampleCities() {
         var data = engineData();
         var rawPos = data && data.g_CityPositions;
@@ -524,11 +544,21 @@
 
         var bounds = { minX: minX, maxX: maxX, minY: minY, maxY: maxY };
         var labels = [];
+        var usedJianan = 0;
         for (var r = 0; r < rows.length; r++) {
-            var hd = mapEngineToHd(rows[r].engX, rows[r].engY, bounds);
-            rows[r].hdX = hd.x;
-            rows[r].hdY = hd.y;
-            rows[r].labelY = hd.y + 44;
+            var rec = jiananRecord(rows[r]);
+            if (rec && rec.hdX != null && rec.hdY != null) {
+                rows[r].hdX = rec.hdX;
+                rows[r].hdY = rec.hdY;
+                rows[r].layout = 'jianan';
+                usedJianan += 1;
+            } else {
+                var hd = mapEngineToHd(rows[r].engX, rows[r].engY, bounds);
+                rows[r].hdX = hd.x;
+                rows[r].hdY = hd.y;
+                rows[r].layout = rows[r].source;
+            }
+            rows[r].labelY = rows[r].hdY + 44;
             labels.push(rows[r]);
         }
         dodgeLabels(rows);
@@ -543,13 +573,14 @@
                 usedEngine: usedEngine,
                 usedNameLayout: usedName,
                 usedGrid: usedGrid,
+                usedJianan: usedJianan,
                 safe: SAFE
             });
             for (var c = 0; c < rows.length; c++) {
                 console.log('[hd-overworld] city', rows[c].index, rows[c].name,
                     'eng=', rows[c].engX, rows[c].engY,
                     'hd=', Math.round(rows[c].hdX), Math.round(rows[c].hdY),
-                    'src=', rows[c].source, 'belong=', rows[c].belong);
+                    'src=', rows[c].source, 'layout=', rows[c].layout, 'belong=', rows[c].belong);
             }
             if (global.BayeHdOverworldProbe) {
                 global.BayeHdOverworldProbe.run();
@@ -868,6 +899,45 @@
         return edges;
     }
 
+    function historicalNeighborEdges(cities) {
+        var edges = [];
+        var seen = {};
+        function add(a, b) {
+            var lo = Math.min(a, b);
+            var hi = Math.max(a, b);
+            var key = lo + '-' + hi;
+            if (seen[key] || lo === hi) {
+                return;
+            }
+            seen[key] = true;
+            edges.push({ a: lo, b: hi });
+        }
+        var maxDist = 380;
+        var i;
+        var j;
+        var k;
+        for (i = 0; i < cities.length; i++) {
+            var dists = [];
+            for (j = 0; j < cities.length; j++) {
+                if (i === j) {
+                    continue;
+                }
+                var dx = cities[i].hdX - cities[j].hdX;
+                var dy = cities[i].hdY - cities[j].hdY;
+                dists.push({ j: j, d: Math.sqrt(dx * dx + dy * dy) });
+            }
+            dists.sort(function (a, b) { return a.d - b.d; });
+            var kept = 0;
+            for (k = 0; k < dists.length && kept < 3; k++) {
+                if (dists[k].d <= maxDist || kept < 2) {
+                    add(cities[i].index, cities[dists[k].j].index);
+                    kept += 1;
+                }
+            }
+        }
+        return edges;
+    }
+
     function normalizeJsonEdges(list, n) {
         var edges = [];
         var seen = {};
@@ -938,8 +1008,12 @@
             return info;
         }
         var engine = extractEngineAdjacency(cities);
+        state.engineTileEdges = tileNeighborEdges(cities);
         var rawEdges = [];
-        if (engine.edges.length) {
+        if (state.jiananCities && state.jiananCities.length) {
+            info.source = 'jianan-neighbors';
+            rawEdges = historicalNeighborEdges(cities);
+        } else if (engine.edges.length) {
             info.source = 'engine';
             rawEdges = engine.edges;
         } else if (state.adjacencyJson && state.adjacencyJson.edges && state.adjacencyJson.edges.length &&
@@ -948,7 +1022,7 @@
             rawEdges = normalizeJsonEdges(state.adjacencyJson.edges, cities.length);
         } else {
             info.source = 'tile-neighbors';
-            rawEdges = tileNeighborEdges(cities);
+            rawEdges = state.engineTileEdges;
         }
         var decorated = [];
         var connected = {};
@@ -1689,7 +1763,9 @@
     }
 
     function adjacencyNeighbors(index) {
-        var edges = state.roads && state.roads.edges ? state.roads.edges : [];
+        var edges = state.engineTileEdges && state.engineTileEdges.length
+            ? state.engineTileEdges
+            : (state.roads && state.roads.edges ? state.roads.edges : []);
         var out = [];
         var i;
         for (i = 0; i < edges.length; i++) {
@@ -2468,6 +2544,7 @@
                 focusY: data ? readNumber(data, 'g_FoucsY') : null,
                 owned: state.cities.filter(function (c) { return c.kind === 'owned'; })
                     .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; }),
+                layout: state.jiananCities ? 'jianan' : 'engine-grid',
                 roads: {
                     source: state.roads.source,
                     edges: state.roads.edges ? state.roads.edges.length : 0,
