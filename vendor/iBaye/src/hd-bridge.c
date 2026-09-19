@@ -25,6 +25,12 @@ U16 g_hdMenuIndex = 0;
 
 U8 g_hdFightActive = 0;
 U8 g_hdFightOver = 0;
+U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
+
+U32 g_hdQtyValue = 0;
+U32 g_hdQtyMin = 0;
+U32 g_hdQtyMax = 0;
+U8 g_hdQtyActive = 0;
 
 static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
 {
@@ -107,8 +113,31 @@ void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 
 void baye_hd_set_fight(U8 active, U8 over)
 {
+    U8 str[40];
     g_hdFightActive = active;
     g_hdFightOver = over;
+    str[0] = 0;
+    if (!active && over == 1) {
+        ResLoadToMem(STRING_CONST, STR_GAMEWON, str);
+    } else if (!active && over == 2) {
+        ResLoadToMem(STRING_CONST, STR_GAMELOST, str);
+    }
+    copy_gbk(g_hdFightResultGbk, BAYE_HD_FIGHT_RESULT_MAX, str);
+    EM_ASM({
+        try {
+            if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') {
+                BayeHdBattle.onEngineFight();
+            }
+        } catch (e) {}
+    });
+}
+
+void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
+{
+    g_hdQtyValue = value;
+    g_hdQtyMin = minV;
+    g_hdQtyMax = maxV;
+    g_hdQtyActive = active;
 }
 
 EMSCRIPTEN_KEEPALIVE
@@ -157,4 +186,9 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMenuIndex, U16);
     DEFADDF(g_hdFightActive, U8);
     DEFADDF(g_hdFightOver, U8);
+    DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
+    DEFADDF(g_hdQtyValue, U32);
+    DEFADDF(g_hdQtyMin, U32);
+    DEFADDF(g_hdQtyMax, U32);
+    DEFADDF(g_hdQtyActive, U8);
 }

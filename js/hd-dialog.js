@@ -216,7 +216,21 @@
             if (state.body) {
                 body.textContent = state.body;
             } else if (state.kind === 'qty') {
-                body.textContent = '数量由引擎保存。词典无 0–9 键，HD 只发上下左右 / 确认。区间来自探测，没有就不写。';
+                var qv = '';
+                try {
+                    if (window.baye && baye.hd && baye.hd.qty) {
+                        var q = baye.hd.qty();
+                        if (q && q.active) {
+                            qv = '当前 ' + q.value + '（' + q.min + '–' + q.max + '）。';
+                            state.min = q.min;
+                            state.max = q.max;
+                            state.init = q.value;
+                        }
+                    }
+                } catch (e) {}
+                body.textContent = (qv || '数量由引擎保存。') +
+                    ' 方向键步进；0–9 发 VK_DIGIT0=0x40（不占用词典 0x30–0x33）。';
+            }
             } else if (state.kind === 'help') {
                 body.textContent = (state.title === '查找' ? '已发 VK_SEARCH。' : '已发 VK_HELP。') +
                     ' 引擎帮助/查找正文画在下方放大的经典屏上，这里不编造条目。';
@@ -242,6 +256,18 @@
         var qty = el('hd-dialog-qty');
         if (qty) {
             qty.hidden = state.kind !== 'qty';
+            var digits = el('hd-dialog-qty-digits');
+            if (digits && !digits.getAttribute('data-built')) {
+                digits.setAttribute('data-built', '1');
+                var di;
+                for (di = 0; di <= 9; di++) {
+                    var db = document.createElement('button');
+                    db.type = 'button';
+                    db.setAttribute('data-hd-digit', String(di));
+                    db.textContent = String(di);
+                    digits.appendChild(db);
+                }
+            }
         }
         var caption = el('hd-dialog-caption');
         if (caption) {
@@ -347,6 +373,22 @@
             }
             return;
         }
+        try {
+            if (window.baye && baye.hd && baye.hd.qty) {
+                var qtyInfo = baye.hd.qty();
+                if (qtyInfo && qtyInfo.active) {
+                    openDialog({
+                        kind: 'qty',
+                        title: '数量',
+                        min: qtyInfo.min,
+                        max: qtyInfo.max,
+                        init: qtyInfo.value,
+                        showLcd: false
+                    });
+                    return;
+                }
+            }
+        } catch (e) {}
         if (info.id === 9) {
             state.asyncId = 9;
             openDialog({
@@ -431,6 +473,14 @@
                 if (t.getAttribute && t.getAttribute('data-hd-qty') != null) {
                     ev.preventDefault();
                     qtyStep(Number(t.getAttribute('data-hd-qty')));
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {
+                    ev.preventDefault();
+                    var dgt = Number(t.getAttribute('data-hd-digit'));
+                    if (isFinite(dgt) && dgt >= 0 && dgt <= 9) {
+                        engineSendKey(0x40 + dgt);
+                    }
                     return;
                 }
                 t = t.parentNode;

@@ -29,6 +29,22 @@
     height: 100%;
 }
 
+.hd-battle-result {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    transform: translate(-50%, -50%);
+    min-width: 280px;
+    padding: 18px 28px;
+    border-radius: 14px;
+    background: rgba(20, 24, 32, 0.92);
+    color: #f4e2a8;
+    font: 28px/1.4 BayeUI, "Noto Sans CJK SC", sans-serif;
+    text-align: center;
+    box-shadow: 0 12px 40px #0008;
+    pointer-events: none;
+}
+
 .hd-battle-hud {
     position: absolute;
     left: 20px;

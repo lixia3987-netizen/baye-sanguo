@@ -1228,6 +1228,7 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                 }
             }
 
+            baye_hd_set_qty(donum, min, max, 1);
             for (i = maxbit;(U8)(i + 1) >= 1;i --) {
                 if (show_enlarged) {
                     // enlarged version
@@ -1283,6 +1284,7 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                     }
                     break;
                 case VK_ENTER:
+                    baye_hd_set_qty(donum, min, max, 0);
                     return(donum);
                     break;
                 case VK_HELP:
@@ -1294,6 +1296,7 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                     showflag = 1;
                     break;
                 case VK_EXIT:
+                    baye_hd_set_qty(donum, min, max, 0);
                     return(0xffffffff);
                 default:
                     if (Msg.param >= VK_DIGIT0 && Msg.param <= VK_DIGIT0 + 9) {

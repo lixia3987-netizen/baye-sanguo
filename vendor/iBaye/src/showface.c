@@ -329,6 +329,27 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
             if (set >= top && set < top + count) {
                 gam_revlcd(x0,y0 + (set - top + 1) * ASC_HGT,x0 + ASC_WID * 10 - 1,y0 + (set - top + 1) * ASC_HGT + ASC_HGT - 1);
             }
+            {
+                U8 packed[BAYE_HD_MENU_MAX];
+                U8 tname[16];
+                U32 n = gcount;
+                U32 gi;
+                if (n > 80) {
+                    n = 80;
+                }
+                memset(packed, 0, sizeof(packed));
+                for (gi = 0; gi < n; gi++) {
+                    U32 ln;
+                    memset(tname, 0, sizeof(tname));
+                    GetGoodsName(goods[gi], tname);
+                    ln = (U32)gam_strlen(tname);
+                    if (ln > BAYE_HD_NAME_SLOT - 1) {
+                        ln = BAYE_HD_NAME_SLOT - 1;
+                    }
+                    memcpy(packed + gi * BAYE_HD_NAME_SLOT, tname, ln);
+                }
+                baye_hd_set_menu(packed, BAYE_HD_NAME_SLOT, (U16)n, (U16)set);
+            }
             showflag = 0;
         }
 

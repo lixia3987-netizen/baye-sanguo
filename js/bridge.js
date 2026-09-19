@@ -992,6 +992,37 @@ function baye_bridge_init() {
                 kings: list
             };
         },
+        fight: function () {
+            var d = baye.ensureData();
+            var result = '';
+            if (d && typeof d.g_hdFightResultGbk === 'string') {
+                result = d.g_hdFightResultGbk;
+            }
+            return {
+                active: hdReadNum(d, 'g_hdFightActive'),
+                over: hdReadNum(d, 'g_hdFightOver'),
+                result: result,
+                mapW: hdReadNum(d, 'g_MapWid'),
+                mapH: hdReadNum(d, 'g_MapHgt')
+            };
+        },
+        qty: function () {
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdQtyActive'),
+                value: hdReadNum(d, 'g_hdQtyValue'),
+                min: hdReadNum(d, 'g_hdQtyMin'),
+                max: hdReadNum(d, 'g_hdQtyMax')
+            };
+        },
+        toolName: function (id) {
+            try {
+                if (typeof baye.getToolName === 'function') {
+                    return baye.getToolName(id) || '';
+                }
+            } catch (e) {}
+            return '';
+        },
         menuItems: function () {
             var d = baye.ensureData();
             var itemLen = hdReadNum(d, 'g_hdMenuItemLen');

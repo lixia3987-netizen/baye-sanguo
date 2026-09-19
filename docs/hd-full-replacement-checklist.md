@@ -13,7 +13,7 @@
 | 开场动画 | LCD residual | 引擎播片，回车跳过；无独立图文接口，重做要改 WASM |
 | **大地图** | **HD done** | P0–P3 |
 | **城池根 / 一层 / 状况** | **HD done** | M0–M2 |
-| **人物选择** | **HD done** | `onMenuIdle` + `g_hdMenuBytes` 引擎项名；金框滚入；空名单才 LCD |
+| **人物选择** | **HD done** | `PlcSplMenu` + `ShowPersonControl` 写入 `g_hdMenuBytes`；一层菜单不再复用父菜单项名 |
 | **出征 / 外交目标城** | **HD done** | 同上，名单序跟引擎菜单缓冲 |
 | **数量 / 征兵步进** | **HD done** | 方向键步进 + PC 数字键 `0x40–0x49`（不占用词典 0x30–0x33） |
 | **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文。CDP：`农业开发度变为 730 (+34)。` 无 LCD OCR |
@@ -22,7 +22,7 @@
 | 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`，否则会替换系统菜单 |
 | **策略结束 / 存读档** | **partial** | HD 三项 + 只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
-| 战斗结算 | LCD residual | 无独立结算 hook；随战场 LCD 对照 |
+| 战斗结算 | **partial** | `exitBattle` 写 `g_hdFightOver`，HD HUD 显示结束码；无独立结算文案页 |
 | 道具详情 | LCD residual | 无道具名数组在 `onMenuIdle` ctx 上 |
 | 手机竖屏键位页 | 不做 | overworld 非目标 |
 | 地图编辑器 | 不做 | 不在玩法路径 |

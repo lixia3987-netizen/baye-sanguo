@@ -33,7 +33,9 @@
         showLcd: true,
         bound: false,
         loopId: 0,
-        probed: false
+        probed: false,
+        resultCode: 0,
+        resultText: ''
     };
 
     function readStorage(key, fallback) {
@@ -145,6 +147,13 @@
     }
 
     function fightLooksActive() {
+        var data = engineData();
+        if (data && Number(data.g_hdFightActive)) {
+            return true;
+        }
+        if (state.resultText) {
+            return true;
+        }
         if (state.lastHook && FIGHT_HOOKS[state.lastHook] && (Date.now() - state.lastHookAt) < 8000) {
             return true;
         }
@@ -185,16 +194,26 @@
         info.keys = listProps(data).filter(function (name) {
             return /fight|fgt|genpos|tile/i.test(name);
         });
-        if (data.g_FightMap && data.g_FightMap.length) {
-            info.mapLen = data.g_FightMap.length;
+        var mw = readNumber(data, 'g_MapWid');
+        var mh = readNumber(data, 'g_MapHgt');
+        var map = data.g_FightMapData && data.g_FightMapData.length ? data.g_FightMapData : data.g_FightMap;
+        if (mw && mh) {
+            info.mapW = mw;
+            info.mapH = mh;
+            info.mapLen = mw * mh;
+        } else if (map && map.length) {
+            info.mapLen = map.length;
             var sz = inferMapSize(info.mapLen);
             info.mapW = sz.w;
             info.mapH = sz.h;
+        }
+        if (map && info.mapW && info.mapH) {
             var t;
-            for (t = 0; t < info.mapLen; t++) {
-                var tv = readNumber(data.g_FightMap, t);
-                if (tv === null && data.g_FightMap[t] != null) {
-                    tv = Number(data.g_FightMap[t]);
+            var lim = Math.min(map.length || 0, info.mapW * info.mapH);
+            for (t = 0; t < lim; t++) {
+                var tv = readNumber(map, t);
+                if (tv === null && map[t] != null) {
+                    tv = Number(map[t]);
                 }
                 info.tiles.push(tv || 0);
             }
@@ -262,7 +281,17 @@
                 (state.lastHook || '无 hook') +
                 ' · 将=' + state.units.length +
                 ' · 图=' + (state.mapW ? (state.mapW + '×' + state.mapH) : '无') +
-                (state.lastHook === 'exitBattle' || over ? ' · 结束码=' + over : '');
+                (state.resultText ? ' · ' + state.resultText : (over ? ' · 结束码=' + over : ''));
+        }
+        var banner = el('hd-battle-result');
+        if (banner) {
+            if (state.resultText) {
+                banner.hidden = false;
+                banner.textContent = state.resultText + (state.resultCode ? '  (' + state.resultCode + ')' : '');
+            } else {
+                banner.hidden = true;
+                banner.textContent = '';
+            }
         }
     }
 
@@ -411,7 +440,8 @@
             return;
         }
         refresh();
-        if (!state.preview && !fightLooksActive() && state.lastHook && (Date.now() - state.lastHookAt) > 12000) {
+        if (!state.preview && !fightLooksActive() && !state.resultText &&
+            state.lastHook && (Date.now() - state.lastHookAt) > 16000) {
             closeBattle({ silent: true });
             return;
         }
@@ -434,6 +464,10 @@
         }
         state.open = true;
         state.preview = !!meta.preview;
+        if (!meta.keepResult) {
+            state.resultCode = 0;
+            state.resultText = '';
+        }
         if (meta.hook) {
             state.lastHook = meta.hook;
             state.lastHookAt = Date.now();
@@ -466,6 +500,7 @@
         state.lastHook = name;
         state.lastHookAt = Date.now();
         if (name === 'exitBattle') {
+            onEngineFight();
             refresh();
             return;
         }
@@ -511,9 +546,47 @@
         applyChrome();
     }
 
+    function onEngineFight() {
+        var info = null;
+        try {
+            info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
+        } catch (e) {}
+        if (info && info.active && !state.open && shouldShowHd()) {
+            enterBattle({ hook: 'g_hdFightActive' });
+        }
+        if (info && info.over) {
+            state.resultCode = info.over;
+            state.resultText = info.result || (info.over === 1 ? '我军大获全胜' : (info.over === 2 ? '我军全军覆没' : ''));
+            state.lastHook = 'exitBattle';
+            state.lastHookAt = Date.now();
+            if (!state.open && shouldShowHd()) {
+                enterBattle({ hook: 'exitBattle', keepResult: true });
+            }
+        }
+        if (state.open) {
+            refresh();
+        }
+    }
+
     function start() {
         bindUi();
         applyChrome();
+        setInterval(function () {
+            if (!shouldShowHd()) {
+                return;
+            }
+            var d = engineData();
+            if (d && Number(d.g_hdFightActive) && !state.open) {
+                enterBattle({ hook: 'g_hdFightActive' });
+            }
+            if (state.open) {
+                var f = null;
+                try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
+                if (f && f.over && !state.resultText) {
+                    onEngineFight();
+                }
+            }
+        }, 220);
     }
 
     applyChrome();
@@ -527,6 +600,7 @@
         enter: enterBattle,
         close: closeBattle,
         onEngineHook: onEngineHook,
+        onEngineFight: onEngineFight,
         debugPreview: function () {
             return enterBattle({ preview: true, hook: 'debugPreview' });
         },
@@ -543,7 +617,9 @@
                 mapW: state.mapW,
                 mapH: state.mapH,
                 genCount: fightArrayCount(),
-                focus: state.focus
+                focus: state.focus,
+                resultCode: state.resultCode,
+                resultText: state.resultText
             };
         }
     };

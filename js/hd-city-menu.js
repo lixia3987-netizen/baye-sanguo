@@ -514,12 +514,30 @@
         if (state.deepKind === 'qty') {
             var bar = document.createElement('div');
             bar.className = 'hd-city-menu-qty';
-            bar.innerHTML = '<p>词典无数字键。步进只发方向键，数量以引擎为准。</p>' +
+            var q = { value: '', min: '', max: '' };
+            try {
+                if (window.baye && baye.hd && baye.hd.qty) {
+                    q = baye.hd.qty();
+                }
+            } catch (e) {}
+            bar.innerHTML = '<p>引擎数量 <strong id="hd-city-qty-val">' +
+                (q.value !== '' && q.value != null ? q.value : '—') +
+                '</strong> · 可用方向步进或 0–9（VK_DIGIT0=0x40）</p>' +
                 '<div>' +
                 '<button type="button" data-hd-qty="-10">−10</button>' +
                 '<button type="button" data-hd-qty="-1">−</button>' +
                 '<button type="button" data-hd-qty="1">+</button>' +
                 '<button type="button" data-hd-qty="10">+10</button>' +
+                '<button type="button" data-hd-digit="0">0</button>' +
+                '<button type="button" data-hd-digit="1">1</button>' +
+                '<button type="button" data-hd-digit="2">2</button>' +
+                '<button type="button" data-hd-digit="3">3</button>' +
+                '<button type="button" data-hd-digit="4">4</button>' +
+                '<button type="button" data-hd-digit="5">5</button>' +
+                '<button type="button" data-hd-digit="6">6</button>' +
+                '<button type="button" data-hd-digit="7">7</button>' +
+                '<button type="button" data-hd-digit="8">8</button>' +
+                '<button type="button" data-hd-digit="9">9</button>' +
                 '<button type="button" data-hd-qty-ok>确认</button>' +
                 '</div>';
             list.appendChild(bar);
@@ -927,8 +945,14 @@
                     ev.preventDefault();
                     ev.stopPropagation();
                     enqueueKeys([VK.ENTER], 60);
-                    if (global.BayeHdDialog) {
-                        BayeHdDialog.openReport('', state.deepLabel || '报告');
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    var digit = Number(t.getAttribute('data-hd-digit'));
+                    if (isFinite(digit) && digit >= 0 && digit <= 9) {
+                        enqueueKeys([0x40 + digit], 30);
                     }
                     return;
                 }
@@ -1022,6 +1046,21 @@
         bindToolbar();
         applyDocAttr();
         render();
+        setInterval(function () {
+            if (!(state.open && state.layer === 'deep' && state.deepKind === 'qty')) {
+                return;
+            }
+            var node = el('hd-city-qty-val');
+            if (!node || !window.baye || !baye.hd || !baye.hd.qty) {
+                return;
+            }
+            try {
+                var q = baye.hd.qty();
+                if (q) {
+                    node.textContent = q.active ? q.value : (q.value || '—');
+                }
+            } catch (e) {}
+        }, 200);
     }
 
     applyDocAttr();
