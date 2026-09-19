@@ -21,10 +21,13 @@
 | `g_hdMenuItemLen` | u16 | 每项字节宽 |
 | `g_hdMenuCount` | u16 | 项数 |
 | `g_hdMenuIndex` | u16 | 当前高亮 |
-| `g_hdFightActive` | u8 | `enterBattle` 后为 1 |
-| `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（`exitBattle` 时写入） |
+| `g_hdFightActive` | u8 | `GamFight` 进入后为 1 |
+| `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（离开战斗时写入） |
+| `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
+| `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
+| `g_hdQtyValue` / `Min` / `Max` | u32 | 当前数与区间 |
 
-原有 `g_FightMap` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
+原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
 ## C 导出
 
@@ -42,7 +45,9 @@
 - `GamGetKing` 高亮刷新 → king highlight
 - `PlcSplMenu` idle → menu items（`onMenuIdle` 额外绑定 `itemLen` / `itemCount`）
 - `ShowPersonControl` 刷新 → 人物名单写入同一 menu 缓冲
-- `GamFight` `enterBattle` / `exitBattle` → fight flags
+- `ShowGoodsControl` 刷新 → 道具名写入同一 menu 缓冲（8 字节槽）
+- `NumOperateInner` 重绘 → `g_hdQty*`；ENTER/EXIT 清 `active`
+- `GamFight` 进入/离开 → fight flags + 结算 GBK；`EM_ASM` 调 `BayeHdBattle.onEngineFight()`
 
 ## JS 助手（`js/bridge.js`）
 
@@ -51,7 +56,10 @@ baye.ensureData()    // 仅在 bayeHdReady() 后绑 baye.data
 baye.hd.report()     // { text, seq, kind, person }；无 data 时走 keepalive 指针
 baye.hd.reportText() // 最近一次报告/对话的中文（GBK 解码）
 baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
-baye.hd.menuItems()  // { itemLen, count, index, names:[] }；人物表与一层菜单共用
+baye.hd.menuItems()  // { itemLen, count, index, names:[] }；人物/道具/一层菜单共用
+baye.hd.qty()        // { active, value, min, max }
+baye.hd.fight()      // { active, over, result, mapW, mapH }
+baye.hd.toolName(id) // GetGoodsName
 ```
 
 ## 按键
@@ -75,5 +83,9 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - `baye.hd.kings()`：18 人（马腾、公孙瓒、董卓、曹操、刘备、孙坚…），`currentId` 随形势图高亮
 - `baye.hd.menuItems()`：内政 14 项（开垦…移动），`itemLen=4`
 - `baye.hd.reportText()`：开垦确认后读到 `农业开发度变为 730 (+34)。`，HD 对话壳直接显示
+- `baye.hd.qty()`：安定 征兵选成宜后 `active=1 value=1070 max=1070`；`VK_LEFT×2` + `VK_DIGIT5` → **1050**（HD 数字垫与 dialog 垫同时显示）
+- `ShowGoodsControl` 写入道具名；董卓弄权安定开局城中无道具、武将 Equip 空
+- `GetCitySet` 必须方向键走到目标格再回车，不能当菜单下标
 - 观察 `cityMakeCommand` 必须 `return -1`，否则 `CityCommon` 会跳过 `AssartMake`
 - 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图
+- 开场 `GamMovie(MAIN_SPE)` / 帮助正文 / 计谋 SPE：无薄字符串可导出，保持 residual
