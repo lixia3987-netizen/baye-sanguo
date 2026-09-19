@@ -18,11 +18,11 @@
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 写 `g_hdQty*`；CDP 征兵：成宜后 `active=1 value=1070`，`VK_LEFT×2`+`VK_DIGIT5` → **1050**。HD 数字键 `0x40–0x49` |
 | **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文 |
 | **帮助 / 查找** | **partial** | VK_HELP / VK_SEARCH + 放大 LCD；帮助正文仍多在 LCD，无单独 help 字符串导出 |
-| **战场格网 / 单位** | **partial** | `g_hdFightActive` / `g_FightMapData` / `g_GenPos` 已接线；进战斗收起 LCD。本轮 VM 未打完一次真实 出征→`GamFight`（出征排队要过月，CDP 易在 GetCitySet/FunctionMenu 脱节） |
-| 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill` |
+| **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
+| 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`。`PlcSplMenu` 仍写入 `menuItems()`（实测：回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动） |
 | **策略结束 / 存读档** | **partial** | HD 三项 + 只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
-| **战斗结算** | **partial** | `exitBattle` 写 `g_hdFightOver` + `g_hdFightResultGbk`（胜/负串）到 `#hd-battle-result`；缺一次实战截图 |
+| **战斗结算** | **HD done** | 原生系统菜单选「全军撤退」后 `over=2`，`#hd-battle-result` 显示导出串 **我军全军覆没** |
 | **道具详情** | **partial** | `ShowGoodsControl` → `menuItems()` / `baye.hd.toolName(id)` 已接线。董卓弄权安定开局城中无道具、武将 Equip 空，赏赐走「城中无道具」，菜单上暂无道具名可点 |
 | 手机竖屏键位页 | 不做 | overworld 非目标 |
 | 地图编辑器 | 不做 | 不在玩法路径 |
@@ -34,4 +34,4 @@
 ## 本轮 WASM 桥
 
 `vendor/iBaye` + `scripts/build-wasm.sh` 重编 `js/baye.wasm`。导出见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。  
-仍 residual：开场动画、计谋 SPE、帮助图文、战场系统菜单（不 stub）。道具名/战场结算 **桥已通**，缺开局道具与一次实战过月。
+仍 residual：开场动画、计谋 SPE、帮助图文、战场系统菜单 UI（不 stub；项名已能从 `menuItems()` 读到）。道具名桥已通，董卓弄权安定开局无货。

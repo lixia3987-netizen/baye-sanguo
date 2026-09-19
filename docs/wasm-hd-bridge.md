@@ -90,3 +90,6 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - 观察 `cityMakeCommand` 必须 `return -1`，否则 `CityCommon` 会跳过 `AssartMake`
 - 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图
 - 开场 `GamMovie(MAIN_SPE)` / 帮助正文 / 计谋 SPE：无薄字符串可导出，保持 residual
+- 天水 出征 马腾 → 方向键走到河内 → `部队已出发` → FunctionMenu「策略结束」→ `GamFight`
+- `g_hdFightWait=1` 后 EXIT 打开原生战场菜单 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`
+- 选「全军撤退」确认：`g_hdFightOver=2`，`baye.hd.fight().result==="我军全军覆没"`，HD `#hd-battle-result` 同文
