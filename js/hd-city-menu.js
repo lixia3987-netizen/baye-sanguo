@@ -162,8 +162,10 @@
                 return;
             }
             var item = state.queue.shift();
-            engineSendKey(item.code);
-            setTimeout(next, item.wait || 55);
+            setTimeout(function () {
+                engineSendKey(item.code);
+                setTimeout(next, item.wait || 55);
+            }, 0);
         }
         next();
     }
@@ -294,6 +296,14 @@
             }
         } catch (e) {}
         return { names: [], index: null, count: 0 };
+    }
+
+    function preferEngineNames(fallback) {
+        var eng = engineMenuItems();
+        if (eng.names && eng.names.length) {
+            return eng.names;
+        }
+        return fallback || [];
     }
 
     function probeDeepItems() {
@@ -535,11 +545,12 @@
         if (!list) {
             return;
         }
-        if (state.listKind === kind && list.children.length) {
+        var items = preferEngineNames(SUBS[kind] || []);
+        var sig = kind + ':' + items.join(',');
+        if (state.listKind === sig && list.children.length) {
             applyHighlight();
             return;
         }
-        var items = SUBS[kind] || [];
         list.innerHTML = '';
         var i;
         for (i = 0; i < items.length; i++) {
@@ -550,8 +561,25 @@
             btn.textContent = items[i];
             list.appendChild(btn);
         }
-        state.listKind = kind;
+        state.listKind = sig;
         applyHighlight();
+    }
+
+    function applyRootLabels() {
+        var cards = document.querySelectorAll('[data-hd-root]');
+        var names = preferEngineNames([]);
+        var i;
+        for (i = 0; i < cards.length; i++) {
+            var strong = cards[i].querySelector('strong');
+            if (!strong) {
+                continue;
+            }
+            if (state.layer === 'root' && names.length === cards.length && names[i]) {
+                strong.textContent = names[i];
+            } else if (ROOTS[i]) {
+                strong.textContent = ROOTS[i].name;
+            }
+        }
     }
 
     function render() {
@@ -590,10 +618,11 @@
             }
         }
         if (state.layer === 'root') {
-            setText(sub, '城池指令 · 与引擎四项一致');
+            setText(sub, '城池指令 · 项名优先 baye.hd.menuItems()');
             hideAllLayers();
             if (grid) {
                 grid.hidden = false;
+                applyRootLabels();
             }
         } else if (state.layer === 'status') {
             setText(sub, '状况 · 只列出读到的 g_Cities 字段');
@@ -621,7 +650,7 @@
                 }
             }
         } else {
-            var items = SUBS[state.subKind] || [];
+            var items = preferEngineNames(SUBS[state.subKind] || []);
             var kindName = '';
             var r;
             for (r = 0; r < ROOTS.length; r++) {
@@ -745,7 +774,7 @@
 
     function chooseSub(index) {
         pickIndex(index, true);
-        var names = SUBS[state.subKind] || [];
+        var names = preferEngineNames(SUBS[state.subKind] || []);
         state.deepKind = deepKindFor(state.subKind, index);
         state.deepLabel = names[index] || '';
         state.deepStep = 0;
@@ -775,14 +804,10 @@
         }
         if (global.BayeHdDialog) {
             setTimeout(function () {
-                if (!global.BayeHdDialog) {
-                    return;
+                if (global.BayeHdDialog && typeof BayeHdDialog.poll === 'function') {
+                    BayeHdDialog.poll();
                 }
-                BayeHdDialog.poll();
-                if (!BayeHdDialog.isOpen()) {
-                    BayeHdDialog.openReport('', state.deepLabel || '报告');
-                }
-            }, 360);
+            }, 80);
         }
     }
 
@@ -807,6 +832,14 @@
                 if (state.layer === 'deep' && engIdle.names && engIdle.names.length) {
                     state.deepSig = '';
                     fillDeepList();
+                    applyHighlight();
+                }
+                if (state.layer === 'sub' && engIdle.names && engIdle.names.length) {
+                    fillSubList(state.subKind);
+                    applyHighlight();
+                }
+                if (state.layer === 'root' && engIdle.names && engIdle.names.length) {
+                    applyRootLabels();
                     applyHighlight();
                 }
             }

@@ -37,10 +37,11 @@
 
 写入点：
 
-- `GamMsgBox` / `ShowGReport` → report
+- `GamMsgBox` / `ShowGReport`（`ShowDMsg` 走后者）→ report；写入后 `EM_ASM` 调 `BayeHdDialog.onEngineReport()`
 - `GetAllKings` 之后（`gamEng.c`）→ king roster（不替换 `chooseActor`）
 - `GamGetKing` 高亮刷新 → king highlight
 - `PlcSplMenu` idle → menu items（`onMenuIdle` 额外绑定 `itemLen` / `itemCount`）
+- `ShowPersonControl` 刷新 → 人物名单写入同一 menu 缓冲
 - `GamFight` `enterBattle` / `exitBattle` → fight flags
 
 ## JS 助手（`js/bridge.js`）
@@ -48,8 +49,9 @@
 ```js
 baye.ensureData()    // 仅在 bayeHdReady() 后绑 baye.data
 baye.hd.report()     // { text, seq, kind, person }；无 data 时走 keepalive 指针
+baye.hd.reportText() // 最近一次报告/对话的中文（GBK 解码）
 baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
-baye.hd.menuItems()  // { itemLen, count, index, names:[] }
+baye.hd.menuItems()  // { itemLen, count, index, names:[] }；人物表与一层菜单共用
 ```
 
 ## 按键

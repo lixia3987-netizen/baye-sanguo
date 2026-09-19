@@ -248,12 +248,51 @@
             caption.hidden = !!(state.body && state.kind !== 'help');
         }
         setText(el('hd-dialog-probe'), 'kind=' + state.kind + '  async=' + state.asyncId +
-            '  hook=' + (state.lastHook || '—'));
+            '  hook=' + (state.lastHook || '—') +
+            (state.body ? '  text=' + state.body.length : ''));
+    }
+
+    function applyEngineReport(info) {
+        info = info || {};
+        if (!looksLikeSpeech(info.text)) {
+            return false;
+        }
+        if (info.hdSeq) {
+            state.lastReportSeq = info.hdSeq;
+        }
+        var title = info.hdKind === 2 ? '对话' : '报告';
+        var personName = '';
+        try {
+            if (info.hdPerson != null && info.hdPerson !== 0xffff && info.hdPerson !== 65535 && window.baye) {
+                personName = baye.getPersonName(info.hdPerson) || '';
+            }
+        } catch (e) {}
+        if (personName) {
+            title = personName;
+        }
+        return openDialog({
+            kind: 'report',
+            title: title,
+            body: info.text,
+            asyncId: info.id,
+            showLcd: false
+        });
+    }
+
+    function onEngineReport() {
+        var info = readAsync();
+        if (!looksLikeSpeech(info.text) && window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
+            info.text = baye.hd.reportText();
+        }
+        applyEngineReport(info);
     }
 
     function openDialog(meta) {
         meta = meta || {};
         if (!shouldShowHd()) {
+            return false;
+        }
+        if (meta.kind === 'report' && !looksLikeSpeech(meta.body) && !meta.allowEmpty) {
             return false;
         }
         state.open = true;
@@ -263,7 +302,7 @@
         state.min = meta.min != null ? meta.min : null;
         state.max = meta.max != null ? meta.max : null;
         state.init = meta.init != null ? meta.init : null;
-        state.showLcd = meta.showLcd !== false;
+        state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
         if (meta.asyncId != null) {
             state.asyncId = meta.asyncId;
         }
@@ -289,23 +328,23 @@
         }
         var info = readAsync();
         if (info.hdSeq && info.hdSeq !== state.lastReportSeq && looksLikeSpeech(info.text)) {
-            state.lastReportSeq = info.hdSeq;
-            openDialog({
-                kind: 'report',
-                title: info.hdKind === 2 ? '对话' : '报告',
-                body: info.text,
-                asyncId: info.id
-            });
+            applyEngineReport(info);
             return;
         }
         if (info.id === 1 || info.id === 2 || info.id === 13) {
             state.asyncId = info.id;
-            openDialog({
-                kind: 'report',
-                title: info.id === 2 ? '对话' : '报告',
-                body: info.text,
-                asyncId: info.id
-            });
+            if (looksLikeSpeech(info.text)) {
+                applyEngineReport(info);
+            } else {
+                openDialog({
+                    kind: 'report',
+                    title: info.id === 2 ? '对话' : '报告',
+                    body: '',
+                    asyncId: info.id,
+                    allowEmpty: true,
+                    showLcd: true
+                });
+            }
             return;
         }
         if (info.id === 9) {
@@ -410,7 +449,7 @@
     function start() {
         bindUi();
         applyChrome();
-        setInterval(pollEngine, 350);
+        setInterval(pollEngine, 180);
     }
 
     applyChrome();
@@ -438,6 +477,7 @@
         },
         close: closeDialog,
         onEngineHook: onEngineHook,
+        onEngineReport: onEngineReport,
         poll: pollEngine,
         start: start,
         applyPcPage: start,
@@ -450,7 +490,8 @@
                 textLen: (info.text || '').length,
                 min: info.min,
                 max: info.max,
-                body: state.body
+                body: state.body,
+                reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : ''
             };
         }
     };

@@ -252,10 +252,17 @@
         }
         var hud = el('hd-battle-hud');
         if (hud) {
+            var over = 0;
+            try {
+                if (window.baye && baye.data && baye.data.g_hdFightOver != null) {
+                    over = Number(baye.data.g_hdFightOver) || 0;
+                }
+            } catch (e) {}
             hud.textContent = (state.preview ? 'HD 战场预览 · ' : 'HD 战场 · ') +
                 (state.lastHook || '无 hook') +
                 ' · 将=' + state.units.length +
-                ' · 图=' + (state.mapW ? (state.mapW + '×' + state.mapH) : '无');
+                ' · 图=' + (state.mapW ? (state.mapW + '×' + state.mapH) : '无') +
+                (state.lastHook === 'exitBattle' || over ? ' · 结束码=' + over : '');
         }
     }
 

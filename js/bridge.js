@@ -956,6 +956,10 @@ function baye_bridge_init() {
                 person: hdReadNum(d, 'g_hdReportPerson')
             };
         },
+        reportText: function () {
+            var r = baye.hd.report();
+            return r && r.text ? r.text : '';
+        },
         kings: function () {
             var d = baye.ensureData();
             var list = [];

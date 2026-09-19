@@ -4,6 +4,7 @@
 #include "hd-bridge.h"
 #include "baye/bind-objects.h"
 #include <string.h>
+#include <emscripten.h>
 
 U8 g_hdEngineReady = 0;
 U16 g_hdKingCount = 0;
@@ -56,6 +57,14 @@ void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
     if (g_hdReportSeq == 0) {
         g_hdReportSeq = 1;
     }
+    /* 在 GamDelay 堵住主线程之前把正文推给 HD 壳。 */
+    EM_ASM({
+        try {
+            if (window.BayeHdDialog && typeof BayeHdDialog.onEngineReport === 'function') {
+                BayeHdDialog.onEngineReport();
+            }
+        } catch (e) {}
+    });
 }
 
 void baye_hd_set_kings(const PersonID* kings, U32 count)

@@ -163,15 +163,18 @@
                 if (hd && hd.kings && hd.kings.length) {
                     for (i = 0; i < hd.kings.length; i++) {
                         var hk = hd.kings[i];
-                        if (!hk || !hk.name || hk.name === '-') {
+                        if (!hk) {
                             continue;
                         }
-                        list.push({ id: hk.id + 1, name: hk.name, city: '' });
+                        list.push({
+                            id: hk.id + 1,
+                            engineId: hk.id,
+                            name: (hk.name && hk.name !== '-') ? hk.name : ('君主' + hk.id),
+                            city: ''
+                        });
                     }
                     if (list.length) {
-                        if (hd.index != null) {
-                            state.idleIndex = hd.index;
-                        }
+                        syncKingHighlight(hd, list);
                         return list;
                     }
                 }
@@ -241,6 +244,22 @@
             }
         }
         return list;
+    }
+
+    function syncKingHighlight(hd, list) {
+        var rows = list || state.kings;
+        var i;
+        if (hd && hd.currentId != null && hd.currentId !== 0xffff && hd.currentId !== 65535) {
+            for (i = 0; i < rows.length; i++) {
+                if (rows[i].engineId === hd.currentId || rows[i].id === hd.currentId + 1) {
+                    state.idleIndex = i;
+                    return;
+                }
+            }
+        }
+        if (hd && hd.index != null && hd.index >= 0 && hd.index < rows.length) {
+            state.idleIndex = hd.index;
+        }
     }
 
     function probeSaves() {
@@ -358,6 +377,9 @@
         if (document.body) {
             var kingEmpty = show && state.screen === 'king' && !state.kings.length;
             var hasKings = show && state.screen === 'king' && state.kings.length > 0;
+            if (hasKings) {
+                state.showLcd = false;
+            }
             document.body.classList.toggle('baye-hd-system-ui-on', show);
             document.body.classList.toggle('baye-hd-system-ui-lcd', show && state.showLcd && !hasKings);
             document.body.classList.toggle('baye-hd-system-ui-king-empty', kingEmpty);
@@ -530,11 +552,16 @@
                 var next = probeKings();
                 var prevSig = state.kings.map(function (k) { return k.id + ':' + k.name; }).join(',');
                 var nextSig = next.map(function (k) { return k.id + ':' + k.name; }).join(',');
-                if (nextSig !== prevSig) {
-                    state.kings = next;
-                    if (next.length) {
-                        state.showLcd = false;
+                state.kings = next.length ? next : state.kings;
+                if (state.kings.length) {
+                    state.showLcd = false;
+                }
+                try {
+                    if (window.baye && baye.hd) {
+                        syncKingHighlight(baye.hd.kings(), state.kings);
                     }
+                } catch (e) {}
+                if (nextSig !== prevSig || next.length) {
                     render();
                 }
             }, ms);
