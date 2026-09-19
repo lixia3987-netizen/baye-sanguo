@@ -375,10 +375,15 @@
 
     function preferEngineNames(fallback) {
         var eng = engineMenuItems();
-        if (eng.names && eng.names.length) {
+        var fb = fallback || [];
+        if (eng.names && eng.names.length && fb.length &&
+            (eng.names[0] === fb[0] || eng.names.length === fb.length)) {
             return eng.names;
         }
-        return fallback || [];
+        if (eng.names && eng.names.length && !fb.length) {
+            return eng.names;
+        }
+        return fb;
     }
 
     function probeDeepItems() {
