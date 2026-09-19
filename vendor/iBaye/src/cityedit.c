@@ -23,6 +23,7 @@
 #include "baye/enghead.h"
 #include "touch.h"
 #include "baye/script.h"
+#include "hd-bridge.h"
 
 extern U8 g_engineVersion[32];
 
@@ -932,7 +933,10 @@ FAR U32 GetKingPersons(PersonID king,PersonID *pqueue)
 FAR U8 GetCitySetInner(CitySetType *pos);
 FAR U8 GetCitySet(CitySetType *pos) {
     int prev = SysScrollingTimerOpen(0);
-    U8 rv = GetCitySetInner(pos);
+    U8 rv;
+    baye_hd_set_map_pick(1);
+    rv = GetCitySetInner(pos);
+    baye_hd_set_map_pick(0);
     SysScrollingTimerOpen(prev);
     return rv;
 }

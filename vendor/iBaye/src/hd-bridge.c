@@ -32,6 +32,13 @@ U32 g_hdQtyMin = 0;
 U32 g_hdQtyMax = 0;
 U8 g_hdQtyActive = 0;
 
+U8 g_hdMapPick = 0;
+U8 g_hdCityLinks[8];
+U8 g_hdMarchOk = 0;
+U8 g_hdMarchCity = 0;
+U8 g_hdMarchObj = 0;
+U8 g_hdMarchTime = 0;
+
 static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
 {
     U32 n = 0;
@@ -140,6 +147,45 @@ void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
     g_hdQtyActive = active;
 }
 
+void baye_hd_set_map_pick(U8 active)
+{
+    g_hdMapPick = active;
+    EM_ASM({
+        try {
+            if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') {
+                BayeHdCityMenu.onMapPick();
+            }
+        } catch (e) {}
+    });
+}
+
+void baye_hd_set_city_links(U8 city)
+{
+    U8 *clnk;
+    U16 off;
+    memset(g_hdCityLinks, 0, sizeof(g_hdCityLinks));
+    clnk = ResLoadToCon(CITY_LINKR, 1, g_CBnkPtr);
+    if (!clnk) {
+        return;
+    }
+    off = (U16)city * 16;
+    memcpy(g_hdCityLinks, clnk + off, 8);
+}
+
+void baye_hd_set_march(U8 fromCity, U8 objCity, U8 timeCount, U8 ok)
+{
+    g_hdMarchOk = ok;
+    g_hdMarchCity = fromCity;
+    g_hdMarchObj = objCity;
+    g_hdMarchTime = timeCount;
+}
+
+EMSCRIPTEN_KEEPALIVE
+void bayeHdLoadCityLinks(U8 city)
+{
+    baye_hd_set_city_links(city);
+}
+
 EMSCRIPTEN_KEEPALIVE
 U8 bayeHdReady(void)
 {
@@ -191,4 +237,10 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdQtyMin, U32);
     DEFADDF(g_hdQtyMax, U32);
     DEFADDF(g_hdQtyActive, U8);
+    DEFADDF(g_hdMapPick, U8);
+    DEFADD_U8ARR(g_hdCityLinks, 8);
+    DEFADDF(g_hdMarchOk, U8);
+    DEFADDF(g_hdMarchCity, U8);
+    DEFADDF(g_hdMarchObj, U8);
+    DEFADDF(g_hdMarchTime, U8);
 }

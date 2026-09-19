@@ -332,15 +332,39 @@
         return list;
     }
 
+    function cityLinkIndexes() {
+        var data = engineData();
+        var links = data && data.g_hdCityLinks;
+        var out = [];
+        var i;
+        if (!links) {
+            return out;
+        }
+        for (i = 0; i < 8; i++) {
+            var id = readNumber(links, i);
+            if (id === null && links[i] != null) {
+                id = Number(links[i]);
+            }
+            if (id) {
+                out.push(id - 1);
+            }
+        }
+        return out;
+    }
+
     function otherCities(except) {
         var data = engineData();
         var list = [];
         if (!data || !data.g_Cities) {
             return list;
         }
+        var restrict = usesMapCursor(state.deepKind, state.deepStep) ? cityLinkIndexes() : [];
         var i;
         for (i = 0; i < data.g_Cities.length; i++) {
             if (i === except) {
+                continue;
+            }
+            if (restrict.length && restrict.indexOf(i) < 0) {
                 continue;
             }
             var name = cityName(i);
@@ -1175,6 +1199,12 @@
         close: closeMenu,
         back: back,
         onEngineHook: onEngineHook,
+        onMapPick: function () {
+            if (state.open && state.layer === 'deep' && usesMapCursor(state.deepKind, state.deepStep)) {
+                state.deepSig = '';
+                fillDeepList();
+            }
+        },
         start: start,
         applyPcPage: start,
         debugSnapshot: function () {

@@ -1009,6 +1009,39 @@ function baye_bridge_init() {
                 mapH: hdReadNum(d, 'g_MapHgt')
             };
         },
+        cityLinks: function (city) {
+            var d = baye.ensureData();
+            if (city != null && typeof _bayeHdLoadCityLinks === 'function') {
+                try { _bayeHdLoadCityLinks(city); } catch (e) {}
+            }
+            var links = [];
+            var i;
+            if (d && d.g_hdCityLinks) {
+                for (i = 0; i < 8; i++) {
+                    var id = hdReadNum(d.g_hdCityLinks, i);
+                    if (!id && d.g_hdCityLinks[i] != null) {
+                        id = Number(d.g_hdCityLinks[i]);
+                    }
+                    if (id) {
+                        var idx = id - 1;
+                        var name = '';
+                        try { name = baye.getCityName(idx) || ''; } catch (e) {}
+                        links.push({ id: id, index: idx, name: name });
+                    }
+                }
+            }
+            return links;
+        },
+        march: function () {
+            var d = baye.ensureData();
+            return {
+                pick: hdReadNum(d, 'g_hdMapPick'),
+                ok: hdReadNum(d, 'g_hdMarchOk'),
+                city: hdReadNum(d, 'g_hdMarchCity'),
+                obj: hdReadNum(d, 'g_hdMarchObj'),
+                time: hdReadNum(d, 'g_hdMarchTime')
+            };
+        },
         qty: function () {
             var d = baye.ensureData();
             return {

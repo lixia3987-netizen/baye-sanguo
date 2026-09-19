@@ -22,6 +22,7 @@
 #define	CITYCMDD_C
 #include "baye/enghead.h"
 #include "baye/bind-objects.h"
+#include "hd-bridge.h"
 
 /******************************************************************************
  * 函数名:BattleMake
@@ -108,7 +109,8 @@ FAR U8 BattleMake(U8 city)
         }
         else
         {
-
+            baye_hd_set_march(0, 0, 0, 0);
+            baye_hd_set_city_links(city);
             while (1)
             {
                 ResLoadToMem(STRING_CONST,STR_OBJ,str);
@@ -152,6 +154,9 @@ FAR U8 BattleMake(U8 city)
                                 {
                                     AddPerson(city,PID(fpptr[i] - 1));
                                 }
+                                baye_hd_set_march(city, (U8)ocity, (U8)odis, 0);
+                            } else {
+                                baye_hd_set_march(city, (U8)ocity, (U8)odis, 1);
                             }
                             break;
                         }
