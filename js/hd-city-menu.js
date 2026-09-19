@@ -1,5 +1,5 @@
 /**
- * HD 城池四项菜单表现壳（M0 / M1）。
+ * HD 城池四项菜单表现壳（M0–M2）。
  * 只发 sendKey；不改 WASM / dat.lib。规格：docs/hd-city-menu-spec.md
  */
 (function (global) {
@@ -21,6 +21,7 @@
     var STATUS_FIELDS = [
         ['Belong', '归属'],
         ['Satrap', '太守'],
+        ['SatrapId', '太守'],
         ['Mayor', '太守'],
         ['Governor', '太守'],
         ['Farming', '农业'],
@@ -275,7 +276,7 @@
             var value = num;
             if (key === 'Belong' && num !== null) {
                 value = personNameById(num);
-            } else if ((key === 'Satrap' || key === 'Mayor' || key === 'Governor') && num !== null) {
+            } else if ((key === 'Satrap' || key === 'SatrapId' || key === 'Mayor' || key === 'Governor') && num !== null) {
                 value = personNameById(num);
             } else if (key === 'State' && num !== null && STATE_LABELS[num]) {
                 value = STATE_LABELS[num] + ' (' + num + ')';
@@ -528,6 +529,13 @@
 
     function chooseSub(index) {
         pickIndex(index, true);
+        /* 一层点选后引擎常进人物/数量/出征目标等 M3 LCD。露出对照，避免挡操作。 */
+        state.showLcd = true;
+        applyDocAttr();
+        var lcdBtn = document.querySelector('[data-hd-menu-lcd]');
+        if (lcdBtn) {
+            lcdBtn.textContent = '隐藏经典 LCD';
+        }
     }
 
     function onEngineHook(name, ctx) {

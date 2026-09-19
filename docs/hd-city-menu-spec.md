@@ -152,8 +152,8 @@
 
 ### 6.4 城字段（状况，只展示读到的）
 
-候选（存在才画）：`Belong`、`Food`、`Money`、`Commerce`、`Farming` / `Agriculture`、`PeopleDevotion`、`Population` / `People`、`State`、`AvoidCalamity`，以及太守类键（`Satrap` / `Mayor` / …）。  
-归属名用 `baye.getPersonNameByID`；城名用 `baye.getCityName(i)`。
+候选（存在才画）：`Belong`、`Food`、`Money`、`Commerce`、`Farming` / `Agriculture`、`PeopleDevotion`、`Population` / `People`、`State`、`AvoidCalamity`，以及太守类键（`Satrap` / `SatrapId` / `Mayor` / …）。  
+归属 / 太守名用 `baye.getPersonNameByID`；城名用 `baye.getCityName(i)`。词典原版安定已探测到 `SatrapId`（不是 `Satrap`）。其余数字键（Limit / Queue 等）原样列出，不编造。
 
 ---
 

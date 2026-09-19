@@ -109,3 +109,17 @@
 | `css/hd-battle.css` | 1080p 壳 |
 
 不新增 npm 依赖，不改 WASM。
+
+---
+
+## 8. 本切片核验（B0）
+
+自动化（CDP / 词典原版 / 马腾 190）：
+
+1. `overworldMode=classic` 时 `BayeHdCityMenu.shouldShowHd()` 与 `BayeHdBattle.shouldShowHd()` 均为 false。
+2. HD 地图点安定 → 外交（离间…劝降）、军备（侦察…出征）、状况（只读 `g_Cities[3]`）均出 HD 面板；返回后 `phase=map`。
+3. `BayeHdBattle.debugPreview()` 打开 B0 铬框：16×16 格网 + 角上经典 LCD 对照。当时 `GenArray` 为空（未真开打），故无单位点。
+
+真进战斗未在 agent VM 走完（出征选将 / 选目标仍是 M3 LCD 多层对话框）。手动：
+
+HD 地图 → 己方城 → 军备 → 出征 →（LCD）选将 / 目标 → 开打后 `fightOpenMainMenu` / `drawMapUnit` / `drawOneGeneral` 应升 HD 壳；`battleMode=classic` 则不升。

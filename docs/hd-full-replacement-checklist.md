@@ -12,9 +12,9 @@
 | 选君主 / 势力形势图 | LCD residual | 下一切片 |
 | 开场动画 | LCD residual | 非优先 |
 | **大地图** | **HD done** | P0–P3 + 全图摄像机；`docs/hd-overworld-spec.md` |
-| **城池根菜单** 内政/外交/军备/状况 | **HD done** | M0/M1 |
-| **城池一层子菜单**（内政/外交/军备） | **HD done** | **M2** |
-| **城池状况** | **HD done** | M2，只列探测到的 `g_Cities` 字段 |
+| **城池根菜单** 内政/外交/军备/状况 | **HD done** | M0–M2 |
+| **城池一层子菜单**（内政/外交/军备） | **HD done** | **M2**（外交 5 项、军备 5 项、内政 14 项） |
+| **城池状况** | **HD done** | M2，只列探测到的 `g_Cities` 字段（安定：Belong→马腾、SatrapId、农商民忠人口钱粮等） |
 | 人物选择 / 道具 / 数量 / 输送 | LCD residual | **M3** |
 | 出征选目标 / 选将（入战斗前） | LCD residual | M3 / 战场前置 |
 | **战场** | **partial** | **B0/B1** 壳 + 检测 + 有数据则画格/单位；无数据则框 LCD。`docs/hd-battle-spec.md` |
