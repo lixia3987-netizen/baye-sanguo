@@ -16,7 +16,7 @@
 | **人物选择** | **partial** | PersonQueue + idle 金框滚入视野；有名单就藏 LCD，空名单才对照 |
 | **出征 / 外交目标城** | **partial** | 同上；引擎列表序仍可能与扫描序不同 |
 | **数量 / 征兵步进** | **HD done** | UP/DOWN/LEFT/RIGHT 步进；词典无 0–9 键码 |
-| **报告 / 对话** | **partial** | 多字段探测字符串；没有则顶栏说明 + 底部放大 LCD 镜 |
+| **报告 / 对话** | **partial** | 只收已暴露的中文；类型数组 dump（如 `Array[10240]`）丢掉。没有正文则顶栏说明 + 底部放大 LCD 镜 |
 | **帮助 / 查找** | **partial** | 工具栏「帮助 HD / 查找 HD」发 VK_HELP / VK_SEARCH；放大 LCD；不 stub `showMainHelp` |
 | **战场格网 / 单位** | **partial** | 棋盘底 + 图元色 + 将/HP/图例；无 g_GenPos 仍不画假坐标 |
 | 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`，否则会替换系统菜单 |
