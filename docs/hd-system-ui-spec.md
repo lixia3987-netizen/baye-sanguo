@@ -41,9 +41,9 @@
 
 | 画面 | 判定 |
 |------|------|
-| 标题 | `g_PlayerKing` 无效且城尚无归属 |
+| 标题 | `g_PlayerKing` 无效（含 0）且城尚无归属 |
 | 时期 | 刚在标题确认「新君登基」，城仍无归属 |
-| 君主 | 城已有 `Belong`，但 `g_PlayerKing` 仍无效 |
+| 君主 | 城已有 `Belong`，但 `g_PlayerKing` 仍为 0 / 无效 |
 | 读档 | 标题确认「重返沙场」 |
 | 战役中系统菜单 | 玩家从 HD 打开，或日后探测到 `mainSystemMenu`（不 stub） |
 | 关掉系统壳 | `didOpenNewGame` / `didLoadGame` / 已有君主且已在大地图 |

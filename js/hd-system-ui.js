@@ -101,7 +101,8 @@
             return null;
         }
         var raw = readNumber(data, 'g_PlayerKing');
-        if (raw === null || raw === 0xff || raw === 255 || raw === 0xffff) {
+        /* 开局未选时词典原版是 0；0 在 getPersonNameByID 里也是 "-"。真开局靠 didOpenNewGame 关壳。 */
+        if (raw === null || raw === 0 || raw === 0xff || raw === 255 || raw === 0xffff) {
             return null;
         }
         return raw;

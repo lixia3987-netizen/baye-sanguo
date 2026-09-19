@@ -114,6 +114,11 @@ html[data-baye-system-ui="hd"] #hd-overworld {
     visibility: hidden;
 }
 
+html[data-baye-system-ui="hd"] .container.js-baye-pc-lcd {
+    visibility: hidden;
+    pointer-events: none;
+}
+
 html[data-baye-system-ui="hd"] body.baye-hd-system-ui-lcd .container.js-baye-pc-lcd {
     visibility: visible;
     pointer-events: auto;
