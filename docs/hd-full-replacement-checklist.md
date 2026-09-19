@@ -20,7 +20,7 @@
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
 | **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
 | **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳（回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动；确认撤退；攻击/计谋/查看/待机）。不 stub `fightOpenMainMenu` |
-| 计谋选择 | LCD residual | 不 stub `fightChooseSkill`；技能名因局而异，无固定表 |
+| **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
 | **策略结束 / 存读档** | **partial** | HD 三项 + 只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
 | **战斗结算** | **HD done** | 原生系统菜单选「全军撤退」后 `over=2`，`#hd-battle-result` 显示导出串 **我军全军覆没** |
@@ -35,4 +35,4 @@
 ## 本轮 WASM 桥
 
 `vendor/iBaye` + `scripts/build-wasm.sh` 重编 `js/baye.wasm`。导出见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。  
-仍 residual：开场 SPE 帧本身、计谋 SPE、查找图文、计谋选择（不 stub）。安定开局无道具不是代码 bug。
+仍 residual：开场 SPE 帧本身、计谋施放 SPE、查找图文。安定开局无道具不是代码 bug。战斗指令路径（系统菜单 / 行动 / 计谋 / 结算）已有 HD 壳。

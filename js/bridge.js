@@ -1079,6 +1079,37 @@ function baye_bridge_init() {
                 text: text
             };
         },
+        skills: function () {
+            var d = baye.ensureData();
+            var count = hdReadNum(d, 'g_hdSkillCount') || 0;
+            var names = [];
+            var ids = [];
+            var i;
+            for (i = 0; i < count && i < 10; i++) {
+                var id = 0;
+                if (d && d.g_hdSkillIds) {
+                    id = hdReadNum(d.g_hdSkillIds, i);
+                    if (!id && d.g_hdSkillIds[i] != null) {
+                        id = Number(d.g_hdSkillIds[i]);
+                    }
+                }
+                ids.push(id);
+                var name = '';
+                if (d && d.g_hdSkillNames) {
+                    name = hdDecodeSlice(d.g_hdSkillNames, i * 8, 8);
+                }
+                if (!name && id && typeof baye.getSkillName === 'function') {
+                    try { name = baye.getSkillName(id - 1) || ''; } catch (e) {}
+                }
+                names.push(name);
+            }
+            return {
+                active: hdReadNum(d, 'g_hdSkillActive'),
+                count: count,
+                ids: ids,
+                names: names
+            };
+        },
         movie: function () {
             var d = baye.ensureData();
             return {

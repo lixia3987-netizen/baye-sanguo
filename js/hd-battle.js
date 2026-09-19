@@ -237,6 +237,18 @@
         try {
             items = window.baye && baye.hd && baye.hd.menuItems ? baye.hd.menuItems() : null;
         } catch (e) {}
+        var skills = null;
+        try {
+            skills = window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null;
+        } catch (e) {}
+        if (skills && skills.active && skills.names && skills.names.length) {
+            return {
+                kind: 'skill',
+                title: '计谋',
+                names: skills.names,
+                index: items && items.index != null ? items.index : 0
+            };
+        }
         if (!items || !items.names) {
             return null;
         }
@@ -811,7 +823,11 @@
                 menuKind: state.menuKind,
                 menuTitle: state.menuTitle,
                 menuNames: state.menuNames.slice(),
-                menuIndex: state.menuIndex
+                menuIndex: state.menuIndex,
+                skills: (function () {
+                    try { return window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null; }
+                    catch (e) { return null; }
+                }())
             };
         }
     };

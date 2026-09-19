@@ -22,6 +22,7 @@
 #include "baye/bind-objects.h"
 #include "baye/script.h"
 #include "touch.h"
+#include "hd-bridge.h"
 #define		IN_FILE	1	/* 当前文件位置 */
 
 /*本体函数声明*/
@@ -399,6 +400,14 @@ FAR SkillID FgtGetJNIdx(U8 idx,RECT *pRect)
 
     FgtGetSklBuf(idx, buf);
     FgtMakeSklNam(sbuf, buf);
+    {
+        U8 n = 0;
+        while (n < SKILL_NMAX && buf[n]) {
+            n += 1;
+        }
+        baye_hd_set_skills((const U16*)buf, sbuf, n, SKILL_NAMELEN, 1);
+        baye_hd_set_menu(sbuf, SKILL_NAMELEN, n, 0);
+    }
     rngb = gam_strlen(sbuf) / SKILL_NAMELEN;
     pRect->sx += 4;
     pRect->ex += 4;
@@ -417,14 +426,17 @@ FAR SkillID FgtGetJNIdx(U8 idx,RECT *pRect)
 
         rngb = 0;
         midx = (U8)PlcSplMenu(pRect,0,sbuf);
-        if(MNU_EXIT == midx)
+        if(MNU_EXIT == midx) {
+            baye_hd_set_skills(NULL, NULL, 0, 0, 0);
             return SID(0xFFFF);
+        }
         param = buf[midx];
         rngb = FgtCanUse(param,idx);
         if(!rngb) break;
         FgtLoadToMem3(rngb,inf);
         GamStrShowS(STA_XXX,STA_XXY,inf);
     }
+    baye_hd_set_skills(NULL, NULL, 0, 0, 0);
     return param;
 }
 /***********************************************************************

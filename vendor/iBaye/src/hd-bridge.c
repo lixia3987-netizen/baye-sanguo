@@ -46,6 +46,12 @@ U8 g_hdHelpActive = 0;
 U8 g_hdMovieActive = 0;
 U16 g_hdMovieId = 0;
 
+U8 g_hdSkillActive = 0;
+U8 g_hdSkillCount = 0;
+U8 g_hdSkillNameLen = 0;
+U16 g_hdSkillIds[BAYE_HD_SKILL_MAX];
+U8 g_hdSkillNames[BAYE_HD_SKILL_MAX * BAYE_HD_SKILL_NAME];
+
 static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
 {
     U32 n = 0;
@@ -166,6 +172,39 @@ void baye_hd_set_help(const U8* gbk)
             }
         } catch (e) {}
     });
+}
+
+void baye_hd_set_skills(const U16* ids, const U8* names, U8 count, U8 nameLen, U8 active)
+{
+    U8 i;
+    memset(g_hdSkillIds, 0, sizeof(g_hdSkillIds));
+    memset(g_hdSkillNames, 0, sizeof(g_hdSkillNames));
+    g_hdSkillActive = active;
+    g_hdSkillCount = 0;
+    g_hdSkillNameLen = nameLen;
+    if (!active || !ids || !count) {
+        return;
+    }
+    if (count > BAYE_HD_SKILL_MAX) {
+        count = BAYE_HD_SKILL_MAX;
+    }
+    if (!nameLen) {
+        nameLen = 4;
+    }
+    g_hdSkillCount = count;
+    g_hdSkillNameLen = nameLen;
+    for (i = 0; i < count; i++) {
+        U8 n;
+        g_hdSkillIds[i] = ids[i];
+        if (!names) {
+            continue;
+        }
+        n = nameLen;
+        if (n >= BAYE_HD_SKILL_NAME) {
+            n = BAYE_HD_SKILL_NAME - 1;
+        }
+        memcpy(g_hdSkillNames + i * BAYE_HD_SKILL_NAME, names + (U32)i * nameLen, n);
+    }
 }
 
 void baye_hd_set_movie(U16 speId, U8 active)
@@ -291,4 +330,9 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdHelpActive, U8);
     DEFADDF(g_hdMovieActive, U8);
     DEFADDF(g_hdMovieId, U16);
+    DEFADDF(g_hdSkillActive, U8);
+    DEFADDF(g_hdSkillCount, U8);
+    DEFADDF(g_hdSkillNameLen, U8);
+    DEFADD_U16ARR(g_hdSkillIds, BAYE_HD_SKILL_MAX);
+    DEFADD_GBKARR(g_hdSkillNames, sizeof(g_hdSkillNames));
 }

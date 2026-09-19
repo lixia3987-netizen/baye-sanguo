@@ -35,6 +35,7 @@
 | **B1** | 用已暴露的 `g_GenPos` / `GenArray` 画简易单位；光标跟 `g_FoucsX/Y` | 做（数据在才画） |
 | B2 | 地形色按 `g_FightMap` 图元分类、移动范围、攻击预览 | 后续 |
 | B3 | 战场系统菜单 HD（只读 `menuItems()`，不 stub `fightOpenMainMenu`） | 做 |
+| B3b | 计谋列表 HD（`g_hdSkill*` / `FgtGetJNIdx`，不 stub `fightChooseSkill`） | 做 |
 
 ---
 

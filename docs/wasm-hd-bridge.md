@@ -30,6 +30,9 @@
 | `g_hdHelpGbk` | GBK | `FgtShowHlp` 将领/地形正文，或大地图 HELP 的 `Ver …` |
 | `g_hdHelpActive` / `g_hdHelpSeq` | u8 / u16 | 帮助打开时为 1；每次写入 +1 |
 | `g_hdMovieActive` / `g_hdMovieId` | u8 / u16 | `GamMovie(MAIN_SPE)` 播放中 |
+| `g_hdSkillActive` / `Count` / `NameLen` | u8 | `FgtGetJNIdx` 打开计谋列表 |
+| `g_hdSkillIds` | u16[10] | 当前将领技能 id（1-based 资源号） |
+| `g_hdSkillNames` | GBK | 8 字节槽，来自 `FgtMakeSklNam` |
 
 原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
@@ -55,6 +58,7 @@
 - `FgtGetFoucs` → `g_hdFightWait`
 - `FgtShowHlp` / 大地图 `VK_HELP` 版本串 → `g_hdHelp*`；`EM_ASM` `BayeHdDialog.onEngineHelp()`
 - `GamMovie(MAIN_SPE)` → `g_hdMovie*`；`EM_ASM` `BayeHdDialog.onEngineMovie()`
+- `FgtGetJNIdx` → `g_hdSkill*` + 立刻 `baye_hd_set_menu`（不 stub `fightChooseSkill`）
 
 ## JS 助手（`js/bridge.js`）
 
@@ -68,6 +72,7 @@ baye.hd.qty()        // { active, value, min, max }
 baye.hd.fight()      // { active, over, wait, result, mapW, mapH, bout, boutMax, focusX, focusY }
 baye.hd.help()       // { active, seq, text }
 baye.hd.movie()      // { active, id }
+baye.hd.skills()     // { active, count, ids, names }
 baye.hd.toolName(id) // GetGoodsName
 ```
 
