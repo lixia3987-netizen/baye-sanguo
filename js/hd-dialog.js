@@ -232,7 +232,9 @@
                     ' 方向键步进；0–9 发 VK_DIGIT0=0x40（不占用词典 0x30–0x33）。';
             } else if (state.kind === 'help') {
                 body.textContent = (state.title === '查找' ? '已发 VK_SEARCH。' : '已发 VK_HELP。') +
-                    ' 引擎帮助/查找正文画在下方放大的经典屏上，这里不编造条目。';
+                    ' 引擎若写入 g_hdHelpGbk 会显示在这里；否则下方放大经典屏是原文，不编造条目。';
+            } else if (state.kind === 'movie') {
+                body.textContent = '经典 SPE 帧动画，无独立图文接口。确认=跳过。';
             } else {
                 body.textContent = '引擎没把报告字符串写进 JS 桥。下方放大的经典屏是原文；确认 / 返回仍发回引擎。';
             }
@@ -304,6 +306,68 @@
         });
     }
 
+    function looksLikeHelp(text) {
+        if (looksLikeSpeech(text)) {
+            return true;
+        }
+        return !!(text && /^Ver\s/i.test(String(text).replace(/^\s+/, '')));
+    }
+
+    function formatHelpBody(text) {
+        return String(text || '').replace(/\|/g, '\n');
+    }
+
+    function applyEngineHelp(info) {
+        info = info || {};
+        if (!looksLikeHelp(info.text)) {
+            return false;
+        }
+        var fightOn = false;
+        try {
+            fightOn = !!(window.baye && baye.data && Number(baye.data.g_hdFightActive));
+        } catch (e) {}
+        return openDialog({
+            kind: 'help',
+            title: fightOn ? '战场帮助' : '帮助',
+            body: formatHelpBody(info.text),
+            showLcd: false
+        });
+    }
+
+    function onEngineHelp() {
+        var info = null;
+        try {
+            info = window.baye && baye.hd && baye.hd.help ? baye.hd.help() : null;
+        } catch (e) {}
+        if (info && info.active && looksLikeHelp(info.text)) {
+            applyEngineHelp(info);
+            return;
+        }
+        if (state.open && state.kind === 'help') {
+            closeDialog({ silent: true });
+        }
+    }
+
+    function onEngineMovie() {
+        var info = null;
+        try {
+            info = window.baye && baye.hd && baye.hd.movie ? baye.hd.movie() : null;
+        } catch (e) {}
+        if (info && info.active) {
+            openDialog({
+                kind: 'movie',
+                title: '开场动画',
+                body: '经典 SPE 帧（MAIN_SPE=' + (info.id != null ? info.id : '') + '）。无独立图文可导出。',
+                showLcd: true,
+                allowEmpty: true
+            });
+            return;
+        }
+        if (state.open && state.kind === 'movie') {
+            closeDialog({ silent: true });
+        }
+    }
+
     function onEngineReport() {
         var info = readAsync();
         if (!looksLikeSpeech(info.text) && window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
@@ -322,7 +386,8 @@
         }
         state.open = true;
         state.kind = meta.kind || 'report';
-        state.title = meta.title || (state.kind === 'qty' ? '数量' : (state.kind === 'help' ? '帮助' : '报告'));
+        state.title = meta.title || (state.kind === 'qty' ? '数量' :
+            (state.kind === 'help' ? '帮助' : (state.kind === 'movie' ? '开场动画' : '报告')));
         state.body = meta.body || '';
         state.min = meta.min != null ? meta.min : null;
         state.max = meta.max != null ? meta.max : null;
@@ -352,12 +417,41 @@
             return;
         }
         try {
+            if (window.baye && baye.hd && baye.hd.movie) {
+                var mv = baye.hd.movie();
+                if (mv && mv.active) {
+                    openDialog({
+                        kind: 'movie',
+                        title: '开场动画',
+                        body: '经典 SPE 帧（MAIN_SPE）。无独立图文可导出；跳过发回车。',
+                        showLcd: true,
+                        allowEmpty: true
+                    });
+                    return;
+                }
+                if (state.open && state.kind === 'movie' && !(mv && mv.active)) {
+                    closeDialog({ silent: true });
+                }
+            }
+        } catch (e) {}
+        try {
+            if (window.baye && baye.hd && baye.hd.help) {
+                var hp = baye.hd.help();
+                if (hp && hp.active && looksLikeHelp(hp.text)) {
+                    applyEngineHelp(hp);
+                    return;
+                }
+            }
+        } catch (e) {}
+        try {
             if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
                 !Number(baye.data.g_hdFightOver)) {
                 if (state.open && state.kind === 'report') {
                     closeDialog({ silent: true });
                 }
-                return;
+                if (state.kind !== 'help') {
+                    return;
+                }
             }
         } catch (e) {}
         var info = readAsync();
@@ -536,6 +630,8 @@
         close: closeDialog,
         onEngineHook: onEngineHook,
         onEngineReport: onEngineReport,
+        onEngineHelp: onEngineHelp,
+        onEngineMovie: onEngineMovie,
         poll: pollEngine,
         start: start,
         applyPcPage: start,

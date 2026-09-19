@@ -27,6 +27,9 @@
 | `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
 | `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
 | `g_hdQtyValue` / `Min` / `Max` | u32 | 当前数与区间 |
+| `g_hdHelpGbk` | GBK | `FgtShowHlp` 将领/地形正文，或大地图 HELP 的 `Ver …` |
+| `g_hdHelpActive` / `g_hdHelpSeq` | u8 / u16 | 帮助打开时为 1；每次写入 +1 |
+| `g_hdMovieActive` / `g_hdMovieId` | u8 / u16 | `GamMovie(MAIN_SPE)` 播放中 |
 
 原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
@@ -49,6 +52,9 @@
 - `ShowGoodsControl` 刷新 → 道具名写入同一 menu 缓冲（8 字节槽）
 - `NumOperateInner` 重绘 → `g_hdQty*`；ENTER/EXIT 清 `active`
 - `GamFight` 进入/离开 → fight flags + 结算 GBK；`EM_ASM` 调 `BayeHdBattle.onEngineFight()`
+- `FgtGetFoucs` → `g_hdFightWait`
+- `FgtShowHlp` / 大地图 `VK_HELP` 版本串 → `g_hdHelp*`；`EM_ASM` `BayeHdDialog.onEngineHelp()`
+- `GamMovie(MAIN_SPE)` → `g_hdMovie*`；`EM_ASM` `BayeHdDialog.onEngineMovie()`
 
 ## JS 助手（`js/bridge.js`）
 
@@ -60,6 +66,8 @@ baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
 baye.hd.menuItems()  // { itemLen, count, index, names:[] }；人物/道具/一层菜单共用
 baye.hd.qty()        // { active, value, min, max }
 baye.hd.fight()      // { active, over, wait, result, mapW, mapH, bout, boutMax, focusX, focusY }
+baye.hd.help()       // { active, seq, text }
+baye.hd.movie()      // { active, id }
 baye.hd.toolName(id) // GetGoodsName
 ```
 

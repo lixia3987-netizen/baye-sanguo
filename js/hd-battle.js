@@ -8,6 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
+    var VK = { UP: 0x22, DOWN: 0x23, ENTER: 0x27, EXIT: 0x28 };
     var FIGHT_HOOKS = {
         fightOpenMainMenu: 1,
         meetFight: 1,
@@ -35,7 +36,13 @@
         loopId: 0,
         probed: false,
         resultCode: 0,
-        resultText: ''
+        resultText: '',
+        menuKind: '',
+        menuTitle: '',
+        menuNames: [],
+        menuIndex: 0,
+        queue: [],
+        sending: false
     };
 
     function readStorage(key, fallback) {
@@ -144,6 +151,159 @@
             }
         }
         return n;
+    }
+
+    function engineSendKey(code) {
+        if (typeof sendKey === 'function') {
+            sendKey(code);
+            return true;
+        }
+        if (window.baye && typeof baye.sendKey === 'function') {
+            baye.sendKey(code);
+            return true;
+        }
+        return false;
+    }
+
+    function enqueueKeys(codes, gap) {
+        gap = gap || 55;
+        var i;
+        for (i = 0; i < codes.length; i++) {
+            state.queue.push({ code: codes[i], wait: gap });
+        }
+        pumpQueue();
+    }
+
+    function pumpQueue() {
+        if (state.sending) {
+            return;
+        }
+        state.sending = true;
+        function next() {
+            if (!state.queue.length) {
+                state.sending = false;
+                return;
+            }
+            var item = state.queue.shift();
+            setTimeout(function () {
+                engineSendKey(item.code);
+                setTimeout(next, item.wait || 55);
+            }, 0);
+        }
+        next();
+    }
+
+    function classifyFightMenu(names) {
+        var list = [];
+        var i;
+        for (i = 0; i < (names || []).length; i++) {
+            if (names[i]) {
+                list.push(names[i]);
+            }
+        }
+        if (!list.length) {
+            return null;
+        }
+        if (list[0] === '回合结束' && list.indexOf('全军撤退') >= 0) {
+            return { kind: 'sys', title: '战场系统', names: list };
+        }
+        if (list.length === 1 && list[0] === '全军撤退') {
+            return { kind: 'confirm', title: '确认撤退', names: list };
+        }
+        if (list[0] === '不看' && list.indexOf('观看') >= 0) {
+            return { kind: 'look', title: '战斗动画', names: list };
+        }
+        if (list[0] === '快速' && list.indexOf('慢速') >= 0) {
+            return { kind: 'speed', title: '移动速度', names: list };
+        }
+        if (list[0] === '攻击' && list.indexOf('待机') >= 0) {
+            return { kind: 'act', title: '将领行动', names: list };
+        }
+        return null;
+    }
+
+    function readFightMenu() {
+        if (!state.open || state.preview || state.resultText) {
+            return null;
+        }
+        var fight = null;
+        try {
+            fight = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
+        } catch (e) {}
+        if (!fight || !fight.active) {
+            return null;
+        }
+        var items = null;
+        try {
+            items = window.baye && baye.hd && baye.hd.menuItems ? baye.hd.menuItems() : null;
+        } catch (e) {}
+        if (!items || !items.names) {
+            return null;
+        }
+        var cls = classifyFightMenu(items.names);
+        if (!cls) {
+            return null;
+        }
+        cls.index = items.index != null ? items.index : 0;
+        return cls;
+    }
+
+    function pickFightMenu(index) {
+        var cur = state.menuIndex;
+        if (cur == null || cur < 0) {
+            cur = 0;
+        }
+        var keys = [];
+        var d = index - cur;
+        var key = d > 0 ? VK.DOWN : VK.UP;
+        var i;
+        for (i = 0; i < Math.abs(d); i++) {
+            keys.push(key);
+        }
+        keys.push(VK.ENTER);
+        state.menuIndex = index;
+        enqueueKeys(keys, 55);
+    }
+
+    function renderFightMenu() {
+        var panel = el('hd-battle-menu');
+        var list = el('hd-battle-menu-list');
+        var title = el('hd-battle-menu-title');
+        var info = readFightMenu();
+        if (!panel || !list) {
+            return;
+        }
+        if (!info) {
+            state.menuKind = '';
+            state.menuNames = [];
+            panel.hidden = true;
+            return;
+        }
+        state.menuKind = info.kind;
+        state.menuTitle = info.title;
+        state.menuNames = info.names;
+        state.menuIndex = info.index;
+        if (title) {
+            title.textContent = info.title;
+        }
+        var html = '';
+        var i;
+        for (i = 0; i < info.names.length; i++) {
+            html += '<button type="button" class="hd-battle-menu-item' +
+                (i === info.index ? ' is-on' : '') +
+                '" data-hd-battle-menu="' + i + '">' + info.names[i] + '</button>';
+        }
+        if (list.getAttribute('data-sig') !== html) {
+            list.setAttribute('data-sig', html);
+            list.innerHTML = html;
+        } else {
+            var btns = list.querySelectorAll('[data-hd-battle-menu]');
+            var b;
+            for (b = 0; b < btns.length; b++) {
+                btns[b].classList.toggle('is-on', b === info.index);
+            }
+        }
+        panel.hidden = false;
     }
 
     function fightLooksActive() {
@@ -432,6 +592,7 @@
         state.focus = info.focus;
         applyChrome();
         draw();
+        renderFightMenu();
     }
 
     function loop() {
@@ -489,6 +650,12 @@
         opts = opts || {};
         state.open = false;
         state.preview = false;
+        state.menuKind = '';
+        state.menuNames = [];
+        var menu = el('hd-battle-menu');
+        if (menu) {
+            menu.hidden = true;
+        }
         if (state.loopId) {
             global.cancelAnimationFrame(state.loopId);
             state.loopId = 0;
@@ -532,6 +699,21 @@
                     applyChrome();
                     t.textContent = state.showLcd ? '隐藏经典 LCD' : '经典 LCD';
                     ev.preventDefault();
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-battle-sys') != null) {
+                    ev.preventDefault();
+                    engineSendKey(VK.EXIT);
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-battle-menu-exit') != null) {
+                    ev.preventDefault();
+                    engineSendKey(VK.EXIT);
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-battle-menu') != null) {
+                    ev.preventDefault();
+                    pickFightMenu(Number(t.getAttribute('data-hd-battle-menu')));
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-close') != null) {
@@ -625,7 +807,11 @@
                 genCount: fightArrayCount(),
                 focus: state.focus,
                 resultCode: state.resultCode,
-                resultText: state.resultText
+                resultText: state.resultText,
+                menuKind: state.menuKind,
+                menuTitle: state.menuTitle,
+                menuNames: state.menuNames.slice(),
+                menuIndex: state.menuIndex
             };
         }
     };

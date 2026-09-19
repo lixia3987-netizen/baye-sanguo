@@ -10,20 +10,21 @@
 | **标题 / 主菜单** | **HD done** | 新君登基 / 重返沙场 / 制作群组 / 解甲归田 |
 | **选时期** | **HD done** | 董卓弄权四时期 |
 | **选君主 / 势力形势图** | **HD done** | `GetAllKings` 写入 `g_hdKingIds`（董卓弄权 18 人：马腾/董卓/曹操…）；高亮 `g_hdKingIndex`。形势图底图仍可开 LCD 对照 |
-| 开场动画 | LCD residual | `GamMovie(MAIN_SPE)` 帧动画，无独立图文接口；薄导出不够，重做要改 SPE 播放 |
+| 开场动画 | **partial** | `GamMovie(MAIN_SPE)` 仍播 SPE 帧；HD 铬框 + 跳过（回车）。无独立图文可导出，重做要改 SPE 播放 |
 | **大地图** | **HD done** | P0–P3 |
 | **城池根 / 一层 / 状况** | **HD done** | M0–M2；一层名只在首项/项数对得上时才用 `menuItems()`，避免 FunctionMenu 盖住 内政 |
 | **人物选择** | **HD done** | `PlcSplMenu` + `ShowPersonControl` 写入 `g_hdMenuBytes` |
 | **出征 / 外交目标城** | **HD done** | GetCitySet 是地图光标：HD 点城按 `g_CityPos` 发方向键再回车 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 写 `g_hdQty*`；CDP 征兵：成宜后 `active=1 value=1070`，`VK_LEFT×2`+`VK_DIGIT5` → **1050**。HD 数字键 `0x40–0x49` |
 | **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文 |
-| **帮助 / 查找** | **partial** | VK_HELP / VK_SEARCH + 放大 LCD；帮助正文仍多在 LCD，无单独 help 字符串导出 |
+| **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
 | **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
-| 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`。`PlcSplMenu` 仍写入 `menuItems()`（实测：回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动） |
+| **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳（回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动；确认撤退；攻击/计谋/查看/待机）。不 stub `fightOpenMainMenu` |
+| 计谋选择 | LCD residual | 不 stub `fightChooseSkill`；技能名因局而异，无固定表 |
 | **策略结束 / 存读档** | **partial** | HD 三项 + 只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
 | **战斗结算** | **HD done** | 原生系统菜单选「全军撤退」后 `over=2`，`#hd-battle-result` 显示导出串 **我军全军覆没** |
-| **道具详情** | **partial** | `ShowGoodsControl` → `menuItems()` / `baye.hd.toolName(id)` 已接线。董卓弄权安定开局城中无道具、武将 Equip 空，赏赐走「城中无道具」，菜单上暂无道具名可点 |
+| **道具详情** | **partial** | 桥已通。董卓弄权安定开局城中无货、武将 Equip 空——不是代码 bug，菜单上暂无道具名可点 |
 | 手机竖屏键位页 | 不做 | overworld 非目标 |
 | 地图编辑器 | 不做 | 不在玩法路径 |
 
@@ -34,4 +35,4 @@
 ## 本轮 WASM 桥
 
 `vendor/iBaye` + `scripts/build-wasm.sh` 重编 `js/baye.wasm`。导出见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。  
-仍 residual：开场动画、计谋 SPE、帮助图文、战场系统菜单 UI（不 stub；项名已能从 `menuItems()` 读到）。道具名桥已通，董卓弄权安定开局无货。
+仍 residual：开场 SPE 帧本身、计谋 SPE、查找图文、计谋选择（不 stub）。安定开局无道具不是代码 bug。

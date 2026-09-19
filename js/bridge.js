@@ -1064,6 +1064,28 @@ function baye_bridge_init() {
             } catch (e) {}
             return '';
         },
+        help: function () {
+            var d = baye.ensureData();
+            var text = '';
+            if (d && typeof d.g_hdHelpGbk === 'string') {
+                text = d.g_hdHelpGbk;
+            }
+            if (!text && d && d.g_hdHelpGbk) {
+                text = hdDecodeSlice(d.g_hdHelpGbk, 0, 1024);
+            }
+            return {
+                active: hdReadNum(d, 'g_hdHelpActive'),
+                seq: hdReadNum(d, 'g_hdHelpSeq'),
+                text: text
+            };
+        },
+        movie: function () {
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdMovieActive'),
+                id: hdReadNum(d, 'g_hdMovieId')
+            };
+        },
         menuItems: function () {
             var d = baye.ensureData();
             var itemLen = hdReadNum(d, 'g_hdMenuItemLen');

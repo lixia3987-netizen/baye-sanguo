@@ -661,7 +661,15 @@ void GamShowKing(U8*names, U8 pTop)
  ***********************************************************************/
 U8 GamMovie(U16 speID)
 {
-    return PlcMovie(speID,0,0,-1,true,WK_SX,WK_SY);
+    U8 rv;
+    if (speID == MAIN_SPE) {
+        baye_hd_set_movie(speID, 1);
+    }
+    rv = PlcMovie(speID,0,0,-1,true,WK_SX,WK_SY);
+    if (speID == MAIN_SPE) {
+        baye_hd_set_movie(0, 0);
+    }
+    return rv;
 }
 /***********************************************************************
  * 说明:     显示出错信息

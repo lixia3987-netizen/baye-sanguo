@@ -23,6 +23,7 @@
 #define		IN_FILE	1	/* 当前文件位置 */
 #include "baye/script.h"
 #include "baye/bind-objects.h"
+#include "hd-bridge.h"
 
 /*本体函数声明*/
 /*------------------------------------------*/
@@ -204,7 +205,9 @@ tagShow:
     }
 
 tagOut:
+    baye_hd_set_help(pbuf);
     GamDelay(0, 2);
+    baye_hd_set_help(NULL);
     gam_free(pbuf);
 }
 /***********************************************************************

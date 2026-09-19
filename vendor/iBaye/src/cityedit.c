@@ -24,6 +24,7 @@
 #include "touch.h"
 #include "baye/script.h"
 #include "hd-bridge.h"
+#include "hd-bridge.h"
 
 extern U8 g_engineVersion[32];
 
@@ -982,6 +983,7 @@ FAR U8 GetCitySetInner(CitySetType *pos)
             {
                 tpicflag = 0;
                 showflag = 1;
+                baye_hd_set_help(NULL);
                 continue;
             }
             switch (Msg.param)
@@ -1048,10 +1050,12 @@ FAR U8 GetCitySetInner(CitySetType *pos)
                         sprintf((char*)ver, "Ver %s", g_engineVersion);
                         gam_clrlcd(WK_SX,WK_SY,WK_EX,WK_EY);
                         GamStrShowS(WK_SX, WK_SY, ver);
+                        baye_hd_set_help(ver);
                         tpicflag = 1;
                     } else {
                         showflag = 1;
                         tpicflag = 0;
+                        baye_hd_set_help(NULL);
                     }
                     break;
             }
@@ -1063,6 +1067,7 @@ FAR U8 GetCitySetInner(CitySetType *pos)
                     // 退出地图
                     tpicflag = 0;
                     showflag = 1;
+                    baye_hd_set_help(NULL);
                 }
                 continue;
             }

@@ -40,6 +40,12 @@ U8 g_hdMarchCity = 0;
 U8 g_hdMarchObj = 0;
 U8 g_hdMarchTime = 0;
 
+U8 g_hdHelpGbk[BAYE_HD_HELP_MAX];
+U16 g_hdHelpSeq = 0;
+U8 g_hdHelpActive = 0;
+U8 g_hdMovieActive = 0;
+U16 g_hdMovieId = 0;
+
 static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
 {
     U32 n = 0;
@@ -143,6 +149,36 @@ void baye_hd_set_fight(U8 active, U8 over)
 void baye_hd_set_fight_wait(U8 wait)
 {
     g_hdFightWait = wait;
+}
+
+void baye_hd_set_help(const U8* gbk)
+{
+    copy_gbk(g_hdHelpGbk, BAYE_HD_HELP_MAX, gbk);
+    g_hdHelpActive = (U8)(g_hdHelpGbk[0] ? 1 : 0);
+    g_hdHelpSeq = (U16)(g_hdHelpSeq + 1);
+    if (g_hdHelpSeq == 0) {
+        g_hdHelpSeq = 1;
+    }
+    EM_ASM({
+        try {
+            if (window.BayeHdDialog && typeof BayeHdDialog.onEngineHelp === 'function') {
+                BayeHdDialog.onEngineHelp();
+            }
+        } catch (e) {}
+    });
+}
+
+void baye_hd_set_movie(U16 speId, U8 active)
+{
+    g_hdMovieActive = active;
+    g_hdMovieId = active ? speId : 0;
+    EM_ASM({
+        try {
+            if (window.BayeHdDialog && typeof BayeHdDialog.onEngineMovie === 'function') {
+                BayeHdDialog.onEngineMovie();
+            }
+        } catch (e) {}
+    });
 }
 
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
@@ -250,4 +286,9 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMarchCity, U8);
     DEFADDF(g_hdMarchObj, U8);
     DEFADDF(g_hdMarchTime, U8);
+    DEFADD_GBKARR(g_hdHelpGbk, sizeof(g_hdHelpGbk));
+    DEFADDF(g_hdHelpSeq, U16);
+    DEFADDF(g_hdHelpActive, U8);
+    DEFADDF(g_hdMovieActive, U8);
+    DEFADDF(g_hdMovieId, U16);
 }

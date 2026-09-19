@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20260919q"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260919ab"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260919ag"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20260919q"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20260919ab"/>
     <script>
@@ -94,7 +94,15 @@
         <canvas id="hd-battle-canvas" width="1920" height="1080"></canvas>
         <div id="hd-battle-hud" class="hd-battle-hud">HD 战场</div>
         <div id="hd-battle-result" class="hd-battle-result" hidden></div>
+        <div id="hd-battle-menu" class="hd-battle-menu" hidden>
+            <div id="hd-battle-menu-title" class="hd-battle-menu-title">战场菜单</div>
+            <div id="hd-battle-menu-list" class="hd-battle-menu-list"></div>
+            <div class="hd-battle-menu-actions">
+                <button type="button" data-hd-battle-menu-exit>返回</button>
+            </div>
+        </div>
         <div class="hd-battle-footer">
+            <button type="button" data-hd-battle-sys>系统菜单</button>
             <button type="button" data-hd-battle-lcd>经典 LCD</button>
             <button type="button" data-hd-battle-close>关闭预览</button>
         </div>
@@ -193,15 +201,15 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20260329"></script>
-<script src="js/bridge.js?ver=20260919af"></script>
+<script src="js/bridge.js?ver=20260919ag"></script>
 <script src="js/lcd.js?ver=20260919y"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
 <script src="js/hd-overworld-probe.js?ver=20260918k"></script>
 <script src="js/hd-overworld.js?ver=20260919y"></script>
 <script src="js/hd-city-menu.js?ver=20260919ae"></script>
-<script src="js/hd-battle.js?ver=20260919af"></script>
+<script src="js/hd-battle.js?ver=20260919ag"></script>
 <script src="js/hd-system-ui.js?ver=20260919y"></script>
-<script src="js/hd-dialog.js?ver=20260919af"></script>
+<script src="js/hd-dialog.js?ver=20260919ag"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
@@ -384,5 +392,5 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20260919af"></script>
+<script src="js/baye.js?ver=20260919ag"></script>
 
