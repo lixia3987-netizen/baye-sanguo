@@ -95,7 +95,14 @@
             return false;
         }
         var t = text.replace(/\s+/g, '');
-        return t.length >= 2 && t.length < 400 && !/^\[object/.test(t);
+        if (t.length < 2 || t.length >= 400) {
+            return false;
+        }
+        if (/^\[object/.test(t) || /^(Array|Object|Uint\d*Array|Int\d*Array|Float\d*Array)\[/i.test(t)) {
+            return false;
+        }
+        /* 只收已暴露的中文，避免把类型数组 dump 当成报告。 */
+        return /[\u4e00-\u9fff]/.test(t);
     }
 
     function probeExtraStrings(data) {
@@ -122,6 +129,9 @@
         var props = data && data._baye_properties ? data._baye_properties : [];
         for (i = 0; i < props.length; i++) {
             if (!/string|msg|talk|text|help|report|info/i.test(props[i])) {
+                continue;
+            }
+            if (/param|len|size|ptr|buf|map|array/i.test(props[i]) && !/stringparam/i.test(props[i])) {
                 continue;
             }
             var extra = readString(data, props[i]);
