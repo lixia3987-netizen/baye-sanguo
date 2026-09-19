@@ -136,22 +136,47 @@
         var data = engineData();
         var list = [];
         var seen = {};
-        if (!data || !data.g_Cities) {
+        var i;
+        if (data && data.g_Cities) {
+            for (i = 0; i < data.g_Cities.length; i++) {
+                var b = readNumber(data.g_Cities[i], 'Belong');
+                if (!b || b === 0xff || b === 255 || seen[b]) {
+                    continue;
+                }
+                seen[b] = true;
+                var name = personNameById(b);
+                var cityName = '';
+                try {
+                    cityName = baye.getCityName(i) || '';
+                } catch (e) {}
+                list.push({ id: b, name: name || ('ID ' + b), city: cityName });
+            }
+        }
+        if (list.length) {
             return list;
         }
-        var i;
-        for (i = 0; i < data.g_Cities.length; i++) {
-            var b = readNumber(data.g_Cities[i], 'Belong');
-            if (!b || b === 0xff || b === 255 || seen[b]) {
-                continue;
+        /* 城 Belong 未写入时：人物 Belong===自己 即为君主（demos.js 人物表）。 */
+        if (data && data.g_Persons) {
+            var n = data.g_Persons.length || 0;
+            for (i = 0; i < n && i < 260; i++) {
+                var p = data.g_Persons[i];
+                var belong = readNumber(p, 'Belong');
+                var level = readNumber(p, 'Level');
+                if (belong !== i + 1) {
+                    continue;
+                }
+                if (level !== null && level <= 0) {
+                    continue;
+                }
+                var pname = '';
+                try {
+                    pname = baye.getPersonName(i) || '';
+                } catch (e) {}
+                if (!pname || pname === '-') {
+                    continue;
+                }
+                list.push({ id: i + 1, name: pname, city: '' });
             }
-            seen[b] = true;
-            var name = personNameById(b);
-            var cityName = '';
-            try {
-                cityName = baye.getCityName(i) || '';
-            } catch (e) {}
-            list.push({ id: b, name: name || ('ID ' + b), city: cityName });
         }
         return list;
     }
@@ -400,7 +425,10 @@
             return;
         }
         if (next === 'king') {
-            state.kings = probeKings();
+            var nextKings = probeKings();
+            if (nextKings.length || !state.kings.length) {
+                state.kings = nextKings;
+            }
         }
         if (next === 'saveload') {
             state.saves = probeSaves();

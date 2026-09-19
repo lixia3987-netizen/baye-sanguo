@@ -24,6 +24,7 @@
         lastHookAt: 0,
         mapW: 0,
         mapH: 0,
+        tiles: [],
         units: [],
         focus: { x: null, y: null },
         showLcd: true,
@@ -169,6 +170,7 @@
             focus: { x: null, y: null },
             mapW: 0,
             mapH: 0,
+            tiles: [],
             keys: []
         };
         if (!data) {
@@ -182,6 +184,14 @@
             var sz = inferMapSize(info.mapLen);
             info.mapW = sz.w;
             info.mapH = sz.h;
+            var t;
+            for (t = 0; t < info.mapLen; t++) {
+                var tv = readNumber(data.g_FightMap, t);
+                if (tv === null && data.g_FightMap[t] != null) {
+                    tv = Number(data.g_FightMap[t]);
+                }
+                info.tiles.push(tv || 0);
+            }
         }
         info.focus.x = readNumber(data, 'g_FoucsX');
         info.focus.y = readNumber(data, 'g_FoucsY');
@@ -275,6 +285,19 @@
         var oy = 72;
         var r;
         var c;
+        /* B2：按图元取色，ID 未在引擎文档写死，只作分类色不标地形名。 */
+        var pal = ['#2f5d32', '#c2b280', '#6b5a4a', '#1f4d2e', '#8a6a3a', '#7a3a3a', '#5a4a3a', '#2a4a6a'];
+        if (state.tiles && state.tiles.length && cols && rows) {
+            for (r = 0; r < rows; r++) {
+                for (c = 0; c < cols; c++) {
+                    var tile = state.tiles[r * cols + c] || 0;
+                    ctx.fillStyle = pal[Math.abs(tile) % pal.length];
+                    ctx.globalAlpha = 0.55;
+                    ctx.fillRect(ox + c * cw, oy + r * ch, cw + 0.5, ch + 0.5);
+                }
+            }
+            ctx.globalAlpha = 1;
+        }
         ctx.strokeStyle = 'rgba(255,255,255,0.08)';
         ctx.lineWidth = 1;
         for (r = 0; r <= rows; r++) {
@@ -326,6 +349,7 @@
         state.units = info.units;
         state.mapW = info.mapW;
         state.mapH = info.mapH;
+        state.tiles = info.tiles;
         state.focus = info.focus;
         applyChrome();
         draw();

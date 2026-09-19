@@ -437,12 +437,24 @@
         state.deepItems = probeDeepItems();
         list.innerHTML = '';
         var i;
+        if (state.deepKind === 'qty') {
+            var bar = document.createElement('div');
+            bar.className = 'hd-city-menu-qty';
+            bar.innerHTML = '<p>词典无数字键。步进只发方向键，数量以引擎为准。</p>' +
+                '<div>' +
+                '<button type="button" data-hd-qty="-10">−10</button>' +
+                '<button type="button" data-hd-qty="-1">−</button>' +
+                '<button type="button" data-hd-qty="1">+</button>' +
+                '<button type="button" data-hd-qty="10">+10</button>' +
+                '<button type="button" data-hd-qty-ok>确认</button>' +
+                '</div>';
+            list.appendChild(bar);
+            return;
+        }
         if (!state.deepItems.length) {
             var empty = document.createElement('div');
             empty.className = 'hd-city-menu-deep-empty';
-            empty.textContent = state.deepKind === 'qty'
-                ? '数量输入仍走经典 LCD，不编造兵力数字。'
-                : '未探测到人物/城池名单，经典 LCD 对照。';
+            empty.textContent = '未探测到人物/城池名单，经典 LCD 对照。';
             list.appendChild(empty);
             return;
         }
@@ -690,6 +702,15 @@
                     render();
                 }
             }, 280);
+            return;
+        }
+        if (global.BayeHdDialog && (state.deepKind === 'person' || state.deepKind === 'city')) {
+            setTimeout(function () {
+                if (global.BayeHdDialog) {
+                    BayeHdDialog.openReport('', state.deepLabel || '报告');
+                    BayeHdDialog.poll();
+                }
+            }, 320);
         }
     }
 
@@ -769,6 +790,36 @@
                     ev.preventDefault();
                     ev.stopPropagation();
                     chooseDeep(Number(t.getAttribute('data-hd-deep')));
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-qty') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    var delta = Number(t.getAttribute('data-hd-qty'));
+                    if (delta < 0) {
+                        enqueueKeys(delta <= -10 ? [VK.LEFT, VK.DOWN] : [VK.DOWN], 40);
+                    } else {
+                        enqueueKeys(delta >= 10 ? [VK.RIGHT, VK.UP] : [VK.UP], 40);
+                    }
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-qty-ok') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    enqueueKeys([VK.ENTER], 60);
+                    if (global.BayeHdDialog) {
+                        BayeHdDialog.openReport('', state.deepLabel || '报告');
+                    }
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-menu-help') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    if (global.BayeHdDialog) {
+                        BayeHdDialog.openHelp();
+                    } else {
+                        enqueueKeys([0x26], 40);
+                    }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-menu-back') != null) {

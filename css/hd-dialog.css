@@ -1,0 +1,110 @@
+/* HD 报告 / 数量 / 帮助。经典模式无可见效果。 */
+
+.hd-dialog {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 76;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 10, 16, 0.55);
+    pointer-events: none;
+}
+
+.hd-dialog.is-open {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-dialog-stage {
+    width: min(720px, calc(100vw - 48px));
+    min-height: 280px;
+    max-height: min(640px, calc(100vh - 80px));
+    padding: 26px 28px 20px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(32, 38, 52, 0.98), rgba(16, 20, 28, 0.98));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 48px rgba(0, 0, 0, 0.45);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.hd-dialog-title {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.hd-dialog-body {
+    margin: 16px 0 10px;
+    font-size: 18px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow: auto;
+    min-height: 80px;
+}
+
+.hd-dialog-range {
+    font-size: 14px;
+    color: #c5cdd8;
+    margin-bottom: 10px;
+}
+
+.hd-dialog-qty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 8px 0 16px;
+}
+
+.hd-dialog-qty button,
+.hd-dialog-footer button {
+    appearance: none;
+    border: 0;
+    border-radius: 10px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+}
+
+.hd-dialog-qty button {
+    min-width: 64px;
+    background: #2c4a3a;
+    font-size: 20px;
+}
+
+.hd-dialog-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.hd-dialog-footer button[data-hd-dlg-ok] {
+    background: #3d6a4a;
+}
+
+.hd-dialog-footer button[data-hd-dlg-back] {
+    background: #8a4b32;
+}
+
+.hd-dialog-probe {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #8b93a1;
+}
+
+html[data-baye-dialog="hd"] body.baye-hd-dialog-lcd .container.js-baye-pc-lcd {
+    visibility: visible;
+    pointer-events: auto;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 280px !important;
+    z-index: 78;
+}

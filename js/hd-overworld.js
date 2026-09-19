@@ -903,6 +903,13 @@
                 console.warn('[hd-overworld] system-ui hook', name, e);
             }
         }
+        if (global.BayeHdDialog && typeof BayeHdDialog.onEngineHook === 'function') {
+            try {
+                BayeHdDialog.onEngineHook(name, context);
+            } catch (e) {
+                console.warn('[hd-overworld] dialog hook', name, e);
+            }
+        }
         if (state.aligning || state.pendingEnter) {
             console.log('[hd-overworld] hook while entering', name);
         }

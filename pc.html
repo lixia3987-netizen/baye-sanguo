@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-dialog.css"/>
     <script>
         var _hmt = _hmt || [];
         (function () {
@@ -83,6 +84,7 @@
         <div class="hd-city-menu-footer">
             <button type="button" data-hd-menu-back>返回</button>
             <button type="button" data-hd-menu-lcd>经典 LCD</button>
+            <button type="button" data-hd-menu-help>帮助</button>
         </div>
         <div id="hd-city-menu-probe" class="hd-city-menu-probe"></div>
     </div>
@@ -107,6 +109,25 @@
             <button type="button" data-hd-sys-lcd>经典 LCD</button>
         </div>
         <div id="hd-system-ui-probe" class="hd-system-ui-probe"></div>
+    </div>
+</div>
+<div id="hd-dialog" class="hd-dialog" aria-hidden="true">
+    <div class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title">
+        <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
+        <div id="hd-dialog-body" class="hd-dialog-body"></div>
+        <div id="hd-dialog-range" class="hd-dialog-range" hidden></div>
+        <div id="hd-dialog-qty" class="hd-dialog-qty" hidden>
+            <button type="button" data-hd-qty="-10">−10</button>
+            <button type="button" data-hd-qty="-1">−</button>
+            <button type="button" data-hd-qty="1">+</button>
+            <button type="button" data-hd-qty="10">+10</button>
+        </div>
+        <div class="hd-dialog-footer">
+            <button type="button" data-hd-dlg-ok>确认</button>
+            <button type="button" data-hd-dlg-back>返回</button>
+            <button type="button" data-hd-dlg-lcd>经典 LCD</button>
+        </div>
+        <div id="hd-dialog-probe" class="hd-dialog-probe"></div>
     </div>
 </div>
 <p></p>
@@ -136,7 +157,9 @@
             <button type="button" data-hd-system-ui="auto" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('auto')">界面自动</button>
             <button type="button" data-hd-system-ui="hd" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('hd')">HD 界面</button>
             <button type="button" data-hd-system-ui="classic" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('classic')">经典界面</button>
-            <span class="baye-hd-hint">HD 地图 / 城菜单 / 战场 / 系统界面是 1080p 壳。清单 docs/hd-full-replacement-checklist.md</span>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openHelp()">帮助 HD</button>
+            <span class="baye-hd-hint">HD 地图 / 城菜单 / 战场 / 系统 / 报告是 1080p 壳。清单 docs/hd-full-replacement-checklist.md</span>
         </div>
         <div layout="row center-stretch">
             <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
@@ -170,10 +193,11 @@
 <script src="js/lcd.js?ver=20260329"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
 <script src="js/hd-overworld-probe.js?ver=20260918k"></script>
-<script src="js/hd-overworld.js?ver=20260919k"></script>
-<script src="js/hd-city-menu.js?ver=20260919k"></script>
-<script src="js/hd-battle.js?ver=20260919k"></script>
-<script src="js/hd-system-ui.js?ver=20260919m"></script>
+<script src="js/hd-overworld.js?ver=20260919n"></script>
+<script src="js/hd-city-menu.js?ver=20260919n"></script>
+<script src="js/hd-battle.js?ver=20260919n"></script>
+<script src="js/hd-system-ui.js?ver=20260919n"></script>
+<script src="js/hd-dialog.js?ver=20260919n"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
@@ -191,6 +215,9 @@
     if (window.BayeHdSystemUi) {
         BayeHdSystemUi.applyPcPage();
     }
+    if (window.BayeHdDialog) {
+        BayeHdDialog.applyPcPage();
+    }
     Module.postRun = function () {
         lcdInit();
         if (window.BayeHd) {
@@ -207,6 +234,9 @@
         }
         if (window.BayeHdSystemUi) {
             BayeHdSystemUi.start();
+        }
+        if (window.BayeHdDialog) {
+            BayeHdDialog.start();
         }
         var libName = getLibName();
         $("#lib-name").html("当前版本: " + libName);
