@@ -109,3 +109,4 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - HD 战场系统菜单：`menuKind=sys` 画出 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`，点「全军撤退」再确认，不 stub `fightOpenMainMenu`
 - 大地图 HELP：`g_hdHelpGbk==="Ver 260919 14:37"`；战场 HELP：马腾 `等级:1 |兵种:骑兵|武力:89 …`
 - `GamMovie(MAIN_SPE)`：`g_hdMovieActive=1 id=3`，HD 铬框可跳过
+- 计谋：马腾 `g_hdSkillActive=1` `ids=[30,1]` 名 **谍报 / 践踏**；HD `menuKind=skill`，不 stub `fightChooseSkill`
