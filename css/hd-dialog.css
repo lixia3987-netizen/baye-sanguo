@@ -57,6 +57,11 @@
     margin: 8px 0 16px;
 }
 
+.hd-dialog-qty[hidden],
+.hd-dialog-range[hidden] {
+    display: none !important;
+}
+
 .hd-dialog-qty button,
 .hd-dialog-footer button {
     appearance: none;

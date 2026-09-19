@@ -287,7 +287,15 @@
         var c;
         /* B2：按图元取色，ID 未在引擎文档写死，只作分类色不标地形名。 */
         var pal = ['#2f5d32', '#c2b280', '#6b5a4a', '#1f4d2e', '#8a6a3a', '#7a3a3a', '#5a4a3a', '#2a4a6a'];
-        if (state.tiles && state.tiles.length && cols && rows) {
+        var painted = 0;
+        if (state.tiles && state.tiles.length) {
+            for (r = 0; r < state.tiles.length; r++) {
+                if (state.tiles[r]) {
+                    painted += 1;
+                }
+            }
+        }
+        if (state.tiles && state.tiles.length && cols && rows && (painted || !state.preview)) {
             for (r = 0; r < rows; r++) {
                 for (c = 0; c < cols; c++) {
                     var tile = state.tiles[r * cols + c] || 0;
