@@ -1004,9 +1004,14 @@ function baye_bridge_init() {
             return {
                 active: hdReadNum(d, 'g_hdFightActive'),
                 over: hdReadNum(d, 'g_hdFightOver'),
+                wait: hdReadNum(d, 'g_hdFightWait'),
                 result: result,
                 mapW: hdReadNum(d, 'g_MapWid'),
-                mapH: hdReadNum(d, 'g_MapHgt')
+                mapH: hdReadNum(d, 'g_MapHgt'),
+                bout: hdReadNum(d, 'g_FgtBoutCnt'),
+                boutMax: hdReadNum(d, 'g_FgtBoutMax'),
+                focusX: hdReadNum(d, 'g_FoucsX'),
+                focusY: hdReadNum(d, 'g_FoucsY')
             };
         },
         cityLinks: function (city) {

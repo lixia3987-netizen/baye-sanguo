@@ -23,6 +23,7 @@
 | `g_hdMenuIndex` | u16 | 当前高亮 |
 | `g_hdFightActive` | u8 | `GamFight` 进入后为 1 |
 | `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（离开战斗时写入） |
+| `g_hdFightWait` | u8 | `FgtGetFoucs` 正在 `GamGetMsg` 时为 1（按键不会被 `GamDelay(false)` 吃掉） |
 | `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
 | `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
 | `g_hdQtyValue` / `Min` / `Max` | u32 | 当前数与区间 |
@@ -58,7 +59,7 @@ baye.hd.reportText() // 最近一次报告/对话的中文（GBK 解码）
 baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
 baye.hd.menuItems()  // { itemLen, count, index, names:[] }；人物/道具/一层菜单共用
 baye.hd.qty()        // { active, value, min, max }
-baye.hd.fight()      // { active, over, result, mapW, mapH }
+baye.hd.fight()      // { active, over, wait, result, mapW, mapH, bout, boutMax, focusX, focusY }
 baye.hd.toolName(id) // GetGoodsName
 ```
 

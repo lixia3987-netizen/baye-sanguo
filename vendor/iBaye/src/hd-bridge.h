@@ -23,6 +23,7 @@ void baye_hd_set_kings(const PersonID* kings, U32 count);
 void baye_hd_set_king_highlight(U32 index, PersonID id);
 void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index);
 void baye_hd_set_fight(U8 active, U8 over);
+void baye_hd_set_fight_wait(U8 wait);
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active);
 void baye_hd_set_map_pick(U8 active);
 void baye_hd_set_city_links(U8 city);

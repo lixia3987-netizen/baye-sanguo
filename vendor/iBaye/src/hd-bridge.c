@@ -25,6 +25,7 @@ U16 g_hdMenuIndex = 0;
 
 U8 g_hdFightActive = 0;
 U8 g_hdFightOver = 0;
+U8 g_hdFightWait = 0;
 U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
 
 U32 g_hdQtyValue = 0;
@@ -139,6 +140,11 @@ void baye_hd_set_fight(U8 active, U8 over)
     });
 }
 
+void baye_hd_set_fight_wait(U8 wait)
+{
+    g_hdFightWait = wait;
+}
+
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 {
     g_hdQtyValue = value;
@@ -232,6 +238,7 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMenuIndex, U16);
     DEFADDF(g_hdFightActive, U8);
     DEFADDF(g_hdFightOver, U8);
+    DEFADDF(g_hdFightWait, U8);
     DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
     DEFADDF(g_hdQtyValue, U32);
     DEFADDF(g_hdQtyMin, U32);

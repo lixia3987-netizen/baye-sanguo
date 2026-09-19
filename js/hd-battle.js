@@ -462,6 +462,9 @@
         if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
             BayeHdCityMenu.close({ silent: true });
         }
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
         state.open = true;
         state.preview = !!meta.preview;
         if (!meta.keepResult) {

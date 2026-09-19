@@ -351,6 +351,15 @@
             }
             return;
         }
+        try {
+            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
+                !Number(baye.data.g_hdFightOver)) {
+                if (state.open && state.kind === 'report') {
+                    closeDialog({ silent: true });
+                }
+                return;
+            }
+        } catch (e) {}
         var info = readAsync();
         if (info.hdSeq && info.hdSeq !== state.lastReportSeq && looksLikeSpeech(info.text)) {
             applyEngineReport(info);

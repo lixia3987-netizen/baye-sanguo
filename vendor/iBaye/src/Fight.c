@@ -573,7 +573,10 @@ U8 FgtGetControl(void)
 U8 FgtGetFoucsInner(void (*chkcondition)(bool*flag));
 U8 FgtGetFoucs(void (*chkcondition)(bool*flag)) {
     int prev = SysScrollingTimerOpen(5);
+    /* HD 壳/CDP：FgtGetFoucs 正在 GamGetMsg，按键不会被 GamDelay(false) 吃掉。 */
+    baye_hd_set_fight_wait(1);
     U8 rv = FgtGetFoucsInner(chkcondition);
+    baye_hd_set_fight_wait(0);
     SysScrollingTimerOpen(prev);
     return rv;
 }
