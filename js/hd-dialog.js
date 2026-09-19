@@ -230,7 +230,6 @@
                 } catch (e) {}
                 body.textContent = (qv || '数量由引擎保存。') +
                     ' 方向键步进；0–9 发 VK_DIGIT0=0x40（不占用词典 0x30–0x33）。';
-            }
             } else if (state.kind === 'help') {
                 body.textContent = (state.title === '查找' ? '已发 VK_SEARCH。' : '已发 VK_HELP。') +
                     ' 引擎帮助/查找正文画在下方放大的经典屏上，这里不编造条目。';
