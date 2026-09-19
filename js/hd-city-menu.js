@@ -308,7 +308,11 @@
 
     function probeDeepItems() {
         var eng = engineMenuItems();
-        if (eng.names && eng.names.length) {
+        var subNames = SUBS[state.subKind] || [];
+        var stillParentMenu = !!(eng.names && subNames.length &&
+            eng.names.length === subNames.length &&
+            eng.names[0] === subNames[0]);
+        if (eng.names && eng.names.length && !stillParentMenu) {
             var mapped = [];
             var ei;
             for (ei = 0; ei < eng.names.length; ei++) {

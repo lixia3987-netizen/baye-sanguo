@@ -953,7 +953,8 @@
         }
         ['onMenuIdle', 'cityMakeCommand', 'willCloseMenu', 'didOpenNewGame', 'didLoadGame'].forEach(function (name) {
             if (typeof baye.hooks[name] !== 'function') {
-                baye.hooks[name] = function () {};
+                /* -1 = 只观察，不替换 CityCommon / 系统菜单。return 0 会跳过 AssartMake。 */
+                baye.hooks[name] = function () { return -1; };
             }
         });
         if (typeof baye.callHook !== 'function') {
@@ -966,7 +967,11 @@
             } catch (e) {
                 console.warn('[hd-overworld] hook', name, e);
             }
-            return orig.apply(this, arguments);
+            var rv = orig.apply(this, arguments);
+            if (name === 'cityMakeCommand' && (rv === undefined || rv === 0 || rv === null)) {
+                return -1;
+            }
+            return rv;
         };
         state.hookWrapped = true;
     }
