@@ -216,6 +216,10 @@
         if (qty) {
             qty.hidden = state.kind !== 'qty';
         }
+        var caption = el('hd-dialog-caption');
+        if (caption) {
+            caption.hidden = !!(state.body && state.kind !== 'help');
+        }
         setText(el('hd-dialog-probe'), 'kind=' + state.kind + '  async=' + state.asyncId +
             '  hook=' + (state.lastHook || '—'));
     }
@@ -281,7 +285,14 @@
             return;
         }
         state.asyncId = info.id;
-        if (state.open && state.kind === 'report' && !state.body && info.id === 0 && state.lastHook === 'auto') {
+        if (state.open && state.kind === 'report' && !state.body && looksLikeSpeech(info.text)) {
+            state.body = info.text;
+            render();
+            return;
+        }
+        if (state.open && state.kind === 'report' && !state.body && info.id === 0 &&
+            state.lastHook === 'auto' &&
+            !(global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen())) {
             closeDialog({ silent: true });
         }
     }

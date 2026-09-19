@@ -743,8 +743,12 @@
         }
         if (global.BayeHdDialog) {
             setTimeout(function () {
-                if (global.BayeHdDialog) {
-                    BayeHdDialog.poll();
+                if (!global.BayeHdDialog) {
+                    return;
+                }
+                BayeHdDialog.poll();
+                if (!BayeHdDialog.isOpen()) {
+                    BayeHdDialog.openReport('', state.deepLabel || '报告');
                 }
             }, 360);
         }

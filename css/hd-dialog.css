@@ -56,6 +56,21 @@
     border: 1px dashed rgba(240, 199, 90, 0.35);
 }
 
+.hd-dialog-caption {
+    margin: 4px 0 12px;
+    font-size: 13px;
+    color: #f0c75a;
+    letter-spacing: 0.04em;
+}
+
+.hd-dialog-caption[hidden] {
+    display: none !important;
+}
+
+.hd-dialog.is-open:not(.is-qty) .hd-dialog-stage {
+    min-height: 260px;
+}
+
 .hd-dialog-range {
     font-size: 14px;
     color: #c5cdd8;
