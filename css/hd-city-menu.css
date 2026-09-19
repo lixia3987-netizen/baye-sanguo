@@ -43,6 +43,12 @@
     color: #c5cdd8;
 }
 
+.hd-city-menu-grid[hidden],
+.hd-city-menu-sublist[hidden],
+.hd-city-menu-status[hidden] {
+    display: none !important;
+}
+
 .hd-city-menu-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;

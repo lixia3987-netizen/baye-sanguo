@@ -299,6 +299,7 @@
         var show = state.open && shouldShowHd();
         root.setAttribute('aria-hidden', show ? 'false' : 'true');
         root.classList.toggle('is-open', show);
+        root.classList.toggle('is-sub', show && state.layer !== 'root');
         applyDocAttr();
         if (!show) {
             return;
