@@ -66,3 +66,11 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - `onMenuIdle`（现在带 `itemLen`/`itemCount`）
 
 名单即使没有 hook 也会写入 `g_hd*`。
+
+## 本轮 CDP 实测（`dat-mod.lib` / 董卓弄权）
+
+- `script_init` 日志：`baye.data bound fields=95`，`g_hdEngineReady=1`
+- `baye.hd.kings()`：18 人（马腾、公孙瓒、董卓、曹操、刘备、孙坚…），`currentId` 随形势图高亮
+- `baye.hd.menuItems()`：内政 14 项（开垦…移动），`itemLen=4`
+- `baye.hd.report()`：导出已挂上；开垦人物确认后的 `ShowDMsg` 本轮未等到正文
+- 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图

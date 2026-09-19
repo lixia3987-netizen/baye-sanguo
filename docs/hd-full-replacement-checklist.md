@@ -9,14 +9,14 @@
 |------|------|------|
 | **标题 / 主菜单** | **HD done** | 新君登基 / 重返沙场 / 制作群组 / 解甲归田 |
 | **选时期** | **HD done** | 董卓弄权四时期 |
-| **选君主 / 势力形势图** | **partial** | WASM `g_hdKingIds`/`g_hdKingIndex`：GetAllKings 后应能填表。形势图点击坐标仍可能对不齐 |
+| **选君主 / 势力形势图** | **HD done** | `GetAllKings` 写入 `g_hdKingIds`（董卓弄权 18 人：马腾/董卓/曹操…）；高亮 `g_hdKingIndex`。形势图底图仍可开 LCD 对照 |
 | 开场动画 | LCD residual | 引擎播片，回车跳过；无独立图文接口，重做要改 WASM |
 | **大地图** | **HD done** | P0–P3 |
 | **城池根 / 一层 / 状况** | **HD done** | M0–M2 |
 | **人物选择** | **HD done** | `onMenuIdle` + `g_hdMenuBytes` 引擎项名；金框滚入；空名单才 LCD |
 | **出征 / 外交目标城** | **HD done** | 同上，名单序跟引擎菜单缓冲 |
 | **数量 / 征兵步进** | **HD done** | 方向键步进 + PC 数字键 `0x40–0x49`（不占用词典 0x30–0x33） |
-| **报告 / 对话** | **HD done** | `g_hdReportGbk` 来自 `GamMsgBox`/`ShowGReport`；无正文才 LCD 镜 |
+| **报告 / 对话** | **partial** | `g_hdReportGbk` 已挂 `GamMsgBox`/`ShowGReport`。开垦先走人物菜单；结果报告要等确认后 `ShowDMsg`。本轮 CDP 未读到正文 |
 | **帮助 / 查找** | **partial** | VK_HELP / VK_SEARCH + 放大 LCD；帮助正文仍多在 LCD |
 | **战场格网 / 单位** | **partial** | `enterBattle`/`exitBattle` + `g_hdFightActive`；格/将仍要开打后的 `g_FightMap`/`g_GenPos` |
 | 战场系统菜单 / 计谋 | LCD residual | 不 stub `fightOpenMainMenu` / `fightChooseSkill`，否则会替换系统菜单 |
