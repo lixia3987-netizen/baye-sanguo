@@ -898,7 +898,7 @@
             return;
         }
         if (name === 'willCloseMenu' && state.phase === 'classic-menu') {
-            if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen() && BayeHdCityMenu.getLayer() !== 'root') {
+            if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
                 return;
             }
             state.menuDepth = Math.max(0, state.menuDepth - 1);

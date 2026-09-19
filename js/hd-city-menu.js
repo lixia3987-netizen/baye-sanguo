@@ -52,6 +52,7 @@
         sending: false,
         queue: [],
         showLcd: false,
+        closingSub: false,
         bound: false
     };
 
@@ -422,6 +423,7 @@
             return;
         }
         if (state.layer !== 'root') {
+            state.closingSub = true;
             state.layer = 'root';
             state.subKind = '';
             state.idleIndex = null;
@@ -470,10 +472,13 @@
         if (!state.open) {
             return;
         }
-        if (name === 'willCloseMenu' && state.layer !== 'root') {
-            state.layer = 'root';
-            state.subKind = '';
-            render();
+        if (name === 'willCloseMenu') {
+            if (state.closingSub) {
+                state.closingSub = false;
+                state.layer = 'root';
+                state.subKind = '';
+                render();
+            }
         }
         if (name === 'onMenuIdle' || name === 'cityMakeCommand') {
             var probe = el('hd-city-menu-probe');
