@@ -1095,11 +1095,16 @@ function baye_bridge_init() {
                 }
                 ids.push(id);
                 var name = '';
-                if (d && d.g_hdSkillNames) {
+                if (d && d.g_hdSkillNameBytes) {
+                    name = hdDecodeSlice(d.g_hdSkillNameBytes, i * 8, 8);
+                }
+                if (!name && d && d.g_hdSkillNames) {
                     name = hdDecodeSlice(d.g_hdSkillNames, i * 8, 8);
                 }
+                name = String(name || '').replace(/\u0000/g, '').replace(/\s+$/g, '');
                 if (!name && id && typeof baye.getSkillName === 'function') {
-                    try { name = baye.getSkillName(id - 1) || ''; } catch (e) {}
+                    try { name = baye.getSkillName(id - 1) || baye.getSkillName(id) || ''; } catch (e) {}
+                    name = String(name || '').replace(/\u0000/g, '').replace(/\s+$/g, '');
                 }
                 names.push(name);
             }

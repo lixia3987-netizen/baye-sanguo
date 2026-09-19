@@ -194,16 +194,20 @@ void baye_hd_set_skills(const U16* ids, const U8* names, U8 count, U8 nameLen, U
     g_hdSkillCount = count;
     g_hdSkillNameLen = nameLen;
     for (i = 0; i < count; i++) {
-        U8 n;
+        U8 tmp[16];
         g_hdSkillIds[i] = ids[i];
-        if (!names) {
-            continue;
+        memset(tmp, 0, sizeof(tmp));
+        if (ids[i]) {
+            ResLoadToMem(SKL_NAMID, ids[i], tmp);
         }
-        n = nameLen;
-        if (n >= BAYE_HD_SKILL_NAME) {
-            n = BAYE_HD_SKILL_NAME - 1;
+        if (!tmp[0] && names && nameLen) {
+            U8 n = nameLen;
+            if (n >= sizeof(tmp)) {
+                n = sizeof(tmp) - 1;
+            }
+            memcpy(tmp, names + (U32)i * nameLen, n);
         }
-        memcpy(g_hdSkillNames + i * BAYE_HD_SKILL_NAME, names + (U32)i * nameLen, n);
+        memcpy(g_hdSkillNames + i * BAYE_HD_SKILL_NAME, tmp, BAYE_HD_SKILL_NAME);
     }
 }
 
@@ -335,4 +339,8 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdSkillNameLen, U8);
     DEFADD_U16ARR(g_hdSkillIds, BAYE_HD_SKILL_MAX);
     DEFADD_GBKARR(g_hdSkillNames, sizeof(g_hdSkillNames));
+    {
+        U8* g_hdSkillNameBytes = g_hdSkillNames;
+        DEFADD_U8ARR(g_hdSkillNameBytes, sizeof(g_hdSkillNames));
+    }
 }
