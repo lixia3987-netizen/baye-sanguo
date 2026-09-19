@@ -107,7 +107,8 @@
 | 点击入城 | partial | 当前城读 `g_CityPos.setx/sety`。词典原版马腾已核验：西凉→安定、安定→天水均打开对应四项菜单（`tile-walk` RD）。写字段会进错城，已不用。无 `g_CityPos` 的 lib 回退邻接 BFS，未测 |
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
-| 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期弹出 LCD；点地图空白回 HD |
+| 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
+| HD 城池四项菜单 M0/M1 | done | `js/hd-city-menu.js`：根四钮 + 内政/军备一层列表；点选只 `sendKey`。`cityMenuMode=auto/hd/classic`。状况只列读到的 `g_Cities` 字段 |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
 | 可达邻接高亮 | done | 焦点城（选中 / 引擎光标 / 猜测）的 P2 邻边加亮金线；不另建图 |
@@ -118,7 +119,7 @@
 ## 刻意未做
 
 - 未自造科技树、抽卡、联机对战。
-- 未用占位菜单替换引擎城池指令。
+- 未用假数值替换引擎城池指令；HD 菜单只是按键壳。
 - 未重新编译 WASM：使用上游 baye-alpha 预编译二进制。
 
 ## 已知缺口

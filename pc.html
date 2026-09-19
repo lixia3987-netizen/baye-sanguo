@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="css/baye.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css"/>
     <script>
         var _hmt = _hmt || [];
         (function () {
@@ -34,10 +35,12 @@
                 var scale = localStorage.getItem('baye/lcdCssScale') === '2' ? '2' : '1';
                 var theme = localStorage.getItem('baye/lcdTheme') === 'hd' ? 'hd' : 'classic';
                 var overworld = localStorage.getItem('baye/overworldMode') === 'hd-map' ? 'hd-map' : 'classic';
+                var cityMenu = localStorage.getItem('baye/cityMenuMode') || 'auto';
                 document.documentElement.style.setProperty('--baye-lcd-scale', scale);
                 document.documentElement.setAttribute('data-baye-lcd-scale', scale);
                 document.documentElement.setAttribute('data-baye-theme', theme);
                 document.documentElement.setAttribute('data-baye-overworld', overworld);
+                document.documentElement.setAttribute('data-baye-city-menu-pref', cityMenu);
             } catch (e) {}
         })();
     </script>
@@ -60,6 +63,25 @@
         </div>
     </div>
 </div>
+<div id="hd-city-menu" class="hd-city-menu" aria-hidden="true">
+    <div class="hd-city-menu-stage" role="dialog" aria-labelledby="hd-city-menu-title">
+        <div id="hd-city-menu-title" class="hd-city-menu-title">城池</div>
+        <div id="hd-city-menu-sub" class="hd-city-menu-sub">内政 / 外交 / 军备 / 状况</div>
+        <div id="hd-city-menu-root" class="hd-city-menu-grid">
+            <button type="button" class="hd-city-menu-card" data-hd-root="0"><strong>内政</strong><span>开垦 / 招商 / 搜寻…</span></button>
+            <button type="button" class="hd-city-menu-card" data-hd-root="1"><strong>外交</strong><span>离间 / 招揽 / 策反…</span></button>
+            <button type="button" class="hd-city-menu-card" data-hd-root="2"><strong>军备</strong><span>侦察 / 征兵 / 出征…</span></button>
+            <button type="button" class="hd-city-menu-card" data-hd-root="3"><strong>状况</strong><span>只显示读到的城数据</span></button>
+        </div>
+        <div id="hd-city-menu-sublist" class="hd-city-menu-sublist" hidden></div>
+        <div id="hd-city-menu-status" class="hd-city-menu-status" hidden></div>
+        <div class="hd-city-menu-footer">
+            <button type="button" data-hd-menu-back>返回</button>
+            <button type="button" data-hd-menu-lcd>经典 LCD</button>
+        </div>
+        <div id="hd-city-menu-probe" class="hd-city-menu-probe"></div>
+    </div>
+</div>
 <p></p>
 <div layout="row center-center">
     <div class="js-baye-pc-chrome">
@@ -76,7 +98,11 @@
             <span class="baye-hd-sep" aria-hidden="true"></span>
             <button type="button" data-hd-overworld="classic" onclick="if(window.BayeHdOverworld)BayeHdOverworld.setMode('classic')">经典地图</button>
             <button type="button" data-hd-overworld="hd-map" onclick="if(window.BayeHdOverworld)BayeHdOverworld.setMode('hd-map')">HD 地图</button>
-            <span class="baye-hd-hint">1×/2× 只放大经典 LCD。HD 地图是 1080p 表现层，默认关闭，可随时切回。说明见 docs/hd-graphics.md 与 docs/hd-overworld-spec.md</span>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-city-menu="auto" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('auto')">菜单自动</button>
+            <button type="button" data-hd-city-menu="hd" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('hd')">HD 菜单</button>
+            <button type="button" data-hd-city-menu="classic" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('classic')">经典菜单</button>
+            <span class="baye-hd-hint">1×/2× 只放大经典 LCD。HD 地图 / 城菜单是 1080p 表现层，默认不强迫。说明见 docs/hd-overworld-spec.md 与 docs/hd-city-menu-spec.md</span>
         </div>
         <div layout="row center-stretch">
             <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
@@ -110,7 +136,8 @@
 <script src="js/lcd.js?ver=20260329"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
 <script src="js/hd-overworld-probe.js?ver=20260918k"></script>
-<script src="js/hd-overworld.js?ver=20260919g"></script>
+<script src="js/hd-overworld.js?ver=20260919h"></script>
+<script src="js/hd-city-menu.js?ver=20260919h"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
@@ -119,6 +146,9 @@
     if (window.BayeHdOverworld) {
         BayeHdOverworld.applyPcPage();
     }
+    if (window.BayeHdCityMenu) {
+        BayeHdCityMenu.applyPcPage();
+    }
     Module.postRun = function () {
         lcdInit();
         if (window.BayeHd) {
@@ -126,6 +156,9 @@
         }
         if (window.BayeHdOverworld) {
             BayeHdOverworld.start();
+        }
+        if (window.BayeHdCityMenu) {
+            BayeHdCityMenu.start();
         }
         var libName = getLibName();
         $("#lib-name").html("当前版本: " + libName);

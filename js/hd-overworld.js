@@ -878,7 +878,14 @@
         applyChrome();
     }
 
-    function onHook(name) {
+    function onHook(name, context) {
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.onEngineHook === 'function') {
+            try {
+                BayeHdCityMenu.onEngineHook(name, context);
+            } catch (e) {
+                console.warn('[hd-overworld] city-menu hook', name, e);
+            }
+        }
         if (state.aligning || state.pendingEnter) {
             console.log('[hd-overworld] hook while entering', name);
         }
@@ -891,6 +898,9 @@
             return;
         }
         if (name === 'willCloseMenu' && state.phase === 'classic-menu') {
+            if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen() && BayeHdCityMenu.getLayer() !== 'root') {
+                return;
+            }
             state.menuDepth = Math.max(0, state.menuDepth - 1);
             if (state.menuDepth <= 0) {
                 leaveClassicMenu('已回到大地图。点城打开经典菜单。');
@@ -2303,6 +2313,9 @@
         state.hdOpenedMenu = false;
         state.pendingEnter = false;
         state.aligning = false;
+        if (global.BayeHdCityMenu) {
+            BayeHdCityMenu.close({ silent: true });
+        }
         setPhase(playerKingId() !== null && citiesHaveBelong(engineData()) ? 'map' : inferPhase());
         state.hint = hint || '已回到大地图。';
     }
@@ -2313,7 +2326,18 @@
         state.hdOpenedMenu = true;
         state.menuDepth = Math.max(1, state.menuDepth);
         setPhase('classic-menu');
-        state.hint = hint || '经典城池菜单（内政/外交/军备/状况）。空格关闭；点地图空白回 HD。';
+        var idx = validCityIndex(state.selectedIndex) ? state.selectedIndex : state.engineCursorIndex;
+        var hdMenu = global.BayeHdCityMenu && BayeHdCityMenu.shouldShowHd();
+        if (hdMenu) {
+            BayeHdCityMenu.open({
+                cityIndex: idx,
+                cityName: validCityIndex(idx) && state.cities[idx] ? state.cities[idx].name : '',
+                hook: 'confirm'
+            });
+            state.hint = hint || 'HD 城池菜单。点内政/外交/军备/状况；返回回大地图。';
+        } else {
+            state.hint = hint || '经典城池菜单（内政/外交/军备/状况）。空格关闭；点地图空白回 HD。';
+        }
     }
 
     function guessCurrentCity() {
@@ -2692,6 +2716,9 @@
             if (state.mode !== 'hd-map') {
                 return;
             }
+            if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
+                return;
+            }
             var code = e.keyCode;
             if ((code === 32 || code === 27) && state.phase === 'classic-menu') {
                 state.menuDepth = Math.max(0, state.menuDepth - 1);
@@ -2822,6 +2849,7 @@
         },
         getCamera: function () { return state.camera; },
         getCameraBounds: cameraLimits,
+        leaveMenu: leaveClassicMenu,
         getAlignLog: function () { return state.alignLog; },
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },

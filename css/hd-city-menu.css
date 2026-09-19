@@ -1,0 +1,178 @@
+/* HD 城池四项菜单。经典模式不加这些规则的可见效果。 */
+
+.hd-city-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 10, 14, 0.42);
+    pointer-events: none;
+}
+
+.hd-city-menu.is-open {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-city-menu-stage {
+    width: min(980px, calc(100vw - 48px));
+    min-height: 420px;
+    max-height: min(640px, calc(100vh - 96px));
+    padding: 28px 32px 22px;
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(28, 34, 46, 0.96), rgba(16, 20, 28, 0.96));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 64px rgba(0, 0, 0, 0.45);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.hd-city-menu-title {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.hd-city-menu-sub {
+    margin-top: 6px;
+    font-size: 15px;
+    color: #c5cdd8;
+}
+
+.hd-city-menu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 22px 0 18px;
+}
+
+.hd-city-menu-card {
+    appearance: none;
+    border: 0;
+    border-radius: 14px;
+    min-height: 118px;
+    padding: 18px 20px;
+    text-align: left;
+    cursor: pointer;
+    color: #f7f4ea;
+    background: #2a3344;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    transition: transform 0.12s ease, background 0.12s ease;
+}
+
+.hd-city-menu-card:hover,
+.hd-city-menu-card:focus {
+    transform: translateY(-2px);
+    background: #364257;
+    outline: none;
+}
+
+.hd-city-menu-card[data-hd-root="0"] { background: #2e4a3a; }
+.hd-city-menu-card[data-hd-root="1"] { background: #3a3a55; }
+.hd-city-menu-card[data-hd-root="2"] { background: #5a3a2c; }
+.hd-city-menu-card[data-hd-root="3"] { background: #2c4558; }
+
+.hd-city-menu-card strong {
+    display: block;
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.hd-city-menu-card span {
+    font-size: 14px;
+    color: rgba(247, 244, 234, 0.78);
+}
+
+.hd-city-menu-sublist {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0 16px;
+    overflow: auto;
+}
+
+.hd-city-menu-item {
+    appearance: none;
+    border: 0;
+    border-radius: 10px;
+    min-height: 48px;
+    padding: 10px 14px;
+    font-size: 18px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #2b3342;
+}
+
+.hd-city-menu-item:hover,
+.hd-city-menu-item:focus {
+    background: #3d4b63;
+    outline: none;
+}
+
+.hd-city-menu-status {
+    margin: 18px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 20px;
+    overflow: auto;
+    font-size: 16px;
+}
+
+.hd-city-menu-stat {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.hd-city-menu-footer {
+    display: flex;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.hd-city-menu-footer button {
+    appearance: none;
+    border: 0;
+    border-radius: 10px;
+    min-height: 44px;
+    padding: 0 18px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+}
+
+.hd-city-menu-footer button[data-hd-menu-back] {
+    background: #8a4b32;
+}
+
+.hd-city-menu-probe {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #8b93a1;
+}
+
+html[data-baye-city-menu="hd"] body.baye-hd-overworld-menu .container.js-baye-pc-lcd {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+html[data-baye-city-menu="hd"] body.baye-hd-city-menu-lcd .container.js-baye-pc-lcd {
+    visibility: visible;
+    pointer-events: auto;
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 280px !important;
+    z-index: 70;
+}
