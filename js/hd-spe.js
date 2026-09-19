@@ -236,12 +236,14 @@
         var logical = scratchLogical();
         var lctx = logical.getContext('2d');
         lctx.imageSmoothingEnabled = false;
-        lctx.clearRect(0, 0, LOGICAL_W, LOGICAL_H);
+        lctx.fillStyle = '#e6edd4';
+        lctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
         lctx.drawImage(src, 0, 0, srcPixW, srcPixH, 0, 0, LOGICAL_W, LOGICAL_H);
 
         var ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
-        ctx.clearRect(0, 0, dstW, dstH);
+        ctx.fillStyle = '#e6edd4';
+        ctx.fillRect(0, 0, dstW, dstH);
         ctx.drawImage(logical, srcX, srcY, srcW, srcH, 0, 0, dstW, dstH);
         updateProbe(info);
     }
@@ -337,7 +339,7 @@
                     var pix = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
                     var i;
                     for (i = 0; i < pix.length; i += 16) {
-                        if (pix[i] + pix[i + 1] + pix[i + 2] > 40) {
+                        if (pix[i] + pix[i + 1] + pix[i + 2] < 500) {
                             lit += 1;
                         }
                     }
