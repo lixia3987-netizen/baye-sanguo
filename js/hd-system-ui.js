@@ -258,7 +258,7 @@
         if (belong && king == null) {
             return 'king';
         }
-        if (state.screen === 'period' || state.screen === 'saveload' || state.screen === 'insystem') {
+        if (state.screen === 'king' || state.screen === 'period' || state.screen === 'saveload' || state.screen === 'insystem') {
             return state.screen;
         }
         return 'title';
@@ -314,7 +314,9 @@
 
     function screenHint() {
         if (state.screen === 'king') {
-            return '名单来自各城 Belong，点选按 onMenuIdle 光标发键，形势图顺序可能不同。';
+            return state.kings.length
+                ? '名单来自各城 Belong，点选按光标发键；形势图顺序可能不同，经典 LCD 可对照。'
+                : '城归属尚未写入。请用经典 LCD 势力形势图选君主，不编造名单。';
         }
         if (state.screen === 'saveload') {
             return state.saves.length
@@ -436,7 +438,10 @@
                 state.showLcd = true;
             }
         } else if (state.screen === 'period') {
+            state.screen = 'king';
             state.idleIndex = 0;
+            state.showLcd = true;
+            state.kings = probeKings();
         } else if (state.screen === 'insystem' && index === 1) {
             state.screen = 'saveload';
             state.showLcd = true;
