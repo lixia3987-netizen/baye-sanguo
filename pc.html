@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css"/>
     <script>
         var _hmt = _hmt || [];
         (function () {
@@ -82,6 +83,16 @@
         <div id="hd-city-menu-probe" class="hd-city-menu-probe"></div>
     </div>
 </div>
+<div id="hd-battle" class="hd-battle" aria-hidden="true">
+    <div class="hd-battle-stage">
+        <canvas id="hd-battle-canvas" width="1920" height="1080"></canvas>
+        <div id="hd-battle-hud" class="hd-battle-hud">HD 战场</div>
+        <div class="hd-battle-footer">
+            <button type="button" data-hd-battle-lcd>经典 LCD</button>
+            <button type="button" data-hd-battle-close>关闭预览</button>
+        </div>
+    </div>
+</div>
 <p></p>
 <div layout="row center-center">
     <div class="js-baye-pc-chrome">
@@ -102,7 +113,10 @@
             <button type="button" data-hd-city-menu="auto" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('auto')">菜单自动</button>
             <button type="button" data-hd-city-menu="hd" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('hd')">HD 菜单</button>
             <button type="button" data-hd-city-menu="classic" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('classic')">经典菜单</button>
-            <span class="baye-hd-hint">1×/2× 只放大经典 LCD。HD 地图 / 城菜单是 1080p 表现层，默认不强迫。说明见 docs/hd-overworld-spec.md 与 docs/hd-city-menu-spec.md</span>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-battle="auto" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('auto')">战斗自动</button>
+            <button type="button" data-hd-battle="classic" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('classic')">经典战斗</button>
+            <span class="baye-hd-hint">HD 地图 / 城菜单 / 战场是 1080p 壳，默认不强迫。清单 docs/hd-full-replacement-checklist.md</span>
         </div>
         <div layout="row center-stretch">
             <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
@@ -136,8 +150,9 @@
 <script src="js/lcd.js?ver=20260329"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
 <script src="js/hd-overworld-probe.js?ver=20260918k"></script>
-<script src="js/hd-overworld.js?ver=20260919h"></script>
-<script src="js/hd-city-menu.js?ver=20260919h"></script>
+<script src="js/hd-overworld.js?ver=20260919i"></script>
+<script src="js/hd-city-menu.js?ver=20260919i"></script>
+<script src="js/hd-battle.js?ver=20260919i"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
@@ -149,6 +164,9 @@
     if (window.BayeHdCityMenu) {
         BayeHdCityMenu.applyPcPage();
     }
+    if (window.BayeHdBattle) {
+        BayeHdBattle.applyPcPage();
+    }
     Module.postRun = function () {
         lcdInit();
         if (window.BayeHd) {
@@ -159,6 +177,9 @@
         }
         if (window.BayeHdCityMenu) {
             BayeHdCityMenu.start();
+        }
+        if (window.BayeHdBattle) {
+            BayeHdBattle.start();
         }
         var libName = getLibName();
         $("#lib-name").html("当前版本: " + libName);

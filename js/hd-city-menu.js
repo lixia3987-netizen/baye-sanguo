@@ -37,6 +37,7 @@
         ['Arms', '兵力'],
         ['State', '状态']
     ];
+    var STATE_LABELS = ['正常', '饥荒', '旱灾', '水灾', '暴动'];
 
     var state = {
         mode: 'auto',
@@ -53,7 +54,9 @@
         queue: [],
         showLcd: false,
         closingSub: false,
-        bound: false
+        bound: false,
+        listKind: '',
+        probedCityKeys: []
     };
 
     function readStorage(key, fallback) {
@@ -272,23 +275,95 @@
             var value = num;
             if (key === 'Belong' && num !== null) {
                 value = personNameById(num);
+            } else if ((key === 'Satrap' || key === 'Mayor' || key === 'Governor') && num !== null) {
+                value = personNameById(num);
+            } else if (key === 'State' && num !== null && STATE_LABELS[num]) {
+                value = STATE_LABELS[num] + ' (' + num + ')';
             }
             if (value === null) {
                 value = String(city[key]);
             }
-            var row = document.createElement('div');
-            row.className = 'hd-city-menu-stat';
-            row.innerHTML = '<span>' + label + '</span><strong></strong>';
-            row.querySelector('strong').textContent = String(value);
-            box.appendChild(row);
+            appendStat(box, label, value);
+        }
+        var extras = listProps(city);
+        state.probedCityKeys = extras.slice();
+        for (i = 0; i < extras.length; i++) {
+            var extra = extras[i];
+            if (seen[extra]) {
+                continue;
+            }
+            var already = false;
+            var s;
+            for (s = 0; s < STATUS_FIELDS.length; s++) {
+                if (STATUS_FIELDS[s][0] === extra) {
+                    already = true;
+                }
+            }
+            if (already) {
+                continue;
+            }
+            var extraNum = readNumber(city, extra);
+            if (extraNum === null) {
+                continue;
+            }
+            seen[extra] = true;
+            any = true;
+            appendStat(box, extra, extraNum);
         }
         if (!any) {
             box.textContent = '该城对象上没有已登记的状况字段。已记录键名，不填假数。';
         }
         if (!state.probed) {
             state.probed = true;
-            console.log('[hd-city-menu] city keys', listProps(city));
+            console.log('[hd-city-menu] city keys', extras);
         }
+    }
+
+    function appendStat(box, label, value) {
+        var row = document.createElement('div');
+        row.className = 'hd-city-menu-stat';
+        row.innerHTML = '<span></span><strong></strong>';
+        row.querySelector('span').textContent = label;
+        row.querySelector('strong').textContent = String(value);
+        box.appendChild(row);
+    }
+
+    function applyHighlight() {
+        var cards = document.querySelectorAll('[data-hd-root]');
+        var i;
+        for (i = 0; i < cards.length; i++) {
+            var idx = Number(cards[i].getAttribute('data-hd-root'));
+            cards[i].classList.toggle('is-idle', state.layer === 'root' && state.idleIndex === idx);
+        }
+        var items = document.querySelectorAll('[data-hd-sub]');
+        for (i = 0; i < items.length; i++) {
+            var si = Number(items[i].getAttribute('data-hd-sub'));
+            items[i].classList.toggle('is-idle', state.layer === 'sub' && state.idleIndex === si);
+        }
+    }
+
+    function fillSubList(kind) {
+        var list = el('hd-city-menu-sublist');
+        if (!list) {
+            return;
+        }
+        if (state.listKind === kind && list.children.length) {
+            applyHighlight();
+            return;
+        }
+        var items = SUBS[kind] || [];
+        list.innerHTML = '';
+        var i;
+        for (i = 0; i < items.length; i++) {
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'hd-city-menu-item';
+            btn.setAttribute('data-hd-sub', String(i));
+            btn.textContent = items[i];
+            list.appendChild(btn);
+        }
+        state.listKind = kind;
+        applyHighlight();
     }
 
     function render() {
@@ -352,21 +427,14 @@
             }
             if (list) {
                 list.hidden = false;
-                list.innerHTML = '';
-                var i;
-                for (i = 0; i < items.length; i++) {
-                    var btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'hd-city-menu-item';
-                    btn.setAttribute('data-hd-sub', String(i));
-                    btn.textContent = items[i];
-                    list.appendChild(btn);
-                }
+                fillSubList(state.subKind);
             }
         }
+        applyHighlight();
         var idle = state.idleIndex == null ? '—' : String(state.idleIndex);
         setText(probe, 'hook=' + (state.lastHook || '—') + '  idleIndex=' + idle +
-            (state.idleKeys.length ? '  ctx=' + state.idleKeys.join(',') : ''));
+            (state.idleKeys.length ? '  ctx=' + state.idleKeys.join(',') : '') +
+            (state.probedCityKeys.length ? '  cityKeys=' + state.probedCityKeys.length : ''));
         syncToolbar();
     }
 
@@ -385,9 +453,15 @@
         }
         state.lastHook = meta.hook || state.lastHook;
         if (state.open) {
-            render();
+            applyHighlight();
+            var probe = el('hd-city-menu-probe');
+            if (probe) {
+                setText(probe, 'hook=' + (state.lastHook || '—') + '  idleIndex=' +
+                    (state.idleIndex == null ? '—' : state.idleIndex));
+            }
             return true;
         }
+        state.listKind = '';
         state.open = true;
         state.layer = 'root';
         state.subKind = '';
@@ -465,6 +539,9 @@
             }
             if (ctx.index != null && isFinite(Number(ctx.index))) {
                 state.idleIndex = Number(ctx.index);
+                if (state.open) {
+                    applyHighlight();
+                }
             }
             if (!state.probed && keys.length) {
                 console.log('[hd-city-menu] hook ctx', name, keys, ctx);
@@ -541,7 +618,7 @@
             if (!state.open || !shouldShowHd()) {
                 return;
             }
-            if (e.keyCode === 27) {
+            if (e.keyCode === 27 || e.keyCode === 32) {
                 e.preventDefault();
                 back();
             }
@@ -629,7 +706,8 @@
                 idleIndex: state.idleIndex,
                 idleKeys: state.idleKeys.slice(),
                 lastHook: state.lastHook,
-                showLcd: state.showLcd
+                showLcd: state.showLcd,
+                probedCityKeys: state.probedCityKeys.slice()
             };
         }
     };

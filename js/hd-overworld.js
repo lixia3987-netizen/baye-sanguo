@@ -886,6 +886,13 @@
                 console.warn('[hd-overworld] city-menu hook', name, e);
             }
         }
+        if (global.BayeHdBattle && typeof BayeHdBattle.onEngineHook === 'function') {
+            try {
+                BayeHdBattle.onEngineHook(name, context);
+            } catch (e) {
+                console.warn('[hd-overworld] battle hook', name, e);
+            }
+        }
         if (state.aligning || state.pendingEnter) {
             console.log('[hd-overworld] hook while entering', name);
         }
@@ -921,10 +928,15 @@
             setPhase('other');
             return;
         }
-        if (name === 'fightOpenMainMenu' || name === 'meetFight') {
+        if (name === 'fightOpenMainMenu' || name === 'meetFight' ||
+            name === 'drawMapUnit' || name === 'drawOneGeneral' || name === 'fightChooseAction') {
             state.sawFightHook = true;
-            setPhase('other');
-            state.hint = '战斗仍走经典 LCD。';
+            if (global.BayeHdBattle && BayeHdBattle.shouldShowHd()) {
+                state.hint = 'HD 战场。按键仍交引擎。';
+            } else {
+                setPhase('other');
+                state.hint = '战斗仍走经典 LCD。';
+            }
         }
     }
 

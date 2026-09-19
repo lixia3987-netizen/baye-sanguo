@@ -1,0 +1,80 @@
+/* HD 战场壳。经典战役不加可见效果。 */
+
+.hd-battle {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 65;
+    align-items: center;
+    justify-content: center;
+    background: #0e1116;
+    pointer-events: none;
+}
+
+.hd-battle.is-open {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-battle-stage {
+    position: relative;
+    width: min(100vw, calc(100vh * 1920 / 1080));
+    height: min(100vh, calc(100vw * 1080 / 1920));
+    background: #141820;
+}
+
+#hd-battle-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.hd-battle-hud {
+    position: absolute;
+    left: 20px;
+    top: 16px;
+    right: 20px;
+    color: #f2f4f7;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", sans-serif;
+    font-size: 18px;
+    text-shadow: 0 1px 2px #000;
+    pointer-events: none;
+}
+
+.hd-battle-footer {
+    position: absolute;
+    left: 20px;
+    bottom: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.hd-battle-footer button {
+    appearance: none;
+    border: 0;
+    border-radius: 8px;
+    min-height: 40px;
+    padding: 0 14px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+    font-size: 15px;
+}
+
+html[data-baye-battle="hd"] body.baye-hd-overworld-on #hd-overworld {
+    visibility: hidden;
+}
+
+html[data-baye-battle="hd"] body.baye-hd-battle-lcd .container.js-baye-pc-lcd {
+    visibility: visible;
+    pointer-events: auto;
+    position: fixed;
+    right: 24px;
+    bottom: 72px;
+    left: auto;
+    top: auto;
+    transform: none;
+    width: 320px !important;
+    z-index: 70;
+    box-shadow: 0 0 0 4px #1b1f27, 0 12px 32px rgba(0, 0, 0, 0.5);
+}

@@ -119,6 +119,11 @@
     outline: none;
 }
 
+.hd-city-menu-item.is-idle,
+.hd-city-menu-card.is-idle {
+    box-shadow: 0 0 0 2px #f0c75a, 0 0 0 5px rgba(240, 199, 90, 0.25);
+}
+
 .hd-city-menu-status {
     margin: 18px 0;
     display: grid;

@@ -108,7 +108,8 @@
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
-| HD 城池四项菜单 M0/M1 | done | `js/hd-city-menu.js`：根四钮 + 内政/军备一层列表；点选只 `sendKey`。`cityMenuMode=auto/hd/classic`。状况只列读到的 `g_Cities` 字段 |
+| HD 城池四项菜单 M0–M2 | done | 根四钮 + 内政/外交/军备一层 + 状况探测字段；`onMenuIdle` 高亮。M3 深层仍 LCD |
+| HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位，否则框 LCD |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
 | 可达邻接高亮 | done | 焦点城（选中 / 引擎光标 / 猜测）的 P2 邻边加亮金线；不另建图 |
