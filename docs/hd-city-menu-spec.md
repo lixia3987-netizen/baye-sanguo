@@ -136,7 +136,7 @@
 | `cityMakeCommand` | 城池指令流程进行中；确认菜单仍开着 |
 | `willCloseMenu` | 一层菜单关闭。HD 子层把它当成「回到根」；根层再关才 `leaveMenu` |
 
-只记录 `ctx` 上实际出现的键（`index` 已见）。没有 `itemNames` 就不要猜。
+只记录 `ctx` 上实际出现的键。词典原版核验：`onMenuIdle` 的 `ctx` **只有 `index`**（高亮项），没有 `itemNames` / 项数字段。没有的键不猜。
 
 ### 6.3 回传
 
