@@ -1286,7 +1286,7 @@
                 }, 700);
                 return;
             }
-            if (tries >= 10) {
+            if (tries >= 16) {
                 state.handoff = false;
                 return;
             }
@@ -1365,6 +1365,14 @@
         if (qty && qty.active) {
             state.deepSig = '';
             render();
+            return;
+        }
+        if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(report) && !showingQty() && !mapPickActive()) {
+            enqueueKeys([VK.ENTER], 70);
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            scheduleMarchWatch();
             return;
         }
         if (!state.dismissedObj && /选择目标/.test(report) && !mapPickActive()) {
