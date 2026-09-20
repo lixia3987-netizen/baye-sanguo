@@ -305,7 +305,7 @@
             render();
             return { skipped: 'qty' };
         }
-        if (state.wizardStep === 'food' && state.personExitSent) {
+        if (state.wizardStep === 'food' && state.personExitSent && liveChooseTarget()) {
             advanceWizard('target-tip', 'walk-food-done');
         }
         if (state.wizardStep === 'persons') {
@@ -1601,7 +1601,7 @@
             render();
             return;
         }
-        if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive()) {
+        if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive() && liveChooseTarget()) {
             advanceWizard('target-tip', 'sync-food-done');
         }
         if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(report) && !showingQty() && !mapPickActive()) {
