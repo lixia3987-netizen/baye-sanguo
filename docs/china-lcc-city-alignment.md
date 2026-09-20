@@ -80,3 +80,9 @@ y = y_svg / 1654 * 3309
 | 37 | 建宁 | (9,7) | 味县 | 103.80 | 25.50 | (1992,2592) | 史实在滇东 |
 
 完整字段见 `assets/hd-overworld/china-lcc-cities.json`。
+
+## 入城对齐（china-lcc ≠ 引擎格）
+
+LCC 的 `hdX/hdY` 只用来画/点选。`GetCitySet` 的 ENTER 认的是 **C_MAP 格**（`g_CityPos.setx/sety`，西凉 1,0 / 安定 2,1 / 天水 3,2），且光标必须在 LCD 视口内，`ShowCityMap` 才返回城号。
+
+曾把 `guessCurrentCity` / 残留 `engineCursorIndex` 当成「已在天水」，或把视口 `g_CityPos.x/y` 当成光标，或卡格时发 `VK_EXIT`。结果 ENTER 打在空格/邻城（河内等），`OrderMenu` 不开，日志 `align menu-timeout`。HD 现在只认 `setx/sety` 与 `g_hdMapCity`，等格真的走完再回车。

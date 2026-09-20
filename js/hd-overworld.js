@@ -100,6 +100,8 @@
         /* os-pointer：不画自定义光标。cursor.png 会与系统指针叠影；cursor_hover.png 像禁止符。 */
         cursorPolicy: 'os-pointer',
         haveCityPos: false,
+        mapShownAt: 0,
+        lastMapCity: -1,
         hint: '经典 LCD 可随时切回。拖动平移地图；点己方城打开经典城池菜单。'
     };
 
@@ -899,6 +901,10 @@
         }
         if (state.aligning || state.pendingEnter) {
             console.log('[hd-overworld] hook while entering', name);
+        }
+        if (name === 'didShowMainMap') {
+            state.mapShownAt = Date.now();
+            state.lastMapCity = readMapCity();
         }
         if (name === 'onMenuIdle' && (state.pendingEnter || state.aligning || state.hdOpenedMenu)) {
             confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
@@ -1902,16 +1908,75 @@
         }
         var x = readNumber(pos, 'setx');
         var y = readNumber(pos, 'sety');
-        if (x === null) {
-            x = readNumber(pos, 'x');
-        }
-        if (y === null) {
-            y = readNumber(pos, 'y');
-        }
+        /* 不要回退到 viewport x/y：那是 LCD 窗口原点，不是光标。
+         * 西凉视口常是 (0,0)，光标是 (1,0)；混用会把天水走到河内。 */
         if (x === null || y === null) {
             return null;
         }
         return { x: x, y: y };
+    }
+
+    function readMapPick() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                var m = baye.hd.march();
+                if (m && m.pick != null) {
+                    return Number(m.pick) || 0;
+                }
+            }
+        } catch (e) {}
+        var data = engineData();
+        var v = data ? readNumber(data, 'g_hdMapPick') : null;
+        return v == null ? 0 : v;
+    }
+
+    function readMapCity() {
+        var data = engineData();
+        var v = data ? readNumber(data, 'g_hdMapCity') : null;
+        if (v == null || v <= 0) {
+            return -1;
+        }
+        return v - 1;
+    }
+
+    function cursorInView() {
+        var data = engineData();
+        var pos = data && data.g_CityPos;
+        if (!pos) {
+            return true;
+        }
+        var vx = readNumber(pos, 'x');
+        var vy = readNumber(pos, 'y');
+        var cx = readNumber(pos, 'setx');
+        var cy = readNumber(pos, 'sety');
+        if (cx === null || cy === null || vx === null || vy === null) {
+            return true;
+        }
+        var lcdW = typeof lcdWidth === 'number' ? lcdWidth : 160;
+        var lcdH = typeof lcdHeight === 'number' ? lcdHeight : 96;
+        var ws = Math.floor((lcdW + 1) / 16) - 2;
+        var hs = Math.floor(lcdH / 16);
+        if (ws < 1) {
+            ws = 1;
+        }
+        if (hs < 1) {
+            hs = 1;
+        }
+        return cx >= vx && cx <= vx + ws - 1 && cy >= vy && cy <= vy + hs - 1;
+    }
+
+    function posEquals(a, b) {
+        return !!(a && b && a.x === b.x && a.y === b.y);
+    }
+
+    function landedOnTarget(index, expectTile) {
+        var city = validCityIndex(index) ? state.cities[index] : null;
+        var tile = expectTile || (city ? { x: city.engX, y: city.engY } : null);
+        var pos = readCityPos();
+        if (pos && tile && pos.x === tile.x && pos.y === tile.y) {
+            return true;
+        }
+        return readMapCity() === index;
     }
 
     function cityAtTile(x, y) {
@@ -2435,12 +2500,22 @@
         var to = meta.to != null ? meta.to : state.selectedIndex;
         var method = meta.method || (wrote ? 'write' : 'enter');
         var cursor = inferCurrentCity();
-        if (validCityIndex(to) && cursor !== to && !meta.skipCursorCheck) {
-            finishAlignFail(token, tried, from, to, method, 'cursor=' + cursor + ' before ENTER');
+        var onTile = landedOnTarget(to);
+        var expectTile = validCityIndex(to) && state.cities[to]
+            ? { x: state.cities[to].engX, y: state.cities[to].engY }
+            : null;
+        if (validCityIndex(to) && !onTile && !meta.skipCursorCheck) {
+            finishAlignFail(token, tried, from, to, method, 'cursor=' + cursor +
+                ' tile=' + (readCityPos() ? readCityPos().x + ',' + readCityPos().y : '?') +
+                ' before ENTER');
             return;
         }
+        if (!cursorInView()) {
+            tried.push('cursor-out-of-view');
+        }
+        var pickBefore = readMapPick();
         state.pendingEnter = true;
-        if (validCityIndex(to)) {
+        if (validCityIndex(to) && onTile) {
             state.engineCursorIndex = to;
         }
         engineSendKey(enter);
@@ -2454,23 +2529,46 @@
             target: to,
             cursor: cursor,
             cityPos: readCityPos(),
+            mapCity: readMapCity(),
+            mapPick: pickBefore,
+            inView: cursorInView(),
             learned: state.learnedCursorField
         };
-        logAlign(from, to, method, true, 'enter');
+        logAlign(from, to, method, true, 'enter tile=' +
+            (expectTile ? expectTile.x + ',' + expectTile.y : '?') +
+            ' mapCity=' + readMapCity());
         console.log('[hd-overworld] input P1', state.alignLog);
         state.hint = '已发送确认，等待经典菜单…';
-        later(token, 420, function () {
-            if (state.phase === 'classic-menu') {
+        function menuOpened() {
+            return state.phase === 'classic-menu' || state.hdOpenedMenu;
+        }
+        function checkMenu(attempt) {
+            if (token !== state.alignToken) {
                 return;
             }
-            tried.push('retry-enter');
-            engineSendKey(enter);
-            later(token, 480, function () {
-                if (state.phase === 'classic-menu') {
-                    return;
-                }
-                finishAlignFail(token, tried, from, to, method, 'menu-timeout');
-            });
+            if (menuOpened()) {
+                return;
+            }
+            var pickNow = readMapPick();
+            /* GetCitySet 成功返回后 g_hdMapPick 从 1→0，随后才是 OrderMenu / onMenuIdle。 */
+            if (pickBefore === 1 && pickNow === 0) {
+                confirmClassicMenu('HD 城池菜单。点内政/外交/军备/状况；返回回大地图。');
+                return;
+            }
+            if (attempt === 0 && pickNow === 1 && landedOnTarget(to, expectTile)) {
+                tried.push('retry-enter');
+                engineSendKey(enter);
+                later(token, 750, function () {
+                    checkMenu(1);
+                });
+                return;
+            }
+            finishAlignFail(token, tried, from, to, method, 'menu-timeout pick=' + pickNow +
+                ' mapCity=' + readMapCity() + ' tile=' +
+                (readCityPos() ? readCityPos().x + ',' + readCityPos().y : '?'));
+        }
+        later(token, 720, function () {
+            checkMenu(0);
         });
     }
 
@@ -2478,61 +2576,94 @@
         sendEnterWaitMenu(token, tried, wrote, { method: 'enter-fallback', skipCursorCheck: true });
     }
 
+    function waitUntil(token, pred, ms, stepMs, then) {
+        var start = Date.now();
+        function tick() {
+            if (token !== state.alignToken) {
+                return;
+            }
+            if (pred()) {
+                then(true);
+                return;
+            }
+            if (Date.now() - start >= ms) {
+                then(false);
+                return;
+            }
+            later(token, stepMs || 40, tick);
+        }
+        later(token, stepMs || 40, tick);
+    }
+
     function walkKeysThenEnter(token, tried, from, to, keys, method, expectTile) {
         var step = 0;
-        var maxSteps = Math.max(keys.length, 1) + 4;
+        function afterLand() {
+            if (token !== state.alignToken) {
+                return;
+            }
+            var landed = inferCurrentCity();
+            var tileOk = landedOnTarget(to, expectTile);
+            if (tileOk) {
+                if (landed === to) {
+                    state.engineCursorIndex = to;
+                }
+                later(token, 90, function () {
+                    sendEnterWaitMenu(token, tried, false, {
+                        from: from,
+                        to: to,
+                        method: method,
+                        skipCursorCheck: false
+                    });
+                });
+                return;
+            }
+            finishAlignFail(token, tried, from, to, method, 'landed=' + landed +
+                ' tile=' + (readCityPos() ? readCityPos().x + ',' + readCityPos().y : '?') +
+                ' mapCity=' + readMapCity());
+        }
         function sendNext() {
             if (token !== state.alignToken) {
                 return;
             }
             if (step >= keys.length) {
-                var landed = inferCurrentCity();
-                var pos = readCityPos();
-                var tileOk = !expectTile || (pos && pos.x === expectTile.x && pos.y === expectTile.y);
-                if (landed === to || tileOk) {
-                    if (landed === to) {
-                        state.engineCursorIndex = to;
-                    }
-                    later(token, 70, function () {
-                        sendEnterWaitMenu(token, tried, false, {
-                            from: from,
-                            to: to,
-                            method: method,
-                            skipCursorCheck: tileOk && landed !== to
-                        });
-                    });
-                    return;
-                }
-                finishAlignFail(token, tried, from, to, method, 'landed=' + landed);
-                return;
-            }
-            if (step >= maxSteps) {
-                finishAlignFail(token, tried, from, to, method, 'step-timeout');
+                waitUntil(token, function () {
+                    return landedOnTarget(to, expectTile);
+                }, 480, 40, function () {
+                    afterLand();
+                });
                 return;
             }
             var beforePos = readCityPos();
             var before = snapshotIndexFields();
-            engineSendKey(dirCode(keys[step]));
+            var dir = keys[step];
+            engineSendKey(dirCode(dir));
             step += 1;
-            later(token, 100, function () {
+            function afterMove(moved) {
                 learnCursorField(before, snapshotIndexFields());
-                var nowPos = readCityPos();
-                if (beforePos && nowPos && beforePos.x === nowPos.x && beforePos.y === nowPos.y) {
-                    tried.push('stuck:' + keys[step - 1]);
-                    if (!tried._exitedForStuck) {
-                        tried._exitedForStuck = true;
-                        tried.push('exit-to-map');
-                        engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
-                        step -= 1;
-                        later(token, 160, sendNext);
-                        return;
-                    }
+                if (!moved) {
+                    tried.push('stuck:' + dir);
                 }
                 var now = inferCurrentCity();
                 if (validCityIndex(now)) {
                     state.engineCursorIndex = now;
                 }
                 sendNext();
+            }
+            waitUntil(token, function () {
+                var nowPos = readCityPos();
+                return !!(beforePos && nowPos && !posEquals(beforePos, nowPos));
+            }, 360, 40, function (moved) {
+                if (moved) {
+                    afterMove(true);
+                    return;
+                }
+                /* 再发一次同向键。不要 EXIT：GetCitySet 收到 EXIT 会离开大地图。 */
+                tried.push('retry:' + dir);
+                engineSendKey(dirCode(dir));
+                waitUntil(token, function () {
+                    var nowPos = readCityPos();
+                    return !!(beforePos && nowPos && !posEquals(beforePos, nowPos));
+                }, 280, 40, afterMove);
             });
         }
         sendNext();
@@ -2554,7 +2685,10 @@
             tried.push('fromTile:' + fromPos.x + ',' + fromPos.y);
         }
 
-        if (from === index) {
+        /* 只认真实格坐标 / ShowCityMap 的 g_hdMapCity。
+         * guessCurrentCity / engineCursorIndex 会把上次点天水的残留当成已对齐，
+         * ENTER 打在空格或邻城 → menu-timeout。 */
+        if (landedOnTarget(index, toTile)) {
             tried.push('already-on-target');
             later(token, 50, function () {
                 sendEnterWaitMenu(token, tried, false, { from: from, to: index, method: 'already-on-target' });
@@ -2872,6 +3006,18 @@
         getCameraBounds: cameraLimits,
         leaveMenu: leaveClassicMenu,
         getAlignLog: function () { return state.alignLog; },
+        landedOnCity: landedOnTarget,
+        readCityPos: readCityPos,
+        readMapCity: readMapCity,
+        readMapPick: readMapPick,
+        walkToCity: function (index) {
+            var city = state.cities[index];
+            if (!city) {
+                return false;
+            }
+            openClassicCity(index);
+            return { to: { x: city.engX, y: city.engY }, name: city.name };
+        },
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },
         getRoads: function () { return state.roads; },
@@ -2916,6 +3062,9 @@
                 haveCityPos: state.haveCityPos,
                 engineCursorIndex: state.engineCursorIndex,
                 cityPos: readCityPos(),
+                mapCity: readMapCity(),
+                mapPick: readMapPick(),
+                cursorInView: cursorInView(),
                 alignLog: state.alignLog,
                 playerKingRaw: data ? readNumber(data, 'g_PlayerKing') : null,
                 playerBelong: playerKingId(),

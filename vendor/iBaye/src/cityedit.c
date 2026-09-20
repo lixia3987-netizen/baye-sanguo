@@ -1287,7 +1287,9 @@ U8 ShowCityMap(CitySetType *pos)
     /*GamShowFrame(g_VisScr);
      gam_rect(WK_SX + CITYMAP_TIL_W * SHOWMAP_WS,WK_SY,WK_EX,WK_EY);*/
     ShowMapClear();
-    
+
+    /* ENTER 用的就是这个 1-based 城号；光标不在视口内时为 0。 */
+    baye_hd_set_map_city(cursorIsInView ? citymap[sh][sw] : 0);
     return cursorIsInView ? (citymap[sh][sw]) : 0;
 }
 

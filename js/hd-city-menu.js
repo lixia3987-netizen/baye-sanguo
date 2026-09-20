@@ -68,7 +68,8 @@
         deepLabel: '',
         deepStep: 0,
         deepItems: [],
-        deepSig: ''
+        deepSig: '',
+        walkToken: 0
     };
 
     function readStorage(key, fallback) {
@@ -233,20 +234,87 @@
     function walkCursorToCity(cityIndex, thenEnter) {
         var to = cityEngineTile(cityIndex);
         var from = readEngineCursor();
-        var keys = [];
+        var dirs = [];
         if (from && to && to.x != null && to.y != null) {
             var x = from.x;
             var y = from.y;
-            while (y > to.y) { keys.push(VK.UP); y -= 1; }
-            while (y < to.y) { keys.push(VK.DOWN); y += 1; }
-            while (x > to.x) { keys.push(VK.LEFT); x -= 1; }
-            while (x < to.x) { keys.push(VK.RIGHT); x += 1; }
+            while (y > to.y) { dirs.push(VK.UP); y -= 1; }
+            while (y < to.y) { dirs.push(VK.DOWN); y += 1; }
+            while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
+            while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
         }
-        if (thenEnter !== false) {
-            keys.push(VK.ENTER);
+        state.walkToken = (state.walkToken || 0) + 1;
+        var token = state.walkToken;
+        var step = 0;
+        function posEq(a, b) {
+            return !!(a && b && a.x === b.x && a.y === b.y);
         }
-        enqueueKeys(keys, 70);
-        return { from: from, to: to, keys: keys.length };
+        function landed() {
+            var now = readEngineCursor();
+            return !!(now && to && posEq(now, to));
+        }
+        function finish() {
+            if (token !== state.walkToken) {
+                return;
+            }
+            if (thenEnter === false) {
+                return;
+            }
+            setTimeout(function () {
+                if (token !== state.walkToken) {
+                    return;
+                }
+                engineSendKey(VK.ENTER);
+            }, landed() ? 90 : 220);
+        }
+        function sendNext() {
+            if (token !== state.walkToken) {
+                return;
+            }
+            if (step >= dirs.length) {
+                var wait = 0;
+                function waitLand() {
+                    if (token !== state.walkToken) {
+                        return;
+                    }
+                    if (landed() || wait >= 10) {
+                        finish();
+                        return;
+                    }
+                    wait += 1;
+                    setTimeout(waitLand, 40);
+                }
+                setTimeout(waitLand, 40);
+                return;
+            }
+            var before = readEngineCursor();
+            var code = dirs[step];
+            engineSendKey(code);
+            step += 1;
+            var tries = 0;
+            function poll() {
+                if (token !== state.walkToken) {
+                    return;
+                }
+                var now = readEngineCursor();
+                if (!posEq(before, now) || tries >= 9) {
+                    if (tries >= 9 && posEq(before, now)) {
+                        engineSendKey(code);
+                    }
+                    sendNext();
+                    return;
+                }
+                tries += 1;
+                setTimeout(poll, 40);
+            }
+            setTimeout(poll, 50);
+        }
+        if (!dirs.length) {
+            finish();
+        } else {
+            sendNext();
+        }
+        return { from: from, to: to, keys: dirs.length + (thenEnter !== false ? 1 : 0) };
     }
 
     function usesMapCursor(kind, step) {

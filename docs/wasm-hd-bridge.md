@@ -35,6 +35,8 @@
 | `g_hdSkillActive` / `Count` / `NameLen` | u8 | `FgtGetJNIdx` 打开计谋列表 |
 | `g_hdSkillIds` | u16[10] | 当前将领技能 id（1-based 资源号） |
 | `g_hdSkillNames` | GBK | 8 字节槽，来自 `FgtMakeSklNam` |
+| `g_hdMapPick` | u8 | `GetCitySet` 打开时为 1，返回后为 0 |
+| `g_hdMapCity` | u8 | `ShowCityMap` 光标处 1-based 城号；不在视口 / 空格为 0。ENTER 认这个值 |
 
 原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
@@ -103,7 +105,7 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - `baye.hd.reportText()`：开垦确认后读到 `农业开发度变为 730 (+34)。`，HD 对话壳直接显示
 - `baye.hd.qty()`：安定 征兵选成宜后 `active=1 value=1070 max=1070`；`VK_LEFT×2` + `VK_DIGIT5` → **1050**（HD 数字垫与 dialog 垫同时显示）
 - `ShowGoodsControl` 写入道具名；董卓弄权安定开局城中无道具、武将 Equip 空
-- `GetCitySet` 必须方向键走到目标格再回车，不能当菜单下标
+- `GetCitySet` 必须方向键走到目标格再回车，不能当菜单下标；`g_hdMapCity` 是 ENTER 实际会进的城（C_MAP，不是 china-lcc 像素）
 - 观察 `cityMakeCommand` 必须 `return -1`，否则 `CityCommon` 会跳过 `AssartMake`
 - 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图
 - 开场 / 计谋 SPE：`g_hdSpe*` + `#hd-spe` LCD-blit（见 [hd-spe-spec.md](hd-spe-spec.md)）；帮助查找图文仍 partial

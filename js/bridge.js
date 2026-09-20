@@ -1041,6 +1041,7 @@ function baye_bridge_init() {
             var d = baye.ensureData();
             return {
                 pick: hdReadNum(d, 'g_hdMapPick'),
+                mapCity: hdReadNum(d, 'g_hdMapCity'),
                 ok: hdReadNum(d, 'g_hdMarchOk'),
                 city: hdReadNum(d, 'g_hdMarchCity'),
                 obj: hdReadNum(d, 'g_hdMarchObj'),

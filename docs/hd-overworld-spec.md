@@ -253,7 +253,7 @@ P1 已实现：
 - 四态：`empty`（Belong 0 / 0xff）/ `owned`（`Belong` 对齐 `g_PlayerKing`，运行时按城计数 +0/+1）/ `neutral`（其它势力，色环按 `factions.json` 24 槽哈希）/ `selected`（`marker_selected` + 脉动）
 - 城名：`getCityName(i)`，20px 暗底+描边，纵向避让
 - 悬停：浅色描边；菜单期关掉 HD 命中；点地图空白或关菜单后壳再接管
-- 点城：已在目标城则只发 `VK_ENTER`。跨城：按 `g_CityPos` 格走方向键（不盲写）。对齐失败不发 ENTER。控制台有 `align 西凉(0) → 安定(3) method=tile-walk`
+- 点城：已在目标**格**（`setx/sety` 或 `g_hdMapCity`）才发 `VK_ENTER`。跨城按引擎格走方向键，等 `setx/sety` 变了再下一步；卡住只重发同向键，不发 EXIT。LCC 像素不是走格目标。控制台有 `align 西凉(0) → 天水(8) method=tile-walk`
 - 年月：读 `g_YearDate` / `g_MonthDate`；董卓弄权开局 HUD「190年1月」
 
 P1 诚实缺口：

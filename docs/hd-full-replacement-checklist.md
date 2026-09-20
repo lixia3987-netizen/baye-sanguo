@@ -14,7 +14,7 @@
 | **大地图** | **HD done** | P0–P3 |
 | **城池根 / 一层 / 状况** | **HD done** | M0–M2；一层名只在首项/项数对得上时才用 `menuItems()`，避免 FunctionMenu 盖住 内政 |
 | **人物选择** | **HD done** | `PlcSplMenu` + `ShowPersonControl` 写入 `g_hdMenuBytes` |
-| **出征 / 外交目标城** | **HD done** | GetCitySet 是地图光标：HD 点城按 `g_CityPos` 发方向键再回车 |
+| **出征 / 外交目标城** | **HD done** | GetCitySet 是地图光标：按引擎格等 `setx/sety` 对齐后再回车，不把 LCC 像素当格 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 写 `g_hdQty*`；CDP 征兵：成宜后 `active=1 value=1070`，`VK_LEFT×2`+`VK_DIGIT5` → **1050**。HD 数字键 `0x40–0x49` |
 | **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文 |
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
