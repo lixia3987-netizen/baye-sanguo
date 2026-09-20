@@ -506,6 +506,13 @@
         if (usesMapCursor(kind, step)) {
             return otherCities(state.cityIndex);
         }
+        if (kind === 'person' || kind === 'person-goods' || kind === 'person-qty' ||
+            (kind === 'person-city' && !mapPickActive() && !showingQty())) {
+            var persons = cityPersons(state.cityIndex);
+            if (persons.length) {
+                return persons;
+            }
+        }
         var eng = engineMenuItems();
         var subNames = SUBS[state.subKind] || [];
         var stillParentMenu = !!(eng.names && subNames.length &&
@@ -525,10 +532,6 @@
                 }
                 return mapped;
             }
-        }
-        if (kind === 'person' || kind === 'person-goods' || kind === 'person-qty' ||
-            (kind === 'person-city' && step === 0)) {
-            return cityPersons(state.cityIndex);
         }
         return [];
     }
@@ -1083,7 +1086,18 @@
     function reportText() {
         try {
             if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
-                return baye.hd.reportText() || '';
+                var t = baye.hd.reportText() || '';
+                if (t) {
+                    return t;
+                }
+            }
+        } catch (e) {}
+        try {
+            if (global.BayeHdDialog && typeof BayeHdDialog.debugSnapshot === 'function') {
+                var d = BayeHdDialog.debugSnapshot();
+                if (d && (d.body || d.reportText)) {
+                    return d.body || d.reportText || '';
+                }
             }
         } catch (e) {}
         return '';
