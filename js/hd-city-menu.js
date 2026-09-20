@@ -547,8 +547,9 @@
     }
 
     function usesMapCursor(kind, step) {
-        /* GetCitySet 打开前不要画城列表。出征先选将、再选粮，点城会把方向键打进将领表。 */
-        return mapPickActive();
+        /* GetCitySet 打开前不要画城列表。过图 leftover pick=1 不是出征目标。 */
+        return mapPickActive() && (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
+            state.sawQtyThisMarch || state.dismissedObj);
     }
 
     function usesGoodsMenu(kind, step) {
