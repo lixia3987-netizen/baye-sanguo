@@ -1199,6 +1199,9 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.resetArmout === 'function') {
             BayeHdDialog.resetArmout();
         }
+        if (state.battleMake && global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
         state.showLcd = false;
         applyDocAttr();
         var lcdBtn = document.querySelector('[data-hd-menu-lcd]');

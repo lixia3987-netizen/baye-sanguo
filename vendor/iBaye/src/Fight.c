@@ -108,7 +108,10 @@ FAR U8 GamFight(void)
         call_hook("exitBattle", NULL);
         baye_hd_set_fight(0, g_FgtOver);
     } else {
-        /* Instant end in FgtInit: publish this fight, not leftover 覆没. */
+        /* Instant end in FgtInit: pulse a clean fight, then this result (not leftover 覆没). */
+        call_hook("enterBattle", NULL);
+        baye_hd_set_fight(1, 0);
+        call_hook("exitBattle", NULL);
         baye_hd_set_fight(0, g_FgtOver);
     }
     /* 战斗只通过g_FgtOver返回胜败，战后处理由外部完成 */
