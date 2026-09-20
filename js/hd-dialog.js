@@ -485,6 +485,9 @@
         if (/农业|商业|开发度|变为/.test(info.text || '')) {
             return closeReportSilent(info);
         }
+        if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动/.test(info.text || '')) {
+            return closeReportSilent(info);
+        }
         /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
          * 之后 g_hdReportGbk 残留。全屏壳会挡住策略结束 / 招商，回车会打进 FunctionMenu 或战场。 */
         if (/部队已出发/.test(info.text || '')) {

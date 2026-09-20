@@ -1645,7 +1645,7 @@
             advanceWizard('target-tip', 'sync-food-done');
         }
         if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(report) && !showingQty() && !mapPickActive()) {
-            enqueueKeys([VK.ENTER], 70);
+            /* 过月天灾残留回车等于策略结束，会取消 BattleMake。只关壳。 */
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
