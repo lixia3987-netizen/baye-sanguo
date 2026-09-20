@@ -104,7 +104,9 @@
         sawQtyThisMarch: false,
         reportAtMarchStart: '',
         qtyDismissed: false,
-        qtyDismissedAt: 0
+        qtyDismissedAt: 0,
+        step4Trace: [],
+        lastStep4: null
     };
 
     var WIZARD_ORDER = { none: 0, persons: 1, food: 2, 'target-tip': 3, 'map-pick': 4, 'march-ok': 5 };
@@ -355,7 +357,48 @@
         applyHighlight();
     }
 
+    function noteStep4(ev, extra) {
+        extra = extra || {};
+        var m = engineMarch();
+        var q = engineQty();
+        var cur = readEngineCursor();
+        var row = {
+            t: Date.now(),
+            ev: ev,
+            city: extra.cityIndex,
+            skip: extra.skipped || '',
+            attempt: extra.attempt,
+            wizard: state.wizardStep,
+            pick: !!(m && m.pick),
+            ok: !!(m && m.ok),
+            seq: marchSeqOf(m),
+            mapCity: engineMapCityIndex(),
+            cursor: cur,
+            qtyActive: !!(q && q.active),
+            leftoverQty: leftoverQtyFlag(),
+            liveQty: liveQty(),
+            report: String(liveEngineReport() || '').slice(0, 28),
+            dismissedObj: state.dismissedObj,
+            personExit: state.personExitSent,
+            walkBusy: state.walkBusy,
+            pending: state.pendingTarget,
+            token: state.confirmToken
+        };
+        state.step4Trace = (state.step4Trace || []).concat([row]).slice(-28);
+        state.lastStep4 = row;
+        console.log('[hd-city-menu] step4', ev, row);
+        return row;
+    }
+
     function chooseTargetOverlay() {
+        /* GetCitySet 已打开时 leftover「选择目标」再回车 = 确认当前格（天水）。只关壳。 */
+        if (mapPickActive()) {
+            if (leftoverChooseTarget(liveEngineReport()) &&
+                global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            return false;
+        }
         if (!leftoverChooseTarget(liveEngineReport())) {
             return false;
         }
@@ -368,29 +411,50 @@
                 }
             }
         } catch (e) {}
-        /* leftover pick=1 + 未回车的「选择目标」仍是 ShowGReport，必须先 ENTER。 */
+        /* leftover pick=0 + 未回车的「选择目标」仍是 ShowGReport，必须先 ENTER。 */
         return !state.dismissedObj;
+    }
+
+    function firstEnemyTarget() {
+        var i;
+        for (i = 0; i < state.deepItems.length; i++) {
+            var it = state.deepItems[i];
+            if (it && it.enemy && it.cityIndex != null) {
+                return Number(it.cityIndex);
+            }
+        }
+        return null;
     }
 
     function confirmMarchTarget(cityIndex, opts) {
         opts = opts || {};
         cityIndex = Number(cityIndex);
         if (!isFinite(cityIndex) || cityIndex < 0) {
+            cityIndex = state.pendingTarget != null ? Number(state.pendingTarget) : firstEnemyTarget();
+        }
+        if (!isFinite(cityIndex) || cityIndex < 0) {
+            state.marchHint = '先点邻城或地图上的目标城，再点确认出征。高亮不够。';
+            noteStep4('skip-bad-city', { skipped: 'bad-city' });
+            render();
             return { skipped: 'bad-city' };
         }
         if (state.marchReady || freshMarchOk()) {
+            noteStep4('already-ok', { cityIndex: cityIndex, skipped: 'already-ok' });
             return { skipped: 'already-ok', cityIndex: cityIndex };
         }
         if (leftoverQtyFlag()) {
             clearLeftoverQtyFlag();
+            noteStep4('clear-leftover-qty', { cityIndex: cityIndex });
         }
         if (liveQty()) {
             state.marchHint = '先确认粮草，再点目标城。';
+            noteStep4('skip-qty', { cityIndex: cityIndex, skipped: 'qty' });
             render();
             return { skipped: 'qty', cityIndex: cityIndex };
         }
         if (state.wizardStep === 'persons') {
             state.marchHint = '先点至少一名将领，再点「完成选将 · 选粮出发」，不要直接点目标城。';
+            noteStep4('skip-persons', { cityIndex: cityIndex, skipped: 'wizard-persons' });
             render();
             return { skipped: 'wizard-persons', cityIndex: cityIndex, hint: state.marchHint };
         }
@@ -398,46 +462,96 @@
         state.campaignPick = true;
         state.battleMake = true;
         state.acceptMarchOk = true;
-        state.marchHint = '';
         if (state.wizardStep === 'food' && state.personExitSent) {
             advanceWizard('target-tip', 'confirm-food-done');
         }
+        if (!opts.resume) {
+            state.confirmToken = (state.confirmToken || 0) + 1;
+            state.walkBusy = false;
+            state.lastWalkCity = null;
+            state.lastWalkAt = 0;
+        }
+        var token = state.confirmToken;
+        var attempt = opts.attempt || 0;
+        noteStep4('confirm', { cityIndex: cityIndex, attempt: attempt });
+
+        function again(ms, why) {
+            if (token !== state.confirmToken) {
+                return;
+            }
+            if (attempt >= 12) {
+                if (!state.marchHint) {
+                    state.marchHint = '引擎未确认目标城。再点一次「' +
+                        (cityName(cityIndex) || '邻城') + '」或「确认出征」。';
+                }
+                noteStep4('give-up', { cityIndex: cityIndex, skipped: why || 'max-retry', attempt: attempt });
+                render();
+                return;
+            }
+            setTimeout(function () {
+                if (token !== state.confirmToken) {
+                    return;
+                }
+                confirmMarchTarget(cityIndex, {
+                    resume: true,
+                    attempt: attempt + 1,
+                    retriedOwn: opts.retriedOwn,
+                    retriedOk: opts.retriedOk
+                });
+            }, ms || 220);
+        }
+
         if (waitingArmout()) {
+            noteStep4('armout', { cityIndex: cityIndex, attempt: attempt });
             dismissLiveArmout();
             scheduleMarchWatch();
+            again(200, 'armout');
             return { deferred: 'armout', cityIndex: cityIndex };
         }
-        if (chooseTargetOverlay()) {
-            state.dismissedObj = true;
-            advanceWizard('target-tip', 'confirm-dismiss-tip');
+        var refuse = liveEngineReport();
+        if (/我方城池|无法到达/.test(refuse)) {
+            state.marchHint = /无法到达/.test(refuse)
+                ? '引擎拒绝：无法到达。只能打 CITY_LINKR 邻城。'
+                : '引擎提示「我方城池」（多半确认了出发城）。已关掉，改走敌邻。';
+            noteStep4('engine-refuse', { cityIndex: cityIndex, attempt: attempt, skipped: refuse });
             engineSendKey(VK.ENTER);
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
-            state.confirmToken = (state.confirmToken || 0) + 1;
-            var tipToken = state.confirmToken;
-            setTimeout(function () {
-                if (tipToken !== state.confirmToken) {
-                    return;
-                }
-                if (/我方城池|无法到达/.test(liveEngineReport())) {
-                    engineSendKey(VK.ENTER);
-                }
-                advanceWizard('map-pick', 'confirm-after-tip');
-                confirmMarchTarget(cityIndex, { afterTip: true, retriedOwn: opts.retriedOwn });
-            }, 260);
+            render();
+            again(240, 'engine-refuse');
+            return { deferred: 'engine-refuse', cityIndex: cityIndex };
+        }
+        if (chooseTargetOverlay()) {
+            state.dismissedObj = true;
+            advanceWizard('target-tip', 'confirm-dismiss-tip');
+            noteStep4('dismiss-tip', { cityIndex: cityIndex, attempt: attempt });
+            engineSendKey(VK.ENTER);
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            advanceWizard('map-pick', 'confirm-after-tip');
+            again(280, 'choose-target');
             return { deferred: 'choose-target', cityIndex: cityIndex };
         }
-        state.walkToken = (state.walkToken || 0) + 1;
-        state.walkBusy = false;
-        state.lastWalkCity = null;
-        state.lastWalkAt = 0;
+        if (!mapPickActive()) {
+            state.marchHint = attempt < 8
+                ? '等待引擎打开目标地图…'
+                : '引擎未打开目标选择（GetCitySet）。再点邻城或「确认出征」。';
+            noteStep4('wait-pick', { cityIndex: cityIndex, attempt: attempt, skipped: 'not-map-pick' });
+            render();
+            again(220, 'not-map-pick');
+            return { deferred: 'wait-pick', cityIndex: cityIndex };
+        }
+        state.marchHint = '';
         var walked = walkCursorToCity(cityIndex, true, {
             force: true,
             requireLanded: true,
             confirm: true,
             retriedOwn: !!opts.retriedOwn,
-            retriedOk: !!opts.retriedOk
+            retriedOk: !!opts.retriedOk,
+            step4Token: token,
+            attempt: attempt
         });
         scheduleMarchWatch();
         return walked || { cityIndex: cityIndex };
@@ -469,62 +583,24 @@
         if (force && chooseTargetOverlay()) {
             return confirmMarchTarget(cityIndex, opts);
         }
-        if (mapPickActive() && !(state.sawQtyThisMarch || state.dismissedObj ||
-            state.wizardStep === 'map-pick' || liveChooseTarget())) {
+        if (leftoverOverworldPick() && state.wizardStep === 'persons') {
             state.marchHint = '还在选将/选粮。过图 leftover pick 不是出征目标。';
+            noteStep4('skip-overworld-pick', { cityIndex: cityIndex, skipped: 'overworld-pick' });
             render();
             return { skipped: 'overworld-pick', cityIndex: cityIndex };
         }
         if (!mapPickActive()) {
-            if (waitingArmout()) {
-                dismissLiveArmout();
-                scheduleMarchWatch();
-                return { deferred: 'armout', cityIndex: cityIndex };
-            }
-            if (chooseTargetOverlay() || liveChooseTarget()) {
-                if (!state.dismissedObj) {
-                    state.dismissedObj = true;
-                }
-                state.campaignPick = true;
-                state.battleMake = true;
-                advanceWizard('target-tip', 'walk-dismiss-tip');
-                engineSendKey(VK.ENTER);
-                setTimeout(function () {
-                    if (mapPickActive()) {
-                        advanceWizard('map-pick', 'walk-after-tip');
-                        walkCursorToCity(cityIndex, thenEnter, opts);
-                        return;
-                    }
-                    if (liveChooseTarget() || /我方城池|无法到达/.test(liveEngineReport())) {
-                        engineSendKey(VK.ENTER);
-                        setTimeout(function () {
-                            if (mapPickActive()) {
-                                advanceWizard('map-pick', 'walk-after-tip-2');
-                                walkCursorToCity(cityIndex, thenEnter, opts);
-                            } else if (force) {
-                                advanceWizard('map-pick', 'walk-after-tip-2');
-                                confirmMarchTarget(cityIndex, opts);
-                            }
-                        }, 220);
-                    } else if (force) {
-                        confirmMarchTarget(cityIndex, opts);
-                    }
-                }, 220);
-                return { deferred: 'choose-target', cityIndex: cityIndex };
-            }
-            if (force && (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
-                (state.personExitSent && state.campaignPick))) {
-                if (!opts.retriedPickWait) {
-                    opts.retriedPickWait = true;
-                    setTimeout(function () {
-                        confirmMarchTarget(cityIndex, opts);
-                    }, 220);
-                    return { deferred: 'wait-pick', cityIndex: cityIndex };
-                }
+            if (force && state.wizardStep !== 'persons') {
+                noteStep4('walk-handoff-confirm', { cityIndex: cityIndex, skipped: 'not-map-pick' });
+                return confirmMarchTarget(cityIndex, {
+                    resume: true,
+                    attempt: (opts.attempt || 0) + 1
+                });
             }
             state.marchHint = state.personExitSent
                 ? '等「选择目标」出现后再点邻城。现在点城不会出发。'
                 : '先点至少一名将领，再点「完成选将 · 选粮出发」，不要直接点目标城。';
+            noteStep4('skip-not-map-pick', { cityIndex: cityIndex, skipped: 'not-map-pick' });
             render();
             return { skipped: 'not-map-pick', cityIndex: cityIndex, hint: state.marchHint };
         }
@@ -574,6 +650,7 @@
             var onTarget = landed() || cursorOnCity(cityIndex);
             if (requireLanded && !onTarget) {
                 state.marchHint = '光标未落到目标城，正在再走一格确认。';
+                noteStep4('walk-miss', { cityIndex: cityIndex, attempt: opts.attempt });
                 render();
                 if (!opts.retriedWalk) {
                     setTimeout(function () {
@@ -583,57 +660,118 @@
                         opts.retriedWalk = true;
                         walkCursorToCity(cityIndex, thenEnter, opts);
                     }, 200);
+                } else if (opts.confirm) {
+                    state.marchHint = '光标未落到目标城。再点邻城或「确认出征」才会出发，高亮不够。';
+                    noteStep4('walk-miss-final', { cityIndex: cityIndex, skipped: 'cursor-miss' });
+                    render();
+                    confirmMarchTarget(cityIndex, {
+                        resume: true,
+                        attempt: (opts.attempt || 0) + 1
+                    });
                 } else {
                     state.marchHint = '光标未落到目标城。再点邻城或「确认出征」才会出发，高亮不够。';
                     render();
                 }
                 return;
             }
-            setTimeout(function () {
+            function waitShown(n) {
                 if (token !== state.walkToken) {
                     return;
                 }
-                if (requireLanded && !cursorOnCity(cityIndex) && !landed()) {
-                    state.marchHint = '光标未落到目标城，未向引擎确认。再点一次。';
-                    render();
+                var shown = engineMapCityIndex();
+                if (shown === cityIndex) {
+                    sendEnter();
                     return;
                 }
+                if (shown >= 0 && shown !== cityIndex && n >= 6) {
+                    noteStep4('mapcity-mismatch', {
+                        cityIndex: cityIndex,
+                        skipped: 'mapcity-' + shown,
+                        attempt: opts.attempt
+                    });
+                    state.marchHint = '地图仍停在出发城，未向引擎确认。正在再走「' +
+                        (cityName(cityIndex) || '目标城') + '」。';
+                    render();
+                    if (opts.confirm) {
+                        confirmMarchTarget(cityIndex, {
+                            resume: true,
+                            attempt: (opts.attempt || 0) + 1
+                        });
+                    }
+                    return;
+                }
+                if (n >= 16) {
+                    if (requireLanded && !cursorOnCity(cityIndex) && !landed()) {
+                        state.marchHint = '光标未落到目标城，未向引擎确认。再点一次。';
+                        noteStep4('enter-blocked-cursor', { cityIndex: cityIndex });
+                        render();
+                        return;
+                    }
+                    sendEnter();
+                    return;
+                }
+                setTimeout(function () {
+                    waitShown(n + 1);
+                }, 40);
+            }
+            function sendEnter() {
+                if (token !== state.walkToken) {
+                    return;
+                }
+                noteStep4('enter-target', { cityIndex: cityIndex, attempt: opts.attempt });
                 engineSendKey(VK.ENTER);
                 scheduleMarchWatch();
                 setTimeout(function () {
                     if (token !== state.walkToken) {
                         return;
                     }
+                    if (freshMarchOk() || state.marchReady) {
+                        noteStep4('enter-ok', { cityIndex: cityIndex });
+                        return;
+                    }
                     var report = liveEngineReport();
                     if (/我方城池|无法到达/.test(report)) {
+                        noteStep4('enter-refuse', { cityIndex: cityIndex, skipped: report });
                         engineSendKey(VK.ENTER);
                         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                             BayeHdDialog.close({ silent: true });
                         }
-                        if (opts.confirm && !opts.retriedOwn) {
-                            setTimeout(function () {
-                                confirmMarchTarget(cityIndex, { retriedOwn: true, retriedOk: opts.retriedOk });
-                            }, 240);
+                        state.marchHint = /无法到达/.test(report)
+                            ? '引擎拒绝：无法到达。只能打 CITY_LINKR 邻城。'
+                            : '引擎提示「我方城池」。已关掉，改走敌邻。';
+                        render();
+                        if (opts.confirm) {
+                            confirmMarchTarget(cityIndex, {
+                                resume: true,
+                                attempt: (opts.attempt || 0) + 1
+                            });
                         }
                         scheduleMarchWatch();
                         return;
                     }
-                    dismissLiveArmout();
-                    scheduleMarchWatch();
-                    if (opts.confirm && !opts.retriedOk) {
-                        setTimeout(function () {
-                            if (freshMarchOk() || state.marchReady) {
-                                return;
-                            }
-                            if (waitingArmout()) {
-                                dismissLiveArmout();
-                                scheduleMarchWatch();
-                                return;
-                            }
-                            confirmMarchTarget(cityIndex, { retriedOwn: true, retriedOk: true });
-                        }, 480);
+                    if (waitingArmout() || leftoverMarchReport(report)) {
+                        noteStep4('enter-armout', { cityIndex: cityIndex });
+                        dismissLiveArmout();
+                        scheduleMarchWatch();
+                        if (opts.confirm) {
+                            confirmMarchTarget(cityIndex, {
+                                resume: true,
+                                attempt: (opts.attempt || 0) + 1
+                            });
+                        }
+                        return;
+                    }
+                    if (opts.confirm && !freshMarchOk() && !state.marchReady) {
+                        noteStep4('enter-noop', { cityIndex: cityIndex, skipped: 'enter-noop' });
+                        confirmMarchTarget(cityIndex, {
+                            resume: true,
+                            attempt: (opts.attempt || 0) + 1
+                        });
                     }
                 }, 280);
+            }
+            setTimeout(function () {
+                waitShown(0);
             }, onTarget ? 90 : 220);
         }
         function sendNext() {
@@ -852,6 +990,10 @@
             return true;
         }
         if (state.marchReady || state.handoff || freshMarchOk()) {
+            return true;
+        }
+        /* 征兵 NumOperate 残留。出征 GetFood 只在完成选将之后。 */
+        if (state.battleMake && !state.personExitSent) {
             return true;
         }
         if (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
@@ -1886,6 +2028,8 @@
         state.walkBusy = false;
         state.pendingTarget = null;
         state.confirmToken = 0;
+        state.step4Trace = [];
+        state.lastStep4 = null;
         state.acceptMarchOk = false;
         state.sawMarchCleared = false;
         state.lastBlockedExit = '';
@@ -2460,14 +2604,20 @@
     }
 
     function chooseDeep(index) {
-        if (showingQty()) {
-            return;
+        var item = state.deepItems[index];
+        if (leftoverQtyFlag()) {
+            clearLeftoverQtyFlag();
         }
-        var liveMarch = engineMarch();
         if (state.marchReady || freshMarchOk()) {
             return;
         }
-        var item = state.deepItems[index];
+        if (item && item.cityIndex != null && state.wizardStep !== 'persons' && !liveQty()) {
+            confirmMarchTarget(item.cityIndex);
+            return;
+        }
+        if (showingQty()) {
+            return;
+        }
         if (usesMapCursor(state.deepKind, state.deepStep) && item && item.cityIndex != null) {
             confirmMarchTarget(item.cityIndex);
             return;
@@ -2665,10 +2815,12 @@
                 if (t.getAttribute && t.getAttribute('data-hd-confirm-march') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    if (state.pendingTarget != null) {
-                        confirmMarchTarget(state.pendingTarget);
+                    var target = state.pendingTarget != null ? state.pendingTarget : firstEnemyTarget();
+                    if (target != null) {
+                        confirmMarchTarget(target);
                     } else {
                         state.marchHint = '先点邻城或地图上的目标城，再点确认出征。高亮不够。';
+                        noteStep4('confirm-btn-empty', { skipped: 'no-target' });
                         render();
                     }
                     return;
@@ -2902,7 +3054,9 @@
                 qtyDismissed: state.qtyDismissed,
                 reportAtMarchStart: state.reportAtMarchStart,
                 march: engineMarch(),
-                qty: engineQty()
+                qty: engineQty(),
+                lastStep4: state.lastStep4,
+                step4Trace: (state.step4Trace || []).slice(-16)
             };
         },
         walkToCity: function (cityIndex, thenEnter) {

@@ -942,6 +942,7 @@
                     }
                     if (state.kind === 'report' && leftoverMarchTip(state.body)) {
                         var passOnly = /部队已出发/.test(state.body || '') ||
+                            isMapPickTip(state.body) ||
                             cityMenuMarching() || cityMenuOpen() || mapPickActive() ||
                             fightActive() || functionMenuLive() || strategyHandoff();
                         closeDialog({ silent: true });
