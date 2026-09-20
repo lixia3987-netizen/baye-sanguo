@@ -408,6 +408,16 @@
             BayeHdCityMenu.freshMarchOk());
     }
 
+    function cityMenuPersonExitSent() {
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.debugSnapshot === 'function') {
+                var snap = BayeHdCityMenu.debugSnapshot();
+                return !!(snap && snap.personExitSent);
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function closeReportSilent(info) {
         if (info && info.hdSeq) {
             state.lastReportSeq = info.hdSeq;
@@ -431,9 +441,10 @@
         var already = state.lastSpeechEnterSeq && (!seq || seq <= state.lastSpeechEnterSeq);
         var shown = state.open && state.kind === 'report';
         var liveAsync = liveSpeechAsync(info);
-        /* 城菜单开着时 leftover pick 只是过图旗。过月台词原生 SPE 常是 async=0，
-         * 只关壳不回车会卡住 GetFood。FunctionMenu 残留字节不当活菜单。 */
+        /* 城菜单开着时 leftover pick 只是过图旗。过月台词原生 SPE 常是 async=0。
+         * 完成选将之后再回车会打进 FunctionMenu（策略结束），只关壳。 */
         if (!already && !fightActive() && !strategyHandoff() && !actuallyFunctionMenu() &&
+            !cityMenuPersonExitSent() &&
             (shown || liveAsync || cityMenuMarching() || cityMenuOpen())) {
             engineSendKey(VK.ENTER);
             state.lastSpeechEnterSeq = seq || (state.lastSpeechEnterSeq + 1) || 1;
