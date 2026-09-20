@@ -914,11 +914,11 @@
                     return;
                 }
             }
-            if (!state.pendingEnter && !state.aligning && !state.hdOpenedMenu &&
-                state.suppressCityIdle && (Date.now() - state.suppressCityIdle) < 800) {
+            if (state.pendingEnter || state.aligning || state.hdOpenedMenu) {
+                confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
                 return;
             }
-            if (state.pendingEnter || state.aligning || state.hdOpenedMenu || looksLikeCityRootMenu()) {
+            if (looksLikeCityRootMenu() && !state.suppressCityIdle) {
                 confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
                 return;
             }
@@ -2497,10 +2497,10 @@
         engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
-        state.suppressCityIdle = Date.now();
         if (!opts.keepAlign) {
             state.pendingEnter = false;
             state.aligning = false;
+            state.suppressCityIdle = 1;
         }
         if (global.BayeHdCityMenu) {
             BayeHdCityMenu.close({ silent: true });
@@ -2513,6 +2513,7 @@
         state.pendingEnter = false;
         state.aligning = false;
         state.hdOpenedMenu = true;
+        state.suppressCityIdle = 0;
         state.menuDepth = Math.max(1, state.menuDepth);
         setPhase('classic-menu');
         var landed = inferCurrentCity();
@@ -2905,6 +2906,7 @@
 
     function openClassicCity(index) {
         state.selectedIndex = index;
+        state.suppressCityIdle = 0;
         if (cityMenuHoldMenu()) {
             return;
         }
