@@ -223,6 +223,12 @@
         if (mapPickActive() || cityMenuQty() || cityMenuMarching()) {
             return false;
         }
+        try {
+            var info = readAsync();
+            if (leftoverCharacterSpeech((info && info.text) || state.body)) {
+                return false;
+            }
+        } catch (e) {}
         return true;
     }
 
