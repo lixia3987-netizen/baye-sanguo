@@ -1042,19 +1042,13 @@ FAR void GetCityName(U8 city,U8 *str)
     if (!str) {
         return;
     }
-    if (city >= 64 || city >= CITY_MAX) {
-        str[0] = 0;
+    str[0] = 0;
+    if (city >= 64 || city >= CITY_MAX || city == 0xff) {
         return;
     }
-    /*U8 *dptr;
-     U16 cnt;
-
-     dptr = ResLoadToCon(CITY_NAME,g_PIdx,g_CBnkPtr);
-     cnt = city;
-     cnt *= 10;
-     gam_memcpy(str,&dptr[cnt],10);
-     str[10] = 0;*/
-
+    if (ResGetItemLen(CITY_NAME, (U16)(city + 1)) == 0) {
+        return;
+    }
     ResLoadToMemN(CITY_NAME, (U16)(city + 1), str, 32);
 }
 

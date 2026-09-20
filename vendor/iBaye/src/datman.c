@@ -71,7 +71,9 @@ FAR U8 ResItemGetN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
     }
     copy = plen < bufsize ? plen : bufsize;
 
-    gam_fseek(g_LibFp,addr,SEEK_SET);
+    if (gam_fseek(g_LibFp,addr,SEEK_SET) != 0) {
+        return 1;
+    }
     gam_fread(ptr, 1, copy, g_LibFp);
     if(reshead.ResKey)
         ExpDataWithKey(ptr,reshead.ResKey,(U16)copy);
@@ -110,7 +112,9 @@ FAR U8 ResLoadToMemN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
     if (plen >= bufsize) {
         plen = bufsize - 1;
     }
-    gam_fseek(g_LibFp,addr,SEEK_SET);
+    if (gam_fseek(g_LibFp,addr,SEEK_SET) != 0) {
+        return 1;
+    }
     gam_fread(ptr,1,plen,g_LibFp);
     ptr[plen] = 0;
     if(reshead.ResKey)
@@ -143,7 +147,9 @@ FAR U8 ResLoadToMem(U16 ResId,U16 idx,U8 *ptr)
         return 2;
     }
     addr += rIdx.offset;
-    gam_fseek(g_LibFp, addr, SEEK_SET);
+    if (gam_fseek(g_LibFp, addr, SEEK_SET) != 0) {
+        return 1;
+    }
     gam_fread(ptr, 1, plen, g_LibFp);
     ptr[plen] = 0;
     if (reshead.ResKey) {
@@ -239,23 +245,36 @@ U32 GetResItem(U32 addr,U16 idx,RCHEAD *reshead,RIDX *rIdx)
     if (!g_LibFp || !reshead || !rIdx || idx == 0) {
         return 0;
     }
-    gam_fseek(g_LibFp,addr,SEEK_SET);
-    gam_fread((U8*)reshead,sizeof(RCHEAD),1,g_LibFp);
+    if (gam_fseek(g_LibFp,addr,SEEK_SET) != 0) {
+        return 0;
+    }
+    if (gam_fread((U8*)reshead,sizeof(RCHEAD),1,g_LibFp) != 1) {
+        return 0;
+    }
     if ((U32)(idx - 1) >= (U32)reshead->ItmCnt) {
         return 0;
     } else if(reshead->ItmLen!=0)
     {
-        rIdx->offset = idx - 1;
-        rIdx->offset *= reshead->ItmLen;
-        rIdx->offset += sizeof(RCHEAD);
+        U32 n = (U32)(idx - 1);
+        if (reshead->ItmLen > 0x100000u ||
+            n > (0xFFFFFFFFu - (U32)sizeof(RCHEAD)) / reshead->ItmLen) {
+            return 0;
+        }
+        rIdx->offset = n * reshead->ItmLen + (U32)sizeof(RCHEAD);
         rIdx->rlen=reshead->ItmLen;
     }
     else
     {
         addr = idx-1;
         addr *= sizeof(RIDX);
-        gam_fseek(g_LibFp,addr,SEEK_CUR);
-        gam_fread((U8 *)rIdx,sizeof(RIDX),1,g_LibFp);
+        if (gam_fseek(g_LibFp,addr,SEEK_CUR) != 0) {
+            return 0;
+        }
+        if (gam_fread((U8 *)rIdx,sizeof(RIDX),1,g_LibFp) != 1) {
+            rIdx->offset = 0;
+            rIdx->rlen = 0;
+            return 0;
+        }
     }
     return rIdx->rlen;
 }

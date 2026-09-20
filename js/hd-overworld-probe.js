@@ -67,7 +67,15 @@
     function snapshotPositions(data) {
         var raw = data && data.g_CityPositions;
         var cities = data && data.g_Cities;
-        var n = cities && cities.length ? cities.length : (raw && raw.length ? raw.length : 0);
+        var n = 0;
+        try {
+            if (window.baye && typeof baye.hdCityLimit === 'function') {
+                n = baye.hdCityLimit() || 0;
+            }
+        } catch (e) {}
+        if (!n) {
+            n = cities && cities.length ? Math.min(cities.length, 64) : (raw && raw.length ? Math.min(raw.length, 64) : 0);
+        }
         var rows = [];
         var minX = Infinity;
         var maxX = -Infinity;

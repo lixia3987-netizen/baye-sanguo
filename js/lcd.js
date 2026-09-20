@@ -494,7 +494,7 @@ function redirect(page) {
     var now = new Date().getTime() / 1000;
     var name = getLibName();
     var hash = isMobile ? "#" + now : "";
-    var assetVer = (window.BAYE_ASSET_VER || '20260920k');
+    var assetVer = (window.BAYE_ASSET_VER || '20260920l');
     window.location.href = page + "?name=" + name + "&ver=" + encodeURIComponent(assetVer) + hash;
 }
 

@@ -561,7 +561,8 @@
         }
         var ca = 0;
         var cb = 0;
-        for (var i = 0; i < data.g_Cities.length; i++) {
+        var n = cityCount() || Math.min(data.g_Cities.length, 64);
+        for (var i = 0; i < n; i++) {
             var bel = readNumber(data.g_Cities[i], 'Belong');
             if (bel === oneBased) {
                 ca += 1;
@@ -579,9 +580,19 @@
         return oneBased;
     }
 
+    function cityCount() {
+        try {
+            if (window.baye && typeof baye.hdCityLimit === 'function') {
+                return baye.hdCityLimit() || 0;
+            }
+        } catch (e) {}
+        return 0;
+    }
+
     function cityName(index) {
         index = Number(index);
-        if (!isFinite(index) || index < 0 || index >= 0xfffe) {
+        var max = cityCount();
+        if (!isFinite(index) || index < 0 || index >= 0xfffe || (max > 0 && index >= max)) {
             return '';
         }
         try {
@@ -592,7 +603,7 @@
                 }
             }
         } catch (e) {}
-        return '城' + (index + 1);
+        return '';
     }
 
     function cityKind(city, kingId) {
@@ -678,11 +689,13 @@
         var data = engineData();
         var rawPos = data && data.g_CityPositions;
         var rawCities = data && data.g_Cities;
-        var n = 38;
-        if (rawCities && rawCities.length) {
-            n = rawCities.length;
-        } else if (rawPos && rawPos.length) {
-            n = rawPos.length;
+        var n = cityCount();
+        if (!n) {
+            if (rawCities && rawCities.length) {
+                n = Math.min(rawCities.length, 64);
+            } else if (rawPos && rawPos.length) {
+                n = Math.min(rawPos.length, 64);
+            }
         }
 
         var rows = [];
@@ -840,7 +853,8 @@
         if (!data || !data.g_Cities || !data.g_Cities.length) {
             return false;
         }
-        for (var i = 0; i < data.g_Cities.length; i++) {
+        var n = cityCount() || Math.min(data.g_Cities.length, 64);
+        for (var i = 0; i < n; i++) {
             var b = readNumber(data.g_Cities[i], 'Belong');
             if (b === null) {
                 b = Number(data.g_Cities[i].Belong);
@@ -2001,7 +2015,12 @@
         if (v == null || v <= 0) {
             return -1;
         }
-        return v - 1;
+        var idx = v - 1;
+        var max = cityCount();
+        if (idx < 0 || idx >= 0xfffe || (max > 0 && idx >= max)) {
+            return -1;
+        }
+        return idx;
     }
 
     function cursorInView() {

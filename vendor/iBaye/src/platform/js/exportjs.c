@@ -239,11 +239,21 @@ FAR const U8* bayeGetCityName(U32 cityIndex)
 {
     static U8 name[32] = {0};
     name[0] = 0;
-    if (cityIndex >= 64) {
+    if (cityIndex >= 64 || cityIndex >= (U32)CITY_MAX || cityIndex >= 0xfffe) {
         return name;
     }
     GetCityName((U8)cityIndex, name);
     return name;
+}
+
+EMSCRIPTEN_KEEPALIVE
+U16 bayeGetCityCount(void)
+{
+    U16 n = (U16)CITY_MAX;
+    if (n == 0 || n > 64) {
+        return 0;
+    }
+    return n;
 }
 
 EMSCRIPTEN_KEEPALIVE

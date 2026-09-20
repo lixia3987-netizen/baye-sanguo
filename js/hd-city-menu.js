@@ -623,9 +623,19 @@
             (q && q.active));
     }
 
+    function cityCount() {
+        try {
+            if (window.baye && typeof baye.hdCityLimit === 'function') {
+                return baye.hdCityLimit() || 0;
+            }
+        } catch (e) {}
+        return 0;
+    }
+
     function cityName(index) {
         index = Number(index);
-        if (!isFinite(index) || index < 0 || index >= 0xfffe) {
+        var max = cityCount();
+        if (!isFinite(index) || index < 0 || index >= 0xfffe || (max > 0 && index >= max)) {
             return '';
         }
         try {
@@ -737,8 +747,12 @@
             if (id === null && links[i] != null) {
                 id = Number(links[i]);
             }
-            if (id) {
-                out.push(id - 1);
+            if (id && id !== 0xff && id < 0xfffe) {
+                var idx = id - 1;
+                var max = cityCount();
+                if (idx >= 0 && (!max || idx < max)) {
+                    out.push(idx);
+                }
             }
         }
         return out;
@@ -764,7 +778,8 @@
         var mine = playerBelong();
         var i;
         var rows = [];
-        for (i = 0; i < data.g_Cities.length; i++) {
+        var n = cityCount() || Math.min(data.g_Cities.length, 64);
+        for (i = 0; i < n; i++) {
             if (i === except) {
                 continue;
             }

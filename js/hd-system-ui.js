@@ -205,7 +205,11 @@
                 }
                 var cityName = '';
                 try {
-                    cityName = baye.getCityName(i) || '';
+                    if (typeof baye.hdCityLimit === 'function' && i >= baye.hdCityLimit()) {
+                        cityName = '';
+                    } else {
+                        cityName = baye.getCityName(i) || '';
+                    }
                 } catch (e) {}
                 list.push({ id: b, name: name, city: cityName });
             }

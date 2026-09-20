@@ -158,14 +158,24 @@ static U8 rom_fseek(gam_FILE*fp, U32 offset, U8 fromwhere) {
 
 static U32 rom_fread(U8*buf, U8 size, U16 count, gam_FILE*fp) {
     rom_FILE* _fp = (rom_FILE*)fp;
+    U32 need;
+    U32 remain;
+    U32 l;
 
-    U32 remain = _fp->length - _fp->cur;
-    U32 l = MIN(size*count, remain);
+    if (!_fp || !_fp->data || !buf || !size || !count) {
+        return 0;
+    }
+    if (_fp->cur >= _fp->length) {
+        return 0;
+    }
+    remain = _fp->length - _fp->cur;
+    need = (U32)size * (U32)count;
+    l = MIN(need, remain);
     if (l > 0) {
         gam_memcpy(buf, _fp->data + _fp->cur, l);
         _fp->cur += l;
     }
-    return l/size;
+    return size ? (l / size) : 0;
 }
 
 static U32 rom_fwrite(U8 *buf, U32 size, U16 count, gam_FILE *fhandle) {

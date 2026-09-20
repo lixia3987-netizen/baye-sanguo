@@ -321,8 +321,9 @@ void baye_hd_set_city_links(U8 city)
 {
     U8 *clnk;
     U16 off;
+    U8 i;
     memset(g_hdCityLinks, 0, sizeof(g_hdCityLinks));
-    if (city >= 64) {
+    if (city >= 64 || city >= CITY_MAX) {
         return;
     }
     clnk = ResLoadToCon(CITY_LINKR, 1, g_CBnkPtr);
@@ -331,6 +332,12 @@ void baye_hd_set_city_links(U8 city)
     }
     off = (U16)city * 16;
     memcpy(g_hdCityLinks, clnk + off, 8);
+    for (i = 0; i < 8; i++) {
+        U8 id = g_hdCityLinks[i];
+        if (id == 0 || id == 0xff || (U16)(id - 1) >= CITY_MAX) {
+            g_hdCityLinks[i] = 0;
+        }
+    }
 }
 
 void baye_hd_set_march(U8 fromCity, U8 objCity, U8 timeCount, U8 ok)

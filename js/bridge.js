@@ -402,12 +402,35 @@ function hdPersonLimit() {
 }
 
 function hdCityLimit() {
+    var n = 0;
     try {
-        if (window.baye && baye.data && baye.data.g_Cities && baye.data.g_Cities.length) {
-            return baye.data.g_Cities.length;
+        if (typeof _bayeGetCityCount === 'function' && hdEngineReady()) {
+            var c = Number(_bayeGetCityCount()) || 0;
+            if (c > 0 && c <= 64) {
+                n = c;
+            }
         }
     } catch (e) {}
-    return 64;
+    try {
+        if (window.baye && baye.data) {
+            if (baye.data.g_engineConfig && baye.data.g_engineConfig.citiesCount != null) {
+                var cfg = Number(baye.data.g_engineConfig.citiesCount);
+                if (cfg > 0 && cfg <= 64) {
+                    n = n > 0 ? Math.min(n, cfg) : cfg;
+                }
+            }
+            if (baye.data.g_Cities && baye.data.g_Cities.length) {
+                var len = Number(baye.data.g_Cities.length) || 0;
+                if (len > 0 && len <= 64) {
+                    n = n > 0 ? Math.min(n, len) : len;
+                }
+            }
+        }
+    } catch (e) {}
+    if (!n || n < 0 || n > 64) {
+        return 0;
+    }
+    return n;
 }
 
 function hdSafeNameCall(kind, fn, index, max) {
@@ -580,6 +603,7 @@ function baye_bridge_init() {
     baye.getCityName = function(i) {
         return hdSafeNameCall('getCityName', _bayeGetCityName, i, hdCityLimit());
     };
+    baye.hdCityLimit = hdCityLimit;
     baye.getPersonCount = function() {
         if (!hdEngineReady() || typeof _bayeGetPersonCount !== 'function') {
             hdNote('getPersonCount', 'not-ready');
@@ -833,7 +857,8 @@ function baye_bridge_init() {
 
     baye.getCityByName = function(name) {
         var all = baye.data.g_Cities;
-        for (var i = 0; i < all.length; i++) {
+        var n = hdCityLimit() || (all && all.length ? Math.min(all.length, 64) : 0);
+        for (var i = 0; i < n; i++) {
             if (baye.getCityName(i) == name) {
                 return all[i];
             }
@@ -1275,8 +1300,12 @@ function baye_bridge_init() {
                     if (!id && d.g_hdCityLinks[i] != null) {
                         id = Number(d.g_hdCityLinks[i]);
                     }
-                    if (id) {
+                    if (id && id !== 0xff && id < 0xfffe) {
                         var idx = id - 1;
+                        var limit = hdCityLimit();
+                        if (idx < 0 || !limit || idx >= limit) {
+                            continue;
+                        }
                         var name = '';
                         try { name = baye.getCityName(idx) || ''; } catch (e) {}
                         links.push({ id: id, index: idx, name: name });

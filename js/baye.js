@@ -4730,6 +4730,7 @@ var _bayeGetPersonName = Module['_bayeGetPersonName'] = (a0) => (_bayeGetPersonN
 var _bayeGetToolName = Module['_bayeGetToolName'] = (a0) => (_bayeGetToolName = Module['_bayeGetToolName'] = wasmExports['bayeGetToolName'])(a0);
 var _bayeGetSkillName = Module['_bayeGetSkillName'] = (a0) => (_bayeGetSkillName = Module['_bayeGetSkillName'] = wasmExports['bayeGetSkillName'])(a0);
 var _bayeGetCityName = Module['_bayeGetCityName'] = (a0) => (_bayeGetCityName = Module['_bayeGetCityName'] = wasmExports['bayeGetCityName'])(a0);
+var _bayeGetCityCount = Module['_bayeGetCityCount'] = () => (_bayeGetCityCount = Module['_bayeGetCityCount'] = wasmExports['bayeGetCityCount'])();
 var _bayeStrLen = Module['_bayeStrLen'] = (a0) => (_bayeStrLen = Module['_bayeStrLen'] = wasmExports['bayeStrLen'])(a0);
 var _bayeGetGlobal = Module['_bayeGetGlobal'] = () => (_bayeGetGlobal = Module['_bayeGetGlobal'] = wasmExports['bayeGetGlobal'])();
 var _bayeGetCustomData = Module['_bayeGetCustomData'] = () => (_bayeGetCustomData = Module['_bayeGetCustomData'] = wasmExports['bayeGetCustomData'])();
