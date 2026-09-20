@@ -1260,9 +1260,12 @@
         var tries = 0;
         var confirmed = false;
         var leftPick = mapPickActive();
-        var openedFn = false;
         function leftoverFightSys(names) {
             return names[0] === '全军撤退' || names[0] === '回合结束';
+        }
+        function liveFunctionMenu() {
+            return looksLikeFunctionMenu() &&
+                (Date.now() - (state.lastFuncMenuIdle || 0)) < 2000;
         }
         function step() {
             if (confirmed) {
@@ -1281,16 +1284,8 @@
                 setTimeout(step, 240);
                 return;
             }
-            /* 刚离开 GetCitySet 时 g_hdMenuBytes 可能还是「全军撤退」。再 EXIT 一次打开 FunctionMenu。 */
-            if (leftPick && !openedFn && leftoverFightSys(names)) {
-                openedFn = true;
-                tries += 1;
-                engineSendKey(VK.EXIT, 'strategy-end');
-                setTimeout(step, 240);
-                return;
-            }
-            /* g_hdMenuBytes 会残留「策略结束」。必须先离开 GetCitySet（或至少 EXIT 一次）再确认。 */
-            if (names[0] === '策略结束' && (leftPick || openedFn || tries >= 1)) {
+            /* 活 FunctionMenu（新鲜 onMenuIdle）才回车。残留「策略结束」字节不确认。 */
+            if (names[0] === '策略结束' && liveFunctionMenu()) {
                 confirmed = true;
                 if (!(global.BayeHdSystemUi &&
                     typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
@@ -1305,6 +1300,7 @@
                 }, 700);
                 return;
             }
+            /* 上一场战场系统残留：等菜单刷新，不要再 EXIT 取消刚打开的 FunctionMenu。 */
             if (leftoverFightSys(names)) {
                 tries += 1;
                 if (tries >= 16) {
