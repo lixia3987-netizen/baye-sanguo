@@ -88,7 +88,8 @@
         consumedMarchSeq: 0,
         sawMarchCleared: false,
         wizardStep: 'none',
-        sawQtyThisMarch: false
+        sawQtyThisMarch: false,
+        reportAtMarchStart: ''
     };
 
     var WIZARD_ORDER = { none: 0, persons: 1, food: 2, 'target-tip': 3, 'map-pick': 4, 'march-ok': 5 };
@@ -1344,6 +1345,7 @@
         state.personExitSent = false;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
+        state.reportAtMarchStart = liveEngineReport();
         state.lastFuncMenuIdle = 0;
         state.lastWalkCity = null;
         state.lastWalkAt = 0;
@@ -1588,11 +1590,14 @@
             render();
             return;
         }
-        if (/城中无空闲武将|金钱不足|粮草不足/.test(liveEngineReport()) && wizardInMarch()) {
+        var liveAbort = liveEngineReport();
+        if (wizardInMarch() && !state.pickedPersons &&
+            /城中无空闲武将|金钱不足|粮草不足/.test(liveAbort) &&
+            liveAbort !== state.reportAtMarchStart) {
             setWizardStep('none', 'engine-abort');
             state.battleMake = false;
             state.personExitSent = false;
-            state.marchHint = liveEngineReport();
+            state.marchHint = liveAbort;
             render();
             return;
         }
