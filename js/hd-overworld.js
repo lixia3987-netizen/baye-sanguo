@@ -569,6 +569,10 @@
     }
 
     function cityName(index) {
+        index = Number(index);
+        if (!isFinite(index) || index < 0 || index >= 0xfffe) {
+            return '';
+        }
         try {
             if (window.baye && typeof baye.getCityName === 'function') {
                 var n = baye.getCityName(index);

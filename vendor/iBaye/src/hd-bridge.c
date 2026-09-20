@@ -322,6 +322,9 @@ void baye_hd_set_city_links(U8 city)
     U8 *clnk;
     U16 off;
     memset(g_hdCityLinks, 0, sizeof(g_hdCityLinks));
+    if (city >= 64) {
+        return;
+    }
     clnk = ResLoadToCon(CITY_LINKR, 1, g_CBnkPtr);
     if (!clnk) {
         return;

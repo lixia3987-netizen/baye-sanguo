@@ -84,7 +84,17 @@ baye.hd.movie()      // { active, id }
 baye.hd.spe()        // { active, id, kind, x, y, startFrm, endFrm, seq }
 baye.hd.skills()     // { active, count, ids, names }
 baye.hd.toolName(id) // GetGoodsName
+baye.hdEngineReady() // heap + `_bayeHdReady()`；未选 lib / 堆未就绪则 false
+baye.lastHdCall      // 最近一次 HD 桥调用（崩溃 onerror / unhandledrejection 会附带）
 ```
+
+越界防护（JS 先于 WASM 生效；C 侧同源守卫要等下次重编 `baye.wasm`）：
+
+- `getPersonName` / `getCityName` / `getToolName` / `getSkillName` / `getPersonNameByID`：index `<0` / `≥max` / `≥0xfffe`（队列空槽 `0xffff`）直接空串，不进 `ResLoadToMem`
+- `ensureData` / `hd.report` / `hd.cityLinks` / keepalive 指针：lib 或 heap 未就绪则 no-op
+- `hd.cityLinks(city)`：`city` 越界不调 `_bayeHdLoadCityLinks`（`city*16` 会读出 CITY_LINKR）
+- 字符串长度走 HEAPU8 扫描（上限 4096），不再调 `_bayeStrLen`（裸 `strlen`）
+- 城池菜单 `cityPersons` 跳过 `g_PersonsQueue` 空槽 `0xffff`，避免出征向导每 200ms 轮询打进 WASM
 
 ## 按键
 

@@ -205,7 +205,7 @@
         if (leftoverMarchTip(text)) {
             return false;
         }
-        if (/饥荒|旱灾|水灾|暴动|俘虏|拥立|成为|遭劫|病逝|金钱不足|粮草不足|城中无空闲武将/.test(String(text))) {
+        if (/饥荒|旱灾|水灾|暴动|俘虏|拥立|成为|遭劫|病逝|金钱不足|粮草不足|城中无空闲武将|归降|势力/.test(String(text))) {
             return false;
         }
         if (/农业|商业|开发度|变为/.test(String(text))) {

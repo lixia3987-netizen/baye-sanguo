@@ -459,7 +459,7 @@
 
     function clearFightBridge() {
         try {
-            if (window.baye && baye.data) {
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
                 if (baye.data.g_hdFightOver != null) {
                     baye.data.g_hdFightOver = 0;
                 }
@@ -598,7 +598,7 @@
             if (id === null && arr && arr[i] != null) {
                 id = Number(arr[i]);
             }
-            if (!id) {
+            if (!id || id >= 0xfffe) {
                 continue;
             }
             var p = pos && pos[i] ? pos[i] : {};
@@ -1038,7 +1038,8 @@
             /* Live fight never inherits leftover 全军覆没 from the previous battle. */
             if (info.over) {
                 try {
-                    if (window.baye && baye.data && baye.data.g_hdFightOver != null) {
+                    if (window.baye && baye.data && baye.data.g_hdFightOver != null &&
+                        (!baye.hdEngineReady || baye.hdEngineReady())) {
                         baye.data.g_hdFightOver = 0;
                     }
                 } catch (e) {}
@@ -1090,7 +1091,7 @@
             if (d && Number(d.g_hdFightActive)) {
                 if (f && f.over) {
                     try {
-                        if (d.g_hdFightOver != null) {
+                        if (d.g_hdFightOver != null && (!baye.hdEngineReady || baye.hdEngineReady())) {
                             d.g_hdFightOver = 0;
                         }
                     } catch (e) {}

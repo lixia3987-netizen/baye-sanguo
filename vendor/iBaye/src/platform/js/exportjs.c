@@ -206,6 +206,9 @@ FAR const U8* bayeGetPersonName(U32 personIndex)
 {
     static U8 name[32] = {0};
     name[0] = 0;
+    if (personIndex >= PERSON_MAX) {
+        return name;
+    }
     GetPersonName(PID(personIndex), name);
     return name;
 }
@@ -233,13 +236,19 @@ FAR const U8* bayeGetCityName(U32 cityIndex)
 {
     static U8 name[32] = {0};
     name[0] = 0;
-    GetCityName(cityIndex, name);
+    if (cityIndex >= 64) {
+        return name;
+    }
+    GetCityName((U8)cityIndex, name);
     return name;
 }
 
 EMSCRIPTEN_KEEPALIVE
 FAR U32 bayeStrLen(const U8* s)
 {
+    if (!s) {
+        return 0;
+    }
     return (U32)strlen((const char*)s);
 }
 

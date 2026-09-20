@@ -491,6 +491,13 @@ FAR void GetGoodsName(ToolID goods,U8 *str)
 FAR void GetPersonName(PersonID person,U8 *str)
 {
     U8 l = '\0';
+    if (!str) {
+        return;
+    }
+    if (person >= PERSON_MAX) {
+        str[0] = 0;
+        return;
+    }
 
     IF_HAS_HOOK("getPersonName") {
         U16 personIndex = person;
@@ -1026,6 +1033,13 @@ moveView:
  ******************************************************************************/
 FAR void GetCityName(U8 city,U8 *str)
 {
+    if (!str) {
+        return;
+    }
+    if (city >= 64) {
+        str[0] = 0;
+        return;
+    }
     /*U8 *dptr;
      U16 cnt;
 

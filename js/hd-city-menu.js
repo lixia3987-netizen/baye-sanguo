@@ -534,7 +534,8 @@
         state.acceptMarchOk = false;
         state.sawMarchCleared = false;
         try {
-            if (window.baye && baye.data && baye.data.g_hdMarchOk != null) {
+            if (window.baye && baye.data && baye.data.g_hdMarchOk != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
                 baye.data.g_hdMarchOk = 0;
             }
         } catch (e) {}
@@ -580,8 +581,12 @@
     }
 
     function cityName(index) {
+        index = Number(index);
+        if (!isFinite(index) || index < 0 || index >= 0xfffe) {
+            return '';
+        }
         try {
-            if (window.baye && typeof baye.getCityName === 'function' && index >= 0) {
+            if (window.baye && typeof baye.getCityName === 'function') {
                 return baye.getCityName(index) || '';
             }
         } catch (e) {}
@@ -627,7 +632,7 @@
             if (pind === null && data.g_PersonsQueue[q0 + i] != null) {
                 pind = Number(data.g_PersonsQueue[q0 + i]);
             }
-            if (pind === null || !isFinite(pind)) {
+            if (pind === null || !isFinite(pind) || pind < 0 || pind >= 0xfffe) {
                 continue;
             }
             var name = '';

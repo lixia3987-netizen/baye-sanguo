@@ -2,9 +2,29 @@
 window.onerror = function(msg, url, line, col, error) {
    var extra = !col ? '' : '\ncolumn: ' + col;
    extra += !error ? '' : '\nerror: ' + error;
+   try {
+       var last = window.__bayeLastHdCall || (window.baye && baye.lastHdCall);
+       if (last && last.name) {
+           extra += '\nlastHdCall: ' + last.name + (last.detail ? ' ' + last.detail : '');
+       }
+   } catch (e) {}
+   console.error('[baye] window.onerror', msg, url, line, extra);
    alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
    return false;
 };
+
+if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('unhandledrejection', function(ev) {
+        var extra = '';
+        try {
+            var last = window.__bayeLastHdCall || (window.baye && baye.lastHdCall);
+            if (last && last.name) {
+                extra = ' lastHdCall: ' + last.name + (last.detail ? ' ' + last.detail : '');
+            }
+        } catch (e) {}
+        console.error('[baye] unhandledrejection', ev && ev.reason, extra);
+    });
+}
 
 Math._original_random = Math.random;
 Math.random = function() {
@@ -108,7 +128,12 @@ function baye_bridge_description_for_value(jvalue, type) {
         case ValueTypeGBKBuffer:
             return {
                 get: function() {
-                    var buffer = bayeU8Array(jvalue.value._addr, _bayeStrLen(jvalue.value._addr));
+                    var addr = jvalue.value._addr;
+                    var n = hdSafeStrLen(addr);
+                    if (!n) {
+                        return '';
+                    }
+                    var buffer = bayeU8Array(addr, n);
                     return gbkDecoder.decode(buffer);
                 },
                 set: function(value) {
@@ -261,15 +286,148 @@ function baye_bridge_obj(def, addr) {
     return jsObj;
 }
 
+function hdHeapLen() {
+    try {
+        return (typeof Module !== 'undefined' && Module.HEAPU8 && Module.HEAPU8.length) || 0;
+    } catch (e) {
+        return 0;
+    }
+}
+
+function hdHeapOk(ptr, len) {
+    var heap = hdHeapLen();
+    ptr = Number(ptr);
+    len = Number(len);
+    if (!heap || !isFinite(ptr) || !isFinite(len) || ptr <= 0 || len < 0) {
+        return false;
+    }
+    return ptr < heap && (ptr + len) <= heap;
+}
+
+function hdNote(name, detail) {
+    var rec = { name: String(name || ''), detail: detail == null ? '' : String(detail), t: Date.now() };
+    try {
+        window.__bayeLastHdCall = rec;
+        if (window.baye) {
+            baye.lastHdCall = rec;
+        }
+    } catch (e) {}
+}
+
+function hdEngineReady() {
+    try {
+        if (!hdHeapLen()) {
+            return false;
+        }
+        if (typeof _bayeHdReady === 'function') {
+            try {
+                if (!_bayeHdReady()) {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+        } else if (!(window.baye && baye.data)) {
+            return false;
+        }
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function hdSafeStrLen(ptr) {
+    if (!hdHeapOk(ptr, 1)) {
+        return 0;
+    }
+    var heap = Module.HEAPU8;
+    var n = 0;
+    var max = Math.min(4096, heap.length - ptr);
+    while (n < max && heap[ptr + n]) {
+        n += 1;
+    }
+    return n;
+}
+
+function hdPersonLimit() {
+    try {
+        if (typeof _bayeGetPersonCount === 'function' && hdEngineReady()) {
+            var n = Number(_bayeGetPersonCount()) || 0;
+            if (n > 0 && n <= 2000) {
+                return n;
+            }
+        }
+        if (window.baye && baye.data && baye.data.g_Persons && baye.data.g_Persons.length) {
+            return baye.data.g_Persons.length;
+        }
+    } catch (e) {}
+    return 2000;
+}
+
+function hdCityLimit() {
+    try {
+        if (window.baye && baye.data && baye.data.g_Cities && baye.data.g_Cities.length) {
+            return baye.data.g_Cities.length;
+        }
+    } catch (e) {}
+    return 64;
+}
+
+function hdSafeNameCall(kind, fn, index, max) {
+    index = Number(index);
+    if (!isFinite(index) || index < 0 || index >= max || index >= 0xfffe) {
+        hdNote(kind, 'skip:' + index);
+        return '';
+    }
+    if (!hdEngineReady() || typeof fn !== 'function') {
+        hdNote(kind, 'not-ready:' + index);
+        return '';
+    }
+    hdNote(kind, index);
+    try {
+        var addr = fn(index);
+        if (!addr) {
+            return '';
+        }
+        var n = hdSafeStrLen(addr);
+        if (!n) {
+            return '';
+        }
+        return gbkDecoder.decode(Module.HEAPU8.subarray(addr, addr + n));
+    } catch (e) {
+        console.warn('[hd-bridge]', kind, index, e && e.message ? e.message : e);
+        return '';
+    }
+}
+
 function bayeU8Array(caddr, length) {
-    return Module.HEAPU8.subarray(caddr, caddr+length);
+    var heap = Module && Module.HEAPU8;
+    if (!heap) {
+        return new Uint8Array(0);
+    }
+    caddr = Number(caddr) || 0;
+    length = Number(length) || 0;
+    if (caddr < 0 || length < 0 || caddr >= heap.length) {
+        return heap.subarray(0, 0);
+    }
+    if (caddr + length > heap.length) {
+        length = heap.length - caddr;
+    }
+    return heap.subarray(caddr, caddr + length);
 }
 
 function bayeWrapFunctionS(innerf) {
     return function() {
+        if (!hdEngineReady()) {
+            return '';
+        }
         var addr = innerf.apply(this, arguments);
         if (addr != 0) {
-            return new TextDecoder('GBK').decode(bayeU8Array(addr, _bayeStrLen(addr)));
+            var n = hdSafeStrLen(addr);
+            if (!n) {
+                return '';
+            }
+            return gbkDecoder.decode(bayeU8Array(addr, n));
         }
         return null;
     };
@@ -364,11 +522,33 @@ function baye_bridge_init() {
     }
     baye.debug = {};
 
-    baye.getPersonName = bayeWrapFunctionS(_bayeGetPersonName);
-    baye.getToolName = bayeWrapFunctionS(_bayeGetToolName);
-    baye.getSkillName = bayeWrapFunctionS(_bayeGetSkillName);
-    baye.getCityName = bayeWrapFunctionS(_bayeGetCityName);
-    baye.getPersonCount = _bayeGetPersonCount;
+    baye.getPersonName = function(i) {
+        return hdSafeNameCall('getPersonName', _bayeGetPersonName, i, hdPersonLimit());
+    };
+    baye.getToolName = function(i) {
+        return hdSafeNameCall('getToolName', _bayeGetToolName, i, 512);
+    };
+    baye.getSkillName = function(i) {
+        return hdSafeNameCall('getSkillName', _bayeGetSkillName, i, 256);
+    };
+    baye.getCityName = function(i) {
+        return hdSafeNameCall('getCityName', _bayeGetCityName, i, hdCityLimit());
+    };
+    baye.getPersonCount = function() {
+        if (!hdEngineReady() || typeof _bayeGetPersonCount !== 'function') {
+            hdNote('getPersonCount', 'not-ready');
+            return 0;
+        }
+        hdNote('getPersonCount', '');
+        try {
+            var n = Number(_bayeGetPersonCount()) || 0;
+            return (n > 0 && n <= 2000) ? n : 0;
+        } catch (e) {
+            return 0;
+        }
+    };
+    baye.hdEngineReady = hdEngineReady;
+    baye.hdNote = hdNote;
 
     baye._cbs = [];
     baye.pushCallback = function(cb) {
@@ -630,14 +810,15 @@ function baye_bridge_init() {
     };
 
     baye.getPersonNameByID = function(id) {
-        switch (id) {
-        case 0:
+        id = Number(id);
+        if (!isFinite(id) || id <= 0 || id >= 0xfffe) {
+            hdNote('getPersonNameByID', 'skip:' + id);
             return "-";
-        case 0xff:
-            return "俘虏";
-        default:
-            return baye.getPersonName(id - 1);
         }
+        if (id === 0xff) {
+            return "俘虏";
+        }
+        return baye.getPersonName(id - 1);
     };
 
     baye.printCity = function(i) {
@@ -858,18 +1039,29 @@ function baye_bridge_init() {
     };
 
     baye.ensureData = function () {
-        if (baye.data) {
-            return baye.data;
+        if (!hdHeapLen()) {
+            hdNote('ensureData', 'no-heap');
+            return null;
         }
         if (typeof _bayeHdReady === 'function') {
             try {
                 if (!_bayeHdReady()) {
-                    return null;
+                    hdNote('ensureData', 'lib-not-ready');
+                    return baye.data || null;
                 }
             } catch (e) {
-                return null;
+                hdNote('ensureData', 'ready-throw');
+                return baye.data || null;
             }
         }
+        if (baye.data) {
+            return baye.data;
+        }
+        if (!hdEngineReady()) {
+            hdNote('ensureData', 'not-ready');
+            return null;
+        }
+        hdNote('ensureData', 'bind');
         if (typeof _bayeGetGlobal === 'function' && typeof baye_bridge_value === 'function') {
             try {
                 baye.data = baye_bridge_value(_bayeGetGlobal());
@@ -893,11 +1085,11 @@ function baye_bridge_init() {
     }
 
     function hdDecodePtr(ptr) {
-        if (!ptr) {
+        if (!ptr || !hdHeapOk(ptr, 1)) {
             return '';
         }
         try {
-            var n = (typeof _bayeStrLen === 'function') ? _bayeStrLen(ptr) : 0;
+            var n = hdSafeStrLen(ptr);
             if (!n) {
                 return '';
             }
@@ -935,18 +1127,19 @@ function baye_bridge_init() {
 
     baye.hd = {
         report: function () {
+            hdNote('hd.report', '');
             var d = baye.ensureData();
             var text = '';
             if (d && typeof d.g_hdReportGbk === 'string') {
                 text = d.g_hdReportGbk;
             }
-            if (!text && typeof _bayeHdGetReport === 'function') {
+            if (!text && hdEngineReady() && typeof _bayeHdGetReport === 'function') {
                 try {
                     text = hdDecodePtr(_bayeHdGetReport());
                 } catch (e) {}
             }
             var seq = hdReadNum(d, 'g_hdReportSeq');
-            if (!seq && typeof _bayeHdGetReportSeq === 'function') {
+            if (!seq && hdEngineReady() && typeof _bayeHdGetReportSeq === 'function') {
                 try { seq = Number(_bayeHdGetReportSeq()) || 0; } catch (e) {}
             }
             return {
@@ -961,10 +1154,11 @@ function baye_bridge_init() {
             return r && r.text ? r.text : '';
         },
         kings: function () {
+            hdNote('hd.kings', '');
             var d = baye.ensureData();
             var list = [];
             var n = hdReadNum(d, 'g_hdKingCount');
-            if (!n && typeof _bayeHdGetKingCount === 'function') {
+            if (!n && hdEngineReady() && typeof _bayeHdGetKingCount === 'function') {
                 try { n = Number(_bayeHdGetKingCount()) || 0; } catch (e) {}
             }
             var i;
@@ -993,6 +1187,7 @@ function baye_bridge_init() {
             };
         },
         fight: function () {
+            hdNote('hd.fight', '');
             var d = baye.ensureData();
             var result = '';
             if (d && typeof d.g_hdFightResultGbk === 'string') {
@@ -1016,9 +1211,14 @@ function baye_bridge_init() {
             };
         },
         cityLinks: function (city) {
+            hdNote('hd.cityLinks', city);
             var d = baye.ensureData();
-            if (city != null && typeof _bayeHdLoadCityLinks === 'function') {
+            city = city == null ? NaN : Number(city);
+            if (isFinite(city) && city >= 0 && city < hdCityLimit() &&
+                hdEngineReady() && typeof _bayeHdLoadCityLinks === 'function') {
                 try { _bayeHdLoadCityLinks(city); } catch (e) {}
+            } else if (isFinite(city)) {
+                hdNote('hd.cityLinks', 'skip:' + city);
             }
             var links = [];
             var i;
@@ -1039,6 +1239,7 @@ function baye_bridge_init() {
             return links;
         },
         march: function () {
+            hdNote('hd.march', '');
             var d = baye.ensureData();
             return {
                 pick: hdReadNum(d, 'g_hdMapPick'),
@@ -1051,6 +1252,7 @@ function baye_bridge_init() {
             };
         },
         qty: function () {
+            hdNote('hd.qty', '');
             var d = baye.ensureData();
             return {
                 active: hdReadNum(d, 'g_hdQtyActive'),
@@ -1068,6 +1270,7 @@ function baye_bridge_init() {
             return '';
         },
         help: function () {
+            hdNote('hd.help', '');
             var d = baye.ensureData();
             var text = '';
             if (d && typeof d.g_hdHelpGbk === 'string') {
@@ -1083,6 +1286,7 @@ function baye_bridge_init() {
             };
         },
         skills: function () {
+            hdNote('hd.skills', '');
             var d = baye.ensureData();
             var count = hdReadNum(d, 'g_hdSkillCount') || 0;
             var names = [];
@@ -1119,6 +1323,7 @@ function baye_bridge_init() {
             };
         },
         movie: function () {
+            hdNote('hd.movie', '');
             var d = baye.ensureData();
             return {
                 active: hdReadNum(d, 'g_hdMovieActive'),
@@ -1126,6 +1331,7 @@ function baye_bridge_init() {
             };
         },
         spe: function () {
+            hdNote('hd.spe', '');
             var d = baye.ensureData();
             return {
                 active: hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive'),
@@ -1139,12 +1345,19 @@ function baye_bridge_init() {
             };
         },
         menuItems: function () {
+            hdNote('hd.menuItems', '');
             var d = baye.ensureData();
             var itemLen = hdReadNum(d, 'g_hdMenuItemLen');
             var count = hdReadNum(d, 'g_hdMenuCount');
+            if (itemLen > 64) {
+                itemLen = 64;
+            }
+            if (count > 80) {
+                count = 80;
+            }
             var names = [];
             var i;
-            if (itemLen && count && d.g_hdMenuBytes) {
+            if (itemLen && count && d && d.g_hdMenuBytes) {
                 for (i = 0; i < count && i < 80; i++) {
                     names.push(hdDecodeSlice(d.g_hdMenuBytes, i * itemLen, itemLen));
                 }
