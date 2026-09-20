@@ -1473,6 +1473,9 @@
         pickIndex(index, true);
         if (willMarch) {
             setTimeout(function () {
+                if (!state.battleMake || state.personExitSent || showingQty() || state.pickedPersons > 0) {
+                    return;
+                }
                 var names = engineMenuItems().names || [];
                 if (names[0] === '侦察' || names[0] === '开垦' || names[0] === '策略结束') {
                     enqueueKeys([VK.ENTER], 70, 'retry-battle-make');
