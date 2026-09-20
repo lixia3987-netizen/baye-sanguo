@@ -85,8 +85,15 @@ function lcdFlushBuffer(buffer) {
     var lcd = getLCD();
     var w = lcdWidth*dotSize;
     var h = lcdHeight*dotSize
+    var nbytes = w * h * 4;
+    var heap = (typeof wasmMemory !== 'undefined' && wasmMemory && wasmMemory.buffer) ? wasmMemory.buffer : null;
+    buffer = Number(buffer) || 0;
+    if (!heap || buffer <= 0 || nbytes <= 0 || buffer + nbytes > heap.byteLength) {
+        console.error('[hd-bridge] lcd flush skipped', { buffer: buffer, nbytes: nbytes, heap: heap ? heap.byteLength : 0 });
+        return;
+    }
 
-    var buffer_wrp = new Uint8ClampedArray(wasmMemory.buffer, buffer, w*h*4);
+    var buffer_wrp = new Uint8ClampedArray(heap, buffer, nbytes);
     var img = new ImageData(buffer_wrp, w, h);
     lcd.putImageData(img, 0, 0);
     if (window.BayeHdSpe && typeof BayeHdSpe.onLcdFlush === 'function') {
@@ -809,9 +816,18 @@ function bayeSaveFileContent(filename, content) {
     window.localStorage[filename] = content;
 }
 
-Module = {};
+Module = window.Module || {};
 Module.memoryInitializerPrefixURL = "../baye-engine/";
 Module.noInitialRun = true;
+if (window.BAYE_ASSET_VER) {
+    Module.locateFile = function (path, prefix) {
+        prefix = prefix || '';
+        if (/\.(wasm|map)$/.test(path)) {
+            return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
+        }
+        return prefix + path;
+    };
+}
 
 baye = {
     preScriptInit: function() {

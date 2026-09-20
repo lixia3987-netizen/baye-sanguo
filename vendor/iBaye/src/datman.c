@@ -120,7 +120,36 @@ FAR U8 ResLoadToMemN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
 
 FAR U8 ResLoadToMem(U16 ResId,U16 idx,U8 *ptr)
 {
-    return ResLoadToMemN(ResId, idx, ptr, 4096);
+    /*
+     * Dest size is unknown. Never assume 4KB — that smash-writes into
+     * 32-byte stack `str` on the first menu/string load and OOBs immediately.
+     * Reject insane rlen (corrupt idx / missing lib) instead of writing it.
+     */
+    U32 plen;
+    U32 addr;
+    RIDX rIdx;
+    RCHEAD reshead;
+
+    if (!ptr || !g_LibFp) {
+        return 1;
+    }
+    addr = GetResStartAddr(ResId);
+    if (addr == 0) {
+        return 1;
+    }
+    GetResItem(addr, idx, &reshead, &rIdx);
+    plen = rIdx.rlen;
+    if (plen == 0 || plen > 1024) {
+        return 2;
+    }
+    addr += rIdx.offset;
+    gam_fseek(g_LibFp, addr, SEEK_SET);
+    gam_fread(ptr, 1, plen, g_LibFp);
+    ptr[plen] = 0;
+    if (reshead.ResKey) {
+        ExpDataWithKey(ptr, reshead.ResKey, (U16)plen);
+    }
+    return 0;
 }
 
 /***********************************************************************

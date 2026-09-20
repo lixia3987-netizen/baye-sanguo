@@ -28,8 +28,9 @@ window.onerror = function(msg, url, line, col, error) {
    var extra = !col ? '' : '\ncolumn: ' + col;
    extra += !error ? '' : '\nerror: ' + error;
    var last = hdDumpLast('window.onerror ' + msg);
-   if (last && last.name) {
-       extra += '\nlastHdCall: ' + last.name + (last.detail ? ' ' + last.detail : '');
+   extra += '\nlastHdCall: ' + (last && last.name ? (last.name + (last.detail ? ' ' + last.detail : '')) : '(none)');
+   if (error && error.stack) {
+       extra += '\nstack: ' + error.stack;
    }
    console.error('[baye] window.onerror', msg, url, line, extra);
    alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);

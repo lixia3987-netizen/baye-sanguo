@@ -14,6 +14,27 @@
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20260919am"/>
     <script>
+        window.BAYE_ASSET_VER = '20260920g';
+        window.__bayeLastHdCall = window.__bayeLastHdCall || null;
+        window.onerror = function (msg, url, line, col, error) {
+            var last = window.__bayeLastHdCall;
+            var extra = '\nlastHdCall: ' + (last && last.name ? (last.name + (last.detail ? ' ' + last.detail : '')) : '(none)');
+            extra += error && error.stack ? ('\nstack: ' + error.stack) : '';
+            extra += !col ? '' : ('\ncolumn: ' + col);
+            console.error('[baye-boot] onerror', msg, url, line, extra);
+            alert('Error: ' + msg + '\nurl: ' + url + '\nline: ' + line + extra);
+            return false;
+        };
+        window.Module = window.Module || {};
+        window.Module.locateFile = function (path, prefix) {
+            prefix = prefix || 'js/';
+            if (/\.(wasm|map)$/.test(path)) {
+                return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
+            }
+            return prefix + path;
+        };
+    </script>
+    <script>
         var _hmt = _hmt || [];
         (function () {
             var hm = document.createElement("script");
@@ -213,8 +234,8 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20260329"></script>
-<script src="js/bridge.js?ver=20260920d"></script>
-<script src="js/lcd.js?ver=20260919al"></script>
+<script src="js/bridge.js?ver=20260920g"></script>
+<script src="js/lcd.js?ver=20260920g"></script>
 <script src="js/hd-graphics.js?ver=20260918"></script>
 <script src="js/hd-overworld-probe.js?ver=20260918k"></script>
 <script src="js/hd-overworld.js?ver=20260920t"></script>
@@ -411,5 +432,5 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20260920f"></script>
+<script src="js/baye.js?ver=20260920g"></script>
 
