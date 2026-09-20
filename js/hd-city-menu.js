@@ -1424,9 +1424,7 @@
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
         var leftoverTalk = liveEngineReport();
-        if (leftoverTalk && /[。！？]/.test(leftoverTalk) &&
-            !leftoverChooseTarget(leftoverTalk) && !leftoverMarchReport(leftoverTalk) &&
-            !/城中无空闲武将|金钱不足|粮草不足/.test(leftoverTalk)) {
+        if (/不愿如此|不得已/.test(leftoverTalk || '')) {
             enqueueKeys([VK.ENTER, VK.EXIT], 80, 'finish-persons');
         } else {
             enqueueKeys([VK.EXIT], 70, 'finish-persons');

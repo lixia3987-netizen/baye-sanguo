@@ -208,6 +208,9 @@
         if (/饥荒|旱灾|水灾|暴动|俘虏|拥立|成为|遭劫|病逝|金钱不足|粮草不足|城中无空闲武将/.test(String(text))) {
             return false;
         }
+        if (/农业|商业|开发度|变为/.test(String(text))) {
+            return false;
+        }
         return true;
     }
 
@@ -466,6 +469,9 @@
         /* 出征向导里过月残留台词必须关壳，否则挡住 GetFood；回车策略见 dismissLeftoverSpeech。 */
         if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
             return dismissLeftoverSpeech(info);
+        }
+        if (cityMenuMarching() && /农业|商业|开发度|变为/.test(info.text || '')) {
+            return closeReportSilent(info);
         }
         /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
          * 之后 g_hdReportGbk 残留。全屏壳会挡住策略结束 / 招商，回车会打进 FunctionMenu 或战场。 */
