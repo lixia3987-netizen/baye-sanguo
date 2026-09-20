@@ -2976,6 +2976,16 @@
             BayeHdCityMenu.isMarching());
     }
 
+    function marchTapCity(index) {
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.confirmMarchTarget === 'function') {
+            return BayeHdCityMenu.confirmMarchTarget(index);
+        }
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
+            return BayeHdCityMenu.walkToCity(index, true);
+        }
+        return null;
+    }
+
     function battleMakePending() {
         if (cityMenuMarching()) {
             return true;
@@ -3008,9 +3018,7 @@
             return;
         }
         if (cityMenuMarching() || battleMakePending()) {
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
-                BayeHdCityMenu.walkToCity(index, true);
-            }
+            marchTapCity(index);
             return;
         }
         if (state.phase === 'classic-menu') {
@@ -3069,9 +3077,7 @@
                 var marching = cityMenuMarching() || battleMakePending();
                 if (marching && pickIdx >= 0) {
                     ev.preventDefault();
-                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
-                        BayeHdCityMenu.walkToCity(pickIdx, true);
-                    }
+                    marchTapCity(pickIdx);
                     return true;
                 }
                 if (marching) {
@@ -3096,9 +3102,7 @@
                 var marchIdx = marchPt ? hitCity(marchPt) : -1;
                 if (marchIdx >= 0) {
                     ev.preventDefault();
-                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
-                        BayeHdCityMenu.walkToCity(marchIdx, true);
-                    }
+                    marchTapCity(marchIdx);
                 }
                 return true;
             }

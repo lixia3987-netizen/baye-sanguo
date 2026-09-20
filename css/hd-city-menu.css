@@ -223,7 +223,24 @@
     font-weight: 600;
 }
 
+.hd-city-menu-confirm-march {
+    grid-column: 1 / -1;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: rgba(61, 139, 253, 0.14);
+    border: 1px solid rgba(120, 180, 255, 0.45);
+    color: #d7e8ff;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.hd-city-menu-confirm-march button[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
 .hd-city-menu-finish-persons button,
+.hd-city-menu-confirm-march button,
 .hd-city-menu-march-ok button {
     appearance: none;
     display: block;
