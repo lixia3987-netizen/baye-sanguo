@@ -708,6 +708,11 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-back') != null) {
                     ev.preventDefault();
+                    /* 「选择目标」返回不能 EXIT：GetCitySet / BattleMake 会退回将领表。 */
+                    if (isMapPickTip(state.body) || mapPickActive() || cityMenuMarching()) {
+                        closeDialog({ silent: true });
+                        return;
+                    }
                     engineSendKey(VK.EXIT);
                     closeDialog({ silent: false });
                     return;

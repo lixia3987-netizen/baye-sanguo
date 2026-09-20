@@ -167,7 +167,7 @@
 | 经典地图 + `auto/classic` | 零 HD 菜单，LCD 全屏路径不改 |
 | 根层关闭 | `BayeHdOverworld.leaveMenu()`：发 `VK_EXIT`，phase 回 `map` |
 
-点 HD 地图空白仍可关菜单（现有 overworld 行为）。出征进行中（选将 / 选粮 / GetCitySet）点地图空白**不** `leaveMenu`，避免把方向键/EXIT 打进将领表或取消 GetCitySet。
+点 HD 地图空白仍可关菜单（现有 overworld 行为）。出征进行中（选将 / 选粮 / GetCitySet）点地图空白**不** `leaveMenu`，避免把方向键/EXIT 打进将领表或取消 GetCitySet。残留 `g_hdMenuBytes`「策略结束」不当 FunctionMenu、不关出征向导。「选择目标」壳的返回不发 EXIT；点河内时若 `pick=0` 先回车再走格，避免退回将领表。
 
 ### 7.1 出征（BattleMake）与入城的区别
 

@@ -74,6 +74,8 @@
         dismissedObj: false,
         marchReady: false,
         campaignPick: false,
+        battleMake: false,
+        lastFuncMenuIdle: 0,
         handoff: false
     };
 
@@ -241,6 +243,36 @@
     }
 
     function walkCursorToCity(cityIndex, thenEnter) {
+        if (showingQty()) {
+            return { skipped: 'qty' };
+        }
+        if (!mapPickActive()) {
+            var report = reportText();
+            if (/选择目标/.test(report) || state.dismissedObj || state.campaignPick) {
+                if (!state.dismissedObj) {
+                    state.dismissedObj = true;
+                }
+                state.campaignPick = true;
+                state.battleMake = true;
+                engineSendKey(VK.ENTER);
+                setTimeout(function () {
+                    if (mapPickActive()) {
+                        walkCursorToCity(cityIndex, thenEnter);
+                        return;
+                    }
+                    if (/选择目标|我方城池|无法到达/.test(reportText())) {
+                        engineSendKey(VK.ENTER);
+                        setTimeout(function () {
+                            if (mapPickActive()) {
+                                walkCursorToCity(cityIndex, thenEnter);
+                            }
+                        }, 220);
+                    }
+                }, 220);
+                return { deferred: 'choose-target', cityIndex: cityIndex };
+            }
+            return { skipped: 'not-map-pick', cityIndex: cityIndex };
+        }
         var to = cityEngineTile(cityIndex);
         var from = readEngineCursor();
         var dirs = [];
@@ -757,7 +789,8 @@
             done.innerHTML = '<p>部队已出发 · 需「策略结束」让 PolicyExec 走军入战</p>' +
                 '<button type="button" data-hd-strategy-end>策略结束</button>';
             list.appendChild(done);
-        } else if (state.deepKind === 'person-city' && !mapPickActive()) {
+        } else if (state.deepKind === 'person-city' && !mapPickActive() &&
+            !state.campaignPick && !state.dismissedObj && !/选择目标/.test(reportText())) {
             var fin = document.createElement('div');
             fin.className = 'hd-city-menu-finish-persons';
             fin.innerHTML = '<p>已点将 ' + (state.pickedPersons || 0) +
@@ -979,7 +1012,7 @@
         state.queue = [];
         state.sending = false;
         state.marchReady = false;
-        if (!mapPickActive() && !state.handoff) {
+        if (!mapPickActive() && !state.handoff && !state.battleMake) {
             state.campaignPick = false;
         }
         render();
@@ -993,6 +1026,11 @@
             return;
         }
         if (state.layer === 'deep') {
+            if (mapPickActive() || state.campaignPick || /选择目标/.test(reportText())) {
+                /* 选目标时 HD 返回只收壳，不 EXIT，避免 GetCitySet 退回将领表。 */
+                closeMenu({ silent: true });
+                return;
+            }
             if (state.deepKind === 'person-city' && state.pickedPersons > 0 &&
                 !mapPickActive() && !showingQty() && !state.marchReady) {
                 finishPersonPick();
@@ -1004,6 +1042,8 @@
             state.deepLabel = '';
             state.deepStep = 0;
             state.idleIndex = 0;
+            state.battleMake = false;
+            state.campaignPick = false;
             enqueueKeys([VK.EXIT], 60);
             render();
             return;
@@ -1050,6 +1090,7 @@
         state.dismissedObj = false;
         state.marchReady = false;
         state.campaignPick = false;
+        state.battleMake = (state.deepKind === 'person-city' || state.deepLabel === '出征');
         state.handoff = false;
         if (global.BayeHdDialog && typeof BayeHdDialog.resetArmout === 'function') {
             BayeHdDialog.resetArmout();
@@ -1065,7 +1106,8 @@
     }
 
     function finishPersonPick() {
-        if (mapPickActive() || showingQty() || state.marchReady) {
+        if (mapPickActive() || showingQty() || state.marchReady ||
+            state.campaignPick || /选择目标/.test(reportText())) {
             return;
         }
         state.dismissedObj = false;
@@ -1147,9 +1189,15 @@
         if (state.marchReady) {
             return false;
         }
-        if (state.campaignPick) {
+        if (state.campaignPick || state.battleMake) {
             return true;
         }
+        try {
+            var report = reportText();
+            if (/选择目标/.test(report)) {
+                return true;
+            }
+        } catch (e) {}
         if (!state.open || state.layer !== 'deep') {
             return false;
         }
@@ -1189,7 +1237,11 @@
         if (!state.open || state.layer !== 'deep') {
             return;
         }
-        if (looksLikeFunctionMenu() && !state.campaignPick && !mapPickActive()) {
+        /* g_hdMenuBytes 会残留「策略结束」。出征选将/选粮/选择目标时不能当 FunctionMenu 关向导。 */
+        var liveFunc = looksLikeFunctionMenu() &&
+            (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
+        if (liveFunc && !state.campaignPick && !state.battleMake && !mapPickActive() &&
+            !showingQty() && !/选择目标/.test(reportText())) {
             closeMenu({ silent: true });
             return;
         }
@@ -1231,6 +1283,7 @@
             if (march && march.ok) {
                 state.marchReady = true;
                 state.campaignPick = false;
+                state.battleMake = false;
             }
             if (/部队已出发/.test(report)) {
                 state.campaignPick = false;
@@ -1315,8 +1368,12 @@
                     state.idleIndex = engIdle.index;
                 }
                 if (looksLikeFunctionMenu()) {
-                    closeMenu({ silent: true });
-                    return;
+                    state.lastFuncMenuIdle = Date.now();
+                    if (!state.battleMake && !state.campaignPick && !mapPickActive() &&
+                        !showingQty() && !/选择目标/.test(reportText())) {
+                        closeMenu({ silent: true });
+                        return;
+                    }
                 }
                 if (state.layer === 'deep' && engIdle.names && engIdle.names.length) {
                     state.deepSig = '';
@@ -1602,6 +1659,7 @@
                 marchReady: state.marchReady,
                 marching: isMarching(),
                 campaignPick: state.campaignPick,
+                battleMake: state.battleMake,
                 handoff: state.handoff,
                 march: engineMarch(),
                 qty: engineQty()

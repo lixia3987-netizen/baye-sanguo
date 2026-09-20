@@ -2808,8 +2808,35 @@
             BayeHdCityMenu.isMarching());
     }
 
-    function openClassicCity(index) {
+    function battleMakePending() {
         if (cityMenuMarching()) {
+            return true;
+        }
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.qty === 'function') {
+                var q = baye.hd.qty();
+                if (q && q.active) {
+                    return true;
+                }
+            }
+            if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                var m = baye.hd.march();
+                if (m && (m.pick || m.ok)) {
+                    return !!m.pick && !m.ok;
+                }
+            }
+            if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
+                var r = baye.hd.reportText() || '';
+                if (/选择目标/.test(r)) {
+                    return true;
+                }
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function openClassicCity(index) {
+        if (cityMenuMarching() || battleMakePending()) {
             state.selectedIndex = index;
             if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
                 BayeHdCityMenu.walkToCity(index, true);
@@ -2935,7 +2962,7 @@
             if (state.phase === 'classic-menu') {
                 var pickPt = eventToDesign(ev);
                 var pickIdx = pickPt ? hitCity(pickPt) : -1;
-                var marching = cityMenuMarching();
+                var marching = cityMenuMarching() || battleMakePending();
                 if (marching && pickIdx >= 0) {
                     ev.preventDefault();
                     if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
@@ -2951,7 +2978,7 @@
                 leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
                 return;
             }
-            if (cityMenuMarching()) {
+            if (cityMenuMarching() || battleMakePending()) {
                 var marchPt = eventToDesign(ev);
                 var marchIdx = marchPt ? hitCity(marchPt) : -1;
                 if (marchIdx >= 0) {
