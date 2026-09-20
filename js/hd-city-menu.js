@@ -177,7 +177,7 @@
         document.documentElement.setAttribute('data-baye-march-ok',
             (state.marchReady || freshMarchOk() || state.handoff) ? '1' : '0');
         document.documentElement.setAttribute('data-baye-wizard-step',
-            show ? (state.wizardStep || 'none') : 'none');
+            show ? (displayWizardStep() || 'none') : 'none');
         if (document.body) {
             var deepEmpty = show && state.layer === 'deep' && !showingQty() &&
                 !state.deepItems.length && !mapPickActive() && !state.marchReady;
@@ -382,7 +382,10 @@
             personExit: state.personExitSent,
             walkBusy: state.walkBusy,
             pending: state.pendingTarget,
-            token: state.confirmToken
+            token: state.confirmToken,
+            phase: engineMarchPhase(),
+            inCitySet: engineInGetCitySet(),
+            liveFood: liveGetFood()
         };
         state.step4Trace = (state.step4Trace || []).concat([row]).slice(-28);
         state.lastStep4 = row;
@@ -411,8 +414,9 @@
                 }
             }
         } catch (e) {}
-        /* leftover pick=0 + 未回车的「选择目标」仍是 ShowGReport，必须先 ENTER。 */
-        return !state.dismissedObj;
+        /* leftover pick=0 + 未回车的「选择目标」仍是 ShowGReport，必须先 ENTER。
+         * 完成选将后、GetFood 前的上月残留不能回车，否则会跳过选粮、永远进不了 GetCitySet。 */
+        return !!(state.sawQtyThisMarch && !liveGetFood() && !state.dismissedObj);
     }
 
     function firstEnemyTarget() {
@@ -442,7 +446,7 @@
             noteStep4('already-ok', { cityIndex: cityIndex, skipped: 'already-ok' });
             return { skipped: 'already-ok', cityIndex: cityIndex };
         }
-        if (leftoverQtyFlag()) {
+        if (leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
             noteStep4('clear-leftover-qty', { cityIndex: cityIndex });
         }
@@ -452,19 +456,15 @@
             render();
             return { skipped: 'qty', cityIndex: cityIndex };
         }
-        if (state.wizardStep === 'persons') {
+        if (state.wizardStep === 'persons' && !state.personExitSent) {
             state.marchHint = '先点至少一名将领，再点「完成选将 · 选粮出发」，不要直接点目标城。';
             noteStep4('skip-persons', { cityIndex: cityIndex, skipped: 'wizard-persons' });
             render();
             return { skipped: 'wizard-persons', cityIndex: cityIndex, hint: state.marchHint };
         }
-        markTargetSelected(cityIndex);
         state.campaignPick = true;
         state.battleMake = true;
         state.acceptMarchOk = true;
-        if (state.wizardStep === 'food' && state.personExitSent) {
-            advanceWizard('target-tip', 'confirm-food-done');
-        }
         if (!opts.resume) {
             state.confirmToken = (state.confirmToken || 0) + 1;
             state.walkBusy = false;
@@ -501,6 +501,28 @@
             }, ms || 220);
         }
 
+        if (!engineInGetCitySet()) {
+            var driven = driveFoodToCitySet('confirm-need-city-set');
+            var phase = engineMarchPhase();
+            var m0 = engineMarch();
+            var mc0 = engineMapCityIndex();
+            state.pendingTarget = null;
+            state.marchHint = 'UI 步骤4 ≠ 引擎 GetCitySet。' + marchDebugLine() +
+                '。河内确认已拒绝，先把粮草交到 pick=1。';
+            noteStep4('refuse-no-city-set', {
+                cityIndex: cityIndex,
+                attempt: attempt,
+                skipped: (driven && driven.deferred) || phase
+            });
+            render();
+            if (driven && driven.deferred) {
+                again(280, driven.deferred);
+                return { deferred: driven.deferred, cityIndex: cityIndex, phase: phase, pick: !!(m0 && m0.pick), mapCity: mc0 };
+            }
+            again(300, 'no-city-set');
+            return { skipped: 'no-city-set', cityIndex: cityIndex, phase: phase, pick: !!(m0 && m0.pick), mapCity: mc0 };
+        }
+        markTargetSelected(cityIndex);
         if (waitingArmout()) {
             noteStep4('armout', { cityIndex: cityIndex, attempt: attempt });
             dismissLiveArmout();
@@ -564,7 +586,7 @@
         if (state.marchReady) {
             return { skipped: 'already-ok' };
         }
-        if (leftoverQtyFlag()) {
+        if (leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
         }
         if (liveQty()) {
@@ -881,7 +903,10 @@
     }
 
     function liveChooseTarget() {
-        if (!state.personExitSent || showingQty() || mapPickActive()) {
+        if (!state.personExitSent || showingQty() || mapPickActive() || liveGetFood()) {
+            return false;
+        }
+        if (!state.sawQtyThisMarch) {
             return false;
         }
         if (state.wizardStep === 'persons') {
@@ -938,34 +963,136 @@
     }
 
     function leftoverOverworldPick() {
-        /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。选将/选粮时 pick=1 是残留。 */
-        return mapPickActive() && !state.sawQtyThisMarch && !state.dismissedObj &&
-            state.wizardStep !== 'map-pick' && state.wizardStep !== 'target-tip' &&
-            !liveChooseTarget();
+        /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。选粮之前 pick=1 是残留。 */
+        return mapPickActive() && !state.sawQtyThisMarch;
+    }
+
+    function liveGetFood() {
+        var q = engineQty();
+        /* 活着的出征 GetFood 与 leftover pick 无关：min 恒 ≥1。不能因 wizard / 选择目标文本清掉。 */
+        return !!(state.battleMake && state.personExitSent && q && q.active &&
+            Number(q.min) >= 1);
+    }
+
+    function engineInGetCitySet() {
+        if (liveGetFood()) {
+            return false;
+        }
+        return !!(mapPickActive() && state.sawQtyThisMarch && !leftoverOverworldPick());
+    }
+
+    function displayWizardStep() {
+        var phase = engineMarchPhase();
+        var map = {
+            'march-ok': 'march-ok',
+            'get-city-set': 'map-pick',
+            'armout': 'march-ok',
+            'get-food': 'food',
+            'choose-target': 'target-tip',
+            'persons': 'persons',
+            'wait-get-food': 'food',
+            'wait-get-city-set': 'target-tip'
+        };
+        return map[phase] || state.wizardStep || 'none';
+    }
+
+    function pullWizardToEngine() {
+        var shown = displayWizardStep();
+        if ((WIZARD_ORDER[state.wizardStep] || 0) > (WIZARD_ORDER[shown] || 0)) {
+            setWizardStep(shown, 'pull-to-engine-' + engineMarchPhase());
+        }
+    }
+
+    function marchDebugLine() {
+        var m = engineMarch();
+        var q = engineQty();
+        var mc = engineMapCityIndex();
+        var mcName = mc >= 0 ? (cityName(mc) || '') : '';
+        return 'pick=' + ((m && m.pick) ? 1 : 0) +
+            ' mapCity=' + (mc < 0 ? '—' : mc) +
+            (mcName ? '(' + mcName + ')' : '') +
+            ' phase=' + engineMarchPhase() +
+            ' qty=' + ((q && q.active) ? (String(q.min) + '-' + String(q.value)) : '0') +
+            ' ui=' + (state.wizardStep || 'none');
+    }
+
+    function engineMarchPhase() {
+        if (freshMarchOk() || state.marchReady) {
+            return 'march-ok';
+        }
+        if (engineInGetCitySet()) {
+            return 'get-city-set';
+        }
+        if (waitingArmout()) {
+            return 'armout';
+        }
+        if (liveGetFood()) {
+            return 'get-food';
+        }
+        if (state.personExitSent && leftoverChooseTarget(liveEngineReport()) &&
+            state.sawQtyThisMarch && !mapPickActive()) {
+            return 'choose-target';
+        }
+        if (!state.personExitSent) {
+            return 'persons';
+        }
+        if (!state.sawQtyThisMarch) {
+            return 'wait-get-food';
+        }
+        return 'wait-get-city-set';
     }
 
     function liveTargetStep() {
-        return state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
-            !!(state.personExitSent && state.campaignPick && state.wizardStep !== 'persons');
+        return engineInGetCitySet();
     }
 
     /* GetCitySet 已返回，引擎停在 ShowConstStrMsg(部队已出发)，AddFightOrder 还没跑。 */
     function waitingArmout() {
-        if (freshMarchOk() || state.marchReady || mapPickActive() || showingQty()) {
+        if (freshMarchOk() || state.marchReady || mapPickActive() || showingQty() || liveGetFood()) {
             return false;
         }
-        if (!state.personExitSent || state.wizardStep === 'persons') {
+        if (!state.personExitSent || !state.sawQtyThisMarch) {
             return false;
         }
-        return leftoverMarchReport(liveEngineReport()) && liveTargetStep();
+        return leftoverMarchReport(liveEngineReport());
     }
 
     function usesMapCursor(kind, step) {
-        /* GetCitySet 打开前不要画城列表。过图 leftover pick=1 不是出征目标。 */
-        if (waitingArmout() || liveTargetStep()) {
-            return true;
+        /* 只有引擎真在 GetCitySet（pick=1）才画城列表。向导步骤不够。 */
+        return !!(waitingArmout() || engineInGetCitySet());
+    }
+
+    function driveFoodToCitySet(why) {
+        if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
+            return { ok: true, phase: engineMarchPhase() };
         }
-        return mapPickActive() && !leftoverOverworldPick();
+        if (liveGetFood()) {
+            noteStep4('drive-food-enter', { skipped: why || 'food' });
+            engineSendKey(VK.ENTER, 'qty-ok');
+            state.sawQtyThisMarch = true;
+            state.qtyDismissed = true;
+            advanceWizard('food', 'drive-food');
+            scheduleMarchWatch();
+            return { deferred: 'food-enter', phase: 'get-food' };
+        }
+        var q = engineQty();
+        if (q && q.active && leftoverQtyFlag()) {
+            clearLeftoverQtyFlag();
+            return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
+        }
+        if (state.personExitSent && state.sawQtyThisMarch && !mapPickActive() &&
+            leftoverChooseTarget(liveEngineReport())) {
+            state.dismissedObj = true;
+            noteStep4('drive-tip-enter', { skipped: why || 'tip' });
+            engineSendKey(VK.ENTER);
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            advanceWizard('target-tip', 'drive-tip');
+            scheduleMarchWatch();
+            return { deferred: 'tip-enter', phase: 'choose-target' };
+        }
+        return { ok: false, phase: engineMarchPhase() };
     }
 
     function usesGoodsMenu(kind, step) {
@@ -986,6 +1113,10 @@
         if (!(q && q.active)) {
             return false;
         }
+        /* 活着的出征 GetFood（min≥1）绝不当残留。向导/选择目标/qtyDismissed 不能清掉它。 */
+        if (liveGetFood()) {
+            return false;
+        }
         if (state.qtyDismissed) {
             return true;
         }
@@ -996,17 +1127,10 @@
         if (state.battleMake && !state.personExitSent) {
             return true;
         }
-        if (state.battleMake && state.personExitSent && Number(q.min) === 0) {
+        if (state.battleMake && Number(q.min) === 0) {
             return true;
         }
-        if (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
-            state.wizardStep === 'march-ok') {
-            return true;
-        }
-        if (mapPickActive() && !leftoverOverworldPick()) {
-            return true;
-        }
-        if (state.personExitSent && leftoverChooseTarget(liveEngineReport())) {
+        if (engineInGetCitySet()) {
             return true;
         }
         return false;
@@ -1064,20 +1188,25 @@
         engineSendKey(VK.ENTER, 'qty-ok');
         state.qtyDismissed = true;
         state.qtyDismissedAt = Date.now();
+        if (state.battleMake && state.personExitSent) {
+            state.sawQtyThisMarch = true;
+            advanceWizard('food', 'commit-qty');
+        }
         setTimeout(function () {
-            if (liveQty()) {
+            if (liveGetFood() || liveQty()) {
                 engineSendKey(VK.ENTER, 'qty-ok');
             }
             setTimeout(function () {
-                if (engineQty() && engineQty().active) {
+                if (engineQty() && engineQty().active && leftoverQtyFlag()) {
                     clearLeftoverQtyFlag();
                 }
                 if (global.BayeHdDialog && typeof BayeHdDialog.closeQty === 'function') {
                     BayeHdDialog.closeQty();
                 }
+                driveFoodToCitySet('commit-qty');
                 scheduleMarchWatch();
                 render();
-            }, 120);
+            }, 160);
         }, 80);
     }
 
@@ -1529,6 +1658,9 @@
             ':' + (state.personExitSent ? 'pex' : '') +
             ':' + (state.acceptMarchOk ? 'acc' : '') +
             ':' + (state.wizardStep || '') +
+            ':' + displayWizardStep() +
+            ':' + engineMarchPhase() +
+            ':' + (engineInGetCitySet() ? 'gcs' : '') +
             ':' + (state.marchHint || '') +
             ':' + (state.pendingTarget == null ? '' : state.pendingTarget) +
             ':' + state.deepItems.map(function (it) {
@@ -1542,23 +1674,39 @@
         list.innerHTML = '';
         var i;
         if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
+            var shownStep = displayWizardStep();
             var qtySteps = document.createElement('div');
             qtySteps.className = 'hd-city-menu-wizard';
-            qtySteps.setAttribute('data-hd-wizard', state.wizardStep);
+            qtySteps.setAttribute('data-hd-wizard', shownStep);
+            qtySteps.setAttribute('data-hd-engine-phase', engineMarchPhase());
             var wizardKeys = ['persons', 'food', 'target-tip', 'map-pick', 'march-ok'];
             var wizardBits = [];
             var wi;
             for (wi = 0; wi < wizardKeys.length; wi++) {
                 var wKey = wizardKeys[wi];
                 wizardBits.push('<span class="hd-city-menu-wizard-step' +
-                    (wKey === state.wizardStep ? ' is-current' : '') +
+                    (wKey === shownStep ? ' is-current' : '') +
                     '" data-hd-wizard-step="' + wKey + '">' +
                     WIZARD_LABEL[wKey] + '</span>');
             }
             qtySteps.innerHTML = wizardBits.join('<span class="hd-city-menu-wizard-sep">→</span>') +
-                (state.wizardStep === 'persons' ? '<span class="hd-city-menu-wizard-extra">已点 ' +
-                    (state.pickedPersons || 0) + ' 人</span>' : '');
+                (shownStep === 'persons' ? '<span class="hd-city-menu-wizard-extra">已点 ' +
+                    (state.pickedPersons || 0) + ' 人</span>' : '') +
+                '<span class="hd-city-menu-wizard-debug" data-hd-march-debug="1">' +
+                marchDebugLine() + '</span>';
             list.appendChild(qtySteps);
+            if (!engineInGetCitySet() && (state.wizardStep === 'map-pick' ||
+                state.pendingTarget != null || shownStep === 'target-tip' || shownStep === 'food')) {
+                var mismatch = document.createElement('div');
+                mismatch.className = 'hd-city-menu-march-hint';
+                mismatch.setAttribute('data-hd-cityset-mismatch', '1');
+                mismatch.textContent = engineInGetCitySet()
+                    ? ''
+                    : ('引擎未打开 GetCitySet，不能确认河内。' + marchDebugLine());
+                if (mismatch.textContent) {
+                    list.appendChild(mismatch);
+                }
+            }
         }
         if (showingQty()) {
             var bar = document.createElement('div');
@@ -1787,7 +1935,11 @@
                         ? '目标城池（方向键对齐引擎光标）'
                         : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物')));
             if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
-                stepHint = '出征步骤 ' + WIZARD_LABEL[state.wizardStep];
+                var shownHint = displayWizardStep();
+                stepHint = '出征步骤 ' + (WIZARD_LABEL[shownHint] || WIZARD_LABEL[state.wizardStep]);
+                if (!engineInGetCitySet() && (shownHint === 'map-pick' || state.wizardStep === 'map-pick')) {
+                    stepHint += ' · 引擎未 GetCitySet';
+                }
             }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
@@ -2482,7 +2634,7 @@
         if (state.handoff) {
             return;
         }
-        if (leftoverQtyFlag()) {
+        if (leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
         }
         if (!state.open || state.layer !== 'deep') {
@@ -2500,15 +2652,13 @@
         var qty = engineQty();
         var march = engineMarch();
         var report = reportText();
+        if (qty && qty.active && leftoverQtyFlag() && !liveGetFood()) {
+            clearLeftoverQtyFlag();
+        }
         if (qty && qty.active && state.battleMake && state.personExitSent && !leftoverQtyFlag()) {
             state.sawQtyThisMarch = true;
             advanceWizard('food', 'qty-active');
             state.deepSig = '';
-            render();
-            return;
-        }
-        if (qty && qty.active && leftoverQtyFlag()) {
-            clearLeftoverQtyFlag();
         }
         var liveAbort = liveEngineReport();
         if (wizardInMarch() &&
@@ -2521,6 +2671,16 @@
             render();
             return;
         }
+        if (state.personExitSent && !engineInGetCitySet() && !state.marchReady && !freshMarchOk()) {
+            var driven = driveFoodToCitySet('sync');
+            if (driven && driven.deferred) {
+                pullWizardToEngine();
+                scheduleMarchWatch();
+                render();
+                return;
+            }
+        }
+        pullWizardToEngine();
         if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive() && liveChooseTarget()) {
             advanceWizard('target-tip', 'sync-food-done');
         }
@@ -2547,20 +2707,7 @@
             scheduleMarchWatch();
             return;
         }
-        /* Leftover 选择目标 from last month / last city must not ENTER during 选将. */
-        if (!state.dismissedObj && liveChooseTarget()) {
-            state.dismissedObj = true;
-            state.campaignPick = true;
-            advanceWizard('target-tip', 'sync-live-tip');
-            enqueueKeys([VK.ENTER], 80);
-            setTimeout(function () {
-                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                    BayeHdDialog.close({ silent: true });
-                }
-            }, 120);
-            scheduleMarchWatch();
-            return;
-        }
+        /* leftover 选择目标 只在选粮之后经 driveFoodToCitySet 回车，避免跳过 GetFood。 */
         if (dismissLiveArmout()) {
             scheduleMarchWatch();
             render();
@@ -2574,15 +2721,15 @@
             scheduleMarchWatch();
             return;
         }
-        if (mapPickActive() && (state.sawQtyThisMarch || state.dismissedObj ||
-            state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick' ||
-            leftoverChooseTarget(liveEngineReport()))) {
+        if (engineInGetCitySet()) {
             state.campaignPick = true;
             state.acceptMarchOk = true;
             advanceWizard('map-pick', 'sync-pick');
             if (!(march && march.ok)) {
                 state.sawMarchCleared = true;
             }
+        } else if (state.wizardStep === 'map-pick') {
+            pullWizardToEngine();
         }
         if (mapPickActive() || freshMarchOk()) {
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
@@ -2616,13 +2763,22 @@
 
     function chooseDeep(index) {
         var item = state.deepItems[index];
-        if (leftoverQtyFlag()) {
+        if (leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
         }
         if (state.marchReady || freshMarchOk()) {
             return;
         }
         if (item && item.cityIndex != null && state.wizardStep !== 'persons' && !liveQty()) {
+            if (!engineInGetCitySet()) {
+                var driven = driveFoodToCitySet('choose-deep');
+                state.pendingTarget = null;
+                state.marchHint = '引擎未打开 GetCitySet。' + marchDebugLine() +
+                    '。点河内已拒绝，先确认粮草。';
+                noteStep4('refuse-choose-deep', { cityIndex: item.cityIndex, skipped: engineMarchPhase() });
+                render();
+                return driven;
+            }
             confirmMarchTarget(item.cityIndex);
             return;
         }
@@ -3069,6 +3225,12 @@
                 leftoverPick: leftoverOverworldPick(),
                 leftoverQty: leftoverQtyFlag(),
                 liveQty: liveQty(),
+                liveGetFood: liveGetFood(),
+                engineInGetCitySet: engineInGetCitySet(),
+                enginePhase: engineMarchPhase(),
+                displayWizard: displayWizardStep(),
+                mapCity: engineMapCityIndex(),
+                debug: marchDebugLine(),
                 qtyDismissed: state.qtyDismissed,
                 reportAtMarchStart: state.reportAtMarchStart,
                 march: engineMarch(),
@@ -3093,7 +3255,12 @@
         leftoverOverworldPick: leftoverOverworldPick,
         waitingArmout: waitingArmout,
         liveTargetStep: liveTargetStep,
+        engineInGetCitySet: engineInGetCitySet,
+        engineMarchPhase: engineMarchPhase,
+        liveGetFood: liveGetFood,
+        driveFoodToCitySet: driveFoodToCitySet,
         wizardStep: function () { return state.wizardStep; },
+        displayWizardStep: displayWizardStep,
         goStrategyEnd: goStrategyEnd,
         handoffAt: function () { return state.handoffAt || 0; },
         consumeLeftoverMarch: consumeLeftoverMarch,
