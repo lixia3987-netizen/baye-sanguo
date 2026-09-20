@@ -36,7 +36,8 @@
 | **M0** | 根菜单四钮 + 按键回传 + LCD 可藏/对照 + 与 overworld `classic-menu` 接线 | 已做 |
 | **M1** | 可读现代面板：城名标题、四块大操作、返回=`VK_EXIT`；一层子列表（至少内政 / 军备） | 已做 |
 | **M2** | 外交列表、军备全表、状况只列探测字段、`onMenuIdle` `ctx.index` 高亮 | 已做 |
-| **M3** | 人物/目标城 HD 列表（本城 PersonQueue / 其它城名）；数量仍框 LCD | 部分 |
+| **M3** | 人物/目标城 HD 列表（本城 PersonQueue / 其它城名）；数量仍框 LCD | 已做 |
+| **出征** | BattleMake：点将 → EXIT 完成选将 → 粮草 → 「选择目标」→ GetCitySet 走格 → 部队已出发 → 策略结束 | 已做 |
 
 系统界面见 [hd-system-ui-spec.md](hd-system-ui-spec.md)。战场见 [hd-battle-spec.md](hd-battle-spec.md)。
 
@@ -166,7 +167,26 @@
 | 经典地图 + `auto/classic` | 零 HD 菜单，LCD 全屏路径不改 |
 | 根层关闭 | `BayeHdOverworld.leaveMenu()`：发 `VK_EXIT`，phase 回 `map` |
 
-点 HD 地图空白仍可关菜单（现有 overworld 行为）。
+点 HD 地图空白仍可关菜单（现有 overworld 行为）。出征进行中（选将 / 选粮 / GetCitySet）点地图空白**不** `leaveMenu`，避免把方向键/EXIT 打进将领表或取消 GetCitySet。
+
+### 7.1 出征（BattleMake）与入城的区别
+
+入城：`ShowCityMap` ENTER，`g_hdMapPick` 1→0 后开 OrderMenu。
+
+出征不是点城就开目标列表。引擎顺序（`citycmdd.c` `BattleMake`）：
+
+1. `ShowPersonControl` 循环：ENTER 加点将，**EXIT**（`0xffff`）结束选将；零将则取消。
+2. `GetFood` / `NumOperate`（`g_hdQtyActive`）。
+3. `ShowGReport`「选择目标」→ 回车关掉。
+4. `baye_hd_set_city_links` + `GetCitySet`（`g_hdMapPick=1`）在**地图上**走格到敌邻城。
+5. `AttackCityRoad` 可达则「部队已出发」+ `AddFightOrder`（`g_hdMarchOk=1`）。己方城 / 不可达会提示并继续选。
+
+HD 曾在点第一名将领后就把 `person-city` 当成目标城列表（`usesMapCursor` 在 `deepStep===1` 画全部他城），走格键打进将领表，**从未 EXIT、从未 GetFood、从未 GetCitySet**。现在：
+
+- `usesMapCursor` **只**认 `g_hdMapPick`。
+- 点将后留在将领表；「完成选将 · 选粮出发」发 EXIT。
+- 见到「选择目标」自动回车；`mapPick=1` 才画邻城并 `walkCursorToCity`（`setx/sety`，不是 china-lcc）。
+- 「部队已出发」后「策略结束」：关掉报告 → EXIT×2 出城菜单/地图 → FunctionMenu。战斗要等 `PolicyExec` 按 `TimeCount` 月推进，不是当场开战。
 
 ---
 
@@ -192,3 +212,4 @@
 5. `overworldMode=classic` 不出现 HD 菜单强迫。
 6. 不改 WASM / `dat.lib`。
 7. M3：一层之后尽量出本城人物 / 目标城 HD 列表；数量与对不上的顺序仍框 LCD。
+8. 出征：天水 → 军备 → 出征 → 点将 → 完成选将 → 粮草 → 地图点河内等敌邻 → 「部队已出发」→ 策略结束 → 月推进后进入战场。

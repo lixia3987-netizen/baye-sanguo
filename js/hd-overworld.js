@@ -2907,11 +2907,18 @@
             if (state.phase === 'classic-menu') {
                 var pickPt = eventToDesign(ev);
                 var pickIdx = pickPt ? hitCity(pickPt) : -1;
+                var marching = global.BayeHdCityMenu &&
+                    typeof BayeHdCityMenu.isMarching === 'function' &&
+                    BayeHdCityMenu.isMarching();
                 if (readMapPick() && pickIdx >= 0) {
                     ev.preventDefault();
                     if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
                         BayeHdCityMenu.walkToCity(pickIdx, true);
                     }
+                    return;
+                }
+                if (marching) {
+                    ev.preventDefault();
                     return;
                 }
                 ev.preventDefault();

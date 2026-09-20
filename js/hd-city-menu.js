@@ -69,7 +69,10 @@
         deepStep: 0,
         deepItems: [],
         deepSig: '',
-        walkToken: 0
+        walkToken: 0,
+        pickedPersons: 0,
+        dismissedObj: false,
+        marchReady: false
     };
 
     function readStorage(key, fallback) {
@@ -123,11 +126,15 @@
         var show = state.open && shouldShowHd();
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
+        document.documentElement.setAttribute('data-baye-city-menu-map-pick',
+            (show && mapPickActive()) ? '1' : '0');
         if (document.body) {
-            var deepEmpty = show && state.layer === 'deep' && !showingQty() && !state.deepItems.length;
+            var deepEmpty = show && state.layer === 'deep' && !showingQty() &&
+                !state.deepItems.length && !mapPickActive() && !state.marchReady;
             document.body.classList.toggle('baye-hd-city-menu-on', show);
             document.body.classList.toggle('baye-hd-city-menu-lcd', show && state.showLcd);
             document.body.classList.toggle('baye-hd-city-menu-deep-empty', deepEmpty);
+            document.body.classList.toggle('baye-hd-city-menu-map-pick', show && mapPickActive());
         }
     }
 
@@ -317,8 +324,23 @@
         return { from: from, to: to, keys: dirs.length + (thenEnter !== false ? 1 : 0) };
     }
 
+    function engineMarch() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                return baye.hd.march();
+            }
+        } catch (e) {}
+        return { pick: 0, ok: 0, mapCity: 0 };
+    }
+
+    function mapPickActive() {
+        var m = engineMarch();
+        return !!(m && m.pick);
+    }
+
     function usesMapCursor(kind, step) {
-        return kind === 'city' || (kind === 'person-city' && step === 1);
+        /* GetCitySet 打开前不要画城列表。出征先选将、再选粮，点城会把方向键打进将领表。 */
+        return mapPickActive();
     }
 
     function usesGoodsMenu(kind, step) {
@@ -675,7 +697,11 @@
         }
         state.deepItems = probeDeepItems();
         var liveQty = engineQty();
+        var march = engineMarch();
         var sig = (showingQty() ? 'qty:' + (liveQty && liveQty.value) : state.deepKind + ':' + state.deepStep) +
+            ':' + (state.pickedPersons || 0) +
+            ':' + (mapPickActive() ? 'pick' : '') +
+            ':' + ((march && march.ok) || state.marchReady ? 'ok' : '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
             }).join(',');
@@ -718,7 +744,28 @@
             list.appendChild(bar);
             return;
         }
-        if (!state.deepItems.length) {
+        if ((march && march.ok) || state.marchReady) {
+            var done = document.createElement('div');
+            done.className = 'hd-city-menu-march-ok';
+            done.innerHTML = '<p>部队已出发 · 需「策略结束」让 PolicyExec 走军入战</p>' +
+                '<button type="button" data-hd-strategy-end>策略结束</button>';
+            list.appendChild(done);
+        } else if (state.deepKind === 'person-city' && !mapPickActive()) {
+            var fin = document.createElement('div');
+            fin.className = 'hd-city-menu-finish-persons';
+            fin.innerHTML = '<p>已点将 ' + (state.pickedPersons || 0) +
+                ' 人 · EXIT 结束选将，再选粮、选目标城</p>' +
+                '<button type="button" data-hd-finish-persons>完成选将 · 选粮出发</button>';
+            list.appendChild(fin);
+        }
+        if (mapPickActive()) {
+            var hint = document.createElement('div');
+            hint.className = 'hd-city-menu-map-hint';
+            hint.textContent = '选择目标：点邻城或点大地图高亮城（走引擎格，不是 china-lcc 像素）。';
+            list.appendChild(hint);
+        }
+        if (!state.deepItems.length && !((march && march.ok) || state.marchReady) &&
+            !(state.deepKind === 'person-city' && !mapPickActive())) {
             var empty = document.createElement('div');
             empty.className = 'hd-city-menu-deep-empty';
             empty.textContent = '还没有读到人物/城池名单。右侧放大的经典 LCD 是引擎当前列表；名单一对上就收起对照。';
@@ -831,9 +878,11 @@
         } else if (state.layer === 'deep') {
             var stepHint = showingQty()
                 ? '数量'
-                : (usesMapCursor(state.deepKind, state.deepStep)
-                    ? '目标城池（方向键对齐引擎光标）'
-                    : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物'));
+                : ((state.marchReady || (engineMarch() && engineMarch().ok))
+                    ? '部队已出发'
+                    : (usesMapCursor(state.deepKind, state.deepStep)
+                        ? '目标城池（方向键对齐引擎光标）'
+                        : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物')));
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
             hideAllLayers();
@@ -932,6 +981,11 @@
             return;
         }
         if (state.layer === 'deep') {
+            if (state.deepKind === 'person-city' && state.pickedPersons > 0 &&
+                !mapPickActive() && !showingQty() && !state.marchReady) {
+                finishPersonPick();
+                return;
+            }
             state.closingSub = true;
             state.layer = 'sub';
             state.deepKind = '';
@@ -980,6 +1034,9 @@
         state.layer = 'deep';
         state.idleIndex = 0;
         state.deepSig = '';
+        state.pickedPersons = 0;
+        state.dismissedObj = false;
+        state.marchReady = false;
         state.showLcd = false;
         applyDocAttr();
         var lcdBtn = document.querySelector('[data-hd-menu-lcd]');
@@ -987,17 +1044,124 @@
             lcdBtn.textContent = '经典 LCD';
         }
         render();
+        scheduleMarchWatch();
+    }
+
+    function finishPersonPick() {
+        if (mapPickActive() || showingQty() || state.marchReady) {
+            return;
+        }
+        state.dismissedObj = false;
+        enqueueKeys([VK.EXIT], 70);
+        scheduleMarchWatch();
+    }
+
+    function goStrategyEnd() {
+        var report = reportText();
+        closeMenu({ silent: true });
+        function leaveToFunctionMenu() {
+            engineSendKey(VK.EXIT);
+            setTimeout(function () {
+                engineSendKey(VK.EXIT);
+            }, 220);
+        }
+        if (/部队已出发|选择目标/.test(report)) {
+            engineSendKey(VK.ENTER);
+            setTimeout(leaveToFunctionMenu, 220);
+        } else {
+            leaveToFunctionMenu();
+        }
+    }
+
+    function isMarching() {
+        if (mapPickActive()) {
+            return true;
+        }
+        if (!state.open || state.layer !== 'deep') {
+            return false;
+        }
+        return state.deepKind === 'person-city' || state.deepLabel === '出征' || !!state.marchReady;
+    }
+
+    function reportText() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
+                return baye.hd.reportText() || '';
+            }
+        } catch (e) {}
+        return '';
+    }
+
+    function looksLikeFunctionMenu() {
+        var names = engineMenuItems().names || [];
+        return names[0] === '策略结束';
+    }
+
+    function syncMarchPhase() {
+        if (!state.open || state.layer !== 'deep') {
+            return;
+        }
+        if (looksLikeFunctionMenu()) {
+            closeMenu({ silent: true });
+            return;
+        }
+        var qty = engineQty();
+        var march = engineMarch();
+        var report = reportText();
+        if (qty && qty.active) {
+            state.deepSig = '';
+            render();
+            return;
+        }
+        if (!state.dismissedObj && /选择目标/.test(report) && !mapPickActive()) {
+            state.dismissedObj = true;
+            enqueueKeys([VK.ENTER], 80);
+            scheduleMarchWatch();
+            return;
+        }
+        if (mapPickActive() || (march && march.ok)) {
+            if (march && march.ok) {
+                state.marchReady = true;
+            }
+            state.deepSig = '';
+            render();
+        }
+    }
+
+    function scheduleMarchWatch() {
+        [80, 200, 400, 700, 1100, 1600, 2200, 3200].forEach(function (ms) {
+            setTimeout(function () {
+                syncMarchPhase();
+            }, ms);
+        });
     }
 
     function chooseDeep(index) {
+        if (showingQty()) {
+            return;
+        }
+        var liveMarch = engineMarch();
+        if (liveMarch && liveMarch.ok) {
+            return;
+        }
         var item = state.deepItems[index];
         if (usesMapCursor(state.deepKind, state.deepStep) && item && item.cityIndex != null) {
             walkCursorToCity(item.cityIndex, true);
+            scheduleMarchWatch();
             return;
         }
         pickIndex(index, true);
-        if ((state.deepKind === 'person-city' || state.deepKind === 'person-goods' ||
-            state.deepKind === 'person-qty') &&
+        if (state.deepKind === 'person-city' && !mapPickActive() && !showingQty()) {
+            state.pickedPersons += 1;
+            state.deepSig = '';
+            setTimeout(function () {
+                if (state.open && state.layer === 'deep') {
+                    fillDeepList();
+                }
+            }, 220);
+            return;
+        }
+        if ((state.deepKind === 'person-goods' || state.deepKind === 'person-qty') &&
             state.deepStep === 0) {
             state.deepStep = 1;
             state.idleIndex = 0;
@@ -1016,6 +1180,7 @@
                 }
             }, 80);
         }
+        scheduleMarchWatch();
     }
 
     function onEngineHook(name, ctx) {
@@ -1036,6 +1201,10 @@
                 if (engIdle.index != null) {
                     state.idleIndex = engIdle.index;
                 }
+                if (looksLikeFunctionMenu()) {
+                    closeMenu({ silent: true });
+                    return;
+                }
                 if (state.layer === 'deep' && engIdle.names && engIdle.names.length) {
                     state.deepSig = '';
                     fillDeepList();
@@ -1049,10 +1218,15 @@
                     applyRootLabels();
                     applyHighlight();
                 }
+                syncMarchPhase();
             }
             if (!state.probed && keys.length) {
                 console.log('[hd-city-menu] hook ctx', name, keys, ctx);
             }
+        }
+        if (looksLikeFunctionMenu() && state.open) {
+            closeMenu({ silent: true });
+            return;
         }
         if (!state.open) {
             return;
@@ -1126,10 +1300,23 @@
                     }
                     return;
                 }
+                if (t.getAttribute && t.getAttribute('data-hd-finish-persons') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    finishPersonPick();
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-strategy-end') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    goStrategyEnd();
+                    return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-qty-ok') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
                     enqueueKeys([VK.ENTER], 60);
+                    scheduleMarchWatch();
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {
@@ -1235,6 +1422,7 @@
             if (!(state.open && state.layer === 'deep')) {
                 return;
             }
+            syncMarchPhase();
             if (showingQty()) {
                 fillDeepList();
                 var node = el('hd-city-qty-val');
@@ -1248,7 +1436,9 @@
                 state.deepKind === 'person' ||
                 state.deepKind === 'person-goods' ||
                 state.deepKind === 'person-qty' ||
-                (state.deepKind === 'person-city' && state.deepStep === 0)) {
+                state.deepKind === 'person-city' ||
+                mapPickActive() ||
+                state.marchReady) {
                 fillDeepList();
             }
         }, 200);
@@ -1268,8 +1458,9 @@
         back: back,
         onEngineHook: onEngineHook,
         onMapPick: function () {
-            if (state.open && state.layer === 'deep' && usesMapCursor(state.deepKind, state.deepStep)) {
+            if (state.open && state.layer === 'deep') {
                 state.deepSig = '';
+                applyDocAttr();
                 fillDeepList();
             }
         },
@@ -1292,9 +1483,18 @@
                 deepKind: state.deepKind,
                 deepLabel: state.deepLabel,
                 deepCount: state.deepItems.length,
-                deepItems: state.deepItems.slice(0, 20)
+                deepItems: state.deepItems.slice(0, 20),
+                pickedPersons: state.pickedPersons,
+                dismissedObj: state.dismissedObj,
+                marchReady: state.marchReady,
+                marching: isMarching(),
+                march: engineMarch(),
+                qty: engineQty()
             };
         },
-        walkToCity: walkCursorToCity
+        walkToCity: walkCursorToCity,
+        isMarching: isMarching,
+        finishPersons: finishPersonPick,
+        goStrategyEnd: goStrategyEnd
     };
 })(window);

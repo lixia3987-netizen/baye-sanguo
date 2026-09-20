@@ -352,12 +352,25 @@
         enqueueKeys(keys, 55);
     }
 
+    function liveMenuNames() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
+                return (baye.hd.menuItems().names || []);
+            }
+        } catch (e) {}
+        return [];
+    }
+
     function inferScreen() {
+        var names = liveMenuNames();
+        if (names[0] === '策略结束') {
+            return 'insystem';
+        }
         var king = playerKingId();
         var belong = citiesHaveBelong();
         if (king != null && belong) {
-            if (state.screen === 'insystem' || state.screen === 'saveload') {
-                return state.screen;
+            if (state.screen === 'saveload') {
+                return 'saveload';
             }
             return null;
         }
@@ -764,6 +777,8 @@
                     return;
                 }
                 if (!playerKingId() || state.screen === 'insystem' || state.screen === 'saveload') {
+                    refresh();
+                } else if (liveMenuNames()[0] === '策略结束') {
                     refresh();
                 } else if (state.open) {
                     refresh();

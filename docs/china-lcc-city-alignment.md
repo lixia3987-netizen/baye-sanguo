@@ -86,3 +86,5 @@ y = y_svg / 1654 * 3309
 LCC 的 `hdX/hdY` 只用来画/点选。`GetCitySet` 的 ENTER 认的是 **C_MAP 格**（`g_CityPos.setx/sety`，西凉 1,0 / 安定 2,1 / 天水 3,2），且光标必须在 LCD 视口内，`ShowCityMap` 才返回城号。
 
 曾把 `guessCurrentCity` / 残留 `engineCursorIndex` 当成「已在天水」，或把视口 `g_CityPos.x/y` 当成光标，或卡格时发 `VK_EXIT`。结果 ENTER 打在空格/邻城（河内等），`OrderMenu` 不开，日志 `align menu-timeout`。HD 现在只认 `setx/sety` 与 `g_hdMapCity`，等格真的走完再回车。
+
+出征目标城也走同一套格对齐，但必须先走完 BattleMake 前半：点将 → EXIT 完成选将 → 粮草 → 「选择目标」回车，`g_hdMapPick=1` 之后才能点邻城。未到 GetCitySet 就画城列表，方向键会打进将领表。
