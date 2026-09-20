@@ -254,6 +254,7 @@ P1 已实现：
 - 城名：`getCityName(i)`，20px 暗底+描边，纵向避让
 - 悬停：浅色描边；菜单期关掉 HD 命中；点地图空白或关菜单后壳再接管
 - 点城：已在目标**格**（`setx/sety` 或 `g_hdMapCity`）才发 `VK_ENTER`。跨城按引擎格走方向键，等 `setx/sety` 变了再下一步；卡住只重发同向键，不发 EXIT。LCC 像素不是走格目标。控制台有 `align 西凉(0) → 天水(8) method=tile-walk`
+- 点城 vs 拖图：指针位移超过 **10px** 才当平移。松手时未过阈值当点城（`pointerup` 入城，后续 `click` 不再吃掉）。关菜单时 `resetPan()`，避免上次 2px 抖动留下的 `suppressClick` 把下一次入城吞掉。对齐中 / 菜单开着仍可点另一座己方城。
 - 年月：读 `g_YearDate` / `g_MonthDate`；董卓弄权开局 HUD「190年1月」
 
 P1 诚实缺口：
@@ -284,7 +285,7 @@ P3 已实现：
 - 入城：点城后 150ms 白闪 + 微缩放（正弦包络），再 160ms 走 `alignAndEnter`（`g_CityPos` 写字段 / 格走 / 邻接 BFS）
 - 可达邻接：从 `selected` / 引擎光标 / `guessCurrentCity` 取焦点城，把 P2 已有边上接到该城的路加亮（10px 浅金晕 + 8px `#f0c75a`）；邻城细金环。不新建图
 - 光标策略：`cursorPolicy='os-pointer'`。CSS `cursor:pointer`。不画 `ui/cursor.png`
-- 绘制顺序与菜单期关 HD 命中沿用 P1（`hitsEnabled` = hd-map + map + !aligning）
+- 绘制顺序与菜单期关 HD 悬停高亮沿用 P1（`hitsEnabled` = hd-map + map + !aligning）。点城不走 `hitsEnabled`：对齐中或 classic-menu 仍可点己方城开菜单。
 
 P3 诚实缺口：
 

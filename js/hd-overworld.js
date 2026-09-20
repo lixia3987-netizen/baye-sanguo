@@ -10,6 +10,8 @@
     var DESIGN_H = 1080;
     var SAFE = { left: 48, top: 72, right: 1872, bottom: 1048 };
     var HIT_RADIUS = 52;
+    /* Client-pixel drag threshold. 2px treated tap jitter as a pan and ate the next city click. */
+    var PAN_THRESHOLD = 10;
     var PERIOD_NAMES = { 1: '董卓弄权', 2: '曹操崛起', 3: '赤壁之战', 4: '三国鼎立' };
 
     var YEAR_FIELDS = ['g_YearDate', 'g_YearN', 'g_Year', 'YearN', 'g_DateYear', 'year', 'g_PYear'];
@@ -95,7 +97,7 @@
             x: 0, y: 0, scale: 1, mapW: 1920, mapH: 1080,
             minX: 0, minY: 0, maxX: 0, maxY: 0, inited: false
         },
-        pan: { on: false, lastX: 0, lastY: 0, moved: false, suppressClick: false },
+        pan: { on: false, lastX: 0, lastY: 0, startX: 0, startY: 0, moved: false, suppressClick: false, tapHandled: false },
         pointer: { x: 0, y: 0, on: false },
         enterFx: { index: -1, start: 0, duration: 150 },
         /* os-pointer：不画自定义光标。cursor.png 会与系统指针叠影；cursor_hover.png 像禁止符。 */
@@ -1840,6 +1842,16 @@
         return best;
     }
 
+    function resetPan() {
+        state.pan.on = false;
+        state.pan.moved = false;
+        state.pan.suppressClick = false;
+        state.pan.tapHandled = false;
+        if (state.canvas) {
+            state.canvas.classList.remove('hd-panning');
+        }
+    }
+
     function cityMenuHoldExit() {
         return !!(global.BayeHdCityMenu &&
             typeof BayeHdCityMenu.holdExit === 'function' &&
@@ -2502,6 +2514,7 @@
             state.aligning = false;
             state.suppressCityIdle = 1;
         }
+        resetPan();
         if (global.BayeHdCityMenu) {
             BayeHdCityMenu.close({ silent: true });
         }
@@ -2514,6 +2527,7 @@
         state.aligning = false;
         state.hdOpenedMenu = true;
         state.suppressCityIdle = 0;
+        resetPan();
         state.menuDepth = Math.max(1, state.menuDepth);
         setPhase('classic-menu');
         var landed = inferCurrentCity();
@@ -2954,19 +2968,83 @@
             return;
         }
         state.inputBound = true;
+        function handleMapTap(ev) {
+            if (state.mode !== 'hd-map') {
+                return false;
+            }
+            if (state.phase === 'classic-menu') {
+                var pickPt = eventToDesign(ev);
+                var pickIdx = pickPt ? hitCity(pickPt) : -1;
+                if (cityMenuHoldMenu()) {
+                    ev.preventDefault();
+                    return true;
+                }
+                var marching = cityMenuMarching() || battleMakePending();
+                if (marching && pickIdx >= 0) {
+                    ev.preventDefault();
+                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
+                        BayeHdCityMenu.walkToCity(pickIdx, true);
+                    }
+                    return true;
+                }
+                if (marching) {
+                    ev.preventDefault();
+                    return true;
+                }
+                if (pickIdx >= 0) {
+                    ev.preventDefault();
+                    openClassicCity(pickIdx);
+                    return true;
+                }
+                ev.preventDefault();
+                leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
+                return true;
+            }
+            if (cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
+                if (cityMenuHoldMenu()) {
+                    ev.preventDefault();
+                    return true;
+                }
+                var marchPt = eventToDesign(ev);
+                var marchIdx = marchPt ? hitCity(marchPt) : -1;
+                if (marchIdx >= 0) {
+                    ev.preventDefault();
+                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
+                        BayeHdCityMenu.walkToCity(marchIdx, true);
+                    }
+                }
+                return true;
+            }
+            var pt = eventToDesign(ev);
+            if (!pt) {
+                return false;
+            }
+            var idx = hitCity(pt);
+            if (idx < 0) {
+                return false;
+            }
+            ev.preventDefault();
+            openClassicCity(idx);
+            return true;
+        }
         state.canvas.addEventListener('pointerdown', function (ev) {
-            if (state.mode !== 'hd-map' || state.phase !== 'map' || state.aligning) {
+            if (state.mode !== 'hd-map') {
+                return;
+            }
+            if (state.phase !== 'map' && state.phase !== 'classic-menu') {
                 return;
             }
             state.pan.on = true;
             state.pan.moved = false;
             state.pan.suppressClick = false;
+            state.pan.tapHandled = false;
             state.pan.lastX = ev.clientX;
             state.pan.lastY = ev.clientY;
+            state.pan.startX = ev.clientX;
+            state.pan.startY = ev.clientY;
             try {
                 state.canvas.setPointerCapture(ev.pointerId);
             } catch (e) {}
-            state.canvas.classList.add('hd-panning');
         });
         state.canvas.addEventListener('pointermove', function (ev) {
             var pt = eventToDesign(ev);
@@ -2975,15 +3053,17 @@
                 state.pointer.y = pt.y;
                 state.pointer.on = true;
             }
-            if (state.pan.on && state.mode === 'hd-map' && state.phase === 'map') {
-                var s = state.camera.scale || 1;
-                var dx = ev.clientX - state.pan.lastX;
-                var dy = ev.clientY - state.pan.lastY;
-                if (Math.abs(dx) + Math.abs(dy) > 2) {
+            if (state.pan.on && state.mode === 'hd-map') {
+                var drag = Math.hypot(ev.clientX - state.pan.startX, ev.clientY - state.pan.startY);
+                if (!state.pan.moved && drag > PAN_THRESHOLD) {
                     state.pan.moved = true;
                     state.pan.suppressClick = true;
+                    state.canvas.classList.add('hd-panning');
                 }
-                if (state.pan.moved) {
+                if (state.pan.moved && state.phase === 'map' && !state.aligning) {
+                    var s = state.camera.scale || 1;
+                    var dx = ev.clientX - state.pan.lastX;
+                    var dy = ev.clientY - state.pan.lastY;
                     var rect = state.canvas.getBoundingClientRect();
                     var sx = rect.width ? DESIGN_W / rect.width : 1;
                     var sy = rect.height ? DESIGN_H / rect.height : 1;
@@ -2996,7 +3076,7 @@
                     return;
                 }
             }
-            if (!hitsEnabled()) {
+            if (!(state.mode === 'hd-map' && (state.phase === 'map' || state.phase === 'classic-menu'))) {
                 state.hoverIndex = -1;
                 return;
             }
@@ -3006,15 +3086,19 @@
             state.hoverIndex = hitCity(pt);
         });
         function endPan(ev) {
+            var wasTap = state.pan.on && !state.pan.moved && !state.pan.suppressClick;
             if (state.pan.on) {
                 state.pan.on = false;
-                /* Hard clamp on release. No inertia / leftover velocity. */
                 clampCamera();
                 state.canvas.classList.remove('hd-panning');
                 try {
                     state.canvas.releasePointerCapture(ev.pointerId);
                 } catch (e) {}
             }
+            if (wasTap && ev && ev.type === 'pointerup') {
+                state.pan.tapHandled = handleMapTap(ev);
+            }
+            state.pan.suppressClick = false;
         }
         state.canvas.addEventListener('pointerup', endPan);
         state.canvas.addEventListener('pointercancel', endPan);
@@ -3023,7 +3107,9 @@
             state.pointer.on = false;
         });
         state.canvas.addEventListener('click', function (ev) {
-            if (state.mode !== 'hd-map') {
+            if (state.pan.tapHandled) {
+                state.pan.tapHandled = false;
+                ev.preventDefault();
                 return;
             }
             if (state.pan.suppressClick) {
@@ -3031,62 +3117,7 @@
                 ev.preventDefault();
                 return;
             }
-            if (state.phase === 'classic-menu') {
-                var pickPt = eventToDesign(ev);
-                var pickIdx = pickPt ? hitCity(pickPt) : -1;
-                if (cityMenuHoldMenu()) {
-                    ev.preventDefault();
-                    return;
-                }
-                var marching = cityMenuMarching() || battleMakePending();
-                if (marching && pickIdx >= 0) {
-                    ev.preventDefault();
-                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
-                        BayeHdCityMenu.walkToCity(pickIdx, true);
-                    }
-                    return;
-                }
-                if (marching) {
-                    ev.preventDefault();
-                    return;
-                }
-                if (pickIdx >= 0) {
-                    ev.preventDefault();
-                    openClassicCity(pickIdx);
-                    return;
-                }
-                ev.preventDefault();
-                leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
-                return;
-            }
-            if (cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
-                if (cityMenuHoldMenu()) {
-                    ev.preventDefault();
-                    return;
-                }
-                var marchPt = eventToDesign(ev);
-                var marchIdx = marchPt ? hitCity(marchPt) : -1;
-                if (marchIdx >= 0) {
-                    ev.preventDefault();
-                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
-                        BayeHdCityMenu.walkToCity(marchIdx, true);
-                    }
-                }
-                return;
-            }
-            if (!hitsEnabled()) {
-                return;
-            }
-            var pt = eventToDesign(ev);
-            if (!pt) {
-                return;
-            }
-            var idx = hitCity(pt);
-            if (idx < 0) {
-                return;
-            }
-            ev.preventDefault();
-            openClassicCity(idx);
+            handleMapTap(ev);
         });
         document.addEventListener('keydown', function (e) {
             if (state.mode !== 'hd-map') {
@@ -3304,6 +3335,13 @@
                 mode: state.mode,
                 phase: state.phase,
                 aligning: state.aligning,
+                hitsEnabled: hitsEnabled(),
+                pan: {
+                    on: state.pan.on,
+                    moved: state.pan.moved,
+                    suppressClick: state.pan.suppressClick,
+                    tapHandled: state.pan.tapHandled
+                },
                 selectedIndex: state.selectedIndex,
                 hoverIndex: state.hoverIndex,
                 focusCity: focusCityIndex(),
