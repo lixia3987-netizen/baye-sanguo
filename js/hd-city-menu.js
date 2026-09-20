@@ -1575,6 +1575,9 @@
             if (leftoverChooseTarget(engine) && (!state.personExitSent || state.wizardStep === 'persons')) {
                 return '';
             }
+            if (leftoverMarchReport(engine) && !freshMarchOk() && wizardInMarch()) {
+                return '';
+            }
             return engine;
         }
         try {

@@ -393,6 +393,12 @@
         return false;
     }
 
+    function cityMenuFreshMarch() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.freshMarchOk === 'function' &&
+            BayeHdCityMenu.freshMarchOk());
+    }
+
     function closeReportSilent(info) {
         if (info && info.hdSeq) {
             state.lastReportSeq = info.hdSeq;
@@ -459,7 +465,10 @@
         if (/部队已出发/.test(info.text || '')) {
             var seq = info.hdSeq || 0;
             var already = state.lastArmoutEnterSeq && (!seq || seq <= state.lastArmoutEnterSeq);
-            var unsafe = mapPickActive() || fightActive() || functionMenuLive() || strategyHandoff();
+            /* 新开一趟出征时 g_hdReportGbk 仍是上场「部队已出发」。回车会打进 FunctionMenu / 选将。 */
+            var leftoverNewMarch = cityMenuMarching() && !cityMenuFreshMarch();
+            var unsafe = mapPickActive() || fightActive() || functionMenuLive() ||
+                strategyHandoff() || leftoverNewMarch;
             if (!already && !unsafe) {
                 engineSendKey(VK.ENTER);
                 state.lastArmoutEnterSeq = seq || (state.lastArmoutEnterSeq + 1) || 1;
@@ -890,7 +899,13 @@
         clearLeftoverMarch: clearLeftoverMarch,
         dismissLeftoverSpeech: dismissLeftoverSpeech,
         resetArmout: function () {
-            state.lastArmoutEnterSeq = 0;
+            /* 新出征不要把上场「部队已出发」seq 清零，否则会再回车一次。 */
+            try {
+                var r = window.baye && baye.hd && typeof baye.hd.report === 'function' && baye.hd.report();
+                if (r && /部队已出发/.test(r.text || '') && r.seq) {
+                    state.lastArmoutEnterSeq = r.seq;
+                }
+            } catch (e) {}
             state.lastSpeechEnterSeq = 0;
         },
         onEngineHook: onEngineHook,
