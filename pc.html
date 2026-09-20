@@ -2,25 +2,28 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
     <title>三国霸业</title>
     <link rel="icon" href="favicon.png">
-    <link rel="stylesheet" type="text/css" href="css/flex.css"/>
-    <link rel="stylesheet" type="text/css" href="css/baye.css"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-graphics.css"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-overworld.css"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20260921a"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260920b"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20260919q"/>
+    <link rel="stylesheet" type="text/css" href="css/flex.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/baye.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20260920h"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20260919am"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20260920h"/>
     <script>
-        window.BAYE_ASSET_VER = '20260920g';
+        window.BAYE_ASSET_VER = '20260920h';
         window.__bayeLastHdCall = window.__bayeLastHdCall || null;
         window.onerror = function (msg, url, line, col, error) {
             var last = window.__bayeLastHdCall;
             var extra = '\nlastHdCall: ' + (last && last.name ? (last.name + (last.detail ? ' ' + last.detail : '')) : '(none)');
             extra += error && error.stack ? ('\nstack: ' + error.stack) : '';
             extra += !col ? '' : ('\ncolumn: ' + col);
+            extra += '\nassetVer: ' + (window.BAYE_ASSET_VER || '(none)');
             console.error('[baye-boot] onerror', msg, url, line, extra);
             alert('Error: ' + msg + '\nurl: ' + url + '\nline: ' + line + extra);
             return false;
@@ -43,15 +46,30 @@
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/encoding-indexes.js"></script>
-    <script src="js/encoding.js"></script>
-    <script src="js/sprintf.js"></script>
-    <script src="js/lzma_worker-min.js"></script>
-    <script src="js/base64.js"></script>
+    <script src="js/jquery.min.js?ver=20260920h"></script>
+    <script src="js/encoding-indexes.js?ver=20260920h"></script>
+    <script src="js/encoding.js?ver=20260920h"></script>
+    <script src="js/sprintf.js?ver=20260920h"></script>
+    <script src="js/lzma_worker-min.js?ver=20260920h"></script>
+    <script src="js/base64.js?ver=20260920h"></script>
     <style>
         body {
             overflow-y: hidden;
+        }
+        #baye-build-badge {
+            position: fixed;
+            left: 8px;
+            bottom: 8px;
+            z-index: 2147483647;
+            margin: 0;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: rgba(20, 24, 32, 0.72);
+            color: #d7e0ea;
+            font: 11px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            letter-spacing: 0.02em;
+            pointer-events: none;
+            user-select: none;
         }
     </style>
     <script>
@@ -73,6 +91,7 @@
     </script>
 </head>
 <body style="height: auto;">
+<div id="baye-build-badge" data-baye-asset-ver="20260920h">20260920h</div>
 <div layout="row center-center">
     <div class="container js-baye-pc-lcd pc-lcd-frame">
         <div class="dummy"></div>
@@ -233,17 +252,17 @@
 </div>
 </body>
 </html>
-<script src="js/idbkvstore.min.js?ver=20260329"></script>
-<script src="js/bridge.js?ver=20260920g"></script>
-<script src="js/lcd.js?ver=20260920g"></script>
-<script src="js/hd-graphics.js?ver=20260918"></script>
-<script src="js/hd-overworld-probe.js?ver=20260918k"></script>
-<script src="js/hd-overworld.js?ver=20260920t"></script>
-    <script src="js/hd-city-menu.js?ver=20260921m"></script>
-    <script src="js/hd-battle.js?ver=20260920j"></script>
-    <script src="js/hd-system-ui.js?ver=20260920k"></script>
-<script src="js/hd-dialog.js?ver=20260921k"></script>
-<script src="js/hd-spe.js?ver=20260920a"></script>
+<script src="js/idbkvstore.min.js?ver=20260920h"></script>
+<script src="js/bridge.js?ver=20260920h"></script>
+<script src="js/lcd.js?ver=20260920h"></script>
+<script src="js/hd-graphics.js?ver=20260920h"></script>
+<script src="js/hd-overworld-probe.js?ver=20260920h"></script>
+<script src="js/hd-overworld.js?ver=20260920h"></script>
+    <script src="js/hd-city-menu.js?ver=20260920h"></script>
+    <script src="js/hd-battle.js?ver=20260920h"></script>
+    <script src="js/hd-system-ui.js?ver=20260920h"></script>
+<script src="js/hd-dialog.js?ver=20260920h"></script>
+<script src="js/hd-spe.js?ver=20260920h"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
     if (window.BayeHd) {
@@ -432,5 +451,5 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20260920g"></script>
+<script src="js/baye.js?ver=20260920h"></script>
 
