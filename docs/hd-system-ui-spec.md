@@ -45,8 +45,8 @@
 | 时期 | 刚在标题确认「新君登基」，城仍无归属 |
 | 君主 | 城已有 `Belong`，但 `g_PlayerKing` 仍为 0 / 无效 |
 | 读档 | 标题确认「重返沙场」 |
-| 战役中系统菜单 | 运行时 `baye.hd.menuItems().names[0] === '策略结束'`（不 stub `mainSystemMenu`） |
-| 关掉系统壳 | `didOpenNewGame` / `didLoadGame` / 已有君主且菜单不再是 FunctionMenu |
+| 战役中系统菜单 | `menuItems()[0]==策略结束` 且 `g_hdMapPick=0` 且最近有 `onMenuIdle`（不 stub `mainSystemMenu`） |
+| 关掉系统壳 | `didOpenNewGame` / `didLoadGame` / 已点策略结束 / `fight.active` / 大地图 pick=1 |
 
 `localStorage['baye/systemUiMode']`：`auto`（默认，跟 HD 战役）/ `hd` / `classic`。
 
