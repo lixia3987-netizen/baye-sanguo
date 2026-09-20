@@ -441,10 +441,10 @@
         var already = state.lastSpeechEnterSeq && (!seq || seq <= state.lastSpeechEnterSeq);
         var shown = state.open && state.kind === 'report';
         var liveAsync = liveSpeechAsync(info);
-        /* 城菜单开着时 leftover pick 只是过图旗。过月台词原生 SPE 常是 async=0。
-         * 完成选将之后再回车会打进 FunctionMenu（策略结束），只关壳。 */
+        /* 地图 leftover pick 上回车会确认当前城。完成选将后再回车会策略结束。 */
+        var pickUnsafe = mapPickActive() && !cityMenuOpen() && !cityMenuMarching();
         if (!already && !fightActive() && !strategyHandoff() && !actuallyFunctionMenu() &&
-            !cityMenuPersonExitSent() &&
+            !cityMenuPersonExitSent() && !pickUnsafe &&
             (shown || liveAsync || cityMenuMarching() || cityMenuOpen())) {
             engineSendKey(VK.ENTER);
             state.lastSpeechEnterSeq = seq || (state.lastSpeechEnterSeq + 1) || 1;
@@ -481,7 +481,8 @@
         if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
             return dismissLeftoverSpeech(info);
         }
-        if (cityMenuMarching() && /农业|商业|开发度|变为/.test(info.text || '')) {
+        /* PolicyExec「农业开发度变为」过月后常年残留。回车会策略结束或点进开垦将表。 */
+        if (/农业|商业|开发度|变为/.test(info.text || '')) {
             return closeReportSilent(info);
         }
         /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
