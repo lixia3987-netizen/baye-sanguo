@@ -485,7 +485,7 @@
         if (/农业|商业|开发度|变为/.test(info.text || '')) {
             return closeReportSilent(info);
         }
-        if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动/.test(info.text || '')) {
+        if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动|归降|势力/.test(info.text || '')) {
             return closeReportSilent(info);
         }
         /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
