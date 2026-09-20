@@ -165,6 +165,17 @@
     background: #2c4a3a;
 }
 
+.hd-city-menu-wizard {
+    grid-column: 1 / -1;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: rgba(61, 139, 253, 0.16);
+    border: 1px solid rgba(61, 139, 253, 0.4);
+    color: #cfe3ff;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
 .hd-city-menu-finish-persons,
 .hd-city-menu-march-ok,
 .hd-city-menu-march-hint,

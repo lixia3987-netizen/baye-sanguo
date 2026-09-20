@@ -86,7 +86,19 @@
         acceptMarchOk: false,
         handoff: false,
         consumedMarchSeq: 0,
-        sawMarchCleared: false
+        sawMarchCleared: false,
+        wizardStep: 'none',
+        sawQtyThisMarch: false
+    };
+
+    var WIZARD_ORDER = { none: 0, persons: 1, food: 2, 'target-tip': 3, 'map-pick': 4, 'march-ok': 5 };
+    var WIZARD_LABEL = {
+        none: '',
+        persons: '1 选将',
+        food: '2 选粮',
+        'target-tip': '3 选择目标',
+        'map-pick': '4 点目标城',
+        'march-ok': '5 部队已出发'
     };
 
     function readStorage(key, fallback) {
@@ -146,6 +158,8 @@
             holdExit() ? '1' : '0');
         document.documentElement.setAttribute('data-baye-march-ok',
             (state.marchReady || freshMarchOk()) ? '1' : '0');
+        document.documentElement.setAttribute('data-baye-wizard-step',
+            show ? (state.wizardStep || 'none') : 'none');
         if (document.body) {
             var deepEmpty = show && state.layer === 'deep' && !showingQty() &&
                 !state.deepItems.length && !mapPickActive() && !state.marchReady;
@@ -285,29 +299,36 @@
         if (state.marchReady) {
             return { skipped: 'already-ok' };
         }
-        if (showingQty()) {
+        if (showingQty() || state.wizardStep === 'food') {
             state.marchHint = '先确认粮草，再点目标城。';
             render();
             return { skipped: 'qty' };
         }
+        if (state.wizardStep === 'persons') {
+            state.marchHint = '先点至少一名将领，再点「完成选将 · 选粮出发」，不要直接点目标城。';
+            render();
+            return { skipped: 'wizard-persons', cityIndex: cityIndex, hint: state.marchHint };
+        }
         if (!mapPickActive()) {
-            var report = reportText();
-            if (/选择目标/.test(report) || state.dismissedObj || state.campaignPick) {
+            if (liveChooseTarget() || state.wizardStep === 'target-tip') {
                 if (!state.dismissedObj) {
                     state.dismissedObj = true;
                 }
                 state.campaignPick = true;
                 state.battleMake = true;
+                advanceWizard('target-tip', 'walk-dismiss-tip');
                 engineSendKey(VK.ENTER);
                 setTimeout(function () {
                     if (mapPickActive()) {
+                        advanceWizard('map-pick', 'walk-after-tip');
                         walkCursorToCity(cityIndex, thenEnter);
                         return;
                     }
-                    if (/选择目标|我方城池|无法到达/.test(reportText())) {
+                    if (liveChooseTarget() || /我方城池|无法到达/.test(liveEngineReport())) {
                         engineSendKey(VK.ENTER);
                         setTimeout(function () {
                             if (mapPickActive()) {
+                                advanceWizard('map-pick', 'walk-after-tip-2');
                                 walkCursorToCity(cityIndex, thenEnter);
                             }
                         }, 220);
@@ -433,6 +454,41 @@
 
     function leftoverMarchReport(text) {
         return /部队已出发/.test(String(text || ''));
+    }
+
+    function leftoverChooseTarget(text) {
+        return /选择目标/.test(String(text || ''));
+    }
+
+    function setWizardStep(step, why) {
+        if (state.wizardStep === step) {
+            return;
+        }
+        console.log('[hd-city-menu] wizard', state.wizardStep, '→', step, why || '');
+        state.wizardStep = step;
+    }
+
+    function advanceWizard(step, why) {
+        if (!step) {
+            return;
+        }
+        if (step === 'none' || (WIZARD_ORDER[step] || 0) >= (WIZARD_ORDER[state.wizardStep] || 0)) {
+            setWizardStep(step, why);
+        }
+    }
+
+    function wizardInMarch() {
+        return state.wizardStep !== 'none' && state.wizardStep !== 'march-ok';
+    }
+
+    function liveChooseTarget() {
+        if (!state.personExitSent || showingQty() || mapPickActive()) {
+            return false;
+        }
+        if (state.wizardStep === 'persons') {
+            return false;
+        }
+        return leftoverChooseTarget(liveEngineReport());
     }
 
     function liveEngineReport() {
@@ -850,6 +906,7 @@
             ':' + ((freshMarchOk() || state.marchReady) ? 'ok' : '') +
             ':' + (state.personExitSent ? 'pex' : '') +
             ':' + (state.acceptMarchOk ? 'acc' : '') +
+            ':' + (state.wizardStep || '') +
             ':' + (state.marchHint || '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
@@ -861,6 +918,15 @@
         state.deepSig = sig;
         list.innerHTML = '';
         var i;
+        if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
+            var qtySteps = document.createElement('div');
+            qtySteps.className = 'hd-city-menu-wizard';
+            qtySteps.setAttribute('data-hd-wizard', state.wizardStep);
+            qtySteps.textContent = '出征：选将 → 选粮 → 选择目标 → 点目标城 · 当前 ' +
+                WIZARD_LABEL[state.wizardStep] +
+                (state.wizardStep === 'persons' ? '（已点 ' + (state.pickedPersons || 0) + ' 人）' : '');
+            list.appendChild(qtySteps);
+        }
         if (showingQty()) {
             var bar = document.createElement('div');
             bar.className = 'hd-city-menu-qty';
@@ -911,8 +977,7 @@
             list.appendChild(warn);
         }
         if (!showMarchOk && state.deepKind === 'person-city' && !mapPickActive() &&
-            !state.personExitSent && !state.campaignPick && !state.dismissedObj &&
-            !/选择目标/.test(reportText())) {
+            !state.personExitSent && state.wizardStep === 'persons') {
             var fin = document.createElement('div');
             fin.className = 'hd-city-menu-finish-persons';
             fin.innerHTML = '<p>已点将 ' + (state.pickedPersons || 0) +
@@ -1053,6 +1118,9 @@
                     : (usesMapCursor(state.deepKind, state.deepStep)
                         ? '目标城池（方向键对齐引擎光标）'
                         : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物')));
+            if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
+                stepHint = '出征步骤 ' + WIZARD_LABEL[state.wizardStep];
+            }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
                 (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
             hideAllLayers();
@@ -1173,6 +1241,10 @@
         if (!mapPickActive() && !state.handoff && !state.battleMake) {
             state.campaignPick = false;
         }
+        if (!opts.keepWizard) {
+            state.wizardStep = 'none';
+            state.sawQtyThisMarch = false;
+        }
         render();
         if (!opts.silent && global.BayeHdOverworld &&
             typeof BayeHdOverworld.leaveMenu === 'function') {
@@ -1260,6 +1332,8 @@
         state.campaignPick = false;
         state.battleMake = (state.deepKind === 'person-city' || state.deepLabel === '出征');
         state.personExitSent = false;
+        state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
+        state.sawQtyThisMarch = false;
         state.lastFuncMenuIdle = 0;
         state.lastWalkCity = null;
         state.lastWalkAt = 0;
@@ -1292,8 +1366,10 @@
     }
 
     function finishPersonPick() {
-        if (state.personExitSent || mapPickActive() || showingQty() || state.marchReady ||
-            state.campaignPick || /选择目标/.test(reportText())) {
+        if (state.wizardStep !== 'persons' && state.wizardStep !== 'none') {
+            return;
+        }
+        if (state.personExitSent || mapPickActive() || showingQty() || state.marchReady) {
             return;
         }
         if (!(state.pickedPersons > 0)) {
@@ -1303,6 +1379,8 @@
         }
         state.dismissedObj = false;
         state.personExitSent = true;
+        state.campaignPick = false;
+        advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
         enqueueKeys([VK.EXIT], 70, 'finish-persons');
         scheduleMarchWatch();
@@ -1329,11 +1407,12 @@
         /* 部队已出发后引擎回到 PlayerTactic GetCitySet。EXIT 一次进 FunctionMenu，
          * ENTER 确认策略结束。再 EXIT 会取消 FunctionMenu；再回车会打进河内/战场。 */
         var haveFresh = freshMarchOk();
-        var stillSelecting = !haveFresh && !!(state.battleMake || state.campaignPick);
+        var stillSelecting = !haveFresh && !!(state.battleMake || state.campaignPick || wizardInMarch());
         state.handoff = true;
         state.battleMake = false;
         state.marchReady = false;
         state.campaignPick = false;
+        state.wizardStep = haveFresh ? 'march-ok' : 'none';
         if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
             BayeHdBattle.prepareNewFight();
         }
@@ -1430,12 +1509,11 @@
         if (state.marchReady) {
             return false;
         }
-        if (state.campaignPick || state.battleMake) {
+        if (state.campaignPick || state.battleMake || wizardInMarch()) {
             return true;
         }
         try {
-            var report = reportText();
-            if (/选择目标/.test(report)) {
+            if (liveChooseTarget() || state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick') {
                 return true;
             }
         } catch (e) {}
@@ -1452,14 +1530,18 @@
     function reportText() {
         var engine = liveEngineReport();
         if (engine) {
+            /* g_hdReportGbk leftover 选择目标 after 策略结束 must not look live during 选将. */
+            if (leftoverChooseTarget(engine) && (!state.personExitSent || state.wizardStep === 'persons')) {
+                return '';
+            }
             return engine;
         }
         try {
             if (global.BayeHdDialog && typeof BayeHdDialog.debugSnapshot === 'function') {
                 var d = BayeHdDialog.debugSnapshot();
                 var body = (d && (d.body || d.reportText)) || '';
-                /* Closed-dialog leftover 部队已出发 must not look like a new march. */
-                if (leftoverMarchReport(body) && !(d && d.open)) {
+                /* Closed-dialog leftover 部队已出发 / 选择目标 must not look like a live step. */
+                if ((leftoverMarchReport(body) || leftoverChooseTarget(body)) && !(d && d.open)) {
                     return '';
                 }
                 return body;
@@ -1490,6 +1572,8 @@
         var march = engineMarch();
         var report = reportText();
         if (qty && qty.active) {
+            state.sawQtyThisMarch = true;
+            advanceWizard('food', 'qty-active');
             state.deepSig = '';
             render();
             return;
@@ -1502,9 +1586,11 @@
             scheduleMarchWatch();
             return;
         }
-        if (!state.dismissedObj && /选择目标/.test(report) && !mapPickActive()) {
+        /* Leftover 选择目标 from last month / last city must not ENTER during 选将. */
+        if (!state.dismissedObj && liveChooseTarget()) {
             state.dismissedObj = true;
             state.campaignPick = true;
+            advanceWizard('target-tip', 'sync-live-tip');
             enqueueKeys([VK.ENTER], 80);
             setTimeout(function () {
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
@@ -1522,9 +1608,11 @@
             scheduleMarchWatch();
             return;
         }
-        if (mapPickActive() && (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.dismissedObj)) {
+        if (mapPickActive() && (state.deepKind === 'person-city' || state.deepLabel === '出征' ||
+            state.dismissedObj || state.personExitSent || wizardInMarch())) {
             state.campaignPick = true;
             state.acceptMarchOk = true;
+            advanceWizard('map-pick', 'sync-pick');
             if (!(march && march.ok)) {
                 state.sawMarchCleared = true;
             }
@@ -1539,6 +1627,7 @@
                 state.battleMake = false;
                 state.walkBusy = false;
                 state.marchHint = '';
+                advanceWizard('march-ok', 'sync-ok');
             } else if (leftoverMarchReport(report) && !freshMarchOk()) {
                 /* Leftover 部队已出发 from the last battle is not a new AddFightOrder. */
                 if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
@@ -1572,8 +1661,9 @@
             scheduleMarchWatch();
             return;
         }
-        if (mapPickActive() || showingQty() || state.personExitSent || state.campaignPick) {
-            state.marchHint = mapPickActive() || state.campaignPick
+        if (mapPickActive() || showingQty() || state.personExitSent || state.campaignPick ||
+            state.wizardStep === 'food' || state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick') {
+            state.marchHint = mapPickActive() || state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip'
                 ? '现在点邻城或地图上的目标城，不要再点将领。'
                 : '已结束选将，请确认粮草。';
             render();
@@ -1941,6 +2031,9 @@
                 consumedMarchSeq: state.consumedMarchSeq,
                 sawMarchCleared: state.sawMarchCleared,
                 walkBusy: state.walkBusy,
+                wizardStep: state.wizardStep,
+                wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
+                sawQtyThisMarch: state.sawQtyThisMarch,
                 march: engineMarch(),
                 qty: engineQty()
             };
