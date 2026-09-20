@@ -422,9 +422,10 @@
         var already = state.lastSpeechEnterSeq && (!seq || seq <= state.lastSpeechEnterSeq);
         var shown = state.open && state.kind === 'report';
         var liveAsync = liveSpeechAsync(info);
-        /* 壳开着或 async 1/2/13 才回车：纯 g_hdReportGbk 残留回车会确认当前格 / FunctionMenu。 */
+        /* 城菜单开着时 leftover pick 只是过图旗。过月台词原生 SPE 常是 async=0，
+         * 只关壳不回车会卡住 GetFood。FunctionMenu 残留字节不当活菜单。 */
         if (!already && !fightActive() && !strategyHandoff() && !actuallyFunctionMenu() &&
-            (shown || liveAsync)) {
+            (shown || liveAsync || cityMenuMarching() || cityMenuOpen())) {
             engineSendKey(VK.ENTER);
             state.lastSpeechEnterSeq = seq || (state.lastSpeechEnterSeq + 1) || 1;
         }
