@@ -78,10 +78,12 @@ void FgtChkEnd(U8 flag);
  ***********************************************************************/
 FAR U8 GamFight(void)
 {
+    /* Drop leftover 全军覆没 / 大获全胜 from the previous battle before init. */
+    baye_hd_set_fight(0, 0);
     FgtInit();
     if (!g_FgtOver) {
         call_hook("enterBattle", NULL);
-        baye_hd_set_fight(1, g_FgtOver);
+        baye_hd_set_fight(1, 0);
 #define CHECK_OVER() if(g_FgtOver) break;
         while(!g_FgtOver)
         {

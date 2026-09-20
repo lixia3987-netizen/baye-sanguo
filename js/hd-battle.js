@@ -457,6 +457,46 @@
         enqueueKeys(keys, 45);
     }
 
+    function clearFightBridge() {
+        try {
+            if (window.baye && baye.data) {
+                if (baye.data.g_hdFightOver != null) {
+                    baye.data.g_hdFightOver = 0;
+                }
+                if (baye.data.g_hdFightActive != null) {
+                    baye.data.g_hdFightActive = 0;
+                }
+                if (typeof baye.data.g_hdFightResultGbk === 'string') {
+                    baye.data.g_hdFightResultGbk = '';
+                }
+            }
+        } catch (e) {}
+    }
+
+    function prepareNewFight() {
+        state.resultCode = 0;
+        state.resultText = '';
+        state.resultDismissed = false;
+        state.menuKind = '';
+        state.menuTitle = '';
+        state.menuNames = [];
+        state.liveMenuKind = '';
+        state.lastMenuIdleKind = '';
+        state.lastMenuIdleAt = 0;
+        state.lastWait = 0;
+        state.sawWait = false;
+        state.pendingSys = 0;
+        state.lastHook = '';
+        clearFightBridge();
+        if (state.open) {
+            closeBattle({ silent: true });
+            state.resultDismissed = false;
+            state.resultCode = 0;
+            state.resultText = '';
+        }
+        applyChrome();
+    }
+
     function dismissResult() {
         state.resultDismissed = true;
         state.lastMenuIdleAt = 0;
@@ -986,8 +1026,15 @@
         try {
             info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
         } catch (e) {}
-        if (info && info.active && !info.over && !state.open && shouldShowHd() && !state.resultDismissed) {
-            enterBattle({ hook: 'g_hdFightActive' });
+        if (info && info.active && !info.over) {
+            if (state.resultDismissed || state.resultText || state.resultCode) {
+                state.resultDismissed = false;
+                state.resultText = '';
+                state.resultCode = 0;
+            }
+            if (!state.open && shouldShowHd()) {
+                enterBattle({ hook: 'g_hdFightActive' });
+            }
         }
         if (info && info.over) {
             if (state.resultDismissed) {
@@ -1019,9 +1066,15 @@
             var d = engineData();
             var f = null;
             try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
-            if (d && Number(d.g_hdFightActive) && !state.open && !state.resultDismissed &&
-                !(f && f.over)) {
-                enterBattle({ hook: 'g_hdFightActive' });
+            if (d && Number(d.g_hdFightActive) && !(f && f.over)) {
+                if (state.resultDismissed || state.resultText) {
+                    state.resultDismissed = false;
+                    state.resultText = '';
+                    state.resultCode = 0;
+                }
+                if (!state.open) {
+                    enterBattle({ hook: 'g_hdFightActive' });
+                }
             }
             if (state.open && state.resultDismissed && (!f || !f.active || f.over)) {
                 closeBattle({ silent: true });
@@ -1045,6 +1098,7 @@
         isOpen: function () { return state.open; },
         enter: enterBattle,
         close: closeBattle,
+        prepareNewFight: prepareNewFight,
         onEngineHook: onEngineHook,
         onEngineFight: onEngineFight,
         clickOwnUnit: function () {

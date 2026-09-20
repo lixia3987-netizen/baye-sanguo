@@ -145,15 +145,22 @@ void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 void baye_hd_set_fight(U8 active, U8 over)
 {
     U8 str[40];
+    if (active) {
+        over = 0;
+    }
     g_hdFightActive = active;
     g_hdFightOver = over;
     str[0] = 0;
-    if (!active && over == 1) {
+    if (active) {
+        g_hdFightResultGbk[0] = 0;
+    } else if (over == 1) {
         ResLoadToMem(STRING_CONST, STR_GAMEWON, str);
-    } else if (!active && over == 2) {
+    } else if (over == 2) {
         ResLoadToMem(STRING_CONST, STR_GAMELOST, str);
     }
-    copy_gbk(g_hdFightResultGbk, BAYE_HD_FIGHT_RESULT_MAX, str);
+    if (!active) {
+        copy_gbk(g_hdFightResultGbk, BAYE_HD_FIGHT_RESULT_MAX, str);
+    }
     EM_ASM({
         try {
             if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') {

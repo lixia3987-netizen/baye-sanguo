@@ -1250,6 +1250,9 @@
         state.battleMake = false;
         state.marchReady = false;
         state.campaignPick = false;
+        if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
+            BayeHdBattle.prepareNewFight();
+        }
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
@@ -1257,6 +1260,9 @@
         var tries = 0;
         var confirmed = false;
         var sawMapPick = mapPickActive();
+        function leftoverFightSys(names) {
+            return names[0] === '全军撤退' || names[0] === '回合结束';
+        }
         function step() {
             if (confirmed) {
                 return;
@@ -1269,9 +1275,13 @@
             var pick = mapPickActive();
             if (pick) {
                 sawMapPick = true;
+                tries += 1;
+                engineSendKey(VK.EXIT, 'strategy-end');
+                setTimeout(step, 240);
+                return;
             }
             /* g_hdMenuBytes 会残留「策略结束」。必须先离开 GetCitySet（或至少 EXIT 一次）再确认。 */
-            if (names[0] === '策略结束' && !pick && (sawMapPick || tries >= 1)) {
+            if (names[0] === '策略结束' && (sawMapPick || tries >= 1)) {
                 confirmed = true;
                 if (!(global.BayeHdSystemUi &&
                     typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
@@ -1284,6 +1294,16 @@
                         BayeHdDialog.close({ silent: true });
                     }
                 }, 700);
+                return;
+            }
+            /* 上一场「全军撤退」残留不是活菜单。pick=0 时再 EXIT 会取消刚打开的 FunctionMenu。 */
+            if (leftoverFightSys(names)) {
+                tries += 1;
+                if (tries >= 16) {
+                    state.handoff = false;
+                    return;
+                }
+                setTimeout(step, 240);
                 return;
             }
             if (tries >= 16) {
