@@ -1426,7 +1426,7 @@
             return;
         }
         var liveMarch = engineMarch();
-        if (liveMarch && liveMarch.ok) {
+        if (state.marchReady || (state.acceptMarchOk && liveMarch && liveMarch.ok)) {
             return;
         }
         var item = state.deepItems[index];
