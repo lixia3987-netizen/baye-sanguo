@@ -2849,6 +2849,15 @@
                 return;
             }
             if (state.phase === 'classic-menu') {
+                var pickPt = eventToDesign(ev);
+                var pickIdx = pickPt ? hitCity(pickPt) : -1;
+                if (readMapPick() && pickIdx >= 0) {
+                    ev.preventDefault();
+                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
+                        BayeHdCityMenu.walkToCity(pickIdx, true);
+                    }
+                    return;
+                }
                 ev.preventDefault();
                 leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
                 return;
@@ -3017,6 +3026,34 @@
             }
             openClassicCity(index);
             return { to: { x: city.engX, y: city.engY }, name: city.name };
+        },
+        cityScreenPos: function (indexOrName) {
+            var city = null;
+            var i;
+            for (i = 0; i < state.cities.length; i++) {
+                if (state.cities[i].index === indexOrName || state.cities[i].name === indexOrName) {
+                    city = state.cities[i];
+                    break;
+                }
+            }
+            if (!city || !state.canvas) {
+                return null;
+            }
+            var scr = toScreen(city.hdX, city.hdY);
+            var rect = state.canvas.getBoundingClientRect();
+            return {
+                index: city.index,
+                name: city.name,
+                kind: city.kind,
+                engX: city.engX,
+                engY: city.engY,
+                hdX: city.hdX,
+                hdY: city.hdY,
+                designX: scr.x,
+                designY: scr.y,
+                clientX: rect.left + scr.x / DESIGN_W * rect.width,
+                clientY: rect.top + scr.y / DESIGN_H * rect.height
+            };
         },
         getDateInfo: function () { return state.dateInfo; },
         getLearnedCursor: function () { return state.learnedCursorField; },
