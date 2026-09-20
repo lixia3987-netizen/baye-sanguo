@@ -828,6 +828,12 @@
     function probeDeepItems() {
         var kind = state.deepKind;
         var step = state.deepStep;
+        if (kind === 'person-city' && state.wizardStep === 'persons' && !showingQty()) {
+            var picking = cityPersons(state.cityIndex);
+            if (picking.length) {
+                return picking;
+            }
+        }
         if (usesMapCursor(kind, step) || (kind === 'person-city' && liveTargetStep())) {
             return otherCities(state.cityIndex);
         }
