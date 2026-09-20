@@ -312,6 +312,12 @@
             render();
             return { skipped: 'wizard-persons', cityIndex: cityIndex, hint: state.marchHint };
         }
+        if (mapPickActive() && !(state.sawQtyThisMarch || state.dismissedObj ||
+            state.wizardStep === 'map-pick' || liveChooseTarget())) {
+            state.marchHint = '还在选将/选粮。过图 leftover pick 不是出征目标。';
+            render();
+            return { skipped: 'overworld-pick', cityIndex: cityIndex };
+        }
         if (!mapPickActive()) {
             if (liveChooseTarget() || state.wizardStep === 'target-tip') {
                 if (!state.dismissedObj) {
@@ -1614,8 +1620,9 @@
             scheduleMarchWatch();
             return;
         }
-        if (mapPickActive() && (state.deepKind === 'person-city' || state.deepLabel === '出征' ||
-            state.dismissedObj || state.personExitSent || wizardInMarch())) {
+        if (mapPickActive() && (state.sawQtyThisMarch || state.dismissedObj ||
+            state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick' ||
+            leftoverChooseTarget(liveEngineReport()))) {
             state.campaignPick = true;
             state.acceptMarchOk = true;
             advanceWizard('map-pick', 'sync-pick');
