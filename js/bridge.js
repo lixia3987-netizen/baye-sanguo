@@ -1412,7 +1412,7 @@ function baye_bridge_init() {
             return {
                 active: hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive'),
                 id: hdReadNum(d, 'g_hdSpeId') || hdReadNum(d, 'g_hdMovieId'),
-                kind: hdReadNum(d, 'g_hdSpeKind'),
+                kind: hdReadNum(d, 'g_hdSpeKind') || (hdReadNum(d, 'g_hdMovieActive') ? 1 : 0),
                 x: hdReadNum(d, 'g_hdSpeX'),
                 y: hdReadNum(d, 'g_hdSpeY'),
                 startFrm: hdReadNum(d, 'g_hdSpeStartFrm'),

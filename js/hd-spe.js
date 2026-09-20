@@ -35,7 +35,8 @@
         scratch: null,
         flushW: 0,
         flushH: 0,
-        hasFlush: false
+        hasFlush: false,
+        poll: 0
     };
 
     function readStorage(key, fallback) {
@@ -90,6 +91,16 @@
         return {};
     }
 
+    function movieActive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.movie === 'function') {
+                var m = baye.hd.movie();
+                return !!(m && m.active);
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function kindOf(info) {
         var k = info && info.kind != null ? Number(info.kind) : 0;
         if (k) {
@@ -98,7 +109,14 @@
         if (info && (Number(info.id) === 3 || Number(info.id) === 6)) {
             return 1;
         }
+        if (movieActive()) {
+            return 1;
+        }
         return 0;
+    }
+
+    function canSkip(info) {
+        return kindOf(info) === 1 || movieActive();
     }
 
     function shouldShowFor(info) {
@@ -154,12 +172,22 @@
         }
         var info = readSpe();
         var show = shouldShowFor(info);
-        state.open = show;
+        var opening = !!(show && canSkip(info));
+        state.open = !!show;
         root.classList.toggle('is-open', show);
+        root.classList.toggle('is-opening', opening);
         root.setAttribute('aria-hidden', show ? 'false' : 'true');
+        root.style.pointerEvents = show ? 'auto' : 'none';
+        if (document.documentElement) {
+            document.documentElement.setAttribute('data-baye-spe', show ? 'on' : 'off');
+        }
         var skip = el('hd-spe-skip');
         if (skip) {
-            skip.hidden = kindOf(info) !== 1;
+            skip.hidden = !opening;
+            skip.disabled = !opening;
+            skip.setAttribute('aria-hidden', opening ? 'false' : 'true');
+            skip.style.visibility = opening ? 'visible' : 'hidden';
+            skip.style.pointerEvents = opening ? 'auto' : 'none';
         }
         var title = el('hd-spe-title');
         if (title) {
@@ -272,11 +300,14 @@
             state.flushH = h;
             state.hasFlush = true;
         }
-        if (!state.open && !shouldShowFor(readSpe())) {
-            return;
-        }
-        if (!state.open) {
+        var show = shouldShowFor(readSpe());
+        if (show !== state.open) {
             applyChrome();
+            if (!show) {
+                return;
+            }
+        }
+        if (!show) {
             return;
         }
         blit();
@@ -288,9 +319,13 @@
 
     function skipOpening() {
         var info = readSpe();
-        if (kindOf(info) === 1) {
-            engineSendKey(VK_ENTER);
+        if (!state.open && !canSkip(info)) {
+            return;
         }
+        if (!canSkip(info) && kindOf(info) !== 1) {
+            return;
+        }
+        engineSendKey(VK_ENTER);
     }
 
     function bindUi() {
@@ -304,21 +339,58 @@
         state.bound = true;
         root.addEventListener('click', function (ev) {
             var t = ev.target;
-            if (!t || !t.getAttribute) {
+            if (!t) {
                 return;
             }
-            if (t.getAttribute('data-hd-spe-skip') != null) {
+            var skipBtn = t.closest ? t.closest('[data-hd-spe-skip]') : null;
+            if (!skipBtn && t.getAttribute && t.getAttribute('data-hd-spe-skip') != null) {
+                skipBtn = t;
+            }
+            if (skipBtn) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                skipOpening();
+                return;
+            }
+            var lcdBtn = t.closest ? t.closest('[data-hd-spe-lcd]') : null;
+            if (lcdBtn || (t.getAttribute && t.getAttribute('data-hd-spe-lcd') != null)) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                return;
+            }
+            if (canSkip(readSpe())) {
+                ev.preventDefault();
                 skipOpening();
             }
-            if (t.getAttribute('data-hd-spe-lcd') != null) {
-                engineSendKey(VK_EXIT);
-            }
         });
+        document.addEventListener('keydown', function (e) {
+            if (!state.open || !canSkip(readSpe())) {
+                return;
+            }
+            var code = e.keyCode || e.which;
+            if (code === 13 || code === 32 || code === 27 ||
+                e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+                e.preventDefault();
+                e.stopPropagation();
+                if (e.stopImmediatePropagation) {
+                    e.stopImmediatePropagation();
+                }
+                skipOpening();
+            }
+        }, true);
     }
 
     function start() {
         bindUi();
         applyChrome();
+        if (!state.poll) {
+            state.poll = setInterval(function () {
+                var show = shouldShowFor(readSpe());
+                if (show !== state.open) {
+                    applyChrome();
+                }
+            }, 250);
+        }
     }
 
     global.BayeHdSpe = {
@@ -350,6 +422,17 @@
             }
             return {
                 open: state.open,
+                opening: !!(state.open && canSkip(info)),
+                skipVisible: (function () {
+                    var skip = el('hd-spe-skip');
+                    if (!skip || skip.hidden) {
+                        return false;
+                    }
+                    var r = skip.getBoundingClientRect();
+                    var cs = window.getComputedStyle(skip);
+                    return r.width > 8 && r.height > 8 && cs.visibility !== 'hidden' &&
+                        cs.pointerEvents !== 'none' && cs.display !== 'none';
+                })(),
                 scale: state.scale,
                 canvasW: state.canvasW,
                 canvasH: state.canvasH,

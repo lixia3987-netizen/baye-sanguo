@@ -47,7 +47,7 @@
 | 主菜单：新君登基 / 重返沙场 / 制作群组 / 解甲归田 | done | `pc.html` LCD 已见到四按钮主菜单 |
 | 时代：董卓弄权 / 曹操崛起 / 赤壁之战 / 三国鼎立 | done | 四格时期画面（董卓/曹操/赤壁/鼎立）已打开 |
 | 君主选择 | done | 「势力形势图」列出马腾、公孙瓒、张杨、刘虞、袁绍等 |
-| 开场动画 | done | `showStartMovie`；回车可跳过 |
+| 开场动画 | done | `showStartMovie`；HD「跳过」钉在 SPE 画布之上可点；回车 / 空格 / Esc 同样关掉；结束后 overlay 不再挡地图 |
 | 大地图（12×9 / 38 城） | done | 已进入西凉，190年1月，城池图标齐全 |
 | 城市光标移动、入城 | done | 回车入城打开四项主菜单 |
 
@@ -109,7 +109,7 @@
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
 | HD 城池四项菜单 M0–M3 | done | 根+一层+状况+人物/城/数量。标题跟本次入城（点中/落地城），不沿用上场「西凉」。出征向导钉死：选将 → 选粮 → 选择目标 → 点目标城，不因残留「选择目标」/换城/过月策略结束回到将领表。过月残留人物台词（「我虽不愿如此…」）出征时关壳，不回车进 FunctionMenu；leftover pick 不挡住「完成选将」/GetFood。面板标明当前步骤。BattleMake 期间除一次「完成选将」外不发 EXIT；「部队已出发」大横幅。`cityPersons` 跳过队列空槽 `0xffff`，不再 `getPersonName(65535)`。GetCitySet 返回后的真「部队已出发」必须回车放行 AddFightOrder，选将残留横幅才不回车。第 4 步邻城表刷出发城 CITY_LINKR，敌城排前；点邻城或地图目标会走 `setx/sety` 再 ENTER 确认，黄高亮不够，并有「确认出征」。横幅后「策略结束」单飞：面板不关，状态写「正在退出城池… / 等待策略结束菜单… / 正在确认… / 即将开战…」。最多 EXIT 6 / ENTER 2 / 10 秒。真 FunctionMenu 只 EXIT 一次出城，之后只等/回车，不再 EXIT 以免退回大地图。`march.seq` 只在 `fight.active=1` 才消耗；连点是空操作 |
-| HD 桥接越界防护 | done | 52c049c 把 `ResLoadToMem` 写成按 4KB 截断，第一帧菜单串会把最长 4KB 灌进 32 字节栈缓冲，进游戏立刻 OOB，`lastHdCall` 还是空。现拒绝 `rlen>1024`、人名仍 32 字节封顶；`Module.locateFile` 给 `baye.wasm` 加 `?ver=` 防旧胶水配新 wasm。`<head>` 最先装 onerror，alert 必带 lastHdCall/stack。`getCityName` / 邻城链接按 `citiesCount` 封顶，拒绝 `>=count` / `0xffff` / 负数；C `GetResItem` `fseek` 失败即停，`rom_fread` 防 `cur>length` 下溢。资源号 `20260920o`；`pc.html`/`choose.html` `Cache-Control: no-store`；页角 `#baye-build-badge` 显示 `BAYE_ASSET_VER`，以角标为准勿认缓存旧胶水 |
+| HD 桥接越界防护 | done | 52c049c 把 `ResLoadToMem` 写成按 4KB 截断，第一帧菜单串会把最长 4KB 灌进 32 字节栈缓冲，进游戏立刻 OOB，`lastHdCall` 还是空。现拒绝 `rlen>1024`、人名仍 32 字节封顶；`Module.locateFile` 给 `baye.wasm` 加 `?ver=` 防旧胶水配新 wasm。`<head>` 最先装 onerror，alert 必带 lastHdCall/stack。`getCityName` / 邻城链接按 `citiesCount` 封顶，拒绝 `>=count` / `0xffff` / 负数；C `GetResItem` `fseek` 失败即停，`rom_fread` 防 `cur>length` 下溢。资源号 `20260920p`；`pc.html`/`choose.html` `Cache-Control: no-store`；页角 `#baye-build-badge` 显示 `BAYE_ASSET_VER`，以角标为准勿认缓存旧胶水 |
 | HD 系统界面 | done | 标题/时期/君主/存档。战役中 `menuItems()[0]==策略结束` 才出 FunctionMenu，不 stub `mainSystemMenu` |
 | HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳；「部队已出发」只回车一次，残留壳在 pick=0 / 策略结束 / 战斗后关掉，不挡招商。过月残留台词 / 农业开发度 / 天灾在出征向导里只关壳，完成选将后不再回车（回车等于策略结束） |
 | HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位。新 `GamFight` / 策略结束清 `g_hdFightOver`/`active`/`wait`/`resultDismissed`，第二场不沿用上场覆没。覆没后残留 `g_hdMarchOk` / 「部队已出发」不当新出征；只认本次 `AddFightOrder`（`g_hdMarchSeq`）。引擎若空城/已占/无将则 `g_hdFightSkip` 跳过战场（不是 HD 挡战）。战场系统须本场见过选将 + 新鲜 `onMenuIdle` + `wait=0`；系统菜单等 `wait=1` 再 EXIT。结算后关壳，不挡招商 |

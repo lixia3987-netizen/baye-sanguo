@@ -2609,6 +2609,9 @@
             }
         });
         document.addEventListener('keydown', function (e) {
+            if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' && BayeHdSpe.isOpen()) {
+                return;
+            }
             if (!state.open || !shouldShowHd()) {
                 return;
             }
