@@ -286,11 +286,16 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu {
 }
 
 html[data-baye-city-menu-map-pick="1"] .hd-city-menu-stage {
-    pointer-events: auto;
+    pointer-events: none;
     width: min(420px, calc(100vw - 24px));
     min-height: auto;
     max-height: calc(100vh - 48px);
     margin: 24px 24px 24px 0;
+}
+
+html[data-baye-city-menu-map-pick="1"] .hd-city-menu-stage button,
+html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
+    pointer-events: auto;
 }
 
 .hd-city-menu-status {

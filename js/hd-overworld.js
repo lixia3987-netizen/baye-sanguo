@@ -3210,6 +3210,24 @@
             }
             handleMapTap(ev);
         });
+        document.addEventListener('pointerdown', function (ev) {
+            if (state.mode !== 'hd-map') {
+                return;
+            }
+            if (!(cityMenuMarching() || battleMakePending())) {
+                return;
+            }
+            if (ev.target && ev.target.closest &&
+                ev.target.closest('[data-hd-deep],[data-hd-confirm-march],[data-hd-qty],[data-hd-qty-ok],[data-hd-digit],[data-hd-finish-persons],[data-hd-strategy-end],[data-hd-dlg-ok]')) {
+                return;
+            }
+            var pt = eventToDesign(ev);
+            var idx = pt ? hitCity(pt) : -1;
+            if (idx >= 0) {
+                ev.preventDefault();
+                marchTapCity(idx);
+            }
+        }, true);
         document.addEventListener('keydown', function (e) {
             if (state.mode !== 'hd-map') {
                 return;
