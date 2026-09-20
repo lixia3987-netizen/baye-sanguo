@@ -992,8 +992,11 @@
         if (state.marchReady || state.handoff || freshMarchOk()) {
             return true;
         }
-        /* 征兵 NumOperate 残留。出征 GetFood 只在完成选将之后。 */
+        /* 征兵 NumOperate 残留。出征 GetFood 只在完成选将之后，且 min 恒为 1。 */
         if (state.battleMake && !state.personExitSent) {
+            return true;
+        }
+        if (state.battleMake && state.personExitSent && Number(q.min) === 0) {
             return true;
         }
         if (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
