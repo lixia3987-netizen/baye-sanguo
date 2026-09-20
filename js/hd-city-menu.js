@@ -102,7 +102,9 @@
         sawMarchCleared: false,
         wizardStep: 'none',
         sawQtyThisMarch: false,
-        reportAtMarchStart: ''
+        reportAtMarchStart: '',
+        qtyDismissed: false,
+        qtyDismissedAt: 0
     };
 
     var WIZARD_ORDER = { none: 0, persons: 1, food: 2, 'target-tip': 3, 'map-pick': 4, 'march-ok': 5 };
@@ -194,7 +196,7 @@
     }
 
     function engineSendKey(code, reason) {
-        if (code === VK.EXIT && holdExit() && reason !== 'finish-persons') {
+        if (code === VK.EXIT && holdExit() && reason !== 'finish-persons' && reason !== 'qty-cancel') {
             state.lastBlockedExit = reason || 'unknown';
             console.warn('[hd-city-menu] blocked EXIT', state.lastBlockedExit);
             return false;
@@ -379,7 +381,10 @@
         if (state.marchReady || freshMarchOk()) {
             return { skipped: 'already-ok', cityIndex: cityIndex };
         }
-        if (showingQty()) {
+        if (leftoverQtyFlag()) {
+            clearLeftoverQtyFlag();
+        }
+        if (liveQty()) {
             state.marchHint = '先确认粮草，再点目标城。';
             render();
             return { skipped: 'qty', cityIndex: cityIndex };
@@ -445,7 +450,10 @@
         if (state.marchReady) {
             return { skipped: 'already-ok' };
         }
-        if (showingQty()) {
+        if (leftoverQtyFlag()) {
+            clearLeftoverQtyFlag();
+        }
+        if (liveQty()) {
             state.marchHint = '先确认粮草，再点目标城。';
             render();
             return { skipped: 'qty' };
@@ -835,10 +843,107 @@
         return null;
     }
 
-    function showingQty() {
+    function leftoverQtyFlag() {
         var q = engineQty();
-        return !!(state.deepKind === 'qty' || (state.deepKind === 'person-qty' && state.deepStep === 1) ||
-            (q && q.active));
+        if (!(q && q.active)) {
+            return false;
+        }
+        if (state.qtyDismissed) {
+            return true;
+        }
+        if (state.marchReady || state.handoff || freshMarchOk()) {
+            return true;
+        }
+        if (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
+            state.wizardStep === 'march-ok') {
+            return true;
+        }
+        if (mapPickActive() && !leftoverOverworldPick()) {
+            return true;
+        }
+        if (state.personExitSent && leftoverChooseTarget(liveEngineReport())) {
+            return true;
+        }
+        return false;
+    }
+
+    function liveQty() {
+        var q = engineQty();
+        if (!(q && q.active) || leftoverQtyFlag()) {
+            return false;
+        }
+        return true;
+    }
+
+    function showingQty() {
+        if (leftoverQtyFlag()) {
+            return false;
+        }
+        if (liveQty()) {
+            return true;
+        }
+        if (state.qtyDismissed) {
+            return false;
+        }
+        return !!(state.deepKind === 'person-qty' && state.deepStep === 1 && !state.battleMake);
+    }
+
+    function clearLeftoverQtyFlag() {
+        try {
+            if (window.baye && baye.data && baye.data.g_hdQtyActive != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdQtyActive = 0;
+            }
+        } catch (e) {}
+        if (global.BayeHdDialog && typeof BayeHdDialog.closeQty === 'function') {
+            BayeHdDialog.closeQty();
+        } else if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            try {
+                var d = BayeHdDialog.debugSnapshot && BayeHdDialog.debugSnapshot();
+                if (d && d.open && d.kind === 'qty') {
+                    BayeHdDialog.close({ silent: true });
+                }
+            } catch (e2) {}
+        }
+    }
+
+    function commitQty() {
+        if (leftoverQtyFlag() || !liveQty()) {
+            state.qtyDismissed = true;
+            state.qtyDismissedAt = Date.now();
+            clearLeftoverQtyFlag();
+            render();
+            scheduleMarchWatch();
+            return;
+        }
+        engineSendKey(VK.ENTER, 'qty-ok');
+        state.qtyDismissed = true;
+        state.qtyDismissedAt = Date.now();
+        setTimeout(function () {
+            if (liveQty()) {
+                engineSendKey(VK.ENTER, 'qty-ok');
+            }
+            setTimeout(function () {
+                if (engineQty() && engineQty().active) {
+                    clearLeftoverQtyFlag();
+                }
+                if (global.BayeHdDialog && typeof BayeHdDialog.closeQty === 'function') {
+                    BayeHdDialog.closeQty();
+                }
+                scheduleMarchWatch();
+                render();
+            }, 120);
+        }, 80);
+    }
+
+    function cancelQty() {
+        engineSendKey(VK.EXIT, 'qty-cancel');
+        state.qtyDismissed = true;
+        state.qtyDismissedAt = Date.now();
+        setTimeout(function () {
+            clearLeftoverQtyFlag();
+            render();
+        }, 80);
     }
 
     function cityCount() {
@@ -1674,6 +1779,10 @@
         if (!state.open) {
             return;
         }
+        if (liveQty() || leftoverQtyFlag()) {
+            cancelQty();
+            return;
+        }
         if (holdMenu()) {
             /* 出征向导 / 部队已出发 横幅期间 HD「返回」绝不 EXIT。 */
             if (!state.marchReady) {
@@ -1768,6 +1877,8 @@
         state.personExitSent = false;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
+        state.qtyDismissed = false;
+        state.qtyDismissedAt = 0;
         state.reportAtMarchStart = liveEngineReport();
         state.lastFuncMenuIdle = 0;
         state.lastWalkCity = null;
@@ -2219,6 +2330,9 @@
         if (state.handoff) {
             return;
         }
+        if (leftoverQtyFlag()) {
+            clearLeftoverQtyFlag();
+        }
         if (!state.open || state.layer !== 'deep') {
             return;
         }
@@ -2568,8 +2682,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-qty-ok') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    enqueueKeys([VK.ENTER], 60);
-                    scheduleMarchWatch();
+                    commitQty();
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {
@@ -2614,6 +2727,20 @@
             }
             if (!state.open || !shouldShowHd()) {
                 return;
+            }
+            if (liveQty() || leftoverQtyFlag() ||
+                (global.BayeHdDialog && typeof BayeHdDialog.isQtyOpen === 'function' &&
+                    BayeHdDialog.isQtyOpen())) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    commitQty();
+                    return;
+                }
+                if (e.keyCode === 27) {
+                    e.preventDefault();
+                    cancelQty();
+                    return;
+                }
             }
             if (e.keyCode === 27 || e.keyCode === 32) {
                 e.preventDefault();
@@ -2770,6 +2897,9 @@
                 wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
                 sawQtyThisMarch: state.sawQtyThisMarch,
                 leftoverPick: leftoverOverworldPick(),
+                leftoverQty: leftoverQtyFlag(),
+                liveQty: liveQty(),
+                qtyDismissed: state.qtyDismissed,
                 reportAtMarchStart: state.reportAtMarchStart,
                 march: engineMarch(),
                 qty: engineQty()
@@ -2795,6 +2925,10 @@
         goStrategyEnd: goStrategyEnd,
         handoffAt: function () { return state.handoffAt || 0; },
         consumeLeftoverMarch: consumeLeftoverMarch,
-        freshMarchOk: freshMarchOk
+        freshMarchOk: freshMarchOk,
+        isQtyLive: liveQty,
+        leftoverQty: leftoverQtyFlag,
+        commitQty: commitQty,
+        cancelQty: cancelQty
     };
 })(window);

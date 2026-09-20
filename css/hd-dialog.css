@@ -19,6 +19,11 @@
     pointer-events: auto;
 }
 
+.hd-dialog:not(.is-open),
+html[data-baye-dialog="off"] .hd-dialog {
+    pointer-events: none !important;
+}
+
 /* GetCitySet 期间、残留「部队已出发」：全屏壳不得挡住点城 / 招商。 */
 html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open,
 html[data-baye-dialog-pass="1"] .hd-dialog.is-open {
@@ -125,6 +130,14 @@ html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
     display: flex;
     gap: 10px;
     margin-top: auto;
+}
+
+.hd-dialog.is-qty .hd-dialog-footer button[data-hd-dlg-ok] {
+    min-height: 48px;
+    font-size: 18px;
+    font-weight: 700;
+    background: #f0c75a;
+    color: #1b1f27;
 }
 
 .hd-dialog-footer button[data-hd-dlg-ok] {

@@ -96,7 +96,7 @@
     }
 
     function engineSendKey(code) {
-        if (code === VK.EXIT && cityMenuHoldExit()) {
+        if (code === VK.EXIT && cityMenuHoldExit() && state.kind !== 'qty') {
             console.warn('[hd-dialog] blocked EXIT during BattleMake');
             return false;
         }
@@ -288,6 +288,7 @@
         var pass = show && state.kind === 'report' && leftoverMarchTip(state.body);
         document.documentElement.setAttribute('data-baye-dialog', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-dialog-pass', pass ? '1' : '0');
+        document.documentElement.setAttribute('data-baye-dialog-qty', (show && state.kind === 'qty') ? '1' : '0');
         if (document.body) {
             document.body.classList.toggle('baye-hd-dialog-on', show);
             document.body.classList.toggle('baye-hd-dialog-lcd', show && state.showLcd);
@@ -298,9 +299,10 @@
         var root = el('hd-dialog');
         if (root) {
             root.classList.toggle('is-open', show);
-            root.classList.toggle('is-qty', state.kind === 'qty');
+            root.classList.toggle('is-qty', show && state.kind === 'qty');
             root.classList.toggle('is-empty-text', !state.body);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
+            root.style.pointerEvents = show ? 'auto' : 'none';
         }
     }
 
@@ -405,12 +407,53 @@
 
     function cityMenuQty() {
         try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isQtyLive === 'function') {
+                return !!BayeHdCityMenu.isQtyLive();
+            }
             if (window.baye && baye.hd && typeof baye.hd.qty === 'function') {
                 var q = baye.hd.qty();
                 return !!(q && q.active);
             }
         } catch (e) {}
         return false;
+    }
+
+    function cityMenuLeftoverQty() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.leftoverQty === 'function' &&
+            BayeHdCityMenu.leftoverQty());
+    }
+
+    function closeQtyDialog() {
+        if (state.open && state.kind === 'qty') {
+            closeDialog({ silent: true });
+        }
+    }
+
+    function commitQtyDialog() {
+        if (cityMenuLeftoverQty() || !cityMenuQty()) {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.commitQty === 'function') {
+                BayeHdCityMenu.commitQty();
+            } else {
+                closeQtyDialog();
+            }
+            return;
+        }
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.commitQty === 'function') {
+            BayeHdCityMenu.commitQty();
+            return;
+        }
+        engineSendKey(VK.ENTER);
+        setTimeout(closeQtyDialog, 80);
+    }
+
+    function cancelQtyDialog() {
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.cancelQty === 'function') {
+            BayeHdCityMenu.cancelQty();
+            return;
+        }
+        engineSendKey(VK.EXIT);
+        closeQtyDialog();
     }
 
     function cityMenuFreshMarch() {
@@ -464,10 +507,15 @@
     }
 
     function tryOpenQty() {
+        if (cityMenuLeftoverQty() || (global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.isQtyLive === 'function' && !BayeHdCityMenu.isQtyLive())) {
+            closeQtyDialog();
+            return false;
+        }
         try {
             if (window.baye && baye.hd && baye.hd.qty) {
                 var qtyInfo = baye.hd.qty();
-                if (qtyInfo && qtyInfo.active) {
+                if (qtyInfo && qtyInfo.active && cityMenuQty()) {
                     openDialog({
                         kind: 'qty',
                         title: '数量',
@@ -480,6 +528,9 @@
                 }
             }
         } catch (e) {}
+        if (state.open && state.kind === 'qty' && !cityMenuQty()) {
+            closeQtyDialog();
+        }
         return false;
     }
 
@@ -804,6 +855,10 @@
         }
         if (info.id === 9) {
             state.asyncId = 9;
+            if (cityMenuLeftoverQty() || !cityMenuQty()) {
+                closeQtyDialog();
+                return;
+            }
             openDialog({
                 kind: 'qty',
                 title: '数量',
@@ -862,11 +917,29 @@
             return;
         }
         state.bound = true;
+        document.addEventListener('keydown', function (e) {
+            if (!(state.open && state.kind === 'qty' && shouldShowHd())) {
+                return;
+            }
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                commitQtyDialog();
+                return;
+            }
+            if (e.keyCode === 27) {
+                e.preventDefault();
+                cancelQtyDialog();
+            }
+        }, true);
         root.addEventListener('click', function (ev) {
             var t = ev.target;
             while (t && t !== root) {
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-ok') != null) {
                     ev.preventDefault();
+                    if (state.kind === 'qty') {
+                        commitQtyDialog();
+                        return;
+                    }
                     if (state.kind === 'report' && leftoverMarchTip(state.body)) {
                         var passOnly = /部队已出发/.test(state.body || '') ||
                             cityMenuMarching() || cityMenuOpen() || mapPickActive() ||
@@ -884,6 +957,10 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-back') != null) {
                     ev.preventDefault();
+                    if (state.kind === 'qty') {
+                        cancelQtyDialog();
+                        return;
+                    }
                     /* 「选择目标」/ 出征向导返回不能 EXIT：GetCitySet / BattleMake 会退回将领表。 */
                     if (isMapPickTip(state.body) || mapPickActive() || cityMenuMarching() ||
                         cityMenuHoldExit() || cityMenuQty()) {
@@ -957,6 +1034,8 @@
             return openDialog({ kind: 'help', title: '查找', body: '', showLcd: true });
         },
         close: closeDialog,
+        closeQty: closeQtyDialog,
+        isQtyOpen: function () { return !!(state.open && state.kind === 'qty'); },
         clearLeftoverMarch: clearLeftoverMarch,
         dismissLeftoverSpeech: dismissLeftoverSpeech,
         resetArmout: function () {
