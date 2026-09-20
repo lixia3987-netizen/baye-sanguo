@@ -907,6 +907,12 @@
             state.lastMapCity = readMapCity();
         }
         if (name === 'onMenuIdle') {
+            if (state.aligning && validCityIndex(state.selectedIndex)) {
+                var walkLanded = inferCurrentCity();
+                if (walkLanded !== state.selectedIndex) {
+                    return;
+                }
+            }
             if (state.pendingEnter || state.aligning || state.hdOpenedMenu || looksLikeCityRootMenu()) {
                 confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
                 return;
@@ -2500,12 +2506,29 @@
         state.hdOpenedMenu = true;
         state.menuDepth = Math.max(1, state.menuDepth);
         setPhase('classic-menu');
-        var idx = validCityIndex(state.selectedIndex) ? state.selectedIndex : state.engineCursorIndex;
+        var landed = inferCurrentCity();
+        var idx = validCityIndex(state.selectedIndex) ? state.selectedIndex : -1;
+        if (!validCityIndex(idx) && validCityIndex(landed)) {
+            idx = landed;
+        } else if (!validCityIndex(idx)) {
+            idx = state.engineCursorIndex;
+        }
+        if (validCityIndex(landed) && validCityIndex(state.selectedIndex) &&
+            landed === state.selectedIndex) {
+            idx = landed;
+            state.engineCursorIndex = landed;
+        }
         var hdMenu = global.BayeHdCityMenu && BayeHdCityMenu.shouldShowHd();
         if (hdMenu) {
+            var name = '';
+            if (validCityIndex(idx) && state.cities[idx] && state.cities[idx].name) {
+                name = state.cities[idx].name;
+            } else if (validCityIndex(idx)) {
+                name = cityName(idx);
+            }
             BayeHdCityMenu.open({
                 cityIndex: idx,
-                cityName: validCityIndex(idx) && state.cities[idx] ? state.cities[idx].name : '',
+                cityName: name,
                 hook: 'confirm'
             });
             state.hint = hint || 'HD 城池菜单。点内政/外交/军备/状况；返回回大地图。';

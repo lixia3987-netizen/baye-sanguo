@@ -950,6 +950,10 @@
         if (!show) {
             return;
         }
+        var liveName = cityName(state.cityIndex);
+        if (liveName) {
+            state.cityName = liveName;
+        }
         var title = state.cityName || (state.cityIndex >= 0 ? '城' + (state.cityIndex + 1) : '城池');
         setText(el('hd-city-menu-title'), title);
         var sub = el('hd-city-menu-sub');
@@ -1033,27 +1037,38 @@
         syncToolbar();
     }
 
+    function bindOpenedCity(meta) {
+        meta = meta || {};
+        var nextIndex = meta.cityIndex;
+        if (nextIndex == null || nextIndex < 0) {
+            nextIndex = state.cityIndex;
+        }
+        var switched = nextIndex >= 0 && nextIndex !== state.cityIndex;
+        if (nextIndex >= 0) {
+            state.cityIndex = nextIndex;
+        }
+        var live = cityName(state.cityIndex);
+        state.cityName = (meta.cityName && String(meta.cityName)) || live || state.cityName || '';
+        if (switched && state.open) {
+            state.layer = 'root';
+            state.subKind = '';
+            state.deepKind = '';
+            state.deepLabel = '';
+            state.deepItems = [];
+            state.idleIndex = 0;
+        }
+        return switched;
+    }
+
     function openMenu(meta) {
         meta = meta || {};
         if (!shouldShowHd()) {
             return false;
         }
-        if (meta.cityIndex != null && meta.cityIndex >= 0) {
-            state.cityIndex = meta.cityIndex;
-        }
-        if (meta.cityName) {
-            state.cityName = meta.cityName;
-        } else if (!state.cityName) {
-            state.cityName = cityName(state.cityIndex);
-        }
+        bindOpenedCity(meta);
         state.lastHook = meta.hook || state.lastHook;
         if (state.open) {
-            applyHighlight();
-            var probe = el('hd-city-menu-probe');
-            if (probe) {
-                setText(probe, 'hook=' + (state.lastHook || '—') + '  idleIndex=' +
-                    (state.idleIndex == null ? '—' : state.idleIndex));
-            }
+            render();
             return true;
         }
         state.listKind = '';
@@ -1087,6 +1102,8 @@
             return;
         }
         if (!state.open) {
+            state.cityIndex = -1;
+            state.cityName = '';
             applyDocAttr();
             return;
         }
@@ -1094,6 +1111,8 @@
         state.layer = 'root';
         state.queue = [];
         state.sending = false;
+        state.cityIndex = -1;
+        state.cityName = '';
         if (!(engineMarch() && engineMarch().ok)) {
             state.marchReady = false;
         }
@@ -1811,6 +1830,7 @@
                 subKind: state.subKind,
                 cityIndex: state.cityIndex,
                 cityName: state.cityName,
+                titleText: (el('hd-city-menu-title') && el('hd-city-menu-title').textContent) || '',
                 idleIndex: state.idleIndex,
                 idleKeys: state.idleKeys.slice(),
                 lastHook: state.lastHook,
