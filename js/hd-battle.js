@@ -43,6 +43,7 @@
         menuIndex: 0,
         lastMenuIdleAt: 0,
         lastMenuIdleKind: '',
+        liveMenuKind: '',
         lastWait: 0,
         sawWait: false,
         pendingSys: 0,
@@ -286,8 +287,8 @@
         if (!state.sawWait) {
             return null;
         }
-        /* 与 FunctionMenu 相同：没有新鲜 onMenuIdle 就是残留，不能挡选将。 */
-        if (!menuIdleFresh()) {
+        /* 活菜单以 onMenuIdle 置位、willCloseMenu / wait 变化清位。过期 idle 不再把活着的壳藏掉。 */
+        if (state.liveMenuKind !== cls.kind && !menuIdleFresh()) {
             return null;
         }
         cls.index = items.index != null ? items.index : 0;
@@ -303,6 +304,7 @@
         if (w !== state.lastWait) {
             state.lastMenuIdleAt = 0;
             state.lastMenuIdleKind = '';
+            state.liveMenuKind = '';
             if (w === 1) {
                 state.sawWait = true;
             }
@@ -753,10 +755,10 @@
         state.mapH = info.mapH;
         state.tiles = info.tiles;
         state.focus = info.focus;
-        applyChrome();
-        draw();
         noteFightWait(readFight());
         renderFightMenu();
+        applyChrome();
+        draw();
     }
 
     function loop() {
@@ -801,6 +803,7 @@
         if (!already) {
             state.lastMenuIdleAt = 0;
             state.lastMenuIdleKind = '';
+            state.liveMenuKind = '';
             state.lastWait = 0;
             state.sawWait = false;
             state.pendingSys = 0;
@@ -831,6 +834,7 @@
         state.menuNames = [];
         state.lastMenuIdleAt = 0;
         state.lastMenuIdleKind = '';
+        state.liveMenuKind = '';
         state.lastWait = 0;
         state.sawWait = false;
         state.pendingSys = 0;
@@ -854,9 +858,10 @@
             var cls = classifyFightMenu(names);
             if (cls && state.open) {
                 var fight = readFight();
-                if (fight && fight.active && !fight.wait) {
+                if (fight && fight.active && !fight.wait && state.sawWait) {
                     state.lastMenuIdleAt = Date.now();
                     state.lastMenuIdleKind = cls.kind;
+                    state.liveMenuKind = cls.kind;
                     renderFightMenu();
                 }
             }
@@ -865,6 +870,7 @@
         if (name === 'willCloseMenu') {
             state.lastMenuIdleAt = 0;
             state.lastMenuIdleKind = '';
+            state.liveMenuKind = '';
             if (state.open) {
                 renderFightMenu();
             }
@@ -1082,6 +1088,7 @@
                 menuIndex: state.menuIndex,
                 menuLive: fightMenuLive(),
                 menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
+                liveMenuKind: state.liveMenuKind,
                 sawWait: state.sawWait,
                 pendingSys: state.pendingSys,
                 resultDismissed: state.resultDismissed,

@@ -88,7 +88,7 @@
 - 键盘：现有 `document.onkeydown` → `sendKey`（不拦截，除非 HD 壳自己的关闭钮）。
 - 格网点击（B1）：向该格连发方向键逼近，或 `_bayeSendTouchEvent` 映射到 LCD；失败则忽略。
 - 关闭预览：只关壳，不向引擎乱发 EXIT（真战斗中「关闭」只露出 LCD）。
-- 战场系统 / 将领行动：只在本场见过 `wait=1`、当前 `wait=0`、且最近有 `onMenuIdle` 时画壳。开战瞬间 `wait=0` 的残留「回合结束」不当活菜单。「系统菜单」在 `wait=1` 时发 EXIT；若还没进 `FgtGetFoucs` 则记下，等 `wait=1` 再发。「返回」只在菜单活着时发 EXIT，并立刻清 idle，避免再打开 `FgtMainMenu`。点己方将：方向键对齐 `g_FoucsX/Y`，仅 `wait=1` 时回车。结算条可点，发回车后关壳；已结算则不再因 `g_hdFightActive` 残留把壳盖回大地图。
+- 战场系统 / 将领行动：本场见过 `wait=1`、当前 `wait=0`，且 `onMenuIdle` 已把 `liveMenuKind` 置上才画壳。开战瞬间残留「回合结束」不当活菜单。`willCloseMenu` / `wait` 变化清位，过期 idle 不再把活壳藏掉。「系统菜单」在 `wait=1` 时发 EXIT；若还没进 `FgtGetFoucs` 则记下再发。「返回」只在菜单活着时发 EXIT。点己方将：方向键对齐，仅 `wait=1` 时回车。结算后关壳，不把战场盖回大地图。
 
 ---
 
