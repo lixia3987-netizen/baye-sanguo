@@ -1067,6 +1067,11 @@
         if (!state.personExitSent || liveGetFood() || engineInGetCitySet() || state.sawQtyThisMarch) {
             return false;
         }
+        var q = engineQty();
+        /* GetFood 已到过（min 恒 ≥1）。再 EXIT 会取消选粮。 */
+        if (q && Number(q.min) >= 1) {
+            return false;
+        }
         var liveFunc = looksLikeFunctionMenu() &&
             (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
         if (liveFunc) {
@@ -2292,11 +2297,6 @@
             BayeHdDialog.close({ silent: true });
         }
         engineSendKey(VK.EXIT, 'finish-persons');
-        setTimeout(function () {
-            if (state.personExitSent && !liveGetFood() && !engineInGetCitySet()) {
-                engineSendKey(VK.EXIT, 'finish-persons');
-            }
-        }, 140);
         scheduleMarchWatch();
         render();
     }
