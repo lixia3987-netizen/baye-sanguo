@@ -1084,17 +1084,6 @@
         if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
             return { ok: true, phase: engineMarchPhase() };
         }
-        if (leftoverDisasterReport(liveEngineReport())) {
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
-            }
-            if (!engineStillPersonQueue() && state.personExitSent && !state.sawQtyThisMarch && !liveGetFood()) {
-                noteStep4('drive-disaster-enter', { skipped: why || 'disaster' });
-                engineSendKey(VK.ENTER);
-                scheduleMarchWatch();
-                return { deferred: 'disaster-enter', phase: engineMarchPhase() };
-            }
-        }
         if (liveGetFood()) {
             noteStep4('drive-food-enter', { skipped: why || 'food' });
             engineSendKey(VK.ENTER, 'qty-ok');
@@ -1110,7 +1099,7 @@
             return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
         }
         if (state.personExitSent && !state.sawQtyThisMarch && !mapPickActive() &&
-            engineStillPersonQueue() && (state.personExitTries || 0) < 6) {
+            engineStillPersonQueue() && (state.personExitTries || 0) < 10) {
             var liveFunc = looksLikeFunctionMenu() &&
                 (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
             if (!liveFunc) {
@@ -1119,7 +1108,8 @@
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                     BayeHdDialog.close({ silent: true });
                 }
-                enqueueKeys([VK.EXIT], 70, 'finish-persons');
+                /* leftover 暴动 / ShowPersonControl 都用 EXIT，回车会点中当前将。 */
+                engineSendKey(VK.EXIT, 'finish-persons');
                 scheduleMarchWatch();
                 return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
             }
@@ -1501,6 +1491,9 @@
             if (persons.length) {
                 return persons;
             }
+        }
+        if (kind === 'person-city' && state.personExitSent && !showingQty() && !liveTargetStep()) {
+            return [];
         }
         var eng = engineMenuItems();
         var subNames = SUBS[state.subKind] || [];
@@ -2298,7 +2291,12 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
-        enqueueKeys([VK.EXIT], 70, 'finish-persons');
+        engineSendKey(VK.EXIT, 'finish-persons');
+        setTimeout(function () {
+            if (state.personExitSent && !liveGetFood() && !engineInGetCitySet()) {
+                engineSendKey(VK.EXIT, 'finish-persons');
+            }
+        }, 140);
         scheduleMarchWatch();
         render();
     }
