@@ -26,4 +26,4 @@
 
 `ShowConstStrMsg`「部队已出发」第一次（引擎卡住、`pick=0`）发一次回车关掉；之后只是残留文本。全屏壳在 `pick=0`、城菜单开着、策略结束交接、`全军撤退` / `fight` 未激活时都必须关掉，且 `data-baye-dialog-pass=1` 不拦截招商/开垦。残留期间不再回车，避免打进 FunctionMenu 或战场。覆没后再出征时，关掉的壳不得把残留「部队已出发」正文交给城菜单当新行军（`clearLeftoverMarch` 清 `state.body`）。
 
-过月策略结束残留的人物台词（如「我虽不愿如此，但也是不得已。」）不是出征步骤。出征向导里 `dismissLeftoverSpeech`：壳开着或 `g_asyncActionID` 1/2/13 才回车一次关掉活对话；纯 `g_hdReportGbk` 残留只关壳。`g_hdMenuBytes` 残留「策略结束」不当活 FunctionMenu。poll 先开 GetFood 数量壳，再处理残留报告 / leftover pick。
+过月策略结束残留的人物台词（如「我虽不愿如此，但也是不得已。」）不是出征步骤。出征向导里 `dismissLeftoverSpeech`：打开出征时若壳开着可回车一次；完成选将之后、以及残留「农业开发度 / 天灾 / 归降 / 部队已出发」一律只关壳。回车这些残留等于策略结束或点进开垦将表。`g_hdMenuBytes` 残留「策略结束」不当活 FunctionMenu。poll 先开 GetFood 数量壳，再处理残留报告 / leftover pick。
