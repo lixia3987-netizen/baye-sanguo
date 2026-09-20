@@ -29,7 +29,8 @@
         queue: [],
         kings: [],
         saves: [],
-        probed: false
+        probed: false,
+        lastFuncMenuIdle: 0
     };
 
     function readStorage(key, fallback) {
@@ -361,7 +362,23 @@
         return [];
     }
 
+    function fightActive() {
+        try {
+            if (global.BayeHdBattle && BayeHdBattle.isOpen && BayeHdBattle.isOpen()) {
+                return true;
+            }
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var f = baye.hd.fight();
+                return !!(f && f.active);
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function inferScreen() {
+        if (fightActive()) {
+            return null;
+        }
         var names = liveMenuNames();
         if (names[0] === '策略结束') {
             var pick = 0;
@@ -371,8 +388,9 @@
                 }
             } catch (e) {}
             var cityOpen = global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen();
-            /* g_hdMenuBytes 会残留「策略结束」；大地图 GetCitySet 时 pick=1，不能据此弹壳。 */
-            if (!pick && !cityOpen) {
+            var idleFresh = (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
+            /* g_hdMenuBytes 会残留「策略结束」。大地图 pick=1、战斗中、或 onMenuIdle 已停，都不当 FunctionMenu。 */
+            if (!pick && !cityOpen && idleFresh) {
                 return 'insystem';
             }
         }
@@ -620,6 +638,8 @@
             state.kings = probeKings();
             state.showLcd = !state.kings.length;
             scheduleKingRefresh();
+        } else if (state.screen === 'insystem' && index === 0) {
+            closeUi({ silent: true });
         } else if (state.screen === 'insystem' && index === 1) {
             state.screen = 'saveload';
             state.showLcd = true;
@@ -665,6 +685,9 @@
         }
         if (ctx && ctx.index != null && isFinite(Number(ctx.index))) {
             state.idleIndex = Number(ctx.index);
+        }
+        if (name === 'onMenuIdle' && liveMenuNames()[0] === '策略结束') {
+            state.lastFuncMenuIdle = Date.now();
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
             if (state.screen === 'king') {
