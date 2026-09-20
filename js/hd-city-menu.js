@@ -321,7 +321,13 @@
             return { skipped: 'overworld-pick', cityIndex: cityIndex };
         }
         if (!mapPickActive()) {
-            if (liveChooseTarget() || state.wizardStep === 'target-tip') {
+            if (waitingArmout()) {
+                dismissLiveArmout();
+                scheduleMarchWatch();
+                return { deferred: 'armout', cityIndex: cityIndex };
+            }
+            if (liveChooseTarget() || state.wizardStep === 'target-tip' ||
+                state.wizardStep === 'map-pick') {
                 if (!state.dismissedObj) {
                     state.dismissedObj = true;
                 }
@@ -398,6 +404,10 @@
                 }
                 engineSendKey(VK.ENTER);
                 scheduleMarchWatch();
+                setTimeout(function () {
+                    dismissLiveArmout();
+                    scheduleMarchWatch();
+                }, 280);
             }, landed() ? 90 : 220);
         }
         function sendNext() {
@@ -465,6 +475,20 @@
 
     function leftoverMarchReport(text) {
         return /部队已出发/.test(String(text || ''));
+    }
+
+    function dismissLiveArmout() {
+        if (!waitingArmout()) {
+            return false;
+        }
+        state.acceptMarchOk = true;
+        state.campaignPick = true;
+        advanceWizard('map-pick', 'armout-enter');
+        engineSendKey(VK.ENTER);
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
+        return true;
     }
 
     function leftoverChooseTarget(text) {
@@ -556,8 +580,27 @@
             !liveChooseTarget();
     }
 
+    function liveTargetStep() {
+        return state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
+            !!(state.personExitSent && state.campaignPick && state.wizardStep !== 'persons');
+    }
+
+    /* GetCitySet 已返回，引擎停在 ShowConstStrMsg(部队已出发)，AddFightOrder 还没跑。 */
+    function waitingArmout() {
+        if (freshMarchOk() || state.marchReady || mapPickActive() || showingQty()) {
+            return false;
+        }
+        if (!state.personExitSent || state.wizardStep === 'persons') {
+            return false;
+        }
+        return leftoverMarchReport(liveEngineReport()) && liveTargetStep();
+    }
+
     function usesMapCursor(kind, step) {
         /* GetCitySet 打开前不要画城列表。过图 leftover pick=1 不是出征目标。 */
+        if (waitingArmout() || liveTargetStep()) {
+            return true;
+        }
         return mapPickActive() && !leftoverOverworldPick();
     }
 
@@ -666,10 +709,26 @@
     }
 
     function cityLinkIndexes() {
-        var data = engineData();
-        var links = data && data.g_hdCityLinks;
+        var from = state.cityIndex;
+        var loaded = [];
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.cityLinks === 'function' &&
+                from != null && from >= 0) {
+                loaded = baye.hd.cityLinks(from) || [];
+            }
+        } catch (e) {}
         var out = [];
         var i;
+        if (loaded && loaded.length) {
+            for (i = 0; i < loaded.length; i++) {
+                if (loaded[i] && loaded[i].index != null && isFinite(Number(loaded[i].index))) {
+                    out.push(Number(loaded[i].index));
+                }
+            }
+            return out;
+        }
+        var data = engineData();
+        var links = data && data.g_hdCityLinks;
         if (!links) {
             return out;
         }
@@ -685,14 +744,26 @@
         return out;
     }
 
+    function playerBelong() {
+        var data = engineData();
+        var king = data ? readNumber(data, 'g_PlayerKing') : null;
+        if (king == null || !isFinite(king)) {
+            return 0;
+        }
+        return king + 1;
+    }
+
     function otherCities(except) {
         var data = engineData();
         var list = [];
         if (!data || !data.g_Cities) {
             return list;
         }
-        var restrict = usesMapCursor(state.deepKind, state.deepStep) ? cityLinkIndexes() : [];
+        var restrict = (usesMapCursor(state.deepKind, state.deepStep) || liveTargetStep())
+            ? cityLinkIndexes() : [];
+        var mine = playerBelong();
         var i;
+        var rows = [];
         for (i = 0; i < data.g_Cities.length; i++) {
             if (i === except) {
                 continue;
@@ -703,12 +774,23 @@
             var name = cityName(i);
             var belong = readNumber(data.g_Cities[i], 'Belong');
             var owner = belong ? personNameById(belong) : '';
-            list.push({
-                i: list.length,
+            var enemy = !mine || !belong || belong !== mine;
+            rows.push({
                 cityIndex: i,
                 name: name || ('城' + (i + 1)),
-                owner: owner
+                owner: owner,
+                enemy: enemy
             });
+        }
+        rows.sort(function (a, b) {
+            if (a.enemy !== b.enemy) {
+                return a.enemy ? -1 : 1;
+            }
+            return a.cityIndex - b.cityIndex;
+        });
+        for (i = 0; i < rows.length; i++) {
+            rows[i].i = i;
+            list.push(rows[i]);
         }
         return list;
     }
@@ -746,11 +828,11 @@
     function probeDeepItems() {
         var kind = state.deepKind;
         var step = state.deepStep;
-        if (usesMapCursor(kind, step)) {
+        if (usesMapCursor(kind, step) || (kind === 'person-city' && liveTargetStep())) {
             return otherCities(state.cityIndex);
         }
         if (kind === 'person' || kind === 'person-goods' || kind === 'person-qty' ||
-            (kind === 'person-city' && !mapPickActive() && !showingQty())) {
+            (kind === 'person-city' && !mapPickActive() && !showingQty() && !liveTargetStep())) {
             var persons = cityPersons(state.cityIndex);
             if (persons.length) {
                 return persons;
@@ -1609,7 +1691,8 @@
             if (leftoverChooseTarget(engine) && (!state.personExitSent || state.wizardStep === 'persons')) {
                 return '';
             }
-            if (leftoverMarchReport(engine) && !freshMarchOk() && wizardInMarch()) {
+            /* 选将阶段的残留「部队已出发」才藏。GetCitySet 刚返回的真提示必须留下，好回车放行 AddFightOrder。 */
+            if (leftoverMarchReport(engine) && !freshMarchOk() && state.wizardStep === 'persons') {
                 return '';
             }
             return engine;
@@ -1690,6 +1773,11 @@
                 }
             }, 120);
             scheduleMarchWatch();
+            return;
+        }
+        if (dismissLiveArmout()) {
+            scheduleMarchWatch();
+            render();
             return;
         }
         if (/我方城池|无法到达/.test(report) && (state.campaignPick || mapPickActive())) {
@@ -2141,6 +2229,8 @@
         isMarchReady: function () { return !!(state.marchReady && !state.handoff && freshMarchOk()); },
         finishPersons: finishPersonPick,
         leftoverOverworldPick: leftoverOverworldPick,
+        waitingArmout: waitingArmout,
+        liveTargetStep: liveTargetStep,
         wizardStep: function () { return state.wizardStep; },
         goStrategyEnd: goStrategyEnd,
         consumeLeftoverMarch: consumeLeftoverMarch,

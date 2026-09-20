@@ -504,11 +504,30 @@
         if (/部队已出发/.test(info.text || '')) {
             var seq = info.hdSeq || 0;
             var already = state.lastArmoutEnterSeq && (!seq || seq <= state.lastArmoutEnterSeq);
-            /* 新开一趟出征时 g_hdReportGbk 仍是上场「部队已出发」。回车会打进 FunctionMenu / 选将。 */
-            var leftoverNewMarch = cityMenuMarching() && !cityMenuFreshMarch();
+            var liveArmout = false;
+            var wizardPersons = false;
+            try {
+                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.waitingArmout === 'function') {
+                    liveArmout = !!BayeHdCityMenu.waitingArmout();
+                }
+                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.debugSnapshot === 'function') {
+                    var snap = BayeHdCityMenu.debugSnapshot();
+                    wizardPersons = !!(snap && snap.wizardStep === 'persons');
+                    if (!liveArmout && snap && snap.personExitSent &&
+                        (snap.wizardStep === 'map-pick' || snap.wizardStep === 'target-tip') &&
+                        !(snap.march && snap.march.ok) && !(snap.march && snap.march.pick)) {
+                        liveArmout = true;
+                    }
+                }
+            } catch (e) {}
+            /* 选将时的残留横幅不能回车。GetCitySet 刚返回的真「部队已出发」必须回车，否则 AddFightOrder 不跑。 */
+            var leftoverNewMarch = wizardPersons && cityMenuMarching() && !cityMenuFreshMarch();
             var unsafe = mapPickActive() || fightActive() || functionMenuLive() ||
                 strategyHandoff() || leftoverNewMarch;
-            if (!already && !unsafe) {
+            if (liveArmout && !already) {
+                engineSendKey(VK.ENTER);
+                state.lastArmoutEnterSeq = seq || (state.lastArmoutEnterSeq + 1) || 1;
+            } else if (!already && !unsafe) {
                 engineSendKey(VK.ENTER);
                 state.lastArmoutEnterSeq = seq || (state.lastArmoutEnterSeq + 1) || 1;
             }
