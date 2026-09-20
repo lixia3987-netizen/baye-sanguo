@@ -23,7 +23,7 @@
 | `g_hdMenuIndex` | u16 | 当前高亮 |
 | `g_hdFightActive` | u8 | `GamFight` 进入后为 1；新一场开始前先清 0 |
 | `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（离开战斗时写入）。新 `GamFight` 入口先清 0，避免上场全军覆没残留 |
-| `g_hdFightWait` | u8 | `FgtGetFoucs` 正在 `GamGetMsg` 时为 1（按键不会被 `GamDelay(false)` 吃掉） |
+| `g_hdFightWait` | u8 | `FgtGetFoucs` 正在 `GamGetMsg` 时为 1（按键不会被 `GamDelay(false)` 吃掉）。新一场 / 显式 reset 时清 0 |
 | `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
 | `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
 | `g_hdQtyValue` / `Min` / `Max` | u32 | 当前数与区间 |

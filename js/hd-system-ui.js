@@ -856,6 +856,9 @@
             if (fightActive()) {
                 return false;
             }
+            if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
+                BayeHdBattle.prepareNewFight();
+            }
             var pick = 0;
             try {
                 if (window.baye && baye.hd && typeof baye.hd.march === 'function') {

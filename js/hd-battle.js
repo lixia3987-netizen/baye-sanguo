@@ -466,6 +466,9 @@
                 if (baye.data.g_hdFightActive != null) {
                     baye.data.g_hdFightActive = 0;
                 }
+                if (baye.data.g_hdFightWait != null) {
+                    baye.data.g_hdFightWait = 0;
+                }
                 if (typeof baye.data.g_hdFightResultGbk === 'string') {
                     baye.data.g_hdFightResultGbk = '';
                 }
@@ -833,14 +836,15 @@
             BayeHdDialog.close({ silent: true });
         }
         var already = state.open && !state.preview && !meta.preview;
+        var fresh = meta.hook === 'enterBattle' || meta.hook === 'g_hdFightActive';
         state.open = true;
         state.preview = !!meta.preview;
-        if (!meta.keepResult && !already) {
+        if (!meta.keepResult && (!already || fresh)) {
             state.resultCode = 0;
             state.resultText = '';
             state.resultDismissed = false;
         }
-        if (!already) {
+        if (!already || fresh) {
             state.lastMenuIdleAt = 0;
             state.lastMenuIdleKind = '';
             state.liveMenuKind = '';
@@ -1026,17 +1030,27 @@
         try {
             info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
         } catch (e) {}
-        if (info && info.active && !info.over) {
-            if (state.resultDismissed || state.resultText || state.resultCode) {
+        if (info && info.active) {
+            /* Live fight never inherits leftover 全军覆没 from the previous battle. */
+            if (info.over) {
+                try {
+                    if (window.baye && baye.data && baye.data.g_hdFightOver != null) {
+                        baye.data.g_hdFightOver = 0;
+                    }
+                } catch (e) {}
+                info.over = 0;
+            }
+            var leftover = !!(state.resultDismissed || state.resultText || state.resultCode);
+            if (leftover) {
                 state.resultDismissed = false;
                 state.resultText = '';
                 state.resultCode = 0;
             }
-            if (!state.open && shouldShowHd()) {
+            if (shouldShowHd() && (!state.open || leftover)) {
                 enterBattle({ hook: 'g_hdFightActive' });
             }
         }
-        if (info && info.over) {
+        if (info && info.over && !info.active) {
             if (state.resultDismissed) {
                 if (state.open) {
                     closeBattle({ silent: true });
@@ -1066,13 +1080,22 @@
             var d = engineData();
             var f = null;
             try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
-            if (d && Number(d.g_hdFightActive) && !(f && f.over)) {
-                if (state.resultDismissed || state.resultText) {
+            if (d && Number(d.g_hdFightActive)) {
+                if (f && f.over) {
+                    try {
+                        if (d.g_hdFightOver != null) {
+                            d.g_hdFightOver = 0;
+                        }
+                    } catch (e) {}
+                    f.over = 0;
+                }
+                var leftover = !!(state.resultDismissed || state.resultText);
+                if (leftover) {
                     state.resultDismissed = false;
                     state.resultText = '';
                     state.resultCode = 0;
                 }
-                if (!state.open) {
+                if (!state.open || leftover) {
                     enterBattle({ hook: 'g_hdFightActive' });
                 }
             }
