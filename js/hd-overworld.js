@@ -2608,6 +2608,16 @@
                 return;
             }
             if (attempt === 0 && pickNow === 1 && landedOnTarget(to, expectTile)) {
+                var retryCity = validCityIndex(to) ? state.cities[to] : null;
+                /* 出征刚确认后 PlayerTactic 立刻再 GetCitySet；对敌城再 ENTER 就是「敌方城池」。 */
+                if (retryCity && retryCity.kind !== 'owned') {
+                    tried.push('skip-retry-enemy');
+                    state.pendingEnter = false;
+                    state.aligning = false;
+                    state.hint = '未对他方城再回车（避免 PlayerTactic「敌方城池」）。';
+                    applyChrome();
+                    return;
+                }
                 tried.push('retry-enter');
                 engineSendKey(enter);
                 later(token, 750, function () {
@@ -2792,7 +2802,20 @@
         finishAlignFail(token, tried, from, index, 'none', 'no-path');
     }
 
+    function cityMenuMarching() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.isMarching === 'function' &&
+            BayeHdCityMenu.isMarching());
+    }
+
     function openClassicCity(index) {
+        if (cityMenuMarching()) {
+            state.selectedIndex = index;
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
+                BayeHdCityMenu.walkToCity(index, true);
+            }
+            return;
+        }
         if (state.phase === 'classic-menu') {
             leaveClassicMenu('换城对齐…');
         } else if (state.phase !== 'map') {
@@ -2806,6 +2829,11 @@
         cancelAlign();
         var city = state.cities[index];
         state.selectedIndex = index;
+        if (city && city.kind !== 'owned') {
+            state.hint = (city.name || '该城') + ' 不是己方城。PlayerTactic 回车会报「敌方城池」；出征请从己方城菜单选目标。';
+            applyChrome();
+            return;
+        }
         state.aligning = true;
         state.alignToken += 1;
         state.enterFx = { index: index, start: Date.now(), duration: 150 };
@@ -2907,10 +2935,8 @@
             if (state.phase === 'classic-menu') {
                 var pickPt = eventToDesign(ev);
                 var pickIdx = pickPt ? hitCity(pickPt) : -1;
-                var marching = global.BayeHdCityMenu &&
-                    typeof BayeHdCityMenu.isMarching === 'function' &&
-                    BayeHdCityMenu.isMarching();
-                if (readMapPick() && pickIdx >= 0) {
+                var marching = cityMenuMarching();
+                if (marching && pickIdx >= 0) {
                     ev.preventDefault();
                     if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
                         BayeHdCityMenu.walkToCity(pickIdx, true);
@@ -2923,6 +2949,17 @@
                 }
                 ev.preventDefault();
                 leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
+                return;
+            }
+            if (cityMenuMarching()) {
+                var marchPt = eventToDesign(ev);
+                var marchIdx = marchPt ? hitCity(marchPt) : -1;
+                if (marchIdx >= 0) {
+                    ev.preventDefault();
+                    if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
+                        BayeHdCityMenu.walkToCity(marchIdx, true);
+                    }
+                }
                 return;
             }
             if (!hitsEnabled()) {

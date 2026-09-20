@@ -289,7 +289,13 @@
     }
 
     function isMapPickTip(text) {
-        return !!(text && /选择目标/.test(String(text)));
+        return !!(text && /选择目标|敌方城池|我方城池|无法到达|无人占领/.test(String(text)));
+    }
+
+    function cityMenuMarching() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.isMarching === 'function' &&
+            BayeHdCityMenu.isMarching());
     }
 
     function applyEngineReport(info) {
@@ -297,8 +303,23 @@
         if (!looksLikeSpeech(info.text)) {
             return false;
         }
-        /* GetCitySet 已打开时，「选择目标」只是残留桥文本，全屏壳会挡住点城。 */
-        if (mapPickActive() && isMapPickTip(info.text)) {
+        /* PlayerTactic 点他方城：引擎弹「敌方城池」并卡住。HD 全屏壳会挡住下一次出征。 */
+        if (/敌方城池|无人占领/.test(info.text || '') && !cityMenuMarching()) {
+            if (info.hdSeq) {
+                state.lastReportSeq = info.hdSeq;
+            }
+            /* pick=1 时只是桥残留，回车会确认当前格。pick=0 才是 PlayerTactic 真提示。 */
+            if (!mapPickActive()) {
+                engineSendKey(VK.ENTER);
+            }
+            if (state.open && state.kind === 'report') {
+                closeDialog({ silent: true });
+            }
+            return false;
+        }
+        /* GetCitySet / 过图 pick 共用 g_hdMapPick。残留「选择目标」「敌方城池」全屏壳会挡住点城。
+         * 出征中对「敌方城池」不能回车，那会确认当前格。 */
+        if (isMapPickTip(info.text) && (mapPickActive() || cityMenuMarching())) {
             if (info.hdSeq) {
                 state.lastReportSeq = info.hdSeq;
             }
@@ -492,14 +513,16 @@
             }
         } catch (e) {}
         var info = readAsync();
-        if (mapPickActive()) {
-            if (state.open && state.kind === 'report') {
+        if (mapPickActive() || (cityMenuMarching() && isMapPickTip(info.text || (state.body || '')))) {
+            if (state.open && state.kind === 'report' && isMapPickTip(state.body || info.text)) {
                 closeDialog({ silent: true });
             }
             if (info.hdSeq) {
                 state.lastReportSeq = info.hdSeq;
             }
-            return;
+            if (mapPickActive()) {
+                return;
+            }
         }
         if (info.hdSeq && info.hdSeq !== state.lastReportSeq && looksLikeSpeech(info.text)) {
             applyEngineReport(info);
@@ -602,6 +625,10 @@
             while (t && t !== root) {
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-ok') != null) {
                     ev.preventDefault();
+                    if (state.kind === 'report' && /敌方城池/.test(state.body || '') && cityMenuMarching()) {
+                        closeDialog({ silent: true });
+                        return;
+                    }
                     engineSendKey(VK.ENTER);
                     if (state.kind === 'report' && isMapPickTip(state.body)) {
                         closeDialog({ silent: true });

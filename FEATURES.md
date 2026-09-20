@@ -104,7 +104,7 @@
 | 地形合成 | done | Wikimedia China LCC 全图（无国界，CC BY-SA 4.0）+ 南海垫高 3840×4000，含海南/南沙。1080p 摄像机可拖动，四边硬夹在可玩矩形内。开局对准中东部。城标 `china-lcc-cities.json` |
 | 城标四态 / 势力色 | done | empty / owned / neutral / selected 用 `cities/marker_*.png`；空城 Belong 0；己方 `Belong === g_PlayerKing+1`；他方按 `palette/factions.json` 色环 |
 | 城名标签 | done | `baye.getCityName(i)`，20px 暗底+描边，重叠时下移避让 |
-| 点击入城 | partial | 走格只认 `g_CityPos.setx/sety`（西凉 1,0 / 安定 2,1 / 天水 3,2），不认 china-lcc 像素，也不用残留 `engineCursorIndex`。等格移动后再 ENTER；`g_hdMapPick` 1→0 或 `onMenuIdle` 才算开菜单。写字段会进错城。出征目标城同样按格等齐 |
+| 点击入城 | partial | 走格只认 `setx/sety`。`g_hdMapPick` 过图与出征共用：只在出征向导里点城当目标；他方城不回车（避免「敌方城池」挡层） |
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |

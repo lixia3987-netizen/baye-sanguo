@@ -72,7 +72,8 @@
         walkToken: 0,
         pickedPersons: 0,
         dismissedObj: false,
-        marchReady: false
+        marchReady: false,
+        campaignPick: false
     };
 
     function readStorage(key, fallback) {
@@ -973,6 +974,9 @@
         state.layer = 'root';
         state.queue = [];
         state.sending = false;
+        if (!mapPickActive() && !state.marchReady) {
+            state.campaignPick = false;
+        }
         render();
         if (!opts.silent && global.BayeHdOverworld && typeof BayeHdOverworld.leaveMenu === 'function') {
             BayeHdOverworld.leaveMenu('已回到 HD 大地图。');
@@ -1040,6 +1044,7 @@
         state.pickedPersons = 0;
         state.dismissedObj = false;
         state.marchReady = false;
+        state.campaignPick = false;
         state.showLcd = false;
         applyDocAttr();
         var lcdBtn = document.querySelector('[data-hd-menu-lcd]');
@@ -1077,6 +1082,9 @@
     }
 
     function isMarching() {
+        if (state.campaignPick && !state.marchReady) {
+            return true;
+        }
         if (!state.open || state.layer !== 'deep') {
             return false;
         }
@@ -1112,7 +1120,7 @@
         if (!state.open || state.layer !== 'deep') {
             return;
         }
-        if (looksLikeFunctionMenu()) {
+        if (looksLikeFunctionMenu() && !state.campaignPick && !mapPickActive()) {
             closeMenu({ silent: true });
             return;
         }
@@ -1126,6 +1134,7 @@
         }
         if (!state.dismissedObj && /选择目标/.test(report) && !mapPickActive()) {
             state.dismissedObj = true;
+            state.campaignPick = true;
             enqueueKeys([VK.ENTER], 80);
             setTimeout(function () {
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
@@ -1135,11 +1144,27 @@
             scheduleMarchWatch();
             return;
         }
+        if (/我方城池|无法到达/.test(report) && (state.campaignPick || mapPickActive())) {
+            enqueueKeys([VK.ENTER], 80);
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            scheduleMarchWatch();
+            return;
+        }
+        if (mapPickActive() && (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.dismissedObj)) {
+            state.campaignPick = true;
+        }
         if (mapPickActive() || (march && march.ok)) {
-            if (mapPickActive() && global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
             if (march && march.ok) {
+                state.marchReady = true;
+                state.campaignPick = false;
+            }
+            if (/部队已出发/.test(report)) {
+                state.campaignPick = false;
                 state.marchReady = true;
             }
             state.deepSig = '';
@@ -1507,6 +1532,7 @@
                 dismissedObj: state.dismissedObj,
                 marchReady: state.marchReady,
                 marching: isMarching(),
+                campaignPick: state.campaignPick,
                 march: engineMarch(),
                 qty: engineQty()
             };

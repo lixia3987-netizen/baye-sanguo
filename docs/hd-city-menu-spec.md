@@ -187,6 +187,7 @@ HD 曾在点第一名将领后就把 `person-city` 当成目标城列表（`uses
 - 点将后留在将领表；「完成选将 · 选粮出发」发 EXIT。
 - 见到「选择目标」自动回车；`mapPick=1` 才画邻城并 `walkCursorToCity`（`setx/sety`，不是 china-lcc）。
 - 「部队已出发」后「策略结束」：关掉报告 → EXIT×2 出城菜单/地图 → FunctionMenu。战斗要等 `PolicyExec` 按 `TimeCount` 月推进，不是当场开战。
+- `g_hdMapPick` 在过图 `PlayerTactic` 与出征 `GetCitySet` **共用**。过图对他方城回车是「敌方城池」，不是出征成功。HD 只在 `isMarching()`（出征向导 / `campaignPick`）时把点城当目标；他方城不再 `openClassicCity` 回车。出征确认后不对敌城 retry ENTER。
 
 ---
 
