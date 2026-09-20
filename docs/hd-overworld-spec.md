@@ -255,6 +255,7 @@ P1 已实现：
 - 悬停：浅色描边；菜单期关掉 HD 命中；点地图空白或关菜单后壳再接管
 - 点城：已在目标**格**（`setx/sety` 或 `g_hdMapCity`）才发 `VK_ENTER`。跨城按引擎格走方向键，等 `setx/sety` 变了再下一步；卡住只重发同向键，不发 EXIT。LCC 像素不是走格目标。控制台有 `align 西凉(0) → 天水(8) method=tile-walk`
 - 点城 vs 拖图：指针位移超过 **10px** 才当平移。松手时未过阈值当点城（`pointerup` 入城，后续 `click` 不再吃掉）。关菜单时 `resetPan()`，避免上次 2px 抖动留下的 `suppressClick` 把下一次入城吞掉。对齐中 / 菜单开着仍可点另一座己方城。
+- `g_hdMapPick=1` 在大地图是 PlayerTactic 过图，不是出征。`battleMakePending` 只认 HD 出征向导 /「选择目标」/ 选粮，避免把点城改成 `walkToCity` 目标走格。
 - 年月：读 `g_YearDate` / `g_MonthDate`；董卓弄权开局 HUD「190年1月」
 
 P1 诚实缺口：

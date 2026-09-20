@@ -2902,12 +2902,10 @@
                     return true;
                 }
             }
-            if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
-                var m = baye.hd.march();
-                if (m && (m.pick || m.ok)) {
-                    return !!m.pick && !m.ok;
-                }
-            }
+            /* g_hdMapPick is shared: PlayerTactic stays pick=1 on the overworld.
+               That is NOT 出征. Only the HD wizard (isMarching / 选择目标) may
+               steal clicks as target walks. Treating leftover pick as BattleMake
+               made 西凉/安定/天水 taps walk the cursor and never open the menu. */
             if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
                 var r = baye.hd.reportText() || '';
                 if (/选择目标/.test(r)) {
@@ -3336,6 +3334,8 @@
                 phase: state.phase,
                 aligning: state.aligning,
                 hitsEnabled: hitsEnabled(),
+                battleMakePending: battleMakePending(),
+                cityMenuMarching: cityMenuMarching(),
                 pan: {
                     on: state.pan.on,
                     moved: state.pan.moved,
