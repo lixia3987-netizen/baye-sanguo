@@ -22,7 +22,7 @@
 | **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳（回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动；确认撤退；攻击/计谋/查看/待机）。不 stub `fightOpenMainMenu` |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
 | **计谋 / 开场 SPE** | **HD done** | `g_hdSpe*` + LCD 整数倍 overlay。`践踏`→`QIBING_SPE`；`谍报` 无 SPE id 时引擎不播（不编造）。规格 [hd-spe-spec.md](hd-spe-spec.md) |
-| **策略结束 / 存读档** | **HD done** | 战役中见到 `策略结束` 三项即出壳（不 stub `mainSystemMenu`）。存档只列真实 `sango*.sav` |
+| **策略结束 / 存读档** | **HD done** | 战役中见到 `策略结束` 三项即出壳（不 stub `mainSystemMenu`）。出征后 EXIT 到 FunctionMenu 再回车一次；存档只列真实 `sango*.sav` |
 | 云存档条 | 页面 HTML | 不是游戏内 LCD |
 | **战斗结算** | **HD done** | 原生系统菜单选「全军撤退」后 `over=2`，`#hd-battle-result` 显示导出串 **我军全军覆没** |
 | **道具详情** | **partial** | 桥已通。董卓弄权安定开局城中无货、武将 Equip 空——不是代码 bug，菜单上暂无道具名可点 |

@@ -835,6 +835,25 @@
             state.open = true;
             render();
         },
+        confirmStrategyEnd: function () {
+            if (liveMenuNames()[0] !== '策略结束') {
+                return false;
+            }
+            if (fightActive()) {
+                return false;
+            }
+            var pick = 0;
+            try {
+                if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                    pick = baye.hd.march().pick;
+                }
+            } catch (e) {}
+            if (pick) {
+                return false;
+            }
+            choose(0);
+            return true;
+        },
         onEngineHook: onEngineHook,
         start: start,
         applyPcPage: start,

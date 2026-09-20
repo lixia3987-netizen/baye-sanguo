@@ -23,3 +23,5 @@
 `js/hd-dialog.js` · `css/hd-dialog.css` · 城菜单 M3 数量区复用同一套键。
 
 出征 `ShowGReport`「选择目标」后引擎进入 `GetCitySet`（`g_hdMapPick=1`），桥里的 `g_hdReportGbk` **不会清空**。HD 报告壳若继续全屏 `pointer-events`，会挡住大地图和邻城列表。GetCitySet 期间关闭/不拦截该提示；点城仍走 `setx/sety`。
+
+`ShowConstStrMsg`「部队已出发」第一次（引擎卡住、`pick=0`）发一次回车关掉；之后只是残留文本。全屏壳在 `pick=0`、城菜单开着、策略结束交接、`全军撤退` / `fight` 未激活时都必须关掉，且 `data-baye-dialog-pass=1` 不拦截招商/开垦。残留期间不再回车，避免打进 FunctionMenu 或战场。

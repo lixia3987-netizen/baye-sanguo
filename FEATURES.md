@@ -110,7 +110,7 @@
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
 | HD 城池四项菜单 M0–M3 | done | 根+一层+状况+人物/城/数量。出征：点将后 EXIT 才进粮草/GetCitySet，不提前画城列表 |
 | HD 系统界面 | done | 标题/时期/君主/存档。战役中 `menuItems()[0]==策略结束` 才出 FunctionMenu，不 stub `mainSystemMenu` |
-| HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳，避免挡住点城 |
+| HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳；「部队已出发」只回车一次，残留壳在 pick=0 / 策略结束 / 战斗后关掉，不挡招商 |
 | HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位，否则框 LCD。B0 已用 `debugPreview()` 核验 16×16 格+LCD 对照；真出征接敌仍走 M3 |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
@@ -129,6 +129,6 @@
 
 1. **云存档 / 黄豆豆版 / 短网址**：依赖外部站点，本仓库只保留上游页面与链接。
 2. **伏魔记 `fmj.html`**：上游本身只是合作说明页，完整玩法在 `fm/`。
-3. **完整一场战斗**：出征必须走完选将→选粮→GetCitySet→部队已出发→策略结束，`PolicyExec` 按路程月数后才 `GamFight`。天气/地形/六兵种/计谋均在引擎内。
+3. **完整一场战斗**：天水（己方、有将、粮>0）→军备→出征→点将→完成选将→粮草→地图点邻城河内→「部队已出发」(`march.ok=1`)→策略结束。本引擎 `PolicyExec` 立刻执行队列（不按 `TimeCount` 等月），应进入 `GamFight`。`全军撤退` 是战场系统菜单，不是出征失败。
 4. **地图编辑器 favicon.ico**：浏览器默认请求该文件会 404，不影响编辑器本体。
 5. **HD 大地图 P1–P3**：四态/城名/年月/路网/悬停闪已接线。跨城只走引擎格（`setx/sety`），不走 china-lcc 像素。点天水曾因残留光标/视口字段/卡格 EXIT 对不齐而 `menu-timeout`；现已等格落地再 ENTER。其它 lib / 引擎不在大地图时仍可能失败。

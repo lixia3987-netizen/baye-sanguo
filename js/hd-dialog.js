@@ -18,7 +18,8 @@
         showLcd: true,
         bound: false,
         lastHook: '',
-        lastReportSeq: 0
+        lastReportSeq: 0,
+        lastArmoutEnterSeq: 0
     };
 
     function overworldIsHd() {
@@ -187,14 +188,58 @@
         return info;
     }
 
+    function leftoverMarchTip(text) {
+        return !!(text && /部队已出发|选择目标|敌方城池|我方城池|无法到达|无人占领/.test(String(text)));
+    }
+
+    function fightActive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var f = baye.hd.fight();
+                if (f && f.active) {
+                    return true;
+                }
+            }
+            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
+                !Number(baye.data.g_hdFightOver)) {
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function functionMenuLive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
+                return (baye.hd.menuItems().names || [])[0] === '策略结束';
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function cityMenuOpen() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.isOpen === 'function' &&
+            BayeHdCityMenu.isOpen());
+    }
+
+    function strategyHandoff() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.isHandoff === 'function' &&
+            BayeHdCityMenu.isHandoff());
+    }
+
     function applyChrome() {
         var show = state.open && shouldShowHd();
+        var pass = show && state.kind === 'report' && leftoverMarchTip(state.body);
         document.documentElement.setAttribute('data-baye-dialog', show ? 'hd' : 'off');
+        document.documentElement.setAttribute('data-baye-dialog-pass', pass ? '1' : '0');
         if (document.body) {
             document.body.classList.toggle('baye-hd-dialog-on', show);
             document.body.classList.toggle('baye-hd-dialog-lcd', show && state.showLcd);
             document.body.classList.toggle('baye-hd-dialog-help', show && (state.kind === 'help'));
             document.body.classList.toggle('baye-hd-dialog-empty-text', show && !state.body);
+            document.body.classList.toggle('baye-hd-dialog-pass', pass);
         }
         var root = el('hd-dialog');
         if (root) {
@@ -298,45 +343,44 @@
             BayeHdCityMenu.isMarching());
     }
 
+    function closeReportSilent(info) {
+        if (info && info.hdSeq) {
+            state.lastReportSeq = info.hdSeq;
+        }
+        if (state.open && state.kind === 'report') {
+            closeDialog({ silent: true });
+        }
+        return false;
+    }
+
     function applyEngineReport(info) {
         info = info || {};
         if (!looksLikeSpeech(info.text)) {
             return false;
         }
-        /* PlayerTactic 点他方城：引擎弹「敌方城池」并卡住。HD 全屏壳会挡住下一次出征。 */
-        if (/部队已出发/.test(info.text || '') && !cityMenuMarching()) {
-            if (info.hdSeq) {
-                state.lastReportSeq = info.hdSeq;
+        /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
+         * 之后 g_hdReportGbk 残留。全屏壳会挡住策略结束 / 招商，回车会打进 FunctionMenu 或战场。 */
+        if (/部队已出发/.test(info.text || '')) {
+            var seq = info.hdSeq || 0;
+            var already = state.lastArmoutEnterSeq && (!seq || seq <= state.lastArmoutEnterSeq);
+            var unsafe = mapPickActive() || fightActive() || functionMenuLive() || strategyHandoff();
+            if (!already && !unsafe) {
+                engineSendKey(VK.ENTER);
+                state.lastArmoutEnterSeq = seq || (state.lastArmoutEnterSeq + 1) || 1;
             }
-            engineSendKey(VK.ENTER);
-            if (state.open && state.kind === 'report') {
-                closeDialog({ silent: true });
-            }
-            return false;
+            return closeReportSilent(info);
         }
         if (/敌方城池|无人占领/.test(info.text || '') && !cityMenuMarching()) {
-            if (info.hdSeq) {
-                state.lastReportSeq = info.hdSeq;
-            }
             /* pick=1 时只是桥残留，回车会确认当前格。pick=0 才是 PlayerTactic 真提示。 */
-            if (!mapPickActive()) {
+            if (!mapPickActive() && !fightActive() && !functionMenuLive() && !strategyHandoff()) {
                 engineSendKey(VK.ENTER);
             }
-            if (state.open && state.kind === 'report') {
-                closeDialog({ silent: true });
-            }
-            return false;
+            return closeReportSilent(info);
         }
         /* GetCitySet / 过图 pick 共用 g_hdMapPick。残留「选择目标」「敌方城池」全屏壳会挡住点城。
          * 出征中对「敌方城池」不能回车，那会确认当前格。 */
-        if (isMapPickTip(info.text) && (mapPickActive() || cityMenuMarching())) {
-            if (info.hdSeq) {
-                state.lastReportSeq = info.hdSeq;
-            }
-            if (state.open && state.kind === 'report') {
-                closeDialog({ silent: true });
-            }
-            return false;
+        if (isMapPickTip(info.text) && (mapPickActive() || cityMenuMarching() || cityMenuOpen())) {
+            return closeReportSilent(info);
         }
         if (info.hdSeq) {
             state.lastReportSeq = info.hdSeq;
@@ -468,6 +512,7 @@
         opts = opts || {};
         state.open = false;
         applyChrome();
+        document.documentElement.setAttribute('data-baye-dialog-pass', '0');
         if (!opts.silent) {
             console.log('[hd-dialog] close');
         }
@@ -523,8 +568,19 @@
             }
         } catch (e) {}
         var info = readAsync();
+        var tipText = info.text || state.body || '';
+        /* 残留「部队已出发」等出征提示在 pick=0、策略结束、全军撤退后、城菜单开着时都必须关壳。 */
+        if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || tipText)) {
+            closeDialog({ silent: true });
+            if (info.hdSeq) {
+                state.lastReportSeq = info.hdSeq;
+            }
+            if (mapPickActive() || fightActive() || strategyHandoff()) {
+                return;
+            }
+        }
         if (mapPickActive() || (cityMenuMarching() && isMapPickTip(info.text || (state.body || '')))) {
-            if (state.open && state.kind === 'report' && isMapPickTip(state.body || info.text)) {
+            if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || info.text)) {
                 closeDialog({ silent: true });
             }
             if (info.hdSeq) {
@@ -635,12 +691,17 @@
             while (t && t !== root) {
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-ok') != null) {
                     ev.preventDefault();
-                    if (state.kind === 'report' && /敌方城池/.test(state.body || '') && cityMenuMarching()) {
+                    if (state.kind === 'report' && leftoverMarchTip(state.body)) {
+                        var passOnly = /部队已出发/.test(state.body || '') ||
+                            cityMenuMarching() || cityMenuOpen() || mapPickActive() ||
+                            fightActive() || functionMenuLive() || strategyHandoff();
                         closeDialog({ silent: true });
-                        return;
+                        if (passOnly) {
+                            return;
+                        }
                     }
                     engineSendKey(VK.ENTER);
-                    if (state.kind === 'report' && isMapPickTip(state.body)) {
+                    if (state.kind === 'report' && leftoverMarchTip(state.body)) {
                         closeDialog({ silent: true });
                     }
                     return;
@@ -714,6 +775,7 @@
             return openDialog({ kind: 'help', title: '查找', body: '', showLcd: true });
         },
         close: closeDialog,
+        resetArmout: function () { state.lastArmoutEnterSeq = 0; },
         onEngineHook: onEngineHook,
         onEngineReport: onEngineReport,
         onEngineHelp: onEngineHelp,
@@ -731,7 +793,8 @@
                 min: info.min,
                 max: info.max,
                 body: state.body,
-                reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : ''
+                reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : '',
+                pass: leftoverMarchTip(state.body)
             };
         }
     };

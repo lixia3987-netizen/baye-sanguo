@@ -19,13 +19,15 @@
     pointer-events: auto;
 }
 
-/* GetCitySet 期间城菜单会标 map-pick：残留「选择目标」壳不得挡住点城。 */
-html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open {
+/* GetCitySet 期间、残留「部队已出发」：全屏壳不得挡住点城 / 招商。 */
+html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open,
+html[data-baye-dialog-pass="1"] .hd-dialog.is-open {
     pointer-events: none;
     background: transparent;
 }
 
-html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open .hd-dialog-stage {
+html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open .hd-dialog-stage,
+html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
     pointer-events: none;
     visibility: hidden;
 }

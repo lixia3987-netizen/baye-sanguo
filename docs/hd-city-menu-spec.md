@@ -186,8 +186,10 @@ HD 曾在点第一名将领后就把 `person-city` 当成目标城列表（`uses
 - `usesMapCursor` **只**认 `g_hdMapPick`。
 - 点将后留在将领表；「完成选将 · 选粮出发」发 EXIT。
 - 见到「选择目标」自动回车；`mapPick=1` 才画邻城并 `walkCursorToCity`（`setx/sety`，不是 china-lcc）。
-- 「部队已出发」后「策略结束」：关掉报告 → EXIT×2 出城菜单/地图 → FunctionMenu。战斗要等 `PolicyExec` 按 `TimeCount` 月推进，不是当场开战。
-- `g_hdMapPick` 在过图 `PlayerTactic` 与出征 `GetCitySet` **共用**。过图对他方城回车是「敌方城池」，不是出征成功。HD 只在 `isMarching()`（出征向导 / `campaignPick`）时把点城当目标；他方城不再 `openClassicCity` 回车。出征确认后不对敌城 retry ENTER。
+- 「部队已出发」后引擎回到 `PlayerTactic` 的 `GetCitySet`。当前 `PolicyExec`（`citycmd.c`）对队列里每条命令立刻 `OrderExec`+`DelOrder`（旧的 `TimeCount` 递减已被注释），所以 **一次** FunctionMenu「策略结束」就会 `BattleDrv`→`GamFight`。邻城河内的 `odis` 常为 1，但本引擎不按月等待。
+- HD「策略结束」：关报告壳（不回车残留「部队已出发」）→ `EXIT` 直到 `menuItems()[0]==策略结束` 且 `pick=0` → **只回车一次**。再 `EXIT` 会取消 FunctionMenu；再回车会打进河内（「敌方城池」）或战场系统菜单（「全军撤退」）。
+- `全军撤退` 是战场 `dFgtSysMnu` 项，不是出征失败。天水有将、粮>0、点邻城河内且 `march.ok=1` 时，策略结束应进 `GamFight`，不是撤退。
+- `g_hdMapPick` 在过图 `PlayerTactic` 与出征 `GetCitySet` **共用**。过图对他方城回车是「敌方城池」，不是出征成功。HD 只在 `isMarching()`（出征向导 / `campaignPick`，**不含**已出发）时把点城当目标；他方城不再 `openClassicCity` 回车。出征确认后不对敌城 retry ENTER（HUD「未对他方城再回车」是预期，不是路不通）。
 
 ---
 
@@ -213,4 +215,4 @@ HD 曾在点第一名将领后就把 `person-city` 当成目标城列表（`uses
 5. `overworldMode=classic` 不出现 HD 菜单强迫。
 6. 不改 WASM / `dat.lib`。
 7. M3：一层之后尽量出本城人物 / 目标城 HD 列表；数量与对不上的顺序仍框 LCD。
-8. 出征：天水 → 军备 → 出征 → 点将 → 完成选将 → 粮草 → 地图点河内等敌邻 → 「部队已出发」→ 策略结束 → 月推进后进入战场。
+8. 出征：天水 → 军备 → 出征 → 点将 → 完成选将 → 粮草 → 地图点河内等敌邻 → 「部队已出发」→ 策略结束 → `GamFight`。本引擎不按月等待。结束后「部队已出发」壳须消失，招商/开垦可点。

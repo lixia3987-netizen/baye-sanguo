@@ -73,7 +73,8 @@
         pickedPersons: 0,
         dismissedObj: false,
         marchReady: false,
-        campaignPick: false
+        campaignPick: false,
+        handoff: false
     };
 
     function readStorage(key, fallback) {
@@ -974,7 +975,8 @@
         state.layer = 'root';
         state.queue = [];
         state.sending = false;
-        if (!mapPickActive() && !state.marchReady) {
+        state.marchReady = false;
+        if (!mapPickActive() && !state.handoff) {
             state.campaignPick = false;
         }
         render();
@@ -1045,6 +1047,10 @@
         state.dismissedObj = false;
         state.marchReady = false;
         state.campaignPick = false;
+        state.handoff = false;
+        if (global.BayeHdDialog && typeof BayeHdDialog.resetArmout === 'function') {
+            BayeHdDialog.resetArmout();
+        }
         state.showLcd = false;
         applyDocAttr();
         var lcdBtn = document.querySelector('[data-hd-menu-lcd]');
@@ -1064,31 +1070,91 @@
         scheduleMarchWatch();
     }
 
+    function fightIsActive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var f = baye.hd.fight();
+                if (f && f.active) {
+                    return true;
+                }
+            }
+            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
+                !Number(baye.data.g_hdFightOver)) {
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function goStrategyEnd() {
-        var report = reportText();
+        /* 部队已出发后引擎回到 PlayerTactic GetCitySet。EXIT 一次进 FunctionMenu，
+         * ENTER 确认策略结束。再 EXIT 会取消 FunctionMenu；再回车会打进河内/战场。 */
+        state.handoff = true;
+        state.marchReady = false;
+        state.campaignPick = false;
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
         closeMenu({ silent: true });
-        function leaveToFunctionMenu() {
+        var tries = 0;
+        var confirmed = false;
+        var sawMapPick = mapPickActive();
+        function step() {
+            if (confirmed) {
+                return;
+            }
+            if (fightIsActive()) {
+                state.handoff = false;
+                return;
+            }
+            var names = engineMenuItems().names || [];
+            var pick = mapPickActive();
+            if (pick) {
+                sawMapPick = true;
+            }
+            /* g_hdMenuBytes 会残留「策略结束」。必须先离开 GetCitySet（或至少 EXIT 一次）再确认。 */
+            if (names[0] === '策略结束' && !pick && (sawMapPick || tries >= 1)) {
+                confirmed = true;
+                if (!(global.BayeHdSystemUi &&
+                    typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
+                    BayeHdSystemUi.confirmStrategyEnd())) {
+                    engineSendKey(VK.ENTER);
+                }
+                setTimeout(function () {
+                    state.handoff = false;
+                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                        BayeHdDialog.close({ silent: true });
+                    }
+                }, 700);
+                return;
+            }
+            if (tries >= 10) {
+                state.handoff = false;
+                return;
+            }
+            tries += 1;
             engineSendKey(VK.EXIT);
-            setTimeout(function () {
-                engineSendKey(VK.EXIT);
-            }, 220);
+            setTimeout(step, 240);
         }
-        if (/部队已出发|选择目标/.test(report)) {
-            engineSendKey(VK.ENTER);
-            setTimeout(leaveToFunctionMenu, 220);
-        } else {
-            leaveToFunctionMenu();
-        }
+        setTimeout(step, 80);
     }
 
     function isMarching() {
-        if (state.campaignPick && !state.marchReady) {
+        /* 部队已出发后不再占 isMarching：报告壳才能关，地图点己方城才能开招商。 */
+        if (state.marchReady) {
+            return false;
+        }
+        if (state.campaignPick) {
             return true;
         }
         if (!state.open || state.layer !== 'deep') {
             return false;
         }
-        return state.deepKind === 'person-city' || state.deepLabel === '出征' || !!state.marchReady;
+        return state.deepKind === 'person-city' || state.deepLabel === '出征';
+    }
+
+    function isHandoff() {
+        return !!state.handoff;
     }
 
     function reportText() {
@@ -1533,12 +1599,14 @@
                 marchReady: state.marchReady,
                 marching: isMarching(),
                 campaignPick: state.campaignPick,
+                handoff: state.handoff,
                 march: engineMarch(),
                 qty: engineQty()
             };
         },
         walkToCity: walkCursorToCity,
         isMarching: isMarching,
+        isHandoff: isHandoff,
         finishPersons: finishPersonPick,
         goStrategyEnd: goStrategyEnd
     };
