@@ -167,6 +167,7 @@
 
 .hd-city-menu-finish-persons,
 .hd-city-menu-march-ok,
+.hd-city-menu-march-hint,
 .hd-city-menu-map-hint {
     grid-column: 1 / -1;
     padding: 12px 14px;
@@ -176,6 +177,15 @@
     color: #e8d7a3;
     font-size: 15px;
     line-height: 1.45;
+}
+
+.hd-city-menu-march-hint {
+    padding: 14px 16px;
+    background: rgba(200, 70, 60, 0.2);
+    border: 2px solid rgba(230, 120, 90, 0.75);
+    color: #ffd4c4;
+    font-size: 17px;
+    font-weight: 600;
 }
 
 .hd-city-menu-finish-persons button,
@@ -194,9 +204,18 @@
 }
 
 .hd-city-menu-march-ok {
-    background: rgba(80, 160, 96, 0.14);
-    border-color: rgba(120, 200, 130, 0.4);
-    color: #c8ecc8;
+    background: rgba(80, 160, 96, 0.22);
+    border: 2px solid rgba(120, 220, 130, 0.75);
+    color: #d8ffd8;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+html[data-baye-battle-make="1"] [data-hd-menu-back],
+html[data-baye-battle-make="1"] [data-hd-dlg-back],
+html[data-baye-battle-make="1"] [data-hd-sys-back] {
+    visibility: hidden !important;
+    pointer-events: none !important;
 }
 
 .hd-city-menu-march-ok button {

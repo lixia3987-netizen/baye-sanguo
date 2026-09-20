@@ -920,6 +920,9 @@
             if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
                 return;
             }
+            if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+                return;
+            }
             state.menuDepth = Math.max(0, state.menuDepth - 1);
             if (state.menuDepth <= 0) {
                 leaveClassicMenu('已回到大地图。点城打开经典菜单。');
@@ -1826,7 +1829,18 @@
         return best;
     }
 
+    function cityMenuHoldExit() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.holdExit === 'function' &&
+            BayeHdCityMenu.holdExit());
+    }
+
     function engineSendKey(code) {
+        var exitCode = (window.baye && baye.VK_EXIT) || VK.EXIT;
+        if (code === exitCode && (cityMenuHoldExit() || cityMenuMarching() || battleMakePending())) {
+            console.warn('[hd-overworld] blocked EXIT during BattleMake');
+            return false;
+        }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -1995,6 +2009,11 @@
             then();
             return;
         }
+        if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+            tried.push('hold-exit-skip-ensure');
+            then();
+            return;
+        }
         var n = 0;
         function kick() {
             if (token !== state.alignToken) {
@@ -2002,6 +2021,11 @@
             }
             if (readMapPick() === 1) {
                 setPhase('map');
+                then();
+                return;
+            }
+            if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+                tried.push('hold-exit-skip-ensure');
                 then();
                 return;
             }
@@ -2446,6 +2470,12 @@
     }
 
     function leaveClassicMenu(hint) {
+        if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+            console.warn('[hd-overworld] blocked leaveMenu EXIT during BattleMake');
+            state.hint = hint || '出征进行中，不能关菜单。';
+            applyChrome();
+            return;
+        }
         engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
@@ -3008,6 +3038,9 @@
                 return;
             }
             if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
+                return;
+            }
+            if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
                 return;
             }
             var code = e.keyCode;

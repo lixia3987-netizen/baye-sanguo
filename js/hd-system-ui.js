@@ -288,7 +288,17 @@
         }
     }
 
+    function cityMenuHoldExit() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.holdExit === 'function' &&
+            BayeHdCityMenu.holdExit());
+    }
+
     function engineSendKey(code) {
+        if (code === VK.EXIT && cityMenuHoldExit()) {
+            console.warn('[hd-system-ui] blocked EXIT during BattleMake');
+            return false;
+        }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -650,6 +660,10 @@
     }
 
     function back() {
+        if (cityMenuHoldExit()) {
+            console.warn('[hd-system-ui] blocked back EXIT during BattleMake');
+            return;
+        }
         if (state.screen === 'period' || state.screen === 'saveload' || state.screen === 'king') {
             enqueueKeys([VK.EXIT], 60);
             state.screen = 'title';

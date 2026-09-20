@@ -169,6 +169,8 @@
 
 点 HD 地图空白仍可关菜单（现有 overworld 行为）。出征进行中（选将 / 选粮 / GetCitySet）点地图空白**不** `leaveMenu`，避免把方向键/EXIT 打进将领表或取消 GetCitySet。残留 `g_hdMenuBytes`「策略结束」不当 FunctionMenu、不关出征向导。「选择目标」壳的返回不发 EXIT；点河内时若 `pick=0` 先回车再走格，避免退回将领表。
 
+BattleMake 期间 `holdExit()`：HD「返回 / 关闭」、dialog 返回、overworld `leaveMenu` / `ensureOnMap` 六次 EXIT、系统壳返回、ESC/空格 **一律不发 EXIT**（唯一合法 EXIT 是一次「完成选将」）。未到 `pick=1` 的点城只亮红提示、不走格。二次「完成选将」被忽略。漏点「完成选将」会大声提示，而不是静默弹回将领表。「部队已出发」用 `data-baye-march-ok` 大横幅。
+
 ### 7.1 出征（BattleMake）与入城的区别
 
 入城：`ShowCityMap` ENTER，`g_hdMapPick` 1→0 后开 OrderMenu。
