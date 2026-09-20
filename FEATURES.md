@@ -108,9 +108,9 @@
 | 悬停 / 选中 | done | P3：悬停亮环 + 城名金色加粗；选中 `marker_selected` + rAF 脉动。不用 hover 光标图 |
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
-| HD 城池四项菜单 M0–M3 | done | 根+一层+状况+人物/城/数量。标题跟本次入城（点中/落地城），不沿用上场「西凉」。出征向导钉死：选将 → 选粮 → 选择目标 → 点目标城，不因残留「选择目标」/换城/过月策略结束回到将领表。面板标明当前步骤。BattleMake 期间除一次「完成选将」外不发 EXIT；「部队已出发」大横幅 |
+| HD 城池四项菜单 M0–M3 | done | 根+一层+状况+人物/城/数量。标题跟本次入城（点中/落地城），不沿用上场「西凉」。出征向导钉死：选将 → 选粮 → 选择目标 → 点目标城，不因残留「选择目标」/换城/过月策略结束回到将领表。过月残留人物台词（「我虽不愿如此…」）出征时关壳，不回车进 FunctionMenu；leftover pick 不挡住「完成选将」/GetFood。面板标明当前步骤。BattleMake 期间除一次「完成选将」外不发 EXIT；「部队已出发」大横幅 |
 | HD 系统界面 | done | 标题/时期/君主/存档。战役中 `menuItems()[0]==策略结束` 才出 FunctionMenu，不 stub `mainSystemMenu` |
-| HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳；「部队已出发」只回车一次，残留壳在 pick=0 / 策略结束 / 战斗后关掉，不挡招商 |
+| HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳；「部队已出发」只回车一次，残留壳在 pick=0 / 策略结束 / 战斗后关掉，不挡招商。过月残留台词在出征向导里 silent-close（壳开着或 async 1/2/13 才回车一次），GetFood 优先于残留报告 |
 | HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位。新 `GamFight` / 策略结束清 `g_hdFightOver`/`active`/`wait`/`resultDismissed`，第二场不沿用上场覆没。覆没后残留 `g_hdMarchOk` / 「部队已出发」不当新出征；只认本次 `AddFightOrder`（`g_hdMarchSeq`）。引擎若空城/已占/无将则 `g_hdFightSkip` 跳过战场（不是 HD 挡战）。战场系统须本场见过选将 + 新鲜 `onMenuIdle` + `wait=0`；系统菜单等 `wait=1` 再 EXIT。结算后关壳，不挡招商 |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |

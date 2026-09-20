@@ -171,9 +171,33 @@
     border-radius: 10px;
     background: rgba(61, 139, 253, 0.16);
     border: 1px solid rgba(61, 139, 253, 0.4);
-    color: #cfe3ff;
+    color: #9bb8e3;
     font-size: 14px;
     line-height: 1.4;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+.hd-city-menu-wizard-step {
+    padding: 2px 8px;
+    border-radius: 6px;
+}
+
+.hd-city-menu-wizard-step.is-current {
+    color: #fff;
+    font-weight: 700;
+    background: rgba(61, 139, 253, 0.4);
+}
+
+.hd-city-menu-wizard-sep {
+    opacity: 0.55;
+}
+
+.hd-city-menu-wizard-extra {
+    margin-left: 8px;
+    color: #e8d7a3;
 }
 
 .hd-city-menu-finish-persons,

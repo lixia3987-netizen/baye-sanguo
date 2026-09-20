@@ -19,7 +19,8 @@
         bound: false,
         lastHook: '',
         lastReportSeq: 0,
-        lastArmoutEnterSeq: 0
+        lastArmoutEnterSeq: 0,
+        lastSpeechEnterSeq: 0
     };
 
     function overworldIsHd() {
@@ -194,6 +195,35 @@
 
     function leftoverMarchTip(text) {
         return !!(text && /部队已出发|选择目标|敌方城池|我方城池|无法到达|无人占领/.test(String(text)));
+    }
+
+    /* 过月策略结束残留的人物台词，不是出征「选择目标」。回车会打进 FunctionMenu / GetCitySet。 */
+    function leftoverCharacterSpeech(text) {
+        if (!looksLikeSpeech(text)) {
+            return false;
+        }
+        if (leftoverMarchTip(text)) {
+            return false;
+        }
+        if (/饥荒|旱灾|水灾|暴动|俘虏|拥立|成为|遭劫|病逝|金钱不足|粮草不足|城中无空闲武将/.test(String(text))) {
+            return false;
+        }
+        return true;
+    }
+
+    function liveSpeechAsync(info) {
+        return !!(info && (info.id === 1 || info.id === 2 || info.id === 13));
+    }
+
+    function actuallyFunctionMenu() {
+        if (!functionMenuLive()) {
+            return false;
+        }
+        /* g_hdMenuBytes 过月后常年残留「策略结束」。pick=1 / 出征向导 / 选粮都不是活 FunctionMenu。 */
+        if (mapPickActive() || cityMenuQty() || cityMenuMarching()) {
+            return false;
+        }
+        return true;
     }
 
     function fightActive() {
@@ -373,10 +403,56 @@
         return false;
     }
 
+    function dismissLeftoverSpeech(info) {
+        info = info || readAsync();
+        var text = (info && info.text) || state.body || '';
+        if (leftoverMarchTip(text) || leftoverMarchTip(state.body)) {
+            return closeReportSilent(info);
+        }
+        if (!leftoverCharacterSpeech(text) && !leftoverCharacterSpeech(state.body)) {
+            return false;
+        }
+        var seq = (info && info.hdSeq) || 0;
+        var already = state.lastSpeechEnterSeq && (!seq || seq <= state.lastSpeechEnterSeq);
+        var shown = state.open && state.kind === 'report';
+        var liveAsync = liveSpeechAsync(info);
+        /* 壳开着或 async 1/2/13 才回车：纯 g_hdReportGbk 残留回车会确认当前格 / FunctionMenu。 */
+        if (!already && !fightActive() && !strategyHandoff() && !actuallyFunctionMenu() &&
+            (shown || liveAsync)) {
+            engineSendKey(VK.ENTER);
+            state.lastSpeechEnterSeq = seq || (state.lastSpeechEnterSeq + 1) || 1;
+        }
+        return closeReportSilent(info);
+    }
+
+    function tryOpenQty() {
+        try {
+            if (window.baye && baye.hd && baye.hd.qty) {
+                var qtyInfo = baye.hd.qty();
+                if (qtyInfo && qtyInfo.active) {
+                    openDialog({
+                        kind: 'qty',
+                        title: '数量',
+                        min: qtyInfo.min,
+                        max: qtyInfo.max,
+                        init: qtyInfo.value,
+                        showLcd: false
+                    });
+                    return true;
+                }
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function applyEngineReport(info) {
         info = info || {};
         if (!looksLikeSpeech(info.text)) {
             return false;
+        }
+        /* 出征向导里过月残留台词必须关壳，否则挡住 GetFood；回车策略见 dismissLeftoverSpeech。 */
+        if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
+            return dismissLeftoverSpeech(info);
         }
         /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
          * 之后 g_hdReportGbk 残留。全屏壳会挡住策略结束 / 招商，回车会打进 FunctionMenu 或战场。 */
@@ -596,13 +672,23 @@
         } catch (e) {}
         var info = readAsync();
         var tipText = info.text || state.body || '';
+        /* GetFood 优先：残留台词 / leftover pick 不能挡住数量壳。 */
+        if (tryOpenQty()) {
+            return;
+        }
         /* 残留「部队已出发」等出征提示在 pick=0、策略结束、全军撤退后、城菜单开着时都必须关壳。 */
         if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || tipText)) {
             closeDialog({ silent: true });
             if (info.hdSeq) {
                 state.lastReportSeq = info.hdSeq;
             }
-            if (mapPickActive() || fightActive() || strategyHandoff()) {
+            if ((mapPickActive() && !cityMenuMarching()) || fightActive() || strategyHandoff()) {
+                return;
+            }
+        }
+        if (cityMenuMarching() && leftoverCharacterSpeech(info.text || state.body)) {
+            dismissLeftoverSpeech(info);
+            if (tryOpenQty()) {
                 return;
             }
         }
@@ -613,7 +699,11 @@
             if (info.hdSeq) {
                 state.lastReportSeq = info.hdSeq;
             }
-            if (mapPickActive()) {
+            /* 出征选粮阶段 leftover pick 是过图旗，不是 GetCitySet；继续探数量。 */
+            if (mapPickActive() && !cityMenuMarching()) {
+                return;
+            }
+            if (tryOpenQty()) {
                 return;
             }
         }
@@ -623,7 +713,12 @@
         }
         if (info.id === 1 || info.id === 2 || info.id === 13) {
             state.asyncId = info.id;
-            if (looksLikeSpeech(info.text)) {
+            if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
+                dismissLeftoverSpeech(info);
+                if (tryOpenQty()) {
+                    return;
+                }
+            } else if (looksLikeSpeech(info.text)) {
                 applyEngineReport(info);
             } else {
                 openDialog({
@@ -637,22 +732,6 @@
             }
             return;
         }
-        try {
-            if (window.baye && baye.hd && baye.hd.qty) {
-                var qtyInfo = baye.hd.qty();
-                if (qtyInfo && qtyInfo.active) {
-                    openDialog({
-                        kind: 'qty',
-                        title: '数量',
-                        min: qtyInfo.min,
-                        max: qtyInfo.max,
-                        init: qtyInfo.value,
-                        showLcd: false
-                    });
-                    return;
-                }
-            }
-        } catch (e) {}
         if (info.id === 9) {
             state.asyncId = 9;
             openDialog({
@@ -809,7 +888,11 @@
         },
         close: closeDialog,
         clearLeftoverMarch: clearLeftoverMarch,
-        resetArmout: function () { state.lastArmoutEnterSeq = 0; },
+        dismissLeftoverSpeech: dismissLeftoverSpeech,
+        resetArmout: function () {
+            state.lastArmoutEnterSeq = 0;
+            state.lastSpeechEnterSeq = 0;
+        },
         onEngineHook: onEngineHook,
         onEngineReport: onEngineReport,
         onEngineHelp: onEngineHelp,
@@ -828,7 +911,9 @@
                 max: info.max,
                 body: state.body,
                 reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : '',
-                pass: leftoverMarchTip(state.body)
+                pass: leftoverMarchTip(state.body),
+                lastReportSeq: state.lastReportSeq,
+                lastSpeechEnterSeq: state.lastSpeechEnterSeq
             };
         }
     };

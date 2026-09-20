@@ -154,7 +154,7 @@
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
         document.documentElement.setAttribute('data-baye-city-menu-map-pick',
-            (show && mapPickActive()) ? '1' : '0');
+            (show && usesMapCursor(state.deepKind, state.deepStep)) ? '1' : '0');
         document.documentElement.setAttribute('data-baye-battle-make',
             holdExit() ? '1' : '0');
         document.documentElement.setAttribute('data-baye-march-ok',
@@ -167,7 +167,8 @@
             document.body.classList.toggle('baye-hd-city-menu-on', show);
             document.body.classList.toggle('baye-hd-city-menu-lcd', show && state.showLcd);
             document.body.classList.toggle('baye-hd-city-menu-deep-empty', deepEmpty);
-            document.body.classList.toggle('baye-hd-city-menu-map-pick', show && mapPickActive());
+            document.body.classList.toggle('baye-hd-city-menu-map-pick',
+                show && usesMapCursor(state.deepKind, state.deepStep));
         }
     }
 
@@ -547,10 +548,16 @@
         return !!(m && m.pick);
     }
 
+    function leftoverOverworldPick() {
+        /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。选将/选粮时 pick=1 是残留。 */
+        return mapPickActive() && !state.sawQtyThisMarch && !state.dismissedObj &&
+            state.wizardStep !== 'map-pick' && state.wizardStep !== 'target-tip' &&
+            !liveChooseTarget();
+    }
+
     function usesMapCursor(kind, step) {
         /* GetCitySet 打开前不要画城列表。过图 leftover pick=1 不是出征目标。 */
-        return mapPickActive() && (state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip' ||
-            state.sawQtyThisMarch || state.dismissedObj);
+        return mapPickActive() && !leftoverOverworldPick();
     }
 
     function usesGoodsMenu(kind, step) {
@@ -933,9 +940,19 @@
             var qtySteps = document.createElement('div');
             qtySteps.className = 'hd-city-menu-wizard';
             qtySteps.setAttribute('data-hd-wizard', state.wizardStep);
-            qtySteps.textContent = '出征：选将 → 选粮 → 选择目标 → 点目标城 · 当前 ' +
-                WIZARD_LABEL[state.wizardStep] +
-                (state.wizardStep === 'persons' ? '（已点 ' + (state.pickedPersons || 0) + ' 人）' : '');
+            var wizardKeys = ['persons', 'food', 'target-tip', 'map-pick', 'march-ok'];
+            var wizardBits = [];
+            var wi;
+            for (wi = 0; wi < wizardKeys.length; wi++) {
+                var wKey = wizardKeys[wi];
+                wizardBits.push('<span class="hd-city-menu-wizard-step' +
+                    (wKey === state.wizardStep ? ' is-current' : '') +
+                    '" data-hd-wizard-step="' + wKey + '">' +
+                    WIZARD_LABEL[wKey] + '</span>');
+            }
+            qtySteps.innerHTML = wizardBits.join('<span class="hd-city-menu-wizard-sep">→</span>') +
+                (state.wizardStep === 'persons' ? '<span class="hd-city-menu-wizard-extra">已点 ' +
+                    (state.pickedPersons || 0) + ' 人</span>' : '');
             list.appendChild(qtySteps);
         }
         if (showingQty()) {
@@ -987,7 +1004,8 @@
             warn.textContent = state.marchHint;
             list.appendChild(warn);
         }
-        if (!showMarchOk && state.deepKind === 'person-city' && !mapPickActive() &&
+        if (!showMarchOk && state.deepKind === 'person-city' &&
+            !(mapPickActive() && !leftoverOverworldPick()) &&
             !state.personExitSent && state.wizardStep === 'persons') {
             var fin = document.createElement('div');
             fin.className = 'hd-city-menu-finish-persons';
@@ -996,7 +1014,7 @@
                 '<button type="button" data-hd-finish-persons>完成选将 · 选粮出发</button>';
             list.appendChild(fin);
         }
-        if (mapPickActive()) {
+        if (usesMapCursor(state.deepKind, state.deepStep)) {
             var hint = document.createElement('div');
             hint.className = 'hd-city-menu-map-hint';
             hint.textContent = '选择目标：点邻城或点大地图高亮城（走引擎格，不是 china-lcc 像素）。';
@@ -1329,8 +1347,13 @@
     }
 
     function chooseSub(index) {
-        pickIndex(index, true);
         var names = preferEngineNames(SUBS[state.subKind] || []);
+        var willMarch = deepKindFor(state.subKind, index) === 'person-city' || names[index] === '出征';
+        if (willMarch && global.BayeHdDialog &&
+            typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
+            BayeHdDialog.dismissLeftoverSpeech();
+        }
+        pickIndex(index, true);
         state.deepKind = deepKindFor(state.subKind, index);
         state.deepLabel = names[index] || '';
         state.deepStep = 0;
@@ -1381,8 +1404,14 @@
         if (state.wizardStep !== 'persons' && state.wizardStep !== 'none') {
             return;
         }
-        if (state.personExitSent || mapPickActive() || showingQty() || state.marchReady) {
+        if (state.personExitSent || showingQty() || state.marchReady) {
             return;
+        }
+        if (mapPickActive() && !leftoverOverworldPick()) {
+            return;
+        }
+        if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
+            BayeHdDialog.dismissLeftoverSpeech();
         }
         if (!(state.pickedPersons > 0)) {
             state.marchHint = '先点至少一名将领，再点「完成选将」。';
@@ -2061,6 +2090,8 @@
                 wizardStep: state.wizardStep,
                 wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
                 sawQtyThisMarch: state.sawQtyThisMarch,
+                leftoverPick: leftoverOverworldPick(),
+                reportAtMarchStart: state.reportAtMarchStart,
                 march: engineMarch(),
                 qty: engineQty()
             };
@@ -2072,6 +2103,8 @@
         holdMenu: holdMenu,
         isMarchReady: function () { return !!(state.marchReady && !state.handoff && freshMarchOk()); },
         finishPersons: finishPersonPick,
+        leftoverOverworldPick: leftoverOverworldPick,
+        wizardStep: function () { return state.wizardStep; },
         goStrategyEnd: goStrategyEnd,
         consumeLeftoverMarch: consumeLeftoverMarch,
         freshMarchOk: freshMarchOk
