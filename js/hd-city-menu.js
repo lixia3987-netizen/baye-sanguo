@@ -1424,6 +1424,22 @@
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
         enqueueKeys([VK.EXIT], 70, 'finish-persons');
+        var finishTries = 0;
+        function retryFinishIfSpeech() {
+            if (showingQty() || mapPickActive() || freshMarchOk() || state.marchReady) {
+                return;
+            }
+            if (!/不愿如此|不得已/.test(liveEngineReport() || '')) {
+                return;
+            }
+            finishTries += 1;
+            if (finishTries > 2) {
+                return;
+            }
+            enqueueKeys([VK.EXIT], 80, 'finish-persons');
+            setTimeout(retryFinishIfSpeech, 280);
+        }
+        setTimeout(retryFinishIfSpeech, 280);
         scheduleMarchWatch();
         render();
     }
