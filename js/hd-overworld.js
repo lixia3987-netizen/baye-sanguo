@@ -83,6 +83,7 @@
         engineCursorIndex: -1,
         menuDepth: 0,
         hdOpenedMenu: false,
+        suppressCityIdle: 0,
         dateInfo: { year: null, month: null, source: 'none' },
         sawFightHook: false,
         adjacencyJson: null,
@@ -913,15 +914,11 @@
                     return;
                 }
             }
-            if (state.pendingEnter || state.aligning || state.hdOpenedMenu) {
-                confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
+            if (!state.pendingEnter && !state.aligning && !state.hdOpenedMenu &&
+                state.suppressCityIdle && (Date.now() - state.suppressCityIdle) < 800) {
                 return;
             }
-            if (looksLikeCityRootMenu() && state.phase !== 'map') {
-                var idleLanded = inferCurrentCity();
-                if (validCityIndex(idleLanded)) {
-                    state.selectedIndex = idleLanded;
-                }
+            if (state.pendingEnter || state.aligning || state.hdOpenedMenu || looksLikeCityRootMenu()) {
                 confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
                 return;
             }
@@ -2489,7 +2486,8 @@
         }, ms);
     }
 
-    function leaveClassicMenu(hint) {
+    function leaveClassicMenu(hint, opts) {
+        opts = opts || {};
         if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
             console.warn('[hd-overworld] blocked leaveMenu EXIT during BattleMake');
             state.hint = hint || '出征进行中，不能关菜单。';
@@ -2499,8 +2497,11 @@
         engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
-        state.pendingEnter = false;
-        state.aligning = false;
+        state.suppressCityIdle = Date.now();
+        if (!opts.keepAlign) {
+            state.pendingEnter = false;
+            state.aligning = false;
+        }
         if (global.BayeHdCityMenu) {
             BayeHdCityMenu.close({ silent: true });
         }
@@ -2903,21 +2904,19 @@
     }
 
     function openClassicCity(index) {
+        state.selectedIndex = index;
         if (cityMenuHoldMenu()) {
-            state.selectedIndex = index;
             return;
         }
         if (cityMenuMarching() || battleMakePending()) {
-            state.selectedIndex = index;
             if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
                 BayeHdCityMenu.walkToCity(index, true);
             }
             return;
         }
         if (state.phase === 'classic-menu') {
-            leaveClassicMenu('换城对齐…');
+            leaveClassicMenu('换城对齐…', { keepAlign: true });
         } else if (state.phase !== 'map') {
-            state.selectedIndex = index;
             state.hint = '预览中：进入大地图后点击才会向引擎发送入城。现在可切回经典继续开局。';
             return;
         }
