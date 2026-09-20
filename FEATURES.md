@@ -111,7 +111,7 @@
 | HD 城池四项菜单 M0–M3 | done | 根+一层+状况+人物/城/数量。出征：点将后 EXIT 才进粮草/GetCitySet，不提前画城列表 |
 | HD 系统界面 | done | 标题/时期/君主/存档。战役中 `menuItems()[0]==策略结束` 才出 FunctionMenu，不 stub `mainSystemMenu` |
 | HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳；「部队已出发」只回车一次，残留壳在 pick=0 / 策略结束 / 战斗后关掉，不挡招商 |
-| HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位。战场系统只在新鲜 `onMenuIdle` 且 `wait=0` 时显示；点己方将发方向键+回车开行动 |
+| HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位。战场系统须本场见过选将 + 新鲜 `onMenuIdle` + `wait=0`；系统菜单等 `wait=1` 再 EXIT。结算后关壳，不挡招商 |
 | 经典 1×/2× 无回归 | done | 默认经典路径不改 LCD 几何；2× 仍只作用于经典 LCD |
 | 道路 / 关隘 | partial | 画面路网按 LCC 城标近邻（HD 像素距离）；入城 BFS 仍用引擎格邻接。关隘仍是河叠加启发式 |
 | 可达邻接高亮 | done | 焦点城（选中 / 引擎光标 / 猜测）的 P2 邻边加亮金线；不另建图 |

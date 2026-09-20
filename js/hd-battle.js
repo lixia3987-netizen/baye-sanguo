@@ -43,6 +43,10 @@
         menuIndex: 0,
         lastMenuIdleAt: 0,
         lastMenuIdleKind: '',
+        lastWait: 0,
+        sawWait: false,
+        pendingSys: 0,
+        resultDismissed: false,
         queue: [],
         sending: false
     };
@@ -278,12 +282,58 @@
         if (!cls) {
             return null;
         }
+        /* 开战瞬间 wait=0，g_hdMenuBytes 可能还是「回合结束」。没进过选将就当残留。 */
+        if (!state.sawWait) {
+            return null;
+        }
         /* 与 FunctionMenu 相同：没有新鲜 onMenuIdle 就是残留，不能挡选将。 */
         if (!menuIdleFresh()) {
             return null;
         }
         cls.index = items.index != null ? items.index : 0;
         return cls;
+    }
+
+    function noteFightWait(fight) {
+        if (!fight || !fight.active) {
+            state.lastWait = 0;
+            return;
+        }
+        var w = fight.wait ? 1 : 0;
+        if (w !== state.lastWait) {
+            state.lastMenuIdleAt = 0;
+            state.lastMenuIdleKind = '';
+            if (w === 1) {
+                state.sawWait = true;
+            }
+            state.lastWait = w;
+        } else if (w === 1) {
+            state.sawWait = true;
+        }
+        if (state.pendingSys && w === 1 && !fight.over) {
+            state.pendingSys = 0;
+            engineSendKey(VK.EXIT);
+        }
+    }
+
+    function toggleSystemMenu() {
+        var fight = readFight();
+        if (!fight || !fight.active || fight.over) {
+            return false;
+        }
+        if (fightMenuLive()) {
+            state.lastMenuIdleAt = 0;
+            renderFightMenu();
+            engineSendKey(VK.EXIT);
+            return true;
+        }
+        if (fight.wait) {
+            engineSendKey(VK.EXIT);
+            return true;
+        }
+        /* FgtGetFoucs 还没进 GamGetMsg：记下，等 wait=1 再 EXIT。 */
+        state.pendingSys = Date.now();
+        return true;
     }
 
     function fightMenuLive() {
@@ -406,10 +456,12 @@
     }
 
     function dismissResult() {
+        state.resultDismissed = true;
+        state.lastMenuIdleAt = 0;
         engineSendKey(VK.ENTER);
         setTimeout(function () {
             var f = readFight();
-            if (!f || !f.active) {
+            if (!f || !f.active || f.over) {
                 closeBattle({ silent: true });
             }
         }, 280);
@@ -703,6 +755,7 @@
         state.focus = info.focus;
         applyChrome();
         draw();
+        noteFightWait(readFight());
         renderFightMenu();
     }
 
@@ -737,15 +790,22 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
+        var already = state.open && !state.preview && !meta.preview;
         state.open = true;
         state.preview = !!meta.preview;
-        if (!meta.keepResult) {
+        if (!meta.keepResult && !already) {
             state.resultCode = 0;
             state.resultText = '';
+            state.resultDismissed = false;
         }
-        state.lastMenuIdleAt = 0;
-        state.lastMenuIdleKind = '';
-        state.menuKind = '';
+        if (!already) {
+            state.lastMenuIdleAt = 0;
+            state.lastMenuIdleKind = '';
+            state.lastWait = 0;
+            state.sawWait = false;
+            state.pendingSys = 0;
+            state.menuKind = '';
+        }
         if (meta.hook) {
             state.lastHook = meta.hook;
             state.lastHookAt = Date.now();
@@ -762,12 +822,18 @@
 
     function closeBattle(opts) {
         opts = opts || {};
+        if (state.resultText || state.resultCode) {
+            state.resultDismissed = true;
+        }
         state.open = false;
         state.preview = false;
         state.menuKind = '';
         state.menuNames = [];
         state.lastMenuIdleAt = 0;
         state.lastMenuIdleKind = '';
+        state.lastWait = 0;
+        state.sawWait = false;
+        state.pendingSys = 0;
         var menu = el('hd-battle-menu');
         if (menu) {
             menu.hidden = true;
@@ -840,15 +906,14 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-sys') != null) {
                     ev.preventDefault();
-                    /* 选将中 EXIT 打开 FgtMainMenu；菜单活着时 EXIT 关掉。开战瞬间 wait 可能还是 0。 */
-                    if (readFight() && readFight().active) {
-                        engineSendKey(VK.EXIT);
-                    }
+                    toggleSystemMenu();
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu-exit') != null) {
                     ev.preventDefault();
                     if (fightMenuLive()) {
+                        state.lastMenuIdleAt = 0;
+                        renderFightMenu();
                         engineSendKey(VK.EXIT);
                     } else {
                         state.lastMenuIdleAt = 0;
@@ -915,10 +980,16 @@
         try {
             info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
         } catch (e) {}
-        if (info && info.active && !state.open && shouldShowHd()) {
+        if (info && info.active && !info.over && !state.open && shouldShowHd() && !state.resultDismissed) {
             enterBattle({ hook: 'g_hdFightActive' });
         }
         if (info && info.over) {
+            if (state.resultDismissed) {
+                if (state.open) {
+                    closeBattle({ silent: true });
+                }
+                return;
+            }
             state.resultCode = info.over;
             state.resultText = info.result || (info.over === 1 ? '我军大获全胜' : (info.over === 2 ? '我军全军覆没' : ''));
             state.lastHook = 'exitBattle';
@@ -940,12 +1011,17 @@
                 return;
             }
             var d = engineData();
-            if (d && Number(d.g_hdFightActive) && !state.open) {
+            var f = null;
+            try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
+            if (d && Number(d.g_hdFightActive) && !state.open && !state.resultDismissed &&
+                !(f && f.over)) {
                 enterBattle({ hook: 'g_hdFightActive' });
             }
+            if (state.open && state.resultDismissed && (!f || !f.active || f.over)) {
+                closeBattle({ silent: true });
+                return;
+            }
             if (state.open) {
-                var f = null;
-                try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
                 if (f && f.over && !state.resultText) {
                     onEngineFight();
                 }
@@ -966,16 +1042,18 @@
         onEngineHook: onEngineHook,
         onEngineFight: onEngineFight,
         clickOwnUnit: function () {
+            var fight = readFight();
             var i;
             for (i = 0; i < state.units.length; i++) {
                 var u = state.units[i];
                 if (u && u.side === 'player' && u.x != null && u.y != null) {
-                    walkFocusTo(u.x, u.y, true);
-                    return { x: u.x, y: u.y, i: u.i };
+                    walkFocusTo(u.x, u.y, !!(fight && fight.wait));
+                    return { x: u.x, y: u.y, i: u.i, wait: !!(fight && fight.wait) };
                 }
             }
             return null;
         },
+        openSystemMenu: toggleSystemMenu,
         debugPreview: function () {
             return enterBattle({ preview: true, hook: 'debugPreview' });
         },
@@ -1004,6 +1082,9 @@
                 menuIndex: state.menuIndex,
                 menuLive: fightMenuLive(),
                 menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
+                sawWait: state.sawWait,
+                pendingSys: state.pendingSys,
+                resultDismissed: state.resultDismissed,
                 skills: (function () {
                     try { return window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null; }
                     catch (e) { return null; }

@@ -74,6 +74,7 @@
 
 .hd-battle-menu[hidden] {
     display: none !important;
+    pointer-events: none !important;
 }
 
 .hd-battle-menu-title {

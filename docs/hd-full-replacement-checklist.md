@@ -19,7 +19,7 @@
 | **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文。出征「选择目标」在 GetCitySet（`g_hdMapPick=1`）时关壳，不挡点城 |
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
 | **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
-| **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳。`wait=1` 或 `onMenuIdle` 已停则关壳（残留「战场系统」不再挡选将）。返回只在菜单活着时发 EXIT。不 stub `fightOpenMainMenu` |
+| **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳。本场未见过 `wait=1`、当前 `wait=1`、或 `onMenuIdle` 已停则关壳。系统菜单等选将再 EXIT。返回只在菜单活着时发 EXIT。结算后不把壳盖回大地图。不 stub `fightOpenMainMenu` |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
 | **计谋 / 开场 SPE** | **HD done** | `g_hdSpe*` + LCD 整数倍 overlay。`践踏`→`QIBING_SPE`；`谍报` 无 SPE id 时引擎不播（不编造）。规格 [hd-spe-spec.md](hd-spe-spec.md) |
 | **策略结束 / 存读档** | **HD done** | 战役中见到 `策略结束` 三项即出壳（不 stub `mainSystemMenu`）。出征后 EXIT 到 FunctionMenu 再回车一次；存档只列真实 `sango*.sav` |
