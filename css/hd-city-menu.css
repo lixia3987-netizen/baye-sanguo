@@ -213,7 +213,10 @@
 
 html[data-baye-battle-make="1"] [data-hd-menu-back],
 html[data-baye-battle-make="1"] [data-hd-dlg-back],
-html[data-baye-battle-make="1"] [data-hd-sys-back] {
+html[data-baye-battle-make="1"] [data-hd-sys-back],
+html[data-baye-march-ok="1"] [data-hd-menu-back],
+html[data-baye-march-ok="1"] [data-hd-dlg-back],
+html[data-baye-march-ok="1"] [data-hd-sys-back] {
     visibility: hidden !important;
     pointer-events: none !important;
 }

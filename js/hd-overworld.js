@@ -920,7 +920,7 @@
             if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
                 return;
             }
-            if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+            if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
                 return;
             }
             state.menuDepth = Math.max(0, state.menuDepth - 1);
@@ -1835,9 +1835,15 @@
             BayeHdCityMenu.holdExit());
     }
 
+    function cityMenuHoldMenu() {
+        return !!(global.BayeHdCityMenu &&
+            ((typeof BayeHdCityMenu.holdMenu === 'function' && BayeHdCityMenu.holdMenu()) ||
+                (typeof BayeHdCityMenu.isMarchReady === 'function' && BayeHdCityMenu.isMarchReady())));
+    }
+
     function engineSendKey(code) {
         var exitCode = (window.baye && baye.VK_EXIT) || VK.EXIT;
-        if (code === exitCode && (cityMenuHoldExit() || cityMenuMarching() || battleMakePending())) {
+        if (code === exitCode && (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending())) {
             console.warn('[hd-overworld] blocked EXIT during BattleMake');
             return false;
         }
@@ -2009,7 +2015,7 @@
             then();
             return;
         }
-        if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+        if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
             tried.push('hold-exit-skip-ensure');
             then();
             return;
@@ -2024,7 +2030,7 @@
                 then();
                 return;
             }
-            if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+            if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
                 tried.push('hold-exit-skip-ensure');
                 then();
                 return;
@@ -2470,7 +2476,7 @@
     }
 
     function leaveClassicMenu(hint) {
-        if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+        if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
             console.warn('[hd-overworld] blocked leaveMenu EXIT during BattleMake');
             state.hint = hint || '出征进行中，不能关菜单。';
             applyChrome();
@@ -2866,6 +2872,10 @@
     }
 
     function openClassicCity(index) {
+        if (cityMenuHoldMenu()) {
+            state.selectedIndex = index;
+            return;
+        }
         if (cityMenuMarching() || battleMakePending()) {
             state.selectedIndex = index;
             if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
@@ -2992,6 +3002,10 @@
             if (state.phase === 'classic-menu') {
                 var pickPt = eventToDesign(ev);
                 var pickIdx = pickPt ? hitCity(pickPt) : -1;
+                if (cityMenuHoldMenu()) {
+                    ev.preventDefault();
+                    return;
+                }
                 var marching = cityMenuMarching() || battleMakePending();
                 if (marching && pickIdx >= 0) {
                     ev.preventDefault();
@@ -3008,7 +3022,11 @@
                 leaveClassicMenu('已回到 HD 大地图。点城打开经典菜单。');
                 return;
             }
-            if (cityMenuMarching() || battleMakePending()) {
+            if (cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
+                if (cityMenuHoldMenu()) {
+                    ev.preventDefault();
+                    return;
+                }
                 var marchPt = eventToDesign(ev);
                 var marchIdx = marchPt ? hitCity(marchPt) : -1;
                 if (marchIdx >= 0) {
@@ -3040,7 +3058,7 @@
             if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
                 return;
             }
-            if (cityMenuHoldExit() || cityMenuMarching() || battleMakePending()) {
+            if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
                 return;
             }
             var code = e.keyCode;

@@ -158,6 +158,10 @@
         return !!(state.battleMake && !state.marchReady && !state.handoff);
     }
 
+    function holdMenu() {
+        return !!(holdExit() || (state.marchReady && !state.handoff));
+    }
+
     function engineSendKey(code, reason) {
         if (code === VK.EXIT && holdExit() && reason !== 'finish-persons') {
             state.lastBlockedExit = reason || 'unknown';
@@ -1070,10 +1074,10 @@
 
     function closeMenu(opts) {
         opts = opts || {};
-        if (holdExit() && !opts.force) {
-            state.lastBlockedExit = 'closeMenu-hold';
-            console.warn('[hd-city-menu] blocked closeMenu during BattleMake');
-            if (!opts.silent) {
+        if (holdMenu() && !opts.force) {
+            state.lastBlockedExit = state.marchReady ? 'closeMenu-march-ok' : 'closeMenu-hold';
+            console.warn('[hd-city-menu] blocked closeMenu', state.lastBlockedExit);
+            if (!opts.silent && !state.marchReady) {
                 state.marchHint = state.personExitSent
                     ? '出征进行中：点邻城出发，不要关菜单。'
                     : '出征进行中：点将后点「完成选将」，不要关菜单。';
@@ -1107,11 +1111,13 @@
         if (!state.open) {
             return;
         }
-        if (holdExit()) {
-            /* 出征向导里 HD「返回」绝不 EXIT，否则 GetCitySet / PersonQueue 来回弹。 */
-            state.marchHint = state.personExitSent
-                ? '出征进行中：点邻城出发，不要返回。'
-                : '出征进行中：点将后点「完成选将」，不要返回。';
+        if (holdMenu()) {
+            /* 出征向导 / 部队已出发 横幅期间 HD「返回」绝不 EXIT。 */
+            if (!state.marchReady) {
+                state.marchHint = state.personExitSent
+                    ? '出征进行中：点邻城出发，不要返回。'
+                    : '出征进行中：点将后点「完成选将」，不要返回。';
+            }
             render();
             return;
         }
@@ -1791,6 +1797,8 @@
                 lastBlockedExit: state.lastBlockedExit,
                 marchHint: state.marchHint,
                 holdExit: holdExit(),
+                holdMenu: holdMenu(),
+                acceptMarchOk: state.acceptMarchOk,
                 walkBusy: state.walkBusy,
                 march: engineMarch(),
                 qty: engineQty()
@@ -1800,6 +1808,8 @@
         isMarching: isMarching,
         isHandoff: isHandoff,
         holdExit: holdExit,
+        holdMenu: holdMenu,
+        isMarchReady: function () { return !!(state.marchReady && !state.handoff); },
         finishPersons: finishPersonPick,
         goStrategyEnd: goStrategyEnd
     };
