@@ -40,6 +40,8 @@ U8 g_hdMarchOk = 0;
 U8 g_hdMarchCity = 0;
 U8 g_hdMarchObj = 0;
 U8 g_hdMarchTime = 0;
+U16 g_hdMarchSeq = 0;
+U8 g_hdFightSkip = 0;
 
 U8 g_hdHelpGbk[BAYE_HD_HELP_MAX];
 U16 g_hdHelpSeq = 0;
@@ -334,6 +336,24 @@ void baye_hd_set_march(U8 fromCity, U8 objCity, U8 timeCount, U8 ok)
     g_hdMarchCity = fromCity;
     g_hdMarchObj = objCity;
     g_hdMarchTime = timeCount;
+    if (ok) {
+        /* Fresh AddFightOrder: leftover 部队已出发 / ok from the last battle must not count. */
+        g_hdMarchSeq = (U16)(g_hdMarchSeq + 1);
+        if (g_hdMarchSeq == 0) {
+            g_hdMarchSeq = 1;
+        }
+        g_hdFightSkip = BAYE_HD_FIGHT_SKIP_NONE;
+    }
+}
+
+void baye_hd_clear_march_ok(void)
+{
+    g_hdMarchOk = 0;
+}
+
+void baye_hd_set_fight_skip(U8 reason)
+{
+    g_hdFightSkip = reason;
 }
 
 EMSCRIPTEN_KEEPALIVE
@@ -401,6 +421,8 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMarchCity, U8);
     DEFADDF(g_hdMarchObj, U8);
     DEFADDF(g_hdMarchTime, U8);
+    DEFADDF(g_hdMarchSeq, U16);
+    DEFADDF(g_hdFightSkip, U8);
     DEFADD_GBKARR(g_hdHelpGbk, sizeof(g_hdHelpGbk));
     DEFADDF(g_hdHelpSeq, U16);
     DEFADDF(g_hdHelpActive, U8);

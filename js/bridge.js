@@ -1005,6 +1005,7 @@ function baye_bridge_init() {
                 active: hdReadNum(d, 'g_hdFightActive'),
                 over: hdReadNum(d, 'g_hdFightOver'),
                 wait: hdReadNum(d, 'g_hdFightWait'),
+                skip: hdReadNum(d, 'g_hdFightSkip'),
                 result: result,
                 mapW: hdReadNum(d, 'g_MapWid'),
                 mapH: hdReadNum(d, 'g_MapHgt'),
@@ -1045,7 +1046,8 @@ function baye_bridge_init() {
                 ok: hdReadNum(d, 'g_hdMarchOk'),
                 city: hdReadNum(d, 'g_hdMarchCity'),
                 obj: hdReadNum(d, 'g_hdMarchObj'),
-                time: hdReadNum(d, 'g_hdMarchTime')
+                time: hdReadNum(d, 'g_hdMarchTime'),
+                seq: hdReadNum(d, 'g_hdMarchSeq')
             };
         },
         qty: function () {

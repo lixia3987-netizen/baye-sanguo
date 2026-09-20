@@ -213,6 +213,12 @@ FAR U8 BattleDrv(OrderType *Order)
     gam_memset(genArray,0,20*sizeof(PersonID));
     o = Order->Object;
     ob = g_Cities[o].Belong;
+    /* Wiped / deleted army: no general in the fight-order slot. Engine skip, not GamFight. */
+    if (!fighters[0]) {
+        baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_NO_ARMY);
+        baye_hd_clear_march_ok();
+        return(1);
+    }
     pb = g_Persons[fighters[0] - 1].Belong;
 
     ResItemGet(IFACE_CONID,dCityMapId,midx);
@@ -230,6 +236,7 @@ FAR U8 BattleDrv(OrderType *Order)
             if (pb == (g_PlayerKing + 1))
             {
                 /*城池已被我军战领*/
+                baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_OWNED);
                 for (i = 0;i < 10;i ++)
                 {
                     if (fighters[i])
@@ -272,6 +279,7 @@ FAR U8 BattleDrv(OrderType *Order)
         {
             if (!ob)
             {
+                baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_EMPTY);
                 for (i = 0;i < 10;i ++)
                 {
                     if (fighters[i])
@@ -285,6 +293,7 @@ FAR U8 BattleDrv(OrderType *Order)
             if (ob == (g_PlayerKing + 1))
             {
                 /*城池已被我军战领*/
+                baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_OWNED);
                 for (i = 0;i < 10;i ++)
                 {
                     if (fighters[i])
@@ -423,6 +432,8 @@ FAR U8 BattleDrv(OrderType *Order)
         FightResultDeal(o,g_FgtOver);
     } while (0);
 
+    /* Consumed: leftover g_hdMarchOk=1 must not fake the next 部队已出发 banner. */
+    baye_hd_clear_march_ok();
 
     return(1);
 }

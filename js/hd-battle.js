@@ -504,10 +504,14 @@
         state.resultDismissed = true;
         state.lastMenuIdleAt = 0;
         engineSendKey(VK.ENTER);
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.consumeLeftoverMarch === 'function') {
+            BayeHdCityMenu.consumeLeftoverMarch();
+        }
         setTimeout(function () {
             var f = readFight();
             if (!f || !f.active || f.over) {
                 closeBattle({ silent: true });
+                prepareNewFight();
             }
         }, 280);
     }
@@ -1051,6 +1055,9 @@
             }
         }
         if (info && info.over && !info.active) {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.consumeLeftoverMarch === 'function') {
+                BayeHdCityMenu.consumeLeftoverMarch();
+            }
             if (state.resultDismissed) {
                 if (state.open) {
                     closeBattle({ silent: true });

@@ -379,7 +379,7 @@
             }
             if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
                 var f = baye.hd.fight();
-                return !!(f && f.active);
+                return !!(f && f.active && !f.over);
             }
         } catch (e) {}
         return false;

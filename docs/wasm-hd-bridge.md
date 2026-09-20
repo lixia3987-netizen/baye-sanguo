@@ -23,6 +23,7 @@
 | `g_hdMenuIndex` | u16 | 当前高亮 |
 | `g_hdFightActive` | u8 | `GamFight` 进入后为 1；新一场开始前先清 0 |
 | `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（离开战斗时写入）。新 `GamFight` 入口先清 0，避免上场全军覆没残留 |
+| `g_hdFightSkip` | u8 | `BattleDrv` / 瞬时 `FgtInit` 为何没打：0 无 · 1 空城占领 · 2 已是己方 · 3 出征槽无将 · 4 `FgtInit` 当场结束 |
 | `g_hdFightWait` | u8 | `FgtGetFoucs` 正在 `GamGetMsg` 时为 1（按键不会被 `GamDelay(false)` 吃掉）。新一场 / 显式 reset 时清 0 |
 | `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
 | `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
@@ -37,6 +38,8 @@
 | `g_hdSkillNames` | GBK | 8 字节槽，来自 `FgtMakeSklNam` |
 | `g_hdMapPick` | u8 | `GetCitySet` 打开时为 1，返回后为 0 |
 | `g_hdMapCity` | u8 | `ShowCityMap` 光标处 1-based 城号；不在视口 / 空格为 0。ENTER 认这个值 |
+| `g_hdMarchOk` / `City` / `Obj` / `Time` | u8 | 本次 `AddFightOrder` 成功才 `ok=1`；`BattleDrv` 结束后清 0，避免上场覆没残留假「部队已出发」 |
+| `g_hdMarchSeq` | u16 | 每次 `AddFightOrder` 成功 +1；HD 只认 `seq` 比上场大的行军 |
 
 原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
@@ -74,7 +77,8 @@ baye.hd.reportText() // 最近一次报告/对话的中文（GBK 解码）
 baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
 baye.hd.menuItems()  // { itemLen, count, index, names:[] }；人物/道具/一层菜单共用
 baye.hd.qty()        // { active, value, min, max }
-baye.hd.fight()      // { active, over, wait, result, mapW, mapH, bout, boutMax, focusX, focusY }
+baye.hd.march()      // { pick, mapCity, ok, city, obj, time, seq }
+baye.hd.fight()      // { active, over, wait, skip, result, mapW, mapH, bout, boutMax, focusX, focusY }
 baye.hd.help()       // { active, seq, text }
 baye.hd.movie()      // { active, id }
 baye.hd.spe()        // { active, id, kind, x, y, startFrm, endFrm, seq }
@@ -110,6 +114,7 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图
 - 开场 / 计谋 SPE：`g_hdSpe*` + `#hd-spe` LCD-blit（见 [hd-spe-spec.md](hd-spe-spec.md)）；帮助查找图文仍 partial
 - 天水 出征 马腾 → 方向键走到河内 → `部队已出发` → FunctionMenu「策略结束」→ `GamFight`
+- 全军覆没后再出征：只认新的 `g_hdMarchSeq`；残留 `ok=1` / 「部队已出发」壳不进 `GamFight`。空城/已占/无将由 `g_hdFightSkip` 标明是引擎跳过
 - `g_hdFightWait=1` 后 EXIT 打开原生战场菜单 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`
 - 选「全军撤退」确认：`g_hdFightOver=2`，`baye.hd.fight().result==="我军全军覆没"`，HD `#hd-battle-result` 同文
 - HD 战场系统菜单：`menuKind=sys` 画出 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`，点「全军撤退」再确认，不 stub `fightOpenMainMenu`

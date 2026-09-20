@@ -538,6 +538,13 @@
         }
     }
 
+    function clearLeftoverMarch() {
+        if (leftoverMarchTip(state.body)) {
+            state.body = '';
+            closeDialog({ silent: true });
+        }
+    }
+
     function pollEngine() {
         if (!shouldShowHd()) {
             if (state.open && state.kind !== 'qty' && state.kind !== 'help') {
@@ -801,6 +808,7 @@
             return openDialog({ kind: 'help', title: '查找', body: '', showLcd: true });
         },
         close: closeDialog,
+        clearLeftoverMarch: clearLeftoverMarch,
         resetArmout: function () { state.lastArmoutEnterSeq = 0; },
         onEngineHook: onEngineHook,
         onEngineReport: onEngineReport,

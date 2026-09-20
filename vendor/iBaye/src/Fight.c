@@ -108,7 +108,8 @@ FAR U8 GamFight(void)
         call_hook("exitBattle", NULL);
         baye_hd_set_fight(0, g_FgtOver);
     } else {
-        /* Instant end in FgtInit: pulse a clean fight, then this result (not leftover 覆没). */
+        /* Instant end in FgtInit: empty/dead army or auto-count. Still pulse HD, then this result. */
+        baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_INSTANT);
         call_hook("enterBattle", NULL);
         baye_hd_set_fight(1, 0);
         call_hook("exitBattle", NULL);
