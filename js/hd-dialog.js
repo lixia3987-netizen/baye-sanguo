@@ -304,6 +304,16 @@
             return false;
         }
         /* PlayerTactic 点他方城：引擎弹「敌方城池」并卡住。HD 全屏壳会挡住下一次出征。 */
+        if (/部队已出发/.test(info.text || '') && !cityMenuMarching()) {
+            if (info.hdSeq) {
+                state.lastReportSeq = info.hdSeq;
+            }
+            engineSendKey(VK.ENTER);
+            if (state.open && state.kind === 'report') {
+                closeDialog({ silent: true });
+            }
+            return false;
+        }
         if (/敌方城池|无人占领/.test(info.text || '') && !cityMenuMarching()) {
             if (info.hdSeq) {
                 state.lastReportSeq = info.hdSeq;
