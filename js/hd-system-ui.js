@@ -80,7 +80,18 @@
         return overworldIsHd();
     }
 
+    function hdReady() {
+        try {
+            return !!(window.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) {
+            return false;
+        }
+    }
+
     function engineData() {
+        if (!hdReady()) {
+            return null;
+        }
         if (window.baye && typeof baye.ensureData === 'function') {
             return baye.ensureData();
         }
@@ -817,6 +828,9 @@
         applyChrome();
         if (!pollId) {
             pollId = setInterval(function () {
+                if (!hdReady()) {
+                    return;
+                }
                 if (!shouldShowHd()) {
                     if (state.open) {
                         closeUi({ silent: true });

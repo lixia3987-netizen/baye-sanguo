@@ -186,7 +186,18 @@
         }
     }
 
+    function hdReady() {
+        try {
+            return !!(window.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) {
+            return false;
+        }
+    }
+
     function ensureEngineData() {
+        if (!hdReady()) {
+            return null;
+        }
         if (window.baye && typeof baye.ensureData === 'function') {
             return baye.ensureData();
         }
@@ -1744,7 +1755,9 @@
         }
         var now = Date.now();
         if (now - state.lastSample > 160) {
-            sampleEngine();
+            if (hdReady()) {
+                sampleEngine();
+            }
             state.lastSample = now;
         }
         draw();

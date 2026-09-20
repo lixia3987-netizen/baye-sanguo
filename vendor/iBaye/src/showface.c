@@ -467,12 +467,14 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
  ******************************************************************************/
 FAR void GetGoodsName(ToolID goods,U8 *str)
 {
-    /*GOODS *gptr;
-
-     gptr = (GOODS *) ResLoadToCon(GOODS_RESID,1,g_CBnkPtr);
-     gam_memcpy(str,gptr[goods].name,10);
-     str[10] = 0;*/
-    ResLoadToMem(GOODS_NAME,goods + 1,str);
+    if (!str) {
+        return;
+    }
+    if (goods >= GOODS_MAX) {
+        str[0] = 0;
+        return;
+    }
+    ResLoadToMemN(GOODS_NAME, goods + 1, str, 32);
 }
 
 /******************************************************************************
@@ -511,6 +513,10 @@ FAR void GetPersonName(PersonID person,U8 *str)
         }
     }
 
+    if (g_PIdx < 1 || g_PIdx > 4) {
+        str[0] = 0;
+        return;
+    }
     switch (g_PIdx)
     {
         case 1:
@@ -526,7 +532,7 @@ FAR void GetPersonName(PersonID person,U8 *str)
             l = GENERAL_NAME4;
             break;
     }
-    ResLoadToMem(l,person + 1,str);
+    ResLoadToMemN(l, (U16)(person + 1), str, 32);
     /***********************************************************/
     /*dptr = ResLoadToCon(GENERAL_NAME,g_PIdx,g_CBnkPtr);
      pnt = person;
@@ -1036,7 +1042,7 @@ FAR void GetCityName(U8 city,U8 *str)
     if (!str) {
         return;
     }
-    if (city >= 64) {
+    if (city >= 64 || city >= CITY_MAX) {
         str[0] = 0;
         return;
     }
@@ -1049,7 +1055,7 @@ FAR void GetCityName(U8 city,U8 *str)
      gam_memcpy(str,&dptr[cnt],10);
      str[10] = 0;*/
 
-    ResLoadToMem(CITY_NAME,city + 1,str);
+    ResLoadToMemN(CITY_NAME, (U16)(city + 1), str, 32);
 }
 
 /******************************************************************************

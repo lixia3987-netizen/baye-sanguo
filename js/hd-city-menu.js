@@ -602,7 +602,18 @@
         return String(id);
     }
 
+    function hdReady() {
+        try {
+            return !!(window.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) {
+            return false;
+        }
+    }
+
     function engineData() {
+        if (!hdReady()) {
+            return null;
+        }
         if (window.baye && typeof baye.ensureData === 'function') {
             return baye.ensureData();
         }
@@ -626,20 +637,30 @@
         }
         var n = readNumber(city, 'Persons') || 0;
         var q0 = readNumber(city, 'PersonQueue') || 0;
+        var qlen = data.g_PersonsQueue.length || 0;
+        if (q0 < 0 || q0 >= qlen || q0 >= 0xfffe || n <= 0) {
+            return list;
+        }
         var i;
         for (i = 0; i < n && i < 40; i++) {
+            if (q0 + i >= qlen) {
+                break;
+            }
             var pind = readNumber(data.g_PersonsQueue, q0 + i);
             if (pind === null && data.g_PersonsQueue[q0 + i] != null) {
                 pind = Number(data.g_PersonsQueue[q0 + i]);
             }
-            if (pind === null || !isFinite(pind) || pind < 0 || pind >= 0xfffe) {
+            if (pind === null || !isFinite(pind) || pind < 0 || pind >= 0xfffe || pind >= qlen) {
                 continue;
             }
             var name = '';
             try {
                 name = baye.getPersonName(pind) || '';
             } catch (e) {}
-            list.push({ i: list.length, pind: pind, name: name || ('人物 ' + pind) });
+            if (!name) {
+                continue;
+            }
+            list.push({ i: list.length, pind: pind, name: name });
         }
         return list;
     }
@@ -2019,7 +2040,7 @@
         applyDocAttr();
         render();
         setInterval(function () {
-            if (!(state.open && state.layer === 'deep')) {
+            if (!hdReady() || !(state.open && state.layer === 'deep')) {
                 return;
             }
             syncMarchPhase();

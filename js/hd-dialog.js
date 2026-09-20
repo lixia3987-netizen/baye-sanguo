@@ -41,7 +41,18 @@
         return overworldIsHd();
     }
 
+    function hdReady() {
+        try {
+            return !!(window.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) {
+            return false;
+        }
+    }
+
     function engineData() {
+        if (!hdReady()) {
+            return null;
+        }
         if (window.baye && typeof baye.ensureData === 'function') {
             return baye.ensureData();
         }
@@ -659,6 +670,9 @@
     }
 
     function pollEngine() {
+        if (!hdReady()) {
+            return;
+        }
         if (!shouldShowHd()) {
             if (state.open && state.kind !== 'qty' && state.kind !== 'help') {
                 closeDialog({ silent: true });

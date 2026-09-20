@@ -109,7 +109,7 @@
 | 年月 HUD | done | 词典原版读到 `g_YearDate=190` `g_MonthDate=1`，HUD「190年1月 · 张杨」。字段对不上仍显示「年月未探测到」 |
 | 地图期藏 LCD / 菜单期弹出 | partial | 启发式：`g_PlayerKing` 已设且城有归属 → 地图；菜单期默认 HD 四项面板（`docs/hd-city-menu-spec.md`），可强制经典 LCD |
 | HD 城池四项菜单 M0–M3 | done | 根+一层+状况+人物/城/数量。标题跟本次入城（点中/落地城），不沿用上场「西凉」。出征向导钉死：选将 → 选粮 → 选择目标 → 点目标城，不因残留「选择目标」/换城/过月策略结束回到将领表。过月残留人物台词（「我虽不愿如此…」）出征时关壳，不回车进 FunctionMenu；leftover pick 不挡住「完成选将」/GetFood。面板标明当前步骤。BattleMake 期间除一次「完成选将」外不发 EXIT；「部队已出发」大横幅。`cityPersons` 跳过队列空槽 `0xffff`，不再 `getPersonName(65535)` |
-| HD 桥接越界防护 | done | 已选「词典原版」后中盘 OOB：向导轮询 `g_PersonsQueue` 空槽 `0xffff` → `ResLoadToMem` 写穿 32 字节名缓冲。JS `hdSafeNameCall` / `hdEngineReady` / `hdSafeStrLen` 拒调；未选 lib 同样 no-op。`window.onerror` 附带 `lastHdCall` |
+| HD 桥接越界防护 | done | 9594a45 只挡 JS `getPersonName(0xffff)`。剩余：C `person+1` 绕成 `idx=0` 时 `GetResItem` 仍读垃圾 `rlen`；HD 轮询在 lib 未就绪也打桥。现 `GetResItem` 拒 `idx==0`，`ResLoadToMemN` 限长，名函数 32 字节封顶；已重编 `baye.wasm`。`baye.hd.ready` 闸死所有 HD 轮询；OOB 时 `console.error('[hd-bridge] lastHdCall', …)` |
 | HD 系统界面 | done | 标题/时期/君主/存档。战役中 `menuItems()[0]==策略结束` 才出 FunctionMenu，不 stub `mainSystemMenu` |
 | HD 报告 / 数量 / 帮助 | partial | `js/hd-dialog.js`：有文本则显示。出征「选择目标」在 `g_hdMapPick=1` 时关壳；「部队已出发」只回车一次，残留壳在 pick=0 / 策略结束 / 战斗后关掉，不挡招商。过月残留台词 / 农业开发度 / 天灾在出征向导里只关壳，完成选将后不再回车（回车等于策略结束） |
 | HD 战场 B0/B1 | partial | `js/hd-battle.js`：fight hook / `g_FgtParam` 检测；有 `g_GenPos` 则画单位。新 `GamFight` / 策略结束清 `g_hdFightOver`/`active`/`wait`/`resultDismissed`，第二场不沿用上场覆没。覆没后残留 `g_hdMarchOk` / 「部队已出发」不当新出征；只认本次 `AddFightOrder`（`g_hdMarchSeq`）。引擎若空城/已占/无将则 `g_hdFightSkip` 跳过战场（不是 HD 挡战）。战场系统须本场见过选将 + 新鲜 `onMenuIdle` + `wait=0`；系统菜单等 `wait=1` 再 EXIT。结算后关壳，不挡招商 |
@@ -124,7 +124,7 @@
 
 - 未自造科技树、抽卡、联机对战。
 - 未用假数值替换引擎城池指令；HD 菜单只是按键壳。
-- 未重新编译 WASM：使用上游 baye-alpha 预编译二进制。
+- WASM 已按 [docs/wasm-build.md](docs/wasm-build.md) 从 `vendor/iBaye` 重编（OOB 守卫）；经典路径仍不改 AI。
 
 ## 已知缺口
 

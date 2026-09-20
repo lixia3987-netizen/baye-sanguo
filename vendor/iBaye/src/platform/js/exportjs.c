@@ -227,7 +227,10 @@ FAR const U8* bayeGetSkillName(U32 skillIndex)
 {
     static U8 name[32] = {0};
     name[0] = 0;
-    ResLoadToMem(SKL_NAMID, skillIndex+1, name);
+    if (skillIndex >= 256) {
+        return name;
+    }
+    ResLoadToMemN(SKL_NAMID, skillIndex+1, name, 32);
     return name;
 }
 

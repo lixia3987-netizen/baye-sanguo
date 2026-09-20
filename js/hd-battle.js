@@ -132,7 +132,18 @@
         return isFinite(v) ? v : null;
     }
 
+    function hdReady() {
+        try {
+            return !!(window.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) {
+            return false;
+        }
+    }
+
     function engineData() {
+        if (!hdReady()) {
+            return null;
+        }
         if (window.baye && typeof baye.ensureData === 'function') {
             return baye.ensureData();
         }
@@ -1082,7 +1093,7 @@
         bindUi();
         applyChrome();
         setInterval(function () {
-            if (!shouldShowHd()) {
+            if (!hdReady() || !shouldShowHd()) {
                 return;
             }
             var d = engineData();

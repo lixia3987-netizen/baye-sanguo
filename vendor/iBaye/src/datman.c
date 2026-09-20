@@ -53,9 +53,13 @@ FAR U8 ResItemGetN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
 {
     U32	plen;
     U32	addr;
+    U32	copy;
     RIDX	rIdx;
     RCHEAD	reshead;
 
+    if (!ptr || !bufsize || !g_LibFp) {
+        return 1;
+    }
     addr=GetResStartAddr(ResId);
     if(addr==0)
         return 1;
@@ -65,11 +69,12 @@ FAR U8 ResItemGetN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
     if (plen == 0) {
         return 2;
     }
+    copy = plen < bufsize ? plen : bufsize;
 
     gam_fseek(g_LibFp,addr,SEEK_SET);
-    gam_fread(ptr, 1, min(plen, bufsize) ,g_LibFp);
+    gam_fread(ptr, 1, copy, g_LibFp);
     if(reshead.ResKey)
-        ExpDataWithKey(ptr,reshead.ResKey,plen);
+        ExpDataWithKey(ptr,reshead.ResKey,(U16)copy);
     return 0;
 }
 
@@ -83,13 +88,16 @@ FAR U8 ResItemGetN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
  *             ------          ----------      -------------
  *             高国军          2005.5.18       完成基本功能
  ***********************************************************************/
-FAR U8 ResLoadToMem(U16 ResId,U16 idx,U8 *ptr)
+FAR U8 ResLoadToMemN(U16 ResId,U16 idx,U8 *ptr, U32 bufsize)
 {
     U32	plen;
     U32	addr;
     RIDX	rIdx;
     RCHEAD	reshead;
 
+    if (!ptr || bufsize < 2 || !g_LibFp) {
+        return 1;
+    }
     addr=GetResStartAddr(ResId);
     if(addr==0)
         return 1;
@@ -99,12 +107,20 @@ FAR U8 ResLoadToMem(U16 ResId,U16 idx,U8 *ptr)
     if (plen == 0) {
         return 2;
     }
+    if (plen >= bufsize) {
+        plen = bufsize - 1;
+    }
     gam_fseek(g_LibFp,addr,SEEK_SET);
     gam_fread(ptr,1,plen,g_LibFp);
     ptr[plen] = 0;
     if(reshead.ResKey)
-        ExpDataWithKey(ptr,reshead.ResKey,plen);
+        ExpDataWithKey(ptr,reshead.ResKey,(U16)plen);
     return 0;
+}
+
+FAR U8 ResLoadToMem(U16 ResId,U16 idx,U8 *ptr)
+{
+    return ResLoadToMemN(ResId, idx, ptr, 4096);
 }
 
 /***********************************************************************
@@ -187,11 +203,16 @@ void ExpDataWithKey(U8 *ptr,U8 key,U16 len)
  ***********************************************************************/
 U32 GetResItem(U32 addr,U16 idx,RCHEAD *reshead,RIDX *rIdx)
 {
-    gam_fseek(g_LibFp,addr,SEEK_SET);
-    gam_fread((U8*)reshead,sizeof(RCHEAD),1,g_LibFp);
-    if ((idx - 1) >= reshead->ItmCnt) {
+    if (rIdx) {
         rIdx->offset = 0;
         rIdx->rlen = 0;
+    }
+    if (!g_LibFp || !reshead || !rIdx || idx == 0) {
+        return 0;
+    }
+    gam_fseek(g_LibFp,addr,SEEK_SET);
+    gam_fread((U8*)reshead,sizeof(RCHEAD),1,g_LibFp);
+    if ((U32)(idx - 1) >= (U32)reshead->ItmCnt) {
         return 0;
     } else if(reshead->ItmLen!=0)
     {
@@ -222,7 +243,7 @@ U32 GetResStartAddr(U16 id)
 {
     U32	addr;
     
-    if(id==0) return (U32)0;
+    if(id==0 || !g_LibFp) return (U32)0;
     
     /* 获取资源的索引地址 addr=(id-1)*4 */
     addr=id-1;

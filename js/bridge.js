@@ -1,13 +1,36 @@
 
+function hdDumpLast(reason) {
+    var last = null;
+    try {
+        last = window.__bayeLastHdCall || (window.baye && baye.lastHdCall) || null;
+    } catch (e) {}
+    console.error('[hd-bridge] lastHdCall', reason || '', last ? JSON.stringify(last) : '(none)');
+    return last;
+}
+
+function hdHookAbort() {
+    try {
+        if (typeof Module === 'undefined' || Module.__hdAbortHooked) {
+            return;
+        }
+        Module.__hdAbortHooked = 1;
+        var prev = Module.onAbort;
+        Module.onAbort = function (what) {
+            hdDumpLast('wasm abort ' + (what == null ? '' : String(what)));
+            if (typeof prev === 'function') {
+                return prev(what);
+            }
+        };
+    } catch (e) {}
+}
+
 window.onerror = function(msg, url, line, col, error) {
    var extra = !col ? '' : '\ncolumn: ' + col;
    extra += !error ? '' : '\nerror: ' + error;
-   try {
-       var last = window.__bayeLastHdCall || (window.baye && baye.lastHdCall);
-       if (last && last.name) {
-           extra += '\nlastHdCall: ' + last.name + (last.detail ? ' ' + last.detail : '');
-       }
-   } catch (e) {}
+   var last = hdDumpLast('window.onerror ' + msg);
+   if (last && last.name) {
+       extra += '\nlastHdCall: ' + last.name + (last.detail ? ' ' + last.detail : '');
+   }
    console.error('[baye] window.onerror', msg, url, line, extra);
    alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
    return false;
@@ -15,14 +38,8 @@ window.onerror = function(msg, url, line, col, error) {
 
 if (typeof window !== 'undefined' && window.addEventListener) {
     window.addEventListener('unhandledrejection', function(ev) {
-        var extra = '';
-        try {
-            var last = window.__bayeLastHdCall || (window.baye && baye.lastHdCall);
-            if (last && last.name) {
-                extra = ' lastHdCall: ' + last.name + (last.detail ? ' ' + last.detail : '');
-            }
-        } catch (e) {}
-        console.error('[baye] unhandledrejection', ev && ev.reason, extra);
+        hdDumpLast('unhandledrejection');
+        console.error('[baye] unhandledrejection', ev && ev.reason);
     });
 }
 
@@ -195,9 +212,15 @@ function baye_bridge_valuedef(def, addr) {
         case ValueTypeU8:
             defineProperty(jsObj, 'value', {
                 get: function() {
+                    if (!hdHeapOk(this._addr, 1)) {
+                        return 0;
+                    }
                     return _baye_get_u8_value(this._addr);
                 },
                 set: function(value) {
+                    if (!hdHeapOk(this._addr, 1)) {
+                        return 0;
+                    }
                     if (value > 0xff) value = 0xff;
                     if (value < 0) value = 0;
                     return _baye_set_u8_value(this._addr, value);
@@ -207,9 +230,15 @@ function baye_bridge_valuedef(def, addr) {
         case ValueTypeU16:
             defineProperty(jsObj, 'value', {
                 get: function() {
+                    if (!hdHeapOk(this._addr, 2)) {
+                        return 0;
+                    }
                     return _baye_get_u16_value(this._addr);
                 },
                 set: function(value) {
+                    if (!hdHeapOk(this._addr, 2)) {
+                        return 0;
+                    }
                     if (value > 0xffff) value = 0xffff;
                     if (value < 0) value = 0;
                     return _baye_set_u16_value(this._addr, value);
@@ -219,9 +248,15 @@ function baye_bridge_valuedef(def, addr) {
         case ValueTypeU32:
             defineProperty(jsObj, 'value', {
                 get: function() {
+                    if (!hdHeapOk(this._addr, 4)) {
+                        return 0;
+                    }
                     return _baye_get_u32_value(this._addr);
                 },
                 set: function(value) {
+                    if (!hdHeapOk(this._addr, 4)) {
+                        return 0;
+                    }
                     return _baye_set_u32_value(this._addr, value);
                 }
             });
@@ -316,6 +351,7 @@ function hdNote(name, detail) {
 
 function hdEngineReady() {
     try {
+        hdHookAbort();
         if (!hdHeapLen()) {
             return false;
         }
@@ -383,6 +419,15 @@ function hdSafeNameCall(kind, fn, index, max) {
         hdNote(kind, 'not-ready:' + index);
         return '';
     }
+    try {
+        if (window.baye && baye.data && baye.data.g_PIdx != null) {
+            var period = Number(baye.data.g_PIdx);
+            if (isFinite(period) && period === 0) {
+                hdNote(kind, 'no-period:' + index);
+                return '';
+            }
+        }
+    } catch (e) {}
     hdNote(kind, index);
     try {
         var addr = fn(index);
@@ -1126,6 +1171,7 @@ function baye_bridge_init() {
     }
 
     baye.hd = {
+        ready: hdEngineReady,
         report: function () {
             hdNote('hd.report', '');
             var d = baye.ensureData();

@@ -80,6 +80,9 @@
 
     function readSpe() {
         try {
+            if (window.baye && baye.hd && typeof baye.hd.ready === 'function' && !baye.hd.ready()) {
+                return {};
+            }
             if (window.baye && baye.hd && typeof baye.hd.spe === 'function') {
                 return baye.hd.spe() || {};
             }
