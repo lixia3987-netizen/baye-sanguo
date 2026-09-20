@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var VK = { UP: 0x22, DOWN: 0x23, ENTER: 0x27, EXIT: 0x28 };
+    var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var FIGHT_HOOKS = {
         fightOpenMainMenu: 1,
         meetFight: 1,
@@ -41,6 +41,8 @@
         menuTitle: '',
         menuNames: [],
         menuIndex: 0,
+        lastMenuIdleAt: 0,
+        lastMenuIdleKind: '',
         queue: [],
         sending: false
     };
@@ -222,21 +224,41 @@
         return null;
     }
 
+    function readFight() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                return baye.hd.fight();
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function readMenuItems() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
+                return baye.hd.menuItems();
+            }
+        } catch (e) {}
+        return { names: [], index: null, count: 0 };
+    }
+
+    function menuIdleFresh() {
+        return (Date.now() - (state.lastMenuIdleAt || 0)) < 1200;
+    }
+
     function readFightMenu() {
         if (!state.open || state.preview || state.resultText) {
             return null;
         }
-        var fight = null;
-        try {
-            fight = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
-        } catch (e) {}
+        var fight = readFight();
         if (!fight || !fight.active) {
             return null;
         }
-        var items = null;
-        try {
-            items = window.baye && baye.hd && baye.hd.menuItems ? baye.hd.menuItems() : null;
-        } catch (e) {}
+        /* FgtGetFoucs 选将/走格：g_hdFightWait=1，g_hdMenuBytes 仍可能是上一份「回合结束」。 */
+        if (fight.wait) {
+            return null;
+        }
+        var items = readMenuItems();
         var skills = null;
         try {
             skills = window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null;
@@ -256,8 +278,16 @@
         if (!cls) {
             return null;
         }
+        /* 与 FunctionMenu 相同：没有新鲜 onMenuIdle 就是残留，不能挡选将。 */
+        if (!menuIdleFresh()) {
+            return null;
+        }
         cls.index = items.index != null ? items.index : 0;
         return cls;
+    }
+
+    function fightMenuLive() {
+        return !!readFightMenu();
     }
 
     function pickFightMenu(index) {
@@ -316,6 +346,73 @@
             }
         }
         panel.hidden = false;
+    }
+
+    function eventToTile(ev) {
+        var canvas = el('hd-battle-canvas');
+        if (!canvas || !state.mapW || !state.mapH) {
+            return null;
+        }
+        var rect = canvas.getBoundingClientRect();
+        if (!rect.width || !rect.height) {
+            return null;
+        }
+        var sx = (ev.clientX - rect.left) / rect.width * DESIGN_W;
+        var sy = (ev.clientY - rect.top) / rect.height * DESIGN_H;
+        var pad = 80;
+        var boardW = DESIGN_W - pad * 2;
+        var boardH = DESIGN_H - 160;
+        var cw = boardW / state.mapW;
+        var ch = boardH / state.mapH;
+        var ox = pad;
+        var oy = 72;
+        var c = Math.floor((sx - ox) / cw);
+        var r = Math.floor((sy - oy) / ch);
+        if (c < 0 || r < 0 || c >= state.mapW || r >= state.mapH) {
+            return null;
+        }
+        return { x: c, y: r };
+    }
+
+    function unitAt(x, y) {
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (u.x === x && u.y === y) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    function walkFocusTo(x, y, thenEnter) {
+        var fx = state.focus.x;
+        var fy = state.focus.y;
+        if (fx == null || fy == null) {
+            if (thenEnter) {
+                enqueueKeys([VK.ENTER], 50);
+            }
+            return;
+        }
+        var keys = [];
+        while (fy > y) { keys.push(VK.UP); fy -= 1; }
+        while (fy < y) { keys.push(VK.DOWN); fy += 1; }
+        while (fx > x) { keys.push(VK.LEFT); fx -= 1; }
+        while (fx < x) { keys.push(VK.RIGHT); fx += 1; }
+        if (thenEnter) {
+            keys.push(VK.ENTER);
+        }
+        enqueueKeys(keys, 45);
+    }
+
+    function dismissResult() {
+        engineSendKey(VK.ENTER);
+        setTimeout(function () {
+            var f = readFight();
+            if (!f || !f.active) {
+                closeBattle({ silent: true });
+            }
+        }, 280);
     }
 
     function fightLooksActive() {
@@ -441,6 +538,8 @@
             root.classList.toggle('is-open', show);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
         }
+        document.documentElement.setAttribute('data-baye-battle-menu',
+            (show && state.menuKind) ? state.menuKind : 'off');
         var hud = el('hd-battle-hud');
         if (hud) {
             var over = 0;
@@ -644,6 +743,9 @@
             state.resultCode = 0;
             state.resultText = '';
         }
+        state.lastMenuIdleAt = 0;
+        state.lastMenuIdleKind = '';
+        state.menuKind = '';
         if (meta.hook) {
             state.lastHook = meta.hook;
             state.lastHookAt = Date.now();
@@ -664,6 +766,8 @@
         state.preview = false;
         state.menuKind = '';
         state.menuNames = [];
+        state.lastMenuIdleAt = 0;
+        state.lastMenuIdleKind = '';
         var menu = el('hd-battle-menu');
         if (menu) {
             menu.hidden = true;
@@ -679,6 +783,27 @@
     }
 
     function onEngineHook(name) {
+        if (name === 'onMenuIdle') {
+            var names = readMenuItems().names || [];
+            var cls = classifyFightMenu(names);
+            if (cls && state.open) {
+                var fight = readFight();
+                if (fight && fight.active && !fight.wait) {
+                    state.lastMenuIdleAt = Date.now();
+                    state.lastMenuIdleKind = cls.kind;
+                    renderFightMenu();
+                }
+            }
+            return;
+        }
+        if (name === 'willCloseMenu') {
+            state.lastMenuIdleAt = 0;
+            state.lastMenuIdleKind = '';
+            if (state.open) {
+                renderFightMenu();
+            }
+            return;
+        }
         if (!FIGHT_HOOKS[name]) {
             return;
         }
@@ -715,25 +840,64 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-sys') != null) {
                     ev.preventDefault();
-                    engineSendKey(VK.EXIT);
+                    /* 选将中 EXIT 打开战场系统；菜单活着时 EXIT 关掉。残留壳不发键。 */
+                    if (fightMenuLive() || (readFight() && readFight().wait)) {
+                        engineSendKey(VK.EXIT);
+                    }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu-exit') != null) {
                     ev.preventDefault();
-                    engineSendKey(VK.EXIT);
+                    if (fightMenuLive()) {
+                        engineSendKey(VK.EXIT);
+                    } else {
+                        state.lastMenuIdleAt = 0;
+                        renderFightMenu();
+                    }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu') != null) {
                     ev.preventDefault();
+                    if (!fightMenuLive()) {
+                        state.lastMenuIdleAt = 0;
+                        renderFightMenu();
+                        return;
+                    }
                     pickFightMenu(Number(t.getAttribute('data-hd-battle-menu')));
+                    return;
+                }
+                if (t.id === 'hd-battle-result' && state.resultText) {
+                    ev.preventDefault();
+                    dismissResult();
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-close') != null) {
                     ev.preventDefault();
+                    if (state.resultText) {
+                        dismissResult();
+                        return;
+                    }
                     closeBattle({ silent: false });
                     return;
                 }
                 t = t.parentNode;
+            }
+            if (ev.target && ev.target.id === 'hd-battle-canvas') {
+                var fight = readFight();
+                if (state.resultText) {
+                    dismissResult();
+                    return;
+                }
+                if (fightMenuLive()) {
+                    return;
+                }
+                var tile = eventToTile(ev);
+                if (!tile) {
+                    return;
+                }
+                ev.preventDefault();
+                var u = unitAt(tile.x, tile.y);
+                walkFocusTo(tile.x, tile.y, !!(fight && fight.wait && u && u.side === 'player'));
             }
         });
     }
@@ -824,6 +988,8 @@
                 menuTitle: state.menuTitle,
                 menuNames: state.menuNames.slice(),
                 menuIndex: state.menuIndex,
+                menuLive: fightMenuLive(),
+                menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
                 skills: (function () {
                     try { return window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null; }
                     catch (e) { return null; }

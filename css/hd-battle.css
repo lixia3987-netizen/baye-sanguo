@@ -42,7 +42,8 @@
     font: 28px/1.4 BayeUI, "Noto Sans CJK SC", sans-serif;
     text-align: center;
     box-shadow: 0 12px 40px #0008;
-    pointer-events: none;
+    pointer-events: auto;
+    cursor: pointer;
 }
 
 .hd-battle-hud {

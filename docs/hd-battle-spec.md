@@ -34,7 +34,7 @@
 | **B0** | 规格 + 检测（fight hooks / `g_FgtParam`）+ 1080p 壳；有图则画格，无图则框 LCD | 做 |
 | **B1** | 用已暴露的 `g_GenPos` / `GenArray` 画简易单位；光标跟 `g_FoucsX/Y` | 做（数据在才画） |
 | B2 | 地形色按 `g_FightMap` 图元分类、移动范围、攻击预览 | 后续 |
-| B3 | 战场系统菜单 HD（只读 `menuItems()`，不 stub `fightOpenMainMenu`） | 做 |
+| B3 | 战场系统菜单 HD（只读 `menuItems()`，不 stub `fightOpenMainMenu`）。`g_hdFightWait=1` / 无新鲜 `onMenuIdle` 时关壳，避免残留「战场系统」挡选将 | 做 |
 | B3b | 计谋列表 HD（`g_hdSkill*` / `FgtGetJNIdx`，不 stub `fightChooseSkill`） | 做 |
 
 ---
@@ -88,6 +88,7 @@
 - 键盘：现有 `document.onkeydown` → `sendKey`（不拦截，除非 HD 壳自己的关闭钮）。
 - 格网点击（B1）：向该格连发方向键逼近，或 `_bayeSendTouchEvent` 映射到 LCD；失败则忽略。
 - 关闭预览：只关壳，不向引擎乱发 EXIT（真战斗中「关闭」只露出 LCD）。
+- 战场系统 / 将领行动：只在 `g_hdFightWait=0` 且最近有 `onMenuIdle` 时画壳。`FgtGetFoucs` 选将时 `wait=1`，`g_hdMenuBytes` 残留「回合结束」不得挡住棋盘。「返回」只在菜单活着时发 EXIT，避免再打开 `FgtMainMenu`。点己方将：方向键对齐 `g_FoucsX/Y` 再回车。结算条可点，发回车后关壳回大地图。
 
 ---
 
