@@ -299,10 +299,13 @@
         if (state.marchReady) {
             return { skipped: 'already-ok' };
         }
-        if (showingQty() || state.wizardStep === 'food') {
+        if (showingQty()) {
             state.marchHint = '先确认粮草，再点目标城。';
             render();
             return { skipped: 'qty' };
+        }
+        if (state.wizardStep === 'food' && state.personExitSent) {
+            advanceWizard('target-tip', 'walk-food-done');
         }
         if (state.wizardStep === 'persons') {
             state.marchHint = '先点至少一名将领，再点「完成选将 · 选粮出发」，不要直接点目标城。';
@@ -1577,6 +1580,9 @@
             state.deepSig = '';
             render();
             return;
+        }
+        if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive()) {
+            advanceWizard('target-tip', 'sync-food-done');
         }
         if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(report) && !showingQty() && !mapPickActive()) {
             enqueueKeys([VK.ENTER], 70);
