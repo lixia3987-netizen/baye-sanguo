@@ -1074,9 +1074,6 @@
     }
 
     function isMarching() {
-        if (mapPickActive()) {
-            return true;
-        }
         if (!state.open || state.layer !== 'deep') {
             return false;
         }

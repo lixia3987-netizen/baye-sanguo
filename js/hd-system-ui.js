@@ -364,7 +364,17 @@
     function inferScreen() {
         var names = liveMenuNames();
         if (names[0] === '策略结束') {
-            return 'insystem';
+            var pick = 0;
+            try {
+                if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                    pick = baye.hd.march().pick;
+                }
+            } catch (e) {}
+            var cityOpen = global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen();
+            /* g_hdMenuBytes 会残留「策略结束」；大地图 GetCitySet 时 pick=1，不能据此弹壳。 */
+            if (!pick && !cityOpen) {
+                return 'insystem';
+            }
         }
         var king = playerKingId();
         var belong = citiesHaveBelong();
@@ -778,7 +788,7 @@
                 }
                 if (!playerKingId() || state.screen === 'insystem' || state.screen === 'saveload') {
                     refresh();
-                } else if (liveMenuNames()[0] === '策略结束') {
+                } else if (inferScreen() === 'insystem') {
                     refresh();
                 } else if (state.open) {
                     refresh();
