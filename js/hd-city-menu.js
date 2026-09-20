@@ -2492,12 +2492,15 @@
         var qty = engineQty();
         var march = engineMarch();
         var report = reportText();
-        if (qty && qty.active) {
+        if (qty && qty.active && state.battleMake && state.personExitSent && !leftoverQtyFlag()) {
             state.sawQtyThisMarch = true;
             advanceWizard('food', 'qty-active');
             state.deepSig = '';
             render();
             return;
+        }
+        if (qty && qty.active && leftoverQtyFlag()) {
+            clearLeftoverQtyFlag();
         }
         var liveAbort = liveEngineReport();
         if (wizardInMarch() &&
