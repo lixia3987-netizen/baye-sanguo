@@ -88,6 +88,16 @@
         acceptMarchOk: false,
         handoff: false,
         handoffAt: 0,
+        handoffToken: 0,
+        handoffTimer: 0,
+        handoffStatus: '',
+        handoffExitCount: 0,
+        handoffEnterCount: 0,
+        handoffConfirmed: false,
+        handoffHaveFresh: false,
+        lastHandoffExitAt: 0,
+        lastHandoffEnterAt: 0,
+        handoffPreparedSeq: 0,
         consumedMarchSeq: 0,
         sawMarchCleared: false,
         wizardStep: 'none',
@@ -161,7 +171,7 @@
         document.documentElement.setAttribute('data-baye-battle-make',
             holdExit() ? '1' : '0');
         document.documentElement.setAttribute('data-baye-march-ok',
-            (state.marchReady || freshMarchOk()) ? '1' : '0');
+            (state.marchReady || freshMarchOk() || state.handoff) ? '1' : '0');
         document.documentElement.setAttribute('data-baye-wizard-step',
             show ? (state.wizardStep || 'none') : 'none');
         if (document.body) {
@@ -180,7 +190,7 @@
     }
 
     function holdMenu() {
-        return !!(holdExit() || (state.marchReady && !state.handoff));
+        return !!(holdExit() || state.marchReady || state.handoff);
     }
 
     function engineSendKey(code, reason) {
@@ -205,6 +215,9 @@
     }
 
     function enqueueKeys(codes, gap, reason) {
+        if (state.handoff && reason !== 'strategy-end' && reason !== 'strategy-end-enter') {
+            return;
+        }
         gap = gap || 55;
         var i;
         for (i = 0; i < codes.length; i++) {
@@ -1261,7 +1274,8 @@
         var sig = (showingQty() ? 'qty:' + (liveQty && liveQty.value) : state.deepKind + ':' + state.deepStep) +
             ':' + (state.pickedPersons || 0) +
             ':' + (mapPickActive() ? 'pick' : '') +
-            ':' + ((freshMarchOk() || state.marchReady) ? 'ok' : '') +
+            ':' + ((freshMarchOk() || state.marchReady || state.handoff) ? 'ok' : '') +
+            ':' + (state.handoff ? ('h:' + (state.handoffStatus || '')) : '') +
             ':' + (state.personExitSent ? 'pex' : '') +
             ':' + (state.acceptMarchOk ? 'acc' : '') +
             ':' + (state.wizardStep || '') +
@@ -1328,15 +1342,31 @@
             list.appendChild(bar);
             return;
         }
-        var showMarchOk = (state.marchReady || freshMarchOk()) &&
-            (state.deepKind === 'person-city' || state.deepLabel === '出征');
+        var showMarchOk = (state.marchReady || freshMarchOk() || state.handoff) &&
+            (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.handoff);
         if (showMarchOk) {
             var done = document.createElement('div');
-            done.className = 'hd-city-menu-march-ok';
+            done.className = 'hd-city-menu-march-ok' + (state.handoff ? ' is-handoff' : '');
             done.setAttribute('data-hd-march-ok', '1');
-            done.innerHTML = '<p>部队已出发</p>' +
-                '<p>需「策略结束」让 PolicyExec 走军入战</p>' +
-                '<button type="button" data-hd-strategy-end>策略结束</button>';
+            if (state.handoff) {
+                done.setAttribute('data-hd-handoff', '1');
+            }
+            var status = state.handoff
+                ? (state.handoffStatus || '正在退出城池…')
+                : '需「策略结束」让 PolicyExec 走军入战';
+            var statusEl = document.createElement('p');
+            statusEl.className = 'hd-city-menu-handoff-status';
+            statusEl.setAttribute('data-hd-handoff-status', state.handoff ? '1' : '0');
+            statusEl.textContent = status;
+            var titleEl = document.createElement('p');
+            titleEl.textContent = '部队已出发';
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.setAttribute('data-hd-strategy-end', '');
+            btn.textContent = state.handoff ? '进行中' : '策略结束';
+            done.appendChild(titleEl);
+            done.appendChild(statusEl);
+            done.appendChild(btn);
             list.appendChild(done);
         } else if (state.marchHint) {
             var warn = document.createElement('div');
@@ -1751,6 +1781,13 @@
         state.lastExit = '';
         state.marchHint = state.battleMake ? '点将后必须点「完成选将 · 选粮出发」，再点目标城。' : '';
         state.handoff = false;
+        state.handoffStatus = '';
+        state.handoffConfirmed = false;
+        state.handoffHaveFresh = false;
+        if (state.handoffTimer) {
+            clearTimeout(state.handoffTimer);
+            state.handoffTimer = 0;
+        }
         if (state.battleMake) {
             consumeLeftoverMarch();
             state.battleMake = true;
@@ -1816,20 +1853,148 @@
         return false;
     }
 
+    function functionMenuItemsLive(names) {
+        names = names || [];
+        if (names[0] !== '策略结束') {
+            return false;
+        }
+        var hasSave = false;
+        var hasQuit = false;
+        var i;
+        for (i = 0; i < names.length; i++) {
+            if (names[i] === '存储进度') {
+                hasSave = true;
+            }
+            if (names[i] === '结束游戏') {
+                hasQuit = true;
+            }
+        }
+        return hasSave && hasQuit;
+    }
+
+    function leftoverFightSys(names) {
+        names = names || [];
+        return names[0] === '全军撤退' || names[0] === '回合结束';
+    }
+
+    function cityOrderMenuNow(names) {
+        names = names || [];
+        return names[0] === '内政' || names[0] === '外交' || names[0] === '军备' ||
+            names[0] === '状况' || names[0] === '开垦' || names[0] === '侦察' ||
+            names[0] === '出征';
+    }
+
+    function setHandoffStatus(msg) {
+        if (state.handoffStatus === msg) {
+            return;
+        }
+        state.handoffStatus = msg || '';
+        applyDocAttr();
+        render();
+    }
+
+    function clearHandoffTimer() {
+        if (state.handoffTimer) {
+            clearTimeout(state.handoffTimer);
+            state.handoffTimer = 0;
+        }
+    }
+
+    function consumeMarchSeqIfFight() {
+        if (!fightIsActive()) {
+            return false;
+        }
+        var seq = marchSeqOf(engineMarch());
+        if (seq) {
+            state.consumedMarchSeq = seq;
+        }
+        return true;
+    }
+
+    function finishHandoff(ok) {
+        clearHandoffTimer();
+        state.handoff = false;
+        state.handoffConfirmed = false;
+        if (ok) {
+            state.handoffStatus = '即将开战…';
+            state.marchReady = false;
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            closeMenu({ silent: true, force: true, keepWizard: true });
+            return;
+        }
+        if (freshMarchOk()) {
+            state.marchReady = true;
+            state.wizardStep = 'march-ok';
+            state.handoffHaveFresh = true;
+            state.handoffStatus = '策略结束未确认，可再点一次';
+            state.marchHint = state.handoffStatus;
+        } else {
+            state.handoffStatus = '';
+            state.handoffHaveFresh = false;
+        }
+        applyDocAttr();
+        render();
+    }
+
     function goStrategyEnd() {
         /* 部队已出发后引擎还在城池 OrderMenu。g_hdMenuBytes 常年残留「策略结束」，
-         * 立刻回车会点进内政，PolicyExec 不跑。必须 EXIT 出城 → 离开 GetCitySet，
-         * 等 handoff 之后的新鲜 onMenuIdle，再回车确认 FunctionMenu。 */
-        var haveFresh = freshMarchOk();
+         * 立刻回车会点进内政。EXIT 出城一次后必须等真 FunctionMenu 再回车；
+         * 再 EXIT 会关掉 FunctionMenu 回到大地图，PolicyExec 不跑。 */
+        var haveFresh = freshMarchOk() || !!(state.marchReady && state.handoffHaveFresh);
+        if (state.handoff && state.handoffTimer) {
+            if (fightIsActive()) {
+                consumeMarchSeqIfFight();
+                finishHandoff(true);
+            }
+            return;
+        }
+        if (fightIsActive()) {
+            consumeMarchSeqIfFight();
+            finishHandoff(true);
+            return;
+        }
+
         var stillSelecting = !haveFresh && !!(state.battleMake || state.campaignPick || wizardInMarch());
+        var retrying = !!(haveFresh && (state.lastHandoffExitAt || 0) &&
+            (Date.now() - state.lastHandoffExitAt) < 15000 && !mapPickActive());
+
+        clearHandoffTimer();
+        state.queue = [];
+        state.sending = false;
         state.handoff = true;
+        state.handoffToken = (state.handoffToken || 0) + 1;
+        var token = state.handoffToken;
         state.handoffAt = Date.now();
+        state.handoffHaveFresh = haveFresh;
+        state.handoffConfirmed = false;
+        state.handoffEnterCount = 0;
+        state.lastHandoffEnterAt = 0;
+        if (!retrying) {
+            state.handoffExitCount = 0;
+            state.lastHandoffExitAt = 0;
+            state.lastFuncMenuIdle = 0;
+        } else if ((state.handoffExitCount || 0) < 1) {
+            state.handoffExitCount = 1;
+        }
+
         state.battleMake = false;
-        state.marchReady = false;
         state.campaignPick = false;
-        state.wizardStep = haveFresh ? 'march-ok' : 'none';
-        if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
-            BayeHdBattle.prepareNewFight();
+        if (haveFresh) {
+            state.marchReady = true;
+            state.wizardStep = 'march-ok';
+        } else {
+            state.marchReady = false;
+            state.wizardStep = 'none';
+        }
+
+        var seqNow = marchSeqOf(engineMarch());
+        if (haveFresh && !fightIsActive() && seqNow && state.handoffPreparedSeq !== seqNow) {
+            if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
+                BayeHdBattle.prepareNewFight();
+            }
+            state.handoffPreparedSeq = seqNow;
         }
         if (!haveFresh) {
             consumeLeftoverMarch();
@@ -1837,114 +2002,166 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
-        closeMenu({ silent: true });
-        var tries = 0;
-        var confirmed = false;
-        var sawPick = mapPickActive();
-        function leftoverFightSys(names) {
-            return names[0] === '全军撤退' || names[0] === '回合结束';
-        }
-        function functionMenuLiveNow() {
+
+        var HANDOFF_MAX_EXIT = 6;
+        var HANDOFF_MAX_ENTER = 2;
+        var HANDOFF_MAX_MS = 8000;
+        var HANDOFF_TICK_MS = 220;
+
+        setHandoffStatus(haveFresh ? '正在退出城池…' : '没有新的出征队列');
+
+        function liveFunctionMenu() {
             var names = engineMenuItems().names || [];
-            if (names[0] !== '策略结束') {
+            if (!functionMenuItemsLive(names)) {
                 return false;
             }
             if (mapPickActive() || showingQty() || fightIsActive()) {
                 return false;
             }
-            /* leftover 字节在城菜单里也会叫「策略结束」。handoff 之后的 onMenuIdle 才是 FunctionMenu。 */
-            if ((state.lastFuncMenuIdle || 0) < state.handoffAt) {
+            if ((state.handoffExitCount || 0) < 1) {
                 return false;
             }
-            if (haveFresh && !sawPick) {
+            if ((state.lastFuncMenuIdle || 0) < (state.lastHandoffExitAt || state.handoffAt)) {
                 return false;
             }
-            return (Date.now() - (state.lastFuncMenuIdle || 0)) < 2400;
+            if ((Date.now() - (state.lastHandoffExitAt || 0)) < 180) {
+                return false;
+            }
+            return true;
         }
-        function confirmFunctionMenu() {
-            if (confirmed) {
+
+        function sendHandoffKey(code, reason) {
+            if (code === VK.EXIT) {
+                if (state.handoffExitCount >= HANDOFF_MAX_EXIT) {
+                    return false;
+                }
+                if (functionMenuItemsLive(engineMenuItems().names || []) && !mapPickActive() &&
+                    (state.handoffExitCount || 0) >= 1) {
+                    return false;
+                }
+                state.handoffExitCount += 1;
+                state.lastHandoffExitAt = Date.now();
+                state.lastFuncMenuIdle = 0;
+            } else if (code === VK.ENTER) {
+                if (state.handoffEnterCount >= HANDOFF_MAX_ENTER) {
+                    return false;
+                }
+                state.handoffEnterCount += 1;
+                state.lastHandoffEnterAt = Date.now();
+            }
+            engineSendKey(code, reason);
+            return true;
+        }
+
+        function confirmOnce() {
+            setHandoffStatus('正在确认…');
+            state.handoffConfirmed = true;
+            if (state.handoffEnterCount >= HANDOFF_MAX_ENTER) {
                 return;
             }
-            confirmed = true;
-            if (!(global.BayeHdSystemUi &&
+            var sent = !!(global.BayeHdSystemUi &&
                 typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
-                BayeHdSystemUi.confirmStrategyEnd())) {
-                engineSendKey(VK.ENTER, 'strategy-end-enter');
+                BayeHdSystemUi.confirmStrategyEnd());
+            if (sent) {
+                state.handoffEnterCount += 1;
+                state.lastHandoffEnterAt = Date.now();
+            } else {
+                sendHandoffKey(VK.ENTER, 'strategy-end-enter');
             }
-            setTimeout(function () {
-                if (fightIsActive()) {
-                    var m = engineMarch();
-                    if (marchSeqOf(m)) {
-                        state.consumedMarchSeq = marchSeqOf(m);
-                    }
-                    state.handoff = false;
-                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                        BayeHdDialog.close({ silent: true });
-                    }
-                    return;
-                }
-                /* 回车打空则再走一遍 EXIT→FunctionMenu，不提前吃掉 march seq。 */
-                confirmed = false;
-                sawPick = mapPickActive();
-                state.handoffAt = Date.now();
-                tries = 0;
-                setTimeout(step, 200);
-            }, 900);
+            setHandoffStatus('即将开战…');
         }
+
+        function arm() {
+            if (token !== state.handoffToken || !state.handoff) {
+                return;
+            }
+            state.handoffTimer = setTimeout(step, HANDOFF_TICK_MS);
+        }
+
         function step() {
-            if (confirmed) {
+            state.handoffTimer = 0;
+            if (token !== state.handoffToken || !state.handoff) {
                 return;
             }
             if (fightIsActive()) {
-                state.handoff = false;
+                consumeMarchSeqIfFight();
+                setHandoffStatus('即将开战…');
+                finishHandoff(true);
                 return;
             }
+            if (Date.now() - state.handoffAt > HANDOFF_MAX_MS) {
+                finishHandoff(false);
+                return;
+            }
+
             var names = engineMenuItems().names || [];
             var pick = mapPickActive();
-            if (functionMenuLiveNow()) {
-                confirmFunctionMenu();
+
+            if (functionMenuItemsLive(names) && !pick && !showingQty()) {
+                if ((state.handoffExitCount || 0) < 1) {
+                    setHandoffStatus('正在退出城池…');
+                    sendHandoffKey(VK.EXIT, 'strategy-end');
+                    arm();
+                    return;
+                }
+                if (liveFunctionMenu()) {
+                    if (!state.handoffConfirmed) {
+                        confirmOnce();
+                    } else if ((state.handoffEnterCount || 0) < HANDOFF_MAX_ENTER &&
+                        (Date.now() - (state.lastHandoffEnterAt || 0)) > 700) {
+                        confirmOnce();
+                    }
+                } else {
+                    setHandoffStatus('等待策略结束菜单…');
+                }
+                arm();
                 return;
             }
+
             if (pick) {
                 if (!haveFresh && stillSelecting) {
-                    tries += 1;
-                    if (tries >= 20) {
-                        state.handoff = false;
-                        state.marchHint = '先点目标城等到「部队已出发」，再策略结束。';
-                        return;
-                    }
-                    setTimeout(step, 240);
+                    setHandoffStatus('请先点目标城等到部队已出发');
+                    arm();
                     return;
                 }
-                sawPick = true;
-                tries += 1;
-                engineSendKey(VK.EXIT, 'strategy-end');
-                setTimeout(step, 240);
+                setHandoffStatus('正在退出选城…');
+                sendHandoffKey(VK.EXIT, 'strategy-end');
+                arm();
                 return;
             }
-            if (leftoverFightSys(names) && fightIsActive()) {
-                tries += 1;
-                if (tries >= 20) {
-                    state.handoff = false;
-                    return;
-                }
-                setTimeout(step, 240);
+
+            if (leftoverFightSys(names)) {
+                arm();
                 return;
             }
-            if (tries >= 20) {
-                state.handoff = false;
+
+            if (cityOrderMenuNow(names) || (state.handoffExitCount || 0) < 1) {
+                setHandoffStatus('正在退出城池…');
+                sendHandoffKey(VK.EXIT, 'strategy-end');
+                arm();
                 return;
             }
-            /* 城池 OrderMenu / leftover 策略结束字节：先 EXIT 出城，不要回车。 */
-            tries += 1;
-            engineSendKey(VK.EXIT, 'strategy-end');
-            setTimeout(step, 240);
+
+            if ((state.handoffExitCount || 0) < 2 && names[0] !== '策略结束') {
+                setHandoffStatus('正在退出城池…');
+                sendHandoffKey(VK.EXIT, 'strategy-end');
+                arm();
+                return;
+            }
+
+            setHandoffStatus('等待策略结束菜单…');
+            arm();
         }
-        setTimeout(step, 80);
+
+        state.handoffTimer = setTimeout(step, 80);
     }
 
     function isMarching() {
-        /* 部队已出发后不再占 isMarching：报告壳才能关，地图点己方城才能开招商。 */
+        /* 部队已出发后不再占 isMarching：报告壳才能关，地图点己方城才能开招商。
+         * handoff 期间占住，避免地图点击把出征队列冲掉。 */
+        if (state.handoff) {
+            return true;
+        }
         if (state.marchReady) {
             return false;
         }
@@ -1999,6 +2216,9 @@
     }
 
     function syncMarchPhase() {
+        if (state.handoff) {
+            return;
+        }
         if (!state.open || state.layer !== 'deep') {
             return;
         }
@@ -2202,11 +2422,17 @@
                 }
                 if (looksLikeFunctionMenu()) {
                     /* 出征向导开着时 g_hdMenuBytes 残留「策略结束」不是 FunctionMenu。 */
-                    if (!state.open || (!wizardInMarch() && !state.marchReady && !holdExit())) {
+                    if (state.handoff) {
+                        if ((state.handoffExitCount || 0) > 0 && !mapPickActive()) {
+                            state.lastFuncMenuIdle = Date.now();
+                        }
+                    } else if (!state.open || (!wizardInMarch() && !state.marchReady && !holdExit())) {
                         state.lastFuncMenuIdle = Date.now();
                     }
-                    if (!holdExit() && !state.battleMake && !state.campaignPick &&
-                        !state.marchReady && !state.handoff && !mapPickActive() && !showingQty() &&
+                    if (state.handoff) {
+                        /* keep 部队已出发 panel visible during handoff */
+                    } else if (!holdExit() && !state.battleMake && !state.campaignPick &&
+                        !state.marchReady && !mapPickActive() && !showingQty() &&
                         !/选择目标|部队已出发/.test(reportText())) {
                         closeMenu({ silent: true });
                         return;
@@ -2232,8 +2458,8 @@
             }
         }
         if (looksLikeFunctionMenu() && state.open) {
-            if (holdExit() || state.marchReady || state.campaignPick || mapPickActive() ||
-                showingQty() || /选择目标|部队已出发/.test(reportText())) {
+            if (state.handoff || holdExit() || state.marchReady || state.campaignPick ||
+                mapPickActive() || showingQty() || /选择目标|部队已出发/.test(reportText())) {
                 return;
             }
             closeMenu({ silent: true });
@@ -2515,6 +2741,11 @@
                 battleMake: state.battleMake,
                 handoff: state.handoff,
                 handoffAt: state.handoffAt,
+                handoffStatus: state.handoffStatus,
+                handoffExitCount: state.handoffExitCount,
+                handoffEnterCount: state.handoffEnterCount,
+                lastHandoffExitAt: state.lastHandoffExitAt,
+                lastFuncMenuIdle: state.lastFuncMenuIdle,
                 personExitSent: state.personExitSent,
                 lastExit: state.lastExit,
                 lastBlockedExit: state.lastBlockedExit,

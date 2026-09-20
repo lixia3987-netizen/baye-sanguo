@@ -874,7 +874,10 @@
             if (fightActive()) {
                 return false;
             }
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
+            var handing = !!(global.BayeHdCityMenu &&
+                typeof BayeHdCityMenu.isHandoff === 'function' &&
+                BayeHdCityMenu.isHandoff());
+            if (!handing && global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
                 BayeHdCityMenu.isOpen()) {
                 return false;
             }
@@ -896,9 +899,7 @@
             if (handoffAt && (state.lastFuncMenuIdle || 0) < handoffAt) {
                 return false;
             }
-            if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
-                BayeHdBattle.prepareNewFight();
-            }
+            /* 不要 prepareNewFight：会清掉刚亮起的 g_hdFightActive。 */
             state.idleIndex = 0;
             engineSendKey(VK.ENTER);
             if (state.screen === 'insystem') {

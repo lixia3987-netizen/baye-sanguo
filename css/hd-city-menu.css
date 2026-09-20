@@ -278,6 +278,18 @@ html[data-baye-march-ok="1"] [data-hd-sys-back] {
     color: #102010;
 }
 
+.hd-city-menu-march-ok.is-handoff {
+    border-color: rgba(255, 210, 90, 0.85);
+    background: rgba(90, 140, 80, 0.28);
+}
+
+.hd-city-menu-handoff-status {
+    margin: 8px 0 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffe7a3;
+}
+
 html[data-baye-city-menu-map-pick="1"] .hd-city-menu {
     background: transparent;
     pointer-events: none;
