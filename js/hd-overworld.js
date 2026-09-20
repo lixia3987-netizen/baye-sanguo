@@ -913,7 +913,15 @@
                     return;
                 }
             }
-            if (state.pendingEnter || state.aligning || state.hdOpenedMenu || looksLikeCityRootMenu()) {
+            if (state.pendingEnter || state.aligning || state.hdOpenedMenu) {
+                confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
+                return;
+            }
+            if (looksLikeCityRootMenu() && state.phase !== 'map') {
+                var idleLanded = inferCurrentCity();
+                if (validCityIndex(idleLanded)) {
+                    state.selectedIndex = idleLanded;
+                }
                 confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
                 return;
             }
@@ -3039,6 +3047,11 @@
                 }
                 if (marching) {
                     ev.preventDefault();
+                    return;
+                }
+                if (pickIdx >= 0) {
+                    ev.preventDefault();
+                    openClassicCity(pickIdx);
                     return;
                 }
                 ev.preventDefault();
