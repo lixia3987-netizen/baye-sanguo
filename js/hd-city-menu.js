@@ -77,6 +77,7 @@
         battleMake: false,
         personExitSent: false,
         personExitTries: 0,
+        lastPersonExitAt: 0,
         lastFuncMenuIdle: 0,
         lastExit: '',
         lastBlockedExit: '',
@@ -1108,7 +1109,12 @@
             var liveFunc = looksLikeFunctionMenu() &&
                 (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
             if (!liveFunc) {
+                if (state.lastPersonExitAt && Date.now() - state.lastPersonExitAt < 480) {
+                    scheduleMarchWatch();
+                    return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
+                }
                 state.personExitTries = (state.personExitTries || 0) + 1;
+                state.lastPersonExitAt = Date.now();
                 noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                     BayeHdDialog.close({ silent: true });
@@ -2222,6 +2228,7 @@
         state.battleMake = (state.deepKind === 'person-city' || state.deepLabel === '出征');
         state.personExitSent = false;
         state.personExitTries = 0;
+        state.lastPersonExitAt = 0;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
         state.qtyDismissed = false;
@@ -2290,6 +2297,7 @@
         state.dismissedObj = false;
         state.personExitSent = true;
         state.personExitTries = 1;
+        state.lastPersonExitAt = Date.now();
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
