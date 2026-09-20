@@ -840,8 +840,8 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-sys') != null) {
                     ev.preventDefault();
-                    /* 选将中 EXIT 打开战场系统；菜单活着时 EXIT 关掉。残留壳不发键。 */
-                    if (fightMenuLive() || (readFight() && readFight().wait)) {
+                    /* 选将中 EXIT 打开 FgtMainMenu；菜单活着时 EXIT 关掉。开战瞬间 wait 可能还是 0。 */
+                    if (readFight() && readFight().active) {
                         engineSendKey(VK.EXIT);
                     }
                     return;
