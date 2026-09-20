@@ -1125,7 +1125,10 @@
         if (usesMapCursor(state.deepKind, state.deepStep)) {
             var hint = document.createElement('div');
             hint.className = 'hd-city-menu-map-hint';
-            hint.textContent = '选择目标：点邻城或点大地图高亮城（走引擎格，不是 china-lcc 像素）。';
+            var hasEnemy = state.deepItems.some(function (it) { return it && it.enemy; });
+            hint.textContent = hasEnemy
+                ? '选择目标：点敌邻城或地图上的敌邻（CITY_LINKR，不是 china-lcc）。'
+                : '邻城都是己方。引擎不能打非邻城；点己方会提示「我方城池」，不会出发。';
             list.appendChild(hint);
         }
         if (!state.deepItems.length && !showMarchOk &&
@@ -1753,8 +1756,23 @@
         if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive() && liveChooseTarget()) {
             advanceWizard('target-tip', 'sync-food-done');
         }
-        if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(report) && !showingQty() && !mapPickActive()) {
-            /* 过月天灾残留回车等于策略结束，会取消 BattleMake。只关壳。 */
+        if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(liveEngineReport()) && !showingQty() && !mapPickActive()) {
+            /* 选将时回车天灾 = 策略结束。选粮时引擎常堵在 ShowConstStrMsg，必须回车才能进 GetFood。 */
+            if (state.wizardStep === 'persons') {
+                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                    BayeHdDialog.close({ silent: true });
+                }
+                scheduleMarchWatch();
+                return;
+            }
+            if ((state.wizardStep === 'food' || state.personExitSent) && !looksLikeFunctionMenu()) {
+                engineSendKey(VK.ENTER);
+                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                    BayeHdDialog.close({ silent: true });
+                }
+                scheduleMarchWatch();
+                return;
+            }
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
