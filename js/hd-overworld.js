@@ -906,9 +906,11 @@
             state.mapShownAt = Date.now();
             state.lastMapCity = readMapCity();
         }
-        if (name === 'onMenuIdle' && (state.pendingEnter || state.aligning || state.hdOpenedMenu)) {
-            confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
-            return;
+        if (name === 'onMenuIdle') {
+            if (state.pendingEnter || state.aligning || state.hdOpenedMenu || looksLikeCityRootMenu()) {
+                confirmClassicMenu('经典城池菜单。空格关闭；点地图空白回 HD。');
+                return;
+            }
         }
         if (name === 'cityMakeCommand') {
             confirmClassicMenu('经典城池菜单。空格关子菜单；再空格或点地图空白回 HD。');
@@ -1889,6 +1891,9 @@
             if (!Object.prototype.hasOwnProperty.call(after, name)) {
                 continue;
             }
+            if (/^g_hd/.test(name) || name === 'g_hdMenuIndex') {
+                continue;
+            }
             var a = after[name];
             var b = before[name];
             if (a !== b && validCityIndex(a) && validCityIndex(b)) {
@@ -1967,6 +1972,50 @@
 
     function posEquals(a, b) {
         return !!(a && b && a.x === b.x && a.y === b.y);
+    }
+
+    function looksLikeCityRootMenu() {
+        try {
+            if (!window.baye || !baye.hd || typeof baye.hd.menuItems !== 'function') {
+                return false;
+            }
+            var m = baye.hd.menuItems();
+            if (!m || !m.names || !m.names.length) {
+                return false;
+            }
+            var names = m.names.join(' ');
+            return names.indexOf('内政') >= 0 && names.indexOf('军备') >= 0;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function ensureOnMap(token, tried, then) {
+        if (readMapPick() === 1) {
+            then();
+            return;
+        }
+        var n = 0;
+        function kick() {
+            if (token !== state.alignToken) {
+                return;
+            }
+            if (readMapPick() === 1) {
+                setPhase('map');
+                then();
+                return;
+            }
+            if (n >= 6) {
+                tried.push('not-on-map');
+                then();
+                return;
+            }
+            n += 1;
+            tried.push('exit-to-map:' + n);
+            engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
+            later(token, 180, kick);
+        }
+        kick();
     }
 
     function landedOnTarget(index, expectTile) {
@@ -2279,8 +2328,11 @@
         if (state.learnedCursorField) {
             names.unshift(state.learnedCursorField);
         }
+        if (state.learnedCursorField && /^g_hd/.test(state.learnedCursorField)) {
+            state.learnedCursorField = null;
+        }
         for (var i = 0; i < names.length; i++) {
-            if (data[names[i]] === undefined) {
+            if (!names[i] || /^g_hd/.test(names[i]) || data[names[i]] === undefined) {
                 continue;
             }
             var current = readNumber(data, names[i]);
@@ -2685,31 +2737,36 @@
             tried.push('fromTile:' + fromPos.x + ',' + fromPos.y);
         }
 
-        /* 只认真实格坐标 / ShowCityMap 的 g_hdMapCity。
-         * guessCurrentCity / engineCursorIndex 会把上次点天水的残留当成已对齐，
-         * ENTER 打在空格或邻城 → menu-timeout。 */
-        if (landedOnTarget(index, toTile)) {
-            tried.push('already-on-target');
-            later(token, 50, function () {
-                sendEnterWaitMenu(token, tried, false, { from: from, to: index, method: 'already-on-target' });
-            });
-            return;
-        }
-
-        // g_CityPos.setx/sety 读回可写，但 ENTER 仍走引擎内部光标（西凉点安定会进错城）。
-        // 只按探测到的格坐标发方向键，不靠盲写。
-        if (state.learnedCursorField) {
-            var wrote = tryWriteCursor(index, tried);
-            if (wrote && inferCurrentCity() === index && !fromPos) {
-                tried.push('verified-write');
-                later(token, 70, function () {
-                    sendEnterWaitMenu(token, tried, true, { from: from, to: index, method: 'write-index' });
+        ensureOnMap(token, tried, function () {
+            fromPos = readCityPos();
+            from = guessCurrentCity();
+            if (fromPos) {
+                tried.push('fromTile2:' + fromPos.x + ',' + fromPos.y);
+            }
+            /* 只认真实格坐标 / ShowCityMap 的 g_hdMapCity。
+             * 菜单里的残留 engineCursorIndex 不能当已对齐，否则 ENTER 会点内政。 */
+            if (landedOnTarget(index, toTile) && readMapPick() === 1) {
+                tried.push('already-on-target');
+                later(token, 50, function () {
+                    sendEnterWaitMenu(token, tried, false, { from: from, to: index, method: 'already-on-target' });
                 });
                 return;
             }
-        }
 
-        alignByKeys(token, tried, from, index, fromPos, toTile);
+            // g_CityPos.setx/sety 读回可写，但 ENTER 仍走引擎内部光标（西凉点安定会进错城）。
+            if (state.learnedCursorField && !/^g_hd/.test(state.learnedCursorField)) {
+                var wrote = tryWriteCursor(index, tried);
+                if (wrote && inferCurrentCity() === index && !fromPos) {
+                    tried.push('verified-write');
+                    later(token, 70, function () {
+                        sendEnterWaitMenu(token, tried, true, { from: from, to: index, method: 'write-index' });
+                    });
+                    return;
+                }
+            }
+
+            alignByKeys(token, tried, from, index, fromPos, toTile);
+        });
     }
 
     function alignByKeys(token, tried, from, index, fromPos, toTile) {
@@ -2737,15 +2794,14 @@
 
     function openClassicCity(index) {
         if (state.phase === 'classic-menu') {
-            return;
-        }
-        if (state.phase !== 'map') {
+            leaveClassicMenu('换城对齐…');
+        } else if (state.phase !== 'map') {
             state.selectedIndex = index;
             state.hint = '预览中：进入大地图后点击才会向引擎发送入城。现在可切回经典继续开局。';
             return;
         }
         if (state.aligning) {
-            return;
+            cancelAlign();
         }
         cancelAlign();
         var city = state.cities[index];
