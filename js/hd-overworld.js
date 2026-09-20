@@ -2033,6 +2033,32 @@
         }
     }
 
+    function functionMenuShowing() {
+        try {
+            if (!window.baye || !baye.hd || typeof baye.hd.menuItems !== 'function') {
+                return false;
+            }
+            var m = baye.hd.menuItems();
+            if (!m || !m.names || !m.names.length) {
+                return false;
+            }
+            var names = m.names.join(' ');
+            return names.indexOf('策略结束') >= 0 && names.indexOf('存储进度') >= 0;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function cityMenuShellOpen() {
+        return state.phase === 'classic-menu' || state.hdOpenedMenu ||
+            !!(global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
+                BayeHdCityMenu.isOpen());
+    }
+
+    function inGameOverworld() {
+        return playerKingId() !== null && citiesHaveBelong(engineData());
+    }
+
     function ensureOnMap(token, tried, then) {
         if (readMapPick() === 1) {
             then();
@@ -2044,6 +2070,7 @@
             return;
         }
         var n = 0;
+        var dismissedFunc = 0;
         function kick() {
             if (token !== state.alignToken) {
                 return;
@@ -2055,6 +2082,24 @@
             }
             if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
                 tried.push('hold-exit-skip-ensure');
+                then();
+                return;
+            }
+            if (functionMenuShowing() && dismissedFunc < 1) {
+                dismissedFunc += 1;
+                n += 1;
+                tried.push('exit-function-menu');
+                engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
+                later(token, 200, kick);
+                return;
+            }
+            if (functionMenuShowing()) {
+                tried.push('function-menu-stuck');
+                then();
+                return;
+            }
+            if (inGameOverworld() && state.phase === 'map' && !state.hdOpenedMenu) {
+                tried.push('already-on-map');
                 then();
                 return;
             }
@@ -2506,7 +2551,11 @@
             applyChrome();
             return;
         }
-        engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
+        /* GetCitySet EXIT leaves PlayerTactic and opens 策略结束. Only leave
+           an actual city OrderMenu; leftover closeMenu on the map must no-op. */
+        if (cityMenuShellOpen()) {
+            engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
+        }
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
         if (!opts.keepAlign) {
@@ -2931,8 +2980,12 @@
         if (state.phase === 'classic-menu') {
             leaveClassicMenu('换城对齐…', { keepAlign: true });
         } else if (state.phase !== 'map') {
-            state.hint = '预览中：进入大地图后点击才会向引擎发送入城。现在可切回经典继续开局。';
-            return;
+            if (inGameOverworld()) {
+                setPhase('map');
+            } else {
+                state.hint = '预览中：进入大地图后点击才会向引擎发送入城。现在可切回经典继续开局。';
+                return;
+            }
         }
         if (state.aligning) {
             cancelAlign();
@@ -3029,7 +3082,7 @@
             if (state.mode !== 'hd-map') {
                 return;
             }
-            if (state.phase !== 'map' && state.phase !== 'classic-menu') {
+            if (state.phase !== 'map' && state.phase !== 'classic-menu' && !inGameOverworld()) {
                 return;
             }
             state.pan.on = true;
@@ -3336,6 +3389,8 @@
                 hitsEnabled: hitsEnabled(),
                 battleMakePending: battleMakePending(),
                 cityMenuMarching: cityMenuMarching(),
+                functionMenu: functionMenuShowing(),
+                cityMenuShell: cityMenuShellOpen(),
                 pan: {
                     on: state.pan.on,
                     moved: state.pan.moved,
