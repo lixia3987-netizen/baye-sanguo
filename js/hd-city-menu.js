@@ -948,6 +948,9 @@
         root.classList.toggle('is-sub', show && state.layer !== 'root');
         applyDocAttr();
         if (!show) {
+            if (!state.open) {
+                setText(el('hd-city-menu-title'), '城池');
+            }
             return;
         }
         var liveName = cityName(state.cityIndex);
