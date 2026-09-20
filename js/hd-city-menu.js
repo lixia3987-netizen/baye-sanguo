@@ -83,6 +83,7 @@
         lastWalkCity: null,
         lastWalkAt: 0,
         walkBusy: false,
+        acceptMarchOk: false,
         handoff: false
     };
 
@@ -142,7 +143,7 @@
         document.documentElement.setAttribute('data-baye-battle-make',
             holdExit() ? '1' : '0');
         document.documentElement.setAttribute('data-baye-march-ok',
-            (state.marchReady || (engineMarch() && engineMarch().ok)) ? '1' : '0');
+            (state.marchReady || (state.acceptMarchOk && engineMarch() && engineMarch().ok)) ? '1' : '0');
         if (document.body) {
             var deepEmpty = show && state.layer === 'deep' && !showingQty() &&
                 !state.deepItems.length && !mapPickActive() && !state.marchReady;
@@ -275,7 +276,7 @@
     }
 
     function walkCursorToCity(cityIndex, thenEnter) {
-        if (state.marchReady || (engineMarch() && engineMarch().ok)) {
+        if (state.marchReady) {
             return { skipped: 'already-ok' };
         }
         if (showingQty()) {
@@ -791,8 +792,9 @@
         var sig = (showingQty() ? 'qty:' + (liveQty && liveQty.value) : state.deepKind + ':' + state.deepStep) +
             ':' + (state.pickedPersons || 0) +
             ':' + (mapPickActive() ? 'pick' : '') +
-            ':' + ((march && march.ok) || state.marchReady ? 'ok' : '') +
+            ':' + ((state.acceptMarchOk && march && march.ok) || state.marchReady ? 'ok' : '') +
             ':' + (state.personExitSent ? 'pex' : '') +
+            ':' + (state.acceptMarchOk ? 'acc' : '') +
             ':' + (state.marchHint || '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
@@ -836,7 +838,7 @@
             list.appendChild(bar);
             return;
         }
-        var showMarchOk = ((march && march.ok) || state.marchReady) &&
+        var showMarchOk = (state.marchReady || (state.acceptMarchOk && march && march.ok)) &&
             (state.deepKind === 'person-city' || state.deepLabel === '出征');
         if (showMarchOk) {
             var done = document.createElement('div');
@@ -1183,6 +1185,7 @@
         state.lastWalkCity = null;
         state.lastWalkAt = 0;
         state.walkBusy = false;
+        state.acceptMarchOk = false;
         state.lastBlockedExit = '';
         state.lastExit = '';
         state.marchHint = state.battleMake ? '点将后必须点「完成选将 · 选粮出发」，再点目标城。' : '';
@@ -1380,19 +1383,20 @@
         }
         if (mapPickActive() && (state.deepKind === 'person-city' || state.deepLabel === '出征' || state.dismissedObj)) {
             state.campaignPick = true;
+            state.acceptMarchOk = true;
         }
-        if (mapPickActive() || (march && march.ok)) {
+        if (mapPickActive() || (state.acceptMarchOk && march && march.ok)) {
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
-            if (march && march.ok) {
+            if (state.acceptMarchOk && march && march.ok) {
                 state.marchReady = true;
                 state.campaignPick = false;
                 state.battleMake = false;
                 state.walkBusy = false;
                 state.marchHint = '';
             }
-            if (/部队已出发/.test(report)) {
+            if (state.acceptMarchOk && /部队已出发/.test(report)) {
                 state.campaignPick = false;
                 state.marchReady = true;
                 state.walkBusy = false;
