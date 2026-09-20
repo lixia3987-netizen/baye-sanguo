@@ -1067,14 +1067,12 @@
         if (!state.personExitSent || liveGetFood() || engineInGetCitySet() || state.sawQtyThisMarch) {
             return false;
         }
-        var names = engineMenuItems().names || [];
-        if (!names.length) {
-            return true;
-        }
-        if (names[0] === '侦察' || names[0] === '开垦' || names[0] === '策略结束' ||
-            names[0] === '内政' || names[0] === '外交' || names[0] === '军备') {
+        var liveFunc = looksLikeFunctionMenu() &&
+            (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
+        if (liveFunc) {
             return false;
         }
+        /* g_hdMenuBytes 常残留侦察/策略结束，不能据此认为已离开 ShowPersonControl。 */
         return true;
     }
 
