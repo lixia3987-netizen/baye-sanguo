@@ -749,7 +749,9 @@
             list.appendChild(bar);
             return;
         }
-        if ((march && march.ok) || state.marchReady) {
+        var showMarchOk = ((march && march.ok) || state.marchReady) &&
+            (state.deepKind === 'person-city' || state.deepLabel === '出征');
+        if (showMarchOk) {
             var done = document.createElement('div');
             done.className = 'hd-city-menu-march-ok';
             done.innerHTML = '<p>部队已出发 · 需「策略结束」让 PolicyExec 走军入战</p>' +
@@ -769,7 +771,7 @@
             hint.textContent = '选择目标：点邻城或点大地图高亮城（走引擎格，不是 china-lcc 像素）。';
             list.appendChild(hint);
         }
-        if (!state.deepItems.length && !((march && march.ok) || state.marchReady) &&
+        if (!state.deepItems.length && !showMarchOk &&
             !(state.deepKind === 'person-city' && !mapPickActive())) {
             var empty = document.createElement('div');
             empty.className = 'hd-city-menu-deep-empty';
@@ -883,7 +885,8 @@
         } else if (state.layer === 'deep') {
             var stepHint = showingQty()
                 ? '数量'
-                : ((state.marchReady || (engineMarch() && engineMarch().ok))
+                : ((state.deepKind === 'person-city' || state.deepLabel === '出征') &&
+                    (state.marchReady || (engineMarch() && engineMarch().ok))
                     ? '部队已出发'
                     : (usesMapCursor(state.deepKind, state.deepStep)
                         ? '目标城池（方向键对齐引擎光标）'
