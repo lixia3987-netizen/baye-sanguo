@@ -1588,6 +1588,14 @@
             render();
             return;
         }
+        if (/城中无空闲武将|金钱不足|粮草不足/.test(liveEngineReport()) && wizardInMarch()) {
+            setWizardStep('none', 'engine-abort');
+            state.battleMake = false;
+            state.personExitSent = false;
+            state.marchHint = liveEngineReport();
+            render();
+            return;
+        }
         if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive()) {
             advanceWizard('target-tip', 'sync-food-done');
         }
