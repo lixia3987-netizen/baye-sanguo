@@ -2111,16 +2111,19 @@
             confirmMarchTarget(item.cityIndex);
             return;
         }
-        if (mapPickActive() || showingQty() || state.personExitSent || state.campaignPick ||
-            state.wizardStep === 'food' || state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick') {
-            state.marchHint = mapPickActive() || state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip'
+        if ((mapPickActive() && !leftoverOverworldPick()) || showingQty() || state.personExitSent ||
+            state.campaignPick || state.wizardStep === 'food' || state.wizardStep === 'target-tip' ||
+            state.wizardStep === 'map-pick') {
+            state.marchHint = (mapPickActive() && !leftoverOverworldPick()) ||
+                state.wizardStep === 'map-pick' || state.wizardStep === 'target-tip'
                 ? '现在点邻城或地图上的目标城，不要再点将领。'
                 : '已结束选将，请确认粮草。';
             render();
             return;
         }
         pickIndex(index, true);
-        if (state.deepKind === 'person-city' && !mapPickActive() && !showingQty()) {
+        if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
+            !showingQty()) {
             state.pickedPersons += 1;
             state.deepSig = '';
             setTimeout(function () {
