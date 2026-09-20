@@ -2005,7 +2005,7 @@
 
         var HANDOFF_MAX_EXIT = 6;
         var HANDOFF_MAX_ENTER = 2;
-        var HANDOFF_MAX_MS = 8000;
+        var HANDOFF_MAX_MS = 10000;
         var HANDOFF_TICK_MS = 220;
 
         setHandoffStatus(haveFresh ? '正在退出城池…' : '没有新的出征队列');
@@ -2403,6 +2403,11 @@
     }
 
     function onEngineHook(name, ctx) {
+        if (state.handoff && fightIsActive()) {
+            consumeMarchSeqIfFight();
+            finishHandoff(true);
+            return;
+        }
         state.lastHook = name;
         if (ctx && typeof ctx === 'object') {
             var keys = listProps(ctx);
