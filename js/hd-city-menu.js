@@ -1865,6 +1865,11 @@
         state.showLcd = false;
         state.queue = [];
         state.cityName = state.cityName || cityName(state.cityIndex);
+        /* 征兵 leftover g_hdQtyActive 进下一次城菜单时必须清掉。 */
+        if (engineQty() && engineQty().active && !state.battleMake) {
+            state.qtyDismissed = true;
+            clearLeftoverQtyFlag();
+        }
         render();
         console.log('[hd-city-menu] open', {
             city: state.cityName,
@@ -2957,7 +2962,14 @@
         applyDocAttr();
         render();
         setInterval(function () {
-            if (!hdReady() || !(state.open && state.layer === 'deep')) {
+            if (!hdReady() || !state.open) {
+                return;
+            }
+            if (state.layer !== 'deep') {
+                if (engineQty() && engineQty().active && !state.battleMake && !state.personExitSent) {
+                    state.qtyDismissed = true;
+                    clearLeftoverQtyFlag();
+                }
                 return;
             }
             syncMarchPhase();
