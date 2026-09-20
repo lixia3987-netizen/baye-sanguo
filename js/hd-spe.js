@@ -130,10 +130,8 @@
         if (kind === 2 || kind === 3) {
             return battleHd();
         }
-        if (kind === 4) {
-            return false;
-        }
-        return openingHd() || battleHd();
+        /* kind 0 leftover / 标题装饰 SPE 不再盖全屏，否则跳过后仍挡城菜单。 */
+        return false;
     }
 
     function isHandling() {
