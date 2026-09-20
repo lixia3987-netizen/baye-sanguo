@@ -965,6 +965,17 @@
         close: closeBattle,
         onEngineHook: onEngineHook,
         onEngineFight: onEngineFight,
+        clickOwnUnit: function () {
+            var i;
+            for (i = 0; i < state.units.length; i++) {
+                var u = state.units[i];
+                if (u && u.side === 'player' && u.x != null && u.y != null) {
+                    walkFocusTo(u.x, u.y, true);
+                    return { x: u.x, y: u.y, i: u.i };
+                }
+            }
+            return null;
+        },
         debugPreview: function () {
             return enterBattle({ preview: true, hook: 'debugPreview' });
         },
@@ -978,6 +989,9 @@
                 preview: state.preview,
                 lastHook: state.lastHook,
                 units: state.units.length,
+                unitList: state.units.slice(0, 8).map(function (u) {
+                    return { i: u.i, name: u.name, x: u.x, y: u.y, side: u.side };
+                }),
                 mapW: state.mapW,
                 mapH: state.mapH,
                 genCount: fightArrayCount(),
