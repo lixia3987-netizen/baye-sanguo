@@ -76,6 +76,7 @@
         campaignPick: false,
         battleMake: false,
         personExitSent: false,
+        personExitTries: 0,
         lastFuncMenuIdle: 0,
         lastExit: '',
         lastBlockedExit: '',
@@ -1062,9 +1063,39 @@
         return !!(waitingArmout() || engineInGetCitySet());
     }
 
+    function engineStillPersonQueue() {
+        if (!state.personExitSent || liveGetFood() || engineInGetCitySet() || state.sawQtyThisMarch) {
+            return false;
+        }
+        var names = engineMenuItems().names || [];
+        if (!names.length) {
+            return true;
+        }
+        if (names[0] === '侦察' || names[0] === '开垦' || names[0] === '策略结束' ||
+            names[0] === '内政' || names[0] === '外交' || names[0] === '军备') {
+            return false;
+        }
+        return true;
+    }
+
+    function leftoverDisasterReport(text) {
+        return /饥荒|旱灾|水灾|暴动|须尽快治理/.test(String(text || ''));
+    }
+
     function driveFoodToCitySet(why) {
         if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
             return { ok: true, phase: engineMarchPhase() };
+        }
+        if (leftoverDisasterReport(liveEngineReport())) {
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            if (!engineStillPersonQueue() && state.personExitSent && !state.sawQtyThisMarch && !liveGetFood()) {
+                noteStep4('drive-disaster-enter', { skipped: why || 'disaster' });
+                engineSendKey(VK.ENTER);
+                scheduleMarchWatch();
+                return { deferred: 'disaster-enter', phase: engineMarchPhase() };
+            }
         }
         if (liveGetFood()) {
             noteStep4('drive-food-enter', { skipped: why || 'food' });
@@ -1079,6 +1110,21 @@
         if (q && q.active && leftoverQtyFlag()) {
             clearLeftoverQtyFlag();
             return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
+        }
+        if (state.personExitSent && !state.sawQtyThisMarch && !mapPickActive() &&
+            engineStillPersonQueue() && (state.personExitTries || 0) < 6) {
+            var liveFunc = looksLikeFunctionMenu() &&
+                (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
+            if (!liveFunc) {
+                state.personExitTries = (state.personExitTries || 0) + 1;
+                noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
+                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                    BayeHdDialog.close({ silent: true });
+                }
+                enqueueKeys([VK.EXIT], 70, 'finish-persons');
+                scheduleMarchWatch();
+                return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
+            }
         }
         if (state.personExitSent && state.sawQtyThisMarch && !mapPickActive() &&
             leftoverChooseTarget(liveEngineReport())) {
@@ -1440,7 +1486,8 @@
     function probeDeepItems() {
         var kind = state.deepKind;
         var step = state.deepStep;
-        if (kind === 'person-city' && state.wizardStep === 'persons' && !showingQty()) {
+        if (kind === 'person-city' && !state.personExitSent &&
+            state.wizardStep === 'persons' && !showingQty()) {
             var picking = cityPersons(state.cityIndex);
             if (picking.length) {
                 return picking;
@@ -1450,7 +1497,8 @@
             return otherCities(state.cityIndex);
         }
         if (kind === 'person' || kind === 'person-goods' || kind === 'person-qty' ||
-            (kind === 'person-city' && !mapPickActive() && !showingQty() && !liveTargetStep())) {
+            (kind === 'person-city' && !state.personExitSent &&
+            !mapPickActive() && !showingQty() && !liveTargetStep())) {
             var persons = cityPersons(state.cityIndex);
             if (persons.length) {
                 return persons;
@@ -2177,6 +2225,7 @@
         state.campaignPick = false;
         state.battleMake = (state.deepKind === 'person-city' || state.deepLabel === '出征');
         state.personExitSent = false;
+        state.personExitTries = 0;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
         state.qtyDismissed = false;
@@ -2244,9 +2293,13 @@
         }
         state.dismissedObj = false;
         state.personExitSent = true;
+        state.personExitTries = 1;
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
         enqueueKeys([VK.EXIT], 70, 'finish-persons');
         scheduleMarchWatch();
         render();
@@ -2693,7 +2746,8 @@
                 scheduleMarchWatch();
                 return;
             }
-            if ((state.wizardStep === 'food' || state.personExitSent) && !looksLikeFunctionMenu()) {
+            if ((state.wizardStep === 'food' || state.personExitSent) &&
+                !engineStillPersonQueue() && !liveFunc) {
                 engineSendKey(VK.ENTER);
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                     BayeHdDialog.close({ silent: true });
@@ -3208,6 +3262,7 @@
                 lastHandoffExitAt: state.lastHandoffExitAt,
                 lastFuncMenuIdle: state.lastFuncMenuIdle,
                 personExitSent: state.personExitSent,
+                personExitTries: state.personExitTries,
                 lastExit: state.lastExit,
                 lastBlockedExit: state.lastBlockedExit,
                 marchHint: state.marchHint,
