@@ -16,7 +16,7 @@
 | **人物选择** | **HD done** | `PlcSplMenu` + `ShowPersonControl` 写入 `g_hdMenuBytes` |
 | **出征 / 外交目标城** | **HD done** | 出征先点将再 EXIT，才 GetFood / 「选择目标」/ GetCitySet。目标城按引擎格 `setx/sety` 对齐后再回车，不把 LCC 像素当格 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 写 `g_hdQty*`；CDP 征兵：成宜后 `active=1 value=1070`，`VK_LEFT×2`+`VK_DIGIT5` → **1050**。HD 数字键 `0x40–0x49` |
-| **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文 |
+| **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文。出征「选择目标」在 GetCitySet（`g_hdMapPick=1`）时关壳，不挡点城 |
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
 | **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
 | **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳（回合结束 / 全军撤退 / 战斗动画 / 移动速度 / 敌军移动；确认撤退；攻击/计谋/查看/待机）。不 stub `fightOpenMainMenu` |

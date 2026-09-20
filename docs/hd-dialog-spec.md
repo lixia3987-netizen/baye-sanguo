@@ -21,3 +21,5 @@
 ## 文件
 
 `js/hd-dialog.js` · `css/hd-dialog.css` · 城菜单 M3 数量区复用同一套键。
+
+出征 `ShowGReport`「选择目标」后引擎进入 `GetCitySet`（`g_hdMapPick=1`），桥里的 `g_hdReportGbk` **不会清空**。HD 报告壳若继续全屏 `pointer-events`，会挡住大地图和邻城列表。GetCitySet 期间关闭/不拦截该提示；点城仍走 `setx/sety`。

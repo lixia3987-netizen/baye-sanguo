@@ -19,6 +19,17 @@
     pointer-events: auto;
 }
 
+/* GetCitySet 期间城菜单会标 map-pick：残留「选择目标」壳不得挡住点城。 */
+html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open {
+    pointer-events: none;
+    background: transparent;
+}
+
+html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open .hd-dialog-stage {
+    pointer-events: none;
+    visibility: hidden;
+}
+
 .hd-dialog-stage {
     width: min(720px, calc(100vw - 48px));
     min-height: 220px;

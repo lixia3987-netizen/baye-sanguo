@@ -279,9 +279,32 @@
             (state.body ? '  text=' + state.body.length : ''));
     }
 
+    function mapPickActive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                return !!(baye.hd.march().pick);
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function isMapPickTip(text) {
+        return !!(text && /选择目标/.test(String(text)));
+    }
+
     function applyEngineReport(info) {
         info = info || {};
         if (!looksLikeSpeech(info.text)) {
+            return false;
+        }
+        /* GetCitySet 已打开时，「选择目标」只是残留桥文本，全屏壳会挡住点城。 */
+        if (mapPickActive() && isMapPickTip(info.text)) {
+            if (info.hdSeq) {
+                state.lastReportSeq = info.hdSeq;
+            }
+            if (state.open && state.kind === 'report') {
+                closeDialog({ silent: true });
+            }
             return false;
         }
         if (info.hdSeq) {
@@ -469,6 +492,15 @@
             }
         } catch (e) {}
         var info = readAsync();
+        if (mapPickActive()) {
+            if (state.open && state.kind === 'report') {
+                closeDialog({ silent: true });
+            }
+            if (info.hdSeq) {
+                state.lastReportSeq = info.hdSeq;
+            }
+            return;
+        }
         if (info.hdSeq && info.hdSeq !== state.lastReportSeq && looksLikeSpeech(info.text)) {
             applyEngineReport(info);
             return;
@@ -571,6 +603,9 @@
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-ok') != null) {
                     ev.preventDefault();
                     engineSendKey(VK.ENTER);
+                    if (state.kind === 'report' && isMapPickTip(state.body)) {
+                        closeDialog({ silent: true });
+                    }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-back') != null) {

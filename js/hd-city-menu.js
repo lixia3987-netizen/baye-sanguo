@@ -1127,10 +1127,18 @@
         if (!state.dismissedObj && /选择目标/.test(report) && !mapPickActive()) {
             state.dismissedObj = true;
             enqueueKeys([VK.ENTER], 80);
+            setTimeout(function () {
+                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                    BayeHdDialog.close({ silent: true });
+                }
+            }, 120);
             scheduleMarchWatch();
             return;
         }
         if (mapPickActive() || (march && march.ok)) {
+            if (mapPickActive() && global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
             if (march && march.ok) {
                 state.marchReady = true;
             }
