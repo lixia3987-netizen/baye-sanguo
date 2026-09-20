@@ -874,8 +874,9 @@
             if (fightActive()) {
                 return false;
             }
-            if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
-                BayeHdBattle.prepareNewFight();
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
+                BayeHdCityMenu.isOpen()) {
+                return false;
             }
             var pick = 0;
             try {
@@ -886,7 +887,23 @@
             if (pick) {
                 return false;
             }
-            choose(0);
+            var handoffAt = 0;
+            try {
+                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.handoffAt === 'function') {
+                    handoffAt = Number(BayeHdCityMenu.handoffAt()) || 0;
+                }
+            } catch (e) {}
+            if (handoffAt && (state.lastFuncMenuIdle || 0) < handoffAt) {
+                return false;
+            }
+            if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
+                BayeHdBattle.prepareNewFight();
+            }
+            state.idleIndex = 0;
+            engineSendKey(VK.ENTER);
+            if (state.screen === 'insystem') {
+                closeUi({ silent: true });
+            }
             return true;
         },
         onEngineHook: onEngineHook,

@@ -87,6 +87,7 @@
         confirmToken: 0,
         acceptMarchOk: false,
         handoff: false,
+        handoffAt: 0,
         consumedMarchSeq: 0,
         sawMarchCleared: false,
         wizardStep: 'none',
@@ -1816,11 +1817,13 @@
     }
 
     function goStrategyEnd() {
-        /* 部队已出发后引擎回到 PlayerTactic GetCitySet。EXIT 一次进 FunctionMenu，
-         * ENTER 确认策略结束。再 EXIT 会取消 FunctionMenu；再回车会打进河内/战场。 */
+        /* 部队已出发后引擎还在城池 OrderMenu。g_hdMenuBytes 常年残留「策略结束」，
+         * 立刻回车会点进内政，PolicyExec 不跑。必须 EXIT 出城 → 离开 GetCitySet，
+         * 等 handoff 之后的新鲜 onMenuIdle，再回车确认 FunctionMenu。 */
         var haveFresh = freshMarchOk();
         var stillSelecting = !haveFresh && !!(state.battleMake || state.campaignPick || wizardInMarch());
         state.handoff = true;
+        state.handoffAt = Date.now();
         state.battleMake = false;
         state.marchReady = false;
         state.campaignPick = false;
@@ -1837,13 +1840,56 @@
         closeMenu({ silent: true });
         var tries = 0;
         var confirmed = false;
-        var leftPick = mapPickActive();
+        var sawPick = mapPickActive();
         function leftoverFightSys(names) {
             return names[0] === '全军撤退' || names[0] === '回合结束';
         }
-        function liveFunctionMenu() {
-            return looksLikeFunctionMenu() &&
-                (Date.now() - (state.lastFuncMenuIdle || 0)) < 2000;
+        function functionMenuLiveNow() {
+            var names = engineMenuItems().names || [];
+            if (names[0] !== '策略结束') {
+                return false;
+            }
+            if (mapPickActive() || showingQty() || fightIsActive()) {
+                return false;
+            }
+            /* leftover 字节在城菜单里也会叫「策略结束」。handoff 之后的 onMenuIdle 才是 FunctionMenu。 */
+            if ((state.lastFuncMenuIdle || 0) < state.handoffAt) {
+                return false;
+            }
+            if (haveFresh && !sawPick) {
+                return false;
+            }
+            return (Date.now() - (state.lastFuncMenuIdle || 0)) < 2400;
+        }
+        function confirmFunctionMenu() {
+            if (confirmed) {
+                return;
+            }
+            confirmed = true;
+            if (!(global.BayeHdSystemUi &&
+                typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
+                BayeHdSystemUi.confirmStrategyEnd())) {
+                engineSendKey(VK.ENTER, 'strategy-end-enter');
+            }
+            setTimeout(function () {
+                if (fightIsActive()) {
+                    var m = engineMarch();
+                    if (marchSeqOf(m)) {
+                        state.consumedMarchSeq = marchSeqOf(m);
+                    }
+                    state.handoff = false;
+                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                        BayeHdDialog.close({ silent: true });
+                    }
+                    return;
+                }
+                /* 回车打空则再走一遍 EXIT→FunctionMenu，不提前吃掉 march seq。 */
+                confirmed = false;
+                sawPick = mapPickActive();
+                state.handoffAt = Date.now();
+                tries = 0;
+                setTimeout(step, 200);
+            }, 900);
         }
         function step() {
             if (confirmed) {
@@ -1855,11 +1901,14 @@
             }
             var names = engineMenuItems().names || [];
             var pick = mapPickActive();
+            if (functionMenuLiveNow()) {
+                confirmFunctionMenu();
+                return;
+            }
             if (pick) {
-                /* Still in BattleMake GetCitySet without a NEW AddFightOrder: EXIT cancels 出征. */
-                if (!freshMarchOk() && stillSelecting) {
+                if (!haveFresh && stillSelecting) {
                     tries += 1;
-                    if (tries >= 16) {
+                    if (tries >= 20) {
                         state.handoff = false;
                         state.marchHint = '先点目标城等到「部队已出发」，再策略结束。';
                         return;
@@ -1867,48 +1916,26 @@
                     setTimeout(step, 240);
                     return;
                 }
-                leftPick = true;
+                sawPick = true;
                 tries += 1;
                 engineSendKey(VK.EXIT, 'strategy-end');
                 setTimeout(step, 240);
                 return;
             }
-            /* 活 FunctionMenu（新鲜 onMenuIdle）才回车。残留「策略结束」字节不确认。 */
-            if (names[0] === '策略结束' && liveFunctionMenu()) {
-                confirmed = true;
-                if (freshMarchOk()) {
-                    var m = engineMarch();
-                    if (marchSeqOf(m)) {
-                        state.consumedMarchSeq = marchSeqOf(m);
-                    }
-                }
-                if (!(global.BayeHdSystemUi &&
-                    typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
-                    BayeHdSystemUi.confirmStrategyEnd())) {
-                    engineSendKey(VK.ENTER);
-                }
-                setTimeout(function () {
-                    state.handoff = false;
-                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                        BayeHdDialog.close({ silent: true });
-                    }
-                }, 700);
-                return;
-            }
-            /* 上场覆没后残留「全军撤退」字节：战斗已关则不当活菜单，继续找 FunctionMenu。 */
             if (leftoverFightSys(names) && fightIsActive()) {
                 tries += 1;
-                if (tries >= 16) {
+                if (tries >= 20) {
                     state.handoff = false;
                     return;
                 }
                 setTimeout(step, 240);
                 return;
             }
-            if (tries >= 16) {
+            if (tries >= 20) {
                 state.handoff = false;
                 return;
             }
+            /* 城池 OrderMenu / leftover 策略结束字节：先 EXIT 出城，不要回车。 */
             tries += 1;
             engineSendKey(VK.EXIT, 'strategy-end');
             setTimeout(step, 240);
@@ -2174,9 +2201,12 @@
                     state.idleIndex = engIdle.index;
                 }
                 if (looksLikeFunctionMenu()) {
-                    state.lastFuncMenuIdle = Date.now();
+                    /* 出征向导开着时 g_hdMenuBytes 残留「策略结束」不是 FunctionMenu。 */
+                    if (!state.open || (!wizardInMarch() && !state.marchReady && !holdExit())) {
+                        state.lastFuncMenuIdle = Date.now();
+                    }
                     if (!holdExit() && !state.battleMake && !state.campaignPick &&
-                        !state.marchReady && !mapPickActive() && !showingQty() &&
+                        !state.marchReady && !state.handoff && !mapPickActive() && !showingQty() &&
                         !/选择目标|部队已出发/.test(reportText())) {
                         closeMenu({ silent: true });
                         return;
@@ -2484,6 +2514,7 @@
                 campaignPick: state.campaignPick,
                 battleMake: state.battleMake,
                 handoff: state.handoff,
+                handoffAt: state.handoffAt,
                 personExitSent: state.personExitSent,
                 lastExit: state.lastExit,
                 lastBlockedExit: state.lastBlockedExit,
@@ -2523,6 +2554,7 @@
         liveTargetStep: liveTargetStep,
         wizardStep: function () { return state.wizardStep; },
         goStrategyEnd: goStrategyEnd,
+        handoffAt: function () { return state.handoffAt || 0; },
         consumeLeftoverMarch: consumeLeftoverMarch,
         freshMarchOk: freshMarchOk
     };
