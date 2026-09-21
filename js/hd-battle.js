@@ -567,7 +567,13 @@
 
     function fightIdleForMenu(fight) {
         var phase = Number(fight && fight.phase) || 0;
+        /* wait=0 或选将(phase 1)可以画菜单；phase 1 仍可能带着 pendingActPick，不能当走完。 */
         return !!(fight && fight.active && !fight.over && (!fight.wait || phase === 0 || phase === 1));
+    }
+
+    function approachFullyIdle(fight) {
+        var phase = Number(fight && fight.phase) || 0;
+        return !!(fight && fight.active && !fight.over && (!fight.wait || phase === 0));
     }
 
     function walkFinishedLeftover(fight) {
@@ -578,7 +584,8 @@
     }
 
     function clearStuckApproach(fight) {
-        if (fightIdleForMenu(fight) || walkFinishedLeftover(fight)) {
+        /* 只在走完/闲置时清 pendingApproach。选将 phase 1 清掉会取消刚点的攻击走近。 */
+        if (approachFullyIdle(fight) || walkFinishedLeftover(fight)) {
             state.pendingApproach = null;
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
@@ -589,7 +596,7 @@
 
     function walkingTiles(fight) {
         var phase = Number(fight && fight.phase) || 0;
-        if (fightIdleForMenu(fight) || walkFinishedLeftover(fight)) {
+        if (walkFinishedLeftover(fight)) {
             clearStuckApproach(fight);
             return false;
         }
