@@ -116,12 +116,14 @@ FAR U8 BattleMake(U8 city)
                 ResLoadToMem(STRING_CONST,STR_OBJ,str);
                 ShowMapClear();
                 ShowGReport(PID(fpptr[0] - 1),str);
-                /* PlayerTactic 过图也是 GetCitySet/g_hdMapPick。出征目标必须另立旗标。 */
+                /* PlayerTactic 过图也是 GetCitySet/g_hdMapPick。出征目标必须另立旗标。
+                 * GetCitySet 一返回就清 battlePick，HD 会当成「未打开」再发键，
+                 * 赶在 AttackCityRoad/AddFightOrder 之前把出征冲掉。 */
                 baye_hd_set_battle_pick(1);
                 ocity = GetCitySet(&g_CityPos);
-                baye_hd_set_battle_pick(0);
                 if (0xff == ocity)
                 {
+                    baye_hd_set_battle_pick(0);
                     for (i --;(U8)(i + 1) >= 1;i --)
                     {
                         AddPerson(city,PID(fpptr[i] - 1));
@@ -161,6 +163,7 @@ FAR U8 BattleMake(U8 city)
                             } else {
                                 baye_hd_set_march(city, (U8)ocity, (U8)odis, 1);
                             }
+                            baye_hd_set_battle_pick(0);
                             break;
                         }
                         else

@@ -92,6 +92,7 @@
         lastWalkCity: null,
         lastWalkAt: 0,
         walkBusy: false,
+        confirmingTarget: false,
         pendingTarget: null,
         confirmToken: 0,
         acceptMarchOk: false,
@@ -512,6 +513,11 @@
             }, ms || 220);
         }
 
+        if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
+            noteStep4('await-dest', { cityIndex: cityIndex, attempt: attempt });
+            again(240, 'await-dest');
+            return { deferred: 'await-dest', cityIndex: cityIndex };
+        }
         if (!engineInGetCitySet()) {
             var driven = driveFoodToCitySet('confirm-need-city-set');
             var phase = engineMarchPhase();
@@ -752,18 +758,21 @@
                     return;
                 }
                 noteStep4('enter-target', { cityIndex: cityIndex, attempt: opts.attempt });
+                state.confirmingTarget = true;
                 engineSendKey(VK.ENTER);
                 scheduleMarchWatch();
                 setTimeout(function () {
                     if (token !== state.walkToken) {
                         return;
                     }
-                    if (freshMarchOk() || state.marchReady) {
+                    if (freshMarchOk() || state.marchReady || realMarchDest(engineMarch())) {
+                        state.confirmingTarget = false;
                         noteStep4('enter-ok', { cityIndex: cityIndex });
                         return;
                     }
                     var report = liveEngineReport();
                     if (/我方城池|无法到达/.test(report)) {
+                        state.confirmingTarget = false;
                         noteStep4('enter-refuse', { cityIndex: cityIndex, skipped: report });
                         engineSendKey(VK.ENTER);
                         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
@@ -792,6 +801,10 @@
                                 attempt: (opts.attempt || 0) + 1
                             });
                         }
+                        return;
+                    }
+                    if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
+                        noteStep4('enter-wait-dest', { cityIndex: cityIndex });
                         return;
                     }
                     if (opts.confirm && !freshMarchOk() && !state.marchReady) {
@@ -993,6 +1006,7 @@
         state.marchReady = false;
         state.acceptMarchOk = false;
         state.sawMarchCleared = false;
+        state.confirmingTarget = false;
         try {
             if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
                 if (baye.data.g_hdMarchOk != null) {
@@ -1061,6 +1075,7 @@
         state.marchReady = false;
         state.handoff = false;
         state.handoffStatus = '';
+        state.confirmingTarget = false;
         stopMarchWatch();
         if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
             engineSendKey(VK.ENTER, 'after-fight-report');
@@ -1081,7 +1096,8 @@
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
          * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。
          * 部队已出发后 GetCitySet 已返回，pick 可能还亮，不当 leftover。 */
-        if (freshMarchOk() || state.marchReady || realMarchDest(engineMarch())) {
+        if (freshMarchOk() || state.marchReady || state.confirmingTarget ||
+            realMarchDest(engineMarch())) {
             return false;
         }
         return !!(mapPickActive() && !battlePickActive());
@@ -1179,6 +1195,11 @@
     }
 
     function engineInGetCitySet() {
+        /* 点河内后 GetCitySet 已返回、AddFightOrder 还没写 dest：C 仍应算在出征选城。 */
+        if (state.confirmingTarget && state.battleMake && !state.foodGaveUp &&
+            !freshMarchOk() && !state.marchReady) {
+            return true;
+        }
         /* 必须 C 出征 GetCitySet（g_hdBattlePick）。过图 leftover pick=1 不算。 */
         if (!(battlePickActive() && mapPickActive())) {
             return false;
@@ -1354,6 +1375,9 @@
     }
 
     function driveFoodToCitySet(why) {
+        if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
+            return { deferred: 'await-dest', phase: engineMarchPhase() };
+        }
         if (state.foodGaveUp) {
             return { deferred: 'gave-up', phase: engineMarchPhase() };
         }
@@ -2101,8 +2125,11 @@
                 '<span class="hd-city-menu-wizard-debug" data-hd-march-debug="1">' +
                 marchDebugLine() + '</span>';
             list.appendChild(qtySteps);
-            if (!engineInGetCitySet() && (state.wizardStep === 'map-pick' ||
-                state.pendingTarget != null || shownStep === 'target-tip' || shownStep === 'food')) {
+            if (!engineInGetCitySet() && !freshMarchOk() && !state.marchReady &&
+                !state.confirmingTarget &&
+                (state.wizardStep === 'map-pick' ||
+                (state.pendingTarget != null && shownStep !== 'march-ok') ||
+                shownStep === 'target-tip' || shownStep === 'food')) {
                 var mismatch = document.createElement('div');
                 mismatch.className = 'hd-city-menu-march-hint';
                 mismatch.setAttribute('data-hd-cityset-mismatch', '1');
@@ -2670,6 +2697,7 @@
         state.lastStep4 = null;
         state.acceptMarchOk = false;
         state.sawMarchCleared = false;
+        state.confirmingTarget = false;
         state.lastBlockedExit = '';
         state.lastExit = '';
         state.marchHint = state.battleMake ? '点将后必须点「完成选将 · 选粮出发」，再点目标城。' : '';
@@ -3289,6 +3317,7 @@
                 BayeHdDialog.close({ silent: true });
             }
             if (freshMarchOk()) {
+                state.confirmingTarget = false;
                 state.marchReady = true;
                 state.campaignPick = false;
                 state.battleMake = false;
@@ -3833,6 +3862,7 @@
                 foodAttempt: state.foodAttempt || 0,
                 qtyBeforePersonExit: state.qtyBeforePersonExit,
                 engineInGetCitySet: engineInGetCitySet(),
+                confirmingTarget: !!state.confirmingTarget,
                 enginePhase: engineMarchPhase(),
                 displayWizard: displayWizardStep(),
                 mapCity: engineMapCityIndex(),

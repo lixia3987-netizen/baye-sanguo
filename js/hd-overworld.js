@@ -2993,6 +2993,13 @@
     }
 
     function marchTapCity(index) {
+        var now = Date.now();
+        if (state.lastMarchTapAt && (now - state.lastMarchTapAt) < 350 &&
+            state.lastMarchTapIndex === index) {
+            return { skipped: 'tap-debounce', cityIndex: index };
+        }
+        state.lastMarchTapAt = now;
+        state.lastMarchTapIndex = index;
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.confirmMarchTarget === 'function') {
             return BayeHdCityMenu.confirmMarchTarget(index);
         }
