@@ -1215,10 +1215,9 @@
                     return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
                 }
                 var report = liveEngineReport();
-                /* 只有活着的灾异 ShowConstStrMsg 才回车。过月残留「天水旱灾」文本回车 = 策略结束。 */
+                /* 只有活着的灾异 ShowConstStrMsg 才回车。过月残留文本（async=0）回车 = 策略结束。 */
                 if (!state.foodRecoverEnter && leftoverDisasterReport(report) &&
-                    liveReportAsync() && report !== state.reportAtMarchStart &&
-                    !thisMarchGetFoodOpened()) {
+                    liveReportAsync() && !thisMarchGetFoodOpened()) {
                     state.foodRecoverEnter = true;
                     state.foodRecoverNeeded = true;
                     state.foodRecovered = true;
@@ -2498,7 +2497,7 @@
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecoverEnter = false;
         state.foodRecoverNeeded = leftoverOverworldPick() || leftoverChooseTarget(liveEngineReport()) ||
-            leftoverDisasterReport(liveEngineReport()) ||
+            (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) ||
             /农业|开发度|变为/.test(liveEngineReport()) || liveReportAsync();
         clearStaleMapPick('finish-persons');
         state.campaignPick = false;
@@ -2507,7 +2506,13 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
-        engineSendKey(VK.EXIT, 'finish-persons');
+        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
+            engineSendKey(VK.ENTER, 'dismiss-live-disaster');
+            state.foodRecoverEnter = true;
+            enqueueKeys([VK.EXIT], 140, 'finish-persons');
+        } else {
+            engineSendKey(VK.EXIT, 'finish-persons');
+        }
         scheduleMarchWatch();
         render();
     }
