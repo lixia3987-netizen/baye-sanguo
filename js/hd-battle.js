@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922m';
+    var HD_BATTLE_VER = '20260922n';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -92,6 +92,8 @@
         lastWait: 0,
         sawWait: false,
         needWaitBeforeMenu: false,
+        menuArmLogged: false,
+        lastRestAt: 0,
         pendingSys: 0,
         resultDismissed: false,
         occupyTimer: 0,
@@ -547,28 +549,92 @@
         };
     }
 
-    function playerTurnWaiting(fight) {
+    function playerHasWaitingOwn() {
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (u && u.side === 'player' && (u.active === 0 || u.active == null) &&
+                u.x != null && u.y != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function walkingTiles(fight) {
+        var phase = Number(fight && fight.phase) || 0;
+        return !!(fight && fight.wait && phase === 2 &&
+            (state.pendingApproach || wantsWalkBeforeAct(state.pendingActPick)));
+    }
+
+    function aimingTiles(fight) {
+        return !!(fight && Number(fight.phase) === 3);
+    }
+
+    /* 只要还有己方未行动，菜单必须能点。待机后 leftover wait=1/phase=2 不得再藏死。 */
+    function shouldShowActMenu(fight) {
         if (!fight || !fight.active || fight.over || state.resultText) {
             return false;
         }
-        var phase = Number(fight.phase) || 0;
-        /* 瞄准必须点棋盘。走格 wait=1 也要点格。假菜单再盖会吞点。 */
-        if (phase === 3) {
+        if (aimingTiles(fight) || walkingTiles(fight)) {
             return false;
         }
-        if (phase === 2 && fight.wait) {
+        if (playerHasWaitingOwn()) {
+            return true;
+        }
+        var phase = Number(fight.phase) || 0;
+        return phase === 0 || phase === 1;
+    }
+
+    function logMenuProbe(why) {
+        var fight = null;
+        var panel = null;
+        var items = { names: [], count: 0 };
+        try { fight = readFight(); } catch (eF) {}
+        try { panel = el('hd-battle-menu'); } catch (eP) {}
+        try { items = readMenuItems(); } catch (eI) {}
+        var rec = {
+            why: why,
+            wait: fight ? !!fight.wait : null,
+            phase: fight ? fight.phase : null,
+            active: fight ? !!fight.active : false,
+            over: fight ? !!fight.over : false,
+            menuCount: 0,
+            menuBytes: (items && items.names) || [],
+            needWaitBeforeMenu: !!state.needWaitBeforeMenu,
+            fightStrictActive: false,
+            fakeMenu: false,
+            panelId: 'hd-battle-menu',
+            hidden: !!(panel && panel.hidden),
+            display: '',
+            leftoverCity: false,
+            leftoverDlg: false
+        };
+        try { rec.menuCount = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0; } catch (eC) {}
+        try { rec.fightStrictActive = !!fightStrictActive(); } catch (eS) {}
+        try { rec.fakeMenu = !!playerTurnWaiting(fight); } catch (eW) {}
+        try { rec.display = panel ? String((global.getComputedStyle(panel) || {}).display || '') : ''; } catch (eD) {}
+        try {
+            rec.leftoverCity = !!(global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen());
+        } catch (eCity) {}
+        try {
+            rec.leftoverDlg = !!(global.BayeHdDialog && BayeHdDialog.isOpen && BayeHdDialog.isOpen());
+        } catch (eDlg) {}
+        try {
+            console.log('[hd-battle] menu-probe', rec);
+        } catch (eLog) {}
+        return rec;
+    }
+
+    function playerTurnWaiting(fight) {
+        if (!shouldShowActMenu(fight)) {
             return false;
         }
         var cls = peekFightMenuClass();
-        /* wait=0 且字节就是攻击/待机：真 PlcSplMenu，不画假的，也不被 needWait 藏死。 */
-        if (cls && (cls.kind === 'act' || cls.kind === 'skill') && !fight.wait) {
+        if (cls && (cls.kind === 'act' || cls.kind === 'skill') && fight && !fight.wait) {
             return false;
         }
-        if (fight.wait) {
-            return phase === 1 || phase === 0;
-        }
-        /* 走格刚落定 / 下一将空隙：字节被 willCloseMenu 清掉时仍要能点待机，不能掉进经典 LCD。 */
-        return phase === 0 || phase === 1 || phase === 2;
+        return true;
     }
 
     function resetActDrive() {
@@ -978,8 +1044,8 @@
         if (playerTurnWaiting(fight)) {
             return syntheticActMenu();
         }
-        /* FgtGetFoucs 选将/走格：g_hdMenuBytes 仍可能是上一份「回合结束」。 */
-        if (fight.wait) {
+        /* 真在走格/瞄准才藏。待机后 leftover wait=1 不得再一刀切 return null。 */
+        if (fight.wait && !shouldShowActMenu(fight)) {
             return null;
         }
         var cls = peekFightMenuClass();
@@ -1075,6 +1141,7 @@
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
             state.pendingApproach = null;
             if (index === 3) {
+                state.lastRestAt = Date.now();
                 state.pendingActPick = null;
             }
         }
@@ -1144,6 +1211,13 @@
         var info = readFightMenu();
         if (!panel || !list) {
             return;
+        }
+        if (!info && shouldShowActMenu(readFight())) {
+            if (!state.menuArmLogged) {
+                state.menuArmLogged = true;
+                logMenuProbe(state.lastRestAt ? 'after-rest-rearm' : 'force-rearm');
+            }
+            info = syntheticActMenu();
         }
         if (!info) {
             state.menuKind = '';
@@ -2361,6 +2435,8 @@
             state.lastWait = 0;
             state.sawWait = false;
             state.needWaitBeforeMenu = false;
+            state.menuArmLogged = false;
+            state.lastRestAt = 0;
             state.pendingSys = 0;
             state.menuKind = '';
             resetActDrive();
@@ -2440,6 +2516,10 @@
             }
             state.needWaitBeforeMenu = true;
             state.pendingApproach = null;
+            if (state.lastRestAt && Date.now() - state.lastRestAt < 800) {
+                logMenuProbe('after-rest');
+                state.menuArmLogged = true;
+            }
             state.pendingActPick = null;
             dropQueuedEnters();
             if (state.open) {
