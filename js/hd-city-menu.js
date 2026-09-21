@@ -1702,6 +1702,9 @@
 
     function bindOpenedMapCity(cityIndex, why) {
         cityIndex = cityIndex != null && cityIndex >= 0 ? Number(cityIndex) : state.cityIndex;
+        if (liveFightBlocksCityOpen()) {
+            return false;
+        }
         if (!isFinite(cityIndex) || cityIndex < 0 || cityIndex >= 64) {
             return false;
         }
@@ -3571,8 +3574,30 @@
         return switched;
     }
 
+    function liveFightBlocksCityOpen() {
+        try {
+            if (window.baye && baye.data && Number(baye.data.g_FgtOver)) {
+                return false;
+            }
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var live = baye.hd.fight();
+                if (live && live.active && !live.over) {
+                    return true;
+                }
+            }
+        } catch (eLive) {}
+        return false;
+    }
+
     function openMenu(meta) {
         meta = meta || {};
+        if (liveFightBlocksCityOpen()) {
+            console.warn('[hd-city-menu] skip open during fight', {
+                city: (meta && meta.cityName) || state.cityName,
+                index: (meta && meta.cityIndex != null) ? meta.cityIndex : state.cityIndex
+            });
+            return false;
+        }
         if (!shouldShowHd()) {
             return false;
         }

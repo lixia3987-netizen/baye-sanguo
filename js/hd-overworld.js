@@ -941,6 +941,10 @@
             state.lastMapCity = readMapCity();
         }
         if (name === 'onMenuIdle') {
+            if (fightLive()) {
+                state.hdOpenedMenu = false;
+                return;
+            }
             /* ENTER 之后 C 可能改写 setx/sety，inferCurrentCity 会偏离 selected。
              * 已发确认或根菜单已开时不要丢掉 idle，否则 720ms 会误报「未能对齐」。 */
             if (state.pendingEnter || state.hdOpenedMenu) {
@@ -961,6 +965,9 @@
             }
         }
         if (name === 'cityMakeCommand') {
+            if (fightLive()) {
+                return;
+            }
             confirmClassicMenu('经典城池菜单。空格关子菜单；再空格或点地图空白回 HD。');
             return;
         }
@@ -2800,6 +2807,11 @@
     }
 
     function confirmClassicMenu(hint) {
+        if (fightLive()) {
+            state.hdOpenedMenu = false;
+            console.warn('[hd-overworld] skip city open during fight');
+            return;
+        }
         state.pendingEnter = false;
         state.aligning = false;
         state.hdOpenedMenu = true;

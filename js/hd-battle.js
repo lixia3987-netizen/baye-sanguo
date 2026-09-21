@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922n';
+    var HD_BATTLE_VER = '20260922o';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -127,6 +127,9 @@
         driveTimer: 0,
         samplingFight: false,
         readingEngine: false,
+        rearmTimer: 0,
+        walkSubmittedAt: 0,
+        leavingAim: false,
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
@@ -563,8 +566,14 @@
 
     function walkingTiles(fight) {
         var phase = Number(fight && fight.phase) || 0;
-        return !!(fight && fight.wait && phase === 2 &&
-            (state.pendingApproach || wantsWalkBeforeAct(state.pendingActPick)));
+        if (!(fight && fight.wait && phase === 2)) {
+            return false;
+        }
+        if (state.pendingApproach || wantsWalkBeforeAct(state.pendingActPick)) {
+            return true;
+        }
+        /* 走格键还在队列或刚提交：藏菜单，避免吞点格；flush 后清 walkSubmittedAt 再武装。 */
+        return !!(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400);
     }
 
     function aimingTiles(fight) {
@@ -645,10 +654,93 @@
         state.drivingAct = false;
         state.pickingMenu = false;
         state.clickingTile = false;
+        state.walkSubmittedAt = 0;
+        state.leavingAim = false;
         if (state.driveTimer) {
             clearTimeout(state.driveTimer);
             state.driveTimer = 0;
         }
+    }
+
+    function paintActMenu(why) {
+        state.needWaitBeforeMenu = false;
+        state.menuArmLogged = false;
+        try {
+            if (state.open) {
+                recoverFightMenu(readFight());
+                renderFightMenu();
+                applyChrome();
+            }
+        } catch (ePaint) {}
+        logMenuProbe(why || 'act-rearm');
+    }
+
+    function scheduleActRearm(why) {
+        if (state.rearmTimer) {
+            clearTimeout(state.rearmTimer);
+            state.rearmTimer = 0;
+        }
+        var started = Date.now();
+        var tries = 0;
+        var leaveAim = /aim-oor|aim-own|aim-empty|failed-aim/.test(why || '');
+        function tick() {
+            state.rearmTimer = 0;
+            if (!fightReallyActive()) {
+                return;
+            }
+            if ((state.sending || state.queue.length) && Date.now() - started < 1600) {
+                state.rearmTimer = setTimeout(tick, 80);
+                return;
+            }
+            var fight = readFight();
+            if (!fight || fight.over || state.resultText) {
+                return;
+            }
+            var phase = Number(fight.phase) || 0;
+            if (phase === 3) {
+                if (leaveAim && tries < 3 && Date.now() - started < 1100) {
+                    tries += 1;
+                    dropQueuedEnters();
+                    enqueueKeys([VK.EXIT], 55);
+                    state.rearmTimer = setTimeout(tick, 220);
+                    return;
+                }
+                if (!leaveAim) {
+                    state.pendingApproach = null;
+                    if (wantsWalkBeforeAct(state.pendingActPick)) {
+                        state.pendingActPick = null;
+                    }
+                    state.walkSubmittedAt = 0;
+                    state.leavingAim = false;
+                    try {
+                        if (state.open) {
+                            renderFightMenu();
+                            applyChrome();
+                        }
+                    } catch (eAim) {}
+                    logMenuProbe(why || 'after-walk-aim');
+                    return;
+                }
+            }
+            if (wantsWalkBeforeAct(state.pendingActPick)) {
+                state.pendingActPick = null;
+            }
+            state.pendingApproach = null;
+            state.walkSubmittedAt = 0;
+            state.leavingAim = false;
+            paintActMenu(why || 'after-rearm');
+        }
+        state.rearmTimer = setTimeout(tick, leaveAim ? 200 : 280);
+    }
+
+    function leaveAimAndRearm(why) {
+        dropQueuedEnters();
+        state.pendingApproach = null;
+        state.pendingActPick = null;
+        state.walkSubmittedAt = 0;
+        state.leavingAim = true;
+        enqueueKeys([VK.EXIT], 55);
+        scheduleActRearm(why || 'aim-oor');
     }
 
     function scheduleDrive(why) {
@@ -982,11 +1074,15 @@
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y);
             if (closer) {
                 console.log('[hd-battle] approach walk', dest, 'via', closer);
+                state.walkSubmittedAt = Date.now();
                 walkFocusTo(closer.x, closer.y, true);
+                scheduleActRearm('after-walk');
                 return true;
             }
             /* 已贴脸或无更近格：落定当前格，随后 pendingActPick 选攻击。 */
+            state.walkSubmittedAt = Date.now();
             enqueueKeys([VK.ENTER], 55);
+            scheduleActRearm('after-walk');
             return true;
         }
         if (phase === 1 || phase === 0) {
@@ -1517,7 +1613,7 @@
             state.lastBlockedEnter = 'aim-oor';
             state.fightTip = '超出攻击范围，先走格靠近。';
             console.warn('[hd-battle] aim-oor, cancel aim', x, y);
-            enqueueKeys([VK.EXIT], 55);
+            leaveAimAndRearm('aim-oor');
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
@@ -1547,13 +1643,21 @@
             state.lastBlockedEnter = closer ? 'move-closer' : 'aim-oor';
             if (closer) {
                 console.log('[hd-battle] move closer toward', x, y, 'via', closer.x, closer.y);
+                state.pendingApproach = null;
+                state.walkSubmittedAt = Date.now();
                 walkFocusTo(closer.x, closer.y, true);
+                scheduleActRearm('after-walk');
                 return {
                     x: closer.x, y: closer.y, enter: true, unit: u.name, phase: phase,
                     toward: { x: x, y: y }, blocked: 'move-closer', inRng: false
                 };
             }
+            state.pendingApproach = null;
+            if (wantsWalkBeforeAct(state.pendingActPick)) {
+                state.pendingActPick = null;
+            }
             state.fightTip = '超出攻击范围，先走格靠近。';
+            scheduleActRearm('move-oor');
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
@@ -1568,11 +1672,23 @@
             dropQueuedEnters();
             state.lastBlockedEnter = 'aim-own';
             console.warn('[hd-battle] blocked ENTER on own unit during aim');
+            leaveAimAndRearm('aim-own');
+            applyChrome();
+            return {
+                x: x, y: y, enter: false, unit: u.name, phase: phase,
+                tip: state.fightTip, blocked: 'aim-own', inRng: false
+            };
         }
         if (!enter && phase === 3 && (!u || inRng !== true)) {
             dropQueuedEnters();
             state.lastBlockedEnter = u ? 'aim-oor' : 'aim-empty';
             console.warn('[hd-battle] blocked ENTER during aim', state.lastBlockedEnter);
+            leaveAimAndRearm(state.lastBlockedEnter);
+            applyChrome();
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: phase,
+                tip: state.fightTip, blocked: state.lastBlockedEnter, inRng: false
+            };
         }
         walkFocusTo(x, y, enter);
         return {
@@ -2934,6 +3050,8 @@
                 menuBytes: (itemsSnap && itemsSnap.names) || [],
                 pendingActPick: state.pendingActPick,
                 pendingApproach: state.pendingApproach,
+                walkSubmittedAt: state.walkSubmittedAt,
+                leavingAim: !!state.leavingAim,
                 autoActTries: state.autoActTries,
                 stackDepth: state.stackDepth,
                 pickingMenu: state.pickingMenu,
