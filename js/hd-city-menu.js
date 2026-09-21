@@ -2376,7 +2376,8 @@
         state.lastPersonExitAt = Date.now();
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecoverEnter = false;
-        state.foodRecoverNeeded = leftoverDisasterReport(liveEngineReport()) && liveReportAsync();
+        state.foodRecoverNeeded = leftoverOverworldPick() || leftoverChooseTarget(liveEngineReport()) ||
+            (leftoverDisasterReport(liveEngineReport()) && liveReportAsync());
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
