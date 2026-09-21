@@ -714,7 +714,7 @@
             global.BayeHdOverworld && typeof BayeHdOverworld.writeCityPos === 'function') {
             var snapTried = [];
             var snapOk = BayeHdOverworld.writeCityPos(to.x, to.y, snapTried);
-            console.log('[hd-city-menu] dest-setxy', {
+            console.log('[hd-city-menu] dest-setxy ' + JSON.stringify({
                 cityIndex: cityIndex,
                 to: to,
                 from: from,
@@ -724,9 +724,13 @@
                 now: readEngineCursor(),
                 mapCity: engineMapCityIndex(),
                 inCitySet: engineInGetCitySet()
-            });
-            if (snapOk || cursorOnCity(cityIndex)) {
+            }));
+            /* snap 后 g_hdMapCity 常仍是出发城；只在引擎已标到目标城时才跳过走格。
+             * 邻城留一步键，让 GetCitySet 刷新 mapCity，再靠坐标 ENTER。 */
+            if ((snapOk || cursorOnCity(cityIndex)) && engineMapCityIndex() === cityIndex) {
                 dirs = [];
+            } else if ((snapOk || cursorOnCity(cityIndex)) && dirs.length > 1) {
+                dirs = dirs.slice(0, 1);
             }
         }
         state.walkToken = (state.walkToken || 0) + 1;
@@ -779,11 +783,14 @@
                     return;
                 }
                 var shown = engineMapCityIndex();
-                if (shown === cityIndex) {
+                var onTarget = landed() || cursorOnCity(cityIndex);
+                /* setx/sety 已在目标格时立刻 ENTER。g_hdMapCity 常等到 GetCitySet
+                 * 返回才改，等 mapCity===目标会永远发不出确认。 */
+                if (shown === cityIndex || (onTarget && n >= 2)) {
                     sendEnter();
                     return;
                 }
-                if (shown >= 0 && shown !== cityIndex && n >= 6) {
+                if (shown >= 0 && shown !== cityIndex && !onTarget && n >= 8) {
                     noteStep4('mapcity-mismatch', {
                         cityIndex: cityIndex,
                         skipped: 'mapcity-' + shown,
@@ -801,7 +808,7 @@
                     return;
                 }
                 if (n >= 16) {
-                    if (requireLanded && !cursorOnCity(cityIndex) && !landed()) {
+                    if (requireLanded && !onTarget) {
                         state.marchHint = '光标未落到目标城，未向引擎确认。再点一次。';
                         noteStep4('enter-blocked-cursor', { cityIndex: cityIndex });
                         render();
