@@ -2277,15 +2277,19 @@
         }
         pickIndex(index, true);
         if (willMarch) {
+            if (mapPickActive()) {
+                engineSendKey(VK.EXIT, 'clear-leftover-pick');
+            }
             setTimeout(function () {
                 if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
                     return;
                 }
                 var names = engineMenuItems().names || [];
-                if (names[0] === '侦察' || names[0] === '开垦' || names[0] === '策略结束') {
+                if (names[0] === '侦察' || names[0] === '开垦' || names[0] === '策略结束' ||
+                    names[0] === '内政') {
                     enqueueKeys([VK.ENTER], 70, 'retry-battle-make');
                 }
-            }, 200);
+            }, 280);
         }
         state.deepKind = deepKindFor(state.subKind, index);
         state.deepLabel = names[index] || '';
