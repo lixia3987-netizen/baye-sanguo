@@ -82,6 +82,7 @@
         foodRecovered: false,
         foodRecoverEnter: false,
         foodRecoverNeeded: false,
+        lastTipEnterAt: 0,
         lastFuncMenuIdle: 0,
         lastExit: '',
         lastBlockedExit: '',
@@ -1207,6 +1208,10 @@
         }
         if (state.personExitSent && state.sawQtyThisMarch && !mapPickActive() &&
             leftoverChooseTarget(liveEngineReport())) {
+            if (state.lastTipEnterAt && Date.now() - state.lastTipEnterAt < 700) {
+                return { deferred: 'tip-cooldown', phase: engineMarchPhase() };
+            }
+            state.lastTipEnterAt = Date.now();
             state.dismissedObj = true;
             noteStep4('drive-tip-enter', { skipped: why || 'tip' });
             engineSendKey(VK.ENTER);
@@ -2320,6 +2325,7 @@
         state.foodRecovered = false;
         state.foodRecoverEnter = false;
         state.foodRecoverNeeded = false;
+        state.lastTipEnterAt = 0;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
         state.qtyDismissed = false;
