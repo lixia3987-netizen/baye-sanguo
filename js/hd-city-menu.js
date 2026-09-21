@@ -3425,6 +3425,7 @@
         engineInGetCitySet: engineInGetCitySet,
         engineMarchPhase: engineMarchPhase,
         liveGetFood: liveGetFood,
+        thisMarchGetFoodOpened: thisMarchGetFoodOpened,
         waitingGetFood: waitingGetFoodSoftLock,
         driveFoodToCitySet: driveFoodToCitySet,
         wizardStep: function () { return state.wizardStep; },
