@@ -1228,6 +1228,9 @@
         } catch (e) {}
         clearLeftoverQtyValues();
         consumeLeftoverMarch();
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
         if (state.open) {
             closeMenu({ silent: true, force: true });
         }
@@ -3109,11 +3112,24 @@
             !state.finishPersonsBusy) {
             state.personExitSent = false;
         }
-        if (state.finishPersonsBusy || state.personExitSent || showingQty() || state.marchReady) {
+        if (leftoverQtyFlag() && !liveGetFood()) {
+            clearLeftoverQtyFlag();
+        }
+        if (state.finishPersonsBusy || state.personExitSent || state.marchReady) {
+            return;
+        }
+        if (showingQty() && liveGetFood()) {
+            adoptLiveGetFood('finish-persons-live-qty');
+            return;
+        }
+        if (showingQty()) {
             return;
         }
         if (mapPickActive() && !leftoverOverworldPick()) {
             return;
+        }
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
         }
         if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
             BayeHdDialog.dismissLeftoverSpeech();

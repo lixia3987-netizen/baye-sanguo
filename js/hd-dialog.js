@@ -283,9 +283,21 @@
             BayeHdCityMenu.isHandoff());
     }
 
+    function leftoverHelpDuringMarch() {
+        return !!(cityMenuMarching() && state.kind === 'help' && !cityMenuQty());
+    }
+
+    function leftoverFarmReport(text) {
+        return /农业|商业|开发度|变为/.test(String(text || ''));
+    }
+
     function applyChrome() {
         var show = state.open && shouldShowHd();
-        var pass = show && state.kind === 'report' && leftoverMarchTip(state.body);
+        var pass = show && (
+            (state.kind === 'report' && leftoverMarchTip(state.body)) ||
+            leftoverHelpDuringMarch() ||
+            (state.kind === 'report' && leftoverFarmReport(state.body) && cityMenuMarching())
+        );
         document.documentElement.setAttribute('data-baye-dialog', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-dialog-pass', pass ? '1' : '0');
         document.documentElement.setAttribute('data-baye-dialog-qty', (show && state.kind === 'qty') ? '1' : '0');
@@ -302,7 +314,7 @@
             root.classList.toggle('is-qty', show && state.kind === 'qty');
             root.classList.toggle('is-empty-text', !state.body);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
-            root.style.pointerEvents = show ? 'auto' : 'none';
+            root.style.pointerEvents = (show && !pass) ? 'auto' : 'none';
         }
     }
 
@@ -806,6 +818,14 @@
         if (tryOpenQty()) {
             return;
         }
+        /* 同页新开局 leftover 空帮助 / 开垦农业报告会挡住「完成选将」。 */
+        if (state.open && leftoverHelpDuringMarch()) {
+            closeDialog({ silent: true });
+        }
+        if (state.open && state.kind === 'report' && leftoverFarmReport(state.body || tipText) &&
+            cityMenuMarching()) {
+            closeDialog({ silent: true });
+        }
         /* 残留「部队已出发」等出征提示在 pick=0、策略结束、全军撤退后、城菜单开着时都必须关壳。 */
         if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || tipText)) {
             closeDialog({ silent: true });
@@ -1009,7 +1029,11 @@
     function onEngineHook(name) {
         state.lastHook = name;
         if (name === 'showMainHelp') {
-            openDialog({ kind: 'help', title: '帮助', body: '', showLcd: true });
+            if (cityMenuMarching() && !cityMenuQty()) {
+                closeDialog({ silent: true });
+            } else {
+                openDialog({ kind: 'help', title: '帮助', body: '', showLcd: true });
+            }
         }
         pollEngine();
     }
