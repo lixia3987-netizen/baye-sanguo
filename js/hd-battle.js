@@ -1924,7 +1924,7 @@
         if (state.samplingFight || state.readingEngine) {
             return info;
         }
-        if (!state.preview && (!state.open || !fightStrictActive() || cityMenuOpen())) {
+        if (!state.preview && (!state.open || !fightStrictActive())) {
             return info;
         }
         state.samplingFight = true;
@@ -2219,7 +2219,7 @@
         if (!state.open) {
             return;
         }
-        if (!state.preview && (!fightStrictActive() || cityMenuOpen())) {
+        if (!state.preview && !fightStrictActive()) {
             applyChrome();
             return;
         }
