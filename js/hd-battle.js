@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922i';
+    var HD_BATTLE_VER = '20260922j';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     try {
         global.BAYE_ASSET_VER = HD_BATTLE_VER;
@@ -92,7 +92,12 @@
         clickingTile: false,
         stackDepth: 0,
         driveTimer: 0,
-        samplingFight: false
+        samplingFight: false,
+        readingEngine: false,
+        strictLive: false,
+        refreshStackLogged: false,
+        lastRefreshStack: '',
+        readDepth: 0
     };
 
     function readStorage(key, fallback) {
@@ -164,15 +169,25 @@
     }
 
     function readNumber(obj, name) {
-        if (!obj || obj[name] === undefined || obj[name] === null) {
+        if (!obj || state.readDepth > 8) {
             return null;
         }
-        var v = obj[name];
-        if (v && typeof v === 'object' && 'value' in v) {
-            v = v.value;
+        state.readDepth += 1;
+        try {
+            if (obj[name] === undefined || obj[name] === null) {
+                return null;
+            }
+            var v = obj[name];
+            if (v && typeof v === 'object' && 'value' in v) {
+                v = v.value;
+            }
+            v = Number(v);
+            return isFinite(v) ? v : null;
+        } catch (eRead) {
+            return null;
+        } finally {
+            state.readDepth -= 1;
         }
-        v = Number(v);
-        return isFinite(v) ? v : null;
     }
 
     function hdReady() {
@@ -193,44 +208,132 @@
         return window.baye && baye.data ? baye.data : null;
     }
 
-    function cityMenuOwnsScreen() {
+    function cityMenuOpen() {
         try {
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
-                BayeHdCityMenu.isOpen()) {
-                return !fightReallyActive();
+            return !!(global.BayeHdCityMenu &&
+                typeof BayeHdCityMenu.isOpen === 'function' &&
+                BayeHdCityMenu.isOpen());
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function cityMenuOwnsScreen() {
+        return cityMenuOpen();
+    }
+
+    function titleOrOpeningScreen() {
+        try {
+            if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' &&
+                BayeHdSpe.isOpen()) {
+                return true;
             }
-        } catch (e) {}
+            if (global.BayeHdSpe && typeof BayeHdSpe.isHandling === 'function' &&
+                BayeHdSpe.isHandling()) {
+                return true;
+            }
+        } catch (eSpe) {}
+        try {
+            if (global.BayeHdSystemUi && typeof BayeHdSystemUi.isOpen === 'function' &&
+                BayeHdSystemUi.isOpen()) {
+                var scr = '';
+                try {
+                    scr = BayeHdSystemUi.getScreen ? String(BayeHdSystemUi.getScreen() || '') : '';
+                } catch (eScr) {}
+                if (!scr || scr === 'title' || scr === 'period' || scr === 'king') {
+                    return true;
+                }
+            }
+        } catch (eSys) {}
+        try {
+            if (!hdReady()) {
+                return true;
+            }
+            var data = window.baye && baye.data;
+            if (!data) {
+                return true;
+            }
+            var king = Number(data.g_PlayerKing);
+            var year = Number(data.g_YearDate);
+            if (!isFinite(king) || king <= 0) {
+                return true;
+            }
+            if (!isFinite(year) || year < 180) {
+                return true;
+            }
+        } catch (eData) {
+            return true;
+        }
         return false;
     }
 
-    function fightReallyActive() {
+    function fightEngineActiveRaw() {
         var f = null;
         try {
             f = readFight();
-            if (f && f.active && !f.over) {
-                return true;
-            }
-        } catch (e) {}
-        try {
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
-                BayeHdCityMenu.isOpen()) {
-                return false;
-            }
-        } catch (eCity) {}
-        if (f && !f.active) {
+        } catch (e) {
             return false;
         }
+        if (!f) {
+            return false;
+        }
+        var active = Number(f.active);
+        var over = Number(f.over);
+        if (!isFinite(active) || !active) {
+            return false;
+        }
+        if (isFinite(over) && over) {
+            return false;
+        }
+        return true;
+    }
+
+    /* 标题/开场/城菜单/不确定一律否。只认 fight().active && !over，不信 leftover 旗标。 */
+    function fightStrictActive() {
+        if (state.readingEngine && !state.samplingFight) {
+            return false;
+        }
+        if (titleOrOpeningScreen() || cityMenuOpen()) {
+            state.strictLive = false;
+            return false;
+        }
+        if (state.samplingFight) {
+            return !!state.strictLive;
+        }
+        state.readingEngine = true;
         try {
-            var data = engineData();
-            if (data && Number(data.g_hdFightActive) && !Number(data.g_hdFightOver)) {
-                return true;
-            }
-        } catch (e2) {}
-        return false;
+            state.strictLive = fightEngineActiveRaw();
+            return !!state.strictLive;
+        } catch (e) {
+            state.strictLive = false;
+            return false;
+        } finally {
+            state.readingEngine = false;
+        }
+    }
+
+    function fightReallyActive() {
+        return fightStrictActive();
+    }
+
+    function logRefreshStackOnce(err) {
+        var s = '';
+        try {
+            s = String((err && err.stack) || err || '');
+        } catch (eS) {
+            s = 'refresh-stack-unreadable';
+        }
+        state.lastRefreshStack = s;
+        if (!state.refreshStackLogged) {
+            state.refreshStackLogged = true;
+            try {
+                console.error('[hd-battle] refresh-stack', s);
+            } catch (eLog) {}
+        }
     }
 
     function fightArrayCount() {
-        if (state.samplingFight || !fightReallyActive() || cityMenuOwnsScreen()) {
+        if (!state.samplingFight && (!fightStrictActive() || cityMenuOpen())) {
             return 0;
         }
         var data = engineData();
@@ -1813,13 +1916,14 @@
             tiles: [],
             keys: []
         };
-        if (state.samplingFight) {
+        if (state.samplingFight || state.readingEngine) {
             return info;
         }
-        if (!state.preview && (!state.open || !fightReallyActive() || cityMenuOwnsScreen())) {
+        if (!state.preview && (!state.open || !fightStrictActive() || cityMenuOpen())) {
             return info;
         }
         state.samplingFight = true;
+        state.readingEngine = true;
         try {
         var data = engineData();
         if (!data) {
@@ -1908,6 +2012,7 @@
         return info;
         } finally {
             state.samplingFight = false;
+            state.readingEngine = false;
         }
     }
 
@@ -2103,13 +2208,13 @@
     }
 
     function refresh() {
-        if (state.refreshing || state.samplingFight) {
+        if (state.refreshing || state.samplingFight || state.readingEngine) {
             return;
         }
         if (!state.open) {
             return;
         }
-        if (!state.preview && (!fightReallyActive() || cityMenuOwnsScreen())) {
+        if (!state.preview && (!fightStrictActive() || cityMenuOpen())) {
             applyChrome();
             return;
         }
@@ -2136,6 +2241,8 @@
         renderFightMenu();
         applyChrome();
         draw();
+        } catch (eRef) {
+            logRefreshStackOnce(eRef);
         } finally {
             state.refreshing = false;
         }
@@ -2164,6 +2271,9 @@
     function enterBattle(meta) {
         meta = meta || {};
         if (!shouldShowHd()) {
+            return false;
+        }
+        if (!meta.preview && !meta.keepResult && !fightStrictActive()) {
             return false;
         }
         if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
@@ -2285,12 +2395,14 @@
             return;
         }
         if (name === 'drawMapUnit' || name === 'drawOneGeneral' ||
-            name === 'fightStatusBarTouched' || name === 'battleStage1') {
-            if (!fightReallyActive() || cityMenuOwnsScreen()) {
+            name === 'fightStatusBarTouched' || name === 'battleStage1' ||
+            name === 'enterBattle' || name === 'fightOpenMainMenu' ||
+            name === 'meetFight') {
+            if (!fightStrictActive()) {
                 return;
             }
         }
-        if (shouldShowHd() && (fightReallyActive() || name === 'enterBattle')) {
+        if (shouldShowHd() && fightStrictActive()) {
             enterBattle({ hook: name });
         }
     }
@@ -2404,6 +2516,9 @@
     }
 
     function onEngineFight() {
+        if (titleOrOpeningScreen() || cityMenuOpen()) {
+            return;
+        }
         var info = null;
         try {
             info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
@@ -2467,6 +2582,13 @@
             if (!hdReady() || !shouldShowHd()) {
                 return;
             }
+            if (titleOrOpeningScreen() || cityMenuOpen()) {
+                if (state.open && !state.preview && !state.resultText &&
+                    !state.occupyPending && !state.occupyStarted) {
+                    closeBattle({ silent: true });
+                }
+                return;
+            }
             var d = engineData();
             var f = null;
             try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
@@ -2485,7 +2607,7 @@
                 liveOverPoll !== state.settledOver) {
                 onEngineFight();
             }
-            if (fightReallyActive() && !cityMenuOwnsScreen()) {
+            if (fightStrictActive()) {
                 if (f && f.over && !liveOverPoll && !state.occupyPending && !state.occupyStarted) {
                     try {
                         if (d.g_hdFightOver != null && (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -2672,6 +2794,9 @@
                 pickingMenu: state.pickingMenu,
                 clickingTile: state.clickingTile,
                 battleVer: HD_BATTLE_VER,
+                lastRefreshStack: state.lastRefreshStack,
+                strictLive: !!state.strictLive,
+                titleOpening: titleOrOpeningScreen(),
                 why: live ? whyMenuHidden() : { reasons: ['fight-inactive'] },
                 queueLen: state.queue.length,
                 sawWait: state.sawWait,
