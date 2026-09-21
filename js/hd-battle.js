@@ -74,6 +74,7 @@
         lastInvalidAt: 0,
         lastBlockedEnter: '',
         pendingActPick: null,
+        pendingApproach: null,
         lastAutoActAt: 0,
         autoActTries: 0,
         drivingAct: false
@@ -358,12 +359,12 @@
             return false;
         }
         var phase = Number(fight.phase) || 0;
-        /* 瞄准用棋盘，不套假菜单。 */
-        if (phase === 3) {
+        /* 走格/瞄准必须点棋盘。假菜单再盖在中间会吞掉走格/点敌。 */
+        if (phase === 2 || phase === 3) {
             return false;
         }
         if (fight.wait) {
-            return phase === 1 || phase === 2 || phase === 0;
+            return phase === 1 || phase === 0;
         }
         /* 开战瞬间 wait=0/phase=0：引擎还没进 FgtGetFoucs，字节也不是攻击/待机。
          * 这里必须画假「将领行动」，否则盒子第一帧只剩系统/LCD 底栏。 */
@@ -372,14 +373,20 @@
             !(state.needWaitBeforeMenu && !menuIdleFresh())) {
             return false;
         }
-        return phase === 0 || phase === 1 || phase === 2;
+        return phase === 0 || phase === 1;
     }
 
     function resetActDrive() {
         state.pendingActPick = null;
+        state.pendingApproach = null;
         state.lastAutoActAt = 0;
         state.autoActTries = 0;
         state.drivingAct = false;
+    }
+
+    function wantsWalkBeforeAct(index) {
+        /* 攻击/计谋要先走格靠近；查看/待机可以原地落定。 */
+        return index === 0 || index === 1;
     }
 
     function whyMenuHidden() {
@@ -522,6 +529,16 @@
         if (phase === 3) {
             return false;
         }
+        if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
+            /* 点「攻击」后停在 FgtGenMove。超距就走近再打，绝不原地回车进瞄准。 */
+            if (!state.pendingApproach) {
+                var foe = nearestEnemy();
+                if (foe) {
+                    state.pendingApproach = { x: foe.x, y: foe.y };
+                }
+            }
+            return driveApproach();
+        }
         if (state.sending || state.queue.length) {
             return false;
         }
@@ -544,6 +561,58 @@
         } finally {
             state.drivingAct = false;
         }
+    }
+
+    function nearestEnemy() {
+        var actor = syncFocusFromEngine();
+        var best = null;
+        var bestD = 99;
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
+                continue;
+            }
+            var d = chebyshev(actor.x, actor.y, u.x, u.y);
+            if (!best || d < bestD) {
+                best = u;
+                bestD = d;
+            }
+        }
+        return best;
+    }
+
+    function driveApproach() {
+        if (state.drivingAct || !state.pendingApproach) {
+            return false;
+        }
+        var fight = readFight();
+        if (!fight || !fight.active || fight.over || !fight.wait) {
+            return false;
+        }
+        if (state.sending || state.queue.length) {
+            return false;
+        }
+        var phase = Number(fight.phase) || 0;
+        var dest = state.pendingApproach;
+        if (phase === 2) {
+            state.pendingApproach = null;
+            var actor = syncFocusFromEngine();
+            var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y);
+            if (closer) {
+                console.log('[hd-battle] approach walk', dest, 'via', closer);
+                walkFocusTo(closer.x, closer.y, true);
+                return true;
+            }
+            /* 已贴脸或无更近格：落定当前格，随后 pendingActPick 选攻击。 */
+            engineSendKey(VK.ENTER);
+            return true;
+        }
+        if (phase === 1 || phase === 0) {
+            clickWaitingOwn();
+            return true;
+        }
+        return false;
     }
 
     function recoverFightMenu(fight) {
@@ -887,6 +956,20 @@
         if (best && bestD < stay) {
             return best;
         }
+        /* 走格范围还没灌进 g_FightPath 时，朝敌军迈一格，让 ENTER 能提交。 */
+        var nx = fromX + (destX > fromX ? 1 : destX < fromX ? -1 : 0);
+        var ny = fromY + (destY > fromY ? 1 : destY < fromY ? -1 : 0);
+        if (nx === destX && ny === destY && unitAt(destX, destY)) {
+            if (nx !== fromX) {
+                nx = fromX;
+            } else if (ny !== fromY) {
+                ny = fromY;
+            }
+        }
+        if ((nx !== fromX || ny !== fromY) && !unitAt(nx, ny) &&
+            nx >= 0 && ny >= 0 && nx < state.mapW && ny < state.mapH) {
+            return { x: nx, y: ny };
+        }
         return null;
     }
 
@@ -994,12 +1077,22 @@
             dropQueuedEnters();
             state.lastBlockedEnter = 'aim-oor';
             state.fightTip = '超出攻击范围，先走格靠近。';
-            console.warn('[hd-battle] blocked ENTER on oor enemy', x, y);
+            console.warn('[hd-battle] aim-oor, cancel aim', x, y);
+            engineSendKey(VK.EXIT);
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
                 tip: state.fightTip, blocked: 'aim-oor', inRng: false
             };
+        }
+        if ((phase === 1 || phase === 0) && u && u.side === 'enemy') {
+            state.pendingApproach = { x: x, y: y };
+            if (state.pendingActPick == null) {
+                state.pendingActPick = 0;
+            }
+            console.log('[hd-battle] pick-then-approach', x, y);
+            clickWaitingOwn();
+            return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'pick-approach' };
         }
         if (phase === 2 && u && u.side === 'enemy') {
             var actor = syncFocusFromEngine();
@@ -1776,6 +1869,9 @@
         var fightNow = readFight();
         noteFightWait(fightNow);
         recoverFightMenu(fightNow);
+        if (state.pendingApproach) {
+            driveApproach();
+        }
         if (state.pendingActPick != null) {
             drivePlayerToActMenu();
         }
@@ -2200,6 +2296,18 @@
             return { miss: name, wait: !!(readFight() && readFight().wait) };
         },
         pickMenuName: pickFightMenuName,
+        clickNearestEnemy: function () {
+            refresh();
+            var e = nearestEnemy();
+            if (!e) {
+                return { none: true, wait: !!(readFight() && readFight().wait), phase: readFight() && readFight().phase };
+            }
+            return { e: { name: e.name, x: e.x, y: e.y }, click: clickBattleTile(e.x, e.y) };
+        },
+        walkCloserTo: function (x, y) {
+            refresh();
+            return clickBattleTile(x, y);
+        },
         recoverMenu: function () {
             return recoverFightMenu(readFight());
         },
@@ -2269,6 +2377,7 @@
                 menuCount: menuCountSnap,
                 menuBytes: (itemsSnap && itemsSnap.names) || [],
                 pendingActPick: state.pendingActPick,
+                pendingApproach: state.pendingApproach,
                 autoActTries: state.autoActTries,
                 why: whyMenuHidden(),
                 queueLen: state.queue.length,

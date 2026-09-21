@@ -94,10 +94,11 @@ html[data-baye-battle="hd"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd 
 
 .hd-battle-menu {
     position: absolute;
-    left: 50%;
-    top: 18%;
-    transform: translateX(-50%);
-    width: min(420px, calc(100% - 80px));
+    left: auto;
+    right: 20px;
+    top: 14%;
+    transform: none;
+    width: min(280px, 30%);
     padding: 18px 20px 16px;
     border-radius: 16px;
     background: linear-gradient(180deg, rgba(32, 38, 52, 0.96), rgba(16, 20, 28, 0.96));
