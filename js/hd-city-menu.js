@@ -3205,12 +3205,7 @@
         /* 开垦/过图 leftover pick=1 必须在点军备之前写掉，否则 ENTER 会确认过图而不是进军备。 */
         bindOpenedMapCity(state.cityIndex, 'open-city');
         clearStaleMapPick('open-city');
-        try {
-            if (global.BayeHdSystemUi && typeof BayeHdSystemUi.isOpen === 'function' &&
-                BayeHdSystemUi.isOpen() && typeof BayeHdSystemUi.close === 'function') {
-                BayeHdSystemUi.close({ silent: true });
-            }
-        } catch (e) {}
+        unstickMenuLoop('open-city');
         render();
         console.log('[hd-city-menu] open', {
             city: state.cityName,
@@ -3280,9 +3275,12 @@
             return;
         }
         if (state.layer === 'deep') {
-            if (mapPickActive() || state.campaignPick || /选择目标/.test(reportText())) {
+            if (engineInGetCitySet() || (state.campaignPick && mapPickActive())) {
                 closeMenu({ silent: true });
                 return;
+            }
+            if (/选择目标/.test(reportText()) && !engineInGetCitySet()) {
+                unstickMenuLoop('back-deep');
             }
             if (state.deepKind === 'person-city' && state.pickedPersons > 0 &&
                 !mapPickActive() && !showingQty() && !state.marchReady) {
@@ -3320,6 +3318,7 @@
         var root = ROOTS[index];
         /* 开垦数月后 leftover pick 还在：先回本城，再发军备/内政 ENTER。 */
         bindOpenedMapCity(state.cityIndex, 'choose-root');
+        unstickMenuLoop('choose-root');
         var enthron = liveEngineReport();
         if (/拥立|成为君主/.test(enthron || '')) {
             engineSendKey(VK.ENTER, 'choose-root-enthron');
@@ -4098,7 +4097,7 @@
             return true;
         }
         try {
-            if (liveChooseTarget() || state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick') {
+            if (engineInGetCitySet() || state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick') {
                 return true;
             }
         } catch (e) {}
@@ -4144,6 +4143,77 @@
         return names[0] === '策略结束';
     }
 
+    /* leftover g_hdMenuBytes 常只剩「策略结束」。真 FunctionMenu 还有存储进度/结束游戏。 */
+    function liveFunctionMenu() {
+        var names = engineMenuItems().names || [];
+        return names[0] === '策略结束' &&
+            names.indexOf('存储进度') >= 0 &&
+            names.indexOf('结束游戏') >= 0;
+    }
+
+    function leftoverMoneyReport(text) {
+        return /无足够金钱|金钱不足|城中无空闲武将/.test(String(text || ''));
+    }
+
+    function clearLeftoverCityReports(why) {
+        var text = liveEngineReport();
+        var money = leftoverMoneyReport(text);
+        var choose = leftoverChooseTarget(text) && !engineInGetCitySet();
+        var farm = leftoverFarmReportText(text);
+        var disaster = leftoverDisasterReport(text) && !liveReportAsync();
+        if (!(money || choose || farm || disaster || leftoverMarchReport(text))) {
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            return false;
+        }
+        try {
+            if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdReportGbk = '';
+            }
+        } catch (e) {}
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
+        if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
+            BayeHdDialog.dismissLeftoverSpeech();
+        }
+        console.log('[hd-city-menu] clear leftover report', why || '', String(text || '').slice(0, 24));
+        return true;
+    }
+
+    function unstickMenuLoop(why) {
+        clearLeftoverCityReports(why || 'unstick');
+        try {
+            if (global.BayeHdSystemUi && typeof BayeHdSystemUi.isOpen === 'function' &&
+                BayeHdSystemUi.isOpen() && typeof BayeHdSystemUi.close === 'function') {
+                BayeHdSystemUi.close({ silent: true });
+            }
+        } catch (e) {}
+        if (!engineInGetCitySet() && !state.handoff && !state.marchReady && !state.personExitSent) {
+            state.campaignPick = false;
+            if (state.wizardStep === 'target-tip' || state.wizardStep === 'map-pick') {
+                state.wizardStep = 'none';
+            }
+        }
+        if (liveFunctionMenu() && !state.handoff && !state.marchReady && !engineInGetCitySet()) {
+            engineSendKey(VK.EXIT, 'unstick-func-menu');
+            if (state.open && !optsKeepCity(why)) {
+                closeMenu({ silent: true, force: true });
+                if (global.BayeHdOverworld && typeof BayeHdOverworld.afterFightMapReady === 'function') {
+                    BayeHdOverworld.afterFightMapReady('unstick-func');
+                }
+            }
+        }
+        return true;
+    }
+
+    function optsKeepCity(why) {
+        return why === 'open-city' || why === 'choose-root' || why === 'back-deep' ||
+            why === 'money-tip';
+    }
+
     function syncMarchPhase() {
         if (state.handoff) {
             return;
@@ -4161,10 +4231,11 @@
             return;
         }
         /* g_hdMenuBytes 会残留「策略结束」。出征选将/选粮/选择目标时不能当 FunctionMenu 关向导。 */
-        var liveFunc = looksLikeFunctionMenu() &&
+        var liveFunc = liveFunctionMenu() &&
             (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
         if (liveFunc && !holdExit() && !state.campaignPick && !state.battleMake &&
             !state.marchReady && !mapPickActive() && !showingQty() &&
+            !engineInGetCitySet() &&
             !/选择目标|部队已出发/.test(reportText())) {
             closeMenu({ silent: true });
             return;
@@ -4199,16 +4270,21 @@
             render();
             return;
         }
-        if (state.personExitSent && /无足够金钱|金钱不足|城中无空闲武将/.test(liveAbort) &&
-            !liveReportAsync()) {
-            try {
-                if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
-                    (!baye.hdEngineReady || baye.hdEngineReady())) {
-                    baye.data.g_hdReportGbk = '';
+        if (leftoverMoneyReport(liveAbort) && !liveReportAsync()) {
+            unstickMenuLoop('money-tip');
+            if (!state.personExitSent && !engineInGetCitySet()) {
+                state.battleMake = false;
+                state.campaignPick = false;
+                if (state.wizardStep !== 'none' && state.wizardStep !== 'persons') {
+                    setWizardStep('none', 'money-tip');
                 }
-            } catch (eAbort) {}
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
+                if (state.layer === 'deep' && state.deepLabel !== '出征') {
+                    state.layer = 'sub';
+                    state.deepKind = '';
+                    state.deepLabel = '';
+                }
+                state.marchHint = liveAbort || '金钱不足，已关掉提示。可招商或开垦。';
+                render();
             }
         }
         if (state.personExitSent && !engineInGetCitySet() && !state.marchReady && !freshMarchOk()) {
@@ -4455,17 +4531,21 @@
                 }
                 if (looksLikeFunctionMenu()) {
                     /* 出征向导开着时 g_hdMenuBytes 残留「策略结束」不是 FunctionMenu。 */
-                    if (state.handoff) {
-                        if ((state.handoffExitCount || 0) > 0 && !mapPickActive()) {
+                    if (liveFunctionMenu()) {
+                        if (state.handoff) {
+                            if ((state.handoffExitCount || 0) > 0 && !mapPickActive()) {
+                                state.lastFuncMenuIdle = Date.now();
+                            }
+                        } else if (!state.open || (!wizardInMarch() && !state.marchReady && !holdExit())) {
                             state.lastFuncMenuIdle = Date.now();
                         }
-                    } else if (!state.open || (!wizardInMarch() && !state.marchReady && !holdExit())) {
-                        state.lastFuncMenuIdle = Date.now();
                     }
                     if (state.handoff) {
                         /* keep 部队已出发 panel visible during handoff */
-                    } else if (!holdExit() && !state.battleMake && !state.campaignPick &&
+                    } else if (liveFunctionMenu() && !holdExit() && !state.battleMake &&
+                        !state.campaignPick &&
                         !state.marchReady && !mapPickActive() && !showingQty() &&
+                        !engineInGetCitySet() &&
                         !/选择目标|部队已出发/.test(reportText())) {
                         closeMenu({ silent: true });
                         return;
@@ -4490,9 +4570,10 @@
                 console.log('[hd-city-menu] hook ctx', name, keys, ctx);
             }
         }
-        if (looksLikeFunctionMenu() && state.open) {
+        if (liveFunctionMenu() && state.open) {
             if (state.handoff || holdExit() || state.marchReady || state.campaignPick ||
-                mapPickActive() || showingQty() || /选择目标|部队已出发/.test(reportText())) {
+                mapPickActive() || showingQty() || engineInGetCitySet() ||
+                /选择目标|部队已出发/.test(reportText())) {
                 return;
             }
             closeMenu({ silent: true });
@@ -4912,6 +4993,9 @@
         clearBattleMakeLeftoverPick: clearBattleMakeLeftoverPick,
         bindOpenedMapCity: bindOpenedMapCity,
         landOwnedCity: landOwnedCity,
+        unstickMenuLoop: unstickMenuLoop,
+        liveFunctionMenu: liveFunctionMenu,
+        leftoverMoneyReport: leftoverMoneyReport,
         waitingArmout: waitingArmout,
         liveTargetStep: liveTargetStep,
         engineInGetCitySet: engineInGetCitySet,

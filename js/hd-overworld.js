@@ -3249,7 +3249,7 @@
                made 西凉/安定/天水 taps walk the cursor and never open the menu. */
             if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
                 var r = baye.hd.reportText() || '';
-                if (/选择目标/.test(r)) {
+                if (/选择目标/.test(r) && (cityMenuMarching() || engineGetCitySetPending())) {
                     return true;
                 }
             }

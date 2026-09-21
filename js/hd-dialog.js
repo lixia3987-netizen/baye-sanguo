@@ -296,7 +296,7 @@
         var pass = show && (
             (state.kind === 'report' && leftoverMarchTip(state.body)) ||
             leftoverHelpDuringMarch() ||
-            (state.kind === 'report' && leftoverFarmReport(state.body) && cityMenuMarching())
+            (state.kind === 'report' && leftoverFarmReport(state.body))
         );
         document.documentElement.setAttribute('data-baye-dialog', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-dialog-pass', pass ? '1' : '0');
@@ -566,8 +566,8 @@
         if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
             return dismissLeftoverSpeech(info);
         }
-        /* PolicyExec「农业开发度变为」过月后常年残留。回车会策略结束或点进开垦将表。 */
-        if (/农业|商业|开发度|变为/.test(info.text || '')) {
+        /* PolicyExec「农业开发度变为」/「无足够金钱」过月后常年残留。回车会策略结束或点进系统菜单。 */
+        if (/农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将/.test(info.text || '')) {
             return closeReportSilent(info);
         }
         if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动|归降|势力|成为君主|拥立|俘虏|病逝|遭劫/.test(info.text || '')) {
@@ -827,9 +827,15 @@
         if (state.open && leftoverHelpDuringMarch()) {
             closeDialog({ silent: true });
         }
-        if (state.open && state.kind === 'report' && leftoverFarmReport(state.body || tipText) &&
-            cityMenuMarching()) {
+        if (state.open && state.kind === 'report' && leftoverFarmReport(state.body || tipText)) {
             closeDialog({ silent: true });
+            try {
+                if (!liveSpeechAsync(info) && window.baye && baye.data &&
+                    baye.data.g_hdReportGbk != null &&
+                    (!baye.hdEngineReady || baye.hdEngineReady())) {
+                    baye.data.g_hdReportGbk = '';
+                }
+            } catch (eFarm) {}
         }
         /* 残留「部队已出发」等出征提示在 pick=0、策略结束、全军撤退后、城菜单开着时都必须关壳。 */
         if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || tipText)) {
@@ -984,6 +990,19 @@
                             return;
                         }
                     }
+                    if (state.kind === 'report' && leftoverFarmReport(state.body)) {
+                        closeDialog({ silent: true });
+                        try {
+                            if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
+                                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                                baye.data.g_hdReportGbk = '';
+                            }
+                        } catch (eMoney) {}
+                        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.unstickMenuLoop === 'function') {
+                            BayeHdCityMenu.unstickMenuLoop('money-tip');
+                        }
+                        return;
+                    }
                     engineSendKey(VK.ENTER);
                     if (state.kind === 'report' && leftoverMarchTip(state.body)) {
                         closeDialog({ silent: true });
@@ -997,9 +1016,14 @@
                         return;
                     }
                     /* 「选择目标」/ 出征向导返回不能 EXIT：GetCitySet / BattleMake 会退回将领表。 */
-                    if (isMapPickTip(state.body) || mapPickActive() || cityMenuMarching() ||
+                    if (isMapPickTip(state.body) || leftoverFarmReport(state.body) ||
+                        mapPickActive() || cityMenuMarching() ||
                         cityMenuHoldExit() || cityMenuQty()) {
                         closeDialog({ silent: true });
+                        if (leftoverFarmReport(state.body) && global.BayeHdCityMenu &&
+                            typeof BayeHdCityMenu.unstickMenuLoop === 'function') {
+                            BayeHdCityMenu.unstickMenuLoop('money-tip');
+                        }
                         return;
                     }
                     engineSendKey(VK.EXIT);
@@ -1112,7 +1136,7 @@
                 body: state.body,
                 reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : '',
                 pass: leftoverMarchTip(state.body) || leftoverHelpDuringMarch() ||
-                    (state.kind === 'report' && leftoverFarmReport(state.body) && cityMenuMarching()),
+                    (state.kind === 'report' && leftoverFarmReport(state.body)),
                 leftoverHelp: leftoverHelpDuringMarch(),
                 leftoverFarm: leftoverFarmReport(state.body || ''),
                 lastReportSeq: state.lastReportSeq,

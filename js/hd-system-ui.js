@@ -405,7 +405,8 @@
             return null;
         }
         var names = liveMenuNames();
-        if (names[0] === '策略结束') {
+        if (names[0] === '策略结束' && names.indexOf('存储进度') >= 0 &&
+            names.indexOf('结束游戏') >= 0) {
             var pick = 0;
             try {
                 if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
@@ -414,6 +415,14 @@
             } catch (e) {}
             var cityOpen = global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen();
             var idleFresh = (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
+            var leftoverTip = '';
+            try {
+                leftoverTip = (window.baye && baye.hd && baye.hd.reportText && baye.hd.reportText()) || '';
+            } catch (e2) {}
+            /* leftover 策略结束字节 / 无足够金钱 / 选择目标 不当系统菜单，否则和城菜单对打。 */
+            if (/选择目标|无足够金钱|金钱不足/.test(leftoverTip)) {
+                return null;
+            }
             /* g_hdMenuBytes 会残留「策略结束」。大地图 pick=1、战斗中、或 onMenuIdle 已停，都不当 FunctionMenu。 */
             if (!pick && !cityOpen && idleFresh) {
                 return 'insystem';
@@ -715,8 +724,12 @@
         if (ctx && ctx.index != null && isFinite(Number(ctx.index))) {
             state.idleIndex = Number(ctx.index);
         }
-        if (name === 'onMenuIdle' && liveMenuNames()[0] === '策略结束') {
-            state.lastFuncMenuIdle = Date.now();
+        if (name === 'onMenuIdle') {
+            var idleNames = liveMenuNames();
+            if (idleNames[0] === '策略结束' && idleNames.indexOf('存储进度') >= 0 &&
+                idleNames.indexOf('结束游戏') >= 0) {
+                state.lastFuncMenuIdle = Date.now();
+            }
         }
         if (name === 'chooseGameEntry') {
             if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetForNewGame === 'function') {
