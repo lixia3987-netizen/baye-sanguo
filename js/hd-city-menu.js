@@ -553,6 +553,9 @@
         }
 
         if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
+            if (attempt >= 2) {
+                state.confirmingTarget = false;
+            }
             noteStep4('await-dest', { cityIndex: cityIndex, attempt: attempt });
             again(240, 'await-dest');
             return { deferred: 'await-dest', cityIndex: cityIndex };
@@ -843,7 +846,14 @@
                         return;
                     }
                     if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
+                        state.confirmingTarget = false;
                         noteStep4('enter-wait-dest', { cityIndex: cityIndex });
+                        if (opts.confirm) {
+                            confirmMarchTarget(cityIndex, {
+                                resume: true,
+                                attempt: (opts.attempt || 0) + 1
+                            });
+                        }
                         return;
                     }
                     if (opts.confirm && !freshMarchOk() && !state.marchReady) {
