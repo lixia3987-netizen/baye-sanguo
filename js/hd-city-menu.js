@@ -1156,9 +1156,12 @@
     function leftoverOverworldPick() {
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
          * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。
-         * 本趟部队已出发后 pick 可能还亮，不当 leftover。上场败仗残留 dest=河内
-         * 不能把 leftover GetCitySet 藏起来，否则完成选将 EXIT 会取消过图、永远打不开 GetFood。 */
+         * BattleMake 已结束选将后引擎不在 PlayerTactic：pick=1 只是残留旗，
+         * 再当成 leftover GetCitySet 会挡住 选择目标 / battlePick=1。 */
         if (freshMarchOk() || state.marchReady || state.confirmingTarget) {
+            return false;
+        }
+        if (state.battleMake && (state.personExitSent || state.foodConfirmedThisMarch || liveGetFood())) {
             return false;
         }
         if (state.acceptMarchOk && realMarchDest(engineMarch())) {
@@ -1317,6 +1320,31 @@
         return !mapPickActive();
     }
 
+    /* 选粮已确认后 leftover pick=1 不是出征 GetCitySet。写掉旗标并钉出发城，
+     * 让 C ShowGReport→battlePick=1→GetCitySet，避免 drive-tip 被 mapPickActive 挡住。 */
+    function clearBattleMakeLeftoverPick(why) {
+        if (battlePickActive()) {
+            return false;
+        }
+        if (!state.battleMake ||
+            !(state.personExitSent || state.foodConfirmedThisMarch || liveGetFood())) {
+            return false;
+        }
+        if (!mapPickActive()) {
+            bindOpenedMapCity(state.cityIndex, why || 'after-food-bind');
+            return false;
+        }
+        try {
+            if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdMapPick = 0;
+            }
+        } catch (e) {}
+        bindOpenedMapCity(state.cityIndex, why || 'after-food');
+        noteStep4('clear-battle-leftover-pick', { skipped: why || 'after-food' });
+        return !mapPickActive();
+    }
+
     function liveGetFood() {
         var q = engineQty();
         /* 活着的出征 GetFood：min 恒 ≥1。引擎可能比 HD「完成选将」先结束选将。
@@ -1343,6 +1371,7 @@
         state.sawGetFoodUi = true;
         state.sawQtyThisMarch = true;
         state.foodGaveUp = false;
+        clearBattleMakeLeftoverPick(why || 'adopt-food');
         return true;
     }
 
@@ -1532,6 +1561,9 @@
         if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
             return { ok: true, phase: engineMarchPhase() };
         }
+        if (foodReadyForCitySet() || liveGetFood()) {
+            clearBattleMakeLeftoverPick(why || 'drive-food');
+        }
         if (adoptLiveGetFood(why || 'drive')) {
             /* engine 已打开 GetFood：只展示数量条，等 HD「确认」再回车。 */
             var liveQ = engineQty();
@@ -1620,8 +1652,8 @@
                 }
             }
         }
-        if (state.personExitSent && foodReadyForCitySet() && !mapPickActive() &&
-            leftoverChooseTarget(liveEngineReport())) {
+        if (state.personExitSent && foodReadyForCitySet() && !battlePickActive() &&
+            leftoverChooseTarget(liveEngineReport()) && !mapPickActive()) {
             if (state.lastTipEnterAt && Date.now() - state.lastTipEnterAt < 700) {
                 return { deferred: 'tip-cooldown', phase: engineMarchPhase() };
             }
@@ -1759,6 +1791,7 @@
             state.foodConfirmedThisMarch = true;
             state.sawQtyThisMarch = true;
             advanceWizard('food', 'commit-qty');
+            clearBattleMakeLeftoverPick('commit-qty');
         }
         setTimeout(function () {
             if (liveGetFood() || liveQty()) {
@@ -3429,6 +3462,9 @@
         if ((state.wizardStep === 'persons' || waitingGetFoodSoftLock()) && leftoverOverworldPick()) {
             clearStaleMapPick('sync');
         }
+        if (state.battleMake && (state.foodConfirmedThisMarch || liveGetFood() || state.personExitSent)) {
+            clearBattleMakeLeftoverPick('sync');
+        }
         if (!state.open || state.layer !== 'deep') {
             return;
         }
@@ -4115,6 +4151,7 @@
         battlePickActive: battlePickActive,
         realMarchDest: realMarchDest,
         clearStaleMapPick: clearStaleMapPick,
+        clearBattleMakeLeftoverPick: clearBattleMakeLeftoverPick,
         bindOpenedMapCity: bindOpenedMapCity,
         landOwnedCity: landOwnedCity,
         waitingArmout: waitingArmout,
