@@ -288,7 +288,7 @@
     }
 
     function leftoverFarmReport(text) {
-        return /农业|商业|开发度|变为/.test(String(text || ''));
+        return /农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将/.test(String(text || ''));
     }
 
     function applyChrome() {
@@ -526,14 +526,19 @@
 
     function tryOpenQty() {
         if (cityMenuLeftoverQty() || (global.BayeHdCityMenu &&
-            typeof BayeHdCityMenu.isQtyLive === 'function' && !BayeHdCityMenu.isQtyLive())) {
+            typeof BayeHdCityMenu.isQtyLive === 'function' && !BayeHdCityMenu.isQtyLive() &&
+            !(typeof BayeHdCityMenu.liveGetFood === 'function' && BayeHdCityMenu.liveGetFood()))) {
             closeQtyDialog();
             return false;
         }
         try {
             if (window.baye && baye.hd && baye.hd.qty) {
                 var qtyInfo = baye.hd.qty();
-                if (qtyInfo && qtyInfo.active && cityMenuQty()) {
+                var foodLive = !!(global.BayeHdCityMenu &&
+                    typeof BayeHdCityMenu.liveGetFood === 'function' &&
+                    BayeHdCityMenu.liveGetFood());
+                if (qtyInfo && (qtyInfo.active || foodLive) &&
+                    (cityMenuQty() || foodLive) && Number(qtyInfo.max) >= 1) {
                     openDialog({
                         kind: 'qty',
                         title: '数量',
