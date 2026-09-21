@@ -76,6 +76,7 @@
         campaignPick: false,
         battleMake: false,
         personExitSent: false,
+        finishPersonsBusy: false,
         personExitTries: 0,
         lastPersonExitAt: 0,
         qtyBeforePersonExit: null,
@@ -211,14 +212,19 @@
         return !!(holdExit() || state.marchReady || state.handoff);
     }
 
-    /* 完成选将后到 HD 确认粮草前，任何多余 ENTER 都会跳过 GetFood。 */
+    /* 完成选将 EXIT 已发出后到 HD 确认粮草前，多余 ENTER 会跳过 GetFood。
+     * 点将队列里的 ENTER（pick-person）必须放行，否则 6 将未入引擎就 EXIT，选粮永不来。 */
     function holdEnterForFood() {
         return !!(state.battleMake && state.personExitSent && !state.foodConfirmedThisMarch &&
             !state.marchReady && !state.handoff);
     }
 
+    function allowEnterDuringFoodHold(reason) {
+        return reason === 'qty-ok' || reason === 'dismiss-live-disaster';
+    }
+
     function engineSendKey(code, reason) {
-        if (code === VK.ENTER && holdEnterForFood() && reason !== 'qty-ok') {
+        if (code === VK.ENTER && holdEnterForFood() && !allowEnterDuringFoodHold(reason)) {
             state.lastBlockedEnter = reason || 'unknown';
             console.warn('[hd-city-menu] blocked ENTER until GetFood confirm', state.lastBlockedEnter);
             return false;
@@ -250,7 +256,7 @@
         gap = gap || 55;
         var i;
         for (i = 0; i < codes.length; i++) {
-            if (codes[i] === VK.ENTER && holdEnterForFood() && reason !== 'qty-ok') {
+            if (codes[i] === VK.ENTER && holdEnterForFood() && !allowEnterDuringFoodHold(reason)) {
                 console.warn('[hd-city-menu] blocked queued ENTER until GetFood confirm', reason || 'queue');
                 continue;
             }
@@ -305,12 +311,12 @@
         return keys;
     }
 
-    function pickIndex(target, thenEnter) {
+    function pickIndex(target, thenEnter, reason) {
         var keys = keysToIndex(target);
         if (thenEnter) {
             keys.push(VK.ENTER);
         }
-        enqueueKeys(keys, 55);
+        enqueueKeys(keys, 55, reason || '');
     }
 
     function readEngineCursor() {
@@ -1103,6 +1109,7 @@
         state.battleMake = false;
         state.campaignPick = false;
         state.personExitSent = false;
+        state.finishPersonsBusy = false;
         state.personExitTries = 0;
         state.foodGaveUp = false;
         state.foodAttempt = 0;
@@ -1157,7 +1164,8 @@
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
          * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。
          * BattleMake 已结束选将后引擎不在 PlayerTactic：pick=1 只是残留旗，
-         * 再当成 leftover GetCitySet 会挡住 选择目标 / battlePick=1。 */
+         * 再当成 leftover GetCitySet 会挡住 选择目标 / battlePick=1。
+         * 选将中 leftover pick 仍当过图旗（避免被当成活 GetCitySet），但完成选将不得 landOwnedCity。 */
         if (freshMarchOk() || state.marchReady || state.confirmingTarget) {
             return false;
         }
@@ -1408,7 +1416,7 @@
             'get-food': 'food',
             'choose-target': 'target-tip',
             'persons': 'persons',
-            'wait-get-food': 'food',
+            'wait-get-food': 'persons',
             'wait-get-city-set': 'target-tip'
         };
         return map[phase] || state.wizardStep || 'none';
@@ -1641,6 +1649,7 @@
                     /* 再发 EXIT 后再等一轮。立刻认输会把刚打开的 GetFood 当失败。 */
                     state.foodGaveUp = true;
                     state.personExitSent = false;
+                    state.finishPersonsBusy = false;
                     state.foodRecoverNeeded = false;
                     state.foodRecoverEnter = false;
                     stopMarchWatch();
@@ -2855,6 +2864,7 @@
             state.sawGetFoodUi = false;
             state.foodConfirmedThisMarch = false;
             state.personExitSent = false;
+            state.finishPersonsBusy = false;
             state.foodGaveUp = false;
             state.foodAttempt = 0;
             clearStaleMapPick('choose-sub');
@@ -2902,6 +2912,7 @@
         state.campaignPick = false;
         state.battleMake = (state.deepKind === 'person-city' || state.deepLabel === '出征');
         state.personExitSent = false;
+        state.finishPersonsBusy = false;
         state.personExitTries = 0;
         state.lastPersonExitAt = 0;
         state.qtyBeforePersonExit = qtySnapshot();
@@ -2966,7 +2977,7 @@
         if (state.wizardStep !== 'persons' && state.wizardStep !== 'none') {
             return;
         }
-        if (state.personExitSent || showingQty() || state.marchReady) {
+        if (state.finishPersonsBusy || state.personExitSent || showingQty() || state.marchReady) {
             return;
         }
         if (mapPickActive() && !leftoverOverworldPick()) {
@@ -2989,7 +3000,18 @@
             render();
             return;
         }
-        if (leftoverOverworldPick()) {
+        /* 已在 BattleMake 选将：leftover pick=1 只是过图残留旗。landOwnedCity
+         * 会把完成选将变成回城，EXIT 进不了 GetFood（6 将 + 开垦后常见）。 */
+        if (leftoverOverworldPick() && state.battleMake && state.pickedPersons > 0) {
+            try {
+                if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
+                    (!baye.hdEngineReady || baye.hdEngineReady())) {
+                    baye.data.g_hdMapPick = 0;
+                }
+            } catch (e) {}
+            bindOpenedMapCity(state.cityIndex, 'finish-persons-stale-pick');
+            noteStep4('finish-stale-pick', { skipped: 'write-0-then-exit' });
+        } else if (leftoverOverworldPick()) {
             state.marchHint = '过图 leftover pick，先回本城再出征。' + marchDebugLine();
             noteStep4('finish-leftover-pick', { skipped: 'overworld-pick' });
             landOwnedCity('finish-persons-leftover', function () {
@@ -3017,37 +3039,46 @@
             return;
         }
         state.dismissedObj = false;
-        /* 三将连点时队列里还有 ENTER。清掉再 EXIT 等于空放，GetFood 永不来。 */
-        state.personExitSent = true;
-        state.personExitTries = 1;
+        /* 先排空点将 ENTER。未排空就立 personExitSent 会拦队列，EXIT 打在空将表上。 */
+        state.finishPersonsBusy = true;
         state.foodAttempt = (state.foodAttempt || 0) + 1;
         state.foodGaveUp = false;
-        state.lastPersonExitAt = Date.now();
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecoverEnter = false;
-        state.foodRecoverNeeded = leftoverOverworldPick() || leftoverChooseTarget(liveEngineReport()) ||
+        state.foodRecoverNeeded = leftoverChooseTarget(liveEngineReport()) ||
             (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) || liveReportAsync();
         clearStaleMapPick('finish-persons');
         state.campaignPick = false;
-        advanceWizard('food', 'finish-persons');
-        state.marchHint = '已结束选将，接着确认粮草。';
+        state.marchHint = '正在结束选将，等待点将键排空…';
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
         function sendFinishExit(started) {
             started = started || Date.now();
-            if ((state.queue.length || state.sending) && Date.now() - started < 2000) {
-                setTimeout(function () {
-                    sendFinishExit(started);
-                }, 50);
-                return;
+            var waitMs = Math.max(8000, 800 * Math.max(1, state.pickedPersons || 1));
+            if (state.queue.length || state.sending) {
+                if (Date.now() - started < waitMs) {
+                    setTimeout(function () {
+                        sendFinishExit(started);
+                    }, 50);
+                    return;
+                }
+                console.warn('[hd-city-menu] finish-persons queue still busy after', Date.now() - started, 'ms; drop leftover pick keys');
+                state.queue = [];
+                state.sending = false;
             }
             if (liveGetFood()) {
+                state.finishPersonsBusy = false;
                 adoptLiveGetFood('finish-queue');
                 scheduleMarchWatch();
                 render();
                 return;
             }
+            /* 队列排空后再立旗、再 EXIT。向导在 GetFood 真正打开前保持选将。 */
+            state.personExitSent = true;
+            state.finishPersonsBusy = false;
+            state.personExitTries = 1;
+            state.lastPersonExitAt = Date.now();
             if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
                 engineSendKey(VK.ENTER, 'dismiss-live-disaster');
                 state.foodRecoverEnter = true;
@@ -3055,6 +3086,7 @@
             } else {
                 engineSendKey(VK.EXIT, 'finish-persons');
             }
+            state.marchHint = '已结束选将，等待引擎打开选粮… ' + marchDebugLine();
             scheduleMarchWatch();
             render();
         }
@@ -3498,6 +3530,7 @@
             setWizardStep('none', 'engine-abort');
             state.battleMake = false;
             state.personExitSent = false;
+            state.finishPersonsBusy = false;
             state.marchHint = liveAbort;
             render();
             return;
@@ -3662,7 +3695,7 @@
             render();
             return;
         }
-        pickIndex(index, true);
+        pickIndex(index, true, state.deepKind === 'person-city' ? 'pick-person' : '');
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
             state.pickedPersons += 1;
@@ -4080,6 +4113,7 @@
                 lastHandoffExitAt: state.lastHandoffExitAt,
                 lastFuncMenuIdle: state.lastFuncMenuIdle,
                 personExitSent: state.personExitSent,
+                finishPersonsBusy: !!state.finishPersonsBusy,
                 personExitTries: state.personExitTries,
                 lastExit: state.lastExit,
                 lastBlockedExit: state.lastBlockedExit,
