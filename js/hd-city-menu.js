@@ -710,6 +710,25 @@
             while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
             while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
         }
+        if (to && to.x != null && to.y != null &&
+            global.BayeHdOverworld && typeof BayeHdOverworld.writeCityPos === 'function') {
+            var snapTried = [];
+            var snapOk = BayeHdOverworld.writeCityPos(to.x, to.y, snapTried);
+            console.log('[hd-city-menu] dest-setxy', {
+                cityIndex: cityIndex,
+                to: to,
+                from: from,
+                keys: dirs.length,
+                snapOk: snapOk,
+                tried: snapTried,
+                now: readEngineCursor(),
+                mapCity: engineMapCityIndex(),
+                inCitySet: engineInGetCitySet()
+            });
+            if (snapOk || cursorOnCity(cityIndex)) {
+                dirs = [];
+            }
+        }
         state.walkToken = (state.walkToken || 0) + 1;
         var token = state.walkToken;
         var step = 0;
