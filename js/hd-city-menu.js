@@ -1068,6 +1068,10 @@
         return /部队已出发/.test(String(text || ''));
     }
 
+    function leftoverEnemyCityReport(text) {
+        return /敌方城池|我方城池|无法到达/.test(String(text || ''));
+    }
+
     function dismissLiveArmout() {
         if (!waitingArmout()) {
             return false;
@@ -1301,6 +1305,7 @@
                     (!baye.hdEngineReady || baye.hdEngineReady())) {
                     if (leftoverChooseTarget(liveEngineReport()) ||
                         leftoverMarchReport(liveEngineReport()) ||
+                        leftoverEnemyCityReport(liveEngineReport()) ||
                         /全军覆没|大获全胜/.test(liveEngineReport() || '')) {
                         baye.data.g_hdReportGbk = '';
                     }
@@ -4259,7 +4264,8 @@
         var choose = leftoverChooseTarget(text) && !engineInGetCitySet();
         var farm = leftoverFarmReportText(text);
         var disaster = leftoverDisasterReport(text) && !liveReportAsync();
-        if (!(money || choose || farm || disaster || leftoverMarchReport(text))) {
+        if (!(money || choose || farm || disaster || leftoverMarchReport(text) ||
+            leftoverEnemyCityReport(text))) {
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
