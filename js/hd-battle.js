@@ -588,7 +588,10 @@
         try {
             if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
                 var names = (baye.hd.menuItems() || {}).names || [];
-                return names[0] === '策略结束';
+                /* leftover g_hdMenuBytes 常只剩「策略结束」，不是真 FunctionMenu。 */
+                return names[0] === '策略结束' &&
+                    names.indexOf('存储进度') >= 0 &&
+                    names.indexOf('结束游戏') >= 0;
             }
         } catch (e) {}
         return false;
@@ -599,8 +602,16 @@
         var city = fightCityIndex();
         var rec = cityRecord(realm, city);
         var mine = realm && realm.playerBelong;
-        if (state.resultCode === 1 && rec && mine && rec.belong !== mine) {
-            return true;
+        if (state.resultCode === 1) {
+            if (rec && mine && rec.belong !== mine) {
+                return true;
+            }
+            if (!rec) {
+                return true;
+            }
+            if (state.ownedBefore && realm && realm.ownedCount <= state.ownedBefore) {
+                return true;
+            }
         }
         /* Belong 写完后还有 TheLoserDeal / KingOverDeal / 灾异 GamMsgBox。
          * FunctionMenu 残留「策略结束」不能当成已走完。 */
@@ -775,7 +786,10 @@
                     return;
                 }
                 if (liveAsyncReport() || /拥立|成为君主/.test(lossReport) ||
-                    (state.resultCode === 1 && recNow && mineNow && recNow.belong !== mineNow)) {
+                    (state.resultCode === 1 && !functionMenuLive() &&
+                        (!recNow || !mineNow || recNow.belong !== mineNow ||
+                            (state.ownedBefore && realmNow && realmNow.ownedCount <= state.ownedBefore) ||
+                            liveOccupyReport()))) {
                     engineSendKey(VK.ENTER);
                     state.occupyEnters += 1;
                 }
@@ -1320,9 +1334,10 @@
         try {
             info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
         } catch (e) {}
-        if (info && info.active) {
-            /* Live fight never inherits leftover 全军覆没 from the previous battle. */
-            if (info.over) {
+            if (info && info.active) {
+            /* Live fight never inherits leftover 全军覆没 from the previous battle.
+             * 占领回车期间不要清 over，否则 FightResultDeal / BeOccupied 走不到。 */
+            if (info.over && !state.occupyPending && !state.occupyStarted) {
                 try {
                     if (window.baye && baye.data && baye.data.g_hdFightOver != null &&
                         (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -1383,7 +1398,7 @@
                 }
             } catch (e) {}
             if (d && Number(d.g_hdFightActive)) {
-                if (f && f.over) {
+                if (f && f.over && !state.occupyPending && !state.occupyStarted) {
                     try {
                         if (d.g_hdFightOver != null && (!baye.hdEngineReady || baye.hdEngineReady())) {
                             d.g_hdFightOver = 0;

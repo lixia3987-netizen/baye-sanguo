@@ -77,6 +77,7 @@
         inputFallbackNoted: false,
         alignLog: null,
         aligning: false,
+        alignSnapRetry: false,
         alignToken: 0,
         alignTimer: 0,
         pendingEnter: false,
@@ -2194,29 +2195,96 @@
         return -1;
     }
 
+    function mapShowSize() {
+        var lcdW = typeof lcdWidth === 'number' ? lcdWidth : 160;
+        var lcdH = typeof lcdHeight === 'number' ? lcdHeight : 96;
+        var ws = Math.floor((lcdW + 1) / 16) - 2;
+        var hs = Math.floor(lcdH / 16);
+        if (ws < 1) {
+            ws = 1;
+        }
+        if (hs < 1) {
+            hs = 1;
+        }
+        var cfg = null;
+        try {
+            cfg = window.baye && baye.data && baye.data.g_engineConfig;
+        } catch (e) {}
+        return {
+            ws: ws,
+            hs: hs,
+            mapW: Number(cfg && cfg.cityMapWidth) || 40,
+            mapH: Number(cfg && cfg.cityMapHeight) || 40
+        };
+    }
+
+    function centerCityViewport(setx, sety, tried) {
+        var data = engineData();
+        var pos = data && data.g_CityPos;
+        if (!pos) {
+            return false;
+        }
+        var sz = mapShowSize();
+        var vx;
+        var vy;
+        if ((setx + Math.floor(sz.ws / 2)) >= sz.mapW) {
+            vx = sz.mapW > sz.ws ? sz.mapW - sz.ws : 0;
+        } else if (setx < Math.floor(sz.ws / 2)) {
+            vx = 0;
+        } else {
+            vx = setx - Math.floor(sz.ws / 2);
+        }
+        if ((sety + Math.floor(sz.hs / 2)) >= sz.mapH) {
+            vy = sz.mapH > sz.hs ? sz.mapH - sz.hs : 0;
+        } else if (sety < Math.floor(sz.hs / 2)) {
+            vy = 0;
+        } else {
+            vy = sety - Math.floor(sz.hs / 2);
+        }
+        if (pos.x !== undefined) {
+            writeNumber(pos, 'x', vx);
+            tried.push('view:g_CityPos.x=' + vx);
+        }
+        if (pos.y !== undefined) {
+            writeNumber(pos, 'y', vy);
+            tried.push('view:g_CityPos.y=' + vy);
+        }
+        return true;
+    }
+
+    /* 只写光标 setx/sety，视口 x/y 居中。不能把 x/y 写成城格，那是窗口原点。 */
     function writeCityPos(x, y, tried) {
         var data = engineData();
         var pos = data && data.g_CityPos;
         if (!pos) {
             return false;
         }
-        var namesX = ['setx', 'x'];
-        var namesY = ['sety', 'y'];
-        var i;
-        for (i = 0; i < namesX.length; i++) {
-            if (pos[namesX[i]] !== undefined) {
-                tried.push('write:g_CityPos.' + namesX[i]);
-                writeNumber(pos, namesX[i], x);
-            }
+        tried = tried || [];
+        if (pos.setx !== undefined) {
+            tried.push('write:g_CityPos.setx=' + x);
+            writeNumber(pos, 'setx', x);
         }
-        for (i = 0; i < namesY.length; i++) {
-            if (pos[namesY[i]] !== undefined) {
-                tried.push('write:g_CityPos.' + namesY[i]);
-                writeNumber(pos, namesY[i], y);
-            }
+        if (pos.sety !== undefined) {
+            tried.push('write:g_CityPos.sety=' + y);
+            writeNumber(pos, 'sety', y);
         }
+        centerCityViewport(x, y, tried);
         var now = readCityPos();
         return !!(now && now.x === x && now.y === y);
+    }
+
+    function snapCursorToCity(index, tried) {
+        var city = validCityIndex(index) ? state.cities[index] : null;
+        if (!city) {
+            return false;
+        }
+        tried = tried || [];
+        var ok = writeCityPos(city.engX, city.engY, tried);
+        if (ok) {
+            state.engineCursorIndex = index;
+            state.haveCityPos = true;
+        }
+        return ok && landedOnTarget(index, { x: city.engX, y: city.engY });
     }
 
     function inferCurrentCity() {
@@ -2591,6 +2659,23 @@
             state.alignTimer = 0;
         }
         state.aligning = false;
+        state.alignSnapRetry = false;
+        state.pendingEnter = false;
+    }
+
+    function afterFightMapReady(why) {
+        cancelAlign();
+        state.hdOpenedMenu = false;
+        if (state.hint && /未能对齐/.test(state.hint)) {
+            state.hint = '已回到大地图。点己方城打开城池菜单。';
+        } else if (!cityMenuShellOpen()) {
+            state.hint = '已回到大地图。点己方城打开城池菜单。';
+        }
+        if (inGameOverworld()) {
+            setPhase('map');
+        }
+        applyChrome();
+        console.log('[hd-overworld] after-fight-map', why || '');
     }
 
     function later(token, ms, fn) {
@@ -2729,6 +2814,20 @@
             learned: state.learnedCursorField
         };
         logAlign(from, to, method, false, extra || '');
+        /* 最后再写一次 setx/sety。失败也不卡住 aligning，下次点击可重试。 */
+        if (validCityIndex(to) && snapCursorToCity(to, tried) && !(state.alignSnapRetry)) {
+            state.alignSnapRetry = true;
+            state.aligning = true;
+            later(token, 80, function () {
+                sendEnterWaitMenu(token, tried, true, {
+                    from: from,
+                    to: to,
+                    method: 'setxy-fail-retry'
+                });
+            });
+            return;
+        }
+        state.alignSnapRetry = false;
         state.hint = '未能对齐到目标城，已留在 HD。可再点一次或切回经典键操。';
         applyChrome();
     }
@@ -2790,6 +2889,7 @@
                 return;
             }
             if (menuOpened()) {
+                state.alignSnapRetry = false;
                 return;
             }
             var pickNow = readMapPick();
@@ -2870,6 +2970,18 @@
                 });
                 return;
             }
+            if (snapCursorToCity(to, tried) && landedOnTarget(to, expectTile)) {
+                tried.push('snap-after-walk');
+                later(token, 70, function () {
+                    sendEnterWaitMenu(token, tried, true, {
+                        from: from,
+                        to: to,
+                        method: 'setxy-after-walk',
+                        skipCursorCheck: false
+                    });
+                });
+                return;
+            }
             finishAlignFail(token, tried, from, to, method, 'landed=' + landed +
                 ' tile=' + (readCityPos() ? readCityPos().x + ',' + readCityPos().y : '?') +
                 ' mapCity=' + readMapCity());
@@ -2944,9 +3056,8 @@
             if (fromPos) {
                 tried.push('fromTile2:' + fromPos.x + ',' + fromPos.y);
             }
-            /* 只认真实格坐标 / ShowCityMap 的 g_hdMapCity。
-             * 菜单里的残留 engineCursorIndex 不能当已对齐，否则 ENTER 会点内政。 */
-            if (landedOnTarget(index, toTile) && readMapPick() === 1) {
+            /* 格坐标已在目标城：战后 pick 常被清成 0，仍要 ENTER 开菜单。 */
+            if (landedOnTarget(index, toTile)) {
                 tried.push('already-on-target');
                 later(token, 50, function () {
                     sendEnterWaitMenu(token, tried, false, { from: from, to: index, method: 'already-on-target' });
@@ -2954,16 +3065,17 @@
                 return;
             }
 
-            // g_CityPos.setx/sety 读回可写，但 ENTER 仍走引擎内部光标（西凉点安定会进错城）。
-            if (state.learnedCursorField && !/^g_hd/.test(state.learnedCursorField)) {
-                var wrote = tryWriteCursor(index, tried);
-                if (wrote && inferCurrentCity() === index && !fromPos) {
-                    tried.push('verified-write');
-                    later(token, 70, function () {
-                        sendEnterWaitMenu(token, tried, true, { from: from, to: index, method: 'write-index' });
+            /* 先写 setx/sety 并居中视口，再走路。ENTER 认 CityPos 光标。 */
+            if (snapCursorToCity(index, tried)) {
+                tried.push('setxy-snap');
+                later(token, 70, function () {
+                    sendEnterWaitMenu(token, tried, true, {
+                        from: from,
+                        to: index,
+                        method: 'setxy'
                     });
-                    return;
-                }
+                });
+                return;
             }
 
             alignByKeys(token, tried, from, index, fromPos, toTile);
@@ -2989,6 +3101,17 @@
                 walkKeysThenEnter(token, tried, from, index, path.keys, 'bfs-adj', null);
                 return;
             }
+        }
+        if (snapCursorToCity(index, tried)) {
+            tried.push('setxy-no-path');
+            later(token, 70, function () {
+                sendEnterWaitMenu(token, tried, true, {
+                    from: from,
+                    to: index,
+                    method: 'setxy-no-path'
+                });
+            });
+            return;
         }
         finishAlignFail(token, tried, from, index, 'none', 'no-path');
     }
@@ -3399,6 +3522,10 @@
         getCamera: function () { return state.camera; },
         getCameraBounds: cameraLimits,
         leaveMenu: leaveClassicMenu,
+        cancelAlign: cancelAlign,
+        afterFightMapReady: afterFightMapReady,
+        snapCursorToCity: snapCursorToCity,
+        writeCityPos: writeCityPos,
         getAlignLog: function () { return state.alignLog; },
         landedOnCity: landedOnTarget,
         readCityPos: readCityPos,
@@ -3499,6 +3626,8 @@
                 mapPick: readMapPick(),
                 cursorInView: cursorInView(),
                 alignLog: state.alignLog,
+                alignSnapRetry: !!state.alignSnapRetry,
+                hint: state.hint,
                 playerKingRaw: data ? readNumber(data, 'g_PlayerKing') : null,
                 playerBelong: playerKingId(),
                 yearDate: data ? readNumber(data, 'g_YearDate') : null,

@@ -1174,6 +1174,9 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
+        if (global.BayeHdOverworld && typeof BayeHdOverworld.afterFightMapReady === 'function') {
+            BayeHdOverworld.afterFightMapReady('after-fight');
+        }
     }
 
     /* 同页 新君登基 / 读档：HD 出征旗标不能带到下一局，否则完成选将空操作、GetFood 永不来。 */
