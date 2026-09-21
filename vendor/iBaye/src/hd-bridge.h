@@ -59,6 +59,7 @@ void baye_hd_spe_tick(void);
 void baye_hd_set_skills(const U16* ids, const U8* names, U8 count, U8 nameLen, U8 active);
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active);
 void baye_hd_set_map_pick(U8 active);
+void baye_hd_set_battle_pick(U8 active);
 void baye_hd_set_map_city(U8 city1);
 void baye_hd_set_city_links(U8 city);
 void baye_hd_set_march(U8 fromCity, U8 objCity, U8 timeCount, U8 ok);

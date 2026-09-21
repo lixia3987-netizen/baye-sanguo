@@ -473,7 +473,9 @@
         }
         state.campaignPick = true;
         state.battleMake = true;
-        state.acceptMarchOk = true;
+        if (engineInGetCitySet()) {
+            state.acceptMarchOk = true;
+        }
         if (!opts.resume) {
             state.confirmToken = (state.confirmToken || 0) + 1;
             state.walkBusy = false;
@@ -861,7 +863,20 @@
                 return baye.hd.march();
             }
         } catch (e) {}
-        return { pick: 0, ok: 0, mapCity: 0, seq: 0 };
+        return { pick: 0, battlePick: 0, ok: 0, mapCity: 0, seq: 0 };
+    }
+
+    function battlePickActive() {
+        var m = engineMarch();
+        if (m && Number(m.battlePick)) {
+            return true;
+        }
+        try {
+            if (window.baye && baye.data && Number(baye.data.g_hdBattlePick)) {
+                return true;
+            }
+        } catch (e) {}
+        return false;
     }
 
     function marchSeqOf(m) {
@@ -934,9 +949,32 @@
     }
 
     /* Only a NEW AddFightOrder this 出征: leftover ok=1 / leftover 部队已出发 text do not count. */
+    function realMarchDest(m) {
+        m = m || engineMarch();
+        if (!(m && m.ok)) {
+            return false;
+        }
+        var from = Number(m.city);
+        var obj = Number(m.obj);
+        if (!isFinite(obj) || obj < 0 || obj >= 64 || obj === 0xff) {
+            return false;
+        }
+        if (isFinite(from) && obj === from) {
+            return false;
+        }
+        var seq = marchSeqOf(m);
+        if (seq && seq <= (state.consumedMarchSeq || 0)) {
+            return false;
+        }
+        return true;
+    }
+
     function freshMarchOk() {
         var m = engineMarch();
         if (!(state.acceptMarchOk && m && m.ok)) {
+            return false;
+        }
+        if (!realMarchDest(m)) {
             return false;
         }
         var seq = marchSeqOf(m);
@@ -968,6 +1006,10 @@
     }
 
     function forceClearMapPick(why) {
+        if (battlePickActive()) {
+            noteStep4('force-clear-pick', { skipped: 'live-battle-pick' });
+            return false;
+        }
         try {
             if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
                 (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -975,6 +1017,7 @@
             }
         } catch (e) {}
         noteStep4('force-clear-pick', { skipped: why || 'force' });
+        return !mapPickActive();
     }
 
     function resetAfterFight() {
@@ -1016,15 +1059,8 @@
 
     function leftoverOverworldPick() {
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
-         * 只有本趟已选粮、正在 GetCitySet 才认 pick=1。上场出征/战后残留必须清。 */
-        if (!mapPickActive()) {
-            return false;
-        }
-        if (state.battleMake && state.personExitSent && state.sawQtyThisMarch &&
-            !state.marchReady && !state.handoff) {
-            return false;
-        }
-        return true;
+         * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。 */
+        return !!(mapPickActive() && !battlePickActive());
     }
 
     /* HD 已回城池根，引擎还停在内政/军备/人物表（开垦过月最常见）。 */
@@ -1054,6 +1090,9 @@
 
     /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。 */
     function clearStaleMapPick(why) {
+        if (battlePickActive()) {
+            return false;
+        }
         if (!leftoverOverworldPick()) {
             return false;
         }
@@ -1083,10 +1122,14 @@
     }
 
     function engineInGetCitySet() {
-        if (liveGetFood()) {
+        /* 必须 C 出征 GetCitySet（g_hdBattlePick）。过图 leftover pick=1 不算。 */
+        if (!(battlePickActive() && mapPickActive())) {
             return false;
         }
-        return !!(mapPickActive() && state.sawQtyThisMarch && !leftoverOverworldPick());
+        if (liveGetFood() && !battlePickActive()) {
+            return false;
+        }
+        return !!(state.sawQtyThisMarch || state.personExitSent);
     }
 
     function displayWizardStep() {
@@ -1117,6 +1160,8 @@
         var mc = engineMapCityIndex();
         var mcName = mc >= 0 ? (cityName(mc) || '') : '';
         return 'pick=' + ((m && m.pick) ? 1 : 0) +
+            ' battlePick=' + ((m && m.battlePick) ? 1 : 0) +
+            ' dest=' + ((m && m.obj != null) ? m.obj : '—') +
             ' mapCity=' + (mc < 0 ? '—' : mc) +
             (mcName ? '(' + mcName + ')' : '') +
             ' phase=' + engineMarchPhase() +
@@ -1965,8 +2010,10 @@
                         : leftoverOverworldPick()
                         ? ('过图残留 pick=1，不是选粮。' + marchDebugLine())
                         : ('引擎未打开 GetFood，不能确认粮草。' + marchDebugLine());
+                } else if (leftoverOverworldPick()) {
+                    mismatch.textContent = '过图 leftover pick=1，不是出征 GetCitySet。' + marchDebugLine();
                 } else {
-                    mismatch.textContent = '引擎未打开 GetCitySet，不能确认河内。' + marchDebugLine();
+                    mismatch.textContent = '引擎未打开出征 GetCitySet，不能确认河内。' + marchDebugLine();
                 }
                 if (mismatch.textContent) {
                     list.appendChild(mismatch);
@@ -2715,7 +2762,19 @@
         /* 部队已出发后引擎还在城池 OrderMenu。g_hdMenuBytes 常年残留「策略结束」，
          * 立刻回车会点进内政。EXIT 出城一次后必须等真 FunctionMenu 再回车；
          * 再 EXIT 会关掉 FunctionMenu 回到大地图，PolicyExec 不跑。 */
-        var haveFresh = freshMarchOk() || !!(state.marchReady && state.handoffHaveFresh);
+        if (!realMarchDest() && !freshMarchOk()) {
+            state.marchHint = '还没有有效出征目标。等出征 GetCitySet（battlePick=1）打开后点河内，看到部队已出发再策略结束。' +
+                marchDebugLine();
+            noteStep4('refuse-strategy-end', { skipped: engineMarchPhase() });
+            if (engineInGetCitySet()) {
+                advanceWizard('map-pick', 'need-dest');
+            } else if (state.personExitSent) {
+                driveFoodToCitySet('need-city-set-before-end');
+            }
+            render();
+            return;
+        }
+        var haveFresh = freshMarchOk() || !!(state.marchReady && state.handoffHaveFresh && realMarchDest());
         if (state.handoff && state.handoffTimer) {
             if (fightIsActive()) {
                 consumeMarchSeqIfFight();
@@ -3159,8 +3218,9 @@
             if (!engineInGetCitySet()) {
                 var driven = driveFoodToCitySet('choose-deep');
                 state.pendingTarget = null;
-                state.marchHint = '引擎未打开 GetCitySet。' + marchDebugLine() +
-                    '。点河内已拒绝，先确认粮草。';
+                state.marchHint = leftoverOverworldPick()
+                    ? ('过图 leftover pick，不是出征 GetCitySet。' + marchDebugLine())
+                    : ('引擎未打开出征 GetCitySet。' + marchDebugLine() + '。点河内已拒绝。');
                 noteStep4('refuse-choose-deep', { cityIndex: item.cityIndex, skipped: engineMarchPhase() });
                 render();
                 return driven;
@@ -3619,6 +3679,11 @@
                 wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
                 sawQtyThisMarch: state.sawQtyThisMarch,
                 leftoverPick: leftoverOverworldPick(),
+                battlePick: battlePickActive(),
+                marchDest: (function () {
+                    var m = engineMarch();
+                    return { city: m && m.city, obj: m && m.obj, ok: !!(m && m.ok), real: realMarchDest(m) };
+                }()),
                 leftoverEngineSub: leftoverEngineSubAtHdRoot(),
                 leftoverQty: leftoverQtyFlag(),
                 liveQty: liveQty(),
@@ -3662,6 +3727,8 @@
         isMarchReady: function () { return !!(state.marchReady && !state.handoff && freshMarchOk()); },
         finishPersons: finishPersonPick,
         leftoverOverworldPick: leftoverOverworldPick,
+        battlePickActive: battlePickActive,
+        realMarchDest: realMarchDest,
         clearStaleMapPick: clearStaleMapPick,
         waitingArmout: waitingArmout,
         liveTargetStep: liveTargetStep,

@@ -34,6 +34,7 @@ U32 g_hdQtyMax = 0;
 U8 g_hdQtyActive = 0;
 
 U8 g_hdMapPick = 0;
+U8 g_hdBattlePick = 0;
 U8 g_hdMapCity = 0;
 U8 g_hdCityLinks[8];
 U8 g_hdMarchOk = 0;
@@ -312,6 +313,19 @@ void baye_hd_set_map_pick(U8 active)
     });
 }
 
+void baye_hd_set_battle_pick(U8 active)
+{
+    /* 1 only while BattleMake is inside GetCitySet. PlayerTactic leftover pick=1 is not this. */
+    g_hdBattlePick = active ? 1 : 0;
+    EM_ASM({
+        try {
+            if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') {
+                BayeHdCityMenu.onMapPick();
+            }
+        } catch (e) {}
+    });
+}
+
 void baye_hd_set_map_city(U8 city1)
 {
     g_hdMapCity = city1;
@@ -425,6 +439,7 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdQtyMax, U32);
     DEFADDF(g_hdQtyActive, U8);
     DEFADDF(g_hdMapPick, U8);
+    DEFADDF(g_hdBattlePick, U8);
     DEFADDF(g_hdMapCity, U8);
     DEFADD_U8ARR(g_hdCityLinks, 8);
     DEFADDF(g_hdMarchOk, U8);

@@ -116,7 +116,10 @@ FAR U8 BattleMake(U8 city)
                 ResLoadToMem(STRING_CONST,STR_OBJ,str);
                 ShowMapClear();
                 ShowGReport(PID(fpptr[0] - 1),str);
+                /* PlayerTactic 过图也是 GetCitySet/g_hdMapPick。出征目标必须另立旗标。 */
+                baye_hd_set_battle_pick(1);
                 ocity = GetCitySet(&g_CityPos);
+                baye_hd_set_battle_pick(0);
                 if (0xff == ocity)
                 {
                     for (i --;(U8)(i + 1) >= 1;i --)
