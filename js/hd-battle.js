@@ -51,6 +51,7 @@
         liveMenuKind: '',
         lastWait: 0,
         sawWait: false,
+        needWaitBeforeMenu: false,
         pendingSys: 0,
         resultDismissed: false,
         occupyTimer: 0,
@@ -315,6 +316,16 @@
         state.liveMenuKind = '';
     }
 
+    function clearEngineMenuLeftover() {
+        try {
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (baye.data.g_hdMenuCount != null) {
+                    baye.data.g_hdMenuCount = 0;
+                }
+            }
+        } catch (e) {}
+    }
+
     function rearmFightMenuFromBytes() {
         var cls = peekFightMenuClass();
         if (!cls) {
@@ -323,7 +334,31 @@
         state.liveMenuKind = cls.kind;
         state.lastMenuIdleKind = cls.kind;
         state.lastMenuIdleAt = Date.now();
+        state.sawWait = true;
+        state.needWaitBeforeMenu = false;
         return cls;
+    }
+
+    function recoverFightMenu(fight) {
+        if (!state.open || state.preview || state.resultText) {
+            return null;
+        }
+        fight = fight || readFight();
+        if (!fight || !fight.active || fight.wait || fight.over) {
+            return null;
+        }
+        var cls = peekFightMenuClass();
+        if (!cls || (cls.kind !== 'act' && cls.kind !== 'skill')) {
+            return null;
+        }
+        /* willCloseMenu 刚关：字节可能还是「攻击/待机」，等选将 wait=1 或新的 onMenuIdle。 */
+        if (state.needWaitBeforeMenu && !menuIdleFresh()) {
+            return null;
+        }
+        if (state.liveMenuKind !== cls.kind) {
+            console.log('[hd-battle] recover act menu', cls.kind, cls.names);
+        }
+        return rearmFightMenuFromBytes();
     }
 
     function readFightMenu() {
@@ -342,12 +377,21 @@
         if (!cls) {
             return null;
         }
+        if (cls.kind === 'act' || cls.kind === 'skill') {
+            /* PlcSplMenu 的 onMenuIdle 只在开菜单时打一次，定时器不再回调。
+             * wait=0 且字节就是 攻击/待机：直接当活菜单，不靠 sawWait / liveMenuKind。 */
+            if (state.needWaitBeforeMenu && !menuIdleFresh()) {
+                return null;
+            }
+            if (state.liveMenuKind !== cls.kind) {
+                rearmFightMenuFromBytes();
+            }
+            return cls;
+        }
         /* 开战瞬间 wait=0，g_hdMenuBytes 可能还是「回合结束」。没进过选将就当残留。 */
         if (!state.sawWait) {
             return null;
         }
-        /* 活菜单：onMenuIdle / wait 1→0 置位；willCloseMenu 与 wait 0→1 清位。
-         * 不能在 wait 1→0 清掉，否则 PlcSplMenu 刚开、下一帧 refresh 就把马超行动菜单藏死。 */
         if (state.liveMenuKind !== cls.kind && !menuIdleFresh()) {
             return null;
         }
@@ -367,11 +411,13 @@
                 state.sawWait = true;
                 state.fightTip = '';
                 dropQueuedEnters();
+                /* 选将（phase 1）是新的一将；瞄准/走格不要放开 willCloseMenu 的残留武装。 */
+                if ((Number(fight.phase) || 0) <= 1) {
+                    state.needWaitBeforeMenu = false;
+                }
             }
             /* wait 1→0：不要清 liveMenuKind。PlcSplMenu 的 onMenuIdle 往往已在
-             * 本帧置位，清掉会让马超「将领行动」下一帧藏死、点击无响应。
-             * 也不要按残留 攻击/待机 字节武装——瞄准结束 wait 1→0 时字节还在，
-             * 会在结算动画上盖一层假菜单。 */
+             * 本帧置位，清掉会让马超「将领行动」下一帧藏死、点击无响应。 */
             state.lastWait = w;
         } else if (w === 1) {
             state.sawWait = true;
@@ -797,8 +843,10 @@
         state.lastMenuIdleAt = 0;
         state.lastWait = 0;
         state.sawWait = false;
+        state.needWaitBeforeMenu = false;
         state.pendingSys = 0;
         state.lastHook = '';
+        clearEngineMenuLeftover();
         state.fightTip = '';
         state.lastInvalidAt = 0;
         state.lastBlockedEnter = '';
@@ -1489,6 +1537,7 @@
         state.focus = info.focus;
         var fightNow = readFight();
         noteFightWait(fightNow);
+        recoverFightMenu(fightNow);
         noteFightTip(fightNow);
         renderFightMenu();
         applyChrome();
@@ -1535,12 +1584,15 @@
             state.resultText = '';
             state.resultDismissed = false;
         }
-        if (!already || fresh) {
+        /* 已在战场时 leftover g_hdFightActive / draw hook 不得清 live 菜单，
+         * 否则刚武装的「将领行动」被当成 stale，攻击点不了。 */
+        if (!already) {
             state.lastMenuIdleAt = 0;
             state.lastMenuIdleKind = '';
             state.liveMenuKind = '';
             state.lastWait = 0;
             state.sawWait = false;
+            state.needWaitBeforeMenu = false;
             state.pendingSys = 0;
             state.menuKind = '';
         }
@@ -1575,7 +1627,9 @@
         state.liveMenuKind = '';
         state.lastWait = 0;
         state.sawWait = false;
+        state.needWaitBeforeMenu = false;
         state.pendingSys = 0;
+        clearEngineMenuLeftover();
         var menu = el('hd-battle-menu');
         if (menu) {
             menu.hidden = true;
@@ -1596,7 +1650,9 @@
             var cls = classifyFightMenu(names);
             if (cls && state.open) {
                 var fight = readFight();
-                if (fight && fight.active && !fight.wait && state.sawWait) {
+                if (fight && fight.active && !fight.wait) {
+                    state.sawWait = true;
+                    state.needWaitBeforeMenu = false;
                     state.lastMenuIdleAt = Date.now();
                     state.lastMenuIdleKind = cls.kind;
                     state.liveMenuKind = cls.kind;
@@ -1607,6 +1663,8 @@
         }
         if (name === 'willCloseMenu') {
             clearLiveFightMenu();
+            clearEngineMenuLeftover();
+            state.needWaitBeforeMenu = true;
             dropQueuedEnters();
             if (state.open) {
                 renderFightMenu();
@@ -1667,7 +1725,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu') != null) {
                     ev.preventDefault();
                     if (!fightMenuLive()) {
-                        rearmFightMenuFromBytes();
+                        recoverFightMenu(readFight());
                         renderFightMenu();
                         if (!fightMenuLive()) {
                             return;
@@ -1703,6 +1761,7 @@
                     dismissResult();
                     return;
                 }
+                recoverFightMenu(fight);
                 if (fightMenuLive()) {
                     return;
                 }
@@ -1891,6 +1950,9 @@
             return { miss: name, wait: !!(readFight() && readFight().wait) };
         },
         pickMenuName: pickFightMenuName,
+        recoverMenu: function () {
+            return recoverFightMenu(readFight());
+        },
         legalEnter: legalEnter,
         dismissFightTip: dismissFightTip,
         openSystemMenu: toggleSystemMenu,
@@ -1942,6 +2004,7 @@
                 menuLive: fightMenuLive(),
                 menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
                 liveMenuKind: state.liveMenuKind,
+                needWaitBeforeMenu: state.needWaitBeforeMenu,
                 lastWait: state.lastWait,
                 queueLen: state.queue.length,
                 sawWait: state.sawWait,
