@@ -310,6 +310,11 @@
     }
 
     function engineSendKey(code) {
+        if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
+            !Number(baye.data.g_hdFightOver)) {
+            console.warn('[hd-system-ui] blocked key during fight', code);
+            return false;
+        }
         if (code === VK.EXIT && cityMenuHoldExit()) {
             console.warn('[hd-system-ui] blocked EXIT during BattleMake');
             return false;

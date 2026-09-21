@@ -62,7 +62,10 @@
         lastOccupy: null,
         forcedOverPoke: 0,
         queue: [],
-        sending: false
+        sending: false,
+        fightTip: '',
+        lastInvalidAt: 0,
+        lastBlockedEnter: ''
     };
 
     function readStorage(key, fallback) {
@@ -337,8 +340,14 @@
             state.sawWait = true;
         }
         if (state.pendingSys && w === 1 && !fight.over) {
-            state.pendingSys = 0;
-            engineSendKey(VK.EXIT);
+            /* leftover 大地图 EXIT 不能打进瞄准/走格，否则取消命令或报命令无效。 */
+            var phase = Number(fight.phase) || 0;
+            if (phase === 1 || !phase) {
+                state.pendingSys = 0;
+                engineSendKey(VK.EXIT);
+            } else {
+                state.pendingSys = 0;
+            }
         }
     }
 
@@ -461,9 +470,123 @@
         return null;
     }
 
+    function syncFocusFromEngine() {
+        var fight = readFight();
+        var data = engineData();
+        var fx = fight && fight.focusX != null ? Number(fight.focusX) : readNumber(data, 'g_FoucsX');
+        var fy = fight && fight.focusY != null ? Number(fight.focusY) : readNumber(data, 'g_FoucsY');
+        if (fx != null && isFinite(fx)) {
+            state.focus.x = fx;
+        }
+        if (fy != null && isFinite(fy)) {
+            state.focus.y = fy;
+        }
+        return { x: state.focus.x, y: state.focus.y };
+    }
+
+    function inAtkRng(x, y) {
+        var data = engineData();
+        var rng = data && data.g_FgtAtkRng;
+        if (!rng) {
+            return null;
+        }
+        var size = readNumber(rng, 0);
+        var ox = readNumber(rng, 1);
+        var oy = readNumber(rng, 2);
+        if (!size) {
+            return null;
+        }
+        var dx = x - ox;
+        var dy = y - oy;
+        if (dx < 0 || dy < 0 || dx >= size || dy >= size) {
+            return false;
+        }
+        return readNumber(rng, 3 + dx + dy * size) === 1;
+    }
+
+    function canMoveTo(x, y) {
+        var data = engineData();
+        var path = data && data.g_FightPath;
+        if (!path) {
+            return null;
+        }
+        var pathSX = readNumber(data, 'g_PathSX');
+        var pathSY = readNumber(data, 'g_PathSY');
+        var useSX = readNumber(data, 'g_PUseSX');
+        var useSY = readNumber(data, 'g_PUseSY');
+        if (pathSX == null || pathSY == null || useSX == null || useSY == null) {
+            return null;
+        }
+        var px = x - pathSX + useSX;
+        var py = y - pathSY + useSY;
+        var mrg = 15;
+        if (px < 0 || py < 0 || px >= mrg || py >= mrg) {
+            return false;
+        }
+        var v = readNumber(path, py * mrg + px);
+        return v != null && v <= 0x80;
+    }
+
+    function legalEnter(tile, unit, fight) {
+        var phase = fight && fight.phase != null ? Number(fight.phase) : 0;
+        var aimType = fight && fight.aimType != null ? Number(fight.aimType) : 0xff;
+        if (!fight || !fight.wait || fight.over) {
+            return false;
+        }
+        if (phase === 2) {
+            if (unit && unit.side === 'enemy') {
+                return false;
+            }
+            var mv = canMoveTo(tile.x, tile.y);
+            if (mv === false) {
+                return false;
+            }
+            return !unit || unit.side === 'player';
+        }
+        if (phase === 3) {
+            if (!unit) {
+                return false;
+            }
+            var rng = inAtkRng(tile.x, tile.y);
+            if (rng === false) {
+                return false;
+            }
+            if (aimType === 0) {
+                return unit.side === 'enemy';
+            }
+            return true;
+        }
+        /* pick-unit 或未知：只点己方将，绝不在瞄准残留时对己方回车。 */
+        return !!(unit && unit.side === 'player' && phase !== 3);
+    }
+
+    function dismissFightTip() {
+        state.fightTip = '';
+        try {
+            if (window.baye && baye.data && baye.data.g_hdFightTipGbk != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdFightTipGbk = '';
+            }
+        } catch (e) {}
+        applyChrome();
+    }
+
+    function noteFightTip(fight) {
+        var tip = fight && fight.tip ? String(fight.tip) : '';
+        if (/命令无效|无目标/.test(tip)) {
+            state.fightTip = tip.replace(/\s+$/g, '');
+            state.lastInvalidAt = Date.now();
+        } else if (!tip) {
+            if (state.fightTip && Date.now() - (state.lastInvalidAt || 0) > 1600) {
+                state.fightTip = '';
+            }
+        }
+    }
+
     function walkFocusTo(x, y, thenEnter) {
-        var fx = state.focus.x;
-        var fy = state.focus.y;
+        var cur = syncFocusFromEngine();
+        var fx = cur.x;
+        var fy = cur.y;
         if (fx == null || fy == null) {
             if (thenEnter) {
                 enqueueKeys([VK.ENTER], 50);
@@ -479,6 +602,28 @@
             keys.push(VK.ENTER);
         }
         enqueueKeys(keys, 45);
+    }
+
+    function clickBattleTile(x, y) {
+        refresh();
+        var fight = readFight();
+        noteFightTip(fight);
+        var tile = { x: x, y: y };
+        var u = unitAt(x, y);
+        var enter = legalEnter(tile, u, fight);
+        if (!enter && fight && fight.wait && /命令无效|无目标/.test(state.fightTip || (fight && fight.tip) || '')) {
+            dismissFightTip();
+        }
+        if (!enter && fight && Number(fight.phase) === 3 && u && u.side === 'player') {
+            state.lastBlockedEnter = 'aim-own';
+            console.warn('[hd-battle] blocked ENTER on own unit during aim');
+        }
+        if (!enter && fight && Number(fight.phase) === 3 && (!u || inAtkRng(x, y) === false)) {
+            state.lastBlockedEnter = u ? 'aim-oor' : 'aim-empty';
+            console.warn('[hd-battle] blocked ENTER during aim', state.lastBlockedEnter);
+        }
+        walkFocusTo(x, y, enter);
+        return { x: x, y: y, enter: enter, unit: u && u.name, phase: fight && fight.phase, tip: state.fightTip };
     }
 
     function clearFightBridge() {
@@ -521,6 +666,9 @@
         state.sawWait = false;
         state.pendingSys = 0;
         state.lastHook = '';
+        state.fightTip = '';
+        state.lastInvalidAt = 0;
+        state.lastBlockedEnter = '';
         clearFightBridge();
         if (state.open) {
             closeBattle({ silent: true });
@@ -945,7 +1093,18 @@
                 ' · 将=' + state.units.length +
                 ' · 图=' + (state.mapW ? (state.mapW + '×' + state.mapH) : '无') +
                 (state.resultText ? ' · ' + state.resultText : (over ? ' · 结束码=' + over : '')) +
-                (occupyLine() ? ' · ' + occupyLine() : '');
+                (occupyLine() ? ' · ' + occupyLine() : '') +
+                (state.fightTip ? ' · ' + state.fightTip : '');
+        }
+        var tipBanner = el('hd-battle-tip');
+        if (tipBanner) {
+            if (state.fightTip && !state.resultText) {
+                tipBanner.hidden = false;
+                tipBanner.textContent = state.fightTip + '（点此关掉，不重发命令）';
+            } else {
+                tipBanner.hidden = true;
+                tipBanner.textContent = '';
+            }
         }
         var banner = el('hd-battle-result');
         if (banner) {
@@ -1097,7 +1256,9 @@
         state.mapH = info.mapH;
         state.tiles = info.tiles;
         state.focus = info.focus;
-        noteFightWait(readFight());
+        var fightNow = readFight();
+        noteFightWait(fightNow);
+        noteFightTip(fightNow);
         renderFightMenu();
         applyChrome();
         draw();
@@ -1290,6 +1451,11 @@
                     dismissResult();
                     return;
                 }
+                if (t.getAttribute && t.getAttribute('data-hd-battle-tip') != null) {
+                    ev.preventDefault();
+                    dismissFightTip();
+                    return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-close') != null) {
                     ev.preventDefault();
                     if (state.resultText) {
@@ -1315,8 +1481,11 @@
                     return;
                 }
                 ev.preventDefault();
-                var u = unitAt(tile.x, tile.y);
-                walkFocusTo(tile.x, tile.y, !!(fight && fight.wait && u && u.side === 'player'));
+                if (state.fightTip && Date.now() - (state.lastInvalidAt || 0) < 400) {
+                    dismissFightTip();
+                    return;
+                }
+                clickBattleTile(tile.x, tile.y);
             }
         });
     }
@@ -1442,17 +1611,20 @@
         onEngineHook: onEngineHook,
         onEngineFight: onEngineFight,
         clickOwnUnit: function () {
+            refresh();
             var fight = readFight();
             var i;
             for (i = 0; i < state.units.length; i++) {
                 var u = state.units[i];
                 if (u && u.side === 'player' && u.x != null && u.y != null) {
-                    walkFocusTo(u.x, u.y, !!(fight && fight.wait));
-                    return { x: u.x, y: u.y, i: u.i, wait: !!(fight && fight.wait) };
+                    return clickBattleTile(u.x, u.y);
                 }
             }
-            return null;
+            return { wait: !!(fight && fight.wait), phase: fight && fight.phase };
         },
+        clickTile: clickBattleTile,
+        legalEnter: legalEnter,
+        dismissFightTip: dismissFightTip,
         openSystemMenu: toggleSystemMenu,
         debugPreview: function () {
             return enterBattle({ preview: true, hook: 'debugPreview' });
@@ -1503,6 +1675,17 @@
                 liveMenuKind: state.liveMenuKind,
                 sawWait: state.sawWait,
                 pendingSys: state.pendingSys,
+                fightTip: state.fightTip,
+                lastInvalidAt: state.lastInvalidAt,
+                lastBlockedEnter: state.lastBlockedEnter,
+                phase: (function () {
+                    var f = readFight();
+                    return f ? f.phase : null;
+                }()),
+                aimType: (function () {
+                    var f = readFight();
+                    return f ? f.aimType : null;
+                }()),
                 resultDismissed: state.resultDismissed,
                 occupyPending: state.occupyPending,
                 occupyDone: state.occupyDone,

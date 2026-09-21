@@ -288,7 +288,7 @@
     }
 
     function leftoverFarmReport(text) {
-        return /农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将/.test(String(text || ''));
+        return /农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将|命令无效|无目标/.test(String(text || ''));
     }
 
     function applyChrome() {

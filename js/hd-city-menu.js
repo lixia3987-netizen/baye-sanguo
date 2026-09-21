@@ -232,6 +232,11 @@
     }
 
     function engineSendKey(code, reason) {
+        if (fightIsActive() && reason !== 'after-fight-enthron' && reason !== 'after-fight-report') {
+            state.lastBlockedExit = 'fight-' + (reason || 'key');
+            console.warn('[hd-city-menu] blocked', code === VK.EXIT ? 'EXIT' : code, 'during fight', reason || '');
+            return false;
+        }
         if (code === VK.ENTER && holdEnterForFood() && !allowEnterDuringFoodHold(reason)) {
             state.lastBlockedEnter = reason || 'unknown';
             console.warn('[hd-city-menu] blocked ENTER until GetFood confirm', state.lastBlockedEnter);
@@ -264,6 +269,10 @@
     }
 
     function enqueueKeys(codes, gap, reason) {
+        if (fightIsActive() && reason !== 'after-fight-enthron' && reason !== 'after-fight-report') {
+            console.warn('[hd-city-menu] blocked queue during fight', reason || '');
+            return;
+        }
         if (state.handoff && reason !== 'strategy-end' && reason !== 'strategy-end-enter') {
             return;
         }
@@ -1865,7 +1874,7 @@
     }
 
     function leftoverFarmReportText(text) {
-        return /农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将/.test(String(text || ''));
+        return /农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将|命令无效|无目标/.test(String(text || ''));
     }
 
     function leftoverMarchOverlay() {

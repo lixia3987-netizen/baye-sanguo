@@ -9,6 +9,11 @@
 #define BAYE_HD_MENU_MAX 2048
 #define BAYE_HD_NAME_SLOT 8
 #define BAYE_HD_FIGHT_RESULT_MAX 64
+#define BAYE_HD_FIGHT_TIP_MAX 16
+#define BAYE_HD_FIGHT_PHASE_NONE 0
+#define BAYE_HD_FIGHT_PHASE_PICK 1
+#define BAYE_HD_FIGHT_PHASE_MOVE 2
+#define BAYE_HD_FIGHT_PHASE_AIM  3
 #define BAYE_HD_HELP_MAX 1024
 #define BAYE_HD_SKILL_MAX 10
 #define BAYE_HD_SKILL_NAME 8
@@ -51,6 +56,10 @@ void baye_hd_set_king_highlight(U32 index, PersonID id);
 void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index);
 void baye_hd_set_fight(U8 active, U8 over);
 void baye_hd_set_fight_wait(U8 wait);
+void baye_hd_set_fight_phase(U8 phase);
+void baye_hd_set_fight_aim(U8 type);
+void baye_hd_set_fight_tip(const U8* gbk);
+void baye_hd_clear_fight_tip(void);
 void baye_hd_set_help(const U8* gbk);
 void baye_hd_set_movie(U16 speId, U8 active);
 void baye_hd_begin_spe(U8 kind);

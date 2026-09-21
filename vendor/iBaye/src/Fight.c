@@ -305,6 +305,7 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
         return idx;
     FgtLoadToMem(dFgtNoAim,naim);
     FgtLoadToMem(dFgtErrAim,err);
+    baye_hd_set_fight_aim(type);
     FgtShowAtRng();
     while(1)
     {
@@ -319,6 +320,7 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
         if(0xFF == pidx)
         {
             FgtStrShowV(STA_XXX,STA_XXY,naim);
+            baye_hd_set_fight_tip(naim);
             continue;
         }
         if(FgtChkRng())
@@ -333,6 +335,7 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
                 if(!same) break;
         }
         FgtStrShowV(STA_XXX,STA_XXY,err);
+        baye_hd_set_fight_tip(err);
     }
     return pidx;
 }
@@ -512,7 +515,10 @@ U8 FgtGenMove(U8 idx)
         }
 
         if(cannotMoveTo)
+        {
             FgtStrShowV(STA_SX+74,STA_SY+2,buf);
+            baye_hd_set_fight_tip(buf);
+        }
         else
             break;
     }
@@ -582,7 +588,14 @@ U8 FgtGetControl(void)
 U8 FgtGetFoucsInner(void (*chkcondition)(bool*flag));
 U8 FgtGetFoucs(void (*chkcondition)(bool*flag)) {
     int prev = SysScrollingTimerOpen(5);
+    U8 phase = BAYE_HD_FIGHT_PHASE_PICK;
+    if (chkcondition == FgtMoveBack) {
+        phase = BAYE_HD_FIGHT_PHASE_MOVE;
+    } else if (chkcondition == FgtCmdBack) {
+        phase = BAYE_HD_FIGHT_PHASE_AIM;
+    }
     /* HD 壳/CDP：FgtGetFoucs 正在 GamGetMsg，按键不会被 GamDelay(false) 吃掉。 */
+    baye_hd_set_fight_phase(phase);
     baye_hd_set_fight_wait(1);
     U8 rv = FgtGetFoucsInner(chkcondition);
     baye_hd_set_fight_wait(0);

@@ -26,7 +26,10 @@ U16 g_hdMenuIndex = 0;
 U8 g_hdFightActive = 0;
 U8 g_hdFightOver = 0;
 U8 g_hdFightWait = 0;
+U8 g_hdFightPhase = 0;
+U8 g_hdFightAimType = 0xff;
 U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
+U8 g_hdFightTipGbk[BAYE_HD_FIGHT_TIP_MAX];
 
 U32 g_hdQtyValue = 0;
 U32 g_hdQtyMin = 0;
@@ -152,11 +155,17 @@ void baye_hd_set_fight(U8 active, U8 over)
         /* New GamFight: never keep leftover 全军覆没 / 大获全胜 / wait. */
         over = 0;
         g_hdFightWait = 0;
+        g_hdFightPhase = 0;
+        g_hdFightAimType = 0xff;
         g_hdFightResultGbk[0] = 0;
+        g_hdFightTipGbk[0] = 0;
     } else if (over == 0) {
         /* Explicit reset at GamFight entry / 策略结束 prepare. */
         g_hdFightWait = 0;
+        g_hdFightPhase = 0;
+        g_hdFightAimType = 0xff;
         g_hdFightResultGbk[0] = 0;
+        g_hdFightTipGbk[0] = 0;
     }
     g_hdFightActive = active;
     g_hdFightOver = over;
@@ -181,6 +190,35 @@ void baye_hd_set_fight(U8 active, U8 over)
 void baye_hd_set_fight_wait(U8 wait)
 {
     g_hdFightWait = wait;
+    if (!wait) {
+        g_hdFightPhase = 0;
+    }
+}
+
+void baye_hd_set_fight_phase(U8 phase)
+{
+    g_hdFightPhase = phase;
+    if (phase != BAYE_HD_FIGHT_PHASE_AIM) {
+        g_hdFightAimType = 0xff;
+    }
+    if (phase) {
+        g_hdFightTipGbk[0] = 0;
+    }
+}
+
+void baye_hd_set_fight_aim(U8 type)
+{
+    g_hdFightAimType = type;
+}
+
+void baye_hd_set_fight_tip(const U8* gbk)
+{
+    copy_gbk(g_hdFightTipGbk, BAYE_HD_FIGHT_TIP_MAX, gbk);
+}
+
+void baye_hd_clear_fight_tip(void)
+{
+    g_hdFightTipGbk[0] = 0;
 }
 
 void baye_hd_set_help(const U8* gbk)
@@ -433,7 +471,10 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdFightActive, U8);
     DEFADDF(g_hdFightOver, U8);
     DEFADDF(g_hdFightWait, U8);
+    DEFADDF(g_hdFightPhase, U8);
+    DEFADDF(g_hdFightAimType, U8);
     DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
+    DEFADD_GBKARR(g_hdFightTipGbk, sizeof(g_hdFightTipGbk));
     DEFADDF(g_hdQtyValue, U32);
     DEFADDF(g_hdQtyMin, U32);
     DEFADDF(g_hdQtyMax, U32);

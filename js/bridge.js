@@ -1268,10 +1268,20 @@ function baye_bridge_init() {
             if (!result && d && d.g_hdFightResultGbk) {
                 result = hdDecodeSlice(d.g_hdFightResultGbk, 0, 64);
             }
+            var tip = '';
+            if (d && typeof d.g_hdFightTipGbk === 'string') {
+                tip = d.g_hdFightTipGbk;
+            }
+            if (!tip && d && d.g_hdFightTipGbk) {
+                tip = hdDecodeSlice(d.g_hdFightTipGbk, 0, 16);
+            }
             return {
                 active: hdReadNum(d, 'g_hdFightActive'),
                 over: hdReadNum(d, 'g_hdFightOver'),
                 wait: hdReadNum(d, 'g_hdFightWait'),
+                phase: hdReadNum(d, 'g_hdFightPhase'),
+                aimType: hdReadNum(d, 'g_hdFightAimType'),
+                tip: tip,
                 skip: hdReadNum(d, 'g_hdFightSkip'),
                 result: result,
                 cityIndex: d && d.g_FgtParam ? hdReadNum(d.g_FgtParam, 'CityIndex') : null,

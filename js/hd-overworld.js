@@ -1912,6 +1912,23 @@
         }
     }
 
+    function fightLive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var f = baye.hd.fight();
+                if (f && f.active && !f.over) {
+                    return true;
+                }
+            }
+            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
+                !Number(baye.data.g_hdFightOver)) {
+                return true;
+            }
+        } catch (e) {}
+        return !!(global.BayeHdBattle && typeof BayeHdBattle.isOpen === 'function' &&
+            BayeHdBattle.isOpen() && !global.BayeHdBattle.debugSnapshot().preview);
+    }
+
     function cityMenuHoldExit() {
         return !!(global.BayeHdCityMenu &&
             typeof BayeHdCityMenu.holdExit === 'function' &&
@@ -1943,6 +1960,10 @@
 
     function engineSendKey(code) {
         var exitCode = (window.baye && baye.VK_EXIT) || VK.EXIT;
+        if (fightLive()) {
+            console.warn('[hd-overworld] blocked key during fight', code);
+            return false;
+        }
         if (code === exitCode && (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending())) {
             console.warn('[hd-overworld] blocked EXIT during BattleMake');
             return false;
@@ -2711,6 +2732,10 @@
 
     function leaveClassicMenu(hint, opts) {
         opts = opts || {};
+        if (fightLive()) {
+            console.warn('[hd-overworld] blocked leaveMenu EXIT during fight');
+            return;
+        }
         if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
             console.warn('[hd-overworld] blocked leaveMenu EXIT during BattleMake');
             state.hint = hint || '出征进行中，不能关菜单。';
