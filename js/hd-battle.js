@@ -8,7 +8,16 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
+    var HD_BATTLE_VER = '20260922g';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
+    try {
+        global.BAYE_ASSET_VER = HD_BATTLE_VER;
+        var badgeEl = global.document && document.getElementById('baye-build-badge');
+        if (badgeEl) {
+            badgeEl.textContent = HD_BATTLE_VER;
+            badgeEl.setAttribute('data-baye-asset-ver', HD_BATTLE_VER);
+        }
+    } catch (eBadge) {}
     var FIGHT_HOOKS = {
         fightOpenMainMenu: 1,
         meetFight: 1,
@@ -80,7 +89,9 @@
         drivingAct: false,
         refreshing: false,
         pickingMenu: false,
-        stackDepth: 0
+        clickingTile: false,
+        stackDepth: 0,
+        driveTimer: 0
     };
 
     function readStorage(key, fallback) {
@@ -386,10 +397,58 @@
         state.autoActTries = 0;
         state.drivingAct = false;
         state.pickingMenu = false;
+        state.clickingTile = false;
+        if (state.driveTimer) {
+            clearTimeout(state.driveTimer);
+            state.driveTimer = 0;
+        }
+    }
+
+    function scheduleDrive(why) {
+        if (state.driveTimer) {
+            return;
+        }
+        state.driveTimer = setTimeout(function () {
+            state.driveTimer = 0;
+            runScheduledDrive(why || 'tick');
+        }, 0);
+    }
+
+    function runScheduledDrive(why) {
+        if (state.refreshing || state.clickingTile || state.drivingAct) {
+            scheduleDrive(why || 'busy');
+            return;
+        }
+        if (!enterStack('runScheduledDrive')) {
+            console.warn('[hd-battle] stack-guard drop', why);
+            return;
+        }
+        try {
+            if (state.pendingActPick != null && !state.pendingApproach &&
+                wantsWalkBeforeAct(state.pendingActPick)) {
+                var fight0 = readFight();
+                var phase0 = fight0 ? (Number(fight0.phase) || 0) : 0;
+                if (phase0 === 2) {
+                    var foe = nearestEnemy();
+                    if (foe) {
+                        state.pendingApproach = { x: foe.x, y: foe.y };
+                    }
+                }
+            }
+            if (state.pendingApproach) {
+                driveApproach();
+                return;
+            }
+            if (state.pendingActPick != null) {
+                drivePlayerToActMenu();
+            }
+        } finally {
+            leaveStack();
+        }
     }
 
     function enterStack(name) {
-        if (state.stackDepth >= 8) {
+        if (state.stackDepth >= 4) {
             console.warn('[hd-battle] stack-guard', name, state.stackDepth);
             return false;
         }
@@ -499,6 +558,10 @@
     }
 
     function clickWaitingOwn() {
+        if (state.clickingTile || state.refreshing) {
+            scheduleDrive('pick-own-busy');
+            return null;
+        }
         var i;
         var fallback = null;
         for (i = 0; i < state.units.length; i++) {
@@ -564,12 +627,14 @@
                     state.pendingApproach = { x: foe.x, y: foe.y };
                 }
             }
-            return driveApproach();
+            scheduleDrive('act-approach');
+            return true;
         }
         if (state.sending || state.queue.length) {
             return false;
         }
         if (Date.now() - (state.lastAutoActAt || 0) < 220) {
+            scheduleDrive('act-throttle');
             return false;
         }
         if (state.autoActTries > 8) {
@@ -577,17 +642,19 @@
         }
         state.lastAutoActAt = Date.now();
         state.autoActTries += 1;
-        state.drivingAct = true;
-        try {
-            if (phase === 2) {
-                engineSendKey(VK.ENTER);
-                return true;
-            }
-            clickWaitingOwn();
+        if (phase === 2) {
+            enqueueKeys([VK.ENTER], 55);
             return true;
-        } finally {
-            state.drivingAct = false;
         }
+        state.drivingAct = true;
+        setTimeout(function () {
+            try {
+                clickWaitingOwn();
+            } finally {
+                state.drivingAct = false;
+            }
+        }, 0);
+        return true;
         } finally {
             leaveStack();
         }
@@ -648,17 +715,25 @@
                 return true;
             }
             /* 已贴脸或无更近格：落定当前格，随后 pendingActPick 选攻击。 */
-            engineSendKey(VK.ENTER);
+            enqueueKeys([VK.ENTER], 55);
             return true;
         }
         if (phase === 1 || phase === 0) {
-            /* 选将阶段不得同步 click→refresh→driveApproach，否则待机后爆栈。 */
-            state.drivingAct = true;
-            try {
-                clickWaitingOwn();
-            } finally {
-                state.drivingAct = false;
+            /* 选将只异步点己方，禁止 click→refresh→driveApproach 同步爆栈。 */
+            if (Date.now() - (state.lastAutoActAt || 0) < 80) {
+                scheduleDrive('approach-pick-throttle');
+                return false;
             }
+            state.lastAutoActAt = Date.now();
+            state.drivingAct = true;
+            setTimeout(function () {
+                try {
+                    clickWaitingOwn();
+                } finally {
+                    state.drivingAct = false;
+                    scheduleDrive('after-pick');
+                }
+            }, 0);
             return true;
         }
         return false;
@@ -821,7 +896,7 @@
             state.autoActTries = 0;
             state.lastAutoActAt = 0;
             state.menuIndex = index;
-            drivePlayerToActMenu();
+            scheduleDrive('menu-pick');
             return;
         }
         var cur = state.menuIndex;
@@ -1143,10 +1218,13 @@
         if (!enterStack('clickBattleTile')) {
             return { x: x, y: y, enter: false, blocked: 'stack-guard' };
         }
+        var tookClick = false;
         try {
-        if (!state.refreshing && !state.drivingAct) {
-            refresh();
+        if (state.clickingTile) {
+            return { x: x, y: y, enter: false, blocked: 'reentry' };
         }
+        state.clickingTile = true;
+        tookClick = true;
         var fight = readFight();
         noteFightTip(fight);
         var tile = { x: x, y: y };
@@ -1158,7 +1236,7 @@
             state.lastBlockedEnter = 'aim-oor';
             state.fightTip = '超出攻击范围，先走格靠近。';
             console.warn('[hd-battle] aim-oor, cancel aim', x, y);
-            engineSendKey(VK.EXIT);
+            enqueueKeys([VK.EXIT], 55);
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
@@ -1171,7 +1249,7 @@
                 state.pendingActPick = 0;
             }
             console.log('[hd-battle] pick-then-approach', x, y);
-            clickWaitingOwn();
+            scheduleDrive('pick-approach');
             return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'pick-approach' };
         }
         if (phase === 2 && u && u.side === 'enemy') {
@@ -1221,6 +1299,9 @@
             tip: state.fightTip, inRng: inRng
         };
         } finally {
+            if (tookClick) {
+                state.clickingTile = false;
+            }
             leaveStack();
         }
     }
@@ -1967,18 +2048,15 @@
         if (state.pendingActPick != null && !wantsWalkBeforeAct(state.pendingActPick)) {
             state.pendingApproach = null;
         }
-        if (state.pendingApproach) {
-            driveApproach();
-        }
-        if (state.pendingActPick != null) {
-            drivePlayerToActMenu();
-        }
         noteFightTip(fightNow);
         renderFightMenu();
         applyChrome();
         draw();
         } finally {
             state.refreshing = false;
+        }
+        if (state.pendingApproach || state.pendingActPick != null) {
+            scheduleDrive('refresh');
         }
     }
 
@@ -2484,6 +2562,8 @@
                 autoActTries: state.autoActTries,
                 stackDepth: state.stackDepth,
                 pickingMenu: state.pickingMenu,
+                clickingTile: state.clickingTile,
+                battleVer: HD_BATTLE_VER,
                 why: whyMenuHidden(),
                 queueLen: state.queue.length,
                 sawWait: state.sawWait,
