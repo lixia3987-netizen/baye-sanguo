@@ -77,7 +77,8 @@
         pendingApproach: null,
         lastAutoActAt: 0,
         autoActTries: 0,
-        drivingAct: false
+        drivingAct: false,
+        refreshing: false
     };
 
     function readStorage(key, fallback) {
@@ -609,7 +610,13 @@
             return true;
         }
         if (phase === 1 || phase === 0) {
-            clickWaitingOwn();
+            /* 选将阶段不得同步 click→refresh→driveApproach，否则待机后爆栈。 */
+            state.drivingAct = true;
+            try {
+                clickWaitingOwn();
+            } finally {
+                state.drivingAct = false;
+            }
             return true;
         }
         return false;
@@ -745,6 +752,13 @@
     }
 
     function pickFightMenu(index) {
+        if (index === 2 || index === 3) {
+            /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
+            state.pendingApproach = null;
+            if (index === 3) {
+                state.pendingActPick = null;
+            }
+        }
         var fight = readFight();
         var info = readFightMenu();
         if ((fight && fight.wait) || (info && info.synthetic)) {
@@ -1068,7 +1082,9 @@
     }
 
     function clickBattleTile(x, y) {
-        refresh();
+        if (!state.refreshing && !state.drivingAct) {
+            refresh();
+        }
         var fight = readFight();
         noteFightTip(fight);
         var tile = { x: x, y: y };
@@ -1864,6 +1880,11 @@
     }
 
     function refresh() {
+        if (state.refreshing) {
+            return;
+        }
+        state.refreshing = true;
+        try {
         var info = sampleFight();
         state.units = info.units;
         state.mapW = info.mapW;
@@ -1888,6 +1909,9 @@
         renderFightMenu();
         applyChrome();
         draw();
+        } finally {
+            state.refreshing = false;
+        }
     }
 
     function loop() {
@@ -2013,6 +2037,8 @@
             clearLiveFightMenu();
             clearEngineMenuLeftover();
             state.needWaitBeforeMenu = true;
+            state.pendingApproach = null;
+            state.pendingActPick = null;
             dropQueuedEnters();
             if (state.open) {
                 renderFightMenu();
