@@ -725,12 +725,13 @@
                 mapCity: engineMapCityIndex(),
                 inCitySet: engineInGetCitySet()
             }));
-            /* snap 后 g_hdMapCity 常仍是出发城；只在引擎已标到目标城时才跳过走格。
-             * 邻城留一步键，让 GetCitySet 刷新 mapCity，再靠坐标 ENTER。 */
+            /* snap 后 g_hdMapCity 常仍是出发城。已标到目标才跳过走格；
+             * 否则左右轻挪一格让 GetCitySet 重读 setx/sety，不要立刻 ENTER
+             * （会把「选择目标」 overlay 关掉并离开 GetCitySet）。 */
             if ((snapOk || cursorOnCity(cityIndex)) && engineMapCityIndex() === cityIndex) {
                 dirs = [];
-            } else if ((snapOk || cursorOnCity(cityIndex)) && dirs.length > 1) {
-                dirs = dirs.slice(0, 1);
+            } else if (snapOk || cursorOnCity(cityIndex)) {
+                dirs = (to.x > 0) ? [VK.LEFT, VK.RIGHT] : [VK.RIGHT, VK.LEFT];
             }
         }
         state.walkToken = (state.walkToken || 0) + 1;
@@ -784,9 +785,24 @@
                 }
                 var shown = engineMapCityIndex();
                 var onTarget = landed() || cursorOnCity(cityIndex);
-                /* setx/sety 已在目标格时立刻 ENTER。g_hdMapCity 常等到 GetCitySet
-                 * 返回才改，等 mapCity===目标会永远发不出确认。 */
-                if (shown === cityIndex || (onTarget && n >= 2)) {
+                if (chooseTargetOverlay()) {
+                    noteStep4('wait-dismiss-tip', { cityIndex: cityIndex, attempt: opts.attempt });
+                    engineSendKey(VK.ENTER);
+                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                        BayeHdDialog.close({ silent: true });
+                    }
+                    setTimeout(function () {
+                        waitShown(n + 1);
+                    }, 200);
+                    return;
+                }
+                if (shown === cityIndex) {
+                    sendEnter();
+                    return;
+                }
+                /* 格已在目标、mapCity 仍是出发城：等轻挪刷新。太早 ENTER
+                 * 会关掉「选择目标」并离开 GetCitySet。 */
+                if (onTarget && n >= 12) {
                     sendEnter();
                     return;
                 }
@@ -807,7 +823,7 @@
                     }
                     return;
                 }
-                if (n >= 16) {
+                if (n >= 20) {
                     if (requireLanded && !onTarget) {
                         state.marchHint = '光标未落到目标城，未向引擎确认。再点一次。';
                         noteStep4('enter-blocked-cursor', { cityIndex: cityIndex });
