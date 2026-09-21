@@ -266,11 +266,14 @@
             state.marchReady || freshMarchOk()) {
             return false;
         }
+        /* HD 还停在出征选将层：g_hdMenuBytes 残留「侦察/开垦」不是真离开 BattleMake。 */
+        if (state.layer === 'deep' && (state.deepLabel === '出征' || state.deepKind === 'person-city')) {
+            return true;
+        }
         if (engineLeftBattleMake()) {
             return false;
         }
-        return state.wizardStep === 'persons' ||
-            (state.layer === 'deep' && (state.deepLabel === '出征' || state.deepKind === 'person-city'));
+        return state.wizardStep === 'persons';
     }
 
     function liveWaitGetFoodNow() {
@@ -377,8 +380,6 @@
             return true;
         }
         var sticky = stickyMarchBanner();
-        var staleWizard = !!(state.battleMake || state.campaignPick || state.personExitSent ||
-            state.confirmingTarget || (wizardInMarch() && state.wizardStep !== 'march-ok'));
         if (state.marchReady || freshMarchOk() || state.handoff) {
             if (sticky || state.battleMake || state.campaignPick || state.personExitSent) {
                 state.battleMake = false;
@@ -395,7 +396,13 @@
             }
             return false;
         }
-        if (staleWizard || sticky) {
+        /* 还在出征深层面板（选将/选粮/选城）时不要当 leftover 整壳清掉。
+         * 征兵后残留「侦察」会让 live 误判，sweep-stale 会拆掉刚点的出征。 */
+        if (state.layer === 'deep' && (state.deepLabel === '出征' || state.deepKind === 'person-city') &&
+            !state.fightEndedThisMarch) {
+            return false;
+        }
+        if (sticky) {
             logMarchBanner('sweep-stale', why);
             releaseMarchShell(why || 'sweep-stale');
             return true;
