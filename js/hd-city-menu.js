@@ -2027,7 +2027,8 @@
                 var leftBattle = engineLeftBattleMake();
                 var stillPick = engineStillInPersonPick();
                 var qNow = engineQty();
-                var minMaxZero = !(qNow && (Number(qNow.min) >= 1 || Number(qNow.max) >= 1));
+                /* 只有 min≥1 且 max≥1 才是 GetFood。征兵残留 min=0/max=940 也要再发 EXIT。 */
+                var minMaxZero = !qtyLooksLikeGetFood(qNow);
                 /* 开垦后水灾/选择目标残留不能在 1s 内再 EXIT：会取消刚打开的 GetFood。
                  * 0 点将就 EXIT 会离开 BattleMake；遮罩吃掉 EXIT 时 lastExit 为空，先补发完成选将。 */
                 if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
