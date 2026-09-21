@@ -1415,6 +1415,11 @@
          * BattleMake 已结束选将后引擎不在 PlayerTactic：pick=1 只是残留旗，
          * 再当成 leftover GetCitySet 会挡住 选择目标 / battlePick=1。
          * 选将中 leftover pick 仍当过图旗（避免被当成活 GetCitySet），但完成选将不得 landOwnedCity。 */
+        try {
+            if (Number(window.baye && baye.data && baye.data.g_FgtOver)) {
+                return false;
+            }
+        } catch (eFgt) {}
         if (freshMarchOk() || state.marchReady || state.confirmingTarget) {
             return false;
         }

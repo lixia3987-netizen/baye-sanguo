@@ -2709,6 +2709,29 @@
     function afterFightMapReady(why) {
         cancelAlign();
         state.hdOpenedMenu = false;
+        var home = -1;
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.debugSnapshot === 'function') {
+                var citySnap = BayeHdCityMenu.debugSnapshot();
+                if (citySnap && citySnap.cityIndex >= 0) {
+                    home = citySnap.cityIndex;
+                }
+            }
+        } catch (eHome) {}
+        if (home < 0) {
+            var i;
+            for (i = 0; i < state.cities.length; i++) {
+                if (state.cities[i] && state.cities[i].kind === 'owned') {
+                    home = state.cities[i].index != null ? state.cities[i].index : i;
+                    if (state.cities[i].name === '天水') {
+                        break;
+                    }
+                }
+            }
+        }
+        if (home >= 0) {
+            snapCursorToCity(home, []);
+        }
         if (state.hint && /未能对齐/.test(state.hint)) {
             state.hint = '已回到大地图。点己方城打开城池菜单。';
         } else if (!cityMenuShellOpen()) {
