@@ -1137,6 +1137,9 @@
         if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
             return { ok: true, phase: engineMarchPhase() };
         }
+        if (thisMarchGetFoodOpened() && !state.sawQtyThisMarch) {
+            state.sawQtyThisMarch = true;
+        }
         if (liveGetFood()) {
             var liveQ = engineQty();
             if (liveQ && Number(liveQ.max) <= 0) {
@@ -2382,6 +2385,8 @@
             return;
         }
         state.dismissedObj = false;
+        state.queue = [];
+        state.sending = false;
         state.personExitSent = true;
         state.personExitTries = 1;
         state.lastPersonExitAt = Date.now();
