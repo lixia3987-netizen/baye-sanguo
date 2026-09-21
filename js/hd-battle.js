@@ -489,13 +489,13 @@
         var data = engineData();
         var rng = data && data.g_FgtAtkRng;
         if (!rng) {
-            return null;
+            return false;
         }
         var size = readNumber(rng, 0);
         var ox = readNumber(rng, 1);
         var oy = readNumber(rng, 2);
         if (!size) {
-            return null;
+            return false;
         }
         var dx = x - ox;
         var dy = y - oy;
@@ -503,6 +503,51 @@
             return false;
         }
         return readNumber(rng, 3 + dx + dy * size) === 1;
+    }
+
+    function dropQueuedEnters() {
+        var kept = [];
+        var i;
+        for (i = 0; i < state.queue.length; i++) {
+            if (state.queue[i].code !== VK.ENTER) {
+                kept.push(state.queue[i]);
+            }
+        }
+        state.queue = kept;
+    }
+
+    function chebyshev(ax, ay, bx, by) {
+        return Math.max(Math.abs(ax - bx), Math.abs(ay - by));
+    }
+
+    function findCloserMoveTile(fromX, fromY, destX, destY) {
+        var stay = chebyshev(fromX, fromY, destX, destY);
+        var best = null;
+        var bestD = stay;
+        var bestFrom = 99;
+        var x;
+        var y;
+        for (y = 0; y < state.mapH; y++) {
+            for (x = 0; x < state.mapW; x++) {
+                if (unitAt(x, y) && !(x === fromX && y === fromY)) {
+                    continue;
+                }
+                if (canMoveTo(x, y) !== true) {
+                    continue;
+                }
+                var d = chebyshev(x, y, destX, destY);
+                var df = chebyshev(x, y, fromX, fromY);
+                if (d < bestD || (d === bestD && d < stay && df < bestFrom)) {
+                    bestD = d;
+                    bestFrom = df;
+                    best = { x: x, y: y };
+                }
+            }
+        }
+        if (best && bestD < stay) {
+            return best;
+        }
+        return null;
     }
 
     function canMoveTo(x, y) {
@@ -530,7 +575,6 @@
 
     function legalEnter(tile, unit, fight) {
         var phase = fight && fight.phase != null ? Number(fight.phase) : 0;
-        var aimType = fight && fight.aimType != null ? Number(fight.aimType) : 0xff;
         if (!fight || !fight.wait || fight.over) {
             return false;
         }
@@ -545,17 +589,8 @@
             return !unit || unit.side === 'player';
         }
         if (phase === 3) {
-            if (!unit) {
-                return false;
-            }
-            var rng = inAtkRng(tile.x, tile.y);
-            if (rng === false) {
-                return false;
-            }
-            if (aimType === 0) {
-                return unit.side === 'enemy';
-            }
-            return true;
+            /* 只有敌方且引擎攻击范围内才回车。读不到范围 = 超距，绝不 ENTER。 */
+            return !!(unit && unit.side === 'enemy' && inAtkRng(tile.x, tile.y) === true);
         }
         /* pick-unit 或未知：只点己方将，绝不在瞄准残留时对己方回车。 */
         return !!(unit && unit.side === 'player' && phase !== 3);
@@ -589,8 +624,10 @@
         var fx = cur.x;
         var fy = cur.y;
         if (fx == null || fy == null) {
+            /* 光标未同步时回车会打在原地，瞄准超距会命令无效。 */
             if (thenEnter) {
-                enqueueKeys([VK.ENTER], 50);
+                state.lastBlockedEnter = 'aim-no-focus';
+                console.warn('[hd-battle] blocked ENTER until focus sync');
             }
             return;
         }
@@ -611,20 +648,58 @@
         noteFightTip(fight);
         var tile = { x: x, y: y };
         var u = unitAt(x, y);
+        var phase = fight && fight.phase != null ? Number(fight.phase) : 0;
+        var inRng = u ? inAtkRng(x, y) : false;
+        if (phase === 3 && u && u.side === 'enemy' && inRng !== true) {
+            dropQueuedEnters();
+            state.lastBlockedEnter = 'aim-oor';
+            state.fightTip = '超出攻击范围，先走格靠近。';
+            console.warn('[hd-battle] blocked ENTER on oor enemy', x, y);
+            applyChrome();
+            return {
+                x: x, y: y, enter: false, unit: u.name, phase: phase,
+                tip: state.fightTip, blocked: 'aim-oor', inRng: false
+            };
+        }
+        if (phase === 2 && u && u.side === 'enemy') {
+            var actor = syncFocusFromEngine();
+            var closer = findCloserMoveTile(actor.x, actor.y, x, y);
+            dropQueuedEnters();
+            state.lastBlockedEnter = closer ? 'move-closer' : 'aim-oor';
+            if (closer) {
+                console.log('[hd-battle] move closer toward', x, y, 'via', closer.x, closer.y);
+                walkFocusTo(closer.x, closer.y, true);
+                return {
+                    x: closer.x, y: closer.y, enter: true, unit: u.name, phase: phase,
+                    toward: { x: x, y: y }, blocked: 'move-closer', inRng: false
+                };
+            }
+            state.fightTip = '超出攻击范围，先走格靠近。';
+            applyChrome();
+            return {
+                x: x, y: y, enter: false, unit: u.name, phase: phase,
+                tip: state.fightTip, blocked: 'aim-oor', inRng: false
+            };
+        }
         var enter = legalEnter(tile, u, fight);
         if (!enter && fight && fight.wait && /命令无效|无目标/.test(state.fightTip || (fight && fight.tip) || '')) {
             dismissFightTip();
         }
-        if (!enter && fight && Number(fight.phase) === 3 && u && u.side === 'player') {
+        if (!enter && phase === 3 && u && u.side === 'player') {
+            dropQueuedEnters();
             state.lastBlockedEnter = 'aim-own';
             console.warn('[hd-battle] blocked ENTER on own unit during aim');
         }
-        if (!enter && fight && Number(fight.phase) === 3 && (!u || inAtkRng(x, y) === false)) {
+        if (!enter && phase === 3 && (!u || inRng !== true)) {
+            dropQueuedEnters();
             state.lastBlockedEnter = u ? 'aim-oor' : 'aim-empty';
             console.warn('[hd-battle] blocked ENTER during aim', state.lastBlockedEnter);
         }
         walkFocusTo(x, y, enter);
-        return { x: x, y: y, enter: enter, unit: u && u.name, phase: fight && fight.phase, tip: state.fightTip };
+        return {
+            x: x, y: y, enter: enter, unit: u && u.name, phase: fight && fight.phase,
+            tip: state.fightTip, inRng: inRng
+        };
     }
 
     function clearFightBridge() {
@@ -1700,6 +1775,12 @@
                 fightTip: state.fightTip,
                 lastInvalidAt: state.lastInvalidAt,
                 lastBlockedEnter: state.lastBlockedEnter,
+                atkRngReady: (function () {
+                    try {
+                        var rng = engineData() && engineData().g_FgtAtkRng;
+                        return !!(rng && readNumber(rng, 0));
+                    } catch (e) { return false; }
+                }()),
                 phase: (function () {
                     var f = readFight();
                     return f ? f.phase : null;

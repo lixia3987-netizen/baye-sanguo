@@ -309,9 +309,24 @@
             BayeHdCityMenu.holdExit());
     }
 
+    function fightLive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var f = baye.hd.fight();
+                if (f && f.active && !f.over) {
+                    return true;
+                }
+            }
+            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
+                !Number(baye.data.g_hdFightOver)) {
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    }
+
     function engineSendKey(code) {
-        if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
-            !Number(baye.data.g_hdFightOver)) {
+        if (fightLive()) {
             console.warn('[hd-system-ui] blocked key during fight', code);
             return false;
         }
@@ -331,6 +346,10 @@
     }
 
     function enqueueKeys(codes, gap) {
+        if (fightLive()) {
+            console.warn('[hd-system-ui] blocked queue during fight');
+            return;
+        }
         gap = gap || 55;
         var i;
         for (i = 0; i < codes.length; i++) {
@@ -689,6 +708,10 @@
     }
 
     function back() {
+        if (fightLive()) {
+            console.warn('[hd-system-ui] blocked back EXIT during fight');
+            return;
+        }
         if (cityMenuHoldExit()) {
             console.warn('[hd-system-ui] blocked back EXIT during BattleMake');
             return;

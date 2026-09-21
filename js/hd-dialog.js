@@ -96,6 +96,10 @@
     }
 
     function engineSendKey(code) {
+        if (fightActive() && (code === VK.EXIT || code === VK.ENTER)) {
+            console.warn('[hd-dialog] blocked key during fight', code);
+            return false;
+        }
         if (code === VK.EXIT && cityMenuHoldExit() && state.kind !== 'qty') {
             console.warn('[hd-dialog] blocked EXIT during BattleMake');
             return false;

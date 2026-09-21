@@ -965,6 +965,9 @@
             return;
         }
         if (name === 'willCloseMenu' && state.phase === 'classic-menu') {
+            if (fightLive()) {
+                return;
+            }
             if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
                 return;
             }
@@ -2164,6 +2167,11 @@
     }
 
     function ensureOnMap(token, tried, then) {
+        if (fightLive()) {
+            tried.push('fight-skip-ensure');
+            then();
+            return;
+        }
         if (readMapPick() === 1) {
             then();
             return;
@@ -2758,6 +2766,9 @@
         opts = opts || {};
         if (fightLive()) {
             console.warn('[hd-overworld] blocked leaveMenu EXIT during fight');
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.close === 'function') {
+                BayeHdCityMenu.close({ silent: true, force: true });
+            }
             return;
         }
         if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
@@ -3309,6 +3320,10 @@
     }
 
     function openClassicCity(index) {
+        if (fightLive()) {
+            console.warn('[hd-overworld] blocked openCity during fight');
+            return;
+        }
         clearAlignFailHint();
         state.selectedIndex = index;
         state.suppressCityIdle = 0;

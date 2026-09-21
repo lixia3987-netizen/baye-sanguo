@@ -457,7 +457,7 @@
     }
 
     function engineSendKey(code, reason) {
-        if (fightIsActive() && reason !== 'after-fight-enthron' && reason !== 'after-fight-report') {
+        if (fightIsActive()) {
             state.lastBlockedExit = 'fight-' + (reason || 'key');
             console.warn('[hd-city-menu] blocked', code === VK.EXIT ? 'EXIT' : code, 'during fight', reason || '');
             return false;
@@ -494,7 +494,7 @@
     }
 
     function enqueueKeys(codes, gap, reason) {
-        if (fightIsActive() && reason !== 'after-fight-enthron' && reason !== 'after-fight-report') {
+        if (fightIsActive()) {
             console.warn('[hd-city-menu] blocked queue during fight', reason || '');
             return;
         }
@@ -3527,6 +3527,15 @@
 
     function closeMenu(opts) {
         opts = opts || {};
+        if (fightIsActive()) {
+            state.open = false;
+            state.queue = [];
+            state.sending = false;
+            applyDocAttr();
+            render();
+            console.warn('[hd-city-menu] hide leftover city menu during fight, no leaveMenu EXIT');
+            return;
+        }
         if (holdMenu() && !opts.force) {
             state.lastBlockedExit = state.marchReady ? 'closeMenu-march-ok' : 'closeMenu-hold';
             console.warn('[hd-city-menu] blocked closeMenu', state.lastBlockedExit);
