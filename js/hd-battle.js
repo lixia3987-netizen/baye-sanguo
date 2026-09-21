@@ -28,6 +28,11 @@
         lastHookAt: 0,
         mapW: 0,
         mapH: 0,
+        viewOx: 0,
+        viewOy: 0,
+        viewW: 0,
+        viewH: 0,
+        tileW: 0,
         tiles: [],
         units: [],
         focus: { x: null, y: null },
@@ -498,16 +503,18 @@
         var pad = 80;
         var boardW = DESIGN_W - pad * 2;
         var boardH = DESIGN_H - 160;
-        var cw = boardW / state.mapW;
-        var ch = boardH / state.mapH;
+        var cols = state.viewW || state.mapW;
+        var rows = state.viewH || state.mapH;
+        var cw = boardW / cols;
+        var ch = boardH / rows;
         var ox = pad;
         var oy = 72;
         var c = Math.floor((sx - ox) / cw);
         var r = Math.floor((sy - oy) / ch);
-        if (c < 0 || r < 0 || c >= state.mapW || r >= state.mapH) {
+        if (c < 0 || r < 0 || c >= cols || r >= rows) {
             return null;
         }
-        return { x: c, y: r };
+        return { x: c + (state.viewOx || 0), y: r + (state.viewOy || 0) };
     }
 
     function unitAt(x, y) {
@@ -1103,6 +1110,67 @@
         return fightArrayCount() >= 2;
     }
 
+    function computeFightView(info) {
+        var minX = info.mapW;
+        var minY = info.mapH;
+        var maxX = -1;
+        var maxY = -1;
+        var i;
+        function include(x, y) {
+            if (x == null || y == null || x < 0 || y < 0) {
+                return;
+            }
+            if (x < minX) {
+                minX = x;
+            }
+            if (y < minY) {
+                minY = y;
+            }
+            if (x > maxX) {
+                maxX = x;
+            }
+            if (y > maxY) {
+                maxY = y;
+            }
+        }
+        for (i = 0; i < info.units.length; i++) {
+            include(info.units[i].x, info.units[i].y);
+        }
+        include(info.focus.x, info.focus.y);
+        if (maxX < 0) {
+            info.viewOx = 0;
+            info.viewOy = 0;
+            info.viewW = info.mapW || 16;
+            info.viewH = info.mapH || 12;
+            return;
+        }
+        var pad = 3;
+        minX = Math.max(0, minX - pad);
+        minY = Math.max(0, minY - pad);
+        maxX = maxX + pad;
+        maxY = maxY + pad;
+        if (info.mapW && maxX >= info.mapW) {
+            maxX = info.mapW - 1;
+        }
+        if (info.mapH && maxY >= info.mapH) {
+            maxY = info.mapH - 1;
+        }
+        var bw = Math.max(8, maxX - minX + 1);
+        var bh = Math.max(6, maxY - minY + 1);
+        /* 32×32 缓冲或过大图元会把敌方缩成看不见的点。裁到将领周围。 */
+        if (!info.mapW || info.mapW > 22 || info.mapH > 22 || bw * 2 < info.mapW) {
+            info.viewOx = minX;
+            info.viewOy = minY;
+            info.viewW = bw;
+            info.viewH = bh;
+        } else {
+            info.viewOx = 0;
+            info.viewOy = 0;
+            info.viewW = info.mapW;
+            info.viewH = info.mapH;
+        }
+    }
+
     function inferMapSize(len) {
         var cands = [12, 16, 18, 15, 10, 8, 20, 24];
         var i;
@@ -1150,6 +1218,7 @@
             info.mapW = sz.w;
             info.mapH = sz.h;
         }
+        info.tileW = info.mapW;
         if (map && info.mapW && info.mapH) {
             var t;
             var lim = Math.min(map.length || 0, info.mapW * info.mapH);
@@ -1207,6 +1276,7 @@
         if (info.focus.y != null && info.focus.y + 1 > info.mapH) {
             info.mapH = info.focus.y + 1;
         }
+        computeFightView(info);
         if (!state.probed) {
             state.probed = true;
             console.log('[hd-battle] probe', info);
@@ -1294,8 +1364,11 @@
         var pad = 80;
         var boardW = DESIGN_W - pad * 2;
         var boardH = DESIGN_H - 160;
-        var cols = state.mapW || 16;
-        var rows = state.mapH || 12;
+        var cols = state.viewW || state.mapW || 16;
+        var rows = state.viewH || state.mapH || 12;
+        var viewOx = state.viewOx || 0;
+        var viewOy = state.viewOy || 0;
+        var tileW = state.tileW || state.mapW || cols;
         var cw = boardW / cols;
         var ch = boardH / rows;
         var ox = pad;
@@ -1311,11 +1384,11 @@
                 }
             }
         }
-        var useTiles = state.tiles && state.tiles.length && cols && rows && (painted || !state.preview);
+        var useTiles = state.tiles && state.tiles.length && tileW && (painted || !state.preview);
         for (r = 0; r < rows; r++) {
             for (c = 0; c < cols; c++) {
                 if (useTiles) {
-                    var tile = state.tiles[r * cols + c] || 0;
+                    var tile = state.tiles[(r + viewOy) * tileW + (c + viewOx)] || 0;
                     ctx.fillStyle = pal[Math.abs(tile) % pal.length];
                     ctx.globalAlpha = 0.62;
                 } else {
@@ -1344,16 +1417,20 @@
         ctx.font = '11px BayeUI, sans-serif';
         ctx.textAlign = 'center';
         for (c = 0; c < cols; c += Math.max(1, Math.floor(cols / 8))) {
-            ctx.fillText(String(c), ox + (c + 0.5) * cw, oy - 8);
+            ctx.fillText(String(c + viewOx), ox + (c + 0.5) * cw, oy - 8);
         }
         ctx.textAlign = 'right';
         for (r = 0; r < rows; r += Math.max(1, Math.floor(rows / 8))) {
-            ctx.fillText(String(r), ox - 8, oy + (r + 0.65) * ch);
+            ctx.fillText(String(r + viewOy), ox - 8, oy + (r + 0.65) * ch);
         }
         if (state.focus.x != null && state.focus.y != null) {
             ctx.strokeStyle = '#f0c75a';
             ctx.lineWidth = 3;
-            ctx.strokeRect(ox + state.focus.x * cw + 2, oy + state.focus.y * ch + 2, cw - 4, ch - 4);
+            ctx.strokeRect(
+                ox + (state.focus.x - viewOx) * cw + 2,
+                oy + (state.focus.y - viewOy) * ch + 2,
+                cw - 4, ch - 4
+            );
         }
         var i;
         var drawn = 0;
@@ -1363,8 +1440,8 @@
                 continue;
             }
             drawn += 1;
-            var ux = ox + (u.x + 0.5) * cw;
-            var uy = oy + (u.y + 0.5) * ch;
+            var ux = ox + (u.x - viewOx + 0.5) * cw;
+            var uy = oy + (u.y - viewOy + 0.5) * ch;
             var rad = Math.min(cw, ch) * 0.3;
             ctx.beginPath();
             ctx.fillStyle = u.side === 'player' ? '#3d8bfd' : '#c43c3c';
@@ -1403,6 +1480,11 @@
         state.units = info.units;
         state.mapW = info.mapW;
         state.mapH = info.mapH;
+        state.viewOx = info.viewOx || 0;
+        state.viewOy = info.viewOy || 0;
+        state.viewW = info.viewW || info.mapW;
+        state.viewH = info.viewH || info.mapH;
+        state.tileW = info.tileW || info.mapW;
         state.tiles = info.tiles;
         state.focus = info.focus;
         var fightNow = readFight();
@@ -1776,12 +1858,23 @@
         clickOwnUnit: function () {
             refresh();
             var fight = readFight();
+            var fallback = null;
             var i;
             for (i = 0; i < state.units.length; i++) {
                 var u = state.units[i];
-                if (u && u.side === 'player' && u.x != null && u.y != null) {
+                if (!u || u.side !== 'player' || u.x == null || u.y == null) {
+                    continue;
+                }
+                /* STA_WAIT=0 还能下命令；STA_END=1 已待机，再点只空转。 */
+                if (u.active === 0 || u.active == null) {
                     return clickBattleTile(u.x, u.y);
                 }
+                if (!fallback) {
+                    fallback = u;
+                }
+            }
+            if (fallback) {
+                return clickBattleTile(fallback.x, fallback.y);
             }
             return { wait: !!(fight && fight.wait), phase: fight && fight.phase };
         },
@@ -1833,10 +1926,11 @@
                 lastHook: state.lastHook,
                 units: state.units.length,
                 unitList: state.units.slice(0, 20).map(function (u) {
-                    return { i: u.i, name: u.name, x: u.x, y: u.y, side: u.side };
+                    return { i: u.i, name: u.name, x: u.x, y: u.y, side: u.side, active: u.active };
                 }),
                 mapW: state.mapW,
                 mapH: state.mapH,
+                view: { x: state.viewOx, y: state.viewOy, w: state.viewW, h: state.viewH },
                 genCount: fightArrayCount(),
                 focus: state.focus,
                 resultCode: state.resultCode,
