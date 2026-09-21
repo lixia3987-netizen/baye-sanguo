@@ -276,21 +276,10 @@
     }
 
     function menuIdleFresh() {
-        return (Date.now() - (state.lastMenuIdleAt || 0)) < 1200;
+        return (Date.now() - (state.lastMenuIdleAt || 0)) < 1600;
     }
 
-    function readFightMenu() {
-        if (!state.open || state.preview || state.resultText) {
-            return null;
-        }
-        var fight = readFight();
-        if (!fight || !fight.active) {
-            return null;
-        }
-        /* FgtGetFoucs 选将/走格：g_hdFightWait=1，g_hdMenuBytes 仍可能是上一份「回合结束」。 */
-        if (fight.wait) {
-            return null;
-        }
+    function peekFightMenuClass() {
         var items = readMenuItems();
         var skills = null;
         try {
@@ -311,15 +300,52 @@
         if (!cls) {
             return null;
         }
+        cls.index = items.index != null ? items.index : 0;
+        return cls;
+    }
+
+    function clearLiveFightMenu() {
+        state.lastMenuIdleAt = 0;
+        state.lastMenuIdleKind = '';
+        state.liveMenuKind = '';
+    }
+
+    function rearmFightMenuFromBytes() {
+        var cls = peekFightMenuClass();
+        if (!cls) {
+            return null;
+        }
+        state.liveMenuKind = cls.kind;
+        state.lastMenuIdleKind = cls.kind;
+        state.lastMenuIdleAt = Date.now();
+        return cls;
+    }
+
+    function readFightMenu() {
+        if (!state.open || state.preview || state.resultText) {
+            return null;
+        }
+        var fight = readFight();
+        if (!fight || !fight.active) {
+            return null;
+        }
+        /* FgtGetFoucs 选将/走格：g_hdFightWait=1，g_hdMenuBytes 仍可能是上一份「回合结束」。 */
+        if (fight.wait) {
+            return null;
+        }
+        var cls = peekFightMenuClass();
+        if (!cls) {
+            return null;
+        }
         /* 开战瞬间 wait=0，g_hdMenuBytes 可能还是「回合结束」。没进过选将就当残留。 */
         if (!state.sawWait) {
             return null;
         }
-        /* 活菜单以 onMenuIdle 置位、willCloseMenu / wait 变化清位。过期 idle 不再把活着的壳藏掉。 */
+        /* 活菜单：onMenuIdle / wait 1→0 置位；willCloseMenu 与 wait 0→1 清位。
+         * 不能在 wait 1→0 清掉，否则 PlcSplMenu 刚开、下一帧 refresh 就把马超行动菜单藏死。 */
         if (state.liveMenuKind !== cls.kind && !menuIdleFresh()) {
             return null;
         }
-        cls.index = items.index != null ? items.index : 0;
         return cls;
     }
 
@@ -330,12 +356,17 @@
         }
         var w = fight.wait ? 1 : 0;
         if (w !== state.lastWait) {
-            state.lastMenuIdleAt = 0;
-            state.lastMenuIdleKind = '';
-            state.liveMenuKind = '';
             if (w === 1) {
+                /* 进选将/走格/瞄准：上一份行动菜单必须藏掉，否则挡棋盘点击。 */
+                clearLiveFightMenu();
                 state.sawWait = true;
+                state.fightTip = '';
+                dropQueuedEnters();
             }
+            /* wait 1→0：不要清 liveMenuKind。PlcSplMenu 的 onMenuIdle 往往已在
+             * 本帧置位，清掉会让马超「将领行动」下一帧藏死、点击无响应。
+             * 也不要按残留 攻击/待机 字节武装——瞄准结束 wait 1→0 时字节还在，
+             * 会在结算动画上盖一层假菜单。 */
             state.lastWait = w;
         } else if (w === 1) {
             state.sawWait = true;
@@ -391,6 +422,25 @@
         keys.push(VK.ENTER);
         state.menuIndex = index;
         enqueueKeys(keys, 55);
+    }
+
+    function pickFightMenuName(name) {
+        if (!fightMenuLive()) {
+            rearmFightMenuFromBytes();
+            renderFightMenu();
+        }
+        var info = readFightMenu();
+        if (!info) {
+            return { ok: false, reason: 'no-menu', wait: !!(readFight() && readFight().wait) };
+        }
+        var i;
+        for (i = 0; i < info.names.length; i++) {
+            if (info.names[i] === name) {
+                pickFightMenu(i);
+                return { ok: true, index: i, kind: info.kind, names: info.names.slice() };
+            }
+        }
+        return { ok: false, reason: 'no-item', kind: info.kind, names: info.names.slice() };
     }
 
     function renderFightMenu() {
@@ -1113,6 +1163,7 @@
         }
         info.focus.x = readNumber(data, 'g_FoucsX');
         info.focus.y = readNumber(data, 'g_FoucsY');
+        /* g_MapWid 偶发比将坐标小（屏显缓存），敌方会画到画布外。棋盘至少包住所有将。 */
         var arr = data.g_FgtParam && data.g_FgtParam.GenArray;
         var pos = data.g_GenPos;
         var i;
@@ -1131,16 +1182,30 @@
                     name = baye.getPersonName(id - 1) || '';
                 }
             } catch (e) {}
+            var ux = readNumber(p, 'x');
+            var uy = readNumber(p, 'y');
             info.units.push({
                 i: i,
                 id: id,
                 name: name,
-                x: readNumber(p, 'x'),
-                y: readNumber(p, 'y'),
+                x: ux,
+                y: uy,
                 hp: readNumber(p, 'hp'),
                 active: readNumber(p, 'active'),
                 side: i < 10 ? 'player' : 'enemy'
             });
+            if (ux != null && ux >= 0 && ux + 1 > info.mapW) {
+                info.mapW = ux + 1;
+            }
+            if (uy != null && uy >= 0 && uy + 1 > info.mapH) {
+                info.mapH = uy + 1;
+            }
+        }
+        if (info.focus.x != null && info.focus.x + 1 > info.mapW) {
+            info.mapW = info.focus.x + 1;
+        }
+        if (info.focus.y != null && info.focus.y + 1 > info.mapH) {
+            info.mapH = info.focus.y + 1;
         }
         if (!state.probed) {
             state.probed = true;
@@ -1459,9 +1524,8 @@
             return;
         }
         if (name === 'willCloseMenu') {
-            state.lastMenuIdleAt = 0;
-            state.lastMenuIdleKind = '';
-            state.liveMenuKind = '';
+            clearLiveFightMenu();
+            dropQueuedEnters();
             if (state.open) {
                 renderFightMenu();
             }
@@ -1521,9 +1585,11 @@
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu') != null) {
                     ev.preventDefault();
                     if (!fightMenuLive()) {
-                        state.lastMenuIdleAt = 0;
+                        rearmFightMenuFromBytes();
                         renderFightMenu();
-                        return;
+                        if (!fightMenuLive()) {
+                            return;
+                        }
                     }
                     pickFightMenu(Number(t.getAttribute('data-hd-battle-menu')));
                     return;
@@ -1720,6 +1786,18 @@
             return { wait: !!(fight && fight.wait), phase: fight && fight.phase };
         },
         clickTile: clickBattleTile,
+        clickUnitByName: function (name) {
+            refresh();
+            var i;
+            for (i = 0; i < state.units.length; i++) {
+                var u = state.units[i];
+                if (u && u.name === name && u.x != null && u.y != null) {
+                    return clickBattleTile(u.x, u.y);
+                }
+            }
+            return { miss: name, wait: !!(readFight() && readFight().wait) };
+        },
+        pickMenuName: pickFightMenuName,
         legalEnter: legalEnter,
         dismissFightTip: dismissFightTip,
         openSystemMenu: toggleSystemMenu,
@@ -1770,6 +1848,8 @@
                 menuLive: fightMenuLive(),
                 menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
                 liveMenuKind: state.liveMenuKind,
+                lastWait: state.lastWait,
+                queueLen: state.queue.length,
                 sawWait: state.sawWait,
                 pendingSys: state.pendingSys,
                 fightTip: state.fightTip,

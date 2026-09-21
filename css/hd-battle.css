@@ -4,7 +4,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    z-index: 65;
+    z-index: 80;
     align-items: center;
     justify-content: center;
     background: #0e1116;
@@ -14,6 +14,18 @@
 .hd-battle.is-open {
     display: flex;
     pointer-events: auto;
+}
+
+/* 战斗中 leftover 城菜单 / 城 LCD 不得盖住战场或吃掉将领菜单点击。 */
+html[data-baye-battle="hd"] .hd-city-menu {
+    pointer-events: none !important;
+    visibility: hidden !important;
+}
+
+html[data-baye-battle="hd"] body.baye-hd-city-menu-lcd .container.js-baye-pc-lcd,
+html[data-baye-battle="hd"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd {
+    pointer-events: none !important;
+    visibility: hidden !important;
 }
 
 .hd-battle-stage {
