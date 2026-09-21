@@ -1021,6 +1021,10 @@
             noteStep4('force-clear-pick', { skipped: 'live-battle-pick' });
             return false;
         }
+        if (liveOverworldGetCitySet() && why !== 'consume-march') {
+            noteStep4('force-clear-pick', { skipped: 'live-overworld-pick' });
+            return false;
+        }
         try {
             if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
                 (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -1104,9 +1108,29 @@
         return 'person';
     }
 
-    /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。 */
+    /* PlayerTactic 正在 GetCitySet：写 pick=0 是撒谎，下一发 ENTER 会点进空城（无人占领）。 */
+    function liveOverworldGetCitySet() {
+        if (battlePickActive() || !leftoverOverworldPick()) {
+            return false;
+        }
+        var names = engineMenuItems().names || [];
+        var n0 = names[0] || '';
+        if (n0 === '侦察' || n0 === '征兵' || n0 === '出征' || n0 === '开垦' || n0 === '招商') {
+            return false;
+        }
+        if (n0 === '策略结束' || n0 === '存储进度' || n0 === '结束游戏') {
+            return true;
+        }
+        if (/无人占领|敌方城池|选择目标/.test(liveEngineReport())) {
+            return true;
+        }
+        return !cityOrderMenuNow(names);
+    }
+
+    /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。
+     * 活着的过图 GetCitySet 不能写 0。 */
     function clearStaleMapPick(why) {
-        if (battlePickActive()) {
+        if (battlePickActive() || liveOverworldGetCitySet()) {
             return false;
         }
         if (!leftoverOverworldPick()) {
