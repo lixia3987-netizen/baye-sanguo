@@ -216,6 +216,9 @@
 
     function occupyDrainPending() {
         try {
+            if (global.BayeHdBattle && typeof BayeHdBattle.occupyBusy === 'function') {
+                return !!BayeHdBattle.occupyBusy();
+            }
             if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
                 var s = BayeHdBattle.debugSnapshot();
                 return !!(s && (s.occupyPending || (s.resultCode && !s.occupyDone && !s.resultDismissed)));

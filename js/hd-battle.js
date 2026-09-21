@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922g';
+    var HD_BATTLE_VER = '20260922h';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     try {
         global.BAYE_ASSET_VER = HD_BATTLE_VER;
@@ -91,7 +91,8 @@
         pickingMenu: false,
         clickingTile: false,
         stackDepth: 0,
-        driveTimer: 0
+        driveTimer: 0,
+        samplingFight: false
     };
 
     function readStorage(key, fallback) {
@@ -192,7 +193,46 @@
         return window.baye && baye.data ? baye.data : null;
     }
 
+    function cityMenuOwnsScreen() {
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
+                BayeHdCityMenu.isOpen()) {
+                return !fightReallyActive();
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function fightReallyActive() {
+        var f = null;
+        try {
+            f = readFight();
+            if (f && f.active && !f.over) {
+                return true;
+            }
+        } catch (e) {}
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
+                BayeHdCityMenu.isOpen()) {
+                return false;
+            }
+        } catch (eCity) {}
+        if (f && !f.active) {
+            return false;
+        }
+        try {
+            var data = engineData();
+            if (data && Number(data.g_hdFightActive) && !Number(data.g_hdFightOver)) {
+                return true;
+            }
+        } catch (e2) {}
+        return false;
+    }
+
     function fightArrayCount() {
+        if (state.samplingFight || !fightReallyActive() || cityMenuOwnsScreen()) {
+            return 0;
+        }
         var data = engineData();
         var arr = data && data.g_FgtParam && data.g_FgtParam.GenArray;
         if (!arr) {
@@ -200,12 +240,12 @@
         }
         var n = 0;
         var i;
-        var len = arr.length || 20;
+        var len = Number(arr.length);
+        if (!isFinite(len) || len < 0) {
+            len = 20;
+        }
         for (i = 0; i < len && i < 24; i++) {
             var id = readNumber(arr, i);
-            if (id === null && arr[i] != null) {
-                id = Number(arr[i]);
-            }
             if (id) {
                 n += 1;
             }
@@ -408,6 +448,10 @@
         if (state.driveTimer) {
             return;
         }
+        if (!fightReallyActive() || cityMenuOwnsScreen()) {
+            resetActDrive();
+            return;
+        }
         state.driveTimer = setTimeout(function () {
             state.driveTimer = 0;
             runScheduledDrive(why || 'tick');
@@ -415,7 +459,11 @@
     }
 
     function runScheduledDrive(why) {
-        if (state.refreshing || state.clickingTile || state.drivingAct) {
+        if (!fightReallyActive() || cityMenuOwnsScreen()) {
+            resetActDrive();
+            return;
+        }
+        if (state.refreshing || state.clickingTile || state.drivingAct || state.samplingFight) {
             scheduleDrive(why || 'busy');
             return;
         }
@@ -558,7 +606,10 @@
     }
 
     function clickWaitingOwn() {
-        if (state.clickingTile || state.refreshing) {
+        if (!fightReallyActive() || cityMenuOwnsScreen()) {
+            return null;
+        }
+        if (state.clickingTile || state.refreshing || state.samplingFight) {
             scheduleDrive('pick-own-busy');
             return null;
         }
@@ -680,6 +731,10 @@
     }
 
     function driveApproach() {
+        if (!fightReallyActive() || cityMenuOwnsScreen()) {
+            resetActDrive();
+            return false;
+        }
         if (state.drivingAct || !state.pendingApproach) {
             return false;
         }
@@ -1225,6 +1280,9 @@
         }
         state.clickingTile = true;
         tookClick = true;
+        if (!fightReallyActive() || cityMenuOwnsScreen()) {
+            return { x: x, y: y, enter: false, blocked: 'no-fight' };
+        }
         var fight = readFight();
         noteFightTip(fight);
         var tile = { x: x, y: y };
@@ -1647,17 +1705,13 @@
     }
 
     function fightLooksActive() {
-        var data = engineData();
-        if (data && Number(data.g_hdFightActive)) {
+        if (fightReallyActive()) {
             return true;
         }
-        if (state.resultText) {
+        if (state.resultText || state.occupyPending || state.occupyStarted) {
             return true;
         }
-        if (state.lastHook && FIGHT_HOOKS[state.lastHook] && (Date.now() - state.lastHookAt) < 8000) {
-            return true;
-        }
-        return fightArrayCount() >= 2;
+        return false;
     }
 
     function computeFightView(info) {
@@ -1738,9 +1792,8 @@
     }
 
     function sampleFight() {
-        var data = engineData();
         var info = {
-            genCount: fightArrayCount(),
+            genCount: 0,
             mapLen: 0,
             units: [],
             focus: { x: null, y: null },
@@ -1749,9 +1802,19 @@
             tiles: [],
             keys: []
         };
+        if (state.samplingFight) {
+            return info;
+        }
+        if (!state.preview && (!state.open || !fightReallyActive() || cityMenuOwnsScreen())) {
+            return info;
+        }
+        state.samplingFight = true;
+        try {
+        var data = engineData();
         if (!data) {
             return info;
         }
+        info.genCount = fightArrayCount();
         info.keys = listProps(data).filter(function (name) {
             return /fight|fgt|genpos|tile/i.test(name);
         });
@@ -1832,6 +1895,9 @@
             console.log('[hd-battle] probe', info);
         }
         return info;
+        } finally {
+            state.samplingFight = false;
+        }
     }
 
     function applyChrome() {
@@ -2026,7 +2092,14 @@
     }
 
     function refresh() {
-        if (state.refreshing) {
+        if (state.refreshing || state.samplingFight) {
+            return;
+        }
+        if (!state.open) {
+            return;
+        }
+        if (!state.preview && (!fightReallyActive() || cityMenuOwnsScreen())) {
+            applyChrome();
             return;
         }
         state.refreshing = true;
@@ -2054,9 +2127,6 @@
         draw();
         } finally {
             state.refreshing = false;
-        }
-        if (state.pendingApproach || state.pendingActPick != null) {
-            scheduleDrive('refresh');
         }
     }
 
@@ -2198,10 +2268,18 @@
         state.lastHookAt = Date.now();
         if (name === 'exitBattle') {
             onEngineFight();
-            refresh();
+            if (state.open && fightReallyActive()) {
+                refresh();
+            }
             return;
         }
-        if (shouldShowHd()) {
+        if (name === 'drawMapUnit' || name === 'drawOneGeneral' ||
+            name === 'fightStatusBarTouched' || name === 'battleStage1') {
+            if (!fightReallyActive() || cityMenuOwnsScreen()) {
+                return;
+            }
+        }
+        if (shouldShowHd() && (fightReallyActive() || name === 'enterBattle')) {
             enterBattle({ hook: name });
         }
     }
@@ -2396,7 +2474,7 @@
                 liveOverPoll !== state.settledOver) {
                 onEngineFight();
             }
-            if (d && Number(d.g_hdFightActive)) {
+            if (fightReallyActive() && !cityMenuOwnsScreen()) {
                 if (f && f.over && !liveOverPoll && !state.occupyPending && !state.occupyStarted) {
                     try {
                         if (d.g_hdFightOver != null && (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -2441,7 +2519,14 @@
         prepareNewFight: prepareNewFight,
         onEngineHook: onEngineHook,
         onEngineFight: onEngineFight,
+        occupyBusy: function () {
+            return !!(state.occupyPending || state.occupyStarted ||
+                (state.resultCode && !state.occupyDone && !state.resultDismissed));
+        },
         clickOwnUnit: function () {
+            if (!fightReallyActive()) {
+                return { blocked: 'no-fight' };
+            }
             refresh();
             var fight = readFight();
             var fallback = null;
@@ -2466,6 +2551,9 @@
         },
         clickTile: clickBattleTile,
         clickUnitByName: function (name) {
+            if (!fightReallyActive()) {
+                return { miss: name, blocked: 'no-fight' };
+            }
             refresh();
             var i;
             for (i = 0; i < state.units.length; i++) {
@@ -2478,6 +2566,9 @@
         },
         pickMenuName: pickFightMenuName,
         clickNearestEnemy: function () {
+            if (!fightReallyActive()) {
+                return { none: true, blocked: 'no-fight' };
+            }
             refresh();
             var e = nearestEnemy();
             if (!e) {
@@ -2486,6 +2577,9 @@
             return { e: { name: e.name, x: e.x, y: e.y }, click: clickBattleTile(e.x, e.y) };
         },
         walkCloserTo: function (x, y) {
+            if (!fightReallyActive()) {
+                return { blocked: 'no-fight' };
+            }
             refresh();
             return clickBattleTile(x, y);
         },
@@ -2519,12 +2613,15 @@
             }
         },
         debugSnapshot: function () {
-            var fightSnap = readFight();
-            var menuSnap = readFightMenu();
-            var itemsSnap = readMenuItems();
+            var live = fightReallyActive();
+            var fightSnap = live ? readFight() : null;
+            var menuSnap = live ? readFightMenu() : null;
+            var itemsSnap = live ? readMenuItems() : { names: [] };
             var menuCountSnap = 0;
             try {
-                menuCountSnap = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0;
+                if (live) {
+                    menuCountSnap = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0;
+                }
             } catch (eMc) {}
             return {
                 pref: getMode(),
@@ -2539,7 +2636,7 @@
                 mapW: state.mapW,
                 mapH: state.mapH,
                 view: { x: state.viewOx, y: state.viewOy, w: state.viewW, h: state.viewH },
-                genCount: fightArrayCount(),
+                genCount: live ? fightArrayCount() : 0,
                 focus: state.focus,
                 resultCode: state.resultCode,
                 resultText: state.resultText,
@@ -2547,7 +2644,7 @@
                 menuTitle: state.menuTitle,
                 menuNames: state.menuNames.slice(),
                 menuIndex: state.menuIndex,
-                menuLive: fightMenuLive(),
+                menuLive: !!(live && fightMenuLive()),
                 menuSynthetic: !!(menuSnap && menuSnap.synthetic),
                 menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
                 liveMenuKind: state.liveMenuKind,
@@ -2564,27 +2661,21 @@
                 pickingMenu: state.pickingMenu,
                 clickingTile: state.clickingTile,
                 battleVer: HD_BATTLE_VER,
-                why: whyMenuHidden(),
+                why: live ? whyMenuHidden() : { reasons: ['fight-inactive'] },
                 queueLen: state.queue.length,
                 sawWait: state.sawWait,
                 pendingSys: state.pendingSys,
                 fightTip: state.fightTip,
                 lastInvalidAt: state.lastInvalidAt,
                 lastBlockedEnter: state.lastBlockedEnter,
-                atkRngReady: (function () {
+                atkRngReady: live && (function () {
                     try {
                         var rng = engineData() && engineData().g_FgtAtkRng;
                         return !!(rng && readNumber(rng, 0));
                     } catch (e) { return false; }
                 }()),
-                phase: (function () {
-                    var f = readFight();
-                    return f ? f.phase : null;
-                }()),
-                aimType: (function () {
-                    var f = readFight();
-                    return f ? f.aimType : null;
-                }()),
+                phase: fightSnap ? fightSnap.phase : null,
+                aimType: fightSnap ? fightSnap.aimType : null,
                 resultDismissed: state.resultDismissed,
                 occupyPending: state.occupyPending,
                 occupyDone: state.occupyDone,
