@@ -1662,8 +1662,7 @@
         if (!engineInPolicyPerson()) {
             return false;
         }
-        if (state.layer === 'deep' && state.deepKind === 'person' &&
-            !leftoverFarmReportText(liveEngineReport())) {
+        if (state.layer === 'deep' && state.deepKind === 'person') {
             /* 正在看招商/开垦人物表，不是残留。 */
             return false;
         }
@@ -3727,12 +3726,6 @@
         bindOpenedMapCity(state.cityIndex, 'choose-root');
         sweepStickyMarch('choose-root');
         unstickMenuLoop('choose-root');
-        if (leaveLeftoverPolicyPerson('choose-root', true)) {
-            setTimeout(function () {
-                chooseRootAfterLand(index);
-            }, 260);
-            return;
-        }
         var enthron = liveEngineReport();
         if (/拥立|成为君主/.test(enthron || '')) {
             engineSendKey(VK.ENTER, 'choose-root-enthron');
@@ -4880,13 +4873,6 @@
             dismissMarchOverlay('pick-person');
         }
         pickIndex(index, true, state.deepKind === 'person-city' ? 'pick-person' : '');
-        if (state.deepKind === 'person' && state.deepLabel !== '出征') {
-            setTimeout(function () {
-                if (leftoverFarmReportText(liveEngineReport())) {
-                    leaveLeftoverPolicyPerson('after-policy-person', true);
-                }
-            }, 280);
-        }
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
             if (!state.enginePersonsAtPickStart) {
