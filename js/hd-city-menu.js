@@ -1230,7 +1230,8 @@
          * battlePick 残留 1（GetCitySet 已返回）才写掉，避免挡住下一趟 GetFood。 */
         try {
             if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
-                if (baye.data.g_hdBattlePick != null && !mapPickActive()) {
+                /* 战后 leftover GetCitySet / battlePick 不是活选城，留下会 landOwnedCity 河内→天水。 */
+                if (baye.data.g_hdBattlePick != null) {
                     baye.data.g_hdBattlePick = 0;
                 }
                 /* 占领回车还没走完时不要清 HD 战场旗，否则 BeOccupied 开不了。 */
@@ -1247,9 +1248,7 @@
                 }
             }
         } catch (e) {}
-        if (!liveOverworldGetCitySet()) {
-            forceClearMapPick('after-fight-stale');
-        }
+        forceClearMapPick('after-fight-stale');
         var q = engineQty();
         if (q && q.active) {
             state.qtyDismissed = true;
