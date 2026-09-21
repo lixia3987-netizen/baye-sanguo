@@ -964,7 +964,49 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
             BayeHdDialog.clearLeftoverMarch();
         }
-        clearStaleMapPick('consume-march');
+        forceClearMapPick('consume-march');
+    }
+
+    function forceClearMapPick(why) {
+        try {
+            if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdMapPick = 0;
+            }
+        } catch (e) {}
+        noteStep4('force-clear-pick', { skipped: why || 'force' });
+    }
+
+    function resetAfterFight() {
+        consumeLeftoverMarch();
+        forceClearMapPick('after-fight');
+        if (engineQty() && engineQty().active) {
+            state.qtyDismissed = true;
+            clearLeftoverQtyFlag();
+        }
+        state.battleMake = false;
+        state.campaignPick = false;
+        state.personExitSent = false;
+        state.personExitTries = 0;
+        state.foodGaveUp = false;
+        state.foodAttempt = 0;
+        state.foodRecovered = false;
+        state.foodRecoverEnter = false;
+        state.foodRecoverNeeded = false;
+        state.sawQtyThisMarch = false;
+        state.qtyDismissed = false;
+        state.qtyDismissedAt = 0;
+        state.wizardStep = 'none';
+        state.marchReady = false;
+        state.handoff = false;
+        state.handoffStatus = '';
+        stopMarchWatch();
+        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
+            engineSendKey(VK.ENTER, 'after-fight-report');
+        }
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
     }
 
     function mapPickActive() {
@@ -973,8 +1015,16 @@
     }
 
     function leftoverOverworldPick() {
-        /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。选粮之前 pick=1 是残留。 */
-        return mapPickActive() && !state.sawQtyThisMarch;
+        /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
+         * 只有本趟已选粮、正在 GetCitySet 才认 pick=1。上场出征/战后残留必须清。 */
+        if (!mapPickActive()) {
+            return false;
+        }
+        if (state.battleMake && state.personExitSent && state.sawQtyThisMarch &&
+            !state.marchReady && !state.handoff) {
+            return false;
+        }
+        return true;
     }
 
     /* HD 已回城池根，引擎还停在内政/军备/人物表（开垦过月最常见）。 */
@@ -1019,9 +1069,17 @@
 
     function liveGetFood() {
         var q = engineQty();
-        /* 活着的出征 GetFood 与 leftover pick 无关：min 恒 ≥1。不能因 wizard / 选择目标文本清掉。 */
-        return !!(state.battleMake && state.personExitSent && q && q.active &&
-            Number(q.min) >= 1);
+        /* 活着的出征 GetFood 与 leftover pick 无关：min 恒 ≥1。不能因 wizard / 选择目标文本清掉。
+         * 上场选粮残留（完成选将前 qty 就已是 min≥1）不当成本趟 GetFood。 */
+        if (!(state.battleMake && state.personExitSent && q && q.active &&
+            Number(q.min) >= 1)) {
+            return false;
+        }
+        var before = state.qtyBeforePersonExit;
+        if (before && before.active && before.min >= 1 && qtySameAs(before, qtySnapshot())) {
+            return false;
+        }
+        return true;
     }
 
     function engineInGetCitySet() {
@@ -1164,7 +1222,7 @@
     }
 
     function leftoverDisasterReport(text) {
-        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡/.test(String(text || ''));
+        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜/.test(String(text || ''));
     }
 
     function liveReportAsync() {
@@ -2396,6 +2454,11 @@
         }
         pickIndex(index, true);
         if (willMarch) {
+            /* 先清上场向导旗标，再认 leftover pick；否则 sawQtyThisMarch 仍真，清不掉。 */
+            state.sawQtyThisMarch = false;
+            state.personExitSent = false;
+            state.foodGaveUp = false;
+            state.foodAttempt = 0;
             clearStaleMapPick('choose-sub');
             var now0 = (engineMenuItems().names || [])[0] || '';
             /* 过月后 HD 已在军备，引擎还停在城池根「内政」。ENTER 出征会进内政。 */
@@ -3560,6 +3623,11 @@
                 leftoverQty: leftoverQtyFlag(),
                 liveQty: liveQty(),
                 liveGetFood: liveGetFood(),
+                realm: (function () {
+                    try {
+                        return window.baye && baye.hd && baye.hd.realm ? baye.hd.realm() : null;
+                    } catch (e) { return null; }
+                }()),
                 waitingGetFood: waitingGetFoodSoftLock(),
                 foodRecovered: state.foodRecovered,
                 foodRecoverEnter: state.foodRecoverEnter,
@@ -3608,6 +3676,8 @@
         goStrategyEnd: goStrategyEnd,
         handoffAt: function () { return state.handoffAt || 0; },
         consumeLeftoverMarch: consumeLeftoverMarch,
+        resetAfterFight: resetAfterFight,
+        forceClearMapPick: forceClearMapPick,
         freshMarchOk: freshMarchOk,
         isQtyLive: liveQty,
         leftoverQty: leftoverQtyFlag,

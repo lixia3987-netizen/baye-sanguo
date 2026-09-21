@@ -453,6 +453,12 @@ FAR U8 BattleDrv(OrderType *Order)
  ******************************************************************************/
 FAR U8 FightResultDeal(U8 city,U8 result)
 {
+    /* 攻城胜负后才改归属，不在 GamFight 里。FGT_WON（玩家进攻 FGT_AT）：
+     * AddPerson 进攻方入城 → ShowFightWinNote（GamDelay 300，默认
+     * responseNoteOfBettle=0，回车不能跳过）→ BeOccupied 写
+     * g_Cities[city].Belong = 进攻武将.Belong → TheLoserDeal（俘虏/逃跑，
+     * 可能 GamMsgBox）→ 必要时 KingOverDeal。HD 结算若提前关壳/只回一次车，
+     * 会卡在延时或俘虏报告上：河内 Belong 还没写，下一趟出征也打不开 GetFood。 */
     U8 str[512], astr[512];
     PersonID cking, ii;
     U32 i;

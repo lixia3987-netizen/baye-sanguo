@@ -48,6 +48,17 @@
         sawWait: false,
         pendingSys: 0,
         resultDismissed: false,
+        occupyTimer: 0,
+        occupyPending: false,
+        occupyStarted: false,
+        occupyDone: false,
+        occupyCity: null,
+        occupyOwner: '',
+        occupyBelong: 0,
+        ownedBefore: 0,
+        occupyEnters: 0,
+        savedNoteSkip: null,
+        lastOccupy: null,
         queue: [],
         sending: false
     };
@@ -488,9 +499,16 @@
     }
 
     function prepareNewFight() {
+        stopOccupyDrain();
         state.resultCode = 0;
         state.resultText = '';
         state.resultDismissed = false;
+        state.occupyDone = false;
+        state.occupyCity = null;
+        state.occupyOwner = '';
+        state.occupyBelong = 0;
+        state.ownedBefore = 0;
+        state.occupyEnters = 0;
         state.menuKind = '';
         state.menuTitle = '';
         state.menuNames = [];
@@ -511,20 +529,228 @@
         applyChrome();
     }
 
-    function dismissResult() {
+    function readRealm() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.realm === 'function') {
+                return baye.hd.realm();
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function fightCityIndex() {
+        var data = engineData();
+        var idx = data && data.g_FgtParam ? readNumber(data.g_FgtParam, 'CityIndex') : null;
+        if (idx != null && idx >= 0 && idx < 64) {
+            return idx;
+        }
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
+                var m = baye.hd.march();
+                if (m && m.obj != null && Number(m.obj) >= 0 && Number(m.obj) < 64) {
+                    return Number(m.obj);
+                }
+            }
+        } catch (e) {}
+        return state.occupyCity;
+    }
+
+    function cityRecord(realm, index) {
+        if (!realm || !realm.cities || index == null || index < 0) {
+            return null;
+        }
+        return realm.cities[index] || null;
+    }
+
+    function liveAsyncReport() {
+        try {
+            if (window.baye && baye.data) {
+                var id = Number(baye.data.g_asyncActionID);
+                return id === 1 || id === 2 || id === 13;
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function liveOccupyReport() {
+        var text = '';
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
+                text = baye.hd.reportText() || '';
+            }
+        } catch (e) {}
+        return /占领|战胜|俘虏|遭劫|势力灭亡|拥立|归降|沦陷|我军/.test(String(text));
+    }
+
+    function functionMenuLive() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
+                var names = (baye.hd.menuItems() || {}).names || [];
+                return names[0] === '策略结束';
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function occupyLooksPending() {
+        var realm = readRealm();
+        var city = fightCityIndex();
+        var rec = cityRecord(realm, city);
+        var mine = realm && realm.playerBelong;
+        if (state.resultCode === 1 && rec && mine && rec.belong !== mine) {
+            return true;
+        }
+        if (liveAsyncReport() && !functionMenuLive()) {
+            return true;
+        }
+        if (liveOccupyReport() && liveAsyncReport()) {
+            return true;
+        }
+        return false;
+    }
+
+    function occupyLine() {
+        var realm = readRealm();
+        var city = fightCityIndex();
+        var rec = cityRecord(realm, city);
+        var bits = [];
+        if (rec) {
+            if (rec.owned && rec.owner) {
+                bits.push(rec.name + '→' + rec.owner);
+            } else if (rec.name) {
+                bits.push(rec.name + (state.resultCode === 1 ? '待占领' : ''));
+            }
+        }
+        if (realm) {
+            bits.push('己方' + realm.ownedCount + '/' + realm.total);
+        }
+        return bits.join(' · ');
+    }
+
+    function enableNoteSkip() {
+        try {
+            if (window.baye && baye.data && baye.data.g_engineConfig &&
+                baye.data.g_engineConfig.responseNoteOfBettle != null) {
+                if (state.savedNoteSkip == null) {
+                    state.savedNoteSkip = Number(baye.data.g_engineConfig.responseNoteOfBettle) || 0;
+                }
+                baye.data.g_engineConfig.responseNoteOfBettle = 2;
+            }
+        } catch (e) {}
+    }
+
+    function restoreNoteSkip() {
+        try {
+            if (state.savedNoteSkip != null && window.baye && baye.data &&
+                baye.data.g_engineConfig && baye.data.g_engineConfig.responseNoteOfBettle != null) {
+                baye.data.g_engineConfig.responseNoteOfBettle = state.savedNoteSkip;
+            }
+        } catch (e) {}
+        state.savedNoteSkip = null;
+    }
+
+    function stopOccupyDrain() {
+        if (state.occupyTimer) {
+            clearTimeout(state.occupyTimer);
+            state.occupyTimer = 0;
+        }
+        state.occupyPending = false;
+        state.occupyStarted = false;
+    }
+
+    function finishOccupyDrain() {
+        var realm = readRealm();
+        var city = fightCityIndex();
+        var rec = cityRecord(realm, city);
+        if (state.occupyTimer) {
+            clearTimeout(state.occupyTimer);
+            state.occupyTimer = 0;
+        }
+        restoreNoteSkip();
+        state.occupyDone = true;
+        state.occupyPending = true;
+        state.occupyCity = city;
+        state.occupyBelong = rec ? rec.belong : 0;
+        state.occupyOwner = rec ? rec.owner : '';
+        state.lastOccupy = {
+            city: city,
+            name: rec && rec.name,
+            owner: rec && rec.owner,
+            belong: rec && rec.belong,
+            owned: rec && rec.owned,
+            ownedCount: realm && realm.ownedCount,
+            total: realm && realm.total,
+            result: state.resultCode
+        };
         state.resultDismissed = true;
-        state.lastMenuIdleAt = 0;
-        engineSendKey(VK.ENTER);
-        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.consumeLeftoverMarch === 'function') {
+        applyChrome();
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetAfterFight === 'function') {
+            BayeHdCityMenu.resetAfterFight();
+        } else if (global.BayeHdCityMenu && typeof BayeHdCityMenu.consumeLeftoverMarch === 'function') {
             BayeHdCityMenu.consumeLeftoverMarch();
         }
+        /* 先让结算横幅停住（河内→马腾 · 己方N/38），再关壳清 leftover。 */
         setTimeout(function () {
-            var f = readFight();
-            if (!f || !f.active || f.over) {
-                closeBattle({ silent: true });
-                prepareNewFight();
+            state.occupyPending = false;
+            state.occupyStarted = false;
+            closeBattle({ silent: true });
+            prepareNewFight();
+        }, 900);
+        try {
+            if (global.BayeHdOverworld && typeof BayeHdOverworld.debugSnapshot === 'function') {
+                /* sampleCities 在 overworld loop 里，这里只触发一次 HUD。 */
             }
-        }, 280);
+        } catch (e) {}
+        console.log('[hd-battle] occupy-done', {
+            city: city,
+            name: rec && rec.name,
+            owner: rec && rec.owner,
+            belong: rec && rec.belong,
+            owned: realm && realm.ownedCount,
+            total: realm && realm.total
+        });
+    }
+
+    function startOccupyDrain() {
+        if (state.occupyStarted || state.occupyDone) {
+            return;
+        }
+        state.occupyStarted = true;
+        state.occupyPending = true;
+        state.lastMenuIdleAt = 0;
+        if (!state.ownedBefore) {
+            var before = readRealm();
+            state.ownedBefore = before ? before.ownedCount : 0;
+        }
+        enableNoteSkip();
+        engineSendKey(VK.ENTER);
+        state.occupyEnters = 1;
+        var started = Date.now();
+        function tick() {
+            state.occupyTimer = 0;
+            var f = null;
+            try { f = readFight(); } catch (e) {}
+            if (f && f.active && !f.over) {
+                state.occupyTimer = setTimeout(tick, 200);
+                return;
+            }
+            if (occupyLooksPending() && Date.now() - started < 9000 && state.occupyEnters < 28) {
+                if (!functionMenuLive()) {
+                    engineSendKey(VK.ENTER);
+                    state.occupyEnters += 1;
+                }
+                applyChrome();
+                state.occupyTimer = setTimeout(tick, 200);
+                return;
+            }
+            finishOccupyDrain();
+        }
+        state.occupyTimer = setTimeout(tick, 180);
+        applyChrome();
+    }
+
+    function dismissResult() {
+        startOccupyDrain();
     }
 
     function fightLooksActive() {
@@ -664,13 +890,17 @@
                 (state.lastHook || '无 hook') +
                 ' · 将=' + state.units.length +
                 ' · 图=' + (state.mapW ? (state.mapW + '×' + state.mapH) : '无') +
-                (state.resultText ? ' · ' + state.resultText : (over ? ' · 结束码=' + over : ''));
+                (state.resultText ? ' · ' + state.resultText : (over ? ' · 结束码=' + over : '')) +
+                (occupyLine() ? ' · ' + occupyLine() : '');
         }
         var banner = el('hd-battle-result');
         if (banner) {
             if (state.resultText) {
+                var occ = occupyLine();
                 banner.hidden = false;
-                banner.textContent = state.resultText + (state.resultCode ? '  (' + state.resultCode + ')' : '');
+                banner.textContent = state.resultText +
+                    (state.resultCode ? '  (' + state.resultCode + ')' : '') +
+                    (occ ? '  ·  ' + occ : '');
             } else {
                 banner.hidden = true;
                 banner.textContent = '';
@@ -1067,22 +1297,22 @@
             }
         }
         if (info && info.over && !info.active) {
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.consumeLeftoverMarch === 'function') {
-                BayeHdCityMenu.consumeLeftoverMarch();
-            }
-            if (state.resultDismissed) {
-                if (state.open) {
-                    closeBattle({ silent: true });
-                }
+            if (state.occupyDone || state.resultDismissed) {
                 return;
             }
             state.resultCode = info.over;
             state.resultText = info.result || (info.over === 1 ? '我军大获全胜' : (info.over === 2 ? '我军全军覆没' : ''));
             state.lastHook = 'exitBattle';
             state.lastHookAt = Date.now();
+            if (info.cityIndex != null) {
+                state.occupyCity = info.cityIndex;
+            }
             if (!state.open && shouldShowHd()) {
                 enterBattle({ hook: 'exitBattle', keepResult: true });
             }
+            /* 胜负报告出来时 C 已进 FightResultDeal。必须回车走完
+             * ShowFightWinNote / BeOccupied / 俘虏框，不能 280ms 关壳。 */
+            startOccupyDrain();
         }
         if (state.open) {
             refresh();
@@ -1118,12 +1348,12 @@
                     enterBattle({ hook: 'g_hdFightActive' });
                 }
             }
-            if (state.open && state.resultDismissed && (!f || !f.active || f.over)) {
+            if (state.open && state.resultDismissed && !state.occupyPending && (!f || !f.active || f.over)) {
                 closeBattle({ silent: true });
                 return;
             }
             if (state.open) {
-                if (f && f.over && !state.resultText) {
+                if (f && f.over && !state.resultText && !state.occupyDone) {
                     onEngineFight();
                 }
             }
@@ -1188,6 +1418,13 @@
                 sawWait: state.sawWait,
                 pendingSys: state.pendingSys,
                 resultDismissed: state.resultDismissed,
+                occupyPending: state.occupyPending,
+                occupyDone: state.occupyDone,
+                occupyCity: state.occupyCity,
+                occupyOwner: state.occupyOwner,
+                occupyEnters: state.occupyEnters,
+                lastOccupy: state.lastOccupy,
+                realm: readRealm(),
                 skills: (function () {
                     try { return window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null; }
                     catch (e) { return null; }

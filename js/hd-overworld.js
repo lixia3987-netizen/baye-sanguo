@@ -1721,10 +1721,26 @@
             roadBit += '/' + passN + ' 关';
         }
         var hoverCity = hitsEnabled() && validCityIndex(state.hoverIndex) ? state.cities[state.hoverIndex] : null;
-        if (hoverCity) {
-            extra = '悬停 ' + hoverCity.name + (hoverCity.kind === 'owned' ? '（己方）' : '') + '  ·  ' + extra;
+        var ownedN = 0;
+        var oi;
+        for (oi = 0; oi < state.cities.length; oi++) {
+            if (state.cities[oi].kind === 'owned') {
+                ownedN += 1;
+            }
         }
-        state.hudRight.textContent = n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
+        if (hoverCity) {
+            var ownerName = '';
+            try {
+                if (hoverCity.belong && window.baye && typeof baye.getPersonNameByID === 'function') {
+                    ownerName = baye.getPersonNameByID(hoverCity.belong) || '';
+                }
+            } catch (e) {}
+            extra = '悬停 ' + hoverCity.name +
+                (ownerName ? '（' + ownerName + '）' : (hoverCity.kind === 'owned' ? '（己方）' : '')) +
+                '  ·  ' + extra;
+        }
+        /* 总城恒 38；占领后变的是己方数（天水 1 → 河内后 2），不是 38→39。 */
+        state.hudRight.textContent = '己方 ' + ownedN + '/' + n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
     }
 
     function draw() {
@@ -3477,6 +3493,8 @@
                 cityY: data ? readNumber(data, 'g_CityY') : null,
                 focusX: data ? readNumber(data, 'g_FoucsX') : null,
                 focusY: data ? readNumber(data, 'g_FoucsY') : null,
+                ownedCount: state.cities.filter(function (c) { return c.kind === 'owned'; }).length,
+                cityTotal: state.cities.length,
                 owned: state.cities.filter(function (c) { return c.kind === 'owned'; })
                     .map(function (c) { return { i: c.index, name: c.name, belong: c.belong }; }),
                 layout: state.geoCities ? 'china-lcc' : 'engine-grid',

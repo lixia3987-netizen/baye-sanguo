@@ -1274,12 +1274,63 @@ function baye_bridge_init() {
                 wait: hdReadNum(d, 'g_hdFightWait'),
                 skip: hdReadNum(d, 'g_hdFightSkip'),
                 result: result,
+                cityIndex: d && d.g_FgtParam ? hdReadNum(d.g_FgtParam, 'CityIndex') : null,
                 mapW: hdReadNum(d, 'g_MapWid'),
                 mapH: hdReadNum(d, 'g_MapHgt'),
                 bout: hdReadNum(d, 'g_FgtBoutCnt'),
                 boutMax: hdReadNum(d, 'g_FgtBoutMax'),
                 focusX: hdReadNum(d, 'g_FoucsX'),
                 focusY: hdReadNum(d, 'g_FoucsY')
+            };
+        },
+        /* 词典原版 g_CitiesCount / citiesCount 恒为地图座数（38），不是己方城。
+         * 攻城后看 ownedCount 与各城 Belong（马腾=playerBelong）。 */
+        realm: function () {
+            hdNote('hd.realm', '');
+            var d = baye.ensureData();
+            var king = hdReadNum(d, 'g_PlayerKing');
+            var belong = (king != null && isFinite(king)) ? (king + 1) : 0;
+            var n = hdCityLimit();
+            if ((!n || n > 64) && d && d.g_Cities && d.g_Cities.length) {
+                n = Math.min(Number(d.g_Cities.length) || 0, 64);
+            }
+            var cities = [];
+            var owned = 0;
+            var i;
+            var playerName = '';
+            try {
+                if (belong && typeof baye.getPersonNameByID === 'function') {
+                    playerName = baye.getPersonNameByID(belong) || '';
+                }
+            } catch (e) {}
+            for (i = 0; i < n; i++) {
+                var city = d && d.g_Cities ? d.g_Cities[i] : null;
+                var b = city ? hdReadNum(city, 'Belong') : 0;
+                var name = '';
+                var owner = '';
+                try {
+                    if (typeof baye.getCityName === 'function') {
+                        name = baye.getCityName(i) || '';
+                    }
+                } catch (e2) {}
+                try {
+                    if (b && typeof baye.getPersonNameByID === 'function') {
+                        owner = baye.getPersonNameByID(b) || '';
+                    }
+                } catch (e3) {}
+                var mine = !!(belong && b && b === belong);
+                if (mine) {
+                    owned += 1;
+                }
+                cities.push({ i: i, name: name, belong: b || 0, owner: owner, owned: mine });
+            }
+            return {
+                playerKing: king,
+                playerBelong: belong,
+                playerName: playerName,
+                ownedCount: owned,
+                total: n,
+                cities: cities
             };
         },
         cityLinks: function (city) {
