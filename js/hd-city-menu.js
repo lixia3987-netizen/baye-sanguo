@@ -1079,7 +1079,11 @@
 
     function leftoverOverworldPick() {
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
-         * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。 */
+         * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。
+         * 部队已出发后 GetCitySet 已返回，pick 可能还亮，不当 leftover。 */
+        if (freshMarchOk() || state.marchReady || realMarchDest(engineMarch())) {
+            return false;
+        }
         return !!(mapPickActive() && !battlePickActive());
     }
 
