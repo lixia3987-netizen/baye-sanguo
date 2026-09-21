@@ -610,6 +610,16 @@
         if (liveOccupyReport() && liveAsyncReport()) {
             return true;
         }
+        /* 败仗 KingOverDeal：请拥立新君 / 成为君主，不占城也要回车走完。 */
+        try {
+            var report = '';
+            if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
+                report = baye.hd.reportText() || '';
+            }
+            if (/拥立|成为君主/.test(report)) {
+                return true;
+            }
+        } catch (e) {}
         if (state.occupySettledAt && (Date.now() - state.occupySettledAt) < 1400) {
             return true;
         }
@@ -753,11 +763,19 @@
                     state.occupySettledAt = Date.now();
                 }
                 /* 败仗没有占领。FunctionMenu「策略结束」再回车会过月，留下 leftover GetCitySet，下一趟打不开 GetFood。 */
-                if (state.resultCode === 2 && functionMenuLive() && !liveAsyncReport()) {
+                var lossReport = '';
+                try {
+                    if (window.baye && baye.hd && typeof baye.hd.reportText === 'function') {
+                        lossReport = baye.hd.reportText() || '';
+                    }
+                } catch (e2) {}
+                if (state.resultCode === 2 && functionMenuLive() && !liveAsyncReport() &&
+                    !/拥立|成为君主/.test(lossReport)) {
                     finishOccupyDrain();
                     return;
                 }
-                if (liveAsyncReport() || (state.resultCode === 1 && recNow && mineNow && recNow.belong !== mineNow)) {
+                if (liveAsyncReport() || /拥立|成为君主/.test(lossReport) ||
+                    (state.resultCode === 1 && recNow && mineNow && recNow.belong !== mineNow)) {
                     engineSendKey(VK.ENTER);
                     state.occupyEnters += 1;
                 }

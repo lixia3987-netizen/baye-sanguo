@@ -1121,8 +1121,13 @@
         state.confirmingTarget = false;
         state.acceptMarchOk = false;
         stopMarchWatch();
-        /* 全军覆没 / 选择目标 残留文本回车 = 策略结束。只有活着的 async 灾异才回车。 */
-        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync() &&
+        /* 全军覆没 / 选择目标 残留文本回车 = 策略结束。只有活着的 async 灾异 / 拥立才回车。 */
+        var afterReport = liveEngineReport();
+        var names0 = (engineMenuItems().names || [])[0] || '';
+        if (/拥立|成为君主/.test(afterReport || '') && names0 && names0 !== '策略结束' &&
+            names0 !== '内政' && names0 !== '军备' && names0 !== '侦察' && names0 !== '开垦') {
+            engineSendKey(VK.ENTER, 'after-fight-enthron');
+        } else if (leftoverDisasterReport(afterReport) && liveReportAsync() &&
             !looksLikeFunctionMenu()) {
             engineSendKey(VK.ENTER, 'after-fight-report');
         } else {
@@ -2731,6 +2736,10 @@
         var root = ROOTS[index];
         /* 开垦数月后 leftover pick 还在：先回本城，再发军备/内政 ENTER。 */
         bindOpenedMapCity(state.cityIndex, 'choose-root');
+        var enthron = liveEngineReport();
+        if (/拥立|成为君主/.test(enthron || '')) {
+            engineSendKey(VK.ENTER, 'choose-root-enthron');
+        }
         if ((root.id === 'junbei' || root.id === 'neizheng') &&
             leftoverOverworldPick()) {
             landOwnedCity('choose-root-' + root.id, function () {
