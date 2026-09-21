@@ -8,16 +8,47 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922j';
+    var HD_BATTLE_VER = '20260922k';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
-    try {
-        global.BAYE_ASSET_VER = HD_BATTLE_VER;
-        var badgeEl = global.document && document.getElementById('baye-build-badge');
-        if (badgeEl) {
-            badgeEl.textContent = HD_BATTLE_VER;
-            badgeEl.setAttribute('data-baye-asset-ver', HD_BATTLE_VER);
-        }
-    } catch (eBadge) {}
+    /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
+    function paintRuntimeBadge() {
+        try {
+            global.BAYE_ASSET_VER = HD_BATTLE_VER;
+            global.HD_BATTLE_VER = HD_BATTLE_VER;
+            var src = '';
+            try {
+                if (document.currentScript && document.currentScript.src) {
+                    src = String(document.currentScript.src);
+                }
+            } catch (eCur) {}
+            if (!src) {
+                var scripts = document.getElementsByTagName('script');
+                var si;
+                for (si = 0; si < scripts.length; si++) {
+                    var href = scripts[si] && scripts[si].src;
+                    if (href && /hd-battle\.js/i.test(href)) {
+                        src = String(href);
+                    }
+                }
+            }
+            var urlVer = '';
+            var m = src.match(/[?&]ver=([^&#]+)/);
+            if (m) {
+                try { urlVer = decodeURIComponent(m[1]); } catch (eDec) { urlVer = m[1]; }
+            }
+            var badgeEl = global.document && document.getElementById('baye-build-badge');
+            if (badgeEl) {
+                var mismatch = !!(urlVer && urlVer !== HD_BATTLE_VER);
+                badgeEl.textContent = mismatch ? ('MISMATCH ' + urlVer + '/' + HD_BATTLE_VER) : HD_BATTLE_VER;
+                badgeEl.setAttribute('data-baye-asset-ver', HD_BATTLE_VER);
+                badgeEl.setAttribute('data-hd-script-src', src);
+                badgeEl.setAttribute('data-hd-script-ver', urlVer || '');
+                badgeEl.style.background = mismatch ? '#5a1a1a' : '#1a3a22';
+                badgeEl.style.color = mismatch ? '#ffd0d0' : '#b8f0c2';
+            }
+        } catch (eBadge) {}
+    }
+    paintRuntimeBadge();
     var FIGHT_HOOKS = {
         fightOpenMainMenu: 1,
         meetFight: 1,
@@ -553,6 +584,9 @@
     }
 
     function scheduleDrive(why) {
+        if (state.refreshing || state.samplingFight || state.readingEngine) {
+            return;
+        }
         if (state.driveTimer) {
             return;
         }
@@ -2223,6 +2257,8 @@
             applyChrome();
             return;
         }
+        /* 活战也只采样上色。走近/选将必须走 scheduleDrive(setTimeout 0)，禁止本函数同步进
+         * driveApproach / clickWaitingOwn / clickBattleTile（盒子 e 栈就是 refresh↔approach）。 */
         state.refreshing = true;
         try {
         var info = sampleFight();
@@ -2799,6 +2835,18 @@
                 pickingMenu: state.pickingMenu,
                 clickingTile: state.clickingTile,
                 battleVer: HD_BATTLE_VER,
+                scriptSrc: (function () {
+                    try {
+                        var el = document.getElementById('baye-build-badge');
+                        return el ? (el.getAttribute('data-hd-script-src') || '') : '';
+                    } catch (e) { return ''; }
+                }()),
+                scriptVer: (function () {
+                    try {
+                        var el = document.getElementById('baye-build-badge');
+                        return el ? (el.getAttribute('data-hd-script-ver') || '') : '';
+                    } catch (e) { return ''; }
+                }()),
                 lastRefreshStack: state.lastRefreshStack,
                 strictLive: !!state.strictLive,
                 titleOpening: titleOrOpeningScreen(),

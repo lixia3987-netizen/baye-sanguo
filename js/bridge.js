@@ -182,21 +182,72 @@ function baye_bridge_description_for_value(jvalue, type) {
     }
 }
 
+var __bayeGetDepth = 0;
+var BAYE_GET_DEPTH_MAX = 12;
+
+function wrapBayeGet(fn) {
+    if (typeof fn !== 'function') {
+        return fn;
+    }
+    return function () {
+        if (__bayeGetDepth > BAYE_GET_DEPTH_MAX) {
+            return undefined;
+        }
+        __bayeGetDepth += 1;
+        try {
+            return fn.apply(this, arguments);
+        } finally {
+            __bayeGetDepth -= 1;
+        }
+    };
+}
+
+function cloneGetDesc(d) {
+    var out = {};
+    var k;
+    for (k in d) {
+        if (Object.prototype.hasOwnProperty.call(d, k)) {
+            out[k] = k === 'get' ? wrapBayeGet(d[k]) : d[k];
+        }
+    }
+    return out;
+}
+
 function defineProperty(obj, p, desc) {
+    if (desc && typeof desc.get === 'function') {
+        desc = cloneGetDesc(desc);
+    }
     Object.defineProperty(obj, p, desc);
 }
 
 function defineProperties(obj, desc) {
-    Object.defineProperties(obj, desc);
+    var out = {};
+    var k;
+    for (k in desc) {
+        if (!Object.prototype.hasOwnProperty.call(desc, k)) {
+            continue;
+        }
+        var d = desc[k];
+        out[k] = (d && typeof d.get === 'function') ? cloneGetDesc(d) : d;
+    }
+    Object.defineProperties(obj, out);
 }
 
 function baye_bridge_valuedef_lazy(def, addr) {
     var obj = {
         get value() {
-            if (this._value == undefined) {
-                this._value = baye_bridge_valuedef(def, addr);
+            if (__bayeGetDepth > BAYE_GET_DEPTH_MAX) {
+                return undefined;
             }
-            return this._value;
+            __bayeGetDepth += 1;
+            try {
+                if (this._value == undefined) {
+                    this._value = baye_bridge_valuedef(def, addr);
+                }
+                return this._value;
+            } finally {
+                __bayeGetDepth -= 1;
+            }
         }
     };
     return obj;
