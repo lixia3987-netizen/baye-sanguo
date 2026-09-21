@@ -3174,7 +3174,7 @@
             marchTapCity(index);
             return;
         }
-        if (state.phase === 'classic-menu') {
+        if (state.phase === 'classic-menu' || cityMenuShellOpen()) {
             leaveClassicMenu('换城对齐…', { keepAlign: true });
         } else if (state.phase !== 'map') {
             if (inGameOverworld()) {
