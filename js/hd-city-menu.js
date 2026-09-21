@@ -1176,8 +1176,9 @@
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                /* leftover pick / leftover 选择目标吃掉完成选将 EXIT。只再 EXIT 一次。 */
-                if ((leftoverOverworldPick() || state.foodRecoverNeeded || leftoverChooseTarget(report)) &&
+                /* leftover pick / leftover 选择目标吃掉完成选将 EXIT。本趟已开过 GetFood 则「选择目标」是真下一步，不能再 EXIT。 */
+                if (!thisMarchGetFoodOpened() &&
+                    (leftoverOverworldPick() || state.foodRecoverNeeded || leftoverChooseTarget(report)) &&
                     (state.personExitTries || 0) < 2) {
                     state.personExitTries = (state.personExitTries || 0) + 1;
                     state.lastPersonExitAt = Date.now();
