@@ -994,9 +994,20 @@
         state.acceptMarchOk = false;
         state.sawMarchCleared = false;
         try {
-            if (window.baye && baye.data && baye.data.g_hdMarchOk != null &&
-                (!baye.hdEngineReady || baye.hdEngineReady())) {
-                baye.data.g_hdMarchOk = 0;
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (baye.data.g_hdMarchOk != null) {
+                    baye.data.g_hdMarchOk = 0;
+                }
+                /* leftover dest=河内 会让下一趟向导以为已有目标。ok/obj/city 一并清。 */
+                if (baye.data.g_hdMarchObj != null) {
+                    baye.data.g_hdMarchObj = 0;
+                }
+                if (baye.data.g_hdMarchCity != null) {
+                    baye.data.g_hdMarchCity = 0;
+                }
+                if (baye.data.g_hdMarchTime != null) {
+                    baye.data.g_hdMarchTime = 0;
+                }
             }
         } catch (e) {}
         if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
@@ -1023,9 +1034,12 @@
     function resetAfterFight() {
         consumeLeftoverMarch();
         forceClearMapPick('after-fight');
-        if (engineQty() && engineQty().active) {
+        var q = engineQty();
+        if (q && q.active) {
             state.qtyDismissed = true;
             clearLeftoverQtyFlag();
+        } else {
+            clearLeftoverQtyValues();
         }
         state.battleMake = false;
         state.campaignPick = false;
@@ -1046,6 +1060,8 @@
         stopMarchWatch();
         if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
             engineSendKey(VK.ENTER, 'after-fight-report');
+        } else {
+            clearStaleDisasterReport();
         }
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
@@ -1108,16 +1124,29 @@
 
     function liveGetFood() {
         var q = engineQty();
-        /* 活着的出征 GetFood 与 leftover pick 无关：min 恒 ≥1。不能因 wizard / 选择目标文本清掉。
-         * 上场选粮残留（完成选将前 qty 就已是 min≥1）不当成本趟 GetFood。 */
-        if (!(state.battleMake && state.personExitSent && q && q.active &&
-            Number(q.min) >= 1)) {
+        /* 活着的出征 GetFood：min 恒 ≥1。引擎可能比 HD「完成选将」先结束选将。
+         * 不能要求 personExitSent，否则会把提前打开的选粮当 leftover 写掉 active。 */
+        if (!(state.battleMake && q && q.active && Number(q.min) >= 1)) {
             return false;
         }
         var before = state.qtyBeforePersonExit;
         if (before && before.active && before.min >= 1 && qtySameAs(before, qtySnapshot())) {
             return false;
         }
+        return true;
+    }
+
+    function adoptLiveGetFood(why) {
+        if (!liveGetFood()) {
+            return false;
+        }
+        if (!state.personExitSent) {
+            state.personExitSent = true;
+            state.lastPersonExitAt = state.lastPersonExitAt || Date.now();
+            noteStep4('adopt-get-food', { skipped: why || 'early-food' });
+        }
+        state.sawQtyThisMarch = true;
+        state.foodGaveUp = false;
         return true;
     }
 
@@ -1270,6 +1299,22 @@
         return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜|被策反/.test(String(text || ''));
     }
 
+    function clearStaleDisasterReport() {
+        if (!leftoverDisasterReport(liveEngineReport()) || liveReportAsync()) {
+            return false;
+        }
+        try {
+            if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdReportGbk = '';
+            }
+        } catch (e) {}
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
+        return true;
+    }
+
     function liveReportAsync() {
         try {
             if (window.baye && baye.data) {
@@ -1286,6 +1331,9 @@
         }
         if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
             return { ok: true, phase: engineMarchPhase() };
+        }
+        if (adoptLiveGetFood(why || 'drive')) {
+            /* engine 已打开 GetFood，下面按活选粮走。 */
         }
         if (thisMarchGetFoodOpened() && !state.sawQtyThisMarch) {
             state.sawQtyThisMarch = true;
@@ -1313,6 +1361,9 @@
         if (waitingGetFoodSoftLock()) {
             if (leftoverOverworldPick()) {
                 clearStaleMapPick(why || 'drive-food');
+            }
+            if (leftoverDisasterReport(liveEngineReport()) && !liveReportAsync()) {
+                clearStaleDisasterReport();
             }
             var liveFunc = looksLikeFunctionMenu() &&
                 (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
@@ -1359,8 +1410,10 @@
                     return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
                 }
                 if (!thisMarchGetFoodOpened() &&
-                    ((state.personExitTries || 0) >= 2 || state.foodGaveUp)) {
-                    /* 不再软锁、不再转圈：退回选将，停 watch，不再发键。 */
+                    ((state.personExitTries || 0) >= 2 || state.foodGaveUp) &&
+                    state.lastPersonExitAt &&
+                    (Date.now() - state.lastPersonExitAt > GETFOOD_OPEN_MS)) {
+                    /* 再发 EXIT 后再等一轮。立刻认输会把刚打开的 GetFood 当失败。 */
                     state.foodGaveUp = true;
                     state.personExitSent = false;
                     state.foodRecoverNeeded = false;
@@ -1421,12 +1474,12 @@
         if (state.marchReady || state.handoff || freshMarchOk()) {
             return true;
         }
-        /* 征兵 NumOperate 残留。出征 GetFood 只在完成选将之后，且 min 恒为 1。 */
-        if (state.battleMake && !state.personExitSent) {
-            return true;
-        }
+        /* 征兵 NumOperate 残留 min=0。出征 GetFood min 恒为 1，选将阶段提前打开也不当残留。 */
         if (state.battleMake && Number(q.min) === 0) {
             return true;
+        }
+        if (state.battleMake && !state.personExitSent && Number(q.min) >= 1) {
+            return false;
         }
         if (engineInGetCitySet()) {
             return true;
@@ -1455,7 +1508,29 @@
         return !!(state.deepKind === 'person-qty' && state.deepStep === 1 && !state.battleMake);
     }
 
+    function clearLeftoverQtyValues() {
+        try {
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (baye.data.g_hdQtyActive != null) {
+                    baye.data.g_hdQtyActive = 0;
+                }
+                if (baye.data.g_hdQtyMin != null) {
+                    baye.data.g_hdQtyMin = 0;
+                }
+                if (baye.data.g_hdQtyMax != null) {
+                    baye.data.g_hdQtyMax = 0;
+                }
+                if (baye.data.g_hdQtyValue != null) {
+                    baye.data.g_hdQtyValue = 0;
+                }
+            }
+        } catch (e) {}
+    }
+
     function clearLeftoverQtyFlag() {
+        if (liveGetFood()) {
+            return;
+        }
         try {
             if (window.baye && baye.data && baye.data.g_hdQtyActive != null &&
                 (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -2499,6 +2574,9 @@
             typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
             BayeHdDialog.dismissLeftoverSpeech();
         }
+        if (willMarch) {
+            clearStaleDisasterReport();
+        }
         pickIndex(index, true);
         if (willMarch) {
             /* 先清上场向导旗标，再认 leftover pick；否则 sawQtyThisMarch 仍真，清不掉。 */
@@ -2514,6 +2592,9 @@
             }
             setTimeout(function () {
                 if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
+                    return;
+                }
+                if (adoptLiveGetFood('choose-sub')) {
                     return;
                 }
                 var names = engineMenuItems().names || [];
@@ -2606,8 +2687,17 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
             BayeHdDialog.dismissLeftoverSpeech();
         }
+        clearStaleDisasterReport();
         if (!(state.pickedPersons > 0)) {
             state.marchHint = '先点至少一名将领，再点「完成选将」。';
+            render();
+            return;
+        }
+        if (liveGetFood()) {
+            adoptLiveGetFood('finish-persons-live');
+            advanceWizard('food', 'finish-persons-live');
+            state.marchHint = '引擎已打开选粮。';
+            scheduleMarchWatch();
             render();
             return;
         }
@@ -2641,6 +2731,12 @@
                 setTimeout(function () {
                     sendFinishExit(started);
                 }, 50);
+                return;
+            }
+            if (liveGetFood()) {
+                adoptLiveGetFood('finish-queue');
+                scheduleMarchWatch();
+                render();
                 return;
             }
             if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
@@ -3075,7 +3171,10 @@
         if (qty && qty.active && leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
         }
-        if (qty && qty.active && state.battleMake && state.personExitSent && !leftoverQtyFlag()) {
+        if (adoptLiveGetFood('sync')) {
+            advanceWizard('food', 'qty-active');
+            state.deepSig = '';
+        } else if (qty && qty.active && state.battleMake && state.personExitSent && !leftoverQtyFlag()) {
             state.sawQtyThisMarch = true;
             advanceWizard('food', 'qty-active');
             state.deepSig = '';
@@ -3104,8 +3203,13 @@
         if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive() && liveChooseTarget()) {
             advanceWizard('target-tip', 'sync-food-done');
         }
-        if (holdExit() && /饥荒|旱灾|水灾|暴动/.test(liveEngineReport()) && !showingQty() && !mapPickActive()) {
-            /* 选将时回车天灾 = 策略结束。选粮时引擎常堵在 ShowConstStrMsg，必须回车才能进 GetFood。 */
+        if (holdExit() && leftoverDisasterReport(liveEngineReport()) && !showingQty() && !mapPickActive()) {
+            /* 选将时回车天灾 = 策略结束。只有活着的 ShowConstStrMsg 才回车。 */
+            if (!liveReportAsync()) {
+                clearStaleDisasterReport();
+                scheduleMarchWatch();
+                return;
+            }
             if (state.wizardStep === 'persons') {
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                     BayeHdDialog.close({ silent: true });
