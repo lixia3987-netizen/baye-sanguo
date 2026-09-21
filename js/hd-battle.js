@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922k';
+    var HD_BATTLE_VER = '20260922m';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -552,21 +552,23 @@
             return false;
         }
         var phase = Number(fight.phase) || 0;
-        /* 走格/瞄准必须点棋盘。假菜单再盖在中间会吞掉走格/点敌。 */
-        if (phase === 2 || phase === 3) {
+        /* 瞄准必须点棋盘。走格 wait=1 也要点格。假菜单再盖会吞点。 */
+        if (phase === 3) {
+            return false;
+        }
+        if (phase === 2 && fight.wait) {
+            return false;
+        }
+        var cls = peekFightMenuClass();
+        /* wait=0 且字节就是攻击/待机：真 PlcSplMenu，不画假的，也不被 needWait 藏死。 */
+        if (cls && (cls.kind === 'act' || cls.kind === 'skill') && !fight.wait) {
             return false;
         }
         if (fight.wait) {
             return phase === 1 || phase === 0;
         }
-        /* 开战瞬间 wait=0/phase=0：引擎还没进 FgtGetFoucs，字节也不是攻击/待机。
-         * 这里必须画假「将领行动」，否则盒子第一帧只剩系统/LCD 底栏。 */
-        var cls = peekFightMenuClass();
-        if (cls && (cls.kind === 'act' || cls.kind === 'skill') &&
-            !(state.needWaitBeforeMenu && !menuIdleFresh())) {
-            return false;
-        }
-        return phase === 0 || phase === 1;
+        /* 走格刚落定 / 下一将空隙：字节被 willCloseMenu 清掉时仍要能点待机，不能掉进经典 LCD。 */
+        return phase === 0 || phase === 1 || phase === 2;
     }
 
     function resetActDrive() {
@@ -957,10 +959,7 @@
         if (!cls || (cls.kind !== 'act' && cls.kind !== 'skill')) {
             return null;
         }
-        /* willCloseMenu 刚关：字节可能还是「攻击/待机」，等选将 wait=1 或新的 onMenuIdle。 */
-        if (state.needWaitBeforeMenu && !menuIdleFresh()) {
-            return null;
-        }
+        /* 活战 wait=0 的攻击/待机就是 PlcSplMenu。willCloseMenu 的 needWait 不得藏菜单。 */
         if (state.liveMenuKind !== cls.kind) {
             console.log('[hd-battle] recover act menu', cls.kind, cls.names);
         }
@@ -988,11 +987,8 @@
             return null;
         }
         if (cls.kind === 'act' || cls.kind === 'skill') {
-            /* PlcSplMenu 的 onMenuIdle 只在开菜单时打一次，定时器不再回调。
-             * wait=0 且字节就是 攻击/待机：直接当活菜单，不靠 sawWait / liveMenuKind。 */
-            if (state.needWaitBeforeMenu && !menuIdleFresh()) {
-                return null;
-            }
+            /* PlcSplMenu 的 onMenuIdle 只在开菜单时打一次。wait=0 的攻击/待机直接武装，
+             * 不靠 sawWait / liveMenuKind / needWaitBeforeMenu（走格后 willCloseMenu 会把后两样清掉）。 */
             if (state.liveMenuKind !== cls.kind) {
                 rearmFightMenuFromBytes();
             }
@@ -2055,6 +2051,29 @@
         }
     }
 
+    function suppressForeignShells() {
+        if (state.preview || !state.open || !fightReallyActive()) {
+            return;
+        }
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' &&
+                BayeHdCityMenu.isOpen() && typeof BayeHdCityMenu.close === 'function') {
+                BayeHdCityMenu.close({ silent: true, force: true });
+            }
+        } catch (eCity) {}
+        try {
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+        } catch (eDlg) {}
+        try {
+            document.documentElement.setAttribute('data-baye-battle', 'hd');
+            if (document.body) {
+                document.body.classList.remove('baye-hd-battle-lcd');
+            }
+        } catch (eAttr) {}
+    }
+
     function applyChrome() {
         var show = state.open && shouldShowHd();
         document.documentElement.setAttribute('data-baye-battle', show ? 'hd' : 'off');
@@ -2279,6 +2298,7 @@
             state.pendingApproach = null;
         }
         noteFightTip(fightNow);
+        suppressForeignShells();
         renderFightMenu();
         applyChrome();
         draw();
@@ -2413,7 +2433,11 @@
         }
         if (name === 'willCloseMenu') {
             clearLiveFightMenu();
-            clearEngineMenuLeftover();
+            /* 活战不要写掉 g_hdMenuCount：PlcSplMenu 刚开时 onMenuIdle 可能已过，
+             * 清字节会让走格后「将领行动」整帧空白，盒子只能切经典战斗。 */
+            if (!fightReallyActive()) {
+                clearEngineMenuLeftover();
+            }
             state.needWaitBeforeMenu = true;
             state.pendingApproach = null;
             state.pendingActPick = null;
@@ -2834,6 +2858,7 @@
                 stackDepth: state.stackDepth,
                 pickingMenu: state.pickingMenu,
                 clickingTile: state.clickingTile,
+                showLcd: !!state.showLcd,
                 battleVer: HD_BATTLE_VER,
                 scriptSrc: (function () {
                     try {

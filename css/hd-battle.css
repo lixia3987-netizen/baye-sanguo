@@ -23,7 +23,10 @@ html[data-baye-battle="hd"] .hd-city-menu {
 }
 
 html[data-baye-battle="hd"] body.baye-hd-city-menu-lcd .container.js-baye-pc-lcd,
-html[data-baye-battle="hd"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd {
+html[data-baye-battle="hd"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd,
+html[data-baye-battle="hd"] #hd-dialog,
+html[data-baye-battle="hd"] .hd-dialog,
+html[data-baye-battle="hd"] #hd-overworld {
     pointer-events: none !important;
     visibility: hidden !important;
 }
