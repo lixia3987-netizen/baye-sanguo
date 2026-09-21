@@ -1832,7 +1832,7 @@
                 preview: state.preview,
                 lastHook: state.lastHook,
                 units: state.units.length,
-                unitList: state.units.slice(0, 8).map(function (u) {
+                unitList: state.units.slice(0, 20).map(function (u) {
                     return { i: u.i, name: u.name, x: u.x, y: u.y, side: u.side };
                 }),
                 mapW: state.mapW,
