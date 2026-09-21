@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922o';
+    var HD_BATTLE_VER = '20260922p';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -130,6 +130,7 @@
         rearmTimer: 0,
         walkSubmittedAt: 0,
         leavingAim: false,
+        holdActMenuUntil: 0,
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
@@ -580,10 +581,17 @@
         return !!(fight && Number(fight.phase) === 3);
     }
 
+    function holdingActMenu() {
+        return !!(state.holdActMenuUntil && Date.now() < state.holdActMenuUntil);
+    }
+
     /* 只要还有己方未行动，菜单必须能点。待机后 leftover wait=1/phase=2 不得再藏死。 */
     function shouldShowActMenu(fight) {
         if (!fight || !fight.active || fight.over || state.resultText) {
             return false;
+        }
+        if (holdingActMenu()) {
+            return true;
         }
         if (aimingTiles(fight) || walkingTiles(fight)) {
             return false;
@@ -617,7 +625,13 @@
             hidden: !!(panel && panel.hidden),
             display: '',
             leftoverCity: false,
-            leftoverDlg: false
+            leftoverDlg: false,
+            clickable: false,
+            pointerEvents: '',
+            width: 0,
+            height: 0,
+            btnCount: 0,
+            hold: holdingActMenu()
         };
         try { rec.menuCount = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0; } catch (eC) {}
         try { rec.fightStrictActive = !!fightStrictActive(); } catch (eS) {}
@@ -629,6 +643,18 @@
         try {
             rec.leftoverDlg = !!(global.BayeHdDialog && BayeHdDialog.isOpen && BayeHdDialog.isOpen());
         } catch (eDlg) {}
+        try {
+            if (panel) {
+                var cs = global.getComputedStyle(panel) || {};
+                rec.pointerEvents = String(cs.pointerEvents || '');
+                rec.width = panel.offsetWidth || 0;
+                rec.height = panel.offsetHeight || 0;
+                rec.btnCount = panel.querySelectorAll('[data-hd-battle-menu]').length;
+                rec.clickable = !panel.hidden && rec.display !== 'none' &&
+                    rec.pointerEvents !== 'none' && rec.width > 8 && rec.height > 8 &&
+                    rec.btnCount >= 2;
+            }
+        } catch (eClick) {}
         try {
             console.log('[hd-battle] menu-probe', rec);
         } catch (eLog) {}
@@ -662,6 +688,49 @@
         }
     }
 
+    function forceRevealActMenu(why) {
+        state.needWaitBeforeMenu = false;
+        state.menuArmLogged = false;
+        var info = syntheticActMenu();
+        state.menuKind = info.kind;
+        state.menuTitle = info.title;
+        state.menuNames = info.names;
+        state.menuIndex = info.index;
+        try {
+            var panel = el('hd-battle-menu');
+            var list = el('hd-battle-menu-list');
+            var title = el('hd-battle-menu-title');
+            if (title) {
+                title.textContent = info.title;
+            }
+            if (list) {
+                var html = '';
+                var i;
+                for (i = 0; i < info.names.length; i++) {
+                    html += '<button type="button" class="hd-battle-menu-item' +
+                        (i === info.index ? ' is-on' : '') +
+                        '" data-hd-battle-menu="' + i + '">' + info.names[i] + '</button>';
+                }
+                list.setAttribute('data-sig', html);
+                list.innerHTML = html;
+            }
+            if (panel) {
+                panel.hidden = false;
+                panel.removeAttribute('hidden');
+                panel.setAttribute('data-hd-battle-menu-synthetic', '1');
+                panel.classList.add('is-synthetic', 'is-forced');
+                panel.style.display = 'flex';
+                panel.style.flexDirection = 'column';
+                panel.style.pointerEvents = 'auto';
+                panel.style.zIndex = '30';
+            }
+        } catch (eForce) {}
+        try {
+            applyChrome();
+        } catch (eChrome) {}
+        logMenuProbe(why || 'force-reveal');
+    }
+
     function paintActMenu(why) {
         state.needWaitBeforeMenu = false;
         state.menuArmLogged = false;
@@ -672,6 +741,10 @@
                 applyChrome();
             }
         } catch (ePaint) {}
+        if (holdingActMenu() || /aim-empty|aim-oor|aim-own|failed-aim/.test(why || '')) {
+            forceRevealActMenu(why || 'act-rearm');
+            return;
+        }
         logMenuProbe(why || 'act-rearm');
     }
 
@@ -739,7 +812,10 @@
         state.pendingActPick = null;
         state.walkSubmittedAt = 0;
         state.leavingAim = true;
+        /* leftover willCloseMenu（EXIT 离瞄准）约 500ms 内不得再藏攻击/待机。 */
+        state.holdActMenuUntil = Date.now() + 700;
         enqueueKeys([VK.EXIT], 55);
+        forceRevealActMenu(why || 'aim-oor');
         scheduleActRearm(why || 'aim-oor');
     }
 
@@ -1175,10 +1251,14 @@
         if (w !== state.lastWait) {
             if (w === 1) {
                 /* 进选将/走格/瞄准：上一份行动菜单必须藏掉，否则挡棋盘点击。 */
-                clearLiveFightMenu();
+                if (!holdingActMenu()) {
+                    clearLiveFightMenu();
+                }
                 state.sawWait = true;
                 state.fightTip = '';
-                dropQueuedEnters();
+                if (!holdingActMenu()) {
+                    dropQueuedEnters();
+                }
                 /* 选将（phase 1）是新的一将；瞄准/走格不要放开 willCloseMenu 的残留武装。 */
                 if ((Number(fight.phase) || 0) <= 1) {
                     state.needWaitBeforeMenu = false;
@@ -1316,11 +1396,15 @@
             info = syntheticActMenu();
         }
         if (!info) {
+            if (holdingActMenu()) {
+                forceRevealActMenu('render-hold');
+                return;
+            }
             state.menuKind = '';
             state.menuNames = [];
             panel.hidden = true;
             panel.removeAttribute('data-hd-battle-menu-synthetic');
-            panel.classList.remove('is-synthetic');
+            panel.classList.remove('is-synthetic', 'is-forced');
             return;
         }
         state.menuKind = info.kind;
@@ -1333,6 +1417,13 @@
         } else {
             panel.removeAttribute('data-hd-battle-menu-synthetic');
             panel.classList.remove('is-synthetic');
+        }
+        if (holdingActMenu()) {
+            panel.classList.add('is-forced');
+        } else {
+            panel.classList.remove('is-forced');
+            panel.style.display = '';
+            panel.style.pointerEvents = '';
         }
         if (title) {
             title.textContent = info.title;
@@ -1355,6 +1446,13 @@
             }
         }
         panel.hidden = false;
+        panel.removeAttribute('hidden');
+        if (holdingActMenu() || info.synthetic) {
+            panel.style.display = 'flex';
+            panel.style.flexDirection = 'column';
+            panel.style.pointerEvents = 'auto';
+            panel.style.zIndex = '30';
+        }
     }
 
     function eventToTile(ev) {
@@ -2624,6 +2722,13 @@
             return;
         }
         if (name === 'willCloseMenu') {
+            if (holdingActMenu()) {
+                state.needWaitBeforeMenu = false;
+                state.pendingApproach = null;
+                state.pendingActPick = null;
+                forceRevealActMenu('hold-willClose');
+                return;
+            }
             clearLiveFightMenu();
             /* 活战不要写掉 g_hdMenuCount：PlcSplMenu 刚开时 onMenuIdle 可能已过，
              * 清字节会让走格后「将领行动」整帧空白，盒子只能切经典战斗。 */
@@ -3052,6 +3157,7 @@
                 pendingApproach: state.pendingApproach,
                 walkSubmittedAt: state.walkSubmittedAt,
                 leavingAim: !!state.leavingAim,
+                holdActMenuUntil: state.holdActMenuUntil,
                 autoActTries: state.autoActTries,
                 stackDepth: state.stackDepth,
                 pickingMenu: state.pickingMenu,

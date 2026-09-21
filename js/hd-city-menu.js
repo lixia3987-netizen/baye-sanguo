@@ -682,6 +682,9 @@
         };
         state.step4Trace = (state.step4Trace || []).concat([row]).slice(-28);
         state.lastStep4 = row;
+        if (ev === 'bind-map-city' && liveFightBlocksCityOpen()) {
+            return row;
+        }
         console.log('[hd-city-menu] step4', ev, row);
         return row;
     }
@@ -4658,6 +4661,9 @@
     }
 
     function syncMarchPhase() {
+        if (liveFightBlocksCityOpen()) {
+            return;
+        }
         if (state.handoff) {
             return;
         }
@@ -4953,6 +4959,12 @@
         if (state.handoff && fightIsActive()) {
             consumeMarchSeqIfFight();
             finishHandoff(true);
+            return;
+        }
+        if (liveFightBlocksCityOpen()) {
+            if (state.open) {
+                closeMenu({ silent: true, force: true });
+            }
             return;
         }
         state.lastHook = name;

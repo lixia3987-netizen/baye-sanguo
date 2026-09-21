@@ -118,6 +118,13 @@ html[data-baye-battle="hd"] #hd-overworld {
     pointer-events: none !important;
 }
 
+.hd-battle-menu.is-forced {
+    display: flex !important;
+    flex-direction: column;
+    pointer-events: auto !important;
+    z-index: 30;
+}
+
 .hd-battle-menu-title {
     font-size: 22px;
     font-weight: 700;
