@@ -864,6 +864,7 @@
         setMode: setMode,
         shouldShowHd: shouldShowHd,
         isOpen: function () { return state.open; },
+        close: closeUi,
         getScreen: function () { return state.screen; },
         openInsystem: function () {
             state.screen = 'insystem';

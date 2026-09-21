@@ -2225,6 +2225,12 @@
         }
         /* 开垦/过图 leftover pick=1 必须在点军备之前写掉，否则 ENTER 会确认过图而不是进军备。 */
         clearStaleMapPick('open-city');
+        try {
+            if (global.BayeHdSystemUi && typeof BayeHdSystemUi.isOpen === 'function' &&
+                BayeHdSystemUi.isOpen() && typeof BayeHdSystemUi.close === 'function') {
+                BayeHdSystemUi.close({ silent: true });
+            }
+        } catch (e) {}
         render();
         console.log('[hd-city-menu] open', {
             city: state.cityName,
