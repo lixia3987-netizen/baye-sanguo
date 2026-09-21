@@ -501,6 +501,12 @@
             console.warn('[hd-city-menu] blocked queue during fight', reason || '');
             return;
         }
+        if ((codes && codes.length > 24) || state.queue.length > 80) {
+            console.warn('[hd-city-menu] drop insane key burst', codes && codes.length, state.queue.length, reason || '');
+            state.queue.length = 0;
+            state.sending = false;
+            return;
+        }
         if (state.handoff && reason !== 'strategy-end' && reason !== 'strategy-end-enter') {
             return;
         }
@@ -939,13 +945,15 @@
         var to = cityEngineTile(cityIndex);
         var from = readEngineCursor();
         var dirs = [];
-        if (from && to && to.x != null && to.y != null) {
+        if (from && to && to.x != null && to.y != null &&
+            from.x >= 0 && from.y >= 0 && to.x >= 0 && to.y >= 0 &&
+            from.x <= 40 && from.y <= 40 && to.x <= 40 && to.y <= 40) {
             var x = from.x;
             var y = from.y;
-            while (y > to.y) { dirs.push(VK.UP); y -= 1; }
-            while (y < to.y) { dirs.push(VK.DOWN); y += 1; }
-            while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
-            while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
+            while (y > to.y && dirs.length < 16) { dirs.push(VK.UP); y -= 1; }
+            while (y < to.y && dirs.length < 16) { dirs.push(VK.DOWN); y += 1; }
+            while (x > to.x && dirs.length < 16) { dirs.push(VK.LEFT); x -= 1; }
+            while (x < to.x && dirs.length < 16) { dirs.push(VK.RIGHT); x += 1; }
         }
         if (to && to.x != null && to.y != null &&
             global.BayeHdOverworld && typeof BayeHdOverworld.writeCityPos === 'function') {
@@ -1687,10 +1695,15 @@
         var dirs = [];
         var x = from.x;
         var y = from.y;
-        while (y > to.y) { dirs.push(VK.UP); y -= 1; }
-        while (y < to.y) { dirs.push(VK.DOWN); y += 1; }
-        while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
-        while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
+        if (x < 0 || y < 0 || to.x < 0 || to.y < 0 || x > 40 || y > 40 || to.x > 40 || to.y > 40) {
+            noteStep4('land-owned-bad-cursor', { cityIndex: cityIndex, from: from, to: to });
+            done(false);
+            return false;
+        }
+        while (y > to.y && dirs.length < 16) { dirs.push(VK.UP); y -= 1; }
+        while (y < to.y && dirs.length < 16) { dirs.push(VK.DOWN); y += 1; }
+        while (x > to.x && dirs.length < 16) { dirs.push(VK.LEFT); x -= 1; }
+        while (x < to.x && dirs.length < 16) { dirs.push(VK.RIGHT); x += 1; }
         var step = 0;
         function finishLand() {
             if (token !== state.landToken) {
@@ -4095,6 +4108,10 @@
                 if (f && f.active && !f.over) {
                     return true;
                 }
+            }
+            /* 城菜单招商/选将时 leftover g_hdFightActive 不当活战，否则出征键全被挡。 */
+            if (state.open) {
+                return false;
             }
             if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
                 !Number(baye.data.g_hdFightOver)) {

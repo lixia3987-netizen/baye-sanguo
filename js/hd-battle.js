@@ -1256,11 +1256,15 @@
             }
             return;
         }
+        if (fx < 0 || fy < 0 || x < 0 || y < 0 || fx > 48 || fy > 48 || x > 48 || y > 48) {
+            console.warn('[hd-battle] walk abort, insane focus', fx, fy, x, y);
+            return;
+        }
         var keys = [];
-        while (fy > y) { keys.push(VK.UP); fy -= 1; }
-        while (fy < y) { keys.push(VK.DOWN); fy += 1; }
-        while (fx > x) { keys.push(VK.LEFT); fx -= 1; }
-        while (fx < x) { keys.push(VK.RIGHT); fx += 1; }
+        while (fy > y && keys.length < 24) { keys.push(VK.UP); fy -= 1; }
+        while (fy < y && keys.length < 24) { keys.push(VK.DOWN); fy += 1; }
+        while (fx > x && keys.length < 24) { keys.push(VK.LEFT); fx -= 1; }
+        while (fx < x && keys.length < 24) { keys.push(VK.RIGHT); fx += 1; }
         if (thenEnter) {
             keys.push(VK.ENTER);
         }
