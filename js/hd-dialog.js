@@ -1017,7 +1017,13 @@
     function start() {
         bindUi();
         applyChrome();
-        setInterval(pollEngine, 180);
+        setInterval(function () {
+            try {
+                pollEngine();
+            } catch (e) {
+                console.warn('[hd-dialog] poll', e);
+            }
+        }, 220);
     }
 
     applyChrome();

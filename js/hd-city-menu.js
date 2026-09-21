@@ -82,6 +82,8 @@
         foodRecovered: false,
         foodRecoverEnter: false,
         foodRecoverNeeded: false,
+        foodGaveUp: false,
+        foodAttempt: 0,
         lastTipEnterAt: 0,
         lastFuncMenuIdle: 0,
         lastExit: '',
@@ -1143,7 +1145,7 @@
     }
 
     function waitingGetFoodSoftLock() {
-        return !!(state.personExitSent && !liveGetFood() && !state.sawQtyThisMarch &&
+        return !!(state.personExitSent && !state.foodGaveUp && !liveGetFood() && !state.sawQtyThisMarch &&
             !engineInGetCitySet() && !state.marchReady && !freshMarchOk());
     }
 
@@ -1176,6 +1178,9 @@
     }
 
     function driveFoodToCitySet(why) {
+        if (state.foodGaveUp) {
+            return { deferred: 'gave-up', phase: engineMarchPhase() };
+        }
         if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
             return { ok: true, phase: engineMarchPhase() };
         }
@@ -1231,10 +1236,10 @@
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                var GETFOOD_OPEN_MS = 1600;
+                var GETFOOD_OPEN_MS = 3000;
                 var waited = state.lastPersonExitAt && (Date.now() - state.lastPersonExitAt > GETFOOD_OPEN_MS);
                 /* leftover 选择目标 / 开垦残留农业 吃掉完成选将 EXIT。过图 pick 已写掉，只再 EXIT 一次。 */
-                if (!thisMarchGetFoodOpened() &&
+                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
                     (state.foodRecoverNeeded || leftoverChooseTarget(report) || waited) &&
                     (state.personExitTries || 0) < 2) {
                     state.personExitTries = (state.personExitTries || 0) + 1;
@@ -1250,12 +1255,15 @@
                     scheduleMarchWatch();
                     return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
                 }
-                if (!thisMarchGetFoodOpened() && (state.personExitTries || 0) >= 2) {
-                    /* 不再软锁在选粮：退回选将，提示清楚，可再点「完成选将」。 */
-                    state.marchHint = '引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine();
+                if (!thisMarchGetFoodOpened() &&
+                    ((state.personExitTries || 0) >= 2 || state.foodGaveUp)) {
+                    /* 不再软锁、不再转圈：退回选将，停 watch，不再发键。 */
+                    state.foodGaveUp = true;
                     state.personExitSent = false;
                     state.foodRecoverNeeded = false;
                     state.foodRecoverEnter = false;
+                    stopMarchWatch();
+                    state.marchHint = '引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine();
                     setWizardStep('persons', 'getfood-timeout');
                     state.deepSig = '';
                     render();
@@ -1892,9 +1900,11 @@
                 var mismatch = document.createElement('div');
                 mismatch.className = 'hd-city-menu-march-hint';
                 mismatch.setAttribute('data-hd-cityset-mismatch', '1');
-                if (waitingGetFoodSoftLock() || (shownStep === 'food' && !liveGetFood())) {
+                if (state.foodGaveUp || waitingGetFoodSoftLock() || (shownStep === 'food' && !liveGetFood())) {
                     mismatch.setAttribute('data-hd-food-mismatch', '1');
-                    mismatch.textContent = leftoverOverworldPick()
+                    mismatch.textContent = state.foodGaveUp
+                        ? ('引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine())
+                        : leftoverOverworldPick()
                         ? ('过图残留 pick=1，不是选粮。' + marchDebugLine())
                         : ('引擎未打开 GetFood，不能确认粮草。' + marchDebugLine());
                 } else {
@@ -2422,6 +2432,9 @@
         state.foodRecovered = false;
         state.foodRecoverEnter = false;
         state.foodRecoverNeeded = false;
+        state.foodGaveUp = false;
+        state.foodAttempt = 0;
+        stopMarchWatch();
         state.lastTipEnterAt = 0;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
@@ -2488,17 +2501,23 @@
             render();
             return;
         }
+        if (state.foodGaveUp && (state.foodAttempt || 0) >= 2) {
+            state.marchHint = '引擎未打开 GetFood。请返回军备重新出征。' + marchDebugLine();
+            stopMarchWatch();
+            render();
+            return;
+        }
         state.dismissedObj = false;
-        state.queue = [];
-        state.sending = false;
+        /* 三将连点时队列里还有 ENTER。清掉再 EXIT 等于空放，GetFood 永不来。 */
         state.personExitSent = true;
         state.personExitTries = 1;
+        state.foodAttempt = (state.foodAttempt || 0) + 1;
+        state.foodGaveUp = false;
         state.lastPersonExitAt = Date.now();
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecoverEnter = false;
         state.foodRecoverNeeded = leftoverOverworldPick() || leftoverChooseTarget(liveEngineReport()) ||
-            (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) ||
-            /农业|开发度|变为/.test(liveEngineReport()) || liveReportAsync();
+            (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) || liveReportAsync();
         clearStaleMapPick('finish-persons');
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
@@ -2506,14 +2525,25 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
-        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
-            engineSendKey(VK.ENTER, 'dismiss-live-disaster');
-            state.foodRecoverEnter = true;
-            enqueueKeys([VK.EXIT], 140, 'finish-persons');
-        } else {
-            engineSendKey(VK.EXIT, 'finish-persons');
+        function sendFinishExit(started) {
+            started = started || Date.now();
+            if ((state.queue.length || state.sending) && Date.now() - started < 2000) {
+                setTimeout(function () {
+                    sendFinishExit(started);
+                }, 50);
+                return;
+            }
+            if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
+                engineSendKey(VK.ENTER, 'dismiss-live-disaster');
+                state.foodRecoverEnter = true;
+                enqueueKeys([VK.EXIT], 160, 'finish-persons');
+            } else {
+                engineSendKey(VK.EXIT, 'finish-persons');
+            }
+            scheduleMarchWatch();
+            render();
         }
-        scheduleMarchWatch();
+        sendFinishExit();
         render();
     }
 
@@ -3022,12 +3052,36 @@
         }
     }
 
+    var marchWatchTimer = 0;
+    function stopMarchWatch() {
+        if (marchWatchTimer) {
+            clearTimeout(marchWatchTimer);
+            marchWatchTimer = 0;
+        }
+    }
+    /* 单飞：旧实现每次 driveFood 再挂 8 个 timeout，sync/interval 再套一层会把标签页打崩。 */
     function scheduleMarchWatch() {
-        [80, 200, 400, 700, 1100, 1600, 2200, 3200].forEach(function (ms) {
-            setTimeout(function () {
+        if (state.foodGaveUp || state.handoff || !state.open) {
+            return;
+        }
+        if (marchWatchTimer) {
+            return;
+        }
+        marchWatchTimer = setTimeout(function () {
+            marchWatchTimer = 0;
+            try {
                 syncMarchPhase();
-            }, ms);
-        });
+            } catch (e) {
+                console.warn('[hd-city-menu] march-watch', e);
+            }
+            if (state.foodGaveUp || !state.open || state.handoff) {
+                return;
+            }
+            if (waitingGetFoodSoftLock() ||
+                (state.personExitSent && !engineInGetCitySet() && !state.marchReady && !freshMarchOk())) {
+                scheduleMarchWatch();
+            }
+        }, 280);
     }
 
     function chooseDeep(index) {
@@ -3390,36 +3444,45 @@
         applyDocAttr();
         render();
         setInterval(function () {
-            if (!hdReady() || !state.open) {
-                return;
-            }
-            if (state.layer !== 'deep') {
-                if (engineQty() && engineQty().active && !state.battleMake && !state.personExitSent) {
-                    state.qtyDismissed = true;
-                    clearLeftoverQtyFlag();
+            try {
+                if (!hdReady() || !state.open) {
+                    return;
                 }
-                return;
-            }
-            syncMarchPhase();
-            if (showingQty()) {
-                fillDeepList();
-                var node = el('hd-city-qty-val');
-                var q = engineQty();
-                if (node && q) {
-                    node.textContent = q.active ? q.value : (q.value || '—');
+                if (state.layer !== 'deep') {
+                    if (engineQty() && engineQty().active && !state.battleMake && !state.personExitSent) {
+                        state.qtyDismissed = true;
+                        clearLeftoverQtyFlag();
+                    }
+                    return;
                 }
-                return;
+                if (!state.foodGaveUp) {
+                    syncMarchPhase();
+                }
+                if (showingQty()) {
+                    fillDeepList();
+                    var node = el('hd-city-qty-val');
+                    var q = engineQty();
+                    if (node && q) {
+                        node.textContent = q.active ? q.value : (q.value || '—');
+                    }
+                    return;
+                }
+                if (state.foodGaveUp) {
+                    return;
+                }
+                if (usesGoodsMenu(state.deepKind, state.deepStep) ||
+                    state.deepKind === 'person' ||
+                    state.deepKind === 'person-goods' ||
+                    state.deepKind === 'person-qty' ||
+                    state.deepKind === 'person-city' ||
+                    mapPickActive() ||
+                    state.marchReady) {
+                    fillDeepList();
+                }
+            } catch (e) {
+                console.warn('[hd-city-menu] poll', e);
             }
-            if (usesGoodsMenu(state.deepKind, state.deepStep) ||
-                state.deepKind === 'person' ||
-                state.deepKind === 'person-goods' ||
-                state.deepKind === 'person-qty' ||
-                state.deepKind === 'person-city' ||
-                mapPickActive() ||
-                state.marchReady) {
-                fillDeepList();
-            }
-        }, 200);
+        }, 280);
     }
 
     applyDocAttr();
@@ -3501,6 +3564,8 @@
                 foodRecovered: state.foodRecovered,
                 foodRecoverEnter: state.foodRecoverEnter,
                 foodRecoverNeeded: state.foodRecoverNeeded,
+                foodGaveUp: !!state.foodGaveUp,
+                foodAttempt: state.foodAttempt || 0,
                 qtyBeforePersonExit: state.qtyBeforePersonExit,
                 engineInGetCitySet: engineInGetCitySet(),
                 enginePhase: engineMarchPhase(),
