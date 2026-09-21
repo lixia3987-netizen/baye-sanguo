@@ -1069,7 +1069,7 @@
     }
 
     function leftoverEnemyCityReport(text) {
-        return /敌方城池|我方城池|无法到达/.test(String(text || ''));
+        return /敌方城池|我方城池|无法到达|无人占领/.test(String(text || ''));
     }
 
     function dismissLiveArmout() {
@@ -1313,6 +1313,12 @@
         }
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
+        }
+        if (liveFunctionMenu() && !state.handoff) {
+            engineSendKey(VK.EXIT, 'after-fight-func');
+        }
+        if (state.cityIndex >= 0) {
+            bindOpenedMapCity(state.cityIndex, 'after-fight');
         }
         if (global.BayeHdOverworld && typeof BayeHdOverworld.afterFightMapReady === 'function') {
             BayeHdOverworld.afterFightMapReady('after-fight');
@@ -3435,6 +3441,10 @@
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
+        }
+        if ((liveFunctionMenu() || looksLikeFunctionMenu()) && !state.handoff &&
+            !state.marchReady && !engineInGetCitySet()) {
+            engineSendKey(VK.EXIT, 'choose-root-leave-func');
         }
         if (root.id === 'zhuangkuang') {
             state.layer = 'status';
