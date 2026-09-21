@@ -78,7 +78,9 @@
         lastAutoActAt: 0,
         autoActTries: 0,
         drivingAct: false,
-        refreshing: false
+        refreshing: false,
+        pickingMenu: false,
+        stackDepth: 0
     };
 
     function readStorage(key, fallback) {
@@ -383,6 +385,22 @@
         state.lastAutoActAt = 0;
         state.autoActTries = 0;
         state.drivingAct = false;
+        state.pickingMenu = false;
+    }
+
+    function enterStack(name) {
+        if (state.stackDepth >= 8) {
+            console.warn('[hd-battle] stack-guard', name, state.stackDepth);
+            return false;
+        }
+        state.stackDepth += 1;
+        return true;
+    }
+
+    function leaveStack() {
+        if (state.stackDepth > 0) {
+            state.stackDepth -= 1;
+        }
     }
 
     function wantsWalkBeforeAct(index) {
@@ -505,9 +523,17 @@
         if (state.drivingAct) {
             return false;
         }
+        if (!enterStack('drivePlayerToActMenu')) {
+            return false;
+        }
+        try {
         /* 只在玩家点了将领行动项后才选将/落定。开战第一帧只画菜单，不自动待机。 */
         if (state.pendingActPick == null) {
             return false;
+        }
+        if (!wantsWalkBeforeAct(state.pendingActPick)) {
+            /* 查看/待机绝不再走近，避免 refresh→driveApproach 把待机点成走格。 */
+            state.pendingApproach = null;
         }
         var fight = readFight();
         if (!fight || !fight.active || fight.over || state.resultText) {
@@ -562,6 +588,9 @@
         } finally {
             state.drivingAct = false;
         }
+        } finally {
+            leaveStack();
+        }
     }
 
     function nearestEnemy() {
@@ -587,6 +616,15 @@
         if (state.drivingAct || !state.pendingApproach) {
             return false;
         }
+        if (!wantsWalkBeforeAct(state.pendingActPick) && state.pendingActPick != null) {
+            state.pendingApproach = null;
+            return false;
+        }
+        if (!enterStack('driveApproach')) {
+            state.pendingApproach = null;
+            return false;
+        }
+        try {
         var fight = readFight();
         if (!fight || !fight.active || fight.over || !fight.wait) {
             return false;
@@ -598,6 +636,10 @@
         var dest = state.pendingApproach;
         if (phase === 2) {
             state.pendingApproach = null;
+            /* 走格一旦提交，把「攻击」意图交给落点后的真菜单，才能点待机。 */
+            if (wantsWalkBeforeAct(state.pendingActPick)) {
+                state.pendingActPick = null;
+            }
             var actor = syncFocusFromEngine();
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y);
             if (closer) {
@@ -620,6 +662,9 @@
             return true;
         }
         return false;
+        } finally {
+            leaveStack();
+        }
     }
 
     function recoverFightMenu(fight) {
@@ -759,6 +804,15 @@
                 state.pendingActPick = null;
             }
         }
+        if (state.pickingMenu) {
+            state.pendingActPick = index;
+            return;
+        }
+        if (!enterStack('pickFightMenu')) {
+            return;
+        }
+        state.pickingMenu = true;
+        try {
         var fight = readFight();
         var info = readFightMenu();
         if ((fight && fight.wait) || (info && info.synthetic)) {
@@ -784,6 +838,10 @@
         keys.push(VK.ENTER);
         state.menuIndex = index;
         enqueueKeys(keys, 55);
+        } finally {
+            state.pickingMenu = false;
+            leaveStack();
+        }
     }
 
     function pickFightMenuName(name) {
@@ -1082,6 +1140,10 @@
     }
 
     function clickBattleTile(x, y) {
+        if (!enterStack('clickBattleTile')) {
+            return { x: x, y: y, enter: false, blocked: 'stack-guard' };
+        }
+        try {
         if (!state.refreshing && !state.drivingAct) {
             refresh();
         }
@@ -1158,6 +1220,9 @@
             x: x, y: y, enter: enter, unit: u && u.name, phase: fight && fight.phase,
             tip: state.fightTip, inRng: inRng
         };
+        } finally {
+            leaveStack();
+        }
     }
 
     function clearFightBridge() {
@@ -1899,6 +1964,9 @@
         var fightNow = readFight();
         noteFightWait(fightNow);
         recoverFightMenu(fightNow);
+        if (state.pendingActPick != null && !wantsWalkBeforeAct(state.pendingActPick)) {
+            state.pendingApproach = null;
+        }
         if (state.pendingApproach) {
             driveApproach();
         }
@@ -2414,6 +2482,8 @@
                 pendingActPick: state.pendingActPick,
                 pendingApproach: state.pendingApproach,
                 autoActTries: state.autoActTries,
+                stackDepth: state.stackDepth,
+                pickingMenu: state.pickingMenu,
                 why: whyMenuHidden(),
                 queueLen: state.queue.length,
                 sawWait: state.sawWait,
