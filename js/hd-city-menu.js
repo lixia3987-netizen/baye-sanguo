@@ -92,6 +92,7 @@
         lastBlockedEnter: '',
         lastPickEnterAt: 0,
         enginePersonsAtFinish: 0,
+        enginePersonsAtPickStart: 0,
         marchHint: '',
         lastWalkCity: null,
         lastWalkAt: 0,
@@ -1118,6 +1119,7 @@
         state.personExitTries = 0;
         state.lastPickEnterAt = 0;
         state.enginePersonsAtFinish = 0;
+        state.enginePersonsAtPickStart = 0;
         state.foodGaveUp = false;
         state.foodAttempt = 0;
         state.foodRecovered = false;
@@ -1160,6 +1162,76 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
+    }
+
+    /* 同页 新君登基 / 读档：HD 出征旗标不能带到下一局，否则完成选将空操作、GetFood 永不来。 */
+    function resetForNewGame(why) {
+        why = why || 'new-game';
+        noteStep4('reset-new-game', { skipped: why });
+        stopMarchWatch();
+        state.queue = [];
+        state.sending = false;
+        state.battleMake = false;
+        state.campaignPick = false;
+        state.personExitSent = false;
+        state.finishPersonsBusy = false;
+        state.personExitTries = 0;
+        state.lastPersonExitAt = 0;
+        state.lastPickEnterAt = 0;
+        state.enginePersonsAtFinish = 0;
+        state.enginePersonsAtPickStart = 0;
+        state.pickedPersons = 0;
+        state.foodGaveUp = false;
+        state.foodAttempt = 0;
+        state.foodRecovered = false;
+        state.foodRecoverEnter = false;
+        state.foodRecoverNeeded = false;
+        state.sawQtyThisMarch = false;
+        state.sawGetFoodUi = false;
+        state.foodConfirmedThisMarch = false;
+        state.qtyDismissed = false;
+        state.qtyDismissedAt = 0;
+        state.qtyBeforePersonExit = null;
+        state.wizardStep = 'none';
+        state.marchReady = false;
+        state.handoff = false;
+        state.handoffStatus = '';
+        state.confirmingTarget = false;
+        state.acceptMarchOk = false;
+        state.pendingTarget = null;
+        state.marchHint = '';
+        state.lastBlockedEnter = '';
+        state.lastBlockedExit = '';
+        state.lastExit = '';
+        state.deepKind = '';
+        state.deepLabel = '';
+        state.deepStep = 0;
+        state.deepSig = '';
+        try {
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (baye.data.g_hdBattlePick != null) {
+                    baye.data.g_hdBattlePick = 0;
+                }
+                if (baye.data.g_hdMapPick != null) {
+                    baye.data.g_hdMapPick = 0;
+                }
+                if (baye.data.g_hdFightOver != null) {
+                    baye.data.g_hdFightOver = 0;
+                }
+                if (baye.data.g_hdFightActive != null) {
+                    baye.data.g_hdFightActive = 0;
+                }
+                if (baye.data.g_hdFightWait != null) {
+                    baye.data.g_hdFightWait = 0;
+                }
+            }
+        } catch (e) {}
+        clearLeftoverQtyValues();
+        consumeLeftoverMarch();
+        if (state.open) {
+            closeMenu({ silent: true, force: true });
+        }
+        console.log('[hd-city-menu] resetForNewGame', why);
     }
 
     function mapPickActive() {
@@ -1478,8 +1550,17 @@
             (mcName ? '(' + mcName + ')' : '') +
             ' phase=' + engineMarchPhase() +
             ' qty=' + ((q && q.active)
-                ? (String(q.min) + '-' + String(q.value))
+                ? (String(q.min) + '-' + String(q.value) + '/' + String(q.max))
                 : ('0' + (q && Number(q.min) >= 1 ? '/' + q.min : ''))) +
+            ' min=' + (q ? q.min : '—') +
+            ' max=' + (q ? q.max : '—') +
+            ' queue=' + state.queue.length +
+            (state.sending ? '/send' : '') +
+            ' pex=' + (state.personExitSent ? 1 : 0) +
+            ' hold=' + (holdEnterForFood() ? 1 : 0) +
+            ' leftoverPick=' + (leftoverOverworldPick() ? 1 : 0) +
+            ' persons=' + cityPersons(state.cityIndex).length +
+            (state.enginePersonsAtPickStart ? ('/' + state.enginePersonsAtPickStart) : '') +
             ' ui=' + (state.wizardStep || 'none');
     }
 
@@ -2907,6 +2988,7 @@
             state.finishPersonsBusy = false;
             state.lastPickEnterAt = 0;
             state.enginePersonsAtFinish = 0;
+            state.enginePersonsAtPickStart = 0;
             state.foodGaveUp = false;
             state.foodAttempt = 0;
             clearStaleMapPick('choose-sub');
@@ -2959,6 +3041,7 @@
         state.lastPersonExitAt = 0;
         state.lastPickEnterAt = 0;
         state.enginePersonsAtFinish = 0;
+        state.enginePersonsAtPickStart = 0;
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecovered = false;
         state.foodRecoverEnter = false;
@@ -3020,6 +3103,11 @@
     function finishPersonPick() {
         if (state.wizardStep !== 'persons' && state.wizardStep !== 'none') {
             return;
+        }
+        /* 同页 新君登基 leftover：上场 personExitSent / showingQty 不能让完成选将空操作。 */
+        if (state.personExitSent && !liveGetFood() && !state.foodConfirmedThisMarch &&
+            !state.finishPersonsBusy) {
+            state.personExitSent = false;
         }
         if (state.finishPersonsBusy || state.personExitSent || showingQty() || state.marchReady) {
             return;
@@ -3092,6 +3180,11 @@
         /* 只有活着的灾异 async 才需要先回车。残留「选择目标」/水灾文本再 EXIT 会掐 GetFood。 */
         state.foodRecoverNeeded = leftoverDisasterReport(liveEngineReport()) && liveReportAsync();
         state.enginePersonsAtFinish = cityPersons(state.cityIndex).length;
+        /* 完成选将时人数往往已下降。用点将前人数判断引擎是否吃掉 ENTER，
+         * 不能拿 finish 瞬间人数当起点，否则 engineTook 永远假、干等 10s。 */
+        if (!state.enginePersonsAtPickStart) {
+            state.enginePersonsAtPickStart = state.enginePersonsAtFinish + (state.pickedPersons || 0);
+        }
         clearStaleMapPick('finish-persons');
         state.campaignPick = false;
         state.marchHint = '正在结束选将，等待点将键进入引擎…';
@@ -3103,12 +3196,14 @@
         }
         function sendFinishExit(started) {
             started = started || Date.now();
-            var waitMs = Math.max(10000, 900 * Math.max(1, state.pickedPersons || 1));
+            /* 队列排空 + 点将已发出/人数已降即可 EXIT。不要为已消耗的点将干等 10s。 */
+            var waitMs = Math.max(2400, 350 * Math.max(1, state.pickedPersons || 1));
             var enters = queuePickEnters();
             var personsNow = cityPersons(state.cityIndex).length;
-            var startedPersons = state.enginePersonsAtFinish || personsNow;
-            var engineTook = personsNow < startedPersons;
-            var sincePick = state.lastPickEnterAt ? (Date.now() - state.lastPickEnterAt) : 0;
+            var startCount = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsNow;
+            var engineTook = !!(startCount && personsNow < startCount);
+            var pickFired = !!state.lastPickEnterAt;
+            var sincePick = pickFired ? (Date.now() - state.lastPickEnterAt) : 0;
             if (enters > 0 && Date.now() - started < waitMs) {
                 setTimeout(function () {
                     sendFinishExit(started);
@@ -3124,16 +3219,18 @@
                 }, 50);
                 return;
             }
-            if (!engineTook && Date.now() - started < waitMs && (state.pickedPersons || 0) > 0) {
+            /* 点将 ENTER 已发出或人数已降：只 settle 320ms，不要再等人数再降。 */
+            if (engineTook || pickFired) {
+                if (sincePick && sincePick < 320 && Date.now() - started < waitMs) {
+                    setTimeout(function () {
+                        sendFinishExit(started);
+                    }, 40);
+                    return;
+                }
+            } else if (Date.now() - started < waitMs && (state.pickedPersons || 0) > 0) {
                 setTimeout(function () {
                     sendFinishExit(started);
                 }, 80);
-                return;
-            }
-            if (sincePick && sincePick < 320 && Date.now() - started < waitMs) {
-                setTimeout(function () {
-                    sendFinishExit(started);
-                }, 40);
                 return;
             }
             if (liveGetFood() || engineQtyActiveMin1()) {
@@ -3768,6 +3865,9 @@
         pickIndex(index, true, state.deepKind === 'person-city' ? 'pick-person' : '');
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
+            if (!state.enginePersonsAtPickStart) {
+                state.enginePersonsAtPickStart = cityPersons(state.cityIndex).length;
+            }
             state.pickedPersons += 1;
             state.deepSig = '';
             setTimeout(function () {
@@ -3800,6 +3900,9 @@
     }
 
     function onEngineHook(name, ctx) {
+        if (name === 'chooseGameEntry' || name === 'didOpenNewGame' || name === 'didLoadGame') {
+            resetForNewGame(name);
+        }
         if (state.handoff && fightIsActive()) {
             consumeMarchSeqIfFight();
             finishHandoff(true);
@@ -4194,6 +4297,7 @@
                 sending: !!state.sending,
                 enginePersons: cityPersons(state.cityIndex).length,
                 enginePersonsAtFinish: state.enginePersonsAtFinish || 0,
+                enginePersonsAtPickStart: state.enginePersonsAtPickStart || 0,
                 marchHint: state.marchHint,
                 holdExit: holdExit(),
                 holdMenu: holdMenu(),
@@ -4280,6 +4384,7 @@
         handoffAt: function () { return state.handoffAt || 0; },
         consumeLeftoverMarch: consumeLeftoverMarch,
         resetAfterFight: resetAfterFight,
+        resetForNewGame: resetForNewGame,
         forceClearMapPick: forceClearMapPick,
         freshMarchOk: freshMarchOk,
         isQtyLive: liveQty,

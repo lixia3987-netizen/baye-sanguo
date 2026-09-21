@@ -972,6 +972,9 @@
             return;
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetForNewGame === 'function') {
+                BayeHdCityMenu.resetForNewGame(name);
+            }
             state.probed = false;
             state._roadsLogged = false;
             state.sawFightHook = false;
@@ -982,6 +985,10 @@
             return;
         }
         if (name === 'chooseActor' || name === 'chooseGameEntry' || name === 'loadPeriod') {
+            if (name === 'chooseGameEntry' && global.BayeHdCityMenu &&
+                typeof BayeHdCityMenu.resetForNewGame === 'function') {
+                BayeHdCityMenu.resetForNewGame(name);
+            }
             setPhase('other');
             return;
         }

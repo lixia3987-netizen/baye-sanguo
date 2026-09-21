@@ -718,7 +718,15 @@
         if (name === 'onMenuIdle' && liveMenuNames()[0] === '策略结束') {
             state.lastFuncMenuIdle = Date.now();
         }
+        if (name === 'chooseGameEntry') {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetForNewGame === 'function') {
+                BayeHdCityMenu.resetForNewGame('chooseGameEntry');
+            }
+        }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetForNewGame === 'function') {
+                BayeHdCityMenu.resetForNewGame(name);
+            }
             if (state.screen === 'king') {
                 state.kings = probeKings();
                 if (state.kings.length) {
