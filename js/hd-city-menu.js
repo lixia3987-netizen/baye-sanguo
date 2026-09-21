@@ -1481,10 +1481,50 @@
         }
     }
 
+    function liveJunbeiMenu() {
+        var names = engineMenuItems().names || [];
+        return names[0] === '侦察' &&
+            (names.indexOf('出征') >= 0 || names.indexOf('征兵') >= 0);
+    }
+
+    function liveCityRootMenu() {
+        var names = engineMenuItems().names || [];
+        return names[0] === '内政' &&
+            (names.indexOf('军备') >= 0 || names.indexOf('外交') >= 0);
+    }
+
     function engineLeftBattleMake() {
-        var n0 = (engineMenuItems().names || [])[0] || '';
-        return n0 === '侦察' || n0 === '策略结束' || n0 === '内政' || n0 === '开垦' ||
-            n0 === '军备' || n0 === '外交';
+        var names = engineMenuItems().names || [];
+        var n0 = names[0] || '';
+        /* 出征向导里 g_hdMenuBytes 常残留「策略结束 / 侦察 / 开垦」，不是真离开 BattleMake。 */
+        if (n0 === '侦察') {
+            return liveJunbeiMenu();
+        }
+        if (n0 === '内政') {
+            return liveCityRootMenu();
+        }
+        if (n0 === '军备' || n0 === '外交') {
+            return names.indexOf('内政') >= 0 || names.indexOf('状况') >= 0;
+        }
+        if (n0 === '开垦') {
+            return names.length >= 2 && (names.indexOf('招商') >= 0 || names.indexOf('搜索') >= 0);
+        }
+        if (n0 === '策略结束') {
+            return !!(looksLikeFunctionMenu() &&
+                (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400);
+        }
+        return false;
+    }
+
+    function engineStillInPersonPick() {
+        if (liveGetFood() || engineQtyActiveMin1() || qtyLooksLikeGetFood()) {
+            return false;
+        }
+        if (engineLeftBattleMake()) {
+            return false;
+        }
+        /* 空菜单 / 残留「策略结束」/ 将表：EXIT 还没进 GetFood。 */
+        return true;
     }
 
     function qtyLooksLikeGetFood(q) {
@@ -1980,10 +2020,14 @@
                     return { deferred: 'overlay-dismissed', phase: engineMarchPhase() };
                 }
                 var GETFOOD_OPEN_MS = 8000;
+                var GETFOOD_RETRY_MS = 1200;
                 var sinceExit = state.lastPersonExitAt ? (Date.now() - state.lastPersonExitAt) : 0;
                 var waited = sinceExit > GETFOOD_OPEN_MS;
                 var n0 = (engineMenuItems().names || [])[0] || '';
-                var leftBattle = n0 === '侦察' || n0 === '策略结束' || n0 === '内政' || n0 === '开垦';
+                var leftBattle = engineLeftBattleMake();
+                var stillPick = engineStillInPersonPick();
+                var qNow = engineQty();
+                var minMaxZero = !(qNow && (Number(qNow.min) >= 1 || Number(qNow.max) >= 1));
                 /* 开垦后水灾/选择目标残留不能在 1s 内再 EXIT：会取消刚打开的 GetFood。
                  * 0 点将就 EXIT 会离开 BattleMake；遮罩吃掉 EXIT 时 lastExit 为空，先补发完成选将。 */
                 if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
@@ -1996,10 +2040,78 @@
                     finishPersonPick();
                     return { deferred: 'retry-finish-no-exit', phase: engineMarchPhase() };
                 }
+                /* 真回到军备「侦察」：EXIT 取消了 BattleMake，重进出征再点将。 */
+                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
+                    leftBattle && liveJunbeiMenu() &&
+                    (state.personExitTries || 0) < 3 &&
+                    sinceExit >= GETFOOD_RETRY_MS) {
+                    state.personExitSent = false;
+                    state.finishPersonsBusy = false;
+                    state.personExitTries = (state.personExitTries || 0) + 1;
+                    state.lastPersonExitAt = Date.now();
+                    state.battleMake = true;
+                    setWizardStep('persons', 'reenter-battle');
+                    noteStep4('drive-reenter-battle', {
+                        skipped: why || 'left-to-scout',
+                        attempt: state.personExitTries
+                    });
+                    dismissMarchOverlay('reenter-battle');
+                    enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
+                    setTimeout(function () {
+                        if (liveGetFood() || engineQtyActiveMin1() || state.personExitSent) {
+                            return;
+                        }
+                        requeuePickedPersons('reenter-battle');
+                        setTimeout(function () {
+                            if (!state.personExitSent && !state.finishPersonsBusy) {
+                                finishPersonPick();
+                            }
+                        }, 420);
+                    }, 360);
+                    state.marchHint = 'EXIT 已离开选将回到军备，已重进出征。' + marchDebugLine();
+                    scheduleMarchWatch();
+                    render();
+                    return { deferred: 'reenter-battle-make', phase: engineMarchPhase() };
+                }
+                /* ~1.2s 后仍 min/max=0 且仍在选将：先关 HELP 再补 EXIT。
+                 * 不要等 8s，也不要把残留「策略结束」当 leftBattle。q 的 min/max≥1 绑条仍优先。 */
+                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
+                    minMaxZero && stillPick && !leftBattle &&
+                    sinceExit >= GETFOOD_RETRY_MS &&
+                    (state.personExitTries || 0) < 3 &&
+                    !engineQtyActiveMin1()) {
+                    var nowPersonsEarly = cityPersons(state.cityIndex).length;
+                    var startPersonsEarly = state.enginePersonsAtPickStart ||
+                        state.enginePersonsAtFinish || nowPersonsEarly;
+                    if (!(startPersonsEarly && nowPersonsEarly < startPersonsEarly)) {
+                        state.marchHint = '选粮未打开，点将尚未进入引擎，不重发 EXIT。' + marchDebugLine();
+                        scheduleMarchWatch();
+                        return { deferred: 'wait-engine-picks', phase: engineMarchPhase() };
+                    }
+                    state.personExitTries = (state.personExitTries || 0) + 1;
+                    state.lastPersonExitAt = Date.now();
+                    state.foodRecovered = true;
+                    state.foodRecoverNeeded = false;
+                    noteStep4('drive-person-exit', {
+                        skipped: why || 'retry-exit-early',
+                        attempt: state.personExitTries
+                    });
+                    if (dismissMarchOverlay('retry-exit-help')) {
+                        enqueueKeys([VK.EXIT], 240, 'finish-persons');
+                        state.marchHint = '残留帮助挡住 EXIT，已关掉后再发 EXIT。' + marchDebugLine();
+                    } else {
+                        engineSendKey(VK.EXIT, 'finish-persons');
+                        state.marchHint = '选粮未打开（min/max=0），已再发 EXIT 进入 GetFood。' +
+                            marchDebugLine();
+                    }
+                    scheduleMarchWatch();
+                    render();
+                    return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
+                }
                 if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
                     sinceExit >= 4000 &&
                     (state.foodRecoverNeeded || waited) &&
-                    (state.personExitTries || 0) < 2 &&
+                    (state.personExitTries || 0) < 3 &&
                     !engineQtyActiveMin1() &&
                     !leftBattle) {
                     var nowPersons = cityPersons(state.cityIndex).length;
@@ -2021,7 +2133,7 @@
                     return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
                 }
                 if (!thisMarchGetFoodOpened() &&
-                    ((state.personExitTries || 0) >= 2 || state.foodGaveUp) &&
+                    ((state.personExitTries || 0) >= 3 || state.foodGaveUp) &&
                     state.lastPersonExitAt &&
                     (Date.now() - state.lastPersonExitAt > GETFOOD_OPEN_MS)) {
                     /* 再发 EXIT 后再等一轮。立刻认输会把刚打开的 GetFood 当失败。 */
@@ -3557,7 +3669,13 @@
                 render();
                 return;
             }
-            /* 点将 ENTER 已进引擎后再立旗、再 EXIT。绝不丢掉未发出的 ENTER。 */
+            /* 点将 ENTER 已进引擎后再立旗、再 EXIT。绝不丢掉未发出的 ENTER。
+             * leftover HELP 会吃掉立刻发出的 EXIT，先关壳再隔 240ms 发。 */
+            var ovExit = leftoverMarchOverlay();
+            var helpGap = !!(ovExit.blocking || ovExit.engineHelp || ovExit.help || ovExit.farm);
+            if (helpGap) {
+                dismissMarchOverlay('finish-exit-pre');
+            }
             state.personExitSent = true;
             state.finishPersonsBusy = false;
             state.personExitTries = 1;
@@ -3567,6 +3685,8 @@
                 state.foodRecoverEnter = true;
                 state.foodRecoverNeeded = true;
                 enqueueKeys([VK.EXIT], 280, 'finish-persons');
+            } else if (helpGap) {
+                enqueueKeys([VK.EXIT], 240, 'finish-persons');
             } else {
                 engineSendKey(VK.EXIT, 'finish-persons');
             }
@@ -4646,6 +4766,9 @@
                 finishVisibleRetry: state.finishVisibleRetry || 0,
                 pickedPersonNames: (state.pickedPersonNames || []).slice(),
                 leftoverOverlay: leftoverMarchOverlay(),
+                engineLeftBattleMake: engineLeftBattleMake(),
+                engineStillInPersonPick: engineStillInPersonPick(),
+                liveJunbeiMenu: liveJunbeiMenu(),
                 qtyActive: (function () {
                     try {
                         return Number(window.baye && baye.data && baye.data.g_hdQtyActive) || 0;
@@ -4739,6 +4862,8 @@
         engineMarchPhase: engineMarchPhase,
         liveGetFood: liveGetFood,
         latentGetFood: latentGetFood,
+        engineLeftBattleMake: engineLeftBattleMake,
+        engineStillInPersonPick: engineStillInPersonPick,
         bindLiveGetFoodQty: bindLiveGetFoodQty,
         thisMarchGetFoodOpened: thisMarchGetFoodOpened,
         foodReadyForCitySet: foodReadyForCitySet,
