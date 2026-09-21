@@ -975,6 +975,31 @@
         return mapPickActive() && !state.sawQtyThisMarch;
     }
 
+    /* HD 已回城池根，引擎还停在内政/军备/人物表（开垦过月最常见）。 */
+    function leftoverEngineSubAtHdRoot() {
+        if (state.layer !== 'root') {
+            return '';
+        }
+        var names = engineMenuItems().names || [];
+        var n0 = names[0] || '';
+        if (!n0 || n0 === '内政' || n0 === '军备' || n0 === '外交' || n0 === '状况') {
+            return '';
+        }
+        if (n0 === '策略结束' || n0 === '确定退出' || n0 === '结束游戏' || n0 === '存储进度') {
+            return '';
+        }
+        if (SUBS.neizheng.indexOf(n0) >= 0) {
+            return 'neizheng';
+        }
+        if (SUBS.junbei.indexOf(n0) >= 0) {
+            return 'junbei';
+        }
+        if (SUBS.waijiao.indexOf(n0) >= 0) {
+            return 'waijiao';
+        }
+        return 'person';
+    }
+
     /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。 */
     function clearStaleMapPick(why) {
         if (!leftoverOverworldPick()) {
@@ -1206,7 +1231,8 @@
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                var waited = state.lastPersonExitAt && (Date.now() - state.lastPersonExitAt > 1400);
+                var GETFOOD_OPEN_MS = 1600;
+                var waited = state.lastPersonExitAt && (Date.now() - state.lastPersonExitAt > GETFOOD_OPEN_MS);
                 /* leftover 选择目标 / 开垦残留农业 吃掉完成选将 EXIT。过图 pick 已写掉，只再 EXIT 一次。 */
                 if (!thisMarchGetFoodOpened() &&
                     (state.foodRecoverNeeded || leftoverChooseTarget(report) || waited) &&
@@ -1225,7 +1251,15 @@
                     return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
                 }
                 if (!thisMarchGetFoodOpened() && (state.personExitTries || 0) >= 2) {
-                    state.marchHint = '引擎未打开 GetFood，不能确认粮草。' + marchDebugLine();
+                    /* 不再软锁在选粮：退回选将，提示清楚，可再点「完成选将」。 */
+                    state.marchHint = '引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine();
+                    state.personExitSent = false;
+                    state.foodRecoverNeeded = false;
+                    state.foodRecoverEnter = false;
+                    setWizardStep('persons', 'getfood-timeout');
+                    state.deepSig = '';
+                    render();
+                    return { deferred: 'getfood-timeout', phase: engineMarchPhase() };
                 }
             }
         }
@@ -2173,6 +2207,7 @@
         bindOpenedCity(meta);
         state.lastHook = meta.hook || state.lastHook;
         if (state.open) {
+            clearStaleMapPick('reopen-city');
             render();
             return true;
         }
@@ -2188,6 +2223,8 @@
             state.qtyDismissed = true;
             clearLeftoverQtyFlag();
         }
+        /* 开垦/过图 leftover pick=1 必须在点军备之前写掉，否则 ENTER 会确认过图而不是进军备。 */
+        clearStaleMapPick('open-city');
         render();
         console.log('[hd-city-menu] open', {
             city: state.cityName,
@@ -2297,15 +2334,34 @@
             return;
         }
         var root = ROOTS[index];
-        pickIndex(index, true);
+        /* 开垦数月后 leftover pick 还在：先写 0，再发军备/内政 ENTER。 */
+        clearStaleMapPick('choose-root');
+        var leftoverSub = leftoverEngineSubAtHdRoot();
         if (root.id === 'zhuangkuang') {
             state.layer = 'status';
             state.subKind = root.id;
-        } else {
+            render();
+            return;
+        }
+        if (leftoverSub === root.id) {
+            /* 引擎已在该层（过月后常见 leftover 开垦），再 ENTER 会点开第一项。 */
             state.layer = 'sub';
             state.subKind = root.id;
             state.idleIndex = 0;
+            render();
+            return;
         }
+        if (leftoverSub === 'person') {
+            enqueueKeys([VK.EXIT, VK.EXIT], 70, 'leave-leftover-person');
+            state.idleIndex = 0;
+        } else if (leftoverSub) {
+            enqueueKeys([VK.EXIT], 70, 'leave-leftover-sub');
+            state.idleIndex = 0;
+        }
+        pickIndex(index, true);
+        state.layer = 'sub';
+        state.subKind = root.id;
+        state.idleIndex = 0;
         render();
     }
 
@@ -3413,6 +3469,7 @@
                 wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
                 sawQtyThisMarch: state.sawQtyThisMarch,
                 leftoverPick: leftoverOverworldPick(),
+                leftoverEngineSub: leftoverEngineSubAtHdRoot(),
                 leftoverQty: leftoverQtyFlag(),
                 liveQty: liveQty(),
                 liveGetFood: liveGetFood(),
