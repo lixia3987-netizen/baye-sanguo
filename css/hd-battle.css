@@ -104,6 +104,8 @@ html[data-baye-battle="hd"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd 
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 48px rgba(0, 0, 0, 0.45);
     color: #f3f6fb;
     font-family: BayeUI, "Noto Sans CJK SC", sans-serif;
+    z-index: 6;
+    pointer-events: auto;
 }
 
 .hd-battle-menu[hidden] {
@@ -163,6 +165,7 @@ html[data-baye-battle="hd"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd 
     bottom: 16px;
     display: flex;
     gap: 10px;
+    z-index: 5;
 }
 
 .hd-battle-footer button {

@@ -72,7 +72,11 @@
         sending: false,
         fightTip: '',
         lastInvalidAt: 0,
-        lastBlockedEnter: ''
+        lastBlockedEnter: '',
+        pendingActPick: null,
+        lastAutoActAt: 0,
+        autoActTries: 0,
+        drivingAct: false
     };
 
     function readStorage(key, fallback) {
@@ -339,6 +343,199 @@
         return cls;
     }
 
+    function syntheticActMenu() {
+        return {
+            kind: 'act',
+            title: '将领行动',
+            names: ['攻击', '计谋', '查看', '待机'],
+            index: 0,
+            synthetic: true
+        };
+    }
+
+    function playerTurnWaiting(fight) {
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        if (!fight.wait) {
+            return false;
+        }
+        var phase = Number(fight.phase) || 0;
+        /* 选将/走格：引擎还没 PlcSplMenu，盒子只能看到底栏。瞄准不套假菜单。 */
+        return phase === 1 || phase === 2 || phase === 0;
+    }
+
+    function resetActDrive() {
+        state.pendingActPick = null;
+        state.lastAutoActAt = 0;
+        state.autoActTries = 0;
+        state.drivingAct = false;
+    }
+
+    function whyMenuHidden() {
+        var fight = readFight();
+        var panel = el('hd-battle-menu');
+        var items = readMenuItems();
+        var cls = peekFightMenuClass();
+        var reasons = [];
+        var waiting = playerTurnWaiting(fight);
+        if (!state.open) {
+            reasons.push('not-open');
+        }
+        if (state.preview) {
+            reasons.push('preview');
+        }
+        if (state.resultText) {
+            reasons.push('result');
+        }
+        if (!fight || !fight.active) {
+            reasons.push('fight-inactive');
+        }
+        if (fight && fight.wait) {
+            reasons.push('wait=1');
+        }
+        if (fight && fight.over) {
+            reasons.push('over');
+        }
+        if (!cls) {
+            reasons.push('no-class');
+        } else {
+            reasons.push('class=' + cls.kind);
+        }
+        if (state.needWaitBeforeMenu) {
+            reasons.push('needWaitBeforeMenu');
+        }
+        if (!state.sawWait) {
+            reasons.push('!sawWait');
+        }
+        if (waiting) {
+            reasons.push('player-turn-waiting-synthetic');
+        }
+        if (panel && panel.hidden) {
+            reasons.push('panel-hidden');
+        }
+        var cs = null;
+        try {
+            cs = panel ? global.getComputedStyle(panel) : null;
+        } catch (eCs) {}
+        if (cs) {
+            if (cs.display === 'none') {
+                reasons.push('css-display-none');
+            }
+            if (cs.visibility === 'hidden') {
+                reasons.push('css-visibility-hidden');
+            }
+            if (cs.pointerEvents === 'none' && !panel.hidden) {
+                reasons.push('css-pointer-events-none');
+            }
+            if (Number(cs.opacity) === 0) {
+                reasons.push('css-opacity-0');
+            }
+        }
+        var count = 0;
+        try {
+            count = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0;
+        } catch (e) {}
+        return {
+            reasons: reasons,
+            wait: fight ? !!fight.wait : null,
+            phase: fight ? fight.phase : null,
+            active: fight ? !!fight.active : false,
+            over: fight ? !!fight.over : false,
+            menuCount: count,
+            menuNames: (items && items.names) || [],
+            liveMenuKind: state.liveMenuKind,
+            needWaitBeforeMenu: state.needWaitBeforeMenu,
+            sawWait: state.sawWait,
+            pendingActPick: state.pendingActPick,
+            panelHidden: !!(panel && panel.hidden),
+            footerOnly: !!(panel && panel.hidden && state.open),
+            armed: !!(state.liveMenuKind || waiting),
+            synthetic: waiting,
+            css: cs ? {
+                display: cs.display,
+                visibility: cs.visibility,
+                pointerEvents: cs.pointerEvents,
+                zIndex: cs.zIndex,
+                opacity: cs.opacity
+            } : null
+        };
+    }
+
+    function clickWaitingOwn() {
+        var i;
+        var fallback = null;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'player' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (u.active === 0 || u.active == null) {
+                return clickBattleTile(u.x, u.y);
+            }
+            if (!fallback) {
+                fallback = u;
+            }
+        }
+        if (fallback) {
+            return clickBattleTile(fallback.x, fallback.y);
+        }
+        return null;
+    }
+
+    function drivePlayerToActMenu() {
+        if (state.drivingAct) {
+            return false;
+        }
+        /* 只在玩家点了将领行动项后才选将/落定。开战第一帧只画菜单，不自动待机。 */
+        if (state.pendingActPick == null) {
+            return false;
+        }
+        var fight = readFight();
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            resetActDrive();
+            return false;
+        }
+        if (!fight.wait) {
+            recoverFightMenu(fight);
+            var live = readFightMenu();
+            if (live && !live.synthetic) {
+                var idx = state.pendingActPick;
+                state.pendingActPick = null;
+                state.autoActTries = 0;
+                pickFightMenu(idx);
+                return true;
+            }
+            return false;
+        }
+        var phase = Number(fight.phase) || 0;
+        if (phase === 3) {
+            return false;
+        }
+        if (state.sending || state.queue.length) {
+            return false;
+        }
+        if (Date.now() - (state.lastAutoActAt || 0) < 220) {
+            return false;
+        }
+        if (state.autoActTries > 8) {
+            return false;
+        }
+        state.lastAutoActAt = Date.now();
+        state.autoActTries += 1;
+        state.drivingAct = true;
+        try {
+            if (phase === 2) {
+                engineSendKey(VK.ENTER);
+                return true;
+            }
+            clickWaitingOwn();
+            return true;
+        } finally {
+            state.drivingAct = false;
+        }
+    }
+
     function recoverFightMenu(fight) {
         if (!state.open || state.preview || state.resultText) {
             return null;
@@ -369,7 +566,11 @@
         if (!fight || !fight.active) {
             return null;
         }
-        /* FgtGetFoucs 选将/走格：g_hdFightWait=1，g_hdMenuBytes 仍可能是上一份「回合结束」。 */
+        /* 盒子开战停在 FgtGetFoucs wait=1，不会点棋盘。假「将领行动」必须第一帧就画出来。 */
+        if (playerTurnWaiting(fight)) {
+            return syntheticActMenu();
+        }
+        /* FgtGetFoucs 选将/走格：g_hdMenuBytes 仍可能是上一份「回合结束」。 */
         if (fight.wait) {
             return null;
         }
@@ -440,6 +641,12 @@
             return false;
         }
         if (fightMenuLive()) {
+            var sysInfo = readFightMenu();
+            if (sysInfo && sysInfo.synthetic) {
+                resetActDrive();
+                engineSendKey(VK.EXIT);
+                return true;
+            }
             state.lastMenuIdleAt = 0;
             renderFightMenu();
             engineSendKey(VK.EXIT);
@@ -459,6 +666,17 @@
     }
 
     function pickFightMenu(index) {
+        var fight = readFight();
+        var info = readFightMenu();
+        if ((fight && fight.wait) || (info && info.synthetic)) {
+            /* wait=1 时光标键是走格，不能当菜单 UP/DOWN。记下选项，先选将再落定。 */
+            state.pendingActPick = index;
+            state.autoActTries = 0;
+            state.lastAutoActAt = 0;
+            state.menuIndex = index;
+            drivePlayerToActMenu();
+            return;
+        }
         var cur = state.menuIndex;
         if (cur == null || cur < 0) {
             cur = 0;
@@ -506,12 +724,21 @@
             state.menuKind = '';
             state.menuNames = [];
             panel.hidden = true;
+            panel.removeAttribute('data-hd-battle-menu-synthetic');
+            panel.classList.remove('is-synthetic');
             return;
         }
         state.menuKind = info.kind;
         state.menuTitle = info.title;
         state.menuNames = info.names;
         state.menuIndex = info.index;
+        if (info.synthetic) {
+            panel.setAttribute('data-hd-battle-menu-synthetic', '1');
+            panel.classList.add('is-synthetic');
+        } else {
+            panel.removeAttribute('data-hd-battle-menu-synthetic');
+            panel.classList.remove('is-synthetic');
+        }
         if (title) {
             title.textContent = info.title;
         }
@@ -850,6 +1077,7 @@
         state.fightTip = '';
         state.lastInvalidAt = 0;
         state.lastBlockedEnter = '';
+        resetActDrive();
         clearFightBridge();
         if (state.open) {
             closeBattle({ silent: true });
@@ -1538,6 +1766,9 @@
         var fightNow = readFight();
         noteFightWait(fightNow);
         recoverFightMenu(fightNow);
+        if (state.pendingActPick != null) {
+            drivePlayerToActMenu();
+        }
         noteFightTip(fightNow);
         renderFightMenu();
         applyChrome();
@@ -1595,6 +1826,7 @@
             state.needWaitBeforeMenu = false;
             state.pendingSys = 0;
             state.menuKind = '';
+            resetActDrive();
         }
         if (meta.hook) {
             state.lastHook = meta.hook;
@@ -1629,6 +1861,7 @@
         state.sawWait = false;
         state.needWaitBeforeMenu = false;
         state.pendingSys = 0;
+        resetActDrive();
         clearEngineMenuLeftover();
         var menu = el('hd-battle-menu');
         if (menu) {
@@ -1712,6 +1945,11 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu-exit') != null) {
                     ev.preventDefault();
+                    var exitInfo = readFightMenu();
+                    if (exitInfo && exitInfo.synthetic) {
+                        /* 假菜单「返回」不能 EXIT：选将阶段 EXIT 会打开系统菜单，只剩底栏。 */
+                        return;
+                    }
                     if (fightMenuLive()) {
                         state.lastMenuIdleAt = 0;
                         renderFightMenu();
@@ -1762,7 +2000,9 @@
                     return;
                 }
                 recoverFightMenu(fight);
-                if (fightMenuLive()) {
+                var canvasMenu = readFightMenu();
+                /* 假将领行动盖在棋盘上时仍要点将；真 PlcSplMenu 才挡格。 */
+                if (canvasMenu && !canvasMenu.synthetic) {
                     return;
                 }
                 var tile = eventToTile(ev);
@@ -1980,6 +2220,13 @@
             }
         },
         debugSnapshot: function () {
+            var fightSnap = readFight();
+            var menuSnap = readFightMenu();
+            var itemsSnap = readMenuItems();
+            var menuCountSnap = 0;
+            try {
+                menuCountSnap = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0;
+            } catch (eMc) {}
             return {
                 pref: getMode(),
                 showHd: shouldShowHd(),
@@ -2002,10 +2249,18 @@
                 menuNames: state.menuNames.slice(),
                 menuIndex: state.menuIndex,
                 menuLive: fightMenuLive(),
+                menuSynthetic: !!(menuSnap && menuSnap.synthetic),
                 menuIdleAge: state.lastMenuIdleAt ? (Date.now() - state.lastMenuIdleAt) : null,
                 liveMenuKind: state.liveMenuKind,
                 needWaitBeforeMenu: state.needWaitBeforeMenu,
                 lastWait: state.lastWait,
+                wait: fightSnap ? !!fightSnap.wait : null,
+                active: fightSnap ? !!fightSnap.active : false,
+                menuCount: menuCountSnap,
+                menuBytes: (itemsSnap && itemsSnap.names) || [],
+                pendingActPick: state.pendingActPick,
+                autoActTries: state.autoActTries,
+                why: whyMenuHidden(),
                 queueLen: state.queue.length,
                 sawWait: state.sawWait,
                 pendingSys: state.pendingSys,
