@@ -111,6 +111,7 @@ FAR U8 BattleMake(U8 city)
         {
             baye_hd_set_march(0, 0, 0, 0);
             baye_hd_set_city_links(city);
+            baye_hd_set_map_city((U8)(city + 1));
             while (1)
             {
                 ResLoadToMem(STRING_CONST,STR_OBJ,str);

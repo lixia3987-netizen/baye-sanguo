@@ -93,6 +93,7 @@
         lastWalkAt: 0,
         walkBusy: false,
         confirmingTarget: false,
+        landToken: 0,
         pendingTarget: null,
         confirmToken: 0,
         acceptMarchOk: false,
@@ -1128,23 +1129,98 @@
         return 'person';
     }
 
-    /* PlayerTactic 正在 GetCitySet：写 pick=0 是撒谎，下一发 ENTER 会点进空城（无人占领）。 */
+    /* PlayerTactic 正在 GetCitySet：写 pick=0 是撒谎，下一发 ENTER 会点进空城（无人占领）。
+     * pick=1 且 !battlePick 就是过图 GetCitySet。残留菜单字节「侦察/开垦」不能当成已在军备，
+     * 否则 DOWN×4 会把光标从天水(3,2)走到巴郡(3,6)。 */
     function liveOverworldGetCitySet() {
-        if (battlePickActive() || !leftoverOverworldPick()) {
+        return leftoverOverworldPick();
+    }
+
+    function bindOpenedMapCity(cityIndex, why) {
+        cityIndex = cityIndex != null && cityIndex >= 0 ? Number(cityIndex) : state.cityIndex;
+        if (!isFinite(cityIndex) || cityIndex < 0 || cityIndex >= 64) {
             return false;
         }
-        var names = engineMenuItems().names || [];
-        var n0 = names[0] || '';
-        if (n0 === '侦察' || n0 === '征兵' || n0 === '出征' || n0 === '开垦' || n0 === '招商') {
+        try {
+            if (window.baye && baye.data && baye.data.g_hdMapCity != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdMapCity = cityIndex + 1;
+            }
+        } catch (e) {}
+        try {
+            if (typeof bayeHdLoadCityLinks === 'function') {
+                bayeHdLoadCityLinks(cityIndex);
+            }
+        } catch (e) {}
+        noteStep4('bind-map-city', { cityIndex: cityIndex, skipped: why || 'bind' });
+        return engineMapCityIndex() === cityIndex;
+    }
+
+    /* 过图 leftover pick 时先走回 HD 打开的城再 ENTER，绝不能对着 GetCitySet 发军备方向键。 */
+    function landOwnedCity(why, done) {
+        var cityIndex = state.cityIndex;
+        done = typeof done === 'function' ? done : function () {};
+        bindOpenedMapCity(cityIndex, why);
+        if (!isFinite(cityIndex) || cityIndex < 0) {
+            done(false);
             return false;
         }
-        if (n0 === '策略结束' || n0 === '存储进度' || n0 === '结束游戏') {
+        if (battlePickActive()) {
+            done(true);
             return true;
         }
-        if (/无人占领|敌方城池|选择目标/.test(liveEngineReport())) {
+        if (!mapPickActive()) {
+            try {
+                if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
+                    (!baye.hdEngineReady || baye.hdEngineReady())) {
+                    baye.data.g_hdMapPick = 0;
+                }
+            } catch (e) {}
+            bindOpenedMapCity(cityIndex, why);
+            done(true);
             return true;
         }
-        return !cityOrderMenuNow(names);
+        noteStep4('land-owned-city', { cityIndex: cityIndex, skipped: why || 'land' });
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
+        state.landToken = (state.landToken || 0) + 1;
+        var token = state.landToken;
+        var to = cityEngineTile(cityIndex);
+        var from = readEngineCursor();
+        var dirs = [];
+        if (from && to && to.x != null && to.y != null) {
+            var x = from.x;
+            var y = from.y;
+            while (y > to.y) { dirs.push(VK.UP); y -= 1; }
+            while (y < to.y) { dirs.push(VK.DOWN); y += 1; }
+            while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
+            while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
+        }
+        var step = 0;
+        function finishLand() {
+            if (token !== state.landToken) {
+                return;
+            }
+            bindOpenedMapCity(cityIndex, why);
+            done(cursorOnCity(cityIndex) || !mapPickActive());
+            render();
+        }
+        function sendNext() {
+            if (token !== state.landToken) {
+                return;
+            }
+            if (cursorOnCity(cityIndex) || step >= dirs.length) {
+                engineSendKey(VK.ENTER, 'land-owned-city');
+                setTimeout(finishLand, 200);
+                return;
+            }
+            engineSendKey(dirs[step], 'land-owned-city');
+            step += 1;
+            setTimeout(sendNext, 45);
+        }
+        sendNext();
+        return true;
     }
 
     /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。
@@ -2469,6 +2545,7 @@
             clearLeftoverQtyFlag();
         }
         /* 开垦/过图 leftover pick=1 必须在点军备之前写掉，否则 ENTER 会确认过图而不是进军备。 */
+        bindOpenedMapCity(state.cityIndex, 'open-city');
         clearStaleMapPick('open-city');
         try {
             if (global.BayeHdSystemUi && typeof BayeHdSystemUi.isOpen === 'function' &&
@@ -2585,7 +2662,20 @@
             return;
         }
         var root = ROOTS[index];
-        /* 开垦数月后 leftover pick 还在：先写 0，再发军备/内政 ENTER。 */
+        /* 开垦数月后 leftover pick 还在：先回本城，再发军备/内政 ENTER。 */
+        bindOpenedMapCity(state.cityIndex, 'choose-root');
+        if ((root.id === 'junbei' || root.id === 'neizheng') &&
+            leftoverOverworldPick()) {
+            landOwnedCity('choose-root-' + root.id, function () {
+                chooseRootAfterLand(index);
+            });
+            return;
+        }
+        chooseRootAfterLand(index);
+    }
+
+    function chooseRootAfterLand(index) {
+        var root = ROOTS[index];
         clearStaleMapPick('choose-root');
         var leftoverSub = leftoverEngineSubAtHdRoot();
         if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
@@ -2632,8 +2722,11 @@
         if (willMarch) {
             clearStaleDisasterReport();
         }
-        pickIndex(index, true);
-        if (willMarch) {
+        function sendMarchKeys() {
+            if (leftoverOverworldPick()) {
+                return;
+            }
+            bindOpenedMapCity(state.cityIndex, 'choose-sub');
             /* 先清上场向导旗标，再认 leftover pick；否则 sawQtyThisMarch 仍真，清不掉。 */
             state.sawQtyThisMarch = false;
             state.personExitSent = false;
@@ -2644,21 +2737,33 @@
             /* 过月后 HD 已在军备，引擎还停在城池根「内政」。ENTER 出征会进内政。 */
             if (now0 === '内政') {
                 enqueueKeys([VK.DOWN, VK.DOWN, VK.ENTER], 70, 'enter-junbei-for-march');
+            } else {
+                pickIndex(index, true);
             }
             setTimeout(function () {
                 if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
                     return;
                 }
+                if (leftoverOverworldPick()) {
+                    return;
+                }
                 if (adoptLiveGetFood('choose-sub')) {
                     return;
                 }
-                var names = engineMenuItems().names || [];
-                if (names[0] === '侦察') {
+                var liveNames = engineMenuItems().names || [];
+                if (liveNames[0] === '侦察') {
                     enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
-                } else if (names[0] === '开垦') {
+                } else if (liveNames[0] === '开垦') {
                     enqueueKeys([VK.EXIT, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-from-neizheng');
                 }
             }, 320);
+        }
+        if (willMarch && leftoverOverworldPick()) {
+            landOwnedCity('choose-sub-march', sendMarchKeys);
+        } else if (willMarch) {
+            sendMarchKeys();
+        } else {
+            pickIndex(index, true);
         }
         state.deepKind = deepKindFor(state.subKind, index);
         state.deepLabel = names[index] || '';
@@ -2754,6 +2859,27 @@
             advanceWizard('food', 'finish-persons-live');
             state.marchHint = '引擎已打开选粮。';
             scheduleMarchWatch();
+            render();
+            return;
+        }
+        if (leftoverOverworldPick()) {
+            state.marchHint = '过图 leftover pick，先回本城再出征。' + marchDebugLine();
+            noteStep4('finish-leftover-pick', { skipped: 'overworld-pick' });
+            landOwnedCity('finish-persons-leftover', function () {
+                var now0 = (engineMenuItems().names || [])[0] || '';
+                if (now0 === '内政' || now0 === '外交' || now0 === '军备' || now0 === '状况') {
+                    enqueueKeys([VK.DOWN, VK.DOWN, VK.ENTER], 70, 'enter-junbei-for-march');
+                    setTimeout(function () {
+                        if (!leftoverOverworldPick()) {
+                            enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
+                        }
+                    }, 280);
+                } else if (now0 === '侦察' && !leftoverOverworldPick()) {
+                    enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
+                }
+                scheduleMarchWatch();
+                render();
+            });
             render();
             return;
         }
@@ -3841,6 +3967,7 @@
                 sawQtyThisMarch: state.sawQtyThisMarch,
                 leftoverPick: leftoverOverworldPick(),
                 battlePick: battlePickActive(),
+                openedCity: state.cityIndex,
                 marchDest: (function () {
                     var m = engineMarch();
                     return { city: m && m.city, obj: m && m.obj, ok: !!(m && m.ok), real: realMarchDest(m) };
@@ -3892,6 +4019,8 @@
         battlePickActive: battlePickActive,
         realMarchDest: realMarchDest,
         clearStaleMapPick: clearStaleMapPick,
+        bindOpenedMapCity: bindOpenedMapCity,
+        landOwnedCity: landOwnedCity,
         waitingArmout: waitingArmout,
         liveTargetStep: liveTargetStep,
         engineInGetCitySet: engineInGetCitySet,

@@ -94,6 +94,9 @@ U8 PlayerTactic(void)
                 continue;
             }
 
+            /* HD 开城后必须把 g_hdMapCity 钉在本城。过图 leftover 常停在巴郡。 */
+            baye_hd_set_map_city((U8)(cset + 1));
+            baye_hd_set_city_links(cset);
             cral = OrderMenu();
             switch (cral)
             {
