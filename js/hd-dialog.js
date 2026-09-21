@@ -284,7 +284,7 @@
     }
 
     function leftoverHelpDuringMarch() {
-        return !!(cityMenuMarching() && state.kind === 'help' && !cityMenuQty());
+        return !!((cityMenuMarching() || cityMenuOpen()) && state.kind === 'help' && !cityMenuQty());
     }
 
     function leftoverFarmReport(text) {
@@ -1106,7 +1106,10 @@
                 max: info.max,
                 body: state.body,
                 reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : '',
-                pass: leftoverMarchTip(state.body),
+                pass: leftoverMarchTip(state.body) || leftoverHelpDuringMarch() ||
+                    (state.kind === 'report' && leftoverFarmReport(state.body) && cityMenuMarching()),
+                leftoverHelp: leftoverHelpDuringMarch(),
+                leftoverFarm: leftoverFarmReport(state.body || ''),
                 lastReportSeq: state.lastReportSeq,
                 lastSpeechEnterSeq: state.lastSpeechEnterSeq
             };

@@ -93,6 +93,10 @@
         lastPickEnterAt: 0,
         enginePersonsAtFinish: 0,
         enginePersonsAtPickStart: 0,
+        engineHelpOpen: false,
+        overlayRetry: 0,
+        finishVisibleRetry: 0,
+        pickedPersonNames: [],
         marchHint: '',
         lastWalkCity: null,
         lastWalkAt: 0,
@@ -223,7 +227,8 @@
     }
 
     function allowEnterDuringFoodHold(reason) {
-        return reason === 'qty-ok' || reason === 'dismiss-live-disaster';
+        return reason === 'qty-ok' || reason === 'dismiss-live-disaster' ||
+            reason === 'dismiss-leftover-help';
     }
 
     function engineSendKey(code, reason) {
@@ -243,6 +248,9 @@
         }
         if (code === VK.ENTER && reason === 'pick-person') {
             state.lastPickEnterAt = Date.now();
+        }
+        if (code === VK.ENTER || code === VK.EXIT || code === VK.HELP) {
+            state.engineHelpOpen = false;
         }
         if (typeof sendKey === 'function') {
             sendKey(code);
@@ -1120,6 +1128,10 @@
         state.lastPickEnterAt = 0;
         state.enginePersonsAtFinish = 0;
         state.enginePersonsAtPickStart = 0;
+        state.engineHelpOpen = false;
+        state.overlayRetry = 0;
+        state.finishVisibleRetry = 0;
+        state.pickedPersonNames = [];
         state.foodGaveUp = false;
         state.foodAttempt = 0;
         state.foodRecovered = false;
@@ -1180,6 +1192,10 @@
         state.lastPickEnterAt = 0;
         state.enginePersonsAtFinish = 0;
         state.enginePersonsAtPickStart = 0;
+        state.engineHelpOpen = false;
+        state.overlayRetry = 0;
+        state.finishVisibleRetry = 0;
+        state.pickedPersonNames = [];
         state.pickedPersons = 0;
         state.foodGaveUp = false;
         state.foodAttempt = 0;
@@ -1564,6 +1580,17 @@
             ' leftoverPick=' + (leftoverOverworldPick() ? 1 : 0) +
             ' persons=' + cityPersons(state.cityIndex).length +
             (state.enginePersonsAtPickStart ? ('/' + state.enginePersonsAtPickStart) : '') +
+            ' lastExit=' + (state.lastExit || '—') +
+            ' help=' + (function () {
+                var ov = leftoverMarchOverlay();
+                return (ov.help || ov.engineHelp ? 1 : 0) + (ov.blocking ? 'b' : '') +
+                    (ov.kind ? ('/' + ov.kind) : '');
+            }()) +
+            ' qtyA=' + (function () {
+                try {
+                    return Number(window.baye && baye.data && baye.data.g_hdQtyActive) || 0;
+                } catch (e) { return 0; }
+            }()) +
             ' ui=' + (state.wizardStep || 'none');
     }
 
@@ -1652,6 +1679,95 @@
 
     function leftoverDisasterReport(text) {
         return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜|被策反|全军覆没|大获全胜|我军/.test(String(text || ''));
+    }
+
+    function leftoverFarmReportText(text) {
+        return /农业|商业|开发度|变为/.test(String(text || ''));
+    }
+
+    function leftoverMarchOverlay() {
+        var snap = null;
+        try {
+            if (global.BayeHdDialog && typeof BayeHdDialog.debugSnapshot === 'function') {
+                snap = BayeHdDialog.debugSnapshot();
+            }
+        } catch (e) {}
+        var root = el('hd-dialog');
+        var open = !!(root && root.classList.contains('is-open'));
+        var pe = '';
+        try {
+            pe = open ? getComputedStyle(root).pointerEvents : 'none';
+        } catch (e2) {}
+        var kind = snap && snap.kind;
+        var body = (snap && (snap.body || snap.reportText)) || liveEngineReport() || '';
+        var help = !!(open && kind === 'help');
+        var farm = !!(open && kind === 'report' && leftoverFarmReportText(body));
+        var blocking = !!(open && pe !== 'none' && (help || farm || !(snap && snap.body)));
+        var qtyActive = 0;
+        try {
+            qtyActive = Number(window.baye && baye.data && baye.data.g_hdQtyActive) || 0;
+        } catch (e3) {}
+        return {
+            open: open,
+            kind: kind || '',
+            pe: pe,
+            help: help,
+            farm: farm,
+            blocking: blocking,
+            engineHelp: !!state.engineHelpOpen,
+            qtyActive: qtyActive,
+            body: String(body || '').slice(0, 24)
+        };
+    }
+
+    function dismissMarchOverlay(why) {
+        var ov = leftoverMarchOverlay();
+        var visible = !!(ov.blocking || ov.engineHelp || ov.help || (ov.open && ov.farm));
+        if (ov.open || ov.engineHelp || leftoverFarmReportText(liveEngineReport())) {
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
+                BayeHdDialog.dismissLeftoverSpeech();
+            }
+            if (!liveReportAsync() && leftoverFarmReportText(liveEngineReport())) {
+                try {
+                    if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
+                        (!baye.hdEngineReady || baye.hdEngineReady())) {
+                        baye.data.g_hdReportGbk = '';
+                    }
+                } catch (e) {}
+            }
+        }
+        if (state.engineHelpOpen && !liveGetFood() && !state.foodConfirmedThisMarch) {
+            engineSendKey(VK.ENTER, 'dismiss-leftover-help');
+            visible = true;
+        }
+        if (visible) {
+            noteStep4('dismiss-overlay', { skipped: why || 'overlay', attempt: ov.kind || '' });
+        }
+        return visible;
+    }
+
+    function requeuePickedPersons(why) {
+        var names = state.pickedPersonNames || [];
+        var live = cityPersons(state.cityIndex);
+        var sent = 0;
+        var i;
+        var j;
+        for (i = 0; i < names.length; i++) {
+            for (j = 0; j < live.length; j++) {
+                if (live[j] && live[j].name === names[i]) {
+                    pickIndex(j, true, 'pick-person');
+                    sent += 1;
+                    break;
+                }
+            }
+        }
+        if (sent) {
+            noteStep4('requeue-picks', { skipped: why || 'overlay', attempt: sent });
+        }
+        return sent;
     }
 
     function clearStaleDisasterReport() {
@@ -1744,23 +1860,70 @@
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                var GETFOOD_OPEN_MS = 6000;
+                var ov = leftoverMarchOverlay();
+                if ((ov.blocking || ov.engineHelp || ov.help || ov.farm) &&
+                    (state.overlayRetry || 0) < 1 && !thisMarchGetFoodOpened()) {
+                    state.overlayRetry = 1;
+                    dismissMarchOverlay('drive-food-overlay');
+                    state.marchHint = '已关掉残留帮助/报告，再试完成选将。' + marchDebugLine();
+                    if (!state.lastExit) {
+                        state.personExitSent = false;
+                        state.finishPersonsBusy = false;
+                        state.foodGaveUp = false;
+                        state.finishVisibleRetry = (state.finishVisibleRetry || 0) + 1;
+                        finishPersonPick();
+                        return { deferred: 'overlay-retry-finish', phase: engineMarchPhase() };
+                    }
+                    var personsLive = cityPersons(state.cityIndex).length;
+                    var startLive = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsLive;
+                    if (startLive && personsLive < startLive) {
+                        state.personExitTries = (state.personExitTries || 0) + 1;
+                        state.lastPersonExitAt = Date.now();
+                        engineSendKey(VK.EXIT, 'finish-persons');
+                        scheduleMarchWatch();
+                        render();
+                        return { deferred: 'overlay-retry-exit', phase: engineMarchPhase() };
+                    }
+                    scheduleMarchWatch();
+                    render();
+                    return { deferred: 'overlay-dismissed', phase: engineMarchPhase() };
+                }
+                var GETFOOD_OPEN_MS = 8000;
                 var sinceExit = state.lastPersonExitAt ? (Date.now() - state.lastPersonExitAt) : 0;
                 var waited = sinceExit > GETFOOD_OPEN_MS;
-                /* 开垦后水灾/选择目标残留不能在 1s 内再 EXIT：会取消刚打开的 GetFood。 */
+                var n0 = (engineMenuItems().names || [])[0] || '';
+                var leftBattle = n0 === '侦察' || n0 === '策略结束' || n0 === '内政' || n0 === '开垦';
+                /* 开垦后水灾/选择目标残留不能在 1s 内再 EXIT：会取消刚打开的 GetFood。
+                 * 0 点将就 EXIT 会离开 BattleMake；遮罩吃掉 EXIT 时 lastExit 为空，先补发完成选将。 */
+                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
+                    !state.lastExit && (state.finishVisibleRetry || 0) < 1) {
+                    dismissMarchOverlay('drive-no-exit');
+                    state.personExitSent = false;
+                    state.finishPersonsBusy = false;
+                    state.finishVisibleRetry = 1;
+                    state.marchHint = '完成选将未发出 EXIT（残留遮罩），已关掉并再点一次。' + marchDebugLine();
+                    finishPersonPick();
+                    return { deferred: 'retry-finish-no-exit', phase: engineMarchPhase() };
+                }
                 if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
                     sinceExit >= 4000 &&
                     (state.foodRecoverNeeded || waited) &&
                     (state.personExitTries || 0) < 2 &&
-                    !engineQtyActiveMin1()) {
+                    !engineQtyActiveMin1() &&
+                    !leftBattle) {
+                    var nowPersons = cityPersons(state.cityIndex).length;
+                    var startPersons = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || nowPersons;
+                    if (!(startPersons && nowPersons < startPersons)) {
+                        state.marchHint = '选粮未打开，点将尚未进入引擎，不重发 EXIT。' + marchDebugLine();
+                        scheduleMarchWatch();
+                        return { deferred: 'wait-engine-picks', phase: engineMarchPhase() };
+                    }
                     state.personExitTries = (state.personExitTries || 0) + 1;
                     state.lastPersonExitAt = Date.now();
                     state.foodRecovered = true;
                     state.foodRecoverNeeded = false;
                     noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
-                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                        BayeHdDialog.close({ silent: true });
-                    }
+                    dismissMarchOverlay('retry-exit');
                     engineSendKey(VK.EXIT, 'finish-persons');
                     state.marchHint = '选粮未打开，已安全再发一次 EXIT。' + marchDebugLine();
                     scheduleMarchWatch();
@@ -2992,6 +3155,10 @@
             state.lastPickEnterAt = 0;
             state.enginePersonsAtFinish = 0;
             state.enginePersonsAtPickStart = 0;
+            state.engineHelpOpen = false;
+            state.overlayRetry = 0;
+            state.finishVisibleRetry = 0;
+            state.pickedPersonNames = [];
             state.foodGaveUp = false;
             state.foodAttempt = 0;
             clearStaleMapPick('choose-sub');
@@ -3045,6 +3212,10 @@
         state.lastPickEnterAt = 0;
         state.enginePersonsAtFinish = 0;
         state.enginePersonsAtPickStart = 0;
+        state.engineHelpOpen = false;
+        state.overlayRetry = 0;
+        state.finishVisibleRetry = 0;
+        state.pickedPersonNames = [];
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecovered = false;
         state.foodRecoverEnter = false;
@@ -3135,6 +3306,17 @@
             BayeHdDialog.dismissLeftoverSpeech();
         }
         clearStaleDisasterReport();
+        if (dismissMarchOverlay('finish-persons') && (state.finishVisibleRetry || 0) < 1) {
+            state.finishVisibleRetry = 1;
+            state.marchHint = '已关掉残留帮助/农业报告，再结束选将。' + marchDebugLine();
+            render();
+            setTimeout(function () {
+                if (!state.personExitSent && !state.finishPersonsBusy) {
+                    finishPersonPick();
+                }
+            }, 180);
+            return;
+        }
         if (!(state.pickedPersons > 0)) {
             state.marchHint = '先点至少一名将领，再点「完成选将」。';
             render();
@@ -3210,49 +3392,81 @@
         if (leftoverDisasterReport(liveEngineReport()) && !liveReportAsync()) {
             clearStaleDisasterReport();
         }
-        function sendFinishExit(started) {
+        function sendFinishExit(started, retriedPicks) {
             started = started || Date.now();
-            /* 队列排空 + 点将已发出/人数已降即可 EXIT。不要为已消耗的点将干等 10s。 */
-            var waitMs = Math.max(2400, 350 * Math.max(1, state.pickedPersons || 1));
+            /* 必须等引擎人数下降后再 EXIT。只凭 lastPickEnterAt+320ms 会在
+             * 开垦残留 HELP 吃掉点将 ENTER 后空 EXIT，离开 BattleMake。 */
+            var waitMs = Math.max(5000, 800 * Math.max(1, state.pickedPersons || 1));
+            var ov = leftoverMarchOverlay();
+            if (ov.blocking || ov.engineHelp || ov.help || ov.farm) {
+                dismissMarchOverlay('finish-exit');
+            }
             var enters = queuePickEnters();
             var personsNow = cityPersons(state.cityIndex).length;
             var startCount = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsNow;
-            var engineTook = !!(startCount && personsNow < startCount);
+            var dropped = startCount ? Math.max(0, startCount - personsNow) : 0;
+            var needDrop = Math.max(1, state.pickedPersons || 1);
+            var engineTookAll = dropped >= needDrop;
+            var engineTook = dropped >= 1;
+            var elapsed = Date.now() - started;
             var pickFired = !!state.lastPickEnterAt;
             var sincePick = pickFired ? (Date.now() - state.lastPickEnterAt) : 0;
-            if (enters > 0 && Date.now() - started < waitMs) {
+            if (enters > 0 && elapsed < waitMs) {
                 setTimeout(function () {
-                    sendFinishExit(started);
+                    sendFinishExit(started, retriedPicks);
                 }, 50);
                 return;
             }
             if (enters === 0 && (state.queue.length || state.sending)) {
                 dropQueuedDirections('finish-settle');
             }
-            if ((state.queue.length || state.sending) && Date.now() - started < waitMs) {
+            if ((state.queue.length || state.sending) && elapsed < waitMs) {
                 setTimeout(function () {
-                    sendFinishExit(started);
+                    sendFinishExit(started, retriedPicks);
                 }, 50);
-                return;
-            }
-            /* 点将 ENTER 已发出或人数已降：只 settle 320ms，不要再等人数再降。 */
-            if (engineTook || pickFired) {
-                if (sincePick && sincePick < 320 && Date.now() - started < waitMs) {
-                    setTimeout(function () {
-                        sendFinishExit(started);
-                    }, 40);
-                    return;
-                }
-            } else if (Date.now() - started < waitMs && (state.pickedPersons || 0) > 0) {
-                setTimeout(function () {
-                    sendFinishExit(started);
-                }, 80);
                 return;
             }
             if (liveGetFood() || engineQtyActiveMin1()) {
                 state.finishPersonsBusy = false;
                 adoptLiveGetFood('finish-queue');
                 scheduleMarchWatch();
+                render();
+                return;
+            }
+            if (engineTookAll || (engineTook && elapsed > 2400)) {
+                if (sincePick && sincePick < 400 && elapsed < waitMs) {
+                    setTimeout(function () {
+                        sendFinishExit(started, retriedPicks);
+                    }, 40);
+                    return;
+                }
+            } else if (elapsed < waitMs) {
+                if (!engineTook && !retriedPicks && elapsed > 900) {
+                    dismissMarchOverlay('finish-requeue');
+                    if (requeuePickedPersons('finish-wait')) {
+                        setTimeout(function () {
+                            sendFinishExit(started, true);
+                        }, 80);
+                        return;
+                    }
+                }
+                setTimeout(function () {
+                    sendFinishExit(started, retriedPicks);
+                }, 80);
+                return;
+            } else if (!engineTook) {
+                dismissMarchOverlay('finish-timeout-no-drop');
+                if (!retriedPicks && requeuePickedPersons('finish-timeout')) {
+                    setTimeout(function () {
+                        sendFinishExit(Date.now(), true);
+                    }, 80);
+                    return;
+                }
+                state.finishPersonsBusy = false;
+                state.personExitSent = false;
+                state.marchHint = '点将未进入引擎。已关掉残留遮罩，请再点将后「完成选将」。' +
+                    marchDebugLine();
+                noteStep4('finish-no-engine-picks', { skipped: 'no-drop' });
                 render();
                 return;
             }
@@ -3878,6 +4092,9 @@
             render();
             return;
         }
+        if (state.deepKind === 'person-city') {
+            dismissMarchOverlay('pick-person');
+        }
         pickIndex(index, true, state.deepKind === 'person-city' ? 'pick-person' : '');
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
@@ -3885,6 +4102,12 @@
                 state.enginePersonsAtPickStart = cityPersons(state.cityIndex).length;
             }
             state.pickedPersons += 1;
+            if (item && item.name) {
+                if (!state.pickedPersonNames) {
+                    state.pickedPersonNames = [];
+                }
+                state.pickedPersonNames.push(item.name);
+            }
             state.deepSig = '';
             setTimeout(function () {
                 if (state.open && state.layer === 'deep') {
@@ -3918,6 +4141,12 @@
     function onEngineHook(name, ctx) {
         if (name === 'chooseGameEntry' || name === 'didOpenNewGame' || name === 'didLoadGame') {
             resetForNewGame(name);
+        }
+        if (name === 'showMainHelp') {
+            state.engineHelpOpen = true;
+            if (state.battleMake && !liveGetFood() && !state.foodConfirmedThisMarch) {
+                dismissMarchOverlay('hook-help');
+            }
         }
         if (state.handoff && fightIsActive()) {
             consumeMarchSeqIfFight();
@@ -4305,6 +4534,16 @@
                 finishPersonsBusy: !!state.finishPersonsBusy,
                 personExitTries: state.personExitTries,
                 lastExit: state.lastExit,
+                engineHelpOpen: !!state.engineHelpOpen,
+                overlayRetry: state.overlayRetry || 0,
+                finishVisibleRetry: state.finishVisibleRetry || 0,
+                pickedPersonNames: (state.pickedPersonNames || []).slice(),
+                leftoverOverlay: leftoverMarchOverlay(),
+                qtyActive: (function () {
+                    try {
+                        return Number(window.baye && baye.data && baye.data.g_hdQtyActive) || 0;
+                    } catch (e) { return 0; }
+                }()),
                 lastBlockedExit: state.lastBlockedExit,
                 lastBlockedEnter: state.lastBlockedEnter || '',
                 lastPickEnterAt: state.lastPickEnterAt || 0,
@@ -4378,6 +4617,7 @@
         holdMenu: holdMenu,
         isMarchReady: function () { return !!(state.marchReady && !state.handoff && freshMarchOk()); },
         finishPersons: finishPersonPick,
+        dismissMarchOverlay: dismissMarchOverlay,
         leftoverOverworldPick: leftoverOverworldPick,
         battlePickActive: battlePickActive,
         realMarchDest: realMarchDest,
