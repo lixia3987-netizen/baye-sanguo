@@ -78,6 +78,8 @@
         personExitSent: false,
         personExitTries: 0,
         lastPersonExitAt: 0,
+        qtyBeforePersonExit: null,
+        foodRecovered: false,
         lastFuncMenuIdle: 0,
         lastExit: '',
         lastBlockedExit: '',
@@ -1014,7 +1016,9 @@
             ' mapCity=' + (mc < 0 ? '—' : mc) +
             (mcName ? '(' + mcName + ')' : '') +
             ' phase=' + engineMarchPhase() +
-            ' qty=' + ((q && q.active) ? (String(q.min) + '-' + String(q.value)) : '0') +
+            ' qty=' + ((q && q.active)
+                ? (String(q.min) + '-' + String(q.value))
+                : ('0' + (q && Number(q.min) >= 1 ? '/' + q.min : ''))) +
             ' ui=' + (state.wizardStep || 'none');
     }
 
@@ -1064,13 +1068,44 @@
         return !!(waitingArmout() || engineInGetCitySet());
     }
 
-    function engineStillPersonQueue() {
-        if (!state.personExitSent || liveGetFood() || engineInGetCitySet() || state.sawQtyThisMarch) {
-            return false;
+    function qtySnapshot() {
+        var q = engineQty() || {};
+        return {
+            active: !!(q && q.active),
+            min: Number(q && q.min) || 0,
+            value: Number(q && q.value) || 0
+        };
+    }
+
+    function qtySameAs(a, b) {
+        return !!(a && b && a.active === b.active && a.min === b.min && a.value === b.value);
+    }
+
+    /* 本趟真打开过 GetFood。上场残留 min≥1/active=0 不算。 */
+    function thisMarchGetFoodOpened() {
+        if (liveGetFood() || state.sawQtyThisMarch) {
+            return true;
         }
-        var q = engineQty();
-        /* GetFood 已到过（min 恒 ≥1）。再 EXIT 会取消选粮。 */
-        if (q && Number(q.min) >= 1) {
+        var q = qtySnapshot();
+        if (q.active && q.min >= 1) {
+            return true;
+        }
+        var before = state.qtyBeforePersonExit;
+        if (before && q.min >= 1 && !q.active &&
+            (q.min !== before.min || q.value !== before.value || before.min === 0)) {
+            return true;
+        }
+        return false;
+    }
+
+    function waitingGetFoodSoftLock() {
+        return !!(state.personExitSent && !liveGetFood() && !state.sawQtyThisMarch &&
+            !engineInGetCitySet() && !state.marchReady && !freshMarchOk());
+    }
+
+    function engineStillPersonQueue() {
+        if (!state.personExitSent || liveGetFood() || engineInGetCitySet() ||
+            state.sawQtyThisMarch || thisMarchGetFoodOpened()) {
             return false;
         }
         var liveFunc = looksLikeFunctionMenu() &&
@@ -1078,7 +1113,7 @@
         if (liveFunc) {
             return false;
         }
-        /* g_hdMenuBytes 常残留侦察/策略结束，不能据此认为已离开 ShowPersonControl。 */
+        /* 上场 GetFood 残留 min≥1 / leftover pick / 侦察字节都不能当成已离开选将。 */
         return true;
     }
 
@@ -1104,23 +1139,27 @@
             clearLeftoverQtyFlag();
             return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
         }
-        if (state.personExitSent && !state.sawQtyThisMarch && !mapPickActive() &&
-            engineStillPersonQueue() && (state.personExitTries || 0) < 10) {
+        if (waitingGetFoodSoftLock() &&
+            (engineStillPersonQueue() || leftoverOverworldPick()) &&
+            (state.personExitTries || 0) < 4) {
             var liveFunc = looksLikeFunctionMenu() &&
                 (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
             if (!liveFunc) {
                 if (state.lastPersonExitAt && Date.now() - state.lastPersonExitAt < 480) {
+                    state.marchHint = '等待引擎打开选粮… ' + marchDebugLine();
                     scheduleMarchWatch();
                     return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
                 }
                 state.personExitTries = (state.personExitTries || 0) + 1;
                 state.lastPersonExitAt = Date.now();
+                state.foodRecovered = true;
                 noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
                 if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                     BayeHdDialog.close({ silent: true });
                 }
-                /* leftover 暴动 / ShowPersonControl 都用 EXIT，回车会点中当前将。 */
+                /* leftover 暴动 / leftover pick / ShowPersonControl 都用 EXIT，回车会点中当前将。 */
                 engineSendKey(VK.EXIT, 'finish-persons');
+                state.marchHint = '选粮未打开，已安全再发一次 EXIT。' + marchDebugLine();
                 scheduleMarchWatch();
                 return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
             }
@@ -1750,9 +1789,12 @@
                 var mismatch = document.createElement('div');
                 mismatch.className = 'hd-city-menu-march-hint';
                 mismatch.setAttribute('data-hd-cityset-mismatch', '1');
-                mismatch.textContent = engineInGetCitySet()
-                    ? ''
-                    : ('引擎未打开 GetCitySet，不能确认河内。' + marchDebugLine());
+                if (waitingGetFoodSoftLock() || (shownStep === 'food' && !liveGetFood())) {
+                    mismatch.setAttribute('data-hd-food-mismatch', '1');
+                    mismatch.textContent = '引擎未打开 GetFood，不能确认粮草。' + marchDebugLine();
+                } else {
+                    mismatch.textContent = '引擎未打开 GetCitySet，不能确认河内。' + marchDebugLine();
+                }
                 if (mismatch.textContent) {
                     list.appendChild(mismatch);
                 }
@@ -2229,6 +2271,8 @@
         state.personExitSent = false;
         state.personExitTries = 0;
         state.lastPersonExitAt = 0;
+        state.qtyBeforePersonExit = qtySnapshot();
+        state.foodRecovered = false;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
         state.qtyDismissed = false;
@@ -2298,6 +2342,7 @@
         state.personExitSent = true;
         state.personExitTries = 1;
         state.lastPersonExitAt = Date.now();
+        state.qtyBeforePersonExit = qtySnapshot();
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
@@ -3285,6 +3330,9 @@
                 leftoverQty: leftoverQtyFlag(),
                 liveQty: liveQty(),
                 liveGetFood: liveGetFood(),
+                waitingGetFood: waitingGetFoodSoftLock(),
+                foodRecovered: state.foodRecovered,
+                qtyBeforePersonExit: state.qtyBeforePersonExit,
                 engineInGetCitySet: engineInGetCitySet(),
                 enginePhase: engineMarchPhase(),
                 displayWizard: displayWizardStep(),
@@ -3317,6 +3365,7 @@
         engineInGetCitySet: engineInGetCitySet,
         engineMarchPhase: engineMarchPhase,
         liveGetFood: liveGetFood,
+        waitingGetFood: waitingGetFoodSoftLock,
         driveFoodToCitySet: driveFoodToCitySet,
         wizardStep: function () { return state.wizardStep; },
         displayWizardStep: displayWizardStep,
