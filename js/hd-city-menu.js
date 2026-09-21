@@ -88,6 +88,7 @@
         lastFuncMenuIdle: 0,
         lastExit: '',
         lastBlockedExit: '',
+        lastBlockedEnter: '',
         marchHint: '',
         lastWalkCity: null,
         lastWalkAt: 0,
@@ -113,6 +114,8 @@
         sawMarchCleared: false,
         wizardStep: 'none',
         sawQtyThisMarch: false,
+        sawGetFoodUi: false,
+        foodConfirmedThisMarch: false,
         reportAtMarchStart: '',
         qtyDismissed: false,
         qtyDismissedAt: 0,
@@ -208,7 +211,18 @@
         return !!(holdExit() || state.marchReady || state.handoff);
     }
 
+    /* 完成选将后到 HD 确认粮草前，任何多余 ENTER 都会跳过 GetFood。 */
+    function holdEnterForFood() {
+        return !!(state.battleMake && state.personExitSent && !state.foodConfirmedThisMarch &&
+            !state.marchReady && !state.handoff);
+    }
+
     function engineSendKey(code, reason) {
+        if (code === VK.ENTER && holdEnterForFood() && reason !== 'qty-ok') {
+            state.lastBlockedEnter = reason || 'unknown';
+            console.warn('[hd-city-menu] blocked ENTER until GetFood confirm', state.lastBlockedEnter);
+            return false;
+        }
         if (code === VK.EXIT && holdExit() && reason !== 'finish-persons' && reason !== 'qty-cancel') {
             state.lastBlockedExit = reason || 'unknown';
             console.warn('[hd-city-menu] blocked EXIT', state.lastBlockedExit);
@@ -236,6 +250,10 @@
         gap = gap || 55;
         var i;
         for (i = 0; i < codes.length; i++) {
+            if (codes[i] === VK.ENTER && holdEnterForFood() && reason !== 'qty-ok') {
+                console.warn('[hd-city-menu] blocked queued ENTER until GetFood confirm', reason || 'queue');
+                continue;
+            }
             if (codes[i] === VK.EXIT && holdExit() && reason !== 'finish-persons') {
                 state.lastBlockedExit = reason || 'queue';
                 console.warn('[hd-city-menu] blocked queued EXIT', state.lastBlockedExit);
@@ -1070,6 +1088,8 @@
         state.foodRecoverEnter = false;
         state.foodRecoverNeeded = false;
         state.sawQtyThisMarch = false;
+        state.sawGetFoodUi = false;
+        state.foodConfirmedThisMarch = false;
         state.qtyDismissed = false;
         state.qtyDismissedAt = 0;
         state.wizardStep = 'none';
@@ -1277,25 +1297,34 @@
             state.lastPersonExitAt = state.lastPersonExitAt || Date.now();
             noteStep4('adopt-get-food', { skipped: why || 'early-food' });
         }
+        state.sawGetFoodUi = true;
         state.sawQtyThisMarch = true;
         state.foodGaveUp = false;
         return true;
     }
 
+    function foodReadyForCitySet() {
+        return !!(state.sawGetFoodUi && state.foodConfirmedThisMarch);
+    }
+
     function engineInGetCitySet() {
         /* 点河内后 GetCitySet 已返回、AddFightOrder 还没写 dest：C 仍应算在出征选城。 */
-        if (state.confirmingTarget && state.battleMake && !state.foodGaveUp &&
-            !freshMarchOk() && !state.marchReady) {
+        if (state.confirmingTarget && state.battleMake && foodReadyForCitySet() &&
+            !state.foodGaveUp && !freshMarchOk() && !state.marchReady) {
             return true;
         }
-        /* 必须 C 出征 GetCitySet（g_hdBattlePick）。过图 leftover pick=1 不算。 */
+        /* 必须 C 出征 GetCitySet，且本趟 HD 见过并确认过 GetFood。
+         * personExitSent / leftover battlePick 不能跳过选粮。 */
+        if (!foodReadyForCitySet()) {
+            return false;
+        }
         if (!(battlePickActive() && mapPickActive())) {
             return false;
         }
-        if (liveGetFood() && !battlePickActive()) {
+        if (liveGetFood()) {
             return false;
         }
-        return !!(state.sawQtyThisMarch || state.personExitSent);
+        return true;
     }
 
     function displayWizardStep() {
@@ -1341,17 +1370,17 @@
         if (freshMarchOk() || state.marchReady) {
             return 'march-ok';
         }
+        if (liveGetFood() || (state.personExitSent && !foodReadyForCitySet() && !state.foodGaveUp)) {
+            return liveGetFood() ? 'get-food' : 'wait-get-food';
+        }
         if (engineInGetCitySet()) {
             return 'get-city-set';
         }
         if (waitingArmout()) {
             return 'armout';
         }
-        if (liveGetFood()) {
-            return 'get-food';
-        }
         if (state.personExitSent && leftoverChooseTarget(liveEngineReport()) &&
-            state.sawQtyThisMarch && !mapPickActive()) {
+            foodReadyForCitySet() && !mapPickActive()) {
             return 'choose-target';
         }
         if (!state.personExitSent) {
@@ -1372,7 +1401,7 @@
         if (freshMarchOk() || state.marchReady || mapPickActive() || showingQty() || liveGetFood()) {
             return false;
         }
-        if (!state.personExitSent || !state.sawQtyThisMarch) {
+        if (!state.personExitSent || !foodReadyForCitySet()) {
             return false;
         }
         return leftoverMarchReport(liveEngineReport());
@@ -1396,21 +1425,9 @@
         return !!(a && b && a.active === b.active && a.min === b.min && a.value === b.value);
     }
 
-    /* 本趟真打开过 GetFood。上场残留 min≥1/active=0 不算。 */
+    /* 本趟 HD 真见过 GetFood 数量条。上场残留 min≥1/active=0 不算。 */
     function thisMarchGetFoodOpened() {
-        if (liveGetFood() || state.sawQtyThisMarch) {
-            return true;
-        }
-        var q = qtySnapshot();
-        if (q.active && q.min >= 1) {
-            return true;
-        }
-        var before = state.qtyBeforePersonExit;
-        if (before && q.min >= 1 && !q.active &&
-            (q.min !== before.min || q.value !== before.value || before.min === 0)) {
-            return true;
-        }
-        return false;
+        return !!(liveGetFood() || state.sawGetFoodUi);
     }
 
     function waitingGetFoodSoftLock() {
@@ -1473,25 +1490,18 @@
             return { ok: true, phase: engineMarchPhase() };
         }
         if (adoptLiveGetFood(why || 'drive')) {
-            /* engine 已打开 GetFood，下面按活选粮走。 */
-        }
-        if (thisMarchGetFoodOpened() && !state.sawQtyThisMarch) {
-            state.sawQtyThisMarch = true;
-        }
-        if (liveGetFood()) {
+            /* engine 已打开 GetFood：只展示数量条，等 HD「确认」再回车。 */
             var liveQ = engineQty();
             if (liveQ && Number(liveQ.max) <= 0) {
                 state.marchHint = '城中无粮，无法确认选粮。' + marchDebugLine();
                 scheduleMarchWatch();
                 return { deferred: 'no-city-food', phase: 'get-food' };
             }
-            noteStep4('drive-food-enter', { skipped: why || 'food' });
-            engineSendKey(VK.ENTER, 'qty-ok');
-            state.sawQtyThisMarch = true;
-            state.qtyDismissed = true;
-            advanceWizard('food', 'drive-food');
+            state.marchHint = '引擎已打开选粮，请确认粮草。' + marchDebugLine();
+            advanceWizard('food', 'wait-food-ui');
             scheduleMarchWatch();
-            return { deferred: 'food-enter', phase: 'get-food' };
+            render();
+            return { deferred: 'wait-food-ui', phase: 'get-food' };
         }
         var q = engineQty();
         if (q && q.active && leftoverQtyFlag()) {
@@ -1567,7 +1577,7 @@
                 }
             }
         }
-        if (state.personExitSent && state.sawQtyThisMarch && !mapPickActive() &&
+        if (state.personExitSent && foodReadyForCitySet() && !mapPickActive() &&
             leftoverChooseTarget(liveEngineReport())) {
             if (state.lastTipEnterAt && Date.now() - state.lastTipEnterAt < 700) {
                 return { deferred: 'tip-cooldown', phase: engineMarchPhase() };
@@ -1701,7 +1711,9 @@
         engineSendKey(VK.ENTER, 'qty-ok');
         state.qtyDismissed = true;
         state.qtyDismissedAt = Date.now();
-        if (state.battleMake && state.personExitSent) {
+        if (state.battleMake && (state.personExitSent || liveGetFood() || state.sawGetFoodUi)) {
+            state.sawGetFoodUi = true;
+            state.foodConfirmedThisMarch = true;
             state.sawQtyThisMarch = true;
             advanceWizard('food', 'commit-qty');
         }
@@ -2217,17 +2229,20 @@
                 !state.confirmingTarget &&
                 (state.wizardStep === 'map-pick' ||
                 (state.pendingTarget != null && shownStep !== 'march-ok') ||
-                shownStep === 'target-tip' || shownStep === 'food')) {
+                shownStep === 'target-tip' || shownStep === 'food' ||
+                (battlePickActive() && !foodReadyForCitySet()))) {
                 var mismatch = document.createElement('div');
                 mismatch.className = 'hd-city-menu-march-hint';
                 mismatch.setAttribute('data-hd-cityset-mismatch', '1');
-                if (state.foodGaveUp || waitingGetFoodSoftLock() || (shownStep === 'food' && !liveGetFood())) {
+                if (state.foodGaveUp || waitingGetFoodSoftLock() ||
+                    (shownStep === 'food' && !liveGetFood()) ||
+                    (battlePickActive() && !foodReadyForCitySet() && !liveGetFood())) {
                     mismatch.setAttribute('data-hd-food-mismatch', '1');
                     mismatch.textContent = state.foodGaveUp
                         ? ('引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine())
                         : leftoverOverworldPick()
                         ? ('过图残留 pick=1，不是选粮。' + marchDebugLine())
-                        : ('引擎未打开 GetFood，不能确认粮草。' + marchDebugLine());
+                        : ('引擎未打开 GetFood，不能确认河内。请先确认粮草。' + marchDebugLine());
                 } else if (leftoverOverworldPick()) {
                     mismatch.textContent = '过图 leftover pick=1，不是出征 GetCitySet。' + marchDebugLine();
                 } else {
@@ -2609,6 +2624,8 @@
         if (!opts.keepWizard) {
             state.wizardStep = 'none';
             state.sawQtyThisMarch = false;
+            state.sawGetFoodUi = false;
+            state.foodConfirmedThisMarch = false;
         }
         render();
         if (!opts.silent && global.BayeHdOverworld &&
@@ -2741,6 +2758,8 @@
             bindOpenedMapCity(state.cityIndex, 'choose-sub');
             /* 先清上场向导旗标，再认 leftover pick；否则 sawQtyThisMarch 仍真，清不掉。 */
             state.sawQtyThisMarch = false;
+            state.sawGetFoodUi = false;
+            state.foodConfirmedThisMarch = false;
             state.personExitSent = false;
             state.foodGaveUp = false;
             state.foodAttempt = 0;
@@ -2801,6 +2820,8 @@
         state.lastTipEnterAt = 0;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
+        state.sawGetFoodUi = false;
+        state.foodConfirmedThisMarch = false;
         state.qtyDismissed = false;
         state.qtyDismissedAt = 0;
         state.reportAtMarchStart = liveEngineReport();
@@ -3977,6 +3998,8 @@
                 wizardStep: state.wizardStep,
                 wizardLabel: WIZARD_LABEL[state.wizardStep] || '',
                 sawQtyThisMarch: state.sawQtyThisMarch,
+                sawGetFoodUi: !!state.sawGetFoodUi,
+                foodConfirmed: !!state.foodConfirmedThisMarch,
                 leftoverPick: leftoverOverworldPick(),
                 battlePick: battlePickActive(),
                 openedCity: state.cityIndex,
@@ -4039,6 +4062,7 @@
         engineMarchPhase: engineMarchPhase,
         liveGetFood: liveGetFood,
         thisMarchGetFoodOpened: thisMarchGetFoodOpened,
+        foodReadyForCitySet: foodReadyForCitySet,
         waitingGetFood: waitingGetFoodSoftLock,
         driveFoodToCitySet: driveFoodToCitySet,
         wizardStep: function () { return state.wizardStep; },
