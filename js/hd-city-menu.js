@@ -1215,19 +1215,20 @@
                     return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
                 }
                 var report = liveEngineReport();
-                /* 活着的过月报告会吃掉完成选将 EXIT。残留「农业/开发度」回车会策略结束，只对灾异回车一次。 */
+                /* 只有活着的灾异 ShowConstStrMsg 才回车。过月残留「天水旱灾」文本回车 = 策略结束。 */
                 if (!state.foodRecoverEnter && leftoverDisasterReport(report) &&
+                    liveReportAsync() && report !== state.reportAtMarchStart &&
                     !thisMarchGetFoodOpened()) {
                     state.foodRecoverEnter = true;
                     state.foodRecoverNeeded = true;
                     state.foodRecovered = true;
                     state.lastPersonExitAt = Date.now();
-                    noteStep4('drive-food-enter-report', { skipped: why || 'leftover-report' });
+                    noteStep4('drive-food-enter-report', { skipped: why || 'live-disaster' });
                     if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                         BayeHdDialog.close({ silent: true });
                     }
                     engineSendKey(VK.ENTER);
-                    state.marchHint = '选粮未打开，先回车关掉残留报告。' + marchDebugLine();
+                    state.marchHint = '选粮未打开，先回车关掉活着的灾异。' + marchDebugLine();
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
@@ -2343,6 +2344,12 @@
         /* 开垦数月后 leftover pick 还在：先写 0，再发军备/内政 ENTER。 */
         clearStaleMapPick('choose-root');
         var leftoverSub = leftoverEngineSubAtHdRoot();
+        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
+            engineSendKey(VK.ENTER, 'dismiss-live-disaster');
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+        }
         if (root.id === 'zhuangkuang') {
             state.layer = 'status';
             state.subKind = root.id;
@@ -2381,16 +2388,22 @@
         pickIndex(index, true);
         if (willMarch) {
             clearStaleMapPick('choose-sub');
+            var now0 = (engineMenuItems().names || [])[0] || '';
+            /* 过月后 HD 已在军备，引擎还停在城池根「内政」。ENTER 出征会进内政。 */
+            if (now0 === '内政') {
+                enqueueKeys([VK.DOWN, VK.DOWN, VK.ENTER], 70, 'enter-junbei-for-march');
+            }
             setTimeout(function () {
                 if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
                     return;
                 }
                 var names = engineMenuItems().names || [];
-                if (names[0] === '侦察' || names[0] === '开垦' || names[0] === '策略结束' ||
-                    names[0] === '内政') {
-                    enqueueKeys([VK.ENTER], 70, 'retry-battle-make');
+                if (names[0] === '侦察') {
+                    enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
+                } else if (names[0] === '开垦') {
+                    enqueueKeys([VK.EXIT, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-from-neizheng');
                 }
-            }, 280);
+            }, 320);
         }
         state.deepKind = deepKindFor(state.subKind, index);
         state.deepLabel = names[index] || '';
