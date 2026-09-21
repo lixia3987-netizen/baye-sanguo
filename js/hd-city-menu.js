@@ -962,6 +962,7 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
             BayeHdDialog.clearLeftoverMarch();
         }
+        clearStaleMapPick('consume-march');
     }
 
     function mapPickActive() {
@@ -972,6 +973,21 @@
     function leftoverOverworldPick() {
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。选粮之前 pick=1 是残留。 */
         return mapPickActive() && !state.sawQtyThisMarch;
+    }
+
+    /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。 */
+    function clearStaleMapPick(why) {
+        if (!leftoverOverworldPick()) {
+            return false;
+        }
+        try {
+            if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdMapPick = 0;
+            }
+        } catch (e) {}
+        noteStep4('clear-stale-pick', { skipped: why || 'stale-pick' });
+        return !mapPickActive();
     }
 
     function liveGetFood() {
@@ -1162,6 +1178,9 @@
             return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
         }
         if (waitingGetFoodSoftLock()) {
+            if (leftoverOverworldPick()) {
+                clearStaleMapPick(why || 'drive-food');
+            }
             var liveFunc = looksLikeFunctionMenu() &&
                 (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
             if (!liveFunc) {
@@ -1171,7 +1190,7 @@
                     return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
                 }
                 var report = liveEngineReport();
-                /* 活着的过月报告会吃掉完成选将 EXIT。残留文本回车会策略结束，只在 async 还活着时回车一次。 */
+                /* 活着的过月报告会吃掉完成选将 EXIT。残留「农业/开发度」回车会策略结束，只对灾异回车一次。 */
                 if (!state.foodRecoverEnter && leftoverDisasterReport(report) &&
                     !thisMarchGetFoodOpened()) {
                     state.foodRecoverEnter = true;
@@ -1187,9 +1206,10 @@
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                /* leftover pick / leftover 选择目标吃掉完成选将 EXIT。本趟已开过 GetFood 则「选择目标」是真下一步，不能再 EXIT。 */
+                var waited = state.lastPersonExitAt && (Date.now() - state.lastPersonExitAt > 1400);
+                /* leftover 选择目标 / 开垦残留农业 吃掉完成选将 EXIT。过图 pick 已写掉，只再 EXIT 一次。 */
                 if (!thisMarchGetFoodOpened() &&
-                    (leftoverOverworldPick() || state.foodRecoverNeeded || leftoverChooseTarget(report)) &&
+                    (state.foodRecoverNeeded || leftoverChooseTarget(report) || waited) &&
                     (state.personExitTries || 0) < 2) {
                     state.personExitTries = (state.personExitTries || 0) + 1;
                     state.lastPersonExitAt = Date.now();
@@ -1203,6 +1223,9 @@
                     state.marchHint = '选粮未打开，已安全再发一次 EXIT。' + marchDebugLine();
                     scheduleMarchWatch();
                     return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
+                }
+                if (!thisMarchGetFoodOpened() && (state.personExitTries || 0) >= 2) {
+                    state.marchHint = '引擎未打开 GetFood，不能确认粮草。' + marchDebugLine();
                 }
             }
         }
@@ -1837,7 +1860,9 @@
                 mismatch.setAttribute('data-hd-cityset-mismatch', '1');
                 if (waitingGetFoodSoftLock() || (shownStep === 'food' && !liveGetFood())) {
                     mismatch.setAttribute('data-hd-food-mismatch', '1');
-                    mismatch.textContent = '引擎未打开 GetFood，不能确认粮草。' + marchDebugLine();
+                    mismatch.textContent = leftoverOverworldPick()
+                        ? ('过图残留 pick=1，不是选粮。' + marchDebugLine())
+                        : ('引擎未打开 GetFood，不能确认粮草。' + marchDebugLine());
                 } else {
                     mismatch.textContent = '引擎未打开 GetCitySet，不能确认河内。' + marchDebugLine();
                 }
@@ -2293,9 +2318,7 @@
         }
         pickIndex(index, true);
         if (willMarch) {
-            if (mapPickActive()) {
-                engineSendKey(VK.EXIT, 'clear-leftover-pick');
-            }
+            clearStaleMapPick('choose-sub');
             setTimeout(function () {
                 if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
                     return;
@@ -2400,7 +2423,9 @@
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecoverEnter = false;
         state.foodRecoverNeeded = leftoverOverworldPick() || leftoverChooseTarget(liveEngineReport()) ||
-            leftoverDisasterReport(liveEngineReport()) || liveReportAsync();
+            leftoverDisasterReport(liveEngineReport()) ||
+            /农业|开发度|变为/.test(liveEngineReport()) || liveReportAsync();
+        clearStaleMapPick('finish-persons');
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
@@ -2796,6 +2821,9 @@
         }
         if (leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
+        }
+        if ((state.wizardStep === 'persons' || waitingGetFoodSoftLock()) && leftoverOverworldPick()) {
+            clearStaleMapPick('sync');
         }
         if (!state.open || state.layer !== 'deep') {
             return;
@@ -3420,6 +3448,7 @@
         isMarchReady: function () { return !!(state.marchReady && !state.handoff && freshMarchOk()); },
         finishPersons: finishPersonPick,
         leftoverOverworldPick: leftoverOverworldPick,
+        clearStaleMapPick: clearStaleMapPick,
         waitingArmout: waitingArmout,
         liveTargetStep: liveTargetStep,
         engineInGetCitySet: engineInGetCitySet,
