@@ -81,6 +81,7 @@
         finishPersonsBusy: false,
         personExitTries: 0,
         lastPersonExitAt: 0,
+        lastPolicyLeaveAt: 0,
         qtyBeforePersonExit: null,
         foodRecovered: false,
         foodRecoverEnter: false,
@@ -1508,6 +1509,7 @@
         state.finishPersonsBusy = false;
         state.personExitTries = 0;
         state.lastPersonExitAt = 0;
+        state.lastPolicyLeaveAt = 0;
         state.lastPickEnterAt = 0;
         state.enginePersonsAtFinish = 0;
         state.enginePersonsAtPickStart = 0;
@@ -1623,6 +1625,73 @@
             return 'waijiao';
         }
         return 'person';
+    }
+
+    /* 招商/开垦人物表残留：引擎还在 PlcPerson，HD 已回根/子层。出征前必须 EXIT，
+     * 否则 finish-persons 的 EXIT 会点掉 leftover 商业开发度并跳进策略结束。 */
+    function engineInPolicyPerson() {
+        if (state.battleMake || state.personExitSent || state.finishPersonsBusy ||
+            state.wizardStep === 'persons' || state.wizardStep === 'food' ||
+            state.wizardStep === 'wait-get-food' || state.wizardStep === 'map-pick' ||
+            state.deepKind === 'person-city' || state.deepLabel === '出征') {
+            return false;
+        }
+        if (liveGetFoodNow() || showingQty() || mapPickActive() || fightIsActive()) {
+            return false;
+        }
+        var names = engineMenuItems().names || [];
+        var n0 = names[0] || '';
+        if (!n0) {
+            return false;
+        }
+        if (n0 === '内政' || n0 === '军备' || n0 === '外交' || n0 === '状况' ||
+            n0 === '侦察' || n0 === '征兵' || n0 === '出征' || n0 === '开垦' ||
+            n0 === '招商' || n0 === '策略结束' || n0 === '确定退出' ||
+            n0 === '结束游戏' || n0 === '存储进度' || n0 === '全军撤退' ||
+            n0 === '回合结束') {
+            return false;
+        }
+        if (SUBS.neizheng.indexOf(n0) >= 0 || SUBS.junbei.indexOf(n0) >= 0 ||
+            SUBS.waijiao.indexOf(n0) >= 0) {
+            return false;
+        }
+        return true;
+    }
+
+    function leftoverPolicyPerson() {
+        if (!engineInPolicyPerson()) {
+            return false;
+        }
+        if (state.layer === 'deep' && state.deepKind === 'person' &&
+            !leftoverFarmReportText(liveEngineReport())) {
+            /* 正在看招商/开垦人物表，不是残留。 */
+            return false;
+        }
+        return true;
+    }
+
+    function leaveLeftoverPolicyPerson(why, force) {
+        if (state.battleMake || state.deepKind === 'person-city' ||
+            state.deepLabel === '出征') {
+            return false;
+        }
+        if (!(force ? engineInPolicyPerson() : leftoverPolicyPerson())) {
+            return false;
+        }
+        if (state.lastPolicyLeaveAt && (Date.now() - state.lastPolicyLeaveAt) < 420) {
+            return true;
+        }
+        state.lastPolicyLeaveAt = Date.now();
+        clearLeftoverCityReports(why || 'leave-policy-person');
+        enqueueKeys([VK.EXIT], 80, 'leave-policy-person');
+        if (state.layer === 'deep' && state.deepLabel !== '出征' &&
+            state.deepKind !== 'person-city') {
+            state.layer = 'sub';
+            state.deepKind = '';
+            state.deepLabel = '';
+        }
+        console.log('[hd-city-menu] leave leftover policy person', why || '', !!force);
+        return true;
     }
 
     /* PlayerTactic 正在 GetCitySet：写 pick=0 是撒谎，下一发 ENTER 会点进空城（无人占领）。
@@ -3532,6 +3601,7 @@
         clearStaleMapPick('open-city');
         sweepStickyMarch('open-city');
         unstickMenuLoop('open-city');
+        leaveLeftoverPolicyPerson('open-city');
         render();
         console.log('[hd-city-menu] open', {
             city: state.cityName,
@@ -3657,6 +3727,12 @@
         bindOpenedMapCity(state.cityIndex, 'choose-root');
         sweepStickyMarch('choose-root');
         unstickMenuLoop('choose-root');
+        if (leaveLeftoverPolicyPerson('choose-root', true)) {
+            setTimeout(function () {
+                chooseRootAfterLand(index);
+            }, 260);
+            return;
+        }
         var enthron = liveEngineReport();
         if (/拥立|成为君主/.test(enthron || '')) {
             engineSendKey(VK.ENTER, 'choose-root-enthron');
@@ -3721,6 +3797,7 @@
             BayeHdDialog.dismissLeftoverSpeech();
         }
         if (willMarch) {
+            leaveLeftoverPolicyPerson('choose-sub-march', true);
             clearStaleDisasterReport();
             try {
                 if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -3742,6 +3819,7 @@
                 return;
             }
             bindOpenedMapCity(state.cityIndex, 'choose-sub');
+            leaveLeftoverPolicyPerson('send-march', true);
             /* 先清上场向导旗标，再认 leftover pick；否则 sawQtyThisMarch 仍真，清不掉。 */
             state.sawQtyThisMarch = false;
             state.sawGetFoodUi = false;
@@ -4531,6 +4609,7 @@
 
     function unstickMenuLoop(why) {
         clearLeftoverCityReports(why || 'unstick');
+        leaveLeftoverPolicyPerson(why || 'unstick');
         try {
             if (global.BayeHdSystemUi && typeof BayeHdSystemUi.isOpen === 'function' &&
                 BayeHdSystemUi.isOpen() && typeof BayeHdSystemUi.close === 'function') {
@@ -4801,6 +4880,13 @@
             dismissMarchOverlay('pick-person');
         }
         pickIndex(index, true, state.deepKind === 'person-city' ? 'pick-person' : '');
+        if (state.deepKind === 'person' && state.deepLabel !== '出征') {
+            setTimeout(function () {
+                if (leftoverFarmReportText(liveEngineReport())) {
+                    leaveLeftoverPolicyPerson('after-policy-person', true);
+                }
+            }, 280);
+        }
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
             if (!state.enginePersonsAtPickStart) {
@@ -5375,6 +5461,7 @@
         bindOpenedMapCity: bindOpenedMapCity,
         landOwnedCity: landOwnedCity,
         unstickMenuLoop: unstickMenuLoop,
+        leaveLeftoverPolicyPerson: leaveLeftoverPolicyPerson,
         liveFunctionMenu: liveFunctionMenu,
         leftoverMoneyReport: leftoverMoneyReport,
         waitingArmout: waitingArmout,

@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922h';
+    var HD_BATTLE_VER = '20260922i';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     try {
         global.BAYE_ASSET_VER = HD_BATTLE_VER;
@@ -609,7 +609,10 @@
         if (!fightReallyActive() || cityMenuOwnsScreen()) {
             return null;
         }
-        if (state.clickingTile || state.refreshing || state.samplingFight) {
+        if (state.refreshing || state.samplingFight) {
+            return null;
+        }
+        if (state.clickingTile) {
             scheduleDrive('pick-own-busy');
             return null;
         }
@@ -733,6 +736,9 @@
     function driveApproach() {
         if (!fightReallyActive() || cityMenuOwnsScreen()) {
             resetActDrive();
+            return false;
+        }
+        if (state.refreshing || state.samplingFight) {
             return false;
         }
         if (state.drivingAct || !state.pendingApproach) {
@@ -1284,7 +1290,8 @@
         }
         state.clickingTile = true;
         tookClick = true;
-        if (!fightReallyActive() || cityMenuOwnsScreen()) {
+        if (!fightReallyActive() || cityMenuOwnsScreen() ||
+            state.refreshing || state.samplingFight) {
             return { x: x, y: y, enter: false, blocked: 'no-fight' };
         }
         var fight = readFight();
