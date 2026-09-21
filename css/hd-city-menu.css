@@ -233,6 +233,23 @@
     font-weight: 600;
 }
 
+.hd-city-menu-march-hint p {
+    margin: 0 0 10px;
+}
+
+.hd-city-menu-march-hint [data-hd-dismiss-march] {
+    display: inline-block;
+    margin: 0;
+    padding: 6px 14px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 212, 196, 0.55);
+    background: rgba(40, 18, 16, 0.55);
+    color: #ffe8dc;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
 .hd-city-menu-confirm-march {
     grid-column: 1 / -1;
     padding: 12px 14px;

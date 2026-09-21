@@ -1936,9 +1936,10 @@
     }
 
     function cityMenuHoldMenu() {
+        /* 只认活出征 hold。部队已出发(pick=0) 的 isMarchReady 不得再挡关菜单/内政。 */
         return !!(global.BayeHdCityMenu &&
-            ((typeof BayeHdCityMenu.holdMenu === 'function' && BayeHdCityMenu.holdMenu()) ||
-                (typeof BayeHdCityMenu.isMarchReady === 'function' && BayeHdCityMenu.isMarchReady())));
+            typeof BayeHdCityMenu.holdMenu === 'function' &&
+            BayeHdCityMenu.holdMenu());
     }
 
     function engineGetCitySetPending() {
@@ -2761,7 +2762,9 @@
         }
         if (cityMenuHoldExit() || cityMenuHoldMenu() || cityMenuMarching() || battleMakePending()) {
             console.warn('[hd-overworld] blocked leaveMenu EXIT during BattleMake');
-            state.hint = hint || '出征进行中，不能关菜单。';
+            if (cityMenuMarching() || cityMenuHoldMenu() || cityMenuHoldExit()) {
+                state.hint = hint || '出征进行中，不能关菜单。';
+            }
             applyChrome();
             return;
         }
