@@ -1046,7 +1046,10 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
             BayeHdDialog.clearLeftoverMarch();
         }
-        forceClearMapPick('consume-march');
+        /* 活着的过图 GetCitySet 不能写 0。败仗后 leftover dest 已清，pick=1 交给 landOwnedCity。 */
+        if (!liveOverworldGetCitySet()) {
+            forceClearMapPick('consume-march');
+        }
     }
 
     function forceClearMapPick(why) {
@@ -1054,7 +1057,7 @@
             noteStep4('force-clear-pick', { skipped: 'live-battle-pick' });
             return false;
         }
-        if (liveOverworldGetCitySet() && why !== 'consume-march') {
+        if (liveOverworldGetCitySet() && why !== 'consume-march' && why !== 'after-fight-stale') {
             noteStep4('force-clear-pick', { skipped: 'live-overworld-pick' });
             return false;
         }
@@ -1070,14 +1073,33 @@
 
     function resetAfterFight() {
         consumeLeftoverMarch();
-        forceClearMapPick('after-fight');
+        /* 败仗后 leftover dest 已清。若仍 pick=1 battlePick=0，是过图 GetCitySet，不能写 0。
+         * battlePick 残留 1（GetCitySet 已返回）才写掉，避免挡住下一趟 GetFood。 */
+        try {
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (baye.data.g_hdBattlePick != null && !mapPickActive()) {
+                    baye.data.g_hdBattlePick = 0;
+                }
+                if (baye.data.g_hdFightOver != null) {
+                    baye.data.g_hdFightOver = 0;
+                }
+                if (baye.data.g_hdFightActive != null) {
+                    baye.data.g_hdFightActive = 0;
+                }
+                if (baye.data.g_hdFightWait != null) {
+                    baye.data.g_hdFightWait = 0;
+                }
+            }
+        } catch (e) {}
+        if (!liveOverworldGetCitySet()) {
+            forceClearMapPick('after-fight-stale');
+        }
         var q = engineQty();
         if (q && q.active) {
             state.qtyDismissed = true;
             clearLeftoverQtyFlag();
-        } else {
-            clearLeftoverQtyValues();
         }
+        clearLeftoverQtyValues();
         state.battleMake = false;
         state.campaignPick = false;
         state.personExitSent = false;
@@ -1097,11 +1119,24 @@
         state.handoff = false;
         state.handoffStatus = '';
         state.confirmingTarget = false;
+        state.acceptMarchOk = false;
         stopMarchWatch();
-        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
+        /* 全军覆没 / 选择目标 残留文本回车 = 策略结束。只有活着的 async 灾异才回车。 */
+        if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync() &&
+            !looksLikeFunctionMenu()) {
             engineSendKey(VK.ENTER, 'after-fight-report');
         } else {
             clearStaleDisasterReport();
+            try {
+                if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
+                    (!baye.hdEngineReady || baye.hdEngineReady())) {
+                    if (leftoverChooseTarget(liveEngineReport()) ||
+                        leftoverMarchReport(liveEngineReport()) ||
+                        /全军覆没|大获全胜/.test(liveEngineReport() || '')) {
+                        baye.data.g_hdReportGbk = '';
+                    }
+                }
+            } catch (e2) {}
         }
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
@@ -1116,9 +1151,12 @@
     function leftoverOverworldPick() {
         /* PlayerTactic 过图与 BattleMake GetCitySet 共用 g_hdMapPick。
          * 只有 C 立了 g_hdBattlePick 才是出征选城。过图 leftover pick=1 必须清。
-         * 部队已出发后 GetCitySet 已返回，pick 可能还亮，不当 leftover。 */
-        if (freshMarchOk() || state.marchReady || state.confirmingTarget ||
-            realMarchDest(engineMarch())) {
+         * 本趟部队已出发后 pick 可能还亮，不当 leftover。上场败仗残留 dest=河内
+         * 不能把 leftover GetCitySet 藏起来，否则完成选将 EXIT 会取消过图、永远打不开 GetFood。 */
+        if (freshMarchOk() || state.marchReady || state.confirmingTarget) {
+            return false;
+        }
+        if (state.acceptMarchOk && realMarchDest(engineMarch())) {
             return false;
         }
         return !!(mapPickActive() && !battlePickActive());
@@ -1450,7 +1488,7 @@
     }
 
     function leftoverDisasterReport(text) {
-        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜|被策反/.test(String(text || ''));
+        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜|被策反|全军覆没|大获全胜|我军/.test(String(text || ''));
     }
 
     function clearStaleDisasterReport() {
@@ -2750,6 +2788,20 @@
         }
         if (willMarch) {
             clearStaleDisasterReport();
+            try {
+                if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                    if (baye.data.g_hdFightOver != null) {
+                        baye.data.g_hdFightOver = 0;
+                    }
+                    if (baye.data.g_hdFightActive != null) {
+                        baye.data.g_hdFightActive = 0;
+                    }
+                }
+            } catch (e) {}
+            if (looksLikeFunctionMenu() &&
+                (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400) {
+                engineSendKey(VK.EXIT, 'leave-leftover-func-for-march');
+            }
         }
         function sendMarchKeys() {
             if (leftoverOverworldPick()) {

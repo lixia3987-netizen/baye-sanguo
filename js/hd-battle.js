@@ -730,8 +730,12 @@
             state.ownedBefore = before ? before.ownedCount : 0;
         }
         enableNoteSkip();
-        engineSendKey(VK.ENTER);
-        state.occupyEnters = 1;
+        if (!(state.resultCode === 2 && functionMenuLive() && !liveAsyncReport())) {
+            engineSendKey(VK.ENTER);
+            state.occupyEnters = 1;
+        } else {
+            state.occupyEnters = 0;
+        }
         var started = Date.now();
         function tick() {
             state.occupyTimer = 0;
@@ -747,6 +751,11 @@
                 var mineNow = realmNow && realmNow.playerBelong;
                 if (!state.occupySettledAt && recNow && mineNow && recNow.belong === mineNow) {
                     state.occupySettledAt = Date.now();
+                }
+                /* 败仗没有占领。FunctionMenu「策略结束」再回车会过月，留下 leftover GetCitySet，下一趟打不开 GetFood。 */
+                if (state.resultCode === 2 && functionMenuLive() && !liveAsyncReport()) {
+                    finishOccupyDrain();
+                    return;
                 }
                 if (liveAsyncReport() || (state.resultCode === 1 && recNow && mineNow && recNow.belong !== mineNow)) {
                     engineSendKey(VK.ENTER);
@@ -1129,6 +1138,11 @@
         opts = opts || {};
         if (state.resultText || state.resultCode) {
             state.resultDismissed = true;
+            try {
+                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetAfterFight === 'function') {
+                    BayeHdCityMenu.resetAfterFight();
+                }
+            } catch (e) {}
         }
         state.open = false;
         state.preview = false;
