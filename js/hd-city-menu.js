@@ -1138,6 +1138,12 @@
             return { ok: true, phase: engineMarchPhase() };
         }
         if (liveGetFood()) {
+            var liveQ = engineQty();
+            if (liveQ && Number(liveQ.max) <= 0) {
+                state.marchHint = '城中无粮，无法确认选粮。' + marchDebugLine();
+                scheduleMarchWatch();
+                return { deferred: 'no-city-food', phase: 'get-food' };
+            }
             noteStep4('drive-food-enter', { skipped: why || 'food' });
             engineSendKey(VK.ENTER, 'qty-ok');
             state.sawQtyThisMarch = true;
