@@ -1062,7 +1062,9 @@
         if (thenEnter) {
             keys.push(VK.ENTER);
         }
-        enqueueKeys(keys, 45);
+        enqueueKeys(keys, 70);
+        state.focus.x = x;
+        state.focus.y = y;
     }
 
     function clickBattleTile(x, y) {
@@ -1095,6 +1097,13 @@
             return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'pick-approach' };
         }
         if (phase === 2 && u && u.side === 'enemy') {
+            if (state.sending || state.queue.length) {
+                state.lastBlockedEnter = 'walk-busy';
+                return {
+                    x: x, y: y, enter: false, unit: u.name, phase: phase,
+                    blocked: 'walk-busy', tip: state.fightTip
+                };
+            }
             var actor = syncFocusFromEngine();
             var closer = findCloserMoveTile(actor.x, actor.y, x, y);
             dropQueuedEnters();
