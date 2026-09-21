@@ -1184,19 +1184,25 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
-        state.landToken = (state.landToken || 0) + 1;
-        var token = state.landToken;
+        if (/无人占领|敌方城池/.test(liveEngineReport()) && liveReportAsync()) {
+            engineSendKey(VK.ENTER, 'dismiss-city-refuse');
+        }
         var to = cityEngineTile(cityIndex);
         var from = readEngineCursor();
-        var dirs = [];
-        if (from && to && to.x != null && to.y != null) {
-            var x = from.x;
-            var y = from.y;
-            while (y > to.y) { dirs.push(VK.UP); y -= 1; }
-            while (y < to.y) { dirs.push(VK.DOWN); y += 1; }
-            while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
-            while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
+        if (!from || !to || to.x == null || to.y == null) {
+            noteStep4('land-owned-no-cursor', { cityIndex: cityIndex, skipped: why || 'no-cursor' });
+            done(false);
+            return false;
         }
+        state.landToken = (state.landToken || 0) + 1;
+        var token = state.landToken;
+        var dirs = [];
+        var x = from.x;
+        var y = from.y;
+        while (y > to.y) { dirs.push(VK.UP); y -= 1; }
+        while (y < to.y) { dirs.push(VK.DOWN); y += 1; }
+        while (x > to.x) { dirs.push(VK.LEFT); x -= 1; }
+        while (x < to.x) { dirs.push(VK.RIGHT); x += 1; }
         var step = 0;
         function finishLand() {
             if (token !== state.landToken) {
@@ -1210,9 +1216,15 @@
             if (token !== state.landToken) {
                 return;
             }
-            if (cursorOnCity(cityIndex) || step >= dirs.length) {
+            if (cursorOnCity(cityIndex)) {
                 engineSendKey(VK.ENTER, 'land-owned-city');
                 setTimeout(finishLand, 200);
+                return;
+            }
+            if (step >= dirs.length) {
+                noteStep4('land-owned-miss', { cityIndex: cityIndex, skipped: why || 'miss' });
+                bindOpenedMapCity(cityIndex, why);
+                done(false);
                 return;
             }
             engineSendKey(dirs[step], 'land-owned-city');
