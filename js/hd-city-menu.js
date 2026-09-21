@@ -1171,7 +1171,8 @@
                 }
                 var report = liveEngineReport();
                 /* 活着的过月报告会吃掉完成选将 EXIT。残留文本回车会策略结束，只在 async 还活着时回车一次。 */
-                if (!state.foodRecoverEnter && leftoverDisasterReport(report) && liveReportAsync()) {
+                if (!state.foodRecoverEnter && leftoverDisasterReport(report) &&
+                    !thisMarchGetFoodOpened()) {
                     state.foodRecoverEnter = true;
                     state.foodRecoverNeeded = true;
                     state.foodRecovered = true;
