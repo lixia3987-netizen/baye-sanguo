@@ -75,6 +75,8 @@
         marchReady: false,
         campaignPick: false,
         battleMake: false,
+        sawFightThisMarch: false,
+        fightEndedThisMarch: false,
         personExitSent: false,
         finishPersonsBusy: false,
         personExitTries: 0,
@@ -211,17 +213,83 @@
         }
     }
 
+    function occupyDrainPending() {
+        try {
+            if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
+                var s = BayeHdBattle.debugSnapshot();
+                return !!(s && (s.occupyPending || (s.resultCode && !s.occupyDone && !s.resultDismissed)));
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function leftoverMarchAfterFight() {
+        if (fightIsActive()) {
+            state.sawFightThisMarch = true;
+            return false;
+        }
+        if (occupyDrainPending()) {
+            return false;
+        }
+        if (state.sawFightThisMarch) {
+            state.fightEndedThisMarch = true;
+        }
+        if (!state.fightEndedThisMarch && !state.sawFightThisMarch) {
+            return false;
+        }
+        return !!(state.battleMake || state.handoff || state.marchReady || wizardInMarch() ||
+            state.personExitSent || state.campaignPick || state.confirmingTarget ||
+            (state.deepLabel === '出征' && state.layer === 'deep') ||
+            /出征进行中/.test(state.marchHint || ''));
+    }
+
+    function releaseMarchShell(why) {
+        state.battleMake = false;
+        state.handoff = false;
+        state.handoffStatus = '';
+        state.marchReady = false;
+        state.campaignPick = false;
+        state.personExitSent = false;
+        state.finishPersonsBusy = false;
+        state.confirmingTarget = false;
+        state.acceptMarchOk = false;
+        state.wizardStep = 'none';
+        state.marchHint = '';
+        state.pendingTarget = null;
+        stopMarchWatch();
+        if (state.open && state.layer === 'deep' &&
+            (state.deepLabel === '出征' || state.deepKind === 'person-city')) {
+            state.layer = 'root';
+            state.deepKind = '';
+            state.deepLabel = '';
+            state.deepItems = [];
+        }
+        console.log('[hd-city-menu] release march shell', why || '');
+        applyDocAttr();
+        render();
+        return true;
+    }
+
     function holdExit() {
+        if (leftoverMarchAfterFight()) {
+            return false;
+        }
         return !!(state.battleMake && !state.marchReady && !state.handoff);
     }
 
     function holdMenu() {
+        if (leftoverMarchAfterFight()) {
+            return false;
+        }
         return !!(holdExit() || state.marchReady || state.handoff);
     }
 
     /* 完成选将 EXIT 已发出后到 HD 确认粮草前，多余 ENTER 会跳过 GetFood。
      * 点将队列里的 ENTER（pick-person）必须放行，否则 6 将未入引擎就 EXIT，选粮永不来。 */
     function holdEnterForFood() {
+        if (leftoverMarchAfterFight()) {
+            return false;
+        }
         return !!(state.battleMake && state.personExitSent && !state.foodConfirmedThisMarch &&
             !state.marchReady && !state.handoff);
     }
@@ -1161,14 +1229,17 @@
                 if (baye.data.g_hdBattlePick != null && !mapPickActive()) {
                     baye.data.g_hdBattlePick = 0;
                 }
-                if (baye.data.g_hdFightOver != null) {
-                    baye.data.g_hdFightOver = 0;
-                }
-                if (baye.data.g_hdFightActive != null) {
-                    baye.data.g_hdFightActive = 0;
-                }
-                if (baye.data.g_hdFightWait != null) {
-                    baye.data.g_hdFightWait = 0;
+                /* 占领回车还没走完时不要清 HD 战场旗，否则 BeOccupied 开不了。 */
+                if (!occupyDrainPending() && !Number(baye.data.g_FgtOver)) {
+                    if (baye.data.g_hdFightOver != null) {
+                        baye.data.g_hdFightOver = 0;
+                    }
+                    if (baye.data.g_hdFightActive != null) {
+                        baye.data.g_hdFightActive = 0;
+                    }
+                    if (baye.data.g_hdFightWait != null) {
+                        baye.data.g_hdFightWait = 0;
+                    }
                 }
             }
         } catch (e) {}
@@ -1209,7 +1280,11 @@
         state.handoffStatus = '';
         state.confirmingTarget = false;
         state.acceptMarchOk = false;
+        state.sawFightThisMarch = false;
+        state.fightEndedThisMarch = false;
+        state.marchHint = '';
         stopMarchWatch();
+        releaseMarchShell('reset-after-fight');
         /* 全军覆没 / 选择目标 残留文本回车 = 策略结束。只有活着的 async 灾异 / 拥立才回车。 */
         var afterReport = liveEngineReport();
         var names0 = (engineMenuItems().names || [])[0] || '';
@@ -1248,6 +1323,8 @@
         state.queue = [];
         state.sending = false;
         state.battleMake = false;
+        state.sawFightThisMarch = false;
+        state.fightEndedThisMarch = false;
         state.campaignPick = false;
         state.personExitSent = false;
         state.finishPersonsBusy = false;
@@ -3214,6 +3291,9 @@
         /* 开垦/过图 leftover pick=1 必须在点军备之前写掉，否则 ENTER 会确认过图而不是进军备。 */
         bindOpenedMapCity(state.cityIndex, 'open-city');
         clearStaleMapPick('open-city');
+        if (leftoverMarchAfterFight()) {
+            resetAfterFight();
+        }
         unstickMenuLoop('open-city');
         render();
         console.log('[hd-city-menu] open', {
@@ -3487,6 +3567,8 @@
         state.foodAttempt = 0;
         stopMarchWatch();
         state.lastTipEnterAt = 0;
+        state.sawFightThisMarch = false;
+        state.fightEndedThisMarch = false;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
         state.sawGetFoodUi = false;
@@ -3764,6 +3846,10 @@
 
     function fightIsActive() {
         try {
+            /* C 已写 g_FgtOver：本场结束，不能再当活战场，否则 leftover 出征进行中清不掉。 */
+            if (window.baye && baye.data && Number(baye.data.g_FgtOver)) {
+                return false;
+            }
             if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
                 var f = baye.hd.fight();
                 if (f && f.active && !f.over) {
@@ -4096,6 +4182,9 @@
     function isMarching() {
         /* 部队已出发后不再占 isMarching：报告壳才能关，地图点己方城才能开招商。
          * handoff 期间占住，避免地图点击把出征队列冲掉。 */
+        if (leftoverMarchAfterFight()) {
+            return false;
+        }
         if (state.handoff) {
             return true;
         }
@@ -4809,6 +4898,26 @@
         render();
         setInterval(function () {
             try {
+                if (fightIsActive()) {
+                    state.sawFightThisMarch = true;
+                } else if (leftoverMarchAfterFight()) {
+                    releaseMarchShell('poll-after-fight');
+                    var liveOver = 0;
+                    try { liveOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOver) {}
+                    var battleSnap = null;
+                    try {
+                        if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
+                            battleSnap = BayeHdBattle.debugSnapshot();
+                        }
+                    } catch (eSnap) {}
+                    /* 胜仗还要走 BeOccupied：只摘横幅，等占领回车结束再 reset。 */
+                    var battleWillOccupy = !!(liveOver && battleSnap && battleSnap.open &&
+                        !battleSnap.occupyDone);
+                    if (!occupyDrainPending() && !battleWillOccupy) {
+                        resetAfterFight();
+                    }
+                    return;
+                }
                 if (!hdReady() || !state.open) {
                     return;
                 }
@@ -4894,6 +5003,9 @@
                 dismissedObj: state.dismissedObj,
                 marchReady: state.marchReady,
                 marching: isMarching(),
+                leftoverAfterFight: leftoverMarchAfterFight(),
+                sawFightThisMarch: state.sawFightThisMarch,
+                fightEndedThisMarch: state.fightEndedThisMarch,
                 campaignPick: state.campaignPick,
                 battleMake: state.battleMake,
                 handoff: state.handoff,
@@ -5023,6 +5135,8 @@
         goStrategyEnd: goStrategyEnd,
         handoffAt: function () { return state.handoffAt || 0; },
         consumeLeftoverMarch: consumeLeftoverMarch,
+        leftoverMarchAfterFight: leftoverMarchAfterFight,
+        releaseMarchShell: releaseMarchShell,
         resetAfterFight: resetAfterFight,
         resetForNewGame: resetForNewGame,
         forceClearMapPick: forceClearMapPick,

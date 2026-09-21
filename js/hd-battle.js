@@ -60,6 +60,7 @@
         occupySettledAt: 0,
         savedNoteSkip: null,
         lastOccupy: null,
+        settledOver: 0,
         forcedOverPoke: 0,
         queue: [],
         sending: false,
@@ -859,6 +860,12 @@
             result: state.resultCode
         };
         state.resultDismissed = true;
+        state.settledOver = state.resultCode || 0;
+        try {
+            if (!state.settledOver && window.baye && baye.data) {
+                state.settledOver = Number(baye.data.g_FgtOver) || 0;
+            }
+        } catch (eSettled) {}
         applyChrome();
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetAfterFight === 'function') {
             BayeHdCityMenu.resetAfterFight();
@@ -910,7 +917,9 @@
             state.occupyTimer = 0;
             var f = null;
             try { f = readFight(); } catch (e) {}
-            if (f && f.active && !f.over) {
+            var fgtOver = 0;
+            try { fgtOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOver) {}
+            if (f && f.active && !f.over && !fgtOver && !state.resultCode) {
                 state.occupyTimer = setTimeout(tick, 200);
                 return;
             }
@@ -1290,7 +1299,7 @@
             return false;
         }
         if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
-            BayeHdCityMenu.close({ silent: true });
+            BayeHdCityMenu.close({ silent: true, force: true });
         }
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
@@ -1329,14 +1338,12 @@
 
     function closeBattle(opts) {
         opts = opts || {};
-        if (state.resultText || state.resultCode) {
-            state.resultDismissed = true;
-            try {
-                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetAfterFight === 'function') {
-                    BayeHdCityMenu.resetAfterFight();
-                }
-            } catch (e) {}
-        }
+        state.resultDismissed = true;
+        try {
+            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetAfterFight === 'function') {
+                BayeHdCityMenu.resetAfterFight();
+            }
+        } catch (e) {}
         state.open = false;
         state.preview = false;
         state.menuKind = '';
@@ -1503,10 +1510,14 @@
         try {
             info = window.baye && baye.hd && baye.hd.fight ? baye.hd.fight() : null;
         } catch (e) {}
-            if (info && info.active) {
+        var liveOver = 0;
+        try { liveOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eLive) {}
+        var settleNow = !!(liveOver || (info && info.over) || state.occupyPending || state.occupyStarted);
+        if (info && info.active) {
             /* Live fight never inherits leftover 全军覆没 from the previous battle.
-             * 占领回车期间不要清 over，否则 FightResultDeal / BeOccupied 走不到。 */
-            if (info.over && !state.occupyPending && !state.occupyStarted) {
+             * 占领回车期间不要清 over，否则 FightResultDeal / BeOccupied 走不到。
+             * g_FgtOver 已写时这是本场结束，不能清掉。 */
+            if (info.over && !liveOver && !state.occupyPending && !state.occupyStarted) {
                 try {
                     if (window.baye && baye.data && baye.data.g_hdFightOver != null &&
                         (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -1515,25 +1526,28 @@
                 } catch (e) {}
                 info.over = 0;
             }
-            var leftover = !!(state.resultDismissed || state.resultText || state.resultCode);
+            /* 只有新开的活战场才清上场 leftover。刚写 result / 占领中不能清。 */
+            var leftover = !settleNow && !!(state.resultDismissed || state.resultText || state.resultCode);
             if (leftover) {
                 state.resultDismissed = false;
                 state.resultText = '';
                 state.resultCode = 0;
             }
+            if (!settleNow) {
+                state.settledOver = 0;
+            }
             if (shouldShowHd() && (!state.open || leftover)) {
-                enterBattle({ hook: 'g_hdFightActive' });
+                enterBattle({ hook: 'g_hdFightActive', keepResult: settleNow });
             }
         }
-        if (info && info.over && !info.active) {
-            if (state.occupyDone || state.resultDismissed) {
-                return;
-            }
-            state.resultCode = info.over;
-            state.resultText = info.result || (info.over === 1 ? '我军大获全胜' : (info.over === 2 ? '我军全军覆没' : ''));
-            state.lastHook = 'exitBattle';
+        var over = liveOver || (info && info.over) || 0;
+        if (over && !state.occupyDone && !state.occupyStarted && over !== state.settledOver) {
+            state.resultCode = over;
+            state.resultText = (info && info.result) || (over === 1 ? '我军大获全胜' :
+                (over === 2 ? '我军全军覆没' : ''));
+            state.lastHook = (info && info.active) ? 'g_hdFightActive' : 'exitBattle';
             state.lastHookAt = Date.now();
-            if (info.cityIndex != null) {
+            if (info && info.cityIndex != null) {
                 state.occupyCity = info.cityIndex;
             }
             if (!state.open && shouldShowHd()) {
@@ -1566,8 +1580,15 @@
                     engineSendKey(VK.EXIT);
                 }
             } catch (e) {}
+            var liveOverPoll = 0;
+            try { liveOverPoll = Number(d && d.g_FgtOver) || 0; } catch (eOver) {}
+            /* C 已写 g_FgtOver 即使 HD active 已清也要开占领回车。 */
+            if (liveOverPoll && !state.occupyStarted && !state.occupyDone &&
+                liveOverPoll !== state.settledOver) {
+                onEngineFight();
+            }
             if (d && Number(d.g_hdFightActive)) {
-                if (f && f.over && !state.occupyPending && !state.occupyStarted) {
+                if (f && f.over && !liveOverPoll && !state.occupyPending && !state.occupyStarted) {
                     try {
                         if (d.g_hdFightOver != null && (!baye.hdEngineReady || baye.hdEngineReady())) {
                             d.g_hdFightOver = 0;
@@ -1575,14 +1596,15 @@
                     } catch (e) {}
                     f.over = 0;
                 }
-                var leftover = !!(state.resultDismissed || state.resultText);
+                var settleNow = !!(liveOverPoll || state.occupyPending || state.occupyStarted);
+                var leftover = !settleNow && !!(state.resultDismissed || state.resultText);
                 if (leftover) {
                     state.resultDismissed = false;
                     state.resultText = '';
                     state.resultCode = 0;
                 }
                 if (!state.open || leftover) {
-                    enterBattle({ hook: 'g_hdFightActive' });
+                    enterBattle({ hook: 'g_hdFightActive', keepResult: settleNow });
                 }
             }
             if (state.open && state.resultDismissed && !state.occupyPending && (!f || !f.active || f.over)) {
@@ -1693,6 +1715,7 @@
                 occupyOwner: state.occupyOwner,
                 occupyEnters: state.occupyEnters,
                 lastOccupy: state.lastOccupy,
+                settledOver: state.settledOver,
                 realm: readRealm(),
                 skills: (function () {
                     try { return window.baye && baye.hd && baye.hd.skills ? baye.hd.skills() : null; }
