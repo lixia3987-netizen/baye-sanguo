@@ -1222,7 +1222,7 @@
     }
 
     function leftoverDisasterReport(text) {
-        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜/.test(String(text || ''));
+        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡|占领|沦陷|战胜|被策反/.test(String(text || ''));
     }
 
     function liveReportAsync() {

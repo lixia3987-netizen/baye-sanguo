@@ -57,6 +57,7 @@
         occupyBelong: 0,
         ownedBefore: 0,
         occupyEnters: 0,
+        occupySettledAt: 0,
         savedNoteSkip: null,
         lastOccupy: null,
         queue: [],
@@ -600,10 +601,15 @@
         if (state.resultCode === 1 && rec && mine && rec.belong !== mine) {
             return true;
         }
-        if (liveAsyncReport() && !functionMenuLive()) {
+        /* Belong 写完后还有 TheLoserDeal / KingOverDeal / 灾异 GamMsgBox。
+         * FunctionMenu 残留「策略结束」不能当成已走完。 */
+        if (liveAsyncReport()) {
             return true;
         }
         if (liveOccupyReport() && liveAsyncReport()) {
+            return true;
+        }
+        if (state.occupySettledAt && (Date.now() - state.occupySettledAt) < 1400) {
             return true;
         }
         return false;
@@ -734,8 +740,14 @@
                 state.occupyTimer = setTimeout(tick, 200);
                 return;
             }
-            if (occupyLooksPending() && Date.now() - started < 9000 && state.occupyEnters < 28) {
-                if (!functionMenuLive()) {
+            if (occupyLooksPending() && Date.now() - started < 12000 && state.occupyEnters < 36) {
+                var realmNow = readRealm();
+                var recNow = cityRecord(realmNow, fightCityIndex());
+                var mineNow = realmNow && realmNow.playerBelong;
+                if (!state.occupySettledAt && recNow && mineNow && recNow.belong === mineNow) {
+                    state.occupySettledAt = Date.now();
+                }
+                if (liveAsyncReport() || (state.resultCode === 1 && recNow && mineNow && recNow.belong !== mineNow)) {
                     engineSendKey(VK.ENTER);
                     state.occupyEnters += 1;
                 }
