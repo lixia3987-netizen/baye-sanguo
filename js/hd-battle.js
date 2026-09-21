@@ -219,7 +219,7 @@
     }
 
     function cityMenuOwnsScreen() {
-        return cityMenuOpen();
+        return cityMenuOpen() && !state.strictLive && !fightEngineActiveRaw();
     }
 
     function titleOrOpeningScreen() {
@@ -293,7 +293,7 @@
         if (state.readingEngine && !state.samplingFight) {
             return false;
         }
-        if (titleOrOpeningScreen() || cityMenuOpen()) {
+        if (titleOrOpeningScreen()) {
             state.strictLive = false;
             return false;
         }
@@ -302,8 +302,13 @@
         }
         state.readingEngine = true;
         try {
-            state.strictLive = fightEngineActiveRaw();
-            return !!state.strictLive;
+            var live = fightEngineActiveRaw();
+            if (!live && cityMenuOpen()) {
+                state.strictLive = false;
+                return false;
+            }
+            state.strictLive = live;
+            return !!live;
         } catch (e) {
             state.strictLive = false;
             return false;
@@ -333,7 +338,7 @@
     }
 
     function fightArrayCount() {
-        if (!state.samplingFight && (!fightStrictActive() || cityMenuOpen())) {
+        if (!state.samplingFight && !fightStrictActive()) {
             return 0;
         }
         var data = engineData();
@@ -2516,7 +2521,7 @@
     }
 
     function onEngineFight() {
-        if (titleOrOpeningScreen() || cityMenuOpen()) {
+        if (titleOrOpeningScreen()) {
             return;
         }
         var info = null;
@@ -2582,7 +2587,7 @@
             if (!hdReady() || !shouldShowHd()) {
                 return;
             }
-            if (titleOrOpeningScreen() || cityMenuOpen()) {
+            if (titleOrOpeningScreen()) {
                 if (state.open && !state.preview && !state.resultText &&
                     !state.occupyPending && !state.occupyStarted) {
                     closeBattle({ silent: true });
