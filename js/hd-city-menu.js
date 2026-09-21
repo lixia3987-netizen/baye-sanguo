@@ -1176,8 +1176,8 @@
                     scheduleMarchWatch();
                     return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                /* leftover pick / 刚关掉的活报告才再 EXIT 一次。连发会取消刚打开的 GetFood。 */
-                if ((leftoverOverworldPick() || state.foodRecoverNeeded) &&
+                /* leftover pick / leftover 选择目标吃掉完成选将 EXIT。只再 EXIT 一次。 */
+                if ((leftoverOverworldPick() || state.foodRecoverNeeded || leftoverChooseTarget(report)) &&
                     (state.personExitTries || 0) < 2) {
                     state.personExitTries = (state.personExitTries || 0) + 1;
                     state.lastPersonExitAt = Date.now();
@@ -2278,7 +2278,7 @@
         pickIndex(index, true);
         if (willMarch) {
             setTimeout(function () {
-                if (!state.battleMake || state.personExitSent || showingQty() || state.pickedPersons > 0) {
+                if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
                     return;
                 }
                 var names = engineMenuItems().names || [];
