@@ -399,6 +399,12 @@
             BayeHdCityMenu.isMarching());
     }
 
+    function cityMenuWaitingGetFood() {
+        return !!(global.BayeHdCityMenu &&
+            typeof BayeHdCityMenu.waitingGetFood === 'function' &&
+            BayeHdCityMenu.waitingGetFood());
+    }
+
     function cityMenuHoldExit() {
         return !!(global.BayeHdCityMenu &&
             typeof BayeHdCityMenu.holdExit === 'function' &&
@@ -547,7 +553,10 @@
         if (/农业|商业|开发度|变为/.test(info.text || '')) {
             return closeReportSilent(info);
         }
-        if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动|归降|势力/.test(info.text || '')) {
+        if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动|归降|势力|成为君主|拥立|俘虏|病逝|遭劫/.test(info.text || '')) {
+            if (cityMenuWaitingGetFood() && liveSpeechAsync(info)) {
+                engineSendKey(VK.ENTER);
+            }
             return closeReportSilent(info);
         }
         /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；

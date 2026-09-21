@@ -80,6 +80,8 @@
         lastPersonExitAt: 0,
         qtyBeforePersonExit: null,
         foodRecovered: false,
+        foodRecoverEnter: false,
+        foodRecoverNeeded: false,
         lastFuncMenuIdle: 0,
         lastExit: '',
         lastBlockedExit: '',
@@ -1118,7 +1120,17 @@
     }
 
     function leftoverDisasterReport(text) {
-        return /饥荒|旱灾|水灾|暴动|须尽快治理/.test(String(text || ''));
+        return /饥荒|旱灾|水灾|暴动|须尽快治理|成为君主|拥立|俘虏|病逝|遭劫|归降|势力灭亡/.test(String(text || ''));
+    }
+
+    function liveReportAsync() {
+        try {
+            if (window.baye && baye.data) {
+                var id = Number(baye.data.g_asyncActionID);
+                return id === 1 || id === 2 || id === 13;
+            }
+        } catch (e) {}
+        return false;
     }
 
     function driveFoodToCitySet(why) {
@@ -1139,29 +1151,47 @@
             clearLeftoverQtyFlag();
             return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
         }
-        if (waitingGetFoodSoftLock() &&
-            (engineStillPersonQueue() || leftoverOverworldPick()) &&
-            (state.personExitTries || 0) < 4) {
+        if (waitingGetFoodSoftLock()) {
             var liveFunc = looksLikeFunctionMenu() &&
                 (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
             if (!liveFunc) {
-                if (state.lastPersonExitAt && Date.now() - state.lastPersonExitAt < 480) {
+                if (state.lastPersonExitAt && Date.now() - state.lastPersonExitAt < 800) {
                     state.marchHint = '等待引擎打开选粮… ' + marchDebugLine();
                     scheduleMarchWatch();
                     return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
                 }
-                state.personExitTries = (state.personExitTries || 0) + 1;
-                state.lastPersonExitAt = Date.now();
-                state.foodRecovered = true;
-                noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
-                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                    BayeHdDialog.close({ silent: true });
+                var report = liveEngineReport();
+                /* 活着的过月报告会吃掉完成选将 EXIT。残留文本回车会策略结束，只在 async 还活着时回车一次。 */
+                if (!state.foodRecoverEnter && leftoverDisasterReport(report) && liveReportAsync()) {
+                    state.foodRecoverEnter = true;
+                    state.foodRecoverNeeded = true;
+                    state.foodRecovered = true;
+                    state.lastPersonExitAt = Date.now();
+                    noteStep4('drive-food-enter-report', { skipped: why || 'leftover-report' });
+                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                        BayeHdDialog.close({ silent: true });
+                    }
+                    engineSendKey(VK.ENTER);
+                    state.marchHint = '选粮未打开，先回车关掉残留报告。' + marchDebugLine();
+                    scheduleMarchWatch();
+                    return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
                 }
-                /* leftover 暴动 / leftover pick / ShowPersonControl 都用 EXIT，回车会点中当前将。 */
-                engineSendKey(VK.EXIT, 'finish-persons');
-                state.marchHint = '选粮未打开，已安全再发一次 EXIT。' + marchDebugLine();
-                scheduleMarchWatch();
-                return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
+                /* leftover pick / 刚关掉的活报告才再 EXIT 一次。连发会取消刚打开的 GetFood。 */
+                if ((leftoverOverworldPick() || state.foodRecoverNeeded) &&
+                    (state.personExitTries || 0) < 2) {
+                    state.personExitTries = (state.personExitTries || 0) + 1;
+                    state.lastPersonExitAt = Date.now();
+                    state.foodRecovered = true;
+                    state.foodRecoverNeeded = false;
+                    noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
+                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                        BayeHdDialog.close({ silent: true });
+                    }
+                    engineSendKey(VK.EXIT, 'finish-persons');
+                    state.marchHint = '选粮未打开，已安全再发一次 EXIT。' + marchDebugLine();
+                    scheduleMarchWatch();
+                    return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
+                }
             }
         }
         if (state.personExitSent && state.sawQtyThisMarch && !mapPickActive() &&
@@ -2273,6 +2303,8 @@
         state.lastPersonExitAt = 0;
         state.qtyBeforePersonExit = qtySnapshot();
         state.foodRecovered = false;
+        state.foodRecoverEnter = false;
+        state.foodRecoverNeeded = false;
         state.wizardStep = (state.deepKind === 'person-city' || state.deepLabel === '出征') ? 'persons' : 'none';
         state.sawQtyThisMarch = false;
         state.qtyDismissed = false;
@@ -2343,6 +2375,8 @@
         state.personExitTries = 1;
         state.lastPersonExitAt = Date.now();
         state.qtyBeforePersonExit = qtySnapshot();
+        state.foodRecoverEnter = false;
+        state.foodRecoverNeeded = leftoverDisasterReport(liveEngineReport()) && liveReportAsync();
         state.campaignPick = false;
         advanceWizard('food', 'finish-persons');
         state.marchHint = '已结束选将，接着确认粮草。';
@@ -3332,6 +3366,8 @@
                 liveGetFood: liveGetFood(),
                 waitingGetFood: waitingGetFoodSoftLock(),
                 foodRecovered: state.foodRecovered,
+                foodRecoverEnter: state.foodRecoverEnter,
+                foodRecoverNeeded: state.foodRecoverNeeded,
                 qtyBeforePersonExit: state.qtyBeforePersonExit,
                 engineInGetCitySet: engineInGetCitySet(),
                 enginePhase: engineMarchPhase(),
