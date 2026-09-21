@@ -357,12 +357,22 @@
         if (!fight || !fight.active || fight.over || state.resultText) {
             return false;
         }
-        if (!fight.wait) {
+        var phase = Number(fight.phase) || 0;
+        /* 瞄准用棋盘，不套假菜单。 */
+        if (phase === 3) {
             return false;
         }
-        var phase = Number(fight.phase) || 0;
-        /* 选将/走格：引擎还没 PlcSplMenu，盒子只能看到底栏。瞄准不套假菜单。 */
-        return phase === 1 || phase === 2 || phase === 0;
+        if (fight.wait) {
+            return phase === 1 || phase === 2 || phase === 0;
+        }
+        /* 开战瞬间 wait=0/phase=0：引擎还没进 FgtGetFoucs，字节也不是攻击/待机。
+         * 这里必须画假「将领行动」，否则盒子第一帧只剩系统/LCD 底栏。 */
+        var cls = peekFightMenuClass();
+        if (cls && (cls.kind === 'act' || cls.kind === 'skill') &&
+            !(state.needWaitBeforeMenu && !menuIdleFresh())) {
+            return false;
+        }
+        return phase === 0 || phase === 1 || phase === 2;
     }
 
     function resetActDrive() {
