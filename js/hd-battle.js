@@ -60,6 +60,7 @@
         occupySettledAt: 0,
         savedNoteSkip: null,
         lastOccupy: null,
+        forcedOverPoke: 0,
         queue: [],
         sending: false
     };
@@ -1341,6 +1342,14 @@
             var d = engineData();
             var f = null;
             try { f = baye.hd && baye.hd.fight ? baye.hd.fight() : null; } catch (e) {}
+            /* C 已写 g_FgtOver 但 FgtGetFoucs 还在 wait=1：不发键则 CHECK_OVER 永远走不到。 */
+            try {
+                var fgtOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0;
+                if (fgtOver && f && f.active && f.wait && Date.now() - (state.forcedOverPoke || 0) > 350) {
+                    state.forcedOverPoke = Date.now();
+                    engineSendKey(VK.EXIT);
+                }
+            } catch (e) {}
             if (d && Number(d.g_hdFightActive)) {
                 if (f && f.over) {
                     try {
@@ -1403,6 +1412,24 @@
         },
         start: start,
         applyPcPage: start,
+        forceWin: function (code) {
+            var over = code == null ? 1 : Number(code) || 1;
+            try {
+                if (window.baye && baye.data && baye.data.g_FgtOver != null) {
+                    baye.data.g_FgtOver = over;
+                }
+            } catch (e) {}
+            state.forcedOverPoke = 0;
+            engineSendKey(VK.EXIT);
+            setTimeout(function () {
+                engineSendKey(VK.ENTER);
+            }, 80);
+            try {
+                return Number(window.baye && baye.data && baye.data.g_FgtOver);
+            } catch (e2) {
+                return over;
+            }
+        },
         debugSnapshot: function () {
             return {
                 pref: getMode(),
