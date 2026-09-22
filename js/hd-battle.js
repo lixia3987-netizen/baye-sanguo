@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zt';
+    var HD_BATTLE_VER = '20260922zu';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -193,6 +193,8 @@
         nextUnitArmedAt: 0,
         keepAttackEnterUntil: 0,
         forceEndTurnUntil: 0,
+        endTurnBrokeN: 0,
+        stallMeleeTried: false,
         approachedThisAct: false
     };
 
@@ -546,7 +548,7 @@
             }
             if (code === VK.EXIT && fightReallyActive() && !overNow &&
                 !state.leavingAim && !state.openedSysForEndTurn && !state.allowEndTurnEnter &&
-                !forceEndTurnArmed()) {
+                !forceEndTurnArmed() && !endTurnBrokeArmed()) {
                 var moreOwn = playerHasWaitingOwn() || endTurnHeld() ||
                     ((state.actedThisTurn || 0) < countPlayerUnits() &&
                         Date.now() - (state.lastRestCommitAt || 0) < 5000);
@@ -557,7 +559,7 @@
                         waiting: playerHasWaitingOwn(),
                         hold: endTurnHeld()
                     });
-                    if (playerHasWaitingOwn() && !nextUnitStalled()) {
+                    if (playerHasWaitingOwn() && !nextUnitStalled() && !endTurnBrokeArmed()) {
                         armNextWaitingOwn('exit-blocked');
                     }
                     return false;
@@ -873,8 +875,12 @@
         return !!(state.forceEndTurnUntil && Date.now() < state.forceEndTurnUntil);
     }
 
+    function endTurnBrokeArmed() {
+        return (state.endTurnBrokeN || 0) >= 1;
+    }
+
     function nextUnitStalled() {
-        return (state.endTurnStallN || 0) >= 5;
+        return (state.endTurnStallN || 0) >= 3;
     }
 
     function noteNextUnitArm(why, acted, destKey) {
@@ -889,7 +895,8 @@
         state.nextUnitArmedAt = Date.now();
         if (state.endTurnStallN >= 2) {
             console.log('[hd-battle] next-unit-stall', {
-                via: why || 'arm',
+                via: 'same-dest',
+                why: why || 'arm',
                 n: state.endTurnStallN,
                 acted: acted,
                 dest: destKey || ''
@@ -898,9 +905,9 @@
     }
 
     function clearNextUnitStall(why) {
-        if (state.endTurnStallN || state.forceEndTurnUntil) {
+        if (state.endTurnStallN || state.forceEndTurnUntil || state.endTurnBrokeN) {
             console.log('[hd-battle] next-unit-stall-clear', {
-                via: why || 'clear', n: state.endTurnStallN || 0
+                via: why || 'clear', n: state.endTurnStallN || 0, broke: state.endTurnBrokeN || 0
             });
         }
         state.endTurnStallN = 0;
@@ -910,6 +917,8 @@
         state.nextUnitArmedAt = 0;
         if (why === 'new-player-turn' || why === 'prepare-new') {
             state.forceEndTurnUntil = 0;
+            state.endTurnBrokeN = 0;
+            state.stallMeleeTried = false;
         }
     }
 
@@ -932,23 +941,35 @@
     function forceFinishWaitingOrEndTurn(why) {
         dropQueuedEnters();
         clearPendingApproach();
-        state.pendingActPick = 3;
+        var already = endTurnBrokeArmed();
+        state.endTurnBrokeN = (state.endTurnBrokeN || 0) + 1;
         state.forceEndTurnUntil = Date.now() + 6000;
         state.holdEndTurnUntil = 0;
+        var tryMelee = !state.stallMeleeTried && !already &&
+            adjacentEnemy(1) && (liveActMenu() || hdActMenuVisible());
         console.log('[hd-battle] next-unit-stall-break', {
-            via: why || 'stall',
+            via: 'stall-break',
+            why: why || 'stall',
             n: state.endTurnStallN,
+            broke: state.endTurnBrokeN,
             acted: state.actedThisTurn,
             waiting: playerHasWaitingOwn(),
-            adj: !!adjacentEnemy(1)
+            adj: !!adjacentEnemy(1),
+            melee: !!tryMelee
         });
-        if (adjacentEnemy(1) && (liveActMenu() || hdActMenuVisible())) {
+        if (tryMelee) {
+            state.stallMeleeTried = true;
             state.pendingActPick = 0;
             state.keepAttackEnterUntil = Date.now() + 900;
             pickFightMenu(0);
             return true;
         }
-        preferRest(why || 'next-unit-stall');
+        state.pendingActPick = 3;
+        if (already && state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 1800) {
+            scheduleForceEndTurn(200);
+            return true;
+        }
+        preferRest('stall-break-rest');
         scheduleForceEndTurn(480);
         return true;
     }
@@ -966,7 +987,8 @@
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 || awaitingAim()) {
                 return;
             }
-            if (adjacentEnemy(1) && liveActMenu()) {
+            if (!state.stallMeleeTried && adjacentEnemy(1) && liveActMenu()) {
+                state.stallMeleeTried = true;
                 state.keepAttackEnterUntil = Date.now() + 900;
                 pickFightMenu(0);
                 return;
@@ -986,7 +1008,11 @@
 
     function armNextWaitingOwn(why, opts) {
         opts = opts || {};
-        if (forceEndTurnArmed() && /end-turn|exit-blocked|refresh/i.test(why || '')) {
+        var endTurnWhy = /end-turn|exit-blocked|refresh|after-attack-hit/i.test(why || '');
+        if ((forceEndTurnArmed() || endTurnBrokeArmed()) && endTurnWhy) {
+            if (endTurnBrokeArmed() && /end-turn|exit-blocked/i.test(why || '')) {
+                return forceFinishWaitingOrEndTurn(why || 'broke-requeue');
+            }
             return false;
         }
         if (!playerHasWaitingOwn()) {
@@ -1028,15 +1054,15 @@
         var foe = nearestEnemy();
         var destKey = ((nextOther && nextOther.name) || (nextLord && nextLord.name) || '') +
             '>' + (foe ? foe.name : '') + '@' + String(state.actedThisTurn || 0);
-        if (!opts.force && state.nextUnitArmedKey === destKey &&
+        if (state.nextUnitArmedKey === destKey &&
             state.nextUnitArmedAt && Date.now() - state.nextUnitArmedAt < 4000) {
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
-            if (nextUnitStalled()) {
+            if (nextUnitStalled() || endTurnBrokeArmed()) {
                 return forceFinishWaitingOrEndTurn(why || 'same-dest-stall');
             }
             return false;
         }
-        if (nextUnitStalled() && /end-turn|exit-blocked/i.test(why || '')) {
+        if ((nextUnitStalled() || endTurnBrokeArmed()) && endTurnWhy) {
             return forceFinishWaitingOrEndTurn(why || 'stall');
         }
         if (opts.force) {
@@ -1771,6 +1797,9 @@
                 hdMenu: hdActMenuVisible(),
                 next: (firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true }) || {}).name
             });
+            if (endTurnBrokeArmed() || nextUnitStalled()) {
+                return forceFinishWaitingOrEndTurn('after-hit-stall');
+            }
             return armNextWaitingOwn('after-attack-hit', { force: true });
         }
         return false;
@@ -2586,6 +2615,10 @@
         if (forceEndTurnArmed()) {
             return false;
         }
+        if (endTurnBrokeArmed()) {
+            forceFinishWaitingOrEndTurn('broke-end-turn');
+            return false;
+        }
         if (endTurnHeld()) {
             if (playerHasWaitingOwn() && Number(fight.phase) !== 2 && Number(fight.phase) !== 3 &&
                 !state.pendingApproach && !awaitingAim() && !nextUnitStalled()) {
@@ -2598,14 +2631,15 @@
                 forceFinishWaitingOrEndTurn('end-turn-still-waiting');
                 return false;
             }
-            var leftoverHitMenu = !!(state.lastHitAt && Date.now() - state.lastHitAt < 2200 &&
-                recentlyHitActor(actingActor()));
-            if (Number(fight.phase) === 2 || Number(fight.phase) === 3 ||
-                state.pendingApproach || state.approachPathWaitAt || awaitingAim() ||
-                (liveActMenu() && !leftoverHitMenu)) {
+            if (state.lastHitAt && Date.now() - state.lastHitAt < 2200) {
                 return false;
             }
-            armNextWaitingOwn('end-turn-still-waiting', leftoverHitMenu ? { force: true } : {});
+            if (Number(fight.phase) === 2 || Number(fight.phase) === 3 ||
+                state.pendingApproach || state.approachPathWaitAt || awaitingAim() ||
+                liveActMenu()) {
+                return false;
+            }
+            armNextWaitingOwn('end-turn-still-waiting');
             return false;
         }
         if ((state.actedThisTurn || 0) < countPlayerUnits() &&
@@ -6079,6 +6113,8 @@
                 endTurnStallN: state.endTurnStallN || 0,
                 nextUnitArmedKey: state.nextUnitArmedKey || '',
                 forceEndTurn: forceEndTurnArmed(),
+                endTurnBrokeN: state.endTurnBrokeN || 0,
+                stallMeleeTried: !!state.stallMeleeTried,
                 approachedThisAct: !!state.approachedThisAct,
                 phase1StuckCount: (function () {
                     var n = 0;
