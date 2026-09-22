@@ -898,13 +898,16 @@
         state.nextUnitArmedKey = destKey || '';
         state.nextUnitArmedAt = Date.now();
         if (state.endTurnStallN >= 2) {
-            console.log('[hd-battle] next-unit-stall', {
-                via: 'same-dest',
-                why: why || 'arm',
-                n: state.endTurnStallN,
-                acted: acted,
-                dest: destKey || ''
-            });
+            if (!state.lastStallHoldLogAt || Date.now() - state.lastStallHoldLogAt > 1600) {
+                state.lastStallHoldLogAt = Date.now();
+                console.log('[hd-battle] next-unit-stall', {
+                    via: 'same-dest',
+                    why: why || 'arm',
+                    n: state.endTurnStallN,
+                    acted: acted,
+                    dest: destKey || ''
+                });
+            }
         }
     }
 
@@ -2906,10 +2909,6 @@
         }
         if (playerHasWaitingOwn()) {
             if (!state.lastHitAt) {
-                if (Number(fight.phase) !== 2 && Number(fight.phase) !== 3 &&
-                    !state.pendingApproach && !awaitingAim() && !liveActMenu()) {
-                    armNextWaitingOwn('pre-hit-next');
-                }
                 return false;
             }
             if (nextUnitStalled()) {
