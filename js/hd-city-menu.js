@@ -2282,6 +2282,7 @@
     }
 
     function requeuePickedPersons(why) {
+        dismissMarchOverlay(why || 'requeue');
         var names = state.pickedPersonNames || [];
         var live = cityPersons(state.cityIndex);
         var sent = 0;
@@ -2295,6 +2296,10 @@
                     break;
                 }
             }
+        }
+        if (!sent && (state.pickedPersons || 0) > 0 && live.length) {
+            pickIndex(0, true, 'pick-person');
+            sent = 1;
         }
         if (sent) {
             noteStep4('requeue-picks', { skipped: why || 'overlay', attempt: sent });
@@ -2818,6 +2823,43 @@
             list.push({ i: list.length, pind: pind, name: name });
         }
         return list;
+    }
+
+    function cityPersonCount(index) {
+        var city = readCity(index);
+        var n = city ? readNumber(city, 'Persons') : 0;
+        if (n && n > 0 && n < 0xfffe) {
+            return n;
+        }
+        return cityPersons(index).length;
+    }
+
+    function pickedNamesGoneCount() {
+        var names = state.pickedPersonNames || [];
+        var live = cityPersons(state.cityIndex);
+        var gone = 0;
+        var i;
+        var j;
+        for (i = 0; i < names.length; i++) {
+            var found = false;
+            for (j = 0; j < live.length; j++) {
+                if (live[j] && live[j].name === names[i]) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                gone += 1;
+            }
+        }
+        return gone;
+    }
+
+    function engineTookPickedGenerals() {
+        var personsNow = cityPersonCount(state.cityIndex);
+        var startCount = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsNow;
+        var dropped = startCount ? Math.max(0, startCount - personsNow) : 0;
+        return dropped >= 1 || pickedNamesGoneCount() >= 1;
     }
 
     function cityLinkIndexes() {
@@ -4075,7 +4117,7 @@
         state.foodRecoverEnter = false;
         /* 只有活着的灾异 async 才需要先回车。残留「选择目标」/水灾文本再 EXIT 会掐 GetFood。 */
         state.foodRecoverNeeded = leftoverDisasterReport(liveEngineReport()) && liveReportAsync();
-        state.enginePersonsAtFinish = cityPersons(state.cityIndex).length;
+        state.enginePersonsAtFinish = cityPersonCount(state.cityIndex);
         /* 完成选将时人数往往已下降。用点将前人数判断引擎是否吃掉 ENTER，
          * 不能拿 finish 瞬间人数当起点，否则 engineTook 永远假、干等 10s。 */
         if (!state.enginePersonsAtPickStart) {
@@ -4090,28 +4132,39 @@
         if (leftoverDisasterReport(liveEngineReport()) && !liveReportAsync()) {
             clearStaleDisasterReport();
         }
-        function sendFinishExit(started, retriedPicks) {
+        function sendFinishExit(started, requeueCount) {
             started = started || Date.now();
+            requeueCount = requeueCount || 0;
             /* 必须等引擎人数下降后再 EXIT。只凭 lastPickEnterAt+320ms 会在
              * 开垦残留 HELP 吃掉点将 ENTER 后空 EXIT，离开 BattleMake。 */
-            var waitMs = Math.max(5000, 800 * Math.max(1, state.pickedPersons || 1));
+            var waitMs = Math.max(9000, 1200 * Math.max(1, state.pickedPersons || 1));
+            var maxRequeue = 4;
             var ov = leftoverMarchOverlay();
             if (ov.blocking || ov.engineHelp || ov.help || ov.farm) {
                 dismissMarchOverlay('finish-exit');
             }
             var enters = queuePickEnters();
-            var personsNow = cityPersons(state.cityIndex).length;
+            var personsNow = cityPersonCount(state.cityIndex);
             var startCount = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsNow;
             var dropped = startCount ? Math.max(0, startCount - personsNow) : 0;
             var needDrop = Math.max(1, state.pickedPersons || 1);
-            var engineTookAll = dropped >= needDrop;
-            var engineTook = dropped >= 1;
+            var engineTookAll = dropped >= needDrop || pickedNamesGoneCount() >= needDrop;
+            var engineTook = engineTookPickedGenerals();
             var elapsed = Date.now() - started;
             var pickFired = !!state.lastPickEnterAt;
             var sincePick = pickFired ? (Date.now() - state.lastPickEnterAt) : 0;
+            if (!pickFired && (state.pickedPersons || 0) > 0 && requeueCount < maxRequeue &&
+                elapsed > 200) {
+                dismissMarchOverlay('finish-never-enter');
+                requeuePickedPersons('finish-never-sent');
+                setTimeout(function () {
+                    sendFinishExit(started, requeueCount + 1);
+                }, 180);
+                return;
+            }
             if (enters > 0 && elapsed < waitMs) {
                 setTimeout(function () {
-                    sendFinishExit(started, retriedPicks);
+                    sendFinishExit(started, requeueCount);
                 }, 50);
                 return;
             }
@@ -4120,7 +4173,7 @@
             }
             if ((state.queue.length || state.sending) && elapsed < waitMs) {
                 setTimeout(function () {
-                    sendFinishExit(started, retriedPicks);
+                    sendFinishExit(started, requeueCount);
                 }, 50);
                 return;
             }
@@ -4131,40 +4184,43 @@
                 render();
                 return;
             }
-            if (engineTookAll || (engineTook && elapsed > 2400)) {
+            if (engineTookAll || (engineTook && elapsed > 1800)) {
                 if (sincePick && sincePick < 400 && elapsed < waitMs) {
                     setTimeout(function () {
-                        sendFinishExit(started, retriedPicks);
+                        sendFinishExit(started, requeueCount);
                     }, 40);
                     return;
                 }
             } else if (elapsed < waitMs) {
-                if (!engineTook && !retriedPicks && elapsed > 900) {
+                if (!engineTook && requeueCount < maxRequeue &&
+                    elapsed > 500 + requeueCount * 700) {
                     dismissMarchOverlay('finish-requeue');
+                    noteStep4('finish-requeue', { skipped: 'no-drop', attempt: requeueCount + 1 });
                     if (requeuePickedPersons('finish-wait')) {
                         setTimeout(function () {
-                            sendFinishExit(started, true);
-                        }, 80);
+                            sendFinishExit(started, requeueCount + 1);
+                        }, 200);
                         return;
                     }
                 }
                 setTimeout(function () {
-                    sendFinishExit(started, retriedPicks);
+                    sendFinishExit(started, requeueCount);
                 }, 80);
                 return;
             } else if (!engineTook) {
                 dismissMarchOverlay('finish-timeout-no-drop');
-                if (!retriedPicks && requeuePickedPersons('finish-timeout')) {
+                if (requeueCount < maxRequeue && requeuePickedPersons('finish-timeout')) {
+                    noteStep4('finish-timeout-requeue', { skipped: 'no-drop', attempt: requeueCount + 1 });
                     setTimeout(function () {
-                        sendFinishExit(Date.now(), true);
-                    }, 80);
+                        sendFinishExit(Date.now(), requeueCount + 1);
+                    }, 200);
                     return;
                 }
                 state.finishPersonsBusy = false;
                 state.personExitSent = false;
                 state.marchHint = '点将未进入引擎。已关掉残留遮罩，请再点将后「完成选将」。' +
                     marchDebugLine();
-                noteStep4('finish-no-engine-picks', { skipped: 'no-drop' });
+                noteStep4('finish-no-engine-picks', { skipped: 'no-drop', attempt: requeueCount });
                 render();
                 return;
             }
@@ -4902,13 +4958,26 @@
             return;
         }
         if (state.deepKind === 'person-city') {
-            dismissMarchOverlay('pick-person');
+            var ovPick = leftoverMarchOverlay();
+            if (ovPick.blocking || ovPick.engineHelp || ovPick.help || ovPick.farm) {
+                dismissMarchOverlay('pick-person');
+                setTimeout(function () {
+                    if (state.deepKind !== 'person-city' || state.personExitSent) {
+                        return;
+                    }
+                    pickIndex(index, true, 'pick-person');
+                }, 160);
+            } else {
+                dismissMarchOverlay('pick-person');
+                pickIndex(index, true, 'pick-person');
+            }
+        } else {
+            pickIndex(index, true, '');
         }
-        pickIndex(index, true, state.deepKind === 'person-city' ? 'pick-person' : '');
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
             if (!state.enginePersonsAtPickStart) {
-                state.enginePersonsAtPickStart = cityPersons(state.cityIndex).length;
+                state.enginePersonsAtPickStart = cityPersonCount(state.cityIndex);
             }
             state.pickedPersons += 1;
             if (item && item.name) {
