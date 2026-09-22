@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zg';
+    var HD_BATTLE_VER = '20260922zh';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -161,7 +161,10 @@
         lastBlankWatchAt: 0,
         lastBlankWatchWhy: '',
         boxSlowMs: 0,
-        boxSlowUntil: 0
+        boxSlowUntil: 0,
+        actCommit: null,
+        actCommitAt: 0,
+        allowRetreatArmed: false
     };
 
     function readStorage(key, fallback) {
@@ -459,6 +462,12 @@
             } catch (eOver) {}
             if (code === VK.EXIT && !overNow && !state.leavingAim && keepAimEnter('send-exit')) {
                 dumpEnterSwallow('aim-exit-blocked', { key: 'EXIT' });
+                return false;
+            }
+            if (fightReallyActive() && state.lastRestCommitAt &&
+                Date.now() - state.lastRestCommitAt < 1400 &&
+                (code === VK.DOWN || code === VK.UP)) {
+                dumpEnterSwallow('rest-nav-blocked', { key: keyName(code) });
                 return false;
             }
             if (fightReallyActive() && recentlyEndedTurn() && !overNow &&
@@ -1542,10 +1551,12 @@
         });
         forceShowFightMenu(why || 'aim-oor');
         if (opts.thenRest) {
+            writeFightActCommit(3);
             console.log('[hd-battle] rest-commit', {
-                via: 'leftover-after-move', why: why || 'aim-oor'
+                via: 'leftover-after-move', why: why || 'aim-oor', commit: 3
             });
             state.lastRestAt = Date.now();
+            state.lastRestCommitAt = Date.now();
             scheduleDriveSoon('prefer-rest', 260);
         } else {
             scheduleActRearm(why || 'aim-oor');
@@ -1553,6 +1564,32 @@
                 scheduleDrive('after-leftover-approach');
             }
         }
+    }
+
+    function writeFightActCommit(index) {
+        try {
+            if (window.baye && baye.data && baye.data.g_hdFightActCommit != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdFightActCommit = index;
+                state.actCommit = index;
+                state.actCommitAt = Date.now();
+                return true;
+            }
+        } catch (eW) {}
+        state.actCommit = index;
+        state.actCommitAt = Date.now();
+        return false;
+    }
+
+    function writeFightAllowRetreat(on) {
+        try {
+            if (window.baye && baye.data && baye.data.g_hdFightAllowRetreat != null &&
+                (!baye.hdEngineReady || baye.hdEngineReady())) {
+                baye.data.g_hdFightAllowRetreat = on ? 1 : 0;
+                return true;
+            }
+        } catch (eR) {}
+        return false;
     }
 
     function maybeEndPlayerTurn(fight) {
@@ -1570,7 +1607,10 @@
             (state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400)) {
             return false;
         }
-        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 1100) {
+        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 1600) {
+            return false;
+        }
+        if (state.queue.length) {
             return false;
         }
         installSysMenuHook();
@@ -1581,6 +1621,7 @@
             if (!state.playerTurnEnded) {
                 notePlayerTurnEnded('end-player-turn-menu');
                 console.log('[hd-battle] rest-commit', { via: 'end-player-turn-hook' });
+                console.log('[hd-battle] enemy-turn', { via: 'end-player-turn-hook' });
             }
             return false;
         }
@@ -1593,7 +1634,7 @@
         state.endTurnAt = Date.now();
         dropQueuedKeys();
         state.openedSysForEndTurn = true;
-        state.allowEndTurnEnter = true;
+        state.allowEndTurnEnter = false;
         enqueueKeys([VK.EXIT], 70);
         console.log('[hd-battle] rest-commit', {
             via: 'end-player-turn', hooked: !!state.sysMenuHooked
@@ -1602,15 +1643,7 @@
             if (state.playerTurnEnded || !state.openedSysForEndTurn) {
                 return;
             }
-            var menu = null;
-            try { menu = readFightMenu(); } catch (eMenu) {}
-            state.allowEndTurnEnter = true;
-            if (menu && menu.kind === 'sys') {
-                enqueueKeys([VK.ENTER], 55);
-                notePlayerTurnEnded('end-turn-enter-fallback');
-                console.log('[hd-battle] rest-commit', { via: 'end-turn-enter-fallback' });
-                return;
-            }
+            /* 只再 EXIT。绝不再 ENTER：系统菜单 leftover 下标 1 是全军撤退。 */
             enqueueKeys([VK.EXIT], 70);
             console.log('[hd-battle] rest-commit', { via: 'end-turn-exit-retry' });
         }, 400);
@@ -1621,8 +1654,12 @@
         clearPendingApproach();
         state.pendingActPick = 3;
         state.approachRepeatCount = 0;
-        console.log('[hd-battle] rest-commit', { via: why || 'prefer-rest', moved: !!state.movedThisAct });
+        writeFightActCommit(3);
+        console.log('[hd-battle] rest-commit', {
+            via: why || 'prefer-rest', moved: !!state.movedThisAct, commit: 3
+        });
         state.lastRestAt = Date.now();
+        state.lastRestCommitAt = Date.now();
         forceShowFightMenu(why || 'prefer-rest');
         scheduleDriveSoon('prefer-rest', 260);
     }
@@ -1649,8 +1686,10 @@
             state.lastApproachKey = '';
             state.lastApproachActor = '';
             state.pendingActPick = 3;
-            console.log('[hd-battle] rest-commit', { via: 'approach-loop-break' });
+            writeFightActCommit(3);
+            console.log('[hd-battle] rest-commit', { via: 'approach-loop-break', commit: 3 });
             state.lastRestAt = Date.now();
+            state.lastRestCommitAt = Date.now();
             forceShowFightMenu('approach-loop-break');
             scheduleDrive('prefer-rest');
             return true;
@@ -1934,17 +1973,19 @@
             return false;
         }
         if (phase === 2 && state.pendingActPick === 3) {
-            /* 待机：先 ENTER 落定当前格，再从 PlcSplMenu 选待机。EXIT 会退回选将空转。 */
+            /* 待机：先 ENTER 落定当前格，g_hdFightActCommit=3 让 FgtGetPCmd 直接 CMD_REST。 */
             if (Date.now() - (state.lastRestAt || 0) < 280) {
                 return true;
             }
             dropQueuedEnters();
+            writeFightActCommit(3);
             enqueueKeys([VK.ENTER], 55);
             state.movedThisAct = true;
             state.walkSubmittedAt = Date.now();
-            console.log('[hd-battle] rest-commit', { via: 'stay-then-rest', phase: 2, wait: !!fight.wait });
+            state.lastRestCommitAt = Date.now();
+            console.log('[hd-battle] rest-commit', { via: 'stay-then-rest', phase: 2, wait: !!fight.wait, commit: 3 });
             state.lastRestAt = Date.now();
-            scheduleActRearm('rest-after-stay');
+            state.pendingActPick = null;
             return true;
         }
         if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
@@ -2329,6 +2370,12 @@
             liveKind = liveInfo && liveInfo.kind;
         } catch (eKind) {}
         if (liveKind === 'sys' || liveKind === 'confirm') {
+            if (index === 1 || liveKind === 'confirm') {
+                state.allowRetreatArmed = true;
+                writeFightAllowRetreat(1);
+                console.log('[hd-battle] retreat-selected', { via: 'menu-click', index: index, kind: liveKind });
+                return;
+            }
             if (index === 0 && liveKind === 'sys') {
                 if (!state.openedSysForEndTurn || recentlyEndedTurn()) {
                     dumpEnterSwallow('sys-enter-blocked', { index: index, kind: liveKind });
@@ -2416,11 +2463,14 @@
                     fightRestEarly.wait);
                 if (stuckMove || phase2Wait) {
                     state.lastRestAt = Date.now();
+                    state.lastRestCommitAt = Date.now();
                     state.pendingActPick = 3;
+                    writeFightActCommit(3);
                     console.log('[hd-battle] rest-commit', {
                         via: stuckMove ? 'stuck-move' : 'move-phase-rest',
                         phase: fightRestEarly ? Number(fightRestEarly.phase) : null,
-                        wait: !!(fightRestEarly && fightRestEarly.wait)
+                        wait: !!(fightRestEarly && fightRestEarly.wait),
+                        commit: 3
                     });
                     scheduleDrive(stuckMove ? 'rest-stuck-move' : 'rest-move-phase');
                     return;
@@ -2432,15 +2482,32 @@
                     return;
                 }
                 state.lastRestAt = Date.now();
-                state.pendingActPick = 3;
+                state.lastRestCommitAt = Date.now();
                 var fightRest = fightRestEarly;
                 if (fightRest && Number(fightRest.phase) === 3) {
+                    writeFightActCommit(3);
                     leaveAimAndRearm('rest-cancel-aim', { thenRest: true });
                     state.pendingActPick = 3;
-                    console.log('[hd-battle] rest-commit', { via: 'cancel-aim', phase: 3 });
+                    console.log('[hd-battle] rest-commit', { via: 'cancel-aim', phase: 3, commit: 3 });
                     return;
                 }
+                /* 待机只走 g_hdFightActCommit=3。DOWN×3 ENTER 在慢盒会落到全军撤退。 */
+                writeFightActCommit(3);
                 resetActMenuIndex('rest-commit');
+                console.log('[hd-battle] rest-commit', {
+                    via: 'act-commit',
+                    phase: fightRest ? Number(fightRest.phase) : null,
+                    wait: !!(fightRest && fightRest.wait),
+                    commit: 3
+                });
+                state.pendingActPick = null;
+                clearMovedThisAct('rest-act-commit');
+                if (fightRest && !fightRest.wait) {
+                    enqueueKeys([VK.ENTER], 55);
+                } else {
+                    scheduleDrive('prefer-rest');
+                }
+                return;
             }
         }
         if (state.pickingMenu) {
@@ -2473,6 +2540,10 @@
         if (cur == null || cur < 0) {
             cur = 0;
         }
+        if (index === 3) {
+            dumpEnterSwallow('rest-nav-skipped', { via: 'pick-fallback' });
+            return;
+        }
         var keys = [];
         var d = index - cur;
         var key = d > 0 ? VK.DOWN : VK.UP;
@@ -2488,12 +2559,6 @@
             state.lastAttackAt = Date.now();
             scheduleActRearm('after-attack');
         }
-        if (index === 3 && fight && !fight.wait) {
-            console.log('[hd-battle] rest-commit', { via: 'menu-enter', phase: fight.phase, wait: false });
-            state.lastRestCommitAt = Date.now();
-            state.pendingActPick = null;
-            clearMovedThisAct('rest-menu-enter');
-        }
         } finally {
             state.pickingMenu = false;
             leaveStack();
@@ -2501,6 +2566,12 @@
     }
 
     function pickFightMenuName(name) {
+        if (name === '全军撤退') {
+            state.allowRetreatArmed = true;
+            writeFightAllowRetreat(1);
+            console.log('[hd-battle] retreat-selected', { via: 'pick-name' });
+            return { ok: true, index: 1, kind: 'sys', names: ['全军撤退'] };
+        }
         if (name === '回合结束') {
             if (state.playerTurnEnded || recentlyEndedTurn()) {
                 return { ok: false, reason: 'after-end-turn' };
@@ -3160,6 +3231,10 @@
         state.lastSwallowAt = 0;
         state.lastSwallowWhy = '';
         state.allowEndTurnEnter = false;
+        state.actCommit = null;
+        state.actCommitAt = 0;
+        state.allowRetreatArmed = false;
+        state.lastRestCommitAt = 0;
         state.actorAt = null;
         state.awaitingAimUntil = 0;
         state.endTurnAt = 0;
@@ -4322,7 +4397,15 @@
         baye.hooks.fightOpenMainMenu = function () {
             try { onEngineHook('fightOpenMainMenu'); } catch (eH) {}
             if (fightReallyActive()) {
+                if (state.allowRetreatArmed) {
+                    state.allowRetreatArmed = false;
+                    writeFightAllowRetreat(1);
+                    console.log('[hd-battle] retreat-selected', { via: 'sys-menu-hook' });
+                    return 1;
+                }
+                writeFightAllowRetreat(0);
                 console.log('[hd-battle] sys-menu-hook', { ret: 0, ended: !!state.playerTurnEnded });
+                console.log('[hd-battle] enemy-turn', { via: 'sys-menu-hook' });
                 state.allowEndTurnEnter = false;
                 if (!state.playerTurnEnded) {
                     notePlayerTurnEnded('sys-menu-hook');
@@ -4463,6 +4546,11 @@
             }
             return { miss: name, wait: !!(readFight() && readFight().wait) };
         },
+        onRetreatBlocked: function () {
+            console.log('[hd-battle] retreat-blocked', {
+                via: 'engine', ended: !!state.playerTurnEnded, armed: !!state.allowRetreatArmed
+            });
+        },
         pickMenuName: pickFightMenuName,
         forceShowFightMenu: forceShowFightMenu,
         clickNearestEnemy: function () {
@@ -4574,6 +4662,9 @@
                 recentlyEndedTurn: recentlyEndedTurn(),
                 playerTurnEnded: !!state.playerTurnEnded,
                 openedSysForEndTurn: !!state.openedSysForEndTurn,
+                actCommit: state.actCommit,
+                lastRestCommitAt: state.lastRestCommitAt || 0,
+                allowRetreatArmed: !!state.allowRetreatArmed,
                 sawMoveThisTurn: !!state.sawMoveThisTurn,
                 awaitingAim: awaitingAim(),
                 lastHitAt: state.lastHitAt || 0,

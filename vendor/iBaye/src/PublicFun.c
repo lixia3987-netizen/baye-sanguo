@@ -308,7 +308,17 @@ FAR U16 PlcSplMenuInner(RECT *pRect,U16 pIdx,U8 *buf)
 
         pageChanged = false;
 nextMsg:
+        if (g_hdFightActive && g_hdFightActCommit != 0xFF) {
+            pIdx = g_hdFightActCommit;
+            g_hdFightActCommit = 0xFF;
+            goto RET;
+        }
         GamGetMsg(&pMsg);
+        if (g_hdFightActive && g_hdFightActCommit != 0xFF) {
+            pIdx = g_hdFightActCommit;
+            g_hdFightActCommit = 0xFF;
+            goto RET;
+        }
 
         if (VM_TOUCH == pMsg.type)
         {

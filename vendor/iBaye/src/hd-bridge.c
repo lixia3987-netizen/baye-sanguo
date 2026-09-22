@@ -28,6 +28,8 @@ U8 g_hdFightOver = 0;
 U8 g_hdFightWait = 0;
 U8 g_hdFightPhase = 0;
 U8 g_hdFightAimType = 0xff;
+U8 g_hdFightActCommit = 0xFF;
+U8 g_hdFightAllowRetreat = 0;
 U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
 U8 g_hdFightTipGbk[BAYE_HD_FIGHT_TIP_MAX];
 
@@ -159,6 +161,8 @@ void baye_hd_set_fight(U8 active, U8 over)
         g_hdFightAimType = 0xff;
         g_hdFightResultGbk[0] = 0;
         g_hdFightTipGbk[0] = 0;
+        g_hdFightActCommit = 0xFF;
+        g_hdFightAllowRetreat = 0;
     } else if (over == 0) {
         /* Explicit reset at GamFight entry / 策略结束 prepare. */
         g_hdFightWait = 0;
@@ -166,6 +170,8 @@ void baye_hd_set_fight(U8 active, U8 over)
         g_hdFightAimType = 0xff;
         g_hdFightResultGbk[0] = 0;
         g_hdFightTipGbk[0] = 0;
+        g_hdFightActCommit = 0xFF;
+        g_hdFightAllowRetreat = 0;
     }
     g_hdFightActive = active;
     g_hdFightOver = over;
@@ -418,6 +424,18 @@ void baye_hd_set_fight_skip(U8 reason)
     g_hdFightSkip = reason;
 }
 
+void baye_hd_note_retreat_blocked(void)
+{
+    EM_ASM({
+        try {
+            if (window.BayeHdBattle && typeof BayeHdBattle.onRetreatBlocked === 'function') {
+                BayeHdBattle.onRetreatBlocked();
+            }
+        } catch (e) {}
+        try { console.log('[hd-battle] retreat-blocked'); } catch (e2) {}
+    });
+}
+
 EMSCRIPTEN_KEEPALIVE
 void bayeHdLoadCityLinks(U8 city)
 {
@@ -473,6 +491,8 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdFightWait, U8);
     DEFADDF(g_hdFightPhase, U8);
     DEFADDF(g_hdFightAimType, U8);
+    DEFADDF(g_hdFightActCommit, U8);
+    DEFADDF(g_hdFightAllowRetreat, U8);
     DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
     DEFADD_GBKARR(g_hdFightTipGbk, sizeof(g_hdFightTipGbk));
     DEFADDF(g_hdQtyValue, U32);

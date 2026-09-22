@@ -831,6 +831,16 @@ FAR U8 FgtMainMenu(void)
         switch(idx)
         {
             case 1:
+                if (!g_hdFightAllowRetreat) {
+                    baye_hd_note_retreat_blocked();
+                    GamShowFrame(g_VisScr);
+                    if (hooked) {
+                        return 0xFF;
+                    }
+                    idx = 0;
+                    goto tagMenu;
+                }
+                g_hdFightAllowRetreat = 0;
                 if (!hooked && ((U8)PlcSplMenu(&pRectSubMenu, 0, (U8*)backStr)) == MNU_EXIT) {
                     GamShowFrame(g_VisScr);
                     goto tagMenu;

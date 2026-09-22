@@ -25,6 +25,8 @@
 | `g_hdFightOver` | u8 | 镜像 `g_FgtOver`（离开战斗时写入）。新 `GamFight` 入口先清 0，避免上场全军覆没残留 |
 | `g_hdFightSkip` | u8 | `BattleDrv` / 瞬时 `FgtInit` 为何没打：0 无 · 1 空城占领 · 2 已是己方 · 3 出征槽无将 · 4 `FgtInit` 当场结束 |
 | `g_hdFightWait` | u8 | `FgtGetFoucs` 正在 `GamGetMsg` 时为 1（按键不会被 `GamDelay(false)` 吃掉）。新一场 / 显式 reset 时清 0 |
+| `g_hdFightActCommit` | u8 | HD 待机/攻击提交：`0xFF` 无 · `0` 攻击 · `3` 待机。`FgtGetPCmd` / `PlcSplMenu` 读到即返回，不走 DOWN×3 |
+| `g_hdFightAllowRetreat` | u8 | 仅用户点「全军撤退」时为 1；否则 `FgtMainMenu` case 1 硬挡并打 `retreat-blocked` |
 | `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
 | `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
 | `g_hdQtyValue` / `Min` / `Max` | u32 | 当前数与区间 |

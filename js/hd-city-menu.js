@@ -233,6 +233,16 @@
             state.sawFightThisMarch = true;
             return false;
         }
+        try {
+            if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
+                var liveSnap = BayeHdBattle.debugSnapshot();
+                if (liveSnap && liveSnap.open && !liveSnap.over &&
+                    (liveSnap.active || liveSnap.playerTurnEnded || liveSnap.recentlyEndedTurn)) {
+                    state.sawFightThisMarch = true;
+                    return false;
+                }
+            }
+        } catch (eLive) {}
         if (occupyDrainPending()) {
             return false;
         }
@@ -5346,6 +5356,12 @@
                     /* 胜仗还要走 BeOccupied：只摘横幅，等占领回车结束再 reset。 */
                     var battleWillOccupy = !!(liveOver && battleSnap && battleSnap.open &&
                         !battleSnap.occupyDone);
+                    var battleStillLive = !!(battleSnap && battleSnap.open && !battleSnap.over &&
+                        (battleSnap.active || battleSnap.playerTurnEnded ||
+                            battleSnap.recentlyEndedTurn));
+                    if (battleStillLive) {
+                        return;
+                    }
                     if (!occupyDrainPending() && !battleWillOccupy) {
                         resetAfterFight();
                     }

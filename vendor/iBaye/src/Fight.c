@@ -243,7 +243,10 @@ void FgtGetPCmd(FGTCMD *pcmd)
         FgtShowFrame();
         FgtGetMPos(idx,&pRect);
         FgtLoadToMem(dFgtMnuCmd,buf);
-        IF_HAS_HOOK("fightChooseAction") {
+        if (g_hdFightActCommit != 0xFF) {
+            type = g_hdFightActCommit;
+            g_hdFightActCommit = 0xFF;
+        } else IF_HAS_HOOK("fightChooseAction") {
             BIND_U32EX("index", &idx);
             type = (U8)CALL_HOOK_A();
         } else {

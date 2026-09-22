@@ -37,6 +37,8 @@
 #define BAYE_HD_FIGHT_SKIP_INSTANT 4
 
 extern U8 g_hdFightActive;
+extern U8 g_hdFightActCommit;
+extern U8 g_hdFightAllowRetreat;
 extern U8 g_hdMapCity;
 extern U8 g_hdSpePendingKind;
 extern U8 g_hdSpeActive;
@@ -74,5 +76,6 @@ void baye_hd_set_city_links(U8 city);
 void baye_hd_set_march(U8 fromCity, U8 objCity, U8 timeCount, U8 ok);
 void baye_hd_clear_march_ok(void);
 void baye_hd_set_fight_skip(U8 reason);
+void baye_hd_note_retreat_blocked(void);
 
 #endif
