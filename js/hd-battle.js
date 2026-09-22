@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zb';
+    var HD_BATTLE_VER = '20260922zc';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -1389,6 +1389,9 @@
         if (playerHasWaitingOwn()) {
             return false;
         }
+        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 700) {
+            return false;
+        }
         var info = null;
         try { info = readFightMenu(); } catch (eInfo) {}
         if (info && info.kind === 'sys' && info.names && info.names.indexOf('回合结束') >= 0) {
@@ -2230,18 +2233,6 @@
             state.lastAutoActAt = 0;
             state.menuIndex = index;
             scheduleDrive('menu-pick');
-            return;
-        }
-        /* PlcSplMenu 的 EXIT 就是待机（CMD_REST/MNU_EXIT），不要 3×DOWN。
-         * DOWN 漏到 FgtMainMenu 会落到全军撤退。 */
-        if (index === 3 && info && info.kind === 'act' && !info.synthetic) {
-            dropQueuedKeys();
-            resetActMenuIndex('rest-exit');
-            enqueueKeys([VK.EXIT], 70);
-            console.log('[hd-battle] rest-commit', { via: 'act-exit', phase: fight && fight.phase });
-            state.lastRestCommitAt = Date.now();
-            state.pendingActPick = null;
-            clearMovedThisAct('rest-act-exit');
             return;
         }
         /* PlcSplMenu / FgtMainMenu 每次打开引擎 idx 都是 0。上场待机留下的
