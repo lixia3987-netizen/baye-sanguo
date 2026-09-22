@@ -1176,6 +1176,17 @@
         if (playerHasWaitingOwn()) {
             return false;
         }
+        var info = null;
+        try { info = readFightMenu(); } catch (eInfo) {}
+        if (info && info.kind === 'sys' && info.names && info.names.indexOf('回合结束') >= 0) {
+            if (state.endTurnAt && Date.now() - state.endTurnAt < 800) {
+                return false;
+            }
+            state.endTurnAt = Date.now();
+            pickFightMenuName('回合结束');
+            console.log('[hd-battle] rest-commit', { via: 'end-player-turn-menu' });
+            return true;
+        }
         if (Number(fight.phase) !== 1 || !fight.wait) {
             return false;
         }
@@ -1184,7 +1195,7 @@
         }
         state.endTurnAt = Date.now();
         dropQueuedEnters();
-        enqueueKeys([VK.EXIT, VK.ENTER], 70);
+        enqueueKeys([VK.EXIT], 70);
         console.log('[hd-battle] rest-commit', { via: 'end-player-turn' });
         return true;
     }
@@ -1772,11 +1783,24 @@
     }
 
     function pickFightMenu(index) {
-        if (index === 0 && !playerHasWaitingOwn()) {
+        var liveKind = null;
+        try {
+            var liveInfo = readFightMenu();
+            liveKind = liveInfo && liveInfo.kind;
+        } catch (eKind) {}
+        if (liveKind === 'sys' || liveKind === 'confirm') {
+            if (index === 0 && liveKind === 'sys') {
+                /* 战场系统第一项是回合结束，不是攻击。 */
+            } else {
+                console.log('[hd-battle] attack-skip', { why: 'sys-menu', kind: liveKind });
+                return;
+            }
+        }
+        if (index === 0 && !playerHasWaitingOwn() && liveKind !== 'sys') {
             console.log('[hd-battle] attack-skip', { why: 'no-waiting-own' });
             return;
         }
-        if (index === 0) {
+        if (index === 0 && liveKind !== 'sys') {
             state.pendingActPick = 0;
             state.lastAttackAt = Date.now();
             logAttackClick('pick');
