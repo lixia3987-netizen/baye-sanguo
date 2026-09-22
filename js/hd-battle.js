@@ -1153,7 +1153,7 @@
                 via: 'leftover-after-move', why: why || 'aim-oor'
             });
             state.lastRestAt = Date.now();
-            scheduleDrive('prefer-rest');
+            scheduleDriveSoon('prefer-rest', 260);
         } else {
             scheduleActRearm(why || 'aim-oor');
             if (opts.thenApproach) {
@@ -1169,7 +1169,7 @@
         console.log('[hd-battle] rest-commit', { via: why || 'prefer-rest', moved: !!state.movedThisAct });
         state.lastRestAt = Date.now();
         forceShowFightMenu(why || 'prefer-rest');
-        scheduleDrive('prefer-rest');
+        scheduleDriveSoon('prefer-rest', 260);
     }
 
     function noteApproachAttempt(via, dest, actor) {
@@ -1218,6 +1218,12 @@
             state.driveTimer = 0;
             runScheduledDrive(why || 'tick');
         }, 0);
+    }
+
+    function scheduleDriveSoon(why, ms) {
+        setTimeout(function () {
+            scheduleDrive(why || 'soon');
+        }, ms == null ? 220 : ms);
     }
 
     function runScheduledDrive(why) {
@@ -1431,12 +1437,16 @@
                 pickFightMenu(idx);
                 return true;
             }
+            if (state.pendingActPick === 3) {
+                scheduleDriveSoon('rest-wait-menu', 200);
+            }
             return false;
         }
         var phase = Number(fight.phase) || 0;
         if (phase === 3) {
             if (leftoverAim(fight)) {
                 if (recentlyLeftAim()) {
+                    scheduleDriveSoon('rest-after-aim-exit', 240);
                     return true;
                 }
                 leaveAimAndRearm('drive-leftover-aim', state.movedThisAct
