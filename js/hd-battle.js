@@ -2156,6 +2156,8 @@
                 tip: state.fightTip, blocked: 'aim-walk', inRng: true, via: extra.via
             };
         }
+        /* 已在敌军格：丢掉叠起来的方向键，否则 RIGHT 会走过目标再 ENTER。 */
+        dropQueuedKeys();
         state.lastBlockedEnter = '';
         state.pendingAimEnter = null;
         extra.inRng = true;
@@ -5237,7 +5239,22 @@
         }
     }
 
+    function dropQueuedDirs() {
+        var kept = [];
+        var i;
+        for (i = 0; i < state.queue.length; i++) {
+            var c = state.queue[i].code;
+            if (c !== VK.UP && c !== VK.DOWN && c !== VK.LEFT && c !== VK.RIGHT) {
+                kept.push(state.queue[i]);
+            }
+        }
+        state.queue = kept;
+    }
+
     function walkFocusTo(x, y, thenEnter) {
+        if (state.aimCommit && state.aimCommit.sentEnter) {
+            return;
+        }
         var cur = syncFocusFromEngine();
         var fx = cur.x;
         var fy = cur.y;
@@ -5267,6 +5284,8 @@
                 keys.push(VK.ENTER);
             }
         }
+        /* AIM/贴脸走近不得叠方向键，否则会走过敌军格。 */
+        dropQueuedDirs();
         enqueueKeys(keys, 70);
         state.focus.x = x;
         state.focus.y = y;
