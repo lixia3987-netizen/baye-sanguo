@@ -657,19 +657,45 @@
         return best;
     }
 
-    function hasLegalAimTarget() {
+    function aimAgeMs() {
+        return Date.now() - (state.aimEnteredAt || state.lastAttackAt || 0);
+    }
+
+    function firstLegalAimEnemy() {
         var i;
         if (!atkRngReady()) {
-            return false;
+            return null;
         }
         for (i = 0; i < state.units.length; i++) {
             var u = state.units[i];
             if (u && u.side === 'enemy' && u.x != null && u.y != null &&
                 inAtkRng(u.x, u.y) === true) {
-                return true;
+                return u;
             }
         }
-        return false;
+        return null;
+    }
+
+    function hasLegalAimTarget() {
+        return !!firstLegalAimEnemy();
+    }
+
+    function confirmAimHit(u, x, y, via, extra) {
+        walkFocusTo(x, y, true);
+        state.lastBlockedEnter = '';
+        state.pendingAimEnter = null;
+        extra = extra || {};
+        extra.via = via || 'in-range';
+        extra.unit = u && u.name;
+        extra.x = x;
+        extra.y = y;
+        extra.inRng = true;
+        extra.hp = u && u.hp;
+        console.log('[hd-battle] attack-hit', extra);
+        return {
+            x: x, y: y, enter: true, unit: u && u.name, phase: 3,
+            tip: state.fightTip, blocked: '', inRng: true, via: extra.via
+        };
     }
 
     function likelyAimTarget() {
@@ -684,7 +710,7 @@
         if (likelyAimTarget()) {
             return false;
         }
-        var age = Date.now() - (state.aimEnteredAt || state.lastAttackAt || 0);
+        var age = aimAgeMs();
         if (!atkRngReady()) {
             return age > 800;
         }
@@ -1157,6 +1183,8 @@
             state.lastApproachKey = '';
             state.lastApproachActor = '';
             state.pendingActPick = 3;
+            console.log('[hd-battle] rest-commit', { via: 'approach-loop-break' });
+            state.lastRestAt = Date.now();
             forceShowFightMenu('approach-loop-break');
             scheduleDrive('prefer-rest');
             return true;
@@ -1403,12 +1431,17 @@
             return false;
         }
         if (phase === 2 && state.pendingActPick === 3) {
-            /* 待机：先 EXIT 取消走格，再落定待机，绝不能 ENTER 把走格确认掉。 */
+            /* 待机：先 ENTER 落定当前格，再从 PlcSplMenu 选待机。EXIT 会退回选将空转。 */
+            if (Date.now() - (state.lastRestAt || 0) < 280) {
+                return true;
+            }
             dropQueuedEnters();
-            enqueueKeys([VK.EXIT], 55);
-            console.log('[hd-battle] rest-commit', { via: 'cancel-move', phase: 2, wait: !!fight.wait });
+            enqueueKeys([VK.ENTER], 55);
+            state.movedThisAct = true;
+            state.walkSubmittedAt = Date.now();
+            console.log('[hd-battle] rest-commit', { via: 'stay-then-rest', phase: 2, wait: !!fight.wait });
             state.lastRestAt = Date.now();
-            scheduleActRearm('rest-after-move');
+            scheduleActRearm('rest-after-stay');
             return true;
         }
         if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
@@ -2123,19 +2156,30 @@
             ? chebyshev(actorNow.x, actorNow.y, x, y) : 99;
         if (phase === 3 && u && u.side === 'enemy') {
             noteAimPhase(fight);
+            var legal = firstLegalAimEnemy();
             if (inRng === true) {
-                walkFocusTo(x, y, true);
-                state.lastBlockedEnter = '';
-                console.log('[hd-battle] attack-hit', {
-                    unit: u.name, x: x, y: y, inRng: true, dist: enemyDist, hp: u.hp
-                });
-                return {
-                    x: x, y: y, enter: true, unit: u.name, phase: phase,
-                    tip: state.fightTip, blocked: '', inRng: true
-                };
+                return confirmAimHit(u, x, y, 'in-range', { dist: enemyDist });
             }
-            if (!atkRngReady() && enemyDist <= 1) {
-                walkFocusTo(x, y, false);
+            if (legal) {
+                /* 点到另一格敌军也不能 EXIT：射程内已有合法目标。 */
+                return confirmAimHit(legal, legal.x, legal.y, 'legal-redirect', {
+                    dist: chebyshev(actorNow.x, actorNow.y, legal.x, legal.y),
+                    clicked: { x: x, y: y, name: u.name }
+                });
+            }
+            if (enemyDist <= 1) {
+                if (!atkRngReady() && aimAgeMs() < 800) {
+                    walkFocusTo(x, y, false);
+                    state.pendingAimEnter = { x: x, y: y, at: Date.now(), name: u.name };
+                    return {
+                        x: x, y: y, enter: false, unit: u.name, phase: phase,
+                        blocked: 'aim-wait-rng', inRng: false, dist: enemyDist
+                    };
+                }
+                /* 贴脸：射程表空或未标中也 ENTER，绝不因 leftover 误判而 EXIT。 */
+                return confirmAimHit(u, x, y, 'melee-adjacent', { dist: enemyDist });
+            }
+            if (!leftoverAim(fight) && !atkRngReady() && aimAgeMs() < 800) {
                 state.pendingAimEnter = { x: x, y: y, at: Date.now(), name: u.name };
                 return {
                     x: x, y: y, enter: false, unit: u.name, phase: phase,
@@ -2146,7 +2190,9 @@
             state.lastBlockedEnter = 'aim-oor';
             state.fightTip = '超出攻击范围，先走格靠近。';
             console.warn('[hd-battle] aim-oor, cancel aim then approach', x, y);
-            leaveAimAndRearm('aim-oor', { thenApproach: { x: x, y: y } });
+            leaveAimAndRearm('aim-oor', state.movedThisAct
+                ? { thenRest: true }
+                : { thenApproach: { x: x, y: y } });
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
@@ -2226,6 +2272,12 @@
             };
         }
         if (!enter && phase === 3 && (!u || inRng !== true)) {
+            if (hasLegalAimTarget() || likelyAimTarget()) {
+                return {
+                    x: x, y: y, enter: false, unit: u && u.name, phase: phase,
+                    blocked: 'aim-keep', inRng: false
+                };
+            }
             if (!leftoverAim(fight) && !atkRngReady()) {
                 return {
                     x: x, y: y, enter: false, unit: u && u.name, phase: phase,
@@ -2235,7 +2287,9 @@
             dropQueuedEnters();
             state.lastBlockedEnter = u ? 'aim-oor' : 'aim-empty';
             console.warn('[hd-battle] blocked ENTER during aim', state.lastBlockedEnter);
-            leaveAimAndRearm(state.lastBlockedEnter);
+            leaveAimAndRearm(state.lastBlockedEnter, state.movedThisAct
+                ? { thenRest: true }
+                : null);
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u && u.name, phase: phase,
@@ -3057,15 +3111,22 @@
         draw();
         if (state.pendingAimEnter && fightNow && Number(fightNow.phase) === 3) {
             var pe = state.pendingAimEnter;
+            var peUnit = unitAt(pe.x, pe.y);
+            var peLegal = firstLegalAimEnemy();
+            var actorPe = syncFocusFromEngine();
+            var peDist = (actorPe && actorPe.x != null)
+                ? chebyshev(actorPe.x, actorPe.y, pe.x, pe.y) : 99;
             if (inAtkRng(pe.x, pe.y) === true) {
-                state.pendingAimEnter = null;
-                walkFocusTo(pe.x, pe.y, true);
-                console.log('[hd-battle] attack-hit', {
-                    via: 'wait-rng', unit: pe.name, x: pe.x, y: pe.y, inRng: true
-                });
+                confirmAimHit(peUnit || { name: pe.name }, pe.x, pe.y, 'wait-rng', {});
+            } else if (peLegal) {
+                confirmAimHit(peLegal, peLegal.x, peLegal.y, 'wait-rng-legal', {});
+            } else if (peDist <= 1 && (atkRngReady() || leftoverAim(fightNow) || aimAgeMs() > 800)) {
+                confirmAimHit(peUnit || { name: pe.name }, pe.x, pe.y, 'wait-rng-melee', { dist: peDist });
             } else if (leftoverAim(fightNow)) {
                 state.pendingAimEnter = null;
-                leaveAimAndRearm('refresh-aim-wait-oor', { thenApproach: { x: pe.x, y: pe.y } });
+                leaveAimAndRearm('refresh-aim-wait-oor', state.movedThisAct
+                    ? { thenRest: true }
+                    : { thenApproach: { x: pe.x, y: pe.y } });
             }
         } else if (leftoverAim(fightNow) && !state.leavingAim &&
             Date.now() - (state.lastAimExitAt || 0) > 400) {
