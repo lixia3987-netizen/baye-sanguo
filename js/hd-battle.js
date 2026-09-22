@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zf';
+    var HD_BATTLE_VER = '20260922zg';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -156,7 +156,12 @@
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
-        readDepth: 0
+        readDepth: 0,
+        approachArmedAt: 0,
+        lastBlankWatchAt: 0,
+        lastBlankWatchWhy: '',
+        boxSlowMs: 0,
+        boxSlowUntil: 0
     };
 
     function readStorage(key, fallback) {
@@ -723,10 +728,77 @@
             !state.sending && !state.queue.length && !state.drivingAct && !state.clickingTile);
     }
 
+    function setPendingApproach(x, y) {
+        state.pendingApproach = { x: x, y: y };
+        if (!state.approachArmedAt) {
+            state.approachArmedAt = Date.now();
+        }
+    }
+
+    function clearPendingApproach() {
+        state.pendingApproach = null;
+        state.approachArmedAt = 0;
+    }
+
+    function approachAgeMs() {
+        if (!state.pendingApproach) {
+            return 0;
+        }
+        var armed = state.approachArmedAt || state.lastAttackAt || 0;
+        return armed ? (Date.now() - armed) : 0;
+    }
+
+    function approachStuck(fight) {
+        var phase = Number(fight && fight.phase) || 0;
+        if (!(state.pendingApproach && fight && fight.active && !fight.over &&
+            fight.wait && phase === 2)) {
+            return false;
+        }
+        if (state.drivingAct || state.clickingTile) {
+            return false;
+        }
+        if (state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400) {
+            return false;
+        }
+        var age = approachAgeMs();
+        if (state.sending || state.queue.length) {
+            return age >= 2200;
+        }
+        return age >= 2000;
+    }
+
+    function flushStuckApproach(why) {
+        if (!state.pendingApproach && state.pendingActPick == null) {
+            return false;
+        }
+        var fight = null;
+        try { fight = readFight(); } catch (eF) {}
+        console.log('[hd-battle] approach-stuck-flush', {
+            why: why || 'flush',
+            pendingApproach: state.pendingApproach,
+            pendingActPick: state.pendingActPick,
+            armedMs: approachAgeMs(),
+            phase: fight ? Number(fight.phase) : null,
+            wait: !!(fight && fight.wait),
+            moved: !!state.movedThisAct
+        });
+        clearPendingApproach();
+        if (wantsWalkBeforeAct(state.pendingActPick)) {
+            state.pendingActPick = null;
+        }
+        state.walkSubmittedAt = 0;
+        state.approachRepeatCount = 0;
+        return true;
+    }
+
     function clearStuckApproach(fight) {
-        /* 只在走完/闲置时清 pendingApproach。选将 phase 1 清掉会取消刚点的攻击走近。 */
+        /* 只在走完/闲置/走近卡死时清 pendingApproach。选将 phase 1 清掉会取消刚点的攻击走近。 */
+        if (approachStuck(fight)) {
+            flushStuckApproach('clear-stuck');
+            return;
+        }
         if (approachFullyIdle(fight) || walkFinishedLeftover(fight)) {
-            state.pendingApproach = null;
+            clearPendingApproach();
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
             }
@@ -736,7 +808,7 @@
 
     function walkingTiles(fight) {
         var phase = Number(fight && fight.phase) || 0;
-        if (walkFinishedLeftover(fight)) {
+        if (walkFinishedLeftover(fight) || approachStuck(fight)) {
             clearStuckApproach(fight);
             return false;
         }
@@ -890,7 +962,7 @@
         resetActMenuIndex('end-player-turn');
         clearMovedThisAct(why || 'end-player-turn');
         state.pendingActPick = null;
-        state.pendingApproach = null;
+        clearPendingApproach();
     }
 
     function maybeResumePlayerTurn(fight) {
@@ -1148,7 +1220,7 @@
 
     function resetActDrive() {
         state.pendingActPick = null;
-        state.pendingApproach = null;
+        clearPendingApproach();
         state.lastAutoActAt = 0;
         state.autoActTries = 0;
         state.drivingAct = false;
@@ -1240,28 +1312,56 @@
                 armBlankMenuWatchdog('still-walk');
                 return;
             }
-            console.log('[hd-battle] blank-watchdog', {
-                why: why || 'idle-hidden',
-                pendingApproach: state.pendingApproach,
-                pendingActPick: state.pendingActPick,
-                phase: fight ? fight.phase : null,
-                wait: fight ? !!fight.wait : null
-            });
+            if (state.pendingApproach && fight && Number(fight.phase) === 2 && fight.wait) {
+                if (!approachStuck(fight)) {
+                    scheduleDrive('watchdog-flush-walk');
+                    armBlankMenuWatchdog('still-approach');
+                    return;
+                }
+                logBlankWatchdog('approach-stuck-flush', fight);
+                flushStuckApproach('watchdog');
+                forceShowFightMenu('watchdog-approach-stuck');
+                return;
+            }
+            logBlankWatchdog(why || 'idle-hidden', fight);
             forceShowFightMenu('watchdog');
         }, 1500);
+    }
+
+    function logBlankWatchdog(why, fight) {
+        var now = Date.now();
+        if (why === state.lastBlankWatchWhy && state.lastBlankWatchAt &&
+            now - state.lastBlankWatchAt < 2500) {
+            return;
+        }
+        state.lastBlankWatchWhy = why || '';
+        state.lastBlankWatchAt = now;
+        console.log('[hd-battle] blank-watchdog', {
+            why: why || 'idle-hidden',
+            pendingApproach: state.pendingApproach,
+            pendingActPick: state.pendingActPick,
+            phase: fight ? fight.phase : null,
+            wait: fight ? !!fight.wait : null,
+            armedMs: approachAgeMs()
+        });
     }
 
     function forceShowFightMenu(why) {
         var keepApproach = state.pendingApproach;
         var keepPick = state.pendingActPick;
-        clearStuckApproach(readFight());
-        if (keepApproach) {
-            state.pendingApproach = keepApproach;
+        var fightKeep = null;
+        try { fightKeep = readFight(); } catch (eK) {}
+        if (keepApproach && approachStuck(fightKeep)) {
+            keepApproach = null;
+        }
+        clearStuckApproach(fightKeep);
+        if (keepApproach && !approachStuck(fightKeep)) {
+            setPendingApproach(keepApproach.x, keepApproach.y);
             if (keepPick != null) {
                 state.pendingActPick = keepPick;
             }
         } else {
-            state.pendingApproach = null;
+            clearPendingApproach();
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
             }
@@ -1412,17 +1512,17 @@
             opts.thenRest = true;
         }
         if (!opts.keepApproach && !opts.thenApproach && !opts.thenRest) {
-            state.pendingApproach = null;
+            clearPendingApproach();
             if (state.pendingActPick !== 3) {
                 state.pendingActPick = null;
             }
         }
         if (opts.thenApproach) {
-            state.pendingApproach = { x: opts.thenApproach.x, y: opts.thenApproach.y };
+            setPendingApproach(opts.thenApproach.x, opts.thenApproach.y);
             state.pendingActPick = 0;
         }
         if (opts.thenRest) {
-            state.pendingApproach = null;
+            clearPendingApproach();
             state.pendingActPick = 3;
         }
         state.pendingAimEnter = null;
@@ -1506,7 +1606,7 @@
     }
 
     function preferRest(why) {
-        state.pendingApproach = null;
+        clearPendingApproach();
         state.pendingActPick = 3;
         state.approachRepeatCount = 0;
         console.log('[hd-battle] rest-commit', { via: why || 'prefer-rest', moved: !!state.movedThisAct });
@@ -1531,7 +1631,7 @@
             console.log('[hd-battle] approach-loop-break', {
                 via: via, dest: dest, actor: actor, n: state.approachRepeatCount
             });
-            state.pendingApproach = null;
+            clearPendingApproach();
             state.walkSubmittedAt = 0;
             state.approachRepeatCount = 0;
             state.lastApproachKey = '';
@@ -1547,9 +1647,6 @@
     }
 
     function scheduleDrive(why) {
-        if (state.refreshing || state.samplingFight || state.readingEngine) {
-            return;
-        }
         if (state.driveTimer) {
             return;
         }
@@ -1557,10 +1654,12 @@
             resetActDrive();
             return;
         }
+        /* BOX 慢 HD：refresh 一帧可超过 setTimeout(0)。丢掉 after-pick 会永远停在 phase=2。 */
+        var delay = (state.refreshing || state.samplingFight || state.readingEngine) ? 80 : 0;
         state.driveTimer = setTimeout(function () {
             state.driveTimer = 0;
             runScheduledDrive(why || 'tick');
-        }, 0);
+        }, delay);
     }
 
     function scheduleDriveSoon(why, ms) {
@@ -1574,7 +1673,17 @@
             resetActDrive();
             return;
         }
-        if (state.refreshing || state.clickingTile || state.drivingAct || state.samplingFight) {
+        if (state.clickingTile || state.drivingAct) {
+            scheduleDrive(why || 'busy');
+            return;
+        }
+        if (state.refreshing || state.samplingFight) {
+            var fightBusy = null;
+            try { fightBusy = readFight(); } catch (eB) {}
+            if (state.pendingApproach && fightBusy && Number(fightBusy.phase) === 2) {
+                driveApproach();
+                return;
+            }
             scheduleDrive(why || 'busy');
             return;
         }
@@ -1592,7 +1701,7 @@
                 if (phase0 === 2) {
                     var foe = nearestEnemy();
                     if (foe) {
-                        state.pendingApproach = { x: foe.x, y: foe.y };
+                        setPendingApproach(foe.x, foe.y);
                     }
                 }
             }
@@ -1769,7 +1878,7 @@
         }
         if (!wantsWalkBeforeAct(state.pendingActPick)) {
             /* 查看/待机绝不再走近，避免 refresh→driveApproach 把待机点成走格。 */
-            state.pendingApproach = null;
+            clearPendingApproach();
         }
         var fight = readFight();
         if (!fight || !fight.active || fight.over || state.resultText) {
@@ -1778,7 +1887,7 @@
         }
         if (!playerHasWaitingOwn()) {
             state.pendingActPick = null;
-            state.pendingApproach = null;
+            clearPendingApproach();
             return false;
         }
         if (!fight.wait) {
@@ -1828,7 +1937,7 @@
             if (!state.pendingApproach) {
                 var foe = nearestEnemy();
                 if (foe) {
-                    state.pendingApproach = { x: foe.x, y: foe.y };
+                    setPendingApproach(foe.x, foe.y);
                 }
             }
             scheduleDrive('act-approach');
@@ -1939,17 +2048,23 @@
             return false;
         }
         if (state.refreshing || state.samplingFight) {
-            return false;
+            var fightBusy = null;
+            try { fightBusy = readFight(); } catch (eB) {}
+            /* phase=2 走近只 enqueue 方向键，refresh 期间也能发；选将 click 仍须让开。 */
+            if (!(fightBusy && Number(fightBusy.phase) === 2 && state.pendingApproach)) {
+                scheduleDriveSoon('approach-busy-refresh', 80);
+                return false;
+            }
         }
         if (state.drivingAct || !state.pendingApproach) {
             return false;
         }
         if (!wantsWalkBeforeAct(state.pendingActPick) && state.pendingActPick != null) {
-            state.pendingApproach = null;
+            clearPendingApproach();
             return false;
         }
         if (!enterStack('driveApproach')) {
-            state.pendingApproach = null;
+            scheduleDriveSoon('approach-stack', 80);
             return false;
         }
         try {
@@ -1958,6 +2073,7 @@
             return false;
         }
         if (state.sending || state.queue.length) {
+            scheduleDriveSoon('approach-wait-keys', 80);
             return false;
         }
         if (!fight.wait) {
@@ -1974,7 +2090,7 @@
         var phase = Number(fight.phase) || 0;
         var dest = state.pendingApproach;
         if (phase === 2) {
-            state.pendingApproach = null;
+            clearPendingApproach();
             /* 走格一旦提交，把「攻击」意图交给落点后的真菜单，才能点待机。 */
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
@@ -2010,19 +2126,19 @@
         }
         if (phase === 1 || phase === 0) {
             if (recentlyEndedTurn()) {
-                state.pendingApproach = null;
+                clearPendingApproach();
                 return false;
             }
             if (state.movedThisAct) {
                 /* 本将走格已花：PlcSplMenu 只能瞄准/待机，禁止再 pick-approach。 */
-                state.pendingApproach = null;
+                clearPendingApproach();
                 return false;
             }
             if (liveActMenu() && (state.sawMoveThisTurn || Number(fight.phase) === 0) &&
                 fight && !fight.wait) {
                 /* 真 PlcSplMenu（走完 wait=0）才挡。回合后 leftover 攻击字节不能挡走近。 */
                 if (state.sawMoveThisTurn) {
-                    state.pendingApproach = null;
+                    clearPendingApproach();
                     return false;
                 }
                 dumpEnterSwallow('leftover-act-exit', { via: 'drive-approach' });
@@ -2043,7 +2159,7 @@
                     clickWaitingOwn();
                 } finally {
                     state.drivingAct = false;
-                    scheduleDrive('after-pick');
+                    scheduleDriveSoon('after-pick', 90);
                 }
             }, 0);
             return true;
@@ -2245,11 +2361,11 @@
                 state.menuIndex = 0;
                 var foeAtk = nearestEnemy();
                 if (foeAtk && !state.movedThisAct) {
-                    state.pendingApproach = { x: foeAtk.x, y: foeAtk.y };
+                    setPendingApproach(foeAtk.x, foeAtk.y);
                     state.pendingActPick = 0;
                     console.log('[hd-battle] open-aim', { why: 'attack-then-walk', unit: foeAtk.name });
                 }
-                scheduleDrive('menu-pick');
+                scheduleDriveSoon('attack-then-walk', 70);
                 return;
             }
             /* FgtDealMan：FgtGenMove 已返回才会到 PlcSplMenu。此后只能瞄准，不能再走近。 */
@@ -2265,21 +2381,44 @@
         }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
-            state.pendingApproach = null;
+            var fightRestEarly = null;
+            try { fightRestEarly = readFight(); } catch (eRestE) {}
+            var stuckMove = approachStuck(fightRestEarly) || walkFinishedLeftover(fightRestEarly) ||
+                (!!state.pendingApproach && fightRestEarly && Number(fightRestEarly.phase) === 2 &&
+                    fightRestEarly.wait && approachAgeMs() >= 1600);
+            if (stuckMove) {
+                flushStuckApproach('rest-stuck-move');
+            } else {
+                clearPendingApproach();
+            }
             state.approachRepeatCount = 0;
             if (index === 3) {
-                if (recentlyEndedTurn() || !liveActMenu() ||
-                    (!state.movedThisAct && !state.sawMoveThisTurn)) {
+                if (recentlyEndedTurn()) {
+                    dumpEnterSwallow('rest-enter-blocked', { via: 'after-end-turn' });
+                    return;
+                }
+                var phase2Wait = !!(fightRestEarly && Number(fightRestEarly.phase) === 2 &&
+                    fightRestEarly.wait);
+                if (stuckMove || phase2Wait) {
+                    state.lastRestAt = Date.now();
+                    state.pendingActPick = 3;
+                    console.log('[hd-battle] rest-commit', {
+                        via: stuckMove ? 'stuck-move' : 'move-phase-rest',
+                        phase: fightRestEarly ? Number(fightRestEarly.phase) : null,
+                        wait: !!(fightRestEarly && fightRestEarly.wait)
+                    });
+                    scheduleDrive(stuckMove ? 'rest-stuck-move' : 'rest-move-phase');
+                    return;
+                }
+                if (!liveActMenu() || (!state.movedThisAct && !state.sawMoveThisTurn)) {
                     dumpEnterSwallow('rest-enter-blocked', {
-                        via: recentlyEndedTurn() ? 'after-end-turn' :
-                            (!liveActMenu() ? 'no-live-act' : 'not-walked')
+                        via: !liveActMenu() ? 'no-live-act' : 'not-walked'
                     });
                     return;
                 }
                 state.lastRestAt = Date.now();
                 state.pendingActPick = 3;
-                var fightRest = null;
-                try { fightRest = readFight(); } catch (eRest) {}
+                var fightRest = fightRestEarly;
                 if (fightRest && Number(fightRest.phase) === 3) {
                     leaveAimAndRearm('rest-cancel-aim', { thenRest: true });
                     state.pendingActPick = 3;
@@ -2816,7 +2955,7 @@
             /* 走格已花或已在 PlcSplMenu：只能开 AIM，禁止 pick-approach 盲发 ENTER。 */
             if (state.movedThisAct || liveActMenu()) {
                 if (canCommitActMenu(fight) && adjacentEnemy(1)) {
-                    state.pendingApproach = null;
+                    clearPendingApproach();
                     state.pendingActPick = 0;
                     console.log('[hd-battle] open-aim', { x: x, y: y, via: 'after-move', unit: u.name });
                     setTimeout(function () {
@@ -2826,7 +2965,7 @@
                 }
                 return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'wait-act-menu' };
             }
-            state.pendingApproach = { x: x, y: y };
+            setPendingApproach(x, y);
             if (state.pendingActPick == null) {
                 state.pendingActPick = 0;
             }
@@ -2857,7 +2996,7 @@
                     };
                 }
                 console.log('[hd-battle] move closer toward', x, y, 'via', closer.x, closer.y);
-                state.pendingApproach = null;
+                clearPendingApproach();
                 if (wantsWalkBeforeAct(state.pendingActPick)) {
                     state.pendingActPick = null;
                 }
@@ -2872,7 +3011,7 @@
                     toward: { x: x, y: y }, blocked: 'move-closer', inRng: false
                 };
             }
-            state.pendingApproach = null;
+            clearPendingApproach();
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
             }
@@ -2926,7 +3065,7 @@
         }
         walkFocusTo(x, y, enter);
         if (phase === 2 && enter) {
-            state.pendingApproach = null;
+            clearPendingApproach();
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
             }
@@ -3723,6 +3862,10 @@
         }
         /* 活战也只采样上色。走近/选将必须走 scheduleDrive(setTimeout 0)，禁止本函数同步进
          * driveApproach / clickWaitingOwn / clickBattleTile（盒子 e 栈就是 refresh↔approach）。 */
+        if (state.boxSlowUntil && Date.now() < state.boxSlowUntil && state.boxSlowMs > 0) {
+            var slowT0 = Date.now();
+            while (Date.now() - slowT0 < state.boxSlowMs) { /* box-like slow HD */ }
+        }
         state.refreshing = true;
         try {
         var info = sampleFight();
@@ -3742,7 +3885,11 @@
         recoverFightMenu(fightNow);
         clearStuckApproach(fightNow);
         if (state.pendingActPick != null && !wantsWalkBeforeAct(state.pendingActPick)) {
-            state.pendingApproach = null;
+            clearPendingApproach();
+        }
+        if (state.pendingApproach && fightNow && Number(fightNow.phase) === 2 &&
+            fightNow.wait && !state.driveTimer && !state.drivingAct && !state.clickingTile) {
+            scheduleDrive('refresh-retry-approach');
         }
         noteFightTip(fightNow);
         suppressForeignShells();
@@ -3909,13 +4056,16 @@
             return;
         }
         if (name === 'willCloseMenu') {
+            if (!state.open || !fightReallyActive()) {
+                return;
+            }
             if (keepAimEnter('willCloseMenu')) {
                 return;
             }
             resetActMenuIndex('willCloseMenu');
             if (holdingActMenu() || leftoverAim(readFight())) {
                 state.needWaitBeforeMenu = false;
-                state.pendingApproach = null;
+                clearPendingApproach();
                 state.pendingActPick = null;
                 forceRevealActMenu(leftoverAim(readFight()) ? 'leftover-willClose' : 'hold-willClose');
                 return;
@@ -3927,7 +4077,7 @@
                 clearEngineMenuLeftover();
             }
             state.needWaitBeforeMenu = true;
-            state.pendingApproach = null;
+            clearPendingApproach();
             if (state.lastRestAt && Date.now() - state.lastRestAt < 800) {
                 logMenuProbe('after-rest');
                 state.menuArmLogged = true;
@@ -3996,7 +4146,15 @@
                     ev.preventDefault();
                     var exitInfo = readFightMenu();
                     if (exitInfo && exitInfo.synthetic) {
-                        /* 假菜单「返回」不能 EXIT：选将阶段 EXIT 会打开系统菜单，只剩底栏。 */
+                        var exitFight = null;
+                        try { exitFight = readFight(); } catch (eEx) {}
+                        /* MOVE 卡死：EXIT 取消 FgtGenMove。选将假菜单 EXIT 会打开系统菜单。 */
+                        if (exitFight && Number(exitFight.phase) === 2 && exitFight.wait) {
+                            flushStuckApproach('menu-exit-move');
+                            engineSendKey(VK.EXIT);
+                            forceShowFightMenu('exit-stuck-move');
+                            return;
+                        }
                         return;
                     }
                     if (fightMenuLive()) {
@@ -4311,6 +4469,11 @@
         recoverMenu: function () {
             return recoverFightMenu(readFight());
         },
+        debugBoxSlow: function (ms, holdMs) {
+            state.boxSlowMs = ms == null ? 80 : Number(ms) || 0;
+            state.boxSlowUntil = Date.now() + (holdMs == null ? 3500 : Number(holdMs) || 0);
+            return { ms: state.boxSlowMs, until: state.boxSlowUntil };
+        },
         legalEnter: legalEnter,
         dismissFightTip: dismissFightTip,
         openSystemMenu: toggleSystemMenu,
@@ -4381,6 +4544,10 @@
                 menuBytes: (itemsSnap && itemsSnap.names) || [],
                 pendingActPick: state.pendingActPick,
                 pendingApproach: state.pendingApproach,
+                approachArmedAt: state.approachArmedAt || 0,
+                approachAgeMs: approachAgeMs(),
+                approachStuck: approachStuck(fightSnap),
+                menuClickable: menuPanelClickable(),
                 walkSubmittedAt: state.walkSubmittedAt,
                 leavingAim: !!state.leavingAim,
                 leftoverAim: leftoverAim(fightSnap),
