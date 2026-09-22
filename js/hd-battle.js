@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922u';
+    var HD_BATTLE_VER = '20260922v';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -141,6 +141,8 @@
         pendingAimEnter: null,
         lastRestCommitAt: 0,
         endTurnAt: 0,
+        afterEndTurnUntil: 0,
+        awaitingAimUntil: 0,
         movedThisAct: false,
         strictLive: false,
         refreshStackLogged: false,
@@ -697,6 +699,7 @@
         extra.y = y;
         extra.inRng = true;
         extra.hp = u && u.hp;
+        state.awaitingAimUntil = 0;
         console.log('[hd-battle] attack-hit', extra);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
@@ -705,8 +708,63 @@
     }
 
     function likelyAimTarget() {
-        /* 射程表未灌时贴脸敌军也算真瞄准，绝不能当 leftover 立刻 EXIT。 */
+        /* 只有真 AIM（phase 3）才把贴脸当成瞄准。phase 0 的 leftover 射程表不算。 */
+        var fight = null;
+        try { fight = readFight(); } catch (eL) {}
+        if (!fight || Number(fight.phase) !== 3) {
+            return false;
+        }
         return !!(hasLegalAimTarget() || adjacentEnemy(1));
+    }
+
+    function recentlyEndedTurn() {
+        return !!(state.afterEndTurnUntil && Date.now() < state.afterEndTurnUntil);
+    }
+
+    /* 走近后的正确顺序（天下一统阻塞路径）：
+     *   FgtDealMan: FgtGetControl(选将) → FgtGenMove(走格 ENTER) → PlcSplMenu
+     *   1. 等 PlcSplMenu 真菜单 wait=0（liveActMenu / canCommitActMenu）
+     *   2. ENTER 攻击 → FgtGetCmdRng + FgtCmdAimGet（phase=3，aim-enter）
+     *   3. 等射程表或贴脸，对 in-range 敌军 ENTER（attack-hit）
+     * 射程内敌军在光标下时不得 leftover EXIT。
+     * 回合结束后 leftover wait=0 / 合成菜单上的 ENTER 会把战斗打成 after-fight。 */
+
+    function liveActMenu() {
+        var info = null;
+        try { info = readFightMenu(); } catch (eI) {}
+        return !!(info && info.kind === 'act' && !info.synthetic &&
+            info.names && info.names.indexOf('攻击') >= 0);
+    }
+
+    function canCommitActMenu(fight) {
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        if (recentlyEndedTurn()) {
+            return false;
+        }
+        if (fight.wait) {
+            return false;
+        }
+        return liveActMenu();
+    }
+
+    function awaitingAim() {
+        return !!(state.awaitingAimUntil && Date.now() < state.awaitingAimUntil);
+    }
+
+    function noteAwaitingAim(ms) {
+        state.awaitingAimUntil = Date.now() + (ms == null ? 2200 : ms);
+    }
+
+    function clearMovedThisAct(why) {
+        if (state.movedThisAct || state.awaitingAimUntil) {
+            console.log('[hd-battle] act-reset', {
+                via: why || 'clear', moved: !!state.movedThisAct
+            });
+        }
+        state.movedThisAct = false;
+        state.awaitingAimUntil = 0;
     }
 
     function leftoverAim(fight) {
@@ -714,6 +772,10 @@
             return false;
         }
         if (likelyAimTarget()) {
+            return false;
+        }
+        /* Attack ENTER 之后等 FgtGetCmdRng 灌表，不得当 leftover 立刻 EXIT。 */
+        if (awaitingAim()) {
             return false;
         }
         var age = aimAgeMs();
@@ -737,7 +799,7 @@
                     leaving: !!state.leavingAim
                 });
             }
-            if (likelyAimTarget()) {
+            if (likelyAimTarget() || awaitingAim()) {
                 /* 真瞄准时菜单不得挡住点敌军。 */
                 state.holdActMenuUntil = 0;
             }
@@ -1097,7 +1159,10 @@
             }
             if (phase === 3) {
                 noteAimPhase(fight);
-                if (likelyAimTarget()) {
+                if (likelyAimTarget() || awaitingAim()) {
+                    if (awaitingAim() && !likelyAimTarget() && Date.now() - started < 2200) {
+                        state.rearmTimer = setTimeout(tick, 80);
+                    }
                     return;
                 }
                 if (!atkRngReady() && Date.now() - started < 800) {
@@ -1120,7 +1185,7 @@
                 }
             }
             if (/after-attack|aim-oor|leftover|watchdog-aim/.test(why || '') &&
-                state.movedThisAct && !likelyAimTarget()) {
+                state.movedThisAct && !likelyAimTarget() && !awaitingAim()) {
                 preferRest('rearm-leftover-after-move');
                 return;
             }
@@ -1188,6 +1253,10 @@
                 return false;
             }
             state.endTurnAt = Date.now();
+            state.afterEndTurnUntil = Date.now() + 2200;
+            clearMovedThisAct('end-player-turn-menu');
+            state.pendingActPick = null;
+            state.pendingApproach = null;
             pickFightMenuName('回合结束');
             console.log('[hd-battle] rest-commit', { via: 'end-player-turn-menu' });
             return true;
@@ -1199,6 +1268,10 @@
             return false;
         }
         state.endTurnAt = Date.now();
+        state.afterEndTurnUntil = Date.now() + 2200;
+        clearMovedThisAct('end-player-turn');
+        state.pendingActPick = null;
+        state.pendingApproach = null;
         dropQueuedEnters();
         enqueueKeys([VK.EXIT], 70);
         console.log('[hd-battle] rest-commit', { via: 'end-player-turn' });
@@ -1437,6 +1510,11 @@
                 continue;
             }
             if (u.active === 0 || u.active == null) {
+                var fightOwn = null;
+                try { fightOwn = readFight(); } catch (eOwn) {}
+                if (fightOwn && Number(fightOwn.phase) === 1) {
+                    clearMovedThisAct('pick-next-general');
+                }
                 return clickBattleTile(u.x, u.y);
             }
             if (!fallback) {
@@ -1636,6 +1714,11 @@
             return true;
         }
         if (phase === 1 || phase === 0) {
+            if (recentlyEndedTurn() || state.movedThisAct || liveActMenu()) {
+                /* 回合刚结束或走格已花：禁止再 pick-approach。 */
+                state.pendingApproach = null;
+                return false;
+            }
             /* 选将只异步点己方，禁止 click→refresh→driveApproach 同步爆栈。 */
             if (Date.now() - (state.lastAutoActAt || 0) < 80) {
                 scheduleDrive('approach-pick-throttle');
@@ -1811,6 +1894,10 @@
             return;
         }
         if (index === 0 && liveKind !== 'sys') {
+            if (recentlyEndedTurn()) {
+                console.log('[hd-battle] attack-skip', { why: 'after-end-turn' });
+                return;
+            }
             state.pendingActPick = 0;
             state.lastAttackAt = Date.now();
             logAttackClick('pick');
@@ -1832,6 +1919,26 @@
                     : (foe ? { thenApproach: { x: foe.x, y: foe.y } } : { thenRest: true }));
                 return;
             }
+            /* PlcSplMenu 真菜单 wait=0 才 ENTER 攻击。合成菜单 / wait=1 是 FgtGenMove，盲发 ENTER 会把战斗打成 after-fight。 */
+            if (!canCommitActMenu(fightAtk)) {
+                if ((fightAtk && fightAtk.wait) || (function () {
+                    var infoAtk = null;
+                    try { infoAtk = readFightMenu(); } catch (eInfoAtk) {}
+                    return !!(infoAtk && infoAtk.synthetic);
+                }())) {
+                    state.autoActTries = 0;
+                    state.lastAutoActAt = 0;
+                    state.menuIndex = 0;
+                    scheduleDrive('menu-pick');
+                    return;
+                }
+                console.log('[hd-battle] attack-skip', { why: 'no-live-act' });
+                return;
+            }
+            /* FgtDealMan：FgtGenMove 已返回才会到 PlcSplMenu。此后只能瞄准，不能再走近。 */
+            state.movedThisAct = true;
+            noteAwaitingAim(2200);
+            state.holdActMenuUntil = 0;
         }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
@@ -1884,7 +1991,7 @@
         keys.push(VK.ENTER);
         state.menuIndex = index;
         enqueueKeys(keys, 55);
-        if (index === 0 && fight && !fight.wait) {
+        if (index === 0 && fight && !fight.wait && liveKind !== 'sys' && !recentlyEndedTurn()) {
             state.pendingActPick = null;
             state.lastAttackAt = Date.now();
             scheduleActRearm('after-attack');
@@ -1893,6 +2000,7 @@
             console.log('[hd-battle] rest-commit', { via: 'menu-enter', phase: fight.phase, wait: false });
             state.lastRestCommitAt = Date.now();
             state.pendingActPick = null;
+            clearMovedThisAct('rest-menu-enter');
         }
         } finally {
             state.pickingMenu = false;
@@ -2294,8 +2402,27 @@
             };
         }
         if ((phase === 1 || phase === 0) && u && u.side === 'enemy') {
+            if (recentlyEndedTurn()) {
+                return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'after-end-turn' };
+            }
             if (!playerHasWaitingOwn()) {
                 return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'no-waiting-own' };
+            }
+            if (awaitingAim()) {
+                return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'awaiting-aim' };
+            }
+            /* 走格已花或已在 PlcSplMenu：只能开 AIM，禁止 pick-approach 盲发 ENTER。 */
+            if (state.movedThisAct || liveActMenu()) {
+                if (canCommitActMenu(fight)) {
+                    state.pendingApproach = null;
+                    state.pendingActPick = 0;
+                    console.log('[hd-battle] open-aim', { x: x, y: y, via: 'after-move', unit: u.name });
+                    setTimeout(function () {
+                        pickFightMenu(0);
+                    }, 0);
+                    return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'open-aim' };
+                }
+                return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'wait-act-menu' };
             }
             state.pendingApproach = { x: x, y: y };
             if (state.pendingActPick == null) {
@@ -2461,6 +2588,9 @@
         state.lastInvalidAt = 0;
         state.lastBlockedEnter = '';
         resetActDrive();
+        state.afterEndTurnUntil = 0;
+        state.awaitingAimUntil = 0;
+        state.endTurnAt = 0;
         clearFightBridge();
         if (state.open) {
             closeBattle({ silent: true });
@@ -3801,6 +3931,10 @@
                 leftoverAim: leftoverAim(fightSnap),
                 legalAim: hasLegalAimTarget(),
                 likelyAim: likelyAimTarget(),
+                canCommitAct: canCommitActMenu(fightSnap),
+                recentlyEndedTurn: recentlyEndedTurn(),
+                awaitingAim: awaitingAim(),
+                afterEndTurnUntil: state.afterEndTurnUntil || 0,
                 aimEnteredAt: state.aimEnteredAt,
                 approachRepeatCount: state.approachRepeatCount,
                 lastApproachKey: state.lastApproachKey,
