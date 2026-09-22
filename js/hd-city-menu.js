@@ -133,7 +133,13 @@
         qtyDismissedAt: 0,
         step4Trace: [],
         lastStep4: null,
-        lastBannerLog: null
+        lastBannerLog: null,
+        originRetryTried: false,
+        originRetryBusy: false,
+        originRetryFrom: null,
+        originRetryTo: null,
+        marchOriginIndex: null,
+        keepPendingTarget: null
     };
 
     var WIZARD_ORDER = { none: 0, persons: 1, food: 2, 'target-tip': 3, 'map-pick': 4, 'march-ok': 5 };
@@ -489,7 +495,8 @@
             console.warn('[hd-city-menu] blocked ENTER until GetFood confirm', state.lastBlockedEnter);
             return false;
         }
-        if (code === VK.EXIT && holdExit() && reason !== 'finish-persons' && reason !== 'qty-cancel') {
+        if (code === VK.EXIT && holdExit() && reason !== 'finish-persons' &&
+            reason !== 'qty-cancel' && reason !== 'origin-retry-abort') {
             state.lastBlockedExit = reason || 'unknown';
             console.warn('[hd-city-menu] blocked EXIT', state.lastBlockedExit);
             return false;
@@ -696,7 +703,9 @@
             token: state.confirmToken,
             phase: engineMarchPhase(),
             inCitySet: engineInGetCitySet(),
-            liveFood: liveGetFood()
+            liveFood: liveGetFood(),
+            origin: state.cityIndex,
+            originRetry: state.originRetryTo
         };
         state.step4Trace = (state.step4Trace || []).concat([row]).slice(-28);
         state.lastStep4 = row;
@@ -787,6 +796,214 @@
         return false;
     }
 
+    function cityLinksOf(fromIndex) {
+        var out = [];
+        fromIndex = Number(fromIndex);
+        if (!isFinite(fromIndex) || fromIndex < 0) {
+            return out;
+        }
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.cityLinks === 'function') {
+                var loaded = baye.hd.cityLinks(fromIndex) || [];
+                var i;
+                for (i = 0; i < loaded.length; i++) {
+                    if (loaded[i] && loaded[i].index != null && isFinite(Number(loaded[i].index))) {
+                        out.push(Number(loaded[i].index));
+                    }
+                }
+            }
+        } catch (e) {}
+        return out;
+    }
+
+    function isOwnedCityIndex(cityIndex) {
+        cityIndex = Number(cityIndex);
+        if (!isFinite(cityIndex) || cityIndex < 0) {
+            return false;
+        }
+        var mine = playerBelong();
+        var data = engineData();
+        if (!data || !data.g_Cities || !data.g_Cities[cityIndex]) {
+            return false;
+        }
+        var belong = readNumber(data.g_Cities[cityIndex], 'Belong');
+        return !!(mine && belong && belong === mine);
+    }
+
+    function ownedCityIndexes() {
+        var out = [];
+        var n = cityCount() || 38;
+        var i;
+        for (i = 0; i < n; i++) {
+            if (isOwnedCityIndex(i)) {
+                out.push(i);
+            }
+        }
+        return out;
+    }
+
+    function originLinksTarget(originIndex, targetIndex) {
+        var links = cityLinksOf(originIndex);
+        var i;
+        if (!links || !links.length) {
+            return false;
+        }
+        for (i = 0; i < links.length; i++) {
+            if (Number(links[i]) === Number(targetIndex)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function preferredMarchOrigin(targetIndex, exclude) {
+        targetIndex = targetIndex == null ? 9 : Number(targetIndex);
+        exclude = exclude == null ? -1 : Number(exclude);
+        var current = state.cityIndex;
+        if (current >= 0 && current !== targetIndex && current !== exclude &&
+            isOwnedCityIndex(current) && originLinksTarget(current, targetIndex)) {
+            return current;
+        }
+        var owned = ownedCityIndexes();
+        var prefer = [3, 0, 8];
+        var candidates = [];
+        var i;
+        for (i = 0; i < owned.length; i++) {
+            var idx = owned[i];
+            if (idx === targetIndex || idx === exclude) {
+                continue;
+            }
+            if (originLinksTarget(idx, targetIndex)) {
+                candidates.push(idx);
+            }
+        }
+        for (i = 0; i < prefer.length; i++) {
+            if (candidates.indexOf(prefer[i]) >= 0) {
+                return prefer[i];
+            }
+        }
+        if (candidates.length) {
+            return candidates[0];
+        }
+        if (exclude !== 3 && isOwnedCityIndex(3) && 3 !== targetIndex) {
+            return 3;
+        }
+        if (exclude !== 0 && isOwnedCityIndex(0) && 0 !== targetIndex) {
+            return 0;
+        }
+        return null;
+    }
+
+    function clearLeftoverMarchDest(why) {
+        if (freshMarchOk() || state.marchReady) {
+            return false;
+        }
+        try {
+            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (baye.data.g_hdMarchOk != null) {
+                    baye.data.g_hdMarchOk = 0;
+                }
+                if (baye.data.g_hdMarchObj != null) {
+                    baye.data.g_hdMarchObj = 0;
+                }
+                if (baye.data.g_hdMarchCity != null) {
+                    baye.data.g_hdMarchCity = 0;
+                }
+                if (baye.data.g_hdMarchTime != null) {
+                    baye.data.g_hdMarchTime = 0;
+                }
+            }
+        } catch (e) {}
+        noteStep4('clear-leftover-dest', { skipped: why || 'dest' });
+        return true;
+    }
+
+    function handleUnreachableOrigin(targetIndex, why) {
+        if (state.originRetryBusy || state.originRetryTried) {
+            return false;
+        }
+        targetIndex = targetIndex != null ? Number(targetIndex) : (state.pendingTarget != null
+            ? Number(state.pendingTarget) : 9);
+        var next = preferredMarchOrigin(targetIndex, state.cityIndex);
+        if (next == null || Number(next) === Number(state.cityIndex)) {
+            return false;
+        }
+        noteStep4('origin-retry', {
+            cityIndex: targetIndex,
+            skipped: String(why || '无法到达') + '→' + next
+        });
+        state.originRetryTried = true;
+        state.originRetryBusy = true;
+        state.originRetryFrom = state.cityIndex;
+        state.originRetryTo = next;
+        state.marchOriginIndex = next;
+        state.marchHint = '「' + (cityName(state.cityIndex) || '出发城') +
+            '」无法到达「' + (cityName(targetIndex) || '河内') +
+            '」，改从「' + (cityName(next) || '邻城') + '」出征。';
+        render();
+        restartMarchFromOrigin(next, targetIndex);
+        return true;
+    }
+
+    function restartMarchFromOrigin(originIndex, targetIndex) {
+        state.confirmToken = (state.confirmToken || 0) + 1;
+        state.confirmingTarget = false;
+        state.walkBusy = false;
+        state.acceptMarchOk = false;
+        state.pendingTarget = targetIndex;
+        if (/无法到达|我方城池|选择目标/.test(liveEngineReport() || '')) {
+            engineSendKey(VK.ENTER, 'origin-retry-dismiss');
+        }
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true });
+        }
+        setTimeout(function () {
+            if (engineInGetCitySet() || battlePickActive() || mapPickActive()) {
+                engineSendKey(VK.EXIT, 'origin-retry-abort');
+            }
+            setTimeout(function () {
+                state.battleMake = false;
+                state.campaignPick = false;
+                state.personExitSent = false;
+                state.wizardStep = 'none';
+                closeMenu({ silent: true, force: true });
+                try {
+                    if (global.BayeHdOverworld && typeof BayeHdOverworld.walkToCity === 'function') {
+                        BayeHdOverworld.walkToCity(originIndex);
+                    }
+                } catch (eWalk) {}
+                openMenu({
+                    cityIndex: originIndex,
+                    cityName: cityName(originIndex),
+                    hook: 'origin-retry'
+                });
+                landOwnedCity('origin-retry', function () {
+                    chooseRoot(2);
+                    setTimeout(function () {
+                        var names = preferEngineNames(SUBS.junbei || []);
+                        var idx = names.indexOf('出征');
+                        if (idx < 0) {
+                            idx = 4;
+                        }
+                        state.keepPendingTarget = targetIndex;
+                        chooseSub(idx);
+                        state.pendingTarget = targetIndex;
+                        state.originRetryBusy = false;
+                        state.marchOriginIndex = originIndex;
+                        state.marchHint = '已改从「' + (cityName(originIndex) || '邻城') +
+                            '」出征，目标仍是「' + (cityName(targetIndex) || '河内') +
+                            '」。请再点将选粮。';
+                        noteStep4('origin-retry-reopen', {
+                            cityIndex: targetIndex,
+                            skipped: 'origin-' + originIndex
+                        });
+                        render();
+                    }, 380);
+                });
+            }, 280);
+        }, 200);
+    }
+
     function firstEnemyTarget() {
         var i;
         for (i = 0; i < state.deepItems.length; i++) {
@@ -832,6 +1049,12 @@
         }
         state.campaignPick = true;
         state.battleMake = true;
+        if (state.marchOriginIndex == null) {
+            state.marchOriginIndex = state.cityIndex;
+        }
+        if (!freshMarchOk() && !state.marchReady) {
+            clearLeftoverMarchDest('confirm-start');
+        }
         if (engineInGetCitySet()) {
             state.acceptMarchOk = true;
         }
@@ -872,7 +1095,7 @@
         }
 
         if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
-            if (attempt >= 6) {
+            if (attempt >= 1) {
                 state.confirmingTarget = false;
             }
             noteStep4('await-dest', { cityIndex: cityIndex, attempt: attempt });
@@ -932,6 +1155,10 @@
         }
         var refuse = liveEngineReport();
         if (/我方城池|无法到达/.test(refuse)) {
+            if (/无法到达/.test(refuse) && engineMapCityIndex() === cityIndex &&
+                handleUnreachableOrigin(cityIndex, refuse)) {
+                return { deferred: 'origin-retry', cityIndex: cityIndex };
+            }
             state.marchHint = /无法到达/.test(refuse)
                 ? '引擎拒绝：无法到达。只能打 CITY_LINKR 邻城。'
                 : '引擎提示「我方城池」（多半确认了出发城）。已关掉，改走敌邻。';
@@ -1053,10 +1280,11 @@
             while (x > to.x && dirs.length < 16) { dirs.push(VK.LEFT); x -= 1; }
             while (x < to.x && dirs.length < 16) { dirs.push(VK.RIGHT); x += 1; }
         }
+        var snapOk = false;
         if (to && to.x != null && to.y != null &&
             global.BayeHdOverworld && typeof BayeHdOverworld.writeCityPos === 'function') {
             var snapTried = [];
-            var snapOk = BayeHdOverworld.writeCityPos(to.x, to.y, snapTried);
+            snapOk = BayeHdOverworld.writeCityPos(to.x, to.y, snapTried);
             console.log('[hd-city-menu] dest-setxy ' + JSON.stringify({
                 cityIndex: cityIndex,
                 to: to,
@@ -1068,14 +1296,12 @@
                 mapCity: engineMapCityIndex(),
                 inCitySet: engineInGetCitySet()
             }));
-            /* snap 后 g_hdMapCity 常仍是出发城。已标到目标才跳过走格；
-             * 否则左右轻挪一格让 GetCitySet 重读 setx/sety，不要立刻 ENTER
-             * （会把「选择目标」 overlay 关掉并离开 GetCitySet）。 */
-            if ((snapOk || cursorOnCity(cityIndex)) && engineMapCityIndex() === cityIndex) {
-                dirs = [];
-            } else if (snapOk || cursorOnCity(cityIndex)) {
-                dirs = (to.x > 0) ? [VK.LEFT, VK.RIGHT] : [VK.RIGHT, VK.LEFT];
-            }
+        }
+        /* dest-setxy 只改 setx/sety，GetCitySetInner 的 city 仍是上次 ShowCityMap。
+         * HD bind 的 g_hdMapCity 对上目标也不能跳过：ENTER 会确认旧格（无法到达/空操作）。 */
+        if (thenEnter !== false && (force || opts.confirm || requireLanded ||
+            (to && (snapOk || cursorOnCity(cityIndex))))) {
+            dirs = (to && to.x > 0) ? [VK.LEFT, VK.RIGHT] : [VK.RIGHT, VK.LEFT];
         }
         state.walkToken = (state.walkToken || 0) + 1;
         var token = state.walkToken;
@@ -1206,6 +1432,25 @@
                 if (token !== state.walkToken) {
                     return;
                 }
+                var shownNow = engineMapCityIndex();
+                if (shownNow !== cityIndex) {
+                    noteStep4('refuse-enter-mapcity', {
+                        cityIndex: cityIndex,
+                        skipped: 'mapcity-' + shownNow,
+                        attempt: opts.attempt
+                    });
+                    state.confirmingTarget = false;
+                    state.marchHint = '引擎光标未对准「' +
+                        (cityName(cityIndex) || '目标城') + '」，未回车。正在再走格。';
+                    render();
+                    if (opts.confirm) {
+                        confirmMarchTarget(cityIndex, {
+                            resume: true,
+                            attempt: (opts.attempt || 0) + 1
+                        });
+                    }
+                    return;
+                }
                 noteStep4('enter-target', { cityIndex: cityIndex, attempt: opts.attempt });
                 state.confirmingTarget = true;
                 engineSendKey(VK.ENTER);
@@ -1223,6 +1468,10 @@
                     if (/我方城池|无法到达/.test(report)) {
                         state.confirmingTarget = false;
                         noteStep4('enter-refuse', { cityIndex: cityIndex, skipped: report });
+                        if (/无法到达/.test(report) &&
+                            handleUnreachableOrigin(cityIndex, report)) {
+                            return;
+                        }
                         engineSendKey(VK.ENTER);
                         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                             BayeHdDialog.close({ silent: true });
@@ -1575,6 +1824,12 @@
         state.handoffStatus = '';
         state.confirmingTarget = false;
         state.acceptMarchOk = false;
+        state.originRetryTried = false;
+        state.originRetryBusy = false;
+        state.originRetryFrom = null;
+        state.originRetryTo = null;
+        state.marchOriginIndex = null;
+        state.keepPendingTarget = null;
         state.sawFightThisMarch = false;
         state.fightEndedThisMarch = false;
         state.marchHint = '';
@@ -1659,6 +1914,12 @@
         state.confirmingTarget = false;
         state.acceptMarchOk = false;
         state.pendingTarget = null;
+        state.originRetryTried = false;
+        state.originRetryBusy = false;
+        state.originRetryFrom = null;
+        state.originRetryTo = null;
+        state.marchOriginIndex = null;
+        state.keepPendingTarget = null;
         state.marchHint = '';
         state.lastBlockedEnter = '';
         state.lastBlockedExit = '';
@@ -1840,6 +2101,10 @@
     function bindOpenedMapCity(cityIndex, why) {
         cityIndex = cityIndex != null && cityIndex >= 0 ? Number(cityIndex) : state.cityIndex;
         if (liveFightBlocksCityOpen()) {
+            return false;
+        }
+        if (engineInGetCitySet() && Number(cityIndex) !== Number(state.pendingTarget)) {
+            noteStep4('bind-map-city', { cityIndex: cityIndex, skipped: 'live-city-set' });
             return false;
         }
         if (!isFinite(cityIndex) || cityIndex < 0 || cityIndex >= 64) {
@@ -4098,7 +4363,17 @@
         state.lastWalkCity = null;
         state.lastWalkAt = 0;
         state.walkBusy = false;
-        state.pendingTarget = null;
+        if (state.keepPendingTarget != null) {
+            state.pendingTarget = Number(state.keepPendingTarget);
+            state.keepPendingTarget = null;
+        } else {
+            state.pendingTarget = null;
+            state.originRetryTried = false;
+            state.originRetryBusy = false;
+            state.originRetryFrom = null;
+            state.originRetryTo = null;
+            state.marchOriginIndex = state.cityIndex;
+        }
         state.confirmToken = 0;
         state.step4Trace = [];
         state.lastStep4 = null;
@@ -5004,6 +5279,10 @@
             return;
         }
         if (/我方城池|无法到达/.test(report) && (state.campaignPick || mapPickActive())) {
+            if (/无法到达/.test(report) && engineMapCityIndex() === Number(state.pendingTarget) &&
+                handleUnreachableOrigin(state.pendingTarget != null ? state.pendingTarget : 9, report)) {
+                return;
+            }
             enqueueKeys([VK.ENTER], 80);
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
@@ -5699,7 +5978,16 @@
                 march: engineMarch(),
                 qty: engineQty(),
                 lastStep4: state.lastStep4,
-                step4Trace: (state.step4Trace || []).slice(-16)
+                step4Trace: (state.step4Trace || []).slice(-16),
+                marchOriginIndex: state.marchOriginIndex,
+                originRetryTried: !!state.originRetryTried,
+                originRetryBusy: !!state.originRetryBusy,
+                originRetryFrom: state.originRetryFrom,
+                originRetryTo: state.originRetryTo,
+                preferredOrigin: preferredMarchOrigin(
+                    state.pendingTarget != null ? state.pendingTarget : 9
+                ),
+                originLinks: cityLinksOf(state.cityIndex)
             };
         },
         walkToCity: function (cityIndex, thenEnter) {
@@ -5709,6 +5997,8 @@
             return walkCursorToCity(cityIndex, thenEnter);
         },
         confirmMarchTarget: confirmMarchTarget,
+        preferredMarchOrigin: preferredMarchOrigin,
+        cityLinksOf: cityLinksOf,
         isMarching: isMarching,
         isHandoff: isHandoff,
         holdExit: holdExit,
