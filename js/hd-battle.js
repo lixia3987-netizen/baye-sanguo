@@ -493,9 +493,11 @@
                         noteEnemyTurnQuiet('send-enter', fightKey);
                     } else if (muteWhy === 'no-player-pick' || muteWhy === 'enemy-focus') {
                         dropQueuedEnters();
-                    } else if (muteWhy === 'pick-throttle' &&
-                        state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
-                        scheduleAfterHitSettle(80);
+                    } else if (muteWhy === 'pick-throttle') {
+                        dropQueuedEnters();
+                        if (state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
+                            scheduleAfterHitSettle(80);
+                        }
                     }
                     return false;
                 }
