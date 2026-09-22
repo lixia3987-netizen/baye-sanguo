@@ -1715,7 +1715,8 @@
             return tryCommitMeleeAim(why || 'open-aim');
         }
         var live = liveActMenu();
-        if (!((phase === 0 && !fight.wait) || live)) {
+        /* 必须是 PlcSplMenu 真菜单。phase=0 leftover + 合成「攻击」上回车是选将，不是 AIM。 */
+        if (!(phase === 0 && !fight.wait && live)) {
             return false;
         }
         state.lastOpenAimAt = Date.now();
@@ -1782,7 +1783,7 @@
             noteActingUnit(strike.unit);
             return tryCommitMeleeAim(why || 'adj-recover-aim');
         }
-        if ((phase === 0 && !fight.wait) || liveActMenu()) {
+        if (phase === 0 && !fight.wait && liveActMenu()) {
             return openAimFromActMenu(why || 'adj-recover-act', strike);
         }
         try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
@@ -1854,6 +1855,11 @@
         state.pendingActPick = 0;
         state.movedThisAct = true;
         forceShowFightMenu(why || 'adj-recover-menu');
+        /* 方向键还在队列里：ENTER 会打在半路（unit:pick），必须等走到将身上。 */
+        if (state.queue && state.queue.length) {
+            scheduleDriveSoon('adj-recover-wait-walk', 80);
+            return true;
+        }
         var strikeKey = unitCapKey(strike.unit);
         var alreadySent = !!(state.adjRecoverPickSent && state.adjRecoverPickKey === strikeKey) ||
             (state.phase1EnterSent && state.phase1EnterCapKey === strikeKey);
@@ -1872,7 +1878,7 @@
             scheduleDriveSoon('adj-recover-wait-phase0', 280);
             return true;
         }
-        /* 焦点已在贴脸将上：最多两次选将 ENTER 进 MOVE→PlcSplMenu。禁止 refresh 连发。 */
+        /* 焦点已在贴脸将上且队列空：最多两次选将 ENTER 进 MOVE→PlcSplMenu。 */
         if (phase === 1 && fight.wait) {
             state.adjRecoverPickSent = true;
             state.adjRecoverPickAt = Date.now();
@@ -1917,7 +1923,7 @@
             noteActingUnit(strike.unit);
             return tryCommitMeleeAim(why || 'adj-melee-aim');
         }
-        if ((phase === 0 && !fight.wait) || liveActMenu()) {
+        if (phase === 0 && !fight.wait && liveActMenu()) {
             return openAimFromActMenu(why || 'adj-act-aim', strike);
         }
         if (phase === 1 && fight.wait) {
@@ -2013,7 +2019,7 @@
             try { holdFight = readFight(); } catch (eH) {}
             /* 仍停在 phase0 真菜单时允许再开 AIM；已进 AIM 则交给 tryCommitMeleeAim。 */
             if (!(holdFight && Number(holdFight.phase) === 0 && !holdFight.wait &&
-                (liveActMenu() || hdActMenuVisible()))) {
+                liveActMenu())) {
                 return false;
             }
         }
@@ -2037,7 +2043,7 @@
             return false;
         }
         state.lastFirstActMeleeAt = Date.now();
-        if ((phase === 0 && !fight.wait) || liveActMenu()) {
+        if (phase === 0 && !fight.wait && liveActMenu()) {
             return openAimFromActMenu(why || 'first-act-aim');
         }
         if (phase === 1 && fight.wait) {
