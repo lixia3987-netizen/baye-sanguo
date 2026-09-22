@@ -1098,6 +1098,7 @@
             if (phaseNow === 2 || phaseNow === 3) {
                 return false;
             }
+            state.lastArmNextAt = Date.now();
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
             if (nextUnitStalled() || endTurnBrokeArmed()) {
                 return forceFinishWaitingOrEndTurn(why || 'same-dest-stall');
@@ -2911,11 +2912,22 @@
             if (!state.lastHitAt) {
                 return false;
             }
-            if (nextUnitStalled()) {
-                forceFinishWaitingOrEndTurn('end-turn-still-waiting');
+            if (state.lastHitAt && Date.now() - state.lastHitAt < 2200) {
                 return false;
             }
-            if (state.lastHitAt && Date.now() - state.lastHitAt < 2200) {
+            if (liveActMenu() || hdActMenuVisible()) {
+                var postStrike = adjacentWaitingStrike();
+                if (postStrike && commitAdjacentMelee('post-hit-adj-menu')) {
+                    return true;
+                }
+                if (!state.lastAttackAt || Date.now() - state.lastAttackAt > 1600) {
+                    pickFightMenu(0);
+                    return true;
+                }
+                return false;
+            }
+            if (nextUnitStalled()) {
+                forceFinishWaitingOrEndTurn('end-turn-still-waiting');
                 return false;
             }
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 ||
