@@ -1254,7 +1254,27 @@
         if (phase === 2 || phase === 3) {
             return false;
         }
-        if (phase === 1 && fight.wait && !playerHasWaitingOwn() && !liveActMenu()) {
+        if (!(phase === 1 && fight.wait) || liveActMenu()) {
+            return false;
+        }
+        if (playerHasWaitingOwn()) {
+            return false;
+        }
+        /* 刚待机/命中后引擎还在选下一将：空隙里 waiting 可能空一帧，不能当敌方回合。 */
+        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 1800) {
+            return false;
+        }
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 1800) {
+            return false;
+        }
+        if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1800) {
+            return false;
+        }
+        var fu = focusedFightUnit();
+        if (fu && fu.side === 'enemy') {
+            return true;
+        }
+        if ((state.actedThisTurn || 0) >= Math.max(1, countPlayerUnits())) {
             return true;
         }
         return false;
