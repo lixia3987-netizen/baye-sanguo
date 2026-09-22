@@ -2983,10 +2983,11 @@
         if (phase === 2 && u && u.side === 'enemy') {
             if (state.sending || state.queue.length) {
                 state.lastBlockedEnter = 'walk-busy';
-                if (!state.pendingApproach) {
+                if (!state.pendingApproach &&
+                    !(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400)) {
                     setPendingApproach(x, y);
+                    scheduleDriveSoon('walk-busy-retry', 90);
                 }
-                scheduleDriveSoon('walk-busy-retry', 90);
                 return {
                     x: x, y: y, enter: false, unit: u.name, phase: phase,
                     blocked: 'walk-busy', tip: state.fightTip
