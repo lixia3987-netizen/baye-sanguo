@@ -167,6 +167,7 @@
         phase1StuckTimer: 0,
         pendingPickUnit: '',
         lastAdjMeleeAt: 0,
+        lastPickWalkAt: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -1460,6 +1461,12 @@
         state.keepAttackEnterUntil = Date.now() + 1400;
         try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
         onUnit = !!(cur && cur.x === strike.unit.x && cur.y === strike.unit.y);
+        /* 刚走过贴脸将：选将 wait 下即使引擎焦点滞后也必须 ENTER，禁止只走路不回车。 */
+        if (!onUnit && state.lastPickWalkAt && Date.now() - state.lastPickWalkAt < 900 &&
+            state.pendingPickUnit === unitCapKey(strike.unit) &&
+            fight.wait && (phase === 1 || phase === 0)) {
+            onUnit = true;
+        }
         console.log('[hd-battle] adj-melee-commit', {
             via: why || 'adj',
             unit: strike.unit.name,
@@ -1469,6 +1476,7 @@
             ex: strike.enemy.x,
             ey: strike.enemy.y,
             onUnit: onUnit,
+            focus: cur && { x: cur.x, y: cur.y, name: cur.name },
             phase: phase,
             wait: !!fight.wait,
             hdMenu: hdActMenuVisible(),
@@ -1476,7 +1484,23 @@
         });
         /* 先走到贴脸将，禁止和方向键同队列回车（焦点还在君主会被 lord-hold 吞掉）。 */
         if (!onUnit) {
+            if (phase === 2 && fight.wait && actingLordUnit()) {
+                writeFightActCommit(3);
+                enqueueKeys([VK.ENTER], 55);
+                scheduleDriveSoon('adj-melee-after-lord-rest', 140);
+                return true;
+            }
+            if (!(fight.wait && (phase === 1 || phase === 2))) {
+                if (liveActMenu() && actingLordUnit()) {
+                    preferRest('lord-hold-for-strike');
+                    scheduleDriveSoon('adj-melee-after-rest', 160);
+                    return true;
+                }
+                scheduleDriveSoon('adj-melee-wait-pick', 80);
+                return true;
+            }
             walkFocusTo(strike.unit.x, strike.unit.y, false);
+            state.lastPickWalkAt = Date.now();
             scheduleDriveSoon('adj-melee-after-pick', 90);
             return true;
         }
@@ -2138,6 +2162,7 @@
             state.lordOpenDeferred = false;
             state.pendingPickUnit = '';
             state.lastAdjMeleeAt = 0;
+            state.lastPickWalkAt = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
             maybePickOtherOnOpen();
         }
@@ -4874,6 +4899,7 @@
             state.keepAttackEnterUntil = 0;
             state.pendingPickUnit = '';
             state.lastAdjMeleeAt = 0;
+            state.lastPickWalkAt = 0;
             if (state.afterHitTimer) {
                 clearTimeout(state.afterHitTimer);
                 state.afterHitTimer = 0;
