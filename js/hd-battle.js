@@ -632,6 +632,11 @@
     }
 
     function atkRngReady() {
+        var fight = null;
+        try { fight = readFight(); } catch (eR) {}
+        if (!fight || Number(fight.phase) !== 3) {
+            return false;
+        }
         return atkRngSize() > 0;
     }
 
@@ -1783,6 +1788,11 @@
     }
 
     function pickFightMenu(index) {
+        var fightNowPick = null;
+        try { fightNowPick = readFight(); } catch (eF) {}
+        if (fightNowPick && fightNowPick.over) {
+            return;
+        }
         var liveKind = null;
         try {
             var liveInfo = readFightMenu();
