@@ -1479,13 +1479,11 @@
             return 'lord-hold-pick';
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
-            /* 命中后 leftover ENTER 是选下一将 / 离 AIM settle，不得整段吞掉。 */
-            if (hitFresh) {
-                return '';
-            }
-            /* 将领行动已开：放行一次 ENTER 确认攻击或换将，短窗内仍限流。 */
-            if (hdActMenuVisible() &&
-                (!state.lastMenuCommitEnterAt || Date.now() - state.lastMenuCommitEnterAt > 700)) {
+            /* 命中后且将领行动已开：放行一次确认攻击/换将。平时仍吞 leftover。 */
+            if (hitFresh && (hdActMenuVisible() || liveActMenu())) {
+                if (state.lastMenuCommitEnterAt && Date.now() - state.lastMenuCommitEnterAt < 450) {
+                    return 'pick-throttle';
+                }
                 return '';
             }
             return 'pick-throttle';
