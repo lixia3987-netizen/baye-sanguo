@@ -182,6 +182,7 @@
         adjRecoverPickAt: 0,
         adjRecoverPickKey: '',
         adjRecoverPickN: 0,
+        adjRecoverGiveUpKey: '',
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -1670,8 +1671,8 @@
             if (sameTileHitCapped(e)) {
                 continue;
             }
-            /* 贴脸敌军还活着：刚出手/phase1-stuck 也必须再打，禁止从 strike 里摘掉。 */
-            if (isPhase1StuckUnit(u) && !e) {
+            /* 两次选将仍停在 phase1 的贴脸将：换别人打，禁止本将 recover 死循环。 */
+            if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
                 continue;
             }
             if (!isLordUnit(u)) {
@@ -1876,10 +1877,14 @@
                 unit: strike.unit.name,
                 phase: phase,
                 wait: !!fight.wait,
-                pickN: state.adjRecoverPickN
+                pickN: state.adjRecoverPickN,
+                next: 'other-unit'
             });
-            scheduleDriveSoon('adj-recover-wait-phase0', 280);
-            return true;
+            state.adjRecoverGiveUpKey = strikeKey;
+            markPhase1StuckUnit(strikeKey);
+            clearPhase1EnterCap('adj-recover-give-up');
+            armNextWaitingOwn('adj-recover-give-up', { force: true });
+            return false;
         }
         /* 焦点已在贴脸将上且队列空：最多两次选将 ENTER 进 MOVE→PlcSplMenu。 */
         if (phase === 1 && fight.wait) {
@@ -2764,6 +2769,7 @@
             state.adjRecoverPickAt = 0;
             state.adjRecoverPickKey = '';
             state.adjRecoverPickN = 0;
+            state.adjRecoverGiveUpKey = '';
             writeFightActCommit(0xFF);
             state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
