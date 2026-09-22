@@ -1617,6 +1617,20 @@
         return !!(mapPickActive() && !battlePickActive());
     }
 
+    function clearLeftoverPickAfterMarch(why) {
+        try {
+            if (window.baye && baye.data) {
+                if (baye.data.g_hdMapPick != null) {
+                    baye.data.g_hdMapPick = 0;
+                }
+                if (baye.data.g_hdBattlePick != null) {
+                    baye.data.g_hdBattlePick = 0;
+                }
+            }
+        } catch (eClr) {}
+        noteStep4('clear-leftover-pick-after-march', { skipped: why || '' });
+    }
+
     /* HD 已回城池根，引擎还停在内政/军备/人物表（开垦过月最常见）。 */
     function leftoverEngineSubAtHdRoot() {
         if (state.layer !== 'root') {
@@ -4452,6 +4466,10 @@
         if (haveFresh) {
             state.marchReady = true;
             state.wizardStep = 'march-ok';
+            /* 部队已出发后 leftover pick=1 会让 handoff 当选城连发 EXIT，打不进 FunctionMenu。 */
+            if (mapPickActive()) {
+                clearLeftoverPickAfterMarch('strategy-end');
+            }
         } else {
             state.marchReady = false;
             state.wizardStep = 'none';
@@ -4587,15 +4605,19 @@
             }
 
             if (pick) {
-                if (!haveFresh && stillSelecting) {
+                if (haveFresh) {
+                    clearLeftoverPickAfterMarch('handoff-step');
+                    pick = false;
+                } else if (!haveFresh && stillSelecting) {
                     setHandoffStatus('请先点目标城等到部队已出发');
                     arm();
                     return;
+                } else {
+                    setHandoffStatus('正在退出选城…');
+                    sendHandoffKey(VK.EXIT, 'strategy-end');
+                    arm();
+                    return;
                 }
-                setHandoffStatus('正在退出选城…');
-                sendHandoffKey(VK.EXIT, 'strategy-end');
-                arm();
-                return;
             }
 
             if (leftoverFightSys(names)) {
