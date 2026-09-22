@@ -1533,12 +1533,80 @@
         clearPhase1EnterCap(why || 'adj-melee');
     }
 
+    function peekEnemyHp(rec) {
+        rec = rec || state.lastHitTarget || (state.aimCommit ? {
+            name: state.aimCommit.name, x: state.aimCommit.x, y: state.aimCommit.y
+        } : null);
+        if (!rec) {
+            return null;
+        }
+        try {
+            var data = engineData();
+            var arr = data && data.g_FgtParam && data.g_FgtParam.GenArray;
+            var pos = data && data.g_GenPos;
+            var i;
+            var byName = null;
+            for (i = 10; i < 20; i++) {
+                var id = arr ? readNumber(arr, i) : null;
+                if (!id || id >= 0xfffe) {
+                    continue;
+                }
+                var p = pos && pos[i] ? pos[i] : {};
+                var name = '';
+                try {
+                    if (typeof baye.getPersonName === 'function') {
+                        name = baye.getPersonName(id - 1) || '';
+                    }
+                } catch (eN) {}
+                var ux = readNumber(p, 'x');
+                var uy = readNumber(p, 'y');
+                var hp = readNumber(p, 'hp');
+                if (rec.x != null && ux === rec.x && uy === rec.y) {
+                    return hp;
+                }
+                if (rec.name && name === rec.name && byName == null) {
+                    byName = hp;
+                }
+            }
+            if (byName != null) {
+                return byName;
+            }
+        } catch (ePeek) {}
+        var t = findHitTarget(rec);
+        return t ? t.hp : null;
+    }
+
+    function noteRealAttackHit(info) {
+        if (!state.lastHitAt) {
+            state.lastHitAt = Date.now();
+        }
+        state.lastHpDropAt = Date.now();
+        state.lastHpDrop = info || state.lastHpDrop;
+        state.lastHitActor = state.actorAt
+            ? { x: state.actorAt.x, y: state.actorAt.y, name: state.actorAt.name || '' }
+            : state.lastHitActor;
+        noteUnitActed('attack-hit');
+        clearPickThrottle('attack-hit');
+        console.log('[hd-battle] attack-hit', {
+            via: 'hp-drop',
+            unit: info && info.unit,
+            x: info && info.x,
+            y: info && info.y,
+            before: info && info.before,
+            after: info && info.after,
+            dist: 1
+        });
+    }
+
     function verifyHitHpDrop(why) {
         var rec = state.aimCommit || {};
         var before = rec.hpBefore != null ? rec.hpBefore : state.lastHitHpBefore;
         var target = findHitTarget(rec);
-        var after = target ? target.hp : null;
-        var gone = !target || (target.hp != null && Number(target.hp) <= 0);
+        var after = peekEnemyHp(rec);
+        if (after == null && target) {
+            after = target.hp;
+        }
+        var gone = !target || (after != null && Number(after) <= 0);
         var drop = gone || (before != null && after != null && Number(after) < Number(before));
         var info = {
             via: why || 'verify',
@@ -1552,12 +1620,16 @@
         };
         console.log('[hd-battle] hit-hp', info);
         if (drop) {
-            state.lastHpDropAt = Date.now();
-            state.lastHpDrop = info;
             if (state.aimCommit) {
                 state.aimCommit.hpDropped = true;
             }
             state.sameTileHitN = 0;
+            if (!state.lastHpDropAt || state.lastHpDropAt < (state.aimCommit && state.aimCommit.at || 0)) {
+                noteRealAttackHit(info);
+            } else {
+                state.lastHpDropAt = Date.now();
+                state.lastHpDrop = info;
+            }
             return true;
         }
         if (state.aimCommit) {
@@ -1638,9 +1710,11 @@
         state.keepAttackEnterUntil = Date.now() + 1400;
         try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
         onUnit = !!(cur && cur.x === strike.unit.x && cur.y === strike.unit.y);
-        /* 刚走过贴脸将：引擎焦点滞后也必须 ENTER，禁止只走路不回车。 */
+        var focusU = (cur && cur.x != null) ? unitAt(cur.x, cur.y) : null;
+        /* 焦点还在敌军格上时禁止把 lastPickWalk 当成已走到己方，否则 ENTER 打在敌军身上。 */
         if (!onUnit && state.lastPickWalkAt && Date.now() - state.lastPickWalkAt < 2500 &&
-            state.pendingPickUnit === unitCapKey(strike.unit)) {
+            state.pendingPickUnit === unitCapKey(strike.unit) &&
+            !(focusU && focusU.side === 'enemy')) {
             onUnit = true;
         }
         console.log('[hd-battle] adj-melee-commit', {
@@ -1837,21 +1911,37 @@
         }
         dropQueuedExits();
         state.leavingAim = false;
-        walkFocusTo(x, y, true);
+        var curAim = null;
+        try { curAim = syncFocusFromEngine(); } catch (eAim) { curAim = null; }
+        /* 光标不在敌军格上回车是假 hit：引擎不扣血，lastHitAt 会骗过占领门槛。 */
+        if (!curAim || curAim.x !== x || curAim.y !== y) {
+            walkFocusTo(x, y, false);
+            state.pendingAimEnter = { x: x, y: y, at: Date.now(), name: u && u.name };
+            console.log('[hd-battle] aim-walk-to', {
+                via: extra.via, unit: u && u.name, from: curAim, to: { x: x, y: y }
+            });
+            setTimeout(function () {
+                try { tryCommitMeleeAim('aim-after-walk'); } catch (eAfter) {}
+            }, 240);
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'aim-walk', inRng: true, via: extra.via
+            };
+        }
         state.lastBlockedEnter = '';
         state.pendingAimEnter = null;
         extra.inRng = true;
         extra.hp = u && u.hp;
         extra.hpBefore = u && u.hp;
-        extra.focus = syncFocusFromEngine();
+        extra.focus = curAim;
         extra.queue = state.queue.length;
         extra.leaving = !!state.leavingAim;
         extra.hold = holdingActMenu();
         extra.tip = state.fightTip;
         extra.swallowed = false;
         extra.hits = 1;
+        extra.onTile = true;
         state.awaitingAimUntil = 0;
-        state.lastHitAt = Date.now();
         state.lastHitHpBefore = u && u.hp;
         if (state.lastHitTarget && state.lastHitTarget.x === x && state.lastHitTarget.y === y &&
             state.lastHitTarget.name === (u && u.name)) {
@@ -1862,20 +1952,16 @@
         state.lastHitTarget = { name: u && u.name, x: x, y: y };
         state.aimCommit = {
             x: x, y: y, name: u && u.name,
-            at: Date.now(), hits: 1, sentEnter: false,
-            hpBefore: u && u.hp, hpDropped: false, secondEnterSent: false
+            at: Date.now(), hits: 1, sentEnter: true,
+            hpBefore: u && u.hp, hpDropped: false, secondEnterSent: false, onTile: true
         };
-        noteUnitActed('attack-hit');
-        state.lastHitActor = state.actorAt
-            ? { x: state.actorAt.x, y: state.actorAt.y, name: state.actorAt.name || '' }
-            : null;
-        clearPickThrottle('attack-hit');
+        enqueueKeys([VK.ENTER], 55);
         if (state.pendingActPick === 0) {
             state.pendingActPick = null;
         }
         clearPendingApproach();
-        console.log('[hd-battle] attack-hit', extra);
-        scheduleAfterHitSettle(500);
+        console.log('[hd-battle] aim-on-tile', extra);
+        scheduleAfterHitSettle(700);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
             tip: state.fightTip, blocked: '', inRng: true, via: extra.via
@@ -2139,6 +2225,11 @@
         if (!(fight && Number(fight.phase) === 1 && fight.wait && !fight.over)) {
             return;
         }
+        /* 刚发出的选将 ENTER 先等状态变；300ms 就清 cap 再打会灌 phase=1 ENTER。 */
+        if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1100) {
+            schedulePhase1StuckRecover(400);
+            return;
+        }
         dropQueuedEnters();
         clearPhase1EnterCap('phase1-stuck-melee');
         clearPickThrottle('phase1-stuck-melee');
@@ -2154,11 +2245,6 @@
         });
         /* 贴脸将优先近战。先清 cap/throttle 再 ENTER，禁止先 mark-stuck 把庞德从 strike 里摘掉。 */
         if (adjNow && commitAdjacentMelee('phase1-stuck-melee')) {
-            return;
-        }
-        if (adjNow) {
-            enqueueKeys([VK.ENTER], 55);
-            state.phase1AdjEnterHoldUntil = Date.now() + 900;
             return;
         }
         state.phase1EnterStuckHandled = true;
