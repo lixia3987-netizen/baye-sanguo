@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zi';
+    var HD_BATTLE_VER = '20260922zj';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -140,6 +140,8 @@
         lastApproachActor: '',
         pendingAimEnter: null,
         lastRestCommitAt: 0,
+        actedThisTurn: 0,
+        approachPathWaitAt: 0,
         endTurnAt: 0,
         afterEndTurnUntil: 0,
         playerTurnEnded: false,
@@ -471,6 +473,23 @@
                 dumpEnterSwallow('aim-exit-blocked', { key: 'EXIT' });
                 return false;
             }
+            if (code === VK.EXIT && fightReallyActive() && !overNow &&
+                !state.leavingAim && !state.openedSysForEndTurn && !state.allowEndTurnEnter) {
+                var moreOwn = playerHasWaitingOwn() ||
+                    ((state.actedThisTurn || 0) < countPlayerUnits() &&
+                        Date.now() - (state.lastRestCommitAt || 0) < 5000);
+                if (moreOwn) {
+                    dumpEnterSwallow('exit-blocked-more-units', {
+                        acted: state.actedThisTurn,
+                        players: countPlayerUnits(),
+                        waiting: playerHasWaitingOwn()
+                    });
+                    if (playerHasWaitingOwn()) {
+                        armNextWaitingOwn('exit-blocked');
+                    }
+                    return false;
+                }
+            }
             if (fightReallyActive() && state.lastRestCommitAt &&
                 Date.now() - state.lastRestCommitAt < 1400 &&
                 (code === VK.DOWN || code === VK.UP) &&
@@ -703,6 +722,64 @@
             }
         }
         return engineHasWaitingOwn();
+    }
+
+    function countPlayerUnits() {
+        var n = 0;
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (u && u.side === 'player' && u.x != null && u.y != null) {
+                n += 1;
+            }
+        }
+        return n;
+    }
+
+    function noteUnitActed(why) {
+        state.actedThisTurn = (state.actedThisTurn || 0) + 1;
+        console.log('[hd-battle] unit-acted', {
+            via: why || 'act',
+            n: state.actedThisTurn,
+            players: countPlayerUnits(),
+            waiting: playerHasWaitingOwn()
+        });
+    }
+
+    function armNextWaitingOwn(why) {
+        if (!playerHasWaitingOwn()) {
+            return false;
+        }
+        state.pendingActPick = 0;
+        state.movedThisAct = false;
+        var foe = nearestEnemy();
+        if (foe) {
+            setPendingApproach(foe.x, foe.y);
+        }
+        console.log('[hd-battle] next-unit', {
+            via: why || 'after-rest',
+            acted: state.actedThisTurn,
+            dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null
+        });
+        scheduleDriveSoon(why || 'next-waiting-own', 220);
+        return true;
+    }
+
+    function countMoveTiles() {
+        var n = 0;
+        var x;
+        var y;
+        if (!state.mapW || !state.mapH) {
+            return 0;
+        }
+        for (y = 0; y < state.mapH; y++) {
+            for (x = 0; x < state.mapW; x++) {
+                if (canMoveTo(x, y) === true && !unitAt(x, y)) {
+                    n += 1;
+                }
+            }
+        }
+        return n;
     }
 
     function noteActingUnit(u) {
@@ -950,6 +1027,7 @@
         extra.swallowed = false;
         state.awaitingAimUntil = 0;
         state.lastHitAt = Date.now();
+        noteUnitActed('attack-hit');
         console.log('[hd-battle] attack-hit', extra);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
@@ -1002,6 +1080,8 @@
             state.openedSysForEndTurn = false;
             state.allowEndTurnEnter = false;
             resetActMenuIndex('new-player-turn');
+            state.actedThisTurn = 0;
+            state.approachPathWaitAt = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
         } else if (endedAt && Date.now() - endedAt > 4200 &&
             fight && !fight.over && fight.wait && phase === 1 &&
@@ -1524,6 +1604,15 @@
                 return;
             }
             state.leavingAim = false;
+            if (/after-approach/.test(why || '') && adjacentEnemy(1)) {
+                state.pendingActPick = 0;
+                console.log('[hd-battle] after-approach-melee', {
+                    actor: state.actorAt, enemy: adjacentEnemy(1)
+                });
+                forceShowFightMenu('after-approach-melee');
+                scheduleDriveSoon('after-approach-melee', 80);
+                return;
+            }
             forceShowFightMenu(why || 'after-rearm');
         }
         state.rearmTimer = setTimeout(tick, 180);
@@ -1610,13 +1699,18 @@
             return false;
         }
         if (playerHasWaitingOwn()) {
+            armNextWaitingOwn('end-turn-still-waiting');
+            return false;
+        }
+        if ((state.actedThisTurn || 0) < countPlayerUnits() &&
+            Date.now() - (state.lastRestCommitAt || state.walkSubmittedAt || 0) < 4800) {
             return false;
         }
         if (state.pendingApproach ||
             (state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400)) {
             return false;
         }
-        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 1600) {
+        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 3600) {
             return false;
         }
         if (state.queue.length) {
@@ -1669,6 +1763,7 @@
         });
         state.lastRestAt = Date.now();
         state.lastRestCommitAt = Date.now();
+        noteUnitActed(why || 'prefer-rest');
         forceShowFightMenu(why || 'prefer-rest');
         scheduleDriveSoon('prefer-rest', 260);
     }
@@ -1995,6 +2090,9 @@
             console.log('[hd-battle] rest-commit', { via: 'stay-then-rest', phase: 2, wait: !!fight.wait, commit: 3 });
             state.lastRestAt = Date.now();
             state.pendingActPick = null;
+            if (playerHasWaitingOwn()) {
+                armNextWaitingOwn('stay-then-rest');
+            }
             return true;
         }
         if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
@@ -2155,13 +2253,28 @@
         var phase = Number(fight.phase) || 0;
         var dest = state.pendingApproach;
         if (phase === 2) {
+            var actor = syncFocusFromEngine();
+            var tiles = countMoveTiles();
+            var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y);
+            var closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
+            if (!state.approachPathWaitAt) {
+                state.approachPathWaitAt = Date.now();
+            }
+            /* 慢盒 g_FightPath 未灌满时只能走近 2 格。等走格表或最多 700ms。 */
+            if (closerD > 1 && tiles < 8 &&
+                Date.now() - state.approachPathWaitAt < 700) {
+                console.log('[hd-battle] approach-wait-path', {
+                    tiles: tiles, via: closer, dest: dest, d: closerD
+                });
+                scheduleDriveSoon('wait-move-range', 80);
+                return true;
+            }
+            state.approachPathWaitAt = 0;
             clearPendingApproach();
             /* 走格一旦提交，把「攻击」意图交给落点后的真菜单，才能点待机。 */
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
             }
-            var actor = syncFocusFromEngine();
-            var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y);
             if (closer && closer.x === actor.x && closer.y === actor.y) {
                 closer = null;
             }
@@ -2169,7 +2282,11 @@
                 if (noteApproachAttempt(closer, dest, actor)) {
                     return true;
                 }
-                console.log('[hd-battle] approach walk', dest, 'via', closer);
+                console.log('[hd-battle] approach walk', dest, 'via', closer, {
+                    tiles: tiles,
+                    dist: closerD,
+                    from: { x: actor.x, y: actor.y, name: actor && actor.name }
+                });
                 state.walkSubmittedAt = Date.now();
                 state.movedThisAct = true;
                 state.sawMoveThisTurn = true;
@@ -2511,10 +2628,14 @@
                 });
                 state.pendingActPick = null;
                 clearMovedThisAct('rest-act-commit');
+                noteUnitActed('rest');
                 if (fightRest && !fightRest.wait) {
                     enqueueKeys([VK.ENTER], 55);
                 } else {
                     scheduleDrive('prefer-rest');
+                }
+                if (playerHasWaitingOwn()) {
+                    armNextWaitingOwn('after-rest');
                 }
                 return;
             }
@@ -2823,7 +2944,7 @@
         var stay = chebyshev(fromX, fromY, destX, destY);
         var best = null;
         var bestD = stay;
-        var bestFrom = 99;
+        var bestFrom = -1;
         var x;
         var y;
         for (y = 0; y < state.mapH; y++) {
@@ -2836,7 +2957,8 @@
                 }
                 var d = chebyshev(x, y, destX, destY);
                 var df = chebyshev(x, y, fromX, fromY);
-                if (d < bestD || (d === bestD && d < stay && df < bestFrom)) {
+                /* 先贴脸；同距则用满走格（df 越大越好）。旧逻辑 df 最小，慢盒只走近 2 格。 */
+                if (d < bestD || (d === bestD && d < stay && df > bestFrom)) {
                     bestD = d;
                     bestFrom = df;
                     best = { x: x, y: y };
@@ -3232,6 +3354,8 @@
         state.lastInvalidAt = 0;
         state.lastBlockedEnter = '';
         resetActDrive();
+        state.actedThisTurn = 0;
+        state.approachPathWaitAt = 0;
         state.afterEndTurnUntil = 0;
         state.playerTurnEnded = false;
         state.openedSysForEndTurn = false;
