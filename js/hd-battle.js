@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923a';
+    var HD_BATTLE_VER = '20260923b';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -183,6 +183,11 @@
         adjRecoverPickKey: '',
         adjRecoverPickN: 0,
         adjRecoverGiveUpKey: '',
+        adjRecoverStage: '',
+        adjRecoverStageAt: 0,
+        adjRecoverHoldAt: 0,
+        adjRecoverTimer: 0,
+        lastAdjRecoverWalkAt: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -1689,6 +1694,76 @@
         state.pendingPickUnit = unitCapKey(u);
     }
 
+    function readFightActCommit() {
+        try {
+            if (window.baye && baye.data && baye.data.g_hdFightActCommit != null) {
+                return Number(baye.data.g_hdFightActCommit);
+            }
+        } catch (eC) {}
+        return state.actCommit;
+    }
+
+    function hideSyntheticActMenu(why) {
+        try {
+            var panel = el('hd-battle-menu');
+            var wasOn = !!(panel && !panel.hidden &&
+                panel.getAttribute('data-hd-battle-menu-synthetic') === '1');
+            if (panel) {
+                panel.hidden = true;
+                panel.removeAttribute('data-hd-battle-menu-synthetic');
+                panel.classList.remove('is-synthetic', 'is-forced');
+                try { panel.style.display = 'none'; } catch (eS) {}
+            }
+            state.holdActMenuUntil = 0;
+            if (state.menuKind === 'act' && !liveActMenu()) {
+                state.menuKind = '';
+                state.menuNames = [];
+            }
+            if (why && wasOn) {
+                console.log('[hd-battle] hide-synthetic-act', { via: why });
+            }
+        } catch (eH) {}
+    }
+
+    function setAdjRecoverStage(stage) {
+        if (state.adjRecoverStage !== stage) {
+            state.adjRecoverStage = stage || '';
+            state.adjRecoverStageAt = Date.now();
+        }
+    }
+
+    function scheduleAdjRecover(why, ms) {
+        if (state.adjRecoverTimer) {
+            clearTimeout(state.adjRecoverTimer);
+        }
+        state.adjRecoverTimer = setTimeout(function () {
+            state.adjRecoverTimer = 0;
+            try { recoverAdjActThenAim(why || 'adj-recover-tick'); } catch (eT) {}
+        }, ms == null ? 160 : ms);
+    }
+
+    function giveUpAdjRecover(strike, why, fight) {
+        var strikeKey = unitCapKey(strike && strike.unit);
+        console.log('[hd-battle] adj-recover-give-up', {
+            via: why || 'adj-recover',
+            unit: strike && strike.unit && strike.unit.name,
+            phase: fight ? Number(fight.phase) : null,
+            wait: !!(fight && fight.wait),
+            pickN: state.adjRecoverPickN || 0,
+            next: 'other-unit'
+        });
+        state.adjRecoverGiveUpKey = strikeKey;
+        markPhase1StuckUnit(strikeKey);
+        clearPhase1EnterCap('adj-recover-give-up');
+        hideSyntheticActMenu('adj-recover-give-up');
+        writeFightActCommit(0xFF);
+        setAdjRecoverStage('give-up');
+        state.movedThisAct = false;
+        state.adjRecoverPickSent = false;
+        armNextWaitingOwn('adj-recover-give-up', { force: true });
+        return false;
+    }
+
     /* phase=0 wait=false + 攻击高亮 + 贴脸：ENTER 开 AIM，再走到敌军格打真伤。
      * 禁止当成 phase1 选将。 */
     function openAimFromActMenu(why, strike) {
@@ -1756,18 +1831,22 @@
     }
 
     /* phase=1 wait + 已贴脸：禁止对将自己格连发 ENTER（phase1-enter-stuck）。
-     * 先恢复/打开 phase0 行动菜单，再 attack→AIM→敌军格→ENTER。
-     * 焦点真正在该将上且本轮未发过选将时，才允许一次 pick ENTER 进 MOVE。 */
+     * 阶段机：walk → hold(焦点停稳+队列空) → 一次 pick ENTER → wait-move
+     * → stay ENTER(commit=0xFF 打开 PlcSplMenu) → wait-act → openAim。
+     * 禁止 phase1 合成「攻击」/提前 movedThisAct。空格 ENTER 不计 pickN。 */
     function recoverAdjActThenAim(why) {
         var strike = adjacentWaitingStrike();
         var fight = null;
         var cur = null;
         var onUnit = false;
         var phase = 0;
+        var queueBusy = false;
+        var holdMs = 0;
+        var focusStable = false;
+        var dist = 99;
+        var strikeKey = '';
+        var commitNow = 0xFF;
         if (!strike) {
-            return false;
-        }
-        if (state.lastAdjRecoverAt && Date.now() - state.lastAdjRecoverAt < 520) {
             return false;
         }
         if (recentlyEndedTurn()) {
@@ -1782,14 +1861,36 @@
         }
         phase = Number(fight.phase) || 0;
         if (phase === 3) {
+            setAdjRecoverStage('');
             noteActingUnit(strike.unit);
             return tryCommitMeleeAim(why || 'adj-recover-aim');
         }
         if (phase === 0 && !fight.wait && liveActMenu()) {
+            setAdjRecoverStage('');
             return openAimFromActMenu(why || 'adj-recover-act', strike);
         }
         try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
         onUnit = !!(cur && cur.x === strike.unit.x && cur.y === strike.unit.y);
+        if (onUnit) {
+            if (!state.adjRecoverHoldAt) {
+                state.adjRecoverHoldAt = Date.now();
+            }
+        } else {
+            state.adjRecoverHoldAt = 0;
+        }
+        queueBusy = !!(state.sending || (state.queue && state.queue.length));
+        holdMs = state.adjRecoverHoldAt ? (Date.now() - state.adjRecoverHoldAt) : 0;
+        focusStable = !!(onUnit && !queueBusy && holdMs >= 200);
+        if (cur && cur.x != null && cur.y != null) {
+            dist = chebyshev(cur.x, cur.y, strike.unit.x, strike.unit.y);
+        }
+        commitNow = readFightActCommit();
+        var recoverSig = [why || '', strike.unit.name, phase, onUnit ? 1 : 0,
+            state.adjRecoverStage || '', state.adjRecoverPickN || 0].join('|');
+        if (state.lastAdjRecoverLogSig !== recoverSig ||
+            !state.lastAdjRecoverLogAt || Date.now() - state.lastAdjRecoverLogAt > 700) {
+            state.lastAdjRecoverLogSig = recoverSig;
+            state.lastAdjRecoverLogAt = Date.now();
         console.log('[hd-battle] adj-recover-act', {
             via: why || 'adj-recover',
             unit: strike.unit.name,
@@ -1799,26 +1900,63 @@
             ex: strike.enemy.x,
             ey: strike.enemy.y,
             onUnit: onUnit,
-            focus: cur && { x: cur.x, y: cur.y, name: cur.name },
+            focus: cur && { x: cur.x, y: cur.y },
             phase: phase,
             wait: !!fight.wait,
             hdMenu: hdActMenuVisible(),
             live: liveActMenu(),
-            pickSent: !!state.adjRecoverPickSent,
-            pickN: state.adjRecoverPickN || 0
+            stage: state.adjRecoverStage || '',
+            holdMs: holdMs,
+            stable: focusStable,
+            queue: state.queue ? state.queue.length : 0,
+            sending: !!state.sending,
+            pickN: state.adjRecoverPickN || 0,
+            commit: commitNow,
+            sysEnd: !!state.openedSysForEndTurn,
+            moved: !!state.movedThisAct
         });
+        }
+        hideSyntheticActMenu('adj-recover-hide');
+        if (commitNow != null && commitNow !== 0xFF && phase === 1) {
+            writeFightActCommit(0xFF);
+        }
         if (phase === 2 && fight.wait) {
-            state.lastAdjRecoverAt = Date.now();
-            state.lastAdjMeleeAt = Date.now();
+            if (!onUnit) {
+                if (actingLordUnit()) {
+                    writeFightActCommit(3);
+                    enqueueKeys([VK.ENTER], 55);
+                    scheduleDriveSoon('adj-recover-after-lord-rest', 140);
+                    return true;
+                }
+                if (queueBusy || (dist <= 1 && state.lastAdjRecoverWalkAt &&
+                    Date.now() - state.lastAdjRecoverWalkAt < 400)) {
+                    setAdjRecoverStage('hold');
+                    scheduleAdjRecover('adj-recover-sync-stay', 80);
+                    return true;
+                }
+                setAdjRecoverStage('walk');
+                state.lastAdjRecoverWalkAt = Date.now();
+                walkFocusTo(strike.unit.x, strike.unit.y, false);
+                scheduleAdjRecover('adj-recover-after-walk', 180);
+                return true;
+            }
+            if (queueBusy) {
+                setAdjRecoverStage('hold');
+                scheduleAdjRecover('adj-recover-hold-stay', 80);
+                return true;
+            }
+            setAdjRecoverStage('stay');
             noteActingUnit(strike.unit);
             notePendingPick(strike.unit);
             state.pendingActPick = 0;
+            /* stay 打开 PlcSplMenu，不预写攻击 commit，留给 openAimFromActMenu。 */
+            writeFightActCommit(0xFF);
+            enqueueKeys([VK.ENTER], 55);
             state.movedThisAct = true;
             state.sawMoveThisTurn = true;
             state.walkSubmittedAt = Date.now();
-            writeFightActCommit(0);
-            enqueueKeys([VK.ENTER], 55);
             scheduleActRearm('adj-recover-stay');
+            scheduleAdjRecover('adj-recover-wait-act', 180);
             return true;
         }
         if (!onUnit) {
@@ -1835,11 +1973,23 @@
                     scheduleDriveSoon('adj-recover-after-rest', 160);
                     return true;
                 }
-                scheduleDriveSoon('adj-recover-wait-pick', 80);
+                scheduleAdjRecover('adj-recover-wait-pick', 80);
                 return true;
             }
-            walkFocusTo(strike.unit.x, strike.unit.y, false);
+            if (queueBusy || (dist <= 1 && state.lastAdjRecoverWalkAt &&
+                Date.now() - state.lastAdjRecoverWalkAt < 400)) {
+                setAdjRecoverStage('hold');
+                scheduleAdjRecover('adj-recover-sync-focus', 80);
+                return true;
+            }
+            if (state.lastAdjRecoverWalkAt && Date.now() - state.lastAdjRecoverWalkAt < 180) {
+                setAdjRecoverStage('walk');
+                return true;
+            }
+            setAdjRecoverStage('walk');
+            state.lastAdjRecoverWalkAt = Date.now();
             state.lastPickWalkAt = Date.now();
+            walkFocusTo(strike.unit.x, strike.unit.y, false);
             var walkDelay = 180;
             try {
                 var wx = (cur && cur.x != null) ? cur.x : strike.unit.x;
@@ -1847,59 +1997,49 @@
                 walkDelay = Math.min(1600, 160 + (Math.abs(wx - strike.unit.x) +
                     Math.abs(wy - strike.unit.y)) * 90);
             } catch (eDelay) {}
-            setTimeout(function () {
-                try { recoverAdjActThenAim(why || 'adj-recover-after-walk'); } catch (eAfter) {}
-            }, walkDelay);
+            scheduleAdjRecover(why || 'adj-recover-after-walk', walkDelay);
             return true;
         }
-        state.lastAdjRecoverAt = Date.now();
         noteActingUnit(strike.unit);
         notePendingPick(strike.unit);
         state.pendingActPick = 0;
-        state.movedThisAct = true;
-        forceShowFightMenu(why || 'adj-recover-menu');
-        /* 方向键还在飞：ENTER 会打在半路（unit:pick），必须等焦点停在将身上。 */
-        if (state.sending || (state.queue && state.queue.length)) {
-            scheduleDriveSoon('adj-recover-wait-walk', 80);
-            return true;
-        }
-        writeFightActCommit(0xFF);
-        var strikeKey = unitCapKey(strike.unit);
-        var alreadySent = !!(state.adjRecoverPickSent && state.adjRecoverPickKey === strikeKey) ||
-            (state.phase1EnterSent && state.phase1EnterCapKey === strikeKey);
-        if (alreadySent && state.adjRecoverPickAt && Date.now() - state.adjRecoverPickAt < 1600) {
-            scheduleDriveSoon('adj-recover-wait-phase0', 200);
-            return true;
-        }
-        if (alreadySent && (state.adjRecoverPickN || 0) >= 2) {
-            console.log('[hd-battle] adj-recover-no-enter', {
-                via: why || 'adj-recover',
-                unit: strike.unit.name,
-                phase: phase,
-                wait: !!fight.wait,
-                pickN: state.adjRecoverPickN,
-                next: 'other-unit'
-            });
-            state.adjRecoverGiveUpKey = strikeKey;
-            markPhase1StuckUnit(strikeKey);
-            clearPhase1EnterCap('adj-recover-give-up');
-            armNextWaitingOwn('adj-recover-give-up', { force: true });
-            return false;
-        }
-        /* 焦点已在贴脸将上且队列空：最多两次选将 ENTER 进 MOVE→PlcSplMenu。 */
+        strikeKey = unitCapKey(strike.unit);
         if (phase === 1 && fight.wait) {
+            if (!focusStable) {
+                setAdjRecoverStage('hold');
+                scheduleAdjRecover('adj-recover-hold', 80);
+                return true;
+            }
+            if ((state.adjRecoverPickN || 0) >= 2 && state.adjRecoverPickKey === strikeKey) {
+                return giveUpAdjRecover(strike, why, fight);
+            }
+            if (state.adjRecoverStage === 'wait-move' && state.adjRecoverPickAt &&
+                Date.now() - state.adjRecoverPickAt < 900) {
+                scheduleAdjRecover('adj-recover-wait-move', 120);
+                return true;
+            }
+            if (state.lastAdjRecoverAt && Date.now() - state.lastAdjRecoverAt < 700) {
+                scheduleAdjRecover('adj-recover-pick-gap', 80);
+                return true;
+            }
+            /* 焦点已停在贴脸将上且队列空：最多两次真实选将 ENTER。 */
+            setAdjRecoverStage('pick');
+            state.lastAdjRecoverAt = Date.now();
             state.adjRecoverPickSent = true;
             state.adjRecoverPickAt = Date.now();
             state.adjRecoverPickKey = strikeKey;
             state.adjRecoverPickN = (state.adjRecoverPickN || 0) + 1;
+            writeFightActCommit(0xFF);
             clearPhase1EnterCap('adj-recover-pick');
             clearPickThrottle('adj-recover-pick');
             clearAdjMeleeThrottle(why || 'adj-recover-pick');
             enqueueKeys([VK.ENTER], 55);
-            scheduleDriveSoon('adj-recover-after-pick', 160);
+            setAdjRecoverStage('wait-move');
+            scheduleAdjRecover('adj-recover-after-pick', 220);
             return true;
         }
-        scheduleDriveSoon('adj-recover-wait-phase0', 160);
+        setAdjRecoverStage('wait-act');
+        scheduleAdjRecover('adj-recover-wait-phase0', 160);
         return true;
     }
 
@@ -2010,7 +2150,9 @@
             return true;
         }
         /* 其余相位不再对将自己格 ENTER。等 phase0 真菜单再开 AIM。 */
-        forceShowFightMenu(why || 'adj-melee-wait-act');
+        if (phase !== 1) {
+            forceShowFightMenu(why || 'adj-melee-wait-act');
+        }
         scheduleDriveSoon('adj-melee-wait-act', 120);
         return true;
     }
@@ -2492,8 +2634,14 @@
             live: liveActMenu()
         });
         /* 贴脸将禁止再对将自己格 ENTER。先恢复 phase0 菜单再 AIM。 */
-        if (adjNow && recoverAdjActThenAim('phase1-stuck-recover')) {
-            return;
+        if (adjNow) {
+            if (recoverAdjActThenAim('phase1-stuck-recover')) {
+                return;
+            }
+            if (state.adjRecoverGiveUpKey) {
+                armNextWaitingOwn('phase1-enter-stuck', { force: true });
+                return;
+            }
         }
         state.phase1EnterStuckHandled = true;
         var stuckKey = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
@@ -2770,6 +2918,14 @@
             state.adjRecoverPickKey = '';
             state.adjRecoverPickN = 0;
             state.adjRecoverGiveUpKey = '';
+            state.adjRecoverStage = '';
+            state.adjRecoverStageAt = 0;
+            state.adjRecoverHoldAt = 0;
+            state.lastAdjRecoverWalkAt = 0;
+            if (state.adjRecoverTimer) {
+                clearTimeout(state.adjRecoverTimer);
+                state.adjRecoverTimer = 0;
+            }
             writeFightActCommit(0xFF);
             state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
@@ -2948,9 +3104,18 @@
         return !!(state.holdActMenuUntil && Date.now() < state.holdActMenuUntil);
     }
 
+    function adjRecoverHidesMenu() {
+        var st = state.adjRecoverStage || '';
+        return !!(st && st !== 'give-up');
+    }
+
     /* 只要还有己方未行动，菜单必须能点。待机后 leftover wait=1/phase=2 不得再藏死。 */
     function shouldShowActMenu(fight) {
         if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        /* phase1 贴脸 recover：禁止合成「攻击」，否则 pickFightMenu 会当成 AIM。 */
+        if (adjRecoverHidesMenu()) {
             return false;
         }
         if (holdingActMenu()) {
@@ -3198,6 +3363,9 @@
     }
 
     function forceShowFightMenu(why) {
+        if (adjRecoverHidesMenu()) {
+            return;
+        }
         var keepApproach = state.pendingApproach;
         var keepPick = state.pendingActPick;
         var fightKeep = null;
@@ -3893,6 +4061,10 @@
             if (recentlyHitActor(u) && !unitAdjacentEnemy(u, 1)) {
                 continue;
             }
+            /* 两次选将仍停 phase1 的贴脸将：换杨秋/梁兴，禁止再点回庞德。 */
+            if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
+                continue;
+            }
             if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1)) {
                 continue;
             }
@@ -4571,24 +4743,18 @@
             var phaseClick = Number(fightPhase1 && fightPhase1.phase) || 0;
             var adjClick = !!(adjacentWaitingStrike() || adjacentEnemy(1));
             var attackLit = !!(hdActMenuVisible() || liveActMenu() || state.menuIndex === 0);
-            if (phaseClick === 1 && fightPhase1 && fightPhase1.wait && attackLit && adjClick) {
-                if (state.phase1AdjEnterHoldUntil && Date.now() < state.phase1AdjEnterHoldUntil) {
+            if (phaseClick === 1 && fightPhase1 && fightPhase1.wait && adjClick) {
+                var recoverBusy = /walk|hold|pick|wait-move|stay|wait-act/.test(state.adjRecoverStage || '');
+                if (recoverBusy || (state.phase1AdjEnterHoldUntil &&
+                    Date.now() < state.phase1AdjEnterHoldUntil)) {
                     return;
                 }
-                if (state.lastAttackClickAt && Date.now() - state.lastAttackClickAt < 700) {
+                if (state.adjRecoverGiveUpKey) {
+                    armNextWaitingOwn('phase1-adj-give-up', { force: true });
                     return;
                 }
-                state.lastAttackClickAt = Date.now();
-                logAttackClick('phase1-adj-recover');
-                if (recoverAdjActThenAim('phase1-adj-enter')) {
-                    state.phase1AdjEnterHoldUntil = Date.now() + 900;
-                    return;
-                }
-                /* 禁止 phase1 自己格 ENTER（那是 phase1-enter-stuck）。 */
                 state.phase1AdjEnterHoldUntil = Date.now() + 900;
-                console.log('[hd-battle] phase1-adj-recover', {
-                    unit: unitCapKey(focusedFightUnit()), adj: true
-                });
+                recoverAdjActThenAim('phase1-adj-enter');
                 return;
             }
             if (state.lastAttackClickAt && Date.now() - state.lastAttackClickAt < 500 &&
@@ -7168,6 +7334,8 @@
                 lastOpenAimAt: state.lastOpenAimAt || 0,
                 adjRecoverPickSent: !!state.adjRecoverPickSent,
                 adjRecoverPickN: state.adjRecoverPickN || 0,
+                adjRecoverStage: state.adjRecoverStage || '',
+                adjRecoverGiveUpKey: state.adjRecoverGiveUpKey || '',
                 aimCommit: state.aimCommit,
                 lastPickEnterAt: state.lastPickEnterAt || 0,
                 holdPickUntil: state.holdPickUntil || 0,
