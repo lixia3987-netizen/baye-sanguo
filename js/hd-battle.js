@@ -793,8 +793,11 @@
         if (playerHasWaitingOwn()) {
             return true;
         }
-        var phase = Number(fight.phase) || 0;
-        return phase === 0 || phase === 1;
+        /* 全员已行动：藏菜单，勿再点攻击挡住敌方回合。 */
+        if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 900) {
+            return true;
+        }
+        return false;
     }
 
     function logMenuProbe(why) {
@@ -1427,6 +1430,11 @@
             resetActDrive();
             return false;
         }
+        if (!playerHasWaitingOwn()) {
+            state.pendingActPick = null;
+            state.pendingApproach = null;
+            return false;
+        }
         if (!fight.wait) {
             recoverFightMenu(fight);
             var live = readFightMenu();
@@ -1740,6 +1748,10 @@
     }
 
     function pickFightMenu(index) {
+        if (index === 0 && !playerHasWaitingOwn()) {
+            console.log('[hd-battle] attack-skip', { why: 'no-waiting-own' });
+            return;
+        }
         if (index === 0) {
             state.pendingActPick = 0;
             state.lastAttackAt = Date.now();
@@ -2224,6 +2236,9 @@
             };
         }
         if ((phase === 1 || phase === 0) && u && u.side === 'enemy') {
+            if (!playerHasWaitingOwn()) {
+                return { x: x, y: y, enter: false, unit: u.name, phase: phase, blocked: 'no-waiting-own' };
+            }
             state.pendingApproach = { x: x, y: y };
             if (state.pendingActPick == null) {
                 state.pendingActPick = 0;
