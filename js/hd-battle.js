@@ -2892,6 +2892,9 @@
             return false;
         }
         if (playerHasWaitingOwn()) {
+            if (!state.lastHitAt && (state.actedThisTurn || 0) < 1) {
+                return false;
+            }
             if (nextUnitStalled()) {
                 forceFinishWaitingOrEndTurn('end-turn-still-waiting');
                 return false;
