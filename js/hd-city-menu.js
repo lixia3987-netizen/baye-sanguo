@@ -234,10 +234,11 @@
             return false;
         }
         try {
+            var liveOverNow = 0;
+            try { liveOverNow = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOv) {}
             if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
                 var liveSnap = BayeHdBattle.debugSnapshot();
-                if (liveSnap && liveSnap.open && !liveSnap.over &&
-                    (liveSnap.active || liveSnap.playerTurnEnded || liveSnap.recentlyEndedTurn)) {
+                if (liveSnap && liveSnap.open && !liveOverNow && !liveSnap.over) {
                     state.sawFightThisMarch = true;
                     return false;
                 }
@@ -1418,13 +1419,7 @@
                     baye.data.g_hdBattlePick = 0;
                 }
                 /* 占领回车还没走完时不要清 HD 战场旗，否则 BeOccupied 开不了。 */
-                if (!occupyDrainPending() && !Number(baye.data.g_FgtOver)) {
-                    if (baye.data.g_hdFightOver != null) {
-                        baye.data.g_hdFightOver = 0;
-                    }
-                    if (baye.data.g_hdFightActive != null) {
-                        baye.data.g_hdFightActive = 0;
-                    }
+                if (!occupyDrainPending() && Number(baye.data.g_FgtOver)) {
                     if (baye.data.g_hdFightWait != null) {
                         baye.data.g_hdFightWait = 0;
                     }
@@ -5356,9 +5351,8 @@
                     /* 胜仗还要走 BeOccupied：只摘横幅，等占领回车结束再 reset。 */
                     var battleWillOccupy = !!(liveOver && battleSnap && battleSnap.open &&
                         !battleSnap.occupyDone);
-                    var battleStillLive = !!(battleSnap && battleSnap.open && !battleSnap.over &&
-                        (battleSnap.active || battleSnap.playerTurnEnded ||
-                            battleSnap.recentlyEndedTurn));
+                    var battleStillLive = !!(!liveOver && battleSnap && battleSnap.open &&
+                        !battleSnap.over);
                     if (battleStillLive) {
                         return;
                     }

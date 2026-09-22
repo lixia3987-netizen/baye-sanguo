@@ -967,7 +967,7 @@
 
     function notePlayerTurnEnded(why) {
         state.playerTurnEnded = true;
-        state.afterEndTurnUntil = Date.now() + 3600;
+        state.afterEndTurnUntil = Date.now() + 9000;
         state.sawMoveThisTurn = false;
         state.openedSysForEndTurn = false;
         resetActMenuIndex('end-player-turn');
@@ -981,7 +981,7 @@
             return;
         }
         var phase = Number(fight && fight.phase) || 0;
-        var endedAt = state.afterEndTurnUntil ? (state.afterEndTurnUntil - 3600) : 0;
+        var endedAt = state.afterEndTurnUntil ? (state.afterEndTurnUntil - 9000) : 0;
         if (endedAt && Date.now() - endedAt < 900) {
             return;
         }
