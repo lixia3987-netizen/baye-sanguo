@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922w';
+    var HD_BATTLE_VER = '20260922x';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -142,6 +142,7 @@
         lastRestCommitAt: 0,
         endTurnAt: 0,
         afterEndTurnUntil: 0,
+        playerTurnEnded: false,
         awaitingAimUntil: 0,
         movedThisAct: false,
         strictLive: false,
@@ -718,7 +719,28 @@
     }
 
     function recentlyEndedTurn() {
-        return !!(state.afterEndTurnUntil && Date.now() < state.afterEndTurnUntil);
+        return !!(state.playerTurnEnded ||
+            (state.afterEndTurnUntil && Date.now() < state.afterEndTurnUntil));
+    }
+
+    function notePlayerTurnEnded(why) {
+        state.playerTurnEnded = true;
+        state.afterEndTurnUntil = Date.now() + 2800;
+        clearMovedThisAct(why || 'end-player-turn');
+        state.pendingActPick = null;
+        state.pendingApproach = null;
+    }
+
+    function maybeResumePlayerTurn(fight) {
+        if (!state.playerTurnEnded) {
+            return;
+        }
+        var phase = Number(fight && fight.phase) || 0;
+        if (playerHasWaitingOwn() && (phase === 1 || phase === 2) && fight && fight.wait) {
+            state.playerTurnEnded = false;
+            state.afterEndTurnUntil = 0;
+            console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
+        }
     }
 
     /* 走近后的正确顺序（天下一统阻塞路径）：
@@ -1250,7 +1272,8 @@
         if (!fight || !fight.active || fight.over || state.resultText) {
             return false;
         }
-        if (recentlyEndedTurn()) {
+        maybeResumePlayerTurn(fight);
+        if (state.playerTurnEnded) {
             return false;
         }
         if (playerHasWaitingOwn()) {
@@ -1263,11 +1286,8 @@
                 return false;
             }
             state.endTurnAt = Date.now();
-            state.afterEndTurnUntil = Date.now() + 2800;
-            clearMovedThisAct('end-player-turn-menu');
-            state.pendingActPick = null;
-            state.pendingApproach = null;
             pickFightMenuName('回合结束');
+            notePlayerTurnEnded('end-player-turn-menu');
             console.log('[hd-battle] rest-commit', { via: 'end-player-turn-menu' });
             return true;
         }
@@ -1278,10 +1298,6 @@
             return false;
         }
         state.endTurnAt = Date.now();
-        state.afterEndTurnUntil = Date.now() + 2800;
-        clearMovedThisAct('end-player-turn');
-        state.pendingActPick = null;
-        state.pendingApproach = null;
         dropQueuedEnters();
         enqueueKeys([VK.EXIT], 70);
         console.log('[hd-battle] rest-commit', { via: 'end-player-turn' });
@@ -2607,6 +2623,7 @@
         state.lastBlockedEnter = '';
         resetActDrive();
         state.afterEndTurnUntil = 0;
+        state.playerTurnEnded = false;
         state.awaitingAimUntil = 0;
         state.endTurnAt = 0;
         clearFightBridge();
@@ -3377,6 +3394,7 @@
             Date.now() - (state.lastAimExitAt || 0) > 400) {
             leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
         }
+        maybeResumePlayerTurn(fightNow);
         maybeEndPlayerTurn(fightNow);
         if (!menuPanelClickable() && !state.blankWatchTimer) {
             armBlankMenuWatchdog('refresh-hidden');
@@ -3951,6 +3969,7 @@
                 likelyAim: likelyAimTarget(),
                 canCommitAct: canCommitActMenu(fightSnap),
                 recentlyEndedTurn: recentlyEndedTurn(),
+                playerTurnEnded: !!state.playerTurnEnded,
                 awaitingAim: awaitingAim(),
                 adjacent: !!adjacentEnemy(1),
                 over: !!(fightSnap && fightSnap.over),
