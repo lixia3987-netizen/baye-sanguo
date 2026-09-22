@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zk';
+    var HD_BATTLE_VER = '20260922zl';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -142,6 +142,8 @@
         lastRestCommitAt: 0,
         actedThisTurn: 0,
         approachPathWaitAt: 0,
+        approachWaitLogs: 0,
+        lastArmNextAt: 0,
         holdEndTurnUntil: 0,
         endTurnAt: 0,
         afterEndTurnUntil: 0,
@@ -761,6 +763,17 @@
         if (!playerHasWaitingOwn()) {
             return false;
         }
+        var fightNow = null;
+        try { fightNow = readFight(); } catch (eF) {}
+        var phaseNow = Number(fightNow && fightNow.phase) || 0;
+        /* 本将已在走格/等走格表：禁止 refresh 把 pendingApproach 和 wait 计时打掉。 */
+        if (phaseNow === 2 && (state.pendingApproach || state.approachPathWaitAt)) {
+            return false;
+        }
+        if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 480) {
+            return false;
+        }
+        state.lastArmNextAt = Date.now();
         state.pendingActPick = 0;
         state.movedThisAct = false;
         var foe = nearestEnemy();
@@ -1093,6 +1106,8 @@
             resetActMenuIndex('new-player-turn');
             state.actedThisTurn = 0;
             state.approachPathWaitAt = 0;
+            state.approachWaitLogs = 0;
+            state.lastArmNextAt = 0;
             state.holdEndTurnUntil = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
         } else if (endedAt && Date.now() - endedAt > 4200 &&
@@ -1712,12 +1727,15 @@
             return false;
         }
         if (endTurnHeld()) {
-            if (playerHasWaitingOwn()) {
+            if (playerHasWaitingOwn() && Number(fight.phase) !== 2 && !state.pendingApproach) {
                 armNextWaitingOwn('end-turn-hold-waiting');
             }
             return false;
         }
         if (playerHasWaitingOwn()) {
+            if (Number(fight.phase) === 2 || state.pendingApproach || state.approachPathWaitAt) {
+                return false;
+            }
             armNextWaitingOwn('end-turn-still-waiting');
             return false;
         }
@@ -2276,30 +2294,47 @@
         if (phase === 2) {
             var actor = syncFocusFromEngine();
             var tiles = countMoveTiles();
-            var pathWaitMs = Date.now() - (state.approachPathWaitAt || Date.now());
-            var waitingPath = !state.approachPathWaitAt || pathWaitMs < 1800;
             if (!state.approachPathWaitAt) {
                 state.approachPathWaitAt = Date.now();
-                waitingPath = true;
-                pathWaitMs = 0;
             }
+            var pathWaitMs = Date.now() - state.approachPathWaitAt;
+            var expired = pathWaitMs >= 1800 || (state.approachWaitLogs || 0) >= 12;
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y, {
-                noStep: waitingPath || tiles < 6
+                noStep: !expired && tiles < 6
             });
             var closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
-            /* 慢盒 g_FightPath 未灌满时只能走近 2 格。等走格表或最多 1.8s，禁止提前迈一步。 */
-            if (closerD > 1 && tiles < 10 && waitingPath) {
+            var noVia = !closer;
+            /* 只等「表还在涨且已有更近格」。tiles≥1 且 via=null/d=99 = 到不了，立刻回退，禁止死循环。 */
+            var stillFilling = !expired && tiles < 8 && closer && closerD > 1;
+            var emptyFilling = !expired && tiles < 2 && noVia;
+            if (stillFilling || emptyFilling) {
+                state.approachWaitLogs = (state.approachWaitLogs || 0) + 1;
                 console.log('[hd-battle] approach-wait-path', {
                     tiles: tiles, via: closer, dest: dest, d: closerD, wait: pathWaitMs
                 });
                 scheduleDriveSoon('wait-move-range', 80);
                 return true;
             }
-            if (!closer && !waitingPath) {
+            if (noVia) {
                 closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y, { noStep: false });
                 closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
             }
+            if (!closer) {
+                console.log('[hd-battle] approach-giveup', {
+                    why: expired ? 'wait-expired' : 'unreachable',
+                    tiles: tiles,
+                    dest: dest,
+                    from: { x: actor.x, y: actor.y, name: actor && actor.name },
+                    wait: pathWaitMs
+                });
+                state.approachPathWaitAt = 0;
+                state.approachWaitLogs = 0;
+                clearPendingApproach();
+                preferRest('approach-unreachable');
+                return true;
+            }
             state.approachPathWaitAt = 0;
+            state.approachWaitLogs = 0;
             clearPendingApproach();
             /* 走格一旦提交，把「攻击」意图交给落点后的真菜单，才能点待机。 */
             if (wantsWalkBeforeAct(state.pendingActPick)) {
@@ -3008,19 +3043,28 @@
         if (opts.noStep) {
             return null;
         }
-        /* 走格范围还没灌进 g_FightPath 时，朝敌军迈一格，让 ENTER 能提交。 */
-        var nx = fromX + (destX > fromX ? 1 : destX < fromX ? -1 : 0);
-        var ny = fromY + (destY > fromY ? 1 : destY < fromY ? -1 : 0);
-        if (nx === destX && ny === destY && unitAt(destX, destY)) {
-            if (nx !== fromX) {
-                nx = fromX;
-            } else if (ny !== fromY) {
-                ny = fromY;
+        /* 走格范围还没灌进 g_FightPath，或敌军在当前 3 格外：朝目标迈一格。 */
+        var sx = destX > fromX ? 1 : destX < fromX ? -1 : 0;
+        var sy = destY > fromY ? 1 : destY < fromY ? -1 : 0;
+        var cands = [
+            { x: fromX + sx, y: fromY + sy },
+            { x: fromX + sx, y: fromY },
+            { x: fromX, y: fromY + sy }
+        ];
+        var ci;
+        for (ci = 0; ci < cands.length; ci++) {
+            var nx = cands[ci].x;
+            var ny = cands[ci].y;
+            if (nx === fromX && ny === fromY) {
+                continue;
             }
-        }
-        if ((nx !== fromX || ny !== fromY) && !unitAt(nx, ny) &&
-            nx >= 0 && ny >= 0 && nx < state.mapW && ny < state.mapH) {
-            return { x: nx, y: ny };
+            if (nx === destX && ny === destY && unitAt(destX, destY)) {
+                continue;
+            }
+            if (!unitAt(nx, ny) &&
+                nx >= 0 && ny >= 0 && nx < state.mapW && ny < state.mapH) {
+                return { x: nx, y: ny };
+            }
         }
         return null;
     }
@@ -3396,6 +3440,8 @@
         resetActDrive();
         state.actedThisTurn = 0;
         state.approachPathWaitAt = 0;
+        state.approachWaitLogs = 0;
+        state.lastArmNextAt = 0;
         state.holdEndTurnUntil = 0;
         state.afterEndTurnUntil = 0;
         state.playerTurnEnded = false;
