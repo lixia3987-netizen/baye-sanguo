@@ -466,7 +466,9 @@
             }
             if (fightReallyActive() && state.lastRestCommitAt &&
                 Date.now() - state.lastRestCommitAt < 1400 &&
-                (code === VK.DOWN || code === VK.UP)) {
+                (code === VK.DOWN || code === VK.UP) &&
+                fightKey && !fightKey.wait) {
+                /* 只挡 wait=0 菜单导航。wait=1 的上下是走格/选将光标。 */
                 dumpEnterSwallow('rest-nav-blocked', { key: keyName(code) });
                 return false;
             }
