@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922za';
+    var HD_BATTLE_VER = '20260922zb';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -2232,6 +2232,18 @@
             scheduleDrive('menu-pick');
             return;
         }
+        /* PlcSplMenu 的 EXIT 就是待机（CMD_REST/MNU_EXIT），不要 3×DOWN。
+         * DOWN 漏到 FgtMainMenu 会落到全军撤退。 */
+        if (index === 3 && info && info.kind === 'act' && !info.synthetic) {
+            dropQueuedKeys();
+            resetActMenuIndex('rest-exit');
+            enqueueKeys([VK.EXIT], 70);
+            console.log('[hd-battle] rest-commit', { via: 'act-exit', phase: fight && fight.phase });
+            state.lastRestCommitAt = Date.now();
+            state.pendingActPick = null;
+            clearMovedThisAct('rest-act-exit');
+            return;
+        }
         /* PlcSplMenu / FgtMainMenu 每次打开引擎 idx 都是 0。上场待机留下的
          * menuIndex=3 再点攻击会连发 UP，落到全军撤退（case 1 fallthrough）。 */
         if (info && (info.kind === 'act' || info.kind === 'sys') && !info.synthetic) {
@@ -2723,7 +2735,7 @@
             }
             /* 走格已花或已在 PlcSplMenu：只能开 AIM，禁止 pick-approach 盲发 ENTER。 */
             if (state.movedThisAct || liveActMenu()) {
-                if (canCommitActMenu(fight)) {
+                if (canCommitActMenu(fight) && adjacentEnemy(1)) {
                     state.pendingApproach = null;
                     state.pendingActPick = 0;
                     console.log('[hd-battle] open-aim', { x: x, y: y, via: 'after-move', unit: u.name });
