@@ -774,11 +774,14 @@
         if (likelyAimTarget()) {
             return false;
         }
-        /* Attack ENTER 之后等 FgtGetCmdRng 灌表，不得当 leftover 立刻 EXIT。 */
-        if (awaitingAim()) {
-            return false;
-        }
+        /* Attack ENTER 之后等 FgtGetCmdRng 灌表。表已灌且无合法/贴脸才 leftover。 */
         var age = aimAgeMs();
+        if (awaitingAim()) {
+            if (!atkRngReady()) {
+                return false;
+            }
+            return age > 500;
+        }
         if (!atkRngReady()) {
             return age > 800;
         }
@@ -1159,10 +1162,11 @@
             }
             if (phase === 3) {
                 noteAimPhase(fight);
-                if (likelyAimTarget() || awaitingAim()) {
-                    if (awaitingAim() && !likelyAimTarget() && Date.now() - started < 2200) {
-                        state.rearmTimer = setTimeout(tick, 80);
-                    }
+                if (likelyAimTarget()) {
+                    return;
+                }
+                if (awaitingAim() && !leftoverAim(fight) && Date.now() - started < 2200) {
+                    state.rearmTimer = setTimeout(tick, 80);
                     return;
                 }
                 if (!atkRngReady() && Date.now() - started < 800) {
