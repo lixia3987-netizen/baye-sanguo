@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zx';
+    var HD_BATTLE_VER = '20260922zy';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -953,8 +953,8 @@
             awaitingAim())) {
             return false;
         }
-        /* 第一击前禁止 stall-break 待机：会把庞德走半格就结束回合。 */
-        if (!state.lastHitAt && (state.actedThisTurn || 0) < 1) {
+        /* 第一击前禁止 stall-break：走半格待机后 acted≥1 也会把其余将直接结束回合。 */
+        if (!state.lastHitAt) {
             if (!state.lastStallHoldLogAt || Date.now() - state.lastStallHoldLogAt > 1600) {
                 state.lastStallHoldLogAt = Date.now();
                 console.log('[hd-battle] next-unit-stall-hold', {
@@ -1475,10 +1475,9 @@
         state.keepAttackEnterUntil = Date.now() + 1400;
         try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
         onUnit = !!(cur && cur.x === strike.unit.x && cur.y === strike.unit.y);
-        /* 刚走过贴脸将：选将 wait 下即使引擎焦点滞后也必须 ENTER，禁止只走路不回车。 */
-        if (!onUnit && state.lastPickWalkAt && Date.now() - state.lastPickWalkAt < 900 &&
-            state.pendingPickUnit === unitCapKey(strike.unit) &&
-            fight.wait && (phase === 1 || phase === 0)) {
+        /* 刚走过贴脸将：引擎焦点滞后也必须 ENTER，禁止只走路不回车。 */
+        if (!onUnit && state.lastPickWalkAt && Date.now() - state.lastPickWalkAt < 2500 &&
+            state.pendingPickUnit === unitCapKey(strike.unit)) {
             onUnit = true;
         }
         console.log('[hd-battle] adj-melee-commit', {
@@ -1504,8 +1503,9 @@
                 scheduleDriveSoon('adj-melee-after-lord-rest', 140);
                 return true;
             }
-            if (!(fight.wait && (phase === 1 || phase === 2))) {
-                if (liveActMenu() && actingLordUnit()) {
+            if (!(fight.wait && (phase === 1 || phase === 2)) &&
+                !(hdActMenuVisible() || liveActMenu())) {
+                if (actingLordUnit()) {
                     preferRest('lord-hold-for-strike');
                     scheduleDriveSoon('adj-melee-after-rest', 160);
                     return true;
@@ -1515,7 +1515,16 @@
             }
             walkFocusTo(strike.unit.x, strike.unit.y, false);
             state.lastPickWalkAt = Date.now();
-            scheduleDriveSoon('adj-melee-after-pick', 90);
+            var walkDelay = 180;
+            try {
+                var wx = (cur && cur.x != null) ? cur.x : strike.unit.x;
+                var wy = (cur && cur.y != null) ? cur.y : strike.unit.y;
+                walkDelay = Math.min(1600, 160 + (Math.abs(wx - strike.unit.x) +
+                    Math.abs(wy - strike.unit.y)) * 90);
+            } catch (eDelay) {}
+            setTimeout(function () {
+                try { commitAdjacentMelee(why || 'adj-melee-after-walk'); } catch (eAfter) {}
+            }, walkDelay);
             return true;
         }
         state.lastAdjMeleeAt = Date.now();
@@ -2098,8 +2107,12 @@
                 return '';
             }
             /* 方向键刚走到副将，引擎焦点可能滞后一帧，必须放行这次 ENTER。 */
+            if (pendingKey && strikePick && pendingKey === unitCapKey(strikePick.unit) &&
+                state.lastPickWalkAt && Date.now() - state.lastPickWalkAt < 2500) {
+                return '';
+            }
             if (pendingKey && pendingKey !== fuKey && state.lastPickWalkAt &&
-                Date.now() - state.lastPickWalkAt < 900) {
+                Date.now() - state.lastPickWalkAt < 2500) {
                 return '';
             }
             return 'lord-hold-pick';
@@ -2892,7 +2905,11 @@
             return false;
         }
         if (playerHasWaitingOwn()) {
-            if (!state.lastHitAt && (state.actedThisTurn || 0) < 1) {
+            if (!state.lastHitAt) {
+                if (Number(fight.phase) !== 2 && Number(fight.phase) !== 3 &&
+                    !state.pendingApproach && !awaitingAim() && !liveActMenu()) {
+                    armNextWaitingOwn('pre-hit-next');
+                }
                 return false;
             }
             if (nextUnitStalled()) {
@@ -3071,6 +3088,10 @@
                         setPendingApproach(foe.x, foe.y);
                     }
                 }
+            }
+            if (state.lastPickWalkAt && Date.now() - state.lastPickWalkAt < 2200 &&
+                adjacentWaitingStrike() && commitAdjacentMelee('drive-after-pick-walk')) {
+                return;
             }
             if (state.pendingApproach) {
                 driveApproach();
@@ -3603,6 +3624,14 @@
             return false;
         }
         if (!fight.wait) {
+            if (adjacentWaitingStrike() && commitAdjacentMelee('approach-nowait-melee')) {
+                return true;
+            }
+            if ((state.movedThisAct || state.sawMoveThisTurn) && state.pendingApproach) {
+                clearPendingApproach();
+                preferRest('approach-nowait-after-walk');
+                return true;
+            }
             if (!recentlyEndedTurn() && !endTurnHeld() && !state.movedThisAct &&
                 !state.sawMoveThisTurn && liveActMenu() && (Number(fight.phase) || 0) === 0) {
                 dumpEnterSwallow('leftover-act-exit', { via: 'drive-approach-nowait' });
@@ -3941,11 +3970,17 @@
             logAttackClick('pick');
             var fightAtk = null;
             try { fightAtk = readFight(); } catch (eAtk) {}
-            /* 攻击已点：贴脸立刻近战；未贴脸必须继续走近，禁止停在合成菜单。 */
+            /* 攻击已点：贴脸立刻近战 ENTER。走格已花且未贴脸必须待机，禁止 keep-walk 软循环。 */
             if (adjacentWaitingStrike() && commitAdjacentMelee('attack-adj-menu')) {
                 return;
             }
-            if (!adjacentEnemy(1)) {
+            if (!adjacentEnemy(1) && !adjacentWaitingStrike()) {
+                var alreadyMoved = !!(state.movedThisAct ||
+                    (state.sawMoveThisTurn && fightAtk && !fightAtk.wait));
+                if (alreadyMoved) {
+                    preferRest('attack-after-short-walk');
+                    return;
+                }
                 var keepFoe = nearestEnemy();
                 var keepOwn = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
                 if (keepFoe && keepOwn && !(isLordUnit(keepOwn) && firstWaitingOwn({ skipLord: true }))) {
