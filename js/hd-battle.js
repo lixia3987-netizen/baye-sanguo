@@ -140,6 +140,7 @@
         lastApproachActor: '',
         pendingAimEnter: null,
         lastRestCommitAt: 0,
+        endTurnAt: 0,
         movedThisAct: false,
         strictLive: false,
         refreshStackLogged: false,
@@ -955,6 +956,9 @@
                 }
                 return;
             }
+            if (!playerHasWaitingOwn()) {
+                return;
+            }
             if (menuPanelClickable()) {
                 return;
             }
@@ -1163,6 +1167,26 @@
                 scheduleDrive('after-leftover-approach');
             }
         }
+    }
+
+    function maybeEndPlayerTurn(fight) {
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        if (playerHasWaitingOwn()) {
+            return false;
+        }
+        if (Number(fight.phase) !== 1 || !fight.wait) {
+            return false;
+        }
+        if (state.endTurnAt && Date.now() - state.endTurnAt < 1400) {
+            return false;
+        }
+        state.endTurnAt = Date.now();
+        dropQueuedEnters();
+        enqueueKeys([VK.EXIT, VK.ENTER], 70);
+        console.log('[hd-battle] rest-commit', { via: 'end-player-turn' });
+        return true;
     }
 
     function preferRest(why) {
@@ -3171,6 +3195,7 @@
             Date.now() - (state.lastAimExitAt || 0) > 400) {
             leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
         }
+        maybeEndPlayerTurn(fightNow);
         if (!menuPanelClickable() && !state.blankWatchTimer) {
             armBlankMenuWatchdog('refresh-hidden');
         }
