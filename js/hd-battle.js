@@ -553,12 +553,19 @@
                 dropQueuedEnters();
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
-                aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
-                var allowAimSecond = state.aimCommit && !state.aimCommit.hpDropped &&
-                    !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400;
-                if (allowAimSecond) {
-                    state.aimCommit.secondEnterSent = true;
+                state.aimCommit) {
+                if (state.aimCommit.hpDropped) {
+                    dumpEnterSwallow('aim-commit-block', {
+                        hits: state.aimCommit.hits,
+                        age: aimCommitAgeMs(),
+                        sent: !!state.aimCommit.sentEnter
+                    });
+                    return false;
+                }
+                if (!state.aimCommit.sentEnter) {
                     state.aimCommit.sentEnter = true;
+                } else if (!state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400) {
+                    state.aimCommit.secondEnterSent = true;
                     console.log('[hd-battle] aim-second-enter', {
                         why: 'send-key', unit: state.aimCommit.name, age: aimCommitAgeMs()
                     });
@@ -570,10 +577,6 @@
                     });
                     return false;
                 }
-            }
-            if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
-                state.aimCommit && !state.aimCommit.sentEnter) {
-                state.aimCommit.sentEnter = true;
             }
             if (code === VK.EXIT && !overNow && !state.leavingAim && keepAimEnter('send-exit')) {
                 dumpEnterSwallow('aim-exit-blocked', { key: 'EXIT' });
@@ -2182,7 +2185,7 @@
         state.lastHitTarget = { name: u && u.name, x: x, y: y };
         state.aimCommit = {
             x: x, y: y, name: u && u.name,
-            at: Date.now(), hits: 1, sentEnter: true,
+            at: Date.now(), hits: 1, sentEnter: false,
             hpBefore: u && u.hp, hpDropped: false, secondEnterSent: false, onTile: true
         };
         enqueueKeys([VK.ENTER], 55);
@@ -2543,8 +2546,6 @@
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
             if (!dropped && aimCommitHolds() && !state.leavingAim) {
                 if (state.aimCommit && !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400) {
-                    state.aimCommit.secondEnterSent = true;
-                    state.aimCommit.sentEnter = false;
                     console.log('[hd-battle] aim-second-enter', {
                         why: 'no-hp-drop',
                         unit: state.aimCommit.name,
