@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922ze';
+    var HD_BATTLE_VER = '20260922zf';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -452,7 +452,7 @@
                     overNow = true;
                 }
             } catch (eOver) {}
-            if (code === VK.EXIT && !state.leavingAim && keepAimEnter('send-exit')) {
+            if (code === VK.EXIT && !overNow && !state.leavingAim && keepAimEnter('send-exit')) {
                 dumpEnterSwallow('aim-exit-blocked', { key: 'EXIT' });
                 return false;
             }
@@ -4187,6 +4187,7 @@
                 var fgtOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0;
                 if (fgtOver && f && f.active && f.wait && Date.now() - (state.forcedOverPoke || 0) > 350) {
                     state.forcedOverPoke = Date.now();
+                    state.leavingAim = true;
                     engineSendKey(VK.EXIT);
                 }
             } catch (e) {}
