@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zn';
+    var HD_BATTLE_VER = '20260922zo';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -152,6 +152,7 @@
         openedSysForEndTurn: false,
         sawMoveThisTurn: false,
         lastHitAt: 0,
+        aimCommit: null,
         lastSwallowAt: 0,
         lastSwallowWhy: '',
         allowEndTurnEnter: false,
@@ -473,6 +474,19 @@
                     overNow = true;
                 }
             } catch (eOver) {}
+            if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
+                aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
+                dumpEnterSwallow('aim-commit-block', {
+                    hits: state.aimCommit.hits,
+                    age: aimCommitAgeMs(),
+                    sent: !!state.aimCommit.sentEnter
+                });
+                return false;
+            }
+            if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
+                state.aimCommit && !state.aimCommit.sentEnter) {
+                state.aimCommit.sentEnter = true;
+            }
             if (code === VK.EXIT && !overNow && !state.leavingAim && keepAimEnter('send-exit')) {
                 dumpEnterSwallow('aim-exit-blocked', { key: 'EXIT' });
                 return false;
@@ -1044,17 +1058,82 @@
         return !!firstLegalAimEnemy();
     }
 
+    function clearAimCommit(why) {
+        if (!state.aimCommit) {
+            return;
+        }
+        var rec = state.aimCommit;
+        console.log('[hd-battle] aim-commit-clear', {
+            via: why || 'clear',
+            hits: rec.hits,
+            sent: !!rec.sentEnter,
+            unit: rec.name,
+            x: rec.x,
+            y: rec.y,
+            age: Date.now() - rec.at
+        });
+        state.aimCommit = null;
+    }
+
+    function syncAimCommit(fight) {
+        var c = state.aimCommit;
+        if (!c) {
+            return;
+        }
+        if (!fight || fight.over) {
+            clearAimCommit(fight && fight.over ? 'fight-over' : 'no-fight');
+            return;
+        }
+        if (Number(fight.phase) !== 3) {
+            clearAimCommit('phase-leave');
+        }
+    }
+
+    function aimCommitAgeMs() {
+        return state.aimCommit ? (Date.now() - state.aimCommit.at) : 0;
+    }
+
+    function aimCommitHolds() {
+        return !!(state.aimCommit && state.aimCommit.hits >= 1);
+    }
+
     function confirmAimHit(u, x, y, via, extra) {
-        dropQueuedExits();
-        state.leavingAim = false;
-        walkFocusTo(x, y, true);
-        state.lastBlockedEnter = '';
-        state.pendingAimEnter = null;
         extra = extra || {};
         extra.via = via || 'in-range';
         extra.unit = u && u.name;
         extra.x = x;
         extra.y = y;
+        var fightNow = null;
+        try { fightNow = readFight(); } catch (eF) {}
+        syncAimCommit(fightNow);
+        var c = state.aimCommit;
+        if (c) {
+            c.hits += 1;
+            extra.hits = c.hits;
+            extra.hold = true;
+            extra.age = Date.now() - c.at;
+            extra.sent = !!c.sentEnter;
+            state.pendingAimEnter = null;
+            if (c.hits >= 10) {
+                console.log('[hd-battle] aim-commit-cap', extra);
+                return {
+                    x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                    tip: state.fightTip, blocked: 'aim-commit-cap',
+                    inRng: true, via: extra.via
+                };
+            }
+            console.log('[hd-battle] aim-commit-hold', extra);
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'aim-commit-hold',
+                inRng: true, via: extra.via
+            };
+        }
+        dropQueuedExits();
+        state.leavingAim = false;
+        walkFocusTo(x, y, true);
+        state.lastBlockedEnter = '';
+        state.pendingAimEnter = null;
         extra.inRng = true;
         extra.hp = u && u.hp;
         extra.focus = syncFocusFromEngine();
@@ -1063,8 +1142,13 @@
         extra.hold = holdingActMenu();
         extra.tip = state.fightTip;
         extra.swallowed = false;
+        extra.hits = 1;
         state.awaitingAimUntil = 0;
         state.lastHitAt = Date.now();
+        state.aimCommit = {
+            x: x, y: y, name: u && u.name,
+            at: Date.now(), hits: 1, sentEnter: false
+        };
         noteUnitActed('attack-hit');
         console.log('[hd-battle] attack-hit', extra);
         return {
@@ -1076,10 +1160,11 @@
     function tryCommitMeleeAim(why) {
         var fight = null;
         try { fight = readFight(); } catch (eM) {}
+        syncAimCommit(fight);
         if (!fight || Number(fight.phase) !== 3 || fight.over) {
             return false;
         }
-        if (state.lastHitAt && Date.now() - state.lastHitAt < 400) {
+        if (aimCommitHolds()) {
             return true;
         }
         if (state.lastMeleeTryAt && Date.now() - state.lastMeleeTryAt < 280) {
@@ -1134,6 +1219,7 @@
         clearMovedThisAct(why || 'end-player-turn');
         state.pendingActPick = null;
         clearPendingApproach();
+        clearAimCommit('end-player-turn');
     }
 
     function maybeResumePlayerTurn(fight) {
@@ -1156,6 +1242,7 @@
             state.allowEndTurnEnter = false;
             resetActMenuIndex('new-player-turn');
             state.actedThisTurn = 0;
+            clearAimCommit('new-player-turn');
             state.approachPathWaitAt = 0;
             state.approachWaitLogs = 0;
             state.lastArmNextAt = 0;
@@ -1228,6 +1315,10 @@
         if (!(fight && Number(fight.phase) === 3)) {
             return false;
         }
+        /* 一次 melee ENTER 后等引擎离开 AIM；超时才 leftover EXIT，禁止再 ENTER。 */
+        if (aimCommitHolds()) {
+            return aimCommitAgeMs() > 2200;
+        }
         if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
             return false;
         }
@@ -1281,7 +1372,7 @@
                 /* 真瞄准时菜单不得挡住点敌军。 */
                 state.holdActMenuUntil = 0;
             }
-            if (hasLegalAimTarget() || adjacentEnemy(1)) {
+            if (!aimCommitHolds() && (hasLegalAimTarget() || adjacentEnemy(1))) {
                 tryCommitMeleeAim('aim-enter');
             }
             return;
@@ -1433,6 +1524,7 @@
         state.pendingAimEnter = null;
         state.approachRepeatCount = 0;
         state.movedThisAct = false;
+        clearAimCommit('reset-act');
         if (state.driveTimer) {
             clearTimeout(state.driveTimer);
             state.driveTimer = 0;
@@ -1503,6 +1595,14 @@
                     adj: !!(adjacentEnemy(1)),
                     aimAge: aimAgeMs()
                 });
+                if (aimCommitHolds()) {
+                    if (leftoverAim(fight) || aimCommitAgeMs() > 2200) {
+                        leaveAimAndRearm('watchdog-aim-commit');
+                        return;
+                    }
+                    armBlankMenuWatchdog('aim-commit-wait');
+                    return;
+                }
                 if (tryCommitMeleeAim(why || 'watchdog-aim')) {
                     return;
                 }
@@ -1683,6 +1783,12 @@
             }
             if (phase === 3) {
                 noteAimPhase(fight);
+                if (aimCommitHolds()) {
+                    if (leftoverAim(fight) || aimCommitAgeMs() > 2200) {
+                        exitLeftoverAimOnce(why || 'rearm-aim-commit', { afterHit: true });
+                    }
+                    return;
+                }
                 if (tryCommitMeleeAim(why || 'rearm-aim')) {
                     return;
                 }
@@ -1736,6 +1842,17 @@
 
     function leaveAimAndRearm(why, opts) {
         opts = opts || {};
+        /* 已经 melee ENTER 过：只 EXIT 离 AIM，禁止再武装攻击/走近。 */
+        if (aimCommitHolds()) {
+            dropQueuedEnters();
+            state.pendingAimEnter = null;
+            clearPendingApproach();
+            if (state.pendingActPick === 0) {
+                state.pendingActPick = null;
+            }
+            exitLeftoverAimOnce(why || 'aim-commit', { afterHit: true });
+            return;
+        }
         dropQueuedEnters();
         if (opts.thenApproach && state.movedThisAct) {
             /* 本将走格已落定，不能再走近； leftover AIM 只能待机。 */
@@ -3056,7 +3173,15 @@
     function keepAimEnter(why) {
         var fight = null;
         try { fight = readFight(); } catch (eK) {}
-        if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
+        /* 提交后只保住刚入队的那一发 ENTER；之后必须丢掉，否则 refresh 会连打。 */
+        if (aimCommitHolds()) {
+            if (!state.aimCommit.sentEnter && aimCommitAgeMs() < 220) {
+                console.log('[hd-battle] enter-kept', { why: why || 'aim-commit' });
+                return true;
+            }
+            return false;
+        }
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 180) {
             console.log('[hd-battle] enter-kept', { why: why || 'after-hit' });
             return true;
         }
@@ -3553,6 +3678,7 @@
         state.openedSysForEndTurn = false;
         state.sawMoveThisTurn = false;
         state.lastHitAt = 0;
+        state.aimCommit = null;
         state.lastSwallowAt = 0;
         state.lastSwallowWhy = '';
         state.allowEndTurnEnter = false;
@@ -4296,6 +4422,7 @@
         state.tiles = info.tiles;
         state.focus = info.focus;
         var fightNow = readFight();
+        syncAimCommit(fightNow);
         noteAimPhase(fightNow);
         noteFightWait(fightNow);
         recoverFightMenu(fightNow);
@@ -4320,6 +4447,9 @@
             }
         }
         if (state.pendingAimEnter && fightNow && Number(fightNow.phase) === 3) {
+            if (aimCommitHolds()) {
+                state.pendingAimEnter = null;
+            } else {
             var pe = state.pendingAimEnter;
             var peUnit = unitAt(pe.x, pe.y);
             var peLegal = firstLegalAimEnemy();
@@ -4338,9 +4468,15 @@
                     ? { thenRest: true }
                     : { thenApproach: { x: pe.x, y: pe.y } });
             }
+            }
         } else if (fightNow && Number(fightNow.phase) === 3 &&
             (hasLegalAimTarget() || adjacentEnemy(1))) {
-            if (!tryCommitMeleeAim('refresh-aim') && leftoverAim(fightNow) &&
+            if (aimCommitHolds()) {
+                if (leftoverAim(fightNow) && !recentlyLeftAim() &&
+                    Date.now() - (state.lastAimExitAt || 0) > 400) {
+                    leaveAimAndRearm('refresh-aim-commit', state.movedThisAct ? { thenRest: true } : null);
+                }
+            } else if (!tryCommitMeleeAim('refresh-aim') && leftoverAim(fightNow) &&
                 !recentlyLeftAim() && Date.now() - (state.lastAimExitAt || 0) > 400) {
                 leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
             }
@@ -5027,6 +5163,7 @@
                 sawMoveThisTurn: !!state.sawMoveThisTurn,
                 awaitingAim: awaitingAim(),
                 lastHitAt: state.lastHitAt || 0,
+                aimCommit: state.aimCommit,
                 lastSwallowWhy: state.lastSwallowWhy || '',
                 adjacent: !!adjacentEnemy(1),
                 actorAt: state.actorAt,
