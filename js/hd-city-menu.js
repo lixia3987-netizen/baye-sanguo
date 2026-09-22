@@ -682,7 +682,8 @@
         };
         state.step4Trace = (state.step4Trace || []).concat([row]).slice(-28);
         state.lastStep4 = row;
-        if (ev === 'bind-map-city' && liveFightBlocksCityOpen()) {
+        if (ev === 'bind-map-city' &&
+            (liveFightBlocksCityOpen() || extra.skipped === 'sync')) {
             return row;
         }
         console.log('[hd-city-menu] step4', ev, row);

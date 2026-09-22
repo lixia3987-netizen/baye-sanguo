@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922q';
+    var HD_BATTLE_VER = '20260922r';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -131,6 +131,7 @@
         walkSubmittedAt: 0,
         leavingAim: false,
         holdActMenuUntil: 0,
+        blankWatchTimer: 0,
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
@@ -603,10 +604,10 @@
         if (!(fight && fight.wait && phase === 2)) {
             return false;
         }
-        if (state.pendingApproach || wantsWalkBeforeAct(state.pendingActPick)) {
+        /* 只有真正走近/走格才藏菜单。单靠 pendingActPick 会把第一次「攻击」点成空白。 */
+        if (state.pendingApproach) {
             return true;
         }
-        /* 走格键还在队列或刚提交：藏菜单，避免吞点格；flush 后清 walkSubmittedAt 再武装。 */
         return !!(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400);
     }
 
@@ -719,6 +720,70 @@
             clearTimeout(state.driveTimer);
             state.driveTimer = 0;
         }
+    }
+
+    function menuPanelClickable() {
+        try {
+            var panel = el('hd-battle-menu');
+            if (!panel || panel.hidden) {
+                return false;
+            }
+            var cs = global.getComputedStyle(panel) || {};
+            return cs.display !== 'none' && cs.pointerEvents !== 'none' &&
+                (panel.offsetWidth || 0) > 8 && (panel.offsetHeight || 0) > 8;
+        } catch (eClick) {
+            return false;
+        }
+    }
+
+    function logAttackClick(via) {
+        var fight = null;
+        var panel = null;
+        var cs = {};
+        try { fight = readFight(); } catch (eF) {}
+        try { panel = el('hd-battle-menu'); } catch (eP) {}
+        try { cs = panel ? (global.getComputedStyle(panel) || {}) : {}; } catch (eC) {}
+        console.log('[hd-battle] attack-click', {
+            via: via || 'pick',
+            pendingApproach: state.pendingApproach,
+            pendingActPick: state.pendingActPick,
+            phase: fight ? fight.phase : null,
+            wait: fight ? !!fight.wait : null,
+            display: String(cs.display || ''),
+            hidden: !!(panel && panel.hidden),
+            pointerEvents: String(cs.pointerEvents || ''),
+            hold: holdingActMenu()
+        });
+    }
+
+    function armBlankMenuWatchdog(why) {
+        if (state.blankWatchTimer) {
+            clearTimeout(state.blankWatchTimer);
+            state.blankWatchTimer = 0;
+        }
+        state.blankWatchTimer = setTimeout(function () {
+            state.blankWatchTimer = 0;
+            if (!fightReallyActive() || state.resultText) {
+                return;
+            }
+            var fight = null;
+            try { fight = readFight(); } catch (eF) {}
+            if (menuPanelClickable()) {
+                return;
+            }
+            if (state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400) {
+                armBlankMenuWatchdog('still-walk');
+                return;
+            }
+            console.log('[hd-battle] blank-watchdog', {
+                why: why || 'idle-hidden',
+                pendingApproach: state.pendingApproach,
+                pendingActPick: state.pendingActPick,
+                phase: fight ? fight.phase : null,
+                wait: fight ? !!fight.wait : null
+            });
+            forceShowFightMenu('watchdog');
+        }, 1500);
     }
 
     function forceShowFightMenu(why) {
@@ -1344,6 +1409,13 @@
     }
 
     function pickFightMenu(index) {
+        if (index === 0) {
+            state.pendingActPick = 0;
+            logAttackClick('pick');
+            state.holdActMenuUntil = Date.now() + 1600;
+            forceRevealActMenu('attack-click');
+            armBlankMenuWatchdog('after-attack');
+        }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
             state.pendingApproach = null;
@@ -2633,6 +2705,9 @@
         renderFightMenu();
         applyChrome();
         draw();
+        if (!menuPanelClickable() && !state.blankWatchTimer) {
+            armBlankMenuWatchdog('refresh-hidden');
+        }
         } catch (eRef) {
             logRefreshStackOnce(eRef);
         } finally {
@@ -2859,14 +2934,11 @@
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-battle-menu') != null) {
                     ev.preventDefault();
+                    var idx = Number(t.getAttribute('data-hd-battle-menu'));
                     if (!fightMenuLive()) {
-                        recoverFightMenu(readFight());
-                        renderFightMenu();
-                        if (!fightMenuLive()) {
-                            return;
-                        }
+                        forceShowFightMenu('menu-click-dead');
                     }
-                    pickFightMenu(Number(t.getAttribute('data-hd-battle-menu')));
+                    pickFightMenu(idx);
                     return;
                 }
                 if (t.id === 'hd-battle-result' && state.resultText) {
