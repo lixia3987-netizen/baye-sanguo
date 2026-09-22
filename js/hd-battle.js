@@ -3346,7 +3346,6 @@
         });
         setTimeout(function () {
             try { clickWaitingOwn(); } catch (eP) {}
-            try { maybeCommitFirstActMelee('open-pick-melee'); } catch (eM) {}
         }, 0);
     }
 
