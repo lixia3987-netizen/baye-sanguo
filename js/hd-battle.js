@@ -3941,6 +3941,27 @@
             logAttackClick('pick');
             var fightAtk = null;
             try { fightAtk = readFight(); } catch (eAtk) {}
+            /* 攻击已点：贴脸立刻近战；未贴脸必须继续走近，禁止停在合成菜单。 */
+            if (adjacentWaitingStrike() && commitAdjacentMelee('attack-adj-menu')) {
+                return;
+            }
+            if (!adjacentEnemy(1)) {
+                var keepFoe = nearestEnemy();
+                var keepOwn = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
+                if (keepFoe && keepOwn && !(isLordUnit(keepOwn) && firstWaitingOwn({ skipLord: true }))) {
+                    notePendingPick(keepOwn);
+                    noteActingUnit(keepOwn);
+                    setPendingApproach(keepFoe.x, keepFoe.y);
+                    state.pendingActPick = 0;
+                    console.log('[hd-battle] open-aim', {
+                        why: 'attack-keep-walk',
+                        unit: keepFoe.name,
+                        actor: keepOwn.name
+                    });
+                    scheduleDriveSoon('attack-keep-walk', 70);
+                    return;
+                }
+            }
             noteAimPhase(fightAtk);
             if (fightAtk && Number(fightAtk.phase) === 3 && !leftoverAim(fightAtk)) {
                 /* 已在真瞄准：再点攻击不得 EXIT / 不得把菜单盖住棋盘。 */
