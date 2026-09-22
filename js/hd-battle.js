@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zq';
+    var HD_BATTLE_VER = '20260922zr';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -153,9 +153,12 @@
         openedSysForEndTurn: false,
         sawMoveThisTurn: false,
         lastHitAt: 0,
+        lastHitActor: null,
         aimCommit: null,
         lastPickEnterAt: 0,
         holdPickUntil: 0,
+        lastMenuCommitEnterAt: 0,
+        afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
         lastSwallowWhy: '',
@@ -490,10 +493,16 @@
                         noteEnemyTurnQuiet('send-enter', fightKey);
                     } else if (muteWhy === 'no-player-pick' || muteWhy === 'enemy-focus') {
                         dropQueuedEnters();
+                    } else if (muteWhy === 'pick-throttle' &&
+                        state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
+                        scheduleAfterHitSettle(80);
                     }
                     return false;
                 }
                 state.lastPickEnterAt = Date.now();
+                if (liveActMenu() || hdActMenuVisible()) {
+                    state.lastMenuCommitEnterAt = Date.now();
+                }
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
@@ -831,13 +840,17 @@
         state.holdEndTurnUntil = Date.now() + 2600;
     }
 
-    function armNextWaitingOwn(why) {
+    function armNextWaitingOwn(why, opts) {
+        opts = opts || {};
         if (!playerHasWaitingOwn()) {
             return false;
         }
         var fightNow = null;
         try { fightNow = readFight(); } catch (eF) {}
-        if (enemyTurnQuiet(fightNow) || (state.holdPickUntil && Date.now() < state.holdPickUntil)) {
+        if (enemyTurnQuiet(fightNow)) {
+            return false;
+        }
+        if (!opts.force && state.holdPickUntil && Date.now() < state.holdPickUntil) {
             return false;
         }
         var phaseNow = Number(fightNow && fightNow.phase) || 0;
@@ -848,11 +861,15 @@
         if (phaseNow === 3 || awaitingAim()) {
             return false;
         }
-        if (liveActMenu() || state.sending || (state.queue && state.queue.length)) {
+        if (!opts.force && (liveActMenu() || state.sending || (state.queue && state.queue.length))) {
             return false;
         }
-        if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 1600) {
+        if (!opts.force && state.lastArmNextAt && Date.now() - state.lastArmNextAt < 1600) {
             return false;
+        }
+        if (opts.force) {
+            dropQueuedEnters();
+            clearPickThrottle(why || 'arm-next');
         }
         state.lastArmNextAt = Date.now();
         state.movedThisAct = false;
@@ -860,6 +877,9 @@
         var nextOther = firstWaitingOwn({ skipLord: true });
         if (!nextOther) {
             nextLord = firstWaitingOwn({ lordOnly: true });
+        }
+        if (!nextOther && !nextLord) {
+            return false;
         }
         if (nextLord && !adjacentEnemy(1)) {
             state.pendingActPick = 3;
@@ -1230,7 +1250,16 @@
             at: Date.now(), hits: 1, sentEnter: false
         };
         noteUnitActed('attack-hit');
+        state.lastHitActor = state.actorAt
+            ? { x: state.actorAt.x, y: state.actorAt.y, name: state.actorAt.name || '' }
+            : null;
+        clearPickThrottle('attack-hit');
+        if (state.pendingActPick === 0) {
+            state.pendingActPick = null;
+        }
+        clearPendingApproach();
         console.log('[hd-battle] attack-hit', extra);
+        scheduleAfterHitSettle(260);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
             tip: state.fightTip, blocked: '', inRng: true, via: extra.via
@@ -1340,6 +1369,85 @@
         return false;
     }
 
+    function hdActMenuVisible() {
+        if (!menuPanelClickable()) {
+            return false;
+        }
+        var names = state.menuNames || [];
+        if (names.indexOf('攻击') >= 0) {
+            return true;
+        }
+        try {
+            var info = readFightMenu();
+            return !!(info && info.names && info.names.indexOf('攻击') >= 0);
+        } catch (eVis) {
+            return false;
+        }
+    }
+
+    function clearPickThrottle(why) {
+        var held = !!(state.holdPickUntil && Date.now() < state.holdPickUntil);
+        var had = !!(state.lastPickEnterAt || held);
+        state.lastPickEnterAt = 0;
+        state.holdPickUntil = 0;
+        if (had) {
+            console.log('[hd-battle] pick-throttle-clear', { via: why || 'clear' });
+        }
+    }
+
+    function recentlyHitActor(u) {
+        if (!u || !state.lastHitActor || !state.lastHitAt) {
+            return false;
+        }
+        if (Date.now() - state.lastHitAt > 2800) {
+            return false;
+        }
+        return u.x === state.lastHitActor.x && u.y === state.lastHitActor.y;
+    }
+
+    function scheduleAfterHitSettle(ms) {
+        if (state.afterHitTimer) {
+            clearTimeout(state.afterHitTimer);
+        }
+        state.afterHitTimer = setTimeout(function () {
+            state.afterHitTimer = 0;
+            try { settleAfterAttackHit(); } catch (eHit) {}
+        }, ms == null ? 240 : ms);
+    }
+
+    function settleAfterAttackHit() {
+        if (!fightReallyActive() || state.resultText) {
+            return false;
+        }
+        var fight = null;
+        try { fight = readFight(); } catch (eF) {}
+        if (enemyTurnQuiet(fight)) {
+            return false;
+        }
+        if (fight && Number(fight.phase) === 3) {
+            if (aimCommitHolds() && !state.leavingAim) {
+                leaveAimAndRearm('after-hit-settle');
+            }
+            scheduleAfterHitSettle(220);
+            return true;
+        }
+        clearPickThrottle('after-hit-settle');
+        if (state.pendingActPick === 0) {
+            state.pendingActPick = null;
+        }
+        clearPendingApproach();
+        if (playerHasWaitingOwn()) {
+            console.log('[hd-battle] after-hit-settle', {
+                phase: fight ? Number(fight.phase) : null,
+                wait: !!(fight && fight.wait),
+                hdMenu: hdActMenuVisible(),
+                next: (firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true }) || {}).name
+            });
+            return armNextWaitingOwn('after-attack-hit', { force: true });
+        }
+        return false;
+    }
+
     function mutePhase1Enter(fight) {
         if (!(fight && Number(fight.phase) === 1 && fight.wait) || liveActMenu()) {
             return '';
@@ -1347,8 +1455,12 @@
         if (enemyTurnQuiet(fight)) {
             return 'enemy-turn';
         }
+        var hitFresh = !!(state.lastHitAt && Date.now() - state.lastHitAt < 2200);
         if (state.holdPickUntil && Date.now() < state.holdPickUntil) {
-            return 'pick-hold';
+            /* 命中后必须放行下一将 ENTER，不能继续 pick-hold。 */
+            if (!hitFresh) {
+                return 'pick-hold';
+            }
         }
         var fu = focusedFightUnit();
         if (fu && fu.side === 'enemy') {
@@ -1367,6 +1479,15 @@
             return 'lord-hold-pick';
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
+            /* 命中后 leftover ENTER 是选下一将 / 离 AIM settle，不得整段吞掉。 */
+            if (hitFresh) {
+                return '';
+            }
+            /* 将领行动已开：放行一次 ENTER 确认攻击或换将，短窗内仍限流。 */
+            if (hdActMenuVisible() &&
+                (!state.lastMenuCommitEnterAt || Date.now() - state.lastMenuCommitEnterAt > 700)) {
+                return '';
+            }
             return 'pick-throttle';
         }
         return '';
@@ -1433,6 +1554,8 @@
             clearAimCommit('new-player-turn');
             state.lastPickEnterAt = 0;
             state.holdPickUntil = 0;
+            state.lastMenuCommitEnterAt = 0;
+            state.lastHitActor = null;
             state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
             state.approachWaitLogs = 0;
@@ -1802,6 +1925,12 @@
             if (!playerHasWaitingOwn()) {
                 return;
             }
+            if (state.lastHitAt && Date.now() - state.lastHitAt < 2200 &&
+                Number(fight && fight.phase) !== 3) {
+                logBlankWatchdog('after-hit-settle', fight);
+                settleAfterAttackHit();
+                return;
+            }
             if (menuPanelClickable()) {
                 return;
             }
@@ -2040,8 +2169,9 @@
             state.pendingAimEnter = null;
             clearPendingApproach();
             state.pendingActPick = null;
-            state.holdPickUntil = Date.now() + 700;
+            clearPickThrottle('aim-commit');
             exitLeftoverAimOnce(why || 'aim-commit', { afterHit: true });
+            scheduleAfterHitSettle(180);
             return;
         }
         dropQueuedEnters();
@@ -2131,12 +2261,14 @@
             return false;
         }
         if (playerHasWaitingOwn()) {
+            var leftoverHitMenu = !!(state.lastHitAt && Date.now() - state.lastHitAt < 2200 &&
+                recentlyHitActor(actingActor()));
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 ||
                 state.pendingApproach || state.approachPathWaitAt || awaitingAim() ||
-                liveActMenu()) {
+                (liveActMenu() && !leftoverHitMenu)) {
                 return false;
             }
-            armNextWaitingOwn('end-turn-still-waiting');
+            armNextWaitingOwn('end-turn-still-waiting', leftoverHitMenu ? { force: true } : {});
             return false;
         }
         if ((state.actedThisTurn || 0) < countPlayerUnits() &&
@@ -2476,6 +2608,10 @@
             if (opts.lordOnly && !isLordUnit(u)) {
                 continue;
             }
+            /* 刚打完的将引擎可能还没标 active，禁止立刻再武装同一将。 */
+            if (recentlyHitActor(u)) {
+                continue;
+            }
             return u;
         }
         return null;
@@ -2702,6 +2838,9 @@
         rec.queue = state.queue.map(function (q) { return keyName(q.code); });
         rec.hold = holdingActMenu();
         rec.tip = state.fightTip;
+        rec.hdMenu = hdActMenuVisible();
+        rec.hitAge = state.lastHitAt ? (Date.now() - state.lastHitAt) : null;
+        rec.lastPickAge = state.lastPickEnterAt ? (Date.now() - state.lastPickEnterAt) : null;
         console.log('[hd-battle] enter-swallowed', rec);
         return rec;
     }
@@ -3086,6 +3225,12 @@
         if (index === 0 && liveKind !== 'sys') {
             if (recentlyEndedTurn()) {
                 console.log('[hd-battle] attack-skip', { why: 'after-end-turn' });
+                return;
+            }
+            if (state.lastHitAt && Date.now() - state.lastHitAt < 1800 &&
+                recentlyHitActor(actingActor())) {
+                console.log('[hd-battle] attack-skip', { why: 'just-hit' });
+                settleAfterAttackHit();
                 return;
             }
             state.pendingActPick = 0;
@@ -4018,10 +4163,16 @@
         state.playerTurnEnded = false;
         state.openedSysForEndTurn = false;
         state.sawMoveThisTurn = false;
-        state.lastHitAt = 0;
-        state.aimCommit = null;
-        state.lastPickEnterAt = 0;
-        state.holdPickUntil = 0;
+            state.lastHitAt = 0;
+            state.lastHitActor = null;
+            state.aimCommit = null;
+            state.lastPickEnterAt = 0;
+            state.holdPickUntil = 0;
+            state.lastMenuCommitEnterAt = 0;
+            if (state.afterHitTimer) {
+                clearTimeout(state.afterHitTimer);
+                state.afterHitTimer = 0;
+            }
         state.lastEnemyQuietLogAt = 0;
         state.lastSwallowAt = 0;
         state.lastSwallowWhy = '';
@@ -5526,9 +5677,12 @@
                 sawMoveThisTurn: !!state.sawMoveThisTurn,
                 awaitingAim: awaitingAim(),
                 lastHitAt: state.lastHitAt || 0,
+                lastHitActor: state.lastHitActor,
                 aimCommit: state.aimCommit,
                 lastPickEnterAt: state.lastPickEnterAt || 0,
                 holdPickUntil: state.holdPickUntil || 0,
+                hdMenuVisible: hdActMenuVisible(),
+                lastMenuCommitEnterAt: state.lastMenuCommitEnterAt || 0,
                 enemyQuiet: enemyTurnQuiet(fightSnap),
                 lord: (function () {
                     var lu = null;
