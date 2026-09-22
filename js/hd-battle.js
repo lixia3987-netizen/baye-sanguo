@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922v';
+    var HD_BATTLE_VER = '20260922w';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -743,6 +743,9 @@
         if (recentlyEndedTurn()) {
             return false;
         }
+        if (awaitingAim() || state.pendingActPick === 3) {
+            return false;
+        }
         if (fight.wait) {
             return false;
         }
@@ -1247,6 +1250,9 @@
         if (!fight || !fight.active || fight.over || state.resultText) {
             return false;
         }
+        if (recentlyEndedTurn()) {
+            return false;
+        }
         if (playerHasWaitingOwn()) {
             return false;
         }
@@ -1257,7 +1263,7 @@
                 return false;
             }
             state.endTurnAt = Date.now();
-            state.afterEndTurnUntil = Date.now() + 2200;
+            state.afterEndTurnUntil = Date.now() + 2800;
             clearMovedThisAct('end-player-turn-menu');
             state.pendingActPick = null;
             state.pendingApproach = null;
@@ -1272,7 +1278,7 @@
             return false;
         }
         state.endTurnAt = Date.now();
-        state.afterEndTurnUntil = Date.now() + 2200;
+        state.afterEndTurnUntil = Date.now() + 2800;
         clearMovedThisAct('end-player-turn');
         state.pendingActPick = null;
         state.pendingApproach = null;
@@ -1940,6 +1946,11 @@
                 return;
             }
             /* FgtDealMan：FgtGenMove 已返回才会到 PlcSplMenu。此后只能瞄准，不能再走近。 */
+            if (!adjacentEnemy(1)) {
+                console.log('[hd-battle] attack-skip', { why: 'not-adjacent' });
+                preferRest('attack-not-adjacent');
+                return;
+            }
             state.movedThisAct = true;
             noteAwaitingAim(2200);
             state.holdActMenuUntil = 0;
@@ -2013,6 +2024,9 @@
     }
 
     function pickFightMenuName(name) {
+        if (name === '回合结束' && recentlyEndedTurn()) {
+            return { ok: false, reason: 'after-end-turn' };
+        }
         if (!fightMenuLive()) {
             rearmFightMenuFromBytes();
             renderFightMenu();
@@ -3938,6 +3952,8 @@
                 canCommitAct: canCommitActMenu(fightSnap),
                 recentlyEndedTurn: recentlyEndedTurn(),
                 awaitingAim: awaitingAim(),
+                adjacent: !!adjacentEnemy(1),
+                over: !!(fightSnap && fightSnap.over),
                 afterEndTurnUntil: state.afterEndTurnUntil || 0,
                 aimEnteredAt: state.aimEnteredAt,
                 approachRepeatCount: state.approachRepeatCount,
