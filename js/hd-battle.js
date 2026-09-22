@@ -155,6 +155,7 @@
         aimCommit: null,
         lastPickEnterAt: 0,
         holdPickUntil: 0,
+        lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
         lastSwallowWhy: '',
         allowEndTurnEnter: false,
@@ -1312,17 +1313,21 @@
     }
 
     function noteEnemyTurnQuiet(why, fight) {
-        if (state.playerTurnEnded) {
-            return;
-        }
         dropQueuedEnters();
         clearPendingApproach();
         if (state.pendingActPick === 0) {
             state.pendingActPick = null;
         }
-        notePlayerTurnEnded(why || 'enemy-quiet');
+        /* 只吞 leftover ENTER。回合结束必须走 EXIT → fightOpenMainMenu return 0。
+         * 在此 latch playerTurnEnded 会挡掉那次 EXIT，FgtGetControl 永远等键。 */
+        var now = Date.now();
+        if (state.lastEnemyQuietLogAt && now - state.lastEnemyQuietLogAt < 2500) {
+            return;
+        }
+        state.lastEnemyQuietLogAt = now;
         console.log('[hd-battle] enemy-turn', {
             via: why || 'enemy-quiet',
+            latched: !!state.playerTurnEnded,
             phase: fight ? fight.phase : null,
             wait: !!(fight && fight.wait),
             waiting: playerHasWaitingOwn(),
@@ -1368,6 +1373,7 @@
             clearAimCommit('new-player-turn');
             state.lastPickEnterAt = 0;
             state.holdPickUntil = 0;
+            state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
             state.approachWaitLogs = 0;
             state.lastArmNextAt = 0;
@@ -2053,10 +2059,6 @@
         }
         maybeResumePlayerTurn(fight);
         if (state.playerTurnEnded) {
-            return false;
-        }
-        if (enemyTurnQuiet(fight)) {
-            noteEnemyTurnQuiet('maybe-end', fight);
             return false;
         }
         if (endTurnHeld()) {
@@ -3818,6 +3820,7 @@
         state.aimCommit = null;
         state.lastPickEnterAt = 0;
         state.holdPickUntil = 0;
+        state.lastEnemyQuietLogAt = 0;
         state.lastSwallowAt = 0;
         state.lastSwallowWhy = '';
         state.allowEndTurnEnter = false;
@@ -4567,9 +4570,7 @@
         recoverFightMenu(fightNow);
         if (enemyTurnQuiet(fightNow)) {
             dropQueuedEnters();
-            if (!state.playerTurnEnded) {
-                noteEnemyTurnQuiet('refresh', fightNow);
-            }
+            noteEnemyTurnQuiet('refresh', fightNow);
         }
         clearStuckApproach(fightNow);
         if (state.pendingActPick != null && !wantsWalkBeforeAct(state.pendingActPick)) {
