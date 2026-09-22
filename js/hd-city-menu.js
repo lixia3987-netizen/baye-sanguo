@@ -5642,6 +5642,9 @@
                 queueLen: state.queue.length,
                 sending: !!state.sending,
                 enginePersons: cityPersons(state.cityIndex).length,
+                enginePersonNames: cityPersons(state.cityIndex).map(function (p) {
+                    return p.name;
+                }),
                 enginePersonsAtFinish: state.enginePersonsAtFinish || 0,
                 enginePersonsAtPickStart: state.enginePersonsAtPickStart || 0,
                 marchHint: state.marchHint,
