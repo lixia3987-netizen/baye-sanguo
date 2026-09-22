@@ -848,7 +848,10 @@
         if (phaseNow === 3 || awaitingAim()) {
             return false;
         }
-        if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 480) {
+        if (liveActMenu() || state.sending || (state.queue && state.queue.length)) {
+            return false;
+        }
+        if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 1600) {
             return false;
         }
         state.lastArmNextAt = Date.now();
@@ -2124,7 +2127,8 @@
         }
         if (playerHasWaitingOwn()) {
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 ||
-                state.pendingApproach || state.approachPathWaitAt || awaitingAim()) {
+                state.pendingApproach || state.approachPathWaitAt || awaitingAim() ||
+                liveActMenu()) {
                 return false;
             }
             armNextWaitingOwn('end-turn-still-waiting');
