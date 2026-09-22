@@ -1971,25 +1971,24 @@
         if (!(fight && Number(fight.phase) === 1 && fight.wait && !fight.over)) {
             return;
         }
-        state.phase1EnterStuckHandled = true;
         dropQueuedEnters();
-        var stuckKey = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
-        markPhase1StuckUnit(stuckKey);
+        clearPhase1EnterCap('phase1-stuck-melee');
         console.log('[hd-battle] phase1-enter-stuck', {
             via: 'no-state-change',
-            unit: stuckKey,
+            unit: state.phase1EnterCapKey || unitCapKey(focusedFightUnit()),
             hdMenu: hdActMenuVisible(),
             index: state.menuIndex,
             adj: !!adjacentEnemy(1),
             moved: !!state.movedThisAct,
             live: liveActMenu()
         });
-        /* 禁止再排队 ENTER。攻击已高亮则走 HD 点击；否则换将或待机。 */
-        if (adjacentWaitingStrike() && (hdActMenuVisible() || liveActMenu() || canCommitActMenu(fight))) {
-            if (commitAdjacentMelee('phase1-stuck-melee')) {
-                return;
-            }
+        /* 贴脸将优先近战。先清 cap 再 ENTER，禁止先 mark-stuck 把庞德从 strike 里摘掉。 */
+        if (adjacentWaitingStrike() && commitAdjacentMelee('phase1-stuck-melee')) {
+            return;
         }
+        state.phase1EnterStuckHandled = true;
+        var stuckKey = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
+        markPhase1StuckUnit(stuckKey);
         if (canCommitActMenu(fight) && adjacentEnemy(1)) {
             pickFightMenu(0);
             return;
