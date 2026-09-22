@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922x';
+    var HD_BATTLE_VER = '20260922y';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -736,7 +736,7 @@
             return;
         }
         var phase = Number(fight && fight.phase) || 0;
-        if (playerHasWaitingOwn() && (phase === 1 || phase === 2) && fight && fight.wait) {
+        if (playerHasWaitingOwn() && !fight.over) {
             state.playerTurnEnded = false;
             state.afterEndTurnUntil = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
@@ -1286,7 +1286,9 @@
                 return false;
             }
             state.endTurnAt = Date.now();
-            pickFightMenuName('回合结束');
+            dropQueuedKeys();
+            state.menuIndex = 0;
+            enqueueKeys([VK.ENTER], 55);
             notePlayerTurnEnded('end-player-turn-menu');
             console.log('[hd-battle] rest-commit', { via: 'end-player-turn-menu' });
             return true;
@@ -2040,8 +2042,15 @@
     }
 
     function pickFightMenuName(name) {
-        if (name === '回合结束' && recentlyEndedTurn()) {
-            return { ok: false, reason: 'after-end-turn' };
+        if (name === '回合结束') {
+            if (recentlyEndedTurn()) {
+                return { ok: false, reason: 'after-end-turn' };
+            }
+            dropQueuedKeys();
+            state.menuIndex = 0;
+            enqueueKeys([VK.ENTER], 55);
+            notePlayerTurnEnded('pick-end-turn');
+            return { ok: true, index: 0, kind: 'sys', names: ['回合结束'] };
         }
         if (!fightMenuLive()) {
             rearmFightMenuFromBytes();
@@ -2218,6 +2227,10 @@
             }
         }
         state.queue = kept;
+    }
+
+    function dropQueuedKeys() {
+        state.queue = [];
     }
 
     function chebyshev(ax, ay, bx, by) {
