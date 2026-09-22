@@ -4425,7 +4425,7 @@
             return;
         }
         var haveFresh = freshMarchOk() || !!(state.marchReady && state.handoffHaveFresh && realMarchDest());
-        if (state.handoff && state.handoffTimer) {
+        if (state.handoff) {
             if (fightIsActive()) {
                 consumeMarchSeqIfFight();
                 finishHandoff(true);
@@ -4491,7 +4491,7 @@
 
         var HANDOFF_MAX_EXIT = 6;
         var HANDOFF_MAX_ENTER = 2;
-        var HANDOFF_MAX_MS = 10000;
+        var HANDOFF_MAX_MS = 16000;
         var HANDOFF_TICK_MS = 220;
 
         setHandoffStatus(haveFresh ? '正在退出城池…' : '没有新的出征队列');
