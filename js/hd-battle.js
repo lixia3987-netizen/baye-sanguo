@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zr';
+    var HD_BATTLE_VER = '20260922zs';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -158,6 +158,13 @@
         lastPickEnterAt: 0,
         holdPickUntil: 0,
         lastMenuCommitEnterAt: 0,
+        phase1EnterSent: false,
+        phase1EnterAt: 0,
+        phase1EnterStuckHandled: false,
+        phase1EnterCapKey: '',
+        phase1StuckUnitKey: '',
+        phase1StuckUnitKeys: {},
+        phase1StuckTimer: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -493,21 +500,24 @@
                         noteEnemyTurnQuiet('send-enter', fightKey);
                     } else if (muteWhy === 'no-player-pick' || muteWhy === 'enemy-focus') {
                         dropQueuedEnters();
-                    } else if (muteWhy === 'pick-throttle') {
+                    } else if (muteWhy === 'pick-throttle' || muteWhy === 'phase1-enter-cap') {
                         dropQueuedEnters();
-                        if (state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
+                        if (muteWhy === 'pick-throttle' &&
+                            state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
                             scheduleAfterHitSettle(80);
+                        }
+                        if (muteWhy === 'phase1-enter-cap') {
+                            schedulePhase1StuckRecover(40);
                         }
                     }
                     return false;
                 }
                 state.lastPickEnterAt = Date.now();
+                notePhase1EnterCommit(fightKey);
                 if (liveActMenu() || hdActMenuVisible()) {
                     state.lastMenuCommitEnterAt = Date.now();
                 }
-                if (state.pendingApproach && Number(fightKey.phase) === 1) {
-                    dropQueuedEnters();
-                }
+                dropQueuedEnters();
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
@@ -595,6 +605,10 @@
         gap = gap || 55;
         var i;
         for (i = 0; i < codes.length; i++) {
+            if (codes[i] === VK.ENTER && phase1EnterCapBlocksEnter()) {
+                dumpEnterSwallow('phase1-enter-cap', { via: 'enqueue' });
+                continue;
+            }
             state.queue.push({ code: codes[i], wait: gap });
         }
         pumpQueue();
@@ -1398,6 +1412,167 @@
         if (had) {
             console.log('[hd-battle] pick-throttle-clear', { via: why || 'clear' });
         }
+        /* 命中后 / 换将：下一将必须还能发那一次选将 ENTER。 */
+        clearPhase1EnterCap(why || 'pick-throttle');
+    }
+
+    function unitCapKey(u) {
+        if (!u || u.x == null || u.y == null) {
+            return '';
+        }
+        return String(u.name || '') + '@' + String(u.x) + ',' + String(u.y);
+    }
+
+    function markPhase1StuckUnit(key) {
+        if (!key) {
+            return;
+        }
+        if (!state.phase1StuckUnitKeys) {
+            state.phase1StuckUnitKeys = {};
+        }
+        state.phase1StuckUnitKeys[key] = Date.now();
+        state.phase1StuckUnitKey = key;
+    }
+
+    function isPhase1StuckUnit(u) {
+        var key = unitCapKey(u);
+        return !!(key && state.phase1StuckUnitKeys && state.phase1StuckUnitKeys[key]);
+    }
+
+    function clearPhase1StuckUnits(why) {
+        var n = 0;
+        var k;
+        if (state.phase1StuckUnitKeys) {
+            for (k in state.phase1StuckUnitKeys) {
+                if (state.phase1StuckUnitKeys.hasOwnProperty(k)) {
+                    n += 1;
+                }
+            }
+        }
+        state.phase1StuckUnitKeys = {};
+        state.phase1StuckUnitKey = '';
+        if (n) {
+            console.log('[hd-battle] phase1-stuck-clear', { via: why || 'clear', n: n });
+        }
+    }
+
+    function clearPhase1EnterCap(why) {
+        var had = !!(state.phase1EnterSent || state.phase1EnterAt);
+        if (state.phase1StuckTimer) {
+            clearTimeout(state.phase1StuckTimer);
+            state.phase1StuckTimer = 0;
+        }
+        state.phase1EnterSent = false;
+        state.phase1EnterAt = 0;
+        state.phase1EnterStuckHandled = false;
+        state.phase1EnterCapKey = '';
+        if (had) {
+            console.log('[hd-battle] phase1-enter-cap-clear', { via: why || 'clear' });
+        }
+    }
+
+    function notePhase1EnterCommit(fight) {
+        var fu = null;
+        try { fu = focusedFightUnit(); } catch (eFu) {}
+        state.phase1EnterSent = true;
+        state.phase1EnterAt = Date.now();
+        state.phase1EnterStuckHandled = false;
+        state.phase1EnterCapKey = unitCapKey(fu) || state.phase1EnterCapKey || 'pick';
+        dropQueuedEnters();
+        console.log('[hd-battle] phase1-enter-commit', {
+            unit: state.phase1EnterCapKey,
+            hdMenu: hdActMenuVisible(),
+            index: state.menuIndex,
+            pending: !!state.pendingApproach,
+            moved: !!state.movedThisAct,
+            phase: fight ? Number(fight.phase) : null
+        });
+        schedulePhase1StuckRecover(300);
+    }
+
+    function phase1EnterCapBlocksEnter(destX, destY) {
+        var fight = null;
+        try { fight = readFight(); } catch (eR) { fight = null; }
+        if (!(fight && Number(fight.phase) === 1 && fight.wait && !fight.over)) {
+            return false;
+        }
+        if (!state.phase1EnterSent) {
+            return false;
+        }
+        if (destX != null && destY != null) {
+            var dest = unitAt(destX, destY);
+            var destKey = unitCapKey(dest);
+            if (destKey && destKey !== state.phase1EnterCapKey) {
+                return false;
+            }
+            return true;
+        }
+        var fu = null;
+        try { fu = focusedFightUnit(); } catch (eF) {}
+        var key = unitCapKey(fu);
+        if (key && state.phase1EnterCapKey && key !== state.phase1EnterCapKey) {
+            return false;
+        }
+        return true;
+    }
+
+    function schedulePhase1StuckRecover(ms) {
+        if (state.phase1StuckTimer) {
+            clearTimeout(state.phase1StuckTimer);
+        }
+        state.phase1StuckTimer = setTimeout(function () {
+            state.phase1StuckTimer = 0;
+            try { recoverPhase1EnterStuck(); } catch (eStuck) {}
+        }, ms == null ? 300 : ms);
+    }
+
+    function recoverPhase1EnterStuck() {
+        if (!state.phase1EnterSent || state.phase1EnterStuckHandled) {
+            return;
+        }
+        if (state.phase1EnterAt && Date.now() - state.phase1EnterAt < 300) {
+            schedulePhase1StuckRecover(Math.max(40, 300 - (Date.now() - state.phase1EnterAt)));
+            return;
+        }
+        if (!fightReallyActive() || state.resultText) {
+            return;
+        }
+        var fight = null;
+        try { fight = readFight(); } catch (eF) {}
+        if (!(fight && Number(fight.phase) === 1 && fight.wait && !fight.over)) {
+            return;
+        }
+        state.phase1EnterStuckHandled = true;
+        dropQueuedEnters();
+        var stuckKey = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
+        markPhase1StuckUnit(stuckKey);
+        console.log('[hd-battle] phase1-enter-stuck', {
+            via: 'no-state-change',
+            unit: stuckKey,
+            hdMenu: hdActMenuVisible(),
+            index: state.menuIndex,
+            adj: !!adjacentEnemy(1),
+            moved: !!state.movedThisAct,
+            live: liveActMenu()
+        });
+        /* 禁止再排队 ENTER。攻击已高亮则走 HD 点击；否则换将或待机。 */
+        if (canCommitActMenu(fight) && adjacentEnemy(1)) {
+            pickFightMenu(0);
+            return;
+        }
+        if (hdActMenuVisible() && adjacentEnemy(1) && (state.movedThisAct || liveActMenu())) {
+            pickFightMenu(0);
+            return;
+        }
+        var nextOther = firstWaitingOwn({ skipLord: true });
+        var nextLord = firstWaitingOwn({ lordOnly: true });
+        if (nextOther || nextLord) {
+            clearPendingApproach();
+            clearPhase1EnterCap('phase1-stuck-next');
+            armNextWaitingOwn('phase1-enter-stuck', { force: true });
+            return;
+        }
+        preferRest('phase1-enter-stuck');
     }
 
     function recentlyHitActor(u) {
@@ -1454,7 +1629,14 @@
     }
 
     function mutePhase1Enter(fight) {
-        if (!(fight && Number(fight.phase) === 1 && fight.wait) || liveActMenu()) {
+        if (!(fight && Number(fight.phase) === 1 && fight.wait)) {
+            return '';
+        }
+        /* 将领行动已开也不能连发：盒子会停在 wait=true + 攻击高亮，zr 放行流会灌 ENTER。 */
+        if (phase1EnterCapBlocksEnter()) {
+            return 'phase1-enter-cap';
+        }
+        if (liveActMenu()) {
             return '';
         }
         if (enemyTurnQuiet(fight)) {
@@ -1484,13 +1666,6 @@
             return 'lord-hold-pick';
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
-            /* 命中后 / 已武装走近：这发 ENTER 是选下一将，不是 leftover 确认。 */
-            if (hitFresh || (state.pendingApproach && !state.movedThisAct)) {
-                if (state.lastMenuCommitEnterAt && Date.now() - state.lastMenuCommitEnterAt < 400) {
-                    return 'pick-throttle';
-                }
-                return '';
-            }
             return 'pick-throttle';
         }
         return '';
@@ -1558,6 +1733,8 @@
             state.lastPickEnterAt = 0;
             state.holdPickUntil = 0;
             state.lastMenuCommitEnterAt = 0;
+            clearPhase1StuckUnits('new-player-turn');
+            clearPhase1EnterCap('new-player-turn');
             state.lastHitActor = null;
             state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
@@ -2594,6 +2771,11 @@
         if (!pick) {
             return null;
         }
+        if (fightOwn && Number(fightOwn.phase) === 1 && fightOwn.wait &&
+            phase1EnterCapBlocksEnter(pick.x, pick.y)) {
+            schedulePhase1StuckRecover(40);
+            return null;
+        }
         if (fightOwn && Number(fightOwn.phase) === 1) {
             clearMovedThisAct('pick-next-general');
         }
@@ -2625,6 +2807,9 @@
             }
             /* 刚打完的将引擎可能还没标 active，禁止立刻再武装同一将。 */
             if (recentlyHitActor(u)) {
+                continue;
+            }
+            if (isPhase1StuckUnit(u)) {
                 continue;
             }
             return u;
@@ -2856,6 +3041,9 @@
         rec.hdMenu = hdActMenuVisible();
         rec.hitAge = state.lastHitAt ? (Date.now() - state.lastHitAt) : null;
         rec.lastPickAge = state.lastPickEnterAt ? (Date.now() - state.lastPickEnterAt) : null;
+        rec.phase1EnterSent = !!state.phase1EnterSent;
+        rec.phase1CapKey = state.phase1EnterCapKey || '';
+        rec.phase1Stuck = state.phase1StuckUnitKey || '';
         console.log('[hd-battle] enter-swallowed', rec);
         return rec;
     }
@@ -3034,6 +3222,10 @@
                 clearPendingApproach();
                 return false;
             }
+            if (fight.wait && state.phase1EnterSent && phase1EnterCapBlocksEnter()) {
+                schedulePhase1StuckRecover(40);
+                return false;
+            }
             if (liveActMenu() && (state.sawMoveThisTurn || Number(fight.phase) === 0) &&
                 fight && !fight.wait) {
                 /* 真 PlcSplMenu（走完 wait=0）才挡。回合后 leftover 攻击字节不能挡走近。 */
@@ -3135,6 +3327,10 @@
         if (!fight || !fight.active) {
             state.lastWait = 0;
             return;
+        }
+        var phaseNowWait = Number(fight.phase) || 0;
+        if ((phaseNowWait === 2 || phaseNowWait === 3) && state.phase1EnterSent) {
+            clearPhase1EnterCap(phaseNowWait === 2 ? 'move-phase' : 'aim-phase');
         }
         var w = fight.wait ? 1 : 0;
         if (w !== state.lastWait) {
@@ -3872,7 +4068,13 @@
         while (fx > x && keys.length < 24) { keys.push(VK.LEFT); fx -= 1; }
         while (fx < x && keys.length < 24) { keys.push(VK.RIGHT); fx += 1; }
         if (thenEnter) {
-            keys.push(VK.ENTER);
+            if (phase1EnterCapBlocksEnter(x, y)) {
+                console.log('[hd-battle] walk-skip-enter', {
+                    via: 'phase1-enter-cap', x: x, y: y
+                });
+            } else {
+                keys.push(VK.ENTER);
+            }
         }
         enqueueKeys(keys, 70);
         state.focus.x = x;
@@ -4184,6 +4386,8 @@
             state.lastPickEnterAt = 0;
             state.holdPickUntil = 0;
             state.lastMenuCommitEnterAt = 0;
+            clearPhase1StuckUnits('prepare-new');
+            clearPhase1EnterCap('prepare-new');
             if (state.afterHitTimer) {
                 clearTimeout(state.afterHitTimer);
                 state.afterHitTimer = 0;
@@ -5698,6 +5902,22 @@
                 holdPickUntil: state.holdPickUntil || 0,
                 hdMenuVisible: hdActMenuVisible(),
                 lastMenuCommitEnterAt: state.lastMenuCommitEnterAt || 0,
+                phase1EnterSent: !!state.phase1EnterSent,
+                phase1EnterAt: state.phase1EnterAt || 0,
+                phase1EnterCapKey: state.phase1EnterCapKey || '',
+                phase1StuckUnitKey: state.phase1StuckUnitKey || '',
+                phase1StuckCount: (function () {
+                    var n = 0;
+                    var k;
+                    if (state.phase1StuckUnitKeys) {
+                        for (k in state.phase1StuckUnitKeys) {
+                            if (state.phase1StuckUnitKeys.hasOwnProperty(k)) {
+                                n += 1;
+                            }
+                        }
+                    }
+                    return n;
+                }()),
                 enemyQuiet: enemyTurnQuiet(fightSnap),
                 lord: (function () {
                     var lu = null;
