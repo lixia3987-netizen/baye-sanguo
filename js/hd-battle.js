@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zo';
+    var HD_BATTLE_VER = '20260922zp';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -153,6 +153,8 @@
         sawMoveThisTurn: false,
         lastHitAt: 0,
         aimCommit: null,
+        lastPickEnterAt: 0,
+        holdPickUntil: 0,
         lastSwallowAt: 0,
         lastSwallowWhy: '',
         allowEndTurnEnter: false,
@@ -474,6 +476,21 @@
                     overNow = true;
                 }
             } catch (eOver) {}
+            if (code === VK.ENTER && fightReallyActive() && !overNow &&
+                fightKey && Number(fightKey.phase) === 1 && fightKey.wait &&
+                !state.allowEndTurnEnter) {
+                var muteWhy = mutePhase1Enter(fightKey);
+                if (muteWhy) {
+                    dumpEnterSwallow(muteWhy === 'enemy-turn' ? 'enemy-turn-block' : muteWhy, {
+                        key: 'ENTER'
+                    });
+                    if (muteWhy === 'enemy-turn') {
+                        noteEnemyTurnQuiet('send-enter', fightKey);
+                    }
+                    return false;
+                }
+                state.lastPickEnterAt = Date.now();
+            }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
                 dumpEnterSwallow('aim-commit-block', {
@@ -780,6 +797,9 @@
         }
         var fightNow = null;
         try { fightNow = readFight(); } catch (eF) {}
+        if (enemyTurnQuiet(fightNow) || (state.holdPickUntil && Date.now() < state.holdPickUntil)) {
+            return false;
+        }
         var phaseNow = Number(fightNow && fightNow.phase) || 0;
         /* 本将已在走格/瞄准：禁止 refresh 把 pendingApproach 写回去、打断 melee。 */
         if (phaseNow === 2 && (state.pendingApproach || state.approachPathWaitAt)) {
@@ -1210,6 +1230,78 @@
             (state.afterEndTurnUntil && Date.now() < state.afterEndTurnUntil));
     }
 
+    function focusedFightUnit() {
+        var cur = null;
+        try { cur = syncFocusFromEngine(); } catch (eF) {}
+        if (!cur || cur.x == null || cur.y == null) {
+            return null;
+        }
+        return unitAt(cur.x, cur.y);
+    }
+
+    function enemyTurnQuiet(fight) {
+        fight = fight || null;
+        if (!fight) {
+            try { fight = readFight(); } catch (eR) { fight = null; }
+        }
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        if (state.playerTurnEnded || recentlyEndedTurn()) {
+            return true;
+        }
+        var phase = Number(fight.phase) || 0;
+        if (phase === 2 || phase === 3) {
+            return false;
+        }
+        if (phase === 1 && fight.wait && !playerHasWaitingOwn() && !liveActMenu()) {
+            return true;
+        }
+        return false;
+    }
+
+    function mutePhase1Enter(fight) {
+        if (enemyTurnQuiet(fight)) {
+            return 'enemy-turn';
+        }
+        if (!(fight && Number(fight.phase) === 1 && fight.wait) || liveActMenu()) {
+            return '';
+        }
+        if (state.holdPickUntil && Date.now() < state.holdPickUntil) {
+            return 'pick-hold';
+        }
+        var fu = focusedFightUnit();
+        if (fu && fu.side === 'enemy') {
+            return 'enemy-focus';
+        }
+        if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 800) {
+            return 'pick-throttle';
+        }
+        return '';
+    }
+
+    function noteEnemyTurnQuiet(why, fight) {
+        if (state.playerTurnEnded) {
+            return;
+        }
+        dropQueuedEnters();
+        clearPendingApproach();
+        if (state.pendingActPick === 0) {
+            state.pendingActPick = null;
+        }
+        notePlayerTurnEnded(why || 'enemy-quiet');
+        console.log('[hd-battle] enemy-turn', {
+            via: why || 'enemy-quiet',
+            phase: fight ? fight.phase : null,
+            wait: !!(fight && fight.wait),
+            waiting: playerHasWaitingOwn(),
+            focus: (function () {
+                var u = focusedFightUnit();
+                return u ? { name: u.name, side: u.side, x: u.x, y: u.y } : null;
+            }())
+        });
+    }
+
     function notePlayerTurnEnded(why) {
         state.playerTurnEnded = true;
         state.afterEndTurnUntil = Date.now() + 9000;
@@ -1243,6 +1335,8 @@
             resetActMenuIndex('new-player-turn');
             state.actedThisTurn = 0;
             clearAimCommit('new-player-turn');
+            state.lastPickEnterAt = 0;
+            state.holdPickUntil = 0;
             state.approachPathWaitAt = 0;
             state.approachWaitLogs = 0;
             state.lastArmNextAt = 0;
@@ -1624,6 +1718,10 @@
                 armBlankMenuWatchdog('still-walk');
                 return;
             }
+            if (enemyTurnQuiet(fight)) {
+                dropQueuedEnters();
+                return;
+            }
             if (state.pendingApproach && fight && Number(fight.phase) === 2 && fight.wait) {
                 if (!approachStuck(fight)) {
                     scheduleDrive('watchdog-flush-walk');
@@ -1663,6 +1761,9 @@
         var keepPick = state.pendingActPick;
         var fightKeep = null;
         try { fightKeep = readFight(); } catch (eK) {}
+        if (enemyTurnQuiet(fightKeep)) {
+            return;
+        }
         if (fightKeep && Number(fightKeep.phase) === 3) {
             keepApproach = null;
             keepPick = (keepPick === 0) ? null : keepPick;
@@ -1844,12 +1945,11 @@
         opts = opts || {};
         /* 已经 melee ENTER 过：只 EXIT 离 AIM，禁止再武装攻击/走近。 */
         if (aimCommitHolds()) {
-            dropQueuedEnters();
+            dropQueuedKeys();
             state.pendingAimEnter = null;
             clearPendingApproach();
-            if (state.pendingActPick === 0) {
-                state.pendingActPick = null;
-            }
+            state.pendingActPick = null;
+            state.holdPickUntil = Date.now() + 700;
             exitLeftoverAimOnce(why || 'aim-commit', { afterHit: true });
             return;
         }
@@ -1930,6 +2030,10 @@
         }
         maybeResumePlayerTurn(fight);
         if (state.playerTurnEnded) {
+            return false;
+        }
+        if (enemyTurnQuiet(fight)) {
+            noteEnemyTurnQuiet('maybe-end', fight);
             return false;
         }
         if (endTurnHeld()) {
@@ -2242,28 +2346,28 @@
             scheduleDrive('pick-own-busy');
             return null;
         }
+        var fightOwn = null;
+        try { fightOwn = readFight(); } catch (eOwn) {}
+        if (enemyTurnQuiet(fightOwn) || (state.holdPickUntil && Date.now() < state.holdPickUntil)) {
+            return null;
+        }
+        if (fightOwn && Number(fightOwn.phase) === 1 && fightOwn.wait &&
+            state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 800) {
+            return null;
+        }
         var i;
-        var fallback = null;
         for (i = 0; i < state.units.length; i++) {
             var u = state.units[i];
             if (!u || u.side !== 'player' || u.x == null || u.y == null) {
                 continue;
             }
             if (u.active === 0 || u.active == null) {
-                var fightOwn = null;
-                try { fightOwn = readFight(); } catch (eOwn) {}
                 if (fightOwn && Number(fightOwn.phase) === 1) {
                     clearMovedThisAct('pick-next-general');
                 }
                 noteActingUnit(u);
                 return clickBattleTile(u.x, u.y);
             }
-            if (!fallback) {
-                fallback = u;
-            }
-        }
-        if (fallback) {
-            return clickBattleTile(fallback.x, fallback.y);
         }
         return null;
     }
@@ -2287,6 +2391,9 @@
         var fight = readFight();
         if (!fight || !fight.active || fight.over || state.resultText) {
             resetActDrive();
+            return false;
+        }
+        if (enemyTurnQuiet(fight) || (state.holdPickUntil && Date.now() < state.holdPickUntil)) {
             return false;
         }
         if (!playerHasWaitingOwn()) {
@@ -2580,7 +2687,8 @@
             state.sawMoveThisTurn = true;
         }
         if (phase === 1 || phase === 0) {
-            if (recentlyEndedTurn()) {
+            if (recentlyEndedTurn() || enemyTurnQuiet(fight) ||
+                (state.holdPickUntil && Date.now() < state.holdPickUntil)) {
                 clearPendingApproach();
                 return false;
             }
@@ -3679,6 +3787,8 @@
         state.sawMoveThisTurn = false;
         state.lastHitAt = 0;
         state.aimCommit = null;
+        state.lastPickEnterAt = 0;
+        state.holdPickUntil = 0;
         state.lastSwallowAt = 0;
         state.lastSwallowWhy = '';
         state.allowEndTurnEnter = false;
@@ -4426,6 +4536,12 @@
         noteAimPhase(fightNow);
         noteFightWait(fightNow);
         recoverFightMenu(fightNow);
+        if (enemyTurnQuiet(fightNow)) {
+            dropQueuedEnters();
+            if (!state.playerTurnEnded) {
+                noteEnemyTurnQuiet('refresh', fightNow);
+            }
+        }
         clearStuckApproach(fightNow);
         if (state.pendingActPick != null && !wantsWalkBeforeAct(state.pendingActPick)) {
             clearPendingApproach();
@@ -5164,6 +5280,9 @@
                 awaitingAim: awaitingAim(),
                 lastHitAt: state.lastHitAt || 0,
                 aimCommit: state.aimCommit,
+                lastPickEnterAt: state.lastPickEnterAt || 0,
+                holdPickUntil: state.holdPickUntil || 0,
+                enemyQuiet: enemyTurnQuiet(fightSnap),
                 lastSwallowWhy: state.lastSwallowWhy || '',
                 adjacent: !!adjacentEnemy(1),
                 actorAt: state.actorAt,
