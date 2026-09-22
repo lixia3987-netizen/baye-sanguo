@@ -955,9 +955,12 @@
         }
         /* 第一击前禁止 stall-break 待机：会把庞德走半格就结束回合。 */
         if (!state.lastHitAt && (state.actedThisTurn || 0) < 1) {
-            console.log('[hd-battle] next-unit-stall-hold', {
-                via: 'pre-first-hit', why: why || 'stall'
-            });
+            if (!state.lastStallHoldLogAt || Date.now() - state.lastStallHoldLogAt > 1600) {
+                state.lastStallHoldLogAt = Date.now();
+                console.log('[hd-battle] next-unit-stall-hold', {
+                    via: 'pre-first-hit', why: why || 'stall'
+                });
+            }
             return false;
         }
         dropQueuedEnters();
@@ -1039,6 +1042,9 @@
         opts = opts || {};
         var endTurnWhy = /end-turn|exit-blocked|refresh|after-attack-hit/i.test(why || '');
         if ((forceEndTurnArmed() || endTurnBrokeArmed()) && endTurnWhy) {
+            if (!state.lastHitAt && (state.actedThisTurn || 0) < 1) {
+                return false;
+            }
             if (endTurnBrokeArmed() && /end-turn|exit-blocked/i.test(why || '')) {
                 return forceFinishWaitingOrEndTurn(why || 'broke-requeue');
             }
