@@ -2013,7 +2013,8 @@
         if (!u || !state.lastHitActor || !state.lastHitAt) {
             return false;
         }
-        if (Date.now() - state.lastHitAt > 2800) {
+        /* 出手将本回合不再连打同一格，避免 same-tile 10+。下一回合会清 lastHitActor。 */
+        if (Date.now() - state.lastHitAt > 20000) {
             return false;
         }
         return u.x === state.lastHitActor.x && u.y === state.lastHitActor.y;
@@ -2920,9 +2921,8 @@
                 if (postStrike && commitAdjacentMelee('post-hit-adj-menu')) {
                     return true;
                 }
-                if (!state.lastAttackAt || Date.now() - state.lastAttackAt > 1600) {
-                    pickFightMenu(0);
-                    return true;
+                if (playerHasWaitingOwn()) {
+                    armNextWaitingOwn('post-hit-next', { force: true });
                 }
                 return false;
             }
