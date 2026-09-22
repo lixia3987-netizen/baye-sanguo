@@ -2984,7 +2984,7 @@
             if (state.sending || state.queue.length) {
                 state.lastBlockedEnter = 'walk-busy';
                 if (!state.pendingApproach &&
-                    !(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400)) {
+                    !(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 2200)) {
                     setPendingApproach(x, y);
                     scheduleDriveSoon('walk-busy-retry', 90);
                 }
