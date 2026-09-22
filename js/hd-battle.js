@@ -985,6 +985,14 @@
             state.allowEndTurnEnter = false;
             resetActMenuIndex('new-player-turn');
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
+        } else if (endedAt && Date.now() - endedAt > 4200 &&
+            fight && !fight.over && fight.wait && phase === 1 &&
+            !playerHasWaitingOwn()) {
+            /* 敌方回合后若仍停在选将且无未行动己方，放开 latch 才能再 EXIT 回合结束。 */
+            state.playerTurnEnded = false;
+            state.afterEndTurnUntil = 0;
+            state.openedSysForEndTurn = false;
+            console.log('[hd-battle] act-reset', { via: 'end-turn-retry', phase: phase });
         }
     }
 
