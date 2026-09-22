@@ -140,6 +140,7 @@
         lastApproachActor: '',
         pendingAimEnter: null,
         lastRestCommitAt: 0,
+        movedThisAct: false,
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
@@ -833,6 +834,7 @@
         state.leavingAim = false;
         state.pendingAimEnter = null;
         state.approachRepeatCount = 0;
+        state.movedThisAct = false;
         if (state.driveTimer) {
             clearTimeout(state.driveTimer);
             state.driveTimer = 0;
@@ -937,7 +939,9 @@
                 state.pendingActPick = null;
             }
         }
-        state.walkSubmittedAt = 0;
+        if (!state.movedThisAct) {
+            state.walkSubmittedAt = 0;
+        }
         state.holdActMenuUntil = Date.now() + 700;
         var fight = null;
         try { fight = readFight(); } catch (eF) {}
@@ -1060,6 +1064,11 @@
                     return;
                 }
             }
+            if (/after-attack|aim-oor|leftover|watchdog-aim/.test(why || '') &&
+                state.movedThisAct && !likelyAimTarget()) {
+                preferRest('rearm-leftover-after-move');
+                return;
+            }
             state.leavingAim = false;
             forceShowFightMenu(why || 'after-rearm');
         }
@@ -1069,7 +1078,12 @@
     function leaveAimAndRearm(why, opts) {
         opts = opts || {};
         dropQueuedEnters();
-        if (!opts.keepApproach && !opts.thenApproach) {
+        if (opts.thenApproach && state.movedThisAct) {
+            /* 本将走格已落定，不能再走近； leftover AIM 只能待机。 */
+            opts.thenApproach = null;
+            opts.thenRest = true;
+        }
+        if (!opts.keepApproach && !opts.thenApproach && !opts.thenRest) {
             state.pendingApproach = null;
             if (state.pendingActPick !== 3) {
                 state.pendingActPick = null;
@@ -1079,19 +1093,42 @@
             state.pendingApproach = { x: opts.thenApproach.x, y: opts.thenApproach.y };
             state.pendingActPick = 0;
         }
-        state.walkSubmittedAt = 0;
+        if (opts.thenRest) {
+            state.pendingApproach = null;
+            state.pendingActPick = 3;
+        }
         state.leavingAim = true;
         state.lastAimExitAt = Date.now();
         state.pendingAimEnter = null;
         logAimExit(why || 'aim-oor', {
             keepApproach: !!opts.keepApproach,
-            thenApproach: opts.thenApproach || null
+            thenApproach: opts.thenApproach || null,
+            thenRest: !!opts.thenRest,
+            moved: !!state.movedThisAct
         });
         forceShowFightMenu(why || 'aim-oor');
-        scheduleActRearm(why || 'aim-oor');
-        if (opts.thenApproach) {
-            scheduleDrive('after-leftover-approach');
+        if (opts.thenRest) {
+            console.log('[hd-battle] rest-commit', {
+                via: 'leftover-after-move', why: why || 'aim-oor'
+            });
+            state.lastRestAt = Date.now();
+            scheduleDrive('prefer-rest');
+        } else {
+            scheduleActRearm(why || 'aim-oor');
+            if (opts.thenApproach) {
+                scheduleDrive('after-leftover-approach');
+            }
         }
+    }
+
+    function preferRest(why) {
+        state.pendingApproach = null;
+        state.pendingActPick = 3;
+        state.approachRepeatCount = 0;
+        console.log('[hd-battle] rest-commit', { via: why || 'prefer-rest', moved: !!state.movedThisAct });
+        state.lastRestAt = Date.now();
+        forceShowFightMenu(why || 'prefer-rest');
+        scheduleDrive('prefer-rest');
     }
 
     function noteApproachAttempt(via, dest, actor) {
@@ -1480,12 +1517,14 @@
                 }
                 console.log('[hd-battle] approach walk', dest, 'via', closer);
                 state.walkSubmittedAt = Date.now();
+                state.movedThisAct = true;
                 walkFocusTo(closer.x, closer.y, true);
                 scheduleActRearm('after-approach');
                 return true;
             }
             /* 已贴脸或无更近格：落定当前格，随后 pendingActPick 选攻击。 */
             state.walkSubmittedAt = Date.now();
+            state.movedThisAct = true;
             enqueueKeys([VK.ENTER], 55);
             scheduleActRearm('after-approach');
             return true;
@@ -1591,6 +1630,7 @@
                 /* 选将（phase 1）是新的一将；瞄准/走格不要放开 willCloseMenu 的残留武装。 */
                 if ((Number(fight.phase) || 0) <= 1) {
                     state.needWaitBeforeMenu = false;
+                    state.movedThisAct = false;
                 }
             }
             /* wait 1→0：不要清 liveMenuKind。PlcSplMenu 的 onMenuIdle 往往已在
@@ -1659,7 +1699,9 @@
             armBlankMenuWatchdog('after-attack');
             if (leftoverAim(fightAtk)) {
                 var foe = nearestEnemy();
-                leaveAimAndRearm('attack-leftover-aim', foe ? { thenApproach: { x: foe.x, y: foe.y } } : null);
+                leaveAimAndRearm('attack-leftover-aim', state.movedThisAct
+                    ? { thenRest: true }
+                    : (foe ? { thenApproach: { x: foe.x, y: foe.y } } : { thenRest: true }));
                 return;
             }
         }
@@ -2148,6 +2190,7 @@
                     state.pendingActPick = null;
                 }
                 state.walkSubmittedAt = Date.now();
+                state.movedThisAct = true;
                 walkFocusTo(closer.x, closer.y, true);
                 scheduleActRearm('after-approach');
                 return {
@@ -2206,6 +2249,7 @@
                 state.pendingActPick = null;
             }
             state.walkSubmittedAt = Date.now();
+            state.movedThisAct = true;
             scheduleActRearm('after-walk');
         }
         return {
@@ -3025,7 +3069,7 @@
             }
         } else if (leftoverAim(fightNow) && !state.leavingAim &&
             Date.now() - (state.lastAimExitAt || 0) > 400) {
-            leaveAimAndRearm('refresh-leftover-aim');
+            leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
         }
         if (!menuPanelClickable() && !state.blankWatchTimer) {
             armBlankMenuWatchdog('refresh-hidden');
@@ -3603,6 +3647,7 @@
                 lastApproachKey: state.lastApproachKey,
                 lastAimExitAt: state.lastAimExitAt,
                 lastAttackAt: state.lastAttackAt,
+                movedThisAct: !!state.movedThisAct,
                 holdActMenuUntil: state.holdActMenuUntil,
                 autoActTries: state.autoActTries,
                 stackDepth: state.stackDepth,
