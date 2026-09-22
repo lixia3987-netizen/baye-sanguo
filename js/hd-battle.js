@@ -738,6 +738,9 @@
             return;
         }
         state.aimEnteredAt = 0;
+        if (state.leavingAim && Date.now() - (state.lastAimExitAt || 0) > 180) {
+            state.leavingAim = false;
+        }
     }
 
     function logAimExit(why, extra) {
@@ -748,6 +751,23 @@
         rec.rng = atkRngReady();
         rec.aimAge = state.aimEnteredAt ? (Date.now() - state.aimEnteredAt) : 0;
         console.log('[hd-battle] aim-exit-reason', rec);
+    }
+
+    function recentlyLeftAim(ms) {
+        var win = ms == null ? 750 : ms;
+        return !!(state.lastAimExitAt && (Date.now() - state.lastAimExitAt) < win);
+    }
+
+    function exitLeftoverAimOnce(why, extra) {
+        if (recentlyLeftAim(750)) {
+            return false;
+        }
+        dropQueuedEnters();
+        state.leavingAim = true;
+        state.lastAimExitAt = Date.now();
+        logAimExit(why || 'leftover', extra || {});
+        enqueueKeys([VK.EXIT], 55);
+        return true;
     }
 
     function aimingTiles(fight) {
@@ -972,11 +992,7 @@
         var fight = null;
         try { fight = readFight(); } catch (eF) {}
         if (fight && Number(fight.phase) === 3 && leftoverAim(fight)) {
-            dropQueuedEnters();
-            state.leavingAim = true;
-            state.lastAimExitAt = Date.now();
-            logAimExit(why || 'force-show', { phase: 3, wait: !!fight.wait });
-            enqueueKeys([VK.EXIT], 55);
+            exitLeftoverAimOnce(why || 'force-show', { phase: 3, wait: !!fight.wait });
         }
         forceRevealActMenu(why || 'force-show');
     }
@@ -1076,13 +1092,14 @@
                     state.rearmTimer = setTimeout(tick, 80);
                     return;
                 }
-                if (leftoverAim(fight) && tries < 4 && Date.now() - started < 1200) {
-                    tries += 1;
-                    dropQueuedEnters();
-                    state.leavingAim = true;
-                    state.lastAimExitAt = Date.now();
-                    logAimExit(why || 'after-rearm', { try: tries });
-                    enqueueKeys([VK.EXIT], 55);
+                if (leftoverAim(fight) && Date.now() - started < 1200) {
+                    if (recentlyLeftAim()) {
+                        state.rearmTimer = setTimeout(tick, 120);
+                        return;
+                    }
+                    if (exitLeftoverAimOnce(why || 'after-rearm', { try: tries + 1 })) {
+                        tries += 1;
+                    }
                     state.rearmTimer = setTimeout(tick, 160);
                     return;
                 }
@@ -1123,10 +1140,8 @@
             state.pendingApproach = null;
             state.pendingActPick = 3;
         }
-        state.leavingAim = true;
-        state.lastAimExitAt = Date.now();
         state.pendingAimEnter = null;
-        logAimExit(why || 'aim-oor', {
+        exitLeftoverAimOnce(why || 'aim-oor', {
             keepApproach: !!opts.keepApproach,
             thenApproach: opts.thenApproach || null,
             thenRest: !!opts.thenRest,
@@ -1162,15 +1177,11 @@
         var viaY = via && via.y;
         var destX = dest && dest.x;
         var destY = dest && dest.y;
-        var ax = actor && actor.x;
-        var ay = actor && actor.y;
         var key = String(viaX) + ',' + String(viaY) + '>' + String(destX) + ',' + String(destY);
-        var actorKey = String(ax) + ',' + String(ay);
-        if (key === state.lastApproachKey && actorKey === state.lastApproachActor) {
+        if (key === state.lastApproachKey) {
             state.approachRepeatCount = (state.approachRepeatCount || 0) + 1;
         } else {
             state.lastApproachKey = key;
-            state.lastApproachActor = actorKey;
             state.approachRepeatCount = 1;
         }
         if (state.approachRepeatCount >= 3) {
@@ -1425,7 +1436,11 @@
         var phase = Number(fight.phase) || 0;
         if (phase === 3) {
             if (leftoverAim(fight)) {
-                leaveAimAndRearm('drive-leftover-aim');
+                if (recentlyLeftAim()) {
+                    return true;
+                }
+                leaveAimAndRearm('drive-leftover-aim', state.movedThisAct
+                    ? { thenRest: true } : null);
                 return true;
             }
             return false;
@@ -1748,10 +1763,9 @@
                 var fightRest = null;
                 try { fightRest = readFight(); } catch (eRest) {}
                 if (fightRest && Number(fightRest.phase) === 3) {
-                    leaveAimAndRearm('rest-cancel-aim');
+                    leaveAimAndRearm('rest-cancel-aim', { thenRest: true });
                     state.pendingActPick = 3;
                     console.log('[hd-battle] rest-commit', { via: 'cancel-aim', phase: 3 });
-                    scheduleDrive('rest-after-aim');
                     return;
                 }
             }
@@ -3122,13 +3136,13 @@
                 confirmAimHit(peLegal, peLegal.x, peLegal.y, 'wait-rng-legal', {});
             } else if (peDist <= 1 && (atkRngReady() || leftoverAim(fightNow) || aimAgeMs() > 800)) {
                 confirmAimHit(peUnit || { name: pe.name }, pe.x, pe.y, 'wait-rng-melee', { dist: peDist });
-            } else if (leftoverAim(fightNow)) {
+            } else if (leftoverAim(fightNow) && !recentlyLeftAim()) {
                 state.pendingAimEnter = null;
                 leaveAimAndRearm('refresh-aim-wait-oor', state.movedThisAct
                     ? { thenRest: true }
                     : { thenApproach: { x: pe.x, y: pe.y } });
             }
-        } else if (leftoverAim(fightNow) && !state.leavingAim &&
+        } else if (leftoverAim(fightNow) && !recentlyLeftAim() &&
             Date.now() - (state.lastAimExitAt || 0) > 400) {
             leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
         }
