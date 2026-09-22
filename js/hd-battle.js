@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zw';
+    var HD_BATTLE_VER = '20260922zx';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -165,6 +165,8 @@
         phase1StuckUnitKey: '',
         phase1StuckUnitKeys: {},
         phase1StuckTimer: 0,
+        pendingPickUnit: '',
+        lastAdjMeleeAt: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -935,6 +937,10 @@
             (liveActMenu() || canCommitActMenu(fight))) {
             return true;
         }
+        if (adjacentWaitingStrike() && (state.pendingActPick === 0 || hdActMenuVisible() ||
+            liveActMenu())) {
+            return true;
+        }
         return false;
     }
 
@@ -952,7 +958,8 @@
         state.forceEndTurnUntil = Date.now() + 6000;
         state.holdEndTurnUntil = 0;
         var tryMelee = !state.stallMeleeTried && !already &&
-            adjacentEnemy(1) && (liveActMenu() || hdActMenuVisible());
+            (adjacentEnemy(1) || adjacentWaitingStrike()) &&
+            (liveActMenu() || hdActMenuVisible());
         console.log('[hd-battle] next-unit-stall-break', {
             via: 'stall-break',
             why: why || 'stall',
@@ -961,12 +968,16 @@
             acted: state.actedThisTurn,
             waiting: playerHasWaitingOwn(),
             adj: !!adjacentEnemy(1),
+            strike: !!(adjacentWaitingStrike()),
             melee: !!tryMelee
         });
         if (tryMelee) {
             state.stallMeleeTried = true;
             state.pendingActPick = 0;
             state.keepAttackEnterUntil = Date.now() + 900;
+            if (commitAdjacentMelee('stall-break-melee')) {
+                return true;
+            }
             pickFightMenu(0);
             return true;
         }
@@ -993,10 +1004,13 @@
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 || awaitingAim()) {
                 return;
             }
-            if (!state.stallMeleeTried && adjacentEnemy(1) && liveActMenu()) {
+            if (!state.stallMeleeTried && (adjacentEnemy(1) || adjacentWaitingStrike()) &&
+                (liveActMenu() || hdActMenuVisible())) {
                 state.stallMeleeTried = true;
                 state.keepAttackEnterUntil = Date.now() + 900;
-                pickFightMenu(0);
+                if (!commitAdjacentMelee('stall-break-melee')) {
+                    pickFightMenu(0);
+                }
                 return;
             }
             state.forceEndTurnUntil = Date.now() + 4000;
@@ -1047,7 +1061,8 @@
             return false;
         }
         var nextLord = null;
-        var nextOther = firstWaitingOwn({ skipLord: true });
+        var strikeNext = adjacentWaitingStrike();
+        var nextOther = (strikeNext && strikeNext.unit) || firstWaitingOwn({ skipLord: true });
         if (!nextOther) {
             nextLord = firstWaitingOwn({ lordOnly: true });
         }
@@ -1081,6 +1096,25 @@
         state.lastArmNextAt = Date.now();
         state.movedThisAct = false;
         state.approachedThisAct = false;
+        if (strikeNext) {
+            state.pendingActPick = 0;
+            clearPendingApproach();
+            notePendingPick(strikeNext.unit);
+            noteActingUnit(strikeNext.unit);
+            noteNextUnitArm(why || 'after-rest', state.actedThisTurn || 0, destKey);
+            console.log('[hd-battle] next-unit', {
+                via: why || 'after-rest',
+                melee: true,
+                name: strikeNext.unit.name,
+                dest: { name: strikeNext.enemy.name, x: strikeNext.enemy.x, y: strikeNext.enemy.y },
+                acted: state.actedThisTurn
+            });
+            if (commitAdjacentMelee(why || 'next-unit-melee')) {
+                return true;
+            }
+            scheduleDriveSoon(why || 'next-waiting-melee', 80);
+            return true;
+        }
         if (nextLord && !adjacentEnemy(1)) {
             state.pendingActPick = 3;
             clearPendingApproach();
@@ -1335,6 +1369,163 @@
             }
         }
         return best;
+    }
+
+    function unitAdjacentEnemy(unit, maxD) {
+        var limit = maxD == null ? 1 : maxD;
+        var best = null;
+        var bestD = 99;
+        var i;
+        if (!unit || unit.x == null || unit.y == null) {
+            return null;
+        }
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
+                continue;
+            }
+            var d = chebyshev(unit.x, unit.y, u.x, u.y);
+            if (d <= limit && d < bestD) {
+                best = u;
+                bestD = d;
+            }
+        }
+        return best;
+    }
+
+    /* 任一未行动己方贴脸即可近战。引擎焦点常停在君主马腾，actingActor 会漏掉庞德。 */
+    function adjacentWaitingStrike() {
+        var i;
+        var lordStrike = null;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'player' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (!(u.active === 0 || u.active == null)) {
+                continue;
+            }
+            if (recentlyHitActor(u) || isPhase1StuckUnit(u)) {
+                continue;
+            }
+            var e = unitAdjacentEnemy(u, 1);
+            if (!e) {
+                continue;
+            }
+            if (!isLordUnit(u)) {
+                return { unit: u, enemy: e };
+            }
+            if (!lordStrike) {
+                lordStrike = { unit: u, enemy: e };
+            }
+        }
+        return lordStrike;
+    }
+
+    function notePendingPick(u) {
+        state.pendingPickUnit = unitCapKey(u);
+    }
+
+    function commitAdjacentMelee(why) {
+        var strike = adjacentWaitingStrike();
+        var fight = null;
+        var cur = null;
+        var onUnit = false;
+        var phase = 0;
+        if (!strike) {
+            return false;
+        }
+        if (state.lastAdjMeleeAt && Date.now() - state.lastAdjMeleeAt < 360) {
+            return false;
+        }
+        if (recentlyEndedTurn() || aimCommitHolds()) {
+            return false;
+        }
+        try { fight = readFight(); } catch (eF) {}
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        if (enemyTurnQuiet(fight)) {
+            return false;
+        }
+        phase = Number(fight.phase) || 0;
+        if (phase === 3) {
+            noteActingUnit(strike.unit);
+            return tryCommitMeleeAim(why || 'adj-melee-aim');
+        }
+        clearPendingApproach();
+        noteActingUnit(strike.unit);
+        notePendingPick(strike.unit);
+        state.pendingActPick = 0;
+        state.keepAttackEnterUntil = Date.now() + 1400;
+        try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
+        onUnit = !!(cur && cur.x === strike.unit.x && cur.y === strike.unit.y);
+        console.log('[hd-battle] adj-melee-commit', {
+            via: why || 'adj',
+            unit: strike.unit.name,
+            ux: strike.unit.x,
+            uy: strike.unit.y,
+            enemy: strike.enemy.name,
+            ex: strike.enemy.x,
+            ey: strike.enemy.y,
+            onUnit: onUnit,
+            phase: phase,
+            wait: !!fight.wait,
+            hdMenu: hdActMenuVisible(),
+            live: liveActMenu()
+        });
+        /* 先走到贴脸将，禁止和方向键同队列回车（焦点还在君主会被 lord-hold 吞掉）。 */
+        if (!onUnit) {
+            walkFocusTo(strike.unit.x, strike.unit.y, false);
+            scheduleDriveSoon('adj-melee-after-pick', 90);
+            return true;
+        }
+        state.lastAdjMeleeAt = Date.now();
+        if (phase === 2) {
+            state.movedThisAct = true;
+            state.sawMoveThisTurn = true;
+            state.walkSubmittedAt = Date.now();
+            enqueueKeys([VK.ENTER], 55);
+            scheduleActRearm('adj-melee-move');
+            return true;
+        }
+        noteAwaitingAim(2200);
+        state.pendingAimEnter = {
+            x: strike.enemy.x, y: strike.enemy.y, at: Date.now(), name: strike.enemy.name
+        };
+        enqueueKeys([VK.ENTER], 55);
+        scheduleDriveSoon('adj-melee-aim', 90);
+        return true;
+    }
+
+    /* 将领行动已出「攻击」且有人贴脸：立刻近战 ENTER，禁止待机/走近软循环。 */
+    function maybeCommitFirstActMelee(why) {
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 1800) {
+            return false;
+        }
+        if (recentlyEndedTurn() || aimCommitHolds() || awaitingAim()) {
+            return false;
+        }
+        var fight = null;
+        try { fight = readFight(); } catch (eF) {}
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        if (enemyTurnQuiet(fight)) {
+            return false;
+        }
+        var phase = Number(fight.phase) || 0;
+        if (phase === 3) {
+            return false;
+        }
+        if (!adjacentWaitingStrike()) {
+            return false;
+        }
+        if (!(hdActMenuVisible() || liveActMenu() || state.pendingActPick === 0 ||
+            state.lastAttackAt || phase === 1 || phase === 0)) {
+            return false;
+        }
+        return commitAdjacentMelee(why || 'first-act-melee');
     }
 
     function aimAgeMs() {
@@ -1739,6 +1930,11 @@
             live: liveActMenu()
         });
         /* 禁止再排队 ENTER。攻击已高亮则走 HD 点击；否则换将或待机。 */
+        if (adjacentWaitingStrike() && (hdActMenuVisible() || liveActMenu() || canCommitActMenu(fight))) {
+            if (commitAdjacentMelee('phase1-stuck-melee')) {
+                return;
+            }
+        }
         if (canCommitActMenu(fight) && adjacentEnemy(1)) {
             pickFightMenu(0);
             return;
@@ -1849,6 +2045,16 @@
             }
         }
         if (fu && isLordUnit(fu) && !adjacentEnemy(1) && firstWaitingOwn({ skipLord: true })) {
+            var strikePick = adjacentWaitingStrike();
+            var fuKey = unitCapKey(fu);
+            var pendingKey = state.pendingPickUnit || '';
+            /* 焦点已在贴脸副将：放行选将 ENTER。焦点仍在君主则继续吞，避免点到马腾。 */
+            if (pendingKey && pendingKey === fuKey) {
+                return '';
+            }
+            if (strikePick && unitCapKey(strikePick.unit) === fuKey) {
+                return '';
+            }
             return 'lord-hold-pick';
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
@@ -1930,6 +2136,8 @@
             state.lastArmNextAt = 0;
             state.holdEndTurnUntil = 0;
             state.lordOpenDeferred = false;
+            state.pendingPickUnit = '';
+            state.lastAdjMeleeAt = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
             maybePickOtherOnOpen();
         }
@@ -2800,6 +3008,9 @@
             return;
         }
         try {
+            if (maybeCommitFirstActMelee(why || 'drive-first-act')) {
+                return;
+            }
             if (state.pendingActPick != null && !state.pendingApproach &&
                 wantsWalkBeforeAct(state.pendingActPick) &&
                 !holdingActMenu() &&
@@ -2967,7 +3178,9 @@
             !state.pendingApproach) {
             return null;
         }
-        var pick = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
+        var strikeOwn = adjacentWaitingStrike();
+        var pick = (strikeOwn && strikeOwn.unit) ||
+            firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
         if (!pick) {
             return null;
         }
@@ -2979,11 +3192,12 @@
         if (fightOwn && Number(fightOwn.phase) === 1) {
             clearMovedThisAct('pick-next-general');
         }
-        if (isLordUnit(pick) && !adjacentEnemy(1)) {
+        if (isLordUnit(pick) && !adjacentEnemy(1) && !strikeOwn) {
             state.pendingActPick = 3;
             clearPendingApproach();
             console.log('[hd-battle] lord-hold', { name: pick.name, x: pick.x, y: pick.y, via: 'pick' });
         }
+        notePendingPick(pick);
         noteActingUnit(pick);
         return clickBattleTile(pick.x, pick.y);
     }
@@ -3019,7 +3233,8 @@
 
     /* 君主未贴脸：改点下一名未行动己方，走近再打。禁止把君主推到王匡面前。 */
     function deferLordToOther(why) {
-        var other = firstWaitingOwn({ skipLord: true });
+        var strikeDef = adjacentWaitingStrike();
+        var other = (strikeDef && strikeDef.unit) || firstWaitingOwn({ skipLord: true });
         if (!other) {
             return false;
         }
@@ -3033,12 +3248,23 @@
         if (fightNow && !fightNow.wait) {
             return false;
         }
+        if (strikeDef) {
+            console.log('[hd-battle] lord-hold', {
+                via: (why || 'defer') + '-melee',
+                to: other.name,
+                x: other.x,
+                y: other.y,
+                dest: { name: strikeDef.enemy.name, x: strikeDef.enemy.x, y: strikeDef.enemy.y }
+            });
+            return commitAdjacentMelee(why || 'lord-defer-melee');
+        }
         var foe = nearestEnemy();
         clearPendingApproach();
         state.pendingActPick = 0;
         if (foe) {
             setPendingApproach(foe.x, foe.y);
         }
+        notePendingPick(other);
         noteActingUnit(other);
         console.log('[hd-battle] lord-hold', {
             via: why || 'defer',
@@ -3074,6 +3300,7 @@
         });
         setTimeout(function () {
             try { clickWaitingOwn(); } catch (eP) {}
+            try { maybeCommitFirstActMelee('open-pick-melee'); } catch (eM) {}
         }, 0);
     }
 
@@ -3111,7 +3338,12 @@
             var live = readFightMenu();
             if (live && !live.synthetic) {
                 var idx = state.pendingActPick;
-                if (idx === 0 && actingLordUnit() && !adjacentEnemy(1)) {
+                if (idx === 0 && adjacentWaitingStrike() &&
+                    commitAdjacentMelee('drive-act-melee')) {
+                    return true;
+                }
+                if (idx === 0 && actingLordUnit() && !adjacentEnemy(1) &&
+                    !adjacentWaitingStrike()) {
                     state.pendingActPick = 3;
                     state.autoActTries = 0;
                     pickFightMenu(3);
@@ -3244,6 +3476,12 @@
         rec.phase1EnterSent = !!state.phase1EnterSent;
         rec.phase1CapKey = state.phase1EnterCapKey || '';
         rec.phase1Stuck = state.phase1StuckUnitKey || '';
+        rec.pendingPick = state.pendingPickUnit || '';
+        rec.strike = (function () {
+            var s = null;
+            try { s = adjacentWaitingStrike(); } catch (eS) {}
+            return s ? (s.unit && s.unit.name) : '';
+        }());
         console.log('[hd-battle] enter-swallowed', rec);
         return rec;
     }
@@ -3666,11 +3904,20 @@
                     : (foe ? { thenApproach: { x: foe.x, y: foe.y } } : { thenRest: true }));
                 return;
             }
+            /* 攻击已高亮且有人贴脸：立刻近战，禁止待机/合成菜单软循环。 */
+            if (adjacentWaitingStrike() && commitAdjacentMelee('attack-adj-menu')) {
+                return;
+            }
             /* PlcSplMenu 真菜单 wait=0 且本将已走格才 ENTER 攻击。否则先走近。 */
             if (!canCommitActMenu(fightAtk)) {
                 state.autoActTries = 0;
                 state.lastAutoActAt = 0;
                 state.menuIndex = 0;
+                if (adjacentWaitingStrike()) {
+                    state.keepAttackEnterUntil = Date.now() + 900;
+                    scheduleDriveSoon('attack-adj-commit', 40);
+                    return;
+                }
                 if (actingLordUnit() && !adjacentEnemy(1)) {
                     if (deferLordToOther('lord-hold-attack')) {
                         return;
@@ -4620,6 +4867,8 @@
             clearNextUnitStall('prepare-new');
             state.approachedThisAct = false;
             state.keepAttackEnterUntil = 0;
+            state.pendingPickUnit = '';
+            state.lastAdjMeleeAt = 0;
             if (state.afterHitTimer) {
                 clearTimeout(state.afterHitTimer);
                 state.afterHitTimer = 0;
@@ -6169,6 +6418,20 @@
                     return lu ? { i: lu.i, name: lu.name, x: lu.x, y: lu.y, hp: lu.hp } : null;
                 }()),
                 lordHold: !!(actingLordUnit() && !adjacentEnemy(1)),
+                pendingPickUnit: state.pendingPickUnit || '',
+                lastAdjMeleeAt: state.lastAdjMeleeAt || 0,
+                strike: (function () {
+                    var s = null;
+                    try { s = adjacentWaitingStrike(); } catch (eS) {}
+                    return s ? {
+                        unit: s.unit && s.unit.name,
+                        ux: s.unit && s.unit.x,
+                        uy: s.unit && s.unit.y,
+                        enemy: s.enemy && s.enemy.name,
+                        ex: s.enemy && s.enemy.x,
+                        ey: s.enemy && s.enemy.y
+                    } : null;
+                }()),
                 lordOpenDeferred: !!state.lordOpenDeferred,
                 lastSwallowWhy: state.lastSwallowWhy || '',
                 adjacent: !!adjacentEnemy(1),
