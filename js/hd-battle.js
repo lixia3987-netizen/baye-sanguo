@@ -3943,24 +3943,29 @@
                 return;
             }
             /* FgtDealMan：FgtGenMove 已返回才会到 PlcSplMenu。此后只能瞄准，不能再走近。 */
-            if (!adjacentEnemy(1)) {
-                if (actingLordUnit()) {
+            if (!adjacentEnemy(1) && !adjacentWaitingStrike()) {
+                if (actingLordUnit() && firstWaitingOwn({ skipLord: true })) {
+                    if (deferLordToOther('lord-hold-attack')) {
+                        return;
+                    }
                     preferRest('lord-hold');
                     return;
                 }
-                if (!state.movedThisAct && !state.approachedThisAct) {
-                    var foeHold = nearestEnemy();
-                    if (foeHold) {
-                        state.approachedThisAct = true;
-                        setPendingApproach(foeHold.x, foeHold.y);
-                        state.pendingActPick = 0;
-                        console.log('[hd-battle] attack-skip', { why: 'not-adjacent-walk', unit: foeHold.name });
-                        scheduleDriveSoon('attack-not-adj-walk', 70);
-                        return;
-                    }
+                var foeHold = nearestEnemy();
+                if (foeHold) {
+                    state.approachedThisAct = true;
+                    setPendingApproach(foeHold.x, foeHold.y);
+                    state.pendingActPick = 0;
+                    console.log('[hd-battle] attack-skip', { why: 'not-adjacent-walk', unit: foeHold.name });
+                    scheduleDriveSoon('attack-not-adj-walk', 70);
+                    return;
                 }
                 console.log('[hd-battle] attack-skip', { why: 'not-adjacent' });
                 preferRest('attack-not-adjacent');
+                return;
+            }
+            if (adjacentWaitingStrike() && !adjacentEnemy(1) &&
+                commitAdjacentMelee('attack-adj-after-commit')) {
                 return;
             }
             state.movedThisAct = true;
