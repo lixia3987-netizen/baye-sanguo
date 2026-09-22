@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922s';
+    var HD_BATTLE_VER = '20260922t';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -132,6 +132,8 @@
         leavingAim: false,
         holdActMenuUntil: 0,
         blankWatchTimer: 0,
+        lastAimExitAt: 0,
+        lastAttackAt: 0,
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
@@ -611,8 +613,36 @@
         return !!(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400);
     }
 
+    function hasLegalAimTarget() {
+        var i;
+        var size = 0;
+        try {
+            var data = engineData();
+            var rng = data && data.g_FgtAtkRng;
+            size = rng ? (readNumber(rng, 0) || 0) : 0;
+        } catch (eRng) {
+            size = 0;
+        }
+        if (!size) {
+            return false;
+        }
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (u && u.side === 'enemy' && u.x != null && u.y != null &&
+                inAtkRng(u.x, u.y) === true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function leftoverAim(fight) {
+        return !!(fight && Number(fight.phase) === 3 && !hasLegalAimTarget());
+    }
+
     function aimingTiles(fight) {
-        return !!(fight && Number(fight.phase) === 3);
+        /* 真瞄准且有射程内敌军才藏菜单。无目标 leftover AIM 不得把将领行动藏死。 */
+        return !!(fight && Number(fight.phase) === 3 && hasLegalAimTarget() && !state.leavingAim);
     }
 
     function holdingActMenu() {
@@ -665,7 +695,9 @@
             width: 0,
             height: 0,
             btnCount: 0,
-            hold: holdingActMenu()
+            hold: holdingActMenu(),
+            leftoverAim: leftoverAim(fight),
+            legalAim: hasLegalAimTarget()
         };
         try { rec.menuCount = Number(window.baye && baye.data && baye.data.g_hdMenuCount) || 0; } catch (eC) {}
         try { rec.fightStrictActive = !!fightStrictActive(); } catch (eS) {}
@@ -752,7 +784,9 @@
             display: String(cs.display || ''),
             hidden: !!(panel && panel.hidden),
             pointerEvents: String(cs.pointerEvents || ''),
-            hold: holdingActMenu()
+            hold: holdingActMenu(),
+            leftoverAim: leftoverAim(fight),
+            legalAim: hasLegalAimTarget()
         });
     }
 
@@ -768,6 +802,23 @@
             }
             var fight = null;
             try { fight = readFight(); } catch (eF) {}
+            if (fight && Number(fight.phase) === 3) {
+                console.log('[hd-battle] blank-watchdog', {
+                    why: why || 'aim-hidden',
+                    pendingApproach: state.pendingApproach,
+                    pendingActPick: state.pendingActPick,
+                    phase: 3,
+                    wait: !!fight.wait,
+                    leftoverAim: leftoverAim(fight),
+                    legalAim: hasLegalAimTarget()
+                });
+                /* leftover AIM 先 EXIT 再 forceShow，绝不能停在 phase=3 空白。 */
+                if (!hasLegalAimTarget()) {
+                    leaveAimAndRearm('watchdog-aim');
+                    return;
+                }
+                return;
+            }
             if (menuPanelClickable()) {
                 return;
             }
@@ -799,6 +850,7 @@
         if (fight && Number(fight.phase) === 3) {
             dropQueuedEnters();
             state.leavingAim = true;
+            state.lastAimExitAt = Date.now();
             enqueueKeys([VK.EXIT], 55);
         }
         forceRevealActMenu(why || 'force-show');
@@ -858,7 +910,7 @@
             }
         } catch (ePaint) {}
         if (holdingActMenu() ||
-            /aim-empty|aim-oor|aim-own|failed-aim|after-walk|after-approach|after-rearm|move-oor/.test(why || '')) {
+            /aim-empty|aim-oor|aim-own|failed-aim|after-walk|after-approach|after-rearm|move-oor|after-attack|leftover-aim|watchdog-aim/.test(why || '')) {
             forceShowFightMenu(why || 'act-rearm');
             return;
         }
@@ -890,12 +942,19 @@
                 state.rearmTimer = setTimeout(tick, 80);
                 return;
             }
-            if (phase === 3 && tries < 3 && Date.now() - started < 900) {
-                tries += 1;
-                dropQueuedEnters();
-                enqueueKeys([VK.EXIT], 55);
-                state.rearmTimer = setTimeout(tick, 180);
-                return;
+            if (phase === 3) {
+                if (hasLegalAimTarget()) {
+                    return;
+                }
+                if (tries < 4 && Date.now() - started < 1200) {
+                    tries += 1;
+                    dropQueuedEnters();
+                    state.leavingAim = true;
+                    state.lastAimExitAt = Date.now();
+                    enqueueKeys([VK.EXIT], 55);
+                    state.rearmTimer = setTimeout(tick, 160);
+                    return;
+                }
             }
             state.leavingAim = false;
             forceShowFightMenu(why || 'after-rearm');
@@ -909,6 +968,7 @@
         state.pendingActPick = null;
         state.walkSubmittedAt = 0;
         state.leavingAim = true;
+        state.lastAimExitAt = Date.now();
         forceShowFightMenu(why || 'aim-oor');
         scheduleActRearm(why || 'aim-oor');
     }
@@ -1145,6 +1205,10 @@
         }
         var phase = Number(fight.phase) || 0;
         if (phase === 3) {
+            if (leftoverAim(fight)) {
+                leaveAimAndRearm('drive-leftover-aim');
+                return true;
+            }
             return false;
         }
         if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
@@ -1347,7 +1411,7 @@
         if (w !== state.lastWait) {
             if (w === 1) {
                 /* 进选将/走格/瞄准：上一份行动菜单必须藏掉，否则挡棋盘点击。 */
-                if (!holdingActMenu()) {
+                if (!holdingActMenu() && !leftoverAim(fight)) {
                     clearLiveFightMenu();
                 }
                 state.sawWait = true;
@@ -1411,10 +1475,16 @@
     function pickFightMenu(index) {
         if (index === 0) {
             state.pendingActPick = 0;
+            state.lastAttackAt = Date.now();
             logAttackClick('pick');
             state.holdActMenuUntil = Date.now() + 1600;
             forceRevealActMenu('attack-click');
             armBlankMenuWatchdog('after-attack');
+            /* 已在 leftover AIM：再点攻击不能 ENTER，立刻离瞄并武装攻击/待机。 */
+            if (leftoverAim(readFight())) {
+                leaveAimAndRearm('attack-leftover-aim');
+                return;
+            }
         }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
@@ -1458,6 +1528,12 @@
         keys.push(VK.ENTER);
         state.menuIndex = index;
         enqueueKeys(keys, 55);
+        /* 走近后 PlcSplMenu 再点攻击常进无目标 AIM；ENTER 发出后立刻准备 EXIT。 */
+        if (index === 0 && fight && !fight.wait) {
+            state.pendingActPick = null;
+            state.lastAttackAt = Date.now();
+            scheduleActRearm('after-attack');
+        }
         } finally {
             state.pickingMenu = false;
             leaveStack();
@@ -2705,6 +2781,11 @@
         renderFightMenu();
         applyChrome();
         draw();
+        if (leftoverAim(fightNow) && !state.leavingAim &&
+            Date.now() - (state.lastAimExitAt || 0) > 200 &&
+            Date.now() - (state.lastAttackAt || 0) > 200) {
+            leaveAimAndRearm('refresh-leftover-aim');
+        }
         if (!menuPanelClickable() && !state.blankWatchTimer) {
             armBlankMenuWatchdog('refresh-hidden');
         }
@@ -2840,11 +2921,11 @@
             return;
         }
         if (name === 'willCloseMenu') {
-            if (holdingActMenu()) {
+            if (holdingActMenu() || leftoverAim(readFight())) {
                 state.needWaitBeforeMenu = false;
                 state.pendingApproach = null;
                 state.pendingActPick = null;
-                forceRevealActMenu('hold-willClose');
+                forceRevealActMenu(leftoverAim(readFight()) ? 'leftover-willClose' : 'hold-willClose');
                 return;
             }
             clearLiveFightMenu();
@@ -3273,6 +3354,10 @@
                 pendingApproach: state.pendingApproach,
                 walkSubmittedAt: state.walkSubmittedAt,
                 leavingAim: !!state.leavingAim,
+                leftoverAim: leftoverAim(fightSnap),
+                legalAim: hasLegalAimTarget(),
+                lastAimExitAt: state.lastAimExitAt,
+                lastAttackAt: state.lastAttackAt,
                 holdActMenuUntil: state.holdActMenuUntil,
                 autoActTries: state.autoActTries,
                 stackDepth: state.stackDepth,
