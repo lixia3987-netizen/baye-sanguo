@@ -2039,10 +2039,15 @@
             return false;
         }
         if (fight && Number(fight.phase) === 3) {
+            /* 命中后先让引擎结算伤害，禁止 260ms 就 EXIT 瞄准（会留下假 attack-hit、敌军不掉血）。 */
             if (aimCommitHolds() && !state.leavingAim) {
+                if (aimCommitAgeMs() < 1400) {
+                    scheduleAfterHitSettle(400);
+                    return true;
+                }
                 leaveAimAndRearm('after-hit-settle');
             }
-            scheduleAfterHitSettle(220);
+            scheduleAfterHitSettle(400);
             return true;
         }
         clearPickThrottle('after-hit-settle');
