@@ -117,6 +117,7 @@
         lastBlockedEnter: '',
         pendingActPick: null,
         pendingApproach: null,
+        lordOpenDeferred: false,
         lastAutoActAt: 0,
         autoActTries: 0,
         drivingAct: false,
@@ -2471,6 +2472,66 @@
         return null;
     }
 
+    /* 君主未贴脸：改点下一名未行动己方，走近再打。禁止把君主推到王匡面前。 */
+    function deferLordToOther(why) {
+        var other = firstWaitingOwn({ skipLord: true });
+        if (!other) {
+            return false;
+        }
+        var fightNow = null;
+        try { fightNow = readFight(); } catch (eD) {}
+        var phaseNow = Number(fightNow && fightNow.phase) || 0;
+        /* phase=2 点别人格会把君主走过去。wait=0 真菜单只能待机，不能改点。 */
+        if (phaseNow === 2 || phaseNow === 3) {
+            return false;
+        }
+        if (fightNow && !fightNow.wait) {
+            return false;
+        }
+        var foe = nearestEnemy();
+        clearPendingApproach();
+        state.pendingActPick = 0;
+        if (foe) {
+            setPendingApproach(foe.x, foe.y);
+        }
+        noteActingUnit(other);
+        console.log('[hd-battle] lord-hold', {
+            via: why || 'defer',
+            to: other.name,
+            x: other.x,
+            y: other.y,
+            dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null
+        });
+        scheduleDriveSoon(why || 'lord-defer', 80);
+        return true;
+    }
+
+    function maybePickOtherOnOpen() {
+        if (state.lordOpenDeferred) {
+            return;
+        }
+        if (!firstWaitingOwn({ skipLord: true })) {
+            return;
+        }
+        var fightNow = null;
+        try { fightNow = readFight(); } catch (eO) {}
+        if (!fightNow || !fightNow.active || fightNow.over) {
+            return;
+        }
+        var phaseNow = Number(fightNow.phase) || 0;
+        if (phaseNow !== 1 && !(phaseNow === 0 && fightNow.wait)) {
+            return;
+        }
+        state.lordOpenDeferred = true;
+        console.log('[hd-battle] lord-hold', {
+            via: 'open-pick-other',
+            to: (firstWaitingOwn({ skipLord: true }) || {}).name
+        });
+        setTimeout(function () {
+            try { clickWaitingOwn(); } catch (eP) {}
+        }, 0);
+    }
+
     function drivePlayerToActMenu() {
         if (state.drivingAct) {
             return false;
@@ -2505,6 +2566,12 @@
             var live = readFightMenu();
             if (live && !live.synthetic) {
                 var idx = state.pendingActPick;
+                if (idx === 0 && actingLordUnit() && !adjacentEnemy(1)) {
+                    state.pendingActPick = 3;
+                    state.autoActTries = 0;
+                    pickFightMenu(3);
+                    return true;
+                }
                 state.pendingActPick = null;
                 state.autoActTries = 0;
                 pickFightMenu(idx);
@@ -3040,6 +3107,9 @@
                 state.lastAutoActAt = 0;
                 state.menuIndex = 0;
                 if (actingLordUnit() && !adjacentEnemy(1)) {
+                    if (deferLordToOther('lord-hold-attack')) {
+                        return;
+                    }
                     preferRest('lord-hold-attack');
                     return;
                 }
@@ -3120,10 +3190,14 @@
                     return;
                 }
                 if (!liveActMenu() || (!state.movedThisAct && !state.sawMoveThisTurn)) {
-                    dumpEnterSwallow('rest-enter-blocked', {
-                        via: !liveActMenu() ? 'no-live-act' : 'not-walked'
-                    });
-                    return;
+                    var lordHoldRest = !!(actingLordUnit() && !adjacentEnemy(1) && liveActMenu());
+                    if (!lordHoldRest) {
+                        dumpEnterSwallow('rest-enter-blocked', {
+                            via: !liveActMenu() ? 'no-live-act' : 'not-walked'
+                        });
+                        return;
+                    }
+                    console.log('[hd-battle] lord-hold', { via: 'rest-unmoved' });
                 }
                 state.lastRestAt = Date.now();
                 state.lastRestCommitAt = Date.now();
@@ -3714,6 +3788,12 @@
         }
         if ((phase === 1 || phase === 0) && u && u.side === 'enemy') {
             if (actingLordUnit() && !adjacentEnemy(1)) {
+                if (deferLordToOther('lord-hold-click-enemy')) {
+                    return {
+                        x: x, y: y, enter: false, unit: u.name, phase: phase,
+                        blocked: 'lord-hold-defer'
+                    };
+                }
                 clearPendingApproach();
                 state.pendingActPick = 3;
                 console.log('[hd-battle] lord-hold', { via: 'click-enemy', unit: u.name });
@@ -4818,6 +4898,7 @@
             state.pendingSys = 0;
             state.menuKind = '';
             resetActDrive();
+            state.lordOpenDeferred = false;
         }
         if (meta.hook) {
             state.lastHook = meta.hook;
@@ -4829,6 +4910,9 @@
         applyChrome();
         refresh();
         ensureLoop();
+        if (!already && !meta.preview) {
+            maybePickOtherOnOpen();
+        }
         console.log('[hd-battle] enter', meta.hook || (state.preview ? 'preview' : 'detect'));
         return true;
     }
@@ -4852,6 +4936,7 @@
         } catch (e) {}
         state.open = false;
         state.preview = false;
+        state.lordOpenDeferred = false;
         state.menuKind = '';
         state.menuNames = [];
         state.lastMenuIdleAt = 0;
@@ -5438,6 +5523,7 @@
                     return lu ? { i: lu.i, name: lu.name, x: lu.x, y: lu.y, hp: lu.hp } : null;
                 }()),
                 lordHold: !!(actingLordUnit() && !adjacentEnemy(1)),
+                lordOpenDeferred: !!state.lordOpenDeferred,
                 lastSwallowWhy: state.lastSwallowWhy || '',
                 adjacent: !!adjacentEnemy(1),
                 actorAt: state.actorAt,
