@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zu';
+    var HD_BATTLE_VER = '20260922zv';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -939,6 +939,12 @@
     }
 
     function forceFinishWaitingOrEndTurn(why) {
+        var fightBreak = null;
+        try { fightBreak = readFight(); } catch (eB) {}
+        if (fightBreak && (Number(fightBreak.phase) === 2 || Number(fightBreak.phase) === 3 ||
+            awaitingAim())) {
+            return false;
+        }
         dropQueuedEnters();
         clearPendingApproach();
         var already = endTurnBrokeArmed();
@@ -1056,6 +1062,9 @@
             '>' + (foe ? foe.name : '') + '@' + String(state.actedThisTurn || 0);
         if (state.nextUnitArmedKey === destKey &&
             state.nextUnitArmedAt && Date.now() - state.nextUnitArmedAt < 4000) {
+            if (phaseNow === 2 || phaseNow === 3) {
+                return false;
+            }
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
             if (nextUnitStalled() || endTurnBrokeArmed()) {
                 return forceFinishWaitingOrEndTurn(why || 'same-dest-stall');
@@ -4426,7 +4435,26 @@
             if (closer && closer.x === actor.x && closer.y === actor.y) {
                 closer = null;
             }
+            var adjNow = !!(actor && actor.x != null && chebyshev(actor.x, actor.y, x, y) <= 1);
             dropQueuedEnters();
+            if (adjNow) {
+                clearPendingApproach();
+                state.pendingActPick = 0;
+                state.keepAttackEnterUntil = Date.now() + 900;
+                state.walkSubmittedAt = Date.now();
+                state.movedThisAct = true;
+                state.sawMoveThisTurn = true;
+                enqueueKeys([VK.ENTER], 55);
+                scheduleActRearm('after-adjacent-move');
+                console.log('[hd-battle] move-submit-adj', {
+                    actor: actor && { name: actor.name, x: actor.x, y: actor.y },
+                    enemy: u.name, x: x, y: y
+                });
+                return {
+                    x: x, y: y, enter: true, unit: u.name, phase: phase,
+                    blocked: 'move-submit-adj', inRng: true
+                };
+            }
             state.lastBlockedEnter = closer ? 'move-closer' : 'aim-oor';
             if (closer) {
                 if (noteApproachAttempt(closer, { x: x, y: y }, actor)) {
@@ -4455,8 +4483,8 @@
             if (wantsWalkBeforeAct(state.pendingActPick)) {
                 state.pendingActPick = null;
             }
+            preferRest('move-oor-rest');
             state.fightTip = '超出攻击范围，先走格靠近。';
-            scheduleActRearm('move-oor');
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
