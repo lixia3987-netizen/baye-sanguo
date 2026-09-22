@@ -952,6 +952,13 @@
             awaitingAim())) {
             return false;
         }
+        /* 第一击前禁止 stall-break 待机：会把庞德走半格就结束回合。 */
+        if (!state.lastHitAt && (state.actedThisTurn || 0) < 1) {
+            console.log('[hd-battle] next-unit-stall-hold', {
+                via: 'pre-first-hit', why: why || 'stall'
+            });
+            return false;
+        }
         dropQueuedEnters();
         clearPendingApproach();
         var already = endTurnBrokeArmed();
@@ -2077,6 +2084,11 @@
                 return '';
             }
             if (strikePick && unitCapKey(strikePick.unit) === fuKey) {
+                return '';
+            }
+            /* 方向键刚走到副将，引擎焦点可能滞后一帧，必须放行这次 ENTER。 */
+            if (pendingKey && pendingKey !== fuKey && state.lastPickWalkAt &&
+                Date.now() - state.lastPickWalkAt < 900) {
                 return '';
             }
             return 'lord-hold-pick';
@@ -3271,6 +3283,13 @@
             return false;
         }
         if (fightNow && !fightNow.wait) {
+            if (strikeDef || other) {
+                preferRest('lord-hold-for-other');
+                notePendingPick(other);
+                noteActingUnit(other);
+                scheduleDriveSoon('lord-hold-after-rest', 160);
+                return true;
+            }
             return false;
         }
         if (strikeDef) {
@@ -3947,11 +3966,19 @@
                     if (deferLordToOther('lord-hold-attack')) {
                         return;
                     }
+                    var otherAtk = firstWaitingOwn({ skipLord: true });
+                    if (otherAtk) {
+                        notePendingPick(otherAtk);
+                        noteActingUnit(otherAtk);
+                        state.pendingActPick = 0;
+                        scheduleDriveSoon('lord-hold-pick-other', 80);
+                        return;
+                    }
                     preferRest('lord-hold-attack');
                     return;
                 }
                 var foeAtk = nearestEnemy();
-                if (foeAtk && !state.movedThisAct && !state.approachedThisAct) {
+                if (foeAtk) {
                     state.approachedThisAct = true;
                     setPendingApproach(foeAtk.x, foeAtk.y);
                     state.pendingActPick = 0;
