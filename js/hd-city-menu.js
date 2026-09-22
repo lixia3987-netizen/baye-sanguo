@@ -105,6 +105,7 @@
         lastWalkAt: 0,
         walkBusy: false,
         confirmingTarget: false,
+        lastCitySetEnterAt: 0,
         landToken: 0,
         pendingTarget: null,
         confirmToken: 0,
@@ -733,6 +734,59 @@
         return !!(state.sawQtyThisMarch && !liveGetFood() && !state.dismissedObj);
     }
 
+    function citySetNeedsOverlayEnter() {
+        if (mapPickActive() || freshMarchOk() || state.marchReady || liveGetFood()) {
+            return false;
+        }
+        if (!foodReadyForCitySet()) {
+            return false;
+        }
+        var report = liveEngineReport() || '';
+        return !!(battlePickActive() || leftoverChooseTarget(report) ||
+            /无法到达|我方城池|无人占领/.test(report));
+    }
+
+    function reopenGetCitySet(why) {
+        if (engineInGetCitySet() || freshMarchOk() || state.marchReady) {
+            return { ok: true, phase: engineMarchPhase() };
+        }
+        if (!foodReadyForCitySet()) {
+            return driveFoodToCitySet(why || 'reopen-need-food');
+        }
+        if (liveGetFood()) {
+            return { deferred: 'wait-food-ui', phase: 'get-food' };
+        }
+        if (state.lastCitySetEnterAt && Date.now() - state.lastCitySetEnterAt < 480) {
+            return { deferred: 'cityset-cooldown', phase: engineMarchPhase() };
+        }
+        if (citySetNeedsOverlayEnter()) {
+            state.lastCitySetEnterAt = Date.now();
+            state.dismissedObj = true;
+            noteStep4('reopen-city-set', { skipped: why || 'overlay' });
+            engineSendKey(VK.ENTER);
+            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+                BayeHdDialog.close({ silent: true });
+            }
+            scheduleMarchWatch();
+            return { deferred: 'reopen-city-set', phase: engineMarchPhase() };
+        }
+        return driveFoodToCitySet(why || 'reopen');
+    }
+
+    function isMarchNeighbor(cityIndex) {
+        var links = cityLinkIndexes();
+        var i;
+        if (!links || !links.length) {
+            return true;
+        }
+        for (i = 0; i < links.length; i++) {
+            if (Number(links[i]) === Number(cityIndex)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function firstEnemyTarget() {
         var i;
         for (i = 0; i < state.deepItems.length; i++) {
@@ -795,7 +849,7 @@
             if (token !== state.confirmToken) {
                 return;
             }
-            if (attempt >= 12) {
+            if (attempt >= 20) {
                 if (!state.marchHint) {
                     state.marchHint = '引擎未确认目标城。再点一次「' +
                         (cityName(cityIndex) || '邻城') + '」或「确认出征」。';
@@ -818,33 +872,55 @@
         }
 
         if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
-            if (attempt >= 2) {
+            if (attempt >= 6) {
                 state.confirmingTarget = false;
             }
             noteStep4('await-dest', { cityIndex: cityIndex, attempt: attempt });
-            again(240, 'await-dest');
+            again(320, 'await-dest');
             return { deferred: 'await-dest', cityIndex: cityIndex };
         }
         if (!engineInGetCitySet()) {
-            var driven = driveFoodToCitySet('confirm-need-city-set');
+            var driven = reopenGetCitySet('confirm-need-city-set');
             var phase = engineMarchPhase();
             var m0 = engineMarch();
             var mc0 = engineMapCityIndex();
-            state.pendingTarget = null;
-            state.marchHint = 'UI 步骤4 ≠ 引擎 GetCitySet。' + marchDebugLine() +
-                '。河内确认已拒绝，先把粮草交到 pick=1。';
-            noteStep4('refuse-no-city-set', {
+            state.pendingTarget = cityIndex;
+            if (foodReadyForCitySet()) {
+                state.marchHint = '等待引擎打开目标选择（GetCitySet pick=1）… ' + marchDebugLine();
+            } else {
+                state.marchHint = 'UI 步骤4 ≠ 引擎 GetCitySet。' + marchDebugLine() +
+                    '。河内确认已拒绝，先把粮草交到 pick=1。';
+            }
+            noteStep4((driven && driven.deferred === 'reopen-city-set')
+                ? 'reopen-city-set' : 'refuse-no-city-set', {
                 cityIndex: cityIndex,
                 attempt: attempt,
                 skipped: (driven && driven.deferred) || phase
             });
             render();
-            if (driven && driven.deferred) {
-                again(280, driven.deferred);
-                return { deferred: driven.deferred, cityIndex: cityIndex, phase: phase, pick: !!(m0 && m0.pick), mapCity: mc0 };
+            if (attempt >= 20) {
+                noteStep4('give-up', { cityIndex: cityIndex, skipped: 'no-city-set', attempt: attempt });
+                return { skipped: 'no-city-set', cityIndex: cityIndex, phase: phase };
             }
-            again(300, 'no-city-set');
-            return { skipped: 'no-city-set', cityIndex: cityIndex, phase: phase, pick: !!(m0 && m0.pick), mapCity: mc0 };
+            again(320, (driven && driven.deferred) || 'no-city-set');
+            return {
+                deferred: (driven && driven.deferred) || 'no-city-set',
+                cityIndex: cityIndex, phase: phase,
+                pick: !!(m0 && m0.pick), mapCity: mc0
+            };
+        }
+        if (Number(cityIndex) === Number(state.cityIndex)) {
+            state.marchHint = '那是出发城。请点邻城（河内）。';
+            noteStep4('refuse-own-city', { cityIndex: cityIndex, attempt: attempt });
+            render();
+            return { skipped: 'own-city', cityIndex: cityIndex };
+        }
+        if (!isMarchNeighbor(cityIndex)) {
+            state.marchHint = '「' + (cityName(cityIndex) || '该城') +
+                '」不是 CITY_LINKR 邻城，改点河内。';
+            noteStep4('refuse-not-neighbor', { cityIndex: cityIndex, attempt: attempt });
+            render();
+            return { skipped: 'not-neighbor', cityIndex: cityIndex };
         }
         markTargetSelected(cityIndex);
         if (waitingArmout()) {
@@ -1067,9 +1143,19 @@
                     sendEnter();
                     return;
                 }
-                /* 格已在目标、mapCity 仍是出发城：等轻挪刷新。太早 ENTER
-                 * 会关掉「选择目标」并离开 GetCitySet。 */
-                if (onTarget && n >= 12) {
+                /* 格已在目标、mapCity 仍是出发城/错城：等 ShowCityMap 刷新。
+                 * mapCity 对不上就 ENTER 会确认庐江/天水并离开 GetCitySet。 */
+                if (onTarget && shown !== cityIndex && n >= 8 && n < 20 && (n % 4) === 0) {
+                    var nudgeTo = cityEngineTile(cityIndex);
+                    if (nudgeTo && nudgeTo.x > 0) {
+                        engineSendKey(VK.LEFT);
+                        engineSendKey(VK.RIGHT);
+                    } else {
+                        engineSendKey(VK.RIGHT);
+                        engineSendKey(VK.LEFT);
+                    }
+                }
+                if (onTarget && n >= 22 && shown === cityIndex) {
                     sendEnter();
                     return;
                 }
@@ -1090,11 +1176,23 @@
                     }
                     return;
                 }
-                if (n >= 20) {
+                if (n >= 24) {
                     if (requireLanded && !onTarget) {
                         state.marchHint = '光标未落到目标城，未向引擎确认。再点一次。';
                         noteStep4('enter-blocked-cursor', { cityIndex: cityIndex });
                         render();
+                        return;
+                    }
+                    if (shown !== cityIndex) {
+                        noteStep4('enter-blocked-mapcity', {
+                            cityIndex: cityIndex, skipped: 'mapcity-' + shown
+                        });
+                        if (opts.confirm) {
+                            confirmMarchTarget(cityIndex, {
+                                resume: true,
+                                attempt: (opts.attempt || 0) + 1
+                            });
+                        }
                         return;
                     }
                     sendEnter();
@@ -1154,8 +1252,18 @@
                         }
                         return;
                     }
+                    if (citySetNeedsOverlayEnter()) {
+                        noteStep4('enter-overlay', { cityIndex: cityIndex });
+                        reopenGetCitySet('after-enter');
+                        if (opts.confirm) {
+                            confirmMarchTarget(cityIndex, {
+                                resume: true,
+                                attempt: (opts.attempt || 0) + 1
+                            });
+                        }
+                        return;
+                    }
                     if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
-                        state.confirmingTarget = false;
                         noteStep4('enter-wait-dest', { cityIndex: cityIndex });
                         if (opts.confirm) {
                             confirmMarchTarget(cityIndex, {
@@ -1172,7 +1280,7 @@
                             attempt: (opts.attempt || 0) + 1
                         });
                     }
-                }, 280);
+                }, 900);
             }
             setTimeout(function () {
                 waitShown(0);
@@ -2586,8 +2694,8 @@
                 }
             }
         }
-        if (state.personExitSent && foodReadyForCitySet() && !battlePickActive() &&
-            leftoverChooseTarget(liveEngineReport()) && !mapPickActive()) {
+        if (state.personExitSent && foodReadyForCitySet() && !mapPickActive() &&
+            (citySetNeedsOverlayEnter() || leftoverChooseTarget(liveEngineReport()))) {
             if (state.lastTipEnterAt && Date.now() - state.lastTipEnterAt < 700) {
                 return { deferred: 'tip-cooldown', phase: engineMarchPhase() };
             }
