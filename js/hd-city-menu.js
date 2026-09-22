@@ -233,12 +233,16 @@
             state.sawFightThisMarch = true;
             return false;
         }
+        var liveOverNow = 0;
+        try { liveOverNow = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOv) {}
+        /* 没 g_FgtOver 就不能 after-fight：敌回合 flicker / leftover 城菜单会拆活战场。 */
+        if (!liveOverNow) {
+            return false;
+        }
         try {
-            var liveOverNow = 0;
-            try { liveOverNow = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOv) {}
             if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
                 var liveSnap = BayeHdBattle.debugSnapshot();
-                if (liveSnap && liveSnap.open && !liveOverNow && !liveSnap.over) {
+                if (liveSnap && liveSnap.open && !liveSnap.over) {
                     state.sawFightThisMarch = true;
                     return false;
                 }
@@ -389,7 +393,9 @@
         if (leftoverMarchAfterFight()) {
             logMarchBanner('sweep-after-fight', why);
             releaseMarchShell(why || 'sweep-after-fight');
-            if (!occupyDrainPending()) {
+            var sweepOver = 0;
+            try { sweepOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eSw) {}
+            if (sweepOver && !occupyDrainPending()) {
                 resetAfterFight();
             }
             return true;
@@ -3626,18 +3632,7 @@
     }
 
     function liveFightBlocksCityOpen() {
-        try {
-            if (window.baye && baye.data && Number(baye.data.g_FgtOver)) {
-                return false;
-            }
-            if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
-                var live = baye.hd.fight();
-                if (live && live.active && !live.over) {
-                    return true;
-                }
-            }
-        } catch (eLive) {}
-        return false;
+        return fightIsActive();
     }
 
     function openMenu(meta) {
@@ -3869,11 +3864,12 @@
             leaveLeftoverPolicyPerson('choose-sub-march', true);
             clearStaleDisasterReport();
             try {
-                if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
+                if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady()) &&
+                    !fightIsActive()) {
                     if (baye.data.g_hdFightOver != null) {
                         baye.data.g_hdFightOver = 0;
                     }
-                    if (baye.data.g_hdFightActive != null) {
+                    if (!state.sawFightThisMarch && baye.data.g_hdFightActive != null) {
                         baye.data.g_hdFightActive = 0;
                     }
                 }
@@ -4260,23 +4256,54 @@
 
     function fightIsActive() {
         try {
-            /* C 已写 g_FgtOver：本场结束，不能再当活战场，否则 leftover 出征进行中清不掉。 */
-            if (window.baye && baye.data && Number(baye.data.g_FgtOver)) {
+            var fgtOver = 0;
+            var hdActive = 0;
+            var hdOver = 0;
+            try {
+                if (window.baye && baye.data) {
+                    fgtOver = Number(baye.data.g_FgtOver) || 0;
+                    hdActive = Number(baye.data.g_hdFightActive) || 0;
+                    hdOver = Number(baye.data.g_hdFightOver) || 0;
+                }
+            } catch (eFlags) {}
+            /* 本趟已开战且引擎未写 g_FgtOver：敌回合 flicker / leftover 城菜单不得拆战场。 */
+            if (state.sawFightThisMarch && !fgtOver) {
+                return true;
+            }
+            var battleOpen = false;
+            try {
+                if (global.BayeHdBattle && typeof BayeHdBattle.debugSnapshot === 'function') {
+                    var snap = BayeHdBattle.debugSnapshot();
+                    battleOpen = !!(snap && snap.open && !snap.preview && !snap.over);
+                }
+            } catch (eSnap) {}
+            if (battleOpen && !fgtOver) {
+                state.sawFightThisMarch = true;
+                return true;
+            }
+            if (fgtOver) {
                 return false;
             }
+            var departed = !!(state.handoff || state.marchReady);
             if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
                 var f = baye.hd.fight();
                 if (f && f.active && !f.over) {
+                    /* 招商/选将 leftover 旗：城菜单还开着且未出发，不当活战。 */
+                    if (state.open && !departed && !battleOpen) {
+                        return false;
+                    }
+                    state.sawFightThisMarch = true;
                     return true;
                 }
             }
-            /* 城菜单招商/选将时 leftover g_hdFightActive 不当活战，否则出征键全被挡。 */
-            if (state.open) {
-                return false;
-            }
-            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
-                !Number(baye.data.g_hdFightOver)) {
-                return true;
+            if (hdActive && !hdOver) {
+                if (state.open && !departed && !battleOpen) {
+                    return false;
+                }
+                if (departed || !state.open) {
+                    state.sawFightThisMarch = true;
+                    return true;
+                }
             }
         } catch (e) {}
         return false;
@@ -5353,7 +5380,7 @@
                         !battleSnap.occupyDone);
                     var battleStillLive = !!(!liveOver && battleSnap && battleSnap.open &&
                         !battleSnap.over);
-                    if (battleStillLive) {
+                    if (!liveOver || battleStillLive) {
                         return;
                     }
                     if (!occupyDrainPending() && !battleWillOccupy) {

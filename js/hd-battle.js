@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zh';
+    var HD_BATTLE_VER = '20260922zi';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -355,7 +355,8 @@
         return true;
     }
 
-    /* 标题/开场/城菜单/不确定一律否。只认 fight().active && !over，不信 leftover 旗标。 */
+    /* 标题/开场/城菜单/不确定一律否。只认 fight().active && !over，不信 leftover 旗标。
+     * 已开战场壳时 leftover 城菜单不得因敌回合 flicker 把活战判死。 */
     function fightStrictActive() {
         if (state.readingEngine && !state.samplingFight) {
             return false;
@@ -371,6 +372,12 @@
         try {
             var live = fightEngineActiveRaw();
             if (!live && cityMenuOpen()) {
+                var fgtOver = 0;
+                try { fgtOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOv) {}
+                if (state.open && !state.preview && !fgtOver) {
+                    state.strictLive = true;
+                    return true;
+                }
                 state.strictLive = false;
                 return false;
             }
@@ -3242,7 +3249,7 @@
         state.endTurnAt = 0;
         clearFightBridge();
         if (state.open) {
-            closeBattle({ silent: true });
+            closeBattle({ silent: true, force: true, why: 'prepare-new' });
             state.resultDismissed = false;
             state.resultCode = 0;
             state.resultText = '';
@@ -3446,7 +3453,7 @@
         setTimeout(function () {
             state.occupyPending = false;
             state.occupyStarted = false;
-            closeBattle({ silent: true });
+            closeBattle({ silent: true, force: true, why: 'occupy-done' });
             prepareNewFight();
         }, 900);
         try {
@@ -4033,7 +4040,13 @@
         refresh();
         if (!state.preview && !fightLooksActive() && !state.resultText &&
             state.lastHook && (Date.now() - state.lastHookAt) > 16000) {
-            closeBattle({ silent: true });
+            var loopOver = 0;
+            var loopActive = 0;
+            try { loopOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eLo) {}
+            try { loopActive = Number(window.baye && baye.data && baye.data.g_hdFightActive) || 0; } catch (eLa) {}
+            if (loopOver || !loopActive) {
+                closeBattle({ silent: true, why: 'stale-loop' });
+            }
             return;
         }
         state.loopId = global.requestAnimationFrame(loop);
@@ -4099,9 +4112,18 @@
 
     function closeBattle(opts) {
         opts = opts || {};
+        var liveOver = 0;
+        var hdActive = 0;
+        try { liveOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eOv) {}
+        try { hdActive = Number(window.baye && baye.data && baye.data.g_hdFightActive) || 0; } catch (eAc) {}
+        if (!opts.force && !liveOver && hdActive) {
+            console.warn('[hd-battle] skip-close-live', { why: opts.why || 'closeBattle' });
+            return;
+        }
         state.resultDismissed = true;
         try {
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetAfterFight === 'function') {
+            if (liveOver && global.BayeHdCityMenu &&
+                typeof BayeHdCityMenu.resetAfterFight === 'function') {
                 BayeHdCityMenu.resetAfterFight();
             }
         } catch (e) {}
@@ -4433,9 +4455,14 @@
                 return;
             }
             if (titleOrOpeningScreen()) {
+                var titleOver = 0;
+                var titleActive = 0;
+                try { titleOver = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eTo) {}
+                try { titleActive = Number(window.baye && baye.data && baye.data.g_hdFightActive) || 0; } catch (eTa) {}
                 if (state.open && !state.preview && !state.resultText &&
-                    !state.occupyPending && !state.occupyStarted) {
-                    closeBattle({ silent: true });
+                    !state.occupyPending && !state.occupyStarted &&
+                    (titleOver || !titleActive)) {
+                    closeBattle({ silent: true, why: 'title-opening' });
                 }
                 return;
             }
@@ -4478,8 +4505,9 @@
                     enterBattle({ hook: 'g_hdFightActive', keepResult: settleNow });
                 }
             }
-            if (state.open && state.resultDismissed && !state.occupyPending && (!f || !f.active || f.over)) {
-                closeBattle({ silent: true });
+            if (state.open && state.resultDismissed && !state.occupyPending &&
+                (!f || !f.active || f.over) && liveOverPoll) {
+                closeBattle({ silent: true, why: 'result-dismissed' });
                 return;
             }
             if (state.open) {
