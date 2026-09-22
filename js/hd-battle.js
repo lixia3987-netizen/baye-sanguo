@@ -168,6 +168,7 @@
         pendingPickUnit: '',
         lastAdjMeleeAt: 0,
         lastPickWalkAt: 0,
+        lastFirstActMeleeAt: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -1531,6 +1532,9 @@
 
     /* 将领行动已出「攻击」且有人贴脸：立刻近战 ENTER，禁止待机/走近软循环。 */
     function maybeCommitFirstActMelee(why) {
+        if (state.lastFirstActMeleeAt && Date.now() - state.lastFirstActMeleeAt < 400) {
+            return false;
+        }
         if (state.lastHitAt && Date.now() - state.lastHitAt < 1800) {
             return false;
         }
@@ -1556,6 +1560,7 @@
             state.lastAttackAt || phase === 1 || phase === 0)) {
             return false;
         }
+        state.lastFirstActMeleeAt = Date.now();
         return commitAdjacentMelee(why || 'first-act-melee');
     }
 
@@ -3045,9 +3050,6 @@
             return;
         }
         try {
-            if (maybeCommitFirstActMelee(why || 'drive-first-act')) {
-                return;
-            }
             if (state.pendingActPick != null && !state.pendingApproach &&
                 wantsWalkBeforeAct(state.pendingActPick) &&
                 !holdingActMenu() &&
@@ -4927,6 +4929,7 @@
             state.pendingPickUnit = '';
             state.lastAdjMeleeAt = 0;
             state.lastPickWalkAt = 0;
+            state.lastFirstActMeleeAt = 0;
             if (state.afterHitTimer) {
                 clearTimeout(state.afterHitTimer);
                 state.afterHitTimer = 0;
