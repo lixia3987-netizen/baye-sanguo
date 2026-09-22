@@ -1363,7 +1363,10 @@
                 return 'no-player-pick';
             }
         }
-        if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 800) {
+        if (fu && isLordUnit(fu) && !adjacentEnemy(1) && firstWaitingOwn({ skipLord: true })) {
+            return 'lord-hold-pick';
+        }
+        if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
             return 'pick-throttle';
         }
         return '';
@@ -1435,7 +1438,9 @@
             state.approachWaitLogs = 0;
             state.lastArmNextAt = 0;
             state.holdEndTurnUntil = 0;
+            state.lordOpenDeferred = false;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
+            maybePickOtherOnOpen();
         }
     }
 
@@ -5403,6 +5408,16 @@
             var e = nearestEnemy();
             if (!e) {
                 return { none: true, wait: !!(readFight() && readFight().wait), phase: readFight() && readFight().phase };
+            }
+            if (actingLordUnit() && !adjacentEnemy(1) && firstWaitingOwn({ skipLord: true })) {
+                if (e) {
+                    setPendingApproach(e.x, e.y);
+                }
+                state.pendingActPick = 0;
+                return {
+                    e: { name: e.name, x: e.x, y: e.y },
+                    click: clickWaitingOwn() || { blocked: 'lord-hold-defer' }
+                };
             }
             return { e: { name: e.name, x: e.x, y: e.y }, click: clickBattleTile(e.x, e.y) };
         },
