@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922z';
+    var HD_BATTLE_VER = '20260922za';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -148,6 +148,7 @@
         lastHitAt: 0,
         lastSwallowAt: 0,
         lastSwallowWhy: '',
+        allowEndTurnEnter: false,
         awaitingAimUntil: 0,
         movedThisAct: false,
         strictLive: false,
@@ -441,14 +442,29 @@
 
     function engineSendKey(code) {
         try {
+            var fightKey = null;
+            try { fightKey = readFight(); } catch (eK) {}
+            var overNow = !!(fightKey && fightKey.over);
+            try {
+                if (!overNow && window.baye && baye.data && Number(baye.data.g_FgtOver)) {
+                    overNow = true;
+                }
+            } catch (eOver) {}
+            if (fightReallyActive() && recentlyEndedTurn() && !overNow &&
+                (code === VK.ENTER || code === VK.EXIT || code === VK.UP || code === VK.DOWN)) {
+                if (code === VK.ENTER && state.allowEndTurnEnter) {
+                    state.allowEndTurnEnter = false;
+                } else {
+                    dumpEnterSwallow('ended-turn-block', { key: keyName(code) });
+                    return false;
+                }
+            }
             if (fightReallyActive()) {
-                var fightKey = null;
-                try { fightKey = readFight(); } catch (eK) {}
                 console.log('[hd-battle] send-key', {
                     key: keyName(code),
                     phase: fightKey ? fightKey.phase : null,
                     wait: fightKey ? !!fightKey.wait : null,
-                    over: fightKey ? !!fightKey.over : null,
+                    over: overNow,
                     ended: !!state.playerTurnEnded,
                     moved: !!state.movedThisAct,
                     sawMove: !!state.sawMoveThisTurn,
@@ -802,7 +818,7 @@
 
     function notePlayerTurnEnded(why) {
         state.playerTurnEnded = true;
-        state.afterEndTurnUntil = Date.now() + 2800;
+        state.afterEndTurnUntil = Date.now() + 3600;
         state.sawMoveThisTurn = false;
         state.openedSysForEndTurn = false;
         resetActMenuIndex('end-player-turn');
@@ -822,6 +838,7 @@
             state.sawMoveThisTurn = phase === 2;
             state.movedThisAct = false;
             state.openedSysForEndTurn = false;
+            state.allowEndTurnEnter = false;
             resetActMenuIndex('new-player-turn');
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
         }
@@ -1387,7 +1404,8 @@
             }
             state.endTurnAt = Date.now();
             dropQueuedKeys();
-            state.menuIndex = 0;
+            resetActMenuIndex('end-turn-menu');
+            state.allowEndTurnEnter = true;
             enqueueKeys([VK.ENTER], 55);
             notePlayerTurnEnded('end-player-turn-menu');
             console.log('[hd-battle] rest-commit', {
@@ -2216,6 +2234,9 @@
         }
         /* PlcSplMenu / FgtMainMenu 每次打开引擎 idx 都是 0。上场待机留下的
          * menuIndex=3 再点攻击会连发 UP，落到全军撤退（case 1 fallthrough）。 */
+        if (info && (info.kind === 'act' || info.kind === 'sys') && !info.synthetic) {
+            dropQueuedKeys();
+        }
         var cur = (info && (info.kind === 'act' || info.kind === 'sys') && !info.synthetic)
             ? 0 : state.menuIndex;
         if (cur == null || cur < 0) {
@@ -2258,7 +2279,8 @@
                 return { ok: false, reason: 'sys-not-opened' };
             }
             dropQueuedKeys();
-            state.menuIndex = 0;
+            resetActMenuIndex('pick-end-turn');
+            state.allowEndTurnEnter = true;
             enqueueKeys([VK.ENTER], 55);
             notePlayerTurnEnded('pick-end-turn');
             return { ok: true, index: 0, kind: 'sys', names: ['回合结束'] };
@@ -2885,6 +2907,7 @@
         state.lastHitAt = 0;
         state.lastSwallowAt = 0;
         state.lastSwallowWhy = '';
+        state.allowEndTurnEnter = false;
         state.awaitingAimUntil = 0;
         state.endTurnAt = 0;
         clearFightBridge();
