@@ -885,12 +885,6 @@
         if (candidates.length) {
             return candidates[0];
         }
-        if (exclude !== 3 && isOwnedCityIndex(3) && 3 !== targetIndex) {
-            return 3;
-        }
-        if (exclude !== 0 && isOwnedCityIndex(0) && 0 !== targetIndex) {
-            return 0;
-        }
         return null;
     }
 
