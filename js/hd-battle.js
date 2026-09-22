@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zy';
+    var HD_BATTLE_VER = '20260922zz';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -169,6 +169,13 @@
         lastAdjMeleeAt: 0,
         lastPickWalkAt: 0,
         lastFirstActMeleeAt: 0,
+        lastHpDropAt: 0,
+        lastHpDrop: null,
+        lastHitHpBefore: null,
+        lastHitTarget: null,
+        sameTileHitN: 0,
+        lastAttackClickAt: 0,
+        phase1AdjEnterHoldUntil: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
@@ -510,21 +517,27 @@
                     dumpEnterSwallow(muteWhy === 'enemy-turn' ? 'enemy-turn-block' : muteWhy, {
                         key: 'ENTER'
                     });
-                    if (muteWhy === 'enemy-turn') {
-                        noteEnemyTurnQuiet('send-enter', fightKey);
-                    } else if (muteWhy === 'no-player-pick' || muteWhy === 'enemy-focus') {
-                        dropQueuedEnters();
-                    } else if (muteWhy === 'pick-throttle' || muteWhy === 'phase1-enter-cap') {
-                        dropQueuedEnters();
-                        if (muteWhy === 'pick-throttle' &&
-                            state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
-                            scheduleAfterHitSettle(80);
+                    if ((muteWhy === 'pick-throttle' || muteWhy === 'phase1-enter-cap') &&
+                        postHitAdjMeleeNeedsEnter()) {
+                        clearAdjMeleeThrottle('send-enter-post-hit');
+                        /* fall through: 命中后贴脸 ENTER 必须落地 */
+                    } else {
+                        if (muteWhy === 'enemy-turn') {
+                            noteEnemyTurnQuiet('send-enter', fightKey);
+                        } else if (muteWhy === 'no-player-pick' || muteWhy === 'enemy-focus') {
+                            dropQueuedEnters();
+                        } else if (muteWhy === 'pick-throttle' || muteWhy === 'phase1-enter-cap') {
+                            dropQueuedEnters();
+                            if (muteWhy === 'pick-throttle' &&
+                                state.lastHitAt && Date.now() - state.lastHitAt < 2800) {
+                                scheduleAfterHitSettle(80);
+                            }
+                            if (muteWhy === 'phase1-enter-cap') {
+                                schedulePhase1StuckRecover(40);
+                            }
                         }
-                        if (muteWhy === 'phase1-enter-cap') {
-                            schedulePhase1StuckRecover(40);
-                        }
+                        return false;
                     }
-                    return false;
                 }
                 state.lastPickEnterAt = Date.now();
                 notePhase1EnterCommit(fightKey);
@@ -535,12 +548,22 @@
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
-                dumpEnterSwallow('aim-commit-block', {
-                    hits: state.aimCommit.hits,
-                    age: aimCommitAgeMs(),
-                    sent: !!state.aimCommit.sentEnter
-                });
-                return false;
+                var allowAimSecond = state.aimCommit && !state.aimCommit.hpDropped &&
+                    !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400;
+                if (allowAimSecond) {
+                    state.aimCommit.secondEnterSent = true;
+                    state.aimCommit.sentEnter = true;
+                    console.log('[hd-battle] aim-second-enter', {
+                        why: 'send-key', unit: state.aimCommit.name, age: aimCommitAgeMs()
+                    });
+                } else {
+                    dumpEnterSwallow('aim-commit-block', {
+                        hits: state.aimCommit.hits,
+                        age: aimCommitAgeMs(),
+                        sent: !!state.aimCommit.sentEnter
+                    });
+                    return false;
+                }
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 state.aimCommit && !state.aimCommit.sentEnter) {
@@ -621,8 +644,12 @@
         var i;
         for (i = 0; i < codes.length; i++) {
             if (codes[i] === VK.ENTER && phase1EnterCapBlocksEnter()) {
-                dumpEnterSwallow('phase1-enter-cap', { via: 'enqueue' });
-                continue;
+                if (postHitAdjMeleeNeedsEnter()) {
+                    clearAdjMeleeThrottle('enqueue-post-hit');
+                } else {
+                    dumpEnterSwallow('phase1-enter-cap', { via: 'enqueue' });
+                    continue;
+                }
             }
             state.queue.push({ code: codes[i], wait: gap });
         }
@@ -986,10 +1013,11 @@
             strike: !!(adjacentWaitingStrike()),
             melee: !!tryMelee
         });
-        if (tryMelee) {
+        if (tryMelee || killableAdjAlive()) {
             state.stallMeleeTried = true;
             state.pendingActPick = 0;
             state.keepAttackEnterUntil = Date.now() + 900;
+            clearAdjMeleeThrottle('stall-break-melee');
             if (commitAdjacentMelee('stall-break-melee')) {
                 return true;
             }
@@ -1019,10 +1047,12 @@
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 || awaitingAim()) {
                 return;
             }
-            if (!state.stallMeleeTried && (adjacentEnemy(1) || adjacentWaitingStrike()) &&
-                (liveActMenu() || hdActMenuVisible())) {
+            if (killableAdjAlive() ||
+                (!state.stallMeleeTried && (adjacentEnemy(1) || adjacentWaitingStrike()) &&
+                (liveActMenu() || hdActMenuVisible()))) {
                 state.stallMeleeTried = true;
                 state.keepAttackEnterUntil = Date.now() + 900;
+                clearAdjMeleeThrottle('stall-break-melee');
                 if (!commitAdjacentMelee('stall-break-melee')) {
                     pickFightMenu(0);
                 }
@@ -1381,6 +1411,9 @@
             if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
                 continue;
             }
+            if (u.hp != null && Number(u.hp) <= 0) {
+                continue;
+            }
             var d = chebyshev(actor.x, actor.y, u.x, u.y);
             if (d <= limit && d < bestD) {
                 best = u;
@@ -1403,6 +1436,9 @@
             if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
                 continue;
             }
+            if (u.hp != null && Number(u.hp) <= 0) {
+                continue;
+            }
             var d = chebyshev(unit.x, unit.y, u.x, u.y);
             if (d <= limit && d < bestD) {
                 best = u;
@@ -1410,6 +1446,124 @@
             }
         }
         return best;
+    }
+
+    function enemyIsLiving(u) {
+        if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
+            return false;
+        }
+        if (u.hp != null && Number(u.hp) <= 0) {
+            return false;
+        }
+        return true;
+    }
+
+    function findHitTarget(rec) {
+        rec = rec || state.lastHitTarget || (state.aimCommit ? {
+            name: state.aimCommit.name, x: state.aimCommit.x, y: state.aimCommit.y
+        } : null);
+        if (!rec) {
+            return null;
+        }
+        var i;
+        var byName = null;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (rec.x != null && u.x === rec.x && u.y === rec.y) {
+                return u;
+            }
+            if (rec.name && u.name === rec.name) {
+                byName = byName || u;
+            }
+        }
+        return byName;
+    }
+
+    function sameTileHitCapped(enemy) {
+        if (!enemy || !state.lastHitTarget) {
+            return false;
+        }
+        if (state.lastHitTarget.x !== enemy.x || state.lastHitTarget.y !== enemy.y) {
+            return false;
+        }
+        return (state.sameTileHitN || 0) >= 8;
+    }
+
+    function killableAdjAlive() {
+        if (adjacentWaitingStrike()) {
+            return true;
+        }
+        var e = adjacentEnemy(1);
+        return !!(e && enemyIsLiving(e));
+    }
+
+    function postHitAdjMeleeNeedsEnter() {
+        if (!fightReallyActive() || recentlyEndedTurn()) {
+            return false;
+        }
+        var fight = null;
+        try { fight = readFight(); } catch (eF) {}
+        if (!fight || !fight.active || fight.over || state.resultText) {
+            return false;
+        }
+        var phase = Number(fight.phase) || 0;
+        if (phase === 3) {
+            return false;
+        }
+        if (state.phase1AdjEnterHoldUntil && Date.now() < state.phase1AdjEnterHoldUntil) {
+            return false;
+        }
+        var strike = adjacentWaitingStrike();
+        var adj = !!(strike || (adjacentEnemy(1) && enemyIsLiving(adjacentEnemy(1))));
+        if (!adj) {
+            return false;
+        }
+        if (!(hdActMenuVisible() || liveActMenu() || phase === 0 ||
+            (phase === 1 && fight.wait) || state.pendingActPick === 0)) {
+            return false;
+        }
+        return !!(state.lastHitAt || strike);
+    }
+
+    function clearAdjMeleeThrottle(why) {
+        clearPickThrottle(why || 'adj-melee');
+        clearPhase1EnterCap(why || 'adj-melee');
+    }
+
+    function verifyHitHpDrop(why) {
+        var rec = state.aimCommit || {};
+        var before = rec.hpBefore != null ? rec.hpBefore : state.lastHitHpBefore;
+        var target = findHitTarget(rec);
+        var after = target ? target.hp : null;
+        var gone = !target || (target.hp != null && Number(target.hp) <= 0);
+        var drop = gone || (before != null && after != null && Number(after) < Number(before));
+        var info = {
+            via: why || 'verify',
+            unit: (target && target.name) || rec.name || (state.lastHitTarget && state.lastHitTarget.name),
+            x: target && target.x != null ? target.x : rec.x,
+            y: target && target.y != null ? target.y : rec.y,
+            before: before,
+            after: after,
+            gone: !!gone,
+            drop: !!drop
+        };
+        console.log('[hd-battle] hit-hp', info);
+        if (drop) {
+            state.lastHpDropAt = Date.now();
+            state.lastHpDrop = info;
+            if (state.aimCommit) {
+                state.aimCommit.hpDropped = true;
+            }
+            state.sameTileHitN = 0;
+            return true;
+        }
+        if (state.aimCommit) {
+            state.aimCommit.hpDropped = false;
+        }
+        return false;
     }
 
     /* 任一未行动己方贴脸即可近战。引擎焦点常停在君主马腾，actingActor 会漏掉庞德。 */
@@ -1424,11 +1578,15 @@
             if (!(u.active === 0 || u.active == null)) {
                 continue;
             }
-            if (recentlyHitActor(u) || isPhase1StuckUnit(u)) {
+            var e = unitAdjacentEnemy(u, 1);
+            if (!e || !enemyIsLiving(e)) {
                 continue;
             }
-            var e = unitAdjacentEnemy(u, 1);
-            if (!e) {
+            if (sameTileHitCapped(e)) {
+                continue;
+            }
+            /* 贴脸敌军还活着：刚出手/phase1-stuck 也必须再打，禁止从 strike 里摘掉。 */
+            if (isPhase1StuckUnit(u) && !e) {
                 continue;
             }
             if (!isLordUnit(u)) {
@@ -1454,10 +1612,11 @@
         if (!strike) {
             return false;
         }
-        if (state.lastAdjMeleeAt && Date.now() - state.lastAdjMeleeAt < 360) {
+        var bypassCool = /post-hit|phase1-stuck|phase1-adj|after-hit|stall-break-melee|rest-blocked/.test(why || '');
+        if (!bypassCool && state.lastAdjMeleeAt && Date.now() - state.lastAdjMeleeAt < 360) {
             return false;
         }
-        if (recentlyEndedTurn() || aimCommitHolds()) {
+        if (recentlyEndedTurn()) {
             return false;
         }
         try { fight = readFight(); } catch (eF) {}
@@ -1532,6 +1691,7 @@
             return true;
         }
         state.lastAdjMeleeAt = Date.now();
+        clearAdjMeleeThrottle(why || 'adj-melee-commit');
         if (phase === 2) {
             state.movedThisAct = true;
             state.sawMoveThisTurn = true;
@@ -1545,6 +1705,7 @@
             x: strike.enemy.x, y: strike.enemy.y, at: Date.now(), name: strike.enemy.name
         };
         enqueueKeys([VK.ENTER], 55);
+        state.phase1AdjEnterHoldUntil = Date.now() + 900;
         scheduleDriveSoon('adj-melee-aim', 90);
         return true;
     }
@@ -1554,10 +1715,7 @@
         if (state.lastFirstActMeleeAt && Date.now() - state.lastFirstActMeleeAt < 400) {
             return false;
         }
-        if (state.lastHitAt && Date.now() - state.lastHitAt < 1800) {
-            return false;
-        }
-        if (recentlyEndedTurn() || aimCommitHolds() || awaitingAim()) {
+        if (recentlyEndedTurn() || (aimCommitHolds() && !killableAdjAlive()) || awaitingAim()) {
             return false;
         }
         var fight = null;
@@ -1684,6 +1842,7 @@
         state.pendingAimEnter = null;
         extra.inRng = true;
         extra.hp = u && u.hp;
+        extra.hpBefore = u && u.hp;
         extra.focus = syncFocusFromEngine();
         extra.queue = state.queue.length;
         extra.leaving = !!state.leavingAim;
@@ -1693,9 +1852,18 @@
         extra.hits = 1;
         state.awaitingAimUntil = 0;
         state.lastHitAt = Date.now();
+        state.lastHitHpBefore = u && u.hp;
+        if (state.lastHitTarget && state.lastHitTarget.x === x && state.lastHitTarget.y === y &&
+            state.lastHitTarget.name === (u && u.name)) {
+            state.sameTileHitN = (state.sameTileHitN || 0) + 1;
+        } else {
+            state.sameTileHitN = 1;
+        }
+        state.lastHitTarget = { name: u && u.name, x: x, y: y };
         state.aimCommit = {
             x: x, y: y, name: u && u.name,
-            at: Date.now(), hits: 1, sentEnter: false
+            at: Date.now(), hits: 1, sentEnter: false,
+            hpBefore: u && u.hp, hpDropped: false, secondEnterSent: false
         };
         noteUnitActed('attack-hit');
         state.lastHitActor = state.actorAt
@@ -1707,7 +1875,7 @@
         }
         clearPendingApproach();
         console.log('[hd-battle] attack-hit', extra);
-        scheduleAfterHitSettle(260);
+        scheduleAfterHitSettle(500);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
             tip: state.fightTip, blocked: '', inRng: true, via: extra.via
@@ -1973,17 +2141,24 @@
         }
         dropQueuedEnters();
         clearPhase1EnterCap('phase1-stuck-melee');
+        clearPickThrottle('phase1-stuck-melee');
+        var adjNow = !!(adjacentEnemy(1) || adjacentWaitingStrike());
         console.log('[hd-battle] phase1-enter-stuck', {
             via: 'no-state-change',
             unit: state.phase1EnterCapKey || unitCapKey(focusedFightUnit()),
             hdMenu: hdActMenuVisible(),
             index: state.menuIndex,
-            adj: !!adjacentEnemy(1),
+            adj: adjNow,
             moved: !!state.movedThisAct,
             live: liveActMenu()
         });
-        /* 贴脸将优先近战。先清 cap 再 ENTER，禁止先 mark-stuck 把庞德从 strike 里摘掉。 */
-        if (adjacentWaitingStrike() && commitAdjacentMelee('phase1-stuck-melee')) {
+        /* 贴脸将优先近战。先清 cap/throttle 再 ENTER，禁止先 mark-stuck 把庞德从 strike 里摘掉。 */
+        if (adjNow && commitAdjacentMelee('phase1-stuck-melee')) {
+            return;
+        }
+        if (adjNow) {
+            enqueueKeys([VK.ENTER], 55);
+            state.phase1AdjEnterHoldUntil = Date.now() + 900;
             return;
         }
         state.phase1EnterStuckHandled = true;
@@ -2012,11 +2187,20 @@
         if (!u || !state.lastHitActor || !state.lastHitAt) {
             return false;
         }
-        /* 出手将本回合不再连打同一格，避免 same-tile 10+。下一回合会清 lastHitActor。 */
         if (Date.now() - state.lastHitAt > 20000) {
             return false;
         }
-        return u.x === state.lastHitActor.x && u.y === state.lastHitActor.y;
+        if (u.x !== state.lastHitActor.x || u.y !== state.lastHitActor.y) {
+            return false;
+        }
+        /* 假 hit（没掉血）或贴脸敌军还活着：本将必须还能再打。 */
+        if (!state.lastHpDropAt || state.lastHpDropAt < state.lastHitAt) {
+            return false;
+        }
+        if (unitAdjacentEnemy(u, 1)) {
+            return false;
+        }
+        return Date.now() - state.lastHitAt < 800;
     }
 
     function scheduleAfterHitSettle(ms) {
@@ -2038,9 +2222,27 @@
         if (enemyTurnQuiet(fight)) {
             return false;
         }
+        var dropped = verifyHitHpDrop('after-hit-settle');
         if (fight && Number(fight.phase) === 3) {
-            /* 命中后先让引擎结算伤害，禁止 260ms 就 EXIT 瞄准（会留下假 attack-hit、敌军不掉血）。 */
-            if (aimCommitHolds() && !state.leavingAim) {
+            /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
+            if (!dropped && aimCommitHolds() && !state.leavingAim) {
+                if (state.aimCommit && !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400) {
+                    state.aimCommit.secondEnterSent = true;
+                    state.aimCommit.sentEnter = false;
+                    console.log('[hd-battle] aim-second-enter', {
+                        why: 'no-hp-drop',
+                        unit: state.aimCommit.name,
+                        before: state.aimCommit.hpBefore,
+                        age: aimCommitAgeMs()
+                    });
+                    enqueueKeys([VK.ENTER], 55);
+                }
+                if (aimCommitAgeMs() < 2400) {
+                    scheduleAfterHitSettle(400);
+                    return true;
+                }
+                leaveAimAndRearm('after-hit-no-drop');
+            } else if (aimCommitHolds() && !state.leavingAim) {
                 if (aimCommitAgeMs() < 1400) {
                     scheduleAfterHitSettle(400);
                     return true;
@@ -2055,13 +2257,31 @@
             state.pendingActPick = null;
         }
         clearPendingApproach();
+        if (killableAdjAlive()) {
+            console.log('[hd-battle] after-hit-settle', {
+                phase: fight ? Number(fight.phase) : null,
+                wait: !!(fight && fight.wait),
+                hdMenu: hdActMenuVisible(),
+                drop: !!dropped,
+                next: 'adj-melee'
+            });
+            clearAdjMeleeThrottle('after-hit-adj');
+            if (commitAdjacentMelee('after-hit-adj')) {
+                return true;
+            }
+        }
         if (playerHasWaitingOwn()) {
             console.log('[hd-battle] after-hit-settle', {
                 phase: fight ? Number(fight.phase) : null,
                 wait: !!(fight && fight.wait),
                 hdMenu: hdActMenuVisible(),
+                drop: !!dropped,
                 next: (firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true }) || {}).name
             });
+            if (killableAdjAlive()) {
+                return commitAdjacentMelee('after-hit-stall-melee') ||
+                    forceFinishWaitingOrEndTurn('after-hit-stall');
+            }
             if (endTurnBrokeArmed() || nextUnitStalled()) {
                 return forceFinishWaitingOrEndTurn('after-hit-stall');
             }
@@ -2127,6 +2347,10 @@
             return 'lord-hold-pick';
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
+            if (postHitAdjMeleeNeedsEnter()) {
+                clearPickThrottle('post-hit-adj-melee');
+                return '';
+            }
             return 'pick-throttle';
         }
         return '';
@@ -2199,6 +2423,14 @@
             clearPhase1StuckUnits('new-player-turn');
             clearPhase1EnterCap('new-player-turn');
             state.lastHitActor = null;
+            state.lastHpDropAt = 0;
+            state.lastHpDrop = null;
+            state.lastHitHpBefore = null;
+            state.lastHitTarget = null;
+            state.sameTileHitN = 0;
+            state.lastAttackClickAt = 0;
+            state.phase1AdjEnterHoldUntil = 0;
+            state.lastFirstActMeleeAt = 0;
             state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
             state.approachWaitLogs = 0;
@@ -2271,6 +2503,9 @@
         }
         /* 一次 melee ENTER 后等引擎离开 AIM；超时才 leftover EXIT，禁止再 ENTER。 */
         if (aimCommitHolds()) {
+            if (state.aimCommit && !state.aimCommit.hpDropped) {
+                return aimCommitAgeMs() > 2800;
+            }
             return aimCommitAgeMs() > 2200;
         }
         if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
@@ -2994,6 +3229,14 @@
     }
 
     function preferRest(why) {
+        if (killableAdjAlive() &&
+            /stall-break-rest|act-commit|approach-nowait|after-hit|end-player-turn-stall|phase1-enter-stuck/.test(why || '')) {
+            console.log('[hd-battle] rest-blocked', { via: why || 'prefer-rest', why: 'adj-enemy-alive' });
+            clearAdjMeleeThrottle('rest-blocked-adj');
+            if (commitAdjacentMelee('rest-blocked-adj')) {
+                return;
+            }
+        }
         clearPendingApproach();
         state.pendingActPick = 3;
         state.approachRepeatCount = 0;
@@ -3303,11 +3546,11 @@
             if (opts.lordOnly && !isLordUnit(u)) {
                 continue;
             }
-            /* 刚打完的将引擎可能还没标 active，禁止立刻再武装同一将。 */
-            if (recentlyHitActor(u)) {
+            /* 刚打完且已无贴脸目标才跳过。贴脸敌军还活着必须还能再武装。 */
+            if (recentlyHitActor(u) && !unitAdjacentEnemy(u, 1)) {
                 continue;
             }
-            if (isPhase1StuckUnit(u)) {
+            if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1)) {
                 continue;
             }
             return u;
@@ -3974,14 +4217,45 @@
                 console.log('[hd-battle] attack-skip', { why: 'after-end-turn' });
                 return;
             }
-            if (state.lastHitAt && Date.now() - state.lastHitAt < 1800 &&
-                recentlyHitActor(actingActor())) {
+            if (state.lastHpDropAt && Date.now() - state.lastHpDropAt < 400 &&
+                recentlyHitActor(actingActor()) && !adjacentWaitingStrike()) {
                 console.log('[hd-battle] attack-skip', { why: 'just-hit' });
                 settleAfterAttackHit();
                 return;
             }
+            var fightPhase1 = null;
+            try { fightPhase1 = readFight(); } catch (eP1) {}
+            var phaseClick = Number(fightPhase1 && fightPhase1.phase) || 0;
+            var adjClick = !!(adjacentWaitingStrike() || adjacentEnemy(1));
+            var attackLit = !!(hdActMenuVisible() || liveActMenu() || state.menuIndex === 0);
+            if (phaseClick === 1 && fightPhase1 && fightPhase1.wait && attackLit && adjClick) {
+                if (state.phase1AdjEnterHoldUntil && Date.now() < state.phase1AdjEnterHoldUntil) {
+                    return;
+                }
+                if (state.lastAttackClickAt && Date.now() - state.lastAttackClickAt < 700) {
+                    return;
+                }
+                state.lastAttackClickAt = Date.now();
+                clearAdjMeleeThrottle('phase1-adj-enter');
+                logAttackClick('phase1-adj-enter');
+                if (commitAdjacentMelee('phase1-adj-enter')) {
+                    state.phase1AdjEnterHoldUntil = Date.now() + 900;
+                    return;
+                }
+                enqueueKeys([VK.ENTER], 55);
+                state.phase1AdjEnterHoldUntil = Date.now() + 900;
+                console.log('[hd-battle] phase1-adj-enter', {
+                    unit: unitCapKey(focusedFightUnit()), adj: true
+                });
+                return;
+            }
+            if (state.lastAttackClickAt && Date.now() - state.lastAttackClickAt < 500 &&
+                phaseClick === 1 && fightPhase1 && fightPhase1.wait) {
+                return;
+            }
             state.pendingActPick = 0;
             state.lastAttackAt = Date.now();
+            state.lastAttackClickAt = Date.now();
             logAttackClick('pick');
             var fightAtk = null;
             try { fightAtk = readFight(); } catch (eAtk) {}
@@ -4996,6 +5270,13 @@
         state.sawMoveThisTurn = false;
             state.lastHitAt = 0;
             state.lastHitActor = null;
+            state.lastHpDropAt = 0;
+            state.lastHpDrop = null;
+            state.lastHitHpBefore = null;
+            state.lastHitTarget = null;
+            state.sameTileHitN = 0;
+            state.lastAttackClickAt = 0;
+            state.phase1AdjEnterHoldUntil = 0;
             state.aimCommit = null;
             state.lastPickEnterAt = 0;
             state.holdPickUntil = 0;
@@ -6518,6 +6799,10 @@
                 awaitingAim: awaitingAim(),
                 lastHitAt: state.lastHitAt || 0,
                 lastHitActor: state.lastHitActor,
+                lastHpDropAt: state.lastHpDropAt || 0,
+                lastHpDrop: state.lastHpDrop,
+                sameTileHitN: state.sameTileHitN || 0,
+                phase1AdjEnterHoldUntil: state.phase1AdjEnterHoldUntil || 0,
                 aimCommit: state.aimCommit,
                 lastPickEnterAt: state.lastPickEnterAt || 0,
                 holdPickUntil: state.holdPickUntil || 0,
