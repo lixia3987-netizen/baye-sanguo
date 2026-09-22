@@ -1558,6 +1558,10 @@
         if (playerHasWaitingOwn()) {
             return false;
         }
+        if (state.pendingApproach || state.sending || state.queue.length ||
+            (state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400)) {
+            return false;
+        }
         if (state.lastRestCommitAt && Date.now() - state.lastRestCommitAt < 1100) {
             return false;
         }
@@ -1656,6 +1660,9 @@
         }
         /* BOX 慢 HD：refresh 一帧可超过 setTimeout(0)。丢掉 after-pick 会永远停在 phase=2。 */
         var delay = (state.refreshing || state.samplingFight || state.readingEngine) ? 80 : 0;
+        if (state.boxSlowUntil && Date.now() < state.boxSlowUntil && state.boxSlowMs > delay) {
+            delay = state.boxSlowMs;
+        }
         state.driveTimer = setTimeout(function () {
             state.driveTimer = 0;
             runScheduledDrive(why || 'tick');
@@ -2976,6 +2983,10 @@
         if (phase === 2 && u && u.side === 'enemy') {
             if (state.sending || state.queue.length) {
                 state.lastBlockedEnter = 'walk-busy';
+                if (!state.pendingApproach) {
+                    setPendingApproach(x, y);
+                }
+                scheduleDriveSoon('walk-busy-retry', 90);
                 return {
                     x: x, y: y, enter: false, unit: u.name, phase: phase,
                     blocked: 'walk-busy', tip: state.fightTip
@@ -3862,10 +3873,6 @@
         }
         /* 活战也只采样上色。走近/选将必须走 scheduleDrive(setTimeout 0)，禁止本函数同步进
          * driveApproach / clickWaitingOwn / clickBattleTile（盒子 e 栈就是 refresh↔approach）。 */
-        if (state.boxSlowUntil && Date.now() < state.boxSlowUntil && state.boxSlowMs > 0) {
-            var slowT0 = Date.now();
-            while (Date.now() - slowT0 < state.boxSlowMs) { /* box-like slow HD */ }
-        }
         state.refreshing = true;
         try {
         var info = sampleFight();
@@ -3888,7 +3895,8 @@
             clearPendingApproach();
         }
         if (state.pendingApproach && fightNow && Number(fightNow.phase) === 2 &&
-            fightNow.wait && !state.driveTimer && !state.drivingAct && !state.clickingTile) {
+            fightNow.wait && !state.driveTimer && !state.drivingAct && !state.clickingTile &&
+            approachAgeMs() >= 200) {
             scheduleDrive('refresh-retry-approach');
         }
         noteFightTip(fightNow);
