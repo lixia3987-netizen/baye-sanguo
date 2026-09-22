@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922t';
+    var HD_BATTLE_VER = '20260922u';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -134,6 +134,12 @@
         blankWatchTimer: 0,
         lastAimExitAt: 0,
         lastAttackAt: 0,
+        aimEnteredAt: 0,
+        approachRepeatCount: 0,
+        lastApproachKey: '',
+        lastApproachActor: '',
+        pendingAimEnter: null,
+        lastRestCommitAt: 0,
         strictLive: false,
         refreshStackLogged: false,
         lastRefreshStack: '',
@@ -613,17 +619,46 @@
         return !!(state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400);
     }
 
-    function hasLegalAimTarget() {
-        var i;
-        var size = 0;
+    function atkRngSize() {
         try {
             var data = engineData();
             var rng = data && data.g_FgtAtkRng;
-            size = rng ? (readNumber(rng, 0) || 0) : 0;
+            return rng ? (readNumber(rng, 0) || 0) : 0;
         } catch (eRng) {
-            size = 0;
+            return 0;
         }
-        if (!size) {
+    }
+
+    function atkRngReady() {
+        return atkRngSize() > 0;
+    }
+
+    function adjacentEnemy(maxD) {
+        var actor = syncFocusFromEngine();
+        var limit = maxD == null ? 1 : maxD;
+        var best = null;
+        var bestD = 99;
+        var i;
+        if (actor.x == null || actor.y == null) {
+            return null;
+        }
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
+                continue;
+            }
+            var d = chebyshev(actor.x, actor.y, u.x, u.y);
+            if (d <= limit && d < bestD) {
+                best = u;
+                bestD = d;
+            }
+        }
+        return best;
+    }
+
+    function hasLegalAimTarget() {
+        var i;
+        if (!atkRngReady()) {
             return false;
         }
         for (i = 0; i < state.units.length; i++) {
@@ -636,13 +671,61 @@
         return false;
     }
 
+    function likelyAimTarget() {
+        /* 射程表未灌时贴脸敌军也算真瞄准，绝不能当 leftover 立刻 EXIT。 */
+        return !!(hasLegalAimTarget() || adjacentEnemy(1));
+    }
+
     function leftoverAim(fight) {
-        return !!(fight && Number(fight.phase) === 3 && !hasLegalAimTarget());
+        if (!(fight && Number(fight.phase) === 3)) {
+            return false;
+        }
+        if (likelyAimTarget()) {
+            return false;
+        }
+        var age = Date.now() - (state.aimEnteredAt || state.lastAttackAt || 0);
+        if (!atkRngReady()) {
+            return age > 800;
+        }
+        return age > 350;
+    }
+
+    function noteAimPhase(fight) {
+        var phase = Number(fight && fight.phase) || 0;
+        if (phase === 3) {
+            if (!state.aimEnteredAt) {
+                state.aimEnteredAt = Date.now();
+                console.log('[hd-battle] aim-enter', {
+                    wait: !!(fight && fight.wait),
+                    legal: hasLegalAimTarget(),
+                    likely: likelyAimTarget(),
+                    rng: atkRngReady(),
+                    adj: !!(adjacentEnemy(1)),
+                    leaving: !!state.leavingAim
+                });
+            }
+            if (likelyAimTarget()) {
+                /* 真瞄准时菜单不得挡住点敌军。 */
+                state.holdActMenuUntil = 0;
+            }
+            return;
+        }
+        state.aimEnteredAt = 0;
+    }
+
+    function logAimExit(why, extra) {
+        var rec = extra || {};
+        rec.why = why || 'aim-exit';
+        rec.legal = hasLegalAimTarget();
+        rec.likely = likelyAimTarget();
+        rec.rng = atkRngReady();
+        rec.aimAge = state.aimEnteredAt ? (Date.now() - state.aimEnteredAt) : 0;
+        console.log('[hd-battle] aim-exit-reason', rec);
     }
 
     function aimingTiles(fight) {
-        /* 真瞄准且有射程内敌军才藏菜单。无目标 leftover AIM 不得把将领行动藏死。 */
-        return !!(fight && Number(fight.phase) === 3 && hasLegalAimTarget() && !state.leavingAim);
+        /* 真瞄准（射程内或贴脸待灌表）才藏菜单。确认 leftover 才把将领行动露出来。 */
+        return !!(fight && Number(fight.phase) === 3 && !leftoverAim(fight) && !state.leavingAim);
     }
 
     function holdingActMenu() {
@@ -748,6 +831,8 @@
         state.clickingTile = false;
         state.walkSubmittedAt = 0;
         state.leavingAim = false;
+        state.pendingAimEnter = null;
+        state.approachRepeatCount = 0;
         if (state.driveTimer) {
             clearTimeout(state.driveTimer);
             state.driveTimer = 0;
@@ -813,7 +898,7 @@
                     legalAim: hasLegalAimTarget()
                 });
                 /* leftover AIM 先 EXIT 再 forceShow，绝不能停在 phase=3 空白。 */
-                if (!hasLegalAimTarget()) {
+                if (leftoverAim(fight)) {
                     leaveAimAndRearm('watchdog-aim');
                     return;
                 }
@@ -838,19 +923,29 @@
     }
 
     function forceShowFightMenu(why) {
+        var keepApproach = state.pendingApproach;
+        var keepPick = state.pendingActPick;
         clearStuckApproach(readFight());
-        state.pendingApproach = null;
-        if (wantsWalkBeforeAct(state.pendingActPick)) {
-            state.pendingActPick = null;
+        if (keepApproach) {
+            state.pendingApproach = keepApproach;
+            if (keepPick != null) {
+                state.pendingActPick = keepPick;
+            }
+        } else {
+            state.pendingApproach = null;
+            if (wantsWalkBeforeAct(state.pendingActPick)) {
+                state.pendingActPick = null;
+            }
         }
         state.walkSubmittedAt = 0;
         state.holdActMenuUntil = Date.now() + 700;
         var fight = null;
         try { fight = readFight(); } catch (eF) {}
-        if (fight && Number(fight.phase) === 3) {
+        if (fight && Number(fight.phase) === 3 && leftoverAim(fight)) {
             dropQueuedEnters();
             state.leavingAim = true;
             state.lastAimExitAt = Date.now();
+            logAimExit(why || 'force-show', { phase: 3, wait: !!fight.wait });
             enqueueKeys([VK.EXIT], 55);
         }
         forceRevealActMenu(why || 'force-show');
@@ -943,16 +1038,25 @@
                 return;
             }
             if (phase === 3) {
-                if (hasLegalAimTarget()) {
+                noteAimPhase(fight);
+                if (likelyAimTarget()) {
                     return;
                 }
-                if (tries < 4 && Date.now() - started < 1200) {
+                if (!atkRngReady() && Date.now() - started < 800) {
+                    state.rearmTimer = setTimeout(tick, 80);
+                    return;
+                }
+                if (leftoverAim(fight) && tries < 4 && Date.now() - started < 1200) {
                     tries += 1;
                     dropQueuedEnters();
                     state.leavingAim = true;
                     state.lastAimExitAt = Date.now();
+                    logAimExit(why || 'after-rearm', { try: tries });
                     enqueueKeys([VK.EXIT], 55);
                     state.rearmTimer = setTimeout(tick, 160);
+                    return;
+                }
+                if (likelyAimTarget()) {
                     return;
                 }
             }
@@ -962,15 +1066,65 @@
         state.rearmTimer = setTimeout(tick, 180);
     }
 
-    function leaveAimAndRearm(why) {
+    function leaveAimAndRearm(why, opts) {
+        opts = opts || {};
         dropQueuedEnters();
-        state.pendingApproach = null;
-        state.pendingActPick = null;
+        if (!opts.keepApproach && !opts.thenApproach) {
+            state.pendingApproach = null;
+            if (state.pendingActPick !== 3) {
+                state.pendingActPick = null;
+            }
+        }
+        if (opts.thenApproach) {
+            state.pendingApproach = { x: opts.thenApproach.x, y: opts.thenApproach.y };
+            state.pendingActPick = 0;
+        }
         state.walkSubmittedAt = 0;
         state.leavingAim = true;
         state.lastAimExitAt = Date.now();
+        state.pendingAimEnter = null;
+        logAimExit(why || 'aim-oor', {
+            keepApproach: !!opts.keepApproach,
+            thenApproach: opts.thenApproach || null
+        });
         forceShowFightMenu(why || 'aim-oor');
         scheduleActRearm(why || 'aim-oor');
+        if (opts.thenApproach) {
+            scheduleDrive('after-leftover-approach');
+        }
+    }
+
+    function noteApproachAttempt(via, dest, actor) {
+        var viaX = via && via.x;
+        var viaY = via && via.y;
+        var destX = dest && dest.x;
+        var destY = dest && dest.y;
+        var ax = actor && actor.x;
+        var ay = actor && actor.y;
+        var key = String(viaX) + ',' + String(viaY) + '>' + String(destX) + ',' + String(destY);
+        var actorKey = String(ax) + ',' + String(ay);
+        if (key === state.lastApproachKey && actorKey === state.lastApproachActor) {
+            state.approachRepeatCount = (state.approachRepeatCount || 0) + 1;
+        } else {
+            state.lastApproachKey = key;
+            state.lastApproachActor = actorKey;
+            state.approachRepeatCount = 1;
+        }
+        if (state.approachRepeatCount >= 3) {
+            console.log('[hd-battle] approach-loop-break', {
+                via: via, dest: dest, actor: actor, n: state.approachRepeatCount
+            });
+            state.pendingApproach = null;
+            state.walkSubmittedAt = 0;
+            state.approachRepeatCount = 0;
+            state.lastApproachKey = '';
+            state.lastApproachActor = '';
+            state.pendingActPick = 3;
+            forceShowFightMenu('approach-loop-break');
+            scheduleDrive('prefer-rest');
+            return true;
+        }
+        return false;
     }
 
     function scheduleDrive(why) {
@@ -1211,6 +1365,15 @@
             }
             return false;
         }
+        if (phase === 2 && state.pendingActPick === 3) {
+            /* 待机：先 EXIT 取消走格，再落定待机，绝不能 ENTER 把走格确认掉。 */
+            dropQueuedEnters();
+            enqueueKeys([VK.EXIT], 55);
+            console.log('[hd-battle] rest-commit', { via: 'cancel-move', phase: 2, wait: !!fight.wait });
+            state.lastRestAt = Date.now();
+            scheduleActRearm('rest-after-move');
+            return true;
+        }
         if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
             /* 点「攻击」后停在 FgtGenMove。超距就走近再打，绝不原地回车进瞄准。 */
             if (!state.pendingApproach) {
@@ -1308,7 +1471,13 @@
             }
             var actor = syncFocusFromEngine();
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y);
+            if (closer && closer.x === actor.x && closer.y === actor.y) {
+                closer = null;
+            }
             if (closer) {
+                if (noteApproachAttempt(closer, dest, actor)) {
+                    return true;
+                }
                 console.log('[hd-battle] approach walk', dest, 'via', closer);
                 state.walkSubmittedAt = Date.now();
                 walkFocusTo(closer.x, closer.y, true);
@@ -1477,21 +1646,39 @@
             state.pendingActPick = 0;
             state.lastAttackAt = Date.now();
             logAttackClick('pick');
+            var fightAtk = null;
+            try { fightAtk = readFight(); } catch (eAtk) {}
+            noteAimPhase(fightAtk);
+            if (fightAtk && Number(fightAtk.phase) === 3 && !leftoverAim(fightAtk)) {
+                /* 已在真瞄准：再点攻击不得 EXIT / 不得把菜单盖住棋盘。 */
+                console.log('[hd-battle] aim-enter', { why: 'attack-already-aiming', legal: hasLegalAimTarget() });
+                return;
+            }
             state.holdActMenuUntil = Date.now() + 1600;
             forceRevealActMenu('attack-click');
             armBlankMenuWatchdog('after-attack');
-            /* 已在 leftover AIM：再点攻击不能 ENTER，立刻离瞄并武装攻击/待机。 */
-            if (leftoverAim(readFight())) {
-                leaveAimAndRearm('attack-leftover-aim');
+            if (leftoverAim(fightAtk)) {
+                var foe = nearestEnemy();
+                leaveAimAndRearm('attack-leftover-aim', foe ? { thenApproach: { x: foe.x, y: foe.y } } : null);
                 return;
             }
         }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
             state.pendingApproach = null;
+            state.approachRepeatCount = 0;
             if (index === 3) {
                 state.lastRestAt = Date.now();
-                state.pendingActPick = null;
+                state.pendingActPick = 3;
+                var fightRest = null;
+                try { fightRest = readFight(); } catch (eRest) {}
+                if (fightRest && Number(fightRest.phase) === 3) {
+                    leaveAimAndRearm('rest-cancel-aim');
+                    state.pendingActPick = 3;
+                    console.log('[hd-battle] rest-commit', { via: 'cancel-aim', phase: 3 });
+                    scheduleDrive('rest-after-aim');
+                    return;
+                }
             }
         }
         if (state.pickingMenu) {
@@ -1528,11 +1715,15 @@
         keys.push(VK.ENTER);
         state.menuIndex = index;
         enqueueKeys(keys, 55);
-        /* 走近后 PlcSplMenu 再点攻击常进无目标 AIM；ENTER 发出后立刻准备 EXIT。 */
         if (index === 0 && fight && !fight.wait) {
             state.pendingActPick = null;
             state.lastAttackAt = Date.now();
             scheduleActRearm('after-attack');
+        }
+        if (index === 3 && fight && !fight.wait) {
+            console.log('[hd-battle] rest-commit', { via: 'menu-enter', phase: fight.phase, wait: false });
+            state.lastRestCommitAt = Date.now();
+            state.pendingActPick = null;
         }
         } finally {
             state.pickingMenu = false;
@@ -1885,12 +2076,35 @@
         var u = unitAt(x, y);
         var phase = fight && fight.phase != null ? Number(fight.phase) : 0;
         var inRng = u ? inAtkRng(x, y) : false;
-        if (phase === 3 && u && u.side === 'enemy' && inRng !== true) {
+        var actorNow = syncFocusFromEngine();
+        var enemyDist = (u && u.side === 'enemy' && actorNow.x != null)
+            ? chebyshev(actorNow.x, actorNow.y, x, y) : 99;
+        if (phase === 3 && u && u.side === 'enemy') {
+            noteAimPhase(fight);
+            if (inRng === true) {
+                walkFocusTo(x, y, true);
+                state.lastBlockedEnter = '';
+                console.log('[hd-battle] attack-hit', {
+                    unit: u.name, x: x, y: y, inRng: true, dist: enemyDist, hp: u.hp
+                });
+                return {
+                    x: x, y: y, enter: true, unit: u.name, phase: phase,
+                    tip: state.fightTip, blocked: '', inRng: true
+                };
+            }
+            if (!atkRngReady() && enemyDist <= 1) {
+                walkFocusTo(x, y, false);
+                state.pendingAimEnter = { x: x, y: y, at: Date.now(), name: u.name };
+                return {
+                    x: x, y: y, enter: false, unit: u.name, phase: phase,
+                    blocked: 'aim-wait-rng', inRng: false, dist: enemyDist
+                };
+            }
             dropQueuedEnters();
             state.lastBlockedEnter = 'aim-oor';
             state.fightTip = '超出攻击范围，先走格靠近。';
-            console.warn('[hd-battle] aim-oor, cancel aim', x, y);
-            leaveAimAndRearm('aim-oor');
+            console.warn('[hd-battle] aim-oor, cancel aim then approach', x, y);
+            leaveAimAndRearm('aim-oor', { thenApproach: { x: x, y: y } });
             applyChrome();
             return {
                 x: x, y: y, enter: false, unit: u.name, phase: phase,
@@ -1916,9 +2130,18 @@
             }
             var actor = syncFocusFromEngine();
             var closer = findCloserMoveTile(actor.x, actor.y, x, y);
+            if (closer && closer.x === actor.x && closer.y === actor.y) {
+                closer = null;
+            }
             dropQueuedEnters();
             state.lastBlockedEnter = closer ? 'move-closer' : 'aim-oor';
             if (closer) {
+                if (noteApproachAttempt(closer, { x: x, y: y }, actor)) {
+                    return {
+                        x: x, y: y, enter: false, unit: u.name, phase: phase,
+                        blocked: 'approach-loop-break', inRng: false
+                    };
+                }
                 console.log('[hd-battle] move closer toward', x, y, 'via', closer.x, closer.y);
                 state.pendingApproach = null;
                 if (wantsWalkBeforeAct(state.pendingActPick)) {
@@ -1960,6 +2183,12 @@
             };
         }
         if (!enter && phase === 3 && (!u || inRng !== true)) {
+            if (!leftoverAim(fight) && !atkRngReady()) {
+                return {
+                    x: x, y: y, enter: false, unit: u && u.name, phase: phase,
+                    blocked: 'aim-wait-rng', inRng: false
+                };
+            }
             dropQueuedEnters();
             state.lastBlockedEnter = u ? 'aim-oor' : 'aim-empty';
             console.warn('[hd-battle] blocked ENTER during aim', state.lastBlockedEnter);
@@ -2770,6 +2999,7 @@
         state.tiles = info.tiles;
         state.focus = info.focus;
         var fightNow = readFight();
+        noteAimPhase(fightNow);
         noteFightWait(fightNow);
         recoverFightMenu(fightNow);
         clearStuckApproach(fightNow);
@@ -2781,9 +3011,20 @@
         renderFightMenu();
         applyChrome();
         draw();
-        if (leftoverAim(fightNow) && !state.leavingAim &&
-            Date.now() - (state.lastAimExitAt || 0) > 200 &&
-            Date.now() - (state.lastAttackAt || 0) > 200) {
+        if (state.pendingAimEnter && fightNow && Number(fightNow.phase) === 3) {
+            var pe = state.pendingAimEnter;
+            if (inAtkRng(pe.x, pe.y) === true) {
+                state.pendingAimEnter = null;
+                walkFocusTo(pe.x, pe.y, true);
+                console.log('[hd-battle] attack-hit', {
+                    via: 'wait-rng', unit: pe.name, x: pe.x, y: pe.y, inRng: true
+                });
+            } else if (leftoverAim(fightNow)) {
+                state.pendingAimEnter = null;
+                leaveAimAndRearm('refresh-aim-wait-oor', { thenApproach: { x: pe.x, y: pe.y } });
+            }
+        } else if (leftoverAim(fightNow) && !state.leavingAim &&
+            Date.now() - (state.lastAimExitAt || 0) > 400) {
             leaveAimAndRearm('refresh-leftover-aim');
         }
         if (!menuPanelClickable() && !state.blankWatchTimer) {
@@ -3356,6 +3597,10 @@
                 leavingAim: !!state.leavingAim,
                 leftoverAim: leftoverAim(fightSnap),
                 legalAim: hasLegalAimTarget(),
+                likelyAim: likelyAimTarget(),
+                aimEnteredAt: state.aimEnteredAt,
+                approachRepeatCount: state.approachRepeatCount,
+                lastApproachKey: state.lastApproachKey,
                 lastAimExitAt: state.lastAimExitAt,
                 lastAttackAt: state.lastAttackAt,
                 holdActMenuUntil: state.holdActMenuUntil,
