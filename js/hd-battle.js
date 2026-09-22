@@ -1735,6 +1735,7 @@
         state.holdActMenuUntil = 0;
         resetActMenuIndex('open-aim-from-act');
         clearPendingApproach();
+        writeFightActCommit(0);
         console.log('[hd-battle] open-aim-from-act', {
             via: why || 'act-menu',
             unit: strike.unit.name,
@@ -1814,6 +1815,7 @@
             state.movedThisAct = true;
             state.sawMoveThisTurn = true;
             state.walkSubmittedAt = Date.now();
+            writeFightActCommit(0);
             enqueueKeys([VK.ENTER], 55);
             scheduleActRearm('adj-recover-stay');
             return true;
@@ -1855,11 +1857,12 @@
         state.pendingActPick = 0;
         state.movedThisAct = true;
         forceShowFightMenu(why || 'adj-recover-menu');
-        /* 方向键还在队列里：ENTER 会打在半路（unit:pick），必须等走到将身上。 */
-        if (state.queue && state.queue.length) {
+        /* 方向键还在飞：ENTER 会打在半路（unit:pick），必须等焦点停在将身上。 */
+        if (state.sending || (state.queue && state.queue.length)) {
             scheduleDriveSoon('adj-recover-wait-walk', 80);
             return true;
         }
+        writeFightActCommit(0xFF);
         var strikeKey = unitCapKey(strike.unit);
         var alreadySent = !!(state.adjRecoverPickSent && state.adjRecoverPickKey === strikeKey) ||
             (state.phase1EnterSent && state.phase1EnterCapKey === strikeKey);
@@ -1996,6 +1999,7 @@
             state.movedThisAct = true;
             state.sawMoveThisTurn = true;
             state.walkSubmittedAt = Date.now();
+            writeFightActCommit(0);
             enqueueKeys([VK.ENTER], 55);
             scheduleActRearm('adj-melee-move');
             return true;
@@ -2760,6 +2764,7 @@
             state.adjRecoverPickAt = 0;
             state.adjRecoverPickKey = '';
             state.adjRecoverPickN = 0;
+            writeFightActCommit(0xFF);
             state.lastEnemyQuietLogAt = 0;
             state.approachPathWaitAt = 0;
             state.approachWaitLogs = 0;
