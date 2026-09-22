@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zc';
+    var HD_BATTLE_VER = '20260922zd';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -149,6 +149,7 @@
         lastSwallowAt: 0,
         lastSwallowWhy: '',
         allowEndTurnEnter: false,
+        sysMenuHooked: false,
         awaitingAimUntil: 0,
         movedThisAct: false,
         strictLive: false,
@@ -1395,31 +1396,12 @@
         var info = null;
         try { info = readFightMenu(); } catch (eInfo) {}
         if (info && info.kind === 'sys' && info.names && info.names.indexOf('回合结束') >= 0) {
-            if (!state.openedSysForEndTurn) {
-                console.log('[hd-battle] enter-swallowed', {
-                    why: 'end-turn-sys-not-opened',
-                    names: info.names
-                });
-                return false;
+            /* fightOpenMainMenu 钩子已经 return 0，再 ENTER 会落到全军撤退。 */
+            if (!state.playerTurnEnded) {
+                notePlayerTurnEnded('end-player-turn-menu');
+                console.log('[hd-battle] rest-commit', { via: 'end-player-turn-hook' });
             }
-            if (state.endTurnAt && Date.now() - state.endTurnAt < 800) {
-                return false;
-            }
-            state.endTurnAt = Date.now();
-            dropQueuedKeys();
-            resetActMenuIndex('end-turn-menu');
-            state.allowEndTurnEnter = true;
-            enqueueKeys([VK.ENTER], 55);
-            notePlayerTurnEnded('end-player-turn-menu');
-            console.log('[hd-battle] rest-commit', {
-                via: 'end-player-turn-menu',
-                units: state.units.filter(function (u) {
-                    return u && u.side === 'player';
-                }).map(function (u) {
-                    return { name: u.name, x: u.x, y: u.y, active: u.active };
-                })
-            });
-            return true;
+            return false;
         }
         if (Number(fight.phase) !== 1 || !fight.wait) {
             return false;
@@ -1430,6 +1412,7 @@
         state.endTurnAt = Date.now();
         dropQueuedKeys();
         state.openedSysForEndTurn = true;
+        notePlayerTurnEnded('end-player-turn');
         enqueueKeys([VK.EXIT], 70);
         console.log('[hd-battle] rest-commit', { via: 'end-player-turn' });
         return true;
@@ -2277,15 +2260,10 @@
             if (recentlyEndedTurn()) {
                 return { ok: false, reason: 'after-end-turn' };
             }
-            if (!state.openedSysForEndTurn) {
-                console.log('[hd-battle] enter-swallowed', { why: 'end-turn-sys-not-opened' });
-                return { ok: false, reason: 'sys-not-opened' };
-            }
             dropQueuedKeys();
-            resetActMenuIndex('pick-end-turn');
-            state.allowEndTurnEnter = true;
-            enqueueKeys([VK.ENTER], 55);
+            state.openedSysForEndTurn = true;
             notePlayerTurnEnded('pick-end-turn');
+            enqueueKeys([VK.EXIT], 70);
             return { ok: true, index: 0, kind: 'sys', names: ['回合结束'] };
         }
         if (!fightMenuLive()) {
@@ -4042,8 +4020,38 @@
         }
     }
 
+    function installSysMenuHook() {
+        if (!window.baye) {
+            return;
+        }
+        if (!baye.hooks) {
+            baye.hooks = {};
+        }
+        if (state.sysMenuHooked) {
+            return;
+        }
+        var prev = baye.hooks.fightOpenMainMenu;
+        baye.hooks.fightOpenMainMenu = function () {
+            try { onEngineHook('fightOpenMainMenu'); } catch (eH) {}
+            if (fightReallyActive()) {
+                console.log('[hd-battle] sys-menu-hook', { ret: 0, ended: !!state.playerTurnEnded });
+                if (!state.playerTurnEnded) {
+                    notePlayerTurnEnded('sys-menu-hook');
+                }
+                /* 0 = 回合结束。绝不能回 1（全军撤退，case 1 fallthrough）。 */
+                return 0;
+            }
+            if (typeof prev === 'function') {
+                return prev.apply(this, arguments);
+            }
+            return -1;
+        };
+        state.sysMenuHooked = true;
+    }
+
     function start() {
         bindUi();
+        installSysMenuHook();
         applyChrome();
         setInterval(function () {
             if (!hdReady() || !shouldShowHd()) {
