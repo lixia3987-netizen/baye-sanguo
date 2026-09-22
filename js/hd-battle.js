@@ -1479,9 +1479,9 @@
             return 'lord-hold-pick';
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 1200) {
-            /* 命中后且将领行动已开：放行一次确认攻击/换将。平时仍吞 leftover。 */
-            if (hitFresh && (hdActMenuVisible() || liveActMenu())) {
-                if (state.lastMenuCommitEnterAt && Date.now() - state.lastMenuCommitEnterAt < 450) {
+            /* 命中后 / 已武装走近：这发 ENTER 是选下一将，不是 leftover 确认。 */
+            if (hitFresh || (state.pendingApproach && !state.movedThisAct)) {
+                if (state.lastMenuCommitEnterAt && Date.now() - state.lastMenuCommitEnterAt < 400) {
                     return 'pick-throttle';
                 }
                 return '';
@@ -2570,7 +2570,9 @@
             return null;
         }
         if (fightOwn && Number(fightOwn.phase) === 1 && fightOwn.wait &&
-            state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 800) {
+            state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 800 &&
+            !(state.lastHitAt && Date.now() - state.lastHitAt < 2200) &&
+            !state.pendingApproach) {
             return null;
         }
         var pick = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
