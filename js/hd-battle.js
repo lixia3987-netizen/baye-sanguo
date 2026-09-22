@@ -503,6 +503,9 @@
                 if (liveActMenu() || hdActMenuVisible()) {
                     state.lastMenuCommitEnterAt = Date.now();
                 }
+                if (state.pendingApproach && Number(fightKey.phase) === 1) {
+                    dropQueuedEnters();
+                }
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 aimCommitHolds() && (state.aimCommit.sentEnter || aimCommitAgeMs() > 220)) {
@@ -2567,6 +2570,16 @@
         var fightOwn = null;
         try { fightOwn = readFight(); } catch (eOwn) {}
         if (enemyTurnQuiet(fightOwn) || (state.holdPickUntil && Date.now() < state.holdPickUntil)) {
+            return null;
+        }
+        if (awaitingAim() || aimCommitHolds()) {
+            return null;
+        }
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 500) {
+            return null;
+        }
+        if (state.movedThisAct && adjacentEnemy(1) &&
+            (state.pendingActPick === 0 || awaitingAim())) {
             return null;
         }
         if (fightOwn && Number(fightOwn.phase) === 1 && fightOwn.wait &&
