@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922zl';
+    var HD_BATTLE_VER = '20260922zm';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -139,6 +139,7 @@
         lastApproachKey: '',
         lastApproachActor: '',
         pendingAimEnter: null,
+        lastMeleeTryAt: 0,
         lastRestCommitAt: 0,
         actedThisTurn: 0,
         approachPathWaitAt: 0,
@@ -766,8 +767,11 @@
         var fightNow = null;
         try { fightNow = readFight(); } catch (eF) {}
         var phaseNow = Number(fightNow && fightNow.phase) || 0;
-        /* 本将已在走格/等走格表：禁止 refresh 把 pendingApproach 和 wait 计时打掉。 */
+        /* 本将已在走格/瞄准：禁止 refresh 把 pendingApproach 写回去、打断 melee。 */
         if (phaseNow === 2 && (state.pendingApproach || state.approachPathWaitAt)) {
+            return false;
+        }
+        if (phaseNow === 3 || awaitingAim()) {
             return false;
         }
         if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 480) {
@@ -911,6 +915,16 @@
     }
 
     function clearStuckApproach(fight) {
+        /* AIM 期间 leftover pendingApproach 会让 blank-watchdog 卡在 phase=3。 */
+        if (fight && Number(fight.phase) === 3) {
+            if (state.pendingApproach) {
+                clearPendingApproach();
+                if (state.pendingActPick === 0) {
+                    state.pendingActPick = null;
+                }
+            }
+            return;
+        }
         /* 只在走完/闲置/走近卡死时清 pendingApproach。选将 phase 1 清掉会取消刚点的攻击走近。 */
         if (approachStuck(fight)) {
             flushStuckApproach('clear-stuck');
@@ -1059,6 +1073,43 @@
         };
     }
 
+    function tryCommitMeleeAim(why) {
+        var fight = null;
+        try { fight = readFight(); } catch (eM) {}
+        if (!fight || Number(fight.phase) !== 3 || fight.over) {
+            return false;
+        }
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 400) {
+            return true;
+        }
+        if (state.lastMeleeTryAt && Date.now() - state.lastMeleeTryAt < 280) {
+            return false;
+        }
+        clearPendingApproach();
+        if (state.pendingActPick === 0) {
+            state.pendingActPick = null;
+        }
+        var target = firstLegalAimEnemy() || adjacentEnemy(1);
+        if (!target) {
+            return false;
+        }
+        var cur = null;
+        try { cur = syncFocusFromEngine(); } catch (eF) {}
+        state.lastMeleeTryAt = Date.now();
+        state.pendingAimEnter = { x: target.x, y: target.y, at: Date.now(), name: target.name };
+        if (!cur || cur.x == null || cur.y == null) {
+            console.log('[hd-battle] melee-wait', {
+                why: why || 'auto-melee', unit: target.name, reason: 'no-focus'
+            });
+            return false;
+        }
+        var actor = actingActor();
+        var dist = (actor && actor.x != null)
+            ? chebyshev(actor.x, actor.y, target.x, target.y) : 99;
+        confirmAimHit(target, target.x, target.y, why || 'auto-melee', { dist: dist });
+        return true;
+    }
+
     function likelyAimTarget() {
         /* 只有真 AIM（phase 3）才把贴脸当成瞄准。phase 0 的 leftover 射程表不算。 */
         var fight = null;
@@ -1177,6 +1228,18 @@
         if (!(fight && Number(fight.phase) === 3)) {
             return false;
         }
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
+            return false;
+        }
+        var age = aimAgeMs();
+        var legal = hasLegalAimTarget();
+        /* 贴脸但射程未标：先给 melee ENTER ~2s；失败再 leftover，清 AIM 回行动菜单。 */
+        if (age > 2000 && !legal) {
+            dumpEnterSwallow('leftover-aim-stuck', {
+                aimAge: age, adj: !!(adjacentEnemy(1)), likely: likelyAimTarget()
+            });
+            return true;
+        }
         /* Attack ENTER 之后等射程表；awaiting 窗口内绝不当 leftover，否则 refresh 会 EXIT 掉 attack-hit。 */
         if (awaitingAim()) {
             return false;
@@ -1184,7 +1247,6 @@
         if (likelyAimTarget()) {
             return false;
         }
-        var age = aimAgeMs();
         if (!atkRngReady()) {
             if (age > 800) {
                 dumpEnterSwallow('leftover-aim-no-rng', { aimAge: age });
@@ -1202,6 +1264,10 @@
         if (phase === 3) {
             if (!state.aimEnteredAt) {
                 state.aimEnteredAt = Date.now();
+                clearPendingApproach();
+                if (state.pendingActPick === 0) {
+                    state.pendingActPick = null;
+                }
                 console.log('[hd-battle] aim-enter', {
                     wait: !!(fight && fight.wait),
                     legal: hasLegalAimTarget(),
@@ -1214,6 +1280,9 @@
             if (likelyAimTarget() || awaitingAim()) {
                 /* 真瞄准时菜单不得挡住点敌军。 */
                 state.holdActMenuUntil = 0;
+            }
+            if (hasLegalAimTarget() || adjacentEnemy(1)) {
+                tryCommitMeleeAim('aim-enter');
             }
             return;
         }
@@ -1419,6 +1488,10 @@
             var fight = null;
             try { fight = readFight(); } catch (eF) {}
             if (fight && Number(fight.phase) === 3) {
+                clearPendingApproach();
+                if (state.pendingActPick === 0) {
+                    state.pendingActPick = null;
+                }
                 console.log('[hd-battle] blank-watchdog', {
                     why: why || 'aim-hidden',
                     pendingApproach: state.pendingApproach,
@@ -1426,13 +1499,19 @@
                     phase: 3,
                     wait: !!fight.wait,
                     leftoverAim: leftoverAim(fight),
-                    legalAim: hasLegalAimTarget()
+                    legalAim: hasLegalAimTarget(),
+                    adj: !!(adjacentEnemy(1)),
+                    aimAge: aimAgeMs()
                 });
+                if (tryCommitMeleeAim(why || 'watchdog-aim')) {
+                    return;
+                }
                 /* leftover AIM 先 EXIT 再 forceShow，绝不能停在 phase=3 空白。 */
-                if (leftoverAim(fight)) {
+                if (leftoverAim(fight) || aimAgeMs() > 2000) {
                     leaveAimAndRearm('watchdog-aim');
                     return;
                 }
+                armBlankMenuWatchdog(why || 'still-aim');
                 return;
             }
             if (!playerHasWaitingOwn()) {
@@ -1484,6 +1563,11 @@
         var keepPick = state.pendingActPick;
         var fightKeep = null;
         try { fightKeep = readFight(); } catch (eK) {}
+        if (fightKeep && Number(fightKeep.phase) === 3) {
+            keepApproach = null;
+            keepPick = (keepPick === 0) ? null : keepPick;
+            clearPendingApproach();
+        }
         if (keepApproach && approachStuck(fightKeep)) {
             keepApproach = null;
         }
@@ -1599,7 +1683,11 @@
             }
             if (phase === 3) {
                 noteAimPhase(fight);
-                if (likelyAimTarget()) {
+                if (tryCommitMeleeAim(why || 'rearm-aim')) {
+                    return;
+                }
+                if (likelyAimTarget() && Date.now() - started < 2000) {
+                    state.rearmTimer = setTimeout(tick, 80);
                     return;
                 }
                 if (awaitingAim() && !leftoverAim(fight) && Date.now() - started < 2200) {
@@ -1610,7 +1698,7 @@
                     state.rearmTimer = setTimeout(tick, 80);
                     return;
                 }
-                if (leftoverAim(fight) && Date.now() - started < 1200) {
+                if (leftoverAim(fight) && Date.now() - started < 2200) {
                     if (recentlyLeftAim()) {
                         state.rearmTimer = setTimeout(tick, 120);
                         return;
@@ -1621,7 +1709,8 @@
                     state.rearmTimer = setTimeout(tick, 160);
                     return;
                 }
-                if (likelyAimTarget()) {
+                if (likelyAimTarget() && Date.now() - started < 2000) {
+                    state.rearmTimer = setTimeout(tick, 80);
                     return;
                 }
             }
@@ -1727,13 +1816,15 @@
             return false;
         }
         if (endTurnHeld()) {
-            if (playerHasWaitingOwn() && Number(fight.phase) !== 2 && !state.pendingApproach) {
+            if (playerHasWaitingOwn() && Number(fight.phase) !== 2 && Number(fight.phase) !== 3 &&
+                !state.pendingApproach && !awaitingAim()) {
                 armNextWaitingOwn('end-turn-hold-waiting');
             }
             return false;
         }
         if (playerHasWaitingOwn()) {
-            if (Number(fight.phase) === 2 || state.pendingApproach || state.approachPathWaitAt) {
+            if (Number(fight.phase) === 2 || Number(fight.phase) === 3 ||
+                state.pendingApproach || state.approachPathWaitAt || awaitingAim()) {
                 return false;
             }
             armNextWaitingOwn('end-turn-still-waiting');
@@ -2598,6 +2689,7 @@
             if (fightAtk && Number(fightAtk.phase) === 3 && !leftoverAim(fightAtk)) {
                 /* 已在真瞄准：再点攻击不得 EXIT / 不得把菜单盖住棋盘。 */
                 console.log('[hd-battle] aim-enter', { why: 'attack-already-aiming', legal: hasLegalAimTarget() });
+                tryCommitMeleeAim('attack-already-aiming');
                 return;
             }
             state.holdActMenuUntil = Date.now() + 1600;
@@ -2634,6 +2726,13 @@
             noteAwaitingAim(2200);
             state.holdActMenuUntil = 0;
             resetActMenuIndex('attack-commit');
+            clearPendingApproach();
+            var meleeAtk = adjacentEnemy(1) || firstLegalAimEnemy();
+            if (meleeAtk) {
+                state.pendingAimEnter = {
+                    x: meleeAtk.x, y: meleeAtk.y, at: Date.now(), name: meleeAtk.name
+                };
+            }
         }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
@@ -2957,12 +3056,18 @@
     function keepAimEnter(why) {
         var fight = null;
         try { fight = readFight(); } catch (eK) {}
-        if (awaitingAim()) {
-            console.log('[hd-battle] enter-kept', { why: why || 'awaiting-aim' });
-            return true;
-        }
         if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
             console.log('[hd-battle] enter-kept', { why: why || 'after-hit' });
+            return true;
+        }
+        if (fight && Number(fight.phase) === 3 && leftoverAim(fight)) {
+            return false;
+        }
+        if (fight && Number(fight.phase) === 3 && aimAgeMs() > 2000 && !hasLegalAimTarget()) {
+            return false;
+        }
+        if (awaitingAim()) {
+            console.log('[hd-battle] enter-kept', { why: why || 'awaiting-aim' });
             return true;
         }
         if (fight && Number(fight.phase) === 3 && !leftoverAim(fight)) {
@@ -4208,6 +4313,12 @@
         renderFightMenu();
         applyChrome();
         draw();
+        if (fightNow && Number(fightNow.phase) === 3) {
+            clearPendingApproach();
+            if (state.pendingActPick === 0) {
+                state.pendingActPick = null;
+            }
+        }
         if (state.pendingAimEnter && fightNow && Number(fightNow.phase) === 3) {
             var pe = state.pendingAimEnter;
             var peUnit = unitAt(pe.x, pe.y);
@@ -4226,6 +4337,12 @@
                 leaveAimAndRearm('refresh-aim-wait-oor', state.movedThisAct
                     ? { thenRest: true }
                     : { thenApproach: { x: pe.x, y: pe.y } });
+            }
+        } else if (fightNow && Number(fightNow.phase) === 3 &&
+            (hasLegalAimTarget() || adjacentEnemy(1))) {
+            if (!tryCommitMeleeAim('refresh-aim') && leftoverAim(fightNow) &&
+                !recentlyLeftAim() && Date.now() - (state.lastAimExitAt || 0) > 400) {
+                leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
             }
         } else if (leftoverAim(fightNow) && !recentlyLeftAim() &&
             Date.now() - (state.lastAimExitAt || 0) > 400) {
