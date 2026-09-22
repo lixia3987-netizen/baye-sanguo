@@ -486,6 +486,8 @@
                     });
                     if (muteWhy === 'enemy-turn') {
                         noteEnemyTurnQuiet('send-enter', fightKey);
+                    } else if (muteWhy === 'no-player-pick' || muteWhy === 'enemy-focus') {
+                        dropQueuedEnters();
                     }
                     return false;
                 }
@@ -1281,11 +1283,11 @@
     }
 
     function mutePhase1Enter(fight) {
-        if (enemyTurnQuiet(fight)) {
-            return 'enemy-turn';
-        }
         if (!(fight && Number(fight.phase) === 1 && fight.wait) || liveActMenu()) {
             return '';
+        }
+        if (enemyTurnQuiet(fight)) {
+            return 'enemy-turn';
         }
         if (state.holdPickUntil && Date.now() < state.holdPickUntil) {
             return 'pick-hold';
@@ -1293,6 +1295,15 @@
         var fu = focusedFightUnit();
         if (fu && fu.side === 'enemy') {
             return 'enemy-focus';
+        }
+        /* 无未行动己方时选将 ENTER 只会打进敌方 AI。刚待机/命中留 400ms 给引擎标下一将。
+         * 只吞键，不 latch playerTurnEnded（空隙里 latch 会把下一将打成 ended）。 */
+        if (!playerHasWaitingOwn()) {
+            var restAge = state.lastRestCommitAt ? Date.now() - state.lastRestCommitAt : 1e9;
+            var hitAge = state.lastHitAt ? Date.now() - state.lastHitAt : 1e9;
+            if (restAge >= 400 && hitAge >= 400) {
+                return 'no-player-pick';
+            }
         }
         if (state.lastPickEnterAt && Date.now() - state.lastPickEnterAt < 800) {
             return 'pick-throttle';
@@ -1362,14 +1373,6 @@
             state.lastArmNextAt = 0;
             state.holdEndTurnUntil = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
-        } else if (endedAt && Date.now() - endedAt > 4200 &&
-            fight && !fight.over && fight.wait && phase === 1 &&
-            !playerHasWaitingOwn()) {
-            /* 敌方回合后若仍停在选将且无未行动己方，放开 latch 才能再 EXIT 回合结束。 */
-            state.playerTurnEnded = false;
-            state.afterEndTurnUntil = 0;
-            state.openedSysForEndTurn = false;
-            console.log('[hd-battle] act-reset', { via: 'end-turn-retry', phase: phase });
         }
     }
 
@@ -3469,8 +3472,14 @@
             /* 只有敌方且引擎攻击范围内才回车。读不到范围 = 超距，绝不 ENTER。 */
             return !!(unit && unit.side === 'enemy' && inAtkRng(tile.x, tile.y) === true);
         }
-        /* pick-unit 或未知：只点己方将，绝不在瞄准残留时对己方回车。 */
-        return !!(unit && unit.side === 'player' && phase !== 3);
+        /* pick-unit：只点未行动己方。已行动将 / 敌方回合 leftover 点将不得 ENTER。 */
+        if (!(unit && unit.side === 'player' && phase !== 3)) {
+            return false;
+        }
+        if (unit.active !== 0 && unit.active != null) {
+            return false;
+        }
+        return !enemyTurnQuiet(fight);
     }
 
     function dismissFightTip() {
