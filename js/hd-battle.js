@@ -1558,7 +1558,7 @@
         if (playerHasWaitingOwn()) {
             return false;
         }
-        if (state.pendingApproach || state.sending || state.queue.length ||
+        if (state.pendingApproach ||
             (state.walkSubmittedAt && (Date.now() - state.walkSubmittedAt) < 1400)) {
             return false;
         }
