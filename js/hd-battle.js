@@ -3114,12 +3114,15 @@
                 return;
             }
             state.leavingAim = false;
-            if (/after-approach/.test(why || '') && adjacentEnemy(1)) {
+            if (/after-approach/.test(why || '') && (adjacentEnemy(1) || adjacentWaitingStrike())) {
                 state.pendingActPick = 0;
                 console.log('[hd-battle] after-approach-melee', {
                     actor: state.actorAt, enemy: adjacentEnemy(1)
                 });
                 forceShowFightMenu('after-approach-melee');
+                if (commitAdjacentMelee('after-approach-melee')) {
+                    return;
+                }
                 scheduleDriveSoon('after-approach-melee', 80);
                 return;
             }
@@ -6191,6 +6194,9 @@
             leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
         }
         maybeResumePlayerTurn(fightNow);
+        if (!enemyTurnQuiet(fightNow) && Number(fightNow && fightNow.phase) !== 3) {
+            maybeCommitFirstActMelee('refresh');
+        }
         maybeEndPlayerTurn(fightNow);
         if (!menuPanelClickable() && !state.blankWatchTimer) {
             armBlankMenuWatchdog('refresh-hidden');
