@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260922y';
+    var HD_BATTLE_VER = '20260922z';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -143,6 +143,11 @@
         endTurnAt: 0,
         afterEndTurnUntil: 0,
         playerTurnEnded: false,
+        openedSysForEndTurn: false,
+        sawMoveThisTurn: false,
+        lastHitAt: 0,
+        lastSwallowAt: 0,
+        lastSwallowWhy: '',
         awaitingAimUntil: 0,
         movedThisAct: false,
         strictLive: false,
@@ -412,7 +417,47 @@
         return n;
     }
 
+    function keyName(code) {
+        if (code === VK.ENTER) {
+            return 'ENTER';
+        }
+        if (code === VK.EXIT) {
+            return 'EXIT';
+        }
+        if (code === VK.UP) {
+            return 'UP';
+        }
+        if (code === VK.DOWN) {
+            return 'DOWN';
+        }
+        if (code === VK.LEFT) {
+            return 'LEFT';
+        }
+        if (code === VK.RIGHT) {
+            return 'RIGHT';
+        }
+        return '0x' + Number(code).toString(16);
+    }
+
     function engineSendKey(code) {
+        try {
+            if (fightReallyActive()) {
+                var fightKey = null;
+                try { fightKey = readFight(); } catch (eK) {}
+                console.log('[hd-battle] send-key', {
+                    key: keyName(code),
+                    phase: fightKey ? fightKey.phase : null,
+                    wait: fightKey ? !!fightKey.wait : null,
+                    over: fightKey ? !!fightKey.over : null,
+                    ended: !!state.playerTurnEnded,
+                    moved: !!state.movedThisAct,
+                    sawMove: !!state.sawMoveThisTurn,
+                    sysEnd: !!state.openedSysForEndTurn,
+                    leaving: !!state.leavingAim,
+                    queue: state.queue.length
+                });
+            }
+        } catch (eLog) {}
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -643,8 +688,33 @@
         return atkRngSize() > 0;
     }
 
+    function waitingOwnUnit() {
+        var i;
+        var focus = null;
+        try { focus = syncFocusFromEngine(); } catch (eF) {}
+        var first = null;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'player' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (!(u.active === 0 || u.active == null)) {
+                continue;
+            }
+            if (!first) {
+                first = u;
+            }
+            if (focus && focus.x === u.x && focus.y === u.y) {
+                return u;
+            }
+        }
+        return first;
+    }
+
     function adjacentEnemy(maxD) {
-        var actor = syncFocusFromEngine();
+        /* 贴脸看己方未行动将，不用引擎光标（敌方回合后光标常停在敌军身上）。 */
+        var own = waitingOwnUnit();
+        var actor = own || syncFocusFromEngine();
         var limit = maxD == null ? 1 : maxD;
         var best = null;
         var bestD = 99;
@@ -700,7 +770,14 @@
         extra.y = y;
         extra.inRng = true;
         extra.hp = u && u.hp;
+        extra.focus = syncFocusFromEngine();
+        extra.queue = state.queue.length;
+        extra.leaving = !!state.leavingAim;
+        extra.hold = holdingActMenu();
+        extra.tip = state.fightTip;
+        extra.swallowed = false;
         state.awaitingAimUntil = 0;
+        state.lastHitAt = Date.now();
         console.log('[hd-battle] attack-hit', extra);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
@@ -726,6 +803,9 @@
     function notePlayerTurnEnded(why) {
         state.playerTurnEnded = true;
         state.afterEndTurnUntil = Date.now() + 2800;
+        state.sawMoveThisTurn = false;
+        state.openedSysForEndTurn = false;
+        resetActMenuIndex('end-player-turn');
         clearMovedThisAct(why || 'end-player-turn');
         state.pendingActPick = null;
         state.pendingApproach = null;
@@ -736,9 +816,13 @@
             return;
         }
         var phase = Number(fight && fight.phase) || 0;
-        if (playerHasWaitingOwn() && !fight.over) {
+        if (playerHasWaitingOwn() && fight && !fight.over && (phase === 1 || phase === 2 || fight.wait)) {
             state.playerTurnEnded = false;
             state.afterEndTurnUntil = 0;
+            state.sawMoveThisTurn = phase === 2;
+            state.movedThisAct = false;
+            state.openedSysForEndTurn = false;
+            resetActMenuIndex('new-player-turn');
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
         }
     }
@@ -763,6 +847,9 @@
             return false;
         }
         if (recentlyEndedTurn()) {
+            return false;
+        }
+        if (!state.movedThisAct && !state.sawMoveThisTurn) {
             return false;
         }
         if (awaitingAim() || state.pendingActPick === 3) {
@@ -808,7 +895,13 @@
             return age > 500;
         }
         if (!atkRngReady()) {
+            if (age > 800) {
+                dumpEnterSwallow('leftover-aim-no-rng', { aimAge: age });
+            }
             return age > 800;
+        }
+        if (age > 350) {
+            dumpEnterSwallow('leftover-aim-ready-no-target', { aimAge: age });
         }
         return age > 350;
     }
@@ -1282,6 +1375,13 @@
         var info = null;
         try { info = readFightMenu(); } catch (eInfo) {}
         if (info && info.kind === 'sys' && info.names && info.names.indexOf('回合结束') >= 0) {
+            if (!state.openedSysForEndTurn) {
+                console.log('[hd-battle] enter-swallowed', {
+                    why: 'end-turn-sys-not-opened',
+                    names: info.names
+                });
+                return false;
+            }
             if (state.endTurnAt && Date.now() - state.endTurnAt < 800) {
                 return false;
             }
@@ -1290,7 +1390,14 @@
             state.menuIndex = 0;
             enqueueKeys([VK.ENTER], 55);
             notePlayerTurnEnded('end-player-turn-menu');
-            console.log('[hd-battle] rest-commit', { via: 'end-player-turn-menu' });
+            console.log('[hd-battle] rest-commit', {
+                via: 'end-player-turn-menu',
+                units: state.units.filter(function (u) {
+                    return u && u.side === 'player';
+                }).map(function (u) {
+                    return { name: u.name, x: u.x, y: u.y, active: u.active };
+                })
+            });
             return true;
         }
         if (Number(fight.phase) !== 1 || !fight.wait) {
@@ -1300,7 +1407,8 @@
             return false;
         }
         state.endTurnAt = Date.now();
-        dropQueuedEnters();
+        dropQueuedKeys();
+        state.openedSysForEndTurn = true;
         enqueueKeys([VK.EXIT], 70);
         console.log('[hd-battle] rest-commit', { via: 'end-player-turn' });
         return true;
@@ -1664,8 +1772,57 @@
         }
     }
 
+    function dumpEnterSwallow(why, extra) {
+        var nowDump = Date.now();
+        if (why === state.lastSwallowWhy && state.lastSwallowAt &&
+            nowDump - state.lastSwallowAt < 400) {
+            return extra || {};
+        }
+        state.lastSwallowAt = nowDump;
+        state.lastSwallowWhy = why || '';
+        var fight = null;
+        var info = null;
+        try { fight = readFight(); } catch (eF) {}
+        try { info = readFightMenu(); } catch (eI) {}
+        var rec = extra || {};
+        rec.why = why || 'enter-swallowed';
+        rec.phase = fight ? Number(fight.phase) : null;
+        rec.wait = !!(fight && fight.wait);
+        rec.over = !!(fight && fight.over);
+        rec.menuIndex = state.menuIndex;
+        rec.menuKind = info && info.kind;
+        rec.menuNames = info && info.names;
+        rec.synthetic = !!(info && info.synthetic);
+        rec.willCloseMenu = why === 'willCloseMenu';
+        rec.aimOor = state.lastBlockedEnter === 'aim-oor';
+        rec.leaving = !!state.leavingAim;
+        rec.awaiting = awaitingAim();
+        rec.legal = hasLegalAimTarget();
+        rec.adj = !!adjacentEnemy(1);
+        rec.rng = atkRngReady();
+        rec.ended = recentlyEndedTurn();
+        rec.moved = !!state.movedThisAct;
+        rec.sawMove = !!state.sawMoveThisTurn;
+        rec.sysEnd = !!state.openedSysForEndTurn;
+        rec.queue = state.queue.map(function (q) { return keyName(q.code); });
+        rec.hold = holdingActMenu();
+        rec.tip = state.fightTip;
+        console.log('[hd-battle] enter-swallowed', rec);
+        return rec;
+    }
+
+    function resetActMenuIndex(why) {
+        if (state.menuIndex) {
+            console.log('[hd-battle] menu-index-reset', {
+                via: why || 'reset', from: state.menuIndex
+            });
+        }
+        state.menuIndex = 0;
+    }
+
     function nearestEnemy() {
-        var actor = syncFocusFromEngine();
+        var own = waitingOwnUnit();
+        var actor = own || syncFocusFromEngine();
         var best = null;
         var bestD = 99;
         var i;
@@ -1704,10 +1861,21 @@
         }
         try {
         var fight = readFight();
-        if (!fight || !fight.active || fight.over || !fight.wait) {
+        if (!fight || !fight.active || fight.over) {
             return false;
         }
         if (state.sending || state.queue.length) {
+            return false;
+        }
+        if (!fight.wait) {
+            if (!recentlyEndedTurn() && !state.movedThisAct && !state.sawMoveThisTurn &&
+                liveActMenu() && (Number(fight.phase) || 0) === 0) {
+                dumpEnterSwallow('leftover-act-exit', { via: 'drive-approach-nowait' });
+                resetActMenuIndex('leftover-act');
+                enqueueKeys([VK.EXIT], 70);
+                scheduleDrive('after-leftover-act-exit');
+                return true;
+            }
             return false;
         }
         var phase = Number(fight.phase) || 0;
@@ -1730,6 +1898,7 @@
                 console.log('[hd-battle] approach walk', dest, 'via', closer);
                 state.walkSubmittedAt = Date.now();
                 state.movedThisAct = true;
+                state.sawMoveThisTurn = true;
                 walkFocusTo(closer.x, closer.y, true);
                 scheduleActRearm('after-approach');
                 return true;
@@ -1737,15 +1906,36 @@
             /* 已贴脸或无更近格：落定当前格，随后 pendingActPick 选攻击。 */
             state.walkSubmittedAt = Date.now();
             state.movedThisAct = true;
+            state.sawMoveThisTurn = true;
             enqueueKeys([VK.ENTER], 55);
             scheduleActRearm('after-approach');
             return true;
         }
+        if (phase === 2) {
+            state.sawMoveThisTurn = true;
+        }
         if (phase === 1 || phase === 0) {
-            if (recentlyEndedTurn() || state.movedThisAct || liveActMenu()) {
-                /* 回合刚结束或走格已花：禁止再 pick-approach。 */
+            if (recentlyEndedTurn()) {
                 state.pendingApproach = null;
                 return false;
+            }
+            if (state.movedThisAct) {
+                /* 本将走格已花：PlcSplMenu 只能瞄准/待机，禁止再 pick-approach。 */
+                state.pendingApproach = null;
+                return false;
+            }
+            if (liveActMenu() && (state.sawMoveThisTurn || Number(fight.phase) === 0) &&
+                fight && !fight.wait) {
+                /* 真 PlcSplMenu（走完 wait=0）才挡。回合后 leftover 攻击字节不能挡走近。 */
+                if (state.sawMoveThisTurn) {
+                    state.pendingApproach = null;
+                    return false;
+                }
+                dumpEnterSwallow('leftover-act-exit', { via: 'drive-approach' });
+                resetActMenuIndex('leftover-act');
+                enqueueKeys([VK.EXIT], 70);
+                scheduleDrive('after-leftover-act-exit');
+                return true;
             }
             /* 选将只异步点己方，禁止 click→refresh→driveApproach 同步爆栈。 */
             if (Date.now() - (state.lastAutoActAt || 0) < 80) {
@@ -1845,6 +2035,9 @@
                     dropQueuedEnters();
                 }
                 /* 选将（phase 1）是新的一将；瞄准/走格不要放开 willCloseMenu 的残留武装。 */
+                if (Number(fight.phase) === 2) {
+                    state.sawMoveThisTurn = true;
+                }
                 if ((Number(fight.phase) || 0) <= 1) {
                     state.needWaitBeforeMenu = false;
                     state.movedThisAct = false;
@@ -1911,9 +2104,12 @@
         } catch (eKind) {}
         if (liveKind === 'sys' || liveKind === 'confirm') {
             if (index === 0 && liveKind === 'sys') {
-                /* 战场系统第一项是回合结束，不是攻击。 */
+                if (!state.openedSysForEndTurn || recentlyEndedTurn()) {
+                    dumpEnterSwallow('sys-enter-blocked', { index: index, kind: liveKind });
+                    return;
+                }
             } else {
-                console.log('[hd-battle] attack-skip', { why: 'sys-menu', kind: liveKind });
+                dumpEnterSwallow('sys-menu-skip', { index: index, kind: liveKind });
                 return;
             }
         }
@@ -1947,20 +2143,18 @@
                     : (foe ? { thenApproach: { x: foe.x, y: foe.y } } : { thenRest: true }));
                 return;
             }
-            /* PlcSplMenu 真菜单 wait=0 才 ENTER 攻击。合成菜单 / wait=1 是 FgtGenMove，盲发 ENTER 会把战斗打成 after-fight。 */
+            /* PlcSplMenu 真菜单 wait=0 且本将已走格才 ENTER 攻击。否则先走近。 */
             if (!canCommitActMenu(fightAtk)) {
-                if ((fightAtk && fightAtk.wait) || (function () {
-                    var infoAtk = null;
-                    try { infoAtk = readFightMenu(); } catch (eInfoAtk) {}
-                    return !!(infoAtk && infoAtk.synthetic);
-                }())) {
-                    state.autoActTries = 0;
-                    state.lastAutoActAt = 0;
-                    state.menuIndex = 0;
-                    scheduleDrive('menu-pick');
-                    return;
+                state.autoActTries = 0;
+                state.lastAutoActAt = 0;
+                state.menuIndex = 0;
+                var foeAtk = nearestEnemy();
+                if (foeAtk && !state.movedThisAct) {
+                    state.pendingApproach = { x: foeAtk.x, y: foeAtk.y };
+                    state.pendingActPick = 0;
+                    console.log('[hd-battle] open-aim', { why: 'attack-then-walk', unit: foeAtk.name });
                 }
-                console.log('[hd-battle] attack-skip', { why: 'no-live-act' });
+                scheduleDrive('menu-pick');
                 return;
             }
             /* FgtDealMan：FgtGenMove 已返回才会到 PlcSplMenu。此后只能瞄准，不能再走近。 */
@@ -1972,12 +2166,21 @@
             state.movedThisAct = true;
             noteAwaitingAim(2200);
             state.holdActMenuUntil = 0;
+            resetActMenuIndex('attack-commit');
         }
         if (index === 2 || index === 3) {
             /* 查看/待机：清掉上场走近残留，避免下一将选将时 driveApproach 重入。 */
             state.pendingApproach = null;
             state.approachRepeatCount = 0;
             if (index === 3) {
+                if (recentlyEndedTurn() || !liveActMenu() ||
+                    (!state.movedThisAct && !state.sawMoveThisTurn)) {
+                    dumpEnterSwallow('rest-enter-blocked', {
+                        via: recentlyEndedTurn() ? 'after-end-turn' :
+                            (!liveActMenu() ? 'no-live-act' : 'not-walked')
+                    });
+                    return;
+                }
                 state.lastRestAt = Date.now();
                 state.pendingActPick = 3;
                 var fightRest = null;
@@ -1988,6 +2191,7 @@
                     console.log('[hd-battle] rest-commit', { via: 'cancel-aim', phase: 3 });
                     return;
                 }
+                resetActMenuIndex('rest-commit');
             }
         }
         if (state.pickingMenu) {
@@ -2010,7 +2214,10 @@
             scheduleDrive('menu-pick');
             return;
         }
-        var cur = state.menuIndex;
+        /* PlcSplMenu / FgtMainMenu 每次打开引擎 idx 都是 0。上场待机留下的
+         * menuIndex=3 再点攻击会连发 UP，落到全军撤退（case 1 fallthrough）。 */
+        var cur = (info && (info.kind === 'act' || info.kind === 'sys') && !info.synthetic)
+            ? 0 : state.menuIndex;
         if (cur == null || cur < 0) {
             cur = 0;
         }
@@ -2045,6 +2252,10 @@
         if (name === '回合结束') {
             if (recentlyEndedTurn()) {
                 return { ok: false, reason: 'after-end-turn' };
+            }
+            if (!state.openedSysForEndTurn) {
+                console.log('[hd-battle] enter-swallowed', { why: 'end-turn-sys-not-opened' });
+                return { ok: false, reason: 'sys-not-opened' };
             }
             dropQueuedKeys();
             state.menuIndex = 0;
@@ -2218,13 +2429,39 @@
         return readNumber(rng, 3 + dx + dy * size) === 1;
     }
 
+    function keepAimEnter(why) {
+        var fight = null;
+        try { fight = readFight(); } catch (eK) {}
+        if (awaitingAim()) {
+            console.log('[hd-battle] enter-kept', { why: why || 'awaiting-aim' });
+            return true;
+        }
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
+            console.log('[hd-battle] enter-kept', { why: why || 'after-hit' });
+            return true;
+        }
+        if (fight && Number(fight.phase) === 3 && !leftoverAim(fight)) {
+            console.log('[hd-battle] enter-kept', { why: why || 'real-aim' });
+            return true;
+        }
+        return false;
+    }
+
     function dropQueuedEnters() {
+        if (keepAimEnter('drop-enters')) {
+            return;
+        }
         var kept = [];
         var i;
         for (i = 0; i < state.queue.length; i++) {
             if (state.queue[i].code !== VK.ENTER) {
                 kept.push(state.queue[i]);
             }
+        }
+        if (kept.length !== state.queue.length) {
+            dumpEnterSwallow('drop-queued-enters', {
+                dropped: state.queue.length - kept.length
+            });
         }
         state.queue = kept;
     }
@@ -2435,6 +2672,10 @@
                     blocked: 'aim-wait-rng', inRng: false, dist: enemyDist
                 };
             }
+            dumpEnterSwallow('aim-oor-false-positive?', {
+                x: x, y: y, unit: u && u.name, dist: enemyDist,
+                inRng: inRng, legal: !!legal, leftover: leftoverAim(fight)
+            });
             dropQueuedEnters();
             state.lastBlockedEnter = 'aim-oor';
             state.fightTip = '超出攻击范围，先走格靠近。';
@@ -2508,6 +2749,7 @@
                 }
                 state.walkSubmittedAt = Date.now();
                 state.movedThisAct = true;
+                state.sawMoveThisTurn = true;
                 walkFocusTo(closer.x, closer.y, true);
                 scheduleActRearm('after-approach');
                 return {
@@ -2575,6 +2817,7 @@
             }
             state.walkSubmittedAt = Date.now();
             state.movedThisAct = true;
+            state.sawMoveThisTurn = true;
             scheduleActRearm('after-walk');
         }
         return {
@@ -2637,6 +2880,11 @@
         resetActDrive();
         state.afterEndTurnUntil = 0;
         state.playerTurnEnded = false;
+        state.openedSysForEndTurn = false;
+        state.sawMoveThisTurn = false;
+        state.lastHitAt = 0;
+        state.lastSwallowAt = 0;
+        state.lastSwallowWhy = '';
         state.awaitingAimUntil = 0;
         state.endTurnAt = 0;
         clearFightBridge();
@@ -3544,6 +3792,10 @@
             return;
         }
         if (name === 'willCloseMenu') {
+            if (keepAimEnter('willCloseMenu')) {
+                return;
+            }
+            resetActMenuIndex('willCloseMenu');
             if (holdingActMenu() || leftoverAim(readFight())) {
                 state.needWaitBeforeMenu = false;
                 state.pendingApproach = null;
@@ -3565,6 +3817,10 @@
             }
             state.pendingActPick = null;
             dropQueuedEnters();
+            dumpEnterSwallow('willCloseMenu', {
+                keep: false,
+                menuIndex: state.menuIndex
+            });
             if (state.open) {
                 renderFightMenu();
             }
@@ -3983,7 +4239,11 @@
                 canCommitAct: canCommitActMenu(fightSnap),
                 recentlyEndedTurn: recentlyEndedTurn(),
                 playerTurnEnded: !!state.playerTurnEnded,
+                openedSysForEndTurn: !!state.openedSysForEndTurn,
+                sawMoveThisTurn: !!state.sawMoveThisTurn,
                 awaitingAim: awaitingAim(),
+                lastHitAt: state.lastHitAt || 0,
+                lastSwallowWhy: state.lastSwallowWhy || '',
                 adjacent: !!adjacentEnemy(1),
                 over: !!(fightSnap && fightSnap.over),
                 afterEndTurnUntil: state.afterEndTurnUntil || 0,
