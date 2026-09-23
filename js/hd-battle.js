@@ -1880,6 +1880,12 @@
         }
         if (state.actorAt && state.actorAt.x != null) {
             var fromAt = unitAt(state.actorAt.x, state.actorAt.y) || state.actorAt;
+            if (fromAt && !fromAt.name) {
+                var namedAt = unitAt(fromAt.x, fromAt.y);
+                if (namedAt) {
+                    fromAt = namedAt;
+                }
+            }
             var eAt = unitAdjacentEnemy(fromAt, 1);
             if (fromAt && (!fromAt.side || fromAt.side === 'player') &&
                 eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
@@ -2594,6 +2600,25 @@
         if (rec.sentEnter && rec.onTile && !rec.hpDropped &&
             /phase-leave|fight-over/.test(why || '')) {
             try { verifyHitHpDrop(why || 'phase-leave'); } catch (eDrop) {}
+            if (!state.lastHitAt) {
+                var lateRec = {
+                    name: rec.name, x: rec.x, y: rec.y,
+                    hpBefore: rec.hpBefore, sentEnter: true, onTile: true,
+                    at: rec.at || Date.now()
+                };
+                setTimeout(function () {
+                    if (state.lastHitAt) {
+                        return;
+                    }
+                    if (!state.aimCommit) {
+                        state.aimCommit = lateRec;
+                    }
+                    try { verifyHitHpDrop('phase-leave-late'); } catch (eLate) {}
+                    if (state.aimCommit === lateRec && !state.aimCommit.hpDropped) {
+                        state.aimCommit = null;
+                    }
+                }, 400);
+            }
         }
         state.aimCommit = null;
     }
@@ -2671,6 +2696,22 @@
             return {
                 x: x, y: y, enter: false, unit: u && u.name, phase: 3,
                 tip: state.fightTip, blocked: 'aim-walk', inRng: true, via: extra.via
+            };
+        }
+        /* 方向键还在飞时禁止立刻 ENTER，否则 RIGHT 走过敌军格再回车不掉血。 */
+        if (state.sending || (state.queue && state.queue.length)) {
+            dropQueuedDirs();
+            state.pendingAimEnter = { x: x, y: y, at: Date.now(), name: u && u.name };
+            console.log('[hd-battle] aim-flush-wait', {
+                via: extra.via, unit: u && u.name, to: { x: x, y: y },
+                sending: !!state.sending, queue: state.queue.length
+            });
+            setTimeout(function () {
+                try { tryCommitMeleeAim('aim-after-flush'); } catch (eFlush) {}
+            }, 160);
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'aim-flush', inRng: true, via: extra.via
             };
         }
         /* 已在敌军格：丢掉叠起来的方向键，否则 RIGHT 会走过目标再 ENTER。 */
@@ -3106,8 +3147,8 @@
                         after: peekEnemyHp(state.aimCommit),
                         age: aimCommitAgeMs()
                     });
+                    /* 不预写 secondEnterSent：engineSendKey 发出时再置位，否则会被 aim-commit-block 吞掉。 */
                     enqueueKeys([VK.ENTER], 55);
-                    state.aimCommit.secondEnterSent = true;
                 }
                 if (aimCommitAgeMs() < 2400) {
                     scheduleAfterHitSettle(400);
