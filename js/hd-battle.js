@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923e';
+    var HD_BATTLE_VER = '20260923f';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -1158,6 +1158,9 @@
         var nextLord = null;
         var strikeNext = adjacentWaitingStrike();
         var nextOther = (strikeNext && strikeNext.unit) || firstWaitingOwn({ skipLord: true });
+        if (!nextOther && (state.lastHitAt || state.fightHitAt)) {
+            nextOther = firstWaitingOwn({ skipLord: true, includeStuck: true });
+        }
         if (!nextOther) {
             nextLord = firstWaitingOwn({ lordOnly: true });
         }
@@ -1937,6 +1940,9 @@
                 name: state.lastHitActor.name
             };
         }
+        /* 真伤后清 give-up/stuck：杨秋等仍 STA_WAIT 的副将必须再走近/AIM。 */
+        state.adjRecoverGiveUpKey = '';
+        try { clearPhase1StuckUnits('attack-hit'); } catch (eClr) {}
         if (state.pendingPickUnit && state.lastHitActor &&
             state.pendingPickUnit === unitCapKey(state.lastHitActor)) {
             state.pendingPickUnit = '';
@@ -2471,6 +2477,9 @@
     function pickNextCapableAfterGiveUp(why) {
         var strike = adjacentWaitingStrike();
         var next = (strike && strike.unit) || firstWaitingOwn({ skipLord: true });
+        if (!next && (state.lastHitAt || state.fightHitAt)) {
+            next = firstWaitingOwn({ skipLord: true, includeStuck: true });
+        }
         if (!next) {
             return armNextWaitingOwn(why || 'adj-recover-give-up', { force: true });
         }
@@ -3911,7 +3920,9 @@
                 return true;
             }
         }
-        var nextOwn = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
+        var nextOwn = firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
+            firstWaitingOwn({ skipLord: true }) ||
+            firstWaitingOwn({ lordOnly: true });
         if (nextOwn && !actorSpent(nextOwn) && !recentlyHitActor(nextOwn)) {
             console.log('[hd-battle] after-hit-settle', {
                 phase: fight ? Number(fight.phase) : null,
@@ -3930,6 +3941,17 @@
             return armNextWaitingOwn('after-attack-hit', { force: true });
         }
         if (dropped || state.lastHitAt || state.fightHitAt) {
+            var leftoverHit = firstWaitingOwn({ skipLord: true, includeStuck: true });
+            if (leftoverHit && !actorSpent(leftoverHit) && !recentlyHitActor(leftoverHit)) {
+                console.log('[hd-battle] after-hit-settle', {
+                    phase: fight ? Number(fight.phase) : null,
+                    wait: !!(fight && fight.wait),
+                    hdMenu: hdActMenuVisible(),
+                    drop: !!dropped,
+                    next: leftoverHit.name
+                });
+                return armNextWaitingOwn('after-attack-hit', { force: true });
+            }
             console.log('[hd-battle] after-hit-settle', {
                 phase: fight ? Number(fight.phase) : null,
                 wait: !!(fight && fight.wait),
@@ -4102,6 +4124,10 @@
             state.adjRecoverStageAt = 0;
             state.adjRecoverHoldAt = 0;
             state.lastAdjRecoverWalkAt = 0;
+            state.approachRepeatCount = 0;
+            state.lastApproachKey = '';
+            state.approachTilesPeak = 0;
+            state.approachTilesStableAt = 0;
             if (state.adjRecoverTimer) {
                 clearTimeout(state.adjRecoverTimer);
                 state.adjRecoverTimer = 0;
@@ -4765,12 +4791,41 @@
                     scheduleDriveSoon('after-approach-melee', 80);
                     return;
                 }
-                console.log('[hd-battle] after-approach-give-up', {
+                var fightAp = null;
+                try { fightAp = readFight(); } catch (eAp) {}
+                var phaseAp = Number(fightAp && fightAp.phase) || 0;
+                var walkActor = null;
+                try { walkActor = bindWalkedActor() || actingActor(); } catch (eWa) {
+                    walkActor = actingActor();
+                }
+                var walkFoe = walkActor && nearestEnemyFrom(walkActor);
+                var walkD = (walkActor && walkFoe)
+                    ? chebyshev(walkActor.x, walkActor.y, walkFoe.x, walkFoe.y) : 99;
+                if (phaseAp === 2 && !state.movedThisAct && walkFoe) {
+                    console.log('[hd-battle] after-approach-keep-walk', {
+                        actor: walkActor && walkActor.name,
+                        ux: walkActor && walkActor.x,
+                        uy: walkActor && walkActor.y,
+                        dest: { name: walkFoe.name, x: walkFoe.x, y: walkFoe.y },
+                        dist: walkD,
+                        phase: phaseAp
+                    });
+                    setPendingApproach(walkFoe.x, walkFoe.y);
+                    scheduleDriveSoon('after-approach-keep-walk', 80);
+                    return;
+                }
+                console.log('[hd-battle] after-approach-short', {
                     via: 'not-melee',
-                    actor: state.actorAt,
-                    pending: state.pendingPickUnit || ''
+                    actor: walkActor || state.actorAt,
+                    pending: state.pendingPickUnit || '',
+                    dist: walkD,
+                    phase: phaseAp,
+                    moved: !!state.movedThisAct
                 });
-                preferRest('after-approach-not-melee');
+                preferRest('after-approach-short');
+                setTimeout(function () {
+                    try { armNextWaitingOwn('after-approach-short', { force: true }); } catch (eNx) {}
+                }, 280);
                 return;
             }
             forceShowFightMenu(why || 'after-rearm');
@@ -4970,11 +5025,22 @@
         if (strike && strike.unit && !isLordUnit(strike.unit)) {
             return strike.unit;
         }
-        return firstWaitingOwn({ skipLord: true });
+        var next = firstWaitingOwn({ skipLord: true });
+        if (next) {
+            return next;
+        }
+        /* 真伤后：give-up/stuck 副将仍 STA_WAIT，必须再走近/AIM。 */
+        if (state.lastHitAt || state.fightHitAt) {
+            return firstWaitingOwn({ skipLord: true, includeStuck: true });
+        }
+        return null;
     }
 
     function shouldSysEndAfterLordHold() {
         if (capableSkipLordWaiting()) {
+            return false;
+        }
+        if (firstWaitingOwn({ skipLord: true, includeStuck: true })) {
             return false;
         }
         if (state.lastHitAt || state.adjRecoverGiveUpKey) {
@@ -5015,6 +5081,18 @@
         }
         if (armCapableSkipLord((why || 'sys-end') + '-still-other')) {
             return true;
+        }
+        var leftoverEnd = firstWaitingOwn({ skipLord: true, includeStuck: true });
+        if (leftoverEnd && !actorSpent(leftoverEnd) && !recentlyHitActor(leftoverEnd)) {
+            console.log('[hd-battle] sys-end-blocked', {
+                via: why || 'sys',
+                leftover: leftoverEnd.name,
+                waiting: true
+            });
+            notePendingPick(leftoverEnd);
+            noteActingUnit(leftoverEnd);
+            return armNextWaitingOwn((why || 'sys-end') + '-leftover', { force: true }) ||
+                pickNextCapableAfterGiveUp((why || 'sys-end') + '-leftover');
         }
         if (adjacentWaitingStrike() && commitAdjacentMelee('end-turn-last-melee')) {
             return true;
@@ -5397,8 +5475,11 @@
             return null;
         }
         var strikeOwn = adjacentWaitingStrike();
+        var includeStuckPick = !!(state.lastHitAt || state.fightHitAt);
         var pick = (strikeOwn && strikeOwn.unit) ||
-            firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
+            nearestActionableOwn({ skipLord: true, includeStuck: includeStuckPick }) ||
+            firstWaitingOwn({ skipLord: true, includeStuck: includeStuckPick }) ||
+            firstWaitingOwn({ lordOnly: true });
         if (!pick) {
             return null;
         }
@@ -5457,17 +5538,65 @@
             if (actorSpent(u) || recentlyHitActor(u)) {
                 continue;
             }
-            /* 两次选将仍停 phase1 的贴脸将：换杨秋/梁兴，禁止再点回庞德。 */
-            if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
-                continue;
-            }
-            /* 两次选将仍停 phase1 且未贴脸：换人，禁止对杨秋自己格连发 ENTER。 */
-            if (isPhase1StuckUnit(u)) {
-                continue;
+            if (!opts.includeStuck) {
+                /* 两次选将仍停 phase1 的贴脸将：换杨秋/梁兴，禁止再点回庞德。 */
+                if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
+                    continue;
+                }
+                /* 两次选将仍停 phase1 且未贴脸：换人，禁止对杨秋自己格连发 ENTER。 */
+                if (isPhase1StuckUnit(u)) {
+                    continue;
+                }
             }
             return u;
         }
         return null;
+    }
+
+    /* 优先贴脸，再按 Chebyshev 最近可走近副将。真伤后 includeStuck 放行 give-up。 */
+    function nearestActionableOwn(opts) {
+        opts = opts || {};
+        var strike = null;
+        try { strike = adjacentWaitingStrike(); } catch (eS) {}
+        if (strike && strike.unit && !(opts.skipLord && isLordUnit(strike.unit))) {
+            return strike.unit;
+        }
+        var best = null;
+        var bestD = 99;
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'player' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (!(u.active === 0 || u.active == null)) {
+                continue;
+            }
+            if (opts.skipLord && isLordUnit(u)) {
+                continue;
+            }
+            if (opts.lordOnly && !isLordUnit(u)) {
+                continue;
+            }
+            if (actorSpent(u) || recentlyHitActor(u)) {
+                continue;
+            }
+            if (!opts.includeStuck) {
+                if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
+                    continue;
+                }
+                if (isPhase1StuckUnit(u)) {
+                    continue;
+                }
+            }
+            var foe = unitMeleeEnemy(u) || nearestEnemyFrom(u);
+            var d = foe ? chebyshev(u.x, u.y, foe.x, foe.y) : 98;
+            if (!best || d < bestD || (d === bestD && !isLordUnit(u) && isLordUnit(best))) {
+                best = u;
+                bestD = d;
+            }
+        }
+        return best;
     }
 
     /* 君主未贴脸：改点下一名未行动己方，走近再打。禁止把君主推到王匡面前。 */
@@ -5527,7 +5656,9 @@
         if (state.lordOpenDeferred) {
             return;
         }
-        if (!firstWaitingOwn({ skipLord: true })) {
+        var nextOpen = nearestActionableOwn({ skipLord: true, includeStuck: true }) ||
+            firstWaitingOwn({ skipLord: true, includeStuck: true });
+        if (!nextOpen) {
             return;
         }
         var fightNow = null;
@@ -5540,9 +5671,16 @@
             return;
         }
         state.lordOpenDeferred = true;
+        notePendingPick(nextOpen);
+        noteActingUnit(nextOpen);
+        var openFoe = unitAdjacentEnemy(nextOpen, 1) || nearestEnemyFrom(nextOpen);
+        if (openFoe && !unitMeleeEnemy(nextOpen)) {
+            setPendingApproach(openFoe.x, openFoe.y);
+        }
         console.log('[hd-battle] lord-hold', {
             via: 'open-pick-other',
-            to: (firstWaitingOwn({ skipLord: true }) || {}).name
+            to: nextOpen.name,
+            dest: openFoe ? { name: openFoe.name, x: openFoe.x, y: openFoe.y } : null
         });
         setTimeout(function () {
             try { clickWaitingOwn(); } catch (eP) {}
@@ -5791,6 +5929,9 @@
                 }
                 clearPendingApproach();
                 preferRest('approach-nowait-after-walk');
+                setTimeout(function () {
+                    try { armNextWaitingOwn('approach-nowait-after-walk', { force: true }); } catch (eAw) {}
+                }, 280);
                 return true;
             }
             if (!recentlyEndedTurn() && !endTurnHeld() && !state.movedThisAct &&
@@ -5841,17 +5982,27 @@
             var tiles = countMoveTiles();
             if (!state.approachPathWaitAt) {
                 state.approachPathWaitAt = Date.now();
+                state.approachTilesPeak = 0;
+                state.approachTilesStableAt = 0;
+            }
+            if (tiles > (state.approachTilesPeak || 0)) {
+                state.approachTilesPeak = tiles;
+                state.approachTilesStableAt = Date.now();
             }
             var pathWaitMs = Date.now() - state.approachPathWaitAt;
             var expired = pathWaitMs >= 1800 || (state.approachWaitLogs || 0) >= 12;
+            var tilesStable = (state.approachTilesPeak || 0) >= 4 &&
+                state.approachTilesStableAt &&
+                Date.now() - state.approachTilesStableAt >= 360;
+            var filled = expired || tilesStable;
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y, {
-                noStep: !expired && tiles < 6
+                noStep: !filled && tiles < 6
             });
             var closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
             var noVia = !closer;
-            /* 只等「表还在涨且已有更近格」。tiles≥1 且 via=null/d=99 = 到不了，立刻回退，禁止死循环。 */
-            var stillFilling = !expired && tiles < 8 && closer && closerD > 1;
-            var emptyFilling = !expired && tiles < 2 && noVia;
+            /* 未贴脸（Chebyshev>1）且走格表还在涨：继续等，禁止短走提交。 */
+            var stillFilling = !filled && closer && closerD > 1;
+            var emptyFilling = !filled && tiles < 2 && noVia;
             if (stillFilling || emptyFilling) {
                 state.approachWaitLogs = (state.approachWaitLogs || 0) + 1;
                 console.log('[hd-battle] approach-wait-path', {
@@ -5895,6 +6046,7 @@
                 console.log('[hd-battle] approach walk', dest, 'via', closer, {
                     tiles: tiles,
                     dist: closerD,
+                    short: closerD > 1,
                     from: { x: actor.x, y: actor.y, name: actor && actor.name }
                 });
                 state.walkSubmittedAt = Date.now();
@@ -8885,6 +9037,7 @@
                 adjRecoverPickN: state.adjRecoverPickN || 0,
                 adjRecoverStage: state.adjRecoverStage || '',
                 adjRecoverGiveUpKey: state.adjRecoverGiveUpKey || '',
+                turnHitActor: state.turnHitActor,
                 aimCommit: state.aimCommit,
                 lastPickEnterAt: state.lastPickEnterAt || 0,
                 holdPickUntil: state.holdPickUntil || 0,
