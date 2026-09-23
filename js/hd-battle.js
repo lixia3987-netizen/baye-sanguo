@@ -4649,6 +4649,28 @@
                 return;
             }
             if (state.lastHitAt && Number(fight && fight.phase) === 2) {
+                if (state.pendingApproach) {
+                    scheduleDrive('after-hit-phase2');
+                } else {
+                    var stayHit = null;
+                    try { stayHit = bindWalkedActor() || actingActor(); } catch (eSh) {
+                        stayHit = actingActor();
+                    }
+                    if (stayHit && unitMeleeEnemy(stayHit)) {
+                        logBlankWatchdog('after-hit-phase2-melee', fight);
+                        writeFightActCommit(0xFF);
+                        enqueueKeys([VK.ENTER], 55);
+                        state.movedThisAct = true;
+                        scheduleActRearm('after-hit-phase2-melee');
+                    } else {
+                        var foeHit = bestEnemyForApproach(stayHit) || nearestEnemyFrom(stayHit);
+                        if (foeHit && stayHit && stayHit.name && !isLordUnit(stayHit)) {
+                            logBlankWatchdog('after-hit-phase2-walk', fight);
+                            setPendingApproach(foeHit.x, foeHit.y);
+                            scheduleDriveSoon('after-hit-phase2-walk', 80);
+                        }
+                    }
+                }
                 armBlankMenuWatchdog('after-hit-phase2');
                 return;
             }
