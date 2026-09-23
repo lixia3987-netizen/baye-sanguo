@@ -593,13 +593,23 @@
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 && !overNow &&
                 !(state.aimCommit && state.aimCommit.onTile)) {
-                dumpEnterSwallow('aim-off-tile', {
-                    legal: hasLegalAimTarget(),
-                    commit: !!(state.aimCommit)
-                });
-                dropQueuedEnters();
-                try { tryCommitMeleeAim('aim-off-tile'); } catch (eOff) {}
-                return false;
+                var forceAimEnter = !!(state.leftoverAimForceEnterAt &&
+                    Date.now() - state.leftoverAimForceEnterAt < 1800);
+                var curAimTile = null;
+                var adjAim = null;
+                try { curAimTile = engineFocusTile(); } catch (eCur) { curAimTile = null; }
+                try { adjAim = namedAdjStrike(); } catch (eAdj) { adjAim = null; }
+                var onAdjEnemy = !!(adjAim && adjAim.enemy && curAimTile &&
+                    curAimTile.x === adjAim.enemy.x && curAimTile.y === adjAim.enemy.y);
+                if (!(forceAimEnter || onAdjEnemy)) {
+                    dumpEnterSwallow('aim-off-tile', {
+                        legal: hasLegalAimTarget(),
+                        commit: !!(state.aimCommit)
+                    });
+                    dropQueuedEnters();
+                    try { tryCommitMeleeAim('aim-off-tile'); } catch (eOff) {}
+                    return false;
+                }
             }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 state.aimCommit) {
@@ -4014,12 +4024,11 @@
             Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
         extra.rngAt = aimRngOrigin();
         extra.rngMatch = aimRngMatchesActor(actor);
-        /* leftover 他将射程表：EXIT 重开本将 AIM。本将表已绑上但邻格尚未标 1：
-         * 正交贴脸仍在敌军格 ENTER（FgtChkRng 近战），禁止再 EXIT 空转。 */
+        /* leftover 他将射程表：非贴脸才 EXIT 重开。正交贴脸必须敌军格 ENTER。 */
         if (!extra.rngMatch) {
             if (extra.ortho) {
                 console.log('[hd-battle] aim-stale-rng', JSON.stringify({
-                    via: extra.via || 'stale-rng',
+                    via: extra.via || 'stale-rng-enter',
                     actor: actor.name,
                     ax: actor.x,
                     ay: actor.y,
@@ -4031,13 +4040,10 @@
                     rngAt: extra.rngAt,
                     n: (state.staleRngN || 0) + 1
                 }));
-                exitLeftoverAimThenReopen(actor, extra.via || 'stale-rng');
-                return {
-                    x: x, y: y, enter: false, unit: u && u.name, phase: 3,
-                    tip: state.fightTip, blocked: 'stale-rng',
-                    inRng: extra.inRng, via: extra.via
-                };
-            }
+                extra.inRng = true;
+                extra.rngMatch = true;
+                extra.orthoCommit = true;
+            } else {
             console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
                 via: extra.via || 'not-in-rng',
                 actor: actor.name,
@@ -4054,6 +4060,7 @@
                 tip: state.fightTip, blocked: 'not-in-rng',
                 inRng: extra.inRng, via: extra.via
             };
+            }
         }
         if (!extra.inRng && extra.ortho) {
             extra.inRng = true;
@@ -5141,6 +5148,9 @@
             return aimCommitAgeMs() > 2200;
         }
         if (state.lastHitAt && Date.now() - state.lastHitAt < 900) {
+            return false;
+        }
+        if (state.leftoverAimForceEnterAt && Date.now() - state.leftoverAimForceEnterAt < 1800) {
             return false;
         }
         var age = aimAgeMs();
