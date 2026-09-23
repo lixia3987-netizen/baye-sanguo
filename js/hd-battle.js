@@ -178,6 +178,7 @@
         phase1AdjEnterHoldUntil: 0,
         lastOpenAimAt: 0,
         lastPhase0AimAt: 0,
+        lastOnTileAimAt: 0,
         phase0AimRetryN: 0,
         phase0IdleTimer: 0,
         lastAdjRecoverAt: 0,
@@ -1731,8 +1732,11 @@
             var pos = data && data.g_GenPos;
             var i;
             var byName = null;
-            for (i = 10; i < 20; i++) {
+            for (i = 0; i < 20; i++) {
                 var id = arr ? readNumber(arr, i) : null;
+                if (id === null && arr && arr[i] != null) {
+                    id = Number(arr[i]);
+                }
                 if (!id || id >= 0xfffe) {
                     continue;
                 }
@@ -1744,12 +1748,21 @@
                     }
                 } catch (eN) {}
                 var ux = readNumber(p, 'x');
+                if (ux == null && p && p.x != null) {
+                    ux = Number(p.x);
+                }
                 var uy = readNumber(p, 'y');
+                if (uy == null && p && p.y != null) {
+                    uy = Number(p.y);
+                }
                 var hp = readNumber(p, 'hp');
-                if (rec.x != null && ux === rec.x && uy === rec.y) {
+                if (hp == null && p && p.hp != null) {
+                    hp = Number(p.hp);
+                }
+                if (rec.x != null && ux === rec.x && uy === rec.y && hp != null) {
                     return hp;
                 }
-                if (rec.name && name === rec.name && byName == null) {
+                if (rec.name && name === rec.name && hp != null && byName == null) {
                     byName = hp;
                 }
             }
@@ -1758,7 +1771,7 @@
             }
         } catch (ePeek) {}
         var t = findHitTarget(rec);
-        return t ? t.hp : null;
+        return t && t.hp != null ? t.hp : null;
     }
 
     function noteRealAttackHit(info) {
@@ -1805,7 +1818,16 @@
             gone: !!gone,
             drop: !!drop
         };
-        console.log('[hd-battle] hit-hp', info);
+        console.log('[hd-battle] hit-hp', {
+            via: info.via,
+            unit: info.unit,
+            x: info.x,
+            y: info.y,
+            before: info.before,
+            after: info.after == null ? 'null' : info.after,
+            gone: info.gone ? 1 : 0,
+            drop: info.drop ? 1 : 0
+        });
         if (drop) {
             if (state.aimCommit) {
                 state.aimCommit.hpDropped = true;
@@ -2037,6 +2059,9 @@
                     return;
                 }
                 if (state.lastHitAt && Date.now() - state.lastHitAt < 800) {
+                    return;
+                }
+                if (state.lastOnTileAimAt && Date.now() - state.lastOnTileAimAt < 2000) {
                     return;
                 }
                 state.lastOpenAimAt = 0;
@@ -2730,6 +2755,7 @@
         extra.hits = 1;
         extra.onTile = true;
         state.awaitingAimUntil = 0;
+        state.lastOnTileAimAt = Date.now();
         state.lastHitHpBefore = u && u.hp;
         if (state.lastHitTarget && state.lastHitTarget.x === x && state.lastHitTarget.y === y &&
             state.lastHitTarget.name === (u && u.name)) {
@@ -3369,6 +3395,7 @@
             state.lastFirstActMeleeAt = 0;
             state.lastOpenAimAt = 0;
             state.lastPhase0AimAt = 0;
+            state.lastOnTileAimAt = 0;
             state.phase0AimRetryN = 0;
             if (state.phase0IdleTimer) {
                 clearTimeout(state.phase0IdleTimer);
@@ -6505,6 +6532,7 @@
             state.lastFirstActMeleeAt = 0;
             state.lastOpenAimAt = 0;
             state.lastPhase0AimAt = 0;
+            state.lastOnTileAimAt = 0;
             state.phase0AimRetryN = 0;
             if (state.phase0IdleTimer) {
                 clearTimeout(state.phase0IdleTimer);
