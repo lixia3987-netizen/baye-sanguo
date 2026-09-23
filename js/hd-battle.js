@@ -3055,15 +3055,38 @@
         var nextOther = firstWaitingOwn({ skipLord: true });
         if (nextOther && unitCapKey(nextOther) === stuckKey) {
             nextOther = null;
+            var iSkip;
+            for (iSkip = 0; iSkip < state.units.length && !nextOther; iSkip++) {
+                var uSkip = state.units[iSkip];
+                if (!uSkip || uSkip.side !== 'player') {
+                    continue;
+                }
+                if (isLordUnit(uSkip) || unitCapKey(uSkip) === stuckKey) {
+                    continue;
+                }
+                if (!(uSkip.active === 0 || uSkip.active == null)) {
+                    continue;
+                }
+                if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(uSkip)) {
+                    continue;
+                }
+                nextOther = uSkip;
+            }
         }
         var nextLord = firstWaitingOwn({ lordOnly: true });
+        if (adjacentWaitingStrike() || liveAdjStrike()) {
+            clearPendingApproach();
+            clearPhase1EnterCap('phase1-stuck-strike');
+            pickNextCapableAfterGiveUp('phase1-enter-stuck-strike');
+            return;
+        }
         if (nextOther) {
             clearPendingApproach();
             clearPhase1EnterCap('phase1-stuck-next');
             pickNextCapableAfterGiveUp('phase1-enter-stuck');
             return;
         }
-        if (state.lastHitAt || state.adjRecoverGiveUpKey || shouldSysEndAfterLordHold()) {
+        if (state.lastHitAt && shouldSysEndAfterLordHold() && !playerHasWaitingOwn()) {
             sysEndPlayerTurn('phase1-enter-stuck-end');
             return;
         }
