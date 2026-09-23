@@ -1197,7 +1197,7 @@
             }
         }
         if (nextLord && !adjacentEnemy(1) && !nextOther) {
-            if ((state.actedThisTurn || 0) >= 1 || state.lastHitAt || state.adjRecoverGiveUpKey) {
+            if (shouldSysEndAfterLordHold()) {
                 return sysEndPlayerTurn(why || 'next-lord-end');
             }
             state.pendingActPick = 3;
@@ -2849,7 +2849,7 @@
             return;
         }
         if (nextLord) {
-            if ((state.actedThisTurn || 0) >= 1 || state.lastHitAt || state.adjRecoverGiveUpKey) {
+            if (shouldSysEndAfterLordHold()) {
                 sysEndPlayerTurn('phase1-enter-stuck-end');
                 return;
             }
@@ -3940,9 +3940,57 @@
         return true;
     }
 
+    function capableSkipLordWaiting() {
+        var strike = null;
+        try { strike = adjacentWaitingStrike(); } catch (eS) {}
+        if (strike && strike.unit && !isLordUnit(strike.unit)) {
+            return strike.unit;
+        }
+        return firstWaitingOwn({ skipLord: true });
+    }
+
+    function shouldSysEndAfterLordHold() {
+        if (capableSkipLordWaiting()) {
+            return false;
+        }
+        if (state.lastHitAt || state.adjRecoverGiveUpKey) {
+            return true;
+        }
+        return (state.lordHoldRestN || 0) >= 1;
+    }
+
+    function armCapableSkipLord(why) {
+        var next = capableSkipLordWaiting();
+        if (!next) {
+            return false;
+        }
+        notePendingPick(next);
+        noteActingUnit(next);
+        state.pendingActPick = 0;
+        state.movedThisAct = false;
+        var foe = unitAdjacentEnemy(next, 1) || nearestEnemyFrom(next);
+        if (foe) {
+            setPendingApproach(foe.x, foe.y);
+        }
+        console.log('[hd-battle] next-unit', {
+            via: why || 'skip-lord',
+            name: next.name,
+            x: next.x,
+            y: next.y,
+            dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null,
+            acted: state.actedThisTurn
+        });
+        try { clickWaitingOwn(); } catch (eC) {}
+        scheduleDriveSoon(why || 'skip-lord', 80);
+        return true;
+    }
+
     function sysEndPlayerTurn(why) {
         if (!fightReallyActive() || state.resultText || state.playerTurnEnded || recentlyEndedTurn()) {
             return false;
+        }
+        if (armCapableSkipLord((why || 'sys-end') + '-still-other')) {
+            return true;
         }
         if (adjacentWaitingStrike() && commitAdjacentMelee('end-turn-last-melee')) {
             return true;
@@ -3982,50 +4030,32 @@
     }
 
     function lordHoldRestOrEndTurn(why) {
-        var strikeDef = adjacentWaitingStrike();
-        var other = (strikeDef && strikeDef.unit) || firstWaitingOwn({ skipLord: true });
-        if (other) {
-            notePendingPick(other);
-            noteActingUnit(other);
-            state.pendingActPick = 0;
-            var foe = (strikeDef && strikeDef.enemy) || unitAdjacentEnemy(other, 1) ||
-                nearestEnemyFrom(other);
-            if (foe) {
-                setPendingApproach(foe.x, foe.y);
-            }
-            console.log('[hd-battle] lord-hold', {
-                via: (why || 'lord-hold') + '-pick-other',
-                to: other.name,
-                x: other.x,
-                y: other.y,
-                dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null
-            });
-            try { clickWaitingOwn(); } catch (eP) {}
-            scheduleDriveSoon('lord-hold-pick-other', 80);
+        if (armCapableSkipLord((why || 'lord-hold') + '-pick-other')) {
             return true;
         }
         var fightNow = null;
         try { fightNow = readFight(); } catch (eF) {}
         var phaseNow = Number(fightNow && fightNow.phase) || 0;
-        var othersActed = (state.actedThisTurn || 0) >= 1 || !!state.lastHitAt ||
-            !!state.adjRecoverGiveUpKey;
         if (state.openedSysForEndTurn || forceEndTurnArmed() || (state.lordHoldRestN || 0) >= 1) {
-            return sysEndPlayerTurn(why || 'lord-hold-repeat');
+            if (shouldSysEndAfterLordHold()) {
+                return sysEndPlayerTurn(why || 'lord-hold-repeat');
+            }
+            return true;
         }
         if (phaseNow === 1 && fightNow && fightNow.wait) {
-            if (othersActed) {
-                return sysEndPlayerTurn(why || 'lord-hold-phase1');
-            }
             console.log('[hd-battle] rest-skip', {
                 via: why || 'lord-hold', why: 'phase1-wait-noop'
             });
-            return sysEndPlayerTurn(why || 'lord-hold-phase1');
+            if (shouldSysEndAfterLordHold()) {
+                return sysEndPlayerTurn(why || 'lord-hold-phase1');
+            }
+            return true;
         }
         if (liveActMenu() && phaseNow === 0 && fightNow && !fightNow.wait) {
             state.lordHoldRestN = (state.lordHoldRestN || 0) + 1;
             return false;
         }
-        if (othersActed) {
+        if (shouldSysEndAfterLordHold()) {
             return sysEndPlayerTurn(why || 'lord-hold-end');
         }
         return false;
@@ -4060,8 +4090,10 @@
             console.log('[hd-battle] rest-skip', {
                 via: why || 'prefer-rest', why: 'phase1-wait-noop'
             });
-            if (/lord-hold/.test(why || '') || (state.actedThisTurn || 0) >= 1 ||
-                state.lastHitAt || state.adjRecoverGiveUpKey) {
+            if (armCapableSkipLord((why || 'prefer-rest') + '-phase1-other')) {
+                return;
+            }
+            if (shouldSysEndAfterLordHold()) {
                 sysEndPlayerTurn(why || 'phase1-rest-end');
             }
             return;
@@ -4069,6 +4101,7 @@
         clearPendingApproach();
         state.pendingActPick = 3;
         state.approachRepeatCount = 0;
+        state.movedThisAct = false;
         writeFightActCommit(3);
         console.log('[hd-battle] rest-commit', {
             via: why || 'prefer-rest', moved: !!state.movedThisAct, commit: 3
