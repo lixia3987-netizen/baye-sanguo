@@ -1167,6 +1167,9 @@
         if (enemyTurnQuiet(fightNow)) {
             return false;
         }
+        if (leftoverHitterMenu(fightNow)) {
+            return false;
+        }
         if (!opts.force && state.holdPickUntil && Date.now() < state.holdPickUntil) {
             return false;
         }
@@ -1209,14 +1212,16 @@
             }
             state.lastArmNextAt = Date.now();
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
-            /* 真伤后同 dest 再失败 2 次才跳过。开战走近不得把庞德/杨秋标 skip。 */
-            if (state.lastHitAt && (state.endTurnStallN || 0) >= 3) {
+            /* 真伤后同 dest 再失败 2 次才跳过。开战走近 / leftover 交接不得 skip 庞德。 */
+            if (state.lastHitAt && !state.pendingHandoff &&
+                !leftoverHitterMenu(fightNow) && (state.endTurnStallN || 0) >= 3) {
                 markHandoffSkip(nextOther || nextLord, 'same-dest-2');
                 state.nextUnitArmedKey = '';
                 state.nextUnitArmedAt = 0;
                 state.endTurnStallN = 0;
                 nextOther = firstWaitingOwn({ skipLord: true }) ||
-                    nearestActionableOwn({ skipLord: true });
+                    nearestActionableOwn({ skipLord: true }) ||
+                    firstWaitingOwn({ skipLord: true, includeStuck: true });
                 nextLord = nextOther ? null : firstWaitingOwn({ lordOnly: true });
                 if (!nextOther) {
                     return sysEndPlayerTurn(why || 'handoff-skip-end');
@@ -2086,7 +2091,7 @@
         state.lastLeftoverActExitAt = 0;
         state.pendingHandoff = true;
         state.handoffAt = Date.now();
-        state.handoffBanExitUntil = Date.now() + 2800;
+        state.handoffBanExitUntil = Date.now() + 450;
         state.leavingAim = false;
         state.awaitingAimUntil = 0;
         state.pendingAimEnter = null;
@@ -5319,6 +5324,9 @@
                 return false;
             }
             if (liveActMenu() || hdActMenuVisible()) {
+                if (leftoverHitterMenu(fight) || leftoverExitBanned()) {
+                    return false;
+                }
                 var postStrike = adjacentWaitingStrike();
                 if (postStrike && commitAdjacentMelee('post-hit-adj-menu')) {
                     return true;
