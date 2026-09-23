@@ -1261,7 +1261,10 @@
                 }
                 return pickNextCapableAfterGiveUp('same-dest-adj');
             }
-            if ((state.endTurnStallN || 0) >= 2 && !state.pendingHandoff) {
+            if ((state.endTurnStallN || 0) >= 2 && !leftoverExitBanned()) {
+                if (state.pendingHandoff) {
+                    finishHandoff('same-dest-handoff-clear');
+                }
                 var curActor = nextOther || nextLord;
                 var altFoe = otherLivingEnemy(foe);
                 if (altFoe && curActor && !isHandoffSkip(curActor) &&
@@ -1830,6 +1833,37 @@
             }
         }
         return null;
+    }
+
+    function forgetDeadEnemyTargets() {
+        var livingNames = {};
+        var living = livingEnemies();
+        var i;
+        var name;
+        for (i = 0; i < living.length; i++) {
+            if (living[i] && living[i].name) {
+                livingNames[living[i].name] = true;
+            }
+        }
+        if (state.sameDestSwitchTo) {
+            for (name in state.sameDestSwitchTo) {
+                if (state.sameDestSwitchTo.hasOwnProperty(name) &&
+                    !livingNames[state.sameDestSwitchTo[name]]) {
+                    delete state.sameDestSwitchTo[name];
+                }
+            }
+        }
+        if (state.woundedEnemies) {
+            for (name in state.woundedEnemies) {
+                if (state.woundedEnemies.hasOwnProperty(name) && !livingNames[name]) {
+                    delete state.woundedEnemies[name];
+                }
+            }
+        }
+        if (state.lastWoundedEnemy && state.lastWoundedEnemy.name &&
+            !livingNames[state.lastWoundedEnemy.name]) {
+            state.lastWoundedEnemy = null;
+        }
     }
 
     /* 先补刀已伤，再打贴脸，再走近剩下的（方悦死了打王匡，反之亦然）。 */
@@ -2464,6 +2498,13 @@
         /* 清 leftover EXIT / AIM / pick-throttle / act-commit，禁止交接时 EXIT 连发。 */
         clearLeftoverAfterHit('attack-hit');
         try { markWoundedEnemy(info); } catch (eW) {}
+        try { forgetDeadEnemyTargets(); } catch (eFd) {}
+        if (info && info.gone) {
+            console.log('[hd-battle] after-drop-retarget', {
+                dead: info.unit,
+                living: livingEnemies().map(function (u) { return u && u.name; })
+            });
+        }
         console.log('[hd-battle] attack-hit', {
             via: 'hp-drop',
             unit: info && info.unit,
@@ -5896,7 +5937,8 @@
                 try { walkActor = bindWalkedActor() || actingActor(); } catch (eWa) {
                     walkActor = actingActor();
                 }
-                var walkFoe = walkActor && nearestEnemyFrom(walkActor);
+                var walkFoe = walkActor &&
+                    (bestEnemyForApproach(walkActor) || nearestEnemyFrom(walkActor));
                 var walkD = (walkActor && walkFoe)
                     ? chebyshev(walkActor.x, walkActor.y, walkFoe.x, walkFoe.y) : 99;
                 if (phaseAp === 2 && !state.movedThisAct && walkFoe) {
@@ -5910,6 +5952,21 @@
                     });
                     setPendingApproach(walkFoe.x, walkFoe.y);
                     scheduleDriveSoon('after-approach-keep-walk', 80);
+                    return;
+                }
+                if (walkFoe && enemyIsLiving(walkFoe) && walkD <= 2 &&
+                    !state.movedThisAct &&
+                    (enemyHasFreeOrtho(walkFoe) || walkD > 1)) {
+                    console.log('[hd-battle] after-approach-keep-close', {
+                        actor: walkActor && walkActor.name,
+                        ux: walkActor && walkActor.x,
+                        uy: walkActor && walkActor.y,
+                        dest: { name: walkFoe.name, x: walkFoe.x, y: walkFoe.y },
+                        dist: walkD,
+                        phase: phaseAp
+                    });
+                    setPendingApproach(walkFoe.x, walkFoe.y);
+                    scheduleDriveSoon('after-approach-keep-close', 80);
                     return;
                 }
                 console.log('[hd-battle] after-approach-short', {
@@ -7205,12 +7262,20 @@
             }
         }
         if (phase === 2 && actingLordUnit() && !adjacentEnemy(1)) {
-            clearPendingApproach();
-            state.pendingActPick = 3;
-            enqueueKeys([VK.ENTER], 55);
-            preferRest('lord-hold-move');
-            console.log('[hd-battle] lord-hold', { via: 'phase2', dest: dest });
-            return true;
+            var lordWalkRemain = !!(state.lastHitAt || state.fightHitAt) &&
+                livingEnemies().length && dest;
+            if (!lordWalkRemain) {
+                clearPendingApproach();
+                state.pendingActPick = 3;
+                enqueueKeys([VK.ENTER], 55);
+                preferRest('lord-hold-move');
+                console.log('[hd-battle] lord-hold', { via: 'phase2', dest: dest });
+                return true;
+            }
+            console.log('[hd-battle] lord-approach', {
+                via: 'phase2-walk-remain',
+                dest: dest
+            });
         }
         if (phase === 2) {
             var actor = syncFocusFromEngine();
