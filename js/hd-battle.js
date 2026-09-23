@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923d';
+    var HD_BATTLE_VER = '20260923e';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -177,6 +177,7 @@
         lastAttackClickAt: 0,
         phase1AdjEnterHoldUntil: 0,
         lastOpenAimAt: 0,
+        lastOpenAimReselectAt: 0,
         lastPhase0AimAt: 0,
         lastOnTileAimAt: 0,
         phase0AimRetryN: 0,
@@ -1249,28 +1250,42 @@
     }
 
     function noteActingUnit(u) {
-        if (u && u.x != null && u.y != null) {
-            state.actorAt = { x: u.x, y: u.y, name: u.name || '' };
+        if (!u || u.x == null || u.y == null) {
+            return;
         }
+        var named = u;
+        if (!u.name) {
+            try { named = resolveNamedActor(u) || u; } catch (eN) { named = u; }
+        }
+        state.actorAt = {
+            x: named.x != null ? named.x : u.x,
+            y: named.y != null ? named.y : u.y,
+            name: named.name || u.name || '',
+            i: named.i != null ? named.i : u.i
+        };
     }
 
     function actingActor() {
         var fight = null;
         try { fight = readFight(); } catch (eA) {}
         var phase = Number(fight && fight.phase) || 0;
+        var named = null;
         if (phase === 3 && state.actorAt && state.actorAt.x != null) {
-            return state.actorAt;
+            try { named = resolveNamedActor(state.actorAt); } catch (eR) {}
+            return named || state.actorAt;
         }
         /* 刚走完格：用落点，勿用 waitingOwn（焦点常跳回君主马腾，会把贴脸误判成超距）。 */
         if (state.movedThisAct && state.actorAt && state.actorAt.x != null) {
-            return state.actorAt;
+            try { named = resolveNamedActor(state.actorAt); } catch (eM) {}
+            return named || state.actorAt;
         }
         var own = waitingOwnUnit();
         if (own) {
             return own;
         }
         if (state.actorAt && state.actorAt.x != null) {
-            return state.actorAt;
+            try { named = resolveNamedActor(state.actorAt); } catch (eA2) {}
+            return named || state.actorAt;
         }
         return syncFocusFromEngine();
     }
@@ -1585,19 +1600,21 @@
             return byName;
         }
         var u = unitAt(state.actorAt.x, state.actorAt.y);
-        if (u && u.side === 'player') {
+        if (u && u.side === 'player' && u.name) {
             if (!(u.active === 0 || u.active == null)) {
                 return null;
             }
             return u;
         }
-        return {
-            x: state.actorAt.x,
-            y: state.actorAt.y,
-            name: state.actorAt.name || '',
-            side: 'player',
-            active: 0
-        };
+        var resolved = null;
+        try { resolved = resolveNamedActor(state.actorAt); } catch (eR) { resolved = null; }
+        if (resolved && resolved.name) {
+            if (!(resolved.active === 0 || resolved.active == null)) {
+                return null;
+            }
+            return resolved;
+        }
+        return null;
     }
 
     function movedActorAdjacentEnemy() {
@@ -1615,7 +1632,18 @@
         if (!enemy || !actor) {
             return false;
         }
-        var strike = { unit: actor, enemy: enemy };
+        var strike = namedAdjStrike({ unit: actor, enemy: enemy });
+        if (!strike || !actorBoundForAim(strike.unit)) {
+            console.log('[hd-battle] after-walk-aim-refuse', {
+                via: why || 'after-walk',
+                actor: actor && actor.name,
+                ux: actor && actor.x,
+                uy: actor && actor.y
+            });
+            return false;
+        }
+        actor = strike.unit;
+        enemy = strike.enemy;
         state.pendingActPick = 0;
         noteActingUnit(actor);
         notePendingPick(actor);
@@ -1906,27 +1934,261 @@
             return { unit: actor, enemy: e };
         }
         if (state.actorAt && state.actorAt.x != null) {
-            var fromAt = unitAt(state.actorAt.x, state.actorAt.y) || state.actorAt;
-            if (fromAt && !fromAt.name) {
-                var namedAt = unitAt(fromAt.x, fromAt.y);
-                if (namedAt) {
-                    fromAt = namedAt;
+            var fromAt = resolveNamedActor(state.actorAt);
+            if (fromAt && fromAt.name) {
+                var eAt = unitAdjacentEnemy(fromAt, 1);
+                if (eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
+                    return { unit: fromAt, enemy: eAt };
                 }
-            }
-            var eAt = unitAdjacentEnemy(fromAt, 1);
-            if (fromAt && (!fromAt.side || fromAt.side === 'player') &&
-                eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
-                return { unit: fromAt, enemy: eAt };
             }
         }
         var fu = focusedFightUnit();
-        if (fu && fu.side === 'player') {
+        if (fu && fu.side === 'player' && fu.name) {
             var eFu = unitAdjacentEnemy(fu, 1);
             if (eFu && enemyIsLiving(eFu) && !sameTileHitCapped(eFu)) {
                 return { unit: fu, enemy: eFu };
             }
         }
         return null;
+    }
+
+    function pendingPickName() {
+        var key = String(state.pendingPickUnit || '');
+        var cut = key.indexOf('@');
+        if (cut > 0) {
+            return key.slice(0, cut);
+        }
+        return '';
+    }
+
+    function peekEnginePlayer(match) {
+        try {
+            var data = engineData();
+            var arr = data && data.g_FgtParam && data.g_FgtParam.GenArray;
+            var pos = data && data.g_GenPos;
+            var i;
+            for (i = 0; i < 10; i++) {
+                var id = arr ? readNumber(arr, i) : null;
+                if (id === null && arr && arr[i] != null) {
+                    id = Number(arr[i]);
+                }
+                if (!id || id >= 0xfffe) {
+                    continue;
+                }
+                var p = pos && pos[i] ? pos[i] : {};
+                var name = '';
+                try {
+                    if (typeof baye.getPersonName === 'function') {
+                        name = baye.getPersonName(id - 1) || '';
+                    }
+                } catch (eN) {}
+                if (!name) {
+                    continue;
+                }
+                var rec = {
+                    i: i,
+                    id: id,
+                    name: name,
+                    x: readNumber(p, 'x'),
+                    y: readNumber(p, 'y'),
+                    hp: readNumber(p, 'hp'),
+                    active: readNumber(p, 'active'),
+                    side: 'player'
+                };
+                if (match(rec)) {
+                    return rec;
+                }
+            }
+        } catch (eP) {}
+        return null;
+    }
+
+    function peekPlayerByName(name) {
+        if (!name) {
+            return null;
+        }
+        var live = peekEnginePlayer(function (rec) { return rec.name === name; });
+        if (live) {
+            return live;
+        }
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (u && u.side === 'player' && u.name === name) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    function peekPlayerAt(x, y) {
+        if (x == null || y == null) {
+            return null;
+        }
+        var live = peekEnginePlayer(function (rec) {
+            return rec.x === x && rec.y === y;
+        });
+        if (live) {
+            return live;
+        }
+        var u = unitAt(x, y);
+        return (u && u.side === 'player' && u.name) ? u : null;
+    }
+
+    function nearestNamedAdjAttacker(hint) {
+        var cur = null;
+        try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
+        var hx = hint && hint.x != null ? hint.x : (cur && cur.x);
+        var hy = hint && hint.y != null ? hint.y : (cur && cur.y);
+        var best = null;
+        var bestScore = 1e9;
+        var i;
+        var pool = [];
+        try {
+            var data = engineData();
+            var arr = data && data.g_FgtParam && data.g_FgtParam.GenArray;
+            var pos = data && data.g_GenPos;
+            for (i = 0; i < 10; i++) {
+                var id = arr ? readNumber(arr, i) : null;
+                if (!id || id >= 0xfffe) {
+                    continue;
+                }
+                var p = pos && pos[i] ? pos[i] : {};
+                var name = '';
+                try {
+                    if (typeof baye.getPersonName === 'function') {
+                        name = baye.getPersonName(id - 1) || '';
+                    }
+                } catch (eN2) {}
+                if (!name) {
+                    continue;
+                }
+                pool.push({
+                    i: i, id: id, name: name,
+                    x: readNumber(p, 'x'), y: readNumber(p, 'y'),
+                    hp: readNumber(p, 'hp'), active: readNumber(p, 'active'),
+                    side: 'player'
+                });
+            }
+        } catch (ePool) {}
+        if (!pool.length) {
+            pool = state.units;
+        }
+        for (i = 0; i < pool.length; i++) {
+            var u = pool[i];
+            if (!u || u.side !== 'player' || !u.name || u.x == null || u.y == null) {
+                continue;
+            }
+            var e = unitAdjacentEnemy(u, 1);
+            if (!e || !enemyIsLiving(e)) {
+                continue;
+            }
+            if (state.adjRecoverGiveUpKey &&
+                String(state.adjRecoverGiveUpKey).indexOf(u.name + '@') === 0) {
+                continue;
+            }
+            var score = (hx != null && hy != null) ? chebyshev(u.x, u.y, hx, hy) : 0;
+            if (!(u.active === 0 || u.active == null)) {
+                score += 20;
+            }
+            if (isLordUnit(u)) {
+                score += 5;
+            }
+            if (score < bestScore) {
+                best = u;
+                bestScore = score;
+            }
+        }
+        return best;
+    }
+
+    /* 空名字 actorAt 不能开 AIM。从 g_GenPos + 光标 + 选将残留找回庞德@11,16。 */
+    function resolveNamedActor(hint) {
+        var u = null;
+        if (hint && hint.name) {
+            u = peekPlayerByName(hint.name);
+            if (u) {
+                return u;
+            }
+        }
+        if (hint && hint.x != null && hint.y != null) {
+            u = peekPlayerAt(hint.x, hint.y);
+            if (u) {
+                return u;
+            }
+        }
+        var pickName = pendingPickName();
+        if (pickName) {
+            u = peekPlayerByName(pickName);
+            if (u) {
+                return u;
+            }
+        }
+        if (state.actorAt && state.actorAt.name &&
+            !(hint && hint.name && hint.name === state.actorAt.name)) {
+            u = peekPlayerByName(state.actorAt.name);
+            if (u) {
+                return u;
+            }
+        }
+        if (state.actorAt && state.actorAt.x != null &&
+            !(hint && hint.x === state.actorAt.x && hint.y === state.actorAt.y)) {
+            u = peekPlayerAt(state.actorAt.x, state.actorAt.y);
+            if (u) {
+                return u;
+            }
+        }
+        var fu = focusedFightUnit();
+        if (fu && fu.side === 'player' && fu.name && unitAdjacentEnemy(fu, 1)) {
+            return fu;
+        }
+        return nearestNamedAdjAttacker(hint || state.actorAt || fu);
+    }
+
+    function namedAdjStrike(raw) {
+        var strike = raw || liveAdjStrike() || adjacentWaitingStrike();
+        var unit = resolveNamedActor(strike && strike.unit);
+        if (!unit || !unit.name) {
+            console.log('[hd-battle] nameless-actor-refuse', {
+                via: 'named-strike',
+                raw: strike && strike.unit ? {
+                    name: strike.unit.name || '',
+                    x: strike.unit.x,
+                    y: strike.unit.y
+                } : null,
+                actorAt: state.actorAt,
+                pending: state.pendingPickUnit || '',
+                focus: (function () {
+                    try { return syncFocusFromEngine(); } catch (eF) { return null; }
+                }())
+            });
+            return null;
+        }
+        var enemy = unitAdjacentEnemy(unit, 1) || (strike && strike.enemy);
+        if (!enemy || !enemyIsLiving(enemy)) {
+            return null;
+        }
+        noteActingUnit(unit);
+        return { unit: unit, enemy: enemy };
+    }
+
+    function readAimType() {
+        try {
+            var f = readFight();
+            if (f && f.aimType != null && f.aimType !== '') {
+                return Number(f.aimType);
+            }
+        } catch (eF) {}
+        try {
+            if (window.baye && baye.data && baye.data.g_hdFightAimType != null) {
+                return Number(baye.data.g_hdFightAimType);
+            }
+        } catch (eD) {}
+        return 0xff;
+    }
+
+    function actorBoundForAim(actor) {
+        return !!(actor && actor.name && String(actor.name).length);
     }
 
     function phase0LiveAdjReady(fight) {
@@ -1946,7 +2208,7 @@
         if (!liveActMenu()) {
             return false;
         }
-        return !!liveAdjStrike();
+        return !!namedAdjStrike();
     }
 
     function notePendingPick(u) {
@@ -2090,7 +2352,7 @@
         if (!phase0LiveAdjReady(fight)) {
             return false;
         }
-        var strike = liveAdjStrike();
+        var strike = namedAdjStrike();
         if (!strike) {
             return false;
         }
@@ -2120,8 +2382,13 @@
     /* phase=0 wait=false + 攻击高亮 + 贴脸：ENTER 开 AIM，再走到敌军格打真伤。
      * 禁止当成 phase1 选将。 */
     function openAimFromActMenu(why, strike) {
-        strike = strike || liveAdjStrike() || adjacentWaitingStrike();
-        if (!strike) {
+        strike = namedAdjStrike(strike);
+        if (!strike || !actorBoundForAim(strike.unit)) {
+            console.log('[hd-battle] open-aim-refuse', {
+                via: why || 'nameless',
+                actorAt: state.actorAt,
+                pending: state.pendingPickUnit || ''
+            });
             return false;
         }
         var force = !!(why && /idle|force|phase0-live/.test(why));
@@ -2147,7 +2414,36 @@
         var live = liveActMenu();
         /* 必须是 PlcSplMenu 真菜单。phase=0 leftover + 合成「攻击」上回车是选将，不是 AIM。 */
         if (!(phase === 0 && !fight.wait && live)) {
+            if (phase === 1 && fight.wait) {
+                console.log('[hd-battle] open-aim-reselect', {
+                    via: why || 'act-menu',
+                    unit: strike.unit.name,
+                    ux: strike.unit.x,
+                    uy: strike.unit.y,
+                    phase: phase
+                });
+                return recoverAdjActThenAim(why || 'open-aim-reselect');
+            }
             return false;
+        }
+        var focusU = focusedFightUnit();
+        if (focusU && focusU.side === 'player' && focusU.name &&
+            focusU.name !== strike.unit.name &&
+            !(state.lastOpenAimReselectAt && Date.now() - state.lastOpenAimReselectAt < 800)) {
+            state.lastOpenAimReselectAt = Date.now();
+            console.log('[hd-battle] open-aim-reselect', {
+                via: why || 'wrong-menu',
+                have: focusU.name,
+                want: strike.unit.name,
+                hx: focusU.x,
+                hy: focusU.y
+            });
+            writeFightActCommit(0xFF);
+            enqueueKeys([VK.EXIT], 55);
+            setTimeout(function () {
+                try { recoverAdjActThenAim(why || 'open-aim-reselect'); } catch (eRs) {}
+            }, 180);
+            return true;
         }
         state.lastOpenAimAt = Date.now();
         state.lastAdjMeleeAt = Date.now();
@@ -2202,7 +2498,7 @@
      * → stay ENTER(commit=0xFF 打开 PlcSplMenu) → wait-act → openAim。
      * 禁止 phase1 合成「攻击」/提前 movedThisAct。空格 ENTER 不计 pickN。 */
     function recoverAdjActThenAim(why) {
-        var strike = adjacentWaitingStrike();
+        var strike = namedAdjStrike(adjacentWaitingStrike());
         var fight = null;
         var cur = null;
         var onUnit = false;
@@ -2213,7 +2509,7 @@
         var dist = 99;
         var strikeKey = '';
         var commitNow = 0xFF;
-        if (!strike) {
+        if (!strike || !actorBoundForAim(strike.unit)) {
             return false;
         }
         if (recentlyEndedTurn()) {
@@ -2423,12 +2719,17 @@
     }
 
     function commitAdjacentMelee(why) {
-        var strike = adjacentWaitingStrike();
+        var strike = namedAdjStrike(adjacentWaitingStrike() || liveAdjStrike());
         var fight = null;
         var cur = null;
         var onUnit = false;
         var phase = 0;
-        if (!strike) {
+        if (!strike || !actorBoundForAim(strike.unit)) {
+            console.log('[hd-battle] adj-melee-refuse', {
+                via: why || 'nameless',
+                actorAt: state.actorAt,
+                pending: state.pendingPickUnit || ''
+            });
             return false;
         }
         var bypassCool = /post-hit|phase1-stuck|phase1-adj|after-hit|stall-break-melee|rest-blocked|adj-recover|open-aim/.test(why || '');
@@ -2522,6 +2823,15 @@
         state.lastAdjMeleeAt = Date.now();
         clearAdjMeleeThrottle(why || 'adj-melee-commit');
         if (phase === 2) {
+            if (!unitAdjacentEnemy(strike.unit, 1)) {
+                console.log('[hd-battle] adj-melee-wait-walk', {
+                    unit: strike.unit.name,
+                    ux: strike.unit.x,
+                    uy: strike.unit.y,
+                    enemy: strike.enemy && strike.enemy.name
+                });
+                return false;
+            }
             state.movedThisAct = true;
             state.sawMoveThisTurn = true;
             state.walkSubmittedAt = Date.now();
@@ -2621,11 +2931,15 @@
             via: why || 'clear',
             hits: rec.hits,
             sent: !!rec.sentEnter,
+            drop: !!rec.hpDropped,
+            success: !!(rec.hpDropped && rec.sentEnter),
+            actor: rec.actorName || (state.actorAt && state.actorAt.name) || '',
             unit: rec.name,
             x: rec.x,
             y: rec.y,
             age: Date.now() - rec.at
         });
+        /* hits:1 sent:true 但没 after<before：禁止当成命中。 */
         /* phase 离开 AIM 太快时 after-hit-settle 会被清掉。先在敌军格回车记录掉血。 */
         if (rec.sentEnter && rec.onTile && !rec.hpDropped &&
             /phase-leave|fight-over/.test(why || '')) {
@@ -2748,7 +3062,30 @@
         dropQueuedKeys();
         state.lastBlockedEnter = '';
         state.pendingAimEnter = null;
-        extra.inRng = true;
+        var actor = null;
+        try { actor = resolveNamedActor(actingActor()); } catch (eAct) { actor = actingActor(); }
+        if (!actorBoundForAim(actor)) {
+            console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
+                via: extra.via || 'nameless-actor',
+                target: u && u.name,
+                x: x,
+                y: y,
+                actorAt: state.actorAt,
+                pending: state.pendingPickUnit || ''
+            }));
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'nameless-actor',
+                inRng: true, via: extra.via
+            };
+        }
+        noteActingUnit(actor);
+        var aimType = readAimType();
+        extra.actor = actor.name;
+        extra.ax = actor.x;
+        extra.ay = actor.y;
+        extra.aimType = aimType;
+        extra.inRng = inAtkRng(x, y) === true;
         extra.hp = u && u.hp;
         extra.hpBefore = u && u.hp;
         extra.focus = curAim;
@@ -2759,6 +3096,21 @@
         extra.swallowed = false;
         extra.hits = 1;
         extra.onTile = true;
+        /* CMD_ATK=0 才走 FgtAtkAction。计谋/待机 AIM 上 ENTER 不掉血。 */
+        if (aimType !== 0 && aimType !== 0xff) {
+            console.log('[hd-battle] aim-wrong-type', JSON.stringify({
+                actor: actor.name, aimType: aimType, target: u && u.name, x: x, y: y
+            }));
+            leaveAimAndRearm('aim-wrong-type');
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'aim-wrong-type',
+                inRng: extra.inRng, via: extra.via
+            };
+        }
+        if (aimType === 0xff) {
+            writeFightActCommit(0);
+        }
         state.awaitingAimUntil = 0;
         state.lastOnTileAimAt = Date.now();
         state.lastHitHpBefore = u && u.hp;
@@ -2771,6 +3123,8 @@
         state.lastHitTarget = { name: u && u.name, x: x, y: y };
         state.aimCommit = {
             x: x, y: y, name: u && u.name,
+            actorName: actor.name, actorX: actor.x, actorY: actor.y,
+            aimType: aimType,
             at: Date.now(), hits: 1, sentEnter: false,
             hpBefore: u && u.hp, hpDropped: false, secondEnterSent: false, onTile: true
         };
@@ -2779,11 +3133,22 @@
             state.pendingActPick = null;
         }
         clearPendingApproach();
-        console.log('[hd-battle] aim-on-tile', extra);
+        console.log('[hd-battle] aim-on-tile', JSON.stringify({
+            via: extra.via,
+            actor: actor.name,
+            ax: actor.x,
+            ay: actor.y,
+            unit: u && u.name,
+            x: x,
+            y: y,
+            inRng: extra.inRng,
+            aimType: aimType,
+            hpBefore: extra.hpBefore
+        }));
         scheduleAfterHitSettle(700);
         return {
             x: x, y: y, enter: true, unit: u && u.name, phase: 3,
-            tip: state.fightTip, blocked: '', inRng: true, via: extra.via
+            tip: state.fightTip, blocked: '', inRng: extra.inRng, via: extra.via
         };
     }
 
@@ -2818,10 +3183,21 @@
             });
             return false;
         }
-        var actor = actingActor();
+        var actor = null;
+        try { actor = resolveNamedActor(actingActor()); } catch (eA) { actor = actingActor(); }
+        if (!actorBoundForAim(actor)) {
+            console.log('[hd-battle] melee-wait', {
+                why: why || 'auto-melee', unit: target.name, reason: 'nameless-actor',
+                actorAt: state.actorAt
+            });
+            return false;
+        }
+        noteActingUnit(actor);
         var dist = (actor && actor.x != null)
             ? chebyshev(actor.x, actor.y, target.x, target.y) : 99;
-        confirmAimHit(target, target.x, target.y, why || 'auto-melee', { dist: dist });
+        confirmAimHit(target, target.x, target.y, why || 'auto-melee', {
+            dist: dist, actor: actor.name
+        });
         return true;
     }
 
@@ -3184,6 +3560,15 @@
                     return true;
                 }
                 if (state.aimCommit && !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400) {
+                    var boundName = state.aimCommit.actorName ||
+                        (state.actorAt && state.actorAt.name) || '';
+                    if (!boundName) {
+                        console.log('[hd-battle] aim-second-enter-refuse', {
+                            why: 'actor-unbound',
+                            unit: state.aimCommit.name,
+                            actorAt: state.actorAt
+                        });
+                    } else {
                     var nudgeTo = { x: state.aimCommit.x, y: state.aimCommit.y };
                     var nudgeCur = null;
                     try { nudgeCur = syncFocusFromEngine(); } catch (eN) { nudgeCur = null; }
@@ -3191,18 +3576,22 @@
                         dropQueuedDirs();
                         walkFocusTo(nudgeTo.x, nudgeTo.y, false);
                         console.log('[hd-battle] aim-nudge', {
-                            from: nudgeCur, to: nudgeTo, unit: state.aimCommit.name
+                            from: nudgeCur, to: nudgeTo, unit: state.aimCommit.name,
+                            actor: boundName
                         });
                     }
                     console.log('[hd-battle] aim-second-enter', {
                         why: 'no-hp-drop',
+                        actor: boundName,
                         unit: state.aimCommit.name,
                         before: state.aimCommit.hpBefore,
                         after: peekEnemyHp(state.aimCommit),
-                        age: aimCommitAgeMs()
+                        age: aimCommitAgeMs(),
+                        aimType: state.aimCommit.aimType
                     });
                     /* 不预写 secondEnterSent：engineSendKey 发出时再置位，否则会被 aim-commit-block 吞掉。 */
                     enqueueKeys([VK.ENTER], 55);
+                    }
                 }
                 if (aimCommitAgeMs() < 2400) {
                     scheduleAfterHitSettle(400);
@@ -8128,6 +8517,13 @@
                 lastSwallowWhy: state.lastSwallowWhy || '',
                 adjacent: !!adjacentEnemy(1),
                 actorAt: state.actorAt,
+                boundActor: (function () {
+                    try {
+                        var ba = resolveNamedActor(state.actorAt);
+                        return ba ? { name: ba.name, x: ba.x, y: ba.y, i: ba.i } : null;
+                    } catch (eB) { return null; }
+                }()),
+                lastOpenAimReselectAt: state.lastOpenAimReselectAt || 0,
                 sysMenuHooked: !!state.sysMenuHooked,
                 over: !!(fightSnap && fightSnap.over),
                 afterEndTurnUntil: state.afterEndTurnUntil || 0,
