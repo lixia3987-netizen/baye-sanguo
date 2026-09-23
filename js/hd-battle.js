@@ -4359,11 +4359,20 @@
         if (fight && Number(fight.phase) === 3) {
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
             if (!dropped && aimCommitHolds() && !state.leavingAim) {
-                if ((state.sameTileHitN || 0) >= 3) {
+                if ((state.sameTileHitN || 0) >= 2) {
+                    var missActor = null;
+                    try { missActor = resolveNamedActor(actingActor()); } catch (eM) { missActor = actingActor(); }
+                    if (missActor && missActor.name) {
+                        markHandoffSkip(missActor, 'no-drop-aim');
+                    }
                     console.log('[hd-battle] after-hit-same-tile', {
-                        n: state.sameTileHitN, unit: state.aimCommit && state.aimCommit.name
+                        n: state.sameTileHitN, unit: state.aimCommit && state.aimCommit.name,
+                        actor: missActor && missActor.name
                     });
                     leaveAimAndRearm('after-hit-same-tile');
+                    if (pickNextAfterHandoffSkip('after-hit-same-tile')) {
+                        return true;
+                    }
                     if (!armCapableSkipLord('after-hit-same-tile')) {
                         sysEndPlayerTurn('after-hit-same-tile-end');
                     }
@@ -4407,7 +4416,18 @@
                     scheduleAfterHitSettle(400);
                     return true;
                 }
+                var missNo = null;
+                try { missNo = resolveNamedActor(actingActor()); } catch (eN2) { missNo = actingActor(); }
+                if (missNo && missNo.name) {
+                    markHandoffSkip(missNo, 'no-drop-aim');
+                }
                 leaveAimAndRearm('after-hit-no-drop');
+                if (pickNextAfterHandoffSkip('after-hit-no-drop')) {
+                    return true;
+                }
+                if (!armCapableSkipLord('after-hit-no-drop')) {
+                    sysEndPlayerTurn('after-hit-no-drop-end');
+                }
             } else if (aimCommitHolds() && !state.leavingAim) {
                 if (aimCommitAgeMs() < 1400) {
                     scheduleAfterHitSettle(400);
