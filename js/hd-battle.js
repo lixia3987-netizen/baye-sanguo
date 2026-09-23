@@ -6684,6 +6684,21 @@
                     x: otherOwn.x,
                     y: otherOwn.y
                 });
+            } else if ((state.lastHitAt || state.fightHitAt) && livingEnemies().length) {
+                var lordFoe = bestEnemyForApproach(pick) || nearestEnemyFrom(pick);
+                if (lordFoe && enemyIsLiving(lordFoe)) {
+                    state.pendingActPick = 0;
+                    setPendingApproach(lordFoe.x, lordFoe.y);
+                    console.log('[hd-battle] lord-approach', {
+                        via: 'pick-remaining',
+                        name: pick.name,
+                        dest: { name: lordFoe.name, x: lordFoe.x, y: lordFoe.y }
+                    });
+                } else {
+                    state.pendingActPick = 3;
+                    clearPendingApproach();
+                    console.log('[hd-battle] lord-hold', { name: pick.name, x: pick.x, y: pick.y, via: 'pick' });
+                }
             } else {
                 state.pendingActPick = 3;
                 clearPendingApproach();
