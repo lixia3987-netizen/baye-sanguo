@@ -3943,7 +3943,17 @@
             if (endTurnBrokeArmed() || nextUnitStalled()) {
                 return forceFinishWaitingOrEndTurn('after-hit-stall');
             }
-            return armNextWaitingOwn('after-attack-hit', { force: true });
+            var armedHit = armNextWaitingOwn('after-attack-hit', { force: true });
+            setTimeout(function () {
+                try {
+                    var fRetry = readFight();
+                    if (fRetry && Number(fRetry.phase) === 1 && fRetry.wait &&
+                        !enemyTurnQuiet(fRetry)) {
+                        clickWaitingOwn();
+                    }
+                } catch (eRetry) {}
+            }, 280);
+            return armedHit;
         }
         if (dropped || state.lastHitAt || state.fightHitAt) {
             var leftoverHit = firstWaitingOwn({ skipLord: true, includeStuck: true });
@@ -3955,7 +3965,17 @@
                     drop: !!dropped,
                     next: leftoverHit.name
                 });
-                return armNextWaitingOwn('after-attack-hit', { force: true });
+                var armedLeft = armNextWaitingOwn('after-attack-hit', { force: true });
+                setTimeout(function () {
+                    try {
+                        var fLeft = readFight();
+                        if (fLeft && Number(fLeft.phase) === 1 && fLeft.wait &&
+                            !enemyTurnQuiet(fLeft)) {
+                            clickWaitingOwn();
+                        }
+                    } catch (eLeft) {}
+                }, 280);
+                return armedLeft;
             }
             console.log('[hd-battle] after-hit-settle', {
                 phase: fight ? Number(fight.phase) : null,
@@ -5466,7 +5486,9 @@
         if (awaitingAim() || aimCommitHolds()) {
             return null;
         }
-        if (state.lastHitAt && Date.now() - state.lastHitAt < 500) {
+        /* 真伤后必须立刻点下一将。焦点还在敌军格时再等半秒会丢掉 after-hit 武装。 */
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 220 &&
+            !state.pendingPickUnit && !state.pendingApproach) {
             return null;
         }
         if (state.movedThisAct && adjacentEnemy(1) &&
