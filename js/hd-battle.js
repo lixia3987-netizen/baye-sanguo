@@ -173,6 +173,7 @@
         lastHpDrop: null,
         lastHitHpBefore: null,
         lastHitArmsBefore: null,
+        lastPhaseLeaveHoldLogAt: 0,
         lastHitTarget: null,
         sameTileHitN: 0,
         lastAttackClickAt: 0,
@@ -1909,6 +1910,13 @@
             gone: !!gone,
             drop: !!drop
         };
+        if (why === 'phase-leave-hold' && !drop &&
+            state.lastPhaseLeaveHoldLogAt && Date.now() - state.lastPhaseLeaveHoldLogAt < 400) {
+            return false;
+        }
+        if (why === 'phase-leave-hold') {
+            state.lastPhaseLeaveHoldLogAt = Date.now();
+        }
         console.log('[hd-battle] hit-hp ' + JSON.stringify({
             via: info.via,
             unit: info.unit,
@@ -3162,6 +3170,23 @@
         extra.ay = actor.y;
         extra.aimType = aimType;
         extra.inRng = inAtkRng(x, y) === true;
+        if (!extra.inRng) {
+            console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
+                via: extra.via || 'not-in-rng',
+                actor: actor.name,
+                ax: actor.x,
+                ay: actor.y,
+                unit: u && u.name,
+                x: x,
+                y: y,
+                aimType: aimType
+            }));
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'not-in-rng',
+                inRng: false, via: extra.via
+            };
+        }
         extra.hp = u && u.hp;
         extra.hpBefore = u && u.hp;
         extra.armsBefore = u && u.arms != null ? u.arms : peekPersonArms(u && u.id);
@@ -3249,8 +3274,19 @@
         if (state.pendingActPick === 0) {
             state.pendingActPick = null;
         }
-        var target = firstLegalAimEnemy() || adjacentEnemy(1);
+        var target = firstLegalAimEnemy();
         if (!target) {
+            var adjOnly = adjacentEnemy(1);
+            if (adjOnly && inAtkRng(adjOnly.x, adjOnly.y) === true) {
+                target = adjOnly;
+            }
+        }
+        if (!target) {
+            if (!atkRngReady()) {
+                console.log('[hd-battle] melee-wait', {
+                    why: why || 'auto-melee', reason: 'no-rng'
+                });
+            }
             return false;
         }
         var cur = null;
