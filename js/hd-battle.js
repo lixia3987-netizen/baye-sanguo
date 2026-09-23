@@ -5165,10 +5165,31 @@
         var skipFu = null;
         try { skipFu = focusedFightUnit(); } catch (eSk) { skipFu = null; }
         if (skipFu && isHandoffSkip(skipFu)) {
-            if (!state.lastHandoffSkipPickAt || Date.now() - state.lastHandoffSkipPickAt > 400) {
+            if (!state.lastHandoffSkipPickAt || Date.now() - state.lastHandoffSkipPickAt > 700) {
                 state.lastHandoffSkipPickAt = Date.now();
                 setTimeout(function () {
-                    try { pickNextAfterHandoffSkip('handoff-skip-focus'); } catch (eHs) {}
+                    try {
+                        var nextSkip = nearestActionableOwn({ skipLord: true, includeStuck: true }) ||
+                            firstWaitingOwn({ skipLord: true, includeStuck: true });
+                        if (nextSkip && (isHandoffSkip(nextSkip) || actorSpent(nextSkip) ||
+                            (skipFu.x === nextSkip.x && skipFu.y === nextSkip.y))) {
+                            nextSkip = firstWaitingOwn({ lordOnly: true }) ||
+                                nearestActionableOwn({ skipLord: false, includeStuck: true });
+                        }
+                        if (nextSkip && !isHandoffSkip(nextSkip) && !actorSpent(nextSkip)) {
+                            notePendingPick(nextSkip);
+                            noteActingUnit(nextSkip);
+                            clickBattleTile(nextSkip.x, nextSkip.y);
+                            console.log('[hd-battle] handoff-skip-click', {
+                                from: skipFu.name,
+                                to: nextSkip.name,
+                                x: nextSkip.x,
+                                y: nextSkip.y
+                            });
+                            return;
+                        }
+                        pickNextAfterHandoffSkip('handoff-skip-focus');
+                    } catch (eHs) {}
                 }, 0);
             }
             return 'handoff-skip';
@@ -7062,10 +7083,22 @@
         }
         var strikeOwn = adjacentWaitingStrike();
         var includeStuckPick = !!(state.lastHitAt || state.fightHitAt);
+        if (strikeOwn && strikeOwn.unit &&
+            (isHandoffSkip(strikeOwn.unit) || actorSpent(strikeOwn.unit))) {
+            strikeOwn = null;
+        }
         var pick = (strikeOwn && strikeOwn.unit) ||
             nearestActionableOwn({ skipLord: true, includeStuck: includeStuckPick }) ||
             firstWaitingOwn({ skipLord: true, includeStuck: includeStuckPick }) ||
             firstWaitingOwn({ lordOnly: true });
+        if (pick && (isHandoffSkip(pick) || actorSpent(pick))) {
+            pick = nearestActionableOwn({ skipLord: true, includeStuck: includeStuckPick }) ||
+                firstWaitingOwn({ skipLord: true, includeStuck: includeStuckPick }) ||
+                firstWaitingOwn({ lordOnly: true });
+        }
+        if (pick && (isHandoffSkip(pick) || actorSpent(pick))) {
+            pick = null;
+        }
         if (!pick) {
             return null;
         }
