@@ -1276,9 +1276,16 @@
                     foe = altFoe;
                     destKey = (curActor.name || '') + '>' + (altFoe.name || '') +
                         '@' + String(state.actedThisTurn || 0);
-                    state.nextUnitArmedKey = '';
-                    state.nextUnitArmedAt = 0;
+                    state.nextUnitArmedKey = destKey;
+                    state.nextUnitArmedAt = Date.now();
                     state.endTurnStallN = 0;
+                    state.pendingActPick = 0;
+                    setPendingApproach(altFoe.x, altFoe.y);
+                    notePendingPick(curActor);
+                    noteActingUnit(curActor);
+                    try { clickWaitingOwn(); } catch (eSw) {}
+                    scheduleDriveSoon(why || 'same-dest-switch', 160);
+                    return true;
                 } else {
                     markHandoffSkip(curActor, 'same-dest-2');
                     state.nextUnitArmedKey = '';
