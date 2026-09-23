@@ -153,6 +153,7 @@
         openedSysForEndTurn: false,
         sawMoveThisTurn: false,
         lastHitAt: 0,
+        fightHitAt: 0,
         lastHitActor: null,
         aimCommit: null,
         lastPickEnterAt: 0,
@@ -1031,7 +1032,7 @@
         state.forceEndTurnUntil = Date.now() + 6000;
         state.holdEndTurnUntil = 0;
         var tryMelee = !state.stallMeleeTried && !already &&
-            (adjacentEnemy(1) || adjacentWaitingStrike()) &&
+            killableAdjAlive() &&
             (liveActMenu() || hdActMenuVisible());
         console.log('[hd-battle] next-unit-stall-break', {
             via: 'stall-break',
@@ -1078,9 +1079,8 @@
             if (Number(fight.phase) === 2 || Number(fight.phase) === 3 || awaitingAim()) {
                 return;
             }
-            if (killableAdjAlive() ||
-                (!state.stallMeleeTried && (adjacentEnemy(1) || adjacentWaitingStrike()) &&
-                (liveActMenu() || hdActMenuVisible()))) {
+            if (killableAdjAlive() &&
+                (liveActMenu() || hdActMenuVisible() || !state.stallMeleeTried)) {
                 state.stallMeleeTried = true;
                 state.keepAttackEnterUntil = Date.now() + 900;
                 clearAdjMeleeThrottle('stall-break-melee');
@@ -1702,14 +1702,12 @@
     }
 
     function killableAdjAlive() {
-        if (adjacentWaitingStrike()) {
+        var waiting = adjacentWaitingStrike();
+        if (waiting && waiting.unit && waiting.unit.name && !actorSpent(waiting.unit)) {
             return true;
         }
-        if (movedActorAdjacentEnemy()) {
-            return true;
-        }
-        var e = adjacentEnemy(1);
-        return !!(e && enemyIsLiving(e));
+        var next = nearestNamedAdjAttacker(null);
+        return !!(next && next.name && !actorSpent(next));
     }
 
     function postHitAdjMeleeNeedsEnter() {
@@ -1850,11 +1848,17 @@
         if (!state.lastHitAt) {
             state.lastHitAt = Date.now();
         }
+        state.fightHitAt = state.lastHitAt;
         state.lastHpDropAt = Date.now();
         state.lastHpDrop = info || state.lastHpDrop;
         state.lastHitActor = state.actorAt
             ? { x: state.actorAt.x, y: state.actorAt.y, name: state.actorAt.name || '' }
             : state.lastHitActor;
+        if (state.pendingPickUnit && state.lastHitActor &&
+            state.pendingPickUnit === unitCapKey(state.lastHitActor)) {
+            state.pendingPickUnit = '';
+        }
+        state.movedThisAct = false;
         noteUnitActed('attack-hit');
         clearPickThrottle('attack-hit');
         console.log('[hd-battle] attack-hit', {
@@ -1942,6 +1946,10 @@
             }
             return true;
         }
+        /* 动画空隙 after==null：禁止把已经记下的真伤抹掉。 */
+        if (state.lastHitAt || state.fightHitAt || (state.aimCommit && state.aimCommit.hpDropped)) {
+            return true;
+        }
         if (state.aimCommit) {
             state.aimCommit.hpDropped = false;
         }
@@ -1998,13 +2006,12 @@
         var actor = actingActor();
         var e = actor && unitAdjacentEnemy(actor, 1);
         if (actor && actor.side !== 'enemy' && e && enemyIsLiving(e) &&
-            !sameTileHitCapped(e) &&
-            !(actor.active === 1)) {
+            !sameTileHitCapped(e) && !actorSpent(actor)) {
             return { unit: actor, enemy: e };
         }
         if (state.actorAt && state.actorAt.x != null) {
             var fromAt = resolveNamedActor(state.actorAt);
-            if (fromAt && fromAt.name) {
+            if (fromAt && fromAt.name && !actorSpent(fromAt)) {
                 var eAt = unitAdjacentEnemy(fromAt, 1);
                 if (eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
                     return { unit: fromAt, enemy: eAt };
@@ -2012,7 +2019,7 @@
             }
         }
         var fu = focusedFightUnit();
-        if (fu && fu.side === 'player' && fu.name) {
+        if (fu && fu.side === 'player' && fu.name && !actorSpent(fu)) {
             var eFu = unitAdjacentEnemy(fu, 1);
             if (eFu && enemyIsLiving(eFu) && !sameTileHitCapped(eFu)) {
                 return { unit: fu, enemy: eFu };
@@ -2152,14 +2159,14 @@
             if (!e || !enemyIsLiving(e)) {
                 continue;
             }
+            if (actorSpent(u) || !(u.active === 0 || u.active == null)) {
+                continue;
+            }
             if (state.adjRecoverGiveUpKey &&
                 String(state.adjRecoverGiveUpKey).indexOf(u.name + '@') === 0) {
                 continue;
             }
             var score = (hx != null && hy != null) ? chebyshev(u.x, u.y, hx, hy) : 0;
-            if (!(u.active === 0 || u.active == null)) {
-                score += 20;
-            }
             if (isLordUnit(u)) {
                 score += 5;
             }
@@ -2217,20 +2224,25 @@
     function namedAdjStrike(raw) {
         var strike = raw || liveAdjStrike() || adjacentWaitingStrike();
         var unit = resolveNamedActor(strike && strike.unit);
-        if (!unit || !unit.name || unit.active === 1) {
-            console.log('[hd-battle] nameless-actor-refuse', {
-                via: 'named-strike',
-                raw: strike && strike.unit ? {
-                    name: strike.unit.name || '',
-                    x: strike.unit.x,
-                    y: strike.unit.y
-                } : null,
-                actorAt: state.actorAt,
-                pending: state.pendingPickUnit || '',
-                focus: (function () {
-                    try { return syncFocusFromEngine(); } catch (eF) { return null; }
-                }())
-            });
+        if (actorSpent(unit)) {
+            unit = nearestNamedAdjAttacker(strike && strike.unit);
+        }
+        if (!unit || !unit.name || actorSpent(unit)) {
+            if (!state.lastNamelessRefuseAt || Date.now() - state.lastNamelessRefuseAt > 800) {
+                state.lastNamelessRefuseAt = Date.now();
+                console.log('[hd-battle] nameless-actor-refuse', {
+                    via: 'named-strike',
+                    raw: strike && strike.unit ? {
+                        name: strike.unit.name || '',
+                        x: strike.unit.x,
+                        y: strike.unit.y,
+                        active: strike.unit.active
+                    } : null,
+                    spent: !!(unit && actorSpent(unit)),
+                    actorAt: state.actorAt,
+                    pending: state.pendingPickUnit || ''
+                });
+            }
             return null;
         }
         var enemy = unitAdjacentEnemy(unit, 1) || (strike && strike.enemy);
@@ -3544,7 +3556,7 @@
         dropQueuedEnters();
         clearPhase1EnterCap('phase1-stuck-melee');
         clearPickThrottle('phase1-stuck-melee');
-        var adjNow = !!(adjacentEnemy(1) || adjacentWaitingStrike());
+        var adjNow = !!adjacentWaitingStrike();
         console.log('[hd-battle] phase1-enter-stuck', {
             via: 'no-state-change',
             unit: state.phase1EnterCapKey || unitCapKey(focusedFightUnit()),
@@ -3554,7 +3566,7 @@
             moved: !!state.movedThisAct,
             live: liveActMenu()
         });
-        /* 贴脸将禁止再对将自己格 ENTER。先恢复 phase0 菜单再 AIM。 */
+        /* 贴脸将禁止再对将自己格 ENTER。STA_END leftover 换下一未行动将。 */
         if (adjNow) {
             if (recoverAdjActThenAim('phase1-stuck-recover')) {
                 return;
@@ -3567,11 +3579,11 @@
         state.phase1EnterStuckHandled = true;
         var stuckKey = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
         markPhase1StuckUnit(stuckKey);
-        if (canCommitActMenu(fight) && adjacentEnemy(1)) {
+        if (canCommitActMenu(fight) && killableAdjAlive()) {
             pickFightMenu(0);
             return;
         }
-        if (hdActMenuVisible() && adjacentEnemy(1) && (state.movedThisAct || liveActMenu())) {
+        if (hdActMenuVisible() && killableAdjAlive() && (state.movedThisAct || liveActMenu())) {
             pickFightMenu(0);
             return;
         }
@@ -3622,7 +3634,33 @@
         preferRest('phase1-enter-stuck');
     }
 
+    /* STA_END 或本场已打出真伤的将：禁止再开 AIM / recover。 */
+    function actorSpent(u) {
+        if (!u) {
+            return false;
+        }
+        if (u.active === 1) {
+            return true;
+        }
+        if (!state.lastHitActor || !state.lastHitAt || !state.lastHpDropAt) {
+            return false;
+        }
+        if (state.lastHpDropAt < state.lastHitAt) {
+            return false;
+        }
+        if (Date.now() - state.lastHitAt > 20000) {
+            return false;
+        }
+        if (u.name && state.lastHitActor.name && u.name === state.lastHitActor.name) {
+            return true;
+        }
+        return u.x === state.lastHitActor.x && u.y === state.lastHitActor.y;
+    }
+
     function recentlyHitActor(u) {
+        if (actorSpent(u)) {
+            return true;
+        }
         if (!u || !state.lastHitActor || !state.lastHitAt) {
             return false;
         }
@@ -3632,11 +3670,8 @@
         if (u.x !== state.lastHitActor.x || u.y !== state.lastHitActor.y) {
             return false;
         }
-        /* 假 hit（没掉血）或贴脸敌军还活着：本将必须还能再打。 */
+        /* 假 hit（没掉血）：本将必须还能再打。真掉血后 actorSpent 已跳过。 */
         if (!state.lastHpDropAt || state.lastHpDropAt < state.lastHitAt) {
-            return false;
-        }
-        if (unitAdjacentEnemy(u, 1)) {
             return false;
         }
         return Date.now() - state.lastHitAt < 800;
@@ -3662,6 +3697,10 @@
             return false;
         }
         var dropped = verifyHitHpDrop('after-hit-settle');
+        if (!dropped && (state.lastHitAt || state.fightHitAt ||
+            (state.aimCommit && state.aimCommit.hpDropped))) {
+            dropped = true;
+        }
         if (fight && Number(fight.phase) === 3) {
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
             if (!dropped && aimCommitHolds() && !state.leavingAim) {
@@ -6983,6 +7022,23 @@
     }
 
     function prepareNewFight() {
+        var persistHit = !!(state.lastHitAt || state.fightHitAt);
+        var occupyHold = !!(state.occupyDone || state.occupyStarted || state.occupyPending);
+        var fightStill = false;
+        try { fightStill = fightReallyActive(); } catch (eLive) {}
+        /* 占领横幅 / 活战中途 reset 保住 lastHitAt。新出征 handoff 清上场命中。 */
+        if (persistHit && !occupyHold && !fightStill) {
+            persistHit = false;
+        }
+        var savedHit = persistHit ? {
+            lastHitAt: state.lastHitAt || state.fightHitAt || 0,
+            fightHitAt: state.fightHitAt || state.lastHitAt || 0,
+            lastHitActor: state.lastHitActor,
+            lastHpDropAt: state.lastHpDropAt,
+            lastHpDrop: state.lastHpDrop,
+            lastHitHpBefore: state.lastHitHpBefore,
+            lastHitTarget: state.lastHitTarget
+        } : null;
         stopOccupyDrain();
         state.resultCode = 0;
         state.resultText = '';
@@ -7018,12 +7074,23 @@
         state.playerTurnEnded = false;
         state.openedSysForEndTurn = false;
         state.sawMoveThisTurn = false;
-            state.lastHitAt = 0;
-            state.lastHitActor = null;
-            state.lastHpDropAt = 0;
-            state.lastHpDrop = null;
-            state.lastHitHpBefore = null;
-            state.lastHitTarget = null;
+            if (savedHit) {
+                state.lastHitAt = savedHit.lastHitAt;
+                state.fightHitAt = savedHit.fightHitAt;
+                state.lastHitActor = savedHit.lastHitActor;
+                state.lastHpDropAt = savedHit.lastHpDropAt;
+                state.lastHpDrop = savedHit.lastHpDrop;
+                state.lastHitHpBefore = savedHit.lastHitHpBefore;
+                state.lastHitTarget = savedHit.lastHitTarget;
+            } else {
+                state.lastHitAt = 0;
+                state.fightHitAt = 0;
+                state.lastHitActor = null;
+                state.lastHpDropAt = 0;
+                state.lastHpDrop = null;
+                state.lastHitHpBefore = null;
+                state.lastHitTarget = null;
+            }
             state.sameTileHitN = 0;
             state.lastAttackClickAt = 0;
             state.phase1AdjEnterHoldUntil = 0;
@@ -8562,7 +8629,8 @@
                 allowRetreatArmed: !!state.allowRetreatArmed,
                 sawMoveThisTurn: !!state.sawMoveThisTurn,
                 awaitingAim: awaitingAim(),
-                lastHitAt: state.lastHitAt || 0,
+                lastHitAt: state.lastHitAt || state.fightHitAt || 0,
+                fightHitAt: state.fightHitAt || 0,
                 lastHitActor: state.lastHitActor,
                 lastHpDropAt: state.lastHpDropAt || 0,
                 lastHpDrop: state.lastHpDrop,
