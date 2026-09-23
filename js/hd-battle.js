@@ -2783,6 +2783,14 @@
         if (why === 'phase-leave-hold') {
             state.lastPhaseLeaveHoldLogAt = Date.now();
         }
+        if (why === 'after-hit-settle' && !drop && after == null && armsAfter == null &&
+            state.lastAfterHitNullLogAt && Date.now() - state.lastAfterHitNullLogAt < 500) {
+            return !!(state.lastHitAt || state.fightHitAt ||
+                (state.aimCommit && state.aimCommit.hpDropped));
+        }
+        if (why === 'after-hit-settle' && after == null && armsAfter == null) {
+            state.lastAfterHitNullLogAt = Date.now();
+        }
         console.log('[hd-battle] hit-hp ' + JSON.stringify({
             via: info.via,
             unit: info.unit,
@@ -5049,6 +5057,15 @@
                     return true;
                 }
                 leaveAimAndRearm('after-hit-settle');
+            } else if (!aimCommitHolds() && !awaitingAim() && !state.pendingAimEnter &&
+                state.lastHitAt && Date.now() - state.lastHitAt > 1600 &&
+                (leftoverAim(fight) || aimAgeMs() > 2800)) {
+                console.log('[hd-battle] after-hit-leftover-aim', {
+                    unit: state.lastHitActor && state.lastHitActor.name,
+                    age: Date.now() - state.lastHitAt,
+                    leftover: leftoverAim(fight)
+                });
+                return restSkippedThenPickNext('after-hit-leftover-aim');
             }
             scheduleAfterHitSettle(400);
             return true;
@@ -5431,7 +5448,11 @@
                     Date.now() - state.lastLeftoverAimStuckRestAt < 900)) {
                 state.lastLeftoverAimStuckRestAt = Date.now();
                 setTimeout(function () {
-                    try { handleLeftoverAimAdj('leftover-aim-stuck'); } catch (eStuck) {}
+                    var handled = false;
+                    try { handled = handleLeftoverAimAdj('leftover-aim-stuck'); } catch (eStuck) {}
+                    if (!handled) {
+                        try { restSkippedThenPickNext('leftover-aim-stuck-empty'); } catch (eRs) {}
+                    }
                 }, 0);
             }
             return true;
