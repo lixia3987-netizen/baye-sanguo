@@ -4003,21 +4003,6 @@
         markPhase1StuckUnit(stuckKey);
         if (isHandoffSkip(stuckKey) ||
             (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2))) {
-            var stuckU = null;
-            try { stuckU = focusedFightUnit(); } catch (eSu) { stuckU = null; }
-            if (stuckU && !unitMeleeEnemy(stuckU) && !isHandoffSkip(stuckKey)) {
-                var stuckFoe = bestEnemyForApproach(stuckU) || nearestEnemyFrom(stuckU);
-                notePendingPick(stuckU);
-                noteActingUnit(stuckU);
-                if (stuckFoe) {
-                    setPendingApproach(stuckFoe.x, stuckFoe.y);
-                }
-                console.log('[hd-battle] phase1-enter-approach', {
-                    unit: stuckKey, dest: stuckFoe && stuckFoe.name
-                });
-                scheduleDriveSoon('phase1-enter-approach', 80);
-                return;
-            }
             markHandoffSkip(stuckKey, 'phase1-enter-2');
             dropQueuedEnters();
             if (!pickNextAfterHandoffSkip('phase1-enter-skip')) {
