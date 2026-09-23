@@ -1272,6 +1272,7 @@
             dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null,
             stall: state.endTurnStallN || 0
         });
+        try { clickWaitingOwn(); } catch (eC) {}
         scheduleDriveSoon(why || 'next-waiting-own', 220);
         return true;
     }
@@ -3911,6 +3912,27 @@
         return u.x === state.turnHitActor.x && u.y === state.turnHitActor.y;
     }
 
+    function clickNextAfterHit() {
+        var fight = null;
+        try { fight = readFight(); } catch (eF) {}
+        if (!fight || !fight.active || fight.over || state.resultText || enemyTurnQuiet(fight)) {
+            return false;
+        }
+        var phase = Number(fight.phase) || 0;
+        if (phase === 3 || awaitingAim()) {
+            return false;
+        }
+        if (phase === 0 && !fight.wait &&
+            (!state.lastLeftoverActExitAt || Date.now() - state.lastLeftoverActExitAt >= 900)) {
+            state.lastLeftoverActExitAt = Date.now();
+            dumpEnterSwallow('leftover-act-exit', { via: 'after-hit-next' });
+            enqueueKeys([VK.EXIT], 70);
+        }
+        try { clickWaitingOwn(); } catch (eC) {}
+        scheduleDriveSoon('after-hit-next', 80);
+        return true;
+    }
+
     function scheduleAfterHitSettle(ms) {
         if (state.afterHitTimer) {
             clearTimeout(state.afterHitTimer);
@@ -4033,13 +4055,7 @@
             }
             var armedHit = armNextWaitingOwn('after-attack-hit', { force: true });
             setTimeout(function () {
-                try {
-                    var fRetry = readFight();
-                    if (fRetry && Number(fRetry.phase) === 1 && fRetry.wait &&
-                        !enemyTurnQuiet(fRetry)) {
-                        clickWaitingOwn();
-                    }
-                } catch (eRetry) {}
+                try { clickNextAfterHit(); } catch (eRetry) {}
             }, 280);
             return armedHit;
         }
@@ -4056,13 +4072,7 @@
                 });
                 var armedLeft = armNextWaitingOwn('after-attack-hit', { force: true });
                 setTimeout(function () {
-                    try {
-                        var fLeft = readFight();
-                        if (fLeft && Number(fLeft.phase) === 1 && fLeft.wait &&
-                            !enemyTurnQuiet(fLeft)) {
-                            clickWaitingOwn();
-                        }
-                    } catch (eLeft) {}
+                    try { clickNextAfterHit(); } catch (eLeft) {}
                 }, 280);
                 return armedLeft;
             }
@@ -4635,10 +4645,13 @@
             if (!playerHasWaitingOwn()) {
                 return;
             }
-            if (state.lastHitAt && Date.now() - state.lastHitAt < 2200 &&
-                Number(fight && fight.phase) !== 3) {
+            if (state.lastHitAt && Number(fight && fight.phase) !== 3 &&
+                (firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
+                    Date.now() - state.lastHitAt < 2200)) {
                 logBlankWatchdog('after-hit-settle', fight);
                 settleAfterAttackHit();
+                try { clickNextAfterHit(); } catch (eN) {}
+                armBlankMenuWatchdog('after-hit-continue');
                 return;
             }
             if (menuPanelClickable()) {
