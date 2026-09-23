@@ -155,6 +155,7 @@
         lastHitAt: 0,
         fightHitAt: 0,
         lastHitActor: null,
+        turnHitActor: null,
         aimCommit: null,
         lastPickEnterAt: 0,
         holdPickUntil: 0,
@@ -1929,6 +1930,13 @@
                     name: state.aimCommit.actorName
                 }
                 : state.lastHitActor);
+        if (state.lastHitActor && state.lastHitActor.name) {
+            state.turnHitActor = {
+                x: state.lastHitActor.x,
+                y: state.lastHitActor.y,
+                name: state.lastHitActor.name
+            };
+        }
         if (state.pendingPickUnit && state.lastHitActor &&
             state.pendingPickUnit === unitCapKey(state.lastHitActor)) {
             state.pendingPickUnit = '';
@@ -3769,34 +3777,34 @@
             }
             return true;
         }
-        if (!state.lastHitActor || !(state.lastHitAt || state.fightHitAt)) {
+        if (!state.turnHitActor || !(state.lastHitAt || state.fightHitAt)) {
             return false;
         }
-        /* 本回合内 leftover 一直 spent。20s 过期会在 occupy 里把梁兴重新武装并卡死。 */
+        /* 只花本回合。lastHitActor 会 persist 到 occupy，不能用来 spent。 */
         if (!(state.lastHpDropAt || state.fightHitAt)) {
             return false;
         }
-        if (u.name && state.lastHitActor.name && u.name === state.lastHitActor.name) {
+        if (u.name && state.turnHitActor.name && u.name === state.turnHitActor.name) {
             return true;
         }
-        return u.x === state.lastHitActor.x && u.y === state.lastHitActor.y;
+        return u.x === state.turnHitActor.x && u.y === state.turnHitActor.y;
     }
 
     function recentlyHitActor(u) {
         if (actorSpent(u)) {
             return true;
         }
-        if (!u || !state.lastHitActor || !(state.lastHitAt || state.fightHitAt)) {
+        if (!u || !state.turnHitActor || !(state.lastHitAt || state.fightHitAt)) {
             return false;
         }
         /* 假 hit（没掉血）：本将必须还能再打。真掉血后按名字跳过，贴脸也不得再武装。 */
         if (!(state.lastHpDropAt || state.fightHitAt)) {
             return false;
         }
-        if (u.name && state.lastHitActor.name && u.name === state.lastHitActor.name) {
+        if (u.name && state.turnHitActor.name && u.name === state.turnHitActor.name) {
             return true;
         }
-        return u.x === state.lastHitActor.x && u.y === state.lastHitActor.y;
+        return u.x === state.turnHitActor.x && u.y === state.turnHitActor.y;
     }
 
     function scheduleAfterHitSettle(ms) {
@@ -4003,6 +4011,7 @@
     function noteEnemyTurnQuiet(why, fight) {
         dropQueuedEnters();
         clearPendingApproach();
+        state.turnHitActor = null;
         if (state.pendingActPick === 0) {
             state.pendingActPick = null;
         }
@@ -4066,7 +4075,7 @@
             state.lastMenuCommitEnterAt = 0;
             clearPhase1StuckUnits('new-player-turn');
             clearPhase1EnterCap('new-player-turn');
-            state.lastHitActor = null;
+            state.turnHitActor = null;
             state.lastHpDropAt = 0;
             state.lastHpDrop = null;
             state.lastHitHpBefore = null;
