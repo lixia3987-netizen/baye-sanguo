@@ -1767,7 +1767,8 @@
             after = target.hp;
         }
         var hadTarget = !!(rec.name || rec.x != null || (state.lastHitTarget && state.lastHitTarget.name));
-        var gone = !!(hadTarget && !target && (after == null || Number(after) <= 0));
+        /* after==null 且单位表暂时采不到：禁止当成击杀，否则 phase-leave 会假 lastHitAt。 */
+        var gone = !!(hadTarget && !target && after != null && Number(after) <= 0);
         var drop = gone || (before != null && after != null && Number(after) < Number(before));
         var info = {
             via: why || 'verify',
@@ -2912,6 +2913,16 @@
         if (fight && Number(fight.phase) === 3) {
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
             if (!dropped && aimCommitHolds() && !state.leavingAim) {
+                if ((state.sameTileHitN || 0) >= 3) {
+                    console.log('[hd-battle] after-hit-same-tile', {
+                        n: state.sameTileHitN, unit: state.aimCommit && state.aimCommit.name
+                    });
+                    leaveAimAndRearm('after-hit-same-tile');
+                    if (!armCapableSkipLord('after-hit-same-tile')) {
+                        sysEndPlayerTurn('after-hit-same-tile-end');
+                    }
+                    return true;
+                }
                 if (state.aimCommit && !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400) {
                     console.log('[hd-battle] aim-second-enter', {
                         why: 'no-hp-drop',
