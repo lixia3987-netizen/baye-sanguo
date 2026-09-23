@@ -1801,7 +1801,12 @@
         var before = rec.hpBefore != null ? rec.hpBefore : state.lastHitHpBefore;
         var target = findHitTarget(rec);
         var after = peekEnemyHp(rec);
-        if (after == null && target) {
+        if (after == null) {
+            try { sampleFight(); } catch (eSamp) {}
+            after = peekEnemyHp(rec);
+            target = findHitTarget(rec) || target;
+        }
+        if (after == null && target && target.hp != null) {
             after = target.hp;
         }
         var hadTarget = !!(rec.name || rec.x != null || (state.lastHitTarget && state.lastHitTarget.name));
@@ -1818,16 +1823,16 @@
             gone: !!gone,
             drop: !!drop
         };
-        console.log('[hd-battle] hit-hp', {
+        console.log('[hd-battle] hit-hp ' + JSON.stringify({
             via: info.via,
             unit: info.unit,
             x: info.x,
             y: info.y,
             before: info.before,
-            after: info.after == null ? 'null' : info.after,
-            gone: info.gone ? 1 : 0,
-            drop: info.drop ? 1 : 0
-        });
+            after: info.after,
+            gone: !!info.gone,
+            drop: !!info.drop
+        }));
         if (drop) {
             if (state.aimCommit) {
                 state.aimCommit.hpDropped = true;
