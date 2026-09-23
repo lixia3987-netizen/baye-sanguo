@@ -6117,6 +6117,7 @@
         var u;
         var foe;
         var adj;
+        var hitFresh = !!(state.lastHitAt || state.fightHitAt);
         for (i = 0; i < state.units.length; i++) {
             u = state.units[i];
             if (!u || u.side !== 'player' || u.x == null || u.y == null) {
@@ -6134,6 +6135,10 @@
             adj = unitMeleeEnemy(u);
             if (adj && enemyIsLiving(adj)) {
                 return u;
+            }
+            /* 开战走近：君主不挡结束回合。真伤后君主可贴脸或走近剩下的敌。 */
+            if (isLordUnit(u) && !hitFresh) {
+                continue;
             }
             foe = bestEnemyForApproach(u) || nearestEnemyFrom(u);
             if (foe && enemyIsLiving(foe) &&
