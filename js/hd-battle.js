@@ -1285,6 +1285,7 @@
                         '@' + String(state.actedThisTurn || 0);
                     state.nextUnitArmedKey = destKey;
                     state.nextUnitArmedAt = Date.now();
+                    state.lastArmNextAt = Date.now();
                     state.endTurnStallN = 0;
                     state.pendingActPick = 0;
                     setPendingApproach(altFoe.x, altFoe.y);
