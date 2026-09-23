@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923b';
+    var HD_BATTLE_VER = '20260923c';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -219,7 +219,8 @@
         forceEndTurnUntil: 0,
         endTurnBrokeN: 0,
         stallMeleeTried: false,
-        approachedThisAct: false
+        approachedThisAct: false,
+        lordHoldRestN: 0
     };
 
     function readStorage(key, fallback) {
@@ -1188,6 +1189,17 @@
             return true;
         }
         if (nextLord && !adjacentEnemy(1)) {
+            /* 还有能走近的副将时禁止落到君主待机环。 */
+            var stillOther = firstWaitingOwn({ skipLord: true });
+            if (stillOther) {
+                nextOther = stillOther;
+                nextLord = null;
+            }
+        }
+        if (nextLord && !adjacentEnemy(1) && !nextOther) {
+            if ((state.actedThisTurn || 0) >= 1 || state.lastHitAt || state.adjRecoverGiveUpKey) {
+                return sysEndPlayerTurn(why || 'next-lord-end');
+            }
             state.pendingActPick = 3;
             clearPendingApproach();
             noteNextUnitArm(why || 'after-rest', state.actedThisTurn || 0, destKey);
@@ -1243,6 +1255,10 @@
         try { fight = readFight(); } catch (eA) {}
         var phase = Number(fight && fight.phase) || 0;
         if (phase === 3 && state.actorAt && state.actorAt.x != null) {
+            return state.actorAt;
+        }
+        /* 刚走完格：用落点，勿用 waitingOwn（焦点常跳回君主马腾，会把贴脸误判成超距）。 */
+        if (state.movedThisAct && state.actorAt && state.actorAt.x != null) {
             return state.actorAt;
         }
         var own = waitingOwnUnit();
@@ -1481,6 +1497,120 @@
         return true;
     }
 
+    function nearestEnemyFrom(actor) {
+        actor = actor || actingActor();
+        var best = null;
+        var bestD = 99;
+        var i;
+        if (!actor || actor.x == null || actor.y == null) {
+            return null;
+        }
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (!enemyIsLiving(u)) {
+                continue;
+            }
+            var d = chebyshev(actor.x, actor.y, u.x, u.y);
+            if (!best || d < bestD) {
+                best = u;
+                bestD = d;
+            }
+        }
+        return best;
+    }
+
+    function unitCanReachEnemy(u) {
+        if (!u || u.x == null || u.y == null) {
+            return false;
+        }
+        if (unitAdjacentEnemy(u, 1)) {
+            return true;
+        }
+        var foe = nearestEnemyFrom(u);
+        if (!foe) {
+            return false;
+        }
+        return chebyshev(u.x, u.y, foe.x, foe.y) <= 8;
+    }
+
+    function movedActorUnit() {
+        if (!state.actorAt || state.actorAt.x == null || state.actorAt.y == null) {
+            return null;
+        }
+        var i;
+        var byName = null;
+        for (i = 0; i < state.units.length; i++) {
+            var rec = state.units[i];
+            if (!rec || rec.side !== 'player') {
+                continue;
+            }
+            if (state.actorAt.name && rec.name === state.actorAt.name) {
+                byName = rec;
+                break;
+            }
+        }
+        if (byName) {
+            if (!(byName.active === 0 || byName.active == null)) {
+                return null;
+            }
+            return byName;
+        }
+        var u = unitAt(state.actorAt.x, state.actorAt.y);
+        if (u && u.side === 'player') {
+            if (!(u.active === 0 || u.active == null)) {
+                return null;
+            }
+            return u;
+        }
+        return {
+            x: state.actorAt.x,
+            y: state.actorAt.y,
+            name: state.actorAt.name || '',
+            side: 'player',
+            active: 0
+        };
+    }
+
+    function movedActorAdjacentEnemy() {
+        var actor = movedActorUnit();
+        if (!actor) {
+            return null;
+        }
+        var e = unitAdjacentEnemy(actor, 1);
+        return (e && enemyIsLiving(e)) ? e : null;
+    }
+
+    function aimOrMeleeMovedActor(why) {
+        var enemy = movedActorAdjacentEnemy();
+        var actor = movedActorUnit();
+        if (!enemy || !actor) {
+            return false;
+        }
+        var strike = { unit: actor, enemy: enemy };
+        state.pendingActPick = 0;
+        noteActingUnit(actor);
+        notePendingPick(actor);
+        console.log('[hd-battle] after-walk-aim', {
+            via: why || 'after-walk',
+            unit: actor.name,
+            ux: actor.x,
+            uy: actor.y,
+            enemy: enemy.name,
+            ex: enemy.x,
+            ey: enemy.y
+        });
+        if (openAimFromActMenu(why || 'after-walk-aim', strike)) {
+            return true;
+        }
+        if (commitAdjacentMelee(why || 'after-walk-melee')) {
+            return true;
+        }
+        return false;
+    }
+
     function findHitTarget(rec) {
         rec = rec || state.lastHitTarget || (state.aimCommit ? {
             name: state.aimCommit.name, x: state.aimCommit.x, y: state.aimCommit.y
@@ -1517,6 +1647,9 @@
 
     function killableAdjAlive() {
         if (adjacentWaitingStrike()) {
+            return true;
+        }
+        if (movedActorAdjacentEnemy()) {
             return true;
         }
         var e = adjacentEnemy(1);
@@ -1670,6 +1803,14 @@
     function adjacentWaitingStrike() {
         var i;
         var lordStrike = null;
+        if (state.movedThisAct) {
+            var moved = movedActorUnit();
+            var movedE = moved && unitAdjacentEnemy(moved, 1);
+            if (moved && movedE && enemyIsLiving(movedE) &&
+                !(state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(moved))) {
+                return { unit: moved, enemy: movedE };
+            }
+        }
         for (i = 0; i < state.units.length; i++) {
             var u = state.units[i];
             if (!u || u.side !== 'player' || u.x == null || u.y == null) {
@@ -1771,8 +1912,34 @@
         state.adjRecoverPickSent = false;
         state.nextUnitArmedKey = '';
         state.lastArmNextAt = 0;
-        armNextWaitingOwn('adj-recover-give-up', { force: true });
+        pickNextCapableAfterGiveUp('adj-recover-give-up');
         return false;
+    }
+
+    function pickNextCapableAfterGiveUp(why) {
+        var strike = adjacentWaitingStrike();
+        var next = (strike && strike.unit) || firstWaitingOwn({ skipLord: true });
+        if (!next) {
+            return armNextWaitingOwn(why || 'adj-recover-give-up', { force: true });
+        }
+        notePendingPick(next);
+        noteActingUnit(next);
+        state.pendingActPick = 0;
+        var foe = (strike && strike.enemy) || unitAdjacentEnemy(next, 1) || nearestEnemyFrom(next);
+        if (foe) {
+            setPendingApproach(foe.x, foe.y);
+        }
+        console.log('[hd-battle] next-unit', {
+            via: why || 'adj-recover-give-up',
+            name: next.name,
+            x: next.x,
+            y: next.y,
+            dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null,
+            acted: state.actedThisTurn
+        });
+        try { clickWaitingOwn(); } catch (eClick) {}
+        scheduleDriveSoon(why || 'adj-recover-give-up', 80);
+        return true;
     }
 
     /* phase=0 wait=false + 攻击高亮 + 贴脸：ENTER 开 AIM，再走到敌军格打真伤。
@@ -2675,7 +2842,17 @@
         }
         var nextOther = firstWaitingOwn({ skipLord: true });
         var nextLord = firstWaitingOwn({ lordOnly: true });
-        if (nextOther || nextLord) {
+        if (nextOther) {
+            clearPendingApproach();
+            clearPhase1EnterCap('phase1-stuck-next');
+            pickNextCapableAfterGiveUp('phase1-enter-stuck');
+            return;
+        }
+        if (nextLord) {
+            if ((state.actedThisTurn || 0) >= 1 || state.lastHitAt || state.adjRecoverGiveUpKey) {
+                sysEndPlayerTurn('phase1-enter-stuck-end');
+                return;
+            }
             clearPendingApproach();
             clearPhase1EnterCap('phase1-stuck-next');
             armNextWaitingOwn('phase1-enter-stuck', { force: true });
@@ -2955,6 +3132,7 @@
             state.pendingPickUnit = '';
             state.lastAdjMeleeAt = 0;
             state.lastPickWalkAt = 0;
+            state.lordHoldRestN = 0;
             console.log('[hd-battle] act-reset', { via: 'new-player-turn', phase: phase });
             maybePickOtherOnOpen();
         }
@@ -3555,11 +3733,15 @@
                 return;
             }
             state.leavingAim = false;
-            if (/after-approach/.test(why || '') && (adjacentEnemy(1) || adjacentWaitingStrike())) {
+            if (/after-approach/.test(why || '') &&
+                (adjacentEnemy(1) || adjacentWaitingStrike() || movedActorAdjacentEnemy())) {
                 state.pendingActPick = 0;
                 console.log('[hd-battle] after-approach-melee', {
-                    actor: state.actorAt, enemy: adjacentEnemy(1)
+                    actor: state.actorAt, enemy: adjacentEnemy(1) || movedActorAdjacentEnemy()
                 });
+                if (aimOrMeleeMovedActor('after-approach-melee')) {
+                    return;
+                }
                 forceShowFightMenu('after-approach-melee');
                 if (commitAdjacentMelee('after-approach-melee')) {
                     return;
@@ -3758,14 +3940,131 @@
         return true;
     }
 
+    function sysEndPlayerTurn(why) {
+        if (!fightReallyActive() || state.resultText || state.playerTurnEnded || recentlyEndedTurn()) {
+            return false;
+        }
+        if (adjacentWaitingStrike() && commitAdjacentMelee('end-turn-last-melee')) {
+            return true;
+        }
+        if (movedActorAdjacentEnemy() && aimOrMeleeMovedActor('end-turn-last-aim')) {
+            return true;
+        }
+        dropQueuedEnters();
+        dropQueuedKeys();
+        clearPendingApproach();
+        state.pendingActPick = 3;
+        state.holdEndTurnUntil = 0;
+        state.lastRestCommitAt = 0;
+        state.forceEndTurnUntil = Date.now() + 8000;
+        state.endTurnAt = Date.now();
+        state.openedSysForEndTurn = true;
+        state.allowEndTurnEnter = false;
+        state.lordHoldRestN = (state.lordHoldRestN || 0) + 1;
+        try { installSysMenuHook(); } catch (eHook) {}
+        enqueueKeys([VK.EXIT], 70);
+        console.log('[hd-battle] sys-end-turn', {
+            via: why || 'sys',
+            acted: state.actedThisTurn,
+            waiting: playerHasWaitingOwn(),
+            giveUp: !!state.adjRecoverGiveUpKey,
+            lordHoldN: state.lordHoldRestN,
+            hit: !!state.lastHitAt
+        });
+        setTimeout(function () {
+            if (state.playerTurnEnded || !state.openedSysForEndTurn) {
+                return;
+            }
+            enqueueKeys([VK.EXIT], 70);
+            console.log('[hd-battle] rest-commit', { via: 'end-turn-exit-retry' });
+        }, 400);
+        return true;
+    }
+
+    function lordHoldRestOrEndTurn(why) {
+        var strikeDef = adjacentWaitingStrike();
+        var other = (strikeDef && strikeDef.unit) || firstWaitingOwn({ skipLord: true });
+        if (other) {
+            notePendingPick(other);
+            noteActingUnit(other);
+            state.pendingActPick = 0;
+            var foe = (strikeDef && strikeDef.enemy) || unitAdjacentEnemy(other, 1) ||
+                nearestEnemyFrom(other);
+            if (foe) {
+                setPendingApproach(foe.x, foe.y);
+            }
+            console.log('[hd-battle] lord-hold', {
+                via: (why || 'lord-hold') + '-pick-other',
+                to: other.name,
+                x: other.x,
+                y: other.y,
+                dest: foe ? { name: foe.name, x: foe.x, y: foe.y } : null
+            });
+            try { clickWaitingOwn(); } catch (eP) {}
+            scheduleDriveSoon('lord-hold-pick-other', 80);
+            return true;
+        }
+        var fightNow = null;
+        try { fightNow = readFight(); } catch (eF) {}
+        var phaseNow = Number(fightNow && fightNow.phase) || 0;
+        var othersActed = (state.actedThisTurn || 0) >= 1 || !!state.lastHitAt ||
+            !!state.adjRecoverGiveUpKey;
+        if (state.openedSysForEndTurn || forceEndTurnArmed() || (state.lordHoldRestN || 0) >= 1) {
+            return sysEndPlayerTurn(why || 'lord-hold-repeat');
+        }
+        if (phaseNow === 1 && fightNow && fightNow.wait) {
+            if (othersActed) {
+                return sysEndPlayerTurn(why || 'lord-hold-phase1');
+            }
+            console.log('[hd-battle] rest-skip', {
+                via: why || 'lord-hold', why: 'phase1-wait-noop'
+            });
+            return sysEndPlayerTurn(why || 'lord-hold-phase1');
+        }
+        if (liveActMenu() && phaseNow === 0 && fightNow && !fightNow.wait) {
+            state.lordHoldRestN = (state.lordHoldRestN || 0) + 1;
+            return false;
+        }
+        if (othersActed) {
+            return sysEndPlayerTurn(why || 'lord-hold-end');
+        }
+        return false;
+    }
+
     function preferRest(why) {
         if (killableAdjAlive() &&
-            /stall-break-rest|act-commit|approach-nowait|after-hit|end-player-turn-stall|phase1-enter-stuck/.test(why || '')) {
+            /stall-break-rest|act-commit|approach-nowait|after-hit|end-player-turn-stall|phase1-enter-stuck|lord-hold|attack-after-short-walk/.test(why || '')) {
             console.log('[hd-battle] rest-blocked', { via: why || 'prefer-rest', why: 'adj-enemy-alive' });
             clearAdjMeleeThrottle('rest-blocked-adj');
             if (commitAdjacentMelee('rest-blocked-adj')) {
                 return;
             }
+            if (aimOrMeleeMovedActor('rest-blocked-moved')) {
+                return;
+            }
+        }
+        if (/attack-after-short-walk|approach-nowait-after-walk|after-approach/.test(why || '')) {
+            if (aimOrMeleeMovedActor(why || 'after-walk-aim')) {
+                return;
+            }
+        }
+        if (/lord-hold/.test(why || '')) {
+            if (lordHoldRestOrEndTurn(why)) {
+                return;
+            }
+        }
+        var fightRest = null;
+        try { fightRest = readFight(); } catch (eR) {}
+        var phase1Wait = !!(fightRest && Number(fightRest.phase) === 1 && fightRest.wait);
+        if (phase1Wait) {
+            console.log('[hd-battle] rest-skip', {
+                via: why || 'prefer-rest', why: 'phase1-wait-noop'
+            });
+            if (/lord-hold/.test(why || '') || (state.actedThisTurn || 0) >= 1 ||
+                state.lastHitAt || state.adjRecoverGiveUpKey) {
+                sysEndPlayerTurn(why || 'phase1-rest-end');
+            }
+            return;
         }
         clearPendingApproach();
         state.pendingActPick = 3;
@@ -4050,9 +4349,25 @@
             clearMovedThisAct('pick-next-general');
         }
         if (isLordUnit(pick) && !adjacentEnemy(1) && !strikeOwn) {
-            state.pendingActPick = 3;
-            clearPendingApproach();
-            console.log('[hd-battle] lord-hold', { name: pick.name, x: pick.x, y: pick.y, via: 'pick' });
+            var otherOwn = firstWaitingOwn({ skipLord: true });
+            if (otherOwn) {
+                pick = otherOwn;
+                state.pendingActPick = 0;
+                var otherFoe = unitAdjacentEnemy(otherOwn, 1) || nearestEnemyFrom(otherOwn);
+                if (otherFoe) {
+                    setPendingApproach(otherFoe.x, otherFoe.y);
+                }
+                console.log('[hd-battle] lord-hold', {
+                    via: 'pick-skip-to-other',
+                    to: otherOwn.name,
+                    x: otherOwn.x,
+                    y: otherOwn.y
+                });
+            } else {
+                state.pendingActPick = 3;
+                clearPendingApproach();
+                console.log('[hd-battle] lord-hold', { name: pick.name, x: pick.x, y: pick.y, via: 'pick' });
+            }
         }
         notePendingPick(pick);
         noteActingUnit(pick);
@@ -4084,7 +4399,8 @@
             if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
                 continue;
             }
-            if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1)) {
+            /* 卡住但还能走近敌军的副将（梁兴）必须还能被选，禁止因此落到君主。 */
+            if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1) && !unitCanReachEnemy(u)) {
                 continue;
             }
             return u;
@@ -4363,22 +4679,7 @@
     }
 
     function nearestEnemy() {
-        var actor = actingActor();
-        var best = null;
-        var bestD = 99;
-        var i;
-        for (i = 0; i < state.units.length; i++) {
-            var u = state.units[i];
-            if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
-                continue;
-            }
-            var d = chebyshev(actor.x, actor.y, u.x, u.y);
-            if (!best || d < bestD) {
-                best = u;
-                bestD = d;
-            }
-        }
-        return best;
+        return nearestEnemyFrom(actingActor());
     }
 
     function driveApproach() {
@@ -4420,6 +4721,9 @@
                 return true;
             }
             if ((state.movedThisAct || state.sawMoveThisTurn) && state.pendingApproach) {
+                if (aimOrMeleeMovedActor('approach-nowait-after-walk')) {
+                    return true;
+                }
                 clearPendingApproach();
                 preferRest('approach-nowait-after-walk');
                 return true;
@@ -4794,6 +5098,9 @@
                 var alreadyMoved = !!(state.movedThisAct ||
                     (state.sawMoveThisTurn && fightAtk && !fightAtk.wait));
                 if (alreadyMoved) {
+                    if (aimOrMeleeMovedActor('attack-after-short-walk')) {
+                        return;
+                    }
                     preferRest('attack-after-short-walk');
                     return;
                 }
@@ -4845,6 +5152,11 @@
                     return;
                 }
                 if (actingLordUnit() && !adjacentEnemy(1)) {
+                    if (state.openedSysForEndTurn || forceEndTurnArmed() ||
+                        (state.lordHoldRestN || 0) >= 1) {
+                        sysEndPlayerTurn('lord-hold-attack-repeat');
+                        return;
+                    }
                     if (deferLordToOther('lord-hold-attack')) {
                         return;
                     }
@@ -4883,6 +5195,12 @@
                         return;
                     }
                     preferRest('lord-hold');
+                    return;
+                }
+                if (actingLordUnit() && (state.openedSysForEndTurn || forceEndTurnArmed() ||
+                    (state.lordHoldRestN || 0) >= 1 || state.lastHitAt ||
+                    state.adjRecoverGiveUpKey)) {
+                    sysEndPlayerTurn('lord-hold-attack-commit');
                     return;
                 }
                 var foeHold = nearestEnemy();
@@ -5850,6 +6168,7 @@
         state.actCommitAt = 0;
         state.allowRetreatArmed = false;
         state.lastRestCommitAt = 0;
+        state.lordHoldRestN = 0;
         state.actorAt = null;
         state.awaitingAimUntil = 0;
         state.endTurnAt = 0;
@@ -7399,6 +7718,7 @@
                     return lu ? { i: lu.i, name: lu.name, x: lu.x, y: lu.y, hp: lu.hp } : null;
                 }()),
                 lordHold: !!(actingLordUnit() && !adjacentEnemy(1)),
+                lordHoldRestN: state.lordHoldRestN || 0,
                 pendingPickUnit: state.pendingPickUnit || '',
                 lastAdjMeleeAt: state.lastAdjMeleeAt || 0,
                 strike: (function () {
