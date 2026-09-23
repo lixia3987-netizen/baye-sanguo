@@ -1290,7 +1290,6 @@
                     setPendingApproach(altFoe.x, altFoe.y);
                     notePendingPick(curActor);
                     noteActingUnit(curActor);
-                    try { clickWaitingOwn(); } catch (eSw) {}
                     scheduleDriveSoon(why || 'same-dest-switch', 160);
                     return true;
                 } else {
