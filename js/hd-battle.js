@@ -156,6 +156,7 @@
         fightHitAt: 0,
         lastHitActor: null,
         turnHitActor: null,
+        turnHitActors: {},
         aimCommit: null,
         lastPickEnterAt: 0,
         holdPickUntil: 0,
@@ -2700,6 +2701,10 @@
                 y: state.lastHitActor.y,
                 name: state.lastHitActor.name
             };
+            if (!state.turnHitActors) {
+                state.turnHitActors = {};
+            }
+            state.turnHitActors[state.lastHitActor.name] = Date.now();
         }
         /* 真伤后清 give-up/stuck：杨秋等仍 STA_WAIT 的副将必须再走近/AIM。 */
         state.adjRecoverGiveUpKey = '';
@@ -4849,34 +4854,44 @@
             }
             return true;
         }
-        if (!state.turnHitActor || !(state.lastHitAt || state.fightHitAt)) {
+        if (!(state.lastHitAt || state.fightHitAt)) {
             return false;
         }
         /* 只花本回合。lastHitActor 会 persist 到 occupy，不能用来 spent。 */
         if (!(state.lastHpDropAt || state.fightHitAt)) {
             return false;
         }
-        if (u.name && state.turnHitActor.name && u.name === state.turnHitActor.name) {
+        if (u.name && state.turnHitActors && state.turnHitActors[u.name]) {
             return true;
         }
-        return u.x === state.turnHitActor.x && u.y === state.turnHitActor.y;
+        if (u.name && state.turnHitActor && state.turnHitActor.name &&
+            u.name === state.turnHitActor.name) {
+            return true;
+        }
+        return !!(state.turnHitActor &&
+            u.x === state.turnHitActor.x && u.y === state.turnHitActor.y);
     }
 
     function recentlyHitActor(u) {
         if (actorSpent(u)) {
             return true;
         }
-        if (!u || !state.turnHitActor || !(state.lastHitAt || state.fightHitAt)) {
+        if (!u || !(state.lastHitAt || state.fightHitAt)) {
             return false;
         }
         /* 假 hit（没掉血）：本将必须还能再打。真掉血后按名字跳过，贴脸也不得再武装。 */
         if (!(state.lastHpDropAt || state.fightHitAt)) {
             return false;
         }
-        if (u.name && state.turnHitActor.name && u.name === state.turnHitActor.name) {
+        if (u.name && state.turnHitActors && state.turnHitActors[u.name]) {
             return true;
         }
-        return u.x === state.turnHitActor.x && u.y === state.turnHitActor.y;
+        if (u.name && state.turnHitActor && state.turnHitActor.name &&
+            u.name === state.turnHitActor.name) {
+            return true;
+        }
+        return !!(state.turnHitActor &&
+            u.x === state.turnHitActor.x && u.y === state.turnHitActor.y);
     }
 
     function clickNextAfterHit() {
@@ -5218,6 +5233,7 @@
         dropQueuedEnters();
         clearPendingApproach();
         state.turnHitActor = null;
+        state.turnHitActors = {};
         if (state.pendingActPick === 0) {
             state.pendingActPick = null;
         }
@@ -5284,6 +5300,7 @@
             clearPhase1StuckUnits('new-player-turn');
             clearPhase1EnterCap('new-player-turn');
             state.turnHitActor = null;
+            state.turnHitActors = {};
             state.lastHpDropAt = 0;
             state.lastHpDrop = null;
             state.lastHitHpBefore = null;
@@ -9239,6 +9256,8 @@
                 state.lastWoundedEnemy = null;
             }
             state.sameTileHitN = 0;
+            state.turnHitActor = null;
+            state.turnHitActors = {};
             state.lastAttackClickAt = 0;
             state.phase1AdjEnterHoldUntil = 0;
             state.aimCommit = null;
@@ -10823,6 +10842,7 @@
                 adjRecoverStage: state.adjRecoverStage || '',
                 adjRecoverGiveUpKey: state.adjRecoverGiveUpKey || '',
                 turnHitActor: state.turnHitActor,
+                turnHitActors: state.turnHitActors || {},
                 aimCommit: state.aimCommit,
                 lastPickEnterAt: state.lastPickEnterAt || 0,
                 holdPickUntil: state.holdPickUntil || 0,
