@@ -959,7 +959,7 @@
     }
 
     function nextUnitStalled() {
-        if (state.lastHitAt && Date.now() - state.lastHitAt < 5000) {
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 12000) {
             return false;
         }
         return (state.endTurnStallN || 0) >= 3;
@@ -1050,8 +1050,8 @@
             }
             return false;
         }
-        /* 真伤后 5s 内禁止 stall-break：after-hit 连武装同一 dest 不是死循环。 */
-        if (Date.now() - state.lastHitAt < 5000) {
+        /* 真伤后 12s 内禁止 stall-break：下一将走近中。 */
+        if (Date.now() - state.lastHitAt < 12000) {
             if (!state.lastStallHoldLogAt || Date.now() - state.lastStallHoldLogAt > 1600) {
                 state.lastStallHoldLogAt = Date.now();
                 console.log('[hd-battle] next-unit-stall-hold', {
@@ -3919,7 +3919,7 @@
             return false;
         }
         var phase = Number(fight.phase) || 0;
-        if (phase === 3 || awaitingAim()) {
+        if (phase === 2 || phase === 3 || awaitingAim()) {
             return false;
         }
         if (phase === 0 && !fight.wait &&
@@ -3956,6 +3956,9 @@
         if (!dropped && (state.lastHitAt || state.fightHitAt ||
             (state.aimCommit && state.aimCommit.hpDropped))) {
             dropped = true;
+        }
+        if (fight && Number(fight.phase) === 2) {
+            return false;
         }
         if (fight && Number(fight.phase) === 3) {
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
@@ -4643,6 +4646,10 @@
                 return;
             }
             if (!playerHasWaitingOwn()) {
+                return;
+            }
+            if (state.lastHitAt && Number(fight && fight.phase) === 2) {
+                armBlankMenuWatchdog('after-hit-phase2');
                 return;
             }
             if (state.lastHitAt && Number(fight && fight.phase) !== 3 &&
