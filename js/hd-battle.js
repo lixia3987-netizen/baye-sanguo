@@ -5165,6 +5165,12 @@
         var skipFu = null;
         try { skipFu = focusedFightUnit(); } catch (eSk) { skipFu = null; }
         if (skipFu && isHandoffSkip(skipFu)) {
+            if (!state.lastHandoffSkipPickAt || Date.now() - state.lastHandoffSkipPickAt > 400) {
+                state.lastHandoffSkipPickAt = Date.now();
+                setTimeout(function () {
+                    try { pickNextAfterHandoffSkip('handoff-skip-focus'); } catch (eHs) {}
+                }, 0);
+            }
             return 'handoff-skip';
         }
         if (liveActMenu()) {
