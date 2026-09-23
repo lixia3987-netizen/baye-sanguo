@@ -957,6 +957,9 @@
     }
 
     function nextUnitStalled() {
+        if (state.lastHitAt && Date.now() - state.lastHitAt < 5000) {
+            return false;
+        }
         return (state.endTurnStallN || 0) >= 3;
     }
 
@@ -1041,6 +1044,16 @@
                 state.lastStallHoldLogAt = Date.now();
                 console.log('[hd-battle] next-unit-stall-hold', {
                     via: 'pre-first-hit', why: why || 'stall'
+                });
+            }
+            return false;
+        }
+        /* 真伤后 5s 内禁止 stall-break：after-hit 连武装同一 dest 不是死循环。 */
+        if (Date.now() - state.lastHitAt < 5000) {
+            if (!state.lastStallHoldLogAt || Date.now() - state.lastStallHoldLogAt > 1600) {
+                state.lastStallHoldLogAt = Date.now();
+                console.log('[hd-battle] next-unit-stall-hold', {
+                    via: 'post-hit', why: why || 'stall'
                 });
             }
             return false;
