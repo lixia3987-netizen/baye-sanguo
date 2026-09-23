@@ -4819,19 +4819,7 @@
             dumpEnterSwallow('leftover-aim-stuck', {
                 aimAge: age, adj: !!(adjacentEnemy(1)), likely: likelyAimTarget()
             });
-            if (stuckAim && stuckAim.unit && actorBoundForAim(stuckAim.unit)) {
-                var enemy = stuckAim.enemy;
-                var inRng = !!(enemy && inAtkRng(enemy.x, enemy.y) === true);
-                var match = aimRngMatchesActor(stuckAim.unit);
-                var curAim = null;
-                try { curAim = engineFocusTile(); } catch (eC) { curAim = null; }
-                var onTile = !!(curAim && enemy && curAim.x === enemy.x && curAim.y === enemy.y);
-                /* leftover 只在本将射程 + 敌军格上才留下确认。 */
-                if (inRng && match && onTile) {
-                    return false;
-                }
-                return true;
-            }
+            /* 贴脸但 2s 仍无合法格：EXIT 重开或换将，禁止 leftover-AIM 空转。 */
             return true;
         }
         /* Attack ENTER 之后等射程表；awaiting 窗口内绝不当 leftover，否则 refresh 会 EXIT 掉 attack-hit。 */
