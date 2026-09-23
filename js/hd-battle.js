@@ -237,6 +237,7 @@
         handoffAt: 0,
         handoffBanExitUntil: 0,
         handoffSkipKeys: {},
+        lastHandoffSkipRestAt: 0,
         leftoverAimReopenAt: 0,
         leftoverAimReopenN: 0,
         leftoverAimReopenActor: '',
@@ -2068,16 +2069,21 @@
         if ((Number(fight.phase) || 0) !== 0) {
             return false;
         }
-        if (!(state.lastHitAt || state.fightHitAt)) {
-            return false;
-        }
         if (liveActMenu()) {
             var fu = null;
             try { fu = focusedFightUnit(); } catch (eFu) { fu = null; }
+            if (fu && fu.side === 'player' && fu.name && isHandoffSkip(fu)) {
+                return true;
+            }
+            if (!(state.lastHitAt || state.fightHitAt)) {
+                return false;
+            }
             if (fu && fu.side === 'player' && fu.name &&
                 !actorSpent(fu) && !recentlyHitActor(fu) && !isHandoffSkip(fu)) {
                 return false;
             }
+        } else if (!(state.lastHitAt || state.fightHitAt)) {
+            return false;
         }
         return true;
     }
@@ -2149,6 +2155,7 @@
             }
         }
         state.handoffSkipKeys = {};
+        state.lastHandoffSkipRestAt = 0;
         state.phase1FailKey = '';
         state.phase1FailN = 0;
         if (n) {
@@ -2796,6 +2803,56 @@
             return false;
         }
         return pickNextCapableAfterGiveUp(why || 'handoff-skip-next');
+    }
+
+    /* 无掉血 skip 后必须待机清 leftover PlcSplMenu，禁止 leftover 攻击再开同一将 AIM。 */
+    function restSkippedThenPickNext(why) {
+        var actor = null;
+        try { actor = resolveNamedActor(actingActor()); } catch (eA) { actor = actingActor(); }
+        dropQueuedEnters();
+        dropQueuedDirs();
+        state.pendingAimEnter = null;
+        state.leavingAim = false;
+        if (state.aimCommit) {
+            try { clearAimCommit('handoff-skip-rest'); } catch (eC) {}
+        }
+        writeFightActCommit(3);
+        state.pendingActPick = 3;
+        state.lastHandoffSkipRestAt = Date.now();
+        if (!recentlyLeftAim(700)) {
+            exitLeftoverAimOnce(why || 'handoff-skip-rest', {
+                thenRest: true,
+                unit: actor && actor.name
+            });
+        }
+        if (actor && actor.name) {
+            try { noteUnitActed('handoff-skip-rest'); } catch (eN) {}
+        }
+        console.log('[hd-battle] handoff-skip-rest', {
+            via: why || 'no-drop',
+            unit: actor && actor.name,
+            ux: actor && actor.x,
+            uy: actor && actor.y
+        });
+        setTimeout(function () {
+            try {
+                var fight = null;
+                var phase = 0;
+                try { fight = readFight(); } catch (eF) { fight = null; }
+                phase = Number(fight && fight.phase) || 0;
+                if (phase === 3 && !recentlyLeftAim(700)) {
+                    exitLeftoverAimOnce(why || 'handoff-skip-rest-2', { thenRest: true });
+                }
+                writeFightActCommit(3);
+                if (phase === 0 && !!(fight && !fight.wait) && liveActMenu()) {
+                    enqueueKeys([VK.ENTER], 55);
+                }
+            } catch (eR) {}
+            setTimeout(function () {
+                try { pickNextAfterHandoffSkip(why || 'handoff-skip-rest'); } catch (eP) {}
+            }, 280);
+        }, 280);
+        return true;
     }
 
     function pickNextCapableAfterGiveUp(why) {
@@ -4345,6 +4402,9 @@
         if (!fightReallyActive() || state.resultText) {
             return false;
         }
+        if (state.lastHandoffSkipRestAt && Date.now() - state.lastHandoffSkipRestAt < 900) {
+            return true;
+        }
         var fight = null;
         try { fight = readFight(); } catch (eF) {}
         if (enemyTurnQuiet(fight)) {
@@ -4376,24 +4436,24 @@
         if (fight && Number(fight.phase) === 3) {
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
             if (!dropped && aimCommitHolds() && !state.leavingAim) {
-                if ((state.sameTileHitN || 0) >= 2) {
-                    var missActor = null;
-                    try { missActor = resolveNamedActor(actingActor()); } catch (eM) { missActor = actingActor(); }
+                var missActor = null;
+                var realMiss = false;
+                try { missActor = resolveNamedActor(actingActor()); } catch (eM) { missActor = actingActor(); }
+                if (state.aimCommit && state.aimCommit.onTile && state.aimCommit.sentEnter &&
+                    aimCommitAgeMs() > 450) {
+                    realMiss = inAtkRng(state.aimCommit.x, state.aimCommit.y) === true &&
+                        !!(missActor && aimRngMatchesActor(missActor));
+                }
+                if ((state.sameTileHitN || 0) >= 2 || realMiss) {
                     if (missActor && missActor.name) {
                         markHandoffSkip(missActor, 'no-drop-aim');
                     }
                     console.log('[hd-battle] after-hit-same-tile', {
                         n: state.sameTileHitN, unit: state.aimCommit && state.aimCommit.name,
-                        actor: missActor && missActor.name
+                        actor: missActor && missActor.name,
+                        realMiss: realMiss
                     });
-                    leaveAimAndRearm('after-hit-same-tile');
-                    if (pickNextAfterHandoffSkip('after-hit-same-tile')) {
-                        return true;
-                    }
-                    if (!armCapableSkipLord('after-hit-same-tile')) {
-                        sysEndPlayerTurn('after-hit-same-tile-end');
-                    }
-                    return true;
+                    return restSkippedThenPickNext('after-hit-same-tile');
                 }
                 if (state.aimCommit && !state.aimCommit.secondEnterSent && aimCommitAgeMs() > 400) {
                     var boundName = state.aimCommit.actorName ||
@@ -4438,13 +4498,7 @@
                 if (missNo && missNo.name) {
                     markHandoffSkip(missNo, 'no-drop-aim');
                 }
-                leaveAimAndRearm('after-hit-no-drop');
-                if (pickNextAfterHandoffSkip('after-hit-no-drop')) {
-                    return true;
-                }
-                if (!armCapableSkipLord('after-hit-no-drop')) {
-                    sysEndPlayerTurn('after-hit-no-drop-end');
-                }
+                return restSkippedThenPickNext('after-hit-no-drop');
             } else if (aimCommitHolds() && !state.leavingAim) {
                 if (aimCommitAgeMs() < 1400) {
                     scheduleAfterHitSettle(400);
@@ -7198,6 +7252,19 @@
             logAttackClick('pick');
             var fightAtk = null;
             try { fightAtk = readFight(); } catch (eAtk) {}
+            var skipLeftover = null;
+            try { skipLeftover = focusedFightUnit() || actingActor(); } catch (eSk) {
+                skipLeftover = actingActor();
+            }
+            if (skipLeftover && isHandoffSkip(skipLeftover)) {
+                console.log('[hd-battle] attack-skip', {
+                    why: 'handoff-skip-leftover',
+                    unit: skipLeftover.name
+                });
+                preferRest('handoff-skip-leftover');
+                pickNextAfterHandoffSkip('handoff-skip-leftover');
+                return;
+            }
             /* 攻击已点：贴脸立刻近战 ENTER。走格已花且未贴脸必须待机，禁止 keep-walk 软循环。 */
             if (phase0LiveAdjReady(fightAtk) && drivePhase0LiveAdjAim('attack-adj-menu')) {
                 return;
