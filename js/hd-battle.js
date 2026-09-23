@@ -8981,6 +8981,28 @@
                         blocked: 'lord-hold-defer'
                     };
                 }
+                var lordNow = actingLordUnit();
+                var pinnedName = state.sameDestSwitchTo && lordNow && lordNow.name
+                    ? state.sameDestSwitchTo[lordNow.name] : '';
+                var remain = peekEnemyByName(pinnedName) ||
+                    ((u && enemyIsLiving(u) && pinnedName && u.name !== pinnedName)
+                        ? otherLivingEnemy(u) : null) ||
+                    (u && enemyIsLiving(u) ? u : null) ||
+                    bestEnemyForApproach(lordNow);
+                if ((state.lastHitAt || state.fightHitAt) && remain && enemyIsLiving(remain)) {
+                    setPendingApproach(remain.x, remain.y);
+                    state.pendingActPick = 0;
+                    console.log('[hd-battle] lord-approach', {
+                        via: 'click-enemy-remain',
+                        have: u && u.name,
+                        dest: { name: remain.name, x: remain.x, y: remain.y }
+                    });
+                    scheduleDriveSoon('lord-click-remain', 80);
+                    return {
+                        x: x, y: y, enter: false, unit: u.name, phase: phase,
+                        blocked: 'lord-approach'
+                    };
+                }
                 clearPendingApproach();
                 state.pendingActPick = 3;
                 console.log('[hd-battle] lord-hold', { via: 'click-enemy', unit: u.name });
