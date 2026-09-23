@@ -1209,7 +1209,8 @@
             }
             state.lastArmNextAt = Date.now();
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
-            if ((state.endTurnStallN || 0) >= 2) {
+            /* 真伤后同 dest 再失败 2 次才跳过。开战走近不得把庞德/杨秋标 skip。 */
+            if (state.lastHitAt && (state.endTurnStallN || 0) >= 3) {
                 markHandoffSkip(nextOther || nextLord, 'same-dest-2');
                 state.nextUnitArmedKey = '';
                 state.nextUnitArmedAt = 0;
@@ -3970,7 +3971,7 @@
         var alreadyStuck = !!(stuckKey && state.phase1StuckUnitKeys &&
             state.phase1StuckUnitKeys[stuckKey]);
         markPhase1StuckUnit(stuckKey);
-        if (alreadyStuck || (state.phase1FailN || 0) >= 2) {
+        if (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2)) {
             markHandoffSkip(stuckKey, 'phase1-enter-2');
         }
         if (canCommitActMenu(fight) && killableAdjAlive()) {
