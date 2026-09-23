@@ -4159,6 +4159,7 @@
             state.lastApproachKey = '';
             state.approachTilesPeak = 0;
             state.approachTilesStableAt = 0;
+            state.lastLeftoverActExitAt = 0;
             if (state.adjRecoverTimer) {
                 clearTimeout(state.adjRecoverTimer);
                 state.adjRecoverTimer = 0;
@@ -5972,6 +5973,11 @@
                 if (liveAdjStrike() && drivePhase0LiveAdjAim('approach-nowait-live-adj')) {
                     return true;
                 }
+                if (state.lastLeftoverActExitAt && Date.now() - state.lastLeftoverActExitAt < 900) {
+                    scheduleDriveSoon('leftover-act-exit-wait', 120);
+                    return true;
+                }
+                state.lastLeftoverActExitAt = Date.now();
                 dumpEnterSwallow('leftover-act-exit', { via: 'drive-approach-nowait' });
                 resetActMenuIndex('leftover-act');
                 enqueueKeys([VK.EXIT], 70);
@@ -6126,6 +6132,11 @@
                 if (endTurnHeld()) {
                     return false;
                 }
+                if (state.lastLeftoverActExitAt && Date.now() - state.lastLeftoverActExitAt < 900) {
+                    scheduleDriveSoon('leftover-act-exit-wait', 120);
+                    return true;
+                }
+                state.lastLeftoverActExitAt = Date.now();
                 dumpEnterSwallow('leftover-act-exit', { via: 'drive-approach' });
                 resetActMenuIndex('leftover-act');
                 enqueueKeys([VK.EXIT], 70);
