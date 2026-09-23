@@ -1530,19 +1530,23 @@
         var actor = actingActor();
         var strike = null;
         try { strike = adjacentWaitingStrike(); } catch (eS) {}
-        /* 只挡正交贴脸。对角 chebyshev=1 还要再走近一格，不能 skip。 */
+        /* 只挡「目的地就是当前贴脸敌军」。贴着方悦时仍可走近王匡。 */
         if (x != null && y != null && pick) {
-            if (actor && unitCapKey(actor) === pick && unitMeleeEnemy(actor)) {
-                console.log('[hd-battle] approach-skip-adj', {
-                    via: 'actor', name: actor.name, dest: { x: x, y: y }
-                });
-                return false;
-            }
-            if (strike && strike.unit && unitCapKey(strike.unit) === pick &&
-                unitMeleeEnemy(strike.unit)) {
-                console.log('[hd-battle] approach-skip-adj', {
-                    via: 'strike', name: strike.unit.name, dest: { x: x, y: y }
-                });
+            var meleeA = actor && unitCapKey(actor) === pick ? unitMeleeEnemy(actor) : null;
+            var meleeS = strike && strike.unit && unitCapKey(strike.unit) === pick
+                ? unitMeleeEnemy(strike.unit) : null;
+            var destIsMelee = function (melee) {
+                return !!(melee && melee.x === x && melee.y === y);
+            };
+            if (destIsMelee(meleeA) || destIsMelee(meleeS)) {
+                if (!state.lastApproachSkipAdjAt || Date.now() - state.lastApproachSkipAdjAt > 400) {
+                    state.lastApproachSkipAdjAt = Date.now();
+                    console.log('[hd-battle] approach-skip-adj', {
+                        via: destIsMelee(meleeA) ? 'actor' : 'strike',
+                        name: (meleeA && actor && actor.name) || (strike && strike.unit && strike.unit.name),
+                        dest: { x: x, y: y }
+                    });
+                }
                 return false;
             }
         }
@@ -1944,7 +1948,7 @@
     }
 
     function leftoverNoDropStuck(actor, enemy) {
-        return leftoverNoDropCount(actor, enemy) >= 2 || leftoverEnemyNoDropCount(enemy) >= 4;
+        return leftoverNoDropCount(actor, enemy) >= 1 || leftoverEnemyNoDropCount(enemy) >= 2;
     }
 
     function peekEnemyByName(name) {
@@ -2002,7 +2006,7 @@
             n: n,
             enemyN: leftoverEnemyNoDropCount(enemy)
         });
-        if (n >= 2 || leftoverEnemyNoDropCount(enemy) >= 4) {
+        if (n >= 1 || leftoverEnemyNoDropCount(enemy) >= 2) {
             pinActorToOtherEnemy(actor, enemy, why);
             if (actor && actor.name) {
                 markHandoffSkip(actor, 'leftover-no-drop');
@@ -2037,7 +2041,7 @@
             return;
         }
         for (k in state.leftoverNoDrop) {
-            if (!state.leftoverNoDrop.hasOwnProperty(k) || state.leftoverNoDrop[k] < 2) {
+            if (!state.leftoverNoDrop.hasOwnProperty(k) || state.leftoverNoDrop[k] < 1) {
                 continue;
             }
             var cut = k.indexOf('>');
