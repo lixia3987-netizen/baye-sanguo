@@ -2072,6 +2072,9 @@
         if (!liveActMenu()) {
             return false;
         }
+        if (state.lastHitAt && Date.now() - state.lastHitAt > 800) {
+            return false;
+        }
         var fu = null;
         try { fu = focusedFightUnit(); } catch (eFu) { fu = null; }
         if (fu && fu.side === 'player' && fu.name && isHandoffSkip(fu)) {
@@ -2849,6 +2852,9 @@
             if (strike && strike.unit && !isHandoffSkip(strike.unit) &&
                 !actorSpent(strike.unit)) {
                 return pickNextCapableAfterGiveUp(why || 'handoff-skip-adj');
+            }
+            if (!armCapableSkipLord(why || 'handoff-skip-end')) {
+                sysEndPlayerTurn(why || 'handoff-skip-end');
             }
             return false;
         }
