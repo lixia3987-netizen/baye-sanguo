@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923g';
+    var HD_BATTLE_VER = '20260923h';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -237,6 +237,10 @@
         handoffAt: 0,
         handoffBanExitUntil: 0,
         handoffSkipKeys: {},
+        leftoverAimReopenAt: 0,
+        leftoverAimReopenN: 0,
+        leftoverAimReopenActor: '',
+        leftoverAimReopenTimer: 0,
         phase1FailKey: '',
         phase1FailN: 0
     };
@@ -1179,6 +1183,12 @@
             return false;
         }
         if (phaseNow === 3 || awaitingAim()) {
+            var leftoverAdj = null;
+            try { leftoverAdj = namedAdjStrike(); } catch (eLa) { leftoverAdj = null; }
+            if (phaseNow === 3 && leftoverAdj && leftoverAdj.unit &&
+                leftoverAimNeedsReopen(fightNow, leftoverAdj.unit)) {
+                return exitLeftoverAimThenReopen(leftoverAdj.unit, why || 'arm-next-leftover');
+            }
             return false;
         }
         if (!opts.force && (liveActMenu() || state.sending || (state.queue && state.queue.length))) {
@@ -1208,11 +1218,39 @@
         if (state.nextUnitArmedKey === destKey &&
             state.nextUnitArmedAt && Date.now() - state.nextUnitArmedAt < 4000) {
             if (phaseNow === 2 || phaseNow === 3) {
+                var destAdj = strikeNext;
+                try { destAdj = destAdj || namedAdjStrike(); } catch (eDa) {}
+                if (phaseNow === 3 && destAdj && destAdj.unit &&
+                    leftoverAimNeedsReopen(fightNow, destAdj.unit)) {
+                    return exitLeftoverAimThenReopen(destAdj.unit, why || 'same-dest-leftover');
+                }
                 return false;
             }
             state.lastArmNextAt = Date.now();
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
             /* 真伤后同 dest 再失败 2 次才跳过。开战走近 / leftover 交接不得 skip 庞德。 */
+            var sameAdj = strikeNext || null;
+            try { sameAdj = sameAdj || namedAdjStrike(); } catch (eSa) {}
+            if (sameAdj && sameAdj.unit && !isHandoffSkip(sameAdj.unit) &&
+                !actorSpent(sameAdj.unit)) {
+                state.nextUnitArmedKey = '';
+                state.nextUnitArmedAt = 0;
+                state.endTurnStallN = 0;
+                notePendingPick(sameAdj.unit);
+                noteActingUnit(sameAdj.unit);
+                clearPendingApproach();
+                console.log('[hd-battle] same-dest-adj', {
+                    via: why || 'arm-next',
+                    unit: sameAdj.unit.name,
+                    ux: sameAdj.unit.x,
+                    uy: sameAdj.unit.y,
+                    enemy: sameAdj.enemy && sameAdj.enemy.name
+                });
+                if (commitAdjacentMelee('same-dest-adj')) {
+                    return true;
+                }
+                return pickNextCapableAfterGiveUp('same-dest-adj');
+            }
             if (state.lastHitAt && !state.pendingHandoff &&
                 !leftoverHitterMenu(fightNow) && (state.endTurnStallN || 0) >= 3) {
                 markHandoffSkip(nextOther || nextLord, 'same-dest-2');
@@ -2044,24 +2082,60 @@
         return true;
     }
 
+    function handoffSkipName(u) {
+        if (!u) {
+            return '';
+        }
+        if (typeof u === 'string') {
+            var cut = u.indexOf('@');
+            return cut > 0 ? u.slice(0, cut) : u;
+        }
+        return String(u.name || '');
+    }
+
     function markHandoffSkip(u, why) {
         var key = typeof u === 'string' ? u : unitCapKey(u);
-        if (!key) {
+        var name = handoffSkipName(u);
+        if (!key && !name) {
             return;
         }
         if (!state.handoffSkipKeys) {
             state.handoffSkipKeys = {};
         }
-        if (state.handoffSkipKeys[key]) {
+        if ((key && state.handoffSkipKeys[key]) || (name && isHandoffSkip(name))) {
             return;
         }
-        state.handoffSkipKeys[key] = Date.now();
-        console.log('[hd-battle] handoff-skip', { via: why || 'skip', unit: key });
+        if (key) {
+            state.handoffSkipKeys[key] = Date.now();
+        }
+        if (name) {
+            state.handoffSkipKeys[name] = Date.now();
+        }
+        console.log('[hd-battle] handoff-skip', { via: why || 'skip', unit: key || name });
     }
 
     function isHandoffSkip(u) {
+        var name = handoffSkipName(u);
         var key = typeof u === 'string' ? u : unitCapKey(u);
-        return !!(key && state.handoffSkipKeys && state.handoffSkipKeys[key]);
+        var k;
+        if (!state.handoffSkipKeys) {
+            return false;
+        }
+        if (key && state.handoffSkipKeys[key]) {
+            return true;
+        }
+        if (name && state.handoffSkipKeys[name]) {
+            return true;
+        }
+        if (name) {
+            for (k in state.handoffSkipKeys) {
+                if (state.handoffSkipKeys.hasOwnProperty(k) &&
+                    (k === name || k.indexOf(name + '@') === 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     function clearHandoffSkip(why) {
@@ -2109,6 +2183,9 @@
         if (state.pendingActPick === 0) {
             state.pendingActPick = null;
         }
+        state.leftoverAimReopenN = 0;
+        state.leftoverAimReopenActor = '';
+        state.leftoverAimReopenAt = 0;
         console.log('[hd-battle] leftover-clear', {
             via: why || 'after-hit',
             actor: state.lastHitActor && state.lastHitActor.name,
@@ -2271,6 +2348,9 @@
                 continue;
             }
             if (!(u.active === 0 || u.active == null) || actorSpent(u)) {
+                continue;
+            }
+            if (isHandoffSkip(u)) {
                 continue;
             }
             var e = unitMeleeEnemy(u);
@@ -2688,11 +2768,21 @@
     }
 
     function pickNextAfterHandoffSkip(why) {
-        var next = firstWaitingOwn({ skipLord: true }) ||
-            nearestActionableOwn({ skipLord: true }) ||
-            firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
-            nearestActionableOwn({ skipLord: true, includeStuck: true });
+        var strike = null;
+        var next = null;
+        try { strike = adjacentWaitingStrike(); } catch (eS) { strike = null; }
+        if (strike && strike.unit && !isHandoffSkip(strike.unit) &&
+            !actorSpent(strike.unit)) {
+            return pickNextCapableAfterGiveUp(why || 'handoff-skip-adj');
+        }
+        next = firstWaitingOwn({ skipLord: true }) ||
+            nearestActionableOwn({ skipLord: true });
         if (!next) {
+            try { strike = namedAdjStrike(); } catch (eN) { strike = null; }
+            if (strike && strike.unit && !isHandoffSkip(strike.unit) &&
+                !actorSpent(strike.unit)) {
+                return pickNextCapableAfterGiveUp(why || 'handoff-skip-adj');
+            }
             return false;
         }
         return pickNextCapableAfterGiveUp(why || 'handoff-skip-next');
@@ -2829,6 +2919,9 @@
         var phase = Number(fight.phase) || 0;
         if (phase === 3) {
             noteActingUnit(strike.unit);
+            if (leftoverAimNeedsReopen(fight, strike.unit)) {
+                return exitLeftoverAimThenReopen(strike.unit, why || 'open-aim-leftover');
+            }
             return tryCommitMeleeAim(why || 'open-aim');
         }
         var live = liveActMenu();
@@ -2957,13 +3050,12 @@
         if (phase === 3) {
             setAdjRecoverStage('');
             noteActingUnit(strike.unit);
+            if (leftoverAimNeedsReopen(fight, strike.unit)) {
+                return exitLeftoverAimThenReopen(strike.unit, why || 'adj-recover-leftover');
+            }
             if (strike.enemy && inAtkRng(strike.enemy.x, strike.enemy.y) === true &&
                 aimRngMatchesActor(strike.unit)) {
                 return tryCommitMeleeAim(why || 'adj-recover-aim');
-            }
-            if (!aimRngMatchesActor(strike.unit)) {
-                rebuildStaleAimRng(strike.unit);
-                return true;
             }
             return tryCommitMeleeAim(why || 'adj-recover-aim');
         }
@@ -3217,6 +3309,9 @@
         phase = Number(fight.phase) || 0;
         if (phase === 3) {
             noteActingUnit(strike.unit);
+            if (leftoverAimNeedsReopen(fight, strike.unit)) {
+                return exitLeftoverAimThenReopen(strike.unit, why || 'adj-melee-leftover');
+            }
             return tryCommitMeleeAim(why || 'adj-melee-aim');
         }
         if (phase === 0 && !fight.wait && liveActMenu()) {
@@ -3563,9 +3658,10 @@
         extra.ortho = !!(actor.x != null && x != null &&
             Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
         extra.rngAt = aimRngOrigin();
-        /* FgtChkRng 用 g_FgtAtkRng。表中心不是本将落点 = leftover，ENTER 不掉血。 */
-        if (!extra.inRng) {
-            if (extra.ortho && !aimRngMatchesActor(actor)) {
+        extra.rngMatch = aimRngMatchesActor(actor);
+        /* leftover 他将射程表即使盖住敌军格也不得 ENTER。须 EXIT 重开本将 AIM。 */
+        if (!extra.rngMatch || !extra.inRng) {
+            if (extra.ortho) {
                 console.log('[hd-battle] aim-stale-rng', JSON.stringify({
                     via: extra.via || 'stale-rng',
                     actor: actor.name,
@@ -3574,14 +3670,16 @@
                     unit: u && u.name,
                     x: x,
                     y: y,
+                    inRng: extra.inRng,
+                    rngMatch: extra.rngMatch,
                     rngAt: extra.rngAt,
                     n: (state.staleRngN || 0) + 1
                 }));
-                rebuildStaleAimRng(actor);
+                exitLeftoverAimThenReopen(actor, extra.via || 'stale-rng');
                 return {
                     x: x, y: y, enter: false, unit: u && u.name, phase: 3,
                     tip: state.fightTip, blocked: 'stale-rng',
-                    inRng: false, via: extra.via
+                    inRng: extra.inRng, via: extra.via
                 };
             }
             console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
@@ -3598,7 +3696,7 @@
             return {
                 x: x, y: y, enter: false, unit: u && u.name, phase: 3,
                 tip: state.fightTip, blocked: 'not-in-rng',
-                inRng: false, via: extra.via
+                inRng: extra.inRng, via: extra.via
             };
         }
         extra.hp = u && u.hp;
@@ -3699,12 +3797,15 @@
             var adjStuck = null;
             try { adjStuck = namedAdjStrike(); } catch (eAs) { adjStuck = null; }
             if (adjStuck && adjStuck.enemy && actorBoundForAim(adjStuck.unit)) {
-                try { rebuildStaleAimRng(adjStuck.unit); } catch (eRb) {}
+                if (leftoverAimNeedsReopen(fight, adjStuck.unit)) {
+                    console.log('[hd-battle] melee-wait', {
+                        why: why || 'auto-melee', reason: 'reopen-adj',
+                        unit: adjStuck.unit.name, enemy: adjStuck.enemy.name
+                    });
+                    exitLeftoverAimThenReopen(adjStuck.unit, why || 'reopen-adj');
+                    return true;
+                }
                 target = adjStuck.enemy;
-                console.log('[hd-battle] melee-wait', {
-                    why: why || 'auto-melee', reason: 'rebuild-adj',
-                    unit: adjStuck.unit.name, enemy: adjStuck.enemy.name
-                });
             }
         }
         if (!target) {
@@ -3735,6 +3836,14 @@
             return false;
         }
         noteActingUnit(actor);
+        if (leftoverAimNeedsReopen(fight, actor)) {
+            console.log('[hd-battle] melee-wait', {
+                why: why || 'auto-melee', reason: 'reopen-adj',
+                unit: actor.name, enemy: target.name
+            });
+            exitLeftoverAimThenReopen(actor, why || 'reopen-adj');
+            return true;
+        }
         var dist = (actor && actor.x != null)
             ? chebyshev(actor.x, actor.y, target.x, target.y) : 99;
         confirmAimHit(target, target.x, target.y, why || 'auto-melee', {
@@ -3980,9 +4089,14 @@
         var earlySkip = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
         if (earlySkip && isHandoffSkip(earlySkip)) {
             dropQueuedEnters();
-            if (!pickNextAfterHandoffSkip('phase1-already-skip')) {
-                sysEndPlayerTurn('phase1-already-skip-end');
+            if (pickNextAfterHandoffSkip('phase1-already-skip')) {
+                return;
             }
+            if (adjacentWaitingStrike() || namedAdjStrike()) {
+                pickNextCapableAfterGiveUp('phase1-already-skip-adj');
+                return;
+            }
+            sysEndPlayerTurn('phase1-already-skip-end');
             return;
         }
         dropQueuedEnters();
@@ -4013,13 +4127,29 @@
         var alreadyStuck = !!(stuckKey && state.phase1StuckUnitKeys &&
             state.phase1StuckUnitKeys[stuckKey]);
         markPhase1StuckUnit(stuckKey);
-        if (isHandoffSkip(stuckKey) ||
-            (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2))) {
+        if (isHandoffSkip(stuckKey)) {
+            dropQueuedEnters();
+            if (pickNextAfterHandoffSkip('phase1-enter-already-skip')) {
+                return;
+            }
+            if (adjacentWaitingStrike() || namedAdjStrike()) {
+                pickNextCapableAfterGiveUp('phase1-enter-adj');
+                return;
+            }
+            sysEndPlayerTurn('phase1-enter-skip-end');
+            return;
+        }
+        if (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2)) {
             markHandoffSkip(stuckKey, 'phase1-enter-2');
             dropQueuedEnters();
-            if (!pickNextAfterHandoffSkip('phase1-enter-skip')) {
-                sysEndPlayerTurn('phase1-enter-skip-end');
+            if (pickNextAfterHandoffSkip('phase1-enter-skip')) {
+                return;
             }
+            if (adjacentWaitingStrike() || namedAdjStrike()) {
+                pickNextCapableAfterGiveUp('phase1-enter-adj');
+                return;
+            }
+            sysEndPlayerTurn('phase1-enter-skip-end');
             return;
         }
         if (canCommitActMenu(fight) && killableAdjAlive()) {
@@ -4512,6 +4642,13 @@
             state.handoffAt = 0;
             state.handoffBanExitUntil = 0;
             try { clearHandoffSkip('new-player-turn'); } catch (eHs) {}
+            state.leftoverAimReopenN = 0;
+            state.leftoverAimReopenActor = '';
+            state.leftoverAimReopenAt = 0;
+            if (state.leftoverAimReopenTimer) {
+                clearTimeout(state.leftoverAimReopenTimer);
+                state.leftoverAimReopenTimer = 0;
+            }
             state.lastAdjRecoverWalkDest = '';
             state.adjRecoverGiveUpAt = 0;
             if (state.adjRecoverTimer) {
@@ -4602,16 +4739,36 @@
         }
         var age = aimAgeMs();
         var legal = hasLegalAimTarget();
+        var stuckAim = null;
+        try { stuckAim = namedAdjStrike(); } catch (eSt) { stuckAim = null; }
+        if (stuckAim && stuckAim.unit && actorBoundForAim(stuckAim.unit) &&
+            leftoverAimNeedsReopen(fight, stuckAim.unit)) {
+            if (age > 280) {
+                dumpEnterSwallow('leftover-aim-reopen', {
+                    aimAge: age, unit: stuckAim.unit.name,
+                    enemy: stuckAim.enemy && stuckAim.enemy.name
+                });
+                return true;
+            }
+            return false;
+        }
         /* 贴脸但射程未标：先给 melee ENTER ~2s；失败再 leftover，清 AIM 回行动菜单。 */
         if (age > 2000 && !legal) {
             dumpEnterSwallow('leftover-aim-stuck', {
                 aimAge: age, adj: !!(adjacentEnemy(1)), likely: likelyAimTarget()
             });
-            var stuckAim = null;
-            try { stuckAim = namedAdjStrike(); } catch (eSt) { stuckAim = null; }
             if (stuckAim && stuckAim.unit && actorBoundForAim(stuckAim.unit)) {
-                /* 贴脸已开 AIM：留下等 on-tile ENTER，禁止 leftover EXIT 347s。 */
-                return false;
+                var enemy = stuckAim.enemy;
+                var inRng = !!(enemy && inAtkRng(enemy.x, enemy.y) === true);
+                var match = aimRngMatchesActor(stuckAim.unit);
+                var curAim = null;
+                try { curAim = engineFocusTile(); } catch (eC) { curAim = null; }
+                var onTile = !!(curAim && enemy && curAim.x === enemy.x && curAim.y === enemy.y);
+                /* leftover 只在本将射程 + 敌军格上才留下确认。 */
+                if (inRng && match && onTile) {
+                    return false;
+                }
+                return true;
             }
             return true;
         }
@@ -4680,6 +4837,146 @@
     function recentlyLeftAim(ms) {
         var win = ms == null ? 750 : ms;
         return !!(state.lastAimExitAt && (Date.now() - state.lastAimExitAt) < win);
+    }
+
+    function leftoverAimNeedsReopen(fight, actor) {
+        var enemy;
+        var origin;
+        var match;
+        var inRng;
+        if (!(fight && Number(fight.phase) === 3)) {
+            return false;
+        }
+        if (aimCommitHolds()) {
+            return false;
+        }
+        if (!actor || !actorBoundForAim(actor)) {
+            return false;
+        }
+        if (actorSpent(actor) || recentlyHitActor(actor)) {
+            return false;
+        }
+        try { enemy = unitMeleeEnemy(actor); } catch (eM) { enemy = null; }
+        if (!enemy || !enemyIsLiving(enemy)) {
+            return false;
+        }
+        origin = aimRngOrigin();
+        match = aimRngMatchesActor(actor);
+        inRng = inAtkRng(enemy.x, enemy.y) === true;
+        if (inRng && match) {
+            return false;
+        }
+        if (origin && !match) {
+            return true;
+        }
+        if (awaitingAim() && aimAgeMs() < 900) {
+            return false;
+        }
+        if (aimAgeMs() < 400) {
+            return false;
+        }
+        return !inRng || !match;
+    }
+
+    function scheduleLeftoverAimReopen(actor, why) {
+        if (state.leftoverAimReopenTimer) {
+            clearTimeout(state.leftoverAimReopenTimer);
+        }
+        state.leftoverAimReopenTimer = setTimeout(function () {
+            state.leftoverAimReopenTimer = 0;
+            try {
+                var fight = null;
+                var live = null;
+                var strike = null;
+                var phase = 0;
+                try { fight = readFight(); } catch (eF) { fight = null; }
+                if (!fight || !fight.active || fight.over || state.resultText) {
+                    return;
+                }
+                live = peekPlayerByName(actor && actor.name) || actor;
+                if (!live || !actorBoundForAim(live) || actorSpent(live)) {
+                    return;
+                }
+                noteActingUnit(live);
+                notePendingPick(live);
+                try { strike = namedAdjStrike({ unit: live }); } catch (eS) { strike = null; }
+                phase = Number(fight.phase) || 0;
+                if (phase === 3) {
+                    if (leftoverAimNeedsReopen(fight, live) && !recentlyLeftAim(400)) {
+                        exitLeftoverAimThenReopen(live, why || 'reopen-still-aim');
+                        return;
+                    }
+                    tryCommitMeleeAim(why || 'reopen-aim');
+                    return;
+                }
+                if (phase === 0 && !fight.wait && liveActMenu() && strike) {
+                    state.lastOpenAimAt = 0;
+                    openAimFromActMenu(why || 'reopen-act', strike);
+                    return;
+                }
+                recoverAdjActThenAim(why || 'reopen-recover');
+            } catch (eR) {}
+        }, 240);
+    }
+
+    function exitLeftoverAimThenReopen(actor, why) {
+        var key;
+        var n;
+        if (!actor || !actorBoundForAim(actor)) {
+            return false;
+        }
+        key = unitCapKey(actor) || actor.name;
+        n = state.leftoverAimReopenN || 0;
+        if (state.leftoverAimReopenActor === key && n >= 4) {
+            console.log('[hd-battle] leftover-aim-reopen-give-up', {
+                via: why || 'adj-handoff',
+                unit: actor.name,
+                n: n
+            });
+            pickNextCapableAfterGiveUp(why || 'leftover-aim-reopen');
+            return false;
+        }
+        if (state.leftoverAimReopenAt && Date.now() - state.leftoverAimReopenAt < 700 &&
+            state.leftoverAimReopenActor === key) {
+            scheduleLeftoverAimReopen(actor, why);
+            return true;
+        }
+        state.leftoverAimReopenAt = Date.now();
+        state.leftoverAimReopenActor = key;
+        state.leftoverAimReopenN = n + 1;
+        dropQueuedEnters();
+        dropQueuedDirs();
+        state.pendingAimEnter = null;
+        state.staleRngN = 0;
+        noteActingUnit(actor);
+        notePendingPick(actor);
+        finishHandoff('leftover-aim-reopen');
+        console.log('[hd-battle] leftover-aim-reopen', {
+            via: why || 'adj-handoff',
+            unit: actor.name,
+            ux: actor.x,
+            uy: actor.y,
+            n: state.leftoverAimReopenN,
+            rngAt: aimRngOrigin()
+        });
+        if (!recentlyLeftAim(700)) {
+            state.leavingAim = true;
+            state.lastAimExitAt = Date.now();
+            logAimExit(why || 'leftover-reopen', { unit: actor.name });
+            enqueueKeys([VK.EXIT], 55);
+        }
+        scheduleLeftoverAimReopen(actor, why);
+        return true;
+    }
+
+    function handleLeftoverAimAdj(why) {
+        var strike = null;
+        try { strike = namedAdjStrike(); } catch (eS) { strike = null; }
+        if (strike && strike.unit && actorBoundForAim(strike.unit) &&
+            !actorSpent(strike.unit)) {
+            return exitLeftoverAimThenReopen(strike.unit, why || 'leftover-adj');
+        }
+        return false;
     }
 
     function exitLeftoverAimOnce(why, extra) {
@@ -4897,6 +5194,9 @@
                     return;
                 }
                 if (tryCommitMeleeAim(why || 'watchdog-aim')) {
+                    return;
+                }
+                if (handleLeftoverAimAdj(why || 'watchdog-aim')) {
                     return;
                 }
                 /* leftover AIM 先 EXIT 再 forceShow，绝不能停在 phase=3 空白。 */
@@ -6205,6 +6505,9 @@
         var phase = Number(fight.phase) || 0;
         if (phase === 3) {
             if (leftoverAim(fight)) {
+                if (handleLeftoverAimAdj('drive-leftover-aim')) {
+                    return true;
+                }
                 if (recentlyLeftAim()) {
                     scheduleDriveSoon('rest-after-aim-exit', 240);
                     return true;
@@ -6896,6 +7199,9 @@
             forceRevealActMenu('attack-click');
             armBlankMenuWatchdog('after-attack');
             if (leftoverAim(fightAtk)) {
+                if (handleLeftoverAimAdj('attack-leftover-aim')) {
+                    return;
+                }
                 var foe = nearestEnemy();
                 leaveAimAndRearm('attack-leftover-aim', state.movedThisAct
                     ? { thenRest: true }
@@ -7372,6 +7678,11 @@
     }
 
     function rebuildStaleAimRng(actor) {
+        if (actor && actorBoundForAim(actor) &&
+            (unitMeleeEnemy(actor) || unitAdjacentEnemy(actor, 1))) {
+            exitLeftoverAimThenReopen(actor, 'stale-rng');
+            return;
+        }
         state.staleRngN = (state.staleRngN || 0) + 1;
         if (state.staleRngN >= 2) {
             console.log('[hd-battle] aim-stale-rng-give-up', {
@@ -8051,6 +8362,13 @@
             clearPhase1EnterCap('prepare-new');
             clearNextUnitStall('prepare-new');
             try { clearHandoffSkip('prepare-new'); } catch (eHs) {}
+            state.leftoverAimReopenN = 0;
+            state.leftoverAimReopenActor = '';
+            state.leftoverAimReopenAt = 0;
+            if (state.leftoverAimReopenTimer) {
+                clearTimeout(state.leftoverAimReopenTimer);
+                state.leftoverAimReopenTimer = 0;
+            }
             state.pendingHandoff = false;
             state.handoffBanExitUntil = 0;
             state.approachedThisAct = false;
@@ -8863,9 +9181,11 @@
                 confirmAimHit(peUnit || { name: pe.name }, pe.x, pe.y, 'wait-rng-melee', { dist: peDist });
             } else if (leftoverAim(fightNow) && !recentlyLeftAim()) {
                 state.pendingAimEnter = null;
-                leaveAimAndRearm('refresh-aim-wait-oor', state.movedThisAct
-                    ? { thenRest: true }
-                    : { thenApproach: { x: pe.x, y: pe.y } });
+                if (!handleLeftoverAimAdj('refresh-aim-wait-oor')) {
+                    leaveAimAndRearm('refresh-aim-wait-oor', state.movedThisAct
+                        ? { thenRest: true }
+                        : { thenApproach: { x: pe.x, y: pe.y } });
+                }
             }
             }
         } else if (fightNow && Number(fightNow.phase) === 3 &&
@@ -8873,15 +9193,21 @@
             if (aimCommitHolds()) {
                 if (leftoverAim(fightNow) && !recentlyLeftAim() &&
                     Date.now() - (state.lastAimExitAt || 0) > 400) {
-                    leaveAimAndRearm('refresh-aim-commit', state.movedThisAct ? { thenRest: true } : null);
+                    if (!handleLeftoverAimAdj('refresh-aim-commit')) {
+                        leaveAimAndRearm('refresh-aim-commit', state.movedThisAct ? { thenRest: true } : null);
+                    }
                 }
             } else if (!tryCommitMeleeAim('refresh-aim') && leftoverAim(fightNow) &&
                 !recentlyLeftAim() && Date.now() - (state.lastAimExitAt || 0) > 400) {
-                leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
+                if (!handleLeftoverAimAdj('refresh-leftover-aim')) {
+                    leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
+                }
             }
         } else if (leftoverAim(fightNow) && !recentlyLeftAim() &&
             Date.now() - (state.lastAimExitAt || 0) > 400) {
-            leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
+            if (!handleLeftoverAimAdj('refresh-leftover-aim')) {
+                leaveAimAndRearm('refresh-leftover-aim', state.movedThisAct ? { thenRest: true } : null);
+            }
         }
         maybeResumePlayerTurn(fightNow);
         if (!enemyTurnQuiet(fightNow) && Number(fightNow && fightNow.phase) !== 3) {
