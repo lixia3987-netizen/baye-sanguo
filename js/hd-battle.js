@@ -3961,6 +3961,10 @@
         if (fight && Number(fight.phase) === 2) {
             return false;
         }
+        if (fight && Number(fight.phase) === 1 && fight.wait && state.lastHitAt) {
+            try { clickNextAfterHit(); } catch (eP1) {}
+            return true;
+        }
         if (fight && Number(fight.phase) === 3) {
             /* 命中后先让引擎结算伤害。没掉血就再灌一次 phase3 ENTER，禁止立刻 EXIT。 */
             if (!dropped && aimCommitHolds() && !state.leavingAim) {
@@ -4677,6 +4681,11 @@
                     }
                 }
                 armBlankMenuWatchdog('after-hit-phase2');
+                return;
+            }
+            if (state.lastHitAt && Number(fight && fight.phase) === 1) {
+                try { clickNextAfterHit(); } catch (eP1w) {}
+                armBlankMenuWatchdog('after-hit-phase1');
                 return;
             }
             if (state.lastHitAt && Number(fight && fight.phase) !== 3 &&
