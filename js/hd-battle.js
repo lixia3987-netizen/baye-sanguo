@@ -2841,6 +2841,9 @@
             return;
         }
         var nextOther = firstWaitingOwn({ skipLord: true });
+        if (nextOther && unitCapKey(nextOther) === stuckKey) {
+            nextOther = null;
+        }
         var nextLord = firstWaitingOwn({ lordOnly: true });
         if (nextOther) {
             clearPendingApproach();
@@ -2848,11 +2851,11 @@
             pickNextCapableAfterGiveUp('phase1-enter-stuck');
             return;
         }
+        if (state.lastHitAt || state.adjRecoverGiveUpKey || shouldSysEndAfterLordHold()) {
+            sysEndPlayerTurn('phase1-enter-stuck-end');
+            return;
+        }
         if (nextLord) {
-            if (shouldSysEndAfterLordHold()) {
-                sysEndPlayerTurn('phase1-enter-stuck-end');
-                return;
-            }
             clearPendingApproach();
             clearPhase1EnterCap('phase1-stuck-next');
             armNextWaitingOwn('phase1-enter-stuck', { force: true });
@@ -4432,8 +4435,8 @@
             if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
                 continue;
             }
-            /* 卡住但还能走近敌军的副将（梁兴）必须还能被选，禁止因此落到君主。 */
-            if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1) && !unitCanReachEnemy(u)) {
+            /* 两次选将仍停 phase1 且未贴脸：换人，禁止对杨秋自己格连发 ENTER。 */
+            if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1)) {
                 continue;
             }
             return u;
