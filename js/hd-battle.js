@@ -247,7 +247,8 @@
         phase1FailN: 0,
         woundedEnemies: {},
         lastWoundedEnemy: null,
-        sameDestSwitchedActor: ''
+        sameDestSwitchedActor: '',
+        lastLeftoverAimStuckRestAt: 0
     };
 
     function readStorage(key, fallback) {
@@ -2365,10 +2366,10 @@
     function clearLeftoverAfterHit(why) {
         try { dropQueuedExits(); } catch (eEx) {}
         try { dropQueuedDirs(); } catch (eDir) {}
-        state.lastLeftoverActExitAt = 0;
+        state.lastLeftoverActExitAt = Date.now();
         state.pendingHandoff = true;
         state.handoffAt = Date.now();
-        state.handoffBanExitUntil = Date.now() + 450;
+        state.handoffBanExitUntil = Date.now() + 900;
         state.leavingAim = false;
         state.awaitingAimUntil = 0;
         state.pendingAimEnter = null;
@@ -4081,6 +4082,9 @@
         if (aimCommitHolds()) {
             return true;
         }
+        if (aimAgeMs() > 2800 && !hasLegalAimTarget() && leftoverAim(fight)) {
+            return handleLeftoverAimAdj(why || 'melee-leftover-stuck');
+        }
         if (state.lastMeleeTryAt && Date.now() - state.lastMeleeTryAt < 280) {
             return false;
         }
@@ -5083,6 +5087,12 @@
             dumpEnterSwallow('leftover-aim-stuck', {
                 aimAge: age, adj: !!(adjacentEnemy(1)), likely: likelyAimTarget()
             });
+            if (age > 2800 &&
+                !(state.lastLeftoverAimStuckRestAt &&
+                    Date.now() - state.lastLeftoverAimStuckRestAt < 900)) {
+                state.lastLeftoverAimStuckRestAt = Date.now();
+                try { handleLeftoverAimAdj('leftover-aim-stuck'); } catch (eStuck) {}
+            }
             return true;
         }
         /* Attack ENTER 之后等射程表；awaiting 窗口内绝不当 leftover，否则 refresh 会 EXIT 掉 attack-hit。 */
