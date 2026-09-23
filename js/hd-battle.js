@@ -3772,10 +3772,7 @@
         if (!state.lastHitActor || !(state.lastHitAt || state.fightHitAt)) {
             return false;
         }
-        var hitAt = state.lastHitAt || state.fightHitAt;
-        if (Date.now() - hitAt > 20000) {
-            return false;
-        }
+        /* 本回合内 leftover 一直 spent。20s 过期会在 occupy 里把梁兴重新武装并卡死。 */
         if (!(state.lastHpDropAt || state.fightHitAt)) {
             return false;
         }
@@ -3790,10 +3787,6 @@
             return true;
         }
         if (!u || !state.lastHitActor || !(state.lastHitAt || state.fightHitAt)) {
-            return false;
-        }
-        var hitAt = state.lastHitAt || state.fightHitAt;
-        if (Date.now() - hitAt > 20000) {
             return false;
         }
         /* 假 hit（没掉血）：本将必须还能再打。真掉血后按名字跳过，贴脸也不得再武装。 */
