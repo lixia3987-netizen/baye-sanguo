@@ -197,6 +197,8 @@
         adjRecoverHoldAt: 0,
         adjRecoverTimer: 0,
         lastAdjRecoverWalkAt: 0,
+        lastAdjRecoverWalkDest: '',
+        adjRecoverGiveUpAt: 0,
         lastKeyAt: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
@@ -1189,7 +1191,7 @@
             }
             return false;
         }
-        var foe = nearestEnemy();
+        var foe = bestEnemyForApproach(nextOther || nextLord) || nearestEnemy();
         var destKey = ((nextOther && nextOther.name) || (nextLord && nextLord.name) || '') +
             '>' + (foe ? foe.name : '') + '@' + String(state.actedThisTurn || 0);
         if (state.nextUnitArmedKey === destKey &&
@@ -1624,6 +1626,50 @@
         return best;
     }
 
+    function enemyHasFreeOrtho(e) {
+        var dirs;
+        var di;
+        if (!e || e.x == null || e.y == null) {
+            return false;
+        }
+        dirs = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+        for (di = 0; di < dirs.length; di++) {
+            var tx = e.x + dirs[di][0];
+            var ty = e.y + dirs[di][1];
+            if (tx < 0 || ty < 0 || tx >= state.mapW || ty >= state.mapH) {
+                continue;
+            }
+            if (!unitAt(tx, ty)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* 优先能正交贴脸的敌军。方悦两侧被占时改走近王匡。 */
+    function bestEnemyForApproach(actor) {
+        actor = actor || actingActor();
+        var best = null;
+        var bestScore = 1e9;
+        var i;
+        if (!actor || actor.x == null || actor.y == null) {
+            return nearestEnemyFrom(actor);
+        }
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (!u || u.side !== 'enemy' || !enemyIsLiving(u)) {
+                continue;
+            }
+            var d = chebyshev(actor.x, actor.y, u.x, u.y);
+            var score = d + (enemyHasFreeOrtho(u) ? 0 : 12);
+            if (score < bestScore) {
+                best = u;
+                bestScore = score;
+            }
+        }
+        return best || nearestEnemyFrom(actor);
+    }
+
     function unitCanReachEnemy(u) {
         if (!u || u.x == null || u.y == null) {
             return false;
@@ -1939,12 +1985,18 @@
     }
 
     function noteRealAttackHit(info) {
-        if (!state.lastHitAt) {
-            state.lastHitAt = Date.now();
-        }
+        /* 每一击都刷新 lastHitAt，否则 5s stall-hold 只护第一击。 */
+        state.lastHitAt = Date.now();
         state.fightHitAt = state.lastHitAt;
         state.lastHpDropAt = Date.now();
         state.lastHpDrop = info || state.lastHpDrop;
+        state.endTurnBrokeN = 0;
+        state.forceEndTurnUntil = 0;
+        state.adjRecoverPickN = 0;
+        state.adjRecoverPickKey = '';
+        state.adjRecoverPickSent = false;
+        state.adjRecoverGiveUpAt = 0;
+        state.lastAdjRecoverWalkDest = '';
         state.lastHitActor = state.actorAt && state.actorAt.name
             ? { x: state.actorAt.x, y: state.actorAt.y, name: state.actorAt.name }
             : (state.aimCommit && state.aimCommit.actorName
@@ -2094,9 +2146,14 @@
             if (sameTileHitCapped(e)) {
                 continue;
             }
-            /* 两次选将仍停在 phase1 的贴脸将：换别人打，禁止本将 recover 死循环。 */
+            /* 两次选将仍停在 phase1 的贴脸将：先换别人。2.5s 后若仍是唯一贴脸则重试。 */
             if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
-                continue;
+                if (!(state.adjRecoverGiveUpAt && Date.now() - state.adjRecoverGiveUpAt > 2500)) {
+                    continue;
+                }
+                state.adjRecoverGiveUpKey = '';
+                state.adjRecoverGiveUpAt = 0;
+                state.adjRecoverPickN = 0;
             }
             if (!isLordUnit(u)) {
                 return { unit: u, enemy: e };
@@ -2481,6 +2538,7 @@
             next: 'other-unit'
         });
         state.adjRecoverGiveUpKey = strikeKey;
+        state.adjRecoverGiveUpAt = Date.now();
         markPhase1StuckUnit(strikeKey);
         clearPhase1EnterCap('adj-recover-give-up');
         hideSyntheticActMenu('adj-recover-give-up');
@@ -2510,7 +2568,8 @@
         state.movedThisAct = false;
         state.sawMoveThisTurn = false;
         state.walkSubmittedAt = 0;
-        var foe = (strike && strike.enemy) || unitAdjacentEnemy(next, 1) || nearestEnemyFrom(next);
+        var foe = (strike && strike.enemy) || unitAdjacentEnemy(next, 1) ||
+            bestEnemyForApproach(next) || nearestEnemyFrom(next);
         if (foe && !(unitAdjacentEnemy(next, 1))) {
             setPendingApproach(foe.x, foe.y);
         }
@@ -2761,8 +2820,9 @@
             return drivePhase0LiveAdjAim(why || 'adj-recover-act') ||
                 openAimFromActMenu(why || 'adj-recover-act', strike);
         }
-        try { cur = syncFocusFromEngine(); } catch (eC) { cur = null; }
-        onUnit = !!(cur && cur.x === strike.unit.x && cur.y === strike.unit.y);
+        try { cur = engineFocusTile() || syncFocusFromEngine(); } catch (eC) { cur = null; }
+        /* 必须引擎光标真的停在该将格。walkFocusTo 乐观坐标会把 ENTER 打到邻格敌军。 */
+        onUnit = focusOnNamedUnit(strike.unit);
         if (onUnit) {
             if (!state.adjRecoverHoldAt) {
                 state.adjRecoverHoldAt = Date.now();
@@ -2778,7 +2838,7 @@
                 lastSendAge = Date.now() - state.lastKeyAt;
             }
         } catch (eAge) {}
-        focusStable = !!(onUnit && !queueBusy && holdMs >= 280 && lastSendAge >= 280);
+        focusStable = !!(onUnit && !queueBusy && holdMs >= 360 && lastSendAge >= 360);
         if (cur && cur.x != null && cur.y != null) {
             dist = chebyshev(cur.x, cur.y, strike.unit.x, strike.unit.y);
         }
@@ -2884,8 +2944,16 @@
                 setAdjRecoverStage('walk');
                 return true;
             }
+            var walkKey = unitCapKey(strike.unit);
+            if (state.lastAdjRecoverWalkDest === walkKey && state.lastAdjRecoverWalkAt &&
+                Date.now() - state.lastAdjRecoverWalkAt < 900) {
+                setAdjRecoverStage('walk');
+                scheduleAdjRecover('adj-recover-walk-wait', 120);
+                return true;
+            }
             setAdjRecoverStage('walk');
             state.lastAdjRecoverWalkAt = Date.now();
+            state.lastAdjRecoverWalkDest = walkKey;
             state.lastPickWalkAt = Date.now();
             dropQueuedEnters();
             walkFocusTo(strike.unit.x, strike.unit.y, false);
@@ -2909,7 +2977,10 @@
                 scheduleAdjRecover('adj-recover-hold', 80);
                 return true;
             }
-            if ((state.adjRecoverPickN || 0) >= 2 && state.adjRecoverPickKey === strikeKey) {
+            if (state.adjRecoverPickKey && state.adjRecoverPickKey !== strikeKey) {
+                state.adjRecoverPickN = 0;
+            }
+            if ((state.adjRecoverPickN || 0) >= 4 && state.adjRecoverPickKey === strikeKey) {
                 return giveUpAdjRecover(strike, why, fight);
             }
             if (state.adjRecoverStage === 'wait-move' && state.adjRecoverPickAt &&
@@ -3507,7 +3578,7 @@
 
     function focusedFightUnit() {
         var cur = null;
-        try { cur = syncFocusFromEngine(); } catch (eF) {}
+        try { cur = engineFocusTile() || syncFocusFromEngine(); } catch (eF) {}
         if (!cur || cur.x == null || cur.y == null) {
             return null;
         }
@@ -3944,7 +4015,8 @@
                 return true;
             }
         }
-        var nextOwn = firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
+        var nextOwn = nearestActionableOwn({ skipLord: true, includeStuck: true }) ||
+            firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
             firstWaitingOwn({ skipLord: true }) ||
             firstWaitingOwn({ lordOnly: true });
         if (nextOwn && !actorSpent(nextOwn) && !recentlyHitActor(nextOwn)) {
@@ -3957,10 +4029,7 @@
             });
             if (killableAdjAlive()) {
                 return commitAdjacentMelee('after-hit-stall-melee') ||
-                    forceFinishWaitingOrEndTurn('after-hit-stall');
-            }
-            if (endTurnBrokeArmed() || nextUnitStalled()) {
-                return forceFinishWaitingOrEndTurn('after-hit-stall');
+                    armNextWaitingOwn('after-attack-hit', { force: true });
             }
             var armedHit = armNextWaitingOwn('after-attack-hit', { force: true });
             setTimeout(function () {
@@ -3975,7 +4044,8 @@
             return armedHit;
         }
         if (dropped || state.lastHitAt || state.fightHitAt) {
-            var leftoverHit = firstWaitingOwn({ skipLord: true, includeStuck: true });
+            var leftoverHit = nearestActionableOwn({ skipLord: true, includeStuck: true }) ||
+                firstWaitingOwn({ skipLord: true, includeStuck: true });
             if (leftoverHit && !actorSpent(leftoverHit) && !recentlyHitActor(leftoverHit)) {
                 console.log('[hd-battle] after-hit-settle', {
                     phase: fight ? Number(fight.phase) : null,
@@ -4173,6 +4243,8 @@
             state.approachTilesPeak = 0;
             state.approachTilesStableAt = 0;
             state.lastLeftoverActExitAt = 0;
+            state.lastAdjRecoverWalkDest = '';
+            state.adjRecoverGiveUpAt = 0;
             if (state.adjRecoverTimer) {
                 clearTimeout(state.adjRecoverTimer);
                 state.adjRecoverTimer = 0;
@@ -5103,7 +5175,7 @@
         noteActingUnit(next);
         state.pendingActPick = 0;
         state.movedThisAct = false;
-        var foe = unitAdjacentEnemy(next, 1) || nearestEnemyFrom(next);
+        var foe = unitMeleeEnemy(next) || bestEnemyForApproach(next) || nearestEnemyFrom(next);
         if (foe) {
             setPendingApproach(foe.x, foe.y);
         }
@@ -5243,6 +5315,11 @@
                 via: why || 'prefer-rest', why: 'phase1-wait-noop'
             });
             if (armCapableSkipLord((why || 'prefer-rest') + '-phase1-other')) {
+                return;
+            }
+            if (/after-approach-short/.test(why || '') &&
+                firstWaitingOwn({ skipLord: true, includeStuck: true })) {
+                try { armNextWaitingOwn('after-approach-short-phase1', { force: true }); } catch (eAs) {}
                 return;
             }
             if (shouldSysEndAfterLordHold()) {
@@ -5680,7 +5757,7 @@
             });
             return commitAdjacentMelee(why || 'lord-defer-melee');
         }
-        var foe = nearestEnemy();
+        var foe = bestEnemyForApproach(other) || nearestEnemy();
         clearPendingApproach();
         state.pendingActPick = 0;
         if (foe) {
@@ -5720,7 +5797,8 @@
         state.lordOpenDeferred = true;
         notePendingPick(nextOpen);
         noteActingUnit(nextOpen);
-        var openFoe = unitAdjacentEnemy(nextOpen, 1) || nearestEnemyFrom(nextOpen);
+        var openFoe = unitMeleeEnemy(nextOpen) || bestEnemyForApproach(nextOpen) ||
+            nearestEnemyFrom(nextOpen);
         if (openFoe && !unitMeleeEnemy(nextOpen)) {
             setPendingApproach(openFoe.x, openFoe.y);
         }
@@ -5825,7 +5903,7 @@
         if (phase === 2 && wantsWalkBeforeAct(state.pendingActPick)) {
             /* 点「攻击」后停在 FgtGenMove。超距就走近再打，绝不原地回车进瞄准。 */
             if (!state.pendingApproach) {
-                var foe = nearestEnemy();
+                var foe = bestEnemyForApproach(actingActor()) || nearestEnemy();
                 if (foe) {
                     setPendingApproach(foe.x, foe.y);
                 }
@@ -6050,10 +6128,11 @@
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y, {
                 noStep: !filled && tiles < 6
             });
+            var closerRank = closer ? approachTileRank(closer.x, closer.y, dest.x, dest.y) : 99;
             var closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
             var noVia = !closer;
-            /* 未贴脸（Chebyshev>1）且走格表还在涨：继续等，禁止短走提交。 */
-            var stillFilling = !filled && closer && closerD > 1;
+            /* 未正交贴脸（rank>1，对角 1.45 也算短）且走格表还在涨：继续等。 */
+            var stillFilling = !filled && closer && closerRank > 1;
             var emptyFilling = !filled && tiles < 2 && noVia;
             if (stillFilling || emptyFilling) {
                 state.approachWaitLogs = (state.approachWaitLogs || 0) + 1;
@@ -6065,7 +6144,27 @@
             }
             if (noVia) {
                 closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y, { noStep: false });
+                closerRank = closer ? approachTileRank(closer.x, closer.y, dest.x, dest.y) : 99;
                 closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
+            }
+            if (closer && closerRank > 1) {
+                var altDest = bestEnemyForApproach(actor);
+                if (altDest && (altDest.x !== dest.x || altDest.y !== dest.y)) {
+                    var altVia = findCloserMoveTile(actor.x, actor.y, altDest.x, altDest.y, {
+                        noStep: false
+                    });
+                    var altRank = altVia ? approachTileRank(altVia.x, altVia.y, altDest.x, altDest.y) : 99;
+                    if (altVia && altRank < closerRank) {
+                        console.log('[hd-battle] approach-retarget', {
+                            from: dest, to: { name: altDest.name, x: altDest.x, y: altDest.y },
+                            rank: closerRank, altRank: altRank
+                        });
+                        dest = { x: altDest.x, y: altDest.y };
+                        closer = altVia;
+                        closerRank = altRank;
+                        closerD = chebyshev(altVia.x, altVia.y, dest.x, dest.y);
+                    }
+                }
             }
             if (!closer) {
                 console.log('[hd-battle] approach-giveup', {
@@ -6098,7 +6197,8 @@
                 console.log('[hd-battle] approach walk', dest, 'via', closer, {
                     tiles: tiles,
                     dist: closerD,
-                    short: closerD > 1,
+                    rank: closerRank,
+                    short: closerRank > 1,
                     from: { x: actor.x, y: actor.y, name: actor && actor.name }
                 });
                 state.walkSubmittedAt = Date.now();
@@ -6402,11 +6502,16 @@
                     if (aimOrMeleeMovedActor('attack-after-short-walk')) {
                         return;
                     }
+                    if (state.lastHitAt &&
+                        firstWaitingOwn({ skipLord: true, includeStuck: true })) {
+                        try { armNextWaitingOwn('attack-after-short-walk-next', { force: true }); } catch (eNx) {}
+                        return;
+                    }
                     preferRest('attack-after-short-walk');
                     return;
                 }
-                var keepFoe = nearestEnemy();
                 var keepOwn = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
+                var keepFoe = bestEnemyForApproach(keepOwn) || nearestEnemy();
                 if (keepOwn && (actorSpent(keepOwn) || recentlyHitActor(keepOwn))) {
                     keepOwn = firstWaitingOwn({ skipLord: true }) || firstWaitingOwn({ lordOnly: true });
                 }
@@ -6476,7 +6581,7 @@
                     preferRest('lord-hold-attack');
                     return;
                 }
-                var foeAtk = nearestEnemy();
+                var foeAtk = bestEnemyForApproach(actingActor()) || nearestEnemy();
                 if (foeAtk) {
                     state.approachedThisAct = true;
                     setPendingApproach(foeAtk.x, foeAtk.y);
@@ -6508,7 +6613,7 @@
                     sysEndPlayerTurn('lord-hold-attack-commit');
                     return;
                 }
-                var foeHold = nearestEnemy();
+                var foeHold = bestEnemyForApproach(actingActor()) || nearestEnemy();
                 if (foeHold) {
                     state.approachedThisAct = true;
                     setPendingApproach(foeHold.x, foeHold.y);
@@ -6827,11 +6932,38 @@
         return null;
     }
 
+    function engineFocusTile() {
+        var fx = null;
+        var fy = null;
+        try {
+            var data = engineData();
+            fx = readNumber(data, 'g_FoucsX');
+            fy = readNumber(data, 'g_FoucsY');
+        } catch (eE) {}
+        if (fx == null || fy == null || !isFinite(fx) || !isFinite(fy)) {
+            return null;
+        }
+        return { x: Number(fx), y: Number(fy) };
+    }
+
+    function focusOnNamedUnit(u) {
+        if (!u || !u.name || u.x == null || u.y == null) {
+            return false;
+        }
+        var cur = engineFocusTile();
+        if (!cur || cur.x !== u.x || cur.y !== u.y) {
+            return false;
+        }
+        var at = unitAt(cur.x, cur.y);
+        return !!(at && at.side === 'player' && at.name === u.name);
+    }
+
     function syncFocusFromEngine() {
         var fight = readFight();
         var data = engineData();
-        var fx = fight && fight.focusX != null ? Number(fight.focusX) : readNumber(data, 'g_FoucsX');
-        var fy = fight && fight.focusY != null ? Number(fight.focusY) : readNumber(data, 'g_FoucsY');
+        var live = engineFocusTile();
+        var fx = live ? live.x : (fight && fight.focusX != null ? Number(fight.focusX) : readNumber(data, 'g_FoucsX'));
+        var fy = live ? live.y : (fight && fight.focusY != null ? Number(fight.focusY) : readNumber(data, 'g_FoucsY'));
         if (fx != null && isFinite(fx)) {
             state.focus.x = fx;
         }
@@ -7186,8 +7318,7 @@
         /* AIM/贴脸走近不得叠方向键，否则会走过敌军格。 */
         dropQueuedDirs();
         enqueueKeys(keys, 70);
-        state.focus.x = x;
-        state.focus.y = y;
+        /* 不乐观改 state.focus：recover 必须等 g_FoucsX/Y 真到格才 ENTER。 */
     }
 
     function clickBattleTile(x, y) {
