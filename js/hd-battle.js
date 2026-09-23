@@ -2424,6 +2424,11 @@
             y: rec.y,
             age: Date.now() - rec.at
         });
+        /* phase 离开 AIM 太快时 after-hit-settle 会被清掉。先在敌军格回车记录掉血。 */
+        if (rec.sentEnter && rec.onTile && !rec.hpDropped &&
+            /phase-leave|fight-over/.test(why || '')) {
+            try { verifyHitHpDrop(why || 'phase-leave'); } catch (eDrop) {}
+        }
         state.aimCommit = null;
     }
 
