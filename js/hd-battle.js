@@ -1293,17 +1293,20 @@
     }
 
     function setPendingApproach(x, y) {
+        var pick = state.pendingPickUnit || '';
         var actor = actingActor();
         var strike = null;
         try { strike = adjacentWaitingStrike(); } catch (eS) {}
-        if (x != null && y != null) {
-            if (actor && actor.x != null && chebyshev(actor.x, actor.y, x, y) <= 1) {
+        /* 只挡「正在选的这将」已贴脸。give-up 后 leftover actorAt（庞德）不得挡住下一将走近。 */
+        if (x != null && y != null && pick) {
+            if (actor && unitCapKey(actor) === pick &&
+                chebyshev(actor.x, actor.y, x, y) <= 1) {
                 console.log('[hd-battle] approach-skip-adj', {
                     via: 'actor', name: actor.name, dest: { x: x, y: y }
                 });
                 return false;
             }
-            if (strike && strike.unit && state.pendingPickUnit === unitCapKey(strike.unit) &&
+            if (strike && strike.unit && unitCapKey(strike.unit) === pick &&
                 chebyshev(strike.unit.x, strike.unit.y, x, y) <= 1) {
                 console.log('[hd-battle] approach-skip-adj', {
                     via: 'strike', name: strike.unit.name, dest: { x: x, y: y }
@@ -1982,6 +1985,7 @@
         writeFightActCommit(0xFF);
         setAdjRecoverStage('give-up');
         state.movedThisAct = false;
+        state.actorAt = null;
         state.adjRecoverPickSent = false;
         state.nextUnitArmedKey = '';
         state.lastArmNextAt = 0;
@@ -2327,6 +2331,7 @@
             setAdjRecoverStage('walk');
             state.lastAdjRecoverWalkAt = Date.now();
             state.lastPickWalkAt = Date.now();
+            dropQueuedEnters();
             walkFocusTo(strike.unit.x, strike.unit.y, false);
             var walkDelay = 180;
             try {
@@ -4263,6 +4268,11 @@
     }
 
     function preferRest(why) {
+        var restFight = null;
+        try { restFight = readFight(); } catch (eRF) {}
+        if (phase0LiveAdjReady(restFight) && drivePhase0LiveAdjAim(why || 'rest-blocked-phase0')) {
+            return;
+        }
         if (killableAdjAlive() &&
             /stall-break-rest|act-commit|approach-nowait|after-hit|end-player-turn-stall|phase1-enter-stuck|lord-hold|attack-after-short-walk/.test(why || '')) {
             console.log('[hd-battle] rest-blocked', { via: why || 'prefer-rest', why: 'adj-enemy-alive' });
@@ -5353,10 +5363,14 @@
             var fightAtk = null;
             try { fightAtk = readFight(); } catch (eAtk) {}
             /* 攻击已点：贴脸立刻近战 ENTER。走格已花且未贴脸必须待机，禁止 keep-walk 软循环。 */
-            if (adjacentWaitingStrike() && commitAdjacentMelee('attack-adj-menu')) {
+            if (phase0LiveAdjReady(fightAtk) && drivePhase0LiveAdjAim('attack-adj-menu')) {
                 return;
             }
-            if (!adjacentEnemy(1) && !adjacentWaitingStrike()) {
+            if ((adjacentWaitingStrike() || liveAdjStrike()) &&
+                commitAdjacentMelee('attack-adj-menu')) {
+                return;
+            }
+            if (!adjacentEnemy(1) && !adjacentWaitingStrike() && !liveAdjStrike()) {
                 var alreadyMoved = !!(state.movedThisAct ||
                     (state.sawMoveThisTurn && fightAtk && !fightAtk.wait));
                 if (alreadyMoved) {
