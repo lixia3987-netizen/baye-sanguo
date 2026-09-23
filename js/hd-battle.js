@@ -612,6 +612,11 @@
             if (code === VK.EXIT && fightReallyActive() && !overNow &&
                 !state.leavingAim && !state.openedSysForEndTurn && !state.allowEndTurnEnter &&
                 !forceEndTurnArmed() && !endTurnBrokeArmed()) {
+                /* 真伤后 leftover PlcSplMenu 必须 EXIT 才能选下一将，不是结束回合。 */
+                var leftoverActExit = !!(state.pendingApproach || state.pendingPickUnit) &&
+                    fightKey && !fightKey.wait && (Number(fightKey.phase) || 0) === 0 &&
+                    !!(state.lastHitAt || state.fightHitAt);
+                if (!leftoverActExit) {
                 var moreOwn = playerHasWaitingOwn() || endTurnHeld() ||
                     ((state.actedThisTurn || 0) < countPlayerUnits() &&
                         Date.now() - (state.lastRestCommitAt || 0) < 5000);
@@ -626,6 +631,7 @@
                         armNextWaitingOwn('exit-blocked');
                     }
                     return false;
+                }
                 }
             }
             if (fightReallyActive() && state.lastRestCommitAt &&
