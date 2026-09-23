@@ -248,6 +248,7 @@
         woundedEnemies: {},
         lastWoundedEnemy: null,
         sameDestSwitchedActor: '',
+        sameDestSwitchTo: {},
         lastLeftoverAimStuckRestAt: 0
     };
 
@@ -1023,6 +1024,7 @@
             state.forceEndTurnUntil = 0;
             state.endTurnBrokeN = 0;
             state.sameDestSwitchedActor = '';
+            state.sameDestSwitchTo = {};
             state.stallMeleeTried = false;
         }
     }
@@ -1274,6 +1276,10 @@
                         n: state.endTurnStallN || 0
                     });
                     state.sameDestSwitchedActor = curActor.name;
+                    if (!state.sameDestSwitchTo) {
+                        state.sameDestSwitchTo = {};
+                    }
+                    state.sameDestSwitchTo[curActor.name] = altFoe.name;
                     foe = altFoe;
                     destKey = (curActor.name || '') + '>' + (altFoe.name || '') +
                         '@' + String(state.actedThisTurn || 0);
@@ -1830,6 +1836,22 @@
     function bestEnemyForApproach(actor, opts) {
         opts = opts || {};
         actor = actor || actingActor();
+        var forcedName = actor && actor.name && state.sameDestSwitchTo
+            ? state.sameDestSwitchTo[actor.name] : '';
+        if (forcedName) {
+            var forced = null;
+            var fi;
+            for (fi = 0; fi < state.units.length; fi++) {
+                if (state.units[fi] && state.units[fi].name === forcedName &&
+                    enemyIsLiving(state.units[fi])) {
+                    forced = state.units[fi];
+                    break;
+                }
+            }
+            if (forced) {
+                return forced;
+            }
+        }
         var living = livingEnemies();
         var best = null;
         var bestScore = 1e9;
@@ -6029,6 +6051,9 @@
                     return true;
                 }
                 if (playerHasWaitingOwn()) {
+                    if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 2000) {
+                        return false;
+                    }
                     armNextWaitingOwn('post-hit-next', { force: true });
                 }
                 return false;
