@@ -3266,7 +3266,10 @@
         extra.ay = actor.y;
         extra.aimType = aimType;
         extra.inRng = inAtkRng(x, y) === true;
-        if (!extra.inRng) {
+        extra.ortho = !!(actor.x != null && x != null &&
+            Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
+        /* 正交贴脸即使射程表 residual/stale 也 ENTER。对角仍拒绝。 */
+        if (!extra.inRng && !extra.ortho) {
             console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
                 via: extra.via || 'not-in-rng',
                 actor: actor.name,
@@ -3373,7 +3376,11 @@
         var target = firstLegalAimEnemy();
         if (!target) {
             var adjOnly = adjacentEnemy(1);
-            if (adjOnly && inAtkRng(adjOnly.x, adjOnly.y) === true) {
+            var actorTry = null;
+            try { actorTry = resolveNamedActor(actingActor()); } catch (eT) { actorTry = actingActor(); }
+            if (adjOnly && (inAtkRng(adjOnly.x, adjOnly.y) === true ||
+                (actorTry && actorTry.x != null &&
+                    Math.abs(actorTry.x - adjOnly.x) + Math.abs(actorTry.y - adjOnly.y) === 1))) {
                 target = adjOnly;
             }
         }
@@ -4471,15 +4478,37 @@
                 dropQueuedEnters();
                 return;
             }
-            if (state.pendingApproach && fight && Number(fight.phase) === 2 && fight.wait) {
-                if (!approachStuck(fight)) {
-                    scheduleDrive('watchdog-flush-walk');
-                    armBlankMenuWatchdog('still-approach');
+            if (fight && Number(fight.phase) === 2 && fight.wait) {
+                if (state.pendingApproach) {
+                    if (!approachStuck(fight)) {
+                        scheduleDrive('watchdog-flush-walk');
+                        armBlankMenuWatchdog('still-approach');
+                        return;
+                    }
+                    logBlankWatchdog('approach-stuck-flush', fight);
+                    flushStuckApproach('watchdog');
+                    forceShowFightMenu('watchdog-approach-stuck');
                     return;
                 }
-                logBlankWatchdog('approach-stuck-flush', fight);
-                flushStuckApproach('watchdog');
-                forceShowFightMenu('watchdog-approach-stuck');
+                var stay2 = null;
+                try { stay2 = bindWalkedActor() || actingActor(); } catch (eS2) {}
+                if (stay2 && unitMeleeEnemy(stay2)) {
+                    logBlankWatchdog('phase2-melee-stay', fight);
+                    writeFightActCommit(0xFF);
+                    enqueueKeys([VK.ENTER], 55);
+                    state.movedThisAct = true;
+                    scheduleActRearm('watchdog-phase2-melee');
+                    return;
+                }
+                var foe2 = nearestEnemyFrom(stay2) || nearestEnemy();
+                if (foe2 && stay2 && stay2.name && !isLordUnit(stay2)) {
+                    logBlankWatchdog('phase2-no-dest', fight);
+                    setPendingApproach(foe2.x, foe2.y);
+                    scheduleDriveSoon('watchdog-phase2-walk', 80);
+                    return;
+                }
+                logBlankWatchdog('phase2-idle-rest', fight);
+                preferRest('watchdog-phase2-idle');
                 return;
             }
             logBlankWatchdog(why || 'idle-hidden', fight);
