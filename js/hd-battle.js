@@ -2069,20 +2069,19 @@
         if ((Number(fight.phase) || 0) !== 0) {
             return false;
         }
-        if (liveActMenu()) {
-            var fu = null;
-            try { fu = focusedFightUnit(); } catch (eFu) { fu = null; }
-            if (fu && fu.side === 'player' && fu.name && isHandoffSkip(fu)) {
-                return true;
-            }
-            if (!(state.lastHitAt || state.fightHitAt)) {
-                return false;
-            }
-            if (fu && fu.side === 'player' && fu.name &&
-                !actorSpent(fu) && !recentlyHitActor(fu) && !isHandoffSkip(fu)) {
-                return false;
-            }
-        } else if (!(state.lastHitAt || state.fightHitAt)) {
+        if (!liveActMenu()) {
+            return false;
+        }
+        var fu = null;
+        try { fu = focusedFightUnit(); } catch (eFu) { fu = null; }
+        if (fu && fu.side === 'player' && fu.name && isHandoffSkip(fu)) {
+            return true;
+        }
+        if (!(state.lastHitAt || state.fightHitAt)) {
+            return false;
+        }
+        if (fu && fu.side === 'player' && fu.name &&
+            !actorSpent(fu) && !recentlyHitActor(fu) && !isHandoffSkip(fu)) {
             return false;
         }
         return true;
@@ -4868,12 +4867,14 @@
             }
             return false;
         }
-        /* 贴脸但射程未标：先给 melee ENTER ~2s；失败再 leftover，清 AIM 回行动菜单。 */
+        /* 贴脸但射程未标：先给 melee ENTER ~2.8s（含走到敌军格）；失败再 leftover。 */
         if (age > 2000 && !legal) {
+            if (stuckAim && stuckAim.unit && likelyAimTarget() && age < 2800) {
+                return false;
+            }
             dumpEnterSwallow('leftover-aim-stuck', {
                 aimAge: age, adj: !!(adjacentEnemy(1)), likely: likelyAimTarget()
             });
-            /* 贴脸但 2s 仍无合法格：EXIT 重开或换将，禁止 leftover-AIM 空转。 */
             return true;
         }
         /* Attack ENTER 之后等射程表；awaiting 窗口内绝不当 leftover，否则 refresh 会 EXIT 掉 attack-hit。 */
@@ -4917,7 +4918,8 @@
                 /* 真瞄准时菜单不得挡住点敌军。 */
                 state.holdActMenuUntil = 0;
             }
-            if (!aimCommitHolds() && hasLegalAimTarget()) {
+            if (!aimCommitHolds() && (hasLegalAimTarget() ||
+                (likelyAimTarget() && (adjacentWaitingStrike() || liveAdjStrike())))) {
                 tryCommitMeleeAim('aim-enter');
             }
             return;
@@ -5079,11 +5081,19 @@
     function handleLeftoverAimAdj(why) {
         var strike = null;
         try { strike = namedAdjStrike(); } catch (eS) { strike = null; }
-        if (strike && strike.unit && actorBoundForAim(strike.unit) &&
-            !actorSpent(strike.unit)) {
-            return exitLeftoverAimThenReopen(strike.unit, why || 'leftover-adj');
+        if (!(strike && strike.unit && actorBoundForAim(strike.unit) &&
+            !actorSpent(strike.unit))) {
+            return false;
         }
-        return false;
+        if (isHandoffSkip(strike.unit)) {
+            return restSkippedThenPickNext(why || 'leftover-skip');
+        }
+        /* 本将 AIM 已绑上仍无合法格，或已经 EXIT 重开过：待机换将，禁止 leftover-AIM 空转。 */
+        if (aimRngMatchesActor(strike.unit) || (state.leftoverAimReopenN || 0) >= 1) {
+            markHandoffSkip(strike.unit, 'leftover-aim-stuck');
+            return restSkippedThenPickNext(why || 'leftover-aim-stuck');
+        }
+        return exitLeftoverAimThenReopen(strike.unit, why || 'leftover-adj');
     }
 
     function exitLeftoverAimOnce(why, extra) {
