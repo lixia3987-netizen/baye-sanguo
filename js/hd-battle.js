@@ -5406,8 +5406,6 @@
                 !(state.leftoverAimForceEnterAt &&
                     Date.now() - state.leftoverAimForceEnterAt < 2200)) {
                 state.leftoverAimForceEnterAt = Date.now();
-                walkFocusTo(strike.enemy.x, strike.enemy.y, false);
-                enqueueKeys([VK.ENTER], 55);
                 console.log('[hd-battle] leftover-aim-force-enter', {
                     via: why || 'leftover-adj',
                     unit: strike.unit.name,
@@ -5415,6 +5413,8 @@
                     ex: strike.enemy.x,
                     ey: strike.enemy.y
                 });
+                confirmAimHit(strike.enemy, strike.enemy.x, strike.enemy.y,
+                    why || 'force-enter', {});
                 return true;
             }
             markHandoffSkip(strike.unit, 'leftover-aim-stuck');
@@ -7263,6 +7263,10 @@
                     scheduleDriveSoon('handoff-no-exit', 160);
                     return true;
                 }
+                if (state.lastHitAt && Date.now() - state.lastHitAt < 2000) {
+                    scheduleDriveSoon('after-hit-no-exit', 160);
+                    return true;
+                }
                 if (state.lastLeftoverActExitAt && Date.now() - state.lastLeftoverActExitAt < 900) {
                     scheduleDriveSoon('leftover-act-exit-wait', 120);
                     return true;
@@ -7471,6 +7475,10 @@
                         finishHandoff('approach-handoff-clear');
                     }
                     scheduleDriveSoon('handoff-no-exit', 160);
+                    return true;
+                }
+                if (state.lastHitAt && Date.now() - state.lastHitAt < 2000) {
+                    scheduleDriveSoon('after-hit-no-exit', 160);
                     return true;
                 }
                 if (state.lastLeftoverActExitAt && Date.now() - state.lastLeftoverActExitAt < 900) {
