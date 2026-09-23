@@ -1224,6 +1224,9 @@
                     firstWaitingOwn({ skipLord: true, includeStuck: true });
                 nextLord = nextOther ? null : firstWaitingOwn({ lordOnly: true });
                 if (!nextOther) {
+                    if (pickNextAfterHandoffSkip(why || 'handoff-skip-next')) {
+                        return true;
+                    }
                     return sysEndPlayerTurn(why || 'handoff-skip-end');
                 }
                 foe = bestEnemyForApproach(nextOther) || nearestEnemy();
@@ -2684,6 +2687,17 @@
         return false;
     }
 
+    function pickNextAfterHandoffSkip(why) {
+        var next = firstWaitingOwn({ skipLord: true }) ||
+            nearestActionableOwn({ skipLord: true }) ||
+            firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
+            nearestActionableOwn({ skipLord: true, includeStuck: true });
+        if (!next) {
+            return false;
+        }
+        return pickNextCapableAfterGiveUp(why || 'handoff-skip-next');
+    }
+
     function pickNextCapableAfterGiveUp(why) {
         var strike = adjacentWaitingStrike();
         var next = (strike && strike.unit) || firstWaitingOwn({ skipLord: true });
@@ -3954,11 +3968,7 @@
         var earlySkip = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
         if (earlySkip && isHandoffSkip(earlySkip)) {
             dropQueuedEnters();
-            var earlyNext = firstWaitingOwn({ skipLord: true }) ||
-                nearestActionableOwn({ skipLord: true });
-            if (earlyNext) {
-                pickNextCapableAfterGiveUp('phase1-already-skip');
-            } else {
+            if (!pickNextAfterHandoffSkip('phase1-already-skip')) {
                 sysEndPlayerTurn('phase1-already-skip-end');
             }
             return;
@@ -3993,13 +4003,24 @@
         markPhase1StuckUnit(stuckKey);
         if (isHandoffSkip(stuckKey) ||
             (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2))) {
+            var stuckU = null;
+            try { stuckU = focusedFightUnit(); } catch (eSu) { stuckU = null; }
+            if (stuckU && !unitMeleeEnemy(stuckU) && !isHandoffSkip(stuckKey)) {
+                var stuckFoe = bestEnemyForApproach(stuckU) || nearestEnemyFrom(stuckU);
+                notePendingPick(stuckU);
+                noteActingUnit(stuckU);
+                if (stuckFoe) {
+                    setPendingApproach(stuckFoe.x, stuckFoe.y);
+                }
+                console.log('[hd-battle] phase1-enter-approach', {
+                    unit: stuckKey, dest: stuckFoe && stuckFoe.name
+                });
+                scheduleDriveSoon('phase1-enter-approach', 80);
+                return;
+            }
             markHandoffSkip(stuckKey, 'phase1-enter-2');
             dropQueuedEnters();
-            var skipNext = firstWaitingOwn({ skipLord: true }) ||
-                nearestActionableOwn({ skipLord: true });
-            if (skipNext) {
-                pickNextCapableAfterGiveUp('phase1-enter-skip');
-            } else {
+            if (!pickNextAfterHandoffSkip('phase1-enter-skip')) {
                 sysEndPlayerTurn('phase1-enter-skip-end');
             }
             return;
