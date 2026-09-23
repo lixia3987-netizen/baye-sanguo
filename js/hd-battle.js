@@ -974,6 +974,12 @@
     }
 
     function keepAttackCommitEnter(why) {
+        var fightKeep = null;
+        try { fightKeep = readFight(); } catch (eKeep) {}
+        /* AIM 走位时菜单残留 ENTER 必须丢掉，否则会在敌军格外打空。 */
+        if (fightKeep && Number(fightKeep.phase) === 3) {
+            return !!(state.aimCommit && !state.aimCommit.sentEnter && aimCommitAgeMs() < 220);
+        }
         if (state.keepAttackEnterUntil && Date.now() < state.keepAttackEnterUntil) {
             if (why !== 'drop-enters') {
                 console.log('[hd-battle] enter-kept', { why: why || 'attack-commit' });
@@ -1806,7 +1812,7 @@
         state.movedThisAct = true;
         state.sawMoveThisTurn = true;
         state.lastAttackAt = Date.now();
-        state.keepAttackEnterUntil = Date.now() + 1400;
+        state.keepAttackEnterUntil = 0;
         noteAwaitingAim(2200);
         state.pendingAimEnter = {
             x: strike.enemy.x, y: strike.enemy.y, at: Date.now(), name: strike.enemy.name
