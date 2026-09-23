@@ -7370,9 +7370,16 @@
                 closerRank = closer ? approachTileRank(closer.x, closer.y, dest.x, dest.y) : 99;
                 closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
             }
-            if (closer && closerRank > 1 &&
-                !(actor && actor.name && state.sameDestSwitchTo &&
-                    state.sameDestSwitchTo[actor.name])) {
+            var switchPinned = '';
+            if (state.sameDestSwitchTo) {
+                if (actor && actor.name) {
+                    switchPinned = state.sameDestSwitchTo[actor.name] || '';
+                }
+                if (!switchPinned) {
+                    try { switchPinned = state.sameDestSwitchTo[pendingPickName()] || ''; } catch (ePn) {}
+                }
+            }
+            if (closer && closerRank > 1 && !switchPinned) {
                 var altDest = bestEnemyForApproach(actor);
                 if (altDest && (altDest.x !== dest.x || altDest.y !== dest.y)) {
                     var altVia = findCloserMoveTile(actor.x, actor.y, altDest.x, altDest.y, {
