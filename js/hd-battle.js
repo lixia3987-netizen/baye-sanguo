@@ -5311,7 +5311,7 @@
                 continue;
             }
             /* 两次选将仍停 phase1 且未贴脸：换人，禁止对杨秋自己格连发 ENTER。 */
-            if (isPhase1StuckUnit(u) && !unitAdjacentEnemy(u, 1)) {
+            if (isPhase1StuckUnit(u) && !unitMeleeEnemy(u)) {
                 continue;
             }
             return u;
