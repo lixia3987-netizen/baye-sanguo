@@ -1274,6 +1274,9 @@
         if (!u.name) {
             try { named = resolveNamedActor(u) || u; } catch (eN) { named = u; }
         }
+        if (!state.actorAt || state.actorAt.name !== (named.name || u.name || '')) {
+            state.staleRngN = 0;
+        }
         state.actorAt = {
             x: named.x != null ? named.x : u.x,
             y: named.y != null ? named.y : u.y,
@@ -1931,6 +1934,7 @@
             state.pendingPickUnit = '';
         }
         state.movedThisAct = false;
+        state.staleRngN = 0;
         noteUnitActed('attack-hit');
         clearPickThrottle('attack-hit');
         console.log('[hd-battle] attack-hit', {
@@ -2699,6 +2703,14 @@
         if (phase === 3) {
             setAdjRecoverStage('');
             noteActingUnit(strike.unit);
+            if (strike.enemy && inAtkRng(strike.enemy.x, strike.enemy.y) === true &&
+                aimRngMatchesActor(strike.unit)) {
+                return tryCommitMeleeAim(why || 'adj-recover-aim');
+            }
+            if (!aimRngMatchesActor(strike.unit)) {
+                rebuildStaleAimRng(strike.unit);
+                return true;
+            }
             return tryCommitMeleeAim(why || 'adj-recover-aim');
         }
         if (phase === 0 && !fight.wait && liveActMenu()) {
@@ -3268,8 +3280,28 @@
         extra.inRng = inAtkRng(x, y) === true;
         extra.ortho = !!(actor.x != null && x != null &&
             Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
-        /* 正交贴脸即使射程表 residual/stale 也 ENTER。对角仍拒绝。 */
-        if (!extra.inRng && !extra.ortho) {
+        extra.rngAt = aimRngOrigin();
+        /* FgtChkRng 用 g_FgtAtkRng。表中心不是本将落点 = leftover，ENTER 不掉血。 */
+        if (!extra.inRng) {
+            if (extra.ortho && !aimRngMatchesActor(actor)) {
+                console.log('[hd-battle] aim-stale-rng', JSON.stringify({
+                    via: extra.via || 'stale-rng',
+                    actor: actor.name,
+                    ax: actor.x,
+                    ay: actor.y,
+                    unit: u && u.name,
+                    x: x,
+                    y: y,
+                    rngAt: extra.rngAt,
+                    n: (state.staleRngN || 0) + 1
+                }));
+                rebuildStaleAimRng(actor);
+                return {
+                    x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                    tip: state.fightTip, blocked: 'stale-rng',
+                    inRng: false, via: extra.via
+                };
+            }
             console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
                 via: extra.via || 'not-in-rng',
                 actor: actor.name,
@@ -3278,7 +3310,8 @@
                 unit: u && u.name,
                 x: x,
                 y: y,
-                aimType: aimType
+                aimType: aimType,
+                rngAt: extra.rngAt
             }));
             return {
                 x: x, y: y, enter: false, unit: u && u.name, phase: 3,
@@ -3376,11 +3409,7 @@
         var target = firstLegalAimEnemy();
         if (!target) {
             var adjOnly = adjacentEnemy(1);
-            var actorTry = null;
-            try { actorTry = resolveNamedActor(actingActor()); } catch (eT) { actorTry = actingActor(); }
-            if (adjOnly && (inAtkRng(adjOnly.x, adjOnly.y) === true ||
-                (actorTry && actorTry.x != null &&
-                    Math.abs(actorTry.x - adjOnly.x) + Math.abs(actorTry.y - adjOnly.y) === 1))) {
+            if (adjOnly && inAtkRng(adjOnly.x, adjOnly.y) === true) {
                 target = adjOnly;
             }
         }
@@ -6619,6 +6648,54 @@
             return false;
         }
         return readNumber(rng, 3 + dx + dy * size) === 1;
+    }
+
+    function aimRngOrigin() {
+        try {
+            var data = engineData();
+            var rng = data && data.g_FgtAtkRng;
+            var size = rng ? readNumber(rng, 0) : 0;
+            if (!size) {
+                return null;
+            }
+            return {
+                x: readNumber(rng, 1) + (size >> 1),
+                y: readNumber(rng, 2) + (size >> 1),
+                size: size
+            };
+        } catch (eO) {
+            return null;
+        }
+    }
+
+    function aimRngMatchesActor(actor) {
+        var o = aimRngOrigin();
+        return !!(o && actor && actor.x != null && o.x === actor.x && o.y === actor.y);
+    }
+
+    function rebuildStaleAimRng(actor) {
+        state.staleRngN = (state.staleRngN || 0) + 1;
+        if (state.staleRngN >= 2) {
+            console.log('[hd-battle] aim-stale-rng-give-up', {
+                n: state.staleRngN,
+                actor: actor && actor.name,
+                rngAt: aimRngOrigin()
+            });
+            state.staleRngN = 0;
+            leaveAimAndRearm('aim-stale-rng-give-up', { thenRest: true });
+            pickNextCapableAfterGiveUp('aim-stale-rng');
+            return;
+        }
+        leaveAimAndRearm('aim-stale-rng');
+        setTimeout(function () {
+            try {
+                if (actor) {
+                    noteActingUnit(actor);
+                    notePendingPick(actor);
+                }
+                recoverAdjActThenAim('aim-rebuild-rng');
+            } catch (eR) {}
+        }, 220);
     }
 
     function keepAimEnter(why) {
