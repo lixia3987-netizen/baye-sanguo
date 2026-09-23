@@ -1547,7 +1547,7 @@
         return best;
     }
 
-    /* 近战只认正交贴脸或引擎射程表。对角 chebyshev=1 打不进 FgtChkRng。 */
+    /* 近战只认正交贴脸。leftover g_FgtAtkRng（庞德打完还标着方悦）不得把杨秋对角当成能打。 */
     function unitMeleeEnemy(unit) {
         var e = unitAdjacentEnemy(unit, 1);
         if (!e || !enemyIsLiving(e)) {
@@ -1558,7 +1558,7 @@
         if (dx + dy === 1) {
             return e;
         }
-        if (inAtkRng(e.x, e.y) === true) {
+        if (inAtkRng(e.x, e.y) === true && aimRngMatchesActor(unit)) {
             return e;
         }
         return null;
