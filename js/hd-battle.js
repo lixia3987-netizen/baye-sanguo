@@ -4587,9 +4587,11 @@
         if (endedAt && Date.now() - endedAt < 900) {
             return;
         }
-        /* 只在下一回合选将/走格 wait=1 时解除。wait=0 leftover 会把键打进敌方 AI。 */
-        if (playerHasWaitingOwn() && fight && !fight.over && fight.wait &&
-            (phase === 1 || phase === 2)) {
+        /* 只在下一回合选将/走格 wait=1 时解除。wait=0 leftover 会把键打进敌方 AI。
+         * 引擎已回到 phase=1 PICK 时即使 leftover STA_END 采样漏掉 waiting，也必须放行，
+         * 否则 playerTurnEnded 会把 after-end-turn 钉死整场。 */
+        if (fight && !fight.over && fight.wait && (phase === 1 || phase === 2) &&
+            (playerHasWaitingOwn() || phase === 1)) {
             state.playerTurnEnded = false;
             state.afterEndTurnUntil = 0;
             state.sawMoveThisTurn = phase === 2;
