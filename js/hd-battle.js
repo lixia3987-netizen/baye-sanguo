@@ -2049,6 +2049,9 @@
         if (!state.handoffSkipKeys) {
             state.handoffSkipKeys = {};
         }
+        if (state.handoffSkipKeys[key]) {
+            return;
+        }
         state.handoffSkipKeys[key] = Date.now();
         console.log('[hd-battle] handoff-skip', { via: why || 'skip', unit: key });
     }
@@ -3948,6 +3951,18 @@
             schedulePhase1StuckRecover(400);
             return;
         }
+        var earlySkip = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
+        if (earlySkip && isHandoffSkip(earlySkip)) {
+            dropQueuedEnters();
+            var earlyNext = firstWaitingOwn({ skipLord: true }) ||
+                nearestActionableOwn({ skipLord: true });
+            if (earlyNext) {
+                pickNextCapableAfterGiveUp('phase1-already-skip');
+            } else {
+                sysEndPlayerTurn('phase1-already-skip-end');
+            }
+            return;
+        }
         dropQueuedEnters();
         clearPhase1EnterCap('phase1-stuck-melee');
         clearPickThrottle('phase1-stuck-melee');
@@ -3976,8 +3991,18 @@
         var alreadyStuck = !!(stuckKey && state.phase1StuckUnitKeys &&
             state.phase1StuckUnitKeys[stuckKey]);
         markPhase1StuckUnit(stuckKey);
-        if (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2)) {
+        if (isHandoffSkip(stuckKey) ||
+            (state.lastHitAt && (alreadyStuck || (state.phase1FailN || 0) >= 2))) {
             markHandoffSkip(stuckKey, 'phase1-enter-2');
+            dropQueuedEnters();
+            var skipNext = firstWaitingOwn({ skipLord: true }) ||
+                nearestActionableOwn({ skipLord: true });
+            if (skipNext) {
+                pickNextCapableAfterGiveUp('phase1-enter-skip');
+            } else {
+                sysEndPlayerTurn('phase1-enter-skip-end');
+            }
+            return;
         }
         if (canCommitActMenu(fight) && killableAdjAlive()) {
             pickFightMenu(0);
@@ -4298,6 +4323,11 @@
         /* 将领行动已开也不能连发：盒子会停在 wait=true + 攻击高亮，zr 放行流会灌 ENTER。 */
         if (phase1EnterCapBlocksEnter()) {
             return 'phase1-enter-cap';
+        }
+        var skipFu = null;
+        try { skipFu = focusedFightUnit(); } catch (eSk) { skipFu = null; }
+        if (skipFu && isHandoffSkip(skipFu)) {
+            return 'handoff-skip';
         }
         if (liveActMenu()) {
             return '';
