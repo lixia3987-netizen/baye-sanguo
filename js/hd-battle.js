@@ -188,6 +188,7 @@
         adjRecoverHoldAt: 0,
         adjRecoverTimer: 0,
         lastAdjRecoverWalkAt: 0,
+        lastKeyAt: 0,
         afterHitTimer: 0,
         lastEnemyQuietLogAt: 0,
         lastSwallowAt: 0,
