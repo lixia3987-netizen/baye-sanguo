@@ -2143,9 +2143,42 @@
         return false;
     }
 
+    function pruneHandoffSkipMoved() {
+        var keep = {};
+        var k;
+        var live;
+        var name;
+        var nKeep = 0;
+        if (!state.handoffSkipKeys) {
+            return 0;
+        }
+        for (k in state.handoffSkipKeys) {
+            if (!state.handoffSkipKeys.hasOwnProperty(k) || k.indexOf('@') < 0) {
+                continue;
+            }
+            name = k.slice(0, k.indexOf('@'));
+            live = peekPlayerByName(name);
+            if (live && unitCapKey(live) === k) {
+                keep[k] = state.handoffSkipKeys[k];
+                keep[name] = state.handoffSkipKeys[name] || Date.now();
+                nKeep += 1;
+            }
+        }
+        state.handoffSkipKeys = keep;
+        return nKeep;
+    }
+
     function clearHandoffSkip(why) {
         var n = 0;
         var k;
+        var kept = 0;
+        if ((why === 'new-player-turn' || why === 'prepare-new') && state.handoffSkipKeys) {
+            kept = pruneHandoffSkipMoved();
+            if (kept) {
+                console.log('[hd-battle] handoff-skip-keep', { via: why || 'keep', n: kept });
+                return;
+            }
+        }
         if (state.handoffSkipKeys) {
             for (k in state.handoffSkipKeys) {
                 if (state.handoffSkipKeys.hasOwnProperty(k)) {
@@ -2160,6 +2193,20 @@
         if (n) {
             console.log('[hd-battle] handoff-skip-clear', { via: why || 'clear', n: n });
         }
+    }
+
+    function attackerRank(u) {
+        var name = u && u.name ? String(u.name) : '';
+        if (name === '庞德' || name === '梁兴') {
+            return 0;
+        }
+        if (name === '马腾') {
+            return 1;
+        }
+        if (name === '杨秋') {
+            return 3;
+        }
+        return 2;
     }
 
     function finishHandoff(why) {
@@ -2340,6 +2387,7 @@
     function adjacentWaitingStrike() {
         var i;
         var lordStrike = null;
+        var best = null;
         if (state.movedThisAct) {
             var moved = movedActorUnit();
             var movedE = moved && unitMeleeEnemy(moved);
@@ -2376,14 +2424,17 @@
                 state.adjRecoverGiveUpAt = 0;
                 state.adjRecoverPickN = 0;
             }
-            if (!isLordUnit(u)) {
-                return { unit: u, enemy: e };
+            if (isLordUnit(u)) {
+                if (!lordStrike) {
+                    lordStrike = { unit: u, enemy: e };
+                }
+                continue;
             }
-            if (!lordStrike) {
-                lordStrike = { unit: u, enemy: e };
+            if (!best || attackerRank(u) < attackerRank(best.unit)) {
+                best = { unit: u, enemy: e };
             }
         }
-        return lordStrike;
+        return best || lordStrike;
     }
 
     /* 真 PlcSplMenu 开着时：贴脸将即使刚走格不再 STA_WAIT，也要能开 AIM。 */
@@ -2791,8 +2842,8 @@
             !actorSpent(strike.unit)) {
             return pickNextCapableAfterGiveUp(why || 'handoff-skip-adj');
         }
-        next = firstWaitingOwn({ skipLord: true }) ||
-            nearestActionableOwn({ skipLord: true });
+        next = nearestActionableOwn({ skipLord: true }) ||
+            firstWaitingOwn({ skipLord: true });
         if (!next) {
             try { strike = namedAdjStrike(); } catch (eN) { strike = null; }
             if (strike && strike.unit && !isHandoffSkip(strike.unit) &&
@@ -2856,9 +2907,12 @@
 
     function pickNextCapableAfterGiveUp(why) {
         var strike = adjacentWaitingStrike();
-        var next = (strike && strike.unit) || firstWaitingOwn({ skipLord: true });
+        var next = (strike && strike.unit) ||
+            nearestActionableOwn({ skipLord: true }) ||
+            firstWaitingOwn({ skipLord: true });
         if (!next && (state.lastHitAt || state.fightHitAt)) {
-            next = firstWaitingOwn({ skipLord: true, includeStuck: true });
+            next = nearestActionableOwn({ skipLord: true, includeStuck: true }) ||
+                firstWaitingOwn({ skipLord: true, includeStuck: true });
         }
         if (!next) {
             return armNextWaitingOwn(why || 'adj-recover-give-up', { force: true });
@@ -6467,7 +6521,10 @@
             }
             var foe = unitMeleeEnemy(u) || nearestEnemyFrom(u);
             var d = foe ? chebyshev(u.x, u.y, foe.x, foe.y) : 98;
-            if (!best || d < bestD || (d === bestD && !isLordUnit(u) && isLordUnit(best))) {
+            var r = attackerRank(u);
+            var br = best ? attackerRank(best) : 99;
+            if (!best || r < br || (r === br && d < bestD) ||
+                (r === br && d === bestD && !isLordUnit(u) && isLordUnit(best))) {
                 best = u;
                 bestD = d;
             }
