@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923h';
+    var HD_BATTLE_VER = '20260923i';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -244,7 +244,10 @@
         leftoverAimReopenActor: '',
         leftoverAimReopenTimer: 0,
         phase1FailKey: '',
-        phase1FailN: 0
+        phase1FailN: 0,
+        woundedEnemies: {},
+        lastWoundedEnemy: null,
+        sameDestSwitchedActor: ''
     };
 
     function readStorage(key, fallback) {
@@ -628,7 +631,8 @@
                 !state.leavingAim && !state.openedSysForEndTurn && !state.allowEndTurnEnter &&
                 !forceEndTurnArmed() && !endTurnBrokeArmed()) {
                 /* 真伤交接禁止 leftover EXIT：清状态后等 phase=1 选下一将。 */
-                var leftoverActExit = !leftoverExitBanned() && !leftoverHitterMenu(fightKey) &&
+                var leftoverActExit = !state.pendingHandoff && !leftoverExitBanned() &&
+                    !leftoverHitterMenu(fightKey) &&
                     !!(state.pendingApproach || state.pendingPickUnit) &&
                     fightKey && !fightKey.wait && (Number(fightKey.phase) || 0) === 0 &&
                     !!(state.lastHitAt || state.fightHitAt);
@@ -1017,6 +1021,7 @@
         if (why === 'new-player-turn' || why === 'prepare-new') {
             state.forceEndTurnUntil = 0;
             state.endTurnBrokeN = 0;
+            state.sameDestSwitchedActor = '';
             state.stallMeleeTried = false;
         }
     }
@@ -1253,25 +1258,53 @@
                 }
                 return pickNextCapableAfterGiveUp('same-dest-adj');
             }
-            if (state.lastHitAt && !state.pendingHandoff &&
-                !leftoverHitterMenu(fightNow) && (state.endTurnStallN || 0) >= 3) {
-                markHandoffSkip(nextOther || nextLord, 'same-dest-2');
-                state.nextUnitArmedKey = '';
-                state.nextUnitArmedAt = 0;
-                state.endTurnStallN = 0;
-                nextOther = firstWaitingOwn({ skipLord: true }) ||
-                    nearestActionableOwn({ skipLord: true }) ||
-                    firstWaitingOwn({ skipLord: true, includeStuck: true });
-                nextLord = nextOther ? null : firstWaitingOwn({ lordOnly: true });
-                if (!nextOther) {
-                    if (pickNextAfterHandoffSkip(why || 'handoff-skip-next')) {
-                        return true;
+            if ((state.endTurnStallN || 0) >= 2 && !state.pendingHandoff) {
+                var curActor = nextOther || nextLord;
+                var altFoe = otherLivingEnemy(foe);
+                if (altFoe && curActor && !isHandoffSkip(curActor) &&
+                    !actorSpent(curActor) && !recentlyHitActor(curActor) &&
+                    state.sameDestSwitchedActor !== curActor.name) {
+                    console.log('[hd-battle] same-dest-switch-enemy', {
+                        via: why || 'same-dest',
+                        unit: curActor.name,
+                        from: foe && foe.name,
+                        to: altFoe.name,
+                        n: state.endTurnStallN || 0
+                    });
+                    state.sameDestSwitchedActor = curActor.name;
+                    foe = altFoe;
+                    destKey = (curActor.name || '') + '>' + (altFoe.name || '') +
+                        '@' + String(state.actedThisTurn || 0);
+                    state.nextUnitArmedKey = '';
+                    state.nextUnitArmedAt = 0;
+                    state.endTurnStallN = 0;
+                } else {
+                    markHandoffSkip(curActor, 'same-dest-2');
+                    state.nextUnitArmedKey = '';
+                    state.nextUnitArmedAt = 0;
+                    state.endTurnStallN = 0;
+                    nextOther = firstWaitingOwn({ skipLord: true }) ||
+                        nearestActionableOwn({ skipLord: true }) ||
+                        firstWaitingOwn({ skipLord: true, includeStuck: true });
+                    nextLord = nextOther ? null : firstWaitingOwn({ lordOnly: true });
+                    if (!nextOther && !nextLord) {
+                        var stillCan = waitingAllyCanHitOrApproach();
+                        if (stillCan) {
+                            if (isLordUnit(stillCan)) {
+                                nextLord = stillCan;
+                            } else {
+                                nextOther = stillCan;
+                            }
+                        } else if (pickNextAfterHandoffSkip(why || 'handoff-skip-next')) {
+                            return true;
+                        } else {
+                            return sysEndPlayerTurn(why || 'handoff-skip-end');
+                        }
                     }
-                    return sysEndPlayerTurn(why || 'handoff-skip-end');
+                    foe = bestEnemyForApproach(nextOther || nextLord) || nearestEnemy();
+                    destKey = ((nextOther && nextOther.name) || (nextLord && nextLord.name) || '') +
+                        '>' + (foe ? foe.name : '') + '@' + String(state.actedThisTurn || 0);
                 }
-                foe = bestEnemyForApproach(nextOther) || nearestEnemy();
-                destKey = ((nextOther && nextOther.name) || '') +
-                    '>' + (foe ? foe.name : '') + '@' + String(state.actedThisTurn || 0);
             } else {
                 if (nextUnitStalled() || endTurnBrokeArmed()) {
                     return forceFinishWaitingOrEndTurn(why || 'same-dest-stall');
@@ -1319,6 +1352,27 @@
             }
         }
         if (nextLord && !adjacentEnemy(1) && !nextOther) {
+            var lordFoe = bestEnemyForApproach(nextLord) || nearestEnemyFrom(nextLord);
+            if (lordFoe && enemyIsLiving(lordFoe) &&
+                chebyshev(nextLord.x, nextLord.y, lordFoe.x, lordFoe.y) <= 10) {
+                foe = lordFoe;
+                destKey = (nextLord.name || '') + '>' + (lordFoe.name || '') +
+                    '@' + String(state.actedThisTurn || 0);
+                state.pendingActPick = 0;
+                setPendingApproach(lordFoe.x, lordFoe.y);
+                notePendingPick(nextLord);
+                noteActingUnit(nextLord);
+                noteNextUnitArm(why || 'lord-approach', state.actedThisTurn || 0, destKey);
+                console.log('[hd-battle] next-unit', {
+                    via: why || 'lord-approach-remaining',
+                    name: nextLord.name,
+                    dest: { name: lordFoe.name, x: lordFoe.x, y: lordFoe.y },
+                    acted: state.actedThisTurn
+                });
+                try { clickWaitingOwn(); } catch (eLa) {}
+                scheduleDriveSoon(why || 'lord-approach-remaining', 160);
+                return true;
+            }
             if (shouldSysEndAfterLordHold()) {
                 return sysEndPlayerTurn(why || 'next-lord-end');
             }
@@ -1720,22 +1774,88 @@
         return false;
     }
 
-    /* 优先能正交贴脸的敌军。方悦两侧被占时改走近王匡。 */
-    function bestEnemyForApproach(actor) {
+    function livingEnemies() {
+        var out = [];
+        var i;
+        for (i = 0; i < state.units.length; i++) {
+            var u = state.units[i];
+            if (u && enemyIsLiving(u)) {
+                out.push(u);
+            }
+        }
+        return out;
+    }
+
+    function markWoundedEnemy(info) {
+        if (!info || !info.unit) {
+            return;
+        }
+        if (!state.woundedEnemies) {
+            state.woundedEnemies = {};
+        }
+        state.woundedEnemies[info.unit] = Date.now();
+        state.lastWoundedEnemy = {
+            name: info.unit,
+            x: info.x,
+            y: info.y
+        };
+    }
+
+    function isWoundedEnemy(u) {
+        return !!(u && u.name && state.woundedEnemies && state.woundedEnemies[u.name]);
+    }
+
+    function otherLivingEnemy(exclude) {
+        var living = livingEnemies();
+        var i;
+        var name = exclude && exclude.name ? exclude.name : '';
+        for (i = 0; i < living.length; i++) {
+            if (!name || living[i].name !== name) {
+                return living[i];
+            }
+        }
+        return null;
+    }
+
+    /* 先补刀已伤，再打贴脸，再走近剩下的（方悦死了打王匡，反之亦然）。 */
+    function bestEnemyForApproach(actor, opts) {
+        opts = opts || {};
         actor = actor || actingActor();
+        var living = livingEnemies();
         var best = null;
         var bestScore = 1e9;
         var i;
-        if (!actor || actor.x == null || actor.y == null) {
+        if (opts.exclude && opts.exclude.name) {
+            var filtered = [];
+            for (i = 0; i < living.length; i++) {
+                if (living[i].name !== opts.exclude.name) {
+                    filtered.push(living[i]);
+                }
+            }
+            if (filtered.length) {
+                living = filtered;
+            }
+        }
+        if (!living.length) {
             return nearestEnemyFrom(actor);
         }
-        for (i = 0; i < state.units.length; i++) {
-            var u = state.units[i];
-            if (!u || u.side !== 'enemy' || !enemyIsLiving(u)) {
-                continue;
+        for (i = 0; i < living.length; i++) {
+            var u = living[i];
+            var d = (actor && actor.x != null && actor.y != null)
+                ? chebyshev(actor.x, actor.y, u.x, u.y) : 20;
+            var adj = !!(actor && actor.x != null &&
+                Math.abs(actor.x - u.x) + Math.abs(actor.y - u.y) === 1);
+            var wounded = isWoundedEnemy(u);
+            var score;
+            if (adj && wounded) {
+                score = d;
+            } else if (adj) {
+                score = 4 + d;
+            } else if (wounded) {
+                score = 8 + d + (enemyHasFreeOrtho(u) ? 0 : 6);
+            } else {
+                score = 16 + d + (enemyHasFreeOrtho(u) ? 0 : 12);
             }
-            var d = chebyshev(actor.x, actor.y, u.x, u.y);
-            var score = d + (enemyHasFreeOrtho(u) ? 0 : 12);
             if (score < bestScore) {
                 best = u;
                 bestScore = score;
@@ -2073,6 +2193,10 @@
         if (!liveActMenu()) {
             return false;
         }
+        /* 交接中 leftover 攻击菜单不得再挡下一将开 AIM。 */
+        if (state.pendingHandoff && state.handoffAt && Date.now() - state.handoffAt > 180) {
+            return false;
+        }
         if (state.lastHitAt && Date.now() - state.lastHitAt > 800) {
             return false;
         }
@@ -2308,6 +2432,7 @@
         noteUnitActed('attack-hit');
         /* 清 leftover EXIT / AIM / pick-throttle / act-commit，禁止交接时 EXIT 连发。 */
         clearLeftoverAfterHit('attack-hit');
+        try { markWoundedEnemy(info); } catch (eW) {}
         console.log('[hd-battle] attack-hit', {
             via: 'hp-drop',
             unit: info && info.unit,
@@ -2869,6 +2994,10 @@
             if (strike && strike.unit && !isHandoffSkip(strike.unit) &&
                 !actorSpent(strike.unit)) {
                 return pickNextCapableAfterGiveUp(why || 'handoff-skip-adj');
+            }
+            next = waitingAllyCanHitOrApproach();
+            if (next) {
+                return pickNextCapableAfterGiveUp(why || 'handoff-skip-still-act');
             }
             if (!armCapableSkipLord(why || 'handoff-skip-end')) {
                 sysEndPlayerTurn(why || 'handoff-skip-end');
@@ -4443,18 +4572,16 @@
             finishHandoff('after-hit-live');
             return openAimFromActMenu('after-hit-live', liveNext);
         }
-        /* leftover 出手将菜单：只等 phase=1，禁止 EXIT/LEFT 交接。 */
-        if (leftoverHitterMenu(fight) || leftoverExitBanned()) {
+        /* 交接中禁止 leftover-act-exit，否则下一将 ENTER 会被吞掉。 */
+        if (state.pendingHandoff || leftoverExitBanned()) {
+            finishHandoff('handoff-wait-clear');
+            try { clickWaitingOwn(); } catch (eH) {}
+            scheduleDriveSoon('after-hit-next', 80);
+            return true;
+        }
+        if (leftoverHitterMenu(fight)) {
             if (phase === 0 && !fight.wait) {
-                if (!leftoverExitBanned() &&
-                    (!state.lastLeftoverActExitAt ||
-                        Date.now() - state.lastLeftoverActExitAt >= 2400)) {
-                    state.lastLeftoverActExitAt = Date.now();
-                    dumpEnterSwallow('leftover-act-exit', { via: 'handoff-last-resort' });
-                    enqueueKeys([VK.EXIT], 70);
-                } else {
-                    dumpEnterSwallow('leftover-handoff-wait', { via: 'after-hit-next' });
-                }
+                dumpEnterSwallow('leftover-handoff-wait', { via: 'after-hit-next' });
                 scheduleAfterHitSettle(180);
                 return true;
             }
@@ -4494,7 +4621,8 @@
         if (fight && Number(fight.phase) === 2) {
             return false;
         }
-        if (dropped && leftoverHitterMenu(fight)) {
+        if (dropped && leftoverHitterMenu(fight) &&
+            !(state.pendingHandoff && state.handoffAt && Date.now() - state.handoffAt > 180)) {
             console.log('[hd-battle] after-hit-settle', {
                 phase: fight ? Number(fight.phase) : null,
                 wait: !!(fight && fight.wait),
@@ -4504,6 +4632,9 @@
             });
             scheduleAfterHitSettle(180);
             return true;
+        }
+        if (dropped && state.pendingHandoff) {
+            finishHandoff('after-hit-retarget');
         }
         if (fight && Number(fight.phase) === 1 && fight.wait && state.lastHitAt) {
             try { clickNextAfterHit(); } catch (eP1) {}
@@ -5964,11 +6095,49 @@
         return null;
     }
 
+    function waitingAllyCanHitOrApproach() {
+        var i;
+        var u;
+        var foe;
+        var adj;
+        for (i = 0; i < state.units.length; i++) {
+            u = state.units[i];
+            if (!u || u.side !== 'player' || u.x == null || u.y == null) {
+                continue;
+            }
+            if (!(u.active === 0 || u.active == null)) {
+                continue;
+            }
+            if (actorSpent(u) || recentlyHitActor(u)) {
+                continue;
+            }
+            if (isHandoffSkip(u)) {
+                continue;
+            }
+            adj = unitMeleeEnemy(u);
+            if (adj && enemyIsLiving(adj)) {
+                return u;
+            }
+            foe = bestEnemyForApproach(u) || nearestEnemyFrom(u);
+            if (foe && enemyIsLiving(foe) &&
+                chebyshev(u.x, u.y, foe.x, foe.y) <= 10) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     function shouldSysEndAfterLordHold() {
+        if (waitingAllyCanHitOrApproach()) {
+            return false;
+        }
         if (capableSkipLordWaiting()) {
             return false;
         }
         if (firstWaitingOwn({ skipLord: true, includeStuck: true })) {
+            return false;
+        }
+        if (livingEnemies().length && firstWaitingOwn({ lordOnly: true })) {
             return false;
         }
         if (state.lastHitAt || state.adjRecoverGiveUpKey) {
@@ -6009,6 +6178,19 @@
         }
         if (armCapableSkipLord((why || 'sys-end') + '-still-other')) {
             return true;
+        }
+        var canAct = waitingAllyCanHitOrApproach();
+        if (canAct) {
+            console.log('[hd-battle] sys-end-blocked', {
+                via: why || 'sys',
+                leftover: canAct.name,
+                waiting: true,
+                living: livingEnemies().length
+            });
+            notePendingPick(canAct);
+            noteActingUnit(canAct);
+            return armNextWaitingOwn((why || 'sys-end') + '-still-act', { force: true }) ||
+                pickNextCapableAfterGiveUp((why || 'sys-end') + '-still-act');
         }
         var leftoverEnd = firstWaitingOwn({ skipLord: true, includeStuck: true });
         if (leftoverEnd && !actorSpent(leftoverEnd) && !recentlyHitActor(leftoverEnd)) {
@@ -6899,7 +7081,10 @@
                 if (liveAdjStrike() && drivePhase0LiveAdjAim('approach-nowait-live-adj')) {
                     return true;
                 }
-                if (leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                if (state.pendingHandoff || leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                    if (state.pendingHandoff) {
+                        finishHandoff('approach-handoff-clear');
+                    }
                     scheduleDriveSoon('handoff-no-exit', 160);
                     return true;
                 }
@@ -7096,7 +7281,10 @@
                 if (endTurnHeld()) {
                     return false;
                 }
-                if (leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                if (state.pendingHandoff || leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                    if (state.pendingHandoff) {
+                        finishHandoff('approach-handoff-clear');
+                    }
                     scheduleDriveSoon('handoff-no-exit', 160);
                     return true;
                 }
@@ -8512,7 +8700,9 @@
             lastHpDropAt: state.lastHpDropAt,
             lastHpDrop: state.lastHpDrop,
             lastHitHpBefore: state.lastHitHpBefore,
-            lastHitTarget: state.lastHitTarget
+            lastHitTarget: state.lastHitTarget,
+            woundedEnemies: state.woundedEnemies,
+            lastWoundedEnemy: state.lastWoundedEnemy
         } : null;
         stopOccupyDrain();
         state.resultCode = 0;
@@ -8557,6 +8747,8 @@
                 state.lastHpDrop = savedHit.lastHpDrop;
                 state.lastHitHpBefore = savedHit.lastHitHpBefore;
                 state.lastHitTarget = savedHit.lastHitTarget;
+                state.woundedEnemies = savedHit.woundedEnemies || {};
+                state.lastWoundedEnemy = savedHit.lastWoundedEnemy || null;
             } else {
                 state.lastHitAt = 0;
                 state.fightHitAt = 0;
@@ -8565,6 +8757,8 @@
                 state.lastHpDrop = null;
                 state.lastHitHpBefore = null;
                 state.lastHitTarget = null;
+                state.woundedEnemies = {};
+                state.lastWoundedEnemy = null;
             }
             state.sameTileHitN = 0;
             state.lastAttackClickAt = 0;
@@ -10127,6 +10321,17 @@
                 lastHitActor: state.lastHitActor,
                 lastHpDropAt: state.lastHpDropAt || 0,
                 lastHpDrop: state.lastHpDrop,
+                woundedEnemies: state.woundedEnemies || {},
+                lastWoundedEnemy: state.lastWoundedEnemy,
+                livingEnemies: (function () {
+                    var names = [];
+                    var le = livingEnemies();
+                    var li;
+                    for (li = 0; li < le.length; li++) {
+                        names.push(le[li].name);
+                    }
+                    return names;
+                }()),
                 sameTileHitN: state.sameTileHitN || 0,
                 phase1AdjEnterHoldUntil: state.phase1AdjEnterHoldUntil || 0,
                 lastOpenAimAt: state.lastOpenAimAt || 0,
