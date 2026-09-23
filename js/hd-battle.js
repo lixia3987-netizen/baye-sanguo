@@ -2207,6 +2207,12 @@
             armRetargetWalkWatch();
             return true;
         }
+        if (state.retargetWalk && state.retargetWalk.arrived &&
+            state.retargetWalk.enemy === enemy.name &&
+            Date.now() - (state.retargetWalk.arriveAt || state.retargetWalk.at || 0) < 2400) {
+            scheduleDriveNow(why || 'retarget-arrived-hold');
+            return true;
+        }
         walker = bestRetargetWalker(enemy, actor);
         if (!walker) {
             console.log('[hd-battle] retarget-no-walker', {
@@ -2248,7 +2254,7 @@
         }
         notePendingPick(walker);
         noteActingUnit(walker);
-        adj = unitMeleeEnemy(walker);
+        adj = !!(Math.abs(walker.x - enemy.x) + Math.abs(walker.y - enemy.y) === 1);
         state.retargetWalk = {
             why: why || 'retarget',
             actor: walker.name,
@@ -2267,20 +2273,19 @@
             enemy: enemy.name,
             dest: { x: enemy.x, y: enemy.y },
             from: actor && actor.name,
-            adj: !!(adj && adj.name === enemy.name)
+            adj: adj
         });
-        if (adj && adj.name === enemy.name) {
+        if (adj) {
             noteRetargetWalkArrive(walker, enemy, why || 'already-adj');
             clearPendingApproach();
             setTimeout(function () {
                 try { clickBattleTile(walker.x, walker.y); } catch (eC) {}
+                scheduleDriveNow('retarget-adj-aim');
                 try {
                     openAimFromActMenu('retarget-walk-arrive', {
                         unit: walker, enemy: enemy
                     });
-                } catch (eA) {
-                    scheduleDriveNow('retarget-adj-aim');
-                }
+                } catch (eA) {}
             }, 0);
             return true;
         }
@@ -2302,7 +2307,11 @@
         if (!fightReallyActive() || cityMenuOwnsScreen()) {
             return false;
         }
-        if (state.lastIdleRetargetAt && Date.now() - state.lastIdleRetargetAt < 900) {
+        if (state.lastIdleRetargetAt && Date.now() - state.lastIdleRetargetAt < 1800) {
+            return false;
+        }
+        if (state.retargetWalk && state.retargetWalk.arrived &&
+            Date.now() - (state.retargetWalk.arriveAt || state.retargetWalk.at || 0) < 2800) {
             return false;
         }
         living = livingEnemies();
@@ -2347,6 +2356,10 @@
                     break;
                 }
             }
+        }
+        if (state.retargetWalk && state.retargetWalk.arrived && enemy &&
+            state.retargetWalk.enemy === enemy.name) {
+            enemy = otherLivingEnemy(enemy) || enemy;
         }
         enemy = enemy || (living.length > 1 ? living[1] : living[0]);
         if (!enemy || !enemyIsLiving(enemy)) {
@@ -10574,7 +10587,9 @@
             livingEnemies().length && !awaitingAim() &&
             !(fightNow && leftoverAim(fightNow)) &&
             !state.pendingApproach &&
-            !(state.lastHitAt && Date.now() - state.lastHitAt < 1600)) {
+            !(state.lastHitAt && Date.now() - state.lastHitAt < 1600) &&
+            !(state.retargetWalk && state.retargetWalk.arrived &&
+                Date.now() - (state.retargetWalk.arriveAt || 0) < 2800)) {
             setTimeout(function () {
                 try { maybeIdleRetarget('refresh-idle'); } catch (eIdle) {}
             }, 0);
