@@ -2272,8 +2272,7 @@
             }
             return null;
         }
-        var enemy = unitMeleeEnemy(unit) ||
-            (strike && strike.enemy && unitMeleeEnemy(unit) && strike.enemy);
+        var enemy = unitMeleeEnemy(unit);
         if (!enemy || !enemyIsLiving(enemy)) {
             return null;
         }
