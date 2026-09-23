@@ -3696,6 +3696,18 @@
             }
         }
         if (!target) {
+            var adjStuck = null;
+            try { adjStuck = namedAdjStrike(); } catch (eAs) { adjStuck = null; }
+            if (adjStuck && adjStuck.enemy && actorBoundForAim(adjStuck.unit)) {
+                try { rebuildStaleAimRng(adjStuck.unit); } catch (eRb) {}
+                target = adjStuck.enemy;
+                console.log('[hd-battle] melee-wait', {
+                    why: why || 'auto-melee', reason: 'rebuild-adj',
+                    unit: adjStuck.unit.name, enemy: adjStuck.enemy.name
+                });
+            }
+        }
+        if (!target) {
             if (!atkRngReady()) {
                 console.log('[hd-battle] melee-wait', {
                     why: why || 'auto-melee', reason: 'no-rng'
@@ -4595,6 +4607,12 @@
             dumpEnterSwallow('leftover-aim-stuck', {
                 aimAge: age, adj: !!(adjacentEnemy(1)), likely: likelyAimTarget()
             });
+            var stuckAim = null;
+            try { stuckAim = namedAdjStrike(); } catch (eSt) { stuckAim = null; }
+            if (stuckAim && stuckAim.unit && actorBoundForAim(stuckAim.unit)) {
+                /* 贴脸已开 AIM：留下等 on-tile ENTER，禁止 leftover EXIT 347s。 */
+                return false;
+            }
             return true;
         }
         /* Attack ENTER 之后等射程表；awaiting 窗口内绝不当 leftover，否则 refresh 会 EXIT 掉 attack-hit。 */
