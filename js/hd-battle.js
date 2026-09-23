@@ -3303,11 +3303,6 @@
         extra.ortho = !!(actor.x != null && x != null &&
             Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
         extra.rngAt = aimRngOrigin();
-        /* 正交贴脸：表还在灌/缺格也 ENTER。引擎近战是正交 FgtChkRng。 */
-        if (!extra.inRng && extra.ortho && (aimType === 0 || aimType === 0xFF || aimType == null)) {
-            extra.inRng = true;
-            extra.orthoForce = true;
-        }
         /* FgtChkRng 用 g_FgtAtkRng。表中心不是本将落点 = leftover，ENTER 不掉血。 */
         if (!extra.inRng) {
             if (extra.ortho && !aimRngMatchesActor(actor)) {
