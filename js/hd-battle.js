@@ -237,6 +237,7 @@
         handoffAt: 0,
         handoffBanExitUntil: 0,
         handoffSkipKeys: {},
+        handoffSkipWhy: {},
         lastHandoffSkipRestAt: 0,
         leftoverAimReopenAt: 0,
         leftoverAimReopenN: 0,
@@ -2119,6 +2120,15 @@
         if (name) {
             state.handoffSkipKeys[name] = Date.now();
         }
+        if (!state.handoffSkipWhy) {
+            state.handoffSkipWhy = {};
+        }
+        if (name) {
+            state.handoffSkipWhy[name] = why || 'skip';
+        }
+        if (key) {
+            state.handoffSkipWhy[key] = why || 'skip';
+        }
         console.log('[hd-battle] handoff-skip', { via: why || 'skip', unit: key || name });
     }
 
@@ -2151,6 +2161,7 @@
         var k;
         var live;
         var name;
+        var via;
         var nKeep = 0;
         if (!state.handoffSkipKeys) {
             return 0;
@@ -2161,6 +2172,11 @@
             }
             name = k.slice(0, k.indexOf('@'));
             live = peekPlayerByName(name);
+            via = (state.handoffSkipWhy && (state.handoffSkipWhy[k] || state.handoffSkipWhy[name])) || '';
+            /* 只保留无掉血 / leftover-AIM 封顶。same-dest / phase1-enter 下回合必须再走近。 */
+            if (!/no-drop-aim|leftover-aim-stuck/.test(via)) {
+                continue;
+            }
             if (live && unitCapKey(live) === k) {
                 keep[k] = state.handoffSkipKeys[k];
                 keep[name] = state.handoffSkipKeys[name] || Date.now();
@@ -2190,6 +2206,7 @@
             }
         }
         state.handoffSkipKeys = {};
+        state.handoffSkipWhy = {};
         state.lastHandoffSkipRestAt = 0;
         state.phase1FailKey = '';
         state.phase1FailN = 0;
