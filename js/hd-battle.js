@@ -1055,7 +1055,7 @@
             strike: !!(adjacentWaitingStrike()),
             melee: !!tryMelee
         });
-        if (tryMelee || killableAdjAlive()) {
+        if ((tryMelee || killableAdjAlive()) && (state.endTurnBrokeN || 0) < 3) {
             state.stallMeleeTried = true;
             state.pendingActPick = 0;
             state.keepAttackEnterUntil = Date.now() + 900;
@@ -1063,7 +1063,9 @@
             if (commitAdjacentMelee('stall-break-melee')) {
                 return true;
             }
-            pickFightMenu(0);
+        }
+        if (state.lastHitAt && (state.endTurnBrokeN || 0) >= 2) {
+            sysEndPlayerTurn('stall-break-spent');
             return true;
         }
         state.pendingActPick = 3;
@@ -1990,7 +1992,7 @@
         if (state.movedThisAct) {
             var moved = movedActorUnit();
             var movedE = moved && unitMeleeEnemy(moved);
-            if (moved && movedE && enemyIsLiving(movedE) &&
+            if (moved && movedE && enemyIsLiving(movedE) && !actorSpent(moved) &&
                 !(state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(moved))) {
                 return { unit: moved, enemy: movedE };
             }
@@ -2000,7 +2002,7 @@
             if (!u || u.side !== 'player' || u.x == null || u.y == null) {
                 continue;
             }
-            if (!(u.active === 0 || u.active == null)) {
+            if (!(u.active === 0 || u.active == null) || actorSpent(u)) {
                 continue;
             }
             var e = unitMeleeEnemy(u);
@@ -5311,7 +5313,7 @@
                 continue;
             }
             /* 两次选将仍停 phase1 且未贴脸：换人，禁止对杨秋自己格连发 ENTER。 */
-            if (isPhase1StuckUnit(u) && !unitMeleeEnemy(u)) {
+            if (isPhase1StuckUnit(u)) {
                 continue;
             }
             return u;
