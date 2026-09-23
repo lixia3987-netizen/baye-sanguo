@@ -1264,7 +1264,8 @@
                 var altFoe = otherLivingEnemy(foe);
                 if (altFoe && curActor && !isHandoffSkip(curActor) &&
                     !actorSpent(curActor) && !recentlyHitActor(curActor) &&
-                    state.sameDestSwitchedActor !== curActor.name) {
+                    state.sameDestSwitchedActor !== curActor.name &&
+                    !(isLordUnit(curActor) && !(state.lastHitAt || state.fightHitAt))) {
                     console.log('[hd-battle] same-dest-switch-enemy', {
                         via: why || 'same-dest',
                         unit: curActor.name,
