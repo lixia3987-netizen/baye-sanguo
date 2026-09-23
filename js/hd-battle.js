@@ -629,6 +629,7 @@
                 }
             }
             if (fightReallyActive()) {
+                state.lastKeyAt = Date.now();
                 console.log('[hd-battle] send-key', {
                     key: keyName(code),
                     phase: fightKey ? fightKey.phase : null,
@@ -1625,7 +1626,8 @@
         if (after == null && target) {
             after = target.hp;
         }
-        var gone = !target || (after != null && Number(after) <= 0);
+        var hadTarget = !!(rec.name || rec.x != null || (state.lastHitTarget && state.lastHitTarget.name));
+        var gone = !!(hadTarget && !target && (after == null || Number(after) <= 0));
         var drop = gone || (before != null && after != null && Number(after) < Number(before));
         var info = {
             via: why || 'verify',
@@ -1826,7 +1828,7 @@
             hdMenu: hdActMenuVisible()
         });
         enqueueKeys([VK.ENTER], 55);
-        scheduleActRearm('open-aim-from-act');
+        /* AIM 打开后由 tryCommitMeleeAim 走到敌军格再 ENTER，禁止 rearm 再灌菜单回车。 */
         return true;
     }
 
@@ -1880,7 +1882,13 @@
         }
         queueBusy = !!(state.sending || (state.queue && state.queue.length));
         holdMs = state.adjRecoverHoldAt ? (Date.now() - state.adjRecoverHoldAt) : 0;
-        focusStable = !!(onUnit && !queueBusy && holdMs >= 200);
+        var lastSendAge = state.lastPickEnterAt ? (Date.now() - state.lastPickEnterAt) : 1e9;
+        try {
+            if (state.lastKeyAt && Date.now() - state.lastKeyAt < lastSendAge) {
+                lastSendAge = Date.now() - state.lastKeyAt;
+            }
+        } catch (eAge) {}
+        focusStable = !!(onUnit && !queueBusy && holdMs >= 280 && lastSendAge >= 280);
         if (cur && cur.x != null && cur.y != null) {
             dist = chebyshev(cur.x, cur.y, strike.unit.x, strike.unit.y);
         }
@@ -2303,6 +2311,8 @@
         try { curAim = syncFocusFromEngine(); } catch (eAim) { curAim = null; }
         /* 光标不在敌军格上回车是假 hit：引擎不扣血，lastHitAt 会骗过占领门槛。 */
         if (!curAim || curAim.x !== x || curAim.y !== y) {
+            dropQueuedEnters();
+            dropQueuedDirs();
             walkFocusTo(x, y, false);
             state.pendingAimEnter = { x: x, y: y, at: Date.now(), name: u && u.name };
             console.log('[hd-battle] aim-walk-to', {
@@ -5240,13 +5250,17 @@
         if (fight && Number(fight.phase) === 3 && aimAgeMs() > 2000 && !hasLegalAimTarget()) {
             return false;
         }
-        if (awaitingAim()) {
-            console.log('[hd-battle] enter-kept', { why: why || 'awaiting-aim' });
-            return true;
+        /* 等走位时必须丢掉开菜单残留 ENTER，否则会在敌军格外打「命令无效」。 */
+        if (awaitingAim() && !(state.aimCommit && !state.aimCommit.sentEnter &&
+            aimCommitAgeMs() < 220)) {
+            return false;
         }
         if (fight && Number(fight.phase) === 3 && !leftoverAim(fight)) {
-            console.log('[hd-battle] enter-kept', { why: why || 'real-aim' });
-            return true;
+            if (state.aimCommit && !state.aimCommit.sentEnter && aimCommitAgeMs() < 220) {
+                console.log('[hd-battle] enter-kept', { why: why || 'aim-on-tile' });
+                return true;
+            }
+            return false;
         }
         return false;
     }
