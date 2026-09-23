@@ -8,7 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20260923f';
+    var HD_BATTLE_VER = '20260923g';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     /* 角标只由本文件运行时常量上色。HTML 不得预写版本，否则缓存的旧 hd-battle.js 也能显示新号。 */
     function paintRuntimeBadge() {
@@ -231,7 +231,14 @@
         endTurnBrokeN: 0,
         stallMeleeTried: false,
         approachedThisAct: false,
-        lordHoldRestN: 0
+        lordHoldRestN: 0,
+        lastLeftoverActExitAt: 0,
+        pendingHandoff: false,
+        handoffAt: 0,
+        handoffBanExitUntil: 0,
+        handoffSkipKeys: {},
+        phase1FailKey: '',
+        phase1FailN: 0
     };
 
     function readStorage(key, fallback) {
@@ -614,8 +621,9 @@
             if (code === VK.EXIT && fightReallyActive() && !overNow &&
                 !state.leavingAim && !state.openedSysForEndTurn && !state.allowEndTurnEnter &&
                 !forceEndTurnArmed() && !endTurnBrokeArmed()) {
-                /* 真伤后 leftover PlcSplMenu 必须 EXIT 才能选下一将，不是结束回合。 */
-                var leftoverActExit = !!(state.pendingApproach || state.pendingPickUnit) &&
+                /* 真伤交接禁止 leftover EXIT：清状态后等 phase=1 选下一将。 */
+                var leftoverActExit = !leftoverExitBanned() && !leftoverHitterMenu(fightKey) &&
+                    !!(state.pendingApproach || state.pendingPickUnit) &&
                     fightKey && !fightKey.wait && (Number(fightKey.phase) || 0) === 0 &&
                     !!(state.lastHitAt || state.fightHitAt);
                 if (!leftoverActExit) {
@@ -1201,10 +1209,26 @@
             }
             state.lastArmNextAt = Date.now();
             noteNextUnitArm(why || 'same-dest', state.actedThisTurn || 0, destKey);
-            if (nextUnitStalled() || endTurnBrokeArmed()) {
-                return forceFinishWaitingOrEndTurn(why || 'same-dest-stall');
+            if ((state.endTurnStallN || 0) >= 2) {
+                markHandoffSkip(nextOther || nextLord, 'same-dest-2');
+                state.nextUnitArmedKey = '';
+                state.nextUnitArmedAt = 0;
+                state.endTurnStallN = 0;
+                nextOther = firstWaitingOwn({ skipLord: true }) ||
+                    nearestActionableOwn({ skipLord: true });
+                nextLord = nextOther ? null : firstWaitingOwn({ lordOnly: true });
+                if (!nextOther) {
+                    return sysEndPlayerTurn(why || 'handoff-skip-end');
+                }
+                foe = bestEnemyForApproach(nextOther) || nearestEnemy();
+                destKey = ((nextOther && nextOther.name) || '') +
+                    '>' + (foe ? foe.name : '') + '@' + String(state.actedThisTurn || 0);
+            } else {
+                if (nextUnitStalled() || endTurnBrokeArmed()) {
+                    return forceFinishWaitingOrEndTurn(why || 'same-dest-stall');
+                }
+                return false;
             }
-            return false;
         }
         if ((nextUnitStalled() || endTurnBrokeArmed()) && endTurnWhy) {
             return forceFinishWaitingOrEndTurn(why || 'stall');
@@ -1985,6 +2009,102 @@
             !state.aimCommit.hpDropped && aimCommitAgeMs() < 1600);
     }
 
+    function leftoverExitBanned() {
+        return !!(state.pendingHandoff && state.handoffBanExitUntil &&
+            Date.now() < state.handoffBanExitUntil);
+    }
+
+    function leftoverHitterMenu(fight) {
+        if (!fight || fight.over || fight.wait) {
+            return false;
+        }
+        if ((Number(fight.phase) || 0) !== 0) {
+            return false;
+        }
+        if (!(state.lastHitAt || state.fightHitAt)) {
+            return false;
+        }
+        if (liveActMenu()) {
+            var fu = null;
+            try { fu = focusedFightUnit(); } catch (eFu) { fu = null; }
+            if (fu && fu.side === 'player' && fu.name &&
+                !actorSpent(fu) && !recentlyHitActor(fu) && !isHandoffSkip(fu)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function markHandoffSkip(u, why) {
+        var key = typeof u === 'string' ? u : unitCapKey(u);
+        if (!key) {
+            return;
+        }
+        if (!state.handoffSkipKeys) {
+            state.handoffSkipKeys = {};
+        }
+        state.handoffSkipKeys[key] = Date.now();
+        console.log('[hd-battle] handoff-skip', { via: why || 'skip', unit: key });
+    }
+
+    function isHandoffSkip(u) {
+        var key = typeof u === 'string' ? u : unitCapKey(u);
+        return !!(key && state.handoffSkipKeys && state.handoffSkipKeys[key]);
+    }
+
+    function clearHandoffSkip(why) {
+        var n = 0;
+        var k;
+        if (state.handoffSkipKeys) {
+            for (k in state.handoffSkipKeys) {
+                if (state.handoffSkipKeys.hasOwnProperty(k)) {
+                    n += 1;
+                }
+            }
+        }
+        state.handoffSkipKeys = {};
+        state.phase1FailKey = '';
+        state.phase1FailN = 0;
+        if (n) {
+            console.log('[hd-battle] handoff-skip-clear', { via: why || 'clear', n: n });
+        }
+    }
+
+    function finishHandoff(why) {
+        if (!state.pendingHandoff && !state.handoffBanExitUntil) {
+            return;
+        }
+        state.pendingHandoff = false;
+        state.handoffBanExitUntil = 0;
+        console.log('[hd-battle] handoff-ready', { via: why || 'ready' });
+    }
+
+    function clearLeftoverAfterHit(why) {
+        try { dropQueuedExits(); } catch (eEx) {}
+        try { dropQueuedDirs(); } catch (eDir) {}
+        state.lastLeftoverActExitAt = 0;
+        state.pendingHandoff = true;
+        state.handoffAt = Date.now();
+        state.handoffBanExitUntil = Date.now() + 2800;
+        state.leavingAim = false;
+        state.awaitingAimUntil = 0;
+        state.pendingAimEnter = null;
+        if (state.aimCommit && state.aimCommit.hpDropped) {
+            try { clearAimCommit('after-hit-clear'); } catch (eAim) {}
+        }
+        clearPickThrottle(why || 'after-hit-clear');
+        writeFightActCommit(0xFF);
+        if (state.pendingActPick === 0) {
+            state.pendingActPick = null;
+        }
+        console.log('[hd-battle] leftover-clear', {
+            via: why || 'after-hit',
+            actor: state.lastHitActor && state.lastHitActor.name,
+            pendingPick: state.pendingPickUnit || '',
+            commit: 0xFF
+        });
+    }
+
     function noteRealAttackHit(info) {
         /* 每一击都刷新 lastHitAt，否则 5s stall-hold 只护第一击。 */
         state.lastHitAt = Date.now();
@@ -2024,7 +2144,8 @@
         state.movedThisAct = false;
         state.staleRngN = 0;
         noteUnitActed('attack-hit');
-        clearPickThrottle('attack-hit');
+        /* 清 leftover EXIT / AIM / pick-throttle / act-commit，禁止交接时 EXIT 连发。 */
+        clearLeftoverAfterHit('attack-hit');
         console.log('[hd-battle] attack-hit', {
             via: 'hp-drop',
             unit: info && info.unit,
@@ -2706,6 +2827,14 @@
         if (focusU && focusU.side === 'player' && focusU.name &&
             focusU.name !== strike.unit.name &&
             !(state.lastOpenAimReselectAt && Date.now() - state.lastOpenAimReselectAt < 800)) {
+            if (leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                console.log('[hd-battle] open-aim-reselect', {
+                    via: 'handoff-no-exit',
+                    have: focusU.name,
+                    want: strike.unit.name
+                });
+                return false;
+            }
             state.lastOpenAimReselectAt = Date.now();
             console.log('[hd-battle] open-aim-reselect', {
                 via: why || 'wrong-menu',
@@ -2741,6 +2870,7 @@
         clearPickThrottle(why || 'open-aim-from-act');
         clearPhase1EnterCap(why || 'open-aim-from-act');
         writeFightActCommit(0);
+        finishHandoff('open-aim-from-act');
         console.log('[hd-battle] open-aim-from-act', {
             via: why || 'act-menu',
             unit: strike.unit.name,
@@ -2880,7 +3010,22 @@
             writeFightActCommit(0xFF);
         }
         if (phase === 2 && fight.wait) {
-            if (!onUnit) {
+            var focusEnemy = false;
+            try {
+                var ef = engineFocusTile();
+                var eu = ef && unitAt(ef.x, ef.y);
+                focusEnemy = !!(eu && eu.side === 'enemy');
+            } catch (eFe) { focusEnemy = false; }
+            if (focusEnemy || !onUnit) {
+                if (focusEnemy) {
+                    console.log('[hd-battle] adj-recover-no-enemy-enter', {
+                        via: why || 'adj-recover',
+                        unit: strike.unit.name,
+                        ux: strike.unit.x,
+                        uy: strike.unit.y,
+                        focus: engineFocusTile()
+                    });
+                }
                 if (actingLordUnit()) {
                     writeFightActCommit(3);
                     enqueueKeys([VK.ENTER], 55);
@@ -3718,6 +3863,16 @@
         state.phase1EnterAt = Date.now();
         state.phase1EnterStuckHandled = false;
         state.phase1EnterCapKey = unitCapKey(fu) || state.phase1EnterCapKey || 'pick';
+        if (state.phase1FailKey === state.phase1EnterCapKey) {
+            state.phase1FailN = (state.phase1FailN || 0) + 1;
+        } else {
+            state.phase1FailKey = state.phase1EnterCapKey;
+            state.phase1FailN = 1;
+        }
+        if (state.pendingHandoff && fu && fu.name &&
+            !(state.lastHitActor && state.lastHitActor.name === fu.name)) {
+            finishHandoff('phase1-pick');
+        }
         dropQueuedEnters();
         console.log('[hd-battle] phase1-enter-commit', {
             unit: state.phase1EnterCapKey,
@@ -3812,7 +3967,12 @@
         }
         state.phase1EnterStuckHandled = true;
         var stuckKey = state.phase1EnterCapKey || unitCapKey(focusedFightUnit());
+        var alreadyStuck = !!(stuckKey && state.phase1StuckUnitKeys &&
+            state.phase1StuckUnitKeys[stuckKey]);
         markPhase1StuckUnit(stuckKey);
+        if (alreadyStuck || (state.phase1FailN || 0) >= 2) {
+            markHandoffSkip(stuckKey, 'phase1-enter-2');
+        }
         if (canCommitActMenu(fight) && killableAdjAlive()) {
             pickFightMenu(0);
             return;
@@ -3923,11 +4083,29 @@
         if (phase === 2 || phase === 3 || awaitingAim()) {
             return false;
         }
-        if (phase === 0 && !fight.wait &&
-            (!state.lastLeftoverActExitAt || Date.now() - state.lastLeftoverActExitAt >= 900)) {
-            state.lastLeftoverActExitAt = Date.now();
-            dumpEnterSwallow('leftover-act-exit', { via: 'after-hit-next' });
-            enqueueKeys([VK.EXIT], 70);
+        var liveNext = null;
+        try { liveNext = namedAdjStrike(); } catch (eL) { liveNext = null; }
+        if (liveActMenu() && liveNext && liveNext.unit &&
+            !actorSpent(liveNext.unit) && !recentlyHitActor(liveNext.unit) &&
+            !leftoverHitterMenu(fight)) {
+            finishHandoff('after-hit-live');
+            return openAimFromActMenu('after-hit-live', liveNext);
+        }
+        /* leftover 出手将菜单：只等 phase=1，禁止 EXIT/LEFT 交接。 */
+        if (leftoverHitterMenu(fight) || leftoverExitBanned()) {
+            if (phase === 0 && !fight.wait) {
+                if (!leftoverExitBanned() &&
+                    (!state.lastLeftoverActExitAt ||
+                        Date.now() - state.lastLeftoverActExitAt >= 2400)) {
+                    state.lastLeftoverActExitAt = Date.now();
+                    dumpEnterSwallow('leftover-act-exit', { via: 'handoff-last-resort' });
+                    enqueueKeys([VK.EXIT], 70);
+                } else {
+                    dumpEnterSwallow('leftover-handoff-wait', { via: 'after-hit-next' });
+                }
+                scheduleAfterHitSettle(180);
+                return true;
+            }
         }
         try { clickWaitingOwn(); } catch (eC) {}
         scheduleDriveSoon('after-hit-next', 80);
@@ -3960,6 +4138,17 @@
         }
         if (fight && Number(fight.phase) === 2) {
             return false;
+        }
+        if (dropped && leftoverHitterMenu(fight)) {
+            console.log('[hd-battle] after-hit-settle', {
+                phase: fight ? Number(fight.phase) : null,
+                wait: !!(fight && fight.wait),
+                hdMenu: hdActMenuVisible(),
+                drop: !!dropped,
+                next: 'handoff-wait'
+            });
+            scheduleAfterHitSettle(180);
+            return true;
         }
         if (fight && Number(fight.phase) === 1 && fight.wait && state.lastHitAt) {
             try { clickNextAfterHit(); } catch (eP1) {}
@@ -4265,6 +4454,10 @@
             state.approachTilesPeak = 0;
             state.approachTilesStableAt = 0;
             state.lastLeftoverActExitAt = 0;
+            state.pendingHandoff = false;
+            state.handoffAt = 0;
+            state.handoffBanExitUntil = 0;
+            try { clearHandoffSkip('new-player-turn'); } catch (eHs) {}
             state.lastAdjRecoverWalkDest = '';
             state.adjRecoverGiveUpAt = 0;
             if (state.adjRecoverTimer) {
@@ -4666,11 +4859,16 @@
                         stayHit = actingActor();
                     }
                     if (stayHit && unitMeleeEnemy(stayHit)) {
-                        logBlankWatchdog('after-hit-phase2-melee', fight);
-                        writeFightActCommit(0xFF);
-                        enqueueKeys([VK.ENTER], 55);
-                        state.movedThisAct = true;
-                        scheduleActRearm('after-hit-phase2-melee');
+                        if (!focusOnNamedUnit(stayHit)) {
+                            logBlankWatchdog('after-hit-phase2-walk-actor', fight);
+                            walkFocusTo(stayHit.x, stayHit.y, false);
+                        } else {
+                            logBlankWatchdog('after-hit-phase2-melee', fight);
+                            writeFightActCommit(0xFF);
+                            enqueueKeys([VK.ENTER], 55);
+                            state.movedThisAct = true;
+                            scheduleActRearm('after-hit-phase2-melee');
+                        }
                     } else {
                         var foeHit = bestEnemyForApproach(stayHit) || nearestEnemyFrom(stayHit);
                         if (foeHit && stayHit && stayHit.name && !isLordUnit(stayHit)) {
@@ -5639,6 +5837,18 @@
         if (awaitingAim() || aimCommitHolds()) {
             return null;
         }
+        if (leftoverHitterMenu(fightOwn) ||
+            (leftoverExitBanned() && fightOwn && Number(fightOwn.phase) === 0 &&
+                !fightOwn.wait)) {
+            var livePick = null;
+            try { livePick = namedAdjStrike(); } catch (eLp) { livePick = null; }
+            if (liveActMenu() && livePick && livePick.unit &&
+                !actorSpent(livePick.unit) && !leftoverHitterMenu(fightOwn)) {
+                finishHandoff('after-hit-pick-live');
+                try { openAimFromActMenu('after-hit-pick-live', livePick); } catch (eAim) {}
+            }
+            return null;
+        }
         /* 真伤后必须立刻点下一将。焦点还在敌军格时再等半秒会丢掉 after-hit 武装。 */
         if (state.lastHitAt && Date.now() - state.lastHitAt < 220 &&
             !state.pendingPickUnit && !state.pendingApproach) {
@@ -5718,6 +5928,9 @@
             if (actorSpent(u) || recentlyHitActor(u)) {
                 continue;
             }
+            if (isHandoffSkip(u) && !opts.includeHandoffSkip) {
+                continue;
+            }
             if (!opts.includeStuck) {
                 /* 两次选将仍停 phase1 的贴脸将：换杨秋/梁兴，禁止再点回庞德。 */
                 if (state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(u)) {
@@ -5759,6 +5972,9 @@
                 continue;
             }
             if (actorSpent(u) || recentlyHitActor(u)) {
+                continue;
+            }
+            if (isHandoffSkip(u) && !opts.includeHandoffSkip) {
                 continue;
             }
             if (!opts.includeStuck) {
@@ -6120,6 +6336,10 @@
                 if (liveAdjStrike() && drivePhase0LiveAdjAim('approach-nowait-live-adj')) {
                     return true;
                 }
+                if (leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                    scheduleDriveSoon('handoff-no-exit', 160);
+                    return true;
+                }
                 if (state.lastLeftoverActExitAt && Date.now() - state.lastLeftoverActExitAt < 900) {
                     scheduleDriveSoon('leftover-act-exit-wait', 120);
                     return true;
@@ -6138,6 +6358,18 @@
         if (phase === 2 && dest) {
             var stayActor = actingActor();
             if (stayActor && stayActor.x != null && unitMeleeEnemy(stayActor)) {
+                if (!focusOnNamedUnit(stayActor)) {
+                    console.log('[hd-battle] approach-stay-walk', {
+                        unit: stayActor.name,
+                        ux: stayActor.x,
+                        uy: stayActor.y,
+                        dest: dest,
+                        focus: engineFocusTile()
+                    });
+                    walkFocusTo(stayActor.x, stayActor.y, false);
+                    scheduleDriveSoon('approach-stay-walk', 120);
+                    return true;
+                }
                 console.log('[hd-battle] approach-stay-adj', {
                     unit: stayActor.name,
                     ux: stayActor.x,
@@ -6300,6 +6532,10 @@
                 }
                 if (endTurnHeld()) {
                     return false;
+                }
+                if (leftoverExitBanned() || leftoverHitterMenu(fight)) {
+                    scheduleDriveSoon('handoff-no-exit', 160);
+                    return true;
                 }
                 if (state.lastLeftoverActExitAt && Date.now() - state.lastLeftoverActExitAt < 900) {
                     scheduleDriveSoon('leftover-act-exit-wait', 120);
@@ -7342,6 +7578,12 @@
         if (state.aimCommit && state.aimCommit.sentEnter) {
             return;
         }
+        var leftoverFight = null;
+        try { leftoverFight = readFight(); } catch (eLf) { leftoverFight = null; }
+        if (leftoverHitterMenu(leftoverFight)) {
+            console.log('[hd-battle] walk-skip-handoff', { x: x, y: y, enter: !!thenEnter });
+            return;
+        }
         var cur = syncFocusFromEngine();
         var fx = cur.x;
         var fy = cur.y;
@@ -7400,6 +7642,12 @@
             noteActingUnit(u);
         }
         var phase = fight && fight.phase != null ? Number(fight.phase) : 0;
+        if (leftoverHitterMenu(fight)) {
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: phase,
+                blocked: 'leftover-handoff'
+            };
+        }
         var inRng = u ? inAtkRng(x, y) : false;
         var actorNow = syncFocusFromEngine();
         var enemyDist = (u && u.side === 'enemy' && actorNow.x != null)
@@ -7739,6 +7987,9 @@
             clearPhase1StuckUnits('prepare-new');
             clearPhase1EnterCap('prepare-new');
             clearNextUnitStall('prepare-new');
+            try { clearHandoffSkip('prepare-new'); } catch (eHs) {}
+            state.pendingHandoff = false;
+            state.handoffBanExitUntil = 0;
             state.approachedThisAct = false;
             state.keepAttackEnterUntil = 0;
             state.pendingPickUnit = '';
