@@ -251,6 +251,9 @@
         sameDestSwitchTo: {},
         lastLeftoverAimStuckRestAt: 0,
         leftoverAimForceEnterAt: 0,
+        leftoverAimForceEnterN: 0,
+        leftoverNoDrop: {},
+        leftoverNoDropEnemy: {},
         shortWalkRestSkipN: 0
     };
 
@@ -1040,6 +1043,13 @@
             state.stallMeleeTried = false;
             state.shortWalkRestSkipN = 0;
             state.leftoverAimForceEnterAt = 0;
+            state.leftoverAimForceEnterN = 0;
+            if (why === 'new-player-turn') {
+                try { restoreLeftoverNoDropPins(); } catch (ePin) {}
+            } else if (why === 'prepare-new') {
+                state.leftoverNoDrop = {};
+                state.leftoverNoDropEnemy = {};
+            }
         }
     }
 
@@ -1874,10 +1884,187 @@
                 }
             }
         }
+        if (state.leftoverNoDrop) {
+            for (name in state.leftoverNoDrop) {
+                if (state.leftoverNoDrop.hasOwnProperty(name)) {
+                    var deadCut = name.lastIndexOf('>');
+                    var deadEnemy = deadCut >= 0 ? name.slice(deadCut + 1) : '';
+                    if (deadEnemy && !livingNames[deadEnemy]) {
+                        delete state.leftoverNoDrop[name];
+                    }
+                }
+            }
+        }
+        if (state.leftoverNoDropEnemy) {
+            for (name in state.leftoverNoDropEnemy) {
+                if (state.leftoverNoDropEnemy.hasOwnProperty(name) && !livingNames[name]) {
+                    delete state.leftoverNoDropEnemy[name];
+                }
+            }
+        }
         if (state.lastWoundedEnemy && state.lastWoundedEnemy.name &&
             !livingNames[state.lastWoundedEnemy.name]) {
             state.lastWoundedEnemy = null;
         }
+    }
+
+    function leftoverPairKey(actor, enemy) {
+        var a = (actor && actor.name) || '';
+        var e = (enemy && enemy.name) || (typeof enemy === 'string' ? enemy : '');
+        return a + '>' + e;
+    }
+
+    function leftoverNoDropCount(actor, enemy) {
+        if (!state.leftoverNoDrop) {
+            return 0;
+        }
+        return state.leftoverNoDrop[leftoverPairKey(actor, enemy)] || 0;
+    }
+
+    function leftoverEnemyNoDropCount(enemy) {
+        var name = enemy && enemy.name ? enemy.name : (typeof enemy === 'string' ? enemy : '');
+        if (!name) {
+            return 0;
+        }
+        if (state.leftoverNoDropEnemy && state.leftoverNoDropEnemy[name]) {
+            return state.leftoverNoDropEnemy[name];
+        }
+        var n = 0;
+        var k;
+        if (!state.leftoverNoDrop) {
+            return 0;
+        }
+        for (k in state.leftoverNoDrop) {
+            if (state.leftoverNoDrop.hasOwnProperty(k) &&
+                k.slice(k.lastIndexOf('>') + 1) === name) {
+                n += state.leftoverNoDrop[k];
+            }
+        }
+        return n;
+    }
+
+    function leftoverNoDropStuck(actor, enemy) {
+        return leftoverNoDropCount(actor, enemy) >= 2 || leftoverEnemyNoDropCount(enemy) >= 4;
+    }
+
+    function peekEnemyByName(name) {
+        var i;
+        if (!name) {
+            return null;
+        }
+        for (i = 0; i < state.units.length; i++) {
+            if (state.units[i] && state.units[i].name === name &&
+                enemyIsLiving(state.units[i])) {
+                return state.units[i];
+            }
+        }
+        return null;
+    }
+
+    function pinActorToOtherEnemy(actor, enemy, why) {
+        var alt = otherLivingEnemy(enemy);
+        if (!actor || !actor.name || !alt) {
+            return alt;
+        }
+        if (!state.sameDestSwitchTo) {
+            state.sameDestSwitchTo = {};
+        }
+        state.sameDestSwitchTo[actor.name] = alt.name;
+        console.log('[hd-battle] leftover-no-drop-switch', {
+            via: why || 'no-drop',
+            unit: actor.name,
+            from: enemy && enemy.name,
+            to: alt.name,
+            n: leftoverNoDropCount(actor, enemy)
+        });
+        return alt;
+    }
+
+    function noteLeftoverNoDrop(actor, enemy, why) {
+        var key = leftoverPairKey(actor, enemy);
+        var n;
+        var enemyName = (enemy && enemy.name) || '';
+        if (!state.leftoverNoDrop) {
+            state.leftoverNoDrop = {};
+        }
+        if (!state.leftoverNoDropEnemy) {
+            state.leftoverNoDropEnemy = {};
+        }
+        state.leftoverNoDrop[key] = (state.leftoverNoDrop[key] || 0) + 1;
+        if (enemyName) {
+            state.leftoverNoDropEnemy[enemyName] = (state.leftoverNoDropEnemy[enemyName] || 0) + 1;
+        }
+        n = state.leftoverNoDrop[key];
+        console.log('[hd-battle] leftover-no-drop', {
+            via: why || 'no-drop',
+            unit: actor && actor.name,
+            enemy: enemyName,
+            n: n,
+            enemyN: leftoverEnemyNoDropCount(enemy)
+        });
+        if (n >= 2 || leftoverEnemyNoDropCount(enemy) >= 4) {
+            pinActorToOtherEnemy(actor, enemy, why);
+            if (actor && actor.name) {
+                markHandoffSkip(actor, 'leftover-no-drop');
+            }
+            return true;
+        }
+        return false;
+    }
+
+    function clearLeftoverNoDropOnHit(info) {
+        var unit = info && info.unit;
+        var k;
+        if (!unit) {
+            return;
+        }
+        if (state.leftoverNoDrop) {
+            for (k in state.leftoverNoDrop) {
+                if (state.leftoverNoDrop.hasOwnProperty(k) &&
+                    k.slice(k.lastIndexOf('>') + 1) === unit) {
+                    delete state.leftoverNoDrop[k];
+                }
+            }
+        }
+        if (state.leftoverNoDropEnemy) {
+            delete state.leftoverNoDropEnemy[unit];
+        }
+    }
+
+    function restoreLeftoverNoDropPins() {
+        var k;
+        if (!state.leftoverNoDrop) {
+            return;
+        }
+        for (k in state.leftoverNoDrop) {
+            if (!state.leftoverNoDrop.hasOwnProperty(k) || state.leftoverNoDrop[k] < 2) {
+                continue;
+            }
+            var cut = k.indexOf('>');
+            if (cut < 0) {
+                continue;
+            }
+            var actor = peekPlayerByName(k.slice(0, cut));
+            var enemy = peekEnemyByName(k.slice(cut + 1));
+            if (actor && enemy) {
+                pinActorToOtherEnemy(actor, enemy, 'restore-pin');
+            }
+        }
+    }
+
+    function enemyBlockedForActor(actor, enemy) {
+        if (!actor || !enemy) {
+            return false;
+        }
+        if (leftoverNoDropStuck(actor, enemy)) {
+            return true;
+        }
+        var pinned = state.sameDestSwitchTo && actor.name
+            ? state.sameDestSwitchTo[actor.name] : '';
+        if (pinned && pinned !== enemy.name && otherLivingEnemy(enemy)) {
+            return true;
+        }
+        return false;
     }
 
     /* 先补刀已伤，再打贴脸，再走近剩下的（方悦死了打王匡，反之亦然）。 */
@@ -1913,6 +2100,17 @@
             }
             if (filtered.length) {
                 living = filtered;
+            }
+        }
+        if (actor && living.length > 1) {
+            var unblocked = [];
+            for (i = 0; i < living.length; i++) {
+                if (!enemyBlockedForActor(actor, living[i])) {
+                    unblocked.push(living[i]);
+                }
+            }
+            if (unblocked.length) {
+                living = unblocked;
             }
         }
         if (!living.length) {
@@ -2111,7 +2309,7 @@
         if (state.lastHitTarget.x !== enemy.x || state.lastHitTarget.y !== enemy.y) {
             return false;
         }
-        return (state.sameTileHitN || 0) >= 8;
+        return (state.sameTileHitN || 0) >= 2;
     }
 
     function killableAdjAlive() {
@@ -2512,7 +2710,9 @@
         /* 清 leftover EXIT / AIM / pick-throttle / act-commit，禁止交接时 EXIT 连发。 */
         clearLeftoverAfterHit('attack-hit');
         try { markWoundedEnemy(info); } catch (eW) {}
+        try { clearLeftoverNoDropOnHit(info); } catch (eNd) {}
         try { forgetDeadEnemyTargets(); } catch (eFd) {}
+        state.leftoverAimForceEnterN = 0;
         if (info && info.gone) {
             console.log('[hd-battle] after-drop-retarget', {
                 dead: info.unit,
@@ -2604,8 +2804,9 @@
             }
             return true;
         }
-        /* 动画空隙 after==null：禁止把已经记下的真伤抹掉。 */
-        if (state.lastHitAt || state.fightHitAt || (state.aimCommit && state.aimCommit.hpDropped)) {
+        /* 动画空隙 after==null：禁止把已经记下的真伤抹掉。已知 HP/兵数没掉则是本击 miss。 */
+        if (after == null && armsAfter == null &&
+            (state.lastHitAt || state.fightHitAt || (state.aimCommit && state.aimCommit.hpDropped))) {
             return true;
         }
         if (state.aimCommit) {
@@ -2623,7 +2824,7 @@
             var moved = movedActorUnit();
             var movedE = moved && unitMeleeEnemy(moved);
             if (moved && movedE && enemyIsLiving(movedE) && !actorSpent(moved) &&
-                !isHandoffSkip(moved) &&
+                !isHandoffSkip(moved) && !enemyBlockedForActor(moved, movedE) &&
                 !(state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(moved))) {
                 return { unit: moved, enemy: movedE };
             }
@@ -2640,7 +2841,7 @@
                 continue;
             }
             var e = unitMeleeEnemy(u);
-            if (!e || !enemyIsLiving(e)) {
+            if (!e || !enemyIsLiving(e) || enemyBlockedForActor(u, e)) {
                 continue;
             }
             if (sameTileHitCapped(e)) {
@@ -2677,14 +2878,16 @@
         var actor = actingActor();
         var e = actor && unitMeleeEnemy(actor);
         if (actor && actor.side !== 'enemy' && e && enemyIsLiving(e) &&
-            !sameTileHitCapped(e) && !actorSpent(actor) && !isHandoffSkip(actor)) {
+            !sameTileHitCapped(e) && !actorSpent(actor) && !isHandoffSkip(actor) &&
+            !enemyBlockedForActor(actor, e)) {
             return { unit: actor, enemy: e };
         }
         if (state.actorAt && state.actorAt.x != null) {
             var fromAt = resolveNamedActor(state.actorAt);
             if (fromAt && fromAt.name && !actorSpent(fromAt) && !isHandoffSkip(fromAt)) {
                 var eAt = unitMeleeEnemy(fromAt);
-                if (eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
+                if (eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt) &&
+                    !enemyBlockedForActor(fromAt, eAt)) {
                     return { unit: fromAt, enemy: eAt };
                 }
             }
@@ -2693,7 +2896,8 @@
         if (fu && fu.side === 'player' && fu.name && !actorSpent(fu) &&
             !isHandoffSkip(fu)) {
             var eFu = unitMeleeEnemy(fu);
-            if (eFu && enemyIsLiving(eFu) && !sameTileHitCapped(eFu)) {
+            if (eFu && enemyIsLiving(eFu) && !sameTileHitCapped(eFu) &&
+                !enemyBlockedForActor(fu, eFu)) {
                 return { unit: fu, enemy: eFu };
             }
         }
@@ -2938,7 +3142,7 @@
             return null;
         }
         var enemy = unitMeleeEnemy(unit);
-        if (!enemy || !enemyIsLiving(enemy)) {
+        if (!enemy || !enemyIsLiving(enemy) || enemyBlockedForActor(unit, enemy)) {
             return null;
         }
         noteActingUnit(unit);
@@ -3265,6 +3469,25 @@
                 pending: state.pendingPickUnit || ''
             });
             return false;
+        }
+        if (enemyBlockedForActor(strike.unit, strike.enemy)) {
+            var pinnedName = state.sameDestSwitchTo && strike.unit.name
+                ? state.sameDestSwitchTo[strike.unit.name] : '';
+            var pinned = peekEnemyByName(pinnedName) || otherLivingEnemy(strike.enemy);
+            console.log('[hd-battle] open-aim-refuse', {
+                via: 'leftover-switch',
+                unit: strike.unit.name,
+                have: strike.enemy && strike.enemy.name,
+                want: pinned && pinned.name
+            });
+            if (pinned && enemyIsLiving(pinned)) {
+                setPendingApproach(pinned.x, pinned.y);
+                notePendingPick(strike.unit);
+                noteActingUnit(strike.unit);
+                scheduleDriveSoon('leftover-switch', 80);
+                return true;
+            }
+            return restSkippedThenPickNext('open-aim-leftover-switch');
         }
         var force = !!(why && /idle|force|phase0-live/.test(why));
         if (!force && state.lastOpenAimAt && Date.now() - state.lastOpenAimAt < 420) {
@@ -4704,8 +4927,10 @@
             return false;
         }
         var dropped = verifyHitHpDrop('after-hit-settle');
-        if (!dropped && (state.lastHitAt || state.fightHitAt ||
-            (state.aimCommit && state.aimCommit.hpDropped))) {
+        var commitAt = state.aimCommit && state.aimCommit.at;
+        var thisCommitHit = !!(state.aimCommit && state.aimCommit.hpDropped) ||
+            !!(commitAt && state.lastHitAt && state.lastHitAt >= commitAt);
+        if (!dropped && thisCommitHit) {
             dropped = true;
         }
         if (fight && Number(fight.phase) === 2) {
@@ -4742,7 +4967,16 @@
                         !!(missActor && aimRngMatchesActor(missActor));
                 }
                 if ((state.sameTileHitN || 0) >= 2 || realMiss) {
-                    if (missActor && missActor.name) {
+                    var missEnemy = (state.aimCommit && peekEnemyByName(state.aimCommit.name)) ||
+                        (state.aimCommit ? {
+                            name: state.aimCommit.name,
+                            x: state.aimCommit.x,
+                            y: state.aimCommit.y
+                        } : null);
+                    if (state.aimCommit && !state.aimCommit.notedNoDrop) {
+                        state.aimCommit.notedNoDrop = true;
+                        try { noteLeftoverNoDrop(missActor, missEnemy, 'after-hit-same-tile'); } catch (eNd) {}
+                    } else if (missActor && missActor.name) {
                         markHandoffSkip(missActor, 'no-drop-aim');
                     }
                     console.log('[hd-battle] after-hit-same-tile', {
@@ -4792,7 +5026,16 @@
                 }
                 var missNo = null;
                 try { missNo = resolveNamedActor(actingActor()); } catch (eN2) { missNo = actingActor(); }
-                if (missNo && missNo.name) {
+                var missEnemyNo = (state.aimCommit && peekEnemyByName(state.aimCommit.name)) ||
+                    (state.aimCommit ? {
+                        name: state.aimCommit.name,
+                        x: state.aimCommit.x,
+                        y: state.aimCommit.y
+                    } : null);
+                if (state.aimCommit && !state.aimCommit.notedNoDrop) {
+                    state.aimCommit.notedNoDrop = true;
+                    try { noteLeftoverNoDrop(missNo, missEnemyNo, 'after-hit-no-drop'); } catch (eNd2) {}
+                } else if (missNo && missNo.name) {
                     markHandoffSkip(missNo, 'no-drop-aim');
                 }
                 return restSkippedThenPickNext('after-hit-no-drop');
@@ -5397,7 +5640,11 @@
             !actorSpent(strike.unit))) {
             return false;
         }
-        if (isHandoffSkip(strike.unit)) {
+        if (isHandoffSkip(strike.unit) || leftoverNoDropStuck(strike.unit, strike.enemy)) {
+            if (!isHandoffSkip(strike.unit) && leftoverNoDropStuck(strike.unit, strike.enemy)) {
+                pinActorToOtherEnemy(strike.unit, strike.enemy, why || 'leftover-stuck');
+                markHandoffSkip(strike.unit, 'leftover-no-drop');
+            }
             return restSkippedThenPickNext(why || 'leftover-skip');
         }
         /* 本将 AIM 已绑上仍无合法格：先强制走到敌军格 ENTER，再 skip。 */
@@ -5406,13 +5653,19 @@
                 !(state.leftoverAimForceEnterAt &&
                     Date.now() - state.leftoverAimForceEnterAt < 2200)) {
                 state.leftoverAimForceEnterAt = Date.now();
+                state.leftoverAimForceEnterN = (state.leftoverAimForceEnterN || 0) + 1;
                 console.log('[hd-battle] leftover-aim-force-enter', {
                     via: why || 'leftover-adj',
                     unit: strike.unit.name,
                     enemy: strike.enemy.name,
                     ex: strike.enemy.x,
-                    ey: strike.enemy.y
+                    ey: strike.enemy.y,
+                    n: state.leftoverAimForceEnterN
                 });
+                if ((state.leftoverAimForceEnterN || 0) >= 2) {
+                    try { noteLeftoverNoDrop(strike.unit, strike.enemy, 'force-enter-2'); } catch (eFe) {}
+                    return restSkippedThenPickNext(why || 'leftover-force-enter');
+                }
                 confirmAimHit(strike.enemy, strike.enemy.x, strike.enemy.y,
                     why || 'force-enter', {});
                 return true;
@@ -10532,6 +10785,9 @@
                     }
                     return names;
                 }()),
+                leftoverNoDrop: state.leftoverNoDrop || {},
+                leftoverNoDropEnemy: state.leftoverNoDropEnemy || {},
+                leftoverAimForceEnterN: state.leftoverAimForceEnterN || 0,
                 sameTileHitN: state.sameTileHitN || 0,
                 phase1AdjEnterHoldUntil: state.phase1AdjEnterHoldUntil || 0,
                 lastOpenAimAt: state.lastOpenAimAt || 0,
