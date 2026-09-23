@@ -6686,9 +6686,13 @@
                     y: otherOwn.y
                 });
             } else if ((state.lastHitAt || state.fightHitAt) && livingEnemies().length) {
+                if (state.lastArmNextAt && Date.now() - state.lastArmNextAt < 1600) {
+                    return null;
+                }
                 var lordFoe = bestEnemyForApproach(pick) || nearestEnemyFrom(pick);
                 if (lordFoe && enemyIsLiving(lordFoe)) {
                     state.pendingActPick = 0;
+                    state.lastArmNextAt = Date.now();
                     setPendingApproach(lordFoe.x, lordFoe.y);
                     console.log('[hd-battle] lord-approach', {
                         via: 'pick-remaining',
