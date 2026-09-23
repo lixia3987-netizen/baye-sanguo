@@ -7329,13 +7329,18 @@
             try { skipLeftover = focusedFightUnit() || actingActor(); } catch (eSk) {
                 skipLeftover = actingActor();
             }
-            if (skipLeftover && isHandoffSkip(skipLeftover)) {
+            if (skipLeftover && (isHandoffSkip(skipLeftover) ||
+                recentlyHitActor(skipLeftover) || actorSpent(skipLeftover))) {
                 console.log('[hd-battle] attack-skip', {
-                    why: 'handoff-skip-leftover',
-                    unit: skipLeftover.name
+                    why: 'leftover-spent',
+                    unit: skipLeftover.name,
+                    skip: !!isHandoffSkip(skipLeftover),
+                    spent: !!actorSpent(skipLeftover)
                 });
-                preferRest('handoff-skip-leftover');
-                pickNextAfterHandoffSkip('handoff-skip-leftover');
+                preferRest('leftover-spent');
+                if (!pickNextAfterHandoffSkip('leftover-spent')) {
+                    sysEndPlayerTurn('leftover-spent-end');
+                }
                 return;
             }
             /* 攻击已点：贴脸立刻近战 ENTER。走格已花且未贴脸必须待机，禁止 keep-walk 软循环。 */
