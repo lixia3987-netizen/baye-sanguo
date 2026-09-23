@@ -172,6 +172,7 @@
         lastHpDropAt: 0,
         lastHpDrop: null,
         lastHitHpBefore: null,
+        lastHitArmsBefore: null,
         lastHitTarget: null,
         sameTileHitN: 0,
         lastAttackClickAt: 0,
@@ -1747,12 +1748,32 @@
         clearPhase1EnterCap(why || 'adj-melee');
     }
 
-    function peekEnemyHp(rec) {
+    function peekPersonArms(id) {
+        if (!id || id < 1 || id >= 0xfffe) {
+            return null;
+        }
+        try {
+            var persons = engineData() && engineData().g_Persons;
+            var p = persons && persons[id - 1];
+            if (!p) {
+                return null;
+            }
+            var arms = readNumber(p, 'Arms');
+            if (arms == null && p.Arms != null) {
+                arms = Number(p.Arms);
+            }
+            return arms;
+        } catch (eA) {}
+        return null;
+    }
+
+    function peekEnemyCombat(rec) {
         rec = rec || state.lastHitTarget || (state.aimCommit ? {
             name: state.aimCommit.name, x: state.aimCommit.x, y: state.aimCommit.y
         } : null);
+        var out = { hp: null, arms: null, id: null, name: '', x: null, y: null };
         if (!rec) {
-            return null;
+            return out;
         }
         try {
             var data = engineData();
@@ -1787,19 +1808,41 @@
                 if (hp == null && p && p.hp != null) {
                     hp = Number(p.hp);
                 }
-                if (rec.x != null && ux === rec.x && uy === rec.y && hp != null) {
-                    return hp;
+                var arms = peekPersonArms(id);
+                var hit = {
+                    hp: hp, arms: arms, id: id, name: name, x: ux, y: uy
+                };
+                if (rec.x != null && ux === rec.x && uy === rec.y) {
+                    return hit;
                 }
-                if (rec.name && name === rec.name && hp != null && byName == null) {
-                    byName = hp;
+                if (rec.name && name === rec.name && byName == null) {
+                    byName = hit;
                 }
             }
-            if (byName != null) {
+            if (byName) {
                 return byName;
             }
         } catch (ePeek) {}
         var t = findHitTarget(rec);
-        return t && t.hp != null ? t.hp : null;
+        if (t) {
+            out.hp = t.hp;
+            out.arms = t.arms != null ? t.arms : peekPersonArms(t.id);
+            out.id = t.id;
+            out.name = t.name;
+            out.x = t.x;
+            out.y = t.y;
+        }
+        return out;
+    }
+
+    function peekEnemyHp(rec) {
+        var c = peekEnemyCombat(rec);
+        return c && c.hp != null ? c.hp : null;
+    }
+
+    function aimCommitPending() {
+        return !!(state.aimCommit && state.aimCommit.sentEnter &&
+            !state.aimCommit.hpDropped && aimCommitAgeMs() < 1600);
     }
 
     function noteRealAttackHit(info) {
@@ -1820,6 +1863,8 @@
             y: info && info.y,
             before: info && info.before,
             after: info && info.after,
+            armsBefore: info && info.armsBefore,
+            armsAfter: info && info.armsAfter,
             dist: 1
         });
     }
@@ -1827,27 +1872,40 @@
     function verifyHitHpDrop(why) {
         var rec = state.aimCommit || {};
         var before = rec.hpBefore != null ? rec.hpBefore : state.lastHitHpBefore;
+        var armsBefore = rec.armsBefore != null ? rec.armsBefore : state.lastHitArmsBefore;
         var target = findHitTarget(rec);
-        var after = peekEnemyHp(rec);
-        if (after == null) {
+        var combat = peekEnemyCombat(rec);
+        if (combat.hp == null && combat.arms == null) {
             try { sampleFight(); } catch (eSamp) {}
-            after = peekEnemyHp(rec);
+            combat = peekEnemyCombat(rec);
             target = findHitTarget(rec) || target;
         }
+        var after = combat.hp;
+        var armsAfter = combat.arms;
         if (after == null && target && target.hp != null) {
             after = target.hp;
         }
+        if (armsAfter == null && target && target.arms != null) {
+            armsAfter = target.arms;
+        }
         var hadTarget = !!(rec.name || rec.x != null || (state.lastHitTarget && state.lastHitTarget.name));
         /* after==null 且单位表暂时采不到：禁止当成击杀，否则 phase-leave 会假 lastHitAt。 */
-        var gone = !!(hadTarget && !target && after != null && Number(after) <= 0);
-        var drop = gone || (before != null && after != null && Number(after) < Number(before));
+        var gone = !!(hadTarget && !target &&
+            ((after != null && Number(after) <= 0) || (armsAfter != null && Number(armsAfter) <= 0)));
+        /* FgtAtkAction 扣的是 Person.Arms，g_GenPos.hp 开战时算一次不再改。 */
+        var dropHp = before != null && after != null && Number(after) < Number(before);
+        var dropArms = armsBefore != null && armsAfter != null && Number(armsAfter) < Number(armsBefore);
+        var drop = gone || dropHp || dropArms;
         var info = {
             via: why || 'verify',
-            unit: (target && target.name) || rec.name || (state.lastHitTarget && state.lastHitTarget.name),
-            x: target && target.x != null ? target.x : rec.x,
-            y: target && target.y != null ? target.y : rec.y,
+            unit: combat.name || (target && target.name) || rec.name ||
+                (state.lastHitTarget && state.lastHitTarget.name),
+            x: combat.x != null ? combat.x : (target && target.x != null ? target.x : rec.x),
+            y: combat.y != null ? combat.y : (target && target.y != null ? target.y : rec.y),
             before: before,
             after: after,
+            armsBefore: armsBefore,
+            armsAfter: armsAfter,
             gone: !!gone,
             drop: !!drop
         };
@@ -1858,6 +1916,8 @@
             y: info.y,
             before: info.before,
             after: info.after,
+            armsBefore: info.armsBefore,
+            armsAfter: info.armsAfter,
             gone: !!info.gone,
             drop: !!info.drop
         }));
@@ -1930,7 +1990,8 @@
         var actor = actingActor();
         var e = actor && unitAdjacentEnemy(actor, 1);
         if (actor && actor.side !== 'enemy' && e && enemyIsLiving(e) &&
-            !sameTileHitCapped(e)) {
+            !sameTileHitCapped(e) &&
+            !(actor.active === 1)) {
             return { unit: actor, enemy: e };
         }
         if (state.actorAt && state.actorAt.x != null) {
@@ -2148,7 +2209,7 @@
     function namedAdjStrike(raw) {
         var strike = raw || liveAdjStrike() || adjacentWaitingStrike();
         var unit = resolveNamedActor(strike && strike.unit);
-        if (!unit || !unit.name) {
+        if (!unit || !unit.name || unit.active === 1) {
             console.log('[hd-battle] nameless-actor-refuse', {
                 via: 'named-strike',
                 raw: strike && strike.unit ? {
@@ -2206,6 +2267,9 @@
             return false;
         }
         if (!liveActMenu()) {
+            return false;
+        }
+        if (aimCommitPending()) {
             return false;
         }
         return !!namedAdjStrike();
@@ -2382,6 +2446,9 @@
     /* phase=0 wait=false + 攻击高亮 + 贴脸：ENTER 开 AIM，再走到敌军格打真伤。
      * 禁止当成 phase1 选将。 */
     function openAimFromActMenu(why, strike) {
+        if (aimCommitPending()) {
+            return false;
+        }
         strike = namedAdjStrike(strike);
         if (!strike || !actorBoundForAim(strike.unit)) {
             console.log('[hd-battle] open-aim-refuse', {
@@ -2719,6 +2786,9 @@
     }
 
     function commitAdjacentMelee(why) {
+        if (aimCommitPending()) {
+            return false;
+        }
         var strike = namedAdjStrike(adjacentWaitingStrike() || liveAdjStrike());
         var fight = null;
         var cur = null;
@@ -2977,6 +3047,12 @@
             return;
         }
         if (Number(fight.phase) !== 3) {
+            /* FgtGetFoucs ENTER 后 wait=0 会把 g_hdFightPhase 清成 0，此时仍在
+             * FgtCmdAimGet / FgtAtkAction。立刻清 commit 会假 phase-leave。 */
+            if (c.sentEnter && c.onTile && !c.hpDropped && aimCommitAgeMs() < 1400) {
+                try { verifyHitHpDrop('phase-leave-hold'); } catch (eHold) {}
+                return;
+            }
             clearAimCommit('phase-leave');
         }
     }
@@ -3088,6 +3164,7 @@
         extra.inRng = inAtkRng(x, y) === true;
         extra.hp = u && u.hp;
         extra.hpBefore = u && u.hp;
+        extra.armsBefore = u && u.arms != null ? u.arms : peekPersonArms(u && u.id);
         extra.focus = curAim;
         extra.queue = state.queue.length;
         extra.leaving = !!state.leavingAim;
@@ -3114,6 +3191,7 @@
         state.awaitingAimUntil = 0;
         state.lastOnTileAimAt = Date.now();
         state.lastHitHpBefore = u && u.hp;
+        state.lastHitArmsBefore = extra.armsBefore;
         if (state.lastHitTarget && state.lastHitTarget.x === x && state.lastHitTarget.y === y &&
             state.lastHitTarget.name === (u && u.name)) {
             state.sameTileHitN = (state.sameTileHitN || 0) + 1;
@@ -3126,7 +3204,8 @@
             actorName: actor.name, actorX: actor.x, actorY: actor.y,
             aimType: aimType,
             at: Date.now(), hits: 1, sentEnter: false,
-            hpBefore: u && u.hp, hpDropped: false, secondEnterSent: false, onTile: true
+            hpBefore: u && u.hp, armsBefore: extra.armsBefore,
+            hpDropped: false, secondEnterSent: false, onTile: true
         };
         enqueueKeys([VK.ENTER], 55);
         if (state.pendingActPick === 0) {
@@ -3143,7 +3222,8 @@
             y: y,
             inRng: extra.inRng,
             aimType: aimType,
-            hpBefore: extra.hpBefore
+            hpBefore: extra.hpBefore,
+            armsBefore: extra.armsBefore
         }));
         scheduleAfterHitSettle(700);
         return {
@@ -7412,6 +7492,7 @@
                 x: ux,
                 y: uy,
                 hp: readNumber(p, 'hp'),
+                arms: peekPersonArms(id),
                 active: readNumber(p, 'active'),
                 side: i < 10 ? 'player' : 'enemy'
             });
