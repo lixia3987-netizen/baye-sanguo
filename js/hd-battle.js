@@ -3659,8 +3659,9 @@
             Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
         extra.rngAt = aimRngOrigin();
         extra.rngMatch = aimRngMatchesActor(actor);
-        /* leftover 他将射程表即使盖住敌军格也不得 ENTER。须 EXIT 重开本将 AIM。 */
-        if (!extra.rngMatch || !extra.inRng) {
+        /* leftover 他将射程表：EXIT 重开本将 AIM。本将表已绑上但邻格尚未标 1：
+         * 正交贴脸仍在敌军格 ENTER（FgtChkRng 近战），禁止再 EXIT 空转。 */
+        if (!extra.rngMatch) {
             if (extra.ortho) {
                 console.log('[hd-battle] aim-stale-rng', JSON.stringify({
                     via: extra.via || 'stale-rng',
@@ -3682,6 +3683,28 @@
                     inRng: extra.inRng, via: extra.via
                 };
             }
+            console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
+                via: extra.via || 'not-in-rng',
+                actor: actor.name,
+                ax: actor.x,
+                ay: actor.y,
+                unit: u && u.name,
+                x: x,
+                y: y,
+                aimType: aimType,
+                rngAt: extra.rngAt
+            }));
+            return {
+                x: x, y: y, enter: false, unit: u && u.name, phase: 3,
+                tip: state.fightTip, blocked: 'not-in-rng',
+                inRng: extra.inRng, via: extra.via
+            };
+        }
+        if (!extra.inRng && extra.ortho) {
+            extra.inRng = true;
+            extra.orthoCommit = true;
+        }
+        if (!extra.inRng) {
             console.log('[hd-battle] aim-enter-refuse', JSON.stringify({
                 via: extra.via || 'not-in-rng',
                 actor: actor.name,
@@ -4865,16 +4888,19 @@
         origin = aimRngOrigin();
         match = aimRngMatchesActor(actor);
         inRng = inAtkRng(enemy.x, enemy.y) === true;
-        if (inRng && match) {
+        if (match) {
             return false;
         }
         if (origin && !match) {
+            if (state.lastOpenAimAt && Date.now() - state.lastOpenAimAt < 800) {
+                return false;
+            }
             return true;
         }
-        if (awaitingAim() && aimAgeMs() < 900) {
+        if (awaitingAim() && aimAgeMs() < 1600) {
             return false;
         }
-        if (aimAgeMs() < 400) {
+        if (aimAgeMs() < 800) {
             return false;
         }
         return !inRng || !match;
