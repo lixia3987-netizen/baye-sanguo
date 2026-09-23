@@ -568,6 +568,16 @@
                 }
                 dropQueuedEnters();
             }
+            if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 && !overNow &&
+                !(state.aimCommit && state.aimCommit.onTile)) {
+                dumpEnterSwallow('aim-off-tile', {
+                    legal: hasLegalAimTarget(),
+                    commit: !!(state.aimCommit)
+                });
+                dropQueuedEnters();
+                try { tryCommitMeleeAim('aim-off-tile'); } catch (eOff) {}
+                return false;
+            }
             if (code === VK.ENTER && fightKey && Number(fightKey.phase) === 3 &&
                 state.aimCommit) {
                 if (state.aimCommit.hpDropped) {
@@ -1530,6 +1540,23 @@
         return best;
     }
 
+    /* 近战只认正交贴脸或引擎射程表。对角 chebyshev=1 打不进 FgtChkRng。 */
+    function unitMeleeEnemy(unit) {
+        var e = unitAdjacentEnemy(unit, 1);
+        if (!e || !enemyIsLiving(e)) {
+            return null;
+        }
+        var dx = Math.abs(unit.x - e.x);
+        var dy = Math.abs(unit.y - e.y);
+        if (dx + dy === 1) {
+            return e;
+        }
+        if (inAtkRng(e.x, e.y) === true) {
+            return e;
+        }
+        return null;
+    }
+
     function enemyIsLiving(u) {
         if (!u || u.side !== 'enemy' || u.x == null || u.y == null) {
             return false;
@@ -1624,7 +1651,7 @@
         if (!actor) {
             return null;
         }
-        var e = unitAdjacentEnemy(actor, 1);
+        var e = unitMeleeEnemy(actor);
         return (e && enemyIsLiving(e)) ? e : null;
     }
 
@@ -1962,7 +1989,7 @@
         var lordStrike = null;
         if (state.movedThisAct) {
             var moved = movedActorUnit();
-            var movedE = moved && unitAdjacentEnemy(moved, 1);
+            var movedE = moved && unitMeleeEnemy(moved);
             if (moved && movedE && enemyIsLiving(movedE) &&
                 !(state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(moved))) {
                 return { unit: moved, enemy: movedE };
@@ -1976,7 +2003,7 @@
             if (!(u.active === 0 || u.active == null)) {
                 continue;
             }
-            var e = unitAdjacentEnemy(u, 1);
+            var e = unitMeleeEnemy(u);
             if (!e || !enemyIsLiving(e)) {
                 continue;
             }
@@ -2004,7 +2031,7 @@
             return waiting;
         }
         var actor = actingActor();
-        var e = actor && unitAdjacentEnemy(actor, 1);
+        var e = actor && unitMeleeEnemy(actor);
         if (actor && actor.side !== 'enemy' && e && enemyIsLiving(e) &&
             !sameTileHitCapped(e) && !actorSpent(actor)) {
             return { unit: actor, enemy: e };
@@ -2012,7 +2039,7 @@
         if (state.actorAt && state.actorAt.x != null) {
             var fromAt = resolveNamedActor(state.actorAt);
             if (fromAt && fromAt.name && !actorSpent(fromAt)) {
-                var eAt = unitAdjacentEnemy(fromAt, 1);
+                var eAt = unitMeleeEnemy(fromAt);
                 if (eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
                     return { unit: fromAt, enemy: eAt };
                 }
@@ -2020,7 +2047,7 @@
         }
         var fu = focusedFightUnit();
         if (fu && fu.side === 'player' && fu.name && !actorSpent(fu)) {
-            var eFu = unitAdjacentEnemy(fu, 1);
+            var eFu = unitMeleeEnemy(fu);
             if (eFu && enemyIsLiving(eFu) && !sameTileHitCapped(eFu)) {
                 return { unit: fu, enemy: eFu };
             }
@@ -2155,7 +2182,7 @@
             if (!u || u.side !== 'player' || !u.name || u.x == null || u.y == null) {
                 continue;
             }
-            var e = unitAdjacentEnemy(u, 1);
+            var e = unitMeleeEnemy(u);
             if (!e || !enemyIsLiving(e)) {
                 continue;
             }
@@ -2245,7 +2272,8 @@
             }
             return null;
         }
-        var enemy = unitAdjacentEnemy(unit, 1) || (strike && strike.enemy);
+        var enemy = unitMeleeEnemy(unit) ||
+            (strike && strike.enemy && unitMeleeEnemy(unit) && strike.enemy);
         if (!enemy || !enemyIsLiving(enemy)) {
             return null;
         }
@@ -4096,7 +4124,7 @@
                 /* 真瞄准时菜单不得挡住点敌军。 */
                 state.holdActMenuUntil = 0;
             }
-            if (!aimCommitHolds() && (hasLegalAimTarget() || adjacentEnemy(1))) {
+            if (!aimCommitHolds() && hasLegalAimTarget()) {
                 tryCommitMeleeAim('aim-enter');
             }
             return;
