@@ -1769,6 +1769,8 @@
         setAdjRecoverStage('give-up');
         state.movedThisAct = false;
         state.adjRecoverPickSent = false;
+        state.nextUnitArmedKey = '';
+        state.lastArmNextAt = 0;
         armNextWaitingOwn('adj-recover-give-up', { force: true });
         return false;
     }
