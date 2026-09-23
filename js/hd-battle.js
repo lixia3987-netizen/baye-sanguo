@@ -2338,6 +2338,7 @@
             var moved = movedActorUnit();
             var movedE = moved && unitMeleeEnemy(moved);
             if (moved && movedE && enemyIsLiving(movedE) && !actorSpent(moved) &&
+                !isHandoffSkip(moved) &&
                 !(state.adjRecoverGiveUpKey && state.adjRecoverGiveUpKey === unitCapKey(moved))) {
                 return { unit: moved, enemy: movedE };
             }
@@ -2388,12 +2389,12 @@
         var actor = actingActor();
         var e = actor && unitMeleeEnemy(actor);
         if (actor && actor.side !== 'enemy' && e && enemyIsLiving(e) &&
-            !sameTileHitCapped(e) && !actorSpent(actor)) {
+            !sameTileHitCapped(e) && !actorSpent(actor) && !isHandoffSkip(actor)) {
             return { unit: actor, enemy: e };
         }
         if (state.actorAt && state.actorAt.x != null) {
             var fromAt = resolveNamedActor(state.actorAt);
-            if (fromAt && fromAt.name && !actorSpent(fromAt)) {
+            if (fromAt && fromAt.name && !actorSpent(fromAt) && !isHandoffSkip(fromAt)) {
                 var eAt = unitMeleeEnemy(fromAt);
                 if (eAt && enemyIsLiving(eAt) && !sameTileHitCapped(eAt)) {
                     return { unit: fromAt, enemy: eAt };
@@ -2401,7 +2402,8 @@
             }
         }
         var fu = focusedFightUnit();
-        if (fu && fu.side === 'player' && fu.name && !actorSpent(fu)) {
+        if (fu && fu.side === 'player' && fu.name && !actorSpent(fu) &&
+            !isHandoffSkip(fu)) {
             var eFu = unitMeleeEnemy(fu);
             if (eFu && enemyIsLiving(eFu) && !sameTileHitCapped(eFu)) {
                 return { unit: fu, enemy: eFu };
@@ -2541,7 +2543,8 @@
             if (!e || !enemyIsLiving(e)) {
                 continue;
             }
-            if (actorSpent(u) || !(u.active === 0 || u.active == null)) {
+            if (actorSpent(u) || isHandoffSkip(u) ||
+                !(u.active === 0 || u.active == null)) {
                 continue;
             }
             if (state.adjRecoverGiveUpKey &&
@@ -2620,7 +2623,14 @@
                 }
             }
         }
-        if (!unit || !unit.name || actorSpent(unit) || recentlyHitActor(unit)) {
+        if (unit && isHandoffSkip(unit)) {
+            unit = nearestNamedAdjAttacker(unit);
+            if (unit && isHandoffSkip(unit)) {
+                unit = null;
+            }
+        }
+        if (!unit || !unit.name || actorSpent(unit) || recentlyHitActor(unit) ||
+            isHandoffSkip(unit)) {
             if (!pendingPickName() &&
                 (!state.lastNamelessRefuseAt || Date.now() - state.lastNamelessRefuseAt > 800)) {
                 state.lastNamelessRefuseAt = Date.now();
@@ -2893,6 +2903,13 @@
             return false;
         }
         strike = namedAdjStrike(strike);
+        if (strike && strike.unit && isHandoffSkip(strike.unit)) {
+            console.log('[hd-battle] open-aim-refuse', {
+                via: 'handoff-skip',
+                unit: strike.unit.name
+            });
+            return false;
+        }
         if (!strike || !actorBoundForAim(strike.unit)) {
             console.log('[hd-battle] open-aim-refuse', {
                 via: why || 'nameless',
