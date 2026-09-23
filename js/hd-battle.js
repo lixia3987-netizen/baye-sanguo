@@ -7247,7 +7247,9 @@
                 closerRank = closer ? approachTileRank(closer.x, closer.y, dest.x, dest.y) : 99;
                 closerD = closer ? chebyshev(closer.x, closer.y, dest.x, dest.y) : 99;
             }
-            if (closer && closerRank > 1) {
+            if (closer && closerRank > 1 &&
+                !(actor && actor.name && state.sameDestSwitchTo &&
+                    state.sameDestSwitchTo[actor.name])) {
                 var altDest = bestEnemyForApproach(actor);
                 if (altDest && (altDest.x !== dest.x || altDest.y !== dest.y)) {
                     var altVia = findCloserMoveTile(actor.x, actor.y, altDest.x, altDest.y, {
