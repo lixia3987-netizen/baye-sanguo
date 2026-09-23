@@ -249,7 +249,9 @@
         lastWoundedEnemy: null,
         sameDestSwitchedActor: '',
         sameDestSwitchTo: {},
-        lastLeftoverAimStuckRestAt: 0
+        lastLeftoverAimStuckRestAt: 0,
+        leftoverAimForceEnterAt: 0,
+        shortWalkRestSkipN: 0
     };
 
     function readStorage(key, fallback) {
@@ -1026,6 +1028,8 @@
             state.sameDestSwitchedActor = '';
             state.sameDestSwitchTo = {};
             state.stallMeleeTried = false;
+            state.shortWalkRestSkipN = 0;
+            state.leftoverAimForceEnterAt = 0;
         }
     }
 
@@ -4154,7 +4158,11 @@
             return true;
         }
         if (aimAgeMs() > 2800 && !hasLegalAimTarget() && leftoverAim(fight)) {
-            return handleLeftoverAimAdj(why || 'melee-leftover-stuck');
+            var adjKeep = null;
+            try { adjKeep = namedAdjStrike(); } catch (eK) { adjKeep = null; }
+            if (!(adjKeep && adjKeep.enemy && actorBoundForAim(adjKeep.unit))) {
+                return handleLeftoverAimAdj(why || 'melee-leftover-stuck');
+            }
         }
         if (state.lastMeleeTryAt && Date.now() - state.lastMeleeTryAt < 280) {
             return false;
@@ -5150,8 +5158,11 @@
             }
             return false;
         }
-        /* 贴脸但射程未标：先给 melee ENTER ~2.8s（含走到敌军格）；失败再 leftover。 */
+        /* 贴脸必须走到敌军格 ENTER（h 路径）。FgtChkRng 未标也先打，禁止 leftover 吞 ENTER。 */
         if (age > 2000 && !legal) {
+            if (stuckAim && stuckAim.unit && actorBoundForAim(stuckAim.unit) && age < 8000) {
+                return false;
+            }
             if (stuckAim && stuckAim.unit && likelyAimTarget() && age < 2800) {
                 return false;
             }
@@ -5379,8 +5390,23 @@
         if (isHandoffSkip(strike.unit)) {
             return restSkippedThenPickNext(why || 'leftover-skip');
         }
-        /* 本将 AIM 已绑上仍无合法格，或已经 EXIT 重开过：待机换将，禁止 leftover-AIM 空转。 */
+        /* 本将 AIM 已绑上仍无合法格：先强制走到敌军格 ENTER，再 skip。 */
         if (aimRngMatchesActor(strike.unit) || (state.leftoverAimReopenN || 0) >= 1) {
+            if (strike.enemy &&
+                !(state.leftoverAimForceEnterAt &&
+                    Date.now() - state.leftoverAimForceEnterAt < 2200)) {
+                state.leftoverAimForceEnterAt = Date.now();
+                walkFocusTo(strike.enemy.x, strike.enemy.y, false);
+                enqueueKeys([VK.ENTER], 55);
+                console.log('[hd-battle] leftover-aim-force-enter', {
+                    via: why || 'leftover-adj',
+                    unit: strike.unit.name,
+                    enemy: strike.enemy.name,
+                    ex: strike.enemy.x,
+                    ey: strike.enemy.y
+                });
+                return true;
+            }
             markHandoffSkip(strike.unit, 'leftover-aim-stuck');
             return restSkippedThenPickNext(why || 'leftover-aim-stuck');
         }
@@ -6414,6 +6440,19 @@
             console.log('[hd-battle] rest-skip', {
                 via: why || 'prefer-rest', why: 'phase1-wait-noop'
             });
+            if (/after-approach-short|attack-after-short-walk/.test(why || '')) {
+                state.shortWalkRestSkipN = (state.shortWalkRestSkipN || 0) + 1;
+                if (state.shortWalkRestSkipN >= 2) {
+                    try { noteUnitActed(why || 'short-walk-rest'); } catch (eAct) {}
+                    if (firstWaitingOwn({ skipLord: true, includeStuck: true }) ||
+                        waitingAllyCanHitOrApproach()) {
+                        try { armNextWaitingOwn((why || 'short-walk') + '-next', { force: true }); } catch (eNx) {}
+                        return;
+                    }
+                    sysEndPlayerTurn(why || 'short-walk-end');
+                    return;
+                }
+            }
             if (armCapableSkipLord((why || 'prefer-rest') + '-phase1-other')) {
                 return;
             }
