@@ -5611,6 +5611,12 @@
     function keepAimEnter(why) {
         var fight = null;
         try { fight = readFight(); } catch (eK) {}
+        /* 敌军格上尚未发出的 AIM ENTER 必须保住，220ms 会被 drop-queued-enters 吞掉。 */
+        if (state.aimCommit && !state.aimCommit.sentEnter && state.aimCommit.onTile &&
+            aimCommitAgeMs() < 1600) {
+            console.log('[hd-battle] enter-kept', { why: why || 'aim-on-tile-pending' });
+            return true;
+        }
         /* 提交后只保住刚入队的那一发 ENTER；之后必须丢掉，否则 refresh 会连打。 */
         if (aimCommitHolds()) {
             if (!state.aimCommit.sentEnter && aimCommitAgeMs() < 220) {
@@ -5631,11 +5637,12 @@
         }
         /* 等走位时必须丢掉开菜单残留 ENTER，否则会在敌军格外打「命令无效」。 */
         if (awaitingAim() && !(state.aimCommit && !state.aimCommit.sentEnter &&
-            aimCommitAgeMs() < 220)) {
+            (state.aimCommit.onTile ? aimCommitAgeMs() < 1600 : aimCommitAgeMs() < 220))) {
             return false;
         }
         if (fight && Number(fight.phase) === 3 && !leftoverAim(fight)) {
-            if (state.aimCommit && !state.aimCommit.sentEnter && aimCommitAgeMs() < 220) {
+            if (state.aimCommit && !state.aimCommit.sentEnter &&
+                (state.aimCommit.onTile ? aimCommitAgeMs() < 1600 : aimCommitAgeMs() < 220)) {
                 console.log('[hd-battle] enter-kept', { why: why || 'aim-on-tile' });
                 return true;
             }
