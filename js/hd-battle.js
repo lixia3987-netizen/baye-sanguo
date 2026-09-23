@@ -2947,7 +2947,8 @@
             }
             var walkKey = unitCapKey(strike.unit);
             if (state.lastAdjRecoverWalkDest === walkKey && state.lastAdjRecoverWalkAt &&
-                Date.now() - state.lastAdjRecoverWalkAt < 900) {
+                Date.now() - state.lastAdjRecoverWalkAt < 400 &&
+                (queueBusy || dist <= 1)) {
                 setAdjRecoverStage('walk');
                 scheduleAdjRecover('adj-recover-walk-wait', 120);
                 return true;
@@ -4114,6 +4115,10 @@
         }
         var fu = focusedFightUnit();
         if (fu && fu.side === 'enemy') {
+            var wantPick = peekPlayerByName(pendingPickName());
+            if (wantPick && (unitMeleeEnemy(wantPick) || adjacentWaitingStrike())) {
+                walkFocusTo(wantPick.x, wantPick.y, false);
+            }
             return 'enemy-focus';
         }
         /* 无未行动己方时选将 ENTER 只会打进敌方 AI。刚待机/命中留 400ms 给引擎标下一将。
