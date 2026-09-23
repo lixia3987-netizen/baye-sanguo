@@ -5120,7 +5120,9 @@
                 !(state.lastLeftoverAimStuckRestAt &&
                     Date.now() - state.lastLeftoverAimStuckRestAt < 900)) {
                 state.lastLeftoverAimStuckRestAt = Date.now();
-                try { handleLeftoverAimAdj('leftover-aim-stuck'); } catch (eStuck) {}
+                setTimeout(function () {
+                    try { handleLeftoverAimAdj('leftover-aim-stuck'); } catch (eStuck) {}
+                }, 0);
             }
             return true;
         }
