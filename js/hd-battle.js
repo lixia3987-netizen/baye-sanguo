@@ -1194,6 +1194,8 @@
         }
         state.lastArmNextAt = Date.now();
         state.movedThisAct = false;
+        state.sawMoveThisTurn = false;
+        state.walkSubmittedAt = 0;
         state.approachedThisAct = false;
         if (strikeNext) {
             state.pendingActPick = 0;
@@ -2486,6 +2488,9 @@
         notePendingPick(next);
         noteActingUnit(next);
         state.pendingActPick = 0;
+        state.movedThisAct = false;
+        state.sawMoveThisTurn = false;
+        state.walkSubmittedAt = 0;
         var foe = (strike && strike.enemy) || unitAdjacentEnemy(next, 1) || nearestEnemyFrom(next);
         if (foe && !(unitAdjacentEnemy(next, 1))) {
             setPendingApproach(foe.x, foe.y);
@@ -3298,6 +3303,11 @@
         extra.ortho = !!(actor.x != null && x != null &&
             Math.abs(actor.x - x) + Math.abs(actor.y - y) === 1);
         extra.rngAt = aimRngOrigin();
+        /* 正交贴脸：表还在灌/缺格也 ENTER。引擎近战是正交 FgtChkRng。 */
+        if (!extra.inRng && extra.ortho && (aimType === 0 || aimType === 0xFF || aimType == null)) {
+            extra.inRng = true;
+            extra.orthoForce = true;
+        }
         /* FgtChkRng 用 g_FgtAtkRng。表中心不是本将落点 = leftover，ENTER 不掉血。 */
         if (!extra.inRng) {
             if (extra.ortho && !aimRngMatchesActor(actor)) {
@@ -5923,7 +5933,7 @@
             if (adjacentWaitingStrike() && commitAdjacentMelee('approach-nowait-melee')) {
                 return true;
             }
-            if ((state.movedThisAct || state.sawMoveThisTurn) && state.pendingApproach) {
+            if (state.movedThisAct && state.pendingApproach) {
                 if (aimOrMeleeMovedActor('approach-nowait-after-walk')) {
                     return true;
                 }
@@ -5991,9 +6001,9 @@
             }
             var pathWaitMs = Date.now() - state.approachPathWaitAt;
             var expired = pathWaitMs >= 1800 || (state.approachWaitLogs || 0) >= 12;
-            var tilesStable = (state.approachTilesPeak || 0) >= 4 &&
+            var tilesStable = (state.approachTilesPeak || 0) >= 8 &&
                 state.approachTilesStableAt &&
-                Date.now() - state.approachTilesStableAt >= 360;
+                Date.now() - state.approachTilesStableAt >= 500;
             var filled = expired || tilesStable;
             var closer = findCloserMoveTile(actor.x, actor.y, dest.x, dest.y, {
                 noStep: !filled && tiles < 6
