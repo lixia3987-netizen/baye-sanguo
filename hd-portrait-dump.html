@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <title>武将头像导出</title>
+    <style>
+        body { font-family: sans-serif; margin: 24px; background: #14181f; color: #e8edf5; }
+        code { color: #f0c75a; }
+        #dump-gallery { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px; }
+        #dump-gallery figure { margin: 0; width: 140px; }
+        #dump-gallery img { width: 140px; height: auto; image-rendering: pixelated; background: #0e1116; }
+        #dump-gallery figcaption { font-size: 12px; word-break: break-all; }
+        button { margin-right: 8px; }
+    </style>
+    <script>
+        window.alert = function (message) { console.warn('[alert]', message); };
+        window.BAYE_ASSET_VER = '20260924a';
+        window.Module = window.Module || {};
+        window.Module.noInitialRun = true;
+        window.Module.onRuntimeInitialized = function () {
+            window.__bayeWasmReady = true;
+        };
+    </script>
+</head>
+<body>
+    <h1>武将头像导出</h1>
+    <p>用引擎把 <code>GEN_HEADPIC1 + g_PIdx</code>（resid 47 + 时期）画到 <code>#lcd</code>，再裁下约 24×24 的头像格。默认 lib：<code>libs/dat-mod.lib</code>。</p>
+    <p>写入仓库请用 <code>node scripts/dump-hd-portraits.mjs</code>。此页加上 <code>?post=http://127.0.0.1:端口/dump</code> 才会把 PNG 交给脚本。查询参数：<code>periods=1,2,3,4</code>、<code>limit=8</code>、<code>manual=1</code>（不自动跑）。</p>
+    <p>
+        <button type="button" id="dump-go">导出 1–4 时期</button>
+        <button type="button" id="dump-one">只导出时期 1 的前 8 人</button>
+    </p>
+    <p id="dump-status">等待 WASM…</p>
+    <div id="dump-gallery"></div>
+    <canvas id="lcd" width="640" height="384" style="position:absolute;left:-9999px;top:0"></canvas>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/encoding-indexes.js"></script>
+    <script src="js/encoding.js"></script>
+    <script src="js/sprintf.js"></script>
+    <script src="js/base64.js"></script>
+    <script src="js/bridge.js"></script>
+    <script src="js/lcd.js"></script>
+    <script src="js/hd-portrait-dump.js"></script>
+    <script src="js/baye.js"></script>
+    <script>
+        document.getElementById('dump-go').onclick = function () {
+            BayePortraitDump.run({ periods: '1,2,3,4' });
+        };
+        document.getElementById('dump-one').onclick = function () {
+            BayePortraitDump.run({ periods: '1', limit: 8 });
+        };
+    </script>
+</body>
+</html>

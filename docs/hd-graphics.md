@@ -168,7 +168,7 @@ API（`window.BayeHd`）：
 - 不要盲换 / 重打包 `libs/dat-mod.lib` 或其它 `.lib` 里的图块与字模
 - 不要改 `js/baye.wasm` 或要求用户重编引擎
 - 不要把逻辑分辨率偷偷改成「高清 320×192」之类——菜单与地图坐标仍按 16px 格
-- 不要在仓库里塞未提供的「高清武将立绘 / 新地图」或伪造截图
+- 不要伪造截图，也不要提交没有引擎参考图的假高清立绘。武将立绘是允许的用户生成轨道：`refs/` 只收实拍，`hd/` 只收由这些参考图 img2img 得到的成品（见第 8 节）
 - 不要把 HD 设成唯一外观；经典 1× 必须是默认且可一键回去
 - 不要借画质分支加科技树、联机、抽卡等无关功能
 - 不要在竖屏虚拟键页半吊子放大（见第 4 节）
@@ -204,6 +204,35 @@ python3 -m http.server 8080
 
 ---
 
-## 8. 许可证
+## 8. 武将立绘（用户生成）
+
+原头像仍是 `gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId)`（`GEN_HEADPIC1` = 47，时期 1–4，JS 为 `baye.drawImage(0, 0, 47 + period, 0, personId)`）。HD 壳不改 WASM。
+
+| 路径 | 作用 |
+|------|------|
+| `assets/hd-portraits/refs/` | 引擎画到 `#lcd` 后裁下的头像，实拍 |
+| `assets/hd-portraits/hd/` | img2img 成品。没有文件就不显示 HD |
+| `assets/hd-portraits/manifest.json` | personId + 时期 → 路径。试点名单的 id 由导出脚本从武将名解析 |
+| `assets/hd-portraits/PROMPT.md` | 保持相貌的中英提示词 |
+
+显示位置（`js/hd-portraits.js`）：
+
+- **人物信息**：HD 城池菜单里高亮的武将，或武将报告（`g_hdReportKind == 2`）
+- **战场说明头像**：战场帮助打开时，光标下那一格的将（`GenArray` 是 1-based，显示用减 1 后的 PersonID）
+- **地图君主头像**：HD 大地图阶段的 `g_PlayerKing`
+
+有 `hd/...` 就显示 HD 图。没有则用对应 `refs/` 原头像。两样都没有时槽位隐藏，引擎继续画 `GEN_HEADPIC`。经典 LCD 路径不被迫换成 HD。
+
+导出（词典原版 lib）：
+
+```bash
+node scripts/dump-hd-portraits.mjs
+```
+
+或 `python3 -m http.server 8080` 后打开 `hd-portrait-dump.html`。已经在 `pc.html` 里选好时期时，控制台执行 `BayePortraitDump.dumpCurrent()`。步骤写在 `assets/hd-portraits/README.md`。
+
+不要把没跑过导出的图、拼出来的截图或手绘头像放进 `refs/`。
+
+## 9. 许可证
 
 不改 `LICENSE` / `LICENSE.ENGINE`。新增的 `js/hd-graphics.js`、`css/hd-graphics.css` 与本文只是外壳层，沿用仓库 GPL-2.0 前端许可。原作美术与数据版权仍归原厂商。
