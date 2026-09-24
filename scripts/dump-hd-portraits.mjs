@@ -379,8 +379,8 @@ async function main() {
         if (!shipped.length || !fallback) {
             throw new Error('need one shipped HD portrait and one ref-only pilot to smoke');
         }
-        async function smoke(entry, expect, contains) {
-            const url = 'http://127.0.0.1:' + port + '/hd-portrait-smoke.html?expect=' + encodeURIComponent(expect) + '&personId=' + entry.personId + '&period=' + entry.period + (contains ? '&contains=' + encodeURIComponent(contains) : '') + '&t=' + Date.now();
+        async function smoke(entry, expect, contains, minWidth) {
+            const url = 'http://127.0.0.1:' + port + '/hd-portrait-smoke.html?expect=' + encodeURIComponent(expect) + '&personId=' + entry.personId + '&period=' + entry.period + (contains ? '&contains=' + encodeURIComponent(contains) : '') + (minWidth ? '&minWidth=' + minWidth : '') + '&t=' + Date.now();
             await cdp.send('Page.navigate', { url });
             const result = await waitFor(cdp, '(function(){var s=window.__hdPortraitSmoke; if(!s||s.personId!==' + entry.personId + '||s.expect!==' + JSON.stringify(expect) + ') return null; return s;})()', 20000);
             if (!result.ok) {
@@ -390,7 +390,7 @@ async function main() {
             return result;
         }
         for (const entry of shipped) {
-            await smoke(entry, 'hd', entry.hd);
+            await smoke(entry, 'hd', entry.hd, 100);
             const hdPath = absPortrait(entry.hd);
             const aside = hdPath + '.smoke-aside';
             fs.renameSync(hdPath, aside);
@@ -399,7 +399,7 @@ async function main() {
             } finally {
                 fs.renameSync(aside, hdPath);
             }
-            await smoke(entry, 'hd', entry.hd);
+            await smoke(entry, 'hd', entry.hd, 100);
         }
         const refPath = absPortrait(fallback.ref);
         const hdPath = absPortrait(fallback.hd);

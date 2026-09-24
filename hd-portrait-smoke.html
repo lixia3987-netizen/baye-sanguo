@@ -65,6 +65,7 @@
                 var query = new URLSearchParams(location.search);
                 var expect = query.get('expect') || 'ref';
                 var contains = query.get('contains') || '';
+                var minWidth = Number(query.get('minWidth')) || 0;
                 var chosenUrl = '';
                 return BayeHdPortraits.chooseSource(pilot.personId, pilot.period).then(function (src) {
                     chosenUrl = src.url || '';
@@ -83,8 +84,8 @@
                     check(String(root.getAttribute('data-person-id')) === String(pilot.personId), 'person id');
                     return waitImage().then(function (img) {
                         check(img && img.naturalWidth > 8, '立绘图像没有宽度');
-                        if (expect === 'hd') {
-                            check(img && img.naturalWidth > 100, 'HD 图过小，宽度 ' + (img && img.naturalWidth));
+                        if (minWidth) {
+                            check(img && img.naturalWidth >= minWidth, '图宽度 ' + (img && img.naturalWidth) + ' 小于 ' + minWidth);
                         }
                         return BayeHdPortraits.applyView({
                             context: 'person-info',
