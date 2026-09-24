@@ -12,6 +12,8 @@
  *     which is the real LCD flushLcd copies.
  *   - Wait one requestAnimationFrame and one lcdFlushBuffer, then crop
  *     the top-left 24 * dotSize pixels. Do not tight-crop an ink box.
+ *     If the compositor never schedules a frame, the rAF wait is also
+ *     bounded at 16ms so a headless dump cannot stall.
  *
  * Headless: node scripts/dump-hd-portraits.mjs
  * Page:     hd-portrait-dump.html  (loads libs/dat-mod.lib, periods 1–4)
@@ -24,6 +26,10 @@
 (function (global) {
     var GEN_HEADPIC1 = 47;
     var CELL = 24;
+    // lcd.js calls baye_bridge_init(), which replaces window.Promise with one
+    // that drops resolve() if it runs before then(). Async waits use the native
+    // promise so a flush during the frame wait still settles.
+    var NativePromise = (async function () { return null; })().constructor;
 
     function qs() {
         try {
@@ -34,7 +40,7 @@
     }
 
     function sleep(ms) {
-        return new Promise(function (resolve) {
+        return new NativePromise(function (resolve) {
             setTimeout(resolve, ms);
         });
     }
@@ -90,7 +96,7 @@
 
     function waitUntil(pred, timeout) {
         var start = Date.now();
-        return new Promise(function (resolve) {
+        return new NativePromise(function (resolve) {
             function tick() {
                 var value = pred();
                 if (value || Date.now() - start > timeout) {
@@ -171,17 +177,24 @@
     }
 
     function nextFrame() {
-        return new Promise(function (resolve) {
-            if (typeof global.requestAnimationFrame === 'function') {
-                global.requestAnimationFrame(function () { resolve(); });
-                return;
+        return new NativePromise(function (resolve) {
+            var done = false;
+            function finish() {
+                if (done) {
+                    return;
+                }
+                done = true;
+                resolve();
             }
-            setTimeout(resolve, 16);
+            if (typeof global.requestAnimationFrame === 'function') {
+                global.requestAnimationFrame(finish);
+            }
+            setTimeout(finish, 16);
         });
     }
 
     function waitLcdFlush() {
-        return new Promise(function (resolve) {
+        return new NativePromise(function (resolve) {
             var original = global.lcdFlushBuffer;
             var settled = false;
             function finish() {
