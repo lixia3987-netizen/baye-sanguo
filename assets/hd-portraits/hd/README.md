@@ -2,12 +2,22 @@
 
 这里放 img2img 成品，不放手绘占位，也不要把原 LCD 头像复制进来冒充高清。
 
-文件名跟 `manifest.json` 的 `hd` 字段一致。时期 1 已放入的四张：
+文件名跟 `manifest.json` 的 `hd` 字段一致。时期 1 已放入：
 
 ```text
-hd/hd_p1_0005_马腾.png
+hd/hd_p1_0000_董卓.png
 hd/hd_p1_0001_曹操.png
+hd/hd_p1_0005_马腾.png
+hd/hd_p1_0011_王匡.png
+hd/hd_p1_0013_刘备.png
+hd/hd_p1_0020_吕布.png
+hd/hd_p1_0055_孙权.png
+hd/hd_p1_0058_庞德.png
+hd/hd_p1_0063_梁兴.png
+hd/hd_p1_0066_杨秋.png
+hd/hd_p1_0085_方悦.png
 hd/hd_p1_0089_关羽.png
+hd/hd_p1_0090_张飞.png
 hd/hd_p1_0157_诸葛亮.png
 ```
 

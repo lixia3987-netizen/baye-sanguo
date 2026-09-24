@@ -57,7 +57,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/58-庞德.png",
-      "hd": "hd/period-1/58-庞德.png"
+      "hd": "hd/hd_p1_0058_庞德.png"
     },
     {
       "name": "庞德",
@@ -93,7 +93,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/66-杨秋.png",
-      "hd": "hd/period-1/66-杨秋.png"
+      "hd": "hd/hd_p1_0066_杨秋.png"
     },
     {
       "name": "杨秋",
@@ -120,7 +120,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/63-梁兴.png",
-      "hd": "hd/period-1/63-梁兴.png"
+      "hd": "hd/hd_p1_0063_梁兴.png"
     },
     {
       "name": "梁兴",
@@ -174,7 +174,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/13-刘备.png",
-      "hd": "hd/period-1/13-刘备.png"
+      "hd": "hd/hd_p1_0013_刘备.png"
     },
     {
       "name": "刘备",
@@ -228,7 +228,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/90-张飞.png",
-      "hd": "hd/period-1/90-张飞.png"
+      "hd": "hd/hd_p1_0090_张飞.png"
     },
     {
       "name": "张飞",
@@ -291,7 +291,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/55-孙权.png",
-      "hd": "hd/period-1/55-孙权.png"
+      "hd": "hd/hd_p1_0055_孙权.png"
     },
     {
       "name": "孙权",
@@ -336,7 +336,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/20-吕布.png",
-      "hd": "hd/period-1/20-吕布.png"
+      "hd": "hd/hd_p1_0020_吕布.png"
     },
     {
       "name": "吕布",
@@ -354,7 +354,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/0-董卓.png",
-      "hd": "hd/period-1/0-董卓.png"
+      "hd": "hd/hd_p1_0000_董卓.png"
     },
     {
       "name": "方悦",
@@ -363,7 +363,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/85-方悦.png",
-      "hd": "hd/period-1/85-方悦.png"
+      "hd": "hd/hd_p1_0085_方悦.png"
     },
     {
       "name": "王匡",
@@ -372,7 +372,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/11-王匡.png",
-      "hd": "hd/period-1/11-王匡.png"
+      "hd": "hd/hd_p1_0011_王匡.png"
     }
   ]
 }
