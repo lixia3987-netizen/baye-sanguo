@@ -1,6 +1,6 @@
 # 武将立绘 img2img 提示
 
-参考图只用 `refs/period-{时期}/{personId}-{姓名}.png`。那是引擎 `gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId)` 画出来的原头像，不要拿别的武将、不要拿海报脸替换。生成文件放到清单里的 `hd` 路径（同样的时期和 personId）。没有参考图就不要生成。
+参考图只用 `refs/period-{时期}/{personId}-{姓名}.png`。那是引擎画到 `#lcd` 左上角 `24 * dotSize` 的原头像：`baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)`，`GEN_HEADPIC1` 是 47，时期 1 的 resid 是 48。不要拿 `querySelector('canvas')` 裁到的 HD 大地图（接近全黑），不要拿别的武将，不要拿海报脸替换。生成文件放到清单里的 `hd` 路径（同样的时期和 personId）。没有参考图就不要生成。
 
 时期：1 董卓弄权 · 2 曹操崛起 · 3 赤壁之战 · 4 三足鼎立（界面里也叫三国鼎立）。
 

@@ -8,7 +8,17 @@
 | `PROMPT.md` | 中英提示词 |
 | `refs/index.json` | 全量导出索引（脚本生成） |
 
-`personId` 与 `gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId)` 相同。`GEN_HEADPIC1` 是 47，时期 `g_PIdx` 为 1–4，所以 resid = 47 + 时期。JS：`baye.drawImage(0, 0, 47 + period, 0, personId)`。
+`personId` 与 `gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId)` 相同。`GEN_HEADPIC1` 是 47，时期 `g_PIdx` 为 1–4。时期 1 的 resid 是 48（47 + 1）。
+
+导出只认这一条：
+
+```js
+baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)
+```
+
+然后等一帧 `requestAnimationFrame` 和一次 LCD flush，裁 `document.getElementById('lcd')` 左上角 `24 * dotSize`。`bridge.js` 里 `scr == 1` 会画到虚拟屏，脚本会再用真实 LCD 的 flag 1 把同一张图刷上 `#lcd`，否则裁到的是空屏。
+
+`document.querySelector('canvas')` 在 `pc.html` 上是 HD 大地图（`#hd-overworld-canvas`），裁出来接近全黑。不要用它。
 
 ## 怎么跑
 

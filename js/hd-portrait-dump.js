@@ -1,5 +1,17 @@
 /**
- * Dump GEN_HEADPIC faces (resid 47 + g_PIdx) through the engine LCD.
+ * Dump GEN_HEADPIC faces onto #lcd and crop the top-left head cell.
+ *
+ * Contract (box-tested):
+ *   - Canvas is document.getElementById('lcd') only.
+ *     document.querySelector('canvas') is the HD overworld on pc.html
+ *     and a crop of it is near-black.
+ *   - Draw with baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1).
+ *     GEN_HEADPIC1 is 47, so period 1 resid is 48.
+ *   - bridge.js maps scr==1 to C flag 0 (g_VisScr). That buffer is not #lcd.
+ *     The dump then blits the same picture with _bayeLcdDrawImage flag 1,
+ *     which is the real LCD flushLcd copies.
+ *   - Wait one requestAnimationFrame and one lcdFlushBuffer, then crop
+ *     the top-left 24 * dotSize pixels. Do not tight-crop an ink box.
  *
  * Headless: node scripts/dump-hd-portraits.mjs
  * Page:     hd-portrait-dump.html  (loads libs/dat-mod.lib, periods 1–4)
@@ -70,8 +82,8 @@
 
     function lcdCanvas() {
         var canvas = document.getElementById('lcd');
-        if (!canvas) {
-            throw new Error('missing #lcd');
+        if (!canvas || canvas.id !== 'lcd') {
+            throw new Error('portrait dump only crops #lcd. querySelector("canvas") is the HD overworld and comes out near-black.');
         }
         return canvas;
     }
@@ -96,54 +108,29 @@
         return [image.data[i], image.data[i + 1], image.data[i + 2], image.data[i + 3]];
     }
 
-    function inkBox(image, width, height, dot) {
-        var bg = backgroundAt(image, width, height);
-        var limX = Math.min(width, 48 * dot);
-        var limY = Math.min(height, 48 * dot);
-        var minX = limX;
-        var minY = limY;
-        var maxX = -1;
-        var maxY = -1;
+    function cellInk(image, width, side) {
+        var bg = backgroundAt(image, width, image.height);
         var ink = 0;
+        var opaqueBlack = 0;
         var y;
         var x;
-        for (y = 0; y < limY; y++) {
-            for (x = 0; x < limX; x++) {
+        for (y = 0; y < side; y++) {
+            for (x = 0; x < side; x++) {
                 var i = (y * width + x) * 4;
-                var d = Math.abs(image.data[i] - bg[0]) +
-                    Math.abs(image.data[i + 1] - bg[1]) +
-                    Math.abs(image.data[i + 2] - bg[2]) +
-                    Math.abs(image.data[i + 3] - bg[3]);
+                var r = image.data[i];
+                var g = image.data[i + 1];
+                var b = image.data[i + 2];
+                var a = image.data[i + 3];
+                var d = Math.abs(r - bg[0]) + Math.abs(g - bg[1]) + Math.abs(b - bg[2]) + Math.abs(a - bg[3]);
                 if (d > 36) {
                     ink += 1;
-                    if (x < minX) minX = x;
-                    if (y < minY) minY = y;
-                    if (x > maxX) maxX = x;
-                    if (y > maxY) maxY = y;
+                }
+                if (a > 200 && r < 12 && g < 12 && b < 12) {
+                    opaqueBlack += 1;
                 }
             }
         }
-        if (ink < 12 || maxX < 0) {
-            return null;
-        }
-        var cell = CELL * dot;
-        if (maxX < cell && maxY < cell && minX < cell && minY < cell) {
-            return { x: 0, y: 0, w: cell, h: cell, ink: ink, logicalW: CELL, logicalH: CELL };
-        }
-        var pad = dot;
-        var x0 = Math.max(0, minX - pad);
-        var y0 = Math.max(0, minY - pad);
-        var x1 = Math.min(limX - 1, maxX + pad);
-        var y1 = Math.min(limY - 1, maxY + pad);
-        return {
-            x: x0,
-            y: y0,
-            w: x1 - x0 + 1,
-            h: y1 - y0 + 1,
-            ink: ink,
-            logicalW: Math.max(1, Math.round((x1 - x0 + 1) / dot)),
-            logicalH: Math.max(1, Math.round((y1 - y0 + 1) / dot))
-        };
+        return { ink: ink, opaqueBlack: opaqueBlack, pixels: side * side };
     }
 
     function cropPng(canvas, box) {
@@ -170,67 +157,99 @@
         }
     }
 
-    function drawHead(personId, period) {
+    function drawHead(personIndex, period) {
         var resid = GEN_HEADPIC1 + period;
-        if (global.baye && typeof baye.drawImage === 'function') {
-            baye.drawImage(0, 0, resid, 0, personId);
-            return resid;
-        }
-        if (typeof global._bayeLcdDrawImage !== 'function') {
+        if (!(global.baye && typeof baye.drawImage === 'function')) {
             throw new Error('drawImage is not ready');
         }
-        global._bayeLcdDrawImage(resid, 0, personId, 0, 0, 1);
+        baye.drawImage(0, 0, resid, 0, personIndex, 1);
+        if (typeof global._bayeLcdDrawImage !== 'function') {
+            throw new Error('real LCD blit is not ready');
+        }
+        global._bayeLcdDrawImage(resid, 0, personIndex, 0, 0, 1);
         return resid;
     }
 
-    function readBox() {
+    function nextFrame() {
+        return new Promise(function (resolve) {
+            if (typeof global.requestAnimationFrame === 'function') {
+                global.requestAnimationFrame(function () { resolve(); });
+                return;
+            }
+            setTimeout(resolve, 16);
+        });
+    }
+
+    function waitLcdFlush() {
+        return new Promise(function (resolve) {
+            var original = global.lcdFlushBuffer;
+            var settled = false;
+            function finish() {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                if (typeof original === 'function') {
+                    global.lcdFlushBuffer = original;
+                }
+                resolve();
+            }
+            if (typeof original === 'function') {
+                global.lcdFlushBuffer = function (buffer) {
+                    original(buffer);
+                    finish();
+                };
+            }
+            setTimeout(finish, 80);
+        });
+    }
+
+    async function waitFrameAndFlush() {
+        var flush = waitLcdFlush();
+        await nextFrame();
+        await flush;
+    }
+
+    function readCell() {
         var canvas = lcdCanvas();
-        var dot = global.dotSize || 1;
+        var dot = Number(global.dotSize) || 1;
+        var side = CELL * dot;
+        if (canvas.width < side || canvas.height < side) {
+            throw new Error('#lcd is smaller than 24 * dotSize (' + side + ')');
+        }
         var full = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
-        var box = inkBox(full, canvas.width, canvas.height, dot);
-        return box ? { box: box, dot: dot } : null;
+        var ink = cellInk(full, canvas.width, side);
+        if (ink.ink < 12) {
+            return null;
+        }
+        if (ink.opaqueBlack / ink.pixels > 0.92) {
+            throw new Error('top-left #lcd cell is near-black. Crop #lcd only, never querySelector("canvas").');
+        }
+        return {
+            box: { x: 0, y: 0, w: side, h: side, ink: ink.ink, logicalW: CELL, logicalH: CELL },
+            dot: dot,
+            canvasId: canvas.id
+        };
     }
 
     async function captureHead(personId, period) {
-        var flush = global.__hdPortraitFlushMs || 70;
         clearLcd();
-        await sleep(flush);
+        await waitFrameAndFlush();
         var resid = drawHead(personId, period);
-        await sleep(flush);
-        var shot = readBox();
+        await waitFrameAndFlush();
+        var shot = readCell();
         if (!shot) {
-            await sleep(flush);
-            shot = readBox();
+            await waitFrameAndFlush();
+            shot = readCell();
         }
         if (!shot) {
             return null;
         }
+        if (shot.canvasId !== 'lcd') {
+            throw new Error('crop target was not #lcd');
+        }
         shot.resid = resid;
         return shot;
-    }
-
-    async function calibrateFlush(period) {
-        if (global.__hdPortraitFlushMs) {
-            return;
-        }
-        var delays = [20, 40, 80, 120];
-        var id;
-        for (id = 0; id < 12; id++) {
-            var d;
-            for (d = 0; d < delays.length; d++) {
-                clearLcd();
-                await sleep(delays[d]);
-                drawHead(id, period);
-                await sleep(delays[d]);
-                if (readBox()) {
-                    global.__hdPortraitFlushMs = delays[d];
-                    setStatus('LCD 刷新约 ' + delays[d] + 'ms（dotSize ' + (global.dotSize || '?') + '）');
-                    return;
-                }
-            }
-        }
-        global.__hdPortraitFlushMs = 80;
-        setStatus('没量到头像墨迹，仍按 80ms 刷新继续（若全空白，resid 可能不对）');
     }
 
     function safeFile(id, name) {
@@ -412,10 +431,13 @@
         var job = (async function () {
         try {
             await ensureEngine(libUrl);
-            await calibrateFlush(periods[0]);
             var summary = {
                 lib: libUrl,
-                residFormula: '47 + period',
+                canvas: 'lcd',
+                crop: 'top-left 24 * dotSize',
+                draw: 'baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)',
+                residFormula: 'GEN_HEADPIC1(47) + g_PIdx',
+                residPeriod1: GEN_HEADPIC1 + 1,
                 cell: CELL,
                 periods: []
             };
@@ -434,10 +456,19 @@
                 await postJson(postUrl, { kind: 'summary', summary: summary });
             }
             global.__hdPortraitDump.status = 'done';
+            global.__hdPortraitDump.probe = {
+                canvasId: 'lcd',
+                crop: summary.crop,
+                draw: summary.draw,
+                residPeriod1: summary.residPeriod1,
+                dotSize: global.dotSize || null
+            };
             global.__hdPortraitDump.summary = {
                 saved: summary.saved,
+                canvas: 'lcd',
+                residPeriod1: summary.residPeriod1,
                 periods: summary.periods.map(function (block) {
-                    return { period: block.period, saved: block.saved, skipped: block.skipped, personCount: block.personCount };
+                    return { period: block.period, resid: block.resid, saved: block.saved, skipped: block.skipped, personCount: block.personCount };
                 })
             };
             setStatus('完成，共 ' + summary.saved + ' 张。' + (postUrl ? '已写入 refs/' : '未配置 post=，只在页面上预览。'));

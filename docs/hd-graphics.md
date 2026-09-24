@@ -206,11 +206,19 @@ python3 -m http.server 8080
 
 ## 8. 武将立绘（用户生成）
 
-原头像仍是 `gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId)`（`GEN_HEADPIC1` = 47，时期 1–4，JS 为 `baye.drawImage(0, 0, 47 + period, 0, personId)`）。HD 壳不改 WASM。
+原头像仍是 `gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId)`。`GEN_HEADPIC1` 是 47，时期 `g_PIdx` 为 1–4，所以时期 1 的 resid 是 **48**。JS 调用是：
+
+```js
+baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)
+```
+
+`js/bridge.js` 把最后一个参数 `1` 转成 C 的 flag 0，画进虚拟屏 `g_VisScr`，不会刷新 `#lcd`。导出脚本接着用 `_bayeLcdDrawImage(..., flag 1)` 把同一张头像画到真实 LCD。等一帧 `requestAnimationFrame` 加上一次 `lcdFlushBuffer`，再只裁 `document.getElementById('lcd')` 的左上角 `24 * dotSize`。
+
+不要用 `document.querySelector('canvas')`。`pc.html` 里第一个 canvas 是 `#hd-overworld-canvas`，裁它会得到近乎全黑的 HD 大地图，不是头像。HD 壳不改 WASM。
 
 | 路径 | 作用 |
 |------|------|
-| `assets/hd-portraits/refs/` | 引擎画到 `#lcd` 后裁下的头像，实拍 |
+| `assets/hd-portraits/refs/` | 只从 `#lcd` 左上角 `24 * dotSize` 裁下的头像，实拍 |
 | `assets/hd-portraits/hd/` | img2img 成品。没有文件就不显示 HD |
 | `assets/hd-portraits/manifest.json` | personId + 时期 → 路径。试点名单的 id 由导出脚本从武将名解析 |
 | `assets/hd-portraits/PROMPT.md` | 保持相貌的中英提示词 |

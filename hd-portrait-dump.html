@@ -25,7 +25,8 @@
 </head>
 <body>
     <h1>武将头像导出</h1>
-    <p>用引擎把 <code>GEN_HEADPIC1 + g_PIdx</code>（resid 47 + 时期）画到 <code>#lcd</code>，再裁下约 24×24 的头像格。默认 lib：<code>libs/dat-mod.lib</code>。</p>
+    <p>只裁 <code>document.getElementById('lcd')</code>。不要用 <code>document.querySelector('canvas')</code>：在 <code>pc.html</code> 里那是 HD 大地图，裁出来接近全黑。</p>
+    <p>画头像：<code>baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)</code>。<code>GEN_HEADPIC1</code> 是 47，时期 1 的 resid 是 48。等一帧 <code>requestAnimationFrame</code> 和一次 LCD flush，再裁左上角 <code>24 * dotSize</code>。默认 lib：<code>libs/dat-mod.lib</code>。</p>
     <p>写入仓库请用 <code>node scripts/dump-hd-portraits.mjs</code>。此页加上 <code>?post=http://127.0.0.1:端口/dump</code> 才会把 PNG 交给脚本。查询参数：<code>periods=1,2,3,4</code>、<code>limit=8</code>、<code>manual=1</code>（不自动跑）。</p>
     <p>
         <button type="button" id="dump-go">导出 1–4 时期</button>

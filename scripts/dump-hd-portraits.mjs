@@ -8,6 +8,11 @@
  *
  * Serves the repo, opens hd-portrait-dump.html in headless Chrome, and writes
  * assets/hd-portraits/refs/period-{1..4}/{id}-{name}.png plus manifest.json.
+ *
+ * The page must crop document.getElementById('lcd') only, top-left 24 * dotSize,
+ * after baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1) and one
+ * rAF + LCD flush. Period 1 resid is 48 (GEN_HEADPIC1 is 47). querySelector('canvas')
+ * hits the HD overworld and is near-black.
  */
 import http from 'http';
 import fs from 'fs';
@@ -96,7 +101,9 @@ function buildManifest(summary) {
         lib: 'libs/dat-mod.lib',
         personId: '0-based PersonID. Same index as gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId) and baye.drawImage(..., picIndex).',
         period: 'g_PIdx 1-4',
-        resid: '47 + period. GEN_HEADPIC1 is 47; the engine draws GEN_HEADPIC1 + g_PIdx.',
+        resid: 'GEN_HEADPIC1(47) + g_PIdx. Period 1 resid is 48.',
+        canvas: 'document.getElementById("lcd") only. Never querySelector("canvas") (HD overworld, near-black).',
+        crop: 'top-left 24 * dotSize after baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1) and one rAF + LCD flush.',
         pilotNames: PILOT_NAMES,
         missingPilots: missing,
         entries
@@ -318,6 +325,18 @@ async function main() {
             console.log('console', cdp.logs.slice(-20).join('\n'));
             if (done === 'error' || !server.summary) {
                 throw new Error((info && info.error) || 'dump failed\n' + cdp.logs.slice(-15).join('\n'));
+            }
+            if (!info.probe || info.probe.canvasId !== 'lcd' || info.probe.residPeriod1 !== 48) {
+                throw new Error('dump did not use #lcd or period-1 resid 48: ' + JSON.stringify(info.probe));
+            }
+            for (const block of server.summary.periods || []) {
+                if (block.period === 1 && block.resid !== 48) {
+                    throw new Error('period 1 resid was ' + block.resid + ', expected 48');
+                }
+                const head = (block.people || []).find((person) => person && !person.skipped);
+                if (head && (head.logicalW !== 24 || head.logicalH !== 24 || head.pxW !== head.logicalW * (block.dotSize || 1))) {
+                    throw new Error('crop is not the top-left 24 * dotSize cell: ' + JSON.stringify(head));
+                }
             }
             const sample = [];
             for (const block of server.summary.periods || []) {
