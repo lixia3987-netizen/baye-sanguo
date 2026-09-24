@@ -1,0 +1,378 @@
+{
+  "version": 1,
+  "lib": "libs/dat-mod.lib",
+  "personId": "0-based PersonID. Same index as gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId) and baye.drawImage(..., picIndex).",
+  "period": "g_PIdx 1-4",
+  "resid": "47 + period. GEN_HEADPIC1 is 47; the engine draws GEN_HEADPIC1 + g_PIdx.",
+  "pilotNames": [
+    "马腾",
+    "庞德",
+    "杨秋",
+    "梁兴",
+    "曹操",
+    "刘备",
+    "关羽",
+    "张飞",
+    "诸葛亮",
+    "孙权",
+    "周瑜",
+    "吕布",
+    "董卓",
+    "方悦",
+    "王匡"
+  ],
+  "missingPilots": [],
+  "entries": [
+    {
+      "name": "马腾",
+      "personId": 5,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/5-马腾.png",
+      "hd": "hd/hd_p1_0005_马腾.png"
+    },
+    {
+      "name": "马腾",
+      "personId": 11,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/11-马腾.png",
+      "hd": "hd/period-2/11-马腾.png"
+    },
+    {
+      "name": "马腾",
+      "personId": 7,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/7-马腾.png",
+      "hd": "hd/period-3/7-马腾.png"
+    },
+    {
+      "name": "庞德",
+      "personId": 58,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/58-庞德.png",
+      "hd": "hd/hd_p1_0058_庞德.png"
+    },
+    {
+      "name": "庞德",
+      "personId": 101,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/101-庞德.png",
+      "hd": "hd/period-2/101-庞德.png"
+    },
+    {
+      "name": "庞德",
+      "personId": 126,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/126-庞德.png",
+      "hd": "hd/period-3/126-庞德.png"
+    },
+    {
+      "name": "庞德",
+      "personId": 13,
+      "period": 4,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-4/13-庞德.png",
+      "hd": "hd/period-4/13-庞德.png"
+    },
+    {
+      "name": "杨秋",
+      "personId": 66,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/66-杨秋.png",
+      "hd": "hd/hd_p1_0066_杨秋.png"
+    },
+    {
+      "name": "杨秋",
+      "personId": 109,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/109-杨秋.png",
+      "hd": "hd/period-2/109-杨秋.png"
+    },
+    {
+      "name": "杨秋",
+      "personId": 134,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/134-杨秋.png",
+      "hd": "hd/period-3/134-杨秋.png"
+    },
+    {
+      "name": "梁兴",
+      "personId": 63,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/63-梁兴.png",
+      "hd": "hd/hd_p1_0063_梁兴.png"
+    },
+    {
+      "name": "梁兴",
+      "personId": 106,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/106-梁兴.png",
+      "hd": "hd/period-2/106-梁兴.png"
+    },
+    {
+      "name": "梁兴",
+      "personId": 131,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/131-梁兴.png",
+      "hd": "hd/period-3/131-梁兴.png"
+    },
+    {
+      "name": "曹操",
+      "personId": 1,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/1-曹操.png",
+      "hd": "hd/hd_p1_0001_曹操.png"
+    },
+    {
+      "name": "曹操",
+      "personId": 1,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/1-曹操.png",
+      "hd": "hd/period-2/1-曹操.png"
+    },
+    {
+      "name": "曹操",
+      "personId": 4,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/4-曹操.png",
+      "hd": "hd/period-3/4-曹操.png"
+    },
+    {
+      "name": "刘备",
+      "personId": 13,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/13-刘备.png",
+      "hd": "hd/hd_p1_0013_刘备.png"
+    },
+    {
+      "name": "刘备",
+      "personId": 2,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/2-刘备.png",
+      "hd": "hd/period-2/2-刘备.png"
+    },
+    {
+      "name": "刘备",
+      "personId": 5,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/5-刘备.png",
+      "hd": "hd/period-3/5-刘备.png"
+    },
+    {
+      "name": "关羽",
+      "personId": 89,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/89-关羽.png",
+      "hd": "hd/hd_p1_0089_关羽.png"
+    },
+    {
+      "name": "关羽",
+      "personId": 31,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/31-关羽.png",
+      "hd": "hd/period-2/31-关羽.png"
+    },
+    {
+      "name": "关羽",
+      "personId": 79,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/79-关羽.png",
+      "hd": "hd/period-3/79-关羽.png"
+    },
+    {
+      "name": "张飞",
+      "personId": 90,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/90-张飞.png",
+      "hd": "hd/hd_p1_0090_张飞.png"
+    },
+    {
+      "name": "张飞",
+      "personId": 32,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/32-张飞.png",
+      "hd": "hd/period-2/32-张飞.png"
+    },
+    {
+      "name": "张飞",
+      "personId": 80,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/80-张飞.png",
+      "hd": "hd/period-3/80-张飞.png"
+    },
+    {
+      "name": "诸葛亮",
+      "personId": 157,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/157-诸葛亮.png",
+      "hd": "hd/hd_p1_0157_诸葛亮.png"
+    },
+    {
+      "name": "诸葛亮",
+      "personId": 182,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/182-诸葛亮.png",
+      "hd": "hd/period-2/182-诸葛亮.png"
+    },
+    {
+      "name": "诸葛亮",
+      "personId": 90,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/90-诸葛亮.png",
+      "hd": "hd/period-3/90-诸葛亮.png"
+    },
+    {
+      "name": "诸葛亮",
+      "personId": 72,
+      "period": 4,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-4/72-诸葛亮.png",
+      "hd": "hd/period-4/72-诸葛亮.png"
+    },
+    {
+      "name": "孙权",
+      "personId": 55,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/55-孙权.png",
+      "hd": "hd/hd_p1_0055_孙权.png"
+    },
+    {
+      "name": "孙权",
+      "personId": 6,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/6-孙权.png",
+      "hd": "hd/period-3/6-孙权.png"
+    },
+    {
+      "name": "孙权",
+      "personId": 2,
+      "period": 4,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-4/2-孙权.png",
+      "hd": "hd/period-4/2-孙权.png"
+    },
+    {
+      "name": "周瑜",
+      "personId": 78,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/78-周瑜.png",
+      "hd": "hd/period-2/78-周瑜.png"
+    },
+    {
+      "name": "周瑜",
+      "personId": 104,
+      "period": 3,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-3/104-周瑜.png",
+      "hd": "hd/period-3/104-周瑜.png"
+    },
+    {
+      "name": "吕布",
+      "personId": 20,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/20-吕布.png",
+      "hd": "hd/hd_p1_0020_吕布.png"
+    },
+    {
+      "name": "吕布",
+      "personId": 8,
+      "period": 2,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-2/8-吕布.png",
+      "hd": "hd/period-2/8-吕布.png"
+    },
+    {
+      "name": "董卓",
+      "personId": 0,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/0-董卓.png",
+      "hd": "hd/hd_p1_0000_董卓.png"
+    },
+    {
+      "name": "方悦",
+      "personId": 85,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/85-方悦.png",
+      "hd": "hd/hd_p1_0085_方悦.png"
+    },
+    {
+      "name": "王匡",
+      "personId": 11,
+      "period": 1,
+      "pilot": true,
+      "missing": false,
+      "ref": "refs/period-1/11-王匡.png",
+      "hd": "hd/hd_p1_0011_王匡.png"
+    }
+  ]
+}

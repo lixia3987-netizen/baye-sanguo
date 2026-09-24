@@ -1,10 +1,48 @@
 
+function hdDumpLast(reason) {
+    var last = null;
+    try {
+        last = window.__bayeLastHdCall || (window.baye && baye.lastHdCall) || null;
+    } catch (e) {}
+    console.error('[hd-bridge] lastHdCall', reason || '', last ? JSON.stringify(last) : '(none)');
+    return last;
+}
+
+function hdHookAbort() {
+    try {
+        if (typeof Module === 'undefined' || Module.__hdAbortHooked) {
+            return;
+        }
+        Module.__hdAbortHooked = 1;
+        var prev = Module.onAbort;
+        Module.onAbort = function (what) {
+            hdDumpLast('wasm abort ' + (what == null ? '' : String(what)));
+            if (typeof prev === 'function') {
+                return prev(what);
+            }
+        };
+    } catch (e) {}
+}
+
 window.onerror = function(msg, url, line, col, error) {
    var extra = !col ? '' : '\ncolumn: ' + col;
    extra += !error ? '' : '\nerror: ' + error;
+   var last = hdDumpLast('window.onerror ' + msg);
+   extra += '\nlastHdCall: ' + (last && last.name ? (last.name + (last.detail ? ' ' + last.detail : '')) : '(none)');
+   if (error && error.stack) {
+       extra += '\nstack: ' + error.stack;
+   }
+   console.error('[baye] window.onerror', msg, url, line, extra);
    alert("Error: " + msg + "\nurl: " + url + "\nline: " + line + extra);
    return false;
 };
+
+if (typeof window !== 'undefined' && window.addEventListener) {
+    window.addEventListener('unhandledrejection', function(ev) {
+        hdDumpLast('unhandledrejection');
+        console.error('[baye] unhandledrejection', ev && ev.reason);
+    });
+}
 
 Math._original_random = Math.random;
 Math.random = function() {
@@ -108,7 +146,12 @@ function baye_bridge_description_for_value(jvalue, type) {
         case ValueTypeGBKBuffer:
             return {
                 get: function() {
-                    var buffer = bayeU8Array(jvalue.value._addr, _bayeStrLen(jvalue.value._addr));
+                    var addr = jvalue.value._addr;
+                    var n = hdSafeStrLen(addr);
+                    if (!n) {
+                        return '';
+                    }
+                    var buffer = bayeU8Array(addr, n);
                     return gbkDecoder.decode(buffer);
                 },
                 set: function(value) {
@@ -139,21 +182,72 @@ function baye_bridge_description_for_value(jvalue, type) {
     }
 }
 
+var __bayeGetDepth = 0;
+var BAYE_GET_DEPTH_MAX = 12;
+
+function wrapBayeGet(fn) {
+    if (typeof fn !== 'function') {
+        return fn;
+    }
+    return function () {
+        if (__bayeGetDepth > BAYE_GET_DEPTH_MAX) {
+            return undefined;
+        }
+        __bayeGetDepth += 1;
+        try {
+            return fn.apply(this, arguments);
+        } finally {
+            __bayeGetDepth -= 1;
+        }
+    };
+}
+
+function cloneGetDesc(d) {
+    var out = {};
+    var k;
+    for (k in d) {
+        if (Object.prototype.hasOwnProperty.call(d, k)) {
+            out[k] = k === 'get' ? wrapBayeGet(d[k]) : d[k];
+        }
+    }
+    return out;
+}
+
 function defineProperty(obj, p, desc) {
+    if (desc && typeof desc.get === 'function') {
+        desc = cloneGetDesc(desc);
+    }
     Object.defineProperty(obj, p, desc);
 }
 
 function defineProperties(obj, desc) {
-    Object.defineProperties(obj, desc);
+    var out = {};
+    var k;
+    for (k in desc) {
+        if (!Object.prototype.hasOwnProperty.call(desc, k)) {
+            continue;
+        }
+        var d = desc[k];
+        out[k] = (d && typeof d.get === 'function') ? cloneGetDesc(d) : d;
+    }
+    Object.defineProperties(obj, out);
 }
 
 function baye_bridge_valuedef_lazy(def, addr) {
     var obj = {
         get value() {
-            if (this._value == undefined) {
-                this._value = baye_bridge_valuedef(def, addr);
+            if (__bayeGetDepth > BAYE_GET_DEPTH_MAX) {
+                return undefined;
             }
-            return this._value;
+            __bayeGetDepth += 1;
+            try {
+                if (this._value == undefined) {
+                    this._value = baye_bridge_valuedef(def, addr);
+                }
+                return this._value;
+            } finally {
+                __bayeGetDepth -= 1;
+            }
         }
     };
     return obj;
@@ -170,9 +264,15 @@ function baye_bridge_valuedef(def, addr) {
         case ValueTypeU8:
             defineProperty(jsObj, 'value', {
                 get: function() {
+                    if (!hdHeapOk(this._addr, 1)) {
+                        return 0;
+                    }
                     return _baye_get_u8_value(this._addr);
                 },
                 set: function(value) {
+                    if (!hdHeapOk(this._addr, 1)) {
+                        return 0;
+                    }
                     if (value > 0xff) value = 0xff;
                     if (value < 0) value = 0;
                     return _baye_set_u8_value(this._addr, value);
@@ -182,9 +282,15 @@ function baye_bridge_valuedef(def, addr) {
         case ValueTypeU16:
             defineProperty(jsObj, 'value', {
                 get: function() {
+                    if (!hdHeapOk(this._addr, 2)) {
+                        return 0;
+                    }
                     return _baye_get_u16_value(this._addr);
                 },
                 set: function(value) {
+                    if (!hdHeapOk(this._addr, 2)) {
+                        return 0;
+                    }
                     if (value > 0xffff) value = 0xffff;
                     if (value < 0) value = 0;
                     return _baye_set_u16_value(this._addr, value);
@@ -194,9 +300,15 @@ function baye_bridge_valuedef(def, addr) {
         case ValueTypeU32:
             defineProperty(jsObj, 'value', {
                 get: function() {
+                    if (!hdHeapOk(this._addr, 4)) {
+                        return 0;
+                    }
                     return _baye_get_u32_value(this._addr);
                 },
                 set: function(value) {
+                    if (!hdHeapOk(this._addr, 4)) {
+                        return 0;
+                    }
                     return _baye_set_u32_value(this._addr, value);
                 }
             });
@@ -261,15 +373,181 @@ function baye_bridge_obj(def, addr) {
     return jsObj;
 }
 
+function hdHeapLen() {
+    try {
+        return (typeof Module !== 'undefined' && Module.HEAPU8 && Module.HEAPU8.length) || 0;
+    } catch (e) {
+        return 0;
+    }
+}
+
+function hdHeapOk(ptr, len) {
+    var heap = hdHeapLen();
+    ptr = Number(ptr);
+    len = Number(len);
+    if (!heap || !isFinite(ptr) || !isFinite(len) || ptr <= 0 || len < 0) {
+        return false;
+    }
+    return ptr < heap && (ptr + len) <= heap;
+}
+
+function hdNote(name, detail) {
+    var rec = { name: String(name || ''), detail: detail == null ? '' : String(detail), t: Date.now() };
+    try {
+        window.__bayeLastHdCall = rec;
+        if (window.baye) {
+            baye.lastHdCall = rec;
+        }
+    } catch (e) {}
+}
+
+function hdEngineReady() {
+    try {
+        hdHookAbort();
+        if (!hdHeapLen()) {
+            return false;
+        }
+        if (typeof _bayeHdReady === 'function') {
+            try {
+                if (!_bayeHdReady()) {
+                    return false;
+                }
+            } catch (e) {
+                return false;
+            }
+        } else if (!(window.baye && baye.data)) {
+            return false;
+        }
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function hdSafeStrLen(ptr) {
+    if (!hdHeapOk(ptr, 1)) {
+        return 0;
+    }
+    var heap = Module.HEAPU8;
+    var n = 0;
+    var max = Math.min(4096, heap.length - ptr);
+    while (n < max && heap[ptr + n]) {
+        n += 1;
+    }
+    return n;
+}
+
+function hdPersonLimit() {
+    try {
+        if (typeof _bayeGetPersonCount === 'function' && hdEngineReady()) {
+            var n = Number(_bayeGetPersonCount()) || 0;
+            if (n > 0 && n <= 2000) {
+                return n;
+            }
+        }
+        if (window.baye && baye.data && baye.data.g_Persons && baye.data.g_Persons.length) {
+            return baye.data.g_Persons.length;
+        }
+    } catch (e) {}
+    return 2000;
+}
+
+function hdCityLimit() {
+    var n = 0;
+    try {
+        if (typeof _bayeGetCityCount === 'function' && hdEngineReady()) {
+            var c = Number(_bayeGetCityCount()) || 0;
+            if (c > 0 && c <= 64) {
+                n = c;
+            }
+        }
+    } catch (e) {}
+    try {
+        if (window.baye && baye.data) {
+            if (baye.data.g_engineConfig && baye.data.g_engineConfig.citiesCount != null) {
+                var cfg = Number(baye.data.g_engineConfig.citiesCount);
+                if (cfg > 0 && cfg <= 64) {
+                    n = n > 0 ? Math.min(n, cfg) : cfg;
+                }
+            }
+            if (baye.data.g_Cities && baye.data.g_Cities.length) {
+                var len = Number(baye.data.g_Cities.length) || 0;
+                if (len > 0 && len <= 64) {
+                    n = n > 0 ? Math.min(n, len) : len;
+                }
+            }
+        }
+    } catch (e) {}
+    if (!n || n < 0 || n > 64) {
+        return 0;
+    }
+    return n;
+}
+
+function hdSafeNameCall(kind, fn, index, max) {
+    index = Number(index);
+    if (!isFinite(index) || index < 0 || index >= max || index >= 0xfffe) {
+        hdNote(kind, 'skip:' + index);
+        return '';
+    }
+    if (!hdEngineReady() || typeof fn !== 'function') {
+        hdNote(kind, 'not-ready:' + index);
+        return '';
+    }
+    try {
+        if (window.baye && baye.data && baye.data.g_PIdx != null) {
+            var period = Number(baye.data.g_PIdx);
+            if (isFinite(period) && period === 0) {
+                hdNote(kind, 'no-period:' + index);
+                return '';
+            }
+        }
+    } catch (e) {}
+    hdNote(kind, index);
+    try {
+        var addr = fn(index);
+        if (!addr) {
+            return '';
+        }
+        var n = hdSafeStrLen(addr);
+        if (!n) {
+            return '';
+        }
+        return gbkDecoder.decode(Module.HEAPU8.subarray(addr, addr + n));
+    } catch (e) {
+        console.warn('[hd-bridge]', kind, index, e && e.message ? e.message : e);
+        return '';
+    }
+}
+
 function bayeU8Array(caddr, length) {
-    return Module.HEAPU8.subarray(caddr, caddr+length);
+    var heap = Module && Module.HEAPU8;
+    if (!heap) {
+        return new Uint8Array(0);
+    }
+    caddr = Number(caddr) || 0;
+    length = Number(length) || 0;
+    if (caddr < 0 || length < 0 || caddr >= heap.length) {
+        return heap.subarray(0, 0);
+    }
+    if (caddr + length > heap.length) {
+        length = heap.length - caddr;
+    }
+    return heap.subarray(caddr, caddr + length);
 }
 
 function bayeWrapFunctionS(innerf) {
     return function() {
+        if (!hdEngineReady()) {
+            return '';
+        }
         var addr = innerf.apply(this, arguments);
         if (addr != 0) {
-            return new TextDecoder('GBK').decode(bayeU8Array(addr, _bayeStrLen(addr)));
+            var n = hdSafeStrLen(addr);
+            if (!n) {
+                return '';
+            }
+            return gbkDecoder.decode(bayeU8Array(addr, n));
         }
         return null;
     };
@@ -364,11 +642,34 @@ function baye_bridge_init() {
     }
     baye.debug = {};
 
-    baye.getPersonName = bayeWrapFunctionS(_bayeGetPersonName);
-    baye.getToolName = bayeWrapFunctionS(_bayeGetToolName);
-    baye.getSkillName = bayeWrapFunctionS(_bayeGetSkillName);
-    baye.getCityName = bayeWrapFunctionS(_bayeGetCityName);
-    baye.getPersonCount = _bayeGetPersonCount;
+    baye.getPersonName = function(i) {
+        return hdSafeNameCall('getPersonName', _bayeGetPersonName, i, hdPersonLimit());
+    };
+    baye.getToolName = function(i) {
+        return hdSafeNameCall('getToolName', _bayeGetToolName, i, 512);
+    };
+    baye.getSkillName = function(i) {
+        return hdSafeNameCall('getSkillName', _bayeGetSkillName, i, 256);
+    };
+    baye.getCityName = function(i) {
+        return hdSafeNameCall('getCityName', _bayeGetCityName, i, hdCityLimit());
+    };
+    baye.hdCityLimit = hdCityLimit;
+    baye.getPersonCount = function() {
+        if (!hdEngineReady() || typeof _bayeGetPersonCount !== 'function') {
+            hdNote('getPersonCount', 'not-ready');
+            return 0;
+        }
+        hdNote('getPersonCount', '');
+        try {
+            var n = Number(_bayeGetPersonCount()) || 0;
+            return (n > 0 && n <= 2000) ? n : 0;
+        } catch (e) {
+            return 0;
+        }
+    };
+    baye.hdEngineReady = hdEngineReady;
+    baye.hdNote = hdNote;
 
     baye._cbs = [];
     baye.pushCallback = function(cb) {
@@ -607,7 +908,8 @@ function baye_bridge_init() {
 
     baye.getCityByName = function(name) {
         var all = baye.data.g_Cities;
-        for (var i = 0; i < all.length; i++) {
+        var n = hdCityLimit() || (all && all.length ? Math.min(all.length, 64) : 0);
+        for (var i = 0; i < n; i++) {
             if (baye.getCityName(i) == name) {
                 return all[i];
             }
@@ -630,14 +932,15 @@ function baye_bridge_init() {
     };
 
     baye.getPersonNameByID = function(id) {
-        switch (id) {
-        case 0:
+        id = Number(id);
+        if (!isFinite(id) || id <= 0 || id >= 0xfffe) {
+            hdNote('getPersonNameByID', 'skip:' + id);
             return "-";
-        case 0xff:
-            return "俘虏";
-        default:
-            return baye.getPersonName(id - 1);
         }
+        if (id === 0xff) {
+            return "俘虏";
+        }
+        return baye.getPersonName(id - 1);
     };
 
     baye.printCity = function(i) {
@@ -816,6 +1119,7 @@ function baye_bridge_init() {
     baye.VK_DEL =       0x31;
     baye.VK_MODIFY =    0x32;
     baye.VK_SEARCH =    0x33;
+    baye.VK_DIGIT0 =    0x40;
 
     baye.VT_TOUCH_DOWN =    0x01;
     baye.VT_TOUCH_UP =      0x02;
@@ -854,6 +1158,412 @@ function baye_bridge_init() {
         var pd = baye.data.g_GenPos[i];
         pd.x = baye.data.g_FoucsX;
         pd.y = baye.data.g_FoucsY;
+    };
+
+    baye.ensureData = function () {
+        if (!hdHeapLen()) {
+            hdNote('ensureData', 'no-heap');
+            return null;
+        }
+        if (typeof _bayeHdReady === 'function') {
+            try {
+                if (!_bayeHdReady()) {
+                    hdNote('ensureData', 'lib-not-ready');
+                    return baye.data || null;
+                }
+            } catch (e) {
+                hdNote('ensureData', 'ready-throw');
+                return baye.data || null;
+            }
+        }
+        if (baye.data) {
+            return baye.data;
+        }
+        if (!hdEngineReady()) {
+            hdNote('ensureData', 'not-ready');
+            return null;
+        }
+        hdNote('ensureData', 'bind');
+        if (typeof _bayeGetGlobal === 'function' && typeof baye_bridge_value === 'function') {
+            try {
+                baye.data = baye_bridge_value(_bayeGetGlobal());
+            } catch (e) {
+                console.warn('[hd-bridge] ensureData failed', e);
+            }
+        }
+        return baye.data || null;
+    };
+
+    function hdReadNum(obj, name) {
+        if (!obj || obj[name] == null) {
+            return 0;
+        }
+        var v = obj[name];
+        if (v && typeof v === 'object' && 'value' in v) {
+            v = v.value;
+        }
+        v = Number(v);
+        return isFinite(v) ? v : 0;
+    }
+
+    function hdDecodePtr(ptr) {
+        if (!ptr || !hdHeapOk(ptr, 1)) {
+            return '';
+        }
+        try {
+            var n = hdSafeStrLen(ptr);
+            if (!n) {
+                return '';
+            }
+            return gbkDecoder.decode(bayeU8Array(ptr, n)).replace(/\s+$/g, '');
+        } catch (e) {
+            return '';
+        }
+    }
+
+    function hdDecodeSlice(bytes, start, len) {
+        if (!bytes || !len) {
+            return '';
+        }
+        var slice = [];
+        var i;
+        for (i = 0; i < len; i++) {
+            var b = bytes[start + i];
+            if (b == null || b === 0) {
+                break;
+            }
+            slice.push(b);
+        }
+        while (slice.length && (slice[slice.length - 1] === 0 || slice[slice.length - 1] === 0x20)) {
+            slice.pop();
+        }
+        if (!slice.length) {
+            return '';
+        }
+        try {
+            return gbkDecoder.decode(new Uint8Array(slice)).replace(/\s+$/g, '');
+        } catch (e) {
+            return '';
+        }
+    }
+
+    baye.hd = {
+        ready: hdEngineReady,
+        report: function () {
+            hdNote('hd.report', '');
+            var d = baye.ensureData();
+            var text = '';
+            if (d && typeof d.g_hdReportGbk === 'string') {
+                text = d.g_hdReportGbk;
+            }
+            if (!text && hdEngineReady() && typeof _bayeHdGetReport === 'function') {
+                try {
+                    text = hdDecodePtr(_bayeHdGetReport());
+                } catch (e) {}
+            }
+            var seq = hdReadNum(d, 'g_hdReportSeq');
+            if (!seq && hdEngineReady() && typeof _bayeHdGetReportSeq === 'function') {
+                try { seq = Number(_bayeHdGetReportSeq()) || 0; } catch (e) {}
+            }
+            return {
+                text: text,
+                seq: seq,
+                kind: hdReadNum(d, 'g_hdReportKind'),
+                person: hdReadNum(d, 'g_hdReportPerson')
+            };
+        },
+        reportText: function () {
+            var r = baye.hd.report();
+            return r && r.text ? r.text : '';
+        },
+        kings: function () {
+            hdNote('hd.kings', '');
+            var d = baye.ensureData();
+            var list = [];
+            var n = hdReadNum(d, 'g_hdKingCount');
+            if (!n && hdEngineReady() && typeof _bayeHdGetKingCount === 'function') {
+                try { n = Number(_bayeHdGetKingCount()) || 0; } catch (e) {}
+            }
+            var i;
+            for (i = 0; i < n && i < 128; i++) {
+                var id = hdReadNum(d && d.g_hdKingIds, i);
+                if (d && d.g_hdKingIds && d.g_hdKingIds[i] != null && (id === 0 || !id)) {
+                    id = Number(d.g_hdKingIds[i]);
+                }
+                var name = '';
+                try {
+                    name = baye.getPersonName(id) || '';
+                } catch (e) {}
+                if ((!name || name === '-') && d && typeof d.g_hdKingNames === 'string') {
+                    name = d.g_hdKingNames.slice(i * 8, (i + 1) * 8).replace(/\s+$/g, '');
+                }
+                if ((!name || name === '-') && d && d.g_hdKingNames) {
+                    name = hdDecodeSlice(d.g_hdKingNames, i * 8, 8);
+                }
+                list.push({ id: id, name: name });
+            }
+            return {
+                count: n,
+                index: hdReadNum(d, 'g_hdKingIndex'),
+                currentId: hdReadNum(d, 'g_hdKingId'),
+                kings: list
+            };
+        },
+        fight: function () {
+            hdNote('hd.fight', '');
+            var d = baye.ensureData();
+            var result = '';
+            if (d && typeof d.g_hdFightResultGbk === 'string') {
+                result = d.g_hdFightResultGbk;
+            }
+            if (!result && d && d.g_hdFightResultGbk) {
+                result = hdDecodeSlice(d.g_hdFightResultGbk, 0, 64);
+            }
+            var tip = '';
+            if (d && typeof d.g_hdFightTipGbk === 'string') {
+                tip = d.g_hdFightTipGbk;
+            }
+            if (!tip && d && d.g_hdFightTipGbk) {
+                tip = hdDecodeSlice(d.g_hdFightTipGbk, 0, 16);
+            }
+            return {
+                active: hdReadNum(d, 'g_hdFightActive'),
+                over: hdReadNum(d, 'g_hdFightOver'),
+                wait: hdReadNum(d, 'g_hdFightWait'),
+                phase: hdReadNum(d, 'g_hdFightPhase'),
+                aimType: hdReadNum(d, 'g_hdFightAimType'),
+                tip: tip,
+                skip: hdReadNum(d, 'g_hdFightSkip'),
+                result: result,
+                cityIndex: d && d.g_FgtParam ? hdReadNum(d.g_FgtParam, 'CityIndex') : null,
+                mapW: hdReadNum(d, 'g_MapWid'),
+                mapH: hdReadNum(d, 'g_MapHgt'),
+                bout: hdReadNum(d, 'g_FgtBoutCnt'),
+                boutMax: hdReadNum(d, 'g_FgtBoutMax'),
+                focusX: hdReadNum(d, 'g_FoucsX'),
+                focusY: hdReadNum(d, 'g_FoucsY')
+            };
+        },
+        /* 词典原版 g_CitiesCount / citiesCount 恒为地图座数（38），不是己方城。
+         * 攻城后看 ownedCount 与各城 Belong（马腾=playerBelong）。 */
+        realm: function () {
+            hdNote('hd.realm', '');
+            var d = baye.ensureData();
+            var king = hdReadNum(d, 'g_PlayerKing');
+            var belong = (king != null && isFinite(king)) ? (king + 1) : 0;
+            var n = hdCityLimit();
+            if ((!n || n > 64) && d && d.g_Cities && d.g_Cities.length) {
+                n = Math.min(Number(d.g_Cities.length) || 0, 64);
+            }
+            var cities = [];
+            var owned = 0;
+            var i;
+            var playerName = '';
+            try {
+                if (belong && typeof baye.getPersonNameByID === 'function') {
+                    playerName = baye.getPersonNameByID(belong) || '';
+                }
+            } catch (e) {}
+            for (i = 0; i < n; i++) {
+                var city = d && d.g_Cities ? d.g_Cities[i] : null;
+                var b = city ? hdReadNum(city, 'Belong') : 0;
+                var name = '';
+                var owner = '';
+                try {
+                    if (typeof baye.getCityName === 'function') {
+                        name = baye.getCityName(i) || '';
+                    }
+                } catch (e2) {}
+                try {
+                    if (b && typeof baye.getPersonNameByID === 'function') {
+                        owner = baye.getPersonNameByID(b) || '';
+                    }
+                } catch (e3) {}
+                var mine = !!(belong && b && b === belong);
+                if (mine) {
+                    owned += 1;
+                }
+                cities.push({ i: i, name: name, belong: b || 0, owner: owner, owned: mine });
+            }
+            return {
+                playerKing: king,
+                playerBelong: belong,
+                playerName: playerName,
+                ownedCount: owned,
+                total: n,
+                cities: cities
+            };
+        },
+        cityLinks: function (city) {
+            hdNote('hd.cityLinks', city);
+            var d = baye.ensureData();
+            city = city == null ? NaN : Number(city);
+            if (isFinite(city) && city >= 0 && city < hdCityLimit() &&
+                hdEngineReady() && typeof _bayeHdLoadCityLinks === 'function') {
+                try { _bayeHdLoadCityLinks(city); } catch (e) {}
+            } else if (isFinite(city)) {
+                hdNote('hd.cityLinks', 'skip:' + city);
+            }
+            var links = [];
+            var i;
+            if (d && d.g_hdCityLinks) {
+                for (i = 0; i < 8; i++) {
+                    var id = hdReadNum(d.g_hdCityLinks, i);
+                    if (!id && d.g_hdCityLinks[i] != null) {
+                        id = Number(d.g_hdCityLinks[i]);
+                    }
+                    if (id && id !== 0xff && id < 0xfffe) {
+                        var idx = id - 1;
+                        var limit = hdCityLimit();
+                        if (idx < 0 || !limit || idx >= limit) {
+                            continue;
+                        }
+                        var name = '';
+                        try { name = baye.getCityName(idx) || ''; } catch (e) {}
+                        links.push({ id: id, index: idx, name: name });
+                    }
+                }
+            }
+            return links;
+        },
+        march: function () {
+            hdNote('hd.march', '');
+            var d = baye.ensureData();
+            return {
+                pick: hdReadNum(d, 'g_hdMapPick'),
+                battlePick: hdReadNum(d, 'g_hdBattlePick'),
+                mapCity: hdReadNum(d, 'g_hdMapCity'),
+                ok: hdReadNum(d, 'g_hdMarchOk'),
+                city: hdReadNum(d, 'g_hdMarchCity'),
+                obj: hdReadNum(d, 'g_hdMarchObj'),
+                time: hdReadNum(d, 'g_hdMarchTime'),
+                seq: hdReadNum(d, 'g_hdMarchSeq')
+            };
+        },
+        qty: function () {
+            hdNote('hd.qty', '');
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdQtyActive'),
+                value: hdReadNum(d, 'g_hdQtyValue'),
+                min: hdReadNum(d, 'g_hdQtyMin'),
+                max: hdReadNum(d, 'g_hdQtyMax')
+            };
+        },
+        toolName: function (id) {
+            try {
+                if (typeof baye.getToolName === 'function') {
+                    return baye.getToolName(id) || '';
+                }
+            } catch (e) {}
+            return '';
+        },
+        help: function () {
+            hdNote('hd.help', '');
+            var d = baye.ensureData();
+            var text = '';
+            if (d && typeof d.g_hdHelpGbk === 'string') {
+                text = d.g_hdHelpGbk;
+            }
+            if (!text && d && d.g_hdHelpGbk) {
+                text = hdDecodeSlice(d.g_hdHelpGbk, 0, 1024);
+            }
+            return {
+                active: hdReadNum(d, 'g_hdHelpActive'),
+                seq: hdReadNum(d, 'g_hdHelpSeq'),
+                text: text
+            };
+        },
+        skills: function () {
+            hdNote('hd.skills', '');
+            var d = baye.ensureData();
+            var count = hdReadNum(d, 'g_hdSkillCount') || 0;
+            var names = [];
+            var ids = [];
+            var i;
+            for (i = 0; i < count && i < 10; i++) {
+                var id = 0;
+                if (d && d.g_hdSkillIds) {
+                    id = hdReadNum(d.g_hdSkillIds, i);
+                    if (!id && d.g_hdSkillIds[i] != null) {
+                        id = Number(d.g_hdSkillIds[i]);
+                    }
+                }
+                ids.push(id);
+                var name = '';
+                if (d && d.g_hdSkillNameBytes) {
+                    name = hdDecodeSlice(d.g_hdSkillNameBytes, i * 8, 8);
+                }
+                if (!name && d && d.g_hdSkillNames) {
+                    name = hdDecodeSlice(d.g_hdSkillNames, i * 8, 8);
+                }
+                name = String(name || '').replace(/\u0000/g, '').replace(/\s+$/g, '');
+                if (!name && id && typeof baye.getSkillName === 'function') {
+                    try { name = baye.getSkillName(id - 1) || baye.getSkillName(id) || ''; } catch (e) {}
+                    name = String(name || '').replace(/\u0000/g, '').replace(/\s+$/g, '');
+                }
+                names.push(name);
+            }
+            return {
+                active: hdReadNum(d, 'g_hdSkillActive'),
+                count: count,
+                ids: ids,
+                names: names
+            };
+        },
+        movie: function () {
+            hdNote('hd.movie', '');
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdMovieActive'),
+                id: hdReadNum(d, 'g_hdMovieId')
+            };
+        },
+        spe: function () {
+            hdNote('hd.spe', '');
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive'),
+                id: hdReadNum(d, 'g_hdSpeId') || hdReadNum(d, 'g_hdMovieId'),
+                kind: hdReadNum(d, 'g_hdSpeKind') || (hdReadNum(d, 'g_hdMovieActive') ? 1 : 0),
+                x: hdReadNum(d, 'g_hdSpeX'),
+                y: hdReadNum(d, 'g_hdSpeY'),
+                startFrm: hdReadNum(d, 'g_hdSpeStartFrm'),
+                endFrm: hdReadNum(d, 'g_hdSpeEndFrm'),
+                seq: hdReadNum(d, 'g_hdSpeSeq')
+            };
+        },
+        menuItems: function () {
+            hdNote('hd.menuItems', '');
+            var d = baye.ensureData();
+            var itemLen = hdReadNum(d, 'g_hdMenuItemLen');
+            var count = hdReadNum(d, 'g_hdMenuCount');
+            if (itemLen > 64) {
+                itemLen = 64;
+            }
+            if (count > 80) {
+                count = 80;
+            }
+            var names = [];
+            var i;
+            if (itemLen && count && d && d.g_hdMenuBytes) {
+                for (i = 0; i < count && i < 80; i++) {
+                    names.push(hdDecodeSlice(d.g_hdMenuBytes, i * itemLen, itemLen));
+                }
+            } else if (d && typeof d.g_hdMenuGbk === 'string' && count) {
+                var raw = d.g_hdMenuGbk;
+                var step = Math.max(1, Math.floor(raw.length / count));
+                for (i = 0; i < count; i++) {
+                    names.push(raw.slice(i * step, (i + 1) * step).replace(/\s+$/g, ''));
+                }
+            }
+            return {
+                itemLen: itemLen,
+                count: count,
+                index: hdReadNum(d, 'g_hdMenuIndex'),
+                names: names
+            };
+        }
     };
 }
 

@@ -46,6 +46,8 @@ function lcdInit()
     }
     lcdBlur(false);
     baye_bridge_init();
+    /* 不要在 lcdInit / postRun 里调用 _bayeGetGlobal：lib 尚未加载，
+     * bind_init 会把 g_var.def 钉死，script_init 就无法再绑 HD 字段。 */
 }
 
 function bayeResizeScreen(width, height) {
@@ -83,10 +85,20 @@ function lcdFlushBuffer(buffer) {
     var lcd = getLCD();
     var w = lcdWidth*dotSize;
     var h = lcdHeight*dotSize
+    var nbytes = w * h * 4;
+    var heap = (typeof wasmMemory !== 'undefined' && wasmMemory && wasmMemory.buffer) ? wasmMemory.buffer : null;
+    buffer = Number(buffer) || 0;
+    if (!heap || buffer <= 0 || nbytes <= 0 || buffer + nbytes > heap.byteLength) {
+        console.error('[hd-bridge] lcd flush skipped', { buffer: buffer, nbytes: nbytes, heap: heap ? heap.byteLength : 0 });
+        return;
+    }
 
-    var buffer_wrp = new Uint8ClampedArray(wasmMemory.buffer, buffer, w*h*4);
+    var buffer_wrp = new Uint8ClampedArray(heap, buffer, nbytes);
     var img = new ImageData(buffer_wrp, w, h);
     lcd.putImageData(img, 0, 0);
+    if (window.BayeHdSpe && typeof BayeHdSpe.onLcdFlush === 'function') {
+        try { BayeHdSpe.onLcdFlush(img, w, h); } catch (e) {}
+    }
 }
 
 function sendKey(key) {
@@ -144,6 +156,10 @@ function onKeyDown(e) {
             break;
         case 39:
             sendKey(VK_RIGHT);
+            break;
+        case 48: case 49: case 50: case 51: case 52:
+        case 53: case 54: case 55: case 56: case 57:
+            sendKey(0x40 + (event.keyCode - 48));
             break;
     }
 }
@@ -478,7 +494,8 @@ function redirect(page) {
     var now = new Date().getTime() / 1000;
     var name = getLibName();
     var hash = isMobile ? "#" + now : "";
-    window.location.href = page + "?name=" + name + hash;
+    var assetVer = (window.BAYE_ASSET_VER || '20260923j');
+    window.location.href = page + "?name=" + name + "&ver=" + encodeURIComponent(assetVer) + hash;
 }
 
 function goHome() {
@@ -800,9 +817,18 @@ function bayeSaveFileContent(filename, content) {
     window.localStorage[filename] = content;
 }
 
-Module = {};
+Module = window.Module || {};
 Module.memoryInitializerPrefixURL = "../baye-engine/";
 Module.noInitialRun = true;
+if (window.BAYE_ASSET_VER) {
+    Module.locateFile = function (path, prefix) {
+        prefix = prefix || '';
+        if (/\.(wasm|map)$/.test(path)) {
+            return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
+        }
+        return prefix + path;
+    };
+}
 
 baye = {
     preScriptInit: function() {

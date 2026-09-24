@@ -1,0 +1,33 @@
+{
+  "designWidth": 1920,
+  "designHeight": 1080,
+  "style": "modern-2d-strategy",
+  "version": "6",
+  "source": "wikimedia-china-lcc-topographic",
+  "note": "Full uncropped China LCC plus a southern ocean pad (3840×4000) so Hainan and the Nansha area are reachable. Viewport is a pannable 1920×1080 camera. Engine city IDs unchanged. Do not merge to main until approved.",
+  "mapWidth": 3840,
+  "mapHeight": 4000,
+  "layers": {
+    "terrain": [
+      "terrain/base_plains.jpg",
+      "terrain/overlay_mountains.png",
+      "terrain/overlay_rivers.png",
+      "terrain/overlay_forest.png"
+    ],
+    "roads": {
+      "stroke": "roads/stroke.png",
+      "pass": "roads/pass.png"
+    },
+    "cities": {
+      "empty": "cities/marker_empty.png",
+      "neutral": "cities/marker_neutral.png",
+      "owned": "cities/marker_owned.png",
+      "selected": "cities/marker_selected.png"
+    },
+    "ui": {
+      "cursor": "ui/cursor.png",
+      "cursorHover": "ui/cursor_hover.png"
+    },
+    "palette": "palette/factions.json"
+  }
+}

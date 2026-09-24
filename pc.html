@@ -2,10 +2,54 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
     <title>三国霸业</title>
     <link rel="icon" href="favicon.png">
-    <link rel="stylesheet" type="text/css" href="css/flex.css"/>
-    <link rel="stylesheet" type="text/css" href="css/baye.css"/>
+    <link rel="stylesheet" type="text/css" href="css/flex.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/baye.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20260921z"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260923j"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20260921b"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20260920p"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20260924a"/>
+    <script>
+        window.BAYE_ASSET_VER = '20260923j';
+        window.__bayeLastHdCall = window.__bayeLastHdCall || null;
+        window.onerror = function (msg, url, line, col, error) {
+            var last = window.__bayeLastHdCall;
+            var extra = '\nlastHdCall: ' + (last && last.name ? (last.name + (last.detail ? ' ' + last.detail : '')) : '(none)');
+            extra += error && error.stack ? ('\nstack: ' + error.stack) : '';
+            extra += !col ? '' : ('\ncolumn: ' + col);
+            extra += '\nassetVer: ' + (window.BAYE_ASSET_VER || '(none)');
+            console.error('[baye-boot] onerror', msg, url, line, extra);
+            alert('Error: ' + msg + '\nurl: ' + url + '\nline: ' + line + extra);
+            return false;
+        };
+        window.Module = window.Module || {};
+        window.Module.locateFile = function (path, prefix) {
+            prefix = prefix || 'js/';
+            if (/\.(wasm|map)$/.test(path)) {
+                return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
+            }
+            return prefix + path;
+        };
+        try {
+            if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+                navigator.serviceWorker.getRegistrations().then(function (regs) {
+                    regs.forEach(function (r) { try { r.unregister(); } catch (eU) {} });
+                });
+            }
+            if (window.caches && caches.keys) {
+                caches.keys().then(function (keys) {
+                    keys.forEach(function (k) { try { caches.delete(k); } catch (eC) {} });
+                });
+            }
+        } catch (eSw) {}
+    </script>
     <script>
         var _hmt = _hmt || [];
         (function () {
@@ -15,32 +59,193 @@
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/encoding-indexes.js"></script>
-    <script src="js/encoding.js"></script>
-    <script src="js/sprintf.js"></script>
-    <script src="js/lzma_worker-min.js"></script>
-    <script src="js/base64.js"></script>
+    <script src="js/jquery.min.js?ver=20260920h"></script>
+    <script src="js/encoding-indexes.js?ver=20260920h"></script>
+    <script src="js/encoding.js?ver=20260920h"></script>
+    <script src="js/sprintf.js?ver=20260920h"></script>
+    <script src="js/lzma_worker-min.js?ver=20260920h"></script>
+    <script src="js/base64.js?ver=20260920h"></script>
     <style>
         body {
             overflow-y: hidden;
         }
+        #baye-build-badge {
+            position: fixed;
+            left: 8px;
+            bottom: 8px;
+            z-index: 2147483647;
+            margin: 0;
+            padding: 2px 7px;
+            border-radius: 4px;
+            background: #1a3a22;
+            color: #b8f0c2;
+            font: 13px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
+    <script>
+        (function () {
+            try {
+                var scale = localStorage.getItem('baye/lcdCssScale') === '2' ? '2' : '1';
+                var theme = localStorage.getItem('baye/lcdTheme') === 'hd' ? 'hd' : 'classic';
+                var overworld = localStorage.getItem('baye/overworldMode') === 'hd-map' ? 'hd-map' : 'classic';
+                var cityMenu = localStorage.getItem('baye/cityMenuMode') || 'auto';
+                var systemUi = localStorage.getItem('baye/systemUiMode') || 'auto';
+                document.documentElement.style.setProperty('--baye-lcd-scale', scale);
+                document.documentElement.setAttribute('data-baye-lcd-scale', scale);
+                document.documentElement.setAttribute('data-baye-theme', theme);
+                document.documentElement.setAttribute('data-baye-overworld', overworld);
+                document.documentElement.setAttribute('data-baye-city-menu-pref', cityMenu);
+                document.documentElement.setAttribute('data-baye-system-ui-pref', systemUi);
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body style="height: auto;">
+<div id="baye-build-badge" data-baye-asset-ver="">…</div>
 <div layout="row center-center">
-    <div class="container" style="width:480px">
+    <div class="container js-baye-pc-lcd pc-lcd-frame">
         <div class="dummy"></div>
         <div class="element lcd">
-            <canvas class="fill" id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
+            <canvas class="fill no_blur lcd-crisp" id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
         </div>
     </div>
 </div>
+<div id="hd-overworld" class="hd-overworld" aria-hidden="true">
+    <div class="hd-overworld-stage">
+        <canvas id="hd-overworld-canvas" width="1920" height="1080"></canvas>
+        <div class="hd-overworld-hud">
+            <div id="hd-overworld-hud-left" class="hd-overworld-hud-left">HD 大地图</div>
+            <div id="hd-overworld-hud-right" class="hd-overworld-hud-right">切回经典可继续键操</div>
+        </div>
+    </div>
+</div>
+<div id="hd-city-menu" class="hd-city-menu" aria-hidden="true">
+    <div class="hd-city-menu-stage" role="dialog" aria-labelledby="hd-city-menu-title">
+        <div id="hd-city-menu-title" class="hd-city-menu-title">城池</div>
+        <div id="hd-city-menu-sub" class="hd-city-menu-sub">内政 / 外交 / 军备 / 状况</div>
+        <div id="hd-city-menu-root" class="hd-city-menu-grid">
+            <button type="button" class="hd-city-menu-card" data-hd-root="0"><strong>内政</strong><span>开垦 / 招商 / 搜寻…</span></button>
+            <button type="button" class="hd-city-menu-card" data-hd-root="1"><strong>外交</strong><span>离间 / 招揽 / 策反…</span></button>
+            <button type="button" class="hd-city-menu-card" data-hd-root="2"><strong>军备</strong><span>侦察 / 征兵 / 出征…</span></button>
+            <button type="button" class="hd-city-menu-card" data-hd-root="3"><strong>状况</strong><span>只显示读到的城数据</span></button>
+        </div>
+        <div id="hd-city-menu-sublist" class="hd-city-menu-sublist" hidden></div>
+        <div id="hd-city-menu-deep" class="hd-city-menu-sublist hd-city-menu-deep" hidden></div>
+        <div id="hd-city-menu-status" class="hd-city-menu-status" hidden></div>
+        <div class="hd-city-menu-footer">
+            <button type="button" data-hd-menu-back>返回</button>
+            <button type="button" data-hd-menu-lcd>经典 LCD</button>
+            <button type="button" data-hd-menu-help>帮助</button>
+        </div>
+        <div id="hd-city-menu-probe" class="hd-city-menu-probe"></div>
+    </div>
+</div>
+<div id="hd-battle" class="hd-battle" aria-hidden="true">
+    <div class="hd-battle-stage">
+        <canvas id="hd-battle-canvas" width="1920" height="1080"></canvas>
+        <div id="hd-battle-hud" class="hd-battle-hud">HD 战场</div>
+        <div id="hd-battle-tip" class="hd-battle-tip" data-hd-battle-tip hidden></div>
+        <div id="hd-battle-result" class="hd-battle-result" hidden></div>
+        <div id="hd-battle-menu" class="hd-battle-menu" hidden>
+            <div id="hd-battle-menu-title" class="hd-battle-menu-title">战场菜单</div>
+            <div id="hd-battle-menu-list" class="hd-battle-menu-list"></div>
+            <div class="hd-battle-menu-actions">
+                <button type="button" data-hd-battle-menu-exit>返回</button>
+            </div>
+        </div>
+        <div class="hd-battle-footer">
+            <button type="button" data-hd-battle-sys>系统菜单</button>
+            <button type="button" data-hd-battle-lcd>经典 LCD</button>
+            <button type="button" data-hd-battle-close>关闭预览</button>
+        </div>
+    </div>
+</div>
+<div id="hd-system-ui" class="hd-system-ui" aria-hidden="true">
+    <div class="hd-system-ui-stage" role="dialog" aria-labelledby="hd-system-ui-title">
+        <div id="hd-system-ui-title" class="hd-system-ui-title">三国霸业</div>
+        <div id="hd-system-ui-sub" class="hd-system-ui-sub">标题 / 时期 / 君主 / 存档</div>
+        <div id="hd-system-ui-list" class="hd-system-ui-list"></div>
+        <div class="hd-system-ui-footer">
+            <button type="button" data-hd-sys-back>返回</button>
+            <button type="button" data-hd-sys-lcd>经典 LCD</button>
+        </div>
+        <div id="hd-system-ui-probe" class="hd-system-ui-probe"></div>
+    </div>
+</div>
+<div id="hd-spe" class="hd-spe" aria-hidden="true">
+    <div class="hd-spe-stage" role="dialog" aria-labelledby="hd-spe-title">
+        <div id="hd-spe-title" class="hd-spe-title">开场动画</div>
+        <canvas id="hd-spe-canvas" class="hd-spe-canvas" width="1600" height="960"></canvas>
+        <div class="hd-spe-footer">
+            <button type="button" id="hd-spe-skip" data-hd-spe-skip>跳过</button>
+            <button type="button" data-hd-spe-lcd>经典 LCD</button>
+        </div>
+        <div id="hd-spe-probe" class="hd-spe-probe"></div>
+    </div>
+</div>
+<div id="hd-dialog" class="hd-dialog" aria-hidden="true">
+    <div class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title">
+        <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
+        <div id="hd-dialog-body" class="hd-dialog-body"></div>
+        <div id="hd-dialog-caption" class="hd-dialog-caption">↓ 下方放大的经典屏是引擎原文</div>
+        <div id="hd-dialog-range" class="hd-dialog-range" hidden></div>
+        <div id="hd-dialog-qty" class="hd-dialog-qty" hidden>
+            <button type="button" data-hd-qty="-10">−10</button>
+            <button type="button" data-hd-qty="-1">−</button>
+            <button type="button" data-hd-qty="1">+</button>
+            <button type="button" data-hd-qty="10">+10</button>
+            <span id="hd-dialog-qty-digits" class="hd-dialog-qty-digits"></span>
+        </div>
+        <div class="hd-dialog-footer">
+            <button type="button" data-hd-dlg-ok>确认</button>
+            <button type="button" data-hd-dlg-back>返回</button>
+            <button type="button" data-hd-dlg-lcd>经典 LCD</button>
+        </div>
+        <div id="hd-dialog-probe" class="hd-dialog-probe"></div>
+    </div>
+</div>
+<figure id="hd-portrait" class="hd-portrait" hidden data-hd-portrait="off" data-context="">
+    <img id="hd-portrait-img" alt="">
+    <figcaption id="hd-portrait-cap"></figcaption>
+</figure>
 <p></p>
 <div layout="row center-center">
-    <div style="width:480px">
+    <div class="js-baye-pc-chrome">
+        <div id="baye-hd-toolbar" class="baye-hd-toolbar" role="group" aria-label="画质">
+            <span class="baye-hd-label">画质</span>
+            <button type="button" data-hd-scale="1">经典 1×</button>
+            <button type="button" data-hd-scale="2">清晰 2×</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-filter="crisp">锐利</button>
+            <button type="button" data-hd-filter="smooth">平滑</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-theme="classic">经典外壳</button>
+            <button type="button" data-hd-theme="hd">HD 外壳</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-overworld="classic" onclick="if(window.BayeHdOverworld)BayeHdOverworld.setMode('classic')">经典地图</button>
+            <button type="button" data-hd-overworld="hd-map" onclick="if(window.BayeHdOverworld)BayeHdOverworld.setMode('hd-map')">HD 地图</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-city-menu="auto" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('auto')">菜单自动</button>
+            <button type="button" data-hd-city-menu="hd" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('hd')">HD 菜单</button>
+            <button type="button" data-hd-city-menu="classic" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('classic')">经典菜单</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-battle="auto" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('auto')">战斗自动</button>
+            <button type="button" data-hd-battle="classic" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('classic')">经典战斗</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" data-hd-system-ui="auto" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('auto')">界面自动</button>
+            <button type="button" data-hd-system-ui="hd" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('hd')">HD 界面</button>
+            <button type="button" data-hd-system-ui="classic" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('classic')">经典界面</button>
+            <span class="baye-hd-sep" aria-hidden="true"></span>
+            <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openHelp()">帮助 HD</button>
+            <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openSearch()">查找 HD</button>
+            <span class="baye-hd-hint">HD 地图 / 城菜单 / 战场 / 系统 / 报告 / SPE 是 1080p 壳。清单 docs/hd-full-replacement-checklist.md</span>
+        </div>
         <div layout="row center-stretch">
-            <div layout="column center-left" style="font-size:14px;line-height:140%">
+            <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
                 <div><h2>按键说明:</h2></div>
                 <div>电脑键盘 -> 电子词典</div>
                 <div>上下左右 -> 上下左右</div>
@@ -66,13 +271,65 @@
 </div>
 </body>
 </html>
-<script src="js/idbkvstore.min.js?ver=20260329"></script>
-<script src="js/bridge.js?ver=20260329"></script>
-<script src="js/lcd.js?ver=20260329"></script>
+<script src="js/idbkvstore.min.js?ver=20260920h"></script>
+<script src="js/bridge.js?ver=20260923j"></script>
+<script src="js/lcd.js?ver=20260923j"></script>
+<script src="js/hd-graphics.js?ver=20260923j"></script>
+<script src="js/hd-overworld-probe.js?ver=20260923j"></script>
+<script src="js/hd-overworld.js?ver=20260923j"></script>
+    <script src="js/hd-city-menu.js?ver=20260923j"></script>
+    <script src="js/hd-battle.js?ver=20260923j"></script>
+    <script src="js/hd-system-ui.js?ver=20260923j"></script>
+<script src="js/hd-dialog.js?ver=20260923j"></script>
+<script src="js/hd-spe.js?ver=20260923j"></script>
+<script src="js/hd-portraits.js?ver=20260924a"></script>
+<script src="js/hd-portrait-dump.js?ver=20260924a"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
+    if (window.BayeHd) {
+        BayeHd.applyPcPage();
+    }
+    if (window.BayeHdOverworld) {
+        BayeHdOverworld.applyPcPage();
+    }
+    if (window.BayeHdCityMenu) {
+        BayeHdCityMenu.applyPcPage();
+    }
+    if (window.BayeHdBattle) {
+        BayeHdBattle.applyPcPage();
+    }
+    if (window.BayeHdSystemUi) {
+        BayeHdSystemUi.applyPcPage();
+    }
+    if (window.BayeHdDialog) {
+        BayeHdDialog.applyPcPage();
+    }
+    if (window.BayeHdSpe) {
+        BayeHdSpe.applyPcPage();
+    }
     Module.postRun = function () {
         lcdInit();
+        if (window.BayeHd) {
+            BayeHd.applyPcPage();
+        }
+        if (window.BayeHdOverworld) {
+            BayeHdOverworld.start();
+        }
+        if (window.BayeHdCityMenu) {
+            BayeHdCityMenu.start();
+        }
+        if (window.BayeHdBattle) {
+            BayeHdBattle.start();
+        }
+        if (window.BayeHdSystemUi) {
+            BayeHdSystemUi.start();
+        }
+        if (window.BayeHdDialog) {
+            BayeHdDialog.start();
+        }
+        if (window.BayeHdSpe) {
+            BayeHdSpe.start();
+        }
         var libName = getLibName();
         $("#lib-name").html("当前版本: " + libName);
         bayeMain();
@@ -215,5 +472,5 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20260329"></script>
+<script src="js/baye.js?ver=20260923j"></script>
 

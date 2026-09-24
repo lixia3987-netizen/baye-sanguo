@@ -1,0 +1,115 @@
+/* HD SPE overlay. Classic mode: no visible effect. */
+
+.hd-spe {
+    display: none;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 8, 12, 0.78);
+    pointer-events: none;
+}
+
+.hd-spe.is-open {
+    display: flex;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+html[data-baye-spe="off"] .hd-spe,
+.hd-spe:not(.is-open) {
+    pointer-events: none !important;
+}
+
+.hd-spe-stage {
+    position: relative;
+    width: min(1920px, calc(100vw - 32px));
+    max-height: calc(100vh - 24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 16px 20px 72px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(28, 34, 46, 0.98), rgba(12, 16, 22, 0.98));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 56px rgba(0, 0, 0, 0.5);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    overflow: hidden;
+}
+
+.hd-spe-title {
+    align-self: flex-start;
+    flex: 0 0 auto;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 2;
+}
+
+.hd-spe-canvas {
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+    max-width: min(1760px, calc(100vw - 80px));
+    max-height: calc(100vh - 220px);
+    width: auto;
+    height: auto;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    background: #e6edd4;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.hd-spe-footer {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 12px;
+    z-index: 10;
+    display: flex;
+    gap: 10px;
+    pointer-events: auto;
+}
+
+.hd-spe-footer button {
+    appearance: none;
+    min-height: 48px;
+    padding: 0 20px;
+    border: 0;
+    border-radius: 8px;
+    background: #3a4458;
+    color: #f3f6fb;
+    font-size: 18px;
+    cursor: pointer;
+    pointer-events: auto;
+    touch-action: manipulation;
+}
+
+.hd-spe-footer button:hover {
+    background: #4a5670;
+}
+
+.hd-spe.is-opening #hd-spe-skip {
+    display: inline-flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 128px;
+    font-weight: 700;
+    background: #f0c75a;
+    color: #1b1f27;
+}
+
+.hd-spe-probe {
+    margin-top: 8px;
+    align-self: flex-start;
+    font-size: 12px;
+    opacity: 0.65;
+    pointer-events: none;
+}

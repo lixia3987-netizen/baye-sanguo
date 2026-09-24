@@ -4,6 +4,7 @@
   "description": "步步高电子词典《三国霸业》完整 H5 移植（baye-alpha / iBaye）",
   "scripts": {
     "start": "npx --yes serve -l 8080 .",
-    "serve": "npx --yes serve -l 8080 ."
+    "serve": "npx --yes serve -l 8080 .",
+    "dump-portraits": "node scripts/dump-hd-portraits.mjs"
   }
 }

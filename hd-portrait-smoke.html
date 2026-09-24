@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <title>武将立绘冒烟</title>
+    <link rel="stylesheet" href="css/hd-portraits.css"/>
+</head>
+<body data-hd-portrait-manual="1">
+    <figure id="hd-portrait" class="hd-portrait" hidden data-hd-portrait="off">
+        <img id="hd-portrait-img" alt="">
+        <figcaption id="hd-portrait-cap"></figcaption>
+    </figure>
+    <script src="js/hd-portraits.js"></script>
+    <script>
+        (function () {
+            function waitImage() {
+                var img = document.getElementById('hd-portrait-img');
+                if (!img || !img.getAttribute('src')) {
+                    return Promise.resolve(img);
+                }
+                if (img.complete) {
+                    return Promise.resolve(img);
+                }
+                return new Promise(function (resolve) {
+                    img.onload = function () { resolve(img); };
+                    img.onerror = function () { resolve(img); };
+                });
+            }
+
+            function numAttr(name) {
+                var q = new URLSearchParams(location.search);
+                var raw = q.get(name);
+                if (raw == null || raw === '') {
+                    return null;
+                }
+                var n = Number(raw);
+                return isFinite(n) ? n : null;
+            }
+
+            BayeHdPortraits.loadManifest().then(function (manifest) {
+                var errors = [];
+                function check(cond, message) {
+                    if (!cond) {
+                        errors.push(message);
+                    }
+                }
+                var entries = manifest && manifest.entries ? manifest.entries : [];
+                var pilot = null;
+                var i;
+                var wantId = numAttr('personId');
+                var wantPeriod = numAttr('period') || 1;
+                for (i = 0; i < entries.length; i++) {
+                    var entry = entries[i];
+                    if (!entry || entry.missing) {
+                        continue;
+                    }
+                    if (wantId != null && entry.personId === wantId && entry.period === wantPeriod) {
+                        pilot = entry;
+                        break;
+                    }
+                    if (wantId == null && entry.name === '马腾' && entry.period === 1) {
+                        pilot = entry;
+                    }
+                }
+                check(!!pilot, 'manifest 里没有可测的试点（马腾 / 时期 1，或 query personId）');
+                if (!pilot) {
+                    window.__hdPortraitSmoke = { ok: false, errors: errors };
+                    return;
+                }
+                var query = new URLSearchParams(location.search);
+                var expect = query.get('expect') || 'ref';
+                var contains = query.get('contains') || '';
+                var minWidth = Number(query.get('minWidth')) || 0;
+                var chosenUrl = '';
+                return BayeHdPortraits.chooseSource(pilot.personId, pilot.period).then(function (src) {
+                    chosenUrl = src.url || '';
+                    check(src.mode === expect, 'chooseSource 期望 ' + expect + ' 实际 ' + src.mode + ' ' + chosenUrl);
+                    check(!contains || chosenUrl.indexOf(contains) >= 0, 'url 不含 ' + contains + ' 实际 ' + chosenUrl);
+                    return BayeHdPortraits.applyView({
+                        context: 'map-king',
+                        personId: pilot.personId,
+                        period: pilot.period,
+                        name: pilot.name
+                    });
+                }).then(function (src) {
+                    var root = document.getElementById('hd-portrait');
+                    check(root.getAttribute('data-hd-portrait') === expect, 'data-hd-portrait=' + root.getAttribute('data-hd-portrait'));
+                    check(root.getAttribute('data-context') === 'map-king', 'context');
+                    check(String(root.getAttribute('data-person-id')) === String(pilot.personId), 'person id');
+                    return waitImage().then(function (img) {
+                        check(img && img.naturalWidth > 8, '立绘图像没有宽度');
+                        if (minWidth) {
+                            check(img && img.naturalWidth >= minWidth, '图宽度 ' + (img && img.naturalWidth) + ' 小于 ' + minWidth);
+                        }
+                        return BayeHdPortraits.applyView({
+                            context: 'person-info',
+                            personId: 99999,
+                            period: pilot.period,
+                            name: '无人'
+                        });
+                    });
+                }).then(function (missing) {
+                    check(missing.mode === 'lcd', '不存在的 personId 应回退 lcd，实际 ' + missing.mode);
+                    check(document.getElementById('hd-portrait').getAttribute('data-hd-portrait') === 'off', '缺图时应隐藏槽位');
+
+                    window.baye = {
+                        data: {
+                            g_PIdx: pilot.period,
+                            g_PlayerKing: pilot.personId,
+                            g_hdFightActive: 0,
+                            g_hdFightOver: 0,
+                            g_FoucsX: 3,
+                            g_FoucsY: 4,
+                            g_FgtParam: { GenArray: [pilot.personId + 1] },
+                            g_GenPos: [{ x: 3, y: 4 }]
+                        },
+                        getPersonName: function () { return pilot.name; },
+                        getPersonCount: function () { return 1; },
+                        hd: {
+                            report: function () {
+                                return { kind: 2, person: pilot.personId, text: '报', seq: 1 };
+                            }
+                        }
+                    };
+                    document.body.classList.add('baye-hd-overworld-map');
+                    var mapView = BayeHdPortraits.detectView();
+                    check(mapView && mapView.context === 'map-king' && mapView.personId === pilot.personId, '地图君主头像未识别');
+
+                    window.BayeHdCityMenu = {
+                        isOpen: function () { return true; },
+                        debugSnapshot: function () {
+                            return {
+                                open: true,
+                                layer: 'deep',
+                                deepKind: 'person',
+                                idleIndex: 0,
+                                deepItems: [{ pind: pilot.personId, name: pilot.name }]
+                            };
+                        }
+                    };
+                    var menuView = BayeHdPortraits.detectView();
+                    check(menuView && menuView.context === 'person-info' && menuView.personId === pilot.personId, '人物信息未识别');
+
+                    window.BayeHdCityMenu.isOpen = function () { return false; };
+                    window.BayeHdDialog = {
+                        debugSnapshot: function () {
+                            return { open: true, kind: 'help' };
+                        }
+                    };
+                    window.baye.data.g_hdFightActive = 1;
+                    var noteView = BayeHdPortraits.detectView();
+                    check(noteView && noteView.context === 'battle-note' && noteView.personId === pilot.personId, '战场说明头像未识别');
+
+                    window.BayeHdDialog.debugSnapshot = function () {
+                        return { open: true, kind: 'report' };
+                    };
+                    window.baye.data.g_hdFightActive = 0;
+                    var reportView = BayeHdPortraits.detectView();
+                    check(reportView && reportView.context === 'person-info' && reportView.personId === pilot.personId, '武将报告头像未识别');
+
+                    window.__hdPortraitSmoke = {
+                        ok: errors.length === 0,
+                        errors: errors,
+                        personId: pilot.personId,
+                        period: pilot.period,
+                        expect: expect,
+                        url: chosenUrl
+                    };
+                });
+            }).catch(function (err) {
+                window.__hdPortraitSmoke = { ok: false, errors: [err && err.message ? err.message : String(err)] };
+            });
+        })();
+    </script>
+</body>
+</html>

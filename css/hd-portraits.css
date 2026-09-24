@@ -1,0 +1,57 @@
+/* HD 武将立绘槽。没有 data-hd-portrait=hd|ref 时不占画面。 */
+
+.hd-portrait {
+    display: none;
+    position: fixed;
+    z-index: 82;
+    left: 16px;
+    top: 76px;
+    width: min(240px, calc(100vw - 32px));
+    margin: 0;
+    padding: 10px 10px 8px;
+    border-radius: 14px;
+    background: rgba(14, 17, 22, 0.92);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 16px 40px rgba(0, 0, 0, 0.4);
+    color: #f3f6fb;
+    pointer-events: none;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.hd-portrait[hidden] {
+    display: none !important;
+}
+
+.hd-portrait:not([hidden]) {
+    display: block;
+}
+
+.hd-portrait[data-context="map-king"] {
+    z-index: 55;
+    top: 64px;
+}
+
+#hd-portrait-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-height: 280px;
+    object-fit: contain;
+    background: #10141c;
+    border-radius: 10px;
+}
+
+.hd-portrait[data-hd-portrait="ref"] #hd-portrait-img {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.hd-portrait[data-hd-portrait="hd"] #hd-portrait-img {
+    image-rendering: auto;
+}
+
+#hd-portrait-cap {
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #f0c75a;
+}

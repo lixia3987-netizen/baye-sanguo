@@ -67,6 +67,7 @@ pnpm start
 
 ```
 css/           样式
+docs/          画质脚手架、HD 大地图规格
 fonts/         字体
 js/            引擎与桥接
   baye.js      Emscripten 加载器（来自上游预编译）
@@ -81,7 +82,35 @@ v0/            早期版本前端
 LICENSE        上游 GPL-2.0
 ```
 
-`js/baye.wasm`（约 4MB）与 `js/baye.js` 直接取自 Gitee 上游仓库 [bgwp/baye-alpha](https://gitee.com/bgwp/baye-alpha) 提交 `5d19e8f`（2026-09-02），**未在本仓库重新用 Emscripten 编译**。该预编译产物可正常加载，无需本机安装 emsdk。
+`js/baye.wasm` 与 `js/baye.js` 可按 [docs/wasm-build.md](docs/wasm-build.md) 从 `vendor/iBaye` 用 Emscripten 3.1.51 重编。HD 桥接字段见 [docs/wasm-hd-bridge.md](docs/wasm-hd-bridge.md)。
+
+## 画质优化
+
+本仓库在 `feature/hd-graphics` 上准备了**可逆的画质脚手架**，不换 `dat.lib` 图块、不改 WASM 引擎。完整管线、后续步骤与「不要做什么」见 [docs/hd-graphics.md](docs/hd-graphics.md)。
+
+默认仍是经典观感（PC 显示框 480×288，邻近取样）。PC 键盘版可以整数倍放大 LCD，方便阅读：
+
+1. 用上面的静态服务打开首页 <http://localhost:8080/>
+2. （可选）把「PC 画质缩放」设为「清晰 2×」，滤镜保持「锐利」
+3. 选择版本后进入游戏，或直接打开 `pc.html`
+4. 也可在 PC 页下方画质条即时切换：
+   - **经典 1× / 清晰 2×**：只改 CSS 外壳大小（480→960），键盘操作不变
+   - **锐利 / 平滑**：邻近取样 vs 双线性
+   - **经典外壳 / HD 外壳**：只改页面底色与边框，不改游戏像素
+
+手机页（`m.html` 等）已经拉满视口；v1 **不**做 2×，以免挤掉触控和虚拟键命中区。回到 1× + 锐利 + 经典外壳即还原。
+
+真·HD 大地图（1080p 现代 2D 策略图、城/地形/路/字/反馈分层、经典 LCD 可切回）的锁定规格见 [docs/hd-overworld-spec.md](docs/hd-overworld-spec.md)。`feature/hd-graphics` 上 **P0 表现壳已接线**（默认仍是经典 LCD，不强迫）。
+
+怎么试 HD 地图：
+
+1. 用上面的静态服务打开 <http://localhost:8080/pc.html>（建议先在首页选「词典原版」）
+2. 页下方画质条点 **HD 地图**（写入 `localStorage['baye/overworldMode']='hd-map'`）
+3. 应看到 1920×1080 **摄像机窗口**（不是全国缩进一屏）+ 城标 + 路网；拖动平移可到海南 / 南海。未进大地图时是预览，经典 LCD 缩在右下角，键盘仍可开局
+4. 进大地图后 LCD 隐藏。点城打开 **HD 城池四项菜单**（内政/外交/军备/状况，一层子菜单已 HD）。进入战斗时升 **HD 战场壳**（B0）。清单：[docs/hd-full-replacement-checklist.md](docs/hd-full-replacement-checklist.md)
+5. 点 **经典地图** 即还原，1×/2× / 锐利 / 外壳与之前相同
+
+素材是分支内 AI 占位包，不是步步高原作美术。不替换 `dat.lib`。用户未明确要求前不要把本分支合入 `main`。
 
 ## 从 iBaye 重新编译引擎（可选）
 
