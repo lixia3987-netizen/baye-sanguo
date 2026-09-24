@@ -62,9 +62,14 @@
                     window.__hdPortraitSmoke = { ok: false, errors: errors };
                     return;
                 }
-                var expect = new URLSearchParams(location.search).get('expect') || 'ref';
+                var query = new URLSearchParams(location.search);
+                var expect = query.get('expect') || 'ref';
+                var contains = query.get('contains') || '';
+                var chosenUrl = '';
                 return BayeHdPortraits.chooseSource(pilot.personId, pilot.period).then(function (src) {
-                    check(src.mode === expect, 'chooseSource 期望 ' + expect + ' 实际 ' + src.mode + ' ' + (src.url || ''));
+                    chosenUrl = src.url || '';
+                    check(src.mode === expect, 'chooseSource 期望 ' + expect + ' 实际 ' + src.mode + ' ' + chosenUrl);
+                    check(!contains || chosenUrl.indexOf(contains) >= 0, 'url 不含 ' + contains + ' 实际 ' + chosenUrl);
                     return BayeHdPortraits.applyView({
                         context: 'map-king',
                         personId: pilot.personId,
@@ -78,6 +83,9 @@
                     check(String(root.getAttribute('data-person-id')) === String(pilot.personId), 'person id');
                     return waitImage().then(function (img) {
                         check(img && img.naturalWidth > 8, '立绘图像没有宽度');
+                        if (expect === 'hd') {
+                            check(img && img.naturalWidth > 100, 'HD 图过小，宽度 ' + (img && img.naturalWidth));
+                        }
                         return BayeHdPortraits.applyView({
                             context: 'person-info',
                             personId: 99999,
@@ -149,7 +157,8 @@
                         errors: errors,
                         personId: pilot.personId,
                         period: pilot.period,
-                        expect: expect
+                        expect: expect,
+                        url: chosenUrl
                     };
                 });
             }).catch(function (err) {

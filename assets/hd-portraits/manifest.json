@@ -30,7 +30,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/5-马腾.png",
-      "hd": "hd/period-1/5-马腾.png"
+      "hd": "hd/hd_p1_0005_马腾.png"
     },
     {
       "name": "马腾",
@@ -147,7 +147,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/1-曹操.png",
-      "hd": "hd/period-1/1-曹操.png"
+      "hd": "hd/hd_p1_0001_曹操.png"
     },
     {
       "name": "曹操",
@@ -201,7 +201,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/89-关羽.png",
-      "hd": "hd/period-1/89-关羽.png"
+      "hd": "hd/hd_p1_0089_关羽.png"
     },
     {
       "name": "关羽",
@@ -255,7 +255,7 @@
       "pilot": true,
       "missing": false,
       "ref": "refs/period-1/157-诸葛亮.png",
-      "hd": "hd/period-1/157-诸葛亮.png"
+      "hd": "hd/hd_p1_0157_诸葛亮.png"
     },
     {
       "name": "诸葛亮",

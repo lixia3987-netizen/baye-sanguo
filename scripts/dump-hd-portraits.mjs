@@ -57,7 +57,28 @@ function safeRef(file) {
     return file;
 }
 
+function existingHdPaths() {
+    const dest = path.join(root, 'assets/hd-portraits/manifest.json');
+    const kept = new Map();
+    let prev;
+    try {
+        prev = JSON.parse(fs.readFileSync(dest, 'utf8'));
+    } catch (e) {
+        return kept;
+    }
+    for (const entry of prev.entries || []) {
+        if (!entry || entry.missing || !entry.hd || entry.period == null || entry.personId == null) {
+            continue;
+        }
+        if (fs.existsSync(path.join(root, 'assets/hd-portraits', entry.hd))) {
+            kept.set(entry.period + ':' + entry.personId, entry.hd);
+        }
+    }
+    return kept;
+}
+
 function buildManifest(summary) {
+    const keptHd = existingHdPaths();
     const byName = new Map();
     for (const block of summary.periods || []) {
         for (const person of block.people || []) {
@@ -92,7 +113,7 @@ function buildManifest(summary) {
                 pilot: true,
                 missing: false,
                 ref: 'refs/' + hit.file,
-                hd: 'hd/' + hit.file
+                hd: keptHd.get(key) || ('hd/' + hit.file)
             });
         }
     }
@@ -350,34 +371,47 @@ async function main() {
             console.log('wrote', server.written, 'pngs; missing pilots', (server.manifest.missingPilots || []).join(',') || '(none)');
         }
         const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/hd-portraits/manifest.json'), 'utf8'));
-        const pilot = (manifest.entries || []).find((entry) => entry && !entry.missing && entry.name === '马腾' && entry.period === 1)
-            || (manifest.entries || []).find((entry) => entry && !entry.missing);
-        if (!pilot) {
-            throw new Error('no pilot entry to smoke');
+        function absPortrait(rel) {
+            return path.join(root, 'assets/hd-portraits', rel);
         }
-        const refPath = path.join(root, 'assets/hd-portraits', pilot.ref);
-        const hdPath = path.join(root, 'assets/hd-portraits', pilot.hd);
-        if (!fs.existsSync(refPath)) {
-            throw new Error('missing ref ' + pilot.ref);
+        const shipped = (manifest.entries || []).filter((entry) => entry && !entry.missing && entry.hd && fs.existsSync(absPortrait(entry.hd)));
+        const fallback = (manifest.entries || []).find((entry) => entry && !entry.missing && entry.ref && entry.hd && fs.existsSync(absPortrait(entry.ref)) && !fs.existsSync(absPortrait(entry.hd)));
+        if (!shipped.length || !fallback) {
+            throw new Error('need one shipped HD portrait and one ref-only pilot to smoke');
         }
-        async function smoke(expect) {
-            const url = 'http://127.0.0.1:' + port + '/hd-portrait-smoke.html?expect=' + expect + '&personId=' + pilot.personId + '&period=' + pilot.period + '&t=' + Date.now();
+        async function smoke(entry, expect, contains) {
+            const url = 'http://127.0.0.1:' + port + '/hd-portrait-smoke.html?expect=' + encodeURIComponent(expect) + '&personId=' + entry.personId + '&period=' + entry.period + (contains ? '&contains=' + encodeURIComponent(contains) : '') + '&t=' + Date.now();
             await cdp.send('Page.navigate', { url });
-            const result = await waitFor(cdp, 'window.__hdPortraitSmoke', 20000);
+            const result = await waitFor(cdp, '(function(){var s=window.__hdPortraitSmoke; if(!s||s.personId!==' + entry.personId + '||s.expect!==' + JSON.stringify(expect) + ') return null; return s;})()', 20000);
             if (!result.ok) {
-                throw new Error('smoke ' + expect + ' ' + (result.errors || []).join('; '));
+                throw new Error('smoke ' + expect + ' ' + entry.name + ' ' + (result.errors || []).join('; '));
             }
-            console.log('smoke', expect, 'person', result.personId, 'period', result.period);
+            console.log('smoke', expect, entry.period + ':' + entry.personId + ':' + entry.name, result.url || '');
+            return result;
         }
-        await smoke('ref');
+        for (const entry of shipped) {
+            await smoke(entry, 'hd', entry.hd);
+            const hdPath = absPortrait(entry.hd);
+            const aside = hdPath + '.smoke-aside';
+            fs.renameSync(hdPath, aside);
+            try {
+                await smoke(entry, 'ref', entry.ref);
+            } finally {
+                fs.renameSync(aside, hdPath);
+            }
+            await smoke(entry, 'hd', entry.hd);
+        }
+        const refPath = absPortrait(fallback.ref);
+        const hdPath = absPortrait(fallback.hd);
+        await smoke(fallback, 'ref', fallback.ref);
         fs.mkdirSync(path.dirname(hdPath), { recursive: true });
         fs.copyFileSync(refPath, hdPath);
         try {
-            await smoke('hd');
+            await smoke(fallback, 'hd', fallback.hd);
         } finally {
             fs.rmSync(hdPath, { force: true });
         }
-        await smoke('ref');
+        await smoke(fallback, 'ref', fallback.ref);
         cdp.close();
     } catch (err) {
         failed = err;
