@@ -29,7 +29,12 @@
 
             function numAttr(name) {
                 var q = new URLSearchParams(location.search);
-                return Number(q.get(name));
+                var raw = q.get(name);
+                if (raw == null || raw === '') {
+                    return null;
+                }
+                var n = Number(raw);
+                return isFinite(n) ? n : null;
             }
 
             BayeHdPortraits.loadManifest().then(function (manifest) {
@@ -49,11 +54,11 @@
                     if (!entry || entry.missing) {
                         continue;
                     }
-                    if (wantId && entry.personId === wantId && entry.period === wantPeriod) {
+                    if (wantId != null && entry.personId === wantId && entry.period === wantPeriod) {
                         pilot = entry;
                         break;
                     }
-                    if (!wantId && entry.name === '马腾' && entry.period === 1) {
+                    if (wantId == null && entry.name === '马腾' && entry.period === 1) {
                         pilot = entry;
                     }
                 }
