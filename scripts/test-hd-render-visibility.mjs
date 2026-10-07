@@ -26,9 +26,9 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
     const march = { pick: 0, battlePick: 0, mapInputSeq: 1, mapCity: 1 };
     const report = { active: 0, inputSeq: 1 };
     const positions = Array.from({ length: 20 }, () => ({ x: 0, y: 0, state: 8, active: 0, hp: 0 }));
-    positions[0] = { x: 1, y: 1, state: 0, active: 0, hp: 100 };
-    positions[1] = { x: 4, y: 2, state: 0, active: 0, hp: 100 };
-    positions[10] = { x: 5, y: 3, state: 0, active: 0, hp: 100 };
+    positions[0] = { x: 1, y: 1, state: 0, active: 0, hp: 180, mp: 75 };
+    positions[1] = { x: 4, y: 2, state: 0, active: 0, hp: 100, mp: 42 };
+    positions[10] = { x: 5, y: 3, state: 0, active: 0, hp: 100, mp: 30 };
     const generals = Array(20).fill(0); generals[0] = 1; generals[1] = 2; generals[10] = 3;
     const data = {
         g_PlayerKing: 0, g_PIdx: 1, g_YearDate: 190, g_MonthDate: 1,
@@ -36,13 +36,16 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         g_hdFightActCommit: 255, g_FoucsX: 1, g_FoucsY: 1, g_MapWid: 8, g_MapHgt: 8,
         g_FgtParam: { GenArray: generals }, g_GenPos: positions,
         g_FightMap: Array(64).fill(1), g_FightPath: Array(225).fill(255),
+        g_FgtAtkRng: [8, 0, 0, ...Array(64).fill(0)],
         g_Persons: [{ Arms: 100 }, { Arms: 100 }, { Arms: 100 }],
         g_Cities: [{ Belong: 1 }, { Belong: 3 }],
         g_CityPositions: [{ x: 1, y: 1 }, { x: 4, y: 2 }],
         g_CityPos: { setx: 1, sety: 1, x: 0, y: 0 },
         g_engineConfig: { responseNoteOfBettle: 0 }
     };
-    const canvasStats = { overworld: { paints: 0, labels: [] }, battle: { paints: 0, labels: [] } };
+    const armTypes = [0, 1, 2], armTypeCalls = [];
+    const canvasStats = { overworld: { paints: 0, labels: [], strokes: [] },
+        battle: { paints: 0, labels: [], strokes: [] } };
     function element(id) {
         const attrs = new Map(), handlers = new Map();
         return {
@@ -62,9 +65,16 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
     for (const name of modules) {
         const root = element(`hd-${name}`), canvas = element(`hd-${name}-canvas`);
         const stats = canvasStats[name];
+        let points = [], dash = [];
         const ctx = new Proxy({
-            clearRect() { stats.paints++; stats.labels = []; },
+            clearRect() { stats.paints++; stats.labels = []; stats.strokes = []; },
             fillText(text) { stats.labels.push(String(text)); },
+            beginPath() { points = []; },
+            moveTo(x, y) { points.push([x, y]); },
+            lineTo(x, y) { points.push([x, y]); },
+            setLineDash(value) { dash = Array.from(value); },
+            stroke() { stats.strokes.push({ points: points.map(point => [...point]), dash: [...dash],
+                color: this.strokeStyle, alpha: this.globalAlpha, width: this.lineWidth }); },
             measureText: text => ({ width: String(text).length * 10 }),
             createLinearGradient: () => ({ addColorStop() {} })
         }, { get(target, key) { return key in target ? target[key] : (() => {}); } });
@@ -88,6 +98,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         data, ensureData: () => data, hooks: { fightOpenMainMenu: originalMenu },
         callHook(name) { return this.hooks[name]?.(); }, hdCityLimit: () => data.g_Cities.length,
         getCityName: id => ['洛阳', '许昌'][id], getPersonName: id => ['主将', '副将', '敌将'][id],
+        getArmType: id => { armTypeCalls.push(id); return armTypes[id]; },
         hd: { ready: () => true, fight: () => ({ ...fight }),
             menuItems: () => ({ ...menu, names: [...menu.names] }), march: () => ({ ...march }),
             report: () => ({ ...report }), reportText: () => '' },
@@ -125,7 +136,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
     function start() { world?.start(); battle?.start(); battle?.onEngineFight(); }
     start();
     return {
-        context, document, fight, menu, march, report, data, baye, sent, saved,
+        context, document, fight, menu, march, report, data, baye, sent, saved, armTypes, armTypeCalls,
         world, battle, frames, timers, intervals, canvasStats, originalMenu, start,
         listenerCount: () => (listeners.get('visibilitychange') ?? []).length,
         setHidden(value) {
@@ -348,4 +359,126 @@ test('overworld city-entry ACK work continues while painting is hidden and resum
     h.tick(40);
     assert.deepEqual(h.sent, [0x23, K.RIGHT], 'the original ACK timer observes movement and continues entry');
     assert.equal(h.world.debugSnapshot().aligning, true);
+});
+
+test('battle pennants render all six effective native arm types, including type zero', () => {
+    const h = browser({ modules: ['battle'] });
+    h.data.g_Persons[0].ArmsType = 5;
+    for (const [type, glyph, name] of [[0, '骑', '骑兵'], [1, '步', '步兵'], [2, '弓', '弓兵'],
+        [3, '水', '水军'], [4, '极', '极兵'], [5, '玄', '玄兵']]) {
+        h.armTypes[0] = type;
+        const nativeBefore = JSON.stringify({ data: h.data, fight: h.fight });
+        h.frame();
+        assert.ok(h.canvasStats.battle.labels.includes(glyph));
+        assert.ok(h.canvasStats.battle.labels.some(label => label.includes('主将 · ' + name + ' · 兵 100')));
+        assert.equal(h.battle.debugSnapshot().unitList[0].armType, type);
+        assert.equal(h.canvasStats.battle.strokes.filter(stroke => stroke.points.length === 5).length, 3,
+            'each living general has a pennant outline');
+        assert.equal(JSON.stringify({ data: h.data, fight: h.fight }), nativeBefore);
+    }
+    assert.deepEqual(h.sent, []);
+});
+
+test('battle focus details refresh exact native troops, HP, MP and action states without max assumptions', () => {
+    const h = browser({ modules: ['battle'] });
+    Object.assign(h.data.g_GenPos[0], { hp: 180, mp: 175, active: 1 });
+    h.data.g_Persons[0].Arms = 12345;
+    h.frame();
+    assert.ok(h.canvasStats.battle.labels.includes('兵 12345'));
+    assert.ok(h.canvasStats.battle.labels.includes('已'));
+    assert.ok(h.canvasStats.battle.labels.some(label => label.includes('兵 12345 · HP 180 · MP 175 · 已行动')));
+    const pennant = h.canvasStats.battle.strokes.find(stroke => stroke.points.length === 5);
+    assert.equal(pennant.alpha, 0.58, 'spent units are visibly subdued');
+    Object.assign(h.data.g_GenPos[0], { hp: 69, mp: 4, active: 0 });
+    h.data.g_Persons[0].Arms = 900;
+    Object.assign(h.fight, { inputKind: 2, actorIndex: 0, inputSeq: h.fight.inputSeq + 1 });
+    h.frame();
+    assert.ok(h.canvasStats.battle.labels.includes('行'));
+    assert.ok(h.canvasStats.battle.labels.some(label => label.includes('兵 900 · HP 69 · MP 4 · 待行动')));
+    assert.equal(h.canvasStats.battle.strokes.find(stroke => stroke.points.length === 5).width, 3);
+    assert.equal(h.battle.debugSnapshot().unitList[0].mp, 4);
+    assert.deepEqual(h.sent, []);
+});
+
+test('missing or invalid arm types and MP retain a generic visible unit; dead generals disappear', () => {
+    const h = browser({ modules: ['battle'] });
+    delete h.data.g_GenPos[0].mp;
+    for (const value of [null, undefined, -1, 6, 1.5, NaN]) {
+        h.armTypes[0] = value; h.frame();
+        assert.equal(h.battle.debugSnapshot().unitList[0].armType, null);
+        assert.ok(h.canvasStats.battle.labels.includes('兵'));
+        assert.ok(h.canvasStats.battle.labels.some(label => label.includes('主将 · 兵种未知 · 兵 100 · HP 180 · MP —')));
+    }
+    h.baye.getArmType = () => { throw new Error('missing native getter'); };
+    h.frame();
+    assert.ok(h.canvasStats.battle.labels.includes('主将'));
+    h.data.g_GenPos[0].state = 8; h.frame();
+    assert.ok(!h.canvasStats.battle.labels.some(label => label.includes('主将')));
+    assert.equal(h.canvasStats.battle.strokes.filter(stroke => stroke.points.length === 5).length, 2);
+    assert.deepEqual(h.sent, []);
+});
+
+test('large native roster IDs never truncate through the U8 effective arm type export', () => {
+    const h = browser({ modules: ['battle'] });
+    h.data.g_FgtParam.GenArray[0] = 256;
+    h.data.g_Persons[255] = { Arms: 876, ArmsType: 0 };
+    h.armTypes[255] = 5;
+    h.armTypeCalls.length = 0; h.frame();
+    assert.ok(h.armTypeCalls.includes(255));
+    assert.equal(h.battle.debugSnapshot().unitList[0].armType, 5);
+    h.data.g_FgtParam.GenArray[0] = 257;
+    h.data.g_Persons[256] = { Arms: 1234, ArmsType: 4 };
+    h.armTypeCalls.length = 0; h.frame();
+    assert.ok(h.armTypeCalls.every(index => index <= 255));
+    assert.equal(h.battle.debugSnapshot().unitList[0].armType, null);
+    assert.ok(h.canvasStats.battle.labels.includes('兵'));
+    assert.ok(h.canvasStats.battle.labels.includes('兵 1234'));
+    assert.deepEqual(h.sent, []);
+});
+
+test('passive attack preview uses the native wrapped range mask and rejects empty, friendly or blocked cells', () => {
+    const h = browser({ modules: ['battle'] }), size = 5;
+    Object.assign(h.data.g_GenPos[10], { x: 1, y: 2 });
+    Object.assign(h.data, { g_FoucsX: 1, g_FoucsY: 2 });
+    Object.assign(h.fight, { inputKind: 5, actorIndex: 0, aimType: 0, inputSeq: h.fight.inputSeq + 1 });
+    h.data.g_FgtAtkRng = [size, 255, 255, ...Array(size * size).fill(0)];
+    const targetCell = 3 + 2 + 3 * size;
+    h.data.g_FgtAtkRng[targetCell] = 1;
+    const nativeBefore = JSON.stringify({ data: h.data, fight: h.fight });
+    h.frame();
+    const lines = () => h.canvasStats.battle.strokes.filter(stroke => stroke.dash.length);
+    assert.equal(lines().length, 1);
+    assert.deepEqual(lines()[0].points, [[410, 244.5], [410, 359.5]],
+        'line endpoints match the unchanged board coordinates');
+    assert.ok(h.canvasStats.battle.labels.some(label => label.startsWith('攻击目标：敌将')));
+    assert.equal(JSON.stringify({ data: h.data, fight: h.fight }), nativeBefore);
+    for (const value of [0, 2, 255]) {
+        h.data.g_FgtAtkRng[targetCell] = value; h.frame();
+        assert.equal(lines().length, 0);
+        assert.ok(!h.canvasStats.battle.labels.some(label => label.startsWith('攻击目标：')));
+    }
+    h.data.g_FoucsY = 1;
+    h.data.g_FgtAtkRng[3 + 2 + 2 * size] = 1; h.frame();
+    assert.equal(lines().length, 0, 'a friendly unit is not a normal attack target');
+    h.data.g_FoucsX = 0; h.data.g_FoucsY = 0;
+    h.data.g_FgtAtkRng[3 + 1 + size] = 1; h.frame();
+    assert.equal(lines().length, 0, 'an allowed but unoccupied cell is not a target');
+    assert.deepEqual(h.sent, []);
+});
+
+test('skill preview describes a friendly unit only as in range and retires under native report ownership', () => {
+    const h = browser({ modules: ['battle'] });
+    Object.assign(h.fight, { inputKind: 5, actorIndex: 0, aimType: 1, inputSeq: h.fight.inputSeq + 1 });
+    Object.assign(h.data, { g_FoucsX: 4, g_FoucsY: 2 });
+    h.data.g_FgtAtkRng[3 + 4 + 2 * 8] = 1;
+    h.frame();
+    assert.equal(h.canvasStats.battle.strokes.filter(stroke => stroke.dash.length).length, 1);
+    assert.ok(h.canvasStats.battle.labels.some(label => label.startsWith('射程内目标：副将')));
+    h.report.active = 1;
+    const nativeBefore = JSON.stringify({ data: h.data, fight: h.fight, report: h.report });
+    h.frame();
+    assert.equal(h.canvasStats.battle.strokes.filter(stroke => stroke.dash.length).length, 0);
+    assert.ok(!h.canvasStats.battle.labels.some(label => label.startsWith('射程内目标：')));
+    assert.equal(JSON.stringify({ data: h.data, fight: h.fight, report: h.report }), nativeBefore);
+    assert.deepEqual(h.sent, []);
 });

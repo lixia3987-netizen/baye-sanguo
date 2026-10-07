@@ -6,7 +6,7 @@
 **素材现状（分支内）：** HD 视觉地理以 Wikimedia **China LCC topographic map - Without border**（Flappiefh / Augusta 89，CC BY-SA 4.0，eqdc）为**主参考**（见 `GEOGRAPHY.md` 与 [china-lcc-city-alignment.md](china-lcc-city-alignment.md)）。可玩底图是该 SVG **全幅、无南裁** 的 3840×3309 栅格，南侧垫海到 3840×4000（含海南 / 南海南沙一带；源图已无标注）。1080p 画布是可拖动摄像机窗口，开局对准中东部（西凉–襄平–建业–成都），**不把全国塞进一屏**。**城标按史实经纬度投影到全图地图坐标**，绘制 / 点选用 `map - camera`。建安郡国图仅作可选史实对照。引擎 ID / `g_CityPositions` 只用于规则与入城对齐。其它层仍是 AI 占位。**不是**步步高原作美术。  
 **分支策略：本轨道只停在 `feature/hd-graphics`，在用户明确要求之前不要合入 `main`。**
 
-状态：产品方向已锁定；史实向地形已进本分支。**P0–P3 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网。邻接来自 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。关隘只标在路中点压到河叠加处。缺口见 §8–§9 与 FEATURES.md。
+状态：产品方向已锁定；史实向地形已进本分支。**P0–P3 已在本分支落地（P2 partial）**：P1 城态/点选仍在；P2 在地形与城标之间画路网，邻接可能来自地理近邻或 `g_CityPositions` 的格邻接（Chebyshev≤1），不是引擎出征表。M4 将这些装饰道路统一画为低调虚线，不随选城显示可达高亮；河叠加处的标记仅作装饰。左下角图例显示当前势力和无主城数量，缺失或未识别归属另行标注。缺口见 §8–§9 与 FEATURES.md。
 
 ---
 

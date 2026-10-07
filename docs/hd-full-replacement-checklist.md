@@ -11,14 +11,14 @@
 | **选时期** | **HD done** | 董卓弄权四时期 |
 | **选君主 / 势力形势图** | **HD done** | `GetAllKings` 写入 `g_hdKingIds`（董卓弄权 18 人：马腾/董卓/曹操…）；高亮 `g_hdKingIndex`。形势图底图仍可开 LCD 对照 |
 | 开场动画 | **HD done** | `PlcMovie(MAIN_SPE)` 每帧 blit `#lcd` → `#hd-spe-canvas` 11×（1760×1056）。「跳过」绝对定位在画布之上、`pointer-events:auto`；回车/空格/Esc 捕获后发回车。结束后关层并 `pointer-events:none`，不挡城菜单。经典模式仍只走 160×96 LCD |
-| **大地图** | **HD done** | P0–P3 |
+| **大地图** | **HD done** | P0–P3；M4 图例显示实际势力与无主城数量，装饰道路使用虚线，不表示出征可达性 |
 | **城池根 / 一层 / 状况** | **HD done** | 开城逐键等待真实地图光标和城号；原生 city root 激活后才开放 HD 菜单，子菜单等待索引与 menu seq 回执 |
 | **人物选择** | **HD done** | 以真实人物队列显示名单，以 person 菜单 kind/index/seq 提交选择；不能把残留文本菜单当作人物名单 |
 | **出征 / 外交目标城** | **HD done** | 出征依据 session/phase/inputSeq 完成选将、粮草与提示；点击目标只选中，确认后等待真实 AddFightOrder 回执；地图地理像素只用于显示 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 发布真实 session/字符回执/cursor/step；按钮与键盘串行，确认等待 ACK，取消与切模式防止旧键泄漏。真实快速加减、边界、无变化数字/光标键和排队确认征兵已核对预备兵、钱及订单。旧桥保留定时队列，数字键 `0x40–0x49` 沿用原生规则；性能长尾仍待优化 |
 | **报告 / 对话** | **HD done** | 按真实报告等待状态和输入序号显示、确认，战斗中的报告优先接收输入；嵌套报告返回时恢复正文并换令牌。纯定时报告不显示确认按钮；出征目标选择不挡点城。继任菜单已接真实人物下标，完整继任场景仍待浏览器验收 |
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
-| **战场格网 / 单位** | **HD done** | 读取实际 `g_FightMap` / `g_GenPos`，移动范围与瞄准读取真实引擎数组；渲染不提交行动 |
+| **战场格网 / 单位** | **HD done** | 读取实际 `g_FightMap` / `g_GenPos`；兵种旗标、兵力和行动状态来自原生数据，焦点显示实际 HP/MP。移动范围与瞄准读取真实引擎数组，目标连线不提交行动或预测伤害 |
 | **战场系统菜单** | **HD done** | HD hook 返回 `-2` 打开实际五项菜单；经典恢复原 hook。五项菜单、设置取消、撤退确认取消与经典/HD 切换已通过；M3 已连续三次显式确认撤退，均得到原生 `over=2` 并回图，守方归属保持不变 |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
 | **计谋 / 开场 SPE** | **HD done** | `g_hdSpe*` + LCD 整数倍 overlay。`践踏`→`QIBING_SPE`；`谍报` 无 SPE id 时引擎不播（不编造）。规格 [hd-spe-spec.md](hd-spe-spec.md) |

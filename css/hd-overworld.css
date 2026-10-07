@@ -86,6 +86,56 @@ html[data-baye-overworld="hd-map"] body.baye-hd-overworld-aligning #hd-overworld
     color: #d5dbe6;
 }
 
+.hd-overworld-legend {
+    display: none;
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    max-width: calc(100% - 36px);
+    padding: 10px 14px;
+    border: 1px solid rgba(213, 219, 230, 0.2);
+    border-radius: 8px;
+    background: rgba(14, 17, 22, 0.88);
+    color: #e3e6eb;
+    font: 14px/1.4 BayeUI, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+    pointer-events: none;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-map .hd-overworld-legend {
+    display: flex;
+}
+
+.hd-overworld-legend-item,
+.hd-overworld-legend-road {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.hd-overworld-legend-item::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    flex: none;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    background: var(--city-swatch, #8a8f98);
+}
+
+.hd-overworld-legend-road {
+    color: #c6bda9;
+}
+
+.hd-overworld-legend-road::before {
+    content: "";
+    width: 26px;
+    flex: none;
+    border-top: 2px dashed #ad9978;
+}
+
 html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar {
     position: fixed;
     top: 8px;

@@ -59,6 +59,10 @@
         ctx: null,
         hudLeft: null,
         hudRight: null,
+        legendOwned: null,
+        legendNeutral: null,
+        legendEmpty: null,
+        legendSignature: '',
         manifest: null,
         images: {},
         palette: DEFAULT_PALETTE,
@@ -1464,41 +1468,23 @@
         return guessCurrentCity();
     }
 
-    function isReachableEdge(edge, focus) {
-        return focus >= 0 && (edge.a === focus || edge.b === focus);
-    }
-
     function drawRoads(ctx) {
         var roads = state.roads && state.roads.edges ? state.roads.edges : [];
         if (!roads.length) {
             return;
         }
-        var focus = focusCityIndex();
-        var pattern = null;
-        if (state.images['road:stroke'] && state.ctx) {
-            try {
-                pattern = ctx.createPattern(state.images['road:stroke'], 'repeat');
-            } catch (e) {
-                pattern = null;
-            }
-        }
+        /* Geography and tile adjacency are presentation data, not the engine's
+         * march table. Selection must never turn these lines into route claims. */
+        ctx.save();
+        ctx.setLineDash([12, 10]);
         var i;
         for (i = 0; i < roads.length; i++) {
-            strokeRoad(ctx, roads[i], 7, 'rgba(42, 30, 18, 0.55)');
+            strokeRoad(ctx, roads[i], 5, 'rgba(42, 30, 18, 0.35)');
         }
         for (i = 0; i < roads.length; i++) {
-            if (isReachableEdge(roads[i], focus)) {
-                continue;
-            }
-            strokeRoad(ctx, roads[i], 5, pattern || '#8b6a45');
+            strokeRoad(ctx, roads[i], 3, 'rgba(173, 153, 120, 0.75)');
         }
-        for (i = 0; i < roads.length; i++) {
-            if (!isReachableEdge(roads[i], focus)) {
-                continue;
-            }
-            strokeRoad(ctx, roads[i], 10, 'rgba(255, 228, 140, 0.35)');
-            strokeRoad(ctx, roads[i], 8, '#f0c75a');
-        }
+        ctx.restore();
         var passImg = state.images['road:pass'];
         for (i = 0; i < roads.length; i++) {
             if (!roads[i].pass) {
@@ -1541,17 +1527,11 @@
 
     function drawCities(ctx, now) {
         var cities = state.cities;
-        var focus = focusCityIndex();
         for (var i = 0; i < cities.length; i++) {
             var city = cities[i];
             var scr = toScreen(city.hdX, city.hdY);
             var selected = city.index === state.selectedIndex;
             var hover = city.index === state.hoverIndex && hitsEnabled();
-            var neighbor = !selected && focus >= 0 && city.index !== focus &&
-                state.roads && state.roads.edges && state.roads.edges.some(function (edge) {
-                    return (edge.a === focus && edge.b === city.index) ||
-                        (edge.b === focus && edge.a === city.index);
-                });
             var flash = enterFxAmount(city.index, now);
             var base = markerImage(city.kind, false);
             var sel = selected ? markerImage(city.kind, true) : null;
@@ -1585,14 +1565,6 @@
             ctx.lineWidth = selected ? 5 : (city.kind === 'owned' ? 4 : 3);
             ctx.arc(scr.x, scr.y + 2, selected ? 32 : (city.kind === 'owned' ? 28 : 24), 0, Math.PI * 2);
             ctx.stroke();
-
-            if (neighbor) {
-                ctx.beginPath();
-                ctx.strokeStyle = 'rgba(240,199,90,0.7)';
-                ctx.lineWidth = 2;
-                ctx.arc(scr.x, scr.y + 2, 30, 0, Math.PI * 2);
-                ctx.stroke();
-            }
 
             if (hover) {
                 ctx.beginPath();
@@ -1752,6 +1724,34 @@
         return '';
     }
 
+    function updateMapLegend(counts, colors) {
+        if (!state.legendOwned || !state.legendNeutral || !state.legendEmpty) {
+            return;
+        }
+        var palette = activePalette();
+        var ownedColor = colors.owned[0] || palette.player;
+        var emptyColor = colors.empty[0] || palette.empty;
+        var neutralColors = colors.neutral.length ? colors.neutral : [palette.empty];
+        var signature = [counts.owned, counts.neutral, counts.empty, counts.unknown,
+            ownedColor, emptyColor, neutralColors.join(',')].join('|');
+        if (signature === state.legendSignature) {
+            return;
+        }
+        state.legendSignature = signature;
+        state.legendOwned.textContent = '己方 ' + counts.owned;
+        state.legendNeutral.textContent = '其他势力 ' + counts.neutral;
+        state.legendEmpty.textContent = '无主城 ' + counts.empty +
+            (counts.unknown ? ' · 归属未知 ' + counts.unknown : '');
+        state.legendOwned.style.setProperty('--city-swatch', ownedColor);
+        state.legendEmpty.style.setProperty('--city-swatch', emptyColor);
+        var bands = [];
+        for (var i = 0; i < neutralColors.length; i++) {
+            bands.push(neutralColors[i] + ' ' + (i * 100 / neutralColors.length) + '% ' +
+                ((i + 1) * 100 / neutralColors.length) + '%');
+        }
+        state.legendNeutral.style.setProperty('--city-swatch', 'linear-gradient(90deg, ' + bands.join(', ') + ')');
+    }
+
     function updateHud() {
         if (!state.hudLeft || !state.hudRight) {
             return;
@@ -1772,18 +1772,30 @@
         var extra = state.hint || '';
         var roadN = state.roads && state.roads.edges ? state.roads.edges.length : 0;
         var passN = state.roads && state.roads.passes ? state.roads.passes : 0;
-        var roadBit = roadN ? (roadN + ' 路') : '无路网';
+        var roadBit = roadN ? (roadN + ' 条装饰道路') : '无装饰道路';
         if (passN) {
-            roadBit += '/' + passN + ' 关';
+            roadBit += '/' + passN + ' 过河标记';
         }
         var hoverCity = hitsEnabled() && validCityIndex(state.hoverIndex) ? state.cities[state.hoverIndex] : null;
-        var ownedN = 0;
+        var counts = { owned: 0, neutral: 0, empty: 0, unknown: 0 };
+        var colors = { owned: [], neutral: [], empty: [] };
         var oi;
         for (oi = 0; oi < state.cities.length; oi++) {
-            if (state.cities[oi].kind === 'owned') {
-                ownedN += 1;
+            var city = state.cities[oi];
+            if (counts[city.kind] !== undefined) {
+                /* The old gray marker also covers missing data and legacy
+                 * sentinels. Only a native zero owner verifies an unowned city. */
+                var rawOwner = city.city && city.city.Belong;
+                var kind = city.kind === 'empty' &&
+                    (rawOwner === undefined || rawOwner === null || Number(rawOwner) !== 0)
+                    ? 'unknown' : city.kind;
+                counts[kind] += 1;
+                if (city.color && colors[city.kind].indexOf(city.color) < 0) {
+                    colors[city.kind].push(city.color);
+                }
             }
         }
+        updateMapLegend(counts, colors);
         if (hoverCity) {
             var ownerName = '';
             try {
@@ -1796,7 +1808,7 @@
                 '  ·  ' + extra;
         }
         /* 总城恒 38；占领后变的是己方数（天水 1 → 河内后 2），不是 38→39。 */
-        state.hudRight.textContent = '己方 ' + ownedN + '/' + n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
+        state.hudRight.textContent = '己方 ' + counts.owned + '/' + n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
     }
 
     function draw() {
@@ -3658,6 +3670,10 @@
         state.canvas = document.getElementById('hd-overworld-canvas');
         state.hudLeft = document.getElementById('hd-overworld-hud-left');
         state.hudRight = document.getElementById('hd-overworld-hud-right');
+        state.legendOwned = document.getElementById('hd-overworld-legend-owned');
+        state.legendNeutral = document.getElementById('hd-overworld-legend-neutral');
+        state.legendEmpty = document.getElementById('hd-overworld-legend-empty');
+        state.legendSignature = '';
         if (state.canvas) {
             state.ctx = state.canvas.getContext('2d');
             if (state.ctx) {

@@ -409,6 +409,27 @@ async function menuChoice(cdp,name,kind) {
     assert.equal(result.ok,true,'actual menu choice '+name);
     if(kind) await waitBattle(cdp,kind,'menu choice '+name);
 }
+async function focusBattleTarget(cdp, target, label) {
+    for (let step = 0; step < 128; step++) {
+        const focus = await evaluate(cdp, '({x:Number(baye.data.g_FoucsX),y:Number(baye.data.g_FoucsY)})');
+        if (focus.x === target.x && focus.y === target.y) {
+            const keys = await evaluate(cdp, 'window.__battleKeys.length');
+            await delay(250);
+            assert.equal(await evaluate(cdp, 'window.__battleKeys.length'), keys, 'target preview cannot confirm or send keys');
+            await checkpoint(cdp, label);
+            return;
+        }
+        const direction = focus.x !== target.x ? (focus.x < target.x ? 'ArrowRight' : 'ArrowLeft') :
+            (focus.y < target.y ? 'ArrowDown' : 'ArrowUp');
+        await key(cdp, direction);
+        await waitFor(cdp, 'target cursor native acknowledgement', `(() => {
+            const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();
+            return f.inputKind===5&&!s.transaction&&
+                (Number(baye.data.g_FoucsX)!==${focus.x}||Number(baye.data.g_FoucsY)!==${focus.y});
+        })()`);
+    }
+    throw new Error('Target preview cursor did not reach the native target');
+}
 async function manualCombat(cdp) {
     const before=await evaluate(cdp,battleStateExpression);
     const actor=before.units.find(u=>u.side==='player'&&u.active===0);
@@ -483,6 +504,7 @@ async function attemptAttack(cdp,actor) {
     const targets=(await evaluate(cdp,rangedUnitsExpression)).filter(u=>u.side==='enemy'&&u.arms>0);
     if(!targets.length) {await action(cdp,'cancel-attack-no-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'return from unavailable attack');return false;}
     const target=targets.sort((a,b)=>a.arms-b.arms)[0],before=await evaluate(cdp,battleStateExpression);
+    await focusBattleTarget(cdp,target,'29-attack-target-preview');
     const result=await action(cdp,'confirm-attack-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
     await waitFor(cdp,'actual attack resolves',`(() => {const f=baye.hd.fight();return f.over||f.inputKind===1;})()`,30000);
     const after=await evaluate(cdp,battleStateExpression),enemy=after.units.find(u=>u.i===target.i);
@@ -509,6 +531,7 @@ async function attemptSkill(cdp,actor) {
                 await menuChoice(cdp,name,4);continue;
             }
             const target=targets[0];
+            await focusBattleTarget(cdp,target,'30-skill-target-preview-'+(report.skillAttempts?.length||0));
             const result=await action(cdp,'confirm-skill-'+skill.name+'-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);assert.equal(result.ok,true);
             await waitFor(cdp,'actual skill resolves',`baye.hd.fight().over||baye.hd.fight().inputKind===1`,30000);
         }

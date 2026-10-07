@@ -7,9 +7,12 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261007f';
+    var HD_BATTLE_VER = '20261007g';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
+    var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
+    var ARM_GLYPHS = ['骑', '步', '弓', '水', '极', '玄'];
+    var UNIT_STATES = ['正常', '混乱', '禁咒', '定身', '奇门', '遁甲', '石阵', '潜踪', '死亡'];
     var state = {
         open: false, preview: false, bound: false, showLcd: false, loopId: 0, visibilityBound: false,
         lastHook: '', lastHookAt: 0, readDepth: 0, refreshing: false,
@@ -92,6 +95,18 @@
         var data = engineData();
         return id && data && data.g_Persons ? readNumber(data.g_Persons[id - 1], 'Arms') : null;
     }
+    function peekPersonArmType(id) {
+        try {
+            // The native getter includes equipped tools that change a unit's arm type.
+            // The current native export takes a U8 index. Larger roster IDs must
+            // stay unknown rather than silently reading another person's tools.
+            if (!id || id > 256 || typeof baye.getArmType !== 'function') { return null; }
+            var value = baye.getArmType(id - 1);
+            if (value == null) { return null; }
+            value = Number(value);
+            return value >= 0 && value < ARM_NAMES.length && value === Math.floor(value) ? value : null;
+        } catch (e) { return null; }
+    }
     function unitAt(x, y) {
         for (var i = 0; i < state.units.length; i += 1) {
             var unit = state.units[i];
@@ -102,6 +117,31 @@
     function selectable(unit) {
         return !!(unit && unit.side === 'player' && unit.active === 0 &&
             unit.state !== 8 && unit.state !== 1 && unit.state !== 6);
+    }
+    function actorUnit(index) {
+        for (var i = 0; i < state.units.length; i += 1) {
+            if (state.units[i].i === index && state.units[i].state !== 8) { return state.units[i]; }
+        }
+        return null;
+    }
+    function unitStatus(unit) {
+        if (unit.state != null && unit.state !== 0) { return UNIT_STATES[unit.state] || '状态未知'; }
+        if (unit.active === 1) { return '已行动'; }
+        return selectable(unit) ? '待行动' : (UNIT_STATES[unit.state] || '状态未知');
+    }
+    function unitDetails(unit) {
+        return (unit.name || '#' + unit.i) + ' · ' + (ARM_NAMES[unit.armType] || '兵种未知') +
+            ' · 兵 ' + (unit.arms == null ? '—' : unit.arms) +
+            ' · HP ' + (unit.hp == null ? '—' : unit.hp) +
+            ' · MP ' + (unit.mp == null ? '—' : unit.mp) + ' · ' + unitStatus(unit);
+    }
+    function aimPreview(snap) {
+        if (state.preview || !snap.ready || snap.kind !== INPUT.AIM || !snap.focus) { return null; }
+        var actor = actorUnit(snap.actor), target = unitAt(snap.focus.x, snap.focus.y);
+        if (!actor || !target || !legalEnter(snap.focus, target, snap.fight)) { return null; }
+        // A skill can still fail native side, terrain or MP checks after confirmation.
+        return { actor: actor, target: target,
+            label: Number(snap.fight.aimType) === 1 ? '射程内目标' : '攻击目标' };
     }
     function engineFocusTile() {
         var data = engineData(), x = readNumber(data, 'g_FoucsX'), y = readNumber(data, 'g_FoucsY');
@@ -426,15 +466,16 @@
         }
         var root = el('hd-battle');
         if (root) { root.classList.toggle('is-open', show); root.setAttribute('aria-hidden', show ? 'false' : 'true'); }
-        var actor = null;
-        for (var i = 0; i < state.units.length; i += 1) { if (state.units[i].i === snap.actor) { actor = state.units[i]; break; } }
+        var actor = actorUnit(snap.actor);
         var guidance = { 0: '正在处理战场行动…', 1: '选择己方将领', 2: '选择移动位置（可选择原地）',
             3: '选择将领行动', 4: '选择计谋', 5: '选择射程内目标', 6: '战场系统', 7: '确认全军撤退', 8: '选择战场设置',
             9: '查看将领信息 · Enter / Esc 返回', 10: '战场形势 · 箭头翻页，Enter / Esc 返回' };
         var hud = el('hd-battle-hud');
-        if (hud) { hud.textContent = state.preview ? 'HD 战场预览' :
-            (actor && actor.name ? actor.name + ' · ' : '') + (guidance[snap.kind] || '等待引擎战场数据…') +
-            (state.transaction ? ' · 等待操作完成' : ''); }
+        if (hud) {
+            hud.textContent = state.preview ? 'HD 战场预览' :
+                (actor && actor.name ? actor.name + ' · ' : '') + (guidance[snap.kind] || '等待引擎战场数据…') +
+                (state.transaction ? ' · 等待操作完成' : '');
+        }
         var tip = el('hd-battle-tip');
         if (tip) { tip.hidden = !state.fightTip; tip.textContent = state.fightTip; }
         var banner = el('hd-battle-result');
@@ -819,7 +860,9 @@
                 x: ux,
                 y: uy,
                 hp: readNumber(p, 'hp'),
+                mp: readNumber(p, 'mp'),
                 arms: peekPersonArms(id),
+                armType: peekPersonArmType(id),
                 active: readNumber(p, 'active'),
                 state: readNumber(p, 'state'),
                 side: i < 10 ? 'player' : 'enemy'
@@ -985,6 +1028,20 @@
                 cw - 4, ch - 4
             );
         }
+        var visualSnap = inputSnapshot(), targetPreview = aimPreview(visualSnap);
+        if (targetPreview && targetPreview.actor !== targetPreview.target &&
+            targetPreview.actor.x != null && targetPreview.actor.y != null) {
+            ctx.strokeStyle = 'rgba(255,207,116,0.92)';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([9, 7]);
+            ctx.beginPath();
+            ctx.moveTo(ox + (targetPreview.actor.x - viewOx + 0.5) * cw,
+                oy + (targetPreview.actor.y - viewOy + 0.5) * ch);
+            ctx.lineTo(ox + (targetPreview.target.x - viewOx + 0.5) * cw,
+                oy + (targetPreview.target.y - viewOy + 0.5) * ch);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
         var i;
         var drawn = 0;
         for (i = 0; i < state.units.length; i++) {
@@ -995,29 +1052,60 @@
             drawn += 1;
             var ux = ox + (u.x - viewOx + 0.5) * cw;
             var uy = oy + (u.y - viewOy + 0.5) * ch;
-            var rad = Math.min(cw, ch) * 0.3;
+            var size = Math.min(cw, ch), flagW = size * 0.58, flagH = size * 0.44;
+            var isActor = u.i === visualSnap.actor && visualSnap.kind !== INPUT.PICK;
+            var spent = u.active === 1, ready = selectable(u);
+            var focused = u.x === state.focus.x && u.y === state.focus.y;
+            // Pennants carry the engine's effective arm type. Unknown types
+            // retain a generic unit mark so missing data never hides a general.
+            ctx.globalAlpha = spent && !isActor ? 0.58 : 1;
+            ctx.fillStyle = 'rgba(0,0,0,0.28)';
+            ctx.fillRect(ux - flagW / 2 + 3, uy - flagH / 2 + 4, flagW, flagH);
             ctx.beginPath();
-            ctx.fillStyle = u.side === 'player' ? '#3d8bfd' : '#c43c3c';
-            ctx.arc(ux, uy, rad, 0, Math.PI * 2);
+            ctx.moveTo(ux - flagW / 2, uy - flagH / 2);
+            ctx.lineTo(ux + flagW / 2, uy - flagH / 2);
+            ctx.lineTo(ux + flagW / 2, uy + flagH * 0.32);
+            ctx.lineTo(ux, uy + flagH / 2);
+            ctx.lineTo(ux - flagW / 2, uy + flagH * 0.32);
+            ctx.closePath();
+            ctx.fillStyle = u.side === 'player' ? '#275f9d' : '#983d40';
             ctx.fill();
-            ctx.strokeStyle = u.active ? '#f4f7fb' : 'rgba(244,247,251,0.35)';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = isActor || focused ? '#f0c75a' : (ready ? '#a1d4ff' : '#c3a4a4');
+            ctx.lineWidth = isActor || focused ? 3 : 1.5;
             ctx.stroke();
-            if (u.hp != null) {
-                ctx.fillStyle = '#1b1f27';
-                ctx.fillRect(ux - rad, uy + rad * 0.55, rad * 2, 5);
-                ctx.fillStyle = '#6bcf7a';
-                ctx.fillRect(ux - rad, uy + rad * 0.55, rad * 2 * Math.max(0, Math.min(1, u.hp / 100)), 5);
-            }
-            ctx.fillStyle = '#f4f7fb';
-            ctx.font = '13px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText(u.name || ('#' + u.i), ux, uy - rad - 4);
+            ctx.fillStyle = '#fff2d7';
+            ctx.font = '700 ' + Math.max(9, Math.min(30, flagH * 0.64)) + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
+            ctx.fillText(ARM_GLYPHS[u.armType] || '兵', ux, uy + flagH * 0.17);
+            var badge = spent ? '已' : (isActor ? '行' : (ready ? '待' :
+                (u.state != null && u.state !== 0 ? (UNIT_STATES[u.state] || '?').charAt(0) : '')));
+            if (badge) {
+                ctx.font = '700 ' + Math.max(10, Math.min(14, size * 0.18)) + 'px BayeUI, sans-serif';
+                ctx.fillStyle = isActor ? '#f0c75a' : '#d2dae6';
+                ctx.fillText(badge, ux + flagW * 0.68, uy + flagH * 0.12);
+            }
+            ctx.globalAlpha = 1;
+            ctx.fillStyle = focused || isActor ? '#ffe1a0' : '#f4f7fb';
+            ctx.font = '600 ' + Math.max(9, Math.min(17, size * 0.15)) + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
+            ctx.fillText(u.name || ('#' + u.i), ux, uy - size * 0.29, cw - 8);
+            ctx.fillStyle = spent ? '#a0a8b5' : '#e0e6ef';
+            ctx.font = Math.max(9, Math.min(15, size * 0.14)) + 'px BayeUI, sans-serif';
+            ctx.fillText(u.arms == null ? '兵 —' : '兵 ' + u.arms, ux, uy + size * 0.39, cw - 8);
         }
         ctx.textAlign = 'left';
         ctx.font = '15px BayeUI, "Noto Sans CJK SC", sans-serif';
         ctx.fillStyle = '#9aa6b8';
-        ctx.fillText('蓝色：己方  红色：敌方  ·  点击将领、移动位置或目标  ·  Esc 取消', ox, oy + rows * ch + 28);
+        ctx.fillText('蓝：己方 · 红：敌方 · 待：可行动 · 已：已行动 · 行：当前将领', ox, oy + rows * ch + 18);
+        var focusUnit = visualSnap.focus && unitAt(visualSnap.focus.x, visualSnap.focus.y);
+        if (!state.preview && focusUnit) {
+            ctx.fillStyle = 'rgba(15,20,29,0.94)';
+            ctx.fillRect(ox + 650, DESIGN_H - 52, boardW - 650, 30);
+            ctx.textAlign = 'right';
+            ctx.fillStyle = '#e9d7ad';
+            ctx.font = '17px BayeUI, "Noto Sans CJK SC", sans-serif';
+            ctx.fillText((targetPreview ? targetPreview.label + '：' : '') + unitDetails(focusUnit),
+                ox + boardW - 8, DESIGN_H - 31, boardW - 666);
+        }
         if (!drawn) {
             ctx.fillStyle = 'rgba(243,246,251,0.82)';
             ctx.font = '22px BayeUI, "Noto Sans CJK SC", sans-serif';

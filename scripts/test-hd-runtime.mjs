@@ -330,6 +330,29 @@ async function quantitySmoke(cdp) {
         const map = BayeHdOverworld.debugSnapshot();
         return map.phase === 'map' && map.owned.length && map.owned[0];
     })()`);
+    const legend = await waitFor(cdp, 'visible map legend', `(() => {
+        const legend = document.getElementById('hd-overworld-legend');
+        if (!legend || getComputedStyle(legend).display !== 'flex') return false;
+        const labels = ['owned', 'neutral', 'empty'].map(kind => document.getElementById('hd-overworld-legend-' + kind).textContent);
+        if (labels.some(label => !label)) return false;
+        const cities = BayeHdOverworld.getCities(), king = Number(baye.data.g_PlayerKing) + 1;
+        return {
+            count: cities.length,
+            owned: cities.filter(city => Number(city.city.Belong) === king).length,
+            neutral: cities.filter(city => Number(city.city.Belong) !== 0 && Number(city.city.Belong) !== king).length,
+            unowned: cities.filter(city => Number(city.city.Belong) === 0).length,
+            labels,
+            roadLabel: legend.querySelector('.hd-overworld-legend-road').textContent,
+            pointerEvents: getComputedStyle(legend).pointerEvents
+        };
+    })()`);
+    assert.equal(legend.count, 38, 'original LIB keeps all 38 city anchors');
+    assert.deepEqual(legend.labels, ['己方 ' + legend.owned, '其他势力 ' + legend.neutral, '无主城 ' + legend.unowned]);
+    assert.equal(legend.owned + legend.neutral + legend.unowned, legend.count);
+    assert.equal(legend.pointerEvents, 'none', 'legend cannot intercept map clicks');
+    assert.equal(legend.roadLabel, '装饰道路，出征目标以引擎为准');
+    report.mapLegend = legend;
+    await checkpoint(cdp, '07-hd-map-legend');
     const opened = await evaluate(cdp, `BayeHdOverworld.walkToCity(${owned.i})`);
     assert.ok(opened, 'open an actual player-owned city through the map API');
     await waitFor(cdp, 'real city root menu', `BayeHdCityMenu.isOpen() && BayeHdCityMenu.getLayer() === 'root' && baye.hd.menuItems().names[0] === '内政'`);
