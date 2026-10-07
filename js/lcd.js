@@ -561,7 +561,7 @@ function redirect(page) {
     var now = new Date().getTime() / 1000;
     var name = getLibName();
     var hash = isMobile ? "#" + now : "";
-    var assetVer = (window.BAYE_ASSET_VER || '20261007d');
+    var assetVer = (window.BAYE_ASSET_VER || '20261007e');
     window.location.href = page + "?name=" + name + "&ver=" + encodeURIComponent(assetVer) + hash;
 }
 
@@ -875,7 +875,7 @@ Module.noInitialRun = true;
 Module.locateFile = function (path, prefix) {
     prefix = prefix || '';
     if (/\.(wasm|map)$/.test(path)) {
-        return prefix + path + '?ver=' + (window.BAYE_ASSET_VER || '20261007d');
+        return prefix + path + '?ver=' + (window.BAYE_ASSET_VER || '20261007e');
     }
     return prefix + path;
 };

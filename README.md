@@ -8,7 +8,7 @@
 
 不要直接双击 HTML。WASM 与跨域限制要求用本地 HTTP 服务。
 
-Node 开发环境使用 `.nvmrc` 指定的版本；首次运行 `npm ci`，然后 `npm start`。`npm test` 执行输入、战场指令、出征、结算、存档事务、C 协议、对话路由与立绘专项回归；真实引擎检查使用 `npm run test:runtime`、`npm run test:battle-runtime` 和 `npm run test:campaign-runtime -- --scenario save`。HD 后续计划与验收见 [docs/hd-development-plan.md](docs/hd-development-plan.md)，源码与 WASM 构建见 [docs/wasm-build.md](docs/wasm-build.md)。
+Node 开发环境使用 `.nvmrc` 指定的版本；首次运行 `npm ci`，然后 `npm start`。`npm test` 执行输入、战场指令、出征、结算、存档事务、C 协议、对话路由、立绘、后台绘制与性能统计专项回归；真实引擎检查使用 `npm run test:runtime`、`npm run test:battle-runtime` 和 `npm run test:campaign-runtime -- --scenario save`。`npm run test:performance` 记录固定 PC 视口的真实浏览器性能基线。HD 后续计划与验收见 [docs/hd-development-plan.md](docs/hd-development-plan.md)，源码与 WASM 构建见 [docs/wasm-build.md](docs/wasm-build.md)。
 
 ```bash
 # 方式 1：Python 3（无需安装 Node）

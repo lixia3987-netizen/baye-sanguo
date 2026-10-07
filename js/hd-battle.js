@@ -7,11 +7,11 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261007d';
+    var HD_BATTLE_VER = '20261007e';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var state = {
-        open: false, preview: false, bound: false, showLcd: false, loopId: 0,
+        open: false, preview: false, bound: false, showLcd: false, loopId: 0, visibilityBound: false,
         lastHook: '', lastHookAt: 0, readDepth: 0, refreshing: false,
         readingEngine: false, samplingFight: false, probed: false,
         units: [], tiles: [], focus: { x: null, y: null },
@@ -470,12 +470,37 @@
         } finally { state.refreshing = false; }
     }
     function loop() {
-        if (!state.open || !shouldShowHd()) { state.loopId = 0; return; }
+        if (document.hidden || !state.open || !shouldShowHd()) { return; }
+        if (!state.preview && !fightStrictActive()) { onEngineFight(); return; }
         refresh();
-        var epoch = modeEpoch;
-        state.loopId = global.requestAnimationFrame(function () { if (epoch === modeEpoch) { loop(); } });
+        ensureLoop();
     }
-    function ensureLoop() { if (state.open && !state.loopId) { loop(); } }
+    function ensureLoop() {
+        if (document.hidden || !state.open || !shouldShowHd() || state.loopId) { return; }
+        var epoch = modeEpoch;
+        var id = global.requestAnimationFrame(function () {
+            if (state.loopId !== id || epoch !== modeEpoch) { return; }
+            state.loopId = 0;
+            loop();
+        });
+        state.loopId = id;
+    }
+    function bindRenderVisibility() {
+        if (state.visibilityBound || typeof document.addEventListener !== 'function') { return; }
+        state.visibilityBound = true;
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
+                return;
+            }
+            // Keep native-owner and input ACK polling alive while hidden.
+            // Resume from C's current fight, never from the cancelled frame.
+            syncMode();
+            if (!shouldShowHd() || !hdReady()) { return; }
+            onEngineFight();
+            ensureLoop();
+        });
+    }
     function enterBattle(meta) {
         meta = meta || {};
         if (!shouldShowHd() || (!meta.preview && !fightStrictActive())) { return false; }
@@ -603,6 +628,7 @@
         if (global.addEventListener) { global.addEventListener('keydown', handleKey, true); }
     }
     function start() {
+        bindRenderVisibility();
         bindUi(); syncMode(); applyChrome();
         if (pollId) { return; }
         pollId = global.setInterval(function () {
@@ -852,6 +878,7 @@
     }
 
     function draw() {
+        if (document.hidden) { return; }
         var canvas = el('hd-battle-canvas');
         if (!canvas) {
             return;

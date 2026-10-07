@@ -68,6 +68,7 @@
         assetsReady: false,
         assetsLoading: false,
         loopId: 0,
+        visibilityBound: false,
         lastSample: 0,
         lastDraw: 0,
         probed: false,
@@ -1799,7 +1800,7 @@
     }
 
     function draw() {
-        if (!state.ctx) {
+        if (document.hidden || !state.ctx) {
             return;
         }
         syncCanvasSize();
@@ -1834,8 +1835,7 @@
     }
 
     function loop() {
-        if (state.mode !== 'hd-map') {
-            state.loopId = 0;
+        if (document.hidden || state.mode !== 'hd-map') {
             return;
         }
         var now = Date.now();
@@ -1846,13 +1846,40 @@
             state.lastSample = now;
         }
         draw();
-        state.loopId = global.requestAnimationFrame(loop);
+        ensureLoop();
     }
 
     function ensureLoop() {
-        if (state.mode === 'hd-map' && !state.loopId) {
-            state.loopId = global.requestAnimationFrame(loop);
+        if (!document.hidden && state.mode === 'hd-map' && !state.loopId) {
+            var id = global.requestAnimationFrame(function () {
+                if (state.loopId !== id) { return; }
+                state.loopId = 0;
+                loop();
+            });
+            state.loopId = id;
         }
+    }
+
+    function bindRenderVisibility() {
+        if (state.visibilityBound || typeof document.addEventListener !== 'function') { return; }
+        state.visibilityBound = true;
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
+                return;
+            }
+            applyChrome();
+            if (state.mode !== 'hd-map') { return; }
+            // Visibility owns painting only. Re-read the current world rather
+            // than reviving the phase or city ownership sampled before hiding.
+            if (hdReady()) {
+                state.phase = inferPhase();
+                sampleEngine();
+                state.lastSample = Date.now();
+            }
+            draw();
+            ensureLoop();
+        });
     }
 
     function applyChrome() {
@@ -3680,6 +3707,7 @@
     }
 
     function applyPcPage() {
+        bindRenderVisibility();
         cacheDom();
         bindToolbar();
         bindInput();
@@ -3707,7 +3735,7 @@
     applyEarlyDocumentAttrs();
 
     global.addEventListener('resize', function () {
-        if (state.mode === 'hd-map') {
+        if (!document.hidden && state.mode === 'hd-map') {
             syncCanvasSize();
             clampCamera();
             draw();

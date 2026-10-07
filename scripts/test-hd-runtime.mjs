@@ -4,6 +4,8 @@
  *   CHROME=/usr/bin/chromium node scripts/test-hd-runtime.mjs
  *   node scripts/test-hd-runtime.mjs --staged --artifact-dir build/runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
+ * --performance records map rendering, real tab visibility and native quantity ACK latency.
+ * --renderer-dir compares archived hd-overworld.js/hd-battle.js under the same measurement.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -14,9 +16,15 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import crypto from 'node:crypto';
+import { summarizeSamples, summarizeFrames } from './hd-performance-metrics.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
+const performanceMode = process.argv.includes('--performance');
+const rendererFlag = process.argv.indexOf('--renderer-dir');
+const rendererDir = rendererFlag < 0 ? null : path.resolve(process.argv[rendererFlag + 1]);
+assert.ok(!rendererDir || performanceMode, '--renderer-dir requires --performance');
 const artifactFlag = process.argv.indexOf('--artifact-dir');
 const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/runtime-smoke'));
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -30,7 +38,8 @@ async function startServer() {
         try {
             const url = new URL(req.url, 'http://localhost');
             const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'pc.html';
-            const base = staged && /^js\/baye\.(js|wasm|wasm\.map)$/.test(rel) ? path.join(root, 'build/wasm/src') : root;
+            const renderer = rendererDir && /^js\/hd-(overworld|battle)\.js$/.test(rel);
+            const base = renderer ? rendererDir : staged && /^js\/baye\.(js|wasm|wasm\.map)$/.test(rel) ? path.join(root, 'build/wasm/src') : root;
             const filename = path.resolve(base, base === root ? rel : path.basename(rel));
             if (!filename.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
             fs.readFile(filename, (err, data) => {
@@ -260,6 +269,7 @@ async function quantitySmoke(cdp) {
         BayeHdOverworld.setMode('hd-map');
         BayeHdCityMenu.setMode('hd');
     })()`);
+    if (performanceMode) await measureMapPerformance(cdp);
     const owned = await waitFor(cdp, 'owned HD map city', `(() => {
         const map = BayeHdOverworld.debugSnapshot();
         return map.phase === 'map' && map.owned.length && map.owned[0];
@@ -307,6 +317,7 @@ async function quantitySmoke(cdp) {
             report.quantity.steps.push({ delta, value: q.value });
         }
         assert.equal(expected, initial.max, 'enlist input returns to its upper bound');
+        if (performanceMode) await measureQuantityPerformance(cdp, initial);
         const bounded = await evaluate(cdp, `(() => {
             const before = window.__runtimeKeys.length;
             BayeHdCityMenu.stepQty(10);
@@ -335,6 +346,111 @@ async function quantitySmoke(cdp) {
     } finally {
         await evaluate(cdp, `window.sendKey = window.__runtimeOriginalSendKey; delete window.__runtimeOriginalSendKey;`);
     }
+}
+
+async function measureMapPerformance(cdp) {
+    await waitFor(cdp, 'stable HD map for measurement', "BayeHdOverworld.debugSnapshot().phase==='map' && !document.hidden");
+    const browser = await cdp.send('Browser.getVersion');
+    const environment = await evaluate(cdp, `({viewport:{width:innerWidth,height:innerHeight,dpr:devicePixelRatio},
+        userAgent:navigator.userAgent,hardwareConcurrency:navigator.hardwareConcurrency,deviceMemoryGiB:navigator.deviceMemory||null,
+        resourceVersion:window.BAYE_ASSET_VER,visibility:document.visibilityState,period:Number(baye.data.g_PIdx),
+        cityCount:baye.hd.realm().cities.length,personCount:baye.getPersonCount(),lib:localStorage.getItem('baye/libpath'),
+        wasmHeapBytes:window.Module&&Module.HEAPU8?Module.HEAPU8.byteLength:null})`);
+    const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+    report.performance = { browser, environment, host:{platform:os.platform(),arch:os.arch(),cpu:os.cpus()[0]?.model,
+        availableParallelism:os.availableParallelism(),totalMemoryBytes:os.totalmem()},headless:true,gpuDisabled:true,
+        manifest:JSON.parse(fs.readFileSync(path.join(root, staged?'build/wasm/src/baye.build.json':'js/baye.build.json'),'utf8')),
+        renderers:Object.fromEntries(['hd-overworld.js','hd-battle.js'].map(name => [name,{sha256:sha256(fs.readFileSync(path.join(rendererDir||path.join(root,'js'),name)))}])) };
+    report.performance.environment.libSha256=sha256(fs.readFileSync(path.join(root,environment.lib)));
+    await cdp.send('Performance.enable');
+    const before = await cdp.send('Performance.getMetrics');
+    const measured = await evaluate(cdp, `new window.__perfNativePromise(resolve => {
+        const context=document.getElementById('hd-overworld-canvas').getContext('2d'),original=context.clearRect;
+        const startedAt=performance.now(),frames=[],draws=[];
+        context.clearRect=function(){draws.push(performance.now());return original.apply(this,arguments);};
+        const tick=time=>{
+            if(time>=startedAt)frames.push(time);
+            if(time-startedAt<3000){requestAnimationFrame(tick);return;}
+            context.clearRect=original;resolve({startedAt,endedAt:performance.now(),frames,draws});
+        };
+        requestAnimationFrame(tick);
+    })`);
+    const after = await cdp.send('Performance.getMetrics');
+    const metrics = entries => Object.fromEntries(entries.metrics.map(item=>[item.name,item.value]));
+    const a=metrics(before),b=metrics(after);
+    report.performance.map={raf:summarizeFrames(measured.frames,measured.startedAt,measured.endedAt),
+        canvas:summarizeFrames(measured.draws,measured.startedAt,measured.endedAt),raw:measured,
+        jsHeapUsedBytes:b.JSHeapUsedSize,jsHeapTotalBytes:b.JSHeapTotalSize,
+        taskDurationSeconds:b.TaskDuration-a.TaskDuration,scriptDurationSeconds:b.ScriptDuration-a.ScriptDuration,
+        layoutCount:b.LayoutCount-a.LayoutCount};
+    await measureBackgroundDrawing(cdp);
+    await checkpoint(cdp,'perf-map-and-background');
+}
+
+async function measureBackgroundDrawing(cdp) {
+    const viewport=report.performance.environment.viewport;
+    const before=await evaluate(cdp,`(() => {
+        window.__perfBackground={draws:0,keys:0};
+        const ctx=document.getElementById('hd-overworld-canvas').getContext('2d');
+        window.__perfClearRect=ctx.clearRect;window.__perfSendKey=sendKey;
+        ctx.clearRect=function(){window.__perfBackground.draws++;return window.__perfClearRect.apply(this,arguments);};
+        window.sendKey=function(){window.__perfBackground.keys++;return window.__perfSendKey.apply(this,arguments);};
+        return {year:Number(baye.data.g_YearDate),month:Number(baye.data.g_MonthDate),realm:baye.hd.realm()};
+    })()`);
+    const tab=await cdp.send('Target.createTarget',{url:'about:blank'});
+    try {
+        await cdp.send('Target.activateTarget',{targetId:tab.targetId});
+        await waitFor(cdp,'actual background tab','document.hidden===true');
+        const start=await evaluate(cdp,'({...window.__perfBackground,at:performance.now()})');
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width:viewport.width-80,height:viewport.height-80,deviceScaleFactor:viewport.dpr,mobile:false});
+        await delay(750);
+        const end=await evaluate(cdp,'({...window.__perfBackground,at:performance.now()})');
+        report.performance.background={trigger:'actual hidden tab and viewport resize',durationMs:end.at-start.at,canvasDraws:end.draws-start.draws,engineKeys:end.keys-start.keys};
+        assert.equal(report.performance.background.engineKeys,0,'background transition sends no engine input');
+        if(!rendererDir)assert.equal(report.performance.background.canvasDraws,0,'background map does not redraw');
+        await cdp.send('Page.bringToFront');
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width:viewport.width,height:viewport.height,deviceScaleFactor:viewport.dpr,mobile:false});
+        await waitFor(cdp,'actual foreground tab','document.hidden===false');
+        const restored=await evaluate(cdp,'window.__perfBackground.draws');
+        await waitFor(cdp,'foreground drawing resumes','window.__perfBackground.draws>'+restored);
+        const after=await evaluate(cdp,`({year:Number(baye.data.g_YearDate),month:Number(baye.data.g_MonthDate),realm:baye.hd.realm()})`);
+        assert.deepEqual(after,before,'background/foreground transition preserves native date and ownership');
+    } finally {
+        await cdp.send('Page.bringToFront');
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width:viewport.width,height:viewport.height,deviceScaleFactor:viewport.dpr,mobile:false});
+        await cdp.send('Target.closeTarget',{targetId:tab.targetId});
+        const transition=await evaluate(cdp,`(() => {const ctx=document.getElementById('hd-overworld-canvas').getContext('2d');
+            const keys=window.__perfBackground.keys;
+            ctx.clearRect=window.__perfClearRect;window.sendKey=window.__perfSendKey;return {engineKeys:keys};})()`);
+        report.performance.visibilityTransition=transition;
+        assert.equal(transition.engineKeys,0,'the complete hide, resize and restore transition sends no engine input');
+    }
+}
+
+async function measureQuantityPerformance(cdp,initial) {
+    const raw=[];
+    for(let i=0;i<12;i++) {
+        const delta=i%2?1:-1,expected=initial.value+(i%2?0:-1);
+        const selector=await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-qty="${delta}"]':'#hd-city-menu [data-hd-qty="${delta}"]'`);
+        await evaluate(cdp,`(() => {
+            window.__perfQtyAck=null;
+            document.querySelector(${JSON.stringify(selector)}).addEventListener('click',event=>{
+                const started=performance.now();
+                const tick=()=>{const q=baye.hd.qty(),c=BayeHdCityMenu.debugSnapshot();
+                    if(q.active&&q.value===${expected}&&!c.sending&&!c.queueLen){
+                        window.__perfQtyAck={durationMs:performance.now()-started,expected:${expected},actual:q.value,trusted:event.isTrusted};return;}
+                    if(performance.now()-started<5000)requestAnimationFrame(tick);
+                };requestAnimationFrame(tick);
+            },{capture:true,once:true});
+        })()`);
+        await click(cdp,selector);
+        const sample=await waitFor(cdp,'measured native quantity acknowledgement','window.__perfQtyAck',6000);
+        assert.equal(sample.actual,expected);assert.equal(sample.trusted,true,'quantity sample uses a genuine mouse click');raw.push(sample);
+    }
+    assert.equal(await evaluate(cdp,'baye.hd.qty().value'),initial.value,'latency sampling restores the quantity without confirming enlistment');
+    report.performance.quantity={source:'trusted click handler to next frame observing native value and empty input queue',
+        latencyMs:summarizeSamples(raw.map(sample=>sample.durationMs)),raw};
+    await checkpoint(cdp,'perf-native-quantity-latency');
 }
 
 async function main() {
@@ -397,8 +513,10 @@ async function main() {
         });
         await cdp.send('Runtime.enable');
         await cdp.send('Page.enable');
+        if(performanceMode)await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
+            window.__perfNativePromise = Promise;
             localStorage.clear();
             localStorage.setItem('baye/libpath', 'libs/dat-mod.lib');
             localStorage.setItem('baye/overworldMode', 'classic');

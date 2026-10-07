@@ -51,7 +51,7 @@ npm run build:wasm
 
 `BAYE_EMSDK_ROOT` 可指向自定义 SDK 目录，`JOBS` 控制并行编译数。切换经典模式、HD 模式与新增菜单回退协议需要匹配的 JS/WASM，不能只替换一个文件。
 
-专项回归运行 `npm test`，覆盖 13 个测试文件，包括真实 C 编译的战役与协议回归、存档事务、存读档 UI 和存档页面。用例数会随回归增加，以实际测试输出为准；专项通过不能代替真实浏览器完整胜负验收。可单独运行 `npm run test:campaign-engine`、`npm run test:engine-protocol`、`npm run test:save-transaction`、`npm run test:saveload-ui` 与 `npm run test:save-pages` 定位对应问题。
+专项回归运行 `npm test`，覆盖 16 个测试文件，包括真实 C 编译的战役与协议回归、存档事务、存读档 UI、存档页面、跨刷新输入记录、后台绘制与性能统计。用例数会随回归增加，以实际测试输出为准；专项通过不能代替真实浏览器完整胜负验收。可单独运行 `npm run test:campaign-engine`、`npm run test:engine-protocol`、`npm run test:save-transaction`、`npm run test:saveload-ui` 与 `npm run test:save-pages` 定位对应问题。
 
 `test:runtime` 检查开局、模式、头像和数量输入；`test:battle-runtime` 使用真实出征与战斗，读取引擎路径、射程及技能规则，通过玩家输入执行操作。`test:campaign-runtime` 支持 `--scenario victory|retreat|empty|campaign|domestic|save|restart`，分别覆盖胜利占城、撤退、空城占领、连续出征、内政后出征、保存刷新读取和同页重开。三个浏览器脚本均支持 `--staged` 与 `--artifact-dir`，保存截图、操作顺序和引擎快照；脚本通过玩家入口执行，不直接写胜负、城池归属或将领状态。运行场景时将 `--scenario` 后的值替换为一个场景名。完整验收结果及未完成范围以 [hd-development-plan.md](hd-development-plan.md) 为准。
 
@@ -59,7 +59,17 @@ npm run build:wasm
 
 M3 存档 `0x95` 保留双文件槽位，保存完整 4000 字节道具队列、600 字节出征队列和 U32 自定义数据长度。读取先校验完整快照再提交；浏览器保存与导入使用 journal 保留旧完整槽，LIB 使用加载内容指纹校验。旧 `0x90`–`0x94` 仍可读取，但旧活动出征槽 `slot≥8` 缺少已保存将领数据，必须拒绝加载。协议细节见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。
 
-当前入口缓存号为 `20261007d`。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
+当前入口缓存号为 `20261007e`。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
+
+## PC 性能基线
+
+```bash
+CHROME=/path/to/chromium npm run test:performance -- --artifact-dir build/hd-performance
+```
+
+在真实 LIB/WASM 开局与数量操作检查中固定 1920×1080 内容视口、DPR 1，记录 3 秒地图 RAF 节拍与 Canvas 重绘、JS 堆和 WASM 堆容量、12 次真实鼠标点击至原生数量确认的延迟。原始样本、浏览器/主机信息、LIB 指纹、引擎 manifest 和渲染源码哈希保存在 `result.json`，不是屏幕呈现 FPS 或整机总内存。输入延迟起点为可信点击事件进入按钮处理器，终点为下一帧观察到原生值及输入队列完成；不包括 OS 输入与网络传输。
+
+脚本切换到真实后台标签页，调整视口并验证没有绘制或自发输入，返回时验证恢复绘制且日期和城池归属不变。地图和战场隐藏时暂停绘制 RAF，原生状态与 ACK 轮询保留。需要对照旧版时，将同一提交的 `hd-overworld.js` 与 `hd-battle.js` 存入目录，追加 `--renderer-dir <目录>`；旧版采样仍记录后台行为，停绘断言仅对当前版本执行。对照时使用相同主机和引擎并串行运行，单次采样不构成性能提升的稳定结论。
 
 ## 手工编译（诊断用途）
 
