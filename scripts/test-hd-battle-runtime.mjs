@@ -10,6 +10,7 @@ import assert from 'node:assert/strict';
 import http from 'node:http';
 import net from 'node:net';
 import fs from 'node:fs';
+import crypto from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
@@ -24,12 +25,37 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
 const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+const servedAssets = new Map();
+
+function prepareServedAssets() {
+    report.sources = {};
+    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json', 'hd-battle.js', 'hd-battle-terrain.js']) {
+        const base = staged && name.startsWith('baye.') ? path.join(root, 'build/wasm/src') : path.join(root, 'js');
+        const filename = path.join(base, name), data = fs.readFileSync(filename);
+        const metadata = { source: path.relative(root, filename), bytes: data.length,
+            sha256: crypto.createHash('sha256').update(data).digest('hex') };
+        report.sources[name] = metadata;
+        servedAssets.set('js/' + name, { data, metadata });
+    }
+    const manifest = JSON.parse(servedAssets.get('js/baye.build.json').data.toString('utf8'));
+    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
+        assert.equal(report.sources[name].bytes, manifest.artifacts[name].bytes, 'Engine artifact bytes match manifest: ' + name);
+        assert.equal(report.sources[name].sha256, manifest.artifacts[name].sha256, 'Engine artifact hash matches manifest: ' + name);
+    }
+}
 
 async function startServer() {
     const server = http.createServer((req, res) => {
         try {
             const url = new URL(req.url, 'http://localhost');
             const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'pc.html';
+            const snapshot = servedAssets.get(rel);
+            if (snapshot) {
+                report.requests.push({ url: url.pathname, status: 200, ...snapshot.metadata });
+                res.writeHead(200, { 'Content-Type': mime[path.extname(rel)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+                res.end(snapshot.data);
+                return;
+            }
             const base = staged && /^js\/baye\.(js|wasm|wasm\.map)$/.test(rel) ? path.join(root, 'build/wasm/src') : root;
             const filename = path.resolve(base, base === root ? rel : path.basename(rel));
             if (!filename.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
@@ -309,6 +335,7 @@ async function battleSmoke(cdp) {
     assert.deepEqual(await evaluate(cdp,'window.__battleKeys'),[],'idle HD renderer delivers no engine inputs');
     report.pause={before,after};
     await checkpoint(cdp,'15-battle-idle-no-input');
+    await terrainSmoke(cdp, before);
     const own=before.units.find(u=>u.side==='player' && u.active===0);
     assert.ok(own,'an actual player general remains available');
     await action(cdp,'select-own-for-cancel',`BayeHdBattle.clickUnitByName(${JSON.stringify(own.name)})`);
@@ -375,6 +402,7 @@ async function battleSmoke(cdp) {
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'view/help/settings/canceled retreat preserve units');
     await checkpoint(cdp,'24-battle-system-cancel');
     await manualCombat(cdp);
+    await terrainGallery(cdp);
 
 }
 
@@ -409,7 +437,95 @@ async function menuChoice(cdp,name,kind) {
     assert.equal(result.ok,true,'actual menu choice '+name);
     if(kind) await waitBattle(cdp,kind,'menu choice '+name);
 }
-async function focusBattleTarget(cdp, target, label) {
+
+async function terrainSmoke(cdp, before) {
+    // Read the real full map and occupied-cell C getter, never the scrolling cache.
+    const native = await evaluate(cdp, `(() => {
+        const d=baye.data,w=Number(d.g_MapWid),h=Number(d.g_MapHgt),units=[];
+        const tiles=Array.from({length:w*h},(_,i)=>Number(d.g_FightMapData[i]));
+        for(let i=0;i<20;i++) {
+            const id=Number(d.g_FgtParam.GenArray[i]),p=d.g_GenPos[i];
+            if(id>0&&id<0xfffe&&Number(p.state)!==8) units.push({i,x:Number(p.x),y:Number(p.y),index:Number(baye.getTerrainByGeneralIndex(i))});
+        }
+        return {w,h,tiles,units,focus:{x:Number(d.g_FoucsX),y:Number(d.g_FoucsY)}};
+    })()`);
+    assert.ok(native.w>0&&native.h>0);
+    report.nativeTerrain = native;
+    const inspect = async label => {
+        const state = await waitFor(cdp, label, `(() => {
+            const s=BayeHdBattle.debugSnapshot(),d=baye.data;
+            return s.terrain&&s.focusTerrain&&s.focusTerrain.x===Number(d.g_FoucsX)&&s.focusTerrain.y===Number(d.g_FoucsY)&&s;
+        })()`);
+        assert.equal(state.terrain.source,'full');
+        assert.equal(state.terrain.width,native.w);
+        assert.equal(state.terrain.height,native.h);
+        assert.equal(state.terrain.stride,native.w);
+        assert.equal(state.terrain.verified,true,'standard terrain was crosschecked against C occupied-cell getters');
+        for(const unit of state.unitList) {
+            const real=native.units.find(u=>u.i===unit.i);
+            assert.ok(real,'visible unit has actual native slot');
+            assert.equal(unit.terrain.index,real.index,'terrain index agrees with compiled C for slot '+real.i);
+        }
+        const focus=state.focusTerrain;
+        assert.equal(focus.raw,native.tiles[focus.y*native.w+focus.x],'focused terrain uses complete native row stride');
+        assert.notEqual(focus.kind,'unknown');
+        (report.terrainChecks ||= []).push({label,terrain:state.terrain,focus,units:state.unitList.map(u=>({i:u.i,terrain:u.terrain}))});
+        return state;
+    };
+    await inspect('initial focused terrain');
+    const own=before.units.find(u=>u.side==='player'&&u.state!==8);
+    assert.ok(own);
+    await focusBattleTarget(cdp,own,'15-terrain-occupied-1080p',1);
+    await inspect('occupied focused terrain');
+    const occupied=new Set(native.units.map(u=>u.x+','+u.y));
+    const empty=native.tiles.map((raw,i)=>({raw,x:i%native.w,y:Math.floor(i/native.w)}))
+        .filter(t=>t.raw>0&&!occupied.has(t.x+','+t.y))
+        .sort((a,b)=>(Math.abs(a.x-own.x)+Math.abs(a.y-own.y))-(Math.abs(b.x-own.x)+Math.abs(b.y-own.y)))[0];
+    assert.ok(empty,'map has an empty cell');
+    await focusBattleTarget(cdp,empty,'15-terrain-empty-1080p',1);
+    await inspect('empty focused terrain');
+    const stable=await evaluate(cdp,battleStateExpression),keys=await evaluate(cdp,'window.__battleKeys.length');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
+    await waitFor(cdp,'720p resized canvas','innerWidth===1280&&innerHeight===720&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1280)<1');
+    await inspect('720p focused terrain');
+    await checkpoint(cdp,'15-terrain-empty-720p');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
+    await waitFor(cdp,'1080p restored canvas','innerWidth===1920&&innerHeight===1080&&Math.abs(document.querySelector("#hd-battle-canvas").getBoundingClientRect().width-1920)<1');
+    assert.deepEqual(await evaluate(cdp,battleStateExpression),stable,'viewport changes cannot mutate native battle');
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'terrain repaint/resize sends no engine input');
+    await focusBattleTarget(cdp,native.focus,'15-terrain-focus-restored',1);
+    assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'terrain focus observation cannot mutate units');
+}
+
+async function terrainGallery(cdp) {
+    await waitBattle(cdp,1,'idle player selection for terrain fixture');
+    const before=await evaluate(cdp,battleStateExpression),keys=await evaluate(cdp,'window.__battleKeys.length');
+    // Clearly labelled renderer fixture, separate from native world data. It
+    // makes every category inspectable even when this battle lacks some tiles.
+    await evaluate(cdp, `(() => {
+        const canvas=document.createElement('canvas');canvas.id='terrain-validation-gallery';
+        canvas.width=1920;canvas.height=1080;
+        canvas.style.cssText='position:fixed;inset:0;width:100vw;height:100vh;z-index:99999;pointer-events:none';
+        const ctx=canvas.getContext('2d');ctx.fillStyle='#121820';ctx.fillRect(0,0,1920,1080);
+        ctx.fillStyle='#e2d8ba';ctx.font='36px BayeUI,sans-serif';ctx.fillText('HD 地形图例 · 标准 LIB 渲染测试',150,95);
+        ctx.font='22px BayeUI,sans-serif';ctx.fillStyle='#9daabd';ctx.fillText('此图使用八类地形测试数据，不表示当前战场布局或行动效果。',150,140);
+        const raw=[2,1,6,5,4,3,41,16];
+        BayeHdBattleTerrain.createPainter().paint(ctx,{ox:150,oy:200,cw:405,ch:320,cols:4,rows:2,viewOx:0,viewOy:0,dpr:1},
+            {source:'full',width:4,height:2,stride:4,tiles:raw,libPath:'libs/dat-mod.lib',session:'gallery',mode:'hd',verified:true});
+        for(let i=0;i<raw.length;i++) {
+            const x=150+(i%4)*405,y=200+Math.floor(i/4)*320;
+            ctx.strokeStyle='#8c9189';ctx.lineWidth=2;ctx.strokeRect(x,y,405,320);
+            ctx.fillStyle='rgba(12,17,23,0.8)';ctx.fillRect(x,y+268,405,52);
+            ctx.font='28px BayeUI,sans-serif';ctx.fillStyle='#f0e5c8';ctx.fillText(BayeHdBattleTerrain.classifyTile(raw[i]).label,x+20,y+304);
+        }
+        document.body.appendChild(canvas);
+    })()`);
+    try { await checkpoint(cdp,'35-terrain-eight-class-fixture'); }
+    finally { await evaluate(cdp,'document.getElementById("terrain-validation-gallery").remove()'); }
+    assert.deepEqual(await evaluate(cdp,battleStateExpression),before,'terrain gallery cannot mutate native game');
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'terrain gallery cannot send a game input');
+}
+async function focusBattleTarget(cdp, target, label, kind = 5) {
     for (let step = 0; step < 128; step++) {
         const focus = await evaluate(cdp, '({x:Number(baye.data.g_FoucsX),y:Number(baye.data.g_FoucsY)})');
         if (focus.x === target.x && focus.y === target.y) {
@@ -424,7 +540,7 @@ async function focusBattleTarget(cdp, target, label) {
         await key(cdp, direction);
         await waitFor(cdp, 'target cursor native acknowledgement', `(() => {
             const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();
-            return f.inputKind===5&&!s.transaction&&
+            return f.inputKind===${kind}&&!s.transaction&&
                 (Number(baye.data.g_FoucsX)!==${focus.x}||Number(baye.data.g_FoucsY)!==${focus.y});
         })()`);
     }
@@ -586,6 +702,7 @@ async function performCombatCosts(cdp) {
 
 async function main() {
     fs.mkdirSync(artifactDir, { recursive: true });
+    prepareServedAssets();
     if (typeof WebSocket !== 'function') throw new Error('Node 22+ is required for built-in WebSocket');
     if (staged) for (const filename of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
         assert.ok(fs.existsSync(path.join(root, 'build/wasm/src', filename)), 'Missing staged WASM file: ' + filename);
@@ -642,6 +759,7 @@ async function main() {
         });
         await cdp.send('Runtime.enable');
         await cdp.send('Page.enable');
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
             localStorage.clear();

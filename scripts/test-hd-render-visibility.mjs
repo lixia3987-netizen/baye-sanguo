@@ -4,21 +4,25 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
+import { webcrypto } from 'node:crypto';
 import test from 'node:test';
 
 const sources = {
     overworld: readFileSync(new URL('../js/hd-overworld.js', import.meta.url), 'utf8'),
+    terrain: readFileSync(new URL('../js/hd-battle-terrain.js', import.meta.url), 'utf8'),
     battle: readFileSync(new URL('../js/hd-battle.js', import.meta.url), 'utf8')
 };
 const K = { RIGHT: 0x25, ENTER: 0x27 };
+const standardLibHex = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
 
-function browser({ modules = ['overworld', 'battle'], hidden = false, classic = false } = {}) {
+function browser({ modules = ['overworld', 'battle'], hidden = false, classic = false, loadedLib = false } = {}) {
     let now = 10000, nextId = 1;
     const frames = new Map(), timers = new Map(), intervals = new Map();
     const listeners = new Map(), windowListeners = new Map(), sent = [];
     const saved = new Map([
         ['baye/overworldMode', classic ? 'classic' : 'hd-map'],
-        ['baye/battleMode', classic ? 'classic' : 'hd']
+        ['baye/battleMode', classic ? 'classic' : 'hd'],
+        ['baye/libpath', 'libs/dat-mod.lib']
     ]);
     const fight = { active: 1, over: 0, wait: 1, phase: 1, inputKind: 1, inputSeq: 1,
         actorIndex: 255, aimType: 255, tip: '' };
@@ -35,7 +39,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         g_FgtOver: 0, g_hdFightMenuControl: 0, g_hdFightAllowRetreat: 0,
         g_hdFightActCommit: 255, g_FoucsX: 1, g_FoucsY: 1, g_MapWid: 8, g_MapHgt: 8,
         g_FgtParam: { GenArray: generals }, g_GenPos: positions,
-        g_FightMap: Array(64).fill(1), g_FightPath: Array(225).fill(255),
+        g_FightMapData: Array(64).fill(1), g_FightMap: Array(64).fill(1), g_FightPath: Array(225).fill(255),
         g_FgtAtkRng: [8, 0, 0, ...Array(64).fill(0)],
         g_Persons: [{ Arms: 100 }, { Arms: 100 }, { Arms: 100 }],
         g_Cities: [{ Belong: 1 }, { Belong: 3 }],
@@ -116,6 +120,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
     }
     const context = vm.createContext({
         document, baye, Date: Clock, Image, XMLHttpRequest,
+        dynLib: loadedLib ? standardLibHex : null, crypto: webcrypto,
         console: { log() {}, warn() {}, error(...args) { throw new Error(args.join(' ')); } },
         localStorage: { getItem: key => saved.get(key) ?? null,
             setItem: (key, value) => saved.set(key, String(value)) },
@@ -131,6 +136,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         }, devicePixelRatio: 1
     });
     context.window = context;
+    if (modules.includes('battle')) vm.runInContext(sources.terrain, context, { filename: 'js/hd-battle-terrain.js', timeout: 5000 });
     for (const name of modules) vm.runInContext(sources[name], context, { filename: `js/hd-${name}.js`, timeout: 5000 });
     const world = context.BayeHdOverworld, battle = context.BayeHdBattle;
     function start() { world?.start(); battle?.start(); battle?.onEngineFight(); }
@@ -480,5 +486,88 @@ test('skill preview describes a friendly unit only as in range and retires under
     assert.equal(h.canvasStats.battle.strokes.filter(stroke => stroke.dash.length).length, 0);
     assert.ok(!h.canvasStats.battle.labels.some(label => label.startsWith('射程内目标：')));
     assert.equal(JSON.stringify({ data: h.data, fight: h.fight, report: h.report }), nativeBefore);
+    assert.deepEqual(h.sent, []);
+});
+
+async function trustedBattle() {
+    const h = browser({ modules: ['battle'], loadedLib: true });
+    const deadline = Date.now() + 3000;
+    while (Date.now() < deadline) {
+        h.frame();
+        if (h.battle.debugSnapshot().terrain?.verified) return h;
+        await new Promise(resolve => setTimeout(resolve, 10));
+    }
+    assert.fail('actual standard LIB identity was not verified');
+}
+
+test('battle terrain keeps native non-square full-map stride and displays empty focus without engine input', async () => {
+    const h = await trustedBattle();
+    h.data.g_MapWid = 9; h.data.g_MapHgt = 7;
+    h.data.g_FightMapData = Array(65536).fill(1);
+    h.data.g_FightMapData[6 * 9 + 8] = 41;
+    h.data.g_FightMap = Array(256).fill(5);
+    h.data.g_MapSX = 20; h.data.g_MapSY = 30;
+    h.data.g_FoucsX = 8; h.data.g_FoucsY = 6;
+    const nativeBefore = JSON.stringify({ data: h.data, fight: h.fight });
+    h.frame();
+    const s = h.battle.debugSnapshot();
+    assert.equal(s.terrain.width, 9); assert.equal(s.terrain.height, 7); assert.equal(s.terrain.stride, 9);
+    assert.equal(s.focusTerrain.label, '营寨'); assert.equal(s.focusTerrain.raw, 41);
+    assert.ok(h.canvasStats.battle.labels.some(label => label.includes('地形：营寨') && label.includes('8,6')));
+    assert.equal(JSON.stringify({ data: h.data, fight: h.fight }), nativeBefore);
+    assert.deepEqual(h.sent, []);
+});
+
+test('battle never interprets an LCD cache or expanded visual bounds as native terrain', async () => {
+    const h = await trustedBattle();
+    delete h.data.g_FightMapData;
+    h.data.g_FightMap = Array(256).fill(41);
+    h.frame();
+    assert.equal(h.battle.debugSnapshot().terrain.source, 'unknown');
+    assert.equal(h.battle.debugSnapshot().focusTerrain.kind, 'unknown');
+    h.data.g_FightMapData = Array(65536).fill(41);
+    h.data.g_MapWid = 3; h.data.g_MapHgt = 2;
+    h.data.g_FoucsX = 5; h.data.g_FoucsY = 3;
+    h.frame();
+    const s = h.battle.debugSnapshot();
+    assert.ok(s.mapW > s.terrain.width);
+    assert.equal(s.terrain.width, 3); assert.equal(s.terrain.stride, 3);
+    assert.equal(s.focusTerrain.kind, 'unknown'); assert.equal(s.focusTerrain.raw, null);
+    delete h.data.g_MapWid; h.frame();
+    assert.equal(h.battle.debugSnapshot().terrain.width, 0, 'fixed allocation cannot infer missing native dimensions');
+    assert.deepEqual(h.sent, []);
+});
+
+test('native occupied-cell mismatch makes the whole terrain presentation neutral until agreement returns', async () => {
+    const h = await trustedBattle();
+    h.data.g_FightMapData.fill(5);
+    h.baye.getTerrainByGeneralIndex = () => 1;
+    h.frame();
+    assert.equal(h.battle.debugSnapshot().terrain.verified, false);
+    assert.equal(h.battle.debugSnapshot().terrain.reason, 'native-mismatch');
+    assert.equal(h.battle.debugSnapshot().focusTerrain.kind, 'unknown');
+    h.baye.getTerrainByGeneralIndex = () => 3;
+    h.frame();
+    assert.equal(h.battle.debugSnapshot().focusTerrain.label, '森林');
+    assert.deepEqual(h.sent, []);
+});
+
+test('stale preferred LIB metadata and custom terrain hooks cannot authorize terrain labels or invoke hooks', async () => {
+    const h = await trustedBattle();
+    h.context.dynLib = '00' + standardLibHex.slice(2);
+    h.frame();
+    assert.equal(h.battle.debugSnapshot().terrain.verified, false);
+    assert.equal(h.battle.debugSnapshot().focusTerrain.kind, 'unknown');
+    h.context.dynLib = standardLibHex;
+    const deadline = Date.now() + 3000;
+    while (!h.battle.debugSnapshot().terrain.verified && Date.now() < deadline) {
+        await new Promise(resolve => setTimeout(resolve, 10)); h.frame();
+    }
+    assert.equal(h.battle.debugSnapshot().terrain.verified, true);
+    let calls = 0;
+    h.baye.hooks.drawMapUnit = () => { calls++; };
+    h.frame();
+    assert.equal(h.battle.debugSnapshot().focusTerrain.kind, 'unknown');
+    assert.equal(calls, 0, 'paint must not invoke a Mod hook');
     assert.deepEqual(h.sent, []);
 });

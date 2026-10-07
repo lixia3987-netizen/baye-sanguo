@@ -18,7 +18,7 @@
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 发布真实 session/字符回执/cursor/step；按钮与键盘串行，确认等待 ACK，取消与切模式防止旧键泄漏。真实快速加减、边界、无变化数字/光标键和排队确认征兵已核对预备兵、钱及订单。旧桥保留定时队列，数字键 `0x40–0x49` 沿用原生规则；性能长尾仍待优化 |
 | **报告 / 对话** | **HD done** | 按真实报告等待状态和输入序号显示、确认，战斗中的报告优先接收输入；嵌套报告返回时恢复正文并换令牌。纯定时报告不显示确认按钮；出征目标选择不挡点城。继任菜单已接真实人物下标，完整继任场景仍待浏览器验收 |
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
-| **战场格网 / 单位** | **HD done** | 读取实际 `g_FightMap` / `g_GenPos`；兵种旗标、兵力和行动状态来自原生数据，焦点显示实际 HP/MP。移动范围与瞄准读取真实引擎数组，目标连线不提交行动或预测伤害 |
+| **战场格网 / 单位** | **HD done** | 按原生尺寸/跨度读取完整 `g_FightMapData` / `g_GenPos`；八类标准地形有独立图形，空格与部队焦点均显示地形，未知 LIB/自定义地形钩子回退中性地块。兵种旗标、兵力、行动状态和 HP/MP 来自原生数据。移动范围与瞄准读取真实引擎数组，目标连线不提交行动或预测伤害 |
 | **战场系统菜单** | **HD done** | HD hook 返回 `-2` 打开实际五项菜单；经典恢复原 hook。五项菜单、设置取消、撤退确认取消与经典/HD 切换已通过；M3 已连续三次显式确认撤退，均得到原生 `over=2` 并回图，守方归属保持不变 |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
 | **计谋 / 开场 SPE** | **HD done** | `g_hdSpe*` + LCD 整数倍 overlay。`践踏`→`QIBING_SPE`；`谍报` 无 SPE id 时引擎不播（不编造）。规格 [hd-spe-spec.md](hd-spe-spec.md) |
@@ -32,7 +32,7 @@
 
 ## 本分支壳
 
-- `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
+- `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle-terrain.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
 - `js/save-storage.js` 共用本地存档事务与导入导出校验；游戏入口先加载它再加载 `lcd.js`，纯存档管理页直接使用它。
 
 ## M3 当前验收范围

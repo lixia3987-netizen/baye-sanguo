@@ -5,7 +5,7 @@
  *   node scripts/test-hd-runtime.mjs --staged --artifact-dir build/runtime-smoke
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --performance records map rendering, real tab visibility and native quantity ACK latency.
- * --renderer-dir compares archived hd-overworld.js/hd-battle.js under the same measurement.
+ * --renderer-dir compares archived overworld/battle/terrain renderers under the same measurement.
  * --input-dir serves only archived lcd.js, hd-city-menu.js, hd-dialog.js and bridge.js.
  * --engine-dir serves an archived four-file WASM build; mutually exclusive with --staged.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
@@ -44,7 +44,7 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [] };
 const engineNames = ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json'];
 const inputNames = ['lcd.js', 'hd-city-menu.js', 'hd-dialog.js', 'bridge.js'];
-const rendererNames = ['hd-overworld.js', 'hd-battle.js'];
+const rendererNames = ['hd-overworld.js', 'hd-battle.js', 'hd-battle-terrain.js'];
 const servedAssets = new Map();
 const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
@@ -58,6 +58,15 @@ function prepareServedAssets() {
         report.sources[group] = {};
         for (const name of names) {
             const filename = path.join(directory, name);
+            // Earlier archived renderers have no terrain module. Serve a frozen
+            // empty script rather than quietly mix current terrain into them.
+            if (group === 'renderers' && rendererDir && name === 'hd-battle-terrain.js' && !fs.existsSync(filename)) {
+                const data = Buffer.from('/* Archived renderer predates HD terrain. */\n');
+                const metadata = { source: path.relative(root, filename), absentInArchive: true, bytes: data.length, sha256: sha256(data) };
+                report.sources[group][name] = metadata;
+                servedAssets.set('js/' + name, { data, metadata });
+                continue;
+            }
             assert.ok(fs.existsSync(filename), 'Missing ' + group + ' file: ' + filename);
             const data = fs.readFileSync(filename);
             const metadata = { source: path.relative(root, filename), bytes: data.length, sha256: sha256(data) };

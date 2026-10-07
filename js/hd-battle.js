@@ -7,7 +7,7 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261007g';
+    var HD_BATTLE_VER = '20261007h';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -17,14 +17,14 @@
         open: false, preview: false, bound: false, showLcd: false, loopId: 0, visibilityBound: false,
         lastHook: '', lastHookAt: 0, readDepth: 0, refreshing: false,
         readingEngine: false, samplingFight: false, probed: false,
-        units: [], tiles: [], focus: { x: null, y: null },
+        units: [], tiles: [], terrain: null, focus: { x: null, y: null },
         mapW: 0, mapH: 0, viewOx: 0, viewOy: 0, viewW: 0, viewH: 0, tileW: 0,
         menuKind: '', menuTitle: '', menuNames: [], menuIndex: 0,
         resultCode: 0, resultText: '', resultDismissed: false,
         fightTip: '', tipDismissed: '', lastRefreshStack: '',
         transaction: null, lastRequest: null, lastCommit: null, sysMenuHooked: false
     };
-    var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0;
+    var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
 
     function el(id) { return document.getElementById(id); }
     function readStorage(key, fallback) {
@@ -135,6 +135,13 @@
             ' · HP ' + (unit.hp == null ? '—' : unit.hp) +
             ' · MP ' + (unit.mp == null ? '—' : unit.mp) + ' · ' + unitStatus(unit);
     }
+    function terrainAt(x, y, snapshot) {
+        if (global.BayeHdBattleTerrain) { return global.BayeHdBattleTerrain.inspect(snapshot || state.terrain, x, y); }
+        return { kind: 'unknown', label: '未知地形', index: null, raw: null, x: x, y: y };
+    }
+    function clearTerrainPaint() {
+        if (global.BayeHdBattleTerrain) { global.BayeHdBattleTerrain.clear(); }
+    }
     function aimPreview(snap) {
         if (state.preview || !snap.ready || snap.kind !== INPUT.AIM || !snap.focus) { return null; }
         var actor = actorUnit(snap.actor), target = unitAt(snap.focus.x, snap.focus.y);
@@ -226,6 +233,7 @@
     }
     function invalidateHdWork() {
         modeEpoch += 1;
+        clearTerrainPaint();
         finishRequest('scene-changed');
         if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
     }
@@ -493,7 +501,7 @@
         try {
             if (state.preview || fightStrictActive()) {
                 var info = sampleFight();
-                state.units = info.units; state.tiles = info.tiles; state.focus = info.focus;
+                state.units = info.units; state.tiles = info.tiles; state.terrain = info.terrain; state.focus = info.focus;
                 state.mapW = info.mapW; state.mapH = info.mapH; state.tileW = info.tileW || info.mapW;
                 state.viewOx = info.viewOx || 0; state.viewOy = info.viewOy || 0;
                 state.viewW = info.viewW || info.mapW; state.viewH = info.viewH || info.mapH;
@@ -562,8 +570,9 @@
     }
     function prepareNewFight() {
         closeBattle({ force: true, preserveEngine: true });
+        terrainSession += 1;
         state.resultCode = 0; state.resultText = ''; state.resultDismissed = false;
-        state.units = []; state.tiles = []; state.focus = { x: null, y: null };
+        state.units = []; state.tiles = []; state.terrain = null; state.focus = { x: null, y: null };
         state.fightTip = ''; state.tipDismissed = ''; state.lastRequest = null;
     }
     function onEngineFight() {
@@ -682,6 +691,12 @@
             pref: getMode(), showHd: shouldShowHd(), open: state.open, preview: state.preview,
             lastHook: state.lastHook, units: state.units.length, unitList: state.units.slice(),
             mapW: state.mapW, mapH: state.mapH, view: { x: state.viewOx, y: state.viewOy, w: state.viewW, h: state.viewH },
+            terrain: state.terrain ? { source: state.terrain.source, width: state.terrain.width,
+                height: state.terrain.height, stride: state.terrain.stride, verified: state.terrain.verified,
+                libPath: state.terrain.libPath, preferredLibPath: state.terrain.preferredLibPath,
+                sha256: state.terrain.sha256, libGeneration: state.terrain.libGeneration,
+                session: state.terrain.session, reason: state.terrain.reason } : null,
+            focusTerrain: terrainAt(state.focus.x, state.focus.y),
             genCount: fightArrayCount(), focus: state.focus, phase: snap.fight && snap.fight.phase,
             wait: !!(snap.fight && snap.fight.wait), active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
             aimType: snap.fight && snap.fight.aimType, inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor,
@@ -761,22 +776,6 @@
         }
     }
 
-    function inferMapSize(len) {
-        var cands = [12, 16, 18, 15, 10, 8, 20, 24];
-        var i;
-        for (i = 0; i < cands.length; i++) {
-            if (len % cands[i] === 0) {
-                var w = cands[i];
-                var h = len / w;
-                if (h >= 8 && h <= 32) {
-                    return { w: w, h: h };
-                }
-            }
-        }
-        var side = Math.round(Math.sqrt(len));
-        return { w: side || 16, h: side || 16 };
-    }
-
     function sampleFight() {
         var info = {
             genCount: 0,
@@ -786,6 +785,7 @@
             mapW: 0,
             mapH: 0,
             tiles: [],
+            terrain: null,
             keys: []
         };
         if (state.samplingFight || state.readingEngine) {
@@ -807,32 +807,40 @@
         });
         var mw = readNumber(data, 'g_MapWid');
         var mh = readNumber(data, 'g_MapHgt');
-        var map = data.g_FightMapData && data.g_FightMapData.length ? data.g_FightMapData : data.g_FightMap;
-        if (mw && mh) {
+        var nativeDimensions = mw > 0 && mw <= 255 && mw === Math.floor(mw) &&
+            mh > 0 && mh <= 255 && mh === Math.floor(mh);
+        // The full allocation is 65536 bytes, but only native width * height
+        // bytes belong to this map. g_FightMap is a separate LCD viewport cache
+        // with a different origin/stride; it is never guessed to be a full map.
+        var map = data.g_FightMapData;
+        if (nativeDimensions) {
             info.mapW = mw;
             info.mapH = mh;
             info.mapLen = mw * mh;
-        } else if (map && map.length) {
-            info.mapLen = map.length;
-            var sz = inferMapSize(info.mapLen);
-            info.mapW = sz.w;
-            info.mapH = sz.h;
         }
         info.tileW = info.mapW;
-        if (map && info.mapW && info.mapH) {
+        var hasFullMap = nativeDimensions && map && map.length > 0;
+        if (hasFullMap) {
             var t;
             var lim = Math.min(map.length || 0, info.mapW * info.mapH);
             for (t = 0; t < lim; t++) {
                 var tv = readNumber(map, t);
-                if (tv === null && map[t] != null) {
-                    tv = Number(map[t]);
-                }
-                info.tiles.push(tv || 0);
+                info.tiles.push(tv != null && tv >= 0 && tv <= 255 && tv === Math.floor(tv) ? tv : null);
             }
         }
+        var trust = global.BayeHdBattleTerrain ? global.BayeHdBattleTerrain.verifyLib(global.dynLib, baye.hooks) :
+            { verified: false, reason: 'terrain-module-unavailable', libPath: '', sha256: null, generation: 0 };
+        info.terrain = { source: hasFullMap ? 'full' : 'unknown',
+            width: nativeDimensions ? mw : 0, height: nativeDimensions ? mh : 0,
+            stride: nativeDimensions ? mw : 0, tiles: info.tiles,
+            libPath: trust.libPath, preferredLibPath: readStorage('baye/libpath', ''),
+            sha256: trust.sha256, libGeneration: trust.generation, session: terrainSession, mode: 'hd',
+            verified: !!(hasFullMap && trust.verified), reason: !hasFullMap ? 'missing-full-map' :
+                (trust.reason || (map.length < info.mapLen ? 'incomplete-full-map' : '')) };
         info.focus.x = readNumber(data, 'g_FoucsX');
         info.focus.y = readNumber(data, 'g_FoucsY');
-        /* g_MapWid 偶发比将坐标小（屏显缓存），敌方会画到画布外。棋盘至少包住所有将。 */
+        /* Keep the presentation board around generals and focus as before.
+         * Terrain retains the original native bounds/stride independently. */
         var arr = data.g_FgtParam && data.g_FgtParam.GenArray;
         var pos = data.g_GenPos;
         var i;
@@ -879,6 +887,25 @@
         }
         if (info.focus.y != null && info.focus.y + 1 > info.mapH) {
             info.mapH = info.focus.y + 1;
+        }
+        if (global.BayeHdBattleTerrain && info.terrain.source === 'full' &&
+            info.terrain.libPath === 'libs/dat-mod.lib' && typeof baye.getTerrainByGeneralIndex === 'function') {
+            for (i = 0; i < info.units.length; i += 1) {
+                var candidate = info.units[i];
+                if (candidate.state === 8) { continue; }
+                var inferred = terrainAt(candidate.x, candidate.y, info.terrain);
+                if (inferred.index == null) { continue; }
+                try {
+                    var nativeTerrain = baye.getTerrainByGeneralIndex(candidate.i);
+                    if (nativeTerrain != null && Number(nativeTerrain) === Math.floor(Number(nativeTerrain)) &&
+                        Number(nativeTerrain) >= 0 && Number(nativeTerrain) <= 255 && Number(nativeTerrain) !== inferred.index) {
+                        info.terrain.verified = false; info.terrain.reason = 'native-mismatch'; break;
+                    }
+                } catch (e) {}
+            }
+        }
+        for (i = 0; i < info.units.length; i += 1) {
+            info.units[i].terrain = terrainAt(info.units[i].x, info.units[i].y, info.terrain);
         }
         computeFightView(info);
         if (!state.probed) {
@@ -949,34 +976,21 @@
         var rows = state.viewH || state.mapH || 12;
         var viewOx = state.viewOx || 0;
         var viewOy = state.viewOy || 0;
-        var tileW = state.tileW || state.mapW || cols;
         var cw = boardW / cols;
         var ch = boardH / rows;
         var ox = pad;
         var oy = 72;
         var r;
         var c;
-        var pal = ['#2f5d32', '#c2b280', '#6b5a4a', '#1f4d2e', '#8a6a3a', '#7a3a3a', '#5a4a3a', '#2a4a6a'];
-        var painted = 0;
-        if (state.tiles && state.tiles.length) {
-            for (r = 0; r < state.tiles.length; r++) {
-                if (state.tiles[r]) {
-                    painted += 1;
-                }
-            }
-        }
-        var useTiles = state.tiles && state.tiles.length && tileW && (painted || !state.preview);
-        for (r = 0; r < rows; r++) {
-            for (c = 0; c < cols; c++) {
-                if (useTiles) {
-                    var tile = state.tiles[(r + viewOy) * tileW + (c + viewOx)] || 0;
-                    ctx.fillStyle = pal[Math.abs(tile) % pal.length];
-                    ctx.globalAlpha = 0.62;
-                } else {
+        var terrainPainted = global.BayeHdBattleTerrain && global.BayeHdBattleTerrain.paint(ctx,
+            { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy, dpr: dpr },
+            state.terrain);
+        if (!terrainPainted) {
+            for (r = 0; r < rows; r++) {
+                for (c = 0; c < cols; c++) {
                     ctx.fillStyle = (r + c) % 2 ? '#1a2030' : '#161b26';
-                    ctx.globalAlpha = 1;
+                    ctx.fillRect(ox + c * cw, oy + r * ch, cw + 0.5, ch + 0.5);
                 }
-                ctx.fillRect(ox + c * cw, oy + r * ch, cw + 0.5, ch + 0.5);
             }
         }
         ctx.globalAlpha = 1;
@@ -1097,6 +1111,16 @@
         ctx.fillStyle = '#9aa6b8';
         ctx.fillText('蓝：己方 · 红：敌方 · 待：可行动 · 已：已行动 · 行：当前将领', ox, oy + rows * ch + 18);
         var focusUnit = visualSnap.focus && unitAt(visualSnap.focus.x, visualSnap.focus.y);
+        if (!state.preview && visualSnap.focus) {
+            var focusedTerrain = terrainAt(visualSnap.focus.x, visualSnap.focus.y);
+            ctx.fillStyle = 'rgba(15,20,29,0.94)';
+            ctx.fillRect(ox + 650, focusUnit ? DESIGN_H - 78 : DESIGN_H - 52, boardW - 650, 25);
+            ctx.textAlign = 'right'; ctx.fillStyle = '#e2d8ba';
+            ctx.font = '19px BayeUI, "Noto Sans CJK SC", sans-serif';
+            var terrainText = '地形：' + focusedTerrain.label + ' · 位置 ' + focusedTerrain.x + ',' + focusedTerrain.y;
+            if (focusedTerrain.kind === 'unknown' && focusedTerrain.raw != null) { terrainText += ' · 图块 ' + focusedTerrain.raw; }
+            ctx.fillText(terrainText, ox + boardW - 8, focusUnit ? DESIGN_H - 59 : DESIGN_H - 33, boardW - 666);
+        }
         if (!state.preview && focusUnit) {
             ctx.fillStyle = 'rgba(15,20,29,0.94)';
             ctx.fillRect(ox + 650, DESIGN_H - 52, boardW - 650, 30);
