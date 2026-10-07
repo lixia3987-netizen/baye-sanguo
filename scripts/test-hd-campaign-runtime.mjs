@@ -264,12 +264,68 @@ async function click(cdp, selector) {
     await delay(250);
 }
 
+function engineInputRecorderExpression(documentId) {
+    assert.ok(Number.isInteger(documentId)&&documentId>=0,'input recorder document ID is valid');
+    return `(() => {
+        const previous=window.__runtimeEngineInputRecorder;
+        if(previous) {
+            if(previous.wrapper!==window.sendKey||previous.inputs!==window.__runtimeEngineInputs||
+                !Array.isArray(previous.inputs)||!Number.isInteger(previous.documentId))
+                throw new Error('Native input recorder ownership changed');
+            return {installed:false,documentId:previous.documentId,count:previous.inputs.length};
+        }
+        if(typeof window.sendKey!=='function')throw new Error('Native sendKey must exist before input recording');
+        const original=window.sendKey,inputs=[];
+        const wrapper=function(code) {
+            const f=baye.hd.fight(),m=baye.hd.march();
+            inputs.push({code,fightKind:f.inputKind,fightSeq:f.inputSeq,marchPhase:m.phase,marchSeq:m.inputSeq,marchSession:m.session});
+            return original.apply(this,arguments);
+        };
+        window.__runtimeEngineInputs=inputs;
+        window.__runtimeEngineInputRecorder={documentId:${documentId},inputs,wrapper};
+        window.sendKey=wrapper;
+        return {installed:true,documentId:${documentId},count:0};
+    })()`;
+}
+
+const engineInputDocumentExpression=`(() => {
+    const recorder=window.__runtimeEngineInputRecorder;
+    if(!recorder||recorder.wrapper!==window.sendKey||recorder.inputs!==window.__runtimeEngineInputs||
+        !Array.isArray(recorder.inputs)||!Number.isInteger(recorder.documentId))
+        throw new Error('Native input recording is unavailable for the current document');
+    return {documentId:recorder.documentId,inputs:recorder.inputs};
+})()`;
+let nextEngineInputDocument=0;
+
+async function installEngineInputRecorder(cdp) {
+    const installed=await evaluate(cdp,engineInputRecorderExpression(nextEngineInputDocument));
+    assert.ok(installed&&typeof installed.installed==='boolean'&&Number.isInteger(installed.documentId),'native input recorder acknowledges its document');
+    if(installed.installed) {
+        assert.equal(installed.documentId,nextEngineInputDocument);
+        nextEngineInputDocument++;
+    }
+    return installed;
+}
+
+async function archiveEngineInputDocument(cdp,label) {
+    const current=await evaluate(cdp,engineInputDocumentExpression);
+    assert.ok(current&&Number.isInteger(current.documentId)&&Array.isArray(current.inputs),'native input archive contains an actual recording');
+    const documents=report.engineInputDocuments??=[];
+    let document=documents.find(item=>item.documentId===current.documentId);
+    if(document) {
+        assert.deepEqual(current.inputs.slice(0,document.inputs.length),document.inputs,'previously archived native inputs remain the exact prefix of this document');
+    } else {
+        document={documentId:current.documentId,checkpoints:[],inputs:[]};
+        documents.push(document);
+    }
+    document.inputs=current.inputs;
+    document.checkpoints.push({label,count:current.inputs.length});
+    report.engineInputs=documents.flatMap(item=>item.inputs);
+}
+
 async function smoke(cdp) {
     await waitFor(cdp, 'real LIB/WASM initialization', 'window.baye && baye.hd && baye.hd.ready()', 60000);
-    await evaluate(cdp, `(() => {
-        window.__runtimeEngineInputs=[];const original=window.sendKey;
-        window.sendKey=function(code){const f=baye.hd.fight(),m=baye.hd.march();window.__runtimeEngineInputs.push({code,fightKind:f.inputKind,fightSeq:f.inputSeq,marchPhase:m.phase,marchSeq:m.inputSeq,marchSession:m.session});return original.apply(this,arguments);};
-    })()`);
+    await installEngineInputRecorder(cdp);
     const bindings = await evaluate(cdp, `({ ready: baye.data.g_hdEngineReady, control: baye.data.g_hdFightMenuControl,
         battlePref: BayeHdBattle.getMode(), hook: Object.prototype.hasOwnProperty.call(baye.hooks, 'fightOpenMainMenu') })`);
     assert.equal(bindings.ready, 1, 'HD C fields are bound after LIB initialization');
@@ -1234,9 +1290,11 @@ async function saveRefreshLoad(cdp) {
     assert.ok(report.savedStorage.every(s=>/sango[45]\.sav/.test(s.key)),'slot 2 maps to native filenames 4 and 5');
     assert.deepEqual(await evaluate(cdp,worldExpression),before,'saving does not mutate campaign state');
     await checkpoint(cdp,'save-real-slot-two');
+    await archiveEngineInputDocument(cdp,'before-refresh');
     await cdp.send('Page.reload',{ignoreCache:true});
     acknowledgedProgressReports.clear();
     await waitFor(cdp,'fresh WASM initializes after refresh','window.baye&&baye.hd&&baye.hd.ready()',60000);
+    await installEngineInputRecorder(cdp);
     await evaluate(cdp,`BayeHdSystemUi.setMode('hd')`);
     for(let i=0;i<20;i++) {
         if(await evaluate(cdp,'baye.hd.menuItems().active&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
@@ -1392,7 +1450,7 @@ async function main() {
         ` });
         await cdp.send('Page.navigate', { url: origin + '/pc.html' });
         await smoke(cdp);
-        report.engineInputs=await evaluate(cdp,'window.__runtimeEngineInputs');
+        await archiveEngineInputDocument(cdp,'completed');
         assert.deepEqual(report.exceptions, [], 'browser has no uncaught exceptions');
         assert.deepEqual(report.dialogs, [], 'game boot has no unexpected alert dialogs');
         report.ok = true;
@@ -1401,7 +1459,7 @@ async function main() {
         report.error = error.stack || String(error);
         if (cdp) {
             try { report.failureState = await evaluate(cdp, snapshotExpression); } catch {}
-            try { report.engineInputs=await evaluate(cdp,'window.__runtimeEngineInputs'); } catch {}
+            try { await archiveEngineInputDocument(cdp,'failure'); } catch (inputError) { report.engineInputCollectionError=inputError.message||String(inputError); }
             try { report.battleKeys=await evaluate(cdp,'window.__battleKeys'); } catch {}
             try { report.failureWorld=await evaluate(cdp,worldExpression); } catch (worldError) { report.failureWorldError=worldError.message||String(worldError); }
             try {
