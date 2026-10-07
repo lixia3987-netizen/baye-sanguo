@@ -53,3 +53,7 @@ await BayePortraitDump.dumpCurrent()
 这只导出当前时期，会闪一下 LCD，不会调用 `LoadPeriod`。`dumpAll()` 会重载时期并清掉战役，只在导出页使用。
 
 游戏里的替换逻辑在 `pc.html` 引入的 `js/hd-portraits.js`。说明见 `docs/hd-graphics.md`。
+
+回退路径由 `refs/index.json` 的全量索引提供，不从人物编号猜文件名。当前索引只支持 `libs/dat-mod.lib`；其他 Mod 与自定义 Lib 未建立对应身份索引前使用引擎 LCD。模块缓存成功、失败和进行中的图片请求，并取消已过期的显示结果。原图缺失时不显示替代人物。
+
+`npm run test:portraits` 验证四时期、800 条参考图路径、ID 0、缺图、不同 Lib 和异步竞态。`CHROME=/path/to/chromium npm run test:portrait-browser` 验证实际图片加载与回退；这项检查不替代真实战斗验收。

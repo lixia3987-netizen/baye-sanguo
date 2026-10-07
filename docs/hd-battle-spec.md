@@ -1,10 +1,26 @@
-# 战场 HD 表现壳（B0 / B1）
+# 战场 HD 输入规格与 B0 / B1 历史记录
 
-本文锁定 **战斗地图** 的 HD 表现轨道。哲学与大地图 / 城菜单相同：**HTML/CSS/Canvas 壳 + 原 baye WASM**。不改 `dat.lib`、不重写战斗规则。
+本文保留 B0/B1 的战斗地图规格；当前分支已增加引擎桥接并从 `vendor/iBaye` 重编 WASM。经典模式走原菜单，HD 模式拥有独立输入 hook；`fightOpenMainMenu` 回退协议见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。下文历史阶段的“不改 WASM”“不 stub”不是当前实现状态。继续开发与真实战斗验收见 [hd-development-plan.md](hd-development-plan.md)。
 
 **分支策略：只停在 `feature/hd-graphics`，用户明确要求之前不要合入 `main`。**
 
 城池菜单见 [hd-city-menu-spec.md](hd-city-menu-spec.md)。全屏清单见 [hd-full-replacement-checklist.md](hd-full-replacement-checklist.md)。
+
+## 当前手动战斗协议（M2）
+
+引擎使用 `g_hdFightInputKind/inputSeq/actor` 表示正在等待的玩家操作；菜单使用 `g_hdMenuActive/context/kind/seq` 确认归属。完整字段及有效期见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。HD 只在这些字段匹配时允许操作；旧菜单内容仍留在内存中，不表示菜单可点击。
+
+点击将领、移动格或瞄准目标时，每次只提交一个方向键，等待真实光标回执后继续，最后提交一次确认。菜单选择同样等待真实索引回执。等待超时只终止本次请求并提示玩家，没有确认重试。移动范围、攻击射程和技能合法性由引擎裁决。
+
+刷新、轮询、绘制和切换经典/HD 模式不发送战斗指令。待机由玩家选择，只结束该将行动；结束回合必须通过真实系统菜单确认。系统、撤退确认和设置使用原生菜单；HD 的 `fightOpenMainMenu` 返回 `-2`，让 C 打开原菜单。切换经典模式恢复原 hook，不能自动结束回合。
+
+HELP 9 和 VIEW 10 保留原生 LCD，置于 HD 战场上方。返回只发送一次取消；形势图翻页依据引擎输入序号回执。战斗结束时关闭战场层，结果和继任提示交由引擎及玩家处理，不自动确认。
+
+专项回归：`npm run test:battle-commands`、`npm run test:battle-mode`、`npm run test:engine-protocol`。真实流程：`npm run test:battle-runtime`。实际通过范围记录在开发计划中。
+
+## 历史 B0 / B1 规格
+
+以下保留早期表现壳的设计与当时验证结果；其中键盘不拦截、猜测 `wait`、不改 WASM 等实现描述已由上面的 M2 协议替代。
 
 ---
 

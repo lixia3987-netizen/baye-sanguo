@@ -425,6 +425,7 @@ FAR SkillID FgtGetJNIdx(U8 idx,RECT *pRect)
         U32 midx;
 
         rngb = 0;
+        baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FIGHT, BAYE_HD_FIGHT_INPUT_SKILL);
         midx = (U8)PlcSplMenu(pRect,0,sbuf);
         if(MNU_EXIT == midx) {
             baye_hd_set_skills(NULL, NULL, 0, 0, 0);
@@ -931,7 +932,9 @@ FAR void FgtShowMvRng(void)
 FAR void FgtShowViewInner(void);
 FAR void FgtShowView(void) {
     int prev = SysScrollingTimerOpen(0);
+    baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);
     FgtShowViewInner();
+    baye_hd_fight_input_end();
     SysScrollingTimerOpen(prev);
 }
 FAR void FgtShowViewInner(void)
@@ -1035,6 +1038,13 @@ FAR void FgtShowViewInner(void)
             }
         }
         FgtViewForce(pForce,pSIdx);
+        /* A view page has no exported cursor/index. Its completed arrow input
+         * opens a fresh wait token, including a page-boundary no-op. Timed
+         * blinking/redraws never advance this acknowledgement. */
+        if (msg.type == VM_CHAR_FUN && (msg.param == VK_UP || msg.param == VK_DOWN ||
+            msg.param == VK_LEFT || msg.param == VK_RIGHT)) {
+            baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);
+        }
     }
 }
 /***********************************************************************

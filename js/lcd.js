@@ -123,8 +123,75 @@ var 		VK_DEL		=		0x31;
 var 		VK_MODIFY	=		0x32;
 var 		VK_SEARCH	=		0x33;
 
+// HD overlays and the classic handler share one keyboard event. Native form
+// controls keep their keys, and an overlay that consumes a key owns it fully.
+function bayeInputIgnored(event) {
+    if (!event || event.defaultPrevented || event.returnValue === false ||
+        event.isComposing || event.keyCode === 229) {
+        return true;
+    }
+    var target = event.target || event.srcElement;
+    for (var node = target; node; node = node.parentElement) {
+        var tag = String(node.tagName || node.nodeName || '').toLowerCase();
+        if (node.isContentEditable || tag === 'input' || tag === 'textarea' || tag === 'select') {
+            return true;
+        }
+        // Enter/Space already activate a focused native button. Let its click
+        // handler send the command instead of also forwarding the keyboard key.
+        if ((tag === 'button' && (event.keyCode === 13 || event.keyCode === 32)) ||
+            (tag === 'a' && event.keyCode === 13)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function bayeConsumeKeyEvent(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) {
+        event.stopImmediatePropagation();
+    }
+}
+
+function bayeQtyStepKeys(delta, qty) {
+    delta = Number(delta);
+    if (!qty || !qty.active || (delta !== -10 && delta !== -1 && delta !== 1 && delta !== 10)) {
+        return [];
+    }
+    var value = Number(qty.value), min = Number(qty.min), max = Number(qty.max);
+    if (!isFinite(value) || !isFinite(min) || !isFinite(max) ||
+        min < 0 || max < min || max > 0xffffffff || value < min || value > max ||
+        Math.floor(value) !== value || Math.floor(min) !== min || Math.floor(max) !== max) {
+        return [];
+    }
+    var amount = Math.min(Math.abs(delta), delta > 0 ? max - value : value - min);
+    if (!amount) {
+        return [];
+    }
+    var keys = [], places = String(max).length - 1, i;
+    // NumOperate starts at units, but keyboard/digit input may have moved the
+    // cursor. RIGHT reaches units from any position (tactic.c::NumOperateInner).
+    for (i = 0; i < places; i++) {
+        keys.push(VK_RIGHT);
+    }
+    var direction = delta > 0 ? VK_UP : VK_DOWN;
+    if (amount === 10) {
+        keys.push(VK_LEFT, direction, VK_RIGHT);
+    } else {
+        // Near a bound, use units so +/-10 lands exactly on min/max.
+        for (i = 0; i < amount; i++) {
+            keys.push(direction);
+        }
+    }
+    return keys;
+}
+
 function onKeyDown(e) {
     var event = e?e:window.event;
+    if (bayeInputIgnored(event)) {
+        return;
+    }
 
     switch (event.keyCode) {
         case 13:
@@ -494,7 +561,7 @@ function redirect(page) {
     var now = new Date().getTime() / 1000;
     var name = getLibName();
     var hash = isMobile ? "#" + now : "";
-    var assetVer = (window.BAYE_ASSET_VER || '20260923j');
+    var assetVer = (window.BAYE_ASSET_VER || '20261007d');
     window.location.href = page + "?name=" + name + "&ver=" + encodeURIComponent(assetVer) + hash;
 }
 
@@ -783,20 +850,8 @@ function bayeExit() {
 }
 
 function bayeLoadFileContent(filename) {
-    console.log("Loading " + filename);
-    if (filename == 'baye//data/dat.lib') {
-        console.log("libsize: " + dynLib.length);
-        return dynLib;
-    } else {
-        var data = window.localStorage[filename];
-        if (data
-            && data.length > 100
-            && window.localStorage[filename + '.lib']
-            && window.localStorage[filename + '.lib'] != window.localStorage['baye/libpath']) {
-            return data.substring(0, 20);
-        }
-        return data;
-    }
+    if (filename === 'baye//data/dat.lib') return dynLib;
+    return BayeSaveStorage.readFile(filename);
 }
 
 function bayeBindTap(selector) {
@@ -811,24 +866,19 @@ function bayeBindTap(selector) {
 }
 
 function bayeSaveFileContent(filename, content) {
-    console.log("Saving " + filename);
-    window.localStorage[filename + '.lib'] = window.localStorage['baye/libpath'];
-    window.localStorage[filename + '.name'] = window.localStorage['baye/libname'];
-    window.localStorage[filename] = content;
+    return BayeSaveStorage.stage(filename, content);
 }
 
 Module = window.Module || {};
 Module.memoryInitializerPrefixURL = "../baye-engine/";
 Module.noInitialRun = true;
-if (window.BAYE_ASSET_VER) {
-    Module.locateFile = function (path, prefix) {
-        prefix = prefix || '';
-        if (/\.(wasm|map)$/.test(path)) {
-            return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
-        }
-        return prefix + path;
-    };
-}
+Module.locateFile = function (path, prefix) {
+    prefix = prefix || '';
+    if (/\.(wasm|map)$/.test(path)) {
+        return prefix + path + '?ver=' + (window.BAYE_ASSET_VER || '20261007d');
+    }
+    return prefix + path;
+};
 
 baye = {
     preScriptInit: function() {

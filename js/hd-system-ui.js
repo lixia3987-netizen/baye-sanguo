@@ -30,7 +30,18 @@
         kings: [],
         saves: [],
         probed: false,
-        lastFuncMenuIdle: 0
+        lastFuncMenuIdle: 0,
+        recordMode: 0,
+        recordSource: '',
+        recordSeq: 0,
+        inputToken: '',
+        kingProtocolObserved: false,
+        request: null,
+        requestEpoch: 0,
+        confirmedToken: '',
+        exitedToken: '',
+        retiredToken: '',
+        hint: ''
     };
 
     function readStorage(key, fallback) {
@@ -280,17 +291,181 @@
 
     function probeSaves() {
         var list = [];
-        var i;
+        var i, slot;
         try {
-            for (i = 0; i < 8; i++) {
-                var key = 'baye//data//sango' + i + '.sav';
-                var raw = global.localStorage.getItem(key);
-                if (raw) {
-                    list.push({ index: i, key: 'sango' + i + '.sav', bytes: raw.length });
+            if (global.BayeSaveStorage && typeof BayeSaveStorage.slots === 'function') {
+                var slots = BayeSaveStorage.slots() || [];
+                for (i = 0; i < 4; i++) {
+                    slot = slots.filter(function (s) { return s && Number(s.slot) === i; })[0];
+                    list.push(slot || { slot: i, status: 'empty', canLoad: false, bytes: 0 });
                 }
+                return list;
             }
         } catch (e) {}
+        // An older runtime can still show the paired files, but cannot certify
+        // them for loading. Selection requires the native record protocol.
+        for (i = 0; i < 4; i++) {
+            var first = readStorage('baye//data//sango' + (i * 2) + '.sav', '');
+            var second = readStorage('baye//data//sango' + (i * 2 + 1) + '.sav', '');
+            list.push({ slot: i, status: first || second ? 'invalid' : 'empty',
+                canLoad: false, bytes: (first.length + second.length) / 2,
+                error: first || second ? '请更新运行时后读取此存档。' : '' });
+        }
         return list;
+    }
+
+    function liveRecord() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.record === 'function') {
+                return baye.hd.record();
+            }
+            var data = engineData();
+            if (data && data.g_hdRecordActive != null) {
+                return { active: readNumber(data, 'g_hdRecordActive'), mode: readNumber(data, 'g_hdRecordMode'),
+                    index: readNumber(data, 'g_hdRecordIndex'), count: readNumber(data, 'g_hdRecordCount'),
+                    seq: readNumber(data, 'g_hdRecordSeq') };
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function liveMenu() {
+        try {
+            if (window.baye && baye.hd && typeof baye.hd.menuItems === 'function') {
+                return baye.hd.menuItems();
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function inputOwner() {
+        if (fightActive()) { return null; }
+        var record = liveRecord();
+        if (record && Number(record.active) && Number(record.seq) &&
+            ((Number(record.mode) === 1 && Number(record.count) === 3) ||
+                (Number(record.mode) === 2 && Number(record.count) === 4)) &&
+            Number(record.index) >= 0 && Number(record.index) < Number(record.count)) {
+            return { type: 'record', seq: Number(record.seq), index: Number(record.index),
+                count: Number(record.count), mode: Number(record.mode), screen: 'saveload' };
+        }
+        var menu = liveMenu();
+        if (!menu || !Number(menu.active) || !Number(menu.seq)) { return null; }
+        var screen = Number(menu.context) === 2 && Number(menu.kind) === 1 ? 'insystem'
+            : Number(menu.context) === 4 && Number(menu.kind) === 1 ? 'title'
+            : Number(menu.context) === 4 && Number(menu.kind) === 2 ? 'period'
+            : Number(menu.context) === 4 && Number(menu.kind) === 3 ? 'king' : '';
+        if (!screen) { return null; }
+        var count = Number(menu.count), index = Number(menu.index);
+        if (!(count > 0) || !(index >= 0 && index < count)) { return null; }
+        return { type: 'menu', seq: Number(menu.seq), index: index, count: count,
+            context: Number(menu.context), kind: Number(menu.kind), screen: screen };
+    }
+
+    function ownerToken(owner) {
+        return owner.type + ':' + owner.seq + ':' + (owner.mode || owner.context + ':' + owner.kind);
+    }
+
+    function invalidateInput() {
+        state.requestEpoch += 1;
+        state.request = null;
+        state.queue = [];
+        state.sending = false;
+    }
+
+    function sameOwner(a, b) {
+        return !!(a && b && ownerToken(a) === ownerToken(b));
+    }
+
+    function failRequest(text, owner) {
+        state.request = null;
+        state.retiredToken = ownerToken(owner);
+        state.hint = text;
+        render();
+    }
+
+    function canLoadSlot(index) {
+        var slot = null;
+        try {
+            if (global.BayeSaveStorage && typeof BayeSaveStorage.inspectSlot === 'function') {
+                slot = BayeSaveStorage.inspectSlot(index);
+            }
+        } catch (e) {}
+        if (!slot) { slot = probeSaves()[index]; }
+        state.saves[index] = slot || { slot: index, status: 'empty', canLoad: false };
+        if (slot && slot.canLoad) { return true; }
+        state.hint = slot && slot.error || '此槽没有可读取的完整存档。';
+        return false;
+    }
+
+    function chooseNative(index, confirm, displayedToken) {
+        var owner = inputOwner();
+        if (!shouldShowHd() || !state.open || state.request || !owner || owner.screen !== state.screen ||
+            !(index >= 0 && index < owner.count) || state.confirmedToken === ownerToken(owner) ||
+            state.exitedToken === ownerToken(owner) || state.retiredToken === ownerToken(owner) ||
+            (displayedToken != null && displayedToken !== ownerToken(owner))) { return false; }
+        if (owner.type === 'record' && owner.mode === 2 && confirm && !canLoadSlot(index)) {
+            render();
+            return false;
+        }
+        state.hint = '';
+        var epoch = state.requestEpoch;
+        var now = Date.now();
+        var request = { owner: owner, target: index, confirm: confirm, started: now,
+            progressAt: now, waiting: false, expected: owner.index };
+        state.request = request;
+        function step() {
+            if (epoch !== state.requestEpoch || state.request !== request || !shouldShowHd()) { return; }
+            var current = inputOwner();
+            if (!sameOwner(current, owner)) {
+                state.request = null;
+                refresh();
+                return;
+            }
+            var now = Date.now();
+            if (now - request.started > 60000) {
+                failRequest('菜单选择等待过久。请切换经典界面检查，或返回后重试。', owner);
+                return;
+            }
+            if (request.waiting) {
+                if (current.index !== request.expected) {
+                    if (now - request.progressAt > 5000) {
+                        failRequest('引擎尚未确认菜单移动。请切换经典界面检查，或返回后重试。', owner);
+                        return;
+                    }
+                    setTimeout(step, 40);
+                    return;
+                }
+                // A slow but progressing native menu may need several seconds
+                // per item. Only its actual ACK renews the next step's budget.
+                request.progressAt = now;
+            }
+            request.waiting = false;
+            state.idleIndex = current.index;
+            if (current.index === index) {
+                state.request = null;
+                if (confirm) {
+                    if (owner.type === 'record' && owner.mode === 2 && !canLoadSlot(index)) {
+                        render();
+                        return;
+                    }
+                    state.confirmedToken = ownerToken(owner);
+                    engineSendKey(VK.ENTER);
+                }
+                refresh();
+                return;
+            }
+            request.expected = current.index + (current.index > index ? -1 : 1);
+            request.waiting = true;
+            if (!engineSendKey(current.index > index ? VK.UP : VK.DOWN)) {
+                failRequest('当前引擎输入不可用，请返回后重试。', owner);
+                return;
+            }
+            render();
+            setTimeout(step, 40);
+        }
+        step();
+        render();
+        return true;
     }
 
     function el(id) {
@@ -363,7 +538,9 @@
             return;
         }
         state.sending = true;
+        var epoch = state.requestEpoch;
         function next() {
+            if (epoch !== state.requestEpoch || !shouldShowHd()) { return; }
             if (!state.queue.length) {
                 state.sending = false;
                 return;
@@ -428,42 +605,26 @@
         if (fightActive()) {
             return null;
         }
-        var names = liveMenuNames();
-        if (names[0] === '策略结束' && names.indexOf('存储进度') >= 0 &&
-            names.indexOf('结束游戏') >= 0) {
-            var pick = 0;
-            try {
-                if (window.baye && baye.hd && typeof baye.hd.march === 'function') {
-                    pick = baye.hd.march().pick;
-                }
-            } catch (e) {}
-            var cityOpen = global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen();
-            var idleFresh = (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
-            var leftoverTip = '';
-            try {
-                leftoverTip = (window.baye && baye.hd && baye.hd.reportText && baye.hd.reportText()) || '';
-            } catch (e2) {}
-            /* leftover 策略结束字节 / 无足够金钱 / 选择目标 不当系统菜单，否则和城菜单对打。 */
-            if (/选择目标|无足够金钱|金钱不足/.test(leftoverTip)) {
-                return null;
-            }
-            /* g_hdMenuBytes 会残留「策略结束」。大地图 pick=1、战斗中、或 onMenuIdle 已停，都不当 FunctionMenu。 */
-            if (!pick && !cityOpen && idleFresh) {
-                return 'insystem';
-            }
-        }
+        var owner = inputOwner();
+        if (owner) { return owner.screen; }
+        if (state.kingProtocolObserved) { return null; }
+        // A record selector is an actual native wait, not a sticky screen set
+        // optimistically by a preceding click. Save and its cancellation return
+        // to the map; title loading returns to the title or the loaded map.
+        if (state.screen === 'saveload' || state.screen === 'insystem') { return null; }
+        try {
+            var march = window.baye && baye.hd && typeof baye.hd.march === 'function' && baye.hd.march();
+            if (march && Number(march.pick) && !Number(march.battlePick)) { return null; }
+        } catch (e) {}
         var king = playerKingId();
         var belong = citiesHaveBelong();
         if (king != null && belong) {
-            if (state.screen === 'saveload') {
-                return 'saveload';
-            }
             return null;
         }
         if (belong && king == null) {
             return 'king';
         }
-        if (state.screen === 'king' || state.screen === 'period' || state.screen === 'saveload' || state.screen === 'insystem') {
+        if (state.screen === 'king' || state.screen === 'period') {
             return state.screen;
         }
         return 'title';
@@ -504,11 +665,19 @@
             });
         }
         if (state.screen === 'saveload') {
-            if (!state.saves.length) {
-                return [];
-            }
-            return state.saves.map(function (s) {
-                return s.key + ' · ' + s.bytes + 'B';
+            var count = state.recordMode === 1 ? 3 : 4;
+            return state.saves.slice(0, count).map(function (s) {
+                var label = '存档 ' + (Number(s.slot) + 1) + ' · ';
+                if (s.status === 'empty') { return label + '空'; }
+                if (s.status === 'wrong-lib') { return label + '属于其他版本'; }
+                if (s.status === 'incomplete') { return label + '文件不完整'; }
+                if (!s.canLoad) { return label + '无法读取'; }
+                var data = engineData();
+                var currentPeriod = data && readNumber(data, 'g_PIdx');
+                var samePeriod = s.period == null || Number(s.period) === currentPeriod;
+                var name = s.king != null && samePeriod ? personNameById(Number(s.king) + 1) : '';
+                var period = PERIODS[Number(s.period) - 1] || '';
+                return label + (name || period || '已有进度') + (s.year != null ? ' · ' + s.year + ' 年' : '');
             });
         }
         return TITLE;
@@ -519,27 +688,28 @@
             title: '三国霸业',
             period: '选择时期',
             king: '选择君主',
-            saveload: '存读档',
+            saveload: state.recordMode === 1 ? '存储进度' : '重返沙场',
             insystem: '系统指令'
         }[state.screen] || '系统';
     }
 
     function screenHint() {
+        if (state.hint) { return state.hint; }
         if (state.screen === 'king') {
             return state.kings.length
-                ? '已读到 ' + state.kings.length + ' 个势力。点选按 onMenuIdle 光标发键；形势图顺序可能不同。'
-                : '形势图阶段城归属通常还没写入。请用右侧放大的经典 LCD 选君主；名单一出现会自动填入并收起 LCD。';
+                ? '请选择一个势力开始游戏。'
+                : '请在右侧经典画面选择君主：方向键移动，回车确认。';
         }
         if (state.screen === 'saveload') {
-            return state.saves.length
-                ? '只列出探测到的 sango*.sav，不编造空档。'
-                : '未探测到本地 sango*.sav。经典 LCD 可对照引擎空列表。';
+            return state.recordMode === 1
+                ? '选择一个存档位置保存当前进度。已有进度会被替换。'
+                : '选择完整且属于当前游戏版本的存档。';
         }
         if (state.screen === 'period') {
-            return '董卓弄权 / 曹操崛起 / 赤壁之战 / 三国鼎立 · 点选发键';
+            return '选择战役开始的历史时期。';
         }
         if (state.screen === 'insystem') {
-            return '策略结束 / 存储进度 / 结束游戏 · FEATURES 已核验';
+            return '请选择下一步指令。';
         }
         return '新君登基 / 重返沙场 / 制作群组 / 解甲归田 · 与引擎主菜单一致';
     }
@@ -568,6 +738,16 @@
             btn.type = 'button';
             btn.className = 'hd-system-ui-item';
             btn.setAttribute('data-hd-sys', String(i));
+            var owner = inputOwner();
+            if (owner) { btn.setAttribute('data-hd-sys-owner', ownerToken(owner)); }
+            var pending = !!state.request || !!(owner &&
+                (state.confirmedToken === ownerToken(owner) || state.exitedToken === ownerToken(owner) ||
+                    state.retiredToken === ownerToken(owner)));
+            var unavailable = state.screen === 'saveload' && state.recordMode === 2 &&
+                (!state.saves[i] || !state.saves[i].canLoad);
+            btn.disabled = pending || unavailable || (!owner &&
+                (state.screen !== 'king' || state.kingProtocolObserved));
+            if (unavailable) { btn.title = state.saves[i] && state.saves[i].error || '此槽没有可读取的完整存档。'; }
             if (state.idleIndex === i) {
                 btn.classList.add('is-idle');
             }
@@ -593,6 +773,7 @@
         setText(el('hd-system-ui-sub'), screenHint());
         fillList();
         var probe = el('hd-system-ui-probe');
+        if (probe) { probe.hidden = !global.BAYE_HD_DEBUG; }
         setText(probe, 'screen=' + state.screen +
             '  hook=' + (state.lastHook || '—') +
             '  idle=' + (state.idleIndex == null ? '—' : state.idleIndex) +
@@ -630,9 +811,30 @@
                 state.showLcd = false;
             }
         }
+        var owner = inputOwner();
+        if (owner && owner.screen === 'king') { state.kingProtocolObserved = true; }
+        if (owner && state.inputToken !== ownerToken(owner)) {
+            invalidateInput();
+            state.hint = '';
+            state.inputToken = ownerToken(owner);
+        }
         if (next === 'saveload') {
+            var record = liveRecord();
+            if (!record || !Number(record.active)) { return; }
+            if (state.recordSeq !== Number(record.seq)) {
+                if (state.screen !== 'saveload') {
+                    state.recordSource = Number(record.mode) === 1 ? 'insystem' : 'title';
+                }
+                if (Number(record.mode) === 1 && global.BayeSaveStorage && typeof BayeSaveStorage.lastError === 'function') {
+                    var saveError = BayeSaveStorage.lastError();
+                    if (saveError && saveError.message) { state.hint = String(saveError.message); }
+                }
+            }
+            state.recordSeq = Number(record.seq);
+            state.recordMode = Number(record.mode);
             state.saves = probeSaves();
         }
+        if (owner) { state.idleIndex = owner.index; }
         var wasOpen = state.open;
         state.screen = next;
         state.open = true;
@@ -669,6 +871,7 @@
 
     function closeUi(opts) {
         opts = opts || {};
+        invalidateInput();
         state.open = false;
         applyChrome();
         if (!opts.silent) {
@@ -676,35 +879,16 @@
         }
     }
 
-    function choose(index) {
-        pickIndex(index, true);
-        if (state.screen === 'title') {
-            if (index === 0) {
-                state.screen = 'period';
-                state.idleIndex = 0;
-            } else if (index === 1) {
-                state.screen = 'saveload';
-                state.showLcd = true;
-                state.saves = probeSaves();
-                state.idleIndex = 0;
-            } else {
-                state.showLcd = true;
-            }
-        } else if (state.screen === 'period') {
-            state.screen = 'king';
-            state.idleIndex = 0;
-            state.kings = probeKings();
-            state.showLcd = !state.kings.length;
-            scheduleKingRefresh();
-        } else if (state.screen === 'insystem' && index === 0) {
-            closeUi({ silent: true });
-        } else if (state.screen === 'insystem' && index === 1) {
-            state.screen = 'saveload';
-            state.showLcd = true;
-            state.saves = probeSaves();
-            state.idleIndex = 0;
+    function choose(index, displayedToken) {
+        if (!state.open || !shouldShowHd()) { return false; }
+        var owner = inputOwner();
+        if (state.screen !== 'king' || owner) {
+            return chooseNative(index, true, displayedToken);
         }
+        if (state.kingProtocolObserved || displayedToken) { return false; }
+        pickIndex(index, true);
         render();
+        return true;
     }
 
     function back() {
@@ -716,6 +900,19 @@
             console.warn('[hd-system-ui] blocked back EXIT during BattleMake');
             return;
         }
+        var owner = inputOwner();
+        if (owner) {
+            var token = ownerToken(owner);
+            if (state.exitedToken === token) { return false; }
+            invalidateInput();
+            state.exitedToken = token;
+            state.hint = '';
+            engineSendKey(VK.EXIT);
+            refresh();
+            return true;
+        }
+        if (state.screen === 'saveload' || state.screen === 'insystem' ||
+            state.screen === 'king' && state.kingProtocolObserved) { return false; }
         if (state.screen === 'period' || state.screen === 'saveload' || state.screen === 'king') {
             enqueueKeys([VK.EXIT], 60);
             state.screen = 'title';
@@ -792,6 +989,18 @@
             return;
         }
         state.bound = true;
+        var pressedOwner = '';
+        root.addEventListener('pointerdown', function (ev) {
+            pressedOwner = '';
+            var t = ev.target;
+            while (t && t !== root) {
+                if (t.getAttribute && t.getAttribute('data-hd-sys') != null) {
+                    pressedOwner = t.getAttribute('data-hd-sys-owner') || '';
+                    return;
+                }
+                t = t.parentNode;
+            }
+        });
         root.addEventListener('click', function (ev) {
             if (ev.target === root) {
                 return;
@@ -800,7 +1009,9 @@
             while (t && t !== root) {
                 if (t.getAttribute && t.getAttribute('data-hd-sys') != null) {
                     ev.preventDefault();
-                    choose(Number(t.getAttribute('data-hd-sys')));
+                    var token = pressedOwner || t.getAttribute('data-hd-sys-owner') || '';
+                    pressedOwner = '';
+                    if (!t.disabled) { choose(Number(t.getAttribute('data-hd-sys')), token); }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-sys-back') != null) {
@@ -825,11 +1036,26 @@
             if (!state.open || !shouldShowHd()) {
                 return;
             }
-            if (e.keyCode === 27) {
-                e.preventDefault();
-                back();
+            if (typeof global.bayeInputIgnored === 'function' && bayeInputIgnored(e)) { return; }
+            var codes = { 13: VK.ENTER, 27: VK.EXIT, 32: VK.EXIT, 37: VK.LEFT,
+                38: VK.UP, 39: VK.RIGHT, 40: VK.DOWN };
+            var code = codes[e.keyCode];
+            if (code == null) { return; }
+            var owner = inputOwner();
+            if (!owner && state.screen !== 'saveload' && state.screen !== 'insystem' &&
+                !(state.screen === 'king' && state.kingProtocolObserved)) {
+                if (code === VK.EXIT) { e.preventDefault(); back(); }
+                return;
             }
-        });
+            if (typeof global.bayeConsumeKeyEvent === 'function') { bayeConsumeKeyEvent(e); }
+            else { e.preventDefault(); e.stopPropagation(); if (e.stopImmediatePropagation) { e.stopImmediatePropagation(); } }
+            if (e.repeat) { return; }
+            if (code === VK.EXIT) { back(); return; }
+            if (!owner || state.request) { return; }
+            if (code === VK.ENTER) { chooseNative(owner.index, true); return; }
+            var target = (owner.index + (code === VK.UP || code === VK.LEFT ? -1 : 1) + owner.count) % owner.count;
+            chooseNative(target, false);
+        }, true);
     }
 
     function syncToolbar() {
@@ -867,6 +1093,7 @@
     }
 
     function setMode(value) {
+        invalidateInput();
         writeStorage(STORAGE_KEY, normalizeMode(value));
         if (getMode() === 'classic' && state.open) {
             closeUi({ silent: true });
@@ -893,7 +1120,7 @@
                     }
                     return;
                 }
-                if (!playerKingId() || state.screen === 'insystem' || state.screen === 'saveload') {
+                if (inputOwner() || !playerKingId() || state.screen === 'insystem' || state.screen === 'saveload') {
                     refresh();
                 } else if (inferScreen() === 'insystem') {
                     refresh();
@@ -916,9 +1143,12 @@
         close: closeUi,
         getScreen: function () { return state.screen; },
         openInsystem: function () {
+            var owner = inputOwner();
+            if (!owner || owner.screen !== 'insystem') { return false; }
             state.screen = 'insystem';
             state.open = true;
             render();
+            return true;
         },
         confirmStrategyEnd: function () {
             if (liveMenuNames()[0] !== '策略结束') {
@@ -953,12 +1183,11 @@
                 return false;
             }
             /* 不要 prepareNewFight：会清掉刚亮起的 g_hdFightActive。 */
-            state.idleIndex = 0;
-            engineSendKey(VK.ENTER);
-            if (state.screen === 'insystem') {
-                closeUi({ silent: true });
-            }
-            return true;
+            var owner = inputOwner();
+            if (!owner || owner.screen !== 'insystem') { return false; }
+            state.screen = 'insystem';
+            state.open = true;
+            return chooseNative(0, true);
         },
         onEngineHook: onEngineHook,
         start: start,
@@ -972,7 +1201,13 @@
                 idleIndex: state.idleIndex,
                 lastHook: state.lastHook,
                 kings: state.kings.map(function (k) { return k.name; }),
-                saves: state.saves.map(function (s) { return s.key; }),
+                saves: state.saves.map(function (s) { return { slot: s.slot, status: s.status, canLoad: !!s.canLoad }; }),
+                recordMode: state.recordMode,
+                recordSource: state.recordSource,
+                recordSeq: state.recordSeq,
+                input: inputOwner(),
+                pending: !!state.request,
+                hint: state.hint,
                 playerKing: playerKingId(),
                 haveBelong: citiesHaveBelong()
             };

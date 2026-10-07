@@ -267,7 +267,10 @@ U8 ShowGoodsProStr(U8 pro,U8 x,U8 y,U8 wid)
 FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0,U8 y0,U8 x1,U8 y1);
 FAR ToolID ShowGoodsControl(ToolID *goods,ToolID gcount, ToolID init, U8 x0,U8 y0,U8 x1,U8 y1) {
     int prev = SysScrollingTimerOpen(0);
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_GOODS);
+    baye_hd_menu_begin();
     ToolID rv = ShowGoodsControlInner(goods, gcount, init, x0, y0, x1, y1);
+    baye_hd_menu_end();
     SysScrollingTimerOpen(prev);
     return rv;
 }
@@ -799,7 +802,10 @@ U8 ShowPersonProStr(U8 pro,U8 x,U8 y,U8 wid)
 FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSelected,U8 x0,U8 y0,U8 x1,U8 y1);
 FAR PersonID ShowPersonControl(PersonID *person,U32 pcount,PersonID initSelected,U8 x0,U8 y0,U8 x1,U8 y1) {
     int prev = SysScrollingTimerOpen(5);
+    baye_hd_menu_scope_default(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_PERSON);
+    baye_hd_menu_begin();
     PersonID id = ShowPersonControlInner(person, pcount, initSelected, x0, y0, x1, y1);
+    baye_hd_menu_end();
     SysScrollingTimerOpen(prev);
     return id;
 }
@@ -866,8 +872,8 @@ FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSel
                 U8 pname[16];
                 U32 n = pcount;
                 U32 pi;
-                if (n > 80) {
-                    n = 80;
+                if (n > (BAYE_HD_MENU_MAX - 1) / BAYE_HD_NAME_SLOT) {
+                    n = (BAYE_HD_MENU_MAX - 1) / BAYE_HD_NAME_SLOT;
                 }
                 memset(packed, 0, sizeof(packed));
                 for (pi = 0; pi < n; pi++) {

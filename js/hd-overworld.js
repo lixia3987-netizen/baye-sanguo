@@ -848,6 +848,17 @@
     }
 
     function isFightActive() {
+        // A hook records history, not ownership of the next campaign input.
+        // exitBattle fires before the bridge's active flag is retired, while
+        // g_FgtOver already contains C's terminal result.
+        try {
+            var data = engineData();
+            if (data && Number(readNumber(data, 'g_FgtOver'))) { return false; }
+            if (global.baye && baye.hd && typeof baye.hd.fight === 'function') {
+                var fight = baye.hd.fight();
+                if (fight) { return !!(fight.active && !fight.over); }
+            }
+        } catch (e) {}
         return !!state.sawFightHook;
     }
 
@@ -872,9 +883,6 @@
         if (global.BayeHdSystemUi && BayeHdSystemUi.isOpen()) {
             return 'other';
         }
-        if (state.phase === 'classic-menu') {
-            return 'classic-menu';
-        }
         var data = engineData();
         if (!data) {
             return 'other';
@@ -882,6 +890,21 @@
         if (isFightActive()) {
             return 'other';
         }
+        try {
+            var menu = baye.hd.menuItems && baye.hd.menuItems();
+            var march = baye.hd.march && baye.hd.march();
+            if (menu && menu.active != null && march && march.mapInputSeq != null) {
+                var report = baye.hd.report && baye.hd.report();
+                if (report && report.active != null && Number(report.active)) { return 'other'; }
+                if (Number(menu.active)) {
+                    return Number(menu.context) === 1 ? 'classic-menu' : 'other';
+                }
+                // Reports and succession run between battle exit and the next
+                // real GetCitySet. A populated world alone is not a map wait.
+                return Number(march.pick) ? 'map' : 'other';
+            }
+        } catch (eInput) {}
+        if (state.phase === 'classic-menu') { return 'classic-menu'; }
         if (inCampaign() && (citiesHaveBelong(data) || playerKingId() !== null || (state.cities && state.cities.length >= 20))) {
             return 'map';
         }
@@ -988,6 +1011,7 @@
             return;
         }
         if (name === 'didOpenNewGame' || name === 'didLoadGame') {
+            cancelAlign();
             if (global.BayeHdCityMenu && typeof BayeHdCityMenu.resetForNewGame === 'function') {
                 BayeHdCityMenu.resetForNewGame(name);
             }
@@ -1001,11 +1025,19 @@
             return;
         }
         if (name === 'chooseActor' || name === 'chooseGameEntry' || name === 'loadPeriod') {
+            cancelAlign();
             if (name === 'chooseGameEntry' && global.BayeHdCityMenu &&
                 typeof BayeHdCityMenu.resetForNewGame === 'function') {
                 BayeHdCityMenu.resetForNewGame(name);
             }
             setPhase('other');
+            return;
+        }
+        if (name === 'exitBattle') {
+            cancelAlign();
+            state.hdOpenedMenu = false;
+            state.sawFightHook = false;
+            setPhase(inferPhase());
             return;
         }
         if (name === 'fightOpenMainMenu' || name === 'meetFight' ||
@@ -2725,37 +2757,18 @@
     function afterFightMapReady(why) {
         cancelAlign();
         state.hdOpenedMenu = false;
-        var home = -1;
-        try {
-            if (global.BayeHdCityMenu && typeof BayeHdCityMenu.debugSnapshot === 'function') {
-                var citySnap = BayeHdCityMenu.debugSnapshot();
-                if (citySnap && citySnap.cityIndex >= 0) {
-                    home = citySnap.cityIndex;
-                }
-            }
-        } catch (eHome) {}
-        if (home < 0) {
-            var i;
-            for (i = 0; i < state.cities.length; i++) {
-                if (state.cities[i] && state.cities[i].kind === 'owned') {
-                    home = state.cities[i].index != null ? state.cities[i].index : i;
-                    if (state.cities[i].name === '天水') {
-                        break;
-                    }
-                }
-            }
-        }
-        if (home >= 0) {
-            snapCursorToCity(home, []);
+        state.sawFightHook = false;
+        var current = inferCurrentCity();
+        if (validCityIndex(current)) {
+            state.engineCursorIndex = current;
+            state.selectedIndex = current;
         }
         if (state.hint && /未能对齐/.test(state.hint)) {
             state.hint = '已回到大地图。点己方城打开城池菜单。';
         } else if (!cityMenuShellOpen()) {
             state.hint = '已回到大地图。点己方城打开城池菜单。';
         }
-        if (inGameOverworld()) {
-            setPhase('map');
-        }
+        setPhase(inferPhase());
         applyChrome();
         console.log('[hd-overworld] after-fight-map', why || '');
     }
@@ -2812,6 +2825,15 @@
             console.warn('[hd-overworld] skip city open during fight');
             return;
         }
+        var menu = window.baye && baye.hd && baye.hd.menuItems ? baye.hd.menuItems() : null;
+        var actual = readMapCity();
+        if (!menu || !Number(menu.active) || Number(menu.context) !== 1 ||
+            Number(menu.kind) !== 1 || !validCityIndex(actual) || readMapPick()) {
+            return false;
+        }
+        if (state.aligning && (!state.pendingEnter || actual !== state.entryCityIndex)) {
+            return false;
+        }
         state.pendingEnter = false;
         state.aligning = false;
         state.hdOpenedMenu = true;
@@ -2819,18 +2841,9 @@
         resetPan();
         state.menuDepth = Math.max(1, state.menuDepth);
         setPhase('classic-menu');
-        var landed = inferCurrentCity();
-        var idx = validCityIndex(state.selectedIndex) ? state.selectedIndex : -1;
-        if (!validCityIndex(idx) && validCityIndex(landed)) {
-            idx = landed;
-        } else if (!validCityIndex(idx)) {
-            idx = state.engineCursorIndex;
-        }
-        if (validCityIndex(landed) && validCityIndex(state.selectedIndex) &&
-            landed === state.selectedIndex) {
-            idx = landed;
-            state.engineCursorIndex = landed;
-        }
+        var idx = actual;
+        state.selectedIndex = actual;
+        state.engineCursorIndex = actual;
         var hdMenu = global.BayeHdCityMenu && BayeHdCityMenu.shouldShowHd();
         if (hdMenu) {
             var name = '';
@@ -3195,50 +3208,87 @@
 
     function alignAndEnter(index) {
         var city = state.cities[index];
-        var tried = [];
         var token = state.alignToken;
-        if (!city) {
+        var exits = {};
+        var mapSeq = null;
+        var pendingMove = null;
+        var entered = false;
+        var checks = 0;
+        var from = readMapCity();
+        function valid() {
+            return token === state.alignToken && state.mode === 'hd-map' &&
+                state.aligning && !fightLive();
+        }
+        function fail(message) {
+            if (token !== state.alignToken) { return; }
+            state.pendingEnter = false;
             state.aligning = false;
-            return;
+            state.hdOpenedMenu = false;
+            state.alignLog = { ok: false, method: 'native-city-entry', from: from,
+                to: index, reason: message, cityPos: readCityPos(), mapCity: readMapCity() };
+            state.hint = message;
+            applyChrome();
         }
-        var from = guessCurrentCity();
-        var fromPos = readCityPos();
-        var toTile = { x: city.engX, y: city.engY };
-        tried.push('from:' + from);
-        if (fromPos) {
-            tried.push('fromTile:' + fromPos.x + ',' + fromPos.y);
-        }
-
-        ensureOnMap(token, tried, function () {
-            fromPos = readCityPos();
-            from = guessCurrentCity();
-            if (fromPos) {
-                tried.push('fromTile2:' + fromPos.x + ',' + fromPos.y);
-            }
-            /* 格坐标已在目标城：战后 pick 常被清成 0，仍要 ENTER 开菜单。 */
-            if (landedOnTarget(index, toTile)) {
-                tried.push('already-on-target');
-                later(token, 50, function () {
-                    sendEnterWaitMenu(token, tried, false, { from: from, to: index, method: 'already-on-target' });
-                });
+        function tick() {
+            if (!valid()) { return; }
+            if (!city || ++checks > 300) {
+                fail('引擎尚未确认入城，请检查经典界面后重新选择。');
                 return;
             }
-
-            /* 先写 setx/sety 并居中视口，再走路。ENTER 认 CityPos 光标。 */
-            if (snapCursorToCity(index, tried)) {
-                tried.push('setxy-snap');
-                later(token, 70, function () {
-                    sendEnterWaitMenu(token, tried, true, {
-                        from: from,
-                        to: index,
-                        method: 'setxy'
-                    });
-                });
-                return;
+            var menu = baye.hd.menuItems();
+            var march = baye.hd.march();
+            if (entered) {
+                if (Number(menu.active) && Number(menu.context) === 1 && Number(menu.kind) === 1) {
+                    if (readMapCity() !== index) {
+                        fail('引擎打开的城池与目标不同，未开放城池指令。');
+                        return;
+                    }
+                    state.alignLog = { ok: true, method: 'native-city-entry', from: from,
+                        to: index, mapInputSeq: mapSeq, cityPos: readCityPos(), mapCity: readMapCity() };
+                    confirmClassicMenu('已进入「' + city.name + '」。');
+                    return;
+                }
+            } else if (Number(march.pick) && !Number(march.battlePick) && !Number(menu.active)) {
+                if (mapSeq == null) { mapSeq = Number(march.mapInputSeq); }
+                if (!mapSeq || Number(march.mapInputSeq) !== mapSeq) {
+                    fail('地图输入已改变，请重新选择目标城。');
+                    return;
+                }
+                var pos = readCityPos();
+                if (!pos) { fail('无法读取引擎地图光标。'); return; }
+                if (pendingMove) {
+                    if (!posEquals(pos, pendingMove)) { pendingMove = null; }
+                    else { later(token, 40, tick); return; }
+                }
+                var onTile = pos.x === city.engX && pos.y === city.engY;
+                if (onTile && readMapCity() === index) {
+                    entered = true;
+                    state.pendingEnter = true;
+                    state.entryCityIndex = index;
+                    state.entryMapInputSeq = mapSeq;
+                    engineSendKey((window.baye && baye.VK_ENTER) || VK.ENTER);
+                } else {
+                    var dir;
+                    if (pos.y !== city.engY) { dir = pos.y > city.engY ? 'U' : 'D'; }
+                    else if (pos.x !== city.engX) { dir = pos.x > city.engX ? 'L' : 'R'; }
+                    else { dir = city.engX > 0 ? 'L' : 'R'; }
+                    pendingMove = { x: pos.x, y: pos.y };
+                    engineSendKey(dirCode(dir));
+                }
+            } else if (Number(menu.active) && [1, 2].indexOf(Number(menu.context)) >= 0) {
+                if (mapSeq != null) {
+                    fail('地图输入已关闭，请重新选择目标城。');
+                    return;
+                }
+                var menuKey = String(menu.context) + ':' + String(menu.seq);
+                if (!exits[menuKey]) {
+                    exits[menuKey] = true;
+                    engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
+                }
             }
-
-            alignByKeys(token, tried, from, index, fromPos, toTile);
-        });
+            later(token, 40, tick);
+        }
+        tick();
     }
 
     function alignByKeys(token, tried, from, index, fromPos, toTile) {
@@ -3290,12 +3340,8 @@
         }
         state.lastMarchTapAt = now;
         state.lastMarchTapIndex = index;
-        var snapTried = [];
-        var snapOk = validCityIndex(index) ? snapCursorToCity(index, snapTried) : false;
-        dumpAlignWhy('march-snap', inferCurrentCity(), index,
-            'snap=' + snapOk + ' tried=' + snapTried.join(','));
-        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.confirmMarchTarget === 'function') {
-            return BayeHdCityMenu.confirmMarchTarget(index);
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.selectMarchTarget === 'function') {
+            return BayeHdCityMenu.selectMarchTarget(index);
         }
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.walkToCity === 'function') {
             return BayeHdCityMenu.walkToCity(index, true);
@@ -3348,16 +3394,16 @@
         if (cityMenuHoldMenu()) {
             return;
         }
-        if (state.phase === 'classic-menu' || cityMenuShellOpen()) {
-            leaveClassicMenu('换城对齐…', { keepAlign: true });
-        } else if (state.phase !== 'map') {
-            if (inGameOverworld()) {
-                setPhase('map');
-            } else {
-                state.hint = '预览中：进入大地图后点击才会向引擎发送入城。现在可切回经典继续开局。';
-                return;
-            }
+        if (!inGameOverworld()) {
+            state.hint = '进入大地图后才可选择城池。';
+            return;
         }
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.close === 'function') {
+            BayeHdCityMenu.close({ silent: true, force: true });
+        }
+        state.hdOpenedMenu = false;
+        state.suppressCityIdle = 1;
+        setPhase('map');
         if (state.aligning) {
             cancelAlign();
         }
@@ -3598,6 +3644,12 @@
         var mode = normalizeMode(value);
         writeStorage(STORAGE_KEY, mode);
         state.mode = mode;
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.syncMode === 'function') {
+            BayeHdCityMenu.syncMode();
+        }
+        if (global.BayeHdBattle && typeof BayeHdBattle.syncMode === 'function') {
+            BayeHdBattle.syncMode();
+        }
         if (mode === 'hd-map') {
             state.hint = '拖动平移。点己方城打开经典菜单；可切回经典 LCD。';
             state.probed = false;

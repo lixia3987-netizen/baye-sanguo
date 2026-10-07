@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "sourceRevision": "9fe7d703d05b3b6a9314ef420a6d4894525cc69b",
+  "engineSourceSha256": "01347db7b0ebb0d30289c7cdcfb0da226b9722414fdb38a265cc7540dd00199e",
+  "engineSourceModified": true,
+  "emscriptenVersion": "3.1.51",
+  "cmakeVersion": "cmake version 3.31.6",
+  "sourceDateEpoch": 1790218347,
+  "hdMenuProtocol": {
+    "nativeFallback": 254,
+    "controlField": "g_hdFightMenuControl"
+  },
+  "hdInputProtocol": {
+    "version": 2,
+    "fight": [
+      "g_hdFightInputKind",
+      "g_hdFightInputSeq",
+      "g_hdFightActor"
+    ],
+    "menu": [
+      "g_hdMenuActive",
+      "g_hdMenuContext",
+      "g_hdMenuKind",
+      "g_hdMenuSeq"
+    ],
+    "march": [
+      "g_hdMarchPhase",
+      "g_hdMarchSession",
+      "g_hdMarchOrigin",
+      "g_hdMarchSelected",
+      "g_hdMarchInputSeq",
+      "g_hdMapInputSeq"
+    ],
+    "report": [
+      "g_hdReportActive",
+      "g_hdReportInputSeq"
+    ],
+    "record": [
+      "g_hdRecordActive",
+      "g_hdRecordMode",
+      "g_hdRecordIndex",
+      "g_hdRecordCount",
+      "g_hdRecordSeq"
+    ]
+  },
+  "saveProtocol": {
+    "version": 149,
+    "legacyVersions": [
+      144,
+      145,
+      146,
+      147,
+      148
+    ],
+    "filesPerSlot": 2,
+    "fightersBytes": 600,
+    "goodsQueueBytes": 4000
+  },
+  "artifacts": {
+    "baye.js": {
+      "bytes": 191660,
+      "sha256": "31d1de2c9fc8e928f73a64f98ac1b02da135f8c7d085a15ec38e368df5e832de"
+    },
+    "baye.wasm": {
+      "bytes": 4211905,
+      "sha256": "f68ed710074eedd16fe6ae3059879a17783c085c754e0bd459a3a3f17222a253"
+    },
+    "baye.wasm.map": {
+      "bytes": 29629,
+      "sha256": "d2bdeb4195f876558a8388fba3d78422e45a8b51191b7304f17dbe749ed075fc"
+    }
+  }
+}

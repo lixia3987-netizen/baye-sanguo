@@ -5,6 +5,9 @@
 (function (global) {
     var STORAGE_KEY = 'baye/cityMenuMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
+    var qtyEpoch = 0;
+    var marchEpoch = 0;
+    var queueEpoch = 0;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var ROOTS = [
         { id: 'neizheng', name: '内政', hint: '开垦 / 招商 / 搜寻…' },
@@ -59,6 +62,9 @@
         probed: false,
         sending: false,
         queue: [],
+        activeQueueReason: '',
+        qtyCommitQueued: false,
+        qtyInputClosed: false,
         showLcd: false,
         closingSub: false,
         bound: false,
@@ -69,6 +75,9 @@
         deepStep: 0,
         deepItems: [],
         deepSig: '',
+        deepMenuOwner: null,
+        deepPointerOwner: null,
+        deepSelectionPending: null,
         walkToken: 0,
         pickedPersons: 0,
         dismissedObj: false,
@@ -139,8 +148,152 @@
         originRetryFrom: null,
         originRetryTo: null,
         marchOriginIndex: null,
-        keepPendingTarget: null
+        keepPendingTarget: null,
+        marchSession: 0,
+        marchBaselineSeq: 0,
+        marchContinueKey: '',
+        marchTargetInputKey: '',
+        marchSubmittedTarget: null,
+        marchFoodCommitSent: false,
+        marchCancelKey: '',
+        marchStrategyOrder: null,
+        nativeMenuRequest: null,
+        nativeMenuCommit: '',
+        qtyWaitKey: ''
     };
+
+    // Blocking C states belong to one BattleMake session. Reports and menu
+    // bytes are presentation data and cannot acknowledge a player command.
+    var MARCH = { IDLE: 0, PERSONS: 1, FOOD: 2, TARGET_TIP: 3,
+        TARGET_PICK: 4, REJECT: 5, ARMOUT: 6, DEPARTED: 7 };
+
+    function marchProtocol() {
+        var m = engineMarch();
+        return m && m.phase != null && m.session != null ? m : null;
+    }
+
+    function currentMarch() {
+        var m = marchProtocol();
+        if (!m || !state.marchSession || Number(m.session) !== state.marchSession ||
+            (Number(m.phase) !== MARCH.IDLE &&
+                Number(m.origin) !== Number(state.marchOriginIndex))) {
+            return null;
+        }
+        return m;
+    }
+
+    function bindMarchSession() {
+        var m = marchProtocol();
+        if (!state.marchSession && state.battleMake && m &&
+            Number(m.phase) === MARCH.PERSONS &&
+            Number(m.origin) === Number(state.cityIndex)) {
+            state.marchSession = Number(m.session);
+            state.marchOriginIndex = Number(m.origin);
+        }
+        return currentMarch();
+    }
+
+    function invalidateMarchWork() {
+        marchEpoch += 1;
+        queueEpoch += 1;
+        state.walkToken += 1;
+        state.confirmToken += 1;
+        state.handoffToken += 1;
+        state.queue = [];
+        state.sending = false;
+        state.handoff = false;
+        clearHandoffTimer();
+        state.finishPersonsBusy = false;
+        state.rootMenuPending = false;
+        state.walkBusy = false;
+        state.confirmingTarget = false;
+        state.nativeMenuRequest = null;
+        state.deepMenuOwner = null;
+        state.deepPointerOwner = null;
+        state.deepSelectionPending = null;
+    }
+
+    function marchInputKey(m) {
+        return String(m.session) + ':' + String(m.inputSeq);
+    }
+
+    function selectLiveMenu(target, thenEnter, reason, initial) {
+        target = Number(target);
+        var count = Number(initial && initial.count) || (initial && initial.names || []).length;
+        if (!initial || !Number(initial.active) || !isFinite(target) || target < 0 ||
+            Math.floor(target) !== target || target >= count) { return false; }
+        var epoch = marchEpoch;
+        var seq = Number(initial.seq);
+        var context = Number(initial.context), kind = Number(initial.kind);
+        var signature = (initial.names || []).join('\u0000');
+        var key = [seq, context, kind, signature].join(':');
+        var pending = state.nativeMenuRequest;
+        if (pending && pending.key === key || thenEnter && state.nativeMenuCommit === key) { return false; }
+        var request = { key: key };
+        state.nativeMenuRequest = request;
+        var expected = Number(initial.index);
+        var waiting = false;
+        var deadline = Date.now() + 5000;
+        function finish() {
+            if (state.nativeMenuRequest === request) { state.nativeMenuRequest = null; }
+        }
+        function step() {
+            var menu = engineMenuItems();
+            if (state.nativeMenuRequest !== request) { return; }
+            if (epoch !== marchEpoch || !shouldShowHd() || !Number(menu.active) ||
+                Number(menu.seq) !== seq || Number(menu.context) !== context || Number(menu.kind) !== kind ||
+                (menu.names || []).join('\u0000') !== signature || Date.now() > deadline) { finish(); return; }
+            var index = Number(menu.index);
+            if (!isFinite(index) || index < 0 || index >= count) { finish(); return; }
+            if (waiting && index !== expected) {
+                setTimeout(step, 40);
+                return;
+            }
+            if (waiting) { deadline = Date.now() + 5000; }
+            waiting = false;
+            if (index === target) {
+                finish();
+                if (thenEnter) {
+                    state.nativeMenuCommit = key;
+                    engineSendKey(VK.ENTER, reason);
+                }
+                return;
+            }
+            expected = index + (index > target ? -1 : 1);
+            waiting = true;
+            if (!engineSendKey(index > target ? VK.UP : VK.DOWN, reason)) { finish(); return; }
+            setTimeout(step, 40);
+        }
+        step();
+        return true;
+    }
+
+    function continueMarch(expected) {
+        var m = currentMarch();
+        if (!m || !shouldShowHd() ||
+            [MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(Number(m.phase)) < 0) {
+            return false;
+        }
+        if (expected && (Number(expected.session) !== Number(m.session) ||
+            Number(expected.inputSeq) !== Number(m.inputSeq))) {
+            return false;
+        }
+        var key = marchInputKey(m);
+        if (state.marchContinueKey === key) {
+            return false;
+        }
+        state.marchContinueKey = key;
+        var owner = { session: Number(m.session), inputSeq: Number(m.inputSeq) };
+        // ARMOUT precedes AddFightOrder. Its confirmation acknowledges the
+        // report; only the later matching order acknowledges departure.
+        engineSendKey(VK.ENTER, 'march-report-ok');
+        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
+            BayeHdDialog.close({ silent: true, marchOwner: owner });
+        }
+        scheduleMarchWatch();
+        render();
+        return true;
+    }
 
     var WIZARD_ORDER = { none: 0, persons: 1, food: 2, 'target-tip': 3, 'map-pick': 4, 'march-ok': 5 };
     var WIZARD_LABEL = {
@@ -328,9 +481,17 @@
     }
 
     function liveMarchOrFight() {
-        return !!(fightIsActive() || occupyDrainPending() || liveGetFoodNow() ||
-            liveGetCitySetNow() || livePersonPickNow() || liveWaitGetFoodNow() ||
-            liveHandoffNow());
+        var m = currentMarch();
+        return !!(fightIsActive() || occupyDrainPending() || state.handoff ||
+            m && Number(m.phase) >= MARCH.PERSONS && Number(m.phase) <= MARCH.ARMOUT);
+    }
+
+    function consumedStrategyOrder(march) {
+        var order = state.marchStrategyOrder;
+        return !!(order && march && Number(march.session) === order.session &&
+            marchSeqOf(march) === order.seq && Number(march.origin) === order.origin &&
+            Number(march.obj) === order.target && Number(march.phase) === MARCH.DEPARTED &&
+            !Number(march.ok));
     }
 
     function marchBannerFlags() {
@@ -394,6 +555,10 @@
     /* 没有活出征/战场时摘掉「出征进行中」，不挡内政/军备/征兵。
      * 部队已出发（pick=0）只清横幅和 hold，保留策略结束钮。 */
     function sweepStickyMarch(why) {
+        if (consumedStrategyOrder(currentMarch())) {
+            resetAfterFight();
+            return true;
+        }
         if (liveMarchOrFight()) {
             return false;
         }
@@ -456,21 +621,14 @@
     }
 
     function holdExit() {
-        if (!liveMarchOrFight() || leftoverMarchAfterFight()) {
-            return false;
-        }
-        return !!(livePersonPickNow() || liveWaitGetFoodNow());
+        var m = currentMarch();
+        return !!(m && Number(m.phase) >= MARCH.PERSONS && Number(m.phase) <= MARCH.ARMOUT);
     }
 
     function holdMenu() {
-        if (!liveMarchOrFight() || leftoverMarchAfterFight()) {
-            return false;
-        }
-        return !!(holdExit() || liveGetCitySetNow() || liveHandoffNow());
+        return holdExit() || !!state.handoff;
     }
 
-    /* 完成选将 EXIT 已发出后到 HD 确认粮草前，多余 ENTER 会跳过 GetFood。
-     * 点将队列里的 ENTER（pick-person）必须放行，否则 6 将未入引擎就 EXIT，选粮永不来。 */
     function holdEnterForFood() {
         if (!liveWaitGetFoodNow() || leftoverMarchAfterFight()) {
             return false;
@@ -480,11 +638,20 @@
     }
 
     function allowEnterDuringFoodHold(reason) {
-        return reason === 'qty-ok' || reason === 'dismiss-live-disaster' ||
+        return reason === 'qty-ok' || reason === 'march-report-ok' || reason === 'dismiss-live-disaster' ||
             reason === 'dismiss-leftover-help';
     }
 
     function engineSendKey(code, reason) {
+        if (reason === 'pick-person') {
+            var march = bindMarchSession();
+            if (!march || Number(march.phase) !== MARCH.PERSONS || !shouldShowHd()) {
+                return false;
+            }
+        }
+        if ((reason === 'qty-step' || reason === 'qty-digit') && !liveQty()) {
+            return false;
+        }
         if (fightIsActive()) {
             state.lastBlockedExit = 'fight-' + (reason || 'key');
             console.warn('[hd-city-menu] blocked', code === VK.EXIT ? 'EXIT' : code, 'during fight', reason || '');
@@ -496,7 +663,7 @@
             return false;
         }
         if (code === VK.EXIT && holdExit() && reason !== 'finish-persons' &&
-            reason !== 'qty-cancel' && reason !== 'origin-retry-abort') {
+            reason !== 'qty-cancel' && reason !== 'march-cancel') {
             state.lastBlockedExit = reason || 'unknown';
             console.warn('[hd-city-menu] blocked EXIT', state.lastBlockedExit);
             return false;
@@ -551,7 +718,10 @@
             if (codes[i] === VK.EXIT) {
                 state.lastExit = reason || 'queue';
             }
-            state.queue.push({ code: codes[i], wait: gap, reason: reason || '' });
+            state.queue.push({ code: codes[i], wait: gap, reason: reason || '',
+                marchEpoch: reason === 'pick-person' || reason === 'finish-persons' ? marchEpoch : null,
+                menuSeq: reason === 'march-start' || reason === 'strategy-end' ? engineMenuItems().seq : null,
+                qtyEpoch: reason === 'qty-step' || reason === 'qty-digit' ? qtyEpoch : null });
         }
         pumpQueue();
     }
@@ -561,14 +731,62 @@
             return;
         }
         state.sending = true;
+        var epoch = queueEpoch;
         function next() {
+            if (epoch !== queueEpoch) { return; }
             if (!state.queue.length) {
                 state.sending = false;
+                state.activeQueueReason = '';
+                state.qtyCommitQueued = false;
                 return;
             }
             var item = state.queue.shift();
+            if (item.marchEpoch != null && (item.marchEpoch !== marchEpoch || !shouldShowHd())) {
+                setTimeout(next, 0);
+                return;
+            }
+            if (item.qtyEpoch != null && (item.qtyEpoch !== qtyEpoch || !shouldShowHd())) {
+                setTimeout(next, 0);
+                return;
+            }
+            if (item.qtyStep != null) {
+                // Read bounds/value when this click reaches the engine, so a
+                // fast +10 then -10 uses the first click's updated quantity.
+                var keys = liveQty() ? bayeQtyStepKeys(item.qtyStep, engineQty()) : [];
+                state.queue = keys.map(function (code) {
+                    return { code: code, wait: 40, reason: 'qty-step', qtyEpoch: item.qtyEpoch };
+                }).concat(state.queue);
+                setTimeout(next, 0);
+                return;
+            }
+            state.activeQueueReason = item.reason || '';
             setTimeout(function () {
-                engineSendKey(item.code, item.reason);
+                if (epoch !== queueEpoch) { return; }
+                if (item.qtyEpoch != null || item.qtyCommit) { syncQuantityWait(engineQty()); }
+                if (item.menuSeq != null) {
+                    var menu = engineMenuItems();
+                    if (!Number(menu.active) || Number(menu.seq) !== Number(item.menuSeq)) {
+                        setTimeout(next, item.wait || 55);
+                        return;
+                    }
+                }
+                if (item.marchEpoch != null && (item.marchEpoch !== marchEpoch || !shouldShowHd())) {
+                    setTimeout(next, item.wait || 55);
+                    return;
+                }
+                if (item.qtyEpoch != null && (item.qtyEpoch !== qtyEpoch || !shouldShowHd())) {
+                    setTimeout(next, item.wait || 55);
+                    return;
+                }
+                if (item.qtyCommit) {
+                    if (state.qtyCommitQueued) {
+                        state.qtyCommitQueued = false;
+                        commitQty();
+                    }
+                } else {
+                    engineSendKey(item.code, item.reason);
+                }
+                state.activeQueueReason = '';
                 setTimeout(next, item.wait || 55);
             }, 0);
         }
@@ -595,11 +813,18 @@
     }
 
     function pickIndex(target, thenEnter, reason) {
+        var menu = engineMenuItems();
+        if (menu.active != null) {
+            if (!Number(menu.active) || Number(menu.context) !== 1 ||
+                [1, 2, 3, 4].indexOf(Number(menu.kind)) < 0) { return false; }
+            return selectLiveMenu(target, thenEnter, reason || '', menu);
+        }
         var keys = keysToIndex(target);
         if (thenEnter) {
             keys.push(VK.ENTER);
         }
         enqueueKeys(keys, 55, reason || '');
+        return true;
     }
 
     function readEngineCursor() {
@@ -888,55 +1113,17 @@
         return null;
     }
 
-    function clearLeftoverMarchDest(why) {
-        if (freshMarchOk() || state.marchReady) {
-            return false;
-        }
-        try {
-            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
-                if (baye.data.g_hdMarchOk != null) {
-                    baye.data.g_hdMarchOk = 0;
-                }
-                if (baye.data.g_hdMarchObj != null) {
-                    baye.data.g_hdMarchObj = 0;
-                }
-                if (baye.data.g_hdMarchCity != null) {
-                    baye.data.g_hdMarchCity = 0;
-                }
-                if (baye.data.g_hdMarchTime != null) {
-                    baye.data.g_hdMarchTime = 0;
-                }
-            }
-        } catch (e) {}
-        noteStep4('clear-leftover-dest', { skipped: why || 'dest' });
-        return true;
+    function clearLeftoverMarchDest() {
+        return false;
     }
 
     function handleUnreachableOrigin(targetIndex, why) {
-        if (state.originRetryBusy || state.originRetryTried) {
-            return false;
-        }
-        targetIndex = targetIndex != null ? Number(targetIndex) : (state.pendingTarget != null
-            ? Number(state.pendingTarget) : 9);
-        var next = preferredMarchOrigin(targetIndex, state.cityIndex);
-        if (next == null || Number(next) === Number(state.cityIndex)) {
-            return false;
-        }
-        noteStep4('origin-retry', {
-            cityIndex: targetIndex,
-            skipped: String(why || '无法到达') + '→' + next
-        });
-        state.originRetryTried = true;
-        state.originRetryBusy = true;
-        state.originRetryFrom = state.cityIndex;
-        state.originRetryTo = next;
-        state.marchOriginIndex = next;
-        state.marchHint = '「' + (cityName(state.cityIndex) || '出发城') +
-            '」无法到达「' + (cityName(targetIndex) || '河内') +
-            '」，改从「' + (cityName(next) || '邻城') + '」出征。';
+        // Selecting a different origin would replace the player's army and
+        // food choices. Keep both selections until the player cancels.
+        state.marchHint = why || '无法到达该城，请选择可到达的敌方邻城。';
+        state.confirmingTarget = false;
         render();
-        restartMarchFromOrigin(next, targetIndex);
-        return true;
+        return false;
     }
 
     function restartMarchFromOrigin(originIndex, targetIndex) {
@@ -985,7 +1172,7 @@
                         state.originRetryBusy = false;
                         state.marchOriginIndex = originIndex;
                         state.marchHint = '已改从「' + (cityName(originIndex) || '邻城') +
-                            '」出征，目标仍是「' + (cityName(targetIndex) || '河内') +
+                            '」出征，目标仍是「' + (cityName(targetIndex) || '目标城') +
                             '」。请再点将选粮。';
                         noteStep4('origin-retry-reopen', {
                             cityIndex: targetIndex,
@@ -1009,198 +1196,132 @@
         return null;
     }
 
-    function confirmMarchTarget(cityIndex, opts) {
-        opts = opts || {};
+    function selectMarchTarget(cityIndex) {
+        var m = bindMarchSession();
         cityIndex = Number(cityIndex);
-        if (!isFinite(cityIndex) || cityIndex < 0) {
-            cityIndex = state.pendingTarget != null ? Number(state.pendingTarget) : firstEnemyTarget();
-        }
-        if (!isFinite(cityIndex) || cityIndex < 0) {
-            state.marchHint = '先点邻城或地图上的目标城，再点确认出征。高亮不够。';
-            noteStep4('skip-bad-city', { skipped: 'bad-city' });
+        if (!m || Number(m.phase) !== MARCH.TARGET_PICK || !Number(m.pick) ||
+            !Number(m.battlePick)) {
+            state.marchHint = '请先完成选将和粮草确认，再选择目标城。';
             render();
-            return { skipped: 'bad-city' };
+            return { skipped: 'not-target-pick' };
         }
-        if (state.marchReady || freshMarchOk()) {
-            noteStep4('already-ok', { cityIndex: cityIndex, skipped: 'already-ok' });
-            return { skipped: 'already-ok', cityIndex: cityIndex };
-        }
-        if (leftoverQtyFlag() && !liveGetFood()) {
-            clearLeftoverQtyFlag();
-            noteStep4('clear-leftover-qty', { cityIndex: cityIndex });
-        }
-        if (liveQty()) {
-            state.marchHint = '先确认粮草，再点目标城。';
-            noteStep4('skip-qty', { cityIndex: cityIndex, skipped: 'qty' });
+        if (!isFinite(cityIndex) || cityIndex < 0 || cityIndex >= cityCount() ||
+            cityIndex === Number(m.origin) || !isMarchNeighbor(cityIndex) ||
+            isOwnedCityIndex(cityIndex)) {
+            state.marchHint = '请选择可到达的敌方邻城。';
             render();
-            return { skipped: 'qty', cityIndex: cityIndex };
+            return { skipped: 'invalid-target', cityIndex: cityIndex };
         }
-        if (state.wizardStep === 'persons' && !state.personExitSent) {
-            state.marchHint = '先点至少一名将领，再点「完成选将 · 选粮出发」，不要直接点目标城。';
-            noteStep4('skip-persons', { cityIndex: cityIndex, skipped: 'wizard-persons' });
-            render();
-            return { skipped: 'wizard-persons', cityIndex: cityIndex, hint: state.marchHint };
+        if (state.confirmingTarget) {
+            return { skipped: 'confirmation-pending', cityIndex: cityIndex };
         }
-        state.campaignPick = true;
-        state.battleMake = true;
-        if (state.marchOriginIndex == null) {
-            state.marchOriginIndex = state.cityIndex;
-        }
-        if (!freshMarchOk() && !state.marchReady) {
-            clearLeftoverMarchDest('confirm-start');
-        }
-        if (engineInGetCitySet()) {
-            state.acceptMarchOk = true;
-        }
-        if (!opts.resume) {
-            state.confirmToken = (state.confirmToken || 0) + 1;
-            state.walkBusy = false;
-            state.lastWalkCity = null;
-            state.lastWalkAt = 0;
-        }
-        var token = state.confirmToken;
-        var attempt = opts.attempt || 0;
-        noteStep4('confirm', { cityIndex: cityIndex, attempt: attempt });
+        state.walkToken += 1;
+        state.walkBusy = false;
+        markTargetSelected(cityIndex);
+        state.marchHint = '已选择「' + cityName(cityIndex) + '」，点击「确认出征」后出发。';
+        render();
+        return { selected: cityIndex };
+    }
 
-        function again(ms, why) {
-            if (token !== state.confirmToken) {
+    function confirmMarchTarget(cityIndex) {
+        var m = bindMarchSession();
+        cityIndex = Number(cityIndex == null ? state.pendingTarget : cityIndex);
+        if (state.pendingTarget == null || cityIndex !== Number(state.pendingTarget)) {
+            return selectMarchTarget(cityIndex);
+        }
+        if (!m || !shouldShowHd() || Number(m.phase) !== MARCH.TARGET_PICK ||
+            !Number(m.pick) || !Number(m.battlePick)) {
+            state.marchHint = '等待引擎打开目标选择。';
+            render();
+            return { skipped: 'not-target-pick' };
+        }
+        if (state.confirmingTarget || state.walkBusy ||
+            state.marchTargetInputKey === marchInputKey(m)) {
+            return { skipped: 'confirmation-pending' };
+        }
+        state.acceptMarchOk = true;
+        state.confirmingTarget = true;
+        state.marchSubmittedTarget = cityIndex;
+        state.marchHint = '正在对准「' + cityName(cityIndex) + '」…';
+        return walkMarchTarget(cityIndex, m);
+    }
+
+    function walkMarchTarget(cityIndex, initial) {
+        var to = cityEngineTile(cityIndex);
+        if (!to || !readEngineCursor()) {
+            state.confirmingTarget = false;
+            state.marchHint = '无法读取目标城位置，请重新选择。';
+            render();
+            return { skipped: 'missing-position' };
+        }
+        var epoch = marchEpoch;
+        var token = ++state.walkToken;
+        var inputKey = marchInputKey(initial);
+        var polls = 0;
+        var pendingKey = false;
+        state.walkBusy = true;
+        function valid() {
+            var m = currentMarch();
+            return epoch === marchEpoch && token === state.walkToken && shouldShowHd() &&
+                m && Number(m.phase) === MARCH.TARGET_PICK && Number(m.pick) &&
+                marchInputKey(m) === inputKey;
+        }
+        function stop(hint) {
+            if (token !== state.walkToken) { return; }
+            state.walkBusy = false;
+            state.confirmingTarget = false;
+            if (hint) { state.marchHint = hint; }
+            render();
+        }
+        function poll() {
+            if (!valid()) { stop(); return; }
+            if (++polls > 160) {
+                stop('引擎尚未对准目标城，请重新选择后确认。');
                 return;
             }
-            if (attempt >= 20) {
-                if (!state.marchHint) {
-                    state.marchHint = '引擎未确认目标城。再点一次「' +
-                        (cityName(cityIndex) || '邻城') + '」或「确认出征」。';
-                }
-                noteStep4('give-up', { cityIndex: cityIndex, skipped: why || 'max-retry', attempt: attempt });
+            var pos = readEngineCursor();
+            if (pos && pos.x === to.x && pos.y === to.y && engineMapCityIndex() === cityIndex) {
+                state.walkBusy = false;
+                state.marchTargetInputKey = inputKey;
+                state.marchHint = '等待引擎确认出征目标…';
+                engineSendKey(VK.ENTER, 'march-target-ok');
+                scheduleMarchWatch();
                 render();
                 return;
             }
-            setTimeout(function () {
-                if (token !== state.confirmToken) {
-                    return;
+            if (!pendingKey && pos) {
+                var key;
+                if (pos.y !== to.y) { key = pos.y > to.y ? VK.UP : VK.DOWN; }
+                else if (pos.x !== to.x) { key = pos.x > to.x ? VK.LEFT : VK.RIGHT; }
+                else { key = to.x > 0 ? VK.LEFT : VK.RIGHT; }
+                var before = { x: pos.x, y: pos.y };
+                pendingKey = true;
+                engineSendKey(key, 'march-target-walk');
+                function waitMoved(n) {
+                    if (!valid()) { stop(); return; }
+                    var now = readEngineCursor();
+                    if (now && (now.x !== before.x || now.y !== before.y)) {
+                        pendingKey = false;
+                        setTimeout(poll, 30);
+                    } else if (n < 80) {
+                        setTimeout(function () { waitMoved(n + 1); }, 40);
+                    } else {
+                        stop('引擎未响应地图移动，请重新确认目标。');
+                    }
                 }
-                confirmMarchTarget(cityIndex, {
-                    resume: true,
-                    attempt: attempt + 1,
-                    retriedOwn: opts.retriedOwn,
-                    retriedOk: opts.retriedOk
-                });
-            }, ms || 220);
-        }
-
-        if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
-            if (attempt >= 1) {
-                state.confirmingTarget = false;
+                setTimeout(function () { waitMoved(0); }, 40);
+                return;
             }
-            noteStep4('await-dest', { cityIndex: cityIndex, attempt: attempt });
-            again(320, 'await-dest');
-            return { deferred: 'await-dest', cityIndex: cityIndex };
+            setTimeout(poll, 40);
         }
-        if (!engineInGetCitySet()) {
-            var driven = reopenGetCitySet('confirm-need-city-set');
-            var phase = engineMarchPhase();
-            var m0 = engineMarch();
-            var mc0 = engineMapCityIndex();
-            state.pendingTarget = cityIndex;
-            if (foodReadyForCitySet()) {
-                state.marchHint = '等待引擎打开目标选择（GetCitySet pick=1）… ' + marchDebugLine();
-            } else {
-                state.marchHint = 'UI 步骤4 ≠ 引擎 GetCitySet。' + marchDebugLine() +
-                    '。河内确认已拒绝，先把粮草交到 pick=1。';
-            }
-            noteStep4((driven && driven.deferred === 'reopen-city-set')
-                ? 'reopen-city-set' : 'refuse-no-city-set', {
-                cityIndex: cityIndex,
-                attempt: attempt,
-                skipped: (driven && driven.deferred) || phase
-            });
-            render();
-            if (attempt >= 20) {
-                noteStep4('give-up', { cityIndex: cityIndex, skipped: 'no-city-set', attempt: attempt });
-                return { skipped: 'no-city-set', cityIndex: cityIndex, phase: phase };
-            }
-            again(320, (driven && driven.deferred) || 'no-city-set');
-            return {
-                deferred: (driven && driven.deferred) || 'no-city-set',
-                cityIndex: cityIndex, phase: phase,
-                pick: !!(m0 && m0.pick), mapCity: mc0
-            };
-        }
-        if (Number(cityIndex) === Number(state.cityIndex)) {
-            state.marchHint = '那是出发城。请点邻城（河内）。';
-            noteStep4('refuse-own-city', { cityIndex: cityIndex, attempt: attempt });
-            render();
-            return { skipped: 'own-city', cityIndex: cityIndex };
-        }
-        if (!isMarchNeighbor(cityIndex)) {
-            state.marchHint = '「' + (cityName(cityIndex) || '该城') +
-                '」不是 CITY_LINKR 邻城，改点河内。';
-            noteStep4('refuse-not-neighbor', { cityIndex: cityIndex, attempt: attempt });
-            render();
-            return { skipped: 'not-neighbor', cityIndex: cityIndex };
-        }
-        markTargetSelected(cityIndex);
-        if (waitingArmout()) {
-            noteStep4('armout', { cityIndex: cityIndex, attempt: attempt });
-            dismissLiveArmout();
-            scheduleMarchWatch();
-            again(200, 'armout');
-            return { deferred: 'armout', cityIndex: cityIndex };
-        }
-        var refuse = liveEngineReport();
-        if (/我方城池|无法到达/.test(refuse)) {
-            if (/无法到达/.test(refuse) && engineMapCityIndex() === cityIndex &&
-                handleUnreachableOrigin(cityIndex, refuse)) {
-                return { deferred: 'origin-retry', cityIndex: cityIndex };
-            }
-            state.marchHint = /无法到达/.test(refuse)
-                ? '引擎拒绝：无法到达。只能打 CITY_LINKR 邻城。'
-                : '引擎提示「我方城池」（多半确认了出发城）。已关掉，改走敌邻。';
-            noteStep4('engine-refuse', { cityIndex: cityIndex, attempt: attempt, skipped: refuse });
-            engineSendKey(VK.ENTER);
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
-            }
-            render();
-            again(240, 'engine-refuse');
-            return { deferred: 'engine-refuse', cityIndex: cityIndex };
-        }
-        if (chooseTargetOverlay()) {
-            state.dismissedObj = true;
-            advanceWizard('target-tip', 'confirm-dismiss-tip');
-            noteStep4('dismiss-tip', { cityIndex: cityIndex, attempt: attempt });
-            engineSendKey(VK.ENTER);
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
-            }
-            advanceWizard('map-pick', 'confirm-after-tip');
-            again(280, 'choose-target');
-            return { deferred: 'choose-target', cityIndex: cityIndex };
-        }
-        if (!mapPickActive()) {
-            state.marchHint = attempt < 8
-                ? '等待引擎打开目标地图…'
-                : '引擎未打开目标选择（GetCitySet）。再点邻城或「确认出征」。';
-            noteStep4('wait-pick', { cityIndex: cityIndex, attempt: attempt, skipped: 'not-map-pick' });
-            render();
-            again(220, 'not-map-pick');
-            return { deferred: 'wait-pick', cityIndex: cityIndex };
-        }
-        state.marchHint = '';
-        var walked = walkCursorToCity(cityIndex, true, {
-            force: true,
-            requireLanded: true,
-            confirm: true,
-            retriedOwn: !!opts.retriedOwn,
-            retriedOk: !!opts.retriedOk,
-            step4Token: token,
-            attempt: attempt
-        });
-        scheduleMarchWatch();
-        return walked || { cityIndex: cityIndex };
+        poll();
+        return { confirming: cityIndex };
     }
 
     function walkCursorToCity(cityIndex, thenEnter, opts) {
+        if (state.deepKind === 'person-city' || currentMarch()) {
+            return thenEnter === false ? selectMarchTarget(cityIndex) : confirmMarchTarget(cityIndex);
+        }
         opts = opts || {};
         var force = !!opts.force;
         var requireLanded = !!opts.requireLanded || force;
@@ -1614,17 +1735,8 @@
     }
 
     function dismissLiveArmout() {
-        if (!waitingArmout()) {
-            return false;
-        }
-        state.acceptMarchOk = true;
-        state.campaignPick = true;
-        advanceWizard('map-pick', 'armout-enter');
-        engineSendKey(VK.ENTER);
-        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-            BayeHdDialog.close({ silent: true });
-        }
-        return true;
+        // Departure reports require the player's explicit acknowledgement.
+        return false;
     }
 
     function leftoverChooseTarget(text) {
@@ -1653,16 +1765,8 @@
     }
 
     function liveChooseTarget() {
-        if (!state.personExitSent || showingQty() || mapPickActive() || liveGetFood()) {
-            return false;
-        }
-        if (!state.sawQtyThisMarch) {
-            return false;
-        }
-        if (state.wizardStep === 'persons') {
-            return false;
-        }
-        return leftoverChooseTarget(liveEngineReport());
+        var m = currentMarch();
+        return !!(m && Number(m.phase) === MARCH.TARGET_TIP);
     }
 
     function liveEngineReport() {
@@ -1676,77 +1780,41 @@
 
     /* Only a NEW AddFightOrder this 出征: leftover ok=1 / leftover 部队已出发 text do not count. */
     function realMarchDest(m) {
-        m = m || engineMarch();
-        if (!(m && m.ok)) {
-            return false;
-        }
-        var from = Number(m.city);
-        var obj = Number(m.obj);
-        if (!isFinite(obj) || obj < 0 || obj >= 64 || obj === 0xff) {
-            return false;
-        }
-        if (isFinite(from) && obj === from) {
+        m = m || currentMarch();
+        if (!m || !state.marchSession || Number(m.session) !== state.marchSession ||
+            Number(m.phase) !== MARCH.DEPARTED || !Number(m.ok) ||
+            Number(m.origin) !== Number(state.marchOriginIndex) ||
+            Number(m.city) !== Number(state.marchOriginIndex) ||
+            state.marchSubmittedTarget == null ||
+            Number(m.obj) !== Number(state.marchSubmittedTarget)) {
             return false;
         }
         var seq = marchSeqOf(m);
-        if (seq && seq <= (state.consumedMarchSeq || 0)) {
-            return false;
-        }
-        return true;
+        return !!(seq && seq !== state.marchBaselineSeq &&
+            Number(m.obj) !== Number(m.city));
     }
 
     function freshMarchOk() {
-        var m = engineMarch();
-        if (!(state.acceptMarchOk && m && m.ok)) {
-            return false;
-        }
-        if (!realMarchDest(m)) {
-            return false;
-        }
-        var seq = marchSeqOf(m);
-        if (seq && seq > (state.consumedMarchSeq || 0)) {
-            return true;
-        }
-        return !!(state.sawMarchCleared && m.ok);
+        return !!(state.acceptMarchOk && realMarchDest(currentMarch()));
     }
 
     function consumeLeftoverMarch() {
-        var m = engineMarch();
-        var seq = marchSeqOf(m);
-        if (seq) {
-            state.consumedMarchSeq = seq;
-        }
+        // These are engine-owned acknowledgement fields. Never write them to
+        // manufacture a transition or clear another in-flight command.
+        var seq = marchSeqOf(engineMarch());
+        state.consumedMarchSeq = seq;
+        state.marchBaselineSeq = seq;
         state.marchReady = false;
         state.acceptMarchOk = false;
         state.sawMarchCleared = false;
         state.confirmingTarget = false;
-        try {
-            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
-                if (baye.data.g_hdMarchOk != null) {
-                    baye.data.g_hdMarchOk = 0;
-                }
-                /* leftover dest=河内 会让下一趟向导以为已有目标。ok/obj/city 一并清。 */
-                if (baye.data.g_hdMarchObj != null) {
-                    baye.data.g_hdMarchObj = 0;
-                }
-                if (baye.data.g_hdMarchCity != null) {
-                    baye.data.g_hdMarchCity = 0;
-                }
-                if (baye.data.g_hdMarchTime != null) {
-                    baye.data.g_hdMarchTime = 0;
-                }
-            }
-        } catch (e) {}
         if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
             BayeHdDialog.clearLeftoverMarch();
-        }
-        /* 活着的过图 GetCitySet 不能写 0。败仗后 leftover dest 已清，pick=1 交给 landOwnedCity。 */
-        if (!liveOverworldGetCitySet()) {
-            forceClearMapPick('consume-march');
         }
     }
 
     function forceClearMapPick(why) {
+        if (marchProtocol()) { return false; }
         if (battlePickActive()) {
             noteStep4('force-clear-pick', { skipped: 'live-battle-pick' });
             return false;
@@ -1766,30 +1834,10 @@
     }
 
     function resetAfterFight() {
+        invalidateMarchWork();
+        state.marchStrategyOrder = null;
+        state.marchSession = 0;
         consumeLeftoverMarch();
-        /* 败仗后 leftover dest 已清。若仍 pick=1 battlePick=0，是过图 GetCitySet，不能写 0。
-         * battlePick 残留 1（GetCitySet 已返回）才写掉，避免挡住下一趟 GetFood。 */
-        try {
-            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
-                /* 战后 leftover GetCitySet / battlePick 不是活选城，留下会 landOwnedCity 河内→天水。 */
-                if (baye.data.g_hdBattlePick != null) {
-                    baye.data.g_hdBattlePick = 0;
-                }
-                /* 占领回车还没走完时不要清 HD 战场旗，否则 BeOccupied 开不了。 */
-                if (!occupyDrainPending() && Number(baye.data.g_FgtOver)) {
-                    if (baye.data.g_hdFightWait != null) {
-                        baye.data.g_hdFightWait = 0;
-                    }
-                }
-            }
-        } catch (e) {}
-        forceClearMapPick('after-fight-stale');
-        var q = engineQty();
-        if (q && q.active) {
-            state.qtyDismissed = true;
-            clearLeftoverQtyFlag();
-        }
-        clearLeftoverQtyValues();
         state.battleMake = false;
         state.campaignPick = false;
         state.personExitSent = false;
@@ -1810,6 +1858,8 @@
         state.sawQtyThisMarch = false;
         state.sawGetFoodUi = false;
         state.foodConfirmedThisMarch = false;
+        invalidateQtyWork();
+        state.qtyInputClosed = false;
         state.qtyDismissed = false;
         state.qtyDismissedAt = 0;
         state.wizardStep = 'none';
@@ -1829,50 +1879,22 @@
         state.marchHint = '';
         stopMarchWatch();
         releaseMarchShell('reset-after-fight');
-        /* 全军覆没 / 选择目标 残留文本回车 = 策略结束。只有活着的 async 灾异 / 拥立才回车。 */
-        var afterReport = liveEngineReport();
-        var names0 = (engineMenuItems().names || [])[0] || '';
-        if (/拥立|成为君主/.test(afterReport || '') && names0 && names0 !== '策略结束' &&
-            names0 !== '内政' && names0 !== '军备' && names0 !== '侦察' && names0 !== '开垦') {
-            engineSendKey(VK.ENTER, 'after-fight-enthron');
-        } else if (leftoverDisasterReport(afterReport) && liveReportAsync() &&
-            !looksLikeFunctionMenu()) {
-            engineSendKey(VK.ENTER, 'after-fight-report');
-        } else {
-            clearStaleDisasterReport();
-            try {
-                if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
-                    (!baye.hdEngineReady || baye.hdEngineReady())) {
-                    if (leftoverChooseTarget(liveEngineReport()) ||
-                        leftoverMarchReport(liveEngineReport()) ||
-                        leftoverEnemyCityReport(liveEngineReport()) ||
-                        /全军覆没|大获全胜/.test(liveEngineReport() || '')) {
-                        baye.data.g_hdReportGbk = '';
-                    }
-                }
-            } catch (e2) {}
-        }
-        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-            BayeHdDialog.close({ silent: true });
-        }
-        if (liveFunctionMenu() && !state.handoff) {
-            engineSendKey(VK.EXIT, 'after-fight-func');
-        }
-        if (state.cityIndex >= 0) {
-            bindOpenedMapCity(state.cityIndex, 'after-fight');
-        }
-        if (global.BayeHdOverworld && typeof BayeHdOverworld.afterFightMapReady === 'function') {
-            BayeHdOverworld.afterFightMapReady('after-fight');
-        }
+        // Result/occupation/succession reports remain owned by the engine
+        // and their player controls. A shell reset never advances them.
     }
 
     /* 同页 新君登基 / 读档：HD 出征旗标不能带到下一局，否则完成选将空操作、GetFood 永不来。 */
     function resetForNewGame(why) {
+        invalidateMarchWork();
+        state.marchStrategyOrder = null;
+        state.marchSession = 0;
         why = why || 'new-game';
         noteStep4('reset-new-game', { skipped: why });
         stopMarchWatch();
         state.queue = [];
         state.sending = false;
+        state.qtyCommitQueued = false;
+        state.activeQueueReason = '';
         state.battleMake = false;
         state.sawFightThisMarch = false;
         state.fightEndedThisMarch = false;
@@ -1898,6 +1920,8 @@
         state.sawQtyThisMarch = false;
         state.sawGetFoodUi = false;
         state.foodConfirmedThisMarch = false;
+        invalidateQtyWork();
+        state.qtyInputClosed = false;
         state.qtyDismissed = false;
         state.qtyDismissedAt = 0;
         state.qtyBeforePersonExit = null;
@@ -1922,26 +1946,9 @@
         state.deepLabel = '';
         state.deepStep = 0;
         state.deepSig = '';
-        try {
-            if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
-                if (baye.data.g_hdBattlePick != null) {
-                    baye.data.g_hdBattlePick = 0;
-                }
-                if (baye.data.g_hdMapPick != null) {
-                    baye.data.g_hdMapPick = 0;
-                }
-                if (baye.data.g_hdFightOver != null) {
-                    baye.data.g_hdFightOver = 0;
-                }
-                if (baye.data.g_hdFightActive != null) {
-                    baye.data.g_hdFightActive = 0;
-                }
-                if (baye.data.g_hdFightWait != null) {
-                    baye.data.g_hdFightWait = 0;
-                }
-            }
-        } catch (e) {}
-        clearLeftoverQtyValues();
+        // New-game/load hooks retire the presentation and queued work only.
+        // C owns the new world's input flags and may already be waiting for
+        // its first quantity, report or map selection when this hook arrives.
         consumeLeftoverMarch();
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
@@ -1981,6 +1988,7 @@
     }
 
     function clearLeftoverPickAfterMarch(why) {
+        if (marchProtocol()) { return false; }
         try {
             if (window.baye && baye.data) {
                 if (baye.data.g_hdMapPick != null) {
@@ -2093,6 +2101,7 @@
     }
 
     function bindOpenedMapCity(cityIndex, why) {
+        if (marchProtocol()) { return false; }
         cityIndex = cityIndex != null && cityIndex >= 0 ? Number(cityIndex) : state.cityIndex;
         if (liveFightBlocksCityOpen()) {
             return false;
@@ -2206,6 +2215,7 @@
     /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。
      * 活着的过图 GetCitySet 不能写 0。 */
     function clearStaleMapPick(why) {
+        if (marchProtocol()) { return false; }
         if (battlePickActive() || liveOverworldGetCitySet()) {
             return false;
         }
@@ -2225,6 +2235,7 @@
     /* 选粮已确认后 leftover pick=1 不是出征 GetCitySet。写掉旗标并钉出发城，
      * 让 C ShowGReport→battlePick=1→GetCitySet，避免 drive-tip 被 mapPickActive 挡住。 */
     function clearBattleMakeLeftoverPick(why) {
+        if (marchProtocol()) { return false; }
         if (battlePickActive()) {
             return false;
         }
@@ -2290,37 +2301,13 @@
     }
 
     function engineLeftBattleMake() {
-        var names = engineMenuItems().names || [];
-        var n0 = names[0] || '';
-        /* 出征向导里 g_hdMenuBytes 常残留「策略结束 / 侦察 / 开垦」，不是真离开 BattleMake。 */
-        if (n0 === '侦察') {
-            return liveJunbeiMenu();
-        }
-        if (n0 === '内政') {
-            return liveCityRootMenu();
-        }
-        if (n0 === '军备' || n0 === '外交') {
-            return names.indexOf('内政') >= 0 || names.indexOf('状况') >= 0;
-        }
-        if (n0 === '开垦') {
-            return names.length >= 2 && (names.indexOf('招商') >= 0 || names.indexOf('搜索') >= 0);
-        }
-        if (n0 === '策略结束') {
-            return !!(looksLikeFunctionMenu() &&
-                (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400);
-        }
-        return false;
+        var m = currentMarch();
+        return !!(m && Number(m.phase) === MARCH.IDLE);
     }
 
     function engineStillInPersonPick() {
-        if (liveGetFood() || engineQtyActiveMin1() || qtyLooksLikeGetFood()) {
-            return false;
-        }
-        if (engineLeftBattleMake()) {
-            return false;
-        }
-        /* 空菜单 / 残留「策略结束」/ 将表：EXIT 还没进 GetFood。 */
-        return true;
+        var m = currentMarch();
+        return !!(m && Number(m.phase) === MARCH.PERSONS);
     }
 
     function qtyLooksLikeGetFood(q) {
@@ -2329,31 +2316,12 @@
     }
 
     function latentGetFood() {
-        /* C NumOperate 确认/取消后仍留下 min/max、active=0。出征 GetFood min 恒 1，
-         * 征兵 min=0。pex 后 min≥1/max≥1 且未离开 BattleMake，就是选粮（含 active 被 leftover 清掉）。 */
-        if (!state.battleMake || !state.personExitSent || state.foodGaveUp ||
-            state.foodConfirmedThisMarch || state.marchReady || freshMarchOk()) {
-            return false;
-        }
-        if (engineLeftBattleMake()) {
-            return false;
-        }
-        return qtyLooksLikeGetFood();
+        // Inactive quantity fields are retained snapshots, never live input.
+        return false;
     }
 
-    function restoreGetFoodActive(why) {
-        var q = engineQty();
-        if (!qtyLooksLikeGetFood(q) || (q && q.active)) {
-            return !!(q && q.active);
-        }
-        try {
-            if (window.baye && baye.data && baye.data.g_hdQtyActive != null &&
-                (!baye.hdEngineReady || baye.hdEngineReady())) {
-                baye.data.g_hdQtyActive = 1;
-                noteStep4('restore-qty-active', { skipped: why || 'latent-food' });
-            }
-        } catch (e) {}
-        return true;
+    function restoreGetFoodActive() {
+        return !!(engineQty() && engineQty().active);
     }
 
     function bindLiveGetFoodQty(why) {
@@ -2383,23 +2351,17 @@
             });
         }
         advanceWizard('food', why || 'bind-qty');
-        state.marchHint = '引擎已打开选粮，请确认粮草。' + marchDebugLine();
+        state.marchHint = '请选择随军粮草，然后确认。';
         scheduleMarchWatch();
         render();
         return true;
     }
 
     function liveGetFood() {
+        var m = bindMarchSession();
         var q = engineQty();
-        /* 活着的出征 GetFood：min 恒 ≥1。引擎可能比 HD「完成选将」先结束选将。
-         * 不能要求 personExitSent，否则会把提前打开的选粮当 leftover 写掉 active。 */
-        if (state.battleMake && q && q.active && Number(q.min) >= 1) {
-            var before = state.qtyBeforePersonExit;
-            if (!(before && before.active && before.min >= 1 && qtySameAs(before, qtySnapshot()))) {
-                return true;
-            }
-        }
-        return latentGetFood();
+        return !!(m && Number(m.phase) === MARCH.FOOD &&
+            q && Number(q.active) && Number(q.min) >= 1);
     }
 
     function marchHintForHold() {
@@ -2440,23 +2402,9 @@
     }
 
     function engineInGetCitySet() {
-        /* 点河内后 GetCitySet 已返回、AddFightOrder 还没写 dest：C 仍应算在出征选城。 */
-        if (state.confirmingTarget && state.battleMake && foodReadyForCitySet() &&
-            !state.foodGaveUp && !freshMarchOk() && !state.marchReady) {
-            return true;
-        }
-        /* 必须 C 出征 GetCitySet，且本趟 HD 见过并确认过 GetFood。
-         * personExitSent / leftover battlePick 不能跳过选粮。 */
-        if (!foodReadyForCitySet()) {
-            return false;
-        }
-        if (!(battlePickActive() && mapPickActive())) {
-            return false;
-        }
-        if (liveGetFood()) {
-            return false;
-        }
-        return true;
+        var m = currentMarch();
+        return !!(m && Number(m.phase) === MARCH.TARGET_PICK &&
+            Number(m.pick) && Number(m.battlePick));
     }
 
     function displayWizardStep() {
@@ -2464,7 +2412,7 @@
         var map = {
             'march-ok': 'march-ok',
             'get-city-set': 'map-pick',
-            'armout': 'march-ok',
+            'armout': 'target-tip',
             'get-food': 'food',
             'choose-target': 'target-tip',
             'persons': 'persons',
@@ -2519,29 +2467,10 @@
     }
 
     function engineMarchPhase() {
-        if (freshMarchOk() || state.marchReady) {
-            return 'march-ok';
-        }
-        if (liveGetFood() || (state.personExitSent && !foodReadyForCitySet() && !state.foodGaveUp)) {
-            return liveGetFood() ? 'get-food' : 'wait-get-food';
-        }
-        if (engineInGetCitySet()) {
-            return 'get-city-set';
-        }
-        if (waitingArmout()) {
-            return 'armout';
-        }
-        if (state.personExitSent && leftoverChooseTarget(liveEngineReport()) &&
-            foodReadyForCitySet() && !mapPickActive()) {
-            return 'choose-target';
-        }
-        if (!state.personExitSent) {
-            return 'persons';
-        }
-        if (!state.sawQtyThisMarch) {
-            return 'wait-get-food';
-        }
-        return 'wait-get-city-set';
+        var m = currentMarch();
+        if (!m) { return 'none'; }
+        return ['none', 'persons', 'get-food', 'choose-target', 'get-city-set',
+            'target-rejected', 'armout', 'march-ok'][Number(m.phase)] || 'none';
     }
 
     function liveTargetStep() {
@@ -2550,18 +2479,12 @@
 
     /* GetCitySet 已返回，引擎停在 ShowConstStrMsg(部队已出发)，AddFightOrder 还没跑。 */
     function waitingArmout() {
-        if (freshMarchOk() || state.marchReady || mapPickActive() || showingQty() || liveGetFood()) {
-            return false;
-        }
-        if (!state.personExitSent || !foodReadyForCitySet()) {
-            return false;
-        }
-        return leftoverMarchReport(liveEngineReport());
+        var m = currentMarch();
+        return !!(m && Number(m.phase) === MARCH.ARMOUT);
     }
 
-    function usesMapCursor(kind, step) {
-        /* 只有引擎真在 GetCitySet（pick=1）才画城列表。向导步骤不够。 */
-        return !!(waitingArmout() || engineInGetCitySet());
+    function usesMapCursor() {
+        return engineInGetCitySet();
     }
 
     function qtySnapshot() {
@@ -2645,6 +2568,10 @@
     }
 
     function dismissMarchOverlay(why) {
+        if (marchProtocol()) {
+            return !!(global.BayeHdDialog && typeof BayeHdDialog.retireStaleReport === 'function' &&
+                BayeHdDialog.retireStaleReport());
+        }
         var ov = leftoverMarchOverlay();
         var visible = !!(ov.blocking || ov.engineHelp || ov.help || (ov.open && ov.farm));
         if (ov.open || ov.engineHelp || leftoverFarmReportText(liveEngineReport())) {
@@ -2653,14 +2580,6 @@
             }
             if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
                 BayeHdDialog.dismissLeftoverSpeech();
-            }
-            if (!liveReportAsync() && leftoverFarmReportText(liveEngineReport())) {
-                try {
-                    if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
-                        (!baye.hdEngineReady || baye.hdEngineReady())) {
-                        baye.data.g_hdReportGbk = '';
-                    }
-                } catch (e) {}
             }
         }
         if (state.engineHelpOpen && !liveGetFood() && !state.foodConfirmedThisMarch) {
@@ -2700,15 +2619,13 @@
     }
 
     function clearStaleDisasterReport() {
+        if (marchProtocol()) {
+            return !!(global.BayeHdDialog && typeof BayeHdDialog.retireStaleReport === 'function' &&
+                BayeHdDialog.retireStaleReport());
+        }
         if (!leftoverDisasterReport(liveEngineReport()) || liveReportAsync()) {
             return false;
         }
-        try {
-            if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
-                (!baye.hdEngineReady || baye.hdEngineReady())) {
-                baye.data.g_hdReportGbk = '';
-            }
-        } catch (e) {}
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
@@ -2725,251 +2642,21 @@
         return false;
     }
 
-    function driveFoodToCitySet(why) {
-        if (state.confirmingTarget && !freshMarchOk() && !state.marchReady) {
-            return { deferred: 'await-dest', phase: engineMarchPhase() };
+    function driveFoodToCitySet() {
+        var m = bindMarchSession();
+        if (!m) {
+            return { deferred: 'wait-march-session', phase: 'none' };
         }
-        if (state.foodGaveUp) {
-            return { deferred: 'gave-up', phase: engineMarchPhase() };
-        }
-        if (state.marchReady || freshMarchOk() || engineInGetCitySet()) {
-            return { ok: true, phase: engineMarchPhase() };
-        }
-        if (foodReadyForCitySet() || liveGetFood()) {
-            clearBattleMakeLeftoverPick(why || 'drive-food');
-        }
-        if (bindLiveGetFoodQty(why || 'drive-bind')) {
+        if (Number(m.phase) === MARCH.FOOD) {
+            adoptLiveGetFood('engine-food');
+            advanceWizard('food', 'engine-food');
             return { deferred: 'wait-food-ui', phase: 'get-food' };
         }
-        if (adoptLiveGetFood(why || 'drive')) {
-            /* engine 已打开 GetFood：只展示数量条，等 HD「确认」再回车。 */
-            var liveQ = engineQty();
-            if (liveQ && Number(liveQ.max) <= 0) {
-                state.marchHint = '城中无粮，无法确认选粮。' + marchDebugLine();
-                scheduleMarchWatch();
-                return { deferred: 'no-city-food', phase: 'get-food' };
-            }
-            state.marchHint = '引擎已打开选粮，请确认粮草。' + marchDebugLine();
-            advanceWizard('food', 'wait-food-ui');
-            scheduleMarchWatch();
-            render();
-            return { deferred: 'wait-food-ui', phase: 'get-food' };
-        }
-        var q = engineQty();
-        if (q && q.active && leftoverQtyFlag()) {
-            clearLeftoverQtyFlag();
-            return { deferred: 'clear-leftover-qty', phase: engineMarchPhase() };
-        }
-        if (waitingGetFoodSoftLock()) {
-            if (leftoverOverworldPick()) {
-                clearStaleMapPick(why || 'drive-food');
-            }
-            if (leftoverDisasterReport(liveEngineReport()) && !liveReportAsync()) {
-                clearStaleDisasterReport();
-            }
-            var liveFunc = looksLikeFunctionMenu() &&
-                (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
-            if (!liveFunc) {
-                if (state.lastPersonExitAt && Date.now() - state.lastPersonExitAt < 800) {
-                    state.marchHint = '等待引擎打开选粮… ' + marchDebugLine();
-                    scheduleMarchWatch();
-                    return { deferred: 'wait-after-exit', phase: engineMarchPhase() };
-                }
-                var report = liveEngineReport();
-                /* 只有活着的灾异 ShowConstStrMsg 才回车。过月残留文本（async=0）回车 = 策略结束。 */
-                if (!state.foodRecoverEnter && leftoverDisasterReport(report) &&
-                    liveReportAsync() && !thisMarchGetFoodOpened()) {
-                    state.foodRecoverEnter = true;
-                    state.foodRecoverNeeded = true;
-                    state.foodRecovered = true;
-                    state.lastPersonExitAt = Date.now();
-                    noteStep4('drive-food-enter-report', { skipped: why || 'live-disaster' });
-                    if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                        BayeHdDialog.close({ silent: true });
-                    }
-                    engineSendKey(VK.ENTER);
-                    state.marchHint = '选粮未打开，先回车关掉活着的灾异。' + marchDebugLine();
-                    scheduleMarchWatch();
-                    return { deferred: 'recover-report-enter', phase: engineMarchPhase() };
-                }
-                var ov = leftoverMarchOverlay();
-                if ((ov.blocking || ov.engineHelp || ov.help || ov.farm) &&
-                    (state.overlayRetry || 0) < 1 && !thisMarchGetFoodOpened()) {
-                    state.overlayRetry = 1;
-                    dismissMarchOverlay('drive-food-overlay');
-                    state.marchHint = '已关掉残留帮助/报告，再试完成选将。' + marchDebugLine();
-                    if (!state.lastExit) {
-                        state.personExitSent = false;
-                        state.finishPersonsBusy = false;
-                        state.foodGaveUp = false;
-                        state.finishVisibleRetry = (state.finishVisibleRetry || 0) + 1;
-                        finishPersonPick();
-                        return { deferred: 'overlay-retry-finish', phase: engineMarchPhase() };
-                    }
-                    var personsLive = cityPersons(state.cityIndex).length;
-                    var startLive = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsLive;
-                    if (startLive && personsLive < startLive) {
-                        state.personExitTries = (state.personExitTries || 0) + 1;
-                        state.lastPersonExitAt = Date.now();
-                        engineSendKey(VK.EXIT, 'finish-persons');
-                        scheduleMarchWatch();
-                        render();
-                        return { deferred: 'overlay-retry-exit', phase: engineMarchPhase() };
-                    }
-                    scheduleMarchWatch();
-                    render();
-                    return { deferred: 'overlay-dismissed', phase: engineMarchPhase() };
-                }
-                var GETFOOD_OPEN_MS = 8000;
-                var GETFOOD_RETRY_MS = 1200;
-                var sinceExit = state.lastPersonExitAt ? (Date.now() - state.lastPersonExitAt) : 0;
-                var waited = sinceExit > GETFOOD_OPEN_MS;
-                var n0 = (engineMenuItems().names || [])[0] || '';
-                var leftBattle = engineLeftBattleMake();
-                var stillPick = engineStillInPersonPick();
-                var qNow = engineQty();
-                /* 只有 min≥1 且 max≥1 才是 GetFood。征兵残留 min=0/max=940 也要再发 EXIT。 */
-                var minMaxZero = !qtyLooksLikeGetFood(qNow);
-                /* 开垦后水灾/选择目标残留不能在 1s 内再 EXIT：会取消刚打开的 GetFood。
-                 * 0 点将就 EXIT 会离开 BattleMake；遮罩吃掉 EXIT 时 lastExit 为空，先补发完成选将。 */
-                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
-                    !state.lastExit && (state.finishVisibleRetry || 0) < 1) {
-                    dismissMarchOverlay('drive-no-exit');
-                    state.personExitSent = false;
-                    state.finishPersonsBusy = false;
-                    state.finishVisibleRetry = 1;
-                    state.marchHint = '完成选将未发出 EXIT（残留遮罩），已关掉并再点一次。' + marchDebugLine();
-                    finishPersonPick();
-                    return { deferred: 'retry-finish-no-exit', phase: engineMarchPhase() };
-                }
-                /* 真回到军备「侦察」：EXIT 取消了 BattleMake，重进出征再点将。 */
-                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
-                    leftBattle && liveJunbeiMenu() &&
-                    (state.personExitTries || 0) < 3 &&
-                    sinceExit >= GETFOOD_RETRY_MS) {
-                    state.personExitSent = false;
-                    state.finishPersonsBusy = false;
-                    state.personExitTries = (state.personExitTries || 0) + 1;
-                    state.lastPersonExitAt = Date.now();
-                    state.battleMake = true;
-                    setWizardStep('persons', 'reenter-battle');
-                    noteStep4('drive-reenter-battle', {
-                        skipped: why || 'left-to-scout',
-                        attempt: state.personExitTries
-                    });
-                    dismissMarchOverlay('reenter-battle');
-                    enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
-                    setTimeout(function () {
-                        if (liveGetFood() || engineQtyActiveMin1() || state.personExitSent) {
-                            return;
-                        }
-                        requeuePickedPersons('reenter-battle');
-                        setTimeout(function () {
-                            if (!state.personExitSent && !state.finishPersonsBusy) {
-                                finishPersonPick();
-                            }
-                        }, 420);
-                    }, 360);
-                    state.marchHint = 'EXIT 已离开选将回到军备，已重进出征。' + marchDebugLine();
-                    scheduleMarchWatch();
-                    render();
-                    return { deferred: 'reenter-battle-make', phase: engineMarchPhase() };
-                }
-                /* ~1.2s 后仍 min/max=0 且仍在选将：先关 HELP 再补 EXIT。
-                 * 不要等 8s，也不要把残留「策略结束」当 leftBattle。q 的 min/max≥1 绑条仍优先。 */
-                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
-                    minMaxZero && stillPick && !leftBattle &&
-                    sinceExit >= GETFOOD_RETRY_MS &&
-                    (state.personExitTries || 0) < 3 &&
-                    !engineQtyActiveMin1()) {
-                    var nowPersonsEarly = cityPersons(state.cityIndex).length;
-                    var startPersonsEarly = state.enginePersonsAtPickStart ||
-                        state.enginePersonsAtFinish || nowPersonsEarly;
-                    if (!(startPersonsEarly && nowPersonsEarly < startPersonsEarly)) {
-                        state.marchHint = '选粮未打开，点将尚未进入引擎，不重发 EXIT。' + marchDebugLine();
-                        scheduleMarchWatch();
-                        return { deferred: 'wait-engine-picks', phase: engineMarchPhase() };
-                    }
-                    state.personExitTries = (state.personExitTries || 0) + 1;
-                    state.lastPersonExitAt = Date.now();
-                    state.foodRecovered = true;
-                    state.foodRecoverNeeded = false;
-                    noteStep4('drive-person-exit', {
-                        skipped: why || 'retry-exit-early',
-                        attempt: state.personExitTries
-                    });
-                    if (dismissMarchOverlay('retry-exit-help')) {
-                        enqueueKeys([VK.EXIT], 240, 'finish-persons');
-                        state.marchHint = '残留帮助挡住 EXIT，已关掉后再发 EXIT。' + marchDebugLine();
-                    } else {
-                        engineSendKey(VK.EXIT, 'finish-persons');
-                        state.marchHint = '选粮未打开（min/max=0），已再发 EXIT 进入 GetFood。' +
-                            marchDebugLine();
-                    }
-                    scheduleMarchWatch();
-                    render();
-                    return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
-                }
-                if (!thisMarchGetFoodOpened() && !state.foodGaveUp &&
-                    sinceExit >= 4000 &&
-                    (state.foodRecoverNeeded || waited) &&
-                    (state.personExitTries || 0) < 3 &&
-                    !engineQtyActiveMin1() &&
-                    !leftBattle) {
-                    var nowPersons = cityPersons(state.cityIndex).length;
-                    var startPersons = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || nowPersons;
-                    if (!(startPersons && nowPersons < startPersons)) {
-                        state.marchHint = '选粮未打开，点将尚未进入引擎，不重发 EXIT。' + marchDebugLine();
-                        scheduleMarchWatch();
-                        return { deferred: 'wait-engine-picks', phase: engineMarchPhase() };
-                    }
-                    state.personExitTries = (state.personExitTries || 0) + 1;
-                    state.lastPersonExitAt = Date.now();
-                    state.foodRecovered = true;
-                    state.foodRecoverNeeded = false;
-                    noteStep4('drive-person-exit', { skipped: why || 'retry-exit', attempt: state.personExitTries });
-                    dismissMarchOverlay('retry-exit');
-                    engineSendKey(VK.EXIT, 'finish-persons');
-                    state.marchHint = '选粮未打开，已安全再发一次 EXIT。' + marchDebugLine();
-                    scheduleMarchWatch();
-                    return { deferred: 'retry-person-exit', phase: engineMarchPhase() };
-                }
-                if (!thisMarchGetFoodOpened() &&
-                    ((state.personExitTries || 0) >= 3 || state.foodGaveUp) &&
-                    state.lastPersonExitAt &&
-                    (Date.now() - state.lastPersonExitAt > GETFOOD_OPEN_MS)) {
-                    /* 再发 EXIT 后再等一轮。立刻认输会把刚打开的 GetFood 当失败。 */
-                    state.foodGaveUp = true;
-                    state.personExitSent = false;
-                    state.finishPersonsBusy = false;
-                    state.foodRecoverNeeded = false;
-                    state.foodRecoverEnter = false;
-                    stopMarchWatch();
-                    state.marchHint = '引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine();
-                    setWizardStep('persons', 'getfood-timeout');
-                    state.deepSig = '';
-                    render();
-                    return { deferred: 'getfood-timeout', phase: engineMarchPhase() };
-                }
-            }
-        }
-        if (state.personExitSent && foodReadyForCitySet() && !mapPickActive() &&
-            (citySetNeedsOverlayEnter() || leftoverChooseTarget(liveEngineReport()))) {
-            if (state.lastTipEnterAt && Date.now() - state.lastTipEnterAt < 700) {
-                return { deferred: 'tip-cooldown', phase: engineMarchPhase() };
-            }
-            state.lastTipEnterAt = Date.now();
-            state.dismissedObj = true;
-            noteStep4('drive-tip-enter', { skipped: why || 'tip' });
-            engineSendKey(VK.ENTER);
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
-            }
-            advanceWizard('target-tip', 'drive-tip');
-            scheduleMarchWatch();
-            return { deferred: 'tip-enter', phase: 'choose-target' };
-        }
-        return { ok: false, phase: engineMarchPhase() };
+        // Polling only observes state. Reports, food values and menus are
+        // confirmed by their own player controls, never by a timer.
+        return { ok: Number(m.phase) === MARCH.TARGET_PICK,
+            deferred: Number(m.phase) === MARCH.TARGET_PICK ? '' : 'wait-player',
+            phase: engineMarchPhase() };
     }
 
     function usesGoodsMenu(kind, step) {
@@ -2985,10 +2672,32 @@
         return null;
     }
 
+    function syncQuantityWait(q) {
+        if (!q || !Number(q.active) || !marchProtocol()) { return; }
+        var menu = engineMenuItems();
+        if (menu.active == null || Number(menu.active) || !Number(menu.seq)) { return; }
+        // NumOperate starts after its person/menu closes. That C menu end
+        // advances the native sequence, distinguishing consecutive quantities.
+        var march = marchProtocol();
+        var key = String(menu.seq) + ':' + (Number(march.phase) === MARCH.FOOD
+            ? String(march.session) + ':' + String(march.inputSeq) : 'city');
+        if (state.qtyWaitKey === key) { return; }
+        state.qtyWaitKey = key;
+        invalidateQtyWork();
+        state.qtyInputClosed = false;
+        state.qtyDismissed = false;
+        state.qtyDismissedAt = 0;
+    }
+
     function leftoverQtyFlag() {
         var q = engineQty();
+        syncQuantityWait(q);
         if (!(q && q.active)) {
             return false;
+        }
+        if (marchProtocol()) {
+            var menu = engineMenuItems();
+            return !!(state.qtyInputClosed || menu.active != null && Number(menu.active));
         }
         /* 活着的出征 GetFood（min≥1）绝不当残留。向导/选择目标/qtyDismissed 不能清掉它。 */
         if (liveGetFood()) {
@@ -3015,7 +2724,8 @@
 
     function liveQty() {
         var q = engineQty();
-        if (!(q && q.active) || leftoverQtyFlag()) {
+        syncQuantityWait(q);
+        if (state.qtyInputClosed || !(q && q.active) || leftoverQtyFlag()) {
             return false;
         }
         return true;
@@ -3028,6 +2738,7 @@
         if (liveQty() || liveGetFood()) {
             return true;
         }
+        if (marchProtocol()) { return false; }
         if (state.qtyDismissed) {
             return false;
         }
@@ -3035,6 +2746,7 @@
     }
 
     function clearLeftoverQtyValues() {
+        if (marchProtocol()) { return; }
         try {
             if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
                 if (baye.data.g_hdQtyActive != null) {
@@ -3059,6 +2771,7 @@
         }
         try {
             if (window.baye && baye.data && baye.data.g_hdQtyActive != null &&
+                !marchProtocol() &&
                 (!baye.hdEngineReady || baye.hdEngineReady())) {
                 baye.data.g_hdQtyActive = 0;
             }
@@ -3075,7 +2788,56 @@
         }
     }
 
+    function invalidateQtyWork() {
+        qtyEpoch += 1;
+        state.queue = state.queue.filter(function (item) { return item.qtyEpoch == null; });
+        state.qtyCommitQueued = false;
+        state.activeQueueReason = '';
+    }
+
+    function stepQty(delta) {
+        if (!liveQty()) {
+            return false;
+        }
+        if (state.qtyCommitQueued) {
+            return true;
+        }
+        delta = Number(delta);
+        if (delta === -10 || delta === -1 || delta === 1 || delta === 10) {
+            state.queue.push({ qtyStep: delta, reason: 'qty-step', qtyEpoch: qtyEpoch });
+            pumpQueue();
+        }
+        return true;
+    }
+
+    function digitQty(digit) {
+        if (!liveQty()) {
+            return false;
+        }
+        digit = Number(digit);
+        if (!state.qtyCommitQueued && digit >= 0 && digit <= 9 && Math.floor(digit) === digit) {
+            enqueueKeys([0x40 + digit], 30, 'qty-digit');
+        }
+        return true;
+    }
+
     function commitQty() {
+        syncQuantityWait(engineQty());
+        if (state.qtyInputClosed || state.qtyCommitQueued) {
+            return;
+        }
+        var quantityKeyPending = state.activeQueueReason === 'qty-step' ||
+            state.activeQueueReason === 'qty-digit' || state.queue.some(function (item) {
+                return item.reason === 'qty-step' || item.reason === 'qty-digit';
+            });
+        if (liveQty() && quantityKeyPending) {
+            // Confirm after the queued digits/steps, rather than closing their
+            // NumOperate early and sending its remaining keys into the next UI.
+            state.qtyCommitQueued = true;
+            state.queue.push({ qtyCommit: true, wait: 40, qtyEpoch: qtyEpoch });
+            pumpQueue();
+            return;
+        }
         if (leftoverQtyFlag() || !liveQty()) {
             state.qtyDismissed = true;
             state.qtyDismissedAt = Date.now();
@@ -3085,20 +2847,28 @@
             return;
         }
         engineSendKey(VK.ENTER, 'qty-ok');
+        state.qtyInputClosed = true;
+        invalidateQtyWork();
+        var epoch = qtyEpoch;
         state.qtyDismissed = true;
         state.qtyDismissedAt = Date.now();
         if (state.battleMake && (state.personExitSent || liveGetFood() || state.sawGetFoodUi)) {
             state.sawGetFoodUi = true;
-            state.foodConfirmedThisMarch = true;
+            state.marchFoodCommitSent = true;
             state.sawQtyThisMarch = true;
             advanceWizard('food', 'commit-qty');
-            clearBattleMakeLeftoverPick('commit-qty');
+
         }
         setTimeout(function () {
-            if (liveGetFood() || liveQty()) {
-                engineSendKey(VK.ENTER, 'qty-ok');
+            syncQuantityWait(engineQty());
+            if (epoch !== qtyEpoch || !shouldShowHd()) {
+                return;
             }
             setTimeout(function () {
+                syncQuantityWait(engineQty());
+                if (epoch !== qtyEpoch || !shouldShowHd()) {
+                    return;
+                }
                 if (engineQty() && engineQty().active && leftoverQtyFlag()) {
                     clearLeftoverQtyFlag();
                 }
@@ -3113,10 +2883,26 @@
     }
 
     function cancelQty() {
+        syncQuantityWait(engineQty());
+        if (state.qtyInputClosed) {
+            return;
+        }
+        invalidateQtyWork();
+        if (!liveQty()) {
+            clearLeftoverQtyFlag();
+            render();
+            return;
+        }
         engineSendKey(VK.EXIT, 'qty-cancel');
+        state.qtyInputClosed = true;
+        var epoch = qtyEpoch;
         state.qtyDismissed = true;
         state.qtyDismissedAt = Date.now();
         setTimeout(function () {
+            syncQuantityWait(engineQty());
+            if (epoch !== qtyEpoch || !shouldShowHd()) {
+                return;
+            }
             clearLeftoverQtyFlag();
             render();
         }, 80);
@@ -3180,7 +2966,7 @@
         return data.g_Cities[index];
     }
 
-    function cityPersons(index) {
+    function cityPersons(index, alliedOnly) {
         var data = engineData();
         var city = readCity(index);
         var list = [];
@@ -3202,7 +2988,12 @@
             if (pind === null && data.g_PersonsQueue[q0 + i] != null) {
                 pind = Number(data.g_PersonsQueue[q0 + i]);
             }
-            if (pind === null || !isFinite(pind) || pind < 0 || pind >= 0xfffe || pind >= qlen) {
+            if (pind === null || !isFinite(pind) || pind < 0 || pind >= 0xfffe ||
+                data.g_Persons && pind >= data.g_Persons.length) {
+                continue;
+            }
+            if (alliedOnly && (!data.g_Persons || !data.g_Persons[pind] ||
+                readNumber(data.g_Persons[pind], 'Belong') !== readNumber(city, 'Belong'))) {
                 continue;
             }
             var name = '';
@@ -3376,9 +3167,84 @@
         return fb;
     }
 
+    function deepMenuOwner(menu) {
+        if (!menu || menu.active == null || !Number(menu.active) ||
+            Number(menu.context) !== 1 || [3, 4].indexOf(Number(menu.kind)) < 0 ||
+            !menu.names || !menu.names.length ||
+            (Number(menu.count) && Number(menu.count) !== menu.names.length)) { return null; }
+        var kind = Number(menu.kind);
+        var expected = usesGoodsMenu(state.deepKind, state.deepStep) ? 4 : 3;
+        if (kind !== expected) { return null; }
+        if (state.deepKind === 'person-city') {
+            var march = currentMarch();
+            if (!march || Number(march.phase) !== MARCH.PERSONS) { return null; }
+        }
+        return { context: 1, kind: kind, seq: Number(menu.seq),
+            key: JSON.stringify([marchEpoch, 1, kind, Number(menu.seq), menu.names]) };
+    }
+
+    function readyDeepMenuOwner(menu) {
+        var owner = deepMenuOwner(menu);
+        var pending = state.deepSelectionPending;
+        if (!pending) { return owner; }
+        if (pending.epoch !== marchEpoch) {
+            state.deepSelectionPending = null;
+            return owner;
+        }
+        if (!state.nativeMenuRequest && state.nativeMenuCommit !== pending.key) {
+            state.deepSelectionPending = null;
+            return owner;
+        }
+        // Enter closes a real person menu before C removes the chosen person
+        // and opens the next one. Never publish the previous list in that gap.
+        var march = currentMarch();
+        if (state.nativeMenuRequest || Number(menu.seq) === pending.seq ||
+            pending.selected != null && (!march || Number(march.session) !== pending.session ||
+                Number(march.selected) < pending.selected)) { return null; }
+        state.deepSelectionPending = null;
+        return owner;
+    }
+
+    function nativeDeepItems(menu, owner) {
+        if (!owner) { return []; }
+        var persons = owner.kind === 3 ? cityPersons(state.cityIndex, state.deepKind === 'person-city') : [];
+        var samePersons = persons.length === menu.names.length && persons.every(function (person, index) {
+            return person.name === menu.names[index];
+        });
+        return menu.names.map(function (name, index) {
+            var item = { i: index, name: name };
+            // A Mod may filter/reorder the native list. Only attach queue IDs
+            // when every entry agrees; names and native indices remain primary.
+            if (samePersons) { item.pind = persons[index].pind; }
+            return item;
+        });
+    }
+
     function probeDeepItems() {
         var kind = state.deepKind;
         var step = state.deepStep;
+        var native = engineMenuItems();
+        if (native.active != null && !usesMapCursor(kind, step) &&
+            !(kind === 'person-city' && liveTargetStep())) {
+            return nativeDeepItems(native, readyDeepMenuOwner(native));
+        }
+        if (kind === 'person-city') {
+            var march = bindMarchSession();
+            if (march && Number(march.phase) === MARCH.PERSONS) {
+                var menu = engineMenuItems();
+                if (Number(menu.active) && Number(menu.context) === 1 &&
+                    Number(menu.kind) === 3 && menu.names && menu.names.length) {
+                    // The live native menu also includes Mod filtering/order.
+                    // Preserve its indices; retained bytes are never a menu.
+                    return menu.names.map(function (name, index) {
+                        return { i: index, name: name };
+                    });
+                }
+                return cityPersons(state.cityIndex, true);
+            }
+            return march && Number(march.phase) === MARCH.TARGET_PICK
+                ? otherCities(state.cityIndex) : [];
+        }
         if (kind === 'person-city' && !state.personExitSent &&
             state.wizardStep === 'persons' && !showingQty()) {
             var picking = cityPersons(state.cityIndex);
@@ -3591,6 +3457,9 @@
         if (!list) {
             return;
         }
+        var deepMenu = engineMenuItems();
+        var owner = readyDeepMenuOwner(deepMenu);
+        state.deepMenuOwner = owner;
         state.deepItems = probeDeepItems();
         var liveQty = engineQty();
         var march = engineMarch();
@@ -3604,9 +3473,11 @@
             ':' + (state.wizardStep || '') +
             ':' + displayWizardStep() +
             ':' + engineMarchPhase() +
+            ':' + (currentMarch() ? marchInputKey(currentMarch()) : '') +
             ':' + (engineInGetCitySet() ? 'gcs' : '') +
             ':' + (state.marchHint || '') +
             ':' + (state.pendingTarget == null ? '' : state.pendingTarget) +
+            ':' + (owner ? owner.key : '') +
             ':' + state.deepItems.map(function (it) {
                 return it.name;
             }).join(',');
@@ -3636,36 +3507,10 @@
             qtySteps.innerHTML = wizardBits.join('<span class="hd-city-menu-wizard-sep">→</span>') +
                 (shownStep === 'persons' ? '<span class="hd-city-menu-wizard-extra">已点 ' +
                     (state.pickedPersons || 0) + ' 人</span>' : '') +
-                '<span class="hd-city-menu-wizard-debug" data-hd-march-debug="1">' +
-                marchDebugLine() + '</span>';
+                (global.BAYE_HD_DEBUG ? '<span class="hd-city-menu-wizard-debug" data-hd-march-debug="1">' +
+                    marchDebugLine() + '</span>' : '');
             list.appendChild(qtySteps);
-            if (!engineInGetCitySet() && !freshMarchOk() && !state.marchReady &&
-                !state.confirmingTarget &&
-                (state.wizardStep === 'map-pick' ||
-                (state.pendingTarget != null && shownStep !== 'march-ok') ||
-                shownStep === 'target-tip' || shownStep === 'food' ||
-                (battlePickActive() && !foodReadyForCitySet()))) {
-                var mismatch = document.createElement('div');
-                mismatch.className = 'hd-city-menu-march-hint';
-                mismatch.setAttribute('data-hd-cityset-mismatch', '1');
-                if (state.foodGaveUp || waitingGetFoodSoftLock() ||
-                    (shownStep === 'food' && !liveGetFood()) ||
-                    (battlePickActive() && !foodReadyForCitySet() && !liveGetFood())) {
-                    mismatch.setAttribute('data-hd-food-mismatch', '1');
-                    mismatch.textContent = state.foodGaveUp
-                        ? ('引擎未打开 GetFood。已退出选粮，请再点「完成选将」。' + marchDebugLine())
-                        : leftoverOverworldPick()
-                        ? ('过图残留 pick=1，不是选粮。' + marchDebugLine())
-                        : ('引擎未打开 GetFood，不能确认河内。请先确认粮草。' + marchDebugLine());
-                } else if (leftoverOverworldPick()) {
-                    mismatch.textContent = '过图 leftover pick=1，不是出征 GetCitySet。' + marchDebugLine();
-                } else {
-                    mismatch.textContent = '引擎未打开出征 GetCitySet，不能确认河内。' + marchDebugLine();
-                }
-                if (mismatch.textContent) {
-                    list.appendChild(mismatch);
-                }
-            }
+
         }
         if (showingQty()) {
             var bar = document.createElement('div');
@@ -3676,9 +3521,9 @@
                     q = baye.hd.qty();
                 }
             } catch (e) {}
-            bar.innerHTML = '<p>引擎数量 <strong id="hd-city-qty-val">' +
+            bar.innerHTML = '<p>' + (state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
                 (q.value !== '' && q.value != null ? q.value : '—') +
-                '</strong> · 可用方向步进或 0–9（VK_DIGIT0=0x40）</p>' +
+                '</strong> · 可用按钮或数字键调整</p>' +
                 '<div>' +
                 '<button type="button" data-hd-qty="-10">−10</button>' +
                 '<button type="button" data-hd-qty="-1">−</button>' +
@@ -3710,7 +3555,7 @@
             }
             var status = state.handoff
                 ? (state.handoffStatus || '正在退出城池…')
-                : '需「策略结束」让 PolicyExec 走军入战';
+                : '结束本月策略后，部队开始行军。';
             var statusEl = document.createElement('p');
             statusEl.className = 'hd-city-menu-handoff-status';
             statusEl.setAttribute('data-hd-handoff-status', state.handoff ? '1' : '0');
@@ -3725,6 +3570,8 @@
             done.appendChild(statusEl);
             done.appendChild(btn);
             list.appendChild(done);
+            applyHighlight();
+            return;
         } else if (state.marchHint) {
             var warn = document.createElement('div');
             warn.className = 'hd-city-menu-march-hint';
@@ -3739,13 +3586,25 @@
             warn.appendChild(dismiss);
             list.appendChild(warn);
         }
+        var liveMarch = currentMarch();
+        if (liveMarch && [MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(Number(liveMarch.phase)) >= 0) {
+            var cont = document.createElement('button');
+            cont.type = 'button';
+            cont.setAttribute('data-hd-march-continue', '');
+            cont.setAttribute('data-hd-march-session', liveMarch.session);
+            cont.setAttribute('data-hd-march-input-seq', liveMarch.inputSeq);
+            cont.disabled = state.marchContinueKey === marchInputKey(liveMarch);
+            cont.textContent = Number(liveMarch.phase) === MARCH.ARMOUT ? '确认部队出发'
+                : Number(liveMarch.phase) === MARCH.REJECT ? '确认提示 · 重选目标' : '选择目标城';
+            list.appendChild(cont);
+        }
         if (!showMarchOk && state.deepKind === 'person-city' &&
             !(mapPickActive() && !leftoverOverworldPick()) &&
             !state.personExitSent && state.wizardStep === 'persons') {
             var fin = document.createElement('div');
             fin.className = 'hd-city-menu-finish-persons';
             fin.innerHTML = '<p>已点将 ' + (state.pickedPersons || 0) +
-                ' 人 · EXIT 结束选将，再选粮、选目标城</p>' +
+                ' 人 · 完成后选择随军粮草和目标城</p>' +
                 '<button type="button" data-hd-finish-persons>完成选将 · 选粮出发</button>';
             list.appendChild(fin);
         }
@@ -3754,8 +3613,8 @@
             hint.className = 'hd-city-menu-map-hint';
             var hasEnemy = state.deepItems.some(function (it) { return it && it.enemy; });
             hint.textContent = hasEnemy
-                ? '点敌邻城或地图上的敌邻会立刻走格并确认出征（CITY_LINKR）。只高亮不够。'
-                : '邻城都是己方。引擎不能打非邻城；点己方会提示「我方城池」，不会出发。';
+                ? '先选择敌方邻城，再点击「确认出征」。'
+                : '邻城都是己方。请选择其他出发城。';
             list.appendChild(hint);
             if (!showMarchOk) {
                 var confirm = document.createElement('div');
@@ -3765,12 +3624,17 @@
                     tName = cityName(state.pendingTarget) || ('城' + (state.pendingTarget + 1));
                 }
                 confirm.innerHTML = '<p>' + (tName
-                    ? ('已点 ' + tName + ' · 确认会走 setx/sety 并对引擎回车')
+                    ? ('已选择 ' + tName)
                     : '先点邻城或地图目标，再可按确认出征') + '</p>' +
                     '<button type="button" data-hd-confirm-march' +
                     (state.pendingTarget == null ? ' disabled' : '') + '>' +
                     (tName ? ('确认出征 · ' + tName) : '确认出征') + '</button>';
                 list.appendChild(confirm);
+                var cancel = document.createElement('button');
+                cancel.type = 'button';
+                cancel.setAttribute('data-hd-march-cancel', '');
+                cancel.textContent = '取消出征';
+                list.appendChild(cancel);
             }
         }
         if (!state.deepItems.length && !showMarchOk &&
@@ -3787,6 +3651,14 @@
             btn.type = 'button';
             btn.className = 'hd-city-menu-item';
             btn.setAttribute('data-hd-deep', String(i));
+            if (owner) {
+                btn.setAttribute('data-hd-deep-owner', owner.key);
+                btn.setAttribute('data-hd-menu-context', String(owner.context));
+                btn.setAttribute('data-hd-menu-kind', String(owner.kind));
+                btn.setAttribute('data-hd-menu-seq', String(owner.seq));
+                btn.setAttribute('data-hd-deep-name', it.name);
+                if (it.pind != null) { btn.setAttribute('data-hd-deep-pind', String(it.pind)); }
+            }
             btn.textContent = it.owner ? (it.name + ' · ' + it.owner) : it.name;
             list.appendChild(btn);
         }
@@ -3906,6 +3778,7 @@
         var status = el('hd-city-menu-status');
         var deep = el('hd-city-menu-deep');
         var probe = el('hd-city-menu-probe');
+        if (probe) { probe.hidden = !global.BAYE_HD_DEBUG; }
         function hideAllLayers() {
             if (grid) {
                 grid.hidden = true;
@@ -3948,7 +3821,7 @@
                 var shownHint = displayWizardStep();
                 stepHint = '出征步骤 ' + (WIZARD_LABEL[shownHint] || WIZARD_LABEL[state.wizardStep]);
                 if (!engineInGetCitySet() && (shownHint === 'map-pick' || state.wizardStep === 'map-pick')) {
-                    stepHint += ' · 引擎未 GetCitySet';
+                    stepHint += ' · 等待目标选择';
                 }
             }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
@@ -4002,6 +3875,7 @@
         var live = cityName(state.cityIndex);
         state.cityName = (meta.cityName && String(meta.cityName)) || live || state.cityName || '';
         if (switched && state.open) {
+            invalidateQtyWork();
             state.layer = 'root';
             state.subKind = '';
             state.deepKind = '';
@@ -4018,6 +3892,18 @@
 
     function openMenu(meta) {
         meta = meta || {};
+        var nativeMenu = engineMenuItems();
+        if (nativeMenu.active != null) {
+            var actualCity = engineMapCityIndex();
+            if (!Number(nativeMenu.active) || Number(nativeMenu.context) !== 1 ||
+                Number(nativeMenu.kind) !== 1 ||
+                !isFinite(actualCity) || actualCity < 0 ||
+                meta.cityIndex != null && Number(meta.cityIndex) !== actualCity) {
+                return false;
+            }
+            meta.cityIndex = actualCity;
+            meta.cityName = cityName(actualCity);
+        }
         if (liveFightBlocksCityOpen()) {
             console.warn('[hd-city-menu] skip open during fight', {
                 city: (meta && meta.cityName) || state.cityName,
@@ -4040,7 +3926,11 @@
         state.layer = 'root';
         state.subKind = '';
         state.showLcd = false;
+        invalidateQtyWork();
+        state.qtyInputClosed = false;
         state.queue = [];
+        state.qtyCommitQueued = false;
+        state.activeQueueReason = '';
         state.cityName = state.cityName || cityName(state.cityIndex);
         /* 征兵 leftover g_hdQtyActive 进下一次城菜单时必须清掉。 */
         if (engineQty() && engineQty().active && !state.battleMake) {
@@ -4065,9 +3955,13 @@
     function closeMenu(opts) {
         opts = opts || {};
         if (fightIsActive()) {
+            invalidateMarchWork();
+            invalidateQtyWork();
             state.open = false;
             state.queue = [];
             state.sending = false;
+            state.qtyCommitQueued = false;
+            state.activeQueueReason = '';
             applyDocAttr();
             render();
             console.warn('[hd-city-menu] hide leftover city menu during fight, no leaveMenu EXIT');
@@ -4090,10 +3984,14 @@
             applyDocAttr();
             return;
         }
+        invalidateMarchWork();
+        invalidateQtyWork();
         state.open = false;
         state.layer = 'root';
         state.queue = [];
         state.sending = false;
+        state.qtyCommitQueued = false;
+        state.activeQueueReason = '';
         state.cityIndex = -1;
         state.cityName = '';
         if (!freshMarchOk()) {
@@ -4170,10 +4068,56 @@
     }
 
     function chooseRoot(index) {
+        var menu = engineMenuItems();
+        if (menu.active != null && (!Number(menu.active) || Number(menu.context) !== 1 ||
+            Number(menu.kind) !== 1 || engineMapCityIndex() !== state.cityIndex)) {
+            return;
+        }
         if (index < 0 || index >= ROOTS.length) {
             return;
         }
         var root = ROOTS[index];
+        if (menu.active != null) {
+            if (state.rootMenuPending) { return; }
+            if (root.id === 'zhuangkuang') {
+                state.layer = 'status';
+                state.subKind = root.id;
+                render();
+                return;
+            }
+            state.rootMenuPending = true;
+            var epoch = marchEpoch;
+            var startSeq = Number(menu.seq);
+            var checks = 0;
+            if (!selectLiveMenu(index, true, 'city-root', menu)) {
+                state.rootMenuPending = false;
+                return;
+            }
+            function waitSubmenu() {
+                if (epoch !== marchEpoch || !shouldShowHd() || !state.open) { return; }
+                var live = engineMenuItems();
+                if (Number(live.active) && Number(live.context) === 1 &&
+                    Number(live.kind) === 2 && Number(live.seq) !== startSeq &&
+                    engineMapCityIndex() === state.cityIndex) {
+                    state.rootMenuPending = false;
+                    state.layer = 'sub';
+                    state.subKind = root.id;
+                    state.idleIndex = Number(live.index);
+                    render();
+                    return;
+                }
+                if (++checks > 200) {
+                    state.rootMenuPending = false;
+                    state.marchHint = '菜单尚未打开，请重新选择指令。';
+                    render();
+                    return;
+                }
+                setTimeout(waitSubmenu, 40);
+            }
+            waitSubmenu();
+            render();
+            return;
+        }
         /* 开垦数月后 leftover pick 还在：先回本城，再发军备/内政 ENTER。 */
         bindOpenedMapCity(state.cityIndex, 'choose-root');
         sweepStickyMarch('choose-root');
@@ -4235,84 +4179,55 @@
     }
 
     function chooseSub(index) {
+        var menu = engineMenuItems();
+        if (menu.active != null && (!Number(menu.active) || Number(menu.context) !== 1 ||
+            Number(menu.kind) !== 2 || engineMapCityIndex() !== state.cityIndex)) {
+            return;
+        }
         var names = preferEngineNames(SUBS[state.subKind] || []);
         var willMarch = deepKindFor(state.subKind, index) === 'person-city' || names[index] === '出征';
-        if (willMarch && global.BayeHdDialog &&
-            typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
-            BayeHdDialog.dismissLeftoverSpeech();
-        }
         if (willMarch) {
-            leaveLeftoverPolicyPerson('choose-sub-march', true);
-            clearStaleDisasterReport();
-            try {
-                if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady()) &&
-                    !fightIsActive()) {
-                    if (baye.data.g_hdFightOver != null) {
-                        baye.data.g_hdFightOver = 0;
+            invalidateMarchWork();
+            state.marchSession = 0;
+            state.marchBaselineSeq = marchSeqOf(engineMarch());
+            state.marchContinueKey = '';
+            state.marchTargetInputKey = '';
+            state.marchSubmittedTarget = null;
+            state.marchFoodCommitSent = false;
+            state.marchCancelKey = '';
+            state.marchPersonExpected = 0;
+            var epoch = marchEpoch;
+            var used = {};
+            var polls = 0;
+            function sendMarchKeys() {
+                if (epoch !== marchEpoch || !shouldShowHd()) { return; }
+                var m = bindMarchSession();
+                if (m && Number(m.phase) === MARCH.PERSONS) {
+                    state.marchHint = '请选择将领，再点击「完成选将」。';
+                    render();
+                    return;
+                }
+                var menu = engineMenuItems();
+                if (++polls > 100) {
+                    state.marchHint = '引擎尚未打开选将，请检查当前菜单后重新选择出征。';
+                    render();
+                    return;
+                }
+                if (Number(menu.active) && Number(menu.context) === 1 &&
+                    !state.queue.length && !state.sending && !used[String(menu.seq)]) {
+                    var target = -1;
+                    if (Number(menu.kind) === 1) { target = (menu.names || []).indexOf('军备'); }
+                    else if (Number(menu.kind) === 2) { target = (menu.names || []).indexOf('出征'); }
+                    if (target >= 0) {
+                        used[String(menu.seq)] = true;
+                        selectLiveMenu(target, true, 'march-start', menu);
                     }
-                    if (!state.sawFightThisMarch && baye.data.g_hdFightActive != null) {
-                        baye.data.g_hdFightActive = 0;
-                    }
                 }
-            } catch (e) {}
-            if (looksLikeFunctionMenu() &&
-                (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400) {
-                engineSendKey(VK.EXIT, 'leave-leftover-func-for-march');
+                setTimeout(sendMarchKeys, 80);
             }
-        }
-        function sendMarchKeys() {
-            if (leftoverOverworldPick()) {
-                return;
-            }
-            bindOpenedMapCity(state.cityIndex, 'choose-sub');
-            leaveLeftoverPolicyPerson('send-march', true);
-            /* 先清上场向导旗标，再认 leftover pick；否则 sawQtyThisMarch 仍真，清不掉。 */
-            state.sawQtyThisMarch = false;
-            state.sawGetFoodUi = false;
-            state.foodConfirmedThisMarch = false;
-            state.personExitSent = false;
-            state.finishPersonsBusy = false;
-            state.lastPickEnterAt = 0;
-            state.enginePersonsAtFinish = 0;
-            state.enginePersonsAtPickStart = 0;
-            state.engineHelpOpen = false;
-            state.overlayRetry = 0;
-            state.finishVisibleRetry = 0;
-            state.pickedPersonNames = [];
-            state.foodGaveUp = false;
-            state.foodAttempt = 0;
-            clearStaleMapPick('choose-sub');
-            var now0 = (engineMenuItems().names || [])[0] || '';
-            /* 过月后 HD 已在军备，引擎还停在城池根「内政」。ENTER 出征会进内政。 */
-            if (now0 === '内政') {
-                enqueueKeys([VK.DOWN, VK.DOWN, VK.ENTER], 70, 'enter-junbei-for-march');
-            } else {
-                pickIndex(index, true);
-            }
-            setTimeout(function () {
-                if (!state.battleMake || state.personExitSent || showingQty() || liveGetFood()) {
-                    return;
-                }
-                if (leftoverOverworldPick()) {
-                    return;
-                }
-                if (adoptLiveGetFood('choose-sub')) {
-                    return;
-                }
-                var liveNames = engineMenuItems().names || [];
-                if (liveNames[0] === '侦察') {
-                    enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
-                } else if (liveNames[0] === '开垦') {
-                    enqueueKeys([VK.EXIT, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-from-neizheng');
-                }
-            }, 320);
-        }
-        if (willMarch && leftoverOverworldPick()) {
-            landOwnedCity('choose-sub-march', sendMarchKeys);
-        } else if (willMarch) {
-            sendMarchKeys();
+            setTimeout(sendMarchKeys, 0);
         } else {
-            pickIndex(index, true);
+            if (!pickIndex(index, true)) { return; }
         }
         state.deepKind = deepKindFor(state.subKind, index);
         state.deepLabel = names[index] || '';
@@ -4325,6 +4240,7 @@
         state.marchReady = false;
         state.campaignPick = false;
         state.battleMake = (state.deepKind === 'person-city' || state.deepLabel === '出征');
+        state.marchStrategyOrder = null;
         state.personExitSent = false;
         state.finishPersonsBusy = false;
         state.personExitTries = 0;
@@ -4350,6 +4266,8 @@
         state.sawQtyThisMarch = false;
         state.sawGetFoodUi = false;
         state.foodConfirmedThisMarch = false;
+        invalidateQtyWork();
+        state.qtyInputClosed = false;
         state.qtyDismissed = false;
         state.qtyDismissedAt = 0;
         state.reportAtMarchStart = liveEngineReport();
@@ -4368,7 +4286,7 @@
             state.originRetryTo = null;
             state.marchOriginIndex = state.cityIndex;
         }
-        state.confirmToken = 0;
+        state.confirmToken += 1;
         state.step4Trace = [];
         state.lastStep4 = null;
         state.acceptMarchOk = false;
@@ -4407,241 +4325,60 @@
     }
 
     function finishPersonPick() {
-        if (state.wizardStep !== 'persons' && state.wizardStep !== 'none') {
+        var m = bindMarchSession();
+        if (!m || !shouldShowHd() || state.finishPersonsBusy || state.personExitSent) {
             return;
         }
-        /* 同页 新君登基 leftover：上场 personExitSent / showingQty 不能让完成选将空操作。 */
-        if (state.personExitSent && !liveGetFood() && !state.foodConfirmedThisMarch &&
-            !state.finishPersonsBusy) {
-            state.personExitSent = false;
-        }
-        if (leftoverQtyFlag() && !liveGetFood()) {
-            clearLeftoverQtyFlag();
-        }
-        if (state.finishPersonsBusy || state.personExitSent || state.marchReady) {
-            return;
-        }
-        if (showingQty() && liveGetFood()) {
-            adoptLiveGetFood('finish-persons-live-qty');
-            return;
-        }
-        if (showingQty()) {
-            return;
-        }
-        if (mapPickActive() && !leftoverOverworldPick()) {
-            return;
-        }
-        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-            BayeHdDialog.close({ silent: true });
-        }
-        if (global.BayeHdDialog && typeof BayeHdDialog.dismissLeftoverSpeech === 'function') {
-            BayeHdDialog.dismissLeftoverSpeech();
-        }
-        clearStaleDisasterReport();
-        if (dismissMarchOverlay('finish-persons') && (state.finishVisibleRetry || 0) < 1) {
-            state.finishVisibleRetry = 1;
-            state.marchHint = '已关掉残留帮助/农业报告，再结束选将。' + marchDebugLine();
-            render();
-            setTimeout(function () {
-                if (!state.personExitSent && !state.finishPersonsBusy) {
-                    finishPersonPick();
-                }
-            }, 180);
-            return;
-        }
-        if (!(state.pickedPersons > 0)) {
-            state.marchHint = '先点至少一名将领，再点「完成选将」。';
+        if (Number(m.phase) === MARCH.FOOD) {
+            adoptLiveGetFood('finish-already-food');
             render();
             return;
         }
-        if (liveGetFood()) {
-            adoptLiveGetFood('finish-persons-live');
-            advanceWizard('food', 'finish-persons-live');
-            state.marchHint = '引擎已打开选粮。';
-            scheduleMarchWatch();
+        if (Number(m.phase) !== MARCH.PERSONS || !(state.pickedPersons > 0)) {
+            state.marchHint = '请先选择至少一名将领。';
             render();
             return;
         }
-        /* 已在 BattleMake 选将：leftover pick=1 只是过图残留旗。landOwnedCity
-         * 会把完成选将变成回城，EXIT 进不了 GetFood（6 将 + 开垦后常见）。 */
-        if (leftoverOverworldPick() && state.battleMake && state.pickedPersons > 0) {
-            try {
-                if (window.baye && baye.data && baye.data.g_hdMapPick != null &&
-                    (!baye.hdEngineReady || baye.hdEngineReady())) {
-                    baye.data.g_hdMapPick = 0;
-                }
-            } catch (e) {}
-            bindOpenedMapCity(state.cityIndex, 'finish-persons-stale-pick');
-            noteStep4('finish-stale-pick', { skipped: 'write-0-then-exit' });
-        } else if (leftoverOverworldPick()) {
-            state.marchHint = '过图 leftover pick，先回本城再出征。' + marchDebugLine();
-            noteStep4('finish-leftover-pick', { skipped: 'overworld-pick' });
-            landOwnedCity('finish-persons-leftover', function () {
-                var now0 = (engineMenuItems().names || [])[0] || '';
-                if (now0 === '内政' || now0 === '外交' || now0 === '军备' || now0 === '状况') {
-                    enqueueKeys([VK.DOWN, VK.DOWN, VK.ENTER], 70, 'enter-junbei-for-march');
-                    setTimeout(function () {
-                        if (!leftoverOverworldPick()) {
-                            enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
-                        }
-                    }, 280);
-                } else if (now0 === '侦察' && !leftoverOverworldPick()) {
-                    enqueueKeys([VK.DOWN, VK.DOWN, VK.DOWN, VK.DOWN, VK.ENTER], 70, 'retry-battle-make');
-                }
-                scheduleMarchWatch();
-                render();
-            });
-            render();
-            return;
-        }
-        if (state.foodGaveUp && (state.foodAttempt || 0) >= 2) {
-            state.marchHint = '引擎未打开 GetFood。请返回军备重新出征。' + marchDebugLine();
-            stopMarchWatch();
-            render();
-            return;
-        }
-        state.dismissedObj = false;
-        /* 先排空点将 ENTER。未排空就立 personExitSent 会拦队列，EXIT 打在空将表上。 */
         state.finishPersonsBusy = true;
-        state.foodAttempt = (state.foodAttempt || 0) + 1;
-        state.foodGaveUp = false;
-        state.qtyBeforePersonExit = qtySnapshot();
-        state.foodRecoverEnter = false;
-        /* 只有活着的灾异 async 才需要先回车。残留「选择目标」/水灾文本再 EXIT 会掐 GetFood。 */
-        state.foodRecoverNeeded = leftoverDisasterReport(liveEngineReport()) && liveReportAsync();
-        state.enginePersonsAtFinish = cityPersonCount(state.cityIndex);
-        /* 完成选将时人数往往已下降。用点将前人数判断引擎是否吃掉 ENTER，
-         * 不能拿 finish 瞬间人数当起点，否则 engineTook 永远假、干等 10s。 */
-        if (!state.enginePersonsAtPickStart) {
-            state.enginePersonsAtPickStart = state.enginePersonsAtFinish + (state.pickedPersons || 0);
-        }
-        clearStaleMapPick('finish-persons');
-        state.campaignPick = false;
-        state.marchHint = '正在结束选将，等待点将键进入引擎…';
-        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-            BayeHdDialog.close({ silent: true });
-        }
-        if (leftoverDisasterReport(liveEngineReport()) && !liveReportAsync()) {
-            clearStaleDisasterReport();
-        }
-        function sendFinishExit(started, requeueCount) {
-            started = started || Date.now();
-            requeueCount = requeueCount || 0;
-            /* 必须等引擎人数下降后再 EXIT。只凭 lastPickEnterAt+320ms 会在
-             * 开垦残留 HELP 吃掉点将 ENTER 后空 EXIT，离开 BattleMake。 */
-            var waitMs = Math.max(9000, 1200 * Math.max(1, state.pickedPersons || 1));
-            var maxRequeue = 4;
-            var ov = leftoverMarchOverlay();
-            if (ov.blocking || ov.engineHelp || ov.help || ov.farm) {
-                dismissMarchOverlay('finish-exit');
-            }
-            var enters = queuePickEnters();
-            var personsNow = cityPersonCount(state.cityIndex);
-            var startCount = state.enginePersonsAtPickStart || state.enginePersonsAtFinish || personsNow;
-            var dropped = startCount ? Math.max(0, startCount - personsNow) : 0;
-            var needDrop = Math.max(1, state.pickedPersons || 1);
-            var engineTookAll = dropped >= needDrop || pickedNamesGoneCount() >= needDrop;
-            var engineTook = engineTookPickedGenerals();
-            var elapsed = Date.now() - started;
-            var pickFired = !!state.lastPickEnterAt;
-            var sincePick = pickFired ? (Date.now() - state.lastPickEnterAt) : 0;
-            if (!pickFired && (state.pickedPersons || 0) > 0 && requeueCount < maxRequeue &&
-                elapsed > 200) {
-                dismissMarchOverlay('finish-never-enter');
-                requeuePickedPersons('finish-never-sent');
-                setTimeout(function () {
-                    sendFinishExit(started, requeueCount + 1);
-                }, 180);
-                return;
-            }
-            if (enters > 0 && elapsed < waitMs) {
-                setTimeout(function () {
-                    sendFinishExit(started, requeueCount);
-                }, 50);
-                return;
-            }
-            if (enters === 0 && (state.queue.length || state.sending)) {
-                dropQueuedDirections('finish-settle');
-            }
-            if ((state.queue.length || state.sending) && elapsed < waitMs) {
-                setTimeout(function () {
-                    sendFinishExit(started, requeueCount);
-                }, 50);
-                return;
-            }
-            if (liveGetFood() || engineQtyActiveMin1()) {
+        var epoch = marchEpoch;
+        var session = state.marchSession;
+        var attempts = 0;
+        function waitSelected() {
+            var live = currentMarch();
+            if (epoch !== marchEpoch || session !== state.marchSession || !shouldShowHd() || !live) {
                 state.finishPersonsBusy = false;
-                adoptLiveGetFood('finish-queue');
+                return;
+            }
+            if (Number(live.phase) === MARCH.FOOD) {
+                state.finishPersonsBusy = false;
+                adoptLiveGetFood('finish-engine-food');
+                render();
+                return;
+            }
+            if (Number(live.phase) !== MARCH.PERSONS) {
+                state.finishPersonsBusy = false;
+                render();
+                return;
+            }
+            if (!state.queue.length && !state.sending &&
+                Number(live.selected) >= state.pickedPersons) {
+                state.personExitSent = true;
+                state.finishPersonsBusy = false;
+                engineSendKey(VK.EXIT, 'finish-persons');
+                state.marchHint = '等待引擎打开粮草选择…';
                 scheduleMarchWatch();
                 render();
                 return;
             }
-            if (engineTookAll || (engineTook && elapsed > 1800)) {
-                if (sincePick && sincePick < 400 && elapsed < waitMs) {
-                    setTimeout(function () {
-                        sendFinishExit(started, requeueCount);
-                    }, 40);
-                    return;
-                }
-            } else if (elapsed < waitMs) {
-                if (!engineTook && requeueCount < maxRequeue &&
-                    elapsed > 500 + requeueCount * 700) {
-                    dismissMarchOverlay('finish-requeue');
-                    noteStep4('finish-requeue', { skipped: 'no-drop', attempt: requeueCount + 1 });
-                    if (requeuePickedPersons('finish-wait')) {
-                        setTimeout(function () {
-                            sendFinishExit(started, requeueCount + 1);
-                        }, 200);
-                        return;
-                    }
-                }
-                setTimeout(function () {
-                    sendFinishExit(started, requeueCount);
-                }, 80);
-                return;
-            } else if (!engineTook) {
-                dismissMarchOverlay('finish-timeout-no-drop');
-                if (requeueCount < maxRequeue && requeuePickedPersons('finish-timeout')) {
-                    noteStep4('finish-timeout-requeue', { skipped: 'no-drop', attempt: requeueCount + 1 });
-                    setTimeout(function () {
-                        sendFinishExit(Date.now(), requeueCount + 1);
-                    }, 200);
-                    return;
-                }
+            if (++attempts >= 200) {
                 state.finishPersonsBusy = false;
-                state.personExitSent = false;
-                state.marchHint = '点将未进入引擎。已关掉残留遮罩，请再点将后「完成选将」。' +
-                    marchDebugLine();
-                noteStep4('finish-no-engine-picks', { skipped: 'no-drop', attempt: requeueCount });
+                state.marchHint = '将领选择尚未全部进入引擎，请检查后再次完成选将。';
                 render();
                 return;
             }
-            /* 点将 ENTER 已进引擎后再立旗、再 EXIT。绝不丢掉未发出的 ENTER。
-             * leftover HELP 会吃掉立刻发出的 EXIT，先关壳再隔 240ms 发。 */
-            var ovExit = leftoverMarchOverlay();
-            var helpGap = !!(ovExit.blocking || ovExit.engineHelp || ovExit.help || ovExit.farm);
-            if (helpGap) {
-                dismissMarchOverlay('finish-exit-pre');
-            }
-            state.personExitSent = true;
-            state.finishPersonsBusy = false;
-            state.personExitTries = 1;
-            state.lastPersonExitAt = Date.now();
-            if (leftoverDisasterReport(liveEngineReport()) && liveReportAsync()) {
-                engineSendKey(VK.ENTER, 'dismiss-live-disaster');
-                state.foodRecoverEnter = true;
-                state.foodRecoverNeeded = true;
-                enqueueKeys([VK.EXIT], 280, 'finish-persons');
-            } else if (helpGap) {
-                enqueueKeys([VK.EXIT], 240, 'finish-persons');
-            } else {
-                engineSendKey(VK.EXIT, 'finish-persons');
-            }
-            state.marchHint = '已结束选将，等待引擎打开选粮… ' + marchDebugLine();
-            scheduleMarchWatch();
-            render();
+            setTimeout(waitSelected, 50);
         }
-        sendFinishExit();
+        waitSelected();
         render();
     }
 
@@ -4786,261 +4523,111 @@
     }
 
     function goStrategyEnd() {
-        /* 部队已出发后引擎还在城池 OrderMenu。g_hdMenuBytes 常年残留「策略结束」，
-         * 立刻回车会点进内政。EXIT 出城一次后必须等真 FunctionMenu 再回车；
-         * 再 EXIT 会关掉 FunctionMenu 回到大地图，PolicyExec 不跑。 */
-        if (!realMarchDest() && !freshMarchOk()) {
-            state.marchHint = '还没有有效出征目标。等出征 GetCitySet（battlePick=1）打开后点河内，看到部队已出发再策略结束。' +
-                marchDebugLine();
-            noteStep4('refuse-strategy-end', { skipped: engineMarchPhase() });
-            if (engineInGetCitySet()) {
-                advanceWizard('map-pick', 'need-dest');
-            } else if (state.personExitSent) {
-                driveFoodToCitySet('need-city-set-before-end');
-            }
+        if (!freshMarchOk() || state.handoff || !shouldShowHd()) {
+            return;
+        }
+        var menu = engineMenuItems();
+        var march = currentMarch();
+        var nativeMap = !!(march && Number(march.pick) && !Number(march.battlePick) &&
+            Number(march.mapInputSeq) && !Number(menu.active));
+        if (!nativeMap && (!Number(menu.active) || [1, 2].indexOf(Number(menu.context)) < 0)) {
+            state.marchHint = '等待引擎返回地图或城池菜单，再结束策略。';
             render();
             return;
         }
-        var haveFresh = freshMarchOk() || !!(state.marchReady && state.handoffHaveFresh && realMarchDest());
-        if (state.handoff) {
-            if (fightIsActive()) {
-                consumeMarchSeqIfFight();
-                finishHandoff(true);
-            }
-            return;
-        }
-        if (fightIsActive()) {
-            consumeMarchSeqIfFight();
-            finishHandoff(true);
-            return;
-        }
-
-        var stillSelecting = !haveFresh && !!(state.battleMake || state.campaignPick || wizardInMarch());
-        var retrying = !!(haveFresh && (state.lastHandoffExitAt || 0) &&
-            (Date.now() - state.lastHandoffExitAt) < 15000 && !mapPickActive());
-
-        clearHandoffTimer();
-        state.queue = [];
-        state.sending = false;
+        invalidateQtyWork();
         state.handoff = true;
-        state.handoffToken = (state.handoffToken || 0) + 1;
-        var token = state.handoffToken;
-        state.handoffAt = Date.now();
-        state.handoffHaveFresh = haveFresh;
         state.handoffConfirmed = false;
+        state.handoffAt = Date.now();
+        state.handoffExitCount = 0;
         state.handoffEnterCount = 0;
-        state.lastHandoffEnterAt = 0;
-        if (!retrying) {
-            state.handoffExitCount = 0;
-            state.lastHandoffExitAt = 0;
-            state.lastFuncMenuIdle = 0;
-        } else if ((state.handoffExitCount || 0) < 1) {
-            state.handoffExitCount = 1;
-        }
-
-        state.battleMake = false;
-        state.campaignPick = false;
-        if (haveFresh) {
-            state.marchReady = true;
-            state.wizardStep = 'march-ok';
-            /* 部队已出发后 leftover pick=1 会让 handoff 当选城连发 EXIT，打不进 FunctionMenu。 */
-            if (mapPickActive()) {
-                clearLeftoverPickAfterMarch('strategy-end');
-            }
-        } else {
-            state.marchReady = false;
-            state.wizardStep = 'none';
-        }
-
-        var seqNow = marchSeqOf(engineMarch());
-        if (haveFresh && !fightIsActive() && seqNow && state.handoffPreparedSeq !== seqNow) {
-            if (global.BayeHdBattle && typeof BayeHdBattle.prepareNewFight === 'function') {
-                BayeHdBattle.prepareNewFight();
-            }
-            state.handoffPreparedSeq = seqNow;
-        }
-        if (!haveFresh) {
-            consumeLeftoverMarch();
-        }
-        if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-            BayeHdDialog.close({ silent: true });
-        }
-
-        var HANDOFF_MAX_EXIT = 6;
-        var HANDOFF_MAX_ENTER = 2;
-        var HANDOFF_MAX_MS = 16000;
-        var HANDOFF_TICK_MS = 220;
-
-        setHandoffStatus(haveFresh ? '正在退出城池…' : '没有新的出征队列');
-
-        function liveFunctionMenu() {
-            var names = engineMenuItems().names || [];
-            if (!functionMenuItemsLive(names)) {
-                return false;
-            }
-            if (mapPickActive() || showingQty() || fightIsActive()) {
-                return false;
-            }
-            if ((state.handoffExitCount || 0) < 1) {
-                return false;
-            }
-            if ((state.lastFuncMenuIdle || 0) < (state.lastHandoffExitAt || state.handoffAt)) {
-                return false;
-            }
-            if ((Date.now() - (state.lastHandoffExitAt || 0)) < 180) {
-                return false;
-            }
-            return true;
-        }
-
-        function sendHandoffKey(code, reason) {
-            if (code === VK.EXIT) {
-                if (state.handoffExitCount >= HANDOFF_MAX_EXIT) {
-                    return false;
-                }
-                if (functionMenuItemsLive(engineMenuItems().names || []) && !mapPickActive() &&
-                    (state.handoffExitCount || 0) >= 1) {
-                    return false;
-                }
-                state.handoffExitCount += 1;
-                state.lastHandoffExitAt = Date.now();
-                state.lastFuncMenuIdle = 0;
-            } else if (code === VK.ENTER) {
-                if (state.handoffEnterCount >= HANDOFF_MAX_ENTER) {
-                    return false;
-                }
-                state.handoffEnterCount += 1;
-                state.lastHandoffEnterAt = Date.now();
-            }
-            engineSendKey(code, reason);
-            return true;
-        }
-
-        function confirmOnce() {
-            setHandoffStatus('正在确认…');
-            state.handoffConfirmed = true;
-            if (state.handoffEnterCount >= HANDOFF_MAX_ENTER) {
-                return;
-            }
-            var sent = !!(global.BayeHdSystemUi &&
-                typeof BayeHdSystemUi.confirmStrategyEnd === 'function' &&
-                BayeHdSystemUi.confirmStrategyEnd());
-            if (sent) {
-                state.handoffEnterCount += 1;
-                state.lastHandoffEnterAt = Date.now();
-            } else {
-                sendHandoffKey(VK.ENTER, 'strategy-end-enter');
-            }
-            setHandoffStatus('即将开战…');
-        }
-
-        function arm() {
-            if (token !== state.handoffToken || !state.handoff) {
-                return;
-            }
-            state.handoffTimer = setTimeout(step, HANDOFF_TICK_MS);
-        }
-
+        var submittedOrder = { session: Number(march.session), seq: marchSeqOf(march),
+            origin: Number(march.origin), target: Number(march.obj) };
+        var token = ++state.handoffToken;
+        var epoch = marchEpoch;
+        var exited = {};
+        var exitedMap = {};
+        var moved = false;
+        var checks = 0;
         function step() {
             state.handoffTimer = 0;
-            if (token !== state.handoffToken || !state.handoff) {
-                return;
-            }
+            if (token !== state.handoffToken || epoch !== marchEpoch ||
+                !state.handoff || !shouldShowHd()) { return; }
             if (fightIsActive()) {
                 consumeMarchSeqIfFight();
-                setHandoffStatus('即将开战…');
                 finishHandoff(true);
                 return;
             }
-            if (Date.now() - state.handoffAt > HANDOFF_MAX_MS) {
+            var live = engineMenuItems();
+            var march = currentMarch();
+            if (consumedStrategyOrder(march)) {
+                // Empty/owned cities and deleted armies can consume an order
+                // without entering GamFight. C's consumed order is the ACK;
+                // waiting for a battle hook would keep the old wizard alive.
+                resetAfterFight();
+                return;
+            }
+            if (++checks > 100) {
+                // A delayed engine response never authorizes a repeated key.
                 finishHandoff(false);
                 return;
             }
-
-            var names = engineMenuItems().names || [];
-            var pick = mapPickActive();
-
-            if (functionMenuItemsLive(names) && !pick && !showingQty()) {
-                if ((state.handoffExitCount || 0) < 1) {
-                    setHandoffStatus('正在退出城池…');
-                    sendHandoffKey(VK.EXIT, 'strategy-end');
-                    arm();
-                    return;
+            if (Number(live.active) && Number(live.context) === 1 && !state.handoffConfirmed) {
+                var key = String(live.seq);
+                if (!exited[key]) {
+                    exited[key] = true;
+                    state.handoffExitCount += 1;
+                    engineSendKey(VK.EXIT, 'strategy-end');
+                    setHandoffStatus('正在返回策略菜单…');
                 }
-                if (liveFunctionMenu()) {
-                    if (!state.handoffConfirmed) {
-                        confirmOnce();
-                    } else if ((state.handoffEnterCount || 0) < HANDOFF_MAX_ENTER &&
-                        (Date.now() - (state.lastHandoffEnterAt || 0)) > 700) {
-                        confirmOnce();
-                    }
-                } else {
-                    setHandoffStatus('等待策略结束菜单…');
+            } else if (!Number(live.active) && march && Number(march.pick) &&
+                !Number(march.battlePick) && Number(march.mapInputSeq) && !state.handoffConfirmed) {
+                var mapKey = String(march.mapInputSeq);
+                if (!exitedMap[mapKey]) {
+                    exitedMap[mapKey] = true;
+                    state.handoffExitCount += 1;
+                    engineSendKey(VK.EXIT, 'strategy-end');
+                    setHandoffStatus('正在打开策略菜单…');
                 }
-                arm();
-                return;
-            }
-
-            if (pick) {
-                if (haveFresh) {
-                    clearLeftoverPickAfterMarch('handoff-step');
-                    pick = false;
-                } else if (!haveFresh && stillSelecting) {
-                    setHandoffStatus('请先点目标城等到部队已出发');
-                    arm();
-                    return;
-                } else {
-                    setHandoffStatus('正在退出选城…');
-                    sendHandoffKey(VK.EXIT, 'strategy-end');
-                    arm();
-                    return;
+            } else if (Number(live.active) && Number(live.context) === 2 &&
+                !state.handoffConfirmed && functionMenuItemsLive(live.names || [])) {
+                if (Number(live.index) === 0) {
+                    state.handoffConfirmed = true;
+                    state.handoffEnterCount = 1;
+                    state.marchStrategyOrder = submittedOrder;
+                    engineSendKey(VK.ENTER, 'strategy-end-enter');
+                    setHandoffStatus('策略已结束，等待引擎执行行军…');
+                } else if (!moved && Number(live.index) > 0) {
+                    // Select the first entry once; await the live index before
+                    // confirming. No time-based fallback to ENTER is used.
+                    moved = true;
+                    selectLiveMenu(0, false, 'strategy-end', live);
                 }
             }
-
-            if (leftoverFightSys(names)) {
-                arm();
-                return;
-            }
-
-            if (cityOrderMenuNow(names) || (state.handoffExitCount || 0) < 1) {
-                setHandoffStatus('正在退出城池…');
-                sendHandoffKey(VK.EXIT, 'strategy-end');
-                arm();
-                return;
-            }
-
-            if ((state.handoffExitCount || 0) < 2 && names[0] !== '策略结束') {
-                setHandoffStatus('正在退出城池…');
-                sendHandoffKey(VK.EXIT, 'strategy-end');
-                arm();
-                return;
-            }
-
-            setHandoffStatus('等待策略结束菜单…');
-            arm();
+            state.handoffTimer = setTimeout(step, 100);
         }
-
-        state.handoffTimer = setTimeout(step, 80);
+        step();
+        render();
     }
 
     function isMarching() {
-        /* 只有活选将/选粮/GetCitySet/handoff 才占 isMarching。
-         * leftover「出征进行中」或部队已出发(pick=0)不挡开垦/招商/征兵。 */
-        if (!liveMarchOrFight() || leftoverMarchAfterFight()) {
-            return false;
-        }
-        if (liveHandoffNow()) {
-            return true;
-        }
-        if (state.marchReady && !liveGetCitySetNow()) {
-            return false;
-        }
-        return !!(livePersonPickNow() || liveWaitGetFoodNow() || liveGetCitySetNow() ||
-            liveGetFoodNow());
+        return liveMarchOrFight();
     }
 
     function isHandoff() {
         return !!state.handoff;
+    }
+
+    function cancelMarch() {
+        var m = currentMarch();
+        if (!m || Number(m.phase) !== MARCH.TARGET_PICK || !shouldShowHd()) { return false; }
+        var key = marchInputKey(m);
+        if (state.marchCancelKey === key) { return false; }
+        state.marchCancelKey = key;
+        invalidateMarchWork();
+        engineSendKey(VK.EXIT, 'march-cancel');
+        scheduleMarchWatch();
+        return true;
     }
 
     function reportText() {
@@ -5077,10 +4664,9 @@
 
     /* leftover g_hdMenuBytes 常只剩「策略结束」。真 FunctionMenu 还有存储进度/结束游戏。 */
     function liveFunctionMenu() {
-        var names = engineMenuItems().names || [];
-        return names[0] === '策略结束' &&
-            names.indexOf('存储进度') >= 0 &&
-            names.indexOf('结束游戏') >= 0;
+        var menu = engineMenuItems();
+        return !!(Number(menu.active) && Number(menu.context) === 2 &&
+            functionMenuItemsLive(menu.names || []));
     }
 
     function leftoverMoneyReport(text) {
@@ -5088,6 +4674,10 @@
     }
 
     function clearLeftoverCityReports(why) {
+        if (marchProtocol()) {
+            return !!(global.BayeHdDialog && typeof BayeHdDialog.retireStaleReport === 'function' &&
+                BayeHdDialog.retireStaleReport());
+        }
         var text = liveEngineReport();
         var money = leftoverMoneyReport(text);
         var choose = leftoverChooseTarget(text) && !engineInGetCitySet();
@@ -5100,12 +4690,6 @@
             }
             return false;
         }
-        try {
-            if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
-                (!baye.hdEngineReady || baye.hdEngineReady())) {
-                baye.data.g_hdReportGbk = '';
-            }
-        } catch (e) {}
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true });
         }
@@ -5149,175 +4733,80 @@
     }
 
     function syncMarchPhase() {
-        if (liveFightBlocksCityOpen()) {
+        if (liveFightBlocksCityOpen() || state.handoff || !state.battleMake &&
+            state.deepKind !== 'person-city') {
             return;
         }
-        if (state.handoff) {
+        var m = bindMarchSession();
+        if (!m || !state.open || state.layer !== 'deep') {
             return;
         }
-        if (leftoverQtyFlag() && !liveGetFood()) {
-            clearLeftoverQtyFlag();
-        }
-        if ((state.wizardStep === 'persons' || waitingGetFoodSoftLock()) && leftoverOverworldPick()) {
-            clearStaleMapPick('sync');
-        }
-        if (state.battleMake && (state.foodConfirmedThisMarch || liveGetFood() || state.personExitSent)) {
-            clearBattleMakeLeftoverPick('sync');
-        }
-        if (!state.open || state.layer !== 'deep') {
-            return;
-        }
-        /* g_hdMenuBytes 会残留「策略结束」。出征选将/选粮/选择目标时不能当 FunctionMenu 关向导。 */
-        var liveFunc = liveFunctionMenu() &&
-            (Date.now() - (state.lastFuncMenuIdle || 0)) < 1400;
-        if (liveFunc && !holdExit() && !state.campaignPick && !state.battleMake &&
-            !state.marchReady && !mapPickActive() && !showingQty() &&
-            !engineInGetCitySet() &&
-            !/选择目标|部队已出发/.test(reportText())) {
-            closeMenu({ silent: true });
-            return;
-        }
-        var qty = engineQty();
-        var march = engineMarch();
-        var report = reportText();
-        if (qty && qty.active && leftoverQtyFlag() && !liveGetFood()) {
-            clearLeftoverQtyFlag();
-        }
-        if (bindLiveGetFoodQty('sync')) {
-            return;
-        }
-        if (adoptLiveGetFood('sync')) {
-            advanceWizard('food', 'qty-active');
-            state.deepSig = '';
-        } else if (qty && qty.active && state.battleMake && state.personExitSent && !leftoverQtyFlag()) {
-            state.sawQtyThisMarch = true;
-            advanceWizard('food', 'qty-active');
-            state.deepSig = '';
-        }
-        var liveAbort = liveEngineReport();
-        if (wizardInMarch() &&
-            /城中无空闲武将|金钱不足|粮草不足|无足够金钱/.test(liveAbort) &&
-            liveAbort !== state.reportAtMarchStart &&
-            liveReportAsync() && !state.personExitSent && !liveGetFood()) {
-            setWizardStep('none', 'engine-abort');
+        var phase = Number(m.phase);
+        if (phase === MARCH.IDLE) {
+            invalidateMarchWork();
             state.battleMake = false;
+            state.campaignPick = false;
             state.personExitSent = false;
+            state.pickedPersons = 0;
+            state.wizardStep = 'none';
+            state.layer = 'sub';
+            state.deepKind = '';
+            state.deepLabel = '';
+            state.marchSession = 0;
+            state.marchHint = '已取消出征。';
+            render();
+            return;
+        }
+        if (phase === MARCH.FOOD) {
+            state.personExitSent = true;
             state.finishPersonsBusy = false;
-            state.marchHint = liveAbort;
-            render();
+            state.sawGetFoodUi = true;
+            state.sawQtyThisMarch = true;
+            setWizardStep('food', 'engine-food');
+            if (!state.marchFoodCommitSent) {
+                bindLiveGetFoodQty('engine-food');
+            }
             return;
         }
-        if (leftoverMoneyReport(liveAbort) && !liveReportAsync()) {
-            unstickMenuLoop('money-tip');
-            if (!state.personExitSent && !engineInGetCitySet()) {
-                state.battleMake = false;
-                state.campaignPick = false;
-                if (state.wizardStep !== 'none' && state.wizardStep !== 'persons') {
-                    setWizardStep('none', 'money-tip');
-                }
-                if (state.layer === 'deep' && state.deepLabel !== '出征') {
-                    state.layer = 'sub';
-                    state.deepKind = '';
-                    state.deepLabel = '';
-                }
-                state.marchHint = liveAbort || '金钱不足，已关掉提示。可招商或开垦。';
-                render();
-            }
+        if (phase >= MARCH.TARGET_TIP && state.marchFoodCommitSent) {
+            state.foodConfirmedThisMarch = true;
         }
-        if (state.personExitSent && !engineInGetCitySet() && !state.marchReady && !freshMarchOk()) {
-            var driven = driveFoodToCitySet('sync');
-            if (driven && driven.deferred) {
-                pullWizardToEngine();
-                scheduleMarchWatch();
-                render();
-                return;
-            }
-        }
-        pullWizardToEngine();
-        if (state.personExitSent && state.wizardStep === 'food' && !mapPickActive() && liveChooseTarget()) {
-            advanceWizard('target-tip', 'sync-food-done');
-        }
-        if (holdExit() && leftoverDisasterReport(liveEngineReport()) && !showingQty() && !mapPickActive()) {
-            /* 选将时回车天灾 = 策略结束。只有活着的 ShowConstStrMsg 才回车。 */
-            if (!liveReportAsync()) {
-                clearStaleDisasterReport();
-                scheduleMarchWatch();
-                return;
-            }
-            if (state.wizardStep === 'persons') {
-                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                    BayeHdDialog.close({ silent: true });
-                }
-                scheduleMarchWatch();
-                return;
-            }
-            if ((state.wizardStep === 'food' || state.personExitSent) &&
-                !engineStillPersonQueue() && !liveFunc) {
-                engineSendKey(VK.ENTER);
-                if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                    BayeHdDialog.close({ silent: true });
-                }
-                scheduleMarchWatch();
-                return;
-            }
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
-            }
-            scheduleMarchWatch();
-            return;
-        }
-        /* leftover 选择目标 只在选粮之后经 driveFoodToCitySet 回车，避免跳过 GetFood。 */
-        if (dismissLiveArmout()) {
-            scheduleMarchWatch();
-            render();
-            return;
-        }
-        if (/我方城池|无法到达/.test(report) && (state.campaignPick || mapPickActive())) {
-            if (/无法到达/.test(report) && engineMapCityIndex() === Number(state.pendingTarget) &&
-                handleUnreachableOrigin(state.pendingTarget != null ? state.pendingTarget : 9, report)) {
-                return;
-            }
-            enqueueKeys([VK.ENTER], 80);
-            if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
-                BayeHdDialog.close({ silent: true });
-            }
-            scheduleMarchWatch();
-            return;
-        }
-        if (engineInGetCitySet()) {
+        if (phase === MARCH.TARGET_TIP) {
+            state.confirmingTarget = false;
+            state.campaignPick = false;
+            setWizardStep('target-tip', 'engine-target-tip');
+            state.marchHint = '粮草已确认，点击「选择目标城」继续。';
+        } else if (phase === MARCH.TARGET_PICK) {
             state.campaignPick = true;
-            state.acceptMarchOk = true;
-            advanceWizard('map-pick', 'sync-pick');
-            if (!(march && march.ok)) {
-                state.sawMarchCleared = true;
-            }
-        } else if (state.wizardStep === 'map-pick') {
-            pullWizardToEngine();
-        }
-        if (mapPickActive() || freshMarchOk()) {
+            setWizardStep('map-pick', 'engine-target-pick');
+        } else if (phase === MARCH.REJECT) {
+            state.confirmingTarget = false;
+            state.walkBusy = false;
+            state.campaignPick = false;
+            state.marchHint = liveEngineReport() || '引擎拒绝该目标，请确认提示后重新选择。';
+        } else if (phase === MARCH.ARMOUT) {
+            state.confirmingTarget = false;
+            state.walkBusy = false;
+            state.campaignPick = false;
+            state.marchHint = '目标已确认，点击「确认部队出发」继续。';
+        } else if (phase === MARCH.DEPARTED && freshMarchOk()) {
+            state.confirmingTarget = false;
+            state.marchReady = true;
+            state.campaignPick = false;
+            state.battleMake = false;
+            state.walkBusy = false;
+            state.marchHint = '';
+            setWizardStep('march-ok', 'engine-order-ack');
             if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
                 BayeHdDialog.close({ silent: true });
             }
-            if (freshMarchOk()) {
-                state.confirmingTarget = false;
-                state.marchReady = true;
-                state.campaignPick = false;
-                state.battleMake = false;
-                state.walkBusy = false;
-                state.marchHint = '';
-                advanceWizard('march-ok', 'sync-ok');
-            } else if (leftoverMarchReport(report) && !freshMarchOk()) {
-                /* Leftover 部队已出发 from the last battle is not a new AddFightOrder. */
-                if (global.BayeHdDialog && typeof BayeHdDialog.clearLeftoverMarch === 'function') {
-                    BayeHdDialog.clearLeftoverMarch();
-                }
-            }
-            state.deepSig = '';
-            render();
         }
+        if (phase !== MARCH.PERSONS) { state.deepSig = ''; }
+        render();
     }
 
     var marchWatchTimer = 0;
+
     function stopMarchWatch() {
         if (marchWatchTimer) {
             clearTimeout(marchWatchTimer);
@@ -5349,8 +4838,21 @@
         }, 280);
     }
 
-    function chooseDeep(index) {
+    function chooseDeep(index, pressedOwner) {
         var item = state.deepItems[index];
+        var native = engineMenuItems();
+        var owner = native.active != null ? readyDeepMenuOwner(native) : null;
+        var nativeIndex = item && item.i != null ? Number(item.i) : Number(index);
+        if (native.active != null && (!item || item.cityIndex == null)) {
+            var expectedOwner = pressedOwner || state.deepMenuOwner || owner;
+            if (!item || !owner || !expectedOwner || expectedOwner.key !== owner.key ||
+                expectedOwner.name != null && expectedOwner.name !== item.name ||
+                expectedOwner.pind != null && String(expectedOwner.pind) !== String(item.pind) ||
+                item.name !== native.names[nativeIndex]) {
+                fillDeepList();
+                return false;
+            }
+        }
         if (leftoverQtyFlag() && !liveGetFood()) {
             clearLeftoverQtyFlag();
         }
@@ -5362,20 +4864,20 @@
                 var driven = driveFoodToCitySet('choose-deep');
                 state.pendingTarget = null;
                 state.marchHint = leftoverOverworldPick()
-                    ? ('过图 leftover pick，不是出征 GetCitySet。' + marchDebugLine())
-                    : ('引擎未打开出征 GetCitySet。' + marchDebugLine() + '。点河内已拒绝。');
+                    ? ('请先完成选将和粮草确认。')
+                    : ('请先完成选将和粮草确认，再选择目标城。');
                 noteStep4('refuse-choose-deep', { cityIndex: item.cityIndex, skipped: engineMarchPhase() });
                 render();
                 return driven;
             }
-            confirmMarchTarget(item.cityIndex);
+            selectMarchTarget(item.cityIndex);
             return;
         }
         if (showingQty()) {
             return;
         }
         if (usesMapCursor(state.deepKind, state.deepStep) && item && item.cityIndex != null) {
-            confirmMarchTarget(item.cityIndex);
+            selectMarchTarget(item.cityIndex);
             return;
         }
         if ((mapPickActive() && !leftoverOverworldPick()) || showingQty() || state.personExitSent ||
@@ -5387,27 +4889,41 @@
                 holdPhase === 'get-city-set' || holdPhase === 'choose-target'
                 ? '现在点邻城或地图上的目标城，不要再点将领。'
                 : (holdPhase === 'get-food' || holdPhase === 'wait-get-food' || liveGetFood())
-                ? '已结束选将，请确认粮草。' + marchDebugLine()
-                : '已结束选将，等待引擎打开选粮。' + marchDebugLine();
+                ? '请选择随军粮草。'
+                : '正在打开粮草选择…';
             render();
             return;
         }
-        if (state.deepKind === 'person-city') {
-            var ovPick = leftoverMarchOverlay();
-            if (ovPick.blocking || ovPick.engineHelp || ovPick.help || ovPick.farm) {
-                dismissMarchOverlay('pick-person');
-                setTimeout(function () {
-                    if (state.deepKind !== 'person-city' || state.personExitSent) {
-                        return;
-                    }
-                    pickIndex(index, true, 'pick-person');
-                }, 160);
-            } else {
-                dismissMarchOverlay('pick-person');
-                pickIndex(index, true, 'pick-person');
+        var selection = null;
+        if (owner) {
+            selection = { epoch: marchEpoch, seq: owner.seq,
+                key: [owner.seq, owner.context, owner.kind, (native.names || []).join('\u0000')].join(':') };
+            if (state.deepKind === 'person-city') {
+                var selectingMarch = currentMarch();
+                selection.session = Number(selectingMarch.session);
+                selection.selected = Number(selectingMarch.selected) + 1;
             }
+            state.deepSelectionPending = selection;
+        }
+        if (state.deepKind === 'person-city') {
+            var liveMarch = bindMarchSession();
+            if (!liveMarch || Number(liveMarch.phase) !== MARCH.PERSONS ||
+                state.finishPersonsBusy || state.personExitSent ||
+                state.queue.length || state.sending ||
+                Number(liveMarch.selected) < (state.marchPersonExpected || 0)) {
+                if (state.deepSelectionPending === selection) { state.deepSelectionPending = null; }
+                return;
+            }
+            if (!pickIndex(nativeIndex, true, 'pick-person')) {
+                if (state.deepSelectionPending === selection) { state.deepSelectionPending = null; }
+                return;
+            }
+            state.marchPersonExpected = selection ? selection.selected : Number(liveMarch.selected) + 1;
         } else {
-            pickIndex(index, true, '');
+            if (!pickIndex(nativeIndex, true, '')) {
+                if (state.deepSelectionPending === selection) { state.deepSelectionPending = null; }
+                return;
+            }
         }
         if (state.deepKind === 'person-city' && !(mapPickActive() && !leftoverOverworldPick()) &&
             !showingQty()) {
@@ -5422,8 +4938,10 @@
                 state.pickedPersonNames.push(item.name);
             }
             state.deepSig = '';
+            if (owner) { fillDeepList(); }
+            var selectedEpoch = marchEpoch;
             setTimeout(function () {
-                if (state.open && state.layer === 'deep') {
+                if (selectedEpoch === marchEpoch && state.open && state.layer === 'deep') {
                     fillDeepList();
                 }
             }, 220);
@@ -5434,8 +4952,10 @@
             state.deepStep = 1;
             state.idleIndex = 0;
             state.deepSig = '';
+            if (owner) { fillDeepList(); }
+            var nextEpoch = marchEpoch;
             setTimeout(function () {
-                if (state.open && state.layer === 'deep') {
+                if (nextEpoch === marchEpoch && state.open && state.layer === 'deep') {
                     render();
                 }
             }, 280);
@@ -5454,6 +4974,20 @@
     function onEngineHook(name, ctx) {
         if (name === 'chooseGameEntry' || name === 'didOpenNewGame' || name === 'didLoadGame') {
             resetForNewGame(name);
+        }
+        if (name === 'enterBattle') {
+            // FgtInit can end an empty-city battle immediately, before a
+            // polling frame ever observes an active battle. The real engine
+            // hooks still delimit that campaign order.
+            state.sawFightThisMarch = true;
+        }
+        if (name === 'exitBattle') {
+            var result = 0;
+            try { result = Number(window.baye && baye.data && baye.data.g_FgtOver) || 0; } catch (eResult) {}
+            if (result) {
+                state.fightEndedThisMarch = true;
+                resetAfterFight();
+            }
         }
         if (name === 'showMainHelp') {
             state.engineHelpOpen = true;
@@ -5512,7 +5046,7 @@
                     }
                 }
                 if (state.layer === 'deep' && engIdle.names && engIdle.names.length) {
-                    state.deepSig = '';
+                    if (engIdle.active == null) { state.deepSig = ''; }
                     fillDeepList();
                     applyHighlight();
                 }
@@ -5574,7 +5108,27 @@
             return;
         }
         state.bound = true;
+        function buttonOwner(button) {
+            var key = button.getAttribute('data-hd-deep-owner');
+            return key == null ? null : { key: key,
+                name: button.getAttribute('data-hd-deep-name'),
+                pind: button.getAttribute('data-hd-deep-pind') };
+        }
+        root.addEventListener('pointerdown', function (ev) {
+            state.deepPointerOwner = null;
+            var target = ev.target;
+            while (target && target !== root) {
+                if (target.getAttribute && target.getAttribute('data-hd-deep') != null) {
+                    state.deepPointerOwner = { target: target, owner: buttonOwner(target) };
+                    return;
+                }
+                target = target.parentNode;
+            }
+        });
+        root.addEventListener('pointercancel', function () { state.deepPointerOwner = null; });
         root.addEventListener('click', function (ev) {
+            var pressed = state.deepPointerOwner;
+            state.deepPointerOwner = null;
             if (ev.target === root) {
                 ev.preventDefault();
                 back();
@@ -5597,18 +5151,15 @@
                 if (t.getAttribute && t.getAttribute('data-hd-deep') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    chooseDeep(Number(t.getAttribute('data-hd-deep')));
+                    if (pressed && pressed.target !== t) { fillDeepList(); return; }
+                    chooseDeep(Number(t.getAttribute('data-hd-deep')),
+                        pressed ? pressed.owner : buttonOwner(t));
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-qty') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    var delta = Number(t.getAttribute('data-hd-qty'));
-                    if (delta < 0) {
-                        enqueueKeys(delta <= -10 ? [VK.LEFT, VK.DOWN] : [VK.DOWN], 40);
-                    } else {
-                        enqueueKeys(delta >= 10 ? [VK.RIGHT, VK.UP] : [VK.UP], 40);
-                    }
+                    stepQty(Number(t.getAttribute('data-hd-qty')));
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-finish-persons') != null) {
@@ -5620,7 +5171,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-confirm-march') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    var target = state.pendingTarget != null ? state.pendingTarget : firstEnemyTarget();
+                    var target = state.pendingTarget;
                     if (target != null) {
                         confirmMarchTarget(target);
                     } else {
@@ -5628,6 +5179,19 @@
                         noteStep4('confirm-btn-empty', { skipped: 'no-target' });
                         render();
                     }
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-march-continue') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    continueMarch({ session: t.getAttribute('data-hd-march-session'),
+                        inputSeq: t.getAttribute('data-hd-march-input-seq') });
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-march-cancel') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    cancelMarch();
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dismiss-march') != null) {
@@ -5651,10 +5215,7 @@
                 if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    var digit = Number(t.getAttribute('data-hd-digit'));
-                    if (isFinite(digit) && digit >= 0 && digit <= 9) {
-                        enqueueKeys([0x40 + digit], 30);
-                    }
+                    digitQty(Number(t.getAttribute('data-hd-digit')));
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-menu-help') != null) {
@@ -5685,29 +5246,51 @@
             }
         });
         document.addEventListener('keydown', function (e) {
+            if (bayeInputIgnored(e)) {
+                return;
+            }
             if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' && BayeHdSpe.isOpen()) {
                 return;
             }
             if (!state.open || !shouldShowHd()) {
                 return;
             }
+            if (e.repeat && (e.keyCode === 13 || e.keyCode === 27 || e.keyCode === 32)) {
+                bayeConsumeKeyEvent(e);
+                return;
+            }
             if (liveQty() || leftoverQtyFlag() ||
                 (global.BayeHdDialog && typeof BayeHdDialog.isQtyOpen === 'function' &&
                     BayeHdDialog.isQtyOpen())) {
                 if (e.keyCode === 13) {
-                    e.preventDefault();
-                    commitQty();
+                    bayeConsumeKeyEvent(e);
+                    if (!e.repeat) {
+                        commitQty();
+                    }
                     return;
                 }
                 if (e.keyCode === 27) {
-                    e.preventDefault();
-                    cancelQty();
+                    bayeConsumeKeyEvent(e);
+                    if (!e.repeat) {
+                        cancelQty();
+                    }
                     return;
                 }
             }
             if (e.keyCode === 27 || e.keyCode === 32) {
-                e.preventDefault();
-                back();
+                bayeConsumeKeyEvent(e);
+                if (!e.repeat) {
+                    if (!cancelMarch()) { back(); }
+                }
+                return;
+            }
+            var march = currentMarch();
+            if (e.keyCode === 13 && march && state.deepKind === 'person-city') {
+                bayeConsumeKeyEvent(e);
+                if (Number(march.phase) === MARCH.PERSONS) { finishPersonPick(); }
+                else if ([MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(Number(march.phase)) >= 0) { continueMarch(); }
+                else if (Number(march.phase) === MARCH.TARGET_PICK && state.pendingTarget != null) { confirmMarchTarget(state.pendingTarget); }
+                else if (Number(march.phase) === MARCH.DEPARTED) { goStrategyEnd(); }
             }
         });
     }
@@ -5750,22 +5333,61 @@
         var mode = normalizeMenuMode(value);
         writeStorage(STORAGE_KEY, mode);
         state.mode = mode;
+        syncMode();
+        if (!shouldShowHd()) {
+            invalidateQtyWork();
+        }
         if (state.open && !shouldShowHd()) {
-            closeMenu({ silent: true });
+            state.open = false;
         }
         applyDocAttr();
         syncToolbar();
         render();
     }
 
+    function syncMode() {
+        var signature = getMenuMode() + ':' + (overworldIsHd() ? 'hd' : 'classic');
+        if (state.modeSignature === signature) { return; }
+        state.modeSignature = signature;
+        invalidateMarchWork();
+        invalidateQtyWork();
+        if (!shouldShowHd()) {
+            state.open = false;
+        } else {
+            var m = currentMarch();
+            if (m && Number(m.phase) > MARCH.IDLE) {
+                state.open = true;
+                state.layer = 'deep';
+                state.subKind = 'junbei';
+                state.deepKind = 'person-city';
+                state.deepLabel = '出征';
+                state.cityIndex = Number(m.origin);
+                state.pickedPersons = Number(m.selected);
+                state.marchPersonExpected = Number(m.selected);
+                if (Number(m.phase) === MARCH.FOOD) {
+                    state.qtyInputClosed = false;
+                    state.qtyDismissed = false;
+                }
+            }
+        }
+        applyDocAttr();
+        render();
+    }
+
     function start() {
         state.mode = getMenuMode();
+        state.modeSignature = getMenuMode() + ':' + (overworldIsHd() ? 'hd' : 'classic');
         bindUi();
         bindToolbar();
         applyDocAttr();
         render();
         setInterval(function () {
             try {
+                syncMode();
+                if (!shouldShowHd() && (state.qtyCommitQueued || /^qty-/.test(state.activeQueueReason) ||
+                    state.queue.some(function (item) { return item.qtyEpoch != null; }))) {
+                    invalidateQtyWork();
+                }
                 if (fightIsActive()) {
                     state.sawFightThisMarch = true;
                 } else if (leftoverMarchAfterFight()) {
@@ -5840,6 +5462,7 @@
         STORAGE_KEY: STORAGE_KEY,
         getMode: getMenuMode,
         setMode: setMenuMode,
+        syncMode: syncMode,
         shouldShowHd: shouldShowHd,
         isOpen: function () { return state.open; },
         getLayer: function () { return state.layer; },
@@ -5875,6 +5498,8 @@
                 deepLabel: state.deepLabel,
                 deepCount: state.deepItems.length,
                 deepItems: state.deepItems.slice(0, 20),
+                deepMenuOwner: state.deepMenuOwner && { context: state.deepMenuOwner.context,
+                    kind: state.deepMenuOwner.kind, seq: state.deepMenuOwner.seq, key: state.deepMenuOwner.key },
                 pickedPersons: state.pickedPersons,
                 dismissedObj: state.dismissedObj,
                 marchReady: state.marchReady,
@@ -5991,6 +5616,9 @@
             return walkCursorToCity(cityIndex, thenEnter);
         },
         confirmMarchTarget: confirmMarchTarget,
+        selectMarchTarget: selectMarchTarget,
+        continueMarch: continueMarch,
+        cancelMarch: cancelMarch,
         preferredMarchOrigin: preferredMarchOrigin,
         cityLinksOf: cityLinksOf,
         isMarching: isMarching,
@@ -6041,6 +5669,8 @@
         freshMarchOk: freshMarchOk,
         isQtyLive: liveQty,
         leftoverQty: leftoverQtyFlag,
+        stepQty: stepQty,
+        digitQty: digitQty,
         commitQty: commitQty,
         cancelQty: cancelQty
     };

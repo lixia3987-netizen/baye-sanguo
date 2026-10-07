@@ -5,14 +5,26 @@
  * 不改 WASM，不改战斗自动操作。
  */
 (function (global) {
+    // baye_bridge_init() replaces window.Promise with the engine's callback shim.
+    // Async functions retain the native constructor even after that replacement.
+    var NativePromise = (async function () { return null; })().constructor;
     var MANIFEST_URL = 'assets/hd-portraits/manifest.json';
+    var REFERENCE_INDEX_URL = 'assets/hd-portraits/refs/index.json';
     var PERIOD_NAME = { 1: '董卓弄权', 2: '曹操崛起', 3: '赤壁之战', 4: '三足鼎立' };
 
     var state = {
         manifest: null,
         byKey: {},
+        referencesByKey: {},
+        referenceLib: '',
+        loading: null,
+        generation: 0,
+        viewSeq: 0,
+        tickSeq: 0,
+        pendingKey: '',
         nameById: null,
         namePeriod: 0,
+        nameLib: '',
         key: '',
         busy: false,
         timer: 0,
@@ -32,7 +44,29 @@
     }
 
     function validPerson(id) {
-        return id != null && isFinite(id) && id >= 0 && id < 0xfffe;
+        return typeof id === 'number' && isFinite(id) && Math.floor(id) === id && id >= 0 && id < 0xfffe;
+    }
+
+    function validPeriod(period) {
+        return period >= 1 && period <= 4 && Math.floor(period) === period;
+    }
+
+    function currentLib() {
+        var lib = '';
+        try { lib = global.localStorage.getItem('baye/libpath') || ''; } catch (e) {}
+        // The standalone smoke page previews assets without selecting a game.
+        if (!lib && document.body && document.body.getAttribute('data-hd-portrait-manual') === '1') {
+            lib = state.manifest && state.manifest.lib || '';
+        }
+        return lib;
+    }
+
+    function supportsLib(lib) {
+        return !!(lib && state.manifest && lib === state.manifest.lib);
+    }
+
+    function lcdSource(entry) {
+        return { mode: 'lcd', url: '', entry: entry || null };
     }
 
     function periodNow() {
@@ -64,20 +98,68 @@
         state.manifest = manifest;
     }
 
-    function loadManifest() {
-        return fetch(MANIFEST_URL, { cache: 'no-store' }).then(function (res) {
+    function indexReferences(index) {
+        var map = {};
+        var periods = index && index.periods || [];
+        for (var i = 0; i < periods.length; i++) {
+            var block = periods[i];
+            if (!block || !validPeriod(block.period)) {
+                continue;
+            }
+            var people = block.people || [];
+            for (var j = 0; j < people.length; j++) {
+                var person = people[j];
+                if (!person || person.skipped || !person.file || !validPerson(person.id)) {
+                    continue;
+                }
+                map[block.period + ':' + person.id] = {
+                    name: person.name,
+                    personId: person.id,
+                    period: block.period,
+                    ref: 'refs/' + person.file
+                };
+            }
+        }
+        state.referencesByKey = map;
+        state.referenceLib = index && index.lib || '';
+    }
+
+    function fetchIndex(url) {
+        return fetch(url, { cache: 'no-store' }).then(function (res) {
             if (!res.ok) {
-                throw new Error('manifest ' + res.status);
+                throw new Error(url + ' ' + res.status);
             }
             return res.json();
-        }).then(function (manifest) {
-            indexManifest(manifest);
-            return manifest;
         }).catch(function (err) {
-            console.warn('[hd-portraits] manifest', err && err.message ? err.message : err);
-            indexManifest({ entries: [] });
+            console.warn('[hd-portraits] index', err && err.message ? err.message : err);
             return null;
         });
+    }
+
+    function loadManifest() {
+        if (state.loading) {
+            return state.loading;
+        }
+        state.generation += 1;
+        state.viewSeq += 1;
+        state.tickSeq += 1;
+        state.busy = false;
+        state.pendingKey = '';
+        state.manifest = null;
+        state.byKey = {};
+        state.referencesByKey = {};
+        state.referenceLib = '';
+        state.nameById = null;
+        probeCache = Object.create(null);
+        sourceCache = Object.create(null);
+        paint(null, lcdSource());
+        state.loading = NativePromise.all([fetchIndex(MANIFEST_URL), fetchIndex(REFERENCE_INDEX_URL)]).then(function (indexes) {
+            indexManifest(indexes[0]);
+            indexReferences(indexes[1]);
+            state.loading = null;
+            return indexes[0];
+        });
+        return state.loading;
     }
 
     function entryFor(personId, period) {
@@ -98,28 +180,32 @@
         return out;
     }
 
-    var probeCache = {};
+    var probeCache = Object.create(null);
+    var sourceCache = Object.create(null);
 
     function probe(url) {
         if (probeCache[url]) {
-            return Promise.resolve(probeCache[url]);
+            return probeCache[url];
         }
-        return new Promise(function (resolve) {
+        // Cache the pending request too: concurrent callers share both hits and misses.
+        var pending = new NativePromise(function (resolve) {
             var img = new Image();
             img.onload = function () {
-                probeCache[url] = 'ok';
                 resolve('ok');
             };
             img.onerror = function () {
-                probeCache[url] = 'miss';
                 resolve('miss');
             };
             img.src = url;
         });
+        probeCache[url] = pending;
+        return pending;
     }
 
     function urlsFor(personId, period) {
         var entry = entryFor(personId, period);
+        var reference = state.referenceLib === state.manifest.lib ?
+            state.referencesByKey[period + ':' + personId] : null;
         var hd = [];
         var ref = [];
         if (entry && entry.hd) {
@@ -128,15 +214,28 @@
         if (entry && entry.ref) {
             ref.push(asset(entry.ref));
         }
-        hd.push(asset('hd/period-' + period + '/' + personId + '.png'));
-        ref.push(asset('refs/period-' + period + '/' + personId + '.png'));
-        return { hd: dedupe(hd), ref: dedupe(ref), entry: entry };
+        if (reference && reference.ref) {
+            ref.push(asset(reference.ref));
+        }
+        // Use exported paths, including names; guessed filenames cause unnecessary 404s.
+        return { hd: dedupe(hd), ref: dedupe(ref), entry: entry || reference };
     }
 
     function chooseSource(personId, period) {
+        var lib = currentLib();
+        var generation = state.generation;
+        if (!supportsLib(lib) || !validPerson(personId) || !validPeriod(period)) {
+            return NativePromise.resolve(lcdSource());
+        }
+        var cacheKey = lib + '|' + period + ':' + personId;
+        function stillCurrent(src) {
+            return generation === state.generation && lib === currentLib() ? src : lcdSource();
+        }
+        if (sourceCache[cacheKey]) {
+            return sourceCache[cacheKey].then(stillCurrent);
+        }
         var urls = urlsFor(personId, period);
-        var chain = Promise.resolve(null);
-        var i;
+        var chain = NativePromise.resolve(null);
         function tryList(list, mode) {
             var j;
             for (j = 0; j < list.length; j++) {
@@ -154,9 +253,10 @@
         }
         tryList(urls.hd, 'hd');
         tryList(urls.ref, 'ref');
-        return chain.then(function (found) {
-            return found || { mode: 'lcd', url: '', entry: urls.entry };
+        sourceCache[cacheKey] = chain.then(function (found) {
+            return found || lcdSource(urls.entry);
         });
+        return sourceCache[cacheKey].then(stillCurrent);
     }
 
     function personName(id) {
@@ -174,7 +274,8 @@
     }
 
     function ensureNameIndex(period) {
-        if (state.nameById && state.namePeriod === period) {
+        var lib = currentLib();
+        if (state.nameById && state.namePeriod === period && state.nameLib === lib) {
             return;
         }
         var map = {};
@@ -196,6 +297,7 @@
         }
         state.nameById = map;
         state.namePeriod = period;
+        state.nameLib = lib;
     }
 
     function dialogSnap() {
@@ -311,6 +413,9 @@
     }
 
     function detectView() {
+        if (!supportsLib(currentLib())) {
+            return null;
+        }
         var period = periodNow();
         if (!period) {
             return null;
@@ -377,13 +482,40 @@
         }
     }
 
-    function applyView(view) {
+    function viewKey(view) {
+        return view ? [currentLib(), view.context, view.personId, view.period, view.name || ''].join('|') : 'off';
+    }
+
+    function applyView(view, verifyDetectedView) {
+        var seq = ++state.viewSeq;
+        var lib = currentLib();
+        var generation = state.generation;
         if (!view) {
-            paint(null, { mode: 'lcd' });
+            paint(null, lcdSource());
             state.key = 'off';
-            return Promise.resolve({ mode: 'lcd', url: '' });
+            return NativePromise.resolve({ mode: 'lcd', url: '' });
+        }
+        var requestedKey = viewKey(view);
+        var root = document.getElementById('hd-portrait');
+        if (root && (root.getAttribute('data-person-id') !== String(view.personId) ||
+            root.getAttribute('data-period') !== String(view.period) ||
+            root.getAttribute('data-context') !== view.context || !supportsLib(lib))) {
+            paint(null, lcdSource());
         }
         return chooseSource(view.personId, view.period).then(function (src) {
+            if (seq !== state.viewSeq || generation !== state.generation) {
+                return lcdSource();
+            }
+            if (lib !== currentLib()) {
+                src = lcdSource();
+            }
+            if (verifyDetectedView) {
+                var currentView = null;
+                try { currentView = detectView(); } catch (e) {}
+                if (requestedKey !== viewKey(currentView)) {
+                    src = lcdSource();
+                }
+            }
             var key = [src.mode, src.url, view.context, view.personId, view.period].join('|');
             state.key = key;
             paint(view, src);
@@ -392,30 +524,30 @@
     }
 
     function tick() {
-        if (state.busy) {
-            return;
-        }
-        state.busy = true;
         var view = null;
         try {
             view = detectView();
         } catch (e) {
             view = null;
         }
-        var nextKey = view ? [view.context, view.personId, view.period].join('|') : 'off';
+        var nextKey = viewKey(view);
+        if (state.busy && state.pendingKey === nextKey) {
+            return;
+        }
+        var seq = ++state.tickSeq;
+        state.busy = true;
+        state.pendingKey = nextKey;
         if (nextKey === 'off') {
-            if (state.key !== 'off') {
-                paint(null, { mode: 'lcd' });
-                state.key = 'off';
-            }
+            applyView(null);
             state.busy = false;
             return;
         }
-        applyView(view).then(function () {
-            state.busy = false;
-        }, function () {
-            state.busy = false;
-        });
+        function settled() {
+            if (seq === state.tickSeq) {
+                state.busy = false;
+            }
+        }
+        applyView(view, true).then(settled, settled);
     }
 
     function start() {
@@ -454,7 +586,10 @@
                 context: root ? root.getAttribute('data-context') : null,
                 personId: root ? root.getAttribute('data-person-id') : null,
                 period: root ? root.getAttribute('data-period') : null,
-                manifest: !!(state.manifest && state.manifest.entries)
+                manifest: !!(state.manifest && state.manifest.entries),
+                lib: currentLib(),
+                supportedLib: supportsLib(currentLib()),
+                referenceCount: Object.keys(state.referencesByKey).length
             };
         }
     };

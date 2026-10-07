@@ -17,11 +17,35 @@ U8 g_hdReportGbk[BAYE_HD_REPORT_MAX];
 U16 g_hdReportPerson = 0xffff;
 U16 g_hdReportKind = 0;
 U16 g_hdReportSeq = 0;
+U8 g_hdReportActive = 0;
+U32 g_hdReportInputSeq = 0;
+typedef struct {
+    U8 text[BAYE_HD_REPORT_MAX];
+    U16 person;
+    U16 kind;
+} HdReportWait;
+/* Reports can nest through Mod callbacks. Restore the outer report with a new
+ * input token so an inner button can never confirm the outer wait. */
+static HdReportWait hdReportWaits[16];
+static U32 hdReportDepth = 0;
+static U32 hd_next_input_seq(U32 seq);
+
+U8 g_hdRecordActive = 0;
+U8 g_hdRecordMode = 0;
+U8 g_hdRecordIndex = 0;
+U8 g_hdRecordCount = 0;
+U32 g_hdRecordSeq = 0;
 
 U8 g_hdMenuGbk[BAYE_HD_MENU_MAX];
 U16 g_hdMenuItemLen = 0;
 U16 g_hdMenuCount = 0;
 U16 g_hdMenuIndex = 0;
+U8 g_hdMenuActive = 0;
+U8 g_hdMenuContext = BAYE_HD_MENU_CONTEXT_NONE;
+U8 g_hdMenuKind = 0;
+U32 g_hdMenuSeq = 0;
+static U8 hdMenuNextContext = BAYE_HD_MENU_CONTEXT_NONE;
+static U8 hdMenuNextKind = 0;
 
 U8 g_hdFightActive = 0;
 U8 g_hdFightOver = 0;
@@ -30,6 +54,12 @@ U8 g_hdFightPhase = 0;
 U8 g_hdFightAimType = 0xff;
 U8 g_hdFightActCommit = 0xFF;
 U8 g_hdFightAllowRetreat = 0;
+/* Set only by the HD system-menu hook; native and Mod menus leave this zero. */
+U8 g_hdFightMenuControl = 0;
+U8 g_hdFightInputKind = BAYE_HD_FIGHT_INPUT_BUSY;
+U32 g_hdFightInputSeq = 0;
+U8 g_hdFightActor = 0xff;
+static U8 hdFightSelectedActor = 0xff;
 U8 g_hdFightResultGbk[BAYE_HD_FIGHT_RESULT_MAX];
 U8 g_hdFightTipGbk[BAYE_HD_FIGHT_TIP_MAX];
 
@@ -39,6 +69,7 @@ U32 g_hdQtyMax = 0;
 U8 g_hdQtyActive = 0;
 
 U8 g_hdMapPick = 0;
+U32 g_hdMapInputSeq = 0;
 U8 g_hdBattlePick = 0;
 U8 g_hdMapCity = 0;
 U8 g_hdCityLinks[8];
@@ -47,6 +78,11 @@ U8 g_hdMarchCity = 0;
 U8 g_hdMarchObj = 0;
 U8 g_hdMarchTime = 0;
 U16 g_hdMarchSeq = 0;
+U16 g_hdMarchSession = 0;
+U8 g_hdMarchPhase = BAYE_HD_MARCH_IDLE;
+U8 g_hdMarchOrigin = 0xff;
+U8 g_hdMarchSelected = 0;
+U32 g_hdMarchInputSeq = 0;
 U8 g_hdFightSkip = 0;
 
 U8 g_hdHelpGbk[BAYE_HD_HELP_MAX];
@@ -90,7 +126,29 @@ static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
 
 void baye_hd_set_ready(U8 ready)
 {
+    /* A new LIB/game may share this browser. Invalidate old input tokens. */
+    baye_hd_set_fight(0, 0);
+    baye_hd_march_end(0);
+    g_hdMarchOk = 0;
+    g_hdMarchCity = g_hdMarchObj = g_hdMarchTime = 0;
+    g_hdFightSkip = BAYE_HD_FIGHT_SKIP_NONE;
+    g_hdMapPick = g_hdBattlePick = g_hdMapCity = 0;
+    g_hdQtyActive = g_hdSkillActive = g_hdHelpActive = 0;
+    g_hdHelpGbk[0] = 0;
+    g_hdReportGbk[0] = 0;
+    g_hdReportKind = BAYE_HD_REPORT_NONE;
+    g_hdReportPerson = 0xffff;
+    hdReportDepth = 0;
+    baye_hd_report_end();
+    baye_hd_record_end();
     g_hdEngineReady = ready;
+}
+
+void baye_hd_world_commit(void)
+{
+    /* Called only after a new game or loaded snapshot really commits. This
+     * invalidates HD observations/input owners without changing game data. */
+    baye_hd_set_ready(g_hdEngineReady);
 }
 
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
@@ -144,15 +202,210 @@ void baye_hd_set_king_highlight(U32 index, PersonID id)
 
 void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 {
-    copy_gbk(g_hdMenuGbk, BAYE_HD_MENU_MAX, buf);
+    U32 count = itemCount;
+    /* Person/goods names are fixed-width slots containing NUL padding. A
+     * string copy stops after the first name and exposes older menu bytes. */
+    memset(g_hdMenuGbk, 0, sizeof(g_hdMenuGbk));
+    if (!itemLen) {
+        /* Picture menus have real counts/indexes but no text slots. */
+        count = buf ? 0 : itemCount;
+    } else if (!buf) {
+        count = 0;
+    } else {
+        U32 maxCount = (BAYE_HD_MENU_MAX - 1) / itemLen;
+        if (count > maxCount) {
+            count = maxCount;
+        }
+        if (count) {
+            memcpy(g_hdMenuGbk, buf, count * itemLen);
+        }
+    }
     g_hdMenuItemLen = itemLen;
-    g_hdMenuCount = itemCount;
+    g_hdMenuCount = (U16)count;
     g_hdMenuIndex = index;
+}
+
+void baye_hd_set_menu_index(U16 index)
+{
+    g_hdMenuIndex = index;
+}
+
+/* These tokens describe actual blocking input calls. Redraws only update the
+ * existing bytes/index and never open another input or advance its sequence. */
+static U32 hd_next_input_seq(U32 seq)
+{
+    seq += 1;
+    return seq ? seq : 1;
+}
+
+void baye_hd_report_begin(U8 kind)
+{
+    if (hdReportDepth < sizeof(hdReportWaits) / sizeof(hdReportWaits[0])) {
+        HdReportWait* wait = &hdReportWaits[hdReportDepth];
+        memcpy(wait->text, g_hdReportGbk, sizeof(wait->text));
+        wait->person = g_hdReportPerson;
+        wait->kind = kind;
+    }
+    ++hdReportDepth;
+    g_hdReportKind = kind;
+    g_hdReportActive = 1;
+    g_hdReportInputSeq = hd_next_input_seq(g_hdReportInputSeq);
+    EM_ASM({
+        try { if (window.BayeHdDialog) BayeHdDialog.onEngineReport(); } catch (e) {}
+    });
+}
+
+void baye_hd_report_end(void)
+{
+    if (hdReportDepth) --hdReportDepth;
+    g_hdReportActive = hdReportDepth ? 1 : 0;
+    g_hdReportInputSeq = hd_next_input_seq(g_hdReportInputSeq);
+    if (hdReportDepth && hdReportDepth <= sizeof(hdReportWaits) / sizeof(hdReportWaits[0])) {
+        HdReportWait* wait = &hdReportWaits[hdReportDepth - 1];
+        baye_hd_set_report(wait->text, wait->person, (U8)wait->kind);
+    }
+}
+
+void baye_hd_record_begin(U8 mode, U8 index, U8 count)
+{
+    g_hdRecordActive = 1;
+    g_hdRecordMode = mode;
+    g_hdRecordIndex = index;
+    g_hdRecordCount = count;
+    g_hdRecordSeq = hd_next_input_seq(g_hdRecordSeq);
+}
+
+void baye_hd_record_index(U8 index)
+{
+    g_hdRecordIndex = index;
+}
+
+void baye_hd_record_end(void)
+{
+    g_hdRecordActive = 0;
+    g_hdRecordMode = 0;
+    g_hdRecordCount = 0;
+    g_hdRecordSeq = hd_next_input_seq(g_hdRecordSeq);
+}
+
+void baye_hd_fight_actor(U8 actor)
+{
+    hdFightSelectedActor = actor;
+}
+
+void baye_hd_fight_input_begin(U8 kind)
+{
+    if (kind == BAYE_HD_FIGHT_INPUT_PICK) {
+        hdFightSelectedActor = 0xff;
+    }
+    g_hdFightInputKind = kind;
+    g_hdFightActor = kind == BAYE_HD_FIGHT_INPUT_BUSY || kind == BAYE_HD_FIGHT_INPUT_PICK
+        ? 0xff : hdFightSelectedActor;
+    g_hdFightInputSeq = hd_next_input_seq(g_hdFightInputSeq);
+}
+
+void baye_hd_fight_input_end(void)
+{
+    /* The legacy action mailbox has no scene token. Close it together with the
+     * real input so a late action cannot become a system-menu selection. */
+    g_hdFightActCommit = 0xff;
+    g_hdFightInputKind = BAYE_HD_FIGHT_INPUT_BUSY;
+    g_hdFightActor = 0xff;
+    g_hdFightInputSeq = hd_next_input_seq(g_hdFightInputSeq);
+}
+
+U8 baye_hd_take_fight_action(U16* choice)
+{
+    if (!g_hdFightActive || !g_hdMenuActive ||
+        g_hdMenuContext != BAYE_HD_MENU_CONTEXT_FIGHT ||
+        g_hdMenuKind != BAYE_HD_FIGHT_INPUT_ACTION || g_hdFightActCommit == 0xff) {
+        return 0;
+    }
+    *choice = g_hdFightActCommit;
+    g_hdFightActCommit = 0xff;
+    return 1;
+}
+
+void baye_hd_map_input_begin(void)
+{
+    g_hdMapInputSeq = hd_next_input_seq(g_hdMapInputSeq);
+}
+
+void baye_hd_menu_scope(U8 context, U8 kind)
+{
+    hdMenuNextContext = context;
+    hdMenuNextKind = kind;
+}
+
+void baye_hd_menu_scope_default(U8 context, U8 kind)
+{
+    if (hdMenuNextContext == BAYE_HD_MENU_CONTEXT_NONE) {
+        baye_hd_menu_scope(context, kind);
+    }
+}
+
+void baye_hd_menu_begin(void)
+{
+    g_hdMenuActive = 1;
+    g_hdMenuContext = hdMenuNextContext;
+    g_hdMenuKind = hdMenuNextKind;
+    hdMenuNextContext = BAYE_HD_MENU_CONTEXT_NONE;
+    hdMenuNextKind = 0;
+    g_hdMenuSeq = hd_next_input_seq(g_hdMenuSeq);
+    if (g_hdMenuContext == BAYE_HD_MENU_CONTEXT_FIGHT) {
+        baye_hd_fight_input_begin(g_hdMenuKind);
+    }
+}
+
+void baye_hd_menu_end(void)
+{
+    if (g_hdMenuContext == BAYE_HD_MENU_CONTEXT_FIGHT) {
+        baye_hd_fight_input_end();
+    }
+    g_hdMenuActive = 0;
+    g_hdMenuContext = BAYE_HD_MENU_CONTEXT_NONE;
+    g_hdMenuKind = 0;
+    hdMenuNextContext = BAYE_HD_MENU_CONTEXT_NONE;
+    hdMenuNextKind = 0;
+    g_hdMenuSeq = hd_next_input_seq(g_hdMenuSeq);
+}
+
+void baye_hd_march_phase(U8 phase)
+{
+    g_hdMarchPhase = phase;
+    g_hdMarchInputSeq = hd_next_input_seq(g_hdMarchInputSeq);
+}
+
+void baye_hd_march_begin(U8 city)
+{
+    g_hdMarchSession = (U16)(g_hdMarchSession + 1);
+    if (!g_hdMarchSession) g_hdMarchSession = 1;
+    g_hdMarchOrigin = city;
+    g_hdMarchSelected = 0;
+    g_hdMarchOk = 0;
+    baye_hd_march_phase(BAYE_HD_MARCH_IDLE);
+}
+
+void baye_hd_march_selected(U8 count)
+{
+    g_hdMarchSelected = count;
+}
+
+void baye_hd_march_end(U8 departed)
+{
+    if (!departed) {
+        g_hdMarchOrigin = 0xff;
+        g_hdMarchSelected = 0;
+    }
+    baye_hd_march_phase(departed ? BAYE_HD_MARCH_DEPARTED : BAYE_HD_MARCH_IDLE);
 }
 
 void baye_hd_set_fight(U8 active, U8 over)
 {
     U8 str[40];
+    baye_hd_menu_end();
+    baye_hd_fight_actor(0xff);
+    baye_hd_fight_input_end();
     if (active) {
         /* New GamFight: never keep leftover 全军覆没 / 大获全胜 / wait. */
         over = 0;
@@ -163,6 +416,7 @@ void baye_hd_set_fight(U8 active, U8 over)
         g_hdFightTipGbk[0] = 0;
         g_hdFightActCommit = 0xFF;
         g_hdFightAllowRetreat = 0;
+        g_hdFightMenuControl = 0;
     } else if (over == 0) {
         /* Explicit reset at GamFight entry / 策略结束 prepare. */
         g_hdFightWait = 0;
@@ -172,6 +426,7 @@ void baye_hd_set_fight(U8 active, U8 over)
         g_hdFightTipGbk[0] = 0;
         g_hdFightActCommit = 0xFF;
         g_hdFightAllowRetreat = 0;
+        g_hdFightMenuControl = 0;
     }
     g_hdFightActive = active;
     g_hdFightOver = over;
@@ -478,6 +733,13 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdReportPerson, U16);
     DEFADDF(g_hdReportKind, U16);
     DEFADDF(g_hdReportSeq, U16);
+    DEFADDF(g_hdReportActive, U8);
+    DEFADDF(g_hdReportInputSeq, U32);
+    DEFADDF(g_hdRecordActive, U8);
+    DEFADDF(g_hdRecordMode, U8);
+    DEFADDF(g_hdRecordIndex, U8);
+    DEFADDF(g_hdRecordCount, U8);
+    DEFADDF(g_hdRecordSeq, U32);
     DEFADD_GBKARR(g_hdMenuGbk, sizeof(g_hdMenuGbk));
     {
         U8* g_hdMenuBytes = g_hdMenuGbk;
@@ -486,6 +748,10 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMenuItemLen, U16);
     DEFADDF(g_hdMenuCount, U16);
     DEFADDF(g_hdMenuIndex, U16);
+    DEFADDF(g_hdMenuActive, U8);
+    DEFADDF(g_hdMenuContext, U8);
+    DEFADDF(g_hdMenuKind, U8);
+    DEFADDF(g_hdMenuSeq, U32);
     DEFADDF(g_hdFightActive, U8);
     DEFADDF(g_hdFightOver, U8);
     DEFADDF(g_hdFightWait, U8);
@@ -493,6 +759,10 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdFightAimType, U8);
     DEFADDF(g_hdFightActCommit, U8);
     DEFADDF(g_hdFightAllowRetreat, U8);
+    DEFADDF(g_hdFightMenuControl, U8);
+    DEFADDF(g_hdFightInputKind, U8);
+    DEFADDF(g_hdFightInputSeq, U32);
+    DEFADDF(g_hdFightActor, U8);
     DEFADD_GBKARR(g_hdFightResultGbk, sizeof(g_hdFightResultGbk));
     DEFADD_GBKARR(g_hdFightTipGbk, sizeof(g_hdFightTipGbk));
     DEFADDF(g_hdQtyValue, U32);
@@ -500,6 +770,7 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdQtyMax, U32);
     DEFADDF(g_hdQtyActive, U8);
     DEFADDF(g_hdMapPick, U8);
+    DEFADDF(g_hdMapInputSeq, U32);
     DEFADDF(g_hdBattlePick, U8);
     DEFADDF(g_hdMapCity, U8);
     DEFADD_U8ARR(g_hdCityLinks, 8);
@@ -508,6 +779,11 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMarchObj, U8);
     DEFADDF(g_hdMarchTime, U8);
     DEFADDF(g_hdMarchSeq, U16);
+    DEFADDF(g_hdMarchSession, U16);
+    DEFADDF(g_hdMarchPhase, U8);
+    DEFADDF(g_hdMarchOrigin, U8);
+    DEFADDF(g_hdMarchSelected, U8);
+    DEFADDF(g_hdMarchInputSeq, U32);
     DEFADDF(g_hdFightSkip, U8);
     DEFADD_GBKARR(g_hdHelpGbk, sizeof(g_hdHelpGbk));
     DEFADDF(g_hdHelpSeq, U16);

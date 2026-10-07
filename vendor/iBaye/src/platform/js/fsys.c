@@ -200,6 +200,7 @@ static void rom_finit(rom_FILE *fp) {
 
 static rom_FILE *rom_fnew() {
     rom_FILE* fp = gam_malloc(sizeof(rom_FILE));
+    if (!fp) return NULL;
     rom_finit(fp);
     return fp;
 }
@@ -261,48 +262,46 @@ typedef struct {
     rom_FILE base;
     U8* fname;
     U32 alloced;
+    U8 failed;
 } sav_write_FILE;
 
 static U8* getValue(const U8*key) {
 
     int value = EM_ASM_INT({
         var key = UTF8ToString($0);
-        var value = "";
-        var filename = "baye/" + key;
-
-        if (window.bayeLoadFileContent) {
-            value = window.bayeLoadFileContent(filename);
-        } else {
-            value = window.localStorage[filename];
-        }
-
-        if (value) {
-            var buffer = Module._bayeAlloc(value.length+1);
-            Module.stringToUTF8(value, buffer, value.length+1);
-            return buffer;
-        }
+        try {
+            var filename = "baye/" + key;
+            var value = window.bayeLoadFileContent ? window.bayeLoadFileContent(filename) : window.localStorage.getItem(filename);
+            if (typeof value === "string" && value) {
+                var buffer = Module._bayeAlloc(value.length+1);
+                if (!buffer) return 0;
+                Module.stringToUTF8(value, buffer, value.length+1);
+                return buffer;
+            }
+        } catch (error) { return 0; }
         return 0;
     }, (int)key);
 
     return (U8*)value;
 }
 
-static void setValue(const U8*key, const U8*value) {
-    EM_ASM_({
+static U8 setValue(const U8*key, const U8*value) {
+    return EM_ASM_INT({
         var key = UTF8ToString($0);
         var value = UTF8ToString($1);
         var filename = "baye/" + key;
 
-        if (window.bayeSaveFileContent) {
-            window.bayeSaveFileContent(filename, value);
-        } else {
-            window.localStorage[filename] = value;
-        }
+        try {
+            if (window.bayeSaveFileContent) return window.bayeSaveFileContent(filename, value) === false ? 0 : 1;
+            window.localStorage.setItem(filename, value);
+            return 1;
+        } catch (error) { return 0; }
     }, (int)key, (int)value);
 }
 
 static U8* hex_encode(U8*s, U32 length) {
     U8* buffer = (U8*)gam_malloc(length * 2 + 1);
+    if (!buffer) return NULL;
     buffer[length * 2] = 0;
     for (int i = 0; i < length; i++) {
         sprintf((char*)buffer+i*2, "%02X", s[i]);
@@ -316,14 +315,19 @@ static U8* hex_decode(U8*s, U32*length) {
     if (l % 2) return NULL;
 
     U8* buffer = gam_malloc(l/2 + 1);
+    if (!buffer) return NULL;
 
     for (int i = 0; i < l; i += 2) {
-        U32 c = 0;
-        if (sscanf((char*)s+i, "%02X", &c) != 1) {
-            gam_free(buffer);
-            return NULL;
-        }
-        buffer[i/2] = (U8)c;
+        U8 high = s[i], low = s[i + 1];
+        if (high >= '0' && high <= '9') high -= '0';
+        else if (high >= 'a' && high <= 'f') high -= 'a' - 10;
+        else if (high >= 'A' && high <= 'F') high -= 'A' - 10;
+        else { gam_free(buffer); return NULL; }
+        if (low >= '0' && low <= '9') low -= '0';
+        else if (low >= 'a' && low <= 'f') low -= 'a' - 10;
+        else if (low >= 'A' && low <= 'F') low -= 'A' - 10;
+        else { gam_free(buffer); return NULL; }
+        buffer[i/2] = (high << 4) | low;
     }
     *length = l/2;
     return buffer;
@@ -338,25 +342,30 @@ static U8 sav_fclose(gam_FILE*fp_) {
 
 static U8 sav_fclose_w(gam_FILE*fp_) {
     sav_write_FILE*fp = (sav_write_FILE*)fp_;
-
-    U8* hex_data = hex_encode(fp->base.data, fp->base.cur);
+    U8 result = 1;
+    U8* hex_data = fp->failed ? NULL : hex_encode(fp->base.data, fp->base.cur);
     gam_free(fp->base.data);
-
-    setValue(fp->fname, hex_data);
+    if (hex_data && setValue(fp->fname, hex_data)) result = 0;
     gam_free(hex_data);
     gam_free(fp->fname);
     gam_free(fp);
-    return 0;
+    return result;
 }
 
 static U32 sav_fwrite(U8 *buf, U32 size, U16 count, gam_FILE *fp_) {
     sav_write_FILE*fp = (sav_write_FILE*)fp_;
 
-    U32 len = size * count;
+    U32 len;
+    if (!size || !count) return 0;
+    if (fp->failed || size > (U32)-1 / count) { fp->failed = 1; return 0; }
+    len = size * count;
+    if (len > (U32)-1 - fp->base.cur - 1024) { fp->failed = 1; return 0; }
 
     if (fp->base.cur + len > fp->alloced) {
         U32 new_len = fp->base.cur + len + 1024;
-        fp->base.data = gam_realloc(fp->base.data, new_len);
+        U8* grown = gam_realloc(fp->base.data, new_len);
+        if (!grown) { fp->failed = 1; return 0; }
+        fp->base.data = grown;
         fp->alloced = new_len;
     }
     memcpy(fp->base.data + fp->base.cur, buf, len);
@@ -371,6 +380,7 @@ static void sav_finit_w(sav_write_FILE* fp, const U8*fname) {
     fp->base.base.fclose = sav_fclose_w;
     fp->base.base.fwrite = sav_fwrite;
     fp->fname = (U8*)gam_strdup((char*)fname);
+    fp->failed = !fp->base.data || !fp->fname;
 }
 
 static gam_FILE *sav_fopen(const U8 *fname, U8 pmode) {
@@ -383,6 +393,7 @@ static gam_FILE *sav_fopen(const U8 *fname, U8 pmode) {
 
             if (f_data) {
                 rom_FILE* fp = rom_fnew();
+                if (!fp) { gam_free(f_data); return NULL; }
                 fp->base.fclose = sav_fclose;
                 fp->data = f_data;
                 fp->length = length;
@@ -392,10 +403,14 @@ static gam_FILE *sav_fopen(const U8 *fname, U8 pmode) {
         return NULL;
     } else if (pmode == 'w') {
         sav_write_FILE* fp = (sav_write_FILE*)gam_malloc(sizeof(sav_write_FILE));
+        if (!fp) return NULL;
         sav_finit_w(fp, fname);
+        if (fp->failed) {
+            gam_free(fp->base.data); gam_free(fp->fname); gam_free(fp);
+            return NULL;
+        }
         return (gam_FILE*)fp;
     } else {
         return NULL;
     }
 }
-

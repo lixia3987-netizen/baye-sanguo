@@ -2,9 +2,34 @@
   "name": "baye-sanguo",
   "private": true,
   "description": "步步高电子词典《三国霸业》完整 H5 移植（baye-alpha / iBaye）",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "start": "npx --yes serve -l 8080 .",
-    "serve": "npx --yes serve -l 8080 .",
-    "dump-portraits": "node scripts/dump-hd-portraits.mjs"
+    "start": "serve -l 8080 .",
+    "serve": "serve -l 8080 .",
+    "dump-portraits": "node scripts/dump-hd-portraits.mjs",
+    "test": "node --test scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs",
+    "test:input": "node scripts/test-hd-input.mjs",
+    "test:battle-mode": "node scripts/test-hd-battle-mode.mjs",
+    "test:battle-commands": "node scripts/test-hd-battle-commands.mjs",
+    "test:march": "node scripts/test-hd-march.mjs",
+    "test:city-entry": "node scripts/test-hd-city-entry.mjs",
+    "test:engine-protocol": "node scripts/test-hd-engine-protocol.mjs",
+    "test:dialog-routing": "node scripts/test-hd-dialog-routing.mjs",
+    "test:portraits": "node scripts/test-hd-portraits.mjs",
+    "test:portrait-browser": "node scripts/dump-hd-portraits.mjs --smoke-only",
+    "test:runtime": "node scripts/test-hd-runtime.mjs",
+    "test:battle-runtime": "node scripts/test-hd-battle-runtime.mjs",
+    "build:wasm": "bash scripts/build-wasm.sh",
+    "test:campaign-flow": "node scripts/test-hd-campaign-flow.mjs",
+    "test:campaign-engine": "node scripts/test-hd-campaign-engine.mjs",
+    "test:save-transaction": "node scripts/test-hd-save-transaction.mjs",
+    "test:saveload-ui": "node scripts/test-hd-saveload-ui.mjs",
+    "test:campaign-runtime": "node scripts/test-hd-campaign-runtime.mjs",
+    "test:save-pages": "node scripts/test-hd-save-pages.mjs"
+  },
+  "devDependencies": {
+    "serve": "14.2.5"
   }
 }

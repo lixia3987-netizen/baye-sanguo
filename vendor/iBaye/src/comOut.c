@@ -202,7 +202,9 @@ FAR void GamMsgBox(const U8 *buf,U8 delay)
     GamStrShowS(c_Sx,c_Sy,buf);
     if(delay == 0)
         return;
+    baye_hd_report_begin(BAYE_HD_REPORT_MSGBOX);
     GamDelay(delay*100, 2);
+    baye_hd_report_end();
 }
 /***********************************************************************
  * 说明:     显示虚拟屏幕到屏幕

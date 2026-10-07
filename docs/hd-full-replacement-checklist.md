@@ -3,7 +3,7 @@
 玩家能见到的主要画面是否已有 HD 表现壳。引擎规则一律仍走 WASM。  
 **分支：`feature/hd-graphics`（Draft PR #2），不合 `main`。**
 
-图例：`HD done` 已有可玩壳 · `partial` 有壳但依赖 LCD 对照 · `LCD residual` 仍经典 · 每条残留附一行原因。
+图例：`HD done` 已有表现壳 · `partial` 有壳但依赖 LCD 对照 · `LCD residual` 仍经典。表现壳接通不等于完整战斗通过；真实操作验收范围见 [hd-development-plan.md](hd-development-plan.md)。
 
 | 画面 | 状态 | 说明 |
 |------|------|------|
@@ -12,19 +12,19 @@
 | **选君主 / 势力形势图** | **HD done** | `GetAllKings` 写入 `g_hdKingIds`（董卓弄权 18 人：马腾/董卓/曹操…）；高亮 `g_hdKingIndex`。形势图底图仍可开 LCD 对照 |
 | 开场动画 | **HD done** | `PlcMovie(MAIN_SPE)` 每帧 blit `#lcd` → `#hd-spe-canvas` 11×（1760×1056）。「跳过」绝对定位在画布之上、`pointer-events:auto`；回车/空格/Esc 捕获后发回车。结束后关层并 `pointer-events:none`，不挡城菜单。经典模式仍只走 160×96 LCD |
 | **大地图** | **HD done** | P0–P3 |
-| **城池根 / 一层 / 状况** | **HD done** | M0–M2；一层名只在首项/项数对得上时才用 `menuItems()`，避免 FunctionMenu 盖住 内政 |
-| **人物选择** | **HD done** | `PlcSplMenu` + `ShowPersonControl` 写入 `g_hdMenuBytes` |
-| **出征 / 外交目标城** | **HD done** | 出征先点将再 EXIT，才 GetFood / 「选择目标」/ GetCitySet。目标城按引擎格 `setx/sety` 对齐后再回车，不把 LCC 像素当格 |
+| **城池根 / 一层 / 状况** | **HD done** | 开城逐键等待真实地图光标和城号；原生 city root 激活后才开放 HD 菜单，子菜单等待索引与 menu seq 回执 |
+| **人物选择** | **HD done** | 以真实人物队列显示名单，以 person 菜单 kind/index/seq 提交选择；不能把残留文本菜单当作人物名单 |
+| **出征 / 外交目标城** | **HD done** | 出征依据 session/phase/inputSeq 完成选将、粮草与提示；点击目标只选中，确认后等待真实 AddFightOrder 回执；地图地理像素只用于显示 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 写 `g_hdQty*`；CDP 征兵：成宜后 `active=1 value=1070`，`VK_LEFT×2`+`VK_DIGIT5` → **1050**。HD 数字键 `0x40–0x49` |
-| **报告 / 对话** | **HD done** | `ShowDMsg`→`ShowGReport` 写入后 `onEngineReport` 立刻填 HD 正文。出征「选择目标」在 GetCitySet（`g_hdMapPick=1`）时关壳，不挡点城 |
+| **报告 / 对话** | **HD done** | 按真实报告等待状态和输入序号显示、确认，战斗中的报告优先接收输入；嵌套报告返回时恢复正文并换令牌。纯定时报告不显示确认按钮；出征目标选择不挡点城。继任菜单已接真实人物下标，完整继任场景仍待浏览器验收 |
 | **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
-| **战场格网 / 单位** | **HD done** | 天水→河内 出征后 `GamFight`：`active=1 wait=1`，32×32 格 + `g_GenPos` 3 将（马腾蓝 / 于毒红）。进战斗收起 LCD 与过期报告 |
-| **战场系统菜单** | **HD done** | 只读 `menuItems()` 画壳。本场未见过 `wait=1`、当前 `wait=1`、或 `onMenuIdle` 已停则关壳。系统菜单等选将再 EXIT。返回只在菜单活着时发 EXIT。结算后不把壳盖回大地图。不 stub `fightOpenMainMenu` |
+| **战场格网 / 单位** | **HD done** | 读取实际 `g_FightMap` / `g_GenPos`，移动范围与瞄准读取真实引擎数组；渲染不提交行动 |
+| **战场系统菜单** | **HD done** | HD hook 返回 `-2` 打开实际五项菜单；经典恢复原 hook。五项菜单、设置取消、撤退确认取消与经典/HD 切换已通过；M3 已连续三次显式确认撤退，均得到原生 `over=2` 并回图，守方归属保持不变 |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
 | **计谋 / 开场 SPE** | **HD done** | `g_hdSpe*` + LCD 整数倍 overlay。`践踏`→`QIBING_SPE`；`谍报` 无 SPE id 时引擎不播（不编造）。规格 [hd-spe-spec.md](hd-spe-spec.md) |
-| **策略结束 / 存读档** | **HD done** | 战役中见到 `策略结束` 三项即出壳（不 stub `mainSystemMenu`）。出征后 EXIT 到 FunctionMenu 再回车一次；存档只列真实 `sango*.sav` |
-| 云存档条 | 页面 HTML | 不是游戏内 LCD |
-| **战斗结算** | **HD done** | 原生系统菜单选「全军撤退」后 `over=2`，`#hd-battle-result` 显示导出串 **我军全军覆没** |
+| **策略结束 / 存读档** | **HD done** | 策略结束使用真实地图/menu seq 逐层返回并确认一次。原生保存 3 槽、读取 4 槽、稀疏槽映射、LIB 校验、双文件持久化事务及完整验证后提交世界状态已接通；真实胜利后保存→刷新→载入全世界一致，再次出征→撤退→回图通过 |
+| 云存档条 | 页面 HTML | 本地导出与第四槽导入共用 `save-storage.js`，JSON 保留来源 LIB 信息，旧云 SDK 两行格式仍兼容。SDK 回调以本地模拟验证事务失败与完整旧槽读取；未进行真实账号上传下载验收 |
+| **战斗结算** | **partial** | 结束时释放 HD 战场，保留原生结果与继任输入，不自动确认。真实空城占领、开垦后出征、完整胜利占城及胜利后连续两次出征败退已通过；AI 来袭守将选择、防守战、同页重新开局和战果存读档也已通过。完整继任场景仍待浏览器验收 |
 | **道具详情** | **partial** | 桥已通。董卓弄权安定开局城中无货、武将 Equip 空——不是代码 bug，菜单上暂无道具名可点 |
 | **武将立绘** | **partial** | 允许的用户生成轨道。`refs/` 只收 `#lcd` 左上角 `24 * dotSize` 的实拍（`drawImage(..., GEN_HEADPIC1+g_PIdx, ..., 1)`，时期 1 resid 48）。不要裁 `querySelector('canvas')`。`hd/` 有文件时人物信息 / 战场说明 / 地图君主显示 HD，否则仍 `GEN_HEADPIC` |
 | 手机竖屏键位页 | 不做 | overworld 非目标 |
@@ -33,6 +33,13 @@
 ## 本分支壳
 
 - `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
+- `js/save-storage.js` 共用本地存档事务与导入导出校验；游戏入口先加载它再加载 `lcd.js`，纯存档管理页直接使用它。
+
+## M3 当前验收范围
+
+最终暂存核心开局、已安装的空城占领、开垦后出征及三次连续败退场景分别通过 10、17、26、43 个浏览器检查点。完整连续战役 v8 通过 91 个检查点，原生战果依次为胜利、败退、败退；同页重新开局 v8 通过 129 个检查点，包含胜利占许昌、AI 来袭宛城的守将选择和真实防守战、退出后选董卓建立干净新局，以及再次出征撤退。保存刷新载入 v9 通过 101 个检查点，完整核对全部城池、人物、队列与日期，并验证载入后再次出征、撤退和回图。七组均无未捕获异常或弹框。生产文件的 13 组专项回归合计 278 个案例通过，记录与证据目录见 [hd-development-plan.md](hd-development-plan.md)。
+
+M3 的词典原版主流程已完成本轮验收。完整继任、其余时期、其他 Mod 和 M4 的素材与性能指标不在已通过范围；云 SDK 模拟不代表真实账号或远程服务通过。保存场景的脚本操作与世界快照跨刷新保留，原生逐键诊断记录器刷新后未重新安装，该组不报告原生按键总数。
 
 ## 本轮 WASM 桥
 

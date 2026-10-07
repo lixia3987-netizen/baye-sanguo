@@ -935,6 +935,7 @@ FAR U8 GetCitySetInner(CitySetType *pos);
 FAR U8 GetCitySet(CitySetType *pos) {
     int prev = SysScrollingTimerOpen(0);
     U8 rv;
+    baye_hd_map_input_begin();
     baye_hd_set_map_pick(1);
     rv = GetCitySetInner(pos);
     baye_hd_set_map_pick(0);

@@ -1,6 +1,6 @@
 # 画质优化计划（HD 分支）
 
-本文记录**当前 LCD 渲染管线**、**v1 已落地的可逆脚手架**，以及后续如何在不改 WASM / 不换 `dat.lib` 图块的前提下做清晰放大。本分支不发明新美术包，也不替换原作瓦片。
+第 1–7 节保留 **v1 LCD 放大阶段**的渲染管线与约束。当前 HD 分支已引入 `vendor/iBaye`、重编 WASM、状态桥接和独立 HD 菜单；历史 v1 的“不改 WASM”不再描述整个分支。继续开发的阶段与验收见 [hd-development-plan.md](hd-development-plan.md)。
 
 下一产品轨道是 **1080p 现代 2D 策略大地图**（不是把 LCD 再放大一档）。已锁定规格、架构与素材清单见 **[hd-overworld-spec.md](hd-overworld-spec.md)**。经典 LCD 仍可切换保留。
 

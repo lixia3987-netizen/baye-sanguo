@@ -71,6 +71,13 @@
     outline: none;
 }
 
+.hd-system-ui-item:disabled {
+    cursor: default;
+    color: #9da7b7;
+    background: #252d3b;
+    opacity: 0.72;
+}
+
 .hd-system-ui-item.is-idle {
     box-shadow: 0 0 0 2px #f0c75a, 0 0 0 5px rgba(240, 199, 90, 0.25);
 }

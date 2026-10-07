@@ -23,6 +23,7 @@
 #include "baye/enghead.h"
 #include "baye/script.h"
 #include "baye/bind-objects.h"
+#include "hd-bridge.h"
 
 
 /******************************************************************************
@@ -102,6 +103,7 @@ U8 MainOrderMenu(U16 ind)
     else {
         pRect.ey = WK_SY + 10 + ((WK_EY - (WK_SY + 10)) / ASC_HGT) * ASC_HGT;
     }
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_ROOT);
     return(PlcSplMenu(&pRect,ind,mstr));
 
 }
@@ -134,6 +136,7 @@ U8 InteriorOrderMenu(void)
     else {
         pRect.ey = WK_SY + 10 + 4 + ((WK_EY - (WK_SY + 10 + 4)) / ASC_HGT) * ASC_HGT;
     }
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_SUB);
     return(PlcSplMenu(&pRect,0,mstr));
 
 }
@@ -165,6 +168,7 @@ U8 DiplomatismOrderMenu(void)
     } else {
         pRect.ey = WK_SY + 10 + 4 + ((WK_EY - (WK_SY + 10 + 4)) / ASC_HGT) * ASC_HGT;
     }
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_SUB);
     return(PlcSplMenu(&pRect,0,mstr));
 
 }
@@ -197,6 +201,7 @@ U8 ArmamentOrderMenu(void)
     } else {
         pRect.ey = WK_SY + 10 + 4 + ((WK_EY - (WK_SY + 10 + 4)) / ASC_HGT) * ASC_HGT;
     }
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_SUB);
     return(PlcSplMenu(&pRect,0,mstr));
 
 }

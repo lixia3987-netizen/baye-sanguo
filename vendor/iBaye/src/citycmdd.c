@@ -24,6 +24,27 @@
 #include "baye/bind-objects.h"
 #include "hd-bridge.h"
 
+/* The latest player's march acknowledgement belongs to one actual queue
+ * order. An earlier army or AI order must not consume that acknowledgement. */
+static OrderType hdMarchOrder;
+static U8 hdMarchOrderPending = 0;
+
+static void rememberHdMarchOrder(const OrderType *order)
+{
+    hdMarchOrder = *order;
+    hdMarchOrderPending = 1;
+}
+
+static void consumeHdMarchOrder(const OrderType *order)
+{
+    if (hdMarchOrderPending && order->OrderId == hdMarchOrder.OrderId &&
+        order->City == hdMarchOrder.City && order->Object == hdMarchOrder.Object &&
+        order->Person == hdMarchOrder.Person) {
+        hdMarchOrderPending = 0;
+        baye_hd_clear_march_ok();
+    }
+}
+
 /******************************************************************************
  * 函数名:BattleMake
  * 说  明:“出征”命令生成
@@ -49,18 +70,27 @@ FAR U8 BattleMake(U8 city)
     U32 xs,ys;
     U32 i;
     OrderType order;
+    U8 departed = 0;
+    U8 selected = 0;
+
+    hdMarchOrderPending = 0;
+    baye_hd_march_begin(city);
 
     if (!IsMoney(city,BATTLE))
     {
         /*金钱不足*/
+        baye_hd_march_phase(BAYE_HD_MARCH_REJECT_REPORT);
         ShowConstStrMsg(NOTE_STR8);
+        baye_hd_march_end(0);
         return(1);
     }
 
     if (g_engineConfig.fixFoodOverFlow && g_Cities[city].Food == 0)
     {
         /*粮草不足*/
+        baye_hd_march_phase(BAYE_HD_MARCH_REJECT_REPORT);
         GamMsgBox((const U8*)"\xc1\xb8\xb2\xdd\xb2\xbb\xd7\xe3", 2);
+        baye_hd_march_end(0);
         return(1);
     }
 
@@ -72,7 +102,9 @@ FAR U8 BattleMake(U8 city)
     pcount = GetCityPersons(city,pqptr);
     if (!pcount)
     {
+        baye_hd_march_phase(BAYE_HD_MARCH_REJECT_REPORT);
         ShowConstStrMsg(STR_NOFIGHTER);
+        baye_hd_march_end(0);
         return(1);
     }
     gam_memset(fpptr,0,10*sizeof(PersonID));
@@ -80,14 +112,20 @@ FAR U8 BattleMake(U8 city)
     {
         /*gam_clrlcd(WK_SX,WK_SY,WK_EX,WK_EY);*/
         ShowMapClear();
+        /* Exhausting the real city list completes selection like player EXIT;
+         * it never opens an empty input with pcount-1 underflow. */
+        if (!pcount) break;
         if (pcode >= pcount) {
             pcode = pcount-1;
         }
+        baye_hd_march_phase(BAYE_HD_MARCH_PERSONS);
         pcode = ShowPersonControl(pqptr,pcount,pcode,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
         if (0xffff != pcode)
         {
             fpptr[i] = PID(pqptr[pcode] + 1);
-            DelPerson(city,pqptr[pcode]);
+            if (DelPerson(city,pqptr[pcode])) {
+                baye_hd_march_selected(++selected);
+            }
         }
         else
         {
@@ -99,6 +137,7 @@ FAR U8 BattleMake(U8 city)
     {
         /*gam_clrlcd(WK_SX,WK_SY,WK_EX,WK_EY);*/
         ShowMapClear();
+        baye_hd_march_phase(BAYE_HD_MARCH_FOOD);
         order.Food = GetFood(1,g_Cities[city].Food);
         if (0xffff == order.Food)
         {
@@ -116,11 +155,13 @@ FAR U8 BattleMake(U8 city)
             {
                 ResLoadToMem(STRING_CONST,STR_OBJ,str);
                 ShowMapClear();
+                baye_hd_march_phase(BAYE_HD_MARCH_TARGET_TIP);
                 ShowGReport(PID(fpptr[0] - 1),str);
                 /* PlayerTactic 过图也是 GetCitySet/g_hdMapPick。出征目标必须另立旗标。
                  * GetCitySet 一返回就清 battlePick，HD 会当成「未打开」再发键，
                  * 赶在 AttackCityRoad/AddFightOrder 之前把出征冲掉。 */
                 baye_hd_set_battle_pick(1);
+                baye_hd_march_phase(BAYE_HD_MARCH_TARGET_PICK);
                 ocity = GetCitySet(&g_CityPos);
                 if (0xff == ocity)
                 {
@@ -136,6 +177,7 @@ FAR U8 BattleMake(U8 city)
                     if (g_Cities[ocity].Belong == g_Cities[city].Belong)
                     {
                         /*提示我方城池*/
+                        baye_hd_march_phase(BAYE_HD_MARCH_REJECT_REPORT);
                         ShowConstStrMsg(NOTE_STR7);
                         continue;
                     }
@@ -144,13 +186,8 @@ FAR U8 BattleMake(U8 city)
                         odis = AttackCityRoad(city,xs,ys,ocity,g_CityPos.setx,g_CityPos.sety);
                         if (0xff != odis)
                         {
+                            baye_hd_march_phase(BAYE_HD_MARCH_ARMOUT_REPORT);
                             ShowConstStrMsg(STR_ARMOUT);
-                            if (g_engineConfig.fixOverFlow16) {
-                                ADD16(g_Cities[city].Food, -order.Food);
-                            } else {
-                                g_Cities[city].Food -= order.Food;
-                            }
-                            OrderConsumeMoney(city,BATTLE);
                             order.OrderId = BATTLE;
                             order.City = city;
                             order.Object = PID(ocity);
@@ -162,7 +199,17 @@ FAR U8 BattleMake(U8 city)
                                 }
                                 baye_hd_set_march(city, (U8)ocity, (U8)odis, 0);
                             } else {
+                                /* A rejected/full queue does not dispatch an army:
+                                 * keep its food and money with the returned generals. */
+                                if (g_engineConfig.fixOverFlow16) {
+                                    ADD16(g_Cities[city].Food, -order.Food);
+                                } else {
+                                    g_Cities[city].Food -= order.Food;
+                                }
+                                OrderConsumeMoney(city,BATTLE);
+                                rememberHdMarchOrder(&order);
                                 baye_hd_set_march(city, (U8)ocity, (U8)odis, 1);
+                                departed = 1;
                             }
                             baye_hd_set_battle_pick(0);
                             break;
@@ -170,6 +217,7 @@ FAR U8 BattleMake(U8 city)
                         else
                         {
                             /*提示无法到达*/
+                            baye_hd_march_phase(BAYE_HD_MARCH_REJECT_REPORT);
                             ShowConstStrMsg(NOTE_STR4);
                             continue;
                         }
@@ -179,6 +227,7 @@ FAR U8 BattleMake(U8 city)
         }
     }
 
+    baye_hd_march_end(departed);
     return(1);
 }
 
@@ -198,7 +247,6 @@ FAR U8 BattleMake(U8 city)
 FAR U8 BattleDrv(OrderType *Order)
 {
     PersonID *pqptr;
-    U16 clen;
     U32 pcount,fcount;
     PersonID pcode, t;
     U32 i;
@@ -211,11 +259,15 @@ FAR U8 BattleDrv(OrderType *Order)
     pqptr = (PersonID*)SHARE_MEM;
     midx = SHARE_MEM;
     fgtidx = FIGHTERS_IDX;
+    if (Order->Person >= FIGHT_ORDER_MAX) {
+        baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_NO_ARMY);
+        consumeHdMarchOrder(Order);
+        return(1);
+    }
     fgtidx[Order->Person] = 0;
-    clen = 10*sizeof(PersonID);
-    clen *= Order->Person;
+    /* FIGHTERS is an array of PersonID, so this offset is in elements. */
     fighters = (PersonID*)FIGHTERS;
-    fighters = &fighters[clen];
+    fighters += 10 * Order->Person;
     genArray = g_FgtParam.GenArray;
     gam_memset(genArray,0,20*sizeof(PersonID));
     o = Order->Object;
@@ -223,7 +275,7 @@ FAR U8 BattleDrv(OrderType *Order)
     /* Wiped / deleted army: no general in the fight-order slot. Engine skip, not GamFight. */
     if (!fighters[0]) {
         baye_hd_set_fight_skip(BAYE_HD_FIGHT_SKIP_NO_ARMY);
-        baye_hd_clear_march_ok();
+        consumeHdMarchOrder(Order);
         return(1);
     }
     pb = g_Persons[fighters[0] - 1].Belong;
@@ -266,7 +318,11 @@ FAR U8 BattleDrv(OrderType *Order)
                 pcount = GetCityPersons(o,pqptr);
                 /*gam_clrlcd(WK_SX,WK_SY,WK_EX,WK_EY);*/
                 ShowMapClear();
+                /* This wait belongs to the incoming attack, even when a
+                 * previous player battle has just finished settling. */
+                baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CAMPAIGN, BAYE_HD_CAMPAIGN_DEFENDERS);
                 pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
+                baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_NONE, 0);
                 if (0xffff != pcode)
                 {
                     genArray[i] = PID(pqptr[pcode] + 1);
@@ -440,7 +496,7 @@ FAR U8 BattleDrv(OrderType *Order)
     } while (0);
 
     /* Consumed: leftover g_hdMarchOk=1 must not fake the next 部队已出发 banner. */
-    baye_hd_clear_march_ok();
+    consumeHdMarchOrder(Order);
 
     return(1);
 }
@@ -772,6 +828,7 @@ FAR void KingOverDeal(PersonID king)
                 ShowConstStrMsg(STR_MAKENEWKING);
                 do
                 {
+                    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CAMPAIGN, BAYE_HD_MENU_SUCCESSOR);
                     pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
                 } while (0xffff == pcode);
                 g_PlayerKing = pqptr[pcode];
@@ -1078,22 +1135,24 @@ FAR U8 AddFightOrder(OrderType *Order,PersonID *Fighters)
     U32 i;
     U8 *fiptr;
     PersonID*fptr;
-    U16 clen;
     
     fiptr = FIGHTERS_IDX;
     for (i = 0;i < FIGHT_ORDER_MAX;i ++)
     {
         if (!fiptr[i])
         {
-            Order->Person = i;
-            if (AddOrderEnd(Order)) {
+            OrderType candidate = *Order;
+            candidate.Person = PID(i);
+            if (AddOrderEnd(&candidate)) {
                 fiptr[i] = 1;
                 fptr = (PersonID*)FIGHTERS;
-                clen = 10*sizeof(PersonID);
-                clen *= i;
-                gam_memcpy(&fptr[clen],Fighters,10*sizeof(PersonID));
+                gam_memcpy(&fptr[10 * i],Fighters,10*sizeof(PersonID));
+                *Order = candidate;
                 return(1);
             }
+            /* The same order cannot become valid by retrying another free
+             * fighter slot. In particular, do not repeat a full-queue report. */
+            return(0);
         }
     }
     // 出征命令队列已满

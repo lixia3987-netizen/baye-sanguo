@@ -1,0 +1,59 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const dir = process.argv[2];
+const sdkVersion = process.argv[3];
+const sourceList = process.argv[4];
+const revision = process.argv[5];
+const cmakeVersion = process.argv[6];
+const modified = process.argv[7];
+if (!dir || !sdkVersion || !sourceList || !revision || !cmakeVersion) {
+    throw new Error('Use scripts/build-wasm.sh to supply artifact and source metadata');
+}
+const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+// Emscripten emits trailing spaces on ASM_CONSTS rows. Normalize generated
+// loader formatting before hashing/installing so repository whitespace checks
+// do not fail whenever WASM addresses change.
+const loaderPath = path.join(dir, 'baye.js');
+const loader = fs.readFileSync(loaderPath, 'utf8');
+fs.writeFileSync(loaderPath, loader.replace(/[\t ]+$/gm, ''));
+const wasm = fs.readFileSync(path.join(dir, 'baye.wasm'));
+if (!WebAssembly.validate(wasm)) throw new Error('Generated baye.wasm is invalid');
+const files = fs.readFileSync(sourceList, 'utf8').split('\0').filter(Boolean).sort();
+const sourceHash = crypto.createHash('sha256');
+for (const file of files) {
+    sourceHash.update(file + '\0');
+    sourceHash.update(fs.readFileSync(path.join(root, file)));
+}
+const artifacts = {};
+for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
+    const file = path.join(dir, name);
+    if (fs.existsSync(file)) {
+        const bytes = fs.readFileSync(file);
+        artifacts[name] = { bytes: bytes.length, sha256: sha256(bytes) };
+    }
+}
+const manifest = {
+    schemaVersion: 1,
+    sourceRevision: revision,
+    engineSourceSha256: sourceHash.digest('hex'),
+    engineSourceModified: Boolean(modified),
+    emscriptenVersion: sdkVersion,
+    cmakeVersion,
+    sourceDateEpoch: Number(process.env.SOURCE_DATE_EPOCH),
+    hdMenuProtocol: { nativeFallback: 254, controlField: 'g_hdFightMenuControl' },
+    hdInputProtocol: {
+        version: 2,
+        fight: ['g_hdFightInputKind', 'g_hdFightInputSeq', 'g_hdFightActor'],
+        menu: ['g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq'],
+        march: ['g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchOrigin', 'g_hdMarchSelected', 'g_hdMarchInputSeq', 'g_hdMapInputSeq'],
+        report: ['g_hdReportActive', 'g_hdReportInputSeq'],
+        record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq']
+    },
+    saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
+    artifacts
+};
+fs.writeFileSync(path.join(dir, 'baye.build.json'), JSON.stringify(manifest, null, 2) + '\n');

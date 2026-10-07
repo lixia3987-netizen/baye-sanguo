@@ -205,9 +205,11 @@ tagShow:
     }
 
 tagOut:
+    baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_HELP);
     baye_hd_set_help(pbuf);
     GamDelay(0, 2);
     baye_hd_set_help(NULL);
+    baye_hd_fight_input_end();
     gam_free(pbuf);
 }
 /***********************************************************************
@@ -822,28 +824,40 @@ FAR U8 FgtMainMenu(void)
 
         FgtLoadToMem2(dFgtSysMnu,mbuf);
     tagMenu:
+        /* Authorization belongs to this hook call, never a previous HD menu. */
+        g_hdFightMenuControl = 0;
         IF_HAS_HOOK("fightOpenMainMenu") {
+            baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_SYSTEM);
             idx = (U8)CALL_HOOK_A();
+            baye_hd_fight_input_end();
             hooked = 1;
+            if (idx == BAYE_HD_MENU_NATIVE) {
+                /* A mode switch can happen after has_hook. Ask the native menu
+                 * for a choice instead of interpreting fallback as EXIT. */
+                hooked = 0;
+                g_hdFightMenuControl = 0;
+                baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FIGHT, BAYE_HD_FIGHT_INPUT_SYSTEM);
+                idx = (U8)PlcSplMenu(&pRect, 0, mbuf);
+            }
         } else {
+            baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FIGHT, BAYE_HD_FIGHT_INPUT_SYSTEM);
             idx = (U8)PlcSplMenu(&pRect,idx,mbuf);
         }
         switch(idx)
         {
             case 1:
-                if (!g_hdFightAllowRetreat) {
+                if (hooked && g_hdFightMenuControl && !g_hdFightAllowRetreat) {
                     baye_hd_note_retreat_blocked();
                     GamShowFrame(g_VisScr);
-                    if (hooked) {
-                        return 0xFF;
-                    }
-                    idx = 0;
-                    goto tagMenu;
+                    return 0xFF;
                 }
                 g_hdFightAllowRetreat = 0;
-                if (!hooked && ((U8)PlcSplMenu(&pRectSubMenu, 0, (U8*)backStr)) == MNU_EXIT) {
-                    GamShowFrame(g_VisScr);
-                    goto tagMenu;
+                if (!hooked) {
+                    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FIGHT, BAYE_HD_FIGHT_INPUT_RETREAT);
+                    if (((U8)PlcSplMenu(&pRectSubMenu, 0, (U8*)backStr)) == MNU_EXIT) {
+                        GamShowFrame(g_VisScr);
+                        goto tagMenu;
+                    }
                 }
                 g_FgtOver = FGT_LOSE;
             case 0:
@@ -867,6 +881,7 @@ FAR U8 FgtMainMenu(void)
         }
         if (var) {
             FgtLoadToMem2(tmp,mbuf);
+            baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FIGHT, BAYE_HD_FIGHT_INPUT_SETTINGS);
             tmp = (U8)PlcSplMenu(&pRect2,*var,mbuf);
             if(tmp != MNU_EXIT)
                 *var = tmp;

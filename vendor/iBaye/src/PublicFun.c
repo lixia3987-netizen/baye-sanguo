@@ -216,7 +216,9 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
 FAR U16 PlcSplMenuInner(RECT *pRect,U16 pIdx,U8 *buf);
 FAR U16 PlcSplMenu(RECT *pRect,U16 pIdx,U8 *buf) {
     int prev = SysScrollingTimerOpen(5);
+    baye_hd_menu_begin();
     U16 rv = PlcSplMenuInner(pRect, pIdx, buf);
+    baye_hd_menu_end();
     SysScrollingTimerOpen(prev);
     return rv;
 }
@@ -308,15 +310,11 @@ FAR U16 PlcSplMenuInner(RECT *pRect,U16 pIdx,U8 *buf)
 
         pageChanged = false;
 nextMsg:
-        if (g_hdFightActive && g_hdFightActCommit != 0xFF) {
-            pIdx = g_hdFightActCommit;
-            g_hdFightActCommit = 0xFF;
+        if (baye_hd_take_fight_action(&pIdx)) {
             goto RET;
         }
         GamGetMsg(&pMsg);
-        if (g_hdFightActive && g_hdFightActCommit != 0xFF) {
-            pIdx = g_hdFightActCommit;
-            g_hdFightActCommit = 0xFF;
+        if (baye_hd_take_fight_action(&pIdx)) {
             goto RET;
         }
 

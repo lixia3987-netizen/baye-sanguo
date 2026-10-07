@@ -1125,6 +1125,7 @@ U8 FunctionMenu(void)
             choosing = (U8)CALL_HOOK_A();
             hooked = 1;
         } else {
+            baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FUNCTION, BAYE_HD_MENU_ROOT);
             choosing = (U8)PlcSplMenu(&pRect, choosing, mstr);
         }
 
@@ -1135,9 +1136,12 @@ U8 FunctionMenu(void)
                 GamRecordMan(0);
                 return(0);
             case 2:
-                if (!hooked && ((U8)PlcSplMenu(&pRectSubMenu, 0, (U8*)exitStr)) == MNU_EXIT) {
-                    ShowMapClear();
-                    continue;
+                if (!hooked) {
+                    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FUNCTION, BAYE_HD_MENU_SUB);
+                    if (((U8)PlcSplMenu(&pRectSubMenu, 0, (U8*)exitStr)) == MNU_EXIT) {
+                        ShowMapClear();
+                        continue;
+                    }
                 }
                 return(2);
             case 0xff:

@@ -24,7 +24,7 @@
     <script src="js/lzma_worker-min.js"></script>
     <script src="js/base64.js"></script>
     <script src="js/idbkvstore.min.js?ver=20260329"></script>
-    <script src="js/lcd.js?ver=20260329"></script>
+    <script src="js/save-storage.js?ver=20261007d"></script>
     <script src="js/spin.min.js"></script>
     <script>
         var kvstore_url = "https://store.kvin.wang/kvstore";
@@ -57,13 +57,14 @@
         }
 
         function getfile(n) {
-            return localStorage[filename(n)];
+            return BayeSaveStorage.readMetadata(filename(n));
         }
 
         function dump(n) {
             return JSON.stringify({
-                "name": localStorage[filename(n) + '.name'],
-                "lib": localStorage[filename(n) + '.lib'],
+                "name": BayeSaveStorage.readMetadata(filename(n * 2) + '.name'),
+                "lib": BayeSaveStorage.readMetadata(filename(n * 2) + '.lib'),
+                "identity": BayeSaveStorage.readMetadata(filename(n * 2) + '.lib-id'),
                 "sav0": getfile(n*2),
                 "sav1": getfile(n*2+1),
                 "ua": window.navigator.userAgent,
@@ -87,11 +88,15 @@
 
         function upload(n) {
             var self = $(this);
-
-            var data = dump(n);
-
-            if (data.length < 2000) {
-                $("#tip").html("该存档为空!");
+            var data;
+            try {
+                data = dump(n);
+                var info = JSON.parse(data);
+                if (!BayeSaveStorage.validatePair(info.sav0, info.sav1)) {
+                    throw new Error('存档为空或不完整');
+                }
+            } catch (e) {
+                $("#tip").css({color: 'red'}).text(e.message || '无法读取存档');
                 $("#data").val("");
                 return;
             }
@@ -116,22 +121,28 @@
 
         function loadSav(data) {
             function load(data) {
+                if (typeof data !== 'string' || !(data = data.trim())) {
+                    throw new Error('存档已损坏');
+                }
                 if (data[0] == '{') {
                     var info = JSON.parse(data);
-                    localStorage[filename(6)] = info["sav0"];
-                    localStorage[filename(6+1)] = info["sav1"];
-                    localStorage[filename(6) + ".lib"] = info["lib"];
-                    localStorage[filename(6+1) + ".lib"] = info["lib"];
+                    if (!BayeSaveStorage.importSlot(3, info)) {
+                        throw new Error(BayeSaveStorage.lastError().message);
+                    }
                 } else {
                     var tuple = data.split("/");
                     var len = tuple[0];
                     var hex = tuple[1];
-                    if (!len || !hex || hex.length != len) {
-                        throw "存档已损坏";
+                    if (tuple.length !== 2 || !/^\d+$/.test(len) || !hex || hex.length !== Number(len)) {
+                        throw new Error('存档已损坏');
                     } else {
                         var tuple = hex.split("_");
-                        localStorage[filename(6)] = tuple[0];
-                        localStorage[filename(6+1)] = tuple[1];
+                        if (tuple.length !== 2) {
+                            throw new Error('存档已损坏');
+                        }
+                        if (!BayeSaveStorage.importSlot(3, { sav0: tuple[0], sav1: tuple[1] })) {
+                            throw new Error(BayeSaveStorage.lastError().message);
+                        }
                     }
                 }
             }
@@ -139,13 +150,13 @@
             function loadOrErr(data) {
                 try {
                     load(data);
-                    $("#tip").html("存档已载入到第4个存档位");
+                    $("#tip").css({color: '#000'}).text("存档已载入到第4个存档位");
                 } catch(e) {
-                    $("#tip").html("<div style='color: red;'>载入失败: " + e + "</div>");
+                    $("#tip").css({color: 'red'}).text("载入失败: " + (e.message || e));
                 }
             }
 
-            if (data) {
+            if (typeof data === 'string' && (data = data.trim())) {
                 if (data.length < 100 && data.includes('-')) {
                     spinStart();
                     $.get(kvstore_url + "/" + data, function(resp) {

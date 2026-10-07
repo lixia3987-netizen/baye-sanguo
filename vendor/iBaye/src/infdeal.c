@@ -664,7 +664,9 @@ FAR void ShowGReport(PersonID person, U8 *str)
 
     ShowPersonHead(WK_SX + 8,WK_EY - 4 - 44 - 4 + 4, person);
     PlcStrShowS(&big,&small,str);
+    baye_hd_report_begin(BAYE_HD_REPORT_GREPORT);
     GamDelay(300, 2);
+    baye_hd_report_end();
 }
 
 /******************************************************************************
@@ -797,8 +799,8 @@ FAR ToolID GetCityDispGoods(U8 city,ToolID *gqueue)
 FAR U32 GetPersonsCount(PersonID king)
 {
     U8 i,j;
-    U16 fpc;
     U8 *fp;
+    PersonID *fighters;
     OrderType *op;
     U32 count;
     
@@ -814,12 +816,12 @@ FAR U32 GetPersonsCount(PersonID king)
         
         if (BATTLE == op[i].OrderId)
         {
-            fpc = op[i].Person;
-            fpc *= 10;
-            fp = FIGHTERS +  fpc;
+            if (op[i].Person >= FIGHT_ORDER_MAX)
+                continue;
+            fighters = (PersonID*)FIGHTERS + 10 * op[i].Person;
             for (j = 0;j < 10;j ++)
             {
-                if (fp[j])
+                if (fighters[j])
                     count += 1;
             }
         }

@@ -236,6 +236,7 @@ void FgtGetPCmd(FGTCMD *pcmd)
 
     lflag = true;
     idx = pcmd->sIdx;
+    baye_hd_fight_actor((U8)idx);
     type = 0;
     while(lflag)
     {
@@ -248,8 +249,11 @@ void FgtGetPCmd(FGTCMD *pcmd)
             g_hdFightActCommit = 0xFF;
         } else IF_HAS_HOOK("fightChooseAction") {
             BIND_U32EX("index", &idx);
+            baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_ACTION);
             type = (U8)CALL_HOOK_A();
+            baye_hd_fight_input_end();
         } else {
+            baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_FIGHT, BAYE_HD_FIGHT_INPUT_ACTION);
             type = (U8)PlcSplMenu(&pRect,type,buf);
         }
         pcmd->type = type;
@@ -270,7 +274,9 @@ void FgtGetPCmd(FGTCMD *pcmd)
                 }
                 IF_HAS_HOOK("fightChooseSkill") {
                     BIND_U32EX("index", &idx);
+                    baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_SKILL);
                     param = CALL_HOOK_A();
+                    baye_hd_fight_input_end();
                 } else {
                     param = FgtGetJNIdx(idx,&pRect);
                 }
@@ -303,6 +309,7 @@ U8 FgtCmdAimGet(U8 type,SkillID param,U8 idx)
 {
     U8	pidx,same;
     U8	naim[10],err[10];
+    baye_hd_fight_actor(idx);
 
     if(param == 22 || param == 30)		/* 天变和谍报-不需要选择目标 */
         return idx;
@@ -488,6 +495,7 @@ U8 FgtGenMove(U8 idx)
     U8	x,y;
     U8	buf[20];
     JLPOS	*pos;
+    baye_hd_fight_actor(idx);
 
     FgtCountPath(idx);
 
@@ -592,15 +600,20 @@ U8 FgtGetFoucsInner(void (*chkcondition)(bool*flag));
 U8 FgtGetFoucs(void (*chkcondition)(bool*flag)) {
     int prev = SysScrollingTimerOpen(5);
     U8 phase = BAYE_HD_FIGHT_PHASE_PICK;
+    U8 inputKind = BAYE_HD_FIGHT_INPUT_PICK;
     if (chkcondition == FgtMoveBack) {
         phase = BAYE_HD_FIGHT_PHASE_MOVE;
+        inputKind = BAYE_HD_FIGHT_INPUT_MOVE;
     } else if (chkcondition == FgtCmdBack) {
         phase = BAYE_HD_FIGHT_PHASE_AIM;
+        inputKind = BAYE_HD_FIGHT_INPUT_AIM;
     }
     /* HD 壳/CDP：FgtGetFoucs 正在 GamGetMsg，按键不会被 GamDelay(false) 吃掉。 */
     baye_hd_set_fight_phase(phase);
     baye_hd_set_fight_wait(1);
+    baye_hd_fight_input_begin(inputKind);
     U8 rv = FgtGetFoucsInner(chkcondition);
+    baye_hd_fight_input_end();
     baye_hd_set_fight_wait(0);
     SysScrollingTimerOpen(prev);
     return rv;
@@ -659,13 +672,23 @@ U8 FgtGetFoucsInner(void (*chkcondition)(bool*flag))
                             g_FoucsX += 1;
                         break;
                     case VK_HELP:
+                    {
+                        U8 inputKind = g_hdFightInputKind;
+                        baye_hd_fight_input_end();
                         FgtShowHlp();
+                        baye_hd_fight_input_begin(inputKind);
                         g_AutoUpdateMapXY = false;
                         break;
+                    }
                     case VK_SEARCH:
+                    {
+                        U8 inputKind = g_hdFightInputKind;
+                        baye_hd_fight_input_end();
                         FgtShowView();
+                        baye_hd_fight_input_begin(inputKind);
                         g_AutoUpdateMapXY = false;
                         break;
+                    }
                     default:
                         g_AutoUpdateMapXY = false;
                         break;

@@ -8,6 +8,8 @@
 
 不要直接双击 HTML。WASM 与跨域限制要求用本地 HTTP 服务。
 
+Node 开发环境使用 `.nvmrc` 指定的版本；首次运行 `npm ci`，然后 `npm start`。`npm test` 执行输入、战场指令、出征、结算、存档事务、C 协议、对话路由与立绘专项回归；真实引擎检查使用 `npm run test:runtime`、`npm run test:battle-runtime` 和 `npm run test:campaign-runtime -- --scenario save`。HD 后续计划与验收见 [docs/hd-development-plan.md](docs/hd-development-plan.md)，源码与 WASM 构建见 [docs/wasm-build.md](docs/wasm-build.md)。
+
 ```bash
 # 方式 1：Python 3（无需安装 Node）
 python3 -m http.server 8080
@@ -70,10 +72,12 @@ css/           样式
 docs/          画质脚手架、HD 大地图规格
 fonts/         字体
 js/            引擎与桥接
-  baye.js      Emscripten 加载器（来自上游预编译）
-  baye.wasm    WebAssembly 引擎（来自上游预编译）
+  baye.js      从 vendor/iBaye 重编的 Emscripten 加载器
+  baye.wasm    与加载器配套的 WebAssembly 引擎
+  baye.build.json  源码、SDK 与产物校验记录
   bridge.js    JS ↔ WASM
   lcd.js       LCD 渲染、按键、Lib 选择
+  save-storage.js  本地双文件存档事务、校验与导入导出
 libs/          游戏数据 / Mod（.lib）
 libs.json      版本列表
 mapeditor/     地图编辑器
@@ -86,7 +90,7 @@ LICENSE        上游 GPL-2.0
 
 ## 画质优化
 
-本仓库在 `feature/hd-graphics` 上准备了**可逆的画质脚手架**，不换 `dat.lib` 图块、不改 WASM 引擎。完整管线、后续步骤与「不要做什么」见 [docs/hd-graphics.md](docs/hd-graphics.md)。
+本仓库在 `feature/hd-graphics` 上开发 PC HD 界面，保留经典模式和原版 `dat.lib` 图块。引擎桥提供真实菜单、出征、战斗和存档状态，HD 界面按引擎回执提交玩家操作。完整管线与素材约定见 [docs/hd-graphics.md](docs/hd-graphics.md)。
 
 默认仍是经典观感（PC 显示框 480×288，邻近取样）。PC 键盘版可以整数倍放大 LCD，方便阅读：
 
@@ -107,32 +111,25 @@ LICENSE        上游 GPL-2.0
 1. 用上面的静态服务打开 <http://localhost:8080/pc.html>（建议先在首页选「词典原版」）
 2. 页下方画质条点 **HD 地图**（写入 `localStorage['baye/overworldMode']='hd-map'`）
 3. 应看到 1920×1080 **摄像机窗口**（不是全国缩进一屏）+ 城标 + 路网；拖动平移可到海南 / 南海。未进大地图时是预览，经典 LCD 缩在右下角，键盘仍可开局
-4. 进大地图后 LCD 隐藏。点城打开 **HD 城池四项菜单**（内政/外交/军备/状况，一层子菜单已 HD）。进入战斗时升 **HD 战场壳**（B0）。清单：[docs/hd-full-replacement-checklist.md](docs/hd-full-replacement-checklist.md)
+4. 进大地图后 LCD 隐藏。点城打开 **HD 城池四项菜单**（内政/外交/军备/状况，一层子菜单已 HD）。进入战斗后使用 **HD 战场**，移动、攻击、计谋和结算按真实引擎状态与输入回执执行。清单：[docs/hd-full-replacement-checklist.md](docs/hd-full-replacement-checklist.md)
 5. 点 **经典地图** 即还原，1×/2× / 锐利 / 外壳与之前相同
 
 素材是分支内 AI 占位包，不是步步高原作美术。不替换 `dat.lib`。用户未明确要求前不要把本分支合入 `main`。
 
 ## 从 iBaye 重新编译引擎（可选）
 
-需要时再装 [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) ≥ 3.1.51 和 CMake ≥ 3.5：
+安装 [Emscripten SDK](https://emscripten.org/docs/getting_started/downloads.html) 3.1.51 和 CMake ≥ 3.5 后，从本仓库源码构建：
 
 ```bash
-git clone https://github.com/emscripten-core/emsdk.git
-cd emsdk
-./emsdk install 3.1.51
-./emsdk activate 3.1.51
-source ./emsdk_env.sh
-
-git clone https://gitee.com/bgwp/iBaye.git
-cd iBaye
-mkdir -p js/baye-engine && cd js/baye-engine
-emcmake cmake ../..
-make -j$(nproc)
-
-cp src/baye.js src/baye.wasm src/baye.wasm.map  <本仓库>/js/
+# BAYE_EMSDK_ROOT 指向已经安装 SDK 的目录
+BAYE_EMSDK_ROOT=/path/to/emsdk npm run build:wasm -- --stage-only
+CHROME=/usr/bin/chromium npm run test:runtime -- --staged
+CHROME=/usr/bin/chromium npm run test:campaign-runtime -- --staged --scenario save
+# 暂存验证通过后成套安装 JS、WASM、map 和 manifest
+BAYE_EMSDK_ROOT=/path/to/emsdk npm run build:wasm
 ```
 
-部署后如遇浏览器缓存，可改各 HTML 里 `baye.js?ver=` 的版本号，或运行 `python3 updatejsversion.py`。
+部署时同步更新 HTML 与加载器中的脚本和 WASM 缓存版本号。构建详情、完整场景参数与产物记录见 [docs/wasm-build.md](docs/wasm-build.md)。
 
 ## 上游与致谢
 

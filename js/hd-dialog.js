@@ -4,6 +4,7 @@
  */
 (function (global) {
     var OVERWORLD_KEY = 'baye/overworldMode';
+    var qtyEpoch = 0;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
 
     var state = {
@@ -20,7 +21,20 @@
         lastHook: '',
         lastReportSeq: 0,
         lastArmoutEnterSeq: 0,
-        lastSpeechEnterSeq: 0
+        lastSpeechEnterSeq: 0,
+        viewEpoch: 0,
+        marchOwner: null,
+        helpOwner: null,
+        reportOwner: null,
+        reportCommit: null,
+        successorOwner: null,
+        successorRequest: null,
+        successorCommit: null,
+        defenseOwner: null,
+        defenseRequest: null,
+        defenseCommit: null,
+        reportSeq: 0,
+        pressedView: null
     };
 
     function overworldIsHd() {
@@ -35,6 +49,13 @@
     }
 
     function shouldShowHd() {
+        if (fightActive()) {
+            // A live battle owns its presentation mode. Falling back to the
+            // city preference would keep HELP visible and swallow Enter/Esc
+            // after its controller has returned input to classic mode.
+            return !!(global.BayeHdBattle && typeof BayeHdBattle.shouldShowHd === 'function' &&
+                BayeHdBattle.shouldShowHd());
+        }
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.shouldShowHd === 'function') {
             return BayeHdCityMenu.shouldShowHd();
         }
@@ -96,11 +117,17 @@
     }
 
     function engineSendKey(code) {
-        if (fightActive() && (code === VK.EXIT || code === VK.ENTER)) {
+        var ownedReport = state.open && state.kind === 'report' &&
+            sameReport(state.reportOwner, nativeReportOwner(readAsync()));
+        var ownedDefense = state.open && state.kind === 'defenders' &&
+            sameCampaignPersons(state.defenseOwner, readDefenders());
+        if (fightActive() && (!(code === VK.ENTER || code === VK.EXIT) || !ownedReport)) {
             console.warn('[hd-dialog] blocked key during fight', code);
             return false;
         }
-        if (code === VK.EXIT && cityMenuHoldExit() && state.kind !== 'qty') {
+        if (code === VK.EXIT && cityMenuHoldExit() && state.kind !== 'qty' &&
+            !ownedDefense &&
+            !(state.kind === 'report' && sameReport(state.reportOwner, nativeReportOwner(readAsync())))) {
             console.warn('[hd-dialog] blocked EXIT during BattleMake');
             return false;
         }
@@ -113,6 +140,241 @@
             return true;
         }
         return false;
+    }
+
+    function readMarchReport() {
+        try {
+            var m = global.baye && baye.hd && baye.hd.march && baye.hd.march();
+            if (m && Number(m.session) > 0 && Number(m.inputSeq) > 0 &&
+                [3, 5, 6].indexOf(Number(m.phase)) >= 0) {
+                return { session: Number(m.session), inputSeq: Number(m.inputSeq), phase: Number(m.phase) };
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function readBattleHelp() {
+        try {
+            var f = global.baye && baye.hd && baye.hd.fight && baye.hd.fight();
+            if (f && f.active && !f.over && [9, 10].indexOf(Number(f.inputKind)) >= 0 &&
+                Number(f.inputSeq) > 0) {
+                return { kind: Number(f.inputKind), inputSeq: Number(f.inputSeq) };
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    function sameMarch(a, b) {
+        return !!(a && b && a.session === b.session && a.inputSeq === b.inputSeq && a.phase === b.phase);
+    }
+
+    function sameHelp(a, b) {
+        return !!(a && b && a.kind === b.kind && a.inputSeq === b.inputSeq);
+    }
+
+    function nativeReportOwner(info) {
+        return info && info.hdActive != null && Number(info.hdActive) && Number(info.hdInputSeq)
+            ? { seq: Number(info.hdSeq), inputSeq: Number(info.hdInputSeq) } : null;
+    }
+
+    function sameReport(a, b) {
+        return !!(a && b && a.seq === b.seq && a.inputSeq === b.inputSeq);
+    }
+
+    function isBlockingKeyboard() {
+        return !!(shouldShowHd() && state.open && (
+            state.kind === 'report' && sameReport(state.reportOwner, nativeReportOwner(readAsync())) ||
+            state.kind === 'defenders' && sameCampaignPersons(state.defenseOwner, readDefenders())));
+    }
+
+    function readCampaignPersons(kind) {
+        try {
+            var menu = global.baye && baye.hd && baye.hd.menuItems && baye.hd.menuItems();
+            if (!menu || !Number(menu.active) || Number(menu.context) !== 5 || Number(menu.kind) !== kind ||
+                !Number(menu.seq) || !menu.names || !menu.names.length) { return null; }
+            if (menu.count != null && Number(menu.count) !== menu.names.length) { return null; }
+            var index = Number(menu.index);
+            if (!isFinite(index) || index < 0 || index >= menu.names.length) { return null; }
+            return { context: 5, kind: kind, seq: Number(menu.seq), index: index, names: menu.names.slice(),
+                signature: menu.names.join('\u0000') };
+        } catch (e) { return null; }
+    }
+
+    function readSuccessor() { return readCampaignPersons(1); }
+
+    function readDefenders() {
+        if (fightActive()) { return null; }
+        var owner = readCampaignPersons(2);
+        if (!owner) { return null; }
+        var data = engineData(), params = data && data.g_FgtParam;
+        owner.cityIndex = readNumber(params, 'CityIndex');
+        if (owner.cityIndex == null) {
+            try { owner.cityIndex = readNumber(baye.hd.fight(), 'cityIndex'); } catch (e) {}
+        }
+        owner.selected = [];
+        owner.selectedNames = [];
+        var arr = params && params.GenArray;
+        for (var i = 0; arr && i < 10; i += 1) {
+            var id = readNumber(arr, i);
+            if (!id || id >= 0xfffe) { continue; }
+            owner.selected.push(id);
+            var name = '';
+            try { name = baye.getPersonName(id - 1) || ''; } catch (e) {}
+            owner.selectedNames.push(name);
+        }
+        return owner;
+    }
+
+    function sameCampaignPersons(a, b) {
+        return !!(a && b && a.context === b.context && a.kind === b.kind &&
+            a.seq === b.seq && a.signature === b.signature && a.cityIndex === b.cityIndex);
+    }
+
+    function sameSuccessor(a, b) {
+        return sameCampaignPersons(a, b);
+    }
+
+    function stopPersonRequest(defense) {
+        var key = defense ? 'defenseRequest' : 'successorRequest';
+        var request = state[key];
+        state[key] = null;
+        if (request && request.timer) { global.clearTimeout(request.timer); }
+    }
+
+    function stopSuccessorRequest() { stopPersonRequest(false); }
+    function stopDefenseRequest() { stopPersonRequest(true); }
+
+    function chooseCampaignPerson(index, confirm, defense) {
+        var kind = defense ? 'defenders' : 'successor';
+        var ownerKey = defense ? 'defenseOwner' : 'successorOwner';
+        var requestKey = defense ? 'defenseRequest' : 'successorRequest';
+        var commitKey = defense ? 'defenseCommit' : 'successorCommit';
+        var readMenu = defense ? readDefenders : readSuccessor;
+        var live = readMenu();
+        index = Number(index);
+        if (!state.open || state.kind !== kind || !shouldShowHd() || nativeReportOwner(readAsync()) ||
+            !sameCampaignPersons(state[ownerKey], live) || !isFinite(index) ||
+            index < 0 || index >= live.names.length || Math.floor(index) !== index ||
+            state[requestKey] || sameCampaignPersons(state[commitKey], live)) { return false; }
+        var request = { owner: live, index: index, confirm: confirm !== false,
+            epoch: state.viewEpoch, waitingIndex: null, expectedIndex: null,
+            deadline: Date.now() + 5000,
+            totalDeadline: Date.now() + Math.min(3 * 60 * 60 * 1000,
+                Math.max(60000, live.names.length * 5000)), timer: 0 };
+        state[requestKey] = request;
+        function step() {
+            request.timer = 0;
+            if (state[requestKey] !== request) { return; }
+            if (request.epoch !== state.viewEpoch ||
+                state.kind !== kind || !shouldShowHd() || nativeReportOwner(readAsync())) {
+                stopPersonRequest(defense); return;
+            }
+            var menu = readMenu();
+            if (!sameCampaignPersons(request.owner, menu)) { stopPersonRequest(defense); return; }
+            if (Date.now() > request.deadline || Date.now() > request.totalDeadline) {
+                stopPersonRequest(defense);
+                state.body = '引擎尚未响应，请等待或切换经典画面查看。';
+                render(); return;
+            }
+            if (request.waitingIndex != null) {
+                if (menu.index === request.waitingIndex) {
+                    request.timer = global.setTimeout(step, 16); return;
+                }
+                if (menu.index !== request.expectedIndex) {
+                    stopPersonRequest(defense); return;
+                }
+                // Large Mods can expose thousands of candidates. The timeout
+                // resets only for the exact arrow ACK sent by this request.
+                request.deadline = Date.now() + 5000;
+            }
+            request.waitingIndex = null;
+            if (menu.index !== request.index) {
+                request.waitingIndex = menu.index;
+                request.expectedIndex = menu.index + (menu.index < request.index ? 1 : -1);
+                if (!engineSendKey(menu.index < request.index ? VK.DOWN : VK.UP)) {
+                    stopPersonRequest(defense); return;
+                }
+                request.timer = global.setTimeout(step, 16); return;
+            }
+            stopPersonRequest(defense);
+            if (request.confirm) {
+                // One explicit choice commits only this real person menu.
+                state[commitKey] = request.owner;
+                engineSendKey(VK.ENTER);
+            }
+        }
+        step();
+        return true;
+    }
+
+    function chooseSuccessor(index, confirm) { return chooseCampaignPerson(index, confirm, false); }
+    function chooseDefender(index, confirm) { return chooseCampaignPerson(index, confirm, true); }
+
+    function finishDefenders() {
+        var live = readDefenders();
+        if (!state.open || state.kind !== 'defenders' || !shouldShowHd() ||
+            !sameCampaignPersons(state.defenseOwner, live) || nativeReportOwner(readAsync()) ||
+            state.defenseRequest || sameCampaignPersons(state.defenseCommit, live)) { return false; }
+        // EXIT completes this real selection wait, including choosing nobody.
+        state.defenseCommit = live;
+        return engineSendKey(VK.EXIT);
+    }
+
+    function defenseToken(owner) {
+        return owner ? JSON.stringify([state.viewEpoch, owner.context, owner.kind,
+            owner.seq, owner.cityIndex, owner.names]) : '';
+    }
+
+    function ownedDefenseButton(target, finish) {
+        var live = readDefenders();
+        if (!state.open || state.kind !== 'defenders' || !shouldShowHd() ||
+            !sameCampaignPersons(state.defenseOwner, live) ||
+            target.getAttribute('data-hd-defenders-owner') !== defenseToken(live) ||
+            Number(target.getAttribute('data-hd-defender-seq')) !== live.seq) { return false; }
+        if (finish) { return true; }
+        var index = Number(target.getAttribute('data-hd-defender-index'));
+        return isFinite(index) && Math.floor(index) === index && index >= 0 && index < live.names.length &&
+            Number(target.getAttribute('data-hd-menu-context')) === live.context &&
+            Number(target.getAttribute('data-hd-menu-kind')) === live.kind &&
+            target.getAttribute('data-hd-defender-name') === live.names[index];
+    }
+
+    function confirmMarchReport() {
+        var owner = state.marchOwner, live = readMarchReport();
+        var info = readAsync();
+        if (!sameMarch(owner, live) || (state.reportSeq && Number(info.hdSeq) !== state.reportSeq)) {
+            return false;
+        }
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.continueMarch === 'function') {
+            return !!BayeHdCityMenu.continueMarch(owner);
+        }
+        return false;
+    }
+
+    function returnFromBattleHelp() {
+        var owner = state.helpOwner;
+        if (!sameHelp(owner, readBattleHelp()) || !global.BayeHdBattle ||
+            typeof BayeHdBattle.returnFromHelp !== 'function') { return false; }
+        var epoch = state.viewEpoch;
+        var result = BayeHdBattle.returnFromHelp(owner);
+        if (result && result.ok && epoch === state.viewEpoch && state.kind === 'help' &&
+            sameHelp(owner, state.helpOwner)) {
+            closeDialog({ silent: true });
+        }
+        return !!(result && result.ok);
+    }
+
+    function requestHelp(code, title) {
+        if (fightActive()) {
+            if (!global.BayeHdBattle || typeof BayeHdBattle.handleKey !== 'function') { return false; }
+            // Toolbar clicks use the same guarded controller path as H/S.
+            return BayeHdBattle.handleKey({ key: code === VK.HELP ? 'h' : 's',
+                keyCode: code === VK.HELP ? 72 : 83, target: document.body,
+                preventDefault: function () {}, stopPropagation: function () {},
+                stopImmediatePropagation: function () {} });
+        }
+        if (!engineSendKey(code)) { return false; }
+        return openDialog({ kind: 'help', title: title, body: '', showLcd: true });
     }
 
     function looksLikeSpeech(text) {
@@ -176,6 +438,8 @@
                 info.hdSeq = hd0.seq;
                 info.hdKind = hd0.kind;
                 info.hdPerson = hd0.person;
+                info.hdActive = hd0.active;
+                info.hdInputSeq = hd0.inputSeq;
                 if (looksLikeSpeech(hd0.text)) {
                     info.text = hd0.text;
                 }
@@ -254,7 +518,7 @@
         try {
             if (window.baye && baye.hd && typeof baye.hd.fight === 'function') {
                 var f = baye.hd.fight();
-                if (f && f.active) {
+                if (f && f.active && !f.over) {
                     return true;
                 }
             }
@@ -298,9 +562,10 @@
     function applyChrome() {
         var show = state.open && shouldShowHd();
         var pass = show && (
-            (state.kind === 'report' && leftoverMarchTip(state.body)) ||
+            (state.kind === 'report' && state.marchOwner && cityMenuOpen()) ||
+            (state.kind === 'report' && !state.marchOwner && !state.reportOwner && !state.asyncId && leftoverMarchTip(state.body)) ||
             leftoverHelpDuringMarch() ||
-            (state.kind === 'report' && leftoverFarmReport(state.body))
+            (state.kind === 'report' && !state.reportOwner && !state.asyncId && leftoverFarmReport(state.body))
         );
         document.documentElement.setAttribute('data-baye-dialog', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-dialog-pass', pass ? '1' : '0');
@@ -314,6 +579,9 @@
         }
         var root = el('hd-dialog');
         if (root) {
+            root.setAttribute('data-hd-native-report', show && state.kind === 'report' && isBlockingKeyboard() ? '1' : '0');
+            root.setAttribute('data-hd-native-defenders', show && state.kind === 'defenders' &&
+                sameCampaignPersons(state.defenseOwner, readDefenders()) ? '1' : '0');
             root.classList.toggle('is-open', show);
             root.classList.toggle('is-qty', show && state.kind === 'qty');
             root.classList.toggle('is-empty-text', !state.body);
@@ -330,7 +598,61 @@
         setText(el('hd-dialog-title'), state.title);
         var body = el('hd-dialog-body');
         if (body) {
-            if (state.body) {
+            if (state.kind === 'defenders' && state.defenseOwner) {
+                if (body._hdDefendersView !== state.viewEpoch) {
+                    body._hdDefendersView = state.viewEpoch;
+                    body.textContent = state.body;
+                    var selected = document.createElement('p');
+                    selected.setAttribute('data-hd-defenders-selected', '');
+                    body.appendChild(selected);
+                    var defenders = document.createElement('div');
+                    defenders.className = 'hd-dialog-qty';
+                    state.defenseOwner.names.forEach(function (name, index) {
+                        var button = document.createElement('button');
+                        button.type = 'button';
+                        button.setAttribute('data-hd-defender-index', String(index));
+                        button.setAttribute('data-hd-defender-name', name);
+                        button.setAttribute('data-hd-defender-seq', String(state.defenseOwner.seq));
+                        button.setAttribute('data-hd-menu-context', '5');
+                        button.setAttribute('data-hd-menu-kind', '2');
+                        button.setAttribute('data-hd-defenders-owner', defenseToken(state.defenseOwner));
+                        button.textContent = name;
+                        defenders.appendChild(button);
+                    });
+                    var finish = document.createElement('button');
+                    finish.type = 'button';
+                    finish.setAttribute('data-hd-defenders-finish', '');
+                    finish.setAttribute('data-hd-defender-seq', String(state.defenseOwner.seq));
+                    finish.setAttribute('data-hd-defenders-owner', defenseToken(state.defenseOwner));
+                    finish.textContent = '完成选将';
+                    defenders.appendChild(finish);
+                    body.appendChild(defenders);
+                }
+                var selectedNode = body.querySelector && body.querySelector('[data-hd-defenders-selected]');
+                setText(selectedNode, state.defenseOwner.selected.length ?
+                    '已选 ' + state.defenseOwner.selected.length + ' 人：' +
+                        state.defenseOwner.selectedNames.filter(Boolean).join('、') : '尚未选择防将。');
+            } else if (state.kind === 'successor' && state.successorOwner) {
+                // Keep the same button nodes through polling; replacing them
+                // between pointerdown and click would lose a player's choice.
+                if (body._hdSuccessorView !== state.viewEpoch) {
+                    body._hdSuccessorView = state.viewEpoch;
+                    body.textContent = state.body || '请选择继任君主。';
+                    var choices = document.createElement('div');
+                    choices.className = 'hd-dialog-qty';
+                    state.successorOwner.names.forEach(function (name, index) {
+                        var button = document.createElement('button');
+                        button.type = 'button';
+                        button.setAttribute('data-hd-successor-index', String(index));
+                        button.setAttribute('data-hd-successor-seq', String(state.successorOwner.seq));
+                        button.textContent = name;
+                        choices.appendChild(button);
+                    });
+                    body.appendChild(choices);
+                }
+            } else if (state.body) {
+                body._hdSuccessorView = null;
+                body._hdDefendersView = null;
                 body.textContent = state.body;
             } else if (state.kind === 'qty') {
                 var qv = '';
@@ -345,15 +667,15 @@
                         }
                     }
                 } catch (e) {}
-                body.textContent = (qv || '数量由引擎保存。') +
-                    ' 方向键步进；0–9 发 VK_DIGIT0=0x40（不占用词典 0x30–0x33）。';
+                body.textContent = qv +
+                    '使用按钮或方向键调整数量，也可按 0–9 输入数字。';
             } else if (state.kind === 'help') {
-                body.textContent = (state.title === '查找' ? '已发 VK_SEARCH。' : '已发 VK_HELP。') +
-                    ' 引擎若写入 g_hdHelpGbk 会显示在这里；否则下方放大经典屏是原文，不编造条目。';
+                body.textContent = '在下方经典画面查看' + (state.title === '查找' ? '查找结果' : '帮助内容') +
+                    '，查看完毕后点击“返回”。';
             } else if (state.kind === 'movie') {
-                body.textContent = '经典 SPE 帧动画，无独立图文接口。确认=跳过。';
+                body.textContent = '正在播放开场动画，点击“确认”跳过。';
             } else {
-                body.textContent = '引擎没把报告字符串写进 JS 桥。下方放大的经典屏是原文；确认 / 返回仍发回引擎。';
+                body.textContent = '请在下方经典画面查看报告，点击“确认”继续。';
             }
         }
         var range = el('hd-dialog-range');
@@ -366,10 +688,10 @@
                 bits.push('最大 ' + state.max);
             }
             if (state.init != null) {
-                bits.push('初值 ' + state.init);
+                bits.push('当前 ' + state.init);
             }
-            range.textContent = bits.length ? bits.join(' · ') : (state.kind === 'qty' ? '区间未探测' : '');
-            range.hidden = state.kind !== 'qty' && !bits.length;
+            range.textContent = bits.join(' · ');
+            range.hidden = !bits.length;
         }
         var qty = el('hd-dialog-qty');
         if (qty) {
@@ -389,11 +711,22 @@
         }
         var caption = el('hd-dialog-caption');
         if (caption) {
-            caption.hidden = !!state.body;
+            caption.textContent = '在下方经典画面查看完整内容。';
+            caption.hidden = !!state.body || state.kind === 'qty';
         }
-        setText(el('hd-dialog-probe'), 'kind=' + state.kind + '  async=' + state.asyncId +
-            '  hook=' + (state.lastHook || '—') +
-            (state.body ? '  text=' + state.body.length : ''));
+        var probe = el('hd-dialog-probe');
+        if (probe) {
+            probe.hidden = !global.BAYE_HD_DEBUG;
+            probe.textContent = global.BAYE_HD_DEBUG ? 'kind=' + state.kind + '  async=' + state.asyncId +
+                '  hook=' + (state.lastHook || '—') +
+                (state.body ? '  text=' + state.body.length : '') : '';
+        }
+        var lcdButton = document.querySelector && document.querySelector('[data-hd-dlg-lcd]');
+        setText(lcdButton, state.showLcd ? '隐藏经典画面' : '经典画面');
+        var confirm = document.querySelector && document.querySelector('[data-hd-dlg-ok]');
+        var back = document.querySelector && document.querySelector('[data-hd-dlg-back]');
+        if (confirm) { confirm.hidden = state.kind === 'successor' || state.kind === 'defenders'; }
+        if (back) { back.hidden = state.kind === 'successor' || state.kind === 'defenders'; }
     }
 
     function mapPickActive() {
@@ -466,7 +799,12 @@
             return;
         }
         engineSendKey(VK.ENTER);
-        setTimeout(closeQtyDialog, 80);
+        var epoch = ++qtyEpoch;
+        setTimeout(function () {
+            if (epoch === qtyEpoch) {
+                closeQtyDialog();
+            }
+        }, 80);
     }
 
     function cancelQtyDialog() {
@@ -475,6 +813,7 @@
             return;
         }
         engineSendKey(VK.EXIT);
+        qtyEpoch += 1;
         closeQtyDialog();
     }
 
@@ -495,6 +834,7 @@
     }
 
     function closeReportSilent(info) {
+        if (info && state.reportSeq && Number(info.hdSeq) !== state.reportSeq) { return false; }
         if (info && info.hdSeq) {
             state.lastReportSeq = info.hdSeq;
         }
@@ -506,26 +846,13 @@
 
     function dismissLeftoverSpeech(info) {
         info = info || readAsync();
-        var text = (info && info.text) || state.body || '';
-        if (leftoverMarchTip(text) || leftoverMarchTip(state.body)) {
+        if (nativeReportOwner(info) || readMarchReport() || liveSpeechAsync(info)) { return false; }
+        // Retiring an old presentation never acknowledges a native input.
+        if (leftoverMarchTip(info.text || state.body) ||
+            leftoverCharacterSpeech(info.text || state.body)) {
             return closeReportSilent(info);
         }
-        if (!leftoverCharacterSpeech(text) && !leftoverCharacterSpeech(state.body)) {
-            return false;
-        }
-        var seq = (info && info.hdSeq) || 0;
-        var already = state.lastSpeechEnterSeq && (!seq || seq <= state.lastSpeechEnterSeq);
-        var shown = state.open && state.kind === 'report';
-        var liveAsync = liveSpeechAsync(info);
-        /* 地图 leftover pick 上回车会确认当前城。完成选将后再回车会策略结束。 */
-        var pickUnsafe = mapPickActive() && !cityMenuOpen() && !cityMenuMarching();
-        if (!already && !fightActive() && !strategyHandoff() && !actuallyFunctionMenu() &&
-            !cityMenuPersonExitSent() && !pickUnsafe &&
-            (shown || liveAsync || cityMenuMarching() || cityMenuOpen())) {
-            engineSendKey(VK.ENTER);
-            state.lastSpeechEnterSeq = seq || (state.lastSpeechEnterSeq + 1) || 1;
-        }
-        return closeReportSilent(info);
+        return false;
     }
 
     function tryOpenQty() {
@@ -563,89 +890,28 @@
 
     function applyEngineReport(info) {
         info = info || {};
-        if (!looksLikeSpeech(info.text)) {
-            return false;
-        }
-        /* 出征向导里过月残留台词必须关壳，否则挡住 GetFood；回车策略见 dismissLeftoverSpeech。 */
-        if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
-            return dismissLeftoverSpeech(info);
-        }
-        /* PolicyExec「农业开发度变为」/「无足够金钱」过月后常年残留。回车会策略结束或点进系统菜单。 */
-        if (/农业|商业|开发度|变为|无足够金钱|金钱不足|城中无空闲武将/.test(info.text || '')) {
+        if (!looksLikeSpeech(info.text)) { return false; }
+        var owner = readMarchReport();
+        if (info.hdActive != null && !Number(info.hdActive)) {
             return closeReportSilent(info);
         }
-        if (cityMenuMarching() && /饥荒|旱灾|水灾|暴动|归降|势力|成为君主|拥立|俘虏|病逝|遭劫/.test(info.text || '')) {
-            if (cityMenuWaitingGetFood() && liveSpeechAsync(info)) {
-                engineSendKey(VK.ENTER);
-            }
+        // Only an actual waiting report can own a confirmation. Text and old
+        // menu buffers are retained by C after their input has ended.
+        if (!owner && !liveSpeechAsync(info) && !info.hdSeq) {
             return closeReportSilent(info);
         }
-        /* 「部队已出发」是 ShowConstStrMsg：第一次（pick=0、引擎卡住）回车关掉；
-         * 之后 g_hdReportGbk 残留。全屏壳会挡住策略结束 / 招商，回车会打进 FunctionMenu 或战场。 */
-        if (/部队已出发/.test(info.text || '')) {
-            var seq = info.hdSeq || 0;
-            var already = state.lastArmoutEnterSeq && (!seq || seq <= state.lastArmoutEnterSeq);
-            var liveArmout = false;
-            var wizardPersons = false;
-            try {
-                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.waitingArmout === 'function') {
-                    liveArmout = !!BayeHdCityMenu.waitingArmout();
-                }
-                if (global.BayeHdCityMenu && typeof BayeHdCityMenu.debugSnapshot === 'function') {
-                    var snap = BayeHdCityMenu.debugSnapshot();
-                    wizardPersons = !!(snap && snap.wizardStep === 'persons');
-                    if (!liveArmout && snap && snap.personExitSent &&
-                        (snap.wizardStep === 'map-pick' || snap.wizardStep === 'target-tip') &&
-                        !(snap.march && snap.march.ok) && !(snap.march && snap.march.pick)) {
-                        liveArmout = true;
-                    }
-                }
-            } catch (e) {}
-            /* 选将时的残留横幅不能回车。GetCitySet 刚返回的真「部队已出发」必须回车，否则 AddFightOrder 不跑。 */
-            var leftoverNewMarch = wizardPersons && cityMenuMarching() && !cityMenuFreshMarch();
-            var unsafe = mapPickActive() || fightActive() || functionMenuLive() ||
-                strategyHandoff() || leftoverNewMarch;
-            if (liveArmout && !already) {
-                engineSendKey(VK.ENTER);
-                state.lastArmoutEnterSeq = seq || (state.lastArmoutEnterSeq + 1) || 1;
-            } else if (!already && !unsafe) {
-                engineSendKey(VK.ENTER);
-                state.lastArmoutEnterSeq = seq || (state.lastArmoutEnterSeq + 1) || 1;
-            }
-            return closeReportSilent(info);
-        }
-        if (/敌方城池|无人占领/.test(info.text || '') && !cityMenuMarching()) {
-            /* pick=1 时只是桥残留，回车会确认当前格。pick=0 才是 PlayerTactic 真提示。 */
-            if (!mapPickActive() && !fightActive() && !functionMenuLive() && !strategyHandoff()) {
-                engineSendKey(VK.ENTER);
-            }
-            return closeReportSilent(info);
-        }
-        /* GetCitySet / 过图 pick 共用 g_hdMapPick。残留「选择目标」「敌方城池」全屏壳会挡住点城。
-         * 出征中对「敌方城池」不能回车，那会确认当前格。 */
-        if (isMapPickTip(info.text) && (mapPickActive() || cityMenuMarching() || cityMenuOpen())) {
-            return closeReportSilent(info);
-        }
-        if (info.hdSeq) {
-            state.lastReportSeq = info.hdSeq;
-        }
+        if (cityMenuMarching() && !owner && !nativeReportOwner(info)) { return closeReportSilent(info); }
+        if (info.hdSeq) { state.lastReportSeq = info.hdSeq; }
         var title = info.hdKind === 2 ? '对话' : '报告';
-        var personName = '';
         try {
-            if (info.hdPerson != null && info.hdPerson !== 0xffff && info.hdPerson !== 65535 && window.baye) {
-                personName = baye.getPersonName(info.hdPerson) || '';
+            if (info.hdPerson != null && info.hdPerson !== 0xffff && global.baye) {
+                title = baye.getPersonName(info.hdPerson) || title;
             }
         } catch (e) {}
-        if (personName) {
-            title = personName;
-        }
-        return openDialog({
-            kind: 'report',
-            title: title,
-            body: info.text,
-            asyncId: info.id,
-            showLcd: false
-        });
+        return openDialog({ kind: 'report', title: title, body: info.text,
+            asyncId: info.id, showLcd: false, marchOwner: owner,
+            reportOwner: nativeReportOwner(info),
+            reportSeq: Number(info.hdSeq) || 0 });
     }
 
     function looksLikeHelp(text) {
@@ -661,33 +927,18 @@
 
     function applyEngineHelp(info) {
         info = info || {};
-        if (!looksLikeHelp(info.text)) {
-            return false;
-        }
-        var fightOn = false;
-        try {
-            fightOn = !!(window.baye && baye.data && Number(baye.data.g_hdFightActive));
-        } catch (e) {}
-        return openDialog({
-            kind: 'help',
-            title: fightOn ? '战场帮助' : '帮助',
-            body: formatHelpBody(info.text),
-            showLcd: false
-        });
+        if (!looksLikeHelp(info.text)) { return false; }
+        var owner = readBattleHelp();
+        if (fightActive() && (!owner || owner.kind !== 9)) { return false; }
+        return openDialog({ kind: 'help', title: owner ? '战场帮助' : '帮助',
+            body: formatHelpBody(info.text), showLcd: false, helpOwner: owner });
     }
 
     function onEngineHelp() {
         var info = null;
-        try {
-            info = window.baye && baye.hd && baye.hd.help ? baye.hd.help() : null;
-        } catch (e) {}
-        if (info && info.active && looksLikeHelp(info.text)) {
-            applyEngineHelp(info);
-            return;
-        }
-        if (state.open && state.kind === 'help') {
-            closeDialog({ silent: true });
-        }
+        try { info = global.baye && baye.hd && baye.hd.help && baye.hd.help(); } catch (e) {}
+        if (info && info.active && looksLikeHelp(info.text) && applyEngineHelp(info)) { return; }
+        if (state.open && state.kind === 'help') { closeDialog({ silent: true }); }
     }
 
     function speOverlayHandlesMovie() {
@@ -709,7 +960,7 @@
             openDialog({
                 kind: 'movie',
                 title: '开场动画',
-                body: '经典 SPE 帧（MAIN_SPE=' + (info.id != null ? info.id : '') + '）。无独立图文可导出。',
+                body: '正在播放开场动画，点击“确认”跳过。',
                 showLcd: true,
                 allowEmpty: true
             });
@@ -736,8 +987,36 @@
         if (meta.kind === 'report' && !looksLikeSpeech(meta.body) && !meta.allowEmpty) {
             return false;
         }
+        var kind = meta.kind || 'report';
+        var marchOwner = kind === 'report' ? (meta.marchOwner ||
+            (leftoverMarchTip(meta.body) ? readMarchReport() : null)) : null;
+        var helpOwner = kind === 'help' ? (meta.helpOwner || readBattleHelp()) : null;
+        var reportOwner = kind === 'report' ? meta.reportOwner || null : null;
+        var successorOwner = kind === 'successor' ? meta.successorOwner || readSuccessor() : null;
+        var defenseOwner = kind === 'defenders' ? meta.defenseOwner || readDefenders() : null;
+        var reportSeq = kind === 'report' ? Number(meta.reportSeq) || 0 : 0;
+        if (!state.open || state.kind !== kind || state.body !== (meta.body || '') ||
+            (!sameMarch(state.marchOwner, marchOwner) && (state.marchOwner || marchOwner)) ||
+            (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) ||
+            (!sameReport(state.reportOwner, reportOwner) && (state.reportOwner || reportOwner)) ||
+            (!sameSuccessor(state.successorOwner, successorOwner) && (state.successorOwner || successorOwner)) ||
+            (!sameCampaignPersons(state.defenseOwner, defenseOwner) && (state.defenseOwner || defenseOwner)) ||
+            state.reportSeq !== reportSeq) {
+            state.viewEpoch += 1;
+            stopSuccessorRequest();
+            stopDefenseRequest();
+        }
+        if (!state.open || state.kind !== kind) {
+            qtyEpoch += 1;
+        }
         state.open = true;
-        state.kind = meta.kind || 'report';
+        state.kind = kind;
+        state.marchOwner = marchOwner;
+        state.helpOwner = helpOwner;
+        state.reportOwner = reportOwner;
+        state.successorOwner = successorOwner;
+        state.defenseOwner = defenseOwner;
+        state.reportSeq = reportSeq;
         state.title = meta.title || (state.kind === 'qty' ? '数量' :
             (state.kind === 'help' ? '帮助' : (state.kind === 'movie' ? '开场动画' : '报告')));
         state.body = meta.body || '';
@@ -745,16 +1024,29 @@
         state.max = meta.max != null ? meta.max : null;
         state.init = meta.init != null ? meta.init : null;
         state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
-        if (meta.asyncId != null) {
-            state.asyncId = meta.asyncId;
-        }
+        state.asyncId = meta.asyncId != null ? meta.asyncId : 0;
         render();
         return true;
     }
 
     function closeDialog(opts) {
         opts = opts || {};
+        if (opts.marchOwner && (!state.marchOwner ||
+            Number(opts.marchOwner.session) !== state.marchOwner.session ||
+            Number(opts.marchOwner.inputSeq) !== state.marchOwner.inputSeq)) { return false; }
+        // Keep keyboard ownership while the acknowledged report is still the
+        // same C wait; repeated keys cannot fall through to the native layer.
+        if (opts.marchOwner && sameMarch(state.marchOwner, readMarchReport())) { return false; }
+        qtyEpoch += 1;
+        state.viewEpoch += 1;
+        stopSuccessorRequest();
+        stopDefenseRequest();
         state.open = false;
+        state.marchOwner = null;
+        state.helpOwner = null;
+        state.reportOwner = null;
+        state.successorOwner = null;
+        state.defenseOwner = null;
         applyChrome();
         document.documentElement.setAttribute('data-baye-dialog-pass', '0');
         if (!opts.silent) {
@@ -764,192 +1056,194 @@
 
     function clearLeftoverMarch() {
         if (leftoverMarchTip(state.body)) {
+            var info = readAsync();
+            if (readMarchReport() || nativeReportOwner(info) || liveSpeechAsync(info)) { return false; }
             state.body = '';
             closeDialog({ silent: true });
         }
     }
 
-    function pollEngine() {
-        if (!hdReady()) {
-            return;
-        }
-        if (!shouldShowHd()) {
-            if (state.open && state.kind !== 'qty' && state.kind !== 'help') {
-                closeDialog({ silent: true });
-            }
-            return;
-        }
-        try {
-            if (window.baye && baye.hd && baye.hd.movie) {
-                var mv = baye.hd.movie();
-                if (speOverlayHandlesMovie()) {
-                    if (state.open && state.kind === 'movie') {
-                        closeDialog({ silent: true });
-                    }
-                } else if (mv && mv.active) {
-                    openDialog({
-                        kind: 'movie',
-                        title: '开场动画',
-                        body: '经典 SPE 帧（MAIN_SPE）。无独立图文可导出；跳过发回车。',
-                        showLcd: true,
-                        allowEmpty: true
-                    });
-                    return;
-                }
-                if (state.open && state.kind === 'movie' && !(mv && mv.active)) {
-                    closeDialog({ silent: true });
-                }
-            }
-        } catch (e) {}
-        try {
-            if (window.baye && baye.hd && baye.hd.help) {
-                var hp = baye.hd.help();
-                if (hp && hp.active && looksLikeHelp(hp.text)) {
-                    applyEngineHelp(hp);
-                    return;
-                }
-            }
-        } catch (e) {}
-        try {
-            if (window.baye && baye.data && Number(baye.data.g_hdFightActive) &&
-                !Number(baye.data.g_hdFightOver)) {
-                if (state.open && state.kind === 'report') {
-                    closeDialog({ silent: true });
-                }
-                if (state.kind !== 'help') {
-                    return;
-                }
-            }
-        } catch (e) {}
+    function retireStaleReport() {
+        if (!state.open || state.kind !== 'report') { return false; }
         var info = readAsync();
-        var tipText = info.text || state.body || '';
-        /* GetFood 优先：残留台词 / leftover pick 不能挡住数量壳。 */
-        if (tryOpenQty()) {
-            return;
-        }
-        /* 同页新开局 leftover 空帮助 / 开垦农业报告会挡住「完成选将」。 */
-        if (state.open && leftoverHelpDuringMarch()) {
-            closeDialog({ silent: true });
-        }
-        if (state.open && state.kind === 'report' && leftoverFarmReport(state.body || tipText)) {
-            closeDialog({ silent: true });
-            try {
-                if (!liveSpeechAsync(info) && window.baye && baye.data &&
-                    baye.data.g_hdReportGbk != null &&
-                    (!baye.hdEngineReady || baye.hdEngineReady())) {
-                    baye.data.g_hdReportGbk = '';
-                }
-            } catch (eFarm) {}
-        }
-        /* 残留「部队已出发」等出征提示在 pick=0、策略结束、全军撤退后、城菜单开着时都必须关壳。 */
-        if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || tipText)) {
-            closeDialog({ silent: true });
-            if (info.hdSeq) {
-                state.lastReportSeq = info.hdSeq;
-            }
-            if ((mapPickActive() && !cityMenuMarching()) || fightActive() || strategyHandoff()) {
-                return;
-            }
-        }
-        if (cityMenuMarching() && leftoverCharacterSpeech(info.text || state.body)) {
-            dismissLeftoverSpeech(info);
-            if (tryOpenQty()) {
-                return;
-            }
-        }
-        if (mapPickActive() || (cityMenuMarching() && isMapPickTip(info.text || (state.body || '')))) {
-            if (state.open && state.kind === 'report' && leftoverMarchTip(state.body || info.text)) {
-                closeDialog({ silent: true });
-            }
-            if (info.hdSeq) {
-                state.lastReportSeq = info.hdSeq;
-            }
-            /* 出征选粮阶段 leftover pick 是过图旗，不是 GetCitySet；继续探数量。 */
-            if (mapPickActive() && !cityMenuMarching()) {
-                return;
-            }
-            if (tryOpenQty()) {
-                return;
-            }
-        }
-        if (info.hdSeq && info.hdSeq !== state.lastReportSeq && looksLikeSpeech(info.text)) {
-            applyEngineReport(info);
-            return;
-        }
-        if (info.id === 1 || info.id === 2 || info.id === 13) {
-            state.asyncId = info.id;
-            if (cityMenuMarching() && leftoverCharacterSpeech(info.text)) {
-                dismissLeftoverSpeech(info);
-                if (tryOpenQty()) {
-                    return;
-                }
-            } else if (looksLikeSpeech(info.text)) {
-                applyEngineReport(info);
-            } else {
-                openDialog({
-                    kind: 'report',
-                    title: info.id === 2 ? '对话' : '报告',
-                    body: '',
-                    asyncId: info.id,
-                    allowEmpty: true,
-                    showLcd: true
-                });
-            }
-            return;
-        }
-        if (info.id === 9) {
-            state.asyncId = 9;
-            if (cityMenuLeftoverQty() || !cityMenuQty()) {
-                closeQtyDialog();
-                return;
-            }
-            openDialog({
-                kind: 'qty',
-                title: '数量',
-                body: info.text,
-                min: info.min,
-                max: info.max,
-                init: info.init,
-                asyncId: 9
-            });
-            return;
-        }
-        state.asyncId = info.id;
-        if (state.open && state.kind === 'report' && !state.body && looksLikeSpeech(info.text)) {
-            state.body = info.text;
-            render();
-            return;
-        }
-        if (state.open && state.kind === 'report' && !state.body && info.id === 0 &&
-            state.lastHook === 'auto' &&
-            !(global.BayeHdCityMenu && BayeHdCityMenu.isOpen && BayeHdCityMenu.isOpen())) {
-            closeDialog({ silent: true });
-        }
+        if (readMarchReport() || nativeReportOwner(info) || liveSpeechAsync(info)) { return false; }
+        closeReportSilent(info);
+        return !state.open;
     }
 
-    function sendRepeat(code, n) {
-        var i;
-        for (i = 0; i < n; i++) {
-            engineSendKey(code);
+    function pollEngine() {
+        if (!hdReady()) { return; }
+        if (!shouldShowHd()) {
+            if (state.open) { closeDialog({ silent: true }); }
+            return;
+        }
+        var nativeInfo = readAsync();
+        var nativeOwner = nativeReportOwner(nativeInfo);
+        if (nativeOwner) {
+            // Death, damage and skill speech can block C while fight.active
+            // stays true and inputKind is BUSY. That actual report wait owns
+            // its explicit confirmation before any battle/help presentation.
+            if (looksLikeSpeech(nativeInfo.text)) { applyEngineReport(nativeInfo); }
+            else { openDialog({ kind: 'report', title: '报告', body: '', allowEmpty: true,
+                asyncId: nativeInfo.id, showLcd: true, reportOwner: nativeOwner,
+                reportSeq: Number(nativeInfo.hdSeq) || 0 }); }
+            return;
+        }
+        var successor = readSuccessor();
+        if (successor) {
+            openDialog({ kind: 'successor', title: '拥立新君', body: '请选择继任君主。',
+                successorOwner: successor, showLcd: false });
+            return;
+        }
+        if (state.open && state.kind === 'successor') { closeDialog({ silent: true }); }
+        var defense = readDefenders();
+        if (defense) {
+            var cityName = '';
+            try { if (defense.cityIndex != null) { cityName = baye.getCityName(defense.cityIndex) || ''; } } catch (e) {}
+            openDialog({ kind: 'defenders', title: cityName ? '防守' + cityName : '防守选将',
+                body: '请选择守城武将，选好后点击“完成选将”。', defenseOwner: defense, showLcd: false });
+            return;
+        }
+        if (state.open && state.kind === 'defenders') { closeDialog({ silent: true }); }
+        // Help owns a separate C wait. A retained help buffer must never cover
+        // the action/system menu which follows its acknowledgement.
+        var help = null;
+        try { help = baye.hd.help && baye.hd.help(); } catch (e) {}
+        var battleHelp = readBattleHelp();
+        if (fightActive()) {
+            if (battleHelp && battleHelp.kind === 9 && help && help.active) {
+                applyEngineHelp(help);
+            } else if (state.open && state.kind !== 'qty') {
+                closeDialog({ silent: true });
+            }
+            return;
+        }
+        if (help && help.active && applyEngineHelp(help)) { return; }
+        if (state.open && state.kind === 'help' && state.helpOwner) {
+            closeDialog({ silent: true });
+        }
+        var movie = null;
+        try { movie = baye.hd.movie && baye.hd.movie(); } catch (e) {}
+        if (movie && movie.active && !speOverlayHandlesMovie()) {
+            onEngineMovie(); return;
+        }
+        if (state.open && state.kind === 'movie') { closeDialog({ silent: true }); }
+        if (tryOpenQty()) { return; }
+        var info = readAsync();
+        var owner = readMarchReport();
+        var reportOwner = nativeReportOwner(info);
+        var waitingReport = info.hdActive != null ? !!Number(info.hdActive) :
+            liveSpeechAsync(info) || (info.hdSeq && info.hdSeq !== state.lastReportSeq);
+        if (owner || waitingReport) {
+            if (looksLikeSpeech(info.text)) { applyEngineReport(info); }
+            else {
+                openDialog({ kind: 'report', title: info.id === 2 ? '对话' : '报告',
+                    body: '', asyncId: info.id, allowEmpty: true, showLcd: true,
+                    marchOwner: owner, reportOwner: reportOwner, reportSeq: Number(info.hdSeq) || 0 });
+            }
+            return;
+        }
+        if (info.id === 9 && cityMenuQty() && !cityMenuLeftoverQty()) {
+            openDialog({ kind: 'qty', title: '数量', body: info.text,
+                min: info.min, max: info.max, init: info.init, asyncId: 9 });
+            return;
+        }
+        var menu = null;
+        try { menu = baye.hd.menuItems && baye.hd.menuItems(); } catch (e) {}
+        if (state.open && state.kind === 'report' && !owner &&
+            !reportOwner && !liveSpeechAsync(info) && (info.hdActive != null || mapPickActive() || menu && menu.active)) {
+            closeDialog({ silent: true }); return;
+        }
+        if (state.open && state.kind === 'report' && state.asyncId) {
+            closeDialog({ silent: true });
         }
     }
 
     function qtyStep(delta) {
-        if (delta <= -10) {
-            sendRepeat(VK.LEFT, 1);
-            sendRepeat(VK.DOWN, Math.min(9, Math.abs(delta) - 1));
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.stepQty === 'function') {
+            BayeHdCityMenu.stepQty(delta);
             return;
         }
-        if (delta >= 10) {
-            sendRepeat(VK.RIGHT, 1);
-            sendRepeat(VK.UP, Math.min(9, delta - 1));
+        var q = window.baye && baye.hd && baye.hd.qty ? baye.hd.qty() : null;
+        var epoch = qtyEpoch;
+        var keys = bayeQtyStepKeys(delta, q);
+        keys.forEach(function (code, index) {
+            setTimeout(function () {
+                var live = window.baye && baye.hd && baye.hd.qty ? baye.hd.qty() : null;
+                if (epoch === qtyEpoch && shouldShowHd() && state.open && state.kind === 'qty' && live && live.active) {
+                    engineSendKey(code);
+                }
+            }, index * 40);
+        });
+    }
+
+    function confirmDialog() {
+        if (state.kind === 'defenders') {
+            var defense = readDefenders();
+            if (defense) { chooseDefender(defense.index); }
             return;
         }
-        if (delta < 0) {
-            sendRepeat(VK.DOWN, -delta);
-        } else {
-            sendRepeat(VK.UP, delta);
+        if (state.kind === 'successor') {
+            var successor = readSuccessor();
+            if (successor) { chooseSuccessor(successor.index); }
+            return;
         }
+        if (state.kind === 'qty') { commitQtyDialog(); return; }
+        if (state.kind === 'help' && (state.helpOwner || fightActive())) {
+            returnFromBattleHelp(); return;
+        }
+        if (state.kind === 'report' && (state.marchOwner || readMarchReport() ||
+            !state.reportOwner && cityMenuMarching())) {
+            confirmMarchReport(); return;
+        }
+        var info = readAsync();
+        if (state.kind === 'report' && state.reportOwner) {
+            if (!sameReport(state.reportOwner, nativeReportOwner(info)) ||
+                sameReport(state.reportCommit, state.reportOwner)) { return; }
+            state.reportCommit = state.reportOwner;
+            engineSendKey(VK.ENTER);
+            return;
+        }
+        if (state.kind === 'report' && info.hdActive != null) { return; }
+        if (state.kind === 'report' && ((state.reportSeq && Number(info.hdSeq) !== state.reportSeq) ||
+            (state.asyncId && info.id !== state.asyncId))) { return; }
+        if (state.kind === 'report' && !liveSpeechAsync(info)) {
+            var menu = null;
+            try { menu = baye.hd.menuItems && baye.hd.menuItems(); } catch (e) {}
+            if (mapPickActive() || menu && menu.active) { closeDialog({ silent: true }); return; }
+        }
+        if (state.kind === 'report' && !liveSpeechAsync(info) &&
+            (leftoverMarchTip(state.body) || leftoverFarmReport(state.body))) {
+            closeDialog({ silent: true }); return;
+        }
+        var epoch = state.viewEpoch;
+        if (engineSendKey(VK.ENTER) && state.kind === 'help' && epoch === state.viewEpoch) {
+            closeDialog({ silent: true });
+        }
+    }
+
+    function backDialog() {
+        if (state.kind === 'defenders') { finishDefenders(); return; }
+        if (state.kind === 'successor') { return; }
+        if (state.kind === 'qty') { cancelQtyDialog(); return; }
+        if (state.kind === 'help' && (state.helpOwner || fightActive())) {
+            returnFromBattleHelp(); return;
+        }
+        if (state.kind === 'report' && (state.marchOwner || readMarchReport() ||
+            !state.reportOwner && (mapPickActive() || cityMenuMarching() || cityMenuHoldExit() || cityMenuQty()))) {
+            closeDialog({ silent: true }); return;
+        }
+        if (state.kind === 'report' && state.reportOwner) {
+            var info = readAsync();
+            if (!sameReport(state.reportOwner, nativeReportOwner(info)) ||
+                sameReport(state.reportCommit, state.reportOwner)) { return; }
+            state.reportCommit = state.reportOwner;
+            engineSendKey(VK.EXIT);
+            return;
+        }
+        var epoch = state.viewEpoch;
+        engineSendKey(VK.EXIT);
+        if (epoch === state.viewEpoch) { closeDialog({ silent: true }); }
     }
 
     function bindUi() {
@@ -961,84 +1255,107 @@
             return;
         }
         state.bound = true;
+        root.addEventListener('pointerdown', function (event) {
+            state.pressedView = null;
+            var target = event.target;
+            while (target && target !== root) {
+                if (target.getAttribute && (target.getAttribute('data-hd-dlg-ok') != null ||
+                    target.getAttribute('data-hd-dlg-back') != null ||
+                    target.getAttribute('data-hd-defender-index') != null ||
+                    target.getAttribute('data-hd-defenders-finish') != null ||
+                    target.getAttribute('data-hd-successor-index') != null)) {
+                    state.pressedView = { epoch: state.viewEpoch, target: target,
+                        defenseToken: target.getAttribute('data-hd-defenders-owner') };
+                    return;
+                }
+                target = target.parentNode;
+            }
+        });
+        root.addEventListener('pointercancel', function () { state.pressedView = null; });
         document.addEventListener('keydown', function (e) {
-            if (!(state.open && state.kind === 'qty' && shouldShowHd())) {
+            if (bayeInputIgnored(e) || (global.BayeHdSpe && BayeHdSpe.isOpen && BayeHdSpe.isOpen()) ||
+                !state.open || !shouldShowHd()) { return; }
+            var quantity = state.kind === 'qty';
+            var ownedReport = state.kind === 'report' && !!state.marchOwner;
+            var ownedHelp = state.kind === 'help' && !!state.helpOwner;
+            var ownedNativeReport = state.kind === 'report' && !!state.reportOwner;
+            var ownedSuccessor = state.kind === 'successor' && !!state.successorOwner;
+            var ownedDefense = state.kind === 'defenders' && !!state.defenseOwner;
+            if ((ownedSuccessor || ownedDefense) && [38, 40].indexOf(e.keyCode) >= 0) {
+                bayeConsumeKeyEvent(e);
+                var menu = ownedDefense ? readDefenders() : readSuccessor();
+                if (!e.repeat && menu) {
+                    var index = menu.index + (e.keyCode === 38 ? -1 : 1);
+                    if (index >= 0 && index < menu.names.length) {
+                        if (ownedDefense) { chooseDefender(index, false); } else { chooseSuccessor(index, false); }
+                    }
+                }
                 return;
             }
-            if (e.keyCode === 13) {
-                e.preventDefault();
-                commitQtyDialog();
+            if ((quantity || ownedReport || ownedHelp || ownedNativeReport || ownedSuccessor || ownedDefense) &&
+                (e.keyCode === 13 || e.keyCode === 27)) {
+                bayeConsumeKeyEvent(e);
+                if (!e.repeat) {
+                    if (e.keyCode === 13) { confirmDialog(); } else { backDialog(); }
+                }
                 return;
             }
-            if (e.keyCode === 27) {
-                e.preventDefault();
-                cancelQtyDialog();
+            if ((ownedNativeReport || ownedDefense) && [32, 37, 38, 39, 40, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 70, 72, 83].indexOf(e.keyCode) >= 0) {
+                // A modal report accepts an explicit Enter/Esc. Other game
+                // hotkeys cannot leak into C or acknowledge it implicitly.
+                bayeConsumeKeyEvent(e);
             }
         }, true);
         root.addEventListener('click', function (ev) {
             var t = ev.target;
             while (t && t !== root) {
+                if (t.getAttribute && (t.getAttribute('data-hd-defender-index') != null ||
+                    t.getAttribute('data-hd-defenders-finish') != null)) {
+                    ev.preventDefault();
+                    var defensePressed = state.pressedView;
+                    state.pressedView = null;
+                    if (defensePressed && defensePressed.target === t &&
+                        (defensePressed.epoch !== state.viewEpoch ||
+                            defensePressed.defenseToken !== defenseToken(state.defenseOwner))) { return; }
+                    var finish = t.getAttribute('data-hd-defenders-finish') != null;
+                    if (ownedDefenseButton(t, finish)) {
+                        if (finish) { finishDefenders(); }
+                        else { chooseDefender(Number(t.getAttribute('data-hd-defender-index'))); }
+                    }
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-successor-index') != null) {
+                    ev.preventDefault();
+                    var successorPressed = state.pressedView;
+                    state.pressedView = null;
+                    if (successorPressed && successorPressed.target === t &&
+                        successorPressed.epoch !== state.viewEpoch) { return; }
+                    if (state.successorOwner && Number(t.getAttribute('data-hd-successor-seq')) === state.successorOwner.seq) {
+                        chooseSuccessor(Number(t.getAttribute('data-hd-successor-index')));
+                    }
+                    return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-ok') != null) {
                     ev.preventDefault();
-                    if (state.kind === 'qty') {
-                        commitQtyDialog();
-                        return;
-                    }
-                    if (state.kind === 'report' && leftoverMarchTip(state.body)) {
-                        var passOnly = /部队已出发/.test(state.body || '') ||
-                            isMapPickTip(state.body) ||
-                            cityMenuMarching() || cityMenuOpen() || mapPickActive() ||
-                            fightActive() || functionMenuLive() || strategyHandoff();
-                        closeDialog({ silent: true });
-                        if (passOnly) {
-                            return;
-                        }
-                    }
-                    if (state.kind === 'report' && leftoverFarmReport(state.body)) {
-                        closeDialog({ silent: true });
-                        try {
-                            if (window.baye && baye.data && baye.data.g_hdReportGbk != null &&
-                                (!baye.hdEngineReady || baye.hdEngineReady())) {
-                                baye.data.g_hdReportGbk = '';
-                            }
-                        } catch (eMoney) {}
-                        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.unstickMenuLoop === 'function') {
-                            BayeHdCityMenu.unstickMenuLoop('money-tip');
-                        }
-                        return;
-                    }
-                    engineSendKey(VK.ENTER);
-                    if (state.kind === 'report' && leftoverMarchTip(state.body)) {
-                        closeDialog({ silent: true });
-                    }
+                    var pressed = state.pressedView;
+                    state.pressedView = null;
+                    if (pressed && pressed.target === t && pressed.epoch !== state.viewEpoch) { return; }
+                    if (state.open && shouldShowHd()) { confirmDialog(); }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-back') != null) {
                     ev.preventDefault();
-                    if (state.kind === 'qty') {
-                        cancelQtyDialog();
-                        return;
-                    }
-                    /* 「选择目标」/ 出征向导返回不能 EXIT：GetCitySet / BattleMake 会退回将领表。 */
-                    if (isMapPickTip(state.body) || leftoverFarmReport(state.body) ||
-                        mapPickActive() || cityMenuMarching() ||
-                        cityMenuHoldExit() || cityMenuQty()) {
-                        closeDialog({ silent: true });
-                        if (leftoverFarmReport(state.body) && global.BayeHdCityMenu &&
-                            typeof BayeHdCityMenu.unstickMenuLoop === 'function') {
-                            BayeHdCityMenu.unstickMenuLoop('money-tip');
-                        }
-                        return;
-                    }
-                    engineSendKey(VK.EXIT);
-                    closeDialog({ silent: false });
+                    var backPressed = state.pressedView;
+                    state.pressedView = null;
+                    if (backPressed && backPressed.target === t && backPressed.epoch !== state.viewEpoch) { return; }
+                    if (state.open && shouldShowHd()) { backDialog(); }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-lcd') != null) {
                     ev.preventDefault();
                     state.showLcd = !state.showLcd;
                     applyChrome();
-                    t.textContent = state.showLcd ? '隐藏经典 LCD' : '经典 LCD';
+                    t.textContent = state.showLcd ? '隐藏经典画面' : '经典画面';
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-qty') != null) {
@@ -1050,7 +1367,11 @@
                     ev.preventDefault();
                     var dgt = Number(t.getAttribute('data-hd-digit'));
                     if (isFinite(dgt) && dgt >= 0 && dgt <= 9) {
-                        engineSendKey(0x40 + dgt);
+                        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.digitQty === 'function') {
+                            BayeHdCityMenu.digitQty(dgt);
+                        } else {
+                            engineSendKey(0x40 + dgt);
+                        }
                     }
                     return;
                 }
@@ -1061,6 +1382,13 @@
 
     function onEngineHook(name) {
         state.lastHook = name;
+        if (name === 'chooseGameEntry' || name === 'didOpenNewGame' || name === 'didLoadGame') {
+            closeDialog({ silent: true });
+            state.reportCommit = null;
+            state.successorCommit = null;
+            state.defenseCommit = null;
+            return;
+        }
         if (name === 'showMainHelp') {
             if (cityMenuMarching() && !cityMenuQty()) {
                 closeDialog({ silent: true });
@@ -1088,6 +1416,7 @@
     global.BayeHdDialog = {
         shouldShowHd: shouldShowHd,
         isOpen: function () { return state.open; },
+        isBlockingKeyboard: isBlockingKeyboard,
         openReport: function (body, title) {
             return openDialog({ kind: 'report', title: title || '报告', body: body || '', showLcd: true });
         },
@@ -1099,15 +1428,17 @@
             return openDialog(meta);
         },
         openHelp: function () {
-            engineSendKey(VK.HELP);
-            return openDialog({ kind: 'help', title: '帮助', body: '', showLcd: true });
+            return requestHelp(VK.HELP, '帮助');
         },
         openSearch: function () {
-            engineSendKey(VK.SEARCH);
-            return openDialog({ kind: 'help', title: '查找', body: '', showLcd: true });
+            return requestHelp(VK.SEARCH, '查找');
         },
         close: closeDialog,
         closeQty: closeQtyDialog,
+        retireStaleReport: retireStaleReport,
+        chooseSuccessor: chooseSuccessor,
+        chooseDefender: chooseDefender,
+        finishDefenders: finishDefenders,
         isQtyOpen: function () { return !!(state.open && state.kind === 'qty'); },
         clearLeftoverMarch: clearLeftoverMarch,
         dismissLeftoverSpeech: dismissLeftoverSpeech,
@@ -1139,12 +1470,24 @@
                 max: info.max,
                 body: state.body,
                 reportText: (window.baye && baye.hd && baye.hd.reportText) ? baye.hd.reportText() : '',
-                pass: leftoverMarchTip(state.body) || leftoverHelpDuringMarch() ||
-                    (state.kind === 'report' && leftoverFarmReport(state.body)),
+                pass: state.kind === 'report' && (state.marchOwner && cityMenuOpen() ||
+                    !state.marchOwner && !state.reportOwner && !state.asyncId && leftoverMarchTip(state.body) ||
+                    !state.reportOwner && !state.asyncId && leftoverFarmReport(state.body)) || leftoverHelpDuringMarch(),
                 leftoverHelp: leftoverHelpDuringMarch(),
                 leftoverFarm: leftoverFarmReport(state.body || ''),
                 lastReportSeq: state.lastReportSeq,
-                lastSpeechEnterSeq: state.lastSpeechEnterSeq
+                lastSpeechEnterSeq: state.lastSpeechEnterSeq,
+                marchOwner: state.marchOwner,
+                helpOwner: state.helpOwner,
+                reportOwner: state.reportOwner,
+                successorOwner: state.successorOwner,
+                successorRequest: state.successorRequest ? { index: state.successorRequest.index, seq: state.successorRequest.owner.seq } : null,
+                defenseOwner: state.defenseOwner,
+                defenseRequest: state.defenseRequest ? { index: state.defenseRequest.index,
+                    seq: state.defenseRequest.owner.seq, expectedIndex: state.defenseRequest.expectedIndex } : null,
+                defenseCommitted: sameCampaignPersons(state.defenseCommit, state.defenseOwner),
+                reportSeq: state.reportSeq,
+                viewEpoch: state.viewEpoch
             };
         }
     };

@@ -221,7 +221,7 @@ if (Module['quit']) quit_ = Module['quit'];
 // An online HTML version (which may be of a different version of Emscripten)
 //    is up at http://kripken.github.io/emscripten-site/docs/api_reference/preamble.js.html
 
-var wasmBinary; 
+var wasmBinary;
 if (Module['wasmBinary']) wasmBinary = Module['wasmBinary'];
 
 if (typeof WebAssembly != 'object') {
@@ -316,7 +316,7 @@ function preRun() {
 function initRuntime() {
   runtimeInitialized = true;
 
-  
+
 if (!Module["noFSInit"] && !FS.init.initialized)
   FS.init();
 FS.ignorePermissions = false;
@@ -326,7 +326,7 @@ TTY.init();
 }
 
 function preMain() {
-  
+
   callRuntimeCallbacks(__ATMAIN__);
 }
 
@@ -578,10 +578,10 @@ function createWasm() {
 
     wasmExports = Asyncify.instrumentWasmExports(wasmExports);
 
-    
+
 
     wasmMemory = wasmExports['memory'];
-    
+
     updateMemoryViews();
 
     addOnInit(wasmExports['__wasm_call_ctors']);
@@ -630,27 +630,31 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  2658600: () => { if (window.bayeStart) bayeStart(); },  
- 2658639: () => { if (window.bayeExit) bayeExit(); },  
- 2658676: ($0) => { bayeFlushLcdBuffer($0); },  
- 2658704: ($0) => { if (window.lcdSetDotSize) { window.lcdSetDotSize($0) } },  
- 2658763: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineReport === 'function') { BayeHdDialog.onEngineReport(); } } catch (e) {} },  
- 2658901: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') { BayeHdBattle.onEngineFight(); } } catch (e) {} },  
- 2659037: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineHelp === 'function') { BayeHdDialog.onEngineHelp(); } } catch (e) {} },  
- 2659171: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } if (window.BayeHdDialog && typeof BayeHdDialog.onEngineMovie === 'function') { BayeHdDialog.onEngineMovie(); } } catch (e) {} },  
- 2659405: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } } catch (e) {} },  
- 2659528: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },  
- 2659662: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },  
- 2659796: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onRetreatBlocked === 'function') { BayeHdBattle.onRetreatBlocked(); } } catch (e) {} try { console.log('[hd-battle] retreat-blocked'); } catch (e2) {} },  
- 2660004: ($0) => { var key = UTF8ToString($0); var value = ""; var filename = "baye/" + key; if (window.bayeLoadFileContent) { value = window.bayeLoadFileContent(filename); } else { value = window.localStorage[filename]; } if (value) { var buffer = Module._bayeAlloc(value.length+1); Module.stringToUTF8(value, buffer, value.length+1); return buffer; } return 0; },  
- 2660352: ($0, $1) => { var key = UTF8ToString($0); var value = UTF8ToString($1); var filename = "baye/" + key; if (window.bayeSaveFileContent) { window.bayeSaveFileContent(filename, value); } else { window.localStorage[filename] = value; } },  
- 2660573: () => { if (window.baye == undefined) { window.baye = {}; } if (window.baye.hooks == undefined) { window.baye.hooks = {}; } try { window.baye.data = baye_bridge_value(_bayeGetGlobal()); console.log('[hd-bridge] baye.data bound fields=' + (window.baye.data && window.baye.data._baye_properties ? window.baye.data._baye_properties.length : 0)); } catch (e) { console.error('[hd-bridge] bind baye.data failed', e); } },  
- 2660983: ($0) => { if (window.baye.preScriptInit) { window.baye.preScriptInit(); } var script = UTF8ToString($0); eval(script); },  
- 2661096: ($0, $1) => { var name = UTF8ToString($0); var rv = 0; if (window.baye == undefined || window.baye.hooks == undefined || window.baye.hooks[name] == undefined) { rv = -1; } else { var cContext = $1; if (cContext != 0) { var jsContext = baye_bridge_value(cContext); rv = baye.callHook(name, jsContext); } else { rv = baye.callHook(name, undefined); } } return rv; },  
- 2661448: ($0) => { var name = UTF8ToString($0); if (window.baye && window.baye.hooks && window.baye.hooks[name]) { return 1; } else { return 0; } },  
- 2661579: ($0) => { var scr = UTF8ToString($0); eval(scr); },  
- 2661622: ($0) => { return baye.callCallback($0); },  
- 2661656: () => { var now = new Date(); return now.getTime(); }
+  2658408: () => { if (window.bayeStart) bayeStart(); },
+ 2658447: () => { if (window.bayeExit) bayeExit(); },
+ 2658484: ($0) => { bayeFlushLcdBuffer($0); },
+ 2658512: ($0) => { if (window.lcdSetDotSize) { window.lcdSetDotSize($0) } },
+ 2658571: ($0) => { try { return window.bayeSaveBatchBegin ? (window.bayeSaveBatchBegin($0) ? 1 : 0) : 0; } catch (error) { return 0; } },
+ 2658691: () => { try { return window.bayeSaveBatchCommit ? (window.bayeSaveBatchCommit() ? 1 : 0) : 0; } catch (error) { return 0; } },
+ 2658811: () => { if (window.bayeSaveBatchAbort) window.bayeSaveBatchAbort(); },
+ 2658875: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineReport === 'function') { BayeHdDialog.onEngineReport(); } } catch (e) {} },
+ 2659013: () => { try { if (window.BayeHdDialog) BayeHdDialog.onEngineReport(); } catch (e) {} },
+ 2659094: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onEngineFight === 'function') { BayeHdBattle.onEngineFight(); } } catch (e) {} },
+ 2659230: () => { try { if (window.BayeHdDialog && typeof BayeHdDialog.onEngineHelp === 'function') { BayeHdDialog.onEngineHelp(); } } catch (e) {} },
+ 2659364: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } if (window.BayeHdDialog && typeof BayeHdDialog.onEngineMovie === 'function') { BayeHdDialog.onEngineMovie(); } } catch (e) {} },
+ 2659598: () => { try { if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') { BayeHdSpe.onEngineSpe(); } } catch (e) {} },
+ 2659721: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },
+ 2659855: () => { try { if (window.BayeHdCityMenu && typeof BayeHdCityMenu.onMapPick === 'function') { BayeHdCityMenu.onMapPick(); } } catch (e) {} },
+ 2659989: () => { try { if (window.BayeHdBattle && typeof BayeHdBattle.onRetreatBlocked === 'function') { BayeHdBattle.onRetreatBlocked(); } } catch (e) {} try { console.log('[hd-battle] retreat-blocked'); } catch (e2) {} },
+ 2660197: ($0) => { var key = UTF8ToString($0); try { var filename = "baye/" + key; var value = window.bayeLoadFileContent ? window.bayeLoadFileContent(filename) : window.localStorage.getItem(filename); if (typeof value === "string" && value) { var buffer = Module._bayeAlloc(value.length+1); if (!buffer) return 0; Module.stringToUTF8(value, buffer, value.length+1); return buffer; } } catch (error) { return 0; } return 0; },
+ 2660606: ($0, $1) => { var key = UTF8ToString($0); var value = UTF8ToString($1); var filename = "baye/" + key; try { if (window.bayeSaveFileContent) return window.bayeSaveFileContent(filename, value) === false ? 0 : 1; window.localStorage.setItem(filename, value); return 1; } catch (error) { return 0; } },
+ 2660892: () => { if (window.baye == undefined) { window.baye = {}; } if (window.baye.hooks == undefined) { window.baye.hooks = {}; } try { window.baye.data = baye_bridge_value(_bayeGetGlobal()); console.log('[hd-bridge] baye.data bound fields=' + (window.baye.data && window.baye.data._baye_properties ? window.baye.data._baye_properties.length : 0)); } catch (e) { console.error('[hd-bridge] bind baye.data failed', e); } },
+ 2661302: ($0) => { if (window.baye.preScriptInit) { window.baye.preScriptInit(); } var script = UTF8ToString($0); eval(script); },
+ 2661415: ($0, $1) => { var name = UTF8ToString($0); var rv = 0; if (window.baye == undefined || window.baye.hooks == undefined || window.baye.hooks[name] == undefined) { rv = -1; } else { var cContext = $1; if (cContext != 0) { var jsContext = baye_bridge_value(cContext); rv = baye.callHook(name, jsContext); } else { rv = baye.callHook(name, undefined); } } return rv; },
+ 2661767: ($0) => { var name = UTF8ToString($0); if (window.baye && window.baye.hooks && window.baye.hooks[name]) { return 1; } else { return 0; } },
+ 2661898: ($0) => { var scr = UTF8ToString($0); eval(scr); },
+ 2661941: ($0) => { return baye.callCallback($0); },
+ 2661975: () => { var now = new Date(); return now.getTime(); }
 };
 function gam_sem_create() { if (!Module.sems) { Module.sems = [] } for (var i = 0;; i++) { if (Module.sems[i] == undefined) { Module.sems[i] = { cnt: 0, }; return i; } } }
 function gam_sem_delete(semid) { Module.sems[semid] = undefined; }
@@ -674,7 +678,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
     };
 
-  
+
     /**
      * @param {number} ptr
      * @param {string} type
@@ -696,7 +700,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
 
   var noExitRuntime = Module['noExitRuntime'] || true;
 
-  
+
     /**
      * @param {number} ptr
      * @param {number} value
@@ -718,7 +722,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
   }
 
   var UTF8Decoder = typeof TextDecoder != 'undefined' ? new TextDecoder('utf8') : undefined;
-  
+
     /**
      * Given a pointer 'idx' to a null-terminated UTF8-encoded string in the given
      * array that contains uint8 values, returns a copy of that string as a
@@ -737,7 +741,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       // (As a tiny code save trick, compare endPtr against endIdx using a negation,
       // so that undefined means Infinity)
       while (heapOrArray[endPtr] && !(endPtr >= endIdx)) ++endPtr;
-  
+
       if (endPtr - idx > 16 && heapOrArray.buffer && UTF8Decoder) {
         return UTF8Decoder.decode(heapOrArray.subarray(idx, endPtr));
       }
@@ -759,7 +763,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         } else {
           u0 = ((u0 & 7) << 18) | (u1 << 12) | (u2 << 6) | (heapOrArray[idx++] & 63);
         }
-  
+
         if (u0 < 0x10000) {
           str += String.fromCharCode(u0);
         } else {
@@ -769,7 +773,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return str;
     };
-  
+
     /**
      * Given a pointer 'ptr' to a null-terminated UTF8-encoded string in the
      * emscripten HEAP, returns a copy of that string as a Javascript String object.
@@ -838,11 +842,11 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       quit_(1, e);
     };
-  
-  
+
+
   var runtimeKeepaliveCounter = 0;
   var keepRuntimeAlive = () => noExitRuntime || runtimeKeepaliveCounter > 0;
-  
+
   var PATH = {
   isAbs:(path) => path.charAt(0) === '/',
   splitPath:(filename) => {
@@ -914,7 +918,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       },
   join2:(l, r) => PATH.normalize(l + '/' + r),
   };
-  
+
   var initRandomFill = () => {
       if (typeof crypto == 'object' && typeof crypto['getRandomValues'] == 'function') {
         // for modern web browsers
@@ -947,9 +951,9 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       // Lazily init on the first invocation.
       return (randomFill = initRandomFill())(view);
     };
-  
-  
-  
+
+
+
   var PATH_FS = {
   resolve:function() {
         var resolvedPath = '',
@@ -1003,11 +1007,11 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         return outputParts.join('/');
       },
   };
-  
-  
-  
+
+
+
   var FS_stdin_getChar_buffer = [];
-  
+
   var lengthBytesUTF8 = (str) => {
       var len = 0;
       for (var i = 0; i < str.length; ++i) {
@@ -1028,13 +1032,13 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return len;
     };
-  
+
   var stringToUTF8Array = (str, heap, outIdx, maxBytesToWrite) => {
       // Parameter maxBytesToWrite is not optional. Negative values, 0, null,
       // undefined and false each don't write out any bytes.
       if (!(maxBytesToWrite > 0))
         return 0;
-  
+
       var startIdx = outIdx;
       var endIdx = outIdx + maxBytesToWrite - 1; // -1 for string null terminator.
       for (var i = 0; i < str.length; ++i) {
@@ -1090,7 +1094,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           var BUFSIZE = 256;
           var buf = Buffer.alloc(BUFSIZE);
           var bytesRead = 0;
-  
+
           // For some reason we must suppress a closure warning here, even though
           // fd definitely exists on process.stdin, and is even the proper way to
           // get the fd of stdin,
@@ -1099,7 +1103,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           // so it is related to the surrounding code in some unclear manner.
           /** @suppress {missingProperties} */
           var fd = process.stdin.fd;
-  
+
           try {
             bytesRead = fs.readSync(fd, buf);
           } catch(e) {
@@ -1108,7 +1112,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             if (e.toString().includes('EOF')) bytesRead = 0;
             else throw e;
           }
-  
+
           if (bytesRead > 0) {
             result = buf.slice(0, bytesRead).toString('utf-8');
           } else {
@@ -1277,13 +1281,13 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         },
   },
   };
-  
-  
+
+
   var zeroMemory = (address, size) => {
       HEAPU8.fill(0, address, address + size);
       return address;
     };
-  
+
   var alignMemory = (size, alignment) => {
       return Math.ceil(size / alignment) * alignment;
     };
@@ -1359,7 +1363,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           // When the byte data of the file is populated, this will point to either a typed array, or a normal JS array. Typed arrays are preferred
           // for performance, and used by default. However, typed arrays are not resizable like normal JS arrays are, so there is a small disk size
           // penalty involved for appending file writes that continuously grow a file similar to std::vector capacity vs used -scheme.
-          node.contents = null; 
+          node.contents = null;
         } else if (FS.isLink(node.mode)) {
           node.node_ops = MEMFS.ops_table.link.node;
           node.stream_ops = MEMFS.ops_table.link.stream;
@@ -1526,11 +1530,11 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           if (buffer.buffer === HEAP8.buffer) {
             canOwn = false;
           }
-  
+
           if (!length) return 0;
           var node = stream.node;
           node.timestamp = Date.now();
-  
+
           if (buffer.subarray && (!node.contents || node.contents.subarray)) { // This write is from a typed array to a typed array?
             if (canOwn) {
               node.contents = buffer.subarray(offset, offset + length);
@@ -1545,7 +1549,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
               return length;
             }
           }
-  
+
           // Appending to an existing file and we need to reallocate, or source data did not come as a typed array.
           MEMFS.expandFileStorage(node, position+length);
           if (node.contents.subarray && buffer.subarray) {
@@ -1615,7 +1619,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         },
   },
   };
-  
+
   /** @param {boolean=} noRunDep */
   var asyncLoad = (url, onload, onerror, noRunDep) => {
       var dep = !noRunDep ? getUniqueRunDependency(`al ${url}`) : '';
@@ -1632,17 +1636,17 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       });
       if (dep) addRunDependency(dep);
     };
-  
-  
+
+
   var FS_createDataFile = (parent, name, fileData, canRead, canWrite, canOwn) => {
       FS.createDataFile(parent, name, fileData, canRead, canWrite, canOwn);
     };
-  
+
   var preloadPlugins = Module['preloadPlugins'] || [];
   var FS_handledByPreloadPlugin = (byteArray, fullname, finish, onerror) => {
       // Ensure plugins are ready.
       if (typeof Browser != 'undefined') Browser.init();
-  
+
       var handled = false;
       preloadPlugins.forEach((plugin) => {
         if (handled) return;
@@ -1682,7 +1686,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         processData(url);
       }
     };
-  
+
   var FS_modeStringToFlags = (str) => {
       var flagModes = {
         'r': 0,
@@ -1698,16 +1702,16 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return flags;
     };
-  
+
   var FS_getMode = (canRead, canWrite) => {
       var mode = 0;
       if (canRead) mode |= 292 | 73;
       if (canWrite) mode |= 146;
       return mode;
     };
-  
-  
-  
+
+
+
   var FS = {
   root:null,
   mounts:[],
@@ -1726,43 +1730,43 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
   syncFSRequests:0,
   lookupPath(path, opts = {}) {
         path = PATH_FS.resolve(path);
-  
+
         if (!path) return { path: '', node: null };
-  
+
         var defaults = {
           follow_mount: true,
           recurse_count: 0
         };
         opts = Object.assign(defaults, opts)
-  
+
         if (opts.recurse_count > 8) {  // max recursive lookup of 8
           throw new FS.ErrnoError(32);
         }
-  
+
         // split the absolute path
         var parts = path.split('/').filter((p) => !!p);
-  
+
         // start at the root
         var current = FS.root;
         var current_path = '/';
-  
+
         for (var i = 0; i < parts.length; i++) {
           var islast = (i === parts.length-1);
           if (islast && opts.parent) {
             // stop resolving
             break;
           }
-  
+
           current = FS.lookupNode(current, parts[i]);
           current_path = PATH.join2(current_path, parts[i]);
-  
+
           // jump to the mount's root node if this is a mountpoint
           if (FS.isMountpoint(current)) {
             if (!islast || (islast && opts.follow_mount)) {
               current = current.mounted.root;
             }
           }
-  
+
           // by default, lookupPath will not follow a symlink if it is the final path component.
           // setting opts.follow = true will override this behavior.
           if (!islast || opts.follow) {
@@ -1770,17 +1774,17 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             while (FS.isLink(current.mode)) {
               var link = FS.readlink(current_path);
               current_path = PATH_FS.resolve(PATH.dirname(current_path), link);
-  
+
               var lookup = FS.lookupPath(current_path, { recurse_count: opts.recurse_count + 1 });
               current = lookup.node;
-  
+
               if (count++ > 40) {  // limit max consecutive symlinks to 40 (SYMLOOP_MAX).
                 throw new FS.ErrnoError(32);
               }
             }
           }
         }
-  
+
         return { path: current_path, node: current };
       },
   getPath(node) {
@@ -1797,7 +1801,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       },
   hashName(parentid, name) {
         var hash = 0;
-  
+
         for (var i = 0; i < name.length; i++) {
           hash = ((hash << 5) - hash + name.charCodeAt(i)) | 0;
         }
@@ -1840,9 +1844,9 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       },
   createNode(parent, name, mode, rdev) {
         var node = new FS.FSNode(parent, name, mode, rdev);
-  
+
         FS.hashAddNode(node);
-  
+
         return node;
       },
   destroyNode(node) {
@@ -2039,15 +2043,15 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
   getMounts(mount) {
         var mounts = [];
         var check = [mount];
-  
+
         while (check.length) {
           var m = check.pop();
-  
+
           mounts.push(m);
-  
+
           check.push.apply(check, m.mounts);
         }
-  
+
         return mounts;
       },
   syncfs(populate, callback) {
@@ -2055,21 +2059,21 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           callback = populate;
           populate = false;
         }
-  
+
         FS.syncFSRequests++;
-  
+
         if (FS.syncFSRequests > 1) {
           err(`warning: ${FS.syncFSRequests} FS.syncfs operations in flight at once, probably just doing extra work`);
         }
-  
+
         var mounts = FS.getMounts(FS.root.mount);
         var completed = 0;
-  
+
         function doCallback(errCode) {
           FS.syncFSRequests--;
           return callback(errCode);
         }
-  
+
         function done(errCode) {
           if (errCode) {
             if (!done.errored) {
@@ -2082,7 +2086,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             doCallback(null);
           }
         };
-  
+
         // sync all mounts
         mounts.forEach((mount) => {
           if (!mount.type.syncfs) {
@@ -2095,79 +2099,79 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         var root = mountpoint === '/';
         var pseudo = !mountpoint;
         var node;
-  
+
         if (root && FS.root) {
           throw new FS.ErrnoError(10);
         } else if (!root && !pseudo) {
           var lookup = FS.lookupPath(mountpoint, { follow_mount: false });
-  
+
           mountpoint = lookup.path;  // use the absolute path
           node = lookup.node;
-  
+
           if (FS.isMountpoint(node)) {
             throw new FS.ErrnoError(10);
           }
-  
+
           if (!FS.isDir(node.mode)) {
             throw new FS.ErrnoError(54);
           }
         }
-  
+
         var mount = {
           type,
           opts,
           mountpoint,
           mounts: []
         };
-  
+
         // create a root node for the fs
         var mountRoot = type.mount(mount);
         mountRoot.mount = mount;
         mount.root = mountRoot;
-  
+
         if (root) {
           FS.root = mountRoot;
         } else if (node) {
           // set as a mountpoint
           node.mounted = mount;
-  
+
           // add the new mount to the current mount's children
           if (node.mount) {
             node.mount.mounts.push(mount);
           }
         }
-  
+
         return mountRoot;
       },
   unmount(mountpoint) {
         var lookup = FS.lookupPath(mountpoint, { follow_mount: false });
-  
+
         if (!FS.isMountpoint(lookup.node)) {
           throw new FS.ErrnoError(28);
         }
-  
+
         // destroy the nodes for this mount, and all its child mounts
         var node = lookup.node;
         var mount = node.mounted;
         var mounts = FS.getMounts(mount);
-  
+
         Object.keys(FS.nameTable).forEach((hash) => {
           var current = FS.nameTable[hash];
-  
+
           while (current) {
             var next = current.name_next;
-  
+
             if (mounts.includes(current.mount)) {
               FS.destroyNode(current);
             }
-  
+
             current = next;
           }
         });
-  
+
         // no longer a mountpoint
         node.mounted = null;
-  
+
         // remove this mount from the child mounts
         var idx = node.mount.mounts.indexOf(mount);
         node.mount.mounts.splice(idx, 1);
@@ -2250,13 +2254,13 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         var new_name = PATH.basename(new_path);
         // parents must exist
         var lookup, old_dir, new_dir;
-  
+
         // let the errors from non existant directories percolate up
         lookup = FS.lookupPath(old_path, { parent: true });
         old_dir = lookup.node;
         lookup = FS.lookupPath(new_path, { parent: true });
         new_dir = lookup.node;
-  
+
         if (!old_dir || !new_dir) throw new FS.ErrnoError(44);
         // need to be part of the same mount
         if (old_dir.mount !== new_dir.mount) {
@@ -2554,7 +2558,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         }
         // we've already handled these, don't pass down to the underlying vfs
         flags &= ~(128 | 512 | 131072);
-  
+
         // register the stream with the filesystem
         var stream = FS.createStream({
           node,
@@ -2835,7 +2839,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         // TODO deprecate the old functionality of a single
         // input / output callback and that utilizes FS.createDevice
         // and instead require a unique set of stream ops
-  
+
         // by default, we symlink the standard streams to the
         // default tty devices. however, if the standard streams
         // have been overwritten we create a unique device for
@@ -2855,7 +2859,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         } else {
           FS.symlink('/dev/tty1', '/dev/stderr');
         }
-  
+
         // open default streams for the stdin, stdout and stderr devices
         var stdin = FS.open('/dev/stdin', 0);
         var stdout = FS.open('/dev/stdout', 1);
@@ -2877,7 +2881,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           };
           this.setErrno(errno);
           this.message = 'FS error';
-  
+
         };
         FS.ErrnoError.prototype = new Error();
         FS.ErrnoError.prototype.constructor = FS.ErrnoError;
@@ -2889,29 +2893,29 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       },
   staticInit() {
         FS.ensureErrnoError();
-  
+
         FS.nameTable = new Array(4096);
-  
+
         FS.mount(MEMFS, {}, '/');
-  
+
         FS.createDefaultDirectories();
         FS.createDefaultDevices();
         FS.createSpecialDirectories();
-  
+
         FS.filesystems = {
           'MEMFS': MEMFS,
         };
       },
   init(input, output, error) {
         FS.init.initialized = true;
-  
+
         FS.ensureErrnoError();
-  
+
         // Allow Module.stdin etc. to provide defaults, if none explicitly passed to us here
         Module['stdin'] = input || Module['stdin'];
         Module['stdout'] = output || Module['stdout'];
         Module['stderr'] = error || Module['stderr'];
-  
+
         FS.createStandardStreams();
       },
   quit() {
@@ -3104,27 +3108,27 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           var header;
           var hasByteServing = (header = xhr.getResponseHeader("Accept-Ranges")) && header === "bytes";
           var usesGzip = (header = xhr.getResponseHeader("Content-Encoding")) && header === "gzip";
-  
+
           var chunkSize = 1024*1024; // Chunk size in bytes
-  
+
           if (!hasByteServing) chunkSize = datalength;
-  
+
           // Function to get a range from the remote URL.
           var doXHR = (from, to) => {
             if (from > to) throw new Error("invalid range (" + from + ", " + to + ") or no bytes requested!");
             if (to > datalength-1) throw new Error("only " + datalength + " bytes available! programmer error!");
-  
+
             // TODO: Use mozResponseArrayBuffer, responseStream, etc. if available.
             var xhr = new XMLHttpRequest();
             xhr.open('GET', url, false);
             if (datalength !== chunkSize) xhr.setRequestHeader("Range", "bytes=" + from + "-" + to);
-  
+
             // Some hints to the browser that we want binary data.
             xhr.responseType = 'arraybuffer';
             if (xhr.overrideMimeType) {
               xhr.overrideMimeType('text/plain; charset=x-user-defined');
             }
-  
+
             xhr.send(null);
             if (!(xhr.status >= 200 && xhr.status < 300 || xhr.status === 304)) throw new Error("Couldn't load " + url + ". Status: " + xhr.status);
             if (xhr.response !== undefined) {
@@ -3143,7 +3147,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             if (typeof lazyArray.chunks[chunkNum] == 'undefined') throw new Error('doXHR failed!');
             return lazyArray.chunks[chunkNum];
           });
-  
+
           if (usesGzip || !datalength) {
             // if the server uses gzip or doesn't supply the length, we have to download the whole file to get the (uncompressed) length
             chunkSize = datalength = 1; // this will force getter(0)/doXHR do download the whole file
@@ -3151,7 +3155,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             chunkSize = datalength;
             out("LazyFiles on gzip forces download of the whole file when length is accessed");
           }
-  
+
           this._length = datalength;
           this._chunkSize = chunkSize;
           this.lengthKnown = true;
@@ -3177,12 +3181,12 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
               }
             }
           });
-  
+
           var properties = { isDevice: false, contents: lazyArray };
         } else {
           var properties = { isDevice: false, url: url };
         }
-  
+
         var node = FS.createFile(parent, name, properties, canRead, canWrite);
         // This is a total hack, but I want to get this lazy file code out of the
         // core of MEMFS. If we want to keep this lazy file concept I feel it should
@@ -3244,7 +3248,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         return node;
       },
   };
-  
+
   var SYSCALLS = {
   DEFAULT_POLLMASK:5,
   calculateAt(dirfd, path, allowEmpty) {
@@ -3338,12 +3342,12 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
   /** @param {boolean|number=} implicit */
   var exitJS = (status, implicit) => {
       EXITSTATUS = status;
-  
+
       _proc_exit(status);
     };
   var _exit = exitJS;
-  
-  
+
+
   var maybeExit = () => {
       if (!keepRuntimeAlive()) {
         try {
@@ -3366,23 +3370,23 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
     };
   /** @param {number=} timeout */
   var safeSetTimeout = (func, timeout) => {
-      
+
       return setTimeout(() => {
-        
+
         callUserCallback(func);
       }, timeout);
     };
-  
+
   var _emscripten_set_main_loop_timing = (mode, value) => {
       Browser.mainLoop.timingMode = mode;
       Browser.mainLoop.timingValue = value;
-  
+
       if (!Browser.mainLoop.func) {
         return 1; // Return non-zero on failure, can't set timing mode when there is no main loop.
       }
-  
+
       if (!Browser.mainLoop.running) {
-        
+
         Browser.mainLoop.running = true;
       }
       if (mode == 0) {
@@ -3431,25 +3435,25 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return 0;
     };
-  
+
   var _emscripten_get_now;
       // Modern environment where performance.now() is supported:
       // N.B. a shorter form "_emscripten_get_now = performance.now;" is
       // unfortunately not allowed even in current browsers (e.g. FF Nightly 75).
       _emscripten_get_now = () => performance.now();
   ;
-  
-  
+
+
     /**
      * @param {number=} arg
      * @param {boolean=} noSetTiming
      */
   var setMainLoop = (browserIterationFunc, fps, simulateInfiniteLoop, arg, noSetTiming) => {
       assert(!Browser.mainLoop.func, 'emscripten_set_main_loop: there can only be one main loop function at once: call emscripten_cancel_main_loop to cancel the previous one before setting a new one with different parameters.');
-  
+
       Browser.mainLoop.func = browserIterationFunc;
       Browser.mainLoop.arg = arg;
-  
+
       // Closure compiler bug(?): Closure does not see that the assignment
       //   var thisMainLoopId = Browser.mainLoop.currentlyRunningMainloop
       // is a value copy of a number (even with the JSDoc @type annotation)
@@ -3462,12 +3466,12 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       var thisMainLoopId = (() => Browser.mainLoop.currentlyRunningMainloop)();
       function checkIsRunning() {
         if (thisMainLoopId < Browser.mainLoop.currentlyRunningMainloop) {
-          
+
           return false;
         }
         return true;
       }
-  
+
       // We create the loop runner here but it is not actually running until
       // _emscripten_set_main_loop_timing is called (which might happen a
       // later time).  This member signifies that the current runner has not
@@ -3492,17 +3496,17 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             }
           }
           Browser.mainLoop.updateStatus();
-  
+
           // catches pause/resume main loop from blocker execution
           if (!checkIsRunning()) return;
-  
+
           setTimeout(Browser.mainLoop.runner, 0);
           return;
         }
-  
+
         // catch pauses from non-main loop sources
         if (!checkIsRunning()) return;
-  
+
         // Implement very basic swap interval control
         Browser.mainLoop.currentFrameNumber = Browser.mainLoop.currentFrameNumber + 1 | 0;
         if (Browser.mainLoop.timingMode == 1 && Browser.mainLoop.timingValue > 1 && Browser.mainLoop.currentFrameNumber % Browser.mainLoop.timingValue != 0) {
@@ -3512,24 +3516,24 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         } else if (Browser.mainLoop.timingMode == 0) {
           Browser.mainLoop.tickStartTime = _emscripten_get_now();
         }
-  
+
         // Signal GL rendering layer that processing of a new frame is about to start. This helps it optimize
         // VBO double-buffering and reduce GPU stalls.
-  
+
         Browser.mainLoop.runIter(browserIterationFunc);
-  
+
         // catch pauses from the main loop itself
         if (!checkIsRunning()) return;
-  
+
         // Queue new audio data. This is important to be right after the main loop invocation, so that we will immediately be able
         // to queue the newest produced audio samples.
         // TODO: Consider adding pre- and post- rAF callbacks so that GL.newRenderingFrameStarted() and SDL.audio.queueNewAudioData()
         //       do not need to be hardcoded into this function, but can be more generic.
         if (typeof SDL == 'object') SDL.audio?.queueNewAudioData?.();
-  
+
         Browser.mainLoop.scheduler();
       }
-  
+
       if (!noSetTiming) {
         if (fps && fps > 0) {
           _emscripten_set_main_loop_timing(0, 1000.0 / fps);
@@ -3537,17 +3541,17 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           // Do rAF by rendering each frame (no decimating)
           _emscripten_set_main_loop_timing(1, 1);
         }
-  
+
         Browser.mainLoop.scheduler();
       }
-  
+
       if (simulateInfiniteLoop) {
         throw 'unwind';
       }
     };
-  
-  
-  
+
+
+
   var warnOnce = (text) => {
       warnOnce.shown ||= {};
       if (!warnOnce.shown[text]) {
@@ -3556,9 +3560,9 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         err(text);
       }
     };
-  
-  
-  
+
+
+
   var Browser = {
   mainLoop:{
   running:false,
@@ -3622,7 +3626,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
   init() {
         if (Browser.initted) return;
         Browser.initted = true;
-  
+
         // Support for plugins that can process preloaded files. You can add more of these to
         // your app by creating and appending to preloadPlugins.
         //
@@ -3630,7 +3634,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         // it is given the file's raw data. When it is done, it calls a callback with the file's
         // (possibly modified) data. For example, a plugin might decompress a file, or it
         // might create some side data structure for use later (like an Image element, etc.).
-  
+
         var imagePlugin = {};
         imagePlugin['canHandle'] = function imagePlugin_canHandle(name) {
           return !Module.noImageDecoding && /\.(jpg|jpeg|png|bmp)$/i.test(name);
@@ -3661,7 +3665,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           img.src = url;
         };
         preloadPlugins.push(imagePlugin);
-  
+
         var audioPlugin = {};
         audioPlugin['canHandle'] = function audioPlugin_canHandle(name) {
           return !Module.noAudioDecoding && name.substr(-4) in { '.ogg': 1, '.wav': 1, '.mp3': 1 };
@@ -3721,9 +3725,9 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           }, 10000);
         };
         preloadPlugins.push(audioPlugin);
-  
+
         // Canvas event setup
-  
+
         function pointerLockChange() {
           Browser.pointerLock = document['pointerLockElement'] === Module['canvas'] ||
                                 document['mozPointerLockElement'] === Module['canvas'] ||
@@ -3734,7 +3738,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         if (canvas) {
           // forced aspect ratio can be enabled by defining 'forcedAspectRatio' on Module
           // Module['forcedAspectRatio'] = 4 / 3;
-  
+
           canvas.requestPointerLock = canvas['requestPointerLock'] ||
                                       canvas['mozRequestPointerLock'] ||
                                       canvas['webkitRequestPointerLock'] ||
@@ -3746,12 +3750,12 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
                                    document['msExitPointerLock'] ||
                                    (() => {}); // no-op if function does not exist
           canvas.exitPointerLock = canvas.exitPointerLock.bind(document);
-  
+
           document.addEventListener('pointerlockchange', pointerLockChange, false);
           document.addEventListener('mozpointerlockchange', pointerLockChange, false);
           document.addEventListener('webkitpointerlockchange', pointerLockChange, false);
           document.addEventListener('mspointerlockchange', pointerLockChange, false);
-  
+
           if (Module['elementPointerLock']) {
             canvas.addEventListener("click", (ev) => {
               if (!Browser.pointerLock && Module['canvas'].requestPointerLock) {
@@ -3764,7 +3768,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       },
   createContext(/** @type {HTMLCanvasElement} */ canvas, useWebGL, setInModule, webGLContextAttributes) {
         if (useWebGL && Module.ctx && canvas == Module.canvas) return Module.ctx; // no need to recreate GL context if it's already been created for this canvas.
-  
+
         var ctx;
         var contextHandle;
         if (useWebGL) {
@@ -3774,13 +3778,13 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             alpha: false,
             majorVersion: 1,
           };
-  
+
           if (webGLContextAttributes) {
             for (var attribute in webGLContextAttributes) {
               contextAttributes[attribute] = webGLContextAttributes[attribute];
             }
           }
-  
+
           // This check of existence of GL is here to satisfy Closure compiler, which yells if variable GL is referenced below but GL object is not
           // actually compiled in because application is not doing any GL operations. TODO: Ideally if GL is not being used, this function
           // Browser.createContext() should not even be emitted.
@@ -3793,12 +3797,12 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         } else {
           ctx = canvas.getContext('2d');
         }
-  
+
         if (!ctx) return null;
-  
+
         if (setInModule) {
           if (!useWebGL) assert(typeof GLctx == 'undefined', 'cannot set in module if GLctx is used, but we are a non-GL context that would replace it');
-  
+
           Module.ctx = ctx;
           if (useWebGL) GL.makeContextCurrent(contextHandle);
           Module.useWebGL = useWebGL;
@@ -3816,7 +3820,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         Browser.resizeCanvas = resizeCanvas;
         if (typeof Browser.lockPointer == 'undefined') Browser.lockPointer = true;
         if (typeof Browser.resizeCanvas == 'undefined') Browser.resizeCanvas = false;
-  
+
         var canvas = Module['canvas'];
         function fullscreenChange() {
           Browser.isFullscreen = false;
@@ -3836,7 +3840,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             // remove the full screen specific parent of the canvas again to restore the HTML structure from before going full screen
             canvasContainer.parentNode.insertBefore(canvas, canvasContainer);
             canvasContainer.parentNode.removeChild(canvasContainer);
-  
+
             if (Browser.resizeCanvas) {
               Browser.setWindowedCanvasSize();
             } else {
@@ -3846,7 +3850,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           Module['onFullScreen']?.(Browser.isFullscreen);
           Module['onFullscreen']?.(Browser.isFullscreen);
         }
-  
+
         if (!Browser.fullscreenHandlersInstalled) {
           Browser.fullscreenHandlersInstalled = true;
           document.addEventListener('fullscreenchange', fullscreenChange, false);
@@ -3854,19 +3858,19 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           document.addEventListener('webkitfullscreenchange', fullscreenChange, false);
           document.addEventListener('MSFullscreenChange', fullscreenChange, false);
         }
-  
+
         // create a new parent to ensure the canvas has no siblings. this allows browsers to optimize full screen performance when its parent is the full screen root
         var canvasContainer = document.createElement("div");
         canvas.parentNode.insertBefore(canvasContainer, canvas);
         canvasContainer.appendChild(canvas);
-  
+
         // use parent of canvas as full screen root to allow aspect ratio correction (Firefox stretches the root to screen size)
         canvasContainer.requestFullscreen = canvasContainer['requestFullscreen'] ||
                                             canvasContainer['mozRequestFullScreen'] ||
                                             canvasContainer['msRequestFullscreen'] ||
                                            (canvasContainer['webkitRequestFullscreen'] ? () => canvasContainer['webkitRequestFullscreen'](Element['ALLOW_KEYBOARD_INPUT']) : null) ||
                                            (canvasContainer['webkitRequestFullScreen'] ? () => canvasContainer['webkitRequestFullScreen'](Element['ALLOW_KEYBOARD_INPUT']) : null);
-  
+
         canvasContainer.requestFullscreen();
       },
   exitFullscreen() {
@@ -3876,7 +3880,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         if (!Browser.isFullscreen) {
           return false;
         }
-  
+
         var CFS = document['exitFullscreen'] ||
                   document['cancelFullScreen'] ||
                   document['mozCancelFullScreen'] ||
@@ -3915,9 +3919,9 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         return safeSetTimeout(func, timeout);
       },
   safeRequestAnimationFrame(func) {
-        
+
         return Browser.requestAnimationFrame(() => {
-          
+
           callUserCallback(func);
         });
       },
@@ -3998,7 +4002,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         var rect = Module["canvas"].getBoundingClientRect();
         var cw = Module["canvas"].width;
         var ch = Module["canvas"].height;
-  
+
         // Neither .scrollX or .pageXOffset are defined in a spec, but
         // we prefer .scrollX because it is currently in a spec draft.
         // (see: http://www.w3.org/TR/2013/WD-cssom-view-20131217/)
@@ -4006,13 +4010,13 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         var scrollY = ((typeof window.scrollY != 'undefined') ? window.scrollY : window.pageYOffset);
         var adjustedX = pageX - (scrollX + rect.left);
         var adjustedY = pageY - (scrollY + rect.top);
-  
+
         // the canvas might be CSS-scaled compared to its backbuffer;
         // SDL-using content will want mouse coordinates in terms
         // of backbuffer units.
         adjustedX = adjustedX * (cw / rect.width);
         adjustedY = adjustedY * (ch / rect.height);
-  
+
         return { x: adjustedX, y: adjustedY };
       },
   setMouseCoords(pageX, pageY) {
@@ -4034,7 +4038,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             Browser.mouseMovementX = Browser.getMovementX(event);
             Browser.mouseMovementY = Browser.getMovementY(event);
           }
-  
+
           // check if SDL is available
           if (typeof SDL != "undefined") {
             Browser.mouseX = SDL.mouseX + Browser.mouseMovementX;
@@ -4050,10 +4054,10 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             var touch = event.touch;
             if (touch === undefined) {
               return; // the "touch" property is only defined in SDL
-  
+
             }
             var coords = Browser.calculateMouseCoords(touch.pageX, touch.pageY);
-  
+
             if (event.type === 'touchstart') {
               Browser.lastTouches[touch.identifier] = coords;
               Browser.touches[touch.identifier] = coords;
@@ -4065,7 +4069,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
             }
             return;
           }
-  
+
           Browser.setMouseCoords(event.pageX, event.pageY);
         }
       },
@@ -4151,7 +4155,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       function wrapper() {
         ((a1) => dynCall_vi.apply(null, [func, a1]))(arg);
       }
-  
+
       if (millis >= 0
         // node does not support requestAnimationFrame
         || ENVIRONMENT_IS_NODE
@@ -4170,7 +4174,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       // for any code that deals with heap sizes, which would require special
       // casing all heap size related code to treat 0 specially.
       268435456;
-  
+
   var growMemory = (size) => {
       var b = wasmMemory.buffer;
       var pages = (size - b.byteLength + 65535) / 65536;
@@ -4190,7 +4194,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       requestedSize >>>= 0;
       // With multithreaded builds, races can happen (another thread might increase the size
       // in between), so return a failure, and let the caller retry.
-  
+
       // Memory resize rules:
       // 1.  Always increase heap size to at least the requested size, rounded up
       //     to next page multiple.
@@ -4207,16 +4211,16 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       //     over-eager decision to excessively reserve due to (3) above.
       //     Hence if an allocation fails, cut down on the amount of excess
       //     growth, in an attempt to succeed to perform a smaller allocation.
-  
+
       // A limit is set for how much we can grow. We should not exceed that
       // (the wasm binary specifies it, so if we tried, we'd fail anyhow).
       var maxHeapSize = getHeapMax();
       if (requestedSize > maxHeapSize) {
         return false;
       }
-  
+
       var alignUp = (x, multiple) => x + (multiple - x % multiple) % multiple;
-  
+
       // Loop through potential heap size increases. If we attempt a too eager
       // reservation that fails, cut down on the attempted size and reserve a
       // smaller bump instead. (max 3 times, chosen somewhat arbitrarily)
@@ -4224,12 +4228,12 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         var overGrownHeapSize = oldSize * (1 + 0.2 / cutDown); // ensure geometric growth
         // but limit overreserving (default to capping at +96MB overgrowth at most)
         overGrownHeapSize = Math.min(overGrownHeapSize, requestedSize + 100663296 );
-  
+
         var newSize = Math.min(maxHeapSize, alignUp(Math.max(requestedSize, overGrownHeapSize), 65536));
-  
+
         var replacement = growMemory(newSize);
         if (replacement) {
-  
+
           return true;
         }
       }
@@ -4248,7 +4252,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
 
   function _fd_close(fd) {
   try {
-  
+
       var stream = SYSCALLS.getStreamFromFD(fd);
       FS.close(stream);
       return 0;
@@ -4275,10 +4279,10 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return ret;
     };
-  
+
   function _fd_read(fd, iov, iovcnt, pnum) {
   try {
-  
+
       var stream = SYSCALLS.getStreamFromFD(fd);
       var num = doReadv(stream, iov, iovcnt);
       HEAPU32[((pnum)>>2)] = num;
@@ -4289,16 +4293,16 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
   }
   }
 
-  
+
   var convertI32PairToI53Checked = (lo, hi) => {
       return ((hi + 0x200000) >>> 0 < 0x400001 - !!lo) ? (lo >>> 0) + hi * 4294967296 : NaN;
     };
   function _fd_seek(fd,offset_low, offset_high,whence,newOffset) {
     var offset = convertI32PairToI53Checked(offset_low, offset_high);;
-  
-    
+
+
   try {
-  
+
       if (isNaN(offset)) return 61;
       var stream = SYSCALLS.getStreamFromFD(fd);
       FS.llseek(stream, offset, whence);
@@ -4328,10 +4332,10 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return ret;
     };
-  
+
   function _fd_write(fd, iov, iovcnt, pnum) {
   try {
-  
+
       var stream = SYSCALLS.getStreamFromFD(fd);
       var num = doWritev(stream, iov, iovcnt);
       HEAPU32[((pnum)>>2)] = num;
@@ -4344,7 +4348,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
 
 
 
-  
+
   var stringToUTF8 = (str, outPtr, maxBytesToWrite) => {
       return stringToUTF8Array(str, HEAPU8, outPtr, maxBytesToWrite);
     };
@@ -4362,8 +4366,8 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         abort(e);
       }
     };
-  
-  
+
+
   var sigToWasmTypes = (sig) => {
       var typeNames = {
         'i': 'i32',
@@ -4382,20 +4386,20 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
       }
       return type;
     };
-  
+
   var runtimeKeepalivePush = () => {
       runtimeKeepaliveCounter += 1;
     };
-  
+
   var runtimeKeepalivePop = () => {
       runtimeKeepaliveCounter -= 1;
     };
-  
-  
+
+
   var Asyncify = {
   instrumentWasmImports(imports) {
         var importPattern = /^(gam_sem_wait|invoke_.*|__asyncjs__.*)$/;
-  
+
         for (let [x, original] of Object.entries(imports)) {
           let sig = original.sig;
           if (typeof original == 'function') {
@@ -4461,7 +4465,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
           // the dbg() function itself can call back into WebAssembly to get the
           // current pthread_self() pointer).
           Asyncify.state = Asyncify.State.Normal;
-          
+
           // Keep the runtime alive so that a re-wind can be done later.
           runAndAbortIfError(_asyncify_stop_unwind);
           if (typeof Fibers != 'undefined') {
@@ -4507,7 +4511,7 @@ function gam_sem_wait(semid) { return Asyncify.handleSleep(function (wakeUp) { v
         var start = Asyncify.getDataRewindFunc(ptr);
         // Once we have rewound and the stack we no longer need to artificially
         // keep the runtime alive.
-        
+
         return start();
       },
   handleSleep(startAsync) {
@@ -4795,8 +4799,8 @@ var _asyncify_start_unwind = (a0) => (_asyncify_start_unwind = wasmExports['asyn
 var _asyncify_stop_unwind = () => (_asyncify_stop_unwind = wasmExports['asyncify_stop_unwind'])();
 var _asyncify_start_rewind = (a0) => (_asyncify_start_rewind = wasmExports['asyncify_start_rewind'])(a0);
 var _asyncify_stop_rewind = () => (_asyncify_stop_rewind = wasmExports['asyncify_stop_rewind'])();
-var ___start_em_js = Module['___start_em_js'] = 2661704;
-var ___stop_em_js = Module['___stop_em_js'] = 2662256;
+var ___start_em_js = Module['___start_em_js'] = 2662023;
+var ___stop_em_js = Module['___stop_em_js'] = 2662575;
 
 // include: postamble.js
 // === Auto-generated postamble setup entry stuff ===

@@ -11,13 +11,13 @@
     <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20260921z"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20260923j"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20260920h"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261007d"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261007d"/>
     <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20260921b"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20260920p"/>
     <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20260924a"/>
     <script>
-        window.BAYE_ASSET_VER = '20260923j';
+        window.BAYE_ASSET_VER = '20261007d';
         window.__bayeLastHdCall = window.__bayeLastHdCall || null;
         window.onerror = function (msg, url, line, col, error) {
             var last = window.__bayeLastHdCall;
@@ -159,6 +159,7 @@
         </div>
         <div class="hd-battle-footer">
             <button type="button" data-hd-battle-sys>系统菜单</button>
+            <button type="button" data-hd-battle-cancel>取消选择</button>
             <button type="button" data-hd-battle-lcd>经典 LCD</button>
             <button type="button" data-hd-battle-close>关闭预览</button>
         </div>
@@ -233,7 +234,7 @@
             <button type="button" data-hd-city-menu="hd" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('hd')">HD 菜单</button>
             <button type="button" data-hd-city-menu="classic" onclick="if(window.BayeHdCityMenu)BayeHdCityMenu.setMode('classic')">经典菜单</button>
             <span class="baye-hd-sep" aria-hidden="true"></span>
-            <button type="button" data-hd-battle="auto" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('auto')">战斗自动</button>
+            <button type="button" data-hd-battle="auto" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('auto')">随地图切换</button>
             <button type="button" data-hd-battle="classic" onclick="if(window.BayeHdBattle)BayeHdBattle.setMode('classic')">经典战斗</button>
             <span class="baye-hd-sep" aria-hidden="true"></span>
             <button type="button" data-hd-system-ui="auto" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('auto')">界面自动</button>
@@ -272,17 +273,18 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20260920h"></script>
-<script src="js/bridge.js?ver=20260923j"></script>
-<script src="js/lcd.js?ver=20260923j"></script>
+<script src="js/bridge.js?ver=20261007d"></script>
+<script src="js/save-storage.js?ver=20261007d"></script>
+<script src="js/lcd.js?ver=20261007d"></script>
 <script src="js/hd-graphics.js?ver=20260923j"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
-<script src="js/hd-overworld.js?ver=20260923j"></script>
-    <script src="js/hd-city-menu.js?ver=20260923j"></script>
-    <script src="js/hd-battle.js?ver=20260923j"></script>
-    <script src="js/hd-system-ui.js?ver=20260923j"></script>
-<script src="js/hd-dialog.js?ver=20260923j"></script>
+<script src="js/hd-overworld.js?ver=20261007d"></script>
+    <script src="js/hd-city-menu.js?ver=20261007d"></script>
+    <script src="js/hd-battle.js?ver=20261007d"></script>
+    <script src="js/hd-system-ui.js?ver=20261007d"></script>
+<script src="js/hd-dialog.js?ver=20261007d"></script>
 <script src="js/hd-spe.js?ver=20260923j"></script>
-<script src="js/hd-portraits.js?ver=20260924a"></script>
+<script src="js/hd-portraits.js?ver=20261007d"></script>
 <script src="js/hd-portrait-dump.js?ver=20260924a"></script>
 <script src="https://img.bbkgames.com/script/js-sdk.js?ver=20260329"></script>
 <script>
@@ -472,5 +474,4 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20260923j"></script>
-
+<script src="js/baye.js?ver=20261007d"></script>

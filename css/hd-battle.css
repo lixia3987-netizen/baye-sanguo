@@ -155,6 +155,29 @@ html[data-baye-battle="hd"] #hd-overworld {
     box-shadow: inset 0 0 0 2px #f0c75a;
 }
 
+.hd-battle-menu-item:disabled,
+.hd-battle-footer button:disabled {
+    opacity: 0.55;
+    cursor: wait;
+}
+
+/* Native help owns its own input wait. Show its HD dialog/LCD while keeping
+ * battle input disabled until the engine returns to a new battle wait. */
+html[data-baye-battle="hd"][data-baye-battle-input="help"] #hd-dialog,
+html[data-baye-battle="hd"][data-baye-battle-input="help"] .hd-dialog {
+    pointer-events: auto !important;
+    visibility: visible !important;
+    z-index: 90;
+}
+
+/* C may wait for a general's report while battle input is busy. The report
+ * token owns this dialog until the player confirms it or C ends that wait. */
+html[data-baye-battle="hd"] #hd-dialog[data-hd-native-report="1"] {
+    pointer-events: auto !important;
+    visibility: visible !important;
+    z-index: 90;
+}
+
 .hd-battle-menu-actions {
     margin-top: 12px;
 }
@@ -206,6 +229,6 @@ html[data-baye-battle="hd"] body.baye-hd-battle-lcd .container.js-baye-pc-lcd {
     top: auto;
     transform: none;
     width: 320px !important;
-    z-index: 70;
+    z-index: 85;
     box-shadow: 0 0 0 4px #1b1f27, 0 12px 32px rgba(0, 0, 0, 0.5);
 }

@@ -1268,6 +1268,8 @@ function baye_bridge_init() {
             return {
                 text: text,
                 seq: seq,
+                active: hdReadNum(d, 'g_hdReportActive'),
+                inputSeq: hdReadNum(d, 'g_hdReportInputSeq'),
                 kind: hdReadNum(d, 'g_hdReportKind'),
                 person: hdReadNum(d, 'g_hdReportPerson')
             };
@@ -1275,6 +1277,17 @@ function baye_bridge_init() {
         reportText: function () {
             var r = baye.hd.report();
             return r && r.text ? r.text : '';
+        },
+        record: function () {
+            hdNote('hd.record', '');
+            var d = baye.ensureData();
+            return {
+                active: hdReadNum(d, 'g_hdRecordActive'),
+                mode: hdReadNum(d, 'g_hdRecordMode'),
+                index: hdReadNum(d, 'g_hdRecordIndex'),
+                count: hdReadNum(d, 'g_hdRecordCount'),
+                seq: hdReadNum(d, 'g_hdRecordSeq')
+            };
         },
         kings: function () {
             hdNote('hd.kings', '');
@@ -1332,6 +1345,9 @@ function baye_bridge_init() {
                 wait: hdReadNum(d, 'g_hdFightWait'),
                 phase: hdReadNum(d, 'g_hdFightPhase'),
                 aimType: hdReadNum(d, 'g_hdFightAimType'),
+                inputKind: hdReadNum(d, 'g_hdFightInputKind'),
+                inputSeq: hdReadNum(d, 'g_hdFightInputSeq'),
+                actorIndex: hdReadNum(d, 'g_hdFightActor'),
                 tip: tip,
                 skip: hdReadNum(d, 'g_hdFightSkip'),
                 result: result,
@@ -1433,11 +1449,17 @@ function baye_bridge_init() {
                 pick: hdReadNum(d, 'g_hdMapPick'),
                 battlePick: hdReadNum(d, 'g_hdBattlePick'),
                 mapCity: hdReadNum(d, 'g_hdMapCity'),
+                mapInputSeq: hdReadNum(d, 'g_hdMapInputSeq'),
                 ok: hdReadNum(d, 'g_hdMarchOk'),
                 city: hdReadNum(d, 'g_hdMarchCity'),
                 obj: hdReadNum(d, 'g_hdMarchObj'),
                 time: hdReadNum(d, 'g_hdMarchTime'),
-                seq: hdReadNum(d, 'g_hdMarchSeq')
+                seq: hdReadNum(d, 'g_hdMarchSeq'),
+                phase: hdReadNum(d, 'g_hdMarchPhase'),
+                session: hdReadNum(d, 'g_hdMarchSession'),
+                origin: hdReadNum(d, 'g_hdMarchOrigin'),
+                selected: hdReadNum(d, 'g_hdMarchSelected'),
+                inputSeq: hdReadNum(d, 'g_hdMarchInputSeq')
             };
         },
         qty: function () {
@@ -1541,13 +1563,13 @@ function baye_bridge_init() {
             if (itemLen > 64) {
                 itemLen = 64;
             }
-            if (count > 80) {
-                count = 80;
+            if (count > 2000) {
+                count = 2000;
             }
             var names = [];
             var i;
             if (itemLen && count && d && d.g_hdMenuBytes) {
-                for (i = 0; i < count && i < 80; i++) {
+                for (i = 0; i < count; i++) {
                     names.push(hdDecodeSlice(d.g_hdMenuBytes, i * itemLen, itemLen));
                 }
             } else if (d && typeof d.g_hdMenuGbk === 'string' && count) {
@@ -1558,6 +1580,10 @@ function baye_bridge_init() {
                 }
             }
             return {
+                active: hdReadNum(d, 'g_hdMenuActive'),
+                context: hdReadNum(d, 'g_hdMenuContext'),
+                kind: hdReadNum(d, 'g_hdMenuKind'),
+                seq: hdReadNum(d, 'g_hdMenuSeq'),
                 itemLen: itemLen,
                 count: count,
                 index: hdReadNum(d, 'g_hdMenuIndex'),
@@ -1566,4 +1592,3 @@ function baye_bridge_init() {
         }
     };
 }
-

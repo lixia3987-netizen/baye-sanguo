@@ -6,7 +6,7 @@
 
 #define BAYE_HD_KING_MAX 128
 #define BAYE_HD_REPORT_MAX 1024
-#define BAYE_HD_MENU_MAX 2048
+#define BAYE_HD_MENU_MAX 16384
 #define BAYE_HD_NAME_SLOT 8
 #define BAYE_HD_FIGHT_RESULT_MAX 64
 #define BAYE_HD_FIGHT_TIP_MAX 16
@@ -14,6 +14,41 @@
 #define BAYE_HD_FIGHT_PHASE_PICK 1
 #define BAYE_HD_FIGHT_PHASE_MOVE 2
 #define BAYE_HD_FIGHT_PHASE_AIM  3
+#define BAYE_HD_MENU_NATIVE 0xfe
+#define BAYE_HD_MENU_CONTEXT_NONE 0
+#define BAYE_HD_MENU_CONTEXT_CITY 1
+#define BAYE_HD_MENU_CONTEXT_FUNCTION 2
+#define BAYE_HD_MENU_CONTEXT_FIGHT 3
+#define BAYE_HD_MENU_CONTEXT_SYSTEM 4
+#define BAYE_HD_MENU_CONTEXT_CAMPAIGN 5
+#define BAYE_HD_MENU_TITLE 1
+#define BAYE_HD_MENU_PERIOD 2
+#define BAYE_HD_MENU_KING 3
+#define BAYE_HD_MENU_SUCCESSOR 1
+#define BAYE_HD_CAMPAIGN_DEFENDERS 2
+#define BAYE_HD_MENU_ROOT 1
+#define BAYE_HD_MENU_SUB 2
+#define BAYE_HD_MENU_PERSON 3
+#define BAYE_HD_MENU_GOODS 4
+#define BAYE_HD_FIGHT_INPUT_BUSY 0
+#define BAYE_HD_FIGHT_INPUT_PICK 1
+#define BAYE_HD_FIGHT_INPUT_MOVE 2
+#define BAYE_HD_FIGHT_INPUT_ACTION 3
+#define BAYE_HD_FIGHT_INPUT_SKILL 4
+#define BAYE_HD_FIGHT_INPUT_AIM 5
+#define BAYE_HD_FIGHT_INPUT_SYSTEM 6
+#define BAYE_HD_FIGHT_INPUT_RETREAT 7
+#define BAYE_HD_FIGHT_INPUT_SETTINGS 8
+#define BAYE_HD_FIGHT_INPUT_HELP 9
+#define BAYE_HD_FIGHT_INPUT_VIEW 10
+#define BAYE_HD_MARCH_IDLE 0
+#define BAYE_HD_MARCH_PERSONS 1
+#define BAYE_HD_MARCH_FOOD 2
+#define BAYE_HD_MARCH_TARGET_TIP 3
+#define BAYE_HD_MARCH_TARGET_PICK 4
+#define BAYE_HD_MARCH_REJECT_REPORT 5
+#define BAYE_HD_MARCH_ARMOUT_REPORT 6
+#define BAYE_HD_MARCH_DEPARTED 7
 #define BAYE_HD_HELP_MAX 1024
 #define BAYE_HD_SKILL_MAX 10
 #define BAYE_HD_SKILL_NAME 8
@@ -37,8 +72,25 @@
 #define BAYE_HD_FIGHT_SKIP_INSTANT 4
 
 extern U8 g_hdFightActive;
+extern U16 g_hdKingCount;
+extern U8 g_hdKingNames[BAYE_HD_KING_MAX * BAYE_HD_NAME_SLOT];
 extern U8 g_hdFightActCommit;
 extern U8 g_hdFightAllowRetreat;
+extern U8 g_hdFightMenuControl;
+extern U8 g_hdFightInputKind;
+extern U32 g_hdFightInputSeq;
+extern U8 g_hdFightActor;
+extern U8 g_hdMenuActive;
+extern U8 g_hdMenuContext;
+extern U8 g_hdMenuKind;
+extern U32 g_hdMenuSeq;
+extern U8 g_hdRecordActive;
+extern U8 g_hdRecordMode;
+extern U8 g_hdRecordIndex;
+extern U8 g_hdRecordCount;
+extern U32 g_hdRecordSeq;
+extern U8 g_hdReportActive;
+extern U32 g_hdReportInputSeq;
 extern U8 g_hdMapCity;
 extern U8 g_hdSpePendingKind;
 extern U8 g_hdSpeActive;
@@ -52,10 +104,30 @@ extern U16 g_hdSpeSeq;
 
 void baye_hd_bind(ObjectDef* def);
 void baye_hd_set_ready(U8 ready);
+void baye_hd_world_commit(void);
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind);
+void baye_hd_report_begin(U8 kind);
+void baye_hd_report_end(void);
+void baye_hd_record_begin(U8 mode, U8 index, U8 count);
+void baye_hd_record_index(U8 index);
+void baye_hd_record_end(void);
 void baye_hd_set_kings(const PersonID* kings, U32 count);
 void baye_hd_set_king_highlight(U32 index, PersonID id);
 void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index);
+void baye_hd_set_menu_index(U16 index);
+void baye_hd_menu_scope(U8 context, U8 kind);
+void baye_hd_menu_scope_default(U8 context, U8 kind);
+void baye_hd_menu_begin(void);
+void baye_hd_menu_end(void);
+void baye_hd_fight_actor(U8 actor);
+void baye_hd_fight_input_begin(U8 kind);
+void baye_hd_fight_input_end(void);
+U8 baye_hd_take_fight_action(U16* choice);
+void baye_hd_map_input_begin(void);
+void baye_hd_march_begin(U8 city);
+void baye_hd_march_phase(U8 phase);
+void baye_hd_march_selected(U8 count);
+void baye_hd_march_end(U8 departed);
 void baye_hd_set_fight(U8 active, U8 over);
 void baye_hd_set_fight_wait(U8 wait);
 void baye_hd_set_fight_phase(U8 phase);

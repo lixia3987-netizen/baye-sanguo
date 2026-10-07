@@ -60,22 +60,17 @@ static U8* customData = NULL;
 #define	DBG_MEM_BEFURE	1
 
 int compress_data(U8**pOut, U32*pOutLen, const U8* data, U8 level) {
-    int i;
     U32 len = (U32)strlen((const char*)data);
-    U8* output;
-    mz_ulong outlen;
-
-    for (i = 1; i <= 8; i *= 2) {
-        outlen = len * i;
-        output = (U8*)gam_malloc(outlen);
-        if (!output) return -1;
-        if (mz_compress2(output, &outlen, data, len, 5) == MZ_OK) {
-            *pOut = output;
-            *pOutLen = outlen;
-            return 0;
-        }
-        gam_free(output);
+    mz_ulong outlen = mz_compressBound(len);
+    U8* output = (U8*)gam_malloc(outlen);
+    (void)level;
+    if (!output) return -1;
+    if (mz_compress2(output, &outlen, data, len, 5) == MZ_OK) {
+        *pOut = output;
+        *pOutLen = outlen;
+        return 0;
     }
+    gam_free(output);
     return -1;
 }
 
@@ -314,6 +309,7 @@ bool GamMainChose(void)
                     }
                 }
                 g_FromSave = 0;
+                baye_hd_world_commit();
                 call_hook("didOpenNewGame", NULL);
                 return true;
             case 1:		/* 重返沙场 */
@@ -345,7 +341,12 @@ bool GamMainChose(void)
 U8 GamPicMenuInner(U16 picID,U16 speID, const Rect *buttonsRect, U8 buttonsCount, U8 exitOnOther);
 U8 GamPicMenu(U16 picID,U16 speID, const Rect *buttonsRect, U8 buttonsCount, U8 exitOnOther) {
     int prev = SysScrollingTimerOpen(0);
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_SYSTEM,
+        picID == MAIN_PIC ? BAYE_HD_MENU_TITLE : BAYE_HD_MENU_PERIOD);
+    baye_hd_menu_begin();
+    baye_hd_set_menu(NULL, 0, buttonsCount, 0);
     U8 rv = GamPicMenuInner(picID, speID, buttonsRect, buttonsCount, exitOnOther);
+    baye_hd_menu_end();
     SysScrollingTimerOpen(prev);
     return rv;
 }
@@ -384,6 +385,7 @@ U8 GamPicMenuInner(U16 picID,U16 speID, const Rect *buttonsRect, U8 buttonsCount
                     return MNU_EXIT;
             }
             mIdx = mIdx % 4;
+            baye_hd_set_menu(NULL, 0, buttonsCount, mIdx);
             PlcRPicShow(picID,1,WK_SX,WK_SY,false);
         }
         else if (VM_TOUCH == pMsg.type) {
@@ -431,8 +433,15 @@ void GamMakerInf(void)
  ***********************************************************************/
 PersonID GamGetKingInner(PersonID*kings, U32 num);
 PersonID GamGetKing(PersonID*kings, U32 num) {
+    if (!num) return PID(0xffff);
     int prev = SysScrollingTimerOpen(5);
+    baye_hd_set_kings(kings, num);
+    baye_hd_set_king_highlight(0, kings[0]);
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_SYSTEM, BAYE_HD_MENU_KING);
+    baye_hd_menu_begin();
+    baye_hd_set_menu(g_hdKingNames, BAYE_HD_NAME_SLOT, g_hdKingCount, 0);
     PersonID id = GamGetKingInner(kings, num);
+    baye_hd_menu_end();
     SysScrollingTimerOpen(prev);
     return id;
 }
@@ -496,6 +505,7 @@ PersonID GamGetKingInner(PersonID*kings, U32 num)
             }\
             cycnt = GetKingCitys(kings[pIdx],tbuf); \
             baye_hd_set_king_highlight((U32)pIdx, kings[pIdx]); \
+            baye_hd_set_menu_index((U16)pIdx); \
             IF_HAS_HOOK("choosingActorUpdate") { \
                 BIND_U8EX("index", &pIdx); \
                 BIND_U8EX("generalIndex", &kings[pIdx]); \
@@ -711,6 +721,7 @@ FAR U8 GamRecordMan(U8 flag)
     ry = anchor.y;
     U8 right = anchor.x + 95;
     gam_revlcd(anchor.x, ry, right, ry + HZ_HGT);
+    baye_hd_record_begin(flag ? 2 : 1, idx, count);
 
     Rect menuRect = {
         .left = anchor.x,
@@ -728,12 +739,13 @@ FAR U8 GamRecordMan(U8 flag)
             switch(pMsg.param)
             {
                 case VK_UP:
-                    idx -= 1;
+                    idx = idx ? idx - 1 : count - 1;
                     break;
                 case VK_DOWN:
                     idx += 1;
                     break;
                 case VK_ENTER:
+                    baye_hd_record_end();
                     if(flag)
                         pflag = GamLoadRcd(idx);
                     else
@@ -741,11 +753,14 @@ FAR U8 GamRecordMan(U8 flag)
                     if(pflag)
                         return idx;
                     GamRcdIFace(count);
+                    baye_hd_record_begin(flag ? 2 : 1, idx, count);
                     break;
                 case VK_EXIT:
+                    baye_hd_record_end();
                     return MNU_EXIT;
             }
             idx = idx % count;
+            baye_hd_record_index(idx);
             ry = anchor.y + itemHeight*idx;
             gam_revlcd(anchor.x, ry, right, ry + HZ_HGT);
         } else if (VM_TOUCH == pMsg.type) {
@@ -756,6 +771,7 @@ FAR U8 GamRecordMan(U8 flag)
                         I16 index = touchListViewItemIndexAtPoint(touch.startX, touch.startY, menuRect, 0, 0, 0, count, itemHeight);
                         if (index >= 0) {
                             if (index == idx) {
+                                baye_hd_record_end();
                                 if(flag)
                                     pflag = GamLoadRcd(idx);
                                 else
@@ -763,15 +779,18 @@ FAR U8 GamRecordMan(U8 flag)
                                 if(pflag)
                                     return idx;
                                 GamRcdIFace(count);
+                                baye_hd_record_begin(flag ? 2 : 1, idx, count);
                             } else {
                                 gam_revlcd(anchor.x, ry, right, ry + HZ_HGT);
                                 idx = index;
                             }
                             idx = idx % count;
+                            baye_hd_record_index(idx);
                             ry = anchor.y + itemHeight*idx;
                             gam_revlcd(anchor.x, ry, right, ry + HZ_HGT);
                         }
                     } else {
+                        baye_hd_record_end();
                         return MNU_EXIT;
                     }
                 }
@@ -791,7 +810,7 @@ FAR U8 GamRecordMan(U8 flag)
 void GamRcdIFace(U8 count)
 {
     U8	idx,fnam[20];
-    U8	pbak,tbuf[10];
+    U8	tbuf[32];
     U16	year;
     gam_FILE	*fp;
     PersonID king;
@@ -800,7 +819,6 @@ void GamRcdIFace(U8 count)
     Point anchor = g_engineConfig.saveFaceListAnchor;
 
     PlcRPicShow(SAVE_PIC,1,WK_SX,WK_SY,true);
-    pbak = g_PIdx;
     for(idx = 0;idx < count;idx += 1)
     {
         ResLoadToMem(IFACE_STRID,dSaveFNam,fnam);
@@ -810,17 +828,31 @@ void GamRcdIFace(U8 count)
             ResLoadToMem(IFACE_STRID,dNullFNam,fnam);	/* fnam = "空" */
         else
         {
-            U8 ver;
+            U8 ver, period;
             U16 pql;
-            gam_fread((U8 *)&ver,1,1,fp);
-            gam_fread((U8 *)&g_PIdx,1,1,fp);
-            gam_fread((U8 *)&pql,1,2,fp);
-            gam_fread((U8 *)&king,1,2,fp);
-            gam_fread((U8 *)&year,1,2,fp);
+            bool valid = gam_fread(&ver,1,1,fp) == 1 &&
+                gam_fread(&period,1,1,fp) == 1 &&
+                gam_fread((U8 *)&pql,1,2,fp) == 2 &&
+                gam_fread((U8 *)&king,1,2,fp) == 2 &&
+                gam_fread((U8 *)&year,1,2,fp) == 2 &&
+                ver >= 0x90 && ver <= 0x95 && period >= 1 && period <= 4 &&
+                pql > 0 && pql <= PERSON_MAX && king < pql;
             gam_fclose(fp);
+            if (!valid) {
+                ResLoadToMem(IFACE_STRID,dNullFNam,fnam);
+                GamStrShowS(anchor.x, anchor.y + idx * 14, fnam);
+                continue;
+            }
             ResLoadToMem(IFACE_STRID,dRecordInf,fnam);
-            GetPersonName(king,tbuf);
+            if (period == g_PIdx) {
+                GetPersonName(king,tbuf);
+            } else {
+                U8 nameResources[] = {GENERAL_NAME, GENERAL_NAME2, GENERAL_NAME3, GENERAL_NAME4};
+                ResLoadToMemN(nameResources[period - 1], (U16)(king + 1), tbuf, sizeof(tbuf));
+            }
+            tbuf[sizeof(tbuf) - 1] = 0;
             n = gam_strlen(tbuf);
+            if (n > 8) n = 8;
             gam_memcpy(fnam,tbuf,n);		/* fnam = "君主       年" */
             gam_itoa(year,tbuf,10);
             n = gam_strlen(tbuf) + 1;
@@ -828,7 +860,6 @@ void GamRcdIFace(U8 count)
         }
         GamStrShowS(anchor.x, anchor.y + idx * 14, fnam);
     }
-    g_PIdx = pbak;
 }
 /***********************************************************************
  * 说明:     载入指定序号的档案
@@ -839,105 +870,230 @@ void GamRcdIFace(U8 count)
  *             ------          ----------      -------------
  *             高国军          2005.5.16       完成基本功能
  ***********************************************************************/
-bool GamLoadRcd(U8 idx)
+/* Stage both files before changing any live world state. 0x95 stores the full
+ * goods/fighter blocks and declares the custom-data tail length. */
+typedef struct {
+    U8 version, period, lookEnemy, lookMovie, moveSpeed, month, compressed;
+    U16 personCount, year;
+    PersonID king;
+    CitySetType cityPos;
+    PersonType persons[PERSON_MAX];
+    PersonID personQueue[PERSON_MAX];
+    ToolID goods[GOODS_MAX];
+    U8 fighterIndex[FIGHT_ORDER_MAX];
+    PersonID fighters[FIGHT_ORDER_MAX * 10];
+    OrderType orders[ORDER_MAX];
+    CityType cities[256];
+    int seed;
+    U8* custom;
+} GamSaveSnapshot;
+
+static U8* save_read_custom(gam_FILE* fp, U32* length)
 {
-    U8	tbuf[20];
-    gam_FILE	*fp;
-
-    ResLoadToMem(IFACE_STRID,dReading,tbuf);
-    GamMsgBox(tbuf,0);
-    ResLoadToMem(IFACE_STRID,dSaveFNam,tbuf);
-
-    /* 读取第一个文件 */
-    tbuf[5] = (idx << 1) + 0x30;		/* tbuf = "sango?.sav" */
-    fp = sav_fopen(tbuf,'r');
-    if(NULL == fp)
-    {
-        ResLoadToMem(IFACE_STRID,dErrInf1,tbuf);
-        GamMsgBox(tbuf,2);
-        return false;
+    const U32 limit = 8 * 1024 * 1024;
+    U32 capacity = 1024, used = 0;
+    U8* data = gam_malloc(capacity + 1);
+    if (!data) return NULL;
+    while (1) {
+        U8 block[1024];
+        U32 count = gam_fread(block, 1, sizeof(block), fp);
+        if (!count) break;
+        if (count > limit - used) { gam_free(data); return NULL; }
+        if (used + count > capacity) {
+            U32 next = capacity * 2;
+            U8* grown;
+            if (next < used + count) next = used + count;
+            grown = gam_realloc(data, next + 1);
+            if (!grown) { gam_free(data); return NULL; }
+            data = grown;
+            capacity = next;
+        }
+        gam_memcpy(data + used, block, count);
+        used += count;
     }
-
-#define read_all(buf, size, count, fp) if (gam_fread((U8 *)buf, size, count, fp) != count) { \
-    ResLoadToMem(IFACE_STRID,dErrInf1,tbuf); \
-    GamMsgBox(tbuf,2); \
-    return false; \
+    data[used] = 0;
+    *length = used;
+    return data;
 }
 
-
-    U8 version = 0;
-    U8 compressed = 0;
-
-    U16 goodsQueueLen = GOODS_MAX;
-    U16 orderQueueLen = ORDER_MAX;
-    U16 personQueueLen = PERSON_COUNT;
-
-    read_all((U8 *)&version,1,1,fp);
-    read_all((U8 *)&g_PIdx,1,1,fp);
-    read_all((U8 *)&personQueueLen,1,2,fp);
-    GamSetPersonCount(personQueueLen);
-    read_all((U8 *)&g_PlayerKing,1,2,fp);
-    read_all((U8 *)&g_YearDate,2,1,fp);
-    read_all((U8 *)&g_LookEnemy,1,1,fp);
-    read_all((U8 *)&g_LookMovie,1,1,fp);
-    read_all((U8 *)&g_MoveSpeed,1,1,fp);
-    read_all((U8 *)&g_MonthDate,1,1,fp);
-    read_all((U8 *)&g_CityPos,sizeof(CitySetType),1,fp);
-    read_all((U8 *)g_Persons,sizeof(PersonType),personQueueLen,fp);
-    read_all((U8 *)g_PersonsQueue,sizeof(PersonID),personQueueLen,fp);
-    read_all((U8 *)g_GoodsQueue,1,goodsQueueLen,fp);
-
-    if (version >= 0x94) {
-        read_all(&compressed, 1, 1, fp);
+static bool save_snapshot_valid(const GamSaveSnapshot* snapshot)
+{
+    U32 city, i;
+    if (snapshot->version < 0x90 || snapshot->version > 0x95 ||
+        !snapshot->personCount || snapshot->personCount > PERSON_MAX ||
+        snapshot->period < 1 || snapshot->period > 4 ||
+        snapshot->king >= snapshot->personCount ||
+        !snapshot->month || snapshot->month > 12 ||
+        !CITY_MAX || snapshot->compressed > 9) return false;
+    if (snapshot->cityPos.setx >= CITYMAP_W || snapshot->cityPos.sety >= CITYMAP_H ||
+        snapshot->cityPos.x >= CITYMAP_W || snapshot->cityPos.y >= CITYMAP_H) return false;
+    for (i = 0; i < snapshot->personCount; ++i) {
+        const PersonType* person = &snapshot->persons[i];
+        if (snapshot->personQueue[i] >= snapshot->personCount ||
+            (person->Belong != 0xffff && person->Belong > snapshot->personCount) ||
+            (person->OldBelong != 0xffff && person->OldBelong > snapshot->personCount) ||
+            person->Equip[0] > GOODS_MAX || person->Equip[1] > GOODS_MAX) return false;
     }
-
-    if (customData)
-    {
-        gam_free(customData);
+    for (city = 0; city < CITY_MAX; ++city) {
+        const CityType* item = &snapshot->cities[city];
+        if (item->Belong > snapshot->personCount || item->SatrapId > snapshot->personCount ||
+            (U32)item->PersonQueue + item->Persons > snapshot->personCount ||
+            (U32)item->ToolQueue + item->Tools > GOODS_MAX) return false;
+        for (i = item->PersonQueue; i < (U32)item->PersonQueue + item->Persons; ++i) {
+            if (snapshot->personQueue[i] >= snapshot->personCount) return false;
+        }
+        for (i = item->ToolQueue; i < (U32)item->ToolQueue + item->Tools; ++i) {
+            if ((snapshot->goods[i] & 0x7fff) >= GOODS_MAX) return false;
+        }
     }
-
-    {
-        U32 datalen = 0;
-
-        customData = gam_freadall(fp, &datalen);
-
-        if (compressed) {
-            if (datalen > 0) {
-                U8* data = decompress_data(customData, datalen);
-                gam_free(customData);
-                customData = data;
-            } else {
-                gam_free(customData);
-                customData = NULL;
+    for (i = 0; i < FIGHT_ORDER_MAX; ++i) {
+        U32 person;
+        if (snapshot->fighterIndex[i] > 1) return false;
+        for (person = 0; person < 10; ++person) {
+            if (snapshot->fighters[i * 10 + person] > snapshot->personCount) return false;
+        }
+    }
+    for (i = 0; i < ORDER_MAX; ++i) {
+        const OrderType* order = &snapshot->orders[i];
+        if (order->OrderId == 0xff) continue;
+        if (order->OrderId > BATTLE ||
+            (order->OrderId > INDUCE && order->OrderId < RECONNOITRE) ||
+            order->City >= CITY_MAX) return false;
+        if (order->OrderId == BATTLE) {
+            if (order->Person >= FIGHT_ORDER_MAX || order->Object >= CITY_MAX ||
+                !snapshot->fighterIndex[order->Person] ||
+                !snapshot->fighters[order->Person * 10]) return false;
+        } else {
+            if (order->Person >= snapshot->personCount) return false;
+            switch (order->OrderId) {
+                case TRANSPORTATION:
+                case MOVE:
+                case RECONNOITRE:
+                    if (order->Object >= CITY_MAX) return false;
+                    break;
+                case SURRENDER:
+                case ALIENATE:
+                case CANVASS:
+                case COUNTERESPIONAGE:
+                case INDUCE:
+                    if (order->Object >= snapshot->personCount) return false;
+                    break;
+                default:
+                    break; /* Native drivers do not read Object for these orders. */
             }
         }
     }
-    gam_fclose(fp);
-    
-    /* 读取第二个文件 */
-    tbuf[5] = (idx << 1) + 0x31;		/* tbuf = "sango?.sav" */
-    fp = sav_fopen(tbuf,'r');
-    if(NULL == fp)
-    {
-        ResLoadToMem(IFACE_STRID,dErrInf1,tbuf);
-        GamMsgBox(tbuf,2);
-        return false;
-    }
-    
-    read_all((U8 *)FIGHTERS_IDX,1,FIGHT_ORDER_MAX,fp);
-    read_all((U8 *)FIGHTERS,10,FIGHT_ORDER_MAX,fp);
-    read_all((U8 *)ORDERQUEUE,sizeof(OrderType), orderQueueLen, fp);
-    read_all((U8 *)g_Cities,sizeof(CityType),CITY_MAX,fp);
+    return true;
+}
 
-    int seed = 0;
-    read_all((U8 *)&seed,sizeof(seed), 1, fp);
-    if (g_engineConfig.disableSL) {
-        gam_srand(seed);
+bool GamLoadRcd(U8 idx)
+{
+    U8 tbuf[20], extra;
+    U32 customLength = 0, declaredCustomLength = 0;
+    gam_FILE* fp = NULL;
+    GamSaveSnapshot* snapshot = NULL;
+    if (idx >= 4) return false;
+    ResLoadToMem(IFACE_STRID,dReading,tbuf);
+    GamMsgBox(tbuf,0);
+    ResLoadToMem(IFACE_STRID,dSaveFNam,tbuf);
+    snapshot = gam_malloc(sizeof(*snapshot));
+    if (!snapshot) goto failed;
+    gam_memset((U8*)snapshot, 0, sizeof(*snapshot));
+    tbuf[5] = (idx << 1) + 0x30;
+    fp = sav_fopen(tbuf,'r');
+    if (!fp) goto failed;
+#define SAVE_READ(buf, size, count) do { \
+    if (gam_fread((U8*)(buf), (size), (count), fp) != (count)) goto failed; \
+} while (0)
+    SAVE_READ(&snapshot->version,1,1);
+    SAVE_READ(&snapshot->period,1,1);
+    SAVE_READ(&snapshot->personCount,1,2);
+    if (snapshot->version < 0x90 || snapshot->version > 0x95 ||
+        !snapshot->personCount || snapshot->personCount > PERSON_MAX) goto failed;
+    SAVE_READ(&snapshot->king,1,2);
+    SAVE_READ(&snapshot->year,2,1);
+    SAVE_READ(&snapshot->lookEnemy,1,1);
+    SAVE_READ(&snapshot->lookMovie,1,1);
+    SAVE_READ(&snapshot->moveSpeed,1,1);
+    SAVE_READ(&snapshot->month,1,1);
+    SAVE_READ(&snapshot->cityPos,sizeof(CitySetType),1);
+    SAVE_READ(snapshot->persons,sizeof(PersonType),snapshot->personCount);
+    SAVE_READ(snapshot->personQueue,sizeof(PersonID),snapshot->personCount);
+    SAVE_READ(snapshot->goods,1,snapshot->version >= 0x95 ? sizeof(snapshot->goods) : GOODS_MAX);
+    if (snapshot->version >= 0x94) SAVE_READ(&snapshot->compressed,1,1);
+    if (snapshot->version >= 0x95) {
+        SAVE_READ(&declaredCustomLength,sizeof(declaredCustomLength),1);
+        if (declaredCustomLength > 8 * 1024 * 1024) goto failed;
     }
-    
-    gam_fclose(fp);
+    snapshot->custom = save_read_custom(fp, &customLength);
+    if (!snapshot->custom) goto failed;
+    if (snapshot->version >= 0x95 && customLength != declaredCustomLength) goto failed;
+    if (!snapshot->compressed && strlen((const char*)snapshot->custom) != customLength) goto failed;
+    if (gam_fclose(fp)) { fp = NULL; goto failed; }
+    fp = NULL;
+    if (snapshot->compressed && customLength) {
+        U8* expanded = decompress_data(snapshot->custom, customLength);
+        if (!expanded) goto failed;
+        gam_free(snapshot->custom);
+        snapshot->custom = expanded;
+    }
+    tbuf[5] = (idx << 1) + 0x31;
+    fp = sav_fopen(tbuf,'r');
+    if (!fp) goto failed;
+    SAVE_READ(snapshot->fighterIndex,1,FIGHT_ORDER_MAX);
+    SAVE_READ(snapshot->fighters,1,
+        snapshot->version >= 0x95 ? sizeof(snapshot->fighters) : 10 * FIGHT_ORDER_MAX);
+    SAVE_READ(snapshot->orders,sizeof(OrderType),ORDER_MAX);
+    SAVE_READ(snapshot->cities,sizeof(CityType),CITY_MAX);
+    SAVE_READ(&snapshot->seed,sizeof(snapshot->seed),1);
+    if (gam_fread(&extra,1,1,fp)) goto failed;
+    if (gam_fclose(fp)) { fp = NULL; goto failed; }
+    fp = NULL;
+    if (snapshot->version < 0x95) {
+        U8 legacyFighters[10 * FIGHT_ORDER_MAX];
+        U32 fighter;
+        gam_memcpy(legacyFighters, (U8*)snapshot->fighters, sizeof(legacyFighters));
+        gam_memset((U8*)snapshot->fighters, 0, sizeof(snapshot->fighters));
+        for (fighter = 0; fighter < FIGHT_ORDER_MAX; ++fighter) {
+            U32 legacyOffset = fighter * 10 * sizeof(PersonID) * sizeof(PersonID);
+            if (!snapshot->fighterIndex[fighter]) continue;
+            if (legacyOffset + 10 * sizeof(PersonID) > sizeof(legacyFighters)) goto failed;
+            gam_memcpy((U8*)&snapshot->fighters[fighter * 10], legacyFighters + legacyOffset,
+                10 * sizeof(PersonID));
+        }
+    }
+    if (!save_snapshot_valid(snapshot)) goto failed;
+#undef SAVE_READ
+    g_PIdx = snapshot->period;
+    GamSetPersonCount(snapshot->personCount);
+    g_PlayerKing = snapshot->king;
+    g_YearDate = snapshot->year;
+    g_LookEnemy = snapshot->lookEnemy;
+    g_LookMovie = snapshot->lookMovie;
+    g_MoveSpeed = snapshot->moveSpeed;
+    g_MonthDate = snapshot->month;
+    g_CityPos = snapshot->cityPos;
+    gam_memcpy((U8*)g_Persons, (U8*)snapshot->persons, sizeof(PersonType) * snapshot->personCount);
+    gam_memcpy((U8*)g_PersonsQueue, (U8*)snapshot->personQueue, sizeof(PersonID) * snapshot->personCount);
+    gam_memcpy((U8*)g_GoodsQueue, (U8*)snapshot->goods, sizeof(snapshot->goods));
+    gam_memcpy(FIGHTERS_IDX, snapshot->fighterIndex, FIGHT_ORDER_MAX);
+    gam_memcpy(FIGHTERS, (U8*)snapshot->fighters, sizeof(snapshot->fighters));
+    gam_memcpy(ORDERQUEUE, (U8*)snapshot->orders, sizeof(snapshot->orders));
+    gam_memcpy((U8*)g_Cities, (U8*)snapshot->cities, sizeof(CityType) * CITY_MAX);
+    gam_free(customData);
+    customData = snapshot->custom;
+    snapshot->custom = NULL;
+    if (g_engineConfig.disableSL) gam_srand(snapshot->seed);
+    gam_free(snapshot);
+    baye_hd_world_commit();
     call_hook("didLoadGame", NULL);
-    return true;	
+    return true;
+failed:
+    if (fp) gam_fclose(fp);
+    if (snapshot) { gam_free(snapshot->custom); gam_free(snapshot); }
+    ResLoadToMem(IFACE_STRID,dErrInf1,tbuf);
+    GamMsgBox(tbuf,2);
+    return false;
 }
 /***********************************************************************
  * 说明:     存储指定序号的档案
@@ -949,82 +1105,115 @@ bool GamLoadRcd(U8 idx)
  *             高国军          2005.5.16       完成基本功能
  ***********************************************************************/
 
+/* The web filesystem stages file closes in memory. The only persistent
+ * publication occurs after both complete files have passed every write. */
+static bool save_batch_begin(U8 slot)
+{
+#ifdef __EMSCRIPTEN__
+    return EM_ASM_INT({
+        try { return window.bayeSaveBatchBegin ? (window.bayeSaveBatchBegin($0) ? 1 : 0) : 0; }
+        catch (error) { return 0; }
+    }, slot);
+#else
+    (void)slot;
+    return true;
+#endif
+}
+
+static bool save_batch_commit(void)
+{
+#ifdef __EMSCRIPTEN__
+    return EM_ASM_INT({
+        try { return window.bayeSaveBatchCommit ? (window.bayeSaveBatchCommit() ? 1 : 0) : 0; }
+        catch (error) { return 0; }
+    });
+#else
+    return true;
+#endif
+}
+
+static void save_batch_abort(void)
+{
+#ifdef __EMSCRIPTEN__
+    EM_ASM({ if (window.bayeSaveBatchAbort) window.bayeSaveBatchAbort(); });
+#endif
+}
+
 bool GamSaveRcd(U8 idx)
 {
-    U8	tbuf[20];
-    gam_FILE	*fp;
-    
+    U8 tbuf[20], ver = 0x95;
+    U16 pcount;
+    U8* encoded = NULL;
+    U32 encodedLength = 0;
+    U32 customLength;
+    gam_FILE* fp = NULL;
+    bool batch = false;
+    if (idx >= 3) return false;
     ResLoadToMem(IFACE_STRID,dWriting,tbuf);
     GamMsgBox(tbuf,0);
     GamDelay(1, 0);
-    ResLoadToMem(IFACE_STRID,dSaveFNam,tbuf);
-    
     call_hook("willSaveGame", NULL);
-    
-    /* 存储第一个文件 */
-    tbuf[5] = (idx << 1) + 0x30;		/* tbuf = "sango?.sav" */
+    pcount = GamGetPersonCount();
+    if (!pcount || pcount > PERSON_MAX) goto failed;
+    if (customData && customData[0] && g_engineConfig.compressCustomData) {
+        if (compress_data(&encoded, &encodedLength, customData,
+            g_engineConfig.compressCustomData) != 0) goto failed;
+    }
+    customLength = encoded ? encodedLength : (customData ? strlen((const char*)customData) : 0);
+    if (customLength > 8 * 1024 * 1024) goto failed;
+    if (!save_batch_begin(idx)) goto failed;
+    batch = true;
+    ResLoadToMem(IFACE_STRID,dSaveFNam,tbuf);
+    tbuf[5] = (idx << 1) + 0x30;
     fp = sav_fopen(tbuf,'w');
-    if(NULL == fp)
-    {
-        ResLoadToMem(IFACE_STRID,dErrInf,tbuf);
-        GamMsgBox(tbuf,2);
-        return false;
-    }
-    
-    U8 ver = 0x94;
-    U16 pcount = GamGetPersonCount();
-    gam_fwrite((U8 *)&ver,1,1,fp);
-    gam_fwrite((U8 *)&g_PIdx,1,1,fp);
-    gam_fwrite((U8 *)&pcount,1,2,fp);
-    gam_fwrite((U8 *)&g_PlayerKing,1,2,fp);
-    gam_fwrite((U8 *)&g_YearDate,2,1,fp);
-    gam_fwrite((U8 *)&g_LookEnemy,1,1,fp);
-    gam_fwrite((U8 *)&g_LookMovie,1,1,fp);
-    gam_fwrite((U8 *)&g_MoveSpeed,1,1,fp);
-    gam_fwrite((U8 *)&g_MonthDate,1,1,fp);
-    gam_fwrite((U8 *)&g_CityPos,sizeof(CitySetType),1,fp);
-    gam_fwrite((U8 *)g_Persons,sizeof(PersonType),pcount,fp);
-    gam_fwrite((U8 *)g_PersonsQueue,sizeof(PersonID),pcount,fp);
-    gam_fwrite((U8 *)g_GoodsQueue,1,GOODS_MAX,fp);
-    gam_fwrite((U8 *)&g_engineConfig.compressCustomData,1,1,fp);
-    if (customData && customData[0]) {
-        if (g_engineConfig.compressCustomData) {
-            U8* data;
-            U32 len;
-            if (compress_data(&data, &len, customData, g_engineConfig.compressCustomData) != 0) {
-                ResLoadToMem(IFACE_STRID,dErrInf,tbuf);
-                GamMsgBox(tbuf,2);
-                return false;
-            }
-            gam_fwrite(data, len, 1, fp);
-            gam_free(data);
-        } else {
-            gam_fwrite(customData, (U32)strlen((const char*)customData), 1, fp);
-        }
-    }
-    gam_fclose(fp);
-    
-    /* 存储第二个文件 */
-    tbuf[5] = (idx << 1) + 0x31;		/* tbuf = "sango?.sav" */
+    if (!fp) goto failed;
+#define SAVE_WRITE(buf, size, count) do { \
+    if (gam_fwrite((U8*)(buf), (size), (count), fp) != (count)) goto failed; \
+} while (0)
+    SAVE_WRITE(&ver,1,1);
+    SAVE_WRITE(&g_PIdx,1,1);
+    SAVE_WRITE(&pcount,1,2);
+    SAVE_WRITE(&g_PlayerKing,1,2);
+    SAVE_WRITE(&g_YearDate,2,1);
+    SAVE_WRITE(&g_LookEnemy,1,1);
+    SAVE_WRITE(&g_LookMovie,1,1);
+    SAVE_WRITE(&g_MoveSpeed,1,1);
+    SAVE_WRITE(&g_MonthDate,1,1);
+    SAVE_WRITE(&g_CityPos,sizeof(CitySetType),1);
+    SAVE_WRITE(g_Persons,sizeof(PersonType),pcount);
+    SAVE_WRITE(g_PersonsQueue,sizeof(PersonID),pcount);
+    SAVE_WRITE(g_GoodsQueue,1,sizeof(g_GoodsQueue));
+    SAVE_WRITE(&g_engineConfig.compressCustomData,1,1);
+    SAVE_WRITE(&customLength,sizeof(customLength),1);
+    if (encoded) SAVE_WRITE(encoded,encodedLength,1);
+    else if (customData && customData[0]) SAVE_WRITE(customData,strlen((const char*)customData),1);
+    if (gam_fclose(fp)) { fp = NULL; goto failed; }
+    fp = NULL;
+    gam_free(encoded);
+    encoded = NULL;
+    tbuf[5] = (idx << 1) + 0x31;
     fp = sav_fopen(tbuf,'w');
-    if(NULL == fp)
-    {
-        ResLoadToMem(IFACE_STRID,dErrInf,tbuf);
-        GamMsgBox(tbuf,2);
-        return false;
-    }
-    
-    gam_fwrite((U8 *)FIGHTERS_IDX,1,FIGHT_ORDER_MAX,fp);
-    gam_fwrite((U8 *)FIGHTERS,10,FIGHT_ORDER_MAX,fp);
-    gam_fwrite((U8 *)ORDERQUEUE,sizeof(OrderType),ORDER_MAX,fp);
-    gam_fwrite((U8 *)g_Cities,sizeof(CityType),CITY_MAX,fp);
+    if (!fp) goto failed;
+    SAVE_WRITE(FIGHTERS_IDX,1,FIGHT_ORDER_MAX);
+    SAVE_WRITE(FIGHTERS,sizeof(PersonID) * 10,FIGHT_ORDER_MAX);
+    SAVE_WRITE(ORDERQUEUE,sizeof(OrderType),ORDER_MAX);
+    SAVE_WRITE(g_Cities,sizeof(CityType),CITY_MAX);
     {
         int seed = gam_seed();
-        gam_fwrite((U8 *)&seed,sizeof(seed), 1,fp);
+        SAVE_WRITE(&seed,sizeof(seed),1);
     }
-    
-    gam_fclose(fp);
+    if (gam_fclose(fp)) { fp = NULL; goto failed; }
+    fp = NULL;
+#undef SAVE_WRITE
+    if (!save_batch_commit()) goto failed;
     return true;
+failed:
+    if (fp) gam_fclose(fp);
+    gam_free(encoded);
+    if (batch) save_batch_abort();
+    ResLoadToMem(IFACE_STRID,dErrInf,tbuf);
+    GamMsgBox(tbuf,2);
+    return false;
 }
 
 void GamSetDataDir(const U8*dataDir_)
