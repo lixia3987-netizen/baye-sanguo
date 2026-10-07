@@ -1,0 +1,5 @@
+# Build provenance hashes the generated artifacts' exact bytes.
+/js/baye.js text eol=lf
+/js/baye.wasm.map text eol=lf
+/js/baye.build.json text eol=lf
+/js/baye.wasm -text
