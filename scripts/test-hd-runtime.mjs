@@ -6,6 +6,8 @@
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * --performance records map rendering, real tab visibility and native quantity ACK latency.
  * --renderer-dir compares archived hd-overworld.js/hd-battle.js under the same measurement.
+ * --input-dir serves only archived lcd.js, hd-city-menu.js, hd-dialog.js and bridge.js.
+ * --engine-dir serves an archived four-file WASM build; mutually exclusive with --staged.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -22,25 +24,72 @@ import { summarizeSamples, summarizeFrames } from './hd-performance-metrics.mjs'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const performanceMode = process.argv.includes('--performance');
-const rendererFlag = process.argv.indexOf('--renderer-dir');
-const rendererDir = rendererFlag < 0 ? null : path.resolve(process.argv[rendererFlag + 1]);
+const directoryArgument = (flag) => {
+    const index = process.argv.indexOf(flag);
+    if (index < 0) return null;
+    const value = process.argv[index + 1];
+    assert.ok(value && !value.startsWith('--'), flag + ' requires a directory');
+    return path.resolve(value);
+};
+const rendererDir = directoryArgument('--renderer-dir');
+const inputDir = directoryArgument('--input-dir');
+const engineDir = directoryArgument('--engine-dir');
 assert.ok(!rendererDir || performanceMode, '--renderer-dir requires --performance');
-const artifactFlag = process.argv.indexOf('--artifact-dir');
-const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/runtime-smoke'));
+assert.ok(!(staged && engineDir), '--engine-dir and --staged are mutually exclusive');
+const artifactDir = directoryArgument('--artifact-dir') || path.join(root, 'build/runtime-smoke');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
 const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [] };
+const engineNames = ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json'];
+const inputNames = ['lcd.js', 'hd-city-menu.js', 'hd-dialog.js', 'bridge.js'];
+const rendererNames = ['hd-overworld.js', 'hd-battle.js'];
+const servedAssets = new Map();
+const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+
+function prepareServedAssets() {
+    report.sources = {};
+    for (const [group, names, directory] of [
+        ['engine', engineNames, engineDir || (staged ? path.join(root, 'build/wasm/src') : path.join(root, 'js'))],
+        ['inputs', inputNames, inputDir || path.join(root, 'js')],
+        ['renderers', rendererNames, rendererDir || path.join(root, 'js')]
+    ]) {
+        report.sources[group] = {};
+        for (const name of names) {
+            const filename = path.join(directory, name);
+            assert.ok(fs.existsSync(filename), 'Missing ' + group + ' file: ' + filename);
+            const data = fs.readFileSync(filename);
+            const metadata = { source: path.relative(root, filename), bytes: data.length, sha256: sha256(data) };
+            report.sources[group][name] = metadata;
+            // Snapshot exactly the bytes whose hashes are reported, so edits or
+            // subsequent builds cannot silently change a running comparison.
+            servedAssets.set('js/' + name, { data, metadata });
+        }
+    }
+    report.engineManifest = JSON.parse(servedAssets.get('js/baye.build.json').data.toString('utf8'));
+    for (const name of engineNames.filter(name => name !== 'baye.build.json')) {
+        const actual = report.sources.engine[name], declared = report.engineManifest.artifacts?.[name];
+        assert.ok(declared, 'Engine manifest declares artifact: ' + name);
+        assert.equal(actual.bytes, declared.bytes, 'Served engine bytes match manifest: ' + name);
+        assert.equal(actual.sha256, declared.sha256, 'Served engine hash matches manifest: ' + name);
+    }
+}
 
 async function startServer() {
     const server = http.createServer((req, res) => {
         try {
             const url = new URL(req.url, 'http://localhost');
             const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'pc.html';
-            const renderer = rendererDir && /^js\/hd-(overworld|battle)\.js$/.test(rel);
-            const base = renderer ? rendererDir : staged && /^js\/baye\.(js|wasm|wasm\.map)$/.test(rel) ? path.join(root, 'build/wasm/src') : root;
-            const filename = path.resolve(base, base === root ? rel : path.basename(rel));
+            const snapshot = servedAssets.get(rel);
+            if (snapshot) {
+                report.requests.push({ url: url.pathname, status: 200, ...snapshot.metadata });
+                res.writeHead(200, { 'Content-Type': mime[path.extname(rel)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+                res.end(snapshot.data);
+                return;
+            }
+            const base = root;
+            const filename = path.resolve(base, rel);
             if (!filename.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
             fs.readFile(filename, (err, data) => {
                 if (err) { report.requests.push({ url: url.pathname, status: 404 }); res.writeHead(404).end(); return; }
@@ -147,13 +196,15 @@ async function checkpoint(cdp, name) {
 }
 
 async function key(cdp, name) {
-    const codes = { Enter: 13, Escape: 27, ArrowDown: 40, ArrowUp: 38, ArrowLeft: 37, ArrowRight: 39 };
-    await cdp.send('Input.dispatchKeyEvent', { type: 'keyDown', key: name, code: name, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
-    await cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', key: name, code: name, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
+    const codes = { Enter: 13, Escape: 27, ArrowDown: 40, ArrowUp: 38, ArrowLeft: 37, ArrowRight: 39, h: 72 };
+    assert.ok(codes[name], 'Supported physical key: ' + name);
+    const code = name === 'h' ? 'KeyH' : name;
+    await cdp.send('Input.dispatchKeyEvent', { type: 'keyDown', key: name, code, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
+    await cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', key: name, code, windowsVirtualKeyCode: codes[name], nativeVirtualKeyCode: codes[name] });
     await delay(180);
 }
 
-async function click(cdp, selector) {
+async function clickPoint(cdp, selector) {
     const point = await evaluate(cdp, `(() => {
         const node = document.querySelector(${JSON.stringify(selector)});
         if (!node) return null;
@@ -163,6 +214,11 @@ async function click(cdp, selector) {
         return { x: rect.x + rect.width / 2, y: rect.y + rect.height / 2 };
     })()`);
     assert.ok(point, 'Visible click target: ' + selector);
+    return point;
+}
+
+async function click(cdp, selector) {
+    const point = await clickPoint(cdp, selector);
     await cdp.send('Input.dispatchMouseEvent', { type: 'mousePressed', ...point, button: 'left', clickCount: 1 });
     await cdp.send('Input.dispatchMouseEvent', { type: 'mouseReleased', ...point, button: 'left', clickCount: 1 });
     await delay(250);
@@ -317,6 +373,7 @@ async function quantitySmoke(cdp) {
             report.quantity.steps.push({ delta, value: q.value });
         }
         assert.equal(expected, initial.max, 'enlist input returns to its upper bound');
+        await quantityOrderingSmoke(cdp, initial);
         if (performanceMode) await measureQuantityPerformance(cdp, initial);
         const bounded = await evaluate(cdp, `(() => {
             const before = window.__runtimeKeys.length;
@@ -343,9 +400,174 @@ async function quantitySmoke(cdp) {
         assert.equal(afterCancel.city.sending, false);
         report.quantity.canceledKeys = canceled.keys;
         await checkpoint(cdp, '10-quantity-cancel');
+        await quantityPendingConfirmSmoke(cdp, owned.i);
     } finally {
         await evaluate(cdp, `window.sendKey = window.__runtimeOriginalSendKey; delete window.__runtimeOriginalSendKey;`);
     }
+}
+
+async function quantityPendingConfirmSmoke(cdp, cityIndex) {
+    const chooser = await waitFor(cdp, 'real enlist person picker after quantity cancellation', `(() => {
+        const c=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems();
+        return c.layer==='deep'&&c.deepLabel==='征兵'&&c.deepItems.length&&m.active&&m.kind===3&&c;
+    })()`);
+    const nativePicker = await evaluate(cdp, `(() => {
+        const d=baye.data,c=d.g_Cities[${cityIndex}],menu=baye.hd.menuItems();
+        // Mirror GetCityPersons' read-only filtering, including U16 queue IDs.
+        // A city also contains out-of-office residents absent from this picker.
+        const people=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i]))
+            .filter(i=>Number(d.g_Persons[i].Belong)===Number(c.Belong))
+            .map(i=>({personIndex:i,name:baye.getPersonName(i)}));
+        return {menu,people};
+    })()`);
+    assert.deepEqual(nativePicker.people.map(person=>person.name),nativePicker.menu.names,'complete native enlist menu agrees with the actual allied PersonQueue order');
+    assert.equal(chooser.deepItems[0].name,nativePicker.people[0]?.name,'visible first enlist choice agrees with the genuine native general');
+    const personIndex = Number(nativePicker.people[0]?.personIndex);
+    assert.ok(Number.isInteger(personIndex) && personIndex >= 0, 'enlist selection has a genuine PersonQueue identity');
+    const world = `(() => {
+        const d=baye.data,c=d.g_Cities[${cityIndex}],p=d.g_Persons[${personIndex}];
+        return {cityIndex:${cityIndex},personIndex:${personIndex},money:Number(c.Money),reserve:Number(c.MothballArms),
+            arms:Number(p.Arms),thew:Number(p.Thew),armsPerMoney:Number(d.g_engineConfig.armsPerMoney),
+            persons:Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i])),
+            orders:Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>d.g_OrderQueue[i]).filter(o=>Number(o.OrderId)===24&&Number(o.City)===${cityIndex}&&Number(o.Person)===${personIndex})
+                .map(o=>({OrderId:Number(o.OrderId),City:Number(o.City),Person:Number(o.Person),TimeCount:Number(o.TimeCount)}))};
+    })()`;
+    const before = await evaluate(cdp, world);
+    assert.ok(before.armsPerMoney>0, 'enlist cost comes from the native engine configuration');
+    assert.ok(before.persons.includes(personIndex), 'selected recruiter is actually in the city');
+    await click(cdp, '#hd-city-menu [data-hd-deep="0"]');
+    const initial = await waitFor(cdp, 'reopened native enlist quantity', `(() => {
+        const q=baye.hd.qty();return q.active&&q.value===q.max&&q.max>10&&BayeHdCityMenu.isQtyLive()&&q;
+    })()`);
+    const quantity=initial.value-10;
+    assert.ok(before.reserve+quantity<=65535, 'fixture stays below native reserve overflow limits');
+    const stepSelector=await evaluate(cdp, `BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-qty="-10"]':'#hd-city-menu [data-hd-qty="-10"]'`);
+    const confirmSelector=await evaluate(cdp, `BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'`);
+    const stepPoint=await clickPoint(cdp,stepSelector),confirmPoint=await clickPoint(cdp,confirmSelector);
+    const startKeys=await evaluate(cdp, `(() => {
+        window.__runtimePendingConfirm={stepTrusted:false,confirmTrusted:false,pendingAtConfirm:false};
+        window.__runtimePendingClick=function(event){
+            const target=event.target;if(!target.closest)return;
+            if(target.closest(${JSON.stringify(stepSelector)}))window.__runtimePendingConfirm.stepTrusted=event.isTrusted;
+            if(target.closest(${JSON.stringify(confirmSelector)})){
+                const c=BayeHdCityMenu.debugSnapshot();window.__runtimePendingConfirm.confirmTrusted=event.isTrusted;
+                window.__runtimePendingConfirm.pendingAtConfirm=!!(c.sending||c.queueLen);
+                window.__runtimePendingConfirm.atConfirm={qty:{...baye.hd.qty()},queueLen:c.queueLen,sending:c.sending};
+            }
+        };document.addEventListener('click',window.__runtimePendingClick,true);return window.__runtimeKeys.length;
+    })()`);
+    // Queue all four ordered CDP events without a host pause, so confirmation
+    // reaches the real DOM while the -10 native-key sequence is still pending.
+    await Promise.all([
+        cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...stepPoint,button:'left',clickCount:1}),
+        cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',...stepPoint,button:'left',clickCount:1}),
+        cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',...confirmPoint,button:'left',clickCount:1}),
+        cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',...confirmPoint,button:'left',clickCount:1})
+    ]);
+    const interaction=await evaluate(cdp,`(() => {
+        document.removeEventListener('click',window.__runtimePendingClick,true);delete window.__runtimePendingClick;
+        return window.__runtimePendingConfirm;
+    })()`);
+    assert.equal(interaction.stepTrusted,true,'pending step is a trusted player click');
+    assert.equal(interaction.confirmTrusted,true,'pending confirmation is a trusted player click');
+    assert.equal(interaction.pendingAtConfirm,true,'confirmation really occurs with native quantity keys pending');
+    await waitFor(cdp,'pending quantity commits exactly the selected native enlist amount',`(() => {
+        const c=baye.data.g_Cities[${cityIndex}],q=baye.hd.qty(),ui=BayeHdCityMenu.debugSnapshot();
+        if(ui.qtyAckFailed)throw new Error('Native quantity ACK failed: '+ui.qtyAckError);
+        return !q.active&&Number(c.MothballArms)===${before.reserve+quantity}&&!ui.sending&&!ui.queueLen;
+    })()`);
+    const after=await evaluate(cdp,world),keys=await evaluate(cdp,`window.__runtimeKeys.slice(${startKeys})`);
+    assert.equal(keys.filter(code=>code===0x27).length,1,'pending quantity confirmation emits exactly one native ENTER');
+    assert.equal(keys.at(-1),0x27,'no quantity key follows the committing ENTER');
+    assert.equal(after.reserve,before.reserve+quantity,'native enlist adds exactly the queued amount to city reserves');
+    assert.equal(after.money,before.money-Math.floor(quantity/before.armsPerMoney),'native enlist charges the actual configured money cost');
+    assert.equal(after.arms,before.arms,'enlist reserves preserve the selected general’s existing personal troops');
+    assert.equal(after.orders.length,before.orders.length+1,'native enlist creates exactly one order for the selected general');
+    assert.deepEqual(after.persons.slice().sort((a,b)=>a-b),before.persons.filter(i=>i!==personIndex).sort((a,b)=>a-b),'native enlist removes exactly its assigned general from the resident queue');
+    await delay(500);
+    assert.equal(await evaluate(cdp,'window.__runtimeKeys.length'),startKeys+keys.length,'committed quantity leaves no stale queued keys');
+    report.quantity.pendingConfirm={nativePicker,initial,quantity,interaction,before,after,keys};
+    await checkpoint(cdp,'quantity-pending-confirm-real-enlist-order');
+
+    const seen=new Set(),deadline=Date.now()+30000;
+    while(Date.now()<deadline) {
+        const state=await evaluate(cdp,snapshotExpression);
+        if(state.march?.pick&&!state.march.battlePick&&!state.menu?.active&&!state.dialog?.open) {
+            await checkpoint(cdp,'quantity-enlist-return-to-map');return;
+        }
+        if(state.menu?.active&&state.menu.context===1&&!seen.has(state.menu.seq)) {
+            seen.add(state.menu.seq);await key(cdp,'Escape');
+        } else if(state.dialog?.open&&state.dialog.kind==='report')await click(cdp,'#hd-dialog [data-hd-dlg-ok]');
+        await delay(150);
+    }
+    throw new Error('Native enlist quantity scenario did not return to the strategy map');
+}
+
+async function quantityOrderingSmoke(cdp, initial) {
+    const settle = async (expected, description) => waitFor(cdp, description, `(() => {
+        const q=baye.hd.qty(),c=BayeHdCityMenu.debugSnapshot();
+        if(c.qtyAckFailed)throw new Error('Native quantity ACK failed: '+c.qtyAckError);
+        return q.active&&q.value===${expected}&&!c.sending&&!c.queueLen&&q;
+    })()`);
+    const sameSession = (before, after) => {
+        if (before.protocol) {
+            assert.equal(after.session, before.session, 'queued operations stay in the genuine NumOperate session');
+            assert.equal(after.ready, 1, 'quantity is back at the native input wait');
+        }
+    };
+    let before = await evaluate(cdp, 'baye.hd.qty()');
+    await evaluate(cdp, '[ -10, 10, -10, 10 ].forEach(delta=>BayeHdCityMenu.stepQty(delta))');
+    let after = await settle(initial.max, 'rapid opposite quantity steps preserve FIFO');
+    sameSession(before, after);
+    report.quantity.rapidSteps = { deltas: [-10, 10, -10, 10], before, after };
+
+    // HELP is the actual H keyboard shortcut handled by NumOperate. It toggles
+    // bounds without issuing an order or assigning any native quantity field.
+    await key(cdp, 'h');
+    before = await settle(initial.min, 'native H shortcut selects the quantity minimum');
+    const count = await evaluate(cdp, 'window.__runtimeKeys.length');
+    await evaluate(cdp, 'BayeHdCityMenu.stepQty(-10);BayeHdCityMenu.stepQty(-1)');
+    after = await settle(initial.min, 'lower-bound steps are no-ops');
+    assert.equal(await evaluate(cdp, 'window.__runtimeKeys.length'), count, 'clamped lower-bound steps send no native keys');
+    sameSession(before, after);
+    report.quantity.lowerBound = { before, after };
+    await key(cdp, 'h');
+    await settle(initial.max, 'native H shortcut restores the maximum');
+
+    // At units, native RIGHT is a cursor no-op. Its receipt still advances the
+    // native character-input sequence; no value-change shortcut can prove ACK.
+    before = await evaluate(cdp, 'baye.hd.qty()');
+    await key(cdp, 'ArrowRight');
+    after = await settle(initial.max, 'native cursor no-op completes');
+    sameSession(before, after);
+    if (before.protocol) {
+        assert.equal(after.inputSeq, ((before.inputSeq + 1) >>> 0) || 1, 'cursor no-op has a genuine character receipt');
+        assert.equal(after.lastKey, 0x25);
+        assert.equal(after.cursor, before.cursor);
+    }
+    report.quantity.cursorNoop = { before, after };
+
+    // C's digit position is its existing visual cursor bit. Select the current
+    // digit, then immediately enqueue -1/+1: the first key deliberately leaves
+    // the number unchanged, but must receive native ACK before either step.
+    before = after;
+    const cursor = before.protocol ? before.cursor : String(initial.max).length - 1;
+    const digit = Math.floor(before.value / 10 ** cursor) % 10;
+    const keysBefore = await evaluate(cdp, 'window.__runtimeKeys.length');
+    await evaluate(cdp, `BayeHdCityMenu.digitQty(${digit});BayeHdCityMenu.stepQty(-1);BayeHdCityMenu.stepQty(1)`);
+    after = await settle(initial.max, 'same-value digit and subsequent steps receive ordered native input');
+    sameSession(before, after);
+    const keys = await evaluate(cdp, `window.__runtimeKeys.slice(${keysBefore})`);
+    assert.equal(keys[0], 0x40 + digit, 'digit is dispatched before its queued steps');
+    if (before.protocol && !inputDir) {
+        assert.deepEqual(keys,[0x40+digit,0x23,0x22],'native fast path dispatches exactly the digit and two unit steps');
+        let sequence = before.inputSeq;
+        for (let i=0;i<3;i++) sequence=((sequence+1)>>>0)||1;
+        assert.equal(after.inputSeq, sequence, 'unchanged digit has its own native receipt');
+        assert.equal(after.lastKey, 0x22);
+    }
+    report.quantity.digitThenSteps = { digit, before, after, keys };
+    await checkpoint(cdp, 'quantity-ordered-input-and-noop-receipts');
 }
 
 async function measureMapPerformance(cdp) {
@@ -356,11 +578,9 @@ async function measureMapPerformance(cdp) {
         resourceVersion:window.BAYE_ASSET_VER,visibility:document.visibilityState,period:Number(baye.data.g_PIdx),
         cityCount:baye.hd.realm().cities.length,personCount:baye.getPersonCount(),lib:localStorage.getItem('baye/libpath'),
         wasmHeapBytes:window.Module&&Module.HEAPU8?Module.HEAPU8.byteLength:null})`);
-    const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
     report.performance = { browser, environment, host:{platform:os.platform(),arch:os.arch(),cpu:os.cpus()[0]?.model,
         availableParallelism:os.availableParallelism(),totalMemoryBytes:os.totalmem()},headless:true,gpuDisabled:true,
-        manifest:JSON.parse(fs.readFileSync(path.join(root, staged?'build/wasm/src/baye.build.json':'js/baye.build.json'),'utf8')),
-        renderers:Object.fromEntries(['hd-overworld.js','hd-battle.js'].map(name => [name,{sha256:sha256(fs.readFileSync(path.join(rendererDir||path.join(root,'js'),name)))}])) };
+        manifest:report.engineManifest, sources:report.sources, renderers:report.sources.renderers };
     report.performance.environment.libSha256=sha256(fs.readFileSync(path.join(root,environment.lib)));
     await cdp.send('Performance.enable');
     const before = await cdp.send('Performance.getMetrics');
@@ -429,36 +649,96 @@ async function measureBackgroundDrawing(cdp) {
 
 async function measureQuantityPerformance(cdp,initial) {
     const raw=[];
-    for(let i=0;i<12;i++) {
-        const delta=i%2?1:-1,expected=initial.value+(i%2?0:-1);
-        const selector=await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-qty="${delta}"]':'#hd-city-menu [data-hd-qty="${delta}"]'`);
+    await evaluate(cdp,`(() => {
+        const original=window.sendKey;
+        window.__perfQtyOriginalSendKey=original;
+        window.__perfQtyTrace=null;
+        window.__perfQtyObserve=function(q,source){
+            const sample=window.__perfQtyTrace;if(!sample)return;
+            const now=performance.now();
+            sample.keys.forEach(key=>{
+                if(key.ackAt!=null||!key.before.protocol)return;
+                const next=((key.before.inputSeq+1)>>>0)||1;
+                if(q.protocol&&q.active&&q.ready&&q.session===key.before.session&&q.inputSeq===next&&q.lastKey===key.code){
+                    key.ackAt=now;key.ackSource=source;key.ack={...q};
+                }
+            });
+            if(q.value!==sample.initial.value&&sample.firstValueChangeAt==null)sample.firstValueChangeAt=now;
+            const city=BayeHdCityMenu.debugSnapshot();
+            if(q.active&&q.value===sample.expected&&!city.sending&&!city.queueLen&&(!q.protocol||q.ready)&&sample.queueIdleAt==null)
+                sample.queueIdleAt=now;
+        };
+        window.__perfQtySendKey=function(code){
+            const sample=window.__perfQtyTrace;
+            if(!sample)return original.apply(this,arguments);
+            const before=baye.hd.qty();window.__perfQtyObserve(before,'before-next-dispatch');
+            const key={code,dispatchAt:performance.now(),before:{...before},ackAt:null};sample.keys.push(key);
+            try{return original.apply(this,arguments);}
+            finally{key.returnAt=performance.now();key.after={...baye.hd.qty()};window.__perfQtyObserve(key.after,'send-return');}
+        };
+        window.sendKey=window.__perfQtySendKey;
+    })()`);
+    try {
+        for(let i=0;i<12;i++) {
+            const delta=i%2?1:-1,expected=initial.value+(i%2?0:-1);
+            const selector=await evaluate(cdp,`BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-qty="${delta}"]':'#hd-city-menu [data-hd-qty="${delta}"]'`);
+            await evaluate(cdp,`(() => {
+                window.__perfQtyAck=null;
+                document.querySelector(${JSON.stringify(selector)}).addEventListener('click',event=>{
+                    const sample={startedAt:performance.now(),expected:${expected},trusted:event.isTrusted,
+                        initial:{...baye.hd.qty()},keys:[],queueIdleAt:null,firstValueChangeAt:null};
+                    window.__perfQtyTrace=sample;
+                    window.__perfQtyObserverTimer=setInterval(()=>window.__perfQtyObserve(baye.hd.qty(),'4ms-observer'),4);
+                    const tick=()=>{const q=baye.hd.qty(),c=BayeHdCityMenu.debugSnapshot();
+                        if(c.qtyAckFailed){clearInterval(window.__perfQtyObserverTimer);window.__perfQtyObserverTimer=null;
+                            window.__perfQtyTrace=null;window.__perfQtyAck={error:c.qtyAckError||'Native quantity ACK failed'};return;}
+                        window.__perfQtyObserve(q,'animation-frame');
+                        if(q.active&&q.value===sample.expected&&!c.sending&&!c.queueLen&&(!q.protocol||q.ready)){
+                            sample.observedAt=performance.now();sample.durationMs=sample.observedAt-sample.startedAt;sample.actual=q.value;
+                            clearInterval(window.__perfQtyObserverTimer);window.__perfQtyObserverTimer=null;
+                            window.__perfQtyTrace=null;window.__perfQtyAck=sample;return;}
+                        if(performance.now()-sample.startedAt<5000)requestAnimationFrame(tick);
+                        else{clearInterval(window.__perfQtyObserverTimer);window.__perfQtyObserverTimer=null;window.__perfQtyTrace=null;}
+                    };requestAnimationFrame(tick);
+                },{capture:true,once:true});
+            })()`);
+            await click(cdp,selector);
+            const sample=await waitFor(cdp,'measured native quantity acknowledgement','window.__perfQtyAck',6000);
+            assert.ok(!sample.error,'native quantity measurement: '+sample.error);
+            assert.equal(sample.actual,expected);assert.equal(sample.trusted,true,'quantity sample uses a genuine mouse click');
+            if(sample.initial.protocol)assert.ok(sample.keys.every(key=>key.ackAt!=null),'every measured character has its own matching native wait receipt');
+            const lastAck=sample.keys.every(key=>key.ackAt!=null)?Math.max(...sample.keys.map(key=>key.ackAt)):null;
+            sample.breakdownMs={
+                clickToFirstDispatch:sample.keys[0].dispatchAt-sample.startedAt,
+                firstDispatchToLastNativeAck:lastAck==null?null:lastAck-sample.keys[0].dispatchAt,
+                lastNativeAckToQueueIdle:lastAck==null?null:Math.max(0,sample.queueIdleAt-lastAck),
+                queueIdleToObservedFrame:sample.observedAt-sample.queueIdleAt,
+                clickToFirstNativeValueChange:sample.firstValueChangeAt==null?null:sample.firstValueChangeAt-sample.startedAt
+            };
+            raw.push(sample);
+        }
+    } finally {
         await evaluate(cdp,`(() => {
-            window.__perfQtyAck=null;
-            document.querySelector(${JSON.stringify(selector)}).addEventListener('click',event=>{
-                const started=performance.now();
-                const tick=()=>{const q=baye.hd.qty(),c=BayeHdCityMenu.debugSnapshot();
-                    if(q.active&&q.value===${expected}&&!c.sending&&!c.queueLen){
-                        window.__perfQtyAck={durationMs:performance.now()-started,expected:${expected},actual:q.value,trusted:event.isTrusted};return;}
-                    if(performance.now()-started<5000)requestAnimationFrame(tick);
-                };requestAnimationFrame(tick);
-            },{capture:true,once:true});
+            if(window.__perfQtyObserverTimer!=null)clearInterval(window.__perfQtyObserverTimer);
+            window.__perfQtyObserverTimer=null;window.__perfQtyTrace=null;
+            window.sendKey=window.__perfQtyOriginalSendKey;
+            delete window.__perfQtyOriginalSendKey;delete window.__perfQtySendKey;delete window.__perfQtyObserve;
         })()`);
-        await click(cdp,selector);
-        const sample=await waitFor(cdp,'measured native quantity acknowledgement','window.__perfQtyAck',6000);
-        assert.equal(sample.actual,expected);assert.equal(sample.trusted,true,'quantity sample uses a genuine mouse click');raw.push(sample);
     }
     assert.equal(await evaluate(cdp,'baye.hd.qty().value'),initial.value,'latency sampling restores the quantity without confirming enlistment');
     report.performance.quantity={source:'trusted click handler to next frame observing native value and empty input queue',
-        latencyMs:summarizeSamples(raw.map(sample=>sample.durationMs)),raw};
+        acknowledgement:'native session + next nonzero inputSeq + lastKey + ready, when the served engine exposes the receipt protocol',
+        observation:'read-only 4ms receipt observer plus the existing animation-frame end measurement; sendKey return and this are preserved',
+        latencyMs:summarizeSamples(raw.map(sample=>sample.durationMs)),
+        nativeKeyAckMs:raw[0].initial.protocol?summarizeSamples(raw.flatMap(sample=>sample.keys.map(key=>key.ackAt-key.dispatchAt))):null,
+        breakdownMs:Object.fromEntries(Object.keys(raw[0].breakdownMs).map(name=>[name,raw.every(sample=>sample.breakdownMs[name]!=null)?summarizeSamples(raw.map(sample=>sample.breakdownMs[name])):null])),raw};
     await checkpoint(cdp,'perf-native-quantity-latency');
 }
 
 async function main() {
     fs.mkdirSync(artifactDir, { recursive: true });
     if (typeof WebSocket !== 'function') throw new Error('Node 22+ is required for built-in WebSocket');
-    if (staged) for (const filename of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
-        assert.ok(fs.existsSync(path.join(root, 'build/wasm/src', filename)), 'Missing staged WASM file: ' + filename);
-    }
+    prepareServedAssets();
     const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'baye-runtime-'));
     let server, chrome, cdp, chromeError;
     const interrupt = () => {
