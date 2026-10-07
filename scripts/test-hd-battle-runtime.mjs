@@ -29,7 +29,7 @@ const servedAssets = new Map();
 
 function prepareServedAssets() {
     report.sources = {};
-    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json', 'hd-battle.js', 'hd-battle-terrain.js']) {
+    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json', 'hd-battle.js', 'hd-battle-terrain.js', 'hd-battle-feedback.js']) {
         const base = staged && name.startsWith('baye.') ? path.join(root, 'build/wasm/src') : path.join(root, 'js');
         const filename = path.join(base, name), data = fs.readFileSync(filename);
         const metadata = { source: path.relative(root, filename), bytes: data.length,
@@ -340,8 +340,10 @@ async function battleSmoke(cdp) {
     assert.ok(own,'an actual player general remains available');
     await action(cdp,'select-own-for-cancel',`BayeHdBattle.clickUnitByName(${JSON.stringify(own.name)})`);
     await waitBattle(cdp,2,'move selection');
+    await rangeFeedbackSmoke(cdp);
     await action(cdp,'cancel-uncommitted-move','BayeHdBattle.cancel()');
     await waitBattle(cdp,1,'move canceled');
+    await verifyNativeFeedback(cdp,'canceled MOVE','inactive');
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'canceling movement preserves every general');
     await checkpoint(cdp,'16-move-cancel');
 
@@ -349,6 +351,7 @@ async function battleSmoke(cdp) {
     // keyboard and assert native LCD is visible above the opaque HD board.
     await key(cdp,'h');
     await waitBattle(cdp,9,'native general information');
+    await verifyNativeFeedback(cdp,'HELP overlay','inactive');
     report.helpVisibility=await nativeLcdVisibility(cdp);
     assert.ok(report.helpVisibility.visible,'general information is visibly rendered above the board');
     await checkpoint(cdp,'17-battle-help');
@@ -356,6 +359,7 @@ async function battleSmoke(cdp) {
     await waitBattle(cdp,1,'return from general info');
     await key(cdp,'f');
     await waitBattle(cdp,10,'native strategic view');
+    await verifyNativeFeedback(cdp,'VIEW overlay','inactive');
     const viewSeq=await evaluate(cdp,'baye.hd.fight().inputSeq');
     await key(cdp,'ArrowRight');
     await waitFor(cdp,'strategic view paging ACK',`baye.hd.fight().inputKind===10 && baye.hd.fight().inputSeq > ${viewSeq}`);
@@ -367,6 +371,7 @@ async function battleSmoke(cdp) {
 
     await action(cdp,'open-real-system-menu','BayeHdBattle.openSystemMenu()');
     await waitBattle(cdp,6,'native five-item system menu');
+    await verifyNativeFeedback(cdp,'SYSTEM menu','inactive');
     const systemMenu=await evaluate(cdp,'baye.hd.menuItems()');
     assert.equal(systemMenu.names.length,5);
     assert.equal(systemMenu.context,3);
@@ -377,11 +382,13 @@ async function battleSmoke(cdp) {
     const modeKeyCount=await evaluate(cdp,'window.__battleKeys.length');
     await evaluate(cdp,"BayeHdBattle.setMode('classic')");
     await delay(600);
+    await verifyNativeFeedback(cdp,'CLASSIC mode','inactive');
     assert.deepEqual(await evaluate(cdp,battleStateExpression),modeBefore,'classic mode preserves native menu and units');
     assert.equal(await evaluate(cdp,'window.__battleKeys.length'),modeKeyCount,'switching classic sends no battle key');
     await checkpoint(cdp,'20-battle-classic-system');
     await evaluate(cdp,"BayeHdBattle.setMode('hd')");
     await waitFor(cdp,'restored HD native menu','BayeHdBattle.debugSnapshot().menuLive && BayeHdBattle.debugSnapshot().menuClickable');
+    await verifyNativeFeedback(cdp,'restored HD SYSTEM menu','inactive');
     await checkpoint(cdp,'21-battle-hd-system-restored');
     // Retreat must reach its native confirmation, then cancel without losing.
     await action(cdp,'request-retreat-confirmation',`BayeHdBattle.pickMenuName(${JSON.stringify(systemMenu.names[1])})`);
@@ -422,7 +429,7 @@ const moveTilesExpression=`(() => {
     const d=baye.data,f=baye.hd.fight(),out=[];
     const sx=Number(d.g_PathSX),sy=Number(d.g_PathSY),ux=Number(d.g_PUseSX),uy=Number(d.g_PUseSY);
     for(let y=0;y<f.mapH;y++)for(let x=0;x<f.mapW;x++) {
-        const px=x-sx+ux,py=y-sy+uy;
+        const px=(x-sx+ux)&255,py=(y-sy+uy)&255;
         if(px>=0&&py>=0&&px<15&&py<15&&Number(d.g_FightPath[py*15+px])<=128)out.push({x,y});
     }
     return out;
@@ -436,6 +443,84 @@ async function menuChoice(cdp,name,kind) {
     const result=await action(cdp,'choose-'+name,`BayeHdBattle.pickMenuName(${JSON.stringify(name)})`);
     assert.equal(result.ok,true,'actual menu choice '+name);
     if(kind) await waitBattle(cdp,kind,'menu choice '+name);
+}
+
+async function verifyNativeFeedback(cdp, label, expectedKind) {
+    const observed=await evaluate(cdp, `(() => {
+        const d=baye.data,s=BayeHdBattle.debugSnapshot(),f=baye.hd.fight();
+        const units=[];for(let i=0;i<20;i++) {
+            const id=Number(d.g_FgtParam.GenArray[i]),p=d.g_GenPos[i];
+            if(id>0&&id<0xfffe)units.push({i,x:Number(p.x),y:Number(p.y),state:Number(p.state),side:i<10?'player':'enemy'});
+        }
+        const r=d.g_FgtAtkRng,size=Number(r[0]);
+        return {feedback:s.feedback,view:s.view,fight:f,units,bounds:{width:Number(d.g_MapWid),height:Number(d.g_MapHgt)},
+            focus:{x:Number(d.g_FoucsX),y:Number(d.g_FoucsY)},
+            move:{originX:Number(d.g_PathSX),originY:Number(d.g_PathSY),useX:Number(d.g_PUseSX),useY:Number(d.g_PUseSY),values:Array.from({length:225},(_,i)=>Number(d.g_FightPath[i]))},
+            aim:{originX:Number(r[1]),originY:Number(r[2]),size,values:Array.from({length:size*size},(_,i)=>Number(r[3+i]))}};
+    })()`);
+    const {feedback,view,bounds,move,aim,fight,units}=observed;
+    assert.ok(feedback,'battle exposes its actual rendered range feedback');
+    if(expectedKind==='inactive') {
+        assert.equal(feedback.active,false,label+' releases stale range feedback');
+        assert.equal(feedback.cells.length,0);
+        (report.feedbackChecks ||= []).push({label,active:false,reason:feedback.reason});
+        return observed;
+    }
+    assert.equal(feedback.active,true,label+' belongs to a live range wait');
+    assert.equal(feedback.kind,expectedKind);assert.equal(feedback.inputSeq,fight.inputSeq);
+    assert.equal(feedback.actorIndex,fight.actorIndex);assert.deepEqual(feedback.bounds,bounds);
+    // Independent oracle of C U8 assignments/row stride and confirmation rules.
+    const cell=(x,y)=>{
+        if(x<0||y<0||x>=bounds.width||y>=bounds.height)return {status:'out',raw:null,index:null};
+        const mask=expectedKind==='move'?move:aim;
+        const px=(x-mask.originX+(expectedKind==='move'?move.useX:0))&255;
+        const py=(y-mask.originY+(expectedKind==='move'?move.useY:0))&255;
+        const size=expectedKind==='move'?15:aim.size;
+        if(px>=size||py>=size)return {status:'out',raw:null,index:null};
+        const index=py*size+px,raw=mask.values[index];
+        return {status:(expectedKind==='move'?raw<=128:raw===1)?'in':'out',raw,index};
+    };
+    const expected=[];
+    for(let y=view.y;y<Math.min(bounds.height,view.y+view.h);y++)for(let x=view.x;x<Math.min(bounds.width,view.x+view.w);x++)expected.push({x,y,...cell(x,y)});
+    assert.deepEqual(feedback.cells.map(c=>({x:c.x,y:c.y,status:c.status,raw:c.raw,index:c.index})),expected,
+        'every visible cell agrees with actual native mask bytes and stride: '+label);
+    for(const c of feedback.cells)for(const [edge,dx,dy] of [['north',0,-1],['east',1,0],['south',0,1],['west',-1,0]]) {
+        assert.equal(c.edges[edge],c.status==='in'&&cell(c.x+dx,c.y+dy).status!=='in','outline agrees with actual mask adjacency');
+    }
+    const targetIds=expectedKind==='move'?[]:units.filter(u=>u.state<8&&u.state>=0&&
+        (expectedKind==='skill'||u.side==='enemy')&&cell(u.x,u.y).status==='in').map(u=>u.i);
+    assert.deepEqual(feedback.rangedUnits.map(u=>u.i),targetIds,'target markers agree with real native units');
+    const focus=cell(observed.focus.x,observed.focus.y);
+    assert.equal(feedback.focus.status,focus.status);assert.equal(feedback.focus.raw,focus.raw);
+    assert.equal(feedback.focus.x,observed.focus.x);assert.equal(feedback.focus.y,observed.focus.y);
+    (report.feedbackChecks ||= []).push({label,kind:feedback.kind,inputSeq:feedback.inputSeq,actorIndex:feedback.actorIndex,
+        mask:feedback.mask,bounds,view,checkedCells:feedback.cells.length,inRangeCells:feedback.cells.filter(c=>c.status==='in').length,
+        focus:feedback.focus,rangedUnits:feedback.rangedUnits.map(u=>u.i)});
+    return observed;
+}
+
+async function rangeFeedbackSmoke(cdp) {
+    await waitFor(cdp,'live movement feedback','BayeHdBattle.debugSnapshot().feedback?.active');
+    const first=await verifyNativeFeedback(cdp,'MOVE initial','move');
+    const valid=first.feedback.cells.find(c=>c.status==='in');
+    const blocked=first.feedback.cells.find(c=>c.status==='out');
+    assert.ok(valid&&blocked,'native visible board has allowed and blocked movement cells');
+    const before=await evaluate(cdp,battleStateExpression);
+    await checkpoint(cdp,'16-move-range-1080p');
+    await focusBattleTarget(cdp,blocked,'16-move-blocked-focus',2);
+    const focused=await verifyNativeFeedback(cdp,'MOVE blocked focus','move');
+    assert.equal(focused.feedback.focus.label,'不可移动');
+    await focusBattleTarget(cdp,valid,'16-move-valid-focus',2);
+    await verifyNativeFeedback(cdp,'MOVE allowed focus','move');
+    const keys=await evaluate(cdp,'window.__battleKeys.length');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
+    await waitFor(cdp,'720p movement feedback','innerWidth===1280&&innerHeight===720');
+    await delay(200);await verifyNativeFeedback(cdp,'MOVE 720p','move');
+    await checkpoint(cdp,'16-move-range-720p');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
+    await delay(200);
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'range repaint/viewport never delivers a key');
+    assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'hovering native range cannot move a unit');
 }
 
 async function terrainSmoke(cdp, before) {
@@ -532,6 +617,7 @@ async function focusBattleTarget(cdp, target, label, kind = 5) {
             const keys = await evaluate(cdp, 'window.__battleKeys.length');
             await delay(250);
             assert.equal(await evaluate(cdp, 'window.__battleKeys.length'), keys, 'target preview cannot confirm or send keys');
+            if(kind===5) await verifyNativeFeedback(cdp,label,Number(await evaluate(cdp,'baye.hd.fight().aimType'))===1?'skill':'attack');
             await checkpoint(cdp, label);
             return;
         }
@@ -558,6 +644,7 @@ async function manualCombat(cdp) {
     assert.ok(target,'a real non-occupied legal movement tile exists');
     await action(cdp,'move-exact-legal-tile',`BayeHdBattle.clickTile(${target.x},${target.y})`);
     await waitBattle(cdp,3,'actual movement reaches action menu');
+    await verifyNativeFeedback(cdp,'ACTION menu after move','inactive');
     const moved=(await evaluate(cdp,battleStateExpression)).units.find(u=>u.i===actor.i);
     assert.equal(moved.x,target.x);assert.equal(moved.y,target.y);
     await checkpoint(cdp,'25-manual-move');
@@ -586,7 +673,7 @@ const rangedUnitsExpression=`(() => {
     const units=[];
     for(let i=0;i<20;i++) {
         const id=Number(d.g_FgtParam.GenArray[i]);if(!id||id>=0xfffe)continue;
-        const p=d.g_GenPos[i],x=Number(p.x),y=Number(p.y),dx=x-sx,dy=y-sy;
+        const p=d.g_GenPos[i],x=Number(p.x),y=Number(p.y),dx=(x-sx)&255,dy=(y-sy)&255;
         if(p.state===8||dx<0||dy<0||dx>=size||dy>=size||Number(r[3+dx+dy*size])!==1)continue;
         units.push({i,id,name:baye.getPersonName(id-1),side:i<10?'player':'enemy',x,y,arms:Number(d.g_Persons[id-1].Arms),terrain:baye.getTerrainByGeneralIndex(i),armType:baye.getArmType(id-1)});
     }
@@ -640,6 +727,9 @@ async function attemptSkill(cdp,actor) {
         await waitFor(cdp,'actual skill aim or action',`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();return !s.transaction&&(f.inputKind===5||f.inputKind===1||f.over);})()`,20000);
         const fight=await evaluate(cdp,'baye.hd.fight()');
         if(fight.inputKind===5) {
+            await waitFor(cdp,'live native skill feedback','BayeHdBattle.debugSnapshot().feedback?.active');
+            await verifyNativeFeedback(cdp,'SKILL range '+skill.name,'skill');
+            await checkpoint(cdp,'30-skill-range-'+skill.id+'-'+(report.skillRangeCheckpoints=(report.skillRangeCheckpoints||0)+1));
             const targets=(await evaluate(cdp,rangedUnitsExpression)).filter(u=>
                 (Boolean(skill.aim&1)===(u.side==='player'))&&skill.eland[u.terrain]>0&&skill.earm[u.armType]>0);
             if(!targets.length) {

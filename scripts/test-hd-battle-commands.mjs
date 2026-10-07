@@ -10,6 +10,7 @@ import test from 'node:test';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const source = readFileSync(join(root, 'js/hd-battle.js'), 'utf8');
+const feedbackSource = readFileSync(join(root, 'js/hd-battle-feedback.js'), 'utf8');
 const lcdSource = readFileSync(join(root, 'js/lcd.js'), 'utf8');
 const lcdKeyboard = lcdSource.slice(lcdSource.indexOf('function onKeyDown('), lcdSource.indexOf('function bin2hex'));
 const K = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
@@ -58,6 +59,7 @@ function game() {
         bayeInputIgnored: event => !!(event.defaultPrevented || event.isComposing || event.target?.native)
     };
     sandbox.window = sandbox;
+    vm.runInNewContext(feedbackSource, sandbox, { filename: 'hd-battle-feedback.js', timeout: 5000 });
     vm.runInNewContext(source, sandbox, { filename: 'hd-battle.js', timeout: 5000 });
     Object.assign(sandbox, {
         sendKey: baye.sendKey, VK_ENTER: K.ENTER, VK_EXIT: K.EXIT, VK_HELP: K.HELP,
@@ -304,7 +306,7 @@ test('wrapped attack ranges still reject blocked cells, friendly or empty target
     Object.assign(g.data.g_GenPos[10], { x: 1, y: 2 });
     g.data.g_FgtAtkRng = [size, 255, 255, ...Array(size * size).fill(0)];
     g.input(I.AIM, 0); g.fight.aimType = 0;
-    for (const value of [0, 2, 255]) {
+    for (const value of [0, 2, 255, '1', true, -1, 256, 1.5]) {
         g.data.g_FgtAtkRng[enemyCell] = value;
         assert.equal(g.api.clickTile(1, 2).reason, 'illegal-target');
     }
@@ -487,4 +489,61 @@ test('results and succession dialogs are observed without dismissing or changing
     assert.equal(g.data.g_FgtOver, 2);
     assert.equal(g.data.g_engineConfig.responseNoteOfBettle, 0);
     assert.equal(g.data.g_hdMenuCount, 4);
+});
+
+test('movement origins crossing map edges use native U8 arithmetic including raw zero and128', () => {
+    for (const [sx,sy,ux,uy,x,y,raw] of [[255,0,0,0,1,2,0],[0,255,0,0,1,2,128],[249,249,2,3,1,0,127]]) {
+        const g=game();
+        Object.assign(g.data,{g_PathSX:sx,g_PathSY:sy,g_PUseSX:ux,g_PUseSY:uy});
+        const px=(x-sx+ux)&255,py=(y-sy+uy)&255;
+        g.data.g_FightPath[py*15+px]=raw;
+        g.input(I.MOVE,0);g.focus(x,y);
+        assert.equal(g.api.clickTile(x,y).ok,true,'wrapped native legal move '+[sx,sy,ux,uy]);
+        g.tick(1000);g.poll();
+        assert.deepEqual(g.sent,[K.ENTER],'only one explicit confirmation');
+    }
+});
+
+test('invalid move metadata and incomplete masks cannot alias a valid destination', () => {
+    for (const broken of [{g_PathSX:-1},{g_PathSY:256},{g_PUseSX:1.5},{g_PUseSY:NaN},
+        {g_FightPath:[0]}, {g_FightPath:Array(224).fill(0)}]) {
+        const g=game();g.data.g_FightPath.fill(0);Object.assign(g.data,broken);
+        g.input(I.MOVE,0);g.focus(0,0);
+        assert.equal(g.api.clickTile(0,0).ok,false);
+        g.tick(1000);g.poll();assert.deepEqual(g.sent,[]);
+    }
+});
+
+test('native map bounds prevent MOVE or AIM confirmations into presentation-only expansion cells', () => {
+    for (const kind of [I.MOVE,I.AIM]) {
+        const g=game();g.data.g_MapWid=3;g.data.g_MapHgt=2;
+        g.data.g_FightPath.fill(0);g.aimAllowed(5,3);
+        g.input(kind,0);g.fight.aimType=0;g.focus(5,3);
+        assert.equal(g.api.clickTile(5,3).ok,false);
+        g.tick(1000);g.poll();assert.deepEqual(g.sent,[]);
+    }
+});
+
+test('oversized or truncated AIM masks reject confirmation even if an early enemy cell is one', () => {
+    for (const [size,length] of [[16,3+16*16],[8,3+63]]) {
+        const g=game();Object.assign(g.data.g_GenPos[10],{x:0,y:0});
+        g.data.g_FgtAtkRng=Array(length).fill(0);
+        g.data.g_FgtAtkRng[0]=size;g.data.g_FgtAtkRng[1]=g.data.g_FgtAtkRng[2]=0;g.data.g_FgtAtkRng[3]=1;
+        g.input(I.AIM,0);g.fight.aimType=0;g.focus(0,0);
+        assert.equal(g.api.clickTile(0,0).ok,false);
+        g.tick(1000);g.poll();assert.deepEqual(g.sent,[]);
+    }
+});
+
+test('unknown aim kinds and coerced metadata cannot confirm an otherwise marked enemy', () => {
+    for (const broken of [{aimType:null},{aimType:undefined},{aimType:255},{aimType:'0'},
+        {size:'8'},{originX:'0'},{originY:false}]) {
+        const g=game();g.aimAllowed(5,3);g.input(I.AIM,0);g.fight.aimType=0;g.focus(5,3);
+        if('aimType' in broken)g.fight.aimType=broken.aimType;
+        if('size' in broken)g.data.g_FgtAtkRng[0]=broken.size;
+        if('originX' in broken)g.data.g_FgtAtkRng[1]=broken.originX;
+        if('originY' in broken)g.data.g_FgtAtkRng[2]=broken.originY;
+        assert.equal(g.api.clickTile(5,3).ok,false,JSON.stringify(broken));
+        g.tick(1000);g.poll();assert.deepEqual(g.sent,[]);
+    }
 });

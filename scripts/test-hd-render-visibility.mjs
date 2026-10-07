@@ -10,6 +10,7 @@ import test from 'node:test';
 const sources = {
     overworld: readFileSync(new URL('../js/hd-overworld.js', import.meta.url), 'utf8'),
     terrain: readFileSync(new URL('../js/hd-battle-terrain.js', import.meta.url), 'utf8'),
+    feedback: readFileSync(new URL('../js/hd-battle-feedback.js', import.meta.url), 'utf8'),
     battle: readFileSync(new URL('../js/hd-battle.js', import.meta.url), 'utf8')
 };
 const K = { RIGHT: 0x25, ENTER: 0x27 };
@@ -40,6 +41,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         g_hdFightActCommit: 255, g_FoucsX: 1, g_FoucsY: 1, g_MapWid: 8, g_MapHgt: 8,
         g_FgtParam: { GenArray: generals }, g_GenPos: positions,
         g_FightMapData: Array(64).fill(1), g_FightMap: Array(64).fill(1), g_FightPath: Array(225).fill(255),
+        g_PathSX: 0, g_PathSY: 0, g_PUseSX: 0, g_PUseSY: 0,
         g_FgtAtkRng: [8, 0, 0, ...Array(64).fill(0)],
         g_Persons: [{ Arms: 100 }, { Arms: 100 }, { Arms: 100 }],
         g_Cities: [{ Belong: 1 }, { Belong: 3 }],
@@ -137,6 +139,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
     });
     context.window = context;
     if (modules.includes('battle')) vm.runInContext(sources.terrain, context, { filename: 'js/hd-battle-terrain.js', timeout: 5000 });
+    if (modules.includes('battle')) vm.runInContext(sources.feedback, context, { filename: 'js/hd-battle-feedback.js', timeout: 5000 });
     for (const name of modules) vm.runInContext(sources[name], context, { filename: `js/hd-${name}.js`, timeout: 5000 });
     const world = context.BayeHdOverworld, battle = context.BayeHdBattle;
     function start() { world?.start(); battle?.start(); battle?.onEngineFight(); }
@@ -570,4 +573,126 @@ test('stale preferred LIB metadata and custom terrain hooks cannot authorize ter
     assert.equal(h.battle.debugSnapshot().focusTerrain.kind, 'unknown');
     assert.equal(calls, 0, 'paint must not invoke a Mod hook');
     assert.deepEqual(h.sent, []);
+});
+
+test('movement feedback and focus use the native wrapped mask and retire under a report without input', () => {
+    const h=browser({modules:['battle']});
+    Object.assign(h.fight,{inputKind:2,actorIndex:0,inputSeq:9});
+    Object.assign(h.data,{g_PathSX:255,g_PathSY:255,g_PUseSX:0,g_PUseSY:0,g_FoucsX:2,g_FoucsY:2});
+    h.data.g_FightPath.fill(255);h.data.g_FightPath[3*15+3]=128;
+    h.frame();
+    const model=h.battle.debugSnapshot().feedback;
+    assert.equal(model.active,true);assert.equal(model.kind,'move');
+    assert.equal(model.focus.status,'in');assert.equal(model.focus.raw,128);
+    assert.equal(model.cells.find(c=>c.x===2&&c.y===2).index,48);
+    assert.ok(h.canvasStats.battle.labels.some(label=>label.includes('移动范围')));
+    assert.ok(h.canvasStats.battle.labels.some(label=>label.includes('当前格：可移动')));
+    h.report.active=1;
+    const nativeBefore=JSON.stringify({data:h.data,fight:h.fight,report:h.report});
+    h.frame();
+    assert.equal(h.battle.debugSnapshot().feedback.active,false);
+    assert.ok(!h.canvasStats.battle.labels.some(label=>label.includes('移动范围')));
+    assert.equal(JSON.stringify({data:h.data,fight:h.fight,report:h.report}),nativeBefore);
+    assert.deepEqual(h.sent,[]);
+});
+
+test('range feedback returns current input ownership and mask hot changes without stale target markers', () => {
+    const h=browser({modules:['battle']});
+    Object.assign(h.fight,{inputKind:5,actorIndex:0,aimType:0,inputSeq:9});
+    Object.assign(h.data,{g_FoucsX:5,g_FoucsY:3});
+    h.data.g_FgtAtkRng[3+5+3*8]=1;h.frame();
+    assert.equal(h.battle.debugSnapshot().feedback.kind,'attack');
+    assert.deepEqual(Array.from(h.battle.debugSnapshot().feedback.rangedUnits,u=>u.i),[10]);
+    assert.equal(h.battle.debugSnapshot().feedback.focus.label,'射程内敌将');
+    h.data.g_FgtAtkRng[3+5+3*8]=2;h.frame();
+    assert.equal(h.battle.debugSnapshot().feedback.focus.status,'out');
+    assert.equal(h.battle.debugSnapshot().feedback.rangedUnits.length,0);
+    assert.equal(h.canvasStats.battle.strokes.filter(s=>s.dash.length).length,0);
+    for(const change of [{inputSeq:0},{inputSeq:10,actorIndex:255},{actorIndex:0,inputKind:3},{inputKind:5,wait:0}]) {
+        Object.assign(h.fight,change);h.frame();
+        assert.equal(h.battle.debugSnapshot().feedback.active,false);
+        assert.ok(!h.canvasStats.battle.labels.some(label=>label.includes('攻击射程')));
+    }
+    assert.deepEqual(h.sent,[]);
+});
+
+test('skill feedback has a distinct range label and friendly marker but makes no effectiveness claim', () => {
+    const h=browser({modules:['battle']});
+    Object.assign(h.fight,{inputKind:5,actorIndex:0,aimType:1,inputSeq:9});
+    Object.assign(h.data,{g_FoucsX:4,g_FoucsY:2});
+    h.data.g_FgtAtkRng[3+4+2*8]=1;h.frame();
+    const model=h.battle.debugSnapshot().feedback;
+    assert.equal(model.active,true);assert.equal(model.kind,'skill');
+    assert.equal(model.focus.label,'射程内目标');
+    assert.deepEqual(Array.from(model.rangedUnits,u=>u.i),[1]);
+    assert.ok(h.canvasStats.battle.labels.some(label=>label.includes('计谋射程')));
+    assert.doesNotMatch(JSON.stringify(model),/可施展|可攻击|有效目标|伤害|命中率/);
+    const world=()=>JSON.stringify({positions:h.data.g_GenPos,roster:h.data.g_FgtParam,
+        path:h.data.g_FightPath,range:h.data.g_FgtAtkRng,fight:h.fight});
+    const nativeBefore=world();
+    h.setHidden(true);
+    assert.equal(h.battle.debugSnapshot().feedback.active,false);
+    h.setHidden(false);h.frame();
+    assert.equal(h.battle.debugSnapshot().feedback.kind,'skill');
+    h.battle.setMode('classic');h.frame();
+    assert.equal(h.battle.debugSnapshot().feedback.active,false);
+    assert.equal(world(),nativeBefore);
+    assert.deepEqual(h.sent,[]);
+});
+
+test('native bounds constrain range feedback even when roster and focus expand the display board', () => {
+    const h=browser({modules:['battle']});
+    Object.assign(h.fight,{inputKind:2,actorIndex:0,inputSeq:9});
+    Object.assign(h.data,{g_MapWid:3,g_MapHgt:2,g_FoucsX:5,g_FoucsY:3});
+    h.data.g_FightPath.fill(0);h.frame();
+    const s=h.battle.debugSnapshot();
+    assert.ok(s.mapW>3);assert.equal(s.feedback.bounds.width,3);
+    assert.equal(s.feedback.active,true);
+    assert.ok(s.feedback.cells.every(c=>c.x<3&&c.y<2));
+    assert.equal(s.feedback.focus.status,'out');
+    assert.equal(s.feedback.rangedUnits.length,0);
+    assert.deepEqual(h.sent,[]);
+});
+
+test('malformed range masks retire actor badge as well as contours and target line', () => {
+    for(const kind of [2,5]) {
+        const h=browser({modules:['battle']});
+        Object.assign(h.fight,{inputKind:kind,actorIndex:0,aimType:0,inputSeq:9});
+        h.data.g_FightPath.fill(0);h.data.g_FgtAtkRng[3+5+3*8]=1;
+        Object.assign(h.data,{g_FoucsX:5,g_FoucsY:3});h.frame();
+        assert.equal(h.battle.debugSnapshot().feedback.active,true);
+        assert.ok(h.canvasStats.battle.labels.includes('行'));
+        if(kind===2)h.data.g_FightPath=Array(224).fill(0);
+        else h.data.g_FgtAtkRng=[8,0,0,...Array(63).fill(1)];
+        h.frame();assert.equal(h.battle.debugSnapshot().feedback.active,false);
+        assert.ok(!h.canvasStats.battle.labels.includes('行'));
+        assert.equal(h.canvasStats.battle.strokes.filter(s=>s.dash.length).length,0);
+        assert.deepEqual(h.sent,[]);
+    }
+});
+
+test('unknown aim type cannot be coerced into an attack presentation', () => {
+    for(const aimType of [null,undefined,255,'0',false]) {
+        const h=browser({modules:['battle']});
+        Object.assign(h.fight,{inputKind:5,actorIndex:0,aimType,inputSeq:9});
+        Object.assign(h.data,{g_FoucsX:5,g_FoucsY:3});
+        h.data.g_FgtAtkRng[3+5+3*8]=1;h.frame();
+        assert.equal(h.battle.debugSnapshot().feedback.active,false);
+        assert.ok(!h.canvasStats.battle.labels.some(label=>label.includes('攻击射程')||label.startsWith('攻击目标：')));
+        assert.ok(!h.canvasStats.battle.labels.includes('行'));
+        assert.equal(h.canvasStats.battle.strokes.filter(s=>s.dash.length).length,0);
+        assert.deepEqual(h.sent,[]);
+    }
+});
+
+test('a genuine current action or skill menu keeps the selected actor badge without range feedback', () => {
+    const h=browser({modules:['battle']});
+    for(const kind of [3,4]) {
+        Object.assign(h.fight,{inputKind:kind,actorIndex:0,wait:0,inputSeq:9+kind});
+        Object.assign(h.menu,{active:1,context:3,kind,seq:9+kind,index:0,names:['测试选择']});
+        h.battle.onEngineHook('onMenuIdle');h.frame();
+        assert.equal(h.battle.debugSnapshot().feedback.active,false);
+        assert.ok(h.canvasStats.battle.labels.includes('行'),'owned native menu still identifies its acting general');
+    }
+    assert.deepEqual(h.sent,[]);
 });

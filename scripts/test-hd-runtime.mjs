@@ -44,7 +44,7 @@ const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; cha
 const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [] };
 const engineNames = ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json'];
 const inputNames = ['lcd.js', 'hd-city-menu.js', 'hd-dialog.js', 'bridge.js'];
-const rendererNames = ['hd-overworld.js', 'hd-battle.js', 'hd-battle-terrain.js'];
+const rendererNames = ['hd-overworld.js', 'hd-battle.js', 'hd-battle-terrain.js', 'hd-battle-feedback.js'];
 const servedAssets = new Map();
 const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
@@ -58,10 +58,10 @@ function prepareServedAssets() {
         report.sources[group] = {};
         for (const name of names) {
             const filename = path.join(directory, name);
-            // Earlier archived renderers have no terrain module. Serve a frozen
-            // empty script rather than quietly mix current terrain into them.
-            if (group === 'renderers' && rendererDir && name === 'hd-battle-terrain.js' && !fs.existsSync(filename)) {
-                const data = Buffer.from('/* Archived renderer predates HD terrain. */\n');
+            // Earlier archived renderers may predate support modules. Freeze
+            // empty scripts rather than silently mix current modules into them.
+            if (group === 'renderers' && rendererDir && ['hd-battle-terrain.js', 'hd-battle-feedback.js'].includes(name) && !fs.existsSync(filename)) {
+                const data = Buffer.from('/* Archived renderer predates ' + name + '. */\n');
                 const metadata = { source: path.relative(root, filename), absentInArchive: true, bytes: data.length, sha256: sha256(data) };
                 report.sources[group][name] = metadata;
                 servedAssets.set('js/' + name, { data, metadata });

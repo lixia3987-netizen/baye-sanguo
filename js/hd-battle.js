@@ -7,7 +7,7 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261007h';
+    var HD_BATTLE_VER = '20261008a';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -54,6 +54,16 @@
             if (typeof value === 'object' && 'value' in value) { value = value.value; }
             value = Number(value);
             return isFinite(value) ? value : null;
+        } catch (e) { return null; }
+        finally { state.readDepth -= 1; }
+    }
+    function readRangeNumber(obj, name) {
+        if (!obj || state.readDepth > 8) { return null; }
+        state.readDepth += 1;
+        try {
+            var value = obj[name];
+            if (value && typeof value === 'object' && 'value' in value) { value = value.value; }
+            return typeof value === 'number' && isFinite(value) ? value : null;
         } catch (e) { return null; }
         finally { state.readDepth -= 1; }
     }
@@ -143,12 +153,13 @@
         if (global.BayeHdBattleTerrain) { global.BayeHdBattleTerrain.clear(); }
     }
     function aimPreview(snap) {
-        if (state.preview || !snap.ready || snap.kind !== INPUT.AIM || !snap.focus) { return null; }
+        if (state.preview || !state.open || document.hidden || !snap.ready ||
+            !snap.fight.wait || (snap.menu && snap.menu.active) || snap.kind !== INPUT.AIM || !snap.focus) { return null; }
         var actor = actorUnit(snap.actor), target = unitAt(snap.focus.x, snap.focus.y);
-        if (!actor || !target || !legalEnter(snap.focus, target, snap.fight)) { return null; }
+        if (!actor || !selectable(actor) || !target || !legalEnter(snap.focus, target, snap.fight)) { return null; }
         // A skill can still fail native side, terrain or MP checks after confirmation.
         return { actor: actor, target: target,
-            label: Number(snap.fight.aimType) === 1 ? '射程内目标' : '攻击目标' };
+            label: readRangeNumber(snap.fight, 'aimType') === 1 ? '射程内目标' : '攻击目标' };
     }
     function engineFocusTile() {
         var data = engineData(), x = readNumber(data, 'g_FoucsX'), y = readNumber(data, 'g_FoucsY');
@@ -157,22 +168,67 @@
     function canMoveTo(x, y) {
         var data = engineData(), path = data && data.g_FightPath;
         if (!path) { return null; }
-        var sx = readNumber(data, 'g_PathSX'), sy = readNumber(data, 'g_PathSY');
-        var ux = readNumber(data, 'g_PUseSX'), uy = readNumber(data, 'g_PUseSY');
-        if (sx == null || sy == null || ux == null || uy == null) { return null; }
-        var px = x - sx + ux, py = y - sy + uy;
+        var sx = readRangeNumber(data, 'g_PathSX'), sy = readRangeNumber(data, 'g_PathSY');
+        var ux = readRangeNumber(data, 'g_PUseSX'), uy = readRangeNumber(data, 'g_PUseSY');
+        var bounds = { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') };
+        if (global.BayeHdBattleFeedback) {
+            var answer = global.BayeHdBattleFeedback.lookupMove({ originX: sx, originY: sy, useX: ux, useY: uy, values: path }, x, y, bounds);
+            return answer.status === 'unknown' ? null : answer.status === 'in';
+        }
+        if (!validNativeTile(x, y, bounds)) { return false; }
+        if (!nativeByte(sx) || !nativeByte(sy) || !nativeByte(ux) || !nativeByte(uy) || path.length < 225) { return null; }
+        var px = (x - sx + ux) & 255, py = (y - sy + uy) & 255;
         if (px < 0 || py < 0 || px >= 15 || py >= 15) { return false; }
-        var value = readNumber(path, py * 15 + px);
-        return value != null && value <= 0x80;
+        var value = path[py * 15 + px];
+        return nativeByte(value) ? value <= 0x80 : null;
+    }
+    function nativeByte(value) { return typeof value === 'number' && value >= 0 && value <= 255 && value === Math.floor(value); }
+    function validNativeTile(x, y, bounds) {
+        return bounds && typeof bounds.width === 'number' && typeof bounds.height === 'number' &&
+            bounds.width > 0 && bounds.width <= 255 && bounds.width === Math.floor(bounds.width) &&
+            bounds.height > 0 && bounds.height <= 255 && bounds.height === Math.floor(bounds.height) &&
+            typeof x === 'number' && typeof y === 'number' && x === Math.floor(x) && y === Math.floor(y) &&
+            x >= 0 && y >= 0 && x < bounds.width && y < bounds.height;
+    }
+    function readRangeValues(buffer, offset, count) {
+        var values = [];
+        for (var i = offset; buffer && i < Math.min(buffer.length, offset + count); i += 1) {
+            values.push(readRangeNumber(buffer, i));
+        }
+        return values;
+    }
+    function readAimMask(data) {
+        var rng = data && data.g_FgtAtkRng, size = readRangeNumber(rng, 0);
+        return { size: size, originX: readRangeNumber(rng, 1), originY: readRangeNumber(rng, 2),
+            values: nativeByte(size) && size >= 1 && size <= 15 ? readRangeValues(rng, 3, size * size) : [] };
     }
     function inAtkRng(x, y) {
-        var data = engineData(), rng = data && data.g_FgtAtkRng;
-        var size = readNumber(rng, 0), sx = readNumber(rng, 1), sy = readNumber(rng, 2);
-        if (!size || sx == null || sy == null) { return false; }
+        var data = engineData(), mask = readAimMask(data), size = mask.size, sx = mask.originX, sy = mask.originY;
+        var bounds = { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') };
+        if (global.BayeHdBattleFeedback) {
+            return global.BayeHdBattleFeedback.lookupAim(mask, x, y, bounds).status === 'in';
+        }
+        if (!validNativeTile(x, y, bounds) || !nativeByte(size) || size < 1 || size > 15 ||
+            !nativeByte(sx) || !nativeByte(sy) || mask.values.length < size * size) { return false; }
         // C stores both range origins and coordinate differences as U8.
         var dx = (x - sx) & 0xff, dy = (y - sy) & 0xff;
         return dx >= 0 && dy >= 0 && dx < size && dy < size &&
-            readNumber(rng, 3 + dx + dy * size) === 1;
+            mask.values[dx + dy * size] === 1;
+    }
+    function rangeFeedback(snap) {
+        if (!global.BayeHdBattleFeedback) { return { active: false, reason: 'feedback-module-unavailable', cells: [], rangedUnits: [], focus: null }; }
+        var data = engineData(), actor = actorUnit(snap.actor);
+        return global.BayeHdBattleFeedback.build({ visible: state.open && !state.preview && shouldShowHd(),
+            hidden: !!document.hidden, classic: !shouldShowHd(), ready: snap.ready, wait: !!(snap.fight && snap.fight.wait),
+            active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
+            reportActive: nativeReportWaiting(), menuActive: !!(snap.menu && snap.menu.active),
+            inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor, actor: actor,
+            aimType: readRangeNumber(snap.fight, 'aimType'), focus: snap.focus,
+            bounds: { width: readRangeNumber(data, 'g_MapWid'), height: readRangeNumber(data, 'g_MapHgt') },
+            view: { x: state.viewOx, y: state.viewOy, width: state.viewW || state.mapW, height: state.viewH || state.mapH },
+            move: snap.kind === INPUT.MOVE ? { originX: readRangeNumber(data, 'g_PathSX'), originY: readRangeNumber(data, 'g_PathSY'),
+                useX: readRangeNumber(data, 'g_PUseSX'), useY: readRangeNumber(data, 'g_PUseSY'), values: readRangeValues(data && data.g_FightPath, 0, 225) } : null,
+            aim: snap.kind === INPUT.AIM ? readAimMask(data) : null, units: state.units });
     }
     function nativeReportWaiting() {
         try {
@@ -216,7 +272,8 @@
             if (!unit || !inAtkRng(tile.x, tile.y)) { return false; }
             // Skills can target friendly units. C validates skill-specific
             // side, terrain and MP rules after one user confirmation.
-            return Number(fight.aimType) === 1 || unit.side === 'enemy';
+            var aimType = readRangeNumber(fight, 'aimType');
+            return aimType === 1 || (aimType === 0 && unit.side === 'enemy');
         }
         return false;
     }
@@ -697,6 +754,7 @@
                 sha256: state.terrain.sha256, libGeneration: state.terrain.libGeneration,
                 session: state.terrain.session, reason: state.terrain.reason } : null,
             focusTerrain: terrainAt(state.focus.x, state.focus.y),
+            feedback: rangeFeedback(snap),
             genCount: fightArrayCount(), focus: state.focus, phase: snap.fight && snap.fight.phase,
             wait: !!(snap.fight && snap.fight.wait), active: !!(snap.fight && snap.fight.active), over: !!(snap.fight && snap.fight.over),
             aimType: snap.fight && snap.fight.aimType, inputKind: snap.kind, inputSeq: snap.seq, actorIndex: snap.actor,
@@ -994,20 +1052,12 @@
             }
         }
         ctx.globalAlpha = 1;
-        // These overlays read the engine's exact path/range tables. They do
-        // not calculate substitute destinations or choose targets.
-        var fightRange = readFight();
-        var rangeKind = fightRange && Number(fightRange.inputKind);
-        if (!state.preview && fightRange && fightRange.active && !fightRange.over &&
-            (rangeKind === INPUT.MOVE || rangeKind === INPUT.AIM)) {
-            ctx.fillStyle = rangeKind === INPUT.MOVE ? 'rgba(80,180,230,0.25)' : 'rgba(240,160,80,0.25)';
-            for (r = 0; r < rows; r += 1) {
-                for (c = 0; c < cols; c += 1) {
-                    var tx = c + viewOx, ty = r + viewOy;
-                    var legal = rangeKind === INPUT.MOVE ? canMoveTo(tx, ty) === true : inAtkRng(tx, ty);
-                    if (legal) { ctx.fillRect(ox + c * cw + 1, oy + r * ch + 1, cw - 2, ch - 2); }
-                }
-            }
+        // One owned input snapshot governs the range, its legend, focus status,
+        // and target preview; native reports cannot leave old actionable wash.
+        var visualSnap = inputSnapshot(), feedback = rangeFeedback(visualSnap);
+        if (global.BayeHdBattleFeedback) {
+            global.BayeHdBattleFeedback.paint(ctx,
+                { ox: ox, oy: oy, cw: cw, ch: ch, cols: cols, rows: rows, viewOx: viewOx, viewOy: viewOy }, feedback);
         }
         ctx.strokeStyle = 'rgba(255,255,255,0.1)';
         ctx.lineWidth = 1;
@@ -1033,7 +1083,7 @@
         for (r = 0; r < rows; r += Math.max(1, Math.floor(rows / 8))) {
             ctx.fillText(String(r + viewOy), ox - 8, oy + (r + 0.65) * ch);
         }
-        if (state.focus.x != null && state.focus.y != null) {
+        if (!feedback.active && state.focus.x != null && state.focus.y != null) {
             ctx.strokeStyle = '#f0c75a';
             ctx.lineWidth = 3;
             ctx.strokeRect(
@@ -1042,7 +1092,13 @@
                 cw - 4, ch - 4
             );
         }
-        var visualSnap = inputSnapshot(), targetPreview = aimPreview(visualSnap);
+        var targetPreview = global.BayeHdBattleFeedback ? null : aimPreview(visualSnap);
+        var actorMenu = (visualSnap.kind === INPUT.ACTION || visualSnap.kind === INPUT.SKILL) && menuSnapshot(visualSnap);
+        if (feedback.active && feedback.kind !== 'move' && feedback.focus && feedback.focus.targetIndex != null) {
+            var previewActor = actorUnit(visualSnap.actor), previewTarget = unitAt(feedback.focus.x, feedback.focus.y);
+            if (previewActor && previewTarget) { targetPreview = { actor: previewActor, target: previewTarget,
+                label: feedback.kind === 'skill' ? '射程内目标' : '攻击目标' }; }
+        }
         if (targetPreview && targetPreview.actor !== targetPreview.target &&
             targetPreview.actor.x != null && targetPreview.actor.y != null) {
             ctx.strokeStyle = 'rgba(255,207,116,0.92)';
@@ -1067,7 +1123,8 @@
             var ux = ox + (u.x - viewOx + 0.5) * cw;
             var uy = oy + (u.y - viewOy + 0.5) * ch;
             var size = Math.min(cw, ch), flagW = size * 0.58, flagH = size * 0.44;
-            var isActor = u.i === visualSnap.actor && visualSnap.kind !== INPUT.PICK;
+            var isActor = u.i === visualSnap.actor && selectable(u) &&
+                ((feedback.active && feedback.actorValid) || !!actorMenu);
             var spent = u.active === 1, ready = selectable(u);
             var focused = u.x === state.focus.x && u.y === state.focus.y;
             // Pennants carry the engine's effective arm type. Unknown types
