@@ -1176,6 +1176,8 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
     U8 str[32];
     U8 showflag,i,bit,maxbit;
     U32 tnum,num;
+    U32 qtySession;
+    U16 qtyKey = BAYE_HD_QTY_NO_KEY;
     GMType Msg;
 
     Touch touch = {0};
@@ -1220,6 +1222,7 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
     showflag = config_show_enlarged ? 2 : 1;
     
     gam_savscr();
+    qtySession = baye_hd_qty_begin();
 
     while (1)
     {
@@ -1235,7 +1238,6 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                 }
             }
 
-            baye_hd_set_qty(donum, min, max, 1);
             for (i = maxbit;(U8)(i + 1) >= 1;i --) {
                 if (show_enlarged) {
                     // enlarged version
@@ -1255,9 +1257,13 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
             showflag = 0;
         }
         
+        baye_hd_qty_publish(qtySession, donum, min, max, bit, num, qtyKey);
+        qtyKey = BAYE_HD_QTY_NO_KEY;
         GamGetMsg(&Msg);
+        baye_hd_qty_busy(qtySession);
         if (VM_CHAR_FUN == Msg.type)
         {
+            qtyKey = Msg.param;
             switch (Msg.param)
             {
                 case VK_UP:
@@ -1291,7 +1297,7 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                     }
                     break;
                 case VK_ENTER:
-                    baye_hd_set_qty(donum, min, max, 0);
+                    baye_hd_qty_end(qtySession, donum, min, max, qtyKey);
                     return(donum);
                     break;
                 case VK_HELP:
@@ -1303,7 +1309,7 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                     showflag = 1;
                     break;
                 case VK_EXIT:
-                    baye_hd_set_qty(donum, min, max, 0);
+                    baye_hd_qty_end(qtySession, donum, min, max, qtyKey);
                     return(0xffffffff);
                 default:
                     if (Msg.param >= VK_DIGIT0 && Msg.param <= VK_DIGIT0 + 9) {
@@ -1336,9 +1342,11 @@ FAR U32 NumOperateInner(U32 min,U32 max, U32 donum)
                     if (!touch.completed || touch.moved) break;
                     I16 x = touch.currentX, y = touch.currentY;
                     if (touchIsPointInRect(x, y, okButton)) {
+                        baye_hd_qty_end(qtySession, donum, min, max, BAYE_HD_QTY_NO_KEY);
                         return donum;
                     }
                     if (touchIsPointInRect(x, y, cancelButton)) {
+                        baye_hd_qty_end(qtySession, donum, min, max, BAYE_HD_QTY_NO_KEY);
                         return 0xffff;
                     }
                     if (touchIsPointInRect(x, y, maxButton)) {

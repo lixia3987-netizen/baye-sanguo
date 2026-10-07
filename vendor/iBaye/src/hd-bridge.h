@@ -64,6 +64,7 @@
 #define BAYE_HD_SPE_KIND_STATUS 4
 
 #define VK_DIGIT0 0x40
+#define BAYE_HD_QTY_NO_KEY 0xffff
 
 #define BAYE_HD_FIGHT_SKIP_NONE 0
 #define BAYE_HD_FIGHT_SKIP_EMPTY 1
@@ -141,6 +142,11 @@ void baye_hd_set_spe(U16 speId, U8 kind, U8 x, U8 y, U8 startfrm, U8 endfrm, U8 
 void baye_hd_spe_tick(void);
 void baye_hd_set_skills(const U16* ids, const U8* names, U8 count, U8 nameLen, U8 active);
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active);
+U32 baye_hd_qty_begin(void);
+void baye_hd_qty_publish(U32 session, U32 value, U32 minV, U32 maxV, U8 cursor, U32 step, U16 key);
+void baye_hd_qty_busy(U32 session);
+void baye_hd_qty_end(U32 session, U32 value, U32 minV, U32 maxV, U16 key);
+void baye_hd_qty_invalidate(void);
 void baye_hd_set_map_pick(U8 active);
 void baye_hd_set_battle_pick(U8 active);
 void baye_hd_set_map_city(U8 city1);

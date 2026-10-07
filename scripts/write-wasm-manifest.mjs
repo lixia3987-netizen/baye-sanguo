@@ -46,12 +46,13 @@ const manifest = {
     sourceDateEpoch: Number(process.env.SOURCE_DATE_EPOCH),
     hdMenuProtocol: { nativeFallback: 254, controlField: 'g_hdFightMenuControl' },
     hdInputProtocol: {
-        version: 2,
+        version: 3,
         fight: ['g_hdFightInputKind', 'g_hdFightInputSeq', 'g_hdFightActor'],
         menu: ['g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq'],
         march: ['g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchOrigin', 'g_hdMarchSelected', 'g_hdMarchInputSeq', 'g_hdMapInputSeq'],
         report: ['g_hdReportActive', 'g_hdReportInputSeq'],
-        record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq']
+        record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
+        qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
     },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts

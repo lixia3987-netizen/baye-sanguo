@@ -9,6 +9,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import test from 'node:test';
+import vm from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const directory = join(root, 'vendor/iBaye/src');
@@ -35,7 +36,8 @@ const helpers = [
     'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_begin', 'baye_hd_march_selected',
     'baye_hd_march_end', 'copy_gbk', 'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end',
     'baye_hd_record_begin', 'baye_hd_record_index', 'baye_hd_record_end', 'baye_hd_set_menu', 'baye_hd_set_menu_index',
-    'baye_hd_set_fight', 'baye_hd_set_ready', 'baye_hd_world_commit',
+    'baye_hd_set_fight', 'baye_hd_set_qty', 'baye_hd_qty_begin', 'baye_hd_qty_publish',
+    'baye_hd_qty_busy', 'baye_hd_qty_end', 'baye_hd_qty_invalidate', 'baye_hd_set_ready', 'baye_hd_world_commit',
     'baye_hd_set_fight_phase', 'baye_hd_set_fight_wait', 'baye_hd_set_help', 'baye_hd_set_map_pick',
     'baye_hd_set_battle_pick', 'baye_hd_set_march', 'baye_hd_clear_march_ok'
 ].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
@@ -79,6 +81,208 @@ async function compile(source) {
         assert.match(result.stdout, /passed/);
     } finally { rmSync(temporary, { recursive: true, force: true }); }
 }
+
+const quantityFixture = common + String.raw`
+typedef int16_t I16;
+typedef int32_t I32;
+typedef struct { U8 type; U16 param; I16 x,y; } GMType;
+typedef struct { I16 left,top,right,bottom; } Rect;
+typedef struct { I16 currentX,currentY,startX,startY; U8 completed,moved; } Touch;
+#define VM_CHAR_FUN 0x05
+#define VM_TOUCH 0x10
+#define VT_TOUCH_DOWN 1
+#define VT_TOUCH_UP 2
+#define VT_TOUCH_MOVE 3
+#define VK_UP 0x22
+#define VK_DOWN 0x23
+#define VK_LEFT 0x24
+#define VK_RIGHT 0x25
+#define VK_HELP 0x26
+#define VK_ENTER 0x27
+#define VK_EXIT 0x28
+#define WK_SX 0
+#define WK_EX 160
+#define WK_SY 0
+#define WK_EY 160
+#define ASC_WID 6
+#define ASC_HGT 8
+#define SCR_WID 240
+#define ATRR_STR63 63
+#define ATRR_STR64 64
+static U8 g_engineDebug;
+static Rect MakeRect(I16 x,I16 y,I16 width,I16 height) {
+    Rect result={x,y,(I16)(x+width),(I16)(y+height)};return result;
+}
+static void touchDrawButton(Rect rectangle,const char* text) { (void)rectangle;(void)text; }
+static void touchUpdate(Touch* touch,GMType message) {
+    touch->currentX=message.x;touch->currentY=message.y;
+    if(message.param==VT_TOUCH_DOWN) {touch->startX=message.x;touch->startY=message.y;touch->moved=0;}
+    touch->completed=message.param==VT_TOUCH_UP;
+}
+static int touchIsPointInRect(I16 x,I16 y,Rect rectangle) {
+    return x>=rectangle.left && x<rectangle.right && y>=rectangle.top && y<rectangle.bottom;
+}
+static I32 limitValueInRange(I32 value,I32 minimum,I32 maximum) {
+    return value<minimum?minimum:(value>maximum?maximum:value);
+}
+static void gam_ltoa(U32 value,U8* output,int base) { assert(base==10);sprintf((char*)output,"%u",value); }
+static void GamStrShowS(int x,int y,U8* text) { (void)x;(void)y;(void)text; }
+static void gam_savscr(void) {}
+static void gam_restorescr(void) { assert(!g_hdQtyReady); }
+static void gam_clrlcd(int a,int b,int c,int d) { (void)a;(void)b;(void)c;(void)d;assert(!g_hdQtyReady); }
+static void gam_rect(int a,int b,int c,int d) { (void)a;(void)b;(void)c;(void)d;assert(!g_hdQtyReady); }
+static void gam_revlcd(int a,int b,int c,int d) { (void)a;(void)b;(void)c;(void)d;assert(!g_hdQtyReady); }
+static void GamAsciiS(int x,int y,int character) { (void)x;(void)y;(void)character;assert(!g_hdQtyReady); }
+typedef struct {
+    U8 type;U16 key;I16 x,y;U32 value;U8 cursor;U32 step,seq;U16 last;
+} QtyMessage;
+static const QtyMessage* script;
+static unsigned scriptCount,scriptIndex;
+static U32 expectedSession;
+static void GamGetMsg(GMType* message) {
+    assert(scriptIndex<scriptCount);
+    const QtyMessage* next=&script[scriptIndex++];
+    if(!expectedSession)expectedSession=g_hdQtySession;
+    assert(g_hdQtyActive && g_hdQtyReady && g_hdQtySession==expectedSession);
+    assert(g_hdQtyValue==next->value && g_hdQtyCursor==next->cursor && g_hdQtyStep==next->step);
+    assert(g_hdQtyInputSeq==next->seq && g_hdQtyLastKey==next->last);
+    message->type=next->type;message->param=next->key;message->x=next->x;message->y=next->y;
+}
+static void useScript(const QtyMessage* messages,unsigned count) {
+    script=messages;scriptCount=count;scriptIndex=0;expectedSession=0;
+}
+FAR U32 NumOperateInner(U32 minimum,U32 maximum,U32 current);
+` + actualFunction('tactic.c', 'NumOperate') + '\n' + actualFunction('tactic.c', 'NumOperateInner');
+
+test('real native quantity publishes exact character receipts after processing and preserves no-op, cursor and digit behavior', async () => {
+    await compile(quantityFixture + String.raw`
+int main(void) {
+    const QtyMessage messages[]={
+        {VM_CHAR_FUN,VK_RIGHT,0,0,20,2,1,0,BAYE_HD_QTY_NO_KEY},
+        {VM_CHAR_FUN,VK_LEFT,0,0,20,2,1,1,VK_RIGHT},
+        {VM_CHAR_FUN,VK_UP,0,0,20,1,10,2,VK_LEFT},
+        {VM_CHAR_FUN,VK_LEFT,0,0,30,1,10,3,VK_UP},
+        {VM_CHAR_FUN,VK_LEFT,0,0,30,0,100,4,VK_LEFT},
+        {VM_CHAR_FUN,VK_DOWN,0,0,30,0,100,5,VK_LEFT},
+        {VM_CHAR_FUN,VK_UP,0,0,30,0,100,6,VK_DOWN},
+        {VM_CHAR_FUN,VK_DIGIT0,0,0,130,0,100,7,VK_UP},
+        {VM_CHAR_FUN,VK_DIGIT0+9,0,0,130,0,100,8,VK_DIGIT0},
+        {0,0,0,0,139,0,100,9,VK_DIGIT0+9},
+        {VM_TOUCH,VT_TOUCH_DOWN,66,96,139,0,100,9,VK_DIGIT0+9},
+        {VM_TOUCH,VT_TOUCH_UP,66,96,139,0,100,9,VK_DIGIT0+9},
+        {VM_CHAR_FUN,VK_DIGIT0+9,0,0,999,0,100,9,VK_DIGIT0+9},
+        {VM_CHAR_FUN,VK_UP,0,0,999,0,100,10,VK_DIGIT0+9},
+        {VM_TOUCH,VT_TOUCH_UP,66,96,999,0,100,11,VK_UP},
+        {VM_CHAR_FUN,VK_DIGIT0,0,0,1,0,100,11,VK_UP},
+        {VM_CHAR_FUN,VK_ENTER,0,0,1,0,100,12,VK_DIGIT0}
+    };
+    useScript(messages,sizeof(messages)/sizeof(messages[0]));scrolling=7;
+    assert(NumOperate(1,999,20)==1 && scrolling==7 && scriptIndex==scriptCount);
+    assert(!g_hdQtyActive && !g_hdQtyReady && g_hdQtyValue==1);
+    assert(g_hdQtyInputSeq==13 && g_hdQtyLastKey==VK_ENTER);
+    puts("actual quantity character/no-op ACK, native digit/cursor semantics, touch/timer isolation and ready publication passed");
+}
+`);
+});
+
+test('real native quantity closes all key and touch exits with fresh owners while retaining original cancel return values', async () => {
+    await compile(quantityFixture + String.raw`
+int main(void) {
+    const QtyMessage keys[]={
+        {VM_CHAR_FUN,VK_LEFT,0,0,55,1,1,0,BAYE_HD_QTY_NO_KEY},
+        {VM_CHAR_FUN,VK_RIGHT,0,0,55,0,10,1,VK_LEFT},
+        {VM_CHAR_FUN,VK_EXIT,0,0,55,1,1,2,VK_RIGHT}
+    };
+    useScript(keys,sizeof(keys)/sizeof(keys[0]));scrolling=7;
+    assert(NumOperate(1,99,55)==UINT32_MAX && scrolling==7);
+    assert(!g_hdQtyActive && !g_hdQtyReady && g_hdQtyInputSeq==3 && g_hdQtyLastKey==VK_EXIT);
+    U32 oldSession=g_hdQtySession;
+    const QtyMessage confirm[]={{VM_TOUCH,VT_TOUCH_UP,35,96,55,1,1,0,BAYE_HD_QTY_NO_KEY}};
+    useScript(confirm,1);
+    assert(NumOperate(1,99,55)==55 && scriptIndex==1);
+    assert(g_hdQtySession!=oldSession && !g_hdQtyActive && !g_hdQtyReady && g_hdQtyInputSeq==0);
+    oldSession=g_hdQtySession;
+    const QtyMessage cancel[]={{VM_TOUCH,VT_TOUCH_UP,99,96,55,1,1,0,BAYE_HD_QTY_NO_KEY}};
+    useScript(cancel,1);
+    assert(NumOperate(1,99,55)==0xffff && scriptIndex==1);
+    assert(g_hdQtySession!=oldSession && !g_hdQtyActive && !g_hdQtyReady && g_hdQtyInputSeq==0);
+    puts("actual quantity key/touch exit cleanup, original cancellation values and fresh session ownership passed");
+}
+`);
+});
+
+test('real C quantity tokens reject old callbacks across world commit, end and sequence wraparound', async () => {
+    await compile(common + String.raw`
+int main(void) {
+    U32 old=baye_hd_qty_begin();
+    baye_hd_qty_publish(old,10,1,999,2,1,BAYE_HD_QTY_NO_KEY);
+    assert(g_hdQtyActive && g_hdQtyReady && !g_hdQtyInputSeq);
+    baye_hd_qty_busy(old);assert(!g_hdQtyReady);
+    baye_hd_qty_publish(old,10,1,999,2,1,0x25);
+    assert(g_hdQtyInputSeq==1 && g_hdQtyLastKey==0x25 && g_hdQtyReady);
+    baye_hd_world_commit();
+    U32 invalidated=g_hdQtySession;
+    assert(invalidated!=old && !g_hdQtyActive && !g_hdQtyReady);
+    baye_hd_qty_publish(old,700,2,888,0,100,0x22);
+    baye_hd_qty_end(old,700,2,888,0x27);
+    assert(g_hdQtySession==invalidated && !g_hdQtyActive && !g_hdQtyReady && g_hdQtyValue==10);
+    U32 fresh=baye_hd_qty_begin();baye_hd_qty_publish(fresh,30,1,999,2,1,BAYE_HD_QTY_NO_KEY);
+    assert(fresh!=old && fresh!=invalidated && !g_hdQtyInputSeq && g_hdQtyLastKey==BAYE_HD_QTY_NO_KEY);
+    baye_hd_qty_busy(old);baye_hd_qty_end(old,700,2,888,0x27);
+    assert(g_hdQtyReady && g_hdQtyActive && g_hdQtyValue==30);
+    g_hdQtyInputSeq=UINT32_MAX;baye_hd_qty_busy(fresh);
+    baye_hd_qty_publish(fresh,30,1,999,2,1,0x25);
+    assert(g_hdQtyInputSeq==1 && g_hdQtyReady);
+    baye_hd_qty_end(fresh,30,1,999,0x27);
+    baye_hd_qty_publish(fresh,900,1,999,0,100,0x22);
+    assert(!g_hdQtyActive && !g_hdQtyReady && g_hdQtyValue==30 && g_hdQtyInputSeq==2);
+    g_hdQtySession=UINT32_MAX;assert(baye_hd_qty_begin()==1);
+    baye_hd_qty_invalidate();assert(g_hdQtySession==2 && !g_hdQtyActive && !g_hdQtyReady);
+    puts("quantity stale-session rejection, committed world invalidation, closed-owner isolation and nonzero wraparound passed");
+}
+`);
+});
+
+test('public quantity bridge reads native receipts without writes and explicitly detects legacy or incomplete protocols', () => {
+    const source = readFileSync(join(root, 'js/bridge.js'), 'utf8');
+    const numberStart = source.indexOf('    function hdReadNum(obj, name) {');
+    const numberEnd = source.indexOf('\n    }', numberStart);
+    const qtyStart = source.indexOf('        qty: function () {');
+    const qtyEnd = source.indexOf('        toolName:', qtyStart);
+    assert.ok(numberStart >= 0 && numberEnd > numberStart && qtyStart >= 0 && qtyEnd > qtyStart);
+    const numberFunction = source.slice(numberStart, numberEnd + '\n    }'.length);
+    const quantityFunction = source.slice(qtyStart + '        qty: '.length, qtyEnd).trim().replace(/,$/, '');
+    let data = null;
+    const context = vm.createContext({ baye: { ensureData: () => data }, hdNote() {} });
+    const qty = vm.runInContext(numberFunction + '\n(' + quantityFunction + ')', context);
+    assert.equal(qty().protocol, false);
+    assert.equal(qty().active, 0);
+    data = { g_hdQtyActive: 1, g_hdQtyValue: 30, g_hdQtyMin: 1, g_hdQtyMax: 999 };
+    assert.equal(qty().protocol, false);
+    assert.deepEqual(JSON.parse(JSON.stringify(qty())), {
+        active: 1, value: 30, min: 1, max: 999, protocol: false,
+        session: 0, inputSeq: 0, lastKey: 0, cursor: 0, step: 0, ready: 0
+    });
+    const native = {
+        ...data, g_hdQtySession: 4294967295, g_hdQtyInputSeq: 0, g_hdQtyLastKey: 65535,
+        g_hdQtyCursor: 2, g_hdQtyStep: { value: 1 }, g_hdQtyReady: 1
+    };
+    data = new Proxy(native, { set() { throw new Error('quantity read must never write native fields'); } });
+    assert.deepEqual(JSON.parse(JSON.stringify(qty())), {
+        active: 1, value: 30, min: 1, max: 999, protocol: true,
+        session: 4294967295, inputSeq: 0, lastKey: 65535, cursor: 2, step: 1, ready: 1
+    });
+    for (const field of ['Session', 'InputSeq', 'LastKey', 'Cursor', 'Step', 'Ready']) {
+        data = { ...native };
+        delete data['g_hdQty' + field];
+        assert.equal(qty().protocol, false, `missing ${field} selects the legacy path`);
+        data['g_hdQty' + field] = null;
+        assert.equal(qty().protocol, false, `null ${field} selects the legacy path`);
+    }
+    data = { ...native, g_hdQtyActive: 0, g_hdQtyReady: 0 };
+    assert.equal(qty().protocol, true, 'protocol capability survives an inactive owner');
+    assert.equal(qty().ready, 0);
+});
 
 test('real C bridge distinguishes current input from stale bytes and cross-menu action commits', async () => {
     await compile(common + String.raw`

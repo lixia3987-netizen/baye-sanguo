@@ -170,6 +170,25 @@ function bayeQtyStepKeys(delta, qty) {
         return [];
     }
     var keys = [], places = String(max).length - 1, i;
+    if (qty.protocol) {
+        // The native cursor describes its current arithmetic place. Do not
+        // normalize it with no-op RIGHT keys when C can tell us where it is.
+        if (!bayeQtyAckState(qty) || Number(qty.cursor) > places ||
+            Number(qty.step) !== Math.pow(10, places - Number(qty.cursor))) {
+            return [];
+        }
+        var target = amount === 10 ? places - 1 : places;
+        var cursor = Number(qty.cursor);
+        while (cursor < target) { keys.push(VK_RIGHT); cursor += 1; }
+        while (cursor > target) { keys.push(VK_LEFT); cursor -= 1; }
+        var change = delta > 0 ? VK_UP : VK_DOWN;
+        if (amount === 10) {
+            keys.push(change, VK_RIGHT);
+        } else {
+            for (i = 0; i < amount; i++) { keys.push(change); }
+        }
+        return keys;
+    }
     // NumOperate starts at units, but keyboard/digit input may have moved the
     // cursor. RIGHT reaches units from any position (tactic.c::NumOperateInner).
     for (i = 0; i < places; i++) {
@@ -185,6 +204,123 @@ function bayeQtyStepKeys(delta, qty) {
         }
     }
     return keys;
+}
+
+function bayeQtyAckState(qty) {
+    if (!qty || !qty.protocol) { return false; }
+    var bounds = { session: 0xffffffff, inputSeq: 0xffffffff,
+        lastKey: 0xffff, cursor: 9, step: 1000000000, ready: 1 };
+    for (var name in bounds) {
+        var value = Number(qty[name]);
+        if (!isFinite(value) || value < 0 || value > bounds[name] || Math.floor(value) !== value) {
+            return false;
+        }
+    }
+    return Number(qty.session) > 0 && Number(qty.step) > 0;
+}
+
+// Wait for C's input boundary, or for one specific native character receipt.
+// Only C advances the sequence; unchanged values and cursor no-ops still ACK.
+var bayeQtyReceiptBarrier = null;
+var bayeQtyClosedSession = 0;
+
+function bayeQtyNativeClosed(qty) {
+    return !!(qty && qty.protocol && qty.active && Number(qty.session) === bayeQtyClosedSession);
+}
+
+function bayeQtyCloseInput(qty) {
+    if (qty && qty.protocol && qty.active && Number(qty.session) > 0) {
+        bayeQtyClosedSession = Number(qty.session);
+    }
+}
+
+function bayeQtyInputAck(code, owner, options, done) {
+    var session = Number(owner && owner.session), sent = false, before = 0;
+    var receipt = null;
+    var finished = false, timer = 0, deadline = Date.now() + 2000;
+    function finish(ok, reason, qty) {
+        if (finished) { return; }
+        finished = true;
+        if (timer) { clearTimeout(timer); }
+        done(ok, reason || '', qty);
+    }
+    function poll() {
+        if (finished) { return; }
+        var qty = options.read();
+        if (!options.valid()) { finish(false, 'stale', qty); return; }
+        if (!bayeQtyAckState(qty)) { finish(false, 'invalid', qty); return; }
+        if (bayeQtyNativeClosed(qty)) { finish(false, 'closed', qty); return; }
+        if (!Number(qty.active) || Number(qty.session) !== session) {
+            finish(false, 'owner', qty); return;
+        }
+        if (!sent && bayeQtyReceiptBarrier) {
+            var pending = bayeQtyReceiptBarrier;
+            var pendingNext = pending.before === 0xffffffff ? 1 : pending.before + 1;
+            if (pending.session !== session) {
+                bayeQtyReceiptBarrier = null;
+            } else if (pending.failed) {
+                finish(false, 'receipt', qty); return;
+            } else if (Number(qty.inputSeq) !== pending.before) {
+                if (Number(qty.inputSeq) !== pendingNext || Number(qty.lastKey) !== pending.code) {
+                    pending.failed = true;
+                } else if (Number(qty.ready)) {
+                    bayeQtyReceiptBarrier = null;
+                }
+            }
+            if (bayeQtyReceiptBarrier === pending && pending.failed) { finish(false, 'receipt', qty); return; }
+            if (bayeQtyReceiptBarrier) {
+                if (Date.now() >= deadline) {
+                    pending.failed = true;
+                    finish(false, 'timeout', qty);
+                    return;
+                }
+                timer = setTimeout(poll, 4);
+                return;
+            }
+        }
+        if (!sent && Number(qty.ready)) {
+            if (code == null) { finish(true, '', qty); return; }
+            before = Number(qty.inputSeq);
+            sent = true;
+            receipt = { session: session, before: before, code: code, failed: false };
+            bayeQtyReceiptBarrier = receipt;
+            try { options.send(code); } catch (error) {
+                receipt.failed = true;
+                finish(false, 'send', qty);
+                return;
+            }
+            // Sending may synchronously run a mock or a native callback.
+            poll();
+            return;
+        }
+        if (sent && Number(qty.inputSeq) !== before) {
+            var expected = before === 0xffffffff ? 1 : before + 1;
+            if (Number(qty.inputSeq) !== expected || Number(qty.lastKey) !== code) {
+                receipt.failed = true;
+                finish(false, 'receipt', qty); return;
+            }
+            if (Number(qty.ready)) {
+                if (bayeQtyReceiptBarrier === receipt) { bayeQtyReceiptBarrier = null; }
+                finish(true, '', qty); return;
+            }
+        }
+        if (Date.now() >= deadline) {
+            if (receipt) { receipt.failed = true; }
+            finish(false, 'timeout', qty); return;
+        }
+        timer = setTimeout(poll, 4);
+    }
+    poll();
+    return function () {
+        finished = true;
+        if (timer) { clearTimeout(timer); }
+    };
+}
+
+function bayeQtyKeyboardCode(keyCode) {
+    if (keyCode >= 48 && keyCode <= 57) { return 0x40 + keyCode - 48; }
+    return { 37: VK_LEFT, 38: VK_UP, 39: VK_RIGHT, 40: VK_DOWN,
+        72: VK_HELP, 70: VK_SEARCH, 83: VK_SEARCH }[keyCode];
 }
 
 function onKeyDown(e) {
@@ -561,7 +697,7 @@ function redirect(page) {
     var now = new Date().getTime() / 1000;
     var name = getLibName();
     var hash = isMobile ? "#" + now : "";
-    var assetVer = (window.BAYE_ASSET_VER || '20261007e');
+    var assetVer = (window.BAYE_ASSET_VER || '20261007f');
     window.location.href = page + "?name=" + name + "&ver=" + encodeURIComponent(assetVer) + hash;
 }
 
@@ -875,7 +1011,7 @@ Module.noInitialRun = true;
 Module.locateFile = function (path, prefix) {
     prefix = prefix || '';
     if (/\.(wasm|map)$/.test(path)) {
-        return prefix + path + '?ver=' + (window.BAYE_ASSET_VER || '20261007e');
+        return prefix + path + '?ver=' + (window.BAYE_ASSET_VER || '20261007f');
     }
     return prefix + path;
 };

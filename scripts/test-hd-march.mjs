@@ -20,7 +20,7 @@ function harness({ phase = 1, session = 12, selected = 0, move = true } = {}) {
     const march = { phase, session, origin: 1, selected, inputSeq: 80,
         seq: 15, ok: 0, city: 0, obj: 0, pick: phase === 4 ? 1 : 0,
         battlePick: phase === 4 ? 1 : 0, mapCity: 2, mapInputSeq: 40 };
-    const qty = { active: phase === 2 ? 1 : 0, min: 1, max: 500, value: 250 };
+    const qty = { protocol: false, active: phase === 2 ? 1 : 0, min: 1, max: 500, value: 250 };
     const menu = { active: 0, context: 1, kind: 3, seq: 22, index: 0, names: [] };
     const data = { g_PlayerKing: 0, g_FgtOver: 0, g_hdFightActive: 0, g_hdFightOver: 0,
         g_asyncActionID: 1, g_CityPos: { setx: 1, sety: 1 },
@@ -30,12 +30,12 @@ function harness({ phase = 1, session = 12, selected = 0, move = true } = {}) {
         setItem(key, value) { this[key] = String(value); } };
     const context = vm.createContext({ document, localStorage: storage,
         console: { log() {}, warn() {} }, innerWidth: 1000, innerHeight: 600,
+        VK_UP: 0x22, VK_DOWN: 0x23, VK_LEFT: 0x24, VK_RIGHT: 0x25, VK_HELP: 0x26, VK_SEARCH: 0x33,
         Date: class extends Date { static now() { return clock; } },
         setTimeout(fn, delay = 0) { const id = ++nextTimer; timers.set(id, { fn, at: clock + delay }); return id; },
         clearTimeout(id) { timers.delete(id); }, setInterval() {},
         bayeInputIgnored(e) { return !!e.defaultPrevented; },
         bayeConsumeKeyEvent(e) { e.defaultPrevented = true; e.stopped = true; },
-        bayeQtyStepKeys() { return []; },
         sendKey(key) {
             sent.push(key);
             if (move && march.phase === 4) {
@@ -58,6 +58,11 @@ function harness({ phase = 1, session = 12, selected = 0, move = true } = {}) {
                 fight: () => ({ active: 0, over: 0 }), cityLinks: () => [{ index: 2 }, { index: 3 }] } }
     });
     context.window = context;
+    // The march fixture intentionally uses the legacy quantity bridge, while
+    // sharing the production helpers required by the city input controller.
+    const lcdSource = readFileSync(new URL('../js/lcd.js', import.meta.url), 'utf8');
+    vm.runInContext(lcdSource.slice(lcdSource.indexOf('function bayeQtyStepKeys('),
+        lcdSource.indexOf('function onKeyDown(')), context, { filename: 'js/lcd.js quantity helpers' });
     let source = readFileSync(new URL('../js/hd-city-menu.js', import.meta.url), 'utf8');
     source = source.replace(/\}\)\(window\);\s*$/, `
         global.__march = { state: state, sync: syncMarchPhase, invalidate: invalidateMarchWork,

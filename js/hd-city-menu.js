@@ -65,6 +65,8 @@
         activeQueueReason: '',
         qtyCommitQueued: false,
         qtyInputClosed: false,
+        qtyAckFailed: false,
+        qtyAckError: '',
         showLcd: false,
         closingSub: false,
         bound: false,
@@ -696,8 +698,10 @@
         }
         if ((codes && codes.length > 24) || state.queue.length > 80) {
             console.warn('[hd-city-menu] drop insane key burst', codes && codes.length, state.queue.length, reason || '');
+            queueEpoch += 1;
             state.queue.length = 0;
             state.sending = false;
+            invalidateQtyWork();
             return;
         }
         if (state.handoff && reason !== 'strategy-end' && reason !== 'strategy-end-enter') {
@@ -721,7 +725,7 @@
             state.queue.push({ code: codes[i], wait: gap, reason: reason || '',
                 marchEpoch: reason === 'pick-person' || reason === 'finish-persons' ? marchEpoch : null,
                 menuSeq: reason === 'march-start' || reason === 'strategy-end' ? engineMenuItems().seq : null,
-                qtyEpoch: reason === 'qty-step' || reason === 'qty-digit' ? qtyEpoch : null });
+                qtyEpoch: /^qty-/.test(reason || '') ? qtyEpoch : null });
         }
         pumpQueue();
     }
@@ -752,14 +756,34 @@
             if (item.qtyStep != null) {
                 // Read bounds/value when this click reaches the engine, so a
                 // fast +10 then -10 uses the first click's updated quantity.
-                var keys = liveQty() ? bayeQtyStepKeys(item.qtyStep, engineQty()) : [];
-                state.queue = keys.map(function (code) {
-                    return { code: code, wait: 40, reason: 'qty-step', qtyEpoch: item.qtyEpoch };
-                }).concat(state.queue);
-                setTimeout(next, 0);
+                var quantity = engineQty();
+                function expandStep(q) {
+                    var keys = liveQty() ? bayeQtyStepKeys(item.qtyStep, q) : [];
+                    state.queue = keys.map(function (code) {
+                        return { code: code, wait: 40, reason: 'qty-step', qtyEpoch: item.qtyEpoch };
+                    }).concat(state.queue);
+                    if (q && q.protocol) { next(); } else { setTimeout(next, 0); }
+                }
+                if (quantity && quantity.protocol) {
+                    state.activeQueueReason = 'qty-step';
+                    waitQuantity(null, quantity, item, function (q) { expandStep(q); });
+                } else {
+                    expandStep(quantity);
+                }
                 return;
             }
             state.activeQueueReason = item.reason || '';
+            var nativeQuantity = item.qtyEpoch != null ? engineQty() : null;
+            if (nativeQuantity && nativeQuantity.protocol) {
+                waitQuantity(item.qtyCommit ? null : item.code, nativeQuantity, item, function () {
+                    if (item.qtyCommit && state.qtyCommitQueued) {
+                        state.qtyCommitQueued = false;
+                        commitQty(true);
+                    }
+                    next();
+                });
+                return;
+            }
             setTimeout(function () {
                 if (epoch !== queueEpoch) { return; }
                 if (item.qtyEpoch != null || item.qtyCommit) { syncQuantityWait(engineQty()); }
@@ -789,6 +813,33 @@
                 state.activeQueueReason = '';
                 setTimeout(next, item.wait || 55);
             }, 0);
+        }
+        function waitQuantity(code, owner, item, after) {
+            bayeQtyInputAck(code, owner, {
+                read: engineQty,
+                valid: function () {
+                    syncQuantityWait(engineQty());
+                    return epoch === queueEpoch && item.qtyEpoch === qtyEpoch &&
+                        shouldShowHd() && !state.qtyInputClosed && !state.qtyAckFailed;
+                },
+                send: function (key) { engineSendKey(key, item.reason); }
+            }, function (ok, reason, q) {
+                if (epoch !== queueEpoch) { return; }
+                syncQuantityWait(engineQty());
+                if (item.qtyEpoch !== qtyEpoch) { next(); return; }
+                state.activeQueueReason = '';
+                if (!ok) {
+                    invalidateQtyWork();
+                    if (reason !== 'stale') {
+                        state.qtyAckFailed = true;
+                        state.qtyAckError = reason;
+                        render();
+                    }
+                    next();
+                    return;
+                }
+                after(q);
+            });
         }
         next();
     }
@@ -2673,7 +2724,23 @@
     }
 
     function syncQuantityWait(q) {
-        if (!q || !Number(q.active) || !marchProtocol()) { return; }
+        if (!q || !Number(q.active)) { return; }
+        if (q.protocol) {
+            var nativeKey = 'qty:' + String(q.session);
+            if (state.qtyWaitKey === nativeKey) {
+                if (bayeQtyNativeClosed(q)) { state.qtyInputClosed = true; }
+                return;
+            }
+            state.qtyWaitKey = nativeKey;
+            invalidateQtyWork();
+            state.qtyInputClosed = bayeQtyNativeClosed(q);
+            state.qtyAckFailed = false;
+            state.qtyAckError = '';
+            state.qtyDismissed = false;
+            state.qtyDismissedAt = 0;
+            return;
+        }
+        if (!marchProtocol()) { return; }
         var menu = engineMenuItems();
         if (menu.active == null || Number(menu.active) || !Number(menu.seq)) { return; }
         // NumOperate starts after its person/menu closes. That C menu end
@@ -2685,6 +2752,8 @@
         state.qtyWaitKey = key;
         invalidateQtyWork();
         state.qtyInputClosed = false;
+        state.qtyAckFailed = false;
+        state.qtyAckError = '';
         state.qtyDismissed = false;
         state.qtyDismissedAt = 0;
     }
@@ -2746,7 +2815,7 @@
     }
 
     function clearLeftoverQtyValues() {
-        if (marchProtocol()) { return; }
+        if (marchProtocol() || engineQty() && engineQty().protocol) { return; }
         try {
             if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
                 if (baye.data.g_hdQtyActive != null) {
@@ -2771,7 +2840,7 @@
         }
         try {
             if (window.baye && baye.data && baye.data.g_hdQtyActive != null &&
-                !marchProtocol() &&
+                !marchProtocol() && !(engineQty() && engineQty().protocol) &&
                 (!baye.hdEngineReady || baye.hdEngineReady())) {
                 baye.data.g_hdQtyActive = 0;
             }
@@ -2799,7 +2868,7 @@
         if (!liveQty()) {
             return false;
         }
-        if (state.qtyCommitQueued) {
+        if (state.qtyCommitQueued || state.qtyAckFailed) {
             return true;
         }
         delta = Number(delta);
@@ -2815,22 +2884,33 @@
             return false;
         }
         digit = Number(digit);
-        if (!state.qtyCommitQueued && digit >= 0 && digit <= 9 && Math.floor(digit) === digit) {
+        if (!state.qtyCommitQueued && !state.qtyAckFailed && digit >= 0 && digit <= 9 && Math.floor(digit) === digit) {
             enqueueKeys([0x40 + digit], 30, 'qty-digit');
         }
         return true;
     }
 
-    function commitQty() {
+    function quantityKey(code) {
+        if (!liveQty()) { return false; }
+        code = Number(code);
+        if ([VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, 0x26, 0x33].indexOf(code) < 0 &&
+            !(code >= 0x40 && code <= 0x49 && Math.floor(code) === code)) { return false; }
+        if (!state.qtyCommitQueued && !state.qtyAckFailed) {
+            enqueueKeys([code], 40, 'qty-key');
+        }
+        return true;
+    }
+
+    function commitQty(nativeReady) {
         syncQuantityWait(engineQty());
-        if (state.qtyInputClosed || state.qtyCommitQueued) {
+        if (state.qtyInputClosed || state.qtyCommitQueued || state.qtyAckFailed) {
             return;
         }
-        var quantityKeyPending = state.activeQueueReason === 'qty-step' ||
-            state.activeQueueReason === 'qty-digit' || state.queue.some(function (item) {
-                return item.reason === 'qty-step' || item.reason === 'qty-digit';
+        var quantityKeyPending = /^qty-/.test(state.activeQueueReason) || state.queue.some(function (item) {
+                return /^qty-/.test(item.reason || '');
             });
-        if (liveQty() && quantityKeyPending) {
+        var quantity = engineQty();
+        if (liveQty() && (quantityKeyPending || quantity && quantity.protocol && !nativeReady)) {
             // Confirm after the queued digits/steps, rather than closing their
             // NumOperate early and sending its remaining keys into the next UI.
             state.qtyCommitQueued = true;
@@ -2846,6 +2926,7 @@
             scheduleMarchWatch();
             return;
         }
+        bayeQtyCloseInput(engineQty());
         engineSendKey(VK.ENTER, 'qty-ok');
         state.qtyInputClosed = true;
         invalidateQtyWork();
@@ -2893,6 +2974,7 @@
             render();
             return;
         }
+        bayeQtyCloseInput(engineQty());
         engineSendKey(VK.EXIT, 'qty-cancel');
         state.qtyInputClosed = true;
         var epoch = qtyEpoch;
@@ -3524,6 +3606,7 @@
             bar.innerHTML = '<p>' + (state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
                 (q.value !== '' && q.value != null ? q.value : '—') +
                 '</strong> · 可用按钮或数字键调整</p>' +
+                (state.qtyAckFailed ? '<p>数量调整未完成，请取消后重新输入。</p>' : '') +
                 '<div>' +
                 '<button type="button" data-hd-qty="-10">−10</button>' +
                 '<button type="button" data-hd-qty="-1">−</button>' +
@@ -5269,7 +5352,13 @@
                     }
                     return;
                 }
-                if (e.keyCode === 27) {
+                var qtyCode = bayeQtyKeyboardCode(e.keyCode);
+                if (qtyCode != null) {
+                    bayeConsumeKeyEvent(e);
+                    quantityKey(qtyCode);
+                    return;
+                }
+                if (e.keyCode === 27 || e.keyCode === 32) {
                     bayeConsumeKeyEvent(e);
                     if (!e.repeat) {
                         cancelQty();
@@ -5593,6 +5682,8 @@
                 mapCity: engineMapCityIndex(),
                 debug: marchDebugLine(),
                 qtyDismissed: state.qtyDismissed,
+                qtyAckFailed: !!state.qtyAckFailed,
+                qtyAckError: state.qtyAckError,
                 reportAtMarchStart: state.reportAtMarchStart,
                 march: engineMarch(),
                 qty: engineQty(),
@@ -5671,6 +5762,7 @@
         leftoverQty: leftoverQtyFlag,
         stepQty: stepQty,
         digitQty: digitQty,
+        quantityKey: quantityKey,
         commitQty: commitQty,
         cancelQty: cancelQty
     };

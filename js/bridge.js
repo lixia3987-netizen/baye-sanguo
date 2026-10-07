@@ -1469,7 +1469,16 @@ function baye_bridge_init() {
                 active: hdReadNum(d, 'g_hdQtyActive'),
                 value: hdReadNum(d, 'g_hdQtyValue'),
                 min: hdReadNum(d, 'g_hdQtyMin'),
-                max: hdReadNum(d, 'g_hdQtyMax')
+                max: hdReadNum(d, 'g_hdQtyMax'),
+                protocol: !!(d && d.g_hdQtySession != null && d.g_hdQtyInputSeq != null &&
+                    d.g_hdQtyLastKey != null && d.g_hdQtyCursor != null &&
+                    d.g_hdQtyStep != null && d.g_hdQtyReady != null),
+                session: hdReadNum(d, 'g_hdQtySession'),
+                inputSeq: hdReadNum(d, 'g_hdQtyInputSeq'),
+                lastKey: hdReadNum(d, 'g_hdQtyLastKey'),
+                cursor: hdReadNum(d, 'g_hdQtyCursor'),
+                step: hdReadNum(d, 'g_hdQtyStep'),
+                ready: hdReadNum(d, 'g_hdQtyReady')
             };
         },
         toolName: function (id) {

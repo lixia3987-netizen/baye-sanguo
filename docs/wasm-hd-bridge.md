@@ -31,6 +31,8 @@
 | `g_hdFightResultGbk` | GBK | `over==1` 胜 / `over==2` 负（`STR_GAMEWON` / `STR_GAMELOST`） |
 | `g_hdQtyActive` | u8 | `NumOperate` 打开时为 1，ENTER/EXIT 清 0 |
 | `g_hdQtyValue` / `Min` / `Max` | u32 | 当前数与区间 |
+| `g_hdQtySession` / `InputSeq` / `LastKey` | u32 / u32 / u16 | 数量会话、实际字符按键回执序号、最后处理的原生键码；序号回绕跳过 0 |
+| `g_hdQtyCursor` / `Step` / `Ready` | u8 / u32 / u8 | 原生数字光标、方向键步长、处理完成且正在等待输入 |
 | `g_hdHelpGbk` | GBK | `FgtShowHlp` 将领/地形正文，或大地图 HELP 的 `Ver …` |
 | `g_hdHelpActive` / `g_hdHelpSeq` | u8 / u16 | 帮助打开时为 1；每次写入 +1 |
 | `g_hdMovieActive` / `g_hdMovieId` | u8 / u16 | `GamMovie(MAIN_SPE)` 播放中 |
@@ -52,7 +54,15 @@
 
 原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
-M3 manifest 的 `hdInputProtocol.version=2` 共记录 20 个生命周期字段：fight 3、menu 4、march 6、report 2、record 5。它们用于判断当前输入归属；不能用缓存正文、旧菜单名或旧异步调用编号代替。
+当前 manifest 的 `hdInputProtocol.version=3` 共记录 27 个生命周期字段：fight 3、menu 4、march 6、report 2、record 5、qty 7。M3 的 version 2 记录前五组共 20 个字段。它们用于判断当前输入归属；不能用缓存正文、旧菜单名或旧异步调用编号代替。
+
+## M4 数量输入确认
+
+`qty().protocol` 表示六个新增数量字段均存在；旧引擎继续使用原有定时队列。支持新协议时，HD 根据真实 `cursor` 和 `step` 选择所需方向键，每个按键等待同一 `session`、下一个非零 `inputSeq`、匹配 `lastKey` 和 `ready=1` 后才继续。按键处理、必要重绘及下一次输入等待全部到达后，C 才发布回执；光标移动、达到边界或未改变数值的数字键也有回执。触摸与定时消息不会伪造字符按键确认。
+
+`cursor` 沿用原生 `bit` 的视觉位置，方向键步长为 `step`；原生数字键仍按既有 `10^bit` 规则替换数字。前端不修改数量或游戏资源。按钮与实体键盘通过同一数量队列输入，确认等待之前的按键全部收到回执；取消、会话切换、新世界和模式切换使旧操作失效，超时不重发未确认的按键。ENTER、EXIT 和原生触摸确认/取消关闭数量等待，世界提交更新数量会话令牌，旧 C 调用不能重新发布已失效的数量镜像。
+
+`bayeSendKey` 只将消息加入原生队列，入队时 `ready` 可以仍为 1。共享的已发送按键记录跨弹窗和模式的异步令牌保留；重新打开同一数量会话时，先等待旧按键的真实回执，再根据最新光标规划。确认也经过此等待，不能领取旧的同码按键回执。取消或确认后，已关闭的同一会话在 C 尚未退出期间继续拦截游戏键，避免落入下一层经典界面；编辑器、输入法和 SPE 原有键盘归属保持。
 
 ## M2 输入生命周期
 
@@ -143,8 +153,8 @@ baye.lastHdCall      // 最近一次 HD 桥调用（崩溃 onerror / unhandledre
 
 - `baye.hd.ready()`：heap + `_bayeHdReady()`。所有 HD `setInterval` / overworld rAF 在 false 时停轮询
 - OOB / `Module.onAbort` / `window.onerror` 会 `console.error('[hd-bridge] lastHdCall', JSON)`；alert **一定**带 `lastHdCall`（没有则 `(none)`）和 stack
-- `pc.html` `<head>` 最先装 onerror + `Module.locateFile`，`baye.wasm?ver=` 与 `baye.js?ver=` 同号 `20261007e`，避免旧胶水配新 wasm
-- `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本；入口脚本缓存号同步为 `20261007e`
+- `pc.html` `<head>` 最先装 onerror + `Module.locateFile`，`baye.wasm?ver=` 与 `baye.js?ver=` 同号 `20261007f`，避免旧胶水配新 wasm
+- `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本；入口脚本缓存号同步为 `20261007f`
 
 - `getPersonName` / `getCityName` / `getToolName` / `getSkillName` / `getPersonNameByID`：index `<0` / `≥max` / `≥0xfffe`（队列空槽 `0xffff`）直接空串，不进 `ResLoadToMem`
 - `ensureData` / `hd.report` / `hd.cityLinks` / keepalive 指针：lib 或 heap 未就绪则 no-op

@@ -67,6 +67,12 @@ U32 g_hdQtyValue = 0;
 U32 g_hdQtyMin = 0;
 U32 g_hdQtyMax = 0;
 U8 g_hdQtyActive = 0;
+U32 g_hdQtySession = 0;
+U32 g_hdQtyInputSeq = 0;
+U16 g_hdQtyLastKey = BAYE_HD_QTY_NO_KEY;
+U8 g_hdQtyCursor = 0;
+U32 g_hdQtyStep = 1;
+U8 g_hdQtyReady = 0;
 
 U8 g_hdMapPick = 0;
 U32 g_hdMapInputSeq = 0;
@@ -133,7 +139,8 @@ void baye_hd_set_ready(U8 ready)
     g_hdMarchCity = g_hdMarchObj = g_hdMarchTime = 0;
     g_hdFightSkip = BAYE_HD_FIGHT_SKIP_NONE;
     g_hdMapPick = g_hdBattlePick = g_hdMapCity = 0;
-    g_hdQtyActive = g_hdSkillActive = g_hdHelpActive = 0;
+    baye_hd_qty_invalidate();
+    g_hdSkillActive = g_hdHelpActive = 0;
     g_hdHelpGbk[0] = 0;
     g_hdReportGbk[0] = 0;
     g_hdReportKind = BAYE_HD_REPORT_NONE;
@@ -600,6 +607,56 @@ void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
     g_hdQtyActive = active;
 }
 
+U32 baye_hd_qty_begin(void)
+{
+    g_hdQtySession = hd_next_input_seq(g_hdQtySession);
+    g_hdQtyInputSeq = 0;
+    g_hdQtyLastKey = BAYE_HD_QTY_NO_KEY;
+    g_hdQtyCursor = 0;
+    g_hdQtyStep = 1;
+    g_hdQtyReady = 0;
+    g_hdQtyActive = 1;
+    return g_hdQtySession;
+}
+
+void baye_hd_qty_publish(U32 session, U32 value, U32 minV, U32 maxV, U8 cursor, U32 step, U16 key)
+{
+    /* Publish only after native processing/redrawing reaches its next wait.
+     * A cursor/no-op key is a receipt too; touch/timers never acknowledge it. */
+    if (!g_hdQtyActive || session != g_hdQtySession) return;
+    baye_hd_set_qty(value, minV, maxV, 1);
+    g_hdQtyCursor = cursor;
+    g_hdQtyStep = step;
+    if (key != BAYE_HD_QTY_NO_KEY) {
+        g_hdQtyInputSeq = hd_next_input_seq(g_hdQtyInputSeq);
+        g_hdQtyLastKey = key;
+    }
+    g_hdQtyReady = 1;
+}
+
+void baye_hd_qty_busy(U32 session)
+{
+    if (session == g_hdQtySession) g_hdQtyReady = 0;
+}
+
+void baye_hd_qty_end(U32 session, U32 value, U32 minV, U32 maxV, U16 key)
+{
+    if (!g_hdQtyActive || session != g_hdQtySession) return;
+    baye_hd_set_qty(value, minV, maxV, 0);
+    if (key != BAYE_HD_QTY_NO_KEY) {
+        g_hdQtyInputSeq = hd_next_input_seq(g_hdQtyInputSeq);
+        g_hdQtyLastKey = key;
+    }
+    g_hdQtyReady = 0;
+}
+
+void baye_hd_qty_invalidate(void)
+{
+    g_hdQtySession = hd_next_input_seq(g_hdQtySession);
+    g_hdQtyActive = g_hdQtyReady = 0;
+    g_hdQtyLastKey = BAYE_HD_QTY_NO_KEY;
+}
+
 void baye_hd_set_map_pick(U8 active)
 {
     g_hdMapPick = active;
@@ -769,6 +826,12 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdQtyMin, U32);
     DEFADDF(g_hdQtyMax, U32);
     DEFADDF(g_hdQtyActive, U8);
+    DEFADDF(g_hdQtySession, U32);
+    DEFADDF(g_hdQtyInputSeq, U32);
+    DEFADDF(g_hdQtyLastKey, U16);
+    DEFADDF(g_hdQtyCursor, U8);
+    DEFADDF(g_hdQtyStep, U32);
+    DEFADDF(g_hdQtyReady, U8);
     DEFADDF(g_hdMapPick, U8);
     DEFADDF(g_hdMapInputSeq, U32);
     DEFADDF(g_hdBattlePick, U8);

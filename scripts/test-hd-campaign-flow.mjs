@@ -42,7 +42,7 @@ function harness() {
         ok: 1, city: 1, obj: 2, mapCity: 2, mapInputSeq: 9, pick: 0, battlePick: 0 };
     const menu = { active: 0, context: 0, kind: 0, seq: 20, index: 0, names: [] };
     const fight = { active: 0, over: 1, inputKind: 0, inputSeq: 20, actorIndex: 255 };
-    const qty = { active: 0, min: 1, max: 200, value: 100 };
+    const qty = { protocol: false, active: 0, min: 1, max: 200, value: 100 };
     const rawData = { g_asyncActionID: 0, g_FgtOver: 1, g_hdFightActive: 0, g_hdFightOver: 1,
         g_hdFightWait: 0, g_hdMapPick: 0, g_hdBattlePick: 0, g_hdQtyActive: 0,
         g_hdQtyMin: 1, g_hdQtyMax: 200, g_hdQtyValue: 100, g_hdReportGbk: report.text,
@@ -53,12 +53,13 @@ function harness() {
     const context = vm.createContext({ document, localStorage: storage,
         console: { log() {}, warn() {}, error() {} }, innerWidth: 1000, innerHeight: 600,
         navigator: { userAgent: 'Node test' }, devicePixelRatio: 1,
+        VK_UP: 0x22, VK_DOWN: 0x23, VK_LEFT: 0x24, VK_RIGHT: 0x25, VK_HELP: 0x26, VK_SEARCH: 0x33,
         Date: class extends Date { static now() { return clock; } },
         setTimeout(fn, delay = 0) { const id = ++nextTimer; timers.set(id, { fn, at: clock + delay }); return id; },
         clearTimeout(id) { timers.delete(id); }, setInterval(fn) { intervals.push(fn); return ++nextTimer; },
         clearInterval() {}, requestAnimationFrame() { return ++nextTimer; }, cancelAnimationFrame() {},
         addEventListener() {}, bayeInputIgnored: event => !!event.defaultPrevented,
-        bayeConsumeKeyEvent(event) { event.defaultPrevented = true; }, bayeQtyStepKeys() { return []; },
+        bayeConsumeKeyEvent(event) { event.defaultPrevented = true; },
         sendKey(key) { keys.push(key); onSend(key); },
         baye: { data, ensureData: () => data, hdEngineReady: () => true, hdCityLimit: () => 3,
             getCityName: id => ['西凉', '天水', '河内'][id], getPersonName: () => '', hooks: {},
@@ -66,6 +67,11 @@ function harness() {
                 march: () => march, menuItems: () => menu, fight: () => fight, qty: () => qty,
                 movie: () => ({ active: 0 }), help: () => ({ active: 0, text: '' }) } } });
     context.window = context;
+    // These campaign snapshots expose the legacy four-field quantity bridge.
+    // Use the actual shared input helpers without loading LCD presentation.
+    const lcdSource = readFileSync(new URL('../js/lcd.js', import.meta.url), 'utf8');
+    vm.runInContext(lcdSource.slice(lcdSource.indexOf('function bayeQtyStepKeys('),
+        lcdSource.indexOf('function onKeyDown(')), context, { filename: 'js/lcd.js quantity helpers' });
     function load(path, expose = '') {
         let source = readFileSync(new URL('../' + path, import.meta.url), 'utf8');
         if (expose) source = source.replace(/\}\)\(window\);\s*$/, expose + '\n})(window);');

@@ -34,7 +34,15 @@
         defenseRequest: null,
         defenseCommit: null,
         reportSeq: 0,
-        pressedView: null
+        pressedView: null,
+        qtyQueue: [],
+        qtySending: false,
+        qtyCommitPending: false,
+        qtyInputClosed: false,
+        qtySession: 0,
+        qtyClosedSession: 0,
+        qtyAckFailed: false,
+        qtyAckError: ''
     };
 
     function overworldIsHd() {
@@ -668,7 +676,8 @@
                     }
                 } catch (e) {}
                 body.textContent = qv +
-                    '使用按钮或方向键调整数量，也可按 0–9 输入数字。';
+                    (state.qtyAckFailed ? '数量调整未完成，请取消后重新输入。' :
+                        '使用按钮或方向键调整数量，也可按 0–9 输入数字。');
             } else if (state.kind === 'help') {
                 body.textContent = '在下方经典画面查看' + (state.title === '查找' ? '查找结果' : '帮助内容') +
                     '，查看完毕后点击“返回”。';
@@ -798,13 +807,11 @@
             BayeHdCityMenu.commitQty();
             return;
         }
-        engineSendKey(VK.ENTER);
-        var epoch = ++qtyEpoch;
-        setTimeout(function () {
-            if (epoch === qtyEpoch) {
-                closeQtyDialog();
-            }
-        }, 80);
+        var q = standaloneQty();
+        if (!q || !q.active || state.qtyInputClosed || state.qtyAckFailed || state.qtyCommitPending) { return; }
+        state.qtyCommitPending = true;
+        state.qtyQueue.push({ commit: true, epoch: qtyEpoch });
+        pumpStandaloneQty();
     }
 
     function cancelQtyDialog() {
@@ -812,8 +819,15 @@
             BayeHdCityMenu.cancelQty();
             return;
         }
-        engineSendKey(VK.EXIT);
-        qtyEpoch += 1;
+        if (!state.open || state.kind !== 'qty' || state.qtyInputClosed) { return; }
+        var q = standaloneQty();
+        invalidateDialogQty();
+        state.qtyInputClosed = true;
+        if (q && q.protocol && q.active) { state.qtyClosedSession = Number(q.session); }
+        if (q && q.active) {
+            bayeQtyCloseInput(q);
+            engineSendKey(VK.EXIT);
+        }
         closeQtyDialog();
     }
 
@@ -988,6 +1002,11 @@
             return false;
         }
         var kind = meta.kind || 'report';
+        if (kind === 'qty') {
+            var quantity = standaloneQty();
+            if (quantity && quantity.protocol && quantity.active &&
+                (Number(quantity.session) === state.qtyClosedSession || bayeQtyNativeClosed(quantity))) { return false; }
+        }
         var marchOwner = kind === 'report' ? (meta.marchOwner ||
             (leftoverMarchTip(meta.body) ? readMarchReport() : null)) : null;
         var helpOwner = kind === 'help' ? (meta.helpOwner || readBattleHelp()) : null;
@@ -1007,10 +1026,11 @@
             stopDefenseRequest();
         }
         if (!state.open || state.kind !== kind) {
-            qtyEpoch += 1;
+            invalidateDialogQty();
         }
         state.open = true;
         state.kind = kind;
+        if (kind === 'qty') { standaloneQty(); }
         state.marchOwner = marchOwner;
         state.helpOwner = helpOwner;
         state.reportOwner = reportOwner;
@@ -1037,7 +1057,7 @@
         // Keep keyboard ownership while the acknowledged report is still the
         // same C wait; repeated keys cannot fall through to the native layer.
         if (opts.marchOwner && sameMarch(state.marchOwner, readMarchReport())) { return false; }
-        qtyEpoch += 1;
+        invalidateDialogQty();
         state.viewEpoch += 1;
         stopSuccessorRequest();
         stopDefenseRequest();
@@ -1164,17 +1184,135 @@
             BayeHdCityMenu.stepQty(delta);
             return;
         }
-        var q = window.baye && baye.hd && baye.hd.qty ? baye.hd.qty() : null;
+        var q = standaloneQty();
+        delta = Number(delta);
+        if (!q || !q.active || state.qtyInputClosed || state.qtyAckFailed || state.qtyCommitPending ||
+            [-10, -1, 1, 10].indexOf(delta) < 0) { return; }
+        state.qtyQueue.push({ delta: delta, epoch: qtyEpoch });
+        pumpStandaloneQty();
+    }
+
+    function invalidateDialogQty() {
+        qtyEpoch += 1;
+        state.qtyQueue = [];
+        state.qtySending = false;
+        state.qtyCommitPending = false;
+        state.qtyInputClosed = false;
+        state.qtySession = 0;
+        state.qtyAckFailed = false;
+        state.qtyAckError = '';
+    }
+
+    function readStandaloneQty() {
+        try { return window.baye && baye.hd && baye.hd.qty ? baye.hd.qty() : null; }
+        catch (error) { return null; }
+    }
+
+    function standaloneQty() {
+        var q = readStandaloneQty();
+        if (q && (!q.active || q.protocol && Number(q.session) !== state.qtyClosedSession)) {
+            state.qtyClosedSession = 0;
+        }
+        if (q && q.protocol && q.active && Number(q.session) !== state.qtySession) {
+            invalidateDialogQty();
+            state.qtySession = Number(q.session);
+        }
+        if (q && q.protocol && q.active &&
+            (Number(q.session) === state.qtyClosedSession || bayeQtyNativeClosed(q))) {
+            state.qtyInputClosed = true;
+        }
+        return q;
+    }
+
+    function quantityKey(code) {
+        if (global.BayeHdCityMenu && typeof BayeHdCityMenu.quantityKey === 'function') {
+            BayeHdCityMenu.quantityKey(code);
+            return;
+        }
+        code = Number(code);
+        if ([VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, VK.HELP, VK.SEARCH].indexOf(code) < 0 &&
+            !(code >= 0x40 && code <= 0x49 && Math.floor(code) === code)) { return; }
+        var q = standaloneQty();
+        if (!q || !q.active || state.qtyInputClosed || state.qtyAckFailed || state.qtyCommitPending) { return; }
+        state.qtyQueue.push({ code: code, epoch: qtyEpoch });
+        pumpStandaloneQty();
+    }
+
+    function pumpStandaloneQty() {
+        if (state.qtySending) { return; }
+        state.qtySending = true;
         var epoch = qtyEpoch;
-        var keys = bayeQtyStepKeys(delta, q);
-        keys.forEach(function (code, index) {
+        function valid() {
+            return epoch === qtyEpoch && shouldShowHd() && state.open && state.kind === 'qty' &&
+                !state.qtyInputClosed && !state.qtyAckFailed;
+        }
+        function stop(reason) {
+            if (epoch !== qtyEpoch) { return; }
+            state.qtyQueue = [];
+            state.qtySending = false;
+            state.qtyCommitPending = false;
+            if (reason !== 'stale') {
+                state.qtyAckFailed = true;
+                state.qtyAckError = reason;
+                render();
+            }
+        }
+        function wait(code, q, after) {
+            bayeQtyInputAck(code, q, { read: readStandaloneQty, valid: valid, send: engineSendKey },
+                function (ok, reason, latest) {
+                    if (!valid()) { stop('stale'); return; }
+                    if (!ok) { stop(reason); return; }
+                    after(latest);
+                });
+        }
+        function next() {
+            if (!valid()) { stop('stale'); return; }
+            if (!state.qtyQueue.length) {
+                state.qtySending = false;
+                return;
+            }
+            var item = state.qtyQueue.shift();
             setTimeout(function () {
-                var live = window.baye && baye.hd && baye.hd.qty ? baye.hd.qty() : null;
-                if (epoch === qtyEpoch && shouldShowHd() && state.open && state.kind === 'qty' && live && live.active) {
-                    engineSendKey(code);
+                if (!valid() || item.epoch !== qtyEpoch) { stop('stale'); return; }
+                var q = readStandaloneQty();
+                if (!q || !q.active || q.protocol && Number(q.session) !== state.qtySession) {
+                    stop('owner'); return;
                 }
-            }, index * 40);
-        });
+                if (item.delta != null) {
+                    function expand(latest) {
+                        state.qtyQueue = bayeQtyStepKeys(item.delta, latest).map(function (code) {
+                            return { code: code, epoch: epoch };
+                        }).concat(state.qtyQueue);
+                        next();
+                    }
+                    if (q.protocol) { wait(null, q, expand); } else { expand(q); }
+                } else if (item.commit) {
+                    function commit(latest) {
+                        state.qtyCommitPending = false;
+                        state.qtyInputClosed = true;
+                        if (latest.protocol) { state.qtyClosedSession = Number(latest.session); }
+                        state.qtyQueue = [];
+                        state.qtySending = false;
+                        var session = Number(latest.session);
+                        bayeQtyCloseInput(latest);
+                        engineSendKey(VK.ENTER);
+                        setTimeout(function () {
+                            var current = readStandaloneQty();
+                            if (epoch === qtyEpoch && (!latest.protocol || !current || Number(current.session) === session)) {
+                                closeQtyDialog();
+                            }
+                        }, 80);
+                    }
+                    if (q.protocol) { wait(null, q, commit); } else { commit(q); }
+                } else if (q.protocol) {
+                    wait(item.code, q, next);
+                } else {
+                    engineSendKey(item.code);
+                    setTimeout(next, 40);
+                }
+            }, 0);
+        }
+        next();
     }
 
     function confirmDialog() {
@@ -1273,8 +1411,15 @@
         });
         root.addEventListener('pointercancel', function () { state.pressedView = null; });
         document.addEventListener('keydown', function (e) {
-            if (bayeInputIgnored(e) || (global.BayeHdSpe && BayeHdSpe.isOpen && BayeHdSpe.isOpen()) ||
-                !state.open || !shouldShowHd()) { return; }
+            if (bayeInputIgnored(e) || (global.BayeHdSpe && BayeHdSpe.isOpen && BayeHdSpe.isOpen())) { return; }
+            var closedQty = readStandaloneQty();
+            if (closedQty && closedQty.protocol && closedQty.active &&
+                (Number(closedQty.session) === state.qtyClosedSession || bayeQtyNativeClosed(closedQty)) &&
+                ([13, 27, 32].indexOf(e.keyCode) >= 0 || bayeQtyKeyboardCode(e.keyCode) != null)) {
+                bayeConsumeKeyEvent(e);
+                return;
+            }
+            if (!state.open || !shouldShowHd()) { return; }
             var quantity = state.kind === 'qty';
             var ownedReport = state.kind === 'report' && !!state.marchOwner;
             var ownedHelp = state.kind === 'help' && !!state.helpOwner;
@@ -1293,12 +1438,20 @@
                 return;
             }
             if ((quantity || ownedReport || ownedHelp || ownedNativeReport || ownedSuccessor || ownedDefense) &&
-                (e.keyCode === 13 || e.keyCode === 27)) {
+                (e.keyCode === 13 || e.keyCode === 27 || quantity && e.keyCode === 32)) {
                 bayeConsumeKeyEvent(e);
                 if (!e.repeat) {
                     if (e.keyCode === 13) { confirmDialog(); } else { backDialog(); }
                 }
                 return;
+            }
+            if (quantity) {
+                var qtyCode = bayeQtyKeyboardCode(e.keyCode);
+                if (qtyCode != null) {
+                    bayeConsumeKeyEvent(e);
+                    quantityKey(qtyCode);
+                    return;
+                }
             }
             if ((ownedNativeReport || ownedDefense) && [32, 37, 38, 39, 40, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 70, 72, 83].indexOf(e.keyCode) >= 0) {
                 // A modal report accepts an explicit Enter/Esc. Other game
@@ -1370,7 +1523,7 @@
                         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.digitQty === 'function') {
                             BayeHdCityMenu.digitQty(dgt);
                         } else {
-                            engineSendKey(0x40 + dgt);
+                            quantityKey(0x40 + dgt);
                         }
                     }
                     return;

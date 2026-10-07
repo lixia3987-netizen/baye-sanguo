@@ -7,7 +7,7 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261007e';
+    var HD_BATTLE_VER = '20261007f';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var state = {
