@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import test from 'node:test';
@@ -13,7 +13,7 @@ import vm from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const directory = join(root, 'vendor/iBaye/src');
-const read = (filename) => readFileSync(join(directory, filename), 'utf8');
+const read = (filename) => readFileSync(join(directory, filename), 'utf8').replace(/\r\n/g, '\n');
 const bridge = read('hd-bridge.c');
 const header = read('hd-bridge.h');
 const constants = header.split('\n').filter((line) => /^#define (?:BAYE_HD_|VK_DIGIT0)/.test(line)).join('\n');
@@ -29,9 +29,11 @@ function actualFunction(filename, name) {
     return source.slice(match.index, end + 2);
 }
 
+const speTypes = header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
+const speHelpers = bridge.slice(bridge.indexOf('static void hd_spe_notify'), bridge.indexOf('void baye_hd_set_qty'));
 const globals = bridge.slice(0, bridge.indexOf('static void copy_gbk')).replace(/^#include[^\n]*\n/gm, '');
 const helpers = [
-    'hd_next_input_seq', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
+    'hd_next_input_seq', 'baye_hd_begin_spe', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
     'baye_hd_take_fight_action', 'baye_hd_map_input_begin', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin',
     'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_begin', 'baye_hd_march_selected',
     'baye_hd_march_end', 'copy_gbk', 'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end',
@@ -49,13 +51,19 @@ const common = String.raw`
 #include <string.h>
 typedef uint8_t U8;
 typedef uint16_t U16;
+typedef int16_t I16;
 typedef uint32_t U32;
 typedef uint16_t PersonID;
 typedef uint16_t ToolID;
 typedef uint16_t SkillID;
 typedef struct { int sx, ex, sy, ey; } RECT;
 typedef struct { U8 x,y,setx,sety; } CitySetType;
+U8 g_FlipDrawing = 0, g_paintColor = 0xff;
 #define FAR
+#define FGTA_MAX 20
+#define MAIN_SPE 3
+#define MAKER_SPE 6
+#define STACHG_SPE 27
 #define EM_ASM(...) ((void)0)
 #define gam_strlen(text) strlen((const char*)(text))
 #define STRING_CONST 0
@@ -65,7 +73,7 @@ typedef struct { U8 x,y,setx,sety; } CitySetType;
 static void ResLoadToMem(int resource, int id, U8* output) {
     (void)resource; output[0] = (U8)id; output[1] = 0;
 }
-` + constants + '\n' + globals + '\n' + helpers + String.raw`
+` + constants + '\n' + speTypes + '\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\n' + helpers + '\n' + speHelpers + String.raw`
 static int scrolling;
 static int SysScrollingTimerOpen(int value) { int old = scrolling; scrolling = value; return old; }
 `;
@@ -74,12 +82,14 @@ async function compile(source) {
     const temporary = mkdtempSync(join(tmpdir(), 'baye-hd-protocol-'));
     try {
         const filename = join(temporary, 'protocol.c');
-        const executable = join(temporary, 'protocol');
+        const executable = join(temporary, process.platform === 'win32' ? 'protocol.exe' : 'protocol');
         writeFileSync(filename, source);
         await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], { timeout: 20000 });
         const result = await run(executable, [], { timeout: 20000 });
         assert.match(result.stdout, /passed/);
-    } finally { rmSync(temporary, { recursive: true, force: true }); }
+    } finally { assert.equal(dirname(resolve(temporary)), resolve(tmpdir()), 'Cleanup stays in the explicit temporary directory');
+        assert.ok(basename(temporary).startsWith('baye-hd-protocol-'), 'Cleanup targets only this fixture');
+        rmSync(temporary, { recursive: true, force: true }); }
 }
 
 const quantityFixture = common + String.raw`

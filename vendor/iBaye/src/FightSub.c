@@ -282,7 +282,7 @@ static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx)
         {
             if(dJNMode[param])
                 PlcRPicShow(SPE_BACKPIC,1,FGT_SPESX,FGT_SPESY,false);
-            baye_hd_begin_spe(BAYE_HD_SPE_KIND_SKILL);
+            baye_hd_spe_context(BAYE_HD_SPE_KIND_SKILL, (SkillID)(param + 1), sIdx, aIdx);
             PlcMovie(dJNSpeId[param],0,dJNSpeSFrm[param],dJNSpeEFrm[param],0,FGT_SPESX + dJNSpeSX[param],FGT_SPESY);
         }
     }
@@ -513,6 +513,7 @@ const U8 FgtSpeFrm[] = {11,10,9,10,9,10};
 U8 FgtAtkAction(U8 aIdx)
 {
     U8	sType,dead;
+    U8 actorIndex = g_GenAtt[0].generalIndex;
     U8	sFrm,eFrm;
     U16	hurt,speId;
 
@@ -539,8 +540,10 @@ U8 FgtAtkAction(U8 aIdx)
             eFrm = sFrm + FgtSpeFrm[sType] - 1;
             speId = QIBING_SPE + sType;
         }
-        if (rv == -1)
+        if (rv == -1) {
+            baye_hd_spe_context(BAYE_HD_SPE_KIND_ATTACK, 0, actorIndex, aIdx);
             PlcMovie(speId,0,sFrm,eFrm,0,FGT_SPESX,FGT_SPESY);
+        }
         FgtAtvShowNum(FGT_SPESX + 40,FGT_SPESY + 40,hurt);
     }
     else

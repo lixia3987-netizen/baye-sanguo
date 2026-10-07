@@ -11,6 +11,7 @@
 #include "baye/comm.h"
 #include "baye/fsys.h"
 #include "timer.h"
+#include "hd-bridge.h"
 
 static void(*_lcd_fluch_cb)(char*buffer);
 
@@ -305,6 +306,7 @@ void screen_buffer_init(void) {
 }
 
 static void screen_buffer_realloc(int size) {
+    baye_hd_spe_lcd_dirty();
     gam_free(static_buffer);
     gam_free(backup_buffer);
     printf("realloc screen buffer to %d\n", size);
@@ -354,6 +356,7 @@ static void timed_flush_lcd()
 
     if (isLcdDirty && _lcd_fluch_cb) {
         convert_image((U32*)outbuf, scr_buffer);
+        baye_hd_spe_lcd_flush();
         _lcd_fluch_cb(outbuf);
         isLcdDirty = 0;
     }
@@ -379,6 +382,7 @@ FAR void logLcd()
 FAR void flushLcd()
 {
     if (_lcd_fluch_cb && buffer == scr_buffer) {
+        baye_hd_spe_lcd_dirty();
         isLcdDirty = 1;
     }
 }
@@ -695,11 +699,13 @@ FAR void SysSaveScreen()
 FAR void SysRestoreScreen()
 {
     memcpy(scr_buffer, backup_buffer, buffer_size);
+    baye_hd_spe_lcd_dirty();
 }
 
 FAR void SysAdjustLCDBuffer(int wid, int height)
 {
     size_t sz = wid * height * AX_SCALE * AX_SCALE;
+    baye_hd_spe_lcd_dirty();
 
     if (sz <= buffer_size) {
         memset(scr_buffer, 0, sz);
@@ -718,6 +724,7 @@ FAR void SysSelectScreen(U8*scr)
 FAR void SysCopyScreen(U8*scr)
 {
     memcpy(scr_buffer, scr, buffer_size);
+    baye_hd_spe_lcd_copy();
     isLcdDirty = 1;
 }
 

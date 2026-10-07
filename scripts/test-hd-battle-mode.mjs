@@ -6,7 +6,7 @@
 import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
@@ -360,16 +360,16 @@ test('idle HD polling never selects actions from leftover menu bytes', () => {
 });
 
 test('real C FgtMainMenu preserves classic options and gates only HD hook retreat', async () => {
-    const source = readFileSync(join(root, 'vendor/iBaye/src/FightSub.c'), 'utf8');
+    const source = readFileSync(join(root, 'vendor/iBaye/src/FightSub.c'), 'utf8').replace(/\r\n/g, '\n');
     const start = source.indexOf('FAR U8 FgtMainMenu(void)');
     assert.notEqual(start, -1, 'real menu function must exist');
     const end = source.indexOf('\n}', start);
     assert.notEqual(end, -1, 'real menu function must end');
     const realMenuFunction = source.slice(start, end + 2);
-    const bridge = readFileSync(join(root, 'vendor/iBaye/src/hd-bridge.c'), 'utf8');
+    const bridge = readFileSync(join(root, 'vendor/iBaye/src/hd-bridge.c'), 'utf8').replace(/\r\n/g, '\n');
     const declaration = bridge.match(/^U8\s+g_hdFightMenuControl\s*=\s*[^;]+;/m);
     assert.ok(declaration, 'HD ownership flag must be defined by the bridge');
-    const header = readFileSync(join(root, 'vendor/iBaye/src/hd-bridge.h'), 'utf8');
+    const header = readFileSync(join(root, 'vendor/iBaye/src/hd-bridge.h'), 'utf8').replace(/\r\n/g, '\n');
     const sentinel = header.match(/^#define\s+BAYE_HD_MENU_NATIVE\s+[^\n]+/m);
     assert.ok(sentinel, 'native-menu fallback must be declared by the bridge');
     const inputDefinitions = header.split('\n').filter(line =>
@@ -517,7 +517,7 @@ int main(void) {
     const temporary = mkdtempSync(join(tmpdir(), 'baye-battle-menu-'));
     try {
         const filename = join(temporary, 'menu.c');
-        const executable = join(temporary, 'menu');
+        const executable = join(temporary, process.platform === 'win32' ? 'menu.exe' : 'menu');
         writeFileSync(filename, harness);
         await runFile(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], {
             encoding: 'utf8', timeout: 10000
@@ -525,6 +525,8 @@ int main(void) {
         const result = await runFile(executable, [], { encoding: 'utf8', timeout: 10000 });
         assert.match(result.stdout, /13 behavioral cases passed/);
     } finally {
+        assert.equal(dirname(resolve(temporary)), resolve(tmpdir()), 'Cleanup stays in the explicit temporary directory');
+        assert.ok(basename(temporary).startsWith('baye-battle-menu-'), 'Cleanup targets only this fixture');
         rmSync(temporary, { recursive: true, force: true });
     }
 });

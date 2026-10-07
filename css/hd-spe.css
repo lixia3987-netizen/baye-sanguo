@@ -31,7 +31,7 @@ html[data-baye-spe="off"] .hd-spe,
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: 16px 20px 72px;
+    padding: 12px 20px 68px;
     border-radius: 16px;
     background: linear-gradient(180deg, rgba(28, 34, 46, 0.98), rgba(12, 16, 22, 0.98));
     box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 24px 56px rgba(0, 0, 0, 0.5);
@@ -43,7 +43,7 @@ html[data-baye-spe="off"] .hd-spe,
 .hd-spe-title {
     align-self: flex-start;
     flex: 0 0 auto;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 700;
     margin-bottom: 8px;
     position: relative;
@@ -55,7 +55,7 @@ html[data-baye-spe="off"] .hd-spe,
     flex: 1 1 auto;
     min-height: 0;
     max-width: min(1760px, calc(100vw - 80px));
-    max-height: calc(100vh - 220px);
+    max-height: calc(100vh - 170px);
     width: auto;
     height: auto;
     image-rendering: pixelated;
@@ -107,9 +107,19 @@ html[data-baye-spe="off"] .hd-spe,
 }
 
 .hd-spe-probe {
+    display: none;
     margin-top: 8px;
     align-self: flex-start;
     font-size: 12px;
     opacity: 0.65;
     pointer-events: none;
+}
+
+.hd-spe[data-source="hd-assets"] .hd-spe-canvas {
+    image-rendering: auto;
+}
+
+.hd-spe-footer button:disabled {
+    opacity: 0.55;
+    cursor: default;
 }

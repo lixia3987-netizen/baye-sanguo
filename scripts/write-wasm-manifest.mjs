@@ -11,15 +11,16 @@ const revision = process.argv[5];
 const cmakeVersion = process.argv[6];
 const modified = process.argv[7];
 if (!dir || !sdkVersion || !sourceList || !revision || !cmakeVersion) {
-    throw new Error('Use scripts/build-wasm.sh to supply artifact and source metadata');
+    throw new Error('Use scripts/build-wasm.sh or scripts/build-wasm.ps1 to supply artifact and source metadata');
 }
 const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
+// Emscripten on Windows also emits CRLF. Hash the LF bytes stored by Git.
 // Emscripten emits trailing spaces on ASM_CONSTS rows. Normalize generated
 // loader formatting before hashing/installing so repository whitespace checks
 // do not fail whenever WASM addresses change.
 const loaderPath = path.join(dir, 'baye.js');
 const loader = fs.readFileSync(loaderPath, 'utf8');
-fs.writeFileSync(loaderPath, loader.replace(/[\t ]+$/gm, ''));
+fs.writeFileSync(loaderPath, loader.replace(/\r\n/g, '\n').replace(/[\t ]+$/gm, ''));
 const wasm = fs.readFileSync(path.join(dir, 'baye.wasm'));
 if (!WebAssembly.validate(wasm)) throw new Error('Generated baye.wasm is invalid');
 const files = fs.readFileSync(sourceList, 'utf8').split('\0').filter(Boolean).sort();
@@ -53,6 +54,14 @@ const manifest = {
         report: ['g_hdReportActive', 'g_hdReportInputSeq'],
         record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
         qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
+    },
+    hdSpeProtocol: {
+        version: 2,
+        event: ['g_hdSpeGeneration', 'g_hdSpeEventId', 'g_hdSpeParentEventId', 'g_hdSpeDepth'],
+        frames: ['g_hdSpeFrameIndex', 'g_hdSpeFrameValid', 'g_hdSpeCommitSeq', 'g_hdSpeVisibleFrames'],
+        resourceFingerprint: 'fnv1a32:payload:resourceLength',
+        displayedCommit: 'SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer',
+        skipEligible: 'keyflag === 1'
     },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts

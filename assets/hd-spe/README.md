@@ -1,16 +1,23 @@
-# HD SPE optional art
+# 高清 SPE 素材
 
-This folder is a hook for later replacement frames. The current HD path
-**does not invent VFX**: it blits the engine-composited LCD SPE each
-`GamShowFrame` / `lcdFlushBuffer` tick.
+目前交付 `fire-35/picture-0.png` 与 `picture-1.png` 两张原生火焰图片槽重绘。图片是内置 imagegen 生成的 1254×1254、不透明 RGB PNG；原生图片槽为 65×64，按逻辑尺寸映射。不是点阵放大；时间、单元位置、叠图与结束由原生引擎控制。
 
-## Naming
+## 来源与匹配
 
-Optional PNGs (not required this run):
+标准 `libs/dat-mod.lib` 实际 SHA-256：`3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e`。资源35/index0、kind2、start0/end7、count8/picmax2、item1212bytes，FNV `fnv1a32:0bf53f74:1212`。单元 0..7 都为 x/y0，图片槽 0/1 交替；完整匹配数据在 manifest.json。
 
-- `opening-3.png` — `MAIN_SPE` (resource id 3)
-- `skill-<id>.png` — 1-based skill resource id (`谍报` = 30, `践踏` = 1)
-- `spe-<resid>.png` — raw lib resource id (`QIBING_SPE` = 19, …)
+参考图直接解码实际 LIB 的 packed SPE/1bit 原图到忽略的 `build/hd-spe-native/fire-35-picture-{0,1}.png`，生成前逐张查看。Frame B 另外参考已生成 Frame A，保持背景、画幅、颜色及基线一致。原生资源未改变。
 
-If a file is missing, the overlay keeps using the scaled engine bitmap.
-Do not add decorative animations that are not driven by `PlcMovie`.
+## 内置生成提示
+
+A：以原生 65×64 火焰为构图和轮廓参考，绘制三国历史策略游戏高清动画单图；紧凑的下方中央火团，中左较高火舌和少量侧边火星。中国绘画笔触、暖琥珀/金橙火光、炭墨阴影及细纸纹。静止正视镜头，完全不透明深炭 #171a16 背景，四周约8%边距。单张方图，无人物、武器、风景、文字、UI、接触表或水印。
+
+B：用 A 保持画风、方形尺寸、深炭背景、火团尺度、边距和地面基线，用原生 B 只改变火舌轮廓和卷曲位置；中央火舌向右、更窄稍高，周围火苗少量位移，作为相同火焰的克制第二帧。不得重新布景或增加人物、物品、文字、UI及水印。
+
+## 边界
+
+缺失或不匹配素材继续原生 LCD；技能名称不会触发美术播放。开场、制作群组、兵种攻击、其它计谋及状态素材仍待制作。协议见 [HD SPE 规格](../../docs/hd-spe-spec.md)。实际浏览器播放是否验收，以本批证据为准；图片存在和专项模型通过不等于完整战斗验收。
+
+## 本批真实播放证据
+
+标准库的张横火攻实际MP23→8，原生35事件有8次display，后7次使用高清槽并匹配可见bitset。两张连续画布捕获前后display完全相等，位置33×14=462已查看。最终安装只将生成loader从CRLF规范为LF，WASM和SPE前端字节与该实播证据完全一致；最终安装再跑开场与真实玩家攻击通过，本次5次火攻均原生失败且没有虚假动画。详情见 [验收JSON](../../docs/validation/m4-spe-20261008.json)。

@@ -37,7 +37,7 @@
 | `g_hdHelpActive` / `g_hdHelpSeq` | u8 / u16 | 帮助打开时为 1；每次写入 +1 |
 | `g_hdMovieActive` / `g_hdMovieId` | u8 / u16 | `GamMovie(MAIN_SPE)` 播放中 |
 | `g_hdSpeActive` / `Id` / `Kind` | u8 / u16 / u8 | 任意 `PlcMovie`：1 开场 · 2 计谋 · 3 攻击 · 4 状态 |
-| `g_hdSpeX` / `Y` / `StartFrm` / `EndFrm` / `Seq` | u8 / u8 / u8 / u8 / u16 | 播放坐标、帧窗、每 `GamShowFrame` +1 |
+| `g_hdSpeX` / `Y` / `StartFrm` / `EndFrm` / `Seq` | u8 / u8 / u8 / u8 / u16 | 旧兼容坐标、帧窗及合成更新序号；不是帧号；新坐标使用有符号 OriginX/Y |
 | `g_hdSkillActive` / `Count` / `NameLen` | u8 | `FgtGetJNIdx` 打开计谋列表 |
 | `g_hdSkillIds` | u16[10] | 当前将领技能 id（1-based 资源号） |
 | `g_hdSkillNames` | GBK | 8 字节槽，来自 `FgtMakeSklNam` |
@@ -123,7 +123,7 @@
 - `FgtGetFoucs` → `g_hdFightWait`
 - `FgtShowHlp` / 大地图 `VK_HELP` 版本串 → `g_hdHelp*`；`EM_ASM` `BayeHdDialog.onEngineHelp()`
 - `GamMovie(MAIN_SPE)` → `g_hdMovie*`；`EM_ASM` `BayeHdSpe.onEngineSpe()` + `BayeHdDialog.onEngineMovie()`
-- `PlcMovie` → `g_hdSpe*`；计谋前 `baye_hd_begin_spe(SKILL)`；每帧 `baye_hd_spe_tick()`
+- `PlcMovie` → SPE version 2 事件、资源、合成帧与可见单元；攻击/计谋上下文从真实调用点捕获；`SysCopyScreen` 保存合成提交，`timed_flush_lcd` 在 LCD 回调前发布实际 display；详见 [hd-spe-spec.md](hd-spe-spec.md)
 - `FgtGetJNIdx` → `g_hdSkill*` + 立刻 `baye_hd_set_menu`（不 stub `fightChooseSkill`）
 - `GamMsgBox` / `ShowGReport` 真实等待前后 → `baye_hd_report_begin/end`
 - `GamRecordMan` 打开、光标更新、返回 → `baye_hd_record_begin/index/end`
@@ -153,8 +153,8 @@ baye.lastHdCall      // 最近一次 HD 桥调用（崩溃 onerror / unhandledre
 
 - `baye.hd.ready()`：heap + `_bayeHdReady()`。所有 HD `setInterval` / overworld rAF 在 false 时停轮询
 - OOB / `Module.onAbort` / `window.onerror` 会 `console.error('[hd-bridge] lastHdCall', JSON)`；alert **一定**带 `lastHdCall`（没有则 `(none)`）和 stack
-- `pc.html` `<head>` 最先装 onerror + `Module.locateFile`，`baye.wasm?ver=` 与 `baye.js?ver=` 同号 `20261007f`，避免旧胶水配新 wasm
-- `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本；入口脚本缓存号同步为 `20261007f`
+- `pc.html` `<head>` 最先装 onerror + `Module.locateFile`，`baye.wasm?ver=` 与 `baye.js?ver=` 同号 `20261008h`，避免旧胶水配新 wasm
+- `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本；入口脚本缓存号同步为 `20261008h`
 
 - `getPersonName` / `getCityName` / `getToolName` / `getSkillName` / `getPersonNameByID`：index `<0` / `≥max` / `≥0xfffe`（队列空槽 `0xffff`）直接空串，不进 `ResLoadToMem`
 - `ensureData` / `hd.report` / `hd.cityLinks` / keepalive 指针：lib 或 heap 未就绪则 no-op
@@ -188,7 +188,7 @@ HD **只观察**，不往 `baye.hooks` 里登记会替换系统菜单的名字�
 - `GetCitySet` 必须方向键走到目标格再回车，不能当菜单下标；`g_hdMapCity` 是 ENTER 实际会进的城（C_MAP，不是 china-lcc 像素）
 - 观察 `cityMakeCommand` 必须 `return -1`，否则 `CityCommon` 会跳过 `AssartMake`
 - 经典回车开局：190 年、君主 马腾（id=5）仍可进大地图
-- 开场 / 计谋 SPE：`g_hdSpe*` + `#hd-spe` LCD-blit（见 [hd-spe-spec.md](hd-spe-spec.md)）；帮助查找图文仍 partial
+- 开场 / 计谋 SPE：`g_hdSpe*` version 2 + `#hd-spe` 真实显示帧素材合成，缺素材 LCD-blit（见 [hd-spe-spec.md](hd-spe-spec.md)）；帮助查找图文仍 partial
 - 天水 出征 马腾 → 方向键走到河内 → `部队已出发` → FunctionMenu「策略结束」→ `GamFight`
 - 全军覆没后再出征：只认新的 `g_hdMarchSeq`；残留 `ok=1` / 「部队已出发」壳不进 `GamFight`。空城/已占/无将由 `g_hdFightSkip` 标明是引擎跳过
 - `g_hdFightWait=1` 后 EXIT 打开原生战场菜单 `["回合结束","全军撤退","战斗动画","移动速度","敌军移动"]`

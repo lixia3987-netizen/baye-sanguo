@@ -106,6 +106,43 @@ U8 g_hdSpeY = 0;
 U8 g_hdSpeStartFrm = 0;
 U8 g_hdSpeEndFrm = 0;
 U16 g_hdSpeSeq = 0;
+U8 g_hdSpeProtocolVersion = BAYE_HD_SPE_VERSION;
+U32 g_hdSpeGeneration = 1;
+U32 g_hdSpeEventId = 0;
+U32 g_hdSpeParentEventId = 0;
+U32 g_hdSpeCommitSeq = 0;
+U32 g_hdSpeResourceFingerprint = 0;
+U32 g_hdSpeResourceLength = 0;
+U16 g_hdSpeDepth = 0;
+U16 g_hdSpeResourceIndex = 0;
+U16 g_hdSpeCount = 0;
+U16 g_hdSpePicmax = 0;
+U16 g_hdSpeFrameIndex = BAYE_HD_SPE_NO_FRAME;
+I16 g_hdSpeOriginX = 0, g_hdSpeOriginY = 0;
+U8 g_hdSpeFrameValid = 0, g_hdSpeProtocolValid = 0;
+U8 g_hdSpeKeyflag = 0, g_hdSpeSkipEligible = 0;
+U8 g_hdSpeContextKnown = 0;
+U16 g_hdSpeSkillId = 0;
+U8 g_hdSpeActorIndex = 0xff, g_hdSpeTargetIndex = 0xff;
+U8 g_hdSpeVisibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+U32 g_hdSpeLastEndedId = 0;
+U8 g_hdSpeEndReason = 0, g_hdSpeEndKey = 0xff;
+U32 g_hdSpeDisplayGeneration = 0, g_hdSpeDisplayEventId = 0, g_hdSpeDisplayCommitSeq = 0;
+U16 g_hdSpeDisplayFrameIndex = BAYE_HD_SPE_NO_FRAME;
+U8 g_hdSpeDisplayFrameValid = 0;
+U8 g_hdSpeDisplayVisibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+
+typedef struct {
+    U32 generation, eventId, commitSeq;
+    U16 frameIndex;
+    U8 frameValid, visibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+} HdSpeDisplay;
+static HdSpeScope* hdSpeCurrent = NULL;
+static HdSpeScope* hdSpeCopyPending = NULL;
+static U32 hdSpeNextEventId = 0;
+static U16 hdSpePendingSkillId = 0;
+static U8 hdSpePendingContext = 0, hdSpePendingActor = 0xff, hdSpePendingTarget = 0xff;
+static HdSpeDisplay hdSpeCopied;
 
 U8 g_hdSkillActive = 0;
 U8 g_hdSkillCount = 0;
@@ -133,6 +170,7 @@ static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
 void baye_hd_set_ready(U8 ready)
 {
     /* A new LIB/game may share this browser. Invalidate old input tokens. */
+    baye_hd_spe_invalidate();
     baye_hd_set_fight(0, 0);
     baye_hd_march_end(0);
     g_hdMarchOk = 0;
@@ -562,6 +600,9 @@ void baye_hd_set_movie(U16 speId, U8 active)
 void baye_hd_begin_spe(U8 kind)
 {
     g_hdSpePendingKind = kind;
+    hdSpePendingContext = 0;
+    hdSpePendingSkillId = 0;
+    hdSpePendingActor = hdSpePendingTarget = 0xff;
 }
 
 void baye_hd_set_spe(U16 speId, U8 kind, U8 x, U8 y, U8 startfrm, U8 endfrm, U8 active)
@@ -597,6 +638,193 @@ void baye_hd_spe_tick(void)
     if (g_hdSpeSeq == 0) {
         g_hdSpeSeq = 1;
     }
+}
+
+static void hd_spe_notify(void)
+{
+    EM_ASM({
+        try {
+            if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') {
+                BayeHdSpe.onEngineSpe();
+            }
+        } catch (e) {}
+    });
+}
+
+static void hd_spe_publish(const HdSpeScope* scope)
+{
+    g_hdSpeActive = scope ? 1 : 0;
+    g_hdSpeId = scope ? scope->id : 0;
+    g_hdSpeKind = scope ? scope->kind : 0;
+    g_hdSpeX = scope ? (U8)scope->x : 0;
+    g_hdSpeY = scope ? (U8)scope->y : 0;
+    g_hdSpeOriginX = scope ? scope->x : 0;
+    g_hdSpeOriginY = scope ? scope->y : 0;
+    g_hdSpeStartFrm = scope ? scope->startFrm : 0;
+    g_hdSpeEndFrm = scope ? scope->endFrm : 0;
+    g_hdSpeEventId = scope ? scope->eventId : 0;
+    g_hdSpeParentEventId = scope ? scope->parentEventId : 0;
+    g_hdSpeDepth = scope ? scope->depth : 0;
+    g_hdSpeResourceIndex = scope ? scope->resourceIndex : 0;
+    g_hdSpeCount = scope ? scope->count : 0;
+    g_hdSpePicmax = scope ? scope->picmax : 0;
+    g_hdSpeResourceFingerprint = scope ? scope->resourceFingerprint : 0;
+    g_hdSpeResourceLength = scope ? scope->resourceLength : 0;
+    g_hdSpeCommitSeq = scope ? scope->commitSeq : 0;
+    g_hdSpeFrameIndex = scope ? scope->frameIndex : BAYE_HD_SPE_NO_FRAME;
+    g_hdSpeFrameValid = scope ? scope->frameValid : 0;
+    g_hdSpeProtocolValid = scope ? scope->protocolValid : 0;
+    g_hdSpeKeyflag = scope ? scope->keyflag : 0;
+    /* GamDelay receives BOOL/I8 and only == true returns a keyboard key.
+     * Bit 0 alone is insufficient for flags 3/5: preserve native behavior. */
+    g_hdSpeSkipEligible = scope && scope->keyflag == 1;
+    g_hdSpeContextKnown = scope ? scope->contextKnown : 0;
+    g_hdSpeSkillId = scope ? scope->skillId : 0;
+    g_hdSpeActorIndex = scope ? scope->actorIndex : 0xff;
+    g_hdSpeTargetIndex = scope ? scope->targetIndex : 0xff;
+    if (scope) memcpy(g_hdSpeVisibleFrames, scope->visibleFrames, sizeof(g_hdSpeVisibleFrames));
+    else memset(g_hdSpeVisibleFrames, 0, sizeof(g_hdSpeVisibleFrames));
+}
+
+void baye_hd_spe_context(U8 kind, U16 skillId, U8 actorIndex, U8 targetIndex)
+{
+    baye_hd_begin_spe(kind);
+    hdSpePendingContext = 1;
+    hdSpePendingSkillId = skillId;
+    hdSpePendingActor = actorIndex < FGTA_MAX ? actorIndex : 0xff;
+    hdSpePendingTarget = targetIndex < FGTA_MAX ? targetIndex : 0xff;
+}
+
+void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 y, U8 startFrm, U8 endFrm, U8 keyflag)
+{
+    U8 kind = g_hdSpePendingKind;
+    memset(scope, 0, sizeof(*scope));
+    scope->contextKnown = hdSpePendingContext;
+    scope->skillId = hdSpePendingSkillId;
+    scope->actorIndex = hdSpePendingActor;
+    scope->targetIndex = hdSpePendingTarget;
+    /* Consume before resource lookup, including the missing-resource path. */
+    baye_hd_begin_spe(0);
+    if (!kind) {
+        if (id == MAIN_SPE || id == MAKER_SPE) kind = BAYE_HD_SPE_KIND_OPENING;
+        else if (id == STACHG_SPE) kind = BAYE_HD_SPE_KIND_STATUS;
+        else if (g_hdFightActive) kind = BAYE_HD_SPE_KIND_ATTACK;
+    }
+    hdSpeNextEventId = hd_next_input_seq(hdSpeNextEventId);
+    scope->generation = g_hdSpeGeneration;
+    scope->eventId = hdSpeNextEventId;
+    scope->previous = hdSpeCurrent;
+    scope->parentEventId = hdSpeCurrent ? hdSpeCurrent->eventId : 0;
+    scope->depth = hdSpeCurrent ? hdSpeCurrent->depth + 1 : 1;
+    scope->id = id;
+    scope->kind = kind;
+    scope->resourceIndex = resourceIndex;
+    scope->x = x; scope->y = y;
+    scope->startFrm = startFrm; scope->endFrm = endFrm;
+    scope->keyflag = keyflag;
+    scope->frameIndex = BAYE_HD_SPE_NO_FRAME;
+    hdSpeCurrent = scope;
+    hdSpeCopyPending = NULL;
+    hd_spe_publish(scope);
+    g_hdSpeSeq = (U16)(g_hdSpeSeq + 1);
+    if (!g_hdSpeSeq) g_hdSpeSeq = 1;
+    hd_spe_notify();
+}
+
+void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint, U32 resourceLength, U8 endFrm, U8 simplePictures)
+{
+    if (scope != hdSpeCurrent || scope->generation != g_hdSpeGeneration) return;
+    scope->count = count; scope->picmax = picmax;
+    scope->resourceFingerprint = fingerprint; scope->resourceLength = resourceLength;
+    scope->endFrm = endFrm;
+    scope->ready = 1;
+    scope->protocolValid = scope->depth <= BAYE_HD_SPE_MAX_DEPTH &&
+        !(scope->keyflag & 2) && simplePictures && !g_FlipDrawing && g_paintColor == 0xff;
+    hd_spe_publish(scope);
+}
+
+void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U16 introduced)
+{
+    U16 i;
+    if (scope != hdSpeCurrent || scope->generation != g_hdSpeGeneration || !scope->ready ||
+        !remaining || frameIndex < scope->startFrm || frameIndex > scope->endFrm ||
+        introduced != frameIndex - scope->startFrm + 1) return;
+    scope->frameIndex = frameIndex;
+    if (g_FlipDrawing || g_paintColor != 0xff) scope->protocolValid = 0;
+    scope->frameValid = 1;
+    scope->commitSeq = hd_next_input_seq(scope->commitSeq);
+    memset(scope->visibleFrames, 0, sizeof(scope->visibleFrames));
+    for (i = 0; i < introduced; i++) {
+        U16 absolute = scope->startFrm + i;
+        if (remaining[i]) scope->visibleFrames[absolute >> 3] |= (U8)(1u << (absolute & 7));
+    }
+    hd_spe_publish(scope);
+    hdSpeCopyPending = scope;
+}
+
+void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
+{
+    if (scope != hdSpeCurrent || scope->generation != g_hdSpeGeneration) return;
+    g_hdSpeLastEndedId = scope->eventId;
+    g_hdSpeEndReason = reason; g_hdSpeEndKey = key;
+    hdSpeCurrent = scope->previous;
+    hdSpeCopyPending = NULL;
+    if (hdSpeCurrent) {
+        /* An inner call may have replaced g_VisScr. Do not replay an old
+         * parent picture; the next native copy must establish a fresh frame. */
+        hdSpeCurrent->frameValid = 0;
+        hdSpeCurrent->frameIndex = BAYE_HD_SPE_NO_FRAME;
+        memset(hdSpeCurrent->visibleFrames, 0, sizeof(hdSpeCurrent->visibleFrames));
+    }
+    hd_spe_publish(hdSpeCurrent);
+    hd_spe_notify();
+}
+
+void baye_hd_spe_lcd_dirty(void)
+{
+    memset(&hdSpeCopied, 0, sizeof(hdSpeCopied));
+    hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
+}
+
+void baye_hd_spe_lcd_copy(void)
+{
+    baye_hd_spe_lcd_dirty();
+    if (hdSpeCopyPending && hdSpeCopyPending == hdSpeCurrent &&
+        hdSpeCurrent->generation == g_hdSpeGeneration && hdSpeCurrent->frameValid) {
+        hdSpeCopied.generation = hdSpeCurrent->generation;
+        hdSpeCopied.eventId = hdSpeCurrent->eventId;
+        hdSpeCopied.commitSeq = hdSpeCurrent->commitSeq;
+        hdSpeCopied.frameIndex = hdSpeCurrent->frameIndex;
+        hdSpeCopied.frameValid = 1;
+        memcpy(hdSpeCopied.visibleFrames, hdSpeCurrent->visibleFrames, sizeof(hdSpeCopied.visibleFrames));
+    }
+    hdSpeCopyPending = NULL;
+}
+
+void baye_hd_spe_lcd_flush(void)
+{
+    g_hdSpeDisplayGeneration = hdSpeCopied.generation;
+    g_hdSpeDisplayEventId = hdSpeCopied.eventId;
+    g_hdSpeDisplayCommitSeq = hdSpeCopied.commitSeq;
+    g_hdSpeDisplayFrameIndex = hdSpeCopied.frameIndex;
+    g_hdSpeDisplayFrameValid = hdSpeCopied.frameValid;
+    memcpy(g_hdSpeDisplayVisibleFrames, hdSpeCopied.visibleFrames, sizeof(g_hdSpeDisplayVisibleFrames));
+}
+
+void baye_hd_spe_invalidate(void)
+{
+    if (hdSpeCurrent) {
+        g_hdSpeLastEndedId = hdSpeCurrent->eventId;
+        g_hdSpeEndReason = BAYE_HD_SPE_END_RESET; g_hdSpeEndKey = 0xff;
+    }
+    hdSpeCurrent = hdSpeCopyPending = NULL;
+    g_hdSpeGeneration = hd_next_input_seq(g_hdSpeGeneration);
+    baye_hd_begin_spe(0);
+    baye_hd_spe_lcd_dirty();
+    baye_hd_spe_lcd_flush();
+    g_hdMovieActive = 0; g_hdMovieId = 0;
+    hd_spe_publish(NULL);
+    hd_spe_notify();
 }
 
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
@@ -861,6 +1089,40 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdSpeStartFrm, U8);
     DEFADDF(g_hdSpeEndFrm, U8);
     DEFADDF(g_hdSpeSeq, U16);
+    DEFADDF(g_hdSpeProtocolVersion, U8);
+    DEFADDF(g_hdSpeGeneration, U32);
+    DEFADDF(g_hdSpeEventId, U32);
+    DEFADDF(g_hdSpeParentEventId, U32);
+    DEFADDF(g_hdSpeDepth, U16);
+    DEFADDF(g_hdSpeResourceIndex, U16);
+    DEFADDF(g_hdSpeCount, U16);
+    DEFADDF(g_hdSpePicmax, U16);
+    DEFADDF(g_hdSpeResourceFingerprint, U32);
+    DEFADDF(g_hdSpeResourceLength, U32);
+    DEFADDF(g_hdSpeCommitSeq, U32);
+    DEFADDF(g_hdSpeFrameIndex, U16);
+    DEFADDF(g_hdSpeFrameValid, U8);
+    DEFADDF(g_hdSpeProtocolValid, U8);
+    /* The generic bridge has unsigned scalar types only. JS decodes these
+     * two I16 bit patterns without truncating native off-screen coordinates. */
+    DEFADDF(g_hdSpeOriginX, U16);
+    DEFADDF(g_hdSpeOriginY, U16);
+    DEFADDF(g_hdSpeKeyflag, U8);
+    DEFADDF(g_hdSpeSkipEligible, U8);
+    DEFADDF(g_hdSpeContextKnown, U8);
+    DEFADDF(g_hdSpeSkillId, U16);
+    DEFADDF(g_hdSpeActorIndex, U8);
+    DEFADDF(g_hdSpeTargetIndex, U8);
+    DEFADD_U8ARR(g_hdSpeVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADDF(g_hdSpeLastEndedId, U32);
+    DEFADDF(g_hdSpeEndReason, U8);
+    DEFADDF(g_hdSpeEndKey, U8);
+    DEFADDF(g_hdSpeDisplayGeneration, U32);
+    DEFADDF(g_hdSpeDisplayEventId, U32);
+    DEFADDF(g_hdSpeDisplayCommitSeq, U32);
+    DEFADDF(g_hdSpeDisplayFrameIndex, U16);
+    DEFADDF(g_hdSpeDisplayFrameValid, U8);
+    DEFADD_U8ARR(g_hdSpeDisplayVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
     DEFADDF(g_hdSkillActive, U8);
     DEFADDF(g_hdSkillCount, U8);
     DEFADDF(g_hdSkillNameLen, U8);

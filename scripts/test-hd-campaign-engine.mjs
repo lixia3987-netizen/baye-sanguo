@@ -4,14 +4,14 @@ import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import test from 'node:test';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const directory = join(root, 'vendor/iBaye/src');
-const read = (filename) => readFileSync(join(directory, filename), 'utf8');
+const read = (filename) => readFileSync(join(directory, filename), 'utf8').replace(/\r\n/g, '\n');
 const run = promisify(execFile);
 const constants = read('hd-bridge.h').split('\n').filter((line) => /^#define BAYE_HD_/.test(line)).join('\n');
 
@@ -28,12 +28,14 @@ async function compile(source) {
     const temporary = mkdtempSync(join(tmpdir(), 'baye-hd-campaign-'));
     try {
         const filename = join(temporary, 'campaign.c');
-        const executable = join(temporary, 'campaign');
+        const executable = join(temporary, process.platform === 'win32' ? 'campaign.exe' : 'campaign');
         writeFileSync(filename, source);
         await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], { timeout: 20000 });
         const result = await run(executable, [], { timeout: 20000 });
         assert.match(result.stdout, /passed/);
-    } finally { rmSync(temporary, { recursive: true, force: true }); }
+    } finally { assert.equal(dirname(resolve(temporary)), resolve(tmpdir()), 'Cleanup stays in the explicit temporary directory');
+        assert.ok(basename(temporary).startsWith('baye-hd-campaign-'), 'Cleanup targets only this fixture');
+        rmSync(temporary, { recursive: true, force: true }); }
 }
 
 const common = String.raw`

@@ -3,15 +3,15 @@ import assert from 'node:assert/strict';
 import { execFile } from 'node:child_process';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, join, resolve } from 'node:path';
+import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import test from 'node:test';
 import vm from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const source = readFileSync(join(root, 'vendor/iBaye/src/gamEng.c'), 'utf8');
-const fsSource = readFileSync(join(root, 'vendor/iBaye/src/platform/js/fsys.c'), 'utf8');
+const source = readFileSync(join(root, 'vendor/iBaye/src/gamEng.c'), 'utf8').replace(/\r\n/g, '\n');
+const fsSource = readFileSync(join(root, 'vendor/iBaye/src/platform/js/fsys.c'), 'utf8').replace(/\r\n/g, '\n');
 const run = promisify(execFile);
 function actualFunction(source, name) {
     const pattern = new RegExp('^(?:static\\s+)?(?:FAR\\s+)?[A-Za-z0-9_ *]+\\b' + name + '\\([^;]*?\\)\\s*\\{', 'm');
@@ -24,12 +24,14 @@ function actualFunction(source, name) {
 async function compile(source, extraArgs = []) {
     const directory = mkdtempSync(join(tmpdir(), 'baye-save-'));
     try {
-        const filename = join(directory, 'save.c'), executable = join(directory, 'save');
+        const filename = join(directory, 'save.c'), executable = join(directory, process.platform === 'win32' ? 'save.exe' : 'save');
         writeFileSync(filename, source);
-        await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', '-D_POSIX_C_SOURCE=200809L', '-I', join(root, 'vendor/iBaye/src'), ...extraArgs, filename, '-o', executable], { timeout: 30000 });
+        await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', ...(process.platform === 'win32' ? ['-fpack-struct=1'] : []), '-D_POSIX_C_SOURCE=200809L', '-I', join(root, 'vendor/iBaye/src'), ...extraArgs, filename, '-o', executable], { timeout: 30000 });
         const result = await run(executable, [], { timeout: 30000 });
         assert.match(result.stdout, /passed/);
-    } finally { rmSync(directory, { recursive: true, force: true }); }
+    } finally { assert.equal(dirname(resolve(directory)), resolve(tmpdir()), 'Cleanup stays in the explicit temporary directory');
+        assert.ok(basename(directory).startsWith('baye-save-'), 'Cleanup targets only this fixture');
+        rmSync(directory, { recursive: true, force: true }); }
 }
 
 function harness(initial = {}) {

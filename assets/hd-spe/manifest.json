@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "axScale": 1,
+  "entries": [
+    {
+      "speId": 35,
+      "resourceIndex": 0,
+      "kind": 2,
+      "startFrm": 0,
+      "endFrm": 7,
+      "count": 8,
+      "picmax": 2,
+      "resourceFingerprint": "fnv1a32:0bf53f74:1212",
+      "resourceLength": 1212,
+      "units": [
+        {
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 4,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 6,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/fire-35/picture-0.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 65,
+          "logicalHeight": 64,
+          "nativeWidth": 65,
+          "nativeHeight": 64,
+          "mask": 0
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/fire-35/picture-1.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 65,
+          "logicalHeight": 64,
+          "nativeWidth": 65,
+          "nativeHeight": 64,
+          "mask": 0
+        }
+      ]
+    }
+  ]
+}

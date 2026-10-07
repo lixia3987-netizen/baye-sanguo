@@ -6,7 +6,7 @@
 ## 环境
 
 - Emscripten SDK **3.1.51**（与上游 README 一致）
-- CMake ≥ 3.5
+- CMake ≥ 3.12（版本头使用 FindPython3；本机验证 3.31.6）
 - Python 3（`src/genver.py`）
 - Node ≥ 22（建议 `.nvmrc` 的 24.19.0，用于产物校验与浏览器测试）
 - 当前验证的 CMake 版本为 3.31.6；旧 CMake 文件在该版本有兼容弃用提示，CMake 4 尚未验收。
@@ -18,6 +18,28 @@ cd "$HOME/emsdk"
 ./emsdk activate 3.1.51
 source ./emsdk_env.sh
 ```
+
+## Windows PowerShell
+
+本机已验证本项目目录内的 Emscripten 3.1.51、CMake 3.31.6、Ninja 1.11.1.4 与 Python 3.10.6。SDK 及工具放在忽略的 `build/toolchain/`，无需全局安装 WSL；新机器仍需准备工具，构建脚本不会自动下载。
+
+```powershell
+git clone --depth 1 https://github.com/emscripten-core/emsdk.git build/toolchain/emsdk
+& ./build/toolchain/emsdk/emsdk.bat install 3.1.51
+& ./build/toolchain/emsdk/emsdk.bat activate 3.1.51
+python -m pip install --target build/toolchain/python cmake==3.31.6 ninja==1.11.1.4
+npm run build:wasm:windows -- -StageOnly
+$env:CHROME = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+npm run test:runtime -- --staged
+npm run test:battle-runtime -- --staged
+npm run test:spe-runtime -- --staged
+# 验证通过后安装成套产物
+npm run build:wasm:windows
+```
+
+`-SdkRoot`（也可 `BAYE_EMSDK_ROOT`）、`-CMakePath`、`-NinjaPath` 可指定已有安装；`-Jobs` 控制并行数。默认 SDK 和工具路径为上述项目内目录。Windows 与 Bash 入口同样生成并校验 JS/WASM/map/manifest。Python 版本头生成不再依赖 shell 重定向，链接器参数不含 POSIX 引号。
+
+编译执行 C 回归还需要可用的本机 C 编译器与系统 C 运行库。设置 `CC` 为 clang/gcc 路径；Windows Clang 使用 MSVC 库时应先载入 Visual Studio 开发环境。测试脚本识别 `.exe`、CRLF 源文件及 Windows packed 存档夹具；没有编译器时不是 C 回归通过。本机该工具链的结果另存本批验收证据。
 
 ## 一键编译并安装到本仓库 `js/`
 
@@ -31,7 +53,7 @@ source "$HOME/emsdk/emsdk_env.sh"
 - `build/wasm/src/baye.js`
 - `build/wasm/src/baye.wasm`
 - 复制到 `js/baye.js` / `js/baye.wasm`（以及 `.map` 若有）
-- `js/baye.build.json`：SDK、CMake、源码版本/内容 hash、菜单及 HD 输入协议与各产物 hash；当前输入协议 version 3 记录 27 个生命周期字段，包含数量会话、按键回执与原生光标；存档协议为 `0x95`
+- `js/baye.build.json`：SDK、CMake、源码版本/内容 hash、菜单及 HD 输入协议与各产物 hash；当前输入协议 version 3 记录 27 个生命周期字段，包含数量会话、按键回执与原生光标；存档协议为 `0x95`，SPE 协议 version 2 记录事件、真实合成帧与实际 LCD 显示关联
 
 构建脚本检查 Emscripten 恰为 3.1.51，使用确定的 `build/wasm/src/` 产物路径并验证 WASM 格式。`SOURCE_DATE_EPOCH` 默认取当前 Git 提交时间，以 UTC 生成引擎版本；可显式指定。manifest 记录实际引擎源码内容 hash，包含尚未提交的修改。这里提供来源可追踪的构建，不承诺不同机器上的字节完全相同。
 
@@ -51,7 +73,7 @@ npm run build:wasm
 
 `BAYE_EMSDK_ROOT` 可指向自定义 SDK 目录，`JOBS` 控制并行编译数。切换经典模式、HD 模式与新增菜单回退协议需要匹配的 JS/WASM，不能只替换一个文件。
 
-专项回归运行 `npm test`，覆盖 16 个测试文件，包括真实 C 编译的战役与协议回归、存档事务、存读档 UI、存档页面、跨刷新输入记录、后台绘制与性能统计。用例数会随回归增加，以实际测试输出为准；专项通过不能代替真实浏览器完整胜负验收。可单独运行 `npm run test:campaign-engine`、`npm run test:engine-protocol`、`npm run test:save-transaction`、`npm run test:saveload-ui` 与 `npm run test:save-pages` 定位对应问题。
+专项回归运行 `npm test`，覆盖输入、战斗、存档、表现与 SPE 测试文件，包括真实 C 编译的战役与协议回归、存档事务、存读档 UI、存档页面、跨刷新输入记录、后台绘制与性能统计。用例数会随回归增加，以实际测试输出为准；专项通过不能代替真实浏览器完整胜负验收。可单独运行 `npm run test:campaign-engine`、`npm run test:engine-protocol`、`npm run test:save-transaction`、`npm run test:saveload-ui` 与 `npm run test:save-pages` 定位对应问题。
 
 `test:runtime` 检查开局、模式、头像和数量输入，包括连续加减、边界、无数值变化的按键、取消及调整尚未完成时确认征兵；征兵使用真实按钮，核对预备兵、钱、人物队列和实际订单。`test:battle-runtime` 使用真实出征与战斗，读取引擎路径、射程及技能规则，通过玩家输入执行操作。`test:campaign-runtime` 支持 `--scenario victory|retreat|empty|campaign|domestic|save|restart`，分别覆盖胜利占城、撤退、空城占领、连续出征、内政后出征、保存刷新读取和同页重开。三个浏览器脚本均支持 `--staged` 与 `--artifact-dir`，保存截图、操作顺序和引擎快照；脚本通过玩家入口执行，不直接写胜负、城池归属或将领状态。运行场景时将 `--scenario` 后的值替换为一个场景名。完整验收结果及未完成范围以 [hd-development-plan.md](hd-development-plan.md) 为准。
 
@@ -59,7 +81,7 @@ npm run build:wasm
 
 M3 存档 `0x95` 保留双文件槽位，保存完整 4000 字节道具队列、600 字节出征队列和 U32 自定义数据长度。读取先校验完整快照再提交；浏览器保存与导入使用 journal 保留旧完整槽，LIB 使用加载内容指纹校验。旧 `0x90`–`0x94` 仍可读取，但旧活动出征槽 `slot≥8` 缺少已保存将领数据，必须拒绝加载。协议细节见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。
 
-当前引擎入口缓存号为 `20261007f`，M4 地图与战场表现资源使用 `20261007g`。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
+当前引擎入口缓存号为 `20261008h`，M4 地图与战场表现资源使用 `20261007g`。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
 
 ## PC 性能基线
 

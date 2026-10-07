@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "fe1eb426ff2c1fe4c9badb30860b8228fe23f0b8",
-  "engineSourceSha256": "a7161879af333e617f4347dba8f9cabec5831adcd54ee64b558a57822c74848d",
+  "sourceRevision": "2542a65b7990ea8d11400b0cbcb1cde52b739ae6",
+  "engineSourceSha256": "701e3af5275eb50026cd4ba2782a385a24d1f10f28f705912d4a371a22b6592e",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791382657,
+  "sourceDateEpoch": 1791414721,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -52,6 +52,24 @@
       "g_hdQtyReady"
     ]
   },
+  "hdSpeProtocol": {
+    "version": 2,
+    "event": [
+      "g_hdSpeGeneration",
+      "g_hdSpeEventId",
+      "g_hdSpeParentEventId",
+      "g_hdSpeDepth"
+    ],
+    "frames": [
+      "g_hdSpeFrameIndex",
+      "g_hdSpeFrameValid",
+      "g_hdSpeCommitSeq",
+      "g_hdSpeVisibleFrames"
+    ],
+    "resourceFingerprint": "fnv1a32:payload:resourceLength",
+    "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+    "skipEligible": "keyflag === 1"
+  },
   "saveProtocol": {
     "version": 149,
     "legacyVersions": [
@@ -67,16 +85,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 191660,
-      "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+      "bytes": 191800,
+      "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
     },
     "baye.wasm": {
-      "bytes": 4214737,
-      "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+      "bytes": 4237373,
+      "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
     },
     "baye.wasm.map": {
-      "bytes": 29629,
-      "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+      "bytes": 29805,
+      "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
     }
   }
 }

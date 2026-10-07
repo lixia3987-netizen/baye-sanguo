@@ -1,444 +1,424 @@
-/**
- * HD SPE overlay: blit the engine-composited LCD each flush onto a 1080p canvas.
- * Timing stays in PlcMovie / GamDelay. No replacement VFX.
- * Spec: docs/hd-spe-spec.md
- */
+/** Native displayed SPE commits select HD picture slots; the engine owns time. */
 (function (global) {
-    var SYS_KEY = 'baye/systemUiMode';
-    var BATTLE_KEY = 'baye/battleMode';
-    var OVERWORLD_KEY = 'baye/overworldMode';
-    var VK_ENTER = 0x27;
-    var VK_EXIT = 0x28;
-
-    var KIND_NAME = {
-        0: 'other',
-        1: 'opening',
-        2: 'skill',
-        3: 'attack',
-        4: 'status'
-    };
-
-    var LOGICAL_W = 160;
-    var LOGICAL_H = 96;
-    var SPE_W = 130;
-    var SPE_H = 64;
-    var STAGE_W = 1920;
-    var STAGE_H = 1080;
-
-    var state = {
-        open: false,
-        lastSeq: 0,
-        scale: 1,
-        canvasW: 0,
-        canvasH: 0,
-        bound: false,
-        scratch: null,
-        flushW: 0,
-        flushH: 0,
-        hasFlush: false,
-        poll: 0
-    };
-
-    function readStorage(key, fallback) {
-        try {
-            var v = global.localStorage.getItem(key);
-            return v == null ? fallback : v;
-        } catch (e) {
-            return fallback;
-        }
+    var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
+        flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
+        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, libSource: null, libGeneration: 0, libHash: null, libReason: 'lib-unavailable' };
+    function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
+    function el(id) { return document.getElementById(id); }
+    function storage(key, fallback) { try {
+        return global.localStorage.getItem(key) || fallback;
     }
-
-    function overworldIsHd() {
-        if (global.BayeHdOverworld && typeof BayeHdOverworld.getMode === 'function') {
-            return BayeHdOverworld.getMode() === 'hd-map';
-        }
-        return readStorage(OVERWORLD_KEY, 'classic') === 'hd-map';
+    catch (e) {
+        return fallback;
+    } }
+    function info() { try {
+        return global.baye && baye.hd && baye.hd.ready() && baye.hd.spe() || {};
     }
-
-    function modeShowsHd(mode) {
-        if (mode === 'classic') {
-            return false;
-        }
-        if (mode === 'hd') {
-            return true;
-        }
-        return overworldIsHd();
-    }
-
-    function openingHd() {
-        if (global.BayeHdSystemUi && typeof BayeHdSystemUi.shouldShowHd === 'function') {
-            return BayeHdSystemUi.shouldShowHd();
-        }
-        return modeShowsHd(readStorage(SYS_KEY, 'auto'));
-    }
-
-    function battleHd() {
-        if (global.BayeHdBattle && typeof BayeHdBattle.shouldShowHd === 'function') {
-            return BayeHdBattle.shouldShowHd();
-        }
-        return modeShowsHd(readStorage(BATTLE_KEY, 'auto'));
-    }
-
-    function readSpe() {
-        try {
-            if (window.baye && baye.hd && typeof baye.hd.ready === 'function' && !baye.hd.ready()) {
-                return {};
-            }
-            if (window.baye && baye.hd && typeof baye.hd.spe === 'function') {
-                return baye.hd.spe() || {};
-            }
-        } catch (e) {}
+    catch (e) {
         return {};
+    } }
+    function kind(s) { return Number(s.kind) || (Number(s.id) === 3 || Number(s.id) === 6 ? 1 : 0); }
+    function hd(k) {
+        var api = k === 1 ? global.BayeHdSystemUi : global.BayeHdBattle;
+        if (api && typeof api.shouldShowHd === 'function')
+            return api.shouldShowHd();
+        var mode = storage(k === 1 ? 'baye/systemUiMode' : 'baye/battleMode', 'auto');
+        return mode === 'hd' || (mode !== 'classic' && storage('baye/overworldMode', 'classic') === 'hd-map');
     }
-
-    function movieActive() {
-        try {
-            if (window.baye && baye.hd && typeof baye.hd.movie === 'function') {
-                var m = baye.hd.movie();
-                return !!(m && m.active);
-            }
-        } catch (e) {}
-        return false;
+    function report() { try {
+        return !!(global.baye && baye.hd && baye.hd.report && Number(baye.hd.report().active) === 1);
     }
-
-    function kindOf(info) {
-        var k = info && info.kind != null ? Number(info.kind) : 0;
-        if (k) {
-            return k;
-        }
-        if (info && (Number(info.id) === 3 || Number(info.id) === 6)) {
-            return 1;
-        }
-        if (movieActive()) {
-            return 1;
-        }
-        return 0;
+    catch (e) {
+        return true;
+    } }
+    function event(s) { return s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
+    function stamp(s) { var d = s.display; return d ? d.generation + ':' + d.eventId + ':' + d.commitSeq : event(s); }
+    function matches(s) { var d = s.display; return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0); }
+    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && matches(s)); }
+    function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }
+    function retire(key) {
+        if (state.event !== (key || ''))
+            state.skipped = '';
+        state.event = key || '';
+        state.epoch++;
+        state.assets = null;
+        state.hasFlush = false;
+        state.flushKey = '';
+        state.renderKey = '';
+        state.frames = [];
+        state.source = 'lcd';
+        state.reason = 'waiting-display';
+        var canvas = el('hd-spe-canvas');
+        if (!document.hidden && canvas && canvas.getContext('2d'))
+            canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
     }
-
-    function canSkip(info) {
-        return kindOf(info) === 1 || movieActive();
-    }
-
-    function shouldShowFor(info) {
-        if (!info || !info.active) {
-            return false;
-        }
-        var kind = kindOf(info);
-        if (kind === 1) {
-            return openingHd();
-        }
-        if (kind === 2 || kind === 3) {
-            return battleHd();
-        }
-        /* kind 0 leftover / 标题装饰 SPE 不再盖全屏，否则跳过后仍挡城菜单。 */
-        return false;
-    }
-
-    function isHandling() {
-        return shouldShowFor(readSpe());
-    }
-
-    function el(id) {
-        return document.getElementById(id);
-    }
-
-    function engineSendKey(code) {
-        try {
-            if (typeof sendKey === 'function') {
-                sendKey(code);
-            }
-        } catch (e) {}
-    }
-
-    function scratchCanvas() {
-        if (!state.scratch) {
+    function capture(img, w, h, s) {
+        var lcd = el('lcd');
+        if (!state.scratch)
             state.scratch = document.createElement('canvas');
+        w = w || (lcd && lcd.width);
+        h = h || (lcd && lcd.height);
+        var ctx = state.scratch.getContext('2d');
+        if (!ctx || !integer(w) || !integer(h) || w <= 0 || h <= 0)
+            return false;
+        if (state.scratch.width !== w || state.scratch.height !== h) {
+            state.scratch.width = w;
+            state.scratch.height = h;
         }
-        return state.scratch;
+        if (img)
+            ctx.putImageData(img, 0, 0);
+        else if (lcd) {
+            ctx.imageSmoothingEnabled = false;
+            ctx.clearRect(0, 0, w, h);
+            ctx.drawImage(lcd, 0, 0);
+        }
+        else
+            return false;
+        state.flushW = w;
+        state.flushH = h;
+        state.hasFlush = true;
+        state.flushKey = stamp(s);
+        var size = screen();
+        state.geometry = size.width + ':' + size.height;
+        return true;
     }
-
-    function integerScale(srcW, srcH) {
-        var sx = Math.floor(STAGE_W / srcW);
-        var sy = Math.floor(STAGE_H / srcH);
-        return Math.max(2, Math.min(sx, sy));
-    }
-
-    function applyChrome() {
-        var root = el('hd-spe');
-        if (!root) {
+    function verifyLib() {
+        var hex = global.dynLib;
+        if (hex === state.libSource)
+            return;
+        state.libSource = hex;
+        state.libGeneration++;
+        state.libHash = null;
+        state.assets = null;
+        state.libReason = 'lib-unavailable';
+        if (typeof hex !== 'string' || !hex.length || hex.length % 2 || hex.length > 67108864 || !/^[\da-f]+$/i.test(hex))
+            return;
+        if (!global.crypto || !global.crypto.subtle) {
+            state.libReason = 'lib-verification-unavailable';
             return;
         }
-        var info = readSpe();
-        var show = shouldShowFor(info);
-        var opening = !!(show && canSkip(info));
-        state.open = !!show;
-        root.classList.toggle('is-open', show);
-        root.classList.toggle('is-opening', opening);
-        root.setAttribute('aria-hidden', show ? 'false' : 'true');
-        root.style.pointerEvents = show ? 'auto' : 'none';
-        if (document.documentElement) {
-            document.documentElement.setAttribute('data-baye-spe', show ? 'on' : 'off');
+        var bytes = new Uint8Array(hex.length / 2), ticket = state.libGeneration;
+        for (var i = 0; i < bytes.length; i++)
+            bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
+        state.libReason = 'lib-verifying';
+        try {
+            global.crypto.subtle.digest('SHA-256', bytes).then(function (buffer) {
+                if (ticket !== state.libGeneration || global.dynLib !== hex)
+                    return;
+                var values = new Uint8Array(buffer), hash = '';
+                for (var n = 0; n < values.length; n++)
+                    hash += ('0' + values[n].toString(16)).slice(-2);
+                state.libHash = hash;
+                state.libReason = '';
+                sync();
+            }, function () { if (ticket === state.libGeneration)
+                state.libReason = 'lib-verification-failed'; });
         }
-        var skip = el('hd-spe-skip');
+        catch (e) {
+            state.libReason = 'lib-verification-failed';
+        }
+    }
+    function setManifest(value) { state.manifestGeneration++; state.assets = null; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
+    function requestManifest() {
+        if (state.manifestRequested || typeof global.fetch !== 'function')
+            return;
+        state.manifestRequested = true;
+        var ticket = state.manifestGeneration;
+        try {
+            global.fetch('assets/hd-spe/manifest.json', { cache: 'no-cache' }).then(function (response) { if (!response.ok)
+                throw new Error('SPE manifest unavailable'); return response.json(); })
+                .then(function (value) { if (ticket === state.manifestGeneration)
+                setManifest(value); }, function () { });
+        }
+        catch (e) { }
+    }
+    function visible(s) {
+        var bits = s.display && s.display.visibleFrames, out = [];
+        if (!Array.isArray(bits) || bits.length !== 32 || !integer(s.count) || s.count < 1 || s.count > 255)
+            return null;
+        for (var b = 0; b < 32; b++)
+            if (!integer(bits[b]) || bits[b] < 0 || bits[b] > 255)
+                return null;
+        for (var i = 0; i < 256; i++)
+            if (bits[i >> 3] & (1 << (i & 7))) {
+                if (i >= s.count || i < s.startFrm || i > s.endFrm)
+                    return null;
+                out.push(i);
+            }
+        return out;
+    }
+    function match(s) {
+        var m = state.manifest, scale;
+        try {
+            scale = baye.data.g_scale;
+        }
+        catch (e) {
+            return null;
+        }
+        if (!integer(s.x) || !integer(s.y) || !integer(s.startFrm) || !integer(s.endFrm) || s.startFrm < 0 || s.endFrm < s.startFrm || s.endFrm >= s.count ||
+            typeof s.resourceFingerprint !== 'string' || !/^fnv1a32:[\da-f]{8}:\d+$/.test(s.resourceFingerprint) || !integer(s.resourceLength) || s.resourceLength <= 0)
+            return null;
+        if (!m || !state.libHash || state.libHash !== m.libSha256 || !integer(scale) || scale < 1 || m.axScale !== scale)
+            return null;
+        for (var i = 0; i < m.entries.length; i++) {
+            var e = m.entries[i];
+            if (e && e.speId === s.id && e.resourceIndex === s.resourceIndex && e.kind === s.kind && e.startFrm === s.startFrm && e.endFrm === s.endFrm &&
+                e.count === s.count && e.picmax === s.picmax && e.resourceFingerprint === s.resourceFingerprint && e.resourceLength === s.resourceLength)
+                return e;
+        }
+        return null;
+    }
+    function valid(e) {
+        if (!e || !Array.isArray(e.units) || e.units.length !== e.count || !Array.isArray(e.pictures) || e.pictures.length !== e.picmax || e.picmax < 1 || e.picmax > 255)
+            return false;
+        var seen = {}, scale = state.manifest.axScale;
+        for (var p = 0; p < e.pictures.length; p++) {
+            var pic = e.pictures[p];
+            if (!pic || !integer(pic.picIndex) || pic.picIndex < 0 || pic.picIndex >= e.picmax || seen[pic.picIndex] || typeof pic.src !== 'string' ||
+                !/^assets\/hd-spe\/[\w./-]+\.(?:png|webp|svg)$/.test(pic.src) || pic.src.indexOf('..') !== -1 || !integer(pic.width) || pic.width <= 0 || !integer(pic.height) || pic.height <= 0 ||
+                !(pic.logicalWidth > 0 && pic.logicalHeight > 0 && isFinite(pic.logicalWidth) && isFinite(pic.logicalHeight)) ||
+                pic.nativeWidth !== pic.logicalWidth * scale || pic.nativeHeight !== pic.logicalHeight * scale || (pic.mask !== 0 && pic.mask !== 1))
+                return false;
+            seen[pic.picIndex] = true;
+        }
+        for (var u = 0; u < e.units.length; u++) {
+            var unit = e.units[u];
+            if (!unit || unit.frame !== u || !integer(unit.x) || !integer(unit.y) || unit.x < 0 || unit.y < 0 || !integer(unit.picIndex) || !seen[unit.picIndex])
+                return false;
+        }
+        return true;
+    }
+    function load(e) {
+        if (state.assets && state.assets.entry === e)
+            return state.assets;
+        var record = { entry: e, status: 'loading', images: {}, pending: e.pictures.length }, epoch = state.epoch, mg = state.manifestGeneration, lg = state.libGeneration;
+        state.assets = record;
+        function current() { return state.assets === record && epoch === state.epoch && mg === state.manifestGeneration && lg === state.libGeneration; }
+        for (var i = 0; i < e.pictures.length; i++)
+            (function (pic) {
+                try {
+                    var image = new global.Image();
+                    image.onload = function () {
+                        if (!current())
+                            return;
+                        if (image.naturalWidth !== pic.width || image.naturalHeight !== pic.height) {
+                            record.status = 'failed';
+                            sync();
+                            return;
+                        }
+                        record.images[pic.picIndex] = image;
+                        record.pending--;
+                        if (!record.pending && record.status !== 'failed')
+                            record.status = 'ready';
+                        sync();
+                    };
+                    image.onerror = function () { if (current()) {
+                        record.status = 'failed';
+                        sync();
+                    } };
+                    image.src = pic.src;
+                }
+                catch (error) {
+                    record.status = 'failed';
+                }
+            })(e.pictures[i]);
+        return record;
+    }
+    function screen() {
+        var data = global.baye && baye.data || {}, w = data.g_screenWidth, h = data.g_screenHeight;
+        return { width: integer(w) && w > 0 ? w : W, height: integer(h) && h > 0 ? h : H, axScale: data.g_scale };
+    }
+    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale; }
+    function paint(s) {
+        var canvas = el('hd-spe-canvas');
+        if (!canvas || !show(s) || state.renderKey === renderKey(s))
+            return;
+        var size = screen(), geometry = size.width + ':' + size.height;
+        if (state.geometry !== geometry) {
+            state.geometry = geometry;
+            state.hasFlush = false;
+        }
+        if (!state.hasFlush || state.flushKey !== stamp(s))
+            if (!capture(null, 0, 0, s))
+                return;
+        var baseline = size.width === W && size.height === H, k = kind(s), sx = 0, sy = 0, sw = size.width, sh = size.height;
+        if (baseline && k !== 1) {
+            // FGT_SPESX/Y center the native arena. An individual effect's
+            // origin can be offset inside it and must not move the LCD crop.
+            sx = (size.width - 130) / 2;
+            sy = (size.height - 64) / 2;
+            sw = 130;
+            sh = 64;
+        }
+        var scale = Math.max(1, Math.min(Math.floor(1920 / sw), Math.floor(1080 / sh))), w = sw * scale, h = sh * scale;
+        if (canvas.width !== w || canvas.height !== h) {
+            canvas.width = w;
+            canvas.height = h;
+        }
+        state.canvasW = w;
+        state.canvasH = h;
+        state.scale = scale;
+        var ctx = canvas.getContext('2d');
+        if (!ctx)
+            return;
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0, 0, w, h);
+        ctx.drawImage(state.scratch, sx / size.width * state.flushW, sy / size.height * state.flushH, sw / size.width * state.flushW, sh / size.height * state.flushH, 0, 0, w, h);
+        state.source = 'lcd';
+        state.reason = s.protocolVersion !== 2 ? 'legacy-protocol' : 'assets-unavailable';
+        state.frames = [];
+        verifyLib();
+        requestManifest();
+        state.renderKey = renderKey(s);
+        if (!baseline) {
+            state.reason = 'screen-size-unsupported';
+            return;
+        }
+        if (s.protocolVersion !== 2 || s.protocolValid !== true || s.frameValid !== true || !s.display || s.display.frameValid !== true || (s.keyflag & 2) || !matches(s))
+            return;
+        var frames = visible(s), entry = match(s);
+        if (!frames || !valid(entry)) {
+            state.reason = state.libReason || 'event-not-matched';
+            return;
+        }
+        var assets = load(entry);
+        state.renderKey = renderKey(s);
+        if (assets.status !== 'ready') {
+            state.reason = assets.status === 'failed' ? 'asset-load-failed' : 'assets-loading';
+            return;
+        }
+        ctx.imageSmoothingEnabled = true;
+        ctx.fillStyle = '#171a16';
+        ctx.fillRect(0, 0, w, h);
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(0, 0, w, h);
+        ctx.clip();
+        for (var i = 0; i < frames.length; i++) {
+            var unit = entry.units[frames[i]], picture = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
+            ctx.drawImage(assets.images[unit.picIndex], (s.x + unit.x - sx) * scale, (s.y + unit.y - sy) * scale, picture.logicalWidth * scale, picture.logicalHeight * scale);
+        }
+        ctx.restore();
+        state.source = 'hd-assets';
+        state.reason = '';
+        state.frames = frames;
+    }
+    function sync(noPaint) {
+        var s = info(), key = s.active ? event(s) : '', shown = show(s);
+        if (key !== state.event)
+            retire(key);
+        if (!shown && state.open)
+            retire(key);
+        state.open = shown;
+        var root = el('hd-spe');
+        if (!root)
+            return;
+        root.classList.toggle('is-open', shown);
+        root.classList.toggle('is-opening', shown && skippable(s));
+        root.setAttribute('aria-hidden', shown ? 'false' : 'true');
+        root.style.pointerEvents = shown ? 'auto' : 'none';
+        if (document.documentElement)
+            document.documentElement.setAttribute('data-baye-spe', shown ? 'on' : 'off');
+        var skip = el('hd-spe-skip'), eligible = shown && skippable(s) && state.skipped !== key;
         if (skip) {
-            skip.hidden = !opening;
-            skip.disabled = !opening;
-            skip.setAttribute('aria-hidden', opening ? 'false' : 'true');
-            skip.style.visibility = opening ? 'visible' : 'hidden';
-            skip.style.pointerEvents = opening ? 'auto' : 'none';
+            skip.hidden = !shown || !skippable(s);
+            skip.disabled = !eligible;
+            skip.style.visibility = skip.hidden ? 'hidden' : 'visible';
+            skip.style.pointerEvents = eligible ? 'auto' : 'none';
+            skip.setAttribute('aria-hidden', skip.hidden ? 'true' : 'false');
         }
         var title = el('hd-spe-title');
-        if (title) {
-            var kind = kindOf(info);
-            title.textContent = kind === 1 ? '开场动画' : (kind === 2 ? '计谋 SPE' : (kind === 3 ? '战斗 SPE' : 'SPE'));
+        if (title)
+            title.textContent = kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
+        if (shown) {
+            verifyLib();
+            if (noPaint !== true)
+                paint(s);
         }
-        updateProbe(info);
-        if (show) {
-            blit();
-        }
-    }
-
-    function updateProbe(info) {
+        root.setAttribute('data-source', state.source);
         var probe = el('hd-spe-probe');
-        if (!probe) {
-            return;
-        }
-        info = info || readSpe();
-        var kind = kindOf(info);
-        probe.textContent = 'spe=' + (info.id != null ? info.id : '—') +
-            ' kind=' + (KIND_NAME[kind] || kind) +
-            ' seq=' + (info.seq != null ? info.seq : 0) +
-            ' scale=' + state.scale + '×' +
-            ' canvas=' + state.canvasW + '×' + state.canvasH +
-            ' xy=' + (info.x || 0) + ',' + (info.y || 0);
+        if (probe)
+            probe.textContent = state.source === 'hd-assets' ? '高清素材 · 原生显示帧 ' + state.frames.join(',') : '原生 LCD 画面';
     }
-
-    function blit() {
-        var lcd = el('lcd');
-        var canvas = el('hd-spe-canvas');
-        if (!lcd || !canvas || !lcd.width || !lcd.height) {
-            return;
-        }
-        var info = readSpe();
-        var kind = kindOf(info);
-        var srcX = 0;
-        var srcY = 0;
-        var srcW = LOGICAL_W;
-        var srcH = LOGICAL_H;
-        if (kind === 2 || kind === 3) {
-            var sx = info.x != null ? Number(info.x) : 15;
-            var sy = info.y != null ? Number(info.y) : 16;
-            if (!(sx >= 0 && sy >= 0 && sx + SPE_W <= LOGICAL_W && sy + SPE_H <= LOGICAL_H)) {
-                sx = Math.max(0, Math.min(LOGICAL_W - SPE_W, sx));
-                sy = Math.max(0, Math.min(LOGICAL_H - SPE_H, sy));
-            }
-            srcX = sx;
-            srcY = sy;
-            srcW = Math.min(SPE_W, LOGICAL_W - srcX);
-            srcH = Math.min(SPE_H, LOGICAL_H - srcY);
-        }
-        var scale = integerScale(srcW, srcH);
-        var dstW = srcW * scale;
-        var dstH = srcH * scale;
-        if (canvas.width !== dstW || canvas.height !== dstH) {
-            canvas.width = dstW;
-            canvas.height = dstH;
-        }
-        state.scale = scale;
-        state.canvasW = dstW;
-        state.canvasH = dstH;
-
-        var src = scratchCanvas();
-        var srcPixW = state.hasFlush ? state.flushW : lcd.width;
-        var srcPixH = state.hasFlush ? state.flushH : lcd.height;
-        if (!state.hasFlush) {
-            if (src.width !== srcPixW || src.height !== srcPixH) {
-                src.width = srcPixW;
-                src.height = srcPixH;
-            }
-            var copy = src.getContext('2d');
-            copy.imageSmoothingEnabled = false;
-            copy.clearRect(0, 0, srcPixW, srcPixH);
-            copy.drawImage(lcd, 0, 0, lcd.width, lcd.height, 0, 0, srcPixW, srcPixH);
-        }
-
-        var logical = scratchLogical();
-        var lctx = logical.getContext('2d');
-        lctx.imageSmoothingEnabled = false;
-        lctx.fillStyle = '#e6edd4';
-        lctx.fillRect(0, 0, LOGICAL_W, LOGICAL_H);
-        lctx.drawImage(src, 0, 0, srcPixW, srcPixH, 0, 0, LOGICAL_W, LOGICAL_H);
-
-        var ctx = canvas.getContext('2d');
-        ctx.imageSmoothingEnabled = false;
-        ctx.fillStyle = '#e6edd4';
-        ctx.fillRect(0, 0, dstW, dstH);
-        ctx.drawImage(logical, srcX, srcY, srcW, srcH, 0, 0, dstW, dstH);
-        updateProbe(info);
-    }
-
-    function scratchLogical() {
-        if (!state.logical) {
-            state.logical = document.createElement('canvas');
-            state.logical.width = LOGICAL_W;
-            state.logical.height = LOGICAL_H;
-        }
-        return state.logical;
-    }
-
-    function onLcdFlush(img, w, h) {
-        if (img && w && h) {
-            var src = scratchCanvas();
-            if (src.width !== w || src.height !== h) {
-                src.width = w;
-                src.height = h;
-            }
-            src.getContext('2d').putImageData(img, 0, 0);
-            state.flushW = w;
-            state.flushH = h;
-            state.hasFlush = true;
-        }
-        var show = shouldShowFor(readSpe());
-        if (show !== state.open) {
-            applyChrome();
-            if (!show) {
-                return;
+    function skip() {
+        var s = info(), key = event(s);
+        if (!state.open || !skippable(s) || state.skipped === key)
+            return false;
+        state.skipped = key;
+        try {
+            if (typeof global.sendKey === 'function')
+                global.sendKey(0x27);
+            else {
+                state.skipped = '';
+                return false;
             }
         }
-        if (!show) {
-            return;
+        catch (e) {
+            return false;
         }
-        blit();
+        sync();
+        return true;
     }
-
-    function onEngineSpe() {
-        applyChrome();
+    function classic() {
+        var s = info();
+        if (!show(s))
+            return false;
+        var api = kind(s) === 1 ? global.BayeHdSystemUi : global.BayeHdBattle;
+        if (api && typeof api.setMode === 'function')
+            api.setMode('classic');
+        else
+            try {
+                global.localStorage.setItem(kind(s) === 1 ? 'baye/systemUiMode' : 'baye/battleMode', 'classic');
+            }
+            catch (e) { }
+        sync();
+        return true;
     }
-
-    function skipOpening() {
-        var info = readSpe();
-        if (!state.open && !canSkip(info)) {
-            return;
-        }
-        if (!canSkip(info) && kindOf(info) !== 1) {
-            return;
-        }
-        engineSendKey(VK_ENTER);
-    }
-
-    function bindUi() {
-        if (state.bound) {
-            return;
-        }
+    function start() {
         var root = el('hd-spe');
-        if (!root) {
-            return;
-        }
-        state.bound = true;
-        root.addEventListener('click', function (ev) {
-            var t = ev.target;
-            if (!t) {
-                return;
-            }
-            var skipBtn = t.closest ? t.closest('[data-hd-spe-skip]') : null;
-            if (!skipBtn && t.getAttribute && t.getAttribute('data-hd-spe-skip') != null) {
-                skipBtn = t;
-            }
-            if (skipBtn) {
-                ev.preventDefault();
-                ev.stopPropagation();
-                skipOpening();
-                return;
-            }
-            var lcdBtn = t.closest ? t.closest('[data-hd-spe-lcd]') : null;
-            if (lcdBtn || (t.getAttribute && t.getAttribute('data-hd-spe-lcd') != null)) {
-                ev.preventDefault();
-                ev.stopPropagation();
-                return;
-            }
-            if (canSkip(readSpe())) {
-                ev.preventDefault();
-                skipOpening();
-            }
-        });
-        document.addEventListener('keydown', function (e) {
-            if (!state.open || !canSkip(readSpe())) {
-                return;
-            }
-            var code = e.keyCode || e.which;
-            if (code === 13 || code === 32 || code === 27 ||
-                e.key === 'Enter' || e.key === ' ' || e.key === 'Escape') {
+        if (root && !state.bound) {
+            state.bound = true;
+            root.addEventListener('click', function (e) {
+                var t = e.target, button = t && t.closest && t.closest('[data-hd-spe-lcd]');
+                if (button) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    classic();
+                    return;
+                }
+                if (state.open && skippable(info())) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    skip();
+                }
+            });
+            document.addEventListener('keydown', function (e) {
+                if (!state.open || !skippable(info()) || e.isComposing || e.defaultPrevented || (global.bayeInputIgnored && global.bayeInputIgnored(e)) ||
+                    (e.target && (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName || '') || e.target.isContentEditable)))
+                    return;
+                if (!(/^(Enter| |Escape)$/.test(e.key || '') || [13, 32, 27].indexOf(e.keyCode || e.which) !== -1))
+                    return;
                 e.preventDefault();
                 e.stopPropagation();
-                if (e.stopImmediatePropagation) {
+                if (e.stopImmediatePropagation)
                     e.stopImmediatePropagation();
-                }
-                skipOpening();
-            }
-        }, true);
-    }
-
-    function start() {
-        bindUi();
-        applyChrome();
-        if (!state.poll) {
-            state.poll = setInterval(function () {
-                var show = shouldShowFor(readSpe());
-                if (show !== state.open) {
-                    applyChrome();
-                }
-            }, 250);
+                if (!e.repeat)
+                    skip();
+            }, true);
+            document.addEventListener('visibilitychange', sync);
         }
+        sync();
+        if (!state.poll)
+            state.poll = global.setInterval(sync, 250);
     }
-
-    global.BayeHdSpe = {
-        shouldShowHd: function () {
-            return openingHd() || battleHd();
-        },
-        isHandling: isHandling,
-        isOpen: function () { return state.open; },
-        onLcdFlush: onLcdFlush,
-        onEngineSpe: onEngineSpe,
-        skip: skipOpening,
-        blit: blit,
-        start: start,
-        applyPcPage: start,
+    global.BayeHdSpe = { start: start, applyPcPage: start, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
+            return; capture(img, w, h, s); state.renderKey = ''; paint(s); var root = el('hd-spe'); if (root)
+            root.setAttribute('data-source', state.source); }, blit: sync,
+        skip: skip, useClassic: classic, setManifest: setManifest, isHandling: function () { return show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
         debugSnapshot: function () {
-            var info = readSpe();
-            var canvas = el('hd-spe-canvas');
-            var lit = 0;
-            if (canvas && canvas.width && canvas.height) {
-                try {
-                    var pix = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
-                    var i;
-                    for (i = 0; i < pix.length; i += 16) {
-                        if (pix[i] + pix[i + 1] + pix[i + 2] < 500) {
-                            lit += 1;
-                        }
-                    }
-                } catch (e) {}
-            }
-            return {
-                open: state.open,
-                opening: !!(state.open && canSkip(info)),
-                skipVisible: (function () {
-                    var skip = el('hd-spe-skip');
-                    if (!skip || skip.hidden) {
-                        return false;
-                    }
-                    var r = skip.getBoundingClientRect();
-                    var cs = window.getComputedStyle(skip);
-                    return r.width > 8 && r.height > 8 && cs.visibility !== 'hidden' &&
-                        cs.pointerEvents !== 'none' && cs.display !== 'none';
-                })(),
-                scale: state.scale,
-                canvasW: state.canvasW,
-                canvasH: state.canvasH,
-                flushW: state.flushW,
-                flushH: state.flushH,
-                lit: lit,
-                spe: info
-            };
-        }
-    };
+            var s = info();
+            return { open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
+                source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
+                event: state.event, flushKey: state.flushKey, libSha256: state.libHash, spe: s };
+        } };
 })(window);

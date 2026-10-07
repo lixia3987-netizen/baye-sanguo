@@ -29,6 +29,69 @@
 U8 *PlcItemShowS(U8 sx,U8 sy,U8 ex,U8 ey,U8 *buf);
 U8 *strlchr(U8 *buf,U8 len,U8 ch);
 
+static U8 hd_spe_resource_available(const U8* resource, U32 length)
+{
+    U8 chunk[512], ok = 1;
+    U32 position, offset, remaining = length;
+    size_t address = (size_t)resource, base = (size_t)g_CBnkPtr;
+    if (!resource || !g_CBnkPtr || !g_LibFp || address < base || address - base > (U32)-1) return 0;
+    offset = (U32)(address - base);
+    if (length > (U32)-1 - offset) return 0;
+    position = gam_ftell(g_LibFp);
+    if (gam_fseek(g_LibFp, offset, SEEK_SET) != 0) return 0;
+    /* ResGetItemLen reads a declaration. Verify that the complete declared
+     * item actually exists before scanning its in-memory payload or tail. */
+    while (remaining) {
+        U16 wanted = remaining > sizeof(chunk) ? sizeof(chunk) : (U16)remaining;
+        if (gam_fread(chunk, 1, wanted, g_LibFp) != wanted) { ok = 0; break; }
+        remaining -= wanted;
+    }
+    /* JS ROM fseek rejects the exact EOF offset. Reading its last byte
+     * restores a previously valid EOF tell without changing native data. */
+    if (gam_fseek(g_LibFp, position, SEEK_SET) != 0 && position > 0 &&
+        gam_fseek(g_LibFp, position - 1, SEEK_SET) == 0) {
+        gam_fread(chunk, 1, 1, g_LibFp);
+    }
+    return ok;
+}
+
+/* Validate the actual resource item before legacy pointer arithmetic. The
+ * fingerprint covers its complete native payload, including the SPE header. */
+static U8 hd_spe_resource_valid(const U8* resource, U32 length, U8 startFrm, U8 endFrm, U8* simplePictures)
+{
+    U32 offset, i, rowBytes, rows, bytes;
+    const SPERES* header;
+    const SPEUNIT* units;
+    if (!resource || length < sizeof(SPERES)) return 0;
+    header = (const SPERES*)resource;
+    if (!header->count || !header->picmax || startFrm > endFrm || endFrm >= header->count) return 0;
+    offset = sizeof(SPERES) + (U32)header->count * sizeof(SPEUNIT);
+    if (offset > length) return 0;
+    units = (const SPEUNIT*)(resource + sizeof(SPERES));
+    for (i = startFrm; i <= endFrm; i++) if (units[i].picIdx >= header->picmax) return 0;
+    *simplePictures = 1;
+    for (i = 0; i < header->picmax; i++) {
+        const PictureHeadType* picture;
+        if (length - offset < sizeof(PictureHeadType)) return 0;
+        picture = (const PictureHeadType*)(resource + offset);
+        if (!picture->wid || !picture->hig) return 0;
+        rowBytes = ((U32)picture->wid + 7) / 8;
+        rows = (U32)picture->hig * ((U32)picture->mask + 1);
+        if (rowBytes > (length - offset - sizeof(PictureHeadType)) / rows) return 0;
+        bytes = rowBytes * rows + sizeof(PictureHeadType);
+        offset += bytes;
+        if (picture->mask > 1) *simplePictures = 0;
+    }
+    return 1;
+}
+
+static U32 hd_spe_resource_fingerprint(const U8* resource, U32 length)
+{
+    U32 hash = 2166136261u, i;
+    for (i = 0; i < length; i++) hash = (hash ^ resource[i]) * 16777619u;
+    return hash;
+}
+
 /***********************************************************************
  * 说明:     播放指定的动画
  * 输入参数: speid 指定播放的对象,keyflag (00000010|00000001|00000100)背景处理|响应键盘|反转播放
@@ -51,35 +114,36 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
     I32 x1,y1;
     U8 ymount,spem[512] = {0},spec[512] = {0};
     SPEUNIT  *spe;
+    HdSpeScope hdScope;
+    U32 resourceLength;
+    U8 simplePictures;
 
     lenspe = 0;
     clsflag = 1;
     showflag = 1;
     maxdatlen = 0;
 
-
+    baye_hd_spe_enter(&hdScope, speid, index, x, y, startfrm, endfrm, keyflag);
     srsptr = ResLoadToCon(speid,index+1,g_CBnkPtr);
     if (NULL == srsptr)
     {
         printf("spe %d %d not found\n", speid, index);
         gamTraceP(speid);
+        baye_hd_spe_end(&hdScope, BAYE_HD_SPE_END_MISSING, 0xff);
         return(0xff);
     }
-    {
-        U8 speKind = g_hdSpePendingKind;
-        g_hdSpePendingKind = 0;
-        if (!speKind) {
-            if (speid == MAIN_SPE || speid == MAKER_SPE) {
-                speKind = BAYE_HD_SPE_KIND_OPENING;
-            } else if (speid == STACHG_SPE) {
-                speKind = BAYE_HD_SPE_KIND_STATUS;
-            } else if (g_hdFightActive) {
-                speKind = BAYE_HD_SPE_KIND_ATTACK;
-            }
-        }
-        baye_hd_set_spe(speid, speKind, (U8)x, (U8)y, startfrm, endfrm, 1);
+    resourceLength = ResGetItemLen(speid, index + 1);
+    if (resourceLength < sizeof(SPERES) || !hd_spe_resource_available(srsptr, resourceLength)) {
+        baye_hd_spe_end(&hdScope, BAYE_HD_SPE_END_INVALID, 0xff);
+        return 0xff;
     }
     endfrm = min(((SPERES*)srsptr)->endfrm, endfrm);
+    if (!hd_spe_resource_valid(srsptr, resourceLength, startfrm, endfrm, &simplePictures)) {
+        baye_hd_spe_end(&hdScope, BAYE_HD_SPE_END_INVALID, 0xff);
+        return 0xff;
+    }
+    baye_hd_spe_ready(&hdScope, ((SPERES*)srsptr)->count, ((SPERES*)srsptr)->picmax,
+        hd_spe_resource_fingerprint(srsptr, resourceLength), resourceLength, endfrm, simplePictures);
 
     count  = *(srsptr+2);
     picmax = *(srsptr+3);
@@ -170,6 +234,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
         }
         if (showflag == 1 || clsflag == 1)
         {
+            baye_hd_spe_frame(&hdScope, (U16)(mcount + startfrm), spec, (U16)(mcount + 1));
             GamShowFrame(g_VisScr);
             baye_hd_spe_tick();
             showflag = 0;
@@ -179,7 +244,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
         {
             U8 key = GamDelay(1, keyflag);				/* 延时1%秒 */
             if (key && (keyflag & 0x01)) {
-                baye_hd_set_spe(0, 0, 0, 0, 0, 0, 0);
+                baye_hd_spe_end(&hdScope, BAYE_HD_SPE_END_KEY, key);
                 return key;
             }
         }
@@ -201,7 +266,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
                 break;
         }
     }
-    baye_hd_set_spe(0, 0, 0, 0, 0, 0, 0);
+    baye_hd_spe_end(&hdScope, BAYE_HD_SPE_END_COMPLETE, 0xff);
     return(0xff);
 }
 /***********************************************************************

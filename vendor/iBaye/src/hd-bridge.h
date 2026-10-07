@@ -62,6 +62,27 @@
 #define BAYE_HD_SPE_KIND_SKILL 2
 #define BAYE_HD_SPE_KIND_ATTACK 3
 #define BAYE_HD_SPE_KIND_STATUS 4
+#define BAYE_HD_SPE_VERSION 2
+#define BAYE_HD_SPE_FRAME_BYTES 32
+#define BAYE_HD_SPE_NO_FRAME 0xffff
+#define BAYE_HD_SPE_END_COMPLETE 1
+#define BAYE_HD_SPE_END_KEY 2
+#define BAYE_HD_SPE_END_MISSING 3
+#define BAYE_HD_SPE_END_INVALID 4
+#define BAYE_HD_SPE_END_RESET 5
+#define BAYE_HD_SPE_MAX_DEPTH 16
+
+/* One scope belongs to one real PlcMovie call. Native stack lifetime makes
+ * nested Mod calls restore their actual parent without a fixed stack overflow. */
+typedef struct HdSpeScope {
+    struct HdSpeScope* previous;
+    U32 generation, eventId, parentEventId, commitSeq, resourceFingerprint, resourceLength;
+    U16 depth, id, resourceIndex, count, picmax, frameIndex, skillId;
+    I16 x, y;
+    U8 kind, startFrm, endFrm, keyflag, frameValid, protocolValid, ready;
+    U8 contextKnown, actorIndex, targetIndex;
+    U8 visibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+} HdSpeScope;
 
 #define VK_DIGIT0 0x40
 #define BAYE_HD_QTY_NO_KEY 0xffff
@@ -140,6 +161,15 @@ void baye_hd_set_movie(U16 speId, U8 active);
 void baye_hd_begin_spe(U8 kind);
 void baye_hd_set_spe(U16 speId, U8 kind, U8 x, U8 y, U8 startfrm, U8 endfrm, U8 active);
 void baye_hd_spe_tick(void);
+void baye_hd_spe_context(U8 kind, U16 skillId, U8 actorIndex, U8 targetIndex);
+void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 y, U8 startFrm, U8 endFrm, U8 keyflag);
+void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint, U32 resourceLength, U8 endFrm, U8 simplePictures);
+void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U16 introduced);
+void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key);
+void baye_hd_spe_invalidate(void);
+void baye_hd_spe_lcd_copy(void);
+void baye_hd_spe_lcd_dirty(void);
+void baye_hd_spe_lcd_flush(void);
 void baye_hd_set_skills(const U16* ids, const U8* names, U8 count, U8 nameLen, U8 active);
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active);
 U32 baye_hd_qty_begin(void);

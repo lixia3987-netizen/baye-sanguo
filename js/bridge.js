@@ -1553,15 +1553,56 @@ function baye_bridge_init() {
         spe: function () {
             hdNote('hd.spe', '');
             var d = baye.ensureData();
+            var version = hdReadNum(d, 'g_hdSpeProtocolVersion'), nativeFrames = version === 2;
+            function frames(name) {
+                var bytes = [];
+                for (var i = 0; i < 32; i++) {
+                    var raw = hdReadNum(d && d[name], i);
+                    bytes.push(raw == null ? null : raw);
+                }
+                return bytes;
+            }
+            function frame(name) { var value = hdReadNum(d, name); return value == null || value === 0xffff ? null : value; }
+            function origin(name) { var value = hdReadNum(d, name); return value >= 0x8000 ? value - 0x10000 : value; }
+            var length = hdReadNum(d, 'g_hdSpeResourceLength'), fingerprint = hdReadNum(d, 'g_hdSpeResourceFingerprint');
+            var known = hdReadNum(d, 'g_hdSpeContextKnown') === 1;
+            var actor = hdReadNum(d, 'g_hdSpeActorIndex'), target = hdReadNum(d, 'g_hdSpeTargetIndex');
+            var endReasons = { 1: 'complete', 2: 'key', 3: 'missing-resource', 4: 'invalid-resource', 5: 'reset' };
             return {
-                active: hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive'),
-                id: hdReadNum(d, 'g_hdSpeId') || hdReadNum(d, 'g_hdMovieId'),
-                kind: hdReadNum(d, 'g_hdSpeKind') || (hdReadNum(d, 'g_hdMovieActive') ? 1 : 0),
-                x: hdReadNum(d, 'g_hdSpeX'),
-                y: hdReadNum(d, 'g_hdSpeY'),
+                active: nativeFrames ? hdReadNum(d, 'g_hdSpeActive') : (hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive')),
+                id: nativeFrames ? hdReadNum(d, 'g_hdSpeId') : (hdReadNum(d, 'g_hdSpeId') || hdReadNum(d, 'g_hdMovieId')),
+                kind: nativeFrames ? hdReadNum(d, 'g_hdSpeKind') : (hdReadNum(d, 'g_hdSpeKind') || (hdReadNum(d, 'g_hdMovieActive') ? 1 : 0)),
+                x: nativeFrames ? origin('g_hdSpeOriginX') : hdReadNum(d, 'g_hdSpeX'),
+                y: nativeFrames ? origin('g_hdSpeOriginY') : hdReadNum(d, 'g_hdSpeY'),
                 startFrm: hdReadNum(d, 'g_hdSpeStartFrm'),
                 endFrm: hdReadNum(d, 'g_hdSpeEndFrm'),
-                seq: hdReadNum(d, 'g_hdSpeSeq')
+                seq: hdReadNum(d, 'g_hdSpeSeq'),
+                protocolVersion: version,
+                generation: hdReadNum(d, 'g_hdSpeGeneration'),
+                eventId: hdReadNum(d, 'g_hdSpeEventId'),
+                parentEventId: hdReadNum(d, 'g_hdSpeParentEventId'),
+                depth: hdReadNum(d, 'g_hdSpeDepth'),
+                resourceIndex: hdReadNum(d, 'g_hdSpeResourceIndex'),
+                count: hdReadNum(d, 'g_hdSpeCount'),
+                picmax: hdReadNum(d, 'g_hdSpePicmax'),
+                resourceLength: length,
+                resourceFingerprint: length > 0 && fingerprint != null ? 'fnv1a32:' + ('00000000' + (fingerprint >>> 0).toString(16)).slice(-8) + ':' + length : null,
+                frameIndex: frame('g_hdSpeFrameIndex'),
+                frameValid: hdReadNum(d, 'g_hdSpeFrameValid') === 1,
+                protocolValid: hdReadNum(d, 'g_hdSpeProtocolValid') === 1,
+                commitSeq: hdReadNum(d, 'g_hdSpeCommitSeq'),
+                keyflag: hdReadNum(d, 'g_hdSpeKeyflag'),
+                skipEligible: hdReadNum(d, 'g_hdSpeSkipEligible') === 1,
+                visibleFrames: frames('g_hdSpeVisibleFrames'),
+                contextKnown: known,
+                skillId: known ? hdReadNum(d, 'g_hdSpeSkillId') : null,
+                actorIndex: known && actor >= 0 && actor < 20 ? actor : null,
+                targetIndex: known && target >= 0 && target < 20 ? target : null,
+                lastEnd: { eventId: hdReadNum(d, 'g_hdSpeLastEndedId'), reason: endReasons[hdReadNum(d, 'g_hdSpeEndReason')] || null,
+                    key: hdReadNum(d, 'g_hdSpeEndKey') },
+                display: { generation: hdReadNum(d, 'g_hdSpeDisplayGeneration'), eventId: hdReadNum(d, 'g_hdSpeDisplayEventId'),
+                    commitSeq: hdReadNum(d, 'g_hdSpeDisplayCommitSeq'), frameIndex: frame('g_hdSpeDisplayFrameIndex'),
+                    frameValid: hdReadNum(d, 'g_hdSpeDisplayFrameValid') === 1, visibleFrames: frames('g_hdSpeDisplayVisibleFrames') }
             };
         },
         menuItems: function () {
