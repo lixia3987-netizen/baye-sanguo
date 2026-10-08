@@ -24,7 +24,7 @@
     var STATE_LABELS = ['正常', '饥荒', '旱灾', '水灾', '暴动'];
     /* 一层之后常见深层：人物 / 城池 / 数量。项名已核验，种类是启发式。 */
     var DEEP = {
-        neizheng: ['person', 'person', 'lcd', 'person', 'person', 'person', 'person', 'person', 'goods', 'person-goods', 'person', 'person', 'city', 'city'],
+        neizheng: ['person', 'person', 'person', 'person', 'person', 'person', 'person', 'person', 'goods', 'person-goods', 'person', 'person', 'city', 'city'],
         waijiao: ['city', 'city', 'city', 'city', 'city'],
         junbei: ['city', 'person-qty', 'person', 'city', 'person-city']
     };
@@ -214,7 +214,8 @@
         target = Number(target);
         var count = Number(initial && initial.count) || (initial && initial.names || []).length;
         if (!initial || !Number(initial.active) || !isFinite(target) || target < 0 ||
-            Math.floor(target) !== target || target >= count) { return false; }
+            Math.floor(target) !== target || target >= count ||
+            detailOverlayActive() || showingQty()) { return false; }
         var epoch = marchEpoch;
         var seq = Number(initial.seq);
         var context = Number(initial.context), kind = Number(initial.kind);
@@ -228,6 +229,16 @@
         var expected = Number(initial.index);
         var waiting = false;
         var deadline = Date.now() + 5000;
+        function ownsMenu(index) {
+            if (epoch !== marchEpoch || !shouldShowHd() || detailOverlayActive() || showingQty()) { return false; }
+            // Overlay readers can also reenter. Sample the menu after those
+            // readers so a replaced native publication cannot retain this key.
+            var menu = engineMenuItems();
+            return Number(menu.active) && Number(menu.seq) === seq &&
+                Number(menu.context) === context && Number(menu.kind) === kind &&
+                (menu.names || []).join('\u0000') === signature &&
+                menuIdentitySignature(menu) === identitySignature && Number(menu.index) === index;
+        }
         function finish() {
             if (state.nativeMenuRequest === request) { state.nativeMenuRequest = null; }
         }
@@ -237,7 +248,8 @@
             if (epoch !== marchEpoch || !shouldShowHd() || !Number(menu.active) ||
                 Number(menu.seq) !== seq || Number(menu.context) !== context || Number(menu.kind) !== kind ||
                 (menu.names || []).join('\u0000') !== signature ||
-                menuIdentitySignature(menu) !== identitySignature || Date.now() > deadline) { finish(); return; }
+                menuIdentitySignature(menu) !== identitySignature || detailOverlayActive() ||
+                showingQty() || Date.now() > deadline) { finish(); return; }
             var index = Number(menu.index);
             if (!isFinite(index) || index < 0 || index >= count) { finish(); return; }
             if (waiting && index !== expected) {
@@ -249,14 +261,19 @@
             if (index === target) {
                 finish();
                 if (thenEnter) {
+                    var previousCommit = state.nativeMenuCommit;
                     state.nativeMenuCommit = key;
-                    engineSendKey(VK.ENTER, reason);
+                    // Read-only bridge getters may reenter a Mod callback. Check
+                    // the same native owner again at the final send boundary.
+                    if (!engineSendKey(VK.ENTER, reason, function () { return ownsMenu(index); }) &&
+                        state.nativeMenuCommit === key) { state.nativeMenuCommit = previousCommit; }
                 }
                 return;
             }
             expected = index + (index > target ? -1 : 1);
             waiting = true;
-            if (!engineSendKey(index > target ? VK.UP : VK.DOWN, reason)) { finish(); return; }
+            if (!engineSendKey(index > target ? VK.UP : VK.DOWN, reason,
+                function () { return ownsMenu(index); })) { finish(); return; }
             setTimeout(step, 40);
         }
         step();

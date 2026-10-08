@@ -59,7 +59,8 @@
     "test:stone-runtime": "node scripts/test-hd-stone-runtime.mjs",
     "test:city-back-runtime": "node scripts/test-hd-city-back-runtime.mjs",
     "test:water-runtime": "node scripts/test-hd-water-runtime.mjs",
-    "test:qimen-runtime": "node scripts/test-hd-qimen-runtime.mjs"
+    "test:qimen-runtime": "node scripts/test-hd-qimen-runtime.mjs",
+    "test:search-runtime": "node scripts/test-hd-search-runtime.mjs"
   },
   "devDependencies": {
     "serve": "14.2.5"

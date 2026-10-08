@@ -121,7 +121,7 @@ function harness() {
             renderStatus: renderStatus, renderPersonDetails: renderPersonDetails,
             renderToolDetails: renderToolDetails,
             deepMenuOwner: deepMenuOwner, fillDeepList: fillDeepList, applyHighlight: applyHighlight,
-            chooseRoot: chooseRoot, back: back, bind: bindUi,
+            chooseRoot: chooseRoot, chooseSub: chooseSub, back: back, bind: bindUi,
             applyDocAttr: applyDocAttr, lcdPresentation: cityLcdPresentation, render: render };
     })(window);`);
     vm.runInContext(source, context, { filename: 'js/hd-city-menu.js' });
@@ -845,3 +845,258 @@ test('reentrant overlay reads cannot close a replacement map wait or native menu
         assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });
+
+// BEGIN R17 SEARCH INCREMENT: insert after existing backHarness/runBackQueue helpers.
+// This drives the real production chooseSub/start poll/DOM input chain, not a copied controller.
+const searchSubNames = ['开垦', '招商', '搜寻', '治理', '出巡', '招降', '处斩', '流放', '赏赐', '没收', '交易', '宴请', '输送', '移动'];
+function searchHarness({ delayed = false } = {}) {
+    const h = backHarness();
+    h.context.baye.hd.march = () => ({phase: 0, session: 0, mapCity: 1, pick: h.raw.g_hdMapPick, mapInputSeq: h.raw.g_hdMapInputSeq});
+    Object.assign(h.hud.state, { layer: 'sub', subKind: 'neizheng', deepKind: '', deepLabel: '', deepMenuOwner: null, idleIndex: 2 });
+    Object.assign(h.menu, { active: 1, context: 1, kind: 2, seq: 30, generation: 3, detailGeneration: 3,
+        count: searchSubNames.length, index: 2, names: [...searchSubNames], idsValid: false, ids: [] });
+    Object.assign(h.raw, { g_hdMenuSeq: 30, g_hdMenuActive: 1 });
+    h.context.sendKey = key => h.keys.push(key);
+    h.hud.chooseSub(2);
+    assert.equal(h.hud.state.deepKind, 'person', 'SEARCH must enter the production person route');
+    assert.equal(h.hud.state.deepLabel, '搜寻'); assert.equal(h.hud.state.wizardStep, 'none');
+    assert.deepEqual(h.keys, [0x27], 'The player command issues only the existing native Enter');
+    h.keys.length = 0; h.timers.length = 0;
+    h.context.BayeHdCityMenu.start(); h.poll = h.intervals.at(-1);
+    h.publishPeople = ({ seq = 31, ids = [600, 601], names = ids.map(id => h.names.get(id)), index = 0 } = {}) => {
+        Object.assign(h.menu, { active: 1, context: 1, kind: 3, seq, generation: 3, detailGeneration: 3,
+            count: ids.length, index, names, idsValid: true, ids: [...ids] });
+        Object.assign(h.raw, {g_hdMenuSeq: seq, g_hdMenuActive: 1});
+    };
+    if (!delayed) { h.publishPeople(); h.poll(); }
+    return h;
+}
+function searchRow(h, index = 0) { return h.document.querySelectorAll('[data-hd-deep]')[index]; }
+function armSearch(h, index = 0) {
+    const target = searchRow(h, index); assert.ok(target, 'An actual native row must exist before arming');
+    dispatch(h, 'pointerdown', target); return target;
+}
+
+test('SEARCH real poll waits for a delayed native person menu, then reads the full owned U16 IDs without another input', () => {
+    const h = searchHarness({delayed: true});
+    for (let i = 0; i < 4; i++) h.poll();
+    assert.equal(h.hud.state.deepItems.length, 0); assert.equal(h.hud.state.personDetail, null);
+    assert.equal(h.document.querySelectorAll('[data-hd-deep]').length, 0);
+    assert.deepEqual(h.keys, []);
+    h.people[700] = {...h.person, Belong: 0}; h.people[701] = {...h.person, Belong: 65535};
+    h.people[777] = {...h.person, Force: 77}; h.names.set(777, '真实高ID人物');
+    h.queue.splice(7, 2, 600, 700, 701, 777); h.city.Persons = 4;
+    h.publishPeople({ids: [600, 777]}); h.poll();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, row => row.pind), [600, 777]);
+    assert.equal(h.hud.state.personDetail.personIndex, 600);
+    assert.equal(searchRow(h, 1).getAttribute('data-hd-deep-pind'), '777');
+    assert.ok(h.hud.state.deepItems.every(row => ![700, 701].includes(row.pind)));
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH exact native IDs survive reordered duplicate names and use current native index for the person fields', () => {
+    const h = searchHarness(); h.people[601].Force = 33;
+    h.publishPeople({ids: [601, 600], names: ['同名人物', '同名人物'], index: 1}); h.poll();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, row => [row.i, row.pind]), [[0, 601], [1, 600]]);
+    assert.equal(h.hud.state.personDetail.personIndex, 600); assert.equal(rows(h.hud.state.personDetail).武力, '91');
+    h.menu.index = 0; h.poll();
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.equal(rows(h.hud.state.personDetail).武力, '33');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH malformed claimed full-ID lists never attach a person by matching names', () => {
+    for (const ids of [[600], [600, 65535], [600, '601'], [600, true]]) {
+        const h = searchHarness(); h.menu.ids = ids; h.poll();
+        assert.equal(h.hud.state.personDetail, null);
+        assert.ok(h.hud.state.deepItems.every(row => row.pind === undefined));
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SEARCH old held rows cannot confirm after a new native sequence, detail generation or same-name ID reorder', () => {
+    for (const change of [h => { h.menu.seq++; h.raw.g_hdMenuSeq++; },
+        h => { h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; },
+        h => { h.menu.ids.reverse(); h.menu.names.reverse(); }, h => { h.menu.context = 2; }]) {
+        const h = searchHarness(), target = armSearch(h);
+        change(h); dispatch(h, 'click', target, {detail: 1});
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('SEARCH genuine inactive picker on native report takeover cannot confirm its old row', () => {
+    const h = searchHarness(), target = armSearch(h);
+    h.menu.active = 0; h.raw.g_hdMenuActive = 0; h.report.active = 1; h.raw.g_hdReportActive = 1;
+    h.poll(); dispatch(h, 'click', target, {detail: 1});
+    assert.equal(h.hud.state.personDetail, null); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const field of ['report', 'help']) {
+    test('SEARCH active underlying picker retained by ' + field + ' cannot receive an old pressed Enter', () => {
+        const h = searchHarness(), target = armSearch(h);
+        h[field].active = 1; h.raw[field === 'report' ? 'g_hdReportActive' : 'g_hdHelpActive'] = 1;
+        h.poll(); assert.equal(h.hud.state.personDetail, null);
+        dispatch(h, 'click', target, {detail: 1});
+        assert.deepEqual(h.keys, [], field + ' owns input even if the old native menu remains active');
+        assert.deepEqual(h.writes, []);
+    });
+}
+
+test('SEARCH a delayed native Down ACK followed by report takeover must never send pending Enter', () => {
+    const h = searchHarness(), target = armSearch(h, 1);
+    dispatch(h, 'click', target, {detail: 1});
+    assert.deepEqual(h.keys, [0x23], 'Only one native Down, waiting for the actual highlighted index ACK');
+    assert.ok(h.hud.state.nativeMenuRequest); assert.equal(h.hud.state.personDetail, null);
+    h.menu.index = 1; h.report.active = 1; h.raw.g_hdReportActive = 1;
+    runBackQueue(h);
+    assert.deepEqual(h.keys, [0x23], 'No Enter may be sent to the report after its takeover');
+    assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH a normal current row selection follows the actual native Down ACK and sends exactly one Enter', () => {
+    const h = searchHarness(), target = armSearch(h, 1);
+    dispatch(h, 'click', target, {detail: 1});
+    assert.deepEqual(h.keys, [0x23]); assert.ok(h.hud.state.nativeMenuRequest);
+    h.menu.index = 1; runBackQueue(h);
+    assert.deepEqual(h.keys, [0x23, 0x27]); assert.equal(h.hud.state.nativeMenuRequest, null);
+    assert.ok(h.hud.state.deepSelectionPending, 'Retain the existing pending selection until native menu transition');
+    assert.equal(h.hud.state.personDetail, null); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH Back delivers exactly one Exit, waits for native map ACK/queue drain and does not alter the world', () => {
+    const h = searchHarness();
+    h.context.sendKey = key => {
+        h.keys.push(key);
+        if (key === 0x28) { h.menu.active = 0; h.raw.g_hdMenuActive = 0; h.raw.g_hdMapPick = 1; h.raw.g_hdMapInputSeq++; }
+    };
+    const target = h.backButton; dispatch(h, 'pointerdown', target); dispatch(h, 'click', target, {detail: 1});
+    assert.equal(h.hud.state.personDetail, null); assert.equal(h.hud.state.open, true);
+    h.poll(); assert.equal(h.hud.state.open, true, 'No map ACK before the queued native Exit');
+    runBackQueue(h); h.poll();
+    assert.deepEqual(h.keys, [0x28]); assert.equal(h.hud.state.open, false); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH Back refuses a report-held picker and a queued Exit retires on seq/generation/ID changes', () => {
+    for (const change of [h => { h.menu.seq++; h.raw.g_hdMenuSeq++; },
+        h => { h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; }, h => { h.menu.ids.reverse(); },
+        h => { h.report.active = 1; h.raw.g_hdReportActive = 1; }]) {
+        const h = searchHarness(); h.hud.back(); change(h); runBackQueue(h);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const h = searchHarness(); h.report.active = 1; h.raw.g_hdReportActive = 1;
+    h.hud.back(); assert.equal(h.hud.state.layer, 'deep'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+// END R17 SEARCH INCREMENT
+// BEGIN R17 SEARCH EXTRA: append after the candidate's BEGIN/END increment.
+// All tests use its actual production harness, native owner fixtures and public DOM handlers.
+test('SEARCH quantity takeover retains its own input and cannot confirm a held person row', () => {
+    const h = searchHarness(), target = armSearch(h);
+    // Actual NumOperate owns input only after its person menu closes.
+    h.menu.active = 0; h.raw.g_hdMenuActive = 0;
+    Object.assign(h.qty, {active: 1, min: 0, max: 800, value: 100}); h.raw.g_hdQtyActive = 1;
+    h.hud.renderPersonDetails(); assert.equal(h.hud.state.personDetail, null);
+    // The inherited HUD mock deliberately rejects nonempty HTML. Capture only
+    // the real legacy quantity markup here; do not parse or simulate its controls.
+    const create = h.document.createElement; let qtyMarkup = '';
+    h.document.createElement = tag => new Proxy(create(tag), {set(node, key, value) {
+        if (key === 'innerHTML' && value !== '' && /^<p>数量 /.test(value)) {
+            assert.match(value, /^<p>数量 <strong id="hd-city-qty-val">100<\/strong>/);
+            assert.match(value, /data-hd-qty-ok/); qtyMarkup = value; node.textContent = ''; return true;
+        }
+        return Reflect.set(node, key, value);
+    }});
+    dispatch(h, 'click', target, {detail: 1});
+    assert.ok(qtyMarkup, 'The real quantity owner is rendered instead of confirming the old person');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('SEARCH pending native selection cannot send Enter after quantity takes over before its Down ACK', () => {
+    const h = searchHarness(), target = armSearch(h, 1);
+    dispatch(h, 'click', target, {detail: 1}); assert.deepEqual(h.keys, [0x23]);
+    h.menu.index = 1; h.menu.active = 0; h.raw.g_hdMenuActive = 0;
+    Object.assign(h.qty, {active: 1, min: 0, max: 800, value: 100}); h.raw.g_hdQtyActive = 1;
+    runBackQueue(h);
+    assert.deepEqual(h.keys, [0x23]); assert.deepEqual(h.writes, []);
+});
+
+for (const change of ['seq', 'generation', 'report']) {
+    test('SEARCH final engineSendKey read-only fight getter reentry into ' + change + ' retires the pending native Enter', () => {
+        const h = searchHarness(), target = armSearch(h); let triggered = false;
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, get() {
+            // Target the actual final engineSendKey read after its earlier controller checks.
+            // No copied gate logic: the VM's real stack identifies this boundary.
+            if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+                triggered = true;
+                if (change === 'seq') { h.menu.seq++; h.raw.g_hdMenuSeq++; }
+                if (change === 'generation') { h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; }
+                if (change === 'report') { h.report.active = 1; h.raw.g_hdReportActive = 1; }
+            }
+            return 0;
+        }});
+        dispatch(h, 'click', target, {detail: 1});
+        assert.equal(triggered, true, 'The production final send boundary must actually be exercised');
+        assert.deepEqual(h.keys, [], 'A getter retirement must be checked again immediately before native send');
+        assert.deepEqual(h.writes, []);
+        // The failed final send must not leave a committed key blocking a later real action.
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, writable: true, value: 0});
+        h.report.active = 0; h.raw.g_hdReportActive = 0;
+        h.poll(); const fresh = armSearch(h);
+        dispatch(h, 'click', fresh, {detail: 1});
+        assert.deepEqual(h.keys, [0x27], 'A fresh current-owner player action remains usable after the refused final send');
+        assert.deepEqual(h.writes, []);
+    });
+}
+
+test('SEARCH confirmed person stays retired until a fresh complete native owner arrives and an old held pointer cannot confirm it', () => {
+    const h = searchHarness(), first = armSearch(h);
+    dispatch(h, 'click', first, {detail: 1}); assert.deepEqual(h.keys, [0x27]);
+    assert.ok(h.hud.state.deepSelectionPending); assert.equal(h.hud.state.personDetail, null);
+    const oldHeld = armSearch(h, 1);
+    h.poll();
+    assert.equal(h.hud.state.deepItems.length, 0); assert.equal(h.hud.state.deepMenuOwner, null);
+    assert.equal(h.hud.state.personDetail, null); assert.deepEqual(h.keys, [0x27]);
+    // Model the real C menu close/report and then reopening; no JS auto confirmation.
+    h.menu.active = 0; h.raw.g_hdMenuActive = 0; h.report.active = 1; h.raw.g_hdReportActive = 1;
+    h.poll(); assert.equal(h.hud.state.personDetail, null);
+    h.report.active = 0; h.raw.g_hdReportActive = 0; h.menu.active = 1; h.raw.g_hdMenuActive = 1;
+    h.poll(); assert.equal(h.hud.state.deepItems.length, 0, 'The old seq is not a fresh native list');
+    h.publishPeople({seq: 32, ids: [601]}); h.poll();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, row => row.pind), [601]);
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.equal(h.hud.state.deepSelectionPending, null);
+    const fresh = searchRow(h); assert.notEqual(fresh, oldHeld);
+    dispatch(h, 'click', fresh, {detail: 1}); assert.deepEqual(h.keys, [0x27], 'Old press cannot confirm a different native owner');
+    dispatch(h, 'pointerdown', fresh); dispatch(h, 'click', fresh, {detail: 1});
+    assert.deepEqual(h.keys, [0x27, 0x27], 'Only a fresh player action can confirm the new owner');
+    assert.deepEqual(h.writes, []);
+});
+// END R17 SEARCH EXTRA
+
+// BEGIN R17 SEARCH EXTRA2: append after extra1; plain fresh snapshots expose reentry ordering.
+for (const action of ['Enter', 'Arrow']) {
+    for (const change of ['seq', 'ids']) {
+        test('SEARCH final inactive report getter returning plain menu clones retires ' + action + ' on changed ' + change + ', then allows a fresh click', () => {
+            const h = searchHarness();
+            h.publishPeople({names: ['同名人物', '同名人物']}); h.poll();
+            // Every public menu read is a distinct snapshot, as the real bridge returns.
+            h.context.baye.hd.menuItems = () => plain(h.menu);
+            const target = armSearch(h, action === 'Enter' ? 0 : 1); let triggered = false;
+            h.context.baye.hd.report = () => {
+                if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+                    triggered = true;
+                    if (change === 'seq') { h.menu.seq++; h.raw.g_hdMenuSeq++; }
+                    else { h.menu.ids.reverse(); }
+                }
+                return {active: 0}; // The read reenters a new owner without exposing an active report.
+            };
+            dispatch(h, 'click', target, {detail: 1});
+            assert.equal(triggered, true, 'Exercise the actual final-send currentOwner check');
+            assert.deepEqual(h.keys, [], 'Neither the old Arrow nor Enter may reach the replacement menu');
+            assert.equal(h.hud.state.nativeMenuRequest, null);
+            h.context.baye.hd.report = () => h.report;
+            h.poll(); const fresh = armSearch(h);
+            dispatch(h, 'click', fresh, {detail: 1});
+            assert.deepEqual(h.keys, [0x27], 'Refusing the final send must not leave a false committed selection');
+            assert.deepEqual(h.writes, []);
+        });
+    }
+}
+// END R17 SEARCH EXTRA2
