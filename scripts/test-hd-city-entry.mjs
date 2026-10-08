@@ -6,7 +6,7 @@ import vm from 'node:vm';
 const mapIdentity = Object.freeze({status:'ready',generation:1,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'});
 const VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
 function harness({ move = true, open = true, cachedCity = 0 } = {}) {
-    let clock = 0, timerId = 0, engineWrite = false, afterKey;
+    let clock = 0, timerId = 0, engineWrite = false, afterKey, shellOpen = false;
     const timers = new Map(), sent = [], opened = [], forbiddenWrites = [];
     const menu = { active: 0, context: 0, kind: 0, seq: 1, index: 0,
         names: ['内政', '外交', '军备', '状况'] };
@@ -35,10 +35,10 @@ function harness({ move = true, open = true, cachedCity = 0 } = {}) {
             getCityName: i => i===8?'天水':'西凉',
             hd: { ready: () => true, menuItems: () => menu, march: () => march,
                 fight: () => ({ active: 0, over: 0 }), reportText: () => '' } },
-        BayeHdCityMenu: { shouldShowHd: () => true, isOpen: () => opened.length > 0,
+        BayeHdCityMenu: { shouldShowHd: () => true, isOpen: () => shellOpen,
             isMarching: () => false, holdMenu: () => false, holdExit: () => false,
-            engineInGetCitySet: () => false, close() {}, onEngineHook() {},
-            open(meta) { opened.push({ ...meta }); return true; } },
+            engineInGetCitySet: () => false, close() { shellOpen = false; }, onEngineHook() {},
+            open(meta) { shellOpen = true; opened.push({ ...meta }); return true; } },
         sendKey(key) {
             sent.push(key); engineWrite = true;
             if (move && march.pick) {
@@ -138,6 +138,36 @@ test('cancelled entry callbacks cannot revive after a later map request', () => 
     const h = harness(); h.api.walkToCity(8); h.tick(170); h.api.cancelAlign();
     const before = h.sent.length; h.tick();
     assert.equal(h.sent.length, before); assert.equal(h.opened.length, 0);
+});
+
+test('native willCloseMenu observes a consumed EXIT without emitting another map EXIT', () => {
+    const h = harness(); h.api.walkToCity(8); h.tick();
+    // Native calls this observer before retiring its still-active OrderMenu.
+    h.state.menuDepth = 1;
+    h.context.BayeHdCityMenu.close({silent:true});
+    const before = h.sent.length;
+    h.hook('willCloseMenu');
+    assert.equal(h.sent.length, before);
+    assert.equal(h.state.hdOpenedMenu, false);
+    assert.equal(h.state.aligning, false);
+    assert.deepEqual(h.forbiddenWrites, []);
+});
+
+test('a root return emits exactly one EXIT even when native closing reenters before menu retirement', () => {
+    const h = harness(); h.api.walkToCity(8); h.tick();
+    let closing = 0;
+    h.afterKey(key => {
+        if (key !== VK.EXIT) return;
+        assert.equal(++closing, 1, 'a second EXIT would escape the real map wait');
+        h.hook('willCloseMenu');
+        h.menu.active = 0; h.march.pick = 1; h.march.mapInputSeq++;
+    });
+    const before = h.sent.length;
+    h.api.leaveMenu(); h.tick();
+    assert.deepEqual(h.sent.slice(before), [VK.EXIT]);
+    assert.equal(h.state.phase, 'map');
+    assert.equal(h.state.hdOpenedMenu, false);
+    assert.deepEqual(h.forbiddenWrites, []);
 });
 
 console.log(`${count} HD city entry regression cases passed.`);

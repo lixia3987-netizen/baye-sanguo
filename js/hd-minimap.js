@@ -69,6 +69,9 @@
         var scale = Math.min(rect.width / data.width, rect.height / data.height),
             x = (rect.width - data.width * scale) / 2, y = (rect.height - data.height * scale) / 2;
         ctx.drawImage(data.image, x, y, data.width * scale, data.height * scale);
+        if (typeof data.paintEnvironment === 'function') {
+            data.paintEnvironment(ctx, { x: x, y: y, w: data.width * scale, h: data.height * scale });
+        }
         data.cities.forEach(function (city) {
             var cx = x + city.x * scale, cy = y + city.y * scale;
             var current = state.native.city1 === city.index + 1;

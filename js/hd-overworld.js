@@ -66,6 +66,7 @@
         legendSignature: '',
         manifest: null,
         images: {},
+        environmentPaint: null,
         palette: DEFAULT_PALETTE,
         cities: [],
         hoverIndex: -1,
@@ -281,6 +282,7 @@
         state.layoutMatched = false;
         state.manifest = null;
         state.images = {};
+        state.environmentPaint = null;
         state.palette = DEFAULT_PALETTE;
         state.geoMeta = null;
         state.geoCities = null;
@@ -372,7 +374,7 @@
         }
         // Identity metadata changed with this renderer. Retire cached JSON
         // without forcing unchanged terrain images to download again.
-        return ASSET_ROOT + rel + (/\.json$/.test(rel) ? '?ver=20261008i' : '');
+        return ASSET_ROOT + rel + (/\.json$/.test(rel) ? '?ver=20261008l' : '');
     }
 
     function loadAssets(done) {
@@ -1063,8 +1065,15 @@
         if (!mapAuthorized()) { return null; }
         var image = terrainImageByPart('base_plains'), identity = readIdentity();
         if (!image || !image.complete || !image.naturalWidth || !state.cities.length) { return null; }
+        var generation = state.assetGeneration, libraryGeneration = identity.generation;
         return { image: image, width: image.naturalWidth, height: image.naturalHeight,
             generation: state.assetGeneration, libraryGeneration: identity.generation, libSha256: identity.sha256,
+            paintEnvironment: function (ctx, destination) {
+                // An overview can outlive its actual LIB or visibility owner.
+                if (document.hidden || state.mode !== 'hd-map' || generation !== state.assetGeneration || !mapAuthorized() ||
+                    readIdentity().generation !== libraryGeneration) { return { drawn: 0, skipped: 0, operations: [] }; }
+                return paintEnvironment(ctx, { x: 0, y: 0, w: image.naturalWidth, h: image.naturalHeight }, destination);
+            },
             cities: state.cities.map(function (city) { return { index: city.index, name: city.name,
                 x: city.hdX, y: city.hdY, engineX: city.engX, engineY: city.engY,
                 belong: city.belong, kind: city.kind, color: city.color }; }) };
@@ -1168,7 +1177,9 @@
             }
             state.menuDepth = Math.max(0, state.menuDepth - 1);
             if (state.menuDepth <= 0) {
-                leaveClassicMenu('已回到大地图。点城打开经典菜单。');
+                // C already consumed the player's closing key. This hook only
+                // retires the shell; another EXIT would leave GetCitySet.
+                leaveClassicMenu('已回到大地图。点城打开经典菜单。', { nativeClosing: true });
             }
             return;
         }
@@ -1281,6 +1292,7 @@
     }
 
     function drawTerrain(ctx) {
+        state.environmentPaint = null;
         ensureCamera();
         var base = terrainImageByPart('base_plains') || terrainImages()[0];
         if (!base) {
@@ -1317,9 +1329,42 @@
         try {
             /* Dest is always the full 1920×1080 viewport — no edge sliver of empty void. */
             ctx.drawImage(base, sx, sy, sw, sh, 0, 0, DESIGN_W, DESIGN_H);
+            state.environmentPaint = paintEnvironment(ctx, { x: sx, y: sy, w: sw, h: sh },
+                { x: 0, y: 0, w: DESIGN_W, h: DESIGN_H });
         } catch (e) {
+            state.environmentPaint = null;
             drawFallbackContinent(ctx);
         }
+    }
+
+    function environmentLayers() {
+        var environment = state.manifest && state.manifest.layers && state.manifest.layers.environment;
+        var geo = state.geoMeta, image = terrainImageByPart('base_plains');
+        // Decorative coordinates are independent of the engine's 12×9 rule grid.
+        // A malformed optional layer must not take away the verified city map.
+        if (!environment || environment.coordinateSystem !== 'china-lcc-raster-padded-v1' ||
+            !geo || !geo.fit || !Array.isArray(geo.fit.rasterSize) || geo.fit.rasterSize.length !== 2 ||
+            !image || environment.source !== geo.source ||
+            !Array.isArray(environment.mapSize) || !Array.isArray(environment.rasterSize) ||
+            environment.mapSize.length !== 2 || environment.rasterSize.length !== 2 ||
+            environment.mapSize[0] !== image.naturalWidth || environment.mapSize[1] !== image.naturalHeight ||
+            environment.rasterSize[0] !== geo.fit.rasterSize[0] || environment.rasterSize[1] !== geo.fit.rasterSize[1] ||
+            !Array.isArray(environment.layers)) { return []; }
+        return environment.layers.filter(function (layer) {
+            var rect = layer && layer.worldRect;
+            return Array.isArray(rect) && rect.length === 4 && rect.every(function (n) { return typeof n === 'number' && isFinite(n); }) &&
+                rect[0] >= 0 && rect[1] >= 0 && rect[2] > 0 && rect[3] > 0 &&
+                rect[0] + rect[2] <= environment.rasterSize[0] && rect[1] + rect[3] <= environment.rasterSize[1];
+        });
+    }
+
+    function paintEnvironment(ctx, viewport, destination) {
+        var result = { drawn: 0, skipped: 0, operations: [] }, painter = global.BayeHdOverworldLayers;
+        if (document.hidden || state.mode !== 'hd-map' || !mapAuthorized() || !painter || typeof painter.draw !== 'function') { return result; }
+        var layers = environmentLayers(), images = {}, terrain = state.manifest.layers.terrain || [];
+        for (var i = 0; i < terrain.length; i++) { images[terrain[i]] = state.images['terrain:' + i + ':' + terrain[i]]; }
+        try { return painter.draw(ctx, layers, images, viewport, destination); }
+        catch (e) { return result; }
     }
 
     function terrainImageByPart(part) {
@@ -1667,11 +1712,13 @@
     }
 
     function markerImage(kind, selected) {
-        if (selected && state.images['city:selected']) {
-            return state.images['city:selected'];
-        }
         var key = 'city:' + kind;
-        return state.images[key] || state.images['city:neutral'] || state.images['city:empty'] || null;
+        var image = selected && state.images['city:selected'] || state.images[key] ||
+            state.images['city:neutral'] || state.images['city:empty'] || null;
+        var art = state.manifest && state.manifest.layers && state.manifest.layers.cityArt;
+        if (art && (!Array.isArray(art.pixelSize) || art.pixelSize.length !== 2 || !image ||
+            image.naturalWidth !== art.pixelSize[0] || image.naturalHeight !== art.pixelSize[1])) { return null; }
+        return image;
     }
 
     function enterFxAmount(index, now) {
@@ -3004,21 +3051,19 @@
         }
         /* GetCitySet EXIT leaves PlayerTactic and opens 策略结束. Only leave
            an actual city OrderMenu; leftover closeMenu on the map must no-op. */
-        if (cityMenuShellOpen()) {
-            engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT);
-        }
+        var sendExit = !opts.nativeClosing && cityMenuShellOpen();
         state.menuDepth = 0;
         state.hdOpenedMenu = false;
         if (!opts.keepAlign) {
-            state.pendingEnter = false;
-            state.aligning = false;
+            cancelAlign();
             state.suppressCityIdle = 1;
         }
         resetPan();
         if (global.BayeHdCityMenu) {
             BayeHdCityMenu.close({ silent: true });
         }
-        setPhase(playerKingId() !== null && citiesHaveBelong(engineData()) ? 'map' : inferPhase());
+        if (sendExit) { engineSendKey((window.baye && baye.VK_EXIT) || VK.EXIT); }
+        setPhase(inferPhase());
         state.hint = hint || '已回到大地图。';
     }
 
@@ -4102,6 +4147,17 @@
                     maxX: state.camera.maxX,
                     maxY: state.camera.maxY,
                     inited: state.camera.inited
+                },
+                environmentLayers: {
+                    coordinateSystem: state.manifest && state.manifest.layers && state.manifest.layers.environment &&
+                        state.manifest.layers.environment.coordinateSystem || null,
+                    descriptorCount: environmentLayers().length,
+                    drawn: state.environmentPaint ? state.environmentPaint.drawn : 0,
+                    skipped: state.environmentPaint ? state.environmentPaint.skipped : 0,
+                    operations: state.environmentPaint ? state.environmentPaint.operations.map(function (operation) {
+                        return { id: operation.id, path: operation.path, source: operation.source.slice(),
+                            destination: operation.destination.slice(), instanceIndex: operation.instanceIndex };
+                    }) : []
                 },
                 roads: {
                     source: state.roads.source,
