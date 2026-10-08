@@ -4,7 +4,7 @@
 
 完整目标51个严格原字节唯一前景group（46 mask1透明＋5 mask0不透明）。背景16由根代理负责。标准库SHA256 3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e。
 
-当前进度：{'targetGroups': 51, 'finalGroups': 29, 'builtinCalls': 37, 'rejectedFinalCandidates': 7, 'failedCalls': 1, 'remainingGroups': 22}。没有接受的group仍待生成/验收，不能将LCD回退当作HD完成。
+当前进度：{'targetGroups': 51, 'finalGroups': 39, 'builtinCalls': 49, 'rejectedFinalCandidates': 9, 'failedCalls': 1, 'remainingGroups': 12}。没有接受的group仍待生成/验收，不能将LCD回退当作HD完成。
 
 每次完整exact prompt、输入路径/角色/SHA/尺寸、原始输出路径/SHA/尺寸/mode/alpha和拒收/失败原因均见 [GENERATED-ATTACKS.json](GENERATED-ATTACKS.json)。接受PNG只按原byte复制，未裁切、resize、重编码、合成；低alpha软边缘保留。普通兵不套武将立绘身份。
 
@@ -29,8 +29,8 @@
 |13|19/0/12;20/0/8;21/0/8;22/0/10;23/0/11;24/0/10|33×29/m1|generated-accepted|1|fcc89e8de7f603769aa6d24813a02571486915a0a12f1a7c6a64459c51ab5180|
 |14|19/0/13;20/0/10;21/0/10;22/0/12;23/0/13;24/0/12|36×40/m1|generated-accepted|1|06313d1b07e679e6e6708559253dcc922c25f5360ef36354f80b71400823702d|
 |15|19/0/14;20/0/11;21/0/11;22/0/13;23/0/14;24/0/13|38×43/m1|generated-accepted|1|d964ff4171c77715b6e1321a4df88a0e582489bf286af4466f626fc05f2b5c04|
-|16|19/0/15;20/0/13;21/0/13;22/0/15;23/0/16;24/0/15|25×31/m1|planned|0|未生成/未接受|
-|17|19/0/16;20/0/12;21/0/12;22/0/14;23/0/15;24/0/14|29×35/m1|planned|0|未生成/未接受|
+|16|19/0/15;20/0/13;21/0/13;22/0/15;23/0/16;24/0/15|25×31/m1|generated-accepted|1|281500aeba297792e0199475bc5748c5ae0b23b1fdf786fafcc3941dde7f9a8a|
+|17|19/0/16;20/0/12;21/0/12;22/0/14;23/0/15;24/0/14|29×35/m1|generated-accepted|1|f2c74e9bf8fab210f0101c8889fdf72799946abf5364dc08fdb7fb1c43f85a25|
 |18|19/0/17;20/0/15;20/0/17;21/0/14;22/0/16;23/0/17;24/0/16|25×29/m1|generated-accepted|1|7df1251d2cedf1533abf428d651df99a7a269fd3ffd3d07af5a5579ae537a9ac|
 |19|19/0/18;20/0/14;20/0/16;21/0/15;22/0/17;23/0/18;24/0/17|24×30/m1|generated-accepted|1|7bd87a3072b1a8b160a6dea22e9f379b231fe9c3ae4ca70fdcdfb6debe5d98f1|
 |20|20/0/0|29×28/m1|generated-accepted|1|605e6b1873303e5ea3e2d20d28eb6707723804e7cf5047c5d40d137b382cd76d|
@@ -44,19 +44,19 @@
 |28|21/0/16|10×5/m0|generated-accepted|1|90fa580dba38bec4027c283dd1758558bb26f81ed3dee1698019a025091aa860|
 |29|21/0/17|9×5/m0|generated-accepted|1|9e7597d788f7223c3b70c1b9cc671d5ca8dd675bd3159217205442a024a2eb23|
 |30|22/0/0|25×29/m1|generated-accepted|2|f9ff84420b028318bad01ff7a6b34fab614b0c8674b5ee3240b33e20303a555f|
-|31|22/0/1|19×30/m1|planned|0|未生成/未接受|
+|31|22/0/1|19×30/m1|generated-accepted|1|c622bfc3c09a50c0701bca8428bd49fc8c3808f3cb1cb3011f1eae3c3f6c2405|
 |32|22/0/2|24×30/m1|planned|0|未生成/未接受|
 |33|22/0/3|26×30/m1|planned|0|未生成/未接受|
 |34|22/0/4|21×28/m1|planned|0|未生成/未接受|
 |35|22/0/5|32×29/m1|planned|0|未生成/未接受|
 |36|23/0/0|36×40/m1|generated-accepted|1|8f3fe7eb17025db797c809b95a30b7145ad61aa9e2e48378a51260f1258371d6|
-|37|23/0/1|43×40/m1|planned|0|未生成/未接受|
-|38|23/0/2|41×40/m1|planned|0|未生成/未接受|
-|39|23/0/3|42×41/m1|planned|0|未生成/未接受|
-|40|23/0/4|41×40/m1|planned|0|未生成/未接受|
-|41|23/0/5|41×40/m1|planned|0|未生成/未接受|
-|42|23/0/6|42×40/m1|planned|0|未生成/未接受|
-|43|24/0/0|25×31/m1|planned|0|未生成/未接受|
+|37|23/0/1|43×40/m1|generated-accepted|1|c94c6d0aefc46e66c00b9e27d74dd0b1b0d4bbd956f0f8dad0f8e0cc6b094ea2|
+|38|23/0/2|41×40/m1|generated-accepted|2|a0f358e38d44d25c91b7f36927cac535515e7031ef45c1c46220ac4226465753|
+|39|23/0/3|42×41/m1|generated-accepted|1|0bb499bdbf70a491e18905c293d55a588b6816e7ab1b773a5d57fb0106a3df2d|
+|40|23/0/4|41×40/m1|generated-accepted|2|a18fbb75c819f4463a31dea70df1e7f9f386a5e1f44353ef4cf6e7810e8e8858|
+|41|23/0/5|41×40/m1|generated-accepted|1|f026a84e0a046adb8e5e7912dcea80cced726fa62f7039aeeb7a0adbd36db83f|
+|42|23/0/6|42×40/m1|generated-accepted|1|eefaa4c2d08c7f7d2c2650e06574c9682582a5443108bba0a1ef51bc83c19151|
+|43|24/0/0|25×31/m1|generated-accepted|1|202b8cedb98f63ab8cad4f940fb91b1a8831ee31121562811682441e6d96c5be|
 |44|24/0/1|27×31/m1|planned|0|未生成/未接受|
 |45|24/0/2|27×29/m1|planned|0|未生成/未接受|
 |46|24/0/3|25×29/m1|planned|0|未生成/未接受|

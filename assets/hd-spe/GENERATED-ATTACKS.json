@@ -4845,13 +4845,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-cb614811-6e37-4b82-936c-18b863015856.png",
+        "sha256": "281500aeba297792e0199475bc5748c5ae0b23b1fdf786fafcc3941dde7f9a8a",
+        "bytes": 1018198,
+        "dimensions": [
+          1127,
+          1396
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1170514,
+          "full255": 590,
+          "intermediate": 402188,
+          "bbox": [
+            41,
+            32,
+            1109,
+            1396
+          ],
+          "over16BBox": [
+            121,
+            131,
+            956,
+            1250
+          ],
+          "peaks": [
+            [
+              0,
+              1170514
+            ],
+            [
+              253,
+              240215
+            ],
+            [
+              252,
+              91336
+            ],
+            [
+              1,
+              14737
+            ],
+            [
+              251,
+              13387
+            ],
+            [
+              250,
+              5680
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent sprite of the actual historical Three Kingdoms cloth-robed foot fighter, native group16, resource19/item0/picture15.\nPrimary reference1 is actual25×31 nativeRGBA; primary reference2 is those identical packed pixels at16×cells. Preserve native one-person count, side-view, cloth outline, exact implement shape/angle and stance. These guide geometry not pixel-art style. Reference3 only gives antique bronze-gold / charcoal-green palette/material, not a scene.\nLEFT-facing DEFENDER initial foot stance: one long-clothed man on foot, not mounted. Face and torso toward LEFT. The hand-held implement at the LEFT/front is a slender short rod with a visibly curved/hook-like small top, following the native black/white outline. Preserve the thin hooked outline and upright low hand pose; the native bitmap does not establish a named weapon or magical object.\nOne anonymous ordinary Han Chinese man, restrained realistic hand-painted HD, muted charcoal-green flowing period tunic/robe with cloth headwrap and draping scarf tails matching native outline, plain trousers and period boots, restrained worn bronze belt/fasteners only. Keep the native lighter cloth silhouette; do not dress him as a heavily armored cavalry rider, famous lord, glamorous mage or European wizard. The small slender hand implement should keep its plain curved outline without a guessed giant blade, ornate orb, religious emblem or fantasy head.\nCRITICAL whole sprite: top of headcloth, scarf tails, both hands, entire thin implement with hook, tunic hem and both feet complete inside canvas. Central75% subject with10% transparent margin; no cropping or edge-touching. Background truly alpha0, no floor/shadow plane, panel/checkerboard, scenery, boat/horse, fire, smoke, lightning, spells, glow, extra people, modern weapons, broad saber/spearhead, text/UI/border. One sprite, no sheet or multipleposes.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-19-index-0-picture-15.png",
+              "role": "PRIMARY actual native resource19/item0/picture15; one cloth-robed foot figure, precise handheld curved outline, facing and stance",
+              "sha256": "24f83bfb9cba90fb240538c3c6a04acc9766c5217ebafa186d5e6bf236269c92",
+              "bytes": 371,
+              "dimensions": [
+                25,
+                31
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 353,
+                "full255": 422,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  1,
+                  25,
+                  31
+                ],
+                "over16BBox": [
+                  0,
+                  1,
+                  25,
+                  31
+                ],
+                "peaks": [
+                  [
+                    255,
+                    422
+                  ],
+                  [
+                    0,
+                    353
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-19-index-0-picture-15-packed-cells-x16.png",
+              "role": "PRIMARY same actual packed bitcells at16×scale, geometry aid; weapon subtype not confirmed",
+              "sha256": "0f2992ca853bdd7e07c650f7e525aff7a887532537b091c7ccdb956fddba94aa",
+              "bytes": 2373,
+              "dimensions": [
+                400,
+                496
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 90368,
+                "full255": 108032,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  16,
+                  400,
+                  496
+                ],
+                "over16BBox": [
+                  0,
+                  16,
+                  400,
+                  496
+                ],
+                "peaks": [
+                  [
+                    255,
+                    108032
+                  ],
+                  [
+                    0,
+                    90368
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY background16 material/palette only, restrained antique bronze-gold/charcoal-green",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Actual original PNG reviewed: LEFT-facing single cloth-robed foot fighter, native curved short rod outline at front LEFT and low hand, light cloth/headwrap/scarf silhouette, complete hands/feet/curved end with margins. No magic or invented broad blade."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-cb614811-6e37-4b82-936c-18b863015856.png",
+            "sha256": "281500aeba297792e0199475bc5748c5ae0b23b1fdf786fafcc3941dde7f9a8a",
+            "bytes": 1018198,
+            "dimensions": [
+              1127,
+              1396
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1170514,
+              "full255": 590,
+              "intermediate": 402188,
+              "bbox": [
+                41,
+                32,
+                1109,
+                1396
+              ],
+              "over16BBox": [
+                121,
+                131,
+                956,
+                1250
+              ],
+              "peaks": [
+                [
+                  0,
+                  1170514
+                ],
+                [
+                  253,
+                  240215
+                ],
+                [
+                  252,
+                  91336
+                ],
+                [
+                  1,
+                  14737
+                ],
+                [
+                  251,
+                  13387
+                ],
+                [
+                  250,
+                  5680
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9.png",
+            "sha256": "281500aeba297792e0199475bc5748c5ae0b23b1fdf786fafcc3941dde7f9a8a",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "defender 玄兵 initial stance"
       ],
-      "nativeCategory": "defender-figure"
+      "nativeCategory": "defender-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 17,
@@ -4894,13 +5144,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-58683230-5588-470b-8f18-0b626e06f265.png",
+        "sha256": "f2c74e9bf8fab210f0101c8889fdf72799946abf5364dc08fdb7fb1c43f85a25",
+        "bytes": 1032949,
+        "dimensions": [
+          1142,
+          1378
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1174394,
+          "full255": 1137,
+          "intermediate": 398145,
+          "bbox": [
+            31,
+            21,
+            1136,
+            1378
+          ],
+          "over16BBox": [
+            88,
+            129,
+            1013,
+            1275
+          ],
+          "peaks": [
+            [
+              0,
+              1174394
+            ],
+            [
+              253,
+              273370
+            ],
+            [
+              252,
+              59674
+            ],
+            [
+              1,
+              12993
+            ],
+            [
+              251,
+              12431
+            ],
+            [
+              250,
+              5442
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent sprite of the actual historical Three Kingdoms cloth-robed foot fighter, native group17, resource19/item0/picture16.\nPrimary reference1 is actual29×35 nativeRGBA; primary reference2 is those identical packed pixels at16×cells. Preserve native one-person count, side-view, cloth outline, exact implement shape/angle and stance. These guide geometry not pixel-art style. Reference3 only gives antique bronze-gold / charcoal-green palette/material, not a scene.\nLEFT-facing DEFENDER reaction foot stance: one long-clothed man on foot, torso leans/backward toward RIGHT while looking LEFT. His front arm and thin short rod/curved implement rise UP-LEFT. The small top shows a bend/return in this particular native bitmap; preserve its own silhouette, do not assume exact shape from initial frame. No visible magic, blood or impact is present.\nOne anonymous ordinary Han Chinese man, restrained realistic hand-painted HD, muted charcoal-green flowing period tunic/robe with cloth headwrap and draping scarf tails matching native outline, plain trousers and period boots, restrained worn bronze belt/fasteners only. Keep the native lighter cloth silhouette; do not dress him as a heavily armored cavalry rider, famous lord, glamorous mage or European wizard. The small slender hand implement should keep its plain curved outline without a guessed giant blade, ornate orb, religious emblem or fantasy head.\nCRITICAL whole sprite: top of headcloth, scarf tails, both hands, entire thin implement with hook, tunic hem and both feet complete inside canvas. Central75% subject with10% transparent margin; no cropping or edge-touching. Background truly alpha0, no floor/shadow plane, panel/checkerboard, scenery, boat/horse, fire, smoke, lightning, spells, glow, extra people, modern weapons, broad saber/spearhead, text/UI/border. One sprite, no sheet or multipleposes.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-19-index-0-picture-16.png",
+              "role": "PRIMARY actual native resource19/item0/picture16; one cloth-robed foot figure, precise handheld curved outline, facing and stance",
+              "sha256": "4be2dda7981895ad5e1cbc4dff30747d96c41d9b353a6093195b691553cb0edd",
+              "bytes": 422,
+              "dimensions": [
+                29,
+                35
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 544,
+                "full255": 471,
+                "intermediate": 0,
+                "bbox": [
+                  1,
+                  0,
+                  29,
+                  35
+                ],
+                "over16BBox": [
+                  1,
+                  0,
+                  29,
+                  35
+                ],
+                "peaks": [
+                  [
+                    0,
+                    544
+                  ],
+                  [
+                    255,
+                    471
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-19-index-0-picture-16-packed-cells-x16.png",
+              "role": "PRIMARY same actual packed bitcells at16×scale, geometry aid; weapon subtype not confirmed",
+              "sha256": "37a6bba49fcaa3b01ab3e38d03f42179133c58f10d4f1cc64c62944097be7699",
+              "bytes": 2772,
+              "dimensions": [
+                464,
+                560
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 139264,
+                "full255": 120576,
+                "intermediate": 0,
+                "bbox": [
+                  16,
+                  0,
+                  464,
+                  560
+                ],
+                "over16BBox": [
+                  16,
+                  0,
+                  464,
+                  560
+                ],
+                "peaks": [
+                  [
+                    0,
+                    139264
+                  ],
+                  [
+                    255,
+                    120576
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY background16 material/palette only, restrained antique bronze-gold/charcoal-green",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Actual original PNG reviewed: LEFT-facing cloth fighter leans RIGHT, arm/curved thin implement raised UP-LEFT, distinct reaction stance with complete headcloth/feet/hand implement. Native exact weapon subtype remains unknown; no spell effects."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-58683230-5588-470b-8f18-0b626e06f265.png",
+            "sha256": "f2c74e9bf8fab210f0101c8889fdf72799946abf5364dc08fdb7fb1c43f85a25",
+            "bytes": 1032949,
+            "dimensions": [
+              1142,
+              1378
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1174394,
+              "full255": 1137,
+              "intermediate": 398145,
+              "bbox": [
+                31,
+                21,
+                1136,
+                1378
+              ],
+              "over16BBox": [
+                88,
+                129,
+                1013,
+                1275
+              ],
+              "peaks": [
+                [
+                  0,
+                  1174394
+                ],
+                [
+                  253,
+                  273370
+                ],
+                [
+                  252,
+                  59674
+                ],
+                [
+                  1,
+                  12993
+                ],
+                [
+                  251,
+                  12431
+                ],
+                [
+                  250,
+                  5442
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6.png",
+            "sha256": "f2c74e9bf8fab210f0101c8889fdf72799946abf5364dc08fdb7fb1c43f85a25",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "defender 玄兵 reaction"
       ],
-      "nativeCategory": "defender-figure"
+      "nativeCategory": "defender-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 18,
@@ -10616,13 +11116,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-67e0d087-2b0e-4103-98cc-c751decd51e4.png",
+        "sha256": "c622bfc3c09a50c0701bca8428bd49fc8c3808f3cb1cb3011f1eae3c3f6c2405",
+        "bytes": 707865,
+        "dimensions": [
+          998,
+          1576
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1286469,
+          "full255": 515,
+          "intermediate": 285864,
+          "bbox": [
+            49,
+            39,
+            972,
+            1512
+          ],
+          "over16BBox": [
+            122,
+            317,
+            963,
+            1346
+          ],
+          "peaks": [
+            [
+              0,
+              1286469
+            ],
+            [
+              253,
+              186100
+            ],
+            [
+              252,
+              47126
+            ],
+            [
+              251,
+              10768
+            ],
+            [
+              1,
+              8712
+            ],
+            [
+              254,
+              4572
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms foot soldier sprite for native group31, resource22/item0/picture1.\nReference1 is the actual19x30 native PNG; reference2 is its exact packed-bit16x diagnostic. They are PRIMARY evidence for pose/count/direction. Reference3 supplies ONLY restrained bronze-gold and charcoal-green materials, with no background/frame or character identity.\nExactly ONE anonymous ordinary Han Chinese foot soldier facing RIGHT, body slightly turned forward, knees bent in a compact advancing action. His forearm/hand is extended RIGHT and the native thin straight short blade/rod reaches approximately HORIZONTALLY RIGHT from the hand. Keep this frame's horizontal rightward implement, NOT upward-left, NOT a bow, NOT a spear as tall as a person. Preserve the actual native silhouette, leg/knee placement and full small implement; weapon name is not established so avoid elaborating its head.\nSimple dark headwrap/low helmet, historical bronze lamellar and charcoal-green cloth, muted brown footwear. Restrained realistic hand-painted game art consistent with bronze/charcoal battle sprites. Ordinary footman, not famous lord. This native water-type sprite is a walking person: NO BOAT, water scene or extra character.\nEntire head/hat, hands, blade/rod ends and both feet visible with generous10% clear transparent margin; central75% figure. REAL alpha0 exterior and no diffuse colored halo, haze, floor/ground shadow, landscape, border, text/UI, effect, modern weapon, magic or sprite sheet. Generate an original HD cutout using native pose authority, not a pixel-upscaled bitmap.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-22-index-0-picture-1.png",
+              "role": "PRIMARY actual native resource22 item0 picture1; native geometry/count/orientation authority",
+              "sha256": "2558ab44fa710b4c96766987663d1fd8af28d9f4af1c4e87ca50e1535e484723",
+              "bytes": 306,
+              "dimensions": [
+                19,
+                30
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 251,
+                "full255": 319,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  19,
+                  30
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  19,
+                  30
+                ],
+                "peaks": [
+                  [
+                    255,
+                    319
+                  ],
+                  [
+                    0,
+                    251
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-22-index-0-picture-1-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap x16-cell diagnostic; geometry evidence only",
+              "sha256": "2a9ca92efc1a54f067edea0cd44ceba6792541a6e76a879cce6b6e3d441c96b8",
+              "bytes": 2073,
+              "dimensions": [
+                304,
+                480
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 64256,
+                "full255": 81664,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  304,
+                  480
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  304,
+                  480
+                ],
+                "peaks": [
+                  [
+                    255,
+                    81664
+                  ],
+                  [
+                    0,
+                    64256
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: one right-facing footman in compact advancing stance, thin short straight blade/rod approximately horizontal right, both feet/head/hand and complete implement visible; no boat or borrowed lord identity. Native frame orientation/count preserved, transparent exterior and narrow edge fringe; original alpha predominantly252/253 retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-67e0d087-2b0e-4103-98cc-c751decd51e4.png",
+            "sha256": "c622bfc3c09a50c0701bca8428bd49fc8c3808f3cb1cb3011f1eae3c3f6c2405",
+            "bytes": 707865,
+            "dimensions": [
+              998,
+              1576
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1286469,
+              "full255": 515,
+              "intermediate": 285864,
+              "bbox": [
+                49,
+                39,
+                972,
+                1512
+              ],
+              "over16BBox": [
+                122,
+                317,
+                963,
+                1346
+              ],
+              "peaks": [
+                [
+                  0,
+                  1286469
+                ],
+                [
+                  253,
+                  186100
+                ],
+                [
+                  252,
+                  47126
+                ],
+                [
+                  251,
+                  10768
+                ],
+                [
+                  1,
+                  8712
+                ],
+                [
+                  254,
+                  4572
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+            "sha256": "c622bfc3c09a50c0701bca8428bd49fc8c3808f3cb1cb3011f1eae3c3f6c2405",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 水军 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 32,
@@ -11010,13 +11760,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/0ebf58952ec36c482a0ae37a34bd9b7d57bdbe60adf1230de1214da3907f9dc8.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-a6da64c1-b1c4-4043-9bcc-b8a186261a0a.png",
+        "sha256": "c94c6d0aefc46e66c00b9e27d74dd0b1b0d4bbd956f0f8dad0f8e0cc6b094ea2",
+        "bytes": 1229324,
+        "dimensions": [
+          1300,
+          1209
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1100683,
+          "full255": 663,
+          "intermediate": 470354,
+          "bbox": [
+            0,
+            9,
+            1294,
+            1209
+          ],
+          "over16BBox": [
+            84,
+            50,
+            1261,
+            1113
+          ],
+          "peaks": [
+            [
+              0,
+              1100683
+            ],
+            [
+              253,
+              178898
+            ],
+            [
+              252,
+              161332
+            ],
+            [
+              251,
+              25681
+            ],
+            [
+              1,
+              25593
+            ],
+            [
+              250,
+              11167
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/0ebf58952ec36c482a0ae37a34bd9b7d57bdbe60adf1230de1214da3907f9dc8.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite matching actual native group37, resource23/item0/picture1.\nReferences1/2 are the actual native 43x40 sprite and exact16x packed-cell diagnostic, authoritative for number, full silhouette, facing, limbs and weapon geometry. Reference3 is ONLY bronze-gold/charcoal-green material and palette. It is not a scenery or border source.\nRIGHT-facing rider and RIGHT-facing horse in a wide moving stride. The horse tail trails left; its rear legs reach diagonally down-left and the front legs reach down-right, with the whole animal spread broadly. The rider sits slightly forward, holding one slender straight long rod diagonally toward the upper RIGHT. The tiny rod end is only a short cap, not a wide cutting head. Keep the actual native spread of the legs and forward torso, not the upright standing pose of another frame.\nExactly one anonymous ordinary Han Chinese mounted soldier and one ordinary muted brown horse. Restrained realistic hand-painted HD with worn bronze lamellar armor, muted charcoal-green cloth and a simple soldier helmet. Match the thin native rod; its weapon subtype is not established. No broad curved saber, large spearhead, forked halberd, bow, tassel, flag, magic, firearm, extra soldier or enemy. Preserve the native side view. Do not introduce a famous general portrait or glamorous heraldic armor.\nCRITICAL: Entire horse including ears, muzzle, flowing tail, all four legs and all hooves; whole rider and helmet; complete rod with both ends must be fully inside canvas. Subject occupies central75%, generous10% transparent margins on ALL sides; no tip/hoof/tail touching an edge. Exactly one isolated sprite, alpha0 background. No floor, shadowplane, panel, landscape, frame, text, UI, logo, FX, checkerboard, sprite sheet or additional pose.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-1.png",
+              "role": "PRIMARY actual resource23 item0 picture1: native rider/horse count, facing, frame-specific limb pose and rod geometry",
+              "sha256": "ae7a3160519c389a9cd146747940e8809e7fe31981a6669ab867e6306341ab7a",
+              "bytes": 606,
+              "dimensions": [
+                43,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 947,
+                "full255": 773,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  43,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  43,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    947
+                  ],
+                  [
+                    255,
+                    773
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-1-packed-cells-x16.png",
+              "role": "PRIMARY diagnostic of same actual packed bitplanes at16x cells; geometry only, not artwork style",
+              "sha256": "8269dabc4fcca3d9266fc904d87c882bc21ab7a37151a1524d0a18c02386e07d",
+              "bytes": 4366,
+              "dimensions": [
+                688,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 242432,
+                "full255": 197888,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  688,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  688,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    242432
+                  ],
+                  [
+                    255,
+                    197888
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Accepted original: one right-facing rider/horse, broad stride and slender up-right rod with small capped end; full hooves, horse head/tail and rod inside transparent margins. No unsupported spearhead or added scenery."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-a6da64c1-b1c4-4043-9bcc-b8a186261a0a.png",
+            "sha256": "c94c6d0aefc46e66c00b9e27d74dd0b1b0d4bbd956f0f8dad0f8e0cc6b094ea2",
+            "bytes": 1229324,
+            "dimensions": [
+              1300,
+              1209
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1100683,
+              "full255": 663,
+              "intermediate": 470354,
+              "bbox": [
+                0,
+                9,
+                1294,
+                1209
+              ],
+              "over16BBox": [
+                84,
+                50,
+                1261,
+                1113
+              ],
+              "peaks": [
+                [
+                  0,
+                  1100683
+                ],
+                [
+                  253,
+                  178898
+                ],
+                [
+                  252,
+                  161332
+                ],
+                [
+                  251,
+                  25681
+                ],
+                [
+                  1,
+                  25593
+                ],
+                [
+                  250,
+                  11167
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/0ebf58952ec36c482a0ae37a34bd9b7d57bdbe60adf1230de1214da3907f9dc8.png",
+            "sha256": "c94c6d0aefc46e66c00b9e27d74dd0b1b0d4bbd956f0f8dad0f8e0cc6b094ea2",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 极兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 38,
@@ -11034,13 +12034,452 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/5604b155f09dbfb3bf5771e6b835144a165a9aafa004a8f21a5d4a7e468df86d.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-3c8c36dc-4647-4cb2-bdd0-c35d3589bc33.png",
+        "sha256": "a0f358e38d44d25c91b7f36927cac535515e7031ef45c1c46220ac4226465753",
+        "bytes": 1035915,
+        "dimensions": [
+          1270,
+          1239
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1164609,
+          "full255": 517,
+          "intermediate": 408404,
+          "bbox": [
+            0,
+            19,
+            1256,
+            1239
+          ],
+          "over16BBox": [
+            72,
+            109,
+            1206,
+            1127
+          ],
+          "peaks": [
+            [
+              0,
+              1164609
+            ],
+            [
+              253,
+              160493
+            ],
+            [
+              252,
+              128412
+            ],
+            [
+              1,
+              23473
+            ],
+            [
+              251,
+              21520
+            ],
+            [
+              250,
+              9323
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/5604b155f09dbfb3bf5771e6b835144a165a9aafa004a8f21a5d4a7e468df86d.png",
+        "byteExactCopy": true,
+        "attempt": 2
+      },
+      "attempts": [
+        {
+          "status": "rejected-final-candidate",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite matching actual native group38, resource23/item0/picture2.\nReferences1/2 are the actual native 41x40 sprite and exact16x packed-cell diagnostic, authoritative for number, full silhouette, facing, limbs and weapon geometry. Reference3 is ONLY bronze-gold/charcoal-green material and palette. It is not a scenery or border source.\nRIGHT-facing rider and RIGHT-facing horse in the next compressed moving/gathered stride. The rear leg reaches to the lower left while the forelegs are bent/gathered under the front. The rider remains upright-to-forward over the saddle, one straight thin rod rising diagonally to the upper RIGHT. Preserve the particular native tighter body/leg outline and the longer raised rod. Do not copy the preceding broad extended gallop frame.\nExactly one anonymous ordinary Han Chinese mounted soldier and one ordinary muted brown horse. Restrained realistic hand-painted HD with worn bronze lamellar armor, muted charcoal-green cloth and a simple soldier helmet. Match the thin native rod; its weapon subtype is not established. No broad curved saber, large spearhead, forked halberd, bow, tassel, flag, magic, firearm, extra soldier or enemy. Preserve the native side view. Do not introduce a famous general portrait or glamorous heraldic armor.\nCRITICAL: Entire horse including ears, muzzle, flowing tail, all four legs and all hooves; whole rider and helmet; complete rod with both ends must be fully inside canvas. Subject occupies central75%, generous10% transparent margins on ALL sides; no tip/hoof/tail touching an edge. Exactly one isolated sprite, alpha0 background. No floor, shadowplane, panel, landscape, frame, text, UI, logo, FX, checkerboard, sprite sheet or additional pose.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-2.png",
+              "role": "PRIMARY actual resource23 item0 picture2: native rider/horse count, facing, frame-specific limb pose and rod geometry",
+              "sha256": "1715ca5061cb49f0e98ed0245b098e3870ec641e74892727a13d2a82c722b506",
+              "bytes": 602,
+              "dimensions": [
+                41,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 911,
+                "full255": 729,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    911
+                  ],
+                  [
+                    255,
+                    729
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-2-packed-cells-x16.png",
+              "role": "PRIMARY diagnostic of same actual packed bitplanes at16x cells; geometry only, not artwork style",
+              "sha256": "879b2bd16a48c9a8de02e1fbab32d74523f6628ef351c1673930f85cd54f7301",
+              "bytes": 4256,
+              "dimensions": [
+                656,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 233216,
+                "full255": 186624,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    233216
+                  ],
+                  [
+                    255,
+                    186624
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": false,
+            "reason": "Rejected original: generated a broad triangular metallic spearhead instead of the actual native thin shaft with only a small end cap; native weapon subtype does not establish that addition. Full original source and prompt retained; retry required."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-e4532317-f31d-4f96-85d2-55515fea843d.png",
+            "sha256": "fb6326ed47fa2fbe1c93f31608c3c6e41b11d9218371c500d129af340c04103e",
+            "bytes": 1049300,
+            "dimensions": [
+              1270,
+              1239
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1159256,
+              "full255": 435,
+              "intermediate": 413839,
+              "bbox": [
+                0,
+                15,
+                1260,
+                1239
+              ],
+              "over16BBox": [
+                103,
+                59,
+                1208,
+                1143
+              ],
+              "peaks": [
+                [
+                  0,
+                  1159256
+                ],
+                [
+                  253,
+                  190675
+                ],
+                [
+                  252,
+                  110624
+                ],
+                [
+                  1,
+                  26093
+                ],
+                [
+                  251,
+                  18203
+                ],
+                [
+                  250,
+                  8625
+                ]
+              ]
+            }
+          },
+          "copy": null
+        },
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite matching actual native group38, resource23/item0/picture2.\nReferences1/2 are the actual native 41x40 sprite and exact16x packed-cell diagnostic, authoritative for number, full silhouette, facing, limbs and weapon geometry. Reference3 is ONLY bronze-gold/charcoal-green material and palette. It is not a scenery or border source.\nRIGHT-facing rider and RIGHT-facing horse in the next compressed moving/gathered stride. The rear leg reaches to the lower left while the forelegs are bent/gathered under the front. The rider remains upright-to-forward over the saddle, one straight thin rod rising diagonally to the upper RIGHT. Preserve the particular native tighter body/leg outline and the longer raised rod. Do not copy the preceding broad extended gallop frame.\nExactly one anonymous ordinary Han Chinese mounted soldier and one ordinary muted brown horse. Restrained realistic hand-painted HD with worn bronze lamellar armor, muted charcoal-green cloth and a simple soldier helmet. Match the thin native rod; its weapon subtype is not established. No broad curved saber, large spearhead, forked halberd, bow, tassel, flag, magic, firearm, extra soldier or enemy. Preserve the native side view. Do not introduce a famous general portrait or glamorous heraldic armor.\nCRITICAL: Entire horse including ears, muzzle, flowing tail, all four legs and all hooves; whole rider and helmet; complete rod with both ends must be fully inside canvas. Subject occupies central75%, generous10% transparent margins on ALL sides; no tip/hoof/tail touching an edge. Exactly one isolated sprite, alpha0 background. No floor, shadowplane, panel, landscape, frame, text, UI, logo, FX, checkerboard, sprite sheet or additional pose.\nRETRY geometry constraint: the previous candidate was rejected for inventing a pointed spearhead. This is NOT a spear. Show a long plain narrow brown shaft with a SMALL FLAT ROUNDED bronze end cap, only the same diameter as the shaft (maximum1.3x shaft diameter). Absolutely no triangular leaf, arrow point, blade, spike, cutting head or projecting point. The end must look like a simple small flat rod cap. Keep the native up-right rod direction and compressed horse stride. Original native pixels control, not the discarded generated image.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-2.png",
+              "role": "PRIMARY actual resource23 item0 picture2: native rider/horse count, facing, frame-specific limb pose and rod geometry",
+              "sha256": "1715ca5061cb49f0e98ed0245b098e3870ec641e74892727a13d2a82c722b506",
+              "bytes": 602,
+              "dimensions": [
+                41,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 911,
+                "full255": 729,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    911
+                  ],
+                  [
+                    255,
+                    729
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-2-packed-cells-x16.png",
+              "role": "PRIMARY diagnostic of same actual packed bitplanes at16x cells; geometry only, not artwork style",
+              "sha256": "879b2bd16a48c9a8de02e1fbab32d74523f6628ef351c1673930f85cd54f7301",
+              "bytes": 4256,
+              "dimensions": [
+                656,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 233216,
+                "full255": 186624,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    233216
+                  ],
+                  [
+                    255,
+                    186624
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Accepted retry original: replaced unsupported spearhead with small rounded rod cap. Native right-facing rider/horse gathered stride and up-right thin rod retained, whole animal/hooves/rod complete in transparent margins."
+          },
+          "attempt": 2,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-3c8c36dc-4647-4cb2-bdd0-c35d3589bc33.png",
+            "sha256": "a0f358e38d44d25c91b7f36927cac535515e7031ef45c1c46220ac4226465753",
+            "bytes": 1035915,
+            "dimensions": [
+              1270,
+              1239
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1164609,
+              "full255": 517,
+              "intermediate": 408404,
+              "bbox": [
+                0,
+                19,
+                1256,
+                1239
+              ],
+              "over16BBox": [
+                72,
+                109,
+                1206,
+                1127
+              ],
+              "peaks": [
+                [
+                  0,
+                  1164609
+                ],
+                [
+                  253,
+                  160493
+                ],
+                [
+                  252,
+                  128412
+                ],
+                [
+                  1,
+                  23473
+                ],
+                [
+                  251,
+                  21520
+                ],
+                [
+                  250,
+                  9323
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/5604b155f09dbfb3bf5771e6b835144a165a9aafa004a8f21a5d4a7e468df86d.png",
+            "sha256": "a0f358e38d44d25c91b7f36927cac535515e7031ef45c1c46220ac4226465753",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 极兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 39,
@@ -11058,13 +12497,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/3e50e8e37761b914a882c0d17eb426a55323f256ddc545733b55f9118c1574c0.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-faf8ba54-9ae4-4b05-8b7e-a3cbfc26bc93.png",
+        "sha256": "0bb499bdbf70a491e18905c293d55a588b6816e7ab1b773a5d57fb0106a3df2d",
+        "bytes": 1233414,
+        "dimensions": [
+          1270,
+          1239
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1074395,
+          "full255": 584,
+          "intermediate": 498551,
+          "bbox": [
+            0,
+            13,
+            1250,
+            1239
+          ],
+          "over16BBox": [
+            65,
+            101,
+            1207,
+            1125
+          ],
+          "peaks": [
+            [
+              0,
+              1074395
+            ],
+            [
+              253,
+              183081
+            ],
+            [
+              252,
+              178300
+            ],
+            [
+              1,
+              27496
+            ],
+            [
+              251,
+              23969
+            ],
+            [
+              250,
+              10936
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/3e50e8e37761b914a882c0d17eb426a55323f256ddc545733b55f9118c1574c0.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite matching actual native group39, resource23/item0/picture3.\nReferences1/2 are the actual native 42x41 sprite and exact16x packed-cell diagnostic, authoritative for number, full silhouette, facing, limbs and weapon geometry. Reference3 is ONLY bronze-gold/charcoal-green material and palette. It is not a scenery or border source.\nRIGHT-facing rider and RIGHT-facing horse in a gathered/high-front-leg stride. The horse front limbs bend in front and underneath; rear limbs are more compressed below the body, and the tail trails left. Rider remains over the saddle holding one thin straight rod angled toward the upper RIGHT. Use the actual native compact/rearing-like outline rather than an invented full leap or repeated standing horse. The rod is a slim shaft with only a small end cap, no broad blade.\nExactly one anonymous ordinary Han Chinese mounted soldier and one ordinary muted brown horse. Restrained realistic hand-painted HD with worn bronze lamellar armor, muted charcoal-green cloth and a simple soldier helmet. Match the thin native rod; its weapon subtype is not established. No broad curved saber, large spearhead, forked halberd, bow, tassel, flag, magic, firearm, extra soldier or enemy. Preserve the native side view. Do not introduce a famous general portrait or glamorous heraldic armor.\nCRITICAL: Entire horse including ears, muzzle, flowing tail, all four legs and all hooves; whole rider and helmet; complete rod with both ends must be fully inside canvas. Subject occupies central75%, generous10% transparent margins on ALL sides; no tip/hoof/tail touching an edge. Exactly one isolated sprite, alpha0 background. No floor, shadowplane, panel, landscape, frame, text, UI, logo, FX, checkerboard, sprite sheet or additional pose.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-3.png",
+              "role": "PRIMARY actual resource23 item0 picture3: native rider/horse count, facing, frame-specific limb pose and rod geometry",
+              "sha256": "3dd184b7389efd77a85750ade0dd6f746ada6440d79c66eb3e1ae850de487da7",
+              "bytes": 625,
+              "dimensions": [
+                42,
+                41
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 980,
+                "full255": 742,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  42,
+                  41
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  42,
+                  41
+                ],
+                "peaks": [
+                  [
+                    0,
+                    980
+                  ],
+                  [
+                    255,
+                    742
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-3-packed-cells-x16.png",
+              "role": "PRIMARY diagnostic of same actual packed bitplanes at16x cells; geometry only, not artwork style",
+              "sha256": "efc01e7f41f2f76e09ef3ec76ea871472b039da3b2b39f1db8b5ea59e48efdf0",
+              "bytes": 4406,
+              "dimensions": [
+                672,
+                656
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 250880,
+                "full255": 189952,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  672,
+                  656
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  672,
+                  656
+                ],
+                "peaks": [
+                  [
+                    0,
+                    250880
+                  ],
+                  [
+                    255,
+                    189952
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Accepted original: one right-facing rider/horse in compressed raised-front-leg pose, straight slender up-right rod with a small capped end. Horse, all visible limbs/hooves/tail and rod complete inside margins; no scenery/text."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-faf8ba54-9ae4-4b05-8b7e-a3cbfc26bc93.png",
+            "sha256": "0bb499bdbf70a491e18905c293d55a588b6816e7ab1b773a5d57fb0106a3df2d",
+            "bytes": 1233414,
+            "dimensions": [
+              1270,
+              1239
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1074395,
+              "full255": 584,
+              "intermediate": 498551,
+              "bbox": [
+                0,
+                13,
+                1250,
+                1239
+              ],
+              "over16BBox": [
+                65,
+                101,
+                1207,
+                1125
+              ],
+              "peaks": [
+                [
+                  0,
+                  1074395
+                ],
+                [
+                  253,
+                  183081
+                ],
+                [
+                  252,
+                  178300
+                ],
+                [
+                  1,
+                  27496
+                ],
+                [
+                  251,
+                  23969
+                ],
+                [
+                  250,
+                  10936
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/3e50e8e37761b914a882c0d17eb426a55323f256ddc545733b55f9118c1574c0.png",
+            "sha256": "0bb499bdbf70a491e18905c293d55a588b6816e7ab1b773a5d57fb0106a3df2d",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 极兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 40,
@@ -11082,13 +12771,452 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/7b082991053472acff96f92f3b100e70d597614f043a525ea18f33d01be334e5.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-d4022670-fd2e-4c2e-ae79-c55f3511e60a.png",
+        "sha256": "a18fbb75c819f4463a31dea70df1e7f9f386a5e1f44353ef4cf6e7810e8e8858",
+        "bytes": 1011025,
+        "dimensions": [
+          1270,
+          1239
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1171792,
+          "full255": 553,
+          "intermediate": 401185,
+          "bbox": [
+            0,
+            29,
+            1256,
+            1239
+          ],
+          "over16BBox": [
+            93,
+            112,
+            1199,
+            1128
+          ],
+          "peaks": [
+            [
+              0,
+              1171792
+            ],
+            [
+              253,
+              206982
+            ],
+            [
+              252,
+              96216
+            ],
+            [
+              251,
+              18305
+            ],
+            [
+              1,
+              16540
+            ],
+            [
+              250,
+              8437
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/7b082991053472acff96f92f3b100e70d597614f043a525ea18f33d01be334e5.png",
+        "byteExactCopy": true,
+        "attempt": 2
+      },
+      "attempts": [
+        {
+          "status": "rejected-final-candidate",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite for native group40, resource23/item0/picture4.\nReferences1/2 show the actual 41x40 native sprite and an exact16x pixel-cell diagnostic. They govern count, orientation, all limbs and rod position. Reference3 controls ONLY restrained bronze-gold/charcoal-green materials, not background/frame.\nOne RIGHT-facing rider on one RIGHT-facing horse in an extended/gathered transition stride. Native tail is LEFT, long hindleg reaches down-left, forelegs step/bend down-right. Rider holds a slim straight rod rising diagonally toward upper RIGHT. Preserve this particular frame's elongated lower-leg geometry, not a copied previous rearing/gallop pose.\nThe implement is only a long slender straight brown shaft with a very SMALL rounded flat bronze end cap, approximately shaft width, as supported by the native pixels. NO SPEARHEAD or broad cutting head: no triangular leaf, sharp projecting point, wide blade, forked halberd, tassel or flag. Do not invent a named weapon; native subtype is uncertain. Anonymous ordinary Han Chinese mounted soldier, simple helmet, worn bronze lamellar and charcoal-green cloth; one ordinary muted brown horse. Restrained realistic hand-painted style. No famous lord or fantasy armor.\nEntire horse muzzle/ears/tail/all legs/hooves and entire rider/head/feet/complete rod including BOTH ends fully visible. Central75% subject, generous10% transparent margin all sides. Preserve exact facing and frame-specific native posture. Transparent alpha0 outside, no crop/touching edge, no floor/shadowplane/background/landscape/border/text/UI/effect/extra animal or person. One sprite only, no sheet.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-4.png",
+              "role": "PRIMARY actual resource23 item0 picture4: native one-rider/one-horse, frame-specific pose and rod angle",
+              "sha256": "1d22fef47427a5ef81707560435ff472c411a167ab24fbaa6126eaa5f65e7e7e",
+              "bytes": 596,
+              "dimensions": [
+                41,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 899,
+                "full255": 741,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    899
+                  ],
+                  [
+                    255,
+                    741
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-4-packed-cells-x16.png",
+              "role": "PRIMARY exact native packed bitplanes x16 cell diagnostic; geometry evidence only",
+              "sha256": "02485877d71af8fa944a21406562de41f1b39ed9c762dc36d1986c7b803fc725",
+              "bytes": 4241,
+              "dimensions": [
+                656,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 230144,
+                "full255": 189696,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    230144
+                  ],
+                  [
+                    255,
+                    189696
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": false,
+            "reason": "Rejected original: diffuse colored low-alpha halo/matte across large outside area;645648 pixels have alpha1..16, versus other accepted sprites' narrow fringes. Visible reddish/greenish outline surrounding horse/rod is not native geometry. Original retained; regenerate clean transparent outside rather than edit PNG."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-3bd0d736-d6dc-42f0-b271-0044f772b1e5.png",
+            "sha256": "4a1e2e49918737b48d0058a94bb871e7ff3c4c4904203723ce78a1c864b5f33c",
+            "bytes": 1344914,
+            "dimensions": [
+              1270,
+              1239
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 533181,
+              "full255": 601,
+              "intermediate": 1039748,
+              "bbox": [
+                0,
+                0,
+                1270,
+                1239
+              ],
+              "over16BBox": [
+                68,
+                74,
+                1205,
+                1160
+              ],
+              "peaks": [
+                [
+                  0,
+                  533181
+                ],
+                [
+                  1,
+                  233033
+                ],
+                [
+                  253,
+                  204385
+                ],
+                [
+                  252,
+                  114924
+                ],
+                [
+                  2,
+                  86851
+                ],
+                [
+                  3,
+                  74153
+                ]
+              ]
+            }
+          },
+          "copy": null
+        },
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite for native group40, resource23/item0/picture4.\nReferences1/2 show the actual 41x40 native sprite and an exact16x pixel-cell diagnostic. They govern count, orientation, all limbs and rod position. Reference3 controls ONLY restrained bronze-gold/charcoal-green materials, not background/frame.\nOne RIGHT-facing rider on one RIGHT-facing horse in an extended/gathered transition stride. Native tail is LEFT, long hindleg reaches down-left, forelegs step/bend down-right. Rider holds a slim straight rod rising diagonally toward upper RIGHT. Preserve this particular frame's elongated lower-leg geometry, not a copied previous rearing/gallop pose.\nThe implement is only a long slender straight brown shaft with a very SMALL rounded flat bronze end cap, approximately shaft width, as supported by the native pixels. NO SPEARHEAD or broad cutting head: no triangular leaf, sharp projecting point, wide blade, forked halberd, tassel or flag. Do not invent a named weapon; native subtype is uncertain. Anonymous ordinary Han Chinese mounted soldier, simple helmet, worn bronze lamellar and charcoal-green cloth; one ordinary muted brown horse. Restrained realistic hand-painted style. No famous lord or fantasy armor.\nEntire horse muzzle/ears/tail/all legs/hooves and entire rider/head/feet/complete rod including BOTH ends fully visible. Central75% subject, generous10% transparent margin all sides. Preserve exact facing and frame-specific native posture. Transparent alpha0 outside, no crop/touching edge, no floor/shadowplane/background/landscape/border/text/UI/effect/extra animal or person. One sprite only, no sheet.\nRegeneration constraint: an earlier candidate was rejected for a diffuse low-alpha colored haze spanning empty space. This new ORIGINAL must be a sharply isolated cutout: all empty exterior space pure alpha0, no colored glow, no haze, no semi-transparent backdrop, no ground contact shadow. Only a narrow anti-aliased fringe immediately adjacent to the actual horse, rider and rod silhouette is acceptable. Do not reference or reproduce the rejected image. Keep the actual native pose, fully visible horse and very thin rounded-cap rod.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-4.png",
+              "role": "PRIMARY actual native resource23 item0 picture4; native geometry/count/orientation authority",
+              "sha256": "1d22fef47427a5ef81707560435ff472c411a167ab24fbaa6126eaa5f65e7e7e",
+              "bytes": 596,
+              "dimensions": [
+                41,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 899,
+                "full255": 741,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    899
+                  ],
+                  [
+                    255,
+                    741
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-4-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap x16-cell diagnostic; geometry evidence only",
+              "sha256": "02485877d71af8fa944a21406562de41f1b39ed9c762dc36d1986c7b803fc725",
+              "bytes": 4241,
+              "dimensions": [
+                656,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 230144,
+                "full255": 189696,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    230144
+                  ],
+                  [
+                    255,
+                    189696
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original after regeneration: one right-facing rider/horse, frame-specific extended legs and thin capped rod up-right; every hoof, tail, head and rod end visible. Clear alpha0 exterior replaces rejected diffuse halo (31,764 alpha1..16 pixels confined to silhouette fringe vs prior645,648); raw RGBA alpha predominantly252/253 retained without editing."
+          },
+          "attempt": 2,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-d4022670-fd2e-4c2e-ae79-c55f3511e60a.png",
+            "sha256": "a18fbb75c819f4463a31dea70df1e7f9f386a5e1f44353ef4cf6e7810e8e8858",
+            "bytes": 1011025,
+            "dimensions": [
+              1270,
+              1239
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1171792,
+              "full255": 553,
+              "intermediate": 401185,
+              "bbox": [
+                0,
+                29,
+                1256,
+                1239
+              ],
+              "over16BBox": [
+                93,
+                112,
+                1199,
+                1128
+              ],
+              "peaks": [
+                [
+                  0,
+                  1171792
+                ],
+                [
+                  253,
+                  206982
+                ],
+                [
+                  252,
+                  96216
+                ],
+                [
+                  251,
+                  18305
+                ],
+                [
+                  1,
+                  16540
+                ],
+                [
+                  250,
+                  8437
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/7b082991053472acff96f92f3b100e70d597614f043a525ea18f33d01be334e5.png",
+            "sha256": "a18fbb75c819f4463a31dea70df1e7f9f386a5e1f44353ef4cf6e7810e8e8858",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 极兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 41,
@@ -11106,13 +13234,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/289716c4a71eba8f9e02c3e604e0093d62d2ba5c6693c7a254edcb32ab556c2c.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-367671ea-8720-4315-932c-8b1cede3dc01.png",
+        "sha256": "f026a84e0a046adb8e5e7912dcea80cced726fa62f7039aeeb7a0adbd36db83f",
+        "bytes": 912603,
+        "dimensions": [
+          1270,
+          1239
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1214942,
+          "full255": 566,
+          "intermediate": 358022,
+          "bbox": [
+            0,
+            21,
+            1254,
+            1239
+          ],
+          "over16BBox": [
+            180,
+            178,
+            1160,
+            1066
+          ],
+          "peaks": [
+            [
+              0,
+              1214942
+            ],
+            [
+              253,
+              149809
+            ],
+            [
+              252,
+              110598
+            ],
+            [
+              251,
+              19040
+            ],
+            [
+              1,
+              18879
+            ],
+            [
+              250,
+              7118
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/289716c4a71eba8f9e02c3e604e0093d62d2ba5c6693c7a254edcb32ab556c2c.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite for native group41, resource23/item0/picture5.\nReferences1/2 show the actual 41x40 native sprite and an exact16x pixel-cell diagnostic. They govern count, orientation, all limbs and rod position. Reference3 controls ONLY restrained bronze-gold/charcoal-green materials, not background/frame.\nOne RIGHT-facing rider on one RIGHT-facing horse in a relatively upright recovering/standing stride, legs extending downward below body. Rider has brought the straight thin rod forward to an approximately HORIZONTAL RIGHTWARD aim across the upper horse neck. CRITICAL: rod extends from rider hands toward RIGHT at nearly horizontal level, not upward-left or upward-right, not a bow. Keep actual native compact horse, side view and arm geometry.\nThe implement is only a long slender straight brown shaft with a very SMALL rounded flat bronze end cap, approximately shaft width, as supported by the native pixels. NO SPEARHEAD or broad cutting head: no triangular leaf, sharp projecting point, wide blade, forked halberd, tassel or flag. Do not invent a named weapon; native subtype is uncertain. Anonymous ordinary Han Chinese mounted soldier, simple helmet, worn bronze lamellar and charcoal-green cloth; one ordinary muted brown horse. Restrained realistic hand-painted style. No famous lord or fantasy armor.\nEntire horse muzzle/ears/tail/all legs/hooves and entire rider/head/feet/complete rod including BOTH ends fully visible. Central75% subject, generous10% transparent margin all sides. Preserve exact facing and frame-specific native posture. Transparent alpha0 outside, no crop/touching edge, no floor/shadowplane/background/landscape/border/text/UI/effect/extra animal or person. One sprite only, no sheet.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-5.png",
+              "role": "PRIMARY actual resource23 item0 picture5: native one-rider/one-horse, frame-specific pose and rod angle",
+              "sha256": "2081de10cc0b41dea562c14fec28f3d8468f22b574e298f9fe29121cd9550482",
+              "bytes": 586,
+              "dimensions": [
+                41,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 884,
+                "full255": 756,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  41,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    884
+                  ],
+                  [
+                    255,
+                    756
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-5-packed-cells-x16.png",
+              "role": "PRIMARY exact native packed bitplanes x16 cell diagnostic; geometry evidence only",
+              "sha256": "53589e0811c3f2c2b3ceff1f3f24c09083bc502c47af4ad218e1b68e1497a5cf",
+              "bytes": 4139,
+              "dimensions": [
+                656,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 226304,
+                "full255": 193536,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  656,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    226304
+                  ],
+                  [
+                    255,
+                    193536
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Accepted original: native right-facing single rider/horse, recovering upright legs, thin approximately horizontal rightward rod with small end cap. Head/tail/hooves/rod complete, no spearhead/scenery/text; transparent outside."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-367671ea-8720-4315-932c-8b1cede3dc01.png",
+            "sha256": "f026a84e0a046adb8e5e7912dcea80cced726fa62f7039aeeb7a0adbd36db83f",
+            "bytes": 912603,
+            "dimensions": [
+              1270,
+              1239
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1214942,
+              "full255": 566,
+              "intermediate": 358022,
+              "bbox": [
+                0,
+                21,
+                1254,
+                1239
+              ],
+              "over16BBox": [
+                180,
+                178,
+                1160,
+                1066
+              ],
+              "peaks": [
+                [
+                  0,
+                  1214942
+                ],
+                [
+                  253,
+                  149809
+                ],
+                [
+                  252,
+                  110598
+                ],
+                [
+                  251,
+                  19040
+                ],
+                [
+                  1,
+                  18879
+                ],
+                [
+                  250,
+                  7118
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/289716c4a71eba8f9e02c3e604e0093d62d2ba5c6693c7a254edcb32ab556c2c.png",
+            "sha256": "f026a84e0a046adb8e5e7912dcea80cced726fa62f7039aeeb7a0adbd36db83f",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 极兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 42,
@@ -11130,13 +13508,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/c5b8c4d2025a7e368ea970aad68d2b62458594080a9cfd3b48e284354fc27a2f.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-0d884b27-2dce-4b40-ae18-8170b7e7aef9.png",
+        "sha256": "eefaa4c2d08c7f7d2c2650e06574c9682582a5443108bba0a1ef51bc83c19151",
+        "bytes": 982502,
+        "dimensions": [
+          1285,
+          1224
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1202975,
+          "full255": 547,
+          "intermediate": 369318,
+          "bbox": [
+            0,
+            22,
+            1263,
+            1224
+          ],
+          "over16BBox": [
+            42,
+            230,
+            1251,
+            1090
+          ],
+          "peaks": [
+            [
+              0,
+              1202975
+            ],
+            [
+              253,
+              156595
+            ],
+            [
+              252,
+              112895
+            ],
+            [
+              251,
+              18818
+            ],
+            [
+              1,
+              16530
+            ],
+            [
+              250,
+              8665
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/c5b8c4d2025a7e368ea970aad68d2b62458594080a9cfd3b48e284354fc27a2f.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent historical Three Kingdoms mounted soldier sprite for native group42, resource23/item0/picture6.\nReferences1/2 are the actual42x40 native PNG and exact packed-bitmap16x diagnostic; they are PRIMARY geometry evidence. Reference3 is ONLY bronze-gold/charcoal-green palette/material inspiration, not a frame or scene.\nOne ordinary RIGHT-facing Han Chinese rider on one RIGHT-facing muted brown horse in the last recovering/gathered stride. Horse head/ears right, tail left, legs gathered down below the body. Rider and horse keep this frame's native side-view posture. The rider's long slender straight rod extends approximately HORIZONTALLY RIGHT from his hands across the upper horse neck, slightly rising at most; NOT a diagonally high spear pose, NOT leftward. A very SMALL flat rounded bronze end cap approximately shaft width; no triangular spearhead, broad blade, halberd, fork, flag or tassel. The exact historical subtype is uncertain, so do not invent one.\nRestrained realistic hand-painted ordinary soldier, simple period helmet, worn bronze lamellar, dark charcoal-green cloth. Preserve native single rider/single horse count, directions, leg shapes and full thin implement. No famous lord likeness, fantasy armor, animal additions or effects.\nOne isolated sprite with REAL transparent alpha0 outside, tight clean silhouette and only narrow edge antialiasing; no colored haze or halo. Entire muzzle, ears, tail, all hooves, rider's head/feet and BOTH rod ends visible, central75% composition with generous clear margin. No crop, border, text/UI, scenery, floor or ground shadow, extra person, sprite sheet. Keep this specific actual frame rather than copying any earlier galloping pose.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-23-index-0-picture-6.png",
+              "role": "PRIMARY actual native resource23 item0 picture6; native geometry/count/orientation authority",
+              "sha256": "9c1c8541ce1a43cae6d1db10d4d3182c9ccba6558e868945b3e320b18cabff59",
+              "bytes": 599,
+              "dimensions": [
+                42,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 889,
+                "full255": 791,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  42,
+                  40
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  42,
+                  40
+                ],
+                "peaks": [
+                  [
+                    0,
+                    889
+                  ],
+                  [
+                    255,
+                    791
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-23-index-0-picture-6-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap x16-cell diagnostic; geometry evidence only",
+              "sha256": "44e73f3d1a1d9994a0454c731bc037038444c22763cd0b31626ce3d30ea4c3cd",
+              "bytes": 4239,
+              "dimensions": [
+                672,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 227584,
+                "full255": 202496,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  0,
+                  672,
+                  640
+                ],
+                "over16BBox": [
+                  0,
+                  0,
+                  672,
+                  640
+                ],
+                "peaks": [
+                  [
+                    0,
+                    227584
+                  ],
+                  [
+                    255,
+                    202496
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: one right-facing rider/horse with gathered recovering legs and slender rod nearly horizontal right; full muzzle/ears/tail/hooves/rider and both rod ends visible with positive margin. No broad named weapon or extra scene; native count/orientation preserved. Raw true-alpha original retained; subject alpha predominantly252/253, narrow fringe."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-0d884b27-2dce-4b40-ae18-8170b7e7aef9.png",
+            "sha256": "eefaa4c2d08c7f7d2c2650e06574c9682582a5443108bba0a1ef51bc83c19151",
+            "bytes": 982502,
+            "dimensions": [
+              1285,
+              1224
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1202975,
+              "full255": 547,
+              "intermediate": 369318,
+              "bbox": [
+                0,
+                22,
+                1263,
+                1224
+              ],
+              "over16BBox": [
+                42,
+                230,
+                1251,
+                1090
+              ],
+              "peaks": [
+                [
+                  0,
+                  1202975
+                ],
+                [
+                  253,
+                  156595
+                ],
+                [
+                  252,
+                  112895
+                ],
+                [
+                  251,
+                  18818
+                ],
+                [
+                  1,
+                  16530
+                ],
+                [
+                  250,
+                  8665
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/c5b8c4d2025a7e368ea970aad68d2b62458594080a9cfd3b48e284354fc27a2f.png",
+            "sha256": "eefaa4c2d08c7f7d2c2650e06574c9682582a5443108bba0a1ef51bc83c19151",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 极兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 43,
@@ -11154,13 +13782,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-7c67abdd-4e87-4728-8780-3a6233791e80.png",
+        "sha256": "202b8cedb98f63ab8cad4f940fb91b1a8831ee31121562811682441e6d96c5be",
+        "bytes": 1081729,
+        "dimensions": [
+          1126,
+          1397
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1145574,
+          "full255": 568,
+          "intermediate": 426880,
+          "bbox": [
+            0,
+            21,
+            1098,
+            1397
+          ],
+          "over16BBox": [
+            133,
+            206,
+            1090,
+            1270
+          ],
+          "peaks": [
+            [
+              0,
+              1145574
+            ],
+            [
+              253,
+              282123
+            ],
+            [
+              252,
+              69412
+            ],
+            [
+              1,
+              16143
+            ],
+            [
+              251,
+              14636
+            ],
+            [
+              250,
+              6503
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE high resolution transparent sprite of the actual historical Three Kingdoms cloth-robed foot fighter, native group43, resource24/item0/picture0.\nPrimary reference1 is actual25×31 nativeRGBA; primary reference2 is those identical packed pixels at16×cells. Preserve native one-person count, side-view, cloth outline, exact implement shape/angle and stance. These guide geometry not pixel-art style. Reference3 only gives antique bronze-gold / charcoal-green palette/material, not a scene.\nRIGHT-facing ATTACKER initial foot stance: one long-clothed man on foot, face/torso RIGHT. The slim short rod in his RIGHT/front hand stands obliquely upward, with a small curved/hook-like top at upper RIGHT according to the native outline. Native24p0 is the right-facing counterpart geometry, do not keep defender's LEFT direction.\nOne anonymous ordinary Han Chinese man, restrained realistic hand-painted HD, muted charcoal-green flowing period tunic/robe with cloth headwrap and draping scarf tails matching native outline, plain trousers and period boots, restrained worn bronze belt/fasteners only. Keep the native lighter cloth silhouette; do not dress him as a heavily armored cavalry rider, famous lord, glamorous mage or European wizard. The small slender hand implement should keep its plain curved outline without a guessed giant blade, ornate orb, religious emblem or fantasy head.\nCRITICAL whole sprite: top of headcloth, scarf tails, both hands, entire thin implement with hook, tunic hem and both feet complete inside canvas. Central75% subject with10% transparent margin; no cropping or edge-touching. Background truly alpha0, no floor/shadow plane, panel/checkerboard, scenery, boat/horse, fire, smoke, lightning, spells, glow, extra people, modern weapons, broad saber/spearhead, text/UI/border. One sprite, no sheet or multipleposes.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-0.png",
+              "role": "PRIMARY actual native resource24/item0/picture0; one cloth-robed foot figure, precise handheld curved outline, facing and stance",
+              "sha256": "5d21ebf38c8bed9e30cd51a3c750e825b7b8212699db69c66be0e047651b0df8",
+              "bytes": 369,
+              "dimensions": [
+                25,
+                31
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 353,
+                "full255": 422,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  1,
+                  25,
+                  31
+                ],
+                "over16BBox": [
+                  0,
+                  1,
+                  25,
+                  31
+                ],
+                "peaks": [
+                  [
+                    255,
+                    422
+                  ],
+                  [
+                    0,
+                    353
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-0-packed-cells-x16.png",
+              "role": "PRIMARY same actual packed bitcells at16×scale, geometry aid; weapon subtype not confirmed",
+              "sha256": "28270a131059afa3893da190446ee6091c763cbec321107ea0c696b0fc93f0ea",
+              "bytes": 2332,
+              "dimensions": [
+                400,
+                496
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 90368,
+                "full255": 108032,
+                "intermediate": 0,
+                "bbox": [
+                  0,
+                  16,
+                  400,
+                  496
+                ],
+                "over16BBox": [
+                  0,
+                  16,
+                  400,
+                  496
+                ],
+                "peaks": [
+                  [
+                    255,
+                    108032
+                  ],
+                  [
+                    0,
+                    90368
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY background16 material/palette only, restrained antique bronze-gold/charcoal-green",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Actual original PNG reviewed: RIGHT-facing cloth fighter with curved thin rod UP-RIGHT, distinct from defender LEFT pose, one whole person with full scarf/boots/hook in transparent frame; no horse, spell or namedlord identity."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-7c67abdd-4e87-4728-8780-3a6233791e80.png",
+            "sha256": "202b8cedb98f63ab8cad4f940fb91b1a8831ee31121562811682441e6d96c5be",
+            "bytes": 1081729,
+            "dimensions": [
+              1126,
+              1397
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1145574,
+              "full255": 568,
+              "intermediate": 426880,
+              "bbox": [
+                0,
+                21,
+                1098,
+                1397
+              ],
+              "over16BBox": [
+                133,
+                206,
+                1090,
+                1270
+              ],
+              "peaks": [
+                [
+                  0,
+                  1145574
+                ],
+                [
+                  253,
+                  282123
+                ],
+                [
+                  252,
+                  69412
+                ],
+                [
+                  1,
+                  16143
+                ],
+                [
+                  251,
+                  14636
+                ],
+                [
+                  250,
+                  6503
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+            "sha256": "202b8cedb98f63ab8cad4f940fb91b1a8831ee31121562811682441e6d96c5be",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 玄兵 action"
       ],
-      "nativeCategory": "attacker-figure"
+      "nativeCategory": "attacker-figure",
+      "runtimeAcceptance": null
     },
     {
       "groupOrdinal": 44,
@@ -11357,10 +14235,10 @@
   ],
   "summary": {
     "targetGroups": 51,
-    "finalGroups": 29,
-    "builtinCalls": 37,
-    "rejectedFinalCandidates": 7,
+    "finalGroups": 39,
+    "builtinCalls": 49,
+    "rejectedFinalCandidates": 9,
     "failedCalls": 1,
-    "remainingGroups": 22
+    "remainingGroups": 12
   }
 }
