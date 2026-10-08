@@ -134,3 +134,5 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 `skillResultVersion1`及真实NUM15 metadata用于现有manifest校验与预热；加载只准备entry图片，不启动数字阶段。实际power/destroy均0，原生局部arms/prov为0，因此不进入NUM15、标签或hold，skill_end后才出现真实状态报告。状态6石阵与状态3定身分开：石阵不设置移动1，也不产生虚构兵力伤害。实际LCD与最终严格HD两个成功游戏分别验证800兵、move4保持和状态0→6；最终8实际timer显示均高清，完整160×96原生RGBA由独立真实位图重建逐字节核对。
 
 `npm run test:stone-runtime -- --recruit --recruit-arms 800`使用独立浏览器及私有端口，先观察真实钱/后备兵/名单与数量上限，再通过真正征兵、分配、出征、技能菜单和当前AIM完成23。800是请求量，巴郡实测资金仅允许590征兵、690分配；不伪造兵力、MP、随机种子或成功事件。自然失败、其它技能捕获与选中成功Stone8回调分开，原生像素专项不扩称所有raw captures已oracle验证。公开silent close只用于已退回原生地图的准备壳退休；它不证明普通空征兵pane返回已修复。证据见[石阵专项](validation/m4-stone-20261009.json)。
+
+随后独立`npm run test:city-back-runtime`已验证真实资金耗尽后的普通返回按钮零键退壳，以及分配取消、军备子菜单/根菜单各一次EXIT和地图回执退壳。两次私局中的初次回执/UI等待失败与最终16点通过分开记录，未扩展SPE/战斗验收；见[城池返回专项](validation/m4-city-back-20261009.json)。

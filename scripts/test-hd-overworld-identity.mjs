@@ -11,7 +11,6 @@ const worldSource = readFileSync(new URL('../js/hd-overworld.js', import.meta.ur
     .replace(/\}\)\(window\);\s*$/, 'global.__map = {state, sampleCities, draw, applyChrome};\n})(window);');
 const asset = path => JSON.parse(readFileSync(new URL('../assets/hd-overworld/' + path, import.meta.url), 'utf8'));
 const standardGeo = asset('china-lcc-cities.json');
-const settle = () => new Promise(resolve => setImmediate(resolve));
 
 function harness({ hex = lib.toString('hex'), crypto = webcrypto, hooks = {} } = {}) {
     const requests = [], images = [], keys = [], writes = [], paints = [], frames = new Map(), timers = new Map(), nodes = new Map();
@@ -80,7 +79,14 @@ function harness({ hex = lib.toString('hex'), crypto = webcrypto, hooks = {} } =
         setHidden(hidden){document.hidden=hidden;for(const callback of listeners.get('visibilitychange')||[])callback();},
         click(type='click'){const e={clientX:960,clientY:540,pointerId:1,prevented:false,preventDefault(){this.prevented=true;}};
             for(const callback of nodes.get('hd-overworld-canvas').handlers.get(type)||[])callback(e);return e;},
-        async ready(){for(let i=0;i<60&&context.BayeHdLibIdentity.read().status==='pending';i++)await settle();return context.BayeHdLibIdentity.read();}};
+        async ready(){
+            const deadline=Date.now()+2000;
+            while(context.BayeHdLibIdentity.read().status==='pending'){
+                assert.ok(Date.now()<deadline,'The actual LIB digest must finish within the fixture deadline');
+                await new Promise(resolve=>setTimeout(resolve,1));
+            }
+            return context.BayeHdLibIdentity.read();
+        }};
 }
 
 async function loaded(options){const h=harness(options);assert.equal((await h.ready()).status,'ready');h.complete();assert.equal(h.api.debugSnapshot().presentationReady,true);return h;}

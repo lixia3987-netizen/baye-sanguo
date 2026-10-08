@@ -68,6 +68,7 @@
         toolPaneEpoch: 0,
         highlightScrollKey: '',
         deepPointerOwner: null,
+        backPointerOwner: null,
         deepSelectionPending: null,
         walkToken: 0,
         pickedPersons: 0,
@@ -713,7 +714,7 @@
         return false;
     }
 
-    function enqueueKeys(codes, gap, reason) {
+    function enqueueKeys(codes, gap, reason, currentOwner) {
         if (fightIsActive()) {
             console.warn('[hd-city-menu] blocked queue during fight', reason || '');
             return;
@@ -745,6 +746,7 @@
                 state.lastExit = reason || 'queue';
             }
             state.queue.push({ code: codes[i], wait: gap, reason: reason || '',
+                currentOwner: currentOwner || null,
                 marchEpoch: reason === 'pick-person' || reason === 'finish-persons' ? marchEpoch : null,
                 menuSeq: reason === 'march-start' || reason === 'strategy-end' ? engineMenuItems().seq : null,
                 qtyEpoch: /^qty-/.test(reason || '') ? qtyEpoch : null });
@@ -830,7 +832,7 @@
                         commitQty();
                     }
                 } else {
-                    engineSendKey(item.code, item.reason);
+                    engineSendKey(item.code, item.reason, item.currentOwner);
                 }
                 state.activeQueueReason = '';
                 setTimeout(next, item.wait || 55);
@@ -4593,8 +4595,96 @@
         }
     }
 
-    function back() {
+    function cityBackMenuOwner() {
+        try {
+            function readOwner() {
+                var menu = engineMenuItems();
+                if (!menu || menu.active !== 1 || menu.context !== 1 ||
+                    detailNumber(menu.seq, 4294967295) == null || !menu.seq ||
+                    detailNumber(menu.kind, 4) == null || !menu.kind) { return null; }
+                return JSON.stringify([marchEpoch, menu.context, menu.kind, menu.seq,
+                    detailNumber(menu.detailGeneration, 4294967295), menu.names, actualMenuIds(menu)]);
+            }
+            var owner = readOwner(), hd = window.baye && baye.hd;
+            if (!owner || !state.open || !shouldShowHd() || !hd) { return null; }
+            // Reports and HELP can take input without clearing the underlying menu.
+            var readers = [hd.report, hd.help, hd.qty];
+            for (var i = 0; i < readers.length; i++) {
+                if (typeof readers[i] !== 'function') { return null; }
+                var info = readers[i].call(hd);
+                if (!info || info.active !== 0) { return null; }
+            }
+            var overlays = [global.BayeHdDialog, global.BayeHdSystemUi, global.BayeHdMiniMap,
+                global.BayeHdBattle, global.BayeHdSpe];
+            for (i = 0; i < overlays.length; i++) {
+                if (overlays[i] && (typeof overlays[i].isOpen !== 'function' || overlays[i].isOpen() !== false)) {
+                    return null;
+                }
+            }
+            return owner === readOwner() ? owner : null;
+        } catch (e) { return null; }
+    }
+
+    function cityBackPressOwner() {
+        try {
+            var menu = engineMenuItems(), qty = engineQty(), march = engineMarch();
+            return JSON.stringify([marchEpoch, state.open, state.cityIndex, state.layer, state.deepKind,
+                menu.active, menu.context, menu.kind, menu.seq, menu.detailGeneration, menu.names, actualMenuIds(menu),
+                qty && qty.active, qty && qty.session, qty && qty.generation,
+                march && march.phase, march && march.session, march && march.mapInputSeq,
+                window.baye && baye.data && baye.data.g_hdDetailGeneration]);
+        } catch (e) { return null; }
+    }
+
+    function retiredCityMapOwner() {
+        if (state.queue.length || state.sending || state.handoff || state.confirmingTarget || state.nativeMenuRequest) {
+            return false;
+        }
+        try {
+            function readOwner() {
+                var d = window.baye && baye.data;
+                if (!d) { return null; }
+                var generation = detailNumber(d.g_hdDetailGeneration, 4294967295),
+                    inputSeq = detailNumber(d.g_hdMapInputSeq, 4294967295),
+                    menuSeq = detailNumber(d.g_hdMenuSeq, 4294967295),
+                    mapCity = detailNumber(d.g_hdMapCity, 255);
+                if (!generation || !inputSeq || menuSeq == null || mapCity == null ||
+                    d.g_hdMapPick !== 1 || d.g_hdBattlePick !== 0 || d.g_hdMarchPhase !== MARCH.IDLE ||
+                    d.g_hdMenuActive !== 0 || d.g_hdQtyActive !== 0 || d.g_hdReportActive !== 0 ||
+                    d.g_hdHelpActive !== 0 || d.g_hdFightActive !== 0 || d.g_asyncActionID !== 0) { return null; }
+                // A late getter may enter a new menu while this snapshot is read.
+                if (d.g_hdDetailGeneration !== generation || d.g_hdMapInputSeq !== inputSeq ||
+                    d.g_hdMenuSeq !== menuSeq || d.g_hdMapCity !== mapCity || d.g_hdMenuActive !== 0) {
+                    return null;
+                }
+                return JSON.stringify([generation, inputSeq, menuSeq, mapCity]);
+            }
+            var before = readOwner();
+            if (!before) { return false; }
+            var overlays = [global.BayeHdDialog, global.BayeHdSystemUi, global.BayeHdMiniMap,
+                global.BayeHdBattle, global.BayeHdSpe];
+            for (var i = 0; i < overlays.length; i++) {
+                if (overlays[i] && (typeof overlays[i].isOpen !== 'function' || overlays[i].isOpen() !== false)) {
+                    return false;
+                }
+            }
+            return before === readOwner() && !state.queue.length && !state.sending &&
+                !state.handoff && !state.confirmingTarget && !state.nativeMenuRequest;
+        } catch (e) { return false; }
+    }
+
+    function back(pressedOwner) {
         if (!state.open) {
+            return;
+        }
+        var actionOwner = cityBackPressOwner();
+        if (!actionOwner || pressedOwner != null && pressedOwner !== actionOwner) { return; }
+        // A command can already have unwound through PlayerTactic into the map.
+        // Closing its leftover pane must not send GetCitySet a second EXIT.
+        var retiredMap = retiredCityMapOwner();
+        if (actionOwner !== cityBackPressOwner()) { return; }
+        if (retiredMap) {
+            closeMenu({ silent: true });
             return;
         }
         if (state.layer === 'status') {
@@ -4622,6 +4712,12 @@
             render();
             return;
         }
+        if (actionOwner !== cityBackPressOwner()) { return; }
+        var backOwner = cityBackMenuOwner();
+        var observedMenu = engineMenuItems();
+        if (actionOwner !== cityBackPressOwner()) { return; }
+        if (observedMenu.active != null && !backOwner) { return; }
+        var ownsBack = backOwner == null ? null : function () { return cityBackMenuOwner() === backOwner; };
         if (state.layer === 'deep') {
             if (engineInGetCitySet() || (state.campaignPick && mapPickActive())) {
                 closeMenu({ silent: true });
@@ -4643,7 +4739,7 @@
             state.idleIndex = 0;
             state.battleMake = false;
             state.campaignPick = false;
-            enqueueKeys([VK.EXIT], 60, 'back-deep');
+            enqueueKeys([VK.EXIT], 60, 'back-deep', ownsBack);
             render();
             return;
         }
@@ -4652,7 +4748,7 @@
             state.layer = 'root';
             state.subKind = '';
             state.idleIndex = null;
-            enqueueKeys([VK.EXIT], 60, 'back-sub');
+            enqueueKeys([VK.EXIT], 60, 'back-sub', ownsBack);
             render();
             return;
         }
@@ -5713,8 +5809,14 @@
         root.addEventListener('pointerdown', function (ev) {
             state.deepPointerOwner = null;
             state.toolPointerOwner = null;
+            state.backPointerOwner = null;
             var target = ev.target;
+            if (target === root) { state.backPointerOwner = { target: root, key: cityBackPressOwner() }; return; }
             while (target && target !== root) {
+                if (target.getAttribute && target.getAttribute('data-hd-menu-back') != null) {
+                    state.backPointerOwner = { target: target, key: cityBackPressOwner() };
+                    return;
+                }
                 if (target.getAttribute && target.getAttribute('data-hd-tool-page') != null) {
                     state.toolPointerOwner = { target: target, key: target.getAttribute('data-hd-tool-page-owner') };
                     return;
@@ -5726,15 +5828,24 @@
                 target = target.parentNode;
             }
         });
-        root.addEventListener('pointercancel', function () { state.deepPointerOwner = null; state.toolPointerOwner = null; });
+        root.addEventListener('pointercancel', function () {
+            state.deepPointerOwner = null;
+            state.toolPointerOwner = null;
+            if (state.backPointerOwner) { state.backPointerOwner.cancelled = true; }
+        });
         root.addEventListener('click', function (ev) {
             var pressed = state.deepPointerOwner;
             var pagePressed = state.toolPointerOwner;
+            var backPressed = state.backPointerOwner;
             state.deepPointerOwner = null;
             state.toolPointerOwner = null;
+            state.backPointerOwner = null;
+            // Keyboard activation starts a new action, even after a cancelled pointer.
+            if (ev.detail === 0) { backPressed = null; }
             if (ev.target === root) {
                 ev.preventDefault();
-                back();
+                if (backPressed && (backPressed.target !== root || !backPressed.key || backPressed.cancelled)) { return; }
+                back(backPressed ? backPressed.key : null);
                 return;
             }
             var t = ev.target;
@@ -5844,7 +5955,8 @@
                 if (t.getAttribute && t.getAttribute('data-hd-menu-back') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
-                    back();
+                    if (backPressed && (backPressed.target !== t || !backPressed.key || backPressed.cancelled)) { return; }
+                    back(backPressed ? backPressed.key : null);
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-menu-lcd') != null) {
@@ -6036,6 +6148,13 @@
                     sweepStickyMarch('poll');
                 }
                 if (!hdReady() || !state.open) {
+                    return;
+                }
+                // A person-picker cancellation can return directly to GetCitySet
+                // without willCloseMenu. Retire only after the player's Back ACK.
+                if (state.closingSub && retiredCityMapOwner()) {
+                    state.closingSub = false;
+                    closeMenu({ silent: true });
                     return;
                 }
                 if (state.layer !== 'deep') {

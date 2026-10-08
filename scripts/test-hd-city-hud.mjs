@@ -66,12 +66,12 @@ function harness() {
         querySelectorAll: selector => walk(html).filter(node => matches(node, selector)),
         querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; },
         createElement: element, addEventListener() {} };
-    const keys = [], writes = [], timers = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
+    const keys = [], writes = [], timers = [], intervals = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
         [600, '很长的人物姓名甲乙丙丁戊己庚辛壬癸测试'], [601, '人物乙']]);
     const context = vm.createContext({ document, TextDecoder, TextEncoder,
         console: { log() {}, warn() {}, error() {} }, alert() {}, lcdBlur() {},
         Module: { HEAPU8: new Uint8Array(8192) }, addEventListener() {},
-        setTimeout(fn) { timers.push(fn); return timers.length; }, clearTimeout() {}, setInterval() {}, clearInterval() {},
+        setTimeout(fn) { timers.push(fn); return timers.length; }, clearTimeout() {}, setInterval(fn) { intervals.push(fn); }, clearInterval() {},
         localStorage: { getItem: key => key === 'baye/cityMenuMode' ? 'hd' : 'hd-map' },
         navigator: { userAgent: 'Node fixture' } });
     context.window = context;
@@ -130,7 +130,7 @@ function harness() {
         deepKind: 'person', wizardStep: 'none', idleIndex: 0 });
     hud.state.deepMenuOwner = hud.deepMenuOwner(menu);
     return { context, hud, nodes, root, lcdButton, document, city, person, people, queue, menu, names, report, help, qty, goods,
-        keys, writes, timers, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
+        raw, keys, writes, timers, intervals, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
 }
 
 function goodsHarness({custom = true} = {}) {
@@ -145,8 +145,8 @@ function goodsHarness({custom = true} = {}) {
     h.hud.fillDeepList(); h.hud.bind();
     return h;
 }
-function dispatch(h, type, target) {
-    h.root.listeners.get(type).forEach(listener => listener({target, preventDefault() {}, stopPropagation() {}}));
+function dispatch(h, type, target, options = {}) {
+    h.root.listeners.get(type).forEach(listener => listener({target, preventDefault() {}, stopPropagation() {}, ...options}));
 }
 function pageButton(h, direction) {
     return h.document.querySelectorAll('[data-hd-tool-page]').find(button => button.getAttribute('data-hd-tool-page') === direction);
@@ -681,4 +681,167 @@ test('cancelling a goods menu hides its side panel and retains the existing sing
     assert.equal(h.hud.state.toolDetail, null); assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true);
     h.timers.shift()(); // Execute the existing queue delay, without advancing or mutating C state.
     assert.equal(h.hud.state.layer, 'sub'); assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
+});
+
+function backHarness({retired = false} = {}) {
+    const h = harness();
+    Object.assign(h.raw, {g_hdDetailGeneration: 3, g_hdMapInputSeq: 2, g_hdMapCity: 0,
+        g_hdMenuSeq: 9, g_hdMenuActive: retired ? 0 : 1, g_hdQtyActive: 0,
+        g_hdReportActive: 0, g_hdHelpActive: 0, g_hdFightActive: 0,
+        g_hdMapPick: retired ? 1 : 0, g_hdBattlePick: 0, g_hdMarchPhase: 0});
+    Object.assign(h.menu, {active: retired ? 0 : 1, detailGeneration: 3,
+        idsValid: true, ids: [600, 601]});
+    h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', '');
+    h.root.appendChild(h.backButton); h.hud.bind();
+    return h;
+}
+function runBackQueue(h) {
+    for (let i = 0; h.timers.length && i < 30; i++) h.timers.shift()();
+    assert.equal(h.timers.length, 0, 'Back must not leave a repeating input task');
+}
+
+test('the real Back button closes a retired recruit pane on ordinary map input without any native key or world write', () => {
+    const h = backHarness({retired: true}), world = structuredClone(h.raw);
+    Object.assign(h.hud.state, {deepKind: 'person-qty', deepLabel: '征兵', campaignPick: false});
+    h.context.BayeHdOverworld = {leaveMenu() { throw new Error('retired map cannot receive Exit'); }};
+    dispatch(h, 'pointerdown', h.backButton); dispatch(h, 'click', h.backButton, {detail: 1});
+    runBackQueue(h);
+    assert.equal(h.hud.state.open, false); assert.deepEqual(h.keys, []);
+    assert.deepEqual(h.raw, world); assert.deepEqual(h.writes, []);
+});
+
+test('same-owner person and submenu Back still deliver exactly one Exit despite a changed highlight', () => {
+    for (const layer of ['deep', 'sub']) {
+        const h = backHarness(); h.hud.state.layer = layer;
+        if (layer === 'sub') Object.assign(h.menu, {kind: 2, idsValid: false});
+        dispatch(h, 'pointerdown', h.backButton); h.menu.index = 1;
+        dispatch(h, 'click', h.backButton, {detail: 1}); runBackQueue(h);
+        assert.deepEqual(h.keys, [0x28], layer); assert.deepEqual(h.writes, []);
+        assert.equal(h.hud.state.layer, layer === 'deep' ? 'sub' : 'root');
+    }
+});
+
+test('the real poll retires a cancelled picker only after native map ACK and the Back queue has drained', () => {
+    const h = backHarness(); h.context.BayeHdCityMenu.start();
+    const poll = h.intervals.at(-1); let nativeAck = false;
+    h.context.sendKey = key => {
+        h.keys.push(key); nativeAck = true;
+        Object.assign(h.raw, {g_hdMenuActive: 0, g_hdMapPick: 1}); h.raw.g_hdMapInputSeq++;
+        h.menu.active = 0;
+    };
+    dispatch(h, 'click', h.backButton, {detail: 0});
+    poll(); assert.equal(h.hud.state.open, true); assert.equal(nativeAck, false);
+    h.timers.shift()(); // Original EXIT delivered; native command acknowledges map input.
+    poll(); assert.equal(h.hud.state.open, true, 'Original queue still owns its ACK delay');
+    runBackQueue(h); poll();
+    assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.closingSub, false);
+    assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
+
+    const initial = backHarness({retired: true}); initial.context.BayeHdCityMenu.start();
+    initial.intervals.at(-1)();
+    assert.equal(initial.hud.state.open, true, 'An untouched stale pane still waits for the player Back');
+    assert.deepEqual(initial.keys, []); assert.deepEqual(initial.writes, []);
+
+    const sub = backHarness(); sub.hud.state.layer = 'sub'; sub.menu.kind = 2;
+    sub.context.BayeHdCityMenu.start();
+    sub.context.sendKey = key => {sub.keys.push(key); sub.menu.kind = 1; sub.menu.seq++;};
+    sub.hud.back(); runBackQueue(sub); sub.intervals.at(-1)();
+    assert.equal(sub.hud.state.open, true); assert.equal(sub.hud.state.layer, 'root');
+    assert.deepEqual(sub.keys, [0x28]); assert.deepEqual(sub.writes, []);
+});
+
+test('queued Back cannot send Exit after its native menu retires or its sequence, generation, context or IDs change', () => {
+    for (const change of [h => {h.menu.active = 0; h.raw.g_hdMapPick = 1; h.raw.g_hdMenuActive = 0;},
+        h => {h.menu.seq++;}, h => {h.menu.detailGeneration++;}, h => {h.menu.context = 2;},
+        h => {h.menu.ids.reverse();}]) {
+        const h = backHarness(); h.hud.back(); change(h); runBackQueue(h);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('menu Back refuses reports and HELP, and a queued Exit refuses quantity takeover of an unchanged submenu', () => {
+    for (const queued of [false, true]) {
+        const changes = [h => {h.report.active = 1;}, h => {h.help.active = 1;},
+            h => {h.context.BayeHdMiniMap = {isOpen: () => true};}, h => {h.context.baye.hd.report = () => null;}];
+        if (queued) changes.push(h => {h.qty.active = 1;});
+        for (const change of changes) {
+            const h = backHarness(); h.hud.state.layer = 'sub';
+            Object.assign(h.menu, {kind: 2, idsValid: false});
+            if (queued) h.hud.back(); change(h);
+            if (!queued) h.hud.back();
+            runBackQueue(h); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+        }
+    }
+    const h = backHarness(); h.hud.back();
+    h.context.baye.hd.report = () => {h.menu.seq++; return {active: 0};};
+    runBackQueue(h); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('a held Back button cannot act on a replacement menu or a different map wait', () => {
+    for (const change of [h => {h.menu.seq++;}, h => {h.menu.detailGeneration++;},
+        h => {h.menu.ids.reverse();}, h => {h.raw.g_hdDetailGeneration++;}]) {
+        const h = backHarness(); dispatch(h, 'pointerdown', h.backButton); change(h);
+        dispatch(h, 'click', h.backButton, {detail: 1}); runBackQueue(h);
+        assert.equal(h.hud.state.layer, 'deep'); assert.equal(h.hud.state.open, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const h = backHarness({retired: true});
+    h.context.baye.hd.march = () => ({phase: 0, session: 0, mapInputSeq: h.raw.g_hdMapInputSeq});
+    dispatch(h, 'pointerdown', h.backButton); h.raw.g_hdMapInputSeq++;
+    dispatch(h, 'click', h.backButton, {detail: 1});
+    assert.equal(h.hud.state.open, true); assert.deepEqual(h.keys, []);
+});
+
+test('a cancelled Back pointer stays inert, while a fresh pointer or keyboard action can return normally', () => {
+    for (const action of ['pointer', 'keyboard']) {
+        const h = backHarness(); dispatch(h, 'pointerdown', h.backButton);
+        dispatch(h, 'pointercancel', h.backButton); dispatch(h, 'click', h.backButton, {detail: 1});
+        assert.equal(h.hud.state.layer, 'deep'); assert.deepEqual(h.keys, []);
+        if (action === 'pointer') dispatch(h, 'pointerdown', h.backButton);
+        dispatch(h, 'click', h.backButton, {detail: action === 'keyboard' ? 0 : 1}); runBackQueue(h);
+        assert.deepEqual(h.keys, [0x28], action); assert.deepEqual(h.writes, []);
+    }
+    const h = backHarness(); dispatch(h, 'pointerdown', h.backButton);
+    dispatch(h, 'click', h.root, {detail: 1});
+    assert.equal(h.hud.state.layer, 'deep'); assert.deepEqual(h.keys, []);
+});
+
+test('missing or invalid native map flags and another active overlay cannot certify retirement', () => {
+    for (const change of [h => {delete h.raw.g_hdDetailGeneration;}, h => {delete h.raw.g_hdMapInputSeq;},
+        h => {delete h.raw.g_hdMenuActive;}, h => {h.raw.g_hdMenuActive = '0';},
+        h => {h.raw.g_hdMapInputSeq = NaN;}, h => {h.raw.g_hdBattlePick = 1;},
+        h => {h.raw.g_hdMarchPhase = 4;}, h => {h.raw.g_hdReportActive = 1;},
+        h => {h.raw.g_hdHelpActive = 1;}, h => {h.raw.g_asyncActionID = 7;},
+        h => {h.context.BayeHdMiniMap = {isOpen: () => true};},
+        h => {h.context.BayeHdSystemUi = {isOpen() {throw new Error('unreadable');}};}]) {
+        const h = backHarness({retired: true}); change(h); h.hud.back(); runBackQueue(h);
+        assert.equal(h.hud.state.open, true); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('reentrant overlay reads cannot close a replacement map wait or native menu', () => {
+    for (const change of [h => {h.raw.g_hdMapInputSeq++;}, h => {h.raw.g_hdDetailGeneration++;},
+        h => {h.raw.g_hdMenuActive = 1;}]) {
+        const h = backHarness({retired: true});
+        h.context.BayeHdMiniMap = {isOpen() {change(h); return false;}};
+        h.hud.back(); runBackQueue(h);
+        assert.equal(h.hud.state.open, true); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    for (const publicMenu of [false, true]) {
+        const h = backHarness({retired: true}); let reads = 0;
+        Object.defineProperty(h.raw, 'g_asyncActionID', {get() {
+            if (++reads === 2) {
+                h.raw.g_hdMenuActive = 1; h.raw.g_hdMenuSeq++;
+                if (publicMenu) {
+                    h.raw.g_hdMapPick = 0;
+                    Object.assign(h.menu, {active: 1, kind: 1, seq: h.raw.g_hdMenuSeq});
+                }
+            }
+            return 0;
+        }});
+        h.hud.back(); runBackQueue(h);
+        assert.equal(h.raw.g_hdMenuActive, 1); assert.equal(h.raw.g_hdMenuSeq, 10);
+        assert.equal(h.hud.state.open, true); assert.equal(h.hud.state.layer, 'deep');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
 });
