@@ -288,11 +288,13 @@ void bind_skill_var(ObjectDef* def)
 U8 FgtGetGenTer(U8 idx);
 bool FgtChkAkRng(U8 x,U8 y);
 
-static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx) {
+static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx, U8 skillCustom) {
     U16 arms, prov, up;
     U8 bidx, state, buf[25], *ptr;
     SKILLEF	*skl = (SKILLEF	*)FgtGetJNPtr(param);
-    U8 stateChanged;
+    U8 stateChanged, animationCustom = 0;
+    U32 resultSession = 0;
+    HdResultScope resultScope;
 
     BuiltAtkAttr(1, aIdx);
 
@@ -304,7 +306,10 @@ static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx)
     g_GenPos[aIdx].state = state;
     if(state == STATE_DS)		/* 定身状态时，设置将领的移动力为1 */
         g_GenPos[aIdx].move = NO_MOV;
-    I32 rv = call_hook_a("willShowPKAnimation", NULL);
+    I32 rv = call_hook_a_observed("willShowPKAnimation", NULL, &animationCustom);
+    baye_hd_result_scope_begin(&resultScope, BAYE_HD_RESULT_SKILL);
+    resultSession = baye_hd_skill_begin(param, sIdx, aIdx,
+        (aim & 1) ? BAYE_HD_SKILL_ARMS_GAIN : BAYE_HD_SKILL_ARMS_LOSS, skillCustom || animationCustom);
     param -= 1;
     if(dJNSpeId[param])
     {
@@ -312,7 +317,7 @@ static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx)
         {
             if(dJNMode[param])
                 PlcRPicShow(SPE_BACKPIC,1,FGT_SPESX,FGT_SPESY,false);
-            baye_hd_spe_context(BAYE_HD_SPE_KIND_SKILL, (SkillID)(param + 1), sIdx, aIdx);
+            baye_hd_skill_movie_context(resultSession, (SkillID)(param + 1), sIdx, aIdx);
             PlcMovie(dJNSpeId[param],0,dJNSpeSFrm[param],dJNSpeEFrm[param],0,FGT_SPESX + dJNSpeSX[param],FGT_SPESY);
         }
     }
@@ -331,14 +336,24 @@ static U8 _CommonJNAction(SkillID param, U8 aim, U8 sIdx, U8 aIdx, U8 originIdx)
         }
         if(g_LookMovie)
         {
+            U32 consumed;
+            baye_hd_skill_numbers(resultSession, (aim & 1) ? BAYE_HD_SKILL_ARMS_GAIN : BAYE_HD_SKILL_ARMS_LOSS, arms);
             FgtLoadToMem2(bidx,buf);
-            GamStrShowS(FGT_SPESX + 40,FGT_SPESY + 2,buf);
+            baye_hd_skill_label_begin(resultSession, buf, sizeof(buf), FGT_SPESX + 40, FGT_SPESY + 2);
+            consumed = GamStrShowS(FGT_SPESX + 40,FGT_SPESY + 2,buf);
+            baye_hd_skill_label_end(resultSession, consumed);
             FgtAtvShowNum(FGT_SPESX + 40,FGT_SPESY + 40,arms);
+            baye_hd_skill_hold(resultSession);
         }
-        else
+        else {
+            baye_hd_skill_numbers(resultSession, (aim & 1) ? BAYE_HD_SKILL_ARMS_GAIN : BAYE_HD_SKILL_ARMS_LOSS, arms);
             FgtShowSNum2((aim & 1) ? '+' : '-',aIdx,arms);
+            baye_hd_skill_hold(resultSession);
+        }
         GamDelay(SHOW_DLYBASE * 5,false);
     }
+    if (resultSession) baye_hd_skill_end(resultSession);
+    baye_hd_result_scope_end(&resultScope);
     if(stateChanged && state != STATE_ZC && state != STATE_SW)
     {
         IF_HAS_HOOK("showStateChanged") {
@@ -366,7 +381,7 @@ U8 FgtJNAction(FGTCMD *pcmd)
 {
     U8	sIdx,aIdx;
     U8	aim,bidx,buf[25];
-    U8	rnd,success = 0xff;
+    U8	rnd,success = 0xff, skillCustom = 0;
     U16	arms,prov = 0,*provp;
     SKILLEF	*skl;
     SkillID param;
@@ -383,6 +398,7 @@ U8 FgtJNAction(FGTCMD *pcmd)
     gam_memset(buf,' ',10);
 
     IF_HAS_HOOK("showSkill") {
+        skillCustom = 1;
         U8 ter = FgtGetGenTer(sIdx);
         BIND_U8(&ter);
         BIND_U16EX("skillId", &pcmd->param);
@@ -445,18 +461,28 @@ U8 FgtJNAction(FGTCMD *pcmd)
             provp = &g_FgtParam.MProvender;
         prov = CountPlusSub(provp,prov);
 
+        HdResultScope resultScope;
+        baye_hd_result_scope_begin(&resultScope, BAYE_HD_RESULT_SKILL);
+        U32 session = baye_hd_skill_begin(param, sIdx, aIdx, BAYE_HD_SKILL_PROVENDER_LOSS, skillCustom);
+        baye_hd_skill_numbers(session, BAYE_HD_SKILL_PROVENDER_LOSS, arms);
         if(g_LookMovie)
         {
+            U32 consumed;
             FgtLoadToMem2(dFgtProvH, buf);
-            GamStrShowS(FGT_SPESX + 40, FGT_SPESY + 2, buf);
+            baye_hd_skill_label_begin(session, buf, sizeof(buf), FGT_SPESX + 40, FGT_SPESY + 2);
+            consumed = GamStrShowS(FGT_SPESX + 40, FGT_SPESY + 2, buf);
+            baye_hd_skill_label_end(session, consumed);
             FgtAtvShowNum(FGT_SPESX + 40, FGT_SPESY + 40, arms);
         }
         else
             FgtShowSNum2('-', aIdx, arms);
+        baye_hd_skill_hold(session);
         GamDelay(SHOW_DLYBASE * 5,false);
+        baye_hd_skill_end(session);
+        baye_hd_result_scope_end(&resultScope);
     }
 
-    arms = _CommonJNAction(param, aim, sIdx, aIdx, aIdx);
+    arms = _CommonJNAction(param, aim, sIdx, aIdx, aIdx, skillCustom);
     if ((aim & 2)) {
         for(int i = 0;i < FGTA_MAX;i += 1)
         {
@@ -484,7 +510,7 @@ U8 FgtJNAction(FGTCMD *pcmd)
                 if(!FgtJNChkAim(skidx, same, i, sIdx))
                     continue;
             }
-            arms = add_16(arms, _CommonJNAction(param, aim, sIdx, i, aIdx));
+            arms = add_16(arms, _CommonJNAction(param, aim, sIdx, i, aIdx, skillCustom));
         }
     }
     FgtSetFocus(sIdx);
@@ -547,6 +573,7 @@ U8 FgtAtkAction(U8 aIdx)
     U8	sFrm,eFrm;
     U16	hurt,speId;
     U32 attackSession = 0;
+    HdResultScope resultScope;
     U8 animationCustom = 0;
 
     hurt = CountAtkHurt();
@@ -558,6 +585,7 @@ U8 FgtAtkAction(U8 aIdx)
     /* 动画播放 */
     if(g_LookMovie)
     {
+        baye_hd_result_scope_begin(&resultScope, BAYE_HD_RESULT_ATTACK);
         attackSession = baye_hd_attack_begin(actorIndex, aIdx, hurt, animationCustom);
         PlcRPicShow(SPE_BACKPIC,1,FGT_SPESX,FGT_SPESY,false);
         if(TERRAIN_RIVER == g_GenAtt[1].ter)
@@ -584,7 +612,9 @@ U8 FgtAtkAction(U8 aIdx)
     else
         FgtShowSNum2('-',aIdx,hurt);
     GamDelay(SHOW_DLYBASE * 5,false);
-    if (attackSession) baye_hd_attack_end(attackSession);
+    if (attackSession) {
+        baye_hd_attack_end(attackSession); baye_hd_result_scope_end(&resultScope);
+    }
 
     /* 若当前将领将对方击毙，要额外加经验 */
     sType = *g_GenAtt[0].level - *g_GenAtt[1].level;
@@ -620,10 +650,10 @@ void FgtAtvShowNum(U8 x,U8 y,U16 number)
     
     pic = (U8*)baye_hd_picture_resource(NUM_PICID, 0, &numberLength);
     if (!baye_hd_picture_info(NUM_PICID, 0, 0, pic, numberLength, &numberSource)) {
-        baye_hd_attack_number_resource(NULL);
+        baye_hd_attack_number_resource(NULL); baye_hd_skill_number_resource(NULL);
         return;
     }
-    baye_hd_attack_number_resource(&numberSource);
+    baye_hd_attack_number_resource(&numberSource); baye_hd_skill_number_resource(&numberSource);
     wid = ((PictureHeadType *)pic)->wid;
     hgt = ((PictureHeadType *)pic)->hig;
 
@@ -634,8 +664,9 @@ void FgtAtvShowNum(U8 x,U8 y,U16 number)
         for(j = 0;j < hgt/2;j += 1)
         {
             baye_hd_attack_digit_begin(i, idx, x, y-j);
+            baye_hd_skill_digit_begin(i, idx, x, y-j);
             gam_drawpic(NUM_PICID, idx, x, y-j, 1);
-            baye_hd_attack_digit_end();
+            baye_hd_attack_digit_end(); baye_hd_skill_digit_end();
             GamDelay(1,false);
         }
         x += wid/2;

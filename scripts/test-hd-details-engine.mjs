@@ -39,7 +39,7 @@ const helpers=['copy_gbk','hd_next_input_seq','baye_hd_view_retire','baye_hd_min
     'baye_hd_fight_actor','baye_hd_fight_input_begin','baye_hd_fight_input_end','baye_hd_set_fight',
     'baye_hd_march_phase','baye_hd_march_end','baye_hd_record_end',
     'hd_help_notify','baye_hd_set_help','baye_hd_help_publish','baye_hd_help_clear',
-    'baye_hd_attack_retire'].map(n=>actual('hd-bridge.c',n));
+    'baye_hd_attack_retire','baye_hd_skill_retire'].map(n=>actual('hd-bridge.c',n));
 const renderers=['GetGoodsName','GetGoodsProStrCaptured','GetGoodsProStr','ShowGoodsProCaptured','ShowGoodsProStrCaptured','ShowGoodsControlInner','ShowPersonControlInner'].map(n=>actual('showface.c',n));
 const help=['FgtFormatStr','FgtLoadToMem2','FgtGetTerrain','FgtGetGenIdx','FgtShowHlp'].map(n=>actual('FightSub.c',n));
 const toolField=actual('platform/js/exportjs.c','bayeHdGetToolField');
@@ -72,7 +72,7 @@ typedef U16 PersonID;typedef U16 ToolID;
     ['GOODS','PersonType'].map(n=>typedef('baye/attribute.h',n)).join('\n')+'\n'+
     ['RCHEAD','RIDX'].map(n=>typedef('baye/datman.h',n)).join('\n')+'\n'+
     typedef('baye/fight.h','JLPOS')+'\n'+typedef('hd-bridge.h','HdHelpSnapshot')+'\n'+
-    typedef('hd-bridge.h','HdPictureSource')+'\n'+typedef('hd-bridge.h','HdSpeScope')+String.raw`
+    typedef('hd-bridge.h','HdResultScope')+'\n'+typedef('hd-bridge.h','HdPictureSource')+'\n'+typedef('hd-bridge.h','HdSpeScope')+String.raw`
 static U8 resource[4*1024*1024],*g_CBnkPtr=resource;
 typedef struct {U32 length,position;} FakeFile;
 static FakeFile file,*g_LibFp=&file;
@@ -199,13 +199,14 @@ static void GamGetMsg(GMType*m){assert(messageIndex<300);m->type=VM_CHAR_FUN;
         else {assert(g_hdGoodsPageStart==3&&g_hdGoodsPageEnd==5);m->param=VK_EXIT;}}
     else if(scenario==2){checkRow(messageIndex?1:0,1);assert(!strcmp((char*)g_hdGoodsPropertyValues+128,messageIndex?"10":"12"));m->param=messageIndex?VK_EXIT:VK_DOWN;}
     else if(scenario==3){if(!messageIndex){checkRow(0,0);
-            HdSpeScope previousSurface={0};previousSurface.compositionValid=1;hdSpeCurrent=&previousSurface;
+            HdSpeScope previousSurface={0};previousSurface.compositionValid=1;previousSurface.eventId=17;hdSpeCurrent=&previousSurface;
+            g_hdAttackActive=1;g_hdAttackEventId=hdSpeCopied.eventId=17;
             g_hdAttackSourceValid=g_hdAttackDisplayValid=hdAttackPaint.valid=hdSpeCopied.compositionValid=1;
-            hdBackgroundPending.valid=1;hdBackgroundSession=hdBackgroundDrawing=11;
+            hdBackgroundPending.valid=1;hdBackgroundSession=hdBackgroundDrawing=11;hdBackgroundOwner=hdBackgroundDrawingOwner=1;
             baye_hd_set_report((U8*)"nested-report",600,1);baye_hd_report_begin(1);
             assert(!g_hdAttackSourceValid&&!g_hdAttackDisplayValid&&!hdAttackPaint.valid&&!previousSurface.compositionValid);
             assert(!hdSpeCopied.compositionValid&&!hdBackgroundPending.valid&&!hdBackgroundSession&&!hdBackgroundDrawing);
-            hdSpeCurrent=NULL;
+            hdSpeCurrent=NULL;g_hdAttackActive=0;
             assert(!g_hdGoodsActive&&!g_hdMenuIdsCount);baye_hd_report_end();assert(!g_hdGoodsActive);m->param=VK_RIGHT;}
         else if(messageIndex==1){checkRow(0,0);assert(!g_hdGoodsPropertyFlags[0]&&g_hdGoodsPropertyFlags[3]==3);m->param=VK_LEFT;}
         else {checkRow(0,1);assert(g_hdGoodsPropertyFlags[0]==3&&g_hdGoodsPropertyFlags[4]==3);m->param=VK_EXIT;}}

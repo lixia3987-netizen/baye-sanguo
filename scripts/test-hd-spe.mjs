@@ -135,7 +135,8 @@ function actualMainFixture(speId = 3) {
     return { lib, entry, s, m, units, pictures };
 }
 function harness(options = {}) {
-    let spe = nativeSpe(options.spe), maker = options.maker || null, attack = options.attack || null, hidden = false, report = { active: 0 };
+    let spe = nativeSpe(options.spe), maker = options.maker || null, attack = options.attack || null,
+        skillResult = options.skillResult || null, resultOwner = options.resultOwner || null, hidden = false, report = { active: 0 };
     let openingHd = options.storage?.['baye/systemUiMode'] !== 'classic', battleHd = true;
     const events = [], images = [], keys = [], nativeWrites = [], listeners = new Map(), polls = [], nodes = new Map();
     const nativeReads = [], timers = new Map(), preferences = new Map(Object.entries(options.storage || {}));
@@ -179,7 +180,8 @@ function harness(options = {}) {
         set(target, key, value) { nativeWrites.push([key, value]); return true; } });
     const baye = { get data() { return readNative('data', data); }, hd: {
         ready: () => readNative('hd.ready', true), spe: () => readNative('hd.spe', spe),
-        maker: () => readNative('hd.maker', maker), attack: () => readNative('hd.attack', attack), report: () => readNative('hd.report', report) } };
+        maker: () => readNative('hd.maker', maker), attack: () => readNative('hd.attack', attack),
+        skillResult: () => readNative('hd.skillResult', skillResult), resultOwner: () => readNative('hd.resultOwner', resultOwner), report: () => readNative('hd.report', report) } };
     const context = vm.createContext({ console, document, Image, Uint8Array,
         crypto: options.crypto === undefined ? webcrypto : options.crypto,
         Promise: class { constructor() { throw new Error('do not wrap native promises in legacy window.Promise'); } },
@@ -203,6 +205,8 @@ function harness(options = {}) {
         spe: () => spe, setSpe: value => { spe = nativeSpe(value); },
         setMaker: value => { maker = value; },
         setAttack: value => { attack = value; },
+        setSkillResult: value => { skillResult = value; },
+        setResultOwner: value => { resultOwner = value; },
         setHidden(value) { hidden = value; for (const fn of listeners.get('visibilitychange') || []) fn(); },
         setReport(value) { report.active = value; api.onEngineSpe(); },
         setMode(value) { openingHd = battleHd = value; api.onEngineSpe(); },
@@ -275,6 +279,71 @@ async function attackLoaded(postlude = false, options = {}) {
     return { ...h, fixture };
 }
 
+function skillFixture() {
+    const fixture=actualMainFixture(35), entry=fixture.entry;
+    entry.kind=2;entry.skillResultVersion=1;entry.skillNumber=attackFixture().entry.number;
+    const label={claimed:true,valid:true,x:55,y:18,length:8,text:'兵力减少',bytes:[...Buffer.from('b1f8c1a6bcf5c9d9','hex'),...Array(56).fill(0)]};
+    const digit={digit:2,x:55,y:49,firstY:56,drawCount:8};
+    const composition={protocolVersion:1,valid:true,mode:2,x:48,y:16,width:65,height:64,background:null,clearFrames:bitset(0,1,2,3,4,5,6)};
+    const display={generation:9,session:2,eventId:5,commitSeq:8,frameIndex:7,frameValid:true,valid:true,paintSeq:10,visibleFrames:bitset(7),composition,label,digits:[digit]};
+    const result={protocolVersion:1,active:true,phase:'numbers',custom:false,sourceValid:true,generation:9,session:2,skillId:1,resultKind:1,value:240,paintSeq:10,
+        speId:35,resourceIndex:0,count:entry.count,picmax:entry.picmax,startFrm:entry.startFrm,endFrm:entry.endFrm,x:48,y:16,
+        resourceLength:entry.resourceLength,resourceFingerprint:entry.resourceFingerprint,number:{...entry.skillNumber,valid:true},label,digits:[digit],scene:display,display};
+    const top={active:true,valid:true,kind:2,generation:9,session:2};
+    return{...fixture,result,top};
+}
+async function skillLoaded(options={}) {
+    const f=skillFixture(),h=harness({data:{g_scale:1},spe:{active:0,generation:9},skillResult:f.result,resultOwner:f.top,...options});
+    h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
+    const deadline=Date.now()+2000;while(!h.images.length&&Date.now()<deadline)await settle();
+    assert.equal(h.images.length,2);if(!options.pendingImage)h.images.forEach((_,i)=>h.resolveImage(i));
+    return{...h,fixture:f};
+}
+test('skill postlude draws its authenticated opaque window, actual label then displayed digit history, retaining LCD outside',async()=>{
+    const h=await skillLoaded(),s=h.api.debugSnapshot(),scale=14;
+    assert.equal(s.presentation,'skill-postlude');assert.equal(s.source,'hd-assets');assert.equal(s.spe.active,0);assert.equal(s.outsideSource,'lcd');assert.equal(s.hdRegion.width,65);
+    const drawing=h.events.filter(e=>e.node==='hd-spe-canvas');
+    const clip=drawing.findLast(e=>e.operation==='rect'&&e.args[2]===65*scale&&e.args[3]===64*scale);
+    assert.deepEqual(clip.args,[33*scale,0,65*scale,64*scale]);
+    assert.deepEqual(h.hdDraws().at(-1).args.slice(1),[33*scale,0,65*scale,64*scale]);
+    const texts=drawing.filter(e=>e.operation==='fillText').slice(-9);
+    assert.deepEqual(texts[0].args,['兵力减少',40*scale,2*scale,48*scale]);
+    assert.deepEqual(texts.slice(1).map(e=>e.args),Array.from({length:8},(_,i)=>['2',40*scale,(40-i)*scale,6*scale]));
+    assert.equal(h.nodes.get('hd-spe-skip').hidden,true);assert.equal(h.nodes.get('hd-spe-return').hidden,true);h.key();h.api.skip();assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+    const before=h.events.length;h.advance(50000);h.polls.forEach(p=>p());assert.equal(h.events.length,before);
+});
+test('skill result rejects any unproven movie unit, bounded window, numeric resource or label pose',async()=>{
+    const h=await skillLoaded(),f=h.fixture;
+    for(const change of [r=>{r.display.composition.width=64;},r=>{r.display.label.x=100;},r=>{r.number.resourceFingerprint='fnv1a32:00000000:327';},r=>{r.display.digits[0].x=110;}]){
+        const r=structuredClone(f.result);change(r);h.setSkillResult(r);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');
+    }
+    h.setSkillResult(f.result);const m=structuredClone(f.m);m.entries[0].units[0].x=1;h.api.setManifest(m);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');assert.deepEqual(h.keys,[]);
+});
+test('same-kind overwritten parent and different-kind retired parent preserve actual LCD until real native stack ends',async()=>{
+    const h=await skillLoaded(),f=h.fixture;
+    h.setSkillResult({...f.result,active:false});h.setResultOwner({...f.top,valid:false,session:1});h.flush();
+    assert.equal(h.api.debugSnapshot().presentation,'result-lcd');assert.equal(h.api.isOpen(),true);assert.equal(h.api.debugSnapshot().source,'lcd');
+    assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});
+    h.setSkillResult({...f.result,sourceValid:false});h.setResultOwner(f.top);h.flush();assert.equal(h.api.debugSnapshot().presentation,'skill-postlude');assert.equal(h.api.debugSnapshot().source,'lcd');
+    h.setResultOwner({active:false,valid:false,kind:0,generation:0,session:0});h.api.onEngineSpe();assert.equal(h.api.isOpen(),false);assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
+test('skill failed images and retired owners cannot be revived by late decode, hidden pages or resize',async()=>{
+    const h=await skillLoaded({pendingImage:true}),f=h.fixture;assert.equal(h.api.debugSnapshot().source,'lcd');
+    h.images[0].onerror();h.resolveImage(1);assert.equal(h.api.debugSnapshot().source,'lcd');
+    h.setHidden(true);h.events.length=0;h.flush();assert.deepEqual(h.events,[]);h.setHidden(false);assert.equal(h.api.debugSnapshot().source,'lcd');
+    h.setScreen(320,192);h.flush();assert.equal(h.api.debugSnapshot().fallbackReason,'screen-size-unsupported');
+    h.setResultOwner({...f.top,active:false,kind:0});h.setSkillResult({...f.result,active:false});h.api.blit();assert.equal(h.api.isOpen(),false);assert.deepEqual(h.keys,[]);
+});
+test('no-movie map result, custom skill and retired sources retain complete real LCD including target-edge numbers',async()=>{
+    const h=await skillLoaded(),f=h.fixture;
+    for(const change of [r=>{r.sourceValid=false;r.display.composition.mode=0;},r=>{r.sourceValid=false;r.custom=true;},r=>{r.display.valid=false;}]){
+        const r=structuredClone(f.result);change(r);h.setSkillResult(r);h.events.length=0;h.flush();
+        assert.equal(h.api.debugSnapshot().source,'lcd');assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});
+        const crop=h.events.findLast(e=>e.node==='hd-spe-canvas'&&e.operation==='drawImage'&&!(e.args[0] instanceof h.context.Image));
+        assert.deepEqual(crop.args.slice(1,5),[0,0,640,384],'native target coordinates at the LCD edges cannot be cropped out');
+    }
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
 test('ordinary attacks compose the actually observed background, cumulative erased boxes, then ascending live units', async () => {
     const h = await attackLoaded(), { entry } = h.fixture;
     assert.equal(h.api.debugSnapshot().source, 'hd-assets');
@@ -307,8 +376,8 @@ test('direct native damage flushes retain a separate postlude with opaque overla
     assert.equal(h.api.debugSnapshot().source, 'hd-assets');
     assert.equal(h.nodes.get('hd-spe-skip').hidden, true); assert.equal(h.nodes.get('hd-spe-return').hidden, true);
     const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').slice(-11);
-    assert.deepEqual(texts.map(e => e.args), [...Array.from({ length: 8 }, (_, j) => ['1', 40 * scale, (40 - j) * scale, 12 * scale]),
-        ...Array.from({ length: 3 }, (_, j) => ['4', 46 * scale, (40 - j) * scale, 12 * scale])]);
+    assert.deepEqual(texts.map(e => e.args), [...Array.from({ length: 8 }, (_, j) => ['1', 40 * scale, (40 - j) * scale, 6 * scale]),
+        ...Array.from({ length: 3 }, (_, j) => ['4', 46 * scale, (40 - j) * scale, 6 * scale])]);
     const paints = h.events.filter(e => e.node === 'hd-spe-canvas').slice(-83);
     assert.ok(paints.some(e => e.operation === 'fillRect' && e.args[0] === 46 * scale && e.args[2] === 12 * scale && e.args[3] === 16 * scale));
     h.api.skip(); h.api.returnToTitle(h.api.debugSnapshot().ownerToken); assert.equal(h.key().prevented, false);
@@ -373,7 +442,7 @@ test('future native numeric writes do not move the shown value until their own r
     h.setAttack({ ...a, paintSeq: 12, digits: [a.digits[0], nextDigit], display: { ...a.display, paintSeq: 12, digits: [a.digits[0], nextDigit] } });
     h.flush();
     const poses = h.events.filter(e => e.operation === 'fillText').slice(-12);
-    assert.equal(poses.length, 12); assert.deepEqual(poses.at(-1).args, ['4', 46 * 14, 37 * 14, 12 * 14]);
+    assert.equal(poses.length, 12); assert.deepEqual(poses.at(-1).args, ['4', 46 * 14, 37 * 14, 6 * 14]);
     assert.equal(h.api.debugSnapshot().spe.active, 0); assert.deepEqual(h.keys, []);
 });
 async function makerHold(frame = 95, options = {}) {

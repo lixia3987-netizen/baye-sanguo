@@ -5,6 +5,8 @@
  *   --range 21:9:17 accepts only this delivered interval; other ranges are untested.
  *   --allow-lcd verifies the rebuilt native observer without accepting HD art.
  *   --scenario 404|late|classic|hidden|resize runs one fresh legitimate game.
+ *   --recruit uses actual enlist/distribute menus before marching; requires --range.
+ *   --recruit-arms N requests min(N,actual native max) separately at both menus.
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
@@ -21,6 +23,12 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const allowLcd = process.argv.includes('--allow-lcd');
+const recruit = process.argv.includes('--recruit');
+const recruitArmsFlag=process.argv.indexOf('--recruit-arms');
+const recruitArmsText=recruitArmsFlag<0?'800':process.argv[recruitArmsFlag+1];
+assert.ok(/^\d+$/.test(recruitArmsText||''),'--recruit-arms must be a positive native U16 quantity');
+const recruitArms=Number(recruitArmsText);
+assert.ok(Number.isInteger(recruitArms)&&recruitArms>0&&recruitArms<=65535&&(recruitArmsFlag<0||recruit),'Custom recruitment requires --recruit and valid U16 bounds');
 const scenarioFlag=process.argv.indexOf('--scenario');
 const scenario=scenarioFlag<0?'nominal':process.argv[scenarioFlag+1];
 assert.ok(['nominal','404','late','classic','hidden','resize'].includes(scenario),'Known single acceptance scenario');
@@ -29,6 +37,7 @@ const rangeFlag = process.argv.indexOf('--range');
 const rangeText = rangeFlag < 0 ? null : process.argv[rangeFlag + 1];
 assert.ok(rangeText === null || /^(19|20|21|22|23|24|25):\d+:\d+$/.test(rangeText), '--range must be native SPE:start:end');
 const acceptedRange = rangeText === null ? null : rangeText.split(':').map(Number);
+assert.ok(!recruit || acceptedRange && [19,20].includes(acceptedRange[0]), '--recruit requires a real cavalry/infantry --range');
 const acceptsRange = (a) => !acceptedRange || a.speId === acceptedRange[0] && a.startFrm === acceptedRange[1] && a.endFrm === acceptedRange[2];
 const viewport = process.argv.includes('--720') ? {width:1280,height:720} : {width:1920,height:1080};
 const artifactFlag = process.argv.indexOf('--artifact-dir');
@@ -38,7 +47,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream' };
-const report = { scope:'Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', staged, allowLcd,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+const report = { scope:'Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', staged, allowLcd,recruit,recruitArms,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 const servedAssets = new Map();
 let nativeLib;
 let attackManifest;
@@ -124,6 +133,8 @@ function verifyAttackCaptures(captures) {
         assert.deepEqual(c.after,c.before,'Native/HD capture uses the same real display stamp');
         if(c.callbackBefore)assert.deepEqual(c.callbackAfter,c.callbackBefore,'Actual renderer callback preserves native SPE/attack snapshots');
         const a=c.attack,d=a.display,movie=nativeMovie(a.speId,a.resourceIndex),key=a.generation+':'+a.session;
+        assert.ok(c.top.active&&c.top.valid,'The actual ordinary result is the current native top owner');
+        assert.equal(c.top.kind,1);assert.equal(c.top.generation,a.generation);assert.equal(c.top.session,a.session);
         assert.equal(a.sourceValid,true,'Supported default native attack source stays valid at every actual LCD callback');
         assert.equal(d.valid,true);assert.equal(d.frameValid,true);assert.equal(d.generation,a.generation);assert.equal(d.session,a.session);
         assert.equal(d.composition.protocolVersion,1);assert.equal(d.composition.valid,true);assert.equal(a.x,15);assert.equal(a.y,16);
@@ -208,7 +219,7 @@ function verifyHdDraws(c,expected) {
     for(const frame of bitFrames(expected.visible)){const u=entry.units[frame],p=entry.pictures.find(p=>p.picIndex===u.picIndex);image(p.src,u.x,u.y,p.logicalWidth,p.logicalHeight);}
     for(const p of a.display.digits)for(let draw=0;draw<p.drawCount;draw++){
         const rect=log[i++],text=log[i++];assert.equal(rect?.type,'fillRect');assert.equal(text?.type,'fillText');assert.equal(text.text,String(p.digit));
-        const values=[p.x-15,p.firstY-draw-16,12,16];values.forEach((n,k)=>near(rect.args[k],n*scale));[values[0],values[1],12].forEach((n,k)=>near(text.args[k],n*scale));
+        const values=[p.x-15,p.firstY-draw-16,12,16];values.forEach((n,k)=>near(rect.args[k],n*scale));[values[0],values[1],6].forEach((n,k)=>near(text.args[k],n*scale));
     }assert.equal(i,log.length,'Only authorized background/clear/live/actual numeric draw operations are present');
 }
 
@@ -438,12 +449,12 @@ const speObserverSource = '(' + function () {
     window.__speObserverErrors = [];
     window.__spePhase = 'opening';
     let currentApi = null, originalSendKey = null;
-    const nativeSnapshot=()=>{try{return window.baye&&baye.hd&&baye.hd.ready()?JSON.parse(JSON.stringify({spe:baye.hd.spe(),attack:baye.hd.attack()})):null;}catch{return null;}};
+    const nativeSnapshot=()=>{try{return window.baye&&baye.hd&&baye.hd.ready()?JSON.parse(JSON.stringify({spe:baye.hd.spe(),attack:baye.hd.attack(),top:baye.hd.resultOwner(),skillResult:baye.hd.skillResult()})):null;}catch{return null;}};
     function record(stage,img,w,h,callbackBefore,callbackAfter) {
         try {
             if (!window.baye || !baye.hd || !baye.hd.ready()) return;
             const spe = baye.hd.spe(), ui = currentApi && currentApi.debugSnapshot();
-            const fight=baye.hd.fight(),reportOwner=baye.hd.report(),attack=baye.hd.attack&&baye.hd.attack();
+            const fight=baye.hd.fight(),reportOwner=baye.hd.report(),attack=baye.hd.attack&&baye.hd.attack(),top=baye.hd.resultOwner();
             const isAttack=spe.active&&spe.kind===3&&spe.id>=19&&spe.id<=25;
             const attrs=()=>[0,1].map(i=>{const a=baye.data.g_GenAtt[i];return {generalIndex:Number(a.generalIndex),armType:Number(a.armsType),terrain:Number(a.ter),attack:Number(a.at),defence:Number(a.df)};});
             if(isAttack)lastAttack={eventId:spe.eventId,generation:spe.generation,id:spe.id,startFrm:spe.startFrm,endFrm:spe.endFrm,actorIndex:spe.actorIndex,targetIndex:spe.targetIndex,attributes:attrs()};
@@ -452,14 +463,14 @@ const speObserverSource = '(' + function () {
             const probe=stage==='presentation-readback';
             if(held||probe){const lcd=document.getElementById('lcd');if(lcd){img=lcd.getContext('2d').getImageData(0,0,lcd.width,lcd.height);w=lcd.width;h=lcd.height;if(held)heldReadbacks.add(holdKey);}}
             if((stage==='lcd-flush'||held||probe)&&(lastAttack||attack&&attack.active)&&img) {
-                const before={spe:spe.display,attack:attack&&attack.display},native=document.createElement('canvas'),hd=document.getElementById('hd-spe-canvas');
+                const before={spe:spe.display,attack:attack&&attack.display,top},native=document.createElement('canvas'),hd=document.getElementById('hd-spe-canvas');
                 native.width=w||img.width;native.height=h||img.height;native.getContext('2d').putImageData(img,0,0);
                 let bytes='';for(let i=0;i<img.data.length;i++)bytes+=String.fromCharCode(img.data[i]);
-                const nativeRgba=btoa(bytes),nativeUrl=native.toDataURL('image/png'),hdUrl=hd&&hd.toDataURL('image/png'),after={spe:baye.hd.spe().display,attack:baye.hd.attack&&baye.hd.attack().display};
+                const nativeRgba=btoa(bytes),nativeUrl=native.toDataURL('image/png'),hdUrl=hd&&hd.toDataURL('image/png'),after={spe:baye.hd.spe().display,attack:baye.hd.attack&&baye.hd.attack().display,top:baye.hd.resultOwner()};
                 let lcdCanvasRgba=null;
                 if(hd&&ui.source==='lcd'&&hd.width===130*ui.scale&&hd.height===64*ui.scale){const data=hd.getContext('2d').getImageData(0,0,hd.width,hd.height).data;let sample='';for(let row=0;row<64;row++)for(let col=0;col<130;col++){const off=(Math.floor((row+.5)*ui.scale)*hd.width+Math.floor((col+.5)*ui.scale))*4;for(let channel=0;channel<4;channel++)sample+=String.fromCharCode(data[off+channel]);}lcdCanvasRgba=btoa(sample);}
                 const dom=()=>{const n=document.getElementById('lcd'),box=n&&n.getBoundingClientRect(),style=n&&getComputedStyle(n),container=n&&n.closest('.js-baye-pc-lcd'),cs=container&&getComputedStyle(container),root=document.getElementById('hd-spe'),r=hd&&hd.getBoundingClientRect(),s=hd&&getComputedStyle(hd),rs=root&&getComputedStyle(root),top=r&&document.elementFromPoint(r.x+r.width/2,r.y+r.height/2),ntop=box&&document.elementFromPoint(box.x+box.width/2,box.y+box.height/2);return {nativePresentation:box&&{visible:!!(box.width&&box.height&&style.visibility==='visible'&&style.display!=='none'&&cs&&cs.visibility==='visible'&&cs.display!=='none'),inViewport:box.x>=0&&box.y>=0&&box.right<=innerWidth+.5&&box.bottom<=innerHeight+.5,stackOwned:!!(ntop&&container&&container.contains(ntop)),top:ntop&&{id:ntop.id,className:ntop.className}},lcd:box&&{x:box.x,y:box.y,width:box.width,height:box.height,visibility:style.visibility,display:style.display},container:cs&&{visibility:cs.visibility,display:cs.display,opacity:cs.opacity},presentation:r&&{x:r.x,y:r.y,width:r.width,height:r.height,visible:!!(r.width&&r.height&&s.visibility==='visible'&&s.display!=='none'&&rs.visibility==='visible'&&rs.display!=='none'),inViewport:r.x>=0&&r.y>=0&&r.right<=innerWidth+.5&&r.bottom<=innerHeight+.5,stackOwned:!!(top&&root.contains(top)),top:top&&{id:top.id,className:top.className}},bodyClass:document.body.className,battleOpen:BayeHdBattle.isOpen(),speOpen:currentApi.isOpen()};};
-                window.__attackImages.push({stage:probe?'presentation-readback':held?'held-lcd-readback':isAttack?'spe-frame':'after-spe',rawSource:held||probe?'canvas-readback-normalized':'lcd-callback-image-data',callbackBefore,callbackAfter,lastAttack:lastAttack&&{...lastAttack},before,after,spe,attack,fight,reportOwner,ui,hidden:document.hidden,mode:BayeHdBattle.getMode(),uiPhase:window.__attackUiPhase,dom:dom(),drawLog:window.__hdSpeDrawLog.slice(),drawing:{flip:Number(baye.data.g_FlipDrawing),paint:Number(baye.data.g_paintColor),palette0:Number(baye.data.g_paintPalette[0]),palette255:Number(baye.data.g_paintPalette[255])},at:performance.now(),nativeWidth:native.width,nativeHeight:native.height,nativeRgba,lcdCanvasRgba,nativeUrl,hdUrl});
+                window.__attackImages.push({stage:probe?'presentation-readback':held?'held-lcd-readback':isAttack?'spe-frame':'after-spe',rawSource:held||probe?'canvas-readback-normalized':'lcd-callback-image-data',callbackBefore,callbackAfter,lastAttack:lastAttack&&{...lastAttack},before,after,spe,attack,top,fight,reportOwner,ui,hidden:document.hidden,mode:BayeHdBattle.getMode(),uiPhase:window.__attackUiPhase,dom:dom(),drawLog:window.__hdSpeDrawLog.slice(),drawing:{flip:Number(baye.data.g_FlipDrawing),paint:Number(baye.data.g_paintColor),palette0:Number(baye.data.g_paintPalette[0]),palette255:Number(baye.data.g_paintPalette[255])},at:performance.now(),nativeWidth:native.width,nativeHeight:native.height,nativeRgba,lcdCanvasRgba,nativeUrl,hdUrl});
                 if(window.__attackImages.length>2000)throw Error('Attack callback limit');
             }
             if(!spe.active&&fight.inputKind===1)lastAttack=null;
@@ -591,6 +602,174 @@ async function action(cdp, label, expression) {
     return result;
 }
 
+function recruitWorldExpression(cityIndex) {
+    return `(() => {
+        const d=baye.data,c=d.g_Cities[${cityIndex}],count=baye.getPersonCount();
+        const ids=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i]));
+        const persons=ids.map(id=>{if(!Number.isInteger(id)||id<0||id>=count)throw Error('Invalid native PersonQueue ID');const p=d.g_Persons[id];return {personIndex:id,nativeGenId:id+1,name:baye.getPersonName(id),belong:Number(p.Belong),arms:Number(p.Arms),thew:Number(p.Thew),armType:baye.hd.personArmType(id)};});
+        const orders=Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>d.g_OrderQueue[i]).filter(o=>Number(o.OrderId)!==255).map(o=>({OrderId:Number(o.OrderId),City:Number(o.City),Person:Number(o.Person),TimeCount:Number(o.TimeCount)}));
+        return {cityIndex:${cityIndex},belong:Number(c.Belong),playerKing:Number(d.g_PlayerKing),money:Number(c.Money),reserve:Number(c.MothballArms),armsPerMoney:Number(d.g_engineConfig.armsPerMoney),persons,orders,date:{year:Number(d.g_YearDate),month:Number(d.g_MonthDate)},menu:baye.hd.menuItems(),qty:baye.hd.qty()};
+    })()`;
+}
+
+async function currentPersonPicker(cdp,label,cityIndex) {
+    return waitFor(cdp,'actual '+label+' native IDs',`(() => {
+        const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.menuItems(),d=baye.data,c=d.g_Cities[${cityIndex}];
+        if(s.layer!=='deep'||s.deepLabel!==${JSON.stringify(label)}||!m.active||m.context!==1||m.kind!==3||!m.idsValid||!m.ids.length||s.sending||s.queueLen)return false;
+        const actual=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i])).filter(id=>Number(d.g_Persons[id].Belong)===Number(c.Belong));
+        if(JSON.stringify(actual)!==JSON.stringify(m.ids))throw Error('Native picker IDs differ from actual allied PersonQueue');
+        const owner=s.deepMenuOwner;
+        if(!owner||owner.context!==m.context||owner.kind!==m.kind||owner.seq!==m.seq||owner.detailGeneration!==m.detailGeneration||
+            !m.ids.every((id,index)=>s.deepItems.some(item=>item.i===index&&item.pind===id)))return false;
+        return {menu:m,city:s,personIds:actual};
+    })()`);
+}
+
+async function chooseNativePerson(cdp,label,cityIndex,personIndex) {
+    const picker=await currentPersonPicker(cdp,label,cityIndex),index=picker.menu.ids.indexOf(personIndex);
+    assert.ok(index>=0,'Requested person is in the actual native '+label+' picker');
+    const item=picker.city.deepItems.find(item=>item.i===index);
+    assert.equal(item?.pind,personIndex,'HD row belongs to the exact current native U16 person ID');
+    await click(cdp,`#hd-city-menu [data-hd-deep="${index}"][data-hd-deep-pind="${personIndex}"]`);
+    const qty=await waitFor(cdp,label+' genuine quantity wait',`(() => {
+        const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();
+        if(s.qtyAckFailed)throw Error('Native quantity ACK failed: '+s.qtyAckError);
+        return q.active&&q.protocol&&q.ready===1&&q.min===0&&q.max>0&&BayeHdCityMenu.isQtyLive()&&!s.sending&&!s.queueLen&&q;
+    })()`);
+    assert.ok(Number.isInteger(qty.session)&&qty.session>0);
+    assert.ok(Number.isInteger(qty.step)&&qty.step>0);
+    return {picker,index,personIndex,nativeGenId:personIndex+1,qty};
+}
+
+async function setRecruitQuantity(cdp,initial,description,requestedArms=recruitArms) {
+    const wanted=Math.min(initial.max,requestedArms),steps=[];
+    assert.ok(Number.isInteger(wanted)&&wanted>=initial.min&&wanted>0,'Requested amount is inside actual native bounds');
+    let q=initial;
+    const keyAck=async(name,expectedValue=null)=>{
+        const before=q,code={h:0x26,ArrowLeft:0x24,ArrowRight:0x25,ArrowUp:0x22,ArrowDown:0x23}[name];
+        await key(cdp,name);
+        q=await waitFor(cdp,description+' '+name+' native ACK',`(() => {
+            const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();
+            if(s.qtyAckFailed)throw Error('Native quantity ACK failed: '+s.qtyAckError);
+            return q.active&&q.protocol&&q.session===${initial.session}&&q.ready===1&&q.inputSeq!==${before.inputSeq}&&!s.sending&&!s.queueLen&&q;
+        })()`);
+        assert.equal(q.inputSeq,before.inputSeq===0xffffffff?1:before.inputSeq+1,'One player key has exactly one native quantity receipt');
+        assert.equal(q.lastKey,code,'Receipt belongs to this exact physical quantity key');
+        assert.equal(q.min,initial.min);assert.equal(q.max,initial.max);
+        if(expectedValue!==null)assert.equal(q.value,expectedValue,'Native quantity changed by the observed arithmetic place');
+        steps.push({physicalKey:name,nativeCode:code,before,after:q});
+    };
+    if(q.value!==wanted) {
+        // H is the original NumOperate max/min toggle. Start from real min0;
+        // physical arrows then use C's observed decimal step, never a setter.
+        if(q.value!==q.max)await keyAck('h',q.max);
+        await keyAck('h',q.min);
+        for(let iterations=0;q.value!==wanted&&iterations<100;iterations++) {
+            const remaining=wanted-q.value;
+            assert.ok(remaining>0,'Quantity planner never exceeds its original requested amount');
+            const place=10**Math.floor(Math.log10(remaining));
+            if(q.step<place)await keyAck('ArrowLeft',q.value);
+            else if(q.step>place)await keyAck('ArrowRight',q.value);
+            else await keyAck('ArrowUp',q.value+q.step);
+        }
+    }
+    assert.equal(q.value,wanted,'Player controls reached min(actual native max,requested amount)');
+    return {initial,requested:requestedArms,wanted,steps,atConfirmation:q};
+}
+
+async function commitRecruitQuantity(cdp,description) {
+    const q=await evaluate(cdp,'baye.hd.qty()');
+    const keyStart=await evaluate(cdp,'window.__speEngineKeys.length');
+    const selector=await evaluate(cdp,"BayeHdDialog.isQtyOpen()?'#hd-dialog [data-hd-dlg-ok]':'#hd-city-menu [data-hd-qty-ok]'");
+    await click(cdp,selector);
+    await waitFor(cdp,description+' consumed by original quantity input',`(() => {
+        const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();
+        if(s.qtyAckFailed)throw Error('Native quantity ACK failed: '+s.qtyAckError);
+        return !q.active&&!s.sending&&!s.queueLen;
+    })()`);
+    const after=await evaluate(cdp,'baye.hd.qty()'),keys=await evaluate(cdp,`window.__speEngineKeys.slice(${keyStart})`);
+    assert.deepEqual(keys.map(k=>k.code),[0x27],'One actual confirmation emits one native ENTER');
+    assert.equal(after.session,q.session);assert.equal(after.lastKey,0x27);assert.equal(after.value,q.value);
+    assert.equal(after.inputSeq,q.inputSeq===0xffffffff?1:q.inputSeq+1);
+    return {before:q,after,nativeKeys:keys};
+}
+
+async function reopenMilitaryAfterPersonPicker(cdp,cityIndex,label) {
+    const before=await evaluate(cdp,recruitWorldExpression(cityIndex)),inputStart=await evaluate(cdp,'window.__speEngineKeys.length');
+    await click(cdp,'#hd-city-menu [data-hd-menu-back]');
+    // The real command's person-picker EXIT unwinds all the way to PlayerTactic.
+    // The HD shell can retain its local sub layer; require the native map owner,
+    // then take the same actual city-entry path used at the beginning of march.
+    await waitFor(cdp,`native map after stopping ${label}`,"!baye.hd.menuItems().active&&!baye.hd.qty().active&&baye.hd.march().pick===1&&baye.hd.march().phase===0&&BayeHdOverworld.debugSnapshot().phase==='map'&&!BayeHdCityMenu.debugSnapshot().sending&&BayeHdCityMenu.debugSnapshot().queueLen===0");
+    const retired=await evaluate(cdp,recruitWorldExpression(cityIndex)),exitInputs=await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`);
+    assert.deepEqual(exitInputs.map(k=>k.code),[0x28],`${label} picker cancellation emits one actual EXIT`);
+    for(const field of ['money','reserve','persons','orders','date'])assert.deepEqual(retired[field],before[field],`${label} cancellation preserves ${field}`);
+    assert.ok(await action(cdp,`reopen-owned-city-after-${label}`,`BayeHdOverworld.walkToCity(${cityIndex})`));
+    await waitFor(cdp,`real city root after ${label}`,`(() => { const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(); return s.open&&s.layer==='root'&&s.cityIndex===${cityIndex}&&m.active&&m.context===1&&m.kind===1; })()`);
+    await click(cdp,'#hd-city-menu [data-hd-root="2"]');
+    await waitFor(cdp,`real military submenu after ${label}`,"(() => { const m=baye.hd.menuItems(); return BayeHdCityMenu.getLayer()==='sub'&&m.active&&m.context===1&&m.kind===2&&m.names[0]==='侦察'; })()");
+    const reopened=await evaluate(cdp,recruitWorldExpression(cityIndex));
+    for(const field of ['money','reserve','persons','orders','date'])assert.deepEqual(reopened[field],before[field],`${label} re-entry preserves ${field}`);
+    return {label,before,retired,reopened,exitInputs,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`)};
+}
+
+async function recruitSmoke(cdp,cityIndex) {
+    const inputStart=await evaluate(cdp,'window.__speEngineKeys.length');
+    await click(cdp,'#hd-city-menu [data-hd-sub="1"]');
+    const picker=await currentPersonPicker(cdp,'征兵',cityIndex),before=await evaluate(cdp,recruitWorldExpression(cityIndex));
+    const allowed=before.persons.filter(p=>picker.menu.ids.includes(p.personIndex));
+    const actor=allowed.find(p=>p.personIndex!==before.playerKing&&requestedActor(p));
+    assert.ok(actor,'Actual city contains a non-lord attacker for the requested native interval');
+    // Assign a different resident to the real conscription order. This person
+    // leaves the resident queue until PolicyExec; it is never faked back in.
+    const recruiter=allowed.slice().reverse().find(p=>p.personIndex!==actor.personIndex&&p.personIndex!==before.playerKing);
+    assert.ok(recruiter,'A different current native resident can perform conscription');
+    assert.ok(before.armsPerMoney>0&&Number.isInteger(before.armsPerMoney));
+    const chosen=await chooseNativePerson(cdp,'征兵',cityIndex,recruiter.personIndex);
+    const quantity=await setRecruitQuantity(cdp,chosen.qty,'征兵'),confirmation=await commitRecruitQuantity(cdp,'征兵');
+    await currentPersonPicker(cdp,'征兵',cityIndex);
+    let enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
+    assert.equal(enlisted.reserve,before.reserve+quantity.wanted,'Conscription adds the actual selected quantity to city reserves');
+    assert.equal(enlisted.money,before.money-Math.floor(quantity.wanted/before.armsPerMoney),'Money follows the actual configured conscription cost');
+    assert.equal(enlisted.persons.find(p=>p.personIndex===actor.personIndex)?.arms,actor.arms,'Conscription has not secretly equipped the attacker');
+    assert.deepEqual(enlisted.persons.map(p=>p.personIndex).sort((a,b)=>a-b),before.persons.filter(p=>p.personIndex!==recruiter.personIndex).map(p=>p.personIndex).sort((a,b)=>a-b),'Native order removes only its actual recruiter from city residents');
+    assert.equal(enlisted.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===recruiter.personIndex).length,before.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===recruiter.personIndex).length+1);
+    assert.deepEqual(enlisted.date,before.date,'Enlistment has not advanced the campaign month');
+    await checkpoint(cdp,'06a-real-enlisted-city-reserves');
+    const enlistments=[{recruiter,before,chosen,quantity,confirmation,after:enlisted}];
+    // A native order is capped independently by devotion and available money.
+    // Larger requested preparation can require another real resident/order;
+    // never manufacture reserves or advance time to restore the first person.
+    for(let round=1;recruitArms>800&&enlisted.reserve-before.reserve<recruitArms&&round<10;round++){
+        const previous=enlisted,picker=await currentPersonPicker(cdp,'征兵',cityIndex);
+        const candidate=previous.persons.slice().reverse().find(p=>p.personIndex!==actor.personIndex&&p.personIndex!==before.playerKing&&picker.menu.ids.includes(p.personIndex));
+        assert.ok(candidate,'Another actual remaining resident can issue the next bounded conscription order');
+        const selected=await chooseNativePerson(cdp,'征兵',cityIndex,candidate.personIndex);
+        const amount=await setRecruitQuantity(cdp,selected.qty,'征兵第'+(round+1)+'次',recruitArms-(previous.reserve-before.reserve)),receipt=await commitRecruitQuantity(cdp,'征兵第'+(round+1)+'次');
+        await currentPersonPicker(cdp,'征兵',cityIndex);enlisted=await evaluate(cdp,recruitWorldExpression(cityIndex));
+        assert.equal(enlisted.reserve,previous.reserve+amount.wanted);assert.equal(enlisted.money,previous.money-Math.floor(amount.wanted/before.armsPerMoney));
+        assert.equal(enlisted.persons.find(p=>p.personIndex===actor.personIndex)?.arms,actor.arms);
+        assert.deepEqual(enlisted.persons.map(p=>p.personIndex).sort((a,b)=>a-b),previous.persons.filter(p=>p.personIndex!==candidate.personIndex).map(p=>p.personIndex).sort((a,b)=>a-b));
+        assert.equal(enlisted.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===candidate.personIndex).length,previous.orders.filter(o=>o.OrderId===24&&o.City===cityIndex&&o.Person===candidate.personIndex).length+1);assert.deepEqual(enlisted.date,before.date);
+        enlistments.push({recruiter:candidate,before:previous,chosen:selected,quantity:amount,confirmation:receipt,after:enlisted});
+        await checkpoint(cdp,'06a-real-enlisted-additional-order-'+round);
+    }
+    const enlistRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'征兵');
+    await click(cdp,'#hd-city-menu [data-hd-sub="2"]');
+    const distribute=await chooseNativePerson(cdp,'分配',cityIndex,actor.personIndex);
+    const distribution=await setRecruitQuantity(cdp,distribute.qty,'分配'),distributionConfirmation=await commitRecruitQuantity(cdp,'分配');
+    await currentPersonPicker(cdp,'分配',cityIndex);
+    const equipped=await evaluate(cdp,recruitWorldExpression(cityIndex));
+    assert.equal(equipped.persons.find(p=>p.personIndex===actor.personIndex)?.arms,distribution.wanted,'Only real DistributeMake sets the attacker troop count');
+    assert.equal(equipped.reserve,enlisted.reserve+actor.arms-distribution.wanted,'Distribution transfers the original reserve plus old personal troops');
+    assert.equal(equipped.money,enlisted.money,'Native distribution charges no invented money');
+    assert.deepEqual(equipped.persons.map(p=>p.personIndex),enlisted.persons.map(p=>p.personIndex));
+    assert.deepEqual(equipped.orders,enlisted.orders);assert.deepEqual(equipped.date,before.date);
+    report.recruitment={cityIndex,requested:acceptedRange,recruiter,actor,attackerNativeGenId:actor.nativeGenId,before,chosen,quantity,confirmation,enlistments,enlisted,enlistRetirement,distribute,distribution,distributionConfirmation,equipped,nativeInputs:await evaluate(cdp,`window.__speEngineKeys.slice(${inputStart})`),scope:'Actual bounded conscription orders into city reserve, then actual distribution to the selected current native person. No time advance or game setters.'};
+    await checkpoint(cdp,'06b-real-distributed-attacker-troops');
+    report.recruitment.distributionRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'分配');
+}
+
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
     const owned = await waitFor(cdp, 'owned HD map 天水', `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===8 && c.name==='天水'); })()`);
@@ -603,6 +782,7 @@ async function marchSmoke(cdp) {
     await checkpoint(cdp,'06-hd-city');
     await click(cdp,'#hd-city-menu [data-hd-root="2"]');
     await waitFor(cdp, 'military submenu', `BayeHdCityMenu.getLayer() === 'sub' && baye.hd.menuItems().active && baye.hd.menuItems().names[0] === '侦察'`);
+    if(recruit)await recruitSmoke(cdp,owned.i);
     await click(cdp,'#hd-city-menu [data-hd-sub="4"]');
     await waitFor(cdp, 'march person picker', `(() => { const s=BayeHdCityMenu.debugSnapshot(),m=baye.hd.march(); return m.phase===1 && m.origin===8 && s.deepItems.length && baye.hd.menuItems().active; })()`);
     await checkpoint(cdp,'07-march-persons');
@@ -611,10 +791,15 @@ async function marchSmoke(cdp) {
     for(let i=0;i<6;i++) {
         const before=await evaluate(cdp,'({march:baye.hd.march(),menu:baye.hd.menuItems(),city:BayeHdCityMenu.debugSnapshot()})');
         if(before.march.phase!==1 || !before.menu.active || !before.city.deepItems.length) break;
+        if(recruit) {
+            assert.equal(before.menu.idsValid,true,'March picker has authoritative native person IDs');
+            report.marchPersonIds??=[];report.marchPersonIds.push(before.menu.ids[0]);
+        }
         await click(cdp,'#hd-city-menu [data-hd-deep="0"]');
         await waitFor(cdp,'selected general acknowledged',`baye.hd.march().selected > ${before.march.selected} || baye.hd.march().phase !== 1`);
     }
     await checkpoint(cdp,'08-march-persons-picked');
+    if(recruit)assert.ok(report.marchPersonIds.includes(report.recruitment.actor.personIndex),'The equipped actual person was selected for the native march');
     if(await evaluate(cdp,'baye.hd.march().phase === 1')) {
         await click(cdp,'#hd-city-menu [data-hd-finish-persons]');
     }
@@ -779,6 +964,12 @@ async function waitActionResolved(cdp,label,afterBout=null) {
 
 async function battleSmoke(cdp) {
     report.combatStart=await evaluate(cdp,battleStateExpression);
+    if(recruit) {
+        const actor=report.combatStart.units.find(u=>u.id===report.recruitment.attackerNativeGenId);
+        assert.ok(actor&&actor.side==='player','Actual GenArray contains the equipped marcher using personIndex+1');
+        assert.equal(actor.arms,report.recruitment.distribution.wanted,'Actual battle starts with the legitimately distributed troops');
+        assert.ok(requestedActor(actor));report.recruitment.battleActor=actor;
+    }
     // Keep the 100-troop lord at his actual starting tile. The existing battle
     // acceptance uses this same legal rest before approaching with other units.
     const lord=report.combatStart.units.find(u=>u.i===0);
@@ -792,16 +983,17 @@ async function battleSmoke(cdp) {
         const evidence=await collectSpe(cdp);
         if(report.attackCost)break;
         const current=await evaluate(cdp,battleStateExpression);
+        if(recruit)assert.ok(current.units.some(u=>u.id===report.recruitment.attackerNativeGenId&&u.state!==8&&u.arms>0),'The equipped actual attacker survived; a death is not replaced or repaired');
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
-            .sort((a,b)=>Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.i===0)-Number(b.i===0)||a.i-b.i)[0];
+            .sort((a,b)=>(recruit?Number(b.id===report.recruitment.attackerNativeGenId)-Number(a.id===report.recruitment.attackerNativeGenId):0)||Number(!requestedActor(a))-Number(!requestedActor(b))||Number(a.i===0)-Number(b.i===0)||a.i-b.i)[0];
         if(!actor) {
             if((report.turns?.length||0)>=4)break;
             await endArmyTurn(cdp);continue;
         }
         const selection=await chooseGeneral(cdp,actor);
         if(selection.inputKind===2) {
-            if(actor.i===0||!requestedActor(actor)) {
+            if(actor.i===0||!requestedActor(actor)||recruit&&actor.id!==report.recruitment.attackerNativeGenId) {
                 assert.equal((await action(cdp,actor.i===0?'keep-lord-protected':'keep-nonmatching-unit-at-native-tile',`BayeHdBattle.clickTile(${actor.x},${actor.y})`)).ok,true);
                 await waitBattle(cdp,3,'lord action menu');
                 await menuChoice(cdp,await evaluate(cdp,'baye.hd.menuItems().names[3]'),1);

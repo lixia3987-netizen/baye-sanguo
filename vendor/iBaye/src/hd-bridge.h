@@ -131,6 +131,26 @@ void baye_hd_help_clear(U32 generation, U32 inputSeq);
 #define BAYE_HD_ATTACK_NUMBERS 2
 #define BAYE_HD_ATTACK_HOLD 3
 #define BAYE_HD_ATTACK_DIGITS 10
+#define BAYE_HD_SKILL_VERSION 1
+#define BAYE_HD_SKILL_MOVIE 1
+#define BAYE_HD_SKILL_NUMBERS 2
+#define BAYE_HD_SKILL_HOLD 3
+#define BAYE_HD_SKILL_DIGITS 10
+#define BAYE_HD_SKILL_LABEL_BYTES 64
+#define BAYE_HD_SKILL_ARMS_LOSS 1
+#define BAYE_HD_SKILL_ARMS_GAIN 2
+#define BAYE_HD_SKILL_PROVENDER_LOSS 3
+#define BAYE_HD_SKILL_SCENE_BACKGROUND 1
+#define BAYE_HD_SKILL_SCENE_OPAQUE 2
+#define BAYE_HD_RESULT_ATTACK 1
+#define BAYE_HD_RESULT_SKILL 2
+
+/* Real native call stack, independent of whether its pixels remain HD-safe. */
+typedef struct HdResultScope {
+    struct HdResultScope* previous;
+    U32 generation, session;
+    U8 kind;
+} HdResultScope;
 
 typedef struct {
     U32 resourceFingerprint, resourceLength;
@@ -144,6 +164,7 @@ typedef struct {
 typedef struct HdSpeScope {
     struct HdSpeScope* previous;
     U32 generation, eventId, parentEventId, commitSeq, resourceFingerprint, resourceLength;
+    U32 resultSession;
     U16 depth, id, resourceIndex, count, picmax, frameIndex, skillId;
     I16 x, y;
     U8 kind, startFrm, endFrm, keyflag, frameValid, protocolValid, ready;
@@ -151,6 +172,9 @@ typedef struct HdSpeScope {
     U8 visibleFrames[BAYE_HD_SPE_FRAME_BYTES];
     U8 compositionValid, clearFrames[BAYE_HD_SPE_FRAME_BYTES];
     HdPictureSource background;
+    U8 sceneMode;
+    I16 sceneX, sceneY;
+    U16 sceneWidth, sceneHeight;
 } HdSpeScope;
 
 #define VK_DIGIT0 0x40
@@ -256,6 +280,23 @@ void baye_hd_attack_retire(void);
 void baye_hd_attack_number_resource(const HdPictureSource* info);
 void baye_hd_attack_digit_begin(U8 slot, U8 digit, I16 x, I16 y);
 void baye_hd_attack_digit_end(void);
+
+void baye_hd_result_scope_begin(HdResultScope* scope, U8 kind);
+void baye_hd_result_scope_end(HdResultScope* scope);
+
+/* Native skill results outlive their actual movie, without keeping SPE active. */
+U32 baye_hd_skill_begin(U16 skill, U8 actor, U8 target, U8 resultKind, U8 custom);
+void baye_hd_skill_numbers(U32 session, U8 resultKind, U16 value);
+void baye_hd_skill_hold(U32 session);
+void baye_hd_skill_end(U32 session);
+void baye_hd_skill_retire(void);
+void baye_hd_skill_movie_context(U32 session, U16 skill, U8 actor, U8 target);
+void baye_hd_skill_movie_shape(HdSpeScope* scope, I16 x, I16 y, U16 width, U16 height, U8 opaque);
+void baye_hd_skill_label_begin(U32 session, const U8* text, U16 capacity, I16 x, I16 y);
+void baye_hd_skill_label_end(U32 session, U32 consumed);
+void baye_hd_skill_number_resource(const HdPictureSource* info);
+void baye_hd_skill_digit_begin(U8 slot, U8 digit, I16 x, I16 y);
+void baye_hd_skill_digit_end(void);
 /* GamMakerInf owns its original scroll and GamDelay hold independently of
  * the child SPE scope. The hold observes the actual copied LCD. */
 #define BAYE_HD_MAKER_VERSION 1

@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "7516faed6ac032c4976f4f672f4affaa67af0665",
-  "engineSourceSha256": "90fa73dcf61a0529fb42a4c00ad8d3db60a35e784a200e26081038eba12fd8e0",
+  "sourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+  "engineSourceSha256": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791450399,
+  "sourceDateEpoch": 1791459382,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -180,6 +180,32 @@
     "input": "no added skip or return; original numeric and final delays retain native input behavior",
     "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
   },
+  "hdSkillResultProtocol": {
+    "version": 1,
+    "owner": [
+      "g_hdSkillResultGeneration",
+      "g_hdSkillResultSession",
+      "g_hdSkillResultPhase"
+    ],
+    "nativeStack": [
+      "g_hdResultOwnerKind",
+      "g_hdResultOwnerValid",
+      "g_hdResultOwnerGeneration",
+      "g_hdResultOwnerSession"
+    ],
+    "phases": {
+      "movie": 1,
+      "numbers": 2,
+      "hold": 3
+    },
+    "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
+    "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
+    "scene": "owned BACKPIC or verified equal opaque movie rectangle; no unknown full-arena background inferred",
+    "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
+    "input": "no added skip or return; original movie, number and result waiting lifecycle",
+    "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
+    "retirement": "uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived"
+  },
   "saveProtocol": {
     "version": 149,
     "legacyVersions": [
@@ -196,15 +222,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 192446,
-      "sha256": "05e3a27eeb54cf9cd41752a3a5ee4646ca8ce3ff4b0ac8230f95e75c5e806843"
+      "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60"
     },
     "baye.wasm": {
-      "bytes": 4387094,
-      "sha256": "41d613b016336725390971a8b2401c02e199c0beae6209f35ed3b044c2eba204"
+      "bytes": 4439355,
+      "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e"
     },
     "baye.wasm.map": {
       "bytes": 29805,
-      "sha256": "ff994f367203f3f5111426afdad0a8fed089d2be8163e7a59cbd0e391c3e6239"
+      "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4"
     }
   }
 }

@@ -28,7 +28,7 @@ function typedef(file, name) {
     return result[0];
 }
 const header = read('hd-bridge.h'), bridge = read('hd-bridge.c');
-const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION)_/.test(line)).join('\n');
+const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT)_/.test(line)).join('\n');
 const globals = bridge.slice(bridge.indexOf('U8 g_hdSpePendingKind ='), bridge.indexOf('U8 g_hdSkillActive ='));
 function observerFunctions(names) {
     const found = new Map();
@@ -46,7 +46,7 @@ const helpers = ['hd_next_input_seq', 'hd_spe_notify', 'baye_hd_maker_begin', 'b
     'baye_hd_spe_context', 'baye_hd_spe_enter', 'baye_hd_spe_ready', 'baye_hd_spe_frame',
     'baye_hd_spe_tick', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty', 'baye_hd_spe_lcd_copy',
     'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate', 'baye_hd_spe_draw_begin',
-    'baye_hd_spe_draw_end', 'baye_hd_spe_clear'];
+    'baye_hd_spe_draw_end', 'baye_hd_spe_clear', 'baye_hd_skill_movie_shape'];
 const observerSource = observerFunctions(helpers);
 
 // Independent fixed RCHEAD decoding obtains the actual complete MAKER item.
@@ -92,12 +92,13 @@ typedef int8_t BOOL;
 #define WK_SX 0
 #define WK_SY 0
 #define min(a,b) ((a)<(b)?(a):(b))
-` + constants + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
+` + constants + '\n' + typedef('hd-bridge.h', 'HdResultScope') + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
     typedef('baye/paccount.h', 'SPEUNIT') + '\n' + typedef('baye/paccount.h', 'SPERES') + '\n' +
     typedef('baye/graph.h', 'PictureHeadType') + String.raw`
 static U8 g_hdFightActive=0,g_hdMovieActive=0,g_FlipDrawing=0,g_paintColor=255;
 static U16 g_hdMovieId=0;
 static U32 g_paintPalette[256];
+static int g_screenWidth=160,g_screenHeight=96;
 ` + globals + '\n' + observerSource + String.raw`
 static const U8 initial[]={ROM_BYTES};
 static U8 resource[4096],g_VisScr[160*96];
@@ -114,9 +115,9 @@ static U16 gam_fread(void*dst,U16 size,U16 count,FakeFile*f){U32 amount=(U32)siz
     if(amount>f->length-f->position)amount=f->length-f->position;
     memcpy(dst,resource+f->position,amount);f->position+=amount;return (U16)(amount/size);}
 static void gamTraceP(U16 id){(void)id;}
-` + ['hd_spe_resource_available', 'hd_spe_resource_valid', 'hd_spe_resource_fingerprint']
+` + ['hd_spe_resource_available', 'hd_spe_resource_valid', 'hd_spe_resource_fingerprint', 'hd_skill_resource_shape']
     .map(name => actual('PublicFun.c', name)).join('\n') + String.raw`
-static int g_screenWidth=160,g_screenHeight=96;
+
 #define SCR_W g_screenWidth
 #define SCR_H g_screenHeight
 #define BYTES_PERLINE (SCR_W*AX_SCALE)

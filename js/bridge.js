@@ -1325,6 +1325,17 @@ function baye_bridge_init() {
                 displayBackground.valid && hdRangeBits(displayClears, count, start, end),
                 background: stable ? displayBackground : null, clearFrames: stable ? displayClears : [] } };
     }
+    function hdResultOwnerRead(r) {
+        return { kind: r.num('g_hdResultOwnerKind', 2), valid: r.num('g_hdResultOwnerValid', 1) === 1,
+            generation: r.num('g_hdResultOwnerGeneration'), session: r.num('g_hdResultOwnerSession') };
+    }
+    function hdResultOwnerSnapshot(d) {
+        var r = hdObserverReader(d), owner = hdResultOwnerRead(r);
+        if (!r.stable() || owner.kind && (!owner.generation || !owner.session))
+            return { active: false, kind: null, valid: false, generation: null, session: null };
+        owner.active = owner.kind > 0;
+        return owner;
+    }
     function hdAttackSnapshot(d) {
         var r = hdObserverReader(d), limits = { ProtocolVersion: 255, Active: 1, Phase: 3, Custom: 1, SourceValid: 1,
             Generation: 0xffffffff, Session: 0xffffffff, ActorIndex: 255, TargetIndex: 255, Hurt: 65535,
@@ -1335,7 +1346,7 @@ function baye_bridge_init() {
             DisplayPaintSeq: 0xffffffff, DisplayEventId: 0xffffffff, DisplayCommitSeq: 0xffffffff,
             DisplayFrameIndex: 65535, DisplayDigitCount: 10 }, v = {};
         for (var name in limits) v[name] = r.num('g_hdAttack' + name, limits[name]);
-        var generation = r.num('g_hdSpeGeneration'), background = hdObservedPicture(r, 'g_hdAttackBg'),
+        var top = hdResultOwnerRead(r), generation = r.num('g_hdSpeGeneration'), background = hdObservedPicture(r, 'g_hdAttackBg'),
             displayBackground = hdObservedPicture(r, 'g_hdAttackDisplayBg'), number = hdObservedPicture(r, 'g_hdAttackNumber');
         function scene(prefix, displayed) {
             var frame = v[displayed ? 'DisplayFrameIndex' : 'FrameIndex'];
@@ -1363,7 +1374,8 @@ function baye_bridge_init() {
             scene: null, display: null, skipEligible: false, returnEligible: false };
         if (!r.stable() || v.ProtocolVersion !== 1) return neutral;
         var owner = v.Active === 1 && v.Generation > 0 && v.Generation === generation && v.Session > 0 && v.Phase > 0;
-        var source = owner && v.SourceValid === 1 && !v.Custom && v.ActorIndex < 20 && v.TargetIndex < 20 &&
+        var source = owner && top.valid && top.kind === 1 && top.generation === v.Generation && top.session === v.Session &&
+            v.SourceValid === 1 && !v.Custom && v.ActorIndex < 20 && v.TargetIndex < 20 &&
             v.EventId > 0 && v.CommitSeq > 0 && v.ResourceLength > 0 && v.Count > 0 && v.Count <= 255 &&
             v.Picmax > 0 && v.Picmax <= 255 && v.FrameIndex >= v.StartFrm && v.FrameIndex <= v.EndFrm && background.valid &&
             hdRangeBits(current.visibleFrames, v.Count, v.StartFrm, v.EndFrm) &&
@@ -1401,6 +1413,114 @@ function baye_bridge_init() {
             startFrm: v.StartFrm, endFrm: v.EndFrm, x: hdOrigin(v.OriginX), y: hdOrigin(v.OriginY),
             resourceLength: v.ResourceLength, resourceFingerprint: hdFingerprint(v.ResourceFingerprint, v.ResourceLength),
             number: number, digits: currentDigits, scene: current, display: display, skipEligible: false, returnEligible: false };
+    }
+    function hdSkillResultSnapshot(d) {
+        var prefix = 'g_hdSkillResult', r = hdObserverReader(d), limits = {
+            ProtocolVersion: 255, Active: 1, Phase: 3, Custom: 1, SourceValid: 1,
+            Generation: 0xffffffff, Session: 0xffffffff, SkillId: 65535, ResultKind: 3,
+            ActorIndex: 255, TargetIndex: 255, Value: 65535, PaintSeq: 0xffffffff,
+            EventId: 0xffffffff, CommitSeq: 0xffffffff, FrameIndex: 65535,
+            Id: 65535, ResourceIndex: 65535, Count: 65535, Picmax: 65535, StartFrm: 255, EndFrm: 255,
+            OriginX: 65535, OriginY: 65535, ResourceFingerprint: 0xffffffff, ResourceLength: 0xffffffff,
+            DigitCount: 10, DisplayValid: 1, DisplayGeneration: 0xffffffff, DisplaySession: 0xffffffff,
+            DisplayPaintSeq: 0xffffffff, DisplayEventId: 0xffffffff, DisplayCommitSeq: 0xffffffff,
+            DisplayFrameIndex: 65535, DisplayDigitCount: 10
+        }, v = {};
+        for (var name in limits) v[name] = r.num(prefix + name, limits[name]);
+        var top = hdResultOwnerRead(r), generation = r.num('g_hdSpeGeneration'), background = hdObservedPicture(r, prefix + 'Bg'),
+            displayBackground = hdObservedPicture(r, prefix + 'DisplayBg'), number = hdObservedPicture(r, prefix + 'Number');
+        function scene(shown) {
+            var p = prefix + (shown ? 'Display' : ''), key = shown ? 'Display' : '',
+                mode = r.num(p + 'SceneMode', 2), frame = v[key + 'FrameIndex'];
+            return { generation: v[key + 'Generation'], session: v[key + 'Session'], paintSeq: v[key + 'PaintSeq'],
+                eventId: v[key + 'EventId'], commitSeq: v[key + 'CommitSeq'], frameIndex: frame === 65535 ? null : frame,
+                frameValid: false, visibleFrames: r.array(p + 'VisibleFrames', 32, 255),
+                composition: { protocolVersion: 1, valid: false, mode: mode,
+                    x: hdOrigin(r.num(p + 'SceneX', 65535)), y: hdOrigin(r.num(p + 'SceneY', 65535)),
+                    width: r.num(p + 'SceneWidth', 65535), height: r.num(p + 'SceneHeight', 65535),
+                    background: shown ? displayBackground : background, clearFrames: r.array(p + 'ClearFrames', 32, 255) } };
+        }
+        function label(shown) {
+            var p = prefix + (shown ? 'Display' : ''), valid = r.num(p + 'LabelValid', 1),
+                x = hdOrigin(r.num(p + 'LabelX', 65535)), y = hdOrigin(r.num(p + 'LabelY', 65535)),
+                length = r.num(p + 'LabelLength', 63), bytes = r.array(p + 'LabelGbk', 64, 255), text = null, complete = length > 0;
+            for (var i = 0; i < length; i++) {
+                if (bytes[i] < 32 || bytes[i] === 127 || bytes[i] === 255) complete = false;
+                if (bytes[i] >= 128) {
+                    if (bytes[i] < 129 || bytes[i] > 254 || ++i >= length || bytes[i] < 64 || bytes[i] > 254 || bytes[i] === 127) complete = false;
+                }
+            }
+            for (var j = length; j < bytes.length; j++) if (bytes[j] !== 0) complete = false;
+            if (complete) try { text = new TextDecoder('gbk', { fatal: true }).decode(new Uint8Array(bytes.slice(0, length))); } catch (e) { complete = false; }
+            return { valid: valid === 1 && complete, claimed: valid === 1, x: x, y: y, length: length,
+                bytes: bytes, text: complete ? text : null };
+        }
+        function digits(shown) {
+            var p = prefix + (shown ? 'Display' : ''), count = v[shown ? 'DisplayDigitCount' : 'DigitCount'],
+                index = r.array(p + 'DigitIndex', 10, 9), x = r.array(p + 'DigitX', 10, 65535),
+                y = r.array(p + 'DigitY', 10, 65535), firstY = r.array(p + 'DigitFirstY', 10, 65535),
+                draws = r.array(p + 'DigitDrawCount', 10, 65535), values = [], unused = true;
+            for (var i = 0; i < count; i++) values.push({ digit: index[i], x: hdOrigin(x[i]), y: hdOrigin(y[i]), firstY: hdOrigin(firstY[i]), drawCount: draws[i] });
+            for (var j = count; j < 10; j++) if (index[j] || x[j] || y[j] || firstY[j] || draws[j]) unused = false;
+            return { values: values, unused: unused };
+        }
+        var current = scene(false), display = scene(true), currentLabel = label(false), displayLabel = label(true),
+            currentDigits = digits(false), displayDigits = digits(true);
+        var neutral = { protocolVersion: v.ProtocolVersion, active: false, phase: null, custom: false, sourceValid: false,
+            generation: null, session: null, skillId: null, resultKind: null, actorIndex: null, targetIndex: null,
+            value: null, paintSeq: null, speId: null, resourceIndex: null, count: null, picmax: null,
+            startFrm: null, endFrm: null, x: null, y: null, resourceLength: null, resourceFingerprint: null,
+            number: null, label: null, digits: [], scene: null, display: null, skipEligible: false, returnEligible: false };
+        if (!r.stable() || v.ProtocolVersion !== 1) return neutral;
+        var owner = v.Active === 1 && v.Generation > 0 && v.Generation === generation && v.Session > 0 && v.Phase > 0;
+        function inside(c, x, y, width, height) {
+            return c.width > 0 && c.height > 0 && c.x >= 0 && c.y >= 0 && c.x + c.width <= 160 && c.y + c.height <= 96 &&
+                x >= c.x && y >= c.y && x + width <= c.x + c.width && y + height <= c.y + c.height;
+        }
+        function composition(s) {
+            var c = s.composition;
+            return (c.mode === 1 && c.background.valid && c.x === c.background.x && c.y === c.background.y &&
+                c.width === c.background.nativeWidth && c.height === c.background.nativeHeight || c.mode === 2) &&
+                inside(c, c.x, c.y, c.width, c.height) && hdRangeBits(s.visibleFrames, v.Count, v.StartFrm, v.EndFrm) &&
+                hdRangeBits(c.clearFrames, v.Count, v.StartFrm, v.EndFrm);
+        }
+        function validLabel(l, c) { return !l.claimed || l.valid && inside(c, l.x, l.y, l.length * 6, 12); }
+        function validDigits(ds, l, c) {
+            var decimal = String(v.Value);
+            return ds.unused && ds.values.length <= decimal.length && (!ds.values.length || number.valid && number.count === 10 && number.mask === 0 && l.valid) &&
+                ds.values.every(function (digit, i) {
+                    return digit.digit === decimal.charCodeAt(i) - 48 && digit.drawCount > 0 && digit.drawCount <= Math.floor(number.nativeHeight / 2) &&
+                        digit.y === digit.firstY - digit.drawCount + 1 && inside(c, digit.x, digit.firstY, number.nativeWidth, number.nativeHeight) &&
+                        inside(c, digit.x, digit.y, number.nativeWidth, number.nativeHeight);
+                });
+        }
+        var source = owner && top.valid && top.kind === 2 && top.generation === v.Generation && top.session === v.Session &&
+            v.SourceValid === 1 && !v.Custom && v.SkillId > 0 && v.ResultKind > 0 && v.ResultKind < 3 &&
+            v.ActorIndex < 20 && v.TargetIndex < 20 && v.EventId > 0 && v.CommitSeq > 0 && v.ResourceLength > 0 &&
+            v.Count > 0 && v.Count <= 255 && v.Picmax > 0 && v.Picmax <= 255 && v.FrameIndex >= v.StartFrm && v.FrameIndex <= v.EndFrm &&
+            composition(current) && validLabel(currentLabel, current.composition) && validDigits(currentDigits, currentLabel, current.composition);
+        var shown = source && v.DisplayValid === 1 && v.DisplayGeneration === v.Generation && v.DisplaySession === v.Session &&
+            v.DisplayEventId === v.EventId && v.DisplayCommitSeq === v.CommitSeq && v.DisplayFrameIndex === v.FrameIndex && v.DisplayPaintSeq <= v.PaintSeq &&
+            composition(display) && ['mode', 'x', 'y', 'width', 'height'].every(function (key) { return current.composition[key] === display.composition[key]; }) &&
+            (current.composition.mode !== 1 || JSON.stringify(displayBackground) === JSON.stringify(background)) &&
+            current.visibleFrames.every(function (bit, i) { return bit === display.visibleFrames[i]; }) &&
+            current.composition.clearFrames.every(function (bit, i) { return bit === display.composition.clearFrames[i]; }) &&
+            validLabel(displayLabel, display.composition) && (!displayLabel.claimed || currentLabel.valid && displayLabel.x === currentLabel.x &&
+                displayLabel.y === currentLabel.y && displayLabel.length === currentLabel.length && displayLabel.bytes.every(function (b, i) { return b === currentLabel.bytes[i]; })) &&
+            v.DisplayDigitCount <= v.DigitCount && validDigits(displayDigits, displayLabel, display.composition) &&
+            displayDigits.values.every(function (digit, i) {
+                var now = currentDigits.values[i]; return now && now.digit === digit.digit && now.x === digit.x && now.firstY === digit.firstY && now.drawCount >= digit.drawCount;
+            });
+        current.frameValid = current.composition.valid = source; current.label = currentLabel;
+        display.frameValid = display.composition.valid = display.valid = shown; display.label = displayLabel; display.digits = displayDigits.values;
+        return { protocolVersion: v.ProtocolVersion, active: owner, phase: owner ? { 1: 'movie', 2: 'numbers', 3: 'hold' }[v.Phase] : null,
+            custom: v.Custom === 1, sourceValid: source, generation: v.Generation, session: v.Session,
+            skillId: v.SkillId, resultKind: v.ResultKind, actorIndex: v.ActorIndex === 255 ? null : v.ActorIndex,
+            targetIndex: v.TargetIndex === 255 ? null : v.TargetIndex, value: v.Value, paintSeq: v.PaintSeq, speId: v.Id,
+            resourceIndex: v.ResourceIndex, count: v.Count, picmax: v.Picmax, startFrm: v.StartFrm, endFrm: v.EndFrm,
+            x: hdOrigin(v.OriginX), y: hdOrigin(v.OriginY), resourceLength: v.ResourceLength,
+            resourceFingerprint: hdFingerprint(v.ResourceFingerprint, v.ResourceLength), number: number,
+            label: currentLabel, digits: currentDigits.values, scene: current, display: display, skipEligible: false, returnEligible: false };
     }
     function hdDetailText(obj, name, length) {
         var value = obj && obj[name];
@@ -1934,6 +2054,13 @@ function baye_bridge_init() {
         attack: function () {
             hdNote('hd.attack', '');
             return hdAttackSnapshot(baye.ensureData());
+        },
+        skillResult: function () {
+            hdNote('hd.skillResult', '');
+            return hdSkillResultSnapshot(baye.ensureData());
+        },
+        resultOwner: function () {
+            return hdResultOwnerSnapshot(baye.ensureData());
         },
         maker: function () {
             hdNote('hd.maker', '');

@@ -44,7 +44,8 @@ function fixture(){
         [prefix+'Count']:bytes.readUInt16LE(4),[prefix+'Mask']:bytes[6],
         [prefix+'OriginX']:x,[prefix+'OriginY']:y,[prefix+'ResourceFingerprint']:fingerprint(bytes),[prefix+'ResourceLength']:bytes.length});}
     function hold(phase=3){
-        Object.assign(raw,{g_hdSpeProtocolVersion:2,g_hdSpeGeneration:7,g_hdSpeActive:0,
+        Object.assign(raw,{g_hdResultOwnerKind:1,g_hdResultOwnerValid:1,g_hdResultOwnerGeneration:7,g_hdResultOwnerSession:11,
+            g_hdSpeProtocolVersion:2,g_hdSpeGeneration:7,g_hdSpeActive:0,
             g_hdAttackProtocolVersion:1,g_hdAttackActive:1,g_hdAttackPhase:phase,g_hdAttackCustom:0,
             g_hdAttackSourceValid:1,g_hdAttackGeneration:7,g_hdAttackSession:11,g_hdAttackActorIndex:3,
             g_hdAttackTargetIndex:10,g_hdAttackHurt:123,g_hdAttackPaintSeq:24,g_hdAttackEventId:31,
@@ -160,7 +161,7 @@ test('the actual U32 value binding restores signed WASM i32 results before authe
     for(const [i,unsigned] of [0x80000000,0xb37d7407,0xffffffff].entries()){const at=128+i*4;memory.setUint32(at,unsigned,true);assert.equal(actual.read(at),unsigned-0x100000000);
         bindings[i]=c.baye_bridge_valuedef(1,at);assert.equal(bindings[i].value,unsigned);}
     h.raw.g_hdAttackNumberResourceFingerprint=bindings[1];h.raw.g_hdAttackResourceFingerprint=bindings[2];
-    for(const field of ['g_hdSpeGeneration','g_hdAttackGeneration','g_hdAttackDisplayGeneration','g_hdAttackSession','g_hdAttackDisplaySession'])h.raw[field]=bindings[0];
+    for(const field of ['g_hdSpeGeneration','g_hdResultOwnerGeneration','g_hdResultOwnerSession','g_hdAttackGeneration','g_hdAttackDisplayGeneration','g_hdAttackSession','g_hdAttackDisplaySession'])h.raw[field]=bindings[0];
     const v=h.baye.hd.attack();assert.equal(v.active,true);assert.equal(v.sourceValid,true);assert.equal(v.display.valid,true);assert.equal(v.generation,0x80000000);
     assert.equal(v.number.resourceFingerprint,'fnv1a32:b37d7407:327');assert.equal(v.resourceFingerprint,'fnv1a32:ffffffff:6115');h.untouched();
 });

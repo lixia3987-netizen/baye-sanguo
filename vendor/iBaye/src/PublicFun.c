@@ -85,6 +85,40 @@ static U8 hd_spe_resource_valid(const U8* resource, U32 length, U8 startFrm, U8 
     return 1;
 }
 
+/* Derive only what the actual selected units can establish. A common opaque
+ * rectangle needs no invented arena background; other shapes need real BACKPIC. */
+static void hd_skill_resource_shape(HdSpeScope* scope, const U8* resource)
+{
+    const SPERES* header = (const SPERES*)resource;
+    const SPEUNIT* units = (const SPEUNIT*)(resource + sizeof(SPERES));
+    const PictureHeadType* pictures[256];
+    U32 offset = sizeof(SPERES) + (U32)header->count * sizeof(SPEUNIT), i;
+    I32 left = 32767, top = 32767, right = -32768, bottom = -32768;
+    I32 firstX = 0, firstY = 0;
+    U16 firstWidth = 0, firstHeight = 0;
+    U8 opaque = 1;
+    if (scope->kind != BAYE_HD_SPE_KIND_SKILL || !scope->contextKnown) return;
+    /* PlcMovie's complete item validation precedes this bounded scan. */
+    for (i = 0; i < header->picmax; ++i) {
+        const PictureHeadType* p = (const PictureHeadType*)(resource + offset);
+        pictures[i] = p;
+        offset += sizeof(PictureHeadType) + (((U32)p->wid + 7) / 8) * p->hig * ((U32)p->mask + 1);
+    }
+    for (i = scope->startFrm; i <= scope->endFrm; ++i) {
+        const PictureHeadType* p = pictures[units[i].picIdx];
+        I32 x = (I32)scope->x + units[i].x, y = (I32)scope->y + units[i].y;
+        if (i == scope->startFrm) { firstX = x; firstY = y; firstWidth = p->wid; firstHeight = p->hig; }
+        if (p->mask || x != firstX || y != firstY || p->wid != firstWidth || p->hig != firstHeight) opaque = 0;
+        if (x < left) left = x; if (y < top) top = y;
+        if (x + p->wid > right) right = x + p->wid;
+        if (y + p->hig > bottom) bottom = y + p->hig;
+    }
+    if (left < -32768 || top < -32768 || right > 32767 || bottom > 32767) {
+        baye_hd_skill_movie_shape(scope, 0, 0, 0, 0, 0); return;
+    }
+    baye_hd_skill_movie_shape(scope, (I16)left, (I16)top, (U16)(right - left), (U16)(bottom - top), opaque);
+}
+
 static U32 hd_spe_resource_fingerprint(const U8* resource, U32 length)
 {
     U32 hash = 2166136261u, i;
@@ -166,6 +200,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
     }
     baye_hd_spe_ready(&hdScope, ((SPERES*)srsptr)->count, ((SPERES*)srsptr)->picmax,
         hd_spe_resource_fingerprint(srsptr, resourceLength), resourceLength, endfrm, simplePictures);
+    hd_skill_resource_shape(&hdScope, srsptr);
 
     count  = *(srsptr+2);
     picmax = *(srsptr+3);
@@ -723,7 +758,7 @@ FAR void PlcRPicShowEx(U16 id, U16 item, U16 idx,PT x,PT y,U8 flag)
     memset(&info, 0, sizeof(info));
     if (observed && (!idx || !baye_hd_picture_info(id, item, idx - 1, pic, observedLength, &info))) {
         if (id == SPE_BACKPIC && !flag) { baye_hd_background_begin(); baye_hd_background_end(NULL); }
-        if (id == NUM_PICID && flag) baye_hd_attack_number_resource(NULL);
+        if (id == NUM_PICID && flag) { baye_hd_attack_number_resource(NULL); baye_hd_skill_number_resource(NULL); }
         return;
     }
     if(NULL == pic)
@@ -757,7 +792,7 @@ FAR void PlcRPicShowEx(U16 id, U16 item, U16 idx,PT x,PT y,U8 flag)
     }
     else
     {
-        if (id == NUM_PICID) baye_hd_attack_number_resource(&info);
+        if (id == NUM_PICID) { baye_hd_attack_number_resource(&info); baye_hd_skill_number_resource(&info); }
         if(mode)
             GamMPicShowS(x,y,wid,high,pic);
         else

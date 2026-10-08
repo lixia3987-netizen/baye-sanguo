@@ -15,9 +15,35 @@
     function info() { if (state.preparing) return {}; try {
         if (!(global.baye && baye.hd && baye.hd.ready())) return {};
         var s = baye.hd.spe() || {}, m = typeof baye.hd.maker === 'function' ? baye.hd.maker() : null,
-            a = typeof baye.hd.attack === 'function' ? baye.hd.attack() : null;
+            a = typeof baye.hd.attack === 'function' ? baye.hd.attack() : null,
+            result = typeof baye.hd.skillResult === 'function' ? baye.hd.skillResult() : null,
+            top = typeof baye.hd.resultOwner === 'function' ? baye.hd.resultOwner() : null;
+        if (!s.active && top && top.active && top.generation === s.generation &&
+            (!top.valid || top.kind === 1 && !(a && a.active && a.generation === top.generation && a.session === top.session) ||
+                top.kind === 2 && !(result && result.active && result.generation === top.generation && result.session === top.session))) {
+            // A real parent can survive a nested observer's metadata. Keep its
+            // real LCD wait visible; never restore the parent's retired HD.
+            return { active: true, ownerType: 'result-lcd', resultOwner: top, nativeSpe: s,
+                protocolVersion: 2, id: 0, kind: top.kind === 1 ? 3 : 2, generation: top.generation,
+                eventId: 0, protocolValid: false, frameValid: false, keyflag: 0, skipEligible: false, display: null };
+        }
+        if (!s.active && result && result.protocolVersion === 1 && result.active &&
+            (result.phase === 'numbers' || result.phase === 'hold') && integer(result.generation) &&
+            result.generation === s.generation && integer(result.session) && result.session > 0 &&
+            (!top || top.active && top.valid && top.kind === 2 && top.generation === result.generation && top.session === result.session)) {
+            // CommonJN owns its surviving native label/number/wait. The
+            // finished public SPE stays inactive, including the LCD fallback.
+            return { active: true, ownerType: 'skill-postlude', skillResult: result, nativeSpe: s,
+                protocolVersion: 2, id: result.speId, kind: 2, generation: result.generation,
+                eventId: result.scene && result.scene.eventId, resourceIndex: result.resourceIndex,
+                count: result.count, picmax: result.picmax, x: result.x, y: result.y, startFrm: result.startFrm, endFrm: result.endFrm,
+                resourceLength: result.resourceLength, resourceFingerprint: result.resourceFingerprint,
+                protocolValid: result.sourceValid === true && !result.custom, frameValid: result.sourceValid === true,
+                keyflag: 0, skipEligible: false, display: result.display };
+        }
         if (!s.active && a && a.protocolVersion === 1 && a.active && (a.phase === 'numbers' || a.phase === 'hold') &&
-            integer(a.generation) && a.generation === s.generation && integer(a.session) && a.session > 0) {
+            integer(a.generation) && a.generation === s.generation && integer(a.session) && a.session > 0 &&
+            (!top || top.active && top.valid && top.kind === 1 && top.generation === a.generation && top.session === a.session)) {
             // FgtAtkAction owns this native wait. Its finished child SPE is
             // never reactivated; direct LCD numeric flushes have their own stamp.
             return { active: true, ownerType: 'attack-postlude', attack: a, nativeSpe: s,
@@ -65,11 +91,16 @@
     } }
     function held(s) { return s.ownerType === 'maker-hold'; }
     function postlude(s) { return s.ownerType === 'attack-postlude'; }
-    function event(s) { return postlude(s) ? 'attack:' + s.attack.generation + ':' + s.attack.session : held(s) ? 'maker:' + s.maker.generation + ':' + s.maker.session + ':' + s.maker.inputSeq : s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
-    function stamp(s) { var d = s.display; return postlude(s) ? event(s) + ':' + (d && d.paintSeq) + ':' + (d && d.commitSeq) : d ? d.generation + ':' + d.eventId + ':' + d.commitSeq : event(s); }
+    function skillPostlude(s) { return s.ownerType === 'skill-postlude'; }
+    function numericOwner(s) { return postlude(s) || skillPostlude(s); }
+    function event(s) { return s.ownerType === 'result-lcd' ? 'result:' + s.resultOwner.kind + ':' + s.resultOwner.generation + ':' + s.resultOwner.session : skillPostlude(s) ? 'skill:' + s.skillResult.generation + ':' + s.skillResult.session : postlude(s) ? 'attack:' + s.attack.generation + ':' + s.attack.session : held(s) ? 'maker:' + s.maker.generation + ':' + s.maker.session + ':' + s.maker.inputSeq : s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
+    function stamp(s) { var d = s.display; return numericOwner(s) ? event(s) + ':' + (d && d.paintSeq) + ':' + (d && d.commitSeq) : d ? d.generation + ':' + d.eventId + ':' + d.commitSeq : event(s); }
     function matches(s) { var d = s.display;
-        if (postlude(s)) return !!(s.attack.sourceValid && d && d.valid && d.frameValid &&
-            d.generation === s.attack.generation && d.session === s.attack.session && integer(d.paintSeq) && d.paintSeq >= 0);
+        if (numericOwner(s)) {
+            var owner = skillPostlude(s) ? s.skillResult : s.attack;
+            return !!(owner.sourceValid && d && d.valid && d.frameValid &&
+                d.generation === owner.generation && d.session === owner.session && integer(d.paintSeq) && d.paintSeq >= 0);
+        }
         if (held(s)) {
             var saved = s.maker.display;
             return !!(s.maker.sourceValid && d && saved && d.frameValid && saved.frameValid &&
@@ -80,7 +111,7 @@
         }
         return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0);
     }
-    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && (postlude(s) || held(s) || matches(s))); }
+    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && (s.ownerType === 'result-lcd' || numericOwner(s) || held(s) || matches(s))); }
     function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }
     function retire(key) {
         if (state.event !== (key || ''))
@@ -226,6 +257,7 @@
         if (e.compositionVersion != null) {
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
+        if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
         return true;
     }
     function rangePictures(e) {
@@ -386,7 +418,7 @@
         } catch (error) { return; }
         var selected = state.assets;
         state.manifest.entries.forEach(function (entry) {
-            if (entry && entry.kind === 3 && entry.compositionVersion === 1 && valid(entry)) load(entry);
+            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && entry.skillResultVersion === 1) && valid(entry)) load(entry);
         });
         state.assets = selected;
     }
@@ -408,18 +440,42 @@
         return out;
     }
     function numberPoses(s, entry) {
-        if (!postlude(s)) return [];
-        if (!sameSource(entry.number, s.attack.number) || !Array.isArray(s.display.digits) || s.display.digits.length > 5) return null;
-        var decimal = String(s.attack.hurt), poses = [], scale = state.manifest.axScale;
+        if (!numericOwner(s)) return [];
+        var owner = skillPostlude(s) ? s.skillResult : s.attack, number = skillPostlude(s) ? entry.skillNumber : entry.number;
+        if (!Array.isArray(s.display.digits) || s.display.digits.length > 5 ||
+            (s.display.digits.length || postlude(s)) && !sameSource(number, owner.number)) return null;
+        var decimal = String(skillPostlude(s) ? owner.value : owner.hurt), poses = [], scale = state.manifest.axScale;
         for (var i = 0; i < s.display.digits.length; i++) {
             var digit = s.display.digits[i];
             if (!digit || !integer(digit.digit) || digit.digit !== decimal.charCodeAt(i) - 48 || !integer(digit.x) || !integer(digit.y) ||
-                !integer(digit.firstY) || !integer(digit.drawCount) || digit.drawCount < 1 || digit.drawCount > Math.floor(entry.number.nativeHeight / 2) ||
+                !integer(digit.firstY) || !integer(digit.drawCount) || digit.drawCount < 1 || digit.drawCount > Math.floor(number.nativeHeight / 2) ||
                 digit.y !== digit.firstY - digit.drawCount + 1) return null;
             for (var j = 0; j < digit.drawCount; j++) poses.push({ digit: digit.digit, x: digit.x, y: digit.firstY - j,
-                width: entry.number.nativeWidth / scale, height: entry.number.nativeHeight / scale });
+                width: number.nativeWidth / scale, height: number.nativeHeight / scale });
         }
         return poses;
+    }
+    function skillWindow(s, entry) {
+        var c = s.display && s.display.composition;
+        // An opaque, equal native rectangle establishes only this bounded
+        // window. Outside pixels continue to come from the actual LCD flush.
+        if (!skillPostlude(s) || entry.skillResultVersion !== 1 || !c || c.valid !== true || c.mode !== 2 ||
+            !integer(c.x) || !integer(c.y) || !integer(c.width) || !integer(c.height) || c.x < 0 || c.y < 0 ||
+            c.width <= 0 || c.height <= 0 || c.x + c.width > W || c.y + c.height > H) return null;
+        for (var f = entry.startFrm; f <= entry.endFrm; f++) {
+            var unit = entry.units[f], pic = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
+            if (!pic || pic.mask !== 0 || s.x + unit.x !== c.x || s.y + unit.y !== c.y ||
+                pic.logicalWidth !== c.width || pic.logicalHeight !== c.height) return null;
+        }
+        return { x: c.x, y: c.y, width: c.width, height: c.height };
+    }
+    function skillLabel(s, region) {
+        var label = s.display && s.display.label;
+        if (!label || !label.claimed) return null;
+        if (!label.valid || typeof label.text !== 'string' || !label.text || !integer(label.x) || !integer(label.y) ||
+            !integer(label.length) || label.length < 1 || label.length > 63 || label.x < region.x || label.y < region.y ||
+            label.x + label.length * 6 > region.x + region.width || label.y + 12 > region.y + region.height) return false;
+        return label;
     }
     function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s); }
     function paint(s) {
@@ -435,7 +491,11 @@
             if (!capture(null, 0, 0, s))
                 return;
         var baseline = size.width === W && size.height === H, k = kind(s), sx = 0, sy = 0, sw = size.width, sh = size.height;
-        if (baseline && k !== 1) {
+        var resultScene = skillPostlude(s) && s.display && s.display.composition;
+        var resultArena = !skillPostlude(s) || s.skillResult.sourceValid === true && s.display.valid === true &&
+            resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
+            resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
+        if (baseline && k !== 1 && s.ownerType !== 'result-lcd' && resultArena) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;
@@ -443,6 +503,9 @@
             sw = 130;
             sh = 64;
         }
+        // Map result numbers (LookMovie0/no movie) and overwritten parents
+        // have no certified arena. Their actual target may be anywhere on LCD.
+        state.sourceRect = { x: sx, y: sy, width: sw, height: sh };
         var scale = Math.max(1, Math.min(Math.floor(1920 / sw), Math.floor(1080 / sh))), w = sw * scale, h = sh * scale;
         if (canvas.width !== w || canvas.height !== h) {
             canvas.width = w;
@@ -475,8 +538,15 @@
             state.reason = state.libReason || 'event-not-matched';
             return;
         }
-        var clears = [], poses = [];
-        if (entry.compositionVersion === 1) {
+        var clears = [], poses = [], region = null, label = null;
+        if (skillPostlude(s)) {
+            region = skillWindow(s, entry); clears = cleared(s); poses = numberPoses(s, entry);
+            label = region && skillLabel(s, region);
+            if (!region || !clears || !poses || label === false || poses.length && !label ||
+                poses.some(function (p) { return p.x < region.x || p.y < region.y || p.x + p.width > region.x + region.width || p.y + p.height > region.y + region.height; })) {
+                state.reason = 'skill-composition-not-matched'; return;
+            }
+        } else if (entry.compositionVersion === 1) {
             clears = cleared(s);
             poses = numberPoses(s, entry);
             if (!clears || !poses || !sameSource(entry.background, s.display.composition && s.display.composition.background)) {
@@ -492,33 +562,42 @@
         }
         ctx.imageSmoothingEnabled = true;
         ctx.fillStyle = '#171a16';
-        ctx.fillRect(0, 0, w, h);
+        if (!region) ctx.fillRect(0, 0, w, h);
         ctx.save();
         ctx.beginPath();
-        ctx.rect(0, 0, w, h);
+        if (region) ctx.rect((region.x - sx) * scale, (region.y - sy) * scale, region.width * scale, region.height * scale);
+        else ctx.rect(0, 0, w, h);
         ctx.clip();
         if (entry.compositionVersion === 1) {
             var background = entry.background;
             ctx.drawImage(assets.images.background, (background.x - sx) * scale, (background.y - sy) * scale,
                 background.logicalWidth * scale, background.logicalHeight * scale);
-            clears.forEach(function (frame) {
-                var unit = entry.units[frame], picture = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
-                ctx.fillRect((s.x + unit.x - sx) * scale, (s.y + unit.y - sy) * scale, picture.logicalWidth * scale, picture.logicalHeight * scale);
-            });
         }
+        clears.forEach(function (frame) {
+            var unit = entry.units[frame], picture = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
+            ctx.fillRect((s.x + unit.x - sx) * scale, (s.y + unit.y - sy) * scale, picture.logicalWidth * scale, picture.logicalHeight * scale);
+        });
         for (var i = 0; i < frames.length; i++) {
             var unit = entry.units[frames[i]], picture = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
             ctx.drawImage(assets.images[unit.picIndex], (s.x + unit.x - sx) * scale, (s.y + unit.y - sy) * scale, picture.logicalWidth * scale, picture.logicalHeight * scale);
         }
+        if (label) {
+            var lx = (label.x - sx) * scale, ly = (label.y - sy) * scale, lw = label.length * 6 * scale;
+            ctx.fillStyle = '#171a16'; ctx.fillRect(lx, ly, lw, 12 * scale);
+            ctx.save(); ctx.beginPath(); ctx.rect(lx, ly, lw, 12 * scale); ctx.clip();
+            ctx.font = (12 * scale) + 'px BayeUI, "Microsoft YaHei", sans-serif'; ctx.textBaseline = 'top';
+            ctx.fillStyle = '#eed8a2'; ctx.fillText(label.text, lx, ly, lw); ctx.restore();
+        }
         // Replay only the real displayed contiguous numeric draws. An opaque
-        // glyph clears its full native box; later digits can overlap earlier
-        // glyphs, and old bottom footprints survive an upward pose.
+        // glyph clears its full native box; old bottom footprints survive an
+        // upward pose. Fit HD text to the native six-pixel advance so the next
+        // opaque box cannot erase the right half of a displayed numeral.
         poses.forEach(function (pose) {
             var x = (pose.x - sx) * scale, y = (pose.y - sy) * scale;
             ctx.fillStyle = '#171a16'; ctx.fillRect(x, y, pose.width * scale, pose.height * scale);
             ctx.save(); ctx.beginPath(); ctx.rect(x, y, pose.width * scale, pose.height * scale); ctx.clip();
             ctx.font = 'bold ' + (pose.height * scale) + 'px Georgia, serif'; ctx.textBaseline = 'top';
-            ctx.fillStyle = '#eed8a2'; ctx.fillText(String(pose.digit), x, y, pose.width * scale);
+            ctx.fillStyle = '#eed8a2'; ctx.fillText(String(pose.digit), x, y, 6 * scale);
             ctx.restore();
         });
         ctx.restore();
@@ -678,10 +757,13 @@
             var s = info();
             return { open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
                 source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
-                event: state.event, flushKey: state.flushKey, libSha256: state.libHash, preparing: state.preparing,
+                event: state.event, flushKey: state.flushKey, sourceRect: state.sourceRect || null, libSha256: state.libHash, preparing: state.preparing,
                 preparation: state.preparation, cachedResources: state.cache.length, cachedImages: Object.keys(state.imageCache).length,
                 ownerToken: event(s) + ':' + state.epoch,
-                maker: s.maker, attack: s.attack, presentation: postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
+                maker: s.maker, attack: s.attack, skillResult: s.skillResult, resultOwner: s.resultOwner,
+                hdRegion: skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
+                outsideSource: skillPostlude(s) ? 'lcd' : null,
+                presentation: s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
         } };
     if (global.BayeHdLibIdentity) {
         global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });

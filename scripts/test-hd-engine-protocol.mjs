@@ -40,7 +40,7 @@ function actualFunction(filename, name) {
     assert.fail(`actual ${filename}::${name} closes`);
 }
 
-const speTypes = header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdPictureSource;/)[0] + '\n' +
+const speTypes = header.match(/typedef struct HdResultScope \{[\s\S]*?\} HdResultScope;/)[0] + '\n' + header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdPictureSource;/)[0] + '\n' +
     header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
 function observerFunctions(names) {
     const found = new Map(), excluded = new Set(['hd_next_input_seq', 'baye_hd_begin_spe']);
@@ -94,6 +94,7 @@ typedef struct { U8 x,y,setx,sety; } CitySetType;
 U8 g_FlipDrawing = 0, g_paintColor = 0xff;
 U32 g_paintPalette[256];
 #define FAR
+#define AX_SCALE 1
 #define FGTA_MAX 20
 #define MAIN_SPE 3
 #define MAKER_SPE 6
@@ -107,7 +108,7 @@ U32 g_paintPalette[256];
 static void ResLoadToMem(int resource, int id, U8* output) {
     (void)resource; output[0] = (U8)id; output[1] = 0;
 }
-` + constants + '\n' + speTypes + '\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
+` + constants + '\n' + speTypes + '\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\nvoid baye_hd_skill_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
 static int scrolling;
 static int SysScrollingTimerOpen(int value) { int old = scrolling; scrolling = value; return old; }
 `;

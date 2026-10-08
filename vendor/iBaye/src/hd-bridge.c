@@ -287,6 +287,104 @@ I16 g_hdAttackDisplayDigitY[BAYE_HD_ATTACK_DIGITS];
 I16 g_hdAttackDisplayDigitFirstY[BAYE_HD_ATTACK_DIGITS];
 U16 g_hdAttackDisplayDigitDrawCount[BAYE_HD_ATTACK_DIGITS];
 
+U8 g_hdSkillResultBgValid = 0;
+U16 g_hdSkillResultBgId = 0;
+U16 g_hdSkillResultBgResourceIndex = 0;
+U16 g_hdSkillResultBgPictureIndex = 0;
+U16 g_hdSkillResultBgWidth = 0;
+U16 g_hdSkillResultBgHeight = 0;
+U16 g_hdSkillResultBgCount = 0;
+U8 g_hdSkillResultBgMask = 0;
+I16 g_hdSkillResultBgOriginX = 0;
+I16 g_hdSkillResultBgOriginY = 0;
+U32 g_hdSkillResultBgResourceFingerprint = 0;
+U32 g_hdSkillResultBgResourceLength = 0;
+U8 g_hdSkillResultDisplayBgValid = 0;
+U16 g_hdSkillResultDisplayBgId = 0;
+U16 g_hdSkillResultDisplayBgResourceIndex = 0;
+U16 g_hdSkillResultDisplayBgPictureIndex = 0;
+U16 g_hdSkillResultDisplayBgWidth = 0;
+U16 g_hdSkillResultDisplayBgHeight = 0;
+U16 g_hdSkillResultDisplayBgCount = 0;
+U8 g_hdSkillResultDisplayBgMask = 0;
+I16 g_hdSkillResultDisplayBgOriginX = 0;
+I16 g_hdSkillResultDisplayBgOriginY = 0;
+U32 g_hdSkillResultDisplayBgResourceFingerprint = 0;
+U32 g_hdSkillResultDisplayBgResourceLength = 0;
+U8 g_hdSkillResultNumberValid = 0;
+U16 g_hdSkillResultNumberId = 0;
+U16 g_hdSkillResultNumberResourceIndex = 0;
+U16 g_hdSkillResultNumberPictureIndex = 0;
+U16 g_hdSkillResultNumberWidth = 0;
+U16 g_hdSkillResultNumberHeight = 0;
+U16 g_hdSkillResultNumberCount = 0;
+U8 g_hdSkillResultNumberMask = 0;
+I16 g_hdSkillResultNumberOriginX = 0;
+I16 g_hdSkillResultNumberOriginY = 0;
+U32 g_hdSkillResultNumberResourceFingerprint = 0;
+U32 g_hdSkillResultNumberResourceLength = 0;
+U8 g_hdSkillResultProtocolVersion = BAYE_HD_SKILL_VERSION;
+U8 g_hdSkillResultActive = 0;
+U8 g_hdSkillResultPhase = 0;
+U8 g_hdSkillResultCustom = 0;
+U8 g_hdSkillResultSourceValid = 0;
+U32 g_hdSkillResultGeneration = 0;
+U32 g_hdSkillResultSession = 0;
+U8 g_hdSkillResultActorIndex = 0xff;
+U8 g_hdSkillResultTargetIndex = 0xff;
+U16 g_hdSkillResultValue = 0;
+U32 g_hdSkillResultPaintSeq = 0;
+U32 g_hdSkillResultEventId = 0;
+U32 g_hdSkillResultCommitSeq = 0;
+U16 g_hdSkillResultFrameIndex = BAYE_HD_SPE_NO_FRAME;
+U16 g_hdSkillResultId = 0;
+U16 g_hdSkillResultResourceIndex = 0;
+U16 g_hdSkillResultCount = 0;
+U16 g_hdSkillResultPicmax = 0;
+U8 g_hdSkillResultStartFrm = 0;
+U8 g_hdSkillResultEndFrm = 0;
+I16 g_hdSkillResultOriginX = 0;
+I16 g_hdSkillResultOriginY = 0;
+U32 g_hdSkillResultResourceFingerprint = 0;
+U32 g_hdSkillResultResourceLength = 0;
+U8 g_hdSkillResultDigitCount = 0;
+U8 g_hdSkillResultDisplayValid = 0;
+U32 g_hdSkillResultDisplayGeneration = 0;
+U32 g_hdSkillResultDisplaySession = 0;
+U32 g_hdSkillResultDisplayPaintSeq = 0;
+U32 g_hdSkillResultDisplayEventId = 0;
+U32 g_hdSkillResultDisplayCommitSeq = 0;
+U16 g_hdSkillResultDisplayFrameIndex = BAYE_HD_SPE_NO_FRAME;
+U8 g_hdSkillResultDisplayDigitCount = 0;
+U8 g_hdSkillResultVisibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+U8 g_hdSkillResultClearFrames[BAYE_HD_SPE_FRAME_BYTES];
+U8 g_hdSkillResultDigitIndex[BAYE_HD_SKILL_DIGITS];
+I16 g_hdSkillResultDigitX[BAYE_HD_SKILL_DIGITS];
+I16 g_hdSkillResultDigitY[BAYE_HD_SKILL_DIGITS];
+I16 g_hdSkillResultDigitFirstY[BAYE_HD_SKILL_DIGITS];
+U16 g_hdSkillResultDigitDrawCount[BAYE_HD_SKILL_DIGITS];
+U8 g_hdSkillResultDisplayVisibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+U8 g_hdSkillResultDisplayClearFrames[BAYE_HD_SPE_FRAME_BYTES];
+U8 g_hdSkillResultDisplayDigitIndex[BAYE_HD_SKILL_DIGITS];
+I16 g_hdSkillResultDisplayDigitX[BAYE_HD_SKILL_DIGITS];
+I16 g_hdSkillResultDisplayDigitY[BAYE_HD_SKILL_DIGITS];
+I16 g_hdSkillResultDisplayDigitFirstY[BAYE_HD_SKILL_DIGITS];
+U16 g_hdSkillResultDisplayDigitDrawCount[BAYE_HD_SKILL_DIGITS];
+U16 g_hdSkillResultSkillId = 0;
+U8 g_hdSkillResultResultKind = 0, g_hdSkillResultSceneMode = 0;
+I16 g_hdSkillResultSceneX = 0, g_hdSkillResultSceneY = 0;
+U16 g_hdSkillResultSceneWidth = 0, g_hdSkillResultSceneHeight = 0;
+U8 g_hdSkillResultLabelValid = 0, g_hdSkillResultDisplayLabelValid = 0;
+I16 g_hdSkillResultLabelX = 0, g_hdSkillResultLabelY = 0;
+I16 g_hdSkillResultDisplayLabelX = 0, g_hdSkillResultDisplayLabelY = 0;
+U16 g_hdSkillResultLabelLength = 0, g_hdSkillResultDisplayLabelLength = 0;
+U8 g_hdSkillResultLabelGbk[BAYE_HD_SKILL_LABEL_BYTES];
+U8 g_hdSkillResultDisplayLabelGbk[BAYE_HD_SKILL_LABEL_BYTES];
+U8 g_hdSkillResultDisplaySceneMode = 0;
+I16 g_hdSkillResultDisplaySceneX = 0, g_hdSkillResultDisplaySceneY = 0;
+U16 g_hdSkillResultDisplaySceneWidth = 0, g_hdSkillResultDisplaySceneHeight = 0;
+
+
 
 typedef struct {
     U32 generation, eventId, commitSeq;
@@ -294,15 +392,20 @@ typedef struct {
     U8 frameValid, visibleFrames[BAYE_HD_SPE_FRAME_BYTES];
     U8 compositionValid, clearFrames[BAYE_HD_SPE_FRAME_BYTES];
     HdPictureSource background;
+    U8 sceneMode;
+    I16 sceneX, sceneY;
+    U16 sceneWidth, sceneHeight;
 } HdSpeDisplay;
 static HdSpeScope* hdSpeCurrent = NULL;
 static HdSpeScope* hdSpeCopyPending = NULL;
 static U32 hdSpeNextEventId = 0;
 static U16 hdSpePendingSkillId = 0;
+static U32 hdSpePendingResultSession = 0;
 static U8 hdSpePendingContext = 0, hdSpePendingActor = 0xff, hdSpePendingTarget = 0xff;
 static HdSpeDisplay hdSpeCopied;
 static HdPictureSource hdBackgroundPending;
 static U32 hdBackgroundSession = 0, hdBackgroundDrawing = 0;
+static U8 hdBackgroundOwner = 0, hdBackgroundDrawingOwner = 0;
 static HdSpeScope* hdSpeDrawing = NULL;
 static U32 hdSpeDrawingGeneration = 0;
 static HdSpeDisplay hdAttackScene;
@@ -318,6 +421,23 @@ static HdAttackPaint hdAttackPaint;
 static U32 hdAttackDigitSession = 0;
 static U8 hdAttackDigitSlot = 0, hdAttackDigitValue = 0, hdAttackDigitWritten = 0;
 static I16 hdAttackDigitX = 0, hdAttackDigitY = 0;
+static HdSpeDisplay hdSkillScene;
+typedef struct {
+    HdAttackPaint pixels;
+    U8 labelValid, label[BAYE_HD_SKILL_LABEL_BYTES];
+    U16 labelLength;
+    I16 labelX, labelY;
+} HdSkillPaint;
+static HdSkillPaint hdSkillPaint;
+U8 g_hdResultOwnerKind = 0, g_hdResultOwnerValid = 0;
+U32 g_hdResultOwnerGeneration = 0, g_hdResultOwnerSession = 0;
+static HdResultScope* hdResultCurrent = NULL;
+static void hd_spe_publish(const HdSpeScope* scope);
+static U32 hdSkillDigitSession = 0, hdSkillLabelSession = 0;
+static U8 hdSkillDigitSlot = 0, hdSkillDigitValue = 0, hdSkillDigitWritten = 0;
+static U8 hdSkillLabelWritten = 0;
+static I16 hdSkillDigitX = 0, hdSkillDigitY = 0;
+
 
 U8 g_hdMakerProtocolVersion = BAYE_HD_MAKER_VERSION;
 U8 g_hdMakerActive = 0, g_hdMakerPhase = 0, g_hdMakerCustom = 0;
@@ -777,6 +897,7 @@ void baye_hd_world_commit(void)
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
 {
     baye_hd_attack_retire();
+    baye_hd_skill_retire();
     baye_hd_view_retire();
     baye_hd_mini_map_retire();
     hd_menu_ids_clear();
@@ -872,6 +993,7 @@ static U32 hd_next_input_seq(U32 seq)
 void baye_hd_report_begin(U8 kind)
 {
     baye_hd_attack_retire();
+    baye_hd_skill_retire();
     baye_hd_view_retire();
     baye_hd_mini_map_retire();
     hd_menu_ids_clear();
@@ -1204,6 +1326,7 @@ void baye_hd_begin_spe(U8 kind)
     hdSpePendingContext = 0;
     hdSpePendingSkillId = 0;
     hdSpePendingActor = hdSpePendingTarget = 0xff;
+    hdSpePendingResultSession = 0;
 }
 
 void baye_hd_set_spe(U16 speId, U8 kind, U8 x, U8 y, U8 startfrm, U8 endfrm, U8 active)
@@ -1316,6 +1439,48 @@ static void hd_picture_publish(const HdPictureSource* info, U8 target)
         g_hdAttackNumberResourceFingerprint = info->resourceFingerprint;
         g_hdAttackNumberResourceLength = info->resourceLength;
         break;
+    case 5:
+        g_hdSkillResultBgValid = info->valid;
+        g_hdSkillResultBgId = info->id;
+        g_hdSkillResultBgResourceIndex = info->resourceIndex;
+        g_hdSkillResultBgPictureIndex = info->pictureIndex;
+        g_hdSkillResultBgWidth = info->width;
+        g_hdSkillResultBgHeight = info->height;
+        g_hdSkillResultBgCount = info->count;
+        g_hdSkillResultBgMask = info->mask;
+        g_hdSkillResultBgOriginX = info->x;
+        g_hdSkillResultBgOriginY = info->y;
+        g_hdSkillResultBgResourceFingerprint = info->resourceFingerprint;
+        g_hdSkillResultBgResourceLength = info->resourceLength;
+        break;
+    case 6:
+        g_hdSkillResultDisplayBgValid = info->valid;
+        g_hdSkillResultDisplayBgId = info->id;
+        g_hdSkillResultDisplayBgResourceIndex = info->resourceIndex;
+        g_hdSkillResultDisplayBgPictureIndex = info->pictureIndex;
+        g_hdSkillResultDisplayBgWidth = info->width;
+        g_hdSkillResultDisplayBgHeight = info->height;
+        g_hdSkillResultDisplayBgCount = info->count;
+        g_hdSkillResultDisplayBgMask = info->mask;
+        g_hdSkillResultDisplayBgOriginX = info->x;
+        g_hdSkillResultDisplayBgOriginY = info->y;
+        g_hdSkillResultDisplayBgResourceFingerprint = info->resourceFingerprint;
+        g_hdSkillResultDisplayBgResourceLength = info->resourceLength;
+        break;
+    case 7:
+        g_hdSkillResultNumberValid = info->valid;
+        g_hdSkillResultNumberId = info->id;
+        g_hdSkillResultNumberResourceIndex = info->resourceIndex;
+        g_hdSkillResultNumberPictureIndex = info->pictureIndex;
+        g_hdSkillResultNumberWidth = info->width;
+        g_hdSkillResultNumberHeight = info->height;
+        g_hdSkillResultNumberCount = info->count;
+        g_hdSkillResultNumberMask = info->mask;
+        g_hdSkillResultNumberOriginX = info->x;
+        g_hdSkillResultNumberOriginY = info->y;
+        g_hdSkillResultNumberResourceFingerprint = info->resourceFingerprint;
+        g_hdSkillResultNumberResourceLength = info->resourceLength;
+        break;
     }
 }
 
@@ -1340,15 +1505,47 @@ static U8 hd_attack_drawing_supported(void)
         g_paintPalette[0] == 0x00ffffffu && g_paintPalette[255] == 0xff000000u;
 }
 
+static void hd_result_owner_publish(void)
+{
+    g_hdResultOwnerKind = hdResultCurrent ? hdResultCurrent->kind : 0;
+    g_hdResultOwnerGeneration = hdResultCurrent ? hdResultCurrent->generation : 0;
+    g_hdResultOwnerSession = hdResultCurrent ? hdResultCurrent->session : 0;
+    g_hdResultOwnerValid = hdResultCurrent && hdResultCurrent->generation == g_hdSpeGeneration &&
+        ((hdResultCurrent->kind == BAYE_HD_RESULT_ATTACK && g_hdAttackActive &&
+          hdResultCurrent->session == g_hdAttackSession && hdResultCurrent->generation == g_hdAttackGeneration) ||
+         (hdResultCurrent->kind == BAYE_HD_RESULT_SKILL && g_hdSkillResultActive &&
+          hdResultCurrent->session == g_hdSkillResultSession && hdResultCurrent->generation == g_hdSkillResultGeneration));
+}
+
+void baye_hd_result_scope_begin(HdResultScope* scope, U8 kind)
+{
+    memset(scope, 0, sizeof(*scope));
+    scope->previous = hdResultCurrent; scope->generation = g_hdSpeGeneration;
+    scope->kind = kind; hdResultCurrent = scope; hd_result_owner_publish();
+}
+
+void baye_hd_result_scope_end(HdResultScope* scope)
+{
+    if (scope != hdResultCurrent || scope->generation != g_hdSpeGeneration) return;
+    hdResultCurrent = scope->previous;
+    /* Parent pixels never revive. Missing overwritten parent metadata means
+     * a real outer native wait with invalid detail: LCD-only, not no owner. */
+    hd_result_owner_publish(); hd_spe_notify();
+}
+
 void baye_hd_attack_retire(void)
 {
     g_hdAttackSourceValid = g_hdAttackDisplayValid = 0;
     hdAttackPaint.valid = 0;
-    hdBackgroundPending.valid = 0;
-    hdBackgroundSession = hdBackgroundDrawing = hdAttackDigitSession = 0;
-    if (hdSpeCurrent) hdSpeCurrent->compositionValid = 0;
-    hdSpeCopied.compositionValid = 0;
-    g_hdSpeCompositionValid = g_hdSpeDisplayCompositionValid = 0;
+    if (hdBackgroundOwner == 1) { hdBackgroundPending.valid = 0; hdBackgroundSession = 0; hdBackgroundOwner = 0; }
+    if (hdBackgroundDrawingOwner == 1) { hdBackgroundDrawing = 0; hdBackgroundDrawingOwner = 0; }
+    hdAttackDigitSession = 0;
+    if (g_hdAttackActive && hdSpeCurrent && hdSpeCurrent->eventId == g_hdAttackEventId) {
+        hdSpeCurrent->compositionValid = 0; g_hdSpeCompositionValid = 0;
+    }
+    if (g_hdAttackActive && hdSpeCopied.eventId == g_hdAttackEventId) {
+        hdSpeCopied.compositionValid = 0; g_hdSpeDisplayCompositionValid = 0;
+    }
 }
 
 U32 baye_hd_attack_begin(U8 actor, U8 target, U16 hurt, U8 custom)
@@ -1357,9 +1554,12 @@ U32 baye_hd_attack_begin(U8 actor, U8 target, U16 hurt, U8 custom)
     /* Reentrant attacks retire the older observer; its stale unwind cannot
      * close this newer native owner or restore the older surface. */
     baye_hd_attack_retire();
+    baye_hd_skill_retire();
     g_hdAttackSession = hd_next_input_seq(g_hdAttackSession);
     session = g_hdAttackSession;
     g_hdAttackGeneration = g_hdSpeGeneration;
+    if (hdResultCurrent && !hdResultCurrent->session && hdResultCurrent->kind == BAYE_HD_RESULT_ATTACK &&
+        hdResultCurrent->generation == g_hdSpeGeneration) hdResultCurrent->session = session;
     g_hdAttackActive = 1; g_hdAttackPhase = BAYE_HD_ATTACK_MOVIE;
     g_hdAttackActorIndex = actor < FGTA_MAX ? actor : 0xff;
     g_hdAttackTargetIndex = target < FGTA_MAX ? target : 0xff;
@@ -1382,6 +1582,7 @@ U32 baye_hd_attack_begin(U8 actor, U8 target, U16 hurt, U8 custom)
     memset(&hdAttackScene, 0, sizeof(hdAttackScene));
     memset(&hdAttackPaint, 0, sizeof(hdAttackPaint));
     hd_picture_publish(NULL, 2); hd_picture_publish(NULL, 3); hd_picture_publish(NULL, 4);
+    hd_result_owner_publish();
     hd_spe_notify();
     return session;
 }
@@ -1407,26 +1608,258 @@ void baye_hd_attack_end(U32 session)
     if (session != g_hdAttackSession) return;
     baye_hd_attack_retire();
     g_hdAttackActive = g_hdAttackPhase = 0;
+    hd_result_owner_publish(); hd_spe_notify();
+}
+
+static U8 hd_skill_drawing_supported(void)
+{
+    return AX_SCALE == 1 && hd_attack_drawing_supported();
+}
+
+void baye_hd_skill_retire(void)
+{
+    g_hdSkillResultSourceValid = g_hdSkillResultDisplayValid = 0;
+    hdSkillPaint.pixels.valid = 0;
+    hdSkillDigitSession = hdSkillLabelSession = 0;
+    if (hdBackgroundOwner == 2) { hdBackgroundPending.valid = 0; hdBackgroundSession = 0; hdBackgroundOwner = 0; }
+    if (hdBackgroundDrawingOwner == 2) { hdBackgroundDrawing = 0; hdBackgroundDrawingOwner = 0; }
+    if (g_hdSkillResultActive && hdSpeCurrent && hdSpeCurrent->eventId == g_hdSkillResultEventId) {
+        hdSpeCurrent->compositionValid = 0; g_hdSpeCompositionValid = 0;
+    }
+    if (g_hdSkillResultActive && hdSpeCopied.eventId == g_hdSkillResultEventId) {
+        hdSpeCopied.compositionValid = 0; g_hdSpeDisplayCompositionValid = 0;
+    }
+}
+
+static U8 hd_skill_current(U32 session)
+{
+    return g_hdSkillResultActive && session == g_hdSkillResultSession && g_hdSkillResultGeneration == g_hdSpeGeneration;
+}
+
+static U8 hd_skill_inside(I16 x, I16 y, U16 width, U16 height)
+{
+    return width && height && x >= g_hdSkillResultSceneX && y >= g_hdSkillResultSceneY &&
+        (I32)x + width <= (I32)g_hdSkillResultSceneX + g_hdSkillResultSceneWidth &&
+        (I32)y + height <= (I32)g_hdSkillResultSceneY + g_hdSkillResultSceneHeight;
+}
+
+static void hd_skill_paint_snapshot(void)
+{
+    HdAttackPaint* pixels = &hdSkillPaint.pixels;
+    pixels->valid = g_hdSkillResultSourceValid && hdSkillScene.compositionValid;
+    pixels->generation = g_hdSkillResultGeneration; pixels->session = g_hdSkillResultSession;
+    pixels->paintSeq = g_hdSkillResultPaintSeq; pixels->count = g_hdSkillResultDigitCount;
+    pixels->scene = hdSkillScene;
+    memcpy(pixels->index, g_hdSkillResultDigitIndex, sizeof(pixels->index));
+    memcpy(pixels->x, g_hdSkillResultDigitX, sizeof(pixels->x));
+    memcpy(pixels->y, g_hdSkillResultDigitY, sizeof(pixels->y));
+    memcpy(pixels->firstY, g_hdSkillResultDigitFirstY, sizeof(pixels->firstY));
+    memcpy(pixels->drawCount, g_hdSkillResultDigitDrawCount, sizeof(pixels->drawCount));
+    hdSkillPaint.labelValid = g_hdSkillResultLabelValid;
+    hdSkillPaint.labelX = g_hdSkillResultLabelX; hdSkillPaint.labelY = g_hdSkillResultLabelY;
+    hdSkillPaint.labelLength = g_hdSkillResultLabelLength;
+    memcpy(hdSkillPaint.label, g_hdSkillResultLabelGbk, sizeof(hdSkillPaint.label));
+}
+
+U32 baye_hd_skill_begin(U16 skill, U8 actor, U8 target, U8 resultKind, U8 custom)
+{
+    U32 session;
+    baye_hd_skill_retire(); baye_hd_attack_retire();
+    g_hdSkillResultSession = hd_next_input_seq(g_hdSkillResultSession);
+    session = g_hdSkillResultSession;
+    g_hdSkillResultGeneration = g_hdSpeGeneration;
+    if (hdResultCurrent && !hdResultCurrent->session && hdResultCurrent->kind == BAYE_HD_RESULT_SKILL &&
+        hdResultCurrent->generation == g_hdSpeGeneration) hdResultCurrent->session = session;
+    g_hdSkillResultActive = 1; g_hdSkillResultPhase = BAYE_HD_SKILL_MOVIE;
+    g_hdSkillResultSkillId = skill; g_hdSkillResultResultKind = resultKind; g_hdSkillResultValue = 0;
+    g_hdSkillResultActorIndex = actor < FGTA_MAX ? actor : 0xff;
+    g_hdSkillResultTargetIndex = target < FGTA_MAX ? target : 0xff;
+    g_hdSkillResultCustom = custom != 0;
+    g_hdSkillResultSourceValid = !custom && skill && actor < FGTA_MAX && target < FGTA_MAX &&
+        resultKind != BAYE_HD_SKILL_PROVENDER_LOSS && !hdSpeCurrent && AX_SCALE == 1 && hd_skill_drawing_supported();
+    g_hdSkillResultEventId = g_hdSkillResultCommitSeq = g_hdSkillResultPaintSeq = 0;
+    g_hdSkillResultFrameIndex = BAYE_HD_SPE_NO_FRAME;
+    g_hdSkillResultId = g_hdSkillResultResourceIndex = g_hdSkillResultCount = g_hdSkillResultPicmax = 0;
+    g_hdSkillResultStartFrm = g_hdSkillResultEndFrm = g_hdSkillResultDigitCount = 0;
+    g_hdSkillResultOriginX = g_hdSkillResultOriginY = 0;
+    g_hdSkillResultResourceFingerprint = g_hdSkillResultResourceLength = 0;
+    g_hdSkillResultSceneMode = 0; g_hdSkillResultSceneX = g_hdSkillResultSceneY = 0;
+    g_hdSkillResultSceneWidth = g_hdSkillResultSceneHeight = 0;
+    g_hdSkillResultLabelValid = g_hdSkillResultLabelLength = 0;
+    g_hdSkillResultLabelX = g_hdSkillResultLabelY = 0;
+    memset(g_hdSkillResultVisibleFrames, 0, sizeof(g_hdSkillResultVisibleFrames));
+    memset(g_hdSkillResultClearFrames, 0, sizeof(g_hdSkillResultClearFrames));
+    memset(g_hdSkillResultDigitIndex, 0, sizeof(g_hdSkillResultDigitIndex));
+    memset(g_hdSkillResultDigitX, 0, sizeof(g_hdSkillResultDigitX));
+    memset(g_hdSkillResultDigitY, 0, sizeof(g_hdSkillResultDigitY));
+    memset(g_hdSkillResultDigitFirstY, 0, sizeof(g_hdSkillResultDigitFirstY));
+    memset(g_hdSkillResultDigitDrawCount, 0, sizeof(g_hdSkillResultDigitDrawCount));
+    memset(g_hdSkillResultLabelGbk, 0, sizeof(g_hdSkillResultLabelGbk));
+    memset(&hdSkillScene, 0, sizeof(hdSkillScene));
+    hdSkillScene.frameIndex = BAYE_HD_SPE_NO_FRAME;
+    memset(&hdSkillPaint, 0, sizeof(hdSkillPaint));
+    hdSkillPaint.pixels.scene.frameIndex = BAYE_HD_SPE_NO_FRAME;
+    hd_picture_publish(NULL, 5); hd_picture_publish(NULL, 6); hd_picture_publish(NULL, 7);
+    hd_result_owner_publish();
     hd_spe_notify();
+    return session;
+}
+
+void baye_hd_skill_movie_context(U32 session, U16 skill, U8 actor, U8 target)
+{
+    /* Capture the caller token even after a notification reenters the engine.
+     * A resumed older movie can retire a newer surface, never adopt its owner. */
+    baye_hd_spe_context(BAYE_HD_SPE_KIND_SKILL, skill, actor, target);
+    hdSpePendingResultSession = session;
+}
+
+void baye_hd_skill_movie_shape(HdSpeScope* scope, I16 x, I16 y, U16 width, U16 height, U8 opaque)
+{
+    if (scope != hdSpeCurrent || !hd_skill_current(g_hdSkillResultSession) ||
+        g_hdSkillResultEventId != scope->eventId || !g_hdSkillResultSourceValid) return;
+    if (!scope->protocolValid || !hd_skill_drawing_supported()) { baye_hd_skill_retire(); return; }
+    if (scope->background.valid) {
+        if (scope->background.mask || x < scope->background.x || y < scope->background.y ||
+            (I32)x + width > (I32)scope->background.x + scope->background.width ||
+            (I32)y + height > (I32)scope->background.y + scope->background.height) {
+            baye_hd_skill_retire(); return;
+        }
+        scope->sceneMode = BAYE_HD_SKILL_SCENE_BACKGROUND;
+        x = scope->background.x; y = scope->background.y;
+        width = scope->background.width; height = scope->background.height;
+    } else if (opaque) scope->sceneMode = BAYE_HD_SKILL_SCENE_OPAQUE;
+    else { baye_hd_skill_retire(); return; }
+    if (x < 0 || y < 0 || !width || !height ||
+        (U32)x + width > g_screenWidth || (U32)y + height > g_screenHeight || AX_SCALE != 1) {
+        baye_hd_skill_retire(); return;
+    }
+    scope->sceneX = g_hdSkillResultSceneX = x; scope->sceneY = g_hdSkillResultSceneY = y;
+    scope->sceneWidth = g_hdSkillResultSceneWidth = width; scope->sceneHeight = g_hdSkillResultSceneHeight = height;
+    g_hdSkillResultSceneMode = scope->sceneMode; scope->compositionValid = 1;
+    hd_spe_publish(scope);
+}
+
+void baye_hd_skill_numbers(U32 session, U8 resultKind, U16 value)
+{
+    if (!hd_skill_current(session)) return;
+    g_hdSkillResultPhase = BAYE_HD_SKILL_NUMBERS; g_hdSkillResultResultKind = resultKind; g_hdSkillResultValue = value;
+    if (!g_hdSkillResultEventId || !hdSkillScene.frameValid || !hdSkillScene.compositionValid) baye_hd_skill_retire();
+    hd_spe_notify();
+}
+
+void baye_hd_skill_hold(U32 session)
+{
+    if (!hd_skill_current(session)) return;
+    g_hdSkillResultPhase = BAYE_HD_SKILL_HOLD; hd_spe_notify();
+}
+
+void baye_hd_skill_end(U32 session)
+{
+    if (session != g_hdSkillResultSession) return;
+    baye_hd_skill_retire(); g_hdSkillResultActive = g_hdSkillResultPhase = 0;
+    hd_result_owner_publish(); hd_spe_notify();
+}
+
+void baye_hd_skill_label_begin(U32 session, const U8* text, U16 capacity, I16 x, I16 y)
+{
+    U16 length = 0;
+    hdSkillLabelSession = 0; hdSkillLabelWritten = 0;
+    if (!hd_skill_current(session) || g_hdSkillResultPhase != BAYE_HD_SKILL_NUMBERS) return;
+    g_hdSkillResultLabelValid = 0;
+    if (text) while (length < capacity && length < BAYE_HD_SKILL_LABEL_BYTES - 1 && text[length]) {
+        if (text[length] == '\n' || text[length] == '\r') break;
+        if (text[length] >= 0x80) {
+            if (length + 1 >= capacity || length + 1 >= BAYE_HD_SKILL_LABEL_BYTES - 1 || text[length + 1] < 0x40 || text[length + 1] == 0x7f) break;
+            length += 2;
+        } else ++length;
+    }
+    if (!length || !text || length >= capacity || text[length]) {
+        baye_hd_skill_retire(); return;
+    }
+    g_hdSkillResultLabelX = x; g_hdSkillResultLabelY = y; g_hdSkillResultLabelLength = length;
+    memcpy(g_hdSkillResultLabelGbk, text, length); g_hdSkillResultLabelGbk[length] = 0;
+    if (g_hdSkillResultSourceValid && !hd_skill_inside(x, y, length * 6, 12)) baye_hd_skill_retire();
+    hdSkillLabelSession = session;
+}
+
+void baye_hd_skill_label_end(U32 session, U32 consumed)
+{
+    if (hdSkillLabelSession == session && hd_skill_current(session) &&
+        hdSkillLabelWritten && consumed == g_hdSkillResultLabelLength && hd_skill_drawing_supported()) {
+        g_hdSkillResultLabelValid = 1; g_hdSkillResultPaintSeq = hd_next_input_seq(g_hdSkillResultPaintSeq);
+        hd_skill_paint_snapshot();
+    } else if (hdSkillLabelSession == session) baye_hd_skill_retire();
+    if (hdSkillLabelSession == session) hdSkillLabelSession = 0;
+}
+
+void baye_hd_skill_number_resource(const HdPictureSource* info)
+{
+    HdPictureSource resource;
+    U8 changed = info && g_hdSkillResultDigitCount &&
+        (info->resourceFingerprint != g_hdSkillResultNumberResourceFingerprint || info->resourceLength != g_hdSkillResultNumberResourceLength);
+    if (info) { resource = *info; resource.pictureIndex = 0; }
+    hd_picture_publish(info ? &resource : NULL, 7);
+    if (g_hdSkillResultActive && (!info || !info->valid || info->id != NUM_PICID ||
+        info->pictureIndex >= 10 || info->count != 10 || info->mask != 0 || changed)) baye_hd_skill_retire();
+}
+
+void baye_hd_skill_digit_begin(U8 slot, U8 digit, I16 x, I16 y)
+{
+    hdSkillDigitSession = 0; hdSkillDigitWritten = 0;
+    if (!g_hdSkillResultActive || g_hdSkillResultPhase != BAYE_HD_SKILL_NUMBERS || !g_hdSkillResultSourceValid) return;
+    if (slot >= BAYE_HD_SKILL_DIGITS || digit >= 10 || !g_hdSkillResultNumberValid || !g_hdSkillResultLabelValid ||
+        !hd_skill_drawing_supported() || !hd_skill_inside(x, y, g_hdSkillResultNumberWidth, g_hdSkillResultNumberHeight) ||
+        slot > g_hdSkillResultDigitCount || (g_hdSkillResultDigitDrawCount[slot] && (g_hdSkillResultDigitIndex[slot] != digit ||
+        g_hdSkillResultDigitX[slot] != x || y != g_hdSkillResultDigitFirstY[slot] - g_hdSkillResultDigitDrawCount[slot]))) {
+        baye_hd_skill_retire(); return;
+    }
+    hdSkillDigitSession = g_hdSkillResultSession; hdSkillDigitSlot = slot; hdSkillDigitValue = digit;
+    hdSkillDigitX = x; hdSkillDigitY = y;
+}
+
+void baye_hd_skill_digit_end(void)
+{
+    U8 slot = hdSkillDigitSlot;
+    if (hdSkillDigitSession && hd_skill_current(hdSkillDigitSession) && g_hdSkillResultSourceValid &&
+        hdSkillDigitWritten && hd_skill_drawing_supported()) {
+        if (!g_hdSkillResultDigitDrawCount[slot]) g_hdSkillResultDigitFirstY[slot] = hdSkillDigitY;
+        g_hdSkillResultDigitIndex[slot] = hdSkillDigitValue;
+        g_hdSkillResultDigitX[slot] = hdSkillDigitX; g_hdSkillResultDigitY[slot] = hdSkillDigitY;
+        ++g_hdSkillResultDigitDrawCount[slot];
+        if (g_hdSkillResultDigitCount <= slot) g_hdSkillResultDigitCount = slot + 1;
+        g_hdSkillResultPaintSeq = hd_next_input_seq(g_hdSkillResultPaintSeq); hd_skill_paint_snapshot();
+    } else if (hdSkillDigitSession) baye_hd_skill_retire();
+    hdSkillDigitSession = 0;
 }
 
 void baye_hd_background_begin(void)
 {
     memset(&hdBackgroundPending, 0, sizeof(hdBackgroundPending));
-    hdBackgroundSession = 0;
-    hdBackgroundDrawing = g_hdAttackActive && g_hdAttackSourceValid &&
-        g_hdAttackPhase == BAYE_HD_ATTACK_MOVIE && !g_hdAttackEventId && !hdSpeCurrent ? g_hdAttackSession : 0;
+    hdBackgroundSession = hdBackgroundDrawing = 0;
+    hdBackgroundOwner = hdBackgroundDrawingOwner = 0;
+    if (g_hdAttackActive && g_hdAttackSourceValid && g_hdAttackPhase == BAYE_HD_ATTACK_MOVIE &&
+        !g_hdAttackEventId && !hdSpeCurrent) {
+        hdBackgroundDrawing = g_hdAttackSession; hdBackgroundDrawingOwner = 1;
+    } else if (g_hdSkillResultActive && g_hdSkillResultSourceValid && g_hdSkillResultPhase == BAYE_HD_SKILL_MOVIE &&
+        !g_hdSkillResultEventId && !hdSpeCurrent) {
+        hdBackgroundDrawing = g_hdSkillResultSession; hdBackgroundDrawingOwner = 2;
+    }
 }
 
 void baye_hd_background_end(const HdPictureSource* info)
 {
-    if (hdBackgroundDrawing && hdBackgroundDrawing == g_hdAttackSession &&
-        g_hdAttackActive && g_hdAttackSourceValid && g_hdAttackGeneration == g_hdSpeGeneration &&
-        info && info->valid && info->id == SPE_BACKPIC && hd_attack_drawing_supported()) {
-        hdBackgroundPending = *info;
-        hdBackgroundSession = g_hdAttackSession;
-    } else if (g_hdAttackActive) baye_hd_attack_retire();
-    hdBackgroundDrawing = 0;
+    U8 owner = hdBackgroundDrawingOwner;
+    U8 current = owner == 1 ? (g_hdAttackActive && g_hdAttackSourceValid &&
+        hdBackgroundDrawing == g_hdAttackSession && g_hdAttackGeneration == g_hdSpeGeneration) :
+        owner == 2 && hd_skill_current(hdBackgroundDrawing) && g_hdSkillResultSourceValid;
+    if (hdBackgroundDrawing && current && info && info->valid && info->id == SPE_BACKPIC &&
+        hd_attack_drawing_supported()) {
+        hdBackgroundPending = *info; hdBackgroundSession = hdBackgroundDrawing; hdBackgroundOwner = owner;
+    } else {
+        if (g_hdAttackActive) baye_hd_attack_retire();
+        if (g_hdSkillResultActive) baye_hd_skill_retire();
+    }
+    hdBackgroundDrawing = 0; hdBackgroundDrawingOwner = 0;
 }
 
 void baye_hd_spe_draw_begin(HdSpeScope* scope)
@@ -1506,18 +1939,23 @@ void baye_hd_attack_digit_end(void)
 
 void baye_hd_surface_write(U8 virtualScreen)
 {
-    if (!hd_attack_drawing_supported()) {
-        baye_hd_attack_retire();
-    }
+    if (!hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
+    if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
     if (virtualScreen) {
         if (hdSpeDrawing && hdSpeDrawing == hdSpeCurrent && hdSpeDrawingGeneration == g_hdSpeGeneration) return;
-        if (hdBackgroundDrawing && hdBackgroundDrawing == g_hdAttackSession && g_hdAttackSourceValid) return;
-        baye_hd_attack_retire();
+        if (hdBackgroundDrawing && ((hdBackgroundDrawingOwner == 1 && hdBackgroundDrawing == g_hdAttackSession && g_hdAttackSourceValid) ||
+            (hdBackgroundDrawingOwner == 2 && hd_skill_current(hdBackgroundDrawing) && g_hdSkillResultSourceValid))) return;
+        baye_hd_attack_retire(); baye_hd_skill_retire();
+    } else if (hdSkillLabelSession && hd_skill_current(hdSkillLabelSession)) {
+        hdSkillLabelWritten = 1;
+        memset(&hdSpeCopied, 0, sizeof(hdSpeCopied)); hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
+    } else if (hdSkillDigitSession && hd_skill_current(hdSkillDigitSession) && g_hdSkillResultSourceValid) {
+        hdSkillDigitWritten = 1;
+        memset(&hdSpeCopied, 0, sizeof(hdSpeCopied)); hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
     } else if (hdAttackDigitSession && hdAttackDigitSession == g_hdAttackSession &&
         g_hdAttackSourceValid && g_hdAttackGeneration == g_hdSpeGeneration) {
         hdAttackDigitWritten = 1;
-        memset(&hdSpeCopied, 0, sizeof(hdSpeCopied));
-        hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
+        memset(&hdSpeCopied, 0, sizeof(hdSpeCopied)); hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
     } else baye_hd_spe_lcd_dirty();
 }
 
@@ -1681,6 +2119,7 @@ void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 
     memset(scope, 0, sizeof(*scope));
     scope->contextKnown = hdSpePendingContext;
     scope->skillId = hdSpePendingSkillId;
+    scope->resultSession = hdSpePendingResultSession;
     scope->actorIndex = hdSpePendingActor;
     scope->targetIndex = hdSpePendingTarget;
     /* Consume before resource lookup, including the missing-resource path. */
@@ -1708,13 +2147,25 @@ void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 
             g_hdAttackSourceValid && g_hdAttackGeneration == scope->generation && scope->depth == 1 &&
             scope->kind == BAYE_HD_SPE_KIND_ATTACK && scope->contextKnown && scope->keyflag == 0 &&
             scope->actorIndex == g_hdAttackActorIndex && scope->targetIndex == g_hdAttackTargetIndex &&
-            hdBackgroundPending.valid && hdBackgroundSession == g_hdAttackSession) {
+            hdBackgroundPending.valid && hdBackgroundOwner == 1 && hdBackgroundSession == g_hdAttackSession) {
             scope->background = hdBackgroundPending;
             scope->compositionValid = 1;
             g_hdAttackEventId = scope->eventId;
         } else baye_hd_attack_retire();
     }
-    hdBackgroundPending.valid = 0; hdBackgroundSession = 0;
+    if (g_hdSkillResultActive) {
+        if (!g_hdSkillResultEventId && g_hdSkillResultPhase == BAYE_HD_SKILL_MOVIE &&
+            g_hdSkillResultGeneration == scope->generation && scope->depth == 1 &&
+            scope->kind == BAYE_HD_SPE_KIND_SKILL && scope->contextKnown && scope->keyflag == 0 &&
+            scope->resultSession == g_hdSkillResultSession && scope->skillId == g_hdSkillResultSkillId &&
+            scope->actorIndex == g_hdSkillResultActorIndex &&
+            scope->targetIndex == g_hdSkillResultTargetIndex) {
+            g_hdSkillResultEventId = scope->eventId;
+            if (g_hdSkillResultSourceValid && hdBackgroundPending.valid && hdBackgroundOwner == 2 &&
+                hdBackgroundSession == g_hdSkillResultSession) scope->background = hdBackgroundPending;
+        } else baye_hd_skill_retire();
+    }
+    hdBackgroundPending.valid = 0; hdBackgroundSession = 0; hdBackgroundOwner = 0;
     if (hdSpeCurrent) {
         hdSpeCurrent->compositionValid = 0;
         hdSpeCopied.compositionValid = 0;
@@ -1743,8 +2194,9 @@ void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint
     if (!scope->protocolValid) {
         scope->compositionValid = 0;
         if (g_hdAttackActive) baye_hd_attack_retire();
+        if (g_hdSkillResultActive) baye_hd_skill_retire();
     }
-    if (scope->compositionValid && !hd_attack_drawing_supported()) baye_hd_attack_retire();
+    if (scope->compositionValid && !hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
     if (g_hdAttackActive && g_hdAttackEventId == scope->eventId &&
         g_hdAttackGeneration == scope->generation) {
         g_hdAttackId = scope->id; g_hdAttackResourceIndex = scope->resourceIndex;
@@ -1753,6 +2205,13 @@ void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint
         g_hdAttackOriginX = scope->x; g_hdAttackOriginY = scope->y;
         g_hdAttackResourceFingerprint = scope->resourceFingerprint;
         g_hdAttackResourceLength = scope->resourceLength;
+    }
+    if (g_hdSkillResultActive && g_hdSkillResultEventId == scope->eventId && g_hdSkillResultGeneration == scope->generation) {
+        g_hdSkillResultId = scope->id; g_hdSkillResultResourceIndex = scope->resourceIndex;
+        g_hdSkillResultCount = scope->count; g_hdSkillResultPicmax = scope->picmax;
+        g_hdSkillResultStartFrm = scope->startFrm; g_hdSkillResultEndFrm = scope->endFrm;
+        g_hdSkillResultOriginX = scope->x; g_hdSkillResultOriginY = scope->y;
+        g_hdSkillResultResourceFingerprint = scope->resourceFingerprint; g_hdSkillResultResourceLength = scope->resourceLength;
     }
     hd_spe_publish(scope);
 }
@@ -1766,10 +2225,10 @@ void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U
     scope->frameIndex = frameIndex;
     if (g_FlipDrawing || g_paintColor != 0xff) {
         scope->protocolValid = scope->compositionValid = 0;
-        baye_hd_attack_retire();
+        baye_hd_attack_retire(); baye_hd_skill_retire();
     }
     scope->frameValid = 1;
-    if (scope->compositionValid && !hd_attack_drawing_supported()) baye_hd_attack_retire();
+    if (scope->compositionValid && !hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
     scope->commitSeq = hd_next_input_seq(scope->commitSeq);
     memset(scope->visibleFrames, 0, sizeof(scope->visibleFrames));
     for (i = 0; i < introduced; i++) {
@@ -1789,6 +2248,9 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
     if (g_hdAttackActive && g_hdAttackEventId == scope->eventId &&
         (reason != BAYE_HD_SPE_END_COMPLETE || !scope->compositionValid || !hdAttackScene.compositionValid))
         baye_hd_attack_retire();
+    if (g_hdSkillResultActive && g_hdSkillResultEventId == scope->eventId &&
+        (reason != BAYE_HD_SPE_END_COMPLETE || !scope->compositionValid || !hdSkillScene.compositionValid))
+        baye_hd_skill_retire();
     hdSpeCurrent = scope->previous;
     hdSpeCopyPending = NULL;
     if (hdSpeCurrent) {
@@ -1805,7 +2267,7 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
 
 void baye_hd_spe_lcd_dirty(void)
 {
-    baye_hd_attack_retire();
+    baye_hd_attack_retire(); baye_hd_skill_retire();
     /* Late assets or a resize cannot restore a held LCD after another draw. */
     if (g_hdMakerPhase == BAYE_HD_MAKER_HOLD) g_hdMakerSourceValid = 0;
     memset(&hdSpeCopied, 0, sizeof(hdSpeCopied));
@@ -1815,6 +2277,7 @@ void baye_hd_spe_lcd_dirty(void)
 void baye_hd_spe_lcd_copy(void)
 {
     if (g_hdMakerPhase == BAYE_HD_MAKER_HOLD) g_hdMakerSourceValid = 0;
+    if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
     /* A controlled copy replaces LCD bytes with the actual current scope.
      * It is not an arbitrary dirty write and must not retire its own source. */
     if (!(hdSpeCopyPending && hdSpeCopyPending == hdSpeCurrent &&
@@ -1833,6 +2296,9 @@ void baye_hd_spe_lcd_copy(void)
         memcpy(hdSpeCopied.visibleFrames, hdSpeCurrent->visibleFrames, sizeof(hdSpeCopied.visibleFrames));
         hdSpeCopied.compositionValid = hdSpeCurrent->compositionValid;
         hdSpeCopied.background = hdSpeCurrent->background;
+        hdSpeCopied.sceneMode = hdSpeCurrent->sceneMode;
+        hdSpeCopied.sceneX = hdSpeCurrent->sceneX; hdSpeCopied.sceneY = hdSpeCurrent->sceneY;
+        hdSpeCopied.sceneWidth = hdSpeCurrent->sceneWidth; hdSpeCopied.sceneHeight = hdSpeCurrent->sceneHeight;
         memcpy(hdSpeCopied.clearFrames, hdSpeCurrent->clearFrames, sizeof(hdSpeCopied.clearFrames));
         if (g_hdAttackActive && g_hdAttackSourceValid && g_hdAttackGeneration == hdSpeCopied.generation &&
             g_hdAttackEventId == hdSpeCopied.eventId && hdSpeCopied.compositionValid) {
@@ -1843,13 +2309,29 @@ void baye_hd_spe_lcd_copy(void)
             hd_picture_publish(&hdSpeCopied.background, 2);
             hd_attack_paint_snapshot();
         }
+        if (g_hdSkillResultActive && g_hdSkillResultSourceValid && g_hdSkillResultGeneration == hdSpeCopied.generation &&
+            g_hdSkillResultEventId == hdSpeCopied.eventId && hdSpeCopied.compositionValid) {
+            U8 established = hdSpeCopied.background.valid;
+            U16 byte;
+            for (byte = 0; byte < BAYE_HD_SPE_FRAME_BYTES; ++byte)
+                if (hdSpeCopied.visibleFrames[byte] || hdSpeCopied.clearFrames[byte]) established = 1;
+            if (!established) baye_hd_skill_retire();
+            else {
+                hdSkillScene = hdSpeCopied;
+                g_hdSkillResultCommitSeq = hdSpeCopied.commitSeq; g_hdSkillResultFrameIndex = hdSpeCopied.frameIndex;
+                memcpy(g_hdSkillResultVisibleFrames, hdSpeCopied.visibleFrames, sizeof(g_hdSkillResultVisibleFrames));
+                memcpy(g_hdSkillResultClearFrames, hdSpeCopied.clearFrames, sizeof(g_hdSkillResultClearFrames));
+                hd_picture_publish(&hdSpeCopied.background, 5); hd_skill_paint_snapshot();
+            }
+        }
     }
     hdSpeCopyPending = NULL;
 }
 
 void baye_hd_spe_lcd_flush(void)
 {
-    if (!hd_attack_drawing_supported()) baye_hd_attack_retire();
+    if (!hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
+    if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
     g_hdSpeDisplayCompositionValid = hdSpeCopied.compositionValid;
     hd_picture_publish(&hdSpeCopied.background, 1);
     memcpy(g_hdSpeDisplayClearFrames, hdSpeCopied.clearFrames, sizeof(g_hdSpeDisplayClearFrames));
@@ -1876,6 +2358,29 @@ void baye_hd_spe_lcd_flush(void)
     memcpy(g_hdAttackDisplayDigitY, hdAttackPaint.y, sizeof(g_hdAttackDisplayDigitY));
     memcpy(g_hdAttackDisplayDigitFirstY, hdAttackPaint.firstY, sizeof(g_hdAttackDisplayDigitFirstY));
     memcpy(g_hdAttackDisplayDigitDrawCount, hdAttackPaint.drawCount, sizeof(g_hdAttackDisplayDigitDrawCount));
+    g_hdSkillResultDisplayValid = g_hdSkillResultActive && g_hdSkillResultSourceValid && hdSkillPaint.pixels.valid &&
+        hdSkillPaint.pixels.generation == g_hdSkillResultGeneration && hdSkillPaint.pixels.generation == g_hdSpeGeneration &&
+        hdSkillPaint.pixels.session == g_hdSkillResultSession;
+    g_hdSkillResultDisplayGeneration = hdSkillPaint.pixels.generation;
+    g_hdSkillResultDisplaySession = hdSkillPaint.pixels.session; g_hdSkillResultDisplayPaintSeq = hdSkillPaint.pixels.paintSeq;
+    g_hdSkillResultDisplayEventId = hdSkillPaint.pixels.scene.eventId;
+    g_hdSkillResultDisplayCommitSeq = hdSkillPaint.pixels.scene.commitSeq;
+    g_hdSkillResultDisplayFrameIndex = hdSkillPaint.pixels.scene.frameIndex;
+    g_hdSkillResultDisplayDigitCount = hdSkillPaint.pixels.count;
+    hd_picture_publish(&hdSkillPaint.pixels.scene.background, 6);
+    memcpy(g_hdSkillResultDisplayVisibleFrames, hdSkillPaint.pixels.scene.visibleFrames, sizeof(g_hdSkillResultDisplayVisibleFrames));
+    memcpy(g_hdSkillResultDisplayClearFrames, hdSkillPaint.pixels.scene.clearFrames, sizeof(g_hdSkillResultDisplayClearFrames));
+    memcpy(g_hdSkillResultDisplayDigitIndex, hdSkillPaint.pixels.index, sizeof(g_hdSkillResultDisplayDigitIndex));
+    memcpy(g_hdSkillResultDisplayDigitX, hdSkillPaint.pixels.x, sizeof(g_hdSkillResultDisplayDigitX));
+    memcpy(g_hdSkillResultDisplayDigitY, hdSkillPaint.pixels.y, sizeof(g_hdSkillResultDisplayDigitY));
+    memcpy(g_hdSkillResultDisplayDigitFirstY, hdSkillPaint.pixels.firstY, sizeof(g_hdSkillResultDisplayDigitFirstY));
+    memcpy(g_hdSkillResultDisplayDigitDrawCount, hdSkillPaint.pixels.drawCount, sizeof(g_hdSkillResultDisplayDigitDrawCount));
+    g_hdSkillResultDisplayLabelValid = hdSkillPaint.labelValid; g_hdSkillResultDisplayLabelLength = hdSkillPaint.labelLength;
+    g_hdSkillResultDisplayLabelX = hdSkillPaint.labelX; g_hdSkillResultDisplayLabelY = hdSkillPaint.labelY;
+    memcpy(g_hdSkillResultDisplayLabelGbk, hdSkillPaint.label, sizeof(g_hdSkillResultDisplayLabelGbk));
+    g_hdSkillResultDisplaySceneMode = hdSkillPaint.pixels.scene.sceneMode;
+    g_hdSkillResultDisplaySceneX = hdSkillPaint.pixels.scene.sceneX; g_hdSkillResultDisplaySceneY = hdSkillPaint.pixels.scene.sceneY;
+    g_hdSkillResultDisplaySceneWidth = hdSkillPaint.pixels.scene.sceneWidth; g_hdSkillResultDisplaySceneHeight = hdSkillPaint.pixels.scene.sceneHeight;
 }
 
 void baye_hd_spe_invalidate(void)
@@ -1886,7 +2391,9 @@ void baye_hd_spe_invalidate(void)
     }
     hdSpeCurrent = hdSpeCopyPending = NULL;
     hdSpeDrawing = NULL;
+    hdResultCurrent = NULL; hd_result_owner_publish();
     baye_hd_attack_end(g_hdAttackSession);
+    baye_hd_skill_end(g_hdSkillResultSession);
     baye_hd_maker_end(g_hdMakerSession);
     g_hdSpeGeneration = hd_next_input_seq(g_hdSpeGeneration);
     baye_hd_begin_spe(0);
@@ -2396,6 +2903,115 @@ DEFADDF(g_hdSpeCompositionVersion, U8);
     DEFADD_U16ARR(g_hdAttackDisplayDigitY, BAYE_HD_ATTACK_DIGITS);
     DEFADD_U16ARR(g_hdAttackDisplayDigitFirstY, BAYE_HD_ATTACK_DIGITS);
     DEFADD_U16ARR(g_hdAttackDisplayDigitDrawCount, BAYE_HD_ATTACK_DIGITS);
+    DEFADDF(g_hdSkillResultBgValid, U8);
+    DEFADDF(g_hdSkillResultBgId, U16);
+    DEFADDF(g_hdSkillResultBgResourceIndex, U16);
+    DEFADDF(g_hdSkillResultBgPictureIndex, U16);
+    DEFADDF(g_hdSkillResultBgWidth, U16);
+    DEFADDF(g_hdSkillResultBgHeight, U16);
+    DEFADDF(g_hdSkillResultBgCount, U16);
+    DEFADDF(g_hdSkillResultBgMask, U8);
+    DEFADDF(g_hdSkillResultBgOriginX, U16);
+    DEFADDF(g_hdSkillResultBgOriginY, U16);
+    DEFADDF(g_hdSkillResultBgResourceFingerprint, U32);
+    DEFADDF(g_hdSkillResultBgResourceLength, U32);
+    DEFADDF(g_hdSkillResultDisplayBgValid, U8);
+    DEFADDF(g_hdSkillResultDisplayBgId, U16);
+    DEFADDF(g_hdSkillResultDisplayBgResourceIndex, U16);
+    DEFADDF(g_hdSkillResultDisplayBgPictureIndex, U16);
+    DEFADDF(g_hdSkillResultDisplayBgWidth, U16);
+    DEFADDF(g_hdSkillResultDisplayBgHeight, U16);
+    DEFADDF(g_hdSkillResultDisplayBgCount, U16);
+    DEFADDF(g_hdSkillResultDisplayBgMask, U8);
+    DEFADDF(g_hdSkillResultDisplayBgOriginX, U16);
+    DEFADDF(g_hdSkillResultDisplayBgOriginY, U16);
+    DEFADDF(g_hdSkillResultDisplayBgResourceFingerprint, U32);
+    DEFADDF(g_hdSkillResultDisplayBgResourceLength, U32);
+    DEFADDF(g_hdSkillResultNumberValid, U8);
+    DEFADDF(g_hdSkillResultNumberId, U16);
+    DEFADDF(g_hdSkillResultNumberResourceIndex, U16);
+    DEFADDF(g_hdSkillResultNumberPictureIndex, U16);
+    DEFADDF(g_hdSkillResultNumberWidth, U16);
+    DEFADDF(g_hdSkillResultNumberHeight, U16);
+    DEFADDF(g_hdSkillResultNumberCount, U16);
+    DEFADDF(g_hdSkillResultNumberMask, U8);
+    DEFADDF(g_hdSkillResultNumberOriginX, U16);
+    DEFADDF(g_hdSkillResultNumberOriginY, U16);
+    DEFADDF(g_hdSkillResultNumberResourceFingerprint, U32);
+    DEFADDF(g_hdSkillResultNumberResourceLength, U32);
+    DEFADDF(g_hdSkillResultProtocolVersion, U8);
+    DEFADDF(g_hdSkillResultActive, U8);
+    DEFADDF(g_hdSkillResultPhase, U8);
+    DEFADDF(g_hdSkillResultCustom, U8);
+    DEFADDF(g_hdSkillResultSourceValid, U8);
+    DEFADDF(g_hdSkillResultGeneration, U32);
+    DEFADDF(g_hdSkillResultSession, U32);
+    DEFADDF(g_hdSkillResultActorIndex, U8);
+    DEFADDF(g_hdSkillResultTargetIndex, U8);
+    DEFADDF(g_hdSkillResultValue, U16);
+    DEFADDF(g_hdSkillResultPaintSeq, U32);
+    DEFADDF(g_hdSkillResultEventId, U32);
+    DEFADDF(g_hdSkillResultCommitSeq, U32);
+    DEFADDF(g_hdSkillResultFrameIndex, U16);
+    DEFADDF(g_hdSkillResultId, U16);
+    DEFADDF(g_hdSkillResultResourceIndex, U16);
+    DEFADDF(g_hdSkillResultCount, U16);
+    DEFADDF(g_hdSkillResultPicmax, U16);
+    DEFADDF(g_hdSkillResultStartFrm, U8);
+    DEFADDF(g_hdSkillResultEndFrm, U8);
+    DEFADDF(g_hdSkillResultOriginX, U16);
+    DEFADDF(g_hdSkillResultOriginY, U16);
+    DEFADDF(g_hdSkillResultResourceFingerprint, U32);
+    DEFADDF(g_hdSkillResultResourceLength, U32);
+    DEFADDF(g_hdSkillResultDigitCount, U8);
+    DEFADDF(g_hdSkillResultDisplayValid, U8);
+    DEFADDF(g_hdSkillResultDisplayGeneration, U32);
+    DEFADDF(g_hdSkillResultDisplaySession, U32);
+    DEFADDF(g_hdSkillResultDisplayPaintSeq, U32);
+    DEFADDF(g_hdSkillResultDisplayEventId, U32);
+    DEFADDF(g_hdSkillResultDisplayCommitSeq, U32);
+    DEFADDF(g_hdSkillResultDisplayFrameIndex, U16);
+    DEFADDF(g_hdSkillResultDisplayDigitCount, U8);
+    DEFADD_U8ARR(g_hdSkillResultVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADD_U8ARR(g_hdSkillResultClearFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADD_U8ARR(g_hdSkillResultDigitIndex, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDigitX, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDigitY, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDigitFirstY, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDigitDrawCount, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U8ARR(g_hdSkillResultDisplayVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADD_U8ARR(g_hdSkillResultDisplayClearFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADD_U8ARR(g_hdSkillResultDisplayDigitIndex, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDisplayDigitX, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDisplayDigitY, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDisplayDigitFirstY, BAYE_HD_SKILL_DIGITS);
+    DEFADD_U16ARR(g_hdSkillResultDisplayDigitDrawCount, BAYE_HD_SKILL_DIGITS);
+    DEFADDF(g_hdResultOwnerKind, U8);
+    DEFADDF(g_hdResultOwnerValid, U8);
+    DEFADDF(g_hdResultOwnerGeneration, U32);
+    DEFADDF(g_hdResultOwnerSession, U32);
+    DEFADDF(g_hdSkillResultSkillId, U16);
+    DEFADDF(g_hdSkillResultResultKind, U8);
+    DEFADDF(g_hdSkillResultSceneMode, U8);
+    DEFADDF(g_hdSkillResultSceneX, U16);
+    DEFADDF(g_hdSkillResultSceneY, U16);
+    DEFADDF(g_hdSkillResultSceneWidth, U16);
+    DEFADDF(g_hdSkillResultSceneHeight, U16);
+    DEFADDF(g_hdSkillResultLabelValid, U8);
+    DEFADDF(g_hdSkillResultLabelX, U16);
+    DEFADDF(g_hdSkillResultLabelY, U16);
+    DEFADDF(g_hdSkillResultLabelLength, U16);
+    DEFADD_U8ARR(g_hdSkillResultLabelGbk, BAYE_HD_SKILL_LABEL_BYTES);
+    DEFADDF(g_hdSkillResultDisplayLabelValid, U8);
+    DEFADDF(g_hdSkillResultDisplayLabelX, U16);
+    DEFADDF(g_hdSkillResultDisplayLabelY, U16);
+    DEFADDF(g_hdSkillResultDisplayLabelLength, U16);
+    DEFADD_U8ARR(g_hdSkillResultDisplayLabelGbk, BAYE_HD_SKILL_LABEL_BYTES);
+    DEFADDF(g_hdSkillResultDisplaySceneMode, U8);
+    DEFADDF(g_hdSkillResultDisplaySceneX, U16);
+    DEFADDF(g_hdSkillResultDisplaySceneY, U16);
+    DEFADDF(g_hdSkillResultDisplaySceneWidth, U16);
+    DEFADDF(g_hdSkillResultDisplaySceneHeight, U16);
     DEFADDF(g_hdMakerProtocolVersion, U8);
     DEFADDF(g_hdMakerActive, U8);
     DEFADDF(g_hdMakerPhase, U8);

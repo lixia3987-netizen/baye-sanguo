@@ -192,7 +192,7 @@ function fixture() {
         'baye_hd_map_input_begin', 'baye_hd_set_map_pick', 'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_end',
         'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end', 'baye_hd_record_end',
         'baye_hd_set_fight', 'baye_hd_set_ready', 'baye_hd_world_commit', 'hd_help_notify', 'baye_hd_set_help',
-        'baye_hd_attack_retire']
+        'baye_hd_attack_retire','baye_hd_skill_retire']
         .map(name => actual('hd-bridge.c', name));
     const functions = ['FgtShowView', 'FgtShowViewInner', 'FgtViewForce', 'FgtViewForceCapture', 'FgtViewCaptureText',
         'FgtStatGen', 'FgtLoadToMem3', 'TransIdxToGen3'].map(name => actual('FgtPkAi.c', name));
@@ -204,7 +204,7 @@ function fixture() {
         typedef('baye/paccount.h', 'CitySetType'), typedef('baye/datman.h', 'RCHEAD'),
         typedef('baye/datman.h', 'RIDX'), typedef('baye/graph.h', 'PictureHeadType'),
         typedef('hd-bridge.h', 'HdViewSnapshot'), typedef('hd-bridge.h', 'HdPictureSource'),
-        typedef('hd-bridge.h', 'HdSpeScope')].join('\n');
+        typedef('hd-bridge.h', 'HdSpeScope'), typedef('hd-bridge.h', 'HdResultScope')].join('\n');
     return boundary.replace('static Rect g_cityCursorRange', constants + read('data/pstring.h') + '\n' + types +
         '\n' + globals + '\n' + declarations + '\nstatic Rect g_cityCursorRange') + resourceBoundary +
         '\n' + helpers.join('\n') + '\n' + functions.join('\n') + cases;
@@ -321,13 +321,14 @@ static void viewReset(void){setup();scenario=4;U32 generation=g_hdDetailGenerati
 static void viewAbort(void){setup();returnFromShowHook=1;FgtShowView();assert(messageIndex==0&&!g_hdViewActive&&scrolling==7);}
 static void viewReport(void){HdViewSnapshot old,fresh;setup();baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);
     baye_hd_view_capture(&old);FgtViewForceCapture(1,0,&old);baye_hd_view_publish(&old);assert(g_hdViewActive);
-    HdSpeScope previousSurface={0};previousSurface.compositionValid=1;hdSpeCurrent=&previousSurface;
+    HdSpeScope previousSurface={0};previousSurface.compositionValid=1;previousSurface.eventId=17;hdSpeCurrent=&previousSurface;
+            g_hdAttackActive=1;g_hdAttackEventId=hdSpeCopied.eventId=17;
     g_hdAttackSourceValid=g_hdAttackDisplayValid=hdAttackPaint.valid=hdSpeCopied.compositionValid=1;
-    hdBackgroundPending.valid=1;hdBackgroundSession=hdBackgroundDrawing=11;
+    hdBackgroundPending.valid=1;hdBackgroundSession=hdBackgroundDrawing=11;hdBackgroundOwner=hdBackgroundDrawingOwner=1;
     U32 input=g_hdFightInputSeq; baye_hd_report_begin(BAYE_HD_REPORT_MSGBOX);baye_hd_report_end();
     assert(!g_hdAttackSourceValid&&!g_hdAttackDisplayValid&&!hdAttackPaint.valid&&!previousSurface.compositionValid);
     assert(!hdSpeCopied.compositionValid&&!hdBackgroundPending.valid&&!hdBackgroundSession&&!hdBackgroundDrawing);
-    hdSpeCurrent=NULL;
+    hdSpeCurrent=NULL;g_hdAttackActive=0;
     assert(g_hdFightInputSeq==input&&!g_hdViewActive);baye_hd_view_publish(&old);assert(!g_hdViewActive);
     baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);baye_hd_view_capture(&fresh);FgtViewForceCapture(0,0,&fresh);
     baye_hd_view_publish(&fresh);assert(g_hdViewActive&&g_hdViewInputSeq==fresh.inputSeq);

@@ -107,6 +107,19 @@ const manifest = {
         input: 'no added skip or return; original numeric and final delays retain native input behavior',
         custom: 'same single observed willShowPKAnimation invocation; custom presence always retires HD source'
     },
+    hdSkillResultProtocol: {
+        version: 1,
+        owner: ['g_hdSkillResultGeneration', 'g_hdSkillResultSession', 'g_hdSkillResultPhase'],
+        nativeStack: ['g_hdResultOwnerKind', 'g_hdResultOwnerValid', 'g_hdResultOwnerGeneration', 'g_hdResultOwnerSession'],
+        phases: { movie: 1, numbers: 2, hold: 3 },
+        value: 'exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount',
+        label: 'actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer',
+        scene: 'owned BACKPIC or verified equal opaque movie rectangle; no unknown full-arena background inferred',
+        display: 'controlled actual movie, label and numeric writes snapshot published at timed LCD flush',
+        input: 'no added skip or return; original movie, number and result waiting lifecycle',
+        custom: 'presence captured in original showSkill and single willShowPKAnimation invocation',
+        retirement: 'uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived'
+    },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts
 };

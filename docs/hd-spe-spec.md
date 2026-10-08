@@ -89,6 +89,22 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 
 `npm run test:attack` 编译执行实际原生绘制/播放/数字及桥接范围矩阵。真实浏览器脚本 `npm run test:attack-runtime -- --staged --range 21:9:17` 只验收其明确合法流程；完整37范围的原生像素专项、素材静态覆盖和真实玩家触发分别记录，不能互相替代。
 
+## 计谋结果与嵌套归属
+
+只读 `baye.hd.skillResult()` 协议1观察真正 `_CommonJNAction` 的 movie/numbers/hold，以及没有电影的原生粮草提示。旧 `baye.hd.skill()` 仍表示计谋选择菜单。结果的 skillId、actorIndex、targetIndex、resultKind、value 来自当前实际调用；value 是原生显示的 U16 值，不能用它推算粮草总量或实际增减。例如粮草显示请求80而实际扣除50时，保留显示80。
+
+每个实际目标持有独立 session；标签由真正 `GamStrShowS` 消费的 GBK 字节及坐标观察，数字仍来自 NUM15。current、copy 与 timed-flush display 分开保存；只有实际进入 LCD 回调的完整匹配快照才用于高清重放。电影阶段尚未显示的标签/数字不提前绘制，电影结束后的 public SPE 保持 inactive。没有新增键、跳过、定时器、伤害/经验计算、等待或第二次 hook 查询。
+
+当前 FIRE35 的实际8单元都使用不透明65×64图片和同一起点48,16，因此只有已经实际复制过的 `scene.mode===2` 矩形授予窗口内高清。累计清除、可见图片、真实标签和数字按实际写入顺序重放；130×64显示画布内、特效窗口外的4160个逻辑像素保留真实 LCD。完整160×96原生画面的窗口外11200像素由独立原生oracle另行核对。电影本身仍沿既有 SPE 窗口表现，不声称整片战场已高清。其它资源、没有电影、粮草、custom、未证实背景或来源退休，继续完整160×96 LCD；不能固定裁到攻击 arena 而隐藏原生目标坐标的文字。
+
+高清数字字形最大宽度为原生6px步距，绘制高度、12×16不透明清除、clip 与所有实际历史位置保持原值。这个字形调整避免后一个数字的清除框擦掉前一个数字右半；旧底部轨迹仍保留。高清字体属于美术替换，原生 ROM 数字和实际字体像素另行独立核对。
+
+`baye.hd.resultOwner()` 用 kind（1攻击、2计谋）、generation、session、valid 观察当前实际调用栈顶。两类结果的高清来源必须同时匹配此归属；嵌套返回不会复活父层已退休的高清来源。同类嵌套覆盖了公开前缀时，真实父等待仍作为 `result-lcd` 保留完整原生画面，不能误显示新子层、旧攻击或标题。重置清空当前栈归属，迟到 unwind 不能恢复旧世界。
+
+新增普通攻击范围19/index0/11..21（骑兵对步兵）和20/index0/10..19（步兵对步兵）仍保留完整66/60单元和19/18图片槽元数据，只授权该明确区间所需的9/6槽。21/9..17首组继续保留。三个区间的真实流程、原生像素、高清绘图和失败尝试分别记录在[本批验收](validation/m4-attacks-skills-20261008.json)，不扩称37区间全部完成。
+
+`npm run test:skill` 包含实际 C、桥和 SPE 前端专项；`npm run test:skill-runtime -- --staged` 使用真实玩家出征、移动、计谋菜单、范围与目标选择。原生随机失败须原样保留，不直接开启电影或改成功率。LCD 捕获必须取实际回调 ImageData 或真正 LCD canvas readback，不能把 HD canvas PNG 命名为原生图来充当像素证据。
+
 ## 验证范围
 
 `npm run test:spe` 覆盖显示提交、叠帧/清除、LIB 与异步图片代次、输入锁、报告/隐藏/经典、负 origin、屏幕尺寸和资源回退。`npm run test:spe-engine` 编译并执行实际 C 播放与桥函数，覆盖嵌套/重置、上下文消费、真实位图组合及 timer 显示关联。`npm run test:spe-runtime -- --staged` 用真实 LIB 和暂存 WASM 从玩家入口验证连续开场、跳过、战斗事件；未自然触发的资源继续记为未验收。
