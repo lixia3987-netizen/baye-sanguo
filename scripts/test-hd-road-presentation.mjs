@@ -10,6 +10,7 @@ const source = readFileSync(new URL('../js/hd-overworld.js', import.meta.url), '
         global.__presentation = { state, drawRoads, drawCities, draw, sampleCities, cacheDom };
     })(window);`);
 
+const mapIdentity = Object.freeze({status:'ready',generation:1,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'});
 function harness() {
     const sent = [], strokes = [], domWrites = [], nodes = new Map(), stack = [];
     let dash = [], path = [];
@@ -43,12 +44,15 @@ function harness() {
     const data = { g_PlayerKing: 0, g_PIdx: 1,
         g_Cities: [{ Belong: 1 }, { Belong: 3 }, { Belong: 4 }, { Belong: 0 }],
         g_CityPositions: [{ x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 2 }, { x: 4, y: 3 }] };
+    const names=['洛阳','许昌','陈留','空城'];
+    const geo = {libSha256:mapIdentity.sha256,cities:data.g_CityPositions.map((p,i)=>({i,name:names[i],engX:p.x,engY:p.y,hdX:100+i*140,hdY:120+i*110}))};
     const context = vm.createContext({
+        BayeHdLibIdentity:{read:()=>mapIdentity,isCurrent:s=>s===mapIdentity,subscribe(){}},
         document: { hidden: false, documentElement: { setAttribute() {} }, getElementById: id => nodes.get(id) },
         localStorage: { getItem: () => 'hd-map' },
         console: { log() {}, warn() {} }, addEventListener() {},
         baye: { data, ensureData: () => data, hdCityLimit: () => data.g_Cities.length,
-            getCityName: id => ['洛阳', '许昌', '陈留', '空城'][id],
+            getCityName: id => names[id],
             hd: { ready: () => true }, sendKey: key => sent.push(key) },
         sendKey: key => sent.push(key), devicePixelRatio: 1
     });
@@ -56,10 +60,10 @@ function harness() {
     vm.runInContext(source, context, { filename: 'js/hd-overworld.js' });
     const renderer = context.__presentation, state = renderer.state;
     renderer.cacheDom();
-    Object.assign(state, { mode: 'hd-map', phase: 'map', probed: true, selectedIndex: 0 });
+    Object.assign(state, {libraryIdentity:mapIdentity,assetsReady:true,layoutMatched:true,manifest:{libSha256:mapIdentity.sha256},geoMeta:geo,geoCities:geo.cities,mode: 'hd-map', phase: 'map', probed: true, selectedIndex: 0 });
     renderer.sampleCities();
     return { context, renderer, state, data, nodes, sent, strokes, domWrites, ctx,
-        getDash: () => [...dash], resetStrokes() { strokes.length = 0; } };
+        names, geo, getDash: () => [...dash], resetStrokes() { strokes.length = 0; } };
 }
 
 const edge = { a: 0, b: 1, ax: 100, ay: 100, bx: 220, by: 150, cx: 160, cy: 120, pass: false };
@@ -137,12 +141,13 @@ test('hidden map redraws do not update the legend before returning to the curren
     assert.deepEqual(h.sent, []);
 });
 
-test('gray markers with missing or legacy sentinel ownership are not counted as verified unowned', () => {
+test('missing owners remain unknown while U16 owner 255 is an actual faction', () => {
     const h = harness();
     h.data.g_Cities.push({}, { Belong: null }, { Belong: 255 });
+    for(let i=4;i<7;i++){h.names.push('测试城'+i);h.data.g_CityPositions.push({x:i+1,y:i+1});h.geo.cities.push({i,name:h.names[i],engX:i+1,engY:i+1,hdX:100+i*140,hdY:120+i*110});}
     h.renderer.sampleCities(); h.renderer.draw();
-    assert.equal(h.nodes.get('hd-overworld-legend-empty').textContent, '无主城 1 · 归属未知 3');
+    assert.equal(h.nodes.get('hd-overworld-legend-empty').textContent, '无主城 1 · 归属未知 2');
     assert.equal(h.nodes.get('hd-overworld-legend-owned').textContent, '己方 1');
-    assert.equal(h.nodes.get('hd-overworld-legend-neutral').textContent, '其他势力 2');
+    assert.equal(h.nodes.get('hd-overworld-legend-neutral').textContent, '其他势力 3');
     assert.deepEqual(h.sent, []);
 });

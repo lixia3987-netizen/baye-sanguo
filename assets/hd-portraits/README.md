@@ -54,6 +54,8 @@ await BayePortraitDump.dumpCurrent()
 
 游戏里的替换逻辑在 `pc.html` 引入的 `js/hd-portraits.js`。说明见 `docs/hd-graphics.md`。
 
-回退路径由 `refs/index.json` 的全量索引提供，不从人物编号猜文件名。当前索引只支持 `libs/dat-mod.lib`；其他 Mod 与自定义 Lib 未建立对应身份索引前使用引擎 LCD。模块缓存成功、失败和进行中的图片请求，并取消已过期的显示结果。原图缺失时不显示替代人物。
+回退路径由 `refs/index.json` 的全量索引提供，不从人物编号猜文件名。manifest 与参考索引都记录实际 LIB 的 SHA-256，游戏中由共享身份模块核对真正加载的 `dynLib`，不以首选路径认证。正确原版内容从其他路径或 IndexedDB 载入仍匹配；其他 Mod 未建立对应身份索引前使用引擎 LCD。模块缓存图片请求，LIB 身份、时期、视图、停止及隐藏时取消过期结果。原图缺失时不显示替代人物。契约见 [实际 LIB 身份](../../docs/hd-lib-identity.md)。
+
+导出脚本提交索引前从真实浏览器读取加载内容并计算摘要。来源缺失或无效时保留原有文件；更换库后不继承另一库的 HD 路径。`hd-portrait-smoke.html` 是明确标记的独立素材预览，缓存不会授权后续运行的游戏。
 
 `npm run test:portraits` 验证四时期、800 条参考图路径、ID 0、缺图、不同 Lib 和异步竞态。`CHROME=/path/to/chromium npm run test:portrait-browser` 验证实际图片加载与回退；这项检查不替代真实战斗验收。

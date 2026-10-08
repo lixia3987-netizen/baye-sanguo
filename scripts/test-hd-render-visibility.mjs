@@ -8,11 +8,15 @@ import { webcrypto } from 'node:crypto';
 import test from 'node:test';
 
 const sources = {
+    identity:readFileSync(new URL('../js/hd-lib-identity.js',import.meta.url),'utf8'),
     overworld: readFileSync(new URL('../js/hd-overworld.js', import.meta.url), 'utf8'),
     terrain: readFileSync(new URL('../js/hd-battle-terrain.js', import.meta.url), 'utf8'),
     feedback: readFileSync(new URL('../js/hd-battle-feedback.js', import.meta.url), 'utf8'),
     battle: readFileSync(new URL('../js/hd-battle.js', import.meta.url), 'utf8')
 };
+// World rendering fixtures isolate visibility using a trusted static identity contract.
+// Actual LIB digests and invalidation are covered by test-hd-overworld-identity.
+const mapIdentity = Object.freeze({status:'ready',generation:1,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'});
 const K = { RIGHT: 0x25, ENTER: 0x27 };
 const standardLibHex = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
 
@@ -116,12 +120,13 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         open(method, url) { this.url = url; }
         send() {
             this.readyState = 4; this.status = 200;
-            this.responseText = JSON.stringify(this.url.endsWith('manifest.json') ? { layers: {} } : {});
+            this.responseText = JSON.stringify(this.url.split('?')[0].endsWith('manifest.json') ? { libSha256:mapIdentity.sha256,layers: {} } : this.url.split('?')[0].endsWith('china-lcc-cities.json') ? {libSha256:mapIdentity.sha256,cities:data.g_CityPositions.map((p,i)=>({i,name:['洛阳','许昌'][i],engX:p.x,engY:p.y,hdX:400+i*600,hdY:400+i*100}))} : {libSha256:mapIdentity.sha256});
             this.onreadystatechange();
         }
     }
     const context = vm.createContext({
         document, baye, Date: Clock, Image, XMLHttpRequest,
+        BayeHdLibIdentity:modules.includes('overworld')?{read:()=>mapIdentity,isCurrent:s=>s===mapIdentity,subscribe(){}}:undefined,
         dynLib: loadedLib ? standardLibHex : null, crypto: webcrypto,
         console: { log() {}, warn() {}, error(...args) { throw new Error(args.join(' ')); } },
         localStorage: { getItem: key => saved.get(key) ?? null,
@@ -138,6 +143,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         }, devicePixelRatio: 1
     });
     context.window = context;
+    if (!modules.includes('overworld')) vm.runInContext(sources.identity, context, { filename: 'js/hd-lib-identity.js', timeout: 5000 });
     if (modules.includes('battle')) vm.runInContext(sources.terrain, context, { filename: 'js/hd-battle-terrain.js', timeout: 5000 });
     if (modules.includes('battle')) vm.runInContext(sources.feedback, context, { filename: 'js/hd-battle-feedback.js', timeout: 5000 });
     for (const name of modules) vm.runInContext(sources[name], context, { filename: `js/hd-${name}.js`, timeout: 5000 });

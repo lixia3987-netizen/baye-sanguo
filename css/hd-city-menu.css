@@ -35,12 +35,15 @@
     font-size: 36px;
     font-weight: 700;
     letter-spacing: 0.04em;
+    overflow-wrap: anywhere;
+    flex-shrink: 0;
 }
 
 .hd-city-menu-sub {
     margin-top: 6px;
     font-size: 15px;
     color: #c5cdd8;
+    flex-shrink: 0;
 }
 
 .hd-city-menu-grid[hidden],
@@ -103,6 +106,8 @@
 }
 
 .hd-city-menu-item {
+    min-width: 0;
+    overflow-wrap: anywhere;
     appearance: none;
     border: 0;
     border-radius: 10px;
@@ -340,9 +345,10 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
 .hd-city-menu-status {
     margin: 18px 0;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 20px;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 14px 20px;
     overflow: auto;
+    min-height: 0;
     font-size: 16px;
 }
 
@@ -353,12 +359,117 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     padding: 8px 10px;
     border-radius: 8px;
     background: rgba(255, 255, 255, 0.04);
+    min-width: 0;
+}
+
+.hd-city-menu-stat span {
+    color: #bdc8d5;
+    flex: 0 0 auto;
+}
+
+.hd-city-menu-stat strong {
+    min-width: 0;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+.hd-city-menu-info-group {
+    min-width: 0;
+}
+
+.hd-city-menu-info-group h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: #f0c75a;
+}
+
+.hd-city-menu-info-rows {
+    display: grid;
+    gap: 6px;
+}
+
+.hd-city-menu-person-layout {
+    display: contents;
+}
+
+.hd-city-menu-person-layout.has-person-details {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 18px;
+    margin: 18px 0 16px;
+    min-height: 0;
+    overflow: hidden;
+    flex: 1 1 auto;
+}
+
+.has-person-details .hd-city-menu-deep {
+    margin: 0;
+    min-height: 0;
+    align-content: start;
+}
+
+.hd-city-menu-person-details {
+    min-width: 0;
+    min-height: 0;
+    overflow: auto;
+    padding: 0 6px 0 0;
+    font-size: 15px;
+}
+
+.hd-city-menu-person-details[hidden] {
+    display: none !important;
+}
+
+.hd-city-menu-person-name {
+    margin: 0 0 14px;
+    font-size: 24px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.hd-city-menu-person-portrait:empty {
+    display: none;
+}
+
+.hd-city-menu-person-fields {
+    min-width: 0;
+}
+
+.hd-city-menu-person-details .hd-city-menu-info-group + .hd-city-menu-info-group {
+    margin-top: 16px;
+}
+
+.hd-city-menu-info-note {
+    margin: 14px 0 0;
+    color: #adb9c7;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+    .hd-city-menu-stage {
+        padding: 20px;
+        min-height: min(420px, calc(100vh - 72px));
+    }
+    .hd-city-menu-status {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .hd-city-menu-person-layout.has-person-details {
+        grid-template-columns: minmax(0, 1fr);
+        overflow: auto;
+    }
+    .has-person-details .hd-city-menu-deep,
+    .hd-city-menu-person-details {
+        overflow: visible;
+    }
 }
 
 .hd-city-menu-footer {
     display: flex;
     gap: 12px;
     margin-top: auto;
+    flex-shrink: 0;
 }
 
 .hd-city-menu-footer button {
@@ -388,7 +499,14 @@ html[data-baye-city-menu="hd"] body.baye-hd-overworld-menu .container.js-baye-pc
     pointer-events: none;
 }
 
-html[data-baye-city-menu="hd"] body.baye-hd-city-menu-lcd .container.js-baye-pc-lcd {
+/* This city owner decides LCD visibility independently of retained map/dialog
+   classes. A live report/help receives passthrough and keeps its own fallback. */
+html[data-baye-city-menu="hd"][data-baye-city-lcd="off"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd {
     visibility: visible;
     pointer-events: auto;
     position: fixed;
@@ -397,12 +515,37 @@ html[data-baye-city-menu="hd"] body.baye-hd-city-menu-lcd .container.js-baye-pc-
     left: auto;
     top: auto;
     transform: none;
-    width: 280px !important;
+    width: 320px !important;
     z-index: 70;
 }
 
-html[data-baye-city-menu="hd"] body.baye-hd-city-menu-deep-empty .container.js-baye-pc-lcd {
-    width: 420px !important;
-    bottom: 64px;
+html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] body.baye-hd-city-menu-on.baye-hd-city-menu-deep-empty .container.js-baye-pc-lcd {
     box-shadow: 0 0 0 4px #1b1f27, 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Reserve real space for an explicitly opened/unknown-list LCD. It may not
+   cover the person fields or footer at 1280×720. */
+@media (max-width: 1500px) {
+    html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] .hd-city-menu {
+        justify-content: flex-start;
+        padding-left: 24px;
+    }
+    html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] .hd-city-menu-stage {
+        width: calc(100vw - 392px);
+    }
+}
+
+@media (max-width: 900px) {
+    html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] .hd-city-menu {
+        align-items: flex-start;
+        padding-top: 24px;
+    }
+    html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] .hd-city-menu-stage {
+        width: calc(100vw - 48px);
+        min-height: 0;
+        max-height: calc(100vh - 286px);
+    }
+    html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] body.baye-hd-city-menu-on .container.js-baye-pc-lcd {
+        width: min(320px, calc(100vw - 40px)) !important;
+    }
 }

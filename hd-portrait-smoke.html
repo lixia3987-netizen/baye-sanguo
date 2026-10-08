@@ -10,7 +10,8 @@
         <img id="hd-portrait-img" alt="">
         <figcaption id="hd-portrait-cap"></figcaption>
     </figure>
-    <script src="js/hd-portraits.js?ver=20261008h"></script>
+    <script src="js/hd-lib-identity.js?ver=20261008i"></script>
+    <script src="js/hd-portraits.js?ver=20261008i"></script>
     <script>
         (function () {
             function waitImage() {
@@ -73,6 +74,9 @@
                 var minWidth = Number(query.get('minWidth')) || 0;
                 var chosenUrl = '';
                 return BayeHdPortraits.chooseSource(pilot.personId, pilot.period).then(function (src) {
+                    check(src.preview === true, '独立冒烟只允许素材预览');
+                    var identity = BayeHdLibIdentity.read();
+                    check(identity.status === 'unavailable' && identity.sha256 === null, '预览不能伪造运行库身份');
                     chosenUrl = src.url || '';
                     check(src.mode === expect, 'chooseSource 期望 ' + expect + ' 实际 ' + src.mode + ' ' + chosenUrl);
                     check(!contains || chosenUrl.indexOf(contains) >= 0, 'url 不含 ' + contains + ' 实际 ' + chosenUrl);
@@ -164,6 +168,8 @@
                         personId: pilot.personId,
                         period: pilot.period,
                         expect: expect,
+                        preview: true,
+                        runtimeIdentity: BayeHdLibIdentity.read(),
                         url: chosenUrl
                     };
                 });

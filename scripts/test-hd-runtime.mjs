@@ -8,6 +8,7 @@
  * --renderer-dir compares archived overworld/battle/terrain renderers under the same measurement.
  * --input-dir serves only archived lcd.js, hd-city-menu.js, hd-dialog.js and bridge.js.
  * --engine-dir serves an archived four-file WASM build; mutually exclusive with --staged.
+ * --library-identity additionally boots genuine IndexedDB LIB caches under mismatched preferred URLs.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
  */
 import assert from 'node:assert/strict';
@@ -24,6 +25,8 @@ import { summarizeSamples, summarizeFrames } from './hd-performance-metrics.mjs'
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const staged = process.argv.includes('--staged');
 const performanceMode = process.argv.includes('--performance');
+const libraryIdentityMode = process.argv.includes('--library-identity');
+const cityHudMode = libraryIdentityMode || process.argv.includes('--city-hud');
 const directoryArgument = (flag) => {
     const index = process.argv.indexOf(flag);
     if (index < 0) return null;
@@ -41,10 +44,11 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.lib': 'application/octet-stream' };
-const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [] };
+const report = { staged, libraryIdentityMode, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], nativeDialogs: [], blocked: [], requests: [] };
 const engineNames = ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json'];
-const inputNames = ['lcd.js', 'hd-city-menu.js', 'hd-dialog.js', 'bridge.js'];
+const inputNames = ['lcd.js', 'hd-city-menu.js', 'hd-dialog.js', 'bridge.js', 'idbkvstore.min.js'];
 const rendererNames = ['hd-overworld.js', 'hd-battle.js', 'hd-battle-terrain.js', 'hd-battle-feedback.js'];
+const identityNames = ['hd-lib-identity.js', 'hd-portraits.js', 'hd-spe.js'];
 const servedAssets = new Map();
 const sha256 = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 
@@ -53,7 +57,8 @@ function prepareServedAssets() {
     for (const [group, names, directory] of [
         ['engine', engineNames, engineDir || (staged ? path.join(root, 'build/wasm/src') : path.join(root, 'js'))],
         ['inputs', inputNames, inputDir || path.join(root, 'js')],
-        ['renderers', rendererNames, rendererDir || path.join(root, 'js')]
+        ['renderers', rendererNames, rendererDir || path.join(root, 'js')],
+        ['identityConsumers', identityNames, path.join(root, 'js')]
     ]) {
         report.sources[group] = {};
         for (const name of names) {
@@ -82,6 +87,16 @@ function prepareServedAssets() {
         assert.ok(declared, 'Engine manifest declares artifact: ' + name);
         assert.equal(actual.bytes, declared.bytes, 'Served engine bytes match manifest: ' + name);
         assert.equal(actual.sha256, declared.sha256, 'Served engine hash matches manifest: ' + name);
+    }
+    report.sources.presentation = {};
+    for (const name of ['pc.html', 'css/hd-city-menu.css', 'css/hd-dialog.css', 'css/hd-overworld.css', 'css/hd-portraits.css',
+        'assets/hd-overworld/manifest.json', 'assets/hd-overworld/china-lcc-cities.json', 'assets/hd-overworld/roads/adjacency.json',
+        'assets/hd-portraits/manifest.json', 'assets/hd-portraits/refs/index.json', 'assets/hd-spe/manifest.json',
+        'libs/dat-mod.lib', 'libs/sc-mod.lib']) {
+        const data = fs.readFileSync(path.join(root, name));
+        const metadata = { source: name, bytes: data.length, sha256: sha256(data) };
+        servedAssets.set(name, { data, metadata });
+        report.sources.presentation[name] = metadata;
     }
 }
 
@@ -190,6 +205,7 @@ const snapshotExpression = `(() => {
         city: window.BayeHdCityMenu && BayeHdCityMenu.debugSnapshot(),
         dialog: window.BayeHdDialog && BayeHdDialog.debugSnapshot(),
         overworld: window.BayeHdOverworld && BayeHdOverworld.debugSnapshot(),
+        libraryIdentity: window.BayeHdLibIdentity && BayeHdLibIdentity.read(),
         battle: window.BayeHdBattle && BayeHdBattle.debugSnapshot(),
         bodyClass: document.body.className, lastHdCall: window.__bayeLastHdCall
     };
@@ -311,15 +327,18 @@ async function smoke(cdp) {
         await BayeHdPortraits.loadManifest();
         const valid = await BayeHdPortraits.chooseSource(2, 1);
         const lib = localStorage.getItem('baye/libpath');
-        let mismatched;
-        try { localStorage.setItem('baye/libpath', 'libs/sc-mod.lib'); mismatched = await BayeHdPortraits.chooseSource(2, 1); }
+        let preferredPathChanged;
+        try { localStorage.setItem('baye/libpath', 'libs/sc-mod.lib'); preferredPathChanged = await BayeHdPortraits.chooseSource(2, 1); }
         finally { localStorage.setItem('baye/libpath', lib); }
-        return { valid, mismatched, name: baye.getPersonName(2), promiseIsNative: /native code/.test(String(window.Promise)) };
+        return { valid, preferredPathChanged, identity: BayeHdLibIdentity.read(), name: baye.getPersonName(2), promiseIsNative: /native code/.test(String(window.Promise)) };
     })()`);
     assert.equal(portraits.valid.mode, 'ref');
     assert.equal(portraits.valid.url, 'assets/hd-portraits/refs/period-1/2-袁绍.png');
     assert.equal(portraits.name, '袁绍');
-    assert.equal(portraits.mismatched.mode, 'lcd');
+    assert.equal(portraits.preferredPathChanged.mode, 'ref', 'unchanged actual dictionary bytes retain their matching reference under another preferred path');
+    assert.equal(portraits.preferredPathChanged.url, portraits.valid.url);
+    assert.equal(portraits.identity.status, 'ready');
+    assert.equal(portraits.identity.sha256, '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
     assert.equal(portraits.promiseIsNative, false, 'portrait awaits work under the engine Promise callback shim');
     report.portraits = portraits;
     await checkpoint(cdp, '07-portraits');
@@ -366,6 +385,7 @@ async function quantitySmoke(cdp) {
     assert.ok(opened, 'open an actual player-owned city through the map API');
     await waitFor(cdp, 'real city root menu', `BayeHdCityMenu.isOpen() && BayeHdCityMenu.getLayer() === 'root' && baye.hd.menuItems().names[0] === '内政'`);
     await checkpoint(cdp, '08-hd-city');
+    if (cityHudMode) await cityStatusSmoke(cdp, owned.i);
     await click(cdp, '#hd-city-menu [data-hd-root="2"]');
     await waitFor(cdp, 'real military submenu', `BayeHdCityMenu.getLayer() === 'sub' && baye.hd.menuItems().names[0] === '侦察'`);
     await click(cdp, '#hd-city-menu [data-hd-sub="1"]');
@@ -373,6 +393,7 @@ async function quantitySmoke(cdp) {
         const city = BayeHdCityMenu.debugSnapshot();
         return city.layer === 'deep' && city.deepLabel === '征兵' && city.deepItems.length > 0;
     })()`);
+    if (cityHudMode) await personDetailsSmoke(cdp, owned.i);
     await click(cdp, '#hd-city-menu [data-hd-deep="0"]');
     const initial = await waitFor(cdp, 'real enlist quantity input', `(() => {
         const q = baye.hd.qty();
@@ -602,6 +623,259 @@ async function quantityOrderingSmoke(cdp, initial) {
     await checkpoint(cdp, 'quantity-ordered-input-and-noop-receipts');
 }
 
+const hudRows = details => Object.fromEntries(details.groups.flatMap(group => group.rows));
+async function hudLcdComparison(cdp) {
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 720, deviceScaleFactor: 1, mobile: false });
+    const nativeBefore = await evaluate(cdp, 'baye.hd.menuItems()');
+    await click(cdp, '#hd-city-menu [data-hd-menu-lcd]');
+    await delay(750); // Several normal render polls must preserve the explicit request.
+    const geometry = await evaluate(cdp, `(() => {
+        const stage=document.querySelector('#hd-city-menu .hd-city-menu-stage'),lcd=document.getElementById('lcd');
+        const s=stage.getBoundingClientRect(),r=lcd.getBoundingClientRect(),style=getComputedStyle(lcd);
+        return {stage:{left:s.left,right:s.right,top:s.top,bottom:s.bottom},lcd:{left:r.left,right:r.right,top:r.top,bottom:r.bottom},
+            visible:style.visibility==='visible'&&style.display!=='none',mode:document.documentElement.getAttribute('data-baye-city-lcd')};
+    })()`);
+    assert.equal(geometry.mode, 'on');
+    assert.equal(geometry.visible, true);
+    assert.ok(geometry.stage.right <= geometry.lcd.left, 'explicit LCD comparison has reserved space beside the HD panel');
+    assert.ok(geometry.lcd.right <= 1280 && geometry.lcd.bottom <= 720);
+    assert.deepEqual(await evaluate(cdp, 'baye.hd.menuItems()'), nativeBefore, 'comparison does not change native menu or selection');
+    await checkpoint(cdp, 'hud-person-explicit-lcd-1280x720');
+    await click(cdp, '#hd-city-menu [data-hd-menu-lcd]');
+    await waitFor(cdp, 'LCD comparison closes without changing the native person menu',
+        'document.documentElement.getAttribute("data-baye-city-lcd")==="off"');
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1920, height: 1080, deviceScaleFactor: 1, mobile: false });
+    return geometry;
+}
+async function hudScreens(cdp, label, selector) {
+    const samples = [];
+    for (const [width, height] of [[1920, 1080], [1280, 720]]) {
+        await cdp.send('Emulation.setDeviceMetricsOverride', { width, height, deviceScaleFactor: 1, mobile: false });
+        await delay(150);
+        const geometry = await evaluate(cdp, `(() => {
+            const box=document.querySelector(${JSON.stringify(selector)}),stage=document.querySelector('#hd-city-menu .hd-city-menu-stage');
+            const footer=document.querySelector('#hd-city-menu .hd-city-menu-footer');
+            if(!box||box.hidden)return null;
+            const rect=node=>{const r=node.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};};
+            return {viewport:{width:innerWidth,height:innerHeight},box:rect(box),stage:rect(stage),footer:rect(footer),
+                boxWidth:box.clientWidth,boxScrollWidth:box.scrollWidth,boxHeight:box.clientHeight,boxScrollHeight:box.scrollHeight,
+                overflow:getComputedStyle(box).overflowY,text:box.innerText,
+                lcdVisible:(()=>{const n=document.getElementById('lcd'),s=getComputedStyle(n);return s.visibility==='visible'&&s.display!=='none';})(),
+                portraitDocked:!!document.querySelector('#hd-city-menu-person-portrait #hd-portrait:not([hidden])'),
+                headerUncovered:(()=>{const n=document.getElementById('hd-city-menu-title'),r=n.getBoundingClientRect();
+                    const top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return !!top&&!!top.closest('#hd-city-menu');})()};
+        })()`);
+        assert.ok(geometry, 'actual visible HUD: ' + selector);
+        assert.equal(geometry.lcdVisible, false, 'known HD detail has no automatic LCD overlay');
+        if (selector === '#hd-city-menu-person-details') assert.equal(geometry.portraitDocked, true,
+            'actual portrait belongs to the scrolling detail pane instead of covering menu controls');
+        assert.ok(geometry.stage.left >= 0 && geometry.stage.right <= width + 1);
+        assert.ok(geometry.stage.top >= 0 && geometry.stage.bottom <= height + 1);
+        assert.ok(geometry.footer.bottom <= height + 1 && geometry.footer.top >= geometry.stage.top, 'return controls stay within the viewport');
+        assert.ok(geometry.boxScrollWidth <= geometry.boxWidth + 1, 'HUD has no horizontal content overflow');
+        assert.equal(geometry.headerUncovered, true, 'settings toolbar cannot cover the active city header');
+        samples.push(geometry);
+        await checkpoint(cdp, label + '-' + width + 'x' + height);
+    }
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1920, height: 1080, deviceScaleFactor: 1, mobile: false });
+    await delay(100);
+    return samples;
+}
+
+async function cityStatusSmoke(cdp, cityIndex) {
+    await click(cdp, '#hd-city-menu [data-hd-root="3"]');
+    const details = await waitFor(cdp, 'actual grouped city details', 'BayeHdCityMenu.debugSnapshot().cityDetails');
+    const native = await evaluate(cdp, `(() => {
+        const c=baye.data.g_Cities[${cityIndex}];
+        return {name:baye.getCityName(${cityIndex}),owner:baye.cityOwnership(c.Belong),
+            ...Object.fromEntries(['Farming','FarmingLimit','Commerce','CommerceLimit','Population','PopulationLimit',
+                'PeopleDevotion','AvoidCalamity','Money','Food','MothballArms','Persons','Tools'].map(key=>[key,Number(c[key])]))};
+    })()`);
+    assert.equal(details.cityIndex, cityIndex);
+    assert.equal(details.name, native.name);
+    const rows = hudRows(details);
+    assert.equal(rows['归属'], native.owner.label);
+    for (const [label, key] of [['农业 / 上限','Farming'],['商业 / 上限','Commerce'],['人口 / 上限','Population']]) {
+        assert.equal(rows[label], native[key] + ' / ' + native[key + 'Limit']);
+    }
+    for (const [label, key] of [['民忠','PeopleDevotion'],['防灾','AvoidCalamity'],['金钱','Money'],['粮食','Food'],
+        ['预备兵','MothballArms'],['城内人物','Persons'],['城内道具','Tools']]) assert.equal(rows[label], String(native[key]));
+    assert.ok(!('PersonQueue' in rows) && !('ToolQueue' in rows), 'internal queue offsets are not city property labels');
+    const screens = await hudScreens(cdp, 'hud-city-status', '#hd-city-menu-status');
+    report.hud ||= {};
+    report.hud.city = { details, native, screens };
+    await click(cdp, '#hd-city-menu [data-hd-menu-back]');
+    await waitFor(cdp, 'native root after local status view', 'BayeHdCityMenu.getLayer()==="root" && baye.hd.menuItems().context===1');
+}
+
+async function personDetailsSmoke(cdp, cityIndex) {
+    const details = await waitFor(cdp, 'actual highlighted person details', 'BayeHdCityMenu.debugSnapshot().personDetail');
+    const native = await evaluate(cdp, `(() => {
+        const menu=baye.hd.menuItems(),d=baye.data,c=d.g_Cities[${cityIndex}];
+        const people=Array.from({length:Number(c.Persons)},(_,i)=>Number(d.g_PersonsQueue[Number(c.PersonQueue)+i]))
+            .filter(index=>Number(d.g_Persons[index].Belong)===Number(c.Belong));
+        const index=people[menu.index],p=d.g_Persons[index];
+        return {personIndex:index,name:baye.getPersonName(index),owner:baye.personOwnership(p.Belong,index),menu,
+            equipment:[Number(p.Equip[0]),Number(p.Equip[1])],
+            ...Object.fromEntries(['Age','Level','Force','IQ','Devotion','Experience','Thew','Arms','ArmsType','Character'].map(key=>[key,Number(p[key])]))};
+    })()`);
+    assert.equal(details.personIndex, native.personIndex);
+    assert.equal(details.nativeIndex, native.menu.index);
+    assert.equal(details.seq, native.menu.seq);
+    assert.equal(details.name, native.name);
+    const rows = hudRows(details);
+    assert.equal(rows['归属'], native.owner.label);
+    for (const [label, key] of [['年龄','Age'],['等级','Level'],['武力','Force'],['智力','IQ'],['忠诚值','Devotion'],
+        ['经验','Experience'],['体力','Thew'],['兵力','Arms']]) assert.equal(rows[label], String(native[key]));
+    assert.ok(rows['基础兵种'].includes('码 ' + native.ArmsType));
+    assert.ok(rows['性格码'].startsWith(String(native.Character)));
+    for (const [slot, label] of ['装备一','装备二'].entries()) {
+        if (native.equipment[slot] === 0) assert.equal(rows[label], '无');
+        else assert.ok(rows[label].includes('编号 ' + native.equipment[slot]));
+    }
+    const portrait = await waitFor(cdp, 'portrait agrees with the actual native highlighted person', `(() => {
+        const p=BayeHdPortraits.debugSnapshot();
+        return Number(p.personId)===${native.personIndex} && (p.mode==='hd'||p.mode==='ref') && p;
+    })()`);
+    const highlight = await evaluate(cdp, `(() => {
+        const n=document.querySelector('#hd-city-menu [data-hd-deep].is-idle');
+        return n ? {index:Number(n.getAttribute('data-hd-deep')),name:n.textContent.trim()} : null;
+    })()`);
+    assert.equal(highlight?.index, native.menu.index, 'visible person highlight uses the current native menu index');
+    assert.equal(highlight?.name, native.name);
+    const lcdComparison = await hudLcdComparison(cdp);
+    const screens = await hudScreens(cdp, 'hud-person-details', '#hd-city-menu-person-details');
+    report.hud ||= {};
+    report.hud.person = { details, native, portrait, highlight, screens, lcdComparison };
+}
+
+async function enterCachedStrategy(cdp, label) {
+    await waitFor(cdp, label + ' actual LIB/WASM initialization', 'window.baye && baye.hd && baye.hd.ready()', 60000);
+    await evaluate(cdp, `(() => {
+        window.__runtimeSpeSeen=[];
+        const remember=()=>{const s=baye.hd.spe();if(s.id)__runtimeSpeSeen.push(s.id);};
+        const original=BayeHdSpe.onEngineSpe;
+        BayeHdSpe.onEngineSpe=function(){remember();return original.apply(this,arguments);};remember();
+    })()`);
+    for (let i = 0; i < 20; i++) {
+        if (await evaluate(cdp, '__runtimeSpeSeen.includes(100)')) break;
+        if (await evaluate(cdp, 'baye.hd.movie().active || (baye.hd.spe().active && baye.hd.spe().kind===1)')) await key(cdp, 'Enter');
+        else await delay(150);
+    }
+    await waitFor(cdp, label + ' native title', '__runtimeSpeSeen.includes(100)');
+    await key(cdp, 'Enter');
+    await waitFor(cdp, label + ' native period selection', '__runtimeSpeSeen.includes(104)');
+    await key(cdp, 'Enter');
+    await waitFor(cdp, label + ' native lord list', 'baye.data.g_PIdx===1 && baye.hd.kings().count>0');
+    const lord = await evaluate(cdp, 'baye.hd.kings()');
+    await key(cdp, 'Enter');
+    const setup = await waitFor(cdp, label + ' native new-game setup', `(() => {
+        if(baye.hd.march().pick && baye.hd.realm().ownedCount>0)return {kind:'map'};
+        const menu=baye.hd.menuItems();
+        if(menu.active && menu.context===0 && menu.count===4 && menu.names.length===4 &&
+            menu.names.every(name=>name.indexOf('难度选择')===0))return {kind:'difficulty',menu};
+        return false;
+    })()`);
+    if (setup.kind === 'difficulty') {
+        assert.equal(setup.menu.index, 0, 'actual Mod defaults to the first native difficulty option');
+        report.libraryIdentity.setupMenus ||= [];
+        report.libraryIdentity.setupMenus.push({ label, ...setup });
+        await checkpoint(cdp, label + '-native-difficulty');
+        await key(cdp, 'Enter');
+        const confirmation = await waitFor(cdp, label + ' native difficulty confirmation', `(() => {
+            const menu=baye.hd.menuItems();
+            return menu.active && menu.context===0 && menu.count===2 && menu.index===0 &&
+                menu.names[0]==='确认选择-普通版' && menu.names[1]==='返回难度选择' && menu;
+        })()`);
+        report.libraryIdentity.setupMenus.push({ label, kind: 'difficulty-confirmation', menu: confirmation });
+        await checkpoint(cdp, label + '-native-difficulty-confirmation');
+        await key(cdp, 'Enter');
+    }
+    await waitFor(cdp, label + ' native strategy pick', 'baye.hd.march().pick && baye.hd.realm().ownedCount>0');
+    await waitFor(cdp, label + ' actual byte identity', 'BayeHdLibIdentity.read().status==="ready"');
+    return { lord, state: await checkpoint(cdp, label) };
+}
+
+async function setRealCache(cdp, source, preferred) {
+    const result = await evaluate(cdp, `(async()=>{
+        const response=await fetch(${JSON.stringify(source)},{cache:'no-store'});
+        if(!response.ok)throw new Error('LIB fetch failed');
+        const bytes=new Uint8Array(await response.arrayBuffer());
+        let binary='';for(let i=0;i<bytes.length;i+=8192)binary+=String.fromCharCode.apply(null,bytes.subarray(i,i+8192));
+        await new window.__perfNativePromise((resolve,reject)=>libCacheSet(binary,error=>error?reject(error):resolve()));
+        const cached=await new window.__perfNativePromise((resolve,reject)=>new IdbKvStore('baye').get('lib',(error,value)=>error?reject(error):resolve(value)));
+        if(cached!==binary)throw new Error('IndexedDB did not preserve actual LIB bytes');
+        localStorage.setItem('baye/libpath',${JSON.stringify(preferred)});
+        return {source:${JSON.stringify(source)},preferred:${JSON.stringify(preferred)},byteLength:bytes.length,cacheMatches:true};
+    })()`);
+    assert.equal(result.byteLength, report.sources.presentation[source].bytes);
+    await cdp.send('Page.reload', { ignoreCache: true });
+    await delay(300);
+    return result;
+}
+
+async function libraryIdentitySmoke(cdp, bootstrapId) {
+    // Stop the initial fresh-profile preferences from overwriting the deliberately
+    // mismatched cache/URL cases on reload. The isolated browser is the only store touched.
+    await cdp.send('Page.removeScriptToEvaluateOnNewDocument', { identifier: bootstrapId });
+    await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: 'window.__perfNativePromise=Promise;' });
+    report.libraryIdentity = { cases: [], scope: 'genuine cached LIB boots and native core menus; full Mod battles remain separate' };
+    for (const scenario of [
+        { label: 'identity-standard-cache-other-url', source: 'libs/dat-mod.lib', preferred: 'libs/sc-mod.lib', supported: true },
+        { label: 'identity-real-mod-cache-standard-url', source: 'libs/sc-mod.lib', preferred: 'libs/dat-mod.lib', supported: false },
+        { label: 'identity-standard-cache-recovered', source: 'libs/dat-mod.lib', preferred: 'libs/custom-cache.lib', supported: true }
+    ]) {
+        report.currentLibraryScenario = scenario.label;
+        const cache = await setRealCache(cdp, scenario.source, scenario.preferred);
+        const entered = await enterCachedStrategy(cdp, scenario.label);
+        assert.equal(entered.state.libraryIdentity.sha256, report.sources.presentation[scenario.source].sha256);
+        await evaluate(cdp, `BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('hd');`);
+        const presentation = await waitFor(cdp, scenario.label + ' current presentation gate', `(() => {
+            const s=BayeHdOverworld.debugSnapshot();
+            if(s.libraryIdentity?.status!=='ready')return false;
+            return ${scenario.supported ? 's.presentationReady' : '!s.presentationReady'} && s;
+        })()`);
+        const portrait = await evaluate(cdp, '(async()=>{await BayeHdPortraits.loadManifest();return BayeHdPortraits.chooseSource(2,1);})()');
+        const viewport = await evaluate(cdp, `({preferred:localStorage.getItem('baye/libpath'),classes:document.body.className,
+            mapHidden:document.getElementById('hd-overworld').getAttribute('aria-hidden'),
+            lcd:(()=>{const node=document.getElementById('lcd'),r=node.getBoundingClientRect(),s=getComputedStyle(node);
+                return {hasLayout:r.width>0&&r.height>0,visibility:s.visibility,display:s.display,
+                    visible:r.width>0&&r.height>0&&s.visibility==='visible'&&s.display!=='none'};})(),
+            realm:baye.hd.realm(),cursor:{x:Number(baye.data.g_CityPos.x),y:Number(baye.data.g_CityPos.y)}})`);
+        assert.equal(viewport.preferred, scenario.preferred);
+        assert.equal(viewport.lcd.hasLayout, true, 'classic LCD retains its layout for fallback');
+        if (scenario.supported) {
+            assert.equal(presentation.presentationReady, true);
+            assert.equal(portrait.mode, 'ref');
+            assert.equal(portrait.url, 'assets/hd-portraits/refs/period-1/2-袁绍.png');
+            assert.equal(viewport.mapHidden, 'false');
+        } else {
+            assert.equal(viewport.lcd.visible, true, 'unknown actual Mod fallback really makes the classic LCD visible');
+            assert.equal(portrait.mode, 'lcd', 'real Mod does not borrow another LIB portrait');
+            assert.equal(viewport.mapHidden, 'true');
+            assert.equal(viewport.classes.includes('baye-hd-overworld-map'), false);
+            const guarded = await evaluate(cdp, `(() => {
+                const original=sendKey,keys=[];window.sendKey=function(code){keys.push(code);return original.apply(this,arguments);};
+                const cursor=()=>({x:Number(baye.data.g_CityPos.x),y:Number(baye.data.g_CityPos.y)}),before=cursor();
+                try{return {accepted:BayeHdOverworld.walkToCity(0),keys,before,after:cursor()};}
+                finally{window.sendKey=original;}
+            })()`);
+            assert.equal(guarded.accepted, false);
+            assert.deepEqual(guarded.keys, []);
+            assert.deepEqual(guarded.after, guarded.before, 'unknown map coordinates cannot write native cursor');
+            await key(cdp, 'Enter');
+            await waitFor(cdp, 'actual Mod city menu through the classic map', 'baye.hd.menuItems().active && baye.hd.menuItems().context===1');
+            const nativeMenu = await checkpoint(cdp, scenario.label + '-native-city');
+            assert.equal(nativeMenu.menu.names[0], '内政');
+            report.libraryIdentity.cases.push({ ...scenario, cache, identity: entered.state.libraryIdentity,
+                presentation, portrait, viewport, guarded, nativeMenu });
+            continue;
+        }
+        await checkpoint(cdp, scenario.label + '-hd-verified');
+        report.libraryIdentity.cases.push({ ...scenario, cache, identity: entered.state.libraryIdentity, presentation, portrait, viewport });
+    }
+}
+
 async function measureMapPerformance(cdp) {
     await waitFor(cdp, 'stable HD map for measurement', "BayeHdOverworld.debugSnapshot().phase==='map' && !document.hidden");
     const browser = await cdp.send('Browser.getVersion');
@@ -814,8 +1088,19 @@ async function main() {
         });
         cdp.on('Runtime.exceptionThrown', (event) => report.exceptions.push(event.exceptionDetails));
         cdp.on('Page.javascriptDialogOpening', (event) => {
-            report.dialogs.push(event.message);
-            cdp.send('Page.handleJavaScriptDialog', { accept: false }).catch(() => {});
+            // sc-mod's actual didOpenNewGame script asks for the player's name.
+            // Only this exact prompt during the genuine cached Mod boot is expected.
+            const nativeNamePrompt = libraryIdentityMode &&
+                report.currentLibraryScenario === 'identity-real-mod-cache-standard-url' &&
+                event.type === 'prompt' && event.message === '来将可留姓名？' &&
+                event.defaultPrompt === '常山赵子龙' && report.nativeDialogs.length === 0;
+            if (nativeNamePrompt) {
+                report.nativeDialogs ||= [];
+                report.nativeDialogs.push({ type: event.type, message: event.message, defaultPrompt: event.defaultPrompt,
+                    scenario: report.currentLibraryScenario, response: '测试玩家' });
+            } else report.dialogs.push(event.message);
+            cdp.send('Page.handleJavaScriptDialog', nativeNamePrompt ?
+                { accept: true, promptText: '测试玩家' } : { accept: false }).catch(() => {});
         });
         cdp.on('Fetch.requestPaused', (event) => {
             const local = new URL(event.request.url).origin === origin;
@@ -825,9 +1110,9 @@ async function main() {
         });
         await cdp.send('Runtime.enable');
         await cdp.send('Page.enable');
-        if(performanceMode)await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
+        if(performanceMode||cityHudMode)await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
-        await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
+        const bootstrap = await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
             window.__perfNativePromise = Promise;
             localStorage.clear();
             localStorage.setItem('baye/libpath', 'libs/dat-mod.lib');
@@ -837,6 +1122,8 @@ async function main() {
         ` });
         await cdp.send('Page.navigate', { url: origin + '/pc.html' });
         await smoke(cdp);
+        if (libraryIdentityMode) await libraryIdentitySmoke(cdp, bootstrap.identifier);
+        if (libraryIdentityMode) assert.equal(report.nativeDialogs.length, 1, 'the genuine Mod asks for the player name exactly once');
         assert.deepEqual(report.exceptions, [], 'browser has no uncaught exceptions');
         assert.deepEqual(report.dialogs, [], 'game boot has no unexpected alert dialogs');
         report.ok = true;
@@ -864,7 +1151,9 @@ async function main() {
         }
         if (server) await new Promise((resolve) => server.close(resolve));
         // Chromium children may briefly finish profile writes after the parent exits.
-        fs.rmSync(profile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+        const resolvedProfile = path.resolve(profile), temporaryRoot = path.resolve(os.tmpdir());
+        assert.ok(path.dirname(resolvedProfile) === temporaryRoot && path.basename(resolvedProfile).startsWith('baye-runtime-'), 'cleanup stays in this isolated temporary profile');
+        fs.rmSync(resolvedProfile, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
         report.finishedAt = new Date().toISOString();
         fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
         console.log('Artifacts:', artifactDir);

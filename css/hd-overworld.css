@@ -141,7 +141,8 @@ html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar {
     top: 8px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 80;
+    /* Settings stay above the map/LCD, below the active native menu owner. */
+    z-index: 56;
     pointer-events: auto;
     max-width: calc(100vw - 24px);
     padding: 8px 12px;

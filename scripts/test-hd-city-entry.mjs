@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
+// This routing fixture supplies a trusted presentation contract; real hashing lives in test-hd-overworld-identity.
+const mapIdentity = Object.freeze({status:'ready',generation:1,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'});
 const VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
 function harness({ move = true, open = true, cachedCity = 0 } = {}) {
     let clock = 0, timerId = 0, engineWrite = false, afterKey;
@@ -20,7 +22,9 @@ function harness({ move = true, open = true, cachedCity = 0 } = {}) {
         set(value) { if (!engineWrite) forbiddenWrites.push('mapCity'); march.mapCity = value; } });
     Object.defineProperty(data, 'g_hdMapPick', { get: () => march.pick,
         set(value) { if (!engineWrite) forbiddenWrites.push('mapPick'); march.pick = value; } });
-    const context = vm.createContext({ console: { log() {}, warn() {} },
+    data.g_CityPositions = Array.from({length:9}, (_, i) => ({x:i===8?3:1,y:i===8?2:0}));
+    const context = vm.createContext({
+        BayeHdLibIdentity: {read:()=>mapIdentity,isCurrent:s=>s===mapIdentity,subscribe(){}}, console: { log() {}, warn() {} },
         addEventListener() {},
         document: { documentElement: { setAttribute() {} }, body: { classList: { toggle() {} } } },
         localStorage: { getItem() { return 'hd-map'; }, setItem() {} },
@@ -28,6 +32,7 @@ function harness({ move = true, open = true, cachedCity = 0 } = {}) {
         setTimeout(fn, delay = 0) { const id = ++timerId; timers.set(id, { fn, at: clock + delay }); return id; },
         clearTimeout(id) { timers.delete(id); },
         baye: { data, ensureData: () => data, hdCityLimit: () => 9,
+            getCityName: i => i===8?'天水':'西凉',
             hd: { ready: () => true, menuItems: () => menu, march: () => march,
                 fight: () => ({ active: 0, over: 0 }), reportText: () => '' } },
         BayeHdCityMenu: { shouldShowHd: () => true, isOpen: () => opened.length > 0,
@@ -59,7 +64,7 @@ function harness({ move = true, open = true, cachedCity = 0 } = {}) {
         applyChrome = function () {};
     })(window);`);
     vm.runInContext(source, context, { filename: 'js/hd-overworld.js' });
-    Object.assign(context.__entry.state, { mode: 'hd-map', phase: 'map',
+    Object.assign(context.__entry.state, {libraryIdentity:mapIdentity,assetsReady:true,layoutMatched:true,manifest:{libSha256:mapIdentity.sha256},geoMeta:{libSha256:mapIdentity.sha256}, mode: 'hd-map', phase: 'map',
         cities: Array.from({ length: 9 }, (_, index) => ({ index, name: index === 8 ? '天水' : '西凉',
             kind: 'owned', engX: index === 8 ? 3 : 1, engY: index === 8 ? 2 : 0 })) });
     return { context, state: context.__entry.state, api: context.BayeHdOverworld,

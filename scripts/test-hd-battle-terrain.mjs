@@ -5,6 +5,7 @@ import vm from 'node:vm';
 import test from 'node:test';
 
 const source = readFileSync(new URL('../js/hd-battle-terrain.js', import.meta.url), 'utf8');
+const identitySource = readFileSync(new URL('../js/hd-lib-identity.js', import.meta.url), 'utf8');
 const nativeHeader = readFileSync(new URL('../vendor/iBaye/src/baye/fight.h', import.meta.url), 'utf8');
 const nativeSource = readFileSync(new URL('../vendor/iBaye/src/FightSub.c', import.meta.url), 'utf8');
 const constants = Object.fromEntries([...nativeHeader.matchAll(/^#define\s+(TER(?:N|RAIN)_[A-Z]+)\s+(\d+)/gm)]
@@ -34,6 +35,7 @@ function harness({ offscreen = true } = {}) {
         baye: new Proxy({}, { set(target, key, value) { nativeWrites.push([key, value]); return true; } }),
         sendKey() { throw new Error('terrain rendering cannot send an engine input'); } });
     context.window = context;
+    vm.runInContext(identitySource, context, { filename: 'js/hd-lib-identity.js', timeout: 5000 });
     vm.runInContext(source, context, { filename: 'js/hd-battle-terrain.js', timeout: 5000 });
     const api = context.BayeHdBattleTerrain;
     assert.ok(api?.classifyTile && api.inspect && api.createPainter, 'terrain API is available');
@@ -218,6 +220,25 @@ test('custom terrain hooks veto authenticated labels while ordinary hooks preser
     }
     assert.equal(verifier.check(dictionaryHex, {}).verified, true, 'removing a hook restores authenticated semantics');
     assert.equal(calls, 1, 'hook ownership changes do not rehash immutable bytes');
+});
+
+test('production terrain verifier shares the current byte digest and rejects mismatched supplied data', async () => {
+    const h = harness(); let calls = 0, work;
+    h.context.crypto = { subtle: { digest(...args) { calls++; work = webcrypto.subtle.digest(...args); return work; } } };
+    h.context.Promise = class { constructor() { throw new Error('engine callback Promise'); } };
+    h.context.dynLib = dictionaryHex;
+    assert.equal(h.api.verifyLib(dictionaryHex, {}).verified, false);
+    h.context.BayeHdLibIdentity.read();
+    await work; await settle();
+    assert.equal(h.api.verifyLib(dictionaryHex, { didLoadGame() {} }).verified, true);
+    assert.equal(calls, 1, 'terrain and another consumer read the same verified digest');
+    assert.equal(h.api.verifyLib('abcd', {}).verified, false, 'call arguments cannot stand in for actual global loaded bytes');
+    assert.equal(h.api.verifyLib(dictionaryHex, { getTerrainInfo() {} }).reason, 'custom-terrain-hook');
+    h.context.dynLib = 'abcd';
+    assert.equal(h.api.verifyLib(dictionaryHex, {}).verified, false, 'actual byte replacement immediately revokes old terrain trust');
+    assert.equal(h.context.BayeHdLibIdentity.read().generation, 2);
+    await work; await settle();
+    assert.equal(h.api.verifyLib('abcd', {}).reason, 'unrecognized-lib');
 });
 
 test('terrain paint composites the cropped layer at the board anchor without native writes', () => {

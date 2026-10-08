@@ -1,5 +1,6 @@
 {
   "lib": "libs/dat-mod.lib",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
   "residFormula": "47 + period",
   "cell": 24,
   "periods": [

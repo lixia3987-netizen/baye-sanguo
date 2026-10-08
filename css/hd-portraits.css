@@ -30,6 +30,17 @@
     top: 64px;
 }
 
+#hd-city-menu-person-portrait .hd-portrait {
+    position: static;
+    width: auto;
+    margin: 0 0 16px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+#hd-city-menu-person-portrait #hd-portrait-img {
+    max-height: 180px;
+}
+
 #hd-portrait-img {
     display: block;
     width: 100%;

@@ -11,9 +11,9 @@
 | **选时期** | **HD done** | 董卓弄权四时期 |
 | **选君主 / 势力形势图** | **HD done** | `GetAllKings` 写入 `g_hdKingIds`（董卓弄权 18 人：马腾/董卓/曹操…）；高亮 `g_hdKingIndex`。形势图底图仍可开 LCD 对照 |
 | 开场动画 | **HD done** | `PlcMovie(MAIN_SPE)` 每帧 blit `#lcd` → `#hd-spe-canvas` 11×（1760×1056）。「跳过」绝对定位在画布之上、`pointer-events:auto`；回车/空格/Esc 捕获后发回车。结束后关层并 `pointer-events:none`，不挡城菜单。经典模式仍只走 160×96 LCD；当前仍为 LCD 放大，高清动画素材尚未替换 |
-| **大地图** | **HD done** | P0–P3；M4 图例显示实际势力与无主城数量，装饰道路使用虚线，不表示出征可达性 |
-| **城池根 / 一层 / 状况** | **HD done** | 开城逐键等待真实地图光标和城号；原生 city root 激活后才开放 HD 菜单，子菜单等待索引与 menu seq 回执 |
-| **人物选择** | **HD done** | 以真实人物队列显示名单，以 person 菜单 kind/index/seq 提交选择；不能把残留文本菜单当作人物名单 |
+| **大地图** | **HD done** | P0–P3；标准实际 LIB、地理来源与 38 城编号/名称/原生坐标一致后启用；未知 Mod 回经典 LCD。图例按 City U16 归属显示势力与无主城，装饰道路单独校验来源，不表示出征可达性 |
+| **城池根 / 一层 / 状况** | **HD done** | 开城逐键等待真实地图光标和城号；原生 city root 激活后才开放 HD 菜单，子菜单等待索引与 menu seq 回执；城池真实属性按归属城况、民生发展、资源军备分组，1080p/720p 可滚动且返回不误关原生菜单 |
+| **人物选择** | **HD done** | 以真实人物队列显示名单，以 person 菜单 kind/index/seq 提交选择；不能把残留文本菜单当作人物名单；精确匹配在职队列的当前高亮项旁读能力、体力、兵力、基础兵种与装备，立绘嵌入详情。独立帮助身份、装备派生兵种和 Mod 字段仍 partial |
 | **出征 / 外交目标城** | **HD done** | 出征依据 session/phase/inputSeq 完成选将、粮草与提示；点击目标只选中，确认后等待真实 AddFightOrder 回执；地图地理像素只用于显示 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 发布真实 session/字符回执/cursor/step；按钮与键盘串行，确认等待 ACK，取消与切模式防止旧键泄漏。真实快速加减、边界、无变化数字/光标键和排队确认征兵已核对预备兵、钱及订单。旧桥保留定时队列，数字键 `0x40–0x49` 沿用原生规则；性能长尾仍待优化 |
 | **报告 / 对话** | **HD done** | 按真实报告等待状态和输入序号显示、确认，战斗中的报告优先接收输入；嵌套报告返回时恢复正文并换令牌。纯定时报告不显示确认按钮；出征目标选择不挡点城。继任菜单已接真实人物下标，完整继任场景仍待浏览器验收 |
@@ -26,13 +26,13 @@
 | 云存档条 | 页面 HTML | 本地导出与第四槽导入共用 `save-storage.js`，JSON 保留来源 LIB 信息，旧云 SDK 两行格式仍兼容。SDK 回调以本地模拟验证事务失败与完整旧槽读取；未进行真实账号上传下载验收 |
 | **战斗结算** | **partial** | 结束时释放 HD 战场，保留原生结果与继任输入，不自动确认。真实空城占领、开垦后出征、完整胜利占城及胜利后连续两次出征败退已通过；AI 来袭守将选择、防守战、同页重新开局和战果存读档也已通过。完整继任场景仍待浏览器验收 |
 | **道具详情** | **partial** | 桥已通。董卓弄权安定开局城中无货、武将 Equip 空——不是代码 bug，菜单上暂无道具名可点 |
-| **武将立绘** | **partial** | 允许的用户生成轨道。`refs/` 只收 `#lcd` 左上角 `24 * dotSize` 的实拍（`drawImage(..., GEN_HEADPIC1+g_PIdx, ..., 1)`，时期 1 resid 48）。不要裁 `querySelector('canvas')`。`hd/` 有文件时人物信息 / 战场说明 / 地图君主显示 HD，否则仍 `GEN_HEADPIC` |
+| **武将立绘** | **partial** | 允许的用户生成轨道。`refs/` 只收 `#lcd` 左上角 `24 * dotSize` 的实拍（`drawImage(..., GEN_HEADPIC1+g_PIdx, ..., 1)`，时期 1 resid 48）。不要裁 `querySelector('canvas')`。manifest 与参考索引绑定实际 LIB SHA-256；时期/人物精确匹配才使用 HD，缺图用精确参考，未知或待校验库保留 LCD。实际菜单 seq/index 与图片代次共同退役旧请求；现有 14 张/39 试点，余 25 张待补 |
 | 手机竖屏键位页 | 不做 | overworld 非目标 |
 | 地图编辑器 | 不做 | 不在玩法路径 |
 
 ## 本分支壳
 
-- `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle-terrain.js` · `js/hd-battle-feedback.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
+- `js/hd-lib-identity.js` · `js/hd-portraits.js` · `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle-terrain.js` · `js/hd-battle-feedback.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
 - `js/save-storage.js` 共用本地存档事务与导入导出校验；游戏入口先加载它再加载 `lcd.js`，纯存档管理页直接使用它。
 
 ## M3 当前验收范围
@@ -51,3 +51,9 @@ M3 的词典原版主流程已完成本轮验收。完整继任、其余时期�
 仍 residual：查找图文。安定开局无道具不是代码 bug。开场仍走 LCD-blit，FIRE35 已使用真实帧高清素材，其余计谋仍保留原生 LCD 回退（见 [hd-spe-spec.md](hd-spe-spec.md)）。M4 范围反馈只改前端，未重编 WASM；本批验收范围见 [开发计划](hd-development-plan.md)。
 
 2026年10月8日 SPE批次：实际原生事件/帧/显示桥与FIRE35双槽高清素材完成，235项含真实C回归全部通过；已构建并成套安装新引擎，真实开场、跳过、玩家攻击及火攻显示通过，连续两帧和原生可见bitmap匹配。普通攻击与开场等美术仍待制作，四时期/真实Mod和移动真机未覆盖。[证据](validation/m4-spe-20261008.json)。
+
+## M4 实际身份与资料验收
+
+2026 年 10 月 8 日：共享实际 LIB 校验、地图/立绘/地形/SPE 授权、归属 U16 修复与城池人物分组已接通。真实标准库→sc-mod.lib→标准库的 IndexedDB 缓存载入及原生菜单通过；首选路径与内容故意不一致。原版 1080p/720p 城池与当前高亮武将字段逐项对照，立绘与经典 LCD 的布局通过。Mod 姓名提示是实际脚本的预期玩家入口，另记来源；未捕获异常与意外弹框单独核对。证据及精确未覆盖范围见[本批验收](validation/m4-library-identity-20261008.json)。普通攻击/开场等素材、25 张试点、地图环境、完整继任、四时期/Mod 战斗、固定性能和 M5 真机仍待推进。
+
+本批最终统计：全量 318/318，0 失败、0 跳过，包含实际编译执行 C；真实核心/缓存/HUD 27 点、战斗 51 点、SPE 18 点通过，无未捕获异常与意外弹框。Mod 的一次原生姓名提示单独记录。战场 720p 底部图例局部重叠仍列为 HUD 后续，不扩大本批城池人物布局验收范围。

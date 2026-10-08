@@ -932,23 +932,47 @@ function baye_bridge_init() {
     };
 
     baye.getPersonNameByID = function(id) {
+        if (id == null || (typeof id !== 'number' && typeof id !== 'string') || id === '') { return '-'; }
         id = Number(id);
-        if (!isFinite(id) || id <= 0 || id >= 0xfffe) {
+        var count = baye.getPersonCount();
+        if (!isFinite(id) || Math.floor(id) !== id || id <= 0 || id > count || id >= 0xfffe) {
             hdNote('getPersonNameByID', 'skip:' + id);
             return "-";
         }
-        if (id === 0xff) {
-            return "俘虏";
-        }
-        return baye.getPersonName(id - 1);
+        return baye.getPersonName(id - 1) || '-';
     };
+
+    // Person.Belong and City.Belong are U16 lord IDs (person index + 1).
+    // Only a person's 0xffff is captive; cities never have a captive owner.
+    function ownership(value, personIndex, city) {
+        var unknown = { kind: 'unknown', value: null, personIndex: null, name: '', label: '归属未知' };
+        if (value && typeof value === 'object' && 'value' in value) { value = value.value; }
+        if (value == null || (typeof value !== 'number' && typeof value !== 'string') ||
+            typeof value === 'string' && !value.trim()) { return unknown; }
+        value = Number(value);
+        if (!isFinite(value) || Math.floor(value) !== value || value < 0 || value > 0xffff) { return unknown; }
+        unknown.value = value;
+        if (value === 0) { return { kind: city ? 'unowned' : 'free', value: 0, personIndex: null,
+            name: '', label: city ? '无主城' : '在野' }; }
+        if (!city && value === 0xffff) { return { kind: 'captive', value: value, personIndex: null, name: '', label: '俘虏' }; }
+        var count = baye.getPersonCount();
+        if (!count || value > count || value >= 0xfffe) { return unknown; }
+        var name = '';
+        try { name = baye.getPersonName(value - 1) || ''; } catch (e) {}
+        if (!name || name === '-') { return unknown; }
+        var lord = !city && Number.isInteger(personIndex) && personIndex >= 0 && value === personIndex + 1;
+        return { kind: lord ? 'lord' : 'owned', value: value, personIndex: value - 1, name: name,
+            label: lord ? '君主 · ' + name : name };
+    }
+    baye.personOwnership = function(value, personIndex) { return ownership(value, personIndex, false); };
+    baye.cityOwnership = function(value) { return ownership(value, null, true); };
 
     baye.printCity = function(i) {
         var city = baye.data.g_Cities[i];
         var people = baye.data.g_Persons;
         var queue = baye.data.g_PersonsQueue;
 
-        var belong = baye.getPersonNameByID(city.Belong);
+        var belong = baye.cityOwnership(city.Belong).label;
 
         console.log("--------" + baye.getCityName(i) + "--------");
         console.log("id: " + i);
@@ -958,7 +982,7 @@ function baye_bridge_init() {
             var pind = queue[city.PersonQueue + qi];
             var person = people[pind];
             var name = baye.getPersonName(pind);
-            var belong = baye.getPersonNameByID(person.Belong);
+            var belong = baye.personOwnership(person.Belong, pind).label;
             console.log(sprintf("%-10s 归属:%-10s", name, belong));
         }
         console.log("-");
@@ -976,7 +1000,7 @@ function baye_bridge_init() {
         for (var i = 0; i < 250; i++) {
             var p = baye.data.g_Persons[i];
             if (p.Level > 0) {
-                console.log(sprintf('index: %03d name: %-08s 归属:%-08s', i, baye.getPersonName(i), baye.getPersonNameByID(p.Belong)));
+                console.log(sprintf('index: %03d name: %-08s 归属:%-08s', i, baye.getPersonName(i), baye.personOwnership(p.Belong, i).label));
             }
         }
     };
@@ -1382,7 +1406,8 @@ function baye_bridge_init() {
             } catch (e) {}
             for (i = 0; i < n; i++) {
                 var city = d && d.g_Cities ? d.g_Cities[i] : null;
-                var b = city ? hdReadNum(city, 'Belong') : 0;
+                var ownerInfo = baye.cityOwnership(city ? city.Belong : null);
+                var b = ownerInfo.value;
                 var name = '';
                 var owner = '';
                 try {
@@ -1390,16 +1415,12 @@ function baye_bridge_init() {
                         name = baye.getCityName(i) || '';
                     }
                 } catch (e2) {}
-                try {
-                    if (b && typeof baye.getPersonNameByID === 'function') {
-                        owner = baye.getPersonNameByID(b) || '';
-                    }
-                } catch (e3) {}
+                owner = ownerInfo.kind === 'owned' ? ownerInfo.name : '';
                 var mine = !!(belong && b && b === belong);
                 if (mine) {
                     owned += 1;
                 }
-                cities.push({ i: i, name: name, belong: b || 0, owner: owner, owned: mine });
+                cities.push({ i: i, name: name, belong: b, owner: owner, owned: mine, ownership: ownerInfo });
             }
             return {
                 playerKing: king,

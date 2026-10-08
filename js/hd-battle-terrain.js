@@ -6,7 +6,6 @@
 (function (global) {
     var SUPPORTED_LIB = 'libs/dat-mod.lib';
     var SUPPORTED_SHA256 = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
-    var SUPPORTED_HEX_LENGTH = 414390;
     var KINDS = ['grass', 'plain', 'hill', 'forest', 'village', 'city', 'tent', 'river'];
     var LABELS = ['草地', '平原', '山地', '森林', '村庄', '城池', '营寨', '河流'];
     var COLORS = ['#354c3e', '#515443', '#53564e', '#29443b', '#5b5346', '#53525a', '#524d3c', '#2c505c'];
@@ -32,13 +31,9 @@
             snapshot.stride === snapshot.width);
     }
     function createVerifier(options) {
-        var source = null, generation = 0;
-        var current = { verified: false, reason: 'lib-unavailable', sha256: null, libPath: '', generation: 0 };
-        function nibble(code) {
-            if (code >= 48 && code <= 57) { return code - 48; }
-            if (code >= 65 && code <= 70) { return code - 55; }
-            if (code >= 97 && code <= 102) { return code - 87; }
-            return -1;
+        var source, identity = global.BayeHdLibIdentity;
+        if (options && identity && identity.createIdentity) {
+            identity = identity.createIdentity({ getHex: function () { return source; }, digest: options.digest });
         }
         function customHooks(hooks) {
             var names = ['drawMapUnit', 'getTerrainInfo', 'loadFightMap'];
@@ -50,47 +45,16 @@
             return false;
         }
         function check(hex, hooks) {
-            if (source !== hex) {
-                source = hex; generation += 1;
-                current = { verified: false, reason: 'lib-unavailable', sha256: null, libPath: '', generation: generation };
-                if (typeof hex === 'string' && hex.length === SUPPORTED_HEX_LENGTH) {
-                    var bytes = new Uint8Array(hex.length / 2), valid = true;
-                    for (var i = 0; i < bytes.length; i += 1) {
-                        var high = nibble(hex.charCodeAt(i * 2)), low = nibble(hex.charCodeAt(i * 2 + 1));
-                        if (high < 0 || low < 0) { valid = false; break; }
-                        bytes[i] = high * 16 + low;
-                    }
-                    if (valid) {
-                        current.reason = 'lib-verifying';
-                        var ticket = generation;
-                        try {
-                            var pending = options && options.digest ? options.digest(bytes) :
-                                (global.crypto && global.crypto.subtle ? global.crypto.subtle.digest('SHA-256', bytes) : null);
-                            if (pending && typeof pending.then === 'function') {
-                                // crypto returns a native promise even when the legacy engine
-                                // has replaced window.Promise. No wrapper/retry is needed.
-                                pending.then(function (buffer) {
-                                    if (ticket !== generation) { return; }
-                                    var digestBytes = new Uint8Array(buffer), hash = '';
-                                    for (var d = 0; d < digestBytes.length; d += 1) {
-                                        hash += ('0' + digestBytes[d].toString(16)).slice(-2);
-                                    }
-                                    current.sha256 = hash;
-                                    current.verified = hash === SUPPORTED_SHA256;
-                                    current.reason = current.verified ? '' : 'unrecognized-lib';
-                                    current.libPath = current.verified ? SUPPORTED_LIB : '';
-                                }, function () {
-                                    if (ticket === generation) { current.reason = 'lib-verification-failed'; }
-                                });
-                            } else { current.reason = 'lib-verification-unavailable'; }
-                        } catch (e) { current.reason = 'lib-verification-failed'; }
-                    } else { current.reason = 'invalid-lib-data'; }
-                } else if (typeof hex === 'string' && hex.length) { current.reason = 'unrecognized-lib'; }
-            }
+            source = hex;
+            var current = identity ? identity.read() :
+                { status: 'unavailable', sha256: null, generation: 0, reason: 'lib-unavailable' };
+            var verified = current.status === 'ready' && current.sha256 === SUPPORTED_SHA256 &&
+                (options || hex === global.dynLib) && identity.isCurrent(current);
+            var reason = current.status === 'ready' ? (verified ? '' : 'unrecognized-lib') : current.reason;
             var overridden = customHooks(hooks);
-            return { verified: current.verified && !overridden,
-                reason: overridden ? 'custom-terrain-hook' : current.reason, sha256: current.sha256,
-                libPath: current.libPath, generation: current.generation };
+            return { verified: !!verified && !overridden,
+                reason: overridden ? 'custom-terrain-hook' : reason, sha256: current.sha256,
+                libPath: verified ? SUPPORTED_LIB : '', generation: current.generation };
         }
         return { check: check };
     }

@@ -19,6 +19,7 @@ import fs from 'fs';
 import path from 'path';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
+import { createHash } from 'node:crypto';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PILOT_NAMES = ['马腾', '庞德', '杨秋', '梁兴', '曹操', '刘备', '关羽', '张飞', '诸葛亮', '孙权', '周瑜', '吕布', '董卓', '方悦', '王匡'];
@@ -57,7 +58,7 @@ function safeRef(file) {
     return file;
 }
 
-function existingHdPaths() {
+function existingHdPaths(libSha256) {
     const dest = path.join(root, 'assets/hd-portraits/manifest.json');
     const kept = new Map();
     let prev;
@@ -66,6 +67,7 @@ function existingHdPaths() {
     } catch (e) {
         return kept;
     }
+    if (prev.libSha256 !== libSha256) { return kept; }
     for (const entry of prev.entries || []) {
         if (!entry || entry.missing || !entry.hd || entry.period == null || entry.personId == null) {
             continue;
@@ -78,7 +80,8 @@ function existingHdPaths() {
 }
 
 function buildManifest(summary) {
-    const keptHd = existingHdPaths();
+    if (!/^[0-9a-f]{64}$/.test(summary.libSha256 || '')) { throw new Error('portrait dump has no actual LIB SHA'); }
+    const keptHd = existingHdPaths(summary.libSha256);
     const byName = new Map();
     for (const block of summary.periods || []) {
         for (const person of block.people || []) {
@@ -113,13 +116,14 @@ function buildManifest(summary) {
                 pilot: true,
                 missing: false,
                 ref: 'refs/' + hit.file,
-                hd: keptHd.get(key) || ('hd/' + hit.file)
+                hd: keptHd.get(key) || ('hd/by-lib/' + summary.libSha256 + '/' + hit.file)
             });
         }
     }
     const manifest = {
         version: 1,
-        lib: 'libs/dat-mod.lib',
+        lib: summary.lib,
+        libSha256: summary.libSha256,
         personId: '0-based PersonID. Same index as gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId) and baye.drawImage(..., picIndex).',
         period: 'g_PIdx 1-4',
         resid: 'GEN_HEADPIC1(47) + g_PIdx. Period 1 resid is 48.',
@@ -151,7 +155,7 @@ function startServer() {
                 }
                 chunks.push(chunk);
             });
-            req.on('end', () => {
+            req.on('end', async () => {
                 let payload;
                 try {
                     payload = JSON.parse(Buffer.concat(chunks).toString('utf8'));
@@ -161,14 +165,35 @@ function startServer() {
                     return;
                 }
                 if (payload.kind === 'summary') {
-                    const indexPath = path.join(root, 'assets/hd-portraits/refs/index.json');
-                    fs.mkdirSync(path.dirname(indexPath), { recursive: true });
-                    fs.writeFileSync(indexPath, JSON.stringify(payload.summary, null, 2) + '\n');
-                    const manifest = buildManifest(payload.summary);
-                    server.summary = payload.summary;
-                    server.manifest = manifest;
-                    res.writeHead(200, { 'Content-Type': 'application/json' });
-                    res.end('{"ok":true}');
+                    try {
+                        if (!payload.summary || !Array.isArray(payload.summary.periods)) { throw new Error('invalid portrait summary'); }
+                        if (!server.cdp) { throw new Error('portrait dump has no live CDP source'); }
+                        const value = await server.cdp.send('Runtime.evaluate', {
+                            expression: 'typeof window.dynLib === "string" ? window.dynLib : null', returnByValue: true
+                        });
+                        const hex = value.result && value.result.value;
+                        if (typeof hex !== 'string' || !hex.length || hex.length % 2 || !/^[0-9a-f]+$/i.test(hex)) {
+                            throw new Error('portrait dump has no valid actual loaded LIB bytes');
+                        }
+                        const summary = { ...payload.summary,
+                            libSha256: createHash('sha256').update(Buffer.from(hex, 'hex')).digest('hex') };
+                        // Commit images only after their actual source is known. A failed
+                        // dump must not overwrite references under an older identity.
+                        for (const [rel, png] of server.pendingPngs || []) {
+                            const dest = path.join(root, 'assets/hd-portraits/refs', rel);
+                            fs.mkdirSync(path.dirname(dest), { recursive: true }); fs.writeFileSync(dest, png);
+                        }
+                        server.pendingPngs = new Map();
+                        const indexPath = path.join(root, 'assets/hd-portraits/refs/index.json');
+                        fs.mkdirSync(path.dirname(indexPath), { recursive: true });
+                        fs.writeFileSync(indexPath, JSON.stringify(summary, null, 2) + '\n');
+                        const manifest = buildManifest(summary);
+                        server.summary = summary; server.manifest = manifest;
+                        res.writeHead(200, { 'Content-Type': 'application/json' }); res.end('{"ok":true}');
+                    } catch (e) {
+                        server.pendingPngs = new Map();
+                        res.writeHead(503); res.end('portrait source verification failed');
+                    }
                     return;
                 }
                 const rel = safeRef(payload.file);
@@ -184,9 +209,8 @@ function startServer() {
                     res.end('not png');
                     return;
                 }
-                const dest = path.join(root, 'assets/hd-portraits/refs', rel);
-                fs.mkdirSync(path.dirname(dest), { recursive: true });
-                fs.writeFileSync(dest, buf);
+                if (!server.pendingPngs) { server.pendingPngs = new Map(); }
+                server.pendingPngs.set(rel, buf);
                 server.written = (server.written || 0) + 1;
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end('{"ok":true}');
@@ -336,6 +360,7 @@ async function main() {
     try {
         const page = await chromeTarget();
         const cdp = await connectCdp(page.webSocketDebuggerUrl);
+        server.cdp = cdp;
         await cdp.send('Runtime.enable');
         await cdp.send('Page.enable');
         if (!smokeOnly) {

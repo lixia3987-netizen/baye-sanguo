@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 
+// Campaign routing uses a static trusted-map contract, independent from actual LIB identity tests.
+const mapIdentity = Object.freeze({status:'ready',generation:1,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'});
 const VK = { UP: 0x22, DOWN: 0x23, ENTER: 0x27, EXIT: 0x28 };
 function element(tagName = 'DIV') {
     const attrs = new Map(), listeners = new Map(), classes = new Map();
@@ -51,6 +53,7 @@ function harness() {
         g_MapWid: 8, g_MapHgt: 8, g_FgtParam: { GenArray: [] }, g_GenPos: [] };
     const data = new Proxy(rawData, { set(target, key, value) { writes.push([key, value]); target[key] = value; return true; } });
     const context = vm.createContext({ document, localStorage: storage,
+        BayeHdLibIdentity:{read:()=>mapIdentity,isCurrent:s=>s===mapIdentity,subscribe(){}},
         console: { log() {}, warn() {}, error() {} }, innerWidth: 1000, innerHeight: 600,
         navigator: { userAgent: 'Node test' }, devicePixelRatio: 1,
         VK_UP: 0x22, VK_DOWN: 0x23, VK_LEFT: 0x24, VK_RIGHT: 0x25, VK_HELP: 0x26, VK_SEARCH: 0x33,
@@ -87,7 +90,7 @@ function harness() {
     load('js/hd-dialog.js');
     load('js/hd-overworld.js', `global.__world = { state: state, phase: inferPhase, hook: onHook };
         applyChrome = function () {}; sampleCities = function () {};`);
-    Object.assign(context.__world.state, { mode: 'hd-map', phase: 'other',
+    Object.assign(context.__world.state, {libraryIdentity:mapIdentity,assetsReady:true,layoutMatched:true,manifest:{libSha256:mapIdentity.sha256},geoMeta:{libSha256:mapIdentity.sha256}, mode: 'hd-map', phase: 'other',
         cities: [{ index: 0, name: '西凉', kind: 'owned', engX: 1, engY: 0 },
             { index: 1, name: '天水', kind: 'owned', engX: 2, engY: 1 },
             { index: 2, name: '河内', kind: 'enemy', engX: 3, engY: 1 }] });

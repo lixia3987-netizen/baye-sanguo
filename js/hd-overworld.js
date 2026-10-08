@@ -6,6 +6,7 @@
 (function (global) {
     var STORAGE_KEY = 'baye/overworldMode';
     var ASSET_ROOT = 'assets/hd-overworld/';
+    var STANDARD_LIB_SHA256 = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var DESIGN_W = 1920;
     var DESIGN_H = 1080;
     var SAFE = { left: 48, top: 72, right: 1872, bottom: 1048 };
@@ -71,6 +72,11 @@
         selectedIndex: -1,
         assetsReady: false,
         assetsLoading: false,
+        assetGeneration: 0,
+        libraryIdentity: null,
+        identityBound: false,
+        layoutMatched: false,
+        presentationReason: 'lib-unavailable',
         loopId: 0,
         visibilityBound: false,
         lastSample: 0,
@@ -215,6 +221,119 @@
         return ensureEngineData();
     }
 
+    function identityApi() { return global.BayeHdLibIdentity || null; }
+
+    function readIdentity() {
+        var api = identityApi();
+        try { return api && api.read ? api.read() : null; } catch (e) { return null; }
+    }
+
+    function libraryAllowed(snapshot) {
+        var api = identityApi();
+        try {
+            return !!(snapshot && snapshot.status === 'ready' && snapshot.sha256 === STANDARD_LIB_SHA256 &&
+                api && api.isCurrent && api.isCurrent(snapshot));
+        } catch (e) { return false; }
+    }
+
+    function provenanceAllowed(record, snapshot) {
+        return libraryAllowed(snapshot) && !!record && record.libSha256 === snapshot.sha256;
+    }
+
+    function mapAuthorized() {
+        var snapshot = readIdentity();
+        return libraryAllowed(snapshot) && !!state.libraryIdentity &&
+            snapshot.generation === state.libraryIdentity.generation && state.layoutMatched && state.assetsReady &&
+            provenanceAllowed(state.manifest, snapshot) && provenanceAllowed(state.geoMeta, snapshot);
+    }
+
+    function mapInputAuthorized() {
+        if (!mapAuthorized()) { return false; }
+        var data = engineData(), positions = data && data.g_CityPositions;
+        var matching = cityCount() === state.cities.length && !!positions;
+        for (var i = 0; matching && i < state.cities.length; i++) {
+            var city = state.cities[i], pos = positions[city.index];
+            matching = !!pos && cityName(city.index) === city.name &&
+                readNumber(pos, 'x') === city.engX && readNumber(pos, 'y') === city.engY;
+        }
+        // Name getters can run Mod code. Recheck the actual loaded library
+        // after those reads before granting any input to the engine.
+        if (!mapAuthorized()) {
+            cancelAlign();
+            return false;
+        }
+        if (!matching) {
+            cancelAlign();
+            state.layoutMatched = false;
+            state.engineTileEdges = [];
+            state.roads = { source: 'none', edges: [], passes: 0, isolated: [] };
+            state.presentationReason = 'city-layout-mismatch';
+            applyChrome();
+        }
+        return matching;
+    }
+
+    function retireMapPresentation() {
+        cancelAlign();
+        state.assetGeneration++;
+        state.assetsReady = false;
+        state.assetsLoading = false;
+        state.layoutMatched = false;
+        state.manifest = null;
+        state.images = {};
+        state.palette = DEFAULT_PALETTE;
+        state.geoMeta = null;
+        state.geoCities = null;
+        state.adjacencyJson = null;
+        state.cities = [];
+        state.engineTileEdges = [];
+        state.roads = { source: 'none', edges: [], passes: 0, isolated: [] };
+        state.camera.inited = false;
+        state.camera.lockedFull = false;
+        state.selectedIndex = state.hoverIndex = state.engineCursorIndex = -1;
+        state.learnedCursorField = null;
+        state.haveCityPos = false;
+        state.hdOpenedMenu = false;
+        state.pendingEnter = false;
+        state.menuDepth = 0;
+        state.probed = false;
+        state._roadsLogged = false;
+        resetPan();
+        if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
+    }
+
+    function syncLibraryIdentity(snapshot) {
+        snapshot = snapshot || readIdentity();
+        var previous = state.libraryIdentity;
+        if (!previous || !snapshot || previous.generation !== snapshot.generation ||
+            previous.status !== snapshot.status || previous.sha256 !== snapshot.sha256) {
+            retireMapPresentation();
+            state.libraryIdentity = snapshot;
+        }
+        state.presentationReason = libraryAllowed(snapshot) ? 'assets-pending' :
+            (snapshot && snapshot.status === 'ready' ? 'lib-not-supported' : (snapshot && snapshot.reason || 'lib-unavailable'));
+        if (state.mode === 'hd-map' && libraryAllowed(snapshot)) {
+            loadAssets(function () {
+                sampleCities();
+                state.phase = inferPhase();
+                applyChrome();
+                draw();
+                ensureLoop();
+            });
+        }
+        applyChrome();
+    }
+
+    function bindLibraryIdentity() {
+        if (state.identityBound) { return; }
+        var api = identityApi();
+        if (api && typeof api.subscribe === 'function') {
+            state.identityBound = true;
+            api.subscribe(syncLibraryIdentity);
+        }
+        syncLibraryIdentity();
+    }
+
     function loadImage(url, done) {
         var img = new Image();
         img.onload = function () { done(img); };
@@ -251,10 +370,14 @@
         if (!rel) {
             return null;
         }
-        return ASSET_ROOT + rel;
+        // Identity metadata changed with this renderer. Retire cached JSON
+        // without forcing unchanged terrain images to download again.
+        return ASSET_ROOT + rel + (/\.json$/.test(rel) ? '?ver=20261008i' : '');
     }
 
     function loadAssets(done) {
+        var identity = readIdentity();
+        if (!libraryAllowed(identity)) { return; }
         if (state.assetsReady || state.assetsLoading) {
             if (state.assetsReady && done) {
                 done();
@@ -262,25 +385,19 @@
             return;
         }
         state.assetsLoading = true;
+        var ticket = ++state.assetGeneration;
+        function current() {
+            return ticket === state.assetGeneration && state.mode === 'hd-map' && libraryAllowed(identity);
+        }
         loadJSON(assetUrl('manifest.json'), function (manifest) {
-            state.manifest = manifest || {
-                designWidth: DESIGN_W,
-                designHeight: DESIGN_H,
-                layers: {
-                    terrain: [
-                        'terrain/base_plains.jpg',
-                        'terrain/overlay_mountains.png',
-                        'terrain/overlay_rivers.png',
-                        'terrain/overlay_forest.png'
-                    ],
-                    cities: {
-                        empty: 'cities/marker_empty.png',
-                        neutral: 'cities/marker_neutral.png',
-                        owned: 'cities/marker_owned.png',
-                        selected: 'cities/marker_selected.png'
-                    }
-                }
-            };
+            if (!current()) { return; }
+            if (!provenanceAllowed(manifest, identity)) {
+                state.assetsLoading = false;
+                state.presentationReason = 'manifest-identity-mismatch';
+                applyChrome();
+                return;
+            }
+            state.manifest = manifest;
             var layers = state.manifest.layers || {};
             var pending = [];
             function add(key, rel) {
@@ -307,33 +424,43 @@
 
             var left = pending.length + 3;
             function tick() {
+                if (!current()) { return; }
                 left -= 1;
                 if (left <= 0) {
-                    state.assetsReady = true;
+                    state.assetsReady = provenanceAllowed(state.geoMeta, identity) && !!state.geoCities;
                     state.assetsLoading = false;
+                    if (!state.assetsReady) {
+                        state.presentationReason = 'geo-identity-mismatch';
+                        applyChrome();
+                        return;
+                    }
                     if (done) {
                         done();
                     }
                 }
             }
             loadJSON(assetUrl(paletteRel), function (palette) {
+                if (!current()) { return; }
                 if (palette) {
                     state.palette = palette;
                 }
                 tick();
             });
             loadJSON(assetUrl('roads/adjacency.json'), function (adj) {
-                state.adjacencyJson = adj;
+                if (!current()) { return; }
+                state.adjacencyJson = provenanceAllowed(adj, identity) ? adj : null;
                 tick();
             });
             loadJSON(assetUrl('china-lcc-cities.json'), function (geo) {
-                state.geoMeta = geo;
-                state.geoCities = geo && geo.cities ? geo.cities : null;
+                if (!current()) { return; }
+                state.geoMeta = provenanceAllowed(geo, identity) ? geo : null;
+                state.geoCities = state.geoMeta && Array.isArray(geo.cities) ? geo.cities : null;
                 tick();
             });
             for (var p = 0; p < pending.length; p++) {
                 (function (item) {
                     loadImage(item.url, function (img) {
+                        if (!current()) { return; }
                         if (img) {
                             state.images[item.key] = img;
                         }
@@ -554,37 +681,15 @@
             return null;
         }
         var raw = readNumber(data, 'g_PlayerKing');
-        if (raw === null || raw === 0xff || raw === 255 || raw === 0xffff) {
+        if (raw === null || raw < 0 || raw >= 0xffff || Math.floor(raw) !== raw) {
             return null;
         }
         return resolvePlayerBelong(raw);
     }
 
     function resolvePlayerBelong(rawKing) {
-        var data = engineData();
-        var oneBased = rawKing + 1;
-        if (!data || !data.g_Cities) {
-            return oneBased;
-        }
-        var ca = 0;
-        var cb = 0;
-        var n = cityCount() || Math.min(data.g_Cities.length, 64);
-        for (var i = 0; i < n; i++) {
-            var bel = readNumber(data.g_Cities[i], 'Belong');
-            if (bel === oneBased) {
-                ca += 1;
-            }
-            if (bel === rawKing) {
-                cb += 1;
-            }
-        }
-        if (ca > 0) {
-            return oneBased;
-        }
-        if (cb > 0) {
-            return rawKing;
-        }
-        return oneBased;
+        // Native City.Belong is a one-based PersonID; g_PlayerKing is zero-based.
+        return rawKing + 1;
     }
 
     function cityCount() {
@@ -614,21 +719,23 @@
     }
 
     function cityKind(city, kingId) {
-        if (!city) {
-            return 'empty';
-        }
-        var belong = city.Belong;
-        if (belong === undefined || belong === null) {
-            return 'empty';
-        }
-        belong = Number(belong);
-        if (!belong || belong === 0xff || belong === 255) {
+        var belong = cityBelong(city);
+        if (belong === null) { return 'unknown'; }
+        if (belong === 0) {
             return 'empty';
         }
         if (kingId && belong === kingId) {
             return 'owned';
         }
         return 'neutral';
+    }
+
+    function cityBelong(city) {
+        var belong = city && city.Belong;
+        if (belong && typeof belong === 'object' && 'value' in belong) { belong = belong.value; }
+        // City owners use zero or a one-based PersonID; 0xffff is not a city lord.
+        return typeof belong === 'number' && isFinite(belong) && belong >= 0 && belong < 0xffff &&
+            Math.floor(belong) === belong ? belong : null;
     }
 
     function activePalette() {
@@ -653,7 +760,7 @@
 
     function factionColor(belong) {
         var pal = activePalette();
-        if (!belong || belong === 0xff || belong === 255) {
+        if (belong === null || belong === 0) {
             return pal.empty;
         }
         var kingId = playerKingId();
@@ -680,12 +787,15 @@
 
     function geoRecord(row) {
         var table = state.geoCities;
-        if (!table || !table.length) {
+        if (!table || !table.length || !provenanceAllowed(state.geoMeta, readIdentity())) {
             return null;
         }
         var i;
         for (i = 0; i < table.length; i++) {
-            if (table[i].i === row.index || table[i].name === row.name) {
+            if (table[i].i === row.index && table[i].name === row.name && row.source === 'engine' &&
+                table[i].engX === row.engX && table[i].engY === row.engY &&
+                typeof table[i].hdX === 'number' && isFinite(table[i].hdX) &&
+                typeof table[i].hdY === 'number' && isFinite(table[i].hdY)) {
                 return table[i];
             }
         }
@@ -693,6 +803,21 @@
     }
 
     function sampleCities() {
+        var identity = readIdentity();
+        if (!libraryAllowed(identity) || !state.assetsReady || !provenanceAllowed(state.manifest, identity) ||
+            !provenanceAllowed(state.geoMeta, identity)) {
+            state.layoutMatched = false;
+            state.cities = [];
+            state.engineTileEdges = [];
+            state.roads = { source: 'none', edges: [], passes: 0, isolated: [] };
+            return [];
+        }
+        var generation = state.assetGeneration;
+        var geoCities = state.geoCities;
+        function sampleCurrent() {
+            return libraryAllowed(identity) && state.assetsReady &&
+                generation === state.assetGeneration && geoCities && geoCities === state.geoCities;
+        }
         var data = engineData();
         var rawPos = data && data.g_CityPositions;
         var rawCities = data && data.g_Cities;
@@ -735,13 +860,7 @@
                 engY = Math.floor(i / 12);
                 usedGrid += 1;
             }
-            var belong = city ? readNumber(city, 'Belong') : 0;
-            if (belong === null) {
-                belong = Number(city && city.Belong);
-                if (!isFinite(belong)) {
-                    belong = 0;
-                }
-            }
+            var belong = cityBelong(city);
             rows.push({
                 index: i,
                 name: name,
@@ -771,6 +890,10 @@
         var bounds = { minX: minX, maxX: maxX, minY: minY, maxY: maxY };
         var labels = [];
         var usedGeo = 0;
+        // A native name getter may synchronously retire this presentation.
+        // Never dereference or publish assets from the previous identity/view.
+        if (!sampleCurrent()) { return []; }
+        var matching = !!rows.length && geoCities.length === rows.length;
         for (var r = 0; r < rows.length; r++) {
             var rec = geoRecord(rows[r]);
             if (rec && rec.hdX != null && rec.hdY != null) {
@@ -779,14 +902,22 @@
                 rows[r].layout = 'china-lcc';
                 usedGeo += 1;
             } else {
-                var hd = mapEngineToHd(rows[r].engX, rows[r].engY, bounds);
-                rows[r].hdX = hd.x;
-                rows[r].hdY = hd.y;
-                rows[r].layout = rows[r].source;
+                matching = false;
             }
             rows[r].labelY = rows[r].hdY + 44;
             labels.push(rows[r]);
         }
+        if (!sampleCurrent()) { return []; }
+        state.layoutMatched = matching;
+        if (!matching) {
+            cancelAlign();
+            state.cities = [];
+            state.engineTileEdges = [];
+            state.roads = { source: 'none', edges: [], passes: 0, isolated: [] };
+            state.presentationReason = 'city-layout-mismatch';
+            return [];
+        }
+        state.presentationReason = '';
         dodgeLabels(rows);
 
         if (!state.probed) {
@@ -813,6 +944,7 @@
             }
         }
 
+        if (!sampleCurrent()) { return []; }
         state.cities = rows;
         rebuildRoads();
         ensureCamera();
@@ -873,11 +1005,8 @@
         }
         var n = cityCount() || Math.min(data.g_Cities.length, 64);
         for (var i = 0; i < n; i++) {
-            var b = readNumber(data.g_Cities[i], 'Belong');
-            if (b === null) {
-                b = Number(data.g_Cities[i].Belong);
-            }
-            if (b && b !== 0xff && b !== 255) {
+            var b = cityBelong(data.g_Cities[i]);
+            if (b !== null && b > 0) {
                 return true;
             }
         }
@@ -920,7 +1049,7 @@
     }
 
     function hitsEnabled() {
-        return state.mode === 'hd-map' && state.phase === 'map' && !state.aligning;
+        return mapAuthorized() && state.mode === 'hd-map' && state.phase === 'map' && !state.aligning;
     }
 
     function setPhase(phase) {
@@ -961,6 +1090,8 @@
                 console.warn('[hd-overworld] dialog hook', name, e);
             }
         }
+        if (['didShowMainMap', 'didOpenNewGame', 'didLoadGame'].indexOf(name) !== -1) { sampleCities(); }
+        if (!mapAuthorized()) { applyChrome(); return; }
         if (state.aligning || state.pendingEnter) {
             console.log('[hd-overworld] hook while entering', name);
         }
@@ -1388,7 +1519,8 @@
     function rebuildRoads() {
         var cities = state.cities;
         var info = { source: 'none', edges: [], passes: 0, isolated: [] };
-        if (!cities.length) {
+        if (!cities.length || !mapAuthorized() || !provenanceAllowed(state.adjacencyJson, readIdentity())) {
+            state.engineTileEdges = [];
             state.roads = info;
             return info;
         }
@@ -1401,7 +1533,7 @@
         } else if (engine.edges.length) {
             info.source = 'engine';
             rawEdges = engine.edges;
-        } else if (state.adjacencyJson && state.adjacencyJson.edges && state.adjacencyJson.edges.length &&
+        } else if (provenanceAllowed(state.adjacencyJson, readIdentity()) && state.adjacencyJson.edges && state.adjacencyJson.edges.length &&
             state.adjacencyJson.useRuntimePositions !== true) {
             info.source = 'json';
             rawEdges = normalizeJsonEdges(state.adjacencyJson.edges, cities.length);
@@ -1790,7 +1922,7 @@
                     (rawOwner === undefined || rawOwner === null || Number(rawOwner) !== 0)
                     ? 'unknown' : city.kind;
                 counts[kind] += 1;
-                if (city.color && colors[city.kind].indexOf(city.color) < 0) {
+                if (city.color && colors[city.kind] && colors[city.kind].indexOf(city.color) < 0) {
                     colors[city.kind].push(city.color);
                 }
             }
@@ -1812,7 +1944,7 @@
     }
 
     function draw() {
-        if (document.hidden || !state.ctx) {
+        if (document.hidden || !state.ctx || !mapAuthorized()) {
             return;
         }
         syncCanvasSize();
@@ -1847,7 +1979,7 @@
     }
 
     function loop() {
-        if (document.hidden || state.mode !== 'hd-map') {
+        if (document.hidden || state.mode !== 'hd-map' || !mapAuthorized()) {
             return;
         }
         var now = Date.now();
@@ -1862,7 +1994,7 @@
     }
 
     function ensureLoop() {
-        if (!document.hidden && state.mode === 'hd-map' && !state.loopId) {
+        if (!document.hidden && state.mode === 'hd-map' && mapAuthorized() && !state.loopId) {
             var id = global.requestAnimationFrame(function () {
                 if (state.loopId !== id) { return; }
                 state.loopId = 0;
@@ -1902,7 +2034,7 @@
         if (!body) {
             return;
         }
-        var show = mode === 'hd-map';
+        var show = mode === 'hd-map' && mapAuthorized();
         body.classList.toggle('baye-hd-overworld-on', show);
         body.classList.toggle('baye-hd-overworld-map', show && state.phase === 'map');
         body.classList.toggle('baye-hd-overworld-menu', show && state.phase === 'classic-menu');
@@ -1959,6 +2091,7 @@
     }
 
     function hitCity(pt) {
+        if (!mapAuthorized()) { return -1; }
         var best = -1;
         var bestD = HIT_RADIUS;
         for (var i = 0; i < state.cities.length; i++) {
@@ -2041,6 +2174,7 @@
     }
 
     function engineSendKey(code) {
+        if (!mapInputAuthorized()) { cancelAlign(); return false; }
         var exitCode = (window.baye && baye.VK_EXIT) || VK.EXIT;
         if (fightLive()) {
             console.warn('[hd-overworld] blocked key during fight', code);
@@ -2062,6 +2196,7 @@
     }
 
     function sendTouch(x, y) {
+        if (!mapInputAuthorized()) { return false; }
         if (typeof _bayeSendTouchEvent !== 'function') {
             return false;
         }
@@ -2384,6 +2519,7 @@
 
     /* 只写光标 setx/sety，视口 x/y 居中。不能把 x/y 写成城格，那是窗口原点。 */
     function writeCityPos(x, y, tried) {
+        if (!mapInputAuthorized()) { return false; }
         var data = engineData();
         var pos = data && data.g_CityPos;
         if (!pos) {
@@ -2516,9 +2652,8 @@
     }
 
     function adjacencyNeighbors(index) {
-        var edges = state.engineTileEdges && state.engineTileEdges.length
-            ? state.engineTileEdges
-            : (state.roads && state.roads.edges ? state.roads.edges : []);
+        // LCC connectors are decorative and never drive native navigation.
+        var edges = mapAuthorized() ? state.engineTileEdges : [];
         var out = [];
         var i;
         for (i = 0; i < edges.length; i++) {
@@ -2814,7 +2949,7 @@
 
     function later(token, ms, fn) {
         state.alignTimer = setTimeout(function () {
-            if (token !== state.alignToken) {
+            if (token !== state.alignToken || !mapAuthorized()) {
                 return;
             }
             fn();
@@ -3255,7 +3390,7 @@
         var checks = 0;
         var from = readMapCity();
         function valid() {
-            return token === state.alignToken && state.mode === 'hd-map' &&
+            return mapAuthorized() && token === state.alignToken && state.mode === 'hd-map' &&
                 state.aligning && !fightLive();
         }
         function fail(message) {
@@ -3371,6 +3506,7 @@
     }
 
     function marchTapCity(index) {
+        if (!mapInputAuthorized()) { return false; }
         clearAlignFailHint();
         var now = Date.now();
         if (state.lastMarchTapAt && (now - state.lastMarchTapAt) < 350 &&
@@ -3417,6 +3553,7 @@
     }
 
     function openClassicCity(index) {
+        if (!mapInputAuthorized()) { return false; }
         if (fightLive()) {
             console.warn('[hd-overworld] blocked openCity during fight');
             return;
@@ -3476,7 +3613,7 @@
         }
         state.inputBound = true;
         function handleMapTap(ev) {
-            if (state.mode !== 'hd-map') {
+            if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return false;
             }
             if (state.phase === 'classic-menu') {
@@ -3531,7 +3668,7 @@
             return true;
         }
         state.canvas.addEventListener('pointerdown', function (ev) {
-            if (state.mode !== 'hd-map') {
+            if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return;
             }
             if (state.phase !== 'map' && state.phase !== 'classic-menu' && !inGameOverworld()) {
@@ -3550,6 +3687,7 @@
             } catch (e) {}
         });
         state.canvas.addEventListener('pointermove', function (ev) {
+            if (!mapAuthorized()) { return; }
             var pt = eventToDesign(ev);
             if (pt) {
                 state.pointer.x = pt.x;
@@ -3610,6 +3748,7 @@
             state.pointer.on = false;
         });
         state.canvas.addEventListener('click', function (ev) {
+            if (!mapAuthorized()) { return; }
             if (state.pan.tapHandled) {
                 state.pan.tapHandled = false;
                 ev.preventDefault();
@@ -3623,7 +3762,7 @@
             handleMapTap(ev);
         });
         document.addEventListener('pointerdown', function (ev) {
-            if (state.mode !== 'hd-map') {
+            if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return;
             }
             if (!(cityMenuMarching() || battleMakePending())) {
@@ -3641,7 +3780,7 @@
             }
         }, true);
         document.addEventListener('keydown', function (e) {
-            if (state.mode !== 'hd-map') {
+            if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return;
             }
             if (global.BayeHdCityMenu && BayeHdCityMenu.isOpen()) {
@@ -3685,6 +3824,7 @@
     function setMode(value) {
         cancelAlign();
         var mode = normalizeMode(value);
+        if (mode !== state.mode) { retireMapPresentation(); }
         writeStorage(STORAGE_KEY, mode);
         state.mode = mode;
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.syncMode === 'function') {
@@ -3709,6 +3849,7 @@
                 }
                 applyChrome();
                 draw();
+                ensureLoop();
             });
             ensureLoop();
         } else {
@@ -3727,6 +3868,7 @@
         cacheDom();
         bindToolbar();
         bindInput();
+        bindLibraryIdentity();
         applyChrome();
         syncToolbar();
         if (getMode() === 'hd-map') {
@@ -3870,6 +4012,10 @@
             var data = engineData();
             return {
                 mode: state.mode,
+                libraryIdentity: readIdentity(),
+                presentationReady: mapAuthorized(),
+                presentationReason: state.presentationReason,
+                assetGeneration: state.assetGeneration,
                 phase: state.phase,
                 aligning: state.aligning,
                 hitsEnabled: hitsEnabled(),

@@ -13,7 +13,7 @@
         { id: 'neizheng', name: '内政', hint: '开垦 / 招商 / 搜寻…' },
         { id: 'waijiao', name: '外交', hint: '离间 / 招揽 / 策反…' },
         { id: 'junbei', name: '军备', hint: '侦察 / 征兵 / 出征…' },
-        { id: 'zhuangkuang', name: '状况', hint: '只显示引擎里读到的城数据' }
+        { id: 'zhuangkuang', name: '状况', hint: '归属 / 民生发展 / 资源军备' }
     ];
     /* 项名来自 FEATURES.md 已核验的引擎菜单，只作标签。 */
     var SUBS = {
@@ -21,26 +21,6 @@
         waijiao: ['离间', '招揽', '策反', '反间', '劝降'],
         junbei: ['侦察', '征兵', '分配', '掠夺', '出征']
     };
-    var STATUS_FIELDS = [
-        ['Belong', '归属'],
-        ['Satrap', '太守'],
-        ['SatrapId', '太守'],
-        ['Mayor', '太守'],
-        ['Governor', '太守'],
-        ['Farming', '农业'],
-        ['Agriculture', '农业'],
-        ['Commerce', '商业'],
-        ['PeopleDevotion', '民忠'],
-        ['Devotion', '民忠'],
-        ['AvoidCalamity', '防灾'],
-        ['Population', '人口'],
-        ['People', '人口'],
-        ['Money', '金钱'],
-        ['Food', '粮食'],
-        ['MothballArms', '后备兵力'],
-        ['Arms', '兵力'],
-        ['State', '状态']
-    ];
     var STATE_LABELS = ['正常', '饥荒', '旱灾', '水灾', '暴动'];
     /* 一层之后常见深层：人物 / 城池 / 数量。项名已核验，种类是启发式。 */
     var DEEP = {
@@ -72,12 +52,16 @@
         bound: false,
         listKind: '',
         probedCityKeys: [],
+        cityDetails: null,
         deepKind: '',
         deepLabel: '',
         deepStep: 0,
         deepItems: [],
         deepSig: '',
         deepMenuOwner: null,
+        personDetailSig: '',
+        personDetail: null,
+        highlightScrollKey: '',
         deepPointerOwner: null,
         deepSelectionPending: null,
         walkToken: 0,
@@ -354,9 +338,31 @@
         return overworldIsHd();
     }
 
+    function cityLcdPresentation() {
+        if (!state.open || !shouldShowHd()) { return 'passthrough'; }
+        // The native report/help owner can temporarily take over a retained
+        // city menu. Keep its LCD fallback, regardless of the city preference.
+        try {
+            var help = window.baye && baye.hd && typeof baye.hd.help === 'function' ? baye.hd.help() : null;
+            var report = window.baye && baye.hd && typeof baye.hd.report === 'function' ? baye.hd.report() : null;
+            if (help && Number(help.active) || report && Number(report.active)) { return 'passthrough'; }
+            if (global.BayeHdDialog && typeof BayeHdDialog.debugSnapshot === 'function') {
+                var dialog = BayeHdDialog.debugSnapshot();
+                if (dialog && dialog.open && !dialog.pass && (dialog.kind === 'report' || dialog.kind === 'help')) {
+                    return 'passthrough';
+                }
+            }
+        } catch (e) { return 'passthrough'; }
+        var fallback = state.layer === 'deep' && !showingQty() && !state.deepItems.length &&
+            !mapPickActive() && !state.marchReady;
+        return state.showLcd || fallback ? 'on' : 'off';
+    }
+
     function applyDocAttr() {
         var show = state.open && shouldShowHd();
+        var lcdMode = cityLcdPresentation();
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
+        document.documentElement.setAttribute('data-baye-city-lcd', lcdMode);
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
         document.documentElement.setAttribute('data-baye-city-menu-map-pick',
             (show && usesMapCursor(state.deepKind, state.deepStep)) ? '1' : '0');
@@ -370,10 +376,15 @@
             var deepEmpty = show && state.layer === 'deep' && !showingQty() &&
                 !state.deepItems.length && !mapPickActive() && !state.marchReady;
             document.body.classList.toggle('baye-hd-city-menu-on', show);
-            document.body.classList.toggle('baye-hd-city-menu-lcd', show && state.showLcd);
+            document.body.classList.toggle('baye-hd-city-menu-lcd', show && lcdMode === 'on');
             document.body.classList.toggle('baye-hd-city-menu-deep-empty', deepEmpty);
             document.body.classList.toggle('baye-hd-city-menu-map-pick',
                 show && usesMapCursor(state.deepKind, state.deepStep));
+        }
+        var lcdButton = document.querySelector ? document.querySelector('[data-hd-menu-lcd]') : null;
+        if (lcdButton) {
+            lcdButton.textContent = state.showLcd ? '隐藏经典 LCD' : '经典 LCD';
+            lcdButton.setAttribute('aria-pressed', state.showLcd ? 'true' : 'false');
         }
     }
 
@@ -3289,9 +3300,12 @@
 
     function nativeDeepItems(menu, owner) {
         if (!owner) { return []; }
-        var persons = owner.kind === 3 ? cityPersons(state.cityIndex, state.deepKind === 'person-city') : [];
+        // Native GetCityPersons walks the queue in order and keeps only
+        // Person.Belong === City.Belong. The raw city queue also contains free
+        // people/captives and is not the current actor menu.
+        var persons = owner.kind === 3 ? cityPersons(state.cityIndex, true) : [];
         var samePersons = persons.length === menu.names.length && persons.every(function (person, index) {
-            return person.name === menu.names[index];
+            return person.name === menu.names[index] && menu.names.indexOf(person.name) === index;
         });
         return menu.names.map(function (name, index) {
             var item = { i: index, name: name };
@@ -3410,89 +3424,311 @@
         }
     }
 
-    function renderStatus() {
-        var box = el('hd-city-menu-status');
-        if (!box) {
-            return;
-        }
-        box.innerHTML = '';
-        var city = readCity(state.cityIndex);
-        if (!city) {
-            box.textContent = '未读到 g_Cities[' + state.cityIndex + ']，不编造数值。';
-            return;
-        }
-        var seen = {};
-        var i;
-        var any = false;
-        for (i = 0; i < STATUS_FIELDS.length; i++) {
-            var key = STATUS_FIELDS[i][0];
-            var label = STATUS_FIELDS[i][1];
-            if (seen[label]) {
-                continue;
+    // Presentation reads are narrower than the historic input helpers: a
+    // missing field, boolean or empty string must never appear as numeric zero.
+    function hudNumber(obj, key) {
+        var value = obj && obj[key];
+        if (value && typeof value === 'object' && 'value' in value) { value = value.value; }
+        if (value == null || (typeof value !== 'number' && typeof value !== 'string') ||
+            typeof value === 'string' && !value.trim()) { return null; }
+        value = Number(value);
+        return isFinite(value) && Math.floor(value) === value && value >= 0 ? value : null;
+    }
+
+    function hudValue(obj, key) {
+        var value = hudNumber(obj, key);
+        return value == null ? '未读取' : String(value);
+    }
+
+    function hudCapacity(obj, key, limit) {
+        var value = hudValue(obj, key);
+        var max = hudNumber(obj, limit);
+        return max == null ? value + ' / 上限未读取' : value + ' / ' + max;
+    }
+
+    function hudOwnership(value, personIndex, city) {
+        var method = city ? 'cityOwnership' : 'personOwnership';
+        try {
+            if (window.baye && typeof baye[method] === 'function') {
+                return baye[method](value, personIndex);
             }
-            if (city[key] === undefined) {
-                continue;
+        } catch (e) {}
+        return { kind: 'unknown', value: value, label: '归属未知' };
+    }
+
+    function hudPersonId(value) {
+        if (value == null) { return '未读取'; }
+        if (value === 0) { return '未设'; }
+        var owner = hudOwnership(value, null, true);
+        return owner.kind === 'owned' ? owner.name : '人物未知（编号 ' + value + '）';
+    }
+
+    function standardHudLabels(hookNames) {
+        var identity = global.BayeHdLibIdentity;
+        try {
+            var loaded = identity && identity.read();
+            if (!loaded || loaded.status !== 'ready' ||
+                loaded.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !identity.isCurrent(loaded)) { return false; }
+            var hooks = window.baye && baye.hooks;
+            return !hooks || !hookNames.some(function (key) { return typeof hooks[key] === 'function'; });
+        } catch (e) { return false; }
+    }
+
+    function cityDetails(city) {
+        if (!city) { return null; }
+        var code = hudNumber(city, 'State');
+        var standard = standardHudLabels(['getCityPropertyDisplay']);
+        var groups = [
+            { title: '归属与城况', rows: [
+                ['归属', hudOwnership(hudNumber(city, 'Belong'), null, true).label],
+                ['太守', hudPersonId(hudNumber(city, 'SatrapId'))],
+                ['城况', code == null ? '未读取' : standard && STATE_LABELS[code]
+                    ? STATE_LABELS[code] + '（码 ' + code + '）' : '原始码 ' + code]
+            ] },
+            { title: '民生与发展', rows: [
+                ['农业 / 上限', hudCapacity(city, 'Farming', 'FarmingLimit')],
+                ['商业 / 上限', hudCapacity(city, 'Commerce', 'CommerceLimit')],
+                ['人口 / 上限', hudCapacity(city, 'Population', 'PopulationLimit')],
+                ['民忠', hudValue(city, 'PeopleDevotion')], ['防灾', hudValue(city, 'AvoidCalamity')]
+            ] },
+            { title: '资源与军备', rows: [
+                ['金钱', hudValue(city, 'Money')], ['粮食', hudValue(city, 'Food')],
+                ['预备兵', hudValue(city, 'MothballArms')],
+                ['城内人物', hudValue(city, 'Persons')], ['城内道具', hudValue(city, 'Tools')]
+            ] }
+        ];
+        var represented = ['State', 'Belong', 'SatrapId', 'Farming', 'FarmingLimit', 'Commerce',
+            'CommerceLimit', 'Population', 'PopulationLimit', 'PeopleDevotion', 'AvoidCalamity',
+            'Money', 'Food', 'MothballArms', 'Persons', 'Tools', 'PersonQueue', 'ToolQueue'];
+        var extras = [];
+        listProps(city).forEach(function (key) {
+            if (represented.indexOf(key) < 0 && hudNumber(city, key) != null) {
+                extras.push([key === 'Arms' ? '兵力' : key, hudValue(city, key)]);
             }
-            seen[label] = true;
-            any = true;
-            var num = readNumber(city, key);
-            var value = num;
-            if (key === 'Belong' && num !== null) {
-                value = personNameById(num);
-            } else if ((key === 'Satrap' || key === 'SatrapId' || key === 'Mayor' || key === 'Governor') && num !== null) {
-                value = personNameById(num);
-            } else if (key === 'State' && num !== null && STATE_LABELS[num]) {
-                value = STATE_LABELS[num] + ' (' + num + ')';
-            }
-            if (value === null) {
-                value = String(city[key]);
-            }
-            appendStat(box, label, value);
-        }
-        var extras = listProps(city);
-        state.probedCityKeys = extras.slice();
-        for (i = 0; i < extras.length; i++) {
-            var extra = extras[i];
-            if (seen[extra]) {
-                continue;
-            }
-            var already = false;
-            var s;
-            for (s = 0; s < STATUS_FIELDS.length; s++) {
-                if (STATUS_FIELDS[s][0] === extra) {
-                    already = true;
-                }
-            }
-            if (already) {
-                continue;
-            }
-            var extraNum = readNumber(city, extra);
-            if (extraNum === null) {
-                continue;
-            }
-            seen[extra] = true;
-            any = true;
-            appendStat(box, extra, extraNum);
-        }
-        if (!any) {
-            box.textContent = '该城对象上没有已登记的状况字段。已记录键名，不填假数。';
-        }
-        if (!state.probed) {
-            state.probed = true;
-            console.log('[hd-city-menu] city keys', extras);
-        }
+        });
+        if (extras.length) { groups.push({ title: '其他属性', rows: extras }); }
+        return { cityIndex: state.cityIndex, name: cityName(state.cityIndex), groups: groups };
     }
 
     function appendStat(box, label, value) {
         var row = document.createElement('div');
         row.className = 'hd-city-menu-stat';
-        row.innerHTML = '<span></span><strong></strong>';
-        row.querySelector('span').textContent = label;
-        row.querySelector('strong').textContent = String(value);
+        var name = document.createElement('span');
+        name.textContent = label;
+        var number = document.createElement('strong');
+        number.textContent = String(value);
+        row.appendChild(name);
+        row.appendChild(number);
         box.appendChild(row);
     }
 
+    function appendHudGroups(box, groups) {
+        groups.forEach(function (group) {
+            var section = document.createElement('section');
+            section.className = 'hd-city-menu-info-group';
+            var heading = document.createElement('h3');
+            heading.textContent = group.title;
+            section.appendChild(heading);
+            var rows = document.createElement('div');
+            rows.className = 'hd-city-menu-info-rows';
+            group.rows.forEach(function (row) { appendStat(rows, row[0], row[1]); });
+            section.appendChild(rows);
+            box.appendChild(section);
+        });
+    }
+
+    function renderStatus() {
+        var box = el('hd-city-menu-status');
+        if (!box) { return; }
+        box.innerHTML = '';
+        var city = readCity(state.cityIndex);
+        state.cityDetails = cityDetails(city);
+        state.probedCityKeys = listProps(city);
+        if (!state.cityDetails) {
+            box.textContent = '城池资料尚未读取。';
+            return;
+        }
+        appendHudGroups(box, state.cityDetails.groups);
+    }
+
+    function equipmentLabel(person, slot) {
+        var equip = person && person.Equip;
+        var value = equip && equip[slot] !== undefined
+            ? hudNumber(equip, slot) : hudNumber(person, slot ? 'Tool2' : 'Tool1');
+        if (value == null) { return '未读取'; }
+        if (value === 0) { return '无'; }
+        var name = '';
+        // getToolName's exported safe-name contract covers 512 entries. Never
+        // wrap or call beyond it; a Mod's real larger U16 ID stays visible.
+        if (value <= 512) {
+            try { name = window.baye && baye.getToolName ? baye.getToolName(value - 1) || '' : ''; } catch (e) {}
+        }
+        return name && name !== '-' ? name + '（编号 ' + value + '）' : '道具编号 ' + value + '（名称未读取）';
+    }
+
+    function priorOwnershipLabel(value) {
+        if (value == null) { return '未读取'; }
+        if (value === 0) { return '未记录（0）'; }
+        // OldBelong stores a previous allegiance, not current captive status.
+        var owner = hudOwnership(value, null, true);
+        return owner.kind === 'owned' ? owner.name : '原归属未知（码 ' + value + '）';
+    }
+
+    function personDetails(index, name) {
+        var data = engineData();
+        var count = 0;
+        try { count = window.baye && baye.getPersonCount ? baye.getPersonCount() : 0; } catch (e) {}
+        if (!Number.isInteger(index) || index < 0 || index >= count || !data ||
+            !data.g_Persons || !data.g_Persons[index]) { return null; }
+        var person = data.g_Persons[index];
+        var owner = hudOwnership(hudNumber(person, 'Belong'), index, false);
+        var oldBelong = hudNumber(person, 'OldBelong');
+        var character = hudNumber(person, 'Character');
+        var lord = owner.kind === 'lord';
+        var standard = standardHudLabels(['getPersonPropertyValue', 'getPersonPropertyTitle']);
+        var chars = lord ? ['冒进', '狂人', '奸诈', '大义', '和平'] : ['鲁莽', '怕死', '贪财', '大志', '忠义'];
+        var characterLabel = character == null ? '未读取' : String(character);
+        // Lord character semantics require a verified owner/name. Missing
+        // ownership only exposes the raw code, without guessing its meaning.
+        if (standard && character != null && owner.kind !== 'unknown' && chars[character]) {
+            characterLabel += '（' + (lord ? '君主' : '武将') + '：' + chars[character] + '）';
+        }
+        var arm = hudNumber(person, 'ArmsType');
+        var arms = ['骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'];
+        var groups = [
+            { title: '身份与经历', rows: [
+                ['归属', owner.label],
+                ['原归属', priorOwnershipLabel(oldBelong)],
+                ['年龄', hudValue(person, 'Age')], ['性格码', characterLabel]
+            ] },
+            { title: '能力与状态', rows: [
+                ['等级', hudValue(person, 'Level')], ['武力', hudValue(person, 'Force')],
+                ['智力', hudValue(person, 'IQ')], ['忠诚值', hudValue(person, 'Devotion')],
+                ['经验', hudValue(person, 'Experience')], ['体力', hudValue(person, 'Thew')]
+            ] },
+            { title: '军队与装备', rows: [
+                ['基础兵种', arm == null ? '未读取' : standard && arms[arm]
+                    ? arms[arm] + '（码 ' + arm + '）' : '原始码 ' + arm],
+                ['兵力', hudValue(person, 'Arms')],
+                ['装备一', equipmentLabel(person, 0)], ['装备二', equipmentLabel(person, 1)]
+            ] }
+        ];
+        return { personIndex: index, name: name, ownership: owner, groups: groups,
+            note: '装备可能改变实际兵种。忠诚值保留原始数值，君主与在野人物不以此判断归属。' };
+    }
+
+    function retirePersonDetails() {
+        state.personDetail = null;
+        state.personDetailSig = '';
+        var pane = el('hd-city-menu-person-details');
+        if (pane) { pane.hidden = true; }
+        var layout = el('hd-city-menu-person-layout');
+        if (layout) { layout.classList.remove('has-person-details'); }
+    }
+
+    function ensurePersonDetailsPane() {
+        var pane = el('hd-city-menu-person-details');
+        if (!pane) {
+            var deep = el('hd-city-menu-deep');
+            if (!deep || !deep.parentElement) { return null; }
+            var layout = document.createElement('div');
+            layout.id = 'hd-city-menu-person-layout';
+            layout.className = 'hd-city-menu-person-layout';
+            deep.parentElement.insertBefore(layout, deep);
+            layout.appendChild(deep);
+            pane = document.createElement('aside');
+            pane.id = 'hd-city-menu-person-details';
+            pane.className = 'hd-city-menu-person-details';
+            pane.setAttribute('aria-label', '当前人物资料');
+            pane.hidden = true;
+            layout.appendChild(pane);
+        }
+        if (!el('hd-city-menu-person-portrait')) {
+            var slot = document.createElement('div');
+            slot.id = 'hd-city-menu-person-portrait';
+            slot.className = 'hd-city-menu-person-portrait';
+            pane.appendChild(slot);
+        }
+        if (!el('hd-city-menu-person-fields')) {
+            var fields = document.createElement('div');
+            fields.id = 'hd-city-menu-person-fields';
+            fields.className = 'hd-city-menu-person-fields';
+            pane.appendChild(fields);
+        }
+        return pane;
+    }
+
+    function renderPersonDetails() {
+        if (!state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+            !/^person/.test(state.deepKind) || usesGoodsMenu(state.deepKind, state.deepStep) ||
+            showingQty() || state.nativeMenuRequest || state.deepSelectionPending) {
+            retirePersonDetails();
+            return;
+        }
+        try {
+            var help = baye.hd && typeof baye.hd.help === 'function' ? baye.hd.help() : null;
+            var report = baye.hd && typeof baye.hd.report === 'function' ? baye.hd.report() : null;
+            if (help && Number(help.active) || report && Number(report.active)) {
+                retirePersonDetails();
+                return;
+            }
+        } catch (e) { retirePersonDetails(); return; }
+        var menu = engineMenuItems();
+        var owner = deepMenuOwner(menu);
+        if (!owner || owner.kind !== 3 || !state.deepMenuOwner || owner.key !== state.deepMenuOwner.key) {
+            retirePersonDetails();
+            return;
+        }
+        var index = hudNumber(menu, 'index');
+        if (index == null || index >= menu.names.length) { retirePersonDetails(); return; }
+        var items = nativeDeepItems(menu, owner);
+        var item = items[index];
+        // Without native person IDs, identical names make reordering ambiguous.
+        // Keep the native buttons usable, but do not attach inferred statistics.
+        var unique = menu.names.every(function (name, i) { return menu.names.indexOf(name) === i; });
+        var details = unique && item && item.pind != null ? personDetails(item.pind, item.name) : null;
+        var signature = JSON.stringify([owner.key, index, details]);
+        var pane = ensurePersonDetailsPane();
+        if (!pane) { return; }
+        var fields = el('hd-city-menu-person-fields');
+        pane.hidden = false;
+        el('hd-city-menu-person-layout').classList.add('has-person-details');
+        state.personDetail = details && { ownerKey: owner.key, context: owner.context, kind: owner.kind,
+            seq: owner.seq, nativeIndex: index, personIndex: details.personIndex,
+            name: details.name, ownership: details.ownership, groups: details.groups };
+        if (state.personDetailSig === signature && fields.children.length) { return; }
+        state.personDetailSig = signature;
+        fields.innerHTML = '';
+        var heading = document.createElement('h2');
+        heading.id = 'hd-city-menu-person-name';
+        heading.className = 'hd-city-menu-person-name';
+        heading.textContent = item ? item.name : '人物资料';
+        fields.appendChild(heading);
+        if (!details) {
+            var missing = document.createElement('p');
+            missing.className = 'hd-city-menu-info-note';
+            missing.textContent = '当前人物资料尚未关联。';
+            fields.appendChild(missing);
+            return;
+        }
+        appendHudGroups(fields, details.groups);
+        var note = document.createElement('p');
+        note.className = 'hd-city-menu-info-note';
+        note.textContent = details.note;
+        fields.appendChild(note);
+    }
+
     function applyHighlight() {
+        if (state.open && state.layer === 'deep' && !document.hidden && shouldShowHd() && state.deepMenuOwner) {
+            var nativeMenu = engineMenuItems();
+            var nativeOwner = deepMenuOwner(nativeMenu);
+            var nativeIndex = hudNumber(nativeMenu, 'index');
+            if (nativeOwner && nativeOwner.key === state.deepMenuOwner.key && nativeIndex != null &&
+                nativeIndex < nativeMenu.names.length) {
+                state.idleIndex = nativeIndex;
+            }
+        }
         var cards = document.querySelectorAll('[data-hd-root]');
         var i;
         for (i = 0; i < cards.length; i++) {
@@ -3525,13 +3761,17 @@
                 idleNode = items[i];
             }
         }
-        if (idleNode && idleNode.scrollIntoView) {
+        var scrollKey = JSON.stringify([state.layer, state.subKind, state.deepKind,
+            state.deepMenuOwner && state.deepMenuOwner.key, state.idleIndex, state.pendingTarget]);
+        if (idleNode && idleNode.scrollIntoView && state.highlightScrollKey !== scrollKey) {
             try {
                 idleNode.scrollIntoView({ block: 'nearest', inline: 'nearest' });
             } catch (e) {
                 idleNode.scrollIntoView(false);
             }
         }
+        state.highlightScrollKey = scrollKey;
+        renderPersonDetails();
     }
 
     function fillDeepList() {
@@ -3543,6 +3783,8 @@
         var owner = readyDeepMenuOwner(deepMenu);
         state.deepMenuOwner = owner;
         state.deepItems = probeDeepItems();
+        if (!owner || owner.kind !== 3 || !state.deepItems.length || showingQty()) { retirePersonDetails(); }
+        applyDocAttr();
         var liveQty = engineQty();
         var march = engineMarch();
         var sig = (showingQty() ? 'qty:' + (liveQty && liveQty.value) : state.deepKind + ':' + state.deepStep) +
@@ -3843,6 +4085,7 @@
         root.classList.toggle('is-sub', show && state.layer !== 'root');
         applyDocAttr();
         if (!show) {
+            retirePersonDetails();
             renderStickyBannerSlot();
             if (!state.open) {
                 setText(el('hd-city-menu-title'), '城池');
@@ -3878,14 +4121,14 @@
         }
         renderStickyBannerSlot();
         if (state.layer === 'root') {
-            setText(sub, '城池指令 · 项名优先 baye.hd.menuItems()');
+            setText(sub, '选择城池指令');
             hideAllLayers();
             if (grid) {
                 grid.hidden = false;
                 applyRootLabels();
             }
         } else if (state.layer === 'status') {
-            setText(sub, '状况 · 只列出读到的 g_Cities 字段');
+            setText(sub, '状况 · 归属、发展与资源军备');
             hideAllLayers();
             if (status) {
                 status.hidden = false;
@@ -3899,7 +4142,7 @@
                     ? '部队已出发'
                     : (usesMapCursor(state.deepKind, state.deepStep)
                         ? '目标城池（方向键对齐引擎光标）'
-                        : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具（baye.hd.menuItems）' : '人物')));
+                        : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具' : '人物')));
             if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
                 var shownHint = displayWizardStep();
                 stepHint = '出征步骤 ' + (WIZARD_LABEL[shownHint] || WIZARD_LABEL[state.wizardStep]);
@@ -3913,13 +4156,6 @@
             if (deep) {
                 deep.hidden = false;
                 fillDeepList();
-                if (!showingQty() && state.deepItems.length) {
-                    state.showLcd = false;
-                    applyDocAttr();
-                } else if (!showingQty() && !state.deepItems.length) {
-                    state.showLcd = true;
-                    applyDocAttr();
-                }
             }
         } else {
             var items = preferEngineNames(SUBS[state.subKind] || []);
@@ -4098,6 +4334,18 @@
 
     function back() {
         if (!state.open) {
+            return;
+        }
+        if (state.layer === 'status') {
+            // Status is a local read-only page: C is still waiting in the
+            // root menu. EXIT here would close that real menu behind the shell.
+            var menu = engineMenuItems();
+            state.layer = 'root';
+            state.subKind = '';
+            state.closingSub = false;
+            state.idleIndex = Number(menu.active) && Number(menu.context) === 1 && Number(menu.kind) === 1
+                ? hudNumber(menu, 'index') : null;
+            render();
             return;
         }
         if (liveQty() || leftoverQtyFlag()) {
@@ -5582,6 +5830,7 @@
                 idleKeys: state.idleKeys.slice(),
                 lastHook: state.lastHook,
                 showLcd: state.showLcd,
+                cityLcdMode: cityLcdPresentation(),
                 probedCityKeys: state.probedCityKeys.slice(),
                 deepKind: state.deepKind,
                 deepLabel: state.deepLabel,
@@ -5589,6 +5838,9 @@
                 deepItems: state.deepItems.slice(0, 20),
                 deepMenuOwner: state.deepMenuOwner && { context: state.deepMenuOwner.context,
                     kind: state.deepMenuOwner.kind, seq: state.deepMenuOwner.seq, key: state.deepMenuOwner.key },
+                cityDetails: state.open && state.layer === 'status' && state.cityDetails
+                    ? JSON.parse(JSON.stringify(state.cityDetails)) : null,
+                personDetail: state.personDetail ? JSON.parse(JSON.stringify(state.personDetail)) : null,
                 pickedPersons: state.pickedPersons,
                 dismissedObj: state.dismissedObj,
                 marchReady: state.marchReady,

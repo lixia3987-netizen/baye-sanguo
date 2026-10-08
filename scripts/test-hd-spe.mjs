@@ -6,6 +6,7 @@ import test from 'node:test';
 import { inflateSync } from 'node:zlib';
 
 const source = readFileSync(new URL('../js/hd-spe.js', import.meta.url), 'utf8');
+const identitySource = readFileSync(new URL('../js/hd-lib-identity.js', import.meta.url), 'utf8');
 const bytes = Buffer.from('01020304', 'hex');
 const sha256 = createHash('sha256').update(bytes).digest('hex');
 const settle = () => new Promise(resolve => setImmediate(resolve));
@@ -64,6 +65,7 @@ function harness(options = {}) {
         sendKey: key => keys.push(key), setInterval: fn => { polls.push(fn); return polls.length; },
         ...(options.fetch ? { fetch: options.fetch } : {}) });
     context.window = context;
+    vm.runInContext(identitySource, context, { filename: 'js/hd-lib-identity.js' });
     vm.runInContext(source, context, { filename: 'js/hd-spe.js' });
     const api = context.BayeHdSpe;
     function event(extra = {}) { return { key: 'Enter', keyCode: 13, target: {}, prevented: false,

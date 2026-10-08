@@ -16,7 +16,7 @@
         manifest: null,
         byKey: {},
         referencesByKey: {},
-        referenceLib: '',
+        referenceSha256: '',
         loading: null,
         generation: 0,
         viewSeq: 0,
@@ -28,7 +28,14 @@
         key: '',
         busy: false,
         timer: 0,
-        started: false
+        started: false,
+        startSeq: 0,
+        identityKey: '',
+        identityApi: null,
+        unsubscribeIdentity: null,
+        readingIdentity: false,
+        authority: null,
+        visibilityBound: false
     };
 
     function num(obj, name) {
@@ -54,15 +61,84 @@
     function currentLib() {
         var lib = '';
         try { lib = global.localStorage.getItem('baye/libpath') || ''; } catch (e) {}
-        // The standalone smoke page previews assets without selecting a game.
-        if (!lib && document.body && document.body.getAttribute('data-hd-portrait-manual') === '1') {
-            lib = state.manifest && state.manifest.lib || '';
-        }
         return lib;
     }
 
-    function supportsLib(lib) {
-        return !!(lib && state.manifest && lib === state.manifest.lib);
+    function validSha256(value) {
+        return typeof value === 'string' && /^[0-9a-f]{64}$/.test(value);
+    }
+
+    function previewMode() {
+        if (!document.body || document.body.getAttribute('data-hd-portrait-manual') !== '1' ||
+            (global.dynLib !== null && global.dynLib !== undefined && global.dynLib !== '')) {
+            return false;
+        }
+        try {
+            return !(global.baye && baye.hd && typeof baye.hd.ready === 'function' && baye.hd.ready());
+        } catch (e) { return false; }
+    }
+
+    function retireIdentity() {
+        state.viewSeq += 1;
+        state.tickSeq += 1;
+        state.busy = false;
+        state.pendingKey = '';
+        state.nameById = null;
+        state.nameLib = '';
+        probeCache = Object.create(null);
+        sourceCache = Object.create(null);
+        paint(null, lcdSource());
+    }
+
+    function bindIdentity() {
+        var api = global.BayeHdLibIdentity;
+        if (state.identityApi === api) { return; }
+        if (state.unsubscribeIdentity) { state.unsubscribeIdentity(); }
+        state.identityApi = api || null;
+        state.unsubscribeIdentity = api && typeof api.subscribe === 'function' ? api.subscribe(function () {
+            if (state.readingIdentity) { return; }
+            authority();
+            if (state.started && !document.hidden) { tick(); }
+        }) : null;
+    }
+
+    // Asset previews have their own namespace. A preview never supplies a LIB
+    // digest and cannot authorize a later running game, even on the same page.
+    function authority() {
+        if (state.readingIdentity) { return state.authority; }
+        state.readingIdentity = true;
+        var identity = { status: 'unavailable', generation: 0, sha256: null,
+            byteLength: 0, reason: 'identity-module-unavailable' };
+        try {
+            bindIdentity();
+            if (state.identityApi && typeof state.identityApi.read === 'function') {
+                identity = state.identityApi.read();
+            }
+        } catch (e) {}
+        var preview = previewMode(), expected = state.manifest && state.manifest.libSha256;
+        var key = preview ? 'preview:' + expected :
+            ['runtime', identity.generation, identity.status, identity.sha256 || ''].join(':');
+        var result = { key: key, preview: preview, identity: identity,
+            supported: validSha256(expected) && (preview || (identity.status === 'ready' && identity.sha256 === expected)) };
+        state.authority = result;
+        if (key !== state.identityKey) {
+            state.identityKey = key;
+            retireIdentity();
+        }
+        state.readingIdentity = false;
+        return result;
+    }
+
+    function supportsLib() {
+        var auth = authority();
+        return !!(auth && auth.supported);
+    }
+
+    function stillAuthorized(token) {
+        var now = authority();
+        if (!token || !now || !now.supported || token.key !== now.key || token.preview !== now.preview) { return false; }
+        return token.preview || !!(state.identityApi && typeof state.identityApi.isCurrent === 'function' &&
+            state.identityApi.isCurrent(token.identity));
     }
 
     function lcdSource(entry) {
@@ -121,7 +197,7 @@
             }
         }
         state.referencesByKey = map;
-        state.referenceLib = index && index.lib || '';
+        state.referenceSha256 = index && index.libSha256 || '';
     }
 
     function fetchIndex(url) {
@@ -148,11 +224,12 @@
         state.manifest = null;
         state.byKey = {};
         state.referencesByKey = {};
-        state.referenceLib = '';
+        state.referenceSha256 = '';
         state.nameById = null;
         probeCache = Object.create(null);
         sourceCache = Object.create(null);
         paint(null, lcdSource());
+        authority();
         state.loading = NativePromise.all([fetchIndex(MANIFEST_URL), fetchIndex(REFERENCE_INDEX_URL)]).then(function (indexes) {
             indexManifest(indexes[0]);
             indexReferences(indexes[1]);
@@ -183,9 +260,10 @@
     var probeCache = Object.create(null);
     var sourceCache = Object.create(null);
 
-    function probe(url) {
-        if (probeCache[url]) {
-            return probeCache[url];
+    function probe(url, token) {
+        var key = token.key + '|' + url;
+        if (probeCache[key]) {
+            return probeCache[key];
         }
         // Cache the pending request too: concurrent callers share both hits and misses.
         var pending = new NativePromise(function (resolve) {
@@ -198,13 +276,14 @@
             };
             img.src = url;
         });
-        probeCache[url] = pending;
+        probeCache[key] = pending;
         return pending;
     }
 
     function urlsFor(personId, period) {
         var entry = entryFor(personId, period);
-        var reference = state.referenceLib === state.manifest.lib ?
+        var reference = state.manifest && validSha256(state.referenceSha256) &&
+            state.referenceSha256 === state.manifest.libSha256 ?
             state.referencesByKey[period + ':' + personId] : null;
         var hd = [];
         var ref = [];
@@ -222,14 +301,14 @@
     }
 
     function chooseSource(personId, period) {
-        var lib = currentLib();
+        var token = authority();
         var generation = state.generation;
-        if (!supportsLib(lib) || !validPerson(personId) || !validPeriod(period)) {
+        if (!token.supported || !validPerson(personId) || !validPeriod(period) || document.hidden) {
             return NativePromise.resolve(lcdSource());
         }
-        var cacheKey = lib + '|' + period + ':' + personId;
+        var cacheKey = token.key + '|' + period + ':' + personId;
         function stillCurrent(src) {
-            return generation === state.generation && lib === currentLib() ? src : lcdSource();
+            return !document.hidden && generation === state.generation && stillAuthorized(token) ? src : lcdSource();
         }
         if (sourceCache[cacheKey]) {
             return sourceCache[cacheKey].then(stillCurrent);
@@ -241,11 +320,13 @@
             for (j = 0; j < list.length; j++) {
                 (function (url) {
                     chain = chain.then(function (found) {
+                        if (document.hidden || generation !== state.generation || !stillAuthorized(token)) { return null; }
                         if (found) {
                             return found;
                         }
-                        return probe(url).then(function (status) {
-                            return status === 'ok' ? { mode: mode, url: url, entry: urls.entry } : null;
+                        return probe(url, token).then(function (status) {
+                            return !document.hidden && status === 'ok' && stillAuthorized(token) ?
+                                { mode: mode, url: url, entry: urls.entry, preview: token.preview } : null;
                         });
                     });
                 })(list[j]);
@@ -274,7 +355,7 @@
     }
 
     function ensureNameIndex(period) {
-        var lib = currentLib();
+        var lib = authority().key;
         if (state.nameById && state.namePeriod === period && state.nameLib === lib) {
             return;
         }
@@ -372,6 +453,48 @@
         if (!snap || snap.layer !== 'deep' || !/^person/.test(String(snap.deepKind || ''))) {
             return null;
         }
+        // The standalone preview has no running native menu to own its view.
+        // Runtime person IDs must come from the exact native list, never names.
+        if (!previewMode()) {
+            var menu = null, owner = snap.deepMenuOwner, ownerParts;
+            try {
+                if (!global.baye || !baye.hd || typeof baye.hd.ready !== 'function' || !baye.hd.ready() ||
+                    typeof baye.hd.menuItems !== 'function') { return null; }
+                menu = baye.hd.menuItems();
+                if (snap.qtyActive || snap.engineHelpOpen ||
+                    baye.hd.report && baye.hd.report().active ||
+                    baye.hd.help && baye.hd.help().active) { return null; }
+                ownerParts = owner && JSON.parse(owner.key);
+            } catch (e2) { return null; }
+            if (!menu || menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 ||
+                !Array.isArray(menu.names) || !menu.names.length || menu.count !== menu.names.length ||
+                typeof menu.seq !== 'number' || menu.seq <= 0 || Math.floor(menu.seq) !== menu.seq ||
+                typeof menu.index !== 'number' || menu.index < 0 || menu.index >= menu.count || Math.floor(menu.index) !== menu.index ||
+                !owner || owner.context !== 1 || owner.kind !== 3 || owner.seq !== menu.seq ||
+                !Array.isArray(ownerParts) || ownerParts.length !== 5 || ownerParts[1] !== 1 ||
+                ownerParts[2] !== 3 || ownerParts[3] !== menu.seq ||
+                JSON.stringify(ownerParts[4]) !== JSON.stringify(menu.names) || snap.deepCount !== menu.count) { return null; }
+            for (var n = 0; n < menu.names.length; n++) {
+                if (typeof menu.names[n] !== 'string' || !menu.names[n] || menu.names.indexOf(menu.names[n]) !== n) { return null; }
+            }
+            var index = menu.index, selected = snap.deepItems && snap.deepItems[index], detail = snap.personDetail;
+            var id = null, name = menu.names[index];
+            if (selected && selected.i === index && selected.name === name && validPerson(selected.pind)) {
+                id = selected.pind;
+            }
+            if (detail) {
+                if (detail.ownerKey !== owner.key || detail.context !== 1 || detail.kind !== 3 ||
+                    detail.seq !== menu.seq || detail.nativeIndex !== index || detail.name !== name ||
+                    !validPerson(detail.personIndex) || id != null && id !== detail.personIndex) { return null; }
+                id = detail.personIndex;
+            }
+            if (!validPerson(id)) { return null; }
+            try {
+                var count = baye.getPersonCount();
+                if (typeof count !== 'number' || count <= id || Math.floor(count) !== count) { return null; }
+            } catch (e3) { return null; }
+            return { id: id, name: name, ownerKey: owner.key, seq: menu.seq, index: index };
+        }
         var idx = snap.idleIndex;
         var item = snap.deepItems && idx != null ? snap.deepItems[idx] : null;
         if (!item) {
@@ -413,7 +536,7 @@
     }
 
     function detectView() {
-        if (!supportsLib(currentLib())) {
+        if (document.hidden || !supportsLib()) {
             return null;
         }
         var period = periodNow();
@@ -434,7 +557,10 @@
                 context: 'person-info',
                 personId: menu.id,
                 period: period,
-                name: menu.name || personName(menu.id)
+                name: menu.name || personName(menu.id),
+                menuOwnerKey: menu.ownerKey || '',
+                menuSeq: menu.seq,
+                menuIndex: menu.index
             };
         }
         var king = mapKing();
@@ -451,9 +577,18 @@
         if (!root) {
             return;
         }
+        var pane = document.getElementById('hd-city-menu-person-details');
+        var slot = view && view.context === 'person-info' && view.menuOwnerKey && pane && !pane.hidden &&
+            src && !src.preview && src.mode !== 'lcd'
+            ? document.getElementById('hd-city-menu-person-portrait') : null;
+        var parent = slot || document.body;
+        if (parent && typeof parent.appendChild === 'function' && root.parentNode !== parent) {
+            parent.appendChild(root);
+        }
         if (!view || !src || src.mode === 'lcd') {
             root.hidden = true;
             root.setAttribute('data-hd-portrait', 'off');
+            root.setAttribute('data-hd-portrait-source', 'none');
             root.setAttribute('data-context', view && view.context ? view.context : '');
             if (img) {
                 img.removeAttribute('src');
@@ -468,6 +603,7 @@
         var modeLabel = src.mode === 'hd' ? 'HD 立绘' : '原头像';
         root.hidden = false;
         root.setAttribute('data-hd-portrait', src.mode);
+        root.setAttribute('data-hd-portrait-source', src.preview ? 'preview' : 'runtime');
         root.setAttribute('data-context', view.context);
         root.setAttribute('data-person-id', String(view.personId));
         root.setAttribute('data-period', String(view.period));
@@ -478,19 +614,20 @@
             }
         }
         if (cap) {
-            cap.textContent = name + ' · ' + periodLabel + ' · ' + modeLabel;
+            cap.textContent = name + ' · ' + periodLabel + ' · ' + modeLabel + (src.preview ? ' · 素材预览' : '');
         }
     }
 
     function viewKey(view) {
-        return view ? [currentLib(), view.context, view.personId, view.period, view.name || ''].join('|') : 'off';
+        return view ? [authority().key, view.context, view.personId, view.period, view.name || '',
+            view.menuOwnerKey || '', view.menuSeq, view.menuIndex].join('|') : 'off';
     }
 
     function applyView(view, verifyDetectedView) {
+        var token = authority();
         var seq = ++state.viewSeq;
-        var lib = currentLib();
         var generation = state.generation;
-        if (!view) {
+        if (!view || document.hidden) {
             paint(null, lcdSource());
             state.key = 'off';
             return NativePromise.resolve({ mode: 'lcd', url: '' });
@@ -499,14 +636,14 @@
         var root = document.getElementById('hd-portrait');
         if (root && (root.getAttribute('data-person-id') !== String(view.personId) ||
             root.getAttribute('data-period') !== String(view.period) ||
-            root.getAttribute('data-context') !== view.context || !supportsLib(lib))) {
+            root.getAttribute('data-context') !== view.context || !token.supported)) {
             paint(null, lcdSource());
         }
         return chooseSource(view.personId, view.period).then(function (src) {
             if (seq !== state.viewSeq || generation !== state.generation) {
                 return lcdSource();
             }
-            if (lib !== currentLib()) {
+            if (document.hidden || !stillAuthorized(token)) {
                 src = lcdSource();
             }
             if (verifyDetectedView) {
@@ -551,12 +688,20 @@
     }
 
     function start() {
+        if (!state.visibilityBound && typeof document.addEventListener === 'function') {
+            state.visibilityBound = true;
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) { retireIdentity(); }
+                else if (state.started) { tick(); }
+            });
+        }
         if (state.started) {
             return loadManifest();
         }
         state.started = true;
+        var startSeq = ++state.startSeq;
         return loadManifest().then(function () {
-            if (state.timer) {
+            if (!state.started || startSeq !== state.startSeq || state.timer) {
                 return;
             }
             tick();
@@ -569,6 +714,12 @@
             clearInterval(state.timer);
             state.timer = 0;
         }
+        state.started = false;
+        state.startSeq += 1;
+        if (state.unsubscribeIdentity) { state.unsubscribeIdentity(); }
+        state.unsubscribeIdentity = null;
+        state.identityApi = null;
+        retireIdentity();
     }
 
     global.BayeHdPortraits = {
@@ -580,6 +731,7 @@
         detectView: detectView,
         applyView: applyView,
         debugSnapshot: function () {
+            var auth = authority();
             var root = document.getElementById('hd-portrait');
             return {
                 mode: root ? root.getAttribute('data-hd-portrait') : null,
@@ -588,7 +740,9 @@
                 period: root ? root.getAttribute('data-period') : null,
                 manifest: !!(state.manifest && state.manifest.entries),
                 lib: currentLib(),
-                supportedLib: supportsLib(currentLib()),
+                supportedLib: auth.supported,
+                preview: auth.preview,
+                identity: auth.identity,
                 referenceCount: Object.keys(state.referencesByKey).length
             };
         }

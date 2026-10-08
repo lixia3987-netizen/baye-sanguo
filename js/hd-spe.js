@@ -2,7 +2,7 @@
 (function (global) {
     var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
-        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, libSource: null, libGeneration: 0, libHash: null, libReason: 'lib-unavailable' };
+        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, libGeneration: 0, libHash: null, libReason: 'lib-unavailable' };
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
     function storage(key, fallback) { try {
@@ -83,39 +83,15 @@
         return true;
     }
     function verifyLib() {
-        var hex = global.dynLib;
-        if (hex === state.libSource)
-            return;
-        state.libSource = hex;
-        state.libGeneration++;
-        state.libHash = null;
-        state.assets = null;
-        state.libReason = 'lib-unavailable';
-        if (typeof hex !== 'string' || !hex.length || hex.length % 2 || hex.length > 67108864 || !/^[\da-f]+$/i.test(hex))
-            return;
-        if (!global.crypto || !global.crypto.subtle) {
-            state.libReason = 'lib-verification-unavailable';
-            return;
-        }
-        var bytes = new Uint8Array(hex.length / 2), ticket = state.libGeneration;
-        for (var i = 0; i < bytes.length; i++)
-            bytes[i] = parseInt(hex.substr(i * 2, 2), 16);
-        state.libReason = 'lib-verifying';
-        try {
-            global.crypto.subtle.digest('SHA-256', bytes).then(function (buffer) {
-                if (ticket !== state.libGeneration || global.dynLib !== hex)
-                    return;
-                var values = new Uint8Array(buffer), hash = '';
-                for (var n = 0; n < values.length; n++)
-                    hash += ('0' + values[n].toString(16)).slice(-2);
-                state.libHash = hash;
-                state.libReason = '';
-                sync();
-            }, function () { if (ticket === state.libGeneration)
-                state.libReason = 'lib-verification-failed'; });
-        }
-        catch (e) {
-            state.libReason = 'lib-verification-failed';
+        var identity = global.BayeHdLibIdentity;
+        var current = identity ? identity.read() :
+            { status: 'unavailable', generation: 0, sha256: null, reason: 'lib-unavailable' };
+        var hash = current.status === 'ready' ? current.sha256 : null;
+        if (state.libGeneration !== current.generation || state.libHash !== hash || state.libReason !== current.reason) {
+            state.libGeneration = current.generation;
+            state.libHash = hash;
+            state.libReason = current.reason;
+            state.assets = null;
         }
     }
     function setManifest(value) { state.manifestGeneration++; state.assets = null; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
@@ -421,4 +397,7 @@
                 source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
                 event: state.event, flushKey: state.flushKey, libSha256: state.libHash, spe: s };
         } };
+    if (global.BayeHdLibIdentity) {
+        global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });
+    }
 })(window);

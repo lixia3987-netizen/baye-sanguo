@@ -1,6 +1,7 @@
 {
   "version": 1,
   "lib": "libs/dat-mod.lib",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
   "personId": "0-based PersonID. Same index as gam_drawpic(GEN_HEADPIC1 + g_PIdx, personId) and baye.drawImage(..., picIndex).",
   "period": "g_PIdx 1-4",
   "resid": "47 + period. GEN_HEADPIC1 is 47; the engine draws GEN_HEADPIC1 + g_PIdx.",

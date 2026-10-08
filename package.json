@@ -9,7 +9,7 @@
     "start": "serve -l 8080 .",
     "serve": "serve -l 8080 .",
     "dump-portraits": "node scripts/dump-hd-portraits.mjs",
-    "test": "node --test scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs scripts/test-hd-campaign-telemetry.mjs scripts/test-hd-render-visibility.mjs scripts/test-hd-performance-metrics.mjs scripts/test-hd-road-presentation.mjs scripts/test-hd-battle-terrain.mjs scripts/test-hd-battle-feedback.mjs scripts/test-hd-spe.mjs scripts/test-hd-spe-engine.mjs",
+    "test": "node --test scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs scripts/test-hd-campaign-telemetry.mjs scripts/test-hd-render-visibility.mjs scripts/test-hd-performance-metrics.mjs scripts/test-hd-road-presentation.mjs scripts/test-hd-battle-terrain.mjs scripts/test-hd-battle-feedback.mjs scripts/test-hd-spe.mjs scripts/test-hd-spe-engine.mjs scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs scripts/test-hd-idb-mod-compat.mjs",
     "test:input": "node scripts/test-hd-input.mjs",
     "test:battle-mode": "node scripts/test-hd-battle-mode.mjs",
     "test:battle-commands": "node scripts/test-hd-battle-commands.mjs",
@@ -38,7 +38,11 @@
     "build:wasm:windows": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/build-wasm.ps1",
     "test:spe": "node --test scripts/test-hd-spe.mjs",
     "test:spe-engine": "node --test scripts/test-hd-spe-engine.mjs",
-    "test:spe-runtime": "node scripts/test-hd-spe-runtime.mjs"
+    "test:spe-runtime": "node scripts/test-hd-spe-runtime.mjs",
+    "test:lib-identity": "node --test scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs",
+    "test:city-hud": "node --test scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs",
+    "test:idb-mod-compat": "node --test scripts/test-hd-idb-mod-compat.mjs",
+    "test:library-runtime": "node scripts/test-hd-runtime.mjs --library-identity"
   },
   "devDependencies": {
     "serve": "14.2.5"
