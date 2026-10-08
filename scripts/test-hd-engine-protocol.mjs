@@ -24,19 +24,36 @@ function actualFunction(filename, name) {
     const pattern = new RegExp('^(?:static\\s+)?(?:FAR\\s+)?[A-Za-z0-9_ *]+\\b' + name + '\\([^;]*?\\)\\s*\\{', 'm');
     const match = pattern.exec(source);
     assert.ok(match, `actual ${filename}::${name} exists`);
-    const end = source.indexOf('\n}', match.index);
-    assert.ok(end > match.index, `actual ${filename}::${name} closes`);
-    return source.slice(match.index, end + 2);
+    const open = source.indexOf('{', match.index);
+    let depth = 0, quote = null, comment = null;
+    for (let end = open; end < source.length; end++) {
+        const char = source[end], next = source[end + 1];
+        if (comment === '//') { if (char === '\n') comment = null; continue; }
+        if (comment === '/*') { if (char === '*' && next === '/') { comment = null; end++; } continue; }
+        if (quote) { if (char === '\\') end++; else if (char === quote) quote = null; continue; }
+        if (char === '/' && (next === '/' || next === '*')) { comment = char + next; end++; continue; }
+        if (char === '"' || char === "'" || char === '`') { quote = char; continue; }
+        if (char === '{') depth++;
+        if (char === '}' && --depth === 0) return source.slice(match.index, end + 1);
+    }
+    assert.fail(`actual ${filename}::${name} closes`);
 }
 
 const speTypes = header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
-const speHelpers = bridge.slice(bridge.indexOf('static void hd_spe_notify'), bridge.indexOf('void baye_hd_set_qty'));
+// Select functions explicitly: HELP publication now sits between two SPE
+// helpers, so a substring range would duplicate set_help and import unrelated
+// detail/resource dependencies into this protocol fixture.
+const speHelpers = ['hd_spe_notify', 'hd_spe_publish', 'baye_hd_spe_context', 'baye_hd_spe_enter',
+    'baye_hd_spe_ready', 'baye_hd_spe_frame', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty',
+    'baye_hd_spe_lcd_copy', 'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate']
+    .map((name) => actualFunction('hd-bridge.c', name)).join('\n');
 const globals = bridge.slice(0, bridge.indexOf('static void copy_gbk')).replace(/^#include[^\n]*\n/gm, '');
 const helpers = [
+    'copy_gbk', 'hd_goods_clear', 'hd_menu_ids_clear', 'hd_help_detail_clear', 'hd_help_notify',
     'hd_next_input_seq', 'baye_hd_begin_spe', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
     'baye_hd_take_fight_action', 'baye_hd_map_input_begin', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin',
     'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_begin', 'baye_hd_march_selected',
-    'baye_hd_march_end', 'copy_gbk', 'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end',
+    'baye_hd_march_end', 'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end',
     'baye_hd_record_begin', 'baye_hd_record_index', 'baye_hd_record_end', 'baye_hd_set_menu', 'baye_hd_set_menu_index',
     'baye_hd_set_fight', 'baye_hd_set_qty', 'baye_hd_qty_begin', 'baye_hd_qty_publish',
     'baye_hd_qty_busy', 'baye_hd_qty_end', 'baye_hd_qty_invalidate', 'baye_hd_set_ready', 'baye_hd_world_commit',
@@ -84,7 +101,9 @@ async function compile(source) {
         const filename = join(temporary, 'protocol.c');
         const executable = join(temporary, process.platform === 'win32' ? 'protocol.exe' : 'protocol');
         writeFileSync(filename, source);
-        await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], { timeout: 20000 });
+        try { await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], { timeout: 20000 }); }
+        catch (error) { throw new Error('Actual protocol fixture compilation failed: ' +
+            (error.stderr?.split(/\r?\n/).filter(line => /error:|fatal error:/.test(line)).join('\n') || error.message)); }
         const result = await run(executable, [], { timeout: 20000 });
         assert.match(result.stdout, /passed/);
     } finally { assert.equal(dirname(resolve(temporary)), resolve(tmpdir()), 'Cleanup stays in the explicit temporary directory');
@@ -733,6 +752,9 @@ test('real C native menu/focus/map/view wrappers open and close input once; nati
     assert.ok(ackStart >= 0, 'actual view page acknowledgement exists');
     const help = actualFunction('FightSub.c', 'FgtShowHlp');
     const helpWait = help.slice(help.indexOf('tagOut:\n') + 'tagOut:\n'.length, help.lastIndexOf('\n}'));
+    const helpType = header.match(/typedef struct \{[^}]*\} HdHelpSnapshot;/)[0];
+    const helpObservation = ['hd_detail_copy','baye_hd_help_publish','baye_hd_help_clear']
+        .map(name => actualFunction('hd-bridge.c', name)).join('\n');
     const source = read('Fight.c');
     const helpCase = source.slice(source.indexOf('                    case VK_HELP:', source.indexOf('U8 FgtGetFoucsInner')), source.indexOf('                    default:', source.indexOf('U8 FgtGetFoucsInner')));
     await compile(common + String.raw`
@@ -784,12 +806,21 @@ static void baye_hd_note_retreat_blocked(void) { assert(0); }
 ` + system + String.raw`
 static U8 expectedInput, expectedActor;
 static int showInformation;
+#define PERSON_MAX 2000
+#define TERRAIN_MAX 8
+/* The wrapper fixture has no person resource. Full person/terrain capture is
+ * compiled separately in test-hd-details-engine; publish/clear stay real here. */
+static U32 GamGetPersonCount(void) { return 0; }
+static U8 g_MapWid=8,g_MapHgt=8;
+` + helpType + '\n' + helpObservation + String.raw`
 static U8 GamDelay(int ticks, int mode) {
     assert(ticks == 0 && mode == 2 && g_hdFightInputKind == BAYE_HD_FIGHT_INPUT_HELP);
     return 0x27;
 }
 static void FgtShowHlp(void) {
     U8 buffer[16] = "help", *pbuf = buffer;
+    HdHelpSnapshot hdDetail = { .generation=g_hdDetailGeneration };
+    U32 hdInputSeq;
 ` + helpWait + String.raw`
 }
 static void FgtShowViewInner(void) { assert(g_hdFightInputKind == BAYE_HD_FIGHT_INPUT_VIEW); }

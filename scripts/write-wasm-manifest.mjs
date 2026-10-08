@@ -63,6 +63,16 @@ const manifest = {
         displayedCommit: 'SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer',
         skipEligible: 'keyflag === 1'
     },
+    hdDetailProtocol: {
+        version: 1,
+        generation: 'g_hdDetailGeneration',
+        menuIds: ['g_hdMenuIds', 'g_hdMenuIdsCount', 'g_hdMenuIdsKind', 'g_hdMenuIdsSeq', 'g_hdMenuIdsGeneration'],
+        goods: ['g_hdGoodsGeneration', 'g_hdGoodsMenuSeq', 'g_hdGoodsIndex', 'g_hdGoodsTool',
+            'g_hdGoodsPropertyCount', 'g_hdGoodsPropertyFlags', 'g_hdGoodsPageStart', 'g_hdGoodsPageEnd'],
+        help: ['g_hdHelpProtocolVersion', 'g_hdHelpGeneration', 'g_hdHelpInputSeq',
+            'g_hdHelpKind', 'g_hdHelpComplete', 'g_hdHelpPerson', 'g_hdHelpSlot', 'g_hdHelpFields'],
+        toolAccess: ['bayeHdGetToolCount', 'bayeHdGetToolField', 'bayeHdGetArmType']
+    },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts
 };

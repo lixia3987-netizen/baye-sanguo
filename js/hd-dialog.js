@@ -25,6 +25,8 @@
         viewEpoch: 0,
         marchOwner: null,
         helpOwner: null,
+        helpDetail: null,
+        helpStamp: '',
         reportOwner: null,
         reportCommit: null,
         successorOwner: null,
@@ -164,9 +166,9 @@
     function readBattleHelp() {
         try {
             var f = global.baye && baye.hd && baye.hd.fight && baye.hd.fight();
-            if (f && f.active && !f.over && [9, 10].indexOf(Number(f.inputKind)) >= 0 &&
-                Number(f.inputSeq) > 0) {
-                return { kind: Number(f.inputKind), inputSeq: Number(f.inputSeq) };
+            if (f && f.active === 1 && f.over === 0 && [9, 10].indexOf(f.inputKind) >= 0 &&
+                helpInteger(f.inputSeq, 1, 0xffffffff)) {
+                return { kind: f.inputKind, inputSeq: f.inputSeq };
             }
         } catch (e) {}
         return null;
@@ -361,7 +363,9 @@
 
     function returnFromBattleHelp() {
         var owner = state.helpOwner;
-        if (!sameHelp(owner, readBattleHelp()) || !global.BayeHdBattle ||
+        var help = readEngineHelp();
+        if (document.hidden || !sameHelp(owner, readBattleHelp()) ||
+            (state.helpStamp && state.helpStamp !== helpStamp(help)) || !global.BayeHdBattle ||
             typeof BayeHdBattle.returnFromHelp !== 'function') { return false; }
         var epoch = state.viewEpoch;
         var result = BayeHdBattle.returnFromHelp(owner);
@@ -373,6 +377,7 @@
     }
 
     function requestHelp(code, title) {
+        if (document.hidden || !hdReady()) { return false; }
         if (fightActive()) {
             if (!global.BayeHdBattle || typeof BayeHdBattle.handleKey !== 'function') { return false; }
             // Toolbar clicks use the same guarded controller path as H/S.
@@ -381,8 +386,9 @@
                 preventDefault: function () {}, stopPropagation: function () {},
                 stopImmediatePropagation: function () {} });
         }
-        if (!engineSendKey(code)) { return false; }
-        return openDialog({ kind: 'help', title: title, body: '', showLcd: true });
+        // In person/property menus these keys page the list. Only an actual
+        // native help publication can open a help panel after this key.
+        return engineSendKey(code);
     }
 
     function looksLikeSpeech(text) {
@@ -560,6 +566,9 @@
     }
 
     function leftoverHelpDuringMarch() {
+        // A real battle HELP/VIEW wait owns its overlay even when the finished
+        // strategy order still retains its departure phase and city shell.
+        if (state.kind === 'help' && sameHelp(state.helpOwner, readBattleHelp())) { return false; }
         return !!((cityMenuMarching() || cityMenuOpen()) && state.kind === 'help' && !cityMenuQty());
     }
 
@@ -568,7 +577,8 @@
     }
 
     function applyChrome() {
-        var show = state.open && shouldShowHd();
+        var show = state.open && !document.hidden && shouldShowHd();
+        var hasContent = !!state.body || !!state.helpDetail;
         var pass = show && (
             (state.kind === 'report' && state.marchOwner && cityMenuOpen()) ||
             (state.kind === 'report' && !state.marchOwner && !state.reportOwner && !state.asyncId && leftoverMarchTip(state.body)) ||
@@ -582,7 +592,7 @@
             document.body.classList.toggle('baye-hd-dialog-on', show);
             document.body.classList.toggle('baye-hd-dialog-lcd', show && state.showLcd);
             document.body.classList.toggle('baye-hd-dialog-help', show && (state.kind === 'help'));
-            document.body.classList.toggle('baye-hd-dialog-empty-text', show && !state.body);
+            document.body.classList.toggle('baye-hd-dialog-empty-text', show && !hasContent);
             document.body.classList.toggle('baye-hd-dialog-pass', pass);
         }
         var root = el('hd-dialog');
@@ -592,10 +602,43 @@
                 sameCampaignPersons(state.defenseOwner, readDefenders()) ? '1' : '0');
             root.classList.toggle('is-open', show);
             root.classList.toggle('is-qty', show && state.kind === 'qty');
-            root.classList.toggle('is-empty-text', !state.body);
+            root.classList.toggle('is-empty-text', !hasContent);
+            root.setAttribute('data-hd-help-kind', show && state.kind === 'help' && state.helpDetail ?
+                String(state.helpDetail.kind) : '0');
+            root.setAttribute('data-hd-help-person', show && state.kind === 'help' && state.helpDetail &&
+                state.helpDetail.kind === 1 ? String(state.helpDetail.person) : '');
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
             root.style.pointerEvents = (show && !pass) ? 'auto' : 'none';
         }
+    }
+
+    function renderHelpDetail(body, detail) {
+        var key = JSON.stringify([state.viewEpoch, detail]);
+        if (body._hdHelpView === key) { return; }
+        body._hdHelpView = key;
+        body.textContent = '';
+        var heading = document.createElement('h2');
+        heading.className = 'hd-help-name';
+        heading.textContent = detail.name;
+        body.appendChild(heading);
+        var summary = document.createElement('p');
+        summary.className = 'hd-help-summary';
+        summary.textContent = detail.summary || '';
+        body.appendChild(summary);
+        var fields = document.createElement('dl');
+        fields.className = 'hd-help-fields';
+        detail.rows.forEach(function (row) {
+            var field = document.createElement('div');
+            field.className = 'hd-help-field';
+            var label = document.createElement('dt');
+            label.textContent = row[0];
+            var value = document.createElement('dd');
+            value.textContent = String(row[1]);
+            field.appendChild(label);
+            field.appendChild(value);
+            fields.appendChild(field);
+        });
+        body.appendChild(fields);
     }
 
     function render() {
@@ -606,7 +649,9 @@
         setText(el('hd-dialog-title'), state.title);
         var body = el('hd-dialog-body');
         if (body) {
-            if (state.kind === 'defenders' && state.defenseOwner) {
+            if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
+                renderHelpDetail(body, state.helpDetail);
+            } else if (state.kind === 'defenders' && state.defenseOwner) {
                 if (body._hdDefendersView !== state.viewEpoch) {
                     body._hdDefendersView = state.viewEpoch;
                     body.textContent = state.body;
@@ -721,7 +766,7 @@
         var caption = el('hd-dialog-caption');
         if (caption) {
             caption.textContent = '在下方经典画面查看完整内容。';
-            caption.hidden = !!state.body || state.kind === 'qty';
+            caption.hidden = !!state.body || !!state.helpDetail || state.kind === 'qty';
         }
         var probe = el('hd-dialog-probe');
         if (probe) {
@@ -939,19 +984,75 @@
         return String(text || '').replace(/\|/g, '\n');
     }
 
+    function readEngineHelp() {
+        try { return global.baye && baye.hd && baye.hd.help ? baye.hd.help() : null; }
+        catch (e) { return null; }
+    }
+
+    function helpStamp(info) {
+        if (!info || !info.active) { return ''; }
+        if (info.protocolVersion !== 1) {
+            return helpInteger(info.seq, 1, 65535) ? JSON.stringify(['legacy', info.seq, info.text]) : '';
+        }
+        return JSON.stringify([info.seq, info.generation, info.detailGeneration, info.inputSeq,
+            info.kind, info.complete, info.person, info.slot, info.x, info.y]);
+    }
+
+    function helpInteger(value, min, max) {
+        return typeof value === 'number' && isFinite(value) && Math.floor(value) === value &&
+            value >= min && value <= max;
+    }
+
+    function nativeHelpDetail(info, owner) {
+        if (!info || info.protocolVersion !== 1 || info.active !== 1 || info.complete !== 1 ||
+            !owner || owner.kind !== 9 || info.inputSeq !== owner.inputSeq ||
+            !helpInteger(info.seq, 1, 65535) || !helpInteger(info.generation, 1, 0xffffffff) ||
+            info.generation !== info.detailGeneration) { return null; }
+        if (info.kind === 2) {
+            return helpInteger(info.x, 0, 255) && helpInteger(info.y, 0, 255) &&
+                helpInteger(info.terrain, 0, 7) && typeof info.text === 'string' && info.text.length > 0 &&
+                info.text.length <= 1024 ? { kind: 2, seq: info.seq, generation: info.generation,
+                    inputSeq: info.inputSeq, x: info.x, y: info.y, terrain: info.terrain } : null;
+        }
+        if (info.kind !== 1 || !helpInteger(info.person, 0, 65534) || !helpInteger(info.slot, 0, 19) ||
+            !info.fields || info.fields.length !== 10 ||
+            [info.name, info.arm, info.state].some(function (label) {
+                return typeof label !== 'string' || !label.trim() || label.length > 64;
+            }) || info.levelMax !== 0 && info.levelMax !== 1) { return null; }
+        var fields = [];
+        for (var i = 0; i < 10; i += 1) {
+            if (!helpInteger(info.fields[i], 0, 65535)) { return null; }
+            fields.push(info.fields[i]);
+        }
+        return { kind: 1, seq: info.seq, generation: info.generation, inputSeq: info.inputSeq,
+            person: info.person, slot: info.slot, name: info.name,
+            summary: info.arm + ' · ' + info.state,
+            rows: [['等级', info.levelMax ? 'MX' : fields[0]], ['武力', fields[1]],
+                ['智力', fields[2]], ['经验', fields[3]], ['生命', fields[4]], ['技能点', fields[5]],
+                ['攻击', fields[6]], ['防御', fields[7]], ['兵力', fields[8]]] };
+    }
+
     function applyEngineHelp(info) {
         info = info || {};
-        if (!looksLikeHelp(info.text)) { return false; }
+        if (document.hidden || !hdReady() || !info.active) { return false; }
         var owner = readBattleHelp();
         if (fightActive() && (!owner || owner.kind !== 9)) { return false; }
-        return openDialog({ kind: 'help', title: owner ? '战场帮助' : '帮助',
-            body: formatHelpBody(info.text), showLcd: false, helpOwner: owner });
+        if (info.protocolVersion === 1 && [1, 2].indexOf(info.kind) >= 0 && !owner) { return false; }
+        var detail = nativeHelpDetail(info, owner);
+        var nativeText = typeof info.text === 'string' && info.text.length <= 1024 && info.text.length > 0;
+        if (!detail && !looksLikeHelp(info.text) && !(info.protocolVersion === 1 && nativeText)) { return false; }
+        var stale = info.protocolVersion === 1 && owner &&
+            (info.inputSeq !== owner.inputSeq || info.generation !== info.detailGeneration);
+        return openDialog({ kind: 'help', title: detail && detail.kind === 1 ? '武将详情' :
+            detail && detail.kind === 2 ? '地形帮助' : owner ? '战场帮助' : '帮助',
+            body: stale ? '' : formatHelpBody(info.text), showLcd: !detail, helpOwner: owner,
+            helpDetail: detail, helpStamp: helpStamp(info) });
     }
 
     function onEngineHelp() {
-        var info = null;
-        try { info = global.baye && baye.hd && baye.hd.help && baye.hd.help(); } catch (e) {}
-        if (info && info.active && looksLikeHelp(info.text) && applyEngineHelp(info)) { return; }
+        if (nativeReportOwner(readAsync())) { pollEngine(); return; }
+        var info = readEngineHelp();
+        if (applyEngineHelp(info)) { return; }
         if (state.open && state.kind === 'help') { closeDialog({ silent: true }); }
     }
 
@@ -1010,6 +1111,11 @@
         var marchOwner = kind === 'report' ? (meta.marchOwner ||
             (leftoverMarchTip(meta.body) ? readMarchReport() : null)) : null;
         var helpOwner = kind === 'help' ? (meta.helpOwner || readBattleHelp()) : null;
+        var helpDetail = kind === 'help' ? meta.helpDetail || null : null;
+        var helpToken = kind === 'help' ? meta.helpStamp || '' : '';
+        var helpChanged = !state.open || state.kind !== kind || state.body !== (meta.body || '') ||
+            (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) || state.helpStamp !== helpToken ||
+            JSON.stringify(state.helpDetail) !== JSON.stringify(helpDetail);
         var reportOwner = kind === 'report' ? meta.reportOwner || null : null;
         var successorOwner = kind === 'successor' ? meta.successorOwner || readSuccessor() : null;
         var defenseOwner = kind === 'defenders' ? meta.defenseOwner || readDefenders() : null;
@@ -1017,6 +1123,7 @@
         if (!state.open || state.kind !== kind || state.body !== (meta.body || '') ||
             (!sameMarch(state.marchOwner, marchOwner) && (state.marchOwner || marchOwner)) ||
             (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) ||
+            state.helpStamp !== helpToken || JSON.stringify(state.helpDetail) !== JSON.stringify(helpDetail) ||
             (!sameReport(state.reportOwner, reportOwner) && (state.reportOwner || reportOwner)) ||
             (!sameSuccessor(state.successorOwner, successorOwner) && (state.successorOwner || successorOwner)) ||
             (!sameCampaignPersons(state.defenseOwner, defenseOwner) && (state.defenseOwner || defenseOwner)) ||
@@ -1033,6 +1140,8 @@
         if (kind === 'qty') { standaloneQty(); }
         state.marchOwner = marchOwner;
         state.helpOwner = helpOwner;
+        state.helpDetail = helpDetail;
+        state.helpStamp = helpToken;
         state.reportOwner = reportOwner;
         state.successorOwner = successorOwner;
         state.defenseOwner = defenseOwner;
@@ -1043,7 +1152,11 @@
         state.min = meta.min != null ? meta.min : null;
         state.max = meta.max != null ? meta.max : null;
         state.init = meta.init != null ? meta.init : null;
-        state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
+        if (kind !== 'help') {
+            state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
+        } else if (helpChanged) {
+            state.showLcd = meta.showLcd !== false;
+        }
         state.asyncId = meta.asyncId != null ? meta.asyncId : 0;
         render();
         return true;
@@ -1064,6 +1177,8 @@
         state.open = false;
         state.marchOwner = null;
         state.helpOwner = null;
+        state.helpDetail = null;
+        state.helpStamp = '';
         state.reportOwner = null;
         state.successorOwner = null;
         state.defenseOwner = null;
@@ -1092,7 +1207,10 @@
     }
 
     function pollEngine() {
-        if (!hdReady()) { return; }
+        if (document.hidden || !hdReady()) {
+            if (state.open && state.kind === 'help') { closeDialog({ silent: true }); }
+            return;
+        }
         if (!shouldShowHd()) {
             if (state.open) { closeDialog({ silent: true }); }
             return;
@@ -1316,6 +1434,7 @@
     }
 
     function confirmDialog() {
+        if (document.hidden || !hdReady() || !state.open || !shouldShowHd()) { return; }
         if (state.kind === 'defenders') {
             var defense = readDefenders();
             if (defense) { chooseDefender(defense.index); }
@@ -1330,6 +1449,7 @@
         if (state.kind === 'help' && (state.helpOwner || fightActive())) {
             returnFromBattleHelp(); return;
         }
+        if (state.kind === 'help') { returnFromMapHelp(VK.ENTER); return; }
         if (state.kind === 'report' && (state.marchOwner || readMarchReport() ||
             !state.reportOwner && cityMenuMarching())) {
             confirmMarchReport(); return;
@@ -1361,12 +1481,14 @@
     }
 
     function backDialog() {
+        if (document.hidden || !hdReady() || !state.open || !shouldShowHd()) { return; }
         if (state.kind === 'defenders') { finishDefenders(); return; }
         if (state.kind === 'successor') { return; }
         if (state.kind === 'qty') { cancelQtyDialog(); return; }
         if (state.kind === 'help' && (state.helpOwner || fightActive())) {
             returnFromBattleHelp(); return;
         }
+        if (state.kind === 'help') { returnFromMapHelp(VK.EXIT); return; }
         if (state.kind === 'report' && (state.marchOwner || readMarchReport() ||
             !state.reportOwner && (mapPickActive() || cityMenuMarching() || cityMenuHoldExit() || cityMenuQty()))) {
             closeDialog({ silent: true }); return;
@@ -1382,6 +1504,20 @@
         var epoch = state.viewEpoch;
         engineSendKey(VK.EXIT);
         if (epoch === state.viewEpoch) { closeDialog({ silent: true }); }
+    }
+
+    function returnFromMapHelp(code) {
+        var info = readEngineHelp(), menu, qty;
+        try {
+            menu = baye.hd.menuItems && baye.hd.menuItems();
+            qty = baye.hd.qty && baye.hd.qty();
+        } catch (e) { return false; }
+        if (!info || !info.active || !state.helpStamp || state.helpStamp !== helpStamp(info) ||
+            menu && menu.active || qty && qty.active || nativeReportOwner(readAsync()) || readMarchReport()) { return false; }
+        var epoch = state.viewEpoch;
+        if (!engineSendKey(code)) { return false; }
+        if (epoch === state.viewEpoch && state.kind === 'help') { closeDialog({ silent: true }); }
+        return true;
     }
 
     function bindUi() {
@@ -1632,6 +1768,9 @@
                 lastSpeechEnterSeq: state.lastSpeechEnterSeq,
                 marchOwner: state.marchOwner,
                 helpOwner: state.helpOwner,
+                helpDetail: state.helpDetail,
+                helpStamp: state.helpStamp,
+                showLcd: state.showLcd,
                 reportOwner: state.reportOwner,
                 successorOwner: state.successorOwner,
                 successorRequest: state.successorRequest ? { index: state.successorRequest.index, seq: state.successorRequest.owner.seq } : null,

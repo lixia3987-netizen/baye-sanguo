@@ -29,19 +29,28 @@ const servedAssets = new Map();
 
 function prepareServedAssets() {
     report.sources = {};
-    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json', 'hd-battle.js', 'hd-battle-terrain.js', 'hd-battle-feedback.js']) {
-        const base = staged && name.startsWith('baye.') ? path.join(root, 'build/wasm/src') : path.join(root, 'js');
+    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json', 'bridge.js',
+        'hd-battle.js', 'hd-battle-terrain.js', 'hd-battle-feedback.js', 'hd-lib-identity.js',
+        'hd-dialog.js', 'hd-portraits.js', 'hd-city-menu.js', 'hd-overworld.js',
+        'hd-battle.css', 'hd-dialog.css', 'hd-portraits.css', 'hd-city-menu.css', 'hd-overworld.css']) {
+        const base = staged && name.startsWith('baye.') ? path.join(root, 'build/wasm/src') :
+            path.join(root, name.endsWith('.css') ? 'css' : 'js');
         const filename = path.join(base, name), data = fs.readFileSync(filename);
         const metadata = { source: path.relative(root, filename), bytes: data.length,
             sha256: crypto.createHash('sha256').update(data).digest('hex') };
         report.sources[name] = metadata;
-        servedAssets.set('js/' + name, { data, metadata });
+        servedAssets.set((name.endsWith('.css') ? 'css/' : 'js/') + name, { data, metadata });
     }
     const manifest = JSON.parse(servedAssets.get('js/baye.build.json').data.toString('utf8'));
     for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
         assert.equal(report.sources[name].bytes, manifest.artifacts[name].bytes, 'Engine artifact bytes match manifest: ' + name);
         assert.equal(report.sources[name].sha256, manifest.artifacts[name].sha256, 'Engine artifact hash matches manifest: ' + name);
     }
+    const lib = fs.readFileSync(path.join(root, 'libs/dat-mod.lib'));
+    const metadata = { source: 'libs/dat-mod.lib', bytes: lib.length,
+        sha256: crypto.createHash('sha256').update(lib).digest('hex') };
+    report.sources['dat-mod.lib'] = metadata;
+    servedAssets.set('libs/dat-mod.lib', { data: lib, metadata });
 }
 
 async function startServer() {
@@ -145,6 +154,8 @@ const snapshotExpression = `(() => {
         menu: api && api.hd && api.hd.menuItems(), qty: api && api.hd && api.hd.qty(),
         movie: api && api.hd && api.hd.movie(), spe: api && api.hd && api.hd.spe(),
         fight: api && api.hd && api.hd.fight(), march: api && api.hd && api.hd.march(),
+        help: api && api.hd && api.hd.help(),
+        portrait: window.BayeHdPortraits && BayeHdPortraits.debugSnapshot(),
         system: window.BayeHdSystemUi && BayeHdSystemUi.debugSnapshot(),
         city: window.BayeHdCityMenu && BayeHdCityMenu.debugSnapshot(),
         dialog: window.BayeHdDialog && BayeHdDialog.debugSnapshot(),
@@ -347,16 +358,10 @@ async function battleSmoke(cdp) {
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'canceling movement preserves every general');
     await checkpoint(cdp,'16-move-cancel');
 
-    // Help and strategic view are genuine engine inputs; use the real player
-    // keyboard and assert native LCD is visible above the opaque HD board.
-    await key(cdp,'h');
-    await waitBattle(cdp,9,'native general information');
-    await verifyNativeFeedback(cdp,'HELP overlay','inactive');
-    report.helpVisibility=await nativeLcdVisibility(cdp);
-    assert.ok(report.helpVisibility.visible,'general information is visibly rendered above the board');
-    await checkpoint(cdp,'17-battle-help');
-    await action(cdp,'return-general-info','BayeHdBattle.returnFromHelp()');
-    await waitBattle(cdp,1,'return from general info');
+    // HELP is produced by the actual focused native general. Compare the new
+    // captured fields to live Person/JLPOS/attack attributes, then retire and
+    // reopen under another native input owner without assigning any game data.
+    await helpSmoke(cdp, before);
     await key(cdp,'f');
     await waitBattle(cdp,10,'native strategic view');
     await verifyNativeFeedback(cdp,'VIEW overlay','inactive');
@@ -416,11 +421,243 @@ async function battleSmoke(cdp) {
 async function waitBattle(cdp,kind,label,timeout=20000) {
     return waitFor(cdp,label,`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot();return f.active&&!f.over&&f.inputKind===${kind}&&!s.transaction&&f;})()`,timeout);
 }
+
+function nativeHelpLabels() {
+    const lib = servedAssets.get('libs/dat-mod.lib').data;
+    assert.equal(crypto.createHash('sha256').update(lib).digest('hex'),
+        '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
+    const source = fs.readFileSync(path.join(root, 'vendor/iBaye/src/data/pstring.h'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const constants = {}, declarations = source.match(/enum\s*\{([\s\S]*?)\}/)[1].split(',');
+    let next = 0;
+    for (const declaration of declarations) {
+        const match = declaration.trim().match(/^(\w+)(?:\s*=\s*(\d+))?$/);
+        if (!match) continue;
+        if (match[2]) next = Number(match[2]);
+        constants[match[1]] = next++;
+    }
+    // FgtLoadToMem2 uses IFACE_STRID=1 and the native RCHEAD14/RIDX8 layout.
+    const address = lib.readUInt32LE(0), end = address + lib.readUInt32LE(address);
+    assert.equal(lib.readUInt16LE(address + 4), 1); assert.equal(lib.readUInt16LE(address + 12), 0);
+    const count = lib.readUInt16LE(address + 6), itemLength = lib.readUInt32LE(address + 8);
+    const item = index => {
+        assert.ok(index >= 1 && index <= count);
+        const row = address + 14 + (index - 1) * 8;
+        const offset = itemLength ? address + 14 + (index - 1) * itemLength : address + lib.readUInt32LE(row);
+        const length = itemLength || lib.readUInt32LE(row + 4);
+        assert.ok(offset >= address + 14 && offset + length <= end && end <= lib.length);
+        const bytes = lib.subarray(offset, offset + length), zero = bytes.indexOf(0);
+        return bytes.subarray(0, zero < 0 ? bytes.length : zero);
+    };
+    const decoder = new TextDecoder('gbk'), arms = item(constants.dFgtGenTyp);
+    return { arms: Array.from({ length: 6 }, (_, i) => decoder.decode(arms.subarray(i * 4, i * 4 + 4))),
+        states: Array.from({ length: 8 }, (_, i) => decoder.decode(item(constants.dFgtState0 + i))) };
+}
+
+const helpObservationExpression = `(() => {
+    const d=baye.data,help=baye.hd.help(),fight=baye.hd.fight(),dialog=BayeHdDialog.debugSnapshot();
+    const slot=help.slot,person=help.person,p=Number.isInteger(person)&&person>=0&&person<65535?d.g_Persons[person]:null;
+    const pos=Number.isInteger(slot)&&slot>=0&&slot<20?d.g_GenPos[slot]:null,att=d.g_GenAtt[0];
+    const derived=p?(typeof baye.hd.personArmType==='function'?baye.hd.personArmType(person):person<256?baye.getArmType(person):null):null;
+    const root=document.querySelector('#hd-dialog'),stage=root&&root.querySelector('.hd-dialog-stage'),portrait=document.querySelector('#hd-portrait');
+    const visual=node=>{
+        if(!node)return {visible:false};
+        const r=node.getBoundingClientRect();let styled=true;
+        for(let p=node;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0){styled=false;break;}}
+        const top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
+        return {visible:!!(styled&&r.width&&r.height&&r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight&&
+            top&&(top===node||node.contains(top))),style:getComputedStyle(node).visibility,
+            rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height},top:top&&top.id};
+    };
+    return {help,fight,dialog,portrait:BayeHdPortraits.debugSnapshot(),
+        portraitHidden:!portrait||portrait.hidden,portraitSource:portrait&&portrait.getAttribute('data-hd-portrait-source'),
+        focus:{x:Number(d.g_FoucsX),y:Number(d.g_FoucsY)},native:pos&&p?{
+            slotPerson:Number(d.g_FgtParam.GenArray[slot])-1,name:baye.getPersonName(person),
+            x:Number(pos.x),y:Number(pos.y),state:Number(pos.state),
+            fields:[Number(p.Level),Number(p.Force),Number(p.IQ),Number(p.Experience),Number(pos.hp),Number(pos.mp),
+                Number(att.at),Number(att.df),Number(p.Arms),derived],levelMax:Number(p.Level)>=Number(d.g_engineConfig.maxLevel)?1:0}:null,
+        dom:{visible:visual(stage).visible,stage:visual(stage),pass:document.documentElement.getAttribute('data-baye-dialog-pass'),
+            kind:root&&root.getAttribute('data-hd-help-kind'),person:root&&root.getAttribute('data-hd-help-person'),
+            name:document.querySelector('.hd-help-name')?.textContent,summary:document.querySelector('.hd-help-summary')?.textContent,
+            nameVisibility:visual(document.querySelector('.hd-help-name')),summaryVisibility:visual(document.querySelector('.hd-help-summary')),
+            controls:{lcd:visual(root&&root.querySelector('[data-hd-dlg-lcd]')),return:visual(root&&root.querySelector('[data-hd-dlg-ok]'))},
+            rows:[...document.querySelectorAll('.hd-help-field')].map(row=>[row.querySelector('dt').textContent,row.querySelector('dd').textContent]),
+            rowVisibility:[...document.querySelectorAll('.hd-help-field')].map(row=>({label:visual(row.querySelector('dt')),value:visual(row.querySelector('dd'))}))}};
+})()`;
+
+async function verifyPersonHelp(cdp, unit, label, labels) {
+    const observed = await waitFor(cdp, label + ' complete captured HUD', `(() => {
+        const h=baye.hd.help(),d=BayeHdDialog.debugSnapshot();
+        return h.active===1&&h.protocolVersion===1&&h.complete===1&&h.kind===1&&d.helpDetail&&d.helpDetail.person===${unit.id - 1};
+    })()`);
+    assert.equal(observed, true);
+    const state = await evaluate(cdp, helpObservationExpression), { help, fight, dialog, native, dom } = state;
+    assert.ok(native && dom.visible, label + ' is a visible native person HUD');
+    assert.equal(dialog.pass, false, 'current native HELP9 cannot be mistaken for a retired march overlay');
+    assert.equal(dom.pass, '0');
+    assert.ok(dom.nameVisibility.visible && dom.summaryVisibility.visible, 'actual HUD heading/summary are visible on screen');
+    assert.equal(dom.rowVisibility.length, 9);
+    assert.ok(dom.rowVisibility.every(row => row.label.visible && row.value.visible), 'all nine native HUD labels and values are actually visible');
+    assert.equal(fight.inputKind, 9); assert.equal(help.person, unit.id - 1); assert.equal(help.slot, unit.i);
+    assert.equal(help.person, native.slotPerson); assert.equal(help.name, native.name); assert.equal(help.name, unit.name);
+    assert.deepEqual({ x: help.x, y: help.y }, state.focus); assert.deepEqual(state.focus, { x: native.x, y: native.y });
+    assert.ok(Number.isInteger(help.seq) && help.seq > 0); assert.ok(Number.isInteger(help.generation) && help.generation > 0);
+    assert.equal(help.generation, help.detailGeneration); assert.equal(help.inputSeq, fight.inputSeq);
+    assert.deepEqual(help.fields, native.fields, 'all ten captured values agree with actual Person/JLPOS/native BuiltAtkAttr');
+    assert.equal(help.levelMax, native.levelMax); assert.equal(help.arm, labels.arms[native.fields[9]]);
+    assert.equal(help.state, labels.states[native.state]);
+    assert.deepEqual(dialog.helpOwner, { kind: 9, inputSeq: fight.inputSeq });
+    for (const key of ['kind', 'seq', 'generation', 'inputSeq', 'person', 'slot', 'name']) {
+        assert.equal(dialog.helpDetail[key], help[key], 'dialog carries exact native HELP owner field ' + key);
+    }
+    const expectedRows = ['等级','武力','智力','经验','生命','技能点','攻击','防御','兵力']
+        .map((name, index) => [name, String(index === 0 && help.levelMax ? 'MX' : native.fields[index])]);
+    assert.deepEqual(dialog.helpDetail.rows, expectedRows.map(([name, value], index) =>
+        [name, index === 0 && help.levelMax ? 'MX' : native.fields[index]]));
+    assert.deepEqual(dom.rows, expectedRows); assert.equal(dom.name, help.name);
+    assert.equal(dom.summary, help.arm + ' · ' + help.state); assert.equal(dom.kind, '1'); assert.equal(dom.person, String(help.person));
+    assert.equal(dialog.showLcd, false, 'complete native person HUD owns its structured presentation');
+    state.lcd = await observeNativeLcd(cdp);
+    assert.equal(state.lcd.containerVisibility, 'hidden', 'complete HD HELP defaults to hiding its native LCD');
+    assert.equal(state.lcd.canvasVisibility, 'hidden');
+    assert.equal(state.lcd.visible, false);
+    await waitFor(cdp, label + ' portrait current identity', `(() => {
+        const p=BayeHdPortraits.debugSnapshot(),root=document.querySelector('#hd-portrait');
+        return root&&!root.hidden&&p.context==='battle-note'&&Number(p.personId)===${help.person};
+    })()`);
+    state.portrait = await evaluate(cdp, 'BayeHdPortraits.debugSnapshot()');
+    assert.equal(state.portrait.supportedLib, true); assert.equal(state.portrait.preview, false);
+    assert.equal(await evaluate(cdp, 'document.querySelector("#hd-portrait").getAttribute("data-hd-portrait-source")'), 'runtime');
+    const keys = await evaluate(cdp, 'window.__battleKeys.length');
+    await delay(350);
+    assert.equal(await evaluate(cdp, 'window.__battleKeys.length'), keys, 'HELP paints/portrait completion send no inputs');
+    assert.deepEqual(await evaluate(cdp, 'baye.hd.help()'), help, 'idle HELP keeps the same captured native owner and statistics');
+    (report.helpChecks ||= []).push({ label, ...state });
+    await checkpoint(cdp, label);
+    return state;
+}
+
+async function observeNativeLcd(cdp) {
+    return evaluate(cdp, `(() => {
+        const canvas=document.querySelector('#lcd'),container=document.querySelector('.container.js-baye-pc-lcd');
+        if(!canvas||!container)return {visible:false,missing:true};
+        const r=canvas.getBoundingClientRect();let styled=true;
+        for(let p=canvas;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0){styled=false;break;}}
+        let bitmap=null;
+        try {const bytes=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+            let different=0;for(let i=4;i<bytes.length;i+=4)if(bytes[i]!==bytes[0]||bytes[i+1]!==bytes[1]||bytes[i+2]!==bytes[2])different++;
+            bitmap={width:canvas.width,height:canvas.height,differentPixels:different};} catch(error){bitmap={error:String(error)};}
+        const board=document.querySelector('#hd-battle-canvas');
+        const stacks=[0.25,0.5,0.75].map(part=>{
+            const nodes=document.elementsFromPoint(r.left+r.width*part,r.top+r.height*part);
+            const lcdIndex=nodes.indexOf(canvas),boardIndex=nodes.indexOf(board);
+            return {lcdIndex,boardIndex,aboveBoard:lcdIndex>=0&&(boardIndex<0||lcdIndex<boardIndex),
+                nodes:nodes.map(node=>node.id||node.className||node.tagName)};
+        });
+        const aboveBoard=stacks.every(stack=>stack.aboveBoard);
+        return {visible:!!(styled&&r.width&&r.height&&r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight&&aboveBoard),
+            containerVisibility:getComputedStyle(container).visibility,canvasVisibility:getComputedStyle(canvas).visibility,
+            pointerEvents:getComputedStyle(container).pointerEvents,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height},
+            aboveBoard,stacks,bitmap,dialog:BayeHdDialog.debugSnapshot().showLcd};
+    })()`);
+}
+
+async function helpLcdToggleSmoke(cdp, current) {
+    const before = await evaluate(cdp, battleStateExpression), keys = await evaluate(cdp, 'window.__battleKeys.length');
+    const stable = async label => {
+        assert.deepEqual(await evaluate(cdp, battleStateExpression), before, label + ' preserves actual HELP input and every native unit/stat');
+        assert.deepEqual(await evaluate(cdp, 'baye.hd.help()'), current.help, label + ' preserves captured HELP owner/name/fields');
+        assert.equal(await evaluate(cdp, 'window.__battleKeys.length'), keys, label + ' sends no native input');
+        const hud = await evaluate(cdp, helpObservationExpression);
+        assert.equal(hud.dom.visible, true); assert.equal(hud.dialog.pass, false);
+        assert.deepEqual(hud.dialog.helpDetail, current.dialog.helpDetail);
+        assert.ok(hud.dom.nameVisibility.visible && hud.dom.summaryVisibility.visible);
+        assert.equal(hud.dom.rowVisibility.length, 9);
+        assert.ok(hud.dom.rowVisibility.every(row => row.label.visible && row.value.visible));
+        assert.ok(hud.dom.controls.lcd.visible && hud.dom.controls.return.visible, label + ' keeps both actual buttons unobstructed');
+        return hud;
+    };
+    const views = [], overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+    const togglePair = async (label, suffix = '') => {
+        const defaultHud = await stable(label + ' default HD');
+        const defaultLcd = await observeNativeLcd(cdp);
+        assert.equal(defaultLcd.visible, false); assert.equal(defaultLcd.containerVisibility, 'hidden');
+        assert.equal(defaultLcd.canvasVisibility, 'hidden');
+        await click(cdp, '#hd-dialog [data-hd-dlg-lcd]');
+        await waitFor(cdp, label + ' explicit classic LCD visible under the same native HELP owner',
+            'BayeHdDialog.debugSnapshot().showLcd===true&&getComputedStyle(document.querySelector("#lcd")).visibility==="visible"');
+        const classic = await observeNativeLcd(cdp);
+        assert.equal(classic.visible, true); assert.equal(classic.containerVisibility, 'visible');
+        assert.equal(classic.aboveBoard, true, label + ' classic LCD is painted above the opaque HD board at three actual screen points');
+        assert.ok(classic.bitmap && classic.bitmap.differentPixels > 0, 'visible native LCD contains the actual nonblank help frame');
+        const classicHud = await stable(label + ' explicit classic LCD');
+        assert.equal(overlaps(classic.rect, classicHud.dom.stage.rect), false, label + ' LCD and actual nine-field help card do not overlap');
+        await checkpoint(cdp, '17-battle-help' + suffix + '-classic-lcd');
+        await click(cdp, '#hd-dialog [data-hd-dlg-lcd]');
+        await waitFor(cdp, label + ' explicit hide restores HD HELP without native input',
+            'BayeHdDialog.debugSnapshot().showLcd===false&&getComputedStyle(document.querySelector("#lcd")).visibility==="hidden"');
+        const hidden = await observeNativeLcd(cdp);
+        assert.equal(hidden.visible, false); assert.equal(hidden.containerVisibility, 'hidden');
+        const hiddenHud = await stable(label + ' return to HD HELP');
+        await checkpoint(cdp, '17-battle-help' + suffix + '-hd-restored');
+        views.push({ label, viewport: await evaluate(cdp, '({width:innerWidth,height:innerHeight})'),
+            defaultLcd, defaultHud: defaultHud.dom, classic, classicHud: classicHud.dom, hidden, hiddenHud: hiddenHud.dom });
+        return { classic, hidden };
+    };
+    const { classic, hidden } = await togglePair('1080p');
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 720, deviceScaleFactor: 1, mobile: false });
+    await waitFor(cdp, '720p actual HELP layout', 'innerWidth===1280&&innerHeight===720');
+    await delay(200);
+    await togglePair('720p', '-720p');
+    report.helpLcdToggle = { owner: { seq: current.help.seq, inputSeq: current.help.inputSeq, generation: current.help.generation,
+        person: current.help.person }, classic, hidden, views, nativeKeysBefore: keys, nativeKeysAfter: await evaluate(cdp, 'window.__battleKeys.length') };
+}
+
+async function verifyHelpRetired(cdp, label, oldHelp) {
+    await waitFor(cdp, label + ' retired native owner', `(() => {
+        const h=baye.hd.help(),d=BayeHdDialog.debugSnapshot(),p=document.querySelector('#hd-portrait');
+        return h.active===0&&(!d.open||d.kind!=='help')&&!d.helpOwner&&!d.helpDetail&&(!p||p.hidden);
+    })()`);
+    const state = await evaluate(cdp, '({help:baye.hd.help(),fight:baye.hd.fight(),dialog:BayeHdDialog.debugSnapshot(),portrait:BayeHdPortraits.debugSnapshot()})');
+    assert.equal(state.help.complete, 0); assert.equal(state.help.kind, 0);
+    assert.notEqual(state.fight.inputSeq, oldHelp.inputSeq, 'finished HELP cannot own the new input wait');
+    assert.equal(state.dialog.helpStamp, '');
+    (report.helpRetirements ||= []).push({ label, oldOwner: { seq: oldHelp.seq, inputSeq: oldHelp.inputSeq,
+        generation: oldHelp.generation, person: oldHelp.person }, ...state });
+}
+
+async function helpSmoke(cdp, before) {
+    const labels = nativeHelpLabels(), own = before.units.find(u => u.side === 'player' && u.state !== 8);
+    assert.ok(own, 'native battle contains a living player general for HELP');
+    await focusBattleTarget(cdp, own, '17-battle-help-focused', 1);
+    await key(cdp, 'h'); await waitBattle(cdp, 9, 'native general information');
+    await verifyNativeFeedback(cdp, 'HELP overlay', 'inactive');
+    const first = await verifyPersonHelp(cdp, own, '17-battle-help', labels);
+    report.helpVisibility = await nativeLcdVisibility(cdp);
+    assert.ok(report.helpVisibility.visible, 'general information is visibly rendered above the board');
+    await helpLcdToggleSmoke(cdp, first);
+    await click(cdp, '#hd-dialog [data-hd-dlg-ok]');
+    await waitBattle(cdp, 1, 'return from general info'); await verifyHelpRetired(cdp, 'first HELP return', first.help);
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1920, height: 1080, deviceScaleFactor: 1, mobile: false });
+    await delay(200);
+    const secondUnit = before.units.find(u => u.id !== own.id && u.state !== 8 && u.side === 'player');
+    assert.ok(secondUnit, 'another genuine general proves HELP identity replacement');
+    await focusBattleTarget(cdp, secondUnit, '17-battle-help-second-focused', 1);
+    await key(cdp, 'h'); await waitBattle(cdp, 9, 'second native general information');
+    const second = await verifyPersonHelp(cdp, secondUnit, '17-battle-help-second-owner', labels);
+    assert.notEqual(second.help.person, first.help.person); assert.notEqual(second.help.seq, first.help.seq);
+    assert.notEqual(second.help.inputSeq, first.help.inputSeq); assert.notEqual(second.dialog.helpStamp, first.dialog.helpStamp);
+    assert.notEqual(second.portrait.personId, first.portrait.personId, 'previous HELP portrait is replaced by its current native person');
+    await action(cdp, 'return-second-general-info', 'BayeHdBattle.returnFromHelp()');
+    await waitBattle(cdp, 1, 'return from second general info'); await verifyHelpRetired(cdp, 'second HELP return', second.help);
+    assert.deepEqual((await evaluate(cdp, battleStateExpression)).units, before.units, 'HELP and identity replacement preserve every native unit');
+}
+
 async function nativeLcdVisibility(cdp) {
     return evaluate(cdp,`(() => {
         const help=BayeHdDialog.debugSnapshot();
         const dialog=document.querySelector('#hd-dialog');
-        if(help.open&&help.kind==='help'&&help.body&&dialog) {const r=dialog.getBoundingClientRect(),s=getComputedStyle(dialog),top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);if(r.width&&r.height&&s.display!=='none'&&s.visibility!=='hidden'&&dialog.contains(top))return {visible:true,id:'hd-dialog',kind:help.kind,text:help.body,top:top&&top.id};}
+        const stage=dialog&&dialog.querySelector('.hd-dialog-stage');
+        if(help.open&&!help.pass&&help.kind==='help'&&help.body&&stage) {const r=stage.getBoundingClientRect(),s=getComputedStyle(stage),top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);if(r.width&&r.height&&s.display!=='none'&&s.visibility!=='hidden'&&stage.contains(top))return {visible:true,id:'hd-dialog-stage',kind:help.kind,text:help.body,top:top&&top.id};}
         const nodes=[...document.querySelectorAll('canvas')].filter(n=>n.id!=='hd-battle-canvas' && n.id!=='hd-overworld-canvas');
         return nodes.map(n=>{const r=n.getBoundingClientRect(),s=getComputedStyle(n),top=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return {id:n.id,width:r.width,height:r.height,display:s.display,visibility:s.visibility,top:top&&top.id,visible:!!(r.width&&r.height&&s.display!=='none'&&s.visibility!=='hidden'&&(top===n||n.contains(top)))};}).find(n=>n.visible)||{visible:false,nodes:nodes.map(n=>n.id)};
     })()`);
@@ -506,6 +743,7 @@ async function rangeFeedbackSmoke(cdp) {
     const blocked=first.feedback.cells.find(c=>c.status==='out');
     assert.ok(valid&&blocked,'native visible board has allowed and blocked movement cells');
     const before=await evaluate(cdp,battleStateExpression);
+    await verifyBattleLegendLayout(cdp, 'MOVE 1080p');
     await checkpoint(cdp,'16-move-range-1080p');
     await focusBattleTarget(cdp,blocked,'16-move-blocked-focus',2);
     const focused=await verifyNativeFeedback(cdp,'MOVE blocked focus','move');
@@ -516,11 +754,46 @@ async function rangeFeedbackSmoke(cdp) {
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1280,height:720,deviceScaleFactor:1,mobile:false});
     await waitFor(cdp,'720p movement feedback','innerWidth===1280&&innerHeight===720');
     await delay(200);await verifyNativeFeedback(cdp,'MOVE 720p','move');
+    await verifyBattleLegendLayout(cdp, 'MOVE 720p');
     await checkpoint(cdp,'16-move-range-720p');
     await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
     await delay(200);
     assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'range repaint/viewport never delivers a key');
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'hovering native range cannot move a unit');
+}
+
+async function verifyBattleLegendLayout(cdp, label) {
+    const layout = await waitFor(cdp, label + ' actual legend paint', `(() => {
+        const canvas=document.querySelector('#hd-battle-canvas'),root=document.querySelector('#hd-battle');
+        if(!canvas||!root||!window.__battleLegendPaint?.length)return null;
+        const rect=node=>{const r=node.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
+        const buttons=[...root.querySelectorAll('.hd-battle-footer button')].map(node=>({text:node.textContent,disabled:node.disabled,...rect(node)}));
+        const badge=document.querySelector('#baye-build-badge'),toolbar=document.querySelector('#baye-hd-toolbar');
+        return {width:innerWidth,height:innerHeight,canvas:rect(canvas),paint:window.__battleLegendPaint,
+            buttons,badge:badge&&rect(badge),toolbar:toolbar&&rect(toolbar),keys:window.__battleKeys.length};
+    })()`);
+    const overlaps = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
+    const legend = layout.paint.map(p => p.text).join(' ');
+    for (const entry of ['蓝：己方','红：敌方','待：可行动','已：已行动','行：当前将领']) {
+        assert.ok(legend.includes(entry), label + ' displays the complete unit legend: ' + entry);
+    }
+    const boardBottom = layout.canvas.top + 992 / 1080 * layout.canvas.height;
+    const blockers = [...layout.buttons, layout.badge, layout.toolbar].filter(r => r && r.width > 0 && r.height > 0);
+    for (const paint of layout.paint) {
+        assert.equal(paint.baseline, 'top'); assert.equal(paint.align, 'left');
+        assert.ok(paint.rect.top >= boardBottom, label + ' keeps all legend text below the actual unchanged board');
+        assert.ok(paint.rect.left >= layout.canvas.left && paint.rect.right <= layout.canvas.right &&
+            paint.rect.bottom <= layout.canvas.bottom, label + ' actual text bounds remain inside its canvas');
+        for (const blocker of blockers) {
+            assert.equal(overlaps(paint.rect, blocker), false, label + ' actual legend rect does not overlap a live control/badge');
+        }
+    }
+    for (const button of layout.buttons) {
+        assert.ok(button.width >= 36 && button.height >= 36, label + ' preserves usable actual footer button size: ' + button.text);
+        assert.equal(overlaps(button, layout.badge), false, label + ' build badge has its own gap from footer buttons');
+    }
+    (report.legendChecks ||= []).push({ label, boardBottom, ...layout });
+    return layout;
 }
 
 async function terrainSmoke(cdp, before) {
@@ -852,6 +1125,30 @@ async function main() {
         await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});
         await cdp.send('Fetch.enable', { patterns: [{ urlPattern: '*' }] });
         await cdp.send('Page.addScriptToEvaluateOnNewDocument', { source: `
+            // Observe the renderer's actual native Canvas calls. Forward every
+            // call unchanged; these records never drive game or layout state.
+            window.__battleLegendPaint=[];
+            const originalBattleClear=CanvasRenderingContext2D.prototype.clearRect;
+            CanvasRenderingContext2D.prototype.clearRect=function(){
+                if(this.canvas.id==='hd-battle-canvas')window.__battleLegendPaint=[];
+                return originalBattleClear.apply(this,arguments);
+            };
+            const originalBattleFill=CanvasRenderingContext2D.prototype.fillText;
+            CanvasRenderingContext2D.prototype.fillText=function(text,x,y){
+                if(this.canvas.id==='hd-battle-canvas'&&typeof text==='string'&&
+                    ['蓝：己方','红：敌方','待：可行动','已：已行动','行：当前将领'].some(entry=>text.includes(entry))){
+                    const r=this.canvas.getBoundingClientRect(),m=this.measureText(text),t=this.getTransform();
+                    const sx=r.width/this.canvas.width,sy=r.height/this.canvas.height;
+                    const left=(t.a*(x-m.actualBoundingBoxLeft)+t.e)*sx+r.left;
+                    const right=(t.a*(x+m.actualBoundingBoxRight)+t.e)*sx+r.left;
+                    const top=(t.d*(y-Math.max(0,m.actualBoundingBoxAscent))+t.f)*sy+r.top;
+                    const bottom=(t.d*Math.max(y+18,y+m.actualBoundingBoxDescent)+t.f)*sy+r.top;
+                    window.__battleLegendPaint.push({text,x,y,font:this.font,baseline:this.textBaseline,align:this.textAlign,
+                        metrics:{width:m.width,ascent:m.actualBoundingBoxAscent,descent:m.actualBoundingBoxDescent},
+                        rect:{left,right,top,bottom,width:right-left,height:bottom-top}});
+                }
+                return originalBattleFill.apply(this,arguments);
+            };
             localStorage.clear();
             localStorage.setItem('baye/libpath', 'libs/dat-mod.lib');
             localStorage.setItem('baye/overworldMode', 'classic');

@@ -6,16 +6,25 @@ import test from 'node:test';
 import vm from 'node:vm';
 
 function element(tagName = 'DIV') {
-    const attrs = new Map(), listeners = new Map();
-    return { tagName, attrs, listeners, style: {}, parentElement: null,
-        classList: { toggle() {}, add() {}, remove() {} },
+    const attrs = new Map(), listeners = new Map(), classes = new Set();
+    let text = '';
+    return { tagName, attrs, listeners, style: {}, parentElement: null, parentNode: null, children: [],
+        classList: { contains(key) { return classes.has(key); },
+            toggle(key, on) { if (on) classes.add(key); else classes.delete(key); },
+            add(key) { classes.add(key); }, remove(key) { classes.delete(key); } },
+        get textContent() { return text + this.children.map(child => child.textContent).join(''); },
+        set textContent(value) { text = String(value); this.children.forEach(child => { child.parentNode = child.parentElement = null; }); this.children = []; },
         setAttribute(key, value) { attrs.set(key, String(value)); },
         getAttribute(key) { return attrs.get(key) ?? null; },
+        removeAttribute(key) { attrs.delete(key); },
         addEventListener(type, fn) { if (!listeners.has(type)) listeners.set(type, []); listeners.get(type).push(fn); },
-        querySelectorAll() { return []; }, appendChild() {} };
+        querySelectorAll() { return []; },
+        appendChild(child) { child.parentNode = child.parentElement = this; this.children.push(child); } };
 }
 function harness() {
-    const nodes = { 'hd-dialog': element(), 'hd-city-menu': element(), 'hd-battle': element() };
+    const nodes = { 'hd-dialog': element(), 'hd-city-menu': element(), 'hd-battle': element(),
+        'hd-dialog-title': element(), 'hd-dialog-body': element(), 'hd-dialog-caption': element(),
+        'hd-dialog-range': element() };
     const listeners = [], timers = new Map(), sent = [], writes = [];
     let timer = 0, onSend = () => {};
     const document = { body: element('BODY'), documentElement: element('HTML'),
@@ -93,6 +102,15 @@ function battleHelp(h, seq = 20) {
     native(h); Object.assign(h.fight, { active: 1, inputKind: 9, inputSeq: seq });
     h.data.g_hdFightActive = 1; h.help.active = 1; h.help.text = '战场将领帮助|兵力与状态';
     h.context.BayeHdBattle.onEngineFight(); h.context.BayeHdDialog.onEngineHelp();
+}
+function detailedHelp(h, changes = {}) {
+    battleHelp(h);
+    Object.assign(h.help, { protocolVersion: 1, seq: 3, generation: 7, detailGeneration: 7,
+        inputSeq: 20, kind: 1, complete: 1, person: 0, slot: 2, name: '原生姓名',
+        arm: '骑兵', state: '正常', fields: [1, 99, 88, 0, 0, 0, 210, 155, 65535, 2],
+        levelMax: 0, x: 0, y: 0, terrain: 255,
+        text: '原生武将帮助|兵力与状态', ...changes });
+    h.context.BayeHdDialog.onEngineHelp();
 }
 
 test('report observers never send keys or change bridge text in any march phase', () => {
@@ -257,4 +275,208 @@ test('an old HELP9 pointer press cannot dismiss the next displayed help wait', (
     h.fight.inputSeq++; h.context.BayeHdDialog.onEngineHelp();
     h.click('data-hd-dlg-ok', button); assert.deepEqual(h.sent, []);
     h.click('data-hd-dlg-ok'); assert.deepEqual(h.sent, [0x28]);
+});
+
+test('complete native help renders the captured identity and all real numeric fields, including zero', () => {
+    const h = harness();
+    detailedHelp(h);
+    const body = h.nodes['hd-dialog-body'];
+    assert.equal(h.nodes['hd-dialog-title'].textContent, '武将详情');
+    assert.equal(body.children[0].textContent, '原生姓名');
+    assert.equal(body.children[1].textContent, '骑兵 · 正常');
+    assert.deepEqual(body.children[2].children.map(field => field.children.map(node => node.textContent)),
+        [['等级', '1'], ['武力', '99'], ['智力', '88'], ['经验', '0'], ['生命', '0'],
+            ['技能点', '0'], ['攻击', '210'], ['防御', '155'], ['兵力', '65535']]);
+    assert.equal(h.snapshot().helpDetail.person, 0);
+    assert.equal(h.snapshot().helpDetail.slot, 2);
+    assert.equal(h.snapshot().showLcd, false);
+    const before = JSON.stringify(h.help);
+    Object.freeze(h.help.fields); Object.freeze(h.help);
+    for (let i = 0; i < 5; i++) h.context.BayeHdDialog.poll();
+    assert.equal(JSON.stringify(h.help), before);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('native maximum level and custom GBK labels stay literal and never become HTML', () => {
+    const h = harness();
+    detailedHelp(h, { levelMax: 1, name: '<img src=x onerror=attack()>', arm: '自定义兵种', state: '自定义状态' });
+    const body = h.nodes['hd-dialog-body'];
+    assert.equal(body.children[0].textContent, '<img src=x onerror=attack()>');
+    assert.equal(body.children[0].children.length, 0);
+    assert.equal(body.children[1].textContent, '自定义兵种 · 自定义状态');
+    assert.equal(body.children[2].children[0].children[1].textContent, 'MX');
+    assert.deepEqual(h.sent, []);
+});
+
+test('current battle HELP owns visible fields despite a retained departure phase and city shell', () => {
+    const h = harness(); detailedHelp(h);
+    Object.assign(h.march, { phase: 7, pick: 1, seq: 8 });
+    Object.assign(h.context.__cityState, { battleMake: true, marchReady: true, open: true });
+    for (let i = 0; i < 4; i++) h.context.BayeHdDialog.poll();
+    const state = h.snapshot();
+    assert.equal(state.open, true); assert.equal(state.kind, 'help');
+    assert.equal(state.pass, false); assert.equal(state.leftoverHelp, false);
+    assert.equal(h.context.document.body.classList.contains('baye-hd-dialog-pass'), false);
+    assert.equal(h.context.document.documentElement.getAttribute('data-baye-dialog-pass'), '0');
+    assert.equal(h.nodes['hd-dialog'].style.pointerEvents, 'auto');
+    assert.equal(h.nodes['hd-dialog-body'].children[2].children.length, 9);
+    assert.equal(state.showLcd, false); assert.equal(state.helpDetail.person, 0);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    h.help.active = 0; h.fight.inputKind = 1; h.fight.inputSeq++;
+    h.context.BayeHdDialog.poll();
+    assert.equal(h.snapshot().open, false); assert.equal(h.snapshot().helpOwner, null);
+    assert.equal(h.snapshot().helpDetail, null);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('an incomplete current battle HELP keeps its LCD and return control above retained march state', () => {
+    const h = harness(); detailedHelp(h, {complete: 0});
+    Object.assign(h.march, {phase: 7, pick: 1});
+    Object.assign(h.context.__cityState, {battleMake: true, open: true});
+    h.context.BayeHdDialog.poll();
+    assert.equal(h.snapshot().pass, false); assert.equal(h.snapshot().leftoverHelp, false);
+    assert.equal(h.snapshot().helpDetail, null); assert.equal(h.snapshot().showLcd, true);
+    assert.equal(h.nodes['hd-dialog'].style.pointerEvents, 'auto');
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    h.click('data-hd-dlg-back'); h.click('data-hd-dlg-back');
+    assert.deepEqual(h.sent, [0x28]); assert.deepEqual(h.writes, []);
+});
+
+test('incomplete, stale and malformed native help keeps LCD and never invents structured fields', () => {
+    const malformed = [
+        { complete: 0 }, { generation: 6 }, { inputSeq: 19 }, { protocolVersion: 0 },
+        { seq: 0 }, { person: 65535 }, { slot: 20 }, { name: '' }, { state: '' },
+        { levelMax: '1' }, { fields: [1, 2] },
+        { fields: [1, 2, 3, 4, null, 6, 7, 8, 9, 0] },
+        { fields: [1, 2, 3, 4, '0', 6, 7, 8, 9, 0] },
+        { fields: [1, 2, 3, 4, NaN, 6, 7, 8, 9, 0] }
+    ];
+    for (const changes of malformed) {
+        const h = harness(); detailedHelp(h, changes);
+        assert.equal(h.snapshot().helpDetail, null, JSON.stringify(changes));
+        assert.equal(h.snapshot().showLcd, true);
+        assert.equal(h.nodes['hd-dialog-body'].children.length, 0);
+        assert.equal(h.nodes['hd-dialog'].getAttribute('data-hd-help-person'), '');
+        if ('generation' in changes || 'inputSeq' in changes) assert.equal(h.snapshot().body, '', 'retained text belongs to its original native wait');
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('actual terrain help displays its complete native description while custom help retains LCD', () => {
+    const h = harness();
+    detailedHelp(h, { kind: 2, person: 65535, slot: 255, x: 3, y: 4, terrain: 0,
+        text: '地形：平原|原生完整说明' });
+    assert.equal(h.nodes['hd-dialog-title'].textContent, '地形帮助');
+    assert.equal(h.nodes['hd-dialog-body'].textContent, '地形：平原\n原生完整说明');
+    assert.equal(h.snapshot().helpDetail.terrain, 0);
+    assert.equal(h.snapshot().showLcd, false);
+    h.help.complete = 0; h.help.seq++; h.help.text = 'Custom terrain help, no inferred bonuses';
+    h.context.BayeHdDialog.onEngineHelp();
+    assert.equal(h.snapshot().helpDetail, null);
+    assert.equal(h.snapshot().showLcd, true);
+    assert.equal(h.nodes['hd-dialog-body'].textContent, h.help.text);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    h.help.complete = 1; h.help.terrain = 255; h.help.seq++;
+    h.context.BayeHdDialog.onEngineHelp();
+    assert.equal(h.snapshot().helpDetail, null, 'unknown native terrain class cannot become complete HD terrain');
+    assert.equal(h.snapshot().showLcd, true);
+});
+
+test('LCD choice survives polling but a new help publication retires its former fields', () => {
+    const h = harness(); detailedHelp(h);
+    h.click('data-hd-dlg-lcd'); assert.equal(h.snapshot().showLcd, true);
+    h.context.BayeHdDialog.poll(); assert.equal(h.snapshot().showLcd, true);
+    h.click('data-hd-dlg-lcd'); assert.equal(h.snapshot().showLcd, false);
+    h.help.complete = 0; h.help.seq++; h.context.BayeHdDialog.onEngineHelp();
+    assert.equal(h.snapshot().showLcd, true);
+    assert.equal(h.snapshot().helpDetail, null);
+    assert.equal(h.nodes['hd-dialog-body'].children.length, 0);
+    assert.deepEqual(h.sent, []);
+});
+
+test('old help publication and pointer tickets cannot acknowledge a newer native detail event', () => {
+    for (const field of ['seq', 'generation', 'detailGeneration']) {
+        const h = harness(); detailedHelp(h); h.help[field]++;
+        h.click('data-hd-dlg-back'); assert.deepEqual(h.sent, [], field);
+    }
+    const h = harness(); detailedHelp(h);
+    const button = h.button('data-hd-dlg-back'); h.pointerDown(button);
+    h.help.seq++; h.help.person = 1; h.help.name = '新人物'; h.context.BayeHdDialog.onEngineHelp();
+    h.click('data-hd-dlg-back', button); assert.deepEqual(h.sent, []);
+    h.click('data-hd-dlg-back'); h.click('data-hd-dlg-back');
+    assert.deepEqual(h.sent, [0x28]);
+});
+
+test('hidden, unready, classic and ended help views retire fields without native writes or automatic input', () => {
+    for (const reason of ['hidden', 'unready', 'classic', 'ended']) {
+        const h = harness(); detailedHelp(h);
+        if (reason === 'hidden') h.context.document.hidden = true;
+        if (reason === 'unready') h.context.baye.hd.ready = () => false;
+        if (reason === 'classic') h.context.BayeHdBattle.setMode('classic');
+        if (reason === 'ended') { h.help.active = 0; h.fight.inputKind = 3; h.fight.inputSeq++; }
+        h.context.BayeHdDialog.poll(); h.click('data-hd-dlg-back');
+        assert.equal(h.snapshot().open, false, reason); assert.equal(h.snapshot().helpDetail, null, reason);
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('a real native report outranks a retained help detail and help observation cannot acknowledge either', () => {
+    const h = harness(); detailedHelp(h);
+    Object.assign(h.report, { active: 1, inputSeq: 60, seq: 9, text: '实际损伤报告' });
+    h.context.BayeHdDialog.onEngineHelp();
+    assert.equal(h.snapshot().kind, 'report'); assert.equal(h.snapshot().helpDetail, null);
+    assert.equal(h.snapshot().body, '实际损伤报告');
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('menu help/search page the actual native list without creating a speculative result dialog', () => {
+    for (const [method, code] of [['openHelp', 0x26], ['openSearch', 0x33]]) {
+        const h = harness(); native(h);
+        Object.assign(h.menu, { active: 1, context: 1, kind: 3, count: 2, names: ['甲', '乙'] });
+        h.context.BayeHdDialog[method]();
+        assert.deepEqual(h.sent, [code]); assert.equal(h.snapshot().open, false);
+        assert.deepEqual(h.writes, []);
+    }
+});
+
+test('hidden and unready help/search controls cannot queue keys before a native view exists', () => {
+    for (const method of ['openHelp', 'openSearch']) for (const reason of ['hidden', 'unready']) {
+        const h = harness(); native(h);
+        if (reason === 'hidden') h.context.document.hidden = true;
+        else h.context.baye.hd.ready = () => false;
+        assert.equal(h.context.BayeHdDialog[method](), false);
+        assert.equal(h.snapshot().open, false); assert.deepEqual(h.sent, []);
+    }
+});
+
+test('malformed native wait metadata cannot own an otherwise complete help page', () => {
+    for (const changes of [{ inputKind: '9' }, { inputSeq: '20' }, { inputSeq: 0 },
+        { active: 2 }, { over: undefined }]) {
+        const h = harness(); detailedHelp(h); Object.assign(h.fight, changes);
+        h.context.BayeHdDialog.onEngineHelp(); h.click('data-hd-dlg-back');
+        assert.equal(h.snapshot().open, false); assert.equal(h.snapshot().helpDetail, null);
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('native map help can return once, but its stale controls never acknowledge a newer list or report', () => {
+    function mapHelp() {
+        const h = harness(); native(h);
+        Object.assign(h.help, { active: 1, protocolVersion: 1, seq: 4, kind: 0,
+            complete: 0, generation: 0, detailGeneration: 7, inputSeq: 0, text: 'Ver native' });
+        h.context.BayeHdDialog.onEngineHelp();
+        return h;
+    }
+    const live = mapHelp(); live.click('data-hd-dlg-back'); live.click('data-hd-dlg-back');
+    assert.deepEqual(live.sent, [0x28]);
+    for (const changed of ['seq', 'inactive', 'menu', 'qty', 'report']) {
+        const h = mapHelp();
+        if (changed === 'seq') h.help.seq++;
+        if (changed === 'inactive') h.help.active = 0;
+        if (changed === 'menu') h.menu.active = 1;
+        if (changed === 'qty') h.qty.active = 1;
+        if (changed === 'report') Object.assign(h.report, { active: 1, inputSeq: 12 });
+        h.click('data-hd-dlg-ok'); h.click('data-hd-dlg-back');
+        assert.deepEqual(h.sent, [], changed);
+    }
 });

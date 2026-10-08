@@ -7,7 +7,7 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261008a';
+    var HD_BATTLE_VER = '20261008j';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -1005,6 +1005,66 @@
         return { x: c + (state.viewOx || 0), y: r + (state.viewOy || 0) };
     }
 
+    function drawUnitLegend(ctx, canvas, boardBottom, left) {
+        var canvasRect = canvas.getBoundingClientRect(), blockers = [];
+        function addBlocker(node) {
+            if (!node || typeof node.getBoundingClientRect !== 'function' ||
+                !(canvasRect.width > 0) || !(canvasRect.height > 0)) { return; }
+            var rect = node.getBoundingClientRect();
+            if (!(rect.width > 0) || !(rect.height > 0)) { return; }
+            blockers.push({
+                left: (rect.left - canvasRect.left) / canvasRect.width * DESIGN_W,
+                right: (rect.left + rect.width - canvasRect.left) / canvasRect.width * DESIGN_W,
+                top: (rect.top - canvasRect.top) / canvasRect.height * DESIGN_H,
+                bottom: (rect.top + rect.height - canvasRect.top) / canvasRect.height * DESIGN_H
+            });
+        }
+        var root = el('hd-battle');
+        if (root && root.querySelectorAll) {
+            var buttons = root.querySelectorAll('.hd-battle-footer button');
+            for (var i = 0; i < buttons.length; i += 1) { addBlocker(buttons[i]); }
+        }
+        addBlocker(el('baye-build-badge'));
+        ctx.save();
+        ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+        ctx.font = '15px BayeUI, "Noto Sans CJK SC", sans-serif';
+        ctx.fillStyle = '#9aa6b8';
+        var entries = ['蓝：己方', '红：敌方', '待：可行动', '已：已行动', '行：当前将领'];
+        var next = 0, lines = [], height = 18, gap = 4;
+        // The right-hand focus cards keep their own 650px boundary. Only use
+        // the lower canvas margin; the board and its hit geometry never move.
+        for (var y = boardBottom + 6; y + height <= DESIGN_H - 4 && next < entries.length; y += height + 2) {
+            var slots = [{ left: left, right: left + 638 }];
+            for (i = 0; i < blockers.length; i += 1) {
+                var b = blockers[i];
+                if (b.top >= y + height + gap || b.bottom <= y - gap) { continue; }
+                var cut = [];
+                for (var s = 0; s < slots.length; s += 1) {
+                    var slot = slots[s];
+                    if (b.right + gap <= slot.left || b.left - gap >= slot.right) { cut.push(slot); continue; }
+                    if (b.left - gap > slot.left) { cut.push({ left: slot.left, right: b.left - gap }); }
+                    if (b.right + gap < slot.right) { cut.push({ left: b.right + gap, right: slot.right }); }
+                }
+                slots = cut;
+            }
+            for (s = 0; s < slots.length && next < entries.length; s += 1) {
+                var text = '', end = next;
+                while (end < entries.length) {
+                    var candidate = text ? text + ' · ' + entries[end] : entries[end];
+                    if (ctx.measureText(candidate).width > slots[s].right - slots[s].left) { break; }
+                    text = candidate; end += 1;
+                }
+                if (end > next) { lines.push({ text: text, x: slots[s].left, y: y }); next = end; }
+            }
+        }
+        // Very small or unusually crowded stages may have no complete slot.
+        // Never paint half a key or cover a live button with canvas text.
+        if (next === entries.length) {
+            for (i = 0; i < lines.length; i += 1) { ctx.fillText(lines[i].text, lines[i].x, lines[i].y); }
+        }
+        ctx.restore();
+    }
+
     function draw() {
         if (document.hidden) { return; }
         var canvas = el('hd-battle-canvas');
@@ -1163,10 +1223,7 @@
             ctx.font = Math.max(9, Math.min(15, size * 0.14)) + 'px BayeUI, sans-serif';
             ctx.fillText(u.arms == null ? '兵 —' : '兵 ' + u.arms, ux, uy + size * 0.39, cw - 8);
         }
-        ctx.textAlign = 'left';
-        ctx.font = '15px BayeUI, "Noto Sans CJK SC", sans-serif';
-        ctx.fillStyle = '#9aa6b8';
-        ctx.fillText('蓝：己方 · 红：敌方 · 待：可行动 · 已：已行动 · 行：当前将领', ox, oy + rows * ch + 18);
+        drawUnitLegend(ctx, canvas, oy + rows * ch, ox);
         var focusUnit = visualSnap.focus && unitAt(visualSnap.focus.x, visualSnap.focus.y);
         if (!state.preview && visualSnap.focus) {
             var focusedTerrain = terrainAt(visualSnap.focus.x, visualSnap.focus.y);

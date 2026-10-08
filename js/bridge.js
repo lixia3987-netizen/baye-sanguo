@@ -646,7 +646,15 @@ function baye_bridge_init() {
         return hdSafeNameCall('getPersonName', _bayeGetPersonName, i, hdPersonLimit());
     };
     baye.getToolName = function(i) {
-        return hdSafeNameCall('getToolName', _bayeGetToolName, i, 512);
+        return hdSafeNameCall('getToolName', _bayeGetToolName, i,
+            typeof _bayeHdGetToolCount === 'function' ? baye.getToolCount() : 512);
+    };
+    baye.getToolCount = function () {
+        if (!hdEngineReady() || typeof _bayeHdGetToolCount !== 'function') { return 0; }
+        try {
+            var count = _bayeHdGetToolCount();
+            return hdIntegerValue(count, 0, 2000) == null ? 0 : count;
+        } catch (e) { return 0; }
     };
     baye.getSkillName = function(i) {
         return hdSafeNameCall('getSkillName', _bayeGetSkillName, i, 256);
@@ -1230,6 +1238,22 @@ function baye_bridge_init() {
         return isFinite(v) ? v : 0;
     }
 
+    // New detail contracts never turn a missing field into person/tool zero.
+    function hdIntegerValue(value, min, max) {
+        if (value && typeof value === 'object' && 'value' in value) { value = value.value; }
+        return typeof value === 'number' && isFinite(value) && Math.floor(value) === value &&
+            value >= min && value <= max ? value : null;
+    }
+    function hdDetailNum(obj, name, max) {
+        return hdIntegerValue(obj && obj[name], 0, max == null ? 0xffffffff : max);
+    }
+    function hdDetailText(obj, name, length) {
+        var value = obj && obj[name];
+        return typeof value === 'string' ? value.replace(/\u0000.*$/, '').slice(0, length) :
+            hdDecodeSlice(value, 0, length);
+    }
+    var hdMenuNamesCache = null;
+
     function hdDecodePtr(ptr) {
         if (!ptr || !hdHeapOk(ptr, 1)) {
             return '';
@@ -1510,6 +1534,55 @@ function baye_bridge_init() {
             } catch (e) {}
             return '';
         },
+        personArmType: function (id) {
+            if (hdIntegerValue(id, 0, hdPersonLimit() - 1) == null || !hdEngineReady() ||
+                typeof _bayeHdGetArmType !== 'function') { return null; }
+            try { return hdIntegerValue(_bayeHdGetArmType(id), 0, 255); }
+            catch (e) { return null; }
+        },
+        toolDetails: function (id) {
+            if (hdIntegerValue(id, 0, baye.getToolCount() - 1) == null || !hdEngineReady() ||
+                typeof _bayeHdGetToolField !== 'function' || !window.BayeHdLibIdentity ||
+                typeof BayeHdLibIdentity.read !== 'function' || typeof BayeHdLibIdentity.isCurrent !== 'function') { return null; }
+            var identity;
+            try { identity = BayeHdLibIdentity.read(); } catch (e) { return null; }
+            if (!identity || identity.status !== 'ready' ||
+                identity.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !BayeHdLibIdentity.isCurrent(identity)) { return null; }
+            if (baye.hooks && (baye.hooks.getToolPropertyTitle || baye.hooks.getToolPropertyValue)) { return null; }
+            var generation = hdDetailNum(baye.ensureData(), 'g_hdDetailGeneration');
+            if (!generation) { return null; }
+            var fields = ['useFlag', 'attack', 'iq', 'move', 'arm', 'changeAttackRange'], result =
+                {index: id, name: baye.getToolName(id), standard: true, generation: generation};
+            try {
+                for (var i = 0; i < fields.length; i++) {
+                    var value = hdIntegerValue(_bayeHdGetToolField(id, i), 0, 255);
+                    if (value == null) { return null; }
+                    result[fields[i]] = value;
+                }
+            } catch (e) { return null; }
+            return BayeHdLibIdentity.isCurrent(identity) &&
+                hdDetailNum(baye.ensureData(), 'g_hdDetailGeneration') === generation ? result : null;
+        },
+        goods: function () {
+            var d = baye.ensureData(), count = hdDetailNum(d, 'g_hdGoodsPropertyCount', 255), rows = [];
+            if (count != null) {
+                for (var i = 0; i < count; i++) {
+                    var flags = hdDetailNum(d && d.g_hdGoodsPropertyFlags, i, 3);
+                    rows.push({index: i, title: flags != null && (flags & 1) ?
+                        hdDecodeSlice(d.g_hdGoodsPropertyTitles, i * 128, 128) : '',
+                        value: flags != null && (flags & 2) ?
+                        hdDecodeSlice(d.g_hdGoodsPropertyValues, i * 128, 128) : '', captured: flags === 3});
+                }
+            }
+            return {active: hdDetailNum(d, 'g_hdGoodsActive', 1),
+                complete: hdDetailNum(d, 'g_hdGoodsComplete', 1), custom: hdDetailNum(d, 'g_hdGoodsCustom', 1),
+                generation: hdDetailNum(d, 'g_hdGoodsGeneration'), detailGeneration: hdDetailNum(d, 'g_hdDetailGeneration'),
+                menuSeq: hdDetailNum(d, 'g_hdGoodsMenuSeq'), index: hdDetailNum(d, 'g_hdGoodsIndex', 65535),
+                tool: hdDetailNum(d, 'g_hdGoodsTool', 65535), propertyCount: count,
+                pageStart: hdDetailNum(d, 'g_hdGoodsPageStart', 255), pageEnd: hdDetailNum(d, 'g_hdGoodsPageEnd', 255),
+                name: hdDetailText(d, 'g_hdGoodsNameGbk', 32), properties: rows};
+        },
         help: function () {
             hdNote('hd.help', '');
             var d = baye.ensureData();
@@ -1520,10 +1593,20 @@ function baye_bridge_init() {
             if (!text && d && d.g_hdHelpGbk) {
                 text = hdDecodeSlice(d.g_hdHelpGbk, 0, 1024);
             }
+            var fields = [];
+            for (var i = 0; i < 10; i++) { fields.push(hdDetailNum(d && d.g_hdHelpFields, i, 65535)); }
             return {
                 active: hdReadNum(d, 'g_hdHelpActive'),
                 seq: hdReadNum(d, 'g_hdHelpSeq'),
-                text: text
+                text: text,
+                protocolVersion: hdDetailNum(d, 'g_hdHelpProtocolVersion', 255),
+                generation: hdDetailNum(d, 'g_hdHelpGeneration'), detailGeneration: hdDetailNum(d, 'g_hdDetailGeneration'),
+                inputSeq: hdDetailNum(d, 'g_hdHelpInputSeq'), kind: hdDetailNum(d, 'g_hdHelpKind', 2),
+                complete: hdDetailNum(d, 'g_hdHelpComplete', 1), person: hdDetailNum(d, 'g_hdHelpPerson', 65535),
+                slot: hdDetailNum(d, 'g_hdHelpSlot', 255), x: hdDetailNum(d, 'g_hdHelpX', 255),
+                y: hdDetailNum(d, 'g_hdHelpY', 255), terrain: hdDetailNum(d, 'g_hdHelpTerrain', 255),
+                name: hdDetailText(d, 'g_hdHelpNameGbk', 32), arm: hdDetailText(d, 'g_hdHelpArmGbk', 16),
+                state: hdDetailText(d, 'g_hdHelpStateGbk', 32), levelMax: hdDetailNum(d, 'g_hdHelpLevelMax', 1), fields: fields
             };
         },
         skills: function () {
@@ -1650,15 +1733,58 @@ function baye_bridge_init() {
                     names.push(raw.slice(i * step, (i + 1) * step).replace(/\s+$/g, ''));
                 }
             }
+            var kind = hdReadNum(d, 'g_hdMenuKind'), seq = hdReadNum(d, 'g_hdMenuSeq'),
+                generation = hdDetailNum(d, 'g_hdDetailGeneration'), ids = [],
+                limit = kind === 3 ? hdPersonLimit() : kind === 4 ? baye.getToolCount() : 0;
+            var idsValid = hdReadNum(d, 'g_hdMenuActive') === 1 && (kind === 3 || kind === 4) &&
+                count > 0 && count === names.length && count === hdDetailNum(d, 'g_hdMenuIdsCount', 2000) &&
+                generation > 0 && generation === hdDetailNum(d, 'g_hdMenuIdsGeneration') &&
+                seq > 0 && seq === hdDetailNum(d, 'g_hdMenuIdsSeq') && kind === hdDetailNum(d, 'g_hdMenuIdsKind', 4);
+            if (idsValid) {
+                for (i = 0; i < count; i++) {
+                    var id = hdDetailNum(d && d.g_hdMenuIds, i, limit - 1);
+                    if (id == null) { idsValid = false; break; }
+                    ids.push(id);
+                }
+            }
+            if (!idsValid) { ids = []; }
+            var packedNames = names.slice();
+            // Fixed native eight-byte observation slots can cut a GBK name in
+            // half. Resolve the full native label only after the actual IDs
+            // are proven; never recover identity by comparing names.
+            if (idsValid) {
+                var nameKey = JSON.stringify([generation, seq, kind, ids, packedNames]);
+                if (!hdMenuNamesCache || hdMenuNamesCache.key !== nameKey) {
+                    var fullNames = packedNames.slice();
+                    for (i = 0; i < ids.length; i++) {
+                        var fullName = '';
+                        try { fullName = kind === 3 ? baye.getPersonName(ids[i]) : baye.getToolName(ids[i]); } catch (e) {}
+                        if (typeof fullName === 'string' && fullName && fullName !== '-') { fullNames[i] = fullName; }
+                    }
+                    hdMenuNamesCache = {key: nameKey, names: fullNames};
+                }
+                if (generation === hdDetailNum(d, 'g_hdDetailGeneration') &&
+                    seq === hdDetailNum(d, 'g_hdMenuSeq') && kind === hdDetailNum(d, 'g_hdMenuKind', 4) &&
+                    hdDetailNum(d, 'g_hdMenuActive', 1) === 1 &&
+                    generation === hdDetailNum(d, 'g_hdMenuIdsGeneration') &&
+                    seq === hdDetailNum(d, 'g_hdMenuIdsSeq') &&
+                    count === hdDetailNum(d, 'g_hdMenuCount', 2000) && count === hdDetailNum(d, 'g_hdMenuIdsCount', 2000) &&
+                    kind === hdDetailNum(d, 'g_hdMenuIdsKind', 4) && ids.every(function (id, position) {
+                        return id === hdDetailNum(d && d.g_hdMenuIds, position, limit - 1);
+                    })) {
+                    names = hdMenuNamesCache.names.slice();
+                } else { idsValid = false; ids = []; hdMenuNamesCache = null; }
+            } else { hdMenuNamesCache = null; }
             return {
                 active: hdReadNum(d, 'g_hdMenuActive'),
                 context: hdReadNum(d, 'g_hdMenuContext'),
-                kind: hdReadNum(d, 'g_hdMenuKind'),
-                seq: hdReadNum(d, 'g_hdMenuSeq'),
+                kind: kind,
+                seq: seq,
                 itemLen: itemLen,
                 count: count,
                 index: hdReadNum(d, 'g_hdMenuIndex'),
-                names: names
+                names: names, packedNames: packedNames, ids: ids, idsValid: !!idsValid,
+                generation: generation, detailGeneration: generation
             };
         }
     };

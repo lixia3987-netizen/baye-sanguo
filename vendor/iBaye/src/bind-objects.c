@@ -283,8 +283,9 @@ void bind_init(void) {
 #undef _ST
         static ValueDef arrdef = { .type=ValueTypeArray, .size=0, .subdef.arrDef=&_value_def };
         static Field arrfield = {"g_Tools", {.def=&arrdef, .offset=0}};
-        arrdef.size = _value_def.size * GOODS_MAX;
-        arrfield.value.offset = (U32)ResLoadToCon(GOODS_RESID, 1, g_CBnkPtr);
+        U16 actualToolCount = baye_hd_tool_count();
+        arrdef.size = _value_def.size * actualToolCount;
+        arrfield.value.offset = actualToolCount ? (U32)baye_hd_tool_data() : 0;
 
         ObjectDef_addField(def, &arrfield);
     }

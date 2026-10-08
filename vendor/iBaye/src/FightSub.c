@@ -98,24 +98,31 @@ FAR U8 FgtDrvCmd(FGTCMD *pcmd)
 FAR void FgtShowHlp()
 {
     U8	nidx,idx,x,y;
-    U8	tmp,tbuf[10],tbuf2[30];
+    U8	tmp,tbuf[1025] = {0},tbuf2[1025] = {0};
     U8	*pbuf,*pic;
     RECT	big,small;
     PersonType	*per;
     JLPOS	*pos;
+    HdHelpSnapshot hdDetail = {0};
+    U32 hdInputSeq;
+    hdDetail.generation = g_hdDetailGeneration;
+    hdDetail.person = 0xffff;
+    hdDetail.slot = hdDetail.terrain = 0xff;
 
     if (call_hook_a("fightWillShowHelp", NULL) == 0) {
         return;
     }
+    hdDetail.x = g_FoucsX; hdDetail.y = g_FoucsY;
     /* 初始化界面 */
     gam_clrlcd(HLP_SX + 1,HLP_SY + 1,HLP_EX - 1,HLP_EY - 1);
     gam_rect(HLP_SX,HLP_SY,HLP_EX,HLP_EY);
 
 #define BUFFSIZE 1024
 
-    pbuf = gam_malloc(BUFFSIZE);
+    pbuf = gam_malloc(BUFFSIZE + 1);
     if(pbuf == NULL)
         return;
+    memset(pbuf, 0, BUFFSIZE + 1);
     nidx = FgtGetGenIdx(g_FoucsX,g_FoucsY);
     if(0xFF != nidx)
     {
@@ -136,7 +143,10 @@ FAR void FgtShowHlp()
         small.ey = y + 42;
         BuiltAtkAttr(0,nidx);
         p = TransIdxToGen1(nidx);
+        hdDetail.kind = BAYE_HD_HELP_PERSON;
+        hdDetail.person = p; hdDetail.slot = nidx;
         GetPersonName(p,tbuf);
+        memcpy(hdDetail.name, tbuf, sizeof(hdDetail.name));
         PlcMidShowStr(x + 26,y + 28,tbuf);
         pic = ResLoadToCon(GEN_HEADPIC1 + g_PIdx,1,g_CBnkPtr);
         gam_drawpic(GEN_HEADPIC1+g_PIdx, p, x + 13,y + 2, 1);
@@ -164,8 +174,13 @@ FAR void FgtShowHlp()
             pbuf[6] = 'X';
         }
         FgtLoadToMem2(dFgtGenTyp,tbuf2);
-        tmp = GetArmType(per) << 2;
+        hdDetail.fields[9] = GetArmType(per);
+        tmp = (U8)(hdDetail.fields[9] << 2);
         gam_memcpy(pbuf + 13,tbuf2 + tmp,4);
+        if (hdDetail.fields[9] < 64 && (U32)tmp + 4 <= gam_strlen(tbuf2)) {
+            memcpy(hdDetail.arm, tbuf2 + tmp, 4);
+            hdDetail.complete = 1;
+        }
         FgtFormatStr(pbuf,per->Force);
         FgtFormatStr(pbuf,per->IQ);
         FgtFormatStr(pbuf,per->Experience);
@@ -175,6 +190,14 @@ FAR void FgtShowHlp()
         FgtFormatStr(pbuf,g_GenAtt[0].df);
         FgtFormatStr(pbuf,per->Arms);
         FgtLoadToMem2(dFgtState0 + pos->state,tbuf);
+        hdDetail.fields[0] = per->Level; hdDetail.fields[1] = per->Force;
+        hdDetail.fields[2] = per->IQ; hdDetail.fields[3] = per->Experience;
+        hdDetail.fields[4] = pos->hp; hdDetail.fields[5] = pos->mp;
+        hdDetail.fields[6] = g_GenAtt[0].at; hdDetail.fields[7] = g_GenAtt[0].df;
+        hdDetail.fields[8] = per->Arms; hdDetail.levelMax = per->Level >= MAX_LEVEL;
+        if (gam_strlen(tbuf) < sizeof(hdDetail.state))
+            memcpy(hdDetail.state, tbuf, gam_strlen(tbuf) + 1);
+        else hdDetail.complete = 0;
         gam_strcat(pbuf,tbuf);
 tagShow:
         PlcStrShowS(&big,&small,pbuf);
@@ -183,6 +206,8 @@ tagShow:
     {
         /* 显示地形信息 */
         idx = FgtGetTerrain(g_FoucsX,g_FoucsY);
+        hdDetail.kind = BAYE_HD_HELP_TERRAIN;
+        hdDetail.terrain = idx;
         IF_HAS_HOOK("getTerrainInfo") {
             U8* info = pbuf;
             U8 ter = idx;
@@ -196,6 +221,7 @@ tagShow:
             }
         }
         FgtLoadToMem2(dTerrInf0 + idx,pbuf);
+        hdDetail.complete = hdDetail.x < g_MapWid && hdDetail.y < g_MapHgt && idx < TERRAIN_MAX;
     tagShowT:
         c_Sx = HLP_SX + 4;
         c_Sy = HLP_SY + 4;
@@ -205,11 +231,15 @@ tagShow:
     }
 
 tagOut:
-    baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_HELP);
-    baye_hd_set_help(pbuf);
+    if (hdDetail.generation == g_hdDetailGeneration) {
+        baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_HELP);
+        baye_hd_help_publish(&hdDetail, pbuf);
+    }
+    hdInputSeq = g_hdFightInputSeq;
     GamDelay(0, 2);
-    baye_hd_set_help(NULL);
-    baye_hd_fight_input_end();
+    baye_hd_help_clear(hdDetail.generation, hdInputSeq);
+    if (hdDetail.generation == g_hdDetailGeneration && hdInputSeq == g_hdFightInputSeq)
+        baye_hd_fight_input_end();
     gam_free(pbuf);
 }
 /***********************************************************************

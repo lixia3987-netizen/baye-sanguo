@@ -15,7 +15,9 @@ const settle = () => new Promise(resolve => setImmediate(resolve));
 
 function harness({ hex = lib.toString('hex'), crypto = webcrypto, hooks = {} } = {}) {
     const requests = [], images = [], keys = [], writes = [], paints = [], frames = new Map(), timers = new Map(), nodes = new Map();
-    let nextId = 0;
+    let nextId = 0, now = 10000;
+    const listeners = new Map();
+    class Clock extends Date { static now() { return now; } }
     const preferences = new Map([['baye/overworldMode', 'hd-map'], ['baye/libpath', 'libs/dat-mod.lib']]);
     function element(id) {
         const attrs = new Map(), classes = new Set(), handlers = new Map();
@@ -33,23 +35,26 @@ function harness({ hex = lib.toString('hex'), crypto = webcrypto, hooks = {} } =
     for(const id of ['hd-overworld','hd-overworld-canvas','hd-overworld-hud-left','hd-overworld-hud-right',
         'hd-overworld-legend-owned','hd-overworld-legend-neutral','hd-overworld-legend-empty'])nodes.set(id,element(id));
     const document = {hidden:false,body:element('body'),documentElement:element('html'),
-        getElementById:id=>nodes.get(id)||null,createElement:()=>element('scratch'),addEventListener(){}};
+        getElementById:id=>nodes.get(id)||null,createElement:()=>element('scratch'),
+        addEventListener(name, handler){if(!listeners.has(name))listeners.set(name,[]);listeners.get(name).push(handler);}};
     const names = standardGeo.cities.map(c=>c.name);
     const raw = {g_PlayerKing:0,g_PIdx:1,g_YearDate:190,g_MonthDate:1,
         g_Cities: names.map(()=>({Belong:1})),g_CityPositions:standardGeo.cities.map(c=>({x:c.engX,y:c.engY})),
         g_CityPos:new Proxy({setx:1,sety:0,x:0,y:0},{set(target,key,value){writes.push([key,value]);target[key]=value;return true;}})};
     const menu = {active:0,context:0,kind:0,seq:1}, march = {pick:1,battlePick:0,mapInputSeq:1,mapCity:1};
+    const fight = {active:0,over:0}, report = {active:0};
     class XMLHttpRequest {
         open(method,url){this.url=url;} send(){requests.push(this);}
     }
     class Image {
         set src(value){this.url=value;images.push(this);}
     }
-    const context = vm.createContext({document,console:{log(){},warn(){}},Image,XMLHttpRequest,crypto,Uint8Array,
+    const context = vm.createContext({document,console:{log(){},warn(){}},Image,XMLHttpRequest,crypto,Uint8Array,Date:Clock,
         Promise:class {constructor(){throw new Error('engine window.Promise is not a native promise');}},dynLib:hex,
         localStorage:{getItem:key=>preferences.get(key)||null,setItem:(key,value)=>preferences.set(key,String(value))},
         baye:{data:raw,ensureData:()=>raw,hdCityLimit:()=>raw.g_Cities.length,getCityName:i=>names[i],hooks,
-            hd:{ready:()=>true,menuItems:()=>menu,march:()=>march,fight:()=>({active:0,over:0}),report:()=>({active:0})}},
+            callHook(name, value){return this.hooks[name]?.(value);},
+            hd:{ready:()=>true,menuItems:()=>menu,march:()=>march,fight:()=>fight,report:()=>report}},
         sendKey:key=>keys.push(key),addEventListener(){},devicePixelRatio:1,
         requestAnimationFrame:fn=>{const id=++nextId;frames.set(id,fn);return id;},cancelAnimationFrame:id=>frames.delete(id),
         setTimeout:(fn,ms)=>{const id=++nextId;timers.set(id,fn);return id;},clearTimeout:id=>timers.delete(id)});
@@ -65,8 +70,14 @@ function harness({ hex = lib.toString('hex'), crypto = webcrypto, hooks = {} } =
             request.url.split('?')[0].endsWith('roads/adjacency.json')?roads:asset('palette/factions.json'));
         for(const image of images.filter(i=>!i.resolved)){image.width=image.url.includes('base_plains')?3840:64;image.height=image.url.includes('base_plains')?4000:64;image.resolved=true;image.onload();}
     }
-    return {api,context,document,raw,names,menu,march,requests,images,keys,writes,paints,frames,timers,nodes,complete,response,
+    return {api,context,document,raw,names,menu,march,fight,report,requests,images,keys,writes,paints,frames,timers,nodes,complete,response,
         state:context.__map.state,sample:()=>context.__map.sampleCities(),
+        nativeHook(name){ // The real C call_hook_s enters JS only when this observer exists.
+            return typeof context.baye.hooks[name]==='function' ? context.baye.callHook(name) : -1;
+        },
+        frame(milliseconds=200){const pending=[...frames.entries()];now+=milliseconds;
+            for(const [id,callback]of pending)if(frames.delete(id))callback();},
+        setHidden(hidden){document.hidden=hidden;for(const callback of listeners.get('visibilitychange')||[])callback();},
         click(type='click'){const e={clientX:960,clientY:540,pointerId:1,prevented:false,preventDefault(){this.prevented=true;}};
             for(const callback of nodes.get('hd-overworld-canvas').handlers.get(type)||[])callback(e);return e;},
         async ready(){for(let i=0;i<60&&context.BayeHdLibIdentity.read().status==='pending';i++)await settle();return context.BayeHdLibIdentity.read();}};
@@ -213,4 +224,73 @@ test('invalid city owners stay unknown without coercing U16 sentinels or malform
 test('standard map provenance records independently bind the actual repository LIB digest and keep roads decorative',()=>{
     for(const path of ['manifest.json','china-lcc-cities.json','roads/adjacency.json'])assert.equal(asset(path).libSha256,standardHash);
     const roads=asset('roads/adjacency.json');assert.equal(roads.useRuntimePositions,true);assert.equal(roads.edges.length,0);
+});
+
+test('preset HD assets that finish before world initialization wake on genuine new-game/load and map hooks',async()=>{
+    for(const hook of ['didOpenNewGame','didLoadGame']){
+        const h=harness();h.raw.g_CityPositions.forEach(pos=>{pos.x=0;pos.y=0;});
+        h.march.pick=0;h.menu.active=1;h.menu.context=4;
+        await h.ready();h.complete();
+        assert.equal(h.state.assetsReady,true);assert.equal(h.state.layoutMatched,false);assert.equal(h.frames.size,0);
+        h.raw.g_CityPositions=standardGeo.cities.map(c=>({x:c.engX,y:c.engY}));
+        h.menu.active=0;h.menu.context=0;
+        assert.equal(h.nativeHook(hook),-1);
+        assert.equal(h.api.debugSnapshot().presentationReady,true);assert.equal(h.api.getCities().length,38);
+        assert.equal(h.api.getPhase(),'other','a ready world is not the native map wait');
+        assert.equal(h.api.debugSnapshot().hitsEnabled,false);assert.equal(h.frames.size,1);
+        h.frame();assert.equal(h.api.getPhase(),'other');assert.equal(h.frames.size,1);
+        h.march.pick=1;h.march.mapInputSeq++;
+        assert.equal(typeof h.context.baye.hooks.didShowMainMap,'function','C must be able to enter the actual map observer');
+        assert.equal(h.nativeHook('didShowMainMap'),-1);
+        assert.equal(h.api.getPhase(),'map');assert.equal(h.api.debugSnapshot().hitsEnabled,true);assert.equal(h.frames.size,1);
+        assert.ok(h.document.body.classes.has('baye-hd-overworld-map'));
+        assert.equal(h.requests.filter(request=>request.url.includes('manifest.json')).length,1);
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+    }
+});
+
+test('new-game read-only sampling follows a later native pick without a toolbar click or another map event',async()=>{
+    const h=harness();h.raw.g_CityPositions.forEach(pos=>{pos.x=0;pos.y=0;});h.march.pick=0;
+    await h.ready();h.complete();
+    h.raw.g_CityPositions=standardGeo.cities.map(c=>({x:c.engX,y:c.engY}));h.nativeHook('didOpenNewGame');
+    assert.equal(h.api.getPhase(),'other');assert.equal(h.frames.size,1);
+    h.march.pick=1;h.frame();
+    assert.equal(h.api.getPhase(),'map');assert.equal(h.api.debugSnapshot().hitsEnabled,true);assert.equal(h.frames.size,1);
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+});
+
+test('map observation preserves a Mod callback and infers report/menu/fight input instead of forcing map phase',async()=>{
+    let calls=0;const observer=()=>{calls++;return 17;};const h=await loaded({hooks:{didShowMainMap:observer}});
+    assert.equal(h.context.baye.hooks.didShowMainMap,observer);
+    for(const owner of ['report','system-menu','city-menu','fight']){
+        h.report.active=0;h.fight.active=0;h.menu.active=0;h.menu.context=0;
+        if(owner==='report')h.report.active=1;
+        if(owner==='system-menu'){h.menu.active=1;h.menu.context=4;}
+        if(owner==='city-menu'){h.menu.active=1;h.menu.context=1;}
+        if(owner==='fight')h.fight.active=1;
+        assert.equal(h.nativeHook('didShowMainMap'),17);
+        assert.equal(h.api.getPhase(),owner==='city-menu'?'classic-menu':'other',owner);
+        assert.equal(h.api.debugSnapshot().hitsEnabled,false,owner);
+    }
+    assert.equal(calls,4);assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+});
+
+test('new map hooks cannot wake pending/actual Mod libraries or paint and schedule while hidden',async()=>{
+    for(const hex of [lib.toString('hex'),readFileSync(new URL('../libs/sc-mod.lib',import.meta.url)).toString('hex')]){
+        const h=harness({hex});h.nativeHook('didOpenNewGame');h.nativeHook('didShowMainMap');
+        assert.equal(h.context.BayeHdLibIdentity.read().status,'pending');assert.equal(h.frames.size,0);assert.equal(h.paints.length,0);
+        await h.ready();
+        if(hex===lib.toString('hex')){
+            h.complete();h.setHidden(true);h.paints.length=0;
+            h.nativeHook('didLoadGame');h.nativeHook('didShowMainMap');
+            assert.equal(h.frames.size,0);assert.equal(h.paints.length,0);
+            h.setHidden(false);assert.equal(h.frames.size,1);assert.equal(h.api.getPhase(),'map');
+        }else{
+            h.nativeHook('didOpenNewGame');h.nativeHook('didShowMainMap');
+            assert.equal(h.requests.length,0);assert.equal(h.frames.size,0);assert.equal(h.paints.length,0);
+            assert.equal(h.api.debugSnapshot().presentationReady,false);assert.equal(h.api.getCities().length,0);
+            assert.equal(h.nodes.get('hd-overworld').attrs.get('aria-hidden'),'true');
+        }
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+    }
 });

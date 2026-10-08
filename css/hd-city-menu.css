@@ -392,7 +392,8 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     display: contents;
 }
 
-.hd-city-menu-person-layout.has-person-details {
+.hd-city-menu-person-layout.has-person-details,
+.hd-city-menu-person-layout.has-tool-details {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
     gap: 18px;
@@ -402,13 +403,15 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     flex: 1 1 auto;
 }
 
-.has-person-details .hd-city-menu-deep {
+.has-person-details .hd-city-menu-deep,
+.has-tool-details .hd-city-menu-deep {
     margin: 0;
     min-height: 0;
     align-content: start;
 }
 
-.hd-city-menu-person-details {
+.hd-city-menu-person-details,
+.hd-city-menu-tool-details {
     min-width: 0;
     min-height: 0;
     overflow: auto;
@@ -416,11 +419,13 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     font-size: 15px;
 }
 
-.hd-city-menu-person-details[hidden] {
+.hd-city-menu-person-details[hidden],
+.hd-city-menu-tool-details[hidden] {
     display: none !important;
 }
 
-.hd-city-menu-person-name {
+.hd-city-menu-person-name,
+.hd-city-menu-tool-name {
     margin: 0 0 14px;
     font-size: 24px;
     line-height: 1.3;
@@ -431,11 +436,13 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     display: none;
 }
 
-.hd-city-menu-person-fields {
+.hd-city-menu-person-fields,
+.hd-city-menu-tool-fields {
     min-width: 0;
 }
 
-.hd-city-menu-person-details .hd-city-menu-info-group + .hd-city-menu-info-group {
+.hd-city-menu-person-details .hd-city-menu-info-group + .hd-city-menu-info-group,
+.hd-city-menu-tool-details .hd-city-menu-info-group + .hd-city-menu-info-group {
     margin-top: 16px;
 }
 
@@ -447,6 +454,25 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     overflow-wrap: anywhere;
 }
 
+.hd-city-menu-tool-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.hd-city-menu-tool-controls button {
+    flex: 1 1 136px;
+    min-height: 42px;
+    padding: 9px 12px;
+    font-size: 14px;
+}
+
+.hd-city-menu-tool-controls button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
 @media (max-width: 760px) {
     .hd-city-menu-stage {
         padding: 20px;
@@ -455,12 +481,15 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     .hd-city-menu-status {
         grid-template-columns: minmax(0, 1fr);
     }
-    .hd-city-menu-person-layout.has-person-details {
+    .hd-city-menu-person-layout.has-person-details,
+    .hd-city-menu-person-layout.has-tool-details {
         grid-template-columns: minmax(0, 1fr);
         overflow: auto;
     }
     .has-person-details .hd-city-menu-deep,
-    .hd-city-menu-person-details {
+    .has-tool-details .hd-city-menu-deep,
+    .hd-city-menu-person-details,
+    .hd-city-menu-tool-details {
         overflow: visible;
     }
 }

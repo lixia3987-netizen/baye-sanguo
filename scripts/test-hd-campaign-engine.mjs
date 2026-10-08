@@ -19,10 +19,26 @@ function actualFunction(filename, name) {
     const source = read(filename);
     const match = new RegExp('^(?:static\\s+)?(?:FAR\\s+)?[A-Za-z0-9_ *]+\\b' + name + '\\([^;]*?\\)\\s*\\{', 'm').exec(source);
     assert.ok(match, `actual ${filename}::${name} exists`);
-    const end = source.indexOf('\n}', match.index);
-    assert.ok(end > match.index, `actual ${filename}::${name} closes`);
-    return source.slice(match.index, end + 2);
+    const open = source.indexOf('{', match.index);
+    let depth = 0, quote = null, comment = null;
+    for (let end = open; end < source.length; end++) {
+        const char = source[end], next = source[end + 1];
+        if (comment === '//') { if (char === '\n') comment = null; continue; }
+        if (comment === '/*') { if (char === '*' && next === '/') { comment = null; end++; } continue; }
+        if (quote) { if (char === '\\') end++; else if (char === quote) quote = null; continue; }
+        if (char === '/' && (next === '/' || next === '*')) { comment = char + next; end++; continue; }
+        if (char === '"' || char === "'" || char === '`') { quote = char; continue; }
+        if (char === '{') depth++;
+        if (char === '}' && --depth === 0) return source.slice(match.index, end + 1);
+    }
+    assert.fail(`actual ${filename}::${name} closes`);
 }
+
+const bridge = read('hd-bridge.c');
+const detailGlobals = bridge.slice(bridge.indexOf('U32 g_hdDetailGeneration ='), bridge.indexOf('static U8 hdMenuNextContext')) +
+    bridge.slice(bridge.indexOf('U8 g_hdHelpProtocolVersion ='), bridge.indexOf('U8 g_hdMovieActive ='));
+const detailClears = ['hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear']
+    .map(name => actualFunction('hd-bridge.c', name)).join('\n');
 
 async function compile(source) {
     const temporary = mkdtempSync(join(tmpdir(), 'baye-hd-campaign-'));
@@ -30,7 +46,9 @@ async function compile(source) {
         const filename = join(temporary, 'campaign.c');
         const executable = join(temporary, process.platform === 'win32' ? 'campaign.exe' : 'campaign');
         writeFileSync(filename, source);
-        await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], { timeout: 20000 });
+        try { await run(process.env.CC || 'cc', ['-std=c99', '-Wall', '-Wextra', filename, '-o', executable], { timeout: 20000 }); }
+        catch (error) { throw new Error('Actual campaign fixture compilation failed: ' +
+            (error.stderr?.split(/\r?\n/).filter(line => /error:|fatal error:/.test(line)).join('\n') || error.message)); }
         const result = await run(executable, [], { timeout: 20000 });
         assert.match(result.stdout, /passed/);
     } finally { assert.equal(dirname(resolve(temporary)), resolve(tmpdir()), 'Cleanup stays in the explicit temporary directory');
@@ -97,7 +115,8 @@ static void reset(void) {
     guarded.before = 0x12345678; guarded.after = 0x87654321;
     messageCount = addCalls = 0; allowOrder = 1; g_PlayerKing = 0;
 }
-` + constants + '\n' + actualFunction('citycmdd.c', 'AddOrderEnd') + '\n' + actualFunction('citycmdd.c', 'AddFightOrder');
+` + constants + '\n' + detailGlobals + '\n' + detailClears + '\n' +
+    actualFunction('citycmdd.c', 'AddOrderEnd') + '\n' + actualFunction('citycmdd.c', 'AddFightOrder');
 
 test('real C fight queue stores all 30 ten-person armies within its 600-byte allocation and reuses sparse slots', async () => {
     await compile(common + String.raw`
@@ -239,7 +258,7 @@ int main(void) {
 
 test('real C incoming attacks own defender menus, ACK native indexes and preserve removal, ten-general and EXIT rules', async () => {
     const menuHelpers = ['hd_next_input_seq', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default',
-        'baye_hd_menu_begin', 'baye_hd_menu_end', 'baye_hd_set_menu'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
+        'baye_hd_menu_begin', 'baye_hd_menu_end', 'baye_hd_set_menu', 'baye_hd_menu_ids'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
     await compile(common + marchAcknowledgement + String.raw`
 #define PERSON_COUNT 600
 #define gam_strlen(text) strlen((const char*)(text))
@@ -271,6 +290,9 @@ static U8 hdMenuNextContext,hdMenuNextKind,g_hdMenuActive,g_hdMenuContext,g_hdMe
 static U32 g_hdMenuSeq;
 static U8 g_hdMenuGbk[BAYE_HD_MENU_MAX];
 static U16 g_hdMenuItemLen,g_hdMenuCount,g_hdMenuIndex;
+/* This campaign resource fixture has 600 persons and no tool resource. */
+static U32 GamGetPersonCount(void) { return sizeof(g_Persons)/sizeof(g_Persons[0]); }
+static U16 baye_hd_tool_count(void) { return 0; }
 static void baye_hd_fight_input_begin(U8 kind) { (void)kind;assert(0); }
 static void baye_hd_fight_input_end(void) { assert(0); }
 ` + menuHelpers + String.raw`
@@ -555,7 +577,7 @@ typedef uint16_t U16;
 typedef uint32_t U32;
 typedef uint16_t PersonID;
 #define gam_strlen(text) strlen((const char*)(text))
-` + constants + String.raw`
+` + constants + '\n' + detailGlobals + String.raw`
 static U8 g_hdMenuGbk[BAYE_HD_MENU_MAX];
 static U16 g_hdMenuItemLen,g_hdMenuCount,g_hdMenuIndex;
 static void GetPersonName(PersonID person,U8* name) { snprintf((char*)name,16,"p%04u",person); }

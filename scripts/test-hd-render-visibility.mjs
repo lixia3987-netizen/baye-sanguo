@@ -20,7 +20,8 @@ const mapIdentity = Object.freeze({status:'ready',generation:1,sha256:'3bd201460
 const K = { RIGHT: 0x25, ENTER: 0x27 };
 const standardLibHex = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
 
-function browser({ modules = ['overworld', 'battle'], hidden = false, classic = false, loadedLib = false } = {}) {
+function browser({ modules = ['overworld', 'battle'], hidden = false, classic = false, loadedLib = false,
+    canvasRect = { left: 0, top: 0, width: 1920, height: 1080 }, footerRects = [], badgeRect = null } = {}) {
     let now = 10000, nextId = 1;
     const frames = new Map(), timers = new Map(), intervals = new Map();
     const listeners = new Map(), windowListeners = new Map(), sent = [];
@@ -54,8 +55,9 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         g_engineConfig: { responseNoteOfBettle: 0 }
     };
     const armTypes = [0, 1, 2], armTypeCalls = [];
-    const canvasStats = { overworld: { paints: 0, labels: [], strokes: [] },
-        battle: { paints: 0, labels: [], strokes: [] } };
+    const canvasStats = { overworld: { paints: 0, labels: [], text: [], strokes: [] },
+        battle: { paints: 0, labels: [], text: [], strokes: [] } };
+    const layout = { canvasRect, footerRects, badgeRect };
     function element(id) {
         const attrs = new Map(), handlers = new Map();
         return {
@@ -68,17 +70,22 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
                 handlers.get(type).push(callback);
             },
             querySelectorAll: () => [],
-            getBoundingClientRect: () => ({ left: 0, top: 0, width: 1920, height: 1080 })
+            getBoundingClientRect: () => layout.canvasRect
         };
     }
     const nodes = new Map();
     for (const name of modules) {
         const root = element(`hd-${name}`), canvas = element(`hd-${name}-canvas`);
         const stats = canvasStats[name];
-        let points = [], dash = [];
+        let points = [], dash = [], stack = [];
         const ctx = new Proxy({
-            clearRect() { stats.paints++; stats.labels = []; stats.strokes = []; },
-            fillText(text) { stats.labels.push(String(text)); },
+            textBaseline: 'alphabetic', textAlign: 'start',
+            clearRect() { stats.paints++; stats.labels = []; stats.text = []; stats.strokes = []; },
+            fillText(text, x, y, maxWidth) { stats.labels.push(String(text));
+                stats.text.push({text:String(text),x,y,maxWidth,font:this.font,baseline:this.textBaseline,align:this.textAlign}); },
+            save() { stack.push({font:this.font,textAlign:this.textAlign,textBaseline:this.textBaseline,
+                fillStyle:this.fillStyle,strokeStyle:this.strokeStyle,lineWidth:this.lineWidth,globalAlpha:this.globalAlpha,dash:[...dash]}); },
+            restore() { const previous=stack.pop(); if(previous) {dash=previous.dash;delete previous.dash;Object.assign(this,previous);} },
             beginPath() { points = []; },
             moveTo(x, y) { points.push([x, y]); },
             lineTo(x, y) { points.push([x, y]); },
@@ -89,12 +96,25 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
             createLinearGradient: () => ({ addColorStop() {} })
         }, { get(target, key) { return key in target ? target[key] : (() => {}); } });
         canvas.getContext = () => ctx;
+        if (name === 'battle') {
+            const footerButtons = Array.from({length:4},(_,i)=>{
+                const node=element(`footer-${i}`);
+                node.getBoundingClientRect=()=>layout.footerRects[i]??{left:0,top:0,width:0,height:0};
+                if(i===0)node.setAttribute('data-hd-battle-sys','');
+                return node;
+            });
+            root.querySelectorAll=selector=>selector==='.hd-battle-footer button'?footerButtons:
+                selector==='[data-hd-battle-sys]'?[footerButtons[0]]:[];
+        }
         nodes.set(root.id, root); nodes.set(canvas.id, canvas);
     }
     for (const id of ['hd-overworld-hud-left', 'hd-overworld-hud-right', 'hd-battle-hud',
         'hd-battle-menu', 'hd-battle-menu-list', 'hd-battle-menu-title', 'hd-battle-tip', 'hd-battle-result']) {
         nodes.set(id, element(id));
     }
+    const badge=element('baye-build-badge');
+    badge.getBoundingClientRect=()=>layout.badgeRect??{left:0,top:0,width:0,height:0};
+    nodes.set(badge.id,badge);
     const document = {
         hidden, documentElement: element('html'), body: element('body'),
         getElementById: id => nodes.get(id) ?? null,
@@ -152,7 +172,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
     start();
     return {
         context, document, fight, menu, march, report, data, baye, sent, saved, armTypes, armTypeCalls,
-        world, battle, frames, timers, intervals, canvasStats, originalMenu, start,
+        world, battle, frames, timers, intervals, canvasStats, originalMenu, start, layout,
         listenerCount: () => (listeners.get('visibilitychange') ?? []).length,
         setHidden(value) {
             document.hidden = value;
@@ -701,4 +721,71 @@ test('a genuine current action or skill menu keeps the selected actor badge with
         assert.ok(h.canvasStats.battle.labels.includes('行'),'owned native menu still identifies its acting general');
     }
     assert.deepEqual(h.sent,[]);
+});
+
+const unitLegendEntries = ['蓝：己方','红：敌方','待：可行动','已：已行动','行：当前将领'];
+function assertUnitLegendClear(h) {
+    const lines=h.canvasStats.battle.text.filter(line=>unitLegendEntries.some(entry=>line.text.startsWith(entry)));
+    const text=lines.map(line=>line.text).join(' · ');
+    for(const entry of unitLegendEntries)assert.equal(text.split(entry).length-1,1,entry+' remains readable once');
+    const canvas=h.layout.canvasRect;
+    for(const line of lines) {
+        assert.equal(line.baseline,'top');assert.match(line.font,/^15px /);
+        assert.ok(line.y>=992,'legend stays below the original board');
+        const ink={left:canvas.left+line.x/1920*canvas.width,top:canvas.top+line.y/1080*canvas.height,
+            width:line.text.length*10/1920*canvas.width,height:18/1080*canvas.height};
+        assert.ok(ink.top+ink.height<=canvas.top+canvas.height,'legend remains inside its canvas');
+        for(const obstacle of [...h.layout.footerRects,h.layout.badgeRect].filter(Boolean)) {
+            const overlaps=ink.left<obstacle.left+obstacle.width&&ink.left+ink.width>obstacle.left&&
+                ink.top<obstacle.top+obstacle.height&&ink.top+ink.height>obstacle.top;
+            assert.equal(overlaps,false,'legend does not cover a real footer button or build badge');
+        }
+    }
+    return lines;
+}
+
+test('unit legend clears actual 720p and 1080p controls without changing the board or native state', () => {
+    for(const layout of [
+        {canvasRect:{left:0,top:0,width:1280,height:720},
+            footerRects:Array.from({length:4},(_,i)=>({left:104+i*88,top:680,width:80,height:36})),
+            badgeRect:{left:8,top:690,width:81,height:22}},
+        {canvasRect:{left:0,top:0,width:1920,height:1080},
+            footerRects:Array.from({length:4},(_,i)=>({left:104+i*100,top:1024,width:90,height:40})),
+            badgeRect:{left:8,top:1050,width:81,height:22}}
+    ]) {
+        const h=browser({modules:['battle'],...layout});
+        const native=JSON.stringify(h.data),fight=JSON.stringify(h.fight);h.frame();
+        const lines=assertUnitLegendClear(h);assert.equal(lines.length,1);
+        assert.equal(lines[0].x,80);assert.equal(lines[0].y,998);
+        const details=h.canvasStats.battle.text.find(line=>line.text.startsWith('地形：'));
+        assert.equal(details.baseline,'alphabetic','legend restores the focus HUD text baseline');
+        const border=h.canvasStats.battle.strokes.find(s=>s.points.length===2&&s.points[0][0]===80&&
+            s.points[0][1]===992&&s.points[1][0]===1840&&s.points[1][1]===992);
+        assert.ok(border,'native tile rendering keeps the recorded board edge');
+        assert.equal(JSON.stringify(h.data),native);assert.equal(JSON.stringify(h.fight),fight);
+        assert.deepEqual(h.sent,[]);
+    }
+});
+
+test('legend responds to real button bounds and letterbox offsets on resize, with no key sends', () => {
+    const h=browser({modules:['battle']});h.frame();assertUnitLegendClear(h);
+    h.layout.canvasRect={left:320,top:180,width:1280,height:720};
+    h.layout.footerRects=Array.from({length:4},(_,i)=>({left:424+i*88,top:860,width:80,height:36}));
+    h.layout.badgeRect={left:8,top:1050,width:81,height:22};
+    h.resize();h.frame();assertUnitLegendClear(h);
+    // A different live toolbar position crosses the preferred left slot.
+    // Its measured bounds, rather than a guessed footer height, move the key.
+    h.layout.footerRects=Array.from({length:4},(_,i)=>({left:340,top:835+i*12,width:102,height:20}));
+    h.frame();const moved=assertUnitLegendClear(h);assert.ok(moved[0].x>80);
+    h.setHidden(true);const paints=h.canvasStats.battle.paints;
+    h.layout.canvasRect={left:0,top:0,width:1920,height:1080};h.resize();h.frame();
+    assert.equal(h.canvasStats.battle.paints,paints,'hidden layout changes do not restart painting');
+    assert.deepEqual(h.sent,[]);
+});
+
+test('unit legend retains a complete canvas fallback when footer DOM geometry is unavailable', () => {
+    const h=browser({modules:['battle']});
+    h.document.getElementById('hd-battle').querySelectorAll=()=>[];
+    h.document.getElementById('hd-battle-canvas').getBoundingClientRect=()=>({left:0,top:0,width:0,height:0});
+    h.frame();assert.equal(assertUnitLegendClear(h).length,1);assert.deepEqual(h.sent,[]);
 });

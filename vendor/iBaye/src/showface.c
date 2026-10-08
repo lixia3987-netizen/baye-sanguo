@@ -76,7 +76,9 @@ void bind_show_face(ObjectDef* global_def)
  *		----		----			-----------
  *		陈泽伟		2005/5/18 11:26AM	基本功能完成
  ******************************************************************************/
-void ShowGoodsPro(ToolID goods,U8 pro,U8 x,U8 y,U8 wid)
+static void GetGoodsProStrCaptured(ToolID goods,U8 pro,U8 *str,U32 generation,U32 seq);
+
+static void ShowGoodsProCaptured(ToolID goods,U8 pro,U8 x,U8 y,U8 wid,U32 generation,U32 seq)
 {
     U8 sx,sy;
     U8 str[128];
@@ -89,6 +91,7 @@ void ShowGoodsPro(ToolID goods,U8 pro,U8 x,U8 y,U8 wid)
     if (AddItem(ASC_WID * 10 + 1,ASC_HGT,&positem,&sx,&sy))
     {
         GetGoodsName(goods,str);
+        baye_hd_goods_name(generation, seq, goods, str);
         PlcMidShowStr(sx + ASC_WID * 10 / 2,sy,str);
         /*GamStrShowS(sx,sy,str);*/
     }
@@ -101,8 +104,9 @@ void ShowGoodsPro(ToolID goods,U8 pro,U8 x,U8 y,U8 wid)
     {
         if (AddItem(ASC_WID * ptr[i] + 1,ASC_HGT,&positem,&sx,&sy))
         {
-            GetGoodsProStr(goods,i,str);
+            GetGoodsProStrCaptured(goods,i,str,generation,seq);
             PlcMidShowStr(sx + ASC_WID * ptr[i] / 2,sy,str);
+            baye_hd_goods_capture(generation, seq, goods, i, str, 0);
             /*GamStrShowS(sx,sy,str);*/
         }
         else
@@ -110,6 +114,11 @@ void ShowGoodsPro(ToolID goods,U8 pro,U8 x,U8 y,U8 wid)
             break;
         }
     }
+}
+
+void ShowGoodsPro(ToolID goods,U8 pro,U8 x,U8 y,U8 wid)
+{
+    ShowGoodsProCaptured(goods, pro, x, y, wid, 0, 0);
 }
 
 
@@ -126,13 +135,14 @@ void ShowGoodsPro(ToolID goods,U8 pro,U8 x,U8 y,U8 wid)
  *		----		----			-----------
  *		陈泽伟		2005-7-28 14:57	基本功能完成
  ******************************************************************************/
-void GetGoodsProStr(ToolID goods,U8 pro,U8 *str)
+static void GetGoodsProStrCaptured(ToolID goods,U8 pro,U8 *str,U32 generation,U32 seq)
 {
     U32 idx = '\0';
     GOODS *gptr;
 
     str[0] = 0;
     IF_HAS_HOOK("getToolPropertyValue") {
+        baye_hd_goods_custom(generation, seq, goods);
         U8* value = str;
         BIND_U16EX("toolIndex", &goods);
         BIND_U8EX("propertyIndex", &pro);
@@ -190,6 +200,11 @@ void GetGoodsProStr(ToolID goods,U8 pro,U8 *str)
     }
 }
 
+void GetGoodsProStr(ToolID goods,U8 pro,U8 *str)
+{
+    GetGoodsProStrCaptured(goods, pro, str, 0, 0);
+}
+
 /******************************************************************************
  * 函数名:ShowGoodsProStr
  * 说  明:显示道具属性字符串
@@ -203,7 +218,7 @@ void GetGoodsProStr(ToolID goods,U8 pro,U8 *str)
  *		----		----			-----------
  *		陈泽伟		2005/5/18 11:26AM	基本功能完成
  ******************************************************************************/
-U8 ShowGoodsProStr(U8 pro,U8 x,U8 y,U8 wid)
+static U8 ShowGoodsProStrCaptured(U8 pro,U8 x,U8 y,U8 wid,U32 generation,U32 seq,ToolID selected)
 {
     U8 sx,sy;
     U8 str[128];
@@ -231,6 +246,7 @@ U8 ShowGoodsProStr(U8 pro,U8 x,U8 y,U8 wid)
             str[0] = 0;
 
             IF_HAS_HOOK("getToolPropertyTitle") {
+                baye_hd_goods_custom(generation, seq, selected);
                 U8* title = str;
                 BIND_U8EX("propertyIndex", &i);
                 BIND_GBKARR(title, 128);
@@ -240,6 +256,7 @@ U8 ShowGoodsProStr(U8 pro,U8 x,U8 y,U8 wid)
                 ResLoadToMem(STRING_CONST,GOODS_ATRR_STR1 + i,str);
             }
             PlcMidShowStr(sx + ASC_WID * ptr[i] / 2,sy,str);
+            baye_hd_goods_capture(generation, seq, selected, i, str, 1);
             /*GamStrShowS(sx,sy,str);*/
         }
         else
@@ -248,7 +265,11 @@ U8 ShowGoodsProStr(U8 pro,U8 x,U8 y,U8 wid)
         }
     }
     return(i);
+}
 
+U8 ShowGoodsProStr(U8 pro,U8 x,U8 y,U8 wid)
+{
+    return ShowGoodsProStrCaptured(pro, x, y, wid, 0, 0, 0xffff);
 }
 
 /******************************************************************************
@@ -276,8 +297,9 @@ FAR ToolID ShowGoodsControl(ToolID *goods,ToolID gcount, ToolID init, U8 x0,U8 y
 }
 FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0,U8 y0,U8 x1,U8 y1)
 {
+    U32 hdGeneration = g_hdDetailGeneration, hdSeq = g_hdMenuSeq;
     U32 i,showflag,count,top,set;
-    U8 spc,spcv[6];
+    U8 spc,spcv[256];
     U8 wid;
     GMType Msg;
     Touch touch = {0};
@@ -320,21 +342,23 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
     {
         if (showflag)
         {
+            baye_hd_goods_begin(hdGeneration, hdSeq, (U16)set, goods[set], cfg.toolPropertiesCount,
+                spcv[spc], 0);
             gam_clrlcd(x0,y0,x1,y0 + count * ASC_HGT + ASC_HGT - 1);
-            spcv[spc + 1] = ShowGoodsProStr(spcv[spc],x0,y0,wid);
+            spcv[spc + 1] = ShowGoodsProStrCaptured(spcv[spc],x0,y0,wid,hdGeneration,hdSeq,goods[set]);
             for (i = 0;i < count;i ++)
             {
                 if (i >= gcount)
                     break;
 
-                ShowGoodsPro(goods[top + i],spcv[spc],x0,y0 + ASC_HGT * i + ASC_HGT,wid);
+                ShowGoodsProCaptured(goods[top + i],spcv[spc],x0,y0 + ASC_HGT * i + ASC_HGT,wid,hdGeneration,hdSeq);
             }
             if (set >= top && set < top + count) {
                 gam_revlcd(x0,y0 + (set - top + 1) * ASC_HGT,x0 + ASC_WID * 10 - 1,y0 + (set - top + 1) * ASC_HGT + ASC_HGT - 1);
             }
             {
                 U8 packed[BAYE_HD_MENU_MAX];
-                U8 tname[16];
+                U8 tname[32];
                 U32 n = gcount;
                 U32 gi;
                 if (n > 80) {
@@ -352,6 +376,9 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
                     memcpy(packed + gi * BAYE_HD_NAME_SLOT, tname, ln);
                 }
                 baye_hd_set_menu(packed, BAYE_HD_NAME_SLOT, (U16)n, (U16)set);
+                /* A clipped list has no full identity contract. */
+                if (n == gcount) baye_hd_menu_ids(hdGeneration, hdSeq, BAYE_HD_MENU_GOODS, goods, n);
+                baye_hd_goods_page(hdGeneration, hdSeq, spcv[spc + 1]);
             }
             showflag = 0;
         }
@@ -392,7 +419,7 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
                     }
                     break;
                 case VK_RIGHT:
-                    if (spcv[spc + 1] < cfg.toolPropertiesCount)
+                    if (spc < 254 && spcv[spc + 1] > spcv[spc] && spcv[spc + 1] < cfg.toolPropertiesCount)
                     {
                         spc += 1;
                         showflag = 1;
@@ -435,7 +462,7 @@ FAR ToolID ShowGoodsControlInner(ToolID *goods,ToolID gcount, ToolID init, U8 x0
                     if (spc != p.x || top != p.y) {
                         top = p.y;
                         if (p.x > spc) {
-                            if (spcv[spc + 1] < cfg.toolPropertiesCount) {
+                            if (spc < 254 && spcv[spc + 1] > spcv[spc] && spcv[spc + 1] < cfg.toolPropertiesCount) {
                                 spc = spc + 1;
                             }
                         } else {
@@ -811,8 +838,9 @@ FAR PersonID ShowPersonControl(PersonID *person,U32 pcount,PersonID initSelected
 }
 FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSelected,U8 x0,U8 y0,U8 x1,U8 y1)
 {
+    U32 hdGeneration = g_hdDetailGeneration, hdSeq = g_hdMenuSeq;
     U32 i,showflag,count,top,set;
-    U8 spc,spcv[7];
+    U8 spc,spcv[256];
     U8 wid;
     GMType Msg;
     Touch touch = {0};
@@ -869,7 +897,7 @@ FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSel
             }
             {
                 U8 packed[BAYE_HD_MENU_MAX];
-                U8 pname[16];
+                U8 pname[32];
                 U32 n = pcount;
                 U32 pi;
                 if (n > (BAYE_HD_MENU_MAX - 1) / BAYE_HD_NAME_SLOT) {
@@ -887,6 +915,7 @@ FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSel
                     memcpy(packed + pi * BAYE_HD_NAME_SLOT, pname, ln);
                 }
                 baye_hd_set_menu(packed, BAYE_HD_NAME_SLOT, (U16)n, (U16)set);
+                if (n == pcount) baye_hd_menu_ids(hdGeneration, hdSeq, g_hdMenuKind, person, n);
             }
             showflag = 0;
         }
@@ -955,7 +984,7 @@ FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSel
                     }
                     break;
                 case VK_RIGHT:
-                    if (spcv[spc + 1] < cfg.personPropertiesCount)
+                    if (spc < 254 && spcv[spc + 1] > spcv[spc] && spcv[spc + 1] < cfg.personPropertiesCount)
                     {
                         spc += 1;
                         showflag = 1;
@@ -1005,7 +1034,7 @@ moveView:
                         if (spc != p.x || top != p.y) {
                             top = p.y;
                             if (p.x > spc) {
-                                if (spcv[spc + 1] < cfg.personPropertiesCount) {
+                                if (spc < 254 && spcv[spc + 1] > spcv[spc] && spcv[spc + 1] < cfg.personPropertiesCount) {
                                     spc = spc + 1;
                                 }
                             } else {

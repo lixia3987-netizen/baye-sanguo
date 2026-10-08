@@ -15,6 +15,7 @@
 #include	"baye/fundef.h"
 #include	"baye/enghead.h"
 #include    "touch.h"
+#include    "hd-bridge.h"
 
 void gam_setcustomdata(U8*data);
 U8* gam_getcustomdata();
@@ -347,6 +348,35 @@ void bayeDeleteToolInCity(U8 city, U16 tool) {
 EMSCRIPTEN_KEEPALIVE
 U8 bayeGetArmType(U8 pIndex) {
     return GetArmType(&g_Persons[pIndex]);
+}
+
+/* Full native person identity. Unlike the legacy U8 getter this cannot wrap
+ * person 255+, call Mod hooks, or change the async command scratch state. */
+EMSCRIPTEN_KEEPALIVE
+U16 bayeHdGetArmType(U16 pIndex) {
+    return baye_hd_person_arm(pIndex);
+}
+
+EMSCRIPTEN_KEEPALIVE
+U16 bayeHdGetToolCount(void) {
+    return baye_hd_tool_count();
+}
+
+/* Read from the currently loaded validated payload, never a previously bound
+ * g_Tools pointer retained across a library/world switch. */
+EMSCRIPTEN_KEEPALIVE
+U16 bayeHdGetToolField(U16 index, U8 field) {
+    GOODS tool;
+    if (!baye_hd_tool_read(index, &tool)) return 0xffff;
+    switch (field) {
+        case 0: return tool.useflag;
+        case 1: return tool.at;
+        case 2: return tool.iq;
+        case 3: return tool.move;
+        case 4: return tool.arm;
+        case 5: return tool.changeAttackRange;
+        default: return 0xffff;
+    }
 }
 
 EMSCRIPTEN_KEEPALIVE

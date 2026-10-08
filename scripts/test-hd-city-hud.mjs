@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Read-only city/person HUD rendered from real native menu contracts. */
+/** Read-only city/person/tool HUD rendered from real native menu contracts. */
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
@@ -66,12 +66,12 @@ function harness() {
         querySelectorAll: selector => walk(html).filter(node => matches(node, selector)),
         querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; },
         createElement: element, addEventListener() {} };
-    const keys = [], writes = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
+    const keys = [], writes = [], timers = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
         [600, '很长的人物姓名甲乙丙丁戊己庚辛壬癸测试'], [601, '人物乙']]);
     const context = vm.createContext({ document, TextDecoder, TextEncoder,
         console: { log() {}, warn() {}, error() {} }, alert() {}, lcdBlur() {},
         Module: { HEAPU8: new Uint8Array(8192) }, addEventListener() {},
-        setTimeout() {}, clearTimeout() {}, setInterval() {}, clearInterval() {},
+        setTimeout(fn) { timers.push(fn); return timers.length; }, clearTimeout() {}, setInterval() {}, clearInterval() {},
         localStorage: { getItem: key => key === 'baye/cityMenuMode' ? 'hd' : 'hd-map' },
         navigator: { userAgent: 'Node fixture' } });
     context.window = context;
@@ -101,20 +101,25 @@ function harness() {
     context.baye.getPersonName = index => names.get(index) ?? '';
     context.baye.getCityName = () => '长安'; context.baye.hdCityLimit = () => 1;
     const toolCalls = [];
+    context.baye.getToolCount = () => 512;
     context.baye.getToolName = index => { toolCalls.push(index); return index === 0 ? '很长的装备名称甲乙丙丁' : ''; };
     const armCalls = [];
     context.baye.getArmType = index => { armCalls.push(index); throw new Error('U8 derived getter must not be used'); };
+    const derivedCalls = [];
     const menu = { active: 1, context: 1, kind: 3, seq: 9, count: 2, index: 0,
         names: [names.get(600), names.get(601)] };
     const report = { active: 0 }, help = { active: 0 }, qty = { active: 0 };
+    const goods = { active: 0 };
     Object.assign(context.baye.hd, { ready: () => true, menuItems: () => menu, report: () => report,
-        help: () => help, qty: () => qty, march: () => null, fight: () => null });
+        help: () => help, qty: () => qty, march: () => null, fight: () => null, goods: () => goods,
+        toolDetails: () => null, personArmType: id => { derivedCalls.push(id); return null; } });
     let identity = { status: 'ready', generation: 1, sha256: standardHash }, current = true;
     context.BayeHdLibIdentity = { read: () => identity, isCurrent: value => current && value === identity };
     let source = read('js/hd-city-menu.js');
     source = source.replace(/\}\)\(window\);\s*$/, `
         global.__hud = { state: state, cityDetails: cityDetails, personDetails: personDetails,
             renderStatus: renderStatus, renderPersonDetails: renderPersonDetails,
+            renderToolDetails: renderToolDetails,
             deepMenuOwner: deepMenuOwner, fillDeepList: fillDeepList, applyHighlight: applyHighlight,
             chooseRoot: chooseRoot, back: back, bind: bindUi,
             applyDocAttr: applyDocAttr, lcdPresentation: cityLcdPresentation, render: render };
@@ -124,8 +129,27 @@ function harness() {
     Object.assign(hud.state, { open: true, cityIndex: 0, cityName: '长安', layer: 'deep',
         deepKind: 'person', wizardStep: 'none', idleIndex: 0 });
     hud.state.deepMenuOwner = hud.deepMenuOwner(menu);
-    return { context, hud, nodes, root, lcdButton, document, city, person, people, queue, menu, names, report, help, qty,
-        keys, writes, armCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
+    return { context, hud, nodes, root, lcdButton, document, city, person, people, queue, menu, names, report, help, qty, goods,
+        keys, writes, timers, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
+}
+
+function goodsHarness({custom = true} = {}) {
+    const h = harness();
+    Object.assign(h.hud.state, { deepKind: 'goods', deepStep: 0 });
+    Object.assign(h.menu, { kind: 4, generation: 3, detailGeneration: 3, idsValid: true, ids: [2, 17],
+        names: ['同名道具', '同名道具'], count: 2, index: 0 });
+    Object.assign(h.goods, { active: 1, complete: 0, custom: custom ? 1 : 0, generation: 3, detailGeneration: 3,
+        menuSeq: h.menu.seq, index: 0, tool: 2, name: '很长的真实道具名称甲乙丙丁戊己',
+        propertyCount: 5, pageStart: 0, pageEnd: 3, properties: Array.from({length: 5}, (_, i) => ({
+            index: i, title: i < 3 ? '实际属性' + i : '', value: i < 3 ? String(i) : '', captured: i < 3 })) });
+    h.hud.fillDeepList(); h.hud.bind();
+    return h;
+}
+function dispatch(h, type, target) {
+    h.root.listeners.get(type).forEach(listener => listener({target, preventDefault() {}, stopPropagation() {}}));
+}
+function pageButton(h, direction) {
+    return h.document.querySelectorAll('[data-hd-tool-page]').find(button => button.getAttribute('data-hd-tool-page') === direction);
 }
 
 function rows(details) { return Object.fromEntries(details.groups.flatMap(group => group.rows)); }
@@ -199,6 +223,25 @@ test('known equipment is named through its actual ID and missing names retain th
     assert.equal(values.装备一, '很长的装备名称甲乙丙丁（编号 1）');
     assert.equal(values.装备二, '道具编号 512（名称未读取）');
     assert.deepEqual(h.toolCalls, [0, 511]); assert.deepEqual(h.armCalls, []);
+});
+
+test('equipment names use the validated actual tool count for high IDs and never query invalid resources', () => {
+    const h = harness(); h.person.Equip = [600, 601];
+    h.context.baye.getToolCount = () => 600;
+    h.context.baye.getToolName = id => { h.toolCalls.push(id); return id === 599 ? '真实高编号装备' : ''; };
+    let values = rows(h.hud.personDetails(600, '人物'));
+    assert.equal(values.装备一, '真实高编号装备（编号 600）'); assert.equal(values.装备二, '道具编号 601（名称未读取）');
+    assert.deepEqual(h.toolCalls, [599]);
+    for (const count of [0, null, false, '600', 1.5, NaN, -1, 2001]) {
+        h.context.baye.getToolCount = () => count; h.toolCalls.length = 0;
+        values = rows(h.hud.personDetails(600, '人物'));
+        assert.equal(values.装备一, '道具编号 600（名称未读取）'); assert.deepEqual(h.toolCalls, []);
+    }
+    h.context.baye.getToolCount = () => { throw new Error('resource is unreadable'); };
+    h.toolCalls.length = 0; h.hud.personDetails(600, '人物'); assert.deepEqual(h.toolCalls, []);
+    delete h.context.baye.getToolCount; h.person.Equip = [512, 600]; h.toolCalls.length = 0;
+    h.hud.personDetails(600, '人物'); assert.deepEqual(h.toolCalls, [511]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
 });
 
 test('untrusted/pending/stale loaded LIB or Mod property hooks only expose raw enum codes', () => {
@@ -428,4 +471,214 @@ test('read-only status entry and return preserve the real root owner and can ope
     assert.equal(h.hud.state.layer, 'sub'); assert.equal(h.hud.state.subKind, 'junbei');
     assert.equal(h.menu.active, 1); assert.equal(h.menu.context, 1); assert.equal(h.menu.kind, 2);
     assert.equal(h.menu.seq, 78); assert.deepEqual(h.keys, [0x27]); assert.deepEqual(h.writes, []);
+});
+
+test('real U16 menu IDs identify reordered and duplicate-name persons without guessing names', () => {
+    const h = harness(); h.people[601].Force = 33;
+    Object.assign(h.menu, { generation: 8, detailGeneration: 8, idsValid: true, ids: [601, 600],
+        names: ['同名人物', '同名人物'] });
+    h.hud.fillDeepList();
+    assert.deepEqual(Array.from(h.hud.state.deepItems, item => item.pind), [601, 600]);
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.equal(rows(h.hud.state.personDetail).武力, '33');
+    assert.equal(h.document.querySelectorAll('[data-hd-deep]')[0].getAttribute('data-hd-deep-pind'), '601');
+    h.menu.index = 1; h.hud.applyHighlight();
+    assert.equal(h.hud.state.personDetail.personIndex, 600); assert.equal(rows(h.hud.state.personDetail).武力, '91');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('malformed claimed native IDs never fall back to a matching person name list', () => {
+    for (const ids of [[600], [600, 65535], [600, '601'], [600, true]]) {
+        const h = harness(); Object.assign(h.menu, { idsValid: true, ids, generation: 1, detailGeneration: 1 });
+        h.hud.fillDeepList();
+        assert.equal(h.hud.state.personDetail, null);
+        assert.ok(Array.from(h.hud.state.deepItems).every(item => item.pind === undefined));
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('derived equipment arm passes the whole U16 person ID and retains the basic arm separately', () => {
+    const h = harness(); h.context.baye.hd.personArmType = id => { h.derivedCalls.push(id); return 5; };
+    let detail = h.hud.personDetails(600, '人物');
+    assert.equal(rows(detail).基础兵种, '弓箭兵（码 2）'); assert.equal(rows(detail).装备后兵种, '玄兵（码 5）');
+    assert.deepEqual(h.derivedCalls, [600]); assert.deepEqual(h.armCalls, []);
+    h.setIdentity({status: 'ready', sha256: 'actual-mod'});
+    assert.equal(rows(h.hud.personDetails(600, '人物')).装备后兵种, '原始码 5');
+    for (const value of [null, 65535, '5', false, -1]) {
+        h.context.baye.hd.personArmType = () => value;
+        assert.equal(rows(h.hud.personDetails(600, '人物')).装备后兵种, '未读取');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('same-name goods use actual selected tool ID and preserve native captured values and unread pages', () => {
+    const h = goodsHarness();
+    const detail = plain(h.hud.state.toolDetail), buttons = h.document.querySelectorAll('[data-hd-deep]');
+    assert.deepEqual(Array.from(h.hud.state.deepItems, item => item.toolIndex), [2, 17]);
+    assert.equal(buttons[0].getAttribute('data-hd-deep-tool'), '2'); assert.equal(buttons[1].getAttribute('data-hd-deep-tool'), '17');
+    assert.equal(detail.toolIndex, 2); assert.equal(detail.nativeIndex, 0); assert.equal(detail.generation, 3);
+    assert.equal(detail.complete, false); assert.equal(detail.custom, true); assert.equal(detail.source, 'native-capture');
+    assert.equal(rows(detail).实际属性0, '0'); assert.equal(rows(detail)['属性 4'], '未读取');
+    assert.match(h.document.getElementById('hd-city-menu-tool-details').textContent, /原生已显示 3 \/ 5 项/);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-name').textContent, h.goods.name);
+    assert.equal(h.document.getElementById('hd-city-menu-person-details').hidden, true);
+    assert.equal(h.hud.lcdPresentation(), 'off');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('standard current raw tool fields supplement unread default properties, preserving real zero values', () => {
+    const h = goodsHarness({custom: false}), calls = [];
+    h.context.baye.hd.toolDetails = id => {
+        calls.push(id); return {index: id, standard: true, generation: 3, name: '道具',
+            attack: 0, iq: 0, move: 0, arm: 2, useFlag: 0, changeAttackRange: 1};
+    };
+    h.goods.properties.forEach(property => { property.captured = false; property.title = property.value = ''; });
+    h.hud.renderToolDetails();
+    const detail = plain(h.hud.state.toolDetail), values = rows(detail);
+    assert.equal(detail.complete, true); assert.equal(detail.nativeComplete, false); assert.equal(detail.source, 'standard-raw');
+    assert.equal(values.用法, '装备'); assert.equal(values.武力加成, '0'); assert.equal(values.智力加成, '0');
+    assert.equal(values.移动加成, '0'); assert.equal(values.兵种变化, '玄兵'); assert.deepEqual(calls, [2]);
+    assert.equal(values.改变攻击范围标志, '改变（码 1）');
+    h.goods.complete = 1; h.goods.properties.forEach(property => { property.captured = true; }); h.hud.renderToolDetails();
+    assert.equal(rows(h.hud.state.toolDetail).改变攻击范围标志, '改变（码 1）');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('custom properties, unknown libraries and live property hooks never substitute standard raw semantics', () => {
+    for (const mode of ['custom', 'mod', 'hook', 'pending', 'stale']) {
+        const h = goodsHarness({custom: mode === 'custom'}); let rawCalls = 0, hookCalls = 0;
+        h.context.baye.hd.toolDetails = () => { rawCalls++; return {index: 2, standard: true, attack: 99, iq: 88, move: 1, arm: 2, useFlag: 0}; };
+        if (mode === 'mod') h.setIdentity({status: 'ready', sha256: 'real-mod'});
+        if (mode === 'pending') h.setIdentity({status: 'pending', sha256: null});
+        if (mode === 'stale') h.setIdentity({status: 'ready', sha256: standardHash}, false);
+        if (mode === 'hook') h.context.baye.hooks = {getToolPropertyValue() { hookCalls++; throw new Error('must not execute hook'); }};
+        h.hud.renderToolDetails();
+        assert.equal(h.hud.state.toolDetail.complete, false, mode); assert.equal(h.hud.state.toolDetail.source, 'native-capture', mode);
+        assert.equal(rows(h.hud.state.toolDetail)['属性 4'], '未读取', mode);
+        assert.equal(rawCalls, 0, mode); assert.equal(hookCalls, 0, mode); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('genuine captured blank and literal markup stay distinct from unread values', () => {
+    const h = goodsHarness();
+    h.goods.properties[0] = {index: 0, title: '<img src=x>', value: '<script>actual Mod text</script>', captured: true};
+    h.goods.properties[1] = {index: 1, title: '', value: '', captured: true};
+    h.hud.renderToolDetails();
+    const values = rows(h.hud.state.toolDetail);
+    assert.equal(values['<img src=x>'], '<script>actual Mod text</script>');
+    assert.equal(values['属性 2（标题为空）'], '（空）'); assert.equal(values['属性 4'], '未读取');
+    const pane = h.document.getElementById('hd-city-menu-tool-details');
+    assert.equal(pane.querySelectorAll('img').length, 0); assert.equal(pane.querySelectorAll('script').length, 0);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('tool fields and controls persist when actual highlighted ID changes, without automatic pagination', () => {
+    const h = goodsHarness(), pane = h.document.getElementById('hd-city-menu-tool-details');
+    const fields = h.document.getElementById('hd-city-menu-tool-fields'), controls = h.document.getElementById('hd-city-menu-tool-controls');
+    h.menu.index = 1; Object.assign(h.goods, {index: 1, tool: 17, name: '第二个同名道具的真实标题'});
+    h.hud.fillDeepList();
+    assert.equal(h.hud.state.toolDetail.toolIndex, 17); assert.equal(h.hud.state.idleIndex, 1);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-details'), pane);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-fields'), fields);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-controls'), controls);
+    assert.equal(pane.parentElement.id, 'hd-city-menu-person-layout');
+    assert.equal(pane.parentElement.classList.contains('has-tool-details'), true);
+    for (let i = 0; i < 4; i++) h.hud.fillDeepList();
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('tool owner and generation loss, overlays and pending input retire details and preserve LCD fallback', () => {
+    for (const mode of ['report', 'help', 'qty', 'seq', 'index', 'tool', 'generation', 'current-generation', 'ids',
+        'ids-invalid', 'pending', 'request', 'queue', 'hidden', 'closed', 'layer', 'person']) {
+        const h = goodsHarness(); assert.ok(h.hud.state.toolDetail, mode);
+        if (mode === 'report') h.report.active = 1;
+        if (mode === 'help') h.help.active = 1;
+        if (mode === 'qty') h.qty.active = 1;
+        if (mode === 'seq') h.menu.seq++;
+        if (mode === 'index') h.menu.index = 1;
+        if (mode === 'tool') h.goods.tool = 17;
+        if (mode === 'generation') h.goods.generation++;
+        if (mode === 'current-generation') h.goods.detailGeneration++;
+        if (mode === 'ids') h.menu.ids.reverse();
+        if (mode === 'ids-invalid') h.menu.idsValid = false;
+        if (mode === 'pending') h.hud.state.deepSelectionPending = {};
+        if (mode === 'request') h.hud.state.nativeMenuRequest = {};
+        if (mode === 'queue') h.hud.state.queue = [0x27];
+        if (mode === 'hidden') h.document.hidden = true;
+        if (mode === 'closed') h.hud.state.open = false;
+        if (mode === 'layer') h.hud.state.layer = 'status';
+        if (mode === 'person') h.hud.state.deepKind = 'person';
+        h.hud.renderToolDetails();
+        assert.equal(h.hud.state.toolDetail, null, mode); assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true, mode);
+        assert.equal(h.hud.state.toolPagePending, null, mode);
+        if (['seq', 'index', 'tool', 'generation', 'current-generation', 'ids', 'ids-invalid'].includes(mode)) assert.equal(h.hud.lcdPresentation(), 'on', mode);
+        if (['report', 'help'].includes(mode)) assert.equal(h.hud.lcdPresentation(), 'passthrough', mode);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('property page clicks send one native arrow and wait for the real page acknowledgement', () => {
+    const h = goodsHarness(), next = pageButton(h, 'next'), previous = pageButton(h, 'prev');
+    assert.equal(previous.disabled, true); assert.equal(next.disabled, false);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]); assert.ok(h.hud.state.toolPagePending);
+    dispatch(h, 'click', next); h.hud.fillDeepList(); assert.deepEqual(h.keys, [0x25]);
+    Object.assign(h.goods, {pageStart: 3, pageEnd: 5, complete: 1});
+    h.goods.properties.forEach((property, index) => Object.assign(property, {title: '实际属性' + index, value: String(index), captured: true}));
+    h.hud.fillDeepList(); assert.equal(h.hud.state.toolPagePending, null); assert.equal(next.disabled, true);
+    assert.equal(previous.disabled, false); assert.equal(h.hud.state.toolDetail.nativeComplete, true);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+    dispatch(h, 'click', previous); assert.deepEqual(h.keys, [0x25, 0x24]);
+    assert.equal(h.keys.includes(0x27), false); assert.deepEqual(h.writes, []);
+});
+
+test('pointer-owned stale page controls never send keys to another native selection or generation', () => {
+    for (const mode of ['index', 'seq', 'generation', 'page', 'report']) {
+        const h = goodsHarness(), next = pageButton(h, 'next');
+        dispatch(h, 'pointerdown', next);
+        if (mode === 'index') { h.menu.index = 1; Object.assign(h.goods, {index: 1, tool: 17}); }
+        if (mode === 'seq') { h.menu.seq++; h.goods.menuSeq++; }
+        if (mode === 'generation') { h.menu.generation++; h.menu.detailGeneration++; h.goods.generation++; h.goods.detailGeneration++; }
+        if (mode === 'page') { h.goods.pageStart = 3; h.goods.pageEnd = 5; }
+        if (mode === 'report') h.report.active = 1;
+        h.hud.fillDeepList(); dispatch(h, 'click', next);
+        assert.deepEqual(h.keys, [], mode); assert.deepEqual(h.writes, [], mode);
+    }
+});
+
+test('reentrant read-only default or final input getters cannot publish or page a retired tool', () => {
+    const h = goodsHarness({custom: false});
+    h.context.baye.hd.toolDetails = () => {
+        h.menu.detailGeneration = h.menu.generation = 4;
+        return {index: 2, standard: true, attack: 1, iq: 2, move: 3, arm: 0, useFlag: 0};
+    };
+    h.hud.renderToolDetails(); assert.equal(h.hud.state.toolDetail, null);
+    assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    const input = goodsHarness(), next = pageButton(input, 'next');
+    input.context.baye.hd.fight = () => { input.menu.seq++; return null; };
+    dispatch(input, 'click', next); assert.deepEqual(input.keys, []); assert.deepEqual(input.writes, []);
+});
+
+test('same-name native menu ID changes retire an armed item click instead of confirming another tool', () => {
+    const h = goodsHarness(), first = h.document.querySelectorAll('[data-hd-deep]')[0];
+    dispatch(h, 'pointerdown', first); h.menu.ids.reverse(); h.goods.tool = 17; h.hud.fillDeepList();
+    dispatch(h, 'click', h.document.querySelectorAll('[data-hd-deep]')[0]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('a report that restores the same native menu and page still retires an older pressed page button', () => {
+    const h = goodsHarness(), next = pageButton(h, 'next');
+    const oldOwner = next.getAttribute('data-hd-tool-page-owner');
+    dispatch(h, 'pointerdown', next); h.report.active = 1; h.hud.fillDeepList();
+    h.report.active = 0; h.hud.fillDeepList();
+    assert.notEqual(next.getAttribute('data-hd-tool-page-owner'), oldOwner);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+});
+
+test('cancelling a goods menu hides its side panel and retains the existing single native Exit', () => {
+    const h = goodsHarness(); h.hud.state.subKind = 'neizheng';
+    h.hud.back();
+    assert.equal(h.hud.state.toolDetail, null); assert.equal(h.document.getElementById('hd-city-menu-tool-details').hidden, true);
+    h.timers.shift()(); // Execute the existing queue delay, without advancing or mutating C state.
+    assert.equal(h.hud.state.layer, 'sub'); assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
 });

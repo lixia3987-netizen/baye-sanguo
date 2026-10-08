@@ -395,35 +395,27 @@
         if (!dlg || !dlg.open || dlg.kind !== 'help') {
             return null;
         }
-        var data = global.baye && baye.data;
-        if (!data || !Number(data.g_hdFightActive) || Number(data.g_hdFightOver)) {
-            return null;
-        }
-        var x = num(data, 'g_FoucsX');
-        var y = num(data, 'g_FoucsY');
-        var arr = data.g_FgtParam && data.g_FgtParam.GenArray;
-        var pos = data.g_GenPos;
-        if (x == null || y == null || !arr || !pos) {
-            return null;
-        }
-        var i;
-        for (i = 0; i < 20; i++) {
-            var gid = num(arr, i);
-            if (gid == null && arr[i] != null) {
-                gid = Number(arr[i]);
-            }
-            if (!gid || gid >= 0xfffe) {
-                continue;
-            }
-            var p = pos[i];
-            if (!p) {
-                continue;
-            }
-            if (num(p, 'x') === x && num(p, 'y') === y) {
-                return gid - 1;
-            }
-        }
-        return null;
+        if (global.BayeHdDialog && typeof BayeHdDialog.shouldShowHd === 'function' &&
+            !BayeHdDialog.shouldShowHd()) { return null; }
+        var help, fight;
+        try {
+            if (!global.baye || !baye.hd || !baye.hd.ready || !baye.hd.ready() ||
+                !baye.hd.help || !baye.hd.fight) { return null; }
+            help = baye.hd.help();
+            fight = baye.hd.fight();
+        } catch (e) { return null; }
+        var detail = dlg.helpDetail, owner = dlg.helpOwner;
+        if (!help || help.active !== 1 || help.protocolVersion !== 1 || help.complete !== 1 ||
+            help.kind !== 1 || !validPerson(help.person) || !Number.isInteger(help.slot) ||
+            help.slot < 0 || help.slot >= 20 || !Number.isInteger(help.seq) || help.seq <= 0 ||
+            !Number.isInteger(help.generation) || help.generation <= 0 || help.generation !== help.detailGeneration ||
+            !fight || !fight.active || fight.over || fight.inputKind !== 9 ||
+            help.inputSeq !== fight.inputSeq || !owner || owner.kind !== 9 || owner.inputSeq !== fight.inputSeq ||
+            !detail || detail.kind !== 1 || detail.person !== help.person || detail.slot !== help.slot ||
+            detail.seq !== help.seq || detail.generation !== help.generation || detail.inputSeq !== help.inputSeq ||
+            detail.name !== help.name || typeof help.name !== 'string' || !help.name.trim()) { return null; }
+        return { id: help.person, name: help.name,
+            ownerKey: JSON.stringify([help.generation, help.seq, help.inputSeq, help.slot, help.person]) };
     }
 
     function reportPerson() {
@@ -471,15 +463,34 @@
                 typeof menu.seq !== 'number' || menu.seq <= 0 || Math.floor(menu.seq) !== menu.seq ||
                 typeof menu.index !== 'number' || menu.index < 0 || menu.index >= menu.count || Math.floor(menu.index) !== menu.index ||
                 !owner || owner.context !== 1 || owner.kind !== 3 || owner.seq !== menu.seq ||
-                !Array.isArray(ownerParts) || ownerParts.length !== 5 || ownerParts[1] !== 1 ||
+                !Array.isArray(ownerParts) || [5, 7].indexOf(ownerParts.length) < 0 || ownerParts[1] !== 1 ||
                 ownerParts[2] !== 3 || ownerParts[3] !== menu.seq ||
                 JSON.stringify(ownerParts[4]) !== JSON.stringify(menu.names) || snap.deepCount !== menu.count) { return null; }
+            var personCount;
+            try { personCount = baye.getPersonCount(); } catch (e3) { return null; }
+            if (!Number.isInteger(personCount) || personCount <= 0) { return null; }
+            var actualIds = menu.idsValid === true;
+            if (actualIds) {
+                if (ownerParts.length !== 7 || !Number.isInteger(menu.generation) || menu.generation <= 0 ||
+                    menu.generation !== menu.detailGeneration || ownerParts[5] !== menu.detailGeneration ||
+                    !Array.isArray(menu.ids) || menu.ids.length !== menu.count ||
+                    JSON.stringify(ownerParts[6]) !== JSON.stringify(menu.ids)) { return null; }
+                for (var m = 0; m < menu.ids.length; m++) {
+                    if (!validPerson(menu.ids[m]) || menu.ids[m] >= personCount) { return null; }
+                }
+            } else if (ownerParts.length === 7 &&
+                (ownerParts[6] !== null || ownerParts[5] !== (menu.detailGeneration == null ? null : menu.detailGeneration))) {
+                return null;
+            }
             for (var n = 0; n < menu.names.length; n++) {
-                if (typeof menu.names[n] !== 'string' || !menu.names[n] || menu.names.indexOf(menu.names[n]) !== n) { return null; }
+                if (typeof menu.names[n] !== 'string' || !menu.names[n] ||
+                    !actualIds && menu.names.indexOf(menu.names[n]) !== n) { return null; }
             }
             var index = menu.index, selected = snap.deepItems && snap.deepItems[index], detail = snap.personDetail;
-            var id = null, name = menu.names[index];
-            if (selected && selected.i === index && selected.name === name && validPerson(selected.pind)) {
+            var id = actualIds ? menu.ids[index] : null, name = menu.names[index];
+            if (actualIds && selected && (selected.i !== index || selected.name !== name ||
+                selected.pind != null && selected.pind !== id)) { return null; }
+            if (!actualIds && selected && selected.i === index && selected.name === name && validPerson(selected.pind)) {
                 id = selected.pind;
             }
             if (detail) {
@@ -489,10 +500,7 @@
                 id = detail.personIndex;
             }
             if (!validPerson(id)) { return null; }
-            try {
-                var count = baye.getPersonCount();
-                if (typeof count !== 'number' || count <= id || Math.floor(count) !== count) { return null; }
-            } catch (e3) { return null; }
+            if (personCount <= id) { return null; }
             return { id: id, name: name, ownerKey: owner.key, seq: menu.seq, index: index };
         }
         var idx = snap.idleIndex;
@@ -518,6 +526,8 @@
         if (!document.body || !document.body.classList.contains('baye-hd-overworld-map')) {
             return null;
         }
+        var dialog = dialogSnap();
+        if (dialog && dialog.open && dialog.kind === 'help') { return null; }
         try {
             if (global.BayeHdCityMenu && typeof BayeHdCityMenu.isOpen === 'function' && BayeHdCityMenu.isOpen()) {
                 return null;
@@ -543,9 +553,10 @@
         if (!period) {
             return null;
         }
-        var battleId = battleNotePerson();
-        if (validPerson(battleId)) {
-            return { context: 'battle-note', personId: battleId, period: period, name: personName(battleId) };
+        var battlePerson = battleNotePerson();
+        if (battlePerson && validPerson(battlePerson.id)) {
+            return { context: 'battle-note', personId: battlePerson.id, period: period,
+                name: battlePerson.name, helpOwnerKey: battlePerson.ownerKey };
         }
         var reportId = reportPerson();
         if (validPerson(reportId)) {
@@ -620,7 +631,7 @@
 
     function viewKey(view) {
         return view ? [authority().key, view.context, view.personId, view.period, view.name || '',
-            view.menuOwnerKey || '', view.menuSeq, view.menuIndex].join('|') : 'off';
+            view.menuOwnerKey || '', view.menuSeq, view.menuIndex, view.helpOwnerKey || ''].join('|') : 'off';
     }
 
     function applyView(view, verifyDetectedView) {

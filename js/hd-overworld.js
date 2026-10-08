@@ -1090,7 +1090,7 @@
                 console.warn('[hd-overworld] dialog hook', name, e);
             }
         }
-        if (['didShowMainMap', 'didOpenNewGame', 'didLoadGame'].indexOf(name) !== -1) { sampleCities(); }
+        if (!document.hidden && ['didShowMainMap', 'didOpenNewGame', 'didLoadGame'].indexOf(name) !== -1) { sampleCities(); }
         if (!mapAuthorized()) { applyChrome(); return; }
         if (state.aligning || state.pendingEnter) {
             console.log('[hd-overworld] hook while entering', name);
@@ -1098,6 +1098,14 @@
         if (name === 'didShowMainMap') {
             state.mapShownAt = Date.now();
             state.lastMapCity = readMapCity();
+            // Cached assets can finish before C initializes the world, leaving
+            // no authorized RAF. This event observes the real GetCitySet wait;
+            // its current input owner, rather than the event name, sets phase.
+            state.phase = inferPhase();
+            applyChrome();
+            draw();
+            ensureLoop();
+            return;
         }
         if (name === 'onMenuIdle') {
             if (fightLive()) {
@@ -1154,10 +1162,13 @@
             state.probed = false;
             state._roadsLogged = false;
             state.sawFightHook = false;
-            sampleCities();
-            state.phase = 'other';
+            if (!document.hidden) { sampleCities(); }
+            state.phase = inferPhase();
             state.hint = '开局/读档后进入大地图才会同步城池归属。';
             applyChrome();
+            // GetCitySet starts after this hook. Keep a read-only sampler alive
+            // while pick is still zero; it must not fabricate a map wait.
+            ensureLoop();
             return;
         }
         if (name === 'chooseActor' || name === 'chooseGameEntry' || name === 'loadPeriod') {
@@ -1195,7 +1206,7 @@
         if (!baye.hooks) {
             baye.hooks = {};
         }
-        ['onMenuIdle', 'cityMakeCommand', 'willCloseMenu', 'didOpenNewGame', 'didLoadGame'].forEach(function (name) {
+        ['onMenuIdle', 'cityMakeCommand', 'willCloseMenu', 'didOpenNewGame', 'didLoadGame', 'didShowMainMap'].forEach(function (name) {
             if (typeof baye.hooks[name] !== 'function') {
                 /* -1 = 只观察，不替换 CityCommon / 系统菜单。return 0 会跳过 AssartMake。 */
                 baye.hooks[name] = function () { return -1; };

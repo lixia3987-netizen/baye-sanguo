@@ -5,6 +5,9 @@
 #include "baye/bind-objects.h"
 #include <string.h>
 #include <emscripten.h>
+#ifdef __EMSCRIPTEN__
+#include <emscripten/heap.h>
+#endif
 
 U8 g_hdEngineReady = 0;
 U16 g_hdKingCount = 0;
@@ -44,6 +47,19 @@ U8 g_hdMenuActive = 0;
 U8 g_hdMenuContext = BAYE_HD_MENU_CONTEXT_NONE;
 U8 g_hdMenuKind = 0;
 U32 g_hdMenuSeq = 0;
+U32 g_hdDetailGeneration = 1;
+U16 g_hdMenuIds[BAYE_HD_DETAIL_IDS_MAX];
+U16 g_hdMenuIdsCount = 0;
+U8 g_hdMenuIdsKind = 0;
+U32 g_hdMenuIdsSeq = 0, g_hdMenuIdsGeneration = 0;
+U8 g_hdGoodsActive = 0, g_hdGoodsComplete = 0, g_hdGoodsCustom = 0;
+U32 g_hdGoodsGeneration = 0, g_hdGoodsMenuSeq = 0;
+U16 g_hdGoodsIndex = 0xffff, g_hdGoodsTool = 0xffff, g_hdGoodsPropertyCount = 0;
+U16 g_hdGoodsPageStart = 0, g_hdGoodsPageEnd = 0;
+U8 g_hdGoodsNameGbk[32];
+U8 g_hdGoodsPropertyTitles[BAYE_HD_GOODS_PROPS_MAX * BAYE_HD_GOODS_TEXT_MAX];
+U8 g_hdGoodsPropertyValues[BAYE_HD_GOODS_PROPS_MAX * BAYE_HD_GOODS_TEXT_MAX];
+U8 g_hdGoodsPropertyFlags[BAYE_HD_GOODS_PROPS_MAX];
 static U8 hdMenuNextContext = BAYE_HD_MENU_CONTEXT_NONE;
 static U8 hdMenuNextKind = 0;
 
@@ -94,6 +110,12 @@ U8 g_hdFightSkip = 0;
 U8 g_hdHelpGbk[BAYE_HD_HELP_MAX];
 U16 g_hdHelpSeq = 0;
 U8 g_hdHelpActive = 0;
+U8 g_hdHelpProtocolVersion = BAYE_HD_DETAIL_VERSION;
+U32 g_hdHelpGeneration = 0, g_hdHelpInputSeq = 0;
+U8 g_hdHelpKind = 0, g_hdHelpComplete = 0, g_hdHelpSlot = 0xff;
+U16 g_hdHelpPerson = 0xffff, g_hdHelpFields[10];
+U8 g_hdHelpX = 0, g_hdHelpY = 0, g_hdHelpTerrain = 0xff, g_hdHelpLevelMax = 0;
+U8 g_hdHelpNameGbk[32], g_hdHelpArmGbk[16], g_hdHelpStateGbk[32];
 U8 g_hdMovieActive = 0;
 U16 g_hdMovieId = 0;
 
@@ -167,10 +189,223 @@ static void copy_gbk(U8* dst, U32 dstMax, const U8* src)
     dst[n] = 0;
 }
 
+static U8 hd_detail_copy(U8* dst, U32 capacity, const U8* src, U32 sourceCapacity)
+{
+    U32 n;
+    if (!src || !capacity) return 0;
+    for (n = 0; n < sourceCapacity && src[n]; ++n) {}
+    if (n == sourceCapacity || n >= capacity) { dst[0] = 0; return 0; }
+    memcpy(dst, src, n + 1);
+    return 1;
+}
+
+static void hd_goods_clear(void)
+{
+    g_hdGoodsActive = g_hdGoodsComplete = g_hdGoodsCustom = 0;
+    g_hdGoodsGeneration = g_hdGoodsMenuSeq = 0;
+    g_hdGoodsIndex = g_hdGoodsTool = 0xffff;
+    g_hdGoodsPropertyCount = g_hdGoodsPageStart = g_hdGoodsPageEnd = 0;
+    g_hdGoodsNameGbk[0] = 0;
+    memset(g_hdGoodsPropertyFlags, 0, sizeof(g_hdGoodsPropertyFlags));
+    memset(g_hdGoodsPropertyTitles, 0, sizeof(g_hdGoodsPropertyTitles));
+    memset(g_hdGoodsPropertyValues, 0, sizeof(g_hdGoodsPropertyValues));
+}
+
+static void hd_menu_ids_clear(void)
+{
+    g_hdMenuIdsCount = g_hdMenuIdsKind = 0;
+    g_hdMenuIdsSeq = g_hdMenuIdsGeneration = 0;
+    memset(g_hdMenuIds, 0xff, sizeof(g_hdMenuIds));
+    hd_goods_clear();
+}
+
+static void hd_help_detail_clear(void)
+{
+    g_hdHelpGeneration = g_hdHelpInputSeq = 0;
+    g_hdHelpKind = g_hdHelpComplete = g_hdHelpLevelMax = 0;
+    g_hdHelpPerson = 0xffff;
+    g_hdHelpSlot = g_hdHelpTerrain = 0xff;
+    g_hdHelpX = g_hdHelpY = 0;
+    g_hdHelpNameGbk[0] = g_hdHelpArmGbk[0] = g_hdHelpStateGbk[0] = 0;
+    memset(g_hdHelpFields, 0, sizeof(g_hdHelpFields));
+}
+
+/* Read only the real file and already loaded constant page. Never trust the
+ * old 2000-record binding or do legacy unchecked resource pointer arithmetic.
+ * The file cursor is restored, including ROM's otherwise unseekable EOF. */
+static U8 hd_detail_read_at(U32 offset, void* output, U16 size)
+{
+    return gam_fseek(g_LibFp, offset, SEEK_SET) == 0 &&
+        gam_fread((U8*)output, 1, size, g_LibFp) == size;
+}
+
+static void hd_detail_restore(U32 position)
+{
+    U8 byte;
+    if (gam_fseek(g_LibFp, position, SEEK_SET) != 0 && position > 0 &&
+        gam_fseek(g_LibFp, position - 1, SEEK_SET) == 0) gam_fread(&byte, 1, 1, g_LibFp);
+}
+
+static U8 hd_tool_payload(U32* offsetOut, U32* lengthOut)
+{
+    U32 position, address, offset, length, namesAddress;
+    RCHEAD header, namesHeader;
+    RIDX item;
+    U8 last, ok = 0;
+    if (!g_LibFp || !g_CBnkPtr) return 0;
+    position = gam_ftell(g_LibFp);
+    if (!hd_detail_read_at(((U32)GOODS_RESID - 1) * 4, &address, sizeof(address)) ||
+        !address || address == (U32)-1 || !hd_detail_read_at(address, &header, sizeof(header)) ||
+        header.ResId != GOODS_RESID || !header.ItmCnt || header.ResKey || address > (U32)-1 - sizeof(header)) goto done;
+    if (header.ItmLen) { offset = sizeof(header); length = header.ItmLen; }
+    else if (header.ItmCnt == 1) {
+        if (header.ResLen < sizeof(header)) goto done;
+        offset = sizeof(header); length = header.ResLen - sizeof(header);
+    } else {
+        if (!hd_detail_read_at(address + sizeof(header), &item, sizeof(item))) goto done;
+        offset = item.offset; length = item.rlen;
+        if (offset < sizeof(header) + (U32)header.ItmCnt * sizeof(item)) goto done;
+    }
+    if (!length || length % sizeof(GOODS) || length / sizeof(GOODS) > GOODS_MAX ||
+        offset > header.ResLen || length > header.ResLen - offset ||
+        address > (U32)-1 - offset || address + offset > (U32)-1 - length) goto done;
+    offset += address;
+    if (!hd_detail_read_at(offset + length - 1, &last, 1)) goto done;
+    if (!hd_detail_read_at(((U32)GOODS_NAME - 1) * 4, &namesAddress, sizeof(namesAddress)) ||
+        !namesAddress || namesAddress == (U32)-1 ||
+        !hd_detail_read_at(namesAddress, &namesHeader, sizeof(namesHeader)) ||
+        namesHeader.ResId != GOODS_NAME || !namesHeader.ItmCnt || namesHeader.ItmCnt > GOODS_MAX ||
+        namesHeader.ResLen < sizeof(namesHeader) || namesAddress > (U32)-1 - namesHeader.ResLen ||
+        !hd_detail_read_at(namesAddress + namesHeader.ResLen - 1, &last, 1)) goto done;
+    if (namesHeader.ItmLen) {
+        if ((U32)namesHeader.ItmCnt > (namesHeader.ResLen - sizeof(namesHeader)) / namesHeader.ItmLen) goto done;
+    } else if ((U32)namesHeader.ItmCnt * sizeof(RIDX) > namesHeader.ResLen - sizeof(namesHeader)) goto done;
+    if ((U32)namesHeader.ItmCnt < length / sizeof(GOODS)) length = (U32)namesHeader.ItmCnt * sizeof(GOODS);
+#ifdef __EMSCRIPTEN__
+    if ((size_t)g_CBnkPtr > emscripten_get_heap_size() ||
+        offset > emscripten_get_heap_size() - (size_t)g_CBnkPtr ||
+        length > emscripten_get_heap_size() - (size_t)g_CBnkPtr - offset) goto done;
+#endif
+    *offsetOut = offset; *lengthOut = length; ok = 1;
+done:
+    hd_detail_restore(position);
+    return ok;
+}
+
+U16 baye_hd_tool_count(void)
+{
+    U32 offset, length;
+    return hd_tool_payload(&offset, &length) ? (U16)(length / sizeof(GOODS)) : 0;
+}
+
+const U8* baye_hd_tool_data(void)
+{
+    U32 offset, length;
+    return hd_tool_payload(&offset, &length) ? g_CBnkPtr + offset : NULL;
+}
+
+U8 baye_hd_tool_read(U16 index, void* output)
+{
+    U32 offset, length;
+    if (!output || !hd_tool_payload(&offset, &length) || index >= length / sizeof(GOODS)) return 0;
+    memcpy(output, g_CBnkPtr + offset + (U32)index * sizeof(GOODS), sizeof(GOODS));
+    return 1;
+}
+
+U16 baye_hd_person_arm(U16 person)
+{
+    U16 arm, equip;
+    U8 i;
+    GOODS tool;
+    U32 count = GamGetPersonCount();
+    if (person >= count || person >= PERSON_MAX) return 0xffff;
+    arm = g_Persons[person].ArmsType;
+    for (i = 0; i < 2; ++i) {
+        equip = g_Persons[person].Equip[i];
+        if (!equip) continue;
+        if (!baye_hd_tool_read(equip - 1, &tool)) return 0xffff;
+        switch (tool.arm) {
+            case 0: break;
+            case 1: arm = ARM_SHUIJUN; break;
+            case 2: arm = ARM_XUANBING; break;
+            case 3: arm = ARM_JIBING; break;
+            default: arm = (U8)(tool.arm - 4); break;
+        }
+    }
+    return arm;
+}
+
+void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 count)
+{
+    U32 i, limit = kind == BAYE_HD_MENU_GOODS ? baye_hd_tool_count() : GamGetPersonCount();
+    if (generation != g_hdDetailGeneration || seq != g_hdMenuSeq || !g_hdMenuActive ||
+        kind != g_hdMenuKind || !ids || !count || count > BAYE_HD_DETAIL_IDS_MAX ||
+        count != g_hdMenuCount || !limit || (kind != BAYE_HD_MENU_PERSON && kind != BAYE_HD_MENU_GOODS)) return;
+    for (i = 0; i < count; ++i) if (ids[i] >= limit || ids[i] >= BAYE_HD_DETAIL_IDS_MAX) return;
+    memcpy(g_hdMenuIds, ids, count * sizeof(*ids));
+    g_hdMenuIdsCount = (U16)count; g_hdMenuIdsKind = kind;
+    g_hdMenuIdsGeneration = generation; g_hdMenuIdsSeq = seq;
+}
+
+static U8 hd_goods_owner(U32 generation, U32 seq)
+{
+    return generation == g_hdDetailGeneration && seq == g_hdMenuSeq && g_hdMenuActive &&
+        g_hdMenuKind == BAYE_HD_MENU_GOODS && !g_hdReportActive && !g_hdHelpActive;
+}
+
+void baye_hd_goods_begin(U32 generation, U32 seq, U16 index, U16 tool, U16 properties, U16 pageStart, U8 custom)
+{
+    if (!hd_goods_owner(generation, seq)) return;
+    if (index != g_hdGoodsIndex || tool != g_hdGoodsTool || seq != g_hdGoodsMenuSeq ||
+        generation != g_hdGoodsGeneration || properties != g_hdGoodsPropertyCount) hd_goods_clear();
+    if (tool >= baye_hd_tool_count() || properties >= BAYE_HD_GOODS_PROPS_MAX) return;
+    g_hdGoodsGeneration = generation; g_hdGoodsMenuSeq = seq;
+    g_hdGoodsIndex = index; g_hdGoodsTool = tool;
+    g_hdGoodsPropertyCount = properties; g_hdGoodsPageStart = pageStart;
+    g_hdGoodsCustom |= custom; g_hdGoodsActive = 1;
+}
+
+void baye_hd_goods_capture(U32 generation, U32 seq, U16 tool, U16 property, const U8* text, U8 title)
+{
+    U8* destination;
+    if (!hd_goods_owner(generation, seq) || !g_hdGoodsActive || generation != g_hdGoodsGeneration ||
+        seq != g_hdGoodsMenuSeq || tool != g_hdGoodsTool || property >= g_hdGoodsPropertyCount) return;
+    destination = (title ? g_hdGoodsPropertyTitles : g_hdGoodsPropertyValues) + property * BAYE_HD_GOODS_TEXT_MAX;
+    if (hd_detail_copy(destination, BAYE_HD_GOODS_TEXT_MAX, text, BAYE_HD_GOODS_TEXT_MAX))
+        g_hdGoodsPropertyFlags[property] |= title ? 1 : 2;
+    else g_hdGoodsPropertyFlags[property] &= title ? (U8)~1 : (U8)~2;
+    g_hdGoodsComplete = 0;
+}
+
+void baye_hd_goods_name(U32 generation, U32 seq, U16 tool, const U8* name)
+{
+    if (hd_goods_owner(generation, seq) && g_hdGoodsActive && tool == g_hdGoodsTool)
+        hd_detail_copy(g_hdGoodsNameGbk, sizeof(g_hdGoodsNameGbk), name, 32);
+}
+
+void baye_hd_goods_page(U32 generation, U32 seq, U16 end)
+{
+    U16 i;
+    if (!hd_goods_owner(generation, seq) || !g_hdGoodsActive) return;
+    g_hdGoodsPageEnd = end;
+    g_hdGoodsComplete = 1;
+    for (i = 0; i < g_hdGoodsPropertyCount; ++i)
+        if (g_hdGoodsPropertyFlags[i] != 3) g_hdGoodsComplete = 0;
+}
+
+void baye_hd_goods_custom(U32 generation, U32 seq, U16 tool)
+{
+    if (hd_goods_owner(generation, seq) && g_hdGoodsActive && tool == g_hdGoodsTool)
+        g_hdGoodsCustom = 1;
+}
+
 void baye_hd_set_ready(U8 ready)
 {
     /* A new LIB/game may share this browser. Invalidate old input tokens. */
     baye_hd_spe_invalidate();
+    g_hdDetailGeneration = hd_next_input_seq(g_hdDetailGeneration);
+    hd_menu_ids_clear();
+    hd_help_detail_clear();
     baye_hd_set_fight(0, 0);
     baye_hd_march_end(0);
     g_hdMarchOk = 0;
@@ -198,6 +433,8 @@ void baye_hd_world_commit(void)
 
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
 {
+    hd_menu_ids_clear();
+    hd_help_detail_clear();
     copy_gbk(g_hdReportGbk, BAYE_HD_REPORT_MAX, gbk);
     g_hdReportPerson = person;
     g_hdReportKind = kind;
@@ -248,6 +485,8 @@ void baye_hd_set_king_highlight(U32 index, PersonID id)
 void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 {
     U32 count = itemCount;
+    g_hdMenuIdsCount = g_hdMenuIdsKind = 0;
+    g_hdMenuIdsSeq = g_hdMenuIdsGeneration = 0;
     /* Person/goods names are fixed-width slots containing NUL padding. A
      * string copy stops after the first name and exposes older menu bytes. */
     memset(g_hdMenuGbk, 0, sizeof(g_hdMenuGbk));
@@ -272,6 +511,7 @@ void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 
 void baye_hd_set_menu_index(U16 index)
 {
+    if (index != g_hdGoodsIndex) hd_goods_clear();
     g_hdMenuIndex = index;
 }
 
@@ -285,6 +525,8 @@ static U32 hd_next_input_seq(U32 seq)
 
 void baye_hd_report_begin(U8 kind)
 {
+    hd_menu_ids_clear();
+    hd_help_detail_clear();
     if (hdReportDepth < sizeof(hdReportWaits) / sizeof(hdReportWaits[0])) {
         HdReportWait* wait = &hdReportWaits[hdReportDepth];
         memcpy(wait->text, g_hdReportGbk, sizeof(wait->text));
@@ -378,6 +620,7 @@ void baye_hd_map_input_begin(void)
 
 void baye_hd_menu_scope(U8 context, U8 kind)
 {
+    hd_menu_ids_clear();
     hdMenuNextContext = context;
     hdMenuNextKind = kind;
 }
@@ -391,6 +634,8 @@ void baye_hd_menu_scope_default(U8 context, U8 kind)
 
 void baye_hd_menu_begin(void)
 {
+    hd_menu_ids_clear();
+    hd_help_detail_clear();
     g_hdMenuActive = 1;
     g_hdMenuContext = hdMenuNextContext;
     g_hdMenuKind = hdMenuNextKind;
@@ -404,6 +649,7 @@ void baye_hd_menu_begin(void)
 
 void baye_hd_menu_end(void)
 {
+    hd_menu_ids_clear();
     if (g_hdMenuContext == BAYE_HD_MENU_CONTEXT_FIGHT) {
         baye_hd_fight_input_end();
     }
@@ -527,7 +773,7 @@ void baye_hd_clear_fight_tip(void)
     g_hdFightTipGbk[0] = 0;
 }
 
-void baye_hd_set_help(const U8* gbk)
+static void hd_help_notify(const U8* gbk)
 {
     copy_gbk(g_hdHelpGbk, BAYE_HD_HELP_MAX, gbk);
     g_hdHelpActive = (U8)(g_hdHelpGbk[0] ? 1 : 0);
@@ -649,6 +895,47 @@ static void hd_spe_notify(void)
             }
         } catch (e) {}
     });
+}
+
+void baye_hd_set_help(const U8* gbk)
+{
+    hd_menu_ids_clear();
+    hd_help_detail_clear();
+    hd_help_notify(gbk);
+}
+
+void baye_hd_help_publish(const HdHelpSnapshot* snapshot, const U8* text)
+{
+    if (!snapshot || snapshot->generation != g_hdDetailGeneration ||
+        g_hdFightInputKind != BAYE_HD_FIGHT_INPUT_HELP) return;
+    hd_menu_ids_clear();
+    hd_help_detail_clear();
+    g_hdHelpGeneration = snapshot->generation;
+    g_hdHelpInputSeq = g_hdFightInputSeq;
+    g_hdHelpKind = snapshot->kind;
+    g_hdHelpPerson = snapshot->person; g_hdHelpSlot = snapshot->slot;
+    g_hdHelpX = snapshot->x; g_hdHelpY = snapshot->y; g_hdHelpTerrain = snapshot->terrain;
+    g_hdHelpLevelMax = snapshot->levelMax;
+    memcpy(g_hdHelpFields, snapshot->fields, sizeof(g_hdHelpFields));
+    g_hdHelpComplete = snapshot->complete &&
+        hd_detail_copy(g_hdHelpNameGbk, sizeof(g_hdHelpNameGbk), snapshot->name, sizeof(snapshot->name)) &&
+        hd_detail_copy(g_hdHelpArmGbk, sizeof(g_hdHelpArmGbk), snapshot->arm, sizeof(snapshot->arm)) &&
+        hd_detail_copy(g_hdHelpStateGbk, sizeof(g_hdHelpStateGbk), snapshot->state, sizeof(snapshot->state));
+    if (g_hdHelpKind == BAYE_HD_HELP_PERSON &&
+        (g_hdHelpPerson >= GamGetPersonCount() || g_hdHelpPerson >= PERSON_MAX || g_hdHelpSlot >= FGTA_MAX))
+        g_hdHelpComplete = 0;
+    if (g_hdHelpX >= g_MapWid || g_hdHelpY >= g_MapHgt) g_hdHelpComplete = 0;
+    if (g_hdHelpKind == BAYE_HD_HELP_TERRAIN &&
+        (g_hdHelpX >= g_MapWid || g_hdHelpY >= g_MapHgt || g_hdHelpTerrain >= TERRAIN_MAX))
+        g_hdHelpComplete = 0;
+    if (!text || !text[0] || gam_strlen(text) >= BAYE_HD_HELP_MAX) g_hdHelpComplete = 0;
+    hd_help_notify(text);
+}
+
+void baye_hd_help_clear(U32 generation, U32 inputSeq)
+{
+    if (generation == g_hdDetailGeneration && generation == g_hdHelpGeneration &&
+        inputSeq == g_hdHelpInputSeq) baye_hd_set_help(NULL);
 }
 
 static void hd_spe_publish(const HdSpeScope* scope)
@@ -1037,6 +1324,26 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMenuContext, U8);
     DEFADDF(g_hdMenuKind, U8);
     DEFADDF(g_hdMenuSeq, U32);
+    DEFADDF(g_hdDetailGeneration, U32);
+    DEFADD_U16ARR(g_hdMenuIds, BAYE_HD_DETAIL_IDS_MAX);
+    DEFADDF(g_hdMenuIdsCount, U16);
+    DEFADDF(g_hdMenuIdsKind, U8);
+    DEFADDF(g_hdMenuIdsSeq, U32);
+    DEFADDF(g_hdMenuIdsGeneration, U32);
+    DEFADDF(g_hdGoodsActive, U8);
+    DEFADDF(g_hdGoodsComplete, U8);
+    DEFADDF(g_hdGoodsCustom, U8);
+    DEFADDF(g_hdGoodsGeneration, U32);
+    DEFADDF(g_hdGoodsMenuSeq, U32);
+    DEFADDF(g_hdGoodsIndex, U16);
+    DEFADDF(g_hdGoodsTool, U16);
+    DEFADDF(g_hdGoodsPropertyCount, U16);
+    DEFADDF(g_hdGoodsPageStart, U16);
+    DEFADDF(g_hdGoodsPageEnd, U16);
+    DEFADD_GBKARR(g_hdGoodsNameGbk, sizeof(g_hdGoodsNameGbk));
+    DEFADD_U8ARR(g_hdGoodsPropertyTitles, sizeof(g_hdGoodsPropertyTitles));
+    DEFADD_U8ARR(g_hdGoodsPropertyValues, sizeof(g_hdGoodsPropertyValues));
+    DEFADD_U8ARR(g_hdGoodsPropertyFlags, sizeof(g_hdGoodsPropertyFlags));
     DEFADDF(g_hdFightActive, U8);
     DEFADDF(g_hdFightOver, U8);
     DEFADDF(g_hdFightWait, U8);
@@ -1079,6 +1386,21 @@ void baye_hd_bind(ObjectDef* def)
     DEFADD_GBKARR(g_hdHelpGbk, sizeof(g_hdHelpGbk));
     DEFADDF(g_hdHelpSeq, U16);
     DEFADDF(g_hdHelpActive, U8);
+    DEFADDF(g_hdHelpProtocolVersion, U8);
+    DEFADDF(g_hdHelpGeneration, U32);
+    DEFADDF(g_hdHelpInputSeq, U32);
+    DEFADDF(g_hdHelpKind, U8);
+    DEFADDF(g_hdHelpComplete, U8);
+    DEFADDF(g_hdHelpPerson, U16);
+    DEFADDF(g_hdHelpSlot, U8);
+    DEFADDF(g_hdHelpX, U8);
+    DEFADDF(g_hdHelpY, U8);
+    DEFADDF(g_hdHelpTerrain, U8);
+    DEFADDF(g_hdHelpLevelMax, U8);
+    DEFADD_U16ARR(g_hdHelpFields, 10);
+    DEFADD_GBKARR(g_hdHelpNameGbk, sizeof(g_hdHelpNameGbk));
+    DEFADD_GBKARR(g_hdHelpArmGbk, sizeof(g_hdHelpArmGbk));
+    DEFADD_GBKARR(g_hdHelpStateGbk, sizeof(g_hdHelpStateGbk));
     DEFADDF(g_hdMovieActive, U8);
     DEFADDF(g_hdMovieId, U16);
     DEFADDF(g_hdSpeActive, U8);

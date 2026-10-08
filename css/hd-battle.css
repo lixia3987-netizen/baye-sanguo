@@ -34,6 +34,7 @@ html[data-baye-battle="hd"] #hd-overworld {
 
 .hd-battle-stage {
     position: relative;
+    container-type: size;
     width: min(100vw, calc(100vh * 1920 / 1080));
     height: min(100vh, calc(100vw * 1080 / 1920));
     background: #141820;
@@ -196,7 +197,8 @@ html[data-baye-battle="hd"] #hd-dialog[data-hd-native-report="1"] {
 
 .hd-battle-footer {
     position: absolute;
-    left: 20px;
+    /* Leave the fixed build badge its own space at the lower left. */
+    left: 104px;
     bottom: 16px;
     display: flex;
     gap: 10px;
@@ -213,6 +215,21 @@ html[data-baye-battle="hd"] #hd-dialog[data-hd-native-report="1"] {
     color: #f3f6fb;
     background: #3a4252;
     font-size: 15px;
+}
+
+/* Use the actual 16:9 stage height, including a letterboxed desktop window.
+ * Keep PC controls large enough while leaving a line below the board. */
+@container (max-height: 800px) {
+    .hd-battle-footer {
+        bottom: 4px;
+        gap: 8px;
+    }
+
+    .hd-battle-footer button {
+        min-height: 36px;
+        padding: 0 12px;
+        font-size: 14px;
+    }
 }
 
 html[data-baye-battle="hd"] body.baye-hd-overworld-on #hd-overworld {

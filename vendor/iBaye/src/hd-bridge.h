@@ -52,6 +52,34 @@
 #define BAYE_HD_HELP_MAX 1024
 #define BAYE_HD_SKILL_MAX 10
 #define BAYE_HD_SKILL_NAME 8
+#define BAYE_HD_DETAIL_VERSION 1
+#define BAYE_HD_DETAIL_IDS_MAX 2000
+#define BAYE_HD_GOODS_PROPS_MAX 256
+#define BAYE_HD_GOODS_TEXT_MAX 128
+#define BAYE_HD_HELP_PERSON 1
+#define BAYE_HD_HELP_TERRAIN 2
+
+/* Observations contain only values produced by the real native draw call. */
+typedef struct {
+    U32 generation;
+    U16 person, fields[10];
+    U8 kind, complete, slot, x, y, terrain, levelMax;
+    U8 name[32], arm[16], state[32];
+} HdHelpSnapshot;
+
+extern U32 g_hdDetailGeneration;
+U16 baye_hd_tool_count(void);
+const U8* baye_hd_tool_data(void);
+U8 baye_hd_tool_read(U16 index, void* output);
+U16 baye_hd_person_arm(U16 person);
+void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 count);
+void baye_hd_goods_begin(U32 generation, U32 seq, U16 index, U16 tool, U16 properties, U16 pageStart, U8 custom);
+void baye_hd_goods_capture(U32 generation, U32 seq, U16 tool, U16 property, const U8* text, U8 title);
+void baye_hd_goods_name(U32 generation, U32 seq, U16 tool, const U8* name);
+void baye_hd_goods_custom(U32 generation, U32 seq, U16 tool);
+void baye_hd_goods_page(U32 generation, U32 seq, U16 end);
+void baye_hd_help_publish(const HdHelpSnapshot* snapshot, const U8* text);
+void baye_hd_help_clear(U32 generation, U32 inputSeq);
 
 #define BAYE_HD_REPORT_NONE 0
 #define BAYE_HD_REPORT_MSGBOX 1

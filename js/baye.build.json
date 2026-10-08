@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "2542a65b7990ea8d11400b0cbcb1cde52b739ae6",
-  "engineSourceSha256": "701e3af5275eb50026cd4ba2782a385a24d1f10f28f705912d4a371a22b6592e",
+  "sourceRevision": "603c046e7dcfe1ba01f7bf05cf30264d331c90c5",
+  "engineSourceSha256": "8da133595089a7c361b6aa24dfd441c9dae737f4e1ba2aba9cd215e4f537d27a",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791414721,
+  "sourceDateEpoch": 1791419805,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -70,6 +70,42 @@
     "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
     "skipEligible": "keyflag === 1"
   },
+  "hdDetailProtocol": {
+    "version": 1,
+    "generation": "g_hdDetailGeneration",
+    "menuIds": [
+      "g_hdMenuIds",
+      "g_hdMenuIdsCount",
+      "g_hdMenuIdsKind",
+      "g_hdMenuIdsSeq",
+      "g_hdMenuIdsGeneration"
+    ],
+    "goods": [
+      "g_hdGoodsGeneration",
+      "g_hdGoodsMenuSeq",
+      "g_hdGoodsIndex",
+      "g_hdGoodsTool",
+      "g_hdGoodsPropertyCount",
+      "g_hdGoodsPropertyFlags",
+      "g_hdGoodsPageStart",
+      "g_hdGoodsPageEnd"
+    ],
+    "help": [
+      "g_hdHelpProtocolVersion",
+      "g_hdHelpGeneration",
+      "g_hdHelpInputSeq",
+      "g_hdHelpKind",
+      "g_hdHelpComplete",
+      "g_hdHelpPerson",
+      "g_hdHelpSlot",
+      "g_hdHelpFields"
+    ],
+    "toolAccess": [
+      "bayeHdGetToolCount",
+      "bayeHdGetToolField",
+      "bayeHdGetArmType"
+    ]
+  },
   "saveProtocol": {
     "version": 149,
     "legacyVersions": [
@@ -85,16 +121,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 191800,
-      "sha256": "8bcba943e2f64be196386386ca7208f19fc5c7cffe03981bd2f4364067167ef7"
+      "bytes": 192277,
+      "sha256": "5573fc79d30769e3c08c673df3562ac29f864a409e65b1c539ecdcc03395496f"
     },
     "baye.wasm": {
-      "bytes": 4237373,
-      "sha256": "270d454af2aebe340fa913cd3ba495ba88931f1c08d02ff3ae3d80b12c1da6f7"
+      "bytes": 4286619,
+      "sha256": "d5c31939be385ef615e9cdb820c6b12d09a2a1108c5a61ea1dc9537948cfe59d"
     },
     "baye.wasm.map": {
       "bytes": 29805,
-      "sha256": "771c74d946af16c33d43577ee8ca83b3f3ce0243ade331e338fdd0d3619e7d37"
+      "sha256": "4197a01baf482e1d1148c4f928f75ff25b14ab63c19fb981104f50c3033d0409"
     }
   }
 }

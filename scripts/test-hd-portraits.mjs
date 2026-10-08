@@ -156,6 +156,41 @@ function personMenu(f, items = [{ pind: 0, name: '董卓' }, { pind: 1, name: '�
     return { menu, snap, own };
 }
 
+function personHelp(f, options = {}) {
+    f.context.baye ||= { data: { g_PIdx: 1 } };
+    f.context.baye.hd ||= {};
+    const fight = { active: 1, over: 0, inputKind: 9, inputSeq: 40 };
+    const help = { active: 1, protocolVersion: 1, complete: 1, kind: 1, seq: 8,
+        generation: 3, detailGeneration: 3, inputSeq: 40, person: 0, slot: 0,
+        name: '董卓', arm: '步兵', state: '正常', fields: [1, 80, 60, 0, 99, 40, 120, 90, 3000, 0],
+        levelMax: 0, ...options };
+    const snap = { open: true, kind: 'help', helpOwner: { kind: 9, inputSeq: fight.inputSeq } };
+    function publish() {
+        snap.helpOwner = { kind: 9, inputSeq: fight.inputSeq };
+        snap.helpDetail = { kind: 1, seq: help.seq, generation: help.generation, inputSeq: help.inputSeq,
+            person: help.person, slot: help.slot, name: help.name };
+    }
+    publish();
+    f.context.baye.hd.ready = () => true;
+    f.context.baye.hd.fight = () => fight;
+    f.context.baye.hd.help = () => help;
+    f.context.BayeHdDialog = { debugSnapshot: () => snap, shouldShowHd: () => true };
+    return { help, fight, snap, publish };
+}
+
+function nativeIdsMenu(f, items = [{ pind: 0, name: '董卓' }, { pind: 1, name: '李儒' }]) {
+    const model = personMenu(f, items);
+    Object.assign(model.menu, { generation: 4, detailGeneration: 4, idsValid: true,
+        ids: items.map(item => item.pind) });
+    model.own = () => {
+        model.snap.deepMenuOwner = { context: 1, kind: 3, seq: model.menu.seq,
+            key: JSON.stringify([1, 1, 3, model.menu.seq, model.menu.names,
+                model.menu.detailGeneration, model.menu.idsValid ? model.menu.ids : null]) };
+    };
+    model.own();
+    return model;
+}
+
 test('all 800 shipped references resolve through their exported filenames', async () => {
     const f = fixture();
     await f.load();
@@ -242,9 +277,74 @@ test('person ID 0 remains valid in map, report, person menu and battle help', as
     f.context.BayeHdCityMenu.isOpen = () => false;
     f.context.BayeHdDialog = { debugSnapshot: () => ({ open: true, kind: 'report' }) };
     assert.equal(f.api.detectView().personId, 0);
-    f.context.BayeHdDialog.debugSnapshot = () => ({ open: true, kind: 'help' });
     f.context.baye.data.g_hdFightActive = 1;
+    personHelp(f);
     assert.equal(f.api.detectView().personId, 0);
+});
+
+test('battle help portrait uses the captured native person and name, never the current focus or a name lookup', async () => {
+    const f = fixture();
+    await f.load();
+    f.context.baye = { data: { g_PIdx: 1, g_FoucsX: 3, g_FoucsY: 4,
+        g_FgtParam: { GenArray: [2] }, g_GenPos: [{ x: 3, y: 4 }] },
+        getPersonName() { throw new Error('native help already captured its actual name'); } };
+    const model = personHelp(f, { person: 0, name: '原生董卓', slot: 4 });
+    const before = JSON.stringify(f.context.baye.data);
+    const view = f.api.detectView();
+    assert.equal(view.personId, 0); assert.equal(view.name, '原生董卓');
+    await f.api.applyView(view);
+    assert.match(f.elements['hd-portrait-cap'].textContent, /^原生董卓/);
+    model.help.kind = 2; model.help.complete = 0; model.publish();
+    assert.equal(f.api.detectView(), null, 'terrain help cannot keep the former person');
+    assert.equal(JSON.stringify(f.context.baye.data), before);
+});
+
+test('partial, stale and mismatched native help cannot recover a portrait from focus or retained dialogue identity', async () => {
+    const invalid = [
+        { complete: 0 }, { active: 0 }, { kind: 0 }, { protocolVersion: 0 },
+        { person: 65535 }, { person: '0' }, { slot: 20 }, { generation: 2 },
+        { detailGeneration: 4 }, { inputSeq: 41 }, { name: '' }, { seq: 9 }
+    ];
+    const f = fixture(); await f.load(); f.body.classList.add('baye-hd-overworld-map');
+    f.context.baye = { data: { g_PIdx: 1, g_PlayerKing: 0, g_hdFightActive: 1,
+        g_FoucsX: 0, g_FoucsY: 0, g_FgtParam: { GenArray: [1] }, g_GenPos: [{ x: 0, y: 0 }] } };
+    for (const changes of invalid) {
+        const model = personHelp(f); Object.assign(model.help, changes);
+        assert.equal(f.api.detectView(), null, JSON.stringify(changes));
+    }
+    const model = personHelp(f);
+    for (const kind of [0, 3, 10]) {
+        model.fight.inputKind = kind;
+        assert.equal(f.api.detectView(), null, `native wait kind ${kind} cannot borrow HELP9`);
+    }
+    model.fight.inputKind = 9; f.context.BayeHdDialog.shouldShowHd = () => false;
+    assert.equal(f.api.detectView(), null, 'classic mode retires a still-buffered help before the dialog poll');
+    assert.deepEqual(f.requests, []);
+});
+
+test('a new native help event retires an old pending portrait even when its person is unchanged', async () => {
+    const f = fixture({ deferImages: true });
+    const model = personHelp(f);
+    await f.start(); assert.equal(f.deferred.length, 1);
+    model.help.seq++; model.publish();
+    f.resolveImages(); await flush();
+    assert.equal(f.elements['hd-portrait'].hidden, true, 'late old event cannot paint into the next event');
+    const tick = [...f.intervals.values()][0]; tick(); await flush();
+    assert.equal(f.elements['hd-portrait'].hidden, false, 'the current event can use an already verified source');
+    model.help.complete = 0; tick(); await flush();
+    assert.equal(f.elements['hd-portrait'].hidden, true);
+    f.api.stop();
+});
+
+test('switching from a captured help person to a new native wait while images load keeps LCD', async () => {
+    const f = fixture({ deferImages: true });
+    const model = personHelp(f, { person: 1, name: '李儒' });
+    await f.start(); assert.equal(f.deferred.length, 1);
+    model.fight.inputKind = 3; model.fight.inputSeq++;
+    f.resolveImages(); await flush();
+    assert.equal(f.elements['hd-portrait'].hidden, true);
+    assert.equal(f.api.detectView(), null);
+    f.api.stop();
 });
 
 test('period-specific IDs do not reuse the first period portrait', async () => {
@@ -520,6 +620,61 @@ test('runtime menus use the live native index and exact owner instead of a stale
     assert.equal(f.api.detectView(), null, 'the same sequence with another list is not the same owner');
     own(); snap.qtyActive = 1; assert.equal(f.api.detectView(), null);
     snap.qtyActive = 0; snap.engineHelpOpen = true; assert.equal(f.api.detectView(), null);
+});
+
+test('authenticated native menu IDs support identical names through the exact current index', async () => {
+    const f = fixture(); await f.load();
+    const model = nativeIdsMenu(f, [{ pind: 0, name: '同名武将' }, { pind: 1, name: '同名武将' }]);
+    assert.equal(f.api.detectView().personId, 0);
+    model.menu.index = 1;
+    assert.equal(f.api.detectView().personId, 1, 'actual C index and ID own the second identical name');
+    model.menu.idsValid = false; model.own();
+    assert.equal(f.api.detectView(), null, 'missing native IDs cannot authorize ambiguous names');
+    assert.deepEqual(f.requests, []);
+});
+
+test('native ID owner generation, full array, bounds and selected identity must all agree', async () => {
+    const f = fixture(); await f.load();
+    const changes = [
+        model => { model.menu.generation++; }, model => { model.menu.detailGeneration++; },
+        model => { model.menu.generation = 0; model.menu.detailGeneration = 0; model.own(); },
+        model => { model.menu.ids = [0]; model.own(); },
+        model => { model.menu.ids[1] = 200; model.own(); },
+        model => { model.menu.ids[1] = '1'; model.own(); },
+        model => { model.menu.ids = [1, 0]; },
+        model => { model.snap.deepItems[0].pind = 1; },
+        model => { model.snap.deepItems[0].i = 1; },
+        model => { model.snap.deepMenuOwner.key = JSON.stringify([1, 1, 3, model.menu.seq, model.menu.names]); }
+    ];
+    for (const change of changes) {
+        const model = nativeIdsMenu(f); change(model);
+        assert.equal(f.api.detectView(), null);
+    }
+    assert.deepEqual(f.requests, []);
+});
+
+test('a seven-part owner without native ID metadata preserves only the old complete unique-list fallback', async () => {
+    const f = fixture(); await f.load();
+    const model = nativeIdsMenu(f);
+    model.menu.idsValid = false; model.own();
+    assert.equal(f.api.detectView().personId, 0);
+    model.snap.deepItems[0] = { i: 0, name: '董卓' };
+    assert.equal(f.api.detectView(), null, 'no person ID is ever inferred from the name');
+    model.snap.deepItems[0].pind = 0;
+    model.snap.deepMenuOwner.key = JSON.stringify([1, 1, 3, model.menu.seq, model.menu.names, 3, null]);
+    assert.equal(f.api.detectView(), null, 'owner generation cannot drift silently');
+});
+
+test('a new native ID generation retires an old pending menu portrait before the next poll', async () => {
+    const f = fixture({ deferImages: true }); const model = nativeIdsMenu(f);
+    await f.start(); assert.equal(f.deferred.length, 1);
+    model.menu.generation++; model.menu.detailGeneration++; model.own();
+    f.resolveImages(); await flush();
+    assert.equal(f.elements['hd-portrait'].hidden, true);
+    [...f.intervals.values()][0](); await flush();
+    assert.equal(f.elements['hd-portrait'].hidden, false);
+    assert.equal(f.elements['hd-portrait'].getAttribute('data-person-id'), '0');
+    f.api.stop();
 });
 
 test('filtered, reordered, duplicate and nameless-ID native menus never infer a runtime person from a name', async () => {
