@@ -1,6 +1,6 @@
 # HD SPE 原生帧与素材协议
 
-更新：2026-10-08。引擎继续用 `PlcMovie` 决定播放、叠图、清除和结束；前端依据实际 LCD 显示提交选择高清图片槽。没有独立的 JavaScript 播放时钟，不计算伤害或命中。分支为 `feature/hd-graphics`。
+更新：2026-10-09。引擎继续用 `PlcMovie` 决定播放、叠图、清除和结束；前端依据实际 LCD 显示提交选择高清图片槽。没有独立的 JavaScript 播放时钟，不计算伤害或命中。分支为 `feature/hd-graphics`。
 
 ## 原生资源与播放
 
@@ -126,3 +126,11 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 真实驱动支持`--destination 14`，保留默认9；当前Realm归属、真实CITY_LINKR字节、AddFightOrder原生订单和实际战场CityIndex分别确认。每次目标以当前真实GenArray、存活、装备派生兵种、地形0..6和fresh native AIM授权，不能用初始slot或既往AIM排名授权攻击。
 
 三次新增对弓的玩家攻击实际通过19:22..32、20:20..29、21:18..26；其它28接线组合仍待实战，原有对步/对骑六段保留历史来源而未冒充本批复验。原生死亡失败与同一源码后续真实新局通过分别保留，不能改伤害/兵力/随机状态或绕过死亡门控。详见[普通攻击完整接入与汉中实战证据](validation/m4-attack-completion-20261009.json)。
+
+## 2026-10-09：STONE42无数字状态计谋
+
+标准技能23「石阵」的实际资源42/index0、kind2、start0/end7、count8/picmax2、1084bytes、`fnv1a32:0e6f8d97:1084`。8单位x/y0、cdelay/ndelay20，槽0/1交替，两槽均64×64/mask0。两张1254×1254原始PNG按原生起点48,16映射到既有130×64电影画布，相对偏移33,0；没有独立动画时钟。旧40entry对象和普通51原图/ledger均原样保留。
+
+`skillResultVersion1`及真实NUM15 metadata用于现有manifest校验与预热；加载只准备entry图片，不启动数字阶段。实际power/destroy均0，原生局部arms/prov为0，因此不进入NUM15、标签或hold，skill_end后才出现真实状态报告。状态6石阵与状态3定身分开：石阵不设置移动1，也不产生虚构兵力伤害。实际LCD与最终严格HD两个成功游戏分别验证800兵、move4保持和状态0→6；最终8实际timer显示均高清，完整160×96原生RGBA由独立真实位图重建逐字节核对。
+
+`npm run test:stone-runtime -- --recruit --recruit-arms 800`使用独立浏览器及私有端口，先观察真实钱/后备兵/名单与数量上限，再通过真正征兵、分配、出征、技能菜单和当前AIM完成23。800是请求量，巴郡实测资金仅允许590征兵、690分配；不伪造兵力、MP、随机种子或成功事件。自然失败、其它技能捕获与选中成功Stone8回调分开，原生像素专项不扩称所有raw captures已oracle验证。公开silent close只用于已退回原生地图的准备壳退休；它不证明普通空征兵pane返回已修复。证据见[石阵专项](validation/m4-stone-20261009.json)。

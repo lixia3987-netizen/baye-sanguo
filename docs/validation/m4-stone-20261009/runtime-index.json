@@ -1,0 +1,1608 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "scope": "Stone42: genuine entry, failed preparation, actual LCD and strict HD runs are separate. No state/RNG writes. All available raw run files and images retained byte-exact; identical PNG bytes may share one archived path.",
+  "missingEarlierCheckpointPng": {
+    "run": "build/r13-stone-lcd-cast-v2",
+    "checkpoint": "stone23-natural-random-failure first attempt",
+    "reason": "The second same-name checkpoint overwrote it before archival. Both failures still have original state/MP/report/input data; no screenshot reconstruction.",
+    "reconstructed": false
+  },
+  "raw": [
+    {
+      "source": "build/r13-stone-entry-baseline-v1/browser-console.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/d7ee4cd14b641d2cd91e6ee4b46959f3f8cdb4e606a6aab6ceed4156e41eb8ef-browser-console.json.gz",
+      "bytes": 10678,
+      "sha256": "d7ee4cd14b641d2cd91e6ee4b46959f3f8cdb4e606a6aab6ceed4156e41eb8ef",
+      "archiveBytes": 1605,
+      "archiveSha256": "b66d0e7f504913e94203bb339ec92aab580ef0112a31e5602dedbd1794f0b9fe",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/engine-inputs.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/40353226ae001b01e9a9d7f0d1b3553fa8e8e25d6504caab5387872becb8fcb3-engine-inputs.json.gz",
+      "bytes": 9576,
+      "sha256": "40353226ae001b01e9a9d7f0d1b3553fa8e8e25d6504caab5387872becb8fcb3",
+      "archiveBytes": 500,
+      "archiveSha256": "e63efcb571034d17d9f281c52660895cec997894b70bbe6024c87451fedf0b62",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/entry-baseline-audit.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/951fdf3300d9ccc08c098af9624fb20b1ee229c816fb84ef776730a8ec5b0c7b-entry-baseline-audit.json.gz",
+      "bytes": 15429,
+      "sha256": "951fdf3300d9ccc08c098af9624fb20b1ee229c816fb84ef776730a8ec5b0c7b",
+      "archiveBytes": 3897,
+      "archiveSha256": "447af6329db74a1ac5fe685b47f6e0ad0a4c182eb6ec474d51da7a2911362494",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/native-skill-captures.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/observer-errors.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/result.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/a43a23f652867d4d9cabf48981b071225c5205ef01471397f0e34578ed63c73d-result.json.gz",
+      "bytes": 3249217,
+      "sha256": "a43a23f652867d4d9cabf48981b071225c5205ef01471397f0e34578ed63c73d",
+      "archiveBytes": 226528,
+      "archiveSha256": "6f209a5eaa5d536f5ae5512ce2b4a5e765e24307006e792ba00158dd76366f80",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/source-verification.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/1ddc4f32385fb039da2bf3b6fe60ab4c48d91d9083ad198b953f8d7f19b429f3-source-verification.json.gz",
+      "bytes": 404908,
+      "sha256": "1ddc4f32385fb039da2bf3b6fe60ab4c48d91d9083ad198b953f8d7f19b429f3",
+      "archiveBytes": 64429,
+      "archiveSha256": "f5c005b500fc3f64e384bbb2a5e140ddb6e4ce03f5c88973268ee30a62ab9605",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/spe-observations.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/75319a7a4f398e164cd653887849a18245394b642b20e338d4133e37d4b7e98e-spe-observations.json.gz",
+      "bytes": 1563451,
+      "sha256": "75319a7a4f398e164cd653887849a18245394b642b20e338d4133e37d4b7e98e",
+      "archiveBytes": 17727,
+      "archiveSha256": "c76361f6d62e58112f87a62080aa92b7b448cbc56e16cb6380a4a2bc4e76ba30",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1-console.log",
+      "archive": "docs/validation/m4-stone-20261009/raw/e80e1d09767b6052dd35989e0ce241381d3abb3da26fb7dad8790e65cb1cbe7e-r13-stone-entry-baseline-v1-console.log.gz",
+      "bytes": 643,
+      "sha256": "e80e1d09767b6052dd35989e0ce241381d3abb3da26fb7dad8790e65cb1cbe7e",
+      "archiveBytes": 390,
+      "archiveSha256": "37f02f98e8daa6cf3a7e9b0b4596f9231fb736250c27a1818fba6b15ee99b855",
+      "label": "r13-stone-entry-baseline-v1 console"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/browser-console.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/1d4c2fafe50834f3c6aae982245b0f72c17ce1584713a3b9adddf7001039fbaa-browser-console.json.gz",
+      "bytes": 9254,
+      "sha256": "1d4c2fafe50834f3c6aae982245b0f72c17ce1584713a3b9adddf7001039fbaa",
+      "archiveBytes": 1425,
+      "archiveSha256": "0077230c0154817d725de0e8f7d3c4f420ddbd6b50fd87234ca362550356f235",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/engine-inputs.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/3a387c6323b2647b50219e919d25ad882ab9da16363ac2e101a6f0c3588bea34-engine-inputs.json.gz",
+      "bytes": 6071,
+      "sha256": "3a387c6323b2647b50219e919d25ad882ab9da16363ac2e101a6f0c3588bea34",
+      "archiveBytes": 395,
+      "archiveSha256": "02474424162d9a0203a654e10d699230401d9bcfcb294caacfd58259b6b686b4",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/lcd-cast-failure-audit.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/23249e7c13af6cbe0245e36f97487492e5e5ae51a1bdee7d076b225647eead20-lcd-cast-failure-audit.json.gz",
+      "bytes": 16084,
+      "sha256": "23249e7c13af6cbe0245e36f97487492e5e5ae51a1bdee7d076b225647eead20",
+      "archiveBytes": 3401,
+      "archiveSha256": "0178081332b23bd594a777ee4dac80aac6e4b473d4b415bb8324d52a7dcc0b6e",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/native-skill-captures.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/observer-errors.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/result.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/ed2dc2a9f6e981056aab26d9600fde85010be1c9daa80d6c520319908561a764-result.json.gz",
+      "bytes": 2295553,
+      "sha256": "ed2dc2a9f6e981056aab26d9600fde85010be1c9daa80d6c520319908561a764",
+      "archiveBytes": 172751,
+      "archiveSha256": "7fe10af767fcd3b80b6416a419c0aee5912746c4faba4f7662df77b47f7060e7",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/source-verification.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/1ddc4f32385fb039da2bf3b6fe60ab4c48d91d9083ad198b953f8d7f19b429f3-source-verification.json.gz",
+      "bytes": 404908,
+      "sha256": "1ddc4f32385fb039da2bf3b6fe60ab4c48d91d9083ad198b953f8d7f19b429f3",
+      "archiveBytes": 64429,
+      "archiveSha256": "f5c005b500fc3f64e384bbb2a5e140ddb6e4ce03f5c88973268ee30a62ab9605",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/spe-observations.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/f74014ff7d2c887a854b6f8d60eece7ba5caf5ae95c217e4b55cbd9c52113378-spe-observations.json.gz",
+      "bytes": 1158214,
+      "sha256": "f74014ff7d2c887a854b6f8d60eece7ba5caf5ae95c217e4b55cbd9c52113378",
+      "archiveBytes": 14356,
+      "archiveSha256": "fce1e21c3f1f1a5adc253ead2835da80e4217fdc497d734ca8799fa1568ad9db",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1-console.log",
+      "archive": "docs/validation/m4-stone-20261009/raw/3c9668eba1ce1d399184a5c227178c59d533d55267d1c1b8bb7516e53282eff9-r13-stone-lcd-cast-v1-console.log.gz",
+      "bytes": 917,
+      "sha256": "3c9668eba1ce1d399184a5c227178c59d533d55267d1c1b8bb7516e53282eff9",
+      "archiveBytes": 418,
+      "archiveSha256": "cb00703574914dfbf7b227568bfbb90888bbf82757aec5d63a4fcd7a78b35f90",
+      "label": "r13-stone-lcd-cast-v1 console"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/browser-console.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/20850847dadb7ffe9ea446adacb6332b6729c95e4a388881a9e82f89e1ca0dc4-browser-console.json.gz",
+      "bytes": 11675,
+      "sha256": "20850847dadb7ffe9ea446adacb6332b6729c95e4a388881a9e82f89e1ca0dc4",
+      "archiveBytes": 1390,
+      "archiveSha256": "27aa39b1a2982d0e85af1a0117b99fea58e8dc9f34c6cdfa1fbdbc498aed1e55",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/engine-inputs.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/b8039c75c638e116c9c78195aa2a18a80edd5f9e11f0569c56254ce0f5dc3625-engine-inputs.json.gz",
+      "bytes": 64239,
+      "sha256": "b8039c75c638e116c9c78195aa2a18a80edd5f9e11f0569c56254ce0f5dc3625",
+      "archiveBytes": 1790,
+      "archiveSha256": "c49a1a2746b5a4f0d0b47b6936823460fe878bd75d7020f008f0dec00bffdeaa",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/lcd-cast-validation-audit.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/c2a34fe6c9dbbe4374edcc1209c745617d505065f9bcdc2560abacff9e169894-lcd-cast-validation-audit.json.gz",
+      "bytes": 81966,
+      "sha256": "c2a34fe6c9dbbe4374edcc1209c745617d505065f9bcdc2560abacff9e169894",
+      "archiveBytes": 11457,
+      "archiveSha256": "5de9efc705b51d70a471c5999c5c58114c78c0bd02b00a0df86dcf3396c8101e",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/native-skill-captures.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/9cfc582717165da345b6bb1dfe37d3e491b658282dd85a1b744e07abfb3f0ca2-native-skill-captures.json.gz",
+      "bytes": 2077065,
+      "sha256": "9cfc582717165da345b6bb1dfe37d3e491b658282dd85a1b744e07abfb3f0ca2",
+      "archiveBytes": 82271,
+      "archiveSha256": "92b457567a1f82a9fb40be29cf91e866da977c338372eec8c2cd65767c097b93",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/observer-errors.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/result.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/130d270d859764a97c75319f7ead5c2016d49ced731c7088f90341c550061c35-result.json.gz",
+      "bytes": 17446295,
+      "sha256": "130d270d859764a97c75319f7ead5c2016d49ced731c7088f90341c550061c35",
+      "archiveBytes": 515928,
+      "archiveSha256": "0b0ed910d9607a5677cb929ca46ce4287dfccb28a750015a455f55364ea807e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/source-verification.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/1ddc4f32385fb039da2bf3b6fe60ab4c48d91d9083ad198b953f8d7f19b429f3-source-verification.json.gz",
+      "bytes": 404908,
+      "sha256": "1ddc4f32385fb039da2bf3b6fe60ab4c48d91d9083ad198b953f8d7f19b429f3",
+      "archiveBytes": 64429,
+      "archiveSha256": "f5c005b500fc3f64e384bbb2a5e140ddb6e4ce03f5c88973268ee30a62ab9605",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/spe-observations.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/4882ef5da808185d6d5118e6c427522619e33cbb8ce7d5d5e5eda8558c622303-spe-observations.json.gz",
+      "bytes": 11044156,
+      "sha256": "4882ef5da808185d6d5118e6c427522619e33cbb8ce7d5d5e5eda8558c622303",
+      "archiveBytes": 110508,
+      "archiveSha256": "db5d5c25c0275b1bdb78e570fd6a34853f4767d34f0a02da057ea813b7a28948",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2-console.log",
+      "archive": "docs/validation/m4-stone-20261009/raw/2a28a28a58f1513104d66bb497740d6c1670f4eebabee2283e3066f3d2560d3b-r13-stone-lcd-cast-v2-console.log.gz",
+      "bytes": 969,
+      "sha256": "2a28a28a58f1513104d66bb497740d6c1670f4eebabee2283e3066f3d2560d3b",
+      "archiveBytes": 494,
+      "archiveSha256": "eed9266e1f1ab8950a7e8c9cf6e66ed5758f98202e2768f0874e4ba10448ff7c",
+      "label": "r13-stone-lcd-cast-v2 console"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/browser-console.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/231316e023d55277f71efbb4deeb44961b96272e58439af316adfb54d880e2de-browser-console.json.gz",
+      "bytes": 11684,
+      "sha256": "231316e023d55277f71efbb4deeb44961b96272e58439af316adfb54d880e2de",
+      "archiveBytes": 1368,
+      "archiveSha256": "1607cab24218585d8b8f21819ae40330a8c2926abc77f2dcfa288455cfd7693b",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/engine-inputs.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/719f81560351eadb128e12e79d6e7bf7e11529d7306179c75485b0dea651b017-engine-inputs.json.gz",
+      "bytes": 63702,
+      "sha256": "719f81560351eadb128e12e79d6e7bf7e11529d7306179c75485b0dea651b017",
+      "archiveBytes": 1763,
+      "archiveSha256": "d0cf4331b15f64c6ae261c56516c343ff10b55850f49ced43870f1fce059244d",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/native-skill-captures.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/4fb15ecb10a18765197c207ac701fb879ff2d1b42047dc3d6e073d4d0c9b4e24-native-skill-captures.json.gz",
+      "bytes": 2083817,
+      "sha256": "4fb15ecb10a18765197c207ac701fb879ff2d1b42047dc3d6e073d4d0c9b4e24",
+      "archiveBytes": 182967,
+      "archiveSha256": "609c5b3143e9d24c1b8e7075739651f3f65fc739deb8fcf8a715c07c55f0a470",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/observer-errors.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/result.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/baeba72047e4f059903614bac62501cdf2416dc1308cfa64c3fbaa3ef08725b1-result.json.gz",
+      "bytes": 19067946,
+      "sha256": "baeba72047e4f059903614bac62501cdf2416dc1308cfa64c3fbaa3ef08725b1",
+      "archiveBytes": 624783,
+      "archiveSha256": "86da3c633b131e05255f9550d019e836f06fc49490488cbfa36068499732661b",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/source-verification.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/1c5f0aee8c3d88448d7fbab1a5e1c6ee57bc4c934b92ef186d601d9fe9df75c5-source-verification.json.gz",
+      "bytes": 406255,
+      "sha256": "1c5f0aee8c3d88448d7fbab1a5e1c6ee57bc4c934b92ef186d601d9fe9df75c5",
+      "archiveBytes": 64665,
+      "archiveSha256": "05933a19efbfe7231543106ddfee942423d0f70a7513f51a369599273bc55480",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/spe-observations.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/17dc3d526ddfcaf4fc8ed83ce3fcfe7c4073b28368751be2bc6720e09b378bf9-spe-observations.json.gz",
+      "bytes": 12596093,
+      "sha256": "17dc3d526ddfcaf4fc8ed83ce3fcfe7c4073b28368751be2bc6720e09b378bf9",
+      "archiveBytes": 129102,
+      "archiveSha256": "a936cc2d70de58e8ddfe2a96483c9a68d279d77dc0b48c1f71cd2f52e1788e9a",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1-console.log",
+      "archive": "docs/validation/m4-stone-20261009/raw/5e51cf0d4cafe07b2fdf26a40ec680684f5ec0493a6bdb071aa2a67e29f395a8-r13-stone-hd-installed-v1-console.log.gz",
+      "bytes": 899,
+      "sha256": "5e51cf0d4cafe07b2fdf26a40ec680684f5ec0493a6bdb071aa2a67e29f395a8",
+      "archiveBytes": 473,
+      "archiveSha256": "f3440f0ce3eea6b40d76177577e093ffcea8b26d9f9511e9d9ed41257a189689",
+      "label": "r13-stone-hd-installed-v1 console"
+    },
+    {
+      "source": "build/r12-stone-art-pending.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/af2ce24ebecff9b76a67bbae822c189edbf9f03bdeb8f0d0b6eba22a695db6f1-r12-stone-art-pending.json.gz",
+      "bytes": 26543,
+      "sha256": "af2ce24ebecff9b76a67bbae822c189edbf9f03bdeb8f0d0b6eba22a695db6f1",
+      "archiveBytes": 7403,
+      "archiveSha256": "ff5305980e23bb6982365c4893aab9a09a23388a4f316d0648a205e7be4f5712",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-root-art-review.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/29f3099ef385b7acc9e6594485fc41371f91c8f199f139b97e9c9547514f65d9-r13-stone-root-art-review.json.gz",
+      "bytes": 1727,
+      "sha256": "29f3099ef385b7acc9e6594485fc41371f91c8f199f139b97e9c9547514f65d9",
+      "archiveBytes": 909,
+      "archiveSha256": "521374701a9db0850eb04e356222aef909ac519368e5653c1d4d0d507da3f53d",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-publication-baseline.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/69ecadb55079ae8f538b454ee6586545f5473843b251df08b78b96f9f439722b-r13-stone-publication-baseline.json.gz",
+      "bytes": 1575345,
+      "sha256": "69ecadb55079ae8f538b454ee6586545f5473843b251df08b78b96f9f439722b",
+      "archiveBytes": 212718,
+      "archiveSha256": "1d3f6c47d132132f6a2189b1fc6be7161e397ae461401eb6e20f016a0742e8c8",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-manifest-candidate.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/340be2ee0932748c6dce06b99c892271a5bd7da4936797a522cfd6536447238f-r13-stone-manifest-candidate.json.gz",
+      "bytes": 549853,
+      "sha256": "340be2ee0932748c6dce06b99c892271a5bd7da4936797a522cfd6536447238f",
+      "archiveBytes": 13228,
+      "archiveSha256": "271987630388fc807cb6038f8441f63db73e89acf1afe5950815be98d8c43758",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-runtime-plan.md",
+      "archive": "docs/validation/m4-stone-20261009/raw/377e04b34eb5b4be9210f20484e88c855c15a0fa891bcd298037f0087a21f445-r13-stone-runtime-plan.md.gz",
+      "bytes": 10098,
+      "sha256": "377e04b34eb5b4be9210f20484e88c855c15a0fa891bcd298037f0087a21f445",
+      "archiveBytes": 4860,
+      "archiveSha256": "4e20fdfd7e1a2e632da22f3992e0a2a231e7c9e50347178207cc7840fa79681a",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-runtime-candidate-proof.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/7d5c5db767838d2f289dc62a60930df2e8b1ac12bacf4b723d2e1128ccc43a2f-r13-stone-runtime-candidate-proof.json.gz",
+      "bytes": 19016,
+      "sha256": "7d5c5db767838d2f289dc62a60930df2e8b1ac12bacf4b723d2e1128ccc43a2f",
+      "archiveBytes": 4005,
+      "archiveSha256": "475d493c70ab58c6bc696d1eb8ed08a7a2f3974d685ac398b522de1bb5cfedfc",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-runtime-plan-v2.md",
+      "archive": "docs/validation/m4-stone-20261009/raw/377e04b34eb5b4be9210f20484e88c855c15a0fa891bcd298037f0087a21f445-r13-stone-runtime-plan-v2.md.gz",
+      "bytes": 10098,
+      "sha256": "377e04b34eb5b4be9210f20484e88c855c15a0fa891bcd298037f0087a21f445",
+      "archiveBytes": 4860,
+      "archiveSha256": "4e20fdfd7e1a2e632da22f3992e0a2a231e7c9e50347178207cc7840fa79681a",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-runtime-candidate-proof-v2.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/d3e8708d8ab698720f8614378391556dc80be12b7dbed52aa19b7de0ad0b0031-r13-stone-runtime-candidate-proof-v2.json.gz",
+      "bytes": 17118,
+      "sha256": "d3e8708d8ab698720f8614378391556dc80be12b7dbed52aa19b7de0ad0b0031",
+      "archiveBytes": 3323,
+      "archiveSha256": "6c10c995dfdb736d625538e7b9ea2bec32d9fb4695f1807caa1c8c94c7d65c83",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-candidate-peer-review.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/113a52981bfb9fa61fe82eaddcc1357a47291a7196dc73bf4cfbfbd3e1220f2e-r13-stone-candidate-peer-review.json.gz",
+      "bytes": 11862,
+      "sha256": "113a52981bfb9fa61fe82eaddcc1357a47291a7196dc73bf4cfbfbd3e1220f2e",
+      "archiveBytes": 4816,
+      "archiveSha256": "e828f9ef33419ec75fee7d2593f560b8cd6753826dd4101a0a6b22b3101827ed",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-candidate-peer-review-v2.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/b52755b761941f1c8b1b128d8785c0d38ed7a540105a726f7799812aaedfe462-r13-stone-candidate-peer-review-v2.json.gz",
+      "bytes": 6066,
+      "sha256": "b52755b761941f1c8b1b128d8785c0d38ed7a540105a726f7799812aaedfe462",
+      "archiveBytes": 2439,
+      "archiveSha256": "097d84f0f5d601e50df7238b1de77700c1588f92610497ce96c4b93a0974b3df",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-candidate-peer-review-v3.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/dc45134acfb82e34fe7fbbd18d5777b374f65ecab31502fb59d8f388f5e1da9c-r13-stone-candidate-peer-review-v3.json.gz",
+      "bytes": 5057,
+      "sha256": "dc45134acfb82e34fe7fbbd18d5777b374f65ecab31502fb59d8f388f5e1da9c",
+      "archiveBytes": 2261,
+      "archiveSha256": "b7b6a4a90f89a67f44dff8a2ca57bacafe2cc85e668d9179bbb86c2cb4b7d81f",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-manifest-peer-plan.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/6dc01fcb710f7888437d35305e61dcaf7bee88c4dc6164b995dadee74d7f3a05-r13-stone-manifest-peer-plan.json.gz",
+      "bytes": 13177,
+      "sha256": "6dc01fcb710f7888437d35305e61dcaf7bee88c4dc6164b995dadee74d7f3a05",
+      "archiveBytes": 4103,
+      "archiveSha256": "46b62dd5b84ba751f990b362729ebdf00278ddee2cbda783eb554ae2db3a7bac",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-retired-city-back-risk.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/e61d4b99efe7dadb3b4550fe0d4797f84af23389f791ef7e33397c9e169cc77d-r13-retired-city-back-risk.json.gz",
+      "bytes": 4724,
+      "sha256": "e61d4b99efe7dadb3b4550fe0d4797f84af23389f791ef7e33397c9e169cc77d",
+      "archiveBytes": 1908,
+      "archiveSha256": "dba00b4973e483a34bfd883db1d2a3d3143ff587856680d84953491d759cf0bb",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-next-skill-route-plan.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/b11544222577b5187e53c87b57a84481fb4e08345a950f1c49b20a6b12726331-r13-next-skill-route-plan.json.gz",
+      "bytes": 17737,
+      "sha256": "b11544222577b5187e53c87b57a84481fb4e08345a950f1c49b20a6b12726331",
+      "archiveBytes": 5781,
+      "archiveSha256": "a6dfe26e76a5ba723ed91023dc3ebdfe5ee0f671f7a33b095efdb454d6c45502",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-test-hd-stone-runtime-entry-baseline-v1.mjs",
+      "archive": "docs/validation/m4-stone-20261009/raw/13600734467572aa847a3b15c0d9c3a6b867e9b242d41d91ec038097c9d4eaeb-r13-test-hd-stone-runtime-entry-baseline-v1.mjs.gz",
+      "bytes": 91175,
+      "sha256": "13600734467572aa847a3b15c0d9c3a6b867e9b242d41d91ec038097c9d4eaeb",
+      "archiveBytes": 27684,
+      "archiveSha256": "7dbc60e76b5bcd5f2798fc43cde1d005f3f2378903e2082af42df9594f175446",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-test-hd-stone-runtime-lcd-cast-v1.mjs",
+      "archive": "docs/validation/m4-stone-20261009/raw/c9541a02ce9112d7ac884cb6c80bbf3f74c8828a7a09babc2b9d76e181f6cc70-r13-test-hd-stone-runtime-lcd-cast-v1.mjs.gz",
+      "bytes": 94732,
+      "sha256": "c9541a02ce9112d7ac884cb6c80bbf3f74c8828a7a09babc2b9d76e181f6cc70",
+      "archiveBytes": 28538,
+      "archiveSha256": "ed8dfa714f7b142310fb14eaa6a8e96106d98c20891dad49b989a52788ea3026",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-test-hd-stone-runtime-lcd-cast-v2.mjs",
+      "archive": "docs/validation/m4-stone-20261009/raw/78bbc5411bd49ca079f7136802eeec336f47799b61ab388bff4e4f16182c1393-r13-test-hd-stone-runtime-lcd-cast-v2.mjs.gz",
+      "bytes": 97147,
+      "sha256": "78bbc5411bd49ca079f7136802eeec336f47799b61ab388bff4e4f16182c1393",
+      "archiveBytes": 28998,
+      "archiveSha256": "31943d5773cfec5e2de743f66db434bf61dbbf266a4724b22b536edf1bd5b436",
+      "label": "source or review"
+    },
+    {
+      "source": "scripts/test-hd-stone-runtime.mjs",
+      "archive": "docs/validation/m4-stone-20261009/raw/f1e11ec58838efbcc257d994a3f544fbaed6a2cda00b28ba9d6aaf0725dd095c-test-hd-stone-runtime.mjs.gz",
+      "bytes": 97162,
+      "sha256": "f1e11ec58838efbcc257d994a3f544fbaed6a2cda00b28ba9d6aaf0725dd095c",
+      "archiveBytes": 28988,
+      "archiveSha256": "285a2d4a21ec3c52be52df9c570526b1cc12cad6f06d547ce0ed13dd3aa35c80",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-all-tests.log",
+      "archive": "docs/validation/m4-stone-20261009/raw/b4f30cb373fa383205e7798a76ab5d8daea4dd9075b2b703ca2b52390d47e97a-r13-all-tests.log.gz",
+      "bytes": 88273,
+      "sha256": "b4f30cb373fa383205e7798a76ab5d8daea4dd9075b2b703ca2b52390d47e97a",
+      "archiveBytes": 28120,
+      "archiveSha256": "c26151937fbbd43bf96a3484af695df212c580ac287ba8534d8a0f9950f19da9",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-final-source-audit.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/29f5c9a2711684280db661cbf6aa49bc4b2bd68bdd62a7a72bc5d89e88ff2d4b-r13-stone-final-source-audit.json.gz",
+      "bytes": 281831,
+      "sha256": "29f5c9a2711684280db661cbf6aa49bc4b2bd68bdd62a7a72bc5d89e88ff2d4b",
+      "archiveBytes": 60606,
+      "archiveSha256": "808b6aef6fe7b34435e4b91dbe21b1356052cda678c9f1a92bdffa09b7ee7f9e",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-root-runtime-review.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/3bb2da63fdd38efd3d31f2ade3f96fb8385b03682fae5fa17fe6c3a8902f277e-r13-stone-root-runtime-review.json.gz",
+      "bytes": 2000,
+      "sha256": "3bb2da63fdd38efd3d31f2ade3f96fb8385b03682fae5fa17fe6c3a8902f277e",
+      "archiveBytes": 1037,
+      "archiveSha256": "d775424ba6adff8f436382918909269ce2683032142ace37a381afcc639a71e6",
+      "label": "source or review"
+    },
+    {
+      "source": "build/r13-stone-final-independent-audit.json",
+      "archive": "docs/validation/m4-stone-20261009/raw/512981a61735ee264831e023f2f2c9771af40fa9dc5cfda45056efada067da9a-r13-stone-final-independent-audit.json.gz",
+      "bytes": 46667,
+      "sha256": "512981a61735ee264831e023f2f2c9771af40fa9dc5cfda45056efada067da9a",
+      "archiveBytes": 8663,
+      "archiveSha256": "89af569bc0291d1f571ae359a66f42642edd4e10d5c6ab01e076e9296fc2352c",
+      "label": "source or review"
+    }
+  ],
+  "images": [
+    {
+      "source": "build/r13-stone-entry-baseline-v1/01-native-opening-frames.png",
+      "archive": "docs/validation/m4-stone-20261009/png/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "archiveBytes": 2352106,
+      "archiveSha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/02-opening-ended-cleanly.png",
+      "archive": "docs/validation/m4-stone-20261009/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "archiveBytes": 88734,
+      "archiveSha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/03-real-map.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090.png",
+      "bytes": 71847,
+      "sha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "archiveBytes": 71847,
+      "archiveSha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/06-hd-city.png",
+      "archive": "docs/validation/m4-stone-20261009/png/e60b2c258f40415c8e34156b3d1510acb4c93a478856d882700a2804fb6bf0de.png",
+      "bytes": 2234789,
+      "sha256": "e60b2c258f40415c8e34156b3d1510acb4c93a478856d882700a2804fb6bf0de",
+      "archiveBytes": 2234789,
+      "archiveSha256": "e60b2c258f40415c8e34156b3d1510acb4c93a478856d882700a2804fb6bf0de",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/07-march-persons.png",
+      "archive": "docs/validation/m4-stone-20261009/png/6bf4aedfaf94f6024af8e17ebf03626e3156cee7fd9d4883f278b4e0cd650d48.png",
+      "bytes": 2200461,
+      "sha256": "6bf4aedfaf94f6024af8e17ebf03626e3156cee7fd9d4883f278b4e0cd650d48",
+      "archiveBytes": 2200461,
+      "archiveSha256": "6bf4aedfaf94f6024af8e17ebf03626e3156cee7fd9d4883f278b4e0cd650d48",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/08-march-persons-picked.png",
+      "archive": "docs/validation/m4-stone-20261009/png/71097f3331b21a091546a83709fbd2c2fa648250ade7fc95d3ea323909636e27.png",
+      "bytes": 2154671,
+      "sha256": "71097f3331b21a091546a83709fbd2c2fa648250ade7fc95d3ea323909636e27",
+      "archiveBytes": 2154671,
+      "archiveSha256": "71097f3331b21a091546a83709fbd2c2fa648250ade7fc95d3ea323909636e27",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/09-march-food.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ae02f18256eaf167e75fb799a20c36bc37ae37238733899cba73808a512bc544.png",
+      "bytes": 1641965,
+      "sha256": "ae02f18256eaf167e75fb799a20c36bc37ae37238733899cba73808a512bc544",
+      "archiveBytes": 1641965,
+      "archiveSha256": "ae02f18256eaf167e75fb799a20c36bc37ae37238733899cba73808a512bc544",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/10-march-target-instruction.png",
+      "archive": "docs/validation/m4-stone-20261009/png/82855bcde8fa7bb5800703d40c1688821689890b3aeb18ca066e46e4283bc03b.png",
+      "bytes": 2381103,
+      "sha256": "82855bcde8fa7bb5800703d40c1688821689890b3aeb18ca066e46e4283bc03b",
+      "archiveBytes": 2381103,
+      "archiveSha256": "82855bcde8fa7bb5800703d40c1688821689890b3aeb18ca066e46e4283bc03b",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/11-march-target.png",
+      "archive": "docs/validation/m4-stone-20261009/png/bcdd91b0f8a55765be7c7d2ca7ee268eb527951c9e7442edfe15a4767b11d0e0.png",
+      "bytes": 2792185,
+      "sha256": "bcdd91b0f8a55765be7c7d2ca7ee268eb527951c9e7442edfe15a4767b11d0e0",
+      "archiveBytes": 2792185,
+      "archiveSha256": "bcdd91b0f8a55765be7c7d2ca7ee268eb527951c9e7442edfe15a4767b11d0e0",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/12-march-departure-report.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9efe5446e9e5c886caf29afafdd5199ad677d50b85a8afbdefa3c5708946aab9.png",
+      "bytes": 2330373,
+      "sha256": "9efe5446e9e5c886caf29afafdd5199ad677d50b85a8afbdefa3c5708946aab9",
+      "archiveBytes": 2330373,
+      "archiveSha256": "9efe5446e9e5c886caf29afafdd5199ad677d50b85a8afbdefa3c5708946aab9",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/13-march-order-ack.png",
+      "archive": "docs/validation/m4-stone-20261009/png/4c6efd40a110124ae0159d37d2c0139830802a03e87fc1499aead35e6a8aa6c9.png",
+      "bytes": 2341982,
+      "sha256": "4c6efd40a110124ae0159d37d2c0139830802a03e87fc1499aead35e6a8aa6c9",
+      "archiveBytes": 2341982,
+      "archiveSha256": "4c6efd40a110124ae0159d37d2c0139830802a03e87fc1499aead35e6a8aa6c9",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/14-battle-ready.png",
+      "archive": "docs/validation/m4-stone-20261009/png/6d99b2603e595cc7ce7d2fc5fcddaa88ba82d802f1ac24d81d77010de4890d2d.png",
+      "bytes": 292717,
+      "sha256": "6d99b2603e595cc7ce7d2fc5fcddaa88ba82d802f1ac24d81d77010de4890d2d",
+      "archiveBytes": 292717,
+      "archiveSha256": "6d99b2603e595cc7ce7d2fc5fcddaa88ba82d802f1ac24d81d77010de4890d2d",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-entry-baseline-v1/baseline-actual-caster-stone-menu.png",
+      "archive": "docs/validation/m4-stone-20261009/png/80471e6c44536be4016b1508cc72bc37fae5754f4ae69291624274c278359b4a.png",
+      "bytes": 307581,
+      "sha256": "80471e6c44536be4016b1508cc72bc37fae5754f4ae69291624274c278359b4a",
+      "archiveBytes": 307581,
+      "archiveSha256": "80471e6c44536be4016b1508cc72bc37fae5754f4ae69291624274c278359b4a",
+      "label": "r13-stone-entry-baseline-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/01-native-opening-frames.png",
+      "archive": "docs/validation/m4-stone-20261009/png/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "archiveBytes": 2352106,
+      "archiveSha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/02-opening-ended-cleanly.png",
+      "archive": "docs/validation/m4-stone-20261009/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "archiveBytes": 88734,
+      "archiveSha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/03-real-map.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090.png",
+      "bytes": 71847,
+      "sha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "archiveBytes": 71847,
+      "archiveSha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/06-hd-city.png",
+      "archive": "docs/validation/m4-stone-20261009/png/1721d8ed3051ca39dbdf830affe61c58fce8bb3c23ccfa872a23ddb2cdbec629.png",
+      "bytes": 2234807,
+      "sha256": "1721d8ed3051ca39dbdf830affe61c58fce8bb3c23ccfa872a23ddb2cdbec629",
+      "archiveBytes": 2234807,
+      "archiveSha256": "1721d8ed3051ca39dbdf830affe61c58fce8bb3c23ccfa872a23ddb2cdbec629",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1/failure.png",
+      "archive": "docs/validation/m4-stone-20261009/png/678ebd273b1d538dc08da02c834a2e9544dbf1a9aa24891993cb681380b83e47.png",
+      "bytes": 2355892,
+      "sha256": "678ebd273b1d538dc08da02c834a2e9544dbf1a9aa24891993cb681380b83e47",
+      "archiveBytes": 2355892,
+      "archiveSha256": "678ebd273b1d538dc08da02c834a2e9544dbf1a9aa24891993cb681380b83e47",
+      "label": "r13-stone-lcd-cast-v1"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/01-native-opening-frames.png",
+      "archive": "docs/validation/m4-stone-20261009/png/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "archiveBytes": 2352106,
+      "archiveSha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/02-opening-ended-cleanly.png",
+      "archive": "docs/validation/m4-stone-20261009/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "archiveBytes": 88734,
+      "archiveSha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/03-real-map.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090.png",
+      "bytes": 71847,
+      "sha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "archiveBytes": 71847,
+      "archiveSha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/06-hd-city.png",
+      "archive": "docs/validation/m4-stone-20261009/png/006adbabc52956e1a17741e87c5c85c95fb51d3d6035d49e90496fc24cb6f827.png",
+      "bytes": 2235202,
+      "sha256": "006adbabc52956e1a17741e87c5c85c95fb51d3d6035d49e90496fc24cb6f827",
+      "archiveBytes": 2235202,
+      "archiveSha256": "006adbabc52956e1a17741e87c5c85c95fb51d3d6035d49e90496fc24cb6f827",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/06a-real-enlisted-city-reserves.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f3c8a0e43c4010a0d97621c9367f5262128ebe8207829af777b48c22595683c1.png",
+      "bytes": 2355909,
+      "sha256": "f3c8a0e43c4010a0d97621c9367f5262128ebe8207829af777b48c22595683c1",
+      "archiveBytes": 2355909,
+      "archiveSha256": "f3c8a0e43c4010a0d97621c9367f5262128ebe8207829af777b48c22595683c1",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/06b-real-distributed-caster-troops.png",
+      "archive": "docs/validation/m4-stone-20261009/png/20474b96193adbe475ce0dd918df5a117632d015bd338319ed4392be9bf63bf3.png",
+      "bytes": 2224719,
+      "sha256": "20474b96193adbe475ce0dd918df5a117632d015bd338319ed4392be9bf63bf3",
+      "archiveBytes": 2224719,
+      "archiveSha256": "20474b96193adbe475ce0dd918df5a117632d015bd338319ed4392be9bf63bf3",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/07-march-persons.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f73e0b0e0ac253f17f3df03447c3b9061565a94056900a5f46c9da569bf4c115.png",
+      "bytes": 2200362,
+      "sha256": "f73e0b0e0ac253f17f3df03447c3b9061565a94056900a5f46c9da569bf4c115",
+      "archiveBytes": 2200362,
+      "archiveSha256": "f73e0b0e0ac253f17f3df03447c3b9061565a94056900a5f46c9da569bf4c115",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/08-march-persons-picked.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ba0183265c1aa4d398c00e215451b2ab8a0f372eece19cc3cad93ba94f65e9a1.png",
+      "bytes": 2159900,
+      "sha256": "ba0183265c1aa4d398c00e215451b2ab8a0f372eece19cc3cad93ba94f65e9a1",
+      "archiveBytes": 2159900,
+      "archiveSha256": "ba0183265c1aa4d398c00e215451b2ab8a0f372eece19cc3cad93ba94f65e9a1",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/09-march-food.png",
+      "archive": "docs/validation/m4-stone-20261009/png/a3cc4e315491c5d8cf79bb381442770d44233d427c643e433eb4ffb3e3c29b0a.png",
+      "bytes": 1641994,
+      "sha256": "a3cc4e315491c5d8cf79bb381442770d44233d427c643e433eb4ffb3e3c29b0a",
+      "archiveBytes": 1641994,
+      "archiveSha256": "a3cc4e315491c5d8cf79bb381442770d44233d427c643e433eb4ffb3e3c29b0a",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/10-march-target-instruction.png",
+      "archive": "docs/validation/m4-stone-20261009/png/1529bc7350b82883194fad10bbc25d91b0ef6d39d718d30212a6388b29c9a92f.png",
+      "bytes": 2381066,
+      "sha256": "1529bc7350b82883194fad10bbc25d91b0ef6d39d718d30212a6388b29c9a92f",
+      "archiveBytes": 2381066,
+      "archiveSha256": "1529bc7350b82883194fad10bbc25d91b0ef6d39d718d30212a6388b29c9a92f",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/11-march-target.png",
+      "archive": "docs/validation/m4-stone-20261009/png/2be1aec357cd84eb9609fccbce8364c91405c5dfc324063e0c0218276977d66b.png",
+      "bytes": 2792497,
+      "sha256": "2be1aec357cd84eb9609fccbce8364c91405c5dfc324063e0c0218276977d66b",
+      "archiveBytes": 2792497,
+      "archiveSha256": "2be1aec357cd84eb9609fccbce8364c91405c5dfc324063e0c0218276977d66b",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/12-march-departure-report.png",
+      "archive": "docs/validation/m4-stone-20261009/png/b9c5fd76b287ed13402e926573606727cc6570cee9865a1273c71804353f5e1b.png",
+      "bytes": 2330155,
+      "sha256": "b9c5fd76b287ed13402e926573606727cc6570cee9865a1273c71804353f5e1b",
+      "archiveBytes": 2330155,
+      "archiveSha256": "b9c5fd76b287ed13402e926573606727cc6570cee9865a1273c71804353f5e1b",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/13-march-order-ack.png",
+      "archive": "docs/validation/m4-stone-20261009/png/39a715a233b95a48a9f693834b8ad0e4f552ca1c8723dd7196c6981309eec348.png",
+      "bytes": 2341890,
+      "sha256": "39a715a233b95a48a9f693834b8ad0e4f552ca1c8723dd7196c6981309eec348",
+      "archiveBytes": 2341890,
+      "archiveSha256": "39a715a233b95a48a9f693834b8ad0e4f552ca1c8723dd7196c6981309eec348",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/14-battle-ready.png",
+      "archive": "docs/validation/m4-stone-20261009/png/4d9837f00287f689a2667147f44ea870c75d1a578abe77db1b58878aafc4a434.png",
+      "bytes": 292927,
+      "sha256": "4d9837f00287f689a2667147f44ea870c75d1a578abe77db1b58878aafc4a434",
+      "archiveBytes": 292927,
+      "archiveSha256": "4d9837f00287f689a2667147f44ea870c75d1a578abe77db1b58878aafc4a434",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/28-explicit-end-turn-1.png",
+      "archive": "docs/validation/m4-stone-20261009/png/64ed2960ce3782b4d59bc92ab35525773df97d9cdd80ccaad1fcafbde8dee726.png",
+      "bytes": 176868,
+      "sha256": "64ed2960ce3782b4d59bc92ab35525773df97d9cdd80ccaad1fcafbde8dee726",
+      "archiveBytes": 176868,
+      "archiveSha256": "64ed2960ce3782b4d59bc92ab35525773df97d9cdd80ccaad1fcafbde8dee726",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/28-explicit-end-turn-2.png",
+      "archive": "docs/validation/m4-stone-20261009/png/850955890588dc53b097d1af040996254099e80ab1c225364256f4033b0c1bf5.png",
+      "bytes": 176848,
+      "sha256": "850955890588dc53b097d1af040996254099e80ab1c225364256f4033b0c1bf5",
+      "archiveBytes": 176848,
+      "archiveSha256": "850955890588dc53b097d1af040996254099e80ab1c225364256f4033b0c1bf5",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/28-explicit-end-turn-3.png",
+      "archive": "docs/validation/m4-stone-20261009/png/486a4747e6e31afd5224020eae844908f088adc19ffaf91f73bf1300d063a589.png",
+      "bytes": 179246,
+      "sha256": "486a4747e6e31afd5224020eae844908f088adc19ffaf91f73bf1300d063a589",
+      "archiveBytes": 179246,
+      "archiveSha256": "486a4747e6e31afd5224020eae844908f088adc19ffaf91f73bf1300d063a589",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/28-explicit-end-turn-4.png",
+      "archive": "docs/validation/m4-stone-20261009/png/7939163fb0c84d5c96953b034d3ab9b41a7fadf0a16091867724a3a8a8b3c6ba.png",
+      "bytes": 179205,
+      "sha256": "7939163fb0c84d5c96953b034d3ab9b41a7fadf0a16091867724a3a8a8b3c6ba",
+      "archiveBytes": 179205,
+      "archiveSha256": "7939163fb0c84d5c96953b034d3ab9b41a7fadf0a16091867724a3a8a8b3c6ba",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/actual-report-1.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f45540e7d51bf9fbf5a1385afa44a27952013b1ca1e2cb50360a95ded2a12489.png",
+      "bytes": 192171,
+      "sha256": "f45540e7d51bf9fbf5a1385afa44a27952013b1ca1e2cb50360a95ded2a12489",
+      "archiveBytes": 192171,
+      "archiveSha256": "f45540e7d51bf9fbf5a1385afa44a27952013b1ca1e2cb50360a95ded2a12489",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-000-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6.png",
+      "bytes": 44512,
+      "sha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "archiveBytes": 44512,
+      "archiveSha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-000-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6.png",
+      "bytes": 6159,
+      "sha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "archiveBytes": 6159,
+      "archiveSha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-001-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900.png",
+      "bytes": 44498,
+      "sha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "archiveBytes": 44498,
+      "archiveSha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-001-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e.png",
+      "bytes": 6167,
+      "sha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "archiveBytes": 6167,
+      "archiveSha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-002-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6.png",
+      "bytes": 44512,
+      "sha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "archiveBytes": 44512,
+      "archiveSha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-002-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6.png",
+      "bytes": 6159,
+      "sha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "archiveBytes": 6159,
+      "archiveSha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-003-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900.png",
+      "bytes": 44498,
+      "sha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "archiveBytes": 44498,
+      "archiveSha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-003-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e.png",
+      "bytes": 6167,
+      "sha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "archiveBytes": 6167,
+      "archiveSha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-004-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6.png",
+      "bytes": 44512,
+      "sha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "archiveBytes": 44512,
+      "archiveSha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-004-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6.png",
+      "bytes": 6159,
+      "sha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "archiveBytes": 6159,
+      "archiveSha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-005-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900.png",
+      "bytes": 44498,
+      "sha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "archiveBytes": 44498,
+      "archiveSha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-005-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e.png",
+      "bytes": 6167,
+      "sha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "archiveBytes": 6167,
+      "archiveSha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-006-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6.png",
+      "bytes": 44512,
+      "sha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "archiveBytes": 44512,
+      "archiveSha256": "add36758e9ab94359750a9f9eed75ab64d2d74d3acdf240abe9db258851d17e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-006-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6.png",
+      "bytes": 6159,
+      "sha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "archiveBytes": 6159,
+      "archiveSha256": "ce26c5c75237f1cbc0abe693e0c6e1df8be11729dcab504f10f1c49d3248e2e6",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-007-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900.png",
+      "bytes": 44498,
+      "sha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "archiveBytes": 44498,
+      "archiveSha256": "1d685fc63020f306539bef8becdbdbff777d91c1c237b31e83b4804742af5900",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-007-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e.png",
+      "bytes": 6167,
+      "sha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "archiveBytes": 6167,
+      "archiveSha256": "abb26a7b6ddc5a329b52dcccdc9b2be340aa5d944905713fdc791dfc38c8cb4e",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-008-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/61d5c1656db3d9487b7524d090c1e8177dc2a0fbbb00d47c623f1a810ca8a617.png",
+      "bytes": 5705,
+      "sha256": "61d5c1656db3d9487b7524d090c1e8177dc2a0fbbb00d47c623f1a810ca8a617",
+      "archiveBytes": 5705,
+      "archiveSha256": "61d5c1656db3d9487b7524d090c1e8177dc2a0fbbb00d47c623f1a810ca8a617",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-009-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/06408d9c480fbb8b74e9c2709be4b018e53e16b6a1af604a322bc14560464943.png",
+      "bytes": 4522,
+      "sha256": "06408d9c480fbb8b74e9c2709be4b018e53e16b6a1af604a322bc14560464943",
+      "archiveBytes": 4522,
+      "archiveSha256": "06408d9c480fbb8b74e9c2709be4b018e53e16b6a1af604a322bc14560464943",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone-010-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/501a55c8a1e20cf729fe170e00ad61fb263605b3fec16129114fff51db008b44.png",
+      "bytes": 4842,
+      "sha256": "501a55c8a1e20cf729fe170e00ad61fb263605b3fec16129114fff51db008b44",
+      "archiveBytes": 4842,
+      "archiveSha256": "501a55c8a1e20cf729fe170e00ad61fb263605b3fec16129114fff51db008b44",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone23-native-owner-retired-no-number-wait.png",
+      "archive": "docs/validation/m4-stone-20261009/png/e343838e1aa7ef950c87c467b04a3b10e3ff39a81b1578fbfdb430533d9a340f.png",
+      "bytes": 180230,
+      "sha256": "e343838e1aa7ef950c87c467b04a3b10e3ff39a81b1578fbfdb430533d9a340f",
+      "archiveBytes": 180230,
+      "archiveSha256": "e343838e1aa7ef950c87c467b04a3b10e3ff39a81b1578fbfdb430533d9a340f",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone23-natural-random-failure.png",
+      "archive": "docs/validation/m4-stone-20261009/png/90a1358deeccd87d6f6d7b9ad2ddbb8c3c2f02145241c48cff6ec586c62a6b0a.png",
+      "bytes": 177515,
+      "sha256": "90a1358deeccd87d6f6d7b9ad2ddbb8c3c2f02145241c48cff6ec586c62a6b0a",
+      "archiveBytes": 177515,
+      "archiveSha256": "90a1358deeccd87d6f6d7b9ad2ddbb8c3c2f02145241c48cff6ec586c62a6b0a",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2/stone23-real-state6-report.png",
+      "archive": "docs/validation/m4-stone-20261009/png/e343838e1aa7ef950c87c467b04a3b10e3ff39a81b1578fbfdb430533d9a340f.png",
+      "bytes": 180230,
+      "sha256": "e343838e1aa7ef950c87c467b04a3b10e3ff39a81b1578fbfdb430533d9a340f",
+      "archiveBytes": 180230,
+      "archiveSha256": "e343838e1aa7ef950c87c467b04a3b10e3ff39a81b1578fbfdb430533d9a340f",
+      "label": "r13-stone-lcd-cast-v2"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/01-native-opening-frames.png",
+      "archive": "docs/validation/m4-stone-20261009/png/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "archiveBytes": 2352106,
+      "archiveSha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/02-opening-ended-cleanly.png",
+      "archive": "docs/validation/m4-stone-20261009/png/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "archiveBytes": 88734,
+      "archiveSha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/03-real-map.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090.png",
+      "bytes": 71847,
+      "sha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "archiveBytes": 71847,
+      "archiveSha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/06-hd-city.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9750d23e2867ab2c1473767ef6049be6534772be500ddd0f77bd3c0708727f1d.png",
+      "bytes": 2234802,
+      "sha256": "9750d23e2867ab2c1473767ef6049be6534772be500ddd0f77bd3c0708727f1d",
+      "archiveBytes": 2234802,
+      "archiveSha256": "9750d23e2867ab2c1473767ef6049be6534772be500ddd0f77bd3c0708727f1d",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/06a-real-enlisted-city-reserves.png",
+      "archive": "docs/validation/m4-stone-20261009/png/557133adc4541822cfc00949fb8b33bcaa67508a75adc3e18ad6a71eda8d0a53.png",
+      "bytes": 2355941,
+      "sha256": "557133adc4541822cfc00949fb8b33bcaa67508a75adc3e18ad6a71eda8d0a53",
+      "archiveBytes": 2355941,
+      "archiveSha256": "557133adc4541822cfc00949fb8b33bcaa67508a75adc3e18ad6a71eda8d0a53",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/06b-real-distributed-caster-troops.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9b26a5254c8c58c165365313330432e09fffebb4486d497c14e231efb79dc157.png",
+      "bytes": 2224721,
+      "sha256": "9b26a5254c8c58c165365313330432e09fffebb4486d497c14e231efb79dc157",
+      "archiveBytes": 2224721,
+      "archiveSha256": "9b26a5254c8c58c165365313330432e09fffebb4486d497c14e231efb79dc157",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/07-march-persons.png",
+      "archive": "docs/validation/m4-stone-20261009/png/619c7b0b31751e0d83d8fc3351213f2a959ff833c94eb508584f94dbfa011157.png",
+      "bytes": 2245261,
+      "sha256": "619c7b0b31751e0d83d8fc3351213f2a959ff833c94eb508584f94dbfa011157",
+      "archiveBytes": 2245261,
+      "archiveSha256": "619c7b0b31751e0d83d8fc3351213f2a959ff833c94eb508584f94dbfa011157",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/08-march-persons-picked.png",
+      "archive": "docs/validation/m4-stone-20261009/png/4ab0b0c1cbd0e6b40d8727ddfc12ddec915ae0bc90645ce879b0d82021efee67.png",
+      "bytes": 2217161,
+      "sha256": "4ab0b0c1cbd0e6b40d8727ddfc12ddec915ae0bc90645ce879b0d82021efee67",
+      "archiveBytes": 2217161,
+      "archiveSha256": "4ab0b0c1cbd0e6b40d8727ddfc12ddec915ae0bc90645ce879b0d82021efee67",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/09-march-food.png",
+      "archive": "docs/validation/m4-stone-20261009/png/e84e75956fbbf18d90896954db67ece7896b783c77893e3e1cd375d898d959fd.png",
+      "bytes": 1643121,
+      "sha256": "e84e75956fbbf18d90896954db67ece7896b783c77893e3e1cd375d898d959fd",
+      "archiveBytes": 1643121,
+      "archiveSha256": "e84e75956fbbf18d90896954db67ece7896b783c77893e3e1cd375d898d959fd",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/10-march-target-instruction.png",
+      "archive": "docs/validation/m4-stone-20261009/png/511e5cc0e0e239ae793ec732d6ac9ab29fe44e6dc25dac1290722e4bd8efd568.png",
+      "bytes": 2381730,
+      "sha256": "511e5cc0e0e239ae793ec732d6ac9ab29fe44e6dc25dac1290722e4bd8efd568",
+      "archiveBytes": 2381730,
+      "archiveSha256": "511e5cc0e0e239ae793ec732d6ac9ab29fe44e6dc25dac1290722e4bd8efd568",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/11-march-target.png",
+      "archive": "docs/validation/m4-stone-20261009/png/a3756a4dd18593343d6c6e9e4f8f698138ef9a415d0f3439639d025cb703df60.png",
+      "bytes": 2823113,
+      "sha256": "a3756a4dd18593343d6c6e9e4f8f698138ef9a415d0f3439639d025cb703df60",
+      "archiveBytes": 2823113,
+      "archiveSha256": "a3756a4dd18593343d6c6e9e4f8f698138ef9a415d0f3439639d025cb703df60",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/12-march-departure-report.png",
+      "archive": "docs/validation/m4-stone-20261009/png/74c1cab61250b59f4eae6193e9c1bc259788997d2a79c51ea69c69f6ed9d545b.png",
+      "bytes": 2352879,
+      "sha256": "74c1cab61250b59f4eae6193e9c1bc259788997d2a79c51ea69c69f6ed9d545b",
+      "archiveBytes": 2352879,
+      "archiveSha256": "74c1cab61250b59f4eae6193e9c1bc259788997d2a79c51ea69c69f6ed9d545b",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/13-march-order-ack.png",
+      "archive": "docs/validation/m4-stone-20261009/png/993d45367404d63984fd5f953327e62cf2808305b0aa8fb57275dc1af429069a.png",
+      "bytes": 2344534,
+      "sha256": "993d45367404d63984fd5f953327e62cf2808305b0aa8fb57275dc1af429069a",
+      "archiveBytes": 2344534,
+      "archiveSha256": "993d45367404d63984fd5f953327e62cf2808305b0aa8fb57275dc1af429069a",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/14-battle-ready.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ec912235bf2a447b760529060c41f68ab21f2cf0367a0a69948353f153d620fb.png",
+      "bytes": 292881,
+      "sha256": "ec912235bf2a447b760529060c41f68ab21f2cf0367a0a69948353f153d620fb",
+      "archiveBytes": 292881,
+      "archiveSha256": "ec912235bf2a447b760529060c41f68ab21f2cf0367a0a69948353f153d620fb",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/28-explicit-end-turn-1.png",
+      "archive": "docs/validation/m4-stone-20261009/png/49e5f19fc4ad0a6743ad57a2e4ece4f501d2dc7de2960ce73a18e082136f5be0.png",
+      "bytes": 178183,
+      "sha256": "49e5f19fc4ad0a6743ad57a2e4ece4f501d2dc7de2960ce73a18e082136f5be0",
+      "archiveBytes": 178183,
+      "archiveSha256": "49e5f19fc4ad0a6743ad57a2e4ece4f501d2dc7de2960ce73a18e082136f5be0",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/28-explicit-end-turn-2.png",
+      "archive": "docs/validation/m4-stone-20261009/png/785e24cc8e3895b51a3f2446348ec0115d4b27ab3e269872bb55299881d3934a.png",
+      "bytes": 178301,
+      "sha256": "785e24cc8e3895b51a3f2446348ec0115d4b27ab3e269872bb55299881d3934a",
+      "archiveBytes": 178301,
+      "archiveSha256": "785e24cc8e3895b51a3f2446348ec0115d4b27ab3e269872bb55299881d3934a",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/28-explicit-end-turn-3.png",
+      "archive": "docs/validation/m4-stone-20261009/png/ae99d0f2650f5b8802b6bf5628c252cf4368121c40f85cf6c03912483d752701.png",
+      "bytes": 181698,
+      "sha256": "ae99d0f2650f5b8802b6bf5628c252cf4368121c40f85cf6c03912483d752701",
+      "archiveBytes": 181698,
+      "archiveSha256": "ae99d0f2650f5b8802b6bf5628c252cf4368121c40f85cf6c03912483d752701",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/28-explicit-end-turn-4.png",
+      "archive": "docs/validation/m4-stone-20261009/png/652a7d42ad730c71c8de64e754e945bc8dd72baa807c31f05ea96247c10e4148.png",
+      "bytes": 178175,
+      "sha256": "652a7d42ad730c71c8de64e754e945bc8dd72baa807c31f05ea96247c10e4148",
+      "archiveBytes": 178175,
+      "archiveSha256": "652a7d42ad730c71c8de64e754e945bc8dd72baa807c31f05ea96247c10e4148",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/actual-report-1.png",
+      "archive": "docs/validation/m4-stone-20261009/png/b99215824136d51584525106835843588c3da951cd8c34c9099cd7015516af0c.png",
+      "bytes": 190056,
+      "sha256": "b99215824136d51584525106835843588c3da951cd8c34c9099cd7015516af0c",
+      "archiveBytes": 190056,
+      "archiveSha256": "b99215824136d51584525106835843588c3da951cd8c34c9099cd7015516af0c",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-000-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405.png",
+      "bytes": 1943541,
+      "sha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "archiveBytes": 1943541,
+      "archiveSha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-000-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499.png",
+      "bytes": 5798,
+      "sha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "archiveBytes": 5798,
+      "archiveSha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-001-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd.png",
+      "bytes": 1913265,
+      "sha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "archiveBytes": 1913265,
+      "archiveSha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-001-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703.png",
+      "bytes": 5794,
+      "sha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "archiveBytes": 5794,
+      "archiveSha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-002-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405.png",
+      "bytes": 1943541,
+      "sha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "archiveBytes": 1943541,
+      "archiveSha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-002-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499.png",
+      "bytes": 5798,
+      "sha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "archiveBytes": 5798,
+      "archiveSha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-003-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd.png",
+      "bytes": 1913265,
+      "sha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "archiveBytes": 1913265,
+      "archiveSha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-003-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703.png",
+      "bytes": 5794,
+      "sha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "archiveBytes": 5794,
+      "archiveSha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-004-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405.png",
+      "bytes": 1943541,
+      "sha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "archiveBytes": 1943541,
+      "archiveSha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-004-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499.png",
+      "bytes": 5798,
+      "sha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "archiveBytes": 5798,
+      "archiveSha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-005-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd.png",
+      "bytes": 1913265,
+      "sha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "archiveBytes": 1913265,
+      "archiveSha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-005-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703.png",
+      "bytes": 5794,
+      "sha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "archiveBytes": 5794,
+      "archiveSha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-006-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405.png",
+      "bytes": 1943541,
+      "sha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "archiveBytes": 1943541,
+      "archiveSha256": "79022949a03acc85e50a59eb90e9c71c640bde76552b411af832c8a3292c9405",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-006-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499.png",
+      "bytes": 5798,
+      "sha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "archiveBytes": 5798,
+      "archiveSha256": "f00a1598955d4295da884eec8f67bd1bf4c7b5322b0cf40d76b7efb57c4a5499",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-007-movie-hd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd.png",
+      "bytes": 1913265,
+      "sha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "archiveBytes": 1913265,
+      "archiveSha256": "d717a13ca216be364a3a956d8ffe570889ee4570c8a76eff4bc43c0db35bedcd",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-007-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703.png",
+      "bytes": 5794,
+      "sha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "archiveBytes": 5794,
+      "archiveSha256": "8793d232389ff875c58cc606ebd4a12864dee8e69d7b5c1995eb04bee6d89703",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-008-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/6b10539b8b1fbb5c82543512265a5226b6fc1339d4198f280b700ea1d9941336.png",
+      "bytes": 5312,
+      "sha256": "6b10539b8b1fbb5c82543512265a5226b6fc1339d4198f280b700ea1d9941336",
+      "archiveBytes": 5312,
+      "archiveSha256": "6b10539b8b1fbb5c82543512265a5226b6fc1339d4198f280b700ea1d9941336",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-009-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/b59eaea6abbeaf2724618a74d2a6aa0e1bb0449d95c0ec47e86a89b58dadbf86.png",
+      "bytes": 4787,
+      "sha256": "b59eaea6abbeaf2724618a74d2a6aa0e1bb0449d95c0ec47e86a89b58dadbf86",
+      "archiveBytes": 4787,
+      "archiveSha256": "b59eaea6abbeaf2724618a74d2a6aa0e1bb0449d95c0ec47e86a89b58dadbf86",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone-010-movie-lcd.png",
+      "archive": "docs/validation/m4-stone-20261009/png/0cbe0d047a7fdcb9ca74e43c33390aae0104737d650933e1cef44a0bb1f17c5b.png",
+      "bytes": 5177,
+      "sha256": "0cbe0d047a7fdcb9ca74e43c33390aae0104737d650933e1cef44a0bb1f17c5b",
+      "archiveBytes": 5177,
+      "archiveSha256": "0cbe0d047a7fdcb9ca74e43c33390aae0104737d650933e1cef44a0bb1f17c5b",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone23-native-owner-retired-no-number-wait.png",
+      "archive": "docs/validation/m4-stone-20261009/png/6625b3117c8d5bbb9a407ebdae9974ebd530ac199704eb3c66fabcf116cefa20.png",
+      "bytes": 179861,
+      "sha256": "6625b3117c8d5bbb9a407ebdae9974ebd530ac199704eb3c66fabcf116cefa20",
+      "archiveBytes": 179861,
+      "archiveSha256": "6625b3117c8d5bbb9a407ebdae9974ebd530ac199704eb3c66fabcf116cefa20",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1/stone23-real-state6-report.png",
+      "archive": "docs/validation/m4-stone-20261009/png/6625b3117c8d5bbb9a407ebdae9974ebd530ac199704eb3c66fabcf116cefa20.png",
+      "bytes": 179861,
+      "sha256": "6625b3117c8d5bbb9a407ebdae9974ebd530ac199704eb3c66fabcf116cefa20",
+      "archiveBytes": 179861,
+      "archiveSha256": "6625b3117c8d5bbb9a407ebdae9974ebd530ac199704eb3c66fabcf116cefa20",
+      "label": "r13-stone-hd-installed-v1"
+    },
+    {
+      "source": "build/r12-stone-native/STONE42-picture-0.png",
+      "archive": "docs/validation/m4-stone-20261009/png/b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674.png",
+      "bytes": 806,
+      "sha256": "b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674",
+      "archiveBytes": 806,
+      "archiveSha256": "b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674",
+      "label": "native primary reference"
+    },
+    {
+      "source": "build/r12-stone-native/STONE42-picture-0-packed-cells-x8.png",
+      "archive": "docs/validation/m4-stone-20261009/png/629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50.png",
+      "bytes": 2598,
+      "sha256": "629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50",
+      "archiveBytes": 2598,
+      "archiveSha256": "629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50",
+      "label": "native primary reference"
+    },
+    {
+      "source": "build/r12-stone-native/STONE42-picture-1.png",
+      "archive": "docs/validation/m4-stone-20261009/png/9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e.png",
+      "bytes": 805,
+      "sha256": "9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e",
+      "archiveBytes": 805,
+      "archiveSha256": "9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e",
+      "label": "native primary reference"
+    },
+    {
+      "source": "build/r12-stone-native/STONE42-picture-1-packed-cells-x8.png",
+      "archive": "docs/validation/m4-stone-20261009/png/0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db.png",
+      "bytes": 2594,
+      "sha256": "0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db",
+      "archiveBytes": 2594,
+      "archiveSha256": "0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db",
+      "label": "native primary reference"
+    }
+  ],
+  "art": [
+    {
+      "source": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-0.png",
+      "rel": "build/r12-stone-native/STONE42-picture-0.png",
+      "sha256": "b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674",
+      "bytes": 806,
+      "role": "primary exact native picture0 geometry",
+      "archive": "docs/validation/m4-stone-20261009/png/b28584fe8c188d136a10fba644c92c92068603e7d507ee6b0db26a317026a674.png",
+      "aliasExistingProduction": false
+    },
+    {
+      "source": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-0-packed-cells-x8.png",
+      "rel": "build/r12-stone-native/STONE42-picture-0-packed-cells-x8.png",
+      "sha256": "629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50",
+      "bytes": 2598,
+      "role": "primary per-bit x8 diagnostic geometry, not style",
+      "archive": "docs/validation/m4-stone-20261009/png/629dcf4a5d1c0f7d280077b3b655c7221092b23d768fbabb049688583e358d50.png",
+      "aliasExistingProduction": false
+    },
+    {
+      "source": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+      "rel": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+      "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+      "bytes": 1262711,
+      "role": "secondary accepted charcoal green / bronze hand-painted palette only; no content transfer",
+      "archive": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+      "aliasExistingProduction": true
+    },
+    {
+      "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-46466680-53f2-41d2-a5d7-f394cf5f0161.png",
+      "rel": "assets/hd-spe/stone-42/picture-0.png",
+      "sha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8",
+      "bytes": 2914976,
+      "role": "byte-exact built-in original production PNG",
+      "archive": "assets/hd-spe/stone-42/picture-0.png",
+      "aliasExistingProduction": true
+    },
+    {
+      "source": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-1.png",
+      "rel": "build/r12-stone-native/STONE42-picture-1.png",
+      "sha256": "9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e",
+      "bytes": 805,
+      "role": "primary exact native picture1 content and pose",
+      "archive": "docs/validation/m4-stone-20261009/png/9b96a7c53735d8db24d4b31ef7314f29a7abe578ed9edd631afa02cc28ba864e.png",
+      "aliasExistingProduction": false
+    },
+    {
+      "source": "F:/project/baye-sanguo/build/r12-stone-native/STONE42-picture-1-packed-cells-x8.png",
+      "rel": "build/r12-stone-native/STONE42-picture-1-packed-cells-x8.png",
+      "sha256": "0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db",
+      "bytes": 2594,
+      "role": "primary per-bit x8 diagnostic geometry, not style",
+      "archive": "docs/validation/m4-stone-20261009/png/0a581abd5f9913efae4d0bda602c435a532b9829a9a5b4eaef9ad450ba1f22db.png",
+      "aliasExistingProduction": false
+    },
+    {
+      "source": "C:\\Users\\75112\\.codex\\generated_images\\01a116e3-623c-7513-a5e0-580eb72033be\\exec-5fc53709-e9a3-4862-a70d-669a7f6cc236.png",
+      "rel": "assets/hd-spe/stone-42/picture-1.png",
+      "sha256": "c2b96ca68161bd441d4ed445fa70e6c4cdc57567154234be33763e1ab14c6026",
+      "bytes": 2801968,
+      "role": "byte-exact built-in original production PNG",
+      "archive": "assets/hd-spe/stone-42/picture-1.png",
+      "aliasExistingProduction": true
+    }
+  ],
+  "runs": [
+    {
+      "source": "build/r13-stone-entry-baseline-v1",
+      "ok": true,
+      "baselineOnly": true,
+      "allowLcd": false,
+      "hdAccepted": false,
+      "runner": {
+        "source": "build\\r13-test-hd-stone-runtime-candidate.mjs",
+        "sha256": "13600734467572aa847a3b15c0d9c3a6b867e9b242d41d91ec038097c9d4eaeb"
+      },
+      "sourceVerification": {
+        "ok": true,
+        "count": 1135,
+        "drift": [],
+        "runnerMatch": true
+      }
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v1",
+      "ok": false,
+      "baselineOnly": false,
+      "allowLcd": true,
+      "hdAccepted": false,
+      "runner": {
+        "source": "build\\r13-test-hd-stone-runtime-candidate.mjs",
+        "sha256": "c9541a02ce9112d7ac884cb6c80bbf3f74c8828a7a09babc2b9d76e181f6cc70"
+      },
+      "sourceVerification": {
+        "ok": true,
+        "count": 1135,
+        "drift": [],
+        "runnerMatch": true
+      }
+    },
+    {
+      "source": "build/r13-stone-lcd-cast-v2",
+      "ok": true,
+      "baselineOnly": false,
+      "allowLcd": true,
+      "hdAccepted": false,
+      "runner": {
+        "source": "build\\r13-test-hd-stone-runtime-candidate.mjs",
+        "sha256": "78bbc5411bd49ca079f7136802eeec336f47799b61ab388bff4e4f16182c1393"
+      },
+      "sourceVerification": {
+        "ok": true,
+        "count": 1135,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 8,
+        "events": 1,
+        "hdReadbacks": 0
+      }
+    },
+    {
+      "source": "build/r13-stone-hd-installed-v1",
+      "ok": true,
+      "baselineOnly": false,
+      "allowLcd": false,
+      "hdAccepted": true,
+      "runner": {
+        "source": "scripts\\test-hd-stone-runtime.mjs",
+        "sha256": "f1e11ec58838efbcc257d994a3f544fbaed6a2cda00b28ba9d6aaf0725dd095c"
+      },
+      "sourceVerification": {
+        "ok": true,
+        "count": 1139,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 8,
+        "events": 1,
+        "hdReadbacks": 8
+      }
+    }
+  ],
+  "summary": {
+    "rawFiles": 57,
+    "imageLogicalFiles": 103,
+    "imageUniqueFiles": 68,
+    "artUniqueReferences": 7,
+    "omittedImages": 0,
+    "compressionRoundTrip": true
+  }
+}

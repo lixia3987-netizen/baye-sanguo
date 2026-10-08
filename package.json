@@ -55,7 +55,8 @@
     "test:attack": "node --test scripts/test-hd-attack-engine.mjs scripts/test-hd-attack-bridge.mjs scripts/test-hd-spe.mjs",
     "test:attack-runtime": "node scripts/test-hd-attack-runtime.mjs",
     "test:skill": "node --test scripts/test-hd-skill-engine.mjs scripts/test-hd-skill-bridge.mjs scripts/test-hd-spe.mjs",
-    "test:skill-runtime": "node scripts/test-hd-skill-runtime.mjs"
+    "test:skill-runtime": "node scripts/test-hd-skill-runtime.mjs",
+    "test:stone-runtime": "node scripts/test-hd-stone-runtime.mjs"
   },
   "devDependencies": {
     "serve": "14.2.5"
