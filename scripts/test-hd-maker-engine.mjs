@@ -28,13 +28,26 @@ function typedef(file, name) {
     return result[0];
 }
 const header = read('hd-bridge.h'), bridge = read('hd-bridge.c');
-const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER)_/.test(line)).join('\n');
+const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION)_/.test(line)).join('\n');
 const globals = bridge.slice(bridge.indexOf('U8 g_hdSpePendingKind ='), bridge.indexOf('U8 g_hdSkillActive ='));
+function observerFunctions(names) {
+    const found = new Map();
+    function add(name) {
+        if (found.has(name)) return;
+        const body = actual('hd-bridge.c', name); found.set(name, body);
+        for (const call of body.matchAll(/\b((?:hd_|baye_hd_)\w+)\s*\(/g))
+            if (new RegExp('^(?:(?:static|inline|FAR|const)\\s+)*[A-Za-z_]\\w*[\\t *]+' + call[1] + '\\([^;]*?\\)\\s*\\{', 'm').test(bridge)) add(call[1]);
+    }
+    names.forEach(add);
+    return [...found.values()].map(body => body.slice(0, body.indexOf('{')).trim() + ';').join('\n') + '\n' + [...found.values()].join('\n');
+}
 const helpers = ['hd_next_input_seq', 'hd_spe_notify', 'baye_hd_maker_begin', 'baye_hd_maker_hold',
     'baye_hd_maker_end', 'hd_maker_spe_end', 'hd_spe_publish', 'baye_hd_begin_spe',
     'baye_hd_spe_context', 'baye_hd_spe_enter', 'baye_hd_spe_ready', 'baye_hd_spe_frame',
     'baye_hd_spe_tick', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty', 'baye_hd_spe_lcd_copy',
-    'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate'].map(name => actual('hd-bridge.c', name)).join('\n');
+    'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate', 'baye_hd_spe_draw_begin',
+    'baye_hd_spe_draw_end', 'baye_hd_spe_clear'];
+const observerSource = observerFunctions(helpers);
 
 // Independent fixed RCHEAD decoding obtains the actual complete MAKER item.
 const lib = readFileSync(join(root, 'libs/dat-mod.lib'));
@@ -79,12 +92,13 @@ typedef int8_t BOOL;
 #define WK_SX 0
 #define WK_SY 0
 #define min(a,b) ((a)<(b)?(a):(b))
-` + constants + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
+` + constants + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
     typedef('baye/paccount.h', 'SPEUNIT') + '\n' + typedef('baye/paccount.h', 'SPERES') + '\n' +
     typedef('baye/graph.h', 'PictureHeadType') + String.raw`
 static U8 g_hdFightActive=0,g_hdMovieActive=0,g_FlipDrawing=0,g_paintColor=255;
 static U16 g_hdMovieId=0;
-` + globals + '\n' + helpers + String.raw`
+static U32 g_paintPalette[256];
+` + globals + '\n' + observerSource + String.raw`
 static const U8 initial[]={ROM_BYTES};
 static U8 resource[4096],g_VisScr[160*96];
 static U8 *g_CBnkPtr=resource;
@@ -108,7 +122,6 @@ static int g_screenWidth=160,g_screenHeight=96;
 #define BYTES_PERLINE (SCR_W*AX_SCALE)
 #define MAX_SCR_BUF_LEN sizeof(g_VisScr)
 #define gam_memset memset
-static U32 g_paintPalette[256];
 static char *static_buffer,*backup_buffer,*buffer,*scr_buffer;
 static size_t buffer_size;
 static int isLcdDirty;

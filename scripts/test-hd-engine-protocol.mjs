@@ -40,7 +40,19 @@ function actualFunction(filename, name) {
     assert.fail(`actual ${filename}::${name} closes`);
 }
 
-const speTypes = header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
+const speTypes = header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdPictureSource;/)[0] + '\n' +
+    header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
+function observerFunctions(names) {
+    const found = new Map(), excluded = new Set(['hd_next_input_seq', 'baye_hd_begin_spe']);
+    function add(name) {
+        if (found.has(name) || excluded.has(name)) return;
+        const body = actualFunction('hd-bridge.c', name); found.set(name, body);
+        for (const call of body.matchAll(/\b((?:hd_|baye_hd_)\w+)\s*\(/g))
+            if (new RegExp('^(?:(?:static|inline|FAR|const)\\s+)*[A-Za-z_]\\w*[\\t *]+' + call[1] + '\\([^;]*?\\)\\s*\\{', 'm').test(bridge)) add(call[1]);
+    }
+    names.forEach(add);
+    return [...found.values()].map(body => body.slice(0, body.indexOf('{')).trim() + ';').join('\n') + '\n' + [...found.values()].join('\n');
+}
 // Select functions explicitly: HELP publication now sits between two SPE
 // helpers, so a substring range would duplicate set_help and import unrelated
 // detail/resource dependencies into this protocol fixture.
@@ -48,7 +60,8 @@ const speHelpers = ['hd_spe_notify', 'baye_hd_maker_begin', 'baye_hd_maker_hold'
     'hd_maker_spe_end', 'hd_spe_publish', 'baye_hd_spe_context', 'baye_hd_spe_enter',
     'baye_hd_spe_ready', 'baye_hd_spe_frame', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty',
     'baye_hd_spe_lcd_copy', 'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate']
-    .map((name) => actualFunction('hd-bridge.c', name)).join('\n');
+    ;
+const speObserverSource = observerFunctions(speHelpers);
 const globals = bridge.slice(0, bridge.indexOf('static void copy_gbk')).replace(/^#include[^\n]*\n/gm, '');
 const helpers = [
     'copy_gbk', 'hd_goods_clear', 'hd_menu_ids_clear', 'hd_help_detail_clear', 'hd_help_notify',
@@ -79,6 +92,7 @@ typedef uint16_t SkillID;
 typedef struct { int sx, ex, sy, ey; } RECT;
 typedef struct { U8 x,y,setx,sety; } CitySetType;
 U8 g_FlipDrawing = 0, g_paintColor = 0xff;
+U32 g_paintPalette[256];
 #define FAR
 #define FGTA_MAX 20
 #define MAIN_SPE 3
@@ -93,7 +107,7 @@ U8 g_FlipDrawing = 0, g_paintColor = 0xff;
 static void ResLoadToMem(int resource, int id, U8* output) {
     (void)resource; output[0] = (U8)id; output[1] = 0;
 }
-` + constants + '\n' + speTypes + '\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\n' + helpers + '\n' + speHelpers + String.raw`
+` + constants + '\n' + speTypes + '\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
 static int scrolling;
 static int SysScrollingTimerOpen(int value) { int old = scrolling; scrolling = value; return old; }
 `;

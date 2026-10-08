@@ -39,7 +39,7 @@ function prepareServedAssets() {
         servedAssets.set('js/' + name, { data, metadata });
     }
     const speManifest = JSON.parse(fs.readFileSync(path.join(root,'assets/hd-spe/manifest.json'),'utf8'));
-    const files=['pc.html','css/hd-spe.css','assets/hd-spe/manifest.json',...speManifest.entries.flatMap(e=>e.pictures.map(p=>p.src))];
+    const files=['pc.html','css/hd-spe.css','assets/hd-spe/manifest.json',...speManifest.entries.flatMap(e=>[...e.pictures.map(p=>p.src),e.compositionVersion===1&&e.background&&e.background.src]).filter(Boolean)];
     for(const name of new Set(files)) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};

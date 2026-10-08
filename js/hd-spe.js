@@ -2,7 +2,7 @@
 (function (global) {
     var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
-        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], preparing: false, preparation: null,
+        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, preparing: false, preparation: null,
         libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null };
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
@@ -14,7 +14,20 @@
     } }
     function info() { if (state.preparing) return {}; try {
         if (!(global.baye && baye.hd && baye.hd.ready())) return {};
-        var s = baye.hd.spe() || {}, m = typeof baye.hd.maker === 'function' ? baye.hd.maker() : null;
+        var s = baye.hd.spe() || {}, m = typeof baye.hd.maker === 'function' ? baye.hd.maker() : null,
+            a = typeof baye.hd.attack === 'function' ? baye.hd.attack() : null;
+        if (!s.active && a && a.protocolVersion === 1 && a.active && (a.phase === 'numbers' || a.phase === 'hold') &&
+            integer(a.generation) && a.generation === s.generation && integer(a.session) && a.session > 0) {
+            // FgtAtkAction owns this native wait. Its finished child SPE is
+            // never reactivated; direct LCD numeric flushes have their own stamp.
+            return { active: true, ownerType: 'attack-postlude', attack: a, nativeSpe: s,
+                protocolVersion: 2, id: a.speId, kind: 3, generation: a.generation,
+                eventId: a.scene && a.scene.eventId, resourceIndex: a.resourceIndex,
+                count: a.count, picmax: a.picmax, x: a.x, y: a.y, startFrm: a.startFrm, endFrm: a.endFrm,
+                resourceLength: a.resourceLength, resourceFingerprint: a.resourceFingerprint,
+                protocolValid: a.sourceValid === true && !a.custom, frameValid: a.sourceValid === true,
+                keyflag: 0, skipEligible: false, display: a.display };
+        }
         if (m && m.protocolVersion === 1 && m.active && m.phase === 'hold' && m.returnEligible === true &&
             integer(m.generation) && m.generation === s.generation && integer(m.session) && m.session > 0 && integer(m.inputSeq) && m.inputSeq > 0) {
             // This is a presentation of GamMakerInf's native hold owner.
@@ -51,9 +64,12 @@
         return true;
     } }
     function held(s) { return s.ownerType === 'maker-hold'; }
-    function event(s) { return held(s) ? 'maker:' + s.maker.generation + ':' + s.maker.session + ':' + s.maker.inputSeq : s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
-    function stamp(s) { var d = s.display; return d ? d.generation + ':' + d.eventId + ':' + d.commitSeq : event(s); }
+    function postlude(s) { return s.ownerType === 'attack-postlude'; }
+    function event(s) { return postlude(s) ? 'attack:' + s.attack.generation + ':' + s.attack.session : held(s) ? 'maker:' + s.maker.generation + ':' + s.maker.session + ':' + s.maker.inputSeq : s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
+    function stamp(s) { var d = s.display; return postlude(s) ? event(s) + ':' + (d && d.paintSeq) + ':' + (d && d.commitSeq) : d ? d.generation + ':' + d.eventId + ':' + d.commitSeq : event(s); }
     function matches(s) { var d = s.display;
+        if (postlude(s)) return !!(s.attack.sourceValid && d && d.valid && d.frameValid &&
+            d.generation === s.attack.generation && d.session === s.attack.session && integer(d.paintSeq) && d.paintSeq >= 0);
         if (held(s)) {
             var saved = s.maker.display;
             return !!(s.maker.sourceValid && d && saved && d.frameValid && saved.frameValid &&
@@ -64,7 +80,7 @@
         }
         return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0);
     }
-    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && (held(s) || matches(s))); }
+    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && (postlude(s) || held(s) || matches(s))); }
     function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }
     function retire(key) {
         if (state.event !== (key || ''))
@@ -115,8 +131,11 @@
     }
     function verifyLib() {
         var identity = global.BayeHdLibIdentity;
-        var current = identity ? identity.read() :
-            { status: 'unavailable', generation: 0, sha256: null, reason: 'lib-unavailable' };
+        var current;
+        try { current = identity ? identity.read() :
+            { status: 'unavailable', generation: 0, sha256: null, reason: 'lib-unavailable' }; }
+        catch (error) { current = { status: 'error', generation: state.libReason === 'lib-read-failed' ? state.libGeneration : state.libGeneration + 1,
+            sha256: null, reason: 'lib-read-failed' }; }
         var hash = current.status === 'ready' ? current.sha256 : null;
         if (state.libGeneration !== current.generation || state.libHash !== hash || state.libReason !== current.reason) {
             state.libGeneration = current.generation;
@@ -124,9 +143,10 @@
             state.libReason = current.reason;
             state.assets = null;
             state.cache = [];
+            state.imageCache = {};
         }
     }
-    function setManifest(value) { state.manifestGeneration++; state.assets = null; state.cache = []; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
+    function setManifest(value) { state.manifestGeneration++; state.assets = null; state.cache = []; state.imageCache = {}; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
     function requestManifest() {
         if (state.manifestRequested || typeof global.fetch !== 'function')
             return;
@@ -176,16 +196,25 @@
         }
         return null;
     }
+    function validPicture(pic) {
+        var scale = state.manifest.axScale;
+        return !!(pic && typeof pic.src === 'string' && /^assets\/hd-spe\/[\w./-]+\.(?:png|webp|svg)$/.test(pic.src) && pic.src.indexOf('..') === -1 &&
+            integer(pic.width) && pic.width > 0 && integer(pic.height) && pic.height > 0 &&
+            pic.logicalWidth > 0 && pic.logicalHeight > 0 && isFinite(pic.logicalWidth) && isFinite(pic.logicalHeight) &&
+            pic.nativeWidth === pic.logicalWidth * scale && pic.nativeHeight === pic.logicalHeight * scale && (pic.mask === 0 || pic.mask === 1));
+    }
     function valid(e) {
         if (!e || !Array.isArray(e.units) || e.units.length !== e.count || !Array.isArray(e.pictures) || e.pictures.length !== e.picmax || e.picmax < 1 || e.picmax > 255)
             return false;
-        var seen = {}, scale = state.manifest.axScale;
+        var seen = {}, scale = state.manifest.axScale, needed = rangePictures(e);
+        if (!needed) return false;
         for (var p = 0; p < e.pictures.length; p++) {
             var pic = e.pictures[p];
-            if (!pic || !integer(pic.picIndex) || pic.picIndex < 0 || pic.picIndex >= e.picmax || seen[pic.picIndex] || typeof pic.src !== 'string' ||
-                !/^assets\/hd-spe\/[\w./-]+\.(?:png|webp|svg)$/.test(pic.src) || pic.src.indexOf('..') !== -1 || !integer(pic.width) || pic.width <= 0 || !integer(pic.height) || pic.height <= 0 ||
+            if (!pic || !integer(pic.picIndex) || pic.picIndex < 0 || pic.picIndex >= e.picmax || seen[pic.picIndex] ||
+                !integer(pic.nativeWidth) || pic.nativeWidth <= 0 || !integer(pic.nativeHeight) || pic.nativeHeight <= 0 ||
                 !(pic.logicalWidth > 0 && pic.logicalHeight > 0 && isFinite(pic.logicalWidth) && isFinite(pic.logicalHeight)) ||
-                pic.nativeWidth !== pic.logicalWidth * scale || pic.nativeHeight !== pic.logicalHeight * scale || (pic.mask !== 0 && pic.mask !== 1))
+                pic.nativeWidth !== pic.logicalWidth * scale || pic.nativeHeight !== pic.logicalHeight * scale || (pic.mask !== 0 && pic.mask !== 1) ||
+                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 || pic.src !== null || pic.width !== null || pic.height !== null))
                 return false;
             seen[pic.picIndex] = true;
         }
@@ -194,7 +223,55 @@
             if (!unit || unit.frame !== u || !integer(unit.x) || !integer(unit.y) || unit.x < 0 || unit.y < 0 || !integer(unit.picIndex) || !seen[unit.picIndex])
                 return false;
         }
+        if (e.compositionVersion != null) {
+            if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
+        }
         return true;
+    }
+    function rangePictures(e) {
+        if (!integer(e.count) || e.count < 1 || e.count > 255 || !integer(e.startFrm) || !integer(e.endFrm) ||
+            e.startFrm < 0 || e.endFrm < e.startFrm || e.endFrm >= e.count || !Array.isArray(e.units) || e.units.length !== e.count) return null;
+        var needed = {};
+        for (var i = 0; i < e.units.length; i++) {
+            var unit = e.units[i];
+            if (!unit || unit.frame !== i || !integer(unit.picIndex) || unit.picIndex < 0 || unit.picIndex >= e.picmax) return null;
+            if (e.compositionVersion !== 1 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
+        }
+        return needed;
+    }
+    function validSource(p) {
+        return !!(p && integer(p.id) && p.id > 0 && integer(p.resourceIndex) && p.resourceIndex >= 0 && integer(p.pictureIndex) && p.pictureIndex >= 0 &&
+            integer(p.count) && p.count > p.pictureIndex && integer(p.nativeWidth) && p.nativeWidth > 0 && integer(p.nativeHeight) && p.nativeHeight > 0 &&
+            integer(p.x) && integer(p.y) && (p.mask === 0 || p.mask === 1) && integer(p.resourceLength) && p.resourceLength > 0 &&
+            /^fnv1a32:[\da-f]{8}:\d+$/.test(p.resourceFingerprint || ''));
+    }
+    function sharedImage(pic, consumer) {
+        // Raw-identical native slots share one decoded bitmap across the six
+        // defender ranges. The validated dimensions and LIB generation remain
+        // part of its authority, rather than merely trusting a URL.
+        var signature = JSON.stringify([pic.src, pic.width, pic.height, pic.nativeWidth, pic.nativeHeight, pic.logicalWidth, pic.logicalHeight, pic.mask]);
+        var cached = state.imageCache[signature];
+        if (cached) {
+            if (cached.status === 'loading') cached.listeners.push(consumer); else consumer(cached);
+            return;
+        }
+        var record = { status: 'loading', listeners: [consumer], manifestGeneration: state.manifestGeneration,
+            libGeneration: state.libGeneration, libHash: state.libHash, image: null };
+        state.imageCache[signature] = record;
+        function finish(status) {
+            verifyLib();
+            if (state.imageCache[signature] !== record || record.manifestGeneration !== state.manifestGeneration ||
+                record.libGeneration !== state.libGeneration || record.libHash !== state.libHash || record.status !== 'loading') return;
+            record.status = status;
+            var listeners = record.listeners.slice(); record.listeners.length = 0;
+            listeners.forEach(function (callback) { callback(record); });
+        }
+        try {
+            var image = new global.Image(); record.image = image;
+            image.onload = function () { finish(image.naturalWidth === pic.width && image.naturalHeight === pic.height ? 'ready' : 'failed'); };
+            image.onerror = function () { finish('failed'); };
+            image.src = pic.src;
+        } catch (error) { finish('failed'); }
     }
     function load(e) {
         var signature;
@@ -207,7 +284,10 @@
                 return candidate;
             }
         }
-        var record = { entry: e, signature: signature, status: 'loading', images: {}, pending: e.pictures.length,
+        var needed = rangePictures(e);
+        var pictures = e.pictures.filter(function (pic) { return needed[pic.picIndex]; }).map(function (pic) { return { key: pic.picIndex, picture: pic }; });
+        if (e.background) pictures.push({ key: 'background', picture: e.background });
+        var record = { entry: e, signature: signature, status: 'loading', images: {}, pending: pictures.length,
             manifestGeneration: state.manifestGeneration, libGeneration: state.libGeneration, libHash: state.libHash };
         state.assets = record;
         state.cache.push(record);
@@ -218,34 +298,15 @@
             return state.cache.indexOf(record) !== -1 && record.manifestGeneration === state.manifestGeneration &&
                 record.libGeneration === state.libGeneration && record.libHash === state.libHash;
         }
-        for (var i = 0; i < e.pictures.length; i++)
-            (function (pic) {
-                try {
-                    var image = new global.Image();
-                    image.onload = function () {
-                        if (!current())
-                            return;
-                        if (image.naturalWidth !== pic.width || image.naturalHeight !== pic.height) {
-                            record.status = 'failed';
-                            sync();
-                            return;
-                        }
-                        record.images[pic.picIndex] = image;
-                        record.pending--;
-                        if (!record.pending && record.status !== 'failed')
-                            record.status = 'ready';
-                        sync();
-                    };
-                    image.onerror = function () { if (current()) {
-                        record.status = 'failed';
-                        sync();
-                    } };
-                    image.src = pic.src;
-                }
-                catch (error) {
-                    record.status = 'failed';
-                }
-            })(e.pictures[i]);
+        pictures.forEach(function (slot) {
+            sharedImage(slot.picture, function (image) {
+                if (!current()) return;
+                if (image.status === 'ready') { record.images[slot.key] = image.image; record.pending--; }
+                else record.status = 'failed';
+                if (!record.pending && record.status !== 'failed') record.status = 'ready';
+                sync();
+            });
+        });
         return record;
     }
     function prepareStart(callback, options) {
@@ -318,6 +379,48 @@
         }
         state.assets = selected;
     }
+    function warmArena() {
+        if (state.preparing || !state.manifest || state.libHash !== state.manifest.libSha256 || !hd(3)) return;
+        try {
+            if (!(global.baye && baye.hd && baye.hd.ready() && typeof baye.hd.fight === 'function' && baye.hd.fight().active)) return;
+        } catch (error) { return; }
+        var selected = state.assets;
+        state.manifest.entries.forEach(function (entry) {
+            if (entry && entry.kind === 3 && entry.compositionVersion === 1 && valid(entry)) load(entry);
+        });
+        state.assets = selected;
+    }
+    function sameSource(expected, observed) {
+        return !!(validSource(expected) && observed && observed.valid === true &&
+            ['id', 'resourceIndex', 'pictureIndex', 'nativeWidth', 'nativeHeight', 'count', 'mask', 'x', 'y', 'resourceLength', 'resourceFingerprint']
+                .every(function (name) { return expected[name] === observed[name]; }));
+    }
+    function cleared(s) {
+        var composition = s.display && s.display.composition;
+        if (!composition || composition.protocolVersion !== 1 || composition.valid !== true) return null;
+        var bits = composition.clearFrames, out = [];
+        if (!Array.isArray(bits) || bits.length !== 32) return null;
+        for (var b = 0; b < 32; b++) if (!integer(bits[b]) || bits[b] < 0 || bits[b] > 255) return null;
+        for (var i = 0; i < 256; i++) if (bits[i >> 3] & (1 << (i & 7))) {
+            if (i >= s.count || i < s.startFrm || i > s.endFrm) return null;
+            out.push(i);
+        }
+        return out;
+    }
+    function numberPoses(s, entry) {
+        if (!postlude(s)) return [];
+        if (!sameSource(entry.number, s.attack.number) || !Array.isArray(s.display.digits) || s.display.digits.length > 5) return null;
+        var decimal = String(s.attack.hurt), poses = [], scale = state.manifest.axScale;
+        for (var i = 0; i < s.display.digits.length; i++) {
+            var digit = s.display.digits[i];
+            if (!digit || !integer(digit.digit) || digit.digit !== decimal.charCodeAt(i) - 48 || !integer(digit.x) || !integer(digit.y) ||
+                !integer(digit.firstY) || !integer(digit.drawCount) || digit.drawCount < 1 || digit.drawCount > Math.floor(entry.number.nativeHeight / 2) ||
+                digit.y !== digit.firstY - digit.drawCount + 1) return null;
+            for (var j = 0; j < digit.drawCount; j++) poses.push({ digit: digit.digit, x: digit.x, y: digit.firstY - j,
+                width: entry.number.nativeWidth / scale, height: entry.number.nativeHeight / scale });
+        }
+        return poses;
+    }
     function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s); }
     function paint(s) {
         var canvas = el('hd-spe-canvas');
@@ -372,6 +475,15 @@
             state.reason = state.libReason || 'event-not-matched';
             return;
         }
+        var clears = [], poses = [];
+        if (entry.compositionVersion === 1) {
+            clears = cleared(s);
+            poses = numberPoses(s, entry);
+            if (!clears || !poses || !sameSource(entry.background, s.display.composition && s.display.composition.background)) {
+                state.reason = 'composition-not-matched';
+                return;
+            }
+        } else if (postlude(s)) { state.reason = 'composition-not-matched'; return; }
         var assets = load(entry);
         state.renderKey = renderKey(s);
         if (assets.status !== 'ready') {
@@ -385,10 +497,30 @@
         ctx.beginPath();
         ctx.rect(0, 0, w, h);
         ctx.clip();
+        if (entry.compositionVersion === 1) {
+            var background = entry.background;
+            ctx.drawImage(assets.images.background, (background.x - sx) * scale, (background.y - sy) * scale,
+                background.logicalWidth * scale, background.logicalHeight * scale);
+            clears.forEach(function (frame) {
+                var unit = entry.units[frame], picture = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
+                ctx.fillRect((s.x + unit.x - sx) * scale, (s.y + unit.y - sy) * scale, picture.logicalWidth * scale, picture.logicalHeight * scale);
+            });
+        }
         for (var i = 0; i < frames.length; i++) {
             var unit = entry.units[frames[i]], picture = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
             ctx.drawImage(assets.images[unit.picIndex], (s.x + unit.x - sx) * scale, (s.y + unit.y - sy) * scale, picture.logicalWidth * scale, picture.logicalHeight * scale);
         }
+        // Replay only the real displayed contiguous numeric draws. An opaque
+        // glyph clears its full native box; later digits can overlap earlier
+        // glyphs, and old bottom footprints survive an upward pose.
+        poses.forEach(function (pose) {
+            var x = (pose.x - sx) * scale, y = (pose.y - sy) * scale;
+            ctx.fillStyle = '#171a16'; ctx.fillRect(x, y, pose.width * scale, pose.height * scale);
+            ctx.save(); ctx.beginPath(); ctx.rect(x, y, pose.width * scale, pose.height * scale); ctx.clip();
+            ctx.font = 'bold ' + (pose.height * scale) + 'px Georgia, serif'; ctx.textBaseline = 'top';
+            ctx.fillStyle = '#eed8a2'; ctx.fillText(String(pose.digit), x, y, pose.width * scale);
+            ctx.restore();
+        });
         ctx.restore();
         state.source = 'hd-assets';
         state.reason = '';
@@ -435,6 +567,7 @@
             if (noPaint !== true)
                 paint(s);
         }
+        else { verifyLib(); warmArena(); }
         root.setAttribute('data-source', state.source);
         var probe = el('hd-spe-probe');
         if (probe)
@@ -546,8 +679,9 @@
             return { open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
                 source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
                 event: state.event, flushKey: state.flushKey, libSha256: state.libHash, preparing: state.preparing,
-                preparation: state.preparation, cachedResources: state.cache.length, ownerToken: event(s) + ':' + state.epoch,
-                maker: s.maker, presentation: held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
+                preparation: state.preparation, cachedResources: state.cache.length, cachedImages: Object.keys(state.imageCache).length,
+                ownerToken: event(s) + ':' + state.epoch,
+                maker: s.maker, attack: s.attack, presentation: postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
         } };
     if (global.BayeHdLibIdentity) {
         global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });

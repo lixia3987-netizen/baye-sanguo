@@ -28,7 +28,7 @@ const constants=[header.split('\n').filter(l=>/^#define BAYE_HD_/.test(l)).join(
     read('baye/fight.h').split('\n').filter(l=>/^#define\s+(ARM_|TERRAIN_|TERN_|STATE_SW\b)/.test(l)).join('\n'),
     read('baye/consdef.h').split('\n').filter(l=>/^#define\s+(GOODS_RESID|GOODS_NAME|STRING_CONST|GEN_HEADPIC1|IFACE_STRID|TACTIC_ICON)\b/.test(l)).join('\n'),
     read('baye/sconst.h').split('\n').filter(l=>/^#define\s+(GOODS_|ATRR_STR11|ATRR_STR70|STR_GAMEWON|STR_GAMELOST)\b/.test(l)||/^#define\s+GOODS_/.test(l)).join('\n')].join('\n');
-const globals=bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='),bridge.indexOf('U8 g_hdSpePendingKind ='));
+const globals=bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='),bridge.indexOf('U8 g_hdSkillActive ='));
 const helpers=['copy_gbk','hd_next_input_seq','baye_hd_view_retire','baye_hd_mini_map_retire',
     'hd_detail_copy','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
     'hd_detail_read_at','hd_detail_restore','hd_tool_payload','baye_hd_tool_count','baye_hd_tool_data','baye_hd_tool_read',
@@ -38,7 +38,8 @@ const helpers=['copy_gbk','hd_next_input_seq','baye_hd_view_retire','baye_hd_min
     'baye_hd_menu_scope','baye_hd_menu_scope_default','baye_hd_menu_begin','baye_hd_menu_end',
     'baye_hd_fight_actor','baye_hd_fight_input_begin','baye_hd_fight_input_end','baye_hd_set_fight',
     'baye_hd_march_phase','baye_hd_march_end','baye_hd_record_end',
-    'hd_help_notify','baye_hd_set_help','baye_hd_help_publish','baye_hd_help_clear'].map(n=>actual('hd-bridge.c',n));
+    'hd_help_notify','baye_hd_set_help','baye_hd_help_publish','baye_hd_help_clear',
+    'baye_hd_attack_retire'].map(n=>actual('hd-bridge.c',n));
 const renderers=['GetGoodsName','GetGoodsProStrCaptured','GetGoodsProStr','ShowGoodsProCaptured','ShowGoodsProStrCaptured','ShowGoodsControlInner','ShowPersonControlInner'].map(n=>actual('showface.c',n));
 const help=['FgtFormatStr','FgtLoadToMem2','FgtGetTerrain','FgtGetGenIdx','FgtShowHlp'].map(n=>actual('FightSub.c',n));
 const toolField=actual('platform/js/exportjs.c','bayeHdGetToolField');
@@ -70,7 +71,8 @@ typedef U16 PersonID;typedef U16 ToolID;
 `+constants+'\n'+read('data/pstring.h')+'\n'+
     ['GOODS','PersonType'].map(n=>typedef('baye/attribute.h',n)).join('\n')+'\n'+
     ['RCHEAD','RIDX'].map(n=>typedef('baye/datman.h',n)).join('\n')+'\n'+
-    typedef('baye/fight.h','JLPOS')+'\n'+typedef('hd-bridge.h','HdHelpSnapshot')+String.raw`
+    typedef('baye/fight.h','JLPOS')+'\n'+typedef('hd-bridge.h','HdHelpSnapshot')+'\n'+
+    typedef('hd-bridge.h','HdPictureSource')+'\n'+typedef('hd-bridge.h','HdSpeScope')+String.raw`
 static U8 resource[4*1024*1024],*g_CBnkPtr=resource;
 typedef struct {U32 length,position;} FakeFile;
 static FakeFile file,*g_LibFp=&file;
@@ -196,7 +198,14 @@ static void GamGetMsg(GMType*m){assert(messageIndex<300);m->type=VM_CHAR_FUN;
         checkRow(0,messageIndex>0);if(!messageIndex){assert(g_hdGoodsPageStart==0&&g_hdGoodsPageEnd==3);m->param=VK_RIGHT;}
         else {assert(g_hdGoodsPageStart==3&&g_hdGoodsPageEnd==5);m->param=VK_EXIT;}}
     else if(scenario==2){checkRow(messageIndex?1:0,1);assert(!strcmp((char*)g_hdGoodsPropertyValues+128,messageIndex?"10":"12"));m->param=messageIndex?VK_EXIT:VK_DOWN;}
-    else if(scenario==3){if(!messageIndex){checkRow(0,0);baye_hd_set_report((U8*)"nested-report",600,1);baye_hd_report_begin(1);
+    else if(scenario==3){if(!messageIndex){checkRow(0,0);
+            HdSpeScope previousSurface={0};previousSurface.compositionValid=1;hdSpeCurrent=&previousSurface;
+            g_hdAttackSourceValid=g_hdAttackDisplayValid=hdAttackPaint.valid=hdSpeCopied.compositionValid=1;
+            hdBackgroundPending.valid=1;hdBackgroundSession=hdBackgroundDrawing=11;
+            baye_hd_set_report((U8*)"nested-report",600,1);baye_hd_report_begin(1);
+            assert(!g_hdAttackSourceValid&&!g_hdAttackDisplayValid&&!hdAttackPaint.valid&&!previousSurface.compositionValid);
+            assert(!hdSpeCopied.compositionValid&&!hdBackgroundPending.valid&&!hdBackgroundSession&&!hdBackgroundDrawing);
+            hdSpeCurrent=NULL;
             assert(!g_hdGoodsActive&&!g_hdMenuIdsCount);baye_hd_report_end();assert(!g_hdGoodsActive);m->param=VK_RIGHT;}
         else if(messageIndex==1){checkRow(0,0);assert(!g_hdGoodsPropertyFlags[0]&&g_hdGoodsPropertyFlags[3]==3);m->param=VK_LEFT;}
         else {checkRow(0,1);assert(g_hdGoodsPropertyFlags[0]==3&&g_hdGoodsPropertyFlags[4]==3);m->param=VK_EXIT;}}

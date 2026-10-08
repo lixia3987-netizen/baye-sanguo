@@ -14,6 +14,7 @@
 #include "hd-bridge.h"
 
 static void(*_lcd_fluch_cb)(char*buffer);
+extern U8* g_VisScr;
 
 #define SCR_W SCR_WID
 #define SCR_H SCR_HGT
@@ -381,8 +382,9 @@ FAR void logLcd()
 
 FAR void flushLcd()
 {
+    if (buffer == (char*)g_VisScr) baye_hd_surface_write(1);
     if (_lcd_fluch_cb && buffer == scr_buffer) {
-        baye_hd_spe_lcd_dirty();
+        baye_hd_surface_write(0);
         isLcdDirty = 1;
     }
 }

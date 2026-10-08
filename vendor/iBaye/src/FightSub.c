@@ -546,16 +546,19 @@ U8 FgtAtkAction(U8 aIdx)
     U8 actorIndex = g_GenAtt[0].generalIndex;
     U8	sFrm,eFrm;
     U16	hurt,speId;
+    U32 attackSession = 0;
+    U8 animationCustom = 0;
 
     hurt = CountAtkHurt();
     speId = CountPlusSub(g_GenAtt[1].arms,hurt);
     dead = (hurt != speId);			/* dead = true 被攻击将领被击溃 */
     hurt = speId;
 
-    I32 rv = call_hook_a("willShowPKAnimation", NULL);
+    I32 rv = call_hook_a_observed("willShowPKAnimation", NULL, &animationCustom);
     /* 动画播放 */
     if(g_LookMovie)
     {
+        attackSession = baye_hd_attack_begin(actorIndex, aIdx, hurt, animationCustom);
         PlcRPicShow(SPE_BACKPIC,1,FGT_SPESX,FGT_SPESY,false);
         if(TERRAIN_RIVER == g_GenAtt[1].ter)
         {
@@ -574,11 +577,14 @@ U8 FgtAtkAction(U8 aIdx)
             baye_hd_spe_context(BAYE_HD_SPE_KIND_ATTACK, 0, actorIndex, aIdx);
             PlcMovie(speId,0,sFrm,eFrm,0,FGT_SPESX,FGT_SPESY);
         }
+        baye_hd_attack_numbers(attackSession);
         FgtAtvShowNum(FGT_SPESX + 40,FGT_SPESY + 40,hurt);
+        baye_hd_attack_hold(attackSession);
     }
     else
         FgtShowSNum2('-',aIdx,hurt);
     GamDelay(SHOW_DLYBASE * 5,false);
+    if (attackSession) baye_hd_attack_end(attackSession);
 
     /* 若当前将领将对方击毙，要额外加经验 */
     sType = *g_GenAtt[0].level - *g_GenAtt[1].level;
@@ -606,11 +612,18 @@ void FgtAtvShowNum(U8 x,U8 y,U16 number)
     U8	wid,hgt,idx;
     U8	i,j;
     U8  *pic;
+    HdPictureSource numberSource;
+    U32 numberLength;
 
     gam_itoa(number,pbuf,10);
     pLen = gam_strlen(pbuf);
     
-    pic = ResLoadToCon(NUM_PICID,1,g_CBnkPtr);
+    pic = (U8*)baye_hd_picture_resource(NUM_PICID, 0, &numberLength);
+    if (!baye_hd_picture_info(NUM_PICID, 0, 0, pic, numberLength, &numberSource)) {
+        baye_hd_attack_number_resource(NULL);
+        return;
+    }
+    baye_hd_attack_number_resource(&numberSource);
     wid = ((PictureHeadType *)pic)->wid;
     hgt = ((PictureHeadType *)pic)->hig;
 
@@ -620,7 +633,9 @@ void FgtAtvShowNum(U8 x,U8 y,U16 number)
         GamDelay(4,false);
         for(j = 0;j < hgt/2;j += 1)
         {
+            baye_hd_attack_digit_begin(i, idx, x, y-j);
             gam_drawpic(NUM_PICID, idx, x, y-j, 1);
+            baye_hd_attack_digit_end();
             GamDelay(1,false);
         }
         x += wid/2;

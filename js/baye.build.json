@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "30ab9a8793f57ed548837ee15f05cf5aee14eb39",
-  "engineSourceSha256": "b6ec67658d244187b5e7776e950827e6b2456058f886c7dd6a81aab00f7c2760",
+  "sourceRevision": "7516faed6ac032c4976f4f672f4affaa67af0665",
+  "engineSourceSha256": "90fa73dcf61a0529fb42a4c00ad8d3db60a35e784a200e26081038eba12fd8e0",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791444371,
+  "sourceDateEpoch": 1791450399,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -145,6 +145,41 @@
     "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
     "custom": "same observed showAbout invocation; custom default branch retains LCD"
   },
+  "hdSpeCompositionProtocol": {
+    "version": 1,
+    "source": "actual ordinary picture draw observed before its matching native attack child",
+    "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
+    "clears": [
+      "g_hdSpeClearFrames",
+      "g_hdSpeDisplayClearFrames"
+    ],
+    "displayedCommit": "actual SysCopyScreen composition snapshot published by timed_flush_lcd",
+    "retirement": "uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset"
+  },
+  "hdAttackProtocol": {
+    "version": 1,
+    "owner": [
+      "g_hdAttackGeneration",
+      "g_hdAttackSession",
+      "g_hdAttackPhase"
+    ],
+    "phases": {
+      "movie": 1,
+      "numbers": 2,
+      "hold": 3
+    },
+    "hurt": "actual CountPlusSub result captured by the unchanged FgtAtkAction",
+    "display": "g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush",
+    "digits": [
+      "DigitIndex",
+      "DigitX",
+      "DigitY",
+      "DigitFirstY",
+      "DigitDrawCount"
+    ],
+    "input": "no added skip or return; original numeric and final delays retain native input behavior",
+    "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
+  },
   "saveProtocol": {
     "version": 149,
     "legacyVersions": [
@@ -161,15 +196,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 192446,
-      "sha256": "625d84ede87b2520fe71a1cc434d7ebde5c523d6dfafd7fcf4611fcb0eb09f32"
+      "sha256": "05e3a27eeb54cf9cd41752a3a5ee4646ca8ce3ff4b0ac8230f95e75c5e806843"
     },
     "baye.wasm": {
-      "bytes": 4339772,
-      "sha256": "911cccb6b0d420e14adca391ef922b71bfe76ebcd6f770c23c7ec1394d527854"
+      "bytes": 4387094,
+      "sha256": "41d613b016336725390971a8b2401c02e199c0beae6209f35ed3b044c2eba204"
     },
     "baye.wasm.map": {
       "bytes": 29805,
-      "sha256": "ab4bf57348da269bc0bdb7ef75952d3bf741921ebfd8fbddc2e2432b1d306a39"
+      "sha256": "ff994f367203f3f5111426afdad0a8fed089d2be8163e7a59cbd0e391c3e6239"
     }
   }
 }

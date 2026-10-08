@@ -92,6 +92,28 @@ static U32 hd_spe_resource_fingerprint(const U8* resource, U32 length)
     return hash;
 }
 
+U8 baye_hd_picture_info(U16 id, U16 item, U16 slot, const U8* bytes, U32 length, HdPictureSource* out)
+{
+    const PictureHeadType* header;
+    U32 plane, all;
+    if (!out) return 0;
+    memset(out, 0, sizeof(*out));
+    if (!bytes || length < sizeof(PictureHeadType) || !hd_spe_resource_available(bytes, length)) return 0;
+    header = (const PictureHeadType*)bytes;
+    if (!header->wid || !header->hig || !header->count || slot >= header->count) return 0;
+    plane = (((U32)header->wid + 7) / 8) * header->hig;
+    /* Ordinary picture drawing uses mask bit 0. Keep the legacy unsupported
+     * mask draw, while refusing its HD authority. Check every actual slot. */
+    all = plane * ((header->mask & 1) + 1);
+    if (all > (length - sizeof(PictureHeadType)) / header->count) return 0;
+    out->id = id; out->resourceIndex = item; out->pictureIndex = slot;
+    out->width = header->wid; out->height = header->hig; out->count = header->count;
+    out->mask = header->mask; out->resourceLength = length;
+    out->resourceFingerprint = hd_spe_resource_fingerprint(bytes, length);
+    out->valid = header->mask <= 1;
+    return 1;
+}
+
 /***********************************************************************
  * 说明:     播放指定的动画
  * 输入参数: speid 指定播放的对象,keyflag (00000010|00000001|00000100)背景处理|响应键盘|反转播放
@@ -177,6 +199,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
     ymount = mcount;
     while (1)
     {
+        baye_hd_spe_draw_begin(&hdScope);
         for (i = 0;i <= mcount;i ++)
         {
             if (spec[i] == 1)
@@ -189,6 +212,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
                     x1 = x + spe[i + startfrm].x;
                     y1 = y + spe[i + startfrm].y;
                     gam_clrvscr(x1,y1,x1+(wid/AX_SCALE)-1,y1+(high/AX_SCALE)-1,g_VisScr);
+                    baye_hd_spe_clear(&hdScope, (U16)(i + startfrm));
                 }
                 clsflag = 1;
             }
@@ -232,6 +256,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
                 }
             ymount = mcount;
         }
+        baye_hd_spe_draw_end(&hdScope);
         if (showflag == 1 || clsflag == 1)
         {
             baye_hd_spe_frame(&hdScope, (U16)(mcount + startfrm), spec, (U16)(mcount + 1));
@@ -690,8 +715,17 @@ FAR void PlcRPicShowEx(U16 id, U16 item, U16 idx,PT x,PT y,U8 flag)
     U8 mode;
     U32	off;
     PictureHeadType* p;
+    HdPictureSource info;
+    U8 observed = id == SPE_BACKPIC || id == NUM_PICID;
+    U32 observedLength = 0;
 
-    pic = ResLoadToCon(id,item+1,g_CBnkPtr);
+    pic = observed ? (U8*)baye_hd_picture_resource(id, item, &observedLength) : ResLoadToCon(id,item+1,g_CBnkPtr);
+    memset(&info, 0, sizeof(info));
+    if (observed && (!idx || !baye_hd_picture_info(id, item, idx - 1, pic, observedLength, &info))) {
+        if (id == SPE_BACKPIC && !flag) { baye_hd_background_begin(); baye_hd_background_end(NULL); }
+        if (id == NUM_PICID && flag) baye_hd_attack_number_resource(NULL);
+        return;
+    }
     if(NULL == pic)
         return;
     p = (PictureHeadType*)pic;
@@ -711,13 +745,19 @@ FAR void PlcRPicShowEx(U16 id, U16 item, U16 idx,PT x,PT y,U8 flag)
 
     if(!flag)
     {
+        if (id == SPE_BACKPIC) baye_hd_background_begin();
         if(mode)
             GamMPicShowV(x,y,wid,high,pic,g_VisScr);
         else
             GamPicShowV(x,y,wid,high,pic,g_VisScr);
+        if (id == SPE_BACKPIC) {
+            info.x = x; info.y = y;
+            baye_hd_background_end(&info);
+        }
     }
     else
     {
+        if (id == NUM_PICID) baye_hd_attack_number_resource(&info);
         if(mode)
             GamMPicShowS(x,y,wid,high,pic);
         else

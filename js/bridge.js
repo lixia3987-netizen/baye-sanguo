@@ -1248,6 +1248,160 @@ function baye_bridge_init() {
     function hdDetailNum(obj, name, max) {
         return hdIntegerValue(obj && obj[name], 0, max == null ? 0xffffffff : max);
     }
+    // Read the complete observer, then re-read every value. Reentrant getters
+    // must not join one native owner's arrays to another owner's identity.
+    function hdObserverReader(d) {
+        var reads = [];
+        function read(name, max, index) {
+            var value = hdDetailNum(index == null ? d : d && d[name], index == null ? name : index, max);
+            reads.push({ name: name, max: max, index: index, value: value });
+            return value;
+        }
+        return { num: read, array: function (name, length, max) {
+            var values = [];
+            for (var i = 0; i < length; i++) values.push(read(name, max, i));
+            return values;
+        }, stable: function () {
+            return reads.every(function (r) {
+                return r.value != null && r.value === hdDetailNum(r.index == null ? d : d && d[r.name],
+                    r.index == null ? r.name : r.index, r.max);
+            });
+        } };
+    }
+    function hdOrigin(value) { return value == null ? null : value >= 0x8000 ? value - 0x10000 : value; }
+    function hdFingerprint(value, length) {
+        return value != null && length > 0 ? 'fnv1a32:' + ('00000000' + value.toString(16)).slice(-8) + ':' + length : null;
+    }
+    function hdObservedPicture(reader, prefix) {
+        var fields = { Valid: 1, Id: 65535, ResourceIndex: 65535, PictureIndex: 65535,
+            Width: 65535, Height: 65535, Count: 65535, Mask: 1, OriginX: 65535, OriginY: 65535,
+            ResourceFingerprint: 0xffffffff, ResourceLength: 0xffffffff }, values = {};
+        for (var name in fields) values[name] = reader.num(prefix + name, fields[name]);
+        return { valid: values.Valid === 1 && values.Width > 0 && values.Height > 0 && values.Count > 0 &&
+                values.PictureIndex < values.Count && values.ResourceLength > 0 && values.ResourceFingerprint != null,
+            id: values.Id, resourceIndex: values.ResourceIndex, pictureIndex: values.PictureIndex,
+            nativeWidth: values.Width, nativeHeight: values.Height, count: values.Count, mask: values.Mask,
+            x: hdOrigin(values.OriginX), y: hdOrigin(values.OriginY), resourceLength: values.ResourceLength,
+            resourceFingerprint: hdFingerprint(values.ResourceFingerprint, values.ResourceLength) };
+    }
+    function hdRangeBits(bits, count, start, end) {
+        if (!Array.isArray(bits) || bits.length !== 32 || !(count > 0 && count <= 255 && start <= end && end < count)) return false;
+        for (var i = 0; i < 256; i++) {
+            if (bits[i >> 3] == null || (bits[i >> 3] & (1 << (i & 7))) && (i < start || i > end || i >= count)) return false;
+        }
+        return true;
+    }
+    function hdSpeComposition(d, expected) {
+        var r = hdObserverReader(d), version = r.num('g_hdSpeCompositionVersion', 255);
+        var neutral = { protocolVersion: version, valid: false, background: null, clearFrames: [] };
+        if (version !== 1) return { current: neutral, display: { protocolVersion: version, valid: false, background: null, clearFrames: [] } };
+        var generation = r.num('g_hdSpeGeneration'), eventId = r.num('g_hdSpeEventId'),
+            count = r.num('g_hdSpeCount', 65535), start = r.num('g_hdSpeStartFrm', 255), end = r.num('g_hdSpeEndFrm', 255);
+        var currentValid = r.num('g_hdSpeCompositionValid', 1), displayValid = r.num('g_hdSpeDisplayCompositionValid', 1),
+            displayGeneration = r.num('g_hdSpeDisplayGeneration'), displayEvent = r.num('g_hdSpeDisplayEventId');
+        var identity = { ProtocolVersion: 255, Active: 1, Id: 65535, Kind: 255, CommitSeq: 0xffffffff, FrameIndex: 65535,
+            ResourceIndex: 65535, Picmax: 65535, OriginX: 65535, OriginY: 65535,
+            ResourceFingerprint: 0xffffffff, ResourceLength: 0xffffffff, ProtocolValid: 1, FrameValid: 1, Keyflag: 255,
+            DisplayCommitSeq: 0xffffffff, DisplayFrameIndex: 65535, DisplayFrameValid: 1 }, values = {};
+        for (var name in identity) values[name] = r.num('g_hdSpe' + name, identity[name]);
+        var visible = r.array('g_hdSpeVisibleFrames', 32, 255), displayVisible = r.array('g_hdSpeDisplayVisibleFrames', 32, 255);
+        var background = hdObservedPicture(r, 'g_hdSpeBg'), displayBackground = hdObservedPicture(r, 'g_hdSpeDisplayBg'),
+            clears = r.array('g_hdSpeClearFrames', 32, 255), displayClears = r.array('g_hdSpeDisplayClearFrames', 32, 255);
+        var stable = r.stable(), current = stable && generation > 0 && eventId > 0 && values.ProtocolVersion === 2 &&
+            values.Active === 1 && values.ProtocolValid === 1 &&
+            values.FrameValid === 1 && expected && expected.generation === generation && expected.eventId === eventId &&
+            expected.protocolVersion === values.ProtocolVersion && expected.commitSeq === values.CommitSeq && expected.frameIndex === values.FrameIndex &&
+            expected.count === count && expected.startFrm === start && expected.endFrm === end && expected.id === values.Id &&
+            expected.kind === values.Kind && expected.resourceIndex === values.ResourceIndex && expected.picmax === values.Picmax &&
+            expected.x === hdOrigin(values.OriginX) && expected.y === hdOrigin(values.OriginY) && expected.keyflag === values.Keyflag &&
+            expected.resourceLength === values.ResourceLength && expected.resourceFingerprint === hdFingerprint(values.ResourceFingerprint, values.ResourceLength) &&
+            visible.every(function (bit, i) { return bit === expected.visibleFrames[i]; });
+        return { current: { protocolVersion: version, valid: current && currentValid === 1 && background.valid && hdRangeBits(clears, count, start, end),
+                background: stable ? background : null, clearFrames: stable ? clears : [] },
+            display: { protocolVersion: version, valid: current && displayValid === 1 && displayGeneration === generation && displayEvent === eventId &&
+                expected.display.generation === displayGeneration && expected.display.eventId === displayEvent &&
+                expected.display.commitSeq === values.DisplayCommitSeq && expected.display.frameIndex === values.DisplayFrameIndex && values.DisplayFrameValid === 1 &&
+                displayVisible.every(function (bit, i) { return bit === expected.display.visibleFrames[i]; }) &&
+                displayBackground.valid && hdRangeBits(displayClears, count, start, end),
+                background: stable ? displayBackground : null, clearFrames: stable ? displayClears : [] } };
+    }
+    function hdAttackSnapshot(d) {
+        var r = hdObserverReader(d), limits = { ProtocolVersion: 255, Active: 1, Phase: 3, Custom: 1, SourceValid: 1,
+            Generation: 0xffffffff, Session: 0xffffffff, ActorIndex: 255, TargetIndex: 255, Hurt: 65535,
+            PaintSeq: 0xffffffff, EventId: 0xffffffff, CommitSeq: 0xffffffff, FrameIndex: 65535,
+            Id: 65535, ResourceIndex: 65535, Count: 65535, Picmax: 65535, StartFrm: 255, EndFrm: 255,
+            OriginX: 65535, OriginY: 65535, ResourceFingerprint: 0xffffffff, ResourceLength: 0xffffffff,
+            DigitCount: 10, DisplayValid: 1, DisplayGeneration: 0xffffffff, DisplaySession: 0xffffffff,
+            DisplayPaintSeq: 0xffffffff, DisplayEventId: 0xffffffff, DisplayCommitSeq: 0xffffffff,
+            DisplayFrameIndex: 65535, DisplayDigitCount: 10 }, v = {};
+        for (var name in limits) v[name] = r.num('g_hdAttack' + name, limits[name]);
+        var generation = r.num('g_hdSpeGeneration'), background = hdObservedPicture(r, 'g_hdAttackBg'),
+            displayBackground = hdObservedPicture(r, 'g_hdAttackDisplayBg'), number = hdObservedPicture(r, 'g_hdAttackNumber');
+        function scene(prefix, displayed) {
+            var frame = v[displayed ? 'DisplayFrameIndex' : 'FrameIndex'];
+            return { generation: v[displayed ? 'DisplayGeneration' : 'Generation'], session: v[displayed ? 'DisplaySession' : 'Session'],
+                paintSeq: v[displayed ? 'DisplayPaintSeq' : 'PaintSeq'], eventId: v[displayed ? 'DisplayEventId' : 'EventId'],
+                commitSeq: v[displayed ? 'DisplayCommitSeq' : 'CommitSeq'], frameIndex: frame === 65535 ? null : frame,
+                frameValid: false, visibleFrames: r.array(prefix + 'VisibleFrames', 32, 255),
+                composition: { protocolVersion: 1, valid: false, background: displayed ? displayBackground : background,
+                    clearFrames: r.array(prefix + 'ClearFrames', 32, 255) } };
+        }
+        function digits(prefix, count) {
+            var index = r.array(prefix + 'DigitIndex', 10, 9), x = r.array(prefix + 'DigitX', 10, 65535),
+                y = r.array(prefix + 'DigitY', 10, 65535), firstY = r.array(prefix + 'DigitFirstY', 10, 65535),
+                drawCount = r.array(prefix + 'DigitDrawCount', 10, 65535), values = [];
+            for (var i = 0; i < count; i++) values.push({ digit: index[i], x: hdOrigin(x[i]), y: hdOrigin(y[i]),
+                firstY: hdOrigin(firstY[i]), drawCount: drawCount[i] });
+            return values;
+        }
+        var current = scene('g_hdAttack', false), display = scene('g_hdAttackDisplay', true),
+            currentDigits = digits('g_hdAttack', v.DigitCount), displayDigits = digits('g_hdAttackDisplay', v.DisplayDigitCount);
+        var neutral = { protocolVersion: v.ProtocolVersion, active: false, phase: null, custom: false, sourceValid: false,
+            generation: null, session: null, actorIndex: null, targetIndex: null, hurt: null, paintSeq: null,
+            speId: null, resourceIndex: null, count: null, picmax: null, startFrm: null, endFrm: null, x: null, y: null,
+            resourceLength: null, resourceFingerprint: null, number: null, digits: [],
+            scene: null, display: null, skipEligible: false, returnEligible: false };
+        if (!r.stable() || v.ProtocolVersion !== 1) return neutral;
+        var owner = v.Active === 1 && v.Generation > 0 && v.Generation === generation && v.Session > 0 && v.Phase > 0;
+        var source = owner && v.SourceValid === 1 && !v.Custom && v.ActorIndex < 20 && v.TargetIndex < 20 &&
+            v.EventId > 0 && v.CommitSeq > 0 && v.ResourceLength > 0 && v.Count > 0 && v.Count <= 255 &&
+            v.Picmax > 0 && v.Picmax <= 255 && v.FrameIndex >= v.StartFrm && v.FrameIndex <= v.EndFrm && background.valid &&
+            hdRangeBits(current.visibleFrames, v.Count, v.StartFrm, v.EndFrm) &&
+            hdRangeBits(current.composition.clearFrames, v.Count, v.StartFrm, v.EndFrm);
+        var shown = source && v.DisplayValid === 1 && v.DisplayGeneration === v.Generation && v.DisplaySession === v.Session &&
+            v.DisplayEventId === v.EventId && v.DisplayCommitSeq === v.CommitSeq && v.DisplayFrameIndex === v.FrameIndex &&
+            v.DisplayPaintSeq <= v.PaintSeq && displayBackground.valid && JSON.stringify(displayBackground) === JSON.stringify(background) &&
+            hdRangeBits(display.visibleFrames, v.Count, v.StartFrm, v.EndFrm) &&
+            hdRangeBits(display.composition.clearFrames, v.Count, v.StartFrm, v.EndFrm) &&
+            current.visibleFrames.every(function (bit, i) { return bit === display.visibleFrames[i]; }) &&
+            current.composition.clearFrames.every(function (bit, i) { return bit === display.composition.clearFrames[i]; });
+        function validDigits(values) {
+            var decimal = String(v.Hurt);
+            return values.length <= decimal.length && values.every(function (digit, i) {
+                return digit.digit === decimal.charCodeAt(i) - 48 && digit.drawCount > 0 &&
+                    digit.drawCount <= Math.floor(number.nativeHeight / 2) && digit.y === digit.firstY - digit.drawCount + 1;
+            });
+        }
+        if (v.Phase >= 2) {
+            source = source && number.valid && number.count === 10 && number.mask === 0 && validDigits(currentDigits);
+            shown = shown && source && v.DisplayDigitCount <= v.DigitCount && validDigits(displayDigits) &&
+                displayDigits.every(function (digit, i) {
+                    var now = currentDigits[i];
+                    return now && now.digit === digit.digit && now.x === digit.x && now.firstY === digit.firstY && now.drawCount >= digit.drawCount;
+                });
+        }
+        current.frameValid = current.composition.valid = source;
+        display.frameValid = display.composition.valid = shown;
+        display.valid = shown;
+        display.digits = displayDigits;
+        return { protocolVersion: v.ProtocolVersion, active: owner, phase: owner ? { 1: 'movie', 2: 'numbers', 3: 'hold' }[v.Phase] : null,
+            custom: v.Custom === 1, sourceValid: source, generation: v.Generation, session: v.Session,
+            actorIndex: v.ActorIndex === 255 ? null : v.ActorIndex, targetIndex: v.TargetIndex === 255 ? null : v.TargetIndex,
+            hurt: v.Hurt, paintSeq: v.PaintSeq, speId: v.Id, resourceIndex: v.ResourceIndex, count: v.Count, picmax: v.Picmax,
+            startFrm: v.StartFrm, endFrm: v.EndFrm, x: hdOrigin(v.OriginX), y: hdOrigin(v.OriginY),
+            resourceLength: v.ResourceLength, resourceFingerprint: hdFingerprint(v.ResourceFingerprint, v.ResourceLength),
+            number: number, digits: currentDigits, scene: current, display: display, skipEligible: false, returnEligible: false };
+    }
     function hdDetailText(obj, name, length) {
         var value = obj && obj[name];
         return typeof value === 'string' ? value.replace(/\u0000.*$/, '').slice(0, length) :
@@ -1731,7 +1885,7 @@ function baye_bridge_init() {
             var known = hdReadNum(d, 'g_hdSpeContextKnown') === 1;
             var actor = hdReadNum(d, 'g_hdSpeActorIndex'), target = hdReadNum(d, 'g_hdSpeTargetIndex');
             var endReasons = { 1: 'complete', 2: 'key', 3: 'missing-resource', 4: 'invalid-resource', 5: 'reset' };
-            return {
+            var result = {
                 active: nativeFrames ? hdReadNum(d, 'g_hdSpeActive') : (hdReadNum(d, 'g_hdSpeActive') || hdReadNum(d, 'g_hdMovieActive')),
                 id: nativeFrames ? hdReadNum(d, 'g_hdSpeId') : (hdReadNum(d, 'g_hdSpeId') || hdReadNum(d, 'g_hdMovieId')),
                 kind: nativeFrames ? hdReadNum(d, 'g_hdSpeKind') : (hdReadNum(d, 'g_hdSpeKind') || (hdReadNum(d, 'g_hdMovieActive') ? 1 : 0)),
@@ -1767,6 +1921,19 @@ function baye_bridge_init() {
                     commitSeq: hdReadNum(d, 'g_hdSpeDisplayCommitSeq'), frameIndex: frame('g_hdSpeDisplayFrameIndex'),
                     frameValid: hdReadNum(d, 'g_hdSpeDisplayFrameValid') === 1, visibleFrames: frames('g_hdSpeDisplayVisibleFrames') }
             };
+            var composition = hdSpeComposition(d, result);
+            var aligned = result.generation === hdDetailNum(d, 'g_hdSpeGeneration') && result.eventId === hdDetailNum(d, 'g_hdSpeEventId') &&
+                result.count === hdDetailNum(d, 'g_hdSpeCount', 65535) && result.startFrm === hdDetailNum(d, 'g_hdSpeStartFrm', 255) &&
+                result.endFrm === hdDetailNum(d, 'g_hdSpeEndFrm', 255) && result.display.generation === hdDetailNum(d, 'g_hdSpeDisplayGeneration') &&
+                result.display.eventId === hdDetailNum(d, 'g_hdSpeDisplayEventId') && result.display.commitSeq === hdDetailNum(d, 'g_hdSpeDisplayCommitSeq');
+            if (!aligned) composition.current.valid = composition.display.valid = false;
+            result.composition = composition.current;
+            result.display.composition = composition.display;
+            return result;
+        },
+        attack: function () {
+            hdNote('hd.attack', '');
+            return hdAttackSnapshot(baye.ensureData());
         },
         maker: function () {
             hdNote('hd.maker', '');

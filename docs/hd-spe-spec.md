@@ -45,9 +45,9 @@ SPE 在 LIB 内，`ResLoadToCon(speid,index+1,g_CBnkPtr)` 的 index 是原生 0-
 
 `assets/hd-spe/manifest.json` schemaVersion=1，libSha256 必须等于 **实际 global.dynLib 加载字节** 的 SHA-256；首选路径不能代替内容校验。axScale 等于实际 g_scale。entries 逐项匹配 speId/resourceIndex/kind/startFrm/endFrm/count/picmax/resourceFingerprint/resourceLength。
 
-每个 entry 的 units 必须覆盖完整 count，记录绝对 frame/x/y/picIndex。pictures 必须覆盖完整 picmax，各槽包含 src、图片真实 width/height、logicalWidth/Height、nativeWidth/Height、mask。只接受项目目录内 PNG/WebP/SVG，无路径上跳；所有图载入成功且真实尺寸一致后才使用。
+每个 entry 的 units 必须覆盖完整 count，记录绝对 frame/x/y/picIndex。pictures 必须覆盖完整 picmax 的原生槽元数据。普通旧 entry 的全部槽均需图片；新增 compositionVersion=1 的攻击 entry 只在其严格 startFrm..endFrm 范围内接入美术，该范围实际单元引用的全部槽均需完整高清图片。未在该范围引用的槽可以明确保留 src/width/height=null，不能被邻近范围借用，也不计作已交付美术。所有槽仍记录完整 logicalWidth/Height、nativeWidth/Height、mask。只接受项目目录内 PNG/WebP/SVG，无路径上跳；本范围所需图全部载入且真实尺寸一致后才使用。
 
-高清画布先画统一中性底色，再按实际 **display.visibleFrames** 升序合成对应图片。mask=0 使用不透明图片；mask=1 使用真实透明图片。不能把透明新素材盖在尚有旧点阵的 LCD 上。图片缓存绑定完整entry元数据、manifest代次与实际LIB代次/hash，事件结束只退休显示；缓存完成回调重新读取当前原生事件与display，不携带旧帧绘制。换库或换manifest使旧缓存失效。
+高清画布先画统一中性底色，再按实际 **display.visibleFrames** 升序合成对应图片。mask=0 使用不透明图片；mask=1 使用真实透明图片。不能把透明新素材盖在尚有旧点阵的 LCD 上。entry缓存绑定完整元数据；相同源文件和完整图像尺寸/掩码元数据可以在不同攻击范围间共享一次图像解码。两层缓存均绑定manifest代次与实际LIB代次/hash，事件结束只退休显示；缓存完成回调重新读取当前原生事件与display，不携带旧帧绘制。换库或换manifest使旧缓存失效。
 
 资源未覆盖、校验等待、未知 LIB、无 digest、旧桥、缺图或尺寸不符、keyflag 保留背景位、复杂 mask、翻转/特殊画色均保持原生 LCD。非 160×96 配置暂用实际屏幕尺寸的完整 LCD 回退。基线战斗窗口固定居中 130×64、起点15,16，特效依照真实有符号 origin 保留窗口内偏移；例如 FIRE 原点48,16在窗口内为33,0。改变尺寸或 scale 必须使绘制缓存失效。
 
@@ -75,7 +75,21 @@ HD 开场允许原生 skip 时，按钮、Enter/Space/Escape 或画布点击只�
 
 标题表现与排队输入在MAKER原生归属期间退休。滚动skip和hold返回各用不同token；48px“返回标题”按钮只对当前hold发送一次原生Enter。pointerdown记录当前token，pointercancel、隐藏、模式切换或归属变化清除，迟到click不能确认新标题。Enter/Space/Escape同样只确认当前hold，repeat/IME/表单输入不领取。经典模式继续使用原生输入。等待自然结束或真正确认后，标题使用新的原生菜单归属重新显示。MAKER资源在开场期间预热，但不增加MAIN开场等待，不暂停原生署名滚动。
 
-## 验证
+## 普通攻击的背景、退场与数字观察
+
+SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.composition` 中提供实际背景资源/index/slot/header/FNV/长度/有符号原点，以及32字节累计 `clearFrames`。背景来源是实际 `PlcRPicShowEx` 默认绘制，不由资源号或标准库路径推测。每次真实 `gam_clrvscr` 记录对应绝对单元；`SysCopyScreen` 保存值快照，实际timer刷新才发布显示快照。只按仍可见的单元重画不足以重建原生角饰被擦除的场景。
+
+攻击 entry 的 `background` 必须逐字段匹配实际显示背景，其高清画布按背景、累计清除矩形、当前可见单元升序合成。清除矩形使用该单元真实图片宽高和原点；不复原已被原生擦去的边框。背景高清纹理与中性清除色的艺术差异另外用真实截图检查，不声称高清像素与原生单色点阵相等。
+
+只读 `baye.hd.attack()` v1 观察真正 `FgtAtkAction` 的 movie/numbers/hold 三阶段。`generation/session/actorIndex/targetIndex/hurt/custom/sourceValid` 来自实际调用点，hurt是原来CountPlusSub的实际结果。`scene` 保存最后真正复制的SPE及其背景/可见/清除位图；`display` 另保存实际LCD刷新的数字绘制。数字来自实际NUM15字符槽与 `DigitX/Y/FirstY/DrawCount`，按字符顺序累计重放每次不透明12×16绘制框与上移位置，保留相邻字符重叠和旧底部足迹。原生timer合并多个绘制时，不用前端时钟补帧或提前显示后续数字。高清数字使用画布字体表现，实际原生位图另由独立像素oracle核对。
+
+数字与原有最终等待期间公开SPE仍inactive；前端 `attack-postlude` 只是该真正攻击所有者的表现。没有新增skip/return按键，不计算或推进伤害/经验，也不更改g_LookMovie、原有延时和消息处理。原有willShowPKAnimation只调用一次，自定义hook即便返回-1也永久撤销标准HD来源。未控制的虚拟/LCD绘制、嵌套事件、重置、非默认palette/flip/paint、无效背景或数字资源同样退休HD；真正等待仍在时显示真实LCD。
+
+所有新增桥字段严格检查原生宽度、完整固定数组，并最终逐项重读身份、资源和显示快照，防止getter重入后拼接新旧代次。普通图资源16/15增加目录与物理长度检查，不将此局部加固扩称为任意Mod文件安全解析。
+
+`npm run test:attack` 编译执行实际原生绘制/播放/数字及桥接范围矩阵。真实浏览器脚本 `npm run test:attack-runtime -- --staged --range 21:9:17` 只验收其明确合法流程；完整37范围的原生像素专项、素材静态覆盖和真实玩家触发分别记录，不能互相替代。
+
+## 验证范围
 
 `npm run test:spe` 覆盖显示提交、叠帧/清除、LIB 与异步图片代次、输入锁、报告/隐藏/经典、负 origin、屏幕尺寸和资源回退。`npm run test:spe-engine` 编译并执行实际 C 播放与桥函数，覆盖嵌套/重置、上下文消费、真实位图组合及 timer 显示关联。`npm run test:spe-runtime -- --staged` 用真实 LIB 和暂存 WASM 从玩家入口验证连续开场、跳过、战斗事件；未自然触发的资源继续记为未验收。
 

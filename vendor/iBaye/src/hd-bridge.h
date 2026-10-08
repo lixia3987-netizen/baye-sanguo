@@ -125,6 +125,19 @@ void baye_hd_help_clear(U32 generation, U32 inputSeq);
 #define BAYE_HD_SPE_END_INVALID 4
 #define BAYE_HD_SPE_END_RESET 5
 #define BAYE_HD_SPE_MAX_DEPTH 16
+#define BAYE_HD_COMPOSITION_VERSION 1
+#define BAYE_HD_ATTACK_VERSION 1
+#define BAYE_HD_ATTACK_MOVIE 1
+#define BAYE_HD_ATTACK_NUMBERS 2
+#define BAYE_HD_ATTACK_HOLD 3
+#define BAYE_HD_ATTACK_DIGITS 10
+
+typedef struct {
+    U32 resourceFingerprint, resourceLength;
+    U16 id, resourceIndex, pictureIndex, width, height, count;
+    I16 x, y;
+    U8 mask, valid;
+} HdPictureSource;
 
 /* One scope belongs to one real PlcMovie call. Native stack lifetime makes
  * nested Mod calls restore their actual parent without a fixed stack overflow. */
@@ -136,6 +149,8 @@ typedef struct HdSpeScope {
     U8 kind, startFrm, endFrm, keyflag, frameValid, protocolValid, ready;
     U8 contextKnown, actorIndex, targetIndex;
     U8 visibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+    U8 compositionValid, clearFrames[BAYE_HD_SPE_FRAME_BYTES];
+    HdPictureSource background;
 } HdSpeScope;
 
 #define VK_DIGIT0 0x40
@@ -225,6 +240,22 @@ void baye_hd_spe_invalidate(void);
 void baye_hd_spe_lcd_copy(void);
 void baye_hd_spe_lcd_dirty(void);
 void baye_hd_spe_lcd_flush(void);
+U8 baye_hd_picture_info(U16 id, U16 item, U16 slot, const U8* bytes, U32 length, HdPictureSource* out);
+const U8* baye_hd_picture_resource(U16 id, U16 item, U32* length);
+void baye_hd_background_begin(void);
+void baye_hd_background_end(const HdPictureSource* info);
+void baye_hd_spe_draw_begin(HdSpeScope* scope);
+void baye_hd_spe_draw_end(HdSpeScope* scope);
+void baye_hd_spe_clear(HdSpeScope* scope, U16 absoluteUnit);
+void baye_hd_surface_write(U8 virtualScreen);
+U32 baye_hd_attack_begin(U8 actor, U8 target, U16 hurt, U8 custom);
+void baye_hd_attack_numbers(U32 session);
+void baye_hd_attack_hold(U32 session);
+void baye_hd_attack_end(U32 session);
+void baye_hd_attack_retire(void);
+void baye_hd_attack_number_resource(const HdPictureSource* info);
+void baye_hd_attack_digit_begin(U8 slot, U8 digit, I16 x, I16 y);
+void baye_hd_attack_digit_end(void);
 /* GamMakerInf owns its original scroll and GamDelay hold independently of
  * the child SPE scope. The hold observes the actual copied LCD. */
 #define BAYE_HD_MAKER_VERSION 1

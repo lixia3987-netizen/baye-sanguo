@@ -200,6 +200,13 @@ async function canvasProof(cdp,name){const raw=await evaluate(cdp,`(() => {const
     return {...raw,files};}
 function frames(d){assert.equal(d.visibleFrames.length,32);assert.ok(d.visibleFrames.every(v=>Number.isInteger(v)&&v>=0&&v<=255));
     return Array.from({length:256},(_,i)=>i).filter(i=>(d.visibleFrames[i>>3]&(1<<(i&7)))!==0);}
+function makerCopiedStamp(d){
+    // Composition v1 is additive to SPE v2; MAKER retains its original six-field
+    // copied stamp and must never acquire ordinary-attack composition authority.
+    assert.equal(d.composition.protocolVersion,1);assert.equal(d.composition.valid,false);
+    assert.equal(d.composition.background.valid,false);assert.deepEqual(d.composition.clearFrames,Array(32).fill(0));
+    return Object.fromEntries(['generation','eventId','commitSeq','frameIndex','frameValid','visibleFrames'].map(key=>[key,d[key]]));
+}
 function makerOwner(m,phase){assert.equal(m?.protocolVersion,1);assert.equal(m.active,true);assert.equal(m.phase,phase);
     for(const field of ['generation','session','inputSeq'])assert.ok(Number.isInteger(m[field])&&m[field]>0,'actual Maker '+field);
     if(phase==='hold')assert.equal(m.returnEligible,true);
@@ -233,7 +240,7 @@ async function collect(cdp,name,standard=true){const evidence=await evaluate(cdp
             assert.equal(s.resourceFingerprint,native.resourceFingerprint);assert.equal(s.resourceLength,native.resourceLength);
             assert.equal(c.before.generation,s.generation);assert.equal(c.before.eventId,s.eventId);assert.ok(visible.every(f=>f<96&&f<=c.before.frameIndex));}
         if(c.native.maker&&c.native.maker.active&&c.native.maker.phase==='hold'&&c.native.maker.sourceValid)
-            assert.deepEqual(c.before,c.native.maker.display,'post-end real LCD callback matches the saved native copied owner');
+            assert.deepEqual(makerCopiedStamp(c.before),c.native.maker.display,'post-end real LCD callback matches the saved native copied owner');
         if(c.ui.open&&c.ui.source==='hd-assets'&&c.before.frameValid&&standard)assertHdDraws(c,visible);
         else assert.equal(c.draws.length,0,'fallback/hidden/classic never draws a partial HD resource');
         const prefix=String(i+1).padStart(3,'0')+'-commit-'+c.before.commitSeq+'-frame-'+c.before.frameIndex,files={};
@@ -298,7 +305,7 @@ function assertHold(state,owner,reason,source,standard=true){const ticket=makerO
     assert.equal(state.menu.active,0);assert.equal(state.system.open,false,'title shell is suppressed by the independent actual Maker owner');
     assert.equal(m.generation,owner.generation);assert.equal(m.display.eventId,owner.eventId);assert.equal(m.scrollEnd.reason,reason);assert.equal(m.scrollEnd.key,reason==='key'?39:255);
     assert.equal(state.ui.presentation,'maker-hold');assert.equal(state.ui.source,source);assert.equal(state.ui.open,true);
-    if(standard){assert.equal(m.custom,false);assert.equal(m.sourceValid,true);assert.deepEqual(m.display,state.spe.display,'actual public display equals the saved native copied stamp');
+    if(standard){assert.equal(m.custom,false);assert.equal(m.sourceValid,true);assert.deepEqual(m.display,makerCopiedStamp(state.spe.display),'actual public display equals the saved native copied stamp');
         for(const key of ['resourceIndex','count','picmax','x','y','startFrm','endFrm','resourceLength','resourceFingerprint'])assert.equal(m[key],key==='x'||key==='y'?0:native[key]);}
     return {ticket,token:state.ui.ownerToken,display:m.display};}
 async function retired(cdp,intro,token,expectedKeys){await titleReturn(cdp,intro.title.menu);await delay(300);const s=await evaluate(cdp,stateExpression);
@@ -349,7 +356,7 @@ async function strictScenario(cdp,origin,name,action,targetId,width=1920,height=
         else{assert.equal(k.native.maker.phase,'hold');assert.equal(k.native.maker.inputSeq,authority.ticket.inputSeq);}}
     assert.ok(captures.length>0);assert.ok(captures.every(c=>c.ui.open&&c.ui.source==='hd-assets'),'every actual cold Maker display, including the first, is genuine full-slot HD');
     assert.equal(captures[0].before.frameIndex,0);assert.ok(visible.includes(0));if(reason==='complete'){assert.ok(visible.includes(95));assert.ok(visible.length>40,'the real full rolling sequence is observed');}
-    const last=captures.filter(c=>JSON.stringify(c.before)===JSON.stringify(authority.display)).at(-1);assert.ok(last,'saved hold has a captured actual LCD source');
+    const last=captures.filter(c=>JSON.stringify(makerCopiedStamp(c.before))===JSON.stringify(authority.display)).at(-1);assert.ok(last,'saved hold has a captured actual LCD source');
     assert.equal(proof.files.hd.sha256,last.files.hd.sha256,'held HD canvas preserves the actual final/partial scroll image');
     assert.ok(session.allDraws.every(d=>!d.hidden),'no HD image is drawn while hidden');
     session.summary={action,width,height,owner,ended:ended.lastEnd,authority,proof,skipAction,lifecycle,firstSource:captures[0].ui.source,

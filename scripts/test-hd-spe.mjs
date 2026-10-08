@@ -135,7 +135,7 @@ function actualMainFixture(speId = 3) {
     return { lib, entry, s, m, units, pictures };
 }
 function harness(options = {}) {
-    let spe = nativeSpe(options.spe), maker = options.maker || null, hidden = false, report = { active: 0 };
+    let spe = nativeSpe(options.spe), maker = options.maker || null, attack = options.attack || null, hidden = false, report = { active: 0 };
     let openingHd = options.storage?.['baye/systemUiMode'] !== 'classic', battleHd = true;
     const events = [], images = [], keys = [], nativeWrites = [], listeners = new Map(), polls = [], nodes = new Map();
     const nativeReads = [], timers = new Map(), preferences = new Map(Object.entries(options.storage || {}));
@@ -179,7 +179,7 @@ function harness(options = {}) {
         set(target, key, value) { nativeWrites.push([key, value]); return true; } });
     const baye = { get data() { return readNative('data', data); }, hd: {
         ready: () => readNative('hd.ready', true), spe: () => readNative('hd.spe', spe),
-        maker: () => readNative('hd.maker', maker), report: () => readNative('hd.report', report) } };
+        maker: () => readNative('hd.maker', maker), attack: () => readNative('hd.attack', attack), report: () => readNative('hd.report', report) } };
     const context = vm.createContext({ console, document, Image, Uint8Array,
         crypto: options.crypto === undefined ? webcrypto : options.crypto,
         Promise: class { constructor() { throw new Error('do not wrap native promises in legacy window.Promise'); } },
@@ -202,6 +202,7 @@ function harness(options = {}) {
         setStorage(key, value) { preferences.set(key, value); },
         spe: () => spe, setSpe: value => { spe = nativeSpe(value); },
         setMaker: value => { maker = value; },
+        setAttack: value => { attack = value; },
         setHidden(value) { hidden = value; for (const fn of listeners.get('visibilitychange') || []) fn(); },
         setReport(value) { report.active = value; api.onEngineSpe(); },
         setMode(value) { openingHd = battleHd = value; api.onEngineSpe(); },
@@ -224,6 +225,157 @@ async function loaded() {
     assert.equal(h.images.length, 2, 'authentic LIB admits exactly the two native picture slots');
     h.resolveImage(0); h.resolveImage(1); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); return h;
 }
+function attackFixture() {
+    const lib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
+    const address = lib.readUInt32LE(20 * 4), length = lib.readUInt32LE(address + 8), resource = lib.subarray(address + 14, address + 14 + length);
+    let fnv = 2166136261;
+    for (const byte of resource) fnv = Math.imul(fnv ^ byte, 16777619) >>> 0;
+    const units = Array.from({ length: resource[2] }, (_, frame) => {
+        const at = 6 + frame * 5;
+        return { frame, x: resource[at], y: resource[at + 1], picIndex: resource[at + 4] };
+    });
+    let at = 6 + units.length * 5;
+    const pictures = Array.from({ length: resource[3] }, (_, picIndex) => {
+        const nativeWidth = resource.readUInt16LE(at), nativeHeight = resource.readUInt16LE(at + 2), mask = resource[at + 6];
+        at += 7 + Math.ceil(nativeWidth / 8) * nativeHeight * (mask + 1);
+        return { picIndex, src: `assets/hd-spe/attack-fixture-${picIndex}.png`, width: 64, height: 64,
+            nativeWidth, nativeHeight, logicalWidth: nativeWidth, logicalHeight: nativeHeight, mask };
+    });
+    const background = { valid: true, id: 16, resourceIndex: 0, pictureIndex: 0, nativeWidth: 130, nativeHeight: 64,
+        count: 1, mask: 0, x: 15, y: 16, resourceLength: 1095, resourceFingerprint: 'fnv1a32:3bf544d6:1095' };
+    const number = { valid: true, id: 15, resourceIndex: 0, pictureIndex: 0, nativeWidth: 12, nativeHeight: 16,
+        count: 10, mask: 0, x: 0, y: 0, resourceLength: 327, resourceFingerprint: 'fnv1a32:b37d7407:327' };
+    const entry = { speId: 21, resourceIndex: 0, kind: 3, startFrm: 9, endFrm: 17, count: units.length, picmax: pictures.length,
+        resourceLength: length, resourceFingerprint: `fnv1a32:${fnv.toString(16).padStart(8, '0')}:${length}`, units, pictures,
+        compositionVersion: 1, background: { ...background, src: 'assets/hd-spe/attack-fixture-background.png', width: 64, height: 64,
+            logicalWidth: 130, logicalHeight: 64 }, number };
+    const composition = { protocolVersion: 1, valid: true, background, clearFrames: bitset(9) };
+    const display = { generation: 9, eventId: 5, commitSeq: 3, frameIndex: 12, frameValid: true, visibleFrames: bitset(12), composition };
+    const s = { id: 21, kind: 3, generation: 9, eventId: 5, count: entry.count, picmax: entry.picmax, startFrm: 9, endFrm: 17,
+        x: 15, y: 16, keyflag: 0, skipEligible: false, resourceLength: length, resourceFingerprint: entry.resourceFingerprint, composition, display };
+    const m = { schemaVersion: 1, axScale: 1, libSha256: createHash('sha256').update(lib).digest('hex'), entries: [entry] };
+    const first = { digit: 1, x: 55, y: 49, firstY: 56, drawCount: 8 }, second = { digit: 4, x: 61, y: 54, firstY: 56, drawCount: 3 };
+    const a = { protocolVersion: 1, active: true, phase: 'numbers', custom: false, sourceValid: true, generation: 9, session: 2,
+        actorIndex: 3, targetIndex: 11, hurt: 14, paintSeq: 11, speId: 21, resourceIndex: 0, count: entry.count, picmax: entry.picmax,
+        startFrm: 9, endFrm: 17, x: 15, y: 16, resourceLength: length, resourceFingerprint: entry.resourceFingerprint,
+        number, digits: [first, second], scene: display,
+        display: { ...display, valid: true, session: 2, paintSeq: 11, digits: [first, second] }, skipEligible: false, returnEligible: false };
+    return { lib, units, pictures, entry, s, m, a };
+}
+async function attackLoaded(postlude = false, options = {}) {
+    const fixture = attackFixture();
+    const h = harness({ data: { g_scale: 1 }, spe: { ...fixture.s, ...(postlude ? { active: 0, id: 0, display: { frameValid: false } } : {}) },
+        ...(postlude ? { attack: fixture.a } : {}), ...options });
+    h.context.dynLib = fixture.lib.toString('hex'); h.api.setManifest(fixture.m); h.api.start();
+    const deadline = Date.now() + 2_000;
+    while (!h.images.length && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 10));
+    const slots = new Set(fixture.units.slice(fixture.entry.startFrm, fixture.entry.endFrm + 1).map(u => u.picIndex));
+    assert.equal(h.images.length, slots.size + 1);
+    if (!options.pendingImage) for (let i = 0; i < h.images.length; i++) h.resolveImage(i);
+    return { ...h, fixture };
+}
+
+test('ordinary attacks compose the actually observed background, cumulative erased boxes, then ascending live units', async () => {
+    const h = await attackLoaded(), { entry } = h.fixture;
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [12]);
+    const draws = h.hdDraws(), background = draws.at(-2), foreground = draws.at(-1), scale = 14;
+    assert.equal(background.args[0].url, entry.background.src);
+    assert.deepEqual(background.args.slice(1), [0, 0, 130 * scale, 64 * scale]);
+    const unit = entry.units[9], pic = entry.pictures[unit.picIndex];
+    const between = h.events.slice(h.events.indexOf(background) + 1, h.events.indexOf(foreground));
+    assert.ok(between.some(e => e.operation === 'fillRect' && JSON.stringify(e.args) === JSON.stringify([unit.x * scale, unit.y * scale, pic.logicalWidth * scale, pic.logicalHeight * scale])), 'native full erase footprint precedes the current live foreground');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+
+test('composition requires the displayed background identity and complete in-range clear bytes', async () => {
+    const h = await attackLoaded(), original = h.fixture.s;
+    for (const bad of [null, { ...original.display.composition, valid: false },
+        { ...original.display.composition, clearFrames: bitset(8) },
+        { ...original.display.composition, clearFrames: Array(31).fill(0) },
+        { ...original.display.composition, clearFrames: [...Array(31).fill(0), '0'] },
+        { ...original.display.composition, background: { ...original.display.composition.background, resourceFingerprint: 'fnv1a32:00000000:1095' } }]) {
+        h.setSpe({ ...original, display: { ...original.display, composition: bad } }); h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.api.debugSnapshot().fallbackReason, 'composition-not-matched');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+
+test('direct native damage flushes retain a separate postlude with opaque overlapping pose history and no skip input', async () => {
+    const h = await attackLoaded(true), scale = 14;
+    assert.equal(h.api.debugSnapshot().presentation, 'attack-postlude'); assert.equal(h.api.debugSnapshot().spe.active, 0);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true); assert.equal(h.nodes.get('hd-spe-return').hidden, true);
+    const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').slice(-11);
+    assert.deepEqual(texts.map(e => e.args), [...Array.from({ length: 8 }, (_, j) => ['1', 40 * scale, (40 - j) * scale, 12 * scale]),
+        ...Array.from({ length: 3 }, (_, j) => ['4', 46 * scale, (40 - j) * scale, 12 * scale])]);
+    const paints = h.events.filter(e => e.node === 'hd-spe-canvas').slice(-83);
+    assert.ok(paints.some(e => e.operation === 'fillRect' && e.args[0] === 46 * scale && e.args[2] === 12 * scale && e.args[3] === 16 * scale));
+    h.api.skip(); h.api.returnToTitle(h.api.debugSnapshot().ownerToken); assert.equal(h.key().prevented, false);
+    h.click('[nothing]'); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    const draws = h.events.length; h.advance(50_000); h.polls.forEach(poll => poll()); assert.equal(h.events.length, draws, 'clock changes cannot move actual displayed numeric poses');
+    h.setAttack({ ...h.fixture.a, active: false, phase: null }); h.api.onEngineSpe(); assert.equal(h.api.isOpen(), false);
+});
+
+test('pending, failed, custom or retired postlude sources keep actual LCD while late images cannot revive old owners', async () => {
+    const h = await attackLoaded(true, { pendingImage: true });
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.api.isOpen(), true);
+    h.resolveImage(0, false); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    h.setAttack({ ...h.fixture.a, sourceValid: false, custom: true }); h.flush();
+    assert.equal(h.api.isOpen(), true); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    h.setAttack({ ...h.fixture.a, active: false }); h.api.onEngineSpe(); h.events.length = 0;
+    for (let i = 1; i < h.images.length; i++) h.resolveImage(i);
+    assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); assert.deepEqual(h.keys, []);
+});
+
+test('six range entries share authenticated bitmap decodes without conflating their displayed native range', async () => {
+    const h = await attackLoaded(), originalImages = h.images.length, { entry, s } = h.fixture;
+    const second = { ...entry, startFrm: 18, endFrm: 26 };
+    h.api.setManifest({ ...h.fixture.m, entries: [entry, second] });
+    const countAfterReplacement = h.images.length;
+    assert.equal(countAfterReplacement, originalImages * 2, 'manifest generation revokes previous decoded authorization');
+    for (let i = originalImages; i < h.images.length; i++) h.resolveImage(i);
+    h.setSpe({ ...s, startFrm: 18, endFrm: 26, eventId: 6, display: { ...s.display, eventId: 6,
+        visibleFrames: bitset(18), composition: { ...s.display.composition, clearFrames: bitset(18) } } });
+    h.flush();
+    const oldPictures = new Set(entry.units.slice(entry.startFrm, entry.endFrm + 1).map(u => u.picIndex));
+    const newPictures = new Set(second.units.slice(second.startFrm, second.endFrm + 1).map(u => u.picIndex));
+    const additional = [...newPictures].filter(index => !oldPictures.has(index)).length;
+    assert.equal(h.images.length, countAfterReplacement + additional, 'shared native slots reuse complete matching pixel metadata; only new range slots decode');
+    for (let i = countAfterReplacement; i < h.images.length; i++) h.resolveImage(i);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [18]);
+});
+
+test('a completed exact attack range needs all its real native slots but never borrows unfinished out-of-range art', async () => {
+    const h = await attackLoaded(), { entry, s } = h.fixture;
+    const reachable = new Set(entry.units.slice(entry.startFrm, entry.endFrm + 1).map(unit => unit.picIndex));
+    const partial = { ...entry, pictures: entry.pictures.map(pic => reachable.has(pic.picIndex) ? pic : { ...pic, src: null, width: null, height: null }) };
+    h.api.setManifest({ ...h.fixture.m, entries: [partial] });
+    const begin = h.images.length - reachable.size - 1;
+    for (let i = begin; i < h.images.length; i++) h.resolveImage(i);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.equal(h.api.debugSnapshot().cachedImages, reachable.size + 1);
+    const missing = { ...partial, pictures: partial.pictures.map(pic => pic.picIndex === entry.units[12].picIndex ? { ...pic, src: null, width: null, height: null } : pic) };
+    h.api.setManifest({ ...h.fixture.m, entries: [missing] }); h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    h.api.setManifest({ ...h.fixture.m, entries: [partial] });
+    h.setSpe({ ...s, startFrm: 18, endFrm: 26, display: { ...s.display, visibleFrames: bitset(18) } }); h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd', 'the completed 9..17 range never claims its unmanifested neighboring defender range');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+
+test('future native numeric writes do not move the shown value until their own real display stamp is published', async () => {
+    const h = await attackLoaded(true), a = h.fixture.a;
+    const initialPaints = h.events.filter(e => e.operation === 'fillText').length;
+    const nextDigit = { ...a.digits[1], y: 53, drawCount: 4 };
+    h.setAttack({ ...a, paintSeq: 12, digits: [a.digits[0], nextDigit] }); h.api.onEngineSpe();
+    assert.equal(h.events.filter(e => e.operation === 'fillText').length, initialPaints);
+    h.setAttack({ ...a, paintSeq: 12, digits: [a.digits[0], nextDigit], display: { ...a.display, paintSeq: 12, digits: [a.digits[0], nextDigit] } });
+    h.flush();
+    const poses = h.events.filter(e => e.operation === 'fillText').slice(-12);
+    assert.equal(poses.length, 12); assert.deepEqual(poses.at(-1).args, ['4', 46 * 14, 37 * 14, 12 * 14]);
+    assert.equal(h.api.debugSnapshot().spe.active, 0); assert.deepEqual(h.keys, []);
+});
 async function makerHold(frame = 95, options = {}) {
     const fixture = actualMainFixture(6);
     const display = { generation: 9, eventId: 6, commitSeq: frame + 1, frameIndex: frame,
@@ -760,14 +912,21 @@ test('production SPE manifest authenticates actual LIB payload, complete native 
             assert.deepEqual(entry.units[i], { frame: i, x: resource[offset], y: resource[offset + 1], picIndex: resource[offset + 4] });
         }
         let offset = 6 + entry.count * 5;
+        const used = new Set(entry.units.slice(entry.startFrm, entry.endFrm + 1).map(u => u.picIndex));
         for (let i = 0; i < entry.picmax; i++) {
             const picture = entry.pictures.find(p => p.picIndex === i);
-            assert.ok(picture, 'every native picture index has exactly one production asset');
+            assert.ok(picture, 'every native picture index has complete slot metadata');
             const width = resource.readUInt16LE(offset), height = resource.readUInt16LE(offset + 2), mask = resource[offset + 6];
             assert.equal(picture.nativeWidth, width); assert.equal(picture.nativeHeight, height); assert.equal(picture.mask, mask);
             assert.equal(picture.logicalWidth, width / m.axScale); assert.equal(picture.logicalHeight, height / m.axScale);
             offset += 7 + Math.ceil(width / 8) * height * (mask + 1);
             assert.ok(offset <= resource.length, 'native packed-seven-byte picture slot remains in payload');
+            if (picture.src === null) {
+                assert.equal(entry.compositionVersion, 1, 'only a declared exact attack range may leave unreachable artwork pending');
+                assert.equal(used.has(i), false, 'every native unit in the actual called range has complete HD artwork');
+                assert.equal(picture.width, null); assert.equal(picture.height, null);
+                continue;
+            }
             if (!decodedImages.has(picture.src)) {
                 const decoded = decodePng(readFileSync(new URL('../' + picture.src, import.meta.url)));
                 const { pixels, ...summary } = decoded; decodedImages.set(picture.src, summary);
@@ -775,6 +934,25 @@ test('production SPE manifest authenticates actual LIB payload, complete native 
             const decoded = decodedImages.get(picture.src);
             assert.equal(decoded.width, picture.width); assert.equal(decoded.height, picture.height);
             checkPictureAlpha(decoded, mask);
+        }
+        if (entry.compositionVersion === 1) {
+            for (const [source, id] of [[entry.background, 16], [entry.number, 15]]) {
+                assert.ok(source); assert.equal(source.id, id); assert.equal(source.resourceIndex, 0); assert.equal(source.pictureIndex, 0);
+                const at = lib.readUInt32LE((id - 1) * 4), length = lib.readUInt32LE(at + 8), payload = lib.subarray(at + 14, at + 14 + length);
+                let hash = 2166136261; for (const byte of payload) hash = Math.imul(hash ^ byte, 16777619) >>> 0;
+                assert.equal(source.resourceLength, length); assert.equal(source.resourceFingerprint, `fnv1a32:${hash.toString(16).padStart(8, '0')}:${length}`);
+                assert.equal(source.nativeWidth, payload.readUInt16LE(0)); assert.equal(source.nativeHeight, payload.readUInt16LE(2));
+                assert.equal(source.count, payload.readUInt16LE(4)); assert.equal(source.mask, payload[6]);
+                assert.deepEqual([source.x, source.y], id === 16 ? [15, 16] : [0, 0]);
+                if (id === 16) {
+                    if (!decodedImages.has(source.src)) {
+                        const { pixels, ...summary } = decodePng(readFileSync(new URL('../' + source.src, import.meta.url))); decodedImages.set(source.src, summary);
+                    }
+                    const decoded = decodedImages.get(source.src);
+                    assert.equal(decoded.width, source.width); assert.equal(decoded.height, source.height); checkPictureAlpha(decoded, 0);
+                    assert.equal(source.logicalWidth, source.nativeWidth / m.axScale); assert.equal(source.logicalHeight, source.nativeHeight / m.axScale);
+                }
+            }
         }
     }
 });

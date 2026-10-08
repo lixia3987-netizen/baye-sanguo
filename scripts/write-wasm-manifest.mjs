@@ -89,6 +89,24 @@ const manifest = {
         retirement: 'GamMakerInf return, native reset, or held LCD dirty/copy interference',
         custom: 'same observed showAbout invocation; custom default branch retains LCD'
     },
+    hdSpeCompositionProtocol: {
+        version: 1,
+        source: 'actual ordinary picture draw observed before its matching native attack child',
+        background: 'g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin',
+        clears: ['g_hdSpeClearFrames', 'g_hdSpeDisplayClearFrames'],
+        displayedCommit: 'actual SysCopyScreen composition snapshot published by timed_flush_lcd',
+        retirement: 'uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset'
+    },
+    hdAttackProtocol: {
+        version: 1,
+        owner: ['g_hdAttackGeneration', 'g_hdAttackSession', 'g_hdAttackPhase'],
+        phases: { movie: 1, numbers: 2, hold: 3 },
+        hurt: 'actual CountPlusSub result captured by the unchanged FgtAtkAction',
+        display: 'g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush',
+        digits: ['DigitIndex', 'DigitX', 'DigitY', 'DigitFirstY', 'DigitDrawCount'],
+        input: 'no added skip or return; original numeric and final delays retain native input behavior',
+        custom: 'same single observed willShowPKAnimation invocation; custom presence always retires HD source'
+    },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts
 };
