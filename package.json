@@ -57,7 +57,8 @@
     "test:skill": "node --test scripts/test-hd-skill-engine.mjs scripts/test-hd-skill-bridge.mjs scripts/test-hd-spe.mjs",
     "test:skill-runtime": "node scripts/test-hd-skill-runtime.mjs",
     "test:stone-runtime": "node scripts/test-hd-stone-runtime.mjs",
-    "test:city-back-runtime": "node scripts/test-hd-city-back-runtime.mjs"
+    "test:city-back-runtime": "node scripts/test-hd-city-back-runtime.mjs",
+    "test:water-runtime": "node scripts/test-hd-water-runtime.mjs"
   },
   "devDependencies": {
     "serve": "14.2.5"

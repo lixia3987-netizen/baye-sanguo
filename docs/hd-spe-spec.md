@@ -136,3 +136,10 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 `npm run test:stone-runtime -- --recruit --recruit-arms 800`使用独立浏览器及私有端口，先观察真实钱/后备兵/名单与数量上限，再通过真正征兵、分配、出征、技能菜单和当前AIM完成23。800是请求量，巴郡实测资金仅允许590征兵、690分配；不伪造兵力、MP、随机种子或成功事件。自然失败、其它技能捕获与选中成功Stone8回调分开，原生像素专项不扩称所有raw captures已oracle验证。公开silent close只用于已退回原生地图的准备壳退休；它不证明普通空征兵pane返回已修复。证据见[石阵专项](validation/m4-stone-20261009.json)。
 
 随后独立`npm run test:city-back-runtime`已验证真实资金耗尽后的普通返回按钮零键退壳，以及分配取消、军备子菜单/根菜单各一次EXIT和地图回执退壳。两次私局中的初次回执/UI等待失败与最终16点通过分开记录，未扩展SPE/战斗验收；见[城池返回专项](validation/m4-city-back-20261009.json)。
+
+
+## WATER36 水淹原图与结果阶段
+
+标准skill12使用资源36/index0/kind2/0..7/count8/picmax2，payload1084与 `fnv1a32:6d62e7a8:1084` 经实际LIB核对。两个原始内置生成不透明1254×1254 PNG映射到原生64×64窗口(48,16)，完整8单位交替两槽，20/20延迟由原生执行。旧41项manifest不变；NUM15仅使用实际12×16/10槽/327bytes来源，前端不计算伤害、补数字或改变等待。
+
+真实P3韩玄/长沙→桂阳玩家王朗技能12对河川陈应成功：MP66→46、敌兵800→400；8电影和21结果读回全HD，28callback+1held独立核对全160×96原生像素。标签取实际GBK消费字节，数字400保留真实多次上移与opaque足迹，原有50tick等待后owner正常退休，结果期零输入。电影窗口外中性舞台与结果窗口外LCD各自限定，不推定全战场背景、其它计谋、Mod或移动验收。首个汉中路线0cast/自然阵亡另存，[完整证据](validation/m4-water-20261009.json)。
