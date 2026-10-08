@@ -580,7 +580,15 @@ function loadLibDefault(then) {
 }
 
 function bayeMain() {
-    loadLibDefault(_main);
+    loadLibDefault(function () {
+        // Prepare the known HD opening before native playback begins. The
+        // optional PC module invokes this callback once, including fallback.
+        if (window.BayeHdSpe && typeof BayeHdSpe.prepareStart === 'function') {
+            BayeHdSpe.prepareStart(_main);
+        } else {
+            _main();
+        }
+    });
 }
 
 function chooseLib(title, path, self_) {

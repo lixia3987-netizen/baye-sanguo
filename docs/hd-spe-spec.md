@@ -47,11 +47,17 @@ SPE 在 LIB 内，`ResLoadToCon(speid,index+1,g_CBnkPtr)` 的 index 是原生 0-
 
 每个 entry 的 units 必须覆盖完整 count，记录绝对 frame/x/y/picIndex。pictures 必须覆盖完整 picmax，各槽包含 src、图片真实 width/height、logicalWidth/Height、nativeWidth/Height、mask。只接受项目目录内 PNG/WebP/SVG，无路径上跳；所有图载入成功且真实尺寸一致后才使用。
 
-高清画布先画统一中性底色，再按实际 **display.visibleFrames** 升序合成对应图片。mask=0 使用不透明图片；mask=1 可使用透明图片。不能把透明新素材盖在尚有旧点阵的 LCD 上。异步图片、manifest 或 hash 的迟到结果需同时符合当前事件、资源和 LIB 代次。
+高清画布先画统一中性底色，再按实际 **display.visibleFrames** 升序合成对应图片。mask=0 使用不透明图片；mask=1 使用真实透明图片。不能把透明新素材盖在尚有旧点阵的 LCD 上。图片缓存绑定完整entry元数据、manifest代次与实际LIB代次/hash，事件结束只退休显示；缓存完成回调重新读取当前原生事件与display，不携带旧帧绘制。换库或换manifest使旧缓存失效。
 
 资源未覆盖、校验等待、未知 LIB、无 digest、旧桥、缺图或尺寸不符、keyflag 保留背景位、复杂 mask、翻转/特殊画色均保持原生 LCD。非 160×96 配置暂用实际屏幕尺寸的完整 LCD 回退。基线战斗窗口固定居中 130×64、起点15,16，特效依照真实有符号 origin 保留窗口内偏移；例如 FIRE 原点48,16在窗口内为33,0。改变尺寸或 scale 必须使绘制缓存失效。
 
-首个交付族是标准 `dat-mod.lib` 的 FIRE35：index0/kind2/0..7/count8/picmax2/fingerprint `fnv1a32:0bf53f74:1212`。两张高清图轮替，原生时序与单位、MP、回合仍由引擎管理。其余开场、兵种攻击、计谋及状态美术未完成，范围见 [hd-remaining-work.md](hd-remaining-work.md)。
+已交付标准库FIRE35：index0/kind2/0..7/count8/picmax2/fingerprint `fnv1a32:0bf53f74:1212`；以及完整MAIN3：index0/kind1/0..8/count9/picmax7/fingerprint `fnv1a32:a5a91c68:11380`。MAIN五张不透明背景与两张透明标题覆盖七槽；九个时间单元的图片序列是0,1,2,3,4,0,5,6,6，最后同一标题清除并不是第八张新美术。实际timer可合并短帧，不能要求每单元都产生独立LCD提交。制作群组、兵种攻击、其余计谋及状态美术仍在 [剩余清单](hd-remaining-work.md)。
+
+## 开场前准备
+
+`lcd.bayeMain()` 在 `loadLibDefault` 的真实LIB载入回调后调用 `BayeHdSpe.prepareStart(_main)`。HD且160×96时，先以实际LIB身份读取manifest并加载全部MAIN图片，成功后再进入原生主循环；5秒超时、404、未知库或不匹配均继续原生游戏。经典模式直接进入；手机入口未加载此模块，仍直接执行原入口。
+
+准备期间不访问 `baye.data` 或原生getter、不提前绑定C全局、不发键；JS定时检查只管理载入上限。使用callback及fetch/crypto自身then链，兼容引擎覆盖全局Promise。继续回调恰好一次，原生主循环异常仍向外传播；原生开场时钟在进入主循环后开始，HD不推进、暂停或改变动画结果。准备成功也只授予资源缓存，实际显示仍需当前事件、完整匹配和display.visibleFrames。
 
 ## 输入与模式
 
@@ -60,5 +66,7 @@ HD 开场允许原生 skip 时，按钮、Enter/Space/Escape 或画布点击只�
 ## 验证
 
 `npm run test:spe` 覆盖显示提交、叠帧/清除、LIB 与异步图片代次、输入锁、报告/隐藏/经典、负 origin、屏幕尺寸和资源回退。`npm run test:spe-engine` 编译并执行实际 C 播放与桥函数，覆盖嵌套/重置、上下文消费、真实位图组合及 timer 显示关联。`npm run test:spe-runtime -- --staged` 用真实 LIB 和暂存 WASM 从玩家入口验证连续开场、跳过、战斗事件；未自然触发的资源继续记为未验收。
+
+`npm run test:opening-runtime` 默认严格验收实际MAIN完整冷开场：1080p/720p首提交及全部可见提交均HD、七槽自然出现、原生完整结束和双标题清除；独立单次跳过、经典/resize、真实tab后台与恢复、受控404/迟到、真实sc-mod.lib及恢复标准库。逐次捕获原LCD与HD原图并核对前后display戳、实际IMG绘制来源/顺序/坐标；标准库另按实际palette/scale/flip重建原生位图逐byte对照。`--allow-lcd` 仅为原生开发基线，不能算HD完成。完整原始记录及图片见 [MAIN验收](validation/m4-opening-20261008.json)。
 
 完整专项测试不能代替每类素材的真实连续播放与最终移动设备验收。证据按 [剩余清单](hd-remaining-work.md) 保存。

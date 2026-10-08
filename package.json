@@ -40,6 +40,7 @@
     "test:spe": "node --test scripts/test-hd-spe.mjs",
     "test:spe-engine": "node --test scripts/test-hd-spe-engine.mjs",
     "test:spe-runtime": "node scripts/test-hd-spe-runtime.mjs",
+    "test:opening-runtime": "node scripts/test-hd-opening-runtime.mjs",
     "test:lib-identity": "node --test scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs",
     "test:city-hud": "node --test scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs",
     "test:idb-mod-compat": "node --test scripts/test-hd-idb-mod-compat.mjs",

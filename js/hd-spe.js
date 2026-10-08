@@ -2,7 +2,8 @@
 (function (global) {
     var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
-        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, libGeneration: 0, libHash: null, libReason: 'lib-unavailable' };
+        manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], preparing: false, preparation: null,
+        libGeneration: 0, libHash: null, libReason: 'lib-unavailable' };
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
     function storage(key, fallback) { try {
@@ -11,7 +12,7 @@
     catch (e) {
         return fallback;
     } }
-    function info() { try {
+    function info() { if (state.preparing) return {}; try {
         return global.baye && baye.hd && baye.hd.ready() && baye.hd.spe() || {};
     }
     catch (e) {
@@ -92,9 +93,10 @@
             state.libHash = hash;
             state.libReason = current.reason;
             state.assets = null;
+            state.cache = [];
         }
     }
-    function setManifest(value) { state.manifestGeneration++; state.assets = null; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
+    function setManifest(value) { state.manifestGeneration++; state.assets = null; state.cache = []; state.manifest = value && value.schemaVersion === 1 && /^[\da-f]{64}$/i.test(value.libSha256 || '') && Array.isArray(value.entries) ? value : null; sync(); }
     function requestManifest() {
         if (state.manifestRequested || typeof global.fetch !== 'function')
             return;
@@ -165,11 +167,27 @@
         return true;
     }
     function load(e) {
-        if (state.assets && state.assets.entry === e)
-            return state.assets;
-        var record = { entry: e, status: 'loading', images: {}, pending: e.pictures.length }, epoch = state.epoch, mg = state.manifestGeneration, lg = state.libGeneration;
+        var signature;
+        try { signature = JSON.stringify(e); } catch (error) { return { entry: e, status: 'failed', images: {} }; }
+        for (var cached = 0; cached < state.cache.length; cached++) {
+            var candidate = state.cache[cached];
+            if (candidate.signature === signature && candidate.manifestGeneration === state.manifestGeneration &&
+                candidate.libGeneration === state.libGeneration && candidate.libHash === state.libHash) {
+                state.assets = candidate;
+                return candidate;
+            }
+        }
+        var record = { entry: e, signature: signature, status: 'loading', images: {}, pending: e.pictures.length,
+            manifestGeneration: state.manifestGeneration, libGeneration: state.libGeneration, libHash: state.libHash };
         state.assets = record;
-        function current() { return state.assets === record && epoch === state.epoch && mg === state.manifestGeneration && lg === state.libGeneration; }
+        state.cache.push(record);
+        // Images belong to authenticated resource metadata, not a playback
+        // event. Completion only repaints the current native display stamp.
+        function current() {
+            verifyLib();
+            return state.cache.indexOf(record) !== -1 && record.manifestGeneration === state.manifestGeneration &&
+                record.libGeneration === state.libGeneration && record.libHash === state.libHash;
+        }
         for (var i = 0; i < e.pictures.length; i++)
             (function (pic) {
                 try {
@@ -199,6 +217,62 @@
                 }
             })(e.pictures[i]);
         return record;
+    }
+    function prepareStart(callback, options) {
+        if (typeof callback !== 'function') return;
+        options = options || {};
+        var timeout = integer(options.timeoutMs) && options.timeoutMs >= 0 && options.timeoutMs <= 10000 ? options.timeoutMs : 5000;
+        var started = Date.now(), done = false, timer = 0, slots = 0;
+        state.preparing = true;
+        function finish(ready, reason) {
+            if (done) return;
+            done = true;
+            if (timer) global.clearTimeout(timer);
+            state.preparing = false;
+            state.preparation = { ready: ready, reason: reason, elapsedMs: Date.now() - started, slots: slots,
+                libSha256: state.libHash, libGeneration: state.libGeneration, manifestGeneration: state.manifestGeneration };
+            // The caller enters _main here. Do not bind baye.data, probe native
+            // getters, render, or send a key before that callback has run.
+            callback(state.preparation);
+        }
+        function check() {
+            if (done) return;
+            if (!hd(1)) { finish(false, 'classic'); return; }
+            var width = typeof global.lcdWidth === 'number' ? global.lcdWidth : W;
+            var height = typeof global.lcdHeight === 'number' ? global.lcdHeight : H;
+            if (width !== W || height !== H) { finish(false, 'screen-size-unsupported'); return; }
+            verifyLib();
+            var identity = global.BayeHdLibIdentity && global.BayeHdLibIdentity.read();
+            if (!identity || identity.status === 'unavailable' || identity.status === 'invalid' || identity.status === 'error') {
+                finish(false, identity && identity.reason || 'lib-unavailable'); return;
+            }
+            requestManifest();
+            var m = state.manifest;
+            if (identity.status === 'ready' && m) {
+                if (state.libHash !== m.libSha256) { finish(false, 'unknown-lib'); return; }
+                var entry = m.entries.filter(function (e) {
+                    return e && e.speId === 3 && e.resourceIndex === 0 && e.kind === 1 && e.startFrm === 0 &&
+                        integer(e.count) && e.count >= 1 && e.count <= 255 && e.endFrm === e.count - 1 &&
+                        integer(e.resourceLength) && e.resourceLength > 0 && /^fnv1a32:[\da-f]{8}:\d+$/.test(e.resourceFingerprint || '') && valid(e);
+                })[0];
+                if (!entry) { finish(false, 'opening-not-matched'); return; }
+                slots = entry.pictures.length;
+                var assets = load(entry);
+                if (assets.status === 'ready') { finish(true, 'assets-ready'); return; }
+                if (assets.status === 'failed') { finish(false, 'asset-load-failed'); return; }
+            }
+            if (Date.now() - started >= timeout) { finish(false, m ? 'timeout' : 'manifest-unavailable'); return; }
+            timer = global.setTimeout(guardedCheck, 20);
+        }
+        // Asset preparation has its own bounded wait. Native playback time
+        // starts only after callback; failures preserve the original game.
+        function guardedCheck() {
+            try { check(); } catch (error) {
+                if (done) throw error; // Preserve exceptions from the native start callback.
+                finish(false, 'preparation-failed');
+            }
+        }
+        guardedCheck();
     }
     function screen() {
         var data = global.baye && baye.data || {}, w = data.g_screenWidth, h = data.g_screenHeight;
@@ -383,6 +457,7 @@
             }, true);
             document.addEventListener('visibilitychange', sync);
         }
+        requestManifest();
         sync();
         if (!state.poll)
             state.poll = global.setInterval(sync, 250);
@@ -390,12 +465,13 @@
     global.BayeHdSpe = { start: start, applyPcPage: start, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
             return; capture(img, w, h, s); state.renderKey = ''; paint(s); var root = el('hd-spe'); if (root)
             root.setAttribute('data-source', state.source); }, blit: sync,
-        skip: skip, useClassic: classic, setManifest: setManifest, isHandling: function () { return show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
+        skip: skip, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
         debugSnapshot: function () {
             var s = info();
             return { open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
                 source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
-                event: state.event, flushKey: state.flushKey, libSha256: state.libHash, spe: s };
+                event: state.event, flushKey: state.flushKey, libSha256: state.libHash, preparing: state.preparing,
+                preparation: state.preparation, cachedResources: state.cache.length, spe: s };
         } };
     if (global.BayeHdLibIdentity) {
         global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });
