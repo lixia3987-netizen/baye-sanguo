@@ -16,7 +16,8 @@ const directory = join(root, 'vendor/iBaye/src');
 const read = (filename) => readFileSync(join(directory, filename), 'utf8').replace(/\r\n/g, '\n');
 const bridge = read('hd-bridge.c');
 const header = read('hd-bridge.h');
-const constants = header.split('\n').filter((line) => /^#define (?:BAYE_HD_|VK_DIGIT0)/.test(line)).join('\n');
+const constants = header.split('\n').filter((line) => /^#define (?:BAYE_HD_|VK_DIGIT0)/.test(line)).join('\n') + '\n' +
+    read('baye/consdef.h').split('\n').filter(line => /^#define\s+TACTIC_ICON\b/.test(line)).join('\n');
 const run = promisify(execFile);
 
 function actualFunction(filename, name) {
@@ -50,7 +51,8 @@ const speHelpers = ['hd_spe_notify', 'hd_spe_publish', 'baye_hd_spe_context', 'b
 const globals = bridge.slice(0, bridge.indexOf('static void copy_gbk')).replace(/^#include[^\n]*\n/gm, '');
 const helpers = [
     'copy_gbk', 'hd_goods_clear', 'hd_menu_ids_clear', 'hd_help_detail_clear', 'hd_help_notify',
-    'hd_next_input_seq', 'baye_hd_begin_spe', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
+    'hd_next_input_seq', 'baye_hd_view_retire', 'baye_hd_mini_map_retire',
+    'baye_hd_begin_spe', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
     'baye_hd_take_fight_action', 'baye_hd_map_input_begin', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin',
     'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_begin', 'baye_hd_march_selected',
     'baye_hd_march_end', 'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end',
@@ -753,6 +755,8 @@ test('real C native menu/focus/map/view wrappers open and close input once; nati
     const help = actualFunction('FightSub.c', 'FgtShowHlp');
     const helpWait = help.slice(help.indexOf('tagOut:\n') + 'tagOut:\n'.length, help.lastIndexOf('\n}'));
     const helpType = header.match(/typedef struct \{[^}]*\} HdHelpSnapshot;/)[0];
+    const viewType = header.match(/typedef struct \{[^}]*\} HdViewSnapshot;/)[0];
+    const viewCapture = actualFunction('hd-bridge.c', 'baye_hd_view_capture');
     const helpObservation = ['hd_detail_copy','baye_hd_help_publish','baye_hd_help_clear']
         .map(name => actualFunction('hd-bridge.c', name)).join('\n');
     const source = read('Fight.c');
@@ -824,9 +828,11 @@ static void FgtShowHlp(void) {
 ` + helpWait + String.raw`
 }
 static void FgtShowViewInner(void) { assert(g_hdFightInputKind == BAYE_HD_FIGHT_INPUT_VIEW); }
-` + view + String.raw`
+` + viewType + '\n' + viewCapture + '\n' + view + String.raw`
 static void actualViewPageAcknowledgement(U8 type, U8 key) {
     struct { U8 type,param; } msg = {type,key};
+    HdViewSnapshot hdView;
+    baye_hd_view_capture(&hdView);
 ` + viewAck + String.raw`
 }
 static void FgtAllRight(bool *flag) { (void)flag; }

@@ -13,7 +13,8 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const directory = join(root, 'vendor/iBaye/src');
 const read = (filename) => readFileSync(join(directory, filename), 'utf8').replace(/\r\n/g, '\n');
 const run = promisify(execFile);
-const constants = read('hd-bridge.h').split('\n').filter((line) => /^#define BAYE_HD_/.test(line)).join('\n');
+const constants = read('hd-bridge.h').split('\n').filter((line) => /^#define BAYE_HD_/.test(line)).join('\n') + '\n' +
+    read('baye/consdef.h').split('\n').filter(line => /^#define\s+TACTIC_ICON\b/.test(line)).join('\n');
 
 function actualFunction(filename, name) {
     const source = read(filename);
@@ -37,7 +38,8 @@ function actualFunction(filename, name) {
 const bridge = read('hd-bridge.c');
 const detailGlobals = bridge.slice(bridge.indexOf('U32 g_hdDetailGeneration ='), bridge.indexOf('static U8 hdMenuNextContext')) +
     bridge.slice(bridge.indexOf('U8 g_hdHelpProtocolVersion ='), bridge.indexOf('U8 g_hdMovieActive ='));
-const detailClears = ['hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear']
+const detailClears = ['hd_next_input_seq','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
+    'baye_hd_view_retire','baye_hd_mini_map_retire']
     .map(name => actualFunction('hd-bridge.c', name)).join('\n');
 
 async function compile(source) {
@@ -257,7 +259,7 @@ int main(void) {
 });
 
 test('real C incoming attacks own defender menus, ACK native indexes and preserve removal, ten-general and EXIT rules', async () => {
-    const menuHelpers = ['hd_next_input_seq', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default',
+    const menuHelpers = ['baye_hd_menu_scope', 'baye_hd_menu_scope_default',
         'baye_hd_menu_begin', 'baye_hd_menu_end', 'baye_hd_set_menu', 'baye_hd_menu_ids'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
     await compile(common + marchAcknowledgement + String.raw`
 #define PERSON_COUNT 600
@@ -501,7 +503,7 @@ int main(void) {
 });
 
 test('real C player succession preserves campaign ownership, retries cancellation and appoints only the chosen candidate', async () => {
-    const scopes = ['hd_next_input_seq', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default',
+    const scopes = ['baye_hd_menu_scope', 'baye_hd_menu_scope_default',
         'baye_hd_menu_begin', 'baye_hd_menu_end'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
     await compile(common + String.raw`
 #define STR_MAKENEWKING 10

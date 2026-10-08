@@ -73,6 +73,13 @@ const manifest = {
             'g_hdHelpKind', 'g_hdHelpComplete', 'g_hdHelpPerson', 'g_hdHelpSlot', 'g_hdHelpFields'],
         toolAccess: ['bayeHdGetToolCount', 'bayeHdGetToolField', 'bayeHdGetArmType']
     },
+    hdOverviewProtocol: {
+        version: 1,
+        view: ['g_hdViewSeq', 'g_hdViewGeneration', 'g_hdViewInputSeq', 'g_hdViewForce',
+            'g_hdViewPageStart', 'g_hdViewPageSize', 'g_hdViewFoodKnown', 'g_hdViewRowPersons', 'g_hdViewPointPersons'],
+        miniMap: ['g_hdMiniMapSeq', 'g_hdMiniMapGeneration', 'g_hdMiniMapInputSeq',
+            'g_hdMiniMapDefaultDraw', 'g_hdMiniMapCustom', 'g_hdMiniMapResourceId']
+    },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts
 };

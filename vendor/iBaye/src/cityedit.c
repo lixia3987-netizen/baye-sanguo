@@ -935,10 +935,13 @@ FAR U8 GetCitySetInner(CitySetType *pos);
 FAR U8 GetCitySet(CitySetType *pos) {
     int prev = SysScrollingTimerOpen(0);
     U8 rv;
+    U32 generation = g_hdDetailGeneration, inputSeq;
     baye_hd_map_input_begin();
+    inputSeq = g_hdMapInputSeq;
     baye_hd_set_map_pick(1);
     rv = GetCitySetInner(pos);
-    baye_hd_set_map_pick(0);
+    if (generation == g_hdDetailGeneration && inputSeq == g_hdMapInputSeq)
+        baye_hd_set_map_pick(0);
     SysScrollingTimerOpen(prev);
     return rv;
 }
@@ -948,6 +951,7 @@ FAR U8 GetCitySetInner(CitySetType *pos)
     U8 city = '\0';
     GMType Msg;
     Touch touch = {0};
+    U32 hdGeneration = g_hdDetailGeneration, hdMapInputSeq = g_hdMapInputSeq;
 
     Rect mapRect = {
         .left = WK_SX,
@@ -985,6 +989,7 @@ FAR U8 GetCitySetInner(CitySetType *pos)
                 tpicflag = 0;
                 showflag = 1;
                 baye_hd_set_help(NULL);
+                baye_hd_mini_map_clear(hdGeneration, hdMapInputSeq);
                 continue;
             }
             switch (Msg.param)
@@ -1039,13 +1044,20 @@ FAR U8 GetCitySetInner(CitySetType *pos)
                     return(0xff);
                     break;
                 case VK_SEARCH:
-                    if (call_hook_a("showMiniMap", NULL) == -1) {
+                {
+                    U8 hdCustom = 0;
+                    U8 hdDefault = call_hook_a_observed("showMiniMap", NULL, &hdCustom) == -1;
+                    if (hdDefault) {
                         gam_clrlcd(WK_SX,WK_SY,WK_EX,WK_EY);
                         gam_drawpic(TACTIC_ICON, 0, WK_SX + (WK_EX - WK_SX - 84) / 2,WK_SY + (WK_EY - WK_SY - 64) / 2, 1);
                     }
                     tpicflag = 1;
+                    baye_hd_mini_map_publish(hdGeneration, hdMapInputSeq,
+                        pos->setx,pos->sety,pos->x,pos->y,SHOWMAP_WS,SHOWMAP_HS,city,hdDefault,hdCustom);
                     break;
+                }
                 case VK_HELP:
+                    baye_hd_mini_map_clear(hdGeneration, hdMapInputSeq);
                     if (call_hook_a("showMainHelp", NULL) == -1) {
                         U8 ver[64];
                         sprintf((char*)ver, "Ver %s", g_engineVersion);
@@ -1069,6 +1081,7 @@ FAR U8 GetCitySetInner(CitySetType *pos)
                     tpicflag = 0;
                     showflag = 1;
                     baye_hd_set_help(NULL);
+                    baye_hd_mini_map_clear(hdGeneration, hdMapInputSeq);
                 }
                 continue;
             }

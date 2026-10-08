@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "603c046e7dcfe1ba01f7bf05cf30264d331c90c5",
-  "engineSourceSha256": "8da133595089a7c361b6aa24dfd441c9dae737f4e1ba2aba9cd215e4f537d27a",
+  "sourceRevision": "9aeb796af21c75a7a2cf540dde0e3d461e52034d",
+  "engineSourceSha256": "870ab9cb425c3b92d3af96fa4de64751794dcf277feb59ce17ef3d1faad16621",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791419805,
+  "sourceDateEpoch": 1791425490,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -106,6 +106,28 @@
       "bayeHdGetArmType"
     ]
   },
+  "hdOverviewProtocol": {
+    "version": 1,
+    "view": [
+      "g_hdViewSeq",
+      "g_hdViewGeneration",
+      "g_hdViewInputSeq",
+      "g_hdViewForce",
+      "g_hdViewPageStart",
+      "g_hdViewPageSize",
+      "g_hdViewFoodKnown",
+      "g_hdViewRowPersons",
+      "g_hdViewPointPersons"
+    ],
+    "miniMap": [
+      "g_hdMiniMapSeq",
+      "g_hdMiniMapGeneration",
+      "g_hdMiniMapInputSeq",
+      "g_hdMiniMapDefaultDraw",
+      "g_hdMiniMapCustom",
+      "g_hdMiniMapResourceId"
+    ]
+  },
   "saveProtocol": {
     "version": 149,
     "legacyVersions": [
@@ -121,16 +143,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 192277,
-      "sha256": "5573fc79d30769e3c08c673df3562ac29f864a409e65b1c539ecdcc03395496f"
+      "bytes": 192329,
+      "sha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed"
     },
     "baye.wasm": {
-      "bytes": 4286619,
-      "sha256": "d5c31939be385ef615e9cdb820c6b12d09a2a1108c5a61ea1dc9537948cfe59d"
+      "bytes": 4332180,
+      "sha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22"
     },
     "baye.wasm.map": {
       "bytes": 29805,
-      "sha256": "4197a01baf482e1d1148c4f928f75ff25b14ab63c19fb981104f50c3033d0409"
+      "sha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab"
     }
   }
 }

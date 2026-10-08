@@ -1,6 +1,6 @@
 # HD 报告 / 数量 / 帮助壳
 
-哲学与其它 HD 壳相同：**只发 sendKey，不改 WASM / `dat.lib`，不 stub 会替换系统 UI 的 hook**。
+哲学与其它 HD 壳相同：**只在玩家操作时沿原生输入发送 sendKey，通过原生只读观察桥展示实际内容，不改原生玩法或输入协议，不替换系统 UI 的 Mod hook**。原生桥随 WASM 构建，实际 LIB 继续作为数据来源；字段不完整或自定义输出保留经典 LCD。人物、道具和 HELP9 见[高清详情数据](hd-details.md)，VIEW10 与主地图小地图见[概览观察契约](hd-overviews.md)。
 
 **分支：`feature/hd-graphics`，不合 `main`。**
 

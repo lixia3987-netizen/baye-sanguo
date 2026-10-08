@@ -13,11 +13,12 @@
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261008j"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261008j"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261008h"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008j"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261008k"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k"/>
     <link rel="stylesheet" type="text/css" href="css/hd-spe.css?ver=20261008h"/>
     <link rel="stylesheet" type="text/css" href="css/hd-portraits.css?ver=20261008i"/>
     <script>
-        window.BAYE_ASSET_VER = '20261008j';
+        window.BAYE_ASSET_VER = '20261008k';
         window.__bayeLastHdCall = window.__bayeLastHdCall || null;
         window.onerror = function (msg, url, line, col, error) {
             var last = window.__bayeLastHdCall;
@@ -194,6 +195,21 @@
         <div id="hd-spe-probe" class="hd-spe-probe"></div>
     </div>
 </div>
+<div id="hd-mini-map" class="hd-mini-map" hidden aria-hidden="true">
+    <section class="hd-mini-map-stage" role="dialog" aria-modal="true" aria-labelledby="hd-mini-map-title">
+        <h2 id="hd-mini-map-title">地图概览</h2>
+        <p id="hd-mini-map-summary" class="hd-mini-map-summary"></p>
+        <div id="hd-mini-map-content" class="hd-mini-map-content">
+            <canvas id="hd-mini-map-canvas" class="hd-mini-map-canvas" aria-label="全图城池位置"></canvas>
+            <ul id="hd-mini-map-cities" class="hd-mini-map-cities" aria-label="全部城池"></ul>
+        </div>
+        <p id="hd-mini-map-fallback" class="hd-mini-map-fallback" hidden>当前小地图使用经典画面，点击返回继续游戏。</p>
+        <div class="hd-mini-map-footer">
+            <button id="hd-mini-map-return" type="button">返回地图</button>
+            <button id="hd-mini-map-classic" type="button">经典画面</button>
+        </div>
+    </section>
+</div>
 <div id="hd-dialog" class="hd-dialog" aria-hidden="true">
     <div class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title">
         <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
@@ -279,19 +295,20 @@
 </body>
 </html>
 <script src="js/idbkvstore.min.js?ver=20261008i"></script>
-<script src="js/bridge.js?ver=20261008j"></script>
+<script src="js/bridge.js?ver=20261008k"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/lcd.js?ver=20261008h"></script>
 <script src="js/hd-graphics.js?ver=20260923j"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
-<script src="js/hd-overworld.js?ver=20261008j"></script>
+<script src="js/hd-minimap.js?ver=20261008k"></script>
+<script src="js/hd-overworld.js?ver=20261008k"></script>
     <script src="js/hd-city-menu.js?ver=20261008j"></script>
     <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
-    <script src="js/hd-battle.js?ver=20261008j"></script>
+    <script src="js/hd-battle.js?ver=20261008k"></script>
     <script src="js/hd-system-ui.js?ver=20261008h"></script>
-<script src="js/hd-dialog.js?ver=20261008j"></script>
+<script src="js/hd-dialog.js?ver=20261008k"></script>
 <script src="js/hd-spe.js?ver=20261008i"></script>
 <script src="js/hd-portraits.js?ver=20261008j"></script>
 <script src="js/hd-portrait-dump.js?ver=20260924a"></script>
@@ -300,6 +317,7 @@
     if (window.BayeHd) {
         BayeHd.applyPcPage();
     }
+    if (window.BayeHdMiniMap) { BayeHdMiniMap.start(); }
     if (window.BayeHdOverworld) {
         BayeHdOverworld.applyPcPage();
     }
@@ -483,4 +501,4 @@
         });
     });
 </script>
-<script src="js/baye.js?ver=20261008j"></script>
+<script src="js/baye.js?ver=20261008k"></script>

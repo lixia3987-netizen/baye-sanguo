@@ -58,6 +58,32 @@
 #define BAYE_HD_GOODS_TEXT_MAX 128
 #define BAYE_HD_HELP_PERSON 1
 #define BAYE_HD_HELP_TERRAIN 2
+#define BAYE_HD_OVERVIEW_VERSION 1
+#define BAYE_HD_VIEW_ROWS 10
+#define BAYE_HD_VIEW_POINTS 20
+#define BAYE_HD_VIEW_TEXT 64
+
+/* A page belongs to the native wait that actually drew it. Retirement changes
+ * after a report/reset, so a suspended older draw cannot restore stale data. */
+typedef struct {
+    U32 generation, inputSeq, retirement;
+    U16 days, food, leader;
+    U8 complete, custom, force, pageStart, pageSize, totalCount, rowCount;
+    U8 mapWidth, mapHeight, playerMode, foodKnown, pointCount;
+    U8 title[64], daysText[64], positionsText[64], factionText[64], foodText[64];
+    U16 rowPersons[10], rowArms[10], pointPersons[20];
+    U8 rowSlots[10], rowNames[10 * 32], rowText[10 * 64];
+    U8 pointSlots[20], pointX[20], pointY[20], pointState[20];
+} HdViewSnapshot;
+
+void baye_hd_view_capture(HdViewSnapshot* snapshot);
+void baye_hd_view_publish(const HdViewSnapshot* snapshot);
+void baye_hd_view_clear(U32 generation, U32 inputSeq);
+void baye_hd_view_retire(void);
+void baye_hd_mini_map_publish(U32 generation, U32 inputSeq, U8 cursorX, U8 cursorY,
+    U8 viewX, U8 viewY, U8 viewWidth, U8 viewHeight, U8 city1, U8 defaultDraw, U8 custom);
+void baye_hd_mini_map_clear(U32 generation, U32 inputSeq);
+void baye_hd_mini_map_retire(void);
 
 /* Observations contain only values produced by the real native draw call. */
 typedef struct {
@@ -142,6 +168,7 @@ extern U32 g_hdRecordSeq;
 extern U8 g_hdReportActive;
 extern U32 g_hdReportInputSeq;
 extern U8 g_hdMapCity;
+extern U32 g_hdMapInputSeq;
 extern U8 g_hdSpePendingKind;
 extern U8 g_hdSpeActive;
 extern U16 g_hdSpeId;

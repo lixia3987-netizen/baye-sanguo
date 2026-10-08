@@ -17,7 +17,7 @@
 | **出征 / 外交目标城** | **HD done** | 出征依据 session/phase/inputSeq 完成选将、粮草与提示；点击目标只选中，确认后等待真实 AddFightOrder 回执；地图地理像素只用于显示 |
 | **数量 / 征兵步进** | **HD done** | `NumOperate` 发布真实 session/字符回执/cursor/step；按钮与键盘串行，确认等待 ACK，取消与切模式防止旧键泄漏。真实快速加减、边界、无变化数字/光标键和排队确认征兵已核对预备兵、钱及订单。旧桥保留定时队列，数字键 `0x40–0x49` 沿用原生规则；性能长尾仍待优化 |
 | **报告 / 对话** | **HD done** | 按真实报告等待状态和输入序号显示、确认，战斗中的报告优先接收输入；嵌套报告返回时恢复正文并换令牌。纯定时报告不显示确认按钮；出征目标选择不挡点城。继任菜单已接真实人物下标，完整继任场景仍待浏览器验收 |
-| **帮助 / 查找** | **partial** | 大地图 HELP 导出 `Ver …`；战场 HELP 导出将领/地形 `g_hdHelpGbk`（`|` 换行）。查找仍放大 LCD，不编造词条 |
+| **帮助 / 查找** | **partial** | 战场 HELP9 展示原生身份与完整字段；VIEW10 已高清展示原生当前页、将领分布、双方切换及实际可见粮草。主地图 SEARCH 已接38城高清概览，经典对照保留真实静态资源75。其它人物/道具检索图文和完整Mod场景仍待核查，不编造词条；[契约](hd-overviews.md) |
 | **战场格网 / 单位** | **HD done** | 按原生尺寸/跨度读取完整 `g_FightMapData` / `g_GenPos`；八类标准地形有独立图形，空格与部队焦点均显示地形，未知 LIB/自定义地形钩子回退中性地块。兵种旗标、兵力、行动状态和 HP/MP 来自原生数据。移动、攻击和计谋按原生掩码以不同颜色轮廓显示；范围、焦点说明和目标线遵循同一输入归属，报告或无效数据同步撤销。计谋仅说明射程内将领，最终可用性和效果由引擎判断；绘制不提交行动或预测伤害 |
 | **战场系统菜单** | **HD done** | HD hook 返回 `-2` 打开实际五项菜单；经典恢复原 hook。五项菜单、设置取消、撤退确认取消与经典/HD 切换已通过；M3 已连续三次显式确认撤退，均得到原生 `over=2` 并回图，守方归属保持不变 |
 | **计谋选择** | **HD done** | `FgtGetJNIdx` 写入 `g_hdSkill*`（名/id）；HD 画「计谋」列表并 `sendKey`。不 stub `fightChooseSkill` |
@@ -25,14 +25,14 @@
 | **策略结束 / 存读档** | **HD done** | 策略结束使用真实地图/menu seq 逐层返回并确认一次。原生保存 3 槽、读取 4 槽、稀疏槽映射、LIB 校验、双文件持久化事务及完整验证后提交世界状态已接通；真实胜利后保存→刷新→载入全世界一致，再次出征→撤退→回图通过 |
 | 云存档条 | 页面 HTML | 本地导出与第四槽导入共用 `save-storage.js`，JSON 保留来源 LIB 信息，旧云 SDK 两行格式仍兼容。SDK 回调以本地模拟验证事务失败与完整旧槽读取；未进行真实账号上传下载验收 |
 | **战斗结算** | **partial** | 结束时释放 HD 战场，保留原生结果与继任输入，不自动确认。真实空城占领、开垦后出征、完整胜利占城及胜利后连续两次出征败退已通过；AI 来袭守将选择、防守战、同页重新开局和战果存读档也已通过。完整继任场景仍待浏览器验收 |
-| **道具详情** | **partial** | 桥已通。董卓弄权安定开局城中无货、武将 Equip 空——不是代码 bug，菜单上暂无道具名可点 |
+| **道具详情** | **partial** | 已真实验证洛阳空库存、吕布没收方天画戟后的库存/装备变化、赏赐三页属性与取消无授予。完整名称和实际属性在1080p/720p可见；Mod自定义捕获有实际C专项，完整Mod浏览仍待验收 |
 | **武将立绘** | **partial** | 允许的用户生成轨道。`refs/` 只收 `#lcd` 左上角 `24 * dotSize` 的实拍（`drawImage(..., GEN_HEADPIC1+g_PIdx, ..., 1)`，时期 1 resid 48）。不要裁 `querySelector('canvas')`。manifest 与参考索引绑定实际 LIB SHA-256；时期/人物精确匹配才使用 HD，缺图用精确参考，未知或待校验库保留 LCD。实际菜单 seq/index 与图片代次共同退役旧请求；现有 14 张/39 试点，余 25 张待补 |
 | 手机竖屏键位页 | 不做 | overworld 非目标 |
 | 地图编辑器 | 不做 | 不在玩法路径 |
 
 ## 本分支壳
 
-- `js/hd-lib-identity.js` · `js/hd-portraits.js` · `js/hd-overworld.js` · `js/hd-city-menu.js` · `js/hd-battle-terrain.js` · `js/hd-battle-feedback.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
+- `js/hd-lib-identity.js` · `js/hd-portraits.js` · `js/hd-overworld.js` · `js/hd-minimap.js` · `js/hd-city-menu.js` · `js/hd-battle-terrain.js` · `js/hd-battle-feedback.js` · `js/hd-battle.js` · `js/hd-system-ui.js` · `js/hd-dialog.js` · `js/hd-spe.js`
 - `js/save-storage.js` 共用本地存档事务与导入导出校验；游戏入口先加载它再加载 `lcd.js`，纯存档管理页直接使用它。
 
 ## M3 当前验收范围
@@ -48,7 +48,7 @@ M3 的词典原版主流程已完成本轮验收。完整继任、其余时期�
 ## 本轮 WASM 桥
 
 `vendor/iBaye` + `scripts/build-wasm.sh` 重编 `js/baye.wasm`。导出见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。  
-仍 residual：查找图文。安定开局无道具不是代码 bug。开场仍走 LCD-blit，FIRE35 已使用真实帧高清素材，其余计谋仍保留原生 LCD 回退（见 [hd-spe-spec.md](hd-spe-spec.md)）。M4 范围反馈只改前端，未重编 WASM；本批验收范围见 [开发计划](hd-development-plan.md)。
+仍 residual：其它人物/道具检索图文。战场 VIEW10 与主地图概览已接独立原生观察桥并真实验收，详见[本批证据](validation/m4-overviews-20261008.json)。开场仍走 LCD-blit，FIRE35 已使用真实帧高清素材，其余计谋仍保留原生 LCD 回退（见 [hd-spe-spec.md](hd-spe-spec.md)）。早期M4范围反馈只改前端；后续详情与概览批次已重编并成套安装WASM，当前范围见[剩余清单](hd-remaining-work.md)。
 
 2026年10月8日 SPE批次：实际原生事件/帧/显示桥与FIRE35双槽高清素材完成，235项含真实C回归全部通过；已构建并成套安装新引擎，真实开场、跳过、玩家攻击及火攻显示通过，连续两帧和原生可见bitmap匹配。普通攻击与开场等美术仍待制作，四时期/真实Mod和移动真机未覆盖。[证据](validation/m4-spe-20261008.json)。
 

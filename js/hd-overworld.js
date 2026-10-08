@@ -248,7 +248,7 @@
     }
 
     function mapInputAuthorized() {
-        if (!mapAuthorized()) { return false; }
+        if (!mapAuthorized() || miniMapActive()) { return false; }
         var data = engineData(), positions = data && data.g_CityPositions;
         var matching = cityCount() === state.cities.length && !!positions;
         for (var i = 0; matching && i < state.cities.length; i++) {
@@ -1049,7 +1049,25 @@
     }
 
     function hitsEnabled() {
-        return mapAuthorized() && state.mode === 'hd-map' && state.phase === 'map' && !state.aligning;
+        return mapAuthorized() && state.mode === 'hd-map' && state.phase === 'map' && !state.aligning && !miniMapActive();
+    }
+
+    function miniMapActive() {
+        try { return !!(global.baye && baye.hd && baye.hd.miniMap && baye.hd.miniMap().active === 1); }
+        catch (e) { return false; }
+    }
+
+    function overviewData() {
+        if (document.hidden || !mapAuthorized()) { return null; }
+        sampleCities();
+        if (!mapAuthorized()) { return null; }
+        var image = terrainImageByPart('base_plains'), identity = readIdentity();
+        if (!image || !image.complete || !image.naturalWidth || !state.cities.length) { return null; }
+        return { image: image, width: image.naturalWidth, height: image.naturalHeight,
+            generation: state.assetGeneration, libraryGeneration: identity.generation, libSha256: identity.sha256,
+            cities: state.cities.map(function (city) { return { index: city.index, name: city.name,
+                x: city.hdX, y: city.hdY, engineX: city.engX, engineY: city.engY,
+                belong: city.belong, kind: city.kind, color: city.color }; }) };
     }
 
     function setPhase(phase) {
@@ -3402,7 +3420,7 @@
         var from = readMapCity();
         function valid() {
             return mapAuthorized() && token === state.alignToken && state.mode === 'hd-map' &&
-                state.aligning && !fightLive();
+                state.aligning && !fightLive() && !miniMapActive();
         }
         function fail(message) {
             if (token !== state.alignToken) { return; }
@@ -3917,6 +3935,7 @@
         setMode: setMode,
         getPhase: function () { return state.phase; },
         getCities: function () { return state.cities; },
+        overviewData: overviewData,
         mapToScreen: toScreen,
         panBy: function (dx, dy) {
             state.camera.x += dx;
@@ -3960,7 +3979,7 @@
             if (!city) {
                 return false;
             }
-            openClassicCity(index);
+            if (openClassicCity(index) === false) { return false; }
             return { to: { x: city.engX, y: city.engY }, name: city.name };
         },
         cityScreenPos: function (indexOrName) {

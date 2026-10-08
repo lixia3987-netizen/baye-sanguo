@@ -1583,6 +1583,64 @@ function baye_bridge_init() {
                 pageStart: hdDetailNum(d, 'g_hdGoodsPageStart', 255), pageEnd: hdDetailNum(d, 'g_hdGoodsPageEnd', 255),
                 name: hdDetailText(d, 'g_hdGoodsNameGbk', 32), properties: rows};
         },
+        view: function () {
+            var d = baye.ensureData(), n = hdDetailNum(d, 'g_hdViewRowCount', 10),
+                count = hdDetailNum(d, 'g_hdViewPointCount', 20), rows = [], points = [];
+            var seq = hdDetailNum(d, 'g_hdViewSeq'), generation = hdDetailNum(d, 'g_hdViewGeneration'),
+                inputSeq = hdDetailNum(d, 'g_hdViewInputSeq');
+            for (var i = 0; n != null && i < n; i++) {
+                rows.push({ slot: hdDetailNum(d.g_hdViewRowSlots, i, 19),
+                    personIndex: hdDetailNum(d.g_hdViewRowPersons, i, 65534),
+                    arms: hdDetailNum(d.g_hdViewRowArms, i, 65535),
+                    name: hdDecodeSlice(d.g_hdViewRowNames, i * 32, 32),
+                    text: hdDecodeSlice(d.g_hdViewRowText, i * 64, 64) });
+            }
+            for (var p = 0; count != null && p < count; p++) {
+                points.push({ slot: hdDetailNum(d.g_hdViewPointSlots, p, 19),
+                    personIndex: hdDetailNum(d.g_hdViewPointPersons, p, 65534),
+                    x: hdDetailNum(d.g_hdViewPointX, p, 255), y: hdDetailNum(d.g_hdViewPointY, p, 255),
+                    state: hdDetailNum(d.g_hdViewPointState, p, 255) });
+            }
+            var byteBuffers = n === 0 || n != null && d && typeof d.g_hdViewRowNames === 'object' &&
+                d.g_hdViewRowNames != null && typeof d.g_hdViewRowText === 'object' && d.g_hdViewRowText != null;
+            var current = byteBuffers && seq === hdDetailNum(d, 'g_hdViewSeq') && generation === hdDetailNum(d, 'g_hdViewGeneration') &&
+                inputSeq === hdDetailNum(d, 'g_hdViewInputSeq') && generation === hdDetailNum(d, 'g_hdDetailGeneration');
+            var value = { protocolVersion: hdDetailNum(d, 'g_hdViewProtocolVersion', 255),
+                active: hdDetailNum(d, 'g_hdViewActive', 1), complete: current ? hdDetailNum(d, 'g_hdViewComplete', 1) : 0,
+                custom: hdDetailNum(d, 'g_hdViewCustom', 1), seq: seq, generation: generation,
+                detailGeneration: hdDetailNum(d, 'g_hdDetailGeneration'), inputSeq: inputSeq,
+                force: hdDetailNum(d, 'g_hdViewForce', 1), pageStart: hdDetailNum(d, 'g_hdViewPageStart', 10),
+                pageSize: hdDetailNum(d, 'g_hdViewPageSize', 255), totalCount: hdDetailNum(d, 'g_hdViewTotalCount', 10),
+                rowCount: n, width: hdDetailNum(d, 'g_hdViewMapWidth', 255), height: hdDetailNum(d, 'g_hdViewMapHeight', 255),
+                days: hdDetailNum(d, 'g_hdViewDays', 65535), playerMode: hdDetailNum(d, 'g_hdViewPlayerMode', 255),
+                foodKnown: hdDetailNum(d, 'g_hdViewFoodKnown', 1), food: hdDetailNum(d, 'g_hdViewFood', 65535),
+                leaderPerson: hdDetailNum(d, 'g_hdViewLeader', 65534),
+                title: hdDetailText(d, 'g_hdViewTitleGbk', 64), daysText: hdDetailText(d, 'g_hdViewDaysGbk', 64),
+                positionsText: hdDetailText(d, 'g_hdViewPositionsGbk', 64), factionText: hdDetailText(d, 'g_hdViewFactionGbk', 64),
+                foodText: hdDetailText(d, 'g_hdViewFoodGbk', 64), rows: current ? rows : [], points: current ? points : [] };
+            if (seq !== hdDetailNum(d, 'g_hdViewSeq') || generation !== hdDetailNum(d, 'g_hdViewGeneration') ||
+                inputSeq !== hdDetailNum(d, 'g_hdViewInputSeq') || generation !== hdDetailNum(d, 'g_hdDetailGeneration')) {
+                value.complete = 0; value.rows = []; value.points = [];
+            }
+            return value;
+        },
+        miniMap: function () {
+            var d = baye.ensureData(), seq = hdDetailNum(d, 'g_hdMiniMapSeq'),
+                generation = hdDetailNum(d, 'g_hdMiniMapGeneration'), inputSeq = hdDetailNum(d, 'g_hdMiniMapInputSeq');
+            var value = { protocolVersion: hdDetailNum(d, 'g_hdMiniMapProtocolVersion', 255),
+                active: hdDetailNum(d, 'g_hdMiniMapActive', 1), complete: hdDetailNum(d, 'g_hdMiniMapComplete', 1),
+                custom: hdDetailNum(d, 'g_hdMiniMapCustom', 1), defaultDraw: hdDetailNum(d, 'g_hdMiniMapDefaultDraw', 1),
+                seq: seq, generation: generation, detailGeneration: hdDetailNum(d, 'g_hdDetailGeneration'), mapInputSeq: inputSeq,
+                resourceId: hdDetailNum(d, 'g_hdMiniMapResourceId', 65535), imageIndex: hdDetailNum(d, 'g_hdMiniMapImageIndex', 65535),
+                width: hdDetailNum(d, 'g_hdMiniMapWidth', 65535), height: hdDetailNum(d, 'g_hdMiniMapHeight', 65535),
+                mask: hdDetailNum(d, 'g_hdMiniMapMask', 1), cursorX: hdDetailNum(d, 'g_hdMiniMapCursorX', 255),
+                cursorY: hdDetailNum(d, 'g_hdMiniMapCursorY', 255), viewX: hdDetailNum(d, 'g_hdMiniMapViewX', 255),
+                viewY: hdDetailNum(d, 'g_hdMiniMapViewY', 255), viewWidth: hdDetailNum(d, 'g_hdMiniMapViewWidth', 255),
+                viewHeight: hdDetailNum(d, 'g_hdMiniMapViewHeight', 255), city1: hdDetailNum(d, 'g_hdMiniMapCity1', 255) };
+            if (seq !== hdDetailNum(d, 'g_hdMiniMapSeq') || generation !== hdDetailNum(d, 'g_hdMiniMapGeneration') ||
+                inputSeq !== hdDetailNum(d, 'g_hdMiniMapInputSeq') || generation !== hdDetailNum(d, 'g_hdDetailGeneration')) value.complete = 0;
+            return value;
+        },
         help: function () {
             hdNote('hd.help', '');
             var d = baye.ensureData();

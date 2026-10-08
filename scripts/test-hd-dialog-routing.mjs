@@ -18,7 +18,13 @@ function element(tagName = 'DIV') {
         getAttribute(key) { return attrs.get(key) ?? null; },
         removeAttribute(key) { attrs.delete(key); },
         addEventListener(type, fn) { if (!listeners.has(type)) listeners.set(type, []); listeners.get(type).push(fn); },
-        querySelectorAll() { return []; },
+        querySelectorAll(selector) {
+            const match = node => selector.startsWith('[') ? node.getAttribute(selector.slice(1, -1)) != null :
+                selector.startsWith('.') && String(node.className || '').split(/\s+/).includes(selector.slice(1));
+            const found = [];
+            function visit(node) { for (const child of node.children) { if (match(child)) found.push(child); visit(child); } }
+            visit(this); return found;
+        },
         appendChild(child) { child.parentNode = child.parentElement = this; this.children.push(child); } };
 }
 function harness() {
@@ -36,6 +42,7 @@ function harness() {
     const march = { session: 7, inputSeq: 11, phase: 3, origin: 0, selected: 1, pick: 0, battlePick: 0, seq: 1 };
     const fight = { active: 0, over: 0, inputKind: 0, inputSeq: 1, actorIndex: 255 };
     const help = { active: 0, text: '' }, qty = { active: 0, value: 10, min: 1, max: 100 };
+    const view = { active: 0 };
     const menu = { active: 0, context: 0, kind: 0, seq: 1, index: 0, names: [] };
     const rawData = { g_asyncActionID: 1, g_hdReportGbk: report.text, g_FgtOver: 0,
         g_hdFightActive: 0, g_hdFightOver: 0, g_PlayerKing: 0, g_FoucsX: 0, g_FoucsY: 0,
@@ -59,7 +66,7 @@ function harness() {
     context.baye = { data, ensureData: () => data, hdEngineReady: () => true,
         getPersonName: () => '', sendKey: context._bayeSendKey,
         hd: { ready: () => true, report: () => report, reportText: () => report.text,
-            march: () => march, fight: () => fight, help: () => help, qty: () => qty,
+            march: () => march, fight: () => fight, help: () => help, view: () => view, qty: () => qty,
             menuItems: () => menu, movie: () => ({ active: 0 }) } };
     load('js/hd-city-menu.js', `global.__cityState = state; render = function () {}; scheduleMarchWatch = function () {};`);
     Object.assign(context.__cityState, { battleMake: true, marchSession: 7, marchOriginIndex: 0,
@@ -68,7 +75,7 @@ function harness() {
     context.BayeHdBattle.start(); context.BayeHdDialog.start();
     document.onkeydown = context.onKeyDown;
     writes.length = 0;
-    return { context, nodes, data: rawData, report, march, fight, help, qty, menu, sent, writes,
+    return { context, nodes, data: rawData, report, march, fight, help, view, qty, menu, sent, writes,
         onSend(fn) { onSend = fn; },
         snapshot() { return context.BayeHdDialog.debugSnapshot(); },
         observe() { context.BayeHdDialog.onEngineReport(); context.BayeHdDialog.poll(); },
@@ -111,6 +118,40 @@ function detailedHelp(h, changes = {}) {
         levelMax: 0, x: 0, y: 0, terrain: 255,
         text: '原生武将帮助|兵力与状态', ...changes });
     h.context.BayeHdDialog.onEngineHelp();
+}
+function detailedView(h, changes = {}) {
+    native(h); Object.assign(h.fight, { active: 1, over: 0, inputKind: 10, inputSeq: 60 });
+    h.data.g_hdFightActive = 1;
+    Object.assign(h.view, { protocolVersion: 1, active: 1, complete: 1, custom: 0,
+        seq: 3, generation: 7, detailGeneration: 7, inputSeq: 60,
+        force: 0, pageStart: 0, pageSize: 2, totalCount: 3, rowCount: 2,
+        width: 8, height: 6, days: 0, playerMode: 1, foodKnown: 1, food: 0, leaderPerson: 0,
+        title: '战况总览', daysText: '第零天', positionsText: '军团位置', factionText: '原生军团', foodText: '粮草：0',
+        rows: [{ slot: 0, personIndex: 0, name: '同名', text: '同名 0', arms: 0 },
+            { slot: 1, personIndex: 600, name: '同名', text: '同名 65535', arms: 65535 }],
+        points: [{ slot: 0, personIndex: 0, x: 0, y: 0, state: 0 },
+            { slot: 1, personIndex: 600, x: 7, y: 5, state: 3 },
+            { slot: 10, personIndex: 99, x: 3, y: 2, state: 0 }], ...changes });
+    h.context.BayeHdBattle.onEngineFight(); h.context.BayeHdDialog.onEngineView();
+}
+function publishView(h, changes = {}) {
+    h.fight.inputSeq++;
+    Object.assign(h.view, { seq: h.view.seq + 1, inputSeq: h.fight.inputSeq }, changes);
+    h.context.BayeHdBattle.onEngineFight(); h.context.BayeHdDialog.onEngineView();
+    h.timers();
+}
+function viewButton(h, code) {
+    const node = h.nodes['hd-dialog-body'].querySelectorAll('[data-hd-view-key]')
+        .find(button => button.getAttribute('data-hd-view-key') === String(code));
+    assert.ok(node, 'actual rendered VIEW action must exist'); return node;
+}
+function spyViewActions(h) {
+    const calls = [], original = h.context.BayeHdBattle.viewKey;
+    h.context.BayeHdBattle.viewKey = (code, owner) => {
+        calls.push([code, JSON.parse(JSON.stringify(owner))]);
+        return original(code, owner);
+    };
+    return calls;
 }
 
 test('report observers never send keys or change bridge text in any march phase', () => {
@@ -479,4 +520,227 @@ test('native map help can return once, but its stale controls never acknowledge 
         h.click('data-hd-dlg-ok'); h.click('data-hd-dlg-back');
         assert.deepEqual(h.sent, [], changed);
     }
+});
+
+test('VIEW renders only the captured native page with slot zero, U16 identities and same names', () => {
+    const h = harness();
+    let nameReads = 0;
+    h.context.baye.getPersonName = () => { nameReads++; return 'invented name'; };
+    detailedView(h);
+    assert.equal(h.snapshot().kind, 'view'); assert.equal(h.snapshot().showLcd, false);
+    const body = h.nodes['hd-dialog-body'];
+    const rows = body.querySelectorAll('.hd-situation-row');
+    assert.deepEqual(rows.map(row => [row.getAttribute('data-hd-view-slot'), row.getAttribute('data-hd-view-person'), row.textContent]),
+        [['0', '0', '同名兵 0'], ['1', '600', '同名兵 65535']]);
+    assert.deepEqual(rows.map(row => row.getAttribute('aria-label')), ['同名 0', '同名 65535']);
+    assert.equal(body.querySelectorAll('.hd-situation-page')[0].textContent, '将领 1–2 / 3');
+    const map = body.querySelectorAll('.hd-situation-map')[0], points = map.children;
+    assert.equal(map.style.aspectRatio, '8 / 6');
+    assert.deepEqual(points.map(point => [point.style.left, point.style.top]),
+        [['6.25%', '8.333333333333332%'], ['93.75%', '91.66666666666666%'], ['43.75%', '41.66666666666667%']]);
+    assert.match(points[0].className, /is-player is-page/);
+    assert.match(points[2].className, /is-enemy$/);
+    assert.equal(points[2].title, '敌方位置 · 3,2', 'off-page points do not invent a name or leak another page');
+    const observed = JSON.stringify(h.view);
+    Object.freeze(h.view.rows[0]); Object.freeze(h.view.rows[1]); Object.freeze(h.view.rows);
+    h.view.points.forEach(Object.freeze); Object.freeze(h.view.points); Object.freeze(h.view);
+    h.context.BayeHdDialog.poll(); h.context.BayeHdDialog.onEngineView();
+    assert.equal(JSON.stringify(h.view), observed); assert.equal(nameReads, 0);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('VIEW sends one guarded arrow then waits for the native page ACK without local page prediction', () => {
+    const h = harness(); detailedView(h); const calls = spyViewActions(h);
+    const down = viewButton(h, 0x23);
+    h.click('data-hd-view-key', down); h.click('data-hd-view-key', down); h.timers();
+    assert.deepEqual(h.sent, [0x23]);
+    assert.deepEqual(calls, [[0x23, { kind: 10, seq: 3, generation: 7, inputSeq: 60 }]]);
+    assert.equal(h.snapshot().viewDetail.pageStart, 0);
+    assert.equal(h.snapshot().viewDetail.force, 0);
+    assert.equal(h.snapshot().viewPending, true);
+    assert.equal(viewButton(h, 0x23).disabled, true);
+    publishView(h, { pageStart: 2, rowCount: 1,
+        rows: [{ slot: 2, personIndex: 700, name: '同名', text: '同名 12', arms: 12 }] });
+    assert.equal(h.snapshot().viewDetail.pageStart, 2); assert.equal(h.snapshot().viewPending, false);
+    assert.equal(viewButton(h, 0x23).disabled, false);
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-situation-page')[0].textContent, '将领 3–3 / 3');
+    h.click('data-hd-view-key', viewButton(h, 0x25));
+    assert.deepEqual(h.sent, [0x23, 0x25]);
+    assert.equal(h.snapshot().viewDetail.force, 0, 'an arrow cannot locally toggle the force');
+    publishView(h, { force: 1, pageStart: 0, totalCount: 1, rowCount: 1, foodKnown: 0, food: 0,
+        foodText: '粮草：未知', rows: [{ slot: 10, personIndex: 99, name: '敌将', text: '敌将 4', arms: 4 }] });
+    assert.equal(h.snapshot().viewDetail.force, 1);
+    assert.equal(h.snapshot().viewDetail.foodKnown, 0);
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-situation-food')[0].textContent, '粮草：未知');
+    assert.deepEqual(h.writes, []);
+});
+
+test('VIEW footer returns once through the complete current native owner', () => {
+    const h = harness(); detailedView(h); const calls = spyViewActions(h);
+    h.onSend(() => { h.view.active = 0; h.fight.inputKind = 1; h.fight.inputSeq++; });
+    h.click('data-hd-dlg-ok'); h.click('data-hd-dlg-ok'); h.key(13, { repeat: true }); h.timers();
+    assert.deepEqual(h.sent, [0x27]);
+    assert.deepEqual(calls, [[0x27, { kind: 10, seq: 3, generation: 7, inputSeq: 60 }]]);
+    assert.equal(h.snapshot().open, false); assert.equal(h.snapshot().viewDetail, null);
+    assert.deepEqual(h.writes, []);
+});
+
+test('VIEW classic comparison changes no inputs and survives native page and force changes', () => {
+    const h = harness(); detailedView(h);
+    h.click('data-hd-dlg-lcd'); h.context.BayeHdDialog.poll();
+    assert.equal(h.snapshot().showLcd, true);
+    assert.equal(h.context.document.body.classList.contains('baye-hd-dialog-lcd'), true);
+    publishView(h, { pageStart: 2, rowCount: 1,
+        rows: [{ slot: 2, personIndex: 700, name: '新页', text: '新页 12', arms: 12 }] });
+    assert.equal(h.snapshot().showLcd, true);
+    publishView(h, { force: 1, pageStart: 0, totalCount: 1, rowCount: 1, foodKnown: 0,
+        foodText: '原生未知粮草', rows: [{ slot: 10, personIndex: 99, name: '敌将', text: '敌将 4', arms: 4 }] });
+    assert.equal(h.snapshot().showLcd, true);
+    h.click('data-hd-dlg-lcd'); assert.equal(h.snapshot().showLcd, false);
+    assert.equal(h.context.document.body.classList.contains('baye-hd-dialog-lcd'), false);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});
+
+test('VIEW malformed, incomplete and custom snapshots retire HD presentation and preserve native fallback', () => {
+    const cases = [
+        { complete: 0 }, { custom: 1 }, { protocolVersion: 2 }, { active: 0 },
+        { seq: 0 }, { seq: '3' }, { generation: 0 }, { detailGeneration: 8 }, { inputSeq: 59 },
+        { width: 0 }, { height: true }, { force: 2 }, { pageStart: 4 }, { pageSize: 0 },
+        { rowCount: 1 }, { totalCount: 11 }, { leaderPerson: 65535 }, { foodKnown: 2 },
+        { force: 1, foodKnown: 0, food: 900 }, { food: '0' }, { title: '' },
+        { rows: [{ slot: 0, personIndex: 0, name: '甲', text: '甲 0', arms: 0 }] },
+        { rows: [{ slot: 1, personIndex: 0, name: '甲', text: '甲 0', arms: 0 },
+            { slot: 0, personIndex: 600, name: '乙', text: '乙 0', arms: 0 }] },
+        { points: [{ slot: 0, personIndex: 0, x: 8, y: 0, state: 0 }] },
+        { points: [{ slot: 0, personIndex: 0, x: 0, y: 0, state: 8 }] },
+        { points: [{ slot: 0, personIndex: 0, x: 0, y: 0, state: 0 },
+            { slot: 0, personIndex: 1, x: 1, y: 1, state: 0 }] }
+    ];
+    for (const changes of cases) {
+        const h = harness(); detailedView(h); const button = viewButton(h, 0x23);
+        Object.assign(h.view, changes);
+        h.context.BayeHdDialog.onEngineView(); h.context.BayeHdDialog.poll();
+        h.click('data-hd-view-key', button); h.click('data-hd-dlg-ok');
+        assert.equal(h.snapshot().viewDetail, null, JSON.stringify(changes));
+        assert.equal(h.snapshot().viewOwner, null);
+        assert.equal(h.snapshot().open, false);
+        assert.equal(h.context.document.body.classList.contains('baye-hd-battle-lcd'), true,
+            'VIEW native input owns its LCD fallback');
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('VIEW stops owning controls on hidden, classic, reset, ended, report and competing native waits', () => {
+    for (const reason of ['hidden', 'unready', 'classic', 'reset', 'ended', 'report', 'menu', 'qty']) {
+        const h = harness(); detailedView(h); const calls = spyViewActions(h), button = viewButton(h, 0x23);
+        h.pointerDown(button);
+        if (reason === 'hidden') h.context.document.hidden = true;
+        if (reason === 'unready') h.context.baye.hd.ready = () => false;
+        if (reason === 'classic') h.context.BayeHdBattle.setMode('classic');
+        if (reason === 'reset') h.context.BayeHdDialog.onEngineHook('didLoadGame');
+        if (reason === 'ended') { h.fight.active = 0; h.data.g_hdFightActive = 0; h.view.active = 0; }
+        if (reason === 'report') Object.assign(h.report, { active: 1, inputSeq: 90, seq: 12, text: '实际报告' });
+        if (reason === 'menu') h.menu.active = 1;
+        if (reason === 'qty') h.qty.active = 1;
+        if (reason !== 'reset') h.context.BayeHdDialog.poll();
+        h.click('data-hd-view-key', button);
+        assert.equal(h.snapshot().viewDetail, null, reason);
+        assert.equal(h.snapshot().viewOwner, null, reason);
+        assert.deepEqual(calls, [], reason); assert.deepEqual(h.sent, [], reason); assert.deepEqual(h.writes, [], reason);
+    }
+});
+
+test('pressed VIEW page, LCD and footer controls cannot transfer into newer VIEW or HELP owners', () => {
+    for (const attribute of ['data-hd-view-key', 'data-hd-dlg-lcd', 'data-hd-dlg-ok']) {
+        for (const next of ['page', 'generation', 'help']) {
+            const h = harness(); detailedView(h); const calls = spyViewActions(h);
+            const button = attribute === 'data-hd-view-key' ? viewButton(h, 0x23) : h.button(attribute);
+            h.pointerDown(button);
+            if (next === 'help') detailedHelp(h);
+            else publishView(h, next === 'generation' ? { generation: 8, detailGeneration: 8 } : {});
+            const choice = h.snapshot().showLcd;
+            h.click(attribute, button);
+            assert.deepEqual(h.sent, [], attribute + ':' + next); assert.deepEqual(calls, []);
+            assert.equal(h.snapshot().showLcd, choice);
+            assert.equal(h.snapshot().open, true);
+        }
+    }
+    const h = harness(); detailedView(h); const stale = viewButton(h, 0x23);
+    publishView(h);
+    h.click('data-hd-view-key', stale); assert.deepEqual(h.sent, []);
+    h.click('data-hd-view-key', viewButton(h, 0x23)); assert.deepEqual(h.sent, [0x23]);
+});
+
+test('a press on old VIEW control A cannot arm rebuilt control B or another current control', () => {
+    for (const pressedAttribute of ['data-hd-view-key', 'data-hd-dlg-ok', 'data-hd-dlg-back', 'data-hd-dlg-lcd']) {
+        for (const clickedAttribute of ['data-hd-view-key', 'data-hd-dlg-ok', 'data-hd-dlg-back', 'data-hd-dlg-lcd']) {
+            for (const newPage of [false, true]) {
+                const h = harness(); detailedView(h); const calls = spyViewActions(h);
+                const old = pressedAttribute === 'data-hd-view-key' ? viewButton(h, 0x23) : h.button(pressedAttribute);
+                h.pointerDown(old);
+                if (newPage) publishView(h);
+                const current = clickedAttribute === 'data-hd-view-key' ? viewButton(h, 0x25) : h.button(clickedAttribute);
+                assert.notEqual(old, current);
+                const before = h.snapshot();
+                h.click(clickedAttribute, current);
+                assert.deepEqual(h.sent, [], pressedAttribute + ':' + clickedAttribute + ':' + newPage);
+                assert.deepEqual(calls, []); assert.equal(h.snapshot().showLcd, before.showLcd);
+                assert.equal(h.snapshot().open, true);
+            }
+        }
+    }
+    const h = harness(); detailedView(h); const old = viewButton(h, 0x23);
+    h.pointerDown(old); publishView(h); const rebuilt = viewButton(h, 0x23);
+    assert.notEqual(old, rebuilt);
+    h.click('data-hd-view-key', rebuilt); assert.deepEqual(h.sent, []);
+    h.pointerDown(rebuilt); h.click('data-hd-view-key', rebuilt);
+    assert.deepEqual(h.sent, [0x23], 'a fresh physical press may explicitly arm the new native owner');
+});
+
+test('public VIEW action requires exact owner and rejects hot payload edits until a new native publication', () => {
+    const h = harness(); detailedView(h); const calls = spyViewActions(h);
+    const owner = JSON.parse(JSON.stringify(h.snapshot().viewOwner));
+    for (const bad of [undefined, { ...owner, seq: 4 }, { ...owner, generation: 8 },
+        { ...owner, inputSeq: 61 }, { ...owner, kind: 9 }]) {
+        assert.equal(h.context.BayeHdDialog.viewKey(0x23, bad), false);
+    }
+    assert.equal(h.context.BayeHdDialog.viewKey(0x99, owner), false);
+    h.view.rows[0].arms = 4;
+    assert.equal(h.context.BayeHdDialog.viewKey(0x23, owner), false);
+    assert.deepEqual(calls, []); assert.deepEqual(h.sent, []);
+    h.context.BayeHdDialog.onEngineView();
+    assert.equal(h.context.BayeHdDialog.viewKey(0x23, owner), true);
+    assert.deepEqual(calls, [[0x23, owner]]); assert.deepEqual(h.sent, [0x23]);
+});
+
+test('the controller rechecks VIEW publication immediately before sending through an unchanged fight wait', () => {
+    for (const field of ['seq', 'generation', 'active']) {
+        const h = harness(); detailedView(h);
+        const owner = JSON.parse(JSON.stringify(h.snapshot().viewOwner));
+        let reads = 0;
+        h.context.baye.hd.fight = () => {
+            if (++reads === 2) {
+                if (field === 'active') h.view.active = 0;
+                else h.view[field]++;
+                if (field === 'generation') h.view.detailGeneration++;
+            }
+            return h.fight;
+        };
+        h.context.BayeHdBattle.viewKey(0x23, owner); h.timers();
+        assert.ok(reads >= 2, 'the actual production controller reads its wait again before emission');
+        assert.equal(h.fight.inputKind, 10); assert.equal(h.fight.inputSeq, 60);
+        assert.deepEqual(h.sent, [], field); assert.deepEqual(h.writes, [], field);
+    }
+});
+
+test('VIEW observes native empty pages and known enemy food zero without deriving a secret supply', () => {
+    const h = harness();
+    h.data.g_FgtParam.EProvender = 65535;
+    detailedView(h, { force: 1, totalCount: 0, rowCount: 0, rows: [], points: [],
+        foodKnown: 1, food: 0, foodText: '原生已知粮草零' });
+    assert.equal(h.snapshot().viewDetail.food, 0); assert.equal(h.snapshot().viewDetail.foodKnown, 1);
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-situation-page')[0].textContent, '当前页没有将领');
+    assert.equal(h.nodes['hd-dialog-body'].querySelectorAll('.hd-situation-row').length, 0);
+    assert.equal(h.nodes['hd-dialog-body'].textContent.includes('65535'), false);
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
 });

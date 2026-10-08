@@ -26,10 +26,11 @@ function typedef(file,name) {
 const header=read('hd-bridge.h'),bridge=read('hd-bridge.c');
 const constants=[header.split('\n').filter(l=>/^#define BAYE_HD_/.test(l)).join('\n'),
     read('baye/fight.h').split('\n').filter(l=>/^#define\s+(ARM_|TERRAIN_|TERN_|STATE_SW\b)/.test(l)).join('\n'),
-    read('baye/consdef.h').split('\n').filter(l=>/^#define\s+(GOODS_RESID|GOODS_NAME|STRING_CONST|GEN_HEADPIC1|IFACE_STRID)\b/.test(l)).join('\n'),
+    read('baye/consdef.h').split('\n').filter(l=>/^#define\s+(GOODS_RESID|GOODS_NAME|STRING_CONST|GEN_HEADPIC1|IFACE_STRID|TACTIC_ICON)\b/.test(l)).join('\n'),
     read('baye/sconst.h').split('\n').filter(l=>/^#define\s+(GOODS_|ATRR_STR11|ATRR_STR70|STR_GAMEWON|STR_GAMELOST)\b/.test(l)||/^#define\s+GOODS_/.test(l)).join('\n')].join('\n');
 const globals=bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='),bridge.indexOf('U8 g_hdSpePendingKind ='));
-const helpers=['copy_gbk','hd_next_input_seq','hd_detail_copy','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
+const helpers=['copy_gbk','hd_next_input_seq','baye_hd_view_retire','baye_hd_mini_map_retire',
+    'hd_detail_copy','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
     'hd_detail_read_at','hd_detail_restore','hd_tool_payload','baye_hd_tool_count','baye_hd_tool_data','baye_hd_tool_read',
     'baye_hd_person_arm','baye_hd_menu_ids','hd_goods_owner','baye_hd_goods_begin','baye_hd_goods_custom','baye_hd_goods_capture',
     'baye_hd_goods_name','baye_hd_goods_page','baye_hd_set_ready','baye_hd_world_commit',

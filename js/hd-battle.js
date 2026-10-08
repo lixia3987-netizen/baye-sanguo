@@ -7,7 +7,7 @@
     var STORAGE_KEY = 'baye/battleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
-    var HD_BATTLE_VER = '20261008j';
+    var HD_BATTLE_VER = '20261008k';
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
     var INPUT = { BUSY: 0, PICK: 1, MOVE: 2, ACTION: 3, SKILL: 4, AIM: 5, SYSTEM: 6, RETREAT: 7, SETTINGS: 8, HELP: 9, VIEW: 10 };
     var ARM_NAMES = ['骑兵', '步兵', '弓兵', '水军', '极兵', '玄兵'];
@@ -310,6 +310,14 @@
     function sameInput(transaction, snap) {
         if (!snap.ready || transaction.epoch !== modeEpoch || transaction.seq !== snap.seq ||
             transaction.kind !== snap.kind || transaction.actor !== snap.actor) { return false; }
+        if (transaction.viewOwner) {
+            var view;
+            try { view = baye.hd.view && baye.hd.view(); } catch (e) { return false; }
+            var owner = transaction.viewOwner;
+            if (!view || view.active !== 1 || view.protocolVersion !== 1 ||
+                view.generation !== view.detailGeneration || owner.generation !== view.generation ||
+                owner.seq !== view.seq || owner.inputSeq !== view.inputSeq || view.inputSeq !== snap.seq) { return false; }
+        }
         if (transaction.menuSeq != null) {
             var menu = menuSnapshot(snap);
             return !!(menu && menu.seq === transaction.menuSeq && menu.names.join('\u0000') === transaction.menuSignature);
@@ -458,6 +466,19 @@
         var snap = inputSnapshot();
         if (!snap.ready || (snap.kind !== INPUT.HELP && snap.kind !== INPUT.VIEW)) { return reject('not-help-input'); }
         return beginRequest('key', { code: VK.EXIT }, snap);
+    }
+    function viewKey(code, owner) {
+        var snap = inputSnapshot(), view;
+        try { view = baye.hd.view && baye.hd.view(); } catch (e) { return reject('view-unavailable'); }
+        if (!owner || !view || !snap.ready || snap.kind !== INPUT.VIEW || owner.kind !== INPUT.VIEW ||
+            view.active !== 1 || view.protocolVersion !== 1 || view.generation !== view.detailGeneration ||
+            owner.seq !== view.seq || owner.generation !== view.generation ||
+            owner.inputSeq !== view.inputSeq || view.inputSeq !== snap.seq ||
+            document.hidden || [VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, VK.ENTER, VK.EXIT].indexOf(code) < 0) {
+            return reject('view-owner-changed');
+        }
+        return beginRequest('key', { code: code, viewOwner: { kind: owner.kind, seq: owner.seq,
+            generation: owner.generation, inputSeq: owner.inputSeq } }, snap);
     }
     function handleKey(event) {
         if (global.BayeHdDialog && typeof BayeHdDialog.isBlockingKeyboard === 'function' &&
@@ -1280,7 +1301,7 @@
         forceShowFightMenu: function () { refresh(); return menuSnapshot(inputSnapshot()); },
         recoverMenu: function () { refresh(); return menuSnapshot(inputSnapshot()); },
         legalEnter: legalEnter, dismissFightTip: dismissFightTip, openSystemMenu: toggleSystemMenu,
-        cancel: cancelInput, handleKey: handleKey, returnFromHelp: returnFromHelp,
+        cancel: cancelInput, handleKey: handleKey, returnFromHelp: returnFromHelp, viewKey: viewKey,
         onRetreatBlocked: function () { state.fightTip = '撤退操作未被引擎接受。'; applyChrome(); },
         debugBoxSlow: function () { return { supported: false }; },
         debugPreview: function () { return enterBattle({ preview: true, hook: 'debugPreview' }); },

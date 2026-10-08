@@ -47,15 +47,17 @@ void script_init(void)
     }
 }
 
-int call_hook_s(const char* name, Value* context)
+static int call_hook_s_observed(const char* name, Value* context, U8* present)
 {
     return EM_ASM_INT({
         var name = UTF8ToString($0);
         var rv = 0;
+        if ($2) HEAPU8[$2] = 0;
 
         if (window.baye == undefined || window.baye.hooks == undefined || window.baye.hooks[name] == undefined) {
             rv = -1;
         } else {
+            if ($2) HEAPU8[$2] = 1;
             var cContext = $1;
             if (cContext != 0) {
                 var jsContext = baye_bridge_value(cContext);
@@ -65,7 +67,12 @@ int call_hook_s(const char* name, Value* context)
             }
         }
         return rv;
-    }, name, context);
+    }, name, context, present);
+}
+
+int call_hook_s(const char* name, Value* context)
+{
+    return call_hook_s_observed(name, context, NULL);
 }
 
 static void js_callback(int *rv) {
@@ -76,7 +83,12 @@ static void js_callback(int *rv) {
 
 int call_hook_a(const char* name, Value* context)
 {
-    int rv = call_hook_s(name, context);
+    return call_hook_a_observed(name, context, NULL);
+}
+
+int call_hook_a_observed(const char* name, Value* context, U8* present)
+{
+    int rv = call_hook_s_observed(name, context, present);
 
     while (g_asyncActionID) {
         U16 action = g_asyncActionID;

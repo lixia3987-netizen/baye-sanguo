@@ -116,6 +116,27 @@ U8 g_hdHelpKind = 0, g_hdHelpComplete = 0, g_hdHelpSlot = 0xff;
 U16 g_hdHelpPerson = 0xffff, g_hdHelpFields[10];
 U8 g_hdHelpX = 0, g_hdHelpY = 0, g_hdHelpTerrain = 0xff, g_hdHelpLevelMax = 0;
 U8 g_hdHelpNameGbk[32], g_hdHelpArmGbk[16], g_hdHelpStateGbk[32];
+U8 g_hdViewProtocolVersion = BAYE_HD_OVERVIEW_VERSION;
+U8 g_hdViewActive = 0, g_hdViewComplete = 0, g_hdViewCustom = 0;
+U32 g_hdViewSeq = 0, g_hdViewGeneration = 0, g_hdViewInputSeq = 0;
+static U32 hdViewRetirement = 1;
+U8 g_hdViewForce = 0, g_hdViewPageStart = 0, g_hdViewPageSize = 0;
+U8 g_hdViewTotalCount = 0, g_hdViewRowCount = 0, g_hdViewPointCount = 0;
+U8 g_hdViewMapWidth = 0, g_hdViewMapHeight = 0, g_hdViewPlayerMode = 0, g_hdViewFoodKnown = 0;
+U16 g_hdViewDays = 0, g_hdViewFood = 0, g_hdViewLeader = 0xffff;
+U8 g_hdViewTitleGbk[64], g_hdViewDaysGbk[64], g_hdViewPositionsGbk[64];
+U8 g_hdViewFactionGbk[64], g_hdViewFoodGbk[64];
+U16 g_hdViewRowPersons[10], g_hdViewRowArms[10], g_hdViewPointPersons[20];
+U8 g_hdViewRowSlots[10], g_hdViewRowNames[10 * 32], g_hdViewRowText[10 * 64];
+U8 g_hdViewPointSlots[20], g_hdViewPointX[20], g_hdViewPointY[20], g_hdViewPointState[20];
+U8 g_hdMiniMapProtocolVersion = BAYE_HD_OVERVIEW_VERSION;
+U8 g_hdMiniMapActive = 0, g_hdMiniMapComplete = 0, g_hdMiniMapCustom = 0, g_hdMiniMapDefaultDraw = 0;
+U32 g_hdMiniMapSeq = 0, g_hdMiniMapGeneration = 0, g_hdMiniMapInputSeq = 0;
+U16 g_hdMiniMapResourceId = TACTIC_ICON, g_hdMiniMapImageIndex = 0;
+U16 g_hdMiniMapWidth = 0, g_hdMiniMapHeight = 0;
+U8 g_hdMiniMapMask = 0, g_hdMiniMapCursorX = 0, g_hdMiniMapCursorY = 0;
+U8 g_hdMiniMapViewX = 0, g_hdMiniMapViewY = 0, g_hdMiniMapViewWidth = 0, g_hdMiniMapViewHeight = 0;
+U8 g_hdMiniMapCity1 = 0;
 U8 g_hdMovieActive = 0;
 U16 g_hdMovieId = 0;
 
@@ -244,6 +265,173 @@ static void hd_detail_restore(U32 position)
     U8 byte;
     if (gam_fseek(g_LibFp, position, SEEK_SET) != 0 && position > 0 &&
         gam_fseek(g_LibFp, position - 1, SEEK_SET) == 0) gam_fread(&byte, 1, 1, g_LibFp);
+}
+
+/* Validate an already loaded resource without calling a resource hook or
+ * changing the library stream's cursor. This does not harden native LIB parsing. */
+static U8 hd_overview_resource(U16 resource, U16 index, U32* offsetOut, U32* lengthOut)
+{
+    U32 position, address, offset, length;
+    RCHEAD header;
+    RIDX item;
+    U8 last, ok = 0;
+    if (!resource || !index || !g_LibFp || !g_CBnkPtr) return 0;
+    position = gam_ftell(g_LibFp);
+    if (!hd_detail_read_at(((U32)resource - 1) * 4, &address, sizeof(address)) ||
+        !address || address == (U32)-1 || !hd_detail_read_at(address, &header, sizeof(header)) ||
+        header.ResId != resource || index > header.ItmCnt || header.ResKey ||
+        header.ResLen < sizeof(header) || address > (U32)-1 - header.ResLen) goto done;
+    if (header.ItmLen) {
+        if ((U32)(index - 1) > ((U32)-1 - sizeof(header)) / header.ItmLen) goto done;
+        offset = sizeof(header) + (U32)(index - 1) * header.ItmLen;
+        length = header.ItmLen;
+    } else if (header.ItmCnt == 1) {
+        offset = sizeof(header); length = header.ResLen - sizeof(header);
+    } else {
+        if ((U32)header.ItmCnt * sizeof(item) > header.ResLen - sizeof(header) ||
+            !hd_detail_read_at(address + sizeof(header) + (U32)(index - 1) * sizeof(item), &item, sizeof(item))) goto done;
+        offset = item.offset; length = item.rlen;
+        if (offset < sizeof(header) + (U32)header.ItmCnt * sizeof(item)) goto done;
+    }
+    if (!length || offset > header.ResLen || length > header.ResLen - offset ||
+        !hd_detail_read_at(address + offset + length - 1, &last, 1)) goto done;
+#ifdef __EMSCRIPTEN__
+    if ((size_t)g_CBnkPtr > emscripten_get_heap_size() ||
+        address + offset > emscripten_get_heap_size() - (size_t)g_CBnkPtr ||
+        length > emscripten_get_heap_size() - (size_t)g_CBnkPtr - address - offset) goto done;
+#endif
+    *offsetOut = address + offset; *lengthOut = length; ok = 1;
+done:
+    hd_detail_restore(position);
+    return ok;
+}
+
+void baye_hd_view_retire(void)
+{
+    hdViewRetirement = hd_next_input_seq(hdViewRetirement);
+    g_hdViewSeq = hd_next_input_seq(g_hdViewSeq);
+    g_hdViewActive = g_hdViewComplete = g_hdViewCustom = 0;
+    g_hdViewGeneration = g_hdViewInputSeq = 0;
+    g_hdViewRowCount = g_hdViewPointCount = 0;
+    g_hdViewForce = g_hdViewPageStart = g_hdViewPageSize = g_hdViewTotalCount = 0;
+    g_hdViewMapWidth = g_hdViewMapHeight = g_hdViewPlayerMode = g_hdViewFoodKnown = 0;
+    g_hdViewDays = g_hdViewFood = 0; g_hdViewLeader = 0xffff;
+    g_hdViewTitleGbk[0] = g_hdViewDaysGbk[0] = g_hdViewPositionsGbk[0] = 0;
+    g_hdViewFactionGbk[0] = g_hdViewFoodGbk[0] = 0;
+}
+
+void baye_hd_view_capture(HdViewSnapshot* snapshot)
+{
+    if (!snapshot) return;
+    memset(snapshot, 0, sizeof(*snapshot));
+    snapshot->generation = g_hdDetailGeneration;
+    snapshot->inputSeq = g_hdFightInputSeq;
+    snapshot->retirement = hdViewRetirement;
+    snapshot->leader = 0xffff;
+    snapshot->complete = 1;
+}
+
+void baye_hd_view_publish(const HdViewSnapshot* snapshot)
+{
+    U8 i, complete;
+    if (!snapshot || snapshot->generation != g_hdDetailGeneration ||
+        snapshot->retirement != hdViewRetirement || snapshot->inputSeq != g_hdFightInputSeq ||
+        !g_hdFightActive || g_hdFightInputKind != BAYE_HD_FIGHT_INPUT_VIEW || g_hdReportActive) return;
+    complete = snapshot->complete && !snapshot->custom && snapshot->force <= 1 &&
+        snapshot->mapWidth == g_MapWid && snapshot->mapHeight == g_MapHgt &&
+        snapshot->mapWidth && snapshot->mapHeight && snapshot->pageSize &&
+        snapshot->totalCount <= BAYE_HD_VIEW_ROWS && snapshot->rowCount <= BAYE_HD_VIEW_ROWS &&
+        snapshot->pointCount <= BAYE_HD_VIEW_POINTS &&
+        snapshot->leader < GamGetPersonCount() && snapshot->leader < PERSON_MAX;
+    for (i = 0; i < snapshot->rowCount && i < BAYE_HD_VIEW_ROWS; ++i) {
+        if (snapshot->rowPersons[i] >= GamGetPersonCount() || snapshot->rowPersons[i] >= PERSON_MAX ||
+            snapshot->rowSlots[i] >= FGTA_MAX || snapshot->rowSlots[i] != snapshot->force * FGT_PLAMAX + snapshot->pageStart + i ||
+            g_FgtParam.GenArray[snapshot->rowSlots[i]] != (U32)snapshot->rowPersons[i] + 1) complete = 0;
+    }
+    for (i = 0; i < snapshot->pointCount && i < BAYE_HD_VIEW_POINTS; ++i) {
+        if (snapshot->pointPersons[i] >= GamGetPersonCount() || snapshot->pointPersons[i] >= PERSON_MAX ||
+            snapshot->pointSlots[i] >= FGTA_MAX || snapshot->pointX[i] >= g_MapWid || snapshot->pointY[i] >= g_MapHgt ||
+            snapshot->pointState[i] == STATE_SW ||
+            g_FgtParam.GenArray[snapshot->pointSlots[i]] != (U32)snapshot->pointPersons[i] + 1) complete = 0;
+    }
+    g_hdViewGeneration = snapshot->generation; g_hdViewInputSeq = snapshot->inputSeq;
+    g_hdViewForce = snapshot->force; g_hdViewPageStart = snapshot->pageStart; g_hdViewPageSize = snapshot->pageSize;
+    g_hdViewTotalCount = snapshot->totalCount; g_hdViewRowCount = snapshot->rowCount <= 10 ? snapshot->rowCount : 0;
+    g_hdViewPointCount = snapshot->pointCount <= 20 ? snapshot->pointCount : 0;
+    g_hdViewMapWidth = snapshot->mapWidth; g_hdViewMapHeight = snapshot->mapHeight;
+    g_hdViewPlayerMode = snapshot->playerMode; g_hdViewDays = snapshot->days;
+    g_hdViewFoodKnown = snapshot->foodKnown; g_hdViewFood = snapshot->foodKnown ? snapshot->food : 0;
+    g_hdViewLeader = snapshot->leader;
+#define HD_VIEW_COPY(dest, source) if (!hd_detail_copy(dest, sizeof(dest), source, sizeof(source))) complete = 0
+    HD_VIEW_COPY(g_hdViewTitleGbk, snapshot->title);
+    HD_VIEW_COPY(g_hdViewDaysGbk, snapshot->daysText);
+    HD_VIEW_COPY(g_hdViewPositionsGbk, snapshot->positionsText);
+    HD_VIEW_COPY(g_hdViewFactionGbk, snapshot->factionText);
+    HD_VIEW_COPY(g_hdViewFoodGbk, snapshot->foodText);
+#undef HD_VIEW_COPY
+    memcpy(g_hdViewRowPersons, snapshot->rowPersons, sizeof(g_hdViewRowPersons));
+    memcpy(g_hdViewRowArms, snapshot->rowArms, sizeof(g_hdViewRowArms));
+    memcpy(g_hdViewRowSlots, snapshot->rowSlots, sizeof(g_hdViewRowSlots));
+    memcpy(g_hdViewRowNames, snapshot->rowNames, sizeof(g_hdViewRowNames));
+    memcpy(g_hdViewRowText, snapshot->rowText, sizeof(g_hdViewRowText));
+    memcpy(g_hdViewPointPersons, snapshot->pointPersons, sizeof(g_hdViewPointPersons));
+    memcpy(g_hdViewPointSlots, snapshot->pointSlots, sizeof(g_hdViewPointSlots));
+    memcpy(g_hdViewPointX, snapshot->pointX, sizeof(g_hdViewPointX));
+    memcpy(g_hdViewPointY, snapshot->pointY, sizeof(g_hdViewPointY));
+    memcpy(g_hdViewPointState, snapshot->pointState, sizeof(g_hdViewPointState));
+    g_hdViewCustom = snapshot->custom; g_hdViewComplete = complete; g_hdViewActive = 1;
+    g_hdViewSeq = hd_next_input_seq(g_hdViewSeq);
+}
+
+void baye_hd_view_clear(U32 generation, U32 inputSeq)
+{
+    if (generation == g_hdDetailGeneration && generation == g_hdViewGeneration &&
+        inputSeq == g_hdViewInputSeq) baye_hd_view_retire();
+}
+
+void baye_hd_mini_map_retire(void)
+{
+    g_hdMiniMapActive = g_hdMiniMapComplete = g_hdMiniMapCustom = g_hdMiniMapDefaultDraw = 0;
+    g_hdMiniMapGeneration = g_hdMiniMapInputSeq = 0;
+    g_hdMiniMapWidth = g_hdMiniMapHeight = 0;
+    g_hdMiniMapMask = g_hdMiniMapCity1 = 0;
+    g_hdMiniMapCursorX = g_hdMiniMapCursorY = g_hdMiniMapViewX = g_hdMiniMapViewY = 0;
+    g_hdMiniMapViewWidth = g_hdMiniMapViewHeight = 0;
+    g_hdMiniMapSeq = hd_next_input_seq(g_hdMiniMapSeq);
+}
+
+void baye_hd_mini_map_publish(U32 generation, U32 inputSeq, U8 cursorX, U8 cursorY,
+    U8 viewX, U8 viewY, U8 viewWidth, U8 viewHeight, U8 city1, U8 defaultDraw, U8 custom)
+{
+    U32 offset, length, bytes;
+    PictureHeadType picture;
+    U8 complete = 0;
+    if (generation != g_hdDetailGeneration || inputSeq != g_hdMapInputSeq ||
+        !g_hdMapPick || g_hdReportActive || g_hdFightActive) return;
+    g_hdMiniMapWidth = g_hdMiniMapHeight = g_hdMiniMapMask = 0;
+    if (defaultDraw && hd_overview_resource(TACTIC_ICON, 1, &offset, &length) && length >= sizeof(picture)) {
+        memcpy(&picture, g_CBnkPtr + offset, sizeof(picture));
+        g_hdMiniMapWidth = picture.wid; g_hdMiniMapHeight = picture.hig; g_hdMiniMapMask = picture.mask;
+        bytes = ((U32)picture.wid + 7) / 8 * picture.hig;
+        if (picture.mask & 1) bytes *= 2;
+        complete = !custom && picture.wid && picture.hig && picture.count &&
+            !(picture.mask & 0xfe) && bytes <= length - sizeof(picture);
+    }
+    g_hdMiniMapGeneration = generation; g_hdMiniMapInputSeq = inputSeq;
+    g_hdMiniMapDefaultDraw = defaultDraw; g_hdMiniMapCustom = custom;
+    g_hdMiniMapCursorX = cursorX; g_hdMiniMapCursorY = cursorY;
+    g_hdMiniMapViewX = viewX; g_hdMiniMapViewY = viewY;
+    g_hdMiniMapViewWidth = viewWidth; g_hdMiniMapViewHeight = viewHeight; g_hdMiniMapCity1 = city1;
+    if (cursorX >= CITYMAP_W || cursorY >= CITYMAP_H || viewX >= CITYMAP_W || viewY >= CITYMAP_H ||
+        !viewWidth || !viewHeight || city1 > CITY_MAX) complete = 0;
+    g_hdMiniMapComplete = complete; g_hdMiniMapActive = 1;
+    g_hdMiniMapSeq = hd_next_input_seq(g_hdMiniMapSeq);
+}
+
+void baye_hd_mini_map_clear(U32 generation, U32 inputSeq)
+{
+    if (generation == g_hdDetailGeneration && generation == g_hdMiniMapGeneration &&
+        inputSeq == g_hdMiniMapInputSeq) baye_hd_mini_map_retire();
 }
 
 static U8 hd_tool_payload(U32* offsetOut, U32* lengthOut)
@@ -401,6 +589,8 @@ void baye_hd_goods_custom(U32 generation, U32 seq, U16 tool)
 
 void baye_hd_set_ready(U8 ready)
 {
+    baye_hd_view_retire();
+    baye_hd_mini_map_retire();
     /* A new LIB/game may share this browser. Invalidate old input tokens. */
     baye_hd_spe_invalidate();
     g_hdDetailGeneration = hd_next_input_seq(g_hdDetailGeneration);
@@ -433,6 +623,8 @@ void baye_hd_world_commit(void)
 
 void baye_hd_set_report(const U8* gbk, U16 person, U8 kind)
 {
+    baye_hd_view_retire();
+    baye_hd_mini_map_retire();
     hd_menu_ids_clear();
     hd_help_detail_clear();
     copy_gbk(g_hdReportGbk, BAYE_HD_REPORT_MAX, gbk);
@@ -525,6 +717,8 @@ static U32 hd_next_input_seq(U32 seq)
 
 void baye_hd_report_begin(U8 kind)
 {
+    baye_hd_view_retire();
+    baye_hd_mini_map_retire();
     hd_menu_ids_clear();
     hd_help_detail_clear();
     if (hdReportDepth < sizeof(hdReportWaits) / sizeof(hdReportWaits[0])) {
@@ -582,6 +776,7 @@ void baye_hd_fight_actor(U8 actor)
 
 void baye_hd_fight_input_begin(U8 kind)
 {
+    if (kind != BAYE_HD_FIGHT_INPUT_VIEW) baye_hd_view_retire();
     if (kind == BAYE_HD_FIGHT_INPUT_PICK) {
         hdFightSelectedActor = 0xff;
     }
@@ -593,6 +788,7 @@ void baye_hd_fight_input_begin(U8 kind)
 
 void baye_hd_fight_input_end(void)
 {
+    baye_hd_view_retire();
     /* The legacy action mailbox has no scene token. Close it together with the
      * real input so a late action cannot become a system-menu selection. */
     g_hdFightActCommit = 0xff;
@@ -615,6 +811,7 @@ U8 baye_hd_take_fight_action(U16* choice)
 
 void baye_hd_map_input_begin(void)
 {
+    baye_hd_mini_map_retire();
     g_hdMapInputSeq = hd_next_input_seq(g_hdMapInputSeq);
 }
 
@@ -634,6 +831,8 @@ void baye_hd_menu_scope_default(U8 context, U8 kind)
 
 void baye_hd_menu_begin(void)
 {
+    baye_hd_view_retire();
+    baye_hd_mini_map_retire();
     hd_menu_ids_clear();
     hd_help_detail_clear();
     g_hdMenuActive = 1;
@@ -694,6 +893,7 @@ void baye_hd_march_end(U8 departed)
 void baye_hd_set_fight(U8 active, U8 over)
 {
     U8 str[40];
+    baye_hd_mini_map_retire();
     baye_hd_menu_end();
     baye_hd_fight_actor(0xff);
     baye_hd_fight_input_end();
@@ -899,6 +1099,8 @@ static void hd_spe_notify(void)
 
 void baye_hd_set_help(const U8* gbk)
 {
+    baye_hd_view_retire();
+    baye_hd_mini_map_retire();
     hd_menu_ids_clear();
     hd_help_detail_clear();
     hd_help_notify(gbk);
@@ -1174,6 +1376,7 @@ void baye_hd_qty_invalidate(void)
 
 void baye_hd_set_map_pick(U8 active)
 {
+    if (!active) baye_hd_mini_map_retire();
     g_hdMapPick = active;
     EM_ASM({
         try {
@@ -1401,6 +1604,61 @@ void baye_hd_bind(ObjectDef* def)
     DEFADD_GBKARR(g_hdHelpNameGbk, sizeof(g_hdHelpNameGbk));
     DEFADD_GBKARR(g_hdHelpArmGbk, sizeof(g_hdHelpArmGbk));
     DEFADD_GBKARR(g_hdHelpStateGbk, sizeof(g_hdHelpStateGbk));
+    DEFADDF(g_hdViewProtocolVersion, U8);
+    DEFADDF(g_hdViewActive, U8);
+    DEFADDF(g_hdViewComplete, U8);
+    DEFADDF(g_hdViewCustom, U8);
+    DEFADDF(g_hdViewSeq, U32);
+    DEFADDF(g_hdViewGeneration, U32);
+    DEFADDF(g_hdViewInputSeq, U32);
+    DEFADDF(g_hdViewForce, U8);
+    DEFADDF(g_hdViewPageStart, U8);
+    DEFADDF(g_hdViewPageSize, U8);
+    DEFADDF(g_hdViewTotalCount, U8);
+    DEFADDF(g_hdViewRowCount, U8);
+    DEFADDF(g_hdViewPointCount, U8);
+    DEFADDF(g_hdViewMapWidth, U8);
+    DEFADDF(g_hdViewMapHeight, U8);
+    DEFADDF(g_hdViewPlayerMode, U8);
+    DEFADDF(g_hdViewFoodKnown, U8);
+    DEFADDF(g_hdViewDays, U16);
+    DEFADDF(g_hdViewFood, U16);
+    DEFADDF(g_hdViewLeader, U16);
+    DEFADD_GBKARR(g_hdViewTitleGbk, sizeof(g_hdViewTitleGbk));
+    DEFADD_GBKARR(g_hdViewDaysGbk, sizeof(g_hdViewDaysGbk));
+    DEFADD_GBKARR(g_hdViewPositionsGbk, sizeof(g_hdViewPositionsGbk));
+    DEFADD_GBKARR(g_hdViewFactionGbk, sizeof(g_hdViewFactionGbk));
+    DEFADD_GBKARR(g_hdViewFoodGbk, sizeof(g_hdViewFoodGbk));
+    DEFADD_U16ARR(g_hdViewRowPersons, BAYE_HD_VIEW_ROWS);
+    DEFADD_U16ARR(g_hdViewRowArms, BAYE_HD_VIEW_ROWS);
+    DEFADD_U16ARR(g_hdViewPointPersons, BAYE_HD_VIEW_POINTS);
+    DEFADD_U8ARR(g_hdViewRowNames, sizeof(g_hdViewRowNames));
+    DEFADD_U8ARR(g_hdViewRowText, sizeof(g_hdViewRowText));
+    DEFADD_U8ARR(g_hdViewRowSlots, BAYE_HD_VIEW_ROWS);
+    DEFADD_U8ARR(g_hdViewPointSlots, BAYE_HD_VIEW_POINTS);
+    DEFADD_U8ARR(g_hdViewPointX, BAYE_HD_VIEW_POINTS);
+    DEFADD_U8ARR(g_hdViewPointY, BAYE_HD_VIEW_POINTS);
+    DEFADD_U8ARR(g_hdViewPointState, BAYE_HD_VIEW_POINTS);
+    DEFADDF(g_hdMiniMapProtocolVersion, U8);
+    DEFADDF(g_hdMiniMapActive, U8);
+    DEFADDF(g_hdMiniMapComplete, U8);
+    DEFADDF(g_hdMiniMapCustom, U8);
+    DEFADDF(g_hdMiniMapDefaultDraw, U8);
+    DEFADDF(g_hdMiniMapSeq, U32);
+    DEFADDF(g_hdMiniMapGeneration, U32);
+    DEFADDF(g_hdMiniMapInputSeq, U32);
+    DEFADDF(g_hdMiniMapResourceId, U16);
+    DEFADDF(g_hdMiniMapImageIndex, U16);
+    DEFADDF(g_hdMiniMapWidth, U16);
+    DEFADDF(g_hdMiniMapHeight, U16);
+    DEFADDF(g_hdMiniMapMask, U8);
+    DEFADDF(g_hdMiniMapCursorX, U8);
+    DEFADDF(g_hdMiniMapCursorY, U8);
+    DEFADDF(g_hdMiniMapViewX, U8);
+    DEFADDF(g_hdMiniMapViewY, U8);
+    DEFADDF(g_hdMiniMapViewWidth, U8);
+    DEFADDF(g_hdMiniMapViewHeight, U8);
+    DEFADDF(g_hdMiniMapCity1, U8);
     DEFADDF(g_hdMovieActive, U8);
     DEFADDF(g_hdMovieId, U16);
     DEFADDF(g_hdSpeActive, U8);

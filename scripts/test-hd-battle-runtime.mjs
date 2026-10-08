@@ -29,10 +29,9 @@ const servedAssets = new Map();
 
 function prepareServedAssets() {
     report.sources = {};
-    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json', 'bridge.js',
-        'hd-battle.js', 'hd-battle-terrain.js', 'hd-battle-feedback.js', 'hd-lib-identity.js',
-        'hd-dialog.js', 'hd-portraits.js', 'hd-city-menu.js', 'hd-overworld.js',
-        'hd-battle.css', 'hd-dialog.css', 'hd-portraits.css', 'hd-city-menu.css', 'hd-overworld.css']) {
+    for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json',
+        ...fs.readdirSync(path.join(root,'js')).filter(name=>name.endsWith('.js')&&name!=='baye.js'),
+        ...fs.readdirSync(path.join(root,'css')).filter(name=>name.endsWith('.css'))]) {
         const base = staged && name.startsWith('baye.') ? path.join(root, 'build/wasm/src') :
             path.join(root, name.endsWith('.css') ? 'css' : 'js');
         const filename = path.join(base, name), data = fs.readFileSync(filename);
@@ -42,15 +41,20 @@ function prepareServedAssets() {
         servedAssets.set((name.endsWith('.css') ? 'css/' : 'js/') + name, { data, metadata });
     }
     const manifest = JSON.parse(servedAssets.get('js/baye.build.json').data.toString('utf8'));
+    report.engineManifest=manifest;
     for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map']) {
         assert.equal(report.sources[name].bytes, manifest.artifacts[name].bytes, 'Engine artifact bytes match manifest: ' + name);
         assert.equal(report.sources[name].sha256, manifest.artifacts[name].sha256, 'Engine artifact hash matches manifest: ' + name);
     }
-    const lib = fs.readFileSync(path.join(root, 'libs/dat-mod.lib'));
-    const metadata = { source: 'libs/dat-mod.lib', bytes: lib.length,
-        sha256: crypto.createHash('sha256').update(lib).digest('hex') };
-    report.sources['dat-mod.lib'] = metadata;
-    servedAssets.set('libs/dat-mod.lib', { data: lib, metadata });
+    for (const name of ['pc.html','libs/dat-mod.lib','assets/hd-overworld/manifest.json',
+        'assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json',
+        'assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg',
+        'assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json','assets/hd-spe/manifest.json',
+        'vendor/iBaye/src/data/pstring.h','scripts/test-hd-battle-runtime.mjs']) {
+        const data=fs.readFileSync(path.join(root,name));
+        const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
+        report.sources[name]=metadata;servedAssets.set(name,{data,metadata});
+    }
 }
 
 async function startServer() {
@@ -154,7 +158,7 @@ const snapshotExpression = `(() => {
         menu: api && api.hd && api.hd.menuItems(), qty: api && api.hd && api.hd.qty(),
         movie: api && api.hd && api.hd.movie(), spe: api && api.hd && api.hd.spe(),
         fight: api && api.hd && api.hd.fight(), march: api && api.hd && api.hd.march(),
-        help: api && api.hd && api.hd.help(),
+        help: api && api.hd && api.hd.help(), view: api && api.hd && api.hd.view(),
         portrait: window.BayeHdPortraits && BayeHdPortraits.debugSnapshot(),
         system: window.BayeHdSystemUi && BayeHdSystemUi.debugSnapshot(),
         city: window.BayeHdCityMenu && BayeHdCityMenu.debugSnapshot(),
@@ -362,16 +366,7 @@ async function battleSmoke(cdp) {
     // captured fields to live Person/JLPOS/attack attributes, then retire and
     // reopen under another native input owner without assigning any game data.
     await helpSmoke(cdp, before);
-    await key(cdp,'f');
-    await waitBattle(cdp,10,'native strategic view');
-    await verifyNativeFeedback(cdp,'VIEW overlay','inactive');
-    const viewSeq=await evaluate(cdp,'baye.hd.fight().inputSeq');
-    await key(cdp,'ArrowRight');
-    await waitFor(cdp,'strategic view paging ACK',`baye.hd.fight().inputKind===10 && baye.hd.fight().inputSeq > ${viewSeq}`);
-    report.viewVisibility=await nativeLcdVisibility(cdp);
-    assert.ok(report.viewVisibility.visible,'strategic view LCD is visible');
-    await checkpoint(cdp,'18-battle-view');
-    await action(cdp,'return-strategic-view','BayeHdBattle.returnFromHelp()');
+    await viewSmoke(cdp, before);
     await waitBattle(cdp,1,'return from strategic view');
 
     await action(cdp,'open-real-system-menu','BayeHdBattle.openSystemMenu()');
@@ -414,6 +409,7 @@ async function battleSmoke(cdp) {
     assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'view/help/settings/canceled retreat preserve units');
     await checkpoint(cdp,'24-battle-system-cancel');
     await manualCombat(cdp);
+    await knownEnemyViewSmoke(cdp);
     await terrainGallery(cdp);
 
 }
@@ -426,7 +422,7 @@ function nativeHelpLabels() {
     const lib = servedAssets.get('libs/dat-mod.lib').data;
     assert.equal(crypto.createHash('sha256').update(lib).digest('hex'),
         '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
-    const source = fs.readFileSync(path.join(root, 'vendor/iBaye/src/data/pstring.h'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '');
+    const source = servedAssets.get('vendor/iBaye/src/data/pstring.h').data.toString('utf8').replace(/\/\*[\s\S]*?\*\//g, '');
     const constants = {}, declarations = source.match(/enum\s*\{([\s\S]*?)\}/)[1].split(',');
     let next = 0;
     for (const declaration of declarations) {
@@ -449,8 +445,130 @@ function nativeHelpLabels() {
         return bytes.subarray(0, zero < 0 ? bytes.length : zero);
     };
     const decoder = new TextDecoder('gbk'), arms = item(constants.dFgtGenTyp);
-    return { arms: Array.from({ length: 6 }, (_, i) => decoder.decode(arms.subarray(i * 4, i * 4 + 4))),
+    return { situation: Object.fromEntries(['dPowerCmp','dDaysInf','dReserve0','dArmyInf','dProvInf','dNoView'].map(name=>[name,decoder.decode(item(constants[name]))])),
+        arms: Array.from({ length: 6 }, (_, i) => decoder.decode(arms.subarray(i * 4, i * 4 + 4))),
         states: Array.from({ length: 8 }, (_, i) => decoder.decode(item(constants.dFgtState0 + i))) };
+}
+
+const viewObservationExpression = `(() => {
+    const d=baye.data,v=baye.hd.view(),f=baye.hd.fight(),dialog=BayeHdDialog.debugSnapshot(),rows=[],points=[];
+    const side=v.force*10,ids=Array.from({length:20},(_,i)=>Number(d.g_FgtParam.GenArray[i]));
+    let total=0;while(total<10&&ids[side+total])total++;
+    for(let i=v.pageStart;i<Math.min(total,v.pageStart+v.pageSize);i++) {
+        const slot=side+i,personIndex=ids[slot]-1;rows.push({slot,personIndex,name:baye.getPersonName(personIndex),arms:Number(d.g_Persons[personIndex].Arms)});
+    }
+    for(let slot=0;slot<20;slot++) {const p=d.g_GenPos[slot];if(Number(p.state)!==8)points.push({slot,personIndex:ids[slot]-1,x:Number(p.x),y:Number(p.y),state:Number(p.state)});}
+    const leaderPerson=Number(d.g_Persons[ids[side]-1].Belong)-1;
+    const visual=n=>{
+        if(!n)return {visible:false};const r=n.getBoundingClientRect();let visible=!!(r.width&&r.height&&r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight);
+        const ancestors=[];
+        for(let p=n;p;p=p.parentElement){const s=getComputedStyle(p),a=p.getBoundingClientRect();if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)visible=false;
+            // BODY overflow propagates to the viewport when HTML overflow is
+            // visible; its short content box does not clip fixed HD overlays.
+            const viewportClip=p===document.documentElement||(p===document.body&&getComputedStyle(document.documentElement).overflowY==='visible');
+            const clipTop=viewportClip?0:a.top,clipBottom=viewportClip?innerHeight:a.bottom;
+            const clipped=['auto','scroll','hidden','clip'].includes(s.overflowY)&&(r.top<clipTop-1||r.bottom>clipBottom+1);if(clipped)visible=false;
+            ancestors.push({tag:p.tagName,id:p.id,className:p.className,overflowY:s.overflowY,pointerEvents:s.pointerEvents,viewportClip,clipped,top:a.top,bottom:a.bottom});}
+        const top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);return {visible:visible&&!!(top&&(top===n||n.contains(top))),top:top&&(top.id||top.className||top.tagName),ancestors,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};
+    };
+    const table=[...document.querySelectorAll('.hd-situation-row')];
+    return {view:v,fight:f,dialog,native:{rows,points,total,leaderPerson,leaderName:baye.getPersonName(leaderPerson),days:Number(d.g_FgtBoutCnt),
+        width:Number(d.g_MapWid),height:Number(d.g_MapHgt),mode:Number(d.g_FgtParam.Mode),foodKnown:v.force===0||Number(d.g_EneTmpProv)>0,
+        food:v.force===0?Number(d.g_FgtParam.MProvender):Number(d.g_EneTmpProv),secretFood:Number(d.g_FgtParam.EProvender)},
+        dom:{stage:visual(document.querySelector('#hd-dialog .hd-dialog-stage')),title:document.querySelector('#hd-dialog-title')?.textContent,
+            faction:document.querySelector('.hd-situation-faction')?.textContent,food:document.querySelector('.hd-situation-food')?.textContent,
+            page:document.querySelector('.hd-situation-page')?.textContent,map:visual(document.querySelector('.hd-situation-map')),
+            rows:table.map(n=>({slot:Number(n.dataset.hdViewSlot),personIndex:Number(n.dataset.hdViewPerson),name:n.querySelector('.hd-situation-name')?.textContent,
+                arms:n.querySelector('.hd-situation-arms')?.textContent,nameVisual:visual(n.querySelector('.hd-situation-name')),armsVisual:visual(n.querySelector('.hd-situation-arms'))})),
+            points:[...document.querySelectorAll('.hd-situation-dot')].map(n=>({slot:Number(n.dataset.hdViewSlot),personIndex:Number(n.dataset.hdViewPerson),x:Number(n.dataset.hdViewX),y:Number(n.dataset.hdViewY),visual:visual(n)})),
+            buttons:[...document.querySelectorAll('#hd-dialog [data-hd-view-key],#hd-dialog [data-hd-dlg-ok],#hd-dialog [data-hd-dlg-lcd]')].filter(n=>!n.hidden).map(n=>({text:n.textContent,key:n.getAttribute('data-hd-view-key'),visual:visual(n)}))}};
+})()`;
+
+async function verifyView(cdp,label) {
+    await waitFor(cdp,'complete current native VIEW: '+label,`(() => {const v=baye.hd.view(),d=BayeHdDialog.debugSnapshot();return v.active===1&&v.complete===1&&d.open&&d.kind==='view'&&d.viewOwner?.seq===v.seq;})()`);
+    const state=await evaluate(cdp,viewObservationExpression),{view:v,native:n,dom:d,dialog}=state,labels=nativeHelpLabels().situation;
+    report.currentViewObservation={label,...state};
+    assert.equal(v.protocolVersion,1);assert.equal(v.custom,0);assert.equal(v.generation,v.detailGeneration);assert.equal(v.inputSeq,state.fight.inputSeq);
+    assert.deepEqual(v.rows.map(({slot,personIndex,name,arms})=>({slot,personIndex,name,arms})),n.rows);
+    assert.deepEqual(v.points,n.points);assert.equal(v.totalCount,n.total);assert.equal(v.rowCount,n.rows.length);
+    for(const [actual,expected] of [['leaderPerson','leaderPerson'],['days','days'],['width','width'],['height','height'],['playerMode','mode']])assert.equal(v[actual],n[expected]);
+    assert.equal(v.foodKnown,Number(n.foodKnown));assert.equal(v.food,n.foodKnown?n.food:0);
+    assert.equal(v.title,labels.dPowerCmp.trimEnd());assert.equal(v.positionsText,labels.dReserve0.trimEnd());
+    assert.equal(v.factionText,(n.leaderName+labels.dArmyInf).trimEnd());
+    assert.equal(v.foodText,(labels.dProvInf+(n.foodKnown?n.food:labels.dNoView)).trimEnd());
+    assert.deepEqual(dialog.viewOwner,{kind:10,seq:v.seq,generation:v.generation,inputSeq:v.inputSeq});
+    assert.equal(d.title,v.title);assert.equal(d.faction,v.factionText);assert.equal(d.food,v.foodText);
+    assert.deepEqual(d.rows.map(row=>({slot:row.slot,personIndex:row.personIndex,name:row.name,arms:row.arms})),n.rows.map(row=>({...row,arms:'兵 '+row.arms})));
+    assert.deepEqual(d.points.map(({slot,personIndex,x,y})=>({slot,personIndex,x,y})),n.points.map(({slot,personIndex,x,y})=>({slot,personIndex,x,y})));
+    assert.equal(d.stage.visible,true,'VIEW card actually visible: '+label);assert.equal(d.map.visible,true,'VIEW position map actually visible: '+label);
+    assert.ok(d.rows.every(row=>row.nameVisual.visible&&row.armsVisual.visible),'all current native page names and troops are actually visible');
+    assert.equal(d.buttons.length,6,'actual VIEW has four native navigation controls, return and classic comparison');
+    assert.ok(d.buttons.every(button=>button.visual.visible&&button.visual.rect.height>=44),'every current VIEW control is visible, hit-testable and at least 44px high');
+    assert.ok(d.points.every(point=>point.visual.visible),'each captured actual unit position is visibly painted');
+    (report.viewChecks ||= []).push({label,...state});return state;
+}
+
+async function viewSmoke(cdp,before) {
+    await key(cdp,'f');await waitBattle(cdp,10,'native strategic view');await verifyNativeFeedback(cdp,'VIEW overlay','inactive');
+    let current=await verifyView(cdp,'enemy first native page');assert.equal(current.view.force,1);assert.equal(current.view.pageStart,0);
+    assert.equal(current.view.foodKnown,0);assert.equal(current.view.food,0);assert.ok(current.native.secretFood>0,'unknown enemy supply really differs from the revealed field');
+    const keys=await evaluate(cdp,'window.__battleKeys.length'),snapshot=current.view;
+    await delay(700);assert.deepEqual(await evaluate(cdp,'baye.hd.view()'),snapshot,'native blinking keeps exact page owner and data');
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys,'view painting and native blinking send no game key');
+    await checkpoint(cdp,'18-battle-view-enemy-hd');
+    const step=async(code,label)=>{
+        const prev=current.view;await click(cdp,`#hd-dialog [data-hd-view-key="${code}"]`);
+        await waitFor(cdp,'actual VIEW page ACK '+label,`baye.hd.fight().inputKind===10&&baye.hd.fight().inputSeq>${prev.inputSeq}&&baye.hd.view().seq>${prev.seq}`);
+        current=await verifyView(cdp,label);return current;
+    };
+    await step(0x25,'player first native page');assert.equal(current.view.force,0);assert.equal(current.view.pageStart,0);
+    assert.ok(current.view.totalCount>current.view.pageSize,'actual player squad spans more than one native page');
+    const pageSize=current.view.pageSize;await step(0x23,'player second native page');assert.equal(current.view.pageStart,pageSize);
+    await checkpoint(cdp,'18-battle-view-player-second-page');
+    const boundary=current.view.pageStart;await step(0x23,'player last-page boundary');assert.equal(current.view.pageStart,boundary);
+    await step(0x22,'player previous native page');assert.equal(current.view.pageStart,0);
+    await step(0x24,'enemy switch resets native page');assert.equal(current.view.force,1);assert.equal(current.view.pageStart,0);
+    for(const [width,height,label] of [[1920,1080,'1080p'],[1280,720,'720p']]) {
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await delay(350);
+        current=await verifyView(cdp,label+' HD');const startKeys=await evaluate(cdp,'window.__battleKeys.length'),owner=current.view;
+        assert.equal(current.dialog.showLcd,false);assert.equal((await observeNativeLcd(cdp)).visible,false);
+        await checkpoint(cdp,'18-battle-view-'+label+'-hd');await click(cdp,'#hd-dialog [data-hd-dlg-lcd]');
+        current=await verifyView(cdp,label+' classic comparison');assert.equal(current.dialog.showLcd,true);
+        const lcd=await observeNativeLcd(cdp);assert.equal(lcd.visible,true);assert.ok(lcd.bitmap.differentPixels>0);
+        const r=current.dom.stage.rect;assert.ok(lcd.rect.left>=r.right||lcd.rect.right<=r.left||lcd.rect.top>=r.bottom||lcd.rect.bottom<=r.top,'VIEW card and real LCD do not overlap');
+        await checkpoint(cdp,'18-battle-view-'+label+'-classic');await click(cdp,'#hd-dialog [data-hd-dlg-lcd]');
+        current=await verifyView(cdp,label+' restored HD');assert.equal(current.dialog.showLcd,false);
+        assert.deepEqual(await evaluate(cdp,'baye.hd.view()'),owner);assert.equal(await evaluate(cdp,'window.__battleKeys.length'),startKeys,'resize and explicit classic comparison send zero native keys');
+    }
+    await click(cdp,'#hd-dialog [data-hd-dlg-ok]');await waitBattle(cdp,1,'return from native VIEW10');
+    await waitFor(cdp,'VIEW fields and exact owner retired',`baye.hd.view().active===0&&!BayeHdDialog.debugSnapshot().viewOwner`);
+    assert.deepEqual((await evaluate(cdp,battleStateExpression)).units,before.units,'VIEW switching, pages and return preserve all actual native battle units');
+    await checkpoint(cdp,'18-battle-view-retired');
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});await delay(300);
+}
+
+async function knownEnemyViewSmoke(cdp) {
+    const before=await evaluate(cdp,battleStateExpression);
+    const reveal=report.skillAttempts?.find(attempt=>attempt.skill.id===30&&attempt.effects.some(effect=>effect.field==='food.knownEnemy'&&effect.after>0));
+    assert.ok(reveal,'actual successful native spy skill precedes the known enemy VIEW scenario');
+    assert.ok(before.food.knownEnemy>0,'enemy supply is actually known after the native spy action');
+    await key(cdp,'f');await waitBattle(cdp,10,'reopen VIEW after actual spy report');
+    const current=await verifyView(cdp,'reopened enemy VIEW after actual spy');
+    assert.equal(current.view.force,1);assert.equal(current.view.pageStart,0);assert.equal(current.view.foodKnown,1);
+    assert.equal(current.view.food,before.food.knownEnemy);assert.ok(!current.dom.food.includes('?'));
+    const oldOwner=report.viewChecks[0].dialog.viewOwner,keys=await evaluate(cdp,'window.__battleKeys.length');
+    assert.ok(current.view.seq>oldOwner.seq&&current.view.inputSeq>oldOwner.inputSeq,'reopened actual VIEW owns a new draw and input');
+    const staleResult=await evaluate(cdp,`BayeHdBattle.viewKey(0x23,${JSON.stringify(oldOwner)})`);
+    assert.deepEqual(staleResult,{ok:false,reason:'view-owner-changed'},'retired VIEW button cannot reach the new native input');
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys);assert.deepEqual(await evaluate(cdp,'baye.hd.view()'),current.view);
+    await checkpoint(cdp,'31-battle-view-known-enemy-reopened');
+    await key(cdp,'Enter');await waitBattle(cdp,1,'physical Enter returns from current VIEW');
+    await waitFor(cdp,'reopened VIEW owner retired','baye.hd.view().active===0&&!BayeHdDialog.debugSnapshot().viewOwner');
+    const after=await evaluate(cdp,battleStateExpression);
+    assert.deepEqual(after.units,before.units);assert.deepEqual(after.food,before.food);assert.equal(after.weather,before.weather);
+    assert.equal(await evaluate(cdp,'window.__battleKeys.length'),keys+1,'one physical return reaches exactly one native key');
+    report.knownEnemyView={reveal:{actor:reveal.actor,skill:reveal.skill.name,id:reveal.skill.id,effects:reveal.effects},oldOwner,staleResult,current,before,after};
+    await checkpoint(cdp,'31-battle-view-known-enemy-returned');
 }
 
 const helpObservationExpression = `(() => {
@@ -544,7 +662,7 @@ async function observeNativeLcd(cdp) {
         for(let p=canvas;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0){styled=false;break;}}
         let bitmap=null;
         try {const bytes=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
-            let different=0;for(let i=4;i<bytes.length;i+=4)if(bytes[i]!==bytes[0]||bytes[i+1]!==bytes[1]||bytes[i+2]!==bytes[2])different++;
+            let different=0;for(let i=4;i<bytes.length;i+=4)if(bytes[i]!==bytes[0]||bytes[i+1]!==bytes[1]||bytes[i+2]!==bytes[2]||bytes[i+3]!==bytes[3])different++;
             bitmap={width:canvas.width,height:canvas.height,differentPixels:different};} catch(error){bitmap={error:String(error)};}
         const board=document.querySelector('#hd-battle-canvas');
         const stacks=[0.25,0.5,0.75].map(part=>{
@@ -1160,6 +1278,7 @@ async function main() {
         report.engineInputs=await evaluate(cdp,'window.__runtimeEngineInputs');
         assert.deepEqual(report.exceptions, [], 'browser has no uncaught exceptions');
         assert.deepEqual(report.dialogs, [], 'game boot has no unexpected alert dialogs');
+        assert.deepEqual(report.requests.filter(request=>request.status>=400),[],'all actual game assets load successfully');
         report.ok = true;
     } catch (error) {
         report.ok = false;

@@ -43,6 +43,17 @@ void FgtGetAimPos(U8 *aimx,U8 *aimy);
 U8 FgtGetNearGen(void);
 void FgtLoadToMem3(U8 idx,U8 *buf);
 void FgtViewForce(U8 pForce,U8 pSIdx);
+static void FgtViewForceCapture(U8 pForce,U8 pSIdx,HdViewSnapshot* observation);
+static void FgtViewCaptureText(HdViewSnapshot* observation,U8* output,U32 capacity,const U8* text,U32 readable)
+{
+    U32 n = 0;
+    if (!observation || !output || !capacity) return;
+    while (n < readable && text[n]) ++n;
+    if (n == readable || n >= capacity) observation->complete = 0;
+    if (n >= capacity) n = capacity - 1;
+    memcpy(output,text,n);
+    output[n] = 0;
+}
 PersonID TransIdxToGen3(U8 idx);
 U8 FgtStatGen(U8 flag);
 static void AdvancedCmdRng(U8 type,SkillID param,U8 idx);
@@ -932,57 +943,84 @@ FAR void FgtShowMvRng(void)
 FAR void FgtShowViewInner(void);
 FAR void FgtShowView(void) {
     int prev = SysScrollingTimerOpen(0);
+    U32 generation = g_hdDetailGeneration;
     baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);
     FgtShowViewInner();
-    baye_hd_fight_input_end();
+    if (generation == g_hdDetailGeneration && g_hdFightInputKind == BAYE_HD_FIGHT_INPUT_VIEW)
+        baye_hd_fight_input_end();
     SysScrollingTimerOpen(prev);
 }
 FAR void FgtShowViewInner(void)
 {
     U8	pForce,pSIdx,pPcnt;		/* 当前将领显示起始序号 每页显示将领个数 */
     U8	sx,sy,idx,pcolor;
-    U8	key,tbuf[20];
+    U8	key,tbuf[64] = {0};
     JLPOS	*pos;
     Touch touch;
+    HdViewSnapshot hdView;
+    U8 hdPageDirty = 1, hdHookCustom;
+
+    baye_hd_view_capture(&hdView);
+    hdView.mapWidth = g_MapWid; hdView.mapHeight = g_MapHgt;
 
     gam_clslcd();
     sx = (SCR_WID / 2 - g_MapWid) / 2 + WK_SX;
     sy = (SCR_HGT - g_MapHgt) / 2 + WK_SY + 20;
     FgtLoadToMem3(dPowerCmp,tbuf);
     GamStrShowS(WK_SX + 5,WK_SY + 3,tbuf);		/* 战场形势图 */
+    FgtViewCaptureText(&hdView,hdView.title,sizeof(hdView.title),tbuf,sizeof(tbuf));
     FgtLoadToMem3(dDaysInf,tbuf);
+    hdView.days = g_FgtBoutCnt;
     gam_ltoa(g_FgtBoutCnt,tbuf + 3,10);
     tbuf[gam_strlen(tbuf)] = ' ';
     GamStrShowS(WK_SX + 5,WK_SY + 5 + HZ_HGT,tbuf);	/* 进行日期 */
+    FgtViewCaptureText(&hdView,hdView.daysText,sizeof(hdView.daysText),tbuf,sizeof(tbuf));
     FgtLoadToMem3(dReserve0,tbuf);
     GamStrShowS((SCR_WID / 2 - 4 * HZ_WID) / 2 + WK_SX,sy - (HZ_HGT + 3),tbuf);	/* 将领位置 */
+    FgtViewCaptureText(&hdView,hdView.positionsText,sizeof(hdView.positionsText),tbuf,sizeof(tbuf));
 
     pPcnt = (WK_EY - (HZ_HGT * 2 + 6)) / HZ_HGT;
-    FgtViewForce(1,0);
+    FgtViewForceCapture(1,0,&hdView);
     gam_rect(sx - 1,sy - 1,sx + g_MapWid,sy + g_MapHgt);
     pcolor = COLOR_BLACK;
     pForce = 1;
     pSIdx = 0;
 
-    if (call_hook_a("didShowFightSituation", NULL) == 0) {
-        return;
+    int hdShowResult = call_hook_a_observed("didShowFightSituation", NULL, &hdHookCustom);
+    hdView.custom |= hdHookCustom;
+    if (hdShowResult == 0) {
+        goto hdViewExit;
     }
     
     while(1)
     {
-
+        if (hdPageDirty) hdView.pointCount = 0;
         for(idx = 0;idx < FGTA_MAX;idx += 1)
         {
             pos = (JLPOS *)&g_GenPos[idx];
             if(STATE_SW == pos->state)
                 continue;
             gam_putpixel(sx + pos->x,sy + pos->y,pcolor);
+            if (hdPageDirty && hdView.pointCount < BAYE_HD_VIEW_POINTS) {
+                U8 point = hdView.pointCount++;
+                hdView.pointSlots[point] = idx;
+                hdView.pointPersons[point] = g_FgtParam.GenArray[idx] ? g_FgtParam.GenArray[idx] - 1 : 0xffff;
+                hdView.pointX[point] = pos->x; hdView.pointY[point] = pos->y; hdView.pointState[point] = pos->state;
+            }
         }
         if(COLOR_BLACK == pcolor)
             pcolor = COLOR_WHITE;
         else
             pcolor = COLOR_BLACK;
-        call_hook("didRefreshFightSituation", NULL);
+        call_hook_a_observed("didRefreshFightSituation", NULL, &hdHookCustom);
+        if (hdHookCustom && !hdView.custom) {
+            hdView.custom = 1;
+            baye_hd_view_clear(hdView.generation, hdView.inputSeq);
+        }
+        if (hdPageDirty) {
+            baye_hd_view_publish(&hdView);
+            hdPageDirty = 0;
+        }
         key = GamDelay(50,true);
         if(!key)
             continue;
@@ -994,7 +1032,7 @@ FAR void FgtShowViewInner(void)
             {
                 case VK_ENTER:
                 case VK_EXIT:
-                    return;
+                    goto hdViewExit;
                 case VK_LEFT:
                 case VK_RIGHT:
                     pForce = !pForce;
@@ -1032,20 +1070,26 @@ FAR void FgtShowViewInner(void)
                             goto tagProcessMessage;
                         }
                     } else {
-                        return;
+                        goto hdViewExit;
                     }
                 }
             }
         }
-        FgtViewForce(pForce,pSIdx);
+        FgtViewForceCapture(pForce,pSIdx,&hdView);
+        hdPageDirty = 1;
         /* A view page has no exported cursor/index. Its completed arrow input
          * opens a fresh wait token, including a page-boundary no-op. Timed
          * blinking/redraws never advance this acknowledgement. */
         if (msg.type == VM_CHAR_FUN && (msg.param == VK_UP || msg.param == VK_DOWN ||
             msg.param == VK_LEFT || msg.param == VK_RIGHT)) {
-            baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);
+            if (hdView.generation == g_hdDetailGeneration && g_hdFightInputKind == BAYE_HD_FIGHT_INPUT_VIEW) {
+                baye_hd_fight_input_begin(BAYE_HD_FIGHT_INPUT_VIEW);
+                hdView.inputSeq = g_hdFightInputSeq;
+            }
         }
     }
+hdViewExit:
+    baye_hd_view_clear(hdView.generation, hdView.inputSeq);
 }
 /***********************************************************************
  * 说明:     显示势力情报
@@ -1058,10 +1102,27 @@ FAR void FgtShowViewInner(void)
  ***********************************************************************/
 void FgtViewForce(U8 pForce,U8 pSIdx)
 {
+    FgtViewForceCapture(pForce,pSIdx,NULL);
+}
+
+static void FgtViewForceCapture(U8 pForce,U8 pSIdx,HdViewSnapshot* observation)
+{
     U8	i,pPCnt,pGIdx;
-    U8	tmp,tbuf[20];
+    U8	tmp,tbuf[64] = {0};
     U16	provender;
-    PersonID p;
+    PersonID p, leader;
+    if (observation) {
+        HdViewSnapshot fresh;
+        baye_hd_view_capture(&fresh);
+        if (observation->generation == fresh.generation) {
+            observation->retirement = fresh.retirement;
+            observation->inputSeq = fresh.inputSeq;
+        }
+        observation->force = pForce; observation->pageStart = pSIdx;
+        observation->totalCount = FgtStatGen(pForce);
+        observation->rowCount = 0;
+        observation->playerMode = g_FgtParam.Mode;
+    }
     
     pGIdx = pForce * FGT_PLAMAX;
     gam_clrlcd(WK_SX + SCR_WID / 2,WK_SY,WK_EX,WK_EY);
@@ -1069,13 +1130,20 @@ void FgtViewForce(U8 pForce,U8 pSIdx)
     gam_line(WK_SX + SCR_WID / 2,WK_SY + HZ_HGT + 2,WK_EX,WK_SY + HZ_HGT + 2);
     gam_line(WK_SX + SCR_WID / 2,WK_SY + HZ_HGT * 2 + 4,WK_EX,WK_SY + HZ_HGT * 2 + 4);
     p = TransIdxToGen3(pGIdx);
-    GetPersonName(PID(g_Persons[p].Belong - 1),tbuf);
+    leader = PID(g_Persons[p].Belong - 1);
+    GetPersonName(leader,tbuf);
+    if (observation) observation->leader = leader;
     i = gam_strlen(tbuf);
     tbuf[i] = ' ';
     FgtLoadToMem3(dArmyInf,tbuf + i);
     i = SCR_WID / 2 + SCR_WID / 4 - (i + 2) * ASC_WID / 2;
     GamStrShowS(WK_SX + i,WK_SY + 2,tbuf);				/* 显示军团势力 */
+    if (observation) FgtViewCaptureText(observation,observation->factionText,sizeof(observation->factionText),tbuf,sizeof(tbuf));
     FgtLoadToMem3(dProvInf,tbuf);
+    if (observation) {
+        observation->foodKnown = !pForce || g_EneTmpProv != 0;
+        observation->food = pForce ? g_EneTmpProv : g_FgtParam.MProvender;
+    }
     if(pForce)
     {
         if(!g_EneTmpProv)
@@ -1086,8 +1154,10 @@ void FgtViewForce(U8 pForce,U8 pSIdx)
     else
         gam_ltoa(g_FgtParam.MProvender,tbuf + 5,10);
     GamStrShowS(WK_SX + SCR_WID / 2 + 3,WK_SY + HZ_HGT + 4,tbuf);	/* 显示粮草 */
+    if (observation) FgtViewCaptureText(observation,observation->foodText,sizeof(observation->foodText),tbuf,sizeof(tbuf));
     
     pPCnt = (WK_EY - (HZ_HGT * 2 + 6)) / HZ_HGT;
+    if (observation) observation->pageSize = pPCnt;
     pSIdx += pGIdx;
     for(i = 0;i < pPCnt;i += 1)
     {
@@ -1100,10 +1170,20 @@ void FgtViewForce(U8 pForce,U8 pSIdx)
         p -= 1;
         provender = g_Persons[p].Arms;
         GetPersonName(p,tbuf);
+        if (observation && observation->rowCount < BAYE_HD_VIEW_ROWS) {
+            U8 row = observation->rowCount;
+            observation->rowPersons[row] = p; observation->rowArms[row] = provender;
+            observation->rowSlots[row] = (U8)(i + pSIdx);
+            FgtViewCaptureText(observation,observation->rowNames + row * 32,32,tbuf,sizeof(tbuf));
+        }
         tmp = gam_strlen(tbuf);
-        gam_memset(tbuf + tmp,' ',20 - tmp);
+        if (tmp < 20) gam_memset(tbuf + tmp,' ',20 - tmp);
         gam_ltoa(provender,tbuf + 8,10);
         GamStrShowS(WK_SX + SCR_WID / 2 + 3,WK_SY + HZ_HGT * (2 + i) + 6,tbuf);	/* 显示将领 */
+        if (observation && observation->rowCount < BAYE_HD_VIEW_ROWS) {
+            FgtViewCaptureText(observation,observation->rowText + observation->rowCount * 64,64,tbuf,sizeof(tbuf));
+            observation->rowCount++;
+        }
     }
     
 }

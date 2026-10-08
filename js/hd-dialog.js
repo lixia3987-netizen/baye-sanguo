@@ -27,6 +27,10 @@
         helpOwner: null,
         helpDetail: null,
         helpStamp: '',
+        viewOwner: null,
+        viewDetail: null,
+        viewStamp: '',
+        viewCommit: null,
         reportOwner: null,
         reportCommit: null,
         successorOwner: null,
@@ -180,6 +184,118 @@
 
     function sameHelp(a, b) {
         return !!(a && b && a.kind === b.kind && a.inputSeq === b.inputSeq);
+    }
+
+    function sameView(a, b) {
+        return !!(a && b && a.kind === 10 && b.kind === 10 && a.generation === b.generation &&
+            a.inputSeq === b.inputSeq && a.seq === b.seq);
+    }
+
+    function readEngineView() {
+        try { return global.baye && baye.hd && typeof baye.hd.view === 'function' ? baye.hd.view() : null; }
+        catch (e) { return null; }
+    }
+
+    function viewBlocked() {
+        if (nativeReportOwner(readAsync())) { return true; }
+        try {
+            var qty = baye.hd.qty && baye.hd.qty(), menu = baye.hd.menuItems && baye.hd.menuItems();
+            return !!(qty && qty.active === 1 || menu && menu.active === 1);
+        } catch (e) { return true; }
+    }
+
+    function nativeViewDetail(info) {
+        var input = readBattleHelp();
+        if (!input || input.kind !== 10 || !info || info.protocolVersion !== 1 || info.active !== 1 ||
+            info.complete !== 1 || info.custom !== 0 || info.inputSeq !== input.inputSeq ||
+            !helpInteger(info.seq, 1, 0xffffffff) || !helpInteger(info.generation, 1, 0xffffffff) ||
+            info.generation !== info.detailGeneration || !helpInteger(info.force, 0, 1) ||
+            !helpInteger(info.pageStart, 0, 10) || !helpInteger(info.pageSize, 1, 255) ||
+            !helpInteger(info.totalCount, 0, 10) || info.pageStart > info.totalCount ||
+            !helpInteger(info.rowCount, 0, 10) || info.rowCount !== Math.min(info.pageSize, info.totalCount - info.pageStart) ||
+            !helpInteger(info.width, 1, 255) || !helpInteger(info.height, 1, 255) ||
+            !helpInteger(info.days, 0, 65535) || !helpInteger(info.playerMode, 0, 255) ||
+            !helpInteger(info.foodKnown, 0, 1) || !helpInteger(info.food, 0, 65535) ||
+            (!info.foodKnown && (info.food !== 0 || info.force !== 1)) ||
+            !helpInteger(info.leaderPerson, 0, 65534) || !Array.isArray(info.rows) ||
+            info.rows.length !== info.rowCount || !Array.isArray(info.points) || info.points.length > 20) { return null; }
+        var labels = ['title', 'daysText', 'positionsText', 'factionText', 'foodText'];
+        for (var l = 0; l < labels.length; l += 1) {
+            if (typeof info[labels[l]] !== 'string' || !info[labels[l]].trim() || info[labels[l]].length > 128) { return null; }
+        }
+        var rows = [], points = [], slots = {};
+        for (var i = 0; i < info.rows.length; i += 1) {
+            var row = info.rows[i];
+            if (!row || row.slot !== info.force * 10 + info.pageStart + i ||
+                !helpInteger(row.personIndex, 0, 65534) || !helpInteger(row.arms, 0, 65535) ||
+                typeof row.name !== 'string' || !row.name.trim() || row.name.length > 64 ||
+                typeof row.text !== 'string' || !row.text.trim() || row.text.length > 128) { return null; }
+            rows.push({ slot: row.slot, personIndex: row.personIndex, name: row.name, text: row.text, arms: row.arms });
+        }
+        for (i = 0; i < info.points.length; i += 1) {
+            var point = info.points[i];
+            if (!point || !helpInteger(point.slot, 0, 19) || slots[point.slot] ||
+                !helpInteger(point.personIndex, 0, 65534) || !helpInteger(point.x, 0, info.width - 1) ||
+                !helpInteger(point.y, 0, info.height - 1) || !helpInteger(point.state, 0, 255) || point.state === 8) { return null; }
+            slots[point.slot] = true;
+            points.push({ slot: point.slot, personIndex: point.personIndex, x: point.x, y: point.y, state: point.state });
+        }
+        if (!sameHelp(input, readBattleHelp())) { return null; }
+        return { owner: { kind: 10, seq: info.seq, generation: info.generation, inputSeq: info.inputSeq },
+            force: info.force, pageStart: info.pageStart, pageSize: info.pageSize, totalCount: info.totalCount,
+            rowCount: info.rowCount, width: info.width, height: info.height, days: info.days,
+            playerMode: info.playerMode, foodKnown: info.foodKnown, food: info.food, leaderPerson: info.leaderPerson,
+            title: info.title, daysText: info.daysText, positionsText: info.positionsText,
+            factionText: info.factionText, foodText: info.foodText, rows: rows, points: points };
+    }
+
+    function viewToken(owner) {
+        return owner ? JSON.stringify([state.viewEpoch, owner.kind, owner.generation, owner.inputSeq, owner.seq]) : '';
+    }
+
+    function stalePressedView(pressed, target) {
+        if (!pressed) { return false; }
+        if (pressed.viewToken || state.kind === 'view') {
+            return pressed.target !== target || pressed.epoch !== state.viewEpoch ||
+                pressed.viewToken !== viewToken(state.viewOwner);
+        }
+        return pressed.target === target && pressed.epoch !== state.viewEpoch;
+    }
+
+    function currentView() {
+        if (document.hidden || !hdReady() || !shouldShowHd() || !state.open || state.kind !== 'view' ||
+            viewBlocked()) { return null; }
+        var detail = nativeViewDetail(readEngineView());
+        return detail && sameView(state.viewOwner, detail.owner) && state.viewStamp === JSON.stringify(detail) ? detail : null;
+    }
+
+    function viewKey(code, owner) {
+        var live = currentView();
+        if (!live || !sameView(owner, live.owner) || sameView(state.viewCommit, live.owner) ||
+            [VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, VK.ENTER, VK.EXIT].indexOf(code) < 0 ||
+            !global.BayeHdBattle || typeof BayeHdBattle.viewKey !== 'function') { return false; }
+        var epoch = state.viewEpoch, result = BayeHdBattle.viewKey(code, live.owner);
+        if (!result || !result.ok) { return false; }
+        if (epoch === state.viewEpoch && sameView(state.viewOwner, live.owner)) {
+            state.viewCommit = live.owner;
+            if (code === VK.ENTER || code === VK.EXIT) { closeDialog({ silent: true }); }
+            else { render(); }
+        }
+        return true;
+    }
+
+    function applyEngineView(info) {
+        if (document.hidden || !hdReady() || !shouldShowHd() || viewBlocked()) { return false; }
+        var detail = nativeViewDetail(info || readEngineView());
+        if (!detail) { return false; }
+        return openDialog({ kind: 'view', title: detail.title, body: '', showLcd: false,
+            viewOwner: detail.owner, viewDetail: detail, viewStamp: JSON.stringify(detail) });
+    }
+
+    function onEngineView() {
+        if (nativeReportOwner(readAsync())) { pollEngine(); return; }
+        if (applyEngineView()) { return; }
+        if (state.open && state.kind === 'view') { closeDialog({ silent: true }); }
     }
 
     function nativeReportOwner(info) {
@@ -578,7 +694,7 @@
 
     function applyChrome() {
         var show = state.open && !document.hidden && shouldShowHd();
-        var hasContent = !!state.body || !!state.helpDetail;
+        var hasContent = !!state.body || !!state.helpDetail || !!state.viewDetail;
         var pass = show && (
             (state.kind === 'report' && state.marchOwner && cityMenuOpen()) ||
             (state.kind === 'report' && !state.marchOwner && !state.reportOwner && !state.asyncId && leftoverMarchTip(state.body)) ||
@@ -592,6 +708,7 @@
             document.body.classList.toggle('baye-hd-dialog-on', show);
             document.body.classList.toggle('baye-hd-dialog-lcd', show && state.showLcd);
             document.body.classList.toggle('baye-hd-dialog-help', show && (state.kind === 'help'));
+            document.body.classList.toggle('baye-hd-dialog-view', show && state.kind === 'view');
             document.body.classList.toggle('baye-hd-dialog-empty-text', show && !hasContent);
             document.body.classList.toggle('baye-hd-dialog-pass', pass);
         }
@@ -602,11 +719,13 @@
                 sameCampaignPersons(state.defenseOwner, readDefenders()) ? '1' : '0');
             root.classList.toggle('is-open', show);
             root.classList.toggle('is-qty', show && state.kind === 'qty');
+            root.classList.toggle('is-view', show && state.kind === 'view');
             root.classList.toggle('is-empty-text', !hasContent);
             root.setAttribute('data-hd-help-kind', show && state.kind === 'help' && state.helpDetail ?
                 String(state.helpDetail.kind) : '0');
             root.setAttribute('data-hd-help-person', show && state.kind === 'help' && state.helpDetail &&
                 state.helpDetail.kind === 1 ? String(state.helpDetail.person) : '');
+            root.setAttribute('data-hd-view-owner', show && state.kind === 'view' ? viewToken(state.viewOwner) : '');
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
             root.style.pointerEvents = (show && !pass) ? 'auto' : 'none';
         }
@@ -641,6 +760,92 @@
         body.appendChild(fields);
     }
 
+    function renderViewDetail(body, detail) {
+        var token = viewToken(detail.owner), key = JSON.stringify([token, detail]);
+        if (body._hdSituationView !== key) {
+            body._hdSituationView = key;
+            body.textContent = '';
+            var layout = document.createElement('div');
+            layout.className = 'hd-situation';
+            var list = document.createElement('section');
+            list.className = 'hd-situation-roster';
+            var heading = document.createElement('h2');
+            heading.className = 'hd-situation-faction';
+            heading.textContent = detail.factionText;
+            list.appendChild(heading);
+            var summary = document.createElement('p');
+            summary.className = 'hd-situation-summary';
+            summary.textContent = (detail.force === 0 ? '我方' : '敌方') + ' · ' + detail.daysText;
+            list.appendChild(summary);
+            var food = document.createElement('p');
+            food.className = 'hd-situation-food';
+            food.setAttribute('data-hd-view-food-known', String(detail.foodKnown));
+            food.textContent = detail.foodText;
+            list.appendChild(food);
+            var page = document.createElement('p');
+            page.className = 'hd-situation-page';
+            page.textContent = detail.rowCount ? '将领 ' + (detail.pageStart + 1) + '–' +
+                (detail.pageStart + detail.rowCount) + ' / ' + detail.totalCount : '当前页没有将领';
+            list.appendChild(page);
+            var table = document.createElement('div');
+            table.className = 'hd-situation-rows';
+            detail.rows.forEach(function (row) {
+                var item = document.createElement('div');
+                item.className = 'hd-situation-row';
+                item.setAttribute('data-hd-view-slot', String(row.slot));
+                item.setAttribute('data-hd-view-person', String(row.personIndex));
+                item.setAttribute('aria-label', row.text);
+                var name = document.createElement('span');
+                name.className = 'hd-situation-name'; name.textContent = row.name;
+                var arms = document.createElement('span');
+                arms.className = 'hd-situation-arms'; arms.textContent = '兵 ' + row.arms;
+                item.appendChild(name); item.appendChild(arms); table.appendChild(item);
+            });
+            list.appendChild(table); layout.appendChild(list);
+            var positions = document.createElement('section');
+            positions.className = 'hd-situation-positions';
+            var mapTitle = document.createElement('h2');
+            mapTitle.textContent = detail.positionsText; positions.appendChild(mapTitle);
+            var map = document.createElement('div');
+            map.className = 'hd-situation-map';
+            map.style.aspectRatio = detail.width + ' / ' + detail.height;
+            map.style.width = 'min(100%, ' + Math.min(320, 320 * detail.width / detail.height) + 'px)';
+            map.setAttribute('data-hd-view-width', String(detail.width));
+            map.setAttribute('data-hd-view-height', String(detail.height));
+            map.setAttribute('role', 'img');
+            map.setAttribute('aria-label', detail.positionsText + ' ' + detail.width + '×' + detail.height);
+            detail.points.forEach(function (point) {
+                var dot = document.createElement('span');
+                var row = detail.rows.filter(function (item) { return item.slot === point.slot && item.personIndex === point.personIndex; })[0];
+                dot.className = 'hd-situation-dot ' + (point.slot < 10 ? 'is-player' : 'is-enemy') + (row ? ' is-page' : '');
+                dot.style.left = ((point.x + 0.5) / detail.width * 100) + '%';
+                dot.style.top = ((point.y + 0.5) / detail.height * 100) + '%';
+                dot.setAttribute('data-hd-view-slot', String(point.slot));
+                dot.setAttribute('data-hd-view-person', String(point.personIndex));
+                dot.setAttribute('data-hd-view-x', String(point.x)); dot.setAttribute('data-hd-view-y', String(point.y));
+                dot.title = (row ? row.name : point.slot < 10 ? '我方位置' : '敌方位置') + ' · ' + point.x + ',' + point.y;
+                map.appendChild(dot);
+            });
+            positions.appendChild(map);
+            var legend = document.createElement('p');
+            legend.className = 'hd-situation-map-legend';
+            legend.textContent = '蓝：我方 · 红：敌方 · 金圈：当前页将领';
+            positions.appendChild(legend); layout.appendChild(positions); body.appendChild(layout);
+            var actions = document.createElement('div');
+            actions.className = 'hd-situation-actions';
+            [[VK.LEFT, '切换军团 ←'], [VK.RIGHT, '切换军团 →'], [VK.UP, '上一页 ↑'], [VK.DOWN, '下一页 ↓']]
+                .forEach(function (action) {
+                    var button = document.createElement('button'); button.type = 'button';
+                    button.setAttribute('data-hd-view-key', String(action[0]));
+                    button.setAttribute('data-hd-view-owner', token); button.textContent = action[1];
+                    actions.appendChild(button);
+                });
+            body.appendChild(actions);
+        }
+        var buttons = body.querySelectorAll && body.querySelectorAll('[data-hd-view-key]');
+        if (buttons) { for (var i = 0; i < buttons.length; i += 1) { buttons[i].disabled = sameView(state.viewCommit, detail.owner); } }
+    }
+
     function render() {
         applyChrome();
         if (!(state.open && shouldShowHd())) {
@@ -649,7 +854,9 @@
         setText(el('hd-dialog-title'), state.title);
         var body = el('hd-dialog-body');
         if (body) {
-            if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
+            if (state.kind === 'view' && state.viewDetail) {
+                renderViewDetail(body, state.viewDetail);
+            } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
                 renderHelpDetail(body, state.helpDetail);
             } else if (state.kind === 'defenders' && state.defenseOwner) {
                 if (body._hdDefendersView !== state.viewEpoch) {
@@ -766,7 +973,7 @@
         var caption = el('hd-dialog-caption');
         if (caption) {
             caption.textContent = '在下方经典画面查看完整内容。';
-            caption.hidden = !!state.body || !!state.helpDetail || state.kind === 'qty';
+            caption.hidden = !!state.body || !!state.helpDetail || !!state.viewDetail || state.kind === 'qty';
         }
         var probe = el('hd-dialog-probe');
         if (probe) {
@@ -779,8 +986,11 @@
         setText(lcdButton, state.showLcd ? '隐藏经典画面' : '经典画面');
         var confirm = document.querySelector && document.querySelector('[data-hd-dlg-ok]');
         var back = document.querySelector && document.querySelector('[data-hd-dlg-back]');
-        if (confirm) { confirm.hidden = state.kind === 'successor' || state.kind === 'defenders'; }
-        if (back) { back.hidden = state.kind === 'successor' || state.kind === 'defenders'; }
+        if (confirm) {
+            confirm.hidden = state.kind === 'successor' || state.kind === 'defenders';
+            setText(confirm, state.kind === 'view' ? '返回战场' : '确认');
+        }
+        if (back) { back.hidden = state.kind === 'successor' || state.kind === 'defenders' || state.kind === 'view'; }
     }
 
     function mapPickActive() {
@@ -1113,6 +1323,12 @@
         var helpOwner = kind === 'help' ? (meta.helpOwner || readBattleHelp()) : null;
         var helpDetail = kind === 'help' ? meta.helpDetail || null : null;
         var helpToken = kind === 'help' ? meta.helpStamp || '' : '';
+        var viewOwner = kind === 'view' ? meta.viewOwner || null : null;
+        var viewDetail = kind === 'view' ? meta.viewDetail || null : null;
+        var viewStamp = kind === 'view' ? meta.viewStamp || '' : '';
+        var viewEntering = !state.open || state.kind !== 'view' || !state.viewOwner || !viewOwner ||
+            state.viewOwner.generation !== viewOwner.generation;
+        var viewChanged = !state.open || state.kind !== kind || !sameView(state.viewOwner, viewOwner) || state.viewStamp !== viewStamp;
         var helpChanged = !state.open || state.kind !== kind || state.body !== (meta.body || '') ||
             (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) || state.helpStamp !== helpToken ||
             JSON.stringify(state.helpDetail) !== JSON.stringify(helpDetail);
@@ -1124,6 +1340,7 @@
             (!sameMarch(state.marchOwner, marchOwner) && (state.marchOwner || marchOwner)) ||
             (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) ||
             state.helpStamp !== helpToken || JSON.stringify(state.helpDetail) !== JSON.stringify(helpDetail) ||
+            (!sameView(state.viewOwner, viewOwner) && (state.viewOwner || viewOwner)) || state.viewStamp !== viewStamp ||
             (!sameReport(state.reportOwner, reportOwner) && (state.reportOwner || reportOwner)) ||
             (!sameSuccessor(state.successorOwner, successorOwner) && (state.successorOwner || successorOwner)) ||
             (!sameCampaignPersons(state.defenseOwner, defenseOwner) && (state.defenseOwner || defenseOwner)) ||
@@ -1142,6 +1359,10 @@
         state.helpOwner = helpOwner;
         state.helpDetail = helpDetail;
         state.helpStamp = helpToken;
+        state.viewOwner = viewOwner;
+        state.viewDetail = viewDetail;
+        state.viewStamp = viewStamp;
+        if (kind !== 'view' || viewChanged) { state.viewCommit = null; }
         state.reportOwner = reportOwner;
         state.successorOwner = successorOwner;
         state.defenseOwner = defenseOwner;
@@ -1152,7 +1373,11 @@
         state.min = meta.min != null ? meta.min : null;
         state.max = meta.max != null ? meta.max : null;
         state.init = meta.init != null ? meta.init : null;
-        if (kind !== 'help') {
+        if (kind === 'view') {
+            // Paging changes the native owner, but keeps the player's explicit
+            // classic comparison preference for this overview session.
+            if (viewEntering) { state.showLcd = meta.showLcd !== false; }
+        } else if (kind !== 'help') {
             state.showLcd = looksLikeSpeech(state.body) ? false : (meta.showLcd !== false);
         } else if (helpChanged) {
             state.showLcd = meta.showLcd !== false;
@@ -1179,6 +1404,10 @@
         state.helpOwner = null;
         state.helpDetail = null;
         state.helpStamp = '';
+        state.viewOwner = null;
+        state.viewDetail = null;
+        state.viewStamp = '';
+        state.viewCommit = null;
         state.reportOwner = null;
         state.successorOwner = null;
         state.defenseOwner = null;
@@ -1208,7 +1437,7 @@
 
     function pollEngine() {
         if (document.hidden || !hdReady()) {
-            if (state.open && state.kind === 'help') { closeDialog({ silent: true }); }
+            if (state.open && (state.kind === 'help' || state.kind === 'view')) { closeDialog({ silent: true }); }
             return;
         }
         if (!shouldShowHd()) {
@@ -1249,13 +1478,16 @@
         try { help = baye.hd.help && baye.hd.help(); } catch (e) {}
         var battleHelp = readBattleHelp();
         if (fightActive()) {
-            if (battleHelp && battleHelp.kind === 9 && help && help.active) {
+            if (battleHelp && battleHelp.kind === 10 && applyEngineView()) {
+                return;
+            } else if (battleHelp && battleHelp.kind === 9 && help && help.active) {
                 applyEngineHelp(help);
             } else if (state.open && state.kind !== 'qty') {
                 closeDialog({ silent: true });
             }
             return;
         }
+        if (state.open && state.kind === 'view') { closeDialog({ silent: true }); }
         if (help && help.active && applyEngineHelp(help)) { return; }
         if (state.open && state.kind === 'help' && state.helpOwner) {
             closeDialog({ silent: true });
@@ -1446,6 +1678,7 @@
             return;
         }
         if (state.kind === 'qty') { commitQtyDialog(); return; }
+        if (state.kind === 'view') { viewKey(VK.ENTER, state.viewOwner); return; }
         if (state.kind === 'help' && (state.helpOwner || fightActive())) {
             returnFromBattleHelp(); return;
         }
@@ -1485,6 +1718,7 @@
         if (state.kind === 'defenders') { finishDefenders(); return; }
         if (state.kind === 'successor') { return; }
         if (state.kind === 'qty') { cancelQtyDialog(); return; }
+        if (state.kind === 'view') { viewKey(VK.EXIT, state.viewOwner); return; }
         if (state.kind === 'help' && (state.helpOwner || fightActive())) {
             returnFromBattleHelp(); return;
         }
@@ -1535,10 +1769,13 @@
             while (target && target !== root) {
                 if (target.getAttribute && (target.getAttribute('data-hd-dlg-ok') != null ||
                     target.getAttribute('data-hd-dlg-back') != null ||
+                    target.getAttribute('data-hd-dlg-lcd') != null ||
+                    target.getAttribute('data-hd-view-key') != null ||
                     target.getAttribute('data-hd-defender-index') != null ||
                     target.getAttribute('data-hd-defenders-finish') != null ||
                     target.getAttribute('data-hd-successor-index') != null)) {
                     state.pressedView = { epoch: state.viewEpoch, target: target,
+                        viewToken: state.kind === 'view' ? viewToken(state.viewOwner) : '',
                         defenseToken: target.getAttribute('data-hd-defenders-owner') };
                     return;
                 }
@@ -1559,6 +1796,7 @@
             var quantity = state.kind === 'qty';
             var ownedReport = state.kind === 'report' && !!state.marchOwner;
             var ownedHelp = state.kind === 'help' && !!state.helpOwner;
+            var ownedView = state.kind === 'view' && !!state.viewOwner;
             var ownedNativeReport = state.kind === 'report' && !!state.reportOwner;
             var ownedSuccessor = state.kind === 'successor' && !!state.successorOwner;
             var ownedDefense = state.kind === 'defenders' && !!state.defenseOwner;
@@ -1573,7 +1811,7 @@
                 }
                 return;
             }
-            if ((quantity || ownedReport || ownedHelp || ownedNativeReport || ownedSuccessor || ownedDefense) &&
+            if ((quantity || ownedReport || ownedHelp || ownedView || ownedNativeReport || ownedSuccessor || ownedDefense) &&
                 (e.keyCode === 13 || e.keyCode === 27 || quantity && e.keyCode === 32)) {
                 bayeConsumeKeyEvent(e);
                 if (!e.repeat) {
@@ -1628,7 +1866,7 @@
                     ev.preventDefault();
                     var pressed = state.pressedView;
                     state.pressedView = null;
-                    if (pressed && pressed.target === t && pressed.epoch !== state.viewEpoch) { return; }
+                    if (stalePressedView(pressed, t)) { return; }
                     if (state.open && shouldShowHd()) { confirmDialog(); }
                     return;
                 }
@@ -1636,15 +1874,29 @@
                     ev.preventDefault();
                     var backPressed = state.pressedView;
                     state.pressedView = null;
-                    if (backPressed && backPressed.target === t && backPressed.epoch !== state.viewEpoch) { return; }
+                    if (stalePressedView(backPressed, t)) { return; }
                     if (state.open && shouldShowHd()) { backDialog(); }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-dlg-lcd') != null) {
                     ev.preventDefault();
+                    var lcdPressed = state.pressedView;
+                    state.pressedView = null;
+                    if (stalePressedView(lcdPressed, t)) { return; }
+                    if (state.kind === 'view' && !currentView()) { return; }
                     state.showLcd = !state.showLcd;
                     applyChrome();
                     t.textContent = state.showLcd ? '隐藏经典画面' : '经典画面';
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-view-key') != null) {
+                    ev.preventDefault();
+                    var viewPressed = state.pressedView;
+                    state.pressedView = null;
+                    if (stalePressedView(viewPressed, t)) { return; }
+                    if (t.getAttribute('data-hd-view-owner') === viewToken(state.viewOwner)) {
+                        viewKey(Number(t.getAttribute('data-hd-view-key')), state.viewOwner);
+                    }
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-qty') != null) {
@@ -1728,6 +1980,7 @@
         chooseSuccessor: chooseSuccessor,
         chooseDefender: chooseDefender,
         finishDefenders: finishDefenders,
+        viewKey: viewKey,
         isQtyOpen: function () { return !!(state.open && state.kind === 'qty'); },
         clearLeftoverMarch: clearLeftoverMarch,
         dismissLeftoverSpeech: dismissLeftoverSpeech,
@@ -1744,6 +1997,7 @@
         onEngineHook: onEngineHook,
         onEngineReport: onEngineReport,
         onEngineHelp: onEngineHelp,
+        onEngineView: onEngineView,
         onEngineMovie: onEngineMovie,
         poll: pollEngine,
         start: start,
@@ -1770,6 +2024,10 @@
                 helpOwner: state.helpOwner,
                 helpDetail: state.helpDetail,
                 helpStamp: state.helpStamp,
+                viewOwner: state.viewOwner,
+                viewDetail: state.viewDetail,
+                viewStamp: state.viewStamp,
+                viewPending: sameView(state.viewCommit, state.viewOwner),
                 showLcd: state.showLcd,
                 reportOwner: state.reportOwner,
                 successorOwner: state.successorOwner,

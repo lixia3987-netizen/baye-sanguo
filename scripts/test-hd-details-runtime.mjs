@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Real native confiscation and goods-detail browser acceptance.
+/** Real native miniature, confiscation and goods-detail browser acceptance.
  * --staged serves the manifest-bound candidate engine from build/wasm/src.
  * Uses only genuine player UI input and a private temporary profile. */
 import assert from 'node:assert/strict';
@@ -31,8 +31,8 @@ function nativeLibItem(resource, index) {
     const count = lib.readUInt16LE(address + 6), fixed = lib.readUInt32LE(address + 8);
     assert.ok(Number.isInteger(index) && index >= 1 && index <= count);
     const row = address + 14 + (index - 1) * 8;
-    const offset = fixed ? address + 14 + (index - 1) * fixed : address + lib.readUInt32LE(row);
-    const length = fixed || lib.readUInt32LE(row + 4);
+    const offset = fixed ? address + 14 + (index - 1) * fixed : count === 1 ? address + 14 : address + lib.readUInt32LE(row);
+    const length = fixed || (count === 1 ? end - address - 14 : lib.readUInt32LE(row + 4));
     assert.ok(offset >= address + 14 && offset + length <= end && end <= lib.length);
     return lib.subarray(offset, offset + length);
 }
@@ -55,7 +55,7 @@ function prepareServedAssets() {
         report.sources[name] = metadata;
         servedAssets.set('js/' + name, { data, metadata });
     }
-    const files=['pc.html','css/hd-city-menu.css','css/hd-dialog.css','css/hd-overworld.css','css/hd-portraits.css','libs/dat-mod.lib','assets/hd-overworld/manifest.json','assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json','assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json'];
+    const files=['pc.html','css/hd-city-menu.css','css/hd-dialog.css','css/hd-overworld.css','css/hd-portraits.css','css/hd-minimap.css','libs/dat-mod.lib','assets/hd-overworld/manifest.json','assets/hd-overworld/china-lcc-cities.json','assets/hd-overworld/roads/adjacency.json','assets/hd-overworld/palette/factions.json','assets/hd-overworld/terrain/base_plains.jpg','assets/hd-portraits/manifest.json','assets/hd-portraits/refs/index.json'];
     for(const name of new Set(files)) {
         const data=fs.readFileSync(path.join(root,name));
         const metadata={source:name,bytes:data.length,sha256:crypto.createHash('sha256').update(data).digest('hex')};
@@ -178,6 +178,8 @@ const snapshotExpression = `(() => {
         goods: api && api.hd && api.hd.goods && api.hd.goods(),
         libraryIdentity: window.BayeHdLibIdentity && BayeHdLibIdentity.read(),
         battle: window.BayeHdBattle && BayeHdBattle.debugSnapshot(),
+        miniMap: api && api.hd && api.hd.miniMap && api.hd.miniMap(),
+        miniMapUi: window.BayeHdMiniMap && BayeHdMiniMap.debugSnapshot(),
         bodyClass: document.body.className, lastHdCall: window.__bayeLastHdCall
     };
 })()`;
@@ -313,6 +315,7 @@ async function bootStrategy(cdp) {
     assert.equal(report.presetMap.map.cityTotal, 38); assert.equal(report.presetMap.menu.active, 0);
     assert.equal(report.presetMap.march.pick, 1);
     await checkpoint(cdp, '00-preset-hd-map-native-ready');
+    await miniMapSmoke(cdp);
     report.inputs.push({ type: 'player-map-action', action: 'walkToCity', cityIndex: report.cityIndex });
     assert.ok(await evaluate(cdp, `BayeHdOverworld.walkToCity(${report.cityIndex})`), 'A player can enter the actual owned city');
     await menuOwner(cdp, 1, 'real city root');
@@ -328,6 +331,179 @@ async function bootStrategy(cdp) {
     assert.deepEqual(equipment, ['方天画戟', '赤兔'], 'Lü Bu has the actual initial equipment used by this scenario');
     report.initialEquipmentNames = equipment;
     await checkpoint(cdp, '01-native-dongzhuo-luoyang');
+}
+
+const miniWorldExpression = `(() => {
+    const d=baye.data,num=value=>Number(value),n=baye.hd.realm().total,people=baye.getPersonCount();
+    const cityFields=['State','Belong','SatrapId','FarmingLimit','Farming','CommerceLimit','Commerce',
+        'PeopleDevotion','AvoidCalamity','PopulationLimit','Population','Money','Food','MothballArms',
+        'PersonQueue','Persons','ToolQueue','Tools'];
+    const personFields=['OldBelong','Belong','Level','Force','IQ','Devotion','Character','Experience','Thew','ArmsType','Arms','Age'];
+    return {period:num(d.g_PIdx),playerKing:num(d.g_PlayerKing),year:num(d.g_YearDate),month:num(d.g_MonthDate),
+        mapCity:num(d.g_hdMapCity),mapInputSeq:num(d.g_hdMapInputSeq),pick:num(d.g_hdMapPick),
+        cursor:Object.fromEntries(['x','y','setx','sety'].map(key=>[key,num(d.g_CityPos[key])])),
+        cities:Array.from({length:n},(_,i)=>{const c=d.g_Cities[i];return {index:i,
+            ...Object.fromEntries(cityFields.map(key=>[key,num(c[key])])),
+            personQueue:Array.from({length:num(c.Persons)},(_,j)=>num(d.g_PersonsQueue[num(c.PersonQueue)+j])),
+            inventory:Array.from({length:num(c.Tools)},(_,j)=>num(d.g_GoodsQueue[num(c.ToolQueue)+j]))};}),
+        positions:Array.from({length:n},(_,i)=>({index:i,x:num(d.g_CityPositions[i].x),y:num(d.g_CityPositions[i].y)})),
+        people:Array.from({length:people},(_,i)=>{const p=d.g_Persons[i];return {index:i,
+            ...Object.fromEntries(personFields.map(key=>[key,num(p[key])])),equip:[num(p.Equip[0]),num(p.Equip[1])]};})};
+})()`;
+
+const miniObservationExpression = `(() => {
+    const root=document.querySelector('#hd-mini-map'),stage=root&&root.querySelector('.hd-mini-map-stage'),
+        list=document.querySelector('#hd-mini-map-cities'),canvas=document.querySelector('#hd-mini-map-canvas');
+    const rect=node=>{const r=node.getBoundingClientRect();return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height};};
+    const visible=node=>{if(!node)return {visible:false};const r=node.getBoundingClientRect();let styled=true;
+        for(let p=node;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)styled=false;}
+        const clipping=list&&list.contains(node)?list.getBoundingClientRect():{left:0,top:0,right:innerWidth,bottom:innerHeight};
+        const x=r.left+r.width/2,y=r.top+r.height/2,top=document.elementFromPoint(x,y);
+        return {text:node.textContent,rect:rect(node),visible:!!(styled&&r.width&&r.height&&r.left>=clipping.left&&
+            r.right<=clipping.right&&r.top>=clipping.top&&r.bottom<=clipping.bottom&&r.left>=0&&r.top>=0&&
+            r.right<=innerWidth&&r.bottom<=innerHeight&&top&&(top===node||node.contains(top))),top:top&&(top.id||top.tagName)};};
+    let bitmap=null;if(canvas){const bytes=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;
+        let different=0;for(let i=4;i<bytes.length;i+=4)if(bytes[i]!==bytes[0]||bytes[i+1]!==bytes[1]||bytes[i+2]!==bytes[2])different++;
+        bitmap={width:canvas.width,height:canvas.height,differentPixels:different};}
+    const cities=Array.from(list?list.querySelectorAll('[data-hd-mini-city]'):[],li=>({index:Number(li.getAttribute('data-hd-mini-city')),
+        name:visible(li.querySelector('span:nth-of-type(2)')),ownership:visible(li.querySelector('small')),current:li.classList.contains('is-current')}));
+    return {native:baye.hd.miniMap(),ui:BayeHdMiniMap.debugSnapshot(),viewport:{width:innerWidth,height:innerHeight},
+        title:visible(document.querySelector('#hd-mini-map-title')),summary:visible(document.querySelector('#hd-mini-map-summary')),
+        stage:stage&&rect(stage),list:list&&{...rect(list),scrollTop:list.scrollTop,scrollHeight:list.scrollHeight,clientHeight:list.clientHeight},
+        canvas:visible(canvas),bitmap,cities,controls:{back:visible(document.querySelector('#hd-mini-map-return')),
+            classic:visible(document.querySelector('#hd-mini-map-classic'))}};
+})()`;
+
+async function observeMiniLcd(cdp) {
+    return evaluate(cdp, `(() => {
+        const canvas=document.querySelector('#lcd'),container=document.querySelector('.container.js-baye-pc-lcd'),board=document.querySelector('#hd-overworld-canvas');
+        if(!canvas||!container)return {visible:false,missing:true};const r=canvas.getBoundingClientRect();let styled=true;
+        for(let p=canvas;p;p=p.parentElement){const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)styled=false;}
+        const bytes=canvas.getContext('2d').getImageData(0,0,canvas.width,canvas.height).data;let different=0;
+        for(let i=4;i<bytes.length;i+=4)if(bytes[i]!==bytes[0]||bytes[i+1]!==bytes[1]||bytes[i+2]!==bytes[2]||bytes[i+3]!==bytes[3])different++;
+        const stacks=[0.25,0.5,0.75].map(part=>{const nodes=document.elementsFromPoint(r.left+r.width*part,r.top+r.height*part),
+            lcdIndex=nodes.indexOf(canvas),boardIndex=nodes.indexOf(board),top=nodes[0];
+            return {lcdIndex,boardIndex,top:top&&(top.id||top.tagName),unobstructed:top===canvas,
+                aboveBoard:lcdIndex>=0&&(boardIndex<0||lcdIndex<boardIndex),nodes:nodes.map(node=>node.id||node.className||node.tagName)};});
+        return {visible:!!(styled&&r.width&&r.height&&r.left>=0&&r.top>=0&&r.right<=innerWidth&&r.bottom<=innerHeight&&stacks.every(s=>s.aboveBoard&&s.unobstructed)),
+            containerVisibility:getComputedStyle(container).visibility,canvasVisibility:getComputedStyle(canvas).visibility,
+            rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height},stacks,
+            bitmap:{width:canvas.width,height:canvas.height,differentPixels:different}};
+    })()`);
+}
+
+async function miniMapSmoke(cdp) {
+    // This observer forwards the original exports once. It records real input
+    // crossing the native boundary; it neither replaces hooks nor fabricates C.
+    await evaluate(cdp, `(() => {
+        window.__miniNativeInputs={keys:[],touches:[]};
+        let nativeKey=window._bayeSendKey;
+        const observedKey=function(code){__miniNativeInputs.keys.push(code);const result=nativeKey(code);
+            if(window._bayeSendKey!==observedKey){nativeKey=window._bayeSendKey;window._bayeSendKey=observedKey;}return result;};
+        window._bayeSendKey=observedKey;baye.sendKey=observedKey;
+        let nativeTouch=window._bayeSendTouchEvent;
+        const observedTouch=function(kind,x,y){__miniNativeInputs.touches.push({kind,x,y});const result=nativeTouch(kind,x,y);
+            if(window._bayeSendTouchEvent!==observedTouch){nativeTouch=window._bayeSendTouchEvent;window._bayeSendTouchEvent=observedTouch;}return result;};
+        window._bayeSendTouchEvent=observedTouch;
+    })()`);
+    const before=await evaluate(cdp,miniWorldExpression);
+    assert.equal(before.cities.length,38);assert.ok(before.people.length>0,'The native roster count is available');assert.equal(before.pick,1);
+    const nativeCities=await evaluate(cdp, `Array.from({length:baye.hd.realm().total},(_,i)=>({index:i,name:baye.getCityName(i),
+        engineX:Number(baye.data.g_CityPositions[i].x),engineY:Number(baye.data.g_CityPositions[i].y),belong:Number(baye.data.g_Cities[i].Belong)}))`);
+    for(const city of nativeCities){const bytes=nativeLibItem(58,city.index+1),zero=bytes.indexOf(0);
+        assert.equal(city.name,new TextDecoder('gbk').decode(bytes.subarray(0,zero<0?bytes.length:zero)), 'All native city names match the actually served resource 58');}
+    const picture=nativeLibItem(75,1),nativePicture={width:picture.readUInt16LE(0),height:picture.readUInt16LE(2),count:picture.readUInt16LE(4),mask:picture[6]};
+    assert.deepEqual(nativePicture,{width:84,height:64,count:1,mask:0},'The real resource header mask is distinct from gam_drawpic draw argument 1');
+    report.miniMap={worldBefore:before,nativeCities,nativePicture,rounds:[],screens:[],
+        touchScope:'PC touch on the HD return button sends one real native EXIT key. The PC classic LCD does not install native touch input; native touch consumption is covered separately by C fixtures, and mobile device acceptance remains pending.'};
+    const inputCounts=()=>evaluate(cdp,'({keys:__miniNativeInputs.keys.length,touches:__miniNativeInputs.touches.length})');
+    const stable=async label=>{assert.deepEqual(await evaluate(cdp,miniWorldExpression),before,label+' preserves every native city/person/inventory/date and cursor field');
+        assert.equal(await evaluate(cdp,'baye.hd.menuItems().active'),0,label+' does not enter a city');};
+    const overlaps=(a,b)=>a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+    let lastSeq=0;
+    const opened=async label=>{
+        await key(cdp,'f');
+        const value=await waitFor(cdp,label+' actual native SEARCH owner', `(() => {
+            const n=baye.hd.miniMap(),ui=BayeHdMiniMap.debugSnapshot();return n.active===1&&n.complete===1&&ui.open&&ui.complete&&{native:n,ui};})()`);
+        assert.equal(value.native.protocolVersion,1);assert.equal(value.native.defaultDraw,1);assert.equal(value.native.custom,0);
+        assert.equal(value.native.resourceId,75);assert.equal(value.native.imageIndex,0);assert.equal(value.native.width,nativePicture.width);assert.equal(value.native.height,nativePicture.height);assert.equal(value.native.mask,nativePicture.mask);
+        assert.ok(value.native.seq>lastSeq);lastSeq=value.native.seq;
+        assert.equal(value.native.generation,value.native.detailGeneration);assert.equal(value.native.mapInputSeq,before.mapInputSeq);
+        assert.equal(value.native.cursorX,before.cursor.setx);assert.equal(value.native.cursorY,before.cursor.sety);
+        assert.equal(value.native.viewX,before.cursor.x);assert.equal(value.native.viewY,before.cursor.y);assert.equal(value.native.city1,before.mapCity);
+        assert.deepEqual(value.ui.cities.map(city=>({index:city.index,name:city.name,engineX:city.engineX,engineY:city.engineY,belong:city.belong})),nativeCities);
+        for(const city of value.ui.cities)assert.equal(city.kind,city.belong===0?'empty':city.belong===before.playerKing+1?'owned':'neutral');
+        assert.equal(value.ui.showLcd,false);await stable(label+' open');return value;
+    };
+    const screen=async(width,height,label)=>{
+        const inputs=await inputCounts();
+        await cdp.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await delay(350);
+        const nativeOwner=await evaluate(cdp,'baye.hd.miniMap()');
+        let observation=await evaluate(cdp,miniObservationExpression);
+        assert.ok(observation.title.visible&&observation.summary.visible&&observation.canvas.visible);
+        assert.ok(observation.bitmap.differentPixels>1000,'The actual HD miniature canvas contains more than a flat fill');
+        assert.ok(observation.controls.back.visible&&observation.controls.classic.visible);
+        assert.ok(observation.controls.back.rect.height>=44&&observation.controls.classic.rect.height>=44);
+        assert.ok(observation.stage.left>=0&&observation.stage.right<=width&&observation.stage.top>=0&&observation.stage.bottom<=height);
+        assert.equal(observation.cities.length,38);
+        const seen=new Set();
+        for(let pass=0;pass<5;pass++){
+            for(const city of observation.cities){assert.equal(city.name.text,nativeCities[city.index].name);
+                assert.equal(city.ownership.text,nativeCities[city.index].belong===0?'空城':nativeCities[city.index].belong===before.playerKing+1?'我方':'他方');
+                if(city.name.visible&&city.ownership.visible)seen.add(city.index);}
+            if(seen.size===38)break;
+            const r=observation.list,p={x:(r.left+r.right)/2,y:(r.top+r.bottom)/2};
+            report.inputs.push({type:'mini-map-list-scroll',...p,deltaY:420});
+            await cdp.send('Input.dispatchMouseEvent',{type:'mouseWheel',...p,deltaX:0,deltaY:420});await delay(180);
+            observation=await evaluate(cdp,miniObservationExpression);
+        }
+        assert.equal(seen.size,38,'Every actual city name and ownership label was visibly rendered and hit-tested');
+        const defaultLcd=await observeMiniLcd(cdp);assert.equal(defaultLcd.visible,false);assert.equal(defaultLcd.containerVisibility,'hidden');
+        await stable(label+' passive HD rendering');assert.deepEqual(await inputCounts(),inputs,'Resizing/rendering/real list scrolling sends no native input');
+        await checkpoint(cdp,'00-mini-map-'+label+'-hd');
+        await click(cdp,'#hd-mini-map-classic');await waitFor(cdp,'explicit miniature LCD','BayeHdMiniMap.debugSnapshot().showLcd===true');
+        await delay(200);const classicLcd=await observeMiniLcd(cdp),classicHud=await evaluate(cdp,miniObservationExpression);
+        assert.equal(classicLcd.visible,true,'The actual LCD is visible above the world canvas, not merely CSS-visible');
+        assert.ok(classicLcd.bitmap.differentPixels>0,'The LCD contains the real native resource 75 frame');
+        assert.equal(overlaps(classicLcd.rect,classicHud.stage),false,'Classic LCD is separate from the HD miniature card');
+        assert.ok(classicHud.controls.back.visible&&classicHud.controls.classic.visible,'Both actual classic/return controls stay hit-testable');
+        await stable(label+' classic comparison');assert.deepEqual(await inputCounts(),inputs,'Classic comparison sends no native key or touch');
+        assert.deepEqual(await evaluate(cdp,'baye.hd.miniMap()'),nativeOwner,'Comparison preserves the exact actual native miniature capture');
+        await checkpoint(cdp,'00-mini-map-'+label+'-classic');
+        await click(cdp,'#hd-mini-map-classic');await waitFor(cdp,'hide miniature LCD','BayeHdMiniMap.debugSnapshot().showLcd===false');
+        const restored=await observeMiniLcd(cdp);assert.equal(restored.visible,false);
+        await stable(label+' restored HD');assert.deepEqual(await inputCounts(),inputs);
+        report.miniMap.screens.push({width,height,seen:[...seen],hd:observation,defaultLcd,classicHud,classicLcd,restored});
+    };
+    for(const [i,closing] of ['ArrowRight','ArrowUp','ArrowDown','ArrowLeft','Enter','Escape','button','touch-button'].entries()){
+        const label=String(i+1).padStart(2,'0')+'-'+closing,owner=await opened(label);
+        if(i===0)await screen(1920,1080,'1080p');if(i===1)await screen(1280,720,'720p');
+        const inputs=await inputCounts();
+        if(closing==='button')await click(cdp,'#hd-mini-map-return');
+        else if(closing==='touch-button'){
+            await click(cdp,'#hd-mini-map-classic');await delay(150);
+            assert.equal((await observeMiniLcd(cdp)).visible,true);assert.deepEqual(await inputCounts(),inputs);
+            await click(cdp,'#hd-mini-map-classic');await waitFor(cdp,'HD miniature restored before touch button','BayeHdMiniMap.debugSnapshot().showLcd===false');
+            const button=await evaluate(cdp,miniObservationExpression);assert.ok(button.controls.back.visible);
+            assert.ok(button.controls.back.rect.width>=44&&button.controls.back.rect.height>=44);
+            const rect=button.controls.back.rect,point={x:(rect.left+rect.right)/2,y:(rect.top+rect.bottom)/2};
+            report.inputs.push({type:'PC-HD-return-button-touch',...point,nativeMeaning:'one original EXIT key; no native LCD touch'});
+            await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:1});
+            await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{...point,radiusX:1,radiusY:1,force:1,id:0}]});
+            await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});
+            await delay(180);
+            await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:false});
+        }else await key(cdp,closing);
+        await waitFor(cdp,label+' original native miniature exit consumed', 'baye.hd.miniMap().active===0&&!BayeHdMiniMap.isOpen()&&baye.hd.march().pick===1&&!baye.hd.menuItems().active');
+        await stable(label+' return');const afterInputs=await inputCounts();
+        assert.equal(afterInputs.keys-inputs.keys,1,'The explicit dismissal crosses the native key boundary only once');
+        assert.equal(afterInputs.touches-inputs.touches,0,'The PC miniature controls do not pretend to be native LCD touch input');
+        assert.equal(await evaluate(cdp,'document.querySelector("#hd-mini-map").hidden'),true);
+        report.miniMap.rounds.push({label,closing,owner,inputs,afterInputs,after:await evaluate(cdp,'baye.hd.miniMap()')});
+        await checkpoint(cdp,'00-mini-map-'+label+'-consumed');
+    }
+    report.miniMap.worldAfter=await evaluate(cdp,miniWorldExpression);assert.deepEqual(report.miniMap.worldAfter,before);
+    await cdp.send('Emulation.setDeviceMetricsOverride',{width:1920,height:1080,deviceScaleFactor:1,mobile:false});await delay(200);
 }
 
 async function emptyStockSmoke(cdp) {
@@ -605,6 +781,8 @@ async function main() {
         report.ok = false; report.error = error.stack || String(error); process.exitCode = 1;
         if (cdp) {
             try { report.failureState = await evaluate(cdp, snapshotExpression); } catch {}
+            try { report.failureMiniWorld = await evaluate(cdp, miniWorldExpression); } catch {}
+            try { report.failureMiniInputs = await evaluate(cdp, 'window.__miniNativeInputs || null'); } catch {}
             try { if (Number.isInteger(report.cityIndex) && Number.isInteger(report.personIndex)) report.failureNative = await nativeState(cdp); } catch {}
             try {
                 const image = await cdp.send('Page.captureScreenshot', { format: 'png' });
@@ -627,7 +805,7 @@ async function main() {
         report.finishedAt = new Date().toISOString();
         fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
         console.log('Artifacts:', artifactDir);
-        if (report.ok) console.log('Real native goods-detail browser acceptance passed');
+        if (report.ok) console.log('Real native miniature and goods-detail browser acceptance passed');
     }
 }
 
