@@ -1,6 +1,6 @@
 # 武将立绘 img2img 提示
 
-参考图只用 `refs/period-{时期}/{personId}-{姓名}.png`。那是引擎画到 `#lcd` 左上角 `24 * dotSize` 的原头像：`baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)`，`GEN_HEADPIC1` 是 47，时期 1 的 resid 是 48。不要拿 `querySelector('canvas')` 裁到的 HD 大地图（接近全黑），不要拿别的武将，不要拿海报脸替换。生成文件放到清单里的 `hd` 路径（同样的时期和 personId）。没有参考图就不要生成。
+身份参考只用 `refs/period-{时期}/{personId}-{姓名}.png`。那是引擎画到 `#lcd` 左上角 `24 * dotSize` 的原头像：`baye.drawImage(0, 0, GEN_HEADPIC1 + g_PIdx, 0, personIndex, 1)`，`GEN_HEADPIC1` 是 47，时期 1 的 resid 是 48。不要拿 `querySelector('canvas')` 裁到的 HD 大地图（接近全黑），不要拿别的武将，不要拿海报脸替换。生成文件放到清单里的 `hd` 路径（同样的时期和 personId）。没有参考图就不要生成。
 
 时期：1 董卓弄权 · 2 曹操崛起 · 3 赤壁之战 · 4 三足鼎立（界面里也叫三国鼎立）。
 
@@ -33,3 +33,11 @@ Keep the reference likeness. Do not raise denoise until the face no longer match
 - 路径与 `assets/hd-portraits/manifest.json` 的 `hd` 字段一致，例如 `hd/period-1/5-马腾.png`
 - 也可以额外放 `hd/period-{时期}/{personId}.png`，壳会把它当作无名额的后备
 - 不要把生成图放进 `refs/`。`refs/` 只收引擎实拍
+
+## 2026-10-08：其余时期的制作方式
+
+使用内置 `image_gen`，每个时期与人物独立调用，`transparent_background:false`；先查看所有本地输入。对应时期的原生头像优先决定面容、年龄、胡须与头冠，已有同人物的时期一高清图只辅助人物连续性和已接受的写实电影画风。周瑜没有时期一成品，仅以曹操成品辅助光线、材质与画幅，提示词明确不借用曹操的脸、胡须或装束。
+
+画幅请求横向约16:9，半身、柔侧光、简洁虚化背景；完整头冠和胡须必须在框内。出现裁冠时以更松构图重新生成，保留拒收原始候选。最终使用工具原生 PNG，真实输出为1672×941；不为凑1280×720而裁切或缩放，也不把24×24参考放大记作高清成品。
+
+完整实际提示词、各参考图角色与哈希、原始内置输出路径、成品尺寸/哈希与逐图视觉检查见 [时期二](GENERATED-PERIOD-2.md)、[时期三](GENERATED-PERIOD-3.md)、[时期四](GENERATED-PERIOD-4.md)。[素材对照页](review.html)按真实时期与0-based人物ID展示原生参考和完整成品。

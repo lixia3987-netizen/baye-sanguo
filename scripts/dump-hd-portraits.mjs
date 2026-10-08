@@ -5,6 +5,11 @@
  *   node scripts/dump-hd-portraits.mjs
  *   node scripts/dump-hd-portraits.mjs --periods 1 --limit 8
  *   node scripts/dump-hd-portraits.mjs --smoke-only
+ *   CHROME may point to a Windows Chrome executable. Default server and CDP
+ *   ports are ephemeral. --smoke-only never exports or rewrites references;
+ *   it delegates to the isolated real-PNG runner and requires all 39 HD slots.
+ *   Partial or other-LIB exports retain their verified dump result without
+ *   running the standard-dictionary 39-slot acceptance.
  *
  * Serves the repo, opens hd-portrait-dump.html in headless Chrome, and writes
  * assets/hd-portraits/refs/period-{1..4}/{id}-{name}.png plus manifest.json.
@@ -17,6 +22,8 @@
 import http from 'http';
 import fs from 'fs';
 import path from 'path';
+import os from 'node:os';
+import net from 'node:net';
 import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
 import { createHash } from 'node:crypto';
@@ -45,8 +52,14 @@ function arg(name, fallback) {
 const periods = arg('--periods', '1,2,3,4');
 const limit = arg('--limit', '0');
 const smokeOnly = process.argv.includes('--smoke-only');
-const port = Number(arg('--port', '8765'));
-const chromePort = Number(arg('--chrome-port', '9333'));
+const port = Number(arg('--port', '0'));
+let chromePort = Number(arg('--chrome-port', '0'));
+let chromeProfile = null;
+for (const value of [port, chromePort]) {
+    if (!Number.isInteger(value) || value < 0 || value > 65535 || value === 8080) {
+        throw new Error('Use an available port from 0..65535; user game port 8080 is reserved');
+    }
+}
 
 function safeRef(file) {
     if (typeof file !== 'string' || file.includes('..') || path.isAbsolute(file)) {
@@ -56,6 +69,38 @@ function safeRef(file) {
         return null;
     }
     return file;
+}
+
+function hasStandardSmokeExport(manifest, references) {
+    const standardSha = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+    if (!manifest || !references || manifest.libSha256 !== standardSha || references.libSha256 !== standardSha ||
+        !Array.isArray(manifest.entries) || manifest.entries.length !== 39 ||
+        !Array.isArray(references.periods) || (manifest.missingPilots || []).length) return false;
+    const expected = new Map(), seenPeriods = new Set();
+    for (const block of references.periods) {
+        if (!block || !Number.isInteger(block.period) || block.period < 1 || block.period > 4 ||
+            seenPeriods.has(block.period) || !Array.isArray(block.people)) return false;
+        seenPeriods.add(block.period);
+        const seenIds = new Set();
+        for (const person of block.people) {
+            if (!person || person.skipped) continue;
+            if (!Number.isInteger(person.id) || person.id < 0 || seenIds.has(person.id)) return false;
+            seenIds.add(person.id);
+            if (!PILOT_NAMES.includes(person.name)) continue;
+            if (!safeRef(person.file) || !person.file.startsWith('period-' + block.period + '/')) return false;
+            expected.set(block.period + ':' + person.id, person);
+        }
+    }
+    if (expected.size !== 39) return false;
+    const matched = new Set();
+    for (const entry of manifest.entries) {
+        if (!entry || entry.missing !== false || entry.pilot !== true || !Number.isInteger(entry.period) ||
+            !Number.isInteger(entry.personId) || typeof entry.hd !== 'string' || !entry.hd) return false;
+        const key = entry.period + ':' + entry.personId, person = expected.get(key);
+        if (!person || matched.has(key) || entry.name !== person.name || entry.ref !== 'refs/' + person.file) return false;
+        matched.add(key);
+    }
+    return true;
 }
 
 function existingHdPaths(libSha256) {
@@ -227,7 +272,7 @@ function startServer() {
             rel = '/hd-portrait-dump.html';
         }
         const file = path.normalize(path.join(root, rel));
-        if (!file.startsWith(root)) {
+        if (!file.startsWith(root + path.sep)) {
             res.writeHead(403);
             res.end();
             return;
@@ -335,10 +380,33 @@ async function waitFor(cdp, expression, timeout) {
     throw new Error('timeout waiting for ' + expression + '\n' + cdp.logs.join('\n'));
 }
 
+async function unusedPort(requested = 0) {
+    const socket = net.createServer();
+    await new Promise((resolve, reject) => { socket.once('error', reject); socket.listen(requested, '127.0.0.1', resolve); });
+    const assigned = socket.address().port;
+    await new Promise(resolve => socket.close(resolve));
+    return assigned;
+}
+
+async function runPortraitSmoke() {
+    // Genuine HD files stay immutable. Missing HD/ref and late responses are
+    // controlled solely by the isolated runner's ephemeral HTTP server.
+    const args = [path.join(root, 'scripts/test-hd-portraits-runtime.mjs'), '--assets-only',
+        '--artifact-dir', path.resolve(arg('--artifact-dir', path.join(root, 'build/r06-dump-smoke')))];
+    if (process.argv.includes('--allow-partial')) args.push('--allow-partial');
+    await new Promise((resolve, reject) => {
+        const child = spawn(process.execPath, args, { cwd: root, stdio: 'inherit' });
+        child.once('error', reject);
+        child.once('exit', code => code === 0 ? resolve() : reject(new Error('Isolated portrait smoke exited ' + code)));
+    });
+}
+
 function launchChrome(url) {
-    const bin = process.env.CHROME || '/usr/bin/google-chrome';
-    const userData = '/tmp/hd-portrait-chrome-' + chromePort;
-    fs.rmSync(userData, { recursive: true, force: true });
+    const candidates = ['C:/Program Files/Google/Chrome/Application/chrome.exe', '/usr/bin/google-chrome', '/usr/bin/chromium'];
+    const bin = process.env.CHROME || candidates.find(file => fs.existsSync(file));
+    if (!bin) throw new Error('Set CHROME to a Chrome/Chromium executable');
+    const userData = fs.mkdtempSync(path.join(os.tmpdir(), 'baye-portrait-dump-'));
+    chromeProfile = userData;
     const child = spawn(bin, [
         '--headless=new',
         '--no-sandbox',
@@ -352,14 +420,25 @@ function launchChrome(url) {
 }
 
 async function main() {
+    if (smokeOnly) { await runPortraitSmoke(); return; }
+    // Never attach to a pre-existing debugging endpoint, even for an explicit
+    // port. The Chrome process below always receives its own fresh profile.
+    chromePort = await unusedPort(chromePort);
     const server = await startServer();
-    console.log('serving', root, 'on', port);
-    const dumpUrl = 'http://127.0.0.1:' + port + '/hd-portrait-dump.html?autorun=1&post=http://127.0.0.1:' + port + '/dump&periods=' + encodeURIComponent(periods) + '&limit=' + encodeURIComponent(limit);
-    const chrome = launchChrome(smokeOnly ? 'about:blank' : dumpUrl);
+    const servedPort = server.address().port;
+    if (servedPort === 8080) { server.close(); throw new Error('The user game port 8080 is reserved'); }
+    console.log('serving', root, 'on', servedPort);
+    const dumpUrl = 'http://127.0.0.1:' + servedPort + '/hd-portrait-dump.html?autorun=1&post=http://127.0.0.1:' + servedPort + '/dump&periods=' + encodeURIComponent(periods) + '&limit=' + encodeURIComponent(limit);
+    let chrome = null, cdp = null;
     let failed = null;
     try {
+        chrome = launchChrome(dumpUrl);
+        let chromeError = null;
+        chrome.once('error', error => { chromeError = error; });
         const page = await chromeTarget();
-        const cdp = await connectCdp(page.webSocketDebuggerUrl);
+        if (chromeError) throw chromeError;
+        if (chrome.exitCode !== null) throw new Error('Private dump Chrome exited ' + chrome.exitCode);
+        cdp = await connectCdp(page.webSocketDebuggerUrl);
         server.cdp = cdp;
         await cdp.send('Runtime.enable');
         await cdp.send('Page.enable');
@@ -395,60 +474,36 @@ async function main() {
             console.log('sample', sample.join(' | '));
             console.log('wrote', server.written, 'pngs; missing pilots', (server.manifest.missingPilots || []).join(',') || '(none)');
         }
-        const manifest = JSON.parse(fs.readFileSync(path.join(root, 'assets/hd-portraits/manifest.json'), 'utf8'));
-        function absPortrait(rel) {
-            return path.join(root, 'assets/hd-portraits', rel);
-        }
-        const shipped = (manifest.entries || []).filter((entry) => entry && !entry.missing && entry.hd && fs.existsSync(absPortrait(entry.hd)));
-        const fallback = (manifest.entries || []).find((entry) => entry && !entry.missing && entry.ref && entry.hd && fs.existsSync(absPortrait(entry.ref)) && !fs.existsSync(absPortrait(entry.hd)));
-        if (!shipped.length || !fallback) {
-            throw new Error('need one shipped HD portrait and one ref-only pilot to smoke');
-        }
-        async function smoke(entry, expect, contains, minWidth) {
-            const url = 'http://127.0.0.1:' + port + '/hd-portrait-smoke.html?expect=' + encodeURIComponent(expect) + '&personId=' + entry.personId + '&period=' + entry.period + (contains ? '&contains=' + encodeURIComponent(contains) : '') + (minWidth ? '&minWidth=' + minWidth : '') + '&t=' + Date.now();
-            await cdp.send('Page.navigate', { url });
-            const result = await waitFor(cdp, '(function(){var s=window.__hdPortraitSmoke; if(!s||s.personId!==' + entry.personId + '||s.expect!==' + JSON.stringify(expect) + ') return null; return s;})()', 20000);
-            if (!result.ok) {
-                throw new Error('smoke ' + expect + ' ' + entry.name + ' ' + (result.errors || []).join('; '));
-            }
-            console.log('smoke', expect, entry.period + ':' + entry.personId + ':' + entry.name, result.url || '');
-            return result;
-        }
-        for (const entry of shipped) {
-            await smoke(entry, 'hd', entry.hd, 100);
-            const hdPath = absPortrait(entry.hd);
-            const aside = hdPath + '.smoke-aside';
-            fs.renameSync(hdPath, aside);
-            try {
-                await smoke(entry, 'ref', entry.ref);
-            } finally {
-                fs.renameSync(aside, hdPath);
-            }
-            await smoke(entry, 'hd', entry.hd, 100);
-        }
-        const refPath = absPortrait(fallback.ref);
-        const hdPath = absPortrait(fallback.hd);
-        await smoke(fallback, 'ref', fallback.ref);
-        fs.mkdirSync(path.dirname(hdPath), { recursive: true });
-        fs.copyFileSync(refPath, hdPath);
-        try {
-            await smoke(fallback, 'hd', fallback.hd);
-        } finally {
-            fs.rmSync(hdPath, { force: true });
-        }
-        await smoke(fallback, 'ref', fallback.ref);
         cdp.close();
     } catch (err) {
         failed = err;
     } finally {
-        chrome.kill('SIGKILL');
-        server.close();
+        if (cdp) cdp.close();
+        if (chrome && chrome.exitCode === null) {
+            const stopped = new Promise(resolve => chrome.once('exit', resolve));
+            chrome.kill('SIGTERM');
+            await Promise.race([stopped, new Promise(resolve => setTimeout(resolve, 1500))]);
+            if (chrome.exitCode === null) { chrome.kill('SIGKILL'); await Promise.race([stopped, new Promise(resolve => setTimeout(resolve, 1500))]); }
+        }
+        server.closeAllConnections();
+        await new Promise(resolve => server.close(resolve));
+        if (chromeProfile) {
+            const resolved = path.resolve(chromeProfile);
+            if (path.dirname(resolved) !== path.resolve(os.tmpdir()) || !path.basename(resolved).startsWith('baye-portrait-dump-')) throw new Error('Unsafe profile cleanup path');
+            fs.rmSync(resolved, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 });
+        }
     }
     if (failed) {
         console.error(failed && failed.stack ? failed.stack : failed);
         process.exit(1);
     }
-    console.log('portrait dump and smoke ok');
+    if (hasStandardSmokeExport(server.manifest, server.summary)) {
+        await runPortraitSmoke();
+        console.log('portrait dump and isolated asset smoke ok');
+    } else {
+        console.log('本次为部分或其他LIB导出，未运行标准39素材smoke');
+        console.log('portrait dump ok');
+    }
 }
 
-main();
+main().catch(error => { console.error(error.stack || error); process.exitCode = 1; });

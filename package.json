@@ -19,6 +19,7 @@
     "test:dialog-routing": "node scripts/test-hd-dialog-routing.mjs",
     "test:portraits": "node scripts/test-hd-portraits.mjs",
     "test:portrait-browser": "node scripts/dump-hd-portraits.mjs --smoke-only",
+    "test:portrait-runtime": "node scripts/test-hd-portraits-runtime.mjs",
     "test:runtime": "node scripts/test-hd-runtime.mjs",
     "test:performance": "node scripts/test-hd-runtime.mjs --performance",
     "test:render-visibility": "node scripts/test-hd-render-visibility.mjs",

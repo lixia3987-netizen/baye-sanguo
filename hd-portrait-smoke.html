@@ -1,182 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="utf-8"/>
-    <title>武将立绘冒烟</title>
-    <link rel="stylesheet" href="css/hd-portraits.css"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>武将立绘素材预览</title>
+    <link rel="stylesheet" href="css/hd-portraits.css">
+    <style>body{background:#17202b;color:#eee;font-family:system-ui,"Microsoft YaHei",sans-serif;margin:24px}#status{max-width:720px;line-height:1.6}.hd-portrait{position:static!important;margin-top:24px;max-width:480px;width:100%}</style>
 </head>
 <body data-hd-portrait-manual="1">
+    <p id="status" aria-live="polite">正在检查立绘素材…</p>
+    <p><a href="assets/hd-portraits/review.html">查看完整试点素材对照</a></p>
     <figure id="hd-portrait" class="hd-portrait" hidden data-hd-portrait="off">
         <img id="hd-portrait-img" alt="">
         <figcaption id="hd-portrait-cap"></figcaption>
     </figure>
     <script src="js/hd-lib-identity.js?ver=20261008i"></script>
-    <script src="js/hd-portraits.js?ver=20261008i"></script>
+    <script src="js/hd-portraits.js?ver=20261008j"></script>
     <script>
-        (function () {
-            function waitImage() {
-                var img = document.getElementById('hd-portrait-img');
-                if (!img || !img.getAttribute('src')) {
-                    return Promise.resolve(img);
-                }
-                if (img.complete) {
-                    return Promise.resolve(img);
-                }
-                return new Promise(function (resolve) {
-                    img.onload = function () { resolve(img); };
-                    img.onerror = function () { resolve(img); };
-                });
-            }
-
-            function numAttr(name) {
-                var q = new URLSearchParams(location.search);
-                var raw = q.get(name);
-                if (raw == null || raw === '') {
-                    return null;
-                }
-                var n = Number(raw);
-                return isFinite(n) ? n : null;
-            }
-
-            BayeHdPortraits.loadManifest().then(function (manifest) {
-                var errors = [];
-                function check(cond, message) {
-                    if (!cond) {
-                        errors.push(message);
-                    }
-                }
-                var entries = manifest && manifest.entries ? manifest.entries : [];
-                var pilot = null;
-                var i;
-                var wantId = numAttr('personId');
-                var wantPeriod = numAttr('period') || 1;
-                for (i = 0; i < entries.length; i++) {
-                    var entry = entries[i];
-                    if (!entry || entry.missing) {
-                        continue;
-                    }
-                    if (wantId != null && entry.personId === wantId && entry.period === wantPeriod) {
-                        pilot = entry;
-                        break;
-                    }
-                    if (wantId == null && entry.name === '马腾' && entry.period === 1) {
-                        pilot = entry;
-                    }
-                }
-                check(!!pilot, 'manifest 里没有可测的试点（马腾 / 时期 1，或 query personId）');
-                if (!pilot) {
-                    window.__hdPortraitSmoke = { ok: false, errors: errors };
-                    return;
-                }
-                var query = new URLSearchParams(location.search);
-                var expect = query.get('expect') || 'ref';
-                var contains = query.get('contains') || '';
-                var minWidth = Number(query.get('minWidth')) || 0;
-                var chosenUrl = '';
-                return BayeHdPortraits.chooseSource(pilot.personId, pilot.period).then(function (src) {
-                    check(src.preview === true, '独立冒烟只允许素材预览');
-                    var identity = BayeHdLibIdentity.read();
-                    check(identity.status === 'unavailable' && identity.sha256 === null, '预览不能伪造运行库身份');
-                    chosenUrl = src.url || '';
-                    check(src.mode === expect, 'chooseSource 期望 ' + expect + ' 实际 ' + src.mode + ' ' + chosenUrl);
-                    check(!contains || chosenUrl.indexOf(contains) >= 0, 'url 不含 ' + contains + ' 实际 ' + chosenUrl);
-                    return BayeHdPortraits.applyView({
-                        context: 'map-king',
-                        personId: pilot.personId,
-                        period: pilot.period,
-                        name: pilot.name
-                    });
-                }).then(function (src) {
-                    var root = document.getElementById('hd-portrait');
-                    check(root.getAttribute('data-hd-portrait') === expect, 'data-hd-portrait=' + root.getAttribute('data-hd-portrait'));
-                    check(root.getAttribute('data-context') === 'map-king', 'context');
-                    check(String(root.getAttribute('data-person-id')) === String(pilot.personId), 'person id');
-                    return waitImage().then(function (img) {
-                        check(img && img.naturalWidth > 8, '立绘图像没有宽度');
-                        if (minWidth) {
-                            check(img && img.naturalWidth >= minWidth, '图宽度 ' + (img && img.naturalWidth) + ' 小于 ' + minWidth);
-                        }
-                        return BayeHdPortraits.applyView({
-                            context: 'person-info',
-                            personId: 99999,
-                            period: pilot.period,
-                            name: '无人'
-                        });
-                    });
-                }).then(function (missing) {
-                    check(missing.mode === 'lcd', '不存在的 personId 应回退 lcd，实际 ' + missing.mode);
-                    check(document.getElementById('hd-portrait').getAttribute('data-hd-portrait') === 'off', '缺图时应隐藏槽位');
-
-                    window.baye = {
-                        data: {
-                            g_PIdx: pilot.period,
-                            g_PlayerKing: pilot.personId,
-                            g_hdFightActive: 0,
-                            g_hdFightOver: 0,
-                            g_FoucsX: 3,
-                            g_FoucsY: 4,
-                            g_FgtParam: { GenArray: [pilot.personId + 1] },
-                            g_GenPos: [{ x: 3, y: 4 }]
-                        },
-                        getPersonName: function () { return pilot.name; },
-                        getPersonCount: function () { return 1; },
-                        hd: {
-                            report: function () {
-                                return { kind: 2, person: pilot.personId, text: '报', seq: 1 };
-                            }
-                        }
-                    };
-                    document.body.classList.add('baye-hd-overworld-map');
-                    var mapView = BayeHdPortraits.detectView();
-                    check(mapView && mapView.context === 'map-king' && mapView.personId === pilot.personId, '地图君主头像未识别');
-
-                    window.BayeHdCityMenu = {
-                        isOpen: function () { return true; },
-                        debugSnapshot: function () {
-                            return {
-                                open: true,
-                                layer: 'deep',
-                                deepKind: 'person',
-                                idleIndex: 0,
-                                deepItems: [{ pind: pilot.personId, name: pilot.name }]
-                            };
-                        }
-                    };
-                    var menuView = BayeHdPortraits.detectView();
-                    check(menuView && menuView.context === 'person-info' && menuView.personId === pilot.personId, '人物信息未识别');
-
-                    window.BayeHdCityMenu.isOpen = function () { return false; };
-                    window.BayeHdDialog = {
-                        debugSnapshot: function () {
-                            return { open: true, kind: 'help' };
-                        }
-                    };
-                    window.baye.data.g_hdFightActive = 1;
-                    var noteView = BayeHdPortraits.detectView();
-                    check(noteView && noteView.context === 'battle-note' && noteView.personId === pilot.personId, '战场说明头像未识别');
-
-                    window.BayeHdDialog.debugSnapshot = function () {
-                        return { open: true, kind: 'report' };
-                    };
-                    window.baye.data.g_hdFightActive = 0;
-                    var reportView = BayeHdPortraits.detectView();
-                    check(reportView && reportView.context === 'person-info' && reportView.personId === pilot.personId, '武将报告头像未识别');
-
-                    window.__hdPortraitSmoke = {
-                        ok: errors.length === 0,
-                        errors: errors,
-                        personId: pilot.personId,
-                        period: pilot.period,
-                        expect: expect,
-                        preview: true,
-                        runtimeIdentity: BayeHdLibIdentity.read(),
-                        url: chosenUrl
-                    };
-                });
-            }).catch(function (err) {
-                window.__hdPortraitSmoke = { ok: false, errors: [err && err.message ? err.message : String(err)] };
+    (async function () {
+        var errors = [], query = new URLSearchParams(location.search);
+        var personId = query.has('personId') ? Number(query.get('personId')) : 5;
+        var period = query.has('period') ? Number(query.get('period')) : 1;
+        var expected = query.get('expect') || 'auto', contains = query.get('contains') || '';
+        var minWidth = Number(query.get('minWidth')) || 0;
+        var chosenUrl = '', actualMode = null, name = '';
+        function check(condition, message) { if (!condition) errors.push(message); }
+        function waitImage(img) {
+            if (!img || !img.getAttribute('src') || img.complete) return Promise.resolve(img);
+            return new Promise(function (resolve) {
+                img.addEventListener('load', function () { resolve(img); }, { once: true });
+                img.addEventListener('error', function () { resolve(img); }, { once: true });
             });
-        })();
+        }
+        function finish() {
+            window.__hdPortraitSmoke = { ok: errors.length === 0, previewOnly: true,
+                personId: personId, period: period, name: name, expect: expected, actualMode: actualMode,
+                url: chosenUrl, errors: errors };
+            document.getElementById('status').textContent = errors.length
+                ? '素材检查未通过：' + errors.join('；')
+                : '素材检查通过：时期 ' + period + ' · ' + name + ' · ' + actualMode + '。此页只检查图片加载；实际游戏身份由原生流程验收。';
+        }
+        try {
+            check(Number.isInteger(personId) && personId >= 0 && personId <= 65533, '人物编号无效');
+            check(Number.isInteger(period) && period >= 1 && period <= 4, '时期无效');
+            check(['auto', 'hd', 'ref', 'lcd'].indexOf(expected) >= 0, 'expect 无效');
+            if (errors.length) { finish(); return; }
+            var manifest = await BayeHdPortraits.loadManifest();
+            if (!manifest) throw new Error('立绘索引未就绪');
+            var entry = manifest.entries.find(function (e) { return !e.missing && e.personId === personId && e.period === period; });
+            if (entry) name = entry.name;
+            else {
+                var response = await fetch('assets/hd-portraits/refs/index.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error('原生参考索引未就绪');
+                var refs = await response.json();
+                check(refs.libSha256 === manifest.libSha256, '原生参考来源与试点索引不一致');
+                var nativePeriod = refs.periods.find(function (p) { return p.period === period; });
+                var person = nativePeriod && nativePeriod.people.find(function (p) { return !p.skipped && p.id === personId; });
+                if (!person) throw new Error('索引中没有该人物与时期');
+                name = person.name;
+            }
+            var source = await BayeHdPortraits.chooseSource(personId, period);
+            actualMode = source.mode; chosenUrl = source.url || '';
+            if (expected !== 'auto') check(actualMode === expected, '期望 ' + expected + '，实际 ' + actualMode);
+            if (actualMode !== 'lcd') check(source.preview === true, '预览模式未明确标记');
+            var identity = BayeHdLibIdentity.read();
+            check(identity.status === 'unavailable' && identity.sha256 === null, '素材预览不得伪造运行库身份');
+            check(!contains || chosenUrl.indexOf(contains) >= 0, '图片路径与 contains 不匹配');
+            await BayeHdPortraits.applyView({ context: 'map-king', personId: personId, period: period, name: name });
+            var root = document.getElementById('hd-portrait'), img = await waitImage(document.getElementById('hd-portrait-img'));
+            if (actualMode === 'lcd') check(root.hidden && root.getAttribute('data-hd-portrait') === 'off', '缺图未隐藏槽位');
+            else {
+                check(!root.hidden && root.getAttribute('data-hd-portrait') === actualMode, '显示模式不匹配');
+                check(root.getAttribute('data-person-id') === String(personId) && root.getAttribute('data-period') === String(period), '图片人物与时期不匹配');
+                check(img && img.naturalWidth > 8 && img.naturalHeight > 8, '图片未完成解码');
+                if (actualMode === 'hd') check(img.naturalWidth > 100 && img.naturalHeight > 100, '高清成品尺寸不足');
+                if (minWidth) check(img.naturalWidth >= minWidth, '图片小于要求宽度');
+            }
+        } catch (error) { errors.push(error && error.message || String(error)); }
+        finish();
+    })();
     </script>
 </body>
 </html>

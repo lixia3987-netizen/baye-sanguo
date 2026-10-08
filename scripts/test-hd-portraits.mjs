@@ -209,6 +209,39 @@ test('all 800 shipped references resolve through their exported filenames', asyn
     assert.equal(f.requests.length, new Set(f.requests).size, 'each URL is requested at most once');
 });
 
+test('all 39 period/person slots obey each of the three native identity protocols independently', async () => {
+    // This is the VM protocol matrix. Real native menus, queues and battle
+    // actors are independently exercised by test-hd-portraits-runtime.mjs.
+    const entries = manifest.entries.filter(e => !e.missing);
+    assert.equal(entries.length, 39);
+    for (const entry of entries) {
+        const expect = existsSync(path.join(root, asset(entry.hd))) ? 'hd' : 'ref';
+        for (const context of ['map-king', 'person-info', 'battle-note']) {
+            const f = fixture();
+            await f.load();
+            if (context === 'map-king') {
+                f.context.baye = { data: { g_PIdx: entry.period, g_PlayerKing: entry.personId }, getPersonName: () => entry.name };
+                f.body.classList.add('baye-hd-overworld-map');
+            } else if (context === 'person-info') {
+                nativeIdsMenu(f, [{ pind: entry.personId, name: entry.name }]);
+                f.context.baye.data.g_PIdx = entry.period;
+            } else {
+                personHelp(f, { person: entry.personId, name: entry.name });
+                f.context.baye.data.g_PIdx = entry.period;
+            }
+            const detected = f.api.detectView();
+            assert.ok(detected, `${context} ${entry.period}:${entry.personId}`);
+            assert.equal(detected.context, context); assert.equal(detected.personId, entry.personId);
+            assert.equal(detected.period, entry.period); assert.equal(detected.name, entry.name);
+            const source = await f.api.applyView(detected, true);
+            assert.equal(source.mode, expect);
+            assert.equal(f.elements['hd-portrait'].getAttribute('data-person-id'), String(entry.personId));
+            assert.equal(f.elements['hd-portrait'].getAttribute('data-period'), String(entry.period));
+            assert.equal(f.elements['hd-portrait-img'].getAttribute('src'), asset(expect === 'hd' ? entry.hd : entry.ref));
+        }
+    }
+});
+
 test('runtime person portrait docks in its detail pane and returns to the page for other views', async () => {
     const f = fixture({ personSlot: true });
     await f.load();
@@ -348,11 +381,12 @@ test('switching from a captured help person to a new native wait while images lo
 });
 
 test('period-specific IDs do not reuse the first period portrait', async () => {
-    const f = fixture();
+    const targets = [[2, 1, '1-曹操.png'], [3, 4, '4-曹操.png'], [4, 0, '0-曹丕.png']];
+    const missing = new Set(targets.map(([period, personId]) => manifest.entries.find(e => e.period === period && e.personId === personId)?.hd)
+        .filter(Boolean).map(asset));
+    const f = fixture({ missing });
     await f.load();
-    for (const [period, personId, filename] of [
-        [2, 1, '1-曹操.png'], [3, 4, '4-曹操.png'], [4, 0, '0-曹丕.png']
-    ]) {
+    for (const [period, personId, filename] of targets) {
         const src = await f.api.chooseSource(personId, period);
         assert.equal(src.mode, 'ref');
         assert.equal(src.url, asset(`refs/period-${period}/${filename}`));
@@ -421,7 +455,8 @@ test('missing or mismatched indexes do not guess identities', async () => {
     await noManifest.load();
     assert.equal((await noManifest.api.chooseSource(0, 1)).mode, 'lcd');
     assert.equal(noManifest.requests.length, 0);
-    const noRefs = fixture({ missing: new Set([referencesUrl]) });
+    const secondPeriod = manifest.entries.find(e => e.period === 2 && e.personId === 11);
+    const noRefs = fixture({ missing: new Set([referencesUrl, asset(secondPeriod.hd)]) });
     await noRefs.load();
     assert.equal((await noRefs.api.chooseSource(2, 1)).mode, 'lcd');
     assert.equal((await noRefs.api.chooseSource(11, 2)).mode, 'ref', 'pilot manifest fallback still works');
@@ -453,7 +488,8 @@ test('engine Promise replacement before or after module loading cannot break nat
         }
         await f.load();
         assert.equal((await f.api.chooseSource(0, 1)).mode, 'hd');
-        assert.equal((await f.api.chooseSource(11, 2)).mode, 'ref');
+        const secondPeriod = manifest.entries.find(e => e.period === 2 && e.personId === 11);
+        assert.equal((await f.api.chooseSource(11, 2)).mode, existsSync(path.join(root, asset(secondPeriod.hd))) ? 'hd' : 'ref');
         assert.equal((await f.api.chooseSource(99999, 1)).mode, 'lcd');
         await f.load();
         assert.equal((await f.api.chooseSource(2, 1)).mode, 'ref');
@@ -810,6 +846,64 @@ function actualDumpFunction(name) {
     const end = dumpText.indexOf('\n}', match.index);
     assert.ok(end > match.index); return dumpText.slice(match.index, end + 2);
 }
+
+function dumpSmokePolicy() {
+    // Execute the actual policy with in-memory indexes; never run a native
+    // export or change any of the shipped 800 references for this regression.
+    const context = vm.createContext({ Map, Set, path, PILOT_NAMES: manifest.pilotNames });
+    for (const name of ['safeRef', 'hasStandardSmokeExport']) vm.runInContext(actualDumpFunction(name), context, { timeout: 1000 });
+    return context.hasStandardSmokeExport;
+}
+
+test('normal full standard export permits strict39 smoke only with all matching native identities', () => {
+    const policy = dumpSmokePolicy();
+    assert.equal(policy(manifest, references), true);
+    assert.equal(policy({ ...manifest, lib: 'preferred/custom-alias.lib' }, { ...references, lib: 'cached/alias.lib' }), true,
+        'actual SHA and captured reference identities decide, not the preferred path');
+    assert.equal(policy({ ...manifest, entries: [...manifest.entries].reverse() }, references), true,
+        'independent manifest ordering does not change period/person identity');
+});
+
+test('normal period/limit subsets and other actual libraries retain export success without standard39 smoke', async () => {
+    const policy = dumpSmokePolicy();
+    const subset = { ...references, periods: references.periods.filter(p => p.period === 1)
+        .map(p => ({ ...p, people: p.people.filter(person => person.id < 8) })) };
+    const partial = { ...manifest, entries: manifest.entries.filter(e => e.period === 1 && e.personId < 8) };
+    assert.equal(policy(partial, subset), false);
+    assert.equal(policy(manifest, subset), false, 'old complete HD metadata cannot authorize a partial captured reference index');
+    const actualOtherSha = createHash('sha256').update(Buffer.from(modifiedHex, 'hex')).digest('hex');
+    assert.equal(policy({ ...manifest, libSha256: actualOtherSha }, { ...references, libSha256: actualOtherSha }), false);
+    const exported = await dumpFixture(modifiedHex);
+    assert.equal((await exported.post({ kind: 'summary', summary: dumpSummary })).code, 200,
+        'a genuine other-LIB dump succeeds independently of the standard asset acceptance');
+    assert.equal(policy(exported.server.manifest, exported.server.summary), false);
+    assert.equal(exported.writes.size, 2, 'other-LIB export still commits its own verified reference index and manifest');
+});
+
+test('standard smoke refuses mismatched references, duplicate identities and incomplete39 metadata', () => {
+    const policy = dumpSmokePolicy(), clone = value => JSON.parse(JSON.stringify(value));
+    assert.equal(policy(manifest, { ...references, libSha256: '0'.repeat(64) }), false);
+    for (const mutate of [
+        m => { m.entries[0].missing = true; },
+        m => { delete m.entries[0].missing; },
+        m => { m.entries[0].name = '另一位武将'; },
+        m => { m.entries[0].ref = m.entries[1].ref; },
+        m => { m.entries[0] = clone(m.entries[1]); },
+        m => { m.missingPilots = ['马腾']; }
+    ]) {
+        const changed = clone(manifest); mutate(changed); assert.equal(policy(changed, references), false);
+    }
+    for (const mutate of [
+        r => { r.periods[0].people.find(p => p.id === pilot.personId).name = '不同索引名称'; },
+        r => { r.periods[0].people.find(p => p.id === pilot.personId).skipped = true; },
+        r => { r.periods[0].people.find(p => p.id === pilot.personId).file = 'period-2/5-马腾.png'; },
+        r => { r.periods[0].people.push(clone(r.periods[0].people[0])); },
+        r => { r.periods.push(clone(r.periods[0])); }
+    ]) {
+        const changed = clone(references); mutate(changed); assert.equal(policy(manifest, changed), false);
+    }
+});
+
 async function dumpFixture(hex) {
     let handler;
     const writes = new Map();
