@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "9aeb796af21c75a7a2cf540dde0e3d461e52034d",
-  "engineSourceSha256": "870ab9cb425c3b92d3af96fa4de64751794dcf277feb59ce17ef3d1faad16621",
+  "sourceRevision": "30ab9a8793f57ed548837ee15f05cf5aee14eb39",
+  "engineSourceSha256": "b6ec67658d244187b5e7776e950827e6b2456058f886c7dd6a81aab00f7c2760",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791425490,
+  "sourceDateEpoch": 1791444371,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -128,6 +128,23 @@
       "g_hdMiniMapResourceId"
     ]
   },
+  "hdMakerProtocol": {
+    "version": 1,
+    "owner": [
+      "g_hdMakerGeneration",
+      "g_hdMakerSession",
+      "g_hdMakerInputSeq",
+      "g_hdMakerPhase"
+    ],
+    "phases": {
+      "scroll": 1,
+      "hold": 2
+    },
+    "input": "original GamDelay(5000, 2), one function key or touch-up returns",
+    "holdSource": "last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match",
+    "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
+    "custom": "same observed showAbout invocation; custom default branch retains LCD"
+  },
   "saveProtocol": {
     "version": 149,
     "legacyVersions": [
@@ -143,16 +160,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 192329,
-      "sha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed"
+      "bytes": 192446,
+      "sha256": "625d84ede87b2520fe71a1cc434d7ebde5c523d6dfafd7fcf4611fcb0eb09f32"
     },
     "baye.wasm": {
-      "bytes": 4332180,
-      "sha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22"
+      "bytes": 4339772,
+      "sha256": "911cccb6b0d420e14adca391ef922b71bfe76ebcd6f770c23c7ec1394d527854"
     },
     "baye.wasm.map": {
       "bytes": 29805,
-      "sha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab"
+      "sha256": "ab4bf57348da269bc0bdb7ef75952d3bf741921ebfd8fbddc2e2432b1d306a39"
     }
   }
 }

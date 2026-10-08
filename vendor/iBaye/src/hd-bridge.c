@@ -187,6 +187,19 @@ static U16 hdSpePendingSkillId = 0;
 static U8 hdSpePendingContext = 0, hdSpePendingActor = 0xff, hdSpePendingTarget = 0xff;
 static HdSpeDisplay hdSpeCopied;
 
+U8 g_hdMakerProtocolVersion = BAYE_HD_MAKER_VERSION;
+U8 g_hdMakerActive = 0, g_hdMakerPhase = 0, g_hdMakerCustom = 0;
+U8 g_hdMakerReturnEligible = 0, g_hdMakerSourceValid = 0;
+U32 g_hdMakerGeneration = 0, g_hdMakerSession = 0, g_hdMakerInputSeq = 0;
+U32 g_hdMakerEventId = 0, g_hdMakerCommitSeq = 0;
+U32 g_hdMakerResourceFingerprint = 0, g_hdMakerResourceLength = 0;
+U16 g_hdMakerResourceIndex = 0, g_hdMakerCount = 0, g_hdMakerPicmax = 0;
+U16 g_hdMakerFrameIndex = BAYE_HD_SPE_NO_FRAME;
+I16 g_hdMakerOriginX = 0, g_hdMakerOriginY = 0;
+U8 g_hdMakerStartFrm = 0, g_hdMakerEndFrm = 0;
+U8 g_hdMakerEndReason = 0, g_hdMakerEndKey = 0xff;
+U8 g_hdMakerVisibleFrames[BAYE_HD_SPE_FRAME_BYTES];
+
 U8 g_hdSkillActive = 0;
 U8 g_hdSkillCount = 0;
 U8 g_hdSkillNameLen = 0;
@@ -1093,8 +1106,74 @@ static void hd_spe_notify(void)
             if (window.BayeHdSpe && typeof BayeHdSpe.onEngineSpe === 'function') {
                 BayeHdSpe.onEngineSpe();
             }
+            if (window.BayeHdSystemUi && typeof BayeHdSystemUi.onEngineMaker === 'function') {
+                BayeHdSystemUi.onEngineMaker();
+            }
         } catch (e) {}
     });
+}
+
+U32 baye_hd_maker_begin(U8 custom)
+{
+    g_hdMakerSession = hd_next_input_seq(g_hdMakerSession);
+    g_hdMakerGeneration = g_hdSpeGeneration;
+    g_hdMakerInputSeq = 1;
+    g_hdMakerActive = 1;
+    g_hdMakerPhase = BAYE_HD_MAKER_SCROLL;
+    g_hdMakerCustom = custom != 0;
+    g_hdMakerReturnEligible = g_hdMakerSourceValid = 0;
+    g_hdMakerEventId = g_hdMakerCommitSeq = 0;
+    g_hdMakerResourceFingerprint = g_hdMakerResourceLength = 0;
+    g_hdMakerResourceIndex = g_hdMakerCount = g_hdMakerPicmax = 0;
+    g_hdMakerFrameIndex = BAYE_HD_SPE_NO_FRAME;
+    g_hdMakerOriginX = g_hdMakerOriginY = 0;
+    g_hdMakerStartFrm = g_hdMakerEndFrm = 0;
+    g_hdMakerEndReason = 0; g_hdMakerEndKey = 0xff;
+    memset(g_hdMakerVisibleFrames, 0, sizeof(g_hdMakerVisibleFrames));
+    hd_spe_notify();
+    return g_hdMakerSession;
+}
+
+void baye_hd_maker_hold(U32 session)
+{
+    if (!g_hdMakerActive || session != g_hdMakerSession ||
+        g_hdMakerGeneration != g_hdSpeGeneration || g_hdMakerPhase != BAYE_HD_MAKER_SCROLL) return;
+    g_hdMakerPhase = BAYE_HD_MAKER_HOLD;
+    g_hdMakerInputSeq = hd_next_input_seq(g_hdMakerInputSeq);
+    g_hdMakerReturnEligible = 1;
+    hd_spe_notify();
+}
+
+void baye_hd_maker_end(U32 session)
+{
+    if (session != g_hdMakerSession) return;
+    g_hdMakerActive = g_hdMakerPhase = g_hdMakerReturnEligible = g_hdMakerSourceValid = 0;
+    g_hdMakerInputSeq = 0;
+    hd_spe_notify();
+}
+
+static void hd_maker_spe_end(const HdSpeScope* scope, U8 reason, U8 key)
+{
+    if (!g_hdMakerActive || g_hdMakerPhase != BAYE_HD_MAKER_SCROLL ||
+        g_hdMakerGeneration != scope->generation || g_hdMakerEventId != scope->eventId) return;
+    g_hdMakerResourceIndex = scope->resourceIndex;
+    g_hdMakerCount = scope->count; g_hdMakerPicmax = scope->picmax;
+    g_hdMakerResourceFingerprint = scope->resourceFingerprint;
+    g_hdMakerResourceLength = scope->resourceLength;
+    g_hdMakerOriginX = scope->x; g_hdMakerOriginY = scope->y;
+    g_hdMakerStartFrm = scope->startFrm; g_hdMakerEndFrm = scope->endFrm;
+    g_hdMakerEndReason = reason; g_hdMakerEndKey = key;
+    g_hdMakerSourceValid = !g_hdMakerCustom && scope->ready && scope->protocolValid &&
+        (reason == BAYE_HD_SPE_END_COMPLETE || reason == BAYE_HD_SPE_END_KEY) &&
+        hdSpeCopied.frameValid && hdSpeCopied.generation == scope->generation &&
+        hdSpeCopied.eventId == scope->eventId && hdSpeCopied.commitSeq > 0 &&
+        hdSpeCopied.commitSeq <= scope->commitSeq && hdSpeCopied.frameIndex >= scope->startFrm &&
+        hdSpeCopied.frameIndex <= scope->endFrm;
+    if (g_hdMakerSourceValid) {
+        g_hdMakerCommitSeq = hdSpeCopied.commitSeq;
+        g_hdMakerFrameIndex = hdSpeCopied.frameIndex;
+        memcpy(g_hdMakerVisibleFrames, hdSpeCopied.visibleFrames, sizeof(g_hdMakerVisibleFrames));
+    }
 }
 
 void baye_hd_set_help(const U8* gbk)
@@ -1214,6 +1293,10 @@ void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 
     scope->frameIndex = BAYE_HD_SPE_NO_FRAME;
     hdSpeCurrent = scope;
     hdSpeCopyPending = NULL;
+    if (g_hdMakerActive && g_hdMakerPhase == BAYE_HD_MAKER_SCROLL && !g_hdMakerEventId &&
+        g_hdMakerGeneration == scope->generation && id == MAKER_SPE && resourceIndex == 0 &&
+        scope->depth == 1 && scope->kind == BAYE_HD_SPE_KIND_OPENING && keyflag == 1)
+        g_hdMakerEventId = scope->eventId;
     hd_spe_publish(scope);
     g_hdSpeSeq = (U16)(g_hdSpeSeq + 1);
     if (!g_hdSpeSeq) g_hdSpeSeq = 1;
@@ -1256,6 +1339,7 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
     if (scope != hdSpeCurrent || scope->generation != g_hdSpeGeneration) return;
     g_hdSpeLastEndedId = scope->eventId;
     g_hdSpeEndReason = reason; g_hdSpeEndKey = key;
+    hd_maker_spe_end(scope, reason, key);
     hdSpeCurrent = scope->previous;
     hdSpeCopyPending = NULL;
     if (hdSpeCurrent) {
@@ -1271,6 +1355,8 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
 
 void baye_hd_spe_lcd_dirty(void)
 {
+    /* Late assets or a resize cannot restore a held LCD after another draw. */
+    if (g_hdMakerPhase == BAYE_HD_MAKER_HOLD) g_hdMakerSourceValid = 0;
     memset(&hdSpeCopied, 0, sizeof(hdSpeCopied));
     hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
 }
@@ -1307,6 +1393,7 @@ void baye_hd_spe_invalidate(void)
         g_hdSpeEndReason = BAYE_HD_SPE_END_RESET; g_hdSpeEndKey = 0xff;
     }
     hdSpeCurrent = hdSpeCopyPending = NULL;
+    baye_hd_maker_end(g_hdMakerSession);
     g_hdSpeGeneration = hd_next_input_seq(g_hdSpeGeneration);
     baye_hd_begin_spe(0);
     baye_hd_spe_lcd_dirty();
@@ -1703,6 +1790,30 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdSpeDisplayFrameIndex, U16);
     DEFADDF(g_hdSpeDisplayFrameValid, U8);
     DEFADD_U8ARR(g_hdSpeDisplayVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADDF(g_hdMakerProtocolVersion, U8);
+    DEFADDF(g_hdMakerActive, U8);
+    DEFADDF(g_hdMakerPhase, U8);
+    DEFADDF(g_hdMakerCustom, U8);
+    DEFADDF(g_hdMakerReturnEligible, U8);
+    DEFADDF(g_hdMakerSourceValid, U8);
+    DEFADDF(g_hdMakerGeneration, U32);
+    DEFADDF(g_hdMakerSession, U32);
+    DEFADDF(g_hdMakerInputSeq, U32);
+    DEFADDF(g_hdMakerEventId, U32);
+    DEFADDF(g_hdMakerCommitSeq, U32);
+    DEFADDF(g_hdMakerResourceFingerprint, U32);
+    DEFADDF(g_hdMakerResourceLength, U32);
+    DEFADDF(g_hdMakerResourceIndex, U16);
+    DEFADDF(g_hdMakerCount, U16);
+    DEFADDF(g_hdMakerPicmax, U16);
+    DEFADDF(g_hdMakerFrameIndex, U16);
+    DEFADDF(g_hdMakerOriginX, U16);
+    DEFADDF(g_hdMakerOriginY, U16);
+    DEFADDF(g_hdMakerStartFrm, U8);
+    DEFADDF(g_hdMakerEndFrm, U8);
+    DEFADDF(g_hdMakerEndReason, U8);
+    DEFADDF(g_hdMakerEndKey, U8);
+    DEFADD_U8ARR(g_hdMakerVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
     DEFADDF(g_hdSkillActive, U8);
     DEFADDF(g_hdSkillCount, U8);
     DEFADDF(g_hdSkillNameLen, U8);

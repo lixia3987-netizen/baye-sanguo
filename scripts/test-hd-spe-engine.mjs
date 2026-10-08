@@ -29,9 +29,10 @@ function typedef(filename, name) {
     assert.ok(match, `actual typedef ${name} exists`);
     return match[0];
 }
-const constants = header.split('\n').filter(line => /^#define BAYE_HD_SPE_/.test(line)).join('\n');
+const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER)_/.test(line)).join('\n');
 const globals = bridge.slice(bridge.indexOf('U8 g_hdSpePendingKind ='), bridge.indexOf('U8 g_hdSkillActive ='));
-const protocol = ['hd_next_input_seq', 'hd_spe_notify', 'hd_spe_publish', 'baye_hd_begin_spe',
+const protocol = ['hd_next_input_seq', 'hd_spe_notify', 'baye_hd_maker_begin', 'baye_hd_maker_hold',
+    'baye_hd_maker_end', 'hd_maker_spe_end', 'hd_spe_publish', 'baye_hd_begin_spe',
     'baye_hd_spe_tick', 'baye_hd_spe_context', 'baye_hd_spe_enter', 'baye_hd_spe_ready',
     'baye_hd_spe_frame', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty', 'baye_hd_spe_lcd_copy',
     'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate'].map(name => actual('hd-bridge.c', name)).join('\n');

@@ -382,4 +382,24 @@ test('old runtimes retain their classic king selector without fabricated native 
     h.click(1); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]);
 });
 
+test('the native Maker hold closes title chrome and rejects stale title buttons without sending input', () => {
+    const h = harness({ native: 'title' }), oldButton = h.button(2);
+    h.context.baye.hd.maker = () => ({ protocolVersion: 1, active: true, phase: 'hold' });
+    h.click(2, oldButton); h.back(); h.key(13); h.key(27);
+    assert.deepEqual(h.sent, [], 'even before polling the old title cannot acknowledge the hold');
+    h.api.onEngineMaker(); h.poll(); h.tick();
+    assert.equal(h.api.isOpen(), false); assert.equal(h.api.debugSnapshot().input, null);
+    assert.equal(h.root.getAttribute('aria-hidden'), 'true');
+    assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+    h.context.baye.hd.maker = () => ({ active: false }); h.menu.seq++; h.api.onEngineMaker();
+    assert.equal(h.api.isOpen(), true); assert.equal(h.api.getScreen(), 'title'); assert.deepEqual(h.sent, []);
+});
+
+test('system mode changes immediately retire the SPE pointer presentation without native input', () => {
+    const h = harness({ native: 'title' }), modes = [];
+    h.context.BayeHdSpe = { blit() { modes.push(h.storage['baye/systemUiMode']); } };
+    h.api.setMode('classic'); h.api.setMode('hd');
+    assert.deepEqual(modes, ['classic', 'hd']); assert.deepEqual(h.sent, []); h.assertWorldUnchanged();
+});
+
 console.log(`${count} HD save/load UI regressions passed`);

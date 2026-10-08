@@ -80,6 +80,15 @@ const manifest = {
         miniMap: ['g_hdMiniMapSeq', 'g_hdMiniMapGeneration', 'g_hdMiniMapInputSeq',
             'g_hdMiniMapDefaultDraw', 'g_hdMiniMapCustom', 'g_hdMiniMapResourceId']
     },
+    hdMakerProtocol: {
+        version: 1,
+        owner: ['g_hdMakerGeneration', 'g_hdMakerSession', 'g_hdMakerInputSeq', 'g_hdMakerPhase'],
+        phases: { scroll: 1, hold: 2 },
+        input: 'original GamDelay(5000, 2), one function key or touch-up returns',
+        holdSource: 'last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match',
+        retirement: 'GamMakerInf return, native reset, or held LCD dirty/copy interference',
+        custom: 'same observed showAbout invocation; custom default branch retains LCD'
+    },
     saveProtocol: { version: 0x95, legacyVersions: [0x90, 0x91, 0x92, 0x93, 0x94], filesPerSlot: 2, fightersBytes: 600, goodsQueueBytes: 4000 },
     artifacts
 };

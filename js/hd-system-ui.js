@@ -338,8 +338,13 @@
         return null;
     }
 
+    function makerActive() {
+        try { return !!(hdReady() && baye.hd.maker && baye.hd.maker().active); }
+        catch (e) { return false; }
+    }
+
     function inputOwner() {
-        if (fightActive()) { return null; }
+        if (fightActive() || makerActive()) { return null; }
         var record = liveRecord();
         if (record && Number(record.active) && Number(record.seq) &&
             ((Number(record.mode) === 1 && Number(record.count) === 3) ||
@@ -501,6 +506,7 @@
     }
 
     function engineSendKey(code) {
+        if (makerActive()) return false;
         if (fightLive()) {
             console.warn('[hd-system-ui] blocked key during fight', code);
             return false;
@@ -521,6 +527,7 @@
     }
 
     function enqueueKeys(codes, gap) {
+        if (makerActive()) { invalidateInput(); return; }
         if (fightLive()) {
             console.warn('[hd-system-ui] blocked queue during fight');
             return;
@@ -631,7 +638,7 @@
     }
 
     function applyChrome() {
-        var show = state.open && shouldShowHd();
+        var show = state.open && shouldShowHd() && !makerActive();
         document.documentElement.setAttribute('data-baye-system-ui', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-system-ui-pref', getMode());
         if (document.body) {
@@ -783,6 +790,10 @@
     }
 
     function refresh() {
+        if (makerActive()) {
+            if (state.open) closeUi({ silent: true });
+            return;
+        }
         var next = inferScreen();
         if (!shouldShowHd()) {
             if (state.open) {
@@ -880,6 +891,7 @@
     }
 
     function choose(index, displayedToken) {
+        if (makerActive()) return false;
         if (!state.open || !shouldShowHd()) { return false; }
         var owner = inputOwner();
         if (state.screen !== 'king' || owner) {
@@ -892,6 +904,7 @@
     }
 
     function back() {
+        if (makerActive()) return false;
         if (fightLive()) {
             console.warn('[hd-system-ui] blocked back EXIT during fight');
             return;
@@ -1030,6 +1043,7 @@
             }
         });
         document.addEventListener('keydown', function (e) {
+            if (makerActive()) return;
             if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' && BayeHdSpe.isOpen()) {
                 return;
             }
@@ -1101,6 +1115,7 @@
         applyChrome();
         syncToolbar();
         refresh();
+        if (global.BayeHdSpe && typeof BayeHdSpe.blit === 'function') BayeHdSpe.blit();
     }
 
     var pollId = 0;
@@ -1190,6 +1205,7 @@
             return chooseNative(0, true);
         },
         onEngineHook: onEngineHook,
+        onEngineMaker: refresh,
         start: start,
         applyPcPage: start,
         debugSnapshot: function () {

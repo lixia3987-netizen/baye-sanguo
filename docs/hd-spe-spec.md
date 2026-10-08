@@ -51,7 +51,7 @@ SPE 在 LIB 内，`ResLoadToCon(speid,index+1,g_CBnkPtr)` 的 index 是原生 0-
 
 资源未覆盖、校验等待、未知 LIB、无 digest、旧桥、缺图或尺寸不符、keyflag 保留背景位、复杂 mask、翻转/特殊画色均保持原生 LCD。非 160×96 配置暂用实际屏幕尺寸的完整 LCD 回退。基线战斗窗口固定居中 130×64、起点15,16，特效依照真实有符号 origin 保留窗口内偏移；例如 FIRE 原点48,16在窗口内为33,0。改变尺寸或 scale 必须使绘制缓存失效。
 
-已交付标准库FIRE35：index0/kind2/0..7/count8/picmax2/fingerprint `fnv1a32:0bf53f74:1212`；以及完整MAIN3：index0/kind1/0..8/count9/picmax7/fingerprint `fnv1a32:a5a91c68:11380`。MAIN五张不透明背景与两张透明标题覆盖七槽；九个时间单元的图片序列是0,1,2,3,4,0,5,6,6，最后同一标题清除并不是第八张新美术。实际timer可合并短帧，不能要求每单元都产生独立LCD提交。制作群组、兵种攻击、其余计谋及状态美术仍在 [剩余清单](hd-remaining-work.md)。
+已交付标准库FIRE35：index0/kind2/0..7/count8/picmax2/fingerprint `fnv1a32:0bf53f74:1212`；完整MAIN3：index0/kind1/0..8/count9/picmax7/fingerprint `fnv1a32:a5a91c68:11380`；以及MAKER6：index0/kind1/0..95/count96/picmax1/fingerprint `fnv1a32:b961053e:2413`。MAIN五张不透明背景与两张透明标题覆盖七槽；九个时间单元的图片序列是0,1,2,3,4,0,5,6,6，最后同一标题清除并不是第八张新美术。MAKER一张不透明署名页按原生159×96映射，96个单元从y=95滚到0。实际timer可合并短帧，不能要求每单元都产生独立LCD提交。兵种攻击、其余计谋及状态美术仍在 [剩余清单](hd-remaining-work.md)。
 
 ## 开场前准备
 
@@ -63,6 +63,18 @@ SPE 在 LIB 内，`ResLoadToCon(speid,index+1,g_CBnkPtr)` 的 index 是原生 0-
 
 HD 开场允许原生 skip 时，按钮、Enter/Space/Escape 或画布点击只发一次 VK_ENTER；按键 repeat 不重发，编辑器、输入框、IME 与隐藏页不领取输入。确认已归属本事件后即锁定，不能让下一层收到重复确认。攻击/计谋不能跳过。经典 LCD 按钮实际切换相应模式，并立即交还输入。
 
+## 制作群组的原生停留归属
+
+`GamMakerInf` 的默认分支由 `GamMovie(MAKER_SPE)` 和原有 `GamDelay(5000,2)` 组成。滚动结束后，子SPE已经退出，LCD保留实际最后复制的画面；该等待为5000个原生timer1 tick，在本机约50秒，不是5秒。提前跳过滚动仍进入原有停留，并保留实际部分滚动位置。HD不补滚到末帧、不缩短等待，也不在自然结束时发送确认。
+
+新增只读 `baye.hd.maker()` 协议1，归属与子SPE分开。`active/phase/generation/session/inputSeq/custom/returnEligible` 表示原生滚动或停留的所有者；`resourceIndex/count/picmax/x/y/startFrm/endFrm/resourceFingerprint/resourceLength` 和 `display` 保存真正复制到LCD的SPE来源。`scrollEnd.reason/key` 仅记录子SPE的结束，不代表后续停留的返回键。停留时公开 `baye.hd.spe().active` 仍为false，前端内部只读呈现层不修改这个事实。
+
+默认、非自定义、资源有效且真正复制过的MAKER画面才授予 `sourceValid`。保存的generation/eventId/commitSeq/frameIndex/32字节visibleFrames必须与当前公开SPE.display完全相等；实际LIB、manifest、范围和图片仍走相同严格匹配。原生hold期间的屏幕dirty/copy/restore/resize会永久退休该图像授权；原生等待还在时仍可以保留输入归属并回退LCD。世界重置、返回及后续输入所有者使旧token失效。`showAbout`只调用原有一次hook；hook自行处理时不创建默认归属，存在自定义hook但返回-1时允许原生默认流程，禁用标准HD署名图。
+
+桥接先检查所有字段宽度与真实32字节bitset，再重读所有字段防止跨归属混合。ValueTypeU32在实际WASM i32返回边界用 `>>>0` 还原无符号位模式；严格领域getter仍拒绝负数、字符串、布尔值和不完整快照。
+
+标题表现与排队输入在MAKER原生归属期间退休。滚动skip和hold返回各用不同token；48px“返回标题”按钮只对当前hold发送一次原生Enter。pointerdown记录当前token，pointercancel、隐藏、模式切换或归属变化清除，迟到click不能确认新标题。Enter/Space/Escape同样只确认当前hold，repeat/IME/表单输入不领取。经典模式继续使用原生输入。等待自然结束或真正确认后，标题使用新的原生菜单归属重新显示。MAKER资源在开场期间预热，但不增加MAIN开场等待，不暂停原生署名滚动。
+
 ## 验证
 
 `npm run test:spe` 覆盖显示提交、叠帧/清除、LIB 与异步图片代次、输入锁、报告/隐藏/经典、负 origin、屏幕尺寸和资源回退。`npm run test:spe-engine` 编译并执行实际 C 播放与桥函数，覆盖嵌套/重置、上下文消费、真实位图组合及 timer 显示关联。`npm run test:spe-runtime -- --staged` 用真实 LIB 和暂存 WASM 从玩家入口验证连续开场、跳过、战斗事件；未自然触发的资源继续记为未验收。
@@ -70,3 +82,5 @@ HD 开场允许原生 skip 时，按钮、Enter/Space/Escape 或画布点击只�
 `npm run test:opening-runtime` 默认严格验收实际MAIN完整冷开场：1080p/720p首提交及全部可见提交均HD、七槽自然出现、原生完整结束和双标题清除；独立单次跳过、经典/resize、真实tab后台与恢复、受控404/迟到、真实sc-mod.lib及恢复标准库。逐次捕获原LCD与HD原图并核对前后display戳、实际IMG绘制来源/顺序/坐标；标准库另按实际palette/scale/flip重建原生位图逐byte对照。`--allow-lcd` 仅为原生开发基线，不能算HD完成。完整原始记录及图片见 [MAIN验收](validation/m4-opening-20261008.json)。
 
 完整专项测试不能代替每类素材的真实连续播放与最终移动设备验收。证据按 [剩余清单](hd-remaining-work.md) 保存。
+
+`npm run test:maker` 包含17个实际C生命周期用例和13个桥接用例；其中U32用例使用真正WebAssembly i32.load和实际ValueTypeU32绑定，不用模拟负数替代ABI。`npm run test:maker-runtime -- --staged` 从真实标题选择“制作群组”，连续采集原LCD/HD画布、实际IMG绘制和前后display戳，并按真实LIB点阵重建LCD逐byte比较。七个独立页面场景覆盖完整自然结束、提前skip后的部分停留、显式返回按钮、模式/隐藏/resize、实际HTTP缺图/迟到及真实未知LIB回退。实际tab隐藏与只用于停绘防护的visibility夹具分开记录；未知Mod只验署名/标题，不冒充完整新局或战役。`--allow-lcd`保留原生开发基线。最终结果以[MAKER验收](validation/m4-maker-20261008.json)为准。

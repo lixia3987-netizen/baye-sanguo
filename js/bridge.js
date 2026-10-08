@@ -303,7 +303,8 @@ function baye_bridge_valuedef(def, addr) {
                     if (!hdHeapOk(this._addr, 4)) {
                         return 0;
                     }
-                    return _baye_get_u32_value(this._addr);
+                    // WASM returns the U32 bit pattern through its i32 ABI.
+                    return _baye_get_u32_value(this._addr) >>> 0;
                 },
                 set: function(value) {
                     if (!hdHeapOk(this._addr, 4)) {
@@ -1766,6 +1767,58 @@ function baye_bridge_init() {
                     commitSeq: hdReadNum(d, 'g_hdSpeDisplayCommitSeq'), frameIndex: frame('g_hdSpeDisplayFrameIndex'),
                     frameValid: hdReadNum(d, 'g_hdSpeDisplayFrameValid') === 1, visibleFrames: frames('g_hdSpeDisplayVisibleFrames') }
             };
+        },
+        maker: function () {
+            hdNote('hd.maker', '');
+            var d = baye.ensureData(), limits = {
+                ProtocolVersion: 255, Active: 1, Phase: 2, Custom: 1, ReturnEligible: 1, SourceValid: 1,
+                Generation: 0xffffffff, Session: 0xffffffff, InputSeq: 0xffffffff, EventId: 0xffffffff, CommitSeq: 0xffffffff,
+                ResourceFingerprint: 0xffffffff, ResourceLength: 0xffffffff, ResourceIndex: 0xffff,
+                Count: 0xffff, Picmax: 0xffff, FrameIndex: 0xffff, OriginX: 0xffff, OriginY: 0xffff,
+                StartFrm: 255, EndFrm: 255, EndReason: 5, EndKey: 255
+            }, values = {}, bits = [], stable = true, completeBits = true, name, i;
+            for (name in limits) if (Object.prototype.hasOwnProperty.call(limits, name))
+                values[name] = hdDetailNum(d, 'g_hdMaker' + name, limits[name]);
+            for (i = 0; i < 32; i++) {
+                bits.push(hdDetailNum(d && d.g_hdMakerVisibleFrames, i, 255));
+                if (bits[i] == null) completeBits = false;
+            }
+            // A snapshot must never mix a retired display with a newer wait.
+            for (name in limits) if (Object.prototype.hasOwnProperty.call(limits, name) &&
+                values[name] !== hdDetailNum(d, 'g_hdMaker' + name, limits[name])) stable = false;
+            var neutral = { protocolVersion: values.ProtocolVersion, active: false, phase: null,
+                generation: null, session: null, inputSeq: null, custom: false, returnEligible: false,
+                sourceValid: false, speId: 6, resourceIndex: null, count: null, picmax: null, x: null, y: null,
+                startFrm: null, endFrm: null, resourceLength: null, resourceFingerprint: null,
+                scrollEnd: { reason: null, key: null }, display: { generation: null, eventId: null, commitSeq: null,
+                    frameIndex: null, frameValid: false, visibleFrames: [] } };
+            if (!stable || values.ProtocolVersion !== 1) return neutral;
+            var owner = values.Active === 1 && values.Generation > 0 && values.Session > 0 && values.InputSeq > 0 &&
+                (values.Phase === 1 || values.Phase === 2) && values.Custom != null && values.ReturnEligible != null;
+            var source = owner && values.Phase === 2 && values.SourceValid === 1 && values.Custom === 0 && completeBits &&
+                values.EventId > 0 && values.CommitSeq > 0 && values.ResourceLength > 0 && values.ResourceFingerprint != null &&
+                values.ResourceIndex === 0 && values.Count > 0 && values.Count <= 255 && values.Picmax > 0 && values.Picmax <= 255 &&
+                values.OriginX != null && values.OriginY != null && values.StartFrm != null && values.EndFrm != null &&
+                values.EndFrm >= values.StartFrm && values.EndFrm < values.Count && values.FrameIndex != null &&
+                values.FrameIndex >= values.StartFrm && values.FrameIndex <= values.EndFrm &&
+                (values.EndReason === 1 || values.EndReason === 2);
+            for (i = 0; source && i < 256; i++) if ((bits[i >> 3] & (1 << (i & 7))) &&
+                (i < values.StartFrm || i > values.EndFrm || i >= values.Count)) source = false;
+            function origin(value) { return value == null ? null : value >= 0x8000 ? value - 0x10000 : value; }
+            return { protocolVersion: values.ProtocolVersion, active: owner,
+                phase: owner ? { 1: 'scroll', 2: 'hold' }[values.Phase] : null,
+                generation: values.Generation, session: values.Session, inputSeq: values.InputSeq,
+                custom: values.Custom === 1, returnEligible: owner && values.Phase === 2 && values.ReturnEligible === 1,
+                sourceValid: source, speId: 6, resourceIndex: values.ResourceIndex, count: values.Count, picmax: values.Picmax,
+                x: origin(values.OriginX), y: origin(values.OriginY), startFrm: values.StartFrm, endFrm: values.EndFrm,
+                resourceLength: values.ResourceLength,
+                resourceFingerprint: values.ResourceLength > 0 && values.ResourceFingerprint != null ?
+                    'fnv1a32:' + ('00000000' + values.ResourceFingerprint.toString(16)).slice(-8) + ':' + values.ResourceLength : null,
+                scrollEnd: { reason: { 1: 'complete', 2: 'key', 3: 'missing-resource', 4: 'invalid-resource', 5: 'reset' }[values.EndReason] || null,
+                    key: values.EndKey },
+                display: { generation: values.Generation, eventId: values.EventId, commitSeq: values.CommitSeq,
+                    frameIndex: values.FrameIndex == null || values.FrameIndex === 0xffff ? null : values.FrameIndex,
+                    frameValid: source, visibleFrames: bits } };
         },
         menuItems: function () {
             hdNote('hd.menuItems', '');

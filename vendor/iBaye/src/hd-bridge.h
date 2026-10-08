@@ -225,6 +225,14 @@ void baye_hd_spe_invalidate(void);
 void baye_hd_spe_lcd_copy(void);
 void baye_hd_spe_lcd_dirty(void);
 void baye_hd_spe_lcd_flush(void);
+/* GamMakerInf owns its original scroll and GamDelay hold independently of
+ * the child SPE scope. The hold observes the actual copied LCD. */
+#define BAYE_HD_MAKER_VERSION 1
+#define BAYE_HD_MAKER_SCROLL 1
+#define BAYE_HD_MAKER_HOLD 2
+U32 baye_hd_maker_begin(U8 custom);
+void baye_hd_maker_hold(U32 session);
+void baye_hd_maker_end(U32 session);
 void baye_hd_set_skills(const U16* ids, const U8* names, U8 count, U8 nameLen, U8 active);
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active);
 U32 baye_hd_qty_begin(void);

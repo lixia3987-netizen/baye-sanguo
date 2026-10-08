@@ -44,7 +44,8 @@ const speTypes = header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope
 // Select functions explicitly: HELP publication now sits between two SPE
 // helpers, so a substring range would duplicate set_help and import unrelated
 // detail/resource dependencies into this protocol fixture.
-const speHelpers = ['hd_spe_notify', 'hd_spe_publish', 'baye_hd_spe_context', 'baye_hd_spe_enter',
+const speHelpers = ['hd_spe_notify', 'baye_hd_maker_begin', 'baye_hd_maker_hold', 'baye_hd_maker_end',
+    'hd_maker_spe_end', 'hd_spe_publish', 'baye_hd_spe_context', 'baye_hd_spe_enter',
     'baye_hd_spe_ready', 'baye_hd_spe_frame', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty',
     'baye_hd_spe_lcd_copy', 'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate']
     .map((name) => actualFunction('hd-bridge.c', name)).join('\n');

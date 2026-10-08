@@ -3,7 +3,7 @@
     var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
         manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], preparing: false, preparation: null,
-        libGeneration: 0, libHash: null, libReason: 'lib-unavailable' };
+        libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null };
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
     function storage(key, fallback) { try {
@@ -13,7 +13,25 @@
         return fallback;
     } }
     function info() { if (state.preparing) return {}; try {
-        return global.baye && baye.hd && baye.hd.ready() && baye.hd.spe() || {};
+        if (!(global.baye && baye.hd && baye.hd.ready())) return {};
+        var s = baye.hd.spe() || {}, m = typeof baye.hd.maker === 'function' ? baye.hd.maker() : null;
+        if (m && m.protocolVersion === 1 && m.active && m.phase === 'hold' && m.returnEligible === true &&
+            integer(m.generation) && m.generation === s.generation && integer(m.session) && m.session > 0 && integer(m.inputSeq) && m.inputSeq > 0) {
+            // This is a presentation of GamMakerInf's native hold owner.
+            // The public SPE remains inactive after its real child has ended.
+            return { active: true, ownerType: 'maker-hold', maker: m, nativeSpe: s,
+                protocolVersion: 2, id: m.speId, kind: 1, generation: m.generation,
+                eventId: m.display && m.display.eventId, resourceIndex: m.resourceIndex,
+                count: m.count, picmax: m.picmax, x: m.x, y: m.y, startFrm: m.startFrm, endFrm: m.endFrm,
+                resourceLength: m.resourceLength, resourceFingerprint: m.resourceFingerprint,
+                protocolValid: m.sourceValid === true && !m.custom, frameValid: m.sourceValid === true,
+                keyflag: 1, skipEligible: false, display: s.display };
+        }
+        var presentation = {};
+        for (var name in s) if (Object.prototype.hasOwnProperty.call(s, name)) presentation[name] = s[name];
+        presentation.maker = m;
+        if (Number(s.id) === 6 && m && m.active && m.custom) presentation.protocolValid = false;
+        return presentation;
     }
     catch (e) {
         return {};
@@ -32,16 +50,28 @@
     catch (e) {
         return true;
     } }
-    function event(s) { return s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
+    function held(s) { return s.ownerType === 'maker-hold'; }
+    function event(s) { return held(s) ? 'maker:' + s.maker.generation + ':' + s.maker.session + ':' + s.maker.inputSeq : s.protocolVersion === 2 ? s.generation + ':' + s.eventId : kind(s) + ':' + s.id; }
     function stamp(s) { var d = s.display; return d ? d.generation + ':' + d.eventId + ':' + d.commitSeq : event(s); }
-    function matches(s) { var d = s.display; return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0); }
-    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && matches(s)); }
+    function matches(s) { var d = s.display;
+        if (held(s)) {
+            var saved = s.maker.display;
+            return !!(s.maker.sourceValid && d && saved && d.frameValid && saved.frameValid &&
+                d.generation === saved.generation && d.eventId === saved.eventId && d.commitSeq === saved.commitSeq &&
+                integer(d.commitSeq) && d.commitSeq > 0 && d.frameIndex === saved.frameIndex &&
+                Array.isArray(d.visibleFrames) && Array.isArray(saved.visibleFrames) && d.visibleFrames.length === 32 &&
+                saved.visibleFrames.length === 32 && d.visibleFrames.every(function (value, index) { return value === saved.visibleFrames[index]; }));
+        }
+        return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0);
+    }
+    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && (held(s) || matches(s))); }
     function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }
     function retire(key) {
         if (state.event !== (key || ''))
             state.skipped = '';
         state.event = key || '';
         state.epoch++;
+        state.pressed = null;
         state.assets = null;
         state.hasFlush = false;
         state.flushKey = '';
@@ -250,6 +280,7 @@
             var m = state.manifest;
             if (identity.status === 'ready' && m) {
                 if (state.libHash !== m.libSha256) { finish(false, 'unknown-lib'); return; }
+                warmMaker();
                 var entry = m.entries.filter(function (e) {
                     return e && e.speId === 3 && e.resourceIndex === 0 && e.kind === 1 && e.startFrm === 0 &&
                         integer(e.count) && e.count >= 1 && e.count <= 255 && e.endFrm === e.count - 1 &&
@@ -278,7 +309,16 @@
         var data = global.baye && baye.data || {}, w = data.g_screenWidth, h = data.g_screenHeight;
         return { width: integer(w) && w > 0 ? w : W, height: integer(h) && h > 0 ? h : H, axScale: data.g_scale };
     }
-    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale; }
+    function warmMaker() {
+        var m = state.manifest, selected = state.assets;
+        if (!m || state.libHash !== m.libSha256 || !hd(1)) return;
+        for (var i = 0; i < m.entries.length; i++) {
+            var entry = m.entries[i];
+            if (entry && entry.speId === 6 && entry.resourceIndex === 0 && entry.kind === 1 && valid(entry)) load(entry);
+        }
+        state.assets = selected;
+    }
+    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s); }
     function paint(s) {
         var canvas = el('hd-spe-canvas');
         if (!canvas || !show(s) || state.renderKey === renderKey(s))
@@ -319,6 +359,7 @@
         state.frames = [];
         verifyLib();
         requestManifest();
+        warmMaker();
         state.renderKey = renderKey(s);
         if (!baseline) {
             state.reason = 'screen-size-unsupported';
@@ -377,9 +418,18 @@
             skip.style.pointerEvents = eligible ? 'auto' : 'none';
             skip.setAttribute('aria-hidden', skip.hidden ? 'true' : 'false');
         }
+        var back = el('hd-spe-return'), token = key + ':' + state.epoch;
+        if (back) {
+            back.hidden = !shown || !held(s);
+            back.disabled = back.hidden || state.returned === key;
+            back.style.visibility = back.hidden ? 'hidden' : 'visible';
+            back.style.pointerEvents = back.disabled ? 'none' : 'auto';
+            back.setAttribute('aria-hidden', back.hidden ? 'true' : 'false');
+            back.setAttribute('data-hd-spe-owner', token);
+        }
         var title = el('hd-spe-title');
         if (title)
-            title.textContent = kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
+            title.textContent = Number(s.id) === 6 ? '制作群组' : kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
         if (shown) {
             verifyLib();
             if (noPaint !== true)
@@ -409,6 +459,15 @@
         sync();
         return true;
     }
+    function returnToTitle(token) {
+        var s = info(), key = event(s);
+        if (!state.open || !show(s) || !held(s) || token !== key + ':' + state.epoch || state.returned === key ||
+            typeof global.sendKey !== 'function') return false;
+        state.returned = key;
+        try { global.sendKey(0x27); } catch (e) { sync(); return false; }
+        sync();
+        return true;
+    }
     function classic() {
         var s = info();
         if (!show(s))
@@ -428,7 +487,22 @@
         var root = el('hd-spe');
         if (root && !state.bound) {
             state.bound = true;
+            root.addEventListener('pointerdown', function (e) {
+                var t = e.target && e.target.closest && e.target.closest('[data-hd-spe-return]');
+                state.pressed = t ? { token: t.getAttribute('data-hd-spe-owner') } : null;
+            });
+            root.addEventListener('pointercancel', function () { state.pressed = null; });
             root.addEventListener('click', function (e) {
+                var back = e.target && e.target.closest && e.target.closest('[data-hd-spe-return]');
+                if (back) {
+                    e.preventDefault(); e.stopPropagation();
+                    var pressed = state.pressed; state.pressed = null;
+                    // Pointer presses must survive neither retirement nor a
+                    // mode/visibility change. Keyboard activation uses the
+                    // current displayed native owner.
+                    if (e.detail === 0 || pressed) returnToTitle(pressed ? pressed.token : back.getAttribute('data-hd-spe-owner'));
+                    return;
+                }
                 var t = e.target, button = t && t.closest && t.closest('[data-hd-spe-lcd]');
                 if (button) {
                     e.preventDefault();
@@ -443,7 +517,8 @@
                 }
             });
             document.addEventListener('keydown', function (e) {
-                if (!state.open || !skippable(info()) || e.isComposing || e.defaultPrevented || (global.bayeInputIgnored && global.bayeInputIgnored(e)) ||
+                var s = info();
+                if (!state.open || !(skippable(s) || held(s) && show(s)) || e.isComposing || e.defaultPrevented || (global.bayeInputIgnored && global.bayeInputIgnored(e)) ||
                     (e.target && (/^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName || '') || e.target.isContentEditable)))
                     return;
                 if (!(/^(Enter| |Escape)$/.test(e.key || '') || [13, 32, 27].indexOf(e.keyCode || e.which) !== -1))
@@ -453,7 +528,7 @@
                 if (e.stopImmediatePropagation)
                     e.stopImmediatePropagation();
                 if (!e.repeat)
-                    skip();
+                    if (held(s)) returnToTitle(event(s) + ':' + state.epoch); else skip();
             }, true);
             document.addEventListener('visibilitychange', sync);
         }
@@ -465,13 +540,14 @@
     global.BayeHdSpe = { start: start, applyPcPage: start, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
             return; capture(img, w, h, s); state.renderKey = ''; paint(s); var root = el('hd-spe'); if (root)
             root.setAttribute('data-source', state.source); }, blit: sync,
-        skip: skip, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
+        skip: skip, returnToTitle: returnToTitle, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
         debugSnapshot: function () {
             var s = info();
             return { open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
                 source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
                 event: state.event, flushKey: state.flushKey, libSha256: state.libHash, preparing: state.preparing,
-                preparation: state.preparation, cachedResources: state.cache.length, spe: s };
+                preparation: state.preparation, cachedResources: state.cache.length, ownerToken: event(s) + ':' + state.epoch,
+                maker: s.maker, presentation: held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
         } };
     if (global.BayeHdLibIdentity) {
         global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });

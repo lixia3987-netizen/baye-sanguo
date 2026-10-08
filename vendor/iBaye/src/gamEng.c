@@ -416,10 +416,14 @@ U8 GamPicMenuInner(U16 picID,U16 speID, const Rect *buttonsRect, U8 buttonsCount
  ***********************************************************************/
 void GamMakerInf(void)
 {
+    U8 hdCustom = 0;
     gam_memset(g_VisScr,0,MAX_SCR_BUF_LEN);
-    if (call_hook_a("showAbout", NULL) == -1) {
+    if (call_hook_a_observed("showAbout", NULL, &hdCustom) == -1) {
+        U32 hdSession = baye_hd_maker_begin(hdCustom);
         GamMovie(MAKER_SPE);
+        baye_hd_maker_hold(hdSession);
         GamDelay(5000, 2);
+        baye_hd_maker_end(hdSession);
     }
 }
 /***********************************************************************

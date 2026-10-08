@@ -110,9 +110,9 @@ function manifest(overrides = {}) {
         pictures: [0, 1].map(picIndex => ({ picIndex, src: `assets/hd-spe/picture-${picIndex}.png`, width: 64, height: 64,
             nativeWidth: 8, nativeHeight: 8, logicalWidth: 4, logicalHeight: 4, mask: picIndex })) }], ...overrides };
 }
-function actualMainFixture() {
+function actualMainFixture(speId = 3) {
     const lib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
-    const address = lib.readUInt32LE((3 - 1) * 4), length = lib.readUInt32LE(address + 8);
+    const address = lib.readUInt32LE((speId - 1) * 4), length = lib.readUInt32LE(address + 8);
     const resource = lib.subarray(address + 14, address + 14 + length);
     let fnv = 2166136261;
     for (const byte of resource) fnv = Math.imul(fnv ^ byte, 16777619) >>> 0;
@@ -127,15 +127,15 @@ function actualMainFixture() {
         return { picIndex, src: `assets/hd-spe/main-fixture-picture-${picIndex}.png`, width: 64, height: 64,
             nativeWidth, nativeHeight, logicalWidth: nativeWidth, logicalHeight: nativeHeight, mask };
     });
-    const entry = { speId: 3, resourceIndex: 0, kind: 1, startFrm: 0, endFrm: 8, count: units.length, picmax: pictures.length,
+    const entry = { speId, resourceIndex: 0, kind: 1, startFrm: resource[4], endFrm: resource[5], count: units.length, picmax: pictures.length,
         resourceLength: length, resourceFingerprint: `fnv1a32:${fnv.toString(16).padStart(8, '0')}:${length}`, units, pictures };
-    const s = { id: 3, kind: 1, count: entry.count, picmax: entry.picmax, startFrm: 0, endFrm: 8,
+    const s = { id: speId, kind: 1, count: entry.count, picmax: entry.picmax, startFrm: entry.startFrm, endFrm: entry.endFrm,
         resourceLength: entry.resourceLength, resourceFingerprint: entry.resourceFingerprint };
     const m = { schemaVersion: 1, axScale: 1, libSha256: createHash('sha256').update(lib).digest('hex'), entries: [entry] };
     return { lib, entry, s, m, units, pictures };
 }
 function harness(options = {}) {
-    let spe = nativeSpe(options.spe), hidden = false, report = { active: 0 };
+    let spe = nativeSpe(options.spe), maker = options.maker || null, hidden = false, report = { active: 0 };
     let openingHd = options.storage?.['baye/systemUiMode'] !== 'classic', battleHd = true;
     const events = [], images = [], keys = [], nativeWrites = [], listeners = new Map(), polls = [], nodes = new Map();
     const nativeReads = [], timers = new Map(), preferences = new Map(Object.entries(options.storage || {}));
@@ -166,7 +166,7 @@ function harness(options = {}) {
             getContext: () => ctx, getBoundingClientRect: () => ({ width: 128, height: 48 }) };
         nodes.set(id, n); return n;
     }
-    ['hd-spe', 'hd-spe-skip', 'hd-spe-title', 'hd-spe-probe'].forEach(id => node(id));
+    ['hd-spe', 'hd-spe-skip', 'hd-spe-return', 'hd-spe-title', 'hd-spe-probe'].forEach(id => node(id));
     node('lcd', true); node('hd-spe-canvas', true);
     const document = { get hidden() { return hidden; }, documentElement: node('html'), getElementById: id => nodes.get(id),
         createElement: () => node('scratch-' + nodes.size, true),
@@ -178,7 +178,8 @@ function harness(options = {}) {
     const data = new Proxy(nativeData, { get(target, key) { return readNative('data.' + String(key), target[key]); },
         set(target, key, value) { nativeWrites.push([key, value]); return true; } });
     const baye = { get data() { return readNative('data', data); }, hd: {
-        ready: () => readNative('hd.ready', true), spe: () => readNative('hd.spe', spe), report: () => readNative('hd.report', report) } };
+        ready: () => readNative('hd.ready', true), spe: () => readNative('hd.spe', spe),
+        maker: () => readNative('hd.maker', maker), report: () => readNative('hd.report', report) } };
     const context = vm.createContext({ console, document, Image, Uint8Array,
         crypto: options.crypto === undefined ? webcrypto : options.crypto,
         Promise: class { constructor() { throw new Error('do not wrap native promises in legacy window.Promise'); } },
@@ -200,12 +201,16 @@ function harness(options = {}) {
         allowNative() { nativeReadable = true; },
         setStorage(key, value) { preferences.set(key, value); },
         spe: () => spe, setSpe: value => { spe = nativeSpe(value); },
+        setMaker: value => { maker = value; },
         setHidden(value) { hidden = value; for (const fn of listeners.get('visibilitychange') || []) fn(); },
         setReport(value) { report.active = value; api.onEngineSpe(); },
         setMode(value) { openingHd = battleHd = value; api.onEngineSpe(); },
         key(extra) { const e = event(extra); for (const fn of listeners.get('keydown') || []) fn(e); return e; },
-        click(selector) { const e = event({ target: { closest: value => value === selector ? {} : null } });
+        click(selector, detail = 0) { const e = event({ detail, target: { closest: value => value === selector ?
+            selector === '[data-hd-spe-return]' ? nodes.get('hd-spe-return') : {} : null } });
             for (const fn of nodes.get('hd-spe').handlers.click || []) fn(e); return e; },
+        pointerDownReturn() { const e = event({ target: { closest: value => value === '[data-hd-spe-return]' ? nodes.get('hd-spe-return') : null } });
+            for (const fn of nodes.get('hd-spe').handlers.pointerdown || []) fn(e); },
         setScreen(width, height) { nativeData.g_screenWidth = width; nativeData.g_screenHeight = height;
             nodes.get('lcd').width = width * 4; nodes.get('lcd').height = height * 4; api.onEngineSpe(); },
         flush() { api.onLcdFlush({ fixture: 'native LCD' }, nodes.get('lcd').width, nodes.get('lcd').height); },
@@ -219,6 +224,103 @@ async function loaded() {
     assert.equal(h.images.length, 2, 'authentic LIB admits exactly the two native picture slots');
     h.resolveImage(0); h.resolveImage(1); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); return h;
 }
+async function makerHold(frame = 95, options = {}) {
+    const fixture = actualMainFixture(6);
+    const display = { generation: 9, eventId: 6, commitSeq: frame + 1, frameIndex: frame,
+        frameValid: true, visibleFrames: bitset(frame) };
+    const maker = { protocolVersion: 1, active: true, phase: 'hold', generation: 9, session: 1, inputSeq: 2,
+        returnEligible: true, sourceValid: true, custom: false, speId: 6, x: 0, y: 0,
+        resourceIndex: 0, count: 96, picmax: 1, startFrm: 0, endFrm: 95,
+        resourceLength: fixture.entry.resourceLength, resourceFingerprint: fixture.entry.resourceFingerprint, display };
+    const h = harness({ data: { g_scale: 1 }, spe: { active: 0, id: 0, generation: 9, display }, maker, ...options });
+    h.context.dynLib = fixture.lib.toString('hex');
+    h.api.setManifest(fixture.m); h.api.start();
+    const deadline = Date.now() + 2_000;
+    while (!h.images.length && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 10));
+    assert.equal(h.images.length, 1);
+    if (!options.pendingImage) h.resolveImage(0);
+    return { ...h, fixture, maker, display };
+}
+
+test('native Maker hold presents the last copied sheet while the public SPE stays inactive, with no native writes', async () => {
+    const h = await makerHold();
+    assert.equal(h.spe().active, 0);
+    assert.equal(h.api.debugSnapshot().presentation, 'maker-hold');
+    assert.equal(h.api.debugSnapshot().spe.active, 0);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [95]);
+    assert.deepEqual(h.hdDraws().at(-1).args.slice(1), [0, 0, 159 * 11, 96 * 11]);
+    assert.equal(h.nodes.get('hd-spe-title').textContent, '制作群组');
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true);
+    assert.equal(h.nodes.get('hd-spe-return').hidden, false);
+    assert.deepEqual(h.nativeWrites, []); assert.deepEqual(h.keys, []);
+});
+
+test('skipping real Maker unit eight retains y87 during hold and never snaps to the final sheet', async () => {
+    const h = await makerHold(8), before = h.nativeSnapshot();
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [8]);
+    assert.deepEqual(h.hdDraws().at(-1).args.slice(1), [0, 87 * 11, 159 * 11, 96 * 11]);
+    const draws = h.hdDraws().length;
+    h.advance(50_000); for (const poll of h.polls) poll();
+    assert.equal(h.hdDraws().length, draws); assert.equal(h.nativeSnapshot(), before);
+    h.api.skip(); assert.deepEqual(h.keys, [], 'scroll skip cannot acknowledge the distinct hold owner');
+});
+
+test('Maker hold waits for the actual public LCD flush and checks every byte of its saved bitset', async () => {
+    const old = { generation: 9, eventId: 6, commitSeq: 95, frameIndex: 94, frameValid: true, visibleFrames: bitset(94) };
+    const h = await makerHold(95, { spe: { active: 0, id: 0, generation: 9, display: old } });
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.hdDraws().length, 0);
+    h.setSpe({ active: 0, id: 0, generation: 9, display: h.display }); h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    h.setSpe({ active: 0, id: 0, generation: 9, display: { ...h.display, visibleFrames: bitset(94, 95) } }); h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd');
+    assert.deepEqual(h.keys, []);
+});
+
+test('Maker return requires the displayed native session and presentation epoch and sends one Enter', async () => {
+    const h = await makerHold(), old = h.api.debugSnapshot().ownerToken;
+    h.pointerDownReturn(); h.setMode(false); h.setMode(true);
+    h.click('[data-hd-spe-return]', 1);
+    assert.deepEqual(h.keys, [], 'mode retirement clears a held pointer press');
+    assert.equal(h.api.returnToTitle(old), false);
+    h.pointerDownReturn(); h.setHidden(true); h.setHidden(false); h.click('[data-hd-spe-return]', 1);
+    assert.deepEqual(h.keys, [], 'visibility retirement clears a held pointer press');
+    const current = h.api.debugSnapshot().ownerToken;
+    assert.equal(h.api.returnToTitle(current), true);
+    assert.equal(h.api.returnToTitle(current), false); h.key(); h.click('[data-hd-spe-return]');
+    assert.deepEqual(h.keys, [39]);
+    h.setMaker({ ...h.maker, active: false }); h.api.blit();
+    assert.equal(h.api.returnToTitle(current), false); assert.equal(h.api.isOpen(), false);
+    h.setMaker({ ...h.maker, session: 2 }); h.api.blit();
+    assert.equal(h.api.returnToTitle(current), false);
+    h.key({ isComposing: true }); h.key({ target: { tagName: 'INPUT' } }); h.key({ repeat: true });
+    assert.deepEqual(h.keys, [39]); h.key(); assert.deepEqual(h.keys, [39, 39]);
+});
+
+test('Maker hold resource retirement, reports, reset and late images cannot revive old HD or leak return input', async () => {
+    const ready = await makerHold();
+    ready.setMaker({ ...ready.maker, sourceValid: false }); ready.api.blit();
+    assert.equal(ready.api.debugSnapshot().source, 'lcd', 'native dirty retirement repaints even before the next LCD flush');
+    const h = await makerHold(8, { pendingImage: true }), old = h.api.debugSnapshot().ownerToken;
+    h.setMaker({ ...h.maker, sourceValid: false, display: { ...h.display, frameValid: false } }); h.api.blit();
+    h.resolveImage(0); assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.hdDraws().length, 0);
+    h.setReport(1); assert.equal(h.api.returnToTitle(old), false); assert.deepEqual(h.keys, []);
+    h.setReport(0); h.setSpe({ active: 0, id: 0, generation: 10, display: { ...h.display, generation: 10 } }); h.api.blit();
+    assert.equal(h.api.isOpen(), false); assert.equal(h.api.returnToTitle(old), false);
+    const ended = await makerHold(95, { pendingImage: true });
+    ended.setMaker({ ...ended.maker, active: false }); ended.api.blit(); ended.resolveImage(0);
+    assert.equal(ended.api.isOpen(), false); assert.equal(ended.hdDraws().length, 0); assert.deepEqual(ended.keys, []);
+});
+
+test('custom about hooks and failed Maker sheets preserve native LCD and its hold return', async () => {
+    for (const custom of [false, true]) {
+        const h = await makerHold(95, { pendingImage: true });
+        if (custom) h.setMaker({ ...h.maker, custom: true, sourceValid: false });
+        else h.images[0].onerror();
+        h.api.blit(); assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.hdDraws().length, 0);
+        h.click('[data-hd-spe-return]'); assert.deepEqual(h.keys, [39]); assert.deepEqual(h.nativeWrites, []);
+    }
+});
 function preparation(options = {}) {
     const fixture = actualMainFixture(), callbacks = [], preparationResults = [];
     const fetch = options.fetch || (() => Promise.resolve({ ok: true, json: () => Promise.resolve(fixture.m) }));
@@ -380,11 +482,13 @@ test('actual FIRE origin stays 33 logical pixels inside the fixed native battle 
         resourceLength: entry.resourceLength, keyflag: 0, skipEligible: false } });
     h.context.dynLib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
     h.api.setManifest(m); h.api.start();
-    for (let i = 0; i < 100 && h.images.length < entry.picmax; i++) await settle();
-    assert.equal(h.images.length, entry.picmax);
+    const isFire = image => entry.pictures.some(picture => picture.src === image.url), deadline = Date.now() + 2_000;
+    while (h.images.filter(isFire).length < entry.picmax && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 10));
+    const fireImages = h.images.filter(isFire);
+    assert.equal(fireImages.length, entry.picmax, 'the attack loads its two native slots independently of the warm credit sheet');
     for (let i = 0; i < entry.picmax; i++) {
-        h.images[i].naturalWidth = entry.pictures[i].width; h.images[i].naturalHeight = entry.pictures[i].height;
-        h.images[i].onload();
+        fireImages[i].naturalWidth = entry.pictures[i].width; fireImages[i].naturalHeight = entry.pictures[i].height;
+        fireImages[i].onload();
     }
     assert.equal(h.api.debugSnapshot().source, 'hd-assets'); h.events.length = 0; h.flush();
     const lcd = h.events.find(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage' && e.args.length === 9);
