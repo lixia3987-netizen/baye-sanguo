@@ -118,3 +118,11 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 完整专项测试不能代替每类素材的真实连续播放与最终移动设备验收。证据按 [剩余清单](hd-remaining-work.md) 保存。
 
 `npm run test:maker` 包含17个实际C生命周期用例和13个桥接用例；其中U32用例使用真正WebAssembly i32.load和实际ValueTypeU32绑定，不用模拟负数替代ABI。`npm run test:maker-runtime -- --staged` 从真实标题选择“制作群组”，连续采集原LCD/HD画布、实际IMG绘制和前后display戳，并按真实LIB点阵重建LCD逐byte比较。七个独立页面场景覆盖完整自然结束、提前skip后的部分停留、显式返回按钮、模式/隐藏/resize、实际HTTP缺图/迟到及真实未知LIB回退。实际tab隐藏与只用于停绘防护的visibility夹具分开记录；未知Mod只验署名/标题，不冒充完整新局或战役。`--allow-lcd`保留原生开发基线。最终结果以[MAKER验收](validation/m4-maker-20261008.json)为准。
+
+## 2026-10-09：完整普通攻击素材与真实汉中目标
+
+标准LIB的113个原生图片槽按原payload SHA对应51组内置原始PNG，19–24的六个守方段及25水面段共37个调用区间全部严格接线。原有完整units、picmax、FNV/length、每槽native尺寸/掩码、背景16和数字15保持；只用当前区间required slots，未用槽null。旧27个entry对象原样保留，无native/前端JS/CSS/引擎产物变化。
+
+真实驱动支持`--destination 14`，保留默认9；当前Realm归属、真实CITY_LINKR字节、AddFightOrder原生订单和实际战场CityIndex分别确认。每次目标以当前真实GenArray、存活、装备派生兵种、地形0..6和fresh native AIM授权，不能用初始slot或既往AIM排名授权攻击。
+
+三次新增对弓的玩家攻击实际通过19:22..32、20:20..29、21:18..26；其它28接线组合仍待实战，原有对步/对骑六段保留历史来源而未冒充本批复验。原生死亡失败与同一源码后续真实新局通过分别保留，不能改伤害/兵力/随机状态或绕过死亡门控。详见[普通攻击完整接入与汉中实战证据](validation/m4-attack-completion-20261009.json)。

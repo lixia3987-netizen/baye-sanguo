@@ -10,6 +10,8 @@
  *   --target-arm N selects a real living enemy with native effective type 0..5;
  *   --target-arm0 aliases --target-arm 0 for cavalry defender intervals.
  *   --max-turns N sets the private acceptance budget (default4, native game unchanged).
+ *   --destination N requests an actual non-owned native neighbor of 天水8;
+ *   default9 retains 河内, while14 requests 汉中 only if current native links allow it.
  *   the current native Fang Yue ID is a preference, never a fixed battle slot.
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
  * Uses a temporary browser profile; it never edits portraits, saves or game assets.
@@ -54,6 +56,10 @@ const maxTurnsFlag=process.argv.indexOf('--max-turns'),maxTurnsText=maxTurnsFlag
 assert.ok(/^\d+$/.test(maxTurnsText||''),'--max-turns requires an explicit integer test budget');
 const maxTurns=Number(maxTurnsText);
 assert.ok(Number.isInteger(maxTurns)&&maxTurns>=1&&maxTurns<=20,'The private test budget is 1..20 turns, without modifying the native bout maximum');
+const destinationFlag=process.argv.indexOf('--destination'),destinationText=destinationFlag<0?'9':process.argv[destinationFlag+1];
+assert.ok(/^\d+$/.test(destinationText||''),'--destination requires a zero-based native city index');
+const destination=Number(destinationText);
+assert.ok(Number.isInteger(destination)&&destination>=0&&destination<64&&destination!==8,'The destination must be a distinct native city; current Realm and native adjacency still authorize it');
 const plannerStepBudget=36+Math.max(0,maxTurns-4)*11;
 const acceptsRange = (a) => !acceptedRange || a.speId === acceptedRange[0] && a.startFrm === acceptedRange[1] && a.endFrm === acceptedRange[2];
 const viewport = process.argv.includes('--720') ? {width:1280,height:720} : {width:1920,height:1080};
@@ -64,7 +70,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
     '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream' };
-const report = { scope:'Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', staged, allowLcd,recruit,recruitArms,targetArm,maxTurns,plannerStepBudget,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+const report = { scope:'Actual standard P1 Ma Teng legitimate march and ordinary attack; strict native composition/damage display acceptance. Gameplay families are listed only when actually observed.', staged, allowLcd,recruit,recruitArms,targetArm,destination,maxTurns,plannerStepBudget,scenario,acceptedRange,viewport,startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 const servedAssets = new Map();
 let nativeLib;
 let attackManifest;
@@ -222,7 +228,7 @@ function requestedTarget(unit) {
     if(!acceptedRange)return true;
     if(acceptedRange[0]===25)return unit.terrain===7;
     const span=nativeAttackIntervalLengths()[acceptedRange[0]-19];
-    return unit.terrain!==7 && Number.isInteger(unit.armType) && unit.armType>=0 && unit.armType<6 &&
+    return Number.isInteger(unit.terrain) && unit.terrain>=0 && unit.terrain<=6 && Number.isInteger(unit.armType) && unit.armType>=0 && unit.armType<6 &&
         unit.armType*span===acceptedRange[1] && (unit.armType+1)*span-1===acceptedRange[2];
 }
 function livingRequestedEnemy(unit) {
@@ -845,6 +851,43 @@ async function recruitSmoke(cdp,cityIndex) {
     report.recruitment.distributionRetirement=await reopenMilitaryAfterPersonPicker(cdp,cityIndex,'分配');
 }
 
+async function readMarchDestination(cdp,stage) {
+    const facts=await evaluate(cdp,`(() => {
+        const d=baye.data,readGeneration=()=>d.g_hdSpeGeneration==null?null:Number(d.g_hdSpeGeneration);
+        const generationBefore=readGeneration(),before=baye.hd.march(),keysBefore=window.__speEngineKeys.length;
+        const realm=baye.hd.realm(),origin=realm.cities.find(c=>c.i===8),target=realm.cities.find(c=>c.i===${destination});
+        const links=baye.hd.cityLinks(8),mask=d.g_hdCityLinks;
+        const nativeLinkMask=Array.from({length:8},(_,i)=>mask&&mask[i]!=null?Number(mask[i]):null);
+        const after=baye.hd.march(),generationAfter=readGeneration(),keysAfter=window.__speEngineKeys.length;
+        return {generationBefore,generationAfter,before,after,keysBefore,keysAfter,total:realm.total,
+            playerKing:realm.playerKing,playerBelong:realm.playerBelong,origin,target,links,nativeLinkMask};
+    })()`);
+    assert.ok(Number.isInteger(facts.generationBefore)&&facts.generationBefore>=0,'Actual native generation is present');
+    assert.equal(facts.generationAfter,facts.generationBefore,'Realm and native route reads cannot mix generations');
+    for(const key of ['phase','session','origin','inputSeq','mapInputSeq','pick','battlePick'])
+        assert.equal(facts.after[key],facts.before[key],'Route observation preserves current native '+key);
+    assert.equal(facts.keysAfter,facts.keysBefore,'Route observation injects no native keys');
+    assert.ok(Number.isInteger(facts.total)&&facts.total>0&&facts.total<=64&&destination<facts.total,'Current actual Realm includes the requested destination');
+    assert.ok(facts.origin&&facts.origin.i===8&&facts.origin.owned&&facts.origin.belong===facts.playerBelong,'天水 is currently owned by the actual player');
+    assert.ok(facts.target&&facts.target.i===destination&&facts.target.owned===false&&Number.isInteger(facts.target.belong)&&
+        facts.target.belong!==facts.origin.belong,'Requested destination currently has different native ownership');
+    assert.equal(facts.nativeLinkMask.length,8);
+    assert.ok(facts.nativeLinkMask.every(v=>Number.isInteger(v)&&v>=0&&v<=255),'All eight actual native link bytes are available');
+    const resource=nativeItem(59),offset=8*16;
+    assert.ok(offset+8<=resource.length,'CITY_LINKR actual item contains the 天水 native row');
+    const rawResourceMask=Array.from(resource.subarray(offset,offset+8));
+    const permittedMask=rawResourceMask.map(id=>id===0||id===255||id-1>=facts.total?0:id);
+    assert.deepEqual(facts.nativeLinkMask,permittedMask,'Actual link observation agrees with the real CITY_LINKR first-eight-byte native mask');
+    assert.ok(facts.nativeLinkMask.includes(destination+1)&&facts.links.some(c=>c.id===destination+1&&c.index===destination),
+        'Current native adjacency permits this exact destination; an empty UI fallback cannot authorize it');
+    if(stage!=='initial-map')assert.ok(facts.after.phase===4&&facts.after.pick===1&&facts.after.battlePick===1&&facts.after.origin===8,
+        'Only the actual current native march target owner authorizes selecting or confirming');
+    report.marchTargetAuthorizations??=[];
+    report.marchTargetAuthorizations.push({stage,...facts,resourceId:59,resourceIndex:0,cityStride:16,nativeLinkCount:8,rawResourceMask,
+        scope:'Actual current Realm ownership and native eight-link observation, independently checked against the served real LIB payload. Native BattleMake/AttackCityRoad and AddFightOrder still decide dispatch.'});
+    return facts;
+}
+
 async function marchSmoke(cdp) {
     await evaluate(cdp, `(() => { BayeHdOverworld.setMode('hd-map'); BayeHdCityMenu.setMode('hd'); BayeHdBattle.setMode('hd'); })()`);
     const owned = await waitFor(cdp, 'owned HD map 天水', `(() => { const m=BayeHdOverworld.debugSnapshot(); return m.phase==='map' && m.owned.find(c=>c.i===8 && c.name==='天水'); })()`);
@@ -852,6 +895,7 @@ async function marchSmoke(cdp) {
         const realm=baye.hd.realm();
         return realm.cities.filter(c=>c.owned).map(c=>({ ...c, links:baye.hd.cityLinks(c.i), persons:Number(baye.data.g_Cities[c.i].Persons), food:Number(baye.data.g_Cities[c.i].Food) }));
     })()`);
+    await readMarchDestination(cdp,'initial-map');
     assert.ok(await action(cdp,'open-owned-city', `BayeHdOverworld.walkToCity(${owned.i})`));
     await waitFor(cdp, 'real city root menu', `BayeHdCityMenu.isOpen() && BayeHdCityMenu.getLayer() === 'root' && baye.hd.menuItems().active`);
     await checkpoint(cdp,'06-hd-city');
@@ -887,21 +931,33 @@ async function marchSmoke(cdp) {
     await action(cdp,'continue-target-instruction','BayeHdCityMenu.continueMarch()');
     await waitFor(cdp, 'march target map', `baye.hd.march().phase === 4 && baye.hd.march().battlePick === 1`);
     await checkpoint(cdp,'11-march-target');
-    const selected=await action(cdp,'select-target-only','BayeHdCityMenu.selectMarchTarget(9)');
-    assert.equal(selected.selected,9);
+    const targetOwner=await readMarchDestination(cdp,'before-select');
+    const selected=await action(cdp,'select-target-only',`BayeHdCityMenu.selectMarchTarget(${destination})`);
+    assert.equal(selected.selected,destination);
     assert.equal(await evaluate(cdp,'baye.hd.march().phase'),4,'selecting alone must not send confirmation');
-    await action(cdp,'confirm-target','BayeHdCityMenu.confirmMarchTarget(9)');
+    const confirmOwner=await readMarchDestination(cdp,'before-confirm');
+    assert.equal(confirmOwner.generationAfter,targetOwner.generationAfter,'Destination selection retains the actual generation');
+    assert.equal(confirmOwner.after.session,targetOwner.after.session,'Destination selection retains the actual march session');
+    assert.equal(confirmOwner.after.inputSeq,targetOwner.after.inputSeq,'Destination selection does not consume native confirmation');
+    await action(cdp,'confirm-target',`BayeHdCityMenu.confirmMarchTarget(${destination})`);
     await waitFor(cdp,'real departure report','baye.hd.march().phase===6',20000);
     await checkpoint(cdp,'12-march-departure-report');
     const departureMapSeq=await evaluate(cdp,'baye.hd.march().mapInputSeq');
     await action(cdp,'confirm-departure-report','BayeHdCityMenu.continueMarch()');
     await waitFor(cdp,'actual AddFightOrder ACK','baye.hd.march().phase===7 && baye.hd.march().ok===1');
+    report.marchOrderReceipt=await evaluate(cdp,'baye.hd.march()');
+    assert.equal(report.marchOrderReceipt.city,8,'The true AddFightOrder dispatches from 天水');
+    assert.equal(report.marchOrderReceipt.obj,destination,'The true AddFightOrder destination equals the requested current native city');
+    assert.equal(report.marchOrderReceipt.ok,1,'The native dispatch succeeded');
+    assert.equal(report.marchOrderReceipt.session,confirmOwner.after.session,'The actual order belongs to the confirmed march session');
     await waitFor(cdp,'actual strategy input after departure',`(() => {const m=baye.hd.march(),menu=baye.hd.menuItems();return (menu.active&&[1,2].includes(menu.context))||(!menu.active&&m.pick===1&&m.battlePick===0&&m.mapInputSeq>${departureMapSeq});})()`);
     await checkpoint(cdp,'13-march-order-ack');
     await action(cdp,'end-strategy-once','BayeHdCityMenu.goStrategyEnd()');
     await waitFor(cdp,'explicit strategy request accepted','BayeHdCityMenu.debugSnapshot().handoff || baye.hd.fight().active');
     await waitFor(cdp,'real battle player selection','baye.hd.fight().active && !baye.hd.fight().over && baye.hd.fight().inputKind===1',60000);
     await checkpoint(cdp,'14-battle-ready');
+    report.battleDestinationReceipt=await evaluate(cdp,'baye.hd.fight()');
+    assert.equal(report.battleDestinationReceipt.cityIndex,destination,'The actual battle CityIndex equals the successful native march destination');
     await battleSmoke(cdp);
 }
 

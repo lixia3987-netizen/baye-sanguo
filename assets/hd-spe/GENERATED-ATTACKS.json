@@ -11390,9 +11390,453 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-94feea30-bfb3-4482-8724-70a187f3ae6e.png",
+        "sha256": "43ac13927ced4412d0c448b0c8fbb31474108df36086036f57f399e505a6cef2",
+        "bytes": 664801,
+        "dimensions": [
+          1122,
+          1402
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1314716,
+          "full255": 591,
+          "over16BBox": [
+            187,
+            268,
+            967,
+            1178
+          ],
+          "peaks": [
+            [
+              0,
+              1314716
+            ],
+            [
+              253,
+              179085
+            ],
+            [
+              252,
+              40633
+            ],
+            [
+              251,
+              7683
+            ],
+            [
+              1,
+              6139
+            ],
+            [
+              250,
+              3068
+            ],
+            [
+              254,
+              2491
+            ],
+            [
+              2,
+              1881
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+        "byteExactCopy": true,
+        "attempt": 2
+      },
+      "attempts": [
+        {
+          "status": "rejected-final-candidate",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Use case: historical-scene.\nCreate ONE original high-resolution transparent game sprite for native group32, resource22/item0/picture2.\nReferences1/2: actual 24x30 packed-bitmap sprite and readable16x diagnostic. They are PRIMARY authority for person count, facing, limbs, implement and silhouette. Reference3: ONLY restrained bronze-gold/charcoal-green materials/palette; no scene, border or person identity.\nExactly ONE ordinary RIGHT-facing foot soldier, leaning forward with a bent front knee and back leg extended left/down. His short thin straight blade/rod is in front of his hands on the RIGHT side, rising diagonally UP-RIGHT. Preserve this native crouched forward action and implement angle, not an upright horizontal thrust. Face and torso toward RIGHT. No boat.\nAnonymous ordinary Han Chinese footman wearing simple dark low helmet/headwrap, worn bronze lamellar, charcoal-green cloth and muted brown footwear. Restrained realistic hand-painted style matching bronze/charcoal game sprites, not a famous general portrait. Keep exact native count, direction and action; do not infer a weapon or vehicle from resource names.\nThe FULL head/headwrap, arms/hands, BOTH feet and COMPLETE thin implement including ends must remain visible with clear margin all around, figure in central75% of the canvas. Real transparent alpha0 exterior, narrow edge antialiasing only. No colored haze/halo, backdrop/floor/shadowplane, boat, horse, extra person, magical effect, big invented blade, bow, modern weapon, crown, text/UI, logo, frame or sprite sheet. Generate a new HD original, not enlarged pixel art.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-22-index-0-picture-2.png",
+              "role": "PRIMARY actual native resource22 item0 picture2; count/facing/pose authority",
+              "sha256": "6a7427e8b0fdf2e96bb3915f145e132d2179f39d84e190e66af25bb460ec8295",
+              "bytes": 365,
+              "dimensions": [
+                24,
+                30
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 329,
+                "full255": 391,
+                "over16BBox": [
+                  0,
+                  1,
+                  23,
+                  30
+                ],
+                "peaks": [
+                  [
+                    255,
+                    391
+                  ],
+                  [
+                    0,
+                    329
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-22-index-0-picture-2-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap16x cells; readable native geometry evidence only",
+              "sha256": "e75cb75e216b63268fd389f922b6ab59e275dba66c9340ef8a3a4e38aba07f3d",
+              "bytes": 2277,
+              "dimensions": [
+                384,
+                480
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 84224,
+                "full255": 100096,
+                "over16BBox": [
+                  0,
+                  16,
+                  368,
+                  480
+                ],
+                "peaks": [
+                  [
+                    255,
+                    100096
+                  ],
+                  [
+                    0,
+                    84224
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": false,
+            "reason": "Viewed original: full figure and right/up angle are present, but the generated sword is too long and tip rises well above the head, while actual native small implement ends below head level; reject weapon scale/geometry rather than claiming frame match. Preserve original candidate, no copy or image editing."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-da803ef4-82b7-4202-9199-7fbf5f6fe7da.png",
+            "sha256": "327d0bdd1a41dc1b8e8947171616aa781d71083912b7f25ae3078c140b9b881c",
+            "bytes": 757304,
+            "dimensions": [
+              1122,
+              1402
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1303417,
+              "full255": 587,
+              "over16BBox": [
+                125,
+                270,
+                1077,
+                1186
+              ],
+              "peaks": [
+                [
+                  0,
+                  1303417
+                ],
+                [
+                  253,
+                  165541
+                ],
+                [
+                  252,
+                  54354
+                ],
+                [
+                  251,
+                  10281
+                ],
+                [
+                  1,
+                  9683
+                ],
+                [
+                  250,
+                  3916
+                ],
+                [
+                  2,
+                  2885
+                ],
+                [
+                  249,
+                  2084
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Use case: historical-scene.\nCreate ONE original high-resolution transparent game sprite for native group32, resource22/item0/picture2.\nReferences1/2: actual 24x30 packed-bitmap sprite and readable16x diagnostic. They are PRIMARY authority for person count, facing, limbs, implement and silhouette. Reference3: ONLY restrained bronze-gold/charcoal-green materials/palette; no scene, border or person identity.\nExactly ONE ordinary RIGHT-facing foot soldier, leaning forward with a bent front knee and back leg extended left/down. His short thin straight blade/rod is in front of his hands on the RIGHT side, rising diagonally UP-RIGHT. Preserve this native crouched forward action and implement angle, not an upright horizontal thrust. Face and torso toward RIGHT. No boat.\nAnonymous ordinary Han Chinese footman wearing simple dark low helmet/headwrap, worn bronze lamellar, charcoal-green cloth and muted brown footwear. Restrained realistic hand-painted style matching bronze/charcoal game sprites, not a famous general portrait. Keep exact native count, direction and action; do not infer a weapon or vehicle from resource names.\nThe FULL head/headwrap, arms/hands, BOTH feet and COMPLETE thin implement including ends must remain visible with clear margin all around, figure in central75% of the canvas. Real transparent alpha0 exterior, narrow edge antialiasing only. No colored haze/halo, backdrop/floor/shadowplane, boat, horse, extra person, magical effect, big invented blade, bow, modern weapon, crown, text/UI, logo, frame or sprite sheet. Generate a new HD original, not enlarged pixel art.\nCRITICAL RELATIVE SCALE CORRECTION: the earlier original was rejected because the sword grew long enough to rise above the head. In the actual native bitmap, the SMALL exposed straight implement is only about one quarter of full body height, on the right between hand and upper chest/shoulder level. Its tip MUST remain BELOW the top of the soldier's head, near shoulder/upper chest height, even though it angles up-right. Make a SHORT narrow straight blade/rod, not a full-length sword or spear. Preserve native bent forward pose, no extra hilt ornament or broad blade. Do not reproduce the rejected candidate.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-22-index-0-picture-2.png",
+              "role": "PRIMARY actual native resource22 item0 picture2; count/facing/pose authority",
+              "sha256": "6a7427e8b0fdf2e96bb3915f145e132d2179f39d84e190e66af25bb460ec8295",
+              "bytes": 365,
+              "dimensions": [
+                24,
+                30
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 329,
+                "full255": 391,
+                "over16BBox": [
+                  0,
+                  1,
+                  23,
+                  30
+                ],
+                "peaks": [
+                  [
+                    255,
+                    391
+                  ],
+                  [
+                    0,
+                    329
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-22-index-0-picture-2-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap16x cells; readable native geometry evidence only",
+              "sha256": "e75cb75e216b63268fd389f922b6ab59e275dba66c9340ef8a3a4e38aba07f3d",
+              "bytes": 2277,
+              "dimensions": [
+                384,
+                480
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 84224,
+                "full255": 100096,
+                "over16BBox": [
+                  0,
+                  16,
+                  368,
+                  480
+                ],
+                "peaks": [
+                  [
+                    255,
+                    100096
+                  ],
+                  [
+                    0,
+                    84224
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed regenerated original: small short straight implement now angles up-right and ends below head near shoulder rather than long sword above head; native forward bent-knee single right-facing action, complete feet/head/ends and true-alpha clean fringe retained. Prior overlong candidate preserved/rejected."
+          },
+          "attempt": 2,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-94feea30-bfb3-4482-8724-70a187f3ae6e.png",
+            "sha256": "43ac13927ced4412d0c448b0c8fbb31474108df36086036f57f399e505a6cef2",
+            "bytes": 664801,
+            "dimensions": [
+              1122,
+              1402
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1314716,
+              "full255": 591,
+              "over16BBox": [
+                187,
+                268,
+                967,
+                1178
+              ],
+              "peaks": [
+                [
+                  0,
+                  1314716
+                ],
+                [
+                  253,
+                  179085
+                ],
+                [
+                  252,
+                  40633
+                ],
+                [
+                  251,
+                  7683
+                ],
+                [
+                  1,
+                  6139
+                ],
+                [
+                  250,
+                  3068
+                ],
+                [
+                  254,
+                  2491
+                ],
+                [
+                  2,
+                  1881
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+            "sha256": "43ac13927ced4412d0c448b0c8fbb31474108df36086036f57f399e505a6cef2",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 水军 action"
       ],
@@ -11414,9 +11858,262 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-1d4c4461-c092-4e7b-bb66-3b72bfc3b413.png",
+        "sha256": "be4bbe3c52adc12f427846e3f849cf611358579c45f9a2d7d25c14903e4e0143",
+        "bytes": 874666,
+        "dimensions": [
+          1167,
+          1347
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1234940,
+          "full255": 560,
+          "over16BBox": [
+            115,
+            192,
+            1098,
+            1148
+          ],
+          "peaks": [
+            [
+              0,
+              1234940
+            ],
+            [
+              253,
+              218659
+            ],
+            [
+              252,
+              64809
+            ],
+            [
+              251,
+              11166
+            ],
+            [
+              1,
+              10837
+            ],
+            [
+              250,
+              4179
+            ],
+            [
+              2,
+              2971
+            ],
+            [
+              249,
+              2144
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Use case: historical-scene.\nCreate ONE original high-resolution transparent game sprite for native group33, resource22/item0/picture3.\nReferences1/2: actual 26x30 packed-bitmap sprite and readable16x diagnostic. They are PRIMARY authority for person count, facing, limbs, implement and silhouette. Reference3: ONLY restrained bronze-gold/charcoal-green materials/palette; no scene, border or person identity.\nExactly ONE ordinary RIGHT-facing foot soldier in a low compact action stance with both knees bent and body slightly forward. The short thin blade/rod is to his RIGHT at a shallow UP-RIGHT angle, nearer horizontal than the preceding raised frame. Preserve this actual lower compact silhouette and short implement, no up-left or vertical spear. Face and body RIGHT. No boat.\nAnonymous ordinary Han Chinese footman wearing simple dark low helmet/headwrap, worn bronze lamellar, charcoal-green cloth and muted brown footwear. Restrained realistic hand-painted style matching bronze/charcoal game sprites, not a famous general portrait. Keep exact native count, direction and action; do not infer a weapon or vehicle from resource names.\nThe FULL head/headwrap, arms/hands, BOTH feet and COMPLETE thin implement including ends must remain visible with clear margin all around, figure in central75% of the canvas. Real transparent alpha0 exterior, narrow edge antialiasing only. No colored haze/halo, backdrop/floor/shadowplane, boat, horse, extra person, magical effect, big invented blade, bow, modern weapon, crown, text/UI, logo, frame or sprite sheet. Generate a new HD original, not enlarged pixel art.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-22-index-0-picture-3.png",
+              "role": "PRIMARY actual native resource22 item0 picture3; count/facing/pose authority",
+              "sha256": "99ae3d3ff1885f0e06507b91bcf11bb33001faa391f7acec6adab579d8e8dcb7",
+              "bytes": 351,
+              "dimensions": [
+                26,
+                30
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 406,
+                "full255": 374,
+                "over16BBox": [
+                  1,
+                  1,
+                  26,
+                  30
+                ],
+                "peaks": [
+                  [
+                    0,
+                    406
+                  ],
+                  [
+                    255,
+                    374
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-22-index-0-picture-3-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap16x cells; readable native geometry evidence only",
+              "sha256": "ebb1f3bb2df1e61b08c1443d3fa4c00f622b9f775200c9943a0e900cf0603f63",
+              "bytes": 2282,
+              "dimensions": [
+                416,
+                480
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 103936,
+                "full255": 95744,
+                "over16BBox": [
+                  16,
+                  16,
+                  416,
+                  480
+                ],
+                "peaks": [
+                  [
+                    0,
+                    103936
+                  ],
+                  [
+                    255,
+                    95744
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: single right-facing footman in low bent-knee forward stance; short straight implement projects shallow up-right at chest level, below head, complete head/feet and both implement ends. No boat or lord identity, clean true-alpha exterior/narrow fringe; original alpha retained without editing."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-1d4c4461-c092-4e7b-bb66-3b72bfc3b413.png",
+            "sha256": "be4bbe3c52adc12f427846e3f849cf611358579c45f9a2d7d25c14903e4e0143",
+            "bytes": 874666,
+            "dimensions": [
+              1167,
+              1347
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1234940,
+              "full255": 560,
+              "over16BBox": [
+                115,
+                192,
+                1098,
+                1148
+              ],
+              "peaks": [
+                [
+                  0,
+                  1234940
+                ],
+                [
+                  253,
+                  218659
+                ],
+                [
+                  252,
+                  64809
+                ],
+                [
+                  251,
+                  11166
+                ],
+                [
+                  1,
+                  10837
+                ],
+                [
+                  250,
+                  4179
+                ],
+                [
+                  2,
+                  2971
+                ],
+                [
+                  249,
+                  2144
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+            "sha256": "be4bbe3c52adc12f427846e3f849cf611358579c45f9a2d7d25c14903e4e0143",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 水军 action"
       ],
@@ -11438,9 +12135,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-e3ec3e75-943f-49c9-89bf-d4e93f45faa8.png",
+        "sha256": "18f9d1555cd91389b4871fd052cfa0688ce0d28604f9bd99180f1be751f97b64",
+        "bytes": 1149685,
+        "dimensions": [
+          1086,
+          1448
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1089537,
+          "full255": 273,
+          "over16BBox": [
+            178,
+            230,
+            885,
+            1327
+          ],
+          "peaks": [
+            [
+              0,
+              1089537
+            ],
+            [
+              253,
+              305961
+            ],
+            [
+              252,
+              128998
+            ],
+            [
+              251,
+              11564
+            ],
+            [
+              1,
+              8398
+            ],
+            [
+              250,
+              4323
+            ],
+            [
+              2,
+              2406
+            ],
+            [
+              249,
+              2294
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE original high resolution transparent historical game sprite, group34, resource22/item0/picture4.\nInputs1/2 actual21x28 native PNG and exact16x packed-cell diagnostic are PRIMARY identity-free geometry authority. Input3 ONLY bronze-gold/charcoal-green palette/material, no background or figure.\nONE RIGHT-facing footman in a compact low crouch, knees deeply bent and torso drawn in; hands and a VERY SHORT thin implement/overlapping bent line are gathered just to RIGHT of chest/upper abdomen. The native has no independently readable long raised sword: keep only a short narrow dark metal/wood outline within chest/hand area, below head height. Do not turn overlapped pixels into a shield, bow or long pole.\nAnonymous ordinary Han Chinese soldier wearing a simple low dark helmet/headwrap, ordinary worn bronze lamellar over charcoal-green cloth, brown boots. Restrained realistic hand-painted bronze/charcoal game style; no general/lord likeness. Actual weapon subtype is not known: use only the stated/native thin silhouette, no named weapon, wider blade, fork, ornate head or fantasy additions. These actual native sprites are footmen: no boat, horse, water scene or magic.\nFull figure, head, BOTH feet, all hands and COMPLETE small implement visible, positive generous clear margins and central75% framing. TRUE transparent alpha0 exterior, only narrow edge antialiasing; no diffuse colored halo, haze, ground/floor/shadow plane, landscape, text/UI, logo, frame, extra person, modern weapon, sparks or sprite sheet. Native pose/count/scale takes precedence; original new HD art, not upscaled bitmap.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-22-index-0-picture-4.png",
+              "role": "PRIMARY actual resource22 item0 picture4 native count/facing/frame geometry",
+              "sha256": "21878ff1f498cc692a50c5fa8a609d563d96d4e07a09e36f6a23d800930439d5",
+              "bytes": 313,
+              "dimensions": [
+                21,
+                28
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 205,
+                "full255": 383,
+                "over16BBox": [
+                  0,
+                  0,
+                  21,
+                  28
+                ],
+                "peaks": [
+                  [
+                    255,
+                    383
+                  ],
+                  [
+                    0,
+                    205
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-22-index-0-picture-4-packed-cells-x16.png",
+              "role": "PRIMARY exact packed-bitmap16x-cell diagnostic; native geometry evidence only",
+              "sha256": "2e9213522cbaa04e65837589481fe77b55c48f0e726252e40f63791cca68abdc",
+              "bytes": 1995,
+              "dimensions": [
+                336,
+                448
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 52480,
+                "full255": 98048,
+                "over16BBox": [
+                  0,
+                  0,
+                  336,
+                  448
+                ],
+                "peaks": [
+                  [
+                    255,
+                    98048
+                  ],
+                  [
+                    0,
+                    52480
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: single right-facing compact low crouch, hands gathered before chest/abdomen with only a short narrow overlapping implement; no invented long sword/shield/pole. Both feet/head/hand outline complete with positive margins, true-alpha exterior, native compact pose preserved."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-e3ec3e75-943f-49c9-89bf-d4e93f45faa8.png",
+            "sha256": "18f9d1555cd91389b4871fd052cfa0688ce0d28604f9bd99180f1be751f97b64",
+            "bytes": 1149685,
+            "dimensions": [
+              1086,
+              1448
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1089537,
+              "full255": 273,
+              "over16BBox": [
+                178,
+                230,
+                885,
+                1327
+              ],
+              "peaks": [
+                [
+                  0,
+                  1089537
+                ],
+                [
+                  253,
+                  305961
+                ],
+                [
+                  252,
+                  128998
+                ],
+                [
+                  251,
+                  11564
+                ],
+                [
+                  1,
+                  8398
+                ],
+                [
+                  250,
+                  4323
+                ],
+                [
+                  2,
+                  2406
+                ],
+                [
+                  249,
+                  2294
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+            "sha256": "18f9d1555cd91389b4871fd052cfa0688ce0d28604f9bd99180f1be751f97b64",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 水军 action"
       ],
@@ -11462,9 +12413,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-b58f3b37-3043-45bb-8757-125a5830b513.png",
+        "sha256": "bbaffff8fe1cbbeddc75119860a158a38c23a01bda46385e6b08d184e4658e5d",
+        "bytes": 795305,
+        "dimensions": [
+          1317,
+          1194
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1254564,
+          "full255": 468,
+          "over16BBox": [
+            165,
+            116,
+            1259,
+            1079
+          ],
+          "peaks": [
+            [
+              0,
+              1254564
+            ],
+            [
+              253,
+              191831
+            ],
+            [
+              252,
+              64982
+            ],
+            [
+              1,
+              14723
+            ],
+            [
+              251,
+              11499
+            ],
+            [
+              250,
+              5328
+            ],
+            [
+              2,
+              3440
+            ],
+            [
+              249,
+              2811
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE original high resolution transparent historical game sprite, group35, resource22/item0/picture5.\nInputs1/2 actual32x29 native PNG and exact16x packed-cell diagnostic are PRIMARY identity-free geometry authority. Input3 ONLY bronze-gold/charcoal-green palette/material, no background or figure.\nONE RIGHT-facing footman leaning forward into a long step, rear foot left/down and front knee flexed. Forward arm and SHORT thin straight implement extend RIGHT at near-horizontal direction with slight up-right rise. Entire exposed blade/rod only aboutone quarter of full figure height; tip stays BELOW head, near chest/shoulder level. Keep thin native projection/leg geometry, not a full-length spear or broad sword.\nAnonymous ordinary Han Chinese soldier wearing a simple low dark helmet/headwrap, ordinary worn bronze lamellar over charcoal-green cloth, brown boots. Restrained realistic hand-painted bronze/charcoal game style; no general/lord likeness. Actual weapon subtype is not known: use only the stated/native thin silhouette, no named weapon, wider blade, fork, ornate head or fantasy additions. These actual native sprites are footmen: no boat, horse, water scene or magic.\nFull figure, head, BOTH feet, all hands and COMPLETE small implement visible, positive generous clear margins and central75% framing. TRUE transparent alpha0 exterior, only narrow edge antialiasing; no diffuse colored halo, haze, ground/floor/shadow plane, landscape, text/UI, logo, frame, extra person, modern weapon, sparks or sprite sheet. Native pose/count/scale takes precedence; original new HD art, not upscaled bitmap.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-22-index-0-picture-5.png",
+              "role": "PRIMARY actual resource22 item0 picture5 native count/facing/frame geometry",
+              "sha256": "296866a23a76a1ec0b74392d3a5265e1e8177c0106b71a052e94ab829326e465",
+              "bytes": 397,
+              "dimensions": [
+                32,
+                29
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 489,
+                "full255": 439,
+                "over16BBox": [
+                  0,
+                  0,
+                  32,
+                  29
+                ],
+                "peaks": [
+                  [
+                    0,
+                    489
+                  ],
+                  [
+                    255,
+                    439
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-22-index-0-picture-5-packed-cells-x16.png",
+              "role": "PRIMARY exact packed-bitmap16x-cell diagnostic; native geometry evidence only",
+              "sha256": "d99e561ee8841dce32cd7e1952cbff4a59ba0d56f4393b04909ff9f57b395c1a",
+              "bytes": 2627,
+              "dimensions": [
+                512,
+                464
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 125184,
+                "full255": 112384,
+                "over16BBox": [
+                  0,
+                  0,
+                  512,
+                  464
+                ],
+                "peaks": [
+                  [
+                    0,
+                    125184
+                  ],
+                  [
+                    255,
+                    112384
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: one right-facing footman leaning into long step, back foot lower-left, forward arm and short straight implement almost horizontal right with slight up-right angle at chest level; no boat/shield/magic, full figure and implement ends visible. Native frame angle preserved, raw alpha retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-b58f3b37-3043-45bb-8757-125a5830b513.png",
+            "sha256": "bbaffff8fe1cbbeddc75119860a158a38c23a01bda46385e6b08d184e4658e5d",
+            "bytes": 795305,
+            "dimensions": [
+              1317,
+              1194
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1254564,
+              "full255": 468,
+              "over16BBox": [
+                165,
+                116,
+                1259,
+                1079
+              ],
+              "peaks": [
+                [
+                  0,
+                  1254564
+                ],
+                [
+                  253,
+                  191831
+                ],
+                [
+                  252,
+                  64982
+                ],
+                [
+                  1,
+                  14723
+                ],
+                [
+                  251,
+                  11499
+                ],
+                [
+                  250,
+                  5328
+                ],
+                [
+                  2,
+                  3440
+                ],
+                [
+                  249,
+                  2811
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+            "sha256": "bbaffff8fe1cbbeddc75119860a158a38c23a01bda46385e6b08d184e4658e5d",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 水军 action"
       ],
@@ -14056,9 +15261,453 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-e2e091a7-8f6b-4c2f-a2eb-63439bab317b.png",
+        "sha256": "4d7fd163c56a67f559efbf6bb60087d6c81a66d2abacb9a74d63e0f0d758aa5a",
+        "bytes": 451132,
+        "dimensions": [
+          1171,
+          1343
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1396651,
+          "full255": 306,
+          "over16BBox": [
+            416,
+            249,
+            804,
+            1118
+          ],
+          "peaks": [
+            [
+              0,
+              1396651
+            ],
+            [
+              253,
+              107640
+            ],
+            [
+              252,
+              34985
+            ],
+            [
+              251,
+              7525
+            ],
+            [
+              1,
+              4442
+            ],
+            [
+              250,
+              3048
+            ],
+            [
+              249,
+              1646
+            ],
+            [
+              2,
+              1643
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+        "byteExactCopy": true,
+        "attempt": 2
+      },
+      "attempts": [
+        {
+          "status": "rejected-final-candidate",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Use case: historical-scene.\nCreate ONE original high-resolution transparent game sprite for native group44, resource24/item0/picture1.\nReferences1/2: actual 27x31 packed-bitmap sprite and readable16x diagnostic. They are PRIMARY authority for person count, facing, limbs, implement and silhouette. Reference3: ONLY restrained bronze-gold/charcoal-green materials/palette; no scene, border or person identity.\nExactly ONE ordinary RIGHT-facing CLOTH-ROBED foot soldier, relatively upright torso, feet apart; forearms gathered at chest and reaching forward RIGHT. His slender straight implement stands on the RIGHT side at a STEEP UP-RIGHT angle, almost upright, with a SMALL angular bend at its outer tip as supported by pixels. Preserve frame-specific posture and angle. Actual weapon subtype unknown: keep thin shaft and tiny bent terminal silhouette, do not invent a named weapon.\nAnonymous ordinary Han Chinese footman wearing simple dark cloth headwrap, charcoal-green cloth robe/long tunic, restrained worn bronze trim and leather, ordinary muted brown shoes; light ordinary soldier clothing rather than a lord crown or ornate full armor. Restrained realistic hand-painted style matching bronze/charcoal game sprites, not a famous general portrait. Keep exact native count, direction and action; do not infer a weapon or vehicle from resource names.\nThe FULL head/headwrap, arms/hands, BOTH feet and COMPLETE thin implement including ends must remain visible with clear margin all around, figure in central75% of the canvas. Real transparent alpha0 exterior, narrow edge antialiasing only. No colored haze/halo, backdrop/floor/shadowplane, boat, horse, extra person, magical effect, big invented blade, bow, modern weapon, crown, text/UI, logo, frame or sprite sheet. Generate a new HD original, not enlarged pixel art.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-1.png",
+              "role": "PRIMARY actual native resource24 item0 picture1; count/facing/pose authority",
+              "sha256": "22fc79b983fc3d92145a929954a1b93a0553550be145f4ac09f5b1a2bdcf12df",
+              "bytes": 366,
+              "dimensions": [
+                27,
+                31
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 398,
+                "full255": 439,
+                "over16BBox": [
+                  0,
+                  1,
+                  27,
+                  31
+                ],
+                "peaks": [
+                  [
+                    255,
+                    439
+                  ],
+                  [
+                    0,
+                    398
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-1-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap16x cells; readable native geometry evidence only",
+              "sha256": "62105777a6b38a89cc6016bdfac36befef07e7451528aea08c2c20a992a398df",
+              "bytes": 2429,
+              "dimensions": [
+                432,
+                496
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 101888,
+                "full255": 112384,
+                "over16BBox": [
+                  0,
+                  16,
+                  432,
+                  496
+                ],
+                "peaks": [
+                  [
+                    255,
+                    112384
+                  ],
+                  [
+                    0,
+                    101888
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": false,
+            "reason": "Viewed original: cloth footman/count/facing and upright bent terminal are present, but generated implement became a full tall staff extending far above head; native slender implement is short near right chest with end below/near head. Reject scale/geometry, preserve original candidate without edits."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-f23165d5-3f82-4fd6-ba94-b81d5cda4832.png",
+            "sha256": "f8679f3cee74667d1e1a295e292e09dd0cc13f8e4c35cdfb48bcb69c682893bb",
+            "bytes": 587791,
+            "dimensions": [
+              1170,
+              1344
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1344759,
+              "full255": 326,
+              "over16BBox": [
+                345,
+                62,
+                859,
+                1258
+              ],
+              "peaks": [
+                [
+                  0,
+                  1344759
+                ],
+                [
+                  253,
+                  145869
+                ],
+                [
+                  252,
+                  30290
+                ],
+                [
+                  1,
+                  10298
+                ],
+                [
+                  251,
+                  8757
+                ],
+                [
+                  250,
+                  4582
+                ],
+                [
+                  254,
+                  3291
+                ],
+                [
+                  2,
+                  3118
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Use case: historical-scene.\nCreate ONE original high-resolution transparent game sprite for native group44, resource24/item0/picture1.\nReferences1/2: actual 27x31 packed-bitmap sprite and readable16x diagnostic. They are PRIMARY authority for person count, facing, limbs, implement and silhouette. Reference3: ONLY restrained bronze-gold/charcoal-green materials/palette; no scene, border or person identity.\nExactly ONE ordinary RIGHT-facing CLOTH-ROBED foot soldier, relatively upright torso, feet apart; forearms gathered at chest and reaching forward RIGHT. His slender straight implement stands on the RIGHT side at a STEEP UP-RIGHT angle, almost upright, with a SMALL angular bend at its outer tip as supported by pixels. Preserve frame-specific posture and angle. Actual weapon subtype unknown: keep thin shaft and tiny bent terminal silhouette, do not invent a named weapon.\nAnonymous ordinary Han Chinese footman wearing simple dark cloth headwrap, charcoal-green cloth robe/long tunic, restrained worn bronze trim and leather, ordinary muted brown shoes; light ordinary soldier clothing rather than a lord crown or ornate full armor. Restrained realistic hand-painted style matching bronze/charcoal game sprites, not a famous general portrait. Keep exact native count, direction and action; do not infer a weapon or vehicle from resource names.\nThe FULL head/headwrap, arms/hands, BOTH feet and COMPLETE thin implement including ends must remain visible with clear margin all around, figure in central75% of the canvas. Real transparent alpha0 exterior, narrow edge antialiasing only. No colored haze/halo, backdrop/floor/shadowplane, boat, horse, extra person, magical effect, big invented blade, bow, modern weapon, crown, text/UI, logo, frame or sprite sheet. Generate a new HD original, not enlarged pixel art.\nCRITICAL RELATIVE SCALE CORRECTION: the earlier candidate was rejected for a tall full staff towering over the person. Actual native implement is a SMALL thin bent-terminal rod near the right chest, about35–45% of full figure height, not taller than the figure. Upper angled end reaches forehead/eye height but MUST NOT rise above the top of the head; lower end around chest/waist. Both hands at right chest grip this compact thin implement. Preserve steep up-right angle and very small bent end WITHOUT elongating it into a walking staff/pole. Do not reproduce rejected candidate.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-1.png",
+              "role": "PRIMARY actual native resource24 item0 picture1; count/facing/pose authority",
+              "sha256": "22fc79b983fc3d92145a929954a1b93a0553550be145f4ac09f5b1a2bdcf12df",
+              "bytes": 366,
+              "dimensions": [
+                27,
+                31
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 398,
+                "full255": 439,
+                "over16BBox": [
+                  0,
+                  1,
+                  27,
+                  31
+                ],
+                "peaks": [
+                  [
+                    255,
+                    439
+                  ],
+                  [
+                    0,
+                    398
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-1-packed-cells-x16.png",
+              "role": "PRIMARY exact packed bitmap16x cells; readable native geometry evidence only",
+              "sha256": "62105777a6b38a89cc6016bdfac36befef07e7451528aea08c2c20a992a398df",
+              "bytes": 2429,
+              "dimensions": [
+                432,
+                496
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 101888,
+                "full255": 112384,
+                "over16BBox": [
+                  0,
+                  16,
+                  432,
+                  496
+                ],
+                "peaks": [
+                  [
+                    255,
+                    112384
+                  ],
+                  [
+                    0,
+                    101888
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed regenerated original: compact thin bent-terminal implement at right chest, steep up-right with upper end below head; upright cloth-robed right-facing footman/feet apart, full head/feet/hands/implement visible. Prior tall staff preserved/rejected, no fantasy/name inference or image edits."
+          },
+          "attempt": 2,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-e2e091a7-8f6b-4c2f-a2eb-63439bab317b.png",
+            "sha256": "4d7fd163c56a67f559efbf6bb60087d6c81a66d2abacb9a74d63e0f0d758aa5a",
+            "bytes": 451132,
+            "dimensions": [
+              1171,
+              1343
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1396651,
+              "full255": 306,
+              "over16BBox": [
+                416,
+                249,
+                804,
+                1118
+              ],
+              "peaks": [
+                [
+                  0,
+                  1396651
+                ],
+                [
+                  253,
+                  107640
+                ],
+                [
+                  252,
+                  34985
+                ],
+                [
+                  251,
+                  7525
+                ],
+                [
+                  1,
+                  4442
+                ],
+                [
+                  250,
+                  3048
+                ],
+                [
+                  249,
+                  1646
+                ],
+                [
+                  2,
+                  1643
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+            "sha256": "4d7fd163c56a67f559efbf6bb60087d6c81a66d2abacb9a74d63e0f0d758aa5a",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 玄兵 action"
       ],
@@ -14080,9 +15729,262 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-3515cb4c-1dfe-4d4e-9b6a-5669065f3478.png",
+        "sha256": "261b951b09959e1c25a99f082681fb37bb7f048b7b38fd4abe02c0708cdc402a",
+        "bytes": 890699,
+        "dimensions": [
+          1312,
+          1199
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1216248,
+          "full255": 170,
+          "over16BBox": [
+            224,
+            68,
+            1137,
+            1107
+          ],
+          "peaks": [
+            [
+              0,
+              1216248
+            ],
+            [
+              253,
+              174530
+            ],
+            [
+              252,
+              116432
+            ],
+            [
+              1,
+              15941
+            ],
+            [
+              251,
+              14842
+            ],
+            [
+              250,
+              6327
+            ],
+            [
+              2,
+              3902
+            ],
+            [
+              249,
+              3180
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE original high-resolution transparent historical Han Chinese cloth-robed foot soldier sprite, native group45 resource24/item0/picture2.\nReferences1/2 actual27x29 sprite and readable16x packed-pixel cells are PRIMARY. Reference3 ONLY restrained worn bronze/charcoal-green materials/palette, not any background/frame or identity.\nExactly one RIGHT-facing ordinary footman leaning forward, rear leg stretched LEFT/down and front knee bent. Dark headwrap, simple charcoal-green cloth robe/long tunic with restrained bronze/leather trim, brown cloth/leather shoes. Native thin implement is immediately to RIGHT of chest, STEEP UP-RIGHT nearly vertical, with small bent terminal. It is a SHORT implement about35–45% of full figure height. Upper tip at forehead/eye level BELOW head top, lower end around chest/waist; NOT a full-body staff or spear. Keep arms drawn forward at chest and preserve native frame leg geometry. Weapon name uncertain, so just reproduce the thin outline/angle and tiny terminal bend without a broad blade/fork/fantasy ornament.\nRestrained realistic hand-painted ordinary soldier; no famous general identity, crown or ornate armor. Entire head, hands, thin implement ends and both feet fully visible with generous clear margins. True alpha0 exterior/narrow antialiasing, no haze/halo/floor/ground shadow. No horse, boat, magic, sparks, modern weapon, text/UI, logo, border, background or sprite sheet. Native geometry takes precedence over decorative interpretation.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-2.png",
+              "role": "PRIMARY actual resource24 item0 picture2; pose/count/facing/implement authority",
+              "sha256": "c9aeecbaccaa9f211a6d455bfb3aadb44dd2a8c344e45abcd7e7ef87624c18fb",
+              "bytes": 348,
+              "dimensions": [
+                27,
+                29
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 374,
+                "full255": 409,
+                "over16BBox": [
+                  0,
+                  0,
+                  27,
+                  29
+                ],
+                "peaks": [
+                  [
+                    255,
+                    409
+                  ],
+                  [
+                    0,
+                    374
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-2-packed-cells-x16.png",
+              "role": "PRIMARY exact packed-bitmap16x diagnostic; geometry only",
+              "sha256": "dbf1a2a51bc3b689a24ac83c0b879f5f4ca42d179009724926243182c18413b4",
+              "bytes": 2288,
+              "dimensions": [
+                432,
+                464
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 95744,
+                "full255": 104704,
+                "over16BBox": [
+                  0,
+                  0,
+                  432,
+                  464
+                ],
+                "peaks": [
+                  [
+                    255,
+                    104704
+                  ],
+                  [
+                    0,
+                    95744
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: one right-facing cloth footman leaning forward, rear leg to lower-left and front bent knee; compact steep up-right thin implement with tiny angled end near forehead below head top. Complete head, both feet and implement ends, no horse/boat/magic; clear true-alpha original retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-3515cb4c-1dfe-4d4e-9b6a-5669065f3478.png",
+            "sha256": "261b951b09959e1c25a99f082681fb37bb7f048b7b38fd4abe02c0708cdc402a",
+            "bytes": 890699,
+            "dimensions": [
+              1312,
+              1199
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1216248,
+              "full255": 170,
+              "over16BBox": [
+                224,
+                68,
+                1137,
+                1107
+              ],
+              "peaks": [
+                [
+                  0,
+                  1216248
+                ],
+                [
+                  253,
+                  174530
+                ],
+                [
+                  252,
+                  116432
+                ],
+                [
+                  1,
+                  15941
+                ],
+                [
+                  251,
+                  14842
+                ],
+                [
+                  250,
+                  6327
+                ],
+                [
+                  2,
+                  3902
+                ],
+                [
+                  249,
+                  3180
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+            "sha256": "261b951b09959e1c25a99f082681fb37bb7f048b7b38fd4abe02c0708cdc402a",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 玄兵 action"
       ],
@@ -14104,9 +16006,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-ae05dfde-3f9b-4b6f-91b7-3b70c70d1cfd.png",
+        "sha256": "49c48358441d655a59e6a9c5a1e2fc93188adee34008b473864834e4e130618d",
+        "bytes": 666827,
+        "dimensions": [
+          1165,
+          1350
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1310700,
+          "full255": 453,
+          "over16BBox": [
+            364,
+            142,
+            769,
+            1226
+          ],
+          "peaks": [
+            [
+              0,
+              1310700
+            ],
+            [
+              253,
+              166043
+            ],
+            [
+              252,
+              54639
+            ],
+            [
+              251,
+              8803
+            ],
+            [
+              1,
+              7530
+            ],
+            [
+              250,
+              3839
+            ],
+            [
+              249,
+              1931
+            ],
+            [
+              2,
+              1733
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE original high resolution transparent historical game sprite, group46, resource24/item0/picture3.\nInputs1/2 actual25x29 native PNG and exact16x packed-cell diagnostic are PRIMARY identity-free geometry authority. Input3 ONLY bronze-gold/charcoal-green palette/material, no background or figure.\nONE RIGHT-facing cloth-robed footman returning toward upright with narrower foot spacing; hands and compact thin implement gathered close at the RIGHT front chest. Thin shaft is nearly VERTICAL, top has a small angle bending up-right. Overall implement35–45% full figure height; upper end BELOW head top near forehead/eye level, lower end chest/waist, not a full-body staff. Preserve the actual compact recovering pose.\nAnonymous ordinary Han Chinese soldier wearing simple dark cloth headwrap, charcoal-green cloth robe/long tunic with restrained bronze/leather trim and brown cloth shoes; ordinary footman clothing, not lord crown or ornate armor. Restrained realistic hand-painted bronze/charcoal game style; no general/lord likeness. Actual weapon subtype is not known: use only the stated/native thin silhouette, no named weapon, wider blade, fork, ornate head or fantasy additions. These actual native sprites are footmen: no boat, horse, water scene or magic.\nFull figure, head, BOTH feet, all hands and COMPLETE small implement visible, positive generous clear margins and central75% framing. TRUE transparent alpha0 exterior, only narrow edge antialiasing; no diffuse colored halo, haze, ground/floor/shadow plane, landscape, text/UI, logo, frame, extra person, modern weapon, sparks or sprite sheet. Native pose/count/scale takes precedence; original new HD art, not upscaled bitmap.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-3.png",
+              "role": "PRIMARY actual resource24 item0 picture3 native count/facing/frame geometry",
+              "sha256": "971de3fee77d25e2eaf6ce24a06dc810d211587498630e99105c1d49dc78f411",
+              "bytes": 330,
+              "dimensions": [
+                25,
+                29
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 346,
+                "full255": 379,
+                "over16BBox": [
+                  1,
+                  0,
+                  25,
+                  29
+                ],
+                "peaks": [
+                  [
+                    255,
+                    379
+                  ],
+                  [
+                    0,
+                    346
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-3-packed-cells-x16.png",
+              "role": "PRIMARY exact packed-bitmap16x-cell diagnostic; native geometry evidence only",
+              "sha256": "182911c078fe186441f565118fbeb56d29926f58ef3fbf3e81f3d5e9ec6890ee",
+              "bytes": 2162,
+              "dimensions": [
+                400,
+                464
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 88576,
+                "full255": 97024,
+                "over16BBox": [
+                  16,
+                  0,
+                  400,
+                  464
+                ],
+                "peaks": [
+                  [
+                    255,
+                    97024
+                  ],
+                  [
+                    0,
+                    88576
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: one right-facing cloth footman recovering more upright with narrow foot spacing, hands and short nearly vertical bent-terminal implement close at right chest; tip below head top and implement scale compact. Full feet/head/ends, no fantasy/name inference, true-alpha raw original retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-ae05dfde-3f9b-4b6f-91b7-3b70c70d1cfd.png",
+            "sha256": "49c48358441d655a59e6a9c5a1e2fc93188adee34008b473864834e4e130618d",
+            "bytes": 666827,
+            "dimensions": [
+              1165,
+              1350
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1310700,
+              "full255": 453,
+              "over16BBox": [
+                364,
+                142,
+                769,
+                1226
+              ],
+              "peaks": [
+                [
+                  0,
+                  1310700
+                ],
+                [
+                  253,
+                  166043
+                ],
+                [
+                  252,
+                  54639
+                ],
+                [
+                  251,
+                  8803
+                ],
+                [
+                  1,
+                  7530
+                ],
+                [
+                  250,
+                  3839
+                ],
+                [
+                  249,
+                  1931
+                ],
+                [
+                  2,
+                  1733
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+            "sha256": "49c48358441d655a59e6a9c5a1e2fc93188adee34008b473864834e4e130618d",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 玄兵 action"
       ],
@@ -14128,9 +16284,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-aae5d607-ed30-4540-9cb8-a59c0733a6cd.png",
+        "sha256": "9f8c92a6cc1eb1a3e3d229ef7de56757c5d9774ee4989634f7c26cc2d8bdf0c8",
+        "bytes": 861167,
+        "dimensions": [
+          1179,
+          1334
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1233813,
+          "full255": 513,
+          "over16BBox": [
+            179,
+            192,
+            1119,
+            1160
+          ],
+          "peaks": [
+            [
+              0,
+              1233813
+            ],
+            [
+              253,
+              227628
+            ],
+            [
+              252,
+              61840
+            ],
+            [
+              251,
+              9856
+            ],
+            [
+              1,
+              8328
+            ],
+            [
+              250,
+              4246
+            ],
+            [
+              254,
+              2882
+            ],
+            [
+              2,
+              2491
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE original high resolution transparent historical game sprite, group47 resource24/item0/picture4.\nInput1/2 actual26x31 native PNG and exact16x packed-cell diagnostic are PRIMARY pose/count/silhouette authority. Input3 only bronze-gold/charcoal-green materials, no scene or person.\nONE ordinary RIGHT-facing cloth-robed Han Chinese footman in a low bent-knee crouch, torso leaning forward, hands gathered near chest then extended RIGHT. Actual thin compact implement is LOWERED toward RIGHT, close to HORIZONTAL with only slight upward-right rise. Do NOT keep the steep raised staff angle of other frames. Thin shaft with very small bent terminal, overall length aboutone third figure height, tip near chest/shoulder height BELOW head. No broad invented blade, fork, magic or named weapon.\nSimple dark cloth headwrap, charcoal-green robe/long tunic, restrained worn bronze trim/leather belt, brown shoes; anonymous ordinary soldier, not a lord portrait. Restrained realistic hand-painted bronze/charcoal game style. Keep actual native single person count, right-facing lower compact stance, all arm/foot geometry and small implement scale.\nFull head, BOTH feet, hands and COMPLETE implement ends visible inside generous clear margins. True alpha0 exterior and narrow antialiasing, no diffuse colored halo/haze, floor/shadow plane, boat, horse, additional person, effects, modern weapon, text/UI, logo, frame or sprite sheet. Original HD cutout, not upscaled pixel art.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-4.png",
+              "role": "PRIMARY actual native resource24 item0 picture4; shape/count/direction/mask",
+              "sha256": "db3681dd6038c4a47d479f8a44d4cd80d78edf6b0f47766397f4a602c49fb350",
+              "bytes": 365,
+              "dimensions": [
+                26,
+                31
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 366,
+                "full255": 440,
+                "over16BBox": [
+                  0,
+                  0,
+                  26,
+                  31
+                ],
+                "peaks": [
+                  [
+                    255,
+                    440
+                  ],
+                  [
+                    0,
+                    366
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-4-packed-cells-x16.png",
+              "role": "PRIMARY exact16x packed-bit geometry diagnostic; no production image editing",
+              "sha256": "a77faa2c7abb86dc89d66c1fd0b9b8ac2cb2a01a355267b70b0f6449bb654522",
+              "bytes": 2367,
+              "dimensions": [
+                416,
+                496
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 93696,
+                "full255": 112640,
+                "over16BBox": [
+                  0,
+                  0,
+                  416,
+                  496
+                ],
+                "peaks": [
+                  [
+                    255,
+                    112640
+                  ],
+                  [
+                    0,
+                    93696
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: single right-facing cloth footman with lower bent-knee forward posture and compact thin bent-terminal implement near horizontal/right at chest level; complete head/feet/ends with margins, no magic/vehicle/name inference. Raw true-alpha exterior/narrow fringe retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-aae5d607-ed30-4540-9cb8-a59c0733a6cd.png",
+            "sha256": "9f8c92a6cc1eb1a3e3d229ef7de56757c5d9774ee4989634f7c26cc2d8bdf0c8",
+            "bytes": 861167,
+            "dimensions": [
+              1179,
+              1334
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1233813,
+              "full255": 513,
+              "over16BBox": [
+                179,
+                192,
+                1119,
+                1160
+              ],
+              "peaks": [
+                [
+                  0,
+                  1233813
+                ],
+                [
+                  253,
+                  227628
+                ],
+                [
+                  252,
+                  61840
+                ],
+                [
+                  251,
+                  9856
+                ],
+                [
+                  1,
+                  8328
+                ],
+                [
+                  250,
+                  4246
+                ],
+                [
+                  254,
+                  2882
+                ],
+                [
+                  2,
+                  2491
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+            "sha256": "9f8c92a6cc1eb1a3e3d229ef7de56757c5d9774ee4989634f7c26cc2d8bdf0c8",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 玄兵 action"
       ],
@@ -14152,9 +16562,263 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-d04f7590-f774-4f53-891b-5092137c9c94.png",
+        "sha256": "48808d56e2eec76ea43755e8ac78a1385c0b90e6c0eaa90ad373651500210772",
+        "bytes": 853096,
+        "dimensions": [
+          1298,
+          1212
+        ],
+        "mode": "RGBA",
+        "alpha": {
+          "zero": 1258148,
+          "full255": 782,
+          "over16BBox": [
+            146,
+            181,
+            1263,
+            1111
+          ],
+          "peaks": [
+            [
+              0,
+              1258148
+            ],
+            [
+              253,
+              225867
+            ],
+            [
+              252,
+              33377
+            ],
+            [
+              251,
+              10128
+            ],
+            [
+              1,
+              9584
+            ],
+            [
+              254,
+              6974
+            ],
+            [
+              250,
+              3867
+            ],
+            [
+              2,
+              2834
+            ]
+          ]
+        },
+        "target": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": true,
+          "prompt": "Create ONE original high resolution transparent historical game sprite, group48 resource24/item0/picture5.\nInput1/2 actual30x28 native PNG and exact16x packed-cell diagnostic are PRIMARY geometry/count/orientation. Input3 ONLY bronze-gold/charcoal-green materials/palette, not background or person identity.\nONE ordinary RIGHT-facing cloth-robed Han Chinese footman leaning forward into a pronounced long step, rear foot stretched LEFT/down, front knee bent; both forearms reach RIGHT/front from the chest. His SHORT slender implement extends diagonally UP-RIGHT, with a very SMALL angular bend at outer end. Shaft aboutone third to40% full figure height; outer tip near forehead/eye level but BELOW top of head. Do not grow this into a tall staff or spear, no broad blade or fancy fork. Keep actual native forward stance, raised small outline and frame-specific spacing, not copied standing pose.\nDark cloth headwrap, charcoal-green cloth robe/long tunic, restrained weathered bronze/leather trim, brown cloth shoes. Anonymous ordinary soldier, no famous lord, crown, ornate full armor, magic or named weapon. Restrained realistic hand-painted game art.\nFull head/headwrap, hands, complete implement and BOTH feet visible with generous clear margin; central75% framing. TRUE transparent alpha0 outside, narrow silhouette antialiasing only, no haze/glow/colored halo, floor/shadow, background, boat, horse, extra person, text/UI, border, logo, modern weapon or sprite sheet. Native pixel geometry first, original HD art not bitmap enlargement.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-24-index-0-picture-5.png",
+              "role": "PRIMARY actual native resource24 item0 picture5; shape/count/direction/mask",
+              "sha256": "82a30f4cdf555c8dda92dee59a28f942bb8d5128ad88ce1875516ba86781c66a",
+              "bytes": 351,
+              "dimensions": [
+                30,
+                28
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 432,
+                "full255": 408,
+                "over16BBox": [
+                  0,
+                  0,
+                  30,
+                  28
+                ],
+                "peaks": [
+                  [
+                    0,
+                    432
+                  ],
+                  [
+                    255,
+                    408
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-24-index-0-picture-5-packed-cells-x16.png",
+              "role": "PRIMARY exact16x packed-bit geometry diagnostic; no production image editing",
+              "sha256": "c54636d3bc032c14c5ed06174edc23923a386e383171dab8737c700d18c71236",
+              "bytes": 2253,
+              "dimensions": [
+                480,
+                448
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 110592,
+                "full255": 104448,
+                "over16BBox": [
+                  0,
+                  0,
+                  480,
+                  448
+                ],
+                "peaks": [
+                  [
+                    0,
+                    110592
+                  ],
+                  [
+                    255,
+                    104448
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: one right-facing cloth footman in pronounced forward step, back foot lower-left, both hands reach forward, short thin bent-terminal implement up-right with end below/near head top. Full figure/weapon outline, no boat/horse/magic; raw true-alpha PNG retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-d04f7590-f774-4f53-891b-5092137c9c94.png",
+            "sha256": "48808d56e2eec76ea43755e8ac78a1385c0b90e6c0eaa90ad373651500210772",
+            "bytes": 853096,
+            "dimensions": [
+              1298,
+              1212
+            ],
+            "mode": "RGBA",
+            "alpha": {
+              "zero": 1258148,
+              "full255": 782,
+              "over16BBox": [
+                146,
+                181,
+                1263,
+                1111
+              ],
+              "peaks": [
+                [
+                  0,
+                  1258148
+                ],
+                [
+                  253,
+                  225867
+                ],
+                [
+                  252,
+                  33377
+                ],
+                [
+                  251,
+                  10128
+                ],
+                [
+                  1,
+                  9584
+                ],
+                [
+                  254,
+                  6974
+                ],
+                [
+                  250,
+                  3867
+                ],
+                [
+                  2,
+                  2834
+                ]
+              ]
+            }
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+            "sha256": "48808d56e2eec76ea43755e8ac78a1385c0b90e6c0eaa90ad373651500210772",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "attacker 玄兵 action"
       ],
@@ -14176,9 +16840,177 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/6515bbedb4dbc4717c2beda2a1b3e93962a2c22ab4c9146130ad648ce29fe45e.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-9c407b0f-da59-45c4-b9e9-0ff6bf09b364.png",
+        "sha256": "7752a8e85e07016a7ac607ea316ae7ef65b7cea589702a4486e1b277ca23f398",
+        "bytes": 2096215,
+        "dimensions": [
+          2098,
+          749
+        ],
+        "mode": "RGB",
+        "alpha": null,
+        "target": "assets/hd-spe/attacks/shared/6515bbedb4dbc4717c2beda2a1b3e93962a2c22ab4c9146130ad648ce29fe45e.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": false,
+          "prompt": "Create ONE original high resolution FULLY OPAQUE historical river battle panel for native group49, resource25/item0/picture0. Wide horizontal aspect112:40 (about2.8:1), mapped to the actual native112x40 rectangular canvas.\nInput1 actual native bitmap and input2 exact16x packed-cell diagnostic are PRIMARY composition/boat-count/position/layout authority. Input3 accepted background16 only bronze-gold/charcoal-green palette/material inspiration, NOT its decorative frame.\nPreserve the native scene: exactly TWO small traditional wooden sail-bearing river craft at the LEFT and RIGHT sides of the wide panel, with a broad OPEN WATER GAP occupying the middle. Each craft has the small pale rectangular curved sail/upper panel, slender mast and dark rounded wooden hull geometry visible in the actual bitmap; follow the actual craft orientations and proportions. The left craft lies near the left15% of width, the right near right82%; each occupies roughlyone quarter of panel width or less. Their complete upper sail/mast and hull remain visible inside margins. Both vessels sit on the same low waterline, full height from sail tops to hull/water contact; NO gigantic central boat.\nWide quiet dark charcoal-green river surface fills the canvas, subtle horizontal ripples corresponding to native scattered water strokes. Crafts weathered dark brown wood, restrained bronze warm trim, muted ivory cloth sails. Realistic hand-painted game illustration, readable simple forms for a small logical panel, consistent with bronze/charcoal battle art.\nEntire rectangular panel FULLY OPAQUE, including water behind/around boats, no transparent background or checkerboard. No horizon, shoreline, mountain, sunset, scenery, decorative border/frame, text/title/UI/logo, flags with words, extra ships, soldiers, famous lord portrait, weapon, cannon, fire/explosion or fantasy. Do not add narrative content not established by native. Return one original full-panel PNG, no sprite sheet, no cropped vessel geometry.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-25-index-0-picture-0.png",
+              "role": "PRIMARY actual native resource25 item0 picture0; shape/layout/count/direction/mask0",
+              "sha256": "02a90132958f3826010b3ff7c0c6416bd013d3d067fd7f06191545d4eae60ace",
+              "bytes": 870,
+              "dimensions": [
+                112,
+                40
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 0,
+                "full255": 4480,
+                "over16BBox": [
+                  0,
+                  0,
+                  112,
+                  40
+                ],
+                "peaks": [
+                  [
+                    255,
+                    4480
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-25-index-0-picture-0-packed-cells-x16.png",
+              "role": "PRIMARY exact16x packed-bit diagnostic; native geometry only",
+              "sha256": "0cf9ce3be96e60c75133a183d1bbe6070430437d7a03c9e3b0a086cee3c832a7",
+              "bytes": 7848,
+              "dimensions": [
+                1792,
+                640
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 0,
+                "full255": 1146880,
+                "over16BBox": [
+                  0,
+                  0,
+                  1792,
+                  640
+                ],
+                "peaks": [
+                  [
+                    255,
+                    1146880
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: fully opaque wide panel with exactly two small sail-bearing wooden craft at left/right and broad open central river, complete sails/masts/hulls and positive margins. Native two-craft layout/count honored; restrained dark-green water/worn wood/ivory sail/bronze palette, no additional people/weapons/shoreline/story/text/frame. Original RGB bytes retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-9c407b0f-da59-45c4-b9e9-0ff6bf09b364.png",
+            "sha256": "7752a8e85e07016a7ac607ea316ae7ef65b7cea589702a4486e1b277ca23f398",
+            "bytes": 2096215,
+            "dimensions": [
+              2098,
+              749
+            ],
+            "mode": "RGB",
+            "alpha": null
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/6515bbedb4dbc4717c2beda2a1b3e93962a2c22ab4c9146130ad648ce29fe45e.png",
+            "sha256": "7752a8e85e07016a7ac607ea316ae7ef65b7cea589702a4486e1b277ca23f398",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "opaque two-boat composite"
       ],
@@ -14200,9 +17032,177 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/d54e1f602bf2c28318129062de7056367fc4643f2d64a760489e69499dbb91fe.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-df05e828-d04a-41b0-a4fb-b24a6722d439.png",
+        "sha256": "65ffa9613a86d121ecf239623624eacfecb002770d46f67371f043b890023630",
+        "bytes": 1560312,
+        "dimensions": [
+          1681,
+          936
+        ],
+        "mode": "RGB",
+        "alpha": null,
+        "target": "assets/hd-spe/attacks/shared/d54e1f602bf2c28318129062de7056367fc4643f2d64a760489e69499dbb91fe.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": false,
+          "prompt": "Create ONE original high resolution OPAQUE historical game projectile tile, group50 resource25/item0/picture1. Aspect ratio9:5, a wide small tile mapped to the actual native9x5 rectangle.\nInput1 actual native9x5 PNG and input2 exact16x packed-bit diagnostic are PRIMARY direction, short projectile shape and count evidence. Input3 accepted background16 material/palette ONLY, no border/frame/scene.\nExactly ONE small thin arrow-like projectile moving from LOWER LEFT toward UPPER RIGHT, a slender straight brown/bronze shaft, tiny simple pointed end at upper-right and minimal dark fletching at lower-left. Preserve native short diagonal direction and simple shape. Whole arrow tip, shaft and fletching fully visible with clear margin, centered in tile. No person, horse, boat, water scenery, long spear, magical beam/trail, smoke or extra projectiles.\nRestrained realistic hand-painted bronze-gold/charcoal-green game materials. Entire canvas is fully OPAQUE, dark charcoal-green near #171e17; simple quiet backing without a border or landscape, only arrow motif. Native mask is0: do NOT produce transparent cutout/checkerboard/alpha. No text, UI, logo, frame or sprite sheet. Return original complete opaque PNG, no cropped geometry.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-25-index-0-picture-1.png",
+              "role": "PRIMARY actual native resource25 item0 picture1; shape/count/direction/mask",
+              "sha256": "eab549315c922a27ec6a226db02f65f6593e6aa2b1a79d4d0b7bb461f02a1715",
+              "bytes": 111,
+              "dimensions": [
+                9,
+                5
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 0,
+                "full255": 45,
+                "over16BBox": [
+                  0,
+                  0,
+                  9,
+                  5
+                ],
+                "peaks": [
+                  [
+                    255,
+                    45
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-25-index-0-picture-1-packed-cells-x16.png",
+              "role": "PRIMARY exact16x packed-bit geometry diagnostic; no production image editing",
+              "sha256": "3b6be2f73580440c04b2ca17f2b9bc688adb3e5aaae704ca1f5fabad4ea74317",
+              "bytes": 330,
+              "dimensions": [
+                144,
+                80
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 0,
+                "full255": 11520,
+                "over16BBox": [
+                  0,
+                  0,
+                  144,
+                  80
+                ],
+                "peaks": [
+                  [
+                    255,
+                    11520
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: opaque full canvas, single complete short projectile pointing up-right with small arrowhead/shaft/fletching, no boat/person/border/text. Native mask0 respected. Dark charcoal-green backing has subtle nonuniform texture/shading, not claimed pixel-uniform; all raw bytes retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-df05e828-d04a-41b0-a4fb-b24a6722d439.png",
+            "sha256": "65ffa9613a86d121ecf239623624eacfecb002770d46f67371f043b890023630",
+            "bytes": 1560312,
+            "dimensions": [
+              1681,
+              936
+            ],
+            "mode": "RGB",
+            "alpha": null
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/d54e1f602bf2c28318129062de7056367fc4643f2d64a760489e69499dbb91fe.png",
+            "sha256": "65ffa9613a86d121ecf239623624eacfecb002770d46f67371f043b890023630",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "opaque native projectile"
       ],
@@ -14224,9 +17224,177 @@
         ]
       ],
       "target": "assets/hd-spe/attacks/shared/717c9528555aca171482a84e059f8d7fcaf6974a0a80fc7f03e68678d586c198.png",
-      "status": "planned",
-      "final": null,
-      "attempts": [],
+      "status": "generated-accepted",
+      "final": {
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-42f8dc3d-e40c-487f-a7b0-c4517604e81c.png",
+        "sha256": "5ed4814043d7af79be700a0a9699adc3b88698ba2c45515df2ebef7e9b8b27e1",
+        "bytes": 1232164,
+        "dimensions": [
+          1774,
+          887
+        ],
+        "mode": "RGB",
+        "alpha": null,
+        "target": "assets/hd-spe/attacks/shared/717c9528555aca171482a84e059f8d7fcaf6974a0a80fc7f03e68678d586c198.png",
+        "byteExactCopy": true,
+        "attempt": 1
+      },
+      "attempts": [
+        {
+          "status": "accepted-final",
+          "generatedLocalDate": "2026-10-09",
+          "useCase": "historical-scene",
+          "tool": "builtin image_gen.imagegen",
+          "transparentBackground": false,
+          "prompt": "Create ONE original high resolution OPAQUE historical game projectile tile, group51 resource25/item0/picture2. Wide aspect10:5 (2:1), mapped to actual native10x5 rectangle.\nInput1 actual native10x5 PNG and input2 exact16x packed-bit diagnostic are PRIMARY short projectile count, geometry and direction. Input3 accepted background16 ONLY restrained bronze-gold/charcoal-green material/palette, no frame or scene.\nExactly ONE short thin arrow-like projectile moving from UPPER LEFT toward LOWER RIGHT: slender straight brown/bronze shaft with a tiny simple pointed end at LOWER RIGHT and minimal dark fletching at UPPER LEFT. CRITICAL native orientation is DOWN-RIGHT, not up-right, not mirrored. Keep the actual small diagonal shape. Complete tip, shaft and fletching visible with clear margin and central balanced tile composition.\nRestrained realistic hand-painted game art, whole canvas fully OPAQUE dark charcoal-green near #171e17, quiet simple backing. Native mask0: no transparent cutout or checkerboard/alpha. No water/boat/person/horse, extra projectiles, magical beam/trail, smoke, backdrop scenery, decorative frame, logo, text/UI or sheet. Return one original complete opaque PNG without cropping or external editing.",
+          "references": [
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/resource-25-index-0-picture-2.png",
+              "role": "PRIMARY actual native resource25 item0 picture2; shape/layout/count/direction/mask0",
+              "sha256": "a9b58dc394901788fff500affec3c270e29fe257fc4d62b76716bcc64fe5755c",
+              "bytes": 114,
+              "dimensions": [
+                10,
+                5
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 0,
+                "full255": 50,
+                "over16BBox": [
+                  0,
+                  0,
+                  10,
+                  5
+                ],
+                "peaks": [
+                  [
+                    255,
+                    50
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "F:/project/baye-sanguo/build/r09-attack-native/inspection/resource-25-index-0-picture-2-packed-cells-x16.png",
+              "role": "PRIMARY exact16x packed-bit diagnostic; native geometry only",
+              "sha256": "a9f7444028935058e8c93b7c2e41a7e9d490b2a4e31e6222537e91b6b7f42773",
+              "bytes": 337,
+              "dimensions": [
+                160,
+                80
+              ],
+              "mode": "RGBA",
+              "alpha": {
+                "zero": 0,
+                "full255": 12800,
+                "over16BBox": [
+                  0,
+                  0,
+                  160,
+                  80
+                ],
+                "peaks": [
+                  [
+                    255,
+                    12800
+                  ],
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    1,
+                    0
+                  ],
+                  [
+                    2,
+                    0
+                  ],
+                  [
+                    3,
+                    0
+                  ],
+                  [
+                    4,
+                    0
+                  ],
+                  [
+                    5,
+                    0
+                  ],
+                  [
+                    6,
+                    0
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-f8a1b275-83a4-4e1c-a288-fc82e1809653.png",
+              "role": "SECONDARY accepted background16 material/palette only (bronze-gold/charcoal-green); no scene or figure",
+              "sha256": "81ad53ac49c216f4972f64ec35d0bbe5b1c8c3892080a25109ac44d560e7e35f",
+              "bytes": 1262711,
+              "dimensions": [
+                1787,
+                880
+              ],
+              "mode": "RGB",
+              "alpha": null
+            }
+          ],
+          "visualCheck": {
+            "viewedOriginal": true,
+            "accepted": true,
+            "reason": "Viewed original: fully opaque canvas with exactly one complete slender short projectile from upper-left to lower-right, small arrowhead/shaft/fletching and margins. Native mask0/down-right direction respected, no boat/person/magic/text/border. Dark-green backing has subtle nonuniform texture/shading rather than asserted uniform pixels; raw RGB original retained."
+          },
+          "attempt": 1,
+          "output": {
+            "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-42f8dc3d-e40c-487f-a7b0-c4517604e81c.png",
+            "sha256": "5ed4814043d7af79be700a0a9699adc3b88698ba2c45515df2ebef7e9b8b27e1",
+            "bytes": 1232164,
+            "dimensions": [
+              1774,
+              887
+            ],
+            "mode": "RGB",
+            "alpha": null
+          },
+          "copy": {
+            "target": "assets/hd-spe/attacks/shared/717c9528555aca171482a84e059f8d7fcaf6974a0a80fc7f03e68678d586c198.png",
+            "sha256": "5ed4814043d7af79be700a0a9699adc3b88698ba2c45515df2ebef7e9b8b27e1",
+            "byteExact": true
+          }
+        }
+      ],
       "nativeRoles": [
         "opaque native projectile"
       ],
@@ -14235,10 +17403,10 @@
   ],
   "summary": {
     "targetGroups": 51,
-    "finalGroups": 39,
-    "builtinCalls": 49,
-    "rejectedFinalCandidates": 9,
+    "finalGroups": 51,
+    "builtinCalls": 63,
+    "rejectedFinalCandidates": 11,
     "failedCalls": 1,
-    "remainingGroups": 12
+    "remainingGroups": 0
   }
 }

@@ -1,0 +1,1232 @@
+{
+  "batchDate": "2026-10-09",
+  "completedAt": "2026-10-08T17:53:44.964Z",
+  "baseCommit": "63c7fd9732cf2d60c3da2c1de28cfe2d79906469",
+  "scope": "Complete all51 original ordinary art and37 exact ordinary caller intervals. Actual newly player-confirmed three bow-defender intervals validated under one unchanged runner/manifest/source tuple. The full HD goal remains active.",
+  "generated": {
+    "targetGroups": 51,
+    "finalGroups": 51,
+    "builtinCalls": 63,
+    "rejectedFinalCandidates": 11,
+    "failedCalls": 1,
+    "remainingGroups": 0,
+    "newGroups": [
+      32,
+      33,
+      34,
+      35,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51
+    ],
+    "ledger": {
+      "path": "assets/hd-spe/GENERATED-ATTACKS.json",
+      "bytes": 649124,
+      "sha256": "5da5b57105dddae355aeea2e59d10bfeb75c101a38c1a1ce2aa4cc02a8a1c4f1"
+    },
+    "publicationProof": {
+      "original": "build/r12-art-publish-proof.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/b027be0e54f797f6d64b2639658fd3aa9266232e2f0e640b23f7e41d14028e4e.json.gz",
+      "bytes": 755,
+      "sha256": "b027be0e54f797f6d64b2639658fd3aa9266232e2f0e640b23f7e41d14028e4e",
+      "gzipBytes": 438,
+      "gzipSha256": "823a98b668aeddd4a5a6627fc370248ce21643a3414a759cb5d540422ffd5b6f",
+      "decompressedByteEqual": true
+    },
+    "old39WholeObjectsAndPngUnchanged": true,
+    "all51AcceptedOriginalByteExact": true,
+    "unpublishedOtherSpe": "STONE42 two new original candidates are ignored and not included in this ordinary51 publication, wiring or actual skill acceptance."
+  },
+  "wiring": {
+    "ordinaryIntervals": 37,
+    "wiredIntervals": 37,
+    "newlyWired": 13,
+    "missingArtworkIntervals": 0,
+    "requiredSlotIdentity": "actual native rawSlotSHA256 to accepted group; full native units/picmax/FNV/length and unused null slots preserved",
+    "nativeMatrix": {
+      "original": "build/r12-ready-intervals.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/c05ec29e5b4dd1c98f4805ce6c8add88fb2889aac3eecb30274d93ed85ee1941.json.gz",
+      "bytes": 155950,
+      "sha256": "c05ec29e5b4dd1c98f4805ce6c8add88fb2889aac3eecb30274d93ed85ee1941",
+      "gzipBytes": 11161,
+      "gzipSha256": "925d1acb3ac92659f0c3201a88969b7b88baf4fa50581d83b286f5df8c50f444",
+      "decompressedByteEqual": true
+    },
+    "installProof": {
+      "original": "build/r12-manifest-install.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/7990a592b3145d4caed923228cea71f13d40197a6a8ee0811412a089d5c68455.json.gz",
+      "bytes": 592,
+      "sha256": "7990a592b3145d4caed923228cea71f13d40197a6a8ee0811412a089d5c68455",
+      "gzipBytes": 391,
+      "gzipSha256": "09f212dae1e660881c5f08f009afb6f9ab0ef8ee28086b8c0a49bfadc59f2dac",
+      "decompressedByteEqual": true
+    }
+  },
+  "sources": {
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 547805,
+      "sha256": "bd68e79d162eb3a4e0bffa27e2bd5e5c11a7303000a34bf59ac45922a20f116f"
+    },
+    "runner": {
+      "path": "scripts/test-hd-attack-runtime.mjs",
+      "bytes": 122940,
+      "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28"
+    },
+    "presenter": {
+      "path": "js/hd-spe.js",
+      "bytes": 46491,
+      "sha256": "ef59480402ebbc00e3f97b28f85cf545cf844807d24044f1d64456c8e9a01601"
+    },
+    "bridge": {
+      "path": "js/bridge.js",
+      "bytes": 99813,
+      "sha256": "07615be055e7fd8b8382dd50aebc1729f41262112ac33854b627f2e6762b2bb0"
+    },
+    "cacheVersion": "20261009r",
+    "actualBuildOrigin": "9ca9c40855ddc545667179abfc094a5203cb6036",
+    "engineSourceModified": true,
+    "nativeOrEngineChanges": false,
+    "quartet": {
+      "files": [
+        {
+          "bytes": 192446,
+          "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60",
+          "path": "js/baye.js",
+          "mode": "100644",
+          "type": "blob",
+          "gitBlob": "2ef6df40d7d16598d1df464fa53df72f6239e558"
+        },
+        {
+          "bytes": 4439355,
+          "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e",
+          "path": "js/baye.wasm",
+          "mode": "100755",
+          "type": "blob",
+          "gitBlob": "65d563c83246b2e91fbf4b92dd902e46e26fc8ce"
+        },
+        {
+          "bytes": 29805,
+          "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4",
+          "path": "js/baye.wasm.map",
+          "mode": "100644",
+          "type": "blob",
+          "gitBlob": "b29fe8d2b3c9154b177f3ab5ccbb674fed836280"
+        },
+        {
+          "bytes": 6763,
+          "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8",
+          "path": "js/baye.build.json",
+          "mode": "100644",
+          "type": "blob",
+          "gitBlob": "eff645fe4cdab11b0267d94108a3e5b3931db01e"
+        }
+      ],
+      "buildMetadata": {
+        "schemaVersion": 1,
+        "sourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+        "engineSourceSha256": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+        "engineSourceModified": true,
+        "emscriptenVersion": "3.1.51",
+        "cmakeVersion": "cmake version 3.31.6",
+        "sourceDateEpoch": 1791459382,
+        "hdMenuProtocol": {
+          "nativeFallback": 254,
+          "controlField": "g_hdFightMenuControl"
+        },
+        "hdInputProtocol": {
+          "version": 3,
+          "fight": [
+            "g_hdFightInputKind",
+            "g_hdFightInputSeq",
+            "g_hdFightActor"
+          ],
+          "menu": [
+            "g_hdMenuActive",
+            "g_hdMenuContext",
+            "g_hdMenuKind",
+            "g_hdMenuSeq"
+          ],
+          "march": [
+            "g_hdMarchPhase",
+            "g_hdMarchSession",
+            "g_hdMarchOrigin",
+            "g_hdMarchSelected",
+            "g_hdMarchInputSeq",
+            "g_hdMapInputSeq"
+          ],
+          "report": [
+            "g_hdReportActive",
+            "g_hdReportInputSeq"
+          ],
+          "record": [
+            "g_hdRecordActive",
+            "g_hdRecordMode",
+            "g_hdRecordIndex",
+            "g_hdRecordCount",
+            "g_hdRecordSeq"
+          ],
+          "qty": [
+            "g_hdQtyActive",
+            "g_hdQtySession",
+            "g_hdQtyInputSeq",
+            "g_hdQtyLastKey",
+            "g_hdQtyCursor",
+            "g_hdQtyStep",
+            "g_hdQtyReady"
+          ]
+        },
+        "hdSpeProtocol": {
+          "version": 2,
+          "event": [
+            "g_hdSpeGeneration",
+            "g_hdSpeEventId",
+            "g_hdSpeParentEventId",
+            "g_hdSpeDepth"
+          ],
+          "frames": [
+            "g_hdSpeFrameIndex",
+            "g_hdSpeFrameValid",
+            "g_hdSpeCommitSeq",
+            "g_hdSpeVisibleFrames"
+          ],
+          "resourceFingerprint": "fnv1a32:payload:resourceLength",
+          "displayedCommit": "SysCopyScreen snapshot published by timed_flush_lcd before lcdFlushBuffer",
+          "skipEligible": "keyflag === 1"
+        },
+        "hdDetailProtocol": {
+          "version": 1,
+          "generation": "g_hdDetailGeneration",
+          "menuIds": [
+            "g_hdMenuIds",
+            "g_hdMenuIdsCount",
+            "g_hdMenuIdsKind",
+            "g_hdMenuIdsSeq",
+            "g_hdMenuIdsGeneration"
+          ],
+          "goods": [
+            "g_hdGoodsGeneration",
+            "g_hdGoodsMenuSeq",
+            "g_hdGoodsIndex",
+            "g_hdGoodsTool",
+            "g_hdGoodsPropertyCount",
+            "g_hdGoodsPropertyFlags",
+            "g_hdGoodsPageStart",
+            "g_hdGoodsPageEnd"
+          ],
+          "help": [
+            "g_hdHelpProtocolVersion",
+            "g_hdHelpGeneration",
+            "g_hdHelpInputSeq",
+            "g_hdHelpKind",
+            "g_hdHelpComplete",
+            "g_hdHelpPerson",
+            "g_hdHelpSlot",
+            "g_hdHelpFields"
+          ],
+          "toolAccess": [
+            "bayeHdGetToolCount",
+            "bayeHdGetToolField",
+            "bayeHdGetArmType"
+          ]
+        },
+        "hdOverviewProtocol": {
+          "version": 1,
+          "view": [
+            "g_hdViewSeq",
+            "g_hdViewGeneration",
+            "g_hdViewInputSeq",
+            "g_hdViewForce",
+            "g_hdViewPageStart",
+            "g_hdViewPageSize",
+            "g_hdViewFoodKnown",
+            "g_hdViewRowPersons",
+            "g_hdViewPointPersons"
+          ],
+          "miniMap": [
+            "g_hdMiniMapSeq",
+            "g_hdMiniMapGeneration",
+            "g_hdMiniMapInputSeq",
+            "g_hdMiniMapDefaultDraw",
+            "g_hdMiniMapCustom",
+            "g_hdMiniMapResourceId"
+          ]
+        },
+        "hdMakerProtocol": {
+          "version": 1,
+          "owner": [
+            "g_hdMakerGeneration",
+            "g_hdMakerSession",
+            "g_hdMakerInputSeq",
+            "g_hdMakerPhase"
+          ],
+          "phases": {
+            "scroll": 1,
+            "hold": 2
+          },
+          "input": "original GamDelay(5000, 2), one function key or touch-up returns",
+          "holdSource": "last actual SysCopyScreen snapshot of the matching MAKER child; public LCD display must match",
+          "retirement": "GamMakerInf return, native reset, or held LCD dirty/copy interference",
+          "custom": "same observed showAbout invocation; custom default branch retains LCD"
+        },
+        "hdSpeCompositionProtocol": {
+          "version": 1,
+          "source": "actual ordinary picture draw observed before its matching native attack child",
+          "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
+          "clears": [
+            "g_hdSpeClearFrames",
+            "g_hdSpeDisplayClearFrames"
+          ],
+          "displayedCommit": "actual SysCopyScreen composition snapshot published by timed_flush_lcd",
+          "retirement": "uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset"
+        },
+        "hdAttackProtocol": {
+          "version": 1,
+          "owner": [
+            "g_hdAttackGeneration",
+            "g_hdAttackSession",
+            "g_hdAttackPhase"
+          ],
+          "phases": {
+            "movie": 1,
+            "numbers": 2,
+            "hold": 3
+          },
+          "hurt": "actual CountPlusSub result captured by the unchanged FgtAtkAction",
+          "display": "g_hdAttackDisplay copied scene and cumulative actual digit poses, published only at timed LCD flush",
+          "digits": [
+            "DigitIndex",
+            "DigitX",
+            "DigitY",
+            "DigitFirstY",
+            "DigitDrawCount"
+          ],
+          "input": "no added skip or return; original numeric and final delays retain native input behavior",
+          "custom": "same single observed willShowPKAnimation invocation; custom presence always retires HD source"
+        },
+        "hdSkillResultProtocol": {
+          "version": 1,
+          "owner": [
+            "g_hdSkillResultGeneration",
+            "g_hdSkillResultSession",
+            "g_hdSkillResultPhase"
+          ],
+          "nativeStack": [
+            "g_hdResultOwnerKind",
+            "g_hdResultOwnerValid",
+            "g_hdResultOwnerGeneration",
+            "g_hdResultOwnerSession"
+          ],
+          "phases": {
+            "movie": 1,
+            "numbers": 2,
+            "hold": 3
+          },
+          "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
+          "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
+          "scene": "owned BACKPIC or verified equal opaque movie rectangle; no unknown full-arena background inferred",
+          "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
+          "input": "no added skip or return; original movie, number and result waiting lifecycle",
+          "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
+          "retirement": "uncontrolled drawing, nested owner, malformed source, custom hook, reset; parent source never revived"
+        },
+        "saveProtocol": {
+          "version": 149,
+          "legacyVersions": [
+            144,
+            145,
+            146,
+            147,
+            148
+          ],
+          "filesPerSlot": 2,
+          "fightersBytes": 600,
+          "goodsQueueBytes": 4000
+        },
+        "artifacts": {
+          "baye.js": {
+            "bytes": 192446,
+            "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60"
+          },
+          "baye.wasm": {
+            "bytes": 4439355,
+            "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e"
+          },
+          "baye.wasm.map": {
+            "bytes": 29805,
+            "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4"
+          }
+        }
+      },
+      "buildSourceRevisionIsHistorical": true,
+      "scope": "Installed loader/WASM/map/build metadata remain the previously accepted engine; current Git commit and actual engine origin are recorded separately."
+    },
+    "baseline": {
+      "original": "build/r12-baseline-source-audit.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/f7bde98ee44bef4dcc641ab6be376d1b8558a6642605c3f7ba703dc668bedb93.json.gz",
+      "bytes": 3241265,
+      "sha256": "f7bde98ee44bef4dcc641ab6be376d1b8558a6642605c3f7ba703dc668bedb93",
+      "gzipBytes": 388683,
+      "gzipSha256": "38d451706f3386ccce4519f9b793a99dee1f39dc3205b4bcb6c8edf7901bdb28",
+      "decompressedByteEqual": true
+    },
+    "independentFinalSourceAudit": {
+      "original": "build/r12-final-source-audit.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/45a5afbb3f0488ed7b010e888872a2f5eed335a40d5d292b2e264a271078735c.json.gz",
+      "bytes": 141900,
+      "sha256": "45a5afbb3f0488ed7b010e888872a2f5eed335a40d5d292b2e264a271078735c",
+      "gzipBytes": 21852,
+      "gzipSha256": "5e24b0cc2b0a5faba11d1b2e65919cf5226d77653e37af0b3b0b546b0085122c",
+      "decompressedByteEqual": true
+    },
+    "oldTracked4064PngLibRawUnchanged": true,
+    "runtimeSourceCountScope": {
+      "metadataRecordsPerRun": 1156,
+      "uniquePhysicalPathsPerRun": 1117,
+      "duplicateAliases": 39,
+      "globalArtworkScope": "Separate all51 global source audit; selected runtime source inventories omit ledger/unreferenced attack art."
+    }
+  },
+  "tests": {
+    "windowsFull": {
+      "tests": 683,
+      "passed": 683,
+      "failed": 0,
+      "skipped": 0,
+      "log": {
+        "original": "build/r12-all-tests.log",
+        "archived": "docs/validation/m4-attack-completion-20261009/raw/dd446c6ca5957b89bca784384be513fac92c3780bf04c5c400af928d1b17db64.log.gz",
+        "bytes": 88255,
+        "sha256": "dd446c6ca5957b89bca784384be513fac92c3780bf04c5c400af928d1b17db64",
+        "gzipBytes": 28097,
+        "gzipSha256": "b2f2b800235471e922fa7e43b4743e76192b3524986c361a5b70b1da7007e5b9",
+        "decompressedByteEqual": true
+      },
+      "scope": "Full suite with actual native compiler against current37 wiring and all51 production originals."
+    },
+    "runtimeDriverStatic": {
+      "proof": {
+        "original": "build/r12-attack-candidate-proof.json",
+        "archived": "docs/validation/m4-attack-completion-20261009/raw/b379af9b4d0cc7b073b5ce80e2e9d75ac3c6e32265ca7427925983e82120d4a1.json.gz",
+        "bytes": 18780,
+        "sha256": "b379af9b4d0cc7b073b5ce80e2e9d75ac3c6e32265ca7427925983e82120d4a1",
+        "gzipBytes": 4649,
+        "gzipSha256": "6cd36091e66b6214a998aa963c90f5346ee7254c8dccb2d1c6b24fdc3396e399",
+        "decompressedByteEqual": true
+      },
+      "checks": 59,
+      "scope": "50 defender fields and9 CLI helper cases, not browser games."
+    }
+  },
+  "actualNewBrowserAcceptedIntervals": [
+    "20:20:29",
+    "21:18:26",
+    "19:22:32"
+  ],
+  "strictFinalRuns": [
+    "build/r12-infantry-target2-installed-v1/result.json",
+    "build/r12-bow-target2-installed-v1/result.json",
+    "build/r12-cavalry-target2-installed-v2/result.json"
+  ],
+  "strictFinalTotals": {
+    "checkpoints": 56,
+    "actualLcdCallbacks": 108,
+    "verifiedNativePixelReadbacks": 113,
+    "heldReadbacks": 5,
+    "selectedPlayerHdReadbacks": 65
+  },
+  "runs": [
+    {
+      "original": "build/r12-cavalry-target2-installed-v1/result.json",
+      "report": {
+        "original": "build/r12-cavalry-target2-installed-v1/result.json",
+        "archived": "docs/validation/m4-attack-completion-20261009/raw/f8189981c2684171bb04df263d72134c5d0c95e8510f1995742911607a31253b.json.gz",
+        "bytes": 33986166,
+        "sha256": "f8189981c2684171bb04df263d72134c5d0c95e8510f1995742911607a31253b",
+        "gzipBytes": 1237396,
+        "gzipSha256": "0cd14f3aa9c6b3c277feca6abca0bed8f055c92e0862afba1392d3e6b140e348",
+        "decompressedByteEqual": true
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "phases": 18,
+      "range": [
+        19,
+        22,
+        32
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:8340/devtools/browser/05dcd71b-9f07-4968-a284-42d8cfd9d52a"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28"
+      },
+      "actualHurt": null,
+      "actualPlayerAttack": null,
+      "actualPlayerAttackBefore": null,
+      "actualPlayerTargetBefore": null,
+      "actualPlayerTargetAfter": null,
+      "marchOrderReceipt": {
+        "pick": 1,
+        "battlePick": 0,
+        "mapCity": 15,
+        "mapInputSeq": 5,
+        "ok": 1,
+        "city": 8,
+        "obj": 14,
+        "time": 1,
+        "seq": 1,
+        "phase": 7,
+        "session": 1,
+        "origin": 8,
+        "selected": 6,
+        "inputSeq": 14
+      },
+      "battleDestinationReceipt": {
+        "active": 1,
+        "over": 0,
+        "wait": 1,
+        "phase": 1,
+        "aimType": 255,
+        "inputKind": 1,
+        "inputSeq": 5,
+        "actorIndex": 255,
+        "tip": "",
+        "skip": 0,
+        "result": "",
+        "cityIndex": 14,
+        "mapW": 32,
+        "mapH": 32,
+        "bout": 1,
+        "boutMax": 30,
+        "focusX": 16,
+        "focusY": 2
+      },
+      "destination": 14,
+      "rawCaptureRecords": 155,
+      "nativePixelOracle": null,
+      "sourceVerification": {
+        "count": 1156,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-fHvS3R",
+        "origin": "http://127.0.0.1:8339",
+        "debugPort": 8340,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "actualEndTurns": 3,
+      "error": "AssertionError [ERR_ASSERTION]: The equipped actual attacker survived; a death is not replaced or repaired\n    at battleSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1167:27)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:961:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:667:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-attack-runtime.mjs:1326:9)"
+    },
+    {
+      "original": "build/r12-infantry-target2-installed-v1/result.json",
+      "report": {
+        "original": "build/r12-infantry-target2-installed-v1/result.json",
+        "archived": "docs/validation/m4-attack-completion-20261009/raw/f82798c72838334868d43b3d7ae356efa658eabba7aa8c12facabf85e754748f.json.gz",
+        "bytes": 14691732,
+        "sha256": "f82798c72838334868d43b3d7ae356efa658eabba7aa8c12facabf85e754748f",
+        "gzipBytes": 586088,
+        "gzipSha256": "7538a497c3f4e79f883bb5480a231356dfc441103c66c7beecb917e017d2c782",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 18,
+      "range": [
+        20,
+        20,
+        29
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:1357/devtools/browser/3fdf021a-85e6-46c9-a433-eaaa203aff3f"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 2,
+        "target": 14,
+        "hurt": 94,
+        "session": 2
+      },
+      "actualPlayerAttack": {
+        "actor": "程银",
+        "actorIndex": 2,
+        "actorNativeGenId": 61,
+        "target": "阎圃",
+        "targetIndex": 14,
+        "targetNativeGenId": 109,
+        "targetPersonIndex": 108,
+        "targetArmType": 2,
+        "requestedTargetArm": 2
+      },
+      "actualPlayerAttackBefore": {
+        "i": 2,
+        "id": 61,
+        "personIndex": 60,
+        "name": "程银",
+        "side": "player",
+        "x": 15,
+        "y": 9,
+        "hp": 75,
+        "mp": 37,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 6,
+        "arms": 707,
+        "armType": 1,
+        "terrain": 0
+      },
+      "actualPlayerTargetBefore": {
+        "i": 14,
+        "id": 109,
+        "personIndex": 108,
+        "name": "阎圃",
+        "side": "enemy",
+        "x": 15,
+        "y": 10,
+        "hp": 68,
+        "mp": 66,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 19,
+        "arms": 800,
+        "armType": 2,
+        "terrain": 1
+      },
+      "actualPlayerTargetAfter": {
+        "i": 14,
+        "id": 109,
+        "personIndex": 108,
+        "name": "阎圃",
+        "side": "enemy",
+        "x": 15,
+        "y": 10,
+        "hp": 68,
+        "mp": 66,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 19,
+        "arms": 706,
+        "armType": 2,
+        "terrain": 1
+      },
+      "marchOrderReceipt": {
+        "pick": 1,
+        "battlePick": 0,
+        "mapCity": 15,
+        "mapInputSeq": 5,
+        "ok": 1,
+        "city": 8,
+        "obj": 14,
+        "time": 1,
+        "seq": 1,
+        "phase": 7,
+        "session": 1,
+        "origin": 8,
+        "selected": 6,
+        "inputSeq": 15
+      },
+      "battleDestinationReceipt": {
+        "active": 1,
+        "over": 0,
+        "wait": 1,
+        "phase": 1,
+        "aimType": 255,
+        "inputKind": 1,
+        "inputSeq": 5,
+        "actorIndex": 255,
+        "tip": "",
+        "skip": 0,
+        "result": "",
+        "cityIndex": 14,
+        "mapW": 32,
+        "mapH": 32,
+        "bout": 1,
+        "boutMax": 30,
+        "focusX": 16,
+        "focusY": 2
+      },
+      "destination": 14,
+      "rawCaptureRecords": 57,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 38,
+        "pixelReadbacks": 40,
+        "events": 2,
+        "numericReadbacks": 26,
+        "completedHoldReadbacks": 2,
+        "hdReadbacks": 20,
+        "lcdReadbacks": 0,
+        "countScope": "callbacks/pixelReadbacks/events include all actually verified natural events; HD/lcdReadbacks only selected player event. Raw capture/retirement records are a separate count, especially failed games."
+      },
+      "sourceVerification": {
+        "count": 1156,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-3sNY2W",
+        "origin": "http://127.0.0.1:1356",
+        "debugPort": 1357,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "actualEndTurns": 2,
+      "error": null
+    },
+    {
+      "original": "build/r12-bow-target2-installed-v1/result.json",
+      "report": {
+        "original": "build/r12-bow-target2-installed-v1/result.json",
+        "archived": "docs/validation/m4-attack-completion-20261009/raw/d571210fd5deebaa3233faa862bf588769cf5dfb8b9c2007e19853918680dc8b.json.gz",
+        "bytes": 8913964,
+        "sha256": "d571210fd5deebaa3233faa862bf588769cf5dfb8b9c2007e19853918680dc8b",
+        "gzipBytes": 356920,
+        "gzipSha256": "e19cc474301d3f71b6ab78b4ab22ed9e06e9a4ebe48056f56298bd782b0328a5",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 19,
+      "range": [
+        21,
+        18,
+        26
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:8846/devtools/browser/685ac09f-b8ae-4f91-a782-0389e2cceea5"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 3,
+        "target": 14,
+        "hurt": 63,
+        "session": 1
+      },
+      "actualPlayerAttack": {
+        "actor": "李堪",
+        "actorIndex": 3,
+        "actorNativeGenId": 62,
+        "target": "张鲁",
+        "targetIndex": 14,
+        "targetNativeGenId": 19,
+        "targetPersonIndex": 18,
+        "targetArmType": 2,
+        "requestedTargetArm": 2
+      },
+      "actualPlayerAttackBefore": {
+        "i": 3,
+        "id": 62,
+        "personIndex": 61,
+        "name": "李堪",
+        "side": "player",
+        "x": 16,
+        "y": 6,
+        "hp": 52,
+        "mp": 44,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 6,
+        "arms": 800,
+        "armType": 2,
+        "terrain": 1
+      },
+      "actualPlayerTargetBefore": {
+        "i": 14,
+        "id": 19,
+        "personIndex": 18,
+        "name": "张鲁",
+        "side": "enemy",
+        "x": 16,
+        "y": 8,
+        "hp": 78,
+        "mp": 65,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 19,
+        "arms": 800,
+        "armType": 2,
+        "terrain": 1
+      },
+      "actualPlayerTargetAfter": {
+        "i": 14,
+        "id": 19,
+        "personIndex": 18,
+        "name": "张鲁",
+        "side": "enemy",
+        "x": 16,
+        "y": 8,
+        "hp": 78,
+        "mp": 65,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 19,
+        "arms": 737,
+        "armType": 2,
+        "terrain": 1
+      },
+      "marchOrderReceipt": {
+        "pick": 1,
+        "battlePick": 0,
+        "mapCity": 15,
+        "mapInputSeq": 5,
+        "ok": 1,
+        "city": 8,
+        "obj": 14,
+        "time": 1,
+        "seq": 1,
+        "phase": 7,
+        "session": 1,
+        "origin": 8,
+        "selected": 6,
+        "inputSeq": 15
+      },
+      "battleDestinationReceipt": {
+        "active": 1,
+        "over": 0,
+        "wait": 1,
+        "phase": 1,
+        "aimType": 255,
+        "inputKind": 1,
+        "inputSeq": 5,
+        "actorIndex": 255,
+        "tip": "",
+        "skip": 0,
+        "result": "",
+        "cityIndex": 14,
+        "mapW": 32,
+        "mapH": 32,
+        "bout": 1,
+        "boutMax": 30,
+        "focusX": 16,
+        "focusY": 2
+      },
+      "destination": 14,
+      "rawCaptureRecords": 19,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 16,
+        "pixelReadbacks": 17,
+        "events": 1,
+        "numericReadbacks": 12,
+        "completedHoldReadbacks": 1,
+        "hdReadbacks": 17,
+        "lcdReadbacks": 0,
+        "countScope": "callbacks/pixelReadbacks/events include all actually verified natural events; HD/lcdReadbacks only selected player event. Raw capture/retirement records are a separate count, especially failed games."
+      },
+      "sourceVerification": {
+        "count": 1156,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-Lhwsdl",
+        "origin": "http://127.0.0.1:8845",
+        "debugPort": 8846,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "actualEndTurns": 3,
+      "error": null
+    },
+    {
+      "original": "build/r12-cavalry-target2-installed-v2/result.json",
+      "report": {
+        "original": "build/r12-cavalry-target2-installed-v2/result.json",
+        "archived": "docs/validation/m4-attack-completion-20261009/raw/456e234dd756469d0d5202b22cc66091f821a8a0fd0c4fb26e8d79ef6d289f8b.json.gz",
+        "bytes": 18204935,
+        "sha256": "456e234dd756469d0d5202b22cc66091f821a8a0fd0c4fb26e8d79ef6d289f8b",
+        "gzipBytes": 712084,
+        "gzipSha256": "57733b63780a0056379097044717cb886815f0c2db2afbb05c9712021be998d5",
+        "decompressedByteEqual": true
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "phases": 19,
+      "range": [
+        19,
+        22,
+        32
+      ],
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "browser": {
+        "Browser": "Chrome/154.0.8037.98",
+        "Protocol-Version": "1.3",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+        "V8-Version": "15.4.80.20",
+        "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+        "webSocketDebuggerUrl": "ws://127.0.0.1:7547/devtools/browser/355fcf66-7514-42e5-8e1f-7f23b5ac886b"
+      },
+      "runner": {
+        "source": "scripts\\test-hd-attack-runtime.mjs",
+        "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28"
+      },
+      "actualHurt": {
+        "source": "native attack.hurt; troop delta is verification only",
+        "actor": 1,
+        "target": 14,
+        "hurt": 100,
+        "session": 2
+      },
+      "actualPlayerAttack": {
+        "actor": "庞德",
+        "actorIndex": 1,
+        "actorNativeGenId": 59,
+        "target": "张鲁",
+        "targetIndex": 14,
+        "targetNativeGenId": 19,
+        "targetPersonIndex": 18,
+        "targetArmType": 2,
+        "requestedTargetArm": 2
+      },
+      "actualPlayerAttackBefore": {
+        "i": 1,
+        "id": 59,
+        "personIndex": 58,
+        "name": "庞德",
+        "side": "player",
+        "x": 14,
+        "y": 10,
+        "hp": 83,
+        "mp": 21,
+        "move": 5,
+        "active": 0,
+        "state": 0,
+        "belong": 6,
+        "arms": 719,
+        "armType": 0,
+        "terrain": 0
+      },
+      "actualPlayerTargetBefore": {
+        "i": 14,
+        "id": 19,
+        "personIndex": 18,
+        "name": "张鲁",
+        "side": "enemy",
+        "x": 14,
+        "y": 11,
+        "hp": 78,
+        "mp": 65,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 19,
+        "arms": 800,
+        "armType": 2,
+        "terrain": 0
+      },
+      "actualPlayerTargetAfter": {
+        "i": 14,
+        "id": 19,
+        "personIndex": 18,
+        "name": "张鲁",
+        "side": "enemy",
+        "x": 14,
+        "y": 11,
+        "hp": 78,
+        "mp": 65,
+        "move": 4,
+        "active": 0,
+        "state": 0,
+        "belong": 19,
+        "arms": 700,
+        "armType": 2,
+        "terrain": 0
+      },
+      "marchOrderReceipt": {
+        "pick": 1,
+        "battlePick": 0,
+        "mapCity": 15,
+        "mapInputSeq": 5,
+        "ok": 1,
+        "city": 8,
+        "obj": 14,
+        "time": 1,
+        "seq": 1,
+        "phase": 7,
+        "session": 1,
+        "origin": 8,
+        "selected": 6,
+        "inputSeq": 14
+      },
+      "battleDestinationReceipt": {
+        "active": 1,
+        "over": 0,
+        "wait": 1,
+        "phase": 1,
+        "aimType": 255,
+        "inputKind": 1,
+        "inputSeq": 5,
+        "actorIndex": 255,
+        "tip": "",
+        "skip": 0,
+        "result": "",
+        "cityIndex": 14,
+        "mapW": 32,
+        "mapH": 32,
+        "bout": 1,
+        "boutMax": 30,
+        "focusX": 16,
+        "focusY": 2
+      },
+      "destination": 14,
+      "rawCaptureRecords": 73,
+      "nativePixelOracle": {
+        "actualLcdCallbacks": 54,
+        "pixelReadbacks": 56,
+        "events": 2,
+        "numericReadbacks": 41,
+        "completedHoldReadbacks": 2,
+        "hdReadbacks": 28,
+        "lcdReadbacks": 0,
+        "countScope": "callbacks/pixelReadbacks/events include all actually verified natural events; HD/lcdReadbacks only selected player event. Raw capture/retirement records are a separate count, especially failed games."
+      },
+      "sourceVerification": {
+        "count": 1156,
+        "drift": [],
+        "runnerMatch": true
+      },
+      "isolation": {
+        "user8080Touched": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-WDtyGy",
+        "origin": "http://127.0.0.1:7546",
+        "debugPort": 7547,
+        "cleaned": true
+      },
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "actualEndTurns": 2,
+      "error": null
+    }
+  ],
+  "historicalBrowserAcceptedIntervals": [
+    "19:11:21",
+    "20:10:19",
+    "21:9:17",
+    "19:0:10",
+    "20:0:9",
+    "21:0:8"
+  ],
+  "historicalEvidence": [
+    "docs/validation/m4-attacks-skills-20261008.json",
+    "docs/validation/m4-attack-ranges-20261008.json"
+  ],
+  "historicalScope": "Previous six explicitly played intervals retain their original source evidence; they were not rerun under this37 manifest. Other28 intervals remain queued for actual player browser acceptance.",
+  "gameplay": "Only real menu, recruitment, march, MOVE, fresh native AIM and player confirmation inputs. No native/frontendJS rule, random seed, damage, troops, coordinates, ownership, wait or permissions changed. Cavalryv1 genuine death is preserved; one additional new game used identical source and legitimate controls, no RNG manipulation.",
+  "runtimeDriver": "Destination14 uses current Realm ownership, real native CITY_LINKR bytes, exact AddFightOrder receipt and actual battle destination, while default9 remains. Living/effective-arm/terrain/freshAIM/exact-range/death gates preserved.",
+  "audits": {
+    "source": {
+      "original": "build/r12-final-source-audit.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/45a5afbb3f0488ed7b010e888872a2f5eed335a40d5d292b2e264a271078735c.json.gz",
+      "bytes": 141900,
+      "sha256": "45a5afbb3f0488ed7b010e888872a2f5eed335a40d5d292b2e264a271078735c",
+      "gzipBytes": 21852,
+      "gzipSha256": "5e24b0cc2b0a5faba11d1b2e65919cf5226d77653e37af0b3b0b546b0085122c",
+      "decompressedByteEqual": true
+    },
+    "route": {
+      "original": "build/r12-cavalry-route-audit.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/affb6111cedcc5a2805e21b3aa4639ffad3b9d8eb0d18b0a5992fad03e376997.json.gz",
+      "bytes": 90326,
+      "sha256": "affb6111cedcc5a2805e21b3aa4639ffad3b9d8eb0d18b0a5992fad03e376997",
+      "gzipBytes": 7030,
+      "gzipSha256": "0fea5da69a5b9d193b5d603b171e2c9886c05b0ae4e315eec69f286008929a0f",
+      "decompressedByteEqual": true
+    },
+    "runtimeExecution": {
+      "original": "build/r12-runtime-execution-audit-final.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/817273a0206d8f02a3f5366286eeff54df3d1d83a68de509e7b6be26b0205bc6.json.gz",
+      "bytes": 264951,
+      "sha256": "817273a0206d8f02a3f5366286eeff54df3d1d83a68de509e7b6be26b0205bc6",
+      "gzipBytes": 37882,
+      "gzipSha256": "abd6a94b1fff1795e58e6d7ef42fe816c799a4bcae00e521b4385fc00089c875",
+      "decompressedByteEqual": true
+    },
+    "finalDriverOriginal": {
+      "original": "build/r12-attack-runtime-final.mjs",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28.mjs.gz",
+      "bytes": 122940,
+      "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28",
+      "gzipBytes": 35281,
+      "gzipSha256": "b50413a07e6d4cb732cbc4704841b9b3e027f2471d1f800cd7060ff559141a9a",
+      "decompressedByteEqual": true
+    },
+    "runtimeIndependent": {
+      "original": "build/r12-independent-attack-validation-audit-final.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/4d9a1e52a659ecb85d7b759d61f0d5be088c58be93776132feb6a766288daf0f.json.gz",
+      "bytes": 335398,
+      "sha256": "4d9a1e52a659ecb85d7b759d61f0d5be088c58be93776132feb6a766288daf0f",
+      "gzipBytes": 49443,
+      "gzipSha256": "d005654c9d3e4888edd3bba770133679730c274054c5cf8e28441d1d62ce5894",
+      "decompressedByteEqual": true
+    },
+    "archiveToolInitialSchema": {
+      "original": "build/r12-archive-audit-initial-schema.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/5140664b423f06f17affdb3773cd2af249029bf51b0c08df10a0ca59cc6d555b.json.gz",
+      "bytes": 30500,
+      "sha256": "5140664b423f06f17affdb3773cd2af249029bf51b0c08df10a0ca59cc6d555b",
+      "gzipBytes": 5910,
+      "gzipSha256": "9dbfb7489d21ecfd07d618938bf0e13cfaea296e78834ad8b5dd3e22ae3b470d",
+      "decompressedByteEqual": true
+    },
+    "archiveFinal": {
+      "original": "build/r12-archive-audit-final.json",
+      "archived": "docs/validation/m4-attack-completion-20261009/raw/0bc354d3f1ef216375ba11ad56f667a02f08fcdadef11024df8599024c8bb3c6.json.gz",
+      "bytes": 29627,
+      "sha256": "0bc354d3f1ef216375ba11ad56f667a02f08fcdadef11024df8599024c8bb3c6",
+      "gzipBytes": 6015,
+      "gzipSha256": "dea20f66fe4e8b485f67fb17520826b75e22c2fa1f0f920742bbe842df8156ba",
+      "decompressedByteEqual": true
+    }
+  },
+  "archive": {
+    "index": "docs/validation/m4-attack-completion-20261009/runtime-index.json",
+    "retention": {
+      "retained": 344,
+      "omitted": 339,
+      "policy": "All native original PNGs retained. Final same-runner selected movie HD frames and numeric first/last/actual timed hold/actual held-readback are chosen from verified phase metadata, not lexical filename alone. Full raw streams preserve all observed events and failures."
+    },
+    "visualReview": "docs/validation/m4-attack-completion-20261009/visual-review.json",
+    "raw": "All complete reports/logs/native captures/input/draw/source records including failed cavalry retained by exact gzip roundtrip.",
+    "art": "New12 accepted and two rejected builtin originals plus25 unique reference paths are exact SHA-addressed/reused production or prior original archive; no image editing.",
+    "finalAuditSnapshot": {
+      "scope": "Final audit covered exact raw55/images683/retained344/omitted339/art39 and the three separate actual visual lists. Its own original and initial tool-schema diagnostic were appended afterward to raw57. Every preexisting raw/image/art row unchanged; only audit links and this note added to top.",
+      "auditedSnapshots": [
+        {
+          "path": "docs/validation/m4-attack-completion-20261009.json",
+          "bytes": 39697,
+          "sha256": "f3e4a7a51eb38f8cf8eb0e839e50644481d6464b27d14f2ba6dfe82662a62206"
+        },
+        {
+          "path": "docs/validation/m4-attack-completion-20261009/runtime-index.json",
+          "bytes": 394278,
+          "sha256": "f1549d445dfce5314c17de28b006689c538abd99332d7db23660ac24dc0c3f6f"
+        },
+        {
+          "path": "docs/validation/m4-attack-completion-20261009/visual-review.json",
+          "bytes": 24743,
+          "sha256": "f747054eacda70e7576e8780dd3f44e0ab68bcd93b9a1fd78c7c2fee38134220"
+        },
+        {
+          "path": "assets/hd-spe/GENERATED-ATTACKS.json",
+          "bytes": 649124,
+          "sha256": "5da5b57105dddae355aeea2e59d10bfeb75c101a38c1a1ce2aa4cc02a8a1c4f1"
+        },
+        {
+          "path": "assets/hd-spe/manifest.json",
+          "bytes": 547805,
+          "sha256": "bd68e79d162eb3a4e0bffa27e2bd5e5c11a7303000a34bf59ac45922a20f116f"
+        },
+        {
+          "path": "scripts/test-hd-attack-runtime.mjs",
+          "bytes": 122940,
+          "sha256": "63f42ae21df5326e422d2edd8c836a13a74dc12f599485fe2f975ddfddeefe28"
+        },
+        {
+          "path": "pc.html",
+          "bytes": 25720,
+          "sha256": "59b174d3898373cc6f6b5f00329eaef34d3ab628770cf474cf8d5866b381f14e"
+        },
+        {
+          "path": "js/hd-spe.js",
+          "bytes": 46491,
+          "sha256": "ef59480402ebbc00e3f97b28f85cf545cf844807d24044f1d64456c8e9a01601"
+        },
+        {
+          "path": "js/bridge.js",
+          "bytes": 99813,
+          "sha256": "07615be055e7fd8b8382dd50aebc1729f41262112ac33854b627f2e6762b2bb0"
+        },
+        {
+          "path": "js/baye.js",
+          "bytes": 192446,
+          "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60"
+        },
+        {
+          "path": "js/baye.wasm",
+          "bytes": 4439355,
+          "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e"
+        },
+        {
+          "path": "js/baye.wasm.map",
+          "bytes": 29805,
+          "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4"
+        },
+        {
+          "path": "js/baye.build.json",
+          "bytes": 6763,
+          "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8"
+        }
+      ],
+      "auditPass": true,
+      "rawRecordsAfterAuditAppend": 57,
+      "initialSchemaNote": "Diagnostic false positives corrected in ignored audit tool only; no production or archive findings."
+    }
+  },
+  "coverageLimits": [
+    "37wired and51art accepted do not mean37 current browser acceptance. Currentthree bow-defender runs plus six historical independently played intervals are recorded separately.",
+    "Failed cavalryv1 raw155 capture records are not a completed pixel-oracle PASS and not an accepted player attack.",
+    "Raw retirement records differ from verified native pixelReadbacks. Successful runs total113 verified actual native pixels including natural events, with65 selected-player HD samples.",
+    "Native opaque clears may erase decoration or nearby limbs and leave numeric trails; native composition history is retained.",
+    "Other skills/status, HUD/search/help, crossing art, full succession, full four-period/real-Mod battle/save matrix, performance, mobile horizontal/real devices and real cloud acceptance remain open."
+  ]
+}

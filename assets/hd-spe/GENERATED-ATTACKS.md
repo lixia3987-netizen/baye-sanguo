@@ -4,7 +4,7 @@
 
 完整目标51个严格原字节唯一前景group（46 mask1透明＋5 mask0不透明）。背景16由根代理负责。标准库SHA256 3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e。
 
-当前进度：{'targetGroups': 51, 'finalGroups': 39, 'builtinCalls': 49, 'rejectedFinalCandidates': 9, 'failedCalls': 1, 'remainingGroups': 12}。没有接受的group仍待生成/验收，不能将LCD回退当作HD完成。
+当前进度：{"targetGroups":51,"finalGroups":51,"builtinCalls":63,"rejectedFinalCandidates":11,"failedCalls":1,"remainingGroups":0}。2026-10-09发布最后12组，全部51组原图齐备；区间接入与真实实战验收仍分别记录，不能将素材生成当作完整HD验收。
 
 每次完整exact prompt、输入路径/角色/SHA/尺寸、原始输出路径/SHA/尺寸/mode/alpha和拒收/失败原因均见 [GENERATED-ATTACKS.json](GENERATED-ATTACKS.json)。接受PNG只按原byte复制，未裁切、resize、重编码、合成；低alpha软边缘保留。普通兵不套武将立绘身份。
 
@@ -45,10 +45,10 @@
 |29|21/0/17|9×5/m0|generated-accepted|1|9e7597d788f7223c3b70c1b9cc671d5ca8dd675bd3159217205442a024a2eb23|
 |30|22/0/0|25×29/m1|generated-accepted|2|f9ff84420b028318bad01ff7a6b34fab614b0c8674b5ee3240b33e20303a555f|
 |31|22/0/1|19×30/m1|generated-accepted|1|c622bfc3c09a50c0701bca8428bd49fc8c3808f3cb1cb3011f1eae3c3f6c2405|
-|32|22/0/2|24×30/m1|planned|0|未生成/未接受|
-|33|22/0/3|26×30/m1|planned|0|未生成/未接受|
-|34|22/0/4|21×28/m1|planned|0|未生成/未接受|
-|35|22/0/5|32×29/m1|planned|0|未生成/未接受|
+|32|22/0/2|24×30/m1|generated-accepted|2|43ac13927ced4412d0c448b0c8fbb31474108df36086036f57f399e505a6cef2|
+|33|22/0/3|26×30/m1|generated-accepted|1|be4bbe3c52adc12f427846e3f849cf611358579c45f9a2d7d25c14903e4e0143|
+|34|22/0/4|21×28/m1|generated-accepted|1|18f9d1555cd91389b4871fd052cfa0688ce0d28604f9bd99180f1be751f97b64|
+|35|22/0/5|32×29/m1|generated-accepted|1|bbaffff8fe1cbbeddc75119860a158a38c23a01bda46385e6b08d184e4658e5d|
 |36|23/0/0|36×40/m1|generated-accepted|1|8f3fe7eb17025db797c809b95a30b7145ad61aa9e2e48378a51260f1258371d6|
 |37|23/0/1|43×40/m1|generated-accepted|1|c94c6d0aefc46e66c00b9e27d74dd0b1b0d4bbd956f0f8dad0f8e0cc6b094ea2|
 |38|23/0/2|41×40/m1|generated-accepted|2|a0f358e38d44d25c91b7f36927cac535515e7031ef45c1c46220ac4226465753|
@@ -57,14 +57,14 @@
 |41|23/0/5|41×40/m1|generated-accepted|1|f026a84e0a046adb8e5e7912dcea80cced726fa62f7039aeeb7a0adbd36db83f|
 |42|23/0/6|42×40/m1|generated-accepted|1|eefaa4c2d08c7f7d2c2650e06574c9682582a5443108bba0a1ef51bc83c19151|
 |43|24/0/0|25×31/m1|generated-accepted|1|202b8cedb98f63ab8cad4f940fb91b1a8831ee31121562811682441e6d96c5be|
-|44|24/0/1|27×31/m1|planned|0|未生成/未接受|
-|45|24/0/2|27×29/m1|planned|0|未生成/未接受|
-|46|24/0/3|25×29/m1|planned|0|未生成/未接受|
-|47|24/0/4|26×31/m1|planned|0|未生成/未接受|
-|48|24/0/5|30×28/m1|planned|0|未生成/未接受|
-|49|25/0/0|112×40/m0|planned|0|未生成/未接受|
-|50|25/0/1|9×5/m0|planned|0|未生成/未接受|
-|51|25/0/2|10×5/m0|planned|0|未生成/未接受|
+|44|24/0/1|27×31/m1|generated-accepted|2|4d7fd163c56a67f559efbf6bb60087d6c81a66d2abacb9a74d63e0f0d758aa5a|
+|45|24/0/2|27×29/m1|generated-accepted|1|261b951b09959e1c25a99f082681fb37bb7f048b7b38fd4abe02c0708cdc402a|
+|46|24/0/3|25×29/m1|generated-accepted|1|49c48358441d655a59e6a9c5a1e2fc93188adee34008b473864834e4e130618d|
+|47|24/0/4|26×31/m1|generated-accepted|1|9f8c92a6cc1eb1a3e3d229ef7de56757c5d9774ee4989634f7c26cc2d8bdf0c8|
+|48|24/0/5|30×28/m1|generated-accepted|1|48808d56e2eec76ea43755e8ac78a1385c0b90e6c0eaa90ad373651500210772|
+|49|25/0/0|112×40/m0|generated-accepted|1|7752a8e85e07016a7ac607ea316ae7ef65b7cea589702a4486e1b277ca23f398|
+|50|25/0/1|9×5/m0|generated-accepted|1|65ffa9613a86d121ecf239623624eacfecb002770d46f67371f043b890023630|
+|51|25/0/2|10×5/m0|generated-accepted|1|5ed4814043d7af79be700a0a9699adc3b88698ba2c45515df2ebef7e9b8b27e1|
 
 ## 检查口径
 

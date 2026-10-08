@@ -15729,6 +15729,7595 @@
         "resourceLength": 327,
         "resourceFingerprint": "fnv1a32:b37d7407:327"
       }
+    },
+    {
+      "speId": 22,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 0,
+      "endFrm": 9,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:8661714b:4970",
+      "resourceLength": 4970,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 11,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 75,
+          "y": 17,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 17,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 75,
+          "y": 17,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 17,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 75,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 18,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 75,
+          "y": 7,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 8,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 75,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+          "width": 998,
+          "height": 1576,
+          "nativeWidth": 19,
+          "nativeHeight": 30,
+          "logicalWidth": 19,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+          "width": 1167,
+          "height": 1347,
+          "nativeWidth": 26,
+          "nativeHeight": 30,
+          "logicalWidth": 26,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+          "width": 1086,
+          "height": 1448,
+          "nativeWidth": 21,
+          "nativeHeight": 28,
+          "logicalWidth": 21,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+          "width": 1317,
+          "height": 1194,
+          "nativeWidth": 32,
+          "nativeHeight": 29,
+          "logicalWidth": 32,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283"
+        },
+        {
+          "picIndex": 6,
+          "src": "assets/hd-spe/attacks/shared/e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea.png",
+          "width": 1163,
+          "height": 1352,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": "assets/hd-spe/attacks/shared/7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb.png",
+          "width": 1132,
+          "height": 1390,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 22,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 10,
+      "endFrm": 19,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:8661714b:4970",
+      "resourceLength": 4970,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 11,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 75,
+          "y": 17,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 17,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 75,
+          "y": 17,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 17,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 75,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 18,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 75,
+          "y": 7,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 8,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 75,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+          "width": 998,
+          "height": 1576,
+          "nativeWidth": 19,
+          "nativeHeight": 30,
+          "logicalWidth": 19,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+          "width": 1167,
+          "height": 1347,
+          "nativeWidth": 26,
+          "nativeHeight": 30,
+          "logicalWidth": 26,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+          "width": 1086,
+          "height": 1448,
+          "nativeWidth": 21,
+          "nativeHeight": 28,
+          "logicalWidth": 21,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+          "width": 1317,
+          "height": 1194,
+          "nativeWidth": 32,
+          "nativeHeight": 29,
+          "logicalWidth": 32,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": "assets/hd-spe/attacks/shared/0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8.png",
+          "width": 1131,
+          "height": 1391,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": "assets/hd-spe/attacks/shared/67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff.png",
+          "width": 1277,
+          "height": 1232,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 22,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 20,
+      "endFrm": 29,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:8661714b:4970",
+      "resourceLength": 4970,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 11,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 75,
+          "y": 17,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 17,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 75,
+          "y": 17,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 17,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 75,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 18,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 75,
+          "y": 7,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 8,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 75,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+          "width": 998,
+          "height": 1576,
+          "nativeWidth": 19,
+          "nativeHeight": 30,
+          "logicalWidth": 19,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+          "width": 1167,
+          "height": 1347,
+          "nativeWidth": 26,
+          "nativeHeight": 30,
+          "logicalWidth": 26,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+          "width": 1086,
+          "height": 1448,
+          "nativeWidth": 21,
+          "nativeHeight": 28,
+          "logicalWidth": 21,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+          "width": 1317,
+          "height": 1194,
+          "nativeWidth": 32,
+          "nativeHeight": 29,
+          "logicalWidth": 32,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": "assets/hd-spe/attacks/shared/8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688.png",
+          "width": 1338,
+          "height": 1175,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": "assets/hd-spe/attacks/shared/40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7.png",
+          "width": 1119,
+          "height": 1405,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 22,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 30,
+      "endFrm": 39,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:8661714b:4970",
+      "resourceLength": 4970,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 11,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 75,
+          "y": 17,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 17,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 75,
+          "y": 17,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 17,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 75,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 18,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 75,
+          "y": 7,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 8,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 75,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+          "width": 998,
+          "height": 1576,
+          "nativeWidth": 19,
+          "nativeHeight": 30,
+          "logicalWidth": 19,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+          "width": 1167,
+          "height": 1347,
+          "nativeWidth": 26,
+          "nativeHeight": 30,
+          "logicalWidth": 26,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+          "width": 1086,
+          "height": 1448,
+          "nativeWidth": 21,
+          "nativeHeight": 28,
+          "logicalWidth": 21,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+          "width": 1317,
+          "height": 1194,
+          "nativeWidth": 32,
+          "nativeHeight": 29,
+          "logicalWidth": 32,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": "assets/hd-spe/attacks/shared/c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": "assets/hd-spe/attacks/shared/4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 22,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 40,
+      "endFrm": 49,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:8661714b:4970",
+      "resourceLength": 4970,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 11,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 75,
+          "y": 17,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 17,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 75,
+          "y": 17,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 17,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 75,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 18,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 75,
+          "y": 7,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 8,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 75,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+          "width": 998,
+          "height": 1576,
+          "nativeWidth": 19,
+          "nativeHeight": 30,
+          "logicalWidth": 19,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+          "width": 1167,
+          "height": 1347,
+          "nativeWidth": 26,
+          "nativeHeight": 30,
+          "logicalWidth": 26,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+          "width": 1086,
+          "height": 1448,
+          "nativeWidth": 21,
+          "nativeHeight": 28,
+          "logicalWidth": 21,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+          "width": 1317,
+          "height": 1194,
+          "nativeWidth": 32,
+          "nativeHeight": 29,
+          "logicalWidth": 32,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": "assets/hd-spe/attacks/shared/99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f.png",
+          "width": 1189,
+          "height": 1323,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": "assets/hd-spe/attacks/shared/3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8.png",
+          "width": 1178,
+          "height": 1335,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 22,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 50,
+      "endFrm": 59,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:8661714b:4970",
+      "resourceLength": 4970,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 11,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 75,
+          "y": 17,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 17,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 75,
+          "y": 17,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 17,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 75,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 18,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 75,
+          "y": 7,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 8,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 75,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 2,
+          "y": 17,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 10,
+          "y": 17,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 17,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 17,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 40,
+          "y": 17,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 50,
+          "y": 17,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "5cc269bcf13c99b693e0200280138b4f6a877b623ff1d485ae941526497c6a1f"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7.png",
+          "width": 998,
+          "height": 1576,
+          "nativeWidth": 19,
+          "nativeHeight": 30,
+          "logicalWidth": 19,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "9af2a64217bf356ad9530c80a8ac3c298c1e6283cf83e594479f0ba72d6ed2d7"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "56b8bcf3007fc25bb4e671186599407b2c27b238a7bb21a303b335dc8015abba"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383.png",
+          "width": 1167,
+          "height": 1347,
+          "nativeWidth": 26,
+          "nativeHeight": 30,
+          "logicalWidth": 26,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "5f1c235c1e31150eb4610bedba5e74cd43de7d3c78b8619543c3d181dc394383"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b.png",
+          "width": 1086,
+          "height": 1448,
+          "nativeWidth": 21,
+          "nativeHeight": 28,
+          "logicalWidth": 21,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "b55bf1020466c8200e6bc22118f08f784a6a841900c589ea2caeab7051a2877b"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283.png",
+          "width": 1317,
+          "height": 1194,
+          "nativeWidth": 32,
+          "nativeHeight": 29,
+          "logicalWidth": 32,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ecc307a2768a5abfec8c1f01e526900d55ef0a612b2e6aa25832a76a10803283"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": "assets/hd-spe/attacks/shared/1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6.png",
+          "width": 1142,
+          "height": 1378,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": "assets/hd-spe/attacks/shared/738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9.png",
+          "width": 1127,
+          "height": 1396,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 24,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 0,
+      "endFrm": 9,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:e0351443:5170",
+      "resourceLength": 5170,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 10,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 73,
+          "y": 16,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 15,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 72,
+          "y": 15,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 16,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 72,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 17,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 72,
+          "y": 5,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 6,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 72,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+          "width": 1126,
+          "height": 1397,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+          "width": 1171,
+          "height": 1343,
+          "nativeWidth": 27,
+          "nativeHeight": 31,
+          "logicalWidth": 27,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+          "width": 1312,
+          "height": 1199,
+          "nativeWidth": 27,
+          "nativeHeight": 29,
+          "logicalWidth": 27,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+          "width": 1165,
+          "height": 1350,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+          "width": 1179,
+          "height": 1334,
+          "nativeWidth": 26,
+          "nativeHeight": 31,
+          "logicalWidth": 26,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+          "width": 1298,
+          "height": 1212,
+          "nativeWidth": 30,
+          "nativeHeight": 28,
+          "logicalWidth": 30,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893"
+        },
+        {
+          "picIndex": 6,
+          "src": "assets/hd-spe/attacks/shared/e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea.png",
+          "width": 1163,
+          "height": 1352,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": "assets/hd-spe/attacks/shared/7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb.png",
+          "width": 1132,
+          "height": 1390,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 24,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 10,
+      "endFrm": 19,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:e0351443:5170",
+      "resourceLength": 5170,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 10,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 73,
+          "y": 16,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 15,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 72,
+          "y": 15,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 16,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 72,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 17,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 72,
+          "y": 5,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 6,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 72,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+          "width": 1126,
+          "height": 1397,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+          "width": 1171,
+          "height": 1343,
+          "nativeWidth": 27,
+          "nativeHeight": 31,
+          "logicalWidth": 27,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+          "width": 1312,
+          "height": 1199,
+          "nativeWidth": 27,
+          "nativeHeight": 29,
+          "logicalWidth": 27,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+          "width": 1165,
+          "height": 1350,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+          "width": 1179,
+          "height": 1334,
+          "nativeWidth": 26,
+          "nativeHeight": 31,
+          "logicalWidth": 26,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+          "width": 1298,
+          "height": 1212,
+          "nativeWidth": 30,
+          "nativeHeight": 28,
+          "logicalWidth": 30,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": "assets/hd-spe/attacks/shared/0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8.png",
+          "width": 1131,
+          "height": 1391,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": "assets/hd-spe/attacks/shared/67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff.png",
+          "width": 1277,
+          "height": 1232,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 24,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 20,
+      "endFrm": 29,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:e0351443:5170",
+      "resourceLength": 5170,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 10,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 73,
+          "y": 16,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 15,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 72,
+          "y": 15,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 16,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 72,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 17,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 72,
+          "y": 5,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 6,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 72,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+          "width": 1126,
+          "height": 1397,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+          "width": 1171,
+          "height": 1343,
+          "nativeWidth": 27,
+          "nativeHeight": 31,
+          "logicalWidth": 27,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+          "width": 1312,
+          "height": 1199,
+          "nativeWidth": 27,
+          "nativeHeight": 29,
+          "logicalWidth": 27,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+          "width": 1165,
+          "height": 1350,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+          "width": 1179,
+          "height": 1334,
+          "nativeWidth": 26,
+          "nativeHeight": 31,
+          "logicalWidth": 26,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+          "width": 1298,
+          "height": 1212,
+          "nativeWidth": 30,
+          "nativeHeight": 28,
+          "logicalWidth": 30,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": "assets/hd-spe/attacks/shared/8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688.png",
+          "width": 1338,
+          "height": 1175,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": "assets/hd-spe/attacks/shared/40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7.png",
+          "width": 1119,
+          "height": 1405,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 24,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 30,
+      "endFrm": 39,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:e0351443:5170",
+      "resourceLength": 5170,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 10,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 73,
+          "y": 16,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 15,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 72,
+          "y": 15,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 16,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 72,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 17,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 72,
+          "y": 5,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 6,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 72,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+          "width": 1126,
+          "height": 1397,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+          "width": 1171,
+          "height": 1343,
+          "nativeWidth": 27,
+          "nativeHeight": 31,
+          "logicalWidth": 27,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+          "width": 1312,
+          "height": 1199,
+          "nativeWidth": 27,
+          "nativeHeight": 29,
+          "logicalWidth": 27,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+          "width": 1165,
+          "height": 1350,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+          "width": 1179,
+          "height": 1334,
+          "nativeWidth": 26,
+          "nativeHeight": 31,
+          "logicalWidth": 26,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+          "width": 1298,
+          "height": 1212,
+          "nativeWidth": 30,
+          "nativeHeight": 28,
+          "logicalWidth": 30,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": "assets/hd-spe/attacks/shared/c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725.png",
+          "width": 1164,
+          "height": 1351,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": "assets/hd-spe/attacks/shared/4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0.png",
+          "width": 1122,
+          "height": 1402,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 24,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 40,
+      "endFrm": 49,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:e0351443:5170",
+      "resourceLength": 5170,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 10,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 73,
+          "y": 16,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 15,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 72,
+          "y": 15,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 16,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 72,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 17,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 72,
+          "y": 5,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 6,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 72,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+          "width": 1126,
+          "height": 1397,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+          "width": 1171,
+          "height": 1343,
+          "nativeWidth": 27,
+          "nativeHeight": 31,
+          "logicalWidth": 27,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+          "width": 1312,
+          "height": 1199,
+          "nativeWidth": 27,
+          "nativeHeight": 29,
+          "logicalWidth": 27,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+          "width": 1165,
+          "height": 1350,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+          "width": 1179,
+          "height": 1334,
+          "nativeWidth": 26,
+          "nativeHeight": 31,
+          "logicalWidth": 26,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+          "width": 1298,
+          "height": 1212,
+          "nativeWidth": 30,
+          "nativeHeight": 28,
+          "logicalWidth": 30,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": "assets/hd-spe/attacks/shared/99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f.png",
+          "width": 1189,
+          "height": 1323,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": "assets/hd-spe/attacks/shared/3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8.png",
+          "width": 1178,
+          "height": 1335,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 24,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 50,
+      "endFrm": 59,
+      "count": 60,
+      "picmax": 18,
+      "resourceFingerprint": "fnv1a32:e0351443:5170",
+      "resourceLength": 5170,
+      "units": [
+        {
+          "frame": 0,
+          "x": 75,
+          "y": 9,
+          "picIndex": 6
+        },
+        {
+          "frame": 1,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 5,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 6,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 7,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 8,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 9,
+          "x": 85,
+          "y": 10,
+          "picIndex": 7
+        },
+        {
+          "frame": 10,
+          "x": 73,
+          "y": 16,
+          "picIndex": 9
+        },
+        {
+          "frame": 11,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 13,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 15,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 16,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 17,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 18,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 19,
+          "x": 85,
+          "y": 15,
+          "picIndex": 8
+        },
+        {
+          "frame": 20,
+          "x": 72,
+          "y": 15,
+          "picIndex": 11
+        },
+        {
+          "frame": 21,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 22,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 23,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 24,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 25,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 26,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 27,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 28,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 29,
+          "x": 85,
+          "y": 16,
+          "picIndex": 10
+        },
+        {
+          "frame": 30,
+          "x": 72,
+          "y": 16,
+          "picIndex": 16
+        },
+        {
+          "frame": 31,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 32,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 33,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 34,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 35,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 36,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 37,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 38,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 39,
+          "x": 85,
+          "y": 17,
+          "picIndex": 17
+        },
+        {
+          "frame": 40,
+          "x": 72,
+          "y": 5,
+          "picIndex": 12
+        },
+        {
+          "frame": 41,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 42,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 43,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 44,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 45,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 46,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 47,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 48,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 49,
+          "x": 85,
+          "y": 6,
+          "picIndex": 13
+        },
+        {
+          "frame": 50,
+          "x": 72,
+          "y": 15,
+          "picIndex": 15
+        },
+        {
+          "frame": 51,
+          "x": 7,
+          "y": 15,
+          "picIndex": 0
+        },
+        {
+          "frame": 52,
+          "x": 7,
+          "y": 15,
+          "picIndex": 1
+        },
+        {
+          "frame": 53,
+          "x": 15,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 54,
+          "x": 20,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 55,
+          "x": 25,
+          "y": 15,
+          "picIndex": 2
+        },
+        {
+          "frame": 56,
+          "x": 30,
+          "y": 15,
+          "picIndex": 3
+        },
+        {
+          "frame": 57,
+          "x": 35,
+          "y": 15,
+          "picIndex": 4
+        },
+        {
+          "frame": 58,
+          "x": 45,
+          "y": 15,
+          "picIndex": 5
+        },
+        {
+          "frame": 59,
+          "x": 85,
+          "y": 15,
+          "picIndex": 14
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427.png",
+          "width": 1126,
+          "height": 1397,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "f25e5f8613348f5405ff5a109fcb22f41fca6cbc41516a0c1cdf1bf0b6b2d427"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e.png",
+          "width": 1171,
+          "height": 1343,
+          "nativeWidth": 27,
+          "nativeHeight": 31,
+          "logicalWidth": 27,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "c1811052f772b3488275d0258826e2f3cce1f19dac386d5e43f011a4ed5a254e"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8.png",
+          "width": 1312,
+          "height": 1199,
+          "nativeWidth": 27,
+          "nativeHeight": 29,
+          "logicalWidth": 27,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "97723b19be727401352088e29510261342b53355077785d7120e69cb8faca7b8"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/attacks/shared/ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024.png",
+          "width": 1165,
+          "height": 1350,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "ea933c0e8dfac70277e516284291adf8c16598dddd576bd11e635ce1168a2024"
+        },
+        {
+          "picIndex": 4,
+          "src": "assets/hd-spe/attacks/shared/cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41.png",
+          "width": 1179,
+          "height": 1334,
+          "nativeWidth": 26,
+          "nativeHeight": 31,
+          "logicalWidth": 26,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "cfbdba76fbaeb1ceb32be3c03366ccc4ceb205f73fe4d7140913c909e2e68a41"
+        },
+        {
+          "picIndex": 5,
+          "src": "assets/hd-spe/attacks/shared/4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893.png",
+          "width": 1298,
+          "height": 1212,
+          "nativeWidth": 30,
+          "nativeHeight": 28,
+          "logicalWidth": 30,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "4d48a3be6a994b4354ac00a99786bf95aa3e06020219f92f4f473d4ce80eb893"
+        },
+        {
+          "picIndex": 6,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 36,
+          "logicalWidth": 31,
+          "logicalHeight": 36,
+          "mask": 1,
+          "nativeSlotSha256": "e9ab1d469aa2058f5657e9b89a3c0df81b757ea41e2b4efc5eef42fc170d60ea"
+        },
+        {
+          "picIndex": 7,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 31,
+          "nativeHeight": 38,
+          "logicalWidth": 31,
+          "logicalHeight": 38,
+          "mask": 1,
+          "nativeSlotSha256": "7217d355a1b666eb8c0863ac7e52fbd000a65d132ba908eda3f65ab32736beeb"
+        },
+        {
+          "picIndex": 8,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 26,
+          "nativeHeight": 32,
+          "logicalWidth": 26,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"
+        },
+        {
+          "picIndex": 9,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 29,
+          "nativeHeight": 28,
+          "logicalWidth": 29,
+          "logicalHeight": 28,
+          "mask": 1,
+          "nativeSlotSha256": "67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"
+        },
+        {
+          "picIndex": 10,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 33,
+          "nativeHeight": 29,
+          "logicalWidth": 33,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "8b22f5eba8fd68abbf5de495636b25e8ffa4af943dc4793114cd1f113456b688"
+        },
+        {
+          "picIndex": 11,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 23,
+          "nativeHeight": 29,
+          "logicalWidth": 23,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"
+        },
+        {
+          "picIndex": 12,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 36,
+          "nativeHeight": 40,
+          "logicalWidth": 36,
+          "logicalHeight": 40,
+          "mask": 1,
+          "nativeSlotSha256": "99e43a8b0280b6b808dc7ae983e2c72a6c3b237d79d7e8eaddf8d0516907b33f"
+        },
+        {
+          "picIndex": 13,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 38,
+          "nativeHeight": 43,
+          "logicalWidth": 38,
+          "logicalHeight": 43,
+          "mask": 1,
+          "nativeSlotSha256": "3db8cecd11e37c7fa447ada09b6ba108257b3b6566e5c369662a0c650d4a0ec8"
+        },
+        {
+          "picIndex": 14,
+          "src": "assets/hd-spe/attacks/shared/1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6.png",
+          "width": 1142,
+          "height": 1378,
+          "nativeWidth": 29,
+          "nativeHeight": 35,
+          "logicalWidth": 29,
+          "logicalHeight": 35,
+          "mask": 1,
+          "nativeSlotSha256": "1cf6f06ed1601a6b8e91d445bedec2a889ad72c1ff59394ee0f0db72d96e19c6"
+        },
+        {
+          "picIndex": 15,
+          "src": "assets/hd-spe/attacks/shared/738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9.png",
+          "width": 1127,
+          "height": 1396,
+          "nativeWidth": 25,
+          "nativeHeight": 31,
+          "logicalWidth": 25,
+          "logicalHeight": 31,
+          "mask": 1,
+          "nativeSlotSha256": "738f90df99eb2105c190dfd73162f785ea3d9ef7003432e0039d3fd42c94dfb9"
+        },
+        {
+          "picIndex": 16,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 25,
+          "nativeHeight": 29,
+          "logicalWidth": 25,
+          "logicalHeight": 29,
+          "mask": 1,
+          "nativeSlotSha256": "c06c188d40840a92d263921159c46e728c3d32d1e50709455de9b6e059b0d725"
+        },
+        {
+          "picIndex": 17,
+          "src": null,
+          "width": null,
+          "height": null,
+          "nativeWidth": 24,
+          "nativeHeight": 30,
+          "logicalWidth": 24,
+          "logicalHeight": 30,
+          "mask": 1,
+          "nativeSlotSha256": "4d45f75fd3e6523f222488bb95ef682f712bb091c5b97c3ff5108dc049643ea0"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
+    },
+    {
+      "speId": 25,
+      "resourceIndex": 0,
+      "kind": 3,
+      "startFrm": 0,
+      "endFrm": 4,
+      "count": 5,
+      "picmax": 3,
+      "resourceFingerprint": "fnv1a32:a7453c61:632",
+      "resourceLength": 632,
+      "units": [
+        {
+          "frame": 0,
+          "x": 8,
+          "y": 8,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 41,
+          "y": 20,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 51,
+          "y": 12,
+          "picIndex": 1
+        },
+        {
+          "frame": 3,
+          "x": 71,
+          "y": 24,
+          "picIndex": 2
+        },
+        {
+          "frame": 4,
+          "x": 8,
+          "y": 8,
+          "picIndex": 0
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/attacks/shared/6515bbedb4dbc4717c2beda2a1b3e93962a2c22ab4c9146130ad648ce29fe45e.png",
+          "width": 2098,
+          "height": 749,
+          "nativeWidth": 112,
+          "nativeHeight": 40,
+          "logicalWidth": 112,
+          "logicalHeight": 40,
+          "mask": 0,
+          "nativeSlotSha256": "6515bbedb4dbc4717c2beda2a1b3e93962a2c22ab4c9146130ad648ce29fe45e"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/attacks/shared/d54e1f602bf2c28318129062de7056367fc4643f2d64a760489e69499dbb91fe.png",
+          "width": 1681,
+          "height": 936,
+          "nativeWidth": 9,
+          "nativeHeight": 5,
+          "logicalWidth": 9,
+          "logicalHeight": 5,
+          "mask": 0,
+          "nativeSlotSha256": "d54e1f602bf2c28318129062de7056367fc4643f2d64a760489e69499dbb91fe"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/attacks/shared/717c9528555aca171482a84e059f8d7fcaf6974a0a80fc7f03e68678d586c198.png",
+          "width": 1774,
+          "height": 887,
+          "nativeWidth": 10,
+          "nativeHeight": 5,
+          "logicalWidth": 10,
+          "logicalHeight": 5,
+          "mask": 0,
+          "nativeSlotSha256": "717c9528555aca171482a84e059f8d7fcaf6974a0a80fc7f03e68678d586c198"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
     }
   ]
 }
