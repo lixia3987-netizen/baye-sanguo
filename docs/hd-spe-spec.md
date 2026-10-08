@@ -143,3 +143,12 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 标准skill12使用资源36/index0/kind2/0..7/count8/picmax2，payload1084与 `fnv1a32:6d62e7a8:1084` 经实际LIB核对。两个原始内置生成不透明1254×1254 PNG映射到原生64×64窗口(48,16)，完整8单位交替两槽，20/20延迟由原生执行。旧41项manifest不变；NUM15仅使用实际12×16/10槽/327bytes来源，前端不计算伤害、补数字或改变等待。
 
 真实P3韩玄/长沙→桂阳玩家王朗技能12对河川陈应成功：MP66→46、敌兵800→400；8电影和21结果读回全HD，28callback+1held独立核对全160×96原生像素。标签取实际GBK消费字节，数字400保留真实多次上移与opaque足迹，原有50tick等待后owner正常退休，结果期零输入。电影窗口外中性舞台与结果窗口外LCD各自限定，不推定全战场背景、其它计谋、Mod或移动验收。首个汉中路线0cast/自然阵亡另存，[完整证据](validation/m4-water-20261009.json)。
+
+
+## FENG39 奇门状态计谋
+
+标准skill20奇门使用39/index0/kind2/0..7/count8/picmax2/1084bytes，指纹fnv1a32:6b0ebc5a:1084。八单位x/y0、cdelay/ndelay25，槽0/1交替；两张1254×1254原始不透明PNG映射原生64×64窗口(48,16)，现有130×64画布相对偏移33,0，不增加动画时钟。旧42entry和native/JS/CSS保持。
+
+原生aim1/state4/power0/destroy0/useMP20。现有NUM15 metadata用于manifest校验和预热；本次实际state-only调用没有数字、标签或50tick数字等待，电影结束后真实状态报告接管。最终真实玩家徐庶对刘琦MP82→62、兵力100保持/state0→4，8次原生timer读回全HD并独立核对160×96。共享39的技能14/15未做实际施法验收；STATE_QM4不是Stone6或DS3移动限制。
+
+可重复入口npm run test:qimen-runtime -- --recruit --search-orders 8 --search-months 24。24/8是独立私局搜寻预算，真实身份/归属/菜单/AIM/MP仍由引擎确认；随机拒绝和脚本错误不能计作高清通过。最终执行与发布source字节相同，所有尝试与精确PNG保存范围见[奇门验收](validation/m4-qimen-20261009.json)。
