@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "recordedAt": "2026-10-09T12:42:27.598Z",
+ "recordedAt": "2026-10-09T13:33:09.008Z",
  "status": "pending",
  "accepted": false,
  "preparationAccepted": false,
@@ -83,14 +83,14 @@
   "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
  },
  "history": {
-  "actualFailedPreparations": 16,
-  "attempts": "v1..v8 and v10..v17",
+  "actualFailedPreparations": 17,
+  "attempts": "v1..v8 and v10..v18",
   "v9CandidateNotRun": true,
   "v8CompleteResultMissing": true,
   "pendingConfiguration": {
-   "path": "build/r21-validation-record-inputs-v11-pending.json",
-   "bytes": 15696,
-   "sha256": "3479448b2104e35c1bfc166bbae9140222a113707991e7ba5dd312db4606a568"
+   "path": "build/r21-validation-record-inputs-v12-pending.json",
+   "bytes": 17004,
+   "sha256": "95e0ba9130e49405b300b5271b1d4c234428d38ae32f2f5f6dd9a8af3831fa2c"
   },
   "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
   "requiredFailureIdsComplete": true,
@@ -335,5 +335,118 @@
    "user8080HttpStatus": 200
   }
  },
- "installedEngineScope": "Installed engine remains the previous accepted R20 tuple. R21 quartet is staged only; no R21 installed or WOOD HD claim."
+ "installedEngineScope": "Installed engine remains the previous accepted R20 tuple. R21 quartet is staged only; no R21 installed or WOOD HD claim.",
+ "actualPreparationV18": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "resume": {
+   "directory": "build/r21-route-actual-v17",
+   "checkpointTag": "month-012",
+   "date": {
+    "year": 231,
+    "month": 4
+   },
+   "originalPublicSaveFiles": [
+    {
+     "path": "build/r21-route-actual-v17/native-month-012-sango0.sav",
+     "bytes": 8221,
+     "sha256": "0b170f18484312cb325fba0db4fa43a3e971cf1417524fb4bc901df385a6e474"
+    },
+    {
+     "path": "build/r21-route-actual-v17/native-month-012-sango1.sav",
+     "bytes": 4840,
+     "sha256": "2ff737d52cbe5a6119629c3f7d5cfa24cb26c7b547cf68f6a750544cd193dcce"
+    }
+   ]
+  },
+  "result": {
+   "path": "build/r21-route-actual-v18/result.json",
+   "bytes": 12356002,
+   "sha256": "bdd2698eddcc38d71d330f6bd24576fcca60c35445e74bb3062c6eebdf72cc10"
+  },
+  "log": {
+   "path": "build/r21-route-actual-v18.log",
+   "bytes": 1003,
+   "sha256": "fad7d96f52aeffa9109c20ccedb8fafea8474216e312574ca59a2759297a1c72"
+  },
+  "executedDriver": {
+   "path": "build/r21-route-driver-v18.mjs",
+   "bytes": 255398,
+   "sha256": "bb1a220f5bb0b840c1f795ce3512edbbb48741caa851382c7ed2e5a35bb20e59"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v18-root.mjs",
+   "bytes": 2918,
+   "sha256": "c81be43842a428a2fd98050a098ba3a229bc385b4ea252af356e0475c0228c7d"
+  },
+  "isolation": {
+   "path": "build/r21-route-actual-v18-isolation.json",
+   "bytes": 2159,
+   "sha256": "12031aed14fe045ba80ed4d54a76f7c88eb56a8e95edcb06768d845175864814"
+  },
+  "sourceVerification": {
+   "path": "build/r21-route-actual-v18/source-verification.json",
+   "bytes": 416470,
+   "sha256": "fc8370fec0e6f81b60cc8f88ab7e535d0302cdb8d38ea12182e55bca8c3a66cf",
+   "count": 1169,
+   "drift": 0,
+   "added": 0
+  },
+  "independentAudit": {
+   "path": "build/r21-v18-terminal-independent-audit.json",
+   "bytes": 26201,
+   "sha256": "7378b0c389e590ce700d264c3fd7108ee1f01aedefe0dc96ced312987fd8cbc4"
+  },
+  "counts": {
+   "inlineCampaignObservations": 69,
+   "quantityDoubleReadSingleEnterAcks": 3,
+   "queuedTransports": 1,
+   "actualMonths": 1,
+   "recordedDeliveryReports": 0,
+   "treat": 0,
+   "canvassOrders": 0,
+   "newPublicNativeSavePairs": 0,
+   "woodAttempts": 0
+  },
+  "finiteTransport": {
+   "sourceCity": 16,
+   "targetCity": 20,
+   "personIndex": 20,
+   "order": 13,
+   "slot": 0,
+   "nativeDistance": 3,
+   "food": 0,
+   "money": 1000,
+   "arms": 0,
+   "sourceMoney": [
+    10821,
+    9821
+   ],
+   "targetMoneyBeforeAndAfterMonth": [
+    856,
+    1856
+   ],
+   "actualReturnedToSource": true,
+   "actualOrderRetired": true,
+   "scope": "Original public inputs, cargo order, one strategy month, net Money and AddPerson/order retirement were independently verified. These month-end effects do not replace the missing pre-ConditionUpdate delivery/loss report and ACK."
+  },
+  "blocker": {
+   "line": 1523,
+   "recordedCampaignReportsKeyPresent": false,
+   "reason": "Classic mode does not open the HD report dialog. The driver observed only matching HD-dialog reports; the actual native report ended without a retained delivery snapshot or ACK. Overall transport evidence and preparation remain rejected."
+  },
+  "cleanup": {
+   "privateRunnerPid": 217072,
+   "privateChromePid": 220404,
+   "httpPort": 11934,
+   "cdpPort": 11935,
+   "profileGone": true,
+   "privateListenersGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200
+  },
+  "scope": "Historical rejected v18 attempt. No new save, Treat, Canvass, WOOD cast or installed-engine acceptance."
+ }
 }
