@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "recordedAt": "2026-10-09T14:35:49.877Z",
+ "recordedAt": "2026-10-09T15:34:35.305Z",
  "status": "pending",
  "accepted": false,
  "preparationAccepted": false,
@@ -83,14 +83,14 @@
   "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
  },
  "history": {
-  "actualFailedPreparations": 18,
-  "attempts": "v1..v8 and v10..v19",
+  "actualFailedPreparations": 19,
+  "attempts": "v1..v8 and v10..v20",
   "v9CandidateNotRun": true,
   "v8CompleteResultMissing": true,
   "pendingConfiguration": {
-   "path": "build/r21-validation-record-inputs-v13-pending.json",
-   "bytes": 18420,
-   "sha256": "fa1554ed75b1cbf3a8a401a8e11e5515b309e90a75c3046d286bbc248f040b7c"
+   "path": "build/r21-validation-record-inputs-v14-pending.json",
+   "bytes": 19677,
+   "sha256": "b19e6c7020cf2ebb7c1c37309b80a2aff24886cae1a6cc982960d52c6638a3db"
   },
   "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
   "requiredFailureIdsComplete": true,
@@ -111,6 +111,12 @@
     "sha256": "c137d27451aa47b27059b0f1da265fad8b14a74e88a786e2efa7c7c5dbface78"
    },
    "reason": "Requires accepted terminal preparation; v17 failed and cannot authorize cast."
+  },
+  "latestAttempt": {
+   "id": "v20",
+   "status": "terminal-pending-military-supply",
+   "exitCode": 1,
+   "castAuthorized": false
   }
  },
  "artifactBoundary": {
@@ -674,5 +680,338 @@
   "castWrapperExecuted": false,
   "acceptanceReaderExecuted": false,
   "scope": "Finite transportation, loyalty maintenance,22months/32Canvass/16public save pairs passed independently. Actual source-city defense loss rejects overall preparation and WOOD; no skill was attempted and no R21 quartet was installed. Raw workspace evidence remains unarchived."
+ },
+ "actualPreparationV20": {
+  "status": "terminal-pending-military-supply",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "woodHdAccepted": false,
+  "resume": {
+   "directory": "build/r21-route-actual-v19",
+   "tag": "month-018-strengthened",
+   "date": {
+    "year": 232,
+    "month": 10
+   },
+   "originalPair": true
+  },
+  "actual": {
+   "governanceOrders": 1,
+   "donorTreats": 155,
+   "treatMoney": 15500,
+   "monthlyTreatCounts": [
+    100,
+    55
+   ],
+   "normalMonths": 2,
+   "finishedDate": {
+    "year": 232,
+    "month": 12
+   },
+   "recruitmentOrders": 13,
+   "recruitedArms": 11290,
+   "recruitment": [
+    {
+     "cityIndex": 9,
+     "worker": 24,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 32,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 54,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 64,
+     "arms": 880
+    },
+    {
+     "cityIndex": 10,
+     "worker": 9,
+     "arms": 1260
+    },
+    {
+     "cityIndex": 10,
+     "worker": 41,
+     "arms": 1260
+    },
+    {
+     "cityIndex": 9,
+     "worker": 24,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 32,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 54,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 55,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 64,
+     "arms": 410
+    },
+    {
+     "cityIndex": 10,
+     "worker": 9,
+     "arms": 1260
+    },
+    {
+     "cityIndex": 10,
+     "worker": 41,
+     "arms": 60
+    }
+   ],
+   "allocations": 8,
+   "allocatedArms": 11990,
+   "allocatedPeople": [
+    {
+     "cityIndex": 9,
+     "personIndex": 30,
+     "arms": 1790
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 8,
+     "arms": 1450
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 17,
+     "arms": 1530
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 69,
+     "arms": 1450
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 70,
+     "arms": 1630
+    },
+    {
+     "cityIndex": 10,
+     "personIndex": 11,
+     "arms": 1570
+    },
+    {
+     "cityIndex": 10,
+     "personIndex": 10,
+     "arms": 1320
+    },
+    {
+     "cityIndex": 10,
+     "personIndex": 38,
+     "arms": 1250
+    }
+   ],
+   "moveOrders": 0,
+   "arrivals": 0,
+   "canvassOrders": 0
+  },
+  "food": {
+   "actualTargetFood": 1139,
+   "preMoveRequired": 1407,
+   "plannedArrivedArmy": 13339,
+   "actualIncomingAllocatedArms": 11990,
+   "monthlyBudget": 266,
+   "battleFoodPerDay": 38,
+   "battleBoutBudget": 30,
+   "scope": "Conservative harness floor rejects movement; this is not a native hard requirement. Eight allocated units remain in actual donor cities; planned13339 is not an arrived army or a victory.",
+   "requiredFloorIsHarnessBudget": true
+  },
+  "latestOriginalPublicSave": {
+   "tag": "v20-military-pending",
+   "date": {
+    "year": 232,
+    "month": 12
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v20/native-v20-military-pending-sango0.sav",
+     "bytes": 8221,
+     "sha256": "c5f7352b2823bcd66a1ee46a5e48970948bc0d773a54e0f5bafcf358c11c3839"
+    },
+    {
+     "path": "build/r21-route-actual-v20/native-v20-military-pending-sango1.sav",
+     "bytes": 4840,
+     "sha256": "b1ceaab515789169b5f2c2daf0c91e3cb1d54537da89468925c9ca1f5fa576b7"
+    }
+   ],
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "completeIndependentAbi": true,
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "resume-strengthened",
+    "date": {
+     "year": 232,
+     "month": 10
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-resume-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "da9362d0c0a39784bcfef5f1fc8acfb471f6bf15adab56d2fb23b8633807dae4"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-resume-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b76ed640c23aa08e006e1c352ad0cc18d1542dfabb102a1367aac8fd9e540d97"
+     }
+    ]
+   },
+   {
+    "tag": "v20-assembly-month-01",
+    "date": {
+     "year": 232,
+     "month": 11
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-01-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b10297363d7395a6abff1a5c95ad5cfb7b55a8792db48fba36d10b9ee5108cb0"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-01-sango1.sav",
+      "bytes": 4840,
+      "sha256": "bd2749ae81c565e1afce9e5bf403a711b19a12478c843bf187c93ca32fe3bd22"
+     }
+    ]
+   },
+   {
+    "tag": "v20-assembly-month-02",
+    "date": {
+     "year": 232,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-02-sango0.sav",
+      "bytes": 8221,
+      "sha256": "82b24251b05529edd1cec7b8303c49ff66745aac8a5146044182a5bdf1d76f15"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-02-sango1.sav",
+      "bytes": 4840,
+      "sha256": "757f24f8f86e58f55e4dfca7acc566304fac0d8118fcef65a06b8272fcd40de0"
+     }
+    ]
+   },
+   {
+    "tag": "v20-military-pending",
+    "date": {
+     "year": 232,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-v20-military-pending-sango0.sav",
+      "bytes": 8221,
+      "sha256": "c5f7352b2823bcd66a1ee46a5e48970948bc0d773a54e0f5bafcf358c11c3839"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-v20-military-pending-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b1ceaab515789169b5f2c2daf0c91e3cb1d54537da89468925c9ca1f5fa576b7"
+     }
+    ]
+   }
+  ],
+  "sourceVerification": {
+   "count": 1172,
+   "drift": 0,
+   "added": 0,
+   "runnerMatch": true,
+   "proof": {
+    "path": "build/r21-route-actual-v20/source-verification.json",
+    "bytes": 417528,
+    "sha256": "abbca4f6c7a8cb1fa4656aa3126195409345a49db86af5411d142fb0fb27b41b"
+   },
+   "native128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "scope": "Exact current production source and staged native quartet for this actual run; no engine rebuild/install or real WOOD cast."
+  },
+  "result": {
+   "path": "build/r21-route-actual-v20/result.json",
+   "bytes": 141204488,
+   "sha256": "7e6d811008341cc379d3d2af14974251ee5025b7a04a3956e8e2c4958582f19b"
+  },
+  "log": {
+   "path": "build/r21-route-actual-v20.log",
+   "bytes": 1328,
+   "sha256": "7c54aa3167dce5aaf8976a6043aa62e5ba6ea67020d6a9e97e3e04ba5f47ca24"
+  },
+  "isolationProof": {
+   "path": "build/r21-route-actual-v20-isolation.json",
+   "bytes": 2602,
+   "sha256": "0f83d08038b0e168c048cc5d0c7f475e9009e0991951fe5a39dc0f75b6ee587f"
+  },
+  "runner": {
+   "path": "build/r21-route-driver-v20-final.mjs",
+   "bytes": 291293,
+   "sha256": "51861dbffe9855e7b56fdfffcdb500f595a6fcd1f1a9e0f558b3e950e82e30f4"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v20-root.mjs",
+   "bytes": 3804,
+   "sha256": "92c75b0b293b0479f043c5989f226e16680632a2f9a6c413de89f1cc7cb856b6"
+  },
+  "independentAudit": {
+   "path": "build/r21-v20-terminal-independent-audit.json",
+   "bytes": 83237,
+   "sha256": "3c384fb98f327f2a5b59fcf792b20b549670f463e1463d92ba316d2e7c07d301"
+  },
+  "cleanup": {
+   "privateChromeExited": true,
+   "privateHttpClosed": true,
+   "profileGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200,
+   "user8080Touched": false
+  },
+  "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false,
+  "scope": "155 actual donor Treat,13 actual recruit orders and8 native GetArmy allocations are preserved progress. Missing recipient Food stops before any MOVE; no qualified caster, military arrival, WOOD cast or HD acceptance is implied. Continue with real resource transport from this exact completed public232Dec pair.",
+  "independentAuditAddendum": {
+   "path": "build/r21-v20-terminal-independent-audit-addendum.json",
+   "bytes": 1783,
+   "sha256": "e7d6b787e34afa9049a7115c14d3cb4267d24297b59c6de884344295e2310bfd"
+  }
+ },
+ "currentSourceTestReference": {
+  "record": {
+   "path": "docs/validation/m4-aid-native-20261009.json",
+   "bytes": 12473,
+   "sha256": "e8250ad229688ee40d90144c893b721e1ff4d83e65a382e79f1cc03362b12851"
+  },
+  "tests": 1081,
+  "pass": 1081,
+  "fail": 0,
+  "skipped": 0,
+  "scope": "Separate actual current-source fixture regression. Original09:00 WOOD1021 execution remains historical and unchanged;1081 does not accept a WOOD player cast."
  }
 }
