@@ -199,3 +199,5 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 本节只声明素材/源接入与离线专项范围。真实获取人物、17/29施放、高清电影/数字/等待、经典/缺图回退均未由本次静态或VM证据证明；不代表完整HD战场、完整Mod或移动端完成。机器entry定义需随生成源持久保留，不能只手改生成后的manifest。
 
 `npm run generate:aid-manifest` 从 `scripts/specs/hd-spe-aid.json`、实际LIB与两张原始PNG重建共享entry，校验原生载荷、图片SHA/CRC和不透明格式。默认输出 `build/hd-spe-aid-manifest.json` 供检查，拒绝覆盖已有输出或直接写生产文件；保留base中的全部无关对象，拒绝不一致或重复的41项。生成后的本批49项清单与生产manifest逐字节一致。新增54项离线桥/消费/联合检查纳入完整1075项运行，真实玩家施放另验。
+
+`scripts/test-hd-aid-engine.mjs` 将真实CountSklHurt、FgtJNAction/_CommonJNAction、PlcMovie、NUM15、字体及GamDelay编译成受控原生专项，新增17/29各三种容量边界；全额例从100兵力起算，另外覆盖实际+10与+0。正请求被容量裁至0仍显示原生0并等待50tick；真正request0不进入数字分支。独立原始ROM点阵/字形oracle核对每次完整160×96像素。属性、容量、随机成功、目标选择和消息供给为明确夹具边界，未据此接受浏览器玩家施法。新6项纳入当前完整1081项实际运行，原54/1075历史证据保留；[原生与准备记录](validation/m4-aid-native-20261009.json)。

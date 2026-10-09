@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-09T15:17:29.291Z",
+  "status": "native-fixtures-passed-player-cast-pending",
+  "recordedAgainst": "d3efa014ab07ef7dddb8a59ce59ebea93ede1428",
+  "accepted": false,
+  "sourceChecksPassed": true,
+  "nativeFixtureChecksPassed": true,
+  "actualPlayerCastPassed": false,
+  "preparationAccepted": false,
+  "hdAccepted": false,
+  "archiveClosed": false,
+  "scope": "Persistent compiled-C fixture coverage of real AID17/29/41 plus the first actual public campaign preparation failure. This does not accept real player casting or HD runtime behavior.",
+  "nativeFixture": {
+    "script": {
+      "path": "scripts/test-hd-aid-engine.mjs",
+      "bytes": 31366,
+      "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+    },
+    "cases": [
+      {
+        "skill": 17,
+        "requested": 800,
+        "initial": 100,
+        "capacity": 900,
+        "applied": 800
+      },
+      {
+        "skill": 17,
+        "requested": 800,
+        "initial": 790,
+        "capacity": 800,
+        "applied": 10
+      },
+      {
+        "skill": 17,
+        "requested": 800,
+        "initial": 800,
+        "capacity": 800,
+        "applied": 0
+      },
+      {
+        "skill": 29,
+        "requested": 1800,
+        "initial": 100,
+        "capacity": 1900,
+        "applied": 1800
+      },
+      {
+        "skill": 29,
+        "requested": 1800,
+        "initial": 1790,
+        "capacity": 1800,
+        "applied": 10
+      },
+      {
+        "skill": 29,
+        "requested": 1800,
+        "initial": 1800,
+        "capacity": 1800,
+        "applied": 0
+      }
+    ],
+    "actualFunctions": [
+      "CountSklHurt",
+      "CountOverAdd",
+      "FgtJNAction",
+      "_CommonJNAction",
+      "PlcMovie",
+      "FgtAtvShowNum",
+      "GamStrShowS",
+      "GamDelay"
+    ],
+    "checked": [
+      "Unmodified actual LIB17/29 powers800/1800 and MP15/30",
+      "Eight real41 movie copies and displayed scene64x64 at48,16",
+      "Full160x96 raw-pixel comparison with an independent ROM/frame/font/NUM15 oracle",
+      "Actual applied gain and NUM15, including positive request clamped to0",
+      "50 native timer messages in the numeric hold with0 key reads",
+      "Native scope and displayed result retire at return"
+    ],
+    "controlledBoundaries": [
+      "Attributes/capacity and successfully selected friendly target3-to4 are fixture inputs",
+      "Random success and message delivery are controlled; no public player AIM, recruitment or naturally successful cast",
+      "Experience calculation is a fixture; no actual game-world or full WASM/browser acceptance"
+    ],
+    "history": "Earlier build candidate native execution used initial0 for the full-gain boundary. Its six-pass record remains immutable; the persistent test uses initial100 for that case and was actually compiled/executed within the1081 run."
+  },
+  "fullRegression": {
+    "tests": 1081,
+    "pass": 1081,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "uniqueModules": 49,
+    "uniqueSourceFiles": 1251,
+    "sourceDrift": 0,
+    "startedAt": "2026-10-09T15:14:12.690Z",
+    "finishedAt": "2026-10-09T15:14:32.011Z",
+    "execution": {
+      "path": "build/r22-full-source-tests-v3-execution.json",
+      "bytes": 3529,
+      "sha256": "362a3d950720e532cd8197ba59d062cce80686edc1f9794072a5ec02c3c167e4"
+    },
+    "peer": {
+      "path": "build/r22-full-source-tests-v3-independent-audit.json",
+      "bytes": 8858,
+      "sha256": "ebd62581a845cef498485b2272de40e69c87d85db9931dac6b4dbc6a3d390067"
+    },
+    "packageScope": "The tested working package retains the pre-existing test:wood-runtime auxiliary command. The staged package omits only that still-pending command; main/test:aid/test:aid-engine commands are identical."
+  },
+  "actualPreparationV1": {
+    "status": "failed-native-civic-condition",
+    "accepted": false,
+    "phaseAccepted": false,
+    "preparationAccepted": false,
+    "hdAccepted": false,
+    "orders": 2,
+    "envoys": [
+      150,
+      151
+    ],
+    "target134StillBelong": 8,
+    "normalMonths": 1,
+    "finishedDate": {
+      "year": 208,
+      "month": 2
+    },
+    "stoppingCity": 24,
+    "nativeCityState": 3,
+    "initialOwned": [
+      9,
+      142,
+      150,
+      151
+    ],
+    "initialWildInSameResidentQueue": [
+      160,
+      183,
+      186
+    ],
+    "checkpoint": {
+      "tag": "initial",
+      "date": {
+        "year": 208,
+        "month": 1
+      },
+      "allPeople": 200,
+      "allCities": 38,
+      "files": [
+        {
+          "path": "build/r22-aid-prepare-actual-v1/native-initial-sango0.sav",
+          "bytes": 8221,
+          "sha256": "0a213e1ad9d50df0f5cdda93c27ce2f5b1cb67e3cf458ef269bdf8f31df8e744"
+        },
+        {
+          "path": "build/r22-aid-prepare-actual-v1/native-initial-sango1.sav",
+          "bytes": 4840,
+          "sha256": "030dd061d414adb92ca385b18353cdbc042e70cebf956065a7ba120278e14eec"
+        }
+      ]
+    },
+    "sourceCount": 1169,
+    "sourceDrift": 0,
+    "isolation": {
+      "privateExited": true,
+      "user8080Pid": 105848,
+      "user8080HttpStatus": 200
+    },
+    "scope": "Preparation stops on actual civic state3. Initial208Jan public saved bytes remain resumable; observed208Feb is not a saved checkpoint. No acquired134/188 or casting/HD acceptance. Old static plan queue-as-owned assumption is superseded by actual Belong-filtered facts.",
+    "next": "Use original208Jan checkpoint with public governance before further normal months; new driver remains distinct from the failed run."
+  },
+  "numericClarification": "Requested0 skips the native number branch. Both AID skills request positive800/1800; when capacity clamps the applied result to0, the native NUM0 and50-timer hold still run. The original1075 peer wording addendum is a clarification, not a product defect.",
+  "engine": {
+    "rebuiltInThisBatch": false,
+    "installedChanged": false,
+    "stagedInstalled": false,
+    "installed": {
+      "sourceRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+      "engineSourceSha256": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
+      "engineSourceModified": true
+    },
+    "staged": {
+      "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+      "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "engineSourceModified": true
+    }
+  },
+  "remaining": [
+    "Actual acquisition of134 followed by188 through original orders and normal months",
+    "Real player dispatch/AIM/casts for17 and29 with current MP/arm, movie/display/NUM/hold and outside-LCD observations",
+    "Classic/missing-image/visibility/resize/failure fallbacks in actual skill scenes",
+    "WOOD preparation/casting and other HD plan requirements remain open"
+  ],
+  "evidenceStorage": {
+    "productionTestTracked": true,
+    "buildReferencesWorkspaceOnly": true,
+    "portableClosedArchive": false,
+    "sourceByteScope": "References authenticate the actual tested working bytes. Git source-text newline normalization is separate from native/build artifact identities; no old proof or execution is relabeled."
+  },
+  "references": [
+    {
+      "path": "scripts/test-hd-aid-engine.mjs",
+      "bytes": 31366,
+      "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+    },
+    {
+      "path": "build/r22-aid-persistent-candidate-source-proof.json",
+      "bytes": 13806,
+      "sha256": "88317cde71840b12742341aa859cfa18bf2756295630af20f9a96f0cc55031c4"
+    },
+    {
+      "path": "build/r22-native-test-promotion-root-proof-v1.json",
+      "bytes": 609,
+      "sha256": "5541c6028c02a2efa7e0882c37c613643e04c650f1c2456b20e5e1a8b88af1d2"
+    },
+    {
+      "path": "build/r22-native-package-staged-candidate.json",
+      "bytes": 7019,
+      "sha256": "3472edff31c917fb9b697cf3313519a4c2e1e3f26548d709cfeec8b81609f359"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-execution.json",
+      "bytes": 3529,
+      "sha256": "362a3d950720e532cd8197ba59d062cce80686edc1f9794072a5ec02c3c167e4"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3.log",
+      "bytes": 281637,
+      "sha256": "b3d5759f036f7b036f98ca0abf8461428995aacbd2aefadf6c420c9fa4591092"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-sources-pre.json",
+      "bytes": 211716,
+      "sha256": "fb5e1177521fd47a88909b280b7fb82addb4ac30bec8c8f0b75e4b18c564a051"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-sources-post.json",
+      "bytes": 211716,
+      "sha256": "fb5e1177521fd47a88909b280b7fb82addb4ac30bec8c8f0b75e4b18c564a051"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-independent-audit.json",
+      "bytes": 8858,
+      "sha256": "ebd62581a845cef498485b2272de40e69c87d85db9931dac6b4dbc6a3d390067"
+    },
+    {
+      "path": "build/r22-aid-native-execution-v1.json",
+      "bytes": 1284,
+      "sha256": "d81fec36038bafe4334073068718f30e4cc5f9ac410e4de72a1f8020253e9689"
+    },
+    {
+      "path": "build/r22-aid-native-execution-v1.log",
+      "bytes": 1679,
+      "sha256": "d2637d6c9616ae1486a7c5ca67c6a3f8de135c35a1a8d8342b9e107921898185"
+    },
+    {
+      "path": "build/r22-test-hd-aid-engine-candidate-v2.mjs",
+      "bytes": 35635,
+      "sha256": "b1fa3413b120122fae492f02aac3d7cfeeb576c87799e124b02e186a83dfa68f"
+    },
+    {
+      "path": "build/r22-full-source-tests-independent-audit-addendum.json",
+      "bytes": 1191,
+      "sha256": "e118b8e438d45f93ee20660cfa5afb93e01831857738dbbd621867b8913079cf"
+    },
+    {
+      "path": "build/r22-aid-prepare-driver-v1.mjs",
+      "bytes": 70733,
+      "sha256": "2a00ece1c70bf41aa16295b94bc13638af586e845bf166ebc2fb1fa9cc1e05cf"
+    },
+    {
+      "path": "build/r22-aid-prepare-driver-v1-freeze.json",
+      "bytes": 7516,
+      "sha256": "84452be7bc135b0a506f673e2154a19118d8b1be2fd6a23e8726681713f67c8b"
+    },
+    {
+      "path": "build/r22-aid-phase1-source-peer-review.json",
+      "bytes": 5521,
+      "sha256": "c58a26b234a2e804b403af07bb1653737f6b36b40ca47774a53171cf0f68deef"
+    },
+    {
+      "path": "build/r22-aid-phase1-failure-root-audit-v1.json",
+      "bytes": 2655,
+      "sha256": "87fbb57a3df5023e29a7de43d020c783114f0363d309795f09b0abab527345d0"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/result.json",
+      "bytes": 23141371,
+      "sha256": "add01a7dd67d23d84e28c2f60d740fafa3885775c5602e8da5b0d0ca9da6214f"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/source-verification.json",
+      "bytes": 416379,
+      "sha256": "62bd8666db6d5c8cd4a1124b986dcf1b13d24aed92263715b5f2330262ff9f32"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/browser-console.json",
+      "bytes": 10227,
+      "sha256": "bd1226ac282232a38cc21935c7c5f3da588e17178a3609613dea4b9b7f08e520"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1-isolation.json",
+      "bytes": 2427,
+      "sha256": "193ec966218599b10fabf1747ed318b6977801ffb1835a84eea249aa6b9176c4"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1.log",
+      "bytes": 900,
+      "sha256": "4089b1e405c4e946141f42f9e3aaf29602930794d1892fe886f1e9f0b20fe8e4"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/native-initial-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0a213e1ad9d50df0f5cdda93c27ce2f5b1cb67e3cf458ef269bdf8f31df8e744"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/native-initial-sango1.sav",
+      "bytes": 4840,
+      "sha256": "030dd061d414adb92ca385b18353cdbc042e70cebf956065a7ba120278e14eec"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 140039,
+      "sha256": "0a08077367f696ce67f49bbed527afb5a8c0adf263c296136e1ad691b94db15c"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 80136,
+      "sha256": "73a494feb57b355eb9acf3a05c86cfc6810e6f801c1dd0ef66a40b1bdc2c120b"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 581090,
+      "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 15801,
+      "sha256": "1cefbf6bda96f024cc932b6c605a183b7070cd7e68bed028390e8f4aa9e1f5f3"
+    },
+    {
+      "path": "build/wasm/src/baye.build.json",
+      "bytes": 16650,
+      "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+    }
+  ]
+}
