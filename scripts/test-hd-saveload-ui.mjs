@@ -423,6 +423,59 @@ test('real native king and record owners still win with a loaded ruler zero', ()
     assert.deepEqual(r.sent, [VK.ENTER], 'An actual record selector retains its original priority');
 });
 
+test('loaded ruler zero quantity input does not revive a legacy king selector after native map entry', () => {
+    const h = harness({ native: 'none' }); h.data.g_PlayerKing = 0;
+    const qty = { active: 1, protocol: true, ready: 1, session: 5, inputSeq: 15,
+        value: 920, min: 0, max: 1040, lastKey: 34, cursor: 2, step: 10 };
+    h.context.baye.hd.qty = () => qty;
+    Object.assign(h.menu, { active: 0, context: 0, kind: 0, seq: 14 });
+    Object.assign(h.march, { pick: 0, battlePick: 0, mapInputSeq: 1, mapCity: 21 });
+    const world = JSON.stringify(h.data), inputs = JSON.stringify({ qty, march: h.march, menu: h.menu });
+    h.refresh(); h.poll(); h.tick();
+    assert.equal(h.api.isOpen(), false, 'Native map history retires ruler-zero fallback during a menu-inactive quantity wait');
+    assert.equal(h.root.getAttribute('aria-hidden'), 'true'); assert.deepEqual(h.sent, []);
+    assert.equal(JSON.stringify(h.data), world);
+    assert.equal(JSON.stringify({ qty, march: h.march, menu: h.menu }), inputs);
+});
+
+test('native map history blocks stale king DOM, keyboard and queued keys without consuming the quantity input', () => {
+    for (const action of ['click', 'back', 'key']) {
+        const h = harness({ native: 'none' }); h.data.g_PlayerKing = 0; h.refresh();
+        const stale = h.button(1), world = JSON.stringify(h.data);
+        h.march.mapInputSeq = 1;
+        if (action === 'click') h.click(1, stale);
+        if (action === 'back') h.back();
+        if (action === 'key') {
+            const e = h.key(13);
+            assert.equal(e.defaultPrevented, false, 'The real quantity handler retains the physical Enter');
+            assert.equal(e.stopped, undefined);
+        }
+        h.tick(); h.poll(); assert.deepEqual(h.sent, []); assert.equal(h.api.isOpen(), false);
+        assert.equal(JSON.stringify(h.data), world);
+    }
+    const h = harness({ native: 'none' }); h.data.g_PlayerKing = 0; h.refresh();
+    h.click(2); assert.deepEqual(h.sent, [VK.DOWN]);
+    h.march.mapInputSeq = 1; h.tick();
+    assert.deepEqual(h.sent, [VK.DOWN], 'The final send fence retires the old king queue after actual map entry');
+});
+
+test('real new-game selectors and record owners still win after positive native map history', () => {
+    const h = harness({ native: 'title' }); h.data.g_Cities[0].Belong = 1; h.march.mapInputSeq = 19;
+    for (const [kind, screen] of [[1, 'title'], [2, 'period'], [3, 'king']]) {
+        Object.assign(h.menu, { active: 1, context: 4, kind, index: 0, count: 4, seq: h.menu.seq + 1 });
+        h.refresh(); assert.equal(h.api.getScreen(), screen); assert.equal(h.api.isOpen(), true);
+        h.click(0); h.tick();
+    }
+    assert.deepEqual(h.sent, [VK.ENTER, VK.ENTER, VK.ENTER]);
+    const r = harness({ mode: 1 }); r.data.g_PlayerKing = 0; r.march.mapInputSeq = 0xffffffff;
+    r.refresh(); assert.equal(r.api.getScreen(), 'saveload'); r.click(0); r.tick();
+    assert.deepEqual(r.sent, [VK.ENTER]);
+    for (const mapInputSeq of [undefined, 0, -1, 1.5, '1', true, NaN, 0x100000000]) {
+        const old = harness({ native: 'none' }); old.data.g_PlayerKing = 0; old.march.mapInputSeq = mapInputSeq;
+        old.refresh(); assert.equal(old.api.getScreen(), 'king'); assert.equal(old.api.isOpen(), true);
+    }
+});
+
 test('the native Maker hold closes title chrome and rejects stale title buttons without sending input', () => {
     const h = harness({ native: 'title' }), oldButton = h.button(2);
     h.context.baye.hd.maker = () => ({ protocolVersion: 1, active: true, phase: 'hold' });
