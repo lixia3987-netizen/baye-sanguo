@@ -184,7 +184,7 @@ static void key(U16 code){message(VM_CHAR_FUN,code,0,0);}
 function fixture() {
     const header = read('hd-bridge.h'), bridge = read('hd-bridge.c');
     const globals = bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='), bridge.indexOf('U8 g_hdSkillActive ='));
-    const helpers = ['copy_gbk', 'hd_next_input_seq', 'hd_detail_copy', 'hd_goods_clear', 'hd_menu_ids_clear',
+    const helpers = ['copy_gbk', 'hd_next_input_seq', 'baye_hd_person_properties_retire', 'hd_detail_copy', 'hd_goods_clear', 'hd_menu_ids_clear',
         'hd_help_detail_clear', 'hd_detail_read_at', 'hd_detail_restore', 'hd_overview_resource',
         'baye_hd_view_capture', 'baye_hd_view_publish', 'baye_hd_view_clear', 'baye_hd_view_retire',
         'baye_hd_mini_map_publish', 'baye_hd_mini_map_clear', 'baye_hd_mini_map_retire',

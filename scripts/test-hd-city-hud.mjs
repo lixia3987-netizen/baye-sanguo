@@ -61,11 +61,15 @@ function harness() {
         const node = element(); node.id = id; nodes[id] = node; stage.appendChild(node);
     }
     const lcdButton = element('button'); lcdButton.setAttribute('data-hd-menu-lcd', ''); stage.appendChild(lcdButton);
+    const documentListeners = new Map();
     const document = { documentElement: html, body, hidden: false,
         getElementById: id => [html, ...walk(html)].find(node => node.id === id) ?? null,
         querySelectorAll: selector => walk(html).filter(node => matches(node, selector)),
         querySelector(selector) { return this.querySelectorAll(selector)[0] ?? null; },
-        createElement: element, addEventListener() {} };
+        createElement: element, addEventListener(type, listener) {
+            if (!documentListeners.has(type)) documentListeners.set(type, []);
+            documentListeners.get(type).push(listener);
+        } };
     const keys = [], writes = [], timers = [], intervals = [], names = new Map([[0, '君主甲'], [254, '主人二五四'], [599, '主人五九九'],
         [600, '很长的人物姓名甲乙丙丁戊己庚辛壬癸测试'], [601, '人物乙']]);
     const context = vm.createContext({ document, TextDecoder, TextEncoder,
@@ -119,7 +123,7 @@ function harness() {
     source = source.replace(/\}\)\(window\);\s*$/, `
         global.__hud = { state: state, cityDetails: cityDetails, personDetails: personDetails,
             renderStatus: renderStatus, renderPersonDetails: renderPersonDetails,
-            renderToolDetails: renderToolDetails,
+            renderToolDetails: renderToolDetails, renderPersonProperties: renderPersonProperties,
             deepMenuOwner: deepMenuOwner, fillDeepList: fillDeepList, applyHighlight: applyHighlight,
             chooseRoot: chooseRoot, chooseSub: chooseSub, back: back, bind: bindUi,
             applyDocAttr: applyDocAttr, lcdPresentation: cityLcdPresentation, render: render };
@@ -130,7 +134,7 @@ function harness() {
         deepKind: 'person', wizardStep: 'none', idleIndex: 0 });
     hud.state.deepMenuOwner = hud.deepMenuOwner(menu);
     return { context, hud, nodes, root, lcdButton, document, city, person, people, queue, menu, names, report, help, qty, goods,
-        raw, keys, writes, timers, intervals, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
+        documentListeners, raw, keys, writes, timers, intervals, armCalls, derivedCalls, toolCalls, setIdentity(value, isCurrent = true) { identity = value; current = isCurrent; } };
 }
 
 function goodsHarness({custom = true} = {}) {
@@ -145,6 +149,34 @@ function goodsHarness({custom = true} = {}) {
     h.hud.fillDeepList(); h.hud.bind();
     return h;
 }
+
+function personPropertyHarness({count = 5, end = 3, custom = true} = {}) {
+    const h = harness();
+    Object.assign(h.menu, {generation: 3, detailGeneration: 3, idsValid: true, ids: [600, 601]});
+    const props = {protocolVersion: 1, active: 1, complete: count === end ? 1 : 0,
+        pageComplete: count > 0 && end > 0 ? 1 : 0, custom: custom ? 1 : 0, generation: 3, detailGeneration: 3,
+        context: 1, kind: 3, menuSeq: h.menu.seq, paintSeq: 40, index: 0, person: 600,
+        propertyCount: count, pageIndex: 0, pageStart: 0, pageEnd: end, name: h.names.get(600),
+        properties: Array.from({length: count}, (_, index) => ({index,
+            title: index < end ? '实际原生标题' + index : '', value: index < end ? '原生值' + index : '',
+            captured: index < end, titleCaptured: index < end, valueCaptured: index < end,
+            titlePaintSeq: index < end ? 40 : 0, valuePaintSeq: index < end ? 40 : 0}))};
+    h.personProps = props; h.context.baye.hd.personProperties = () => plain(props);
+    h.hud.fillDeepList(); h.hud.bind();
+    return h;
+}
+function personPageButton(h, direction) {
+    return h.document.querySelectorAll('[data-hd-person-page]').find(button => button.getAttribute('data-hd-person-page') === direction);
+}
+function paintPersonPage(h, {start = 3, end = 5, pageIndex = 1, paintSeq = 41} = {}) {
+    Object.assign(h.personProps, {pageStart: start, pageEnd: end, pageIndex, paintSeq, pageComplete: 1});
+    for (let i = start; i < end; i++) Object.assign(h.personProps.properties[i], {
+        title: '实际原生标题' + i, value: '原生值' + i, captured: true, titleCaptured: true, valueCaptured: true,
+        titlePaintSeq: paintSeq, valuePaintSeq: paintSeq});
+    h.personProps.complete = h.personProps.properties.every(p => p.captured) ? 1 : 0;
+    h.hud.fillDeepList();
+}
+
 function dispatch(h, type, target, options = {}) {
     h.root.listeners.get(type).forEach(listener => listener({target, preventDefault() {}, stopPropagation() {}, ...options}));
 }
@@ -392,7 +424,7 @@ test('persistent portrait slot stays outside rebuilt fields and survives native 
 });
 
 test('known native list defaults LCD off despite stale map/dialog classes, and explicit inspection persists', () => {
-    const h = harness(); h.document.body.classList.add('baye-hd-overworld-menu', 'baye-hd-dialog-lcd');
+    const h = personPropertyHarness({count: 2, end: 2}); h.document.body.classList.add('baye-hd-overworld-menu', 'baye-hd-dialog-lcd');
     h.context.BayeHdDialog = { debugSnapshot: () => ({ open: false, kind: 'help' }) };
     h.hud.fillDeepList();
     assert.equal(h.document.documentElement.getAttribute('data-baye-city-lcd'), 'off');
@@ -412,7 +444,7 @@ test('known native list defaults LCD off despite stale map/dialog classes, and e
 });
 
 test('unknown native lists retain automatic LCD fallback without setting explicit inspection preference', () => {
-    const h = harness(); h.hud.fillDeepList();
+    const h = personPropertyHarness({count: 2, end: 2}); h.hud.fillDeepList();
     h.menu.active = 0; h.menu.names = []; h.menu.count = 0; h.hud.fillDeepList();
     assert.equal(h.hud.lcdPresentation(), 'on'); assert.equal(h.hud.state.showLcd, false);
     assert.equal(h.document.body.classList.contains('baye-hd-city-menu-deep-empty'), true);
@@ -425,7 +457,7 @@ test('unknown native lists retain automatic LCD fallback without setting explici
 });
 
 test('native report/help ownership passes LCD control through and retires correctly when it ends', () => {
-    const h = harness(); h.hud.fillDeepList();
+    const h = personPropertyHarness({count: 2, end: 2}); h.hud.fillDeepList();
     for (const owner of [h.report, h.help]) {
         owner.active = 1; h.hud.fillDeepList();
         assert.equal(h.hud.lcdPresentation(), 'passthrough');
@@ -1100,3 +1132,470 @@ for (const action of ['Enter', 'Arrow']) {
     }
 }
 // END R17 SEARCH EXTRA2
+
+// R18: exercise actual production native-property DOM and final key sending.
+test('person native properties remain separate from all fifteen default core fields and the persistent portrait slot', () => {
+    const h = personPropertyHarness({count: 13, custom: false}), pane = h.document.getElementById('hd-city-menu-person-properties');
+    const core = h.document.getElementById('hd-city-menu-person-fields'), slot = h.document.getElementById('hd-city-menu-person-portrait');
+    const figure = element('figure'); slot.appendChild(figure);
+    assert.equal(core.querySelectorAll('.hd-city-menu-stat').length, 15);
+    assert.equal(pane.querySelectorAll('.hd-city-menu-stat').length, 0);
+    assert.equal(h.document.querySelectorAll('[data-hd-person-property]').length, 13);
+    assert.equal(pane.parentElement, core.parentElement); assert.equal(pane.parentElement, slot.parentElement);
+    assert.equal(h.hud.state.personProperties.personIndex, 600); assert.equal(h.hud.lcdPresentation(), 'off');
+    h.person.Thew = 47; h.hud.fillDeepList();
+    assert.equal(h.document.getElementById('hd-city-menu-person-properties'), pane);
+    assert.equal(figure.parentElement, slot); assert.equal(rows(h.hud.state.personDetail).体力, '47');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    assert.match(read('css/hd-city-menu.css'), /person-property-controls button[^}]*min-height:\s*44px/);
+});
+
+test('unknown LIB and custom native twelve-property text is authoritative without extra property hooks or inferred labels', () => {
+    const h = personPropertyHarness({count: 12}); h.setIdentity({status: 'ready', generation: 6, sha256: 'unknown'});
+    let calls = 0; h.context.baye.hooks = {getPersonPropertyValue() { calls++; throw new Error('extra hook'); },
+        getPersonPropertyTitle() { calls++; throw new Error('extra hook'); }};
+    Object.assign(h.personProps.properties[0], {title: '<img onerror=evil>Mod实际标题', value: '真实原生中文\n0'});
+    h.hud.fillDeepList();
+    const text = h.document.getElementById('hd-city-menu-person-properties').textContent;
+    assert.match(text, /<img onerror=evil>Mod实际标题/); assert.match(text, /真实原生中文/);
+    assert.equal(h.hud.state.personProperties.custom, true); assert.equal(h.hud.state.personProperties.propertyCount, 12);
+    assert.equal(h.hud.lcdPresentation(), 'off'); assert.equal(calls, 0); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('captured empty values differ from unread columns, and prior paint observations are labeled honestly', () => {
+    const h = personPropertyHarness(); Object.assign(h.personProps.properties[0], {title: '原生空值属性', value: ''});
+    h.hud.fillDeepList();
+    const row = h.document.querySelectorAll('[data-hd-person-property]')[0];
+    assert.match(row.textContent, /原生空值属性.*（空）.*当前页/);
+    assert.equal(row.getAttribute('data-hd-person-property-title-paint-seq'), '40');
+    assert.equal(row.getAttribute('data-hd-person-property-value-paint-seq'), '40');
+    assert.match(h.document.querySelectorAll('[data-hd-person-property]')[4].textContent, /未读取/);
+    paintPersonPage(h);
+    assert.equal(h.hud.state.personProperties.complete, true); assert.equal(h.hud.state.personProperties.pageComplete, true);
+    assert.equal(h.hud.state.personProperties.properties[0].current, false);
+    assert.match(h.document.querySelectorAll('[data-hd-person-property]')[0].textContent, /此前读取/);
+    assert.match(h.document.querySelectorAll('[data-hd-person-property]')[4].textContent, /当前页/);
+    assert.equal(h.document.querySelectorAll('[data-hd-person-property]')[4].getAttribute('data-hd-person-property-value-paint-seq'), '41');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('actual duplicate-name U16 rows and current selected ID control native property identity', () => {
+    const h = personPropertyHarness(); h.menu.names = ['同名人物', '同名人物']; h.menu.ids = [601, 600];
+    h.menu.index = 1; h.personProps.index = 1; h.personProps.person = 600; h.personProps.name = '同名人物';
+    h.hud.fillDeepList(); assert.equal(h.hud.state.personProperties.personIndex, 600);
+    h.menu.index = 0; h.personProps.index = 0; h.personProps.person = 601; h.personProps.paintSeq = 42;
+    for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = 42;
+    h.hud.fillDeepList(); assert.equal(h.hud.state.personProperties.personIndex, 601);
+    assert.equal(h.hud.state.personDetail.personIndex, 601); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('manual person paging sends one native key and requires a fresh paint and actual page ACK', () => {
+    const h = personPropertyHarness(), next = personPageButton(h, 'next'), prev = personPageButton(h, 'prev');
+    assert.equal(prev.disabled, true); dispatch(h, 'click', prev); assert.deepEqual(h.keys, []);
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+    assert.ok(h.hud.state.personPagePending); assert.equal(next.disabled, true);
+    for (let i = 0; i < 3; i++) { h.hud.fillDeepList(); dispatch(h, 'click', next); }
+    assert.deepEqual(h.keys, [0x25]); assert.equal(h.hud.state.personProperties.pageIndex, 0);
+    // A native repaint of the same page is not a page ACK.
+    h.personProps.paintSeq = 41; for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = 41;
+    h.hud.fillDeepList(); assert.ok(h.hud.state.personPagePending); assert.equal(next.disabled, true);
+    paintPersonPage(h, {paintSeq: 42}); assert.equal(h.hud.state.personPagePending, null);
+    assert.equal(next.disabled, true); assert.equal(prev.disabled, false);
+    dispatch(h, 'click', next); assert.deepEqual(h.keys, [0x25]);
+    dispatch(h, 'pointerdown', prev); dispatch(h, 'click', prev); assert.deepEqual(h.keys, [0x25, 0x24]);
+    paintPersonPage(h, {start: 0, end: 3, pageIndex: 0, paintSeq: 43});
+    assert.equal(h.hud.state.personPagePending, null); assert.equal(prev.disabled, true); assert.deepEqual(h.writes, []);
+});
+
+test('zero columns, incomplete current paint and unsupported bridge retain LCD without inventing page inputs', () => {
+    for (const change of [h => { h.personProps.pageComplete = 0; }, h => { delete h.context.baye.hd.personProperties; },
+        h => { h.personProps.active = 0; }, h => { h.personProps.protocolVersion = 2; }]) {
+        const h = personPropertyHarness(); change(h); h.hud.fillDeepList();
+        assert.equal(h.hud.lcdPresentation(), 'on'); const next = personPageButton(h, 'next');
+        if (next) dispatch(h, 'click', next); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+    const zero = personPropertyHarness({count: 0, end: 0});
+    assert.equal(zero.hud.state.personProperties.pageComplete, false); assert.equal(zero.hud.lcdPresentation(), 'on');
+    assert.equal(personPageButton(zero, 'next').disabled, true); assert.equal(personPageButton(zero, 'prev').disabled, true);
+    assert.deepEqual(zero.keys, []);
+});
+
+test('person property protocol rejects stale owner, malformed revisions and false complete pages conservatively', () => {
+    for (const change of [h => { h.personProps.context = 2; }, h => { h.personProps.kind = 4; },
+        h => { h.personProps.menuSeq++; }, h => { h.personProps.generation++; }, h => { h.personProps.detailGeneration++; },
+        h => { h.personProps.index = 1; }, h => { h.personProps.person = 601; }, h => { h.menu.ids = [600]; },
+        h => { h.personProps.person = 65535; }, h => { h.personProps.paintSeq = 0; },
+        h => { h.personProps.properties[0].titlePaintSeq = 39; }, h => { h.personProps.properties[0].captured = false; },
+        h => { h.personProps.complete = 1; }, h => { h.personProps.properties[0].valuePaintSeq = '40'; },
+        h => { h.personProps.properties[0].value = {}; }, h => { h.personProps.properties[0].title = ''; },
+        h => { h.personProps.name = ''; }]) {
+        const h = personPropertyHarness(); change(h); h.hud.fillDeepList();
+        assert.equal(h.hud.state.personProperties, null); assert.equal(h.hud.lcdPresentation(), 'on');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+for (const change of ['report', 'help', 'qty', 'hidden', 'classic', 'pending', 'queue', 'closed']) {
+    test('person property '+change+' takeover retires an old held page and a fresh click stays usable', () => {
+        const h = personPropertyHarness(), next = personPageButton(h, 'next'); dispatch(h, 'pointerdown', next);
+        const old = next.getAttribute('data-hd-person-page-owner');
+        if (change === 'report') h.report.active = 1;
+        if (change === 'help') h.help.active = 1;
+        if (change === 'qty') h.qty.active = 1;
+        if (change === 'hidden') { h.document.hidden = true; h.documentListeners.get('visibilitychange').forEach(fn => fn()); }
+        if (change === 'classic') h.context.localStorage.getItem = () => 'classic';
+        if (change === 'pending') h.hud.state.deepSelectionPending = {seq: 9};
+        if (change === 'queue') h.hud.state.queue.push({code: 0x23});
+        if (change === 'closed') h.hud.state.open = false;
+        h.hud.renderPersonDetails(); assert.equal(h.hud.state.personProperties, null);
+        assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+        h.report.active = h.help.active = h.qty.active = 0; h.document.hidden = false;
+        h.context.localStorage.getItem = key => key === 'baye/cityMenuMode' ? 'hd' : 'hd-map';
+        h.hud.state.deepSelectionPending = null; h.hud.state.queue.length = 0; h.hud.state.open = true;
+        h.hud.fillDeepList(); assert.notEqual(next.getAttribute('data-hd-person-page-owner'), old);
+        dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, []);
+        dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, [0x25]);
+        assert.deepEqual(h.writes, []);
+    });
+}
+
+test('a cancelled person page press and a page-to-person cross-control click cannot confirm anyone', () => {
+    const h = personPropertyHarness(), next = personPageButton(h, 'next');
+    dispatch(h, 'pointerdown', next); dispatch(h, 'pointercancel', next); dispatch(h, 'click', next, {detail: 1});
+    assert.deepEqual(h.keys, []);
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', h.document.querySelectorAll('[data-hd-deep]')[0], {detail: 1});
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    dispatch(h, 'click', next, {detail: 0}); assert.deepEqual(h.keys, [0x25], 'Fresh keyboard activation is independent of a stale press');
+});
+
+for (const change of ['seq', 'generation', 'paint', 'report']) {
+    test('person property final native send getter reentry into '+change+' sends zero keys, then permits a fresh click', () => {
+        const h = personPropertyHarness(), next = personPageButton(h, 'next'); let triggered = false;
+        h.context.baye.hd.menuItems = () => plain(h.menu);
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, get() {
+            if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+                triggered = true;
+                if (change === 'seq') { h.menu.seq++; h.personProps.menuSeq++; }
+                if (change === 'generation') { h.menu.generation++; h.menu.detailGeneration++; h.personProps.generation++; h.personProps.detailGeneration++; }
+                if (change === 'paint') { h.personProps.paintSeq++; for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = h.personProps.paintSeq; }
+                if (change === 'report') h.report.active = 1;
+            } return 0;
+        }});
+        dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1});
+        assert.equal(triggered, true); assert.deepEqual(h.keys, []); assert.equal(h.hud.state.personPagePending, null);
+        Object.defineProperty(h.raw, 'g_hdFightActive', {configurable: true, writable: true, value: 0}); h.report.active = 0;
+        h.hud.fillDeepList(); dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1});
+        assert.deepEqual(h.keys, [0x25]); assert.deepEqual(h.writes, []);
+    });
+}
+
+test('an inactive overlay getter replacing a cloned menu cannot page the former owner', () => {
+    const h = personPropertyHarness(), next = personPageButton(h, 'next'); let triggered = false;
+    h.context.baye.hd.menuItems = () => plain(h.menu);
+    h.context.baye.hd.report = () => {
+        if (!triggered && /at engineSendKey\b/.test(new Error().stack)) {
+            triggered = true; h.menu.seq++; h.personProps.menuSeq++;
+        } return {active: 0};
+    };
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1});
+    assert.equal(triggered, true); assert.deepEqual(h.keys, []); assert.equal(h.hud.state.personPagePending, null);
+    h.context.baye.hd.report = () => h.report; h.hud.fillDeepList();
+    dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, [0x25]);
+    assert.deepEqual(h.writes, []);
+});
+
+test('cancelling the person property menu keeps the original single Exit and hides the persistent section', () => {
+    const h = personPropertyHarness(); h.hud.state.subKind = 'neizheng'; h.hud.back();
+    assert.equal(h.hud.state.personProperties, null); assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+    h.timers.shift()(); assert.deepEqual(h.keys, [0x28]); assert.deepEqual(h.writes, []);
+});
+
+
+test('the actual maximum property page never wraps right, and 255 columns remain explicit', () => {
+    const h = personPropertyHarness({count: 255, end: 0});
+    Object.assign(h.personProps, {paintSeq: 70, pageIndex: 254, pageStart: 254, pageEnd: 255, pageComplete: 1});
+    Object.assign(h.personProps.properties[254], {title: '原生最后一列', value: '255列的真实值',
+        captured: true, titleCaptured: true, valueCaptured: true, titlePaintSeq: 70, valuePaintSeq: 70});
+    h.hud.fillDeepList(); assert.equal(h.hud.state.personProperties.propertyCount, 255);
+    const next = personPageButton(h, 'next'); assert.equal(next.disabled, true);
+    for (let i = 0; i < 3; i++) dispatch(h, 'click', next); assert.deepEqual(h.keys, []);
+    dispatch(h, 'click', personPageButton(h, 'prev')); assert.deepEqual(h.keys, [0x24]); assert.deepEqual(h.writes, []);
+});
+
+test('read-only native property snapshot reentry cannot publish a mixed paint or changed menu', () => {
+    for (const change of ['paint', 'seq']) {
+        const h = personPropertyHarness(); let reads = 0;
+        h.context.baye.hd.personProperties = () => {
+            const captured = plain(h.personProps);
+            if (++reads === 1) {
+                if (change === 'paint') { h.personProps.paintSeq++; for (const p of h.personProps.properties.slice(0, 3)) p.titlePaintSeq = p.valuePaintSeq = h.personProps.paintSeq; }
+                if (change === 'seq') { h.menu.seq++; h.personProps.menuSeq++; }
+            }
+            return captured;
+        };
+        h.hud.renderPersonProperties(); assert.equal(h.hud.state.personProperties, null);
+        assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('native property configuration and same-name ID replacement retire an armed page button', () => {
+    for (const change of ['propertyCount', 'ids']) {
+        const h = personPropertyHarness(), next = personPageButton(h, 'next'); dispatch(h, 'pointerdown', next);
+        if (change === 'propertyCount') {
+            h.personProps.propertyCount = 6;
+            h.personProps.properties.push({index: 5, title: '', value: '', captured: false,
+                titleCaptured: false, valueCaptured: false, titlePaintSeq: 0, valuePaintSeq: 0});
+        } else { h.menu.ids.reverse(); h.menu.names = ['同名', '同名']; h.personProps.person = 601; h.personProps.name = '同名'; }
+        h.hud.fillDeepList(); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, []);
+        dispatch(h, 'pointerdown', next); dispatch(h, 'click', next, {detail: 1}); assert.deepEqual(h.keys, [0x25]);
+        assert.deepEqual(h.writes, []);
+    }
+});
+
+
+function personModeHarness() {
+    const h = personPropertyHarness();
+    const storage = new Map([['baye/cityMenuMode', 'hd'], ['baye/overworldMode', 'hd-map']]);
+    h.context.localStorage = {getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, String(value))};
+    Object.assign(h.hud.state, {subKind: 'neizheng', deepLabel: '搜寻'});
+    Object.assign(h.report, {seq: 0}); Object.assign(h.help, {seq: 0}); Object.assign(h.qty, {session: 2});
+    const fight = {active: 0}, march = {phase: 0, session: 0, origin: 255, selected: 0,
+        mapCity: 1, mapInputSeq: 2, pick: 0, battlePick: 0};
+    h.context.baye.hd.fight = () => fight; h.context.baye.hd.march = () => march;
+    Object.assign(h.raw, {g_hdDetailGeneration: 3, g_hdMenuSeq: 9, g_hdMenuActive: 1,
+        g_hdMenuContext: 1, g_hdMenuKind: 3, g_hdMapCity: 1, g_hdMapInputSeq: 2,
+        g_hdMapPick: 0, g_hdBattlePick: 0, g_hdMarchPhase: 0,
+        g_hdReportActive: 0, g_hdHelpActive: 0, g_hdQtyActive: 0, g_hdFightActive: 0});
+    h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', ''); h.root.appendChild(h.backButton);
+    h.context.BayeHdCityMenu.start();
+    return Object.assign(h, {storage, fight, march, poll: h.intervals.at(-1)});
+}
+
+test('real public classic-to-HD restores only the previously open same-owner PERSON menu with no engine writes or keys', () => {
+    const h = personModeHarness(), initial = plain(h.raw);
+    h.context.BayeHdCityMenu.setMode('classic');
+    assert.equal(h.storage.get('baye/cityMenuMode'), 'classic'); assert.equal(h.hud.state.open, false);
+    assert.equal(h.hud.state.personProperties, null); assert.ok(h.hud.state.personModeResume);
+    h.context.BayeHdCityMenu.setMode('hd');
+    assert.equal(h.hud.state.open, true); assert.equal(h.hud.state.deepKind, 'person'); assert.equal(h.hud.state.deepLabel, '搜寻');
+    assert.equal(h.hud.state.personDetail.personIndex, 600); assert.equal(h.hud.state.personProperties.paintSeq, 40);
+    assert.equal(h.hud.state.personModeResume, null); assert.equal(h.hud.lcdPresentation(), 'off');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); assert.deepEqual(plain(h.raw), initial);
+});
+
+test('real mode restoration samples the native current highlight and page rather than restoring the old person or paint', () => {
+    const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic');
+    h.menu.index = 1; Object.assign(h.personProps, {index: 1, person: 601, name: h.names.get(601)});
+    paintPersonPage(h, {start: 3, end: 5, pageIndex: 1, paintSeq: 44});
+    // The engine's native redraw occurred during classic mode; no local open is changed here.
+    assert.equal(h.hud.state.open, false);
+    h.context.BayeHdCityMenu.setMode('hd');
+    assert.equal(h.hud.state.open, true); assert.equal(h.hud.state.personDetail.personIndex, 601);
+    assert.equal(h.hud.state.idleIndex, 1); assert.equal(h.hud.state.personProperties.pageIndex, 1);
+    assert.equal(h.hud.state.personProperties.paintSeq, 44); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const change of ['seq', 'generation', 'ids', 'names', 'city', 'context', 'kind', 'inactive', 'missing-ids',
+    'report', 'help', 'qty', 'fight', 'march', 'map-pick', 'missing-raw', 'report-ended', 'help-ended', 'qty-ended']) {
+    test('real classic-to-HD refuses a retired PERSON owner after '+change, () => {
+        const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic');
+        if (change === 'seq') { h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++; }
+        if (change === 'generation') { h.menu.generation++; h.menu.detailGeneration++; h.raw.g_hdDetailGeneration++; h.personProps.generation++; h.personProps.detailGeneration++; }
+        if (change === 'ids') h.menu.ids.reverse();
+        if (change === 'names') h.menu.names.reverse();
+        if (change === 'city') { h.march.mapCity = 2; h.raw.g_hdMapCity = 2; }
+        if (change === 'context') { h.menu.context = 2; h.raw.g_hdMenuContext = 2; }
+        if (change === 'kind') { h.menu.kind = 2; h.raw.g_hdMenuKind = 2; }
+        if (change === 'inactive') { h.menu.active = 0; h.raw.g_hdMenuActive = 0; }
+        if (change === 'missing-ids') h.menu.idsValid = false;
+        if (change === 'report') { h.report.active = h.raw.g_hdReportActive = 1; }
+        if (change === 'help') { h.help.active = h.raw.g_hdHelpActive = 1; }
+        if (change === 'qty') { h.qty.active = h.raw.g_hdQtyActive = 1; }
+        if (change === 'fight') { h.fight.active = h.raw.g_hdFightActive = 1; }
+        if (change === 'march') { h.march.phase = h.raw.g_hdMarchPhase = 1; }
+        if (change === 'map-pick') { h.march.pick = h.raw.g_hdMapPick = 1; }
+        if (change === 'missing-raw') delete h.raw.g_hdMenuContext;
+        // Actual observers advance these tokens even if a report/help/quantity has ended before mode returns.
+        if (change === 'report-ended') h.report.seq++;
+        if (change === 'help-ended') h.help.seq++;
+        if (change === 'qty-ended') h.qty.session++;
+        h.context.BayeHdCityMenu.setMode('hd');
+        assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.personProperties, null);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    });
+}
+
+test('a report seen by the real classic poll permanently retires its previous restore ticket even after it closes', () => {
+    const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic');
+    h.report.active = h.raw.g_hdReportActive = 1; h.poll(); assert.equal(h.hud.state.personModeResume, null);
+    h.report.active = h.raw.g_hdReportActive = 0; h.context.BayeHdCityMenu.setMode('hd');
+    assert.equal(h.hud.state.open, false); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const control of ['property', 'person', 'back']) {
+    for (const fresh of ['pointer', 'keyboard']) {
+        test('real mode boundary retires an old '+control+' press and accepts a fresh '+fresh+' action', () => {
+            const h = personModeHarness();
+            const target = () => control === 'property' ? personPageButton(h, 'next') :
+                control === 'person' ? h.document.querySelectorAll('[data-hd-deep]')[0] : h.backButton;
+            dispatch(h, 'pointerdown', target());
+            h.context.BayeHdCityMenu.setMode('classic'); h.context.BayeHdCityMenu.setMode('hd');
+            assert.equal(h.hud.state.open, true);
+            dispatch(h, 'click', target(), {detail: 1}); runBackQueue(h); assert.deepEqual(h.keys, []);
+            if (fresh === 'pointer') dispatch(h, 'pointerdown', target());
+            dispatch(h, 'click', target(), {detail: fresh === 'keyboard' ? 0 : 1}); runBackQueue(h);
+            assert.deepEqual(h.keys, [control === 'property' ? 0x25 : control === 'person' ? 0x27 : 0x28]);
+            assert.deepEqual(h.writes, []);
+        });
+    }
+}
+
+test('an initially closed HD menu or an unsupported workflow never manufactures a PERSON restore ticket', () => {
+    for (const setup of [h => {h.hud.state.open = false;}, h => {h.hud.state.deepKind = 'person-qty';},
+        h => {h.hud.state.layer = 'sub';}, h => {h.hud.state.nativeMenuRequest = {pending: true};},
+        h => {h.hud.state.cityIndex = -1; h.march.mapCity = h.raw.g_hdMapCity = 0;}]) {
+        const h = personModeHarness(); setup(h); h.context.BayeHdCityMenu.setMode('classic');
+        assert.equal(h.hud.state.personModeResume, null); h.context.BayeHdCityMenu.setMode('hd');
+        assert.equal(h.hud.state.open, false); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});
+
+test('fresh keyboard activation works with an old property, person or Back press still held across real mode restoration', () => {
+    for (const control of ['property', 'person', 'back']) {
+        const h = personModeHarness();
+        const target = () => control === 'property' ? personPageButton(h, 'next') :
+            control === 'person' ? h.document.querySelectorAll('[data-hd-deep]')[0] : h.backButton;
+        dispatch(h, 'pointerdown', target());
+        h.context.BayeHdCityMenu.setMode('classic'); h.context.BayeHdCityMenu.setMode('hd');
+        assert.equal(h.hud.state.open, true);
+        dispatch(h, 'click', target(), {detail: 0}); runBackQueue(h);
+        assert.deepEqual(h.keys, [control === 'property' ? 0x25 : control === 'person' ? 0x27 : 0x28]);
+        assert.deepEqual(h.writes, []);
+    }
+});
+
+test('actual march mode restoration keeps its existing PERSONS path instead of using ordinary PERSON recovery', () => {
+    const h = personModeHarness(); Object.assign(h.hud.state, {marchSession: 7, marchOriginIndex: 0, battleMake: true});
+    Object.assign(h.march, {phase: 1, session: 7, origin: 0}); h.raw.g_hdMarchPhase = 1;
+    h.context.BayeHdCityMenu.setMode('classic'); assert.equal(h.hud.state.personModeResume, null);
+    h.context.BayeHdCityMenu.setMode('hd'); assert.equal(h.hud.state.open, true);
+    assert.equal(h.hud.state.deepKind, 'person-city'); assert.equal(h.hud.state.deepLabel, '出征');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+for (const moment of ['owner-read', 'render']) {
+    test('temporary getter reentry during actual mode '+moment+' cannot resurrect its previous PERSON pane', () => {
+        const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic'); let changed = false;
+        h.context.baye.hd.menuItems = () => plain(h.menu);
+        if (moment === 'owner-read') h.context.baye.hd.report = () => {
+            if (!changed && h.storage.get('baye/cityMenuMode') === 'hd') {
+                changed = true; h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++;
+            } return {...h.report};
+        };
+        else h.context.baye.getCityName = () => {
+            if (!changed && h.storage.get('baye/cityMenuMode') === 'hd' && h.hud.state.open) {
+                changed = true; h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++;
+            } return '长安';
+        };
+        h.context.BayeHdCityMenu.setMode('hd'); assert.equal(changed, true);
+        assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.personProperties, null);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    });
+}
+
+test('getter reentry in the final public setMode render retires the resumed PERSON pane with no native input', () => {
+    const h = personModeHarness(); h.context.BayeHdCityMenu.setMode('classic'); let changed = false;
+    h.context.baye.hd.menuItems = () => plain(h.menu);
+    h.context.baye.getCityName = () => {
+        const stack = new Error().stack;
+        if (!changed && h.storage.get('baye/cityMenuMode') === 'hd' && h.hud.state.open &&
+            /\bsetMenuMode\b/.test(stack) && !/\b(?:syncMode|resumePersonMode)\b/.test(stack)) {
+            changed = true; h.menu.seq++; h.raw.g_hdMenuSeq++; h.personProps.menuSeq++;
+        }
+        return '长安';
+    };
+    h.context.BayeHdCityMenu.setMode('hd'); assert.equal(changed, true);
+    assert.equal(h.hud.state.open, false); assert.equal(h.hud.state.personProperties, null);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('person property user labels stay readable while exact paint revisions remain in debug and DOM data', () => {
+    const h = personModeHarness(); h.personProps.custom = 0; paintPersonPage(h);
+    const text = h.document.getElementById('hd-city-menu-person-properties').textContent;
+    assert.match(text, /当前页 2；累计已查看 5 \/ 5 项/); assert.match(text, /此前读取/);
+    assert.doesNotMatch(text, /绘制代次|本次绘制|旧观察：标题/);
+    assert.equal(h.context.BayeHdCityMenu.debugSnapshot().personProperties.paintSeq, 41);
+    assert.equal(h.document.getElementById('hd-city-menu-person-properties-fields').getAttribute('data-hd-person-paint-seq'), '41');
+    const row = h.document.querySelectorAll('[data-hd-person-property]')[0];
+    assert.equal(row.getAttribute('data-hd-person-property-title-paint-seq'), '40');
+    assert.equal(row.getAttribute('data-hd-person-property-value-paint-seq'), '40');
+    assert.equal(h.document.getElementById('hd-city-menu-person-fields').querySelectorAll('.hd-city-menu-stat').length, 15);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('validated current custom properties replace fixed meanings while all fifteen raw fields remain diagnostic and portraits persist', () => {
+    const h = personPropertyHarness({count: 12}); h.person.Age = 7;
+    Object.assign(h.personProps.properties[0], {title: '兵种', value: '盾兵'});
+    Object.assign(h.personProps.properties[1], {title: '武力', value: String(h.person.Force)});
+    const slot = h.document.getElementById('hd-city-menu-person-portrait'), figure = element('figure');
+    slot.appendChild(figure); h.hud.fillDeepList();
+    const fields = h.document.getElementById('hd-city-menu-person-fields');
+    assert.equal(fields.getAttribute('data-hd-person-core-presentation'), 'custom-native');
+    assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, 0);
+    assert.match(fields.textContent, /此版本使用自定义人物属性，请以原生人物属性为准/);
+    assert.doesNotMatch(fields.textContent, /年龄|基础兵种/);
+    const native = h.document.getElementById('hd-city-menu-person-properties');
+    assert.match(native.textContent, /兵种盾兵/); assert.match(native.textContent, /武力91/);
+    const detail = h.context.BayeHdCityMenu.debugSnapshot().personDetail;
+    assert.equal(detail.groups.flatMap(group => group.rows).length, 15);
+    assert.equal(rows(detail).年龄, '7'); assert.equal(rows(detail).武力, '91');
+    assert.equal(detail.corePresentation, 'custom-native'); assert.equal(figure.parentElement, slot);
+    assert.equal(h.hud.lcdPresentation(), 'off'); assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('same-owner custom/default changes invalidate the fixed-field render cache without altering person identity or raw fields', () => {
+    const h = personPropertyHarness({custom: false}), fields = h.document.getElementById('hd-city-menu-person-fields');
+    const initial = plain(h.hud.state.personDetail), owner = h.hud.state.deepMenuOwner.key;
+    assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, 15);
+    for (const custom of [1, 0, 1]) {
+        h.personProps.custom = custom; h.hud.fillDeepList();
+        assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, custom ? 0 : 15);
+        assert.equal(fields.getAttribute('data-hd-person-core-presentation'), custom ? 'custom-native' : 'default');
+        assert.equal(h.hud.state.deepMenuOwner.key, owner); assert.equal(h.hud.state.personDetail.personIndex, initial.personIndex);
+        assert.deepEqual(plain(h.hud.state.personDetail.groups), initial.groups);
+        assert.equal(h.document.getElementById('hd-city-menu-person-fields'), fields);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('valid custom empty values and an unread current page never re-expose fixed semantic fields and keep LCD fallback', () => {
+    const h = personPropertyHarness({count: 12});
+    Object.assign(h.personProps.properties[0], {title: '实际空值', value: ''});
+    h.personProps.pageComplete = 0; h.hud.fillDeepList();
+    const fields = h.document.getElementById('hd-city-menu-person-fields');
+    assert.equal(fields.getAttribute('data-hd-person-core-presentation'), 'custom-native');
+    assert.equal(fields.querySelectorAll('.hd-city-menu-stat').length, 0);
+    const native = h.document.getElementById('hd-city-menu-person-properties');
+    assert.match(native.textContent, /实际空值（空）/); assert.match(native.textContent, /未读取/);
+    assert.match(native.textContent, /当前页未完整读取，请查看经典 LCD/);
+    assert.equal(h.hud.state.personProperties.properties[0].valueCaptured, true);
+    assert.equal(h.hud.state.personProperties.properties[7].valueCaptured, false);
+    assert.equal(h.hud.lcdPresentation(), 'on'); assert.equal(personPageButton(h, 'next').disabled, true);
+    assert.equal(h.hud.state.personDetail.groups.flatMap(group => group.rows).length, 15);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+});
+
+test('a retired custom person owner or report takeover hides both property and fixed-field presentations', () => {
+    for (const change of ['seq', 'generation', 'report']) {
+        const h = personPropertyHarness();
+        if (change === 'seq') h.menu.seq++;
+        if (change === 'generation') { h.menu.generation++; h.menu.detailGeneration++; }
+        if (change === 'report') h.report.active = 1;
+        h.hud.renderPersonDetails();
+        assert.equal(h.hud.state.personDetail, null); assert.equal(h.hud.state.personProperties, null);
+        assert.equal(h.document.getElementById('hd-city-menu-person-details').hidden, true);
+        assert.equal(h.document.getElementById('hd-city-menu-person-properties').hidden, true);
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
+    }
+});

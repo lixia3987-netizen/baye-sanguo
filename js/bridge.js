@@ -1522,6 +1522,111 @@ function baye_bridge_init() {
             resourceFingerprint: hdFingerprint(v.ResourceFingerprint, v.ResourceLength), number: number,
             label: currentLabel, digits: currentDigits.values, scene: current, display: display, skipEligible: false, returnEligible: false };
     }
+    function hdPersonPropertiesSnapshot(d) {
+        var prefix = 'g_hdPersonProperties', r = hdObserverReader(d), v = {},
+            limits = { ProtocolVersion: 255, Active: 1, Complete: 1, PageComplete: 1, Custom: 1,
+                Generation: 0xffffffff, MenuSeq: 0xffffffff, PaintSeq: 0xffffffff,
+                Index: 65535, Person: 65535, PropertyCount: 255, PageIndex: 254, PageStart: 255, PageEnd: 255 };
+        function neutral(reason) {
+            return { protocolVersion: v.ProtocolVersion == null ? null : v.ProtocolVersion, active: 0,
+                complete: 0, pageComplete: 0, custom: v.Custom == null ? null : v.Custom,
+                generation: v.Generation == null ? null : v.Generation, detailGeneration: detailGeneration,
+                menuSeq: v.MenuSeq == null ? null : v.MenuSeq, paintSeq: v.PaintSeq == null ? null : v.PaintSeq,
+                index: null, person: null, propertyCount: v.PropertyCount == null ? null : v.PropertyCount,
+                pageIndex: null, pageStart: null, pageEnd: null, name: '', properties: [],
+                context: context, kind: kind, reason: reason };
+        }
+        var detailGeneration = null, context = null, kind = null;
+        try {
+            if (!hdEngineReady()) return neutral('engine-not-ready');
+            for (var field in limits) v[field] = r.num(prefix + field, limits[field]);
+            detailGeneration = r.num('g_hdDetailGeneration');
+            context = r.num('g_hdMenuContext', 255); kind = r.num('g_hdMenuKind', 255);
+            if (v.ProtocolVersion !== 1 || v.Active !== 1) return neutral('inactive-or-unsupported');
+            var menu = { active: r.num('g_hdMenuActive', 1), seq: r.num('g_hdMenuSeq'),
+                count: r.num('g_hdMenuCount', 2000), index: r.num('g_hdMenuIndex', 1999),
+                idsGeneration: r.num('g_hdMenuIdsGeneration'), idsSeq: r.num('g_hdMenuIdsSeq'),
+                idsKind: r.num('g_hdMenuIdsKind', 255), idsCount: r.num('g_hdMenuIdsCount', 2000) },
+                overlays = ['g_hdReportActive', 'g_hdHelpActive', 'g_hdQtyActive'];
+            if (typeof _bayeGetPersonCount !== 'function') return neutral('person-count-unavailable');
+            var personCount = hdIntegerValue(_bayeGetPersonCount(), 1, 2000);
+            if (!personCount || menu.active !== 1 || kind !== 3 || context == null || !menu.count ||
+                menu.index !== v.Index || v.Index >= menu.count || v.Person >= personCount ||
+                !v.Generation || v.Generation !== detailGeneration || v.Generation !== menu.idsGeneration ||
+                !v.MenuSeq || v.MenuSeq !== menu.seq || v.MenuSeq !== menu.idsSeq || menu.idsKind !== kind ||
+                menu.idsCount !== menu.count || !v.PaintSeq || v.PageStart == null || v.PageEnd == null ||
+                v.PageStart > v.PageEnd || v.PageEnd > v.PropertyCount) return neutral('invalid-owner-or-page');
+            for (var o = 0; o < overlays.length; o++) if (r.num(overlays[o], 1) !== 0) return neutral('overlay');
+            var idLength = r.num('g_hdMenuIds', 2000, 'length');
+            if (idLength == null || idLength < menu.count) return neutral('incomplete-person-ids');
+            var ids = r.array('g_hdMenuIds', menu.count, personCount - 1);
+            if (ids.some(function (id) { return id == null; }) || ids[v.Index] !== v.Person) return neutral('person-id-mismatch');
+            var capacities = { NameGbk: 32, PropertyTitles: 256 * 128, PropertyValues: 256 * 128,
+                PropertyFlags: 256, TitlePaintSeq: 256, ValuePaintSeq: 256 };
+            for (var arrayName in capacities) {
+                var buffer = d && d[prefix + arrayName];
+                if (!buffer || typeof buffer !== 'object' ||
+                    r.num(prefix + arrayName, capacities[arrayName], 'length') !== capacities[arrayName]) return neutral('invalid-buffer');
+            }
+            function text(bufferName, start, length, allowEmpty, captured) {
+                var bytes = [], end = -1;
+                for (var i = 0; i < length; i++) {
+                    var byte = r.num(prefix + bufferName, 255, start + i);
+                    if (byte == null) return null;
+                    bytes.push(byte); if (end < 0 && byte === 0) end = i;
+                }
+                if (captured === false) return '';
+                if (end < 0 || (!allowEmpty && !end)) return null;
+                for (var j = 0; j < end; j++) {
+                    if (bytes[j] >= 128 && (bytes[j] < 129 || bytes[j] > 254 || ++j >= end ||
+                        bytes[j] < 64 || bytes[j] > 254 || bytes[j] === 127)) return null;
+                }
+                try { return new TextDecoder('gbk', { fatal: true }).decode(new Uint8Array(bytes.slice(0, end))); }
+                catch (e) { return null; }
+            }
+            var name = text('NameGbk', 0, 32, true), properties = [], allCaptured = v.PropertyCount > 0,
+                pageCaptured = name != null && name.length > 0 && v.PageEnd > v.PageStart;
+            if (name == null) return neutral('invalid-name');
+            for (var p = 0; p < v.PropertyCount; p++) {
+                var flags = r.num(prefix + 'PropertyFlags', 3, p), titleSeq = r.num(prefix + 'TitlePaintSeq', 0xffffffff, p),
+                    valueSeq = r.num(prefix + 'ValuePaintSeq', 0xffffffff, p);
+                if (flags == null || titleSeq == null || valueSeq == null ||
+                    (!!(flags & 1) !== !!titleSeq) || (!!(flags & 2) !== !!valueSeq)) return neutral('invalid-capture-flags');
+                var title = text('PropertyTitles', p * 128, 128, false, !!(flags & 1)),
+                    value = text('PropertyValues', p * 128, 128, true, !!(flags & 2));
+                if (title == null || value == null) return neutral('invalid-property-text');
+                var captured = flags === 3;
+                if (!captured) allCaptured = false;
+                if (p >= v.PageStart && p < v.PageEnd &&
+                    (!captured || titleSeq !== v.PaintSeq || valueSeq !== v.PaintSeq)) pageCaptured = false;
+                properties.push({ index: p, title: title, value: value, captured: captured,
+                    titleCaptured: !!(flags & 1), valueCaptured: !!(flags & 2),
+                    titlePaintSeq: titleSeq, valuePaintSeq: valueSeq });
+            }
+            if ((v.Complete === 1 && !allCaptured) || (v.PageComplete === 1 && !pageCaptured)) return neutral('invalid-completeness');
+            // Buffer reads can reenter the engine after earlier scalar checks.
+            // Finish with the native owner, full IDs, overlays and paint fence.
+            if (!r.stable() || !hdEngineReady() || baye.ensureData() !== d ||
+                hdIntegerValue(_bayeGetPersonCount(), 1, 2000) !== personCount) return neutral('retired-observation');
+            for (var finalArray in capacities) if (!d[prefix + finalArray] || typeof d[prefix + finalArray] !== 'object' ||
+                hdDetailNum(d[prefix + finalArray], 'length', capacities[finalArray]) !== capacities[finalArray]) return neutral('retired-observation');
+            for (var checked in limits) if (v[checked] !== hdDetailNum(d, prefix + checked, limits[checked])) return neutral('retired-observation');
+            if (context !== hdDetailNum(d, 'g_hdMenuContext', 255) || kind !== hdDetailNum(d, 'g_hdMenuKind', 255) ||
+                menu.active !== hdDetailNum(d, 'g_hdMenuActive', 1) || menu.seq !== hdDetailNum(d, 'g_hdMenuSeq') ||
+                menu.count !== hdDetailNum(d, 'g_hdMenuCount', 2000) || menu.index !== hdDetailNum(d, 'g_hdMenuIndex', 1999) ||
+                menu.idsGeneration !== hdDetailNum(d, 'g_hdMenuIdsGeneration') || menu.idsSeq !== hdDetailNum(d, 'g_hdMenuIdsSeq') ||
+                menu.idsKind !== hdDetailNum(d, 'g_hdMenuIdsKind', 255) || menu.idsCount !== hdDetailNum(d, 'g_hdMenuIdsCount', 2000) ||
+                ids.some(function (id, index) { return id !== hdDetailNum(d.g_hdMenuIds, index, personCount - 1); }) ||
+                overlays.some(function (field) { return hdDetailNum(d, field, 1) !== 0; }) ||
+                detailGeneration !== hdDetailNum(d, 'g_hdDetailGeneration') || v.MenuSeq !== hdDetailNum(d, 'g_hdMenuSeq') ||
+                v.PaintSeq !== hdDetailNum(d, prefix + 'PaintSeq')) return neutral('retired-observation');
+            return { protocolVersion: 1, active: 1, complete: v.Complete, pageComplete: v.PageComplete,
+                custom: v.Custom, generation: v.Generation, detailGeneration: detailGeneration, menuSeq: v.MenuSeq,
+                paintSeq: v.PaintSeq, index: v.Index, person: v.Person, propertyCount: v.PropertyCount,
+                pageIndex: v.PageIndex, pageStart: v.PageStart, pageEnd: v.PageEnd,
+                name: name, properties: properties, context: context, kind: kind };
+        } catch (e) { return neutral('unavailable-observation'); }
+    }
     function hdDetailText(obj, name, length) {
         var value = obj && obj[name];
         return typeof value === 'string' ? value.replace(/\u0000.*$/, '').slice(0, length) :
@@ -1838,6 +1943,11 @@ function baye_bridge_init() {
             } catch (e) { return null; }
             return BayeHdLibIdentity.isCurrent(identity) &&
                 hdDetailNum(baye.ensureData(), 'g_hdDetailGeneration') === generation ? result : null;
+        },
+        personProperties: function () {
+            var d;
+            try { d = baye.ensureData(); } catch (e) {}
+            return hdPersonPropertiesSnapshot(d);
         },
         goods: function () {
             var d = baye.ensureData(), count = hdDetailNum(d, 'g_hdGoodsPropertyCount', 255), rows = [];

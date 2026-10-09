@@ -56,6 +56,9 @@
 #define BAYE_HD_DETAIL_IDS_MAX 2000
 #define BAYE_HD_GOODS_PROPS_MAX 256
 #define BAYE_HD_GOODS_TEXT_MAX 128
+#define BAYE_HD_PERSON_PROPERTIES_VERSION 1
+#define BAYE_HD_PERSON_PROPS_MAX 256
+#define BAYE_HD_PERSON_TEXT_MAX 128
 #define BAYE_HD_HELP_PERSON 1
 #define BAYE_HD_HELP_TERRAIN 2
 #define BAYE_HD_OVERVIEW_VERSION 1
@@ -104,6 +107,16 @@ void baye_hd_goods_capture(U32 generation, U32 seq, U16 tool, U16 property, cons
 void baye_hd_goods_name(U32 generation, U32 seq, U16 tool, const U8* name);
 void baye_hd_goods_custom(U32 generation, U32 seq, U16 tool);
 void baye_hd_goods_page(U32 generation, U32 seq, U16 end);
+/* A local paint ticket is published only after the original menu and full
+ * identity array have reached their actual selected row. */
+U32 baye_hd_person_properties_begin(U32 generation, U32 seq, U16 index,
+    const U16* ids, U32 count, U16 properties, U16 pageIndex, U16 pageStart);
+void baye_hd_person_properties_capture(U32 ticket, U16 row, U16 person,
+    U16 property, const U8* text, U8 title);
+void baye_hd_person_properties_name(U32 ticket, U16 row, U16 person, const U8* name);
+void baye_hd_person_properties_custom(U32 ticket, U16 row, U16 person);
+void baye_hd_person_properties_publish(U32 ticket, U16 pageEnd);
+void baye_hd_person_properties_retire(void);
 void baye_hd_help_publish(const HdHelpSnapshot* snapshot, const U8* text);
 void baye_hd_help_clear(U32 generation, U32 inputSeq);
 

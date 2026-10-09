@@ -60,6 +60,33 @@ U8 g_hdGoodsNameGbk[32];
 U8 g_hdGoodsPropertyTitles[BAYE_HD_GOODS_PROPS_MAX * BAYE_HD_GOODS_TEXT_MAX];
 U8 g_hdGoodsPropertyValues[BAYE_HD_GOODS_PROPS_MAX * BAYE_HD_GOODS_TEXT_MAX];
 U8 g_hdGoodsPropertyFlags[BAYE_HD_GOODS_PROPS_MAX];
+U8 g_hdPersonPropertiesProtocolVersion = BAYE_HD_PERSON_PROPERTIES_VERSION;
+U8 g_hdPersonPropertiesActive = 0, g_hdPersonPropertiesComplete = 0;
+U8 g_hdPersonPropertiesPageComplete = 0, g_hdPersonPropertiesCustom = 0;
+U32 g_hdPersonPropertiesGeneration = 0, g_hdPersonPropertiesMenuSeq = 0;
+U32 g_hdPersonPropertiesPaintSeq = 0;
+U16 g_hdPersonPropertiesIndex = 0xffff, g_hdPersonPropertiesPerson = 0xffff;
+U16 g_hdPersonPropertiesPropertyCount = 0, g_hdPersonPropertiesPageIndex = 0;
+U16 g_hdPersonPropertiesPageStart = 0, g_hdPersonPropertiesPageEnd = 0;
+U8 g_hdPersonPropertiesNameGbk[32];
+U8 g_hdPersonPropertiesPropertyTitles[BAYE_HD_PERSON_PROPS_MAX * BAYE_HD_PERSON_TEXT_MAX];
+U8 g_hdPersonPropertiesPropertyValues[BAYE_HD_PERSON_PROPS_MAX * BAYE_HD_PERSON_TEXT_MAX];
+U8 g_hdPersonPropertiesPropertyFlags[BAYE_HD_PERSON_PROPS_MAX];
+U32 g_hdPersonPropertiesTitlePaintSeq[BAYE_HD_PERSON_PROPS_MAX];
+U32 g_hdPersonPropertiesValuePaintSeq[BAYE_HD_PERSON_PROPS_MAX];
+typedef struct {
+    U32 ticket, generation, seq;
+    U16 index, person, count, properties, pageIndex, pageStart;
+    U8 context, custom, nameCaptured;
+    U16 ids[BAYE_HD_DETAIL_IDS_MAX];
+    U8 name[32], titles[BAYE_HD_PERSON_PROPS_MAX * BAYE_HD_PERSON_TEXT_MAX];
+    U8 values[BAYE_HD_PERSON_PROPS_MAX * BAYE_HD_PERSON_TEXT_MAX];
+    U8 flags[BAYE_HD_PERSON_PROPS_MAX], attempted[BAYE_HD_PERSON_PROPS_MAX];
+} HdPersonPropertiesPaint;
+static HdPersonPropertiesPaint hdPersonPaint;
+static U32 hdPersonPropertiesEpoch = 0;
+static U16 hdPersonPropertiesIds[BAYE_HD_DETAIL_IDS_MAX];
+static U16 hdPersonPropertiesIdsCount = 0;
 static U8 hdMenuNextContext = BAYE_HD_MENU_CONTEXT_NONE;
 static U8 hdMenuNextKind = 0;
 
@@ -497,8 +524,157 @@ static void hd_goods_clear(void)
     memset(g_hdGoodsPropertyValues, 0, sizeof(g_hdGoodsPropertyValues));
 }
 
+void baye_hd_person_properties_retire(void)
+{
+    hdPersonPropertiesEpoch = hd_next_input_seq(hdPersonPropertiesEpoch);
+    hdPersonPaint.ticket = 0;
+    g_hdPersonPropertiesActive = g_hdPersonPropertiesComplete = 0;
+    g_hdPersonPropertiesPageComplete = g_hdPersonPropertiesCustom = 0;
+    g_hdPersonPropertiesGeneration = g_hdPersonPropertiesMenuSeq = g_hdPersonPropertiesPaintSeq = 0;
+    g_hdPersonPropertiesIndex = g_hdPersonPropertiesPerson = 0xffff;
+    g_hdPersonPropertiesPropertyCount = g_hdPersonPropertiesPageIndex = 0;
+    g_hdPersonPropertiesPageStart = g_hdPersonPropertiesPageEnd = 0;
+    hdPersonPropertiesIdsCount = 0;
+    memset(g_hdPersonPropertiesNameGbk, 0, sizeof(g_hdPersonPropertiesNameGbk));
+    memset(g_hdPersonPropertiesPropertyTitles, 0, sizeof(g_hdPersonPropertiesPropertyTitles));
+    memset(g_hdPersonPropertiesPropertyValues, 0, sizeof(g_hdPersonPropertiesPropertyValues));
+    memset(g_hdPersonPropertiesPropertyFlags, 0, sizeof(g_hdPersonPropertiesPropertyFlags));
+    memset(g_hdPersonPropertiesTitlePaintSeq, 0, sizeof(g_hdPersonPropertiesTitlePaintSeq));
+    memset(g_hdPersonPropertiesValuePaintSeq, 0, sizeof(g_hdPersonPropertiesValuePaintSeq));
+}
+
+static U8 hd_person_properties_owner(U32 generation, U32 seq)
+{
+    return generation == g_hdDetailGeneration && seq == g_hdMenuSeq && g_hdMenuActive &&
+        g_hdMenuKind == BAYE_HD_MENU_PERSON && !g_hdReportActive && !g_hdHelpActive && !g_hdQtyActive;
+}
+
+static U8 hd_person_properties_ticket(U32 ticket)
+{
+    return ticket && ticket == hdPersonPropertiesEpoch && ticket == hdPersonPaint.ticket &&
+        hd_person_properties_owner(hdPersonPaint.generation, hdPersonPaint.seq) &&
+        g_hdMenuContext == hdPersonPaint.context;
+}
+
+/* These are the final GBK strings used by the native draw, including empty
+ * values. A clipped pair or missing terminator cannot become a complete page. */
+static U8 hd_person_properties_text(U8* output, U32 capacity, const U8* input, U8 allowEmpty)
+{
+    U32 n, i;
+    if (!hd_detail_copy(output, capacity, input, capacity)) return 0;
+    n = (U32)gam_strlen(output);
+    if (!allowEmpty && !n) return 0;
+    for (i = 0; i < n; ++i) {
+        U8 byte = output[i];
+        if (byte < 0x80) continue;
+        if (byte < 0x81 || byte > 0xfe || ++i >= n || output[i] < 0x40 ||
+            output[i] == 0x7f || output[i] > 0xfe) { output[0] = 0; return 0; }
+    }
+    return 1;
+}
+
+U32 baye_hd_person_properties_begin(U32 generation, U32 seq, U16 index,
+    const U16* ids, U32 count, U16 properties, U16 pageIndex, U16 pageStart)
+{
+    U32 i;
+    if (!hd_person_properties_owner(generation, seq)) return 0;
+    if (!ids || !count || count > BAYE_HD_DETAIL_IDS_MAX || index >= count ||
+        properties >= BAYE_HD_PERSON_PROPS_MAX || pageStart > properties || pageIndex >= 255) {
+        baye_hd_person_properties_retire(); return 0;
+    }
+    for (i = 0; i < count; ++i) if (ids[i] >= PERSON_MAX) {
+        baye_hd_person_properties_retire(); return 0;
+    }
+    if (generation != g_hdPersonPropertiesGeneration || seq != g_hdPersonPropertiesMenuSeq ||
+        index != g_hdPersonPropertiesIndex || ids[index] != g_hdPersonPropertiesPerson ||
+        properties != g_hdPersonPropertiesPropertyCount || count != hdPersonPropertiesIdsCount ||
+        memcmp(ids, hdPersonPropertiesIds, count * sizeof(*ids))) baye_hd_person_properties_retire();
+    memset(&hdPersonPaint, 0, sizeof(hdPersonPaint));
+    hdPersonPropertiesEpoch = hd_next_input_seq(hdPersonPropertiesEpoch);
+    hdPersonPaint.ticket = hdPersonPropertiesEpoch;
+    hdPersonPaint.generation = generation; hdPersonPaint.seq = seq;
+    hdPersonPaint.context = g_hdMenuContext;
+    hdPersonPaint.index = index; hdPersonPaint.person = ids[index]; hdPersonPaint.count = (U16)count;
+    hdPersonPaint.properties = properties; hdPersonPaint.pageIndex = pageIndex; hdPersonPaint.pageStart = pageStart;
+    memcpy(hdPersonPaint.ids, ids, count * sizeof(*ids));
+    /* No tentative result is public while hooks or native name drawing run. */
+    g_hdPersonPropertiesActive = g_hdPersonPropertiesPageComplete = 0;
+    return hdPersonPaint.ticket;
+}
+
+void baye_hd_person_properties_capture(U32 ticket, U16 row, U16 person,
+    U16 property, const U8* text, U8 title)
+{
+    U8 bit = title ? 1 : 2;
+    U8* destination;
+    if (!hd_person_properties_ticket(ticket) || row != hdPersonPaint.index || person != hdPersonPaint.person ||
+        property < hdPersonPaint.pageStart || property >= hdPersonPaint.properties) return;
+    destination = (title ? hdPersonPaint.titles : hdPersonPaint.values) + property * BAYE_HD_PERSON_TEXT_MAX;
+    hdPersonPaint.attempted[property] |= bit;
+    if (hd_person_properties_text(destination, BAYE_HD_PERSON_TEXT_MAX, text, !title)) hdPersonPaint.flags[property] |= bit;
+    else hdPersonPaint.flags[property] &= (U8)~bit;
+}
+
+void baye_hd_person_properties_name(U32 ticket, U16 row, U16 person, const U8* name)
+{
+    if (hd_person_properties_ticket(ticket) && row == hdPersonPaint.index && person == hdPersonPaint.person)
+        hdPersonPaint.nameCaptured = hd_person_properties_text(hdPersonPaint.name, sizeof(hdPersonPaint.name), name, 0);
+}
+
+void baye_hd_person_properties_custom(U32 ticket, U16 row, U16 person)
+{
+    if (hd_person_properties_ticket(ticket) && row == hdPersonPaint.index && person == hdPersonPaint.person)
+        hdPersonPaint.custom = 1;
+}
+
+void baye_hd_person_properties_publish(U32 ticket, U16 pageEnd)
+{
+    U16 i;
+    if (!hd_person_properties_ticket(ticket)) return;
+    if (pageEnd < hdPersonPaint.pageStart || pageEnd > hdPersonPaint.properties ||
+        g_hdMenuCount != hdPersonPaint.count || g_hdMenuIndex != hdPersonPaint.index ||
+        g_hdMenuIdsGeneration != hdPersonPaint.generation || g_hdMenuIdsSeq != hdPersonPaint.seq ||
+        g_hdMenuIdsKind != BAYE_HD_MENU_PERSON || g_hdMenuIdsCount != hdPersonPaint.count ||
+        memcmp(g_hdMenuIds, hdPersonPaint.ids, hdPersonPaint.count * sizeof(g_hdMenuIds[0]))) {
+        baye_hd_person_properties_retire(); return;
+    }
+    for (i = hdPersonPaint.pageStart; i < pageEnd; ++i) {
+        U8 attempted = hdPersonPaint.attempted[i], flags = hdPersonPaint.flags[i];
+        if (attempted & 1) {
+            memcpy(g_hdPersonPropertiesPropertyTitles + i * BAYE_HD_PERSON_TEXT_MAX,
+                hdPersonPaint.titles + i * BAYE_HD_PERSON_TEXT_MAX, BAYE_HD_PERSON_TEXT_MAX);
+            g_hdPersonPropertiesPropertyFlags[i] = (g_hdPersonPropertiesPropertyFlags[i] & (U8)~1) | (flags & 1);
+            g_hdPersonPropertiesTitlePaintSeq[i] = flags & 1 ? ticket : 0;
+        }
+        if (attempted & 2) {
+            memcpy(g_hdPersonPropertiesPropertyValues + i * BAYE_HD_PERSON_TEXT_MAX,
+                hdPersonPaint.values + i * BAYE_HD_PERSON_TEXT_MAX, BAYE_HD_PERSON_TEXT_MAX);
+            g_hdPersonPropertiesPropertyFlags[i] = (g_hdPersonPropertiesPropertyFlags[i] & (U8)~2) | (flags & 2);
+            g_hdPersonPropertiesValuePaintSeq[i] = flags & 2 ? ticket : 0;
+        }
+    }
+    memcpy(hdPersonPropertiesIds, hdPersonPaint.ids, hdPersonPaint.count * sizeof(hdPersonPropertiesIds[0]));
+    hdPersonPropertiesIdsCount = hdPersonPaint.count;
+    g_hdPersonPropertiesGeneration = hdPersonPaint.generation; g_hdPersonPropertiesMenuSeq = hdPersonPaint.seq;
+    g_hdPersonPropertiesPaintSeq = ticket; g_hdPersonPropertiesIndex = hdPersonPaint.index;
+    g_hdPersonPropertiesPerson = hdPersonPaint.person; g_hdPersonPropertiesPropertyCount = hdPersonPaint.properties;
+    g_hdPersonPropertiesPageIndex = hdPersonPaint.pageIndex; g_hdPersonPropertiesPageStart = hdPersonPaint.pageStart;
+    g_hdPersonPropertiesPageEnd = pageEnd; g_hdPersonPropertiesCustom |= hdPersonPaint.custom;
+    memcpy(g_hdPersonPropertiesNameGbk, hdPersonPaint.name, sizeof(g_hdPersonPropertiesNameGbk));
+    g_hdPersonPropertiesComplete = hdPersonPaint.properties != 0;
+    for (i = 0; i < hdPersonPaint.properties; ++i)
+        if (g_hdPersonPropertiesPropertyFlags[i] != 3) g_hdPersonPropertiesComplete = 0;
+    g_hdPersonPropertiesPageComplete = hdPersonPaint.nameCaptured && pageEnd > hdPersonPaint.pageStart;
+    for (i = hdPersonPaint.pageStart; i < pageEnd; ++i)
+        if (g_hdPersonPropertiesTitlePaintSeq[i] != ticket || g_hdPersonPropertiesValuePaintSeq[i] != ticket)
+            g_hdPersonPropertiesPageComplete = 0;
+    g_hdPersonPropertiesActive = 1;
+    hdPersonPaint.ticket = 0;
+}
+
 static void hd_menu_ids_clear(void)
 {
+    baye_hd_person_properties_retire();
     g_hdMenuIdsCount = g_hdMenuIdsKind = 0;
     g_hdMenuIdsSeq = g_hdMenuIdsGeneration = 0;
     memset(g_hdMenuIds, 0xff, sizeof(g_hdMenuIds));
@@ -803,6 +979,11 @@ void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 coun
         kind != g_hdMenuKind || !ids || !count || count > BAYE_HD_DETAIL_IDS_MAX ||
         count != g_hdMenuCount || !limit || (kind != BAYE_HD_MENU_PERSON && kind != BAYE_HD_MENU_GOODS)) return;
     for (i = 0; i < count; ++i) if (ids[i] >= limit || ids[i] >= BAYE_HD_DETAIL_IDS_MAX) return;
+    if (hdPersonPaint.ticket && (kind != BAYE_HD_MENU_PERSON || count != hdPersonPaint.count ||
+        memcmp(ids, hdPersonPaint.ids, count * sizeof(*ids)))) baye_hd_person_properties_retire();
+    if (g_hdPersonPropertiesActive && (!hdPersonPaint.ticket || kind != BAYE_HD_MENU_PERSON) &&
+        (kind != BAYE_HD_MENU_PERSON || count != hdPersonPropertiesIdsCount ||
+         memcmp(ids, hdPersonPropertiesIds, count * sizeof(*ids)))) baye_hd_person_properties_retire();
     memcpy(g_hdMenuIds, ids, count * sizeof(*ids));
     g_hdMenuIdsCount = (U16)count; g_hdMenuIdsKind = kind;
     g_hdMenuIdsGeneration = generation; g_hdMenuIdsSeq = seq;
@@ -952,6 +1133,8 @@ void baye_hd_set_king_highlight(U32 index, PersonID id)
 void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 {
     U32 count = itemCount;
+    if ((hdPersonPaint.ticket && (index != hdPersonPaint.index || itemCount != hdPersonPaint.count)) ||
+        (!hdPersonPaint.ticket && g_hdPersonPropertiesActive)) baye_hd_person_properties_retire();
     g_hdMenuIdsCount = g_hdMenuIdsKind = 0;
     g_hdMenuIdsSeq = g_hdMenuIdsGeneration = 0;
     /* Person/goods names are fixed-width slots containing NUL padding. A
@@ -979,6 +1162,8 @@ void baye_hd_set_menu(const U8* buf, U16 itemLen, U16 itemCount, U16 index)
 void baye_hd_set_menu_index(U16 index)
 {
     if (index != g_hdGoodsIndex) hd_goods_clear();
+    if (index != (hdPersonPaint.ticket ? hdPersonPaint.index : g_hdPersonPropertiesIndex))
+        baye_hd_person_properties_retire();
     g_hdMenuIndex = index;
 }
 
@@ -2406,6 +2591,7 @@ void baye_hd_spe_invalidate(void)
 
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 {
+    if (active) baye_hd_person_properties_retire();
     g_hdQtyValue = value;
     g_hdQtyMin = minV;
     g_hdQtyMax = maxV;
@@ -2414,6 +2600,7 @@ void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 
 U32 baye_hd_qty_begin(void)
 {
+    baye_hd_person_properties_retire();
     g_hdQtySession = hd_next_input_seq(g_hdQtySession);
     g_hdQtyInputSeq = 0;
     g_hdQtyLastKey = BAYE_HD_QTY_NO_KEY;
@@ -2635,6 +2822,26 @@ void baye_hd_bind(ObjectDef* def)
     DEFADD_U8ARR(g_hdGoodsPropertyTitles, sizeof(g_hdGoodsPropertyTitles));
     DEFADD_U8ARR(g_hdGoodsPropertyValues, sizeof(g_hdGoodsPropertyValues));
     DEFADD_U8ARR(g_hdGoodsPropertyFlags, sizeof(g_hdGoodsPropertyFlags));
+    DEFADDF(g_hdPersonPropertiesProtocolVersion, U8);
+    DEFADDF(g_hdPersonPropertiesActive, U8);
+    DEFADDF(g_hdPersonPropertiesComplete, U8);
+    DEFADDF(g_hdPersonPropertiesPageComplete, U8);
+    DEFADDF(g_hdPersonPropertiesCustom, U8);
+    DEFADDF(g_hdPersonPropertiesGeneration, U32);
+    DEFADDF(g_hdPersonPropertiesMenuSeq, U32);
+    DEFADDF(g_hdPersonPropertiesPaintSeq, U32);
+    DEFADDF(g_hdPersonPropertiesIndex, U16);
+    DEFADDF(g_hdPersonPropertiesPerson, U16);
+    DEFADDF(g_hdPersonPropertiesPropertyCount, U16);
+    DEFADDF(g_hdPersonPropertiesPageIndex, U16);
+    DEFADDF(g_hdPersonPropertiesPageStart, U16);
+    DEFADDF(g_hdPersonPropertiesPageEnd, U16);
+    DEFADD_U8ARR(g_hdPersonPropertiesNameGbk, sizeof(g_hdPersonPropertiesNameGbk));
+    DEFADD_U8ARR(g_hdPersonPropertiesPropertyTitles, sizeof(g_hdPersonPropertiesPropertyTitles));
+    DEFADD_U8ARR(g_hdPersonPropertiesPropertyValues, sizeof(g_hdPersonPropertiesPropertyValues));
+    DEFADD_U8ARR(g_hdPersonPropertiesPropertyFlags, sizeof(g_hdPersonPropertiesPropertyFlags));
+    DEFADD_U32ARR(g_hdPersonPropertiesTitlePaintSeq, BAYE_HD_PERSON_PROPS_MAX);
+    DEFADD_U32ARR(g_hdPersonPropertiesValuePaintSeq, BAYE_HD_PERSON_PROPS_MAX);
     DEFADDF(g_hdFightActive, U8);
     DEFADDF(g_hdFightOver, U8);
     DEFADDF(g_hdFightWait, U8);

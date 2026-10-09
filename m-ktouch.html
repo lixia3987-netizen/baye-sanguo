@@ -98,10 +98,21 @@
 </html>
 <script src="js/idbkvstore.min.js?ver=20261008i"></script>
 <script src="js/tappy.js"></script>
-<script src="js/bridge.js?ver=20261008i"></script>
+<script src="js/bridge.js?ver=20261009y"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/lcd.js?ver=20261008h"></script>
-<script src="js/baye.js?ver=20261008h"></script>
+<script>
+    window.BAYE_ASSET_VER = '20261009y';
+    window.Module = window.Module || {};
+    window.Module.locateFile = function (path, prefix) {
+        prefix = prefix || 'js/';
+        if (/\.(wasm|map)$/.test(path)) {
+            return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
+        }
+        return prefix + path;
+    };
+</script>
+<script src="js/baye.js?ver=20261009y"></script>
 <script>
 Module.postRun = function (){
     (function (){

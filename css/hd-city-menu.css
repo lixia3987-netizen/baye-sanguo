@@ -578,3 +578,24 @@ html[data-baye-city-menu="hd"][data-baye-city-lcd="on"] body.baye-hd-city-menu-o
         width: min(320px, calc(100vw - 40px)) !important;
     }
 }
+
+.hd-city-menu-person-properties {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(240, 199, 90, 0.24);
+}
+.hd-city-menu-person-properties[hidden] { display: none !important; }
+.hd-city-menu-person-properties h3 { margin: 0 0 8px; color: #f0c75a; font-size: 16px; }
+.hd-city-menu-person-property-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    gap: 4px 12px;
+    padding: 8px 0;
+    overflow-wrap: anywhere;
+    border-bottom: 1px solid rgba(173, 185, 199, 0.12);
+}
+.hd-city-menu-person-property-row strong { font-weight: 500; white-space: pre-wrap; }
+.hd-city-menu-person-property-row small { grid-column: 1 / -1; color: #adb9c7; font-size: 12px; }
+.hd-city-menu-person-property-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.hd-city-menu-person-property-controls button { flex: 1 1 136px; min-height: 44px; padding: 10px 12px; font-size: 14px; }
+.hd-city-menu-person-property-controls button:disabled { opacity: 0.45; cursor: default; }

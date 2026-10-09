@@ -30,6 +30,9 @@ const constants=[header.split('\n').filter(l=>/^#define BAYE_HD_/.test(l)).join(
     read('baye/sconst.h').split('\n').filter(l=>/^#define\s+(GOODS_|ATRR_STR11|ATRR_STR70|STR_GAMEWON|STR_GAMELOST)\b/.test(l)||/^#define\s+GOODS_/.test(l)).join('\n')].join('\n');
 const globals=bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='),bridge.indexOf('U8 g_hdSkillActive ='));
 const helpers=['copy_gbk','hd_next_input_seq','baye_hd_view_retire','baye_hd_mini_map_retire',
+    'baye_hd_person_properties_retire','hd_person_properties_owner','hd_person_properties_ticket','hd_person_properties_text',
+    'baye_hd_person_properties_begin','baye_hd_person_properties_capture','baye_hd_person_properties_name',
+    'baye_hd_person_properties_custom','baye_hd_person_properties_publish',
     'hd_detail_copy','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
     'hd_detail_read_at','hd_detail_restore','hd_tool_payload','baye_hd_tool_count','baye_hd_tool_data','baye_hd_tool_read',
     'baye_hd_person_arm','baye_hd_menu_ids','hd_goods_owner','baye_hd_goods_begin','baye_hd_goods_custom','baye_hd_goods_capture',
@@ -161,6 +164,8 @@ static int AddItem(int w,int h,PosItemType*p,U8*x,U8*y){if(p->x+w-1>p->ex)return
 static int personSingleColumn,personColumnStart,personColumnCalls;
 static U8 ShowPersonProStr(U8 a,U8 b,U8 c,U8 d){(void)b;(void)c;(void)d;personColumnStart=a;personColumnCalls++;return personSingleColumn?(U8)(a+1):5;}
 static void ShowPersonPro(PersonID p,U8 a,U8 b,U8 c,U8 d){(void)p;(void)a;(void)b;(void)c;(void)d;}
+static U8 ShowPersonProStrCaptured(U8 a,U8 b,U8 c,U8 d,U32 ticket,U16 row,PersonID person){(void)ticket;(void)row;(void)person;return ShowPersonProStr(a,b,c,d);}
+static void ShowPersonProCaptured(PersonID p,U8 a,U8 b,U8 c,U8 d,U32 ticket,U16 row){(void)ticket;(void)row;ShowPersonPro(p,a,b,c,d);}
 static U8 g_hdSkillActive;
 static void baye_hd_spe_invalidate(void){}
 static void baye_hd_qty_invalidate(void){}

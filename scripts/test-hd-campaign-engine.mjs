@@ -38,7 +38,7 @@ function actualFunction(filename, name) {
 const bridge = read('hd-bridge.c');
 const detailGlobals = bridge.slice(bridge.indexOf('U32 g_hdDetailGeneration ='), bridge.indexOf('static U8 hdMenuNextContext')) +
     bridge.slice(bridge.indexOf('U8 g_hdHelpProtocolVersion ='), bridge.indexOf('U8 g_hdMovieActive ='));
-const detailClears = ['hd_next_input_seq','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
+const detailClears = ['hd_next_input_seq','baye_hd_person_properties_retire','hd_goods_clear','hd_menu_ids_clear','hd_help_detail_clear',
     'baye_hd_view_retire','baye_hd_mini_map_retire']
     .map(name => actualFunction('hd-bridge.c', name)).join('\n');
 
@@ -260,9 +260,12 @@ int main(void) {
 
 test('real C incoming attacks own defender menus, ACK native indexes and preserve removal, ten-general and EXIT rules', async () => {
     const menuHelpers = ['baye_hd_menu_scope', 'baye_hd_menu_scope_default',
-        'baye_hd_menu_begin', 'baye_hd_menu_end', 'baye_hd_set_menu', 'baye_hd_menu_ids'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
+        'baye_hd_menu_begin', 'baye_hd_menu_end', 'baye_hd_set_menu', 'baye_hd_menu_ids',
+        'hd_person_properties_owner', 'hd_person_properties_ticket', 'baye_hd_person_properties_begin',
+        'baye_hd_person_properties_publish'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
     await compile(common + marchAcknowledgement + String.raw`
 #define PERSON_COUNT 600
+#define PERSON_MAX 2000
 #define gam_strlen(text) strlen((const char*)(text))
 #define ASC_WID 6
 #define ASC_HGT 12
@@ -289,6 +292,7 @@ typedef struct { int currentX,currentY,completed,moved,touched; } Touch;
 static struct { U8 personPropertiesCount; } cfg={10};
 static PersonID g_PersonsQueue[PERSON_COUNT];
 static U8 hdMenuNextContext,hdMenuNextKind,g_hdMenuActive,g_hdMenuContext,g_hdMenuKind;
+static U8 g_hdReportActive,g_hdQtyActive,g_hdHelpActive;
 static U32 g_hdMenuSeq;
 static U8 g_hdMenuGbk[BAYE_HD_MENU_MAX];
 static U16 g_hdMenuItemLen,g_hdMenuCount,g_hdMenuIndex;
@@ -318,6 +322,15 @@ static void gam_rect(U8 a,U8 b,U8 c,U8 d) { (void)a;(void)b;(void)c;(void)d; }
 #define gam_revlcd gam_rect
 static U8 ShowPersonProStr(U8 property,U8 x,U8 y,U8 width) { (void)x;(void)y;(void)width;return property+1; }
 static void ShowPersonPro(PersonID id,U8 property,U8 x,U8 y,U8 width) { (void)id;(void)property;(void)x;(void)y;(void)width; }
+/* The existing campaign fixture intentionally does not render LCD property
+ * strings. Observe its unchanged drawing boundary, while the real begin and
+ * publish helpers above still enforce the campaign/PERSON distinction. */
+static U8 ShowPersonProStrCaptured(U8 property,U8 x,U8 y,U8 width,U32 ticket,U16 row,PersonID person) {
+    (void)ticket;(void)row;(void)person;return ShowPersonProStr(property,x,y,width);
+}
+static void ShowPersonProCaptured(PersonID id,U8 property,U8 x,U8 y,U8 width,U32 ticket,U16 row) {
+    (void)ticket;(void)row;ShowPersonPro(id,property,x,y,width);
+}
 static U8 touchUpdate(Touch* touch,GMType msg) { (void)touch;(void)msg;return 0; }
 static I16 touchListViewItemIndexAtPoint(int x,int y,Rect rect,int a,int b,U32 top,U32 count,int height) {
     (void)x;(void)y;(void)rect;(void)a;(void)b;(void)top;(void)count;(void)height;return -1;
@@ -583,7 +596,9 @@ typedef uint16_t PersonID;
 static U8 g_hdMenuGbk[BAYE_HD_MENU_MAX];
 static U16 g_hdMenuItemLen,g_hdMenuCount,g_hdMenuIndex;
 static void GetPersonName(PersonID person,U8* name) { snprintf((char*)name,16,"p%04u",person); }
-` + actualFunction('hd-bridge.c', 'baye_hd_set_menu') + String.raw`
+` + actualFunction('hd-bridge.c', 'hd_next_input_seq') + '\n' +
+    actualFunction('hd-bridge.c', 'baye_hd_person_properties_retire') + '\n' +
+    actualFunction('hd-bridge.c', 'baye_hd_set_menu') + String.raw`
 static void publish(PersonID* person,U32 pcount,U32 set) {
 ` + block + String.raw`
 }

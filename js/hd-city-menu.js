@@ -61,6 +61,12 @@
         deepMenuOwner: null,
         personDetailSig: '',
         personDetail: null,
+        personProperties: null,
+        personPropertySig: '',
+        personPagePending: null,
+        personPagePointer: null,
+        personPaneEpoch: 0,
+        personModeResume: null,
         toolDetailSig: '',
         toolDetail: null,
         toolPointerOwner: null,
@@ -204,6 +210,7 @@
         state.deepPointerOwner = null;
         state.deepSelectionPending = null;
         retireToolDetails();
+        retirePersonProperties();
     }
 
     function marchInputKey(m) {
@@ -383,6 +390,11 @@
             !mapPickActive() && !state.marchReady;
         if (state.layer === 'deep' && !showingQty() && usesGoodsMenu(state.deepKind, state.deepStep) &&
             !liveToolContext()) { fallback = true; }
+        if (state.layer === 'deep' && /^person/.test(state.deepKind) &&
+            !usesGoodsMenu(state.deepKind, state.deepStep) && !showingQty()) {
+            var personPage = livePersonPropertyContext();
+            if (!personPage || !personPage.pageComplete) { fallback = true; }
+        }
         return state.showLcd || fallback ? 'on' : 'off';
     }
 
@@ -3688,6 +3700,7 @@
     }
 
     function retirePersonDetails() {
+        retirePersonProperties();
         state.personDetail = null;
         state.personDetailSig = '';
         var pane = el('hd-city-menu-person-details');
@@ -3731,7 +3744,8 @@
     function renderPersonDetails() {
         if (!state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
             !/^person/.test(state.deepKind) || usesGoodsMenu(state.deepKind, state.deepStep) ||
-            showingQty() || state.nativeMenuRequest || state.deepSelectionPending) {
+            showingQty() || state.nativeMenuRequest || state.deepSelectionPending ||
+            state.sending || state.queue.length || state.closingSub) {
             retirePersonDetails();
             return;
         }
@@ -3764,7 +3778,6 @@
             retirePersonDetails();
             return;
         }
-        var signature = JSON.stringify([owner.key, index, details]);
         var pane = ensurePersonDetailsPane();
         if (!pane) { return; }
         var fields = el('hd-city-menu-person-fields');
@@ -3773,6 +3786,18 @@
         state.personDetail = details && { ownerKey: owner.key, context: owner.context, kind: owner.kind,
             seq: owner.seq, nativeIndex: index, personIndex: details.personIndex,
             name: details.name, ownership: details.ownership, groups: details.groups };
+        renderPersonProperties();
+        var properties = state.personProperties;
+        var customProperties = !!(details && properties && properties.custom === true &&
+            properties.ownerKey === owner.key && properties.context === owner.context && properties.kind === owner.kind &&
+            properties.nativeIndex === index && properties.personIndex === details.personIndex &&
+            properties.generation === owner.detailGeneration && properties.detailGeneration === owner.detailGeneration);
+        var presentation = customProperties ? 'custom-native' : 'default';
+        // Keep the raw fifteen fields in the diagnostic snapshot. A current
+        // custom native table can assign them different player-facing meaning.
+        if (state.personDetail) { state.personDetail.corePresentation = presentation; }
+        var signature = JSON.stringify([owner.key, index, details, presentation]);
+        fields.setAttribute('data-hd-person-core-presentation', presentation);
         if (state.personDetailSig === signature && fields.children.length) { return; }
         state.personDetailSig = signature;
         fields.innerHTML = '';
@@ -3788,11 +3813,205 @@
             fields.appendChild(missing);
             return;
         }
+        if (customProperties) {
+            var customNote = document.createElement('p');
+            customNote.className = 'hd-city-menu-info-note hd-city-menu-person-custom-note';
+            customNote.textContent = '此版本使用自定义人物属性，请以原生人物属性为准。';
+            fields.appendChild(customNote);
+            return;
+        }
         appendHudGroups(fields, details.groups);
         var note = document.createElement('p');
         note.className = 'hd-city-menu-info-note';
         note.textContent = details.note;
         fields.appendChild(note);
+    }
+
+    function retirePersonProperties() {
+        if (state.personProperties || state.personPagePending) { state.personPaneEpoch += 1; }
+        state.personProperties = null;
+        state.personPropertySig = '';
+        state.personPagePending = null;
+        var pane = el('hd-city-menu-person-properties');
+        if (pane) { pane.hidden = true; }
+        // Keep an armed pointer ticket until click/cancel/new pointerdown. A
+        // retired presentation must not arm the same native owner on restore.
+    }
+
+    function personPropertySnapshot(menu, owner) {
+        var ids = actualMenuIds(menu), data;
+        if (!ids || owner.kind !== 3 || !owner.detailGeneration ||
+            menu.generation !== owner.detailGeneration || !detailNumber(owner.seq, 4294967295)) { return null; }
+        var index = detailNumber(menu.index, ids.length - 1);
+        if (index == null) { return null; }
+        try { data = baye.hd && typeof baye.hd.personProperties === 'function' ? baye.hd.personProperties() : null; }
+        catch (e) { return null; }
+        if (!data || data.protocolVersion !== 1 || detailFlag(data.active) !== true ||
+            detailFlag(data.complete) == null || detailFlag(data.pageComplete) == null || detailFlag(data.custom) == null ||
+            data.context !== 1 || data.kind !== 3 || data.generation !== owner.detailGeneration ||
+            data.detailGeneration !== owner.detailGeneration || data.menuSeq !== owner.seq ||
+            data.index !== index || data.person !== ids[index] || !detailNumber(data.paintSeq, 4294967295) ||
+            detailNumber(data.propertyCount, 255) == null || detailNumber(data.pageIndex, 254) == null ||
+            detailNumber(data.pageStart, data.propertyCount) == null || detailNumber(data.pageEnd, data.propertyCount) == null ||
+            data.pageEnd < data.pageStart || (data.pageIndex === 0 && data.pageStart !== 0) ||
+            (data.pageIndex > 0 && data.pageStart === 0) || typeof data.name !== 'string' ||
+            !Array.isArray(data.properties) || data.properties.length !== data.propertyCount) { return null; }
+        var properties = [];
+        for (var i = 0; i < data.propertyCount; i++) {
+            var prop = data.properties[i];
+            if (!prop || prop.index !== i || typeof prop.title !== 'string' || typeof prop.value !== 'string' ||
+                (prop.titleCaptured === true && !prop.title.length) ||
+                typeof prop.captured !== 'boolean' || typeof prop.titleCaptured !== 'boolean' ||
+                typeof prop.valueCaptured !== 'boolean' || prop.captured !== (prop.titleCaptured && prop.valueCaptured) ||
+                detailNumber(prop.titlePaintSeq, 4294967295) == null || detailNumber(prop.valuePaintSeq, 4294967295) == null ||
+                prop.titleCaptured !== (prop.titlePaintSeq !== 0) || prop.valueCaptured !== (prop.valuePaintSeq !== 0)) { return null; }
+            properties.push({ index: i, title: prop.title, value: prop.value, captured: prop.captured,
+                titleCaptured: prop.titleCaptured, valueCaptured: prop.valueCaptured,
+                titlePaintSeq: prop.titlePaintSeq, valuePaintSeq: prop.valuePaintSeq,
+                current: prop.captured && prop.titlePaintSeq === data.paintSeq && prop.valuePaintSeq === data.paintSeq });
+        }
+        var pageComplete = detailFlag(data.pageComplete), complete = detailFlag(data.complete);
+        if (complete && !properties.every(function (prop) { return prop.captured; }) ||
+            pageComplete && (!data.name.length || !data.propertyCount || data.pageEnd <= data.pageStart ||
+                !properties.slice(data.pageStart, data.pageEnd).every(function (prop) { return prop.current; }))) { return null; }
+        var context = { ownerKey: owner.key, context: 1, kind: 3, seq: owner.seq,
+            generation: data.generation, detailGeneration: data.detailGeneration, nativeIndex: index,
+            personIndex: data.person, paintSeq: data.paintSeq, propertyCount: data.propertyCount,
+            pageIndex: data.pageIndex, pageStart: data.pageStart, pageEnd: data.pageEnd,
+            complete: complete, pageComplete: pageComplete, custom: detailFlag(data.custom),
+            name: data.name, properties: properties };
+        context.pageOwnerKey = JSON.stringify([owner.key, index, data.person, data.paintSeq,
+            data.propertyCount, data.pageIndex, data.pageStart, data.pageEnd, state.personPaneEpoch]);
+        context.snapshotKey = JSON.stringify(context);
+        return context;
+    }
+
+    function livePersonPropertyContext() {
+        if (!state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+            !/^person/.test(state.deepKind) || usesGoodsMenu(state.deepKind, state.deepStep) ||
+            showingQty() || state.nativeMenuRequest || state.deepSelectionPending || state.closingSub ||
+            state.sending || state.queue.length || detailOverlayActive()) { return null; }
+        var menu = engineMenuItems(), owner = deepMenuOwner(menu);
+        if (!owner || !state.deepMenuOwner || owner.key !== state.deepMenuOwner.key) { return null; }
+        var context = personPropertySnapshot(menu, owner);
+        if (!context) { return null; }
+        // A public snapshot is read-only, but a Mod accessor can reenter while
+        // reading it. Sample again and read overlays before the final menu.
+        var again = personPropertySnapshot(menu, owner);
+        if (!again || again.snapshotKey !== context.snapshotKey || document.hidden || !shouldShowHd() ||
+            showingQty() || detailOverlayActive()) { return null; }
+        var after = engineMenuItems(), afterOwner = deepMenuOwner(after);
+        if (!afterOwner || afterOwner.key !== owner.key || after.index !== context.nativeIndex ||
+            !state.open || state.layer !== 'deep' || state.nativeMenuRequest || state.deepSelectionPending ||
+            state.closingSub || state.sending || state.queue.length) { return null; }
+        return context;
+    }
+
+    function ensurePersonPropertiesPane() {
+        var parent = el('hd-city-menu-person-details');
+        if (!parent) { return null; }
+        var pane = el('hd-city-menu-person-properties');
+        if (!pane) {
+            pane = document.createElement('section');
+            pane.id = 'hd-city-menu-person-properties';
+            pane.className = 'hd-city-menu-person-properties';
+            pane.setAttribute('aria-label', '原生人物属性');
+            var fields = document.createElement('div');
+            fields.id = 'hd-city-menu-person-properties-fields';
+            pane.appendChild(fields);
+            var controls = document.createElement('div');
+            controls.id = 'hd-city-menu-person-properties-controls';
+            controls.className = 'hd-city-menu-person-property-controls';
+            ['prev', 'next'].forEach(function (direction) {
+                var button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'hd-city-menu-item';
+                button.setAttribute('data-hd-person-page', direction);
+                button.textContent = direction === 'prev' ? '上一属性页' : '下一属性页';
+                controls.appendChild(button);
+            });
+            pane.appendChild(controls);
+            parent.appendChild(pane);
+        }
+        return pane;
+    }
+
+    function renderPersonProperties() {
+        var context = livePersonPropertyContext();
+        if (!context) { retirePersonProperties(); return; }
+        var pending = state.personPagePending;
+        if (pending) {
+            if (pending.ownerKey !== context.ownerKey || pending.personIndex !== context.personIndex ||
+                pending.nativeIndex !== context.nativeIndex) { state.personPagePending = null; }
+            else if (context.paintSeq !== pending.paintSeq && context.pageComplete &&
+                (pending.direction === 'next' ? context.pageIndex === pending.pageIndex + 1 && context.pageStart === pending.pageEnd :
+                    context.pageIndex === pending.pageIndex - 1 && context.pageEnd === pending.pageStart)) {
+                state.personPagePending = null;
+            }
+        }
+        var pane = ensurePersonPropertiesPane();
+        if (!pane) { return; }
+        pane.hidden = false;
+        state.personProperties = context;
+        var fields = el('hd-city-menu-person-properties-fields');
+        if (state.personPropertySig !== context.snapshotKey || !fields.children.length) {
+            state.personPropertySig = context.snapshotKey;
+            fields.innerHTML = '';
+            var heading = document.createElement('h3');
+            heading.textContent = '原生人物属性';
+            fields.appendChild(heading);
+            var note = document.createElement('p');
+            note.className = 'hd-city-menu-info-note';
+            var captured = context.properties.filter(function (prop) { return prop.captured; }).length;
+            fields.setAttribute('data-hd-person-paint-seq', context.paintSeq);
+            note.textContent = '当前页 ' + (context.pageIndex + 1) + '；累计已查看 ' + captured + ' / ' + context.propertyCount + ' 项。' +
+                (context.pageComplete ? '' : '当前页未完整读取，请查看经典 LCD。') +
+                (context.propertyCount ? '此前读取的内容保留供参考；未读取项可手动翻页。' : '原生菜单没有属性列。');
+            fields.appendChild(note);
+            context.properties.forEach(function (prop) {
+                var row = document.createElement('div');
+                row.className = 'hd-city-menu-person-property-row';
+                row.setAttribute('data-hd-person-property', prop.index);
+                row.setAttribute('data-hd-person-property-current', prop.current ? '1' : '0');
+                row.setAttribute('data-hd-person-property-title-paint-seq', prop.titlePaintSeq);
+                row.setAttribute('data-hd-person-property-value-paint-seq', prop.valuePaintSeq);
+                var title = document.createElement('span');
+                title.textContent = prop.titleCaptured ? prop.title || '（空标题）' : '属性 ' + (prop.index + 1) + '（标题未读取）';
+                var value = document.createElement('strong');
+                value.textContent = prop.valueCaptured ? prop.value || '（空）' : '未读取';
+                var revision = document.createElement('small');
+                revision.textContent = prop.current ? '当前页' : prop.titleCaptured || prop.valueCaptured ? '此前读取' : '未读取';
+                row.appendChild(title); row.appendChild(value); row.appendChild(revision);
+                fields.appendChild(row);
+            });
+        }
+        var buttons = el('hd-city-menu-person-properties-controls').querySelectorAll('[data-hd-person-page]');
+        for (var i = 0; i < buttons.length; i++) {
+            var previous = buttons[i].getAttribute('data-hd-person-page') === 'prev';
+            buttons[i].setAttribute('data-hd-person-page-owner', context.pageOwnerKey);
+            buttons[i].disabled = !!state.personPagePending || !context.pageComplete ||
+                (previous ? context.pageIndex === 0 : context.pageIndex >= 254 ||
+                    context.pageEnd <= context.pageStart || context.pageEnd >= context.propertyCount);
+        }
+    }
+
+    function pagePerson(direction, expectedOwner) {
+        var context = livePersonPropertyContext();
+        if (!context || expectedOwner !== context.pageOwnerKey || !context.pageComplete || state.personPagePending ||
+            direction !== 'prev' && direction !== 'next' || direction === 'prev' && context.pageIndex === 0 ||
+            direction === 'next' && (context.pageIndex >= 254 || context.pageEnd <= context.pageStart ||
+                context.pageEnd >= context.propertyCount)) { renderPersonProperties(); return false; }
+        var pending = { ownerKey: context.ownerKey, nativeIndex: context.nativeIndex, personIndex: context.personIndex,
+            paintSeq: context.paintSeq, pageIndex: context.pageIndex, pageStart: context.pageStart,
+            pageEnd: context.pageEnd, direction: direction };
+        state.personPagePending = pending;
+        var sent = engineSendKey(direction === 'prev' ? VK.LEFT : VK.RIGHT, 'person-property-page', function () {
+            var current = livePersonPropertyContext();
+            return current && current.pageOwnerKey === context.pageOwnerKey && current.snapshotKey === context.snapshotKey;
+        });
+        if (!sent && state.personPagePending === pending) { state.personPagePending = null; }
+        renderPersonProperties();
+        return sent;
     }
 
     function retireToolDetails() {
@@ -5816,6 +6035,9 @@
             return;
         }
         state.bound = true;
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) { retirePersonProperties(); }
+        });
         function buttonOwner(button) {
             var key = button.getAttribute('data-hd-deep-owner');
             return key == null ? null : { key: key,
@@ -5826,12 +6048,17 @@
         root.addEventListener('pointerdown', function (ev) {
             state.deepPointerOwner = null;
             state.toolPointerOwner = null;
+            state.personPagePointer = null;
             state.backPointerOwner = null;
             var target = ev.target;
             if (target === root) { state.backPointerOwner = { target: root, key: cityBackPressOwner() }; return; }
             while (target && target !== root) {
                 if (target.getAttribute && target.getAttribute('data-hd-menu-back') != null) {
                     state.backPointerOwner = { target: target, key: cityBackPressOwner() };
+                    return;
+                }
+                if (target.getAttribute && target.getAttribute('data-hd-person-page') != null) {
+                    state.personPagePointer = { target: target, key: target.getAttribute('data-hd-person-page-owner') };
                     return;
                 }
                 if (target.getAttribute && target.getAttribute('data-hd-tool-page') != null) {
@@ -5848,15 +6075,26 @@
         root.addEventListener('pointercancel', function () {
             state.deepPointerOwner = null;
             state.toolPointerOwner = null;
+            if (state.personPagePointer) { state.personPagePointer.cancelled = true; }
             if (state.backPointerOwner) { state.backPointerOwner.cancelled = true; }
         });
         root.addEventListener('click', function (ev) {
             var pressed = state.deepPointerOwner;
             var pagePressed = state.toolPointerOwner;
+            var personPressed = state.personPagePointer;
             var backPressed = state.backPointerOwner;
             state.deepPointerOwner = null;
             state.toolPointerOwner = null;
             state.backPointerOwner = null;
+            state.personPagePointer = null;
+            if (ev.detail === 0) { pressed = pagePressed = personPressed = null; }
+            if (personPressed) {
+                var personTarget = ev.target;
+                while (personTarget && personTarget !== root && personTarget !== personPressed.target) { personTarget = personTarget.parentNode; }
+                if (personTarget !== personPressed.target || personPressed.cancelled || !personPressed.key) {
+                    ev.preventDefault(); return;
+                }
+            }
             // Keyboard activation starts a new action, even after a cancelled pointer.
             if (ev.detail === 0) { backPressed = null; }
             if (ev.target === root) {
@@ -5867,6 +6105,14 @@
             }
             var t = ev.target;
             while (t && t !== root) {
+                if (t.getAttribute && t.getAttribute('data-hd-person-page') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    if (pressed || pagePressed || backPressed) { renderPersonProperties(); return; }
+                    pagePerson(t.getAttribute('data-hd-person-page'), personPressed ? personPressed.key :
+                        t.getAttribute('data-hd-person-page-owner'));
+                    return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-tool-page') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
@@ -6077,11 +6323,99 @@
         syncToolbar();
     }
 
+    function personModeOwner() {
+        try {
+            var hd = window.baye && baye.hd, d = window.baye && baye.data;
+            if (!hd || !d || typeof hd.ready !== 'function' || hd.ready() !== true || document.hidden) { return null; }
+            var report = typeof hd.report === 'function' ? hd.report() : null;
+            var help = typeof hd.help === 'function' ? hd.help() : null;
+            var qty = typeof hd.qty === 'function' ? hd.qty() : null;
+            var fight = typeof hd.fight === 'function' ? hd.fight() : null;
+            var march = typeof hd.march === 'function' ? hd.march() : null;
+            if (!report || report.active !== 0 || detailNumber(report.seq, 4294967295) == null ||
+                !help || help.active !== 0 || detailNumber(help.seq, 4294967295) == null ||
+                !qty || qty.active !== 0 || detailNumber(qty.session, 4294967295) == null ||
+                !fight || fight.active !== 0 || !march || march.phase !== MARCH.IDLE ||
+                march.pick !== 0 || march.battlePick !== 0 ||
+                detailNumber(march.mapCity, 255) == null || march.mapCity !== state.cityIndex + 1 ||
+                !detailNumber(march.mapInputSeq, 4294967295)) { return null; }
+            var overlays = [global.BayeHdDialog, global.BayeHdSystemUi, global.BayeHdMiniMap,
+                global.BayeHdBattle, global.BayeHdSpe];
+            for (var i = 0; i < overlays.length; i++) {
+                if (overlays[i] && (typeof overlays[i].isOpen !== 'function' || overlays[i].isOpen() !== false)) { return null; }
+            }
+            // Overlay accessors may reenter a different menu. Read its real
+            // full identity only after those callbacks and fence raw ownership.
+            var menu = engineMenuItems(), ids = actualMenuIds(menu);
+            if (menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 || !ids || !ids.length ||
+                !detailNumber(menu.seq, 4294967295) || !detailNumber(menu.generation, 4294967295) ||
+                menu.generation !== menu.detailGeneration || detailNumber(menu.index, ids.length - 1) == null ||
+                !menu.names.every(function (name) { return typeof name === 'string'; }) ||
+                d.g_hdDetailGeneration !== menu.generation || d.g_hdMenuSeq !== menu.seq ||
+                d.g_hdMenuActive !== 1 || d.g_hdMenuContext !== 1 || d.g_hdMenuKind !== 3 ||
+                d.g_hdMapCity !== march.mapCity || d.g_hdMapInputSeq !== march.mapInputSeq ||
+                d.g_hdReportActive !== 0 || d.g_hdHelpActive !== 0 || d.g_hdQtyActive !== 0 ||
+                d.g_hdFightActive !== 0 || d.g_hdMarchPhase !== MARCH.IDLE ||
+                d.g_hdMapPick !== 0 || d.g_hdBattlePick !== 0 ||
+                d.g_hdDetailGeneration !== menu.generation || d.g_hdMenuSeq !== menu.seq) { return null; }
+            return JSON.stringify([menu.context, menu.kind, menu.seq, menu.generation, menu.detailGeneration,
+                menu.count, menu.names, ids, march.mapCity, march.mapInputSeq, report.seq, help.seq, qty.session]);
+        } catch (e) { return null; }
+    }
+
+    function personModeStateMatches(ticket) {
+        return ticket && state.layer === 'deep' && state.deepKind === 'person' &&
+            detailNumber(state.cityIndex, 254) != null &&
+            state.cityIndex === ticket.cityIndex && state.subKind === ticket.subKind && state.deepLabel === ticket.deepLabel &&
+            !state.queue.length && !state.sending && !state.nativeMenuRequest && !state.deepSelectionPending &&
+            !state.closingSub && !state.handoff && !state.battleMake && !state.marchReady;
+    }
+
+    function capturePersonMode() {
+        if (!state.open || !shouldShowHd() || !state.deepMenuOwner) { return null; }
+        var ticket = { cityIndex: state.cityIndex, subKind: state.subKind, deepLabel: state.deepLabel };
+        if (!personModeStateMatches(ticket)) { return null; }
+        var key = personModeOwner(), menu = engineMenuItems(), owner = deepMenuOwner(menu);
+        if (!key || !owner || owner.key !== state.deepMenuOwner.key || key !== personModeOwner()) { return null; }
+        ticket.key = key;
+        return ticket;
+    }
+
+    function retireResumedPersonMode(ticket) {
+        // Retire only this resumed pane. A reentrant native callback may
+        // already have opened a different legitimate local menu.
+        if (ticket && state.layer === 'deep' && state.deepKind === 'person' && state.cityIndex === ticket.cityIndex &&
+            state.subKind === ticket.subKind && state.deepLabel === ticket.deepLabel) {
+            state.open = false;
+            state.deepMenuOwner = null;
+            retirePersonDetails();
+            render();
+        }
+    }
+
+    function resumePersonMode(ticket) {
+        if (state.open || !shouldShowHd() || !personModeStateMatches(ticket) ||
+            personModeOwner() !== ticket.key || personModeOwner() !== ticket.key) { return false; }
+        // The current native highlight and property paint are read by render;
+        // no native menu-opening helper, key or world write is used to resume.
+        state.open = true;
+        state.deepSig = '';
+        render();
+        if (!personModeStateMatches(ticket) || personModeOwner() !== ticket.key || personModeOwner() !== ticket.key) {
+            retireResumedPersonMode(ticket);
+            return false;
+        }
+        return true;
+    }
+
     function setMenuMode(value) {
-        var mode = normalizeMenuMode(value);
+        var mode = normalizeMenuMode(value), oldMode = getMenuMode();
+        if (mode === 'classic' && oldMode !== 'classic') { state.personModeResume = capturePersonMode(); }
+        var resume = oldMode === 'classic' && mode !== 'classic' ? state.personModeResume : null;
+        if (mode !== 'classic') { state.personModeResume = null; }
         writeStorage(STORAGE_KEY, mode);
         state.mode = mode;
-        syncMode();
+        syncMode(resume);
         if (!shouldShowHd()) {
             invalidateQtyWork();
         }
@@ -6091,13 +6425,27 @@
         applyDocAttr();
         syncToolbar();
         render();
+        // Rendering also reads engine names and snapshots. Fence the complete
+        // public mode action after its last render, not only the inner resume.
+        if (resume && state.open && (!personModeStateMatches(resume) ||
+            personModeOwner() !== resume.key || personModeOwner() !== resume.key)) {
+            retireResumedPersonMode(resume);
+        }
     }
 
-    function syncMode() {
+    function syncMode(resume) {
+        if (state.personModeResume && !shouldShowHd() &&
+            (!personModeStateMatches(state.personModeResume) || personModeOwner() !== state.personModeResume.key)) {
+            state.personModeResume = null;
+        }
         var signature = getMenuMode() + ':' + (overworldIsHd() ? 'hd' : 'classic');
         if (state.modeSignature === signature) { return; }
         state.modeSignature = signature;
+        var pressedPerson = state.deepPointerOwner;
         invalidateMarchWork();
+        // Retain an old press until consumed. Its earlier marchEpoch is now
+        // invalid even if the same native menu is restored by a mode toggle.
+        if (pressedPerson) { state.deepPointerOwner = pressedPerson; }
         invalidateQtyWork();
         if (!shouldShowHd()) {
             state.open = false;
@@ -6116,6 +6464,8 @@
                     state.qtyInputClosed = false;
                     state.qtyDismissed = false;
                 }
+            } else if (resume) {
+                resumePersonMode(resume);
             }
         }
         applyDocAttr();
@@ -6260,6 +6610,8 @@
                 cityDetails: state.open && state.layer === 'status' && state.cityDetails
                     ? JSON.parse(JSON.stringify(state.cityDetails)) : null,
                 personDetail: state.personDetail ? JSON.parse(JSON.stringify(state.personDetail)) : null,
+                personProperties: state.personProperties ? JSON.parse(JSON.stringify(state.personProperties)) : null,
+                personPagePending: state.personPagePending ? JSON.parse(JSON.stringify(state.personPagePending)) : null,
                 toolDetail: state.toolDetail ? JSON.parse(JSON.stringify(state.toolDetail)) : null,
                 toolPagePending: state.toolPagePending,
                 pickedPersons: state.pickedPersons,

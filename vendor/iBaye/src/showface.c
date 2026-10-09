@@ -585,7 +585,9 @@ FAR void GetPersonName(PersonID person,U8 *str)
  *		----		----			-----------
  *		陈泽伟		2005/5/18 11:26AM	基本功能完成
  ******************************************************************************/
-void ShowPersonPro(PersonID person,U8 pro,U8 x,U8 y,U8 wid)
+static void GetPersonProStrCaptured(PersonID person, U8 pro, U8* str, U32 ticket, U16 row);
+
+static void ShowPersonProCaptured(PersonID person,U8 pro,U8 x,U8 y,U8 wid,U32 ticket,U16 row)
 {
     U8 sx,sy;
     U8 str[128];
@@ -599,6 +601,7 @@ void ShowPersonPro(PersonID person,U8 pro,U8 x,U8 y,U8 wid)
     {
         GetPersonName(person,str);
         PlcMidShowStr(sx + ASC_WID * 8 / 2,sy,str);
+        baye_hd_person_properties_name(ticket,row,person,str);
         /*GamStrShowS(sx,sy,str);*/
     }
     else
@@ -610,8 +613,9 @@ void ShowPersonPro(PersonID person,U8 pro,U8 x,U8 y,U8 wid)
     {
         if (AddItem(ASC_WID * ptr[i] + 1,ASC_HGT,&positem,&sx,&sy))
         {
-            GetPersonProStr(person,i,str);
+            GetPersonProStrCaptured(person,i,str,ticket,row);
             PlcMidShowStr(sx + ASC_WID * ptr[i] / 2,sy,str);
+            baye_hd_person_properties_capture(ticket,row,person,i,str,0);
             /*GamStrShowS(sx,sy,str);*/
         }
         else
@@ -619,6 +623,11 @@ void ShowPersonPro(PersonID person,U8 pro,U8 x,U8 y,U8 wid)
             break;
         }
     }
+}
+
+void ShowPersonPro(PersonID person,U8 pro,U8 x,U8 y,U8 wid)
+{
+    ShowPersonProCaptured(person,pro,x,y,wid,0,0);
 }
 
 /******************************************************************************
@@ -634,13 +643,14 @@ void ShowPersonPro(PersonID person,U8 pro,U8 x,U8 y,U8 wid)
  *		----		----			-----------
  *		陈泽伟		2005/5/18 11:26AM	基本功能完成
  ******************************************************************************/
-void GetPersonProStr(PersonID person,U8 pro,U8 *str)
+static void GetPersonProStrCaptured(PersonID person,U8 pro,U8 *str,U32 ticket,U16 row)
 {
     U8 idx = '\0';
     PersonID b;
 
     IF_HAS_HOOK("getPersonPropertyValue") {
         U8* value = str;
+        baye_hd_person_properties_custom(ticket,row,person);
 
         BIND_U16EX("personIndex", &person);
         BIND_U8EX("propertyIndex", &pro);
@@ -749,6 +759,11 @@ void GetPersonProStr(PersonID person,U8 pro,U8 *str)
     }
 }
 
+void GetPersonProStr(PersonID person,U8 pro,U8 *str)
+{
+    GetPersonProStrCaptured(person,pro,str,0,0);
+}
+
 /******************************************************************************
  * 函数名:ShowPersonProStr
  * 说  明:显示武将属性字符串
@@ -762,7 +777,7 @@ void GetPersonProStr(PersonID person,U8 pro,U8 *str)
  *		----		----			-----------
  *		陈泽伟		2005/5/18 11:26AM	基本功能完成
  ******************************************************************************/
-U8 ShowPersonProStr(U8 pro,U8 x,U8 y,U8 wid)
+static U8 ShowPersonProStrCaptured(U8 pro,U8 x,U8 y,U8 wid,U32 ticket,U16 row,PersonID person)
 {
     U8 sx,sy;
     U8 str[128];
@@ -792,6 +807,7 @@ U8 ShowPersonProStr(U8 pro,U8 x,U8 y,U8 wid)
             IF_HAS_HOOK("getPersonPropertyTitle") {
                 U8 column = i;
                 U8* value = str;
+                baye_hd_person_properties_custom(ticket,row,person);
 
                 BIND_U8EX("propertyIndex", &column);
                 BIND_GBKARR(value, 128);
@@ -802,6 +818,7 @@ U8 ShowPersonProStr(U8 pro,U8 x,U8 y,U8 wid)
             if (str[0] == 0) ResLoadToMem(STRING_CONST,ATRR_STR18 + i,str);
 
             PlcMidShowStr(sx + ASC_WID * ptr[i] / 2,sy,str);
+            baye_hd_person_properties_capture(ticket,row,person,i,str,1);
             /*GamStrShowS(sx,sy,str);*/
         }
         else
@@ -811,6 +828,11 @@ U8 ShowPersonProStr(U8 pro,U8 x,U8 y,U8 wid)
     }
     return(i);
 
+}
+
+U8 ShowPersonProStr(U8 pro,U8 x,U8 y,U8 wid)
+{
+    return ShowPersonProStrCaptured(pro,x,y,wid,0,0,0);
 }
 
 /******************************************************************************
@@ -883,14 +905,16 @@ FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSel
     {
         if (showflag)
         {
+            U32 hdPaint = baye_hd_person_properties_begin(hdGeneration,hdSeq,(U16)set,
+                person,pcount,cfg.personPropertiesCount,spc,spcv[spc]);
             gam_clrlcd(x0,y0,x1,y1);
-            spcv[spc + 1] = ShowPersonProStr(spcv[spc],x0,y0,wid);
+            spcv[spc + 1] = ShowPersonProStrCaptured(spcv[spc],x0,y0,wid,hdPaint,(U16)set,person[set]);
             for (i = 0;i < count;i ++)
             {
                 if (i >= pcount)
                     break;
 
-                ShowPersonPro(person[top + i],spcv[spc],x0,y0 + ASC_HGT * i + ASC_HGT,wid);
+                ShowPersonProCaptured(person[top + i],spcv[spc],x0,y0 + ASC_HGT * i + ASC_HGT,wid,hdPaint,(U16)(top + i));
             }
             if (set >= top && set < top + count) {
                 gam_revlcd(x0,y0 + (set - top + 1) * ASC_HGT,x0 + ASC_WID * 8 - 1,y0 + (set - top + 1) * ASC_HGT + ASC_HGT - 1);
@@ -916,6 +940,7 @@ FAR PersonID ShowPersonControlInner(PersonID *person,U32 pcount,PersonID initSel
                 }
                 baye_hd_set_menu(packed, BAYE_HD_NAME_SLOT, (U16)n, (U16)set);
                 if (n == pcount) baye_hd_menu_ids(hdGeneration, hdSeq, g_hdMenuKind, person, n);
+                baye_hd_person_properties_publish(hdPaint,spcv[spc + 1]);
             }
             showflag = 0;
         }

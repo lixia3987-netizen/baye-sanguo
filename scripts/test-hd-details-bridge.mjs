@@ -126,3 +126,211 @@ test('getter reentrant world or LIB change retires already read tool fields',()=
         if(field===5)h.setIdentity({status:'ready',sha256:hash,generation:2});return 1;
     };assert.equal(h.baye.hd.toolDetails(31),null);
 });
+
+function personPropertiesFixture({count=3,pageStart=0,pageEnd=2,custom=0}={}) {
+    const h=fixture();h.menu(3,[699,600]);h.raw.g_hdMenuIndex=1;
+    Object.assign(h.raw,{g_hdReportActive:0,g_hdHelpActive:0,g_hdQtyActive:0,
+        g_hdPersonPropertiesProtocolVersion:1,g_hdPersonPropertiesActive:1,
+        g_hdPersonPropertiesComplete:0,g_hdPersonPropertiesPageComplete:1,g_hdPersonPropertiesCustom:custom,
+        g_hdPersonPropertiesGeneration:7,g_hdPersonPropertiesMenuSeq:12,g_hdPersonPropertiesPaintSeq:61,
+        g_hdPersonPropertiesIndex:1,g_hdPersonPropertiesPerson:600,g_hdPersonPropertiesPropertyCount:count,
+        g_hdPersonPropertiesPageIndex:0,g_hdPersonPropertiesPageStart:pageStart,g_hdPersonPropertiesPageEnd:pageEnd,
+        g_hdPersonPropertiesNameGbk:new Uint8Array(32),
+        g_hdPersonPropertiesPropertyTitles:new Uint8Array(256*128),
+        g_hdPersonPropertiesPropertyValues:new Uint8Array(256*128),
+        g_hdPersonPropertiesPropertyFlags:new Uint8Array(256),
+        g_hdPersonPropertiesTitlePaintSeq:new Uint32Array(256),
+        g_hdPersonPropertiesValuePaintSeq:new Uint32Array(256)});
+    h.raw.g_hdPersonPropertiesNameGbk.set(new TextEncoder().encode('same native name'));
+    h.property=(index,title,value,{flags=3,titleSeq=61,valueSeq=61}={})=>{
+        const encode=v=>typeof v==='string'?new TextEncoder().encode(v):Uint8Array.from(v);
+        for(const [name,text] of [['PropertyTitles',title],['PropertyValues',value]]) {
+            const bytes=h.raw['g_hdPersonProperties'+name];bytes.fill(0,index*128,(index+1)*128);bytes.set(encode(text),index*128);
+        }
+        h.raw.g_hdPersonPropertiesPropertyFlags[index]=flags;
+        h.raw.g_hdPersonPropertiesTitlePaintSeq[index]=flags&1?titleSeq:0;
+        h.raw.g_hdPersonPropertiesValuePaintSeq[index]=flags&2?valueSeq:0;
+    };
+    h.property(0,[0xcc,0xe5,0xc1,0xa6],'65535');h.property(1,'actual custom value','0');
+    h.read=()=>plain(h.baye.hd.personProperties());
+    h.untouched=()=>{assert.deepEqual(h.calls,[]);assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);};
+    return h;
+}
+function neutralPersonProperties(value) {
+    assert.equal(value.active,0);assert.equal(value.complete,0);assert.equal(value.pageComplete,0);
+    assert.equal(value.index,null);assert.equal(value.person,null);assert.equal(value.name,'');assert.deepEqual(value.properties,[]);
+}
+
+test('person properties bind the actual high U16 selected ID and GBK page without replaying any getter',()=>{
+    const h=personPropertiesFixture();h.baye.getPersonName=()=>{throw Error('name getter replay');};
+    h.baye.hooks={getPersonPropertyTitle(){throw Error('title replay');},getPersonPropertyValue(){throw Error('value replay');}};
+    const value=h.read();assert.equal(value.active,1);assert.equal(value.person,600);assert.equal(value.index,1);
+    assert.equal(value.context,1);assert.equal(value.kind,3);assert.equal(value.generation,7);assert.equal(value.detailGeneration,7);
+    assert.equal(value.menuSeq,12);assert.equal(value.paintSeq,61);assert.equal(value.name,'same native name');
+    assert.equal(value.complete,0);assert.equal(value.pageComplete,1);assert.equal(value.propertyCount,3);
+    assert.deepEqual(value.properties[0],{index:0,title:'体力',value:'65535',captured:true,
+        titleCaptured:true,valueCaptured:true,titlePaintSeq:61,valuePaintSeq:61});
+    assert.deepEqual(value.properties[2],{index:2,title:'',value:'',captured:false,
+        titleCaptured:false,valueCaptured:false,titlePaintSeq:0,valuePaintSeq:0});h.untouched();
+});
+
+test('custom hooks may authoritatively draw empty and zero values, with current capture flags',()=>{
+    const h=personPropertiesFixture({count:2,custom:1});h.raw.g_hdPersonPropertiesComplete=1;
+    h.property(0,'empty','');h.property(1,'zero','0');const v=h.read();
+    assert.equal(v.active,1);assert.equal(v.custom,1);assert.equal(v.complete,1);assert.equal(v.pageComplete,1);
+    assert.equal(v.properties[0].value,'');assert.equal(v.properties[0].captured,true);assert.equal(v.properties[1].value,'0');h.untouched();
+});
+
+test('cumulative captures on older pages do not authorize a current native repaint',()=>{
+    const h=personPropertiesFixture();h.property(2,'old observed property','prior value',{titleSeq:58,valueSeq:59});
+    h.raw.g_hdPersonPropertiesComplete=1;h.raw.g_hdPersonPropertiesPageStart=2;h.raw.g_hdPersonPropertiesPageEnd=3;
+    h.raw.g_hdPersonPropertiesPageIndex=1;h.raw.g_hdPersonPropertiesPageComplete=0;
+    const v=h.read();assert.equal(v.active,1);assert.equal(v.complete,1);assert.equal(v.pageComplete,0);
+    assert.equal(v.pageIndex,1);assert.equal(v.pageStart,2);assert.equal(v.pageEnd,3);
+    assert.equal(v.properties[2].title,'old observed property');assert.equal(v.properties[2].value,'prior value');
+    assert.equal(v.properties[2].titlePaintSeq,58);assert.equal(v.properties[2].valuePaintSeq,59);
+    h.raw.g_hdPersonPropertiesPageComplete=1;neutralPersonProperties(h.read());h.untouched();
+});
+
+test('missing title and value halves remain explicitly unread, never filled from native person defaults',()=>{
+    const h=personPropertiesFixture();h.raw.g_hdPersonPropertiesPageComplete=0;
+    h.property(0,'title observed','unused cached text',{flags:1});h.property(1,'unused title','value observed',{flags:2});
+    const v=h.read();assert.equal(v.active,1);assert.equal(v.complete,0);assert.equal(v.pageComplete,0);
+    assert.deepEqual(v.properties.map(p=>[p.title,p.value,p.titleCaptured,p.valueCaptured]),
+        [['title observed','',true,false],['','value observed',false,true],['','',false,false]]);h.untouched();
+});
+
+test('zero-column and offscreen native paints expose no complete HD page',()=>{
+    const h=personPropertiesFixture({count:0,pageStart:0,pageEnd:0});h.raw.g_hdPersonPropertiesPageComplete=0;
+    h.raw.g_hdPersonPropertiesNameGbk.fill(0);let v=h.read();assert.equal(v.active,1);assert.equal(v.propertyCount,0);
+    assert.equal(v.complete,0);assert.equal(v.pageComplete,0);assert.equal(v.name,'');assert.deepEqual(v.properties,[]);
+    h.raw.g_hdPersonPropertiesComplete=1;neutralPersonProperties(h.read());h.untouched();
+});
+
+test('actual maximum 255 properties and native page index 254 are retained without a guessed page size',()=>{
+    const h=personPropertiesFixture({count:255,pageStart:254,pageEnd:255});
+    h.property(254,'last actual column','last value');h.raw.g_hdPersonPropertiesPageIndex=254;
+    const v=h.read();assert.equal(v.active,1);assert.equal(v.pageComplete,1);assert.equal(v.complete,0);
+    assert.equal(v.properties.length,255);assert.equal(v.pageStart,254);assert.equal(v.pageEnd,255);assert.equal(v.pageIndex,254);
+    assert.equal(v.properties[254].title,'last actual column');h.untouched();
+});
+
+test('every missing person contract or native owner field retires the entire observation',()=>{
+    const template=personPropertiesFixture();const fields=Object.keys(template.raw).filter(k=>k.startsWith('g_hdPersonProperties')||
+        ['g_hdDetailGeneration','g_hdMenuActive','g_hdMenuContext','g_hdMenuKind','g_hdMenuSeq','g_hdMenuCount',
+            'g_hdMenuIndex','g_hdMenuIds','g_hdMenuIdsCount','g_hdMenuIdsKind','g_hdMenuIdsSeq','g_hdMenuIdsGeneration',
+            'g_hdReportActive','g_hdHelpActive','g_hdQtyActive'].includes(k));
+    for(const field of fields){const h=personPropertiesFixture();delete h.raw[field];neutralPersonProperties(h.read());h.untouched();}
+});
+
+test('malformed numeric metadata never coerces strings, booleans, fractions or unknown IDs',()=>{
+    const cases=[['ProtocolVersion',2],['Active',2],['Complete','0'],['PageComplete',true],['Custom',null],
+        ['Generation',0],['MenuSeq',0],['PaintSeq',0],['Index',0],['Person',699],['Person',786],['Person',65535],
+        ['PropertyCount',256],['PropertyCount','3'],['PageIndex',255],['PageStart',3],['PageEnd',4],['PageEnd',null]];
+    for(const [field,value] of cases){const h=personPropertiesFixture();h.raw['g_hdPersonProperties'+field]=value;neutralPersonProperties(h.read());h.untouched();}
+    for(const count of [0,'786',true,NaN,2001]){const h=personPropertiesFixture();h.context._bayeGetPersonCount=()=>count;neutralPersonProperties(h.read());h.untouched();}
+});
+
+test('native menu kind, index, generation and every complete ID must belong to the same observed person page',()=>{
+    for(const [field,value] of [['g_hdMenuActive',0],['g_hdMenuKind',4],['g_hdMenuIndex',0],['g_hdMenuSeq',13],
+        ['g_hdMenuCount',3],['g_hdMenuIdsCount',1],['g_hdMenuIdsKind',4],['g_hdMenuIdsSeq',13],
+        ['g_hdMenuIdsGeneration',8],['g_hdMenuIds',[699,601]],['g_hdMenuIds',[null,600]],
+        ['g_hdMenuIds',[786,600]],['g_hdMenuIds',['699',600]],['g_hdMenuIds',[600]]]) {
+        const h=personPropertiesFixture();h.raw[field]=value;neutralPersonProperties(h.read());h.untouched();
+    }
+});
+
+test('real report, help and quantity overlays retire a pending person property presentation',()=>{
+    for(const field of ['g_hdReportActive','g_hdHelpActive','g_hdQtyActive']) {
+        const h=personPropertiesFixture();h.raw[field]=1;neutralPersonProperties(h.read());h.untouched();
+    }
+});
+
+test('fixed native byte, flag and revision arrays reject truncation and whole decoded GBK strings',()=>{
+    for(const field of ['NameGbk','PropertyTitles','PropertyValues','PropertyFlags','TitlePaintSeq','ValuePaintSeq']) {
+        for(const mutation of [buffer=>buffer.slice(0,buffer.length-1),()=>'',()=>null]) {
+            const h=personPropertiesFixture(),key='g_hdPersonProperties'+field;h.raw[key]=mutation(h.raw[key]);neutralPersonProperties(h.read());h.untouched();
+        }
+    }
+});
+
+test('native captured strings require NUL, valid GBK pairs and a nonempty title',()=>{
+    const cases=[h=>h.raw.g_hdPersonPropertiesNameGbk.fill(65),
+        h=>h.raw.g_hdPersonPropertiesPropertyTitles.fill(65,0,128),
+        h=>h.raw.g_hdPersonPropertiesPropertyValues.fill(65,128,256),
+        h=>h.property(0,[0x81],'value'),h=>h.property(0,[0x81,0x7f],'value'),
+        h=>h.property(0,'title',[0xfe,0x30]),h=>h.property(0,'','empty title is not complete')];
+    for(const mutate of cases){const h=personPropertiesFixture();mutate(h);neutralPersonProperties(h.read());h.untouched();}
+});
+
+test('capture flags and paint revisions cannot invent completed current or cumulative pages',()=>{
+    const cases=[h=>h.raw.g_hdPersonPropertiesPropertyFlags[0]=4,
+        h=>h.raw.g_hdPersonPropertiesTitlePaintSeq[0]=0,
+        h=>h.raw.g_hdPersonPropertiesValuePaintSeq[2]=61,
+        h=>h.raw.g_hdPersonPropertiesValuePaintSeq[0]=60,
+        h=>h.raw.g_hdPersonPropertiesComplete=1];
+    for(const mutate of cases){const h=personPropertiesFixture();mutate(h);neutralPersonProperties(h.read());h.untouched();}
+});
+
+test('reentrant GBK byte reads cannot combine owners, selected IDs or page tickets',()=>{
+    for(const mutate of [h=>h.raw.g_hdDetailGeneration++,h=>h.raw.g_hdMenuSeq++,
+        h=>h.raw.g_hdPersonPropertiesPaintSeq++,h=>h.raw.g_hdMenuIds[0]=601,
+        h=>h.raw.g_hdMenuIndex=0,h=>h.raw.g_hdReportActive=1]) {
+        const h=personPropertiesFixture(),bytes=Array.from(h.raw.g_hdPersonPropertiesPropertyValues);
+        Object.defineProperty(bytes,128,{get(){mutate(h);return 48;}});h.raw.g_hdPersonPropertiesPropertyValues=bytes;
+        neutralPersonProperties(h.read());h.untouched();
+    }
+});
+
+test('the final owner fence catches a mutation during the second full buffer sampling pass',()=>{
+    for(const field of ['g_hdDetailGeneration','g_hdPersonPropertiesPaintSeq']) {
+        const h=personPropertiesFixture(),bytes=Array.from(h.raw.g_hdPersonPropertiesPropertyValues);let reads=0;
+        Object.defineProperty(bytes,0,{get(){if(++reads===2)h.raw[field]++;return 54;}});
+        h.raw.g_hdPersonPropertiesPropertyValues=bytes;neutralPersonProperties(h.read());assert.ok(reads>=2);h.untouched();
+    }
+});
+
+test('second-pass full-ID and fixed-buffer changes cannot escape earlier identity or length checks',()=>{
+    for(const mutation of [h=>h.raw.g_hdMenuIds[0]=698,h=>{h.raw.g_hdPersonPropertiesPropertyTitles.length=384;}]) {
+        const h=personPropertiesFixture();h.raw.g_hdPersonPropertiesPropertyTitles=Array.from(h.raw.g_hdPersonPropertiesPropertyTitles);
+        const bytes=Array.from(h.raw.g_hdPersonPropertiesPropertyValues);let reads=0;
+        Object.defineProperty(bytes,0,{get(){if(++reads===2)mutation(h);return 54;}});
+        h.raw.g_hdPersonPropertiesPropertyValues=bytes;neutralPersonProperties(h.read());assert.ok(reads>=2);h.untouched();
+    }
+});
+
+test('byte holes and nonnumeric byte values cannot hide in an unread property slot',()=>{
+    for(const mutate of [bytes=>{delete bytes[256];},bytes=>{bytes[256]='0';},bytes=>{bytes[256]=true;}]) {
+        const h=personPropertiesFixture(),bytes=Array.from(h.raw.g_hdPersonPropertiesPropertyTitles);
+        mutate(bytes);h.raw.g_hdPersonPropertiesPropertyTitles=bytes;neutralPersonProperties(h.read());h.untouched();
+    }
+});
+
+test('a changed actual person resource count during sampling retires the complete page',()=>{
+    const h=personPropertiesFixture();let reads=0;h.context._bayeGetPersonCount=()=>++reads===1?786:785;
+    neutralPersonProperties(h.read());assert.equal(reads,2);h.untouched();
+});
+
+test('unavailable engine, throw during native reads and root data replacement all remain neutral',()=>{
+    const h=personPropertiesFixture();h.context._bayeHdReady=()=>0;neutralPersonProperties(h.read());h.untouched();
+    const throwing=personPropertiesFixture();Object.defineProperty(throwing.raw,'g_hdPersonPropertiesPropertyCount',{get(){throw Error('unavailable field');}});
+    neutralPersonProperties(throwing.read());throwing.untouched();
+    const replaced=personPropertiesFixture();replaced.baye.ensureData=()=>({...replaced.baye.data});neutralPersonProperties(replaced.read());replaced.untouched();
+    const unavailable=personPropertiesFixture();unavailable.baye.ensureData=()=>{throw Error('data not bound');};neutralPersonProperties(unavailable.read());unavailable.untouched();
+});
+
+test('person page paint and owner counters preserve high unsigned bits through the actual WASM U32 binding',()=>{
+    const h=personPropertiesFixture(),binary=Uint8Array.from([0,97,115,109,1,0,0,0,1,6,1,96,1,127,1,127,
+        3,2,1,0,5,3,1,0,1,7,17,2,6,109,101,109,111,114,121,2,0,4,114,101,97,100,0,0,10,9,1,7,0,32,0,40,2,0,11]),
+        native=new WebAssembly.Instance(new WebAssembly.Module(binary)).exports,mem=new DataView(native.memory.buffer),c=h.context;
+    c.Module.HEAPU8=new Uint8Array(native.memory.buffer);c._ValueDef_get_type=()=>c.ValueTypeU32;
+    c._baye_get_u32_value=native.read;c._baye_set_u32_value=()=>{throw Error('native U32 write');};
+    mem.setUint32(128,0x80000000,true);const binding=c.baye_bridge_valuedef(1,128);
+    assert.equal(native.read(128),-2147483648);assert.equal(binding.value,0x80000000);
+    for(const field of ['g_hdDetailGeneration','g_hdMenuIdsGeneration','g_hdPersonPropertiesGeneration',
+        'g_hdMenuSeq','g_hdMenuIdsSeq','g_hdPersonPropertiesMenuSeq','g_hdPersonPropertiesPaintSeq'])h.raw[field]=binding;
+    h.raw.g_hdPersonPropertiesTitlePaintSeq=Array(256).fill(0);h.raw.g_hdPersonPropertiesValuePaintSeq=Array(256).fill(0);
+    for(const i of [0,1]){h.raw.g_hdPersonPropertiesTitlePaintSeq[i]=binding;h.raw.g_hdPersonPropertiesValuePaintSeq[i]=binding;}
+    const v=h.read();assert.equal(v.active,1);assert.equal(v.pageComplete,1);assert.equal(v.paintSeq,0x80000000);
+    assert.equal(v.generation,0x80000000);assert.equal(v.properties[0].valuePaintSeq,0x80000000);h.untouched();
+});

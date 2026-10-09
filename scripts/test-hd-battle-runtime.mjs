@@ -32,7 +32,7 @@ function prepareServedAssets() {
     for (const name of ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json',
         ...fs.readdirSync(path.join(root,'js')).filter(name=>name.endsWith('.js')&&name!=='baye.js'),
         ...fs.readdirSync(path.join(root,'css')).filter(name=>name.endsWith('.css'))]) {
-        const base = staged && name.startsWith('baye.') ? path.join(root, 'build/wasm/src') :
+        const base = staged && ['baye.js', 'baye.wasm', 'baye.wasm.map', 'baye.build.json'].includes(name) ? path.join(root, 'build/wasm/src') :
             path.join(root, name.endsWith('.css') ? 'css' : 'js');
         const filename = path.join(base, name), data = fs.readFileSync(filename);
         const metadata = { source: path.relative(root, filename), bytes: data.length,

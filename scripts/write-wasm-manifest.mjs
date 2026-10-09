@@ -73,6 +73,36 @@ const manifest = {
             'g_hdHelpKind', 'g_hdHelpComplete', 'g_hdHelpPerson', 'g_hdHelpSlot', 'g_hdHelpFields'],
         toolAccess: ['bayeHdGetToolCount', 'bayeHdGetToolField', 'bayeHdGetArmType']
     },
+    hdPersonPropertiesProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.personProperties()',
+        protocolField: 'g_hdPersonPropertiesProtocolVersion',
+        owner: ['g_hdPersonPropertiesActive', 'g_hdPersonPropertiesGeneration', 'g_hdPersonPropertiesMenuSeq',
+            'g_hdPersonPropertiesIndex', 'g_hdPersonPropertiesPerson'],
+        menuOwner: ['g_hdDetailGeneration', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind',
+            'g_hdMenuSeq', 'g_hdMenuIndex', 'g_hdMenuIds', 'g_hdMenuIdsGeneration', 'g_hdMenuIdsSeq',
+            'g_hdMenuIdsKind', 'g_hdMenuIdsCount'],
+        identity: 'U16 zero-based person ID and selected row; full native IDs match before publication, never name matching',
+        paint: ['g_hdPersonPropertiesPaintSeq', 'g_hdPersonPropertiesTitlePaintSeq', 'g_hdPersonPropertiesValuePaintSeq'],
+        publication: 'temporary selected-row paint ticket; publish only after original set_menu and full menu_ids confirm owner and index',
+        page: ['g_hdPersonPropertiesPropertyCount', 'g_hdPersonPropertiesPageIndex',
+            'g_hdPersonPropertiesPageStart', 'g_hdPersonPropertiesPageEnd'],
+        pageRange: 'actual native spc and exclusive end; propertyCount 0..255 and pageIndex 0..254, no inferred page size',
+        completeness: {
+            cumulative: 'g_hdPersonPropertiesComplete: every property has a captured title and value; prior paint revisions remain explicit',
+            currentPage: 'g_hdPersonPropertiesPageComplete: nonempty selected name and all current-page title/value revisions match PaintSeq'
+        },
+        flags: { field: 'g_hdPersonPropertiesPropertyFlags', titleCaptured: 1, valueCaptured: 2 },
+        text: {
+            name: 'g_hdPersonPropertiesNameGbk', nameBytes: 32,
+            titles: 'g_hdPersonPropertiesPropertyTitles', values: 'g_hdPersonPropertiesPropertyValues',
+            slotBytes: 128, slots: 256,
+            encoding: 'bounded NUL-terminated raw GBK final native strings; nonempty titles, empty values allowed'
+        },
+        custom: 'g_hdPersonPropertiesCustom: observed only in the existing title/value hook branches; no added hook/getter/draw calls',
+        retirement: 'menu owner, selected row or full IDs change; report/help/qty takeover or native reset invalidates the paint ticket and captured source',
+        input: 'read-only observer adds no keys or game writes; explicit player LEFT/RIGHT follows original native paging and boundary behavior'
+    },
     hdOverviewProtocol: {
         version: 1,
         view: ['g_hdViewSeq', 'g_hdViewGeneration', 'g_hdViewInputSeq', 'g_hdViewForce',
