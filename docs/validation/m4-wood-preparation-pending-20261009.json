@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "recordedAt": "2026-10-09T15:34:35.305Z",
+ "recordedAt": "2026-10-09T15:56:36.445Z",
  "status": "pending",
  "accepted": false,
  "preparationAccepted": false,
@@ -83,14 +83,14 @@
   "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
  },
  "history": {
-  "actualFailedPreparations": 19,
-  "attempts": "v1..v8 and v10..v20",
+  "actualFailedPreparations": 20,
+  "attempts": "v1..v8 and v10..v21",
   "v9CandidateNotRun": true,
   "v8CompleteResultMissing": true,
   "pendingConfiguration": {
-   "path": "build/r21-validation-record-inputs-v14-pending.json",
-   "bytes": 19677,
-   "sha256": "b19e6c7020cf2ebb7c1c37309b80a2aff24886cae1a6cc982960d52c6638a3db"
+   "path": "build/r21-validation-record-inputs-v15-pending.json",
+   "bytes": 21081,
+   "sha256": "80c361f7e9e31f8065412113ec78f74862aba5d4f44906e4baeab973cd82a78b"
   },
   "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
   "requiredFailureIdsComplete": true,
@@ -113,8 +113,8 @@
    "reason": "Requires accepted terminal preparation; v17 failed and cannot authorize cast."
   },
   "latestAttempt": {
-   "id": "v20",
-   "status": "terminal-pending-military-supply",
+   "id": "v21",
+   "status": "terminal-military-arrived-food-trade-cash-shortage",
    "exitCode": 1,
    "castAuthorized": false
   }
@@ -1013,5 +1013,315 @@
   "fail": 0,
   "skipped": 0,
   "scope": "Separate actual current-source fixture regression. Original09:00 WOOD1021 execution remains historical and unchanged;1081 does not accept a WOOD player cast."
+ },
+ "actualPreparationV21": {
+  "status": "terminal-military-arrived-food-trade-cash-shortage",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "woodHdAccepted": false,
+  "resume": {
+   "directory": "build/r21-route-actual-v20",
+   "tag": "v20-military-pending",
+   "date": {
+    "year": 232,
+    "month": 12
+   },
+   "originalPair": true
+  },
+  "actualCounts": {
+   "sidecarRows": 1148,
+   "months": 6,
+   "canvassOrders": 7,
+   "treats": 1,
+   "treatMoneySpent": 100,
+   "previousTreatsNotRepeated": 155,
+   "previousRecruitOrdersNotRepeated": 13,
+   "previousGetArmyAllocationsNotRepeated": 8,
+   "newCargoOrders": 1,
+   "cargoFood": 914,
+   "cargoMoney": 0,
+   "cargoQuantityConfirmations": 3,
+   "cargoQuantityAdjustmentKeys": 20,
+   "ordinaryQuantityConfirmations": 12,
+   "militaryMoves": 8,
+   "militaryArrivals": 8,
+   "arrivingArms": 11990,
+   "publicSavePairs": 5,
+   "campaignReports": 1,
+   "governance": 4,
+   "engineKeys": 744,
+   "harnessInputs": 646,
+   "nativeSelections": 70,
+   "nativeSelectionSteps": 363,
+   "phases": 21,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0,
+   "woodAttempts": 0
+  },
+  "military": {
+   "assemblyAccepted": true,
+   "fullPreparationAccepted": false,
+   "arrivalDate": {
+    "year": 233,
+    "month": 2
+   },
+   "moveOrders": 8,
+   "actualArrivals": 8,
+   "incomingArms": 11990,
+   "originalGuardArms": 1349,
+   "totalProtectedArms": 13339,
+   "retainedIds": [
+    45,
+    30,
+    8,
+    17,
+    69,
+    70,
+    11,
+    10,
+    38
+   ],
+   "arrivalFood": 1761,
+   "conservativeArrivalFloor": 1407,
+   "priorV20ActionsNotRepeated": {
+    "treats": 155,
+    "recruitOrders": 13,
+    "allocations": 8
+   },
+   "scope": "Eight actual native MOVE orders retired through AddPerson at city20; incoming11990 plus existing1349 form total13339. This finite military substep does not qualify a caster or accept a WOOD cast."
+  },
+  "cargo": {
+   "source": 10,
+   "target": 20,
+   "carrier": 9,
+   "food": 914,
+   "money": 0,
+   "delivered": true,
+   "originalDeliveryReport": true,
+   "singlePhysicalEnter": true,
+   "exactPreConditionBalances": true,
+   "actualCarrierReturned": true,
+   "order13Retired": true,
+   "scope": "Actual native selected quantities, destination cursor, payload and delivery report are retained in the result and independently audited. Month-end Food alone is not the delivery proof."
+  },
+  "failedFoodTrade": {
+   "number": 6,
+   "city": 20,
+   "date": {
+    "year": 233,
+    "month": 6
+   },
+   "beforeMoney": 1393,
+   "beforeFood": 922,
+   "actualArms": 13339,
+   "requiredFood": 1305,
+   "wanted": 383,
+   "moneyReserve": 500,
+   "cost": 2415,
+   "purchased": null,
+   "complete": false,
+   "moneyShortfall": 1022
+  },
+  "latestOriginalPublicSave": {
+   "tag": "month-006",
+   "date": {
+    "year": 233,
+    "month": 6
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v21/native-month-006-sango0.sav",
+     "bytes": 8221,
+     "sha256": "df7c5d379584ff2000542b0149285ad73203607b2b1653a07242ddccb835cbca"
+    },
+    {
+     "path": "build/r21-route-actual-v21/native-month-006-sango1.sav",
+     "bytes": 4840,
+     "sha256": "58e48779b95766be99ba20385f70128bc06601875c385d0ff2b6ebc389ea5648"
+    }
+   ],
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "completeIndependentAbi": true,
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "v21-military-supply-delivered",
+    "date": {
+     "year": 233,
+     "month": 1
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-supply-delivered-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5a52ea6853d9ac66d825e0245ee0f57cbc07c03581ae5c97fd0b3031ca2b3def"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-supply-delivered-sango1.sav",
+      "bytes": 4840,
+      "sha256": "52f4987a13a938aa4ea3d93fc010bc6264690a77c26e07a466bc7b4a49618a18"
+     }
+    ]
+   },
+   {
+    "tag": "v21-military-arrived",
+    "date": {
+     "year": 233,
+     "month": 2
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-arrived-sango0.sav",
+      "bytes": 8221,
+      "sha256": "2f538b6d8257c0ff37bdcbbffc703c6c5ba9aa255c939b140af8b07c3e7a98c6"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-arrived-sango1.sav",
+      "bytes": 4840,
+      "sha256": "23410a3efbea5793b6eba99ef185fa1c7cba0241a84612c110b893895e6dd45d"
+     }
+    ]
+   },
+   {
+    "tag": "month-003",
+    "date": {
+     "year": 233,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ce4a9be3cb235f60864c017507486934326c4d50dbd07f2216e2555ab0df8604"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4296f5fa8498230bc5f3c5d9d18202da95bfd13c15f8fb484933f83efc44485d"
+     }
+    ]
+   },
+   {
+    "tag": "month-003-strengthened",
+    "date": {
+     "year": 233,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "3291054e1f2dffdcd3419fdfc00944f179e26f078f08c1bf3c69d09bd8948227"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4d34fbd1f28aea2a86fbc8684a6fc532fed855de9f94ba396ecb4f2836a2c796"
+     }
+    ]
+   },
+   {
+    "tag": "month-006",
+    "date": {
+     "year": 233,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-month-006-sango0.sav",
+      "bytes": 8221,
+      "sha256": "df7c5d379584ff2000542b0149285ad73203607b2b1653a07242ddccb835cbca"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-month-006-sango1.sav",
+      "bytes": 4840,
+      "sha256": "58e48779b95766be99ba20385f70128bc06601875c385d0ff2b6ebc389ea5648"
+     }
+    ]
+   }
+  ],
+  "nextCargoFacts": {
+   "sourceCity": 10,
+   "sourceBelong": 1,
+   "sourceMoney": 30000,
+   "sourceFood": 27960,
+   "possibleCarrierIds": [
+    9,
+    41
+   ],
+   "retainedGovernor": 53,
+   "destinationCity": 20,
+   "destinationMoney": 1393,
+   "destinationFood": 922,
+   "excludedFormerDonorCity9Belong": 23,
+   "scope": "Original latest saved facts only. Fresh public load/current ownership, governor, Thew, slots, source reserves and cargo limits must be rechecked; no future transport success or tax/harvest credit."
+  },
+  "sourceVerification": {
+   "count": 1172,
+   "drift": 0,
+   "added": 0,
+   "native128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "proof": {
+    "path": "build/r21-route-actual-v21/source-verification.json",
+    "bytes": 417520,
+    "sha256": "d560f8d710055f085043b9b425da3cf6d9302bd8c0ecbcb0c4309d970c9f3969"
+   },
+   "scope": "Actual executed frozen tuple, not engine installation or player WOOD acceptance."
+  },
+  "result": {
+   "path": "build/r21-route-actual-v21/result.json",
+   "bytes": 52364787,
+   "sha256": "c667b642f3e23c8471e41650632eb78882edc0b9d66dd19e2d36cbe45879a7db"
+  },
+  "log": {
+   "path": "build/r21-route-actual-v21.log",
+   "bytes": 1739,
+   "sha256": "c63ca208ec20339c13a2be9b88f343530ee09e46c84382c5377a31563ba5a2d1"
+  },
+  "isolationProof": {
+   "path": "build/r21-route-actual-v21-isolation.json",
+   "bytes": 2759,
+   "sha256": "2331b411ebcfee47f0fe7226d612f3081cb7118c8cb1fae849f7a76d93cdfa2d"
+  },
+  "runner": {
+   "path": "build/r21-route-driver-v21-pending-final.mjs",
+   "bytes": 326693,
+   "sha256": "e97721901452d96447773a30153ff2e0c18ebb0a786b1adc70087c418b91be92"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v21-root.mjs",
+   "bytes": 3965,
+   "sha256": "56b2c22470f89104a1b1d5ce895c8c5074ccde423aa050bc98588c691dfd0f84"
+  },
+  "independentAudit": {
+   "path": "build/r21-v21-terminal-independent-audit.json",
+   "bytes": 67661,
+   "sha256": "fc30373b6e64bda554ea43ac4fa3cb92014be2ec064eb943298ff7c9e29b32be"
+  },
+  "sourcePeer": {
+   "path": "build/r21-v21-pending-source-peer-review-validation.json",
+   "bytes": 5557,
+   "sha256": "2431894d28ad580b22bd29b4279ebb66589fdc35e4de52e291b7c19a95c2aa39"
+  },
+  "cleanup": {
+   "privateChromeExited": true,
+   "privateHttpClosed": true,
+   "profileGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200,
+   "user8080Touched": false
+  },
+  "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false,
+  "scope": "Actual military supply/arrival succeeded. Six normal months and seven Canvass orders did not acquire the candidate; food-trade plus cash reserve gate stops before the failing purchase. Latest233Jun original pair preserves all nine guards and exact failure world for genuine resupply continuation, with no repeated completed military preparation."
  }
 }
