@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "recordedAt": "2026-10-09T15:56:36.445Z",
+ "recordedAt": "2026-10-09T16:17:46.121Z",
  "status": "pending",
  "accepted": false,
  "preparationAccepted": false,
@@ -83,14 +83,14 @@
   "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
  },
  "history": {
-  "actualFailedPreparations": 20,
-  "attempts": "v1..v8 and v10..v21",
+  "actualFailedPreparations": 21,
+  "attempts": "v1..v8 and v10..v22",
   "v9CandidateNotRun": true,
   "v8CompleteResultMissing": true,
   "pendingConfiguration": {
-   "path": "build/r21-validation-record-inputs-v15-pending.json",
-   "bytes": 21081,
-   "sha256": "80c361f7e9e31f8065412113ec78f74862aba5d4f44906e4baeab973cd82a78b"
+   "path": "build/r21-validation-record-inputs-v16-pending.json",
+   "bytes": 22891,
+   "sha256": "5a709be1977734926e1f5233a2cd560a111c461b2bc157ff6d435faa5e295561"
   },
   "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
   "requiredFailureIdsComplete": true,
@@ -113,8 +113,8 @@
    "reason": "Requires accepted terminal preparation; v17 failed and cannot authorize cast."
   },
   "latestAttempt": {
-   "id": "v21",
-   "status": "terminal-military-arrived-food-trade-cash-shortage",
+   "id": "v22",
+   "status": "terminal-resupplied-driver-lcd-mode-wait-timeout",
    "exitCode": 1,
    "castAuthorized": false
   }
@@ -1338,5 +1338,319 @@
    "reserveSpent": 0,
    "scope": "Eleven actual native confirmations occurred after arrival during month003 maintenance. Independent full-world comparisons prove they did not change troop quantities or spend reserves."
   }
+ },
+ "actualPreparationV22": {
+  "schemaVersion": 1,
+  "status": "terminal-resupplied-driver-lcd-mode-wait-timeout",
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "hdAccepted": false,
+  "archiveClosed": false,
+  "actualFailureId": "prepare-v22-failure",
+  "actualFailureCountIncludingV22": 21,
+  "audit": {
+   "path": "build/r21-v22-terminal-independent-audit.json",
+   "bytes": 41816,
+   "sha256": "6afa2e3cffa014f12968483a9d3c6884e0276535070e8dcfcb48f816d4ed1318"
+  },
+  "refs": {
+   "result": {
+    "path": "build/r21-route-actual-v22/result.json",
+    "bytes": 16168420,
+    "sha256": "de31a144d9ca973d66b47e68930e3055fb595fa5de80798534d8f10ed4b3849e"
+   },
+   "sidecar": {
+    "path": "build/r21-route-actual-v22/result.json.campaignObservations.ndjson",
+    "bytes": 23565072,
+    "sha256": "9798fdddd7c2791ac9c60e2789c2e048c48d54fae2d1beb8f61b1c1a7d2af81b"
+   },
+   "runner": {
+    "path": "build/r21-route-driver-v22-final-v2.mjs",
+    "bytes": 342786,
+    "sha256": "02fca3b1d114b419942977597c28592021780683239e8542da1601d04a40409f"
+   },
+   "wrapper": {
+    "path": "build/r21-run-route-v22-root.mjs",
+    "bytes": 4139,
+    "sha256": "0e0e9b6d1d5a2c65c76ac758ea95335b7fc7f21deb11bdda3ffe500534e230c1"
+   },
+   "log": {
+    "path": "build/r21-route-actual-v22.log",
+    "bytes": 1543,
+    "sha256": "3615dce074159950fb1ded5a10a682b4473498e92d962704622efdeb6a6c5583"
+   },
+   "isolation": {
+    "path": "build/r21-route-actual-v22-isolation.json",
+    "bytes": 2967,
+    "sha256": "87707082c0e5485cb85d8c9d3a9581284a1e64813a74102ca6e1b4dcc489962e"
+   },
+   "sourceVerification": {
+    "path": "build/r21-route-actual-v22/source-verification.json",
+    "bytes": 417475,
+    "sha256": "be9c197ea645adbc6983f8671e877641fdbc478a74f3fbd4c0bc13eea534b791"
+   },
+   "latestOriginalPair": [
+    {
+     "path": "build\\r21-route-actual-v22\\native-month-003-sango0.sav",
+     "bytes": 8221,
+     "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+    },
+    {
+     "path": "build\\r21-route-actual-v22\\native-month-003-sango1.sav",
+     "bytes": 4840,
+     "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+    }
+   ]
+  },
+  "summary": "v22 resumed v21 month006233June original pair. Actual Food7249/Money5000 cargo carrier9 from10→20 delivered under current native before-Condition report and single Enter;8 prior military arrivals inherited only.3 actual months/3Canvass/1governance/1Treat/7public save tags. Guard9 retain13339; target91 stillenemy. Capital Food726 purchase and Order11 succeeded after latest233Sept month003 save, then driver HD-mode→classic-LCD retirement wait timed out; classic restored only finally. Overall preparation/WOOD/HDfalse;1172source0drift/native8ca/stagedcompiled a71b modifiedtrue/privatecleanup/8080PID105848 preserved.",
+  "source": {
+   "records": 1172,
+   "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "compiledModified": true
+  },
+  "inheritedMilitaryOnly": {
+   "movesFromPriorV21": 8,
+   "newMovesV22": 0,
+   "newRecruitV22": 0,
+   "newDistributionV22": 0
+  },
+  "limitedPass": {
+   "resupplyFood": 7249,
+   "resupplyMoney": 5000,
+   "months": 3,
+   "canvassOrders": 3,
+   "governance": 1,
+   "treats": 1,
+   "foodTrade": 726,
+   "publicSavePairs": 7,
+   "sidecarRows": 432
+  },
+  "recoveryBoundary": "Latest original month003 pair is before the final capital food trade. Do not treat failureWorld as saved bytes or repeat delivered cargo; any future resume must validate original pair/current native load.",
+  "canonicalNote": "Keep partial validation and overall pending; no production defect demonstrated by this driver mode mismatch. Do not attribute prior v21 eight MOVE to v22.",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "woodHdAccepted": false,
+  "metadata": {
+   "path": "build/r21-v22-root-merge-metadata.json",
+   "bytes": 3867,
+   "sha256": "ca8bd6d275d537ff1b4f745d14a1a954b03a708b9e4cde20a0e4226dee4502d2"
+  },
+  "counts": {
+   "observations": 432,
+   "observationBytes": 23565072,
+   "months": 3,
+   "canvassOrders": 3,
+   "governanceOrders": 1,
+   "treats": 1,
+   "treatMoney": 100,
+   "newMilitaryMoves": 0,
+   "newMilitaryRecruitOrders": 0,
+   "newMilitaryDistributions": 0,
+   "cargoOrders": 1,
+   "cargoQuantities": 3,
+   "cargoAdjustmentKeys": 38,
+   "ordinaryQuantities": 1,
+   "publicSavePairs": 7,
+   "uniqueSavePairs": 3,
+   "engineKeys": 262,
+   "requestCount": 81,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0
+  },
+  "diagnosis": {
+   "path": "build/r21-v22-failure-retirement-diagnosis.json",
+   "bytes": 10844,
+   "sha256": "d30e1f86743b16c444167f304c7a10dc813bbc084b55d6002e113d87c788d283"
+  },
+  "latestOriginalPublicSave": {
+   "tag": "month-003",
+   "date": {
+    "year": 233,
+    "month": 9
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v22/native-month-003-sango0.sav",
+     "bytes": 8221,
+     "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+    },
+    {
+     "path": "build/r21-route-actual-v22/native-month-003-sango1.sav",
+     "bytes": 4840,
+     "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+    }
+   ],
+   "completeIndependentAbi": true,
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "includesFinal726FoodTrade": false,
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "v22-month-001",
+    "date": {
+     "year": 233,
+     "month": 7
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-001-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ac7971038640115def12a87567576c74a537b16e953370824885204188e94b49"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-001-sango1.sav",
+      "bytes": 4840,
+      "sha256": "56da7307890a994aaffc478bd4b39d653de129493da62968d7f2e7d124c634ed"
+     }
+    ]
+   },
+   {
+    "tag": "v22-after-load-governance",
+    "date": {
+     "year": 233,
+     "month": 7
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-after-load-governance-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ac7971038640115def12a87567576c74a537b16e953370824885204188e94b49"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-after-load-governance-sango1.sav",
+      "bytes": 4840,
+      "sha256": "56da7307890a994aaffc478bd4b39d653de129493da62968d7f2e7d124c634ed"
+     }
+    ]
+   },
+   {
+    "tag": "v22-month-002",
+    "date": {
+     "year": 233,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-002-sango0.sav",
+      "bytes": 8221,
+      "sha256": "25bd1fbdf174b3f47498cc23e1b35d161b887c5b25aebb0a03587916e6ad1954"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-002-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a558019720190df6f3a5a8ac33c8aa8b04232deb60eb58768a86099acd3facdb"
+     }
+    ]
+   },
+   {
+    "tag": "v22-resupply-delivered",
+    "date": {
+     "year": 233,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-delivered-sango0.sav",
+      "bytes": 8221,
+      "sha256": "25bd1fbdf174b3f47498cc23e1b35d161b887c5b25aebb0a03587916e6ad1954"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-delivered-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a558019720190df6f3a5a8ac33c8aa8b04232deb60eb58768a86099acd3facdb"
+     }
+    ]
+   },
+   {
+    "tag": "v22-resupply-ready",
+    "date": {
+     "year": 233,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-ready-sango0.sav",
+      "bytes": 8221,
+      "sha256": "25bd1fbdf174b3f47498cc23e1b35d161b887c5b25aebb0a03587916e6ad1954"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-ready-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a558019720190df6f3a5a8ac33c8aa8b04232deb60eb58768a86099acd3facdb"
+     }
+    ]
+   },
+   {
+    "tag": "v22-month-003",
+    "date": {
+     "year": 233,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+     }
+    ]
+   },
+   {
+    "tag": "month-003",
+    "date": {
+     "year": 233,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+     }
+    ]
+   }
+  ],
+  "military": {
+   "retainedIds": [
+    45,
+    30,
+    8,
+    17,
+    69,
+    70,
+    11,
+    10,
+    38
+   ],
+   "totalArms": 13339,
+   "newMoves": 0,
+   "newRecruitment": 0,
+   "newGetArmy": 0,
+   "priorMilitaryOnly": true
+  },
+  "driverFailure": {
+   "reason": "Error: Timed out waiting for actual classic LCD visible and on top\n    at waitFor (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:182:11)\n    at async retireToMap (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:358:347)\n    at async strengthenProtectedCities (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:1852:620)\n    at async prepareCaster (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:366:1828)\n    at async smoke (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:369:209)\n    at async main (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:2244:14)",
+   "productionDefectDemonstrated": false,
+   "scope": "Public HD city mode remained selected when retireToMap required classic LCD visibility; finally restored classic before the failure screenshot. The screenshot does not establish visibility during the failed wait."
+  },
+  "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false
  }
 }
