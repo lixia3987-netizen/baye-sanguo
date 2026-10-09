@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-09T15:17:29.291Z",
+  "recordedAt": "2026-10-09T15:51:59.034Z",
   "status": "native-fixtures-passed-player-cast-pending",
   "recordedAgainst": "d3efa014ab07ef7dddb8a59ce59ebea93ede1428",
   "accepted": false,
@@ -10,7 +10,7 @@
   "preparationAccepted": false,
   "hdAccepted": false,
   "archiveClosed": false,
-  "scope": "Persistent compiled-C fixture coverage of real AID17/29/41 plus the first actual public campaign preparation failure. This does not accept real player casting or HD runtime behavior.",
+  "scope": "Persistent compiled-C fixture coverage of real AID17/29/41 plus separately retained actual public campaign preparation attempts v1 and v2. Neither failed actual attempt accepts real player casting or HD runtime behavior.",
   "nativeFixture": {
     "script": {
       "path": "scripts/test-hd-aid-engine.mjs",
@@ -350,5 +350,387 @@
       "bytes": 16650,
       "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
     }
-  ]
+  ],
+  "actualPreparationV2": {
+    "schemaVersion": 1,
+    "kind": "actualPreparationV2",
+    "ok": false,
+    "accepted": false,
+    "phaseAccepted": false,
+    "preparationAccepted": false,
+    "hdAccepted": false,
+    "phase": "canvass",
+    "artifactDirectory": "build/r22-aid-prepare-actual-v2",
+    "runner": {
+      "source": "build/r22-aid-prepare-driver-v2-final.mjs",
+      "bytes": 81767,
+      "sha256": "ce816d0928c35b24ace09db3899824f13b89cfa8584e13802a23d99306da86ea"
+    },
+    "refs": [
+      {
+        "path": "build/r22-aid-prepare-actual-v2/result.json",
+        "bytes": 130007283,
+        "sha256": "193dedf8ee9dd851692f1343770f543095930d5dcfa664311ce8d11dd7b4824a"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2/source-verification.json",
+        "bytes": 417495,
+        "sha256": "7d2d0e447f536339facfadc3b18d1582fcd2cde0251d28e2dfe6cb88abbd4f72"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2/browser-console.json",
+        "bytes": 10260,
+        "sha256": "16516b77c5661102c67a1f321e81aec9cd488ed3325a4fc170dab731598d4ded"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2.log",
+        "bytes": 2798,
+        "sha256": "01fe704ece99f9f27e19e79fbfec9f74d5c642de9fbee439436c3288664eec64"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2-isolation.json",
+        "bytes": 2652,
+        "sha256": "fd201a8b212467e95d8c7d532d3e15daf6c1cfd1cd2d14668a6098ff37457d77"
+      },
+      {
+        "path": "build/r22-aid-prepare-driver-v2-final.mjs",
+        "bytes": 81767,
+        "sha256": "ce816d0928c35b24ace09db3899824f13b89cfa8584e13802a23d99306da86ea"
+      },
+      {
+        "path": "build/r22-run-aid-phase1-root-v2.mjs",
+        "bytes": 3849,
+        "sha256": "96c8caa82001bb3ee9c528fc32e8b257b41b3697366c5015681cdb360b1f2df1"
+      },
+      {
+        "path": "build/r22-aid-prepare-preflight-root-v2/result.json",
+        "bytes": 843509,
+        "sha256": "3d2432d2e7c54ca78164f90b29e927bc2840381c6767e26a7afcf03869860c9d"
+      },
+      {
+        "path": "build/r21-write-large-json-v2.mjs",
+        "bytes": 7162,
+        "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2/result.json.campaignObservations.ndjson",
+        "bytes": 102462440,
+        "sha256": "625efcb6da149fd6b464e65837e3b334705813c3f6fa9645e50ce120ab0f9fb7"
+      }
+    ],
+    "audit": {
+      "path": "build/r22-aid-prepare-actual-v2-independent-audit.json",
+      "bytes": 40264,
+      "sha256": "25dc6c5a7aedede507bba2d8c82135795192168900d389e430296ea8daf94598"
+    },
+    "actual": {
+      "months": 24,
+      "canvassOrders": 27,
+      "envoyCounts": {
+        "9": 9,
+        "150": 9,
+        "151": 9
+      },
+      "governance": 10,
+      "governanceCounts": {
+        "24": 6,
+        "31": 4
+      },
+      "publicSavePairs": 24,
+      "nativeSaveFiles": 48,
+      "phases": 76,
+      "engineInputs": 523,
+      "costStops": 24,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "httpErrors": 0,
+      "campaignObservationRecords": 1081
+    },
+    "dates": {
+      "before": {
+        "year": 208,
+        "month": 1
+      },
+      "after": {
+        "year": 210,
+        "month": 1
+      }
+    },
+    "envoys": [
+      {
+        "personIndex": 9,
+        "name": "刘璋",
+        "iq": 49,
+        "thewAtEnd": 16,
+        "actualCanvassOrders": 9
+      },
+      {
+        "personIndex": 150,
+        "name": "张松",
+        "iq": 88,
+        "thewAtEnd": 16,
+        "actualCanvassOrders": 9
+      },
+      {
+        "personIndex": 151,
+        "name": "法正",
+        "iq": 93,
+        "thewAtEnd": 16,
+        "actualCanvassOrders": 9
+      }
+    ],
+    "governanceCounts": {
+      "24": 6,
+      "31": 4
+    },
+    "target": {
+      "personIndex": 134,
+      "oldBelong": 0,
+      "belong": 5,
+      "level": 2,
+      "force": 70,
+      "iq": 56,
+      "devotion": 88,
+      "character": 0,
+      "experience": 0,
+      "thew": 100,
+      "baseArm": 2,
+      "arms": 1460,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 45
+    },
+    "caster188": {
+      "personIndex": 188,
+      "oldBelong": 0,
+      "belong": 0,
+      "level": 20,
+      "force": 150,
+      "iq": 150,
+      "devotion": 0,
+      "character": 4,
+      "experience": 0,
+      "thew": 100,
+      "baseArm": 5,
+      "arms": 100,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 22
+    },
+    "targetOwnershipChange": {
+      "actualReceiptMonth": 8,
+      "date": {
+        "year": 208,
+        "month": 9
+      },
+      "beforeBelong": 8,
+      "afterBelong": 5,
+      "causation": "Only observed ownership change; not attributed to a scripted recruitment or inferred capture"
+    },
+    "protectedCities": [
+      {
+        "i": 24,
+        "state": 3,
+        "belong": 10,
+        "satrapId": 10,
+        "farming": 1902,
+        "commerce": 2461,
+        "peopleDevotion": 64,
+        "avoidCalamity": 56,
+        "money": 8763,
+        "food": 2183,
+        "reserve": 0,
+        "queue": [
+          150,
+          151,
+          9,
+          142,
+          160,
+          183,
+          186
+        ],
+        "ownedQueue": [
+          150,
+          151,
+          9,
+          142
+        ],
+        "name": "成都"
+      },
+      {
+        "i": 31,
+        "state": 0,
+        "belong": 10,
+        "satrapId": 140,
+        "farming": 803,
+        "commerce": 1040,
+        "peopleDevotion": 54,
+        "avoidCalamity": 58,
+        "money": 4275,
+        "food": 770,
+        "reserve": 0,
+        "queue": [
+          144,
+          139,
+          148,
+          149,
+          153,
+          188
+        ],
+        "ownedQueue": [
+          144,
+          139,
+          148,
+          149
+        ],
+        "name": "巴郡"
+      }
+    ],
+    "latestCheckpoint": {
+      "tag": "month-024",
+      "header": {
+        "version": 149,
+        "period": 3,
+        "count": 200,
+        "king": 9,
+        "year": 210,
+        "month": 1
+      },
+      "files": [
+        {
+          "path": "build/r22-aid-prepare-actual-v2/native-month-024-sango0.sav",
+          "bytes": 8221,
+          "sha256": "ad68859c3c70aba2accb28c2c080afb34a711654c5566c34511a14ee1a237500"
+        },
+        {
+          "path": "build/r22-aid-prepare-actual-v2/native-month-024-sango1.sav",
+          "bytes": 4840,
+          "sha256": "c9b9bb1ff3a3172b3c7a35172a014bbb9530abfe9e5b9b02ca9700c7ab5ac6b1"
+        }
+      ],
+      "scope": "Verified original month-024 pair may resume phase1 only. YangQiu134 not owned, so it is NOT a phase2 accepted preparation input; resume must use public import/LOAD and current civic/food checks.",
+      "requiresGovernance24": true,
+      "state24": 3,
+      "verifiedNativePeople": 200,
+      "verifiedNativeCities": 38,
+      "verifiedFighterBytes": 600
+    },
+    "sourceVerification": {
+      "count": 1172,
+      "uniquePaths": 1172,
+      "originalDrift": 0,
+      "originalAdded": 0,
+      "currentFileRehashDrift": 0,
+      "runnerMatch": true,
+      "runner": {
+        "source": "build/r22-aid-prepare-driver-v2-final.mjs",
+        "bytes": 81767,
+        "sha256": "ce816d0928c35b24ace09db3899824f13b89cfa8584e13802a23d99306da86ea"
+      },
+      "lib": {
+        "preferred": "libs/dat-mod.lib",
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "byteLength": 207195,
+        "generation": 2,
+        "nativeGeneration": 3
+      },
+      "native": {
+        "count": 128,
+        "aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0"
+      },
+      "servedCore": [
+        {
+          "path": "js/bridge.js",
+          "source": "js/bridge.js",
+          "bytes": 140039,
+          "sha256": "0a08077367f696ce67f49bbed527afb5a8c0adf263c296136e1ad691b94db15c"
+        },
+        {
+          "path": "js/hd-spe.js",
+          "source": "js/hd-spe.js",
+          "bytes": 80136,
+          "sha256": "73a494feb57b355eb9acf3a05c86cfc6810e6f801c1dd0ef66a40b1bdc2c120b"
+        },
+        {
+          "path": "assets/hd-spe/manifest.json",
+          "source": "assets/hd-spe/manifest.json",
+          "bytes": 581090,
+          "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+        }
+      ],
+      "scope": "1172 collector paths plus independent128 native aggregate; not unrelated repo files or installed-engine acceptance"
+    },
+    "sourceRevision": {
+      "revision": "a130813679921357294fe214f683b3b297f10238",
+      "modified": true,
+      "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+    },
+    "staged": true,
+    "compiledEngine": {
+      "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+      "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "engineSourceModified": true,
+      "artifacts": {
+        "baye.js": {
+          "bytes": 192446,
+          "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+        },
+        "baye.wasm": {
+          "bytes": 4535346,
+          "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+        },
+        "baye.wasm.map": {
+          "bytes": 29983,
+          "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+        }
+      }
+    },
+    "cleanup": {
+      "cleaned": true,
+      "rootIsolation": {
+        "path": "build/r22-aid-prepare-actual-v2-isolation.json",
+        "bytes": 2652,
+        "sha256": "fd201a8b212467e95d8c7d532d3e15daf6c1cfd1cd2d14668a6098ff37457d77"
+      },
+      "independentOsRead": {
+        "at": "2026-10-09T15:37:18.4686227Z",
+        "method": "Read-only Get-NetTCPConnection / Get-Process / Test-Path / HTTP GET",
+        "privatePorts": [
+          13207,
+          13208
+        ],
+        "privatePortsListening": false,
+        "privatePids": [
+          18192,
+          225708
+        ],
+        "privatePidsRunning": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-aid-preparation-rvM8P0",
+        "profileExists": false,
+        "user8080": {
+          "pid": 105848,
+          "httpStatus": 200
+        }
+      }
+    },
+    "failureBoundary": "24-month finite natural Canvass budget exhausted; target134 notowned. No MOVE/SEARCH188/cast/HD runtime accepted.",
+    "allRawRetained": true,
+    "limitations": [
+      "Finite natural Canvass budget exhausted; no134 acquisition, MOVE, SEARCH188, dispatch, skill17/29 cast, movie/NUM/hold or HD acceptance.",
+      "Both target ownership and roster are read as full U16 actual native facts; wild raw queue IDs are not owned.",
+      "Native save parsing independently checked all200 people/38 cities/queues/active orders/600fighter bytes at all24 checkpoints.",
+      "Whole sidecar hash/size/count and valid JSON records verified; no claim that every screenshot was visually reviewed.",
+      "Inactive fight.over2/skip4 at terminal is stale metadata, not evidence of a new protected-city battle failure."
+    ],
+    "mergeMetadata": {
+      "path": "build/r22-aid-actualPreparationV2-root-merge.json",
+      "bytes": 11269,
+      "sha256": "eb3cbb852a53ff78a6d4fdc31d5f006faf1cd5fbfe720388027a27dd6507c25a"
+    }
+  }
 }
