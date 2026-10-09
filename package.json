@@ -68,6 +68,7 @@
     "test:status-effect": "node --test scripts/test-hd-status-effect-engine.mjs scripts/test-hd-status-effect-bridge.mjs scripts/test-hd-spe.mjs",
     "test:status-effect-runtime": "node scripts/test-hd-status-effect-runtime.mjs",
     "test:wood": "node --test scripts/test-hd-wood-engine.mjs scripts/test-hd-wood-bridge.mjs scripts/test-hd-spe.mjs",
+    "test:wood-runtime": "node scripts/test-hd-wood-runtime.mjs",
     "test:aid": "node --test scripts/test-hd-aid-bridge.mjs scripts/test-hd-aid.mjs scripts/test-hd-aid-engine.mjs",
     "generate:aid-manifest": "node scripts/generate-hd-spe-aid-entry.mjs",
     "test:aid-engine": "node --test scripts/test-hd-aid-engine.mjs"
