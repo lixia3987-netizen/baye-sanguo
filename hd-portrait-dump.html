@@ -15,7 +15,7 @@
     </style>
     <script>
         window.alert = function (message) { console.warn('[alert]', message); };
-        window.BAYE_ASSET_VER = '20261009y';
+        window.BAYE_ASSET_VER = '20261009aa';
         window.Module = window.Module || {};
         window.Module.noInitialRun = true;
         window.Module.onRuntimeInitialized = function () {
@@ -40,12 +40,12 @@
     <script src="js/encoding.js"></script>
     <script src="js/sprintf.js"></script>
     <script src="js/base64.js"></script>
-    <script src="js/bridge.js?ver=20261009y"></script>
+    <script src="js/bridge.js?ver=20261009aa"></script>
     <script src="js/save-storage.js?ver=20261008h"></script>
     <script src="js/lcd.js?ver=20261008h"></script>
     <script src="js/hd-portrait-dump.js"></script>
     <script>
-    window.BAYE_ASSET_VER = '20261009y';
+    window.BAYE_ASSET_VER = '20261009aa';
     window.Module = window.Module || {};
     window.Module.locateFile = function (path, prefix) {
         prefix = prefix || 'js/';
@@ -55,7 +55,7 @@
         return prefix + path;
     };
 </script>
-<script src="js/baye.js?ver=20261009y"></script>
+<script src="js/baye.js?ver=20261009aa"></script>
     <script>
         document.getElementById('dump-go').onclick = function () {
             BayePortraitDump.run({ periods: '1,2,3,4' });

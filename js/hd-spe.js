@@ -3,7 +3,8 @@
     var W = 160, H = 96, state = { open: false, bound: false, poll: 0, event: '', epoch: 0, skipped: '', scratch: null, hasFlush: false,
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
         manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, preparing: false, preparation: null,
-        libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null };
+        libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null,
+        callbackFlushKey: '', aiBase: null, aiRegion: null };
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
     function storage(key, fallback) { try {
@@ -14,7 +15,11 @@
     } }
     function info() { if (state.preparing) return {}; try {
         if (!(global.baye && baye.hd && baye.hd.ready())) return {};
-        var s = baye.hd.spe() || {}, m = typeof baye.hd.maker === 'function' ? baye.hd.maker() : null,
+        var s = baye.hd.spe() || {};
+        // The map-cell observer belongs only to its real active SPE. No
+        // unrelated Maker/attack/skill getter can supply a surviving owner.
+        if (s.active && kind(s) === 4) return s;
+        var m = typeof baye.hd.maker === 'function' ? baye.hd.maker() : null,
             a = typeof baye.hd.attack === 'function' ? baye.hd.attack() : null,
             result = typeof baye.hd.skillResult === 'function' ? baye.hd.skillResult() : null,
             top = typeof baye.hd.resultOwner === 'function' ? baye.hd.resultOwner() : null;
@@ -111,7 +116,7 @@
         }
         return s.protocolVersion !== 2 || !!(d && d.generation === s.generation && d.eventId === s.eventId && integer(d.commitSeq) && d.commitSeq > 0);
     }
-    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3) && hd(k) && !document.hidden && !report() && (s.ownerType === 'result-lcd' || numericOwner(s) || held(s) || matches(s))); }
+    function show(s) { var k = kind(s); return !!(s.active && (k === 1 || k === 2 || k === 3 || k === 4) && hd(k) && !document.hidden && !report() && (s.ownerType === 'result-lcd' || numericOwner(s) || held(s) || matches(s))); }
     function skippable(s) { return show(s) && kind(s) === 1 && (s.protocolVersion === 2 ? s.skipEligible === true && s.keyflag === 1 : (Number(s.id) === 3 || Number(s.id) === 6)); }
     function retire(key) {
         if (state.event !== (key || ''))
@@ -122,6 +127,8 @@
         state.assets = null;
         state.hasFlush = false;
         state.flushKey = '';
+        state.callbackFlushKey = '';
+        state.aiRegion = null;
         state.renderKey = '';
         state.frames = [];
         state.source = 'lcd';
@@ -156,6 +163,7 @@
         state.flushH = h;
         state.hasFlush = true;
         state.flushKey = stamp(s);
+        state.callbackFlushKey = img ? stamp(s) : '';
         var size = screen();
         state.geometry = size.width + ':' + size.height;
         return true;
@@ -245,7 +253,7 @@
                 !integer(pic.nativeWidth) || pic.nativeWidth <= 0 || !integer(pic.nativeHeight) || pic.nativeHeight <= 0 ||
                 !(pic.logicalWidth > 0 && pic.logicalHeight > 0 && isFinite(pic.logicalWidth) && isFinite(pic.logicalHeight)) ||
                 pic.nativeWidth !== pic.logicalWidth * scale || pic.nativeHeight !== pic.logicalHeight * scale || (pic.mask !== 0 && pic.mask !== 1) ||
-                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 || pic.src !== null || pic.width !== null || pic.height !== null))
+                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 && e.aiTargetVersion !== 2 || pic.src !== null || pic.width !== null || pic.height !== null))
                 return false;
             seen[pic.picIndex] = true;
         }
@@ -258,6 +266,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
+        if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         return true;
     }
     function rangePictures(e) {
@@ -267,7 +276,7 @@
         for (var i = 0; i < e.units.length; i++) {
             var unit = e.units[i];
             if (!unit || unit.frame !== i || !integer(unit.picIndex) || unit.picIndex < 0 || unit.picIndex >= e.picmax) return null;
-            if (e.compositionVersion !== 1 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
+            if (e.compositionVersion !== 1 && e.aiTargetVersion !== 2 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
         }
         return needed;
     }
@@ -418,7 +427,7 @@
         } catch (error) { return; }
         var selected = state.assets;
         state.manifest.entries.forEach(function (entry) {
-            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && entry.skillResultVersion === 1) && valid(entry)) load(entry);
+            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && entry.skillResultVersion === 1 || entry.kind === 4 && entry.aiTargetVersion === 2) && valid(entry)) load(entry);
         });
         state.assets = selected;
     }
@@ -477,7 +486,136 @@
             label.x + label.length * 6 > region.x + region.width || label.y + 12 > region.y + region.height) return false;
         return label;
     }
-    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s); }
+    function byteBits(bits) {
+        return Array.isArray(bits) && bits.length === 32 && bits.every(function (v) { return integer(v) && v >= 0 && v <= 255; });
+    }
+    function validAiEntry(entry) {
+        if (entry.aiTargetVersion !== 2 || entry.maskSemantics !== 'native-and-or-v1' || entry.kind !== 4 ||
+            entry.speId !== 27 || entry.resourceIndex !== 0 || entry.startFrm !== 12 || entry.endFrm !== 17 ||
+            entry.count !== 18 || entry.picmax !== 9 || entry.compositionVersion != null || entry.skillResultVersion != null ||
+            entry.background != null || entry.number != null || entry.skillNumber != null) return false;
+        for (var f = 12; f <= 17; f++) {
+            var unit = entry.units[f], pic = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
+            if (unit.x !== 0 || unit.y !== 0 || unit.picIndex !== (f % 2 ? 8 : 7) || !pic || pic.mask !== 1 ||
+                pic.logicalWidth !== 16 || pic.logicalHeight !== 16 || !byteBits(pic.nativeWhitePixels)) return false;
+        }
+        return true;
+    }
+    function aiSignature(s) {
+        try { return JSON.stringify([s.active, s.protocolVersion, s.generation, s.eventId, s.id, s.kind, s.resourceIndex,
+            s.x, s.y, s.count, s.picmax, s.startFrm, s.endFrm, s.keyflag, s.skipEligible, s.protocolValid, s.frameValid,
+            s.resourceLength, s.resourceFingerprint, s.aiTarget, s.display]); }
+        catch (error) { return ''; }
+    }
+    function validAiBase(ai) {
+        if (!Array.isArray(ai.basePixels) || ai.basePixels.length !== 256 ||
+            !ai.basePixels.every(function (v) { return integer(v) && v >= 0 && v <= 255; }) ||
+            !Array.isArray(ai.baseRgba) || ai.baseRgba.length !== 1024 ||
+            !ai.baseRgba.every(function (v) { return integer(v) && v >= 0 && v <= 255; })) return false;
+        var seen = {};
+        for (var p = 0; p < 256; p++) {
+            var index = ai.basePixels[p], at = p * 4, earlier = seen[index];
+            for (var channel = 0; channel < 4; channel++) {
+                var byte = ai.baseRgba[at + channel];
+                if (earlier !== undefined && byte !== ai.baseRgba[earlier + channel]) return false;
+                if (index === 0 || index === 255) {
+                    var palette = index === 0 ? ai.paletteZero : ai.paletteInk;
+                    if (byte !== (palette >>> (channel * 8) & 255)) return false;
+                }
+            }
+            if (earlier === undefined) seen[index] = at;
+        }
+        return true;
+    }
+    function aiTarget(s, entry) {
+        var current = s.aiTarget, displayed = s.display && s.display.aiTarget;
+        if (!validAiEntry(entry) || s.id !== 27 || s.kind !== 4 || s.resourceIndex !== 0 || s.keyflag !== 0 || s.skipEligible !== false ||
+            !current || !displayed || current.protocolVersion !== 2 || displayed.protocolVersion !== 2 ||
+            current.valid !== true || displayed.valid !== true || !matches(s) || !byteBits(displayed.clearFrames) ||
+            !byteBits(current.clearFrames) || !integer(s.frameIndex) || s.frameIndex < 12 || s.frameIndex > 17 ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < 12 || s.display.frameIndex > s.frameIndex ||
+            !integer(s.commitSeq) || s.display.commitSeq > s.commitSeq || !validAiBase(displayed)) return null;
+        var fields = ['commandType', 'commandParam', 'actorIndex', 'targetIndex', 'actorPerson', 'targetPerson',
+            'actorX', 'actorY', 'targetX', 'targetY', 'mapSX', 'mapSY', 'mapWidth', 'mapHeight',
+            'screenWidth', 'screenHeight', 'regionX', 'regionY', 'regionWidth', 'regionHeight', 'paletteZero', 'paletteInk'];
+        if (!fields.every(function (name) { return integer(displayed[name]) && current[name] === displayed[name]; }) ||
+            !Array.isArray(current.basePixels) || current.basePixels.length !== 256 ||
+            !current.basePixels.every(function (v, i) { return v === displayed.basePixels[i]; }) ||
+            !Array.isArray(current.baseRgba) || current.baseRgba.length !== 1024 ||
+            !current.baseRgba.every(function (v, i) { return v === displayed.baseRgba[i]; }) ||
+            !(displayed.commandType === 0 && displayed.commandParam === 0 || displayed.commandType === 1 && displayed.commandParam > 0 && displayed.commandParam <= 65535) ||
+            displayed.actorIndex < 10 || displayed.actorIndex >= 20 || displayed.targetIndex < 0 || displayed.targetIndex >= 20 ||
+            displayed.actorPerson < 0 || displayed.actorPerson >= 2000 || displayed.targetPerson < 0 || displayed.targetPerson >= 2000 ||
+            displayed.mapWidth < 1 || displayed.mapWidth > 255 || displayed.mapHeight < 1 || displayed.mapHeight > 255 ||
+            displayed.actorX < 0 || displayed.actorX >= displayed.mapWidth || displayed.actorY < 0 || displayed.actorY >= displayed.mapHeight ||
+            displayed.targetX < 0 || displayed.targetX >= displayed.mapWidth || displayed.targetY < 0 || displayed.targetY >= displayed.mapHeight ||
+            displayed.mapSX < 0 || displayed.mapSX >= displayed.mapWidth || displayed.mapSY < 0 || displayed.mapSY >= displayed.mapHeight ||
+            displayed.screenWidth !== W || displayed.screenHeight !== H || displayed.regionWidth !== 16 || displayed.regionHeight !== 16 ||
+            displayed.regionX !== s.x || displayed.regionY !== s.y || displayed.regionX < 0 || displayed.regionY < 0 ||
+            displayed.regionX + 16 > W || displayed.regionY + 16 > H ||
+            displayed.regionX !== (displayed.targetX - displayed.mapSX) * 16 || displayed.regionY !== (displayed.targetY - displayed.mapSY) * 16 ||
+            displayed.paletteZero !== 0x00ffffff || displayed.paletteInk !== 0xff000000) return null;
+        var clears = [];
+        for (var i = 0; i < 256; i++) {
+            var bit = 1 << (i & 7), currentSet = current.clearFrames[i >> 3] & bit, displayedSet = displayed.clearFrames[i >> 3] & bit;
+            if (currentSet && (i < 12 || i > s.frameIndex) || displayedSet && (i < 12 || i > s.display.frameIndex || !currentSet)) return null;
+            if (displayedSet) clears.push(i);
+        }
+        return { source: displayed, clears: clears, x: displayed.regionX, y: displayed.regionY, width: 16, height: 16 };
+    }
+    function paintAiTarget(ctx, s, entry, assets, frames, scale, ticket) {
+        var region = aiTarget(s, entry);
+        if (!region || frames.some(function (frame) { return frame > s.display.frameIndex; }) ||
+            state.callbackFlushKey !== stamp(s)) { state.reason = 'ai-target-not-matched'; return; }
+        if (!state.aiBase) state.aiBase = document.createElement('canvas');
+        state.aiBase.width = state.aiBase.height = 16;
+        var baseCtx = state.aiBase.getContext('2d');
+        if (!baseCtx || typeof global.ImageData !== 'function' || typeof global.Uint8ClampedArray !== 'function') {
+            state.reason = 'ai-target-pixels-unavailable'; return;
+        }
+        // The actual palette can include terrain gray. Keep the authenticated
+        // RGBA bytes; Canvas owns transparent RGB normalization on readback.
+        var pixels = new global.Uint8ClampedArray(region.source.baseRgba);
+        if (region.clears.length) for (var p = 0; p < 256; p++)
+            for (var channel = 0; channel < 4; channel++)
+                pixels[p * 4 + channel] = region.source.paletteZero >>> (channel * 8) & 255;
+        baseCtx.putImageData(new global.ImageData(pixels, 16, 16), 0, 0);
+        // Native snapshots and asset authorization can retire during a read.
+        // The final observation must still own the actual captured LCD bytes.
+        verifyLib();
+        var allowed = !document.hidden && hd(4) && !report(), fresh = info();
+        if (!allowed || !fresh.active || !matches(fresh) || aiSignature(fresh) !== ticket.signature || state.epoch !== ticket.epoch ||
+            state.manifestGeneration !== ticket.manifestGeneration || state.libGeneration !== ticket.libGeneration ||
+            state.libHash !== ticket.libHash || state.assets !== assets || state.callbackFlushKey !== stamp(fresh) ||
+            !aiTarget(fresh, entry)) { state.reason = 'ai-target-retired'; return; }
+        var x = region.x * scale, y = region.y * scale, width = 16 * scale;
+        ctx.save();
+        try {
+            ctx.beginPath(); ctx.rect(x, y, width, width); ctx.clip();
+            ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+            ctx.clearRect(x, y, width, width);
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(state.aiBase, 0, 0, 16, 16, x, y, width, width);
+            frames.forEach(function (frame) {
+                var unit = entry.units[frame], pic = entry.pictures.filter(function (p) { return p.picIndex === unit.picIndex; })[0];
+                // AND0/OR0 is an explicit native clear, not alpha transparency.
+                for (var bit = 0; bit < 256; bit++) if (pic.nativeWhitePixels[bit >> 3] & (1 << (bit & 7)))
+                    ctx.clearRect(x + bit % 16 * scale, y + Math.floor(bit / 16) * scale, scale, scale);
+                ctx.imageSmoothingEnabled = true;
+                ctx.drawImage(assets.images[unit.picIndex], x, y, width, width);
+            });
+        } catch (error) {
+            ctx.restore();
+            ctx.clearRect(0, 0, state.canvasW, state.canvasH);
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(state.scratch, 0, 0, state.flushW, state.flushH, 0, 0, state.canvasW, state.canvasH);
+            state.reason = 'ai-target-draw-failed'; return;
+        }
+        ctx.restore();
+        state.source = 'hd-assets'; state.reason = ''; state.frames = frames;
+        state.aiRegion = { x: region.x, y: region.y, width: 16, height: 16 };
+    }
+    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s) + (kind(s) === 4 ? ':' + aiSignature(s) : ''); }
     function paint(s) {
         var canvas = el('hd-spe-canvas');
         if (!canvas || !show(s) || state.renderKey === renderKey(s))
@@ -495,7 +633,7 @@
         var resultArena = !skillPostlude(s) || s.skillResult.sourceValid === true && s.display.valid === true &&
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
-        if (baseline && k !== 1 && s.ownerType !== 'result-lcd' && resultArena) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;
@@ -523,6 +661,7 @@
         state.source = 'lcd';
         state.reason = s.protocolVersion !== 2 ? 'legacy-protocol' : 'assets-unavailable';
         state.frames = [];
+        state.aiRegion = null;
         verifyLib();
         requestManifest();
         warmMaker();
@@ -558,6 +697,11 @@
         state.renderKey = renderKey(s);
         if (assets.status !== 'ready') {
             state.reason = assets.status === 'failed' ? 'asset-load-failed' : 'assets-loading';
+            return;
+        }
+        if (k === 4) {
+            paintAiTarget(ctx, s, entry, assets, frames, scale, { signature: aiSignature(s), epoch: state.epoch,
+                manifestGeneration: state.manifestGeneration, libGeneration: state.libGeneration, libHash: state.libHash });
             return;
         }
         ctx.imageSmoothingEnabled = true;
@@ -617,6 +761,7 @@
             return;
         root.classList.toggle('is-open', shown);
         root.classList.toggle('is-opening', shown && skippable(s));
+        root.classList.toggle('is-status', shown && kind(s) === 4);
         root.setAttribute('aria-hidden', shown ? 'false' : 'true');
         root.style.pointerEvents = shown ? 'auto' : 'none';
         if (document.documentElement)
@@ -640,7 +785,7 @@
         }
         var title = el('hd-spe-title');
         if (title)
-            title.textContent = Number(s.id) === 6 ? '制作群组' : kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
+            title.textContent = kind(s) === 4 ? 'AI目标提示' : Number(s.id) === 6 ? '制作群组' : kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
         if (shown) {
             verifyLib();
             if (noPaint !== true)
@@ -761,9 +906,10 @@
                 preparation: state.preparation, cachedResources: state.cache.length, cachedImages: Object.keys(state.imageCache).length,
                 ownerToken: event(s) + ':' + state.epoch,
                 maker: s.maker, attack: s.attack, skillResult: s.skillResult, resultOwner: s.resultOwner,
-                hdRegion: skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
-                outsideSource: skillPostlude(s) ? 'lcd' : null,
-                presentation: s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
+                hdRegion: kind(s) === 4 && state.source === 'hd-assets' ? state.aiRegion : skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
+                outsideSource: skillPostlude(s) || kind(s) === 4 ? 'lcd' : null,
+                aiTarget: kind(s) === 4 && s.display ? s.display.aiTarget : null,
+                presentation: kind(s) === 4 ? 'ai-target' : s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
         } };
     if (global.BayeHdLibIdentity) {
         global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });

@@ -1325,6 +1325,138 @@ function baye_bridge_init() {
                 displayBackground.valid && hdRangeBits(displayClears, count, start, end),
                 background: stable ? displayBackground : null, clearFrames: stable ? displayClears : [] } };
     }
+    // AI target hints own only their real before-draw cell and copied frame.
+    // They do not borrow an attack/result scene or acquire any input owner.
+    function hdSpeAiTarget(d, expected) {
+        var r = hdObserverReader(d), version = null;
+        function neutral() { return { protocolVersion: version, valid: false, basePixels: [], baseRgba: [], clearFrames: [] }; }
+        function rejected() { return { current: neutral(), display: neutral() }; }
+        try {
+            version = r.num('g_hdSpeAiProtocolVersion', 255);
+            if (version !== 2) return rejected();
+            var limits = { ProtocolVersion: 255, Active: 1, Id: 65535, Kind: 255, Seq: 65535,
+                Generation: 0xffffffff, EventId: 0xffffffff, ParentEventId: 0xffffffff, Depth: 65535,
+                ResourceIndex: 65535, Count: 65535, Picmax: 65535, StartFrm: 255, EndFrm: 255,
+                OriginX: 65535, OriginY: 65535, ResourceFingerprint: 0xffffffff, ResourceLength: 0xffffffff,
+                ProtocolValid: 1, FrameValid: 1, CommitSeq: 0xffffffff, FrameIndex: 65535,
+                Keyflag: 255, SkipEligible: 1, ContextKnown: 1, SkillId: 65535, ActorIndex: 255, TargetIndex: 255,
+                DisplayGeneration: 0xffffffff, DisplayEventId: 0xffffffff, DisplayCommitSeq: 0xffffffff,
+                DisplayFrameIndex: 65535, DisplayFrameValid: 1 }, main = {};
+            for (var name in limits) main[name] = r.num('g_hdSpe' + name, limits[name]);
+            var fight = r.num('g_hdFightActive', 1), over = r.num('g_FgtOver', 255),
+                report = r.num('g_hdReportActive', 1), help = r.num('g_hdHelpActive', 1), qty = r.num('g_hdQtyActive', 1);
+            // A noncandidate can only return neutral. Avoid touching the large
+            // immutable cell buffers on unrelated or inactive SPE callbacks.
+            var candidateValid = r.num('g_hdSpeAiValid', 1);
+            if (main.Active !== 1 || main.Id !== 27 || main.Kind !== 4 || main.StartFrm !== 12 ||
+                main.EndFrm !== 17 || main.ResourceIndex !== 0 || candidateValid !== 1) return rejected();
+            function bytes(name, length) {
+                // The binding exposes an actual array length, including bytes
+                // after an embedded zero. A shortened or string buffer is not a source.
+                var exact = r.num(name, length, 'length') === length;
+                var values = r.array(name, length, 255);
+                return exact ? values : null;
+            }
+            var visible = bytes('g_hdSpeVisibleFrames', 32), displayedVisible = bytes('g_hdSpeDisplayVisibleFrames', 32);
+            var aiLimits = { Valid: 1, CommandType: 255, CommandParam: 65535, ActorIndex: 255, TargetIndex: 255,
+                ActorPerson: 65535, TargetPerson: 65535, ActorX: 255, ActorY: 255, TargetX: 255, TargetY: 255,
+                MapSX: 255, MapSY: 255, MapWidth: 255, MapHeight: 255, ScreenWidth: 65535, ScreenHeight: 65535,
+                RegionX: 65535, RegionY: 65535, RegionWidth: 65535, RegionHeight: 65535,
+                PaletteZero: 0xffffffff, PaletteInk: 0xffffffff };
+            function read(prefix) {
+                var value = {};
+                for (var field in aiLimits) value[field] = r.num(prefix + field, aiLimits[field]);
+                value.BasePixels = bytes(prefix + 'BasePixels', 256);
+                value.BaseRgba = bytes(prefix + 'BaseRgba', 1024);
+                value.ClearFrames = bytes(prefix + 'ClearFrames', 32);
+                return value;
+            }
+            var current = read('g_hdSpeAi'), display = read('g_hdSpeDisplayAi');
+            function same(a, b) { return a && b && a.length === b.length && a.every(function (n, i) { return n === b[i]; }); }
+            function base(value) {
+                if (!value.BasePixels || !value.BaseRgba) return false;
+                var colors = {};
+                return value.BasePixels.every(function (pixel, i) {
+                    var at = i * 4, rgba = value.BaseRgba.slice(at, at + 4), palette = pixel === 0 ? value.PaletteZero : pixel === 255 ? value.PaletteInk : null;
+                    if (palette !== null && !rgba.every(function (byte, component) { return byte === (palette >>> (component * 8) & 255); })) return false;
+                    if (colors[pixel] && !same(colors[pixel], rgba)) return false;
+                    colors[pixel] = rgba;
+                    return true;
+                });
+            }
+            function source(value, frame) {
+                var x = hdOrigin(value.RegionX), y = hdOrigin(value.RegionY);
+                return value.Valid === 1 && (value.CommandType === 0 && value.CommandParam === 0 ||
+                        value.CommandType === 1 && value.CommandParam > 0) &&
+                    value.ActorIndex >= 10 && value.ActorIndex < 20 && value.TargetIndex < 20 &&
+                    value.ActorPerson < 2000 && value.TargetPerson < 2000 &&
+                    (value.ActorIndex !== value.TargetIndex || value.ActorPerson === value.TargetPerson &&
+                        value.ActorX === value.TargetX && value.ActorY === value.TargetY) &&
+                    value.MapWidth > 0 && value.MapHeight > 0 && value.MapSX < value.MapWidth && value.MapSY < value.MapHeight &&
+                    value.ActorX < value.MapWidth && value.ActorY < value.MapHeight &&
+                    value.TargetX < value.MapWidth && value.TargetY < value.MapHeight &&
+                    value.ScreenWidth === 160 && value.ScreenHeight === 96 && value.RegionWidth === 16 && value.RegionHeight === 16 &&
+                    x >= 0 && y >= 0 && x + 16 <= value.ScreenWidth && y + 16 <= value.ScreenHeight &&
+                    x === (value.TargetX - value.MapSX) * 16 && y === (value.TargetY - value.MapSY) * 16 &&
+                    value.PaletteZero === 0x00ffffff && value.PaletteInk === 0xff000000 &&
+                    base(value) &&
+                    hdRangeBits(value.ClearFrames, main.Count, main.StartFrm, frame);
+            }
+            function output(value) {
+                var result = { protocolVersion: version, valid: true };
+                for (var field in aiLimits) if (field !== 'Valid') {
+                    var key = field.charAt(0).toLowerCase() + field.slice(1);
+                    result[key] = field === 'RegionX' || field === 'RegionY' ? hdOrigin(value[field]) : value[field];
+                }
+                result.basePixels = value.BasePixels.slice(); result.baseRgba = value.BaseRgba.slice(); result.clearFrames = value.ClearFrames.slice();
+                return result;
+            }
+            var expectedMatches = expected && expected.protocolVersion === main.ProtocolVersion && expected.active === main.Active &&
+                expected.id === main.Id && expected.kind === main.Kind && expected.seq === main.Seq &&
+                expected.generation === main.Generation && expected.eventId === main.EventId &&
+                expected.parentEventId === main.ParentEventId && expected.depth === main.Depth &&
+                expected.resourceIndex === main.ResourceIndex && expected.count === main.Count && expected.picmax === main.Picmax &&
+                expected.startFrm === main.StartFrm && expected.endFrm === main.EndFrm &&
+                expected.x === hdOrigin(main.OriginX) && expected.y === hdOrigin(main.OriginY) &&
+                expected.resourceLength === main.ResourceLength && expected.resourceFingerprint === hdFingerprint(main.ResourceFingerprint, main.ResourceLength) &&
+                expected.commitSeq === main.CommitSeq && expected.frameIndex === main.FrameIndex && expected.frameValid === (main.FrameValid === 1) &&
+                expected.protocolValid === (main.ProtocolValid === 1) && expected.keyflag === main.Keyflag && expected.skipEligible === (main.SkipEligible === 1) &&
+                expected.contextKnown === (main.ContextKnown === 1) && expected.skillId === main.SkillId &&
+                expected.actorIndex === main.ActorIndex && expected.targetIndex === main.TargetIndex && same(expected.visibleFrames, visible) &&
+                expected.display.generation === main.DisplayGeneration && expected.display.eventId === main.DisplayEventId &&
+                expected.display.commitSeq === main.DisplayCommitSeq && expected.display.frameIndex === (main.DisplayFrameIndex === 65535 ? null : main.DisplayFrameIndex) &&
+                expected.display.frameValid === (main.DisplayFrameValid === 1) && same(expected.display.visibleFrames, displayedVisible);
+            var owned = expectedMatches && main.ProtocolVersion === 2 && main.Active === 1 && main.Id === 27 && main.Kind === 4 &&
+                main.Seq > 0 && main.Generation > 0 && main.EventId > 0 && main.ParentEventId === 0 && main.Depth === 1 &&
+                main.ResourceIndex === 0 && main.Count >= 18 && main.Count <= 255 && main.Picmax > 0 && main.Picmax <= 255 &&
+                main.StartFrm === 12 && main.EndFrm === 17 && main.ProtocolValid === 1 && main.FrameValid === 1 &&
+                main.CommitSeq > 0 && main.FrameIndex >= 12 && main.FrameIndex <= 17 && main.ResourceLength > 0 &&
+                main.Keyflag === 0 && main.SkipEligible === 0 && main.ContextKnown === 1 &&
+                main.ActorIndex === current.ActorIndex && main.TargetIndex === current.TargetIndex &&
+                main.SkillId === (current.CommandType === 1 ? current.CommandParam : 0) &&
+                hdOrigin(main.OriginX) === hdOrigin(current.RegionX) && hdOrigin(main.OriginY) === hdOrigin(current.RegionY) &&
+                fight === 1 && over === 0 && report === 0 && help === 0 && qty === 0 &&
+                hdRangeBits(visible, main.Count, main.StartFrm, main.FrameIndex) && source(current, main.FrameIndex);
+            var displayed = owned && main.DisplayGeneration === main.Generation && main.DisplayEventId === main.EventId &&
+                main.DisplayCommitSeq > 0 && main.DisplayCommitSeq <= main.CommitSeq && main.DisplayFrameValid === 1 &&
+                main.DisplayFrameIndex >= 12 && main.DisplayFrameIndex <= main.FrameIndex &&
+                hdRangeBits(displayedVisible, main.Count, main.StartFrm, main.DisplayFrameIndex) && source(display, main.DisplayFrameIndex) &&
+                same(current.BasePixels, display.BasePixels) && same(current.BaseRgba, display.BaseRgba) &&
+                Object.keys(aiLimits).every(function (field) { return current[field] === display[field]; }) &&
+                display.ClearFrames.every(function (byte, i) { return (byte & current.ClearFrames[i]) === byte; });
+            // Repeat the complete source read after all arrays and calculations.
+            // A later field read must not change the owner of an earlier base byte.
+            if (!r.stable() || !r.stable()) return rejected();
+            function fence(prefix, values, fields) {
+                return Object.keys(fields).every(function (field) { return values[field] === hdDetailNum(d, prefix + field, fields[field]); });
+            }
+            if (version !== hdDetailNum(d, 'g_hdSpeAiProtocolVersion', 255) ||
+                !fence('g_hdSpe', main, limits) || !fence('g_hdSpeAi', current, aiLimits) || !fence('g_hdSpeDisplayAi', display, aiLimits) ||
+                fight !== hdDetailNum(d, 'g_hdFightActive', 1) || over !== hdDetailNum(d, 'g_FgtOver', 255) ||
+                report !== hdDetailNum(d, 'g_hdReportActive', 1) || help !== hdDetailNum(d, 'g_hdHelpActive', 1) || qty !== hdDetailNum(d, 'g_hdQtyActive', 1)) return rejected();
+            return { current: owned ? output(current) : neutral(), display: displayed ? output(display) : neutral() };
+        } catch (error) { return rejected(); }
+    }
     function hdResultOwnerRead(r) {
         return { kind: r.num('g_hdResultOwnerKind', 2), valid: r.num('g_hdResultOwnerValid', 1) === 1,
             generation: r.num('g_hdResultOwnerGeneration'), session: r.num('g_hdResultOwnerSession') };
@@ -2159,6 +2291,9 @@ function baye_bridge_init() {
             if (!aligned) composition.current.valid = composition.display.valid = false;
             result.composition = composition.current;
             result.display.composition = composition.display;
+            var aiTarget = hdSpeAiTarget(d, result);
+            result.aiTarget = aiTarget.current;
+            result.display.aiTarget = aiTarget.display;
             return result;
         },
         attack: function () {

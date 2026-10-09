@@ -200,6 +200,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
     }
     baye_hd_spe_ready(&hdScope, ((SPERES*)srsptr)->count, ((SPERES*)srsptr)->picmax,
         hd_spe_resource_fingerprint(srsptr, resourceLength), resourceLength, endfrm, simplePictures);
+    baye_hd_ai_target_shape(&hdScope, srsptr, resourceLength);
     hd_skill_resource_shape(&hdScope, srsptr);
 
     count  = *(srsptr+2);

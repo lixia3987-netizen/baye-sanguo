@@ -23,12 +23,13 @@ function actual(file, name) {
     return source.slice(match.index, end + 2);
 }
 function typedef(file, name) {
-    const result = new RegExp('typedef struct[^;{]*\\{[^}]*\\}\\s*' + name + ';').exec(read(file));
+    const result = new RegExp('typedef\\s+struct[^;{]*\\{[^}]*\\}\\s*' + name + ';').exec(read(file));
     assert.ok(result, `actual typedef ${name}`);
     return result[0];
 }
 const header = read('hd-bridge.h'), bridge = read('hd-bridge.c');
-const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT)_/.test(line)).join('\n');
+const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT|AI_TARGET)_/.test(line)).join('\n');
+const aiDefinitions = (read('baye/attribute.h') + '\n' + read('baye/fight.h') + '\n' + read('baye/consdef.h')).split('\n').filter(l => /^#define\s+(?:PERSON_MAX|FGT_PLAMAX|CMD_ATK|CMD_STGM|STATE_SW|TIL_WID|WK_SX|WK_SY)\b/.test(l)).join('\n');
 const globals = bridge.slice(bridge.indexOf('U8 g_hdSpePendingKind ='), bridge.indexOf('U8 g_hdSkillActive ='));
 function observerFunctions(names) {
     const found = new Map();
@@ -46,7 +47,7 @@ const helpers = ['hd_next_input_seq', 'hd_spe_notify', 'baye_hd_maker_begin', 'b
     'baye_hd_spe_context', 'baye_hd_spe_enter', 'baye_hd_spe_ready', 'baye_hd_spe_frame',
     'baye_hd_spe_tick', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty', 'baye_hd_spe_lcd_copy',
     'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate', 'baye_hd_spe_draw_begin',
-    'baye_hd_spe_draw_end', 'baye_hd_spe_clear', 'baye_hd_skill_movie_shape'];
+    'baye_hd_spe_draw_end', 'baye_hd_spe_clear', 'baye_hd_skill_movie_shape', 'baye_hd_ai_target_shape'];
 const observerSource = observerFunctions(helpers);
 
 // Independent fixed RCHEAD decoding obtains the actual complete MAKER item.
@@ -92,16 +93,20 @@ typedef int8_t BOOL;
 #define WK_SX 0
 #define WK_SY 0
 #define min(a,b) ((a)<(b)?(a):(b))
-` + constants + '\n' + typedef('hd-bridge.h', 'HdResultScope') + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
+` + constants + '\n' + typedef('hd-bridge.h', 'HdResultScope') + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h', 'HdAiTargetSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
     typedef('baye/paccount.h', 'SPEUNIT') + '\n' + typedef('baye/paccount.h', 'SPERES') + '\n' +
     typedef('baye/graph.h', 'PictureHeadType') + String.raw`
 static U8 g_hdFightActive=0,g_hdMovieActive=0,g_FlipDrawing=0,g_paintColor=255;
 static U16 g_hdMovieId=0;
+typedef U16 PersonID;
+static U8 g_hdReportActive,g_hdHelpActive,g_hdQtyActive,g_FgtOver;
+static U8 g_MapSX,g_MapSY,g_MapWid,g_MapHgt;
 static U32 g_paintPalette[256];
 static int g_screenWidth=160,g_screenHeight=96;
-` + globals + '\n' + observerSource + String.raw`
+static U8 g_VisScr[160*96];
+` + aiDefinitions + '\n' + typedef('baye/fight.h','JLPOS') + '\n' + typedef('baye/fight.h','FGTJK') + '\nstatic JLPOS g_GenPos[FGTA_MAX]; static FGTJK g_FgtParam;\n' + globals + '\n' + observerSource + String.raw`
 static const U8 initial[]={ROM_BYTES};
-static U8 resource[4096],g_VisScr[160*96];
+static U8 resource[4096];
 static U8 *g_CBnkPtr=resource;
 typedef struct {U32 length,position;} FakeFile;
 static FakeFile romFile,*g_LibFp=&romFile;

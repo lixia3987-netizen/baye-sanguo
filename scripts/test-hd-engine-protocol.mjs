@@ -18,6 +18,7 @@ const bridge = read('hd-bridge.c');
 const header = read('hd-bridge.h');
 const constants = header.split('\n').filter((line) => /^#define (?:BAYE_HD_|VK_DIGIT0)/.test(line)).join('\n') + '\n' +
     read('baye/consdef.h').split('\n').filter(line => /^#define\s+TACTIC_ICON\b/.test(line)).join('\n');
+const aiDefinitions = (read('baye/attribute.h') + '\n' + read('baye/fight.h') + '\n' + read('baye/consdef.h')).split('\n').filter(l => /^#define\s+(?:PERSON_MAX|FGT_PLAMAX|CMD_ATK|CMD_STGM|STATE_SW|TIL_WID|WK_SX|WK_SY)\b/.test(l)).join('\n');
 const run = promisify(execFile);
 
 function actualFunction(filename, name) {
@@ -41,7 +42,7 @@ function actualFunction(filename, name) {
 }
 
 const speTypes = header.match(/typedef struct HdResultScope \{[\s\S]*?\} HdResultScope;/)[0] + '\n' + header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdPictureSource;/)[0] + '\n' +
-    header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
+    header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdAiTargetSource;/)[0] + '\n' + header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
 function observerFunctions(names) {
     const found = new Map(), excluded = new Set(['hd_next_input_seq', 'baye_hd_begin_spe']);
     function add(name) {
@@ -85,6 +86,7 @@ const common = String.raw`
 typedef uint8_t U8;
 typedef uint16_t U16;
 typedef int16_t I16;
+typedef int32_t I32;
 typedef uint32_t U32;
 typedef uint16_t PersonID;
 typedef uint16_t ToolID;
@@ -93,6 +95,9 @@ typedef struct { int sx, ex, sy, ey; } RECT;
 typedef struct { U8 x,y,setx,sety; } CitySetType;
 U8 g_FlipDrawing = 0, g_paintColor = 0xff;
 U32 g_paintPalette[256];
+static int g_screenWidth=160,g_screenHeight=96;
+static U8 *g_VisScr;
+static U8 g_MapSX,g_MapSY,g_MapWid,g_MapHgt,g_FgtOver;
 #define FAR
 #define AX_SCALE 1
 #define FGTA_MAX 20
@@ -108,7 +113,7 @@ U32 g_paintPalette[256];
 static void ResLoadToMem(int resource, int id, U8* output) {
     (void)resource; output[0] = (U8)id; output[1] = 0;
 }
-` + constants + '\n' + speTypes + '\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\nvoid baye_hd_skill_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
+` + constants + '\n' + aiDefinitions + '\n' + speTypes + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*JLPOS;/.exec(read('baye/fight.h'))[0] + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*FGTJK;/.exec(read('baye/fight.h'))[0] + '\nstatic JLPOS g_GenPos[FGTA_MAX];static FGTJK g_FgtParam;\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\nvoid baye_hd_skill_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
 static int scrolling;
 static int SysScrollingTimerOpen(int value) { int old = scrolling; scrolling = value; return old; }
 `;

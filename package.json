@@ -9,7 +9,7 @@
     "start": "serve -l 8080 .",
     "serve": "serve -l 8080 .",
     "dump-portraits": "node scripts/dump-hd-portraits.mjs",
-    "test": "node --test scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs scripts/test-hd-campaign-telemetry.mjs scripts/test-hd-render-visibility.mjs scripts/test-hd-performance-metrics.mjs scripts/test-hd-road-presentation.mjs scripts/test-hd-battle-terrain.mjs scripts/test-hd-battle-feedback.mjs scripts/test-hd-spe.mjs scripts/test-hd-spe-engine.mjs scripts/test-hd-maker-engine.mjs scripts/test-hd-maker-bridge.mjs scripts/test-hd-attack-engine.mjs scripts/test-hd-attack-bridge.mjs scripts/test-hd-skill-engine.mjs scripts/test-hd-skill-bridge.mjs scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs scripts/test-hd-idb-mod-compat.mjs scripts/test-hd-details-engine.mjs scripts/test-hd-person-properties-engine.mjs scripts/test-hd-details-bridge.mjs scripts/test-hd-overviews-engine.mjs scripts/test-hd-overviews-bridge.mjs scripts/test-hd-minimap.mjs scripts/test-hd-overworld-layers.mjs scripts/test-hd-overworld-environment.mjs",
+    "test": "node --test scripts/test-hd-input.mjs scripts/test-hd-battle-mode.mjs scripts/test-hd-battle-commands.mjs scripts/test-hd-march.mjs scripts/test-hd-city-entry.mjs scripts/test-hd-engine-protocol.mjs scripts/test-hd-dialog-routing.mjs scripts/test-hd-portraits.mjs scripts/test-hd-campaign-flow.mjs scripts/test-hd-campaign-engine.mjs scripts/test-hd-save-transaction.mjs scripts/test-hd-saveload-ui.mjs scripts/test-hd-save-pages.mjs scripts/test-hd-campaign-telemetry.mjs scripts/test-hd-render-visibility.mjs scripts/test-hd-performance-metrics.mjs scripts/test-hd-road-presentation.mjs scripts/test-hd-battle-terrain.mjs scripts/test-hd-battle-feedback.mjs scripts/test-hd-spe.mjs scripts/test-hd-spe-engine.mjs scripts/test-hd-maker-engine.mjs scripts/test-hd-maker-bridge.mjs scripts/test-hd-attack-engine.mjs scripts/test-hd-attack-bridge.mjs scripts/test-hd-skill-engine.mjs scripts/test-hd-skill-bridge.mjs scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs scripts/test-hd-idb-mod-compat.mjs scripts/test-hd-details-engine.mjs scripts/test-hd-person-properties-engine.mjs scripts/test-hd-details-bridge.mjs scripts/test-hd-overviews-engine.mjs scripts/test-hd-overviews-bridge.mjs scripts/test-hd-minimap.mjs scripts/test-hd-overworld-layers.mjs scripts/test-hd-overworld-environment.mjs scripts/test-hd-ai-target-engine.mjs scripts/test-hd-ai-target-bridge.mjs",
     "test:input": "node scripts/test-hd-input.mjs",
     "test:battle-mode": "node scripts/test-hd-battle-mode.mjs",
     "test:battle-commands": "node scripts/test-hd-battle-commands.mjs",
@@ -62,7 +62,9 @@
     "test:qimen-runtime": "node scripts/test-hd-qimen-runtime.mjs",
     "test:search-runtime": "node scripts/test-hd-search-runtime.mjs",
     "test:person-properties-engine": "node scripts/test-hd-person-properties-engine.mjs",
-    "test:person-properties-runtime": "node scripts/test-hd-person-properties-runtime.mjs"
+    "test:person-properties-runtime": "node scripts/test-hd-person-properties-runtime.mjs",
+    "test:ai-target": "node --test scripts/test-hd-ai-target-engine.mjs scripts/test-hd-ai-target-bridge.mjs scripts/test-hd-spe.mjs",
+    "test:ai-target-runtime": "node scripts/test-hd-ai-target-runtime.mjs"
   },
   "devDependencies": {
     "serve": "14.2.5"

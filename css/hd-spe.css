@@ -123,3 +123,13 @@ html[data-baye-spe="off"] .hd-spe,
     opacity: 0.55;
     cursor: default;
 }
+
+/* A target hint retains the actual complete LCD scene around its 16px cell. */
+.hd-spe.is-status .hd-spe-stage {
+    width: min(1800px, calc(100vw - 32px));
+    background: linear-gradient(180deg, rgba(28, 34, 30, 0.98), rgba(12, 16, 14, 0.98));
+}
+
+.hd-spe.is-status .hd-spe-title {
+    color: #eed8a2;
+}

@@ -83,6 +83,8 @@ FAR bool FgtGetMCmd(FGTCMD *pcmd)
             FgtSetFocus(jb);
             sx = FgtGetScrX(g_GenPos[jb].x);
             sy = FgtGetScrY(g_GenPos[jb].y);
+            baye_hd_ai_target_context(pcmd->type, pcmd->type == CMD_STGM ? pcmd->param : 0,
+                pcmd->sIdx, pcmd->aIdx, sx, sy);
             PlcMovie(STACHG_SPE,0,12,17,0,sx,sy);
         }
         return true;

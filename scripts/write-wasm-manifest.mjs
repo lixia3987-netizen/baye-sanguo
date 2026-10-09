@@ -127,6 +127,24 @@ const manifest = {
         displayedCommit: 'actual SysCopyScreen composition snapshot published by timed_flush_lcd',
         retirement: 'uncontrolled virtual or LCD writes, nested events, unsupported drawing state, native reset'
     },
+    hdAiTargetProtocol: {
+        version: 2,
+        publicApi: ['baye.hd.spe().aiTarget', 'baye.hd.spe().display.aiTarget'],
+        protocolField: 'g_hdSpeAiProtocolVersion',
+        scope: 'actual AI chosen command target; STACHG_SPE 27, resource index 0, kind 4, units 12..17, keyflag 0',
+        command: ['CommandType', 'CommandParam', 'ActorIndex', 'TargetIndex', 'ActorPerson', 'TargetPerson'],
+        identity: 'g_hdSpeAi and g_hdSpeDisplayAi carry actual zero-based U16 person IDs, unit positions and map viewport',
+        region: 'actual before-draw 16x16 target cell within the baseline 160x96 scale-1 LCD; no guessed battle background',
+        base: ['g_hdSpeAiBasePixels', 'g_hdSpeDisplayAiBasePixels'],
+        baseFormat: '256 row-major original g_VisScr U8 pixel indices; captured once before the first clear or sprite draw',
+        baseRgba: ['g_hdSpeAiBaseRgba', 'g_hdSpeDisplayAiBaseRgba'],
+        baseRgbaFormat: '1024 original little-endian RGBA bytes from the actual native palette at the first pre-draw capture; repeated indices share identical RGBA and used palette indices must remain unchanged',
+        palette: ['PaletteZero', 'PaletteInk'],
+        clears: ['g_hdSpeAiClearFrames', 'g_hdSpeDisplayAiClearFrames'],
+        displayedCommit: 'matching actual SysCopyScreen carries its fixed base and cumulative clear history; timed LCD flush publishes its own SPE event/commit/frame ticket',
+        retirement: 'uncontrolled drawing, changed native actor/target/map, nested event, report/help/quantity, resize, unsupported drawing state or reset permanently invalidates the base',
+        input: 'read-only observation adds no input, skip, return, attack or skill-result numeric owner; original unskippable keyflag-0 playback remains intact'
+    },
     hdAttackProtocol: {
         version: 1,
         owner: ['g_hdAttackGeneration', 'g_hdAttackSession', 'g_hdAttackPhase'],

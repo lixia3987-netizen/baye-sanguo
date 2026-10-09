@@ -9,6 +9,8 @@ import vm from 'node:vm';
 
 const source=readFileSync(new URL('../js/bridge.js',import.meta.url),'utf8');
 const native=readFileSync(new URL('../vendor/iBaye/src/hd-bridge.c',import.meta.url),'utf8');
+const nativeHeader=readFileSync(new URL('../vendor/iBaye/src/hd-bridge.h',import.meta.url),'utf8');
+const arrayLengths=Object.fromEntries([...nativeHeader.matchAll(/^#define\s+([A-Z_][A-Z_0-9]*)\s+(\d+)\b/gm)].map(m=>[m[1],Number(m[2])]));
 const plain=value=>JSON.parse(JSON.stringify(value));
 const lib=readFileSync(new URL('../libs/dat-mod.lib',import.meta.url));
 function payload(id){const at=lib.readUInt32LE((id-1)*4);assert.equal(lib.readUInt16LE(at+4),id);return lib.subarray(at+14,at+14+lib.readUInt32LE(at+8));}
@@ -35,7 +37,8 @@ function fixture(){
     for(const match of native.slice(native.indexOf('U8 g_hdSpePendingKind ='),native.indexOf('U8 g_hdSkillActive =')).matchAll(/\b(?:U8|U16|U32|I16)\s+([^;]+);/g))
         for(const declaration of match[1].split(',')){
             const m=/\b(g_hd(?:Spe|Attack)\w+)\s*(?:\[([^\]]+)\])?/.exec(declaration);if(!m)continue;
-            const length=m[2]==='BAYE_HD_SPE_FRAME_BYTES'?32:m[2]==='BAYE_HD_ATTACK_DIGITS'?10:Number(m[2]);
+            const length=arrayLengths[m[2]]??Number(m[2]);
+            if(m[2])assert.ok(Number.isInteger(length)&&length>0,`actual native array length: ${m[2]}`);
             raw[m[1]]=m[2]?Array(length).fill(0):0;
         }
     function picture(prefix,id,bytes,x=15,y=16){Object.assign(raw,{

@@ -157,6 +157,10 @@ void baye_hd_help_clear(U32 generation, U32 inputSeq);
 #define BAYE_HD_SKILL_SCENE_OPAQUE 2
 #define BAYE_HD_RESULT_ATTACK 1
 #define BAYE_HD_RESULT_SKILL 2
+#define BAYE_HD_AI_TARGET_VERSION 2
+#define BAYE_HD_AI_TARGET_WIDTH 16
+#define BAYE_HD_AI_TARGET_PIXELS 256
+#define BAYE_HD_AI_TARGET_RGBA_BYTES 1024
 
 /* Real native call stack, independent of whether its pixels remain HD-safe. */
 typedef struct HdResultScope {
@@ -171,6 +175,26 @@ typedef struct {
     I16 x, y;
     U8 mask, valid;
 } HdPictureSource;
+
+/* Certified map-cell source for the real AI target hint, not a result owner.
+ * Pixels are fixed before the first native draw; copies carry their own clears. */
+typedef struct {
+    U8 valid, eligible, shapeValid, baseCaptured;
+    U32 generation;
+    U8 commandType, actorIndex, targetIndex;
+    U8 actorState, targetState;
+    U16 commandParam, actorPerson, targetPerson;
+    U8 actorX, actorY, targetX, targetY, mapSX, mapSY, mapWidth, mapHeight;
+    U16 screenWidth, screenHeight, width, height;
+    I16 x, y;
+    U32 paletteZero, paletteInk;
+    const U8* resourceBytes;
+    U32 resourceLength, resourceFingerprint;
+    U8 basePixels[BAYE_HD_AI_TARGET_PIXELS];
+    U8 baseRgba[BAYE_HD_AI_TARGET_RGBA_BYTES];
+    U32 capturedPalette[256];
+    U8 clearFrames[BAYE_HD_SPE_FRAME_BYTES];
+} HdAiTargetSource;
 
 /* One scope belongs to one real PlcMovie call. Native stack lifetime makes
  * nested Mod calls restore their actual parent without a fixed stack overflow. */
@@ -188,6 +212,7 @@ typedef struct HdSpeScope {
     U8 sceneMode;
     I16 sceneX, sceneY;
     U16 sceneWidth, sceneHeight;
+    HdAiTargetSource aiTarget;
 } HdSpeScope;
 
 #define VK_DIGIT0 0x40
@@ -269,6 +294,8 @@ void baye_hd_begin_spe(U8 kind);
 void baye_hd_set_spe(U16 speId, U8 kind, U8 x, U8 y, U8 startfrm, U8 endfrm, U8 active);
 void baye_hd_spe_tick(void);
 void baye_hd_spe_context(U8 kind, U16 skillId, U8 actorIndex, U8 targetIndex);
+void baye_hd_ai_target_context(U8 commandType, U16 commandParam, U8 actor, U8 target, I16 x, I16 y);
+void baye_hd_ai_target_shape(HdSpeScope* scope, const U8* bytes, U32 length);
 void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 y, U8 startFrm, U8 endFrm, U8 keyflag);
 void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint, U32 resourceLength, U8 endFrm, U8 simplePictures);
 void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U16 introduced);
