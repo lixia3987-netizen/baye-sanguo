@@ -1,0 +1,292 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-09T11:53:58.999Z",
+  "status": "pending",
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "woodHdAccepted": false,
+  "archiveClosed": false,
+  "scope": "R21 WOOD preparation progress and retained failed attempt only; not a final WOOD acceptance record.",
+  "sourceSupport": {
+    "commit": "cce8905449e8a34474f57b4dd289ff73820b7655",
+    "scope": "Published source support. This commit does not change the recorded compiled engine revision."
+  },
+  "compiledEngine": {
+    "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "modified": true,
+    "nativeFiles": 128,
+    "native128AggregateSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "scope": "Actual staged engine identity from the recorded run; never relabeled to the current source-support HEAD."
+  },
+  "existingFullSuite": {
+    "execution": {
+      "path": "build/r21-all-tests-execution-v3.json",
+      "bytes": 2586,
+      "sha256": "a951b88b4ee1fae4c19a4b2e24d943890bd042f697a56fe20fb5e2676dfa252a",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "log": {
+      "path": "build/r21-all-tests-final-v3.log",
+      "bytes": 123048,
+      "sha256": "d4fc916a2a54fea2d690929e52c1d8639682a9231060438f8de8579f5e5d1688",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "startedAt": "2026-10-09T09:00:16.148Z",
+    "finishedAt": "2026-10-09T09:00:35.381Z",
+    "summary": {
+      "tests": 1021,
+      "pass": 1021,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "exitCode": 0,
+    "newSuiteRunForThisRecord": false,
+    "scope": "Existing actual1021/1021 and its original source tuple are preserved. Later byte checks are not a new run at cce8905."
+  },
+  "actualPreparationV15": {
+    "status": "terminal-failed",
+    "exitCode": 1,
+    "staged": true,
+    "prepareOnly": true,
+    "resume": {
+      "directory": "build/r21-route-actual-v14",
+      "checkpointTag": "month-012-strengthened"
+    },
+    "result": {
+      "path": "build/r21-route-actual-v15/result.json",
+      "bytes": 58980135,
+      "sha256": "3daa12dcd7a936a30ff35a842d1d46dcd2ac9be9e8a7123806fa4795d006b6a1",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "campaignObservations": {
+      "path": "build/r21-route-actual-v15/result.json.campaignObservations.ndjson",
+      "bytes": 31648922,
+      "sha256": "dcaceae9de6687beec252342fc2aafc0054c36de6105f31eff0649866cd9098f",
+      "archived": null,
+      "storage": "workspace-only-ndjson",
+      "count": 605,
+      "fullyDrainedCountBytesShaVerified": true
+    },
+    "log": {
+      "path": "build/r21-route-actual-v15.log",
+      "bytes": 1750,
+      "sha256": "e36ceaef962f357eb1f77d991b5a8c14ec72d6cf6861ca16033e63b124e512d6",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "executedDriver": {
+      "path": "build/r21-route-driver-v15.mjs",
+      "bytes": 216248,
+      "sha256": "cd71d0ed5a234b75f5db554716426375535ca62fb11a52d111a27ad399c1589e",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "wrapper": {
+      "path": "build/r21-run-route-v15-final.mjs",
+      "bytes": 2933,
+      "sha256": "20b16d8f8ab12de348d39fe253abf27d384b8d05f22f752442c7883c804f4f88",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "isolation": {
+      "path": "build/r21-route-actual-v15-isolation.json",
+      "bytes": 2170,
+      "sha256": "5c0dee883a3d29b38fb9c8d6e64332013fec36e4e090772dd3d7a589058ab450",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "sourceVerification": {
+      "path": "build/r21-route-actual-v15/source-verification.json",
+      "bytes": 416522,
+      "sha256": "0822c4e392bc493249e79980bce0a9e7bb1579c4f466f8f661a31bbf7bce4931",
+      "archived": null,
+      "storage": "workspace-only",
+      "count": 1169,
+      "drift": 0,
+      "added": 0,
+      "runnerMatch": true,
+      "currentBytesMatch": true
+    },
+    "counts": {
+      "actualMonths": 12,
+      "canvassOrders": 0,
+      "governance": 10,
+      "treat": 26,
+      "publicNativeCheckpoints": 8,
+      "quantityDoubleReadSingleEnterAcks": 16,
+      "woodAttempts": 0
+    },
+    "finiteCivicResults": {
+      "governance": {
+        "completed": 10,
+        "moneySpent": 0,
+        "scope": "Original native治理 order/report with state cleared and bounded/capped AvoidCalamity effect; actual governor and retained defenders excluded from worker selection."
+      },
+      "treat": {
+        "completed": 26,
+        "moneySpent": 2600,
+        "personIndex": 50,
+        "name": "王粲",
+        "governorToken": 51,
+        "devotionBefore": 72,
+        "devotionAfter": 98,
+        "scope": "Each actual public宴请 costs100 and increases this nonking resident devotion by1; original report acknowledged once and fresh person list observed."
+      },
+      "scope": "These completed civic actions do not establish complete preparation, acquisition, departure, either WOOD skill or HD rendering."
+    },
+    "lastOriginalPublicSave": {
+      "tag": "month-012",
+      "date": {
+        "year": 230,
+        "month": 4
+      },
+      "files": [
+        {
+          "path": "build/r21-route-actual-v15/native-month-012-sango0.sav",
+          "bytes": 8221,
+          "sha256": "00136af7a25c31c52acf2e1602356edb201a0210baba30c64a06c73b1b0d825e",
+          "archived": null,
+          "storage": "workspace-only"
+        },
+        {
+          "path": "build/r21-route-actual-v15/native-month-012-sango1.sav",
+          "bytes": 4840,
+          "sha256": "5e28058ed9589a463433c4bfd8c1db48bc0ddc5b37ebc3143ef5463f091e8df7",
+          "archived": null,
+          "storage": "workspace-only"
+        }
+      ],
+      "abiVerified": {
+        "allCapturedPersonFields": 200,
+        "citiesAndResidentQueues": 38,
+        "activeOrders": true,
+        "fighterBytes": 600
+      },
+      "scope": "Original native month012 bytes after12 completed months. Later quarterly strengthening did not finish; this pair is not a month012-strengthened save."
+    },
+    "blocker": {
+      "message": "Food needs a distinct actual nonlord trader; a retained defender is never ordered away",
+      "cityIndex": 16,
+      "date": {
+        "year": 230,
+        "month": 4
+      },
+      "currentOwnedQueue": [
+        40,
+        0
+      ],
+      "money": 10657,
+      "food": 599,
+      "reserve": 10010,
+      "scope": "Stopped before choosing an additional trader for the capital purchase. No false success, forced recruitment, world write or skill trigger substitutes for this missing resident condition."
+    },
+    "finalOrigin": {
+      "cityIndex": 20,
+      "belong": 1,
+      "ownedQueue": [
+        44,
+        52,
+        50,
+        20,
+        45
+      ],
+      "residentGuard": {
+        "personIndex": 45,
+        "arms": 1349
+      },
+      "otherOwnedArms": [
+        {
+          "personIndex": 44,
+          "arms": 0
+        },
+        {
+          "personIndex": 52,
+          "arms": 0
+        },
+        {
+          "personIndex": 50,
+          "arms": 0
+        },
+        {
+          "personIndex": 20,
+          "arms": 0
+        }
+      ],
+      "unownedResident": {
+        "personIndex": 171,
+        "belong": 0,
+        "arms": 100
+      },
+      "scope": "Unowned resident171 is not an available allied worker."
+    },
+    "formerCapitalGuard": {
+      "personIndex": 71,
+      "name": "王平",
+      "firstObservedChange": {
+        "observationIndex": 507,
+        "stage": "month-10 after execution",
+        "date": {
+          "year": 230,
+          "month": 2
+        },
+        "beforeBelong": 1,
+        "afterBelong": 2,
+        "beforeCity": 16,
+        "afterCity": 24,
+        "armsBefore": 1600,
+        "armsAfter": 1600
+      },
+      "scope": "Observed affiliation/residency change. Not a death claim; exact enemy command/random branch was not captured."
+    },
+    "cleanup": {
+      "privateRunnerPid": 199528,
+      "privateChromePid": 175380,
+      "httpPort": 4704,
+      "cdpPort": 4705,
+      "profileGone": true,
+      "privateListenersGone": true,
+      "user8080Pid": 105848,
+      "user8080HttpStatus": 200,
+      "source": "2026-10-09T11:52:47.2713630Z"
+    },
+    "independentAudit": {
+      "path": "build/r21-v15-terminal-independent-audit.json",
+      "bytes": 58410,
+      "sha256": "64ec83a32b96eb01f495e531b9720eeb677e18dcfe8ee81192a490818815ab8e",
+      "archived": null,
+      "storage": "workspace-only"
+    }
+  },
+  "history": {
+    "actualFailedPreparations": 14,
+    "attempts": "v1..v8 and v10..v15",
+    "v9CandidateNotRun": true,
+    "v8CompleteResultMissing": true,
+    "pendingConfiguration": {
+      "path": "build/r21-validation-record-inputs-v9-pending.json",
+      "bytes": 13218,
+      "sha256": "45e2d6a694a783b277cb9df1d9048beb56c5a41f8173c0c183c85eb36de69b62",
+      "archived": null,
+      "storage": "workspace-only"
+    },
+    "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence."
+  },
+  "artifactBoundary": {
+    "rawArchivedInRepository": false,
+    "workspaceBuildReferencesArePortable": false,
+    "meaning": "Build references identify retained workspace bytes by path/size/SHA. No closed repository archive exists; committing this small record does not archive those raw dependencies.",
+    "finalRecord": "docs/validation/m4-wood-20261009.json is not created or replaced by this pending record."
+  },
+  "remaining": [
+    "Qualified actual owned caster and complete preparation/save",
+    "Both actual player skills6/7 and independent64→66/direct-copy/native-pixel/NUM/label/hold HD acceptance",
+    "Required installed/classic/missing-image scopes and final cleanup",
+    "Closed original-byte runtime/native/art archive and final validation record"
+  ]
+}
