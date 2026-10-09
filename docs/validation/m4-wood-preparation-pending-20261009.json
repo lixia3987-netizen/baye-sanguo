@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "recordedAt": "2026-10-09T13:33:09.008Z",
+ "recordedAt": "2026-10-09T14:35:49.877Z",
  "status": "pending",
  "accepted": false,
  "preparationAccepted": false,
@@ -83,18 +83,27 @@
   "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
  },
  "history": {
-  "actualFailedPreparations": 17,
-  "attempts": "v1..v8 and v10..v18",
+  "actualFailedPreparations": 18,
+  "attempts": "v1..v8 and v10..v19",
   "v9CandidateNotRun": true,
   "v8CompleteResultMissing": true,
   "pendingConfiguration": {
-   "path": "build/r21-validation-record-inputs-v12-pending.json",
-   "bytes": 17004,
-   "sha256": "95e0ba9130e49405b300b5271b1d4c234428d38ae32f2f5f6dd9a8af3831fa2c"
+   "path": "build/r21-validation-record-inputs-v13-pending.json",
+   "bytes": 18420,
+   "sha256": "fa1554ed75b1cbf3a8a401a8e11e5515b309e90a75c3046d286bbc248f040b7c"
   },
   "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
   "requiredFailureIdsComplete": true,
   "castWrapper": {
+   "executed": false,
+   "source": {
+    "path": "build/r21-run-cast-v7-from-v19.mjs",
+    "bytes": 7797,
+    "sha256": "f7480866b9369b4c170e427e7fb91f46a7bc2c197c90b2a76ca1f215d55bf72c"
+   },
+   "reason": "Requires accepted terminal preparation; v19 protected-city defense was lost, so no acceptance reader or cast was run."
+  },
+  "previousCastWrapper": {
    "executed": false,
    "source": {
     "path": "build/r21-run-cast-v7-from-v17.mjs",
@@ -448,5 +457,222 @@
    "user8080HttpStatus": 200
   },
   "scope": "Historical rejected v18 attempt. No new save, Treat, Canvass, WOOD cast or installed-engine acceptance."
+ },
+ "actualPreparationV19": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "resume": {
+   "directory": "build/r21-route-actual-v17",
+   "tag": "month-012",
+   "date": {
+    "year": 231,
+    "month": 4
+   },
+   "originalPublicSave": true
+  },
+  "counts": {
+   "campaignObservations": 4984,
+   "months": 22,
+   "canvassOrders": 32,
+   "treats": 67,
+   "initialMaintenanceTreats": 58,
+   "treatMoneySpent": 6700,
+   "initialMaintenanceMoneySpent": 5800,
+   "nativeSelections": 374,
+   "ordinaryQuantityConfirmations": 30,
+   "cargoQuantityConfirmations": 3,
+   "publicSavePairs": 16,
+   "defenses": 2,
+   "engineKeys": 3140,
+   "harnessInputs": 2804,
+   "phases": 97,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0,
+   "woodAttempts": 0
+  },
+  "finiteTransport": {
+   "source": 16,
+   "target": 20,
+   "carrier": 20,
+   "money": 1000,
+   "food": 0,
+   "arms": 0,
+   "nativeReport": {
+    "text": "物资运送完毕。",
+    "seq": 4,
+    "active": 1,
+    "inputSeq": 7,
+    "kind": 2,
+    "person": 20
+   },
+   "reportKeys": [
+    39
+   ],
+   "preConditionMoney": [
+    856,
+    1856
+   ],
+   "carrierNotYetReturnedAtReport": true,
+   "cargoStillSlot0AtReport": true,
+   "fullOwnerDoubleRead": true,
+   "carrierReturned": true,
+   "cargoRetired": true,
+   "deliveryReportAccepted": true
+  },
+  "finiteLoyaltyMaintenance": {
+   "initialTreats": 58,
+   "initialMoneySpent": 5800,
+   "initialPerPerson": [
+    {
+     "id": 45,
+     "count": 12,
+     "initial": 88,
+     "final": 100
+    },
+    {
+     "id": 40,
+     "count": 28,
+     "initial": 72,
+     "final": 100
+    },
+    {
+     "id": 20,
+     "count": 18,
+     "initial": 82,
+     "final": 100
+    }
+   ],
+   "totalTreats": 67,
+   "totalMoneySpent": 6700,
+   "scope": "Actual retained guard45, capital guard40 and trader20 reached Dev100 through public Treat reports; this does not strengthen battle troops."
+  },
+  "latestOriginalPublicSave": {
+   "tag": "month-021-strengthened",
+   "date": {
+    "year": 233,
+    "month": 1
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v19/native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "9c3e4b41d9b34ed5739d83a2308445c15b48d9b2096d66709d30eaf6fb66b785"
+    },
+    {
+     "path": "build/r21-route-actual-v19/native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "f86cf789a3f771a168b0d701051148f35030a8b79a6acb67d6072b0db8ae2bf2"
+    }
+   ],
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "completeIndependentAbi": true
+  },
+  "defenses": {
+   "city1": {
+    "abandoned": true,
+    "outcome": 2
+   },
+   "city20": {
+    "abandoned": false,
+    "defender": {
+     "personIndex": 45,
+     "name": "魏续",
+     "arms": 1349
+    },
+    "enemyPeople": [
+     138,
+     109,
+     119,
+     126
+    ],
+    "enemyArms": 9110,
+    "outcome": 2
+   }
+  },
+  "blocker": {
+   "classification": "Actual local defense loss; strict protected-city survival gate rejected preparation. No WOOD event was attempted.",
+   "date": {
+    "year": 233,
+    "month": 2
+   },
+   "originCity": 20,
+   "originBelong": 3,
+   "guardBelong": 65535,
+   "guardArms": 0,
+   "guardBattleState": 8,
+   "unsavedFailureWorld": true,
+   "actualAcquisitionPresent": false,
+   "publicFinalSavePresent": false,
+   "scope": "Protected target means city20 in this assertion, not a captured qualified caster. State8 records battle incapacity, not proof of permanent death."
+  },
+  "sourceVerification": {
+   "proof": {
+    "path": "build/r21-route-actual-v19/source-verification.json",
+    "bytes": 417475,
+    "sha256": "5a5c853a17c18728d89860fe0241840387011f281c0a9249f71893558afc9e13"
+   },
+   "count": 1172,
+   "drift": 0,
+   "added": 0,
+   "allRawBytesMatchedAtAudit": "2026-10-09T14:32:40.587Z",
+   "native128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "compiledModified": true,
+   "scope": "Historical execution/audit tuple, before later AID source integration; never relabelled as a newer source or installed engine."
+  },
+  "result": {
+   "path": "build/r21-route-actual-v19/result.json",
+   "bytes": 174327330,
+   "sha256": "c1ceb26000671b9eee772f7accbb62980a3b801e3e22e3b2f2634f3127b46b70"
+  },
+  "sidecar": {
+   "path": "build/r21-route-actual-v19/result.json.campaignObservations.ndjson",
+   "bytes": 262824969,
+   "sha256": "e4bedf93ac1bb9b75af43f214daa68e3f001328632dc94ef0ef8e1a267f089e1",
+   "records": 4984,
+   "fullyStreamVerified": true
+  },
+  "log": {
+   "path": "build/r21-route-actual-v19.log",
+   "bytes": 4043,
+   "sha256": "82d88fb390b4a3d2119317ddacea019d99ae9a5708f4303e6a9abf27d0b210ac"
+  },
+  "runner": {
+   "path": "build/r21-route-driver-v19.mjs",
+   "bytes": 259347,
+   "sha256": "d81ae9d96dc98abe82c084cc009c0bbe27313af38ffc610d7ef0107554323fd4"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v19-root.mjs",
+   "bytes": 2918,
+   "sha256": "4805032f288fed87fd087a64a37e6ff580d987fb2a7af91b614571866e49f5aa"
+  },
+  "isolationProof": {
+   "path": "build/r21-route-actual-v19-isolation.json",
+   "bytes": 2156,
+   "sha256": "14fa470fae46b633fd9b31a5a0198ce80b6b6b78d90495c5a59d14786d9df4ef"
+  },
+  "independentAudit": {
+   "path": "build/r21-v19-terminal-independent-audit.json",
+   "bytes": 168071,
+   "sha256": "ef8cabfa7c8a55424199642153b0a1c45ee747f706350d1fbea04dfdefc86f83"
+  },
+  "cleanup": {
+   "privateChromeExited": true,
+   "privateHttpClosed": true,
+   "profileGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200,
+   "user8080Touched": false
+  },
+  "castWrapperExecuted": false,
+  "acceptanceReaderExecuted": false,
+  "scope": "Finite transportation, loyalty maintenance,22months/32Canvass/16public save pairs passed independently. Actual source-city defense loss rejects overall preparation and WOOD; no skill was attempted and no R21 quartet was installed. Raw workspace evidence remains unarchived."
  }
 }
