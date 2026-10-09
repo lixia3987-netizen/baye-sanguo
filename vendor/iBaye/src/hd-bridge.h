@@ -161,6 +161,46 @@ void baye_hd_help_clear(U32 generation, U32 inputSeq);
 #define BAYE_HD_AI_TARGET_WIDTH 16
 #define BAYE_HD_AI_TARGET_PIXELS 256
 #define BAYE_HD_AI_TARGET_RGBA_BYTES 1024
+#define BAYE_HD_STATUS_EFFECT_VERSION 1
+#define BAYE_HD_STATUS_EFFECT_WIDTH 16
+#define BAYE_HD_STATUS_EFFECT_PIXELS 256
+#define BAYE_HD_STATUS_EFFECT_RGBA_BYTES 1024
+#define BAYE_HD_STATUS_EFFECT_UPGRADE 1
+#define BAYE_HD_STATUS_EFFECT_DEATH 2
+#define BAYE_HD_STATUS_EFFECT_COMMAND 1
+#define BAYE_HD_STATUS_EFFECT_INITIALIZE 2
+
+/* Only the two actual FgtChkAtkEnd callers establish a status-check phase. */
+typedef struct HdStatusCheckScope {
+    struct HdStatusCheckScope* previous;
+    U32 generation, token;
+    U8 phase;
+} HdStatusCheckScope;
+
+typedef struct {
+    U32 generation, checkToken;
+    U8 reason, subjectIndex, subjectX, subjectY, level, experience, state;
+    U16 subjectPerson, hp, arms;
+} HdStatusTransition;
+
+typedef struct {
+    U8 valid, eligible, shapeValid, baseCaptured;
+    U32 generation, checkToken;
+    U8 reason, phase, subjectIndex, subjectX, subjectY;
+    U16 subjectPerson, levelMax;
+    U8 beforeLevel, afterLevel, beforeExperience, afterExperience, beforeState, afterState;
+    U16 beforeHp, afterHp, beforeArms, afterArms;
+    U8 mapSX, mapSY, mapWidth, mapHeight;
+    U16 screenWidth, screenHeight, width, height;
+    I16 x, y;
+    U32 paletteZero, paletteInk;
+    const U8* resourceBytes;
+    U32 resourceLength, resourceFingerprint;
+    U8 basePixels[BAYE_HD_STATUS_EFFECT_PIXELS];
+    U8 baseRgba[BAYE_HD_STATUS_EFFECT_RGBA_BYTES];
+    U32 capturedPalette[256];
+    U8 clearFrames[BAYE_HD_SPE_FRAME_BYTES];
+} HdStatusEffectSource;
 
 /* Real native call stack, independent of whether its pixels remain HD-safe. */
 typedef struct HdResultScope {
@@ -213,6 +253,7 @@ typedef struct HdSpeScope {
     I16 sceneX, sceneY;
     U16 sceneWidth, sceneHeight;
     HdAiTargetSource aiTarget;
+    HdStatusEffectSource statusEffect;
 } HdSpeScope;
 
 #define VK_DIGIT0 0x40
@@ -296,6 +337,12 @@ void baye_hd_spe_tick(void);
 void baye_hd_spe_context(U8 kind, U16 skillId, U8 actorIndex, U8 targetIndex);
 void baye_hd_ai_target_context(U8 commandType, U16 commandParam, U8 actor, U8 target, I16 x, I16 y);
 void baye_hd_ai_target_shape(HdSpeScope* scope, const U8* bytes, U32 length);
+void baye_hd_status_check_begin(HdStatusCheckScope* scope, U8 phase);
+void baye_hd_status_check_end(HdStatusCheckScope* scope);
+void baye_hd_status_before(HdStatusTransition* transition, U8 reason, U8 subject, U16 person);
+void baye_hd_status_context(const HdStatusTransition* transition);
+void baye_hd_status_discard(void);
+void baye_hd_status_shape(HdSpeScope* scope, const U8* bytes, U32 length);
 void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 y, U8 startFrm, U8 endFrm, U8 keyflag);
 void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint, U32 resourceLength, U8 endFrm, U8 simplePictures);
 void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U16 introduced);

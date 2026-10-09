@@ -42,7 +42,9 @@ const cBase=String.raw`
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef int8_t BOOL;typedef int16_t I16;typedef int32_t I32;typedef int16_t PT;typedef U16 PersonID;typedef U16 SkillID;
+typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef int8_t BOOL;typedef int16_t I16;typedef int32_t I32;typedef int16_t PT;typedef U16 PersonID;typedef U16 SkillID;typedef U16 ToolID;
+#define MAX_LEVEL 30
+#define FGT_EXPMAX 100
 #define FAR
 #define AX_SCALE 1
 #define SCR_WID 160
@@ -76,13 +78,14 @@ async function executable(){if(!binary)binary=(async()=>{
     const header=read('hd-bridge.h'),bridge=read('hd-bridge.c'),globals=bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='),bridge.indexOf('static void copy_gbk('));
     const constants=header.split('\n').filter(l=>/^#define BAYE_HD_/.test(l)).join('\n');
     const defines=(read('baye/consdef.h')+'\n'+read('baye/fight.h')+'\n'+read('baye/graph.h')+'\n'+read('inc/dictsys.h')+'\n'+read('baye/attribute.h')).split('\n').filter(l=>/^#define\s+(?:MAIN_SPE|MAKER_SPE|STACHG_SPE|SPE_BACKPIC|NUM_PICID|FIRE_SPE|QIBING_SPE|SHUISHANG_SPE|FGT_SPESX|FGT_SPESY|SHOW_DLYBASE|PICHEAD_LEN|TACTIC_ICON|FGTA_MAX|FGT_PLAMAX|PERSON_MAX|STATE_\w+|CMD_\w+|TIL_WID|WK_SX|WK_SY|FgtGetScrX|FgtGetScrY)\b/.test(l)).join('\n');
-    const types=['HdAiTargetSource','HdPictureSource','HdSpeScope','HdResultScope'].map(t=>type('hd-bridge.h',t)).join('\n')+'\n'+['RCHEAD','RIDX'].map(t=>type('baye/datman.h',t)).join('\n')+'\n'+['SPERES','SPEUNIT'].map(t=>type('baye/paccount.h',t)).join('\n')+'\n'+type('baye/graph.h','PictureHeadType')+'\n'+['JLPOS','FGTJK','FGTCMD'].map(t=>type('baye/fight.h',t)).join('\n');
-    const helpers=closure('hd-bridge.c',['baye_hd_ai_target_context','baye_hd_ai_target_shape','baye_hd_skill_movie_shape','baye_hd_spe_enter','baye_hd_spe_ready','baye_hd_spe_frame','baye_hd_spe_end','baye_hd_spe_tick','baye_hd_spe_draw_begin','baye_hd_spe_draw_end','baye_hd_spe_clear','baye_hd_spe_lcd_dirty','baye_hd_spe_lcd_copy','baye_hd_spe_lcd_flush','baye_hd_spe_invalidate','baye_hd_surface_write','baye_hd_report_begin','baye_hd_report_end','baye_hd_set_help','baye_hd_set_qty']);
+    const types=['HdStatusCheckScope','HdStatusTransition','HdStatusEffectSource','HdAiTargetSource','HdPictureSource','HdSpeScope','HdResultScope'].map(t=>type('hd-bridge.h',t)).join('\n')+'\n'+['RCHEAD','RIDX'].map(t=>type('baye/datman.h',t)).join('\n')+'\n'+['SPERES','SPEUNIT'].map(t=>type('baye/paccount.h',t)).join('\n')+'\n'+type('baye/attribute.h','PersonType')+type('baye/graph.h','PictureHeadType')+'\n'+['JLPOS','FGTJK','FGTCMD'].map(t=>type('baye/fight.h',t)).join('\n');
+    const helpers=closure('hd-bridge.c',['baye_hd_ai_target_context','baye_hd_status_shape','baye_hd_ai_target_shape','baye_hd_skill_movie_shape','baye_hd_spe_enter','baye_hd_spe_ready','baye_hd_spe_frame','baye_hd_spe_end','baye_hd_spe_tick','baye_hd_spe_draw_begin','baye_hd_spe_draw_end','baye_hd_spe_clear','baye_hd_spe_lcd_dirty','baye_hd_spe_lcd_copy','baye_hd_spe_lcd_flush','baye_hd_spe_invalidate','baye_hd_surface_write','baye_hd_report_begin','baye_hd_report_end','baye_hd_set_help','baye_hd_set_qty']);
     const movies=closure('PublicFun.c',['PlcMovie']),resources=closure('datman.c',['GetResStartAddr','GetResItem','ResGetItemLen','ResLoadToCon']);
     const pixels=['screen_buffer_realloc','_insideScreen','convert_image','timed_flush_lcd','flushLcd','_dot','SysLcdPartClear','DecodePic','SysPictureEx','SysPicture','SysSelectScreen','SysCopyScreen','SysSaveScreen','SysRestoreScreen','SysAdjustLCDBuffer'].map(n=>actual('platform/common/sys.c',n)).join('\n');
     const comOut=['GamPicShow','GamPicShowV','GamPicShowS','GamMPicShow','GamMPicShowV','GamMPicShowS','GamClearScreenV','GamShowFrame'].map(n=>actual('comOut.c',n)).join('\n');
     const source=cBase+'\n'+constants+'\n'+defines+'\n'+types+String.raw`
 static JLPOS g_GenPos[FGTA_MAX];static FGTJK g_FgtParam;
+static PersonType g_Persons[PERSON_MAX];
 static U8 g_MapSX=3,g_MapSY=4,g_MapWid=32,g_MapHgt=32,g_FgtOver;
 static int countCalls;static U32 fixtureCount=700;
 static U32 GamGetPersonCount(void){countCalls++;return fixtureCount;}

@@ -257,6 +257,75 @@ U8 g_hdSpeDisplayAiBasePixels[BAYE_HD_AI_TARGET_PIXELS];
 U8 g_hdSpeDisplayAiBaseRgba[BAYE_HD_AI_TARGET_RGBA_BYTES];
 U8 g_hdSpeDisplayAiClearFrames[BAYE_HD_SPE_FRAME_BYTES];
 
+/* Independent real level/retreat map-cell proof; never an AI command. */
+U8 g_hdSpeStatusProtocolVersion = BAYE_HD_STATUS_EFFECT_VERSION;
+U8 g_hdSpeStatusValid = 0;
+U8 g_hdSpeStatusReason = 0;
+U8 g_hdSpeStatusPhase = 0;
+U8 g_hdSpeStatusSubjectIndex = 0;
+U16 g_hdSpeStatusSubjectPerson = 0;
+U8 g_hdSpeStatusSubjectX = 0;
+U8 g_hdSpeStatusSubjectY = 0;
+U8 g_hdSpeStatusBeforeLevel = 0;
+U8 g_hdSpeStatusAfterLevel = 0;
+U8 g_hdSpeStatusBeforeExperience = 0;
+U8 g_hdSpeStatusAfterExperience = 0;
+U8 g_hdSpeStatusBeforeState = 0;
+U8 g_hdSpeStatusAfterState = 0;
+U16 g_hdSpeStatusBeforeHp = 0;
+U16 g_hdSpeStatusAfterHp = 0;
+U16 g_hdSpeStatusBeforeArms = 0;
+U16 g_hdSpeStatusAfterArms = 0;
+U16 g_hdSpeStatusLevelMax = 0;
+U8 g_hdSpeStatusMapSX = 0;
+U8 g_hdSpeStatusMapSY = 0;
+U8 g_hdSpeStatusMapWidth = 0;
+U8 g_hdSpeStatusMapHeight = 0;
+U16 g_hdSpeStatusScreenWidth = 0;
+U16 g_hdSpeStatusScreenHeight = 0;
+I16 g_hdSpeStatusRegionX = 0;
+I16 g_hdSpeStatusRegionY = 0;
+U16 g_hdSpeStatusRegionWidth = 0;
+U16 g_hdSpeStatusRegionHeight = 0;
+U32 g_hdSpeStatusPaletteZero = 0;
+U32 g_hdSpeStatusPaletteInk = 0;
+U8 g_hdSpeStatusBasePixels[BAYE_HD_STATUS_EFFECT_PIXELS];
+U8 g_hdSpeStatusBaseRgba[BAYE_HD_STATUS_EFFECT_RGBA_BYTES];
+U8 g_hdSpeStatusClearFrames[BAYE_HD_SPE_FRAME_BYTES];
+U8 g_hdSpeDisplayStatusValid = 0;
+U8 g_hdSpeDisplayStatusReason = 0;
+U8 g_hdSpeDisplayStatusPhase = 0;
+U8 g_hdSpeDisplayStatusSubjectIndex = 0;
+U16 g_hdSpeDisplayStatusSubjectPerson = 0;
+U8 g_hdSpeDisplayStatusSubjectX = 0;
+U8 g_hdSpeDisplayStatusSubjectY = 0;
+U8 g_hdSpeDisplayStatusBeforeLevel = 0;
+U8 g_hdSpeDisplayStatusAfterLevel = 0;
+U8 g_hdSpeDisplayStatusBeforeExperience = 0;
+U8 g_hdSpeDisplayStatusAfterExperience = 0;
+U8 g_hdSpeDisplayStatusBeforeState = 0;
+U8 g_hdSpeDisplayStatusAfterState = 0;
+U16 g_hdSpeDisplayStatusBeforeHp = 0;
+U16 g_hdSpeDisplayStatusAfterHp = 0;
+U16 g_hdSpeDisplayStatusBeforeArms = 0;
+U16 g_hdSpeDisplayStatusAfterArms = 0;
+U16 g_hdSpeDisplayStatusLevelMax = 0;
+U8 g_hdSpeDisplayStatusMapSX = 0;
+U8 g_hdSpeDisplayStatusMapSY = 0;
+U8 g_hdSpeDisplayStatusMapWidth = 0;
+U8 g_hdSpeDisplayStatusMapHeight = 0;
+U16 g_hdSpeDisplayStatusScreenWidth = 0;
+U16 g_hdSpeDisplayStatusScreenHeight = 0;
+I16 g_hdSpeDisplayStatusRegionX = 0;
+I16 g_hdSpeDisplayStatusRegionY = 0;
+U16 g_hdSpeDisplayStatusRegionWidth = 0;
+U16 g_hdSpeDisplayStatusRegionHeight = 0;
+U32 g_hdSpeDisplayStatusPaletteZero = 0;
+U32 g_hdSpeDisplayStatusPaletteInk = 0;
+U8 g_hdSpeDisplayStatusBasePixels[BAYE_HD_STATUS_EFFECT_PIXELS];
+U8 g_hdSpeDisplayStatusBaseRgba[BAYE_HD_STATUS_EFFECT_RGBA_BYTES];
+U8 g_hdSpeDisplayStatusClearFrames[BAYE_HD_SPE_FRAME_BYTES];
+
 /* Composition and attack observations are independent of SPE v2 lifecycle. */
 U8 g_hdSpeCompositionVersion = BAYE_HD_COMPOSITION_VERSION;
 U8 g_hdSpeCompositionValid = 0, g_hdSpeDisplayCompositionValid = 0;
@@ -478,6 +547,7 @@ typedef struct {
     I16 sceneX, sceneY;
     U16 sceneWidth, sceneHeight;
     HdAiTargetSource aiTarget;
+    HdStatusEffectSource statusEffect;
 } HdSpeDisplay;
 static HdSpeScope* hdSpeCurrent = NULL;
 static HdSpeScope* hdSpeCopyPending = NULL;
@@ -487,6 +557,10 @@ static U32 hdSpePendingResultSession = 0;
 static U8 hdSpePendingContext = 0, hdSpePendingActor = 0xff, hdSpePendingTarget = 0xff;
 static HdSpeDisplay hdSpeCopied;
 static HdAiTargetSource hdAiTargetPending;
+static HdStatusEffectSource hdStatusPending;
+static HdStatusCheckScope* hdStatusCheckCurrent;
+static U32 hdStatusNextCheck;
+static void hd_status_retire(void);
 static void hd_ai_publish(const HdAiTargetSource* source, U8 display);
 static void hd_ai_retire(void);
 static HdPictureSource hdBackgroundPending;
@@ -1236,7 +1310,7 @@ static U32 hd_next_input_seq(U32 seq)
 
 void baye_hd_report_begin(U8 kind)
 {
-    hd_ai_retire();
+    hd_ai_retire(); hd_status_retire();
     baye_hd_attack_retire();
     baye_hd_skill_retire();
     baye_hd_view_retire();
@@ -1568,6 +1642,7 @@ void baye_hd_set_movie(U16 speId, U8 active)
 void baye_hd_begin_spe(U8 kind)
 {
     memset(&hdAiTargetPending, 0, sizeof(hdAiTargetPending));
+    memset(&hdStatusPending, 0, sizeof(hdStatusPending));
     g_hdSpePendingKind = kind;
     hdSpePendingContext = 0;
     hdSpePendingSkillId = 0;
@@ -2313,7 +2388,297 @@ static void hd_ai_capture_base(HdSpeScope* scope)
     U16 x, y;
     if (!source->eligible) return;
     if (!source->shapeValid || !g_VisScr || !hd_ai_world_matches(source)) {
-        hd_ai_retire();
+        hd_ai_retire(); hd_status_retire();
+        return;
+    }
+    if (source->baseCaptured) return;
+    /* g_VisScr is the actual byte-per-pixel draw surface at scale1. Capture
+     * native colors before the first draw, in the same little-endian RGBA byte
+     * order as convert_image. Never resample a later composited surface. */
+    memcpy(source->capturedPalette, g_paintPalette, sizeof(source->capturedPalette));
+    for (y = 0; y < source->height; ++y)
+        for (x = 0; x < source->width; ++x) {
+            U16 at = y * source->width + x;
+            U8 pixel = g_VisScr[((U32)source->y + y) * g_screenWidth + source->x + x];
+            U32 color = source->capturedPalette[pixel];
+            source->basePixels[at] = pixel;
+            source->baseRgba[at * 4] = (U8)color;
+            source->baseRgba[at * 4 + 1] = (U8)(color >> 8);
+            source->baseRgba[at * 4 + 2] = (U8)(color >> 16);
+            source->baseRgba[at * 4 + 3] = (U8)(color >> 24);
+        }
+    source->baseCaptured = source->valid = 1;
+}
+
+static void hd_status_publish(const HdStatusEffectSource* source, U8 display)
+{
+    HdStatusEffectSource empty;
+    if (!source || !source->valid) { memset(&empty, 0, sizeof(empty)); source = &empty; }
+    if (display) {
+        g_hdSpeDisplayStatusValid = source->valid;
+        g_hdSpeDisplayStatusReason = source->reason;
+        g_hdSpeDisplayStatusPhase = source->phase;
+        g_hdSpeDisplayStatusSubjectIndex = source->subjectIndex;
+        g_hdSpeDisplayStatusSubjectPerson = source->subjectPerson;
+        g_hdSpeDisplayStatusSubjectX = source->subjectX;
+        g_hdSpeDisplayStatusSubjectY = source->subjectY;
+        g_hdSpeDisplayStatusBeforeLevel = source->beforeLevel;
+        g_hdSpeDisplayStatusAfterLevel = source->afterLevel;
+        g_hdSpeDisplayStatusBeforeExperience = source->beforeExperience;
+        g_hdSpeDisplayStatusAfterExperience = source->afterExperience;
+        g_hdSpeDisplayStatusBeforeState = source->beforeState;
+        g_hdSpeDisplayStatusAfterState = source->afterState;
+        g_hdSpeDisplayStatusBeforeHp = source->beforeHp;
+        g_hdSpeDisplayStatusAfterHp = source->afterHp;
+        g_hdSpeDisplayStatusBeforeArms = source->beforeArms;
+        g_hdSpeDisplayStatusAfterArms = source->afterArms;
+        g_hdSpeDisplayStatusLevelMax = source->levelMax;
+        g_hdSpeDisplayStatusMapSX = source->mapSX;
+        g_hdSpeDisplayStatusMapSY = source->mapSY;
+        g_hdSpeDisplayStatusMapWidth = source->mapWidth;
+        g_hdSpeDisplayStatusMapHeight = source->mapHeight;
+        g_hdSpeDisplayStatusScreenWidth = source->screenWidth;
+        g_hdSpeDisplayStatusScreenHeight = source->screenHeight;
+        g_hdSpeDisplayStatusRegionX = source->x;
+        g_hdSpeDisplayStatusRegionY = source->y;
+        g_hdSpeDisplayStatusRegionWidth = source->width;
+        g_hdSpeDisplayStatusRegionHeight = source->height;
+        g_hdSpeDisplayStatusPaletteZero = source->paletteZero;
+        g_hdSpeDisplayStatusPaletteInk = source->paletteInk;
+        memcpy(g_hdSpeDisplayStatusBasePixels, source->basePixels, sizeof(source->basePixels));
+        memcpy(g_hdSpeDisplayStatusBaseRgba, source->baseRgba, sizeof(source->baseRgba));
+        memcpy(g_hdSpeDisplayStatusClearFrames, source->clearFrames, sizeof(source->clearFrames));
+    }
+    else {
+        g_hdSpeStatusValid = source->valid;
+        g_hdSpeStatusReason = source->reason;
+        g_hdSpeStatusPhase = source->phase;
+        g_hdSpeStatusSubjectIndex = source->subjectIndex;
+        g_hdSpeStatusSubjectPerson = source->subjectPerson;
+        g_hdSpeStatusSubjectX = source->subjectX;
+        g_hdSpeStatusSubjectY = source->subjectY;
+        g_hdSpeStatusBeforeLevel = source->beforeLevel;
+        g_hdSpeStatusAfterLevel = source->afterLevel;
+        g_hdSpeStatusBeforeExperience = source->beforeExperience;
+        g_hdSpeStatusAfterExperience = source->afterExperience;
+        g_hdSpeStatusBeforeState = source->beforeState;
+        g_hdSpeStatusAfterState = source->afterState;
+        g_hdSpeStatusBeforeHp = source->beforeHp;
+        g_hdSpeStatusAfterHp = source->afterHp;
+        g_hdSpeStatusBeforeArms = source->beforeArms;
+        g_hdSpeStatusAfterArms = source->afterArms;
+        g_hdSpeStatusLevelMax = source->levelMax;
+        g_hdSpeStatusMapSX = source->mapSX;
+        g_hdSpeStatusMapSY = source->mapSY;
+        g_hdSpeStatusMapWidth = source->mapWidth;
+        g_hdSpeStatusMapHeight = source->mapHeight;
+        g_hdSpeStatusScreenWidth = source->screenWidth;
+        g_hdSpeStatusScreenHeight = source->screenHeight;
+        g_hdSpeStatusRegionX = source->x;
+        g_hdSpeStatusRegionY = source->y;
+        g_hdSpeStatusRegionWidth = source->width;
+        g_hdSpeStatusRegionHeight = source->height;
+        g_hdSpeStatusPaletteZero = source->paletteZero;
+        g_hdSpeStatusPaletteInk = source->paletteInk;
+        memcpy(g_hdSpeStatusBasePixels, source->basePixels, sizeof(source->basePixels));
+        memcpy(g_hdSpeStatusBaseRgba, source->baseRgba, sizeof(source->baseRgba));
+        memcpy(g_hdSpeStatusClearFrames, source->clearFrames, sizeof(source->clearFrames));
+    }
+}
+
+static U8 hd_status_check_matches(U32 generation, U32 token, U8 phase)
+{
+    return hdStatusCheckCurrent && token && hdStatusCheckCurrent->token == token &&
+        generation == g_hdSpeGeneration && hdStatusCheckCurrent->generation == generation &&
+        hdStatusCheckCurrent->phase == phase && !g_FgtOver &&
+        ((phase == BAYE_HD_STATUS_EFFECT_COMMAND && g_hdFightActive) ||
+         (phase == BAYE_HD_STATUS_EFFECT_INITIALIZE && !g_hdFightActive));
+}
+
+static U8 hd_status_world_matches(const HdStatusEffectSource* source)
+{
+    U16 i;
+    if (!source || !source->eligible ||
+        !hd_status_check_matches(source->generation, source->checkToken, source->phase) ||
+        g_hdReportActive || g_hdHelpActive || g_hdQtyActive || !hd_ai_drawing_supported() ||
+        source->subjectIndex >= FGTA_MAX || source->subjectPerson >= PERSON_MAX ||
+        g_FgtParam.GenArray[source->subjectIndex] != (U32)source->subjectPerson + 1 ||
+        g_MapSX != source->mapSX || g_MapSY != source->mapSY ||
+        g_MapWid != source->mapWidth || g_MapHgt != source->mapHeight ||
+        g_GenPos[source->subjectIndex].x != source->subjectX || g_GenPos[source->subjectIndex].y != source->subjectY ||
+        g_GenPos[source->subjectIndex].state != source->afterState ||
+        g_GenPos[source->subjectIndex].hp != source->afterHp ||
+        g_Persons[source->subjectPerson].Arms != source->afterArms ||
+        g_Persons[source->subjectPerson].Level != source->afterLevel ||
+        g_Persons[source->subjectPerson].Experience != source->afterExperience || MAX_LEVEL != source->levelMax) return 0;
+    if (source->baseCaptured)
+        for (i = 0; i < BAYE_HD_STATUS_EFFECT_PIXELS; ++i)
+            if (g_paintPalette[source->basePixels[i]] != source->capturedPalette[source->basePixels[i]]) return 0;
+    if (source->shapeValid && (!source->resourceBytes || !source->resourceLength ||
+        hd_ai_fingerprint(source->resourceBytes, source->resourceLength) != source->resourceFingerprint)) return 0;
+    return 1;
+}
+
+static void hd_status_retire(void)
+{
+    HdSpeScope* scope = hdSpeCurrent;
+    while (scope) {
+        scope->statusEffect.valid = scope->statusEffect.eligible = 0;
+        scope = scope->previous;
+    }
+    hdSpeCopied.statusEffect.valid = hdSpeCopied.statusEffect.eligible = 0;
+    memset(&hdStatusPending, 0, sizeof(hdStatusPending));
+    hd_status_publish(NULL, 0); hd_status_publish(NULL, 1);
+}
+
+void baye_hd_status_check_begin(HdStatusCheckScope* scope, U8 phase)
+{
+    if (!scope) return;
+    hd_status_retire();
+    memset(scope, 0, sizeof(*scope));
+    scope->previous = hdStatusCheckCurrent;
+    scope->generation = g_hdSpeGeneration; scope->phase = phase;
+    hdStatusNextCheck = hd_next_input_seq(hdStatusNextCheck);
+    scope->token = hdStatusNextCheck;
+    hdStatusCheckCurrent = scope;
+    if (!hd_status_check_matches(scope->generation, scope->token, phase)) scope->token = 0;
+}
+
+void baye_hd_status_check_end(HdStatusCheckScope* scope)
+{
+    if (scope && hdStatusCheckCurrent == scope) {
+        hd_status_retire();
+        hdStatusCheckCurrent = scope->previous;
+    }
+}
+
+void baye_hd_status_before(HdStatusTransition* transition, U8 reason, U8 subject, U16 person)
+{
+    if (!transition) return;
+    memset(transition, 0, sizeof(*transition));
+    if (!hdStatusCheckCurrent ||
+        !hd_status_check_matches(hdStatusCheckCurrent->generation, hdStatusCheckCurrent->token, hdStatusCheckCurrent->phase) ||
+        subject >= FGTA_MAX || person >= PERSON_MAX || g_FgtParam.GenArray[subject] != (U32)person + 1 ||
+        g_GenPos[subject].state >= STATE_SW ||
+        (reason != BAYE_HD_STATUS_EFFECT_UPGRADE && reason != BAYE_HD_STATUS_EFFECT_DEATH)) return;
+    transition->generation = g_hdSpeGeneration; transition->checkToken = hdStatusCheckCurrent->token;
+    transition->reason = reason; transition->subjectIndex = subject; transition->subjectPerson = person;
+    transition->subjectX = g_GenPos[subject].x; transition->subjectY = g_GenPos[subject].y;
+    transition->level = g_Persons[person].Level; transition->experience = g_Persons[person].Experience;
+    transition->state = g_GenPos[subject].state; transition->hp = g_GenPos[subject].hp;
+    transition->arms = g_Persons[person].Arms;
+}
+
+void baye_hd_status_discard(void)
+{
+    /* Even an invalid/offscreen status may already have set generic context. */
+    baye_hd_begin_spe(0);
+    memset(&hdStatusPending, 0, sizeof(hdStatusPending));
+}
+
+void baye_hd_status_context(const HdStatusTransition* transition)
+{
+    HdStatusEffectSource* source = &hdStatusPending;
+    U32 personCount; U8 subject, phase, expectedLevel;
+    baye_hd_begin_spe(0);
+    if (!transition || !hdStatusCheckCurrent) return;
+    phase = hdStatusCheckCurrent->phase; subject = transition->subjectIndex;
+    if (!hd_status_check_matches(transition->generation, transition->checkToken, phase) ||
+        subject >= FGTA_MAX || transition->subjectPerson >= PERSON_MAX ||
+        g_FgtParam.GenArray[subject] != (U32)transition->subjectPerson + 1 ||
+        g_GenPos[subject].x != transition->subjectX || g_GenPos[subject].y != transition->subjectY ||
+        g_GenPos[subject].x >= g_MapWid || g_GenPos[subject].y >= g_MapHgt ||
+        g_hdReportActive || g_hdHelpActive || g_hdQtyActive || !hd_ai_drawing_supported()) return;
+    personCount = GamGetPersonCount();
+    if (transition->subjectPerson >= personCount ||
+        !hd_status_check_matches(transition->generation, transition->checkToken, phase)) return;
+    baye_hd_spe_context(BAYE_HD_SPE_KIND_STATUS, 0, subject, subject);
+    source->generation = transition->generation; source->checkToken = transition->checkToken;
+    source->eligible = 1; source->reason = transition->reason; source->phase = phase;
+    source->subjectIndex = subject; source->subjectPerson = transition->subjectPerson;
+    source->subjectX = transition->subjectX; source->subjectY = transition->subjectY;
+    source->beforeLevel = transition->level; source->beforeExperience = transition->experience;
+    source->beforeState = transition->state; source->beforeHp = transition->hp; source->beforeArms = transition->arms;
+    source->afterLevel = g_Persons[source->subjectPerson].Level;
+    source->afterExperience = g_Persons[source->subjectPerson].Experience;
+    source->afterState = g_GenPos[subject].state; source->afterHp = g_GenPos[subject].hp;
+    source->afterArms = g_Persons[source->subjectPerson].Arms; source->levelMax = MAX_LEVEL;
+    expectedLevel = (U8)(source->beforeLevel + 1);
+    if (expectedLevel > source->levelMax) expectedLevel = (U8)source->levelMax;
+    if (source->beforeState >= STATE_SW || source->beforeHp != source->afterHp || source->beforeArms != source->afterArms ||
+        (source->reason == BAYE_HD_STATUS_EFFECT_UPGRADE &&
+         (source->beforeExperience < FGT_EXPMAX || source->afterExperience != source->beforeExperience - FGT_EXPMAX ||
+          source->afterLevel != expectedLevel || source->beforeState != source->afterState)) ||
+        (source->reason == BAYE_HD_STATUS_EFFECT_DEATH &&
+         (source->afterState != STATE_SW || (source->afterHp && source->afterArms) ||
+          source->beforeLevel != source->afterLevel || source->beforeExperience != source->afterExperience))) goto invalid;
+    source->mapSX = g_MapSX; source->mapSY = g_MapSY; source->mapWidth = g_MapWid; source->mapHeight = g_MapHgt;
+    source->screenWidth = g_screenWidth; source->screenHeight = g_screenHeight;
+    source->x = ((I32)source->subjectX - g_MapSX) * TIL_WID + WK_SX;
+    source->y = ((I32)source->subjectY - g_MapSY) * TIL_WID + WK_SY;
+    source->width = source->height = BAYE_HD_STATUS_EFFECT_WIDTH;
+    source->paletteZero = g_paintPalette[0]; source->paletteInk = g_paintPalette[255];
+    if (source->x < 0 || source->y < 0 || source->x + source->width > g_screenWidth ||
+        source->y + source->height > g_screenHeight || !hd_status_world_matches(source)) goto invalid;
+    return;
+invalid:
+    memset(source, 0, sizeof(*source));
+}
+
+void baye_hd_status_shape(HdSpeScope* scope, const U8* bytes, U32 length)
+{
+    U32 at, i, pictureBytes, planeBytes;
+    U8 used[256] = {0};
+    if (!scope) return;
+    HdStatusEffectSource* source = &scope->statusEffect;
+    if (scope != hdSpeCurrent || !source->eligible) return;
+    if (!scope->ready || !scope->protocolValid || !hd_status_world_matches(source) ||
+        scope->id != STACHG_SPE || scope->resourceIndex || scope->kind != BAYE_HD_SPE_KIND_STATUS ||
+        ((source->reason == BAYE_HD_STATUS_EFFECT_UPGRADE && (scope->startFrm != 0 || scope->endFrm != 5)) ||
+         (source->reason == BAYE_HD_STATUS_EFFECT_DEATH && (scope->startFrm != 6 || scope->endFrm != 11))) || scope->keyflag || scope->depth != 1 ||
+        !scope->contextKnown || scope->actorIndex != source->subjectIndex || scope->targetIndex != source->subjectIndex ||
+        scope->x != source->x || scope->y != source->y || !bytes || length < 6 ||
+        bytes[2] != scope->count || bytes[3] != scope->picmax || scope->count < 18 || !scope->picmax ||
+        (U32)scope->count * 5 + 6 > length) goto invalid;
+    for (i = scope->startFrm; i <= scope->endFrm; ++i) {
+        const U8* unit = bytes + 6 + i * 5;
+        if (unit[0] || unit[1] || unit[4] >= scope->picmax) goto invalid;
+        used[unit[4]] = 1;
+    }
+    at = 6 + (U32)scope->count * 5;
+    for (i = 0; i < scope->picmax; ++i) {
+        U32 width, height, count, mask;
+        if (at > length || length - at < 7) goto invalid;
+        width = bytes[at] | ((U32)bytes[at + 1] << 8);
+        height = bytes[at + 2] | ((U32)bytes[at + 3] << 8);
+        count = bytes[at + 4] | ((U32)bytes[at + 5] << 8);
+        mask = bytes[at + 6];
+        if (!width || !height || count != 1 || mask > 1) goto invalid;
+        planeBytes = ((width + 7) / 8) * height;
+        if (planeBytes > (0xffffffffu - 7) / (mask + 1)) goto invalid;
+        pictureBytes = planeBytes * (mask + 1) + 7;
+        if (pictureBytes > length - at) goto invalid;
+        if (used[i] && (width != source->width || height != source->height || mask != 1)) goto invalid;
+        at += pictureBytes;
+    }
+    if (at != length || length != scope->resourceLength ||
+        hd_ai_fingerprint(bytes, length) != scope->resourceFingerprint) goto invalid;
+    source->resourceBytes = bytes;
+    source->resourceLength = length;
+    source->resourceFingerprint = scope->resourceFingerprint;
+    source->shapeValid = 1;
+    return;
+invalid:
+    source->valid = source->eligible = 0;
+}
+
+static void hd_status_capture_base(HdSpeScope* scope)
+{
+    HdStatusEffectSource* source = &scope->statusEffect;
+    U16 x, y;
+    if (!source->eligible) return;
+    if (!source->shapeValid || !g_VisScr || !hd_status_world_matches(source)) {
+        hd_status_retire();
         return;
     }
     if (source->baseCaptured) return;
@@ -2339,7 +2704,7 @@ void baye_hd_spe_draw_begin(HdSpeScope* scope)
 {
     hdSpeDrawing = scope == hdSpeCurrent ? scope : NULL;
     hdSpeDrawingGeneration = scope ? scope->generation : 0;
-    if (hdSpeDrawing && scope->generation == g_hdSpeGeneration) hd_ai_capture_base(scope);
+    if (hdSpeDrawing && scope->generation == g_hdSpeGeneration) { hd_ai_capture_base(scope); hd_status_capture_base(scope); }
 }
 
 void baye_hd_spe_draw_end(HdSpeScope* scope)
@@ -2352,6 +2717,9 @@ void baye_hd_spe_clear(HdSpeScope* scope, U16 absoluteUnit)
     if (scope == hdSpeCurrent && scope->generation == g_hdSpeGeneration &&
         scope->aiTarget.valid && absoluteUnit >= scope->startFrm && absoluteUnit <= scope->endFrm && absoluteUnit < 256)
         scope->aiTarget.clearFrames[absoluteUnit >> 3] |= (U8)(1u << (absoluteUnit & 7));
+    if (scope == hdSpeCurrent && scope->generation == g_hdSpeGeneration &&
+        scope->statusEffect.valid && absoluteUnit >= scope->startFrm && absoluteUnit <= scope->endFrm && absoluteUnit < 256)
+        scope->statusEffect.clearFrames[absoluteUnit >> 3] |= (U8)(1u << (absoluteUnit & 7));
     if (scope == hdSpeCurrent && scope->generation == g_hdSpeGeneration &&
         scope->compositionValid && absoluteUnit >= scope->startFrm && absoluteUnit <= scope->endFrm &&
         absoluteUnit < 256) scope->clearFrames[absoluteUnit >> 3] |= (U8)(1u << (absoluteUnit & 7));
@@ -2416,7 +2784,7 @@ void baye_hd_attack_digit_end(void)
 
 void baye_hd_surface_write(U8 virtualScreen)
 {
-    if (!hd_ai_drawing_supported()) hd_ai_retire();
+    if (!hd_ai_drawing_supported()) { hd_ai_retire(); hd_status_retire(); }
     if (!hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
     if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
     if (virtualScreen) {
@@ -2424,7 +2792,7 @@ void baye_hd_surface_write(U8 virtualScreen)
         if (hdBackgroundDrawing && ((hdBackgroundDrawingOwner == 1 && hdBackgroundDrawing == g_hdAttackSession && g_hdAttackSourceValid) ||
             (hdBackgroundDrawingOwner == 2 && hd_skill_current(hdBackgroundDrawing) && g_hdSkillResultSourceValid))) return;
         baye_hd_attack_retire(); baye_hd_skill_retire();
-        hd_ai_retire();
+        hd_ai_retire(); hd_status_retire();
     } else if (hdSkillLabelSession && hd_skill_current(hdSkillLabelSession)) {
         hdSkillLabelWritten = 1;
         memset(&hdSpeCopied, 0, sizeof(hdSpeCopied)); hdSpeCopied.frameIndex = BAYE_HD_SPE_NO_FRAME;
@@ -2503,7 +2871,7 @@ static void hd_maker_spe_end(const HdSpeScope* scope, U8 reason, U8 key)
 
 void baye_hd_set_help(const U8* gbk)
 {
-    if (gbk) hd_ai_retire();
+    if (gbk) { hd_ai_retire(); hd_status_retire(); }
     baye_hd_view_retire();
     baye_hd_mini_map_retire();
     hd_menu_ids_clear();
@@ -2548,6 +2916,7 @@ void baye_hd_help_clear(U32 generation, U32 inputSeq)
 static void hd_spe_publish(const HdSpeScope* scope)
 {
     hd_ai_publish(scope ? &scope->aiTarget : NULL, 0);
+    hd_status_publish(scope ? &scope->statusEffect : NULL, 0);
     g_hdSpeCompositionValid = scope ? scope->compositionValid : 0;
     hd_picture_publish(scope ? &scope->background : NULL, 0);
     if (scope) memcpy(g_hdSpeClearFrames, scope->clearFrames, sizeof(g_hdSpeClearFrames));
@@ -2605,9 +2974,10 @@ void baye_hd_spe_enter(HdSpeScope* scope, U16 id, U16 resourceIndex, I16 x, I16 
     scope->actorIndex = hdSpePendingActor;
     scope->targetIndex = hdSpePendingTarget;
     scope->aiTarget = hdAiTargetPending;
+    scope->statusEffect = hdStatusPending;
     /* Consume before resource lookup, including the missing-resource path. */
     baye_hd_begin_spe(0);
-    hd_ai_retire();
+    hd_ai_retire(); hd_status_retire();
     if (!kind) {
         if (id == MAIN_SPE || id == MAKER_SPE) kind = BAYE_HD_SPE_KIND_OPENING;
         else if (id == STACHG_SPE) kind = BAYE_HD_SPE_KIND_STATUS;
@@ -2677,6 +3047,7 @@ void baye_hd_spe_ready(HdSpeScope* scope, U16 count, U16 picmax, U32 fingerprint
         !(scope->keyflag & 2) && simplePictures && !g_FlipDrawing && g_paintColor == 0xff;
     if (!scope->protocolValid) {
         scope->aiTarget.valid = scope->aiTarget.eligible = 0;
+        scope->statusEffect.valid = scope->statusEffect.eligible = 0;
         scope->compositionValid = 0;
         if (g_hdAttackActive) baye_hd_attack_retire();
         if (g_hdSkillResultActive) baye_hd_skill_retire();
@@ -2708,7 +3079,8 @@ void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U
         !remaining || frameIndex < scope->startFrm || frameIndex > scope->endFrm ||
         introduced != frameIndex - scope->startFrm + 1) return;
     scope->frameIndex = frameIndex;
-    if (scope->aiTarget.eligible && !hd_ai_world_matches(&scope->aiTarget)) hd_ai_retire();
+    if (scope->statusEffect.eligible && !hd_status_world_matches(&scope->statusEffect)) hd_status_retire();
+    if (scope->aiTarget.eligible && !hd_ai_world_matches(&scope->aiTarget)) { hd_ai_retire(); hd_status_retire(); }
     if (g_FlipDrawing || g_paintColor != 0xff) {
         scope->protocolValid = scope->compositionValid = 0;
         baye_hd_attack_retire(); baye_hd_skill_retire();
@@ -2728,7 +3100,7 @@ void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U
 void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
 {
     if (scope != hdSpeCurrent || scope->generation != g_hdSpeGeneration) return;
-    hd_ai_retire();
+    hd_ai_retire(); hd_status_retire();
     g_hdSpeLastEndedId = scope->eventId;
     g_hdSpeEndReason = reason; g_hdSpeEndKey = key;
     hd_maker_spe_end(scope, reason, key);
@@ -2754,7 +3126,7 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
 
 void baye_hd_spe_lcd_dirty(void)
 {
-    hd_ai_retire();
+    hd_ai_retire(); hd_status_retire();
     baye_hd_attack_retire(); baye_hd_skill_retire();
     /* Late assets or a resize cannot restore a held LCD after another draw. */
     if (g_hdMakerPhase == BAYE_HD_MAKER_HOLD) g_hdMakerSourceValid = 0;
@@ -2783,7 +3155,10 @@ void baye_hd_spe_lcd_copy(void)
         hdSpeCopied.frameValid = 1;
         if (hd_ai_world_matches(&hdSpeCurrent->aiTarget) && hdSpeCurrent->aiTarget.valid)
             hdSpeCopied.aiTarget = hdSpeCurrent->aiTarget;
-        else if (hdSpeCurrent->aiTarget.eligible) hd_ai_retire();
+        else if (hdSpeCurrent->aiTarget.eligible) { hd_ai_retire(); hd_status_retire(); }
+        if (hd_status_world_matches(&hdSpeCurrent->statusEffect) && hdSpeCurrent->statusEffect.valid)
+            hdSpeCopied.statusEffect = hdSpeCurrent->statusEffect;
+        else if (hdSpeCurrent->statusEffect.eligible) hd_status_retire();
         memcpy(hdSpeCopied.visibleFrames, hdSpeCurrent->visibleFrames, sizeof(hdSpeCopied.visibleFrames));
         hdSpeCopied.compositionValid = hdSpeCurrent->compositionValid;
         hdSpeCopied.background = hdSpeCurrent->background;
@@ -2821,8 +3196,10 @@ void baye_hd_spe_lcd_copy(void)
 
 void baye_hd_spe_lcd_flush(void)
 {
-    if (hdSpeCopied.aiTarget.valid && !hd_ai_world_matches(&hdSpeCopied.aiTarget)) hd_ai_retire();
+    if (hdSpeCopied.aiTarget.valid && !hd_ai_world_matches(&hdSpeCopied.aiTarget)) { hd_ai_retire(); hd_status_retire(); }
     hd_ai_publish(&hdSpeCopied.aiTarget, 1);
+    if (hdSpeCopied.statusEffect.valid && !hd_status_world_matches(&hdSpeCopied.statusEffect)) hd_status_retire();
+    hd_status_publish(&hdSpeCopied.statusEffect, 1);
     if (!hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
     if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
     g_hdSpeDisplayCompositionValid = hdSpeCopied.compositionValid;
@@ -2878,6 +3255,7 @@ void baye_hd_spe_lcd_flush(void)
 
 void baye_hd_spe_invalidate(void)
 {
+    hdStatusCheckCurrent = NULL;
     if (hdSpeCurrent) {
         g_hdSpeLastEndedId = hdSpeCurrent->eventId;
         g_hdSpeEndReason = BAYE_HD_SPE_END_RESET; g_hdSpeEndKey = 0xff;
@@ -2899,7 +3277,7 @@ void baye_hd_spe_invalidate(void)
 
 void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 {
-    if (active) hd_ai_retire();
+    if (active) { hd_ai_retire(); hd_status_retire(); }
     if (active) baye_hd_person_properties_retire();
     g_hdQtyValue = value;
     g_hdQtyMin = minV;
@@ -2909,7 +3287,7 @@ void baye_hd_set_qty(U32 value, U32 minV, U32 maxV, U8 active)
 
 U32 baye_hd_qty_begin(void)
 {
-    hd_ai_retire();
+    hd_ai_retire(); hd_status_retire();
     baye_hd_person_properties_retire();
     g_hdQtySession = hd_next_input_seq(g_hdQtySession);
     g_hdQtyInputSeq = 0;
@@ -3308,6 +3686,74 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdSpeDisplayFrameIndex, U16);
     DEFADDF(g_hdSpeDisplayFrameValid, U8);
     DEFADD_U8ARR(g_hdSpeDisplayVisibleFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADDF(g_hdSpeStatusProtocolVersion, U8);
+    DEFADDF(g_hdSpeStatusValid, U8);
+    DEFADDF(g_hdSpeStatusReason, U8);
+    DEFADDF(g_hdSpeStatusPhase, U8);
+    DEFADDF(g_hdSpeStatusSubjectIndex, U8);
+    DEFADDF(g_hdSpeStatusSubjectPerson, U16);
+    DEFADDF(g_hdSpeStatusSubjectX, U8);
+    DEFADDF(g_hdSpeStatusSubjectY, U8);
+    DEFADDF(g_hdSpeStatusBeforeLevel, U8);
+    DEFADDF(g_hdSpeStatusAfterLevel, U8);
+    DEFADDF(g_hdSpeStatusBeforeExperience, U8);
+    DEFADDF(g_hdSpeStatusAfterExperience, U8);
+    DEFADDF(g_hdSpeStatusBeforeState, U8);
+    DEFADDF(g_hdSpeStatusAfterState, U8);
+    DEFADDF(g_hdSpeStatusBeforeHp, U16);
+    DEFADDF(g_hdSpeStatusAfterHp, U16);
+    DEFADDF(g_hdSpeStatusBeforeArms, U16);
+    DEFADDF(g_hdSpeStatusAfterArms, U16);
+    DEFADDF(g_hdSpeStatusLevelMax, U16);
+    DEFADDF(g_hdSpeStatusMapSX, U8);
+    DEFADDF(g_hdSpeStatusMapSY, U8);
+    DEFADDF(g_hdSpeStatusMapWidth, U8);
+    DEFADDF(g_hdSpeStatusMapHeight, U8);
+    DEFADDF(g_hdSpeStatusScreenWidth, U16);
+    DEFADDF(g_hdSpeStatusScreenHeight, U16);
+    DEFADDF(g_hdSpeStatusRegionX, U16);
+    DEFADDF(g_hdSpeStatusRegionY, U16);
+    DEFADDF(g_hdSpeStatusRegionWidth, U16);
+    DEFADDF(g_hdSpeStatusRegionHeight, U16);
+    DEFADDF(g_hdSpeStatusPaletteZero, U32);
+    DEFADDF(g_hdSpeStatusPaletteInk, U32);
+    DEFADD_U8ARR(g_hdSpeStatusBasePixels, BAYE_HD_STATUS_EFFECT_PIXELS);
+    DEFADD_U8ARR(g_hdSpeStatusBaseRgba, BAYE_HD_STATUS_EFFECT_RGBA_BYTES);
+    DEFADD_U8ARR(g_hdSpeStatusClearFrames, BAYE_HD_SPE_FRAME_BYTES);
+    DEFADDF(g_hdSpeDisplayStatusValid, U8);
+    DEFADDF(g_hdSpeDisplayStatusReason, U8);
+    DEFADDF(g_hdSpeDisplayStatusPhase, U8);
+    DEFADDF(g_hdSpeDisplayStatusSubjectIndex, U8);
+    DEFADDF(g_hdSpeDisplayStatusSubjectPerson, U16);
+    DEFADDF(g_hdSpeDisplayStatusSubjectX, U8);
+    DEFADDF(g_hdSpeDisplayStatusSubjectY, U8);
+    DEFADDF(g_hdSpeDisplayStatusBeforeLevel, U8);
+    DEFADDF(g_hdSpeDisplayStatusAfterLevel, U8);
+    DEFADDF(g_hdSpeDisplayStatusBeforeExperience, U8);
+    DEFADDF(g_hdSpeDisplayStatusAfterExperience, U8);
+    DEFADDF(g_hdSpeDisplayStatusBeforeState, U8);
+    DEFADDF(g_hdSpeDisplayStatusAfterState, U8);
+    DEFADDF(g_hdSpeDisplayStatusBeforeHp, U16);
+    DEFADDF(g_hdSpeDisplayStatusAfterHp, U16);
+    DEFADDF(g_hdSpeDisplayStatusBeforeArms, U16);
+    DEFADDF(g_hdSpeDisplayStatusAfterArms, U16);
+    DEFADDF(g_hdSpeDisplayStatusLevelMax, U16);
+    DEFADDF(g_hdSpeDisplayStatusMapSX, U8);
+    DEFADDF(g_hdSpeDisplayStatusMapSY, U8);
+    DEFADDF(g_hdSpeDisplayStatusMapWidth, U8);
+    DEFADDF(g_hdSpeDisplayStatusMapHeight, U8);
+    DEFADDF(g_hdSpeDisplayStatusScreenWidth, U16);
+    DEFADDF(g_hdSpeDisplayStatusScreenHeight, U16);
+    DEFADDF(g_hdSpeDisplayStatusRegionX, U16);
+    DEFADDF(g_hdSpeDisplayStatusRegionY, U16);
+    DEFADDF(g_hdSpeDisplayStatusRegionWidth, U16);
+    DEFADDF(g_hdSpeDisplayStatusRegionHeight, U16);
+    DEFADDF(g_hdSpeDisplayStatusPaletteZero, U32);
+    DEFADDF(g_hdSpeDisplayStatusPaletteInk, U32);
+    DEFADD_U8ARR(g_hdSpeDisplayStatusBasePixels, BAYE_HD_STATUS_EFFECT_PIXELS);
+    DEFADD_U8ARR(g_hdSpeDisplayStatusBaseRgba, BAYE_HD_STATUS_EFFECT_RGBA_BYTES);
+    DEFADD_U8ARR(g_hdSpeDisplayStatusClearFrames, BAYE_HD_SPE_FRAME_BYTES);
+
     DEFADDF(g_hdSpeAiProtocolVersion, U8);
     DEFADDF(g_hdSpeAiValid, U8);
     DEFADDF(g_hdSpeAiCommandType, U8);

@@ -148,7 +148,10 @@ void FgtInit(void)
         FgtIntMap();
         FgtIntScr();
     }
+    HdStatusCheckScope hdStatusCheck;
+    baye_hd_status_check_begin(&hdStatusCheck, BAYE_HD_STATUS_EFFECT_INITIALIZE);
     FgtChkAtkEnd();
+    baye_hd_status_check_end(&hdStatusCheck);
     FgtChkEnd(false);
     FgtChkEnd(true);
 }
@@ -477,7 +480,10 @@ U8 FgtExeCmd(FGTCMD *pcmd)
             if(idx < FGT_PLAMAX)
                 FgtShowGetExp(exp);
         }
+        HdStatusCheckScope hdStatusCheck;
+        baye_hd_status_check_begin(&hdStatusCheck, BAYE_HD_STATUS_EFFECT_COMMAND);
         FgtChkAtkEnd();
+        baye_hd_status_check_end(&hdStatusCheck);
     }
     return (FgtGetTerrain(g_GenPos[idx].x,g_GenPos[idx].y));
 }
@@ -1444,9 +1450,12 @@ void FgtChkAtkEnd(void)
         /* 升的 */
         if(per->Experience > FGT_EXPMAX - 1)
         {
+            HdStatusTransition hdStatusBefore;
+            baye_hd_status_before(&hdStatusBefore, BAYE_HD_STATUS_EFFECT_UPGRADE, i, p);
             FgtSetFocus(i);
             per->Experience -= FGT_EXPMAX;
             LevelUp(per);
+            baye_hd_status_context(&hdStatusBefore);
             FgtShowChgSpe(0,5,x,y);
             FgtLoadToMem(dFgtLevUp0 + idx,buf);
             ShowGReport(p,buf);
@@ -1454,8 +1463,11 @@ void FgtChkAtkEnd(void)
         /* 死的 */
         if(!pos->hp || !per->Arms)
         {
+            HdStatusTransition hdStatusBefore;
+            baye_hd_status_before(&hdStatusBefore, BAYE_HD_STATUS_EFFECT_DEATH, i, p);
             FgtSetFocus(i);
             pos->state = STATE_SW;
+            baye_hd_status_context(&hdStatusBefore);
             FgtShowChgSpe(6,11,x,y);
             FgtLoadToMem(dFgtDead0 + idx,buf);
             ShowGReport(p,buf);
@@ -1474,8 +1486,10 @@ void FgtChkAtkEnd(void)
 void FgtShowChgSpe(U8 sfrm,U8 efrm,U8 x,U8 y)
 {
     if(x < g_MapSX || x >= g_MapSX + SCR_MAPWID ||
-       y < g_MapSY || y >= g_MapSY + SCR_MAPHGT)
+       y < g_MapSY || y >= g_MapSY + SCR_MAPHGT) {
+        baye_hd_status_discard();
         return;
+    }
     x = FgtGetScrX(x);
     y = FgtGetScrY(y);
     PlcMovie(STACHG_SPE,0,sfrm,efrm,0,x,y);

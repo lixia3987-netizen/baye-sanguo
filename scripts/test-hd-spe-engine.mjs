@@ -29,7 +29,7 @@ function typedef(filename, name) {
     assert.ok(match, `actual typedef ${name} exists`);
     return match[0];
 }
-const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT|AI_TARGET)_/.test(line)).join('\n');
+const constants = header.split('\n').filter(line => /^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT|AI_TARGET|STATUS_EFFECT)_/.test(line)).join('\n');
 const aiDefinitions = (read('baye/attribute.h') + '\n' + read('baye/fight.h') + '\n' + read('baye/consdef.h')).split('\n').filter(l => /^#define\s+(?:PERSON_MAX|FGT_PLAMAX|CMD_ATK|CMD_STGM|STATE_SW|TIL_WID|WK_SX|WK_SY)\b/.test(l)).join('\n');
 const globals = bridge.slice(bridge.indexOf('U8 g_hdSpePendingKind ='), bridge.indexOf('U8 g_hdSkillActive ='));
 function observerFunctions(names) {
@@ -48,7 +48,7 @@ const protocol = ['hd_next_input_seq', 'hd_spe_notify', 'baye_hd_maker_begin', '
     'baye_hd_spe_tick', 'baye_hd_spe_context', 'baye_hd_spe_enter', 'baye_hd_spe_ready',
     'baye_hd_spe_frame', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty', 'baye_hd_spe_lcd_copy',
     'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate', 'baye_hd_spe_draw_begin',
-    'baye_hd_spe_draw_end', 'baye_hd_spe_clear', 'baye_hd_skill_movie_shape', 'baye_hd_ai_target_shape'];
+    'baye_hd_spe_draw_end', 'baye_hd_spe_clear', 'baye_hd_skill_movie_shape', 'baye_hd_status_shape','baye_hd_ai_target_shape'];
 const protocolSource = observerFunctions(protocol);
 
 // Native aligned-one headers are fixed 6/5/7-byte records. Build an independent ROM byte
@@ -79,6 +79,8 @@ typedef int16_t I16;
 typedef int32_t I32;
 typedef int16_t PT;
 typedef int8_t BOOL;
+#define MAX_LEVEL 30
+#define FGT_EXPMAX 100
 #define FAR
 #define EM_ASM(...) ((void)0)
 #define FGTA_MAX 20
@@ -87,18 +89,18 @@ typedef int8_t BOOL;
 #define STACHG_SPE 27
 #define AX_SCALE 2
 #define min(a,b) ((a)<(b)?(a):(b))
-` + constants + '\n' + typedef('hd-bridge.h', 'HdResultScope') + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h', 'HdAiTargetSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
+` + constants + '\n' + typedef('hd-bridge.h', 'HdResultScope') + '\n' + typedef('hd-bridge.h', 'HdPictureSource') + '\n' + typedef('hd-bridge.h','HdStatusCheckScope')+'\n'+typedef('hd-bridge.h','HdStatusTransition')+'\n'+typedef('hd-bridge.h','HdStatusEffectSource')+'\n'+typedef('hd-bridge.h', 'HdAiTargetSource') + '\n' + typedef('hd-bridge.h', 'HdSpeScope') + '\n' +
     typedef('baye/paccount.h', 'SPEUNIT') + '\n' + typedef('baye/paccount.h', 'SPERES') + '\n' +
     typedef('baye/graph.h', 'PictureHeadType') + String.raw`
 static U8 g_hdFightActive=1,g_hdMovieActive=0,g_FlipDrawing=0,g_paintColor=255;
 static U16 g_hdMovieId=0;
-typedef U16 PersonID;
+typedef U16 PersonID;typedef U16 ToolID;
 static U8 g_hdReportActive,g_hdHelpActive,g_hdQtyActive,g_FgtOver;
 static U8 g_MapSX,g_MapSY,g_MapWid,g_MapHgt;
 static U32 g_paintPalette[256];
 static int g_screenWidth=16,g_screenHeight=16;
 static U8 g_VisScr[65536];
-` + aiDefinitions + '\n' + typedef('baye/fight.h','JLPOS') + '\n' + typedef('baye/fight.h','FGTJK') + '\nstatic JLPOS g_GenPos[FGTA_MAX]; static FGTJK g_FgtParam;\n' + globals + '\n' + protocolSource + String.raw`
+` + aiDefinitions + '\n' + typedef('baye/attribute.h','PersonType') + '\n' + typedef('baye/fight.h','JLPOS') + '\n' + typedef('baye/fight.h','FGTJK') + '\nstatic JLPOS g_GenPos[FGTA_MAX]; static FGTJK g_FgtParam;static PersonType g_Persons[PERSON_MAX];\n' + globals + '\n' + protocolSource + String.raw`
 static U8 resource[2048];
 static U8 *g_CBnkPtr=resource;
 typedef struct { U32 length,position; } FakeFile;

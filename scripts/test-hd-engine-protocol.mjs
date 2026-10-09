@@ -41,7 +41,7 @@ function actualFunction(filename, name) {
     assert.fail(`actual ${filename}::${name} closes`);
 }
 
-const speTypes = header.match(/typedef struct HdResultScope \{[\s\S]*?\} HdResultScope;/)[0] + '\n' + header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdPictureSource;/)[0] + '\n' +
+const speTypes = header.match(/typedef\s+struct[^;{]*\{[^}]*\}\s*HdStatusCheckScope;/)[0] + '\n' + header.match(/typedef\s+struct[^;{]*\{[^}]*\}\s*HdStatusTransition;/)[0] + '\n' + header.match(/typedef\s+struct[^;{]*\{[^}]*\}\s*HdStatusEffectSource;/)[0] + '\n' + header.match(/typedef struct HdResultScope \{[\s\S]*?\} HdResultScope;/)[0] + '\n' + header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdPictureSource;/)[0] + '\n' +
     header.match(/typedef struct[^;{]*\{[^}]*\}\s*HdAiTargetSource;/)[0] + '\n' + header.match(/typedef struct HdSpeScope \{[\s\S]*?\} HdSpeScope;/)[0];
 function observerFunctions(names) {
     const found = new Map(), excluded = new Set(['hd_next_input_seq', 'baye_hd_begin_spe']);
@@ -98,6 +98,8 @@ U32 g_paintPalette[256];
 static int g_screenWidth=160,g_screenHeight=96;
 static U8 *g_VisScr;
 static U8 g_MapSX,g_MapSY,g_MapWid,g_MapHgt,g_FgtOver;
+#define MAX_LEVEL 30
+#define FGT_EXPMAX 100
 #define FAR
 #define AX_SCALE 1
 #define FGTA_MAX 20
@@ -113,7 +115,7 @@ static U8 g_MapSX,g_MapSY,g_MapWid,g_MapHgt,g_FgtOver;
 static void ResLoadToMem(int resource, int id, U8* output) {
     (void)resource; output[0] = (U8)id; output[1] = 0;
 }
-` + constants + '\n' + aiDefinitions + '\n' + speTypes + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*JLPOS;/.exec(read('baye/fight.h'))[0] + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*FGTJK;/.exec(read('baye/fight.h'))[0] + '\nstatic JLPOS g_GenPos[FGTA_MAX];static FGTJK g_FgtParam;\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\nvoid baye_hd_skill_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
+` + constants + '\n' + aiDefinitions + '\n' + speTypes + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*JLPOS;/.exec(read('baye/fight.h'))[0] + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*FGTJK;/.exec(read('baye/fight.h'))[0] + '\n' + /typedef\s+struct[^;{]*\{[^}]*\}\s*PersonType;/.exec(read('baye/attribute.h'))[0] + '\nstatic JLPOS g_GenPos[FGTA_MAX];static FGTJK g_FgtParam;static PersonType g_Persons[PERSON_MAX];\n' + globals + '\nvoid baye_hd_spe_invalidate(void);\nvoid baye_hd_attack_retire(void);\nvoid baye_hd_skill_retire(void);\n' + helpers + '\n' + speObserverSource + String.raw`
 static int scrolling;
 static int SysScrollingTimerOpen(int value) { int old = scrolling; scrolling = value; return old; }
 `;

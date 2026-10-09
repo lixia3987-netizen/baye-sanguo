@@ -45,6 +45,8 @@ const base=String.raw`
 #include <string.h>
 typedef uint8_t U8; typedef uint16_t U16; typedef uint32_t U32;
 typedef int8_t BOOL; typedef int16_t I16; typedef int32_t I32; typedef int16_t PT;
+#define MAX_LEVEL 30
+#define FGT_EXPMAX 100
 #define FAR
 #define AX_SCALE 1
 #define SCR_WID 160
@@ -154,26 +156,27 @@ function nativeFunctions(file,seeds){const source=read(file),found=new Map();fun
         for(const call of body.matchAll(/\b([A-Za-z_]\w*)\s*\(/g))if(signature(call[1]).test(source))add(call[1]);}
     seeds.forEach(name=>{assert.ok(new RegExp('\\b'+name+'\\s*\\(').test(source),`production ${file}::${name}`);add(name);});
     return {prototypes:[...found.values()].map(b=>b.slice(0,b.indexOf('{')).trim()+';').join('\n'),functions:[...found.values()].join('\n')};}
-function traceSchema(globals){const result=[];for(const m of globals.matchAll(/\b(U8|U16|U32|I16)\s+([^;]+);/g))for(const d of m[2].split(',')){const v=/\b(g_hd(?:Spe|Attack)\w+)\s*(?:\[([^\]]+)\])?/.exec(d);if(!v)continue;let n=1;if(v[2])n=v[2]==='BAYE_HD_SPE_FRAME_BYTES'?32:v[2]==='BAYE_HD_ATTACK_DIGITS'?10:Number(v[2]);if(v[2]==='BAYE_HD_AI_TARGET_PIXELS')n=256;if(v[2]==='BAYE_HD_AI_TARGET_RGBA_BYTES')n=1024;assert.ok(Number.isInteger(n)&&n>0&&n<=1024);result.push({name:v[1],type:m[1],count:n});}return result;}
+function traceSchema(globals){const result=[];for(const m of globals.matchAll(/\b(U8|U16|U32|I16)\s+([^;]+);/g))for(const d of m[2].split(',')){const v=/\b(g_hd(?:Spe|Attack)\w+)\s*(?:\[([^\]]+)\])?/.exec(d);if(!v)continue;let n=1;if(v[2])n=v[2]==='BAYE_HD_SPE_FRAME_BYTES'?32:v[2]==='BAYE_HD_ATTACK_DIGITS'?10:Number(v[2]);if((v[2]==='BAYE_HD_AI_TARGET_PIXELS'||v[2]==='BAYE_HD_STATUS_EFFECT_PIXELS'))n=256;if((v[2]==='BAYE_HD_AI_TARGET_RGBA_BYTES'||v[2]==='BAYE_HD_STATUS_EFFECT_RGBA_BYTES'))n=1024;assert.ok(Number.isInteger(n)&&n>0&&n<=1024);result.push({name:v[1],type:m[1],count:n});}return result;}
 let attackBinary,attackSchema;
 async function attackExecutable(){if(attackBinary)return attackBinary;
     attackBinary=(async()=>{
         const header=read('hd-bridge.h'),bridge=read('hd-bridge.c'),globals=bridge.slice(bridge.indexOf('U8 g_hdSpePendingKind ='),bridge.indexOf('U8 g_hdSkillActive ='));
-        const constants=header.split('\n').filter(l=>/^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT|AI_TARGET)_/.test(l)).join('\n');
+        const constants=header.split('\n').filter(l=>/^#define BAYE_HD_(?:SPE|MAKER|ATTACK|COMPOSITION|SKILL|RESULT|AI_TARGET|STATUS_EFFECT)_/.test(l)).join('\n');
         const nativeDefines=(read('baye/consdef.h')+'\n'+read('baye/fight.h')+'\n'+read('baye/graph.h')).split('\n').filter(l=>/^#define\s+(?:MAIN_SPE|MAKER_SPE|STACHG_SPE|SPE_BACKPIC|NUM_PICID|QIBING_SPE|SHUISHANG_SPE|TERRAIN_RIVER|FGT_SPESX|FGT_SPESY|SHOW_DLYBASE|PICHEAD_LEN)\b/.test(l)).join('\n');
         const aiDefinitions=(read('baye/attribute.h')+'\n'+read('baye/fight.h')+'\n'+read('baye/consdef.h')).split('\n').filter(l=>/^#define\s+(?:PERSON_MAX|FGTA_MAX|FGT_PLAMAX|CMD_ATK|CMD_STGM|STATE_SW|TIL_WID|WK_SX|WK_SY)\b/.test(l)).join('\n');
-        const types=type('hd-bridge.h','HdResultScope')+'\n'+type('hd-bridge.h','HdPictureSource')+'\n'+type('hd-bridge.h','HdAiTargetSource')+'\n'+type('hd-bridge.h','HdSpeScope');
-        const helpers=nativeFunctions('hd-bridge.c',['hd_next_input_seq','hd_spe_notify','baye_hd_begin_spe','baye_hd_spe_tick','baye_hd_ai_target_shape','baye_hd_spe_context','baye_hd_spe_enter','baye_hd_spe_ready','baye_hd_spe_frame','baye_hd_spe_end','baye_hd_spe_lcd_dirty','baye_hd_spe_lcd_copy','baye_hd_spe_lcd_flush','baye_hd_spe_invalidate','baye_hd_maker_begin','baye_hd_maker_hold','baye_hd_maker_end','baye_hd_attack_begin','baye_hd_attack_numbers','baye_hd_attack_hold','baye_hd_attack_end','baye_hd_attack_retire','baye_hd_attack_number_resource','baye_hd_attack_digit_begin','baye_hd_attack_digit_end','baye_hd_background_begin','baye_hd_background_end','baye_hd_spe_draw_begin','baye_hd_spe_draw_end','baye_hd_spe_clear','baye_hd_surface_write','baye_hd_picture_resource','baye_hd_skill_movie_shape','baye_hd_skill_number_resource','baye_hd_skill_digit_begin','baye_hd_skill_digit_end','baye_hd_result_scope_begin','baye_hd_result_scope_end']);
+        const types=type('hd-bridge.h','HdResultScope')+'\n'+type('hd-bridge.h','HdPictureSource')+'\n'+type('hd-bridge.h','HdStatusCheckScope')+'\n'+type('hd-bridge.h','HdStatusTransition')+'\n'+type('hd-bridge.h','HdStatusEffectSource')+'\n'+type('hd-bridge.h','HdAiTargetSource')+'\n'+type('hd-bridge.h','HdSpeScope');
+        const helpers=nativeFunctions('hd-bridge.c',['hd_next_input_seq','hd_spe_notify','baye_hd_begin_spe','baye_hd_spe_tick','baye_hd_status_shape','baye_hd_ai_target_shape','baye_hd_spe_context','baye_hd_spe_enter','baye_hd_spe_ready','baye_hd_spe_frame','baye_hd_spe_end','baye_hd_spe_lcd_dirty','baye_hd_spe_lcd_copy','baye_hd_spe_lcd_flush','baye_hd_spe_invalidate','baye_hd_maker_begin','baye_hd_maker_hold','baye_hd_maker_end','baye_hd_attack_begin','baye_hd_attack_numbers','baye_hd_attack_hold','baye_hd_attack_end','baye_hd_attack_retire','baye_hd_attack_number_resource','baye_hd_attack_digit_begin','baye_hd_attack_digit_end','baye_hd_background_begin','baye_hd_background_end','baye_hd_spe_draw_begin','baye_hd_spe_draw_end','baye_hd_spe_clear','baye_hd_surface_write','baye_hd_picture_resource','baye_hd_skill_movie_shape','baye_hd_skill_number_resource','baye_hd_skill_digit_begin','baye_hd_skill_digit_end','baye_hd_result_scope_begin','baye_hd_result_scope_end']);
         const publicFns=nativeFunctions('PublicFun.c',['PlcMovie','PlcRPicShow','PlcRPicShowEx','baye_hd_picture_info']);
         attackSchema=traceSchema(globals);assert.ok(attackSchema.some(f=>f.name==='g_hdAttackDisplayValid'));
         const traceWrites=attackSchema.map(f=>f.count===1?`word((U32)${f.name});`:`for(int k=0;k<${f.count};k++)word((U32)${f.name}[k]);`).join('\n');
-        const fixture=base+'\n'+constants+'\n'+nativeDefines+'\n'+types+'\n'+aiDefinitions+'\ntypedef U16 PersonID;\n'+type('baye/fight.h','JLPOS')+'\n'+type('baye/fight.h','FGTJK')+'\n'+type('baye/datman.h','RCHEAD')+'\n'+type('baye/datman.h','RIDX')+'\n'+type('baye/paccount.h','SPERES')+'\n'+type('baye/paccount.h','SPEUNIT')+'\n'+type('baye/graph.h','PictureHeadType')+String.raw`
+        const fixture=base+'\n'+constants+'\n'+nativeDefines+'\n'+types+'\n'+aiDefinitions+'\ntypedef U16 PersonID;typedef U16 ToolID;\n'+type('baye/attribute.h','PersonType')+'\n'+type('baye/fight.h','JLPOS')+'\n'+type('baye/fight.h','FGTJK')+'\n'+type('baye/datman.h','RCHEAD')+'\n'+type('baye/datman.h','RIDX')+'\n'+type('baye/paccount.h','SPERES')+'\n'+type('baye/paccount.h','SPEUNIT')+'\n'+type('baye/graph.h','PictureHeadType')+String.raw`
 static void fixtureNotify(void);
 #define EM_ASM(...) fixtureNotify()
 #define FGTA_MAX 20
 static U8 g_hdFightActive=1,g_hdMovieActive=0,g_hdReportActive=0,g_hdHelpActive,g_hdQtyActive,g_FgtOver;
 static U8 g_MapSX,g_MapSY,g_MapWid,g_MapHgt;
 static JLPOS g_GenPos[FGTA_MAX];static FGTJK g_FgtParam;
+static PersonType g_Persons[PERSON_MAX];
 static U16 g_hdMovieId=0;
 `+globals+'\n'+helpers.prototypes+String.raw`
 typedef struct {U8*bytes;U32 length,position;} NativeFile;

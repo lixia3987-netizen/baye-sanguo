@@ -42,7 +42,7 @@ const helpers=['copy_gbk','hd_next_input_seq','baye_hd_view_retire','baye_hd_min
     'baye_hd_fight_actor','baye_hd_fight_input_begin','baye_hd_fight_input_end','baye_hd_set_fight',
     'baye_hd_march_phase','baye_hd_march_end','baye_hd_record_end',
     'hd_help_notify','baye_hd_set_help','baye_hd_help_publish','baye_hd_help_clear',
-    'hd_ai_publish','hd_ai_retire','baye_hd_attack_retire','baye_hd_skill_retire'].map(n=>actual('hd-bridge.c',n));
+    'hd_status_publish','hd_status_retire','hd_ai_publish','hd_ai_retire','baye_hd_attack_retire','baye_hd_skill_retire'].map(n=>actual('hd-bridge.c',n));
 const renderers=['GetGoodsName','GetGoodsProStrCaptured','GetGoodsProStr','ShowGoodsProCaptured','ShowGoodsProStrCaptured','ShowGoodsControlInner','ShowPersonControlInner'].map(n=>actual('showface.c',n));
 const help=['FgtFormatStr','FgtLoadToMem2','FgtGetTerrain','FgtGetGenIdx','FgtShowHlp'].map(n=>actual('FightSub.c',n));
 const toolField=actual('platform/js/exportjs.c','bayeHdGetToolField');
@@ -75,7 +75,7 @@ typedef U16 PersonID;typedef U16 ToolID;
     ['GOODS','PersonType'].map(n=>typedef('baye/attribute.h',n)).join('\n')+'\n'+
     ['RCHEAD','RIDX'].map(n=>typedef('baye/datman.h',n)).join('\n')+'\n'+
     typedef('baye/fight.h','JLPOS')+'\n'+typedef('hd-bridge.h','HdHelpSnapshot')+'\n'+
-    typedef('hd-bridge.h','HdResultScope')+'\n'+typedef('hd-bridge.h','HdPictureSource')+'\n'+typedef('hd-bridge.h','HdAiTargetSource')+'\n'+typedef('hd-bridge.h','HdSpeScope')+String.raw`
+    typedef('hd-bridge.h','HdResultScope')+'\n'+typedef('hd-bridge.h','HdPictureSource')+'\n'+typedef('hd-bridge.h','HdStatusCheckScope')+'\n'+typedef('hd-bridge.h','HdStatusTransition')+'\n'+typedef('hd-bridge.h','HdStatusEffectSource')+'\n'+typedef('hd-bridge.h','HdAiTargetSource')+'\n'+typedef('hd-bridge.h','HdSpeScope')+String.raw`
 static U8 resource[4*1024*1024],*g_CBnkPtr=resource;
 typedef struct {U32 length,position;} FakeFile;
 static FakeFile file,*g_LibFp=&file;

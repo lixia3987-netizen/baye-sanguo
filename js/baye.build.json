@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "6d41e7103d9ce94847dbfed9b7e52413910e20a3",
-  "engineSourceSha256": "b682e25542351fd65642d4780b2e7fc8b3d8245032d91d10900809d85aad7dd0",
+  "sourceRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+  "engineSourceSha256": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791509065,
+  "sourceDateEpoch": 1791515060,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -256,6 +256,135 @@
     "retirement": "uncontrolled drawing, changed native actor/target/map, nested event, report/help/quantity, resize, unsupported drawing state or reset permanently invalidates the base",
     "input": "read-only observation adds no input, skip, return, attack or skill-result numeric owner; original unskippable keyflag-0 playback remains intact"
   },
+  "hdStatusEffectProtocol": {
+    "version": 1,
+    "publicApi": [
+      "baye.hd.spe().statusEffect",
+      "baye.hd.spe().display.statusEffect"
+    ],
+    "protocolField": "g_hdSpeStatusProtocolVersion",
+    "bindings": [
+      "g_hdSpeStatusProtocolVersion",
+      "g_hdSpeStatusValid",
+      "g_hdSpeStatusReason",
+      "g_hdSpeStatusPhase",
+      "g_hdSpeStatusSubjectIndex",
+      "g_hdSpeStatusSubjectPerson",
+      "g_hdSpeStatusSubjectX",
+      "g_hdSpeStatusSubjectY",
+      "g_hdSpeStatusBeforeLevel",
+      "g_hdSpeStatusAfterLevel",
+      "g_hdSpeStatusBeforeExperience",
+      "g_hdSpeStatusAfterExperience",
+      "g_hdSpeStatusBeforeState",
+      "g_hdSpeStatusAfterState",
+      "g_hdSpeStatusBeforeHp",
+      "g_hdSpeStatusAfterHp",
+      "g_hdSpeStatusBeforeArms",
+      "g_hdSpeStatusAfterArms",
+      "g_hdSpeStatusLevelMax",
+      "g_hdSpeStatusMapSX",
+      "g_hdSpeStatusMapSY",
+      "g_hdSpeStatusMapWidth",
+      "g_hdSpeStatusMapHeight",
+      "g_hdSpeStatusScreenWidth",
+      "g_hdSpeStatusScreenHeight",
+      "g_hdSpeStatusRegionX",
+      "g_hdSpeStatusRegionY",
+      "g_hdSpeStatusRegionWidth",
+      "g_hdSpeStatusRegionHeight",
+      "g_hdSpeStatusPaletteZero",
+      "g_hdSpeStatusPaletteInk",
+      "g_hdSpeStatusBasePixels",
+      "g_hdSpeStatusBaseRgba",
+      "g_hdSpeStatusClearFrames",
+      "g_hdSpeDisplayStatusValid",
+      "g_hdSpeDisplayStatusReason",
+      "g_hdSpeDisplayStatusPhase",
+      "g_hdSpeDisplayStatusSubjectIndex",
+      "g_hdSpeDisplayStatusSubjectPerson",
+      "g_hdSpeDisplayStatusSubjectX",
+      "g_hdSpeDisplayStatusSubjectY",
+      "g_hdSpeDisplayStatusBeforeLevel",
+      "g_hdSpeDisplayStatusAfterLevel",
+      "g_hdSpeDisplayStatusBeforeExperience",
+      "g_hdSpeDisplayStatusAfterExperience",
+      "g_hdSpeDisplayStatusBeforeState",
+      "g_hdSpeDisplayStatusAfterState",
+      "g_hdSpeDisplayStatusBeforeHp",
+      "g_hdSpeDisplayStatusAfterHp",
+      "g_hdSpeDisplayStatusBeforeArms",
+      "g_hdSpeDisplayStatusAfterArms",
+      "g_hdSpeDisplayStatusLevelMax",
+      "g_hdSpeDisplayStatusMapSX",
+      "g_hdSpeDisplayStatusMapSY",
+      "g_hdSpeDisplayStatusMapWidth",
+      "g_hdSpeDisplayStatusMapHeight",
+      "g_hdSpeDisplayStatusScreenWidth",
+      "g_hdSpeDisplayStatusScreenHeight",
+      "g_hdSpeDisplayStatusRegionX",
+      "g_hdSpeDisplayStatusRegionY",
+      "g_hdSpeDisplayStatusRegionWidth",
+      "g_hdSpeDisplayStatusRegionHeight",
+      "g_hdSpeDisplayStatusPaletteZero",
+      "g_hdSpeDisplayStatusPaletteInk",
+      "g_hdSpeDisplayStatusBasePixels",
+      "g_hdSpeDisplayStatusBaseRgba",
+      "g_hdSpeDisplayStatusClearFrames"
+    ],
+    "scope": "actual FgtChkAtkEnd branch; STACHG_SPE 27, resource index 0, kind 4, upgrade units 0..5 or departure units 6..11, keyflag 0",
+    "reasons": {
+      "upgrade": 1,
+      "death": 2
+    },
+    "phases": {
+      "command": 1,
+      "initialize": 2
+    },
+    "identity": [
+      "Reason",
+      "Phase",
+      "SubjectIndex",
+      "SubjectPerson",
+      "SubjectX",
+      "SubjectY"
+    ],
+    "mutation": [
+      "BeforeLevel",
+      "AfterLevel",
+      "BeforeExperience",
+      "AfterExperience",
+      "BeforeState",
+      "AfterState",
+      "BeforeHp",
+      "AfterHp",
+      "BeforeArms",
+      "AfterArms",
+      "LevelMax"
+    ],
+    "base": [
+      "g_hdSpeStatusBasePixels",
+      "g_hdSpeDisplayStatusBasePixels"
+    ],
+    "baseFormat": "256 row-major original g_VisScr U8 pixel indices captured once before the first clear or sprite draw",
+    "baseRgba": [
+      "g_hdSpeStatusBaseRgba",
+      "g_hdSpeDisplayStatusBaseRgba"
+    ],
+    "baseRgbaFormat": "1024 actual little-endian palette RGBA bytes; identical indices share identical colors and every used palette index remains unchanged",
+    "palette": [
+      "PaletteZero",
+      "PaletteInk"
+    ],
+    "clears": [
+      "g_hdSpeStatusClearFrames",
+      "g_hdSpeDisplayStatusClearFrames"
+    ],
+    "displayedCommit": "actual SysCopyScreen carries fixed subject/base and cumulative clear history; timed LCD flush publishes its matching SPE event/commit/frame ticket",
+    "initialization": "phase2 is certified only within the original FgtInit status-check scope, with inactive fight and no guessed command owner",
+    "retirement": "uncontrolled drawing, changed subject/map/palette/resource, nested events, overlays, resize, native end or reset permanently invalidates the source",
+    "input": "read-only observation adds no skip, return or numeric hold owner; death STATE_SW and zero-HP/zero-Arms upgrades are actual native branch outcomes"
+  },
   "hdAttackProtocol": {
     "version": 1,
     "owner": [
@@ -322,15 +451,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 192446,
-      "sha256": "821dd8ebdbd676c677139998f36b8fd6cd11d43d4eab96cc04b3828fe5541bfa"
+      "sha256": "fd55a72ea966641204f032a9e68b11d45efb8c9afe0f258de841cb06194edf11"
     },
     "baye.wasm": {
-      "bytes": 4487497,
-      "sha256": "6f409da36f8520c89abe27a9527feca001c17a528e568ef03735fb7bf2f36094"
+      "bytes": 4521847,
+      "sha256": "71ee6726687a5c5a5a1d9509010aef3ad82b8308b84c813374074777d7851572"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "96889a70f445db14ae13b38ad605d8bea6e561f7a1304efb1b35be88868a1cf9"
+      "sha256": "1ddda3fdb2b858135a468fe118f2a4c5093839f29ec09ad7bf101378fb72b186"
     }
   }
 }

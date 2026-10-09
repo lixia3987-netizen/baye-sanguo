@@ -192,7 +192,7 @@ function fixture() {
         'baye_hd_map_input_begin', 'baye_hd_set_map_pick', 'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_end',
         'baye_hd_set_report', 'baye_hd_report_begin', 'baye_hd_report_end', 'baye_hd_record_end',
         'baye_hd_set_fight', 'baye_hd_set_ready', 'baye_hd_world_commit', 'hd_help_notify', 'baye_hd_set_help',
-        'hd_ai_publish','hd_ai_retire','baye_hd_attack_retire','baye_hd_skill_retire']
+        'hd_status_publish','hd_status_retire','hd_ai_publish','hd_ai_retire','baye_hd_attack_retire','baye_hd_skill_retire']
         .map(name => actual('hd-bridge.c', name));
     const functions = ['FgtShowView', 'FgtShowViewInner', 'FgtViewForce', 'FgtViewForceCapture', 'FgtViewCaptureText',
         'FgtStatGen', 'FgtLoadToMem3', 'TransIdxToGen3'].map(name => actual('FgtPkAi.c', name));
@@ -204,7 +204,7 @@ function fixture() {
         typedef('baye/paccount.h', 'CitySetType'), typedef('baye/datman.h', 'RCHEAD'),
         typedef('baye/datman.h', 'RIDX'), typedef('baye/graph.h', 'PictureHeadType'),
         typedef('hd-bridge.h', 'HdViewSnapshot'), typedef('hd-bridge.h', 'HdPictureSource'),
-        typedef('hd-bridge.h', 'HdAiTargetSource'), typedef('hd-bridge.h', 'HdSpeScope'), typedef('hd-bridge.h', 'HdResultScope')].join('\n');
+        typedef('hd-bridge.h','HdStatusCheckScope')+'\n'+typedef('hd-bridge.h','HdStatusTransition')+'\n'+typedef('hd-bridge.h','HdStatusEffectSource')+'\n'+typedef('hd-bridge.h', 'HdAiTargetSource'), typedef('hd-bridge.h', 'HdSpeScope'), typedef('hd-bridge.h', 'HdResultScope')].join('\n');
     return boundary.replace('static Rect g_cityCursorRange', constants + read('data/pstring.h') + '\n' + types +
         '\n' + globals + '\n' + declarations + '\nstatic Rect g_cityCursorRange') + resourceBoundary +
         '\n' + helpers.join('\n') + '\n' + functions.join('\n') + cases;

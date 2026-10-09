@@ -456,6 +456,208 @@ test('AI idle battle prewarm fetches only the two certified slots, without advan
     h.setSpe(fixture.s); h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
     assert.equal(h.images.length, 2, 'actual event reuses authorized prewarm, not another playback');
 });
+function statusFixture(reason = 1) {
+    const fixture = actualMainFixture(27), entry = fixture.entry, start = reason === 1 ? 0 : 6, end = start + 5;
+    Object.assign(entry, { kind: 4, startFrm: start, endFrm: end, statusVersion: 1, statusReason: reason, maskSemantics: 'native-and-or-v1' });
+    const address = fixture.lib.readUInt32LE(26 * 4), raw = fixture.lib.subarray(address + 14, address + 14 + entry.resourceLength);
+    const used = new Set(entry.units.slice(start, end + 1).map(u => u.picIndex));
+    let at = 6 + entry.count * 5;
+    for (const picture of entry.pictures) {
+        const width = picture.nativeWidth, height = picture.nativeHeight, stride = Math.ceil(width / 8), plane = stride * height;
+        if (used.has(picture.picIndex)) {
+            picture.src = `assets/hd-spe/status-27/picture-${picture.picIndex}.png`;
+            const white = Array(32).fill(0);
+            for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+                const byte = y * stride + (x >> 3), mask = 128 >> (x & 7), pixel = y * width + x;
+                if (!(raw[at + 7 + byte] & mask) && !(raw[at + 7 + plane + byte] & mask)) white[pixel >> 3] |= 1 << (pixel & 7);
+            }
+            picture.nativeWhitePixels = white;
+        } else picture.src = picture.width = picture.height = null;
+        at += 7 + plane * (picture.mask + 1);
+    }
+    const status = { protocolVersion: 1, valid: true, reason, phase: 1,
+        subjectIndex: 3, subjectPerson: 600, subjectX: 6, subjectY: 7,
+        beforeLevel: 2, afterLevel: reason === 1 ? 3 : 2, beforeExperience: reason === 1 ? 114 : 14, afterExperience: 14,
+        beforeState: 0, afterState: reason === 1 ? 0 : 8, beforeHp: reason === 1 ? 60 : 0, afterHp: reason === 1 ? 60 : 0,
+        beforeArms: 900, afterArms: 900, levelMax: 99,
+        mapSX: 3, mapSY: 5, mapWidth: 20, mapHeight: 20, screenWidth: 160, screenHeight: 96,
+        regionX: 48, regionY: 32, regionWidth: 16, regionHeight: 16, paletteZero: 0x00ffffff, paletteInk: 0xff000000,
+        basePixels: Array.from({ length: 256 }, (_, i) => i % 2 ? 255 : 0),
+        baseRgba: Array.from({ length: 256 }, (_, i) => i % 2 ? [0, 0, 0, 255] : [255, 255, 255, 0]).flat(), clearFrames: bitset() };
+    for (const p of [0, 2]) { status.basePixels[p] = 207; status.baseRgba.splice(p * 4, 4, 207, 207, 207, 255); }
+    fixture.s = { ...fixture.s, kind: 4, generation: 9, eventId: 7, x: 48, y: 32, startFrm: start, endFrm: end,
+        frameIndex: start, keyflag: 0, skipEligible: false, statusEffect: structuredClone(status),
+        display: { generation: 9, eventId: 7, commitSeq: 1, frameIndex: start, frameValid: true,
+            visibleFrames: bitset(start), statusEffect: structuredClone(status) } };
+    return fixture;
+}
+async function statusLoaded(reason = 1, change, options = {}, imageCount = 5) {
+    const fixture = statusFixture(reason); if (change) change(fixture);
+    const h = harness({ spe: fixture.s, data: { g_scale: 1 }, ...options }); h.context.dynLib = fixture.lib.toString('hex');
+    h.api.setManifest(fixture.m); h.api.start();
+    for (let i = 0; i < 30 && (imageCount === 0 || h.images.length < imageCount); i++) await settle();
+    assert.equal(h.images.length, imageCount, 'status slot request count: ' + (change ? change.toString() : 'certified default range'));
+    h.images.forEach((_, i) => h.resolveImage(i)); h.flush(); return { h, fixture };
+}
+test('status ranges use five fresh packed slots each, preserve full LCD and show their actual gray-base single cell', async () => {
+    for (const reason of [1, 2]) {
+        const { h, fixture } = await statusLoaded(reason), debug = h.api.debugSnapshot();
+        assert.equal(debug.source, 'hd-assets'); assert.equal(debug.presentation, 'status-effect'); assert.equal(debug.statusEffect.reason, reason);
+        assert.deepEqual(JSON.parse(JSON.stringify(debug.sourceRect)), { x: 0, y: 0, width: 160, height: 96 });
+        assert.deepEqual(JSON.parse(JSON.stringify(debug.hdRegion)), { x: 48, y: 32, width: 16, height: 16 });
+        assert.deepEqual(Array.from(aiBasePaint(h).args[0].data.slice(0, 12)), [207, 207, 207, 255, 0, 0, 0, 255, 207, 207, 207, 255]);
+        assert.deepEqual(fixture.entry.units.slice(fixture.entry.startFrm, fixture.entry.endFrm + 1).map(u => u.picIndex), reason === 1 ? [2, 3, 4, 1, 0, 1] : [2, 3, 4, 6, 5, 6]);
+        assert.deepEqual(h.hdDraws().at(-1).args.slice(1), [528, 352, 176, 176]);
+        assert.equal(h.hdDraws().at(-1).args[0].url, fixture.entry.pictures[2].src);
+        assert.equal(h.nodes.get('hd-spe-title').textContent, reason === 1 ? '升级提示' : '战场退场提示');
+        assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'clearRect' && e.args[2] === 11).length, 99, 'pic2 has99 actual forced-white bits, not the AI sword7');
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    }
+});
+test('status level cap, U8 wrap, pending death and native initialization phase do not inherit living AI actor restrictions', async () => {
+    for (const values of [
+        { beforeLevel: 99, afterLevel: 99, beforeHp: 0, afterHp: 0, beforeArms: 0, afterArms: 0 },
+        { beforeLevel: 255, afterLevel: 0, levelMax: 255, subjectIndex: 19, subjectPerson: 1999 },
+        { beforeHp: 65535, afterHp: 65535, beforeArms: 65535, afterArms: 65535 },
+        { phase: 2, subjectIndex: 0, subjectPerson: 0 }
+    ]) {
+        const { h } = await statusLoaded(1, f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) Object.assign(s, values); },
+            { fightActive: values.phase !== 2 });
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual(h.keys, []);
+    }
+    const { h } = await statusLoaded(2, f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect])
+        Object.assign(s, { subjectIndex: 0, subjectPerson: 0, beforeHp: 60, afterHp: 60, beforeArms: 0, afterArms: 0 }); });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.api.debugSnapshot().statusEffect.afterState, 8);
+});
+test('status current future clear never clears an older LCD commit; final copied range uses native zero and correct last picture', async () => {
+    for (const reason of [1, 2]) {
+        const { h, fixture } = await statusLoaded(reason), start = fixture.s.startFrm, end = fixture.s.endFrm;
+        const clears = bitset(...Array.from({ length: 5 }, (_, i) => start + i));
+        h.setSpe({ ...fixture.s, frameIndex: end, statusEffect: { ...fixture.s.statusEffect, clearFrames: clears } }); h.flush();
+        assert.deepEqual(Array.from(aiBasePaint(h).args[0].data.slice(0, 4)), [207, 207, 207, 255]);
+        h.setSpe({ ...fixture.s, frameIndex: end, commitSeq: 2, statusEffect: { ...fixture.s.statusEffect, clearFrames: clears },
+            display: { ...fixture.s.display, frameIndex: end, commitSeq: 2, visibleFrames: bitset(end),
+                statusEffect: { ...fixture.s.display.statusEffect, clearFrames: clears } } });
+        h.events.length = 0; h.flush();
+        assert.deepEqual(Array.from(aiBasePaint(h).args[0].data), Array(256).fill([255, 255, 255, 0]).flat());
+        assert.deepEqual(h.hdDraws().map(e => e.args[0].url), [fixture.entry.pictures[reason === 1 ? 1 : 6].src]);
+        assert.deepEqual(Array.from(h.api.debugSnapshot().displayedFrames), [end]); assert.deepEqual(h.keys, []);
+    }
+});
+test('status metadata and independent reason/subject/base/clear tickets fail closed to the full actual LCD', async () => {
+    const changes = [f => { f.s.statusEffect = null; }, f => { f.s.display.statusEffect.valid = false; },
+        f => { f.s.display.statusEffect.protocolVersion = 2; }, f => { f.s.display.statusEffect.reason = 2; },
+        f => { f.s.display.statusEffect.phase = 3; }, f => { f.s.display.statusEffect.subjectIndex = 20; },
+        f => { f.s.display.statusEffect.subjectPerson = 2000; }, f => { f.s.display.statusEffect.subjectX++; },
+        f => { f.s.display.statusEffect.afterLevel = 10; }, f => { f.s.display.statusEffect.afterExperience = 15; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.afterExperience = 15; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.afterLevel = 10; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.beforeState = s.afterState = 8; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.afterState = 1; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.afterHp = 61; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.afterArms = 901; },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.beforeHp = s.afterHp = 65536; },
+        f => { f.s.display.statusEffect.baseRgba[0] = 206; }, f => { f.s.display.statusEffect.baseRgba.pop(); },
+        f => { for (const s of [f.s.statusEffect, f.s.display.statusEffect]) s.baseRgba[8] = 206; },
+        f => { f.s.display.statusEffect.clearFrames = bitset(6); },
+        f => { f.s.display.statusEffect.clearFrames = bitset(0); }];
+    const cases = changes.map(change => ({ change, imageCount: 5 })).concat([
+        { change: f => { f.s.display.visibleFrames = bitset(6); }, imageCount: 0 },
+        { change: f => { f.s.keyflag = 1; }, imageCount: 5 },
+        { change: f => { f.s.skipEligible = true; }, imageCount: 5 }
+    ]);
+    for (const { change, imageCount } of cases) {
+        const { h } = await statusLoaded(1, change, {}, imageCount); assert.equal(h.api.debugSnapshot().source, 'lcd');
+        assert.deepEqual(h.hdDraws(), []); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+        assert.deepEqual(JSON.parse(JSON.stringify(h.api.debugSnapshot().sourceRect)), { x: 0, y: 0, width: 160, height: 96 });
+    }
+    for (const change of [s => { s.afterState = 0; }, s => { s.afterHp = 1; s.afterArms = 1; },
+        s => { s.beforeState = 8; }, s => { s.afterLevel++; }, s => { s.afterExperience++; },
+        s => { s.beforeHp = 1; }, s => { s.afterArms = 0; }]) {
+        const { h } = await statusLoaded(2, f => [f.s.statusEffect, f.s.display.statusEffect].forEach(change));
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.deepEqual(h.hdDraws(), []);
+    }
+});
+test('status selected image failure and classic mode retain a full160x96 LCD instead of a cropped arena or invented numeric scene', async () => {
+    const fixture = statusFixture(), failed = harness({ spe: fixture.s, data: { g_scale: 1 } }); failed.context.dynLib = fixture.lib.toString('hex');
+    failed.api.setManifest(fixture.m); failed.api.start(); for (let i = 0; i < 30 && failed.images.length < 5; i++) await settle();
+    failed.images.forEach((_, i) => failed.resolveImage(i, i !== 2)); failed.flush();
+    assert.equal(failed.api.debugSnapshot().source, 'lcd'); assert.deepEqual(failed.hdDraws(), []);
+    assert.deepEqual(failed.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1).args.slice(1), [0, 0, 640, 384, 0, 0, 1760, 1056]);
+    const classic = await statusLoaded(); classic.h.setMode(false); classic.h.events.length = 0; classic.h.flush();
+    assert.equal(classic.h.api.isOpen(), false); assert.deepEqual(classic.h.hdDraws(), []);
+    assert.deepEqual(failed.keys, []); assert.deepEqual(classic.h.keys, []);
+});
+test('status late images cannot cover a report, ended event, hidden page or classic mode', async () => {
+    for (const retire of [h => h.setReport(1), h => { h.setSpe({ ...h.spe(), active: 0 }); h.api.onEngineSpe(); },
+        h => h.setHidden(true), h => h.setMode(false)]) {
+        const fixture = statusFixture(2), h = harness({ spe: fixture.s, data: { g_scale: 1 } }); h.context.dynLib = fixture.lib.toString('hex');
+        h.api.setManifest(fixture.m); h.api.start(); for (let i = 0; i < 30 && h.images.length < 5; i++) await settle();
+        h.flush(); retire(h); h.events.length = 0; h.images.forEach((_, i) => h.resolveImage(i));
+        assert.deepEqual(h.hdDraws(), []); assert.equal(h.api.isOpen(), false); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    }
+});
+test('status final read rejects a reentrant subject/event or gray-base change and a new certified callback can still render', async () => {
+    for (const change of [s => { s.eventId++; s.display.eventId++; }, s => { s.statusEffect.subjectPerson++; s.display.statusEffect.subjectPerson++; },
+        s => { for (const a of [s.statusEffect, s.display.statusEffect]) for (const p of [0, 2]) a.baseRgba.splice(p * 4, 4, 208, 208, 208, 255); }]) {
+        const { h, fixture } = await statusLoaded(); h.events.length = 0; let changed = false;
+        h.setNativeReadHook(name => { if (name === 'hd.report' && !changed && new Error().stack.includes('paintStatusEffect')) {
+            changed = true; const next = structuredClone(fixture.s); change(next); h.setSpe(next);
+        } });
+        h.flush(); assert.equal(changed, true); assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.deepEqual(h.hdDraws(), []);
+        h.setNativeReadHook(null); h.setSpe({ ...fixture.s, eventId: 9, display: { ...fixture.s.display, eventId: 9 } }); h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    }
+});
+test('status death following level-up never borrows the previous event callback or a late old image', async () => {
+    const first = statusFixture(), second = statusFixture(2), h = harness({ spe: first.s, data: { g_scale: 1 } }); h.context.dynLib = first.lib.toString('hex');
+    h.api.setManifest({ ...first.m, entries: [first.entry, second.entry] }); h.api.start();
+    for (let i = 0; i < 30 && h.images.length < 5; i++) await settle(); const oldCount = h.images.length; h.flush();
+    h.setSpe({ ...second.s, eventId: 8, display: { ...second.s.display, eventId: 8 } }); h.api.onEngineSpe();
+    for (let i = 0; i < oldCount; i++) h.resolveImage(i);
+    for (let i = 0; i < 30 && h.images.length < 7; i++) await settle();
+    for (let i = oldCount; i < h.images.length; i++) h.resolveImage(i);
+    assert.equal(h.api.debugSnapshot().source, 'lcd', 'new event is waiting for its actual LCD callback');
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.equal(h.api.debugSnapshot().statusEffect.reason, 2); assert.deepEqual(Array.from(h.api.debugSnapshot().displayedFrames), [6]);
+    assert.equal(h.images.length, 7, 'actual shared slots2/3/4 reuse their authorized original images'); assert.deepEqual(h.keys, []);
+});
+test('status does not consume input or read a surviving attack/skill/Maker owner, and ended scope has no NUM or hold', async () => {
+    const { h, fixture } = await statusLoaded(2);
+    assert.equal(h.nativeReads.some(n => ['hd.attack', 'hd.skillResult', 'hd.maker', 'hd.resultOwner'].includes(n)), false);
+    assert.equal(h.api.skip(), false); assert.equal(h.api.returnToTitle(), false);
+    assert.equal(h.key().prevented, false); assert.equal(h.key({ key: 'Escape', keyCode: 27 }).prevented, false);
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true); assert.equal(h.nodes.get('hd-spe-return').hidden, true);
+    h.setSpe({ ...fixture.s, active: 0 }); h.api.onEngineSpe(); assert.equal(h.api.isOpen(), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('status draw failure restores full actual LCD and balances the shared cell Canvas state', async () => {
+    const { h } = await statusLoaded(); h.events.length = 0;
+    h.setDrawHook((id, op, args) => { if (id === 'hd-spe-canvas' && op === 'drawImage' && args[0].url) throw new Error('art retired'); }); h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.api.debugSnapshot().fallbackReason, 'status-effect-draw-failed');
+    const events = h.events.filter(e => e.node === 'hd-spe-canvas');
+    assert.equal(events.filter(e => e.operation === 'save').length, events.filter(e => e.operation === 'restore').length);
+    assert.deepEqual(events.filter(e => e.operation === 'drawImage').at(-1).args.slice(1), [0, 0, 640, 384, 0, 0, 1760, 1056]); assert.deepEqual(h.keys, []);
+});
+test('status rejects altered slot semantics, range/reason, missing white cuts or borrowed AI/numeric schema', async () => {
+    for (const change of [e => { e.statusReason = 2; }, e => { e.statusVersion = 2; }, e => { e.maskSemantics = 'alpha'; },
+        e => { delete e.pictures[2].nativeWhitePixels; }, e => { e.units[0].x = 1; }, e => { e.units[1].picIndex = 2; },
+        e => { e.pictures[2].mask = 0; }, e => { e.pictures[4].src = e.pictures[4].width = e.pictures[4].height = null; },
+        e => { e.aiTargetVersion = 2; }, e => { e.compositionVersion = 1; }, e => { e.skillResultVersion = 1; }]) {
+        const fixture = statusFixture(); change(fixture.entry);
+        const h = harness({ spe: fixture.s, data: { g_scale: 1 } }); h.context.dynLib = fixture.lib.toString('hex');
+        h.api.setManifest(fixture.m); h.api.start(); for (let i = 0; i < 30; i++) await settle(); h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.deepEqual(h.hdDraws(), []); assert.equal(h.images.length, 0); assert.deepEqual(h.keys, []);
+    }
+});
+test('status idle prewarm resolves both exact ranges into seven shared slots without any native input or frame work', async () => {
+    const first = statusFixture(), second = statusFixture(2), h = harness({ spe: { active: 0 }, data: { g_scale: 1 }, fightActive: true });
+    h.context.dynLib = first.lib.toString('hex'); h.api.setManifest({ ...first.m, entries: [first.entry, second.entry] }); h.api.start();
+    for (let i = 0; i < 30 && h.images.length < 7; i++) await settle(); assert.equal(h.images.length, 7);
+    h.events.length = 0; h.images.forEach((_, i) => h.resolveImage(i)); assert.deepEqual(h.hdDraws(), []); assert.equal(h.api.isOpen(), false);
+    h.setSpe(second.s); h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.images.length, 7);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
 function attackFixture() {
     const lib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
     const address = lib.readUInt32LE(20 * 4), length = lib.readUInt32LE(address + 8), resource = lib.subarray(address + 14, address + 14 + length);
@@ -1215,9 +1417,18 @@ test('production SPE manifest authenticates actual LIB payload, complete native 
             const width = resource.readUInt16LE(offset), height = resource.readUInt16LE(offset + 2), mask = resource[offset + 6];
             assert.equal(picture.nativeWidth, width); assert.equal(picture.nativeHeight, height); assert.equal(picture.mask, mask);
             assert.equal(picture.logicalWidth, width / m.axScale); assert.equal(picture.logicalHeight, height / m.axScale);
-            if (entry.aiTargetVersion === 2 && used.has(i)) {
+            if ((entry.aiTargetVersion === 2 || entry.statusVersion === 1) && used.has(i)) {
                 assert.equal(entry.kind, 4); assert.equal(entry.speId, 27); assert.equal(entry.resourceIndex, 0);
-                assert.deepEqual([entry.startFrm, entry.endFrm, entry.count, entry.picmax], [12, 17, 18, 9]);
+                if (entry.aiTargetVersion === 2) {
+                    assert.deepEqual([entry.startFrm, entry.endFrm, entry.count, entry.picmax], [12, 17, 18, 9]);
+                } else {
+                    assert.equal(entry.statusVersion, 1);
+                    assert.deepEqual([entry.startFrm, entry.endFrm, entry.count, entry.picmax],
+                        entry.statusReason === 1 ? [0, 5, 18, 9] : [6, 11, 18, 9]);
+                    assert.ok(entry.statusReason === 1 || entry.statusReason === 2);
+                    assert.deepEqual(entry.units.slice(entry.startFrm, entry.endFrm + 1).map(unit => unit.picIndex),
+                        entry.statusReason === 1 ? [2, 3, 4, 1, 0, 1] : [2, 3, 4, 6, 5, 6]);
+                }
                 assert.equal(entry.maskSemantics, 'native-and-or-v1');
                 assert.deepEqual([width, height, mask], [16, 16, 1]);
                 const white = Array(32).fill(0), plane = Math.ceil(width / 8) * height;
@@ -1226,14 +1437,19 @@ test('production SPE manifest authenticates actual LIB payload, complete native 
                     if (!(resource[offset + 7 + byte] & bit) && !(resource[offset + 7 + plane + byte] & bit)) white[pixel >> 3] |= 1 << (pixel & 7);
                 }
                 assert.deepEqual(picture.nativeWhitePixels, white, 'native AND0/OR0 differs from transparent AND1/OR0');
-                assert.equal(white.reduce((count, byte) => count + [...byte.toString(2)].filter(v => v === '1').length, 0), 7);
-                assert.ok(i === 7 || i === 8);
+                const whiteCount = white.reduce((count, byte) => count + [...byte.toString(2)].filter(v => v === '1').length, 0);
+                if (entry.aiTargetVersion === 2) {
+                    assert.equal(whiteCount, 7); assert.ok(i === 7 || i === 8);
+                } else {
+                    assert.equal(whiteCount, [71, 78, 99, 99, 97, 22, 14][i]);
+                    assert.ok(i >= 0 && i <= 6);
+                }
             }
             offset += 7 + Math.ceil(width / 8) * height * (mask + 1);
             assert.ok(offset <= resource.length, 'native packed-seven-byte picture slot remains in payload');
             if (picture.src === null) {
-                assert.ok(entry.compositionVersion === 1 || entry.aiTargetVersion === 2,
-                    'only a declared exact attack or AI target range may leave unreachable artwork pending');
+                assert.ok(entry.compositionVersion === 1 || entry.aiTargetVersion === 2 || entry.statusVersion === 1,
+                    'only a declared exact attack, AI target or status range may leave unreachable artwork pending');
                 assert.equal(used.has(i), false, 'every native unit in the actual called range has complete HD artwork');
                 assert.equal(picture.width, null); assert.equal(picture.height, null);
                 continue;

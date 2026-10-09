@@ -253,7 +253,7 @@
                 !integer(pic.nativeWidth) || pic.nativeWidth <= 0 || !integer(pic.nativeHeight) || pic.nativeHeight <= 0 ||
                 !(pic.logicalWidth > 0 && pic.logicalHeight > 0 && isFinite(pic.logicalWidth) && isFinite(pic.logicalHeight)) ||
                 pic.nativeWidth !== pic.logicalWidth * scale || pic.nativeHeight !== pic.logicalHeight * scale || (pic.mask !== 0 && pic.mask !== 1) ||
-                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 && e.aiTargetVersion !== 2 || pic.src !== null || pic.width !== null || pic.height !== null))
+                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 && e.aiTargetVersion !== 2 && e.statusVersion !== 1 || pic.src !== null || pic.width !== null || pic.height !== null))
                 return false;
             seen[pic.picIndex] = true;
         }
@@ -267,6 +267,7 @@
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
+        if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
     }
     function rangePictures(e) {
@@ -276,7 +277,7 @@
         for (var i = 0; i < e.units.length; i++) {
             var unit = e.units[i];
             if (!unit || unit.frame !== i || !integer(unit.picIndex) || unit.picIndex < 0 || unit.picIndex >= e.picmax) return null;
-            if (e.compositionVersion !== 1 && e.aiTargetVersion !== 2 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
+            if (e.compositionVersion !== 1 && e.aiTargetVersion !== 2 && e.statusVersion !== 1 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
         }
         return needed;
     }
@@ -427,7 +428,7 @@
         } catch (error) { return; }
         var selected = state.assets;
         state.manifest.entries.forEach(function (entry) {
-            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && entry.skillResultVersion === 1 || entry.kind === 4 && entry.aiTargetVersion === 2) && valid(entry)) load(entry);
+            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && entry.skillResultVersion === 1 || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry);
         });
         state.assets = selected;
     }
@@ -501,6 +502,29 @@
         }
         return true;
     }
+    function statusRange(s) {
+        return s.id === 27 && s.kind === 4 && (s.startFrm === 0 && s.endFrm === 5 || s.startFrm === 6 && s.endFrm === 11);
+    }
+    function validStatusEntry(entry) {
+        if (entry.statusVersion !== 1 || entry.maskSemantics !== 'native-and-or-v1' ||
+            !statusRange({ id: entry.speId, kind: entry.kind, startFrm: entry.startFrm, endFrm: entry.endFrm }) ||
+            entry.resourceIndex !== 0 || entry.count !== 18 || entry.picmax !== 9 ||
+            entry.statusReason !== (entry.startFrm === 0 ? 1 : 2) || entry.aiTargetVersion != null ||
+            entry.compositionVersion != null || entry.skillResultVersion != null || entry.background != null || entry.number != null || entry.skillNumber != null) return false;
+        var slots = entry.startFrm === 0 ? [2, 3, 4, 1, 0, 1] : [2, 3, 4, 6, 5, 6];
+        for (var i = 0; i < slots.length; i++) {
+            var unit = entry.units[entry.startFrm + i], pic = entry.pictures.filter(function (p) { return p.picIndex === slots[i]; })[0];
+            if (unit.x !== 0 || unit.y !== 0 || unit.picIndex !== slots[i] || !pic || pic.mask !== 1 ||
+                pic.logicalWidth !== 16 || pic.logicalHeight !== 16 || !byteBits(pic.nativeWhitePixels)) return false;
+        }
+        return true;
+    }
+    function statusSignature(s) {
+        try { return JSON.stringify([s.active, s.protocolVersion, s.generation, s.eventId, s.id, s.kind, s.resourceIndex,
+            s.x, s.y, s.count, s.picmax, s.startFrm, s.endFrm, s.keyflag, s.skipEligible, s.protocolValid, s.frameValid,
+            s.resourceLength, s.resourceFingerprint, s.statusEffect, s.display]); }
+        catch (error) { return ''; }
+    }
     function aiSignature(s) {
         try { return JSON.stringify([s.active, s.protocolVersion, s.generation, s.eventId, s.id, s.kind, s.resourceIndex,
             s.x, s.y, s.count, s.picmax, s.startFrm, s.endFrm, s.keyflag, s.skipEligible, s.protocolValid, s.frameValid,
@@ -563,15 +587,63 @@
         }
         return { source: displayed, clears: clears, x: displayed.regionX, y: displayed.regionY, width: 16, height: 16 };
     }
+    function statusEffect(s, entry) {
+        var current = s.statusEffect, displayed = s.display && s.display.statusEffect;
+        if (!validStatusEntry(entry) || !statusRange(s) || s.resourceIndex !== 0 || s.keyflag !== 0 || s.skipEligible !== false ||
+            !current || !displayed || current.protocolVersion !== 1 || displayed.protocolVersion !== 1 ||
+            current.valid !== true || displayed.valid !== true || !matches(s) || !byteBits(displayed.clearFrames) ||
+            !byteBits(current.clearFrames) || !integer(s.frameIndex) || s.frameIndex < s.startFrm || s.frameIndex > s.endFrm ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < s.startFrm || s.display.frameIndex > s.frameIndex ||
+            !integer(s.commitSeq) || s.display.commitSeq > s.commitSeq || !validAiBase(displayed)) return null;
+        var fields = ['reason', 'phase', 'subjectIndex', 'subjectPerson', 'subjectX', 'subjectY',
+            'beforeLevel', 'afterLevel', 'beforeExperience', 'afterExperience', 'beforeState', 'afterState',
+            'beforeHp', 'afterHp', 'beforeArms', 'afterArms', 'levelMax', 'mapSX', 'mapSY', 'mapWidth', 'mapHeight',
+            'screenWidth', 'screenHeight', 'regionX', 'regionY', 'regionWidth', 'regionHeight', 'paletteZero', 'paletteInk'];
+        if (!fields.every(function (name) { return integer(displayed[name]) && current[name] === displayed[name]; }) ||
+            !Array.isArray(current.basePixels) || current.basePixels.length !== 256 ||
+            !current.basePixels.every(function (v, i) { return v === displayed.basePixels[i]; }) ||
+            !Array.isArray(current.baseRgba) || current.baseRgba.length !== 1024 ||
+            !current.baseRgba.every(function (v, i) { return v === displayed.baseRgba[i]; }) ||
+            displayed.reason !== entry.statusReason || (displayed.phase !== 1 && displayed.phase !== 2) ||
+            displayed.subjectIndex < 0 || displayed.subjectIndex >= 20 || displayed.subjectPerson < 0 || displayed.subjectPerson >= 2000 ||
+            !['beforeLevel', 'afterLevel', 'beforeExperience', 'afterExperience', 'beforeState', 'afterState', 'levelMax'].every(function (name) { return displayed[name] >= 0 && displayed[name] <= 255; }) ||
+            !['beforeHp', 'afterHp', 'beforeArms', 'afterArms'].every(function (name) { return displayed[name] >= 0 && displayed[name] <= 65535; }) ||
+            displayed.beforeState >= 8 || displayed.beforeHp !== displayed.afterHp || displayed.beforeArms !== displayed.afterArms ||
+            displayed.reason === 1 && (displayed.beforeExperience < 100 || displayed.afterExperience !== displayed.beforeExperience - 100 ||
+                displayed.afterLevel !== Math.min((displayed.beforeLevel + 1) & 255, displayed.levelMax) || displayed.afterState !== displayed.beforeState) ||
+            displayed.reason === 2 && (displayed.afterState !== 8 || displayed.afterHp !== 0 && displayed.afterArms !== 0 ||
+                displayed.afterLevel !== displayed.beforeLevel || displayed.afterExperience !== displayed.beforeExperience) ||
+            displayed.mapWidth < 1 || displayed.mapWidth > 255 || displayed.mapHeight < 1 || displayed.mapHeight > 255 ||
+            displayed.subjectX < 0 || displayed.subjectX >= displayed.mapWidth || displayed.subjectY < 0 || displayed.subjectY >= displayed.mapHeight ||
+            displayed.mapSX < 0 || displayed.mapSX >= displayed.mapWidth || displayed.mapSY < 0 || displayed.mapSY >= displayed.mapHeight ||
+            displayed.screenWidth !== W || displayed.screenHeight !== H || displayed.regionWidth !== 16 || displayed.regionHeight !== 16 ||
+            displayed.regionX !== s.x || displayed.regionY !== s.y || displayed.regionX < 0 || displayed.regionY < 0 ||
+            displayed.regionX + 16 > W || displayed.regionY + 16 > H ||
+            displayed.regionX !== (displayed.subjectX - displayed.mapSX) * 16 || displayed.regionY !== (displayed.subjectY - displayed.mapSY) * 16 ||
+            displayed.paletteZero !== 0x00ffffff || displayed.paletteInk !== 0xff000000) return null;
+        var clears = [];
+        for (var i = 0; i < 256; i++) {
+            var bit = 1 << (i & 7), currentSet = current.clearFrames[i >> 3] & bit, displayedSet = displayed.clearFrames[i >> 3] & bit;
+            if (currentSet && (i < s.startFrm || i > s.frameIndex) || displayedSet && (i < s.startFrm || i > s.display.frameIndex || !currentSet)) return null;
+            if (displayedSet) clears.push(i);
+        }
+        return { source: displayed, clears: clears, x: displayed.regionX, y: displayed.regionY, width: 16, height: 16 };
+    }
     function paintAiTarget(ctx, s, entry, assets, frames, scale, ticket) {
-        var region = aiTarget(s, entry);
+        paintCertifiedCell(ctx, s, entry, assets, frames, scale, ticket, aiTarget, aiSignature, 'ai-target');
+    }
+    function paintStatusEffect(ctx, s, entry, assets, frames, scale, ticket) {
+        paintCertifiedCell(ctx, s, entry, assets, frames, scale, ticket, statusEffect, statusSignature, 'status-effect');
+    }
+    function paintCertifiedCell(ctx, s, entry, assets, frames, scale, ticket, validate, signature, reason) {
+        var region = validate(s, entry);
         if (!region || frames.some(function (frame) { return frame > s.display.frameIndex; }) ||
-            state.callbackFlushKey !== stamp(s)) { state.reason = 'ai-target-not-matched'; return; }
+            state.callbackFlushKey !== stamp(s)) { state.reason = reason + '-not-matched'; return; }
         if (!state.aiBase) state.aiBase = document.createElement('canvas');
         state.aiBase.width = state.aiBase.height = 16;
         var baseCtx = state.aiBase.getContext('2d');
         if (!baseCtx || typeof global.ImageData !== 'function' || typeof global.Uint8ClampedArray !== 'function') {
-            state.reason = 'ai-target-pixels-unavailable'; return;
+            state.reason = reason + '-pixels-unavailable'; return;
         }
         // The actual palette can include terrain gray. Keep the authenticated
         // RGBA bytes; Canvas owns transparent RGB normalization on readback.
@@ -584,10 +656,10 @@
         // The final observation must still own the actual captured LCD bytes.
         verifyLib();
         var allowed = !document.hidden && hd(4) && !report(), fresh = info();
-        if (!allowed || !fresh.active || !matches(fresh) || aiSignature(fresh) !== ticket.signature || state.epoch !== ticket.epoch ||
+        if (!allowed || !fresh.active || !matches(fresh) || signature(fresh) !== ticket.signature || state.epoch !== ticket.epoch ||
             state.manifestGeneration !== ticket.manifestGeneration || state.libGeneration !== ticket.libGeneration ||
             state.libHash !== ticket.libHash || state.assets !== assets || state.callbackFlushKey !== stamp(fresh) ||
-            !aiTarget(fresh, entry)) { state.reason = 'ai-target-retired'; return; }
+            !validate(fresh, entry)) { state.reason = reason + '-retired'; return; }
         var x = region.x * scale, y = region.y * scale, width = 16 * scale;
         ctx.save();
         try {
@@ -609,13 +681,13 @@
             ctx.clearRect(0, 0, state.canvasW, state.canvasH);
             ctx.imageSmoothingEnabled = false;
             ctx.drawImage(state.scratch, 0, 0, state.flushW, state.flushH, 0, 0, state.canvasW, state.canvasH);
-            state.reason = 'ai-target-draw-failed'; return;
+            state.reason = reason + '-draw-failed'; return;
         }
         ctx.restore();
         state.source = 'hd-assets'; state.reason = ''; state.frames = frames;
         state.aiRegion = { x: region.x, y: region.y, width: 16, height: 16 };
     }
-    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s) + (kind(s) === 4 ? ':' + aiSignature(s) : ''); }
+    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s) + (kind(s) === 4 ? ':' + (statusRange(s) ? statusSignature(s) : aiSignature(s)) : ''); }
     function paint(s) {
         var canvas = el('hd-spe-canvas');
         if (!canvas || !show(s) || state.renderKey === renderKey(s))
@@ -700,7 +772,8 @@
             return;
         }
         if (k === 4) {
-            paintAiTarget(ctx, s, entry, assets, frames, scale, { signature: aiSignature(s), epoch: state.epoch,
+            var status = statusRange(s);
+            (status ? paintStatusEffect : paintAiTarget)(ctx, s, entry, assets, frames, scale, { signature: status ? statusSignature(s) : aiSignature(s), epoch: state.epoch,
                 manifestGeneration: state.manifestGeneration, libGeneration: state.libGeneration, libHash: state.libHash });
             return;
         }
@@ -785,7 +858,7 @@
         }
         var title = el('hd-spe-title');
         if (title)
-            title.textContent = kind(s) === 4 ? 'AI目标提示' : Number(s.id) === 6 ? '制作群组' : kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
+            title.textContent = kind(s) === 4 ? (statusRange(s) ? (s.startFrm === 0 ? '升级提示' : '战场退场提示') : 'AI目标提示') : Number(s.id) === 6 ? '制作群组' : kind(s) === 1 ? '开场动画' : (kind(s) === 2 ? '计谋动画' : '战斗动画');
         if (shown) {
             verifyLib();
             if (noPaint !== true)
@@ -909,7 +982,8 @@
                 hdRegion: kind(s) === 4 && state.source === 'hd-assets' ? state.aiRegion : skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
                 outsideSource: skillPostlude(s) || kind(s) === 4 ? 'lcd' : null,
                 aiTarget: kind(s) === 4 && s.display ? s.display.aiTarget : null,
-                presentation: kind(s) === 4 ? 'ai-target' : s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
+                statusEffect: statusRange(s) && s.display ? s.display.statusEffect : null,
+                presentation: kind(s) === 4 ? (statusRange(s) ? 'status-effect' : 'ai-target') : s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
         } };
     if (global.BayeHdLibIdentity) {
         global.BayeHdLibIdentity.subscribe(function () { verifyLib(); sync(); });
