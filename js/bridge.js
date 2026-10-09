@@ -1291,6 +1291,18 @@ function baye_bridge_init() {
         }
         return true;
     }
+    // Mode3 is a copied, established opaque coverage rectangle, not a
+    // resource-wide bound or a before-draw claim. Old background ABI remains
+    // usable when the ten optional scene fields do not exist.
+    function hdWoodCoverage(c, visible, clears, frame, skillId) {
+        if (!c || !Number.isInteger(frame) || frame < 0 || frame > 7 || c.x !== 48 || c.y !== 16 || c.height !== 64 ||
+            (skillId === 6 ? c.mode !== 3 : c.mode !== 2 && c.mode !== 3) ||
+            !hdRangeBits(visible, 8, 0, frame) || !hdRangeBits(clears, 8, 0, frame)) return false;
+        var width = 0;
+        for (var i = 0; i <= frame; i++) if ((visible[i >> 3] | clears[i >> 3]) & (1 << (i & 7)))
+            width = Math.max(width, i % 2 ? 66 : 64);
+        return width > 0 && c.width === width && (skillId === 6 || frame === 0 && width === 64);
+    }
     function hdSpeComposition(d, expected) {
         var r = hdObserverReader(d), version = r.num('g_hdSpeCompositionVersion', 255);
         var neutral = { protocolVersion: version, valid: false, background: null, clearFrames: [] };
@@ -1307,6 +1319,26 @@ function baye_bridge_init() {
         var visible = r.array('g_hdSpeVisibleFrames', 32, 255), displayVisible = r.array('g_hdSpeDisplayVisibleFrames', 32, 255);
         var background = hdObservedPicture(r, 'g_hdSpeBg'), displayBackground = hdObservedPicture(r, 'g_hdSpeDisplayBg'),
             clears = r.array('g_hdSpeClearFrames', 32, 255), displayClears = r.array('g_hdSpeDisplayClearFrames', 32, 255);
+        var sceneNames = ['SceneMode', 'SceneX', 'SceneY', 'SceneWidth', 'SceneHeight'], scenePresent = false;
+        sceneNames.forEach(function (name) {
+            if (d && (d['g_hdSpe' + name] != null || d['g_hdSpeDisplay' + name] != null)) scenePresent = true;
+        });
+        var scene = null, displayScene = null, wood = false;
+        if (scenePresent) {
+            function readScene(prefix) { return { mode: r.num(prefix + 'SceneMode', 3),
+                x: hdOrigin(r.num(prefix + 'SceneX', 65535)), y: hdOrigin(r.num(prefix + 'SceneY', 65535)),
+                width: r.num(prefix + 'SceneWidth', 65535), height: r.num(prefix + 'SceneHeight', 65535) }; }
+            scene = readScene('g_hdSpe'); displayScene = readScene('g_hdSpeDisplay');
+            var known = r.num('g_hdSpeContextKnown', 1), skill = r.num('g_hdSpeSkillId', 65535),
+                actor = r.num('g_hdSpeActorIndex', 255), target = r.num('g_hdSpeTargetIndex', 255);
+            wood = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
+                expected.actorIndex === actor && expected.targetIndex === target && actor < 20 && target < 20 &&
+                values.Id === 37 && values.Kind === 2 && values.ResourceIndex === 0 && count === 8 && values.Picmax === 2 &&
+                start === 0 && (skill === 6 && end === 7 || skill === 7 && end === 0) &&
+                values.Keyflag === 0 && values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength > 0 &&
+                r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+                r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
+        }
         var stable = r.stable(), current = stable && generation > 0 && eventId > 0 && values.ProtocolVersion === 2 &&
             values.Active === 1 && values.ProtocolValid === 1 &&
             values.FrameValid === 1 && expected && expected.generation === generation && expected.eventId === eventId &&
@@ -1316,14 +1348,28 @@ function baye_bridge_init() {
             expected.x === hdOrigin(values.OriginX) && expected.y === hdOrigin(values.OriginY) && expected.keyflag === values.Keyflag &&
             expected.resourceLength === values.ResourceLength && expected.resourceFingerprint === hdFingerprint(values.ResourceFingerprint, values.ResourceLength) &&
             visible.every(function (bit, i) { return bit === expected.visibleFrames[i]; });
-        return { current: { protocolVersion: version, valid: current && currentValid === 1 && background.valid && hdRangeBits(clears, count, start, end),
-                background: stable ? background : null, clearFrames: stable ? clears : [] },
-            display: { protocolVersion: version, valid: current && displayValid === 1 && displayGeneration === generation && displayEvent === eventId &&
-                expected.display.generation === displayGeneration && expected.display.eventId === displayEvent &&
-                expected.display.commitSeq === values.DisplayCommitSeq && expected.display.frameIndex === values.DisplayFrameIndex && values.DisplayFrameValid === 1 &&
-                displayVisible.every(function (bit, i) { return bit === expected.display.visibleFrames[i]; }) &&
-                displayBackground.valid && hdRangeBits(displayClears, count, start, end),
-                background: stable ? displayBackground : null, clearFrames: stable ? displayClears : [] } };
+        var shown = current && displayValid === 1 && displayGeneration === generation && displayEvent === eventId &&
+            expected.display.generation === displayGeneration && expected.display.eventId === displayEvent &&
+            expected.display.commitSeq === values.DisplayCommitSeq && expected.display.frameIndex === values.DisplayFrameIndex &&
+            values.DisplayFrameValid === 1 && displayVisible.every(function (bit, i) { return bit === expected.display.visibleFrames[i]; });
+        var currentWood = current && currentValid === 1 && wood &&
+            hdWoodCoverage(scene, visible, clears, values.FrameIndex, skill),
+            shownWood = shown && currentWood && hdWoodCoverage(displayScene, displayVisible, displayClears, values.DisplayFrameIndex, skill) &&
+                values.DisplayCommitSeq > 0 && values.DisplayCommitSeq <= values.CommitSeq && values.DisplayFrameIndex <= values.FrameIndex &&
+                displayScene.width <= scene.width && displayClears.every(function (bit, i) { return (bit & ~clears[i]) === 0; }) &&
+                (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
+                    displayScene.width === scene.width && displayVisible.every(function (bit, i) { return bit === visible[i]; }) &&
+                    displayClears.every(function (bit, i) { return bit === clears[i]; }));
+        function output(valid, bg, bits, geometry) {
+            var result = { protocolVersion: version, valid: valid, background: stable ? bg : null, clearFrames: stable ? bits : [] };
+            if (scenePresent) { result.mode = stable && geometry ? geometry.mode : null;
+                result.x = stable && geometry ? geometry.x : null; result.y = stable && geometry ? geometry.y : null;
+                result.width = stable && geometry ? geometry.width : null; result.height = stable && geometry ? geometry.height : null; }
+            return result;
+        }
+        return { current: output(currentWood || current && currentValid === 1 && (!scene || scene.mode !== 3) && background.valid && hdRangeBits(clears, count, start, end), background, clears, scene),
+            display: output(shownWood || shown && (!displayScene || displayScene.mode !== 3) && displayBackground.valid && hdRangeBits(displayClears, count, start, end), displayBackground, displayClears, displayScene),
+            fence: function () { return r.stable() && (!scenePresent || hdEngineReady() && baye.ensureData() === d); } };
     }
     // AI target hints own only their real before-draw cell and copied frame.
     // They do not borrow an attack/result scene or acquire any input owner.
@@ -1695,7 +1741,7 @@ function baye_bridge_init() {
             displayBackground = hdObservedPicture(r, prefix + 'DisplayBg'), number = hdObservedPicture(r, prefix + 'Number');
         function scene(shown) {
             var p = prefix + (shown ? 'Display' : ''), key = shown ? 'Display' : '',
-                mode = r.num(p + 'SceneMode', 2), frame = v[key + 'FrameIndex'];
+                mode = r.num(p + 'SceneMode', 3), frame = v[key + 'FrameIndex'];
             return { generation: v[key + 'Generation'], session: v[key + 'Session'], paintSeq: v[key + 'PaintSeq'],
                 eventId: v[key + 'EventId'], commitSeq: v[key + 'CommitSeq'], frameIndex: frame === 65535 ? null : frame,
                 frameValid: false, visibleFrames: r.array(p + 'VisibleFrames', 32, 255),
@@ -1744,7 +1790,11 @@ function baye_bridge_init() {
         function composition(s) {
             var c = s.composition;
             return (c.mode === 1 && c.background.valid && c.x === c.background.x && c.y === c.background.y &&
-                c.width === c.background.nativeWidth && c.height === c.background.nativeHeight || c.mode === 2) &&
+                c.width === c.background.nativeWidth && c.height === c.background.nativeHeight || c.mode === 2 ||
+                c.mode === 3 && v.Id === 37 && v.ResourceIndex === 0 && v.SkillId === 6 && v.Count === 8 && v.Picmax === 2 &&
+                    v.StartFrm === 0 && v.EndFrm === 7 && v.OriginX === 48 && v.OriginY === 16 &&
+                    s.frameIndex === 7 && c.x === 48 && c.y === 16 && c.width === 66 && c.height === 64 &&
+                    hdWoodCoverage(c, s.visibleFrames, c.clearFrames, s.frameIndex, v.SkillId)) &&
                 inside(c, c.x, c.y, c.width, c.height) && hdRangeBits(s.visibleFrames, v.Count, v.StartFrm, v.EndFrm) &&
                 hdRangeBits(c.clearFrames, v.Count, v.StartFrm, v.EndFrm);
         }
@@ -1775,6 +1825,7 @@ function baye_bridge_init() {
             displayDigits.values.every(function (digit, i) {
                 var now = currentDigits.values[i]; return now && now.digit === digit.digit && now.x === digit.x && now.firstY === digit.firstY && now.drawCount >= digit.drawCount;
             });
+        if (current.composition.mode === 3 && (!hdEngineReady() || baye.ensureData() !== d || !r.stable())) return neutral;
         current.frameValid = current.composition.valid = source; current.label = currentLabel;
         display.frameValid = display.composition.valid = display.valid = shown; display.label = displayLabel; display.digits = displayDigits.values;
         return { protocolVersion: v.ProtocolVersion, active: owner, phase: owner ? { 1: 'movie', 2: 'numbers', 3: 'hold' }[v.Phase] : null,
@@ -2429,6 +2480,7 @@ function baye_bridge_init() {
             var statusEffect = hdSpeStatusEffect(d, result);
             result.statusEffect = statusEffect.current;
             result.display.statusEffect = statusEffect.display;
+            if (composition.fence && !composition.fence()) result.composition.valid = result.display.composition.valid = false;
             return result;
         },
         attack: function () {

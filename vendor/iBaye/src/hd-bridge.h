@@ -155,6 +155,7 @@ void baye_hd_help_clear(U32 generation, U32 inputSeq);
 #define BAYE_HD_SKILL_PROVENDER_LOSS 3
 #define BAYE_HD_SKILL_SCENE_BACKGROUND 1
 #define BAYE_HD_SKILL_SCENE_OPAQUE 2
+#define BAYE_HD_SKILL_SCENE_NESTED_OPAQUE 3
 #define BAYE_HD_RESULT_ATTACK 1
 #define BAYE_HD_RESULT_SKILL 2
 #define BAYE_HD_AI_TARGET_VERSION 2
@@ -252,6 +253,14 @@ typedef struct HdSpeScope {
     U8 sceneMode;
     I16 sceneX, sceneY;
     U16 sceneWidth, sceneHeight;
+    /* Private, controlled-write coverage for opaque rectangles sharing an
+     * origin. Resource bounds alone do not establish pixels on the surface. */
+    U8 nestedEligible;
+    I16 nestedX, nestedY;
+    U16 nestedMaxWidth, nestedMaxHeight, nestedWidth, nestedHeight;
+    U16 nestedUnitWidth[256], nestedUnitHeight[256];
+    U8 nestedDrawnFrames[BAYE_HD_SPE_FRAME_BYTES];
+    const U8* nestedResource;
     HdAiTargetSource aiTarget;
     HdStatusEffectSource statusEffect;
 } HdSpeScope;
@@ -358,6 +367,7 @@ void baye_hd_background_end(const HdPictureSource* info);
 void baye_hd_spe_draw_begin(HdSpeScope* scope);
 void baye_hd_spe_draw_end(HdSpeScope* scope);
 void baye_hd_spe_clear(HdSpeScope* scope, U16 absoluteUnit);
+void baye_hd_spe_picture_drawn(HdSpeScope* scope, U16 absoluteUnit, I16 x, I16 y, U16 width, U16 height, U8 mask);
 void baye_hd_surface_write(U8 virtualScreen);
 U32 baye_hd_attack_begin(U8 actor, U8 target, U16 hurt, U8 custom);
 void baye_hd_attack_numbers(U32 session);

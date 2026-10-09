@@ -96,7 +96,7 @@ static void hd_skill_resource_shape(HdSpeScope* scope, const U8* resource)
     I32 left = 32767, top = 32767, right = -32768, bottom = -32768;
     I32 firstX = 0, firstY = 0;
     U16 firstWidth = 0, firstHeight = 0;
-    U8 opaque = 1;
+    U8 opaque = 1, nested = 1;
     if (scope->kind != BAYE_HD_SPE_KIND_SKILL || !scope->contextKnown) return;
     /* PlcMovie's complete item validation precedes this bounded scan. */
     for (i = 0; i < header->picmax; ++i) {
@@ -109,6 +109,14 @@ static void hd_skill_resource_shape(HdSpeScope* scope, const U8* resource)
         I32 x = (I32)scope->x + units[i].x, y = (I32)scope->y + units[i].y;
         if (i == scope->startFrm) { firstX = x; firstY = y; firstWidth = p->wid; firstHeight = p->hig; }
         if (p->mask || x != firstX || y != firstY || p->wid != firstWidth || p->hig != firstHeight) opaque = 0;
+        scope->nestedUnitWidth[i] = p->wid; scope->nestedUnitHeight[i] = p->hig;
+        if (p->mask || x != firstX || y != firstY) nested = 0;
+        if (nested) {
+            U32 j;
+            for (j = scope->startFrm; j < i; ++j)
+                if (!((p->wid <= scope->nestedUnitWidth[j] && p->hig <= scope->nestedUnitHeight[j]) ||
+                    (p->wid >= scope->nestedUnitWidth[j] && p->hig >= scope->nestedUnitHeight[j]))) nested = 0;
+        }
         if (x < left) left = x; if (y < top) top = y;
         if (x + p->wid > right) right = x + p->wid;
         if (y + p->hig > bottom) bottom = y + p->hig;
@@ -116,7 +124,9 @@ static void hd_skill_resource_shape(HdSpeScope* scope, const U8* resource)
     if (left < -32768 || top < -32768 || right > 32767 || bottom > 32767) {
         baye_hd_skill_movie_shape(scope, 0, 0, 0, 0, 0); return;
     }
-    baye_hd_skill_movie_shape(scope, (I16)left, (I16)top, (U16)(right - left), (U16)(bottom - top), opaque);
+    if (!opaque && nested) scope->nestedResource = resource;
+    /* 2 denotes eligible nested geometry, not already established pixels. */
+    baye_hd_skill_movie_shape(scope, (I16)left, (I16)top, (U16)(right - left), (U16)(bottom - top), opaque ? 1 : nested ? 2 : 0);
 }
 
 static U32 hd_spe_resource_fingerprint(const U8* resource, U32 length)
@@ -272,6 +282,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
                         GamMPicShowV(x1,y1,wid,high,dat[spe[i + startfrm].picIdx] + sizeof(PictureHeadType),g_VisScr);
                     else
                         GamPicShowV(x1,y1,wid,high,dat[spe[i + startfrm].picIdx] + sizeof(PictureHeadType),g_VisScr);
+                    baye_hd_spe_picture_drawn(&hdScope, (U16)(i + startfrm), (I16)x1, (I16)y1, (U16)wid, (U16)high, (U8)mode);
                 }
             }
         }
@@ -290,6 +301,7 @@ FAR U8 PlcMovie(U16 speid, U16 index, U8 startfrm,U8 endfrm,U8 keyflag,PT x,PT y
                         GamMPicShowV(x1,y1,wid,high,dat[spe[i + startfrm].picIdx] + sizeof(PictureHeadType),g_VisScr);
                     else
                         GamPicShowV(x1,y1,wid,high,(dat[spe[i + startfrm].picIdx] + sizeof(PictureHeadType)),g_VisScr);
+                    baye_hd_spe_picture_drawn(&hdScope, (U16)(i + startfrm), (I16)x1, (I16)y1, (U16)wid, (U16)high, (U8)mode);
                 }
             ymount = mcount;
         }

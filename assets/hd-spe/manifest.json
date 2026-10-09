@@ -24700,6 +24700,208 @@
       "statusVersion": 1,
       "statusReason": 2,
       "maskSemantics": "native-and-or-v1"
+    },
+    {
+      "speId": 37,
+      "resourceIndex": 0,
+      "kind": 2,
+      "startFrm": 0,
+      "endFrm": 7,
+      "count": 8,
+      "picmax": 2,
+      "resourceFingerprint": "fnv1a32:d38c3c8b:1148",
+      "resourceLength": 1148,
+      "units": [
+        {
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 4,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 6,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/wood-37/picture-0.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 64,
+          "logicalHeight": 64,
+          "nativeWidth": 64,
+          "nativeHeight": 64,
+          "mask": 0
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/wood-37/picture-1.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 66,
+          "logicalHeight": 64,
+          "nativeWidth": 66,
+          "nativeHeight": 64,
+          "mask": 0
+        }
+      ],
+      "skillResultVersion": 1,
+      "skillNumber": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      },
+      "opaqueCoverageVersion": 1,
+      "skillId": 6
+    },
+    {
+      "speId": 37,
+      "resourceIndex": 0,
+      "kind": 2,
+      "startFrm": 0,
+      "endFrm": 0,
+      "count": 8,
+      "picmax": 2,
+      "resourceFingerprint": "fnv1a32:d38c3c8b:1148",
+      "resourceLength": 1148,
+      "units": [
+        {
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 4,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 6,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/wood-37/picture-0.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 64,
+          "logicalHeight": 64,
+          "nativeWidth": 64,
+          "nativeHeight": 64,
+          "mask": 0
+        },
+        {
+          "picIndex": 1,
+          "src": null,
+          "width": null,
+          "height": null,
+          "logicalWidth": 66,
+          "logicalHeight": 64,
+          "nativeWidth": 66,
+          "nativeHeight": 64,
+          "mask": 0
+        }
+      ],
+      "skillResultVersion": 1,
+      "skillNumber": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      },
+      "opaqueCoverageVersion": 1,
+      "skillId": 7
     }
   ]
 }

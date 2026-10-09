@@ -708,6 +708,192 @@ async function attackLoaded(postlude = false, options = {}) {
     return { ...h, fixture };
 }
 
+// The snapshots below exercise the renderer boundary; they are not gameplay
+// or C acceptance. Their complete slot metadata comes from the actual LIB and
+// the current declared entries, whose PNG bytes are decoded independently below.
+function woodFixture(skillId = 6, current = 0, shown = current) {
+    const actual = actualMainFixture(37);
+    const production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const entry = structuredClone(production.entries.find(e => e.opaqueCoverageVersion === 1 && e.skillId === skillId));
+    assert.ok(entry); assert.deepEqual(entry.units, actual.units);
+    const composition = frame => ({ protocolVersion: 1, valid: true, mode: skillId === 6 ? 3 : 2,
+        x: 48, y: 16, width: frame ? 66 : 64, height: 64, background: null,
+        clearFrames: bitset(...Array.from({ length: frame }, (_, i) => i)) });
+    const display = { generation: 9, eventId: 5, commitSeq: shown + 1, frameIndex: shown, frameValid: true,
+        visibleFrames: bitset(shown), composition: composition(shown) };
+    const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 48, y: 16, keyflag: 0, skipEligible: false,
+        contextKnown: true, skillId, actorIndex: 2, targetIndex: 10, startFrm: 0, endFrm: skillId === 6 ? 7 : 0,
+        frameIndex: current, commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
+    return { ...actual, entry, s, m: { ...actual.m, entries: [entry] } };
+}
+function woodNumericFixture(skillId = 6) {
+    const f = woodFixture(skillId, skillId === 6 ? 7 : 0);
+    const label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
+        bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
+    const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
+    const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
+    const result = { protocolVersion: 1, active: true, phase: 'hold', custom: false, sourceValid: true,
+        generation: 9, session: 2, skillId, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
+        speId: 37, resourceIndex: 0, count: 8, picmax: 2, startFrm: 0, endFrm: skillId === 6 ? 7 : 0,
+        x: 48, y: 16, resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
+        number: { ...f.entry.skillNumber, valid: true }, label, digits, scene,
+        display: { ...structuredClone(scene), valid: true, label, digits } };
+    return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
+}
+async function woodLoaded(options = {}) {
+    const f = options.postlude ? woodNumericFixture(options.skillId || 6) : woodFixture(options.skillId || 6, options.current || 0, options.shown ?? options.current ?? 0);
+    const h = harness({ data: { g_scale: 1 }, spe: options.postlude ? { active: 0, generation: 9 } : f.s,
+        ...(options.postlude ? { skillResult: f.result, resultOwner: f.top } : {}), ...options.harness });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start();
+    const deadline = Date.now() + 2_000;
+    while (!h.images.length && Date.now() < deadline) await settle();
+    assert.equal(h.images.length, options.skillId === 7 ? 1 : 2);
+    function resolve(index) {
+        const image = h.images[index], picture = f.entry.pictures.find(p => p.src === image.url);
+        image.naturalWidth = picture.width; image.naturalHeight = picture.height; image.onload();
+    }
+    if (!options.pendingImage) h.images.forEach((_, i) => resolve(i));
+    return { ...h, fixture: f, resolve };
+}
+test('wood first actual64 preserves full LCD outside, including the uninitialized right2 columns', async () => {
+    const h = await woodLoaded(), s = h.api.debugSnapshot(), scale = 11;
+    assert.equal(s.source, 'hd-assets'); assert.equal(s.outsideSource, 'lcd');
+    assert.deepEqual({ ...s.sourceRect }, { x: 0, y: 0, width: 160, height: 96 });
+    assert.deepEqual({ ...s.hdRegion }, { x: 48, y: 16, width: 64, height: 64 });
+    assert.deepEqual(h.hdDraws().at(-1).args.slice(1), [48 * scale, 16 * scale, 64 * scale, 64 * scale]);
+    const paints = h.events.filter(e => e.node === 'hd-spe-canvas');
+    assert.ok(paints.some(e => e.operation === 'rect' && JSON.stringify(e.args) === JSON.stringify([48 * scale, 16 * scale, 64 * scale, 64 * scale])));
+    assert.ok(paints.some(e => e.operation === 'drawImage' && !(e.args[0] instanceof h.context.Image) && e.args[3] === 640 && e.args[4] === 384));
+    assert.equal(paints.filter(e => e.operation === 'fillRect').length, 0, 'no invented background beyond or inside the opaque art');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('wood copied width grows to66, never shrinks on a later64 frame, and keeps native white clear transparent', async () => {
+    const h = await woodLoaded();
+    for (const frame of [1, 2, 7]) {
+        const f = woodFixture(6, frame); h.setSpe(f.s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.api.debugSnapshot().hdRegion.width, 66);
+        assert.equal(h.hdDraws().at(-1).args[3], (frame % 2 ? 66 : 64) * 11);
+        assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'clearRect' && e.args[2] === 66 * 11 && e.args[3] === 64 * 11));
+        assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect').length, 0);
+        assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [frame]);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('displayed first64 never borrows the future current66 copy or clear history', async () => {
+    const h = await woodLoaded({ current: 1, shown: 0 });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.api.debugSnapshot().hdRegion.width, 64);
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [0]);
+    assert.equal(h.hdDraws().at(-1).args[3], 64 * 11);
+    const bad = structuredClone(h.fixture.s); bad.display.composition.width = 66; h.setSpe(bad); h.api.blit();
+    assert.equal(h.api.debugSnapshot().source, 'lcd', 'a changed same-stamp geometry revokes the cached paint');
+    assert.deepEqual(h.keys, []);
+});
+test('falling-stone exact skill7 uses only the actual64 picture while retaining native66 metadata for the unused slot', async () => {
+    const h = await woodLoaded({ skillId: 7 });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.images.length, 1);
+    assert.equal(h.api.debugSnapshot().hdRegion.width, 64); assert.equal(h.fixture.entry.pictures[1].nativeWidth, 66);
+    assert.equal(h.fixture.entry.pictures[1].src, null); assert.equal(h.hdDraws().at(-1).args[3], 64 * 11);
+    const bad = structuredClone(h.fixture.s); bad.skillId = 6; h.setSpe(bad); h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('new opaque marker rejects missing, guessed, custom, cross-mode and malformed geometry or copy owners', async () => {
+    const h = await woodLoaded(), original = h.fixture.s;
+    for (const mutate of [s => { s.contextKnown = false; }, s => { s.skillId = 7; }, s => { s.actorIndex = 20; },
+        s => { s.keyflag = 1; }, s => { s.display.composition.valid = false; }, s => { s.display.composition.mode = 2; },
+        s => { s.display.composition.width = 66; }, s => { s.display.composition.height = 62; },
+        s => { s.display.composition.clearFrames = bitset(1); }, s => { s.composition = null; },
+        s => { s.display.commitSeq = 2; }, s => { s.display.eventId = 6; }, s => { s.display.composition.x = 49; }]) {
+        const bad = structuredClone(original); mutate(bad); h.setSpe(bad); h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    }
+    h.setSpe(original);
+    for (const mutate of [e => { delete e.opaqueCoverageVersion; }, e => { e.opaqueCoverageVersion = 2; },
+        e => { e.units[1].x = 1; }, e => { e.pictures[1].logicalWidth = 64; }, e => { e.skillId = 7; },
+        e => { e.compositionVersion = 1; }]) {
+        const m = structuredClone(h.fixture.m); mutate(m.entries[0]); h.api.setManifest(m); h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('wood numeric hold replays the saved final66 scene then actual GBK label and12wide opaque history at6pixel advances', async () => {
+    const h = await woodLoaded({ postlude: true }), s = h.api.debugSnapshot(), scale = 11;
+    assert.equal(s.presentation, 'skill-postlude'); assert.equal(s.source, 'hd-assets'); assert.equal(s.spe.active, 0);
+    assert.equal(s.hdRegion.width, 66); assert.deepEqual({ ...s.sourceRect }, { x: 0, y: 0, width: 160, height: 96 });
+    assert.equal(h.hdDraws().at(-1).args[3], 66 * scale);
+    const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').slice(-25);
+    assert.deepEqual(texts[0].args, ['兵力减少', 55 * scale, 18 * scale, 48 * scale]);
+    assert.deepEqual(texts.slice(1).map(e => e.args), [2, 4, 0].flatMap((digit, i) =>
+        Array.from({ length: 8 }, (_, j) => [String(digit), (55 + i * 6) * scale, (56 - j) * scale, 6 * scale])));
+    assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect' && e.args[2] === 12 * scale && e.args[3] === 16 * scale));
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true); assert.equal(h.nodes.get('hd-spe-return').hidden, true);
+    h.key(); h.api.skip(); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('falling-stone numeric hold retains its single64 copied scene and actual digit history without loading the wide slot', async () => {
+    const h = await woodLoaded({ postlude: true, skillId: 7 });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.api.debugSnapshot().hdRegion.width, 64);
+    assert.equal(h.images.length, 1); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [0]);
+    assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').slice(-25).length, 25);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('missing wide wood art uses the complete actual LCD in the movie and final66 numeric hold', async () => {
+    for (const postlude of [false, true]) {
+        const h = await woodLoaded({ pendingImage: true, postlude }); h.resolve(0); h.images[1].onerror(); h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.api.debugSnapshot().fallbackReason, 'asset-load-failed');
+        assert.deepEqual({ ...h.api.debugSnapshot().sourceRect }, { x: 0, y: 0, width: 160, height: 96 });
+        assert.deepEqual(h.hdDraws(), []); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    }
+});
+test('overlapping live wood slots retain the real ascending native order after clear rectangles', async () => {
+    const h = await woodLoaded({ current: 1 }), s = structuredClone(h.fixture.s);
+    s.visibleFrames = s.display.visibleFrames = bitset(0, 1); h.setSpe(s); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual(h.hdDraws().map(e => e.args[0].url), h.fixture.entry.pictures.map(p => p.src));
+    assert.deepEqual(h.hdDraws().map(e => e.args[3]), [64 * 11, 66 * 11]);
+    const firstImage = h.events.indexOf(h.hdDraws()[0]);
+    assert.ok(h.events.slice(0, firstImage).some(e => e.node === 'hd-spe-canvas' && e.operation === 'clearRect' && e.args[2] === 64 * 11));
+    assert.deepEqual(h.keys, []);
+});
+test('wood postlude cannot manufacture final66 from first64, an incomplete last copy, overwritten owner or invalid label/NUM', async () => {
+    const h = await woodLoaded({ postlude: true });
+    for (const mutate of [r => { r.scene.frameIndex = 0; }, r => { r.display.frameIndex = 0; },
+        r => { r.display.composition.width = 64; }, r => { r.display.visibleFrames = bitset(6); },
+        r => { r.skillId = 7; }, r => { r.custom = true; }, r => { r.sourceValid = false; },
+        r => { r.display.label.x = 100; }, r => { r.number.resourceFingerprint = 'fnv1a32:00000000:327'; },
+        r => { r.display.digits[1].x = 61.5; }, r => { r.display.digits[2].drawCount = 9; }]) {
+        const bad = structuredClone(h.fixture.result); mutate(bad); h.setSkillResult(bad); h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    }
+    h.setSkillResult(h.fixture.result); h.setResultOwner({ ...h.fixture.top, session: 3 }); h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.equal(h.api.debugSnapshot().presentation, 'result-lcd');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('late wood images follow the fresh displayed64 copy and cannot revive a retired event or classic owner', async () => {
+    const h = await woodLoaded({ pendingImage: true, current: 1, shown: 0 });
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); h.resolve(0); h.resolve(1);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.api.debugSnapshot().hdRegion.width, 64);
+    const pending = await woodLoaded({ pendingImage: true }); pending.setSpe({ active: 0 }); pending.api.onEngineSpe();
+    pending.events.length = 0; pending.resolve(0); pending.resolve(1); assert.equal(pending.api.isOpen(), false); assert.deepEqual(pending.hdDraws(), []);
+    h.setMode(false); h.events.length = 0; h.flush(); assert.deepEqual(h.hdDraws(), []); assert.equal(h.api.isOpen(), false);
+    assert.deepEqual(h.keys, []); assert.deepEqual(pending.keys, []);
+});
+test('a changed resource or scene during an opaque draw restores the complete real LCD rather than half a new picture', async () => {
+    const h = await woodLoaded(), original = structuredClone(h.fixture.s);
+    for (const mutation of [() => { h.spe().display.composition.width = 66; }, () => { h.context.dynLib = '00'; }]) {
+        h.context.dynLib = h.fixture.lib.toString('hex'); h.setSpe(structuredClone(original)); h.api.onEngineSpe();
+        let changed = false; h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) { changed = true; mutation(); } });
+        h.events.length = 0; h.flush(); h.setDrawHook(null);
+        assert.equal(changed, true); assert.equal(h.api.debugSnapshot().source, 'lcd');
+        const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0] instanceof h.context.Image, false); assert.deepEqual(last.args.slice(1), [0, 0, 640, 384, 0, 0, 1760, 1056]);
+    }
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+test('in-place art metadata changes during a wood draw revoke the decoded resource signature', async () => {
+    const h = await woodLoaded(); let changed = false;
+    h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) {
+        changed = true; h.fixture.entry.pictures[0].src = 'assets/hd-spe/different-slot.png';
+    } });
+    h.flush(); h.setDrawHook(null); assert.equal(changed, true); assert.equal(h.api.debugSnapshot().source, 'lcd');
+    const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+    assert.equal(last.args[0] instanceof h.context.Image, false); assert.deepEqual(h.keys, []);
+});
+
 function skillFixture() {
     const fixture=actualMainFixture(35), entry=fixture.entry;
     entry.kind=2;entry.skillResultVersion=1;entry.skillNumber=attackFixture().entry.number;
@@ -1448,8 +1634,10 @@ test('production SPE manifest authenticates actual LIB payload, complete native 
             offset += 7 + Math.ceil(width / 8) * height * (mask + 1);
             assert.ok(offset <= resource.length, 'native packed-seven-byte picture slot remains in payload');
             if (picture.src === null) {
-                assert.ok(entry.compositionVersion === 1 || entry.aiTargetVersion === 2 || entry.statusVersion === 1,
-                    'only a declared exact attack, AI target or status range may leave unreachable artwork pending');
+                assert.ok(entry.compositionVersion === 1 || entry.aiTargetVersion === 2 || entry.statusVersion === 1 ||
+                    entry.opaqueCoverageVersion === 1 && entry.skillId === 7 && entry.speId === 37 && entry.kind === 2 &&
+                    entry.startFrm === 0 && entry.endFrm === 0 && i === 1,
+                    'only a declared exact native range may leave unreachable artwork pending');
                 assert.equal(used.has(i), false, 'every native unit in the actual called range has complete HD artwork');
                 assert.equal(picture.width, null); assert.equal(picture.height, null);
                 continue;

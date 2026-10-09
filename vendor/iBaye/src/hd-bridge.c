@@ -329,6 +329,9 @@ U8 g_hdSpeDisplayStatusClearFrames[BAYE_HD_SPE_FRAME_BYTES];
 /* Composition and attack observations are independent of SPE v2 lifecycle. */
 U8 g_hdSpeCompositionVersion = BAYE_HD_COMPOSITION_VERSION;
 U8 g_hdSpeCompositionValid = 0, g_hdSpeDisplayCompositionValid = 0;
+U8 g_hdSpeSceneMode = 0, g_hdSpeDisplaySceneMode = 0;
+I16 g_hdSpeSceneX = 0, g_hdSpeSceneY = 0, g_hdSpeDisplaySceneX = 0, g_hdSpeDisplaySceneY = 0;
+U16 g_hdSpeSceneWidth = 0, g_hdSpeSceneHeight = 0, g_hdSpeDisplaySceneWidth = 0, g_hdSpeDisplaySceneHeight = 0;
 U8 g_hdSpeClearFrames[BAYE_HD_SPE_FRAME_BYTES], g_hdSpeDisplayClearFrames[BAYE_HD_SPE_FRAME_BYTES];
 U8 g_hdSpeBgValid = 0;
 U16 g_hdSpeBgId = 0;
@@ -1946,9 +1949,14 @@ void baye_hd_skill_retire(void)
     if (hdBackgroundDrawingOwner == 2) { hdBackgroundDrawing = 0; hdBackgroundDrawingOwner = 0; }
     if (g_hdSkillResultActive && hdSpeCurrent && hdSpeCurrent->eventId == g_hdSkillResultEventId) {
         hdSpeCurrent->compositionValid = 0; g_hdSpeCompositionValid = 0;
+        hdSpeCurrent->nestedEligible = 0;
+        g_hdSpeSceneMode = 0; g_hdSpeSceneX = g_hdSpeSceneY = 0;
+        g_hdSpeSceneWidth = g_hdSpeSceneHeight = 0;
     }
     if (g_hdSkillResultActive && hdSpeCopied.eventId == g_hdSkillResultEventId) {
         hdSpeCopied.compositionValid = 0; g_hdSpeDisplayCompositionValid = 0;
+        g_hdSpeDisplaySceneMode = 0; g_hdSpeDisplaySceneX = g_hdSpeDisplaySceneY = 0;
+        g_hdSpeDisplaySceneWidth = g_hdSpeDisplaySceneHeight = 0;
     }
 }
 
@@ -2048,7 +2056,17 @@ void baye_hd_skill_movie_shape(HdSpeScope* scope, I16 x, I16 y, U16 width, U16 h
         scope->sceneMode = BAYE_HD_SKILL_SCENE_BACKGROUND;
         x = scope->background.x; y = scope->background.y;
         width = scope->background.width; height = scope->background.height;
-    } else if (opaque) scope->sceneMode = BAYE_HD_SKILL_SCENE_OPAQUE;
+    } else if (opaque == 2 && scope->nestedResource) {
+        if (x < 0 || y < 0 || !width || !height || (U32)x + width > g_screenWidth ||
+            (U32)y + height > g_screenHeight || AX_SCALE != 1) { baye_hd_skill_retire(); return; }
+        scope->nestedEligible = 1; scope->nestedX = x; scope->nestedY = y;
+        scope->nestedMaxWidth = width; scope->nestedMaxHeight = height;
+        /* A later wide picture does not certify the first narrow surface. */
+        scope->compositionValid = 0; scope->sceneMode = 0;
+        scope->sceneX = scope->sceneY = 0; scope->sceneWidth = scope->sceneHeight = 0;
+        hd_spe_publish(scope);
+        return;
+    } else if (opaque == 1) scope->sceneMode = BAYE_HD_SKILL_SCENE_OPAQUE;
     else { baye_hd_skill_retire(); return; }
     if (x < 0 || y < 0 || !width || !height ||
         (U32)x + width > g_screenWidth || (U32)y + height > g_screenHeight || AX_SCALE != 1) {
@@ -2700,10 +2718,44 @@ static void hd_status_capture_base(HdSpeScope* scope)
     source->baseCaptured = source->valid = 1;
 }
 
+static U8 hd_skill_nested_supported(const HdSpeScope* scope)
+{
+    return scope && scope == hdSpeCurrent && scope->nestedEligible && scope->protocolValid &&
+        scope->generation == g_hdSpeGeneration && scope->kind == BAYE_HD_SPE_KIND_SKILL &&
+        scope->contextKnown && scope->depth == 1 && scope->keyflag == 0 &&
+        hd_skill_current(scope->resultSession) && g_hdSkillResultSourceValid &&
+        g_hdSkillResultEventId == scope->eventId && g_hdSkillResultPhase == BAYE_HD_SKILL_MOVIE &&
+        !g_hdReportActive && !g_hdHelpActive && !g_hdQtyActive && hd_skill_drawing_supported() &&
+        scope->nestedResource && scope->resourceLength &&
+        hd_ai_fingerprint(scope->nestedResource, scope->resourceLength) == scope->resourceFingerprint;
+}
+
+static void hd_skill_nested_cover(HdSpeScope* scope, U16 absoluteUnit)
+{
+    U16 width = scope->nestedUnitWidth[absoluteUnit], height = scope->nestedUnitHeight[absoluteUnit];
+    if (width > scope->nestedWidth) scope->nestedWidth = width;
+    if (height > scope->nestedHeight) scope->nestedHeight = height;
+}
+
+void baye_hd_spe_picture_drawn(HdSpeScope* scope, U16 absoluteUnit, I16 x, I16 y, U16 width, U16 height, U8 mask)
+{
+    if (!scope || !scope->nestedEligible) return;
+    if (!hd_skill_nested_supported(scope) || hdSpeDrawing != scope || hdSpeDrawingGeneration != scope->generation ||
+        absoluteUnit < scope->startFrm || absoluteUnit > scope->endFrm || absoluteUnit >= 256 || mask ||
+        x != scope->nestedX || y != scope->nestedY || width != scope->nestedUnitWidth[absoluteUnit] ||
+        height != scope->nestedUnitHeight[absoluteUnit] || !width || !height ||
+        width > scope->nestedMaxWidth || height > scope->nestedMaxHeight) { baye_hd_skill_retire(); return; }
+    /* Called only after that original native picture draw returns. A clear
+     * also establishes real zero pixels; neither operation invents a base. */
+    hd_skill_nested_cover(scope, absoluteUnit);
+    scope->nestedDrawnFrames[absoluteUnit >> 3] |= (U8)(1u << (absoluteUnit & 7));
+}
+
 void baye_hd_spe_draw_begin(HdSpeScope* scope)
 {
     hdSpeDrawing = scope == hdSpeCurrent ? scope : NULL;
     hdSpeDrawingGeneration = scope ? scope->generation : 0;
+    if (scope && scope->nestedEligible && !hd_skill_nested_supported(scope)) baye_hd_skill_retire();
     if (hdSpeDrawing && scope->generation == g_hdSpeGeneration) { hd_ai_capture_base(scope); hd_status_capture_base(scope); }
 }
 
@@ -2714,6 +2766,15 @@ void baye_hd_spe_draw_end(HdSpeScope* scope)
 
 void baye_hd_spe_clear(HdSpeScope* scope, U16 absoluteUnit)
 {
+    if (scope && scope->nestedEligible) {
+        if (!hd_skill_nested_supported(scope) || hdSpeDrawing != scope || hdSpeDrawingGeneration != scope->generation ||
+            absoluteUnit < scope->startFrm || absoluteUnit > scope->endFrm || absoluteUnit >= 256 ||
+            !scope->nestedUnitWidth[absoluteUnit] || !scope->nestedUnitHeight[absoluteUnit]) baye_hd_skill_retire();
+        else {
+            hd_skill_nested_cover(scope, absoluteUnit);
+            scope->clearFrames[absoluteUnit >> 3] |= (U8)(1u << (absoluteUnit & 7));
+        }
+    }
     if (scope == hdSpeCurrent && scope->generation == g_hdSpeGeneration &&
         scope->aiTarget.valid && absoluteUnit >= scope->startFrm && absoluteUnit <= scope->endFrm && absoluteUnit < 256)
         scope->aiTarget.clearFrames[absoluteUnit >> 3] |= (U8)(1u << (absoluteUnit & 7));
@@ -2918,6 +2979,11 @@ static void hd_spe_publish(const HdSpeScope* scope)
     hd_ai_publish(scope ? &scope->aiTarget : NULL, 0);
     hd_status_publish(scope ? &scope->statusEffect : NULL, 0);
     g_hdSpeCompositionValid = scope ? scope->compositionValid : 0;
+    g_hdSpeSceneMode = scope && scope->compositionValid ? scope->sceneMode : 0;
+    g_hdSpeSceneX = scope && scope->compositionValid ? scope->sceneX : 0;
+    g_hdSpeSceneY = scope && scope->compositionValid ? scope->sceneY : 0;
+    g_hdSpeSceneWidth = scope && scope->compositionValid ? scope->sceneWidth : 0;
+    g_hdSpeSceneHeight = scope && scope->compositionValid ? scope->sceneHeight : 0;
     hd_picture_publish(scope ? &scope->background : NULL, 0);
     if (scope) memcpy(g_hdSpeClearFrames, scope->clearFrames, sizeof(g_hdSpeClearFrames));
     else memset(g_hdSpeClearFrames, 0, sizeof(g_hdSpeClearFrames));
@@ -3093,6 +3159,18 @@ void baye_hd_spe_frame(HdSpeScope* scope, U16 frameIndex, const U8* remaining, U
         U16 absolute = scope->startFrm + i;
         if (remaining[i]) scope->visibleFrames[absolute >> 3] |= (U8)(1u << (absolute & 7));
     }
+    if (scope->nestedEligible) {
+        U8 established = hd_skill_nested_supported(scope) && scope->nestedWidth && scope->nestedHeight;
+        for (i = 0; i < BAYE_HD_SPE_FRAME_BYTES; ++i)
+            if (scope->visibleFrames[i] & (U8)~scope->nestedDrawnFrames[i]) established = 0;
+        if (!established) baye_hd_skill_retire();
+        else {
+            scope->sceneMode = BAYE_HD_SKILL_SCENE_NESTED_OPAQUE;
+            scope->sceneX = scope->nestedX; scope->sceneY = scope->nestedY;
+            scope->sceneWidth = scope->nestedWidth; scope->sceneHeight = scope->nestedHeight;
+            scope->compositionValid = 1;
+        }
+    }
     hd_spe_publish(scope);
     hdSpeCopyPending = scope;
 }
@@ -3108,7 +3186,8 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
         (reason != BAYE_HD_SPE_END_COMPLETE || !scope->compositionValid || !hdAttackScene.compositionValid))
         baye_hd_attack_retire();
     if (g_hdSkillResultActive && g_hdSkillResultEventId == scope->eventId &&
-        (reason != BAYE_HD_SPE_END_COMPLETE || !scope->compositionValid || !hdSkillScene.compositionValid))
+        (reason != BAYE_HD_SPE_END_COMPLETE || !scope->compositionValid || !hdSkillScene.compositionValid ||
+        (scope->nestedEligible && (hdSkillScene.sceneWidth != scope->nestedMaxWidth || hdSkillScene.sceneHeight != scope->nestedMaxHeight))))
         baye_hd_skill_retire();
     hdSpeCurrent = scope->previous;
     hdSpeCopyPending = NULL;
@@ -3117,6 +3196,7 @@ void baye_hd_spe_end(HdSpeScope* scope, U8 reason, U8 key)
          * parent picture; the next native copy must establish a fresh frame. */
         hdSpeCurrent->frameValid = 0;
         hdSpeCurrent->compositionValid = 0;
+        hdSpeCurrent->nestedEligible = 0;
         hdSpeCurrent->frameIndex = BAYE_HD_SPE_NO_FRAME;
         memset(hdSpeCurrent->visibleFrames, 0, sizeof(hdSpeCurrent->visibleFrames));
     }
@@ -3138,6 +3218,7 @@ void baye_hd_spe_lcd_copy(void)
 {
     if (g_hdMakerPhase == BAYE_HD_MAKER_HOLD) g_hdMakerSourceValid = 0;
     if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
+    if (hdSpeCurrent && hdSpeCurrent->nestedEligible && !hd_skill_nested_supported(hdSpeCurrent)) baye_hd_skill_retire();
     /* A controlled copy replaces LCD bytes with the actual current scope.
      * It is not an arbitrary dirty write and must not retire its own source. */
     if (!(hdSpeCopyPending && hdSpeCopyPending == hdSpeCurrent &&
@@ -3184,6 +3265,13 @@ void baye_hd_spe_lcd_copy(void)
             if (!established) baye_hd_skill_retire();
             else {
                 hdSkillScene = hdSpeCopied;
+                if (hdSpeCopied.sceneMode == BAYE_HD_SKILL_SCENE_NESTED_OPAQUE) {
+                    /* Geometry and the actual copied scene share one receipt.
+                     * Never pair a future wide frame with an older copy. */
+                    g_hdSkillResultSceneMode = hdSpeCopied.sceneMode;
+                    g_hdSkillResultSceneX = hdSpeCopied.sceneX; g_hdSkillResultSceneY = hdSpeCopied.sceneY;
+                    g_hdSkillResultSceneWidth = hdSpeCopied.sceneWidth; g_hdSkillResultSceneHeight = hdSpeCopied.sceneHeight;
+                }
                 g_hdSkillResultCommitSeq = hdSpeCopied.commitSeq; g_hdSkillResultFrameIndex = hdSpeCopied.frameIndex;
                 memcpy(g_hdSkillResultVisibleFrames, hdSpeCopied.visibleFrames, sizeof(g_hdSkillResultVisibleFrames));
                 memcpy(g_hdSkillResultClearFrames, hdSpeCopied.clearFrames, sizeof(g_hdSkillResultClearFrames));
@@ -3196,6 +3284,7 @@ void baye_hd_spe_lcd_copy(void)
 
 void baye_hd_spe_lcd_flush(void)
 {
+    if (hdSpeCurrent && hdSpeCurrent->nestedEligible && !hd_skill_nested_supported(hdSpeCurrent)) baye_hd_skill_retire();
     if (hdSpeCopied.aiTarget.valid && !hd_ai_world_matches(&hdSpeCopied.aiTarget)) { hd_ai_retire(); hd_status_retire(); }
     hd_ai_publish(&hdSpeCopied.aiTarget, 1);
     if (hdSpeCopied.statusEffect.valid && !hd_status_world_matches(&hdSpeCopied.statusEffect)) hd_status_retire();
@@ -3203,6 +3292,11 @@ void baye_hd_spe_lcd_flush(void)
     if (!hd_attack_drawing_supported()) { baye_hd_attack_retire(); baye_hd_skill_retire(); }
     if (!hd_skill_drawing_supported()) baye_hd_skill_retire();
     g_hdSpeDisplayCompositionValid = hdSpeCopied.compositionValid;
+    g_hdSpeDisplaySceneMode = hdSpeCopied.compositionValid ? hdSpeCopied.sceneMode : 0;
+    g_hdSpeDisplaySceneX = hdSpeCopied.compositionValid ? hdSpeCopied.sceneX : 0;
+    g_hdSpeDisplaySceneY = hdSpeCopied.compositionValid ? hdSpeCopied.sceneY : 0;
+    g_hdSpeDisplaySceneWidth = hdSpeCopied.compositionValid ? hdSpeCopied.sceneWidth : 0;
+    g_hdSpeDisplaySceneHeight = hdSpeCopied.compositionValid ? hdSpeCopied.sceneHeight : 0;
     hd_picture_publish(&hdSpeCopied.background, 1);
     memcpy(g_hdSpeDisplayClearFrames, hdSpeCopied.clearFrames, sizeof(g_hdSpeDisplayClearFrames));
     g_hdSpeDisplayGeneration = hdSpeCopied.generation;
@@ -3810,6 +3904,16 @@ void baye_hd_bind(ObjectDef* def)
 DEFADDF(g_hdSpeCompositionVersion, U8);
     DEFADDF(g_hdSpeCompositionValid, U8);
     DEFADDF(g_hdSpeDisplayCompositionValid, U8);
+    DEFADDF(g_hdSpeSceneMode, U8);
+    DEFADDF(g_hdSpeSceneX, U16);
+    DEFADDF(g_hdSpeSceneY, U16);
+    DEFADDF(g_hdSpeSceneWidth, U16);
+    DEFADDF(g_hdSpeSceneHeight, U16);
+    DEFADDF(g_hdSpeDisplaySceneMode, U8);
+    DEFADDF(g_hdSpeDisplaySceneX, U16);
+    DEFADDF(g_hdSpeDisplaySceneY, U16);
+    DEFADDF(g_hdSpeDisplaySceneWidth, U16);
+    DEFADDF(g_hdSpeDisplaySceneHeight, U16);
     DEFADD_U8ARR(g_hdSpeClearFrames, BAYE_HD_SPE_FRAME_BYTES);
     DEFADD_U8ARR(g_hdSpeDisplayClearFrames, BAYE_HD_SPE_FRAME_BYTES);
     DEFADDF(g_hdSpeBgValid, U8);

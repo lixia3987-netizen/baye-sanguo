@@ -121,6 +121,13 @@ const manifest = {
     },
     hdSpeCompositionProtocol: {
         version: 1,
+        nestedOpaqueCoverage: {
+            mode: 3,
+            fields: ['g_hdSpeSceneMode', 'g_hdSpeSceneX', 'g_hdSpeSceneY', 'g_hdSpeSceneWidth', 'g_hdSpeSceneHeight'],
+            displayedFields: ['g_hdSpeDisplaySceneMode', 'g_hdSpeDisplaySceneX', 'g_hdSpeDisplaySceneY', 'g_hdSpeDisplaySceneWidth', 'g_hdSpeDisplaySceneHeight'],
+            establishment: 'same-origin, fully opaque selected rectangles form a containment chain; only actual supported writes and controlled copies establish their current and displayed coverage',
+            retirement: 'uncontrolled drawing, unsupported paint, changed resources or nested owners permanently retire coverage; future dimensions cannot authorize an older displayed copy'
+        },
         source: 'actual ordinary picture draw observed before its matching native attack child',
         background: 'g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin',
         clears: ['g_hdSpeClearFrames', 'g_hdSpeDisplayClearFrames'],
@@ -190,7 +197,7 @@ const manifest = {
         phases: { movie: 1, numbers: 2, hold: 3 },
         value: 'exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount',
         label: 'actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer',
-        scene: 'owned BACKPIC or verified equal opaque movie rectangle; no unknown full-arena background inferred',
+        scene: 'owned BACKPIC, verified equal opaque rectangle, or actual-copy-established nested opaque coverage; no unknown full-arena background inferred',
         display: 'controlled actual movie, label and numeric writes snapshot published at timed LCD flush',
         input: 'no added skip or return; original movie, number and result waiting lifecycle',
         custom: 'presence captured in original showSkill and single willShowPKAnimation invocation',

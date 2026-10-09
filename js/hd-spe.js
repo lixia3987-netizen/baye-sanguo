@@ -4,7 +4,7 @@
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
         manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, preparing: false, preparation: null,
         libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null,
-        callbackFlushKey: '', aiBase: null, aiRegion: null };
+        callbackFlushKey: '', aiBase: null, aiRegion: null, opaqueRegion: null };
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
     function storage(key, fallback) { try {
@@ -129,6 +129,7 @@
         state.flushKey = '';
         state.callbackFlushKey = '';
         state.aiRegion = null;
+        state.opaqueRegion = null;
         state.renderKey = '';
         state.frames = [];
         state.source = 'lcd';
@@ -253,7 +254,7 @@
                 !integer(pic.nativeWidth) || pic.nativeWidth <= 0 || !integer(pic.nativeHeight) || pic.nativeHeight <= 0 ||
                 !(pic.logicalWidth > 0 && pic.logicalHeight > 0 && isFinite(pic.logicalWidth) && isFinite(pic.logicalHeight)) ||
                 pic.nativeWidth !== pic.logicalWidth * scale || pic.nativeHeight !== pic.logicalHeight * scale || (pic.mask !== 0 && pic.mask !== 1) ||
-                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 && e.aiTargetVersion !== 2 && e.statusVersion !== 1 || pic.src !== null || pic.width !== null || pic.height !== null))
+                (needed[pic.picIndex] || pic.src != null ? !validPicture(pic) : e.compositionVersion !== 1 && e.aiTargetVersion !== 2 && e.statusVersion !== 1 && e.opaqueCoverageVersion !== 1 || pic.src !== null || pic.width !== null || pic.height !== null))
                 return false;
             seen[pic.picIndex] = true;
         }
@@ -266,6 +267,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
+        if ((e.opaqueCoverageVersion != null || e.speId === 37) && !validOpaqueCoverageEntry(e)) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
@@ -277,7 +279,7 @@
         for (var i = 0; i < e.units.length; i++) {
             var unit = e.units[i];
             if (!unit || unit.frame !== i || !integer(unit.picIndex) || unit.picIndex < 0 || unit.picIndex >= e.picmax) return null;
-            if (e.compositionVersion !== 1 && e.aiTargetVersion !== 2 && e.statusVersion !== 1 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
+            if (e.compositionVersion !== 1 && e.aiTargetVersion !== 2 && e.statusVersion !== 1 && e.opaqueCoverageVersion !== 1 || i >= e.startFrm && i <= e.endFrm) needed[unit.picIndex] = true;
         }
         return needed;
     }
@@ -464,6 +466,109 @@
                 width: number.nativeWidth / scale, height: number.nativeHeight / scale });
         }
         return poses;
+    }
+    function validOpaqueCoverageEntry(entry) {
+        if (entry.opaqueCoverageVersion !== 1 || entry.skillResultVersion !== 1 || entry.kind !== 2 ||
+            entry.speId !== 37 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
+            entry.startFrm !== 0 || (entry.skillId === 6 ? entry.endFrm !== 7 : entry.skillId !== 7 || entry.endFrm !== 0) ||
+            entry.resourceLength !== 1148 || entry.resourceFingerprint !== 'fnv1a32:d38c3c8b:1148' ||
+            entry.compositionVersion != null || entry.aiTargetVersion != null || entry.statusVersion != null || entry.background != null || entry.number != null)
+            return false;
+        for (var p = 0; p < 2; p++) {
+            var pic = entry.pictures.filter(function (v) { return v.picIndex === p; })[0];
+            if (!(p === 1 && entry.skillId === 7 && pic.src === null && pic.width === null && pic.height === null || validPicture(pic)) || pic.mask !== 0 || pic.nativeWidth !== (p ? 66 : 64) || pic.nativeHeight !== 64 ||
+                pic.logicalWidth !== pic.nativeWidth || pic.logicalHeight !== 64) return false;
+        }
+        var number = entry.skillNumber;
+        return number && number.id === 15 && number.resourceIndex === 0 && number.pictureIndex === 0 &&
+            number.nativeWidth === 12 && number.nativeHeight === 16 && number.count === 10 && number.mask === 0 &&
+            number.x === 0 && number.y === 0 && number.resourceLength === 327 && number.resourceFingerprint === 'fnv1a32:b37d7407:327' &&
+            entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
+    }
+    function opaqueCoverage(s, entry, frames, clears) {
+        var numeric = skillPostlude(s), c = s.display && s.display.composition, skill = numeric ? s.skillResult : s,
+            source = numeric ? skill.scene : s, current = source && source.composition;
+        if (!validOpaqueCoverageEntry(entry) || !c || c.protocolVersion !== 1 || c.valid !== true ||
+            (entry.skillId === 6 ? c.mode !== 3 : c.mode !== 2 && c.mode !== 3) || c.x !== 48 || c.y !== 16 || c.height !== 64 ||
+            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== entry.skillId ||
+            !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
+            !integer(skill.targetIndex) || skill.targetIndex < 0 || skill.targetIndex >= 20 ||
+            !numeric && s.contextKnown !== true || numeric && (skill.sourceValid !== true || skill.custom !== false) ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < entry.startFrm || s.display.frameIndex > entry.endFrm)
+            return null;
+        function widthFor(live, erased, frontier) {
+            if (!byteBits(live) || !byteBits(erased) || !integer(frontier) || frontier < entry.startFrm || frontier > entry.endFrm) return 0;
+            var width = 0;
+            for (var f = 0; f < 256; f++) if ((live[f >> 3] | erased[f >> 3]) & (1 << (f & 7))) {
+                if (f < entry.startFrm || f > frontier) return 0;
+                width = Math.max(width, f % 2 ? 66 : 64);
+            }
+            return width;
+        }
+        var width = widthFor(s.display.visibleFrames, c.clearFrames, s.display.frameIndex),
+            currentWidth = current && widthFor(source.visibleFrames, current.clearFrames, source.frameIndex);
+        if (!width || c.width !== width || entry.skillId === 7 && width !== 64 ||
+            !current || current.protocolVersion !== 1 || current.valid !== true || current.mode !== c.mode ||
+            current.x !== c.x || current.y !== c.y || current.height !== c.height || current.width !== currentWidth || currentWidth < width ||
+            source.frameValid !== true || !integer(source.generation) || source.generation <= 0 ||
+            !integer(source.eventId) || source.eventId <= 0 || !integer(source.commitSeq) || source.commitSeq <= 0 ||
+            !integer(s.display.commitSeq) || s.display.commitSeq <= 0 || s.display.commitSeq > source.commitSeq ||
+            s.display.frameIndex > source.frameIndex || source.eventId !== s.display.eventId || source.generation !== s.display.generation ||
+            c.clearFrames.some(function (bit, i) { return (bit & ~current.clearFrames[i]) !== 0; }) ||
+            s.display.commitSeq === source.commitSeq && (s.display.frameIndex !== source.frameIndex || c.width !== current.width ||
+                s.display.visibleFrames.some(function (bit, i) { return bit !== source.visibleFrames[i]; }) ||
+                c.clearFrames.some(function (bit, i) { return bit !== current.clearFrames[i]; })) ||
+            numeric && entry.skillId === 6 && (s.display.frameIndex !== 7 || width !== 66 || frames.indexOf(7) < 0)) return null;
+        return { x: c.x, y: c.y, width: width, height: 64 };
+    }
+    function opaqueSignature(s) {
+        try { return JSON.stringify(s); } catch (error) { return null; }
+    }
+    function paintOpaqueCoverage(ctx, s, entry, assets, frames, clears, region, label, poses, scale, sx, sy) {
+        var signature = opaqueSignature(s), ticket = { epoch: state.epoch, manifest: state.manifestGeneration,
+            generation: state.libGeneration, hash: state.libHash, assets: assets }, restored = false;
+        function allowed() {
+            verifyLib(); var fresh = info(), live = visible(fresh), erased = cleared(fresh);
+            return signature && !document.hidden && hd(2) && !report() && show(fresh) && matches(fresh) &&
+                opaqueSignature(fresh) === signature && state.epoch === ticket.epoch && state.manifestGeneration === ticket.manifest &&
+                state.libGeneration === ticket.generation && state.libHash === ticket.hash && state.assets === ticket.assets &&
+                state.flushKey === stamp(fresh) && assets.signature === JSON.stringify(entry) &&
+                valid(entry) && live && erased && opaqueCoverage(fresh, entry, live, erased);
+        }
+        function restore() {
+            if (restored) return; restored = true; ctx.imageSmoothingEnabled = false;
+            ctx.clearRect(0, 0, state.canvasW, state.canvasH);
+            ctx.drawImage(state.scratch, 0, 0, state.flushW, state.flushH, 0, 0, state.canvasW, state.canvasH);
+            state.reason = 'opaque-coverage-retired';
+        }
+        if (!allowed()) { state.reason = 'opaque-coverage-retired'; return; }
+        ctx.save();
+        try {
+            ctx.beginPath(); ctx.rect((region.x - sx) * scale, (region.y - sy) * scale, region.width * scale, region.height * scale); ctx.clip();
+            ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.fillStyle = '#171a16';
+            // This prefix was actually overwritten by opaque draws/clears.
+            // The first64 copy leaves the uninitialized right2 on the LCD.
+            ctx.clearRect((region.x - sx) * scale, (region.y - sy) * scale, region.width * scale, region.height * scale);
+            clears.forEach(function (frame) { var u = entry.units[frame], p = entry.pictures.filter(function (v) { return v.picIndex === u.picIndex; })[0];
+                ctx.clearRect((s.x + u.x - sx) * scale, (s.y + u.y - sy) * scale, p.logicalWidth * scale, p.logicalHeight * scale); });
+            ctx.imageSmoothingEnabled = true;
+            frames.forEach(function (frame) { var u = entry.units[frame], p = entry.pictures.filter(function (v) { return v.picIndex === u.picIndex; })[0];
+                ctx.drawImage(assets.images[u.picIndex], (s.x + u.x - sx) * scale, (s.y + u.y - sy) * scale, p.logicalWidth * scale, p.logicalHeight * scale); });
+            if (label) {
+                var lx = (label.x - sx) * scale, ly = (label.y - sy) * scale, lw = label.length * 6 * scale;
+                ctx.fillRect(lx, ly, lw, 12 * scale); ctx.save(); ctx.beginPath(); ctx.rect(lx, ly, lw, 12 * scale); ctx.clip();
+                ctx.font = (12 * scale) + 'px BayeUI, "Microsoft YaHei", sans-serif'; ctx.textBaseline = 'top';
+                ctx.fillStyle = '#eed8a2'; ctx.fillText(label.text, lx, ly, lw); ctx.restore();
+            }
+            poses.forEach(function (pose) { var x = (pose.x - sx) * scale, y = (pose.y - sy) * scale;
+                ctx.fillStyle = '#171a16'; ctx.fillRect(x, y, pose.width * scale, pose.height * scale);
+                ctx.save(); ctx.beginPath(); ctx.rect(x, y, pose.width * scale, pose.height * scale); ctx.clip();
+                ctx.font = 'bold ' + (pose.height * scale) + 'px Georgia, serif'; ctx.textBaseline = 'top';
+                ctx.fillStyle = '#eed8a2'; ctx.fillText(String(pose.digit), x, y, 6 * scale); ctx.restore(); });
+        } catch (error) { ctx.restore(); restore(); return; }
+        ctx.restore();
+        if (!allowed()) { restore(); return; }
+        state.source = 'hd-assets'; state.reason = ''; state.frames = frames; state.opaqueRegion = region;
     }
     function skillWindow(s, entry) {
         var c = s.display && s.display.composition;
@@ -687,7 +792,7 @@
         state.source = 'hd-assets'; state.reason = ''; state.frames = frames;
         state.aiRegion = { x: region.x, y: region.y, width: 16, height: 16 };
     }
-    function renderKey(s) { var size = screen(); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s) + (kind(s) === 4 ? ':' + (statusRange(s) ? statusSignature(s) : aiSignature(s)) : ''); }
+    function renderKey(s) { var size = screen(), entry = match(s); return stamp(s) + ':' + state.epoch + ':' + state.manifestGeneration + ':' + state.libGeneration + ':' + state.libHash + ':' + (state.assets && state.assets.status) + ':' + size.width + ':' + size.height + ':' + size.axScale + ':' + s.protocolValid + ':' + s.frameValid + ':' + matches(s) + (kind(s) === 4 ? ':' + (statusRange(s) ? statusSignature(s) : aiSignature(s)) : entry && entry.opaqueCoverageVersion === 1 ? ':' + opaqueSignature(s) : ''); }
     function paint(s) {
         var canvas = el('hd-spe-canvas');
         if (!canvas || !show(s) || state.renderKey === renderKey(s))
@@ -705,7 +810,8 @@
         var resultArena = !skillPostlude(s) || s.skillResult.sourceValid === true && s.display.valid === true &&
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena) {
+        var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && Number(s.id) === 37)) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;
@@ -734,6 +840,7 @@
         state.reason = s.protocolVersion !== 2 ? 'legacy-protocol' : 'assets-unavailable';
         state.frames = [];
         state.aiRegion = null;
+        state.opaqueRegion = null;
         verifyLib();
         requestManifest();
         warmMaker();
@@ -750,7 +857,14 @@
             return;
         }
         var clears = [], poses = [], region = null, label = null;
-        if (skillPostlude(s)) {
+        if (entry.opaqueCoverageVersion != null) {
+            clears = cleared(s); poses = numberPoses(s, entry); region = clears && opaqueCoverage(s, entry, frames, clears);
+            label = skillPostlude(s) && region ? skillLabel(s, region) : null;
+            if (!region || !clears || !poses || label === false || poses.length && !label ||
+                poses.some(function (p) { return p.x < region.x || p.y < region.y || p.x + p.width > region.x + region.width || p.y + p.height > region.y + region.height; })) {
+                state.reason = 'opaque-coverage-not-matched'; return;
+            }
+        } else if (skillPostlude(s)) {
             region = skillWindow(s, entry); clears = cleared(s); poses = numberPoses(s, entry);
             label = region && skillLabel(s, region);
             if (!region || !clears || !poses || label === false || poses.length && !label ||
@@ -776,6 +890,9 @@
             (status ? paintStatusEffect : paintAiTarget)(ctx, s, entry, assets, frames, scale, { signature: status ? statusSignature(s) : aiSignature(s), epoch: state.epoch,
                 manifestGeneration: state.manifestGeneration, libGeneration: state.libGeneration, libHash: state.libHash });
             return;
+        }
+        if (entry.opaqueCoverageVersion != null) {
+            paintOpaqueCoverage(ctx, s, entry, assets, frames, clears, region, label, poses, scale, sx, sy); return;
         }
         ctx.imageSmoothingEnabled = true;
         ctx.fillStyle = '#171a16';
@@ -979,8 +1096,8 @@
                 preparation: state.preparation, cachedResources: state.cache.length, cachedImages: Object.keys(state.imageCache).length,
                 ownerToken: event(s) + ':' + state.epoch,
                 maker: s.maker, attack: s.attack, skillResult: s.skillResult, resultOwner: s.resultOwner,
-                hdRegion: kind(s) === 4 && state.source === 'hd-assets' ? state.aiRegion : skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
-                outsideSource: skillPostlude(s) || kind(s) === 4 ? 'lcd' : null,
+                hdRegion: state.source === 'hd-assets' && state.opaqueRegion ? state.opaqueRegion : kind(s) === 4 && state.source === 'hd-assets' ? state.aiRegion : skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
+                outsideSource: state.opaqueRegion || skillPostlude(s) || kind(s) === 4 ? 'lcd' : null,
                 aiTarget: kind(s) === 4 && s.display ? s.display.aiTarget : null,
                 statusEffect: statusRange(s) && s.display ? s.display.statusEffect : null,
                 presentation: kind(s) === 4 ? (statusRange(s) ? 'status-effect' : 'ai-target') : s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };

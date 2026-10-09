@@ -47,7 +47,7 @@ const helpers = ['hd_next_input_seq', 'hd_spe_notify', 'baye_hd_maker_begin', 'b
     'baye_hd_spe_context', 'baye_hd_spe_enter', 'baye_hd_spe_ready', 'baye_hd_spe_frame',
     'baye_hd_spe_tick', 'baye_hd_spe_end', 'baye_hd_spe_lcd_dirty', 'baye_hd_spe_lcd_copy',
     'baye_hd_spe_lcd_flush', 'baye_hd_spe_invalidate', 'baye_hd_spe_draw_begin',
-    'baye_hd_spe_draw_end', 'baye_hd_spe_clear', 'baye_hd_skill_movie_shape', 'baye_hd_status_shape','baye_hd_ai_target_shape'];
+    'baye_hd_spe_draw_end', 'baye_hd_spe_clear','baye_hd_spe_picture_drawn', 'baye_hd_skill_movie_shape', 'baye_hd_status_shape','baye_hd_ai_target_shape'];
 const observerSource = observerFunctions(helpers);
 
 // Independent fixed RCHEAD decoding obtains the actual complete MAKER item.
