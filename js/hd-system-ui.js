@@ -370,6 +370,13 @@
         return owner.type + ':' + owner.seq + ':' + (owner.mode || owner.context + ':' + owner.kind);
     }
 
+    function otherNativeMenuActive() {
+        var menu = liveMenu();
+        // Ruler zero is both a valid loaded player and the preselection sentinel.
+        // A current city/defender/battle menu must win over the legacy guess.
+        return !!(menu && Number(menu.active) && Number(menu.context) !== 2 && Number(menu.context) !== 4);
+    }
+
     function invalidateInput() {
         state.requestEpoch += 1;
         state.request = null;
@@ -507,6 +514,10 @@
 
     function engineSendKey(code) {
         if (makerActive()) return false;
+        if (!inputOwner() && otherNativeMenuActive()) {
+            closeUi({ silent: true });
+            return false;
+        }
         if (fightLive()) {
             console.warn('[hd-system-ui] blocked key during fight', code);
             return false;
@@ -614,6 +625,7 @@
         }
         var owner = inputOwner();
         if (owner) { return owner.screen; }
+        if (otherNativeMenuActive()) { return null; }
         if (state.kingProtocolObserved) { return null; }
         // A record selector is an actual native wait, not a sticky screen set
         // optimistically by a preceding click. Save and its cancellation return
@@ -894,6 +906,7 @@
         if (makerActive()) return false;
         if (!state.open || !shouldShowHd()) { return false; }
         var owner = inputOwner();
+        if (!owner && otherNativeMenuActive()) { closeUi({ silent: true }); return false; }
         if (state.screen !== 'king' || owner) {
             return chooseNative(index, true, displayedToken);
         }
@@ -914,6 +927,7 @@
             return;
         }
         var owner = inputOwner();
+        if (!owner && otherNativeMenuActive()) { closeUi({ silent: true }); return false; }
         if (owner) {
             var token = ownerToken(owner);
             if (state.exitedToken === token) { return false; }
@@ -1056,6 +1070,7 @@
             var code = codes[e.keyCode];
             if (code == null) { return; }
             var owner = inputOwner();
+            if (!owner && otherNativeMenuActive()) { closeUi({ silent: true }); return; }
             if (!owner && state.screen !== 'saveload' && state.screen !== 'insystem' &&
                 !(state.screen === 'king' && state.kingProtocolObserved)) {
                 if (code === VK.EXIT) { e.preventDefault(); back(); }

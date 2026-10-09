@@ -60,6 +60,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
         g_Cities: [{ Belong: native === 'title' ? 0 : 13 }], g_Persons: [], g_hdFightActive: 0, g_hdFightOver: 0 };
     const worldBefore = JSON.stringify(data);
     const fight = { active: 0, over: 0 };
+    const march = { pick: 0, battlePick: 0, phase: 0 };
     const context = vm.createContext({ document, localStorage: storage, console: { log() {}, warn() {} },
         Date: class extends Date { static now() { return clock; } },
         setTimeout(fn, delay = 0) { const id = ++timerId; timers.set(id, { fn, at: clock + delay }); return id; },
@@ -82,7 +83,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
         },
         baye: { data, ensureData: () => data, getPersonNameByID: id => id === 13 ? '曹操' : '',
             hd: { ready: () => true, record: () => record, menuItems: () => menu,
-                fight: () => fight, kings: () => kings, march: () => ({ pick: 0 }), reportText: () => '' } }
+                fight: () => fight, kings: () => kings, march: () => march, reportText: () => '' } }
     });
     context.window = context;
     vm.runInContext(source, context, { filename: 'js/hd-system-ui.js' });
@@ -102,7 +103,7 @@ function harness({ mode = 2, status = {}, native = 'record', acknowledge = true,
     function click(slot, target = button(slot)) { assert.ok(target, 'rendered slot exists'); root.listeners.get('click')(event(target)); }
     function refresh() { api.onEngineHook('onMenuIdle', { index: record.active ? record.index : menu.index }); }
     api.start(); tick(350);
-    return { api, record, menu, kings, slots, data, storage, context, root, list, ids, sent, timers, fight,
+    return { api, record, menu, kings, slots, data, storage, context, root, list, ids, sent, timers, fight, march,
         click, button, refresh, tick, setAfterKey(fn) { afterKey = fn; },
         poll() { intervals.forEach(fn => fn()); },
         pointer(slot) { root.listeners.get('pointerdown')(event(button(slot))); },
@@ -380,6 +381,46 @@ test('old runtimes retain their classic king selector without fabricated native 
     const h = harness({ native: 'none' }); h.data.g_PlayerKing = 0; h.refresh();
     assert.equal(h.api.getScreen(), 'king'); assert.equal(h.api.debugSnapshot().input, null);
     h.click(1); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.ENTER]);
+});
+
+test('loaded ruler zero stays retired from map into a current native city menu', () => {
+    const h = harness({ native: 'none' });
+    h.data.g_PlayerKing = 0; h.data.g_Cities[0].Belong = 1;
+    const world = JSON.stringify(h.data);
+    h.march.pick = 1; h.refresh(); h.poll(); assert.equal(h.api.isOpen(), false);
+    Object.assign(h.menu, { active: 1, context: 1, kind: 1, seq: 5,
+        index: 0, count: 4, names: ['内政', '外交', '军备', '状况'] });
+    h.march.pick = 0; h.refresh(); h.poll(); h.tick();
+    assert.equal(h.api.isOpen(), false, 'CITY input owns the screen even though player zero is also the preselection sentinel');
+    assert.equal(h.root.getAttribute('aria-hidden'), 'true');
+    assert.equal(h.api.debugSnapshot().input, null); assert.deepEqual(h.sent, []);
+    assert.equal(JSON.stringify(h.data), world);
+});
+
+test('a stale legacy king button and queue cannot send keys into a native city menu', () => {
+    const h = harness({ native: 'none' }); h.data.g_PlayerKing = 0; h.refresh();
+    assert.equal(h.api.isOpen(), true); assert.equal(h.api.getScreen(), 'king');
+    const stale = h.button(1), world = JSON.stringify(h.data);
+    Object.assign(h.menu, { active: 1, context: 1, kind: 1, seq: 5, index: 0, count: 4 });
+    h.click(1, stale); h.back(); h.key(13); h.key(27); h.tick(); h.poll();
+    assert.deepEqual(h.sent, []); assert.equal(h.api.isOpen(), false);
+    assert.equal(JSON.stringify(h.data), world);
+    const queued = harness({ native: 'none' }); queued.data.g_PlayerKing = 0; queued.refresh();
+    queued.click(2); assert.deepEqual(queued.sent, [VK.DOWN]);
+    Object.assign(queued.menu, { active: 1, context: 5, kind: 1, seq: 6, index: 0, count: 2 });
+    queued.tick(); assert.deepEqual(queued.sent, [VK.DOWN], 'DEFENDER acquisition cancels the remaining old king queue');
+});
+
+test('real native king and record owners still win with a loaded ruler zero', () => {
+    const h = harness({ native: 'king' }); h.data.g_PlayerKing = 0; h.data.g_Cities[0].Belong = 1;
+    h.refresh(); const world = JSON.stringify(h.data);
+    assert.equal(h.api.getScreen(), 'king'); assert.equal(h.api.isOpen(), true);
+    h.click(2); h.tick(); assert.deepEqual(h.sent, [VK.DOWN, VK.DOWN, VK.ENTER]);
+    assert.equal(JSON.stringify(h.data), world);
+    const r = harness({ mode: 1 }); r.data.g_PlayerKing = 0;
+    Object.assign(r.menu, { active: 1, context: 1, kind: 1, seq: 5 });
+    r.refresh(); assert.equal(r.api.getScreen(), 'saveload'); r.click(0); r.tick();
+    assert.deepEqual(r.sent, [VK.ENTER], 'An actual record selector retains its original priority');
 });
 
 test('the native Maker hold closes title chrome and rejects stale title buttons without sending input', () => {
