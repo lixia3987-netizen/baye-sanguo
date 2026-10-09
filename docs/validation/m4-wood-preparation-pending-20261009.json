@@ -1092,7 +1092,8 @@
    "priorV20ActionsNotRepeated": {
     "treats": 155,
     "recruitOrders": 13,
-    "allocations": 8
+    "allocations": 8,
+    "scope": "Prior military assembly was reused before supply/MOVE. Later ordinary monthly maintenance did issue11 real GetArmy confirmations at unchanged current quantities; this field does not claim zero later GetArmy operations."
    },
    "scope": "Eight actual native MOVE orders retired through AddPerson at city20; incoming11990 plus existing1349 form total13339. This finite military substep does not qualify a caster or accept a WOOD cast."
   },
@@ -1322,6 +1323,20 @@
   },
   "acceptanceReaderExecuted": false,
   "castWrapperExecuted": false,
-  "scope": "Actual military supply/arrival succeeded. Six normal months and seven Canvass orders did not acquire the candidate; food-trade plus cash reserve gate stops before the failing purchase. Latest233Jun original pair preserves all nine guards and exact failure world for genuine resupply continuation, with no repeated completed military preparation."
+  "scope": "Actual military supply/arrival succeeded. Six normal months and seven Canvass orders did not acquire the candidate; food-trade plus cash reserve gate stops before the failing purchase. Latest233Jun original pair preserves all nine guards and exact failure world for genuine resupply continuation, with no repeated completed military preparation.",
+  "independentAuditAddendum": {
+   "path": "build/r21-v21-terminal-independent-audit-addendum.json",
+   "bytes": 6490,
+   "sha256": "31b4e1c44ea1538c2bc7347749064e96aa8f3cabde6ebe578408bd99739de26b"
+  },
+  "ordinaryMaintenance": {
+   "getArmyConfirmations": 11,
+   "city20Confirmations": 9,
+   "city16Confirmations": 2,
+   "actualQuantitiesEqualPriorArms": true,
+   "addedArms": 0,
+   "reserveSpent": 0,
+   "scope": "Eleven actual native confirmations occurred after arrival during month003 maintenance. Independent full-world comparisons prove they did not change troop quantities or spend reserves."
+  }
  }
 }
