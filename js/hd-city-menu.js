@@ -149,6 +149,44 @@
         mobileRetireReason = String(reason || 'retired');
         return true;
     }
+    function retireInputPreservingOwner(reason) {
+        function pane() {
+            return JSON.stringify([state.open, state.layer, state.cityIndex, state.subKind,
+                state.deepKind, state.deepStep, state.deepLabel]);
+        }
+        var shape = pane(), before = null;
+        if (mobileHost && state.open && state.layer === 'deep' && /^person/.test(state.deepKind) &&
+            !usesGoodsMenu(state.deepKind, state.deepStep) && !state.battleMake && !state.campaignPick &&
+            !state.marchReady && !state.handoff && !state.queue.length && !state.sending &&
+            !state.nativeMenuRequest && !state.deepSelectionPending && !state.closingSub) {
+            before = mobilePersonModeReading();
+            if (before && before.owner.cityIndex !== state.cityIndex) { before = null; }
+        }
+        // Always retire old JS input. Only the same complete native person
+        // publication can reauthorize a pane after its queue epoch changes.
+        retireInteraction(reason || 'preserve-person-owner');
+        if (!before || pane() !== shape) { return false; }
+        var after = mobilePersonModeReading();
+        if (!after || after.owner.data !== before.owner.data || after.owner.key !== before.owner.key ||
+            pane() !== shape) { return false; }
+        var owner = deepMenuOwner(after.menu);
+        if (!owner || owner.kind !== 3) { return false; }
+        state.deepMenuOwner = owner;
+        state.deepSig = '';
+        try {
+            render();
+            var finalReading = mobilePersonModeReading();
+            if (finalReading && finalReading.owner.data === before.owner.data &&
+                finalReading.owner.key === before.owner.key && pane() === shape && state.deepMenuOwner &&
+                state.deepMenuOwner.key === owner.key && !state.queue.length && !state.sending &&
+                !state.nativeMenuRequest && !state.deepSelectionPending && !state.closingSub) { return true; }
+        } catch (e) {}
+        if (pane() === shape) {
+            state.deepMenuOwner = null;
+            retirePersonDetails(); retirePersonProperties(); applyDocAttr();
+        }
+        return false;
+    }
     function configureMobileHost(options) {
         options = options || {};
         if (typeof options.isAvailable !== 'function') { throw new TypeError('mobile host requires isAvailable'); }
@@ -6611,15 +6649,70 @@
         return true;
     }
 
+    function mobilePersonModeReading() {
+        if (!mobileHost || !shouldShowHd()) { return null; }
+        var first = mobileNativeSnapshot(), second = mobileNativeSnapshot();
+        var before = mobileTicketFrom(first, 'open-city'), after = mobileTicketFrom(second, 'open-city');
+        if (!before || !after || before.data !== after.data || before.key !== after.key ||
+            after.ownerType !== 'city' || after.menuContext !== 1 || after.menuKind !== 3 ||
+            second.menu.generation !== second.menu.detailGeneration || second.qty.active ||
+            second.raw.g_hdReportActive || second.raw.g_hdHelpActive ||
+            second.march.phase !== MARCH.IDLE || second.march.pick || second.march.battlePick ||
+            !second.march.mapInputSeq) { return null; }
+        return {owner: after, menu: second.menu};
+    }
+
+    function resumeMobilePersonMode() {
+        var current = mobilePersonModeReading();
+        if (!current) { return null; }
+        // A mobile host retires its old presses before changing presentation.
+        // Rebuild from the current complete native picker, never its old pane,
+        // command label, person list, or a synthetic menu-opening key.
+        state.open = true;
+        state.layer = 'deep'; state.subKind = '';
+        state.cityIndex = current.owner.cityIndex;
+        state.cityName = '';
+        state.deepKind = 'person'; state.deepLabel = '人物'; state.deepStep = 0;
+        state.idleIndex = current.menu.index; state.deepSig = '';
+        state.closingSub = false; state.personExitSent = false;
+        state.battleMake = false; state.campaignPick = false; state.marchReady = false;
+        state.wizardStep = 'none';
+        state.deepMenuOwner = deepMenuOwner(current.menu);
+        state.deepItems = nativeDeepItems(current.menu, state.deepMenuOwner);
+        current.paneKey = state.deepMenuOwner && state.deepMenuOwner.key;
+        current.paneEpoch = marchEpoch;
+        render();
+        return current;
+    }
+
+    function mobilePersonModeMatches(resumed) {
+        var current = mobilePersonModeReading();
+        return !!current && current.owner.data === resumed.owner.data && current.owner.key === resumed.owner.key &&
+            state.open && state.cityIndex === resumed.owner.cityIndex && state.layer === 'deep' &&
+            state.deepKind === 'person' && state.deepMenuOwner && state.deepMenuOwner.key === resumed.paneKey &&
+            !state.queue.length && !state.sending && !state.nativeMenuRequest && !state.deepSelectionPending;
+    }
+
+    function retireMobilePersonMode(resumed) {
+        if (marchEpoch === resumed.paneEpoch && state.layer === 'deep' && state.deepKind === 'person' &&
+            state.subKind === '' && state.deepLabel === '人物' && state.cityIndex === resumed.owner.cityIndex) {
+            retireInteraction('mobile-person-mode-changed');
+            state.open = false; state.deepItems = [];
+            retirePersonDetails(); render();
+        }
+    }
+
     function setMenuMode(value) {
         var mode = normalizeMenuMode(value), oldMode = getMenuMode();
-        if (mode === 'classic' && oldMode !== 'classic') { state.personModeResume = capturePersonMode(); }
-        var resume = oldMode === 'classic' && mode !== 'classic' ? state.personModeResume : null;
+        if (!mobileHost && mode === 'classic' && oldMode !== 'classic') { state.personModeResume = capturePersonMode(); }
+        var resume = !mobileHost && oldMode === 'classic' && mode !== 'classic' ? state.personModeResume : null;
         if (mode !== 'classic') { state.personModeResume = null; }
         if (mobileHost) { mobileMode = mode; writeStorage(MOBILE_STORAGE_KEY, mode); }
         else { writeStorage(STORAGE_KEY, mode); }
         state.mode = mode;
         syncMode(resume);
+        var mobileResume = mobileHost && oldMode === 'classic' && mode !== 'classic'
+            ? resumeMobilePersonMode() : null;
         if (!shouldShowHd()) {
             invalidateQtyWork();
         }
@@ -6635,6 +6728,7 @@
             personModeOwner() !== resume.key || personModeOwner() !== resume.key)) {
             retireResumedPersonMode(resume);
         }
+        if (mobileResume && !mobilePersonModeMatches(mobileResume)) { retireMobilePersonMode(mobileResume); }
     }
 
     function syncMode(resume) {
@@ -6785,6 +6879,7 @@
         configureMobileHost: configureMobileHost,
         applyMobilePage: applyMobilePage,
         retireInteraction: retireInteraction,
+        retireInputPreservingOwner: retireInputPreservingOwner,
         isActive: function () { return !!(state.open && shouldShowHd() && mobileShellReady() && cityLcdPresentation() === 'off'); },
         getLcdPresentation: cityLcdPresentation,
         getInputTicket: function () { return mobileHost ? mobileInputTicket() : null; },

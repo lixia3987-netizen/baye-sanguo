@@ -5,9 +5,10 @@ import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 
 const source = readFileSync(new URL('../js/hd-mobile-city.js', import.meta.url), 'utf8');
+const citySource = readFileSync(new URL('../js/hd-city-menu.js', import.meta.url), 'utf8');
 const SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
 
-function fixture() {
+function fixture({realCity = false} = {}) {
     const listeners = new Map(), windowListeners = new Map(), timers = new Map(), subscribers = [];
     const counts = {clicks: [], keys: [], modes: [], retire: [], configured: [], serializedData: 0};
     const nodes = new Map();
@@ -46,12 +47,13 @@ function fixture() {
         g_hdMenuActive: 1, g_hdMenuContext: 1, g_hdMenuKind: 3, g_hdMenuSeq: 12, g_hdMenuCount: 2,
         g_hdMarchSession: 5, g_hdMarchInputSeq: 11, g_hdReportSeq: 3, g_hdReportInputSeq: 6,
         g_hdQtySession: 4, g_hdQtyInputSeq: 2, g_hdQtyValue: 10, g_hdQtyMax: 100, g_hdQtyReady: 1,
-        g_hdHelpSeq: 2, g_hdHelpInputSeq: 3});
+        g_hdHelpSeq: 2, g_hdHelpInputSeq: 3, g_PIdx: 4});
     // Both enumerable (dialog) and non-enumerable (city) data references must stay opaque.
     Object.defineProperty(data, 'toJSON', {value() { counts.serializedData++; throw Error('native data serialized'); }});
     data.circular = data;
     let identity = {status: 'ready', sha256: SHA, byteLength: 207195, generation: 2};
     const state = {ready: true, cityActive: true, dialogActive: false, mode: 'hd', cityLcd: 'off', dialogLcd: 'off',
+        cityDeepOwner: true, requireCityDeepOwner: false,
         names: ['曹丕', '辛毗'], ids: [0, 40], idsValid: true, text: '将军有何吩咐？',
         cityTicket: true, dialogTicket: true, ticketHook: null, menuHook: null};
     function raw() { return Object.fromEntries(fields.map(name => [name, window.baye.data[name]])); }
@@ -103,9 +105,23 @@ function fixture() {
             configureMobileHost(options) { counts.configured.push(kind); this.options = options; },
             start() { counts.configured.push(kind + '-start'); },
             getMode: () => state.mode,
-            setMode(value) { state.mode = value; counts.modes.push(value); },
-            retireInteraction(reason) { counts.retire.push([kind, reason]); },
-            isActive: () => state[kind + 'Active'], getLcdPresentation: () => state[kind + 'Lcd'],
+            setMode(value) { state.mode = value; if(kind === 'city')state.cityDeepOwner=true; counts.modes.push(value); },
+            retireInteraction(reason) {
+                counts.retire.push([kind, reason]);
+                if (kind === 'dialog') state.dialogActive = false;
+                else state.cityDeepOwner = false;
+            },
+            retireInputPreservingOwner(reason) {
+                const before=ticket(kind), d=window.baye.data;
+                this.retireInteraction(reason);
+                const after=ticket(kind), valid=kind==='city' && state.cityActive && state.mode!=='classic' &&
+                    d.g_hdMenuActive===1 && d.g_hdMenuContext===1 && d.g_hdMenuKind===3 && !d.g_hdReportActive &&
+                    !d.g_hdQtyActive && !d.g_hdHelpActive && before && after && before.data===after.data && before.key===after.key;
+                if(valid)state.cityDeepOwner=true;
+                return !!valid;
+            },
+            isActive: () => state[kind + 'Active'] && state.mode !== 'classic' &&
+                (kind!=='city' || !state.requireCityDeepOwner || state.cityDeepOwner), getLcdPresentation: () => state[kind + 'Lcd'],
             getInputTicket: () => ticket(kind)};
     }
     const window = {document, innerWidth: 844, innerHeight: 390,
@@ -113,6 +129,7 @@ function fixture() {
         getComputedStyle(n) {
             if (n === cityRoot && !body.classList.contains('hd-mobile-city-on') ||
                 n === dialogRoot && !body.classList.contains('hd-mobile-dialog-on')) return {...n.style, display: 'none'};
+            if (n === lcd && body.attrs['data-hd-mobile-lcd'] === 'off') return {...n.style, visibility: 'hidden', pointerEvents: 'none'};
             return n.style;
         },
         BayeHdCityMenu: shared('city'), BayeHdDialog: shared('dialog'),
@@ -138,6 +155,30 @@ function fixture() {
     vm.runInNewContext(source, {window, console, Date, Math, JSON, Object, Number, isFinite}, {filename: 'hd-mobile-city.js'});
     const host = window.BayeHdMobileCity;
     host.init();
+    if (realCity) {
+        Object.assign(data, {g_hdQtyLastKey:0,g_hdQtyCursor:0,g_hdQtyStep:0,g_hdGoodsActive:0,g_hdPersonPropertiesActive:1});
+        const originalMenu=window.baye.hd.menuItems, originalQty=window.baye.hd.qty;
+        window.baye.hd.menuItems=()=>({...originalMenu(),generation:data.g_hdDetailGeneration});
+        window.baye.hd.qty=()=>({...originalQty(),lastKey:0,cursor:0,step:0});
+        window.baye.hd.march=()=>({pick:data.g_hdMapPick,battlePick:data.g_hdBattlePick,mapCity:data.g_hdMapCity,
+            mapInputSeq:data.g_hdMapInputSeq,phase:data.g_hdMarchPhase,session:data.g_hdMarchSession,
+            inputSeq:data.g_hdMarchInputSeq,origin:0,selected:0,seq:0});
+        window.baye.hd.personProperties=()=>({protocolVersion:1,active:true,complete:true,pageComplete:true,custom:false,
+            context:1,kind:3,generation:data.g_hdDetailGeneration,detailGeneration:data.g_hdDetailGeneration,
+            menuSeq:data.g_hdMenuSeq,index:data.g_hdMenuIndex,person:state.ids[data.g_hdMenuIndex],paintSeq:7,
+            propertyCount:1,pageIndex:0,pageStart:0,pageEnd:1,name:state.names[data.g_hdMenuIndex],
+            properties:[{index:0,title:'体力',value:'100',captured:true,titleCaptured:true,valueCaptured:true,
+                titlePaintSeq:7,valuePaintSeq:7}]});
+        window.baye.getCityName=index=>'城'+index;
+        window.BayeHdOverworld={getMode:()=> 'hd-map'};
+        const sharedDocument={body,documentElement:html,get hidden(){return document.hidden;},getElementById(){return null;},
+            querySelector(){return null;},addEventListener:document.addEventListener};
+        vm.runInNewContext(citySource,{window,document:sharedDocument,baye:window.baye,console,Date,Math,JSON,Object,Number,isFinite,
+            setInterval:window.setInterval,clearInterval:window.clearInterval,setTimeout(){return 1;},clearTimeout(){},
+            BayeHdOverworld:window.BayeHdOverworld,BayeHdDialog:window.BayeHdDialog},{filename:'js/hd-city-menu.js'});
+        window.BayeHdCityMenu.configureMobileHost({isAvailable:()=> !document.hidden && window.innerWidth>window.innerHeight});
+        window.BayeHdCityMenu.setMode('classic');window.BayeHdCityMenu.setMode('hd');host.refresh();
+    }
     return {host, window, document, data, state, counts, nodes, timers, listeners, subscribers, cityButton, dialogButton,
         modeButton, outside, lcd, body, fire, globalEvent,
         identity(value) { identity = {...identity, ...value}; },
@@ -298,4 +339,180 @@ test('presentation toggle tolerates native menu change but never crosses a LIB g
     f.fire('pointerup', f.modeButton); f.fire('click', f.modeButton); assert.deepEqual(f.counts.modes, ['classic']);
     f.fire('pointerdown', f.modeButton); f.identity({generation: 3});
     f.fire('pointerup', f.modeButton); f.fire('click', f.modeButton); assert.deepEqual(f.counts.modes, ['classic']);
+});
+
+function fallbackOwner(f, kind = 'city') {
+    f.state.requireCityDeepOwner = true;
+    const ticket = f.host.readInputTicket(kind);
+    assert.ok(ticket);
+    return {kind, data: ticket.data, key: ticket.key, period: f.window.baye.data.g_PIdx,
+        personId: kind === 'city' ? ticket.native.menu.ids[ticket.native.menu.index] : ticket.native.report.person};
+}
+function reportFallbackFixture() {
+    const f = fixture(); f.dialog(); f.data.g_hdReportKind = 2; f.data.g_hdReportPerson = 40; f.host.refresh(); return f;
+}
+test('person fallback reveals the full LCD while preserving native owner and active city shell', () => {
+    const f = fixture(), owner = fallbackOwner(f), before = f.host.readInputTicket('city');
+    const handle = f.host.requestLcdFallback(owner, 'missing-portrait'); assert.ok(handle);
+    const snapshot = f.host.snapshot();
+    assert.equal(snapshot.fallbackActive, true); assert.equal(snapshot.fallbackReason, 'missing-portrait');
+    assert.equal(snapshot.active, true); assert.equal(snapshot.cityVisible, false); assert.equal(snapshot.dialogVisible, false);
+    assert.equal(snapshot.lcdPresentation, 'passthrough'); assert.equal(f.window.getComputedStyle(f.lcd).visibility, 'visible');
+    assert.equal(f.body.classList.contains('hd-mobile-city-on'), false);
+    assert.equal(f.nodes.get('hd-mobile-exit').disabled, true); assert.equal(f.state.cityActive, true);
+    assert.equal(f.host.readInputTicket('city').key, before.key); assert.equal(f.state.mode, 'hd');
+    assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.modes, []); assert.equal(f.counts.serializedData, 0);
+});
+test('report fallback never invokes the shared dialog close/retire API', () => {
+    const f = reportFallbackFixture(), owner = fallbackOwner(f, 'dialog'), before = f.host.readInputTicket('dialog');
+    const handle = f.host.requestLcdFallback(owner, 'missing-report-portrait'); assert.ok(handle);
+    for (let i = 0; i < 8; i++) f.host.refresh();
+    assert.equal(f.state.dialogActive, true); assert.equal(f.host.readInputTicket('dialog').key, before.key);
+    assert.equal(f.host.snapshot().dialogVisible, false); assert.equal(f.host.snapshot().fallbackActive, true);
+    assert.equal(f.host.clearLcdFallback(handle), true); assert.equal(f.host.snapshot().dialogVisible, true);
+    assert.equal(f.state.dialogActive, true); assert.equal(f.counts.retire.some(([kind]) => kind === 'dialog'), false);
+});
+test('same-owner requests are idempotent across the polling interval without queue churn', () => {
+    const f = reportFallbackFixture(), owner = fallbackOwner(f, 'dialog');
+    const handle = f.host.requestLcdFallback(owner, 'missing'), retired = f.counts.retire.length;
+    for (let i = 0; i < 8; i++) {
+        for (const timer of f.timers.values()) timer.fn();
+        assert.equal(f.host.requestLcdFallback(fallbackOwner(f, 'dialog'), 'missing'), handle);
+        assert.equal(f.host.snapshot().fallbackActive, true);
+    }
+    assert.equal(f.counts.retire.length, retired); assert.equal(Object.keys(handle).length, 0);
+});
+test('clearing the exact current handle restores HD without mode change or native input', () => {
+    const f = fixture(), owner = fallbackOwner(f), handle = f.host.requestLcdFallback(owner, 'missing');
+    assert.equal(f.host.clearLcdFallback({}), false); assert.equal(f.host.snapshot().fallbackActive, true);
+    assert.equal(f.host.clearLcdFallback(handle), true); assert.equal(f.host.clearLcdFallback(handle), false);
+    assert.equal(f.host.snapshot().fallbackActive, false); assert.equal(f.host.snapshot().cityVisible, true);
+    assert.equal(f.host.readInputTicket('city').key, owner.key); assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.modes, []);
+});
+test('an old handle cannot clear the next person fallback', () => {
+    const f = fixture(), first = f.host.requestLcdFallback(fallbackOwner(f), 'first');
+    f.data.g_hdMenuIndex = 1; f.host.refresh(); assert.equal(f.host.snapshot().fallbackActive, false);
+    const second = f.host.requestLcdFallback(fallbackOwner(f), 'second'); assert.ok(second); assert.notEqual(second, first);
+    assert.equal(f.host.clearLcdFallback(first), false); assert.equal(f.host.snapshot().fallbackActive, true);
+    assert.equal(f.host.snapshot().fallbackOwner.personId, 40); assert.equal(f.host.clearLcdFallback(second), true);
+});
+test('mode, wrong-data, wrong-person, wrong-period and stale owner requests are rejected', () => {
+    const f = fixture(), owner = fallbackOwner(f);
+    for (const change of [{kind: 'mode'}, {kind: 'unknown'}, {data: {}}, {personId: 40}, {period: 3}, {key: owner.key + 'stale'}]) {
+        assert.equal(f.host.requestLcdFallback({...owner, ...change}, 'invalid'), null);
+    }
+    f.data.g_hdMenuSeq++; assert.equal(f.host.requestLcdFallback(owner, 'stale'), null);
+    assert.equal(f.host.snapshot().fallbackActive, false);
+});
+test('only native PERSON3 and kind2 reports can request a portrait fallback', () => {
+    for (const change of [f => { f.data.g_hdMenuContext = 3; }, f => { f.data.g_hdMenuKind = 1; },
+        f => { f.data.g_hdMenuKind = 4; }, f => { f.state.idsValid = false; }]) {
+        const f = fixture(), owner = fallbackOwner(f); change(f); assert.equal(f.host.requestLcdFallback(owner, 'invalid-menu'), null);
+    }
+    for (const ownerType of ['qty', 'help']) {
+        const f = fixture(); f.dialog(ownerType);
+        const ticket = f.host.readInputTicket('dialog');
+        assert.equal(f.host.requestLcdFallback({kind: 'dialog', data: ticket.data, key: ticket.key, period: 4, personId: 40}), null);
+    }
+    const f = reportFallbackFixture(), owner = fallbackOwner(f, 'dialog');
+    f.data.g_hdReportKind = 1; assert.equal(f.host.requestLcdFallback(owner), null);
+});
+test('native period must be a stable integer from 1 through 4', () => {
+    for (const period of [undefined, 0, 5, NaN, 1.5]) {
+        const f = fixture(), owner = fallbackOwner(f); f.data.g_PIdx = period;
+        assert.equal(f.host.requestLcdFallback({...owner, period}), null);
+    }
+    const f = fixture(), owner = fallbackOwner(f); let reads = 0;
+    Object.defineProperty(f.data, 'g_PIdx', {get() { return ++reads % 2 ? 4 : 3; }});
+    assert.equal(f.host.requestLcdFallback(owner), null);
+});
+for (const [name, change] of [
+    ['period', f => { f.data.g_PIdx = 3; }], ['person', f => { f.state.ids[0] = 71; }],
+    ['full menu ticket', f => { f.state.names[1] = '王平'; }], ['menu index', f => { f.data.g_hdMenuIndex = 1; }],
+    ['library', f => f.identity({generation: 3})], ['data object', f => { f.window.baye.data = {...f.data}; }],
+    ['classic preference', f => { f.state.mode = 'classic'; }]]) {
+    test(`${name} change drops fallback and rejects the retired handle`, () => {
+        const f = fixture(), handle = f.host.requestLcdFallback(fallbackOwner(f), 'missing'); assert.ok(handle);
+        change(f); f.host.refresh(); assert.equal(f.host.snapshot().fallbackActive, false);
+        assert.equal(f.host.clearLcdFallback(handle), false); assert.deepEqual(f.counts.keys, []);
+    });
+}
+for (const event of ['resize', 'orientationchange', 'blur', 'pagehide']) {
+    test(`fallback ${event} retirement preserves the report shell and rejects old handles`, () => {
+        const f = reportFallbackFixture(), handle = f.host.requestLcdFallback(fallbackOwner(f, 'dialog'), 'missing');
+        f.globalEvent(event); assert.equal(f.host.snapshot().fallbackActive, false);
+        assert.equal(f.host.clearLcdFallback(handle), false); assert.equal(f.state.dialogActive, true);
+        assert.equal(f.counts.retire.some(([kind]) => kind === 'dialog'), false);
+    });
+}
+test('hidden and portrait fallback retirement cannot close the report owner', () => {
+    for (const change of [f => { f.document.hidden = true; f.fire('visibilitychange'); },
+        f => { f.window.innerWidth = 390; f.window.innerHeight = 844; f.globalEvent('orientationchange'); }]) {
+        const f = reportFallbackFixture(), handle = f.host.requestLcdFallback(fallbackOwner(f, 'dialog'), 'missing');
+        change(f); assert.equal(f.host.snapshot().fallbackActive, false); assert.equal(f.host.clearLcdFallback(handle), false);
+        assert.equal(f.state.dialogActive, true); assert.equal(f.counts.retire.some(([kind]) => kind === 'dialog'), false);
+    }
+});
+test('fallback retires an armed HD gesture and blocks hidden shell clicks but leaves LCD keys usable', () => {
+    const f = fixture(), owner = fallbackOwner(f); f.fire('pointerdown');
+    const handle = f.host.requestLcdFallback(owner, 'missing'); assert.ok(handle);
+    f.fire('pointerup'); f.fire('click'); assert.deepEqual(f.counts.clicks, []);
+    assert.equal(f.fire('keydown', f.lcd, {key: 'Escape', keyCode: 27}).prevented, false);
+    assert.equal(f.host.clearLcdFallback(handle), true); f.fire('click'); assert.deepEqual(f.counts.clicks, []);
+    f.tap(); assert.deepEqual(f.counts.clicks, ['city-button']);
+});
+test('a classic mode change clears fallback while preserving the current report owner', () => {
+    const f = reportFallbackFixture(), handle = f.host.requestLcdFallback(fallbackOwner(f, 'dialog'), 'missing');
+    f.tap(f.modeButton); assert.equal(f.state.mode, 'classic'); assert.equal(f.host.snapshot().fallbackActive, false);
+    assert.equal(f.state.dialogActive, true); assert.equal(f.host.clearLcdFallback(handle), false);
+    assert.equal(f.counts.retire.some(([kind]) => kind === 'dialog'), false);
+});
+test('same report owner survives outside multifinger cancellation while fallback remains latched', () => {
+    const f = reportFallbackFixture(), handle = f.host.requestLcdFallback(fallbackOwner(f, 'dialog'), 'missing');
+    f.fire('pointerdown', f.outside); f.fire('pointerdown', f.modeButton, {pointerId: 2, isPrimary: false});
+    f.fire('pointerup', f.outside); f.fire('pointerup', f.modeButton, {pointerId: 2, isPrimary: false});
+    f.host.refresh(); assert.equal(f.host.snapshot().fallbackActive, true); assert.equal(f.state.dialogActive, true);
+    assert.equal(f.host.requestLcdFallback(fallbackOwner(f, 'dialog'), 'missing'), handle);
+    assert.equal(f.counts.retire.some(([kind]) => kind === 'dialog'), false);
+});
+test('report person/full ticket retirement cannot be hidden by a late asset success', () => {
+    const f = reportFallbackFixture(), owner = fallbackOwner(f, 'dialog'), handle = f.host.requestLcdFallback(owner, 'missing');
+    f.data.g_hdReportPerson = 71; f.data.g_hdReportSeq++;
+    assert.equal(f.host.clearLcdFallback(handle), false); assert.equal(f.host.snapshot().fallbackActive, false);
+    assert.equal(f.host.requestLcdFallback(owner, 'late-missing'), null); assert.equal(f.state.dialogActive, true);
+});
+test('the destructive ordinary city retire mock exposes the old fallback owner-loss bug', () => {
+    const f=fixture();fallbackOwner(f);assert.equal(f.window.BayeHdCityMenu.isActive(),true);
+    f.window.BayeHdCityMenu.retireInteraction('ordinary-retire');
+    assert.equal(f.state.cityDeepOwner,false);assert.equal(f.window.BayeHdCityMenu.isActive(),false);
+});
+test('city fallback refuses a shared module without the preserving API', () => {
+    const f=fixture(), owner=fallbackOwner(f);
+    delete f.window.BayeHdCityMenu.retireInputPreservingOwner;
+    assert.equal(f.host.requestLcdFallback(owner,'missing'),null);assert.equal(f.host.snapshot().fallbackActive,false);
+});
+test('real shared city retirement rebuilds a new epoch owner while the host latches the same native ticket', () => {
+    const f=fixture({realCity:true}), c=f.window.BayeHdCityMenu;
+    assert.equal(c.isActive(),true);
+    const owner=fallbackOwner(f), before=c.debugSnapshot(), ticket=f.host.readInputTicket('city');
+    const handle=f.host.requestLcdFallback(owner,'both-images-missing');assert.ok(handle);
+    const after=c.debugSnapshot();
+    assert.equal(c.isActive(),true);assert.equal(after.open,true);assert.equal(after.layer,before.layer);
+    assert.equal(after.deepKind,before.deepKind);assert.equal(after.deepLabel,before.deepLabel);
+    assert.notEqual(after.deepMenuOwner.key,before.deepMenuOwner.key);
+    assert.equal(f.host.readInputTicket('city').key,ticket.key);
+    for(let i=0;i<8;i++)f.host.refresh();
+    assert.equal(f.host.snapshot().fallbackActive,true);assert.equal(f.host.snapshot().lcdPresentation,'passthrough');
+    assert.equal(f.window.getComputedStyle(f.lcd).visibility,'visible');assert.equal(f.host.snapshot().cityVisible,false);
+    assert.equal(f.host.clearLcdFallback(handle),true);assert.equal(f.host.snapshot().cityVisible,true);
+    assert.equal(c.isActive(),true);assert.deepEqual(f.counts.keys,[]);assert.deepEqual(f.counts.modes,[]);
+});
+test('real shared city cancellation does not retire a report dialog fallback owner', () => {
+    const f=fixture({realCity:true});f.dialog();f.data.g_hdReportKind=2;f.data.g_hdReportPerson=40;f.host.refresh();
+    const owner=fallbackOwner(f,'dialog'), ticket=f.host.readInputTicket('dialog');
+    const handle=f.host.requestLcdFallback(owner,'missing-report');assert.ok(handle);
+    for(let i=0;i<8;i++)f.host.refresh();
+    assert.equal(f.host.snapshot().fallbackActive,true);assert.equal(f.state.dialogActive,true);
+    assert.equal(f.host.readInputTicket('dialog').key,ticket.key);
+    assert.equal(f.counts.retire.some(([kind])=>kind==='dialog'),false);assert.equal(f.host.clearLcdFallback(handle),true);
 });

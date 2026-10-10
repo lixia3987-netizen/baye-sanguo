@@ -165,13 +165,17 @@ async function unusedPort() {
 }
 
 export async function main(args=process.argv.slice(2)) {
-  const reportsOnly=args.includes('--reports-only'),options=args.filter(arg=>arg!=='--reports-only');
-  assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&(options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only] [--artifact-dir build/new-directory]');
+  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only');
+  const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
+  const options=args.filter(arg=>!['--reports-only','--portraits-only'].includes(arg)&&!arg.startsWith('--portrait-case='));
+  assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
+    !(reportsOnly&&portraitsOnly)&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
   const profile=path.join(out,'private-browser-profile');fs.mkdirSync(profile);
-  const report={schemaVersion:1,reportsOnly,navigationMatrixAccepted:false,scope:reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
+  const report={schemaVersion:1,reportsOnly,portraitsOnly,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
     startedAt:new Date().toISOString(),ok:false,accepted:false,realDeviceAccepted:false,reportInteractionAccepted:false,recruitmentCommitted:false,battleAccepted:false,fullHdAccepted:false,
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
@@ -474,13 +478,21 @@ export async function main(args=process.argv.slice(2)) {
     assert.equal(typeof WebSocket,'function','Node 22+ built-in WebSocket is required');
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
+    if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://private'),rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),filename=path.resolve(root,rel);
       const allowed=/^(?:js|css|assets|libs|fonts|vendor)\//.test(rel)||['m.html','favicon.png','manifest.json'].includes(rel);
       if(!allowed||!filename.startsWith(root+path.sep)||!fs.existsSync(filename)||!fs.statSync(filename).isFile()){
         report.requests.push({url:req.url,status:404});res.writeHead(404).end();return;}
-      const item=freeze(rel);report.requests.push({url:req.url,status:200,...item.ref});
-      res.writeHead(200,{'Content-Type':mime[path.extname(rel)]||'application/octet-stream','Cache-Control':'no-store'}).end(item.bytes);
+      const item=freeze(rel),dongHd='assets/hd-portraits/hd/hd_p1_0000_董卓.png';
+      const hdTargets=[dongHd,'assets/hd-portraits/hd/hd_p1_0020_吕布.png'];
+      const refTargets=['assets/hd-portraits/refs/period-1/0-董卓.png','assets/hd-portraits/refs/period-1/20-吕布.png'];
+      const missing=portraitsOnly&&((['hd-missing','all-missing'].includes(portraitCase)&&hdTargets.includes(rel))||(portraitCase==='all-missing'&&refTargets.includes(rel)));
+      if(missing){report.requests.push({url:req.url,status:404,injected:'exact original person portrait missing',...item.ref});res.writeHead(404,{'Cache-Control':'no-store'}).end();return;}
+      const held=portraitsOnly&&portraitCase==='delayed'&&rel===dongHd;
+      report.requests.push({url:req.url,status:200,delayMs:held?5000:0,...item.ref});
+      const respond=()=>{if(!res.destroyed)res.writeHead(200,{'Content-Type':mime[path.extname(rel)]||'application/octet-stream','Cache-Control':'no-store'}).end(item.bytes);};
+      if(held)setTimeout(respond,5000);else respond();
     }catch{res.writeHead(500).end();report.requests.push({url:req.url,status:500});}});
     await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});
     report.httpPort=server.address().port;report.debugPort=await unusedPort();assert.notEqual(report.httpPort,8080);assert.notEqual(report.debugPort,8080);
@@ -538,8 +550,13 @@ export async function main(args=process.argv.slice(2)) {
     const initialMapCity=(await evaluate(readSource)).mapCity,current=all.find(c=>c.index===initialMapCity),otherOwned=owned.find(c=>c.index!==initialMapCity);
     assert.ok(current&&current.kind==='owned'&&otherOwned);report.selectedCities={current,otherOwned,nonOwned:foreign};
     await until('mobile city/dialog host modules','window.BayeHdCityMenu&&window.BayeHdDialog&&window.BayeHdMobileCity&&typeof BayeHdMobileCity.isActive==="function"');
-    await cityChecks();
+    if(portraitsOnly){
+      const {runMobilePortraitChecks}=await import('./hd-mobile-portraits-runtime-checks.mjs');
+      await runMobilePortraitChecks({report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
+        readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});
+    }else await cityChecks();
   }catch(error){report.ok=false;report.accepted=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);
+    if(portraitsOnly&&cdp){try{report.failurePortrait=await evaluate('window.BayeHdMobilePortraits&&BayeHdMobilePortraits.debugSnapshot()');}catch{report.failurePortraitUnavailable=true;}}
     if(cdp){try{await checkpoint('failure');}catch{report.failureCaptureUnavailable=true;}}
   }finally{
     await sampleOwned('before-cleanup');cdp?.close();

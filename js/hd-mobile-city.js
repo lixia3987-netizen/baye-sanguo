@@ -22,8 +22,10 @@
     function createController(environment) {
         var mounted = false, busy = false, timer = null, pageActive = true, pageFocused = true;
         var pointers = Object.create(null), blocked = false, arm = null, grant = null, keyboard = null;
+        var lcdFallback = null;
         var previousIdentity = '', last = Object.freeze({active: false, cityVisible: false, dialogVisible: false,
-            available: false, mode: 'auto', lcdPresentation: 'passthrough', owner: null, reason: 'not-initialized'});
+            available: false, mode: 'auto', lcdPresentation: 'passthrough', fallbackActive: false,
+            fallbackReason: '', fallbackOwner: null, owner: null, reason: 'not-initialized'});
         function doc() { return environment.document; }
         function node(id) { return doc() && doc().getElementById ? doc().getElementById(id) : null; }
         function city() { return environment.BayeHdCityMenu; }
@@ -118,14 +120,79 @@
             } catch (e) { return null; }
         }
         function same(a, b) { return !!a && !!b && a.kind === b.kind && a.data === b.data && a.key === b.key; }
-        function retire(reason, force) {
+        function personReading(kind) {
+            if (kind !== 'city' && kind !== 'dialog' || mode() === 'classic') { return null; }
+            function person(ticket) {
+                if (!ticket || !ticket.native) { return null; }
+                var n = ticket.native, pid = null;
+                if (kind === 'city' && ticket.ticket.ownerType === 'city' && n.menu.active === 1 &&
+                    n.menu.context === 1 && n.menu.kind === 3 && n.menu.idsValid === true &&
+                    !n.report.active && !n.qty.active && !n.help.active) { pid = n.menu.ids[n.menu.index]; }
+                if (kind === 'dialog' && ticket.ticket.ownerType === 'report' && n.report.active === 1 &&
+                    n.report.kind === 2 && !n.menu.active && !n.qty.active && !n.help.active) { pid = n.report.person; }
+                return uint(pid, 65534) ? pid : null;
+            }
+            try {
+                var first = inputTicket(kind), period = first && first.data.g_PIdx, pid = person(first);
+                if (!first || !uint(period, 4) || period < 1 || pid === null) { return null; }
+                var module = kind === 'city' ? city() : dialog();
+                if (!module || typeof module.isActive !== 'function' || module.isActive() !== true) { return null; }
+                var second = inputTicket(kind), periodAfter = second && second.data.g_PIdx, pidAfter = person(second);
+                if (!same(first, second) || period !== periodAfter || pid !== pidAfter || mode() === 'classic' ||
+                    module.isActive() !== true) { return null; }
+                return {owner: second, period: period, personId: pid};
+            } catch (e) { return null; }
+        }
+        function sameFallback(value, reading) {
+            return !!value && !!reading && same(value.owner, reading.owner) &&
+                value.period === reading.period && value.personId === reading.personId;
+        }
+        function retire(reason, force, keepShell) {
             var hadInput = !!(arm || grant || keyboard);
             arm = grant = keyboard = null;
             if (hadInput || force) {
+                if (keepShell || lcdFallback) {
+                    // Ordinary city retirement also clears its deep owner;
+                    // the preserving API rebinds only a fresh identical native
+                    // person publication. Never close the report shell here.
+                    var shared = city();
+                    return !!(shared && typeof shared.retireInputPreservingOwner === 'function' &&
+                        shared.retireInputPreservingOwner(reason || 'mobile-boundary') === true);
+                }
                 [city(), dialog()].forEach(function (module) {
                     if (module && typeof module.retireInteraction === 'function') { module.retireInteraction(reason || 'mobile-boundary'); }
                 });
             }
+            return false;
+        }
+        function dropFallback(reason) {
+            if (!lcdFallback) { return false; }
+            lcdFallback = null;
+            retire(reason || 'fallback-retired', true, true);
+            return true;
+        }
+        function requestLcdFallback(owner, reason) {
+            if (!mounted || !owner || (owner.kind !== 'city' && owner.kind !== 'dialog')) { return null; }
+            var reading = personReading(owner.kind);
+            if (!reading || !same(owner, reading.owner) || owner.period !== reading.period || owner.personId !== reading.personId) { return null; }
+            if (sameFallback(lcdFallback, reading)) { return lcdFallback.handle; }
+            dropFallback('fallback-replaced');
+            var preserved = retire('portrait-lcd-fallback', true, true);
+            if (owner.kind === 'city' && !preserved) { return null; }
+            var after = personReading(owner.kind);
+            if (!after || !same(reading.owner, after.owner) || reading.period !== after.period || reading.personId !== after.personId) { return null; }
+            var handle = Object.freeze({});
+            lcdFallback = {handle: handle, owner: after.owner, period: after.period, personId: after.personId,
+                reason: typeof reason === 'string' && reason ? reason.slice(0, 160) : 'portrait-unavailable'};
+            refresh(true);
+            return lcdFallback && lcdFallback.handle === handle ? handle : null;
+        }
+        function clearLcdFallback(handle) {
+            if (!lcdFallback || handle !== lcdFallback.handle) { return false; }
+            var current = personReading(lcdFallback.owner.kind), valid = sameFallback(lcdFallback, current);
+            dropFallback(valid ? 'portrait-restored' : 'fallback-owner-changed');
+            refresh(true);
+            return valid;
         }
         function paint(value) {
             var body = doc() && doc().body;
@@ -142,8 +209,9 @@
             }
             if (exit && value.active) { exit.disabled = true; }
         }
-        function refresh() {
+        function refresh(keepShell) {
             if (busy) { return last; }
+            keepShell = keepShell === true || !!lcdFallback;
             busy = true;
             try {
                 var reading = sample(), c = city(), d = dialog(), cityActive = false, dialogActive = false, lcd = 'passthrough';
@@ -158,19 +226,24 @@
                     var after = sample();
                     if (!after || after.data !== reading.data || after.key !== reading.key) { reading = null; cityActive = dialogActive = false; lcd = 'passthrough'; }
                 }
+                if (lcdFallback && !sameFallback(lcdFallback, personReading(lcdFallback.owner.kind))) { dropFallback('fallback-owner-changed'); }
+                if (lcdFallback) { lcd = 'passthrough'; }
                 var presentation = presentationReading(), identityKey = presentation ? key(presentation.identity) : '';
-                if (previousIdentity && previousIdentity !== identityKey) { retire('library-or-owner-unavailable', true); }
+                if (previousIdentity && previousIdentity !== identityKey) { retire('library-or-owner-unavailable', true, keepShell); }
                 previousIdentity = identityKey;
                 if (arm && !same(arm.owner, inputTicket(arm.kind)) || grant && !same(grant.owner, inputTicket(grant.kind)) ||
-                    keyboard && !same(keyboard.owner, inputTicket(keyboard.kind))) { retire('owner-changed', true); }
-                last = Object.freeze({active: !!reading && (cityActive || dialogActive), cityVisible: !!reading && cityActive && !dialogActive && lcd === 'off',
-                    dialogVisible: !!reading && dialogActive && lcd === 'off', available: !!presentation, mode: mode(), lcdPresentation: lcd,
+                    keyboard && !same(keyboard.owner, inputTicket(keyboard.kind))) { retire('owner-changed', true, keepShell); }
+                last = Object.freeze({active: !!reading && (cityActive || dialogActive), cityVisible: !lcdFallback && !!reading && cityActive && !dialogActive && lcd === 'off',
+                    dialogVisible: !lcdFallback && !!reading && dialogActive && lcd === 'off', available: !!presentation, mode: mode(), lcdPresentation: lcd,
+                    fallbackActive: !!lcdFallback, fallbackReason: lcdFallback ? lcdFallback.reason : '',
+                    fallbackOwner: lcdFallback ? {kind: lcdFallback.owner.kind, period: lcdFallback.period, personId: lcdFallback.personId} : null,
                     owner: reading ? reading.owner : null, reason: reading ? '' : !available() ? 'page-boundary' : 'unverified-native'});
                 paint(last); return last;
             } catch (e) {
-                retire('read-failed', true);
+                dropFallback('read-failed'); retire('read-failed', true, keepShell);
                 last = Object.freeze({active: false, cityVisible: false, dialogVisible: false, available: false,
-                    mode: mode(), lcdPresentation: 'passthrough', owner: null, reason: 'read-failed'});
+                    mode: mode(), lcdPresentation: 'passthrough', fallbackActive: false,
+                    fallbackReason: '', fallbackOwner: null, owner: null, reason: 'read-failed'});
                 paint(last); return last;
             } finally { busy = false; }
         }
@@ -267,10 +340,10 @@
                 (event.detail === 0 && !allowed.keyboard) || !visible(hit.target, allowed.keyboard ? null : event) ||
                 !same(allowed.owner, inputTicket(hit.kind))) { stopEvent(event); return; }
             if (hit.kind === 'mode') {
-                stopEvent(event); retire('menu-mode-change', true);
+                stopEvent(event); var keepShell = !!lcdFallback; dropFallback('menu-mode-change'); retire('menu-mode-change', true, keepShell);
                 var shared = city();
                 if (shared && typeof shared.setMode === 'function') { shared.setMode(mode() === 'classic' ? 'hd' : 'classic'); }
-                refresh();
+                refresh(keepShell);
             }
         }
         function keydown(event) {
@@ -297,7 +370,11 @@
                 hit.target.click(); grant = null;
             }
         }
-        function boundary(reason) { retire(reason || 'page-boundary', true); blocked = Object.keys(pointers).length > 0; refresh(); }
+        function boundary(reason) {
+            var keepShell = !!lcdFallback;
+            dropFallback(reason || 'page-boundary'); retire(reason || 'page-boundary', true, keepShell);
+            blocked = Object.keys(pointers).length > 0; refresh(keepShell);
+        }
         function startTimer() { if (available() && timer === null) { timer = environment.setInterval(refresh, 80); } }
         function stopTimer() { if (timer !== null) { environment.clearInterval(timer); timer = null; } }
         function init() {
@@ -331,10 +408,13 @@
             refresh(); startTimer(); return last;
         }
         return {init: init, refresh: refresh, snapshot: function () { return last; }, debugSnapshot: function () { return last; },
-            isActive: function () { return refresh().active; }, readInputTicket: inputTicket, retireInteraction: function (reason) { boundary(reason); }};
+            isActive: function () { return refresh().active; }, readInputTicket: inputTicket,
+            requestLcdFallback: requestLcdFallback, clearLcdFallback: clearLcdFallback,
+            retireInteraction: function (reason) { boundary(reason); }};
     }
     var controller = createController(global);
     global.BayeHdMobileCity = {createController: createController, init: controller.init, refresh: controller.refresh,
         snapshot: controller.snapshot, debugSnapshot: controller.debugSnapshot, isActive: controller.isActive,
-        readInputTicket: controller.readInputTicket, retireInteraction: controller.retireInteraction};
+        readInputTicket: controller.readInputTicket, requestLcdFallback: controller.requestLcdFallback,
+        clearLcdFallback: controller.clearLcdFallback, retireInteraction: controller.retireInteraction};
 })(window);

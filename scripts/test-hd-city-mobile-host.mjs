@@ -220,3 +220,168 @@ test('mobile poll restores the complete deep layer after delayed picker publicat
     assert.equal(nodes['hd-city-menu-status'].hidden,true);assert.equal(nodes['hd-city-menu-deep'].hidden,false);
     assert.equal(deepRefreshes,1);
 });
+
+function classicPersonFixture() {
+    const f=fixture();f.configure();
+    f.raw.g_hdMenuKind=3;f.raw.g_hdMenuSeq=13;f.raw.g_hdMenuIndex=2;
+    f.names.splice(0,f.names.length,'曹操','曹昂','曹仁','夏侯惇');
+    f.api.setMode('classic');
+    // The mobile host retires every old gesture/queue before a mode action.
+    f.api.retireInteraction('mobile-mode-action');
+    return f;
+}
+test('mobile classic to HD rebuilds the current complete native person picker without a retained pane',()=>{
+    const f=classicPersonFixture(), before=JSON.stringify(f.raw);
+    assert.equal(f.api.debugSnapshot().open,false);
+    assert.equal(f.api.getInputTicket(),null);
+    f.api.setMode('hd');
+    const snapshot=f.api.debugSnapshot(), ticket=f.api.getInputTicket();
+    assert.equal(snapshot.open,true);assert.equal(snapshot.layer,'deep');assert.equal(snapshot.deepKind,'person');
+    assert.equal(snapshot.deepLabel,'人物');assert.equal(snapshot.subKind,'');assert.equal(snapshot.idleIndex,2);
+    assert.equal(snapshot.deepMenuOwner.seq,13);assert.equal(snapshot.deepMenuOwner.kind,3);
+    assert.deepEqual(Array.from(snapshot.deepItems,item=>[item.i,item.name,item.pind]),
+        [[0,'曹操',0],[1,'曹昂',1],[2,'曹仁',2],[3,'夏侯惇',3]]);
+    assert.equal(ticket.data,f.env.baye.data);assert.equal(ticket.menuSeq,13);
+    assert.equal(JSON.stringify(f.raw),before);assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+});
+test('mobile resume uses the current city, index and full IDs rather than pre-classic state',()=>{
+    const f=classicPersonFixture();
+    f.raw.g_hdMapCity=2;f.raw.g_Cities.push({Persons:0,PersonQueue:0,Belong:1,State:0});
+    f.raw.g_hdMenuIndex=1;f.raw.g_hdMenuSeq=14;
+    f.names.splice(0,f.names.length,'张辽','李典','乐进','荀彧');
+    f.setMenuHook(value=>{value.ids=[19,20,21,22];});
+    f.api.setMode('hd');
+    const snapshot=f.api.debugSnapshot();assert.equal(snapshot.open,true);assert.equal(snapshot.cityIndex,1);
+    assert.equal(snapshot.idleIndex,1);assert.equal(snapshot.deepItems[1].pind,20);
+    assert.equal(snapshot.deepItems[1].name,'李典');assert.equal(f.api.getInputTicket().menuSeq,14);
+    assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+});
+test('mobile classic to auto resumes only through the current HD map preference',()=>{
+    const f=classicPersonFixture();f.api.setMode('auto');assert.equal(f.api.debugSnapshot().open,true);
+    const g=classicPersonFixture();g.env.BayeHdOverworld.getMode=()=> 'classic';g.api.setMode('auto');
+    assert.equal(g.api.debugSnapshot().open,false);assert.equal(g.api.getInputTicket(),null);
+    assert.equal(f.keys.length+g.keys.length,0);
+});
+for(const invalid of ['ids','names','count','index','generation','seq','context','tool','report','march','map-input']){
+    test('mobile mode rebuild rejects incomplete or foreign publication: '+invalid,()=>{
+        const f=classicPersonFixture();
+        if(invalid==='ids')f.setMenuHook(value=>{value.idsValid=false;});
+        if(invalid==='names')f.setMenuHook(value=>{value.names[1]='';});
+        if(invalid==='count')f.raw.g_hdMenuCount=5;
+        if(invalid==='index')f.raw.g_hdMenuIndex=4;
+        if(invalid==='generation')f.setMenuHook(value=>{value.generation=value.detailGeneration+1;});
+        if(invalid==='seq')f.raw.g_hdMenuSeq=0;
+        if(invalid==='context')f.raw.g_hdMenuContext=5;
+        if(invalid==='tool')f.raw.g_hdMenuKind=4;
+        if(invalid==='report')f.raw.g_hdReportActive=1;
+        if(invalid==='march')f.raw.g_hdMarchPhase=1;
+        if(invalid==='map-input')f.raw.g_hdMapInputSeq=0;
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false);
+        assert.equal(f.api.getLcdPresentation(),'passthrough');assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+    });
+}
+test('mobile mode rebuild rejects torn native publication and data rebinding',()=>{
+    for(const rebind of [false,true]){
+        const f=classicPersonFixture();
+        f.setMenuHook(()=>{
+            if(rebind)f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+            else f.raw.g_hdMenuSeq+=1;
+        });
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false);
+        assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+    }
+});
+for(const mutation of ['seq','name','id','index']){
+    test('mobile mode rebuild fences changed '+mutation+' after constructing the local pane',()=>{
+        const f=classicPersonFixture();let reading=false, changed=false;
+        f.setMenuHook(value=>{
+            if(changed && mutation==='id')value.ids[2]=42;
+            if(reading || changed)return;
+            reading=true;const open=f.api.debugSnapshot().open;reading=false;
+            if(open){
+                changed=true;
+                if(mutation==='seq')f.raw.g_hdMenuSeq+=1;
+                if(mutation==='name')f.names[2]='当前新武将';
+                if(mutation==='id')value.ids[2]=42;
+                if(mutation==='index')f.raw.g_hdMenuIndex=1;
+            }
+        });
+        f.api.setMode('hd');
+        assert.equal(changed,true);assert.equal(f.api.debugSnapshot().open,false);
+        assert.equal(f.api.getLcdPresentation(),'passthrough');assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+    });
+}
+test('mobile mode rebuild remains unavailable while hidden or portrait',()=>{
+    for(const hidden of [false,true]){
+        const f=classicPersonFixture();
+        if(hidden)f.env.document.hidden=true;else f.env.innerWidth=390;
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false);assert.equal(f.api.getInputTicket(),null);
+        assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+    }
+});
+test('PC mode switch does not reconstruct an unretained native person picker',()=>{
+    const f=fixture();f.raw.g_hdMenuKind=3;f.api.setMode('hd');
+    assert.equal(f.api.debugSnapshot().mobileHost,false);assert.equal(f.api.debugSnapshot().open,false);
+    assert.equal(f.api.getInputTicket(),null);assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+});
+
+test('owner-preserving retirement recomputes the person owner for the new queue epoch',()=>{
+    const f=classicPersonFixture();f.api.setMode('hd');
+    const before=f.api.debugSnapshot(), ticket=f.api.getInputTicket();
+    const native=JSON.stringify(f.raw), preferences=Array.from(f.stored);
+    assert.equal(f.api.retireInputPreservingOwner('portrait-missing'),true);
+    const after=f.api.debugSnapshot(), fresh=f.api.getInputTicket();
+    assert.notEqual(after.deepMenuOwner.key,before.deepMenuOwner.key);
+    assert.equal(after.deepMenuOwner.seq,before.deepMenuOwner.seq);
+    for(const key of ['open','layer','cityIndex','subKind','deepKind','deepStep','deepLabel']){
+        assert.equal(after[key],before[key],key);
+    }
+    assert.equal(fresh.key,ticket.key);assert.equal(fresh.data,ticket.data);
+    assert.equal(JSON.stringify(f.raw),native);assert.deepEqual(Array.from(f.stored),preferences);
+    assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+});
+for(const mutation of ['sequence','data']){
+    test('owner-preserving retirement rejects changed '+mutation+' after retirement',()=>{
+        const f=classicPersonFixture();f.api.setMode('hd');let reading=false,changed=false;
+        f.setMenuHook(()=>{
+            if(reading||changed)return;
+            reading=true;const pane=f.api.debugSnapshot();reading=false;
+            if(pane.open&&!pane.deepMenuOwner){
+                changed=true;
+                if(mutation==='sequence')f.raw.g_hdMenuSeq+=1;
+                else f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+            }
+        });
+        assert.equal(f.api.retireInputPreservingOwner('portrait-missing'),false);
+        const after=f.api.debugSnapshot();assert.equal(changed,true);
+        assert.equal(after.open,true);assert.equal(after.layer,'deep');assert.equal(after.deepMenuOwner,null);
+        assert.ok(['on','passthrough'].includes(f.api.getLcdPresentation()));
+        assert.equal(f.keys.length,0);assert.equal(f.writes.length,0);
+    });
+}
+test('owner-preserving retirement does not authorize a foreign march or PC pane',()=>{
+    const f=classicPersonFixture();f.api.setMode('hd');f.raw.g_hdMarchPhase=1;
+    assert.equal(f.api.retireInputPreservingOwner('boundary'),false);
+    assert.equal(f.api.debugSnapshot().deepMenuOwner,null);assert.equal(f.api.debugSnapshot().open,true);
+    const pc=fixture();assert.equal(pc.api.retireInputPreservingOwner('boundary'),false);
+    assert.equal(f.keys.length+pc.keys.length,0);assert.equal(f.writes.length+pc.writes.length,0);
+});
+for(const pending of ['queue','sending','nativeMenuRequest','deepSelectionPending','closingSub']){
+    test('owner preservation cannot reauthorize in-flight '+pending,()=>{
+        const begin=source.indexOf('    function retireInputPreservingOwner(reason) {');
+        const end=source.indexOf('\n    function ',begin+20);
+        assert.ok(begin>=0&&end>begin);
+        let retired=0,reads=0;
+        const state={open:true,layer:'deep',cityIndex:0,subKind:'junbei',deepKind:'person',
+            deepStep:0,deepLabel:'当前命令',queue:[],sending:false,nativeMenuRequest:null,
+            deepSelectionPending:null,closingSub:false,deepMenuOwner:{key:'old'}};
+        state[pending]=pending==='queue'?[39]:true;
+        const context={state,mobileHost:{},JSON,usesGoodsMenu(){return false;},
+            mobilePersonModeReading(){reads+=1;throw Error('in-flight owner must not be read for recovery');},
+            retireInteraction(){retired+=1;state.queue=[];state.sending=false;state.deepMenuOwner=null;}};
+        vm.runInNewContext(source.slice(begin,end),context);
+        assert.equal(context.retireInputPreservingOwner('boundary'),false);
+        assert.equal(retired,1);assert.equal(reads,0);assert.equal(state.deepMenuOwner,null);
+        assert.equal(state.open,true);assert.equal(state.deepLabel,'当前命令');
+    });
+}
