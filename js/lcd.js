@@ -885,20 +885,25 @@ var lcdRotateMode = 0;
 
 function touchScreenInit(lcdID) {
     var lcd = document.getElementById(lcdID);
-
+    if (lcd._bayeTouchController) { return lcd._bayeTouchController; }
     var activeTouch = null;
-
+    var blocked = false;
     var VT_TOUCH_DOWN = 1
     var VT_TOUCH_UP = 2
     var VT_TOUCH_MOVE = 3
     var VT_TOUCH_CANCEL = 4
 
-    function raiseTouchEvent(key, touch) {
+    function position(touch) {
         var rect = lcd.getBoundingClientRect();
-
+        if (!rect || !(rect.width > 0 && rect.height > 0) ||
+            !['left', 'top', 'width', 'height'].every(function (name) { return typeof rect[name] === 'number' && isFinite(rect[name]); }) ||
+            ![lcdWidth, lcdHeight].every(function (size) { return typeof size === 'number' && isFinite(size) && size > 0 && Math.floor(size) === size; }) ||
+            typeof touch.clientX !== 'number' || typeof touch.clientY !== 'number' ||
+            !isFinite(touch.clientX) || !isFinite(touch.clientY) ||
+            document.hidden || [0, 1, 2].indexOf(lcdRotateMode) < 0) { return null; }
         var webX = touch.clientX - rect.left;
         var webY = touch.clientY - rect.top;
-
+        if (webX < 0 || webY < 0 || webX >= rect.width || webY >= rect.height) { return null; }
         var gameX = webX / rect.width * lcdWidth;
         var gameY = webY / rect.height * lcdHeight;
 
@@ -914,31 +919,52 @@ function touchScreenInit(lcdID) {
             gameY = webX / rect.width * lcdHeight;
             break;
         }
-        if (window.bayeDebugMode) {
-            var html = "";
-            html += sprintf('canvas:(%.1f,%.1f)<br>', rect.left, rect.top);
-            html += sprintf('client:(%.1f,%.1f)<br>', touch.clientX, touch.clientY);
-            html += sprintf('web:(%.1f,%.1f)<br>', webX, webY);
-            html += sprintf('game:(%.1f,%.1f)<br>', gameX, gameY);
-            $('#info').html(html);
-        }
-        _bayeSendTouchEvent(key, gameX, gameY);
+        return { x: Math.min(lcdWidth - 1, Math.max(0, Math.floor(gameX))),
+            y: Math.min(lcdHeight - 1, Math.max(0, Math.floor(gameY))),
+            rect: { left: rect.left, top: rect.top, width: rect.width, height: rect.height },
+            rotation: lcdRotateMode, nativeWidth: lcdWidth, nativeHeight: lcdHeight };
     }
 
-    function resetTouch() {
+    function sameGeometry(point) {
+        return point && activeTouch && point.rotation === activeTouch.rotation &&
+            point.nativeWidth === activeTouch.nativeWidth && point.nativeHeight === activeTouch.nativeHeight &&
+            ['left', 'top', 'width', 'height'].every(function (name) {
+                return Math.abs(point.rect[name] - activeTouch.geometry[name]) < 0.5;
+            });
+    }
+
+    function raiseTouchEvent(key, point) {
+        if (window.bayeDebugMode) {
+            $('#info').html(sprintf('game:(%d,%d)', point.x, point.y));
+        }
+        _bayeSendTouchEvent(key, point.x, point.y);
+    }
+
+    function cancelTouch() {
+        if (!activeTouch) { return; }
+        var point = activeTouch.point;
         activeTouch = null;
+        // CANCEL uses the last accepted game coordinates, never the new layout.
+        raiseTouchEvent(VT_TOUCH_CANCEL, point);
+    }
+
+    function prevent(event) {
+        if (event.cancelable) { event.preventDefault(); }
     }
 
     function touchBegan(event) {
-        if (activeTouch || event.targetTouches.length < 1) {
-            return;
-        }
-        activeTouch = event.targetTouches[0];
-        raiseTouchEvent(VT_TOUCH_DOWN, activeTouch);
+        prevent(event);
+        if (event.touches.length > 1) { blocked = true; cancelTouch(); return; }
+        if (blocked || activeTouch || event.targetTouches.length !== 1) { return; }
+        var touch = event.targetTouches[0], point = position(touch);
+        if (!point) { return; }
+        activeTouch = { identifier: touch.identifier, point: point, geometry: point.rect, rotation: point.rotation,
+            nativeWidth: point.nativeWidth, nativeHeight: point.nativeHeight };
+        raiseTouchEvent(VT_TOUCH_DOWN, point);
     }
 
     function find(touches, touch) {
-         for (var i in touches) {
+         for (var i = 0; i < touches.length; i++) {
             if (touch.identifier == touches[i].identifier) {
                 return touches[i];
             }
@@ -947,41 +973,70 @@ function touchScreenInit(lcdID) {
     }
 
     function touchEnded(event) {
+        prevent(event);
         if (activeTouch) {
             var touch = find(event.changedTouches, activeTouch);
-            if (!touch) {
-                return;
+            if (touch) {
+                var point = position(touch);
+                if (sameGeometry(point)) {
+                    activeTouch = null;
+                    raiseTouchEvent(VT_TOUCH_UP, point);
+                } else { cancelTouch(); }
             }
-            raiseTouchEvent(VT_TOUCH_UP, touch);
-            resetTouch();
         }
+        if (!event.touches.length) { blocked = false; }
     }
 
     function touchMove(event) {
+        prevent(event);
         if (activeTouch) {
             var touch = find(event.changedTouches, activeTouch);
-            if (!touch) {
-                return;
+            if (touch) {
+                var point = position(touch);
+                if (sameGeometry(point)) {
+                    activeTouch.point = point;
+                    raiseTouchEvent(VT_TOUCH_MOVE, point);
+                } else { blocked = true; cancelTouch(); }
             }
-            raiseTouchEvent(VT_TOUCH_MOVE, touch);
         }
     }
 
     function touchCanceled(event) {
-        if (activeTouch) {
-            var touch = find(event.changedTouches, activeTouch);
-            if (!touch) {
-                return;
-            }
-            raiseTouchEvent(VT_TOUCH_CANCEL, touch);
-            resetTouch();
-        }
+        prevent(event);
+        if (activeTouch && (!event.changedTouches.length || find(event.changedTouches, activeTouch))) { cancelTouch(); }
+        if (!event.touches.length) { blocked = false; }
     }
-    lcd.addEventListener("touchstart", touchBegan);
-    lcd.addEventListener("touchmove", touchMove);
-    lcd.addEventListener("touchend", touchEnded);
-    lcd.addEventListener("touchcancel", touchCanceled);
+
+    function visibilityChanged() { if (document.hidden) { cancelTouch(); } }
+    // A second finger can land outside the LCD and still invalidate its gesture.
+    function globalTouchBegan(event) {
+        if (activeTouch && event.touches.length > 1) { blocked = true; cancelTouch(); }
+    }
+    function globalTouchFinished(event) { if (!event.touches.length) { blocked = false; } }
+    var events = { touchstart: touchBegan, touchmove: touchMove, touchend: touchEnded, touchcancel: touchCanceled };
+    Object.keys(events).forEach(function (name) { lcd.addEventListener(name, events[name], { passive: false }); });
+    window.addEventListener('blur', cancelTouch);
+    window.addEventListener('resize', cancelTouch);
+    window.addEventListener('orientationchange', cancelTouch);
+    document.addEventListener('visibilitychange', visibilityChanged);
+    document.addEventListener('touchstart', globalTouchBegan, true);
+    document.addEventListener('touchend', globalTouchFinished, true);
+    document.addEventListener('touchcancel', globalTouchFinished, true);
+    var controller = { cancel: cancelTouch, destroy: function () {
+        cancelTouch();
+        Object.keys(events).forEach(function (name) { lcd.removeEventListener(name, events[name]); });
+        window.removeEventListener('blur', cancelTouch);
+        window.removeEventListener('resize', cancelTouch);
+        window.removeEventListener('orientationchange', cancelTouch);
+        document.removeEventListener('visibilitychange', visibilityChanged);
+        document.removeEventListener('touchstart', globalTouchBegan, true);
+        document.removeEventListener('touchend', globalTouchFinished, true);
+        document.removeEventListener('touchcancel', globalTouchFinished, true);
+        delete lcd._bayeTouchController;
+    } };
+    lcd._bayeTouchController = controller;
     disablePageScroll();
+    return controller;
 }
 
 // --------- Engine callbacks ---------

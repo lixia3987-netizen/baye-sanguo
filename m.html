@@ -22,8 +22,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>三国霸业</title>
         <link rel="stylesheet" type="text/css" href="css/baye.css" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011a" />
         <link rel="icon" href="favicon.png">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-touch-fullscreen" content="yes"/>
@@ -68,8 +69,22 @@
         <script src="js/lzma_worker-min.js"></script>
         <script src="js/base64.js"></script>
     </head>
-    <body>
-        <canvas id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
+    <body class="hd-mobile-page">
+        <header id="hd-mobile-bar" aria-label="原版策略资料">
+            <div class="hd-mobile-brand">三国霸业<span>原版</span></div>
+            <span id="hd-mobile-status">原版游戏</span>
+            <div id="hd-mobile-hud" hidden>
+                <div><small>当前城池</small><strong id="hd-mobile-city"></strong></div>
+                <div><small>归属</small><strong id="hd-mobile-owner"></strong></div>
+                <div><small>年月</small><strong id="hd-mobile-date"></strong></div>
+                <div><small>金钱</small><strong id="hd-mobile-money"></strong></div>
+                <div><small>粮食</small><strong id="hd-mobile-food"></strong></div>
+                <div><small>后备兵</small><strong id="hd-mobile-arms"></strong></div>
+            </div>
+        </header>
+        <main id="hd-mobile-stage" aria-label="原版游戏触控画面">
+            <canvas id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
+        </main>
         <div id="info"></div>
     </body>
 </html>
@@ -77,27 +92,36 @@
 <script src="js/bridge.js?ver=20261010g"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
-<script src="js/lcd.js?ver=20261010b"></script>
+<script src="js/lcd.js?ver=20261011a"></script>
+<script src="js/hd-lib-identity.js?ver=20261008i"></script>
+<script src="js/hd-mobile.js?ver=20261011a"></script>
 <script>
+var mobileTouch = null;
 function reloadLCD(){
-    var height = window.innerHeight;
-    var width = window.innerWidth;
-    console.log(height,width);
-
+    if (mobileTouch) { mobileTouch.cancel(); }
+    var rect = document.getElementById('hd-mobile-stage').getBoundingClientRect();
+    var height = rect.height, width = rect.width, ratio = lcdWidth / lcdHeight;
+    if (!(height > 0 && width > 0)) { return; }
     if (height > width) {
-        console.log('竖屏状态');
+        var rotatedWidth = Math.min(height, width * ratio);
+        var rotatedHeight = rotatedWidth / ratio;
         $("#lcd").css({
-            'height': width + 'px', 
-            'width': height + 'px',
+            'height': rotatedHeight + 'px',
+            'width': rotatedWidth + 'px',
+            'left': (width - rotatedHeight) / 2 + 'px',
+            'top': (height - rotatedWidth) / 2 + 'px',
             'transform-origin' : 'left top',
-            'transform' : 'rotate(-90deg) translateX(-' + height + 'px)',
+            'transform' : 'rotate(-90deg) translateX(-' + rotatedWidth + 'px)',
         });
         lcdRotateMode = 2;
     } else {
-        console.log('横屏状态');
+        var canvasWidth = Math.min(width, height * ratio);
+        var canvasHeight = canvasWidth / ratio;
         $("#lcd").css({
-            'height' : height + 'px',
-            'width' : width + 'px',
+            'height' : canvasHeight + 'px',
+            'width' : canvasWidth + 'px',
+            'left': (width - canvasWidth) / 2 + 'px',
+            'top': (height - canvasHeight) / 2 + 'px',
             '-webkit-transform' : 'rotate(0deg)',
             'transform' : 'rotate(0deg)',
         }); 
@@ -107,8 +131,9 @@ function reloadLCD(){
 
 Module.postRun = function (){
     lcdInit();
-    touchScreenInit("lcd");
+    mobileTouch = touchScreenInit("lcd");
     reloadLCD();
+    BayeHdMobile.init();
 
     //判断手机横竖屏状态：
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {
@@ -116,6 +141,9 @@ Module.postRun = function (){
     }, false);
 
     $(window).resize(reloadLCD);
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', reloadLCD);
+    }
 
     if (bayeDebugMode) {
         $("#info").show();

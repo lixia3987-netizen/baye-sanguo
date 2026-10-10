@@ -4,6 +4,8 @@
 
 原版入口及缓存迁移已通过[专项验证](validation/m4-original-entry-20261010.json)，包含1108项测试与独立浏览器入口/地图回归；移动端仅共用原版加载器，尚未完成移动HD验收。
 
+2026-10-11 移动横屏仍为 partial：`m.html` 已接只读城市资料栏及触控取消保护，下方保留原版 LCD；两种横屏尺寸及旋转通过 Chrome 手机模拟。其它手机入口、移动 HD 地图／菜单／立绘／战场、真实 Android/iOS 和完整流程仍待验，[首批记录](validation/m5-mobile-hud-20261011.md)。
+
 玩家能见到的主要画面是否已有 HD 表现壳。引擎规则一律仍走 WASM。  
 **分支：`feature/hd-graphics`（Draft PR #2），不合 `main`。**
 
