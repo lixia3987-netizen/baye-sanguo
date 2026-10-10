@@ -821,3 +821,30 @@ test('mobile initial native quantity input sequence zero is a current session', 
     dialog.openQty({}); assert.ok(dialog.getInputTicket());
     assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
 });
+test('a newly complete mobile CITY march owner retires an older generic report without acknowledging either',()=>{
+    const h=mobileReportFixture(), d=h.context.BayeHdDialog;
+    assert.equal(d.isActive(),true);
+    const epoch=d.debugSnapshot().viewEpoch;
+    const owner={data:h.context.baye.data,key:'complete-city-march',phase:3,ownerType:'march-report'};
+    h.context.BayeHdCityMenu.getMarchDialogTicket=()=>owner;
+    assert.equal(d.getInputTicket(),null);assert.equal(d.isBlockingKeyboard(),false);
+    h.click('data-hd-dlg-ok');d.poll();
+    assert.equal(d.isOpen(),false);assert.ok(d.debugSnapshot().viewEpoch>epoch);
+    assert.deepEqual(h.sent,[]);assert.deepEqual(h.writes,[]);
+    h.context.BayeHdCityMenu.getMarchDialogTicket=()=>null;
+    h.observe();assert.equal(d.isActive(),true);h.click('data-hd-dlg-ok');assert.deepEqual(h.sent,[0x27]);
+});
+test('a torn or unrelated CITY handoff does not suppress the current ordinary mobile report',()=>{
+    for(const problem of ['key','data','phase','kind','missing']){
+        const h=mobileReportFixture(), d=h.context.BayeHdDialog;let reads=0;
+        h.context.BayeHdCityMenu.getMarchDialogTicket=()=>{
+            const second=++reads%2===0;
+            if(problem==='missing')return null;
+            return {data:problem==='data'&&second?{}:h.context.baye.data,
+                key:problem==='key'&&second?'changed':'same',phase:problem==='phase'?4:3,
+                ownerType:problem==='kind'?'city':'march-report'};
+        };
+        assert.equal(d.isActive(),true,problem);h.observe();assert.equal(d.isActive(),true,problem);
+        assert.deepEqual(h.sent,[]);assert.deepEqual(h.writes,[]);
+    }
+});

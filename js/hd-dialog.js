@@ -133,6 +133,7 @@
     }
 
     function engineSendKey(code) {
+        if (yieldToMobileMarch()) { return false; }
         var mobileSource = state.open ? 'dialog' : 'city', mobileOwner = null;
         function currentMobileOwner() {
             return mobileSource === 'dialog' ? getInputTicket() : global.BayeHdCityMenu && BayeHdCityMenu.getInputTicket();
@@ -196,6 +197,27 @@
 
     function sameMarch(a, b) {
         return !!(a && b && a.session === b.session && a.inputSeq === b.inputSeq && a.phase === b.phase);
+    }
+
+    function mobileCityMarchOwner() {
+        if (!mobileHost || !mobileAvailable()) { return null; }
+        try {
+            var city = global.BayeHdCityMenu;
+            if (!city || typeof city.getMarchDialogTicket !== 'function') { return null; }
+            var first = city.getMarchDialogTicket(), second = city.getMarchDialogTicket();
+            return first && second && first.data && first.data === second.data &&
+                first.key === second.key && typeof first.key === 'string' && first.key &&
+                (first.phase === 2 && first.ownerType === 'qty' ||
+                    [3, 5, 6].indexOf(first.phase) >= 0 && first.ownerType === 'march-report') ? first : null;
+        } catch (e) { return null; }
+    }
+
+    function yieldToMobileMarch() {
+        if (!mobileCityMarchOwner()) { return false; }
+        // The complete bound CITY wizard owns this native wait. Retire only
+        // the generic dialog's JavaScript work; never acknowledge the wait.
+        if (state.open) { retireInteraction(); }
+        return true;
     }
 
     function sameHelp(a, b) {
@@ -324,7 +346,7 @@
     }
 
     function isBlockingKeyboard() {
-        return !!(shouldShowHd() && state.open && (
+        return !!(!mobileCityMarchOwner() && shouldShowHd() && state.open && (
             state.kind === 'report' && sameReport(state.reportOwner, nativeReportOwner(readAsync())) ||
             state.kind === 'defenders' && sameCampaignPersons(state.defenseOwner, readDefenders())));
     }
@@ -1324,6 +1346,7 @@
 
     function openDialog(meta) {
         meta = meta || {};
+        if (yieldToMobileMarch()) { return false; }
         if (!shouldShowHd()) {
             return false;
         }
@@ -1455,6 +1478,7 @@
 
     function pollEngine() {
         if (mobileHost && !mobileAvailable()) { retireInteraction(); return; }
+        if (yieldToMobileMarch()) { return; }
         if (document.hidden || !hdReady()) {
             if (state.open && (state.kind === 'help' || state.kind === 'view')) { closeDialog({ silent: true }); }
             return;
@@ -1613,7 +1637,7 @@
         var epoch = qtyEpoch;
         function valid() {
             return epoch === qtyEpoch && shouldShowHd() && state.open && state.kind === 'qty' &&
-                !state.qtyInputClosed && !state.qtyAckFailed;
+                !state.qtyInputClosed && !state.qtyAckFailed && !mobileCityMarchOwner();
         }
         function stop(reason) {
             if (epoch !== qtyEpoch) { return; }
@@ -1806,6 +1830,7 @@
         root.addEventListener('pointercancel', function () { state.pressedView = null; });
         document.addEventListener('keydown', function (e) {
             if (bayeInputIgnored(e) || (global.BayeHdSpe && BayeHdSpe.isOpen && BayeHdSpe.isOpen())) { return; }
+            if (yieldToMobileMarch()) { return; }
             var closedQty = readStandaloneQty();
             if (closedQty && closedQty.protocol && closedQty.active &&
                 (Number(closedQty.session) === state.qtyClosedSession || bayeQtyNativeClosed(closedQty)) &&
@@ -1855,6 +1880,7 @@
             }
         }, true);
         root.addEventListener('click', function (ev) {
+            if (yieldToMobileMarch()) { return; }
             var t = ev.target;
             while (t && t !== root) {
                 if (t.getAttribute && (t.getAttribute('data-hd-defender-index') != null ||
@@ -1976,7 +2002,7 @@
     }
 
     function getInputTicket() {
-        if (!mobileHost || !mobileAvailable() || !state.open || fightActive()) { return null; }
+        if (!mobileHost || !mobileAvailable() || !state.open || fightActive() || mobileCityMarchOwner()) { return null; }
         try {
             var identityApi = global.BayeHdLibIdentity, identity = identityApi && identityApi.read();
             if (!identity || identity.status !== 'ready' || !identityApi.isCurrent(identity) ||

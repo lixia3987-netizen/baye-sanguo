@@ -575,7 +575,7 @@ export async function main(args=process.argv.slice(2)) {
     if(marchOnly){
       const {runMobileMarchChecks}=await import('./hd-mobile-march-runtime-checks.mjs');
       await runMobileMarchChecks({report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
-        readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes});
+        readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes,assertLcd});
     }else if(battleOnly){
       const {runMobileBattleChecks}=await import('./hd-mobile-battle-runtime-checks.mjs');
       const context={report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
@@ -588,7 +588,7 @@ export async function main(args=process.argv.slice(2)) {
         readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});
     }else await cityChecks();
   }catch(error){report.ok=false;report.accepted=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);
-    if(marchOnly&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.marchKeyTrace=await evaluate('window.__mobileMarchKeyTrace');}catch{report.failureMarchInputsUnavailable=true;}}
+    if(marchOnly&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.marchKeyTrace=await evaluate('window.__mobileMarchKeyTrace');report.failureWorld=await evaluate(worldSource);}catch{report.failureMarchInputsUnavailable=true;}}
     if(battleEffects&&cdp){try{report.effectTrace=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.trace');report.effectReports=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.reports');
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');}catch{report.failureEffectsUnavailable=true;}}
     if(portraitsOnly&&cdp){try{report.failurePortrait=await evaluate('window.BayeHdMobilePortraits&&BayeHdMobilePortraits.debugSnapshot()');}catch{report.failurePortraitUnavailable=true;}}

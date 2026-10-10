@@ -8,7 +8,9 @@ import test from 'node:test';
 const source = readFileSync(new URL('../js/hd-overworld.js', import.meta.url), 'utf8');
 const instrumented = source.replace(/\}\)\(window\);\s*$/, `
     global.__touch = {state: state, bind: bindInput, hit: hitCity, point: eventToDesign,
-        reset: resetPan, dimensions: function (w, h) { DESIGN_W = w; DESIGN_H = h; },
+        reset: resetPan, sync: syncCanvasSize,
+        size: function () { return { width: DESIGN_W, height: DESIGN_H }; },
+        dimensions: function (w, h) { DESIGN_W = w; DESIGN_H = h; },
         configure: function () {
             mapAuthorized = function () { return global.fixture.allowed; };
             mapInputAuthorized = function () {
@@ -29,7 +31,9 @@ const instrumented = source.replace(/\}\)\(window\);\s*$/, `
             marchTapCity = function (i) { global.recordAction('target', i); };
             leaveClassicMenu = function () { global.recordAction('leave'); };
             clampCamera = function () {};
+            draw = function () {};
             state.mode = 'hd-map'; state.phase = 'map'; state.canvas = global.canvas;
+            state.ctx = global.canvasContext;
             state.cities = global.fixture.cities; state.assetGeneration = 1;
             state.mobile = global.fixture.mobile;
             DESIGN_W = global.fixture.designW; DESIGN_H = global.fixture.designH;
@@ -37,9 +41,11 @@ const instrumented = source.replace(/\}\)\(window\);\s*$/, `
 })(window);`);
 assert.notEqual(instrumented, source, 'test export must attach to the real module');
 
-function harness({ mobile = true, width = 384, height = 216 } = {}) {
+function harness({ mobile = true, width = 384, height = 216, stageWidth = width, dpr = 1 } = {}) {
     const docHandlers = new Map(), winHandlers = new Map(), handlers = new Map(), captured = new Set();
     const actions = [], classes = new Set(), rect = { left: 0, top: 0, width, height };
+    const stageRect = { left: 0, top: 0, width: stageWidth, height }, transforms = [];
+    const canvasContext = { setTransform: (...args) => transforms.push(args) };
     const raw = { g_hdDetailGeneration: 9, g_hdMapInputSeq: 12, g_hdMapPick: 1, g_hdBattlePick: 0,
         g_hdMapCity: 1, g_hdMarchPhase: 0, g_hdMarchSession: 0, g_hdMarchInputSeq: 0,
         g_hdMenuActive: 0, g_hdMenuContext: 0, g_hdMenuKind: 0, g_hdMenuSeq: 20,
@@ -52,14 +58,15 @@ function harness({ mobile = true, width = 384, height = 216 } = {}) {
         if (!store.has(name)) store.set(name, []);
         store.get(name).push(fn);
     }
-    const canvas = { nodeType: 1, getBoundingClientRect: () => rect,
+    const canvas = { nodeType: 1, width: 0, height: 0, getBoundingClientRect: () => rect,
         classList: { add: name => classes.add(name), remove: name => classes.delete(name) },
         addEventListener: (name, fn) => listen(handlers, name, fn),
         setPointerCapture: id => captured.add(id), releasePointerCapture: id => captured.delete(id) };
     const document = { hidden: false, documentElement: { setAttribute() {} },
+        getElementById: id => id === 'hd-mobile-stage' ? { getBoundingClientRect: () => stageRect } : null,
         addEventListener: (name, fn) => listen(docHandlers, name, fn),
         elementFromPoint: () => fixture.top || canvas };
-    const context = vm.createContext({ document, canvas, fixture, actions,
+    const context = vm.createContext({ document, canvas, canvasContext, fixture, actions, devicePixelRatio: dpr,
         recordAction: (...args) => actions.push(args),
         getComputedStyle: node => node.testStyle || { display: 'block', visibility: 'visible', opacity: '1' },
         console: { warn() {}, log() {} }, localStorage: { getItem: () => 'classic' },
@@ -88,7 +95,8 @@ function harness({ mobile = true, width = 384, height = 216 } = {}) {
         for (const callback of docHandlers.get('visibilitychange') || []) callback();
     }
     function tap(options = {}) { fire('pointerdown', options); fire('pointerup', options); fire('click', options); }
-    return { api, state: api.state, fixture, raw, canvas, document, rect, actions, fire, tap, lifecycle, hidden, captured };
+    return { api, shared: context.BayeHdOverworld, state: api.state, fixture, raw, canvas, document, rect, stageRect, transforms,
+        actions, fire, tap, lifecycle, hidden, captured };
 }
 
 test('a current native MAP DOWN/UP opens once; no action at DOWN or compatibility click', () => {
@@ -351,4 +359,95 @@ test('retained phase7 allows only the real desktop classic city root; mobile can
         Object.assign(h.raw,{g_hdMarchPhase:7,g_hdMenuActive:1,g_hdMenuContext:1,g_hdMenuKind:1});h.raw[field]=value;
         h.tap();assert.deepEqual(h.actions,[],field);
     }
+});
+
+// The canvas CSS box is the displayed map surface. A march sidebar narrows it
+// without changing #hd-mobile-stage; object-fit must not scale a full-page bitmap.
+test('ordinary full-width mobile maps keep their CSS-sized design and DPR backing', () => {
+    for (const dpr of [1, 2]) {
+        const h = harness({ width: 844, height: 338, dpr });
+        h.api.sync();
+        assert.deepEqual({ ...h.api.size() }, { width: 844, height: 338 });
+        assert.equal(h.canvas.width, 844 * dpr); assert.equal(h.canvas.height, 338 * dpr);
+        assert.deepEqual(h.transforms.at(-1), [dpr, 0, 0, dpr, 0, 0]);
+        assert.deepEqual(h.actions, []);
+    }
+});
+
+test('march split maps size the design and backing to their actual surface, not the wider page', () => {
+    for (const [pageWidth, width, height] of [[667, 427, 323], [844, 557.04, 338]]) {
+        for (const dpr of [1, 2]) {
+            const h = harness({ width, height, stageWidth: pageWidth, dpr });
+            h.api.sync();
+            assert.deepEqual({ ...h.api.size() }, { width: Math.round(width), height });
+            assert.equal(h.canvas.width, Math.round(width) * dpr);
+            assert.equal(h.canvas.height, height * dpr);
+            assert.notEqual(h.canvas.width, pageWidth * dpr, 'sidebar pixels never enter the map bitmap');
+            assert.deepEqual(h.actions, []);
+        }
+    }
+});
+
+test('off-center split-map cities project onto the displayed bitmap and retain 44 CSS pixel touch targets', () => {
+    for (const [pageWidth, width, height] of [[667, 427, 323], [844, 557.04, 338]]) {
+        for (const dpr of [1, 2]) {
+            const h = harness({ width, height, stageWidth: pageWidth, dpr });
+            h.rect.left = 11; h.rect.top = 52; h.api.sync();
+            const city = h.fixture.cities[0];
+            city.hdX = h.state.camera.x + 80; city.hdY = h.state.camera.y + 90;
+            city.labelX = 2000; city.labelY = 2000;
+            const p = h.shared.cityScreenPos(0), point = h.api.point(p);
+            assert.ok(Math.abs(point.x - p.designX) < 1e-9);
+            assert.ok(Math.abs(point.y - p.designY) < 1e-9);
+            // Independently locate the drawing after the CSS object-fit:contain
+            // transform. Rounding the backing may leave less than half a CSS pixel.
+            const fit = Math.min(width / h.canvas.width, height / h.canvas.height);
+            const paintedX = h.rect.left + (width - h.canvas.width * fit) / 2 + p.designX * dpr * fit;
+            const paintedY = h.rect.top + (height - h.canvas.height * fit) / 2 + p.designY * dpr * fit;
+            assert.ok(Math.abs(p.clientX - paintedX) < 0.5, 'projected X matches the painted city');
+            assert.ok(Math.abs(p.clientY - paintedY) < 0.5, 'projected Y matches the painted city');
+            for (const [dx, dy] of [[-22 + 1e-9, 0], [22 - 1e-9, 0], [0, -22 + 1e-9], [0, 22 - 1e-9]]) {
+                assert.equal(h.api.hit(h.api.point({ clientX: p.clientX + dx, clientY: p.clientY + dy })), 0);
+            }
+            assert.equal(h.api.hit(h.api.point({ clientX: p.clientX + 22.01, clientY: p.clientY })), -1);
+            h.raw.g_hdMarchPhase = 4; h.raw.g_hdBattlePick = 1;
+            h.tap({ clientX: p.clientX, clientY: p.clientY });
+            assert.deepEqual(h.actions, [['target', 0]], 'one fresh map tap selects only the actual target');
+        }
+    }
+});
+
+test('splitting and restoring a mobile surface preserves its map center and retires old gestures', () => {
+    const h = harness({ width: 844, height: 338, dpr: 2 }); h.api.sync();
+    h.state.camera.x = 310; h.state.camera.y = 190;
+    const center = { x: 310 + 844 / 2, y: 190 + 338 / 2 };
+    h.fire('pointerdown'); h.state.aligning = true;
+    h.rect.width = 557.04; h.api.sync();
+    assert.equal(h.state.aligning, false);
+    assert.equal(h.state.pan.on, false);
+    assert.equal(h.state.camera.x + h.api.size().width / 2, center.x);
+    assert.equal(h.state.camera.y + h.api.size().height / 2, center.y);
+    h.fire('pointerup'); h.fire('click'); assert.deepEqual(h.actions, []);
+    h.rect.width = 844; h.api.sync();
+    assert.equal(h.canvas.width, 1688); assert.equal(h.canvas.height, 676);
+    assert.equal(h.state.camera.x, 310); assert.equal(h.state.camera.y, 190);
+    assert.deepEqual(h.actions, []);
+});
+
+test('hidden or invalid mobile surfaces retain the last valid size instead of borrowing the full page', () => {
+    for (const invalid of [0, NaN, Infinity]) {
+        const h = harness({ width: 427, height: 323, stageWidth: 667 }); h.api.sync();
+        h.rect.width = invalid; h.api.sync();
+        assert.deepEqual({ ...h.api.size() }, { width: 427, height: 323 });
+        assert.equal(h.canvas.width, 427); assert.equal(h.canvas.height, 323);
+        assert.deepEqual(h.actions, []);
+    }
+});
+
+test('desktop sizing retains its 1920x1080 design even beside a narrow mobile page fixture', () => {
+    const h = harness({ mobile: false, width: 427, height: 323, stageWidth: 667, dpr: 2 });
+    h.api.sync();
+    assert.deepEqual({ ...h.api.size() }, { width: 1920, height: 1080 });
+    assert.equal(h.canvas.width, 3840); assert.equal(h.canvas.height, 2160);
+    assert.deepEqual(h.actions, []);
 });

@@ -231,6 +231,17 @@
         var ticket = mobileInputTicket('march-target');
         return ticket && ticket.ownerType === 'march-target' ? ticket : null;
     }
+    function getMarchDialogTicket() {
+        if (!mobileHost) { return null; }
+        var first = mobileInputTicket(), m = currentMarch();
+        if (!first || !mobileBoundMarch(m) || m.phase !== first.phase ||
+            m.selected > 10 || m.phase !== MARCH.REJECT && m.selected < 1 ||
+            !(first.phase === MARCH.FOOD && first.ownerType === 'qty' ||
+                [MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(first.phase) >= 0 &&
+                first.ownerType === 'march-report')) { return null; }
+        var second = mobileInputTicket();
+        return second && second.data === first.data && second.key === first.key ? first : null;
+    }
     function sameMobileMarchTicket(expected, current) {
         return !!current && (!expected || expected.data === current.data && expected.key === current.key);
     }
@@ -6157,7 +6168,10 @@
                 BayeHdDialog.close({ silent: true });
             }
         }
-        if (phase !== MARCH.PERSONS) { state.deepSig = ''; }
+        // Mobile DOWN/UP is bound to the same button node. fillDeepList's
+        // signature already includes the phase, input owner and target, so an
+        // unchanged poll must not replace a button held by a real pointer.
+        if (!mobileHost && phase !== MARCH.PERSONS) { state.deepSig = ''; }
         render();
     }
 
@@ -7122,6 +7136,7 @@
         getLcdPresentation: cityLcdPresentation,
         getInputTicket: function () { return mobileHost ? mobileInputTicket() : null; },
         getMarchTargetTicket: getMarchTargetTicket,
+        getMarchDialogTicket: getMarchDialogTicket,
         getMarchPresentation: getMarchPresentation,
         getMode: getMenuMode,
         setMode: setMenuMode,

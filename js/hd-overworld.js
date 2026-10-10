@@ -1279,8 +1279,9 @@
             return;
         }
         if (state.mobile) {
-            var stage = document.getElementById('hd-mobile-stage');
-            var rect = stage && stage.getBoundingClientRect();
+            // The mobile map may share its page with the march sidebar. Size
+            // against this surface, not the full page behind the sidebar.
+            var rect = state.canvas.getBoundingClientRect();
             if (rect && isFinite(rect.width) && isFinite(rect.height) && rect.width > 0 && rect.height > 0) {
                 var width = Math.round(rect.width), height = Math.round(rect.height);
                 if (width !== DESIGN_W || height !== DESIGN_H) {

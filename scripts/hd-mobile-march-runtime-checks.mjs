@@ -4,11 +4,11 @@ import {verifyMobileMarchSelection,verifyMobileMarchCancellation,verifyMobileHdM
 
 export async function runMobileMarchChecks(c) {
   const {report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,button,mark,
-    presentationUnchanged,cityPoint,worldSource,readSource,mapReadySource,sendCdp,originalLibBytes}=c;
+    presentationUnchanged,cityPoint,worldSource,readSource,mapReadySource,sendCdp,originalLibBytes,assertLcd}=c;
   const origin=8,target=9,width=report.marchWidth,height=width===667?375:390;
   const city=report.initialAllCities.find(v=>v.index===origin),destination=report.initialAllCities.find(v=>v.index===target);
   assert.ok(city&&city.name==='天水'&&city.kind==='owned');assert.ok(destination&&destination.kind!=='owned');
-  report.marchChecks=[];report.marchActions=[];report.marchCancellations=[];report.marchNegativeChecks=[];
+  report.marchChecks=[];report.marchActions=[];report.marchCancellations=[];report.marchNegativeChecks=[];report.marchControlProbes=[];
   report.marchScenario={origin,target,viewport:[width,height],input:'Trusted emulated touch on current HD controls only; public keys are confined to fresh-game startup'};
   await evaluate(`(() => {window.__mobileMarchKeyTrace=[];const previous=window.sendKey;
     window.sendKey=function(code){const d=baye.data;__mobileMarchKeyTrace.push({keyIndex:__mobileMapKeys.length,code,at:performance.now(),
@@ -21,16 +21,24 @@ export async function runMobileMarchChecks(c) {
   const noInput=async(before,label)=>{const after=await presentationUnchanged(before,label);
     report.marchNegativeChecks.push({label,before:before.state,after:after.state,zeroInput:true});return after;};
   // Scroll only through genuine touch; never change scrollTop or manufacture a click.
-  const reveal=async selector=>{
+  const reveal=async(selector,retiredSource)=>{
     for(let attempt=0;attempt<14;attempt++){
+      if(retiredSource&&await evaluate(retiredSource))return false;
       const p=await evaluate(`(() => {const n=document.querySelector(${JSON.stringify(selector)});if(!n)return null;
         let visible=true;for(let q=n;q&&q.nodeType===1;q=q.parentElement){const s=getComputedStyle(q);if(q.hidden||s.display==='none'||s.visibility==='hidden')visible=false;}
         const r=n.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,t=document.elementFromPoint(x,y);
-        if(visible&&r.width>=44&&r.height>=44&&x>=0&&x<innerWidth&&y>=52&&y<innerHeight&&(t===n||n.contains(t)))return {visible:true};
+        const stage=document.getElementById('hd-mobile-stage').getBoundingClientRect(),clip={left:Math.max(stage.left,0),right:Math.min(stage.right,innerWidth),top:Math.max(stage.top,0),bottom:Math.min(stage.bottom,innerHeight)};
+        for(let q=n.parentElement;q;q=q.parentElement){const s=getComputedStyle(q),a=q.getBoundingClientRect();
+          if(['hidden','clip','auto','scroll'].includes(s.overflowX)){clip.left=Math.max(clip.left,a.left);clip.right=Math.min(clip.right,a.right);}
+          if(['hidden','clip','auto','scroll'].includes(s.overflowY)){clip.top=Math.max(clip.top,a.top);clip.bottom=Math.min(clip.bottom,a.bottom);}}
+        const geometry={left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height};
+        if(visible&&r.width>=44&&r.height>=44&&r.left>=clip.left-.5&&r.right<=clip.right+.5&&r.top>=clip.top-.5&&r.bottom<=clip.bottom+.5&&(t===n||n.contains(t)))return {visible:true,geometry,clip,hit:t&&(t.id||t.tagName)};
         let q=n.parentElement;while(q&&!(q.scrollHeight>q.clientHeight+1&&['auto','scroll'].includes(getComputedStyle(q).overflowY)))q=q.parentElement;
-        if(!visible||!q)return {visible:false,unscrollable:true};const a=q.getBoundingClientRect();
-        return {visible:false,top:r.top,bottom:r.bottom,clip:{left:Math.max(a.left,0),right:Math.min(a.right,innerWidth),top:Math.max(a.top,52),bottom:Math.min(a.bottom,innerHeight)}};})()`);
-      assert.ok(p,'Current control exists '+selector);if(p.visible)return;
+        if(!visible||!q)return {visible:false,unscrollable:true,geometry,clip,hit:t&&(t.id||t.tagName)};const a=q.getBoundingClientRect();
+        return {visible:false,geometry,top:r.top,bottom:r.bottom,clip:{left:Math.max(a.left,stage.left,0),right:Math.min(a.right,stage.right,innerWidth),top:Math.max(a.top,stage.top,0),bottom:Math.min(a.bottom,stage.bottom,innerHeight)}};})()`);
+      report.marchControlProbes.push({selector,attempt,probe:p});
+      if(retiredSource&&await evaluate(retiredSource))return false;
+      assert.ok(p,'Current control exists '+selector);if(p.visible)return true;
       assert.ok(!p.unscrollable,'Current control can be revealed '+selector);const r=p.clip;
       assert.ok(r.right-r.left>=44&&r.bottom-r.top>=44,'Current scroll pane has a touch row');
       const down=p.bottom>r.bottom,x=r.right-12,y=r.top+(r.bottom-r.top)*(down?.8:.2),end=(r.bottom-r.top)*.55*(down?-1:1),before=await mark();
@@ -39,22 +47,48 @@ export async function runMobileMarchChecks(c) {
     }
     throw Error('Control remained outside its current scroll pane '+selector);
   };
-  const action=async(kind,selector,expect,{sameWorld=false,personId,group}={})=>{
+  const action=async(kind,selector,expect,{sameWorld=false,personId,group,holdMs=0}={})=>{
     await reveal(selector);const p=await buttonPoint(selector);assert.ok(p.width>=44&&p.height>=44,'At least 44px HD touch control '+selector);
     const before=await mark(),actualTarget=await pointTarget(p),item={kind,selector,target:actualTarget,point:p,source:'Trusted CDP DOWN/UP',before:before.state,worldBefore:before.world,personId};
-    report.marchActions.push(item);await tap(p);if(expect)await until('Touch '+kind+' retires into its genuine owner',expect);
+    console.log('ACTION',kind,'phase',before.state.march.phase);
+    report.marchActions.push(item);item.holdMs=holdMs;
+    if(holdMs){await touches('touchStart',[p]);await delay(holdMs);await touches('touchEnd');await delay(150);}else await tap(p);
+    if(expect)await until('Touch '+kind+' retires into its genuine owner',expect);
     await until('HD march input queue retired after '+kind,idle);const after=await mark();
     item.after=after.state;item.worldAfter=after.world;item.keys=await keysBetween(before,after);item.completed=true;
+    console.log('DONE',kind,'phase',after.state.march.phase,'keys',item.keys.join(','));
     assert.equal(after.state.touchCount,before.state.touchCount,'HD control does not pass raw LCD touch '+kind);
     if(sameWorld)assert.deepEqual(after.world,before.world,'Presentation/selection stage preserves measured world '+kind);
     if(group)group.push(item);return {before,after,item};
   };
   const record=async(stage,trace)=>{const frame=await mark();trace.push({stage,state:frame.state,world:frame.world});return frame;};
+  const continueReport=async(run,from,to,kind)=>{
+    const retired=phaseSource(to),selector='#hd-city-menu [data-hd-march-continue]';
+    if(await evaluate(retired)||!await reveal(selector,retired)){
+      report.marchChecks.push({kind,from,to,naturalRetirement:true,native:await evaluate(readSource)});return;
+    }
+    const before=await mark();
+    if(before.state.march.phase===to){report.marchChecks.push({kind,from,to,naturalRetirement:true,native:before.state});return;}
+    assert.equal(before.state.march.phase,from);assert.equal(before.state.report.active,1);
+    let p;
+    try{p=await buttonPoint(selector);}catch(error){if(await evaluate(retired)){report.marchChecks.push({kind,from,to,naturalRetirement:true,native:await evaluate(readSource)});return;}throw error;}
+    const item={kind,selector,target:await pointTarget(p),point:p,source:'Trusted CDP DOWN/UP',before:before.state,worldBefore:before.world};
+    report.marchActions.push(item);await tap(p);await until('Current report retires before further input',retired);const after=await mark();
+    item.after=after.state;item.worldAfter=after.world;item.keys=await keysBetween(before,after);item.completed=true;
+    assert.equal(after.state.touchCount,before.state.touchCount);
+    if(from===3)assert.deepEqual(after.world,before.world,'Target report retirement preserves selected world');
+    if(item.keys.length){assert.deepEqual(item.keys,[39],'Current report accepts at most one deliberate Enter');run.trustedActions.push(item);}
+    else{item.naturalRetirement=true;report.marchChecks.push({kind,from,to,naturalRetirement:true,before:before.state,after:after.state});}
+  };
   await metrics(width,height);await until('HD map for new march case',mapReadySource);
   await tap(await cityPoint(city));await until('Actual owned CITY root before march',`baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===1&&BayeHdMobileCity.isActive()`);
   await checkpoint('march-city-'+width);
 
   const start=async label=>{
+    if(await evaluate('baye.hd.march().phase===0&&baye.hd.march().pick===1&&baye.hd.menuItems().active===0')){
+      await until('Native cancellation returns to the current HD map',mapReadySource);
+      await tap(await cityPoint(city));
+    }
     await until('CITY owner before '+label,`(() => {const m=baye.hd.menuItems();return m.active===1&&m.context===1&&[1,2].includes(m.kind)&&${idle};})()`);
     const rootMenu=await evaluate('baye.hd.menuItems()');
     if(rootMenu.kind===1){assert.equal(rootMenu.names[2],'军备');const r=await action('open-military','#hd-city-menu [data-hd-root="2"]',`baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===2`,{sameWorld:true});
@@ -82,7 +116,7 @@ export async function runMobileMarchChecks(c) {
     return food;
   };
   const cancel=async(run,stage,selector)=>{
-    const r=await action('cancel-'+stage,selector,`baye.hd.march().phase===0&&baye.hd.qty().active===0&&baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1`);
+    const r=await action('cancel-'+stage,selector,`baye.hd.march().phase===0&&baye.hd.qty().active===0&&baye.hd.march().pick===1&&baye.hd.menuItems().active===0&&BayeHdMobileMap.refresh().active`,{holdMs:650});
     assert.deepEqual(r.item.keys,[40],'One explicit native cancel '+stage);
     const verdict=verifyMobileMarchCancellation({before:run.before,after:r.after.world,origin,selectedPersonIds:run.selectedPersonIds,cancelStage:stage});
     report.marchCancellations.push({stage,...run,after:r.after.world,afterState:r.after.state,verdict});await checkpoint('march-cancel-'+stage+'-'+width);
@@ -92,11 +126,14 @@ export async function runMobileMarchChecks(c) {
   await cancel(cancelledFood,'food','#hd-city-menu [data-hd-qty-cancel]');
   const cancelledTarget=await start('target cancellation');await select(cancelledTarget,2);
   await action('food-confirm','#hd-city-menu [data-hd-qty-ok]',phaseSource(3),{sameWorld:true,group:cancelledTarget.trustedActions});
-  await action('continue-target','#hd-city-menu [data-hd-march-continue]',phaseSource(4),{sameWorld:true,group:cancelledTarget.trustedActions});
+  await continueReport(cancelledTarget,3,4,'continue-target');
   await until('Current target HD map',`BayeHdMobileMap.refresh().active&&BayeHdMobileMap.snapshot().ownerType==='march-target'`);
   const mapPoint=async index=>{
     const before=await mark();assert.notEqual(await evaluate('BayeHdOverworld.centerOnCity('+index+')'),false);
     await until('Current target map after presentation centering',`BayeHdMobileMap.refresh().active&&BayeHdMobileMap.snapshot().ownerType==='march-target'`);
+    const layout=await until('Target drawing and touch surface use the same dimensions',`(() => {const c=document.getElementById('hd-overworld-canvas'),r=c.getBoundingClientRect(),s=document.getElementById('hd-mobile-stage').getBoundingClientRect(),p=document.getElementById('hd-city-menu').getBoundingClientRect(),d=BayeHdOverworld.debugSnapshot().design,scale=Math.min(devicePixelRatio||1,2);
+      return r.width>0&&r.height>0&&Math.abs(d[0]-r.width)<=1&&Math.abs(d[1]-r.height)<=1&&c.width===Math.round(d[0]*scale)&&c.height===Math.round(d[1]*scale)&&r.right<=p.left+1&&r.left>=s.left-1&&r.top>=s.top-1&&r.bottom<=s.bottom+1?{canvas:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height,backing:[c.width,c.height]},design:d,panel:{left:p.left,width:p.width}}:null;})()`);
+    report.marchChecks.push({kind:'target-canvas-geometry',index,layout});
     await noInput(before,'Center target map without native movement');
     const p=await evaluate(`(() => {const p=BayeHdOverworld.cityScreenPos(${index}),n=document.getElementById('hd-overworld-canvas');
       return p&&{...p,hit:document.elementFromPoint(p.clientX,p.clientY)===n};})()`);
@@ -121,7 +158,7 @@ export async function runMobileMarchChecks(c) {
   run.qty=await evaluate('baye.hd.qty()');await record('food',run.phaseTrace);await checkpoint('march-food-'+width);
   await action('food-confirm','#hd-city-menu [data-hd-qty-ok]',phaseSource(3),{sameWorld:true,group:run.trustedActions});
   await record('target-tip',run.phaseTrace);await checkpoint('march-target-tip-'+width);
-  await action('continue-target','#hd-city-menu [data-hd-march-continue]',phaseSource(4),{sameWorld:true,group:run.trustedActions});
+  await continueReport(run,3,4,'continue-target');
   await until('Target picker owns the HD map',`BayeHdMobileMap.refresh().active&&BayeHdMobileMap.snapshot().ownerType==='march-target'`);
   await record('target',run.phaseTrace);await checkpoint('march-target-'+width);
   // Current origin and nonadjacent cities cannot issue any native input.
@@ -149,10 +186,10 @@ export async function runMobileMarchChecks(c) {
     await until('Current target owner resumes after '+kind,phaseSource(4));await noInput(before,'Held confirmation '+kind+' retires');
   }
   const beforeMode=await mark();await button('#hd-mobile-menu-mode');await until('Classic march is physical LCD',`BayeHdCityMenu.getMode()==='classic'&&!BayeHdMobileCity.isActive()`);
-  await noInput(beforeMode,'Classic march presentation switch');await checkpoint('march-classic-target-'+width);
+  await noInput(beforeMode,'Classic march presentation switch');assertLcd(await checkpoint('march-classic-target-'+width));
   await button('#hd-mobile-menu-mode');await phase(4);await noInput(beforeMode,'Current HD march presentation restores');
-  await choose(run);await record('target-selected',run.phaseTrace);
-  const submitted=await action('target-confirm','#hd-city-menu [data-hd-confirm-march]',phaseSource(6),{sameWorld:true,group:run.trustedActions});
+  await choose(run);await record('target-selected',run.phaseTrace);await checkpoint('march-target-selected-'+width);
+  const submitted=await action('target-confirm','#hd-city-menu [data-hd-confirm-march]',phaseSource(6),{sameWorld:true,group:run.trustedActions,holdMs:650});
   const route=await evaluate(`__mobileMarchKeyTrace.filter(x=>x.keyIndex>=${submitted.before.state.keyCount}&&x.keyIndex<${submitted.after.state.keyCount})`);
   assert.equal(route.length,submitted.item.keys.length);assert.ok(route.length>0);assert.equal(route.at(-1).code,39);
   for(let n=0;n<route.length;n++){
@@ -163,9 +200,11 @@ export async function runMobileMarchChecks(c) {
     }
   }
   assert.equal(route.at(-1).cursor.x,destination.engX);assert.equal(route.at(-1).cursor.y,destination.engY);run.route=route;
-  await record('armout',run.phaseTrace);await checkpoint('march-armout-'+width);
-  if(await evaluate('baye.hd.march().phase===6'))await action('armout-ack','#hd-city-menu [data-hd-march-continue]',phaseSource(7),{group:run.trustedActions});
+  assert.equal(submitted.after.state.march.phase,6,'Actual live armout sample precedes natural retirement');
+  run.phaseTrace.push({stage:'armout',state:submitted.after.state,world:submitted.after.world});await checkpoint('march-armout-'+width);
+  await continueReport(run,6,7,'armout-ack');
   await phase(7);await record('departed',run.phaseTrace);run.after=await evaluate(worldSource);
+  assert.equal(run.phaseTrace.at(-1).state.report.active,0,'Consumed departure report is inactive at the new order');
   report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
   report.marchKeyTrace=await evaluate('__mobileMarchKeyTrace');
   run.verdict=verifyMobileHdMarch({before:run.before,after:run.after,qty:run.qty,libBytes:originalLibBytes,selectedPersonIds:run.selectedPersonIds,

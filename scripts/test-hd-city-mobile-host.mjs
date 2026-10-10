@@ -635,6 +635,69 @@ function mobileMarchFixture(phase=4) {
         personExitSent:phase!==1,foodConfirmedThisMarch:phase>=3});
     return f;
 }
+
+// Controlled DOM nodes exercise the actual fillDeepList/syncMarchPhase bodies.
+// Replacing innerHTML disconnects old buttons just as it does in a browser.
+function marchDom(f) {
+    function node(tagName) {
+        const attrs={}, value={tagName:tagName.toUpperCase(),children:[],parentElement:null,
+            isConnected:false,hidden:false,textContent:'',className:'',
+            classList:{toggle(){},contains(){return false;}},
+            setAttribute(name,item){attrs[name]=String(item);},getAttribute(name){return name in attrs?attrs[name]:null;},
+            appendChild(child){child.parentElement=this;this.children.push(child);connect(child,this.isConnected);return child;}};
+        Object.defineProperty(value,'innerHTML',{set(html){
+            for(const child of this.children)connect(child,false);
+            this.children=[];
+            for(const match of String(html).matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)){
+                const button=node('button');button.textContent=match[2];
+                for(const attr of match[1].matchAll(/(data-hd-[\w-]+)(?:="([^"]*)")?/g))button.setAttribute(attr[1],attr[2]||'');
+                button.disabled=/\bdisabled\b/.test(match[1]);this.appendChild(button);
+            }
+        }});
+        return value;
+    }
+    function connect(value,on){value.isConnected=on;for(const child of value.children)connect(child,on);}
+    const list=node('div');connect(list,true);
+    f.env.document.getElementById=id=>id==='hd-city-menu-deep'?list:null;
+    f.env.document.createElement=node;
+    function find(attribute,value=list){
+        if(value.getAttribute(attribute)!==null)return value;
+        for(const child of value.children){const found=find(attribute,child);if(found)return found;}
+        return null;
+    }
+    function poll(){f.internals.sync();f.internals.fill();}
+    return {list,find,poll};
+}
+test('same native phase4 polls preserve the actual cancel and confirm DOM button identities',()=>{
+    const f=mobileMarchFixture();f.api.selectMarchTarget(9,f.api.getMarchTargetTicket());
+    const dom=marchDom(f);dom.poll();
+    const cancel=dom.find('data-hd-march-cancel'),confirm=dom.find('data-hd-confirm-march');
+    const ticket=f.api.getMarchTargetTicket();
+    assert.ok(cancel&&confirm);assert.equal(confirm.disabled,false);
+    for(let i=0;i<5;i++){
+        dom.poll();assert.equal(dom.find('data-hd-march-cancel'),cancel);
+        assert.equal(dom.find('data-hd-confirm-march'),confirm);
+        assert.equal(cancel.isConnected,true);assert.equal(confirm.isConnected,true);
+        assert.equal(f.api.getMarchTargetTicket().key,ticket.key);
+    }
+    assert.equal(f.state.pendingTarget,9);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    assert.equal(f.api.cancelMarch(ticket),true);assert.deepEqual(f.keys,[40]);
+});
+test('a real target selection or native phase/input handoff replaces old march controls',()=>{
+    for(const change of ['target','input','phase']){
+        const f=mobileMarchFixture(),dom=marchDom(f);dom.poll();
+        const cancel=dom.find('data-hd-march-cancel'),confirm=dom.find('data-hd-confirm-march');
+        const ticket=f.api.getMarchTargetTicket();assert.ok(cancel&&confirm);
+        if(change==='target')f.api.selectMarchTarget(9,ticket);
+        if(change==='input')f.raw.g_hdMarchInputSeq++;
+        if(change==='phase')Object.assign(f.raw,{g_hdMarchPhase:6,g_hdMapPick:0,g_hdReportActive:1,
+            g_hdReportKind:1,g_hdReportPerson:65535});
+        dom.poll();assert.equal(cancel.isConnected,false,change);assert.equal(confirm.isConnected,false,change);
+        if(change==='target')assert.equal(dom.find('data-hd-confirm-march').disabled,false);
+        else assert.equal(f.api.cancelMarch(ticket),false,change);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
 test('mobile full march publishes only its current per-phase native owner without keys',()=>{
     const expected={1:'city',2:'qty',3:'march-report',4:'march-target',5:'march-report',6:'march-report',7:'strategy'};
     for(const phase of [1,2,3,4,5,6,7]){
@@ -644,6 +707,42 @@ test('mobile full march publishes only its current per-phase native owner withou
         assert.equal(f.api.getMarchPresentation().phase,phase);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
     }
 });
+test('only a fully bound FOOD2 or march-report owner may displace the generic mobile dialog',()=>{
+    for(const phase of [1,2,3,4,5,6,7]){
+        const f=mobileMarchFixture(phase), ticket=f.api.getMarchDialogTicket();
+        assert.equal(!!ticket,[2,3,5,6].includes(phase),'phase '+phase);
+        if(ticket){assert.equal(ticket.key,f.api.getInputTicket().key);assert.equal(ticket.data,f.env.baye.data);}
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+    for(const problem of ['unbound','hidden','classic','library','qty-ready','report-kind']){
+        const f=mobileMarchFixture(problem==='report-kind'?6:2);
+        if(problem==='unbound')f.state.marchSession++;
+        if(problem==='hidden')f.env.document.hidden=true;
+        if(problem==='classic')f.api.setMode('classic');
+        if(problem==='library')f.setIdentity({...f.identity(),sha256:'0'.repeat(64)});
+        if(problem==='qty-ready')f.raw.g_hdQtyReady=0;
+        if(problem==='report-kind')f.raw.g_hdReportKind=2;
+        assert.equal(f.api.getMarchDialogTicket(),null,problem);assert.deepEqual(f.keys,[]);
+    }
+});
+for(const phase of [2,3,5,6]){
+    test('real CITY and dialog modules give bound native phase'+phase+' exactly one HD shell',()=>{
+        const f=mobileMarchFixture(phase);
+        f.env.bayeQtyNativeClosed=()=>false;
+        f.env.baye.hd.reportText=()=>f.env.baye.hd.report().text;
+        vm.runInNewContext(fs.readFileSync(new URL('../js/hd-dialog.js',import.meta.url),'utf8'),f.env,{filename:'js/hd-dialog.js'});
+        const dialog=f.env.BayeHdDialog;
+        dialog.configureMobileHost({isAvailable:()=>true});
+        if(phase===2)assert.equal(dialog.openQty({min:1,max:640,init:50}),false);
+        else dialog.onEngineReport();
+        dialog.poll();
+        assert.equal(dialog.openHelp(),false);assert.equal(dialog.openSearch(),false);
+        assert.ok(f.api.getMarchDialogTicket());assert.equal(dialog.isOpen(),false);
+        assert.equal(dialog.getInputTicket(),null);assert.equal(dialog.isActive(),false);
+        assert.equal(dialog.getLcdPresentation(),'passthrough');assert.equal(f.api.getLcdPresentation(),'off');
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
 test('mobile target ticket authenticates real original CITY_LINKR row, current ownership and full data owner',()=>{
     const f=mobileMarchFixture(), ticket=f.api.getMarchTargetTicket();
     const address=originalLib.readUInt32LE(58*4), row=Array.from(originalLib.subarray(address+14+8*16,address+22+8*16));
