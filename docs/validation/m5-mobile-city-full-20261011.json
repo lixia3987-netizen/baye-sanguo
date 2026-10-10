@@ -1,0 +1,1379 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "scope": "Original mobile HD city complete maintained browser matrix",
+  "status": "partial-mobile-HD",
+  "fullDefaultCityRuntimeAccepted": true,
+  "realDeviceAccepted": false,
+  "fullHdAccepted": false,
+  "recruitmentCommitted": false,
+  "portableClosedArchive": false,
+  "acceptedScope": [
+    "Original genuine multi-city lord and native city entry",
+    "844x390 and 667x375 trusted four-category city menus",
+    "Actual person U16 owner list and quantity edit/cancel",
+    "Readonly status zero keys and single-owner Back",
+    "44px unobstructed touch targets; fitting content or measured genuine overflow scrolling",
+    "Touchcancel/multifinger/rotation/hidden/untrusted-click retirement",
+    "Independent mobile presentation mode; PC preferences unchanged",
+    "Two bounded nonking original Treat operations; one report ACK and one natural report retirement"
+  ],
+  "viewports": [
+    [
+      844,
+      390
+    ],
+    [
+      667,
+      375
+    ]
+  ],
+  "reportsViewport": [
+    844,
+    390
+  ],
+  "king": {
+    "id": 0,
+    "name": "董卓",
+    "ownedCount": 3
+  },
+  "testCity": {
+    "index": 10,
+    "name": "长安",
+    "kind": "owned",
+    "belong": 1,
+    "engX": 5,
+    "engY": 2
+  },
+  "phases": [
+    {
+      "name": "00-title-844",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 4,
+        "kind": 1,
+        "seq": 2
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-内政-0",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 9
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "844x390-内政",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 2,
+        "seq": 11
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-外交-4",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 15
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "844x390-外交",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 2,
+        "seq": 17
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-军备-8",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 21
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "844x390-军备",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 2,
+        "seq": 23
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-状况-12",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 27
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "status-14",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 27
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-内政-16",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 29
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "844x390-person",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 3,
+        "seq": 33
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-军备-20",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 35
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "844x390-qty",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 0,
+        "context": 0,
+        "kind": 0,
+        "seq": 40
+      },
+      "qtyActive": 1,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-内政-26",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 43
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "667x375-内政",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 2,
+        "seq": 45
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-外交-30",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 49
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "667x375-外交",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 2,
+        "seq": 51
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-军备-34",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 55
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "667x375-军备",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 2,
+        "seq": 57
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-状况-38",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 61
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "status-40",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 61
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-内政-42",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 63
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "667x375-person",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 3,
+        "seq": 67
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-军备-46",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 69
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "667x375-qty",
+      "viewport": [
+        667,
+        375
+      ],
+      "menu": {
+        "active": 0,
+        "context": 0,
+        "kind": 0,
+        "seq": 74
+      },
+      "qtyActive": 1,
+      "reportActive": 0
+    },
+    {
+      "name": "negative-current-root",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 77
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "root-gesture-portrait",
+      "viewport": [
+        375,
+        667
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 77
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "mode-current-root",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 79
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "classic-city",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 79
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "entry-for-内政-56",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 81
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "public-treat-confirmed-report",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 0,
+        "context": 0,
+        "kind": 0,
+        "seq": 86
+      },
+      "qtyActive": 0,
+      "reportActive": 1
+    },
+    {
+      "name": "entry-for-内政-60",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 1,
+        "context": 1,
+        "kind": 1,
+        "seq": 89
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    },
+    {
+      "name": "public-treat-natural-owner-retirement-report",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 0,
+        "context": 0,
+        "kind": 0,
+        "seq": 94
+      },
+      "qtyActive": 0,
+      "reportActive": 1
+    },
+    {
+      "name": "final-mobile-HD-map",
+      "viewport": [
+        844,
+        390
+      ],
+      "menu": {
+        "active": 0,
+        "context": 0,
+        "kind": 0,
+        "seq": 96
+      },
+      "qtyActive": 0,
+      "reportActive": 0
+    }
+  ],
+  "checks": {
+    "city": 64,
+    "returns": 26,
+    "negative": 13,
+    "treatments": 2,
+    "targets": "Shown header buttons and exercised controls asserted >=44 CSS px, within viewport and hit-tested"
+  },
+  "returns": [
+    {
+      "type": "Back 844x390 内政 submenu",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 root return-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 外交 submenu",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 root return-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 军备 submenu",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 root return-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 status return",
+      "keyCodes": [],
+      "status": true
+    },
+    {
+      "type": "Back 844x390 root return",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 person cancel",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 quantity cancel",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 844x390 cancelled quantity-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 内政 submenu",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 root return-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 外交 submenu",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 root return-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 军备 submenu",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 root return-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 status return",
+      "keyCodes": [],
+      "status": true
+    },
+    {
+      "type": "Back 667x375 root return",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 person cancel",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 quantity cancel",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back 667x375 cancelled quantity-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back negative root cleanup-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back mode restored city-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back public-treat-confirmed after report-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    },
+    {
+      "type": "Back public-treat-natural-owner-retirement after report-0",
+      "keyCodes": [
+        40
+      ],
+      "status": false
+    }
+  ],
+  "negative": [
+    {
+      "label": "844x390 internal submenu native-independent content scroll",
+      "keyCodes": []
+    },
+    {
+      "label": "667x375 internal submenu native-independent content scroll",
+      "keyCodes": []
+    },
+    {
+      "label": "667x375 native-independent content scroll",
+      "keyCodes": []
+    },
+    {
+      "label": "root-gesture touchcancel",
+      "keyCodes": []
+    },
+    {
+      "label": "root-gesture second finger retires press",
+      "keyCodes": []
+    },
+    {
+      "label": "root-gesture untrusted bare click",
+      "keyCodes": []
+    },
+    {
+      "label": "root-gesture portrait retires held press",
+      "keyCodes": []
+    },
+    {
+      "label": "root-gesture landscape restoration",
+      "keyCodes": []
+    },
+    {
+      "label": "Hidden document retires held Back without background touch dispatch",
+      "keyCodes": []
+    },
+    {
+      "label": "Visible owner restored; releasing retired held Back cannot send old action",
+      "keyCodes": []
+    },
+    {
+      "label": "Independent mobile menu classic mode",
+      "keyCodes": []
+    },
+    {
+      "label": "Independent mobile HD restoration",
+      "keyCodes": []
+    },
+    {
+      "label": "Reveal #hd-city-menu [data-hd-sub=\"11\"] with native-independent trusted pan 1",
+      "keyCodes": []
+    }
+  ],
+  "scroll": [
+    {
+      "label": "844x390 internal submenu",
+      "from": 0,
+      "to": 90,
+      "overflow": 134
+    },
+    {
+      "label": "667x375 internal submenu",
+      "from": 0,
+      "to": 83,
+      "overflow": 149
+    },
+    {
+      "label": "667x375",
+      "from": 0,
+      "to": 83,
+      "overflow": 1670
+    }
+  ],
+  "quantities": [
+    {
+      "actor": 23,
+      "before": {
+        "active": 1,
+        "value": 980,
+        "min": 0,
+        "max": 980,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 0,
+        "lastKey": 65535,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "receipt": {
+        "active": 1,
+        "value": 979,
+        "min": 0,
+        "max": 980,
+        "protocol": true,
+        "session": 3,
+        "inputSeq": 1,
+        "lastKey": 35,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "keyCodes": [
+        35
+      ]
+    },
+    {
+      "actor": 23,
+      "before": {
+        "active": 1,
+        "value": 980,
+        "min": 0,
+        "max": 980,
+        "protocol": true,
+        "session": 4,
+        "inputSeq": 0,
+        "lastKey": 65535,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "receipt": {
+        "active": 1,
+        "value": 979,
+        "min": 0,
+        "max": 980,
+        "protocol": true,
+        "session": 4,
+        "inputSeq": 1,
+        "lastKey": 35,
+        "cursor": 2,
+        "step": 1,
+        "ready": 1
+      },
+      "keyCodes": [
+        35
+      ]
+    }
+  ],
+  "treatments": [
+    {
+      "label": "public-treat-confirmed",
+      "actor": 23,
+      "duringDelta": {
+        "phase": "report",
+        "cityIndex": 10,
+        "personIndex": 23,
+        "money": {
+          "before": 576,
+          "after": 476
+        },
+        "thew": {
+          "before": 100,
+          "after": 100
+        },
+        "devotion": {
+          "before": 87,
+          "after": 87
+        }
+      },
+      "finalDelta": {
+        "phase": "retired",
+        "cityIndex": 10,
+        "personIndex": 23,
+        "money": {
+          "before": 576,
+          "after": 476
+        },
+        "thew": {
+          "before": 100,
+          "after": 100
+        },
+        "devotion": {
+          "before": 87,
+          "after": 88
+        }
+      },
+      "nativeReport": {
+        "text": "主公恩情，永铭于心……",
+        "seq": 1,
+        "active": 1,
+        "inputSeq": 3,
+        "kind": 2,
+        "person": 23
+      },
+      "keyCodes": [
+        39
+      ],
+      "naturalHeld": false
+    },
+    {
+      "label": "public-treat-natural-owner-retirement",
+      "actor": 23,
+      "duringDelta": {
+        "phase": "report",
+        "cityIndex": 10,
+        "personIndex": 23,
+        "money": {
+          "before": 476,
+          "after": 376
+        },
+        "thew": {
+          "before": 100,
+          "after": 100
+        },
+        "devotion": {
+          "before": 88,
+          "after": 88
+        }
+      },
+      "finalDelta": {
+        "phase": "retired",
+        "cityIndex": 10,
+        "personIndex": 23,
+        "money": {
+          "before": 476,
+          "after": 376
+        },
+        "thew": {
+          "before": 100,
+          "after": 100
+        },
+        "devotion": {
+          "before": 88,
+          "after": 89
+        }
+      },
+      "nativeReport": {
+        "text": "主公恩情，永铭于心……",
+        "seq": 2,
+        "active": 1,
+        "inputSeq": 5,
+        "kind": 2,
+        "person": 23
+      },
+      "keyCodes": [],
+      "naturalHeld": true
+    }
+  ],
+  "actualVisibility": {
+    "hidden": {
+      "observed": {
+        "hidden": true,
+        "visibility": "hidden"
+      },
+      "keyCount": 75,
+      "touchCount": 0
+    },
+    "restored": {
+      "hidden": false,
+      "visibility": "visible",
+      "hostActive": true
+    },
+    "released": {
+      "restored": {
+        "hidden": false,
+        "visibility": "visible",
+        "hostActive": true
+      },
+      "keyCount": 75,
+      "touchCount": 0
+    }
+  },
+  "eventWitness": {
+    "earlyClickObserver": {
+      "identifier": "1"
+    },
+    "hasRealTrustedTouchCancel": true,
+    "hasRealUntrustedClick": true,
+    "note": "Early capture observes the real untrusted click before the product capture gate stops propagation; late observer retained. Entry totals are not unique action counts."
+  },
+  "automated": {
+    "currentFocused": {
+      "total": 139,
+      "pass": 139,
+      "fail": 0,
+      "skipped": 0,
+      "log": {
+        "path": "build/mobile-city-full-final-unit.log",
+        "bytes": 12500,
+        "sha256": "bc2cfe0970e6e5ef9d14744948336a7b4663a9c01afbec4a796fdd582a2c001e"
+      }
+    },
+    "previousFullBaseline": {
+      "modules": 63,
+      "total": 1661,
+      "pass": 1661,
+      "fail": 0,
+      "skipped": 0,
+      "concurrency": 4,
+      "compiler": "repository local clang",
+      "durationMs": 22110.7014,
+      "log": {
+        "path": "build/mobile-city-full-regression-final-v2.log",
+        "bytes": 402579,
+        "sha256": "f11f2f3a597aab094926ff45244b527fd27c4b4783f64adab7c635f425b8c997"
+      },
+      "mobileCityHostAndDialog": 121,
+      "lcdTouch": 25,
+      "entryAfterTextUpdate": 18,
+      "treatTwoPhaseOracle": {
+        "pass": 8,
+        "log": {
+          "path": "build/mobile-city-treat-oracle-final.log",
+          "bytes": 54,
+          "sha256": "d2dd673e4459a37776ea6ee7e5a228b5fc893b095f24a3e2a9b3570605cce3c2"
+        }
+      },
+      "rerunThisBatch": false,
+      "reason": "Only runtime observation and documentation changed; all captured product hashes still match the prior batch."
+    }
+  },
+  "sources": [
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 61232,
+      "sha256": "469bee2d812a9f304cb039d4cebf74c992e4c057f331f49a6fd302ff47a7e835"
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    {
+      "path": "m.html",
+      "bytes": 11944,
+      "sha256": "c4d95183e7c6170270e096fba053561142bc9694f81a56c06ac55fc79740fab7"
+    },
+    {
+      "path": "js/original-game.js",
+      "bytes": 7437,
+      "sha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34"
+    },
+    {
+      "path": "js/hd-mobile.js",
+      "bytes": 9728,
+      "sha256": "69e7d99702d9af12eaf3687f92f6d59dc55baa8252a458b4d3f72957420220c7"
+    },
+    {
+      "path": "js/hd-mobile-map.js",
+      "bytes": 18561,
+      "sha256": "8babb010711d22d29deea6ec718d4ed83b538569674a7b668787223be71325e9"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 25226,
+      "sha256": "f63fba425b89a872466c7797e661741c33aaa8ea2c13f7715f3f2e24fa0bb7cd"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 306333,
+      "sha256": "7361ab4a6ae2177bb06bb2c5aee138328cce607bba75dd96167eca294233e600"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 102125,
+      "sha256": "c3cbb2d78fea9e4d3f25fe65d2b6bfda8cec946f9854c6b40020d42146f65380"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 168802,
+      "sha256": "99dc69bf05702d700811ece731e84a26e555d851a13462b739e93550ad973745"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 34418,
+      "sha256": "b10f9a41d9718784e321d789a29b81a62429e31b753e51f7c4cab14afa690169"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "css/baye.css",
+      "bytes": 2869,
+      "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83"
+    },
+    {
+      "path": "css/hd-overworld.css",
+      "bytes": 4893,
+      "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1"
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 14183,
+      "sha256": "3fc256cf6fa34756987f993d208948008f39d14faf7588de4618857c0ca6b485"
+    },
+    {
+      "path": "css/hd-dialog.css",
+      "bytes": 9772,
+      "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 8626,
+      "sha256": "be955f00ba6d6984e52f46b51a7dd5d5ef55ab3127b5a3a5dcca9950160cd639"
+    },
+    {
+      "path": "js/jquery.min.js",
+      "bytes": 92629,
+      "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4"
+    },
+    {
+      "path": "js/encoding-indexes.js",
+      "bytes": 145824,
+      "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738"
+    },
+    {
+      "path": "js/encoding.js",
+      "bytes": 101260,
+      "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d"
+    },
+    {
+      "path": "js/sprintf.js",
+      "bytes": 9783,
+      "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c"
+    },
+    {
+      "path": "js/lzma_worker-min.js",
+      "bytes": 23963,
+      "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523"
+    },
+    {
+      "path": "js/base64.js",
+      "bytes": 3334,
+      "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42"
+    },
+    {
+      "path": "js/idbkvstore.min.js",
+      "bytes": 16578,
+      "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 144208,
+      "sha256": "ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8"
+    },
+    {
+      "path": "js/save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5822,
+      "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf"
+    },
+    {
+      "path": "js/hd-overworld-layers.js",
+      "bytes": 5717,
+      "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a"
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 192446,
+      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4535346,
+      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+    },
+    {
+      "path": "favicon.png",
+      "bytes": 7349,
+      "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+    },
+    {
+      "path": "assets/hd-overworld/manifest.json",
+      "bytes": 8120,
+      "sha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94"
+    },
+    {
+      "path": "assets/hd-overworld/palette/factions.json",
+      "bytes": 479,
+      "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098"
+    },
+    {
+      "path": "assets/hd-overworld/roads/adjacency.json",
+      "bytes": 925,
+      "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad"
+    },
+    {
+      "path": "assets/hd-overworld/china-lcc-cities.json",
+      "bytes": 13172,
+      "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/base_plains.jpg",
+      "bytes": 2538377,
+      "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/overlay_rivers.png",
+      "bytes": 93336,
+      "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+      "bytes": 911013,
+      "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+      "bytes": 1540805,
+      "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f"
+    },
+    {
+      "path": "assets/hd-overworld/cities/fortified-city-v1.png",
+      "bytes": 972200,
+      "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db"
+    },
+    {
+      "path": "assets/hd-overworld/ui/cursor.png",
+      "bytes": 777,
+      "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994"
+    },
+    {
+      "path": "assets/hd-overworld/ui/cursor_hover.png",
+      "bytes": 3060,
+      "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604"
+    },
+    {
+      "path": "assets/hd-overworld/roads/stroke.png",
+      "bytes": 108,
+      "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c"
+    },
+    {
+      "path": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+      "bytes": 1198185,
+      "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88"
+    },
+    {
+      "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+    }
+  ],
+  "sourceDrift": [],
+  "priorProductSourcesStillCurrent": true,
+  "sourceVerification": {
+    "path": "build/mobile-city-actual-v11-full/source-verification.json",
+    "bytes": 7453,
+    "sha256": "1171192ef0d96ac88d0ae7cf59dc2bcefcda90e050f7e78db3376b482387eb55"
+  },
+  "rawResult": {
+    "path": "build/mobile-city-actual-v11-full/result.json",
+    "bytes": 13420360,
+    "sha256": "4279f319d6dc2fcb7873d3ba3080954d51f5993b213320408f570d7a3bcc4872"
+  },
+  "runtimeLog": {
+    "path": "build/mobile-city-actual-v11-full.log",
+    "bytes": 1629,
+    "sha256": "9130fb85d67b6fc95f211159d42d9ec4ad060dc65c6732dea3feb3954be55a76"
+  },
+  "cleanup": {
+    "treeExited": true,
+    "errors": [],
+    "serverClosed": true,
+    "profileRetained": true,
+    "directoriesDeleted": false
+  },
+  "native": {
+    "changed": false,
+    "artifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+        "unchangedFromParent": true
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+        "unchangedFromParent": true
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+        "unchangedFromParent": true
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 16650,
+        "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+        "unchangedFromParent": true
+      }
+    ],
+    "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "engineSourceModified": true,
+    "newBuild": false
+  },
+  "earlier": {
+    "splitAcceptance": {
+      "path": "docs/validation/m5-mobile-city-20261011.json",
+      "bytes": 66158,
+      "sha256": "9f7f661ab40f4a9504254d0ed00974e31d7d09bc3b782289933e83d12ebb64fe"
+    },
+    "v10": {
+      "ok": false,
+      "reason": "Every gameplay assertion passed; final untrusted-click witness was missing because the late observer was correctly stopped by the product capture gate.",
+      "rawResult": {
+        "path": "build/mobile-city-actual-v10-full/result.json",
+        "bytes": 13481232,
+        "sha256": "1020721052f592e60c68efd1aa6949d00edd32b34c4ae026723a9acf7a6d8713"
+      }
+    }
+  },
+  "userService": {
+    "port": 8080,
+    "pid": 57860,
+    "httpStatus": 200,
+    "restarted": false,
+    "userStorageTouched": false
+  },
+  "pending": [
+    "Mobile portraits and battle HD",
+    "Real Android/iOS, safe area and browser chrome",
+    "Committed recruitment, all city commands and complete campaign/save/load",
+    "Fixed-device performance"
+  ],
+  "evidenceNote": "A single default run now passes the bounded city matrix. Raw observations, executed tool and private profiles remain local build evidence; this is not full mobile HD or a portable closed archive."
+}

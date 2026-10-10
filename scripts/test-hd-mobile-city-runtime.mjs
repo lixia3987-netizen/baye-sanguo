@@ -501,6 +501,7 @@ export async function main(args=process.argv.slice(2)) {
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
     await cdp.send('Runtime.enable');await cdp.send('Page.enable');await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
     await metrics(844,390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+    report.earlyClickObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"document.addEventListener('click',event=>{if(Array.isArray(window.__mobileMapEvents))window.__mobileMapEvents.push({type:'click',trusted:event.isTrusted,target:event.target?.id||event.target?.tagName||null,at:performance.now()});},true);"});
     await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
     await until('original engine','window.baye&&baye.hd&&baye.hd.ready()',60000);
     await evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];
