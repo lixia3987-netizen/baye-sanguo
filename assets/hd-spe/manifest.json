@@ -25095,6 +25095,94 @@
       "opaqueCoverageVersion": 1,
       "liuyanVersion": 1,
       "skillId": 16
+    },
+    {
+      "speId": 39,
+      "resourceIndex": 0,
+      "kind": 2,
+      "startFrm": 0,
+      "endFrm": 7,
+      "count": 8,
+      "picmax": 2,
+      "resourceFingerprint": "fnv1a32:6b0ebc5a:1084",
+      "resourceLength": 1084,
+      "units": [
+        {
+          "frame": 0,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 1,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 2,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 4,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        },
+        {
+          "frame": 6,
+          "x": 0,
+          "y": 0,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 0,
+          "y": 0,
+          "picIndex": 1
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/qimen-39/picture-0.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 64,
+          "logicalHeight": 64,
+          "nativeWidth": 64,
+          "nativeHeight": 64,
+          "mask": 0
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/qimen-39/picture-1.png",
+          "width": 1254,
+          "height": 1254,
+          "logicalWidth": 64,
+          "logicalHeight": 64,
+          "nativeWidth": 64,
+          "nativeHeight": 64,
+          "mask": 0
+        }
+      ],
+      "opaqueCoverageVersion": 1,
+      "zhoufengVersion": 1,
+      "skillId": 14
     }
   ]
 }
