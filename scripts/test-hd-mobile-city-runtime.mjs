@@ -114,7 +114,8 @@ const worldSource = `(() => {
   return {period:Number(d.g_PIdx),king:Number(d.g_PlayerKing),year:Number(d.g_YearDate),month:Number(d.g_MonthDate),
     people:Array.from({length:n},(_,i)=>take(d.g_Persons[i],['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'])),
     cities:Array.from({length:nc},(_,i)=>take(d.g_Cities[i],['Belong','SatrapId','State','AvoidCalamity','PeopleDevotion','Commerce','Money','Food','MothballArms','PersonQueue','Persons'])),
-    queue:Array.from(d.g_PersonsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),
+    queue:Array.from(d.g_PersonsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),
+    config:{enable16bitConsumeMoney:Number(d.g_engineConfig.enable16bitConsumeMoney)},
     orders:Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>take(d.g_OrderQueue[i],['OrderId','City','Person','Object','TimeCount','Food']))};
 })()`;
 const nativeWaitSource = `(() => {const d=baye.data;return {mapCity:Number(d.g_hdMapCity),mapPick:Number(d.g_hdMapPick),
@@ -482,7 +483,7 @@ export async function main(args=process.argv.slice(2)) {
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
-    if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
+    if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://private'),rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),filename=path.resolve(root,rel);
       const allowed=/^(?:js|css|assets|libs|fonts|vendor)\//.test(rel)||['m.html','favicon.png','manifest.json'].includes(rel);
@@ -523,14 +524,12 @@ export async function main(args=process.argv.slice(2)) {
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
     await cdp.send('Runtime.enable');await cdp.send('Page.enable');await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
     await metrics(844,390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
-    report.earlyClickObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"document.addEventListener('click',event=>{if(Array.isArray(window.__mobileMapEvents))window.__mobileMapEvents.push({type:'click',trusted:event.isTrusted,target:event.target?.id||event.target?.tagName||null,at:performance.now()});},true);"});
+    report.earlyInputObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"for(const type of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointerup','pointercancel','click','keydown'])document.addEventListener(type,event=>{if(Array.isArray(window.__mobileMapEvents))window.__mobileMapEvents.push({type,trusted:event.isTrusted,target:event.target?.id||event.target?.tagName||null,key:event.key||null,pointerId:event.pointerId??null,at:performance.now()});},true);"});
     await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
     await until('original engine','window.baye&&baye.hd&&baye.hd.ready()',60000);
     await evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];
       const k=window.sendKey,t=window._bayeSendTouchEvent;window.sendKey=function(code){__mobileMapKeys.push({code,at:performance.now()});return k.apply(this,arguments);};
       window._bayeSendTouchEvent=function observeTouch(){__mobileMapNativeTouches.push({args:Array.from(arguments),at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observeTouch;return r;};
-      for(const type of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointerup','pointercancel','click'])document.addEventListener(type,e=>
-        __mobileMapEvents.push({type,trusted:e.isTrusted,target:e.target.id||e.target.tagName,at:performance.now()}),true);
       return true;})()`);
     report.initialPreferences=await evaluate(`({mobile:localStorage.getItem('${MOBILE_PREF}'),pc:localStorage.getItem('${PC_PREF}'),debug:localStorage.getItem('baye/debug')})`);
     assert.notEqual(report.initialPreferences.debug,'1','Fresh profile starts without requested native debug');
@@ -564,7 +563,7 @@ export async function main(args=process.argv.slice(2)) {
     if(battleOnly){
       const {runMobileBattleChecks}=await import('./hd-mobile-battle-runtime-checks.mjs');
       await runMobileBattleChecks({report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
-        readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params)});
+        readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes});
     }else if(portraitsOnly){
       const {runMobilePortraitChecks}=await import('./hd-mobile-portraits-runtime-checks.mjs');
       await runMobilePortraitChecks({report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,

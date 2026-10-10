@@ -1,5 +1,6 @@
 // Scenario only: process/server ownership is handled by the safe mobile runtime runner.
 import assert from 'node:assert/strict';
+import {verifyMobileBattleMarch,verifyMobileBattleRest} from './hd-mobile-battle-runtime-oracle.mjs';
 
 export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),units=[];
   for(let i=0;i<20;i++){const id=Number(d.g_FgtParam.GenArray[i]);if(id>0&&id<65534){const p=d.g_GenPos[i];
@@ -15,10 +16,15 @@ export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),un
     keys:__mobileMapKeys.length,touches:__mobileMapNativeTouches.length,pcBattle:localStorage.getItem('baye/battleMode')};})()`;
 
 export async function runMobileBattleChecks(c) {
-  const {report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,cityPoint,worldSource,mapReadySource,sendCdp}=c;
+  const {report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,cityPoint,worldSource,mapReadySource,sendCdp,originalLibBytes}=c;
   const K={UP:34,DOWN:35,LEFT:36,RIGHT:37,ENTER:39,EXIT:40,HELP:38,SEARCH:51};
   report.battleChecks=[];report.battleActions=[];report.battleBootstrap={type:'Fresh P1 马腾, real LCD public keys for march; not HD march acceptance'};
   const native=()=>evaluate(battleObservation);
+  const physicalKey=async(key,code)=>{report.inputs.push({type:'trusted CDP physical key',key,code});
+    await sendCdp('Input.dispatchKeyEvent',{type:'keyDown',key,code:key.length===1?'Key'+key.toUpperCase():key,windowsVirtualKeyCode:code,nativeVirtualKeyCode:code});
+    await sendCdp('Input.dispatchKeyEvent',{type:'keyUp',key,code:key.length===1?'Key'+key.toUpperCase():key,windowsVirtualKeyCode:code,nativeVirtualKeyCode:code});await delay(160);};
+  const lcdCenter=async()=>{const s=await native();assert.equal(s.mobile.presentation,'lcd');assert.equal(s.lcd.hit,true);
+    return {x:s.lcd.left+s.lcd.width/2,y:s.lcd.top+s.lcd.height/2};};
   const capture=async label=>{const n=await native();report.battleChecks.push({label,state:n});await checkpoint(label);return n;};
   const ready=async(kind,label)=>{await until(label,`(() => {const f=baye.hd.fight(),s=BayeHdBattle.debugSnapshot(),h=BayeHdMobileBattle.refresh();return f.active===1&&!f.over&&f.inputKind===${kind}&&!s.transaction&&h.presentation==='hd'&&BayeHdBattle.getInputTicket()&&true;})()`,45000);return native();};
   const unchanged=async(before,label)=>{await delay(200);const n=await native();
@@ -38,7 +44,10 @@ export async function runMobileBattleChecks(c) {
   await publicMenu(await evaluate('baye.hd.menuItems().names.indexOf("出征")'),'出征');
   await until('real original march persons','baye.hd.march().phase===1&&baye.hd.march().origin===8');
   report.battleBootstrap.before=await evaluate(worldSource);
+  report.battleBootstrap.selectedPersonIds=[];
   for(let i=0;i<8;i++){const m=await evaluate('baye.hd.march()');if(m.phase!==1)break;
+    const people=await evaluate('baye.hd.menuItems()');assert.ok(people.active===1&&people.kind===3&&people.idsValid&&people.ids.length>0,'Actual march person owner');
+    report.battleBootstrap.selectedPersonIds.push(people.ids[0]);
     const selected=m.selected;await publicMenu(0,'Select genuine resident');await until('actual selected count','baye.hd.march().selected>'+selected+'||baye.hd.march().phase!==1');}
   if(await evaluate('baye.hd.march().phase===1'))await key(K.EXIT,'Finish real selected army');
   await until('real GetFood','baye.hd.march().phase===2&&baye.hd.qty().active===1');
@@ -59,7 +68,8 @@ export async function runMobileBattleChecks(c) {
   await key(K.ENTER,'Confirm original enemy destination');await until('real departure report','baye.hd.march().phase===6');
   await key(K.ENTER,'Acknowledge genuine departure report');await until('actual march order','baye.hd.march().phase===7&&baye.hd.march().ok===1');
   report.battleBootstrap.after=await evaluate(worldSource);
-  assert.ok(report.battleBootstrap.after.orders.some(o=>o.OrderId===27&&o.City===8&&o.Object===9),'Actual original BATTLE order');
+  report.battleMarchVerdict=verifyMobileBattleMarch({before:report.battleBootstrap.before,after:report.battleBootstrap.after,
+    qty:report.battleBootstrap.food,libBytes:originalLibBytes,selectedPersonIds:report.battleBootstrap.selectedPersonIds});
   for(let i=0;i<5;i++){const m=await evaluate('baye.hd.menuItems()');if(m.active===1&&m.context===2)break;
     await key(K.EXIT,'Return through genuine strategy menu');await delay(250);}
   await until('real strategy function menu','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===2');
@@ -68,6 +78,12 @@ export async function runMobileBattleChecks(c) {
   assert.equal(initial.mobile.presentation,'hd');assert.equal(initial.canvas.hit,true);assert.ok(initial.mobile.camera.cell>=44);
   assert.ok(initial.units.some(u=>u.side==='player')&&initial.units.some(u=>u.side==='enemy'));
   await unchanged(initial,'Idle actual mobile battle');
+  const beforeView=await native();await physicalKey('s',83);
+  await until('actual VIEW LCD owner',"baye.hd.fight().inputKind===10&&baye.hd.view().active===1&&BayeHdMobileBattle.refresh().presentation==='lcd'");
+  const view=await capture('battle-view-native-LCD');assert.equal(view.keys,beforeView.keys+1);assert.equal((await evaluate('__mobileMapKeys.at(-1)')).code,K.SEARCH);
+  await tap(await lcdCenter());await ready(1,'VIEW exits by actual LCD tap');const afterView=await native();
+  assert.deepEqual(afterView.units,beforeView.units);assert.deepEqual(afterView.food,beforeView.food);assert.equal(afterView.keys,view.keys);
+  report.battleView={before:beforeView,visible:view,after:afterView,exit:'trusted native LCD center DOWN/UP'};
   // Measured touch geometry, no assumed PC 1920x1080 layout.
   const tilePoint=async(x,y)=>{for(let i=0;i<12;i++){const s=await native(),v=s.mobile.camera;assert.ok(v&&v.cell>=44);
       if(x>=v.x&&x<v.x+v.cols&&y>=v.y&&y<v.y+v.rows){const p={x:v.left+(x-v.x+.5)*v.cell,y:v.top+(y-v.y+.5)*v.cell};
@@ -117,8 +133,19 @@ export async function runMobileBattleChecks(c) {
   await button('[data-hd-battle-cancel]');await ready(1,'ACTION rollback');assert.deepEqual((await native()).units,initial.units);
   await tileTap(own.x,own.y,'Select player for native rest');await ready(2,'rest MOVE');await tileTap(own.x,own.y,'Stay actual own tile');await ready(3,'real rest ACTION');
   report.realActionNames=(await native()).menu.names;await menu(1,'Open real skill list');await ready(4,'native SKILL menu');await capture('battle-04-native-skills');
-  await button('[data-hd-battle-cancel]');await ready(3,'return from native SKILL');await menu(3,'Rest selected general');await ready(1,'single general rested');
+  await button('[data-hd-battle-cancel]');await ready(3,'return from native SKILL');
+  const beforeHelp=await native();await menu(2,'Open actual native general HELP');
+  await until('actual HELP LCD owner',"baye.hd.fight().inputKind===9&&baye.hd.help().active===1&&BayeHdMobileBattle.refresh().presentation==='lcd'");
+  const help=await capture('battle-help-native-LCD'),center=await lcdCenter();
+  await touches('touchStart',[center]);await ready(3,'HELP retires on actual LCD DOWN');const downHelp=await native();await touches('touchEnd');
+  await ready(3,'HELP release keeps fresh ACTION');const afterHelp=await native();
+  assert.deepEqual(afterHelp.units,beforeHelp.units);assert.deepEqual(afterHelp.food,beforeHelp.food);assert.equal(afterHelp.keys,help.keys);
+  report.battleHelp={before:beforeHelp,visible:help,downRetired:downHelp,after:afterHelp,exit:'GamDelay(0,2) retires on DOWN; remaining UP ignored by fresh ACTION'};
+  report.battleRest={before:await native(),world:await evaluate(worldSource),actorIndex:own.i};
+  await menu(3,'Rest selected general');await ready(1,'single general rested');
   const rested=await capture('battle-05-rested-single');assert.equal(rested.units.find(u=>u.i===own.i).active,1);
+  report.battleRest.after=rested;report.battleRest.worldAfter=await evaluate(worldSource);
+  report.battleRestVerdict=verifyMobileBattleRest(report.battleRest);
   for(const u of initial.units.filter(u=>u.side==='player'&&u.i!==own.i))assert.equal(rested.units.find(v=>v.i===u.i).active,u.active);
   assert.equal(rested.fight.bout,initial.fight.bout,'A rest does not end whole player turn');
   await button('[data-hd-battle-sys]');await ready(6,'real SYSTEM');await capture('battle-06-native-system');
@@ -137,7 +164,8 @@ export async function runMobileBattleChecks(c) {
   assert.equal(report.exceptions.length,0);report.battleAccepted=true;report.ok=true;report.accepted=true;
   report.acceptedScope=['Fresh original P1 马腾 actual public march into enemy 河内; march remains LCD and not HD accepted',
     'Trusted battle touch at 844x390 and 667x375; current native MOVE, rollback, SKILL list/cancel and single general rest',
-    'Native SYSTEM/RETREAT/SETTINGS, one explicit army end followed by genuine AI and exactly one next bout',
-    'Classic and HD restoration zero keys, native masks and >=44px geometry, touchcancel/multiple pointers/held rotation retirement'];
-  report.pendingScope=['Normal attack damage and skill MP/effect','HELP/VIEW/report/animation LCD interaction','Real hidden-tab restoration','Battle completion and strategy return','Android/iOS actual devices and performance','Full mobile HD/march acceptance'];
+    'Native SYSTEM/RETREAT cancellation and SETTINGS open/cancel, one explicit army end then native AI control flow and exactly one next bout; no AI damage claim',
+    'HELP/VIEW display and retire through actual native LCD touch; genuine physical SEARCH routes once',
+    'Classic and HD restoration zero keys, native masks and >=44px geometry, touchcancel/multiple pointers/held rotation and actual hidden-tab retirement'];
+  report.pendingScope=['Normal attack damage and skill MP/effect','Report/animation LCD interaction and setting changes','Battle completion and strategy return','Android/iOS actual devices and performance','Full mobile HD/march acceptance'];
 }

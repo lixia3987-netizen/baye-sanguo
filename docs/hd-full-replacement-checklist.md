@@ -6,6 +6,8 @@
 
 2026-10-11 移动横屏仍为partial：`m.html`已有城市资料栏、HD地图、城池菜单、人员名单、数量与报告及触控保护，本批新增人物选择／报告立绘。四个真实私局通过董卓0／李儒19／吕布20的HD、原头像、LCD回退与迟到加载；人物页两尺寸、报告844×390的限定范围见[移动立绘验证](validation/m5-mobile-portraits-20261011.md)。最终64模块1811/1811通过，当前产品默认城池回归通过34阶段及两次真实宴请，无新native build。[前批城池](validation/m5-mobile-city-full-20261011.md)、[地图](validation/m5-mobile-map-20261011.md)与[首批HUD](validation/m5-mobile-hud-20261011.md)保留历史范围。出征MARCH、其它立绘上下文、战场、真实Android/iOS、实际征兵提交和完整移动流程继续待验。
 
+2026-10-11 移动战场追加[限定实战](validation/m5-mobile-battle-20261011.md)：两尺寸移动／回滚、技能名单取消、待机、系统取消、HELP／VIEW真实LCD交还与后台恢复通过，显式结束回合后bout1→2。原版出征编队／扣粮及待机精确核验通过，全量67模块2001/2001通过，城池34阶段回归通过。攻击／计谋效果、战斗结束、HD出征向导和真机保持待验；完整移动HD仍为partial。
+
 玩家能见到的主要画面是否已有 HD 表现壳。引擎规则一律仍走 WASM。  
 **分支：`feature/hd-graphics`（Draft PR #2），不合 `main`。**
 
