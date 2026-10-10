@@ -24,7 +24,7 @@
     align-items: center;
     flex: 0 0 var(--mobile-bar-height);
     gap: 14px;
-    padding: 5px 12px;
+    padding: 3px 12px;
     border-bottom: 1px solid #5e5030;
     background: linear-gradient(110deg, #202a31, #151b23);
     pointer-events: none;
@@ -65,6 +65,27 @@
 }
 #hd-mobile-hud small { color: #b1ada2; font-size: 10px; line-height: 14px; }
 #hd-mobile-hud strong { font-size: 15px; font-weight: 600; line-height: 20px; }
+.hd-mobile-controls {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 4px;
+    margin-left: auto;
+    pointer-events: auto;
+}
+.hd-mobile-controls button {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 6px;
+    border: 1px solid #6d624a;
+    border-radius: 6px;
+    background: #222c35;
+    color: #f1eee4;
+    font: 13px system-ui, "Microsoft YaHei", sans-serif;
+    touch-action: manipulation;
+}
+.hd-mobile-controls button:disabled { opacity: 0.4; }
+.hd-mobile-controls button:focus-visible { outline: 2px solid #efd7a0; outline-offset: 1px; }
 #hd-mobile-stage {
     flex: 1 1 0;
     min-height: 0;
@@ -85,6 +106,27 @@
     image-rendering: pixelated;
 }
 .hd-mobile-page #info { display: none !important; }
+.hd-mobile-page #hd-overworld {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+}
+.hd-mobile-page.hd-mobile-map-on #hd-overworld { display: flex; }
+.hd-mobile-page #hd-overworld[hidden] { display: none !important; }
+.hd-mobile-page #hd-overworld .hd-overworld-stage { width: 100%; height: 100%; box-shadow: none; }
+.hd-mobile-page.hd-mobile-map-on #lcd { visibility: hidden; pointer-events: none; }
+.hd-mobile-map-tip {
+    position: absolute;
+    bottom: 8px;
+    left: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(12, 16, 22, 0.8);
+    color: #d5d3c9;
+    font-size: 12px;
+    pointer-events: none;
+}
 @media (max-width: 700px) {
     #hd-mobile-bar { gap: 10px; padding-inline: 8px; }
     .hd-mobile-brand { font-size: 14px; }

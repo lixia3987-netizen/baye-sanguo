@@ -9,7 +9,7 @@ import crypto from 'node:crypto';
 import {spawn} from 'node:child_process';
 import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
 const root=process.cwd(),out=path.join(root,'build','mobile-precommit-runtime-'+Date.now());fs.mkdirSync(out);
-const report={scope:'Original mobile read-only HUD and trusted Chrome emulated touch; not complete mobile HD or real Android/iOS',startedAt:new Date().toISOString(),sources:{},requests:[],console:[],exceptions:[],phases:[],inputs:[],profileRetained:true};
+const report={scope:'Original mobile HUD and classic LCD touch selected explicitly; not HD map or real Android/iOS acceptance',startedAt:new Date().toISOString(),sources:{},requests:[],console:[],exceptions:[],phases:[],inputs:[],profileRetained:true};
 const wait=ms=>new Promise(r=>setTimeout(r,ms)),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 let server,chrome,cdp,ownership;const profile=path.join(out,'profile');fs.mkdirSync(profile);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.wasm':'application/wasm','.json':'application/json','.png':'image/png'};
@@ -40,7 +40,10 @@ try{
  await until('title','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1');await checkpoint('title-844');await key(0x27);
  await until('period','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===2');await key(0x27);
  await until('king','Number(baye.data.g_PIdx)===1&&baye.hd.kings().count>0');const kings=await evaluate('baye.hd.kings()'),targetIndex=kings.kings.findIndex(k=>k.name==='曹操');assert.ok(targetIndex>=0);for(let i=kings.index;i<targetIndex;i++)await key(0x23);for(let i=kings.index;i>targetIndex;i--)await key(0x22);await key(0x27);
- await until('map HUD','baye.hd.march().pick===1&&BayeHdMobile.refresh().visible');let s=await checkpoint('map-844');layout(s);assert.equal(s.identity.sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');assert.equal(s.barHeight,52);
+ await until('map HUD','baye.hd.march().pick===1&&BayeHdMobile.refresh().visible');
+ // This retained suite exercises the original LCD touch surface explicitly.
+ await evaluate("BayeHdOverworld.setMode('classic');BayeHdMobileMap.refresh()");
+ let s=await checkpoint('map-844');layout(s);assert.equal(s.identity.sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');assert.equal(s.barHeight,52);
  const expected=await evaluate(`(()=>{const d=baye.data,c=d.g_Cities[d.g_hdMapCity-1];return {city:baye.getCityName(d.g_hdMapCity-1),owner:c.Belong?baye.getPersonName(c.Belong-1):'无主',date:d.g_YearDate+'年'+d.g_MonthDate+'月',money:String(c.Money),food:String(c.Food),arms:String(c.MothballArms)};})()`);for(const [k,v]of Object.entries(expected))assert.equal(s.hud[k],v);
  const beforeWorld=await evaluate(world);await evaluate('__mobileInputs=[]');await touch('touchStart',30,25);await touch('touchEnd');assert.deepEqual(await evaluate('__mobileInputs'),[],'HUD does not dispatch native touch');
  let r=s.rect,x=r.left+r.width*.3,y=r.top+r.height*.6;await touch('touchStart',x,y);await touch('touchMove',x+5,y+3);await touch('touchCancel');let inputs=await evaluate('__mobileInputs');assert.deepEqual(inputs.map(a=>a[0]),[1,3,4]);assert.deepEqual(inputs[2].slice(1),inputs[1].slice(1));assert.deepEqual(await evaluate(world),beforeWorld);

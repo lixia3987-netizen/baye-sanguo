@@ -5,6 +5,7 @@
  */
 (function (global) {
     var STORAGE_KEY = 'baye/overworldMode';
+    var MOBILE_STORAGE_KEY = 'baye/mobileOverworldMode';
     var ASSET_ROOT = 'assets/hd-overworld/';
     var STANDARD_LIB_SHA256 = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var DESIGN_W = 1920;
@@ -54,6 +55,8 @@
     };
 
     var state = {
+        mobile: false,
+        mobileMode: null,
         mode: 'classic',
         phase: 'other',
         canvas: null,
@@ -145,7 +148,8 @@
     }
 
     function getMode() {
-        return normalizeMode(readStorage(STORAGE_KEY, 'classic'));
+        if (state.mobile && state.mobileMode !== null) { return state.mobileMode; }
+        return normalizeMode(readStorage(state.mobile ? MOBILE_STORAGE_KEY : STORAGE_KEY, state.mobile ? 'hd-map' : 'classic'));
     }
 
     function applyEarlyDocumentAttrs() {
@@ -620,6 +624,16 @@
             }
         }
         if (!geoReady || !imgReady) {
+            return;
+        }
+        if (state.mobile) {
+            var focus = state.cities[readMapCity()] || state.cities[0];
+            state.camera.scale = 0.4;
+            state.camera.x = focus.hdX - DESIGN_W / state.camera.scale / 2;
+            state.camera.y = focus.hdY - DESIGN_H / state.camera.scale / 2;
+            clampCamera();
+            state.camera.inited = true;
+            state.camera.lockedFull = true;
             return;
         }
         var want = { '西凉': 1, '襄平': 1, '建业': 1, '成都': 1 };
@@ -1264,6 +1278,22 @@
         if (!state.canvas || !state.ctx) {
             return;
         }
+        if (state.mobile) {
+            var stage = document.getElementById('hd-mobile-stage');
+            var rect = stage && stage.getBoundingClientRect();
+            if (rect && isFinite(rect.width) && isFinite(rect.height) && rect.width > 0 && rect.height > 0) {
+                var width = Math.round(rect.width), height = Math.round(rect.height);
+                if (width !== DESIGN_W || height !== DESIGN_H) {
+                    var center = toMap(DESIGN_W / 2, DESIGN_H / 2);
+                    cancelAlign(); resetPan();
+                    DESIGN_W = width; DESIGN_H = height;
+                    SAFE = {left: 24, top: 24, right: width - 24, bottom: height - 24};
+                    state.camera.x = center.x - width / (state.camera.scale || 1) / 2;
+                    state.camera.y = center.y - height / (state.camera.scale || 1) / 2;
+                    clampCamera();
+                }
+            }
+        }
         var dpr = global.devicePixelRatio || 1;
         if (dpr > 2) {
             dpr = 2;
@@ -1815,7 +1845,7 @@
             );
             var lx = lab.x;
             var ly = lab.y;
-            var labelPx = hover || selected ? 22 : 20;
+            var labelPx = state.mobile ? (hover || selected ? 16 : 14) : (hover || selected ? 22 : 20);
             ctx.font = (hover || selected ? 'bold ' : '') + labelPx + 'px BayeUI, "Noto Sans CJK SC", sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'top';
@@ -2092,6 +2122,7 @@
         state.visibilityBound = true;
         document.addEventListener('visibilitychange', function () {
             if (document.hidden) {
+                cancelAlign(); resetPan();
                 if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
                 return;
             }
@@ -2164,7 +2195,12 @@
 
     function eventToDesign(ev) {
         var rect = state.canvas.getBoundingClientRect();
-        if (!rect.width || !rect.height) {
+        if (!ev || !rect || ![rect.left, rect.top, rect.width, rect.height,
+            ev.clientX, ev.clientY, DESIGN_W, DESIGN_H].every(function (n) {
+                return typeof n === 'number' && isFinite(n);
+            }) || rect.width <= 0 || rect.height <= 0 || DESIGN_W <= 0 || DESIGN_H <= 0 ||
+            ev.clientX < rect.left || ev.clientY < rect.top ||
+            ev.clientX >= rect.left + rect.width || ev.clientY >= rect.top + rect.height) {
             return null;
         }
         return {
@@ -2174,24 +2210,34 @@
     }
 
     function hitCity(pt) {
-        if (!mapAuthorized()) { return -1; }
+        if (!mapAuthorized() || !pt || !isFinite(pt.x) || !isFinite(pt.y)) { return -1; }
         var best = -1;
         var bestD = HIT_RADIUS;
+        var radius = HIT_RADIUS, labelRadius = 28, scaleX = 1, scaleY = 1;
+        if (state.mobile) {
+            var rect = state.canvas.getBoundingClientRect();
+            if (!rect || !(rect.width > 0 && rect.height > 0)) { return -1; }
+            scaleX = rect.width / DESIGN_W;
+            scaleY = rect.height / DESIGN_H;
+            // Distances are CSS pixels on mobile, independent of backing DPR.
+            radius = labelRadius = 22;
+            bestD = Infinity;
+        }
         for (var i = 0; i < state.cities.length; i++) {
             var c = state.cities[i];
             var scr = toScreen(c.hdX, c.hdY);
             var dx = pt.x - scr.x;
             var dy = pt.y - scr.y;
-            var d = Math.sqrt(dx * dx + dy * dy);
+            var d = Math.hypot(dx * scaleX, dy * scaleY);
             var lab = toScreen(
                 c.labelX != null ? c.labelX : c.hdX,
                 c.labelY != null ? c.labelY : c.hdY + 44
             );
-            var dl = Math.sqrt((pt.x - lab.x) * (pt.x - lab.x) + (pt.y - lab.y) * (pt.y - lab.y));
-            if (d < bestD) {
+            var dl = Math.hypot((pt.x - lab.x) * scaleX, (pt.y - lab.y) * scaleY);
+            if (d <= radius && d < bestD) {
                 bestD = d;
                 best = c.index;
-            } else if (dl < 28 && dl < bestD) {
+            } else if ((state.mobile ? dl <= labelRadius : dl < labelRadius) && dl < bestD) {
                 bestD = dl;
                 best = c.index;
             }
@@ -2200,12 +2246,20 @@
     }
 
     function resetPan() {
+        var retired = state.pan.on || state.pan.moved || state.pan.pointerId != null;
+        var pointerId = state.pan.pointerId;
         state.pan.on = false;
         state.pan.moved = false;
-        state.pan.suppressClick = false;
+        state.pan.pointerId = null;
+        state.pan.ticket = null;
+        state.pan.geometry = null;
+        state.pan.suppressClick = retired || state.pan.suppressClick;
         state.pan.tapHandled = false;
         if (state.canvas) {
             state.canvas.classList.remove('hd-panning');
+            if (pointerId != null && typeof state.canvas.releasePointerCapture === 'function') {
+                try { state.canvas.releasePointerCapture(pointerId); } catch (e) {}
+            }
         }
     }
 
@@ -2257,6 +2311,7 @@
     }
 
     function engineSendKey(code) {
+        if (document.hidden) { cancelAlign(); return false; }
         if (!mapInputAuthorized()) { cancelAlign(); return false; }
         var exitCode = (window.baye && baye.VK_EXIT) || VK.EXIT;
         if (fightLive()) {
@@ -3471,7 +3526,7 @@
         var checks = 0;
         var from = readMapCity();
         function valid() {
-            return mapAuthorized() && token === state.alignToken && state.mode === 'hd-map' &&
+            return !document.hidden && mapAuthorized() && token === state.alignToken && state.mode === 'hd-map' &&
                 state.aligning && !fightLive() && !miniMapActive();
         }
         function fail(message) {
@@ -3693,6 +3748,82 @@
             return;
         }
         state.inputBound = true;
+        var pressed = Object.create(null), blocked = false;
+        var ownerFields = ['g_hdDetailGeneration', 'g_hdMapInputSeq', 'g_hdMapPick', 'g_hdBattlePick',
+            'g_hdMapCity', 'g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchInputSeq',
+            'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq',
+            'g_hdReportActive', 'g_hdHelpActive', 'g_hdQtyActive', 'g_hdFightActive'];
+        function readOwner() {
+            if (document.hidden || state.aligning || state.mode !== 'hd-map' || battleCoversMapCanvas() ||
+                !mapInputAuthorized()) { return null; }
+            var data = engineData();
+            if (!data) { return null; }
+            var values = ownerFields.map(function (name) { return data[name]; });
+            if (!values.every(function (n) {
+                return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= 0 && n <= 4294967295;
+            }) || !values[0] || !values[1] || values[12] || values[13] || values[14] || values[15]) { return null; }
+            var map = values[2] === 1 && values[3] === 0 && values[5] === 0 && values[8] === 0;
+            var target = values[2] === 1 && values[3] === 1 && values[5] === 4 && values[8] === 0;
+            var cityMenu = !state.mobile && values[2] === 0 && values[3] === 0 && values[5] === 0 &&
+                values[8] === 1 && values[9] === 1 && values[10] === 1 && state.phase === 'classic-menu';
+            if (!map && !target && !cityMenu) { return null; }
+            var identity = readIdentity();
+            if (!libraryAllowed(identity) || !mapInputAuthorized() || engineData() !== data ||
+                !ownerFields.every(function (name, i) { return data[name] === values[i]; })) { return null; }
+            return JSON.stringify([identity.generation, identity.sha256, state.assetGeneration, state.phase, values]);
+        }
+        function geometry() {
+            var rect = state.canvas.getBoundingClientRect();
+            var values = rect && [rect.left, rect.top, rect.width, rect.height, DESIGN_W, DESIGN_H];
+            return values && values.every(function (n) { return typeof n === 'number' && isFinite(n); }) &&
+                rect.width > 0 && rect.height > 0 ? values : null;
+        }
+        function sameGesture(ev) {
+            var current = geometry(), old = state.pan.geometry;
+            if (!state.pan.on || ev.pointerId !== state.pan.pointerId || !current || !old ||
+                current.some(function (n, i) { return Math.abs(n - old[i]) >= 0.5; }) ||
+                !state.pan.ticket || readOwner() !== state.pan.ticket) { return false; }
+            return true;
+        }
+        function pointIsCanvas(ev) {
+            if (!eventToDesign(ev)) { return false; }
+            if (typeof global.getComputedStyle === 'function') {
+                var node = state.canvas;
+                while (node && node.nodeType === 1) {
+                    var style = global.getComputedStyle(node);
+                    if (style.display === 'none' || style.visibility === 'hidden' || style.visibility === 'collapse' ||
+                        Number(style.opacity) === 0) { return false; }
+                    node = node.parentElement;
+                }
+            }
+            if (typeof document.elementFromPoint === 'function' &&
+                document.elementFromPoint(ev.clientX, ev.clientY) !== state.canvas) { return false; }
+            return true;
+        }
+        function retireInteraction() { cancelAlign(); resetPan(); }
+        function losePage() {
+            retireInteraction();
+            pressed = Object.create(null);
+            blocked = false;
+        }
+        document.addEventListener('pointerdown', function (ev) {
+            pressed[ev.pointerId] = true;
+            if (Object.keys(pressed).length > 1 || ev.isPrimary === false) {
+                blocked = true;
+                retireInteraction();
+            }
+        }, true);
+        function releasePointer(ev) {
+            delete pressed[ev.pointerId];
+            if (!Object.keys(pressed).length) { blocked = false; }
+        }
+        document.addEventListener('pointerup', releasePointer, true);
+        document.addEventListener('pointercancel', releasePointer, true);
+        global.addEventListener('blur', losePage);
+        global.addEventListener('resize', losePage);
+        global.addEventListener('orientationchange', losePage);
+        global.addEventListener('pagehide', losePage);
+        document.addEventListener('visibilitychange', function () { if (document.hidden) { losePage(); } });
         function handleMapTap(ev) {
             if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return false;
@@ -3749,13 +3880,14 @@
             return true;
         }
         state.canvas.addEventListener('pointerdown', function (ev) {
-            if (state.mode !== 'hd-map' || !mapAuthorized()) {
-                return;
-            }
-            if (state.phase !== 'map' && state.phase !== 'classic-menu' && !inGameOverworld()) {
-                return;
-            }
+            if (blocked || state.pan.on || ev.isPrimary === false ||
+                (ev.button != null && ev.button !== 0) || !pointIsCanvas(ev)) { return; }
+            var ticket = readOwner(), shape = geometry();
+            if (!ticket || !shape || readOwner() !== ticket) { return; }
             state.pan.on = true;
+            state.pan.pointerId = ev.pointerId;
+            state.pan.ticket = ticket;
+            state.pan.geometry = shape;
             state.pan.moved = false;
             state.pan.suppressClick = false;
             state.pan.tapHandled = false;
@@ -3768,6 +3900,8 @@
             } catch (e) {}
         });
         state.canvas.addEventListener('pointermove', function (ev) {
+            if (state.pan.on && ev.pointerId !== state.pan.pointerId) { return; }
+            if (state.pan.on && !sameGesture(ev)) { retireInteraction(); return; }
             if (!mapAuthorized()) { return; }
             var pt = eventToDesign(ev);
             if (pt) {
@@ -3808,58 +3942,33 @@
             state.hoverIndex = hitCity(pt);
         });
         function endPan(ev) {
-            var wasTap = state.pan.on && !state.pan.moved && !state.pan.suppressClick;
-            if (state.pan.on) {
-                state.pan.on = false;
-                clampCamera();
-                state.canvas.classList.remove('hd-panning');
-                try {
-                    state.canvas.releasePointerCapture(ev.pointerId);
-                } catch (e) {}
-            }
-            if (wasTap && ev && ev.type === 'pointerup') {
+            if (!state.pan.on || ev.pointerId !== state.pan.pointerId) { return; }
+            var wasTap = !blocked && !state.pan.moved && !state.pan.suppressClick &&
+                Math.hypot(ev.clientX - state.pan.startX, ev.clientY - state.pan.startY) <= PAN_THRESHOLD &&
+                ev.type === 'pointerup' && sameGesture(ev) && pointIsCanvas(ev);
+            resetPan();
+            clampCamera();
+            if (wasTap) {
                 state.pan.tapHandled = handleMapTap(ev);
             }
-            state.pan.suppressClick = false;
+            // A browser may synthesize click even after a drag or cancellation.
+            state.pan.suppressClick = true;
         }
         state.canvas.addEventListener('pointerup', endPan);
         state.canvas.addEventListener('pointercancel', endPan);
+        state.canvas.addEventListener('lostpointercapture', function (ev) {
+            if (state.pan.on && ev.pointerId === state.pan.pointerId) { retireInteraction(); }
+        });
         state.canvas.addEventListener('mouseleave', function () {
             state.hoverIndex = -1;
             state.pointer.on = false;
         });
         state.canvas.addEventListener('click', function (ev) {
-            if (!mapAuthorized()) { return; }
-            if (state.pan.tapHandled) {
-                state.pan.tapHandled = false;
-                ev.preventDefault();
-                return;
-            }
-            if (state.pan.suppressClick) {
-                state.pan.suppressClick = false;
-                ev.preventDefault();
-                return;
-            }
-            handleMapTap(ev);
+            // Native actions require the owned DOWN/UP pair, never a bare or
+            // compatibility click. Mouse also follows Pointer Events in Chrome.
+            if (state.mode === 'hd-map' && mapAuthorized()) { ev.preventDefault(); }
+            state.pan.tapHandled = false;
         });
-        document.addEventListener('pointerdown', function (ev) {
-            if (state.mode !== 'hd-map' || !mapAuthorized()) {
-                return;
-            }
-            if (!(cityMenuMarching() || battleMakePending())) {
-                return;
-            }
-            if (ev.target && ev.target.closest &&
-                ev.target.closest('[data-hd-deep],[data-hd-confirm-march],[data-hd-qty],[data-hd-qty-ok],[data-hd-digit],[data-hd-finish-persons],[data-hd-strategy-end],[data-hd-dlg-ok]')) {
-                return;
-            }
-            var pt = eventToDesign(ev);
-            var idx = pt ? hitCity(pt) : -1;
-            if (idx >= 0) {
-                ev.preventDefault();
-                marchTapCity(idx);
-            }
-        }, true);
         document.addEventListener('keydown', function (e) {
             if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return;
@@ -3905,8 +4014,9 @@
     function setMode(value) {
         cancelAlign();
         var mode = normalizeMode(value);
+        if (state.mobile) { state.mobileMode = mode; }
         if (mode !== state.mode) { retireMapPresentation(); }
-        writeStorage(STORAGE_KEY, mode);
+        writeStorage(state.mobile ? MOBILE_STORAGE_KEY : STORAGE_KEY, mode);
         state.mode = mode;
         if (global.BayeHdCityMenu && typeof BayeHdCityMenu.syncMode === 'function') {
             BayeHdCityMenu.syncMode();
@@ -3971,9 +4081,34 @@
         }
     }
 
+    function applyMobilePage() {
+        if (!state.mobile) {
+            cancelAlign(); resetPan();
+            state.mobile = true;
+            state.camera.inited = false;
+            state.camera.lockedFull = false;
+            state.mode = getMode();
+        }
+        applyPcPage();
+        syncCanvasSize();
+    }
+
+    // Presentation only: locating the current town never moves the native cursor.
+    function centerOnCity(index) {
+        if (typeof index !== 'number' || Math.floor(index) !== index || !mapAuthorized() ||
+            !validCityIndex(index) || !state.cities[index]) { return false; }
+        syncCanvasSize();
+        var city = state.cities[index];
+        state.camera.x = city.hdX - DESIGN_W / (state.camera.scale || 1) / 2;
+        state.camera.y = city.hdY - DESIGN_H / (state.camera.scale || 1) / 2;
+        clampCamera(); draw();
+        return true;
+    }
+
     applyEarlyDocumentAttrs();
 
     global.addEventListener('resize', function () {
+        cancelAlign(); resetPan();
         if (!document.hidden && state.mode === 'hd-map' && !battleCoversMapCanvas()) {
             syncCanvasSize();
             clampCamera();
@@ -3983,6 +4118,7 @@
 
     global.BayeHdOverworld = {
         STORAGE_KEY: STORAGE_KEY,
+        MOBILE_STORAGE_KEY: MOBILE_STORAGE_KEY,
         getMode: getMode,
         setMode: setMode,
         getPhase: function () { return state.phase; },
@@ -4017,6 +4153,8 @@
         getCameraBounds: cameraLimits,
         leaveMenu: leaveClassicMenu,
         cancelAlign: cancelAlign,
+        cancelInteraction: function () { cancelAlign(); resetPan(); },
+        centerOnCity: centerOnCity,
         afterFightMapReady: afterFightMapReady,
         snapCursorToCity: snapCursorToCity,
         writeCityPos: writeCityPos,
@@ -4088,11 +4226,14 @@
             return this.debugSnapshot();
         },
         applyPcPage: applyPcPage,
+        applyMobilePage: applyMobilePage,
         applyEarlyDocumentAttrs: applyEarlyDocumentAttrs,
         start: start,
         debugSnapshot: function () {
             var data = engineData();
             return {
+                mobile: state.mobile,
+                design: [DESIGN_W, DESIGN_H],
                 mode: state.mode,
                 libraryIdentity: readIdentity(),
                 presentationReady: mapAuthorized(),

@@ -175,6 +175,7 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
         context, document, fight, menu, march, report, data, baye, sent, saved, armTypes, armTypeCalls,
         world, battle, frames, timers, intervals, canvasStats, originalMenu, start, layout,
         listenerCount: () => (listeners.get('visibilitychange') ?? []).length,
+        visibilityCallbacks: () => [...(listeners.get('visibilitychange') ?? [])],
         setHidden(value) {
             document.hidden = value;
             for (const callback of listeners.get('visibilitychange') ?? []) callback();
@@ -306,10 +307,16 @@ test('a fresh fight begun while hidden resumes its native roster, not the previo
     assert.deepEqual(h.sent, []);
 });
 
-test('repeated startup and visibility events retain one listener and one loop per renderer', () => {
+test('repeated startup binds each renderer visibility listener and MAP gesture retirement once', () => {
+    const worldOnly = browser({ modules: ['overworld'] });
+    const battleOnly = browser({ modules: ['battle'] });
+    assert.equal(worldOnly.listenerCount(), 2, 'overworld owns rendering and input-retirement listeners');
+    assert.equal(battleOnly.listenerCount(), 1, 'battle retains its independent rendering listener');
     const h = browser();
+    const callbacks = h.visibilityCallbacks();
+    assert.equal(callbacks.length, worldOnly.listenerCount() + battleOnly.listenerCount());
     for (let i = 0; i < 5; i++) { h.start(); h.setHidden(false); }
-    assert.equal(h.listenerCount(), 2);
+    assert.deepEqual(h.visibilityCallbacks(), callbacks, 'startup does not duplicate or replace either lifecycle owner');
     assert.equal(h.intervals.size, 1);
     assert.equal(h.frames.size, 2);
     const stale = [...h.frames.values()]; h.setHidden(true); h.setHidden(false);
@@ -375,26 +382,44 @@ test('a committed user action keeps polling for its real native ACK while hidden
     assert.deepEqual(h.sent, [K.ENTER]);
 });
 
-test('overworld city-entry ACK work continues while painting is hidden and resume does not advance it', () => {
+test('hiding cancels overworld city entry; resume cannot revive it and fresh actions remain usable', () => {
     const h = browser({ modules: ['overworld'] });
     h.fight.active = 0; h.march.pick = 1; h.data.g_Cities[1].Belong = 1; h.frame();
     h.world.walkToCity(1);
     const timerIds = [...h.timers.keys()];
     assert.ok(timerIds.length > 0);
+    const retiredCallbacks = [...h.timers.values()].map(timer => timer.callback);
     h.setHidden(true);
-    assert.deepEqual([...h.timers.keys()], timerIds, 'visibility must preserve authorized entry timers');
+    assert.equal(h.world.debugSnapshot().aligning, false);
+    assert.equal(h.timers.size, 0, 'hidden cancels the pending entry timer');
     const paints = h.canvasStats.overworld.paints;
-    h.tick(160);
-    assert.deepEqual(h.sent, [0x23], 'the original entry timer can move toward the requested city');
-    h.tick(40);
-    assert.deepEqual(h.sent, [0x23], 'a missing native ACK cannot cause a repeated movement');
+    for (const callback of retiredCallbacks) callback();
+    h.tick(200);
+    assert.deepEqual(h.sent, [], 'even an already queued callback cannot issue a hidden direction or Enter');
+    assert.equal(h.timers.size, 0);
+    assert.equal(h.canvasStats.overworld.paints, paints);
     h.data.g_CityPos.sety = 2;
     h.setHidden(false);
-    assert.deepEqual(h.sent, [0x23], 'visibility samples current state without advancing city entry');
+    for (const callback of retiredCallbacks) callback();
+    h.tick(200);
+    assert.deepEqual(h.sent, [], 'resume and a later native cursor update cannot resurrect the retired request');
+    assert.equal(h.timers.size, 0);
+    assert.equal(h.world.debugSnapshot().aligning, false);
     assert.equal(h.canvasStats.overworld.paints, paints + 1);
+
+    h.world.walkToCity(1);
+    assert.equal(h.world.debugSnapshot().aligning, true, 'a fresh explicit request starts a new entry');
+    h.tick(160);
+    assert.deepEqual(h.sent, [K.RIGHT], 'the fresh request uses the current native cursor');
+    assert.ok(h.timers.size > 0, 'the new request owns its own ACK timer');
+    h.setHidden(true);
+    assert.equal(h.timers.size, 0, 'hiding also retires a request already waiting for movement ACK');
+    h.data.g_CityPos.setx = 2;
+    h.tick(40); h.setHidden(false);
     h.tick(40);
-    assert.deepEqual(h.sent, [0x23, K.RIGHT], 'the original ACK timer observes movement and continues entry');
-    assert.equal(h.world.debugSnapshot().aligning, true);
+    assert.deepEqual(h.sent, [K.RIGHT], 'an ACK received after cancellation cannot send another direction or Enter');
+    assert.equal(h.timers.size, 0);
+    assert.equal(h.world.debugSnapshot().aligning, false);
 });
 
 test('battle pennants render all six effective native arm types, including type zero', () => {

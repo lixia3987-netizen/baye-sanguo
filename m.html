@@ -22,7 +22,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>三国霸业</title>
         <link rel="stylesheet" type="text/css" href="css/baye.css" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011a" />
+        <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261011a" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011b" />
         <link rel="icon" href="favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -70,7 +71,7 @@
         <script src="js/base64.js"></script>
     </head>
     <body class="hd-mobile-page">
-        <header id="hd-mobile-bar" aria-label="原版策略资料">
+        <header id="hd-mobile-bar" aria-label="原版策略资料和地图操作">
             <div class="hd-mobile-brand">三国霸业<span>原版</span></div>
             <span id="hd-mobile-status">原版游戏</span>
             <div id="hd-mobile-hud" hidden>
@@ -81,9 +82,20 @@
                 <div><small>粮食</small><strong id="hd-mobile-food"></strong></div>
                 <div><small>后备兵</small><strong id="hd-mobile-arms"></strong></div>
             </div>
+            <div class="hd-mobile-controls" role="group" aria-label="地图操作">
+                <button id="hd-mobile-map-mode" type="button" aria-pressed="true">经典</button>
+                <button id="hd-mobile-map-focus" type="button" disabled>定位</button>
+                <button id="hd-mobile-exit" type="button" disabled>返回</button>
+            </div>
         </header>
         <main id="hd-mobile-stage" aria-label="原版游戏触控画面">
             <canvas id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
+            <div id="hd-overworld" class="hd-overworld" aria-label="原版高清策略地图" aria-hidden="true" hidden>
+                <div class="hd-overworld-stage">
+                    <canvas id="hd-overworld-canvas" width="844" height="338" aria-label="拖动平移，轻点己方城进入"></canvas>
+                    <div id="hd-mobile-map-tip" class="hd-mobile-map-tip">拖动地图 · 点己方城进入 · 道路仅作装饰</div>
+                </div>
+            </div>
         </main>
         <div id="info"></div>
     </body>
@@ -95,6 +107,9 @@
 <script src="js/lcd.js?ver=20261011a"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-mobile.js?ver=20261011a"></script>
+<script src="js/hd-overworld-layers.js?ver=20261008l"></script>
+<script src="js/hd-overworld.js?ver=20261011a"></script>
+<script src="js/hd-mobile-map.js?ver=20261011a"></script>
 <script>
 var mobileTouch = null;
 function reloadLCD(){
@@ -134,6 +149,7 @@ Module.postRun = function (){
     mobileTouch = touchScreenInit("lcd");
     reloadLCD();
     BayeHdMobile.init();
+    BayeHdMobileMap.init();
 
     //判断手机横竖屏状态：
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {

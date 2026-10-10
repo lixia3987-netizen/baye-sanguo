@@ -227,6 +227,41 @@ function harness(options = {}) {
         nativeSnapshot: () => JSON.stringify({ spe, scale: data.g_scale, report }),
         hdDraws: () => events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage' && e.args[0] instanceof Image) };
 }
+// Await the real identity transition, rather than racing WebCrypto's worker
+// completion against an arbitrary number of setImmediate turns. The deadline
+// only detects a stuck fixture; it never supplies readiness or resolves images.
+async function waitForIdentity(h, timeoutMs = 2_000) {
+    const identity = h.context.BayeHdLibIdentity, initial = identity.read();
+    if (initial.status !== 'pending') return initial;
+    return new Promise((resolve, reject) => {
+        let unsubscribe = () => {};
+        const deadline = setTimeout(() => {
+            unsubscribe();
+            reject(new Error('fixture identity did not settle: ' + JSON.stringify(identity.read())));
+        }, timeoutMs);
+        function finished(value) {
+            if (value.status === 'pending') return;
+            clearTimeout(deadline); unsubscribe(); resolve(value);
+        }
+        unsubscribe = identity.subscribe(finished);
+        finished(identity.read());
+    });
+}
+
+test('image readiness waits for the actual digest completion rather than event-loop turns', async () => {
+    let finishDigest, completed = false;
+    const crypto = { subtle: { digest() { return new Promise(resolve => { finishDigest = resolve; }); } } };
+    const h = harness({crypto}); h.api.setManifest(manifest()); h.api.start();
+    const waiting = waitForIdentity(h).then(value => { completed = true; return value; });
+    await settle(); assert.equal(completed, false); assert.equal(h.images.length, 0);
+    const digest = createHash('sha256').update(bytes).digest();
+    finishDigest(Uint8Array.from(digest).buffer);
+    assert.equal((await waiting).status, 'ready');
+    assert.equal(h.images.length, 2, 'ready notification requested the actual fixture image slots');
+    h.resolveImage(0); h.resolveImage(1); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+
 async function loaded() {
     const h = harness(); h.api.setManifest(manifest()); h.api.start();
     for (let i = 0; i < 30 && h.images.length < 2; i++) await settle();
@@ -1585,7 +1620,7 @@ function liuyanFixture(current=0,shown=current) {
 async function liuyanLoaded(options={}) {
     const f=liuyanFixture(options.current??0,options.shown??options.current??0),h=harness({data:{g_scale:1},spe:f.s,...options.harness});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    await waitForIdentity(h);assert.equal(h.images.length,2);
     function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
     if(!options.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};
 }
@@ -1664,13 +1699,13 @@ test('LIUYAN40 mid-draw owner or resource change restores completeLCD',async()=>
 test('LIUYAN40 authentic battle prewarm loads both state-only slots before a native movie begins',async()=>{
     const f=liuyanFixture(),h=harness({data:{g_scale:1},spe:{active:0},fightActive:true});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
+    await waitForIdentity(h);assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
     h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});
     h.setSpe(f.s);h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');assert.equal(h.images.length,2);
     assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
     const bad=structuredClone(f.m);delete bad.entries[0].liuyanVersion;
     const rejected=harness({data:{g_scale:1},spe:{active:0},fightActive:true});rejected.context.dynLib=f.lib.toString('hex');rejected.api.setManifest(bad);rejected.api.start();
-    for(let i=0;i<60;i++)await settle();assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
+    await waitForIdentity(rejected);assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
 });
 test('LIUYAN40 copied clear-only state removes the bounded window without replaying old art',async()=>{
     const h=await liuyanLoaded({current:3}),s=structuredClone(h.fixture.s);
@@ -1691,7 +1726,7 @@ test('LIUYAN40 controlled rawABI feeds the unchanged public getter into the real
         const actual=readAidPublic(raw);assert.equal(actual.publicSpe.display.composition.valid,true);
         const h=harness({data:{g_scale:1},spe:actual.publicSpe,skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
         h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-        for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+        await waitForIdentity(h);assert.equal(h.images.length,2);
         h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
         assert.equal(h.api.debugSnapshot().source,'hd-assets');liuyanFullLcd(h);assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[shown]);
         assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
@@ -1723,7 +1758,7 @@ function zhoufengFixture(current=0,shown=current) {
 async function zhoufengLoaded(options={}) {
     const f=zhoufengFixture(options.current??0,options.shown??options.current??0),h=harness({data:{g_scale:1},spe:f.s,...options.harness});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    await waitForIdentity(h);assert.equal(h.images.length,2);
     function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
     if(!options.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};
 }
@@ -1802,13 +1837,13 @@ test('ZHOUFENG14/39 mid-draw owner or resource change restores completeLCD',asyn
 test('ZHOUFENG14/39 authentic battle prewarm loads both state-only slots before a native movie begins',async()=>{
     const f=zhoufengFixture(),h=harness({data:{g_scale:1},spe:{active:0},fightActive:true});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
+    await waitForIdentity(h);assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
     h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});
     h.setSpe(f.s);h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');assert.equal(h.images.length,2);
     assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
     const bad=structuredClone(f.m);delete bad.entries[1].zhoufengVersion;bad.entries=[bad.entries[1]]; // Isolate invalid14; old20 still legitimately prewarms shared art.
     const rejected=harness({data:{g_scale:1},spe:{active:0},fightActive:true});rejected.context.dynLib=f.lib.toString('hex');rejected.api.setManifest(bad);rejected.api.start();
-    for(let i=0;i<60;i++)await settle();assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
+    await waitForIdentity(rejected);assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
 });
 test('ZHOUFENG14/39 copied clear-only state removes the bounded window without replaying old art',async()=>{
     const h=await zhoufengLoaded({current:3}),s=structuredClone(h.fixture.s);
@@ -1829,7 +1864,7 @@ test('ZHOUFENG14/39 controlled rawABI feeds the unchanged public getter into the
         const actual=readAidPublic(raw);assert.equal(actual.publicSpe.display.composition.valid,true);
         const h=harness({data:{g_scale:1},spe:actual.publicSpe,skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
         h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-        for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+        await waitForIdentity(h);assert.equal(h.images.length,2);
         h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
         assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[shown]);
         assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
@@ -1848,7 +1883,7 @@ test('ZHOUFENG14 explicit context wins over shared39 first-match and20 independe
     const h=await zhoufengLoaded();assert.equal(h.fixture.m.entries[0].zhoufengVersion,undefined);
     h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);
     const reverse=structuredClone(h.fixture.m);reverse.entries.reverse();h.api.setManifest(reverse);
-    for(let i=0;i<60;i++)await settle();
+    await waitForIdentity(h);
     h.images.forEach(image=>{if(image.naturalWidth!==1254){image.naturalWidth=1254;image.naturalHeight=1254;image.onload();}});
     h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);
     const s=structuredClone(h.fixture.s);s.skillId=20;s.targetIndex=3;h.setSpe(s);h.flush();
@@ -1867,7 +1902,7 @@ test('QIMEN20 fabricated numeric postlude cannot reuse the old arena',async()=>{
         x:48,y:16,number:{...f.legacy.skillNumber,valid:true},scene,display:{...structuredClone(scene),valid:true,label,digits}};
     const h=harness({data:{g_scale:1},spe:{active:0,generation:9},skillResult:result,resultOwner:n.top});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60;i++)await settle();
+    await waitForIdentity(h);
     h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
     assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
     assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
@@ -1885,7 +1920,7 @@ function dingshenFixture(current=0,shown=current) {
 async function dingshenLoaded(options={}) {
     const f=dingshenFixture(options.current??0,options.shown??options.current??0),h=harness({data:{g_scale:1},spe:f.s,...options.harness});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    await waitForIdentity(h);assert.equal(h.images.length,2);
     function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
     if(!options.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};
 }
@@ -1943,7 +1978,7 @@ test('DINGSHEN15/39 precise dispatch is order-independent and preserves14 and20 
     const h=await dingshenLoaded(),base=h.fixture.m.entries;
     for(const order of[[0,1,2],[2,0,1],[1,2,0]]){
         h.api.setManifest({...h.fixture.m,entries:order.map(i=>structuredClone(base[i]))});
-        for(let i=0;i<60;i++)await settle();
+        await waitForIdentity(h);
         h.images.forEach(image=>{if(image.naturalWidth!==1254){image.naturalWidth=1254;image.naturalHeight=1254;image.onload();}});
         for(const skillId of[15,14,20]){
             h.setSpe({...structuredClone(h.fixture.s),skillId,targetIndex:skillId===20?3:10});h.events.length=0;h.flush();
@@ -1984,12 +2019,12 @@ test('DINGSHEN15/39 final paint fence restores LCD after a same-resource switch 
 test('DINGSHEN15/39 prewarm authenticates its marker before native movie and clear-only copy replays no art',async()=>{
     const f=dingshenFixture(),h=harness({data:{g_scale:1},spe:{active:0},fightActive:true});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest({...f.m,entries:[f.entry]});h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
+    await waitForIdentity(h);assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
     h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});
     h.setSpe(f.s);h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');
     const bad=structuredClone(f.entry);delete bad.dingshenVersion;
     const rejected=harness({data:{g_scale:1},spe:{active:0},fightActive:true});rejected.context.dynLib=f.lib.toString('hex');rejected.api.setManifest({...f.m,entries:[bad]});rejected.api.start();
-    for(let i=0;i<60;i++)await settle();assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
+    await waitForIdentity(rejected);assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
     const c=await dingshenLoaded({current:3}),s=structuredClone(c.fixture.s);
     s.visibleFrames=bitset();s.composition.clearFrames=bitset(0,1,2,3);s.display.visibleFrames=bitset();s.display.composition.clearFrames=bitset(0,1,2,3);
     c.setSpe(s);c.events.length=0;c.flush();assert.equal(c.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(c);
@@ -2021,7 +2056,7 @@ test('DINGSHEN15/39 actual rawABI public getter drives all8 slots and lagging co
             [actual.publicSpe.display.generation,actual.publicSpe.display.eventId,actual.publicSpe.display.commitSeq,actual.publicSpe.display.frameIndex]);
         const h=harness({data:{g_scale:1},spe:actual.publicSpe,skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
         h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-        for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+        await waitForIdentity(h);assert.equal(h.images.length,2);
         h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
         assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[shown]);
         assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
@@ -2155,7 +2190,7 @@ function qimenFixture(current=0,shown=current) {
 async function qimenLoaded(options={}) {
     const f=qimenFixture(options.current??0,options.shown??options.current??0),h=harness({data:{g_scale:1},spe:f.s,...options.harness});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    await waitForIdentity(h);assert.equal(h.images.length,2);
     function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
     if(!options.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};
 }
@@ -2213,7 +2248,7 @@ test('QIMEN20/39 precise dispatch is order-independent and preserves14 and20 ren
     const h=await qimenLoaded(),base=h.fixture.m.entries;
     for(const order of[[0,1,2],[2,0,1],[1,2,0]]){
         h.api.setManifest({...h.fixture.m,entries:order.map(i=>structuredClone(base[i]))});
-        for(let i=0;i<60;i++)await settle();
+        await waitForIdentity(h);
         h.images.forEach(image=>{if(image.naturalWidth!==1254){image.naturalWidth=1254;image.naturalHeight=1254;image.onload();}});
         for(const skillId of[15,14,20]){
             h.setSpe({...structuredClone(h.fixture.s),skillId});h.events.length=0;h.flush();
@@ -2254,12 +2289,12 @@ test('QIMEN20/39 final paint fence restores LCD after a same-resource switch to1
 test('QIMEN20/39 prewarm authenticates its marker before native movie and clear-only copy replays no art',async()=>{
     const f=qimenFixture(),h=harness({data:{g_scale:1},spe:{active:0},fightActive:true});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest({...f.m,entries:[f.entry]});h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
+    await waitForIdentity(h);assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
     h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});
     h.setSpe(f.s);h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');
     const bad=structuredClone(f.entry);delete bad.qimenVersion;
     const rejected=harness({data:{g_scale:1},spe:{active:0},fightActive:true});rejected.context.dynLib=f.lib.toString('hex');rejected.api.setManifest({...f.m,entries:[bad]});rejected.api.start();
-    for(let i=0;i<60;i++)await settle();assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
+    await waitForIdentity(rejected);assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
     const c=await qimenLoaded({current:3}),s=structuredClone(c.fixture.s);
     s.visibleFrames=bitset();s.composition.clearFrames=bitset(0,1,2,3);s.display.visibleFrames=bitset();s.display.composition.clearFrames=bitset(0,1,2,3);
     c.setSpe(s);c.events.length=0;c.flush();assert.equal(c.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(c);
@@ -2291,7 +2326,7 @@ test('QIMEN20/39 actual rawABI public getter drives all8 slots and lagging copy 
             [actual.publicSpe.display.generation,actual.publicSpe.display.eventId,actual.publicSpe.display.commitSeq,actual.publicSpe.display.frameIndex]);
         const h=harness({data:{g_scale:1},spe:actual.publicSpe,skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
         h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-        for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+        await waitForIdentity(h);assert.equal(h.images.length,2);
         h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
         assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[shown]);
         assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
