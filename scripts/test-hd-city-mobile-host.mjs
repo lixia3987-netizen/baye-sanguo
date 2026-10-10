@@ -442,11 +442,8 @@ test('DEPARTED person mode resumes the full current picker at another city with 
 test('terminal person restoration rejects a phase or session handoff during publication',()=>{
     for(const field of ['g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq']){
         const f=classicPersonFixture();Object.assign(f.raw,{g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16});
-        f.setMenuHook(()=>{f.raw[field]=field==='g_hdMarchPhase'?0:f.raw[field]+1;});
-        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false);
-        const fresh=f.api.getInputTicket();
-        if(field==='g_hdMarchPhase'){assert.ok(fresh);assert.equal(f.raw.g_hdMarchPhase,0);assert.equal(fresh.session,1);assert.equal(fresh.inputSeq,16);}
-        else assert.equal(fresh,null);
+        f.setMenuHook(()=>{f.raw[field]=field==='g_hdMarchPhase'?(f.raw[field]===7?0:7):f.raw[field]+1;});
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false);assert.equal(f.api.getInputTicket(),null);
         assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
     }
 });
@@ -488,5 +485,107 @@ test('retired MAP owner accepts terminal phase only without owners and fences ph
     for(const field of ['g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq']){
         const old=data[field];context.global.BayeHdDialog={isOpen(){data[field]=field==='g_hdMarchPhase'?0:old+1;return false;}};
         assert.equal(read(),false,field);data[field]=old;
+    }
+});
+
+
+test('classic to HD or auto restores the actual terminal CITY root at the current map city with zero input',()=>{
+    for(const phase of [0,7])for(const mode of ['hd','auto']){
+        const f=fixture();f.configure();f.api.setMode('classic');
+        Object.assign(f.raw,{g_hdMarchPhase:phase,g_hdMarchSession:1,g_hdMarchInputSeq:16,g_hdMapCity:2});
+        const before=JSON.stringify(f.raw);assert.equal(f.api.debugSnapshot().open,false);
+        f.api.setMode(mode);const s=f.api.debugSnapshot();
+        assert.equal(s.open,true);assert.equal(s.layer,'root');assert.equal(s.cityIndex,1);assert.equal(s.cityName,'城1');
+        assert.equal(s.deepKind,'');assert.equal(f.api.getInputTicket().cityIndex,1);
+        assert.equal(f.stored.get('baye/cityMenuMode'),'classic');assert.equal(f.stored.get('baye/overworldMode'),'classic');
+        assert.equal(JSON.stringify(f.raw),before);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('classic mode recovery never opens a terminal CITY from missing, foreign or active owner evidence',()=>{
+    for(const problem of ['menu-inactive','foreign-context','submenu','report','help','qty','map','battle','unknown-phase','missing-map-city']){
+        const f=fixture();f.configure();f.api.setMode('classic');
+        Object.assign(f.raw,{g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16,g_hdMapCity:2});
+        if(problem==='menu-inactive')f.raw.g_hdMenuActive=0;
+        if(problem==='foreign-context')f.raw.g_hdMenuContext=2;
+        if(problem==='submenu')f.raw.g_hdMenuKind=2;
+        if(problem==='report')f.raw.g_hdReportActive=1;
+        if(problem==='help')f.raw.g_hdHelpActive=1;
+        if(problem==='qty'){f.raw.g_hdQtyActive=1;f.env.bayeQtyNativeClosed=()=>false;}
+        if(problem==='map')f.raw.g_hdMapPick=1;
+        if(problem==='battle')f.raw.g_hdBattlePick=1;
+        if(problem==='unknown-phase')f.raw.g_hdMarchPhase=8;
+        if(problem==='missing-map-city')f.raw.g_hdMapCity=0;
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false,problem);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('mode recovery fences current native CITY phase, session, sequence and data identity across reads',()=>{
+    for(const field of ['g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq','g_hdMenuSeq','g_hdMapCity','data']){
+        const f=fixture();f.configure();f.api.setMode('classic');
+        Object.assign(f.raw,{g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16,g_hdMapCity:2});
+        f.setMenuHook(()=>{
+            if(field==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+            else if(field==='g_hdMarchPhase')f.raw[field]=f.raw[field]===7?0:7;
+            else f.raw[field]+=1;
+        });
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false,field);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('bound terminal march does not resurrect an old wizard but active and genuine submitted handoffs remain',()=>{
+    for(const phase of [0,1,2,3,4,5,6,7,8])for(const submitted of [false,true]){
+        const state={modeSignature:'classic:hd',open:false,cityIndex:-1,personModeResume:null};
+        const noop=()=>{},context={state,mobileHost:null,MARCH:{IDLE:0,PERSONS:1,FOOD:2,TARGET_TIP:3,TARGET_PICK:4,REJECT:5,ARMOUT:6,DEPARTED:7},
+            getMenuMode(){return 'hd';},overworldIsHd(){return true;},shouldShowHd(){return true;},
+            invalidateMarchWork:noop,invalidateQtyWork:noop,applyDocAttr:noop,render:noop,
+            mobileCityRootModeReading(){return null;},currentMarch(){return {phase,origin:0,selected:8};},
+            freshMarchOk(){return submitted;}};
+        isolatedCityFunction('syncMode',context)();
+        const shouldResume=phase>=1&&phase<=6||phase===7&&submitted;
+        assert.equal(state.open,shouldResume,'phase '+phase+' submitted '+submitted);
+        if(shouldResume){assert.equal(state.deepKind,'person-city');assert.equal(state.cityIndex,0);}
+    }
+});
+test('current terminal CITY recovery takes precedence over a bound old march origin',()=>{
+    const owner={cityIndex:1},state={modeSignature:'classic:hd',open:false,cityIndex:-1,personModeResume:null},noop=()=>{};
+    let oldMarchReads=0;
+    const context={state,MARCH:{IDLE:0,PERSONS:1,FOOD:2,ARMOUT:6,DEPARTED:7},
+        getMenuMode(){return 'hd';},overworldIsHd(){return true;},shouldShowHd(){return true;},
+        invalidateMarchWork:noop,invalidateQtyWork:noop,applyDocAttr:noop,render:noop,
+        mobileCityRootModeReading(){return owner;},openMenu(meta){assert.equal(meta.cityIndex,1);state.open=true;state.layer='root';state.cityIndex=1;return true;},
+        mobileCityRootModeMatches(value){return value===owner;},retireMobileCityRootMode(){throw Error('unexpected retirement');},
+        currentMarch(){oldMarchReads++;return {phase:7,origin:0,selected:8};},freshMarchOk(){return true;}};
+    assert.equal(isolatedCityFunction('syncMode',context)(),owner);assert.equal(oldMarchReads,0);
+    assert.equal(state.open,true);assert.equal(state.layer,'root');assert.equal(state.cityIndex,1);
+});
+
+test('late city-name callbacks cannot leave a mode-restored root bound to an obsolete owner',()=>{
+    for(const field of ['g_hdMenuSeq','g_hdMarchInputSeq','data']){
+        const f=fixture();f.configure();f.api.setMode('classic');
+        Object.assign(f.raw,{g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16,g_hdMapCity:2});
+        let changed=false;
+        f.env.baye.getCityName=index=>{
+            if(!changed){changed=true;if(field==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});else f.raw[field]++;}
+            return '城'+index;
+        };
+        f.api.setMode('hd');assert.equal(changed,true);assert.equal(f.api.debugSnapshot().open,false,field);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('terminal submitted mobile handoff requires the same actual strategy owner, never a torn CITY or competitor',()=>{
+    for(const problem of ['valid','not-fresh','CITY','qty','missing','wrong-session','wrong-origin']){
+        const state={modeSignature:'classic:hd',open:false,cityIndex:-1,personModeResume:null},noop=()=>{};
+        const strategy={ownerType:'strategy',session:1,cityIndex:0};
+        const context={state,mobileHost:{},MARCH:{IDLE:0,PERSONS:1,FOOD:2,ARMOUT:6,DEPARTED:7},
+            getMenuMode(){return 'hd';},overworldIsHd(){return true;},shouldShowHd(){return true;},
+            invalidateMarchWork:noop,invalidateQtyWork:noop,applyDocAttr:noop,render:noop,
+            mobileCityRootModeReading(){return null;},currentMarch(){return {phase:7,origin:0,session:1,selected:8};},
+            freshMarchOk(){return problem!=='not-fresh';},mobileInputTicket(reason){
+                assert.equal(reason,'strategy-end');
+                if(problem==='missing')return null;
+                return {...strategy,ownerType:problem==='CITY'?'city':problem==='qty'?'qty':'strategy',
+                    session:problem==='wrong-session'?2:1,cityIndex:problem==='wrong-origin'?1:0};
+            }};
+        isolatedCityFunction('syncMode',context)();assert.equal(state.open,problem==='valid',problem);
     }
 });

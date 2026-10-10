@@ -489,7 +489,7 @@ export async function main(args=process.argv.slice(2)) {
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
-    if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
+    if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','scripts/hd-mobile-successor-runtime-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://private'),rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),filename=path.resolve(root,rel);
       const allowed=/^(?:js|css|assets|libs|fonts|vendor)\//.test(rel)||['m.html','favicon.png','manifest.json'].includes(rel);
@@ -497,6 +497,7 @@ export async function main(args=process.argv.slice(2)) {
         report.requests.push({url:req.url,status:404});res.writeHead(404).end();return;}
       const item=freeze(rel),dongHd='assets/hd-portraits/hd/hd_p1_0000_董卓.png';
       if(battleEffects&&effectsCase==='hd-missing'&&rel.startsWith('assets/hd-spe/')&&rel.endsWith('.png')){
+        freeze(rel); // Record the untouched production bytes even though this private response is 404.
         report.requests.push({url:req.url,status:404,controlled:'battle effect PNG missing; original production file preserved'});res.writeHead(404,{'Cache-Control':'no-store'}).end();return;}
       const hdTargets=[dongHd,'assets/hd-portraits/hd/hd_p1_0020_吕布.png'];
       const refTargets=['assets/hd-portraits/refs/period-1/0-董卓.png','assets/hd-portraits/refs/period-1/20-吕布.png'];

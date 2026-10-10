@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {battleObservation} from './hd-mobile-battle-runtime-checks.mjs';
 import {verifyMobileSpySkill} from './hd-mobile-battle-skill-oracle.mjs';
 import {verifyMobileNonlethalAttack} from './hd-mobile-battle-attack-oracle.mjs';
+import {mobileSuccessorCandidateIds,verifyMobileSuccessorChoice} from './hd-mobile-successor-runtime-oracle.mjs';
 
 export async function runMobileBattleEffectsChecks(c) {
   const {report,evaluate,until,delay,checkpoint,key,button,tap,cityPoint,metrics,readSource,worldSource,mapReadySource,originalLibBytes,effectManifest,controls}=c;
@@ -160,9 +161,30 @@ export async function runMobileBattleEffectsChecks(c) {
   await menu(0,'Confirm actual whole army retreat');
   for(let n=0;n<1800;n++){
     const s=await native(),m=s.menu;
-    if(m.active===1&&m.context===5&&m.kind===1){assert.ok(m.idsValid&&m.ids.length>0,'Actual original successor list');
-      const before=await evaluate(worldSource);report.battleCompletion.successorChoices.push({menu:m,world:before,chosenId:m.ids[m.index]});
-      await key(39,'Choose actual displayed native successor');await delay(200);}
+    if(m.active===1&&m.context===5&&m.kind===1){
+      assert.equal(s.report.active,0,'Successor selection does not acknowledge a report');
+      const before=await evaluate(worldSource),ids=mobileSuccessorCandidateIds(before);
+      const names=await evaluate(`${JSON.stringify(ids)}.map(id=>baye.getPersonName(id))`);
+      const verdict=verifyMobileSuccessorChoice({world:before,menu:m,names});
+      const live=await native(),worldAgain=await evaluate(worldSource);
+      assert.deepEqual(live.menu,m,'The same published successor menu still owns this choice');
+      assert.equal(live.report.active,0);assert.deepEqual(worldAgain,before,'Current native candidates remain unchanged before selection');
+      assert.equal(verdict.chosenIndex,0,'Original KingOverDeal starts the untouched picker at row zero');
+      // Native ShowPersonControl: menu origin (4,2), top padding 1+ASC_HGT
+      // with ASC_HGT=12. Pixel (32,21) is inside the first visible name row.
+      const point=await evaluate(`(() => {const l=document.getElementById('lcd'),r=l.getBoundingClientRect();
+        if(l.width!==160||l.height!==96||lcdRotateMode!==0||getComputedStyle(l).pointerEvents!=='auto'||r.width<=0||r.height<=0)throw Error('Current original successor LCD geometry');
+        const p={x:r.left+32.5/160*r.width,y:r.top+21.5/96*r.height};
+        if(document.elementFromPoint(p.x,p.y)!==l)throw Error('Current successor LCD row is not the touch owner');return p;})()`);
+      report.battleCompletion.successorChoices.push({menu:m,world:before,...verdict,
+        identitySource:'Original GetKingPersons/GetCityPersons order, independently reconstructed from the current world; campaign menus do not publish idsValid',
+        input:'Trusted LCD first-row DOWN/UP',point,nativePixel:{x:32,y:21}});
+      const inputStart=live.keys,touchStart=live.touches;
+      await tap(point);
+      await until('Actual displayed successor choice retires',`(() => {const m=baye.hd.menuItems();return Number(baye.data.g_PlayerKing)===${verdict.chosenId}&&(!m.active||m.seq!==${m.seq}||m.context!==5||m.kind!==1);})()`);
+      assert.deepEqual(await evaluate(`__mobileMapKeys.slice(${inputStart}).map(k=>k.code)`),[],'Current successor LCD touch sends no synthetic native key');
+      assert.deepEqual(await evaluate(`__mobileMapNativeTouches.slice(${touchStart}).map(t=>t.args)`),[[1,32,21],[2,32,21]],'One trusted LCD DOWN/UP confirms exactly the current first successor row');
+    }
     if(s.fight.active===0&&!s.report.active&&await evaluate(mapReadySource))break;
     if(n===1799)throw Error('Actual battle settlement did not return to strategy map');await delay(50);
   }
@@ -180,9 +202,9 @@ export async function runMobileBattleEffectsChecks(c) {
   assert.ok(city,'A genuine currently owned city remains after retreat');
   report.postBattleMap={city,before:await evaluate(readSource),world:await evaluate(worldSource)};
   await tap(await cityPoint(city));
-  await until('Post-battle genuine CITY root',`(() => {const m=baye.hd.menuItems();return m.active===1&&m.context===1&&m.kind===1&&BayeHdCityMenu.debugSnapshot().cityIndex===${city.index};})()`);
+  await until('Post-battle genuine CITY root',`(() => {const m=baye.hd.menuItems(),d=baye.data;return m.active===1&&m.context===1&&m.kind===1&&d.g_hdMapCity===${city.index+1}&&d.g_hdMapPick===0&&d.g_hdBattlePick===0&&!d.g_hdReportActive&&!d.g_hdHelpActive&&(d.g_hdMarchPhase===0||d.g_hdMarchPhase===7);})()`);
   if(!await evaluate('BayeHdCityMenu.debugSnapshot().showHd'))await button('#hd-mobile-menu-mode');
-  await until('Post-battle mobile HD city shell','BayeHdMobileCity.isActive()&&BayeHdCityMenu.debugSnapshot().open&&BayeHdCityMenu.debugSnapshot().showHd');
+  await until('Post-battle mobile HD city shell',`BayeHdMobileCity.isActive()&&BayeHdCityMenu.debugSnapshot().open&&BayeHdCityMenu.debugSnapshot().showHd&&BayeHdCityMenu.debugSnapshot().cityIndex===${city.index}`);
   report.postBattleMap.cityState=await checkpoint('battle-effects-post-settlement-city');
   const statusKeys=await evaluate('__mobileMapKeys.length');
   await button('#hd-city-menu [data-hd-root="3"]');

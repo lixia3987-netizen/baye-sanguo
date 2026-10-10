@@ -6729,7 +6729,7 @@
         if (mobileHost) { mobileMode = mode; writeStorage(MOBILE_STORAGE_KEY, mode); }
         else { writeStorage(STORAGE_KEY, mode); }
         state.mode = mode;
-        syncMode(resume);
+        var mobileRootResume = syncMode(resume);
         var mobileResume = mobileHost && oldMode === 'classic' && mode !== 'classic'
             ? resumeMobilePersonMode() : null;
         if (!shouldShowHd()) {
@@ -6748,6 +6748,29 @@
             retireResumedPersonMode(resume);
         }
         if (mobileResume && !mobilePersonModeMatches(mobileResume)) { retireMobilePersonMode(mobileResume); }
+        if (mobileRootResume && !mobileCityRootModeMatches(mobileRootResume)) { retireMobileCityRootMode(mobileRootResume); }
+    }
+
+    function mobileCityRootModeReading() {
+        if (!mobileHost || !shouldShowHd()) { return null; }
+        var first = mobileNativeSnapshot(), second = mobileNativeSnapshot();
+        var before = mobileTicketFrom(first, 'open-city'), after = mobileTicketFrom(second, 'open-city');
+        if (!before || !after || before.data !== after.data || before.key !== after.key ||
+            after.ownerType !== 'city' || after.menuContext !== 1 || after.menuKind !== 1 ||
+            second.march.phase !== MARCH.IDLE && second.march.phase !== MARCH.DEPARTED) { return null; }
+        return after;
+    }
+
+    function mobileCityRootModeMatches(owner) {
+        var current = mobileCityRootModeReading();
+        return !!(owner && current && owner.data === current.data && owner.key === current.key &&
+            state.open && state.layer === 'root' && state.cityIndex === owner.cityIndex);
+    }
+
+    function retireMobileCityRootMode(owner) {
+        if (owner && state.layer === 'root' && state.cityIndex === owner.cityIndex) {
+            state.open = false; render();
+        }
     }
 
     function syncMode(resume) {
@@ -6767,8 +6790,21 @@
         if (!shouldShowHd()) {
             state.open = false;
         } else {
-            var m = currentMarch();
-            if (m && Number(m.phase) > MARCH.IDLE) {
+            var rootOwner = mobileCityRootModeReading();
+            // A completed march must not revive its old origin over the current
+            // native CITY root. Opening uses the ordinary current-owner gates.
+            if (rootOwner && openMenu({cityIndex: rootOwner.cityIndex, hook: 'mode-current-city'})) {
+                if (!mobileCityRootModeMatches(rootOwner)) { retireMobileCityRootMode(rootOwner); return null; }
+                return rootOwner;
+            }
+            var m = currentMarch(), phase = m && Number(m.phase);
+            var completedHandoff = phase === MARCH.DEPARTED && freshMarchOk();
+            if (completedHandoff && mobileHost) {
+                var strategyOwner = mobileInputTicket('strategy-end');
+                completedHandoff = !!(strategyOwner && strategyOwner.ownerType === 'strategy' &&
+                    strategyOwner.session === m.session && strategyOwner.cityIndex === m.origin);
+            }
+            if (m && (phase >= MARCH.PERSONS && phase <= MARCH.ARMOUT || completedHandoff)) {
                 state.open = true;
                 state.layer = 'deep';
                 state.subKind = 'junbei';
