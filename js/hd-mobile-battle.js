@@ -16,7 +16,7 @@
     function createController(environment) {
         var mounted=false, focused=true, pageActive=true, timer=null, refreshing=false, drawing=false;
         var arm=null, pointers=Object.create(null), blocked=false, camera=null, cameraData=null, lastFocus='', lastData=null, lastStable='', lastRender=null;
-        var last={active:false,presentation:'off',reason:'not-initialized',camera:null}, renderBindings=new WeakMap();
+        var last={active:false,presentation:'off',reason:'not-initialized',camera:null}, renderBindings=new WeakMap(), effectPresentation='off';
         function doc() { return environment.document; }
         function node(id) { return doc() && doc().getElementById(id); }
         function battle() { return environment.BayeHdBattle; }
@@ -178,7 +178,9 @@
         }
         function dispatch(hit) {
             var b=battle();if(!b){return;}
-            if(hit.type==='mode'){retire('mode');b.setMode(b.getMode()==='classic'?'hd':'classic');refresh();return;}
+            if(hit.type==='mode'){retire('mode');var spe=environment.BayeHdSpe;
+                if(spe && typeof spe.retireInteraction==='function'){spe.retireInteraction('mode');}
+                b.setMode(b.getMode()==='classic'?'hd':'classic');refresh();return;}
             if(hit.type==='focus'){lastFocus='';render(lastRender);return;}
             if(hit.type==='sys'){b.openSystemMenu();}
             if(hit.type==='cancel' || hit.type==='menu-exit'){b.cancel();}
@@ -195,7 +197,20 @@
             }
             if(Object.keys(pointers).length===0){blocked=false;}
         }
-        function boundary(reason) {blocked=Object.keys(pointers).length>0;retire(reason);lastFocus='';refresh();}
+        function onSpePresentation(value) {
+            if(['off','hd','lcd'].indexOf(value)<0){return;}
+            if(value!==effectPresentation){
+                retire('effect-surface');
+                var touch=environment.mobileTouch;if(touch && typeof touch.cancel==='function'){touch.cancel();}
+            }
+            effectPresentation=value;
+            var body=doc() && doc().body;if(body){body.setAttribute('data-hd-mobile-spe',value);}
+        }
+        function boundary(reason) {
+            blocked=Object.keys(pointers).length>0;retire(reason);lastFocus='';
+            var spe=environment.BayeHdSpe;if(spe && typeof spe.retireInteraction==='function'){spe.retireInteraction(reason);}
+            refresh();
+        }
         function paint(presentation) {
             var body=doc() && doc().body;if(body){body.setAttribute('data-hd-mobile-battle',presentation);}
             var active=presentation!=='off';
@@ -300,9 +315,17 @@
             if(environment.visualViewport){environment.visualViewport.addEventListener('resize',function(){boundary('visual-viewport');});}
             var api=environment.BayeHdLibIdentity;if(api && api.subscribe){api.subscribe(function(){boundary('library');});}
             var b=battle();if(b && b.applyMobilePage){b.applyMobilePage({isAvailable:available,readTicket:readNativeTicket,render:render});}
+            var spe=environment.BayeHdSpe;
+            if(spe && typeof spe.applyMobilePage==='function'){
+                spe.applyMobilePage({isAvailable:available,readTicket:readNativeTicket,
+                    getMode:function(){var current=battle(), mode=current && current.getMode?current.getMode():'classic';
+                        if(mode!=='auto'){return mode==='hd'?'hd':'classic';}
+                        var map=environment.BayeHdOverworld;return map && typeof map.getMode==='function' && map.getMode()==='hd-map'?'hd':'classic';},
+                    onPresentation:onSpePresentation});
+            }
             timer=environment.setInterval(refresh,80);return refresh();
         }
-        return {init:init,refresh:refresh,readNativeTicket:readNativeTicket,debugSnapshot:function(){return Object.assign({},last,{camera:camera && Object.assign({},camera),armed:!!arm,blocked:blocked});}};
+        return {init:init,refresh:refresh,readNativeTicket:readNativeTicket,debugSnapshot:function(){return Object.assign({},last,{camera:camera && Object.assign({},camera),armed:!!arm,blocked:blocked,effectPresentation:effectPresentation});}};
     }
     var controller=createController(global);
     global.BayeHdMobileBattle={createController:createController,init:controller.init,refresh:controller.refresh,

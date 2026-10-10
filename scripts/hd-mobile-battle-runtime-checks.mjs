@@ -9,6 +9,7 @@ export const battleObservation = `(() => {const d=baye.data,f=baye.hd.fight(),un
   const plain=n=>{if(!n)return null;const r=n.getBoundingClientRect(),s=getComputedStyle(n),top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
     return {left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height,shown:!n.hidden&&s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0,hit:top===n||n.contains(top)};};
   return {fight:f,units,food:{player:Number(d.g_FgtParam.MProvender),enemy:Number(d.g_FgtParam.EProvender)},weather:Number(d.g_FgtWeather),
+    eneTmpProv:Number(d.g_EneTmpProv),skills:baye.hd.skills(),
     menu:baye.hd.menuItems(),help:baye.hd.help(),view:baye.hd.view(),report:baye.hd.report(),
     ui:BayeHdBattle.debugSnapshot(),mobile:BayeHdMobileBattle.debugSnapshot(),ticket:(()=>{const t=BayeHdMobileBattle.readNativeTicket();return t?{key:t.key,presentation:t.presentation,kind:t.kind,seq:t.seq,actor:t.actor}:null;})(),
     canvas:plain(document.getElementById('hd-mobile-battle-canvas')),lcd:plain(document.getElementById('lcd')),
@@ -168,4 +169,5 @@ export async function runMobileBattleChecks(c) {
     'HELP/VIEW display and retire through actual native LCD touch; genuine physical SEARCH routes once',
     'Classic and HD restoration zero keys, native masks and >=44px geometry, touchcancel/multiple pointers/held rotation and actual hidden-tab retirement'];
   report.pendingScope=['Normal attack damage and skill MP/effect','Report/animation LCD interaction and setting changes','Battle completion and strategy return','Android/iOS actual devices and performance','Full mobile HD/march acceptance'];
+  return {native,capture,ready,tileTap,tilePoint,menu,physicalKey,lcdCenter,unchanged,initial,afterEnd};
 }

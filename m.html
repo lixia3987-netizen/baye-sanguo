@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261011a" />
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261010c" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011e" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011f" />
         <link rel="icon" href="favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -72,7 +72,7 @@
         <script src="js/lzma_worker-min.js"></script>
         <script src="js/base64.js"></script>
     </head>
-    <body class="hd-mobile-page" data-hd-portrait-manual="1" data-hd-mobile-battle="off">
+    <body class="hd-mobile-page" data-hd-portrait-manual="1" data-hd-mobile-battle="off" data-hd-mobile-spe="off">
         <header id="hd-mobile-bar" aria-label="原版策略资料和地图操作">
             <div class="hd-mobile-brand">三国霸业<span>原版</span></div>
             <span id="hd-mobile-status">原版游戏</span>
@@ -169,6 +169,12 @@
                     <button id="hd-mobile-battle-focus" type="button">定位</button>
                 </footer>
             </section>
+            <section id="hd-spe" class="hd-spe hd-mobile-spe" aria-hidden="true" aria-label="原版战场效果">
+                <div class="hd-spe-stage">
+                    <div id="hd-spe-title" class="hd-spe-title">战场效果</div>
+                    <canvas id="hd-spe-canvas" class="hd-spe-canvas" width="160" height="96" aria-label="原版战场效果画面"></canvas>
+                </div>
+            </section>
         </main>
         <figure id="hd-mobile-portrait" class="hd-mobile-portrait" hidden>
             <img id="hd-mobile-portrait-img" alt="" />
@@ -195,7 +201,8 @@
 <script src="js/hd-battle-terrain.js?ver=20261008i"></script>
 <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
 <script src="js/hd-battle.js?ver=20261011b"></script>
-<script src="js/hd-mobile-battle.js?ver=20261011b"></script>
+<script src="js/hd-spe.js?ver=20261011a"></script>
+<script src="js/hd-mobile-battle.js?ver=20261011c"></script>
 <script>
 var mobileTouch = null;
 function reloadLCD(){

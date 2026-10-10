@@ -483,3 +483,71 @@
         pointer-events: auto !important;
     }
 }
+
+/* Battle-only SPE shares authenticated native commits; layout remains mobile. */
+.hd-mobile-page #hd-spe {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 90;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #111923;
+    pointer-events: none;
+    touch-action: none;
+}
+.hd-mobile-page[data-hd-mobile-spe="hd"] #hd-spe.is-open { display: flex; }
+.hd-mobile-page #hd-spe .hd-spe-stage {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px;
+    overflow: hidden;
+}
+.hd-mobile-page #hd-spe-title {
+    flex: 0 0 auto;
+    font-size: 14px;
+    line-height: 18px;
+    color: #f1eee4;
+}
+.hd-mobile-page #hd-spe-canvas {
+    display: block;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    max-width: 100%;
+    max-height: calc(100% - 22px);
+    object-fit: contain;
+    pointer-events: none;
+    image-rendering: pixelated;
+}
+.hd-mobile-page #hd-spe[data-source="hd-assets"] #hd-spe-canvas { image-rendering: auto; }
+.hd-mobile-page[data-hd-mobile-spe="hd"] #lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+.hd-mobile-page[data-hd-mobile-spe="lcd"] #lcd {
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+.hd-mobile-page[data-hd-mobile-spe="hd"] #hd-battle,
+.hd-mobile-page[data-hd-mobile-spe="hd"] #hd-overworld,
+.hd-mobile-page[data-hd-mobile-spe="hd"] #hd-city-menu,
+.hd-mobile-page[data-hd-mobile-spe="hd"] #hd-dialog,
+.hd-mobile-page[data-hd-mobile-spe="lcd"] #hd-battle,
+.hd-mobile-page[data-hd-mobile-spe="lcd"] #hd-overworld,
+.hd-mobile-page[data-hd-mobile-spe="lcd"] #hd-city-menu,
+.hd-mobile-page[data-hd-mobile-spe="lcd"] #hd-dialog { display: none !important; pointer-events: none !important; }
+@media (orientation: portrait) {
+    .hd-mobile-page #hd-spe { display: none !important; }
+    .hd-mobile-page[data-hd-mobile-spe="hd"] #lcd,
+    .hd-mobile-page[data-hd-mobile-spe="lcd"] #lcd { visibility: visible !important; pointer-events: auto !important; }
+}

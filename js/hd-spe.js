@@ -5,6 +5,48 @@
         manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, preparing: false, preparation: null,
         libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null,
         callbackFlushKey: '', aiBase: null, aiRegion: null, opaqueRegion: null };
+    var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+    var mobileHost = null, mobileData = null, mobileGeneration = 0, mobilePresentation = 'off';
+    function isMobilePage() { return !!(mobileHost || document.body && document.body.classList && document.body.classList.contains('hd-mobile-page')); }
+    function readMobileOwner() {
+        try {
+            if (!mobileHost || document.hidden || typeof mobileHost.isAvailable !== 'function' || mobileHost.isAvailable() !== true ||
+                typeof mobileHost.readTicket !== 'function' || typeof mobileHost.getMode !== 'function' || mobileHost.getMode() !== 'hd') return null;
+            var api = global.BayeHdLibIdentity, identity = api && api.read();
+            if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA || identity.byteLength !== 207195 ||
+                !integer(identity.generation) || identity.generation <= 0 || !api.isCurrent(identity) ||
+                !(global.baye && baye.hd && baye.hd.ready())) return null;
+            // A movie has no battle action ticket. Its authenticated LCD base
+            // owner is sufficient only for display; blockers remain unchanged.
+            var a = mobileHost.readTicket(), data = baye.data, z = mobileHost.readTicket(), latest = api.read();
+            if (!a || !z || !data || a.data !== data || z.data !== data || a.key !== z.key || typeof z.key !== 'string' || !z.key ||
+                a.libraryGeneration !== identity.generation || z.libraryGeneration !== identity.generation ||
+                !latest || latest.status !== 'ready' || latest.byteLength !== 207195 || latest.generation !== identity.generation || latest.sha256 !== identity.sha256 || !api.isCurrent(latest) ||
+                baye.data !== data || !baye.hd.ready() || mobileHost.isAvailable() !== true || mobileHost.getMode() !== 'hd') return null;
+            return { data: data, generation: identity.generation };
+        } catch (error) { return null; }
+    }
+    function publishMobilePresentation(value) {
+        if (!mobileHost || value === mobilePresentation) return;
+        mobilePresentation = value;
+        if (typeof mobileHost.onPresentation === 'function') {
+            try { mobileHost.onPresentation(value); } catch (error) { /* The physical LCD remains the fallback. */ }
+        }
+    }
+    function retireInteraction(reason) {
+        retire(''); state.open = false; state.reason = reason || 'mobile-boundary';
+        var root = el('hd-spe');
+        if (root) { root.classList.toggle('is-open', false); root.setAttribute('aria-hidden', 'true'); root.style.pointerEvents = 'none'; }
+        if (document.documentElement) document.documentElement.setAttribute('data-baye-spe', 'off');
+        publishMobilePresentation('off');
+    }
+    function configureMobileHost(options) {
+        retireInteraction('host-change'); mobileHost = options || {}; mobileData = null; mobileGeneration = 0;
+        mobilePresentation = 'off';
+        if (state.poll) { global.clearInterval(state.poll); state.poll = 0; }
+        if (typeof mobileHost.onPresentation === 'function') mobileHost.onPresentation('off');
+        return global.BayeHdSpe;
+    }
     function integer(v) { return typeof v === 'number' && isFinite(v) && Math.floor(v) === v; }
     function el(id) { return document.getElementById(id); }
     function storage(key, fallback) { try {
@@ -82,6 +124,7 @@
     } }
     function kind(s) { return Number(s.kind) || (Number(s.id) === 3 || Number(s.id) === 6 ? 1 : 0); }
     function hd(k) {
+        if (isMobilePage()) return (k === 2 || k === 3 || k === 4) && !!readMobileOwner();
         var api = k === 1 ? global.BayeHdSystemUi : global.BayeHdBattle;
         if (api && typeof api.shouldShowHd === 'function')
             return api.shouldShowHd();
@@ -126,6 +169,7 @@
         state.pressed = null;
         state.assets = null;
         state.hasFlush = false;
+        state.flushData = null;
         state.flushKey = '';
         state.callbackFlushKey = '';
         state.aiRegion = null;
@@ -163,6 +207,7 @@
         state.flushW = w;
         state.flushH = h;
         state.hasFlush = true;
+        state.flushData = mobileHost && global.baye ? baye.data : null;
         state.flushKey = stamp(s);
         state.callbackFlushKey = img ? stamp(s) : '';
         var size = screen();
@@ -363,6 +408,7 @@
     }
     function prepareStart(callback, options) {
         if (typeof callback !== 'function') return;
+        if (isMobilePage()) { callback({ ready: false, reason: 'mobile-battle-only', slots: 0 }); return; }
         options = options || {};
         var timeout = integer(options.timeoutMs) && options.timeoutMs >= 0 && options.timeoutMs <= 10000 ? options.timeoutMs : 5000;
         var started = Date.now(), done = false, timer = 0, slots = 0;
@@ -1040,6 +1086,9 @@
         if (!canvas || !show(s) || state.renderKey === renderKey(s))
             return;
         var size = screen(), geometry = size.width + ':' + size.height;
+        if (mobileHost && (!state.hasFlush || state.flushKey !== stamp(s) || !global.baye || state.flushData !== baye.data)) {
+            state.source = 'lcd'; state.reason = 'waiting-current-lcd-flush'; return;
+        }
         if (state.geometry !== geometry) {
             state.geometry = geometry;
             state.hasFlush = false;
@@ -1182,11 +1231,21 @@
         state.frames = frames;
     }
     function sync(noPaint) {
-        var s = info(), key = s.active ? event(s) : '', shown = show(s);
+        if (mobileHost) {
+            var owner = readMobileOwner();
+            if (mobileData && (!owner || owner.data !== mobileData || owner.generation !== mobileGeneration)) retireInteraction('mobile-owner-changed');
+            mobileData = owner && owner.data; mobileGeneration = owner ? owner.generation : 0;
+        }
+        var s = info(), key = s.active ? event(s) : '', shown = show(s), eligible = shown;
         if (key !== state.event)
             retire(key);
         if (!shown && state.open)
             retire(key);
+        if (mobileHost) {
+            verifyLib();
+            if (shown && noPaint !== true) paint(s);
+            shown = !!(shown && state.source === 'hd-assets' && state.hasFlush && state.flushKey === stamp(s) && state.flushData === mobileData && matches(s));
+        }
         state.open = shown;
         var root = el('hd-spe');
         if (!root)
@@ -1198,12 +1257,13 @@
         root.style.pointerEvents = shown ? 'auto' : 'none';
         if (document.documentElement)
             document.documentElement.setAttribute('data-baye-spe', shown ? 'on' : 'off');
-        var skip = el('hd-spe-skip'), eligible = shown && skippable(s) && state.skipped !== key;
+        if (mobileHost) publishMobilePresentation(eligible ? (shown ? 'hd' : 'lcd') : 'off');
+        var skip = el('hd-spe-skip'), skipEligible = shown && skippable(s) && state.skipped !== key;
         if (skip) {
             skip.hidden = !shown || !skippable(s);
-            skip.disabled = !eligible;
+            skip.disabled = !skipEligible;
             skip.style.visibility = skip.hidden ? 'hidden' : 'visible';
-            skip.style.pointerEvents = eligible ? 'auto' : 'none';
+            skip.style.pointerEvents = skipEligible ? 'auto' : 'none';
             skip.setAttribute('aria-hidden', skip.hidden ? 'true' : 'false');
         }
         var back = el('hd-spe-return'), token = key + ':' + state.epoch;
@@ -1230,6 +1290,7 @@
             probe.textContent = state.source === 'hd-assets' ? '高清素材 · 原生显示帧 ' + state.frames.join(',') : '原生 LCD 画面';
     }
     function skip() {
+        if (isMobilePage()) return false;
         var s = info(), key = event(s);
         if (!state.open || !skippable(s) || state.skipped === key)
             return false;
@@ -1249,6 +1310,7 @@
         return true;
     }
     function returnToTitle(token) {
+        if (isMobilePage()) return false;
         var s = info(), key = event(s);
         if (!state.open || !show(s) || !held(s) || token !== key + ':' + state.epoch || state.returned === key ||
             typeof global.sendKey !== 'function') return false;
@@ -1258,6 +1320,7 @@
         return true;
     }
     function classic() {
+        if (isMobilePage()) return false; // The mobile host owns its independent mode button.
         var s = info();
         if (!show(s))
             return false;
@@ -1274,7 +1337,7 @@
     }
     function start() {
         var root = el('hd-spe');
-        if (root && !state.bound) {
+        if (root && !state.bound && !isMobilePage()) {
             state.bound = true;
             root.addEventListener('pointerdown', function (e) {
                 var t = e.target && e.target.closest && e.target.closest('[data-hd-spe-return]');
@@ -1324,15 +1387,18 @@
         requestManifest();
         sync();
         if (!state.poll)
-            state.poll = global.setInterval(sync, 250);
+            state.poll = global.setInterval(sync, isMobilePage() ? 80 : 250);
     }
-    global.BayeHdSpe = { start: start, applyPcPage: start, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
-            return; capture(img, w, h, s); state.renderKey = ''; paint(s); var root = el('hd-spe'); if (root)
+    global.BayeHdSpe = { start: start, applyPcPage: start, configureMobileHost: configureMobileHost,
+        applyMobilePage: function (options) { configureMobileHost(options); start(); }, retireInteraction: retireInteraction,
+        getLcdPresentation: function () { return mobileHost ? mobilePresentation : state.open ? 'hd' : 'off'; }, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
+            return; capture(img, w, h, s); state.renderKey = ''; paint(s); if (mobileHost) sync(true); var root = el('hd-spe'); if (root)
             root.setAttribute('data-source', state.source); }, blit: sync,
-        skip: skip, returnToTitle: returnToTitle, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
+        skip: skip, returnToTitle: returnToTitle, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return mobileHost ? mobilePresentation === 'hd' : show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
         debugSnapshot: function () {
             var s = info();
-            return { open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
+            return { mobileHost: !!mobileHost, mobilePresentation: mobileHost ? mobilePresentation : 'off', mobileLibraryGeneration: mobileGeneration,
+                open: state.open, opening: state.open && skippable(s), skipVisible: !!(el('hd-spe-skip') && !el('hd-spe-skip').hidden), skipped: state.skipped === event(s),
                 source: state.source, fallbackReason: state.reason, displayedFrames: state.frames.slice(), scale: state.scale, canvasW: state.canvasW, canvasH: state.canvasH, flushW: state.flushW, flushH: state.flushH,
                 event: state.event, flushKey: state.flushKey, sourceRect: state.sourceRect || null, libSha256: state.libHash, preparing: state.preparing,
                 preparation: state.preparation, cachedResources: state.cache.length, cachedImages: Object.keys(state.imageCache).length,
