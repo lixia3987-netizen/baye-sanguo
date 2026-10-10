@@ -1,0 +1,717 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T13:36:49.629Z",
+  "scope": "Bounded original LIUYAN static integration evidence. No browser execution. Runtime components are incomplete build-only drafts, not an executable or accepted player-cast driver.",
+  "sourceBaselineRevision": "d241d7ba5abe3d853a22fb3ed0a9230836701527",
+  "artifacts": [
+    {
+      "source": {
+        "path": "build/r26-run-source-tests-root-v1.mjs",
+        "bytes": 3521,
+        "sha256": "384fa520b5bd4a8f16c654ff281bcfec2720921409975108bca2e92702135774"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/384fa520b5bd4a8f16c654ff281bcfec2720921409975108bca2e92702135774-r26-run-source-tests-root-v1.mjs.gz",
+        "bytes": 1596,
+        "sha256": "ad63dc9e89dea1facd65fe35768fa41a730dbba9107e733ef2277f4d4d6bafa5"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-full-source-tests-v1-execution.json",
+        "bytes": 3653,
+        "sha256": "738bfc81219a86c82beb6789d3c314d6a8bb80e19d5fe285ee12d95449d3dbbe"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/738bfc81219a86c82beb6789d3c314d6a8bb80e19d5fe285ee12d95449d3dbbe-r26-liuyan-full-source-tests-v1-execution.json.gz",
+        "bytes": 1134,
+        "sha256": "22b7daaacb8029335816dfbbd84214df8fbc02803b7dc9cbcf9930e916faf41c"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-full-source-tests-v1.log",
+        "bytes": 300522,
+        "sha256": "4a0aef1ed391fef68857979f25700ae97a4c6d5685c7e1815ab7b9ab10284f30"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/4a0aef1ed391fef68857979f25700ae97a4c6d5685c7e1815ab7b9ab10284f30-r26-liuyan-full-source-tests-v1.log.gz",
+        "bytes": 54310,
+        "sha256": "bef94d0bf9aabdb7b612300dc48130f8985be9ecce97e1395774a81207f86a0c"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-full-source-tests-v1-sources-pre.json",
+        "bytes": 220554,
+        "sha256": "25a454ab4142bd146627e6bad0ab7f7854c801644e8f4330d1c6bb7eb8649c03"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/25a454ab4142bd146627e6bad0ab7f7854c801644e8f4330d1c6bb7eb8649c03-r26-liuyan-full-source-tests-v1-sources-pre.json.gz",
+        "bytes": 57100,
+        "sha256": "45f9fb58f82ee44054030ab096c2e29524cd8f627f8a24b86fddb6fe8c61bcdd"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-full-source-tests-v1-sources-post.json",
+        "bytes": 220554,
+        "sha256": "25a454ab4142bd146627e6bad0ab7f7854c801644e8f4330d1c6bb7eb8649c03"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/25a454ab4142bd146627e6bad0ab7f7854c801644e8f4330d1c6bb7eb8649c03-r26-liuyan-full-source-tests-v1-sources-post.json.gz",
+        "bytes": 57100,
+        "sha256": "45f9fb58f82ee44054030ab096c2e29524cd8f627f8a24b86fddb6fe8c61bcdd"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-focused-root-v1.log",
+        "bytes": 36038,
+        "sha256": "190fd1be20b65b5b03ed13ae39a3be6e79374b596c1486db6670c923659f008e"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/190fd1be20b65b5b03ed13ae39a3be6e79374b596c1486db6670c923659f008e-r26-liuyan-focused-root-v1.log.gz",
+        "bytes": 6680,
+        "sha256": "3dcfc8acd01d26d56eb751d9de142cf4369eb502c75007a81ac838267f971252"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-bridge-focused-v1.log",
+        "bytes": 4886,
+        "sha256": "7012aea174f38434130bee31b2b6777f907c98a33f040606298fd3d5ebe72a70"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/7012aea174f38434130bee31b2b6777f907c98a33f040606298fd3d5ebe72a70-r26-liuyan-bridge-focused-v1.log.gz",
+        "bytes": 1492,
+        "sha256": "5400a71028c4a3b36453f5f2ca660c5e71b07e2600859d05a52b8e02f8045d1a"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-bridge-focused-v2.log",
+        "bytes": 4696,
+        "sha256": "ec3886b6104784fdb79b9c14612e365189ca25fadfe2e3f5c83d0e463cef3c4f"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/ec3886b6104784fdb79b9c14612e365189ca25fadfe2e3f5c83d0e463cef3c4f-r26-liuyan-bridge-focused-v2.log.gz",
+        "bytes": 1367,
+        "sha256": "e73d5d2879214580cd45a46553bab248cbb4421a44110e288ba90fb41430490a"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-bridge-focused-v3.log",
+        "bytes": 4696,
+        "sha256": "f60f7addb95d04e4e24a17f9e22b879460304e56f44d89423829cf977f592d91"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/f60f7addb95d04e4e24a17f9e22b879460304e56f44d89423829cf977f592d91-r26-liuyan-bridge-focused-v3.log.gz",
+        "bytes": 1375,
+        "sha256": "98904dfef202e4a4bd0f2a935276503f0edbbc2a395c34d037b5f29784fbea64"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-bridge-focused-v4.log",
+        "bytes": 3935,
+        "sha256": "ea5702c43bf0e8703299c393cb5b55cf38bd421171fcf6234d3ab9d1b506f5c8"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/ea5702c43bf0e8703299c393cb5b55cf38bd421171fcf6234d3ab9d1b506f5c8-r26-liuyan-bridge-focused-v4.log.gz",
+        "bytes": 1091,
+        "sha256": "dc6df47ad6fbaec04ca577af5bed167b7d689d8eff1c6a0784ba2f2622411a8d"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-bridge-plus-existing-v1.log",
+        "bytes": 8334,
+        "sha256": "d60bbc0a9e02979e3791708cff4b2994d3fe559cab65ee2c7d63533d0921132f"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/d60bbc0a9e02979e3791708cff4b2994d3fe559cab65ee2c7d63533d0921132f-r26-liuyan-bridge-plus-existing-v1.log.gz",
+        "bytes": 2230,
+        "sha256": "474eda4feef9b6434e4e23be8985fbd6039e87cfce225ef1e00c41ad8a4c8bc6"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-bridge-test-freeze-v1.json",
+        "bytes": 2581,
+        "sha256": "6329e0614f9a5747c33efeabaffbbf5248dffa61426636b79ca0b2e14a8481ad"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/6329e0614f9a5747c33efeabaffbbf5248dffa61426636b79ca0b2e14a8481ad-r26-liuyan-bridge-test-freeze-v1.json.gz",
+        "bytes": 1184,
+        "sha256": "19bfd48273abdb4f9a584a260bbcc458979ad6eb7c8db5d83135d1103e79361f"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-render-contract-v1.json",
+        "bytes": 14022,
+        "sha256": "651ca20c3134640dfe070c05603c56668ffbe64ce375ea38c623f9fdcd63fc7d"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/651ca20c3134640dfe070c05603c56668ffbe64ce375ea38c623f9fdcd63fc7d-r26-liuyan-render-contract-v1.json.gz",
+        "bytes": 4657,
+        "sha256": "443b960b3e2e2d9df6c3670029ed17263a6beb7bc250762545fcb5f246ab27e0"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-root-source-independent-review-v1.json",
+        "bytes": 4268,
+        "sha256": "f6ac6cff808f3dc0252b3657479ea8d23b8e2670f7d8f55b5d7fcdf96bed4b8c"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/f6ac6cff808f3dc0252b3657479ea8d23b8e2670f7d8f55b5d7fcdf96bed4b8c-r26-liuyan-root-source-independent-review-v1.json.gz",
+        "bytes": 1960,
+        "sha256": "df1465e9639ee4782c9bbff3c344b5473209868d4b9b2b8fcf116e2c7510cbd4"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-root-source-independent-review-v2.json",
+        "bytes": 6668,
+        "sha256": "3e78f055daa13b1d1d4ec234cbb75a39838773c953a1af66a8f465da76e83a12"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/3e78f055daa13b1d1d4ec234cbb75a39838773c953a1af66a8f465da76e83a12-r26-liuyan-root-source-independent-review-v2.json.gz",
+        "bytes": 2167,
+        "sha256": "cc4a2f8406a4020be2271ca8d9f7d9f93b5e03f8ad38d3666e8bb8f1e661ff43"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-manifest-before-v1.json",
+        "bytes": 581090,
+        "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af-r26-liuyan-manifest-before-v1.json.gz",
+        "bytes": 14330,
+        "sha256": "bdd8d8e9da4940c725ed16e740ed15227e586defbacc8d75d699ef433c43ba3d"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-manifest-candidate-v1.json",
+        "bytes": 582873,
+        "sha256": "45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3-r26-liuyan-manifest-candidate-v1.json.gz",
+        "bytes": 14381,
+        "sha256": "6c4e81ba4755167cee5bd88c053233540d5d6071ace109ccab5f189db7680f99"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-manifest-publication-root-v1.json",
+        "bytes": 2161,
+        "sha256": "3ed84129ec736caee0cf947394435e19392a27dc7e9861152693664a408cb129"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/3ed84129ec736caee0cf947394435e19392a27dc7e9861152693664a408cb129-r26-liuyan-manifest-publication-root-v1.json.gz",
+        "bytes": 646,
+        "sha256": "ed862b8870c3198081665d1bc192fdbc3b226a65557711438dee0ad67405cacf"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-publish-liuyan-manifest-root-v1.mjs",
+        "bytes": 1561,
+        "sha256": "46d54562d0931c05df3025e14b70029cea0a49b7e7d16aa9464a745010a22e99"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/46d54562d0931c05df3025e14b70029cea0a49b7e7d16aa9464a745010a22e99-r26-publish-liuyan-manifest-root-v1.mjs.gz",
+        "bytes": 752,
+        "sha256": "874e84cf3e25d3f3e8067ad888f17d3b91d4ec86ffa31af428a516daef50447b"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-register-liuyan-tests-root-v1.mjs",
+        "bytes": 539,
+        "sha256": "095e3a7b0429effa0dce410bc64df46f04798c2d114c447a93d35be9e78b0eab"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/095e3a7b0429effa0dce410bc64df46f04798c2d114c447a93d35be9e78b0eab-r26-register-liuyan-tests-root-v1.mjs.gz",
+        "bytes": 277,
+        "sha256": "065ca224976d60cc52101162d6d8ca31ed902cbc30da7b1757aea1e844c8760c"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-runtime-plan-v1.json",
+        "bytes": 27340,
+        "sha256": "4bf9c2747703ca3419396de05d939575ea7a175b7194567c5fc4cb561d4b4aa5"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/4bf9c2747703ca3419396de05d939575ea7a175b7194567c5fc4cb561d4b4aa5-r26-liuyan-runtime-plan-v1.json.gz",
+        "bytes": 9373,
+        "sha256": "a3155aef19951984778fda64b9627723c69b571c80104cc37cee381967bd126c"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-runtime-plan-builder-v1.mjs",
+        "bytes": 21215,
+        "sha256": "6224c51aedbaa716e07785cb2218c24d22387e16265c33e5e0b46904d8ed35da"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/6224c51aedbaa716e07785cb2218c24d22387e16265c33e5e0b46904d8ed35da-r26-liuyan-runtime-plan-builder-v1.mjs.gz",
+        "bytes": 9452,
+        "sha256": "b0b653f8db5c88c94cd88c6842ec6564d179e0ce6b2aab6ea1d67ce03927d72a"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-runtime-draft-freeze-v1.json",
+        "bytes": 3217,
+        "sha256": "639a9e10fc60013a05d04c487e31ea8f0f30ba53a60fdf4eb500ed9b3f7da508"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/639a9e10fc60013a05d04c487e31ea8f0f30ba53a60fdf4eb500ed9b3f7da508-r26-liuyan-runtime-draft-freeze-v1.json.gz",
+        "bytes": 1571,
+        "sha256": "d1e726624fbdbe5f52c53e37c53dba07dd88ab36de46dc46d0ae7a3a2fa69942"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-pixels-v1.mjs",
+        "bytes": 10672,
+        "sha256": "f2c19d917ed76faae4ef6cbba424d14d94cc091ce1a80776d1b897b6552c8daa"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/f2c19d917ed76faae4ef6cbba424d14d94cc091ce1a80776d1b897b6552c8daa-r26-liuyan-pixels-v1.mjs.gz",
+        "bytes": 3897,
+        "sha256": "a4e86b55e13cf2770fb454a33faa188fe0a5815a4a4c2d283ad29833acabb99b"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-observer-v1.mjs",
+        "bytes": 12423,
+        "sha256": "0d19891a0cc14ab5f86de2f3a235cad74e04fc99d7165e092e2957f68f4dc798"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/0d19891a0cc14ab5f86de2f3a235cad74e04fc99d7165e092e2957f68f4dc798-r26-liuyan-observer-v1.mjs.gz",
+        "bytes": 4110,
+        "sha256": "91d990b6b10500cb1bddf0180c790f0c306cdf9cea43072e27268305446482ff"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-runtime-oracle-v1.mjs",
+        "bytes": 18123,
+        "sha256": "d30d42ce1c0c42cac7ec9cfa146bfa4cc638e24f539b06df7b79bda47b3688a4"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/d30d42ce1c0c42cac7ec9cfa146bfa4cc638e24f539b06df7b79bda47b3688a4-r26-liuyan-runtime-oracle-v1.mjs.gz",
+        "bytes": 6524,
+        "sha256": "2c6924d0f16fdbc7e08d94c7ac32348d6c53daa8707a40169baf778c21fc2939"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-cast-fragment-v1.mjs",
+        "bytes": 20131,
+        "sha256": "36ead03f57cb04880ec9c3554b4a586e232e111bf4093b9d11ef86cb2e9c2bdf"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/36ead03f57cb04880ec9c3554b4a586e232e111bf4093b9d11ef86cb2e9c2bdf-r26-liuyan-cast-fragment-v1.mjs.gz",
+        "bytes": 7000,
+        "sha256": "fcfdc1283f17a2a37d9288942aa41806273fca4b855c3bfde0bb12d76163e9f6"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-helper-extraction-proof-v1.json",
+        "bytes": 875,
+        "sha256": "8004444b501bfebf22966036066461a500e6be70814141e32f6b2173ca3dc47e"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/8004444b501bfebf22966036066461a500e6be70814141e32f6b2173ca3dc47e-r26-liuyan-helper-extraction-proof-v1.json.gz",
+        "bytes": 537,
+        "sha256": "9c3ad8d74616a637fe114729c092223352906eee86a8fc4996780c788a85a17d"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-make-liuyan-helpers-v1.mjs",
+        "bytes": 4839,
+        "sha256": "885c05f456f544dd40f20a948c2de253d7915a84cd14e78c9442496b43043f2a"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/885c05f456f544dd40f20a948c2de253d7915a84cd14e78c9442496b43043f2a-r26-make-liuyan-helpers-v1.mjs.gz",
+        "bytes": 2079,
+        "sha256": "ed1331b521e3fb4aebfc500a24179cfa6e137a22b696419a6f261804722f40f4"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-copy-liuyan-chain-root-v1.mjs",
+        "bytes": 1650,
+        "sha256": "1eb8fdb8ec4bfaafcd2e9e61d9d7f299d3565513ab3d03620e87ebf5f6fe20c2"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/1eb8fdb8ec4bfaafcd2e9e61d9d7f299d3565513ab3d03620e87ebf5f6fe20c2-r26-copy-liuyan-chain-root-v1.mjs.gz",
+        "bytes": 782,
+        "sha256": "aa5c730cf58337d5d91f9d1393d3b9ed61f314de6ecc38623faaf002830e2312"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-chain-copy-proof-root-v1.json",
+        "bytes": 9217,
+        "sha256": "dced36ca96471e48a269039cf94e48ad1dd3a4b194ccd55a283ad50a13ca5edb"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/dced36ca96471e48a269039cf94e48ad1dd3a4b194ccd55a283ad50a13ca5edb-r26-liuyan-chain-copy-proof-root-v1.json.gz",
+        "bytes": 1992,
+        "sha256": "c2bb0327740ca18d8a12b1dea9f51e64c0f1a6cebd3e427c6442b65165bb9d93"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-publish-liuyan-provenance-root-v1.mjs",
+        "bytes": 4521,
+        "sha256": "df8497002b936f97781527754786c140549146b436a06abf1c14935c73877567"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/df8497002b936f97781527754786c140549146b436a06abf1c14935c73877567-r26-publish-liuyan-provenance-root-v1.mjs.gz",
+        "bytes": 2011,
+        "sha256": "b9c5d74eb91fcc19ea5a8d5209b955801a2d90266397abcef6bc606440793e31"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-archive-liuyan-static-root-v1.mjs",
+        "bytes": 10933,
+        "sha256": "9bf5c74f77af7b5f0a7664b93d337c0f51ab38db308853f5ea2cb78107bb50d8"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/9bf5c74f77af7b5f0a7664b93d337c0f51ab38db308853f5ea2cb78107bb50d8-r26-archive-liuyan-static-root-v1.mjs.gz",
+        "bytes": 4148,
+        "sha256": "74a984bc8df809dbd7e6da6b1eb18394cfadeab644cf09e83045b8e013493c27"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "js/bridge.js",
+        "bytes": 141211,
+        "sha256": "31f3adf490fa79d08c4fe56d6910a2cf6ec3c748f793cf8a37252b5350b0830a"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/31f3adf490fa79d08c4fe56d6910a2cf6ec3c748f793cf8a37252b5350b0830a-bridge.js.gz",
+        "bytes": 26694,
+        "sha256": "708d98bb4ae60326c4ffdbd933dd22dda12fedfc22184c9a60b95d6b164edefb"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "js/hd-spe.js",
+        "bytes": 84222,
+        "sha256": "60c78056e05100fcd360c266c19da22c5fdb00022a9dc0cb3f0ce4b844d8ec87"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/60c78056e05100fcd360c266c19da22c5fdb00022a9dc0cb3f0ce4b844d8ec87-hd-spe.js.gz",
+        "bytes": 17469,
+        "sha256": "972df9a7ed055a54b6bf35cd64b6b2e2147b52054ffa8b69595a0b8e1e220b12"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "scripts/test-hd-spe.mjs",
+        "bytes": 144233,
+        "sha256": "10c314f0e472dbc7fa6a510ce1a27a1f8e56de92026444ee5ad80f0435e9f183"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/10c314f0e472dbc7fa6a510ce1a27a1f8e56de92026444ee5ad80f0435e9f183-test-hd-spe.mjs.gz",
+        "bytes": 31122,
+        "sha256": "56eca9f6383952a4f199c3459192fdfbda331bf743b394343096b492b65b1b11"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "scripts/test-hd-liuyan-bridge.mjs",
+        "bytes": 11518,
+        "sha256": "9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4-test-hd-liuyan-bridge.mjs.gz",
+        "bytes": 3196,
+        "sha256": "dd2418d64a4b5a36a0ecbaa3cd8f591ef566156c68cc7808b50932873d1990a8"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "scripts/generate-hd-spe-liuyan-entry.mjs",
+        "bytes": 4825,
+        "sha256": "ba519219d65e3555341ad67ef2ea6aea65094d89de77fb2219c7a64af6ffa469"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/ba519219d65e3555341ad67ef2ea6aea65094d89de77fb2219c7a64af6ffa469-generate-hd-spe-liuyan-entry.mjs.gz",
+        "bytes": 2104,
+        "sha256": "cb60430f42e3a1d11d2af9ac5a6fd25e7e9b0dfdb107219907440a91162b9e32"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "scripts/specs/hd-spe-liuyan.json",
+        "bytes": 882,
+        "sha256": "efc0eb4b73eb6660e7762c4a95215f69eb1670cb93f6bc35d5fc7263aaff3fff"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/efc0eb4b73eb6660e7762c4a95215f69eb1670cb93f6bc35d5fc7263aaff3fff-hd-spe-liuyan.json.gz",
+        "bytes": 541,
+        "sha256": "cf11f16b43786ac8a2dc0b49c60caad8bba78a9a62efd0a1fffdb6806659c97d"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "scripts/hd-aid-native-test-fixture.mjs",
+        "bytes": 9706,
+        "sha256": "518d591652dd1eac264c0f335dd71e686fc4f749121da03408062703b94388e1"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/518d591652dd1eac264c0f335dd71e686fc4f749121da03408062703b94388e1-hd-aid-native-test-fixture.mjs.gz",
+        "bytes": 3369,
+        "sha256": "459844a72038acc469181d2ff793ba8424cfc5ba78f69ff348ceb9a7903a57e7"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "package.json",
+        "bytes": 7490,
+        "sha256": "c596421aa52f4509e130170e5bce79a97a64b9ee942e9923e22e754899192769"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/c596421aa52f4509e130170e5bce79a97a64b9ee942e9923e22e754899192769-package.json.gz",
+        "bytes": 1348,
+        "sha256": "573c1c561fbb2d648b79e29055d4cf2c73b1aecf569d3aef1badea06cc4e3663"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "pc.html",
+        "bytes": 27413,
+        "sha256": "ac7a9bdf525c506886f86e26c602ebfe3d6736e67d69fc0de2ac825f0430c28a"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/ac7a9bdf525c506886f86e26c602ebfe3d6736e67d69fc0de2ac825f0430c28a-pc.html.gz",
+        "bytes": 6359,
+        "sha256": "d34508e6efaecf18fa33533a8f74c98b154db105dbda1a2779061402fbe41f4f"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "m.html",
+        "bytes": 5292,
+        "sha256": "0fb33272bdb1b6e7f1619c8b4638d4e1d99e738221362dd77684dbe0d4166b30"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/0fb33272bdb1b6e7f1619c8b4638d4e1d99e738221362dd77684dbe0d4166b30-m.html.gz",
+        "bytes": 1990,
+        "sha256": "e09b8a9603fa84a1d5f7e5d69c9539f48b19df7e84f102891411ec33ba91f770"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "m-old.html",
+        "bytes": 6508,
+        "sha256": "ba9895ba137d5ebbf0fdf5c9f2bb1204253a9af948b936acb861ec7c09d3622c"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/ba9895ba137d5ebbf0fdf5c9f2bb1204253a9af948b936acb861ec7c09d3622c-m-old.html.gz",
+        "bytes": 1866,
+        "sha256": "c2fd002ced7571c4ff065de5b50e50328b299a39ad3548f68211b7e241ddd2f9"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "m-ges.html",
+        "bytes": 6952,
+        "sha256": "d2417d65ce71a881d9f24bcbf3189f9941ded1734ba947f36f4e4a91c08a4189"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/d2417d65ce71a881d9f24bcbf3189f9941ded1734ba947f36f4e4a91c08a4189-m-ges.html.gz",
+        "bytes": 2531,
+        "sha256": "0367f7ee48573d54b0a1a831d6d0cbfd98e5ee4f2a2c609f40bd1bc39d939740"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "m-ktouch.html",
+        "bytes": 6454,
+        "sha256": "dd1ace6040f9e23c947793cbe1aaf7921e3f75f2d1b19dcbd30727d07863dd4e"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/dd1ace6040f9e23c947793cbe1aaf7921e3f75f2d1b19dcbd30727d07863dd4e-m-ktouch.html.gz",
+        "bytes": 1866,
+        "sha256": "c8691091239d6c8af7dd58729e7621b2cd5db172a06a579358db3c395d7572a5"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "designer.html",
+        "bytes": 3140,
+        "sha256": "22bab6139bebd1bc81a485314d04e1abb83b4cb3a9c23ec9bf391b1c24e5d1fc"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/22bab6139bebd1bc81a485314d04e1abb83b4cb3a9c23ec9bf391b1c24e5d1fc-designer.html.gz",
+        "bytes": 1239,
+        "sha256": "c70deaeb34eda924ff27531a916d59ee4fb55f213fe29a36a65614c82aa31cb6"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "hd-portrait-dump.html",
+        "bytes": 3400,
+        "sha256": "8afb651d880c7e77b02331b9df9452fdcbb5f267a5790d8ad2fb6d63bb49b536"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/8afb651d880c7e77b02331b9df9452fdcbb5f267a5790d8ad2fb6d63bb49b536-hd-portrait-dump.html.gz",
+        "bytes": 1579,
+        "sha256": "f4bd6a7dda8eeebc4c942974732fc775f728c4e6e53c25d1729b6ff15ab84fc8"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 582873,
+        "sha256": "45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/45444d4d4c7afcf868c15473a8370f373782020c5f896d19fb41b9e1450fd3f3-manifest.json.gz",
+        "bytes": 14381,
+        "sha256": "6c4e81ba4755167cee5bd88c053233540d5d6071ace109ccab5f189db7680f99"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    },
+    {
+      "source": {
+        "path": "build/r26-liuyan-art-chain-independent-audit-v1.json",
+        "bytes": 30231,
+        "sha256": "8f0e4a341b37087e66c814923addb07e21324f2cfc54aa958e2331508c3d534c"
+      },
+      "archive": {
+        "path": "docs/validation/m4-liuyan-static-20261010/raw/8f0e4a341b37087e66c814923addb07e21324f2cfc54aa958e2331508c3d534c-r26-liuyan-art-chain-independent-audit-v1.json.gz",
+        "bytes": 5297,
+        "sha256": "e2940c3668df84812a5a11722bf96be43613f8c76545252ef1b7000b5436b8fd"
+      },
+      "encoding": "gzip",
+      "roundTripByteEqual": true
+    }
+  ],
+  "roundTripVerified": true,
+  "originalFailureLogsPreserved": [
+    "build/r26-liuyan-bridge-focused-v1.log",
+    "build/r26-liuyan-bridge-focused-v2.log",
+    "build/r26-liuyan-bridge-focused-v3.log"
+  ],
+  "failureScope": "The first three offline bridge runs failed because of test expectations for inactive/numeric owner shapes; original failed logs remain unchanged. Final corrected fixture expectations passed. These are not browser failures or passes.",
+  "portableRuntimeReplayPackage": false,
+  "notIncluded": "Historical AID actual browser observations/save pairs referenced by runtime planning remain in their prior archive or local build paths. No claim of a self-contained executable runtime package."
+}

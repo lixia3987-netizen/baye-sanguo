@@ -267,7 +267,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
-        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 41 || e.aidVersion != null) && !validOpaqueCoverageEntry(e)) return false;
+        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null) && !validOpaqueCoverageEntry(e)) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
@@ -430,7 +430,7 @@
         } catch (error) { return; }
         var selected = state.assets;
         state.manifest.entries.forEach(function (entry) {
-            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && entry.skillResultVersion === 1 || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry);
+            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && (entry.skillResultVersion === 1 || entry.liuyanVersion === 1) || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry);
         });
         state.assets = selected;
     }
@@ -519,7 +519,51 @@
             numeric && (source.frameIndex !== 7 || s.display.frameIndex !== 7 || frames.indexOf(7) < 0)) return null;
         return { x: 48, y: 16, width: 64, height: 64 };
     }
+    function validLiuyanEntry(entry) {
+        if (entry.liuyanVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillId !== 16 ||
+            entry.kind !== 2 || entry.speId !== 40 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
+            entry.startFrm !== 0 || entry.endFrm !== 7 || entry.resourceLength !== 1084 ||
+            entry.resourceFingerprint !== 'fnv1a32:bd0140e0:1084' || entry.skillIds != null || entry.aidVersion != null ||
+            entry.skillResultVersion != null || entry.skillNumber != null || entry.compositionVersion != null ||
+            entry.aiTargetVersion != null || entry.statusVersion != null || entry.background != null || entry.number != null) return false;
+        for (var p = 0; p < 2; p++) {
+            var pic = entry.pictures.filter(function (v) { return v.picIndex === p; })[0];
+            if (!validPicture(pic) || pic.mask !== 0 || pic.nativeWidth !== 64 || pic.nativeHeight !== 64 ||
+                pic.logicalWidth !== 64 || pic.logicalHeight !== 64) return false;
+        }
+        return entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
+    }
+    function liuyanCoverage(s, entry, frames, clears) {
+        var c = s.display && s.display.composition, current = s.composition;
+        if (!validLiuyanEntry(entry) || numericOwner(s) || held(s) || s.ownerType === 'result-lcd' ||
+            !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
+            c.valid !== true || current.valid !== true || c.mode !== 2 || current.mode !== 2 ||
+            [c, current].some(function (v) { return v.x !== 48 || v.y !== 16 || v.width !== 64 || v.height !== 64 || v.background && v.background.valid; }) ||
+            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || s.contextKnown !== true || s.skillId !== 16 ||
+            !integer(s.actorIndex) || s.actorIndex < 0 || s.actorIndex >= 20 ||
+            !integer(s.targetIndex) || s.targetIndex < 0 || s.targetIndex >= 20 ||
+            s.frameValid !== true || !integer(s.generation) || s.generation <= 0 || !integer(s.eventId) || s.eventId <= 0 ||
+            !integer(s.commitSeq) || s.commitSeq <= 0 || !integer(s.display.commitSeq) || s.display.commitSeq <= 0 ||
+            s.display.commitSeq > s.commitSeq || s.eventId !== s.display.eventId || s.generation !== s.display.generation ||
+            !integer(s.frameIndex) || s.frameIndex < 0 || s.frameIndex > 7 ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < 0 || s.display.frameIndex > s.frameIndex) return null;
+        function pastOnly(bits, frontier) {
+            if (!byteBits(bits)) return false;
+            for (var f = 0; f < 256; f++) if (bits[f >> 3] & (1 << (f & 7))) if (f > frontier) return false;
+            return true;
+        }
+        if (!pastOnly(s.display.visibleFrames, s.display.frameIndex) || !pastOnly(c.clearFrames, s.display.frameIndex) ||
+            !pastOnly(s.visibleFrames, s.frameIndex) || !pastOnly(current.clearFrames, s.frameIndex) ||
+            !s.display.visibleFrames.some(function (bit, i) { return bit || c.clearFrames[i]; }) ||
+            !s.visibleFrames.some(function (bit, i) { return bit || current.clearFrames[i]; }) ||
+            c.clearFrames.some(function (bit, i) { return (bit & ~current.clearFrames[i]) !== 0; }) ||
+            s.display.commitSeq === s.commitSeq && (s.display.frameIndex !== s.frameIndex ||
+                s.display.visibleFrames.some(function (bit, i) { return bit !== s.visibleFrames[i]; }) ||
+                c.clearFrames.some(function (bit, i) { return bit !== current.clearFrames[i]; }))) return null;
+        return { x: 48, y: 16, width: 64, height: 64 };
+    }
     function validOpaqueCoverageEntry(entry) {
+        if (entry.liuyanVersion != null || entry.speId === 40) return validLiuyanEntry(entry);
         if (entry.aidVersion != null || entry.speId === 41) return validAidEntry(entry);
         if (entry.opaqueCoverageVersion !== 1 || entry.skillResultVersion !== 1 || entry.kind !== 2 ||
             entry.speId !== 37 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
@@ -539,6 +583,7 @@
             entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
     }
     function opaqueCoverage(s, entry, frames, clears) {
+        if (entry.liuyanVersion != null || entry.speId === 40) return liuyanCoverage(s, entry, frames, clears);
         if (entry.aidVersion != null || entry.speId === 41) return aidCoverage(s, entry, frames, clears);
         var numeric = skillPostlude(s), c = s.display && s.display.composition, skill = numeric ? s.skillResult : s,
             source = numeric ? skill.scene : s, current = source && source.composition;
@@ -865,7 +910,7 @@
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
         var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 41))) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41))) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;

@@ -3,6 +3,7 @@ import { createHash, webcrypto } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import vm from 'node:vm';
 import test from 'node:test';
+import {aidRawScenarios, readAidPublic} from './hd-aid-native-test-fixture.mjs';
 import { deflateSync, inflateSync } from 'node:zlib';
 
 const source = readFileSync(new URL('../js/hd-spe.js', import.meta.url), 'utf8');
@@ -1564,6 +1565,144 @@ test('prepareStart missing, unknown, invalid, digest-error, classic and expanded
         assert.equal(h.images.length, 0, options.name + ' cannot request authenticated MAIN art');
         assert.deepEqual(h.hdDraws(), []); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
     }
+});
+
+// State-only LIUYAN consumer fixtures. These are offline VM boundaries, not
+// successful native casts or captured browser evidence.
+function liuyanFixture(current=0,shown=current) {
+    const f=actualMainFixture(40),m=JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json',import.meta.url),'utf8')),
+        entry=m.entries.find(e=>e.speId===40);
+    assert.ok(entry);assert.deepEqual(entry.units,f.units);assert.equal(entry.resourceFingerprint,'fnv1a32:bd0140e0:1084');
+    const comp=frame=>({protocolVersion:1,valid:true,mode:2,x:48,y:16,width:64,height:64,background:null,
+        clearFrames:bitset(...Array.from({length:frame},(_,i)=>i))});
+    const display={generation:9,eventId:5,commitSeq:shown+1,frameIndex:shown,frameValid:true,visibleFrames:bitset(shown),composition:comp(shown)};
+    const s={...f.s,kind:2,generation:9,eventId:5,x:48,y:16,keyflag:0,skipEligible:false,contextKnown:true,
+        skillId:16,actorIndex:2,targetIndex:10,frameIndex:current,frameValid:true,commitSeq:current+1,
+        visibleFrames:bitset(current),composition:comp(current),display};
+    return {...f,entry,s,m:{...m,entries:[entry]}};
+}
+async function liuyanLoaded(options={}) {
+    const f=liuyanFixture(options.current??0,options.shown??options.current??0),h=harness({data:{g_scale:1},spe:f.s,...options.harness});
+    h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
+    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
+    if(!options.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};
+}
+function liuyanFullLcd(h){assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});}
+test('LIUYAN40 all8 actual native slots paint only64square over fullLCD without numeric or input ownership',async()=>{
+    const h=await liuyanLoaded();
+    for(let frame=0;frame<8;frame++){
+        h.setSpe(liuyanFixture(frame).s);h.events.length=0;h.flush();const d=h.api.debugSnapshot();
+        assert.equal(d.source,'hd-assets');liuyanFullLcd(h);assert.deepEqual({...d.hdRegion},{x:48,y:16,width:64,height:64});
+        assert.deepEqual([...d.displayedFrames],[frame]);const draw=h.hdDraws().at(-1);
+        assert.equal(draw.args[0].url,'assets/hd-spe/liuyan-40/picture-'+frame%2+'.png');assert.deepEqual(draw.args.slice(1),[528,176,704,704]);
+        assert.equal(h.events.filter(e=>e.node==='hd-spe-canvas'&&['fillRect','fillText'].includes(e.operation)).length,0);
+    }
+    assert.equal(h.nodes.get('hd-spe-skip').hidden,true);assert.equal(h.nodes.get('hd-spe-return').hidden,true);
+    h.key();h.api.skip();assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
+test('LIUYAN40 lagging displayed copy cannot borrow future frame or clears',async()=>{
+    const h=await liuyanLoaded({current:3,shown:0});assert.equal(h.api.debugSnapshot().source,'hd-assets');
+    assert.equal(h.hdDraws().at(-1).args[0].url,'assets/hd-spe/liuyan-40/picture-0.png');
+    for(const change of[s=>s.display.composition.clearFrames=bitset(1),s=>s.display.visibleFrames=bitset(1),
+        s=>s.display.commitSeq=5,s=>s.composition.clearFrames=bitset(4)]){
+        const s=structuredClone(h.fixture.s);change(s);h.setSpe(s);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');liuyanFullLcd(h);
+    }
+});
+test('LIUYAN40 rejects wrong identity, context, geometry, copy and unknown coverage',async()=>{
+    const h=await liuyanLoaded(),original=h.fixture.s;
+    for(const change of[s=>s.contextKnown=false,s=>s.skillId=17,s=>s.actorIndex=-1,s=>s.actorIndex=20,s=>s.targetIndex=20,
+        s=>s.keyflag=1,s=>s.skipEligible=true,s=>s.protocolValid=false,s=>s.composition.valid=false,s=>s.display.composition.valid=false,
+        s=>s.composition.mode=3,s=>s.display.composition.mode=3,s=>s.display.composition.x=49,s=>s.composition.width=66,
+        s=>s.display.composition.background={valid:true},s=>s.display.eventId=6,s=>s.display.generation=10,
+        s=>s.display.commitSeq=0,s=>s.display.frameIndex=1,s=>s.display.visibleFrames=bitset(1),
+        s=>{s.visibleFrames=bitset();s.composition.clearFrames=bitset();},s=>{s.display.visibleFrames=bitset();s.display.composition.clearFrames=bitset();}]){
+        const s=structuredClone(original);change(s);h.setSpe(s);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');liuyanFullLcd(h);
+    }
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
+test('LIUYAN40 missing or malformed marker and unknownLIB use fullLCD rather than generic arena',async()=>{
+    const h=await liuyanLoaded();
+    for(const change of[e=>delete e.liuyanVersion,e=>e.liuyanVersion=2,e=>delete e.opaqueCoverageVersion,e=>e.skillId=17,
+        e=>e.skillIds=[16],e=>e.aidVersion=1,e=>e.skillResultVersion=1,e=>e.skillNumber={},e=>e.background={},
+        e=>e.pictures[1].mask=1,e=>e.units[3].x=1,e=>e.units[5].picIndex=0,e=>e.resourceFingerprint='fnv1a32:00000000:1084']){
+        const m=structuredClone(h.fixture.m);change(m.entries[0]);h.api.setManifest(m);h.events.length=0;h.flush();
+        assert.equal(h.api.debugSnapshot().source,'lcd');liuyanFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
+    }
+    h.context.dynLib='00';h.api.setManifest(h.fixture.m);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');liuyanFullLcd(h);
+});
+test('LIUYAN40 fabricated numeric postlude cannot acquire its state-only artwork',async()=>{
+    const f=liuyanFixture(7),fake=skillFixture(),result={...fake.result,skillId:16,speId:40,resourceLength:1084,
+        resourceFingerprint:f.entry.resourceFingerprint,count:8,picmax:2,startFrm:0,endFrm:7};
+    const h=harness({data:{g_scale:1},spe:{active:0,generation:9},skillResult:result,resultOwner:fake.top});
+    h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();h.flush();
+    assert.equal(h.api.debugSnapshot().source,'lcd');liuyanFullLcd(h);assert.deepEqual(h.hdDraws(),[]);assert.deepEqual(h.keys,[]);
+});
+test('LIUYAN40 failed image and late image after native end cannot replace actualLCD',async()=>{
+    const missing=await liuyanLoaded({pending:true});missing.resolve(1);missing.images[0].onerror();missing.events.length=0;missing.flush();
+    assert.equal(missing.api.debugSnapshot().source,'lcd');liuyanFullLcd(missing);assert.deepEqual(missing.hdDraws(),[]);
+    const retired=await liuyanLoaded({pending:true});retired.setSpe({active:0});retired.api.onEngineSpe();retired.events.length=0;
+    retired.resolve(0);retired.resolve(1);assert.equal(retired.api.isOpen(),false);assert.deepEqual(retired.hdDraws(),[]);
+});
+test('LIUYAN40 classic, hidden and report revoke the movie; unsupported screen has no HD crop',async()=>{
+    for(const retire of[h=>h.setMode(false),h=>h.setHidden(true),h=>h.setReport(1)]){
+        const h=await liuyanLoaded();h.events.length=0;retire(h);h.flush();assert.equal(h.api.isOpen(),false);assert.deepEqual(h.hdDraws(),[]);assert.deepEqual(h.keys,[]);
+    }
+    const h=await liuyanLoaded();h.events.length=0;h.setScreen(200,96);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');
+    assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:200,height:96});assert.deepEqual(h.hdDraws(),[]);
+});
+test('LIUYAN40 mid-draw owner or resource change restores completeLCD',async()=>{
+    for(const retire of[h=>h.spe().display.eventId++,h=>h.context.dynLib='00']){
+        const h=await liuyanLoaded();let changed=false;
+        h.setDrawHook((node,op,args)=>{if(!changed&&node==='hd-spe-canvas'&&op==='drawImage'&&args[0]instanceof h.context.Image){changed=true;retire(h);}});
+        h.events.length=0;h.flush();h.setDrawHook(null);assert.equal(changed,true);assert.equal(h.api.debugSnapshot().source,'lcd');
+        const last=h.events.filter(e=>e.node==='hd-spe-canvas'&&e.operation==='drawImage').at(-1);
+        assert.equal(last.args[0]instanceof h.context.Image,false);assert.deepEqual(last.args.slice(1),[0,0,640,384,0,0,1760,1056]);assert.deepEqual(h.keys,[]);
+    }
+});
+test('LIUYAN40 authentic battle prewarm loads both state-only slots before a native movie begins',async()=>{
+    const f=liuyanFixture(),h=harness({data:{g_scale:1},spe:{active:0},fightActive:true});
+    h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
+    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
+    h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});
+    h.setSpe(f.s);h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');assert.equal(h.images.length,2);
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+    const bad=structuredClone(f.m);delete bad.entries[0].liuyanVersion;
+    const rejected=harness({data:{g_scale:1},spe:{active:0},fightActive:true});rejected.context.dynLib=f.lib.toString('hex');rejected.api.setManifest(bad);rejected.api.start();
+    for(let i=0;i<60;i++)await settle();assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
+});
+test('LIUYAN40 copied clear-only state removes the bounded window without replaying old art',async()=>{
+    const h=await liuyanLoaded({current:3}),s=structuredClone(h.fixture.s);
+    s.visibleFrames=bitset();s.composition.clearFrames=bitset(0,1,2,3);
+    s.display.visibleFrames=bitset();s.display.composition.clearFrames=bitset(0,1,2,3);
+    h.setSpe(s);h.events.length=0;h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');liuyanFullLcd(h);
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[]);assert.deepEqual(h.hdDraws(),[]);
+    assert.equal(h.events.filter(e=>e.node==='hd-spe-canvas'&&e.operation==='fillRect').length,0);assert.deepEqual(h.keys,[]);
+});
+test('LIUYAN40 controlled rawABI feeds the unchanged public getter into the real consumer',async()=>{
+    const seed=aidRawScenarios().find(s=>!s.numeric).rawGlobals;
+    for(const [current,shown]of[...Array.from({length:8},(_,f)=>[f,f]),[3,0]]){
+        const f=liuyanFixture(current,shown),raw=structuredClone(seed);
+        Object.assign(raw,{g_hdSpeId:40,g_hdSpeSkillId:16,g_hdSpeResourceFingerprint:0xbd0140e0,g_hdSpeResourceLength:1084,
+            g_hdSpeFrameIndex:current,g_hdSpeCommitSeq:current+1,g_hdSpeDisplayFrameIndex:shown,g_hdSpeDisplayCommitSeq:shown+1});
+        for(const [p,frame]of[['g_hdSpe',current],['g_hdSpeDisplay',shown]])Object.assign(raw,{[p+'SceneMode']:2,[p+'SceneWidth']:64,
+            [p+'VisibleFrames']:bitset(frame),[p+'ClearFrames']:bitset(...Array.from({length:frame},(_,i)=>i))});
+        const actual=readAidPublic(raw);assert.equal(actual.publicSpe.display.composition.valid,true);
+        const h=harness({data:{g_scale:1},spe:actual.publicSpe,skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
+        h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
+        for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+        h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
+        assert.equal(h.api.debugSnapshot().source,'hd-assets');liuyanFullLcd(h);assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[shown]);
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+    }
+});
+test('LIUYAN40 selected originals and no-NUM source spec match actual LIB slots',()=>{
+    const f=liuyanFixture(),spec=JSON.parse(readFileSync(new URL('../scripts/specs/hd-spe-liuyan.json',import.meta.url),'utf8'));
+    assert.deepEqual([f.entry.speId,f.entry.skillId,f.entry.liuyanVersion,f.entry.opaqueCoverageVersion],[40,16,1,1]);
+    for(const field of['skillResultVersion','skillNumber','number','background'])assert.equal(f.entry[field],undefined);
+    f.entry.pictures.forEach((p,i)=>{const b=readFileSync(new URL('../'+p.src,import.meta.url)),d=decodePng(b);checkPictureAlpha(d,0);
+        assert.deepEqual([d.width,d.height],[p.width,p.height]);assert.equal(createHash('sha256').update(b).digest('hex'),spec.pictureSha256[i]);});
+    assert.deepEqual(spec.pictureSources,f.entry.pictures.map(p=>p.src));
 });
 
 test('production SPE manifest authenticates actual LIB payload, complete native slots and decoded mask-specific PNG pixels', () => {

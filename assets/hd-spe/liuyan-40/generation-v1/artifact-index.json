@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "scope": "Local raw generation artifact index, not a committed archive or accepted game scope",
+  "files": [
+    {
+      "path": "build/r25-liuyan-40-art-v1/frame-0-prompt.txt",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-0-prompt.txt",
+      "bytes": 2230,
+      "sha256": "c211122f1827491edb65dee35bbeeb7c8b9a40026661fd92c72b0dab1b03175b"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/frame-0-request.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-0-request.json",
+      "bytes": 3928,
+      "sha256": "422326e32491df0f1d5b9916f2ea684332fd641ebf42c12ceb106d508c66fbf4"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/frame-0-tool-result-and-review.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-0-tool-result-and-review.json",
+      "bytes": 1736,
+      "sha256": "d8ebb231ea2c8ff3c279c50be97f50a317a0ef66d6d97b7cb497b143cc5d58d7"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/frame-1-prompt.txt",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-1-prompt.txt",
+      "bytes": 1631,
+      "sha256": "4bebdcc8652cc333bb2abc813c2b72b6051b8ecbb86ad0bd9f4d6e1890231772"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/frame-1-request.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-1-request.json",
+      "bytes": 2930,
+      "sha256": "ba33b12b6b38a2975c29d690735ffe4841de727782d4f97e0a30e07144482b67"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/frame-1-tool-result-and-review.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\frame-1-tool-result-and-review.json",
+      "bytes": 1780,
+      "sha256": "ad34cd4c3ecabb18b55789f6d670a46535cabea461f6655ef16bf7de61b19921"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/native-font-exact-comparison.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\native-font-exact-comparison.json",
+      "bytes": 8751,
+      "sha256": "bfa49bb5bab22a1710da928ef127d19932740e14e9fa6a44fd89002ff6fa7199"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/picture-0.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-0.png",
+      "bytes": 3113150,
+      "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/picture-1.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-1.png",
+      "bytes": 2793104,
+      "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v1/review.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\review.json",
+      "bytes": 7959,
+      "sha256": "2d566ed0276060345b40d12ab1d66b745b0e63d1a6b2fb22c48c88339a5479b6"
+    }
+  ],
+  "totalBytes": 5937199
+}

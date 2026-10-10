@@ -1323,7 +1323,7 @@ function baye_bridge_init() {
         sceneNames.forEach(function (name) {
             if (d && (d['g_hdSpe' + name] != null || d['g_hdSpeDisplay' + name] != null)) scenePresent = true;
         });
-        var scene = null, displayScene = null, wood = false, aid = false;
+        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false;
         if (scenePresent) {
             function readScene(prefix) { return { mode: r.num(prefix + 'SceneMode', 3),
                 x: hdOrigin(r.num(prefix + 'SceneX', 65535)), y: hdOrigin(r.num(prefix + 'SceneY', 65535)),
@@ -1348,6 +1348,17 @@ function baye_bridge_init() {
                 values.ResourceFingerprint === 0x1d4637e9 &&
                 r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
                 r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
+            // LIUYAN changes native state without a numeric result. Its movie
+            // still establishes the same copied64 square, with its own exact
+            // resource and real skill context rather than borrowing AID.
+            liuyan = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
+                expected.actorIndex === actor && expected.targetIndex === target && actor < 20 && target < 20 &&
+                skill === 16 && values.Id === 40 && values.Kind === 2 && values.ResourceIndex === 0 &&
+                count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
+                values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1084 &&
+                values.ResourceFingerprint === 0xbd0140e0 &&
+                r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+                r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
         }
         var stable = r.stable(), current = stable && generation > 0 && eventId > 0 && values.ProtocolVersion === 2 &&
             values.Active === 1 && values.ProtocolValid === 1 &&
@@ -1370,7 +1381,7 @@ function baye_bridge_init() {
                 (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
                     displayScene.width === scene.width && displayVisible.every(function (bit, i) { return bit === visible[i]; }) &&
                     displayClears.every(function (bit, i) { return bit === clears[i]; }));
-        function aidGeometry(c, live, erased, frontier) {
+        function equalOpaqueGeometry(c, live, erased, frontier) {
             if (!c || c.mode !== 2 || c.x !== 48 || c.y !== 16 || c.width !== 64 || c.height !== 64 ||
                 frontier < 0 || frontier > 7 || !hdRangeBits(live, count, start, end) || !hdRangeBits(erased, count, start, end)) return false;
             var established = false;
@@ -1380,10 +1391,10 @@ function baye_bridge_init() {
             }
             return established;
         }
-        var currentAid = current && currentValid === 1 && aid && !background.valid &&
-            aidGeometry(scene, visible, clears, values.FrameIndex),
-            shownAid = shown && currentAid && !displayBackground.valid &&
-                aidGeometry(displayScene, displayVisible, displayClears, values.DisplayFrameIndex) &&
+        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan) && !background.valid &&
+            equalOpaqueGeometry(scene, visible, clears, values.FrameIndex),
+            shownEqualOpaque = shown && currentEqualOpaque && !displayBackground.valid &&
+                equalOpaqueGeometry(displayScene, displayVisible, displayClears, values.DisplayFrameIndex) &&
                 values.DisplayCommitSeq > 0 && values.DisplayCommitSeq <= values.CommitSeq && values.DisplayFrameIndex <= values.FrameIndex &&
                 displayClears.every(function (bit, i) { return (bit & ~clears[i]) === 0; }) &&
                 (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
@@ -1396,8 +1407,8 @@ function baye_bridge_init() {
                 result.width = stable && geometry ? geometry.width : null; result.height = stable && geometry ? geometry.height : null; }
             return result;
         }
-        return { current: output(currentAid || currentWood || current && currentValid === 1 && (!scene || scene.mode !== 3) && background.valid && hdRangeBits(clears, count, start, end), background, clears, scene),
-            display: output(shownAid || shownWood || shown && (!displayScene || displayScene.mode !== 3) && displayBackground.valid && hdRangeBits(displayClears, count, start, end), displayBackground, displayClears, displayScene),
+        return { current: output(currentEqualOpaque || currentWood || current && currentValid === 1 && (!scene || scene.mode !== 3) && background.valid && hdRangeBits(clears, count, start, end), background, clears, scene),
+            display: output(shownEqualOpaque || shownWood || shown && (!displayScene || displayScene.mode !== 3) && displayBackground.valid && hdRangeBits(displayClears, count, start, end), displayBackground, displayClears, displayScene),
             fence: function () { return r.stable() && (!scenePresent || hdEngineReady() && baye.ensureData() === d); } };
     }
     // AI target hints own only their real before-draw cell and copied frame.

@@ -32,3 +32,12 @@
 /docs/validation/m4-aid-runtime-20261010/original-png-inventory.json text eol=lf
 /docs/validation/m4-aid-native-20261009.json text eol=lf
 /docs/validation/m4-wood-preparation-pending-20261009.json text eol=lf
+
+# Preserve LIUYAN source artwork and validation byte references across checkouts.
+/assets/hd-spe/manifest.json text eol=lf
+/assets/hd-spe/GENERATED-LIUYAN.json text eol=lf
+/assets/hd-spe/liuyan-40/**/*.json text eol=lf
+/assets/hd-spe/liuyan-40/**/*.txt text eol=lf
+/scripts/specs/hd-spe-liuyan.json text eol=lf
+/docs/validation/m4-liuyan-static-20261010.json text eol=lf
+/docs/validation/m4-liuyan-static-20261010/runtime-index.json text eol=lf
