@@ -1,0 +1,1149 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "createdAt": "2026-10-10T22:43:08.490Z",
+  "baseCommit": "dc3cd246a1b9f9fc5fe975d275440ace2e833dc5",
+  "status": "Bounded original mobile HD march accepted at two landscape sizes; ordinary CITY quantity/report regression accepted",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "fullNativeAbiAccepted": false,
+  "portableClosedArchive": false,
+  "changes": [
+    "Retire only the bound previous mobile target-tip hint when its current native target owner arrives",
+    "Preserve current target/error hints, strict pointer retirement and PC behavior",
+    "Refresh CITY cache keys on mobile and PC",
+    "Require the actual initial target page to have no prior report hint or continue control"
+  ],
+  "staticRegression": {
+    "modules": 70,
+    "tests": 2197,
+    "passed": 2197,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "concurrency": 4,
+    "durationMs": 24046.2792,
+    "clang": "build/toolchain/emsdk/upstream/bin/clang.exe"
+  },
+  "controlledRegression": {
+    "focusedTests": 257,
+    "passed": 257,
+    "newCases": 9,
+    "oldSourceNegativeTests": 1,
+    "oldSourceNegativePassed": 0,
+    "oldSourceNegativeFailed": 1,
+    "oldSourceNegativeSkipped": 0,
+    "firstFocused": {
+      "passed": 256,
+      "failed": 1,
+      "note": "Snapshot before existing native cityLinks scratch publication differed; v2 primes the getter before the unchanged full raw comparison. Product source unchanged."
+    }
+  },
+  "runtime": [
+    {
+      "name": "march-667",
+      "result": "build/mobile-hd-march-matrix-667-v1-20261011/result.json",
+      "startedAt": "2026-10-10T22:34:01.593Z",
+      "finishedAt": "2026-10-10T22:35:16.620Z",
+      "scope": "Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim",
+      "acceptedScope": [
+        "Original P1 Ma Teng HD march 8→9 at 667×375 via trusted controls",
+        "Two exact native cancellation paths; selected queue, grain, money and orders",
+        "Current target selection without native movement, explicit acknowledged confirmation and genuine strategy handoff"
+      ],
+      "pendingScope": [
+        "Other origins/periods, native rejection/report families and full queue cases",
+        "Android/iOS real devices, performance and whole mobile HD"
+      ],
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": true,
+      "navigationMatrixAccepted": false,
+      "reportInteractionAccepted": false,
+      "recruitmentCommitted": false,
+      "sourceCount": 137,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-667",
+        "march-cancel-food-667",
+        "march-cancel-target-667",
+        "march-food-667",
+        "march-target-tip-667",
+        "march-target-667",
+        "march-classic-target-667",
+        "march-target-selected-667",
+        "march-armout-667",
+        "march-departed-667",
+        "march-genuine-battle-667"
+      ],
+      "nativeKeyCount": 56,
+      "nativeLcdTouchCount": 0,
+      "historicalIdentityCount": 12,
+      "treeExited": true,
+      "serverClosed": true,
+      "marchVerdict": {
+        "ok": true,
+        "measuredWorldAccepted": true,
+        "scope": "Original P1 Ma Teng source8 -> enemy9; ordered selection/cancellation and measured HD march trace",
+        "origin": 8,
+        "target": 9,
+        "orderIndex": 170,
+        "slot": 0,
+        "distance": 1,
+        "selectionEvidence": "actual-ordered-person-IDs",
+        "selectedPersonIds": [
+          5,
+          58
+        ],
+        "tokens": [
+          6,
+          59,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "food": {
+          "confirmed": 504,
+          "before": 505,
+          "after": 1
+        },
+        "money": {
+          "cost": 0,
+          "before": 237,
+          "after": 237
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orderRows": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30
+        },
+        "limits": [
+          "Recorded worldSource fields only, not full native ABI",
+          "A pure checker cannot establish that fixtures are actual browser observations",
+          "Caller retains trusted CDP action, visible current selector/owner/geometry and source/cleanup evidence",
+          "No strategy month, battle result, natural release, real device or whole HD acceptance"
+        ],
+        "hdMarchTraceAccepted": true,
+        "wholeHdAccepted": false,
+        "fullHdAccepted": false,
+        "fullNativeAbiAccepted": false,
+        "actualInputProvenance": "caller-retained-original-trusted-trace",
+        "libraryGeneration": 2,
+        "marchSession": 3,
+        "phases": [
+          "persons",
+          "food",
+          "target-tip",
+          "target",
+          "target-selected",
+          "armout",
+          "departed"
+        ],
+        "input": {
+          "actionCount": 14,
+          "selectionActions": 2,
+          "ackTargetTip": 1,
+          "ackArmout": 1,
+          "nativeLcdTouches": 0
+        }
+      },
+      "cancellations": [
+        {
+          "stage": "food",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "food",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        },
+        {
+          "stage": "target",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "target",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        }
+      ],
+      "targetPresentation": [
+        {
+          "kind": "current-target-presentation",
+          "march": {
+            "pick": 1,
+            "battlePick": 1,
+            "mapCity": 9,
+            "mapInputSeq": 3,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 4,
+            "session": 2,
+            "origin": 8,
+            "selected": 2,
+            "inputSeq": 15
+          },
+          "wizardStep": "map-pick",
+          "hint": "",
+          "reportContinue": false,
+          "priorReportHint": false
+        },
+        {
+          "kind": "current-target-presentation",
+          "march": {
+            "pick": 1,
+            "battlePick": 1,
+            "mapCity": 9,
+            "mapInputSeq": 5,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 4,
+            "session": 3,
+            "origin": 8,
+            "selected": 2,
+            "inputSeq": 23
+          },
+          "wizardStep": "map-pick",
+          "hint": "",
+          "reportContinue": false,
+          "priorReportHint": false
+        }
+      ],
+      "strategyHandoff": {
+        "keys": [
+          40,
+          39
+        ],
+        "battle": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 5,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 4,
+          "focusY": 16
+        },
+        "hdBattle": true
+      },
+      "negativeCount": 41
+    },
+    {
+      "name": "march-844",
+      "result": "build/mobile-hd-march-matrix-844-v1-20261011/result.json",
+      "startedAt": "2026-10-10T22:35:28.600Z",
+      "finishedAt": "2026-10-10T22:36:37.648Z",
+      "scope": "Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim",
+      "acceptedScope": [
+        "Original P1 Ma Teng HD march 8→9 at 844×390 via trusted controls",
+        "Two exact native cancellation paths; selected queue, grain, money and orders",
+        "Current target selection without native movement, explicit acknowledged confirmation and genuine strategy handoff"
+      ],
+      "pendingScope": [
+        "Other origins/periods, native rejection/report families and full queue cases",
+        "Android/iOS real devices, performance and whole mobile HD"
+      ],
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": true,
+      "navigationMatrixAccepted": false,
+      "reportInteractionAccepted": false,
+      "recruitmentCommitted": false,
+      "sourceCount": 137,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-844",
+        "march-cancel-food-844",
+        "march-cancel-target-844",
+        "march-food-844",
+        "march-target-tip-844",
+        "march-target-844",
+        "march-classic-target-844",
+        "march-target-selected-844",
+        "march-armout-844",
+        "march-departed-844",
+        "march-genuine-battle-844"
+      ],
+      "nativeKeyCount": 56,
+      "nativeLcdTouchCount": 0,
+      "historicalIdentityCount": 12,
+      "treeExited": true,
+      "serverClosed": true,
+      "marchVerdict": {
+        "ok": true,
+        "measuredWorldAccepted": true,
+        "scope": "Original P1 Ma Teng source8 -> enemy9; ordered selection/cancellation and measured HD march trace",
+        "origin": 8,
+        "target": 9,
+        "orderIndex": 170,
+        "slot": 0,
+        "distance": 1,
+        "selectionEvidence": "actual-ordered-person-IDs",
+        "selectedPersonIds": [
+          5,
+          58
+        ],
+        "tokens": [
+          6,
+          59,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "food": {
+          "confirmed": 504,
+          "before": 505,
+          "after": 1
+        },
+        "money": {
+          "cost": 0,
+          "before": 237,
+          "after": 237
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orderRows": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30
+        },
+        "limits": [
+          "Recorded worldSource fields only, not full native ABI",
+          "A pure checker cannot establish that fixtures are actual browser observations",
+          "Caller retains trusted CDP action, visible current selector/owner/geometry and source/cleanup evidence",
+          "No strategy month, battle result, natural release, real device or whole HD acceptance"
+        ],
+        "hdMarchTraceAccepted": true,
+        "wholeHdAccepted": false,
+        "fullHdAccepted": false,
+        "fullNativeAbiAccepted": false,
+        "actualInputProvenance": "caller-retained-original-trusted-trace",
+        "libraryGeneration": 2,
+        "marchSession": 3,
+        "phases": [
+          "persons",
+          "food",
+          "target-tip",
+          "target",
+          "target-selected",
+          "armout",
+          "departed"
+        ],
+        "input": {
+          "actionCount": 14,
+          "selectionActions": 2,
+          "ackTargetTip": 1,
+          "ackArmout": 1,
+          "nativeLcdTouches": 0
+        }
+      },
+      "cancellations": [
+        {
+          "stage": "food",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "food",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        },
+        {
+          "stage": "target",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "target",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        }
+      ],
+      "targetPresentation": [
+        {
+          "kind": "current-target-presentation",
+          "march": {
+            "pick": 1,
+            "battlePick": 1,
+            "mapCity": 9,
+            "mapInputSeq": 3,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 4,
+            "session": 2,
+            "origin": 8,
+            "selected": 2,
+            "inputSeq": 15
+          },
+          "wizardStep": "map-pick",
+          "hint": "",
+          "reportContinue": false,
+          "priorReportHint": false
+        },
+        {
+          "kind": "current-target-presentation",
+          "march": {
+            "pick": 1,
+            "battlePick": 1,
+            "mapCity": 9,
+            "mapInputSeq": 5,
+            "ok": 0,
+            "city": 0,
+            "obj": 0,
+            "time": 0,
+            "seq": 0,
+            "phase": 4,
+            "session": 3,
+            "origin": 8,
+            "selected": 2,
+            "inputSeq": 23
+          },
+          "wizardStep": "map-pick",
+          "hint": "",
+          "reportContinue": false,
+          "priorReportHint": false
+        }
+      ],
+      "strategyHandoff": {
+        "keys": [
+          40,
+          39
+        ],
+        "battle": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 5,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 4,
+          "focusY": 16
+        },
+        "hdBattle": true
+      },
+      "negativeCount": 37
+    },
+    {
+      "name": "city-regression",
+      "result": "build/mobile-city-march-dialog-regression-v1-20261011/result.json",
+      "startedAt": "2026-10-10T22:36:53.429Z",
+      "finishedAt": "2026-10-10T22:38:36.548Z",
+      "scope": "Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage",
+      "acceptedScope": [
+        "Original genuine multi-city lord and native city entry",
+        "844x390 and 667x375 trusted four-category city menus",
+        "Actual person U16 owner list and quantity edit/cancel",
+        "Readonly status zero keys and single-owner Back",
+        "44px unobstructed touch targets; fitting content or measured genuine overflow scrolling",
+        "Touchcancel/multifinger/rotation/hidden/untrusted-click retirement",
+        "Independent mobile presentation mode; PC preferences unchanged",
+        "Two bounded nonking original Treat operations; one report ACK and one natural report retirement"
+      ],
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": false,
+      "navigationMatrixAccepted": true,
+      "reportInteractionAccepted": true,
+      "recruitmentCommitted": false,
+      "sourceCount": 57,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "phases": [
+        "00-title-844",
+        "entry-for-内政-0",
+        "844x390-内政",
+        "entry-for-外交-4",
+        "844x390-外交",
+        "entry-for-军备-8",
+        "844x390-军备",
+        "entry-for-状况-12",
+        "status-14",
+        "entry-for-内政-16",
+        "844x390-person",
+        "entry-for-军备-20",
+        "844x390-qty",
+        "entry-for-内政-26",
+        "667x375-内政",
+        "entry-for-外交-30",
+        "667x375-外交",
+        "entry-for-军备-34",
+        "667x375-军备",
+        "entry-for-状况-38",
+        "status-40",
+        "entry-for-内政-42",
+        "667x375-person",
+        "entry-for-军备-46",
+        "667x375-qty",
+        "negative-current-root",
+        "root-gesture-portrait",
+        "mode-current-root",
+        "classic-city",
+        "entry-for-内政-56",
+        "public-treat-confirmed-report",
+        "entry-for-内政-60",
+        "public-treat-natural-owner-retirement-report",
+        "final-mobile-HD-map"
+      ],
+      "nativeKeyCount": 111,
+      "nativeLcdTouchCount": 0,
+      "historicalIdentityCount": 16,
+      "treeExited": true,
+      "serverClosed": true,
+      "treatments": [
+        {
+          "label": "public-treat-confirmed",
+          "actor": 23,
+          "naturalHeld": false,
+          "delta": {
+            "phase": "report",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 576,
+              "after": 476
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 87,
+              "after": 87
+            }
+          },
+          "finalDelta": {
+            "phase": "retired",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 576,
+              "after": 476
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 87,
+              "after": 88
+            }
+          },
+          "keys": [
+            {
+              "code": 39,
+              "at": 87995.59999999404
+            }
+          ]
+        },
+        {
+          "label": "public-treat-natural-owner-retirement",
+          "actor": 23,
+          "naturalHeld": true,
+          "delta": {
+            "phase": "report",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 476,
+              "after": 376
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 88,
+              "after": 88
+            }
+          },
+          "finalDelta": {
+            "phase": "retired",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 476,
+              "after": 376
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 88,
+              "after": 89
+            }
+          },
+          "keys": []
+        }
+      ],
+      "quantityChecks": 2
+    }
+  ],
+  "sourceVerification": {
+    "marchFilesEach": 137,
+    "marchFilesExactlyEqual": true,
+    "allThreeCurrentByteAndShaMatches": true,
+    "sharedSourcesExactlyEqual": true,
+    "uniqueFiles": 138
+  },
+  "evidenceLimitations": [
+    "Full world cancellation/selection/dispatch recomputation is retained for the two march runs; both ordinary Treat operations retain full world snapshots",
+    "Ordinary CITY navigation/quantity/cancel world preservation was checked by executed strict runtime assertions; saved navigation records contain state only and cannot independently recompute those full worlds",
+    "March negative records do not each retain full world snapshots for independent recomputation"
+  ],
+  "userService": {
+    "before": {
+      "checkedAt": "2026-10-10T22:31:26.2722215Z",
+      "port": 8080,
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "path": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200,
+      "sameIdentity": true
+    },
+    "after": {
+      "checkedAt": "2026-10-10T22:39:19.3322131Z",
+      "port": 8080,
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "path": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200,
+      "sameIdentity": true
+    }
+  },
+  "historicalProcessVerification": {
+    "proof": "build/mobile-hd-march-matrix-owned-historical-after-20261011.json",
+    "checkedAt": "2026-10-10T22:39:19.8260944Z",
+    "identities": 40,
+    "allExactIdentitiesAbsent": true,
+    "readOnly": true
+  },
+  "pendingScope": [
+    "Food quantity summary partly clipped by retained scrolling on the narrow viewport; improve presentation next",
+    "Other march origins/periods, native rejection/report families and full queue cases",
+    "Recruitment commitment, all city commands, full succession, mobile save/reload and battle outcomes",
+    "Android/iOS real devices, browser safe-area variations, performance and whole HD"
+  ],
+  "archiveNote": "Selected original evidence only. Private profiles, other screenshots and complete production/historical source trees remain local. The prior runtime record and its failed attempts retain their historical scope.",
+  "archive": [
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-result.json.gz",
+      "bytes": 42629950,
+      "sha256": "1bba9b7bcbad2133c84894575f7eec9059a98165aad18882c641fa5d9d64ba6b",
+      "gzipBytes": 2501650,
+      "gzipSha256": "56219e55a23fa171577dea0d32041ca2423b4e1a8d9a0a4ba34c504d868757f1",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-source-verification.json.gz",
+      "bytes": 26286,
+      "sha256": "e0b431db6c4db43b3071a8e98633b49feb439b9475ad0df2112bb8b64de517e1",
+      "gzipBytes": 8745,
+      "gzipSha256": "9b7aefaebbaa5276ea8a8c565f3920a3531e2a3982c69941a13f056c643aacb1",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-owned-process-samples.jsonl.gz",
+      "bytes": 134661,
+      "sha256": "f1481dae5ad888a89063751566c935defe5781499cd298d9bdd3cd35606aed5e",
+      "gzipBytes": 2992,
+      "gzipSha256": "c049a265fc2646b79e8dbbe3d843014fa32a0d3ba61710eda3f6f34fd3594072",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-executed-tool.mjs.gz",
+      "bytes": 70402,
+      "sha256": "42ed1658ff1f2ac4cae67d2c2c088a2152488adcc371ebaf333ffc10e64d0883",
+      "gzipBytes": 20918,
+      "gzipSha256": "5f87aa66dcd8ef1237797d0888fdb574211deafa24567664897f269999c08d10",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-cli.log.gz",
+      "bytes": 2182,
+      "sha256": "33a9e5c7ca88d4d552e2f4aca10aa77a0e7c86b0a25e52bbb387ce2606a499cd",
+      "gzipBytes": 465,
+      "gzipSha256": "43e6090d09b3e15fa3732029a43c744fc77f85137df9130b86695c991e10ad63",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-result.json.gz",
+      "bytes": 42123802,
+      "sha256": "0102e757ac47b6852fb52656eec910556f7244f8a8ca2655c3b0e5add87990f2",
+      "gzipBytes": 2446059,
+      "gzipSha256": "c9bdc25a65ed566fc81ff4e3f68b811bab82640b22696466f6a74f19f168ea04",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-source-verification.json.gz",
+      "bytes": 26286,
+      "sha256": "e0b431db6c4db43b3071a8e98633b49feb439b9475ad0df2112bb8b64de517e1",
+      "gzipBytes": 8745,
+      "gzipSha256": "9b7aefaebbaa5276ea8a8c565f3920a3531e2a3982c69941a13f056c643aacb1",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-owned-process-samples.jsonl.gz",
+      "bytes": 137750,
+      "sha256": "991a228c4e3599de3ce42bbf675fd8d24fd32de0c58ef3c6d5241b4708052196",
+      "gzipBytes": 3040,
+      "gzipSha256": "5488d124b5be7594fe791ccbe4c69c22a52d65552ac47fde700c5ac18a5f1adf",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-executed-tool.mjs.gz",
+      "bytes": 70402,
+      "sha256": "42ed1658ff1f2ac4cae67d2c2c088a2152488adcc371ebaf333ffc10e64d0883",
+      "gzipBytes": 20918,
+      "gzipSha256": "5f87aa66dcd8ef1237797d0888fdb574211deafa24567664897f269999c08d10",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-cli.log.gz",
+      "bytes": 2182,
+      "sha256": "3679ea340107cbfc616c79a0a8b02233b865a09e6bed20456d9b17591f496042",
+      "gzipBytes": 458,
+      "gzipSha256": "853014e51fb36f4eb7a3d4e11fe497de0204b806d89d89d87de02049f375c712",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-regression-result.json.gz",
+      "bytes": 20793221,
+      "sha256": "774f4017b04cb8dfbb3c0e9d73513ad98fe648e22a23286828ade02d983a861b",
+      "gzipBytes": 1886075,
+      "gzipSha256": "c11cf84bd5900983cb4eef8275534487d354e2d8fc361c10e172e959e90986fb",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-regression-source-verification.json.gz",
+      "bytes": 9231,
+      "sha256": "f9f20580d4550b7e864cf2ce029893725761e55e4dcb14c0329dfe0c921ef083",
+      "gzipBytes": 3115,
+      "gzipSha256": "45cc9086b46bb6107c13efa3bffe4625a221741b54979daed1676f40d980a692",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-regression-owned-process-samples.jsonl.gz",
+      "bytes": 354892,
+      "sha256": "71ac730b645ef0d2d3025dfa9a5941510493f20d45c4d57ee4c9a354700e46c5",
+      "gzipBytes": 5485,
+      "gzipSha256": "b4edc19e0aea69e000f6dfc679f15e50dcf7e193ae75168c660359a81477924f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-regression-executed-tool.mjs.gz",
+      "bytes": 70402,
+      "sha256": "42ed1658ff1f2ac4cae67d2c2c088a2152488adcc371ebaf333ffc10e64d0883",
+      "gzipBytes": 20918,
+      "gzipSha256": "5f87aa66dcd8ef1237797d0888fdb574211deafa24567664897f269999c08d10",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-regression-cli.log.gz",
+      "bytes": 1649,
+      "sha256": "ba69f161a73b74d48935d8fef81ad5512e3fb46e74654bad1aca36636433a7bc",
+      "gzipBytes": 531,
+      "gzipSha256": "d9ef4dbebcfa688f9af91ea515065680c8eaf8252ba8633c09666cea442cfbbf",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/march-food-667.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-food.png.gz",
+      "bytes": 43800,
+      "sha256": "41347a93ef77592e59f6da8853fc972a96f57d0265a45c21372cdb2f31f33066",
+      "gzipBytes": 42943,
+      "gzipSha256": "51b326ba7a154b86daffb8da55396dcd8040c889120d8968dc62df7d853146cf",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/march-target-667.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-target.png.gz",
+      "bytes": 330610,
+      "sha256": "e72b5952a4b336e769cc8f583652041a4b270de7840d4ecbdab6a51ce65b7643",
+      "gzipBytes": 330694,
+      "gzipSha256": "2e19cff76a6a1ca4ed0f3581eedfb56bffd9a1e3bb42cbdaaeec56f40e8f24dd",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/march-target-selected-667.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-target-selected.png.gz",
+      "bytes": 308383,
+      "sha256": "768732e03a16cb88461a4dc4ff891d44718f9af74fbae05914f680c10faac359",
+      "gzipBytes": 308431,
+      "gzipSha256": "0577386055997a5516cb0789e8e3ca75900fa09caf294c075278c54735fc385e",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/march-classic-target-667.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-classic-target.png.gz",
+      "bytes": 25604,
+      "sha256": "2b5a3019bc1fff646de9af182940e6fc2edea202400c23cb35bed099887b5749",
+      "gzipBytes": 24337,
+      "gzipSha256": "9ece6e815a9ec2747a340a992872e139154d44aeb378dd159c0f98661264e2ee",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-667-v1-20261011/march-genuine-battle-667.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-667-genuine-battle.png.gz",
+      "bytes": 51931,
+      "sha256": "2eb9ecca276da19f9e71d4994d8690282036fdd6995508342cc97a12eb6a0a3f",
+      "gzipBytes": 50058,
+      "gzipSha256": "c81e2438ee92f9a0a2923c32e1a99bc3e8ac78aeffdb3b7689e20460d0b5d025",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/march-food-844.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-food.png.gz",
+      "bytes": 53100,
+      "sha256": "27bae52b49cdc734db5fbbd4e638f8d9fd8745a9d32ad211ee3bd52ba924070f",
+      "gzipBytes": 52054,
+      "gzipSha256": "cdb6632f8b145ccf2b7aa76ccc7e4a327165ceb8e8ac437d080073e4c65540b4",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/march-target-844.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-target.png.gz",
+      "bytes": 437652,
+      "sha256": "4c15257bda6e288ad46bca4c7527c711a6b3620080d3471b398484d4533a8ee4",
+      "gzipBytes": 437768,
+      "gzipSha256": "a96120fd911ee7bc1191b61a3d9b950e596276c42c474727abbb5d1328f75728",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/march-target-selected-844.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-target-selected.png.gz",
+      "bytes": 406660,
+      "sha256": "55152598048a4a71f5ea0c21e4327aa6b039c02dc555d74cf4f811c0847ea864",
+      "gzipBytes": 406741,
+      "gzipSha256": "d4677ca937dba9133f0542dfb46a23f45ed018000556cdccfc29bf8eea64add8",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/march-classic-target-844.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-classic-target.png.gz",
+      "bytes": 29433,
+      "sha256": "c6efc1e191d50c475b259b39c1f2ec239f0babba193b16d727de78d50bdc028d",
+      "gzipBytes": 27464,
+      "gzipSha256": "afecc98a140a556742d57d610a5c66df23c0e0cedb385516f0eda60b47c33af3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-844-v1-20261011/march-genuine-battle-844.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/march-844-genuine-battle.png.gz",
+      "bytes": 62774,
+      "sha256": "9cf9d8cd641e6ca293e8a9303ab3f9d0c55e8c6ad3d6793d1694d7f92ad46861",
+      "gzipBytes": 60982,
+      "gzipSha256": "6839c93dbfad490026f1645ae9d8627a4aeb20689cac6f2180c52cdffd4bd5e7",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/844x390-qty.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-844x390-qty.png.gz",
+      "bytes": 60435,
+      "sha256": "1e1730934d7c92098e265d4f7217c0387a7db85fef26f2c0bde507dff4262edf",
+      "gzipBytes": 58546,
+      "gzipSha256": "b4995c77b1a8e29f93be7f23cdfcc988a3725907731121bf4aac7c2b02e48f7f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/667x375-qty.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-667x375-qty.png.gz",
+      "bytes": 54569,
+      "sha256": "1071bc66307090bd941d7ba01a5b1d5ad2d583e5f1bd70937330c40cae484b53",
+      "gzipBytes": 53545,
+      "gzipSha256": "8d0a50f52af2756d6cc4ba73550568d04cb058cf060fd370d53529c6efb86cf3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/public-treat-confirmed-report.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-public-treat-confirmed-report.png.gz",
+      "bytes": 39738,
+      "sha256": "f4067d450ad0f8e4674558161207ed8005a40bb03775c1cc44bbb0f9bd3b2777",
+      "gzipBytes": 37175,
+      "gzipSha256": "3cf033823a1ab4b4f364ee3a3db9b6c562ac46e7e6b73a5e1108f59a50aeb8b7",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/public-treat-natural-owner-retirement-report.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-public-treat-natural-owner-retirement-report.png.gz",
+      "bytes": 39738,
+      "sha256": "f4067d450ad0f8e4674558161207ed8005a40bb03775c1cc44bbb0f9bd3b2777",
+      "gzipBytes": 37175,
+      "gzipSha256": "3cf033823a1ab4b4f364ee3a3db9b6c562ac46e7e6b73a5e1108f59a50aeb8b7",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-march-dialog-regression-v1-20261011/final-mobile-HD-map.png",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/city-final-mobile-HD-map.png.gz",
+      "bytes": 581873,
+      "sha256": "7ad2f787785cd6aa71eec57750995d65877d8250ebb129d38825cd05a0263982",
+      "gzipBytes": 582025,
+      "gzipSha256": "1e38ba374bf85f1767049c27e14cb455c74fa6a85b55a5ff1b589e0ba5deaf6e",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-suite-20261011.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-matrix-suite-20261011.log.gz",
+      "bytes": 531866,
+      "sha256": "4003c32d766da810fac91c657c4ff8278b572b7dbb1acbd7b2154a7034fa993f",
+      "gzipBytes": 87450,
+      "gzipSha256": "cbacfad161ed4590f0e1154486110e88176afde65e8036b778256d105563690a",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-hint-focused-v1.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-target-hint-focused-v1.log.gz",
+      "bytes": 39095,
+      "sha256": "36896d5d52e6e3800e2b76edcd1b31e590897ff59dea89fc7857e640c8fce2b1",
+      "gzipBytes": 8613,
+      "gzipSha256": "104442faa412f477abdade8c73df8244e314c4781b66ff47ec8fb3d85d1525cb",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-hint-focused-v2.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-target-hint-focused-v2.log.gz",
+      "bytes": 25879,
+      "sha256": "a1c60265d63d4aeb14dc643cfd5c31b79a7f8a6af5a8e85e393633f52ea9ad6f",
+      "gzipBytes": 7702,
+      "gzipSha256": "0fb8c0e7610bacc91ea7ffa261e3aeb3e877a824f52a87723f1a8b24cba8471b",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-hint-old-source-negative-v1.log",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-target-hint-old-source-negative-v1.log.gz",
+      "bytes": 1194,
+      "sha256": "904c10299820138cbf271fef677bc816dca83b3a38577109256c7ea3fb045f20",
+      "gzipBytes": 631,
+      "gzipSha256": "04da29fb8240871820eee15ed66d9f693985686a8e41b75cfa34e88e0aff95b3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-hint-before-v1.js",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-target-hint-before-v1.js.gz",
+      "bytes": 328950,
+      "sha256": "31ae1bc2884883df022432e7aa4f99002aa222f96f6914999ed7b9838d4c7175",
+      "gzipBytes": 66748,
+      "gzipSha256": "84e59e2726cb4e95eb93651112c10e7147e21265ba440c02f337099ece2a6a88",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-hint-old-source-test-v1.mjs",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-target-hint-old-source-test-v1.mjs.gz",
+      "bytes": 65717,
+      "sha256": "98eec08936a5f2523ae8cf491d4096b073fa8d29c01135b53ee1fe248e9608f3",
+      "gzipBytes": 15692,
+      "gzipSha256": "189340ce8500bdb0bc3ec33a4993fc2d863e827acb6d4d24c9574adfbeb3472c",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-target-hint-freeze-v1.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-target-hint-freeze-v1.json.gz",
+      "bytes": 3178,
+      "sha256": "498ea76ed5d9cfa9946585da15edd31cc89600e2f445783f64fd698e9217c7fc",
+      "gzipBytes": 1356,
+      "gzipSha256": "24e78e4c423d465bfd0b6b9b7b0b03861c8152ea93f05dfdbae0abbbb6463679",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-user-service-before-20261011.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-matrix-user-service-before-20261011.json.gz",
+      "bytes": 228,
+      "sha256": "0c21452b80fef86b86aafe88303732378cd53c8221cb3a6a3e4ccf96fe04a252",
+      "gzipBytes": 183,
+      "gzipSha256": "bec5c74a74ba8fb0fc339d94bde450803a3c44f65bd2a4c88f701659e6b190e3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-user-service-after-20261011.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-matrix-user-service-after-20261011.json.gz",
+      "bytes": 228,
+      "sha256": "9a96abf53f8ccc8c99dd24b15ad61b19f21c3658b1a516779a39177b48fd638a",
+      "gzipBytes": 184,
+      "gzipSha256": "4656be560cc5d19b4391ce9151bdc050e551bff86bd1c364137c02a20cf710a2",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-owned-historical-after-20261011.json",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-matrix-owned-historical-after-20261011.json.gz",
+      "bytes": 14833,
+      "sha256": "36c3c2d194be7ccd0d356ab859216b4bd8d5f9863a02d1215e5765acd868fa5c",
+      "gzipBytes": 887,
+      "gzipSha256": "91f48230495d92d1cfb9eda104fde907af8994d59eb4eb521362049cce632e35",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-hd-march-matrix-independent-audit-20261011.txt",
+      "archived": "docs/validation/m5-mobile-march-matrix-20261011/raw/mobile-hd-march-matrix-independent-audit-20261011.txt.gz",
+      "bytes": 5180,
+      "sha256": "a5ce6e6d97df57f2672fe9c5de13b8ea1c86a072ffeff7344cb5e96aa4813f01",
+      "gzipBytes": 3260,
+      "gzipSha256": "43ca56e339525dbf787da1c4731c02192b0e20a6626489f5c759d63237a4329e",
+      "roundTripExact": true
+    }
+  ]
+}

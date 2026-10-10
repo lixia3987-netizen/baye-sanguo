@@ -613,8 +613,8 @@ test('terminal submitted mobile handoff requires the same actual strategy owner,
     }
 });
 
-function mobileMarchFixture(phase=4) {
-    const f=fixture({marchState:true});f.configure();
+function mobileMarchFixture(phase=4,{mobile=true}={}) {
+    const f=fixture({marchState:true});if(mobile)f.configure();
     Object.assign(f.raw,{g_PlayerKing:5,g_hdMapCity:9,g_hdMarchPhase:phase,g_hdMarchSession:12,g_hdMarchInputSeq:80,
         g_hdMarchOrigin:8,g_hdMarchSelected:2,g_hdMarchSeq:10,g_hdMarchCity:8,g_hdMarchObj:9,
         g_hdMenuKind:3,g_hdMenuActive:phase===1?1:0,g_hdMapPick:phase===4||phase===7?1:0,
@@ -668,6 +668,56 @@ function marchDom(f) {
     function poll(){f.internals.sync();f.internals.fill();}
     return {list,find,poll};
 }
+function advanceToTarget(f) {
+    Object.assign(f.raw,{g_hdMarchPhase:4,g_hdReportActive:0,g_hdMapPick:1,g_hdBattlePick:1});
+    f.raw.g_hdMarchInputSeq++;
+}
+test('the current mobile target owner retires only its previous target-tip card without input',()=>{
+    const f=mobileMarchFixture(3),dom=marchDom(f);dom.poll();
+    const oldHint=dom.find('data-hd-march-hint'),oldDismiss=dom.find('data-hd-dismiss-march');
+    const oldTicket=f.api.getInputTicket();assert.ok(oldHint&&oldDismiss);
+    advanceToTarget(f);assert.ok(f.api.getMarchTargetTicket());
+    const before=JSON.stringify(f.raw);dom.poll();
+    assert.equal(f.state.marchHint,'');assert.equal(dom.find('data-hd-march-hint'),null);
+    assert.equal(oldHint.isConnected,false);assert.equal(oldDismiss.isConnected,false);
+    const cancel=dom.find('data-hd-march-cancel'),confirm=dom.find('data-hd-confirm-march');
+    assert.ok(cancel&&confirm);assert.equal(confirm.disabled,true);
+    for(let i=0;i<5;i++){dom.poll();assert.equal(dom.find('data-hd-march-cancel'),cancel);assert.equal(dom.find('data-hd-confirm-march'),confirm);}
+    assert.equal(f.api.cancelMarch(oldTicket),false);assert.equal(JSON.stringify(f.raw),before);
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['selection','invalid-target','rejected-target']){
+    test('target-tip retirement preserves the current '+change+' message',()=>{
+        const f=mobileMarchFixture(3),dom=marchDom(f);dom.poll();advanceToTarget(f);
+        if(change==='selection')assert.equal(f.api.selectMarchTarget(9).selected,9);
+        if(change==='invalid-target')assert.equal(f.api.selectMarchTarget(8).skipped,'invalid-target');
+        if(change==='rejected-target'){
+            Object.assign(f.raw,{g_hdMarchPhase:5,g_hdReportActive:1,g_hdReportKind:1,g_hdReportPerson:65535});
+            f.setReportHook(r=>{r.text='当前目标不可到达';});f.env.baye.hd.reportText=()=> '当前目标不可到达';
+            dom.poll();advanceToTarget(f);
+        }
+        const hint=f.state.marchHint,pending=f.state.pendingTarget;assert.ok(hint);
+        dom.poll();const card=dom.find('data-hd-march-hint');assert.ok(card);
+        for(let i=0;i<5;i++){dom.poll();assert.equal(f.state.marchHint,hint);assert.equal(f.state.pendingTarget,pending);assert.equal(dom.find('data-hd-march-hint'),card);}
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
+for(const change of ['data','library','session','unverified-target']){
+    test('target-tip cleanup rejects a different or unverified '+change+' owner',()=>{
+        const f=mobileMarchFixture(3),dom=marchDom(f);dom.poll();const hint=f.state.marchHint;
+        advanceToTarget(f);
+        if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+        if(change==='library')f.setIdentity({...f.identity(),generation:2});
+        if(change==='session'){f.raw.g_hdMarchSession++;f.state.marchSession++;}
+        if(change==='unverified-target')f.setLinksHook(v=>{v.length=0;f.raw.g_hdCityLinks.fill(0);});
+        dom.poll();assert.equal(f.state.marchHint,hint);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('PC target-tip behavior remains unchanged after its native phase4 transition',()=>{
+    const f=mobileMarchFixture(3,{mobile:false});f.internals.sync();const hint=f.state.marchHint;
+    assert.ok(hint);advanceToTarget(f);f.internals.sync();assert.equal(f.state.marchHint,hint);
+    assert.equal(f.state.mobileTargetTipHint,null);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
 test('same native phase4 polls preserve the actual cancel and confirm DOM button identities',()=>{
     const f=mobileMarchFixture();f.api.selectMarchTarget(9,f.api.getMarchTargetTicket());
     const dom=marchDom(f);dom.poll();

@@ -442,6 +442,7 @@
         finishVisibleRetry: 0,
         pickedPersonNames: [],
         marchHint: '',
+        mobileTargetTipHint: null,
         lastWalkCity: null,
         lastWalkAt: 0,
         walkBusy: false,
@@ -6143,7 +6144,22 @@
             state.campaignPick = false;
             setWizardStep('target-tip', 'engine-target-tip');
             state.marchHint = '粮草已确认，点击「选择目标城」继续。';
+            if (mobileHost) {
+                var tipOwner = mobileInputTicket();
+                state.mobileTargetTipHint = tipOwner && tipOwner.ownerType === 'march-report' ? {
+                    data: tipOwner.data, libraryGeneration: tipOwner.libraryGeneration,
+                    session: tipOwner.session, origin: tipOwner.origin, selected: tipOwner.selected,
+                    text: state.marchHint
+                } : null;
+            }
         } else if (phase === MARCH.TARGET_PICK) {
+            var targetOwner = mobileHost ? getMarchTargetTicket() : null, tip = state.mobileTargetTipHint;
+            if (targetOwner && tip && targetOwner.data === tip.data &&
+                targetOwner.libraryGeneration === tip.libraryGeneration && targetOwner.session === tip.session &&
+                targetOwner.origin === tip.origin && targetOwner.selected === tip.selected) {
+                if (state.marchHint === tip.text) { state.marchHint = ''; }
+                state.mobileTargetTipHint = null;
+            }
             state.campaignPick = true;
             setWizardStep('map-pick', 'engine-target-pick');
         } else if (phase === MARCH.REJECT) {

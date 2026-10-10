@@ -62,6 +62,14 @@ export async function runMobileMarchChecks(c) {
     if(group)group.push(item);return {before,after,item};
   };
   const record=async(stage,trace)=>{const frame=await mark();trace.push({stage,state:frame.state,world:frame.world});return frame;};
+  const currentTargetPresentation=async()=>{
+    const current=await until('Target picker retires the previous report presentation',`(() => {
+      const m=baye.hd.march(),s=BayeHdCityMenu.debugSnapshot(),root=document.getElementById('hd-city-menu');
+      if(m.phase!==4||s.wizardStep!=='map-pick'||!BayeHdMobileMap.refresh().active||
+        root.querySelector('[data-hd-march-hint]')||root.querySelector('[data-hd-march-continue]'))return false;
+      return {march:m,wizardStep:s.wizardStep,hint:s.marchHint||s.hint||'',reportContinue:false,priorReportHint:false};})()`);
+    report.marchChecks.push({kind:'current-target-presentation',...current});
+  };
   const continueReport=async(run,from,to,kind)=>{
     const retired=phaseSource(to),selector='#hd-city-menu [data-hd-march-continue]';
     if(await evaluate(retired)||!await reveal(selector,retired)){
@@ -128,6 +136,7 @@ export async function runMobileMarchChecks(c) {
   await action('food-confirm','#hd-city-menu [data-hd-qty-ok]',phaseSource(3),{sameWorld:true,group:cancelledTarget.trustedActions});
   await continueReport(cancelledTarget,3,4,'continue-target');
   await until('Current target HD map',`BayeHdMobileMap.refresh().active&&BayeHdMobileMap.snapshot().ownerType==='march-target'`);
+  await currentTargetPresentation();
   const mapPoint=async index=>{
     const before=await mark();assert.notEqual(await evaluate('BayeHdOverworld.centerOnCity('+index+')'),false);
     await until('Current target map after presentation centering',`BayeHdMobileMap.refresh().active&&BayeHdMobileMap.snapshot().ownerType==='march-target'`);
@@ -160,6 +169,7 @@ export async function runMobileMarchChecks(c) {
   await record('target-tip',run.phaseTrace);await checkpoint('march-target-tip-'+width);
   await continueReport(run,3,4,'continue-target');
   await until('Target picker owns the HD map',`BayeHdMobileMap.refresh().active&&BayeHdMobileMap.snapshot().ownerType==='march-target'`);
+  await currentTargetPresentation();
   await record('target',run.phaseTrace);await checkpoint('march-target-'+width);
   // Current origin and nonadjacent cities cannot issue any native input.
   const targetTicket=await evaluate('BayeHdCityMenu.getMarchTargetTicket()&&({targets:BayeHdCityMenu.getMarchTargetTicket().targets})');
