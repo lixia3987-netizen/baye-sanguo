@@ -211,7 +211,7 @@ export async function main(args=process.argv.slice(2)) {
       '--remote-debugging-port='+report.debugPort,'--user-data-dir='+profile,'about:blank'],{windowsHide:true,stdio:'ignore'});
     chrome.on('error',()=>{report.chromeSpawnError=true;});report.chromePid=chrome.pid;
     let target;for(let n=0;n<100&&!target;n++){if(report.chromeSpawnError)throw Error('Private Chrome launch failed');
-      try{target=(await fetch('http://127.0.0.1:'+report.debugPort+'/json/list').then(r=>r.json())).find(t=>t.type==='page');}catch{}if(!target)await delay(100);}
+      try{target=(await new Promise((resolve,reject)=>{const request=http.get('http://127.0.0.1:'+report.debugPort+'/json/list',response=>{let body='';response.on('data',chunk=>body+=chunk);response.on('end',()=>{try{resolve(JSON.parse(body));}catch(error){reject(error);}});});request.on('error',reject);request.setTimeout(1000,()=>request.destroy(new Error('Private endpoint timeout')));})).find(t=>t.type==='page');}catch{}if(!target)await delay(100);}
     assert.ok(target,'Private Chrome page target');await sampleOwned('launch-before-page');assert.ok(ownership?.rootVerified,'PID, birth and exact private profile verified before page load');
     report.rootBirth=rootIdentity.CreationDate;cdp=await connectCdp(target.webSocketDebuggerUrl);
     cdp.on('Runtime.exceptionThrown',e=>report.exceptions.push(e));cdp.on('Runtime.consoleAPICalled',e=>report.console.push(e));
@@ -254,6 +254,11 @@ export async function main(args=process.argv.slice(2)) {
     assert.equal(actualKing,chosenKing.id);assert.equal(owned.length,chosenKing.ownedCount);assert.ok(owned.length>=2&&foreign);
     const initialMapCity=(await evaluate(readSource)).mapCity,current=all.find(c=>c.index===initialMapCity),otherOwned=owned.find(c=>c.index!==initialMapCity);
     assert.ok(current&&current.kind==='owned'&&otherOwned);report.selectedCities={current,otherOwned,nonOwned:foreign};
+    // This suite retains the native LCD menu handoff/return contract. The
+    // dedicated mobile-city suite covers the default HD menu presentation.
+    await button('#hd-mobile-menu-mode');
+    await until('explicit classic mobile menus',"BayeHdCityMenu.getMode()==='classic'");
+    report.menuPresentation='classic selected by trusted mobile control';
     const initialWorld=await evaluate(worldSource);
     for(const [width,height] of [[844,390],[667,375]]){
       const label=width+'x'+height,beforeResize=await mark();await metrics(width,height);await until('HD map '+label,mapReadySource);

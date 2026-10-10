@@ -109,3 +109,25 @@ test('mounting twice adds no duplicate input and destroy removes listeners',()=>
     assert.deepEqual(h.sent,[[1,80,48],[4,80,48]]);const next=h.context.touchScreenInit('lcd');assert.notEqual(next,h.controller);
     h.fire('touchstart',[h.finger()]);h.fire('touchend',[h.finger()],[]);assert.deepEqual(h.sent.slice(2),[[1,80,48],[2,80,48]]);
 });
+
+test('page lock permits only the currently displayed mobile HD scroll surface', () => {
+    const body = new Target(), classes = new Set();
+    body.classList = {contains: value => classes.has(value)};
+    const context = vm.createContext({document: {body}, window: {scrollTo() {}}});
+    const start = source.indexOf('function disablePageScroll()');
+    const end = source.indexOf('\nfunction ', start + 1);
+    vm.runInContext(source.slice(start, end), context); context.disablePageScroll();
+    const city = {id: 'hd-city-menu', parentNode: body}, dialog = {id: 'hd-dialog', parentNode: body};
+    function blocked(target) { let prevented = false;
+        body.fire('touchmove', {target, preventDefault() {prevented = true;}}); return prevented;
+    }
+    assert.equal(blocked({parentNode: city}), true, 'classic city shell keeps page lock');
+    classes.add('hd-mobile-city-on');
+    assert.equal(blocked({parentNode: city}), false, 'actual HD city pane can scroll');
+    assert.equal(blocked({parentNode: dialog}), true, 'a hidden dialog cannot inherit city permission');
+    assert.equal(blocked({id: 'lcd', parentNode: body}), true, 'LCD and page remain locked');
+    classes.clear(); classes.add('hd-mobile-dialog-on');
+    assert.equal(blocked({parentNode: dialog}), false, 'actual HD dialog pane can scroll');
+    assert.equal(blocked({parentNode: city}), true, 'hidden city pane cannot inherit dialog permission');
+    classes.clear(); assert.equal(blocked({parentNode: dialog}), true);
+});

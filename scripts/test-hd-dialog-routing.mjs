@@ -744,3 +744,80 @@ test('VIEW observes native empty pages and known enemy food zero without derivin
     assert.equal(h.nodes['hd-dialog-body'].textContent.includes('65535'), false);
     assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
 });
+
+function mobileReportFixture() {
+    const h = harness(); native(h);
+    const identity = {status: 'ready', generation: 8, byteLength: 207195,
+        sha256: '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
+    h.context.BayeHdLibIdentity = {read: () => identity, isCurrent: value => value === identity};
+    h.context.BayeHdCityMenu.shouldShowHd = () => true;
+    const fields = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_hdMapCity',
+        'g_hdMapPick', 'g_hdMapInputSeq', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind',
+        'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdReportActive', 'g_hdReportSeq',
+        'g_hdReportInputSeq', 'g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq',
+        'g_hdHelpActive', 'g_hdHelpSeq', 'g_hdHelpInputSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq',
+        'g_hdMarchPhase', 'g_hdFightActive', 'g_hdMovieActive', 'g_hdRecordActive'];
+    Object.assign(h.data, Object.fromEntries(fields.map(key => [key, 0])), {
+        g_hdEngineReady: 1, g_hdDetailGeneration: 4, g_hdSpeGeneration: 4,
+        g_hdReportActive: 1, g_hdReportSeq: 9, g_hdReportInputSeq: 12});
+    Object.assign(h.report, {active: 1, seq: 9, inputSeq: 12, text: '城中农业已经得到改善。'});
+    h.available = true; h.identity = identity;
+    h.context.BayeHdDialog.configureMobileHost({isAvailable: () => h.available});
+    h.observe(); h.sent.length = 0; h.writes.length = 0;
+    return h;
+}
+test('mobile report requires a complete current original owner and confirms exactly once', () => {
+    const h = mobileReportFixture(), dialog = h.context.BayeHdDialog;
+    assert.ok(dialog.getInputTicket()); assert.equal(dialog.isActive(), true);
+    h.click('data-hd-dlg-ok'); h.click('data-hd-dlg-ok');
+    assert.deepEqual(h.sent, [0x27]); assert.deepEqual(h.writes, []);
+});
+test('mobile report host lifecycle retires the pending view without acknowledging it', () => {
+    for (const cause of ['portrait', 'hidden', 'identity', 'unready']) {
+        const h = mobileReportFixture(), dialog = h.context.BayeHdDialog;
+        if (cause === 'portrait') h.available = false;
+        if (cause === 'hidden') h.context.document.hidden = true;
+        if (cause === 'identity') h.identity.generation = 0;
+        if (cause === 'unready') h.data.g_hdEngineReady = 0;
+        assert.equal(dialog.getInputTicket(), null, cause);
+        dialog.retireInteraction(); h.timers(); h.click('data-hd-dlg-ok');
+        assert.deepEqual(h.sent, [], cause); assert.deepEqual(h.writes, [], cause);
+    }
+});
+test('mobile report rejects owner rollover, incomplete raw fields, stale text and replaced data', () => {
+    for (const mutate of [h => h.data.g_hdReportSeq++, h => h.data.g_hdReportInputSeq++,
+        h => delete h.data.g_hdReportActive, h => h.report.inputSeq++,
+        h => h.report.text = '新的报告不能沿用旧文字。', h => h.identity.sha256 = 'wrong',
+        h => h.context.baye.data = {...h.data}]) {
+        const h = mobileReportFixture(); mutate(h);
+        assert.equal(h.context.BayeHdDialog.getInputTicket(), null);
+        h.click('data-hd-dlg-ok'); h.timers();
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    }
+});
+test('retiring mobile report then observing its still live native owner needs a fresh action', () => {
+    const h = mobileReportFixture(), dialog = h.context.BayeHdDialog;
+    const old = dialog.getInputTicket().key; dialog.retireInteraction();
+    assert.equal(dialog.isActive(), false); h.observe();
+    assert.notEqual(dialog.getInputTicket().key, old);
+    assert.deepEqual(h.sent, []); h.click('data-hd-dlg-back');
+    assert.deepEqual(h.sent, [0x28]); assert.deepEqual(h.writes, []);
+});
+
+test('mobile final send rechecks getters and a rejected acknowledgement does not poison the restored report', () => {
+    const h = mobileReportFixture(), dialog = h.context.BayeHdDialog;
+    const fight = h.context.baye.hd.fight; let calls = 0;
+    h.context.baye.hd.fight = () => { if (++calls === 3) h.available = false; return fight(); };
+    h.click('data-hd-dlg-ok'); assert.deepEqual(h.sent, []);
+    h.available = true; h.context.baye.hd.fight = fight; h.observe();
+    assert.ok(dialog.getInputTicket()); h.click('data-hd-dlg-ok');
+    assert.deepEqual(h.sent, [0x27]); assert.deepEqual(h.writes, []);
+});
+test('mobile initial native quantity input sequence zero is a current session', () => {
+    const h = mobileReportFixture(), dialog = h.context.BayeHdDialog;
+    h.report.active = 0; h.data.g_hdReportActive = 0;
+    Object.assign(h.qty, {protocol: true, active: 1, ready: 1, session: 7, inputSeq: 0, min: 0, max: 100, value: 0});
+    Object.assign(h.data, {g_hdQtyActive: 1, g_hdQtySession: 7, g_hdQtyInputSeq: 0});
+    dialog.openQty({}); assert.ok(dialog.getInputTicket());
+    assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+});

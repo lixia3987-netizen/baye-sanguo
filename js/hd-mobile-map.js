@@ -58,6 +58,10 @@
         function readExit() {
             if (hidden() || !landscape()) { return null; }
             try {
+                // HD status is a local page above the native root menu. Its
+                // own back action owns the transition; a header EXIT would
+                // otherwise skip that page and leave the city unexpectedly.
+                if (environment.BayeHdMobileCity && environment.BayeHdMobileCity.isActive()) { return null; }
                 var firstIdentity = identity(), baye = environment.baye;
                 if (!firstIdentity || !baye || !baye.hd || typeof baye.hd.ready !== 'function' || baye.hd.ready() !== true) { return null; }
                 var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;

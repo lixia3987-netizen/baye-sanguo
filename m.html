@@ -23,7 +23,9 @@
         <title>三国霸业</title>
         <link rel="stylesheet" type="text/css" href="css/baye.css" />
         <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261011a" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011b" />
+        <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261010c" />
+        <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011c" />
         <link rel="icon" href="favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -84,6 +86,7 @@
             </div>
             <div class="hd-mobile-controls" role="group" aria-label="地图操作">
                 <button id="hd-mobile-map-mode" type="button" aria-pressed="true">经典</button>
+                <button id="hd-mobile-menu-mode" type="button" aria-pressed="true">经典菜单</button>
                 <button id="hd-mobile-map-focus" type="button" disabled>定位</button>
                 <button id="hd-mobile-exit" type="button" disabled>返回</button>
             </div>
@@ -96,6 +99,46 @@
                     <div id="hd-mobile-map-tip" class="hd-mobile-map-tip">拖动地图 · 点己方城进入 · 道路仅作装饰</div>
                 </div>
             </div>
+            <div id="hd-city-menu" class="hd-city-menu" aria-hidden="true">
+                <div class="hd-city-menu-stage" role="dialog" aria-labelledby="hd-city-menu-title">
+                    <div id="hd-city-menu-title" class="hd-city-menu-title">城池</div>
+                    <div id="hd-city-menu-sub" class="hd-city-menu-sub">内政 / 外交 / 军备 / 状况</div>
+                    <div id="hd-city-menu-root" class="hd-city-menu-grid">
+                        <button type="button" class="hd-city-menu-card" data-hd-root="0"><strong>内政</strong><span>开垦 / 招商 / 搜寻…</span></button>
+                        <button type="button" class="hd-city-menu-card" data-hd-root="1"><strong>外交</strong><span>离间 / 招揽 / 策反…</span></button>
+                        <button type="button" class="hd-city-menu-card" data-hd-root="2"><strong>军备</strong><span>侦察 / 征兵 / 出征…</span></button>
+                        <button type="button" class="hd-city-menu-card" data-hd-root="3"><strong>状况</strong><span>城池资料</span></button>
+                    </div>
+                    <div id="hd-city-menu-sublist" class="hd-city-menu-sublist" hidden></div>
+                    <div id="hd-city-menu-deep" class="hd-city-menu-sublist hd-city-menu-deep" hidden></div>
+                    <div id="hd-city-menu-status" class="hd-city-menu-status" hidden></div>
+                    <div class="hd-city-menu-footer">
+                        <button type="button" data-hd-menu-back>返回</button>
+                        <button type="button" data-hd-menu-help>帮助</button>
+                    </div>
+                    <div id="hd-city-menu-probe" class="hd-city-menu-probe" hidden></div>
+                </div>
+            </div>
+            <div id="hd-dialog" class="hd-dialog" aria-hidden="true">
+                <div class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title">
+                    <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
+                    <div id="hd-dialog-body" class="hd-dialog-body"></div>
+                    <div id="hd-dialog-caption" class="hd-dialog-caption" hidden></div>
+                    <div id="hd-dialog-range" class="hd-dialog-range" hidden></div>
+                    <div id="hd-dialog-qty" class="hd-dialog-qty" hidden>
+                        <button type="button" data-hd-qty="-10">−10</button>
+                        <button type="button" data-hd-qty="-1">−</button>
+                        <button type="button" data-hd-qty="1">+</button>
+                        <button type="button" data-hd-qty="10">+10</button>
+                        <span id="hd-dialog-qty-digits" class="hd-dialog-qty-digits"></span>
+                    </div>
+                    <div class="hd-dialog-footer">
+                        <button type="button" data-hd-dlg-ok>确认</button>
+                        <button type="button" data-hd-dlg-back>返回</button>
+                    </div>
+                    <div id="hd-dialog-probe" class="hd-dialog-probe" hidden></div>
+                </div>
+            </div>
         </main>
         <div id="info"></div>
     </body>
@@ -104,12 +147,15 @@
 <script src="js/bridge.js?ver=20261010g"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
-<script src="js/lcd.js?ver=20261011a"></script>
+<script src="js/lcd.js?ver=20261011b"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-mobile.js?ver=20261011a"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
 <script src="js/hd-overworld.js?ver=20261011a"></script>
-<script src="js/hd-mobile-map.js?ver=20261011a"></script>
+<script src="js/hd-mobile-map.js?ver=20261011b"></script>
+<script src="js/hd-city-menu.js?ver=20261011a"></script>
+<script src="js/hd-dialog.js?ver=20261011a"></script>
+<script src="js/hd-mobile-city.js?ver=20261011a"></script>
 <script>
 var mobileTouch = null;
 function reloadLCD(){
@@ -150,6 +196,7 @@ Module.postRun = function (){
     reloadLCD();
     BayeHdMobile.init();
     BayeHdMobileMap.init();
+    BayeHdMobileCity.init();
 
     //判断手机横竖屏状态：
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {

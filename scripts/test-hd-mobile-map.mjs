@@ -89,6 +89,16 @@ test('menu handoff hides the map immediately without changing native data or a P
     assert.equal(f.nodes.get('hd-mobile-exit').disabled, false);
     assert.equal(f.counts.nativeCancel, 2); assert.equal(f.counts.sharedCancel, 2);
 });
+
+test('HD city local pages own Back and cannot leak a header EXIT into the native root', () => {
+    const f = fixture(); f.api.init(); f.menu();
+    f.window.BayeHdMobileCity = {isActive: () => true};
+    f.api.refresh(); assert.equal(f.nodes.get('hd-mobile-exit').disabled, true);
+    f.releaseExit(); assert.deepEqual(f.counts.keys, []);
+    f.window.BayeHdMobileCity.isActive = () => false;
+    f.api.refresh(); assert.equal(f.nodes.get('hd-mobile-exit').disabled, false);
+    f.releaseExit(); assert.deepEqual(f.counts.keys, [0x28]);
+});
 for (const field of ['g_hdReportActive', 'g_hdQtyActive', 'g_hdFightActive', 'g_hdHelpActive', 'g_hdBattlePick', 'g_hdMakerActive', 'g_hdSpeActive']) {
     test('current native ' + field + ' cannot expose a map or a return control', () => {
         const f = fixture(); f.api.init(); f.data[field] = 1; off(f);

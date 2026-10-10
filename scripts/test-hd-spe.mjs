@@ -532,6 +532,7 @@ async function statusLoaded(reason = 1, change, options = {}, imageCount = 5) {
     const fixture = statusFixture(reason); if (change) change(fixture);
     const h = harness({ spe: fixture.s, data: { g_scale: 1 }, ...options }); h.context.dynLib = fixture.lib.toString('hex');
     h.api.setManifest(fixture.m); h.api.start();
+    await waitForIdentity(h);
     for (let i = 0; i < 30 && (imageCount === 0 || h.images.length < imageCount); i++) await settle();
     assert.equal(h.images.length, imageCount, 'status slot request count: ' + (change ? change.toString() : 'certified default range'));
     h.images.forEach((_, i) => h.resolveImage(i)); h.flush(); return { h, fixture };

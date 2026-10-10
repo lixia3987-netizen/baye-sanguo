@@ -5,6 +5,7 @@
 (function (global) {
     var OVERWORLD_KEY = 'baye/overworldMode';
     var qtyEpoch = 0;
+    var mobileHost = null, started = false;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
 
     var state = {
@@ -63,6 +64,7 @@
     }
 
     function shouldShowHd() {
+        if (mobileHost && !mobileAvailable()) { return false; }
         if (fightActive()) {
             // A live battle owns its presentation mode. Falling back to the
             // city preference would keep HELP visible and swallow Enter/Esc
@@ -131,6 +133,14 @@
     }
 
     function engineSendKey(code) {
+        var mobileSource = state.open ? 'dialog' : 'city', mobileOwner = null;
+        function currentMobileOwner() {
+            return mobileSource === 'dialog' ? getInputTicket() : global.BayeHdCityMenu && BayeHdCityMenu.getInputTicket();
+        }
+        if (mobileHost) {
+            mobileOwner = mobileAvailable() && currentMobileOwner();
+            if (!mobileOwner) { retireInteraction(); return false; }
+        }
         var ownedReport = state.open && state.kind === 'report' &&
             sameReport(state.reportOwner, nativeReportOwner(readAsync()));
         var ownedDefense = state.open && state.kind === 'defenders' &&
@@ -144,6 +154,12 @@
             !(state.kind === 'report' && sameReport(state.reportOwner, nativeReportOwner(readAsync())))) {
             console.warn('[hd-dialog] blocked EXIT during BattleMake');
             return false;
+        }
+        if (mobileHost) {
+            var latestOwner = currentMobileOwner();
+            if (!mobileAvailable() || !latestOwner || latestOwner.data !== mobileOwner.data || latestOwner.key !== mobileOwner.key) {
+                retireInteraction(); return false;
+            }
         }
         if (typeof sendKey === 'function') {
             sendKey(code);
@@ -426,7 +442,7 @@
             if (request.confirm) {
                 // One explicit choice commits only this real person menu.
                 state[commitKey] = request.owner;
-                engineSendKey(VK.ENTER);
+                if (!engineSendKey(VK.ENTER) && state[commitKey] === request.owner) { state[commitKey] = null; }
             }
         }
         step();
@@ -443,7 +459,9 @@
             state.defenseRequest || sameCampaignPersons(state.defenseCommit, live)) { return false; }
         // EXIT completes this real selection wait, including choosing nobody.
         state.defenseCommit = live;
-        return engineSendKey(VK.EXIT);
+        var sent = engineSendKey(VK.EXIT);
+        if (!sent && state.defenseCommit === live) { state.defenseCommit = null; }
+        return sent;
     }
 
     function defenseToken(owner) {
@@ -693,7 +711,7 @@
     }
 
     function applyChrome() {
-        var show = state.open && !document.hidden && shouldShowHd();
+        var show = state.open && !document.hidden && shouldShowHd() && (!mobileHost || !!getInputTicket());
         var hasContent = !!state.body || !!state.helpDetail || !!state.viewDetail;
         var pass = show && (
             (state.kind === 'report' && state.marchOwner && cityMenuOpen()) ||
@@ -1436,6 +1454,7 @@
     }
 
     function pollEngine() {
+        if (mobileHost && !mobileAvailable()) { retireInteraction(); return; }
         if (document.hidden || !hdReady()) {
             if (state.open && (state.kind === 'help' || state.kind === 'view')) { closeDialog({ silent: true }); }
             return;
@@ -1692,7 +1711,8 @@
             if (!sameReport(state.reportOwner, nativeReportOwner(info)) ||
                 sameReport(state.reportCommit, state.reportOwner)) { return; }
             state.reportCommit = state.reportOwner;
-            engineSendKey(VK.ENTER);
+            var enterOwner = state.reportCommit;
+            if (!engineSendKey(VK.ENTER) && state.reportCommit === enterOwner) { state.reportCommit = null; }
             return;
         }
         if (state.kind === 'report' && info.hdActive != null) { return; }
@@ -1732,7 +1752,8 @@
             if (!sameReport(state.reportOwner, nativeReportOwner(info)) ||
                 sameReport(state.reportCommit, state.reportOwner)) { return; }
             state.reportCommit = state.reportOwner;
-            engineSendKey(VK.EXIT);
+            var exitOwner = state.reportCommit;
+            if (!engineSendKey(VK.EXIT) && state.reportCommit === exitOwner) { state.reportCommit = null; }
             return;
         }
         var epoch = state.viewEpoch;
@@ -1792,7 +1813,7 @@
                 bayeConsumeKeyEvent(e);
                 return;
             }
-            if (!state.open || !shouldShowHd()) { return; }
+            if (!state.open || !shouldShowHd() || mobileHost && !getInputTicket()) { return; }
             var quantity = state.kind === 'qty';
             var ownedReport = state.kind === 'report' && !!state.marchOwner;
             var ownedHelp = state.kind === 'help' && !!state.helpOwner;
@@ -1940,7 +1961,90 @@
         pollEngine();
     }
 
+    function mobileAvailable() {
+        try {
+            return !document.hidden && mobileHost && typeof mobileHost.isAvailable === 'function' &&
+                mobileHost.isAvailable() === true && global.BayeHdCityMenu && BayeHdCityMenu.shouldShowHd();
+        } catch (e) { return false; }
+    }
+
+    // Retire pending JavaScript work without acknowledging the native wait.
+    // A visible owner can be observed again, but an old callback cannot resume.
+    function retireInteraction() {
+        state.pressedView = null;
+        closeDialog({ silent: true });
+    }
+
+    function getInputTicket() {
+        if (!mobileHost || !mobileAvailable() || !state.open || fightActive()) { return null; }
+        try {
+            var identityApi = global.BayeHdLibIdentity, identity = identityApi && identityApi.read();
+            if (!identity || identity.status !== 'ready' || !identityApi.isCurrent(identity) ||
+                identity.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                identity.byteLength !== 207195 || !helpInteger(identity.generation, 1, 0xffffffff)) { return null; }
+            var data = engineData();
+            var fields = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_hdMapCity',
+                'g_hdMapPick', 'g_hdMapInputSeq', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind',
+                'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdReportActive', 'g_hdReportSeq',
+                'g_hdReportInputSeq', 'g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq',
+                'g_hdHelpActive', 'g_hdHelpSeq', 'g_hdHelpInputSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq',
+                'g_hdMarchPhase', 'g_hdFightActive', 'g_hdMovieActive', 'g_hdRecordActive'];
+            function read() {
+                if (!data) { return null; }
+                var values = fields.map(function (key) { return data[key]; });
+                return values.every(function (value) { return helpInteger(value, 0, 0xffffffff); }) ? values : null;
+            }
+            var raw = read(), owner = null;
+            if (!raw || data.g_hdEngineReady !== 1 || !helpInteger(data.g_hdDetailGeneration, 1, 0xffffffff) ||
+                data.g_hdFightActive !== 0 || data.g_hdMovieActive !== 0 || data.g_hdRecordActive !== 0) { return null; }
+            if (state.kind === 'report') {
+                var report = readAsync(), live = nativeReportOwner(report);
+                if (!sameReport(state.reportOwner, live) || !helpInteger(live.seq, 1, 0xffffffff) ||
+                    !helpInteger(live.inputSeq, 1, 0xffffffff) || data.g_hdReportActive !== 1 ||
+                    live.seq !== data.g_hdReportSeq || live.inputSeq !== data.g_hdReportInputSeq ||
+                    !state.body || state.body !== report.text || !looksLikeSpeech(state.body)) { return null; }
+                owner = [live, report.hdKind, report.hdPerson, state.body];
+            } else if (state.kind === 'qty') {
+                var quantity = readStandaloneQty();
+                if (!quantity || quantity.protocol !== true || quantity.active !== 1 || quantity.ready !== 1 ||
+                    !helpInteger(quantity.session, 1, 0xffffffff) || !helpInteger(quantity.inputSeq, 0, 0xffffffff) ||
+                    !helpInteger(quantity.value, quantity.min, quantity.max) ||
+                    quantity.session !== data.g_hdQtySession || quantity.inputSeq !== data.g_hdQtyInputSeq ||
+                    data.g_hdQtyActive !== 1) { return null; }
+                owner = quantity;
+            } else if (state.kind === 'help') {
+                var help = readEngineHelp();
+                if (!help || help.active !== 1 || !helpInteger(help.seq, 1, 65535) ||
+                    state.helpStamp !== helpStamp(help) || !state.body || !looksLikeHelp(state.body) ||
+                    data.g_hdHelpActive !== 1 || help.seq !== data.g_hdHelpSeq) { return null; }
+                owner = help;
+            } else if (state.kind === 'successor' || state.kind === 'defenders') {
+                var persons = state.kind === 'successor' ? readSuccessor() : readDefenders();
+                var previous = state.kind === 'successor' ? state.successorOwner : state.defenseOwner;
+                if (!persons || !sameCampaignPersons(previous, persons) || data.g_hdMenuActive !== 1 ||
+                    persons.seq !== data.g_hdMenuSeq || persons.names.length !== data.g_hdMenuCount ||
+                    persons.names.some(function (name) { return typeof name !== 'string' || !name.trim(); })) { return null; }
+                owner = persons;
+            } else { return null; }
+            var ownerAfter = state.kind === 'report' ? (function () {
+                var next = readAsync(); return [nativeReportOwner(next), next.hdKind, next.hdPerson, next.text];
+            })() : state.kind === 'qty' ? readStandaloneQty() : state.kind === 'help' ? readEngineHelp() :
+                state.kind === 'successor' ? readSuccessor() : readDefenders();
+            var rawAfter = read(), identityAfter = identityApi.read();
+            if (!mobileAvailable() || baye.data !== data || !rawAfter || JSON.stringify(raw) !== JSON.stringify(rawAfter) ||
+                JSON.stringify(owner) !== JSON.stringify(ownerAfter) ||
+                !identityApi.isCurrent(identity) || !identityApi.isCurrent(identityAfter) ||
+                JSON.stringify(identity) !== JSON.stringify(identityAfter)) { return null; }
+            var ticket = { key: JSON.stringify([identity.generation, state.viewEpoch, state.kind, raw, owner]),
+                libraryGeneration: identity.generation, ownerType: state.kind };
+            Object.defineProperty(ticket, 'data', {value: data, enumerable: false});
+            return Object.freeze(ticket);
+        } catch (e) { return null; }
+    }
+
     function start() {
+        if (started) { return; }
+        started = true;
         bindUi();
         applyChrome();
         setInterval(function () {
@@ -1955,6 +2059,11 @@
     applyChrome();
 
     global.BayeHdDialog = {
+        configureMobileHost: function (options) { mobileHost = options || {}; retireInteraction(); },
+        retireInteraction: retireInteraction,
+        getInputTicket: getInputTicket,
+        isActive: function () { return !!getInputTicket(); },
+        getLcdPresentation: function () { return getInputTicket() ? 'off' : 'passthrough'; },
         shouldShowHd: shouldShowHd,
         isOpen: function () { return state.open; },
         isBlockingKeyboard: isBlockingKeyboard,

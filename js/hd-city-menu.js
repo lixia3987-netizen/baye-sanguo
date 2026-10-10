@@ -5,6 +5,175 @@
 (function (global) {
     var STORAGE_KEY = 'baye/cityMenuMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
+    // A mobile page opts in explicitly; PC preferences and compatibility paths
+    // remain untouched. A URL or retained presentation never grants input.
+    var MOBILE_STORAGE_KEY = 'baye/mobileCityMenuMode';
+    var mobileHost = null, mobileMode = 'auto', mobileIdentityApi = null;
+    var mobileUnsubscribe = null, mobileBoundaryBound = false, startTimer = null;
+    var mobileLibraryGeneration = null, mobileRetireReason = '';
+    var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+    var MOBILE_RAW_FIELDS = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq',
+        'g_hdBattlePick', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq',
+        'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdDetailGeneration', 'g_hdQtyActive', 'g_hdQtySession',
+        'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady',
+        'g_hdQtyMin', 'g_hdQtyMax', 'g_hdQtyValue', 'g_hdMarchPhase', 'g_hdMarchSession',
+        'g_hdMarchInputSeq', 'g_hdReportActive', 'g_hdReportSeq', 'g_hdReportInputSeq',
+        'g_hdHelpActive', 'g_hdHelpInputSeq', 'g_hdFightActive', 'g_hdRecordActive',
+        'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive', 'g_hdAttackActive',
+        'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive',
+        'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
+    var MOBILE_BLOCKERS = ['g_hdFightActive', 'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive',
+        'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive',
+        'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
+
+    function mobileInteger(value, max) {
+        return typeof value === 'number' && isFinite(value) && Math.floor(value) === value && value >= 0 && value <= max;
+    }
+    function mobileLifecycleAvailable() {
+        try {
+            return !!mobileHost && mobileHost.isAvailable() === true && !document.hidden &&
+                Number(global.innerWidth) > Number(global.innerHeight);
+        } catch (e) { return false; }
+    }
+    function mobileBase() {
+        if (!mobileLifecycleAvailable()) { return null; }
+        try {
+            var api = global.BayeHdLibIdentity, identity = api && api.read();
+            if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                identity.byteLength !== 207195 || !mobileInteger(identity.generation, 0xffffffff) || !identity.generation ||
+                !api.isCurrent(identity) || !global.baye || !baye.hd || typeof baye.hd.ready !== 'function' ||
+                baye.hd.ready() !== true || typeof baye.hd.menuItems !== 'function' ||
+                typeof baye.hd.march !== 'function' || typeof baye.hd.qty !== 'function') { return null; }
+            var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
+            if (!data || !MOBILE_RAW_FIELDS.every(function (key) { return mobileInteger(data[key], 0xffffffff); }) ||
+                data.g_hdEngineReady !== 1 || !data.g_hdDetailGeneration ||
+                !api.isCurrent(identity) || baye.data !== data || !mobileLifecycleAvailable()) { return null; }
+            return {identity: identity, data: data};
+        } catch (e) { return null; }
+    }
+    function mobileRaw(data) {
+        var value = {};
+        MOBILE_RAW_FIELDS.forEach(function (key) { value[key] = data[key]; });
+        return value;
+    }
+    function mobileMenuComplete(menu) {
+        if (!menu || menu.active !== 1 || !mobileInteger(menu.context, 255) || !mobileInteger(menu.kind, 4) ||
+            !mobileInteger(menu.seq, 65535) || !menu.seq || !mobileInteger(menu.count, 2000) || !menu.count ||
+            !mobileInteger(menu.index, menu.count - 1) || !Array.isArray(menu.names) || menu.names.length !== menu.count ||
+            !menu.names.every(function (name) { return typeof name === 'string' && name.length > 0; }) ||
+            !mobileInteger(menu.detailGeneration, 0xffffffff) || !menu.detailGeneration) { return false; }
+        return (menu.kind !== 3 && menu.kind !== 4) || actualMenuIds(menu) !== null;
+    }
+    function mobileNativeSnapshot() {
+        var base = mobileBase();
+        if (!base) { return null; }
+        try {
+            var before = mobileRaw(base.data), menu = baye.hd.menuItems(), march = baye.hd.march(), qty = baye.hd.qty();
+            var after = mobileRaw(base.data), latest = mobileBase();
+            if (JSON.stringify(before) !== JSON.stringify(after) || !latest || latest.data !== base.data ||
+                latest.identity.generation !== base.identity.generation || latest.identity.sha256 !== base.identity.sha256 ||
+                !MOBILE_BLOCKERS.every(function (key) { return before[key] === 0; }) ||
+                !march || !['pick','battlePick','mapCity','mapInputSeq','phase','session','inputSeq','origin','selected','seq'].every(function (key) {
+                    return mobileInteger(march[key], 0xffffffff);
+                }) || !qty || qty.protocol !== true || !['active','session','inputSeq','lastKey','cursor','step','ready','min','max','value'].every(function (key) {
+                    return mobileInteger(qty[key], 65535);
+                }) || march.mapCity !== before.g_hdMapCity || march.pick !== before.g_hdMapPick ||
+                march.battlePick !== before.g_hdBattlePick || march.mapInputSeq !== before.g_hdMapInputSeq ||
+                march.phase !== before.g_hdMarchPhase || march.session !== before.g_hdMarchSession ||
+                march.inputSeq !== before.g_hdMarchInputSeq || qty.active !== before.g_hdQtyActive ||
+                qty.session !== before.g_hdQtySession || qty.inputSeq !== before.g_hdQtyInputSeq ||
+                qty.value !== before.g_hdQtyValue || qty.min !== before.g_hdQtyMin || qty.max !== before.g_hdQtyMax ||
+                !menu || menu.active !== before.g_hdMenuActive || menu.context !== before.g_hdMenuContext ||
+                menu.kind !== before.g_hdMenuKind || menu.seq !== before.g_hdMenuSeq || menu.count !== before.g_hdMenuCount ||
+                menu.index !== before.g_hdMenuIndex || menu.detailGeneration !== before.g_hdDetailGeneration ||
+                menu.active && !mobileMenuComplete(menu)) { return null; }
+            return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty};
+        } catch (e) { return null; }
+    }
+    function mobileTicketFrom(value, reason) {
+        if (!value) { return null; }
+        var raw = value.raw, menu = value.menu, march = value.march, qty = value.qty;
+        var city = march.phase > MARCH.IDLE && march.session ? march.origin : march.mapCity - 1, ownerType = '';
+        if (city < 0 || city > 37 || reason !== 'open-city' && state.cityIndex >= 0 && state.cityIndex !== city) { return null; }
+        if (raw.g_hdHelpActive) { return null; }
+        if (raw.g_hdReportActive) {
+            if (reason !== 'march-report-ok' && reason !== 'dismiss-live-disaster' && reason !== 'dismiss-leftover-help') { return null; }
+            if (menu.active || qty.active || [MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(march.phase) < 0 ||
+                !march.session || march.origin !== city) { return null; }
+            ownerType = 'march-report';
+        } else if (qty.active === 1) {
+            if (menu.active || qty.ready !== 1 || !qty.session || qty.min > qty.value || qty.value > qty.max ||
+                march.battlePick || march.phase !== MARCH.IDLE && !(march.phase === MARCH.FOOD && march.origin === city)) { return null; }
+            ownerType = 'qty';
+        } else if (menu.active === 1 && menu.context === 1 && menu.kind >= 1 && menu.kind <= 4 &&
+            !march.pick && !march.battlePick && (march.phase === MARCH.IDLE || march.phase === MARCH.PERSONS && march.origin === city)) {
+            ownerType = 'city';
+        } else if (/^strategy-end/.test(reason || '') && !qty.active && !march.battlePick &&
+            (menu.active === 1 && menu.context === 2 && mobileMenuComplete(menu) ||
+            !menu.active && march.pick === 1 && march.mapInputSeq > 0 && march.phase === MARCH.DEPARTED)) {
+            ownerType = 'strategy';
+        } else if (reason && /^march-target/.test(reason) && !menu.active && !qty.active && march.pick === 1 &&
+            march.battlePick === 1 && march.phase === MARCH.TARGET_PICK && march.origin === state.cityIndex && march.session) {
+            ownerType = 'march-target';
+        } else { return null; }
+        var ticket = {libraryGeneration: value.libraryGeneration, cityIndex: city, ownerType: ownerType,
+            menuContext: menu.context, menuKind: menu.kind, menuSeq: menu.seq,
+            detailGeneration: menu.detailGeneration, session: qty.active ? qty.session : march.session,
+            inputSeq: qty.active ? qty.inputSeq : march.inputSeq};
+        ticket.key = JSON.stringify([ticket.libraryGeneration, city, ownerType, raw, menu, march, qty]);
+        Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
+        return ticket;
+    }
+    function mobileInputTicket(reason) {
+        if (!shouldShowHd()) { return null; }
+        var first = mobileTicketFrom(mobileNativeSnapshot(), reason), second = mobileTicketFrom(mobileNativeSnapshot(), reason);
+        return first && second && first.data === second.data && first.key === second.key ? Object.freeze(second) : null;
+    }
+    function mobileShellReady() {
+        if (!mobileHost) { return true; }
+        var ticket = mobileInputTicket();
+        if (!ticket) { return false; }
+        if (ticket.ownerType === 'qty') { return state.layer === 'deep'; }
+        return ticket.ownerType === 'city' && (state.layer === 'root' || state.layer === 'status' ? ticket.menuKind === 1 :
+            state.layer === 'sub' ? ticket.menuKind === 2 : ticket.menuKind === 3 || ticket.menuKind === 4);
+    }
+    function retireInteraction(reason) {
+        invalidateMarchWork(); invalidateQtyWork(); stopMarchWatch();
+        state.landToken += 1; state.originRetryBusy = false;
+        state.pendingTarget = null; state.keepPendingTarget = null; state.marchSubmittedTarget = null;
+        state.personPagePointer = null; state.backPointerOwner = null; state.deepPointerOwner = null;
+        state.toolPointerOwner = null; state.personPagePending = null; state.toolPagePending = null;
+        state.personModeResume = null; state.nativeMenuRequest = null; state.nativeMenuCommit = '';
+        state.activeQueueReason = ''; state.qtyWaitKey = ''; state.marchContinueKey = '';
+        state.marchTargetInputKey = ''; state.marchCancelKey = ''; state.marchFoodCommitSent = false;
+        mobileRetireReason = String(reason || 'retired');
+        return true;
+    }
+    function configureMobileHost(options) {
+        options = options || {};
+        if (typeof options.isAvailable !== 'function') { throw new TypeError('mobile host requires isAvailable'); }
+        retireInteraction('configure-mobile-host');
+        mobileHost = {isAvailable: options.isAvailable};
+        mobileMode = normalizeMenuMode(readStorage(MOBILE_STORAGE_KEY, mobileMode));
+        var api = global.BayeHdLibIdentity;
+        if (api !== mobileIdentityApi) {
+            if (mobileUnsubscribe) { mobileUnsubscribe(); }
+            mobileIdentityApi = api; mobileUnsubscribe = null;
+            if (api && typeof api.subscribe === 'function') {
+                mobileUnsubscribe = api.subscribe(function () { retireInteraction('library'); state.open = false; render(); });
+            }
+        }
+        if (!mobileBoundaryBound) {
+            mobileBoundaryBound = true;
+            function boundary(event) { retireInteraction(event && event.type || 'boundary'); render(); }
+            document.addEventListener('visibilitychange', boundary);
+            ['resize', 'orientationchange', 'blur', 'pagehide'].forEach(function (name) { global.addEventListener(name, boundary); });
+        }
+        state.modeSignature = ''; syncMode(); render();
+        return global.BayeHdCityMenu;
+    }
+    function applyMobilePage(options) { configureMobileHost(options); start(); return global.BayeHdCityMenu; }
+
     var qtyEpoch = 0;
     var marchEpoch = 0;
     var queueEpoch = 0;
@@ -350,17 +519,19 @@
     }
 
     function getMenuMode() {
-        return normalizeMenuMode(readStorage(STORAGE_KEY, 'auto'));
+        return mobileHost ? normalizeMenuMode(readStorage(MOBILE_STORAGE_KEY, mobileMode)) :
+            normalizeMenuMode(readStorage(STORAGE_KEY, 'auto'));
     }
 
     function overworldIsHd() {
         if (global.BayeHdOverworld && typeof BayeHdOverworld.getMode === 'function') {
             return BayeHdOverworld.getMode() === 'hd-map';
         }
-        return readStorage(OVERWORLD_KEY, 'classic') === 'hd-map';
+        return !mobileHost && readStorage(OVERWORLD_KEY, 'classic') === 'hd-map';
     }
 
     function shouldShowHd() {
+        if (mobileHost && !mobileBase()) { return false; }
         var mode = getMenuMode();
         if (mode === 'classic') {
             return false;
@@ -372,7 +543,7 @@
     }
 
     function cityLcdPresentation() {
-        if (!state.open || !shouldShowHd()) { return 'passthrough'; }
+        if (!state.open || !shouldShowHd() || mobileHost && !mobileShellReady()) { return 'passthrough'; }
         // The native report/help owner can temporarily take over a retained
         // city menu. Keep its LCD fallback, regardless of the city preference.
         try {
@@ -399,8 +570,18 @@
     }
 
     function applyDocAttr() {
-        var show = state.open && shouldShowHd();
+        var show = state.open && shouldShowHd() && mobileShellReady();
         var lcdMode = cityLcdPresentation();
+        // A native picker can publish after its transition render. Keep the
+        // mobile root in sync when the poll only updates its contents/attrs.
+        if (mobileHost) {
+            var root = el('hd-city-menu');
+            if (root) {
+                root.setAttribute('aria-hidden', show ? 'false' : 'true');
+                root.classList.toggle('is-open', show);
+                root.classList.toggle('is-sub', show && state.layer !== 'root');
+            }
+        }
         document.documentElement.setAttribute('data-baye-city-menu', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-city-lcd', lcdMode);
         document.documentElement.setAttribute('data-baye-city-menu-pref', getMenuMode());
@@ -696,6 +877,8 @@
     }
 
     function engineSendKey(code, reason, currentOwner) {
+        var mobilePress = mobileHost ? mobileInputTicket(reason) : null;
+        if (mobileHost && !mobilePress) { retireInteraction('send-unavailable'); return false; }
         if (reason === 'pick-person') {
             var march = bindMarchSession();
             if (!march || Number(march.phase) !== MARCH.PERSONS || !shouldShowHd()) {
@@ -732,6 +915,10 @@
             state.engineHelpOpen = false;
         }
         if (currentOwner && !currentOwner()) { return false; }
+        if (mobileHost) {
+            var mobileCurrent = mobileInputTicket(reason);
+            if (!mobileCurrent || mobileCurrent.data !== mobilePress.data || mobileCurrent.key !== mobilePress.key) { retireInteraction('send-owner-changed'); return false; }
+        }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -1918,6 +2105,7 @@
     }
 
     function forceClearMapPick(why) {
+        if (mobileHost) { return false; }
         if (marchProtocol()) { return false; }
         if (battlePickActive()) {
             noteStep4('force-clear-pick', { skipped: 'live-battle-pick' });
@@ -2092,6 +2280,7 @@
     }
 
     function clearLeftoverPickAfterMarch(why) {
+        if (mobileHost) { return false; }
         if (marchProtocol()) { return false; }
         try {
             if (window.baye && baye.data) {
@@ -2205,6 +2394,7 @@
     }
 
     function bindOpenedMapCity(cityIndex, why) {
+        if (mobileHost) { return false; }
         if (marchProtocol()) { return false; }
         cityIndex = cityIndex != null && cityIndex >= 0 ? Number(cityIndex) : state.cityIndex;
         if (liveFightBlocksCityOpen()) {
@@ -2234,6 +2424,7 @@
 
     /* 过图 leftover pick 时先走回 HD 打开的城再 ENTER，绝不能对着 GetCitySet 发军备方向键。 */
     function landOwnedCity(why, done) {
+        if (mobileHost) { if (typeof done === 'function') { done(false); } return false; }
         var cityIndex = state.cityIndex;
         done = typeof done === 'function' ? done : function () {};
         bindOpenedMapCity(cityIndex, why);
@@ -2319,6 +2510,7 @@
     /* 选粮 / 选将之前 pick=1 只能是过图残留。写掉旗标，绝不能 EXIT（会退出军备，GetFood 永远不来）。
      * 活着的过图 GetCitySet 不能写 0。 */
     function clearStaleMapPick(why) {
+        if (mobileHost) { return false; }
         if (marchProtocol()) { return false; }
         if (battlePickActive() || liveOverworldGetCitySet()) {
             return false;
@@ -2339,6 +2531,7 @@
     /* 选粮已确认后 leftover pick=1 不是出征 GetCitySet。写掉旗标并钉出发城，
      * 让 C ShowGReport→battlePick=1→GetCitySet，避免 drive-tip 被 mapPickActive 挡住。 */
     function clearBattleMakeLeftoverPick(why) {
+        if (mobileHost) { return false; }
         if (marchProtocol()) { return false; }
         if (battlePickActive()) {
             return false;
@@ -2868,6 +3061,7 @@
     }
 
     function clearLeftoverQtyValues() {
+        if (mobileHost) { return; }
         if (marchProtocol() || engineQty() && engineQty().protocol) { return; }
         try {
             if (window.baye && baye.data && (!baye.hdEngineReady || baye.hdEngineReady())) {
@@ -2892,7 +3086,7 @@
             return;
         }
         try {
-            if (window.baye && baye.data && baye.data.g_hdQtyActive != null &&
+            if (!mobileHost && window.baye && baye.data && baye.data.g_hdQtyActive != null &&
                 !marchProtocol() && !(engineQty() && engineQty().protocol) &&
                 (!baye.hdEngineReady || baye.hdEngineReady())) {
                 baye.data.g_hdQtyActive = 0;
@@ -3291,6 +3485,7 @@
 
     function preferEngineNames(fallback) {
         var eng = engineMenuItems();
+        if (mobileHost) { return mobileMenuComplete(eng) ? eng.names.slice() : []; }
         var fb = fallback || [];
         if (eng.names && eng.names.length && fb.length &&
             (eng.names[0] === fb[0] || eng.names.length === fb.length)) {
@@ -4577,7 +4772,7 @@
         if (!root) {
             return;
         }
-        var show = state.open && shouldShowHd();
+        var show = state.open && shouldShowHd() && mobileShellReady();
         root.setAttribute('aria-hidden', show ? 'false' : 'true');
         root.classList.toggle('is-open', show);
         root.classList.toggle('is-sub', show && state.layer !== 'root');
@@ -4710,6 +4905,7 @@
 
     function openMenu(meta) {
         meta = meta || {};
+        if (mobileHost && !mobileInputTicket('open-city')) { return false; }
         var nativeMenu = engineMenuItems();
         if (nativeMenu.active != null) {
             var actualCity = engineMapCityIndex();
@@ -4772,6 +4968,8 @@
 
     function closeMenu(opts) {
         opts = opts || {};
+        var mobileClosingTicket = mobileHost && !opts.silent ? mobileInputTicket() : null;
+        if (mobileHost && !opts.silent && !mobileClosingTicket) { retireInteraction('close-unavailable'); return false; }
         if (fightIsActive()) {
             invalidateMarchWork();
             invalidateQtyWork();
@@ -4825,7 +5023,12 @@
             state.foodConfirmedThisMarch = false;
         }
         render();
-        if (!opts.silent && global.BayeHdOverworld &&
+        if (!opts.silent && mobileHost) {
+            engineSendKey(VK.EXIT, 'close-city', function () {
+                var current = mobileInputTicket();
+                return !!current && current.data === mobileClosingTicket.data && current.key === mobileClosingTicket.key;
+            });
+        } else if (!opts.silent && global.BayeHdOverworld &&
             typeof BayeHdOverworld.leaveMenu === 'function') {
             BayeHdOverworld.leaveMenu('已回到 HD 大地图。');
         }
@@ -6413,7 +6616,8 @@
         if (mode === 'classic' && oldMode !== 'classic') { state.personModeResume = capturePersonMode(); }
         var resume = oldMode === 'classic' && mode !== 'classic' ? state.personModeResume : null;
         if (mode !== 'classic') { state.personModeResume = null; }
-        writeStorage(STORAGE_KEY, mode);
+        if (mobileHost) { mobileMode = mode; writeStorage(MOBILE_STORAGE_KEY, mode); }
+        else { writeStorage(STORAGE_KEY, mode); }
         state.mode = mode;
         syncMode(resume);
         if (!shouldShowHd()) {
@@ -6473,15 +6677,27 @@
     }
 
     function start() {
+        if (startTimer !== null) { render(); return; }
         state.mode = getMenuMode();
         state.modeSignature = getMenuMode() + ':' + (overworldIsHd() ? 'hd' : 'classic');
         bindUi();
         bindToolbar();
         applyDocAttr();
         render();
-        setInterval(function () {
+        startTimer = setInterval(function () {
             try {
+                if (mobileHost) {
+                    var base = mobileBase();
+                    if (!base) { retireInteraction('poll-unavailable'); render(); return; }
+                    if (mobileLibraryGeneration !== null && mobileLibraryGeneration !== base.identity.generation) {
+                        retireInteraction('poll-library-changed'); state.open = false;
+                    }
+                    mobileLibraryGeneration = base.identity.generation;
+                }
                 syncMode();
+                // Publication may finish after the transition render. Refresh
+                // every mobile layer, not only list contents or root attrs.
+                if (mobileHost) { render(); }
                 if (!shouldShowHd() && (state.qtyCommitQueued || /^qty-/.test(state.activeQueueReason) ||
                     state.queue.some(function (item) { return item.qtyEpoch != null; }))) {
                     invalidateQtyWork();
@@ -6565,6 +6781,13 @@
 
     global.BayeHdCityMenu = {
         STORAGE_KEY: STORAGE_KEY,
+        MOBILE_STORAGE_KEY: MOBILE_STORAGE_KEY,
+        configureMobileHost: configureMobileHost,
+        applyMobilePage: applyMobilePage,
+        retireInteraction: retireInteraction,
+        isActive: function () { return !!(state.open && shouldShowHd() && mobileShellReady() && cityLcdPresentation() === 'off'); },
+        getLcdPresentation: cityLcdPresentation,
+        getInputTicket: function () { return mobileHost ? mobileInputTicket() : null; },
         getMode: getMenuMode,
         setMode: setMenuMode,
         syncMode: syncMode,
@@ -6587,6 +6810,8 @@
         debugSnapshot: function () {
             return {
                 pref: getMenuMode(),
+                mobileHost: !!mobileHost,
+                mobileRetireReason: mobileRetireReason,
                 showHd: shouldShowHd(),
                 open: state.open,
                 layer: state.layer,

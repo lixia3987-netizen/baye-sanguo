@@ -720,6 +720,14 @@ function goHome() {
 
 function disablePageScroll() {
     document.body.addEventListener('touchmove', function(event) {
+        // Mobile HD menus own scrollable panes. Keep the page/LCD locked,
+        // while allowing a browser pan inside a currently displayed HD shell.
+        var target = event.target, body = document.body;
+        while (target && target !== body) {
+            if (body.classList && ((target.id === 'hd-city-menu' && body.classList.contains('hd-mobile-city-on')) ||
+                (target.id === 'hd-dialog' && body.classList.contains('hd-mobile-dialog-on')))) { return; }
+            target = target.parentElement || target.parentNode;
+        }
         event.preventDefault();
     }, {
         passive: false,
