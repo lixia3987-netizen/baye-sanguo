@@ -1,0 +1,523 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original WOOD runtime safety static validation",
+  "status": "safety-validated-wood-actual-pending",
+  "scope": "Original-game maintained WOOD runtime safety tools: static regression and no-browser preflight only; actual WOOD6/7 remains pending.",
+  "accepted": false,
+  "maintainedSafetyRegressionAccepted": true,
+  "actualPreparationAccepted": false,
+  "qualifiedCasterAccepted": false,
+  "actualWoodCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdReplacementAccepted": false,
+  "validatedAt": "2026-10-10T17:00:56.068Z",
+  "fullRegression": {
+    "execution": {
+      "path": "build/r34-wood-full-source-tests-v2-execution.json",
+      "bytes": 3853,
+      "sha256": "9c4d6f7793553f9c975e5f034f52a4ff561aea9c2be4c6bffd97bbee3a0746f1",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/9c4d6f7793553f9c975e5f034f52a4ff561aea9c2be4c6bffd97bbee3a0746f1.gz",
+        "bytes": 1180,
+        "sha256": "0b26718e824be2059e86118f00ab9a44ecf3bae44e808e0add0cd35cb6a9338a",
+        "encoding": "gzip"
+      }
+    },
+    "log": {
+      "path": "build/r34-wood-full-source-tests-v2.log",
+      "bytes": 334955,
+      "sha256": "65ba9b92b1680e0ec4ffc52e6f2ab20b559bd2483e97b49bb70a2fee76b8c0d1",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/65ba9b92b1680e0ec4ffc52e6f2ab20b559bd2483e97b49bb70a2fee76b8c0d1.gz",
+        "bytes": 58912,
+        "sha256": "3c0ffa68ddd19b8bcd46cecb6baf5a5e607ed5253ba804e21a25668a151066a6",
+        "encoding": "gzip"
+      }
+    },
+    "command": [
+      "C:\\Program Files\\nodejs\\node.exe",
+      "--test",
+      "--test-reporter=tap",
+      "--test-concurrency=4",
+      "scripts/test-hd-input.mjs",
+      "scripts/test-hd-battle-mode.mjs",
+      "scripts/test-hd-battle-commands.mjs",
+      "scripts/test-hd-march.mjs",
+      "scripts/test-hd-city-entry.mjs",
+      "scripts/test-hd-engine-protocol.mjs",
+      "scripts/test-hd-dialog-routing.mjs",
+      "scripts/test-hd-portraits.mjs",
+      "scripts/test-hd-campaign-flow.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-save-transaction.mjs",
+      "scripts/test-hd-saveload-ui.mjs",
+      "scripts/test-hd-save-pages.mjs",
+      "scripts/test-hd-campaign-telemetry.mjs",
+      "scripts/test-hd-render-visibility.mjs",
+      "scripts/test-hd-performance-metrics.mjs",
+      "scripts/test-hd-road-presentation.mjs",
+      "scripts/test-hd-battle-terrain.mjs",
+      "scripts/test-hd-battle-feedback.mjs",
+      "scripts/test-hd-spe.mjs",
+      "scripts/test-hd-spe-engine.mjs",
+      "scripts/test-hd-maker-engine.mjs",
+      "scripts/test-hd-maker-bridge.mjs",
+      "scripts/test-hd-attack-engine.mjs",
+      "scripts/test-hd-attack-bridge.mjs",
+      "scripts/test-hd-skill-engine.mjs",
+      "scripts/test-hd-skill-bridge.mjs",
+      "scripts/test-hd-lib-identity.mjs",
+      "scripts/test-hd-overworld-identity.mjs",
+      "scripts/test-hd-ownership.mjs",
+      "scripts/test-hd-city-hud.mjs",
+      "scripts/test-hd-idb-mod-compat.mjs",
+      "scripts/test-hd-details-engine.mjs",
+      "scripts/test-hd-person-properties-engine.mjs",
+      "scripts/test-hd-details-bridge.mjs",
+      "scripts/test-hd-overviews-engine.mjs",
+      "scripts/test-hd-overviews-bridge.mjs",
+      "scripts/test-hd-minimap.mjs",
+      "scripts/test-hd-overworld-layers.mjs",
+      "scripts/test-hd-overworld-environment.mjs",
+      "scripts/test-hd-ai-target-engine.mjs",
+      "scripts/test-hd-ai-target-bridge.mjs",
+      "scripts/test-hd-status-effect-engine.mjs",
+      "scripts/test-hd-status-effect-bridge.mjs",
+      "scripts/test-hd-wood-engine.mjs",
+      "scripts/test-hd-wood-bridge.mjs",
+      "scripts/test-hd-aid-bridge.mjs",
+      "scripts/test-hd-aid.mjs",
+      "scripts/test-hd-aid-engine.mjs",
+      "scripts/test-original-game-entry.mjs",
+      "scripts/test-hd-liuyan-bridge.mjs",
+      "scripts/test-hd-zhoufeng-bridge.mjs",
+      "scripts/test-hd-dingshen-bridge.mjs",
+      "scripts/test-hd-runtime-owned-chrome.mjs",
+      "scripts/test-hd-runtime-json.mjs"
+    ],
+    "node": "v24.14.0",
+    "compiler": {
+      "path": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+      "bytes": 75238912,
+      "sha256": "bbe1455a704cd779edf71fb8003920d7033c5ea042dbd7be23c4aa192d126cee"
+    },
+    "exitCode": 0,
+    "moduleCount": 55,
+    "summary": {
+      "tests": 1324,
+      "pass": 1324,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sources": {
+      "count": 479,
+      "pre": {
+        "path": "build/r34-wood-full-source-tests-v2-sources-pre.json",
+        "bytes": 78932,
+        "sha256": "5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663",
+        "archive": {
+          "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663.gz",
+          "bytes": 25464,
+          "sha256": "1a5d1643f334ca2a7dd0070e062d4008c0a7de78d132875996c80108df9ad6ba",
+          "encoding": "gzip"
+        }
+      },
+      "post": {
+        "path": "build/r34-wood-full-source-tests-v2-sources-post.json",
+        "bytes": 78932,
+        "sha256": "5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663",
+        "archive": {
+          "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663.gz",
+          "bytes": 25464,
+          "sha256": "1a5d1643f334ca2a7dd0070e062d4008c0a7de78d132875996c80108df9ad6ba",
+          "encoding": "gzip"
+        }
+      },
+      "rawPrePostEqual": true,
+      "drift": [],
+      "added": [],
+      "allListedCurrentBytesPreviouslyVerifiedByIndependentAudit": true
+    }
+  },
+  "newPureCoverage": {
+    "count": 31,
+    "modules": [
+      {
+        "source": {
+          "path": "scripts/test-hd-runtime-owned-chrome.mjs",
+          "bytes": 8131,
+          "sha256": "9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3",
+          "archive": {
+            "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3.gz",
+            "bytes": 2363,
+            "sha256": "712a9a57e1ff9ba735c2371cc99a7159712c204f12d57fa90070e9901e78e625",
+            "encoding": "gzip"
+          }
+        },
+        "testCount": 16,
+        "scope": "Pure identity fixtures or atomic JSON/sidecar file fixtures; no OS entry point executed"
+      },
+      {
+        "source": {
+          "path": "scripts/test-hd-runtime-json.mjs",
+          "bytes": 9752,
+          "sha256": "8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636",
+          "archive": {
+            "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636.gz",
+            "bytes": 3064,
+            "sha256": "94154ec82bcea6f8231e089b36cc5308231e6669ea77a795e683e7c341296e41",
+            "encoding": "gzip"
+          }
+        },
+        "testCount": 15,
+        "scope": "Pure identity fixtures or atomic JSON/sidecar file fixtures; no OS entry point executed"
+      }
+    ]
+  },
+  "maintainedIntegration": {
+    "runner": {
+      "path": "scripts/test-hd-wood-runtime.mjs",
+      "bytes": 162582,
+      "sha256": "37803de71277b7dd9105d0d5dbb8b2488711991c79e3bb8f07e74d8e38f77568",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/37803de71277b7dd9105d0d5dbb8b2488711991c79e3bb8f07e74d8e38f77568.gz",
+        "bytes": 46025,
+        "sha256": "40d2988792f181262629a2af478ecba40df3ea81b5421c14e4d5c876b86d0c4a",
+        "encoding": "gzip"
+      }
+    },
+    "originalBaseline": {
+      "path": "build/r34-wood-runtime-before-safety-v1.mjs",
+      "bytes": 158973,
+      "sha256": "fc0f2f06c1de06f6a6de2002376c8737d7c368496c45cc4e826c04be56b4ec13",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/fc0f2f06c1de06f6a6de2002376c8737d7c368496c45cc4e826c04be56b4ec13.gz",
+        "bytes": 44931,
+        "sha256": "04f40bc2fa73b6faa1507d030f7c533a0a70c18f3b797935ad0a6cffa23bb93b",
+        "encoding": "gzip"
+      }
+    },
+    "delta": {
+      "path": "build/r34-wood-runtime-safety-tracked-delta-v1.json",
+      "bytes": 17496,
+      "sha256": "b7bbc7b85f2bbd7201302401394b6a63cbf068b0a0595b471cc534b2331ad5c8",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/b7bbc7b85f2bbd7201302401394b6a63cbf068b0a0595b471cc534b2331ad5c8.gz",
+        "bytes": 4674,
+        "sha256": "b72257c836caa7089506f35b5c27849785c3612a0500ef7727c333cbdc84d5ef",
+        "encoding": "gzip"
+      }
+    },
+    "proof": {
+      "path": "build/r34-wood-runtime-safety-tracked-integration-proof-v1.json",
+      "bytes": 3902,
+      "sha256": "fe6e546304b6cbb00b6d51fa712954bddf4b7fe113d3848c788058506e922a93",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/fe6e546304b6cbb00b6d51fa712954bddf4b7fe113d3848c788058506e922a93.gz",
+        "bytes": 1784,
+        "sha256": "592b40f606f6149839731a6b7bd8e0851532810e16dac8cfb64e1f1668f95d93",
+        "encoding": "gzip"
+      }
+    },
+    "editCount": 15,
+    "inverseOriginalBytesExact": true,
+    "noV25BusinessImported": true,
+    "sharedSources": [
+      {
+        "path": "scripts/hd-runtime-owned-chrome.mjs",
+        "bytes": 13354,
+        "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+        "archive": {
+          "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+          "bytes": 4452,
+          "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/hd-runtime-json.mjs",
+        "bytes": 7162,
+        "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+        "archive": {
+          "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+          "bytes": 2550,
+          "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+          "encoding": "gzip"
+        }
+      }
+    ]
+  },
+  "readonlyPreflight": {
+    "result": {
+      "path": "build/r34-maintained-wood-readonly-preflight-root-v1/result.json",
+      "bytes": 775611,
+      "sha256": "60c90d2c79211b47368abe96bc3f99a59321a8f89b8eab58c9f5bd421445cf4f",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/60c90d2c79211b47368abe96bc3f99a59321a8f89b8eab58c9f5bd421445cf4f.gz",
+        "bytes": 142695,
+        "sha256": "9cbe701408aaace48cac0b44d0a481e81a09bc9abb8e9c5cf2e66bcc7d337f0c",
+        "encoding": "gzip"
+      }
+    },
+    "sources": {
+      "path": "build/r34-maintained-wood-readonly-preflight-root-v1/source-verification.json",
+      "bytes": 430204,
+      "sha256": "86990d1f90b4a12c672e833afe846d075d8b7516f37b2406ccbc7ea6c5288fa1",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/86990d1f90b4a12c672e833afe846d075d8b7516f37b2406ccbc7ea6c5288fa1.gz",
+        "bytes": 68612,
+        "sha256": "67be7997562b84fed3c6d202f0373f6570a341699d1eb5629fed13b976145be1",
+        "encoding": "gzip"
+      }
+    },
+    "console": {
+      "path": "build/r34-maintained-wood-readonly-preflight-root-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+        "bytes": 62,
+        "sha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537",
+        "encoding": "gzip"
+      }
+    },
+    "ok": true,
+    "preflightOnly": true,
+    "sourceCount": 1206,
+    "drift": [],
+    "added": [],
+    "requests": 0,
+    "inputs": 0,
+    "profile": null,
+    "actualCleanupCoverage": false
+  },
+  "independentAudit": {
+    "path": "build/r34-maintained-safety-validation-independent-audit-v1.json",
+    "bytes": 13253,
+    "sha256": "2302f822da888a0d50304cc2f1a1a21f9f6c93545542a172982122749fd532e5",
+    "archive": {
+      "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/2302f822da888a0d50304cc2f1a1a21f9f6c93545542a172982122749fd532e5.gz",
+      "bytes": 4755,
+      "sha256": "cbce0bc6cce561634f0e05bf739b149361626a5d60ef114268d5480cad1f9d4e",
+      "encoding": "gzip"
+    }
+  },
+  "nativeAndEngine": {
+    "count": 128,
+    "aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "compiledSourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceModified": true,
+    "installedQuartet": {
+      "baye.js": {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+      },
+      "baye.wasm": {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+      },
+      "baye.wasm.map": {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+      },
+      "baye.build.json": {
+        "path": "js/baye.build.json",
+        "bytes": 16650,
+        "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+      }
+    },
+    "scope": "Current raw files retain the historical native compilation identity; not relabeled to current HEAD."
+  },
+  "candidateSourceReview": {
+    "candidate": {
+      "path": "build/r34-test-hd-wood-runtime-candidate-v1.mjs",
+      "bytes": 385384,
+      "sha256": "10b96322b09f2ec55d11520598034c603982540f84d5c8a0001bd915bb894be8",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/10b96322b09f2ec55d11520598034c603982540f84d5c8a0001bd915bb894be8.gz",
+        "bytes": 99180,
+        "sha256": "3432db686f4a2b2b21dc9319a0fc9cbfcffd80190e11e56a032d76efca2c1a9c",
+        "encoding": "gzip"
+      }
+    },
+    "freeze": {
+      "path": "build/r34-wood-runtime-candidate-freeze-v1.json",
+      "bytes": 3493,
+      "sha256": "1a0c8c6df9b56d490b3e798b01426a1483b6b510c29b4306bb54bd3a6a8a0cd4",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/1a0c8c6df9b56d490b3e798b01426a1483b6b510c29b4306bb54bd3a6a8a0cd4.gz",
+        "bytes": 1439,
+        "sha256": "772712b4520b4cfe3c5969612cf7a58ef35bef95534aa5d5edfcb830df47a92c",
+        "encoding": "gzip"
+      }
+    },
+    "independentReview": {
+      "path": "build/r34-safe-candidate-independent-review-v1.json",
+      "bytes": 7133,
+      "sha256": "e700420e2e7f6d7df72675cf28566272ef37e9824613f6f8121f869a6d175b9b",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/e700420e2e7f6d7df72675cf28566272ef37e9824613f6f8121f869a6d175b9b.gz",
+        "bytes": 2821,
+        "sha256": "4b7d49d3bc806903ad523053ee0745c9aa5bdbb120a8241d67c48be729673316",
+        "encoding": "gzip"
+      }
+    },
+    "routeReview": {
+      "path": "build/r34-v25-legal-route-review-v1.json",
+      "bytes": 16791,
+      "sha256": "f8a86967170a5d6497a1356eeeaab1c809b6ba8d462ec62667e2852375e458af",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/f8a86967170a5d6497a1356eeeaab1c809b6ba8d462ec62667e2852375e458af.gz",
+        "bytes": 6177,
+        "sha256": "9f914a54b058a9a14c8e4c9561214cbfd972e738e72f3aadfa091f251951eb01",
+        "encoding": "gzip"
+      }
+    },
+    "actualAccepted": false,
+    "promotedAsMaintainedBusinessRoute": false,
+    "gapReviews": [
+      {
+        "path": "build/r34-wood-driver-safety-gap-review-v1.json",
+        "bytes": 10707,
+        "sha256": "0b52d889e189aa330dc9dc45954cd447c848261ac738f8ceee67e6f30916b5ae",
+        "archive": {
+          "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/0b52d889e189aa330dc9dc45954cd447c848261ac738f8ceee67e6f30916b5ae.gz",
+          "bytes": 3998,
+          "sha256": "655cc3adcb74b87bd08942f2da770e664689574273d15836481d7f1f3ebc9206",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "build/r34-wood-renderer-and-native-gap-review-v1.json",
+        "bytes": 22595,
+        "sha256": "5c8001d1f46cac2b7cbcf014206bfb2859ac43f3b07fad398893970f3d03fcbf",
+        "archive": {
+          "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/5c8001d1f46cac2b7cbcf014206bfb2859ac43f3b07fad398893970f3d03fcbf.gz",
+          "bytes": 6457,
+          "sha256": "6bf87886193f5272cca51fc04cf0da60491e92c661e8f145065a23bfd9bf5dda",
+          "encoding": "gzip"
+        }
+      }
+    ],
+    "externalHistoricalReferencesNotArchived": {
+      "inputResult": {
+        "path": "build/r21-route-actual-v24-post-original-entry-v1/result.json",
+        "bytes": 59437477,
+        "sha256": "8de7c9c67545fd1b67299e528af904ebd3eb4b3c5250c16fee557c107ca248a5"
+      },
+      "inputPair": [
+        {
+          "path": "build/r21-route-actual-v24-post-original-entry-v1/native-month-009-sango0.sav",
+          "bytes": 8221,
+          "sha256": "fe1657da321b178da4f22ba79af6daf6451bde4ea8b8a7807a1945299bf8055f"
+        },
+        {
+          "path": "build/r21-route-actual-v24-post-original-entry-v1/native-month-009-sango1.sav",
+          "bytes": 4840,
+          "sha256": "e2186f4cc91f5e040e97b7532b055fdcece17897e78ae2e8fe7b25b782de822d"
+        }
+      ],
+      "inputTerminalAudit": {
+        "path": "build/r21-v24-terminal-independent-audit-v1.json",
+        "bytes": 42330,
+        "sha256": "7e90156ac6b4bb62c2dba0e9df6491097cf30548867d66a657f5ebed5e07629e"
+      },
+      "stateInventory": {
+        "path": "build/r34-wood-preparation-current-state-v1.json",
+        "bytes": 22337,
+        "sha256": "5282f073d257b8b4cb92cd037566625c109455673526ea501b99b489f1e4b006"
+      },
+      "runtimeDependencies": [
+        {
+          "path": "build/r21-write-large-json-v2.mjs",
+          "bytes": 7162,
+          "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+        },
+        {
+          "path": "build/r21-canvass-native-probability-v24.mjs",
+          "bytes": 4160,
+          "sha256": "2196ef7bc1f998f2433eace3baf3eb426f4c921184fa10e2f5d9802015b00680"
+        }
+      ]
+    }
+  },
+  "historicalDefaultCompilerFailure": {
+    "log": {
+      "path": "build/r34-npm-test-root-v1.log",
+      "bytes": 398244,
+      "sha256": "a0e0c9f0a341f2be75f0b7abe5c782df88b57b4dfda5153721caad7690a1e744",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/a0e0c9f0a341f2be75f0b7abe5c782df88b57b4dfda5153721caad7690a1e744.gz",
+        "bytes": 59414,
+        "sha256": "6df9418522f3d56a5547208f64b7348381238174f46fed3c2e51eae8960c1dbe",
+        "encoding": "gzip"
+      }
+    },
+    "tests": 1324,
+    "pass": 1006,
+    "fail": 318,
+    "causeObserved": "spawn cc ENOENT",
+    "retained": true,
+    "accepted": false,
+    "scope": "Original default-CC environment failure retained. The later explicitly selected existing project clang execution passes all1324; this audit does not rewrite the first attempt.",
+    "originalAttemptRetained": true
+  },
+  "archive": {
+    "runtimeIndex": {
+      "path": "docs/validation/m4-wood-runtime-safety-20261011/runtime-index.json",
+      "bytes": 16195,
+      "sha256": "ee918cb771a9c2f63cac8cbdffb0ca5f74ec87a7eca032456469d2f42585c0c6"
+    },
+    "logicalFiles": 30,
+    "uniqueGzipFiles": 29,
+    "logicalOriginalBytes": 3015572,
+    "uniqueGzipBytes": 617077,
+    "portableClosedArchive": false,
+    "byteClosedExplicitAllowlist": true,
+    "gzipRoundtripVerified": true
+  },
+  "publisher": {
+    "path": "build/r34-publish-maintained-safety-static-root-v2.mjs",
+    "bytes": 20310,
+    "sha256": "49d5db6cea6c27f50d459401e3a03da7e55166a723ac561ec107cdc066f99b49",
+    "archive": {
+      "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/49d5db6cea6c27f50d459401e3a03da7e55166a723ac561ec107cdc066f99b49.gz",
+      "bytes": 7428,
+      "sha256": "03706f3dd00cd49893d65f5941f8dee3975d26169d93d137d5ae8768ae27c804",
+      "encoding": "gzip"
+    }
+  },
+  "publisherHistory": {
+    "priorSource": {
+      "path": "build/r34-publish-maintained-safety-static-root-v1.mjs",
+      "bytes": 19378,
+      "sha256": "e87bb99577d2cbaa2bfe02cdbfbd47e0bff99d1dd7aa83a2d397fb6b640f8c14",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/e87bb99577d2cbaa2bfe02cdbfbd47e0bff99d1dd7aa83a2d397fb6b640f8c14.gz",
+        "bytes": 7078,
+        "sha256": "27473cad69f52348b9d6d9466146814b4ea12475a8e6a067e0022e537afd0ece",
+        "encoding": "gzip"
+      }
+    },
+    "checkOnlyFailure": {
+      "accepted": false,
+      "exitCode": 1,
+      "evidence": "Parent-reported tool chunk d19273: v1 line165 historical CC-log TAP regexp assertion; no saved stdout is claimed",
+      "published": false,
+      "gameFailure": false
+    },
+    "correction": "Only the historical spec reporter six exact/unique summary rows replace the mistaken TAP-summary assumption; original CC log and v1 source remain byte exact"
+  },
+  "limitations": [
+    "This is static safety regression and no-browser preflight evidence, not actual WOOD preparation, caster qualification, player casting or HD/fallback acceptance.",
+    "No process/port/user8080 checks were performed by the publisher. Preflight cleanup flags describe a no-launch branch, not real OS cleanup coverage.",
+    "The reviewed V25-derived candidate is separate from the maintained runtime; its business changes were not promoted by the 15 safety edits.",
+    "Only the explicit raw-file allowlist is byte closed. Source inventories, candidate imports, historical route results/save pairs and native/compiler binary references are not recursively archived or portable.",
+    "No browser profile, user native save, campaign result, 146-pair inventory or actual campaign directory is read or archived."
+  ]
+}

@@ -63,3 +63,6 @@
 
 /docs/validation/m4-liuyan-current-runtime-20261011.json text eol=lf
 /docs/validation/m4-liuyan-current-runtime-20261011/*.json text eol=lf
+
+/docs/validation/m4-wood-runtime-safety-20261011.json text eol=lf
+/docs/validation/m4-wood-runtime-safety-20261011/runtime-index.json text eol=lf

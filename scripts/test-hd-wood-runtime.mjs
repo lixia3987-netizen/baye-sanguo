@@ -20,6 +20,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { writeJsonAtomicSync, writeReportAtomicSync } from './hd-runtime-json.mjs';
+import { snapshotOwnedChrome, cleanupOwnedChrome } from './hd-runtime-owned-chrome.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const staged=process.argv.includes('--staged'),preflightOnly=process.argv.includes('--preflight-only'),castOnly=process.argv.includes('--cast-only'),allowLcd=process.argv.includes('--allow-lcd');
 assert.ok(!castOnly||!process.argv.includes('--prepare-only'),'Preparation and cast-only are distinct evidence scopes');
@@ -45,6 +47,7 @@ function walk(directory){return fs.readdirSync(directory,{withFileTypes:true}).f
 const fnv=bytes=>{let h=2166136261;for(const b of bytes)h=Math.imul(h^b,16777619)>>>0;return 'fnv1a32:'+h.toString(16).padStart(8,'0')+':'+bytes.length;};
 function sha(bytes){return crypto.createHash('sha256').update(bytes).digest('hex');}
 const childExited=child=>!!child&&(child.exitCode!==null||child.signalCode!==null);
+let captureOwnedSnapshot=async()=>null;
 function nativeItem(id,index=0) {
     const b=nativeLib,a=b.readUInt32LE((id-1)*4);
     assert.ok(a>0&&a+14<=b.length,'real native resource header bounds');
@@ -79,6 +82,7 @@ function freezeAsset(rel) {
 
 function prepareServedAssets(){
  report.sources={};
+ report.runtimeHelpers={json:freezeAsset('scripts/hd-runtime-json.mjs').metadata,ownedChrome:freezeAsset('scripts/hd-runtime-owned-chrome.mjs').metadata};
  for(const dir of productionDirectories)for(const filename of walk(path.join(root,dir)))freezeAsset(path.relative(root,filename).replaceAll('\\','/'));
  freezeAsset('scripts/write-wasm-manifest.mjs');nativeLib=freezeAsset('libs/dat-mod.lib').data;freezeAsset('pc.html');freezeAsset('qr.png');freezeAsset('favicon.png');freezeAsset('fonts/HarmonyOS_Sans_SC_Regular.ttf');
  assert.equal(sha(nativeLib),'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
@@ -275,7 +279,7 @@ async function prepareCaster(cdp){let world=await observeCampaign(cdp,'initial a
  assert.ok(qualifiedTarget,'Natural AI level budget ended without an actual eligible Lv11 infantry; keep failure without fake XP/config');report.actualTraining={target:qualifiedTarget,months:report.monthReceipts.length,world};await checkpoint(cdp,'actual-natural-level11-candidate');
  for(let month=1;month<=canvassMonths;month++){const orders=[];for(let n=1;n<=ordersPerMonth;n++){world=await observeCampaign(cdp,'join-month-'+month+' order-'+n);if(acquired(world))break;const target=eligibleEnemyCandidates(world)[0];if(!target){report.costStops??=[];report.costStops.push({month,reason:'No current qualified non-lord enemy resident',world});break;}const eligible=world.observed.filter(p=>world.origin.ownedQueue.includes(p.personIndex)&&p.thew>=20&&p.personIndex!==0);if(world.origin.money<50||!eligible.length){report.costStops??=[];report.costStops.push({month,reason:world.origin.money<50?'Actual Money below native50':'No actual available envoy with native20Thew',world});break;}orders.push(await queueCanvass(cdp,target,(report.canvassOrders?.length||0)+1));}world=await executeMonth(cdp,(report.monthReceipts.length||0)+1,orders);current=acquired(world);if(current)break;}
  assert.ok(current,'Natural Canvass budget ended without actual Belong1/current Wan20 queue/derived infantry/Lv11; preserve failure');report.actualAcquisition={caster:current,world,scope:'Real original Canvass orders and months, exact current Belong1 and queue; report text alone does not authorize ownership'};await observeActualLib(cdp,'actual natural owned caster');await checkpoint(cdp,'actual-owned-level11-infantry');return current;}
-async function saveActualPreparation(cdp,tag='final',requireCaster=true){const before=await observeCampaign(cdp,'before public native save '+tag);if(requireCaster)assert.ok(acquired(before));const owner=await openSystem(cdp,'public native save');assert.equal(owner.names[1],'存储进度');await click(cdp,'#hd-system-ui [data-hd-sys="1"][data-hd-sys-owner]');const record=await waitFor(cdp,'original save record owner',`(() => {const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();return r.active===1&&r.mode===1&&s.open&&s.screen==='saveload'&&r;})()`);assert.equal(record.count,3);const n=await evaluate(cdp,'window.__speEngineKeys.length');await click(cdp,`#hd-system-ui [data-hd-sys="${saveSlot}"][data-hd-sys-owner]`);await waitFor(cdp,'original save fully returned with new actual map owner',`(() => {const m=baye.hd.march(),menu=baye.hd.menuItems(),sys=BayeHdSystemUi.debugSnapshot();return !baye.hd.record().active&&!menu.active&&!sys.open&&m.pick===1&&m.phase===0&&m.mapInputSeq>${before.march.mapInputSeq}&&BayeSaveStorage.inspectSlot(${saveSlot}).canLoad&&!localStorage.getItem('baye/save-transaction/${saveSlot}');})()`);const snapshot=await evaluate(cdp,`(() => {const slot=${saveSlot},keys=[slot*2,slot*2+1].map(i=>'baye//data//sango'+i+'.sav');return {slot,info:BayeSaveStorage.inspectSlot(slot),files:keys.map(key=>({key,hex:BayeSaveStorage.readFile(key),lib:BayeSaveStorage.readMetadata(key+'.lib'),name:BayeSaveStorage.readMetadata(key+'.name'),identity:BayeSaveStorage.readMetadata(key+'.lib-id')})),lastError:BayeSaveStorage.lastError()};})()`);assert.equal(snapshot.info.status,'ready');assert.equal(snapshot.info.period,4);assert.equal(snapshot.info.king,0);assert.equal(snapshot.lastError,null);const files=[];for(const f of snapshot.files){assert.ok(/^(?:[0-9a-fA-F]{2})+$/.test(f.hex));const data=Buffer.from(f.hex,'hex'),name='native-'+tag+'-'+path.basename(f.key);fs.writeFileSync(path.join(artifactDir,name),data);files.push({...f,hex:undefined,path:name,bytes:data.length,sha256:sha(data),scope:'Exact bytes read from original public native save, never edited/re-encoded as a new world'});}const after=await observeCampaign(cdp,'after public native save');sameWorld(before,after,'Saving');const byteProof=validateSavedPair(files.map(f=>fs.readFileSync(path.join(artifactDir,f.path))),after,'actual completed native save '+tag);const proof={tag,owner,record,slot:saveSlot,info:snapshot.info,files,byteProof,before,after,keys:await evaluate(cdp,`window.__speEngineKeys.slice(${n})`)};if(requireCaster)report.publicSave=proof;else {report.publicCheckpoints??=[];report.publicCheckpoints.push(proof);}await checkpoint(cdp,'prepared-public-native-save-'+tag);if(!requireCaster){await waitFor(cdp,'actual original map after checkpoint save','!baye.hd.menuItems().active&&!baye.hd.record().active&&baye.hd.march().pick===1&&baye.hd.march().phase===0');proof.mapReturn=await evaluate(cdp,'({menu:baye.hd.menuItems(),march:baye.hd.march(),keys:window.__speEngineKeys.length})');assert.equal(proof.mapReturn.keys,n+1,'Save confirmation returns natively to map with no extra EXIT/Enter');sameWorld(after,await observeCampaign(cdp,'after native checkpoint map return '+tag),'Saved checkpoint native return');}}
+async function saveActualPreparation(cdp,tag='final',requireCaster=true){const before=await observeCampaign(cdp,'before public native save '+tag);if(requireCaster)assert.ok(acquired(before));const owner=await openSystem(cdp,'public native save');assert.equal(owner.names[1],'存储进度');await click(cdp,'#hd-system-ui [data-hd-sys="1"][data-hd-sys-owner]');const record=await waitFor(cdp,'original save record owner',`(() => {const r=baye.hd.record(),s=BayeHdSystemUi.debugSnapshot();return r.active===1&&r.mode===1&&s.open&&s.screen==='saveload'&&r;})()`);assert.equal(record.count,3);const n=await evaluate(cdp,'window.__speEngineKeys.length');await click(cdp,`#hd-system-ui [data-hd-sys="${saveSlot}"][data-hd-sys-owner]`);await waitFor(cdp,'original save fully returned with new actual map owner',`(() => {const m=baye.hd.march(),menu=baye.hd.menuItems(),sys=BayeHdSystemUi.debugSnapshot();return !baye.hd.record().active&&!menu.active&&!sys.open&&m.pick===1&&m.phase===0&&m.mapInputSeq>${before.march.mapInputSeq}&&BayeSaveStorage.inspectSlot(${saveSlot}).canLoad&&!localStorage.getItem('baye/save-transaction/${saveSlot}');})()`);const snapshot=await evaluate(cdp,`(() => {const slot=${saveSlot},keys=[slot*2,slot*2+1].map(i=>'baye//data//sango'+i+'.sav');return {slot,info:BayeSaveStorage.inspectSlot(slot),files:keys.map(key=>({key,hex:BayeSaveStorage.readFile(key),lib:BayeSaveStorage.readMetadata(key+'.lib'),name:BayeSaveStorage.readMetadata(key+'.name'),identity:BayeSaveStorage.readMetadata(key+'.lib-id')})),lastError:BayeSaveStorage.lastError()};})()`);assert.equal(snapshot.info.status,'ready');assert.equal(snapshot.info.period,4);assert.equal(snapshot.info.king,0);assert.equal(snapshot.lastError,null);const files=[];for(const f of snapshot.files){assert.ok(/^(?:[0-9a-fA-F]{2})+$/.test(f.hex));const data=Buffer.from(f.hex,'hex'),name='native-'+tag+'-'+path.basename(f.key);fs.writeFileSync(path.join(artifactDir,name),data);files.push({...f,hex:undefined,path:name,bytes:data.length,sha256:sha(data),scope:'Exact bytes read from original public native save, never edited/re-encoded as a new world'});}const after=await observeCampaign(cdp,'after public native save');sameWorld(before,after,'Saving');const byteProof=validateSavedPair(files.map(f=>fs.readFileSync(path.join(artifactDir,f.path))),after,'actual completed native save '+tag);const proof={tag,owner,record,slot:saveSlot,info:snapshot.info,files,byteProof,before,after,keys:await evaluate(cdp,`window.__speEngineKeys.slice(${n})`)};if(requireCaster)report.publicSave=proof;else {report.publicCheckpoints??=[];report.publicCheckpoints.push(proof);}await checkpoint(cdp,'prepared-public-native-save-'+tag);if(!requireCaster){await waitFor(cdp,'actual original map after checkpoint save','!baye.hd.menuItems().active&&!baye.hd.record().active&&baye.hd.march().pick===1&&baye.hd.march().phase===0');proof.mapReturn=await evaluate(cdp,'({menu:baye.hd.menuItems(),march:baye.hd.march(),keys:window.__speEngineKeys.length})');assert.equal(proof.mapReturn.keys,n+1,'Save confirmation returns natively to map with no extra EXIT/Enter');sameWorld(after,await observeCampaign(cdp,'after native checkpoint map return '+tag),'Saved checkpoint native return');}await captureOwnedSnapshot('after-public-native-save-'+tag);}
 async function smoke(cdp){if(resumeInput){await loadResumeCheckpoint(cdp);await strengthenProtectedCities(cdp,0);await saveActualPreparation(cdp,'resume-strengthened',false);await prepareCaster(cdp);await saveActualPreparation(cdp);assert.deepEqual(await evaluate(cdp,'window.__speObserverErrors'),[]);report.preparationAccepted=true;report.hdAccepted=false;report.scope={accepted:'Public import/load of an independently byte-verified original native saved pair, followed by original actual months/Canvass/defense/save',notRun:'No WOOD37 cast or HD movie acceptance'};return;}await waitFor(cdp,'real SPE v2 ready','window.baye&&baye.hd&&baye.hd.ready()&&baye.hd.spe().protocolVersion===2',60000);await observeActualLib(cdp,'opening actual bytes');const opening=await waitFor(cdp,'actual skippable MAIN3',"(() => {const s=baye.hd.spe();return s.active===1&&s.id===3&&s.kind===1&&s.skipEligible&&s;})()");await checkpoint(cdp,'01-original-MAIN');const start=await evaluate(cdp,'window.__speEngineKeys.length'),fresh=await evaluate(cdp,'baye.hd.spe()');assert.equal(fresh.eventId,opening.eventId);assert.equal(fresh.generation,opening.generation);assert.equal(fresh.skipEligible,true);await key(cdp,'Enter');await waitFor(cdp,'original opening skip acknowledged',`(() => {const s=baye.hd.spe();return s.lastEnd.eventId===${opening.eventId}&&s.lastEnd.reason==='key'&&s.lastEnd.key===39;})()`);assert.deepEqual((await evaluate(cdp,`window.__speEngineKeys.slice(${start})`)).map(k=>k.code),[39]);await waitFor(cdp,'actual title picture',"window.__speSamples.some(r=>r.spe&&r.spe.id===100)");await key(cdp,'Enter');await waitFor(cdp,'actual period picture',"window.__speSamples.some(r=>r.spe&&r.spe.id===104)");for(let i=1;i<period;i++)await key(cdp,'ArrowDown');await key(cdp,'Enter');const kings=await waitFor(cdp,'actual period4 lords',"Number(baye.data.g_PIdx)===4&&baye.hd.kings().count>0&&baye.hd.kings()");const wanted=kings.kings.findIndex(k=>k.id===0&&k.name==='曹丕');assert.ok(wanted>=0);for(let i=kings.index;i<wanted;i++)await key(cdp,'ArrowDown');for(let i=kings.index;i>wanted;i--)await key(cdp,'ArrowUp');await waitFor(cdp,'actual CaoPi highlight',`baye.hd.kings().index===${wanted}`);await key(cdp,'Enter');await waitFor(cdp,'original strategy map','!baye.hd.menuItems().active&&baye.hd.march().pick===1&&baye.hd.march().phase===0');await evaluate(cdp,"window.__spePhase='preparation';BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('classic');BayeHdSystemUi.setMode('hd');");await waitFor(cdp,'actual HD map and classic city input',"BayeHdOverworld.debugSnapshot().phase==='map'&&BayeHdOverworld.getMode()==='hd-map'&&BayeHdCityMenu.getMode()==='classic'");await observeActualLib(cdp,'fresh P4 actual standard');await checkpoint(cdp,'02-fresh-period4-world');await preparationCapital(cdp);await saveActualPreparation(cdp,'initial',false);await strengthenProtectedCities(cdp,0);await saveActualPreparation(cdp,'initial-strengthened',false);await prepareCaster(cdp);await saveActualPreparation(cdp);assert.deepEqual(await evaluate(cdp,'window.__speObserverErrors'),[]);report.preparationAccepted=true;report.hdAccepted=false;report.scope={accepted:'Fresh P4 actual original strategy months/natural AI LevelUp, public Canvass exact-ID orders/costs/ack, real owned qualified infantry and native public save pair',notRun:'No dispatch/skill6/skill7/movie/LCD or HD oracle; no whole HD or long-term route guarantee'};}
 
 async function prepareCastInputs(){
@@ -1155,14 +1159,35 @@ async function loadResumeCheckpoint(cdp){
  const after=await observeCampaign(cdp,'actual public native checkpoint loaded');sameWorld(resumeInput.world,after,'Original public checkpoint load');validateSavedPair(resumeInput.files.map(f=>f.data),after,'Actual loaded world from original pair');report.resumeNativeLoad={owner:r,before:resumeInput.world,after};await observeActualLib(cdp,'native loaded actual checkpoint LIB');await evaluate(cdp,"window.__spePhase='preparation';BayeHdOverworld.setMode('hd-map');BayeHdCityMenu.setMode('classic');BayeHdSystemUi.setMode('hd');");await waitFor(cdp,'current genuine resumed HD map','BayeHdOverworld.debugSnapshot().phase===\'map\'');await preparationCapital(cdp);await checkpoint(cdp,'02-public-original-checkpoint-loaded');
 }
 
+// Full CIM samples stay in memory. Only verified-owned command lines may reach disk.
+const osIdentity=p=>({ProcessId:p.ProcessId,ParentProcessId:p.ParentProcessId,CreationDate:p.CreationDate});
+function persistentOwnership(s){return {schemaVersion:s.schemaVersion,rootPid:s.rootPid,profile:s.profile,sampledAt:s.sampledAt,rootVerified:s.rootVerified,reason:s.reason,owned:s.owned,excludedIdentities:s.excluded.map(osIdentity),profileMatchIdentities:s.profileMatches.map(osIdentity)};}
+function persistentCleanup(proof,basis){
+ const ownedAt=p=>basis.owned.some(o=>o.ProcessId===p.ProcessId&&o.CreationDate===p.CreationDate&&o.ExecutablePath===p.ExecutablePath&&o.CommandLine===p.CommandLine);
+ return {schemaVersion:proof.schemaVersion,rootPid:proof.rootPid,profile:proof.profile,dryRun:proof.dryRun,directoriesDeleted:proof.directoriesDeleted,treeExited:proof.treeExited,errors:proof.errors,stopEvents:proof.stopEvents,recordedOwned:basis.owned,
+  recheck:proof.recheck&&{targets:proof.recheck.targets.map(osIdentity),refused:proof.recheck.refused.map(p=>({recorded:osIdentity(p.recorded),current:osIdentity(p.current),reason:p.reason})),absent:proof.recheck.absent.map(osIdentity)},
+  samples:proof.samples.map(s=>({stage:s.stage,sampledAt:s.sampledAt,owned:s.processes.filter(ownedAt),unrelatedCount:s.processes.filter(p=>!ownedAt(p)).length})),
+  exitVerification:proof.exitVerification&&{treeExited:proof.exitVerification.treeExited,survivingRecorded:proof.exitVerification.survivingRecorded.map(osIdentity),rootDescendants:proof.exitVerification.rootDescendants.map(osIdentity),profileMatches:proof.exitVerification.profileMatches.map(osIdentity)}};
+}
 async function main() {
     assert.ok(!fs.existsSync(path.join(artifactDir,'result.json')),'Use a fresh artifact directory; prior success/failure evidence is preserved');
     fs.mkdirSync(artifactDir, { recursive: true });
-    let server, chrome, cdp, chromeError, profile;
+    let server, chrome, cdp, chromeError, profile, ownership;
+    const ownSnapshot=async label=>{
+        if(!chrome||!profile)return ownership||null;
+        try{const s=await snapshotOwnedChrome(chrome.pid,profile),first=ownership?.owned.find(p=>p.ProcessId===chrome.pid),next=s.owned.find(p=>p.ProcessId===chrome.pid);
+            const sameRoot=!first||next&&first.CreationDate===next.CreationDate&&first.ExecutablePath===next.ExecutablePath&&first.CommandLine===next.CommandLine;
+            fs.appendFileSync(path.join(artifactDir,'owned-process-samples.jsonl'),JSON.stringify({label,at:new Date().toISOString(),...persistentOwnership(sameRoot?s:{...s,owned:[]}),sameRoot})+String.fromCharCode(10));
+            if(s.rootVerified===true&&sameRoot)ownership=s;
+        }catch(e){fs.appendFileSync(path.join(artifactDir,'owned-process-samples.jsonl'),JSON.stringify({label,at:new Date().toISOString(),error:{name:String(e?.name||'Error'),code:typeof e?.code==='string'?e.code:null,message:'Owned snapshot failed; previous verified basis retained; unrelated CIM command lines are never persisted'}})+String.fromCharCode(10));}
+        return ownership||null;
+    };
+    captureOwnedSnapshot=ownSnapshot;
+
     const interrupt = () => {
         report.interrupted = true;
         if (cdp) cdp.close();
-        if (chrome && !childExited(chrome)) chrome.kill('SIGTERM');
+        // Root stays alive until finally refreshes the full owned-tree basis.
         if (server) server.closeAllConnections();
     };
     process.once('SIGINT', interrupt);
@@ -1172,7 +1197,7 @@ async function main() {
         assert.equal(typeof WebSocket,'function','Node 22+ built-in WebSocket is available');
         console.log('Frozen',Object.keys(report.sources).length,'sources; native',report.nativeSourceCheck.aggregate,'; runner',report.tool.sha256);
         if(preflightOnly){report.ok=true;report.hdAccepted=false;report.scope={accepted:'Readonly exact-source/LIB/resource/native-build preflight',notRun:'No private browser or game input'};return;}
-        profile=fs.mkdtempSync(path.join(os.tmpdir(),'baye-wood-preparation-'));
+        profile=path.join(artifactDir,'private-browser-profile');assert.ok(!fs.existsSync(profile),'Fresh private evidence profile only');fs.mkdirSync(profile);
         server = await startServer();
         const origin = 'http://127.0.0.1:' + server.address().port;
         const debugPort = await unusedPort();
@@ -1184,7 +1209,7 @@ async function main() {
         chrome = spawn(binary, ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
             '--disable-background-networking','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows', '--window-size='+viewport.width+','+viewport.height, '--remote-debugging-port=' + debugPort,
             '--user-data-dir=' + profile, 'about:blank'], { stdio: 'ignore', windowsHide:true });
-        report.isolation={httpPort:server.address().port,debugPort,profile,chromePid:chrome.pid,user8080Touched:false};
+        report.isolation={httpPort:server.address().port,debugPort,profile,chromePid:chrome.pid,rootPid:chrome.pid,user8080Touched:false,profileIntentionallyRetained:true};
         chrome.on('error', (error) => { chromeError = error; });
         let target;
         const deadline = Date.now() + 15000;
@@ -1199,6 +1224,7 @@ async function main() {
             await delay(100);
         }
         assert.ok(target, 'Chrome DevTools started');
+        await ownSnapshot('launch-before-first-page');assert.ok(ownership?.rootVerified,'Owned PID/profile/birth required before game page');report.isolation.rootBirth=ownership.owned.find(p=>p.ProcessId===chrome.pid).CreationDate;
         cdp = await connectCdp(target.webSocketDebuggerUrl);
         cdp.on('Runtime.consoleAPICalled', (event) => {
             report.console.push({ type: event.type, text: event.args.map((arg) => arg.value ?? arg.description ?? '').join(' ') });
@@ -1255,25 +1281,23 @@ async function main() {
     } finally {
         process.removeListener('SIGINT', interrupt);
         process.removeListener('SIGTERM', interrupt);
-        if (cdp) cdp.close();
-        if (chrome && !childExited(chrome)) {
-            const stopped = new Promise((resolve) => chrome.once('exit', resolve));
-            chrome.kill('SIGTERM');
-            await Promise.race([stopped, delay(1500)]);
-            if (!childExited(chrome)) { chrome.kill('SIGKILL'); await Promise.race([stopped, delay(1500)]); }
-        }
-        if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}report.privateCleanup={chromeExited:!chrome||childExited(chrome),chromeExitCode:chrome&&chrome.exitCode,chromeSignal:chrome&&chrome.signalCode,httpClosed:!server||!server.listening};if(!report.privateCleanup.chromeExited||!report.privateCleanup.httpClosed){report.ok=false;process.exitCode=1;}
-        if(profile){assert.equal(path.dirname(path.resolve(profile)),path.resolve(os.tmpdir()));assert.ok(path.basename(profile).startsWith('baye-wood-preparation-'));try{fs.rmSync(profile,{recursive:true,force:true,maxRetries:5,retryDelay:100});}catch(e){report.ok=false;report.cleanupError=e.stack||String(e);process.exitCode=1;}}
+        ownership=await ownSnapshot('before-cleanup')||ownership;
+        if(cdp)cdp.close();
+        if(ownership){try{const proof=await cleanupOwnedChrome(ownership);report.ownedTreeCleanup=persistentCleanup(proof,ownership);}catch(e){report.treeCleanupError=e.stack||String(e);}}
+        if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
+        report.privateCleanup={chromeExited:!chrome||childExited(chrome),chromeExitCode:chrome?.exitCode??null,chromeSignal:chrome?.signalCode??null,treeExited:!chrome||report.ownedTreeCleanup?.treeExited===true,httpClosed:!server||!server.listening,profileIntentionallyRetained:!!profile,profileExists:!!profile&&fs.existsSync(profile),directoriesDeleted:false};
+        // Full OS tree proof is mandatory; the retained profile is intentional evidence.
+        if(!report.privateCleanup.treeExited||!report.privateCleanup.httpClosed){report.ok=false;report.cleanupError='Full owned tree or HTTP cleanup not proved; profile retained';process.exitCode=1;}
         const sources=Object.entries(report.sources||{}).map(([name,m])=>{const f=path.join(root,m.source),exists=fs.existsSync(f),after=exists?sha(fs.readFileSync(f)):null;return {path:name,...m,actualSha256:after,match:exists&&after===m.sha256};});
         const added=productionDirectories.flatMap(dir=>walk(path.join(root,dir))).map(f=>path.relative(root,f).replaceAll('\\','/')).filter(name=>!servedAssets.has(name));
         const drift=sources.filter(s=>!s.match),runnerMatch=!!report.tool&&sha(fs.readFileSync(fileURLToPath(import.meta.url)))===report.tool.sha256;
         report.sourceVerification={ok:drift.length===0&&added.length===0&&runnerMatch,count:sources.length,drift,added,runnerMatch,sources};if(!report.sourceVerification.ok){report.ok=false;report.freezeFailure='Frozen source/runner drift, missing file or added production file';process.exitCode=1;}
-        report.isolation={...report.isolation,user8080Touched:false,profile:profile||null,cleaned:(!profile||!fs.existsSync(profile))&&report.privateCleanup.chromeExited&&report.privateCleanup.httpClosed};
-        fs.writeFileSync(path.join(artifactDir,'source-verification.json'),JSON.stringify(report.sourceVerification,null,2)+'\n');
-        fs.writeFileSync(path.join(artifactDir,'browser-console.json'),JSON.stringify({console:report.console,exceptions:report.exceptions,dialogs:report.dialogs},null,2)+'\n');
+        report.isolation={...report.isolation,user8080Touched:false,profile:profile||null,cleaned:report.privateCleanup.treeExited&&report.privateCleanup.httpClosed,ownedProcessesExited:report.privateCleanup.treeExited,profileIntentionallyRetained:!!profile,profileExists:!!profile&&fs.existsSync(profile),directoriesDeleted:false};
+        writeJsonAtomicSync(path.join(artifactDir,'source-verification.json'),report.sourceVerification);
+        writeJsonAtomicSync(path.join(artifactDir,'browser-console.json'),{console:report.console,exceptions:report.exceptions,dialogs:report.dialogs});
         report.finishedAt = new Date().toISOString();
         report.hdAccepted=report.ok===true&&report.hdAccepted===true;
-        fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
+        writeReportAtomicSync(path.join(artifactDir,'result.json'),report);
         console.log('Artifacts:', artifactDir);
         if(report.ok)console.log(preflightOnly?'Readonly frozen source/route preflight passed; no browser or movie acceptance':castOnly?'Both real skills and independent native composition oracle passed; HD status remains explicit':'Actual natural preparation/public native save passed; no movie or HD acceptance');
     }

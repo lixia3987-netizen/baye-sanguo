@@ -17,8 +17,12 @@ npm run test:wood-runtime -- --staged --preflight-only --artifact-dir build/wood
 
 ## 实际测试范围
 
-省略 `--preflight-only` 会在独立浏览器及临时存储中，通过公开操作推进月份、招揽武将并保存原生双文件。准备有月份和操作预算，可能因条件不足而失败；不得将准备过程或原生存档本身计为高清技能验收。
+省略 `--preflight-only` 会在独立浏览器及独立存储中，通过公开操作推进月份、招揽武将并保存原生双文件。准备有月份和操作预算，可能因条件不足而失败；不得将准备过程或原生存档本身计为高清技能验收。
 
 `--cast-only --from-preparation <目录>` 只接受准备已通过、来源未漂移、私局已清理且原生存档完整匹配的报告。当前仍缺少通过这组条件的完整实战输入；不得用失败报告或修改后的存档绕过校验。真实施法、MP/伤害、数字等待以及高清与回退表现分别保留验收状态。
 
-运行实际测试需要 Chrome 或 Chromium；可通过 `CHROME` 环境变量指定程序路径。工具使用独立端口和临时浏览器目录，测试报告写入 `build/`，不提交本地战役存档和临时产物。
+当前实际测试的进程身份校验适用于 Windows。需要 Chrome、Chromium 或 Edge，可通过 `CHROME` 环境变量指定程序路径。工具使用独立端口，浏览器目录固定在本次输出目录的 `private-browser-profile/`，启动前须不存在。只结束经过 PID、创建时间、程序路径与命令行核实的测试进程；仅父进程退出不能作为清理通过依据。每次完整原生保存后及清理前的身份采样保存在 `owned-process-samples.jsonl`，无关进程不保存完整命令行。浏览器目录保留，不递归删除；`isolation.cleaned` 表示测试进程树与独立服务均已退出。
+
+报告使用分块写入并在完成后发布，不覆盖已有结果。较大的 `campaignObservations` 保存为完整的 `result.json.campaignObservations.ndjson`，主报告保留条数、字节数与 SHA-256 引用。读取时可使用 `scripts/hd-runtime-json.mjs` 的 `readCampaignObservations()`；须完整读取迭代器后才完成条数与摘要校验。其它存档与施法接受条件保持独立。测试报告、原生战役存档和浏览器目录均保存在忽略的 `build/`，不作为游戏素材提交。
+
+`npm run test:runtime-helpers` 单独检查进程身份计算与报告保存，不启动浏览器。完整 `npm test` 还会编译真实 C 专项，需要可用的 `cc` 或通过 `CC` 指定 C 编译器；已安装本项目 Windows emsdk 时，可将 `CC` 指向其 `upstream/bin/clang.exe`。
