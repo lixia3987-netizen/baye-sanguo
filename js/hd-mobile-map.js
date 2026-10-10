@@ -11,6 +11,7 @@
         'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdReportInputSeq', 'g_hdQtySession',
         'g_hdQtyInputSeq', 'g_hdFightInputSeq', 'g_hdRecordSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq', 'g_hdMarchPhase'];
     var MAP_FIELDS = EXIT_FIELDS.concat(['g_hdReportSeq', 'g_hdHelpInputSeq']);
+    var TARGET_FIELDS = MAP_FIELDS.concat(['g_hdMarchOrigin', 'g_hdMarchSelected']);
     function integer(n, min, max) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= min && n <= max; }
     function equal(a, b) { return !!a && !!b && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every(function (k) { return a[k] === b[k]; }); }
     // Native DEPARTED is terminal and remains 7 after battle settlement.
@@ -18,7 +19,7 @@
     function inactiveMarch(owner) { return owner.g_hdMarchPhase === 0 || owner.g_hdMarchPhase === 7; }
     function createController(environment) {
         var mounted = false, busy = false, timer = null, subscribed = false, arm = null, pendingExit = null;
-        var active = false, centeredGeneration = null;
+        var active = false, activeType = null, centeredGeneration = null, centeredMarch = null;
         var last = Object.freeze({active: false, mode: 'classic', landscape: false, cityIndex: null,
             libraryGeneration: null, exitEnabled: false, exitPending: false, reason: 'not-initialized'});
         function doc() { return environment.document; }
@@ -42,7 +43,10 @@
         }
         function paint(value, tipText) {
             var layer = node('hd-overworld'), body = doc() && doc().body;
-            if (body && body.classList) { body.classList.toggle('hd-mobile-map-on', value.active); }
+            if (body && body.classList) {
+                body.classList.toggle('hd-mobile-map-on', value.active);
+                body.classList.toggle('hd-mobile-march-target-on', value.active && value.ownerType === 'march-target');
+            }
             if (layer) { layer.hidden = !value.active; }
             var toggle = node('hd-mobile-map-mode'), focus = node('hd-mobile-map-focus'), exit = node('hd-mobile-exit');
             if (toggle) { toggle.textContent = value.mode === 'hd-map' ? '经典地图' : 'HD 地图'; toggle.setAttribute('aria-pressed', value.mode === 'hd-map' ? 'true' : 'false'); }
@@ -114,6 +118,59 @@
             } catch (e) { return null; }
         }
         function sameMap(a, b) { return !!a && !!b && a.data === b.data && equal(a.identity, b.identity) && equal(a.owner, b.owner); }
+        // TARGET_PICK is a separate native owner. Its complete city-module ticket
+        // proves the current origin's CITY_LINKR publication; an ordinary HUD cannot.
+        function readMarchTarget() {
+            if (hidden() || !landscape()) { return null; }
+            try {
+                var firstIdentity = identity(), baye = environment.baye, city = environment.BayeHdCityMenu;
+                if (!firstIdentity || !baye || !baye.hd || typeof baye.hd.ready !== 'function' || baye.hd.ready() !== true ||
+                    !city || typeof city.getMarchTargetTicket !== 'function' || typeof city.selectMarchTarget !== 'function' ||
+                    typeof city.confirmMarchTarget !== 'function' || typeof city.cancelMarch !== 'function') { return null; }
+                var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
+                function readOwner() {
+                    if (!data) { return null; }
+                    var value = {};
+                    ZERO.concat(TARGET_FIELDS).forEach(function (key) { value[key] = data[key]; });
+                    return value;
+                }
+                var owner = readOwner(), first = city.getMarchTargetTicket();
+                function ticketShape(ticket) {
+                    if (!ticket || ticket.data !== data || typeof ticket.key !== 'string' || !ticket.key ||
+                        ticket.ownerType !== 'march-target' || ticket.libraryGeneration !== firstIdentity.generation ||
+                        ticket.phase !== 4 || !integer(ticket.cityIndex, 0, 37) ||
+                        !integer(ticket.session, 1, 0xffffffff) || !integer(ticket.inputSeq, 1, 0xffffffff) ||
+                        !integer(ticket.mapInputSeq, 1, 0xffffffff) || !integer(ticket.selected, 1, 10) ||
+                        !Array.isArray(ticket.targets) || !ticket.targets.length || ticket.targets.length > 8) { return null; }
+                    var seen = {};
+                    if (!ticket.targets.every(function (index) {
+                        if (!integer(index, 0, 37) || index === ticket.cityIndex || seen[index]) { return false; }
+                        seen[index] = true; return true;
+                    })) { return null; }
+                    // Only the opaque data reference stays outside this bounded key.
+                    return JSON.stringify([ticket.key, ticket.libraryGeneration, ticket.ownerType, ticket.cityIndex,
+                        ticket.session, ticket.inputSeq, ticket.mapInputSeq, ticket.phase, ticket.selected, ticket.targets]);
+                }
+                var signature = ticketShape(first);
+                if (!owner || !signature || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 1 ||
+                    owner.g_hdBattlePick !== 1 || owner.g_hdMenuActive !== 0 || owner.g_hdMarchPhase !== 4 ||
+                    !integer(owner.g_hdMapCity, 0, 38) || !integer(owner.g_hdDetailGeneration, 1, 0xffffffff) ||
+                    !integer(owner.g_hdSpeGeneration, 1, 0xffffffff) ||
+                    !TARGET_FIELDS.every(function (key) { return integer(owner[key], 0, 0xffffffff); }) ||
+                    !ZERO.every(function (key) { return key === 'g_hdBattlePick' ? owner[key] === 1 : owner[key] === 0; }) ||
+                    owner.g_hdMarchOrigin !== first.cityIndex || owner.g_hdMarchSession !== first.session ||
+                    owner.g_hdMarchInputSeq !== first.inputSeq || owner.g_hdMapInputSeq !== first.mapInputSeq ||
+                    owner.g_hdMarchSelected !== first.selected) { return null; }
+                var again = city.getMarchTargetTicket();
+                if (signature !== ticketShape(again) || baye.data !== data || baye.hd.ready() !== true || hidden() || !landscape() ||
+                    !equal(owner, readOwner()) || !equal(firstIdentity, identity())) { return null; }
+                return {identity: firstIdentity, owner: owner, data: data, ticket: first, signature: signature};
+            } catch (e) { return null; }
+        }
+        function sameMarchTarget(a, b) {
+            return !!a && !!b && a.data === b.data && a.signature === b.signature &&
+                equal(a.identity, b.identity) && equal(a.owner, b.owner);
+        }
         function hudMatches(hud, token) {
             if (!hud || !token) { return false; }
             var owner = token.owner;
@@ -127,50 +184,87 @@
             if (busy) { return last; }
             busy = true;
             try {
-                var isLandscape = landscape(), currentMode = mode(), shared = map(), hud = null, sharedState = null, next = false, tipText = '', mapToken = null;
-                if (!hidden() && isLandscape && currentMode === 'hd-map' && shared && environment.BayeHdMobile &&
-                    typeof environment.BayeHdMobile.refresh === 'function' && typeof shared.debugSnapshot === 'function') {
-                    mapToken = readMap();
-                    hud = environment.BayeHdMobile.refresh();
-                    if (hudMatches(hud, mapToken) && sameMap(mapToken, readMap())) {
+                var isLandscape = landscape(), currentMode = mode(), shared = map(), hud = null, sharedState = null, next = false,
+                    tipText = '', mapToken = null, targetToken = null, targetPresentation = null, nextType = null;
+                if (!hidden() && isLandscape && currentMode === 'hd-map' && shared && typeof shared.debugSnapshot === 'function') {
+                    targetToken = readMarchTarget();
+                    if (targetToken) {
+                        // Clear the ordinary-city HUD; it does not authorize target selection.
+                        if (environment.BayeHdMobile && typeof environment.BayeHdMobile.refresh === 'function') { environment.BayeHdMobile.refresh(); }
                         sharedState = shared.debugSnapshot();
-                        var sharedOwnerCurrent = sameMap(mapToken, readMap());
-                        if (sharedOwnerCurrent && node('hd-mobile-map-tip') && integer(sharedState.selectedIndex, 0, 37) && typeof shared.getCities === 'function') {
-                            var selectedCities = shared.getCities(), selected = selectedCities && selectedCities[sharedState.selectedIndex];
-                            if (selected && selected.index === sharedState.selectedIndex && typeof selected.name === 'string' && selected.name && selected.kind !== 'owned') {
-                                tipText = selected.name + '不是己方城，请从己方城选择出征';
-                            }
-                            sharedOwnerCurrent = sameMap(mapToken, readMap());
+                        if (environment.BayeHdCityMenu && typeof environment.BayeHdCityMenu.getMarchPresentation === 'function') {
+                            targetPresentation = environment.BayeHdCityMenu.getMarchPresentation();
                         }
-                        var again = environment.BayeHdMobile.refresh();
-                        next = !!(sharedOwnerCurrent && hudMatches(again, mapToken) && sameMap(mapToken, readMap()) &&
-                            sharedState.presentationReady === true &&
+                        next = !!(sameMarchTarget(targetToken, readMarchTarget()) && sharedState.presentationReady === true &&
                             sharedState.mode === 'hd-map' && sharedState.phase === 'map');
-                        hud = again;
+                        if (next) {
+                            nextType = 'march-target';
+                            tipText = '点相邻敌城选择目标 · 在侧栏确认出征';
+                        }
+                    } else if (environment.BayeHdMobile && typeof environment.BayeHdMobile.refresh === 'function') {
+                        mapToken = readMap();
+                        hud = environment.BayeHdMobile.refresh();
+                        if (hudMatches(hud, mapToken) && sameMap(mapToken, readMap())) {
+                            sharedState = shared.debugSnapshot();
+                            var sharedOwnerCurrent = sameMap(mapToken, readMap());
+                            if (sharedOwnerCurrent && node('hd-mobile-map-tip') && integer(sharedState.selectedIndex, 0, 37) && typeof shared.getCities === 'function') {
+                                var selectedCities = shared.getCities(), selected = selectedCities && selectedCities[sharedState.selectedIndex];
+                                if (selected && selected.index === sharedState.selectedIndex && typeof selected.name === 'string' && selected.name && selected.kind !== 'owned') {
+                                    tipText = selected.name + '不是己方城，请从己方城选择出征';
+                                }
+                                sharedOwnerCurrent = sameMap(mapToken, readMap());
+                            }
+                            var again = environment.BayeHdMobile.refresh();
+                            next = !!(sharedOwnerCurrent && hudMatches(again, mapToken) && sameMap(mapToken, readMap()) &&
+                                sharedState.presentationReady === true && sharedState.mode === 'hd-map' && sharedState.phase === 'map');
+                            hud = again;
+                            if (next) { nextType = 'map'; }
+                        }
                     }
                 }
                 var exitToken = readExit();
-                if (next && !sameMap(mapToken, readMap())) { next = false; }
-                if (next !== active && !cancel()) { next = false; }
-                active = next;
-                if (active && hud && hud.visible && hud.ticket && centeredGeneration !== hud.ticket.libraryGeneration &&
+                function currentSurface() { return nextType === 'march-target' ? sameMarchTarget(targetToken, readMarchTarget()) : sameMap(mapToken, readMap()); }
+                if (next && !currentSurface()) { next = false; nextType = null; }
+                // A target picker never inherits an armed generic city EXIT. Its
+                // explicit sidebar cancel owns cancellation of the current march.
+                if (!exitToken || nextType === 'march-target') { arm = null; }
+                if ((next !== active || nextType !== activeType) && !cancel()) { next = false; nextType = null; }
+                active = next; activeType = next ? nextType : null;
+                if (active && nextType === 'march-target' && typeof shared.centerOnCity === 'function') {
+                    var centerKey = targetToken.identity.generation + ':' + targetToken.ticket.session + ':' + targetToken.ticket.cityIndex;
+                    if (centeredMarch !== centerKey) {
+                        shared.centerOnCity(targetToken.ticket.cityIndex);
+                        if (currentSurface()) { centeredMarch = centerKey; } else { cancel(); active = false; activeType = null; }
+                    }
+                } else if (active && hud && hud.visible && hud.ticket && centeredGeneration !== hud.ticket.libraryGeneration &&
                     typeof shared.centerOnCity === 'function') {
                     shared.centerOnCity(hud.cityIndex);
-                    if (sameMap(mapToken, readMap())) { centeredGeneration = hud.ticket.libraryGeneration; }
-                    else { cancel(); active = false; }
+                    if (currentSurface()) { centeredGeneration = hud.ticket.libraryGeneration; }
+                    else { cancel(); active = false; activeType = null; }
                 }
-                if (active && !sameMap(mapToken, readMap())) { cancel(); active = false; }
+                if (active && !currentSurface()) { cancel(); active = false; activeType = null; }
                 if (pendingExit && !sameExit(pendingExit, exitToken)) { pendingExit = null; }
                 var canExit = !!exitToken && !pendingExit && environment.VK_EXIT === 0x28 && typeof environment.sendKey === 'function';
-                last = Object.freeze({active: active, mode: currentMode, landscape: isLandscape,
-                    cityIndex: active && hud && hud.visible ? hud.cityIndex : null,
-                    libraryGeneration: active ? mapToken.identity.generation : null,
+                var isTarget = active && activeType === 'march-target';
+                var presentationCurrent = isTarget && targetPresentation && targetPresentation.phase === 4 &&
+                    targetPresentation.session === targetToken.ticket.session && targetPresentation.inputSeq === targetToken.ticket.inputSeq &&
+                    targetPresentation.origin === targetToken.ticket.cityIndex;
+                last = Object.freeze({active: active, ownerType: activeType, mode: currentMode, landscape: isLandscape,
+                    cityIndex: isTarget ? targetToken.ticket.cityIndex : active && hud && hud.visible ? hud.cityIndex : null,
+                    libraryGeneration: active ? (isTarget ? targetToken : mapToken).identity.generation : null,
+                    marchSession: isTarget ? targetToken.ticket.session : null, marchInputSeq: isTarget ? targetToken.ticket.inputSeq : null,
+                    marchSelected: isTarget ? targetToken.ticket.selected : null,
+                    targets: Object.freeze(isTarget ? targetToken.ticket.targets.slice() : []),
+                    pendingTarget: presentationCurrent && integer(targetPresentation.pendingTarget, 0, 37) &&
+                        targetToken.ticket.targets.indexOf(targetPresentation.pendingTarget) !== -1 ? targetPresentation.pendingTarget : null,
+                    confirmingTarget: !!(presentationCurrent && targetPresentation.confirmingTarget === true),
+                    status: presentationCurrent && typeof targetPresentation.status === 'string' ? targetPresentation.status : '',
                     exitEnabled: canExit, exitPending: !!pendingExit,
                     reason: active ? '' : hidden() ? 'hidden' : !isLandscape ? 'portrait' : currentMode === 'classic' ? 'classic' : 'not-current-map'});
                 paint(last, active ? tipText : null); return last;
             } catch (e) {
-                cancel(); active = false;
-                last = Object.freeze({active: false, mode: mode(), landscape: false, cityIndex: null,
+                cancel(); active = false; activeType = null;
+                last = Object.freeze({active: false, ownerType: null, mode: mode(), landscape: false, cityIndex: null,
                     libraryGeneration: null, exitEnabled: false, exitPending: !!pendingExit, reason: 'read-failed'});
                 paint(last); return last;
             } finally { busy = false; }

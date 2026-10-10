@@ -17,7 +17,9 @@
         'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdDetailGeneration', 'g_hdQtyActive', 'g_hdQtySession',
         'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady',
         'g_hdQtyMin', 'g_hdQtyMax', 'g_hdQtyValue', 'g_hdMarchPhase', 'g_hdMarchSession',
-        'g_hdMarchInputSeq', 'g_hdReportActive', 'g_hdReportSeq', 'g_hdReportInputSeq',
+        'g_hdMarchInputSeq', 'g_hdMarchOrigin', 'g_hdMarchSelected', 'g_hdMarchSeq',
+        'g_hdMarchOk', 'g_hdMarchCity', 'g_hdMarchObj', 'g_hdReportActive', 'g_hdReportSeq', 'g_hdReportInputSeq',
+        'g_hdReportKind', 'g_hdReportPerson',
         'g_hdHelpActive', 'g_hdHelpInputSeq', 'g_hdFightActive', 'g_hdRecordActive',
         'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive', 'g_hdAttackActive',
         'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive',
@@ -64,30 +66,91 @@
             !mobileInteger(menu.detailGeneration, 0xffffffff) || !menu.detailGeneration) { return false; }
         return (menu.kind !== 3 && menu.kind !== 4) || actualMenuIds(menu) !== null;
     }
+    function mobileMarchLinks(data, origin) {
+        // cityLinks publishes a shared scratch array without an origin stamp.
+        // Authenticate that array against this origin's real CITY_LINKR row,
+        // rather than treating an empty or retained UI list as a valid road.
+        try {
+            var hex = global.dynLib;
+            if (typeof hex !== 'string' || hex.length !== 207195 * 2 || !mobileInteger(origin, 37) ||
+                !data.g_Cities || data.g_Cities.length < 38 || !mobileInteger(data.g_PlayerKing, 199) ||
+                typeof baye.hd.cityLinks !== 'function') { return null; }
+            function little(offset, size) {
+                if (!mobileInteger(offset, 207195 - size)) { throw new Error('link bounds'); }
+                var out = 0;
+                for (var i = 0; i < size; i++) {
+                    var byte = hex.slice((offset + i) * 2, (offset + i + 1) * 2);
+                    if (!/^[0-9a-f]{2}$/i.test(byte)) { throw new Error('link bytes'); }
+                    out += parseInt(byte, 16) * Math.pow(256, i);
+                }
+                return out;
+            }
+            var address = little((59 - 1) * 4, 4), length = little(address, 4);
+            var count = little(address + 6, 2), fixed = little(address + 8, 4);
+            if (little(address + 4, 2) !== 59 || count !== 1 || little(address + 12, 1) !== 0 ||
+                address + length > 207195 || length < 14 + 38 * 16 || fixed && fixed !== length - 14) { return null; }
+            var mask = [], indexes = [];
+            for (var n = 0; n < 8; n++) {
+                var id = little(address + 14 + origin * 16 + n, 1);
+                id = id === 0 || id === 255 || id > 38 ? 0 : id;
+                mask.push(id);
+                if (id) { indexes.push(id - 1); }
+            }
+            if (!indexes.length || !data.g_hdCityLinks || data.g_hdCityLinks.length < 8) { return null; }
+            var loaded = baye.hd.cityLinks(origin), actual = [];
+            for (var k = 0; k < 8; k++) {
+                var value = data.g_hdCityLinks[k];
+                if (!mobileInteger(value, 255) || value !== mask[k]) { return null; }
+                actual.push(value);
+            }
+            if (!Array.isArray(loaded) || loaded.length !== indexes.length || !loaded.every(function (entry, i) {
+                return entry && entry.index === indexes[i] && entry.id === mask.filter(function (v) { return v; })[i];
+            })) { return null; }
+            var belongs = [], targets = [], mine = data.g_PlayerKing + 1;
+            for (var c = 0; c < 38; c++) {
+                var belong = data.g_Cities[c] && data.g_Cities[c].Belong;
+                if (!mobileInteger(belong, 200)) { return null; }
+                belongs.push(belong);
+            }
+            if (belongs[origin] !== mine) { return null; }
+            indexes.forEach(function (index) { if (index !== origin && belongs[index] !== mine) { targets.push(index); } });
+            if (global.dynLib !== hex) { return null; }
+            return {origin: origin, mask: actual, belongs: belongs, playerKing: data.g_PlayerKing, targets: targets};
+        } catch (e) { return null; }
+    }
     function mobileNativeSnapshot() {
         var base = mobileBase();
         if (!base) { return null; }
         try {
             var before = mobileRaw(base.data), menu = baye.hd.menuItems(), march = baye.hd.march(), qty = baye.hd.qty();
+            var report = typeof baye.hd.report === 'function' ? baye.hd.report() : null;
+            var route = march && march.phase === MARCH.TARGET_PICK ? mobileMarchLinks(base.data, march.origin) : null;
             var after = mobileRaw(base.data), latest = mobileBase();
             if (JSON.stringify(before) !== JSON.stringify(after) || !latest || latest.data !== base.data ||
                 latest.identity.generation !== base.identity.generation || latest.identity.sha256 !== base.identity.sha256 ||
                 !MOBILE_BLOCKERS.every(function (key) { return before[key] === 0; }) ||
-                !march || !['pick','battlePick','mapCity','mapInputSeq','phase','session','inputSeq','origin','selected','seq'].every(function (key) {
+                !march || !['pick','battlePick','mapCity','mapInputSeq','phase','session','inputSeq','origin','selected','seq','ok','city','obj'].every(function (key) {
                     return mobileInteger(march[key], 0xffffffff);
                 }) || !qty || qty.protocol !== true || !['active','session','inputSeq','lastKey','cursor','step','ready','min','max','value'].every(function (key) {
                     return mobileInteger(qty[key], 65535);
                 }) || march.mapCity !== before.g_hdMapCity || march.pick !== before.g_hdMapPick ||
                 march.battlePick !== before.g_hdBattlePick || march.mapInputSeq !== before.g_hdMapInputSeq ||
                 march.phase !== before.g_hdMarchPhase || march.session !== before.g_hdMarchSession ||
-                march.inputSeq !== before.g_hdMarchInputSeq || qty.active !== before.g_hdQtyActive ||
+                march.inputSeq !== before.g_hdMarchInputSeq || march.origin !== before.g_hdMarchOrigin ||
+                march.selected !== before.g_hdMarchSelected || march.seq !== before.g_hdMarchSeq ||
+                march.ok !== before.g_hdMarchOk || march.city !== before.g_hdMarchCity || march.obj !== before.g_hdMarchObj ||
+                march.phase === MARCH.TARGET_PICK && !route || qty.active !== before.g_hdQtyActive ||
                 qty.session !== before.g_hdQtySession || qty.inputSeq !== before.g_hdQtyInputSeq ||
                 qty.value !== before.g_hdQtyValue || qty.min !== before.g_hdQtyMin || qty.max !== before.g_hdQtyMax ||
                 !menu || menu.active !== before.g_hdMenuActive || menu.context !== before.g_hdMenuContext ||
                 menu.kind !== before.g_hdMenuKind || menu.seq !== before.g_hdMenuSeq || menu.count !== before.g_hdMenuCount ||
                 menu.index !== before.g_hdMenuIndex || menu.detailGeneration !== before.g_hdDetailGeneration ||
-                menu.active && !mobileMenuComplete(menu)) { return null; }
-            return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty};
+                menu.active && !mobileMenuComplete(menu) || before.g_hdReportActive &&
+                (!report || report.active !== 1 || report.seq !== before.g_hdReportSeq || !report.seq ||
+                    report.inputSeq !== before.g_hdReportInputSeq || report.kind !== before.g_hdReportKind ||
+                    report.person !== before.g_hdReportPerson || typeof report.text !== 'string' || !report.text)) { return null; }
+            return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty,
+                report: report, route: route};
         } catch (e) { return null; }
     }
     function mobileTicketFrom(value, reason) {
@@ -97,14 +160,21 @@
         // DEPARTED is retained after settlement. Normal CITY/qty uses the
         // current map city; only the existing strategy handoff keeps its origin.
         var activeMarch = march.phase >= MARCH.PERSONS && march.phase <= MARCH.ARMOUT;
-        var strategyMarch = /^strategy-end/.test(reason || '') && march.phase === MARCH.DEPARTED;
+        var strategyMarch = march.phase === MARCH.DEPARTED && (/^strategy-end/.test(reason || '') || !reason &&
+            (state.marchReady || state.handoff)) && freshMarchOk();
         var city = (activeMarch || strategyMarch) && march.session ? march.origin : march.mapCity - 1, ownerType = '';
         if (city < 0 || city > 37 || reason !== 'open-city' && state.cityIndex >= 0 && state.cityIndex !== city) { return null; }
         if (raw.g_hdHelpActive) { return null; }
         if (raw.g_hdReportActive) {
-            if (reason !== 'march-report-ok' && reason !== 'dismiss-live-disaster' && reason !== 'dismiss-leftover-help') { return null; }
+            if (reason && reason !== 'march-report-ok') { return null; }
             if (menu.active || qty.active || [MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(march.phase) < 0 ||
-                !march.session || march.origin !== city) { return null; }
+                !mobileBoundMarch(march) || !march.inputSeq || !value.report) { return null; }
+            // TARGET_TIP is the first general's ShowGReport. Rejection and
+            // departure are GamMsgBox reports with the native no-person token.
+            if (march.phase === MARCH.TARGET_TIP ? value.report.kind !== 2 ||
+                !mobileInteger(value.report.person, 199) || march.selected < 1 :
+                value.report.kind !== 1 || value.report.person !== 65535 ||
+                march.phase === MARCH.ARMOUT && march.selected < 1) { return null; }
             ownerType = 'march-report';
         } else if (qty.active === 1) {
             if (menu.active || qty.ready !== 1 || !qty.session || qty.min > qty.value || qty.value > qty.max ||
@@ -112,25 +182,33 @@
                 march.battlePick || march.phase !== MARCH.IDLE && march.phase !== MARCH.DEPARTED &&
                     !(march.phase === MARCH.FOOD && march.origin === city)) { return null; }
             ownerType = 'qty';
-        } else if (menu.active === 1 && menu.context === 1 && menu.kind >= 1 && menu.kind <= 4 &&
+        } else if (!strategyMarch && menu.active === 1 && menu.context === 1 && menu.kind >= 1 && menu.kind <= 4 &&
             !march.pick && !march.battlePick && (march.phase === MARCH.IDLE || march.phase === MARCH.DEPARTED ||
-                march.phase === MARCH.PERSONS && march.origin === city)) {
+                march.phase === MARCH.PERSONS && march.origin === city && menu.kind === 3)) {
             ownerType = 'city';
-        } else if (/^strategy-end/.test(reason || '') && !qty.active && !march.battlePick &&
-            (menu.active === 1 && menu.context === 2 && mobileMenuComplete(menu) ||
+        } else if (strategyMarch && mobileBoundMarch(march) && !qty.active && !march.battlePick &&
+            (menu.active === 1 && (menu.context === 1 || menu.context === 2) && mobileMenuComplete(menu) ||
             !menu.active && march.pick === 1 && march.mapInputSeq > 0 && march.phase === MARCH.DEPARTED)) {
             ownerType = 'strategy';
-        } else if (reason && /^march-target/.test(reason) && !menu.active && !qty.active && march.pick === 1 &&
-            march.battlePick === 1 && march.phase === MARCH.TARGET_PICK && march.origin === state.cityIndex && march.session) {
+        } else if ((!reason || /^march-target/.test(reason) || reason === 'march-cancel') && !menu.active && !qty.active && march.pick === 1 &&
+            march.battlePick === 1 && march.mapInputSeq > 0 && march.phase === MARCH.TARGET_PICK &&
+            mobileBoundMarch(march) && march.selected > 0 && march.selected <= 10 && value.route) {
             ownerType = 'march-target';
         } else { return null; }
         var ticket = {libraryGeneration: value.libraryGeneration, cityIndex: city, ownerType: ownerType,
             menuContext: menu.context, menuKind: menu.kind, menuSeq: menu.seq,
             detailGeneration: menu.detailGeneration, session: qty.active ? qty.session : march.session,
-            inputSeq: qty.active ? qty.inputSeq : march.inputSeq};
-        ticket.key = JSON.stringify([ticket.libraryGeneration, city, ownerType, raw, menu, march, qty]);
+            inputSeq: qty.active ? qty.inputSeq : march.inputSeq,
+            phase: march.phase, origin: march.origin, selected: march.selected, mapInputSeq: march.mapInputSeq};
+        if (ownerType === 'march-target') { ticket.targets = Object.freeze(value.route.targets.slice()); }
+        ticket.key = JSON.stringify([ticket.libraryGeneration, city, ownerType, raw, menu, march, qty, value.report, value.route]);
         Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
         return ticket;
+    }
+    function mobileBoundMarch(march) {
+        return !!(march && march.session && state.marchSession === march.session &&
+            state.marchOriginIndex === march.origin && state.cityIndex === march.origin &&
+            state.open && state.layer === 'deep' && state.deepKind === 'person-city');
     }
     function mobileInputTicket(reason) {
         if (!shouldShowHd()) { return null; }
@@ -142,18 +220,48 @@
         var ticket = mobileInputTicket();
         if (!ticket) { return false; }
         if (ticket.ownerType === 'qty') { return state.layer === 'deep'; }
+        if (['march-report', 'march-target', 'strategy'].indexOf(ticket.ownerType) >= 0) {
+            return state.layer === 'deep' && state.deepKind === 'person-city';
+        }
         return ticket.ownerType === 'city' && (state.layer === 'root' || state.layer === 'status' ? ticket.menuKind === 1 :
             state.layer === 'sub' ? ticket.menuKind === 2 : ticket.menuKind === 3 || ticket.menuKind === 4);
     }
+    function getMarchTargetTicket() {
+        if (!mobileHost) { return null; }
+        var ticket = mobileInputTicket('march-target');
+        return ticket && ticket.ownerType === 'march-target' ? ticket : null;
+    }
+    function sameMobileMarchTicket(expected, current) {
+        return !!current && (!expected || expected.data === current.data && expected.key === current.key);
+    }
+    function getMarchPresentation() {
+        var ticket = mobileHost ? mobileInputTicket() : null, m = currentMarch();
+        if (!ticket || !m || !mobileBoundMarch(m)) { return null; }
+        return Object.freeze({ready: true, phase: ticket.phase, origin: ticket.origin, session: ticket.session,
+            inputSeq: ticket.inputSeq, selected: ticket.selected, targets: ticket.targets || Object.freeze([]),
+            pendingTarget: state.pendingTarget, confirmingTarget: !!state.confirmingTarget,
+            status: [null, '选择出征将领', '选择随军粮草', '选择目标城', '选择目标城',
+                '请重新选择目标', '确认部队出发', '部队已出发'][ticket.phase] || ''});
+    }
     function retireInteraction(reason) {
+        // Retire work, not the evidence of a key already delivered to the
+        // same native march. Reusing that inputSeq must never send it twice.
+        var live = mobileHost ? currentMarch() : null;
+        var keepMarchReceipt = live && mobileBoundMarch(live) &&
+            Number(live.phase) >= MARCH.PERSONS && Number(live.phase) <= MARCH.DEPARTED &&
+            !/library|configure/.test(String(reason || ''));
+        var submitted = keepMarchReceipt ? state.marchSubmittedTarget : null;
+        var continued = keepMarchReceipt ? state.marchContinueKey : '';
+        var committed = keepMarchReceipt ? state.marchTargetInputKey : '';
+        var cancelled = keepMarchReceipt ? state.marchCancelKey : '';
         invalidateMarchWork(); invalidateQtyWork(); stopMarchWatch();
         state.landToken += 1; state.originRetryBusy = false;
-        state.pendingTarget = null; state.keepPendingTarget = null; state.marchSubmittedTarget = null;
+        state.pendingTarget = null; state.keepPendingTarget = null; state.marchSubmittedTarget = submitted;
         state.personPagePointer = null; state.backPointerOwner = null; state.deepPointerOwner = null;
         state.toolPointerOwner = null; state.personPagePending = null; state.toolPagePending = null;
         state.personModeResume = null; state.nativeMenuRequest = null; state.nativeMenuCommit = '';
-        state.activeQueueReason = ''; state.qtyWaitKey = ''; state.marchContinueKey = '';
-        state.marchTargetInputKey = ''; state.marchCancelKey = ''; state.marchFoodCommitSent = false;
+        state.activeQueueReason = ''; state.qtyWaitKey = ''; state.marchContinueKey = continued;
+        state.marchTargetInputKey = committed; state.marchCancelKey = cancelled; state.marchFoodCommitSent = false;
         mobileRetireReason = String(reason || 'retired');
         return true;
     }
@@ -520,7 +628,10 @@
         var owner = { session: Number(m.session), inputSeq: Number(m.inputSeq) };
         // ARMOUT precedes AddFightOrder. Its confirmation acknowledges the
         // report; only the later matching order acknowledges departure.
-        engineSendKey(VK.ENTER, 'march-report-ok');
+        if (!engineSendKey(VK.ENTER, 'march-report-ok')) {
+            if (state.marchContinueKey === key) { state.marchContinueKey = ''; }
+            return false;
+        }
         if (global.BayeHdDialog && typeof BayeHdDialog.close === 'function') {
             BayeHdDialog.close({ silent: true, marchOwner: owner });
         }
@@ -590,6 +701,12 @@
 
     function cityLcdPresentation() {
         if (!state.open || !shouldShowHd() || mobileHost && !mobileShellReady()) { return 'passthrough'; }
+        if (mobileHost) {
+            var mobileOwner = mobileInputTicket();
+            if (mobileOwner && ['march-report', 'march-target', 'strategy'].indexOf(mobileOwner.ownerType) >= 0) {
+                return state.showLcd ? 'on' : 'off';
+            }
+        }
         // The native report/help owner can temporarily take over a retained
         // city menu. Keep its LCD fallback, regardless of the city preference.
         try {
@@ -1345,6 +1462,10 @@
     }
 
     function isMarchNeighbor(cityIndex) {
+        if (mobileHost) {
+            var ticket = getMarchTargetTicket();
+            return !!ticket && ticket.targets.indexOf(Number(cityIndex)) >= 0;
+        }
         var links = cityLinkIndexes();
         var i;
         if (!links || !links.length) {
@@ -1533,9 +1654,13 @@
         return null;
     }
 
-    function selectMarchTarget(cityIndex) {
+    function selectMarchTarget(cityIndex, expectedTicket) {
         var m = bindMarchSession();
         cityIndex = Number(cityIndex);
+        var initialTarget = mobileHost ? getMarchTargetTicket() : null;
+        if (mobileHost && !sameMobileMarchTicket(expectedTicket, initialTarget)) {
+            return { skipped: 'unverified-target-owner' };
+        }
         if (!m || Number(m.phase) !== MARCH.TARGET_PICK || !Number(m.pick) ||
             !Number(m.battlePick)) {
             state.marchHint = '请先完成选将和粮草确认，再选择目标城。';
@@ -1552,19 +1677,29 @@
         if (state.confirmingTarget) {
             return { skipped: 'confirmation-pending', cityIndex: cityIndex };
         }
+        // Name getters can reenter the engine. Recheck the complete native
+        // target ticket after rendering metadata and before retaining a choice.
+        var targetName = cityName(cityIndex), mobileTarget = mobileHost ? getMarchTargetTicket() : null;
+        if (mobileHost && (!sameMobileMarchTicket(initialTarget, mobileTarget) || mobileTarget.targets.indexOf(cityIndex) < 0)) {
+            return { skipped: 'target-owner-changed' };
+        }
         state.walkToken += 1;
         state.walkBusy = false;
         markTargetSelected(cityIndex);
-        state.marchHint = '已选择「' + cityName(cityIndex) + '」，点击「确认出征」后出发。';
+        state.marchHint = '已选择「' + targetName + '」，点击「确认出征」后出发。';
         render();
         return { selected: cityIndex };
     }
 
-    function confirmMarchTarget(cityIndex) {
+    function confirmMarchTarget(cityIndex, expectedTicket) {
         var m = bindMarchSession();
         cityIndex = Number(cityIndex == null ? state.pendingTarget : cityIndex);
+        var mobileTarget = mobileHost ? getMarchTargetTicket() : null;
+        if (mobileHost && (!sameMobileMarchTicket(expectedTicket, mobileTarget) || mobileTarget.targets.indexOf(cityIndex) < 0)) {
+            return { skipped: 'unverified-target-owner' };
+        }
         if (state.pendingTarget == null || cityIndex !== Number(state.pendingTarget)) {
-            return selectMarchTarget(cityIndex);
+            return selectMarchTarget(cityIndex, expectedTicket);
         }
         if (!m || !shouldShowHd() || Number(m.phase) !== MARCH.TARGET_PICK ||
             !Number(m.pick) || !Number(m.battlePick)) {
@@ -1579,11 +1714,11 @@
         state.acceptMarchOk = true;
         state.confirmingTarget = true;
         state.marchSubmittedTarget = cityIndex;
-        state.marchHint = '正在对准「' + cityName(cityIndex) + '」…';
-        return walkMarchTarget(cityIndex, m);
+        state.marchHint = mobileHost ? '正在确认目标城…' : '正在对准「' + cityName(cityIndex) + '」…';
+        return walkMarchTarget(cityIndex, m, mobileTarget);
     }
 
-    function walkMarchTarget(cityIndex, initial) {
+    function walkMarchTarget(cityIndex, initial, mobileTarget) {
         var to = cityEngineTile(cityIndex);
         if (!to || !readEngineCursor()) {
             state.confirmingTarget = false;
@@ -1599,8 +1734,14 @@
         state.walkBusy = true;
         function valid() {
             var m = currentMarch();
+            var ticket = mobileHost ? getMarchTargetTicket() : null;
+            if (mobileHost && (!ticket || !mobileTarget || ticket.data !== mobileTarget.data ||
+                ticket.libraryGeneration !== mobileTarget.libraryGeneration || ticket.origin !== mobileTarget.origin ||
+                ticket.session !== mobileTarget.session || ticket.inputSeq !== mobileTarget.inputSeq ||
+                ticket.mapInputSeq !== mobileTarget.mapInputSeq || ticket.selected !== mobileTarget.selected ||
+                ticket.targets.indexOf(cityIndex) < 0)) { return false; }
             return epoch === marchEpoch && token === state.walkToken && shouldShowHd() &&
-                m && Number(m.phase) === MARCH.TARGET_PICK && Number(m.pick) &&
+                m && Number(m.phase) === MARCH.TARGET_PICK && Number(m.pick) && Number(m.battlePick) &&
                 marchInputKey(m) === inputKey;
         }
         function stop(hint) {
@@ -3470,6 +3611,14 @@
     }
 
     function otherCities(except) {
+        if (mobileHost && liveTargetStep()) {
+            var ticket = getMarchTargetTicket();
+            if (!ticket) { return []; }
+            var targets = ticket.targets.map(function (index, i) {
+                return {i: i, cityIndex: index, name: cityName(index) || ('城' + (index + 1)), enemy: true};
+            });
+            return sameMobileMarchTicket(ticket, getMarchTargetTicket()) ? targets : [];
+        }
         var data = engineData();
         var list = [];
         if (!data || !data.g_Cities) {
@@ -4603,6 +4752,7 @@
                 '<button type="button" data-hd-digit="8">8</button>' +
                 '<button type="button" data-hd-digit="9">9</button>' +
                 '<button type="button" data-hd-qty-ok>确认</button>' +
+                (mobileHost ? '<button type="button" data-hd-qty-cancel>取消</button>' : '') +
                 '</div>';
             list.appendChild(bar);
             return;
@@ -4651,6 +4801,16 @@
         }
         var liveMarch = currentMarch();
         if (liveMarch && [MARCH.TARGET_TIP, MARCH.REJECT, MARCH.ARMOUT].indexOf(Number(liveMarch.phase)) >= 0) {
+            if (mobileHost) {
+                var reportReading = mobileNativeSnapshot();
+                var reportTicket = mobileTicketFrom(reportReading);
+                if (reportTicket && reportTicket.ownerType === 'march-report') {
+                    var actualReport = document.createElement('p');
+                    actualReport.setAttribute('data-hd-march-report', '');
+                    actualReport.textContent = reportReading.report.text;
+                    list.appendChild(actualReport);
+                }
+            }
             var cont = document.createElement('button');
             cont.type = 'button';
             cont.setAttribute('data-hd-march-continue', '');
@@ -4669,6 +4829,13 @@
             fin.innerHTML = '<p>已点将 ' + (state.pickedPersons || 0) +
                 ' 人 · 完成后选择随军粮草和目标城</p>' +
                 '<button type="button" data-hd-finish-persons>完成选将 · 选粮出发</button>';
+            if (mobileHost && !state.pickedPersons) {
+                var unselectedCancel = document.createElement('button');
+                unselectedCancel.type = 'button';
+                unselectedCancel.setAttribute('data-hd-march-person-cancel', '');
+                unselectedCancel.textContent = '取消出征';
+                fin.appendChild(unselectedCancel);
+            }
             list.appendChild(fin);
         }
         if (usesMapCursor(state.deepKind, state.deepStep)) {
@@ -4881,7 +5048,7 @@
                     (state.marchReady || freshMarchOk())
                     ? '部队已出发'
                     : (usesMapCursor(state.deepKind, state.deepStep)
-                        ? '目标城池（方向键对齐引擎光标）'
+                            ? (mobileHost ? '选择目标城' : '目标城池（方向键对齐引擎光标）')
                         : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具' : '人物')));
             if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
                 var shownHint = displayWizardStep();
@@ -4891,7 +5058,7 @@
                 }
             }
             setText(sub, (state.deepLabel || '深层') + ' · ' + stepHint +
-                (state.showLcd ? ' · 经典 LCD 对照' : ' · 光标与引擎同步'));
+                (state.showLcd ? ' · 经典 LCD 对照' : mobileHost ? '' : ' · 光标与引擎同步'));
             hideAllLayers();
             if (deep) {
                 deep.hidden = false;
@@ -5797,8 +5964,9 @@
         return !!state.handoff;
     }
 
-    function cancelMarch() {
+    function cancelMarch(expectedTicket) {
         var m = currentMarch();
+        if (mobileHost && !sameMobileMarchTicket(expectedTicket, getMarchTargetTicket())) { return false; }
         if (!m || Number(m.phase) !== MARCH.TARGET_PICK || !shouldShowHd()) { return false; }
         var key = marchInputKey(m);
         if (state.marchCancelKey === key) { return false; }
@@ -5807,6 +5975,15 @@
         engineSendKey(VK.EXIT, 'march-cancel');
         scheduleMarchWatch();
         return true;
+    }
+    function cancelUnselectedMarch() {
+        var m = currentMarch(), ticket = mobileHost ? mobileInputTicket() : null;
+        if (!mobileHost || !ticket || ticket.ownerType !== 'city' || ticket.menuKind !== 3 ||
+            !m || !mobileBoundMarch(m) || m.phase !== MARCH.PERSONS || m.selected !== 0 ||
+            state.pickedPersons || state.queue.length || state.sending || state.nativeMenuRequest) { return false; }
+        var sent = engineSendKey(VK.EXIT, 'finish-persons');
+        if (sent) { scheduleMarchWatch(); }
+        return sent;
     }
 
     function reportText() {
@@ -6408,6 +6585,12 @@
                     finishPersonPick();
                     return;
                 }
+                if (t.getAttribute && t.getAttribute('data-hd-march-person-cancel') != null) {
+                    ev.preventDefault(); ev.stopPropagation(); cancelUnselectedMarch(); return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-qty-cancel') != null) {
+                    ev.preventDefault(); ev.stopPropagation(); cancelQty(); return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-confirm-march') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
@@ -6938,6 +7121,8 @@
         isActive: function () { return !!(state.open && shouldShowHd() && mobileShellReady() && cityLcdPresentation() === 'off'); },
         getLcdPresentation: cityLcdPresentation,
         getInputTicket: function () { return mobileHost ? mobileInputTicket() : null; },
+        getMarchTargetTicket: getMarchTargetTicket,
+        getMarchPresentation: getMarchPresentation,
         getMode: getMenuMode,
         setMode: setMenuMode,
         syncMode: syncMode,

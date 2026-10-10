@@ -115,7 +115,7 @@ const worldSource = `(() => {
     people:Array.from({length:n},(_,i)=>take(d.g_Persons[i],['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'])),
     cities:Array.from({length:nc},(_,i)=>take(d.g_Cities[i],['Belong','SatrapId','State','AvoidCalamity','PeopleDevotion','Commerce','Money','Food','MothballArms','PersonQueue','Persons'])),
     queue:Array.from(d.g_PersonsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),
-    config:{enable16bitConsumeMoney:Number(d.g_engineConfig.enable16bitConsumeMoney),
+    config:{enable16bitConsumeMoney:Number(d.g_engineConfig.enable16bitConsumeMoney),checkRedundantOnAddPerson:Number(d.g_engineConfig.checkRedundantOnAddPerson),
       disableExpGrowing:Number(d.g_engineConfig.disableExpGrowing),maxLevel:Number(d.g_engineConfig.maxLevel),
       disableAllPersonReport:Number(d.g_engineConfig.disableAllPersonReport)},
     orders:Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>take(d.g_OrderQueue[i],['OrderId','City','Person','Object','TimeCount','Food']))};
@@ -172,19 +172,21 @@ async function unusedPort() {
 }
 
 export async function main(args=process.argv.slice(2)) {
-  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects;
+  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only');
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
-  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case='));
+  const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
-    args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&[reportsOnly,portraitsOnly,battleOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
+    args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    marchFlags.length<=1&&(!marchFlags.length||marchOnly)&&[844,667].includes(marchWidth)&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
   const profile=path.join(out,'private-browser-profile');fs.mkdirSync(profile);
-  const report={schemaVersion:1,reportsOnly,portraitsOnly,battleOnly,battleEffects,effectsCase:battleEffects?effectsCase:null,effectsAccepted:false,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:battleOnly?'Original mobile battle with trusted emulated touch after a genuine fresh public march; no native writes, real-device or full-HD claim':portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
+  const report={schemaVersion:1,reportsOnly,portraitsOnly,battleOnly,battleEffects,marchOnly,marchWidth:marchOnly?marchWidth:null,marchAccepted:false,effectsCase:battleEffects?effectsCase:null,effectsAccepted:false,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:marchOnly?'Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim':battleOnly?'Original mobile battle with trusted emulated touch after a genuine fresh public march; no native writes, real-device or full-HD claim':portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
     startedAt:new Date().toISOString(),ok:false,accepted:false,realDeviceAccepted:false,reportInteractionAccepted:false,recruitmentCommitted:false,battleAccepted:false,fullHdAccepted:false,
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
@@ -488,6 +490,7 @@ export async function main(args=process.argv.slice(2)) {
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
+    if(marchOnly){for(const f of ['scripts/hd-mobile-march-runtime-checks.mjs','scripts/hd-mobile-march-runtime-oracle.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','css/hd-mobile.css'])freeze(f);}
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
     if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','scripts/hd-mobile-successor-runtime-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
@@ -554,7 +557,7 @@ export async function main(args=process.argv.slice(2)) {
       if(menu.active!==1||menu.context!==4||menu.kind!==3||JSON.stringify(first)!==JSON.stringify(last)||JSON.stringify(menu)!==JSON.stringify(again))throw Error('Native king census owner changed');
       return {kings:first.kings,index:first.index,currentId:first.currentId,menu,cities};})()`);
     report.initialKingSelection={census:kingCensus};
-    const selection=battleOnly?{selected:kingCensus.kings.map((k,index)=>({...k,index,ownedCount:kingCensus.cities.filter(c=>c.belong===k.id+1).length})).find(k=>k.name==='马腾')}:chooseMultiCityKing(kingCensus),chosenKing=selection.selected;
+    const selection=battleOnly||marchOnly?{selected:kingCensus.kings.map((k,index)=>({...k,index,ownedCount:kingCensus.cities.filter(c=>c.belong===k.id+1).length})).find(k=>k.name==='马腾')}:chooseMultiCityKing(kingCensus),chosenKing=selection.selected;
     assert.ok(chosenKing&&chosenKing.ownedCount>=2,'Actual selected original multi-city lord');Object.assign(report.initialKingSelection,selection);
     for(let i=kingCensus.index;i<chosenKing.index;i++)await key(0x23,'Select actual multi-city king row');
     for(let i=kingCensus.index;i>chosenKing.index;i--)await key(0x22,'Select actual multi-city king row');
@@ -569,7 +572,11 @@ export async function main(args=process.argv.slice(2)) {
     const initialMapCity=(await evaluate(readSource)).mapCity,current=all.find(c=>c.index===initialMapCity),otherOwned=owned.find(c=>c.index!==initialMapCity);
     assert.ok(current&&current.kind==='owned'&&otherOwned);report.selectedCities={current,otherOwned,nonOwned:foreign};
     await until('mobile city/dialog host modules','window.BayeHdCityMenu&&window.BayeHdDialog&&window.BayeHdMobileCity&&typeof BayeHdMobileCity.isActive==="function"');
-    if(battleOnly){
+    if(marchOnly){
+      const {runMobileMarchChecks}=await import('./hd-mobile-march-runtime-checks.mjs');
+      await runMobileMarchChecks({report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
+        readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes});
+    }else if(battleOnly){
       const {runMobileBattleChecks}=await import('./hd-mobile-battle-runtime-checks.mjs');
       const context={report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
         readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes};
@@ -581,6 +588,7 @@ export async function main(args=process.argv.slice(2)) {
         readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});
     }else await cityChecks();
   }catch(error){report.ok=false;report.accepted=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);
+    if(marchOnly&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.marchKeyTrace=await evaluate('window.__mobileMarchKeyTrace');}catch{report.failureMarchInputsUnavailable=true;}}
     if(battleEffects&&cdp){try{report.effectTrace=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.trace');report.effectReports=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.reports');
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');}catch{report.failureEffectsUnavailable=true;}}
     if(portraitsOnly&&cdp){try{report.failurePortrait=await evaluate('window.BayeHdMobilePortraits&&BayeHdMobilePortraits.debugSnapshot()');}catch{report.failurePortraitUnavailable=true;}}

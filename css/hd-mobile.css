@@ -236,6 +236,45 @@
 .hd-mobile-page .hd-dialog-footer { flex: 0 0 auto; margin: 0; gap: 8px; }
 .hd-mobile-page .hd-city-menu-footer button,
 .hd-mobile-page .hd-dialog-footer button { box-sizing: border-box; min-width: 80px; min-height: 44px; font-size: 16px; }
+.hd-mobile-page [data-hd-march-continue],
+.hd-mobile-page [data-hd-march-cancel],
+.hd-mobile-page [data-hd-dismiss-march],
+.hd-mobile-page [data-hd-finish-persons],
+.hd-mobile-page [data-hd-confirm-march],
+.hd-mobile-page [data-hd-strategy-end] {
+    box-sizing: border-box;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 16px;
+    touch-action: manipulation;
+}
+/* The target picker shares the stage with its explicit confirmation panel. */
+.hd-mobile-page.hd-mobile-march-target-on {
+    --mobile-march-panel: clamp(240px, 34vw, 300px);
+}
+.hd-mobile-page.hd-mobile-march-target-on #hd-overworld {
+    right: var(--mobile-march-panel);
+}
+.hd-mobile-page.hd-mobile-march-target-on #hd-city-menu {
+    left: calc(100% - var(--mobile-march-panel));
+    background: #141c27;
+}
+.hd-mobile-page.hd-mobile-march-target-on #hd-city-menu .hd-city-menu-stage {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 8px 10px;
+    pointer-events: auto;
+}
+.hd-mobile-page.hd-mobile-march-target-on .hd-city-menu-title { font-size: 19px; }
+.hd-mobile-page.hd-mobile-march-target-on .hd-city-menu-deep { grid-template-columns: minmax(0, 1fr); }
+.hd-mobile-page.hd-mobile-march-target-on .hd-city-menu-wizard { display: none; }
+.hd-mobile-page.hd-mobile-march-target-on .hd-city-menu-map-hint,
+.hd-mobile-page.hd-mobile-march-target-on .hd-city-menu-confirm-march { padding: 8px; font-size: 13px; }
+.hd-mobile-page.hd-mobile-march-target-on .hd-city-menu-confirm-march p { margin: 0 0 6px; }
+.hd-mobile-page.hd-mobile-march-target-on [data-hd-confirm-march] { width: 100%; margin-top: 0; }
 .hd-mobile-page .hd-city-menu-probe,
 .hd-mobile-page .hd-dialog-probe,
 .hd-mobile-page #hd-dialog-caption,

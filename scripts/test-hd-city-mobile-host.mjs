@@ -6,30 +6,37 @@ import vm from 'node:vm';
 // Controlled public bridge fixtures. No native C, browser, or OS execution.
 const source = fs.readFileSync(new URL('../js/hd-city-menu.js', import.meta.url), 'utf8');
 const SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+const originalLib = fs.readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
 const fields = ['g_hdEngineReady','g_hdMapPick','g_hdMapCity','g_hdMapInputSeq','g_hdBattlePick',
     'g_hdMenuActive','g_hdMenuContext','g_hdMenuKind','g_hdMenuSeq','g_hdMenuCount','g_hdMenuIndex',
     'g_hdDetailGeneration','g_hdQtyActive','g_hdQtySession','g_hdQtyInputSeq','g_hdQtyLastKey',
     'g_hdQtyCursor','g_hdQtyStep','g_hdQtyReady','g_hdQtyMin','g_hdQtyMax','g_hdQtyValue',
-    'g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq','g_hdReportActive','g_hdReportSeq',
-    'g_hdReportInputSeq','g_hdHelpActive','g_hdHelpInputSeq','g_hdFightActive','g_hdRecordActive',
+    'g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq','g_hdMarchOrigin','g_hdMarchSelected','g_hdMarchSeq',
+    'g_hdMarchOk','g_hdMarchCity','g_hdMarchObj','g_hdReportActive','g_hdReportSeq',
+    'g_hdReportInputSeq','g_hdReportKind','g_hdReportPerson','g_hdHelpActive','g_hdHelpInputSeq','g_hdFightActive','g_hdRecordActive',
     'g_hdMovieActive','g_hdSpeActive','g_hdSkillActive','g_hdAttackActive','g_hdSkillResultActive',
     'g_hdMakerActive','g_hdViewActive','g_hdMiniMapActive','g_hdGoodsActive','g_hdPersonPropertiesActive',
     'g_hdResultOwnerKind','g_hdResultOwnerValid'];
-function fixture({storageThrows = false} = {}) {
+function fixture({storageThrows = false, marchState = false} = {}) {
     const raw = Object.fromEntries(fields.map(key => [key, 0]));
     Object.assign(raw, {g_hdEngineReady:1,g_hdMapCity:1,g_hdMapInputSeq:4,g_hdMenuActive:1,
         g_hdMenuContext:1,g_hdMenuKind:1,g_hdMenuSeq:3,g_hdMenuCount:4,g_hdDetailGeneration:2});
     raw.g_Cities = [{Persons:0,PersonQueue:0,Belong:1,State:0}];
     const events = {}, docEvents = {}, keys = [], writes = [], timers = [], storageWrites = [];
     const stored = new Map([['baye/cityMenuMode','classic'],['baye/overworldMode','classic']]);
-    let identity = {status:'ready',generation:1,sha256:SHA,byteLength:207195}, available = true, menuHook = null;
+    let identity = {status:'ready',generation:1,sha256:SHA,byteLength:207195}, available = true, menuHook = null,
+        marchHook = null, reportHook = null, linksHook = null, afterKey = null, clock = 0, timerId = 0;
+    const scheduled = new Map();
     const names = ['内政','外交','军备','状况'];
     const node = {setAttribute(){},classList:{toggle(){}}};
     const document = {hidden:false,documentElement:node,body:node,getElementById(){return null;},
-        querySelector(){return null;},addEventListener(type, fn){(docEvents[type] ||= []).push(fn);}};
-    const env = {document,innerWidth:844,innerHeight:390,console:{log(){},warn(){}},Date,JSON,Object,Array,
-        setInterval(fn){timers.push(fn);return timers.length;},clearInterval(){},setTimeout(){return 1;},clearTimeout(){},
-        addEventListener(type, fn){(events[type] ||= []).push(fn);},sendKey(key){keys.push(key);},
+        querySelector(){return null;},querySelectorAll(){return [];},addEventListener(type, fn){(docEvents[type] ||= []).push(fn);}};
+    const env = {document,innerWidth:844,innerHeight:390,dynLib:originalLib.toString('hex'),console:{log(){},warn(){}},
+        Date:marchState?class extends Date {static now(){return clock;}}:Date,JSON,Object,Array,
+        setInterval(fn){timers.push(fn);return timers.length;},clearInterval(){},
+        setTimeout(fn,delay=0){const id=++timerId;if(marchState)scheduled.set(id,{fn,at:clock+delay});return id;},
+        clearTimeout(id){scheduled.delete(id);},
+        addEventListener(type, fn){(events[type] ||= []).push(fn);},sendKey(key){keys.push(key);if(afterKey)afterKey(key);},
         localStorage:{getItem(key){if(storageThrows)throw Error('denied');return stored.get(key) ?? null;},
             setItem(key,value){if(storageThrows)throw Error('denied');stored.set(key,value);storageWrites.push([key,value]);}},
         BayeHdLibIdentity:{read(){return identity;},isCurrent(value){return value === identity;},subscribe(fn){env.identityChanged=fn;return ()=>{};}},
@@ -41,21 +48,37 @@ function fixture({storageThrows = false} = {}) {
                     detailGeneration:raw.g_hdDetailGeneration,generation:raw.g_hdDetailGeneration,
                     names:names.slice(),ids:raw.g_hdMenuKind>=3?names.map((_,i)=>i):[],idsValid:true};
                 if(menuHook)menuHook(value);return value;
-            },march(){return {pick:raw.g_hdMapPick,battlePick:raw.g_hdBattlePick,mapCity:raw.g_hdMapCity,
+            },march(){const value={pick:raw.g_hdMapPick,battlePick:raw.g_hdBattlePick,mapCity:raw.g_hdMapCity,
                 mapInputSeq:raw.g_hdMapInputSeq,phase:raw.g_hdMarchPhase,session:raw.g_hdMarchSession,
-                inputSeq:raw.g_hdMarchInputSeq,origin:0,selected:0,seq:0};},
+                inputSeq:raw.g_hdMarchInputSeq,origin:raw.g_hdMarchOrigin,selected:raw.g_hdMarchSelected,seq:raw.g_hdMarchSeq,
+                ok:raw.g_hdMarchOk,city:raw.g_hdMarchCity,obj:raw.g_hdMarchObj};if(marchHook)marchHook(value);return value;},
             qty(){return {protocol:true,active:raw.g_hdQtyActive,session:raw.g_hdQtySession,
                 inputSeq:raw.g_hdQtyInputSeq,lastKey:raw.g_hdQtyLastKey,cursor:raw.g_hdQtyCursor,
                 step:raw.g_hdQtyStep,ready:raw.g_hdQtyReady,min:raw.g_hdQtyMin,max:raw.g_hdQtyMax,value:raw.g_hdQtyValue};},
             fight(){return {active:raw.g_hdFightActive};},help(){return {active:raw.g_hdHelpActive};},
-            report(){return {active:raw.g_hdReportActive};}}}};
+            report(){const value={active:raw.g_hdReportActive,seq:raw.g_hdReportSeq,inputSeq:raw.g_hdReportInputSeq,
+                kind:raw.g_hdReportKind,person:raw.g_hdReportPerson,text:'当前原生出征报告'};
+                if(reportHook)reportHook(value);return value;},
+            cityLinks(origin){const address=originalLib.readUInt32LE(58*4),mask=Array.from(originalLib.subarray(address+14+origin*16,address+22+origin*16));
+                const actual=mask.map(id=>id===255||id>38?0:id);if(marchState)raw.g_hdCityLinks=actual;
+                const value=actual.filter(Boolean).map(id=>({id,index:id-1,name:'城'+(id-1)}));
+                if(linksHook)linksHook(value);return value;}}}};
     env.baye.data = new Proxy(raw,{set(target,key,value){writes.push(key);throw Error('native write ' + key);}});
     env.window = env;
-    vm.runInNewContext(source, env, {filename:'js/hd-city-menu.js'});
+    const code=marchState?source.replace(/\}\)\(window\);\s*$/,`
+        global.__marchTest={state:state,sync:syncMarchPhase,send:engineSendKey,cancelQty:cancelQty,
+            cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities};
+        render=function(){};applyDocAttr=function(){};scheduleMarchWatch=function(){};
+    })(window);`):source;
+    vm.runInNewContext(code, env, {filename:'js/hd-city-menu.js'});
     const api = env.BayeHdCityMenu;
     function configure(){api.configureMobileHost({isAvailable:()=>available});}
     return {env,api,raw,names,keys,writes,timers,stored,storageWrites,configure,
         setAvailable(value){available=value;},setIdentity(value){identity=value;},identity(){return identity;},
+        internals:env.__marchTest,setAfterKey(value){afterKey=value;},setMarchHook(value){marchHook=value;},
+        setReportHook(value){reportHook=value;},setLinksHook(value){linksHook=value;},
+        tick(ms=10000){const end=clock+ms;let steps=0;while(scheduled.size){const [id,t]=[...scheduled].sort((a,b)=>a[1].at-b[1].at)[0];
+            if(t.at>end)break;assert.ok(++steps<2000,'bounded native acknowledgement wait');scheduled.delete(id);clock=t.at;t.fn();}clock=end;},
         setMenuHook(value){menuHook=value;},emit(type){for(const fn of (events[type]||[]))fn({type});},
         emitDocument(type){for(const fn of (docEvents[type]||[]))fn({type});}};
 }
@@ -455,7 +478,7 @@ test('terminal strategy handoff keeps its real origin while ordinary CITY uses c
     const raw={g_hdHelpActive:0,g_hdReportActive:0},menu={active:0,context:0,kind:0,seq:9,detailGeneration:2};
     const march={phase:7,session:1,origin:0,mapCity:2,pick:1,battlePick:0,mapInputSeq:4,inputSeq:16};
     const context={MARCH:{IDLE:0,PERSONS:1,FOOD:2,TARGET_TIP:3,TARGET_PICK:4,REJECT:5,ARMOUT:6,DEPARTED:7},
-        state:{cityIndex:0},mobileMenuComplete(){return true;}};
+        state:{cityIndex:0},mobileMenuComplete(){return true;},freshMarchOk(){return true;},mobileBoundMarch(){return true;}};
     const read=isolatedCityFunction('mobileTicketFrom',context), value={raw,menu,march,qty:{active:0},data:{},libraryGeneration:1};
     const handoff=read(value,'strategy-end');assert.equal(handoff.ownerType,'strategy');assert.equal(handoff.cityIndex,0);
     assert.equal(read(value),null);march.phase=8;assert.equal(read(value,'strategy-end'),null);
@@ -588,4 +611,169 @@ test('terminal submitted mobile handoff requires the same actual strategy owner,
             }};
         isolatedCityFunction('syncMode',context)();assert.equal(state.open,problem==='valid',problem);
     }
+});
+
+function mobileMarchFixture(phase=4) {
+    const f=fixture({marchState:true});f.configure();
+    Object.assign(f.raw,{g_PlayerKing:5,g_hdMapCity:9,g_hdMarchPhase:phase,g_hdMarchSession:12,g_hdMarchInputSeq:80,
+        g_hdMarchOrigin:8,g_hdMarchSelected:2,g_hdMarchSeq:10,g_hdMarchCity:8,g_hdMarchObj:9,
+        g_hdMenuKind:3,g_hdMenuActive:phase===1?1:0,g_hdMapPick:phase===4||phase===7?1:0,
+        g_hdBattlePick:phase===4||phase===5||phase===6?1:0,g_hdMarchOk:phase===7?1:0,
+        g_hdReportActive:[3,5,6].includes(phase)?1:0,g_hdReportSeq:20,g_hdReportInputSeq:33,
+        g_hdReportKind:phase===5||phase===6?1:2,g_hdReportPerson:phase===5||phase===6?65535:5,
+        g_hdQtyActive:phase===2?1:0,g_hdQtySession:7,g_hdQtyInputSeq:2,
+        g_hdQtyReady:1,g_hdQtyMin:1,g_hdQtyMax:640,g_hdQtyValue:50});
+    f.raw.g_Cities=Array.from({length:38},()=>({Belong:2,Persons:0,PersonQueue:0,State:0}));
+    f.raw.g_Cities[8].Belong=6;f.raw.g_hdCityLinks=Array(8).fill(0);
+    f.raw.g_CityPos={setx:2,sety:2};
+    f.env.BayeHdOverworld.getCities=()=>[{index:8,engX:2,engY:2},{index:9,engX:4,engY:3}];
+    f.env.baye.hdCityLimit=()=>38;
+    f.state=f.internals.state;
+    Object.assign(f.state,{open:true,layer:'deep',subKind:'junbei',cityIndex:8,deepKind:'person-city',deepLabel:'出征',
+        battleMake:phase!==7,marchOriginIndex:8,marchSession:12,marchBaselineSeq:9,acceptMarchOk:phase===7,
+        marchSubmittedTarget:phase===7?9:null,marchReady:phase===7,wizardStep:'map-pick',pickedPersons:2,
+        personExitSent:phase!==1,foodConfirmedThisMarch:phase>=3});
+    return f;
+}
+test('mobile full march publishes only its current per-phase native owner without keys',()=>{
+    const expected={1:'city',2:'qty',3:'march-report',4:'march-target',5:'march-report',6:'march-report',7:'strategy'};
+    for(const phase of [1,2,3,4,5,6,7]){
+        const f=mobileMarchFixture(phase), ticket=f.api.getInputTicket();
+        assert.ok(ticket,'phase '+phase);assert.equal(ticket.ownerType,expected[phase]);
+        assert.equal(ticket.cityIndex,8);assert.equal(ticket.phase,phase);
+        assert.equal(f.api.getMarchPresentation().phase,phase);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('mobile target ticket authenticates real original CITY_LINKR row, current ownership and full data owner',()=>{
+    const f=mobileMarchFixture(), ticket=f.api.getMarchTargetTicket();
+    const address=originalLib.readUInt32LE(58*4), row=Array.from(originalLib.subarray(address+14+8*16,address+22+8*16));
+    assert.ok(row.includes(10),'actual 天水 CITY_LINKR contains 河内 token10');
+    assert.equal(ticket.data,f.env.baye.data);assert.equal(Object.keys(ticket).includes('data'),false);
+    assert.equal(ticket.origin,8);assert.equal(ticket.selected,2);assert.ok(ticket.targets.includes(9));
+    assert.ok(Object.isFrozen(ticket));assert.ok(Object.isFrozen(ticket.targets));
+    assert.deepEqual(JSON.parse(JSON.stringify(f.internals.other(8))).map(c=>c.cityIndex),Array.from(ticket.targets));
+    assert.equal(f.api.selectMarchTarget(9,ticket).selected,9);assert.deepEqual(f.keys,[]);
+});
+for(const problem of ['empty','wrong-origin','missing-raw','public-mismatch','raw-mismatch','same-owned','wrong-source',
+    'missing-lib','foreign-lib-header','torn-route','torn-owner','data-rebind','zero-session','unbound-session','unknown-phase']){
+    test('march targets never use an empty, stale or unverified route fallback: '+problem,()=>{
+        const f=mobileMarchFixture();
+        if(problem==='empty')f.setLinksHook(v=>{v.length=0;f.raw.g_hdCityLinks.fill(0);});
+        if(problem==='wrong-origin')f.setLinksHook(v=>{const a=originalLib.readUInt32LE(58*4);f.raw.g_hdCityLinks=Array.from(originalLib.subarray(a+14,a+22));});
+        if(problem==='missing-raw')f.setLinksHook(()=>{delete f.raw.g_hdCityLinks;});
+        if(problem==='public-mismatch')f.setLinksHook(v=>{v[0].index=37;});
+        if(problem==='raw-mismatch')f.setLinksHook(()=>{f.raw.g_hdCityLinks[0]^=1;});
+        if(problem==='same-owned')f.raw.g_Cities[9].Belong=6;
+        if(problem==='wrong-source')f.raw.g_Cities[8].Belong=2;
+        if(problem==='missing-lib')delete f.env.dynLib;
+        if(problem==='foreign-lib-header'){const bytes=Buffer.from(originalLib);bytes[bytes.readUInt32LE(58*4)+4]=58;f.env.dynLib=bytes.toString('hex');}
+        if(problem==='torn-route')f.setLinksHook(()=>{f.raw.g_hdMarchInputSeq++;});
+        if(problem==='torn-owner')f.setLinksHook(()=>{f.raw.g_Cities[9].Belong=f.raw.g_Cities[9].Belong===6?2:6;});
+        if(problem==='data-rebind')f.setLinksHook(()=>{f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});});
+        if(problem==='zero-session')f.raw.g_hdMarchSession=0;
+        if(problem==='unbound-session')f.raw.g_hdMarchSession=13;
+        if(problem==='unknown-phase')f.raw.g_hdMarchPhase=8;
+        const ticket=f.api.getMarchTargetTicket();
+        if(problem==='same-owned'){assert.ok(ticket);assert.equal(ticket.targets.includes(9),false);}
+        else assert.equal(ticket,null);
+        assert.ok(f.api.selectMarchTarget(9).skipped);assert.ok(f.api.confirmMarchTarget(9).skipped);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('target selection fences name-getter reentry and stale DOWN ticket before retaining a choice',()=>{
+    for(const problem of ['name','sequence','identity']){
+        const f=mobileMarchFixture(), ticket=f.api.getMarchTargetTicket();
+        if(problem==='name')f.env.baye.getCityName=()=>{f.raw.g_hdMarchInputSeq++;return '河内';};
+        if(problem==='sequence')f.raw.g_hdMarchInputSeq++;
+        if(problem==='identity')f.setIdentity({...f.identity(),generation:2});
+        assert.ok(f.api.selectMarchTarget(9,ticket).skipped);assert.equal(f.state.pendingTarget,null);assert.deepEqual(f.keys,[]);
+    }
+});
+test('mobile target confirmation waits each real cursor ACK then emits exactly one ENTER on the exact city',()=>{
+    const f=mobileMarchFixture();f.api.selectMarchTarget(9,f.api.getMarchTargetTicket());
+    f.setAfterKey(key=>{const p=f.raw.g_CityPos;if(key===34)p.sety--;if(key===35)p.sety++;if(key===36)p.setx--;if(key===37)p.setx++;
+        f.raw.g_hdMapCity=p.setx===4&&p.sety===3?10:0;});
+    f.api.confirmMarchTarget(9,f.api.getMarchTargetTicket());f.tick();
+    assert.deepEqual(f.keys,[35,37,37,39]);f.api.confirmMarchTarget(9);f.tick();
+    assert.deepEqual(f.keys,[35,37,37,39]);assert.deepEqual(f.writes,[]);
+});
+for(const problem of ['no-ack','phase','map-sequence','session','membership','hidden','rebind']){
+    test('mobile target walking never sends a confirm through lost ownership: '+problem,()=>{
+        const f=mobileMarchFixture();f.api.selectMarchTarget(9);let sent=0;
+        f.setAfterKey(()=>{if(++sent!==1)return;if(problem==='phase')f.raw.g_hdMarchPhase=5;
+            if(problem==='map-sequence')f.raw.g_hdMapInputSeq++;
+            if(problem==='session')f.raw.g_hdMarchSession++;
+            if(problem==='membership')f.raw.g_Cities[9].Belong=6;
+            if(problem==='hidden')f.env.document.hidden=true;
+            if(problem==='rebind')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});});
+        f.api.confirmMarchTarget(9);f.tick();assert.deepEqual(f.keys,[35]);assert.equal(f.keys.includes(39),false);
+    });
+}
+test('phase4 cancellation uses one current native EXIT and never confirms a target',()=>{
+    const f=mobileMarchFixture(), ticket=f.api.getMarchTargetTicket();
+    assert.equal(f.api.cancelMarch(ticket),true);assert.equal(f.api.cancelMarch(ticket),false);
+    f.api.retireInteraction('blur');assert.equal(f.api.cancelMarch(ticket),false);f.tick();assert.deepEqual(f.keys,[40]);
+});
+for(const phase of [3,5,6]){
+    test('native phase'+phase+' report has one ACK per live report/march input and survives zero-key retirement',()=>{
+        const f=mobileMarchFixture(phase);assert.equal(f.api.getLcdPresentation(),'off');
+        assert.equal(f.api.continueMarch({session:12,inputSeq:80}),true);assert.equal(f.api.continueMarch(),false);
+        f.api.retireInteraction('orientationchange');assert.equal(f.api.continueMarch(),false);
+        assert.equal(f.api.getInputTicket().ownerType,'march-report');
+        f.raw.g_hdMarchInputSeq++;f.raw.g_hdReportInputSeq++;assert.equal(f.api.continueMarch(),true);
+        assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+    });
+}
+for(const invalid of ['kind','seq','text','phase','menu','qty','help','unbound','getter-race']){
+    test('mobile march report refuses a foreign or partial acknowledgement: '+invalid,()=>{
+        const f=mobileMarchFixture(3);
+        if(invalid==='kind')f.raw.g_hdReportKind=1;
+        if(invalid==='seq')f.raw.g_hdReportSeq=0;
+        if(invalid==='text')f.setReportHook(r=>{r.text='';});
+        if(invalid==='phase')f.raw.g_hdMarchPhase=1;
+        if(invalid==='menu')f.raw.g_hdMenuActive=1;
+        if(invalid==='qty')f.raw.g_hdQtyActive=1;
+        if(invalid==='help')f.raw.g_hdHelpActive=1;
+        if(invalid==='unbound')f.raw.g_hdMarchSession=13;
+        if(invalid==='getter-race')f.setReportHook(()=>{f.raw.g_hdReportInputSeq++;});
+        assert.equal(f.api.getInputTicket(),null);assert.equal(f.api.continueMarch(),false);assert.deepEqual(f.keys,[]);
+    });
+}
+test('march report kinds and person tokens follow the real per-phase C report owner',()=>{
+    for(const phase of [3,5,6]){
+        for(const invalid of ['wrong-kind','wrong-person','no-selected']){
+            const f=mobileMarchFixture(phase);
+            if(invalid==='wrong-kind')f.raw.g_hdReportKind=phase===3?1:2;
+            if(invalid==='wrong-person')f.raw.g_hdReportPerson=phase===3?65535:5;
+            if(invalid==='no-selected')f.raw.g_hdMarchSelected=0;
+            const allowed=phase===5&&invalid==='no-selected';
+            assert.equal(!!f.api.getInputTicket(),allowed,phase+':'+invalid);
+            assert.equal(f.api.continueMarch(),allowed,phase+':'+invalid);
+            assert.deepEqual(f.keys,allowed?[39]:[]);assert.deepEqual(f.writes,[]);
+        }
+    }
+});
+test('only this newly submitted matching native order exposes strategy end, including after a boundary',()=>{
+    const f=mobileMarchFixture(7);assert.equal(f.api.getInputTicket().ownerType,'strategy');
+    f.api.retireInteraction('blur');assert.equal(f.api.getInputTicket().ownerType,'strategy');
+    for(const [field,value] of [['g_hdMarchOk',0],['g_hdMarchObj',10],['g_hdMarchCity',7],['g_hdMarchSeq',9],['g_hdMarchSession',13]]){
+        const old=f.raw[field];f.raw[field]=value;assert.equal(f.api.getInputTicket(),null,field);f.raw[field]=old;
+    }
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('strategy handoff consumes real CITY→MAP→function-menu publications once',()=>{
+    const f=mobileMarchFixture(7);f.raw.g_hdMapPick=0;f.raw.g_hdMenuActive=1;f.raw.g_hdMenuKind=1;
+    f.setAfterKey(key=>{if(key===40&&f.raw.g_hdMenuActive){f.raw.g_hdMenuActive=0;f.raw.g_hdMapPick=1;f.raw.g_hdMapInputSeq++;}
+        else if(key===40){f.raw.g_hdMapPick=0;f.raw.g_hdMenuActive=1;f.raw.g_hdMenuContext=2;f.raw.g_hdMenuKind=1;
+            f.names.splice(0,f.names.length,'策略结束','存储进度','结束游戏');f.raw.g_hdMenuCount=3;f.raw.g_hdMenuSeq++;}
+        else if(key===39){f.raw.g_hdMarchOk=0;}});
+    f.api.goStrategyEnd();f.tick();assert.deepEqual(f.keys,[40,40,39]);assert.equal(f.api.getInputTicket(),null);
+});
+test('mobile quantities and unselected-person cancellation are explicit native owners, never a generic EXIT',()=>{
+    const f=mobileMarchFixture(1);f.state.pickedPersons=0;f.raw.g_hdMarchSelected=0;
+    assert.equal(f.internals.cancelPersons(),true);assert.deepEqual(f.keys,[40]);
+    const selected=mobileMarchFixture(1);assert.equal(selected.internals.cancelPersons(),false);assert.deepEqual(selected.keys,[]);
+    const quantity=mobileMarchFixture(2);quantity.env.bayeQtyCloseInput=()=>{};quantity.env.bayeQtyNativeClosed=()=>false;
+    quantity.internals.cancelQty();assert.deepEqual(quantity.keys,[40]);assert.deepEqual(quantity.writes,[]);
+    assert.ok(source.includes('data-hd-qty-cancel'));assert.ok(source.includes('data-hd-march-person-cancel'));
 });

@@ -156,13 +156,15 @@ function fixture({realCity = false} = {}) {
     const host = window.BayeHdMobileCity;
     host.init();
     if (realCity) {
-        Object.assign(data, {g_hdQtyLastKey:0,g_hdQtyCursor:0,g_hdQtyStep:0,g_hdGoodsActive:0,g_hdPersonPropertiesActive:1});
+        Object.assign(data, {g_hdQtyLastKey:0,g_hdQtyCursor:0,g_hdQtyStep:0,g_hdGoodsActive:0,g_hdPersonPropertiesActive:1,
+            g_hdMarchOrigin:0,g_hdMarchSelected:0,g_hdMarchSeq:0,g_hdMarchOk:0,g_hdMarchCity:0,g_hdMarchObj:0});
         const originalMenu=window.baye.hd.menuItems, originalQty=window.baye.hd.qty;
         window.baye.hd.menuItems=()=>({...originalMenu(),generation:data.g_hdDetailGeneration});
         window.baye.hd.qty=()=>({...originalQty(),lastKey:0,cursor:0,step:0});
         window.baye.hd.march=()=>({pick:data.g_hdMapPick,battlePick:data.g_hdBattlePick,mapCity:data.g_hdMapCity,
             mapInputSeq:data.g_hdMapInputSeq,phase:data.g_hdMarchPhase,session:data.g_hdMarchSession,
-            inputSeq:data.g_hdMarchInputSeq,origin:0,selected:0,seq:0});
+            inputSeq:data.g_hdMarchInputSeq,origin:data.g_hdMarchOrigin,selected:data.g_hdMarchSelected,
+            seq:data.g_hdMarchSeq,ok:data.g_hdMarchOk,city:data.g_hdMarchCity,obj:data.g_hdMarchObj});
         window.baye.hd.personProperties=()=>({protocolVersion:1,active:true,complete:true,pageComplete:true,custom:false,
             context:1,kind:3,generation:data.g_hdDetailGeneration,detailGeneration:data.g_hdDetailGeneration,
             menuSeq:data.g_hdMenuSeq,index:data.g_hdMenuIndex,person:state.ids[data.g_hdMenuIndex],paintSeq:7,

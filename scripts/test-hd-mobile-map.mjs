@@ -61,6 +61,31 @@ function fixture() {
     const api = window.BayeHdMobileMap;
     function notify(name) { for (const fn of listeners.get(name) || []) fn(); }
     return {api, window, data, nodes, document, state, cities, shared, counts, timers, listeners, globalListeners,
+
+        march(changes = {}, presentation = {}) {
+            Object.assign(data, {g_hdMapPick: 1, g_hdBattlePick: 1, g_hdMenuActive: 0, g_hdMarchPhase: 4,
+                g_hdMarchOrigin: 16, g_hdMarchSelected: 3}, changes);
+            state.phase = 'map';
+            const targetState = {targets: [17, 18], pendingTarget: null, confirmingTarget: false, status: 'select-target', ...presentation};
+            counts.selects = []; counts.confirms = []; counts.marchCancels = [];
+            const city = {
+                getMarchTargetTicket() {
+                    const value = {key: JSON.stringify([data.g_hdMarchPhase, data.g_hdMarchOrigin, data.g_hdMarchSession,
+                        data.g_hdMarchInputSeq, data.g_hdMapInputSeq, data.g_hdMapCity, data.g_hdMarchSelected, targetState.targets]),
+                        libraryGeneration: identity.generation, ownerType: 'march-target', cityIndex: data.g_hdMarchOrigin,
+                        session: data.g_hdMarchSession, inputSeq: data.g_hdMarchInputSeq, mapInputSeq: data.g_hdMapInputSeq,
+                        phase: data.g_hdMarchPhase, selected: data.g_hdMarchSelected, targets: targetState.targets.slice()};
+                    Object.defineProperty(value, 'data', {value: window.baye.data});
+                    return Object.freeze(value);
+                },
+                getMarchPresentation() { return {phase: data.g_hdMarchPhase, session: data.g_hdMarchSession,
+                    inputSeq: data.g_hdMarchInputSeq, origin: data.g_hdMarchOrigin, ...targetState}; },
+                selectMarchTarget(index) { counts.selects.push(index); targetState.pendingTarget = index; return {selected: index}; },
+                confirmMarchTarget(index) { counts.confirms.push(index); return {confirming: index}; },
+                cancelMarch() { counts.marchCancels.push(data.g_hdMarchSession); return true; }
+            };
+            window.BayeHdCityMenu = city; return {city, targetState};
+        },
         setIdentity(value) { identity = {...identity, ...value}; }, setReady(value) { ready = value; },
         identityChanged(value) { identity = {...identity, ...value}; for (const fn of subscribers.slice()) fn(identity); },
         visibility(value) { document.hidden = value; notify('visibilitychange'); },
@@ -371,4 +396,127 @@ test('DEPARTED MAP still retires on hidden, rotation, classic preference and unv
         const f = fixture(); f.data.g_hdMarchPhase = 7; f.api.init(); change(f); off(f);
         assert.deepEqual(f.counts.keys, []); assert.equal(f.data.g_hdMarchPhase, 7);
     }
+});
+
+
+test('TARGET_PICK owns a separate HD map and origin center without borrowing a normal city HUD', () => {
+    const f = fixture(); f.march(); const before = JSON.stringify(f.data), value = f.api.init();
+    assert.equal(value.active, true); assert.equal(value.ownerType, 'march-target');
+    assert.equal(value.cityIndex, 16); assert.equal(value.marchSession, 5); assert.equal(value.marchSelected, 3);
+    assert.deepEqual(Array.from(value.targets), [17, 18]); assert.equal(Object.isFrozen(value.targets), true);
+    assert.equal(f.document.body.classList.contains('hd-mobile-march-target-on'), true);
+    assert.equal(f.nodes.get('hd-mobile-hud').hidden, true); assert.equal(value.exitEnabled, false);
+    assert.equal(f.nodes.get('hd-mobile-exit').disabled, true);
+    assert.equal(f.nodes.get('hd-mobile-map-tip').textContent, '点相邻敌城选择目标 · 在侧栏确认出征');
+    f.api.refresh(); assert.deepEqual(f.counts.centers, [16]);
+    assert.equal(JSON.stringify(f.data), before);
+    assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.selects, []); assert.deepEqual(f.counts.confirms, []);
+    assert.deepEqual(f.counts.marchCancels, []);
+});
+test('target state displays only a matching session diagnostic and never confirms selection', () => {
+    const f = fixture(), {targetState} = f.march({}, {pendingTarget: 17, status: 'selected'});
+    f.api.init(); assert.equal(f.api.snapshot().pendingTarget, 17); assert.equal(f.api.snapshot().status, 'selected');
+    targetState.confirmingTarget = true; f.api.refresh(); assert.equal(f.api.snapshot().confirmingTarget, true);
+    assert.deepEqual(f.counts.selects, []); assert.deepEqual(f.counts.confirms, []); assert.deepEqual(f.counts.keys, []);
+    f.window.BayeHdCityMenu.getMarchPresentation = () => ({phase: 4, session: 999, inputSeq: 11, origin: 16, pendingTarget: 17, status: 'stale'});
+    f.api.refresh(); assert.equal(f.api.snapshot().active, true); assert.equal(f.api.snapshot().pendingTarget, null);
+    assert.equal(f.api.snapshot().status, '');
+});
+test('target picker does not depend on the unavailable ordinary HUD or share its city ticket', () => {
+    const f = fixture(); f.march(); delete f.window.BayeHdMobile;
+    assert.equal(f.api.init().active, true); assert.equal(f.api.snapshot().ownerType, 'march-target');
+    assert.deepEqual(f.counts.keys, []);
+});
+test('an actual phase4 requires the complete city target ticket and explicit select/confirm/cancel APIs', () => {
+    for (const field of ['getMarchTargetTicket', 'selectMarchTarget', 'confirmMarchTarget', 'cancelMarch']) {
+        const f = fixture(), {city} = f.march(); delete city[field]; off(f);
+        assert.equal(f.document.body.classList.contains('hd-mobile-march-target-on'), false);
+        assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.centers, []);
+    }
+});
+test('phase4 rejects every competing native modal instead of borrowing an agreeing target ticket', () => {
+    for (const field of ['g_hdReportActive', 'g_hdQtyActive', 'g_hdFightActive', 'g_hdHelpActive', 'g_hdRecordActive',
+        'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive',
+        'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdGoodsActive', 'g_hdPersonPropertiesActive',
+        'g_hdResultOwnerKind', 'g_hdResultOwnerValid']) {
+        const f = fixture(); f.march({[field]: 1}); off(f);
+        assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.centers, []);
+    }
+});
+test('phase4 requires actual MAP/battle picker, no menu and positive exact origin/session/input generations', () => {
+    for (const change of [{g_hdMapPick: 0}, {g_hdBattlePick: 0}, {g_hdMenuActive: 1}, {g_hdMarchPhase: 3},
+        {g_hdMarchPhase: 7}, {g_hdMarchOrigin: -1}, {g_hdMarchOrigin: 38}, {g_hdMarchSession: 0},
+        {g_hdMarchInputSeq: 0}, {g_hdMapInputSeq: 0}, {g_hdDetailGeneration: 0}, {g_hdSpeGeneration: 0},
+        {g_hdMarchSelected: 0}, {g_hdMarchSelected: 11}, {g_hdMarchInputSeq: '11'}]) {
+        const f = fixture(); f.march(change); off(f); assert.deepEqual(f.counts.keys, []);
+    }
+});
+test('target links cannot be absent, duplicate, unbounded or include the origin; no all-cities fallback', () => {
+    for (const targets of [[], [17, 17], [16], [38], [-1], ['17'], [NaN], Array.from({length: 9}, (_, i) => i)]) {
+        const f = fixture(); f.march({}, {targets}); off(f); assert.deepEqual(f.counts.centers, []);
+    }
+});
+test('target ticket raw fields, opaque data, generation and key must match the actual owner', () => {
+    for (const change of [{ownerType: 'map'}, {phase: 0}, {cityIndex: 17}, {session: 6}, {inputSeq: 12},
+        {mapInputSeq: 9}, {selected: 4}, {libraryGeneration: 3}, {key: ''}, {data: {}}]) {
+        const f = fixture(), {city} = f.march(), original = city.getMarchTargetTicket;
+        city.getMarchTargetTicket = () => { const ticket = original(); return {...ticket, data: ticket.data, ...change}; };
+        off(f); assert.deepEqual(f.counts.keys, []);
+    }
+});
+test('a torn target ticket or getter-side native/library/data change cannot expose the target map', () => {
+    for (const mutate of [f => f.data.g_hdMarchSession++, f => f.data.g_hdMarchInputSeq++, f => f.data.g_hdMarchOrigin++,
+        f => f.data.g_hdMapInputSeq++, f => f.data.g_hdReportActive = 1, f => f.setIdentity({generation: 3}),
+        f => { f.window.baye.data = {...f.data}; }]) {
+        const f = fixture(), {city} = f.march(), original = city.getMarchTargetTicket;
+        city.getMarchTargetTicket = () => { const ticket = original(); mutate(f); return ticket; };
+        off(f); assert.deepEqual(f.counts.centers, []);
+    }
+    const f = fixture(), {city} = f.march(), original = city.getMarchTargetTicket; let reads = 0;
+    city.getMarchTargetTicket = () => { const ticket = original(); return {...ticket, data: ticket.data, key: ticket.key + (++reads)}; };
+    off(f);
+});
+test('shared render, target presentation and center getters must leave the target ticket current', () => {
+    for (const getter of ['debugSnapshot', 'presentation', 'centerOnCity']) {
+        const f = fixture(), {city} = f.march();
+        const target = getter === 'presentation' ? city : f.shared, method = getter === 'presentation' ? 'getMarchPresentation' : getter;
+        const original = target[method]; target[method] = (...args) => { const value = original(...args); f.data.g_hdMarchInputSeq++; return value; };
+        off(f); assert.deepEqual(f.counts.keys, []);
+    }
+});
+test('switching ordinary MAP to TARGET_PICK retires a gesture even though the HD surface remains active', () => {
+    const f = fixture(); f.api.init(); const cancels = f.counts.sharedCancel;
+    f.march(); assert.equal(f.api.refresh().active, true);
+    assert.equal(f.counts.sharedCancel, cancels + 1);
+    assert.equal(f.api.snapshot().ownerType, 'march-target');
+    Object.assign(f.data, {g_hdMarchPhase: 7, g_hdBattlePick: 0}); f.api.refresh();
+    assert.equal(f.api.snapshot().ownerType, 'map');
+    assert.equal(f.document.body.classList.contains('hd-mobile-march-target-on'), false);
+    assert.deepEqual(f.counts.keys, []);
+});
+test('an armed city header return never crosses into a target picker or replays its click', () => {
+    const f = fixture(); f.api.init(); f.menu(); const exit = f.nodes.get('hd-mobile-exit');
+    exit.fire('pointerdown'); f.march(); f.api.refresh(); exit.fire('pointerup'); exit.fire('click');
+    f.releaseExit(); assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.marchCancels, []);
+    assert.equal(f.api.snapshot().exitEnabled, false);
+});
+test('target picker retires on portrait, hidden, blur, identity or classic mode without cancelling native march', () => {
+    for (const change of [f => f.resize(450, 800), f => f.visibility(true), f => f.identityChanged({generation: 3}),
+        f => f.shared.setMode('classic')]) {
+        const f = fixture(); f.march(); f.api.init(); change(f);
+        if (f.api.snapshot().active && f.api.snapshot().libraryGeneration === 3) {
+            // A fresh same-LIB owner can be shown again after identity refresh; no old gesture survives.
+            assert.ok(f.counts.sharedCancel >= 2);
+        } else off(f);
+        assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.marchCancels, []);
+    }
+    const f = fixture(); f.march(); f.api.init(); const before = f.counts.sharedCancel;
+    for (const fn of f.globalListeners.get('blur') || []) fn();
+    assert.ok(f.counts.sharedCancel > before); assert.deepEqual(f.counts.keys, []);
+});
+test('target cursor crossing blank ground does not recenter or retire an otherwise current march', () => {
+    const f = fixture(); f.march(); f.api.init(); const before = f.counts.sharedCancel;
+    f.data.g_hdMapCity = 0; f.api.refresh();
+    assert.equal(f.api.snapshot().active, true); assert.equal(f.api.snapshot().ownerType, 'march-target');
+    assert.equal(f.counts.sharedCancel, before); assert.deepEqual(f.counts.centers, [16]); assert.deepEqual(f.counts.keys, []);
 });
