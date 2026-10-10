@@ -289,8 +289,8 @@
             云存档<span class="online-save-msg"></span>
             <div class="online-save-slots"></div>
         </div>
-        <div id="lib-name"></div>
-        <div id="lib-load"></div>
+        <div id="game-load-status" role="status" aria-live="polite">正在加载原版资源…</div>
+        <button id="game-load-retry" type="button" hidden onclick="location.reload()">重新加载</button>
     </div>
 </div>
 </body>
@@ -298,7 +298,8 @@
 <script src="js/idbkvstore.min.js?ver=20261008i"></script>
 <script src="js/bridge.js?ver=20261009ab"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
-<script src="js/lcd.js?ver=20261008n"></script>
+<script src="js/original-game.js?ver=20261010b"></script>
+<script src="js/lcd.js?ver=20261010b"></script>
 <script src="js/hd-graphics.js?ver=20260923j"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
@@ -361,14 +362,7 @@
         if (window.BayeHdSpe) {
             BayeHdSpe.start();
         }
-        var libName = getLibName();
-        $("#lib-name").html("当前版本: " + libName);
         bayeMain();
-    }
-    if (window.FileReader === undefined) {
-        $("#lib-load").html('浏览器不支持载入Lib');
-    } else {
-        $("#lib-load").html('载入Lib: <input type="file" onchange="loadLib(this.files)">');
     }
     document.onkeydown = onKeyDown;
 
@@ -379,20 +373,34 @@
         }
         let $onlineSaveMsg = $('.online-save-msg'), $onlineSaveSlots = $('.online-save-slots');
 
-        //mod
-        let modName = localStorage.getItem('baye/libpath');
-        if (!modName) {
-            $onlineSaveMsg.css({color: 'red'}).text('未选择版本');
-            return;
-        }
+        //原版云存档目录
+        let modName = BayeOriginalGame.path;
         modName = modName.split('/').pop();
 
         //上传下载
         $onlineSaveSlots.on('click', '.upload', function () {
             let $this = $(this), index = $this.attr('data-index');
-            let localSave0 = localStorage.getItem('baye//data//sango' + (index * 2 - 2) + '.sav')
-            let localSave1 = localStorage.getItem('baye//data//sango' + (index * 2 - 1) + '.sav')
-            let data = localSave0 + '\n' + localSave1
+            let first = 'baye//data//sango' + (index * 2 - 2) + '.sav';
+            let second = 'baye//data//sango' + (index * 2 - 1) + '.sav';
+            let localSave0, localSave1;
+            try {
+                localSave0 = BayeSaveStorage.readMetadata(first);
+                localSave1 = BayeSaveStorage.readMetadata(second);
+                let identity0 = BayeSaveStorage.readMetadata(first + '.lib-id');
+                let identity1 = BayeSaveStorage.readMetadata(second + '.lib-id');
+                if (BayeSaveStorage.readMetadata(first + '.lib') !== BayeOriginalGame.path ||
+                    BayeSaveStorage.readMetadata(second + '.lib') !== BayeOriginalGame.path ||
+                    (identity0 && identity0 !== BayeOriginalGame.saveIdentity) ||
+                    (identity1 && identity1 !== BayeOriginalGame.saveIdentity) ||
+                    !BayeSaveStorage.validatePair(localSave0, localSave1)) {
+                    $onlineSaveMsg.css({color: 'red'}).text('请上传完整的原版存档');
+                    return;
+                }
+            } catch (error) {
+                $onlineSaveMsg.css({color: 'red'}).text('无法读取存档');
+                return;
+            }
+            let data = localSave0 + '\n' + localSave1;
             $this.prop('disabled', true);
             BBKSDK.uploadSave('baye', modName, index, data, function (res) {
                 $this.prop('disabled', false);
@@ -415,16 +423,16 @@
             $this.prop('disabled', true);
             BBKSDK.getSave(url, function (res) {
                 $this.prop('disabled', false);
-                let arr = res.split('\n');
+                let arr = typeof res === 'string' ? res.trim().split(/\r?\n/) : [];
                 if (2 !== arr.length) {
                     alert('存档不存在或已损坏');
                     return;
                 }
-                //todo sav.lib有点硬编码
-                localStorage.setItem('baye//data//sango' + (index * 2 - 2) + '.sav.lib', "libs/" + modName);
-                localStorage.setItem('baye//data//sango' + (index * 2 - 1) + '.sav.lib', "libs/" + modName);
-                localStorage.setItem('baye//data//sango' + (index * 2 - 2) + '.sav', arr[0]);
-                localStorage.setItem('baye//data//sango' + (index * 2 - 1) + '.sav', arr[1]);
+                if (!BayeSaveStorage.importSlot(Number(index) - 1,
+                    { sav0: arr[0], sav1: arr[1], lib: BayeOriginalGame.path })) {
+                    $onlineSaveMsg.css({color: 'red'}).text(BayeSaveStorage.lastError().message);
+                    return;
+                }
                 alert('导入成功');
                 $this.parent().find('.upload').prop('disabled', false);
             });
@@ -458,15 +466,20 @@
 </div>`);
                 $item.find('.save-name').text(`存档-${i + 1}`);
                 //本地存档
-                let localSaveLib0 = localStorage.getItem('baye//data//sango' + (i * 2) + '.sav.lib');
-                let localSaveLib1 = localStorage.getItem('baye//data//sango' + (i * 2 + 1) + '.sav.lib');
-                let localSave0 = localStorage.getItem('baye//data//sango' + (i * 2) + '.sav');
-                let localSave1 = localStorage.getItem('baye//data//sango' + (i * 2 + 1) + '.sav');
+                let localSaveLib0 = BayeSaveStorage.readMetadata('baye//data//sango' + (i * 2) + '.sav.lib');
+                let localSaveLib1 = BayeSaveStorage.readMetadata('baye//data//sango' + (i * 2 + 1) + '.sav.lib');
+                let localSave0 = BayeSaveStorage.readMetadata('baye//data//sango' + (i * 2) + '.sav');
+                let localSave1 = BayeSaveStorage.readMetadata('baye//data//sango' + (i * 2 + 1) + '.sav');
+                let identity0 = BayeSaveStorage.readMetadata('baye//data//sango' + (i * 2) + '.sav.lib-id');
+                let identity1 = BayeSaveStorage.readMetadata('baye//data//sango' + (i * 2 + 1) + '.sav.lib-id');
 
                 //本地是否有此mod的存档
                 let hasLocalSave = false;
                 if (localSave0 && localSave1 && localSaveLib0 && localSaveLib1
-                    && localSaveLib0 === localSaveLib1 && localSaveLib0.split('/').pop() === modName) {
+                    && localSaveLib0 === BayeOriginalGame.path && localSaveLib1 === BayeOriginalGame.path
+                    && (!identity0 || identity0 === BayeOriginalGame.saveIdentity)
+                    && (!identity1 || identity1 === BayeOriginalGame.saveIdentity)
+                    && BayeSaveStorage.validatePair(localSave0, localSave1)) {
                     hasLocalSave = true;
                 }
                 if (hasLocalSave) {

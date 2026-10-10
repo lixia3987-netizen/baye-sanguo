@@ -2,7 +2,7 @@
 
 步步高电子词典经典游戏《三国霸业》的完整浏览器移植。本仓库导入了上游 [baye-alpha](https://gitee.com/bgwp/baye-alpha) 的全部前端页面、资源、Mod 数据与预编译 WebAssembly 引擎，不是精简 Demo。
 
-在浏览器里按原作流程游玩：选时代 → 选君主 → 大地图 → 城池菜单（内政 / 外交 / 军备 / 状况）→ 战斗。
+首页直接进入三国霸业原版（`libs/dat-mod.lib`），无需选择版本。在浏览器里按原作流程游玩：选时代 → 选君主 → 大地图 → 城池菜单（内政 / 外交 / 军备 / 状况）→ 战斗。
 
 ## 如何本地运行
 
@@ -26,28 +26,33 @@ pnpm start
 浏览器打开：
 
 - 首页：<http://localhost:8080/>
-- PC 键盘版：先到首页「选择版本」，再点「进入游戏」，或打开 <http://localhost:8080/pc.html>
-- 手机触摸版：<http://localhost:8080/m.html>（需先选版本；本地可用 `m.html?debug=1` 跳过回首页检查）
+- PC 键盘版：首页点「进入原版游戏」，或打开 <http://localhost:8080/pc.html>
+- 手机触摸版：<http://localhost:8080/m.html>（直接加载原版）
 
 ## 入口页面
 
 | 页面 | 用途 |
 |------|------|
 | `index.html` | 首页：选操作模式 / 分辨率 / 终端，进入游戏或存档管理 |
-| `choose.html` | 选择游戏版本（词典原版、原版精修、平衡版、群魔乱舞等） |
+| `choose.html` | 兼容旧链接，自动返回原版首页 |
 | `pc.html` | PC 端，键盘操作 |
 | `m.html` | 横屏触控 |
 | `m-ges.html` | 横屏手势 |
 | `m-old.html` | 竖屏虚拟键盘 |
 | `m-ktouch.html` | 竖屏键盘 + 触控 |
-| `online-save.html` | 云存档管理（依赖 bbkgames 账号，本地可用游戏内「存储进度」） |
+| `online-save.html` | 原版云存档管理（依赖 bbkgames 账号，本地可用游戏内「存储进度」） |
 | `load.html` / `get-sav.html` | 导入 / 导出本地存档 |
-| `loadlib.html` / `designer.html` | 载入自定义 Lib、调试设计器 |
+| `loadlib.html` | 兼容旧链接，自动返回原版首页 |
+| `designer.html` | 历史地图调试工具，不在普通入口展示 |
 | `mapeditor/index.html` | 地图编辑器 |
 | `debug.html` | 引擎调试开关 |
 | `mt.html` | 附带「魔塔」 |
 | `fm/`、`fmj.html` | 附带「伏魔记」相关页 |
 | `v0/` | 上游早期前端快照 |
+
+历史 Mod、附带游戏与调试资源保留供兼容和开发使用，普通游玩请从首页进入原版。旧 Mod 存档不会自动转换或重新标记为原版；切换前请先导出保留。
+
+原版入口验证可运行 `npm run test:original-entry`；独立浏览器检查运行 `npm run test:original-entry-runtime`（需要本机 Chrome，或通过 `CHROME` 指定路径）。测试使用独立浏览器配置与临时端口。[本批验证记录](docs/validation/m4-original-entry-20261010.json)包含入口、缓存迁移和HD地图回归结果。
 
 ## 操作说明（PC）
 
@@ -61,7 +66,7 @@ pnpm start
 
 移动端支持触摸滑动与点击。首页可切换「横屏触控 / 横屏手势 / 竖屏键盘 / 竖屏键盘+触控」。
 
-推荐流程：首页 → 选择版本（例如「三国霸业-词典原版」或「三国霸业-原版精修」）→ 进入游戏 → 新君登基 → 董卓弄权 / 曹操崛起 / 赤壁之战 / 三国鼎立 → 选君主 → 大地图 → 入城。
+推荐流程：首页 → 进入游戏 → 新君登基 → 董卓弄权 / 曹操崛起 / 赤壁之战 / 三国鼎立 → 选君主 → 大地图 → 入城。
 
 ## 本仓库包含什么
 
@@ -76,10 +81,10 @@ js/            引擎与桥接
   baye.wasm    与加载器配套的 WebAssembly 引擎
   baye.build.json  源码、SDK 与产物校验记录
   bridge.js    JS ↔ WASM
-  lcd.js       LCD 渲染、按键、Lib 选择
+  lcd.js       LCD 渲染、按键、原版数据加载
   save-storage.js  本地双文件存档事务、校验与导入导出
-libs/          游戏数据 / Mod（.lib）
-libs.json      版本列表
+libs/          原版数据及保留的历史 Mod（.lib）
+libs.json      历史版本目录（普通入口不使用）
 mapeditor/     地图编辑器
 resetLibs/     重置用库
 v0/            早期版本前端
@@ -96,7 +101,7 @@ LICENSE        上游 GPL-2.0
 
 1. 用上面的静态服务打开首页 <http://localhost:8080/>
 2. （可选）把「PC 画质缩放」设为「清晰 2×」，滤镜保持「锐利」
-3. 选择版本后进入游戏，或直接打开 `pc.html`
+3. 点「进入游戏」，或直接打开 `pc.html`
 4. 也可在 PC 页下方画质条即时切换：
    - **经典 1× / 清晰 2×**：只改 CSS 外壳大小（480→960），键盘操作不变
    - **锐利 / 平滑**：邻近取样 vs 双线性
@@ -108,7 +113,7 @@ LICENSE        上游 GPL-2.0
 
 怎么试 HD 地图：
 
-1. 用上面的静态服务打开 <http://localhost:8080/pc.html>（建议先在首页选「词典原版」）
+1. 用上面的静态服务打开 <http://localhost:8080/pc.html>（直接加载原版）
 2. 页下方画质条点 **HD 地图**（写入 `localStorage['baye/overworldMode']='hd-map'`）
 3. 应看到 1920×1080 **摄像机窗口**（不是全国缩进一屏）+ 城标 + 路网；拖动平移可到海南 / 南海。未进大地图时是预览，经典 LCD 缩在右下角，键盘仍可开局
 4. 进大地图后 LCD 隐藏。点城打开 **HD 城池四项菜单**（内政/外交/军备/状况，一层子菜单已 HD）。进入战斗后使用 **HD 战场**，移动、攻击、计谋和结算按真实引擎状态与输入回执执行。清单：[docs/hd-full-replacement-checklist.md](docs/hd-full-replacement-checklist.md)

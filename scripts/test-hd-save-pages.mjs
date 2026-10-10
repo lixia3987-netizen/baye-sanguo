@@ -8,8 +8,21 @@ import vm from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const storageSource = readFileSync(join(root, 'js/save-storage.js'), 'utf8');
+const originalGameSource = readFileSync(join(root, 'js/original-game.js'), 'utf8');
+const originalLibPath = 'libs/dat-mod.lib';
+const originalCloudName = 'dat-mod.lib';
+const originalIdentity = 'v1:414390:1d36da77:1e9c0477';
 const inlineSource = page => [...readFileSync(join(root, page), 'utf8').matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script>/gi)]
     .filter(match => !/\bsrc\s*=/.test(match[1])).map(match => match[2]).join('\n');
+function savePageSource(page) {
+    const source = inlineSource(page);
+    if (page !== 'pc.html') return source;
+    // Execute the real PC cloud block independently of unrelated engine boot
+    // and keyboard initialization. No page implementation is copied here.
+    const start = source.indexOf('//云存档');
+    assert.ok(start >= 0, 'PC cloud block must remain identifiable');
+    return source.slice(start);
+}
 const filename = index => `baye//data//sango${index}.sav`;
 
 // Packed fixtures follow the actual 0x95 two-file layout. Their custom payload
@@ -102,6 +115,7 @@ function harness(page, initial = {}, { libPath = 'libs/current.lib', deferredLog
     };
     const { $, roots } = jquery();
     const requests = { gets: [], posts: [], uploads: [], downloads: [], logins: [], indices: [] };
+    const alerts = [];
     $.get = (url, callback) => {
         requests.gets.push({ url, callback });
         if (url.endsWith('libs.json')) callback([{ path: libPath, title: 'Selected LIB' }]);
@@ -118,7 +132,7 @@ function harness(page, initial = {}, { libPath = 'libs/current.lib', deferredLog
         getSave(url, callback) { requests.downloads.push({ url, callback }); }
     };
     const context = vm.createContext({
-        localStorage, $, BBKSDK: sdk, console,
+        localStorage, $, BBKSDK: sdk, console, alert: text => alerts.push(String(text)),
         document: { body: {} }, navigator: { userAgent: 'save-pages-regression' },
         location: { pathname: '/get-sav.html', protocol: 'http:', hostname: 'localhost', port: '' },
         Spinner: class { spin() {} stop() {} }
@@ -127,9 +141,10 @@ function harness(page, initial = {}, { libPath = 'libs/current.lib', deferredLog
     // Import/export pages intentionally run without lcd.js, a WASM Module, or a
     // loaded LIB. This executes their real inline code and shared storage API.
     vm.runInContext(storageSource, context, { filename: 'js/save-storage.js' });
-    vm.runInContext(inlineSource(page), context, { filename: page });
+    vm.runInContext(originalGameSource, context, { filename: 'js/original-game.js' });
+    vm.runInContext(savePageSource(page), context, { filename: page });
     return {
-        context, values, $, roots, requests,
+        context, values, $, roots, requests, alerts,
         fail(fn) { writes = 0; failure = fn; },
         clearFailure() { writes = 0; failure = null; },
         click(type, slot = 0) {
@@ -148,7 +163,7 @@ function oldJournalValues(h, slot) {
     return new Map([...h.values].filter(([key]) => key.startsWith(filename(slot * 2)) || key.startsWith(filename(slot * 2 + 1))));
 }
 function tip(h) { const n = h.roots.get('#tip'); return n.text || n.html; }
-function message(h) { return h.roots.get('.online-save-msg').text; }
+function message(h) { return h.roots.get('.online-save-msg').text || h.alerts.at(-1) || ''; }
 
 test('real export page uses sparse slot first-file metadata and preserves wrong-LIB identity', () => {
     const h = harness('get-sav.html'), files = pair('third slot');
@@ -248,7 +263,7 @@ test('real cloud-code callback imports through the same transaction and does not
 
 test('real online page sparse upload uses complete journal-visible pair and original two-line protocol', () => {
     const seeded = harness('get-sav.html'), old = pair('original'), incoming = pair('replacement');
-    imported(seeded, 2, old, { lib: 'libs/current.lib', name: 'Third' });
+    imported(seeded, 2, old, { lib: originalLibPath, name: 'Third' });
     seeded.fail(({ writes }) => writes >= 4);
     assert.equal(seeded.context.BayeSaveStorage.importSlot(2, { sav0: incoming[0], sav1: incoming[1], lib: '/mods/new.lib' }), false);
     const h = harness('online-save.html', Object.fromEntries(seeded.values));
@@ -257,35 +272,42 @@ test('real online page sparse upload uses complete journal-visible pair and orig
     const button = h.click('upload', 2);
     assert.equal(button.props.disabled, true); assert.equal(h.requests.uploads.length, 1);
     const request = h.requests.uploads[0];
-    assert.equal(request.index, '3'); assert.equal(request.mod, 'current.lib'); assert.equal(request.data, old.join('\n'));
+    assert.equal(request.index, '3'); assert.equal(request.mod, originalCloudName); assert.equal(request.data, old.join('\n'));
     request.callback(JSON.stringify({ code: 0, data: 'fixture://uploaded', msg: 'Fixture timestamp' }));
     assert.equal(button.props.disabled, false); assert.equal(message(h), '上传成功');
 });
 
-test('real online SDK download commits the exact selected LIB path and no invented fingerprint', () => {
+test('real online SDK download commits the fixed original LIB path and no invented fingerprint', () => {
     const libPath = '/custom/catalog/source.lib', h = harness('online-save.html', {}, { libPath }), files = pair('download');
     const button = h.click('download', 1); assert.equal(button.props.disabled, true);
     h.requests.downloads[0].callback(`${files[0]}\r\n${files[1]}\r\n`);
     assert.equal(button.props.disabled, false); assert.equal(message(h), '导入成功');
     assert.deepEqual([h.context.BayeSaveStorage.readMetadata(filename(2)), h.context.BayeSaveStorage.readMetadata(filename(3))], files);
     for (const key of [filename(2), filename(3)]) {
-        assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.lib'), libPath);
+        assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.lib'), originalLibPath);
         assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.lib-id'), null);
         assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.name'), null);
     }
     const upload = h.roots.get('.online-save-slots').children[1].children[1];
     assert.equal(upload.props.disabled, false); assert.equal(upload.attrs['data-index'], '2');
     h.click('upload', 1); assert.equal(h.requests.uploads[0].index, '2');
+    assert.equal(h.requests.uploads[0].mod, originalCloudName);
     assert.equal(h.requests.uploads[0].data, files.join('\n'));
+    assert.equal(h.values.get('baye/libpath'), libPath, 'cloud download must not rewrite prior selected-version preferences');
 });
 
-test('real online page loads cloud indices when SDK login finishes after the LIB catalog', () => {
+test('real online page loads only original cloud indices after late SDK login without a version catalog', () => {
     const h = harness('online-save.html', {}, { deferredLogin: true });
     assert.equal(h.roots.get('.online-save-slots').children.length, 3);
+    assert.equal(h.requests.gets.length, 0);
     assert.equal(h.requests.indices.length, 0);
     h.requests.logins[0]({ nickname: 'Late login', sav_dir: 'late-dir', avatar: 'fixture.png' });
     assert.equal(h.requests.indices.length, 1); assert.equal(h.requests.indices[0].directory, 'late-dir');
-    h.requests.indices[0].callback([{ game: 'baye', mod_name: 'current.lib', index: 2, file: 'fixture://slot-2', time: 'Today' }]);
+    h.requests.indices[0].callback([
+        { game: 'baye', mod_name: 'sc-mod.lib', index: 1, file: 'fixture://wrong-version' },
+        { game: 'baye', mod_name: originalCloudName, index: 2, file: 'fixture://slot-2', time: 'Today' }
+    ]);
+    assert.equal(h.roots.get('.online-save-slots').children[0].children[2].props.disabled, true);
     const button = h.roots.get('.online-save-slots').children[1].children[2];
     assert.equal(button.props.disabled, false); assert.equal(button.attrs['data-index'], '2');
     assert.equal(button.attrs['data-url'], 'fixture://slot-2');
@@ -293,7 +315,7 @@ test('real online page loads cloud indices when SDK login finishes after the LIB
 
 test('real online SDK malformed pair callbacks leave old saves unchanged', () => {
     const seeded = harness('get-sav.html'), old = pair('original');
-    imported(seeded, 0, old, { lib: 'libs/current.lib', name: 'Original' });
+    imported(seeded, 0, old, { lib: originalLibPath, name: 'Original' });
     for (const response of [null, old[0], `${old[0]}\n${old[1]}\nignored`, `00GG\n${old[1]}`, `${old[0]}\n${old[1].slice(0, -2)}`]) {
         const h = harness('online-save.html', Object.fromEntries(seeded.values)), before = new Map(h.values);
         h.click('download'); h.requests.downloads[0].callback(response);
@@ -303,7 +325,7 @@ test('real online SDK malformed pair callbacks leave old saves unchanged', () =>
 
 test('real online SDK denied commit and rollback never display import success or expose a mixed pair', () => {
     const seeded = harness('get-sav.html'), old = pair('original'), incoming = pair('incoming');
-    imported(seeded, 0, old, { lib: 'libs/current.lib', name: 'Original', identity: 'old-id' });
+    imported(seeded, 0, old, { lib: originalLibPath, name: 'Original', identity: 'old-id' });
     const h = harness('online-save.html', Object.fromEntries(seeded.values));
     const before = oldJournalValues(h, 0);
     h.fail(({ writes }) => writes >= 4);
@@ -317,8 +339,111 @@ test('real online SDK denied commit and rollback never display import success or
 
 test('real online page refuses a stale upload action when a save has become incomplete', () => {
     const seeded = harness('get-sav.html'), files = pair();
-    imported(seeded, 0, files, { lib: 'libs/current.lib' });
+    imported(seeded, 0, files, { lib: originalLibPath });
     const h = harness('online-save.html', Object.fromEntries(seeded.values));
     h.values.delete(filename(1)); h.click('upload');
     assert.match(message(h), /不完整/); assert.equal(h.requests.uploads.length, 0);
+});
+
+for (const page of ['online-save.html', 'pc.html']) {
+    test(`${page} rejects old Mod and same-basename foreign paths without changing any save or identity`, () => {
+        for (const lib of ['libs/sc-mod.lib', '/custom/dat-mod.lib', null]) {
+            const seeded = harness('get-sav.html'), files = pair('foreign original-looking save');
+            imported(seeded, 0, files, { lib, name: 'Retained source', identity: 'retained-source-id' });
+            const h = harness(page, { ...Object.fromEntries(seeded.values), 'baye/libpath': lib || 'libs/sc-mod.lib' });
+            const before = new Map(h.values);
+            assert.equal(h.roots.get('.online-save-slots').children[0].children[1].props.disabled, true);
+            // A stale button/handler must recheck both exact metadata paths.
+            h.click('upload');
+            assert.match(message(h), /原版/);
+            assert.equal(h.requests.uploads.length, 0);
+            assert.deepEqual(h.values, before);
+        }
+    });
+
+    test(`${page} rechecks both file identities before a formerly enabled upload`, () => {
+        const seeded = harness('get-sav.html'), files = pair('matching pair');
+        imported(seeded, 0, files, { lib: originalLibPath, identity: originalIdentity });
+        const h = harness(page, { ...Object.fromEntries(seeded.values), 'baye/libpath': 'libs/sc-mod.lib' });
+        assert.equal(h.roots.get('.online-save-slots').children[0].children[1].props.disabled, false);
+        h.values.set(filename(1) + '.lib', '/custom/dat-mod.lib');
+        const before = new Map(h.values);
+        h.click('upload');
+        assert.match(message(h), /原版/);
+        assert.equal(h.requests.uploads.length, 0);
+        assert.deepEqual(h.values, before);
+    });
+
+    test(`${page} rejects same-path custom fingerprints and rechecks stale identity without mutating saves`, () => {
+        const seeded = harness('get-sav.html'), files = pair('same path custom bytes');
+        imported(seeded, 0, files, { lib: originalLibPath, identity: 'v1:414390:custom:content' });
+        const rejected = harness(page, Object.fromEntries(seeded.values));
+        const beforeRejected = new Map(rejected.values);
+        assert.equal(rejected.roots.get('.online-save-slots').children[0].children[1].props.disabled, true);
+        rejected.click('upload');
+        assert.match(message(rejected), /原版/); assert.equal(rejected.requests.uploads.length, 0);
+        assert.deepEqual(rejected.values, beforeRejected);
+
+        imported(seeded, 0, files, { lib: originalLibPath, identity: originalIdentity });
+        const stale = harness(page, Object.fromEntries(seeded.values));
+        assert.equal(stale.roots.get('.online-save-slots').children[0].children[1].props.disabled, false);
+        stale.values.set(filename(1) + '.lib-id', 'v1:414390:custom:content');
+        const beforeStale = new Map(stale.values);
+        stale.click('upload');
+        assert.match(message(stale), /原版/); assert.equal(stale.requests.uploads.length, 0);
+        assert.deepEqual(stale.values, beforeStale);
+    });
+}
+
+test('real PC cloud upload uses the complete journal-visible original pair independently of the old preference', () => {
+    const seeded = harness('get-sav.html'), old = pair('PC original'), replacement = pair('PC replacement');
+    imported(seeded, 2, old, { lib: originalLibPath, name: 'Third original', identity: originalIdentity });
+    seeded.fail(({ writes }) => writes >= 4);
+    assert.equal(seeded.context.BayeSaveStorage.importSlot(2, {
+        sav0: replacement[0], sav1: replacement[1], lib: '/mods/replacement.lib'
+    }), false);
+    const h = harness('pc.html', { ...Object.fromEntries(seeded.values), 'baye/libpath': 'libs/sc-mod.lib' });
+    h.click('upload', 2);
+    assert.equal(h.requests.uploads.length, 1);
+    assert.equal(h.requests.uploads[0].game, 'baye');
+    assert.equal(h.requests.uploads[0].mod, originalCloudName);
+    assert.equal(h.requests.uploads[0].index, '3');
+    assert.equal(h.requests.uploads[0].data, old.join('\n'));
+    h.requests.uploads[0].callback(JSON.stringify({ code: 0, data: 'fixture://original', msg: 'Today' }));
+    assert.equal(message(h), '上传成功');
+});
+
+test('real PC cloud download commits a validated original pair through the shared transaction', () => {
+    const seeded = harness('get-sav.html'), old = pair('old PC source'), incoming = pair('new original');
+    imported(seeded, 1, old, { lib: '/mods/old.lib', identity: 'old-source-id', name: 'Old source' });
+    const h = harness('pc.html', { ...Object.fromEntries(seeded.values), 'baye/libpath': 'libs/sc-mod.lib' });
+    const button = h.click('download', 1);
+    h.requests.downloads[0].callback(`${incoming[0]}\r\n${incoming[1]}\r\n`);
+    assert.equal(button.props.disabled, false); assert.equal(message(h), '导入成功');
+    for (let i = 0; i < 2; i++) {
+        const key = filename(2 + i);
+        assert.equal(h.context.BayeSaveStorage.readMetadata(key), incoming[i]);
+        assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.lib'), originalLibPath);
+        assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.lib-id'), null);
+        assert.equal(h.context.BayeSaveStorage.readMetadata(key + '.name'), null);
+    }
+    assert.equal(h.values.get('baye/libpath'), 'libs/sc-mod.lib');
+    h.click('upload', 1);
+    assert.equal(h.requests.uploads[0].mod, originalCloudName);
+    assert.equal(h.requests.uploads[0].data, incoming.join('\n'));
+});
+
+test('real PC cloud malformed and denied downloads preserve the complete previous pair and metadata', () => {
+    const seeded = harness('get-sav.html'), old = pair('preserved PC'), incoming = pair('incoming PC');
+    imported(seeded, 0, old, { lib: originalLibPath, name: 'Old original', identity: 'old-id' });
+    for (const response of [null, old[0], `${old[0]}\n${old[1]}\nignored`, `00GG\n${old[1]}`, `${old[0]}\n${old[1].slice(0, -2)}`]) {
+        const h = harness('pc.html', Object.fromEntries(seeded.values)), before = new Map(h.values);
+        h.click('download'); h.requests.downloads[0].callback(response);
+        assert.notEqual(message(h), '导入成功'); assert.deepEqual(h.values, before);
+    }
+    const h = harness('pc.html', Object.fromEntries(seeded.values)), before = oldJournalValues(h, 0);
+    h.fail(({ writes }) => writes >= 4);
+    h.click('download'); h.requests.downloads[0].callback(incoming.join('\n'));
+    assert.match(message(h), /原存档已保留/); assert.notEqual(message(h), '导入成功');
+    for (const [key, value] of before) assert.equal(h.context.BayeSaveStorage.readMetadata(key), value);
 });

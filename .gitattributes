@@ -22,3 +22,8 @@
 # Keep the bridge validation record and archive index byte-stable.
 /docs/validation/m4-bridge-crossing-20261010.json text eol=lf
 /docs/validation/m4-bridge-crossing-20261010/runtime-index.json text eol=lf
+
+# Preserve the executed entry runner and its validation archive index.
+/scripts/test-original-game-runtime.mjs text eol=lf
+/docs/validation/m4-original-entry-20261010.json text eol=lf
+/docs/validation/m4-original-entry-20261010/runtime-index.json text eol=lf

@@ -401,7 +401,7 @@ function clearLib(then) {
 }
 
 function getLibName() {
-    return window.localStorage['baye/libname'] || "Unnamed";
+    return window.BayeOriginalGame ? BayeOriginalGame.title : window.localStorage['baye/libname'] || "Unnamed";
 }
 
 if (typeof(Storage) === "undefined") {
@@ -569,14 +569,19 @@ function loadLib(files) {
 }
 
 function loadLibDefault(then) {
-    var url = window.localStorage['baye/libpath'];
-    if (!url) {
-        alert("没有选择版本");
-    } else {
-        loadLibFromUrl(url, function(){
-            then();
-        });
+    var status = document.getElementById('game-load-status');
+    function failed(error) {
+        var message = '原版加载失败，请重新加载。' + (error && error.message ? ' ' + error.message : '');
+        if (status) { status.hidden = false; status.textContent = message; status.setAttribute('role', 'alert'); }
+        else alert(message);
+        var retry = document.getElementById('game-load-retry');
+        if (retry) retry.hidden = false;
     }
+    if (!window.BayeOriginalGame) { failed(new Error('启动资源未就绪')); return; }
+    return BayeOriginalGame.load(function () {
+        if (status) status.hidden = true;
+        then();
+    }, failed).catch(function () { /* The visible retry message handles startup failure. */ });
 }
 
 function bayeMain() {
@@ -703,10 +708,10 @@ function redirect(page) {
         page = "pc.html";
     }
     var now = new Date().getTime() / 1000;
-    var name = getLibName();
+    var name = window.BayeOriginalGame ? BayeOriginalGame.title : '三国霸业-词典原版';
     var hash = isMobile ? "#" + now : "";
-    var assetVer = (window.BAYE_ASSET_VER || '20261007f');
-    window.location.href = page + "?name=" + name + "&ver=" + encodeURIComponent(assetVer) + hash;
+    var assetVer = (window.BAYE_ASSET_VER || '20261010b');
+    window.location.href = page + "?name=" + encodeURIComponent(name) + "&ver=" + encodeURIComponent(assetVer) + hash;
 }
 
 function goHome() {
