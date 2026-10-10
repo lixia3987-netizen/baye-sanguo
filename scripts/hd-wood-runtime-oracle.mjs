@@ -1,4 +1,6 @@
-/** R21 read-only browser observer and independent standard-LIB WOOD37 oracle.
+/** Read-only observer and independent standard-LIB WOOD37 oracle.
+ * Evidence contracts do not substitute for a successful original player cast.
+ * Synchronous capture has overhead; it schedules no timers and supplies no inputs.
  * This module neither starts a browser nor supplies game inputs or world data.
  * The driver must inject only this observer, retain raw evidence, and separately
  * prove genuine preparation, current player command/AIM and process cleanup.
@@ -8,6 +10,8 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { inflateSync } from 'node:zlib';
+import { validateWoodCaptureBinding, verifyWoodCopyCompleteness, verifyWoodVisibleHd, verifyWoodPhysicalLcd } from './hd-wood-evidence-contract.mjs';
+export { woodAttemptFacts, validateWoodCaptureBinding, verifyWoodCopyCompleteness, verifyWoodVisibleHd, verifyWoodPhysicalLcd } from './hd-wood-evidence-contract.mjs';
 
 export const woodObserverSource = '(' + function () {
     const captures = [], samples = [], keys = [], errors = [];
@@ -20,10 +24,21 @@ export const woodObserverSource = '(' + function () {
     const held = new Set(), wrappedApis = new WeakSet();
     const copy = v => JSON.parse(JSON.stringify(v));
     const b64 = bytes => { let s = ''; for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]); return btoa(s); };
+    const readUnits = () => {
+        const d = baye.data, count = baye.getPersonCount();
+        return Array.from({ length: 20 }, (_, i) => {
+            const id = Number(d.g_FgtParam.GenArray[i]); if (!id) return { i, id: 0 };
+            if (!Number.isInteger(id) || id < 1 || id > count) throw Error('Actual battle ID outside native count');
+            const p = d.g_Persons[id - 1], pos = d.g_GenPos[i];
+            const u = { i, id, personIndex: id - 1, x: Number(pos.x), y: Number(pos.y), state: Number(pos.state), hp: Number(pos.hp), mp: Number(pos.mp), move: Number(pos.move), active: Number(pos.active), arms: Number(p.Arms), level: Number(p.Level), experience: Number(p.Experience), iq: Number(p.IQ), armType: baye.hd.personArmType(id - 1) };
+            if (!Object.values(u).every(Number.isInteger)) throw Error('Incomplete actual unit snapshot');
+            return u;
+        });
+    };
     const snap = () => {
         try {
             if (!window.baye || !baye.hd || !baye.hd.ready()) return null;
-            return copy({ spe: baye.hd.spe(), result: baye.hd.skillResult(), top: baye.hd.resultOwner(), fight: baye.hd.fight() });
+            return copy({ spe: baye.hd.spe(), result: baye.hd.skillResult(), top: baye.hd.resultOwner(), fight: baye.hd.fight(), units: readUnits() });
         } catch (e) { errors.push('native snapshot: ' + String(e)); return null; }
     };
     for (const name of ['clearRect', 'drawImage', 'fillRect', 'fillText', 'rect', 'clip']) {
@@ -51,7 +66,7 @@ export const woodObserverSource = '(' + function () {
         try {
             const s = snap(); if (!s) return;
             const spe = s.spe, result = s.result, ui = api && api.debugSnapshot(), now = performance.now();
-            samples.push({ stage, at: now, phase: window.__spePhase, spe, result, top: s.top, fight: s.fight, ui });
+            samples.push({ stage, at: now, phase: window.__spePhase, spe, result, top: s.top, fight: s.fight, units: s.units, ui });
             if (spe.active === 1 && spe.id === 37 && spe.kind === 2 && [6, 7].includes(spe.skillId)) last = { generation: spe.generation, eventId: spe.eventId, skillId: spe.skillId, actorIndex: spe.actorIndex, targetIndex: spe.targetIndex };
             const nativeOwner = result.active === true && result.speId === 37 && [6, 7].includes(result.skillId);
             const holdKey = result.generation + ':' + result.session;
@@ -81,9 +96,14 @@ export const woodObserverSource = '(' + function () {
                     }
                     hdLogicalRgba = b64(logical);
                 }
-                const node = document.getElementById('hd-spe'), r = hd && hd.getBoundingClientRect(), style = hd && getComputedStyle(hd), rootStyle = node && getComputedStyle(node);
-                const top = r && document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2);
-                const dom = r && { x: r.x, y: r.y, width: r.width, height: r.height, visible: !!(r.width && r.height && style.visibility === 'visible' && style.display !== 'none' && rootStyle.visibility === 'visible' && rootStyle.display !== 'none'), inViewport: r.x >= 0 && r.y >= 0 && r.right <= innerWidth + .5 && r.bottom <= innerHeight + .5, stackOwned: !!(top && node.contains(top)), cssBackground: style.backgroundColor, top: top && { id: top.id, className: top.className } };
+                const node = document.getElementById('hd-spe'), r = hd && hd.getBoundingClientRect(), style = hd && getComputedStyle(hd);
+                let dom = null;
+                if (hd && node && r) {
+                    const chain = []; let ancestor = hd;
+                    while (ancestor) { const cs = getComputedStyle(ancestor); chain.push({ id: ancestor.id, tag: ancestor.tagName, display: cs.display, visibility: cs.visibility, opacity: cs.opacity }); ancestor = ancestor.parentElement; }
+                    const points = [[.5, .5], [.25, .35], [.75, .65]].map(([px, py]) => { const x = r.x + r.width * px, y = r.y + r.height * py, front = document.elementFromPoint(x, y); return { x, y, top: front && { id: front.id, tag: front.tagName, className: front.className }, stackOwned: !!(front && node.contains(front)), canvasOrStageAtFront: front === hd || front === hd.parentElement || front === node }; });
+                    dom = { x: r.x, y: r.y, width: r.width, height: r.height, viewport: { width: innerWidth, height: innerHeight }, chain, points, visible: !!(r.width && r.height && chain.every(v => v.display !== 'none' && !['hidden', 'collapse'].includes(v.visibility) && Number(v.opacity) === 1)), inViewport: r.x >= 0 && r.y >= 0 && r.right <= innerWidth + .5 && r.bottom <= innerHeight + .5, stackOwned: points.every(v => v.stackOwned && v.canvasOrStageAtFront), cssBackground: style.backgroundColor };
+                }
                 let lcdDom = null, nativeCanvasRgba = null, nativeCanvasUrl = null, nativeCanvasWidth = null, nativeCanvasHeight = null;
                 if (lcd) {
                     const lr = lcd.getBoundingClientRect(), chain = []; let ancestor = lcd;
@@ -93,12 +113,7 @@ export const woodObserverSource = '(' + function () {
                     nativeCanvasWidth = lcd.width; nativeCanvasHeight = lcd.height;
                     nativeCanvasRgba = b64(lcd.getContext('2d').getImageData(0, 0, lcd.width, lcd.height).data); nativeCanvasUrl = lcd.toDataURL('image/png');
                 }
-                const count = baye.getPersonCount(), units = Array.from({ length: 20 }, (_, i) => {
-                    const id = Number(d.g_FgtParam.GenArray[i]); if (!id) return { i, id: 0 };
-                    if (id < 1 || id > count) throw Error('Actual battle ID outside native count');
-                    const p = d.g_Persons[id - 1], pos = d.g_GenPos[i];
-                    return { i, id, personIndex: id - 1, x: Number(pos.x), y: Number(pos.y), state: Number(pos.state), hp: Number(pos.hp), mp: Number(pos.mp), active: Number(pos.active), arms: Number(p.Arms), level: Number(p.Level), experience: Number(p.Experience), iq: Number(p.IQ), armType: baye.hd.personArmType(id - 1) };
-                });
+                const units = s.units;
                 const nativeUrl = native.toDataURL('image/png'), hdUrl = hd && ui.open ? hd.toDataURL('image/png') : null, after = snap();
                 captures.push({ stage: readback ? 'held-lcd-readback' : 'lcd-flush', rawSource: readback ? 'canvas-readback-normalized' : 'lcd-callback-image-data', at: now, phase: window.__spePhase, callbackBefore, callbackAfter, callbackRgbaBefore: rgbaBefore, callbackRgbaAfter: rgbaAfter, before, after, spe, result, top: s.top, fight: s.fight, ui, dom, lcdDom, nativeCanvasRgba, nativeCanvasUrl, nativeCanvasWidth, nativeCanvasHeight, lastWood: last, units, hidden: document.hidden, mode: window.BayeHdBattle && BayeHdBattle.getMode(), drawing: { scale: Number(d.g_scale), flip: Number(d.g_FlipDrawing), paint: Number(d.g_paintColor), palette0: paletteReadback[0], palette255: paletteReadback[255] }, paletteReadback, nativeIndices, indexedSource: 'unique actual palette inverse of captured RGBA; -1 is ambiguous/unmapped, not a native surface read', ambiguousPixelCount: ambiguousPixelCount.value, nativeWidth: native.width, nativeHeight: native.height, nativeRgba: b64(raw), hdLogicalRgba, nativeUrl, hdUrl, drawLog: copy(drawLog) });
             }
@@ -260,7 +275,9 @@ export function verifyWoodCaptures(report, { library, font, assets, artifactDir,
             return (post ? s.speId === 37 && d.valid : c.spe.active === 1 && s.id === 37) && s.skillId === skill && s.actorIndex === actorIndex && s.targetIndex === targetIndex && d && d.frameValid && attempt.movieEvents.includes(post ? d.eventId : s.eventId);
         });
         assert.ok(selected.length, 'Actual owned movie/NUM captures for skill' + skill);
+        const completeCopies = verifyWoodCopyCompleteness(selected, attempt, skill, counter(m, end));
         for (const c of selected) {
+            validateWoodCaptureBinding(c, attempt, skill);
             assert.deepEqual(c.before, c.after, 'Read-only evidence cannot change native owner'); assert.deepEqual(c.callbackBefore, c.callbackAfter, 'Production callback cannot change native owner');
             if (c.rawSource === 'lcd-callback-image-data') { assert.equal(c.callbackRgbaBefore, c.callbackRgbaAfter, 'Production cannot mutate native callback ImageData'); assert.equal(c.nativeRgba, c.callbackRgbaBefore); }
             assert.deepEqual([c.nativeWidth, c.nativeHeight], [W, H]); assert.deepEqual([c.drawing.scale, c.drawing.flip, c.drawing.paint, c.drawing.palette0, c.drawing.palette255], [1, 0, 255, 0x00ffffff, 0xff000000]);
@@ -300,13 +317,15 @@ export function verifyWoodCaptures(report, { library, font, assets, artifactDir,
                 verified.push({ at: c.at, skillId: skill, generation, eventId, session: post ? s.session : null, phase: post ? s.phase : 'movie', commitSeq: d.commitSeq, currentCommitSeq: current.commitSeq, displayLagsCurrent: d.commitSeq < current.commitSeq, frameIndex: d.frameIndex, width: geometry.width, currentWidth: current.composition.width, visible: bits(d.visibleFrames), clear: bits(geometry.clearFrames), source: 'classic-lcd', nativeRawSource: c.rawSource, nativeRgbaSha256: sha(raw), independentExpectedSha256: sha(isNormalized ? normalized(full) : full), nativeFile: c.nativeFile || null, lcdFile: c.lcdFile || null, hdFile: null });
                 continue;
             }
+            verifyWoodVisibleHd(c);
             assert.ok(c.ui.open && c.dom && c.dom.visible && c.dom.inViewport && c.dom.stackOwned && !c.hidden); assert.deepEqual(c.ui.sourceRect, { x: 0, y: 0, width: W, height: H }); assert.equal(c.ui.skipVisible, false);
             const shown = Buffer.from(c.hdLogicalRgba, 'base64'); assert.equal(shown.length, SIZE); const hdPng = png(imageBytes(c, 'hd', artifactDir)), scale = c.ui.scale; assert.ok(Number.isInteger(scale) && scale >= 1); assert.deepEqual([hdPng.width, hdPng.height], [W * scale, H * scale]);
             for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const offset = (y * W + x) * 4, hp = (Math.floor((y + .5) * scale) * hdPng.width + Math.floor((x + .5) * scale)) * 4; assert.deepEqual(shown.subarray(offset, offset + 4), hdPng.rgba.subarray(hp, hp + 4), 'Logical readback equals retained HD PNG original bytes'); }
-            if (c.ui.source !== 'hd-assets') { assert.ok(allowLcd, 'Strict selected movie/NUM/hold requires actual HD'); assert.equal(c.ui.source, 'lcd'); assert.deepEqual(shown, normalized(raw)); }
+            if (c.ui.source !== 'hd-assets') { assert.ok(allowLcd, 'Strict selected movie/NUM/hold requires actual HD'); assert.equal(c.ui.source, 'lcd'); assert.deepEqual(shown, normalized(raw)); verifyWoodPhysicalLcd(hdPng, normalized(raw), scale); }
             else {
                 hd++; assert.equal(c.ui.outsideSource, 'lcd'); assert.deepEqual(c.ui.hdRegion, { x: 48, y: 16, width: expected.width, height: 64 });
                 for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (x < 48 || x >= 48 + expected.width || y < 16 || y >= 80) { const o = (y * W + x) * 4; assert.deepEqual(shown.subarray(o, o + 4), normalized(raw.subarray(o, o + 4)), 'Full external LCD including uninitialized right2 remains exact'); }
+                verifyWoodPhysicalLcd(hdPng, normalized(raw), scale, { x: 48, y: 16, width: expected.width, height: 64 });
                 const rawNormalized = normalized(raw);
                 for (let py = 0; py < hdPng.height; py++) for (let px = 0; px < hdPng.width; px++) {
                     const x = Math.floor(px / scale), y = Math.floor(py / scale);
@@ -338,13 +357,13 @@ export function verifyWoodCaptures(report, { library, font, assets, artifactDir,
         if (skill === 6) assert.ok(widths.has(64) && widths.has(66), 'Actual display64 and display66 observations are required; no synthetic first64'); else assert.deepEqual([...widths], [64]);
         const first = attempt.before.units.find(u => u.i === actorIndex), after = attempt.after.units.find(u => u.i === actorIndex); assert.ok(first && after); assert.equal(after.mp, first.mp - (skill === 6 ? 20 : 25), 'Native successful player MP delta');
         const targetBefore = attempt.before.units.find(u => u.i === targetIndex), targetAfter = attempt.after.units.find(u => u.i === targetIndex); assert.ok(targetBefore && targetAfter); const numeric = selected.find(c => c.result.active && c.result.skillId === skill && c.result.value > 0); assert.ok(numeric); assert.equal(numeric.result.value, targetBefore.arms - targetAfter.arms, 'Displayed value matches actual applied arms loss; never supplied by that delta');
-        families.push({ skillId: skill, movieReadbacks: movieCount, postReadbacks: postCount, labels, numbers, holds, hdReadbacks: hd, observedWidths: [...widths], actualLcdCallbacks: selected.filter(c => c.stage === 'lcd-flush').length });
+        families.push({ skillId: skill, completeCopies, movieReadbacks: movieCount, postReadbacks: postCount, labels, numbers, holds, hdReadbacks: hd, observedWidths: [...widths], actualLcdCallbacks: selected.filter(c => c.stage === 'lcd-flush').length });
     }
     const forbidden = report.engineInputs.filter(k => k.speId === 37 && k.speActive === 1 || k.resultSpeId === 37 && k.resultActive === true); assert.deepEqual(forbidden, [], 'No native key reaches WOOD37 movie/NUM/hold');
     const retired = report.woodRetired; assert.ok(retired && retired.spe && retired.result && retired.top && retired.ui, 'Actual post-action retirement snapshot required'); assert.equal(retired.spe.active, 0); assert.equal(retired.result.active, false); assert.equal(retired.top.active, false); assert.equal(retired.ui.open, false);
     const samples = report.speObservations || report.woodSamples, lastSelectedAt = Math.max(...verified.map(v => v.at));
     assert.ok(Array.isArray(samples) && samples.some(s => s.at > lastSelectedAt && s.spe && s.spe.active === 0 && s.result && s.result.active === false && s.top && s.top.active === false), 'Actual lifecycle after selected movie/result establishes retirement, not a synthetic final snapshot');
-    return { ok: true, accepted: true, hdAccepted: !allowLcd && families.every(f => f.hdReadbacks === f.movieReadbacks + f.postReadbacks), classicNegativeAccepted: expectClassic, scope: 'Actual player skill6 WOOD37 0..7/64-to66 and skill7 WOOD37 0..0/64, full native LCD pixels, true saved-copy GBK/NUM/hold; explicit classic verifies only actual visible LCD with no HD replacement, otherwise HD geometry and outside LCD. Caller separately proves campaign preparation, source freeze, font loading and cleanup.', librarySha256: sha(library), fontSha256: sha(font), families, verified, eventCount: events.size, keyCountDuringSelectedMovieOrResult: forbidden.length, indexedBoundary: 'RGBA is actual native callback data; nativeIndices is palette inverse only and never asserted to be raw scr_buffer.' };
+    return { ok: true, accepted: true, evidenceVersion: 2, fallbackAccepted: allowLcd === true && families.every(f => f.hdReadbacks === 0), hdAccepted: !allowLcd && families.every(f => f.hdReadbacks === f.movieReadbacks + f.postReadbacks), classicNegativeAccepted: expectClassic, scope: 'Actual player skill6 WOOD37 0..7/64-to66 and skill7 WOOD37 0..0/64, full native LCD pixels, true saved-copy GBK/NUM/hold; explicit classic verifies only actual visible LCD with no HD replacement, otherwise HD geometry and outside LCD. Caller separately proves campaign preparation, source freeze, font loading and cleanup.', librarySha256: sha(library), fontSha256: sha(font), families, verified, eventCount: events.size, keyCountDuringSelectedMovieOrResult: forbidden.length, indexedBoundary: 'RGBA is actual native callback data; nativeIndices is palette inverse only and never asserted to be raw scr_buffer.' };
 }
 function verifyDraws(c, expected, entry, label, post) {
     const scale = c.ui.scale, actual = c.drawLog.filter(o => o.type === 'fillRect' || o.type === 'fillText' || o.type === 'drawImage' && o.src), regions = c.drawLog.filter(o => o.type === 'rect').map(o => o.args); let i = 0;
@@ -358,4 +377,11 @@ function verifyDraws(c, expected, entry, label, post) {
         for (const p of c.result.display.digits) for (let draw = 0; draw < p.drawCount; draw++) { const box = [p.x * scale, (p.firstY - draw) * scale, 12 * scale, 16 * scale]; consume('fillRect', box); const o = consume('fillText', [box[0], box[1], 6 * scale], String(p.digit)); assert.equal(o.font, 'bold ' + 16 * scale + 'px Georgia, serif'); expectedRects.push(box); }
     }
     assert.equal(i, actual.length, 'No extra unobserved art/text draws'); assert.deepEqual(regions, expectedRects, 'Actual full scene/label/digit clipping');
+}
+
+/** Pure independent standard-ROM timeline for offline fixture checks. No browser. */
+export function woodNativeTimeline(library, skill) {
+    assert.ok([6, 7].includes(skill));
+    assert.equal(sha(library), '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
+    return counter(movie(library), skill === 6 ? 7 : 0);
 }
