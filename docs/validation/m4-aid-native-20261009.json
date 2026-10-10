@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "recordedAt": "2026-10-09T15:51:59.034Z",
+  "recordedAt": "2026-10-10T11:26:16.396Z",
   "status": "native-fixtures-passed-player-cast-pending",
   "recordedAgainst": "d3efa014ab07ef7dddb8a59ce59ebea93ede1428",
   "accepted": false,
@@ -10,7 +10,7 @@
   "preparationAccepted": false,
   "hdAccepted": false,
   "archiveClosed": false,
-  "scope": "Persistent compiled-C fixture coverage of real AID17/29/41 plus separately retained actual public campaign preparation attempts v1 and v2. Neither failed actual attempt accepts real player casting or HD runtime behavior.",
+  "scope": "Controlled compiled-C AID17/29/41 fixture coverage and separately retained original public campaign preparations. Failed v1/v2 remain failed. v4 accepts only actual Canvass134 ownership/residency and its unmodified public saved pair; MOVE134, SEARCH188, real player casting and HD runtime acceptance remain separate pending gates.",
   "nativeFixture": {
     "script": {
       "path": "scripts/test-hd-aid-engine.mjs",
@@ -732,5 +732,542 @@
       "bytes": 11269,
       "sha256": "eb3cbb852a53ff78a6d4fdc31d5f006faf1cd5fbfe720388027a27dd6507c25a"
     }
+  },
+  "actualPreparationV4": {
+    "schemaVersion": 1,
+    "status": "phase1-accepted",
+    "accepted": true,
+    "scope": "Actual Canvass134/P3LiuZhang9/city24 and exact bole-owned native save only",
+    "phaseAccepted": true,
+    "preparationAccepted": false,
+    "caster188Acquired": false,
+    "aidCastAccepted": false,
+    "hdAccepted": false,
+    "archiveClosed": false,
+    "audit": {
+      "path": "build/r22-aid-phase1-v4-terminal-independent-audit.json",
+      "bytes": 112030,
+      "sha256": "86db50d3eeadfdd7db8e7379941425ae109f2cd13e5f0faea7d18db08f1ca245"
+    },
+    "refs": {
+      "result": {
+        "path": "build/r22-aid-prepare-actual-v4/result.json",
+        "bytes": 207732144,
+        "sha256": "99af9bb49a4d0e264afc9e373aa3288db6b424a5351435067b169cacff15b58d"
+      },
+      "sidecar": {
+        "path": "build/r22-aid-prepare-actual-v4/result.json.campaignObservations.ndjson",
+        "bytes": 210733168,
+        "sha256": "2bb05beb5d006baded5b5b4f9a6e3acc1568d402b3f5fbb3d49dd14623c979ef"
+      },
+      "runner": {
+        "path": "build/r22-aid-prepare-driver-v4-final.mjs",
+        "bytes": 93106,
+        "sha256": "2aa34bcf2171b9c676cca0a64ce3910aaa543fc93914d520b06f0a418fd42d8f"
+      },
+      "wrapper": {
+        "path": "build/r22-run-aid-phase1-root-v4.mjs",
+        "bytes": 3979,
+        "sha256": "5d0301b2b720010432a7cbef74fd3c1e3edd1a17c3952787fb8d15242d21aaa9"
+      },
+      "isolation": {
+        "path": "build/r22-aid-prepare-actual-v4-isolation.json",
+        "bytes": 2795,
+        "sha256": "39ec04e075fe531a272622b4eab644a6994a580d501cabba7c8e515123a321f1"
+      },
+      "sourceVerification": {
+        "path": "build/r22-aid-prepare-actual-v4/source-verification.json",
+        "bytes": 417504,
+        "sha256": "c9fd1e2fa7b80291d571305bb233d83c7717c45b8b9df8a92568695c9ecff9b9"
+      },
+      "log": {
+        "path": "build/r22-aid-prepare-actual-v4.log",
+        "bytes": 3137,
+        "sha256": "4aac553743f4863097d18ad71c09fc3c9c3ee25193ea9a2c8146ba27c2a769ba"
+      },
+      "originalBoleOwnedPair": [
+        {
+          "path": "build\\r22-aid-prepare-actual-v4\\native-bole-owned-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b0f78d1ff33f7c4b2db8d6d6e9fcb9a2c6960317ade22889b7d54d248a6ac9ec"
+        },
+        {
+          "path": "build\\r22-aid-prepare-actual-v4\\native-bole-owned-sango1.sav",
+          "bytes": 4840,
+          "sha256": "aec01394d42ce55ebcffa4e357d8e12812c8ca2f3d57d10a7fa41b8545c869a5"
+        }
+      ]
+    },
+    "counts": {
+      "months": 21,
+      "canvass": 57,
+      "kingEnvoyOrders": 21,
+      "treats": 19,
+      "kingNoReportTreats": 7,
+      "nonKingReportTreats": 12,
+      "governance": 10,
+      "savePairs": 22,
+      "sidecarRows": 2220
+    },
+    "actual134": {
+      "personIndex": 134,
+      "nativeId": 135,
+      "name": "杨秋",
+      "belong": 10,
+      "oldBelong": 0,
+      "level": 3,
+      "experience": 0,
+      "iq": 56,
+      "force": 70,
+      "age": 46,
+      "devotion": 62,
+      "character": 0,
+      "thew": 100,
+      "arms": 1560,
+      "baseArm": 2,
+      "armType": 2,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "date": {
+      "year": 211,
+      "month": 10
+    },
+    "ownedCity24": true,
+    "sourceRecords": 1172,
+    "sourceDrift": 0,
+    "privateCleanup": true,
+    "user8080Pid": 105848,
+    "phase2InputBoundary": "This independently accepted terminal/cleaned phase1 bole-owned exact original pair is eligible for root-authorized phase2 input. Future driver source/preflight/realLOAD/MOVE134/SEARCH188 remain separate gates; no automatic phase2 authorization or caster/cast/HD acceptance.",
+    "metadata": {
+      "path": "build/r22-aid-phase1-v4-root-merge-metadata.json",
+      "bytes": 3415,
+      "sha256": "509472d02132cdc92f56115c5ab3f60456148913ecd5d2e42b4f782cc412465d"
+    },
+    "actualPhase": "canvass-only",
+    "savedPairs": [
+      {
+        "tag": "month-001",
+        "date": {
+          "year": 210,
+          "month": 2
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-001-sango0.sav",
+            "bytes": 8221,
+            "sha256": "a810c744f23cadba7f139276a4a874efd1098b3251fb12666fda9040b4b972f2"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-001-sango1.sav",
+            "bytes": 4840,
+            "sha256": "6ea6dcb90feba03700a67d1a3acd90a17ba7da0794c7212ce297bf1207f27f97"
+          }
+        ]
+      },
+      {
+        "tag": "month-002",
+        "date": {
+          "year": 210,
+          "month": 3
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-002-sango0.sav",
+            "bytes": 8221,
+            "sha256": "e5954d45bd5411dbbf9c6bb42fa66c61c2f18000a46ddf03ed452311326d6335"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-002-sango1.sav",
+            "bytes": 4840,
+            "sha256": "10ce8d46ed7ba4b4f2379341aa9049e550295b7c378b587b13f3e78e33a1cd04"
+          }
+        ]
+      },
+      {
+        "tag": "month-003",
+        "date": {
+          "year": 210,
+          "month": 4
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-003-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b947cf02338bfb4d58aaad34ff8004bd6038152a121d2f8367b32a6aa447d261"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-003-sango1.sav",
+            "bytes": 4840,
+            "sha256": "1c5fc8d7c812134cd8b88f235ac43190e918866bb2dcdecf722c13e37fb522b6"
+          }
+        ]
+      },
+      {
+        "tag": "month-004",
+        "date": {
+          "year": 210,
+          "month": 5
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-004-sango0.sav",
+            "bytes": 8221,
+            "sha256": "834e19a3a39cf438a8e5f413ef4985b2b716880be33a7e8605afbafc80f6ec48"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-004-sango1.sav",
+            "bytes": 4840,
+            "sha256": "4defdd61b61dd545776afde43249ae10f127b1bcda44d2ad51d60b0eed368854"
+          }
+        ]
+      },
+      {
+        "tag": "month-005",
+        "date": {
+          "year": 210,
+          "month": 6
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-005-sango0.sav",
+            "bytes": 8221,
+            "sha256": "7b1abb7e84d51af62e6fcaae5facb92b10f630d434488a87eb3ab00ffe0f2610"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-005-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a3eecceee989cfdb6517c8ea06983fafaaad0c2e3431eb8cc819d34e8500b5d6"
+          }
+        ]
+      },
+      {
+        "tag": "month-006",
+        "date": {
+          "year": 210,
+          "month": 7
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-006-sango0.sav",
+            "bytes": 8221,
+            "sha256": "66326b936d56cff2057fc441b1f122b2e44aee1517944ad6ad10b7d330b9625e"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-006-sango1.sav",
+            "bytes": 4840,
+            "sha256": "ead07f9029ba7fd7fbd76dbff2b78f3c7257e0c967184d94c798786ac27e8ace"
+          }
+        ]
+      },
+      {
+        "tag": "month-007",
+        "date": {
+          "year": 210,
+          "month": 8
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-007-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b6f5b295891bfa6633ed58d861a1cf6e998e15169cf4a2ec200060cbb96a8ad4"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-007-sango1.sav",
+            "bytes": 4840,
+            "sha256": "29c55804e6194d6a9972a9c642babeb942cae947d548db549a910ac4234f374b"
+          }
+        ]
+      },
+      {
+        "tag": "month-008",
+        "date": {
+          "year": 210,
+          "month": 9
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-008-sango0.sav",
+            "bytes": 8221,
+            "sha256": "bd3d515ca4d3c039e78547639c458f61f04ae137c0d6cebdf3ab76fa1fb466dc"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-008-sango1.sav",
+            "bytes": 4840,
+            "sha256": "432ca4cafb490d585a106a91d5c22ebb72bd827bb179cfde437dc27627580fb2"
+          }
+        ]
+      },
+      {
+        "tag": "month-009",
+        "date": {
+          "year": 210,
+          "month": 10
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-009-sango0.sav",
+            "bytes": 8221,
+            "sha256": "2eed2e64162e36aeadbf5825f705bedf1b83fff9223249fc6c9abd10bcaa38bb"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-009-sango1.sav",
+            "bytes": 4840,
+            "sha256": "fb25e4baa319870493d52b9968b96901607c351abbe467c8c44570ff70bdef7d"
+          }
+        ]
+      },
+      {
+        "tag": "month-010",
+        "date": {
+          "year": 210,
+          "month": 11
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-010-sango0.sav",
+            "bytes": 8221,
+            "sha256": "1ed0a8d4b9acdd158cfbe98cd27e0cdc1cb66f91a9455196b6cdb987d20b4d75"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-010-sango1.sav",
+            "bytes": 4840,
+            "sha256": "ebc3998f0f36a85d118e8502ad03ae3d5dc0bdad0ce7ed92cf12cd4455bb35a9"
+          }
+        ]
+      },
+      {
+        "tag": "month-011",
+        "date": {
+          "year": 210,
+          "month": 12
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-011-sango0.sav",
+            "bytes": 8221,
+            "sha256": "bf7e478b3530bf654e61c677b9af6efd512dcd98b5df3abf661848c950748f75"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-011-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a0c8b9e0e07e9fc588c6fc7c6d8c88345a633c4e76678c9ab7cdd6e1d673b238"
+          }
+        ]
+      },
+      {
+        "tag": "month-012",
+        "date": {
+          "year": 211,
+          "month": 1
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-012-sango0.sav",
+            "bytes": 8221,
+            "sha256": "acf71d75a610f64ce9fabb1660b9aae41ee87bacda8de0b8e5fc29e01a307595"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-012-sango1.sav",
+            "bytes": 4840,
+            "sha256": "5465f591f7152794460b4075caec3d177a106b361da5b0bc63b7e0d777eac928"
+          }
+        ]
+      },
+      {
+        "tag": "month-013",
+        "date": {
+          "year": 211,
+          "month": 2
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-013-sango0.sav",
+            "bytes": 8221,
+            "sha256": "963852aecc3f16f4a38075332c286844663ed3a40dd7de8d72f70029b11bbb2f"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-013-sango1.sav",
+            "bytes": 4840,
+            "sha256": "fe00fe1718e6ce789d500e4291405eb8ed7ee552cdf7a155613cbfa98b539dc0"
+          }
+        ]
+      },
+      {
+        "tag": "month-014",
+        "date": {
+          "year": 211,
+          "month": 3
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-014-sango0.sav",
+            "bytes": 8221,
+            "sha256": "c073e665cd95ad8fce002cd50a0c062a0791932a12444aba0f107284f44ab730"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-014-sango1.sav",
+            "bytes": 4840,
+            "sha256": "5b9b2fca0b79e90d2d84313f2a0640febd0458eb0592c1b2c042f5a11b4da59e"
+          }
+        ]
+      },
+      {
+        "tag": "month-015",
+        "date": {
+          "year": 211,
+          "month": 4
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-015-sango0.sav",
+            "bytes": 8221,
+            "sha256": "0c68a8cf2a6c81060366d8c73d085671795afc3a96ea4f6f4562c46fd49a8785"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-015-sango1.sav",
+            "bytes": 4840,
+            "sha256": "09662d73686fcae1bc3de7ea28a449af805784366bdee7fcd1518ce9ed9acf7a"
+          }
+        ]
+      },
+      {
+        "tag": "month-016",
+        "date": {
+          "year": 211,
+          "month": 5
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-016-sango0.sav",
+            "bytes": 8221,
+            "sha256": "7be636b2a2b2c0e8d80d80f499382974e75b6d04284a3794aaa2691699b6c68d"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-016-sango1.sav",
+            "bytes": 4840,
+            "sha256": "3a8879fc14129d50d391eab96a1890b134e9b92297e3f7833b593218b4db26aa"
+          }
+        ]
+      },
+      {
+        "tag": "month-017",
+        "date": {
+          "year": 211,
+          "month": 6
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-017-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b206e3493193e4a0facbfa4b821e45f4d9aa684df85bfd86adf960b99a274456"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-017-sango1.sav",
+            "bytes": 4840,
+            "sha256": "80cce9de15e6e4e20bcdf52741fbf5acbb9d0be9cc8c29abae73d94ef7804b90"
+          }
+        ]
+      },
+      {
+        "tag": "month-018",
+        "date": {
+          "year": 211,
+          "month": 7
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-018-sango0.sav",
+            "bytes": 8221,
+            "sha256": "9bc46110c468356abe4ae4bb9e78360f86b70fa9f8ec13ec46d0f057152c4b8a"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-018-sango1.sav",
+            "bytes": 4840,
+            "sha256": "0e96e990aa49ed049529cc6a0e66168f95db3c9e20038598a15d3321d6b8945a"
+          }
+        ]
+      },
+      {
+        "tag": "month-019",
+        "date": {
+          "year": 211,
+          "month": 8
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-019-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f16e6c71fbc55b2669f2c3058746affd91819e680564d42cbb00e9f06764e451"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-019-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8881567a4c450631281dd95c4259e281e718e14ab8fe29956f5f698772165ec7"
+          }
+        ]
+      },
+      {
+        "tag": "month-020",
+        "date": {
+          "year": 211,
+          "month": 9
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-020-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b458ae58d1bd066d5e1ec08ccb45b2ae3ee003b9591d077711c4f7eb964ce7a7"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-020-sango1.sav",
+            "bytes": 4840,
+            "sha256": "074467d33e691de62ef6220b3692d50d0b96b455048ef21b6404e6a6b67b6ee9"
+          }
+        ]
+      },
+      {
+        "tag": "month-021",
+        "date": {
+          "year": 211,
+          "month": 10
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-021-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b7aa21cecb3ca62d7ac490e0119d06816d683435561f913248df0dbff8ba4e20"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-021-sango1.sav",
+            "bytes": 4840,
+            "sha256": "13c3fd8e4832ced147606221516dc7d8e56e634922867a0cdcd21c04d9456644"
+          }
+        ]
+      },
+      {
+        "tag": "bole-owned",
+        "date": {
+          "year": 211,
+          "month": 10
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-bole-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b0f78d1ff33f7c4b2db8d6d6e9fcb9a2c6960317ade22889b7d54d248a6ac9ec"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-bole-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "aec01394d42ce55ebcffa4e357d8e12812c8ca2f3d57d10a7fa41b8545c869a5"
+          }
+        ]
+      }
+    ],
+    "phase2Executed": false,
+    "castExecuted": false
   }
 }
