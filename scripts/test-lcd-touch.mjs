@@ -113,6 +113,8 @@ test('mounting twice adds no duplicate input and destroy removes listeners',()=>
 test('page lock permits only the currently displayed mobile HD scroll surface', () => {
     const body = new Target(), classes = new Set();
     body.classList = {contains: value => classes.has(value)};
+    let battlePresentation = 'off';
+    body.getAttribute = name => name === 'data-hd-mobile-battle' ? battlePresentation : null;
     const context = vm.createContext({document: {body}, window: {scrollTo() {}}});
     const start = source.indexOf('function disablePageScroll()');
     const end = source.indexOf('\nfunction ', start + 1);
@@ -130,4 +132,14 @@ test('page lock permits only the currently displayed mobile HD scroll surface', 
     assert.equal(blocked({parentNode: dialog}), false, 'actual HD dialog pane can scroll');
     assert.equal(blocked({parentNode: city}), true, 'hidden city pane cannot inherit dialog permission');
     classes.clear(); assert.equal(blocked({parentNode: dialog}), true);
+    const battleSide = {id: 'hd-mobile-battle-side', parentNode: body};
+    classes.add('hd-mobile-page');
+    assert.equal(blocked({parentNode: battleSide}), true, 'inactive battle cannot scroll through the page lock');
+    battlePresentation = 'hd';
+    assert.equal(blocked({parentNode: battleSide}), false, 'current HD battle side can scroll');
+    assert.equal(blocked({id: 'hd-mobile-battle-board', parentNode: body}), true, 'battle board keeps the page locked');
+    battlePresentation = 'lcd';
+    assert.equal(blocked({parentNode: battleSide}), true, 'LCD handoff revokes battle side permission');
+    classes.clear(); battlePresentation = 'hd';
+    assert.equal(blocked({parentNode: battleSide}), true, 'other pages cannot inherit mobile battle permission');
 });

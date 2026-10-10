@@ -25,7 +25,7 @@
         <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261011a" />
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261010c" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011d" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011e" />
         <link rel="icon" href="favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -72,7 +72,7 @@
         <script src="js/lzma_worker-min.js"></script>
         <script src="js/base64.js"></script>
     </head>
-    <body class="hd-mobile-page" data-hd-portrait-manual="1">
+    <body class="hd-mobile-page" data-hd-portrait-manual="1" data-hd-mobile-battle="off">
         <header id="hd-mobile-bar" aria-label="原版策略资料和地图操作">
             <div class="hd-mobile-brand">三国霸业<span>原版</span></div>
             <span id="hd-mobile-status">原版游戏</span>
@@ -87,6 +87,7 @@
             <div class="hd-mobile-controls" role="group" aria-label="地图操作">
                 <button id="hd-mobile-map-mode" type="button" aria-pressed="true">经典</button>
                 <button id="hd-mobile-menu-mode" type="button" aria-pressed="true">经典菜单</button>
+                <button id="hd-mobile-battle-toggle" type="button" hidden>经典战场</button>
                 <button id="hd-mobile-map-focus" type="button" disabled>定位</button>
                 <button id="hd-mobile-exit" type="button" disabled>返回</button>
             </div>
@@ -142,6 +143,32 @@
                     <div id="hd-dialog-probe" class="hd-dialog-probe" hidden></div>
                 </div>
             </div>
+            <section id="hd-battle" class="hd-battle" aria-label="原版高清战场" aria-hidden="true">
+                <div id="hd-mobile-battle-layout">
+                    <div id="hd-mobile-battle-board">
+                        <canvas id="hd-mobile-battle-canvas" width="640" height="280" aria-label="拖动查看战场，轻点当前可选格子"></canvas>
+                    </div>
+                    <aside id="hd-mobile-battle-side" aria-label="当前战场操作">
+                        <div id="hd-battle-hud" class="hd-battle-hud">等待原版战场</div>
+                        <div id="hd-mobile-battle-details"></div>
+                        <div id="hd-battle-tip" class="hd-battle-tip" data-hd-battle-tip hidden></div>
+                        <div id="hd-battle-result" class="hd-battle-result" hidden></div>
+                        <div id="hd-battle-menu" class="hd-battle-menu" hidden>
+                            <div id="hd-battle-menu-title" class="hd-battle-menu-title">战场菜单</div>
+                            <div id="hd-battle-menu-list" class="hd-battle-menu-list"></div>
+                            <div class="hd-battle-menu-actions">
+                                <button type="button" data-hd-battle-menu-exit>返回</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+                <footer class="hd-battle-footer hd-mobile-battle-footer" aria-label="战场操作">
+                    <button type="button" data-hd-battle-sys>系统</button>
+                    <button type="button" data-hd-battle-cancel>取消</button>
+                    <button id="hd-mobile-battle-mode" type="button">经典战场</button>
+                    <button id="hd-mobile-battle-focus" type="button">定位</button>
+                </footer>
+            </section>
         </main>
         <figure id="hd-mobile-portrait" class="hd-mobile-portrait" hidden>
             <img id="hd-mobile-portrait-img" alt="" />
@@ -154,7 +181,7 @@
 <script src="js/bridge.js?ver=20261010g"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
-<script src="js/lcd.js?ver=20261011b"></script>
+<script src="js/lcd.js?ver=20261011c"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-mobile.js?ver=20261011a"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
@@ -165,6 +192,10 @@
 <script src="js/hd-mobile-city.js?ver=20261011b"></script>
 <script src="js/hd-portraits.js?ver=20261008i"></script>
 <script src="js/hd-mobile-portraits.js?ver=20261011a"></script>
+<script src="js/hd-battle-terrain.js?ver=20261008i"></script>
+<script src="js/hd-battle-feedback.js?ver=20261008a"></script>
+<script src="js/hd-battle.js?ver=20261011a"></script>
+<script src="js/hd-mobile-battle.js?ver=20261011a"></script>
 <script>
 var mobileTouch = null;
 function reloadLCD(){
@@ -207,6 +238,7 @@ Module.postRun = function (){
     BayeHdMobileMap.init();
     BayeHdMobileCity.init();
     BayeHdMobilePortraits.init();
+    BayeHdMobileBattle.init();
 
     //判断手机横竖屏状态：
     window.addEventListener("onorientationchange" in window ? "orientationchange" : "resize", function() {

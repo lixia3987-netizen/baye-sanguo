@@ -311,3 +311,175 @@
     .hd-mobile-page #hd-dialog .hd-dialog-stage { padding-block: 6px; }
     .hd-mobile-page .hd-city-menu-card span { display: none; }
 }
+
+/* The mobile battle surface shares native actions but owns its layout. */
+.hd-mobile-page #hd-battle {
+    box-sizing: border-box;
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    flex-direction: column;
+    gap: 4px;
+    padding: 0 4px;
+    overflow: hidden;
+    background: #111923;
+    color: #f1eee4;
+    touch-action: pan-y;
+}
+.hd-mobile-page[data-hd-mobile-battle="hd"] #hd-battle { display: flex; }
+.hd-mobile-page[data-hd-mobile-battle="lcd"] #hd-battle { display: none !important; }
+.hd-mobile-page[data-hd-mobile-battle="hd"] #lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+.hd-mobile-page[data-hd-mobile-battle="lcd"] #lcd {
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+.hd-mobile-page[data-hd-mobile-battle="hd"] #hd-overworld,
+.hd-mobile-page[data-hd-mobile-battle="hd"] #hd-city-menu,
+.hd-mobile-page[data-hd-mobile-battle="hd"] #hd-dialog,
+.hd-mobile-page[data-hd-mobile-battle="lcd"] #hd-overworld,
+.hd-mobile-page[data-hd-mobile-battle="lcd"] #hd-city-menu,
+.hd-mobile-page[data-hd-mobile-battle="lcd"] #hd-dialog {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+.hd-mobile-page #hd-mobile-battle-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 192px;
+    gap: 8px;
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+.hd-mobile-page #hd-mobile-battle-board {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+    background: #101722;
+    touch-action: none;
+}
+.hd-mobile-page #hd-mobile-battle-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+}
+.hd-mobile-page #hd-mobile-battle-side {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+    min-height: 0;
+    padding: 4px 0;
+    overflow: hidden;
+}
+.hd-mobile-page #hd-battle-hud {
+    flex: 0 0 auto;
+    max-height: 56px;
+    overflow: auto;
+    font-size: 14px;
+    line-height: 18px;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
+.hd-mobile-page #hd-mobile-battle-details {
+    white-space: pre-line;
+    flex: 0 1 auto;
+    max-height: 88px;
+    min-height: 0;
+    overflow: auto;
+    font-size: 12px;
+    line-height: 16px;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
+.hd-mobile-page #hd-mobile-battle-details strong { font-size: 14px; }
+.hd-mobile-page #hd-mobile-battle-details p { margin: 0 0 4px; }
+.hd-mobile-page #hd-battle-menu {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    gap: 4px;
+    min-height: 0;
+    overflow: hidden;
+}
+.hd-mobile-page #hd-battle-menu-title {
+    flex: 0 0 auto;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+}
+.hd-mobile-page #hd-battle-menu-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    gap: 4px;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
+.hd-mobile-page #hd-battle-menu-list button,
+.hd-mobile-page #hd-battle-menu .hd-battle-menu-actions button,
+.hd-mobile-page #hd-battle .hd-mobile-battle-footer button {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 6px 10px;
+    border: 1px solid #52627b;
+    border-radius: 6px;
+    background: #25344a;
+    color: #f1eee4;
+    font: 14px/18px system-ui, "Microsoft YaHei", sans-serif;
+    touch-action: manipulation;
+}
+.hd-mobile-page #hd-battle-menu-list button { width: 100%; text-align: left; }
+.hd-mobile-page #hd-battle-menu-list button.is-on { background: #3c5278; border-color: #efd7a0; }
+.hd-mobile-page #hd-battle button:disabled { opacity: 0.45; }
+.hd-mobile-page #hd-battle button:focus-visible { outline: 2px solid #efd7a0; outline-offset: -2px; }
+.hd-mobile-page #hd-battle-menu .hd-battle-menu-actions { flex: 0 0 auto; }
+.hd-mobile-page #hd-battle-menu .hd-battle-menu-actions button { width: 100%; }
+.hd-mobile-page #hd-battle .hd-mobile-battle-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 0 0 48px;
+    gap: 6px;
+    min-height: 48px;
+}
+.hd-mobile-page #hd-battle-tip,
+.hd-mobile-page #hd-battle-result {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding: 6px;
+    border: 1px solid #795f3e;
+    border-radius: 6px;
+    background: #3c2e22;
+    font-size: 12px;
+    line-height: 16px;
+    overflow-wrap: anywhere;
+}
+.hd-mobile-page #hd-battle-menu[hidden],
+.hd-mobile-page #hd-battle-tip[hidden],
+.hd-mobile-page #hd-battle-result[hidden] { display: none !important; }
+@media (max-width: 700px) {
+    .hd-mobile-page #hd-mobile-battle-layout { grid-template-columns: minmax(0, 1fr) 184px; }
+}
+@media (orientation: portrait) {
+    .hd-mobile-page #hd-battle { display: none !important; }
+    .hd-mobile-page[data-hd-mobile-battle="hd"] #lcd,
+    .hd-mobile-page[data-hd-mobile-battle="lcd"] #lcd {
+        visibility: visible !important;
+        pointer-events: auto !important;
+    }
+}

@@ -5,6 +5,7 @@
  */
 (function (global) {
     var STORAGE_KEY = 'baye/battleMode';
+    var MOBILE_STORAGE_KEY = 'baye/mobileBattleMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
     var DESIGN_W = 1920, DESIGN_H = 1080;
     var HD_BATTLE_VER = '20261008k';
@@ -25,6 +26,7 @@
         transaction: null, lastRequest: null, lastCommit: null, sysMenuHooked: false
     };
     var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
+    var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
 
     function el(id) { return document.getElementById(id); }
     function readStorage(key, fallback) {
@@ -34,8 +36,30 @@
         try { global.localStorage.setItem(key, String(value)); } catch (e) {}
     }
     function normalizeMode(value) { return value === 'hd' || value === 'classic' ? value : 'auto'; }
-    function getMode() { return normalizeMode(readStorage(STORAGE_KEY, 'auto')); }
+    function getMode() { return normalizeMode(readStorage(mobileHost ? MOBILE_STORAGE_KEY : STORAGE_KEY,
+        mobileHost ? mobileMode : 'auto')); }
+    function mobileTicket() {
+        try {
+            if (!mobileHost || document.hidden || !mobileHost.isAvailable || mobileHost.isAvailable() !== true ||
+                typeof mobileHost.readTicket !== 'function') { return null; }
+            var ticket = mobileHost.readTicket(), data = engineData();
+            if (!ticket || !data || ticket.data !== data || typeof ticket.key !== 'string' || !ticket.key ||
+                typeof ticket.stableKey !== 'string' || !ticket.stableKey ||
+                (ticket.presentation !== 'hd' && ticket.presentation !== 'lcd') ||
+                !Number.isInteger(ticket.libraryGeneration) || ticket.libraryGeneration <= 0 || ticket.libraryGeneration > 0xffffffff ||
+                !Number.isInteger(ticket.kind) || ticket.kind < INPUT.BUSY || ticket.kind > INPUT.VIEW ||
+                !Number.isInteger(ticket.seq) || ticket.seq <= 0 || ticket.seq > 0xffffffff ||
+                !Number.isInteger(ticket.actor) || ticket.actor < 0 || ticket.actor > 255 || engineData() !== data) { return null; }
+            return ticket;
+        } catch (e) { return null; }
+    }
+    function sameMobileTicket(a, b, full) {
+        return !!(a && b && a.data === b.data && a.libraryGeneration === b.libraryGeneration &&
+            a.kind === b.kind && a.seq === b.seq && a.actor === b.actor && a.stableKey === b.stableKey &&
+            (!full || a.key === b.key));
+    }
     function shouldShowHd() {
+        if (mobileHost && !mobileTicket()) { return false; }
         var mode = getMode();
         if (mode !== 'auto') { return mode === 'hd'; }
         try {
@@ -241,12 +265,37 @@
     function inputSnapshot() {
         var fight = readFight(), menu = readMenuItems();
         var kind = fight && readNumber(fight, 'inputKind'), seq = fight && readNumber(fight, 'inputSeq');
+        var ticket = mobileHost ? mobileTicket() : null;
         return {
             fight: fight, menu: menu, kind: kind, seq: seq,
             actor: fight && readNumber(fight, 'actorIndex'), focus: engineFocusTile(),
             ready: !!(shouldShowHd() && !nativeReportWaiting() && fight && fight.active && !fight.over &&
-                kind >= INPUT.PICK && kind <= INPUT.VIEW && seq != null && seq > 0)
+                kind >= INPUT.PICK && kind <= INPUT.VIEW && seq != null && seq > 0 &&
+                (!mobileHost || ticket && ticket.presentation === 'hd' && ticket.kind === kind &&
+                    ticket.seq === seq && ticket.actor === readNumber(fight, 'actorIndex')))
         };
+    }
+    function getInputTicket() {
+        if (!mobileHost || state.preview || state.showLcd) { return null; }
+        var before = mobileTicket(), snap = inputSnapshot(), after = mobileTicket();
+        if (!snap.ready || !sameMobileTicket(before, after, true) || after.presentation !== 'hd' ||
+            after.kind !== snap.kind || after.seq !== snap.seq || after.actor !== snap.actor ||
+            snap.kind === INPUT.HELP || snap.kind === INPUT.VIEW) { return null; }
+        var ticket = { key: after.key, stableKey: after.stableKey, libraryGeneration: after.libraryGeneration,
+            kind: after.kind, seq: after.seq, actor: after.actor };
+        Object.defineProperty(ticket, 'data', { value: after.data, enumerable: false });
+        return Object.freeze(ticket);
+    }
+    function retireInteraction(reason) {
+        invalidateHdWork();
+        state.lastRequest = { type: 'retired', reason: reason || 'mobile-boundary' };
+    }
+    function getLcdPresentation() {
+        if (!mobileHost) { return state.showLcd ? 'on' : 'off'; }
+        var ticket = mobileTicket();
+        return !shouldShowHd() || !ticket || state.showLcd || ticket.presentation !== 'hd' ||
+            ticket.kind === INPUT.BUSY || ticket.kind === INPUT.HELP || ticket.kind === INPUT.VIEW ||
+            nativeReportWaiting() || !getInputTicket() ? 'passthrough' : 'off';
     }
     function isMenuKind(kind) {
         return kind === INPUT.ACTION || kind === INPUT.SKILL || kind === INPUT.SYSTEM ||
@@ -278,6 +327,8 @@
         return false;
     }
     function rawSendKey(code) {
+        if (mobileHost && (!state.transaction ||
+            !sameMobileTicket(state.transaction.mobileStepOwner, getInputTicket(), true))) { return false; }
         if (typeof global.sendKey === 'function') { global.sendKey(code); return true; }
         if (global.baye && typeof baye.sendKey === 'function') { baye.sendKey(code); return true; }
         return false;
@@ -310,6 +361,7 @@
     function sameInput(transaction, snap) {
         if (!snap.ready || transaction.epoch !== modeEpoch || transaction.seq !== snap.seq ||
             transaction.kind !== snap.kind || transaction.actor !== snap.actor) { return false; }
+        if (mobileHost && !sameMobileTicket(transaction.mobileOwner, getInputTicket(), false)) { return false; }
         if (transaction.viewOwner) {
             var view;
             try { view = baye.hd.view && baye.hd.view(); } catch (e) { return false; }
@@ -326,8 +378,28 @@
     }
     function sendRequestKey(transaction, code, expected) {
         // Timers poll acknowledgements only; they never invent or retry an action.
-        if (state.transaction !== transaction || !sameInput(transaction, inputSnapshot())) {
+        var stepOwner = mobileHost ? getInputTicket() : null, snap = inputSnapshot();
+        if (state.transaction !== transaction || !sameInput(transaction, snap) ||
+            mobileHost && !sameMobileTicket(stepOwner, getInputTicket(), true)) {
             finishRequest('input-changed'); return;
+        }
+        if (mobileHost) {
+            if (code === VK.ENTER && (transaction.type === 'tile' && (!snap.focus ||
+                snap.focus.x !== transaction.x || snap.focus.y !== transaction.y ||
+                !legalEnter(snap.focus, unitAt(snap.focus.x, snap.focus.y), snap.fight)) ||
+                transaction.type === 'menu' && (!snap.menu || Number(snap.menu.index) !== transaction.target))) {
+                finishRequest('target-changed'); return;
+            }
+            if (expected) {
+                var dx = code === VK.RIGHT ? 1 : code === VK.LEFT ? -1 : 0;
+                var dy = code === VK.DOWN ? 1 : code === VK.UP ? -1 : 0;
+                if (expected.index != null ? !snap.menu ||
+                    (Number(snap.menu.index) + snap.menu.names.length + (code === VK.DOWN ? 1 : -1)) % snap.menu.names.length !== expected.index :
+                    !snap.focus || snap.focus.x + dx !== expected.x || snap.focus.y + dy !== expected.y) {
+                    finishRequest('focus-changed'); return;
+                }
+            }
+            transaction.mobileStepOwner = stepOwner;
         }
         transaction.expected = expected || null;
         transaction.sentAt = Date.now();
@@ -410,6 +482,11 @@
         }
         var transaction = { type: type, epoch: modeEpoch, seq: snap.seq, kind: snap.kind,
             actor: snap.actor, committed: false, expected: null, sentAt: 0 };
+        if (mobileHost) {
+            transaction.mobileOwner = getInputTicket();
+            if (!transaction.mobileOwner || transaction.mobileOwner.kind !== snap.kind ||
+                transaction.mobileOwner.seq !== snap.seq || transaction.mobileOwner.actor !== snap.actor) { return reject('mobile-owner-changed'); }
+        }
         Object.keys(options || {}).forEach(function (key) { transaction[key] = options[key]; });
         if (isMenuKind(snap.kind)) {
             var menu = menuSnapshot(snap);
@@ -713,6 +790,10 @@
         binding.owner.fightOpenMainMenu = binding.hook; sysMenuBinding = binding; state.sysMenuHooked = true;
     }
     function syncMode() {
+        if (mobileHost) {
+            if (!shouldShowHd()) { closeBattle({ force: true, preserveEngine: true }); }
+            return;
+        }
         if (shouldShowHd()) { installSysMenuHook(); return; }
         var hadControl = !!(sysMenuBinding || state.open || state.transaction);
         uninstallSysMenuHook();
@@ -723,8 +804,43 @@
         } catch (e) {}
         closeBattle({ force: true, preserveEngine: true });
     }
-    function setMode(value) { writeStorage(STORAGE_KEY, normalizeMode(value)); syncMode(); applyChrome(); }
+    function setMode(value) {
+        var mode = normalizeMode(value);
+        if (mobileHost) { mobileMode = mode; retireInteraction('mode-changed'); }
+        writeStorage(mobileHost ? MOBILE_STORAGE_KEY : STORAGE_KEY, mode); syncMode();
+        if (mobileHost && shouldShowHd()) { onEngineFight(); }
+        applyChrome();
+    }
+    function setShowLcd(value) {
+        retireInteraction('lcd-presentation-changed'); state.showLcd = value === true;
+        applyChrome();
+        if (mobileHost && state.open) { refresh(); }
+    }
+    function bindMobileLifecycle() {
+        if (mobileLifecycleBound) { return; }
+        mobileLifecycleBound = true;
+        function boundary() {
+            if (!mobileHost) { return; }
+            retireInteraction('mobile-lifecycle'); closeBattle({ force: true, preserveEngine: true });
+        }
+        if (global.addEventListener) {
+            ['blur', 'pagehide', 'resize', 'orientationchange'].forEach(function (name) { global.addEventListener(name, boundary); });
+        }
+        if (document.addEventListener) {
+            document.addEventListener('visibilitychange', function () { if (document.hidden) { boundary(); } });
+        }
+        if (global.visualViewport && global.visualViewport.addEventListener) { global.visualViewport.addEventListener('resize', boundary); }
+        if (global.BayeHdLibIdentity && typeof global.BayeHdLibIdentity.subscribe === 'function') {
+            global.BayeHdLibIdentity.subscribe(boundary);
+        }
+    }
+    function configureMobileHost(options) {
+        // Configuration precedes start on mobile; do not inherit a PC request.
+        invalidateHdWork(); mobileHost = options || {}; state.showLcd = false;
+        state.open = false; state.preview = false; bindMobileLifecycle(); applyChrome();
+    }
     function bindUi() {
+        if (mobileHost) { return; }
         if (state.bound) { return; }
         var root = el('hd-battle');
         if (!root) { return; }
@@ -767,6 +883,7 @@
         var snap = inputSnapshot(), menu = menuSnapshot(snap), transaction = state.transaction;
         return {
             pref: getMode(), showHd: shouldShowHd(), open: state.open, preview: state.preview,
+            mobileHost: !!mobileHost, lcdPresentation: getLcdPresentation(),
             lastHook: state.lastHook, units: state.units.length, unitList: state.units.slice(),
             mapW: state.mapW, mapH: state.mapH, view: { x: state.viewOx, y: state.viewOy, w: state.viewW, h: state.viewH },
             terrain: state.terrain ? { source: state.terrain.source, width: state.terrain.width,
@@ -1087,6 +1204,18 @@
     }
 
     function draw() {
+        if (mobileHost) {
+            if (document.hidden || mobileRendering || !shouldShowHd() || typeof mobileHost.render !== 'function') { return; }
+            mobileRendering = true;
+            try {
+                var payload = JSON.parse(JSON.stringify(debugSnapshot()));
+                payload.terrainSnapshot = state.terrain ? Object.assign({}, state.terrain,
+                    { tiles: (state.terrain.tiles || []).slice() }) : null;
+                mobileHost.render(payload);
+            }
+            finally { mobileRendering = false; }
+            return;
+        }
         if (document.hidden) { return; }
         var canvas = el('hd-battle-canvas');
         if (!canvas) {
@@ -1305,6 +1434,10 @@
         onRetreatBlocked: function () { state.fightTip = '撤退操作未被引擎接受。'; applyChrome(); },
         debugBoxSlow: function () { return { supported: false }; },
         debugPreview: function () { return enterBattle({ preview: true, hook: 'debugPreview' }); },
-        start: start, applyPcPage: start, debugSnapshot: debugSnapshot
+        start: start, applyPcPage: start, debugSnapshot: debugSnapshot,
+        configureMobileHost: configureMobileHost,
+        applyMobilePage: function (options) { configureMobileHost(options); start(); },
+        getInputTicket: getInputTicket, retireInteraction: retireInteraction,
+        getLcdPresentation: getLcdPresentation, setShowLcd: setShowLcd
     };
 })(window);
