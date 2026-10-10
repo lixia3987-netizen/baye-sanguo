@@ -134,6 +134,8 @@ const readSource = `(() => {
   const preferences=Object.fromEntries(['baye/overworldMode','baye/cityMenuMode','baye/mobileOverworldMode','baye/mobileCityMenuMode'].map(k=>[k,localStorage.getItem(k)]));
   return {at:performance.now(),viewport:[innerWidth,innerHeight],identity:BayeHdLibIdentity.read(),hud:BayeHdMobile.refresh(),adapter:window.BayeHdMobileMap&&BayeHdMobileMap.refresh(),expected,
     cityUi,dialogUi,mobileCity,preferences,qty:baye.hd.qty(),help:baye.hd.help(),visibility:document.visibilityState,
+    fight:baye.hd.fight(),battleUi:window.BayeHdBattle&&BayeHdBattle.debugSnapshot(),mobileBattle:window.BayeHdMobileBattle&&BayeHdMobileBattle.debugSnapshot(),
+    battleCanvas:{shown:shown(document.getElementById('hd-mobile-battle-canvas')),rect:rect(document.getElementById('hd-mobile-battle-canvas'))},
     cityLayer:{shown:shown(cityLayer),rect:rect(cityLayer)},dialogLayer:{shown:shown(dialogLayer),rect:rect(dialogLayer)},
     map:map&&map.debugSnapshot(),camera:map&&{...map.getCamera()},menu,march,report:baye.hd.report(),mapCity:city,
     cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety)},lcd:{shown:shown(lcd),hit:hit(lcd),rect:rect(lcd),rotation:lcdRotateMode,width:lcdWidth,height:lcdHeight},
@@ -148,13 +150,14 @@ const mapReadySource = `(() => {if(!window.BayeHdOverworld||!window.BayeHdMobile
     window.BayeHdMobileMap&&BayeHdMobileMap.refresh().active&&m;})()`;
 
 async function connectCdp(url) {
-  const ws=new WebSocket(url),pending=new Map(),listeners=new Map();let sequence=0;
+  const address=new URL(url);assert.ok(['127.0.0.1','localhost','[::1]'].includes(address.hostname),'CDP must stay on the owned local endpoint');
+  address.hostname='127.0.0.1';const ws=new WebSocket(address),pending=new Map(),listeners=new Map();let sequence=0;
   const rejectAll=()=>{for(const p of pending.values()){clearTimeout(p.timer);p.reject(Error('CDP closed'));}pending.clear();};
   ws.addEventListener('close',rejectAll);
   ws.addEventListener('message',event=>{const m=JSON.parse(event.data);if(m.id&&pending.has(m.id)){
     const p=pending.get(m.id);pending.delete(m.id);clearTimeout(p.timer);m.error?p.reject(Error(JSON.stringify(m.error))):p.resolve(m.result);
   }else listeners.get(m.method)?.(m.params);});
-  await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',()=>reject(Error('CDP connection failed')),{once:true});});
+  await new Promise((resolve,reject)=>{ws.addEventListener('open',resolve,{once:true});ws.addEventListener('error',event=>reject(Error('CDP connection failed: '+String(event.error?.message||event.message||'WebSocket error'))),{once:true});});
   return {on:(name,fn)=>listeners.set(name,fn),close(){rejectAll();ws.close();},send(method,params={}){
     const id=++sequence;return new Promise((resolve,reject)=>{const timer=setTimeout(()=>{pending.delete(id);reject(Error(method+' timeout'));},20000);
       pending.set(id,{resolve,reject,timer});ws.send(JSON.stringify({id,method,params}));});}};
@@ -165,17 +168,17 @@ async function unusedPort() {
 }
 
 export async function main(args=process.argv.slice(2)) {
-  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only');
+  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleOnly=args.includes('--battle-only');
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
-  const options=args.filter(arg=>!['--reports-only','--portraits-only'].includes(arg)&&!arg.startsWith('--portrait-case='));
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only'].includes(arg)&&!arg.startsWith('--portrait-case='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
-    !(reportsOnly&&portraitsOnly)&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    args.filter(arg=>arg==='--battle-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only | --battle-only | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
   const profile=path.join(out,'private-browser-profile');fs.mkdirSync(profile);
-  const report={schemaVersion:1,reportsOnly,portraitsOnly,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
+  const report={schemaVersion:1,reportsOnly,portraitsOnly,battleOnly,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:battleOnly?'Original mobile battle with trusted emulated touch after a genuine fresh public march; no native writes, real-device or full-HD claim':portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
     startedAt:new Date().toISOString(),ok:false,accepted:false,realDeviceAccepted:false,reportInteractionAccepted:false,recruitmentCommitted:false,battleAccepted:false,fullHdAccepted:false,
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
@@ -196,13 +199,13 @@ export async function main(args=process.argv.slice(2)) {
   const checkpoint=async name=>{const s=await evaluate(readSource);report.phases.push({name,state:s});
     const png=await cdp.send('Page.captureScreenshot',{format:'png'});const bytes=Buffer.from(png.data,'base64'),file=name+'.png';fs.writeFileSync(path.join(out,file),bytes,{flag:'wx'});
     report.phases.at(-1).screenshot={file,bytes:bytes.length,sha256:sha(bytes)};
-    const canvasId=s.canvas.shown?'hd-overworld-canvas':s.lcd.shown?'lcd':null;
+    const canvasId=s.battleCanvas.shown?'hd-mobile-battle-canvas':s.canvas.shown?'hd-overworld-canvas':s.lcd.shown?'lcd':null;
     if(canvasId){const raw=await evaluate(`(() => {const c=document.getElementById(${JSON.stringify(canvasId)}),ctx=c.getContext('2d'),colors=new Set();
       for(let y=0;y<c.height;y+=Math.max(1,Math.floor(c.height/24)))for(let x=0;x<c.width;x+=Math.max(1,Math.floor(c.width/40))){colors.add(Array.from(ctx.getImageData(x,y,1,1).data).join(','));}
       return {url:c.toDataURL('image/png'),colorCount:colors.size,width:c.width,height:c.height};})()`);
       const b=Buffer.from(raw.url.slice(raw.url.indexOf(',')+1),'base64'),rawFile=name+'-'+canvasId+'.png';fs.writeFileSync(path.join(out,rawFile),b,{flag:'wx'});
       report.phases.at(-1).actualCanvas={file:rawFile,bytes:b.length,sha256:sha(b),width:raw.width,height:raw.height,sampledColors:raw.colorCount};
-      if(s.canvas.shown)assert.ok(raw.colorCount>8,'HD map contains actual varied painted pixels');}
+      if(s.canvas.shown||s.battleCanvas.shown)assert.ok(raw.colorCount>8,'HD canvas contains actual varied painted pixels');}
     await sampleOwned(name);console.log('PASS',name);return s;};
   const key=async(code,reason)=>{report.inputs.push({type:'public native key',code,reason});await evaluate('sendKey('+code+')');await delay(160);};
   const metrics=async(width,height)=>{report.inputs.push({type:'CDP viewport',width,height});await cdp.send('Emulation.setDeviceMetricsOverride',{
@@ -479,6 +482,7 @@ export async function main(args=process.argv.slice(2)) {
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
+    if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://private'),rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),filename=path.resolve(root,rel);
       const allowed=/^(?:js|css|assets|libs|fonts|vendor)\//.test(rel)||['m.html','favicon.png','manifest.json'].includes(rel);
@@ -507,7 +511,13 @@ export async function main(args=process.argv.slice(2)) {
       catch(error){report.chromeEndpointProbeError={attempt:n+1,code:error.code||null,message:error.message,childExit:report.chromeExit||null};}
       if(!target)await delay(100);}
     assert.ok(target,'Private Chrome page target: '+JSON.stringify({probeError:report.chromeEndpointProbeError||null,childExit:report.chromeExit||null}));await sampleOwned('launch-before-page');assert.ok(ownership?.rootVerified,'PID, birth and exact private profile verified before page load');
-    report.rootBirth=rootIdentity.CreationDate;cdp=await connectCdp(target.webSocketDebuggerUrl);
+    report.rootBirth=rootIdentity.CreationDate;report.cdpConnectionAttempts=[];
+    for(let attempt=0;attempt<10&&!cdp;attempt++){
+      try{cdp=await connectCdp(target.webSocketDebuggerUrl);report.cdpConnectionAttempts.push({attempt:attempt+1,connected:true,target:target.id});}
+      catch(error){report.cdpConnectionAttempts.push({attempt:attempt+1,connected:false,target:target.id,error:error.message});
+        if(chrome.exitCode!==null)throw error;if(attempt===9)throw error;
+        await delay(200);target=(await readChromePageTargets(report.debugPort)).find(t=>t.type==='page');assert.ok(target,'Same owned browser retains a page target');}
+    }
     cdp.on('Runtime.exceptionThrown',e=>report.exceptions.push(e));cdp.on('Runtime.consoleAPICalled',e=>report.console.push(e));
     cdp.on('Fetch.requestPaused',e=>{const local=e.request.url.startsWith(origin+'/');if(!local)report.blockedExternal.push(e.request.url);
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
@@ -536,7 +546,8 @@ export async function main(args=process.argv.slice(2)) {
       if(menu.active!==1||menu.context!==4||menu.kind!==3||JSON.stringify(first)!==JSON.stringify(last)||JSON.stringify(menu)!==JSON.stringify(again))throw Error('Native king census owner changed');
       return {kings:first.kings,index:first.index,currentId:first.currentId,menu,cities};})()`);
     report.initialKingSelection={census:kingCensus};
-    const selection=chooseMultiCityKing(kingCensus),chosenKing=selection.selected;Object.assign(report.initialKingSelection,selection);
+    const selection=battleOnly?{selected:kingCensus.kings.map((k,index)=>({...k,index,ownedCount:kingCensus.cities.filter(c=>c.belong===k.id+1).length})).find(k=>k.name==='马腾')}:chooseMultiCityKing(kingCensus),chosenKing=selection.selected;
+    assert.ok(chosenKing&&chosenKing.ownedCount>=2,'Actual selected original multi-city lord');Object.assign(report.initialKingSelection,selection);
     for(let i=kingCensus.index;i<chosenKing.index;i++)await key(0x23,'Select actual multi-city king row');
     for(let i=kingCensus.index;i>chosenKing.index;i--)await key(0x22,'Select actual multi-city king row');
     const selectedNativeKing=await evaluate('baye.hd.kings()');assert.equal(selectedNativeKing.index,chosenKing.index);assert.equal(selectedNativeKing.currentId,chosenKing.id);
@@ -550,7 +561,11 @@ export async function main(args=process.argv.slice(2)) {
     const initialMapCity=(await evaluate(readSource)).mapCity,current=all.find(c=>c.index===initialMapCity),otherOwned=owned.find(c=>c.index!==initialMapCity);
     assert.ok(current&&current.kind==='owned'&&otherOwned);report.selectedCities={current,otherOwned,nonOwned:foreign};
     await until('mobile city/dialog host modules','window.BayeHdCityMenu&&window.BayeHdDialog&&window.BayeHdMobileCity&&typeof BayeHdMobileCity.isActive==="function"');
-    if(portraitsOnly){
+    if(battleOnly){
+      const {runMobileBattleChecks}=await import('./hd-mobile-battle-runtime-checks.mjs');
+      await runMobileBattleChecks({report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
+        readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params)});
+    }else if(portraitsOnly){
       const {runMobilePortraitChecks}=await import('./hd-mobile-portraits-runtime-checks.mjs');
       await runMobilePortraitChecks({report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
         readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});

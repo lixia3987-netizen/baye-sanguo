@@ -8,7 +8,7 @@ import vm from 'node:vm';
 const source = readFileSync(new URL('../js/hd-battle.js', import.meta.url), 'utf8');
 const K = {RIGHT:37,DOWN:35,ENTER:39,EXIT:40};
 function fixture({mobile=true,storageThrows=false}={}) {
-    let now=1000,next=1,available=true,libraryGeneration=1,revision='a',presentation='hd',providerHook=null,reads=0;
+    let now=1000,next=1,available=true,libraryGeneration=1,revision='a',presentation='hd',providerHook=null,reads=0,sampleHook=null;
     const sent=[],writes=[],renders=[],listeners={},docListeners={},viewListeners={},timers=new Map(),intervals=[];
     const stored=new Map([['baye/battleMode','classic'],['baye/overworldMode','classic']]);
     const fight={active:1,over:0,wait:1,phase:1,inputKind:1,inputSeq:7,actorIndex:255,aimType:255};
@@ -38,7 +38,7 @@ function fixture({mobile=true,storageThrows=false}={}) {
         addEventListener(type,fn){(listeners[type]||=[]).push(fn);},
         visualViewport:{addEventListener(type,fn){(viewListeners[type]||=[]).push(fn);}},
         BayeHdLibIdentity:{subscribe(fn){env.libraryChanged=fn;}},BayeHdOverworld:{getMode(){return 'hd-map';}},
-        baye:{data,hooks:{},ensureData(){return env.baye.data;},getPersonName(id){return ['甲','乙','敌'][id];},getArmType(){return 1;},
+        baye:{data,hooks:{},ensureData(){return env.baye.data;},getPersonName(id){if(sampleHook)sampleHook(id);return ['甲','乙','敌'][id];},getArmType(){return 1;},
             hd:{ready(){return true;},fight(){return {...fight};},menuItems(){return {...menu,names:menu.names.slice()};},report(){return {...report};}}},
         sendKey(key){sent.push(key);}};
     env.window=env;
@@ -63,6 +63,7 @@ function fixture({mobile=true,storageThrows=false}={}) {
         setAvailable(value){available=value;},setPresentation(value){presentation=value;},
         changeOwner(){revision+='x';},changeLibrary(){libraryGeneration+=1;},
         providerHook(fn){providerHook=fn;reads=0;},
+        sampleHook(fn){sampleHook=fn;},
         openMenu(kind=3){Object.assign(fight,{inputKind:kind,inputSeq:fight.inputSeq+1,actorIndex:0,wait:0});
             Object.assign(menu,{active:1,kind,seq:menu.seq+1,index:0,count:3,names:['攻击','计谋','待机']});api.onEngineFight();}};
 }
@@ -161,4 +162,62 @@ test('mobile presentation mode change and explicit retire emit no native input',
     const f=fixture();f.api.retireInteraction('owner-changed');f.api.setShowLcd(true);f.api.setMode('classic');
     f.api.setMode('hd');assert.deepEqual(f.sent,[]);assert.deepEqual(f.writes,[]);
     assert.equal(f.env.baye.hooks.fightOpenMainMenu,undefined);
+});
+for(const owner of ['BUSY','HELP','VIEW','report','local-LCD','unavailable']){
+    test('mobile keyboard leaves the real '+owner+' LCD owner unconsumed',()=>{
+        const f=fixture();
+        if(owner==='BUSY'||owner==='HELP'||owner==='VIEW'){
+            f.fight.inputKind={BUSY:0,HELP:9,VIEW:10}[owner];f.setPresentation('lcd');
+        }
+        if(owner==='report')f.report.active=1;
+        if(owner==='local-LCD')f.api.setShowLcd(true);
+        if(owner==='unavailable')f.setAvailable(false);
+        let consumed=0;const event={key:'Enter',keyCode:13,preventDefault(){consumed+=1;},stopPropagation(){consumed+=1;}};
+        assert.equal(f.api.handleKey(event),false);assert.equal(consumed,0);assert.deepEqual(f.sent,[]);
+        assert.deepEqual(f.writes,[]);
+    });
+}
+test('mobile keyboard with a fresh HD owner still waits for the real arrow ACK',()=>{
+    const f=fixture();let consumed=0;
+    const event={key:'ArrowRight',keyCode:39,preventDefault(){consumed+=1;},stopPropagation(){}};
+    assert.equal(f.api.handleKey(event),true);assert.equal(consumed,1);assert.deepEqual(f.sent,[K.RIGHT]);
+    f.tick(100);assert.deepEqual(f.sent,[K.RIGHT]);f.focus(2,1);f.tick();
+    assert.equal(f.api.debugSnapshot().transaction,null);assert.deepEqual(f.sent,[K.RIGHT]);assert.deepEqual(f.writes,[]);
+});
+test('mobile rendering identifies its exact sampled owner without exposing native data',()=>{
+    const f=fixture(),payload=f.renders.at(-1),ticket=f.api.getInputTicket();
+    assert.ok(payload.renderOwner);assert.equal(payload.renderOwner.key,ticket.key);
+    assert.equal(payload.renderOwner.stableKey,ticket.stableKey);assert.equal(payload.renderOwner.libraryGeneration,ticket.libraryGeneration);
+    assert.equal(payload.renderOwner.kind,ticket.kind);assert.equal(payload.renderOwner.seq,ticket.seq);assert.equal(payload.renderOwner.actor,ticket.actor);
+    assert.equal('data' in payload.renderOwner,false);f.focus(2,1);assert.notEqual(payload.renderOwner.key,f.api.getInputTicket().key);
+    f.poll();assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);assert.deepEqual(f.sent,[]);
+});
+for(const changed of ['unit','data','input-owner']){
+    test('mobile rendering rejects '+changed+' changes while native units are sampled',()=>{
+        const f=fixture(),before=f.renders.length;let changedOnce=false;
+        f.sampleHook(()=>{
+            if(changedOnce)return;changedOnce=true;
+            if(changed==='unit')f.raw.g_GenPos[0].hp-=1;
+            if(changed==='data')f.env.baye.data={...f.raw};
+            if(changed==='input-owner')f.fight.inputSeq+=1;
+        });
+        f.poll();assert.equal(f.renders.length,before);assert.deepEqual(f.sent,[]);assert.deepEqual(f.writes,[]);
+        f.sampleHook(null);f.poll();assert.equal(f.renders.length,before+1);
+        assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
+    });
+}
+test('mobile rendering rejects a changed full focus ticket during debug snapshot construction',()=>{
+    const f=fixture(),before=f.renders.length;
+    f.env.baye.hd.realm=()=>{f.focus(2,1);return null;};f.poll();
+    assert.equal(f.renders.length,before);assert.deepEqual(f.sent,[]);
+    delete f.env.baye.hd.realm;f.poll();assert.equal(f.renders.length,before+1);
+    assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
+});
+test('a retired report gets a fresh HD render owner and never resumes the old transaction',()=>{
+    const f=fixture();f.api.clickTile(3,1);const before=f.renders.length;
+    f.report.active=1;f.setPresentation('lcd');f.fight.inputKind=0;f.fight.inputSeq+=1;f.poll();
+    assert.equal(f.renders.length,before);assert.equal(f.api.getLcdPresentation(),'passthrough');
+    f.report.active=0;f.setPresentation('hd');f.fight.inputKind=1;f.fight.inputSeq+=1;f.poll();
+    assert.equal(f.renders.length,before+1);assert.equal(f.renders.at(-1).renderOwner.key,f.api.getInputTicket().key);
+    assert.equal(f.api.debugSnapshot().transaction,null);assert.deepEqual(f.sent,[K.RIGHT]);assert.deepEqual(f.writes,[]);
 });

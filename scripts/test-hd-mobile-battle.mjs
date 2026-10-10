@@ -11,7 +11,7 @@ function fixture() {
     const listeners = new Map(), globalListeners = new Map(), timers = new Map(), nodes = new Map();
     const counts = {actions: [], retired: [], configured: [], keys: [], writes: [], serialized: 0, paints: [], modes: [], sharedReads: 0};
     const state = {ready: true, menuNames: [], menuHook: null, fightHook: null, readyHook: null,
-        identityHook: null, top: null, styleHook: null, mode: 'auto', showLcd: false, data: null};
+        identityHook: null, skillsHook: null, skillsOverride: null, top: null, styleHook: null, mode: 'auto', showLcd: false, data: null};
     let identity = {status: 'ready', sha256: ORIGINAL_SHA, byteLength: 207195, generation: 3};
     const storage = new Map([['baye/battleMode', 'classic'], ['baye/overworldMode', 'classic']]);
     function on(map, name, fn, capture) {
@@ -85,16 +85,17 @@ function fixture() {
     Object.assign(raw, {g_hdEngineReady:1,g_hdDetailGeneration:7,g_hdSpeGeneration:4,g_hdMapInputSeq:9,g_hdMapCity:32,g_PIdx:3,
         g_hdMenuSeq:11,g_hdMarchSession:2,g_hdMarchInputSeq:3,g_hdReportSeq:5,g_hdReportInputSeq:6,g_hdQtySession:3,
         g_hdQtyInputSeq:4,g_hdHelpSeq:5,g_hdHelpInputSeq:6,g_hdFightActive:1,g_hdFightWait:1,g_hdFightInputKind:1,
-        g_hdFightInputSeq:20,g_MapWid:20,g_MapHgt:20,g_FgtBoutCnt:3,g_FgtBoutMax:20,g_FgtWeather:2,
+        g_hdFightInputSeq:20,g_hdFightActor:255,g_hdFightAimType:255,g_MapWid:20,g_MapHgt:20,g_FgtBoutCnt:3,g_FgtBoutMax:20,g_FgtWeather:2,
         g_PathSX:0,g_PathSY:0,g_PUseSX:0,g_PUseSY:0,g_FoucsX:4,g_FoucsY:16,
         g_FgtParam:{CityIndex:32,GenArray:Array(20).fill(0),MProvender:1247,EProvender:5000},
-        g_GenPos:Array.from({length:20},()=>({x:0,y:0,active:0,state:0,hp:0,mp:0,move:0})),
+        g_GenPos:Array.from({length:20},()=>({x:0,y:0,active:0,state:8,hp:0,mp:0,move:0})),
         g_Persons:Array.from({length:200},()=>({Arms:0,Level:1,Belong:0,IQ:50,Force:50})),
-        g_FightPath:Array(225).fill(255),g_FgtAtkRng:Array(228).fill(0)});
+        g_FightPath:Array(225).fill(255),g_FgtAtkRng:Array(228).fill(0),g_hdSkillCount:0,g_hdSkillNameLen:0,
+        g_hdSkillIds:Array(10).fill(0),g_hdSkillNameBytes:Array(80).fill(0)});
     raw.g_FgtParam.GenArray[0]=189; raw.g_FgtParam.GenArray[1]=145; raw.g_FgtParam.GenArray[10]=21;
-    Object.assign(raw.g_GenPos[0],{x:4,y:16,hp:185,mp:146,move:4});
-    Object.assign(raw.g_GenPos[1],{x:4,y:17,hp:81,mp:70,move:4});
-    Object.assign(raw.g_GenPos[10],{x:15,y:16,hp:100,mp:80,move:4});
+    Object.assign(raw.g_GenPos[0],{x:4,y:16,state:0,hp:185,mp:146,move:4});
+    Object.assign(raw.g_GenPos[1],{x:4,y:17,state:0,hp:81,mp:70,move:4});
+    Object.assign(raw.g_GenPos[10],{x:15,y:16,state:0,hp:100,mp:80,move:4});
     Object.assign(raw.g_Persons[188],{Arms:100,Level:20,Belong:10,IQ:150});
     Object.assign(raw.g_Persons[144],{Arms:100,Level:5,Belong:10});
     Object.assign(raw.g_Persons[20],{Arms:1000,Level:5,Belong:1});
@@ -132,6 +133,7 @@ function fixture() {
         clickTile(x,y){counts.actions.push(['tile',x,y]);return {ok:true};},pickMenu(index){counts.actions.push(['menu',index]);return {ok:true};},
         openSystemMenu(){counts.actions.push(['system']);return {ok:true};},cancel(){counts.actions.push(['cancel']);return {ok:true};},
         returnFromHelp(){counts.actions.push(['return-help']);return {ok:true};},viewKey(code){counts.actions.push(['view',code]);return {ok:true};},
+        handleKey(event){counts.actions.push(['keyboard',event.key]);return true;},
         getInputTicket(){counts.sharedReads++;const native=host.readNativeTicket();
             if(!native||native.presentation!=='hd'||state.mode==='classic'||state.showLcd)return null;
             const t={key:native.key,stableKey:native.stableKey,libraryGeneration:native.libraryGeneration,
@@ -154,6 +156,8 @@ function fixture() {
         baye:{get data(){return state.data;},ensureData:()=>state.data,getPersonCount:()=>200,
             getPersonName:index=>index===188?'杨秋':index===144?'吴兰':index===20?'吕布':'人物'+index,
             getArmType:()=>1,hd:{ready(){if(state.readyHook)state.readyHook();return state.ready;},fight,menuItems:menuReading,
+                skills(){if(state.skillsHook)state.skillsHook();const d=state.data;return state.skillsOverride||
+                    {active:d.g_hdSkillActive,count:d.g_hdSkillCount,ids:d.g_hdSkillIds.slice(0,d.g_hdSkillCount),names:state.menuNames.slice()};},
                 report:()=>({active:state.data.g_hdReportActive,seq:state.data.g_hdReportSeq,inputSeq:state.data.g_hdReportInputSeq,kind:2,person:188,text:'原生报告'})}}};
     vm.runInNewContext(source,{window,document,console,Date,Math,JSON,Object,Number,Array,Set,Map,isFinite,
         baye:window.baye,setTimeout:window.setTimeout,clearTimeout:window.clearTimeout}, {filename:'js/hd-mobile-battle.js'});
@@ -170,13 +174,19 @@ function fixture() {
         if(!event.stopped)invoke(listeners.get(type),false);return event;
     }
     function globalEvent(type){for(const {fn} of globalListeners.get(type)||[])fn({type});}
-    function nativeMenu(kind=3,names=['攻击','计谋','休息']){raw.g_hdFightInputKind=kind;raw.g_hdFightWait=0;raw.g_hdMenuActive=1;raw.g_hdMenuContext=3;
-        raw.g_hdMenuKind=kind;raw.g_hdMenuCount=names.length;raw.g_hdMenuIndex=0;state.menuNames=[...names];host.refresh();}
+    function renderPayload(){const t=host.readNativeTicket();return {renderOwner:Object.fromEntries(
+        ['key','stableKey','libraryGeneration','kind','seq','actor'].map(name=>[name,t[name]])),
+        unitList:t.native.units.filter(u=>u.id>0&&u.id<65534).map(u=>({...u,
+            side:u.i<10?'player':'enemy',name:window.baye.getPersonName(u.id-1),armType:1})),feedback:null};}
+    function render(){shared.provider.render(renderPayload());return host.debugSnapshot();}
+    function nativeMenu(kind=3,names=['攻击','计谋','休息']){raw.g_hdFightInputKind=kind;raw.g_hdFightActor=[2,3,4,5].includes(kind)?0:255;raw.g_hdFightWait=0;raw.g_hdMenuActive=1;raw.g_hdMenuContext=3;
+        if(kind===4){raw.g_hdSkillActive=1;raw.g_hdSkillCount=names.length;raw.g_hdSkillNameLen=4;names.forEach((name,i)=>raw.g_hdSkillIds[i]=i+1);}
+        raw.g_hdMenuKind=kind;raw.g_hdMenuCount=names.length;raw.g_hdMenuIndex=0;state.menuNames=[...names];render();host.refresh();}
+    render();counts.paints.length=counts.retired.length=counts.writes.length=0;
     return {host,window,document,raw,data,state,identity:patch=>{identity={...identity,...patch};},counts,storage,nodes,timers,listeners,
         root,board,canvas,side,sys,cancel,mode,headerMode,focus,outside,lcd,list,title,menu,menuExit,shared,fire,globalEvent,nativeMenu,
         tap(target=canvas,values={}){fire('pointerdown',target,values);fire('pointerup',target,values);fire('click',target,values);},
-        render(){const t=host.readNativeTicket();shared.provider.render({unitList:t.native.units.filter(u=>u.id>0&&u.id<65534).map(u=>({...u,
-            side:u.i<10?'player':'enemy',name:window.baye.getPersonName(u.id-1),armType:1})),feedback:null});return host.debugSnapshot();},
+        render,renderPayload,
         clean(){counts.actions.length=counts.keys.length=counts.retired.length=counts.writes.length=0;}};
 }
 
@@ -198,7 +208,7 @@ function unavailable(f) {
 
 test('complete original battle publishes an opaque current ticket without storage or native input',()=>{
     const f=fixture(), before=[...f.storage]; const t=interactive(f);
-    assert.equal(t.libraryGeneration,3);assert.equal(t.kind,1);assert.equal(t.seq,20);assert.equal(t.actor,0);
+    assert.equal(t.libraryGeneration,3);assert.equal(t.kind,1);assert.equal(t.seq,20);assert.equal(t.actor,255);
     assert.equal(typeof t.key,'string');assert.equal(typeof t.stableKey,'string');
     assert.deepEqual([...f.storage],before);noAction(f);
 });
@@ -285,9 +295,9 @@ test('known busy/report owners keep a current LCD ticket rather than an actionab
     }
 });
 test('MOVE owns all 225 path bytes and AIM owns its complete current native extent',()=>{
-    const f=fixture();f.raw.g_hdFightInputKind=2;const before=interactive(f);f.raw.g_FightPath[224]=1;
+    const f=fixture();f.raw.g_hdFightActor=0;f.raw.g_hdFightInputKind=2;const before=interactive(f);f.raw.g_FightPath[224]=1;
     assert.notEqual(interactive(f).stableKey,before.stableKey);f.raw.g_FightPath.pop();unavailable(f);noAction(f);
-    const g=fixture();g.raw.g_hdFightInputKind=5;g.raw.g_FgtAtkRng.splice(0,3,3,0,0);const aim=interactive(g);
+    const g=fixture();g.raw.g_hdFightActor=0;g.raw.g_hdFightInputKind=5;g.raw.g_FgtAtkRng.splice(0,3,3,0,0);const aim=interactive(g);
     g.raw.g_FgtAtkRng[11]=1;assert.notEqual(interactive(g).stableKey,aim.stableKey);
     g.raw.g_FgtAtkRng.length=11;unavailable(g);noAction(g);
 });
@@ -375,6 +385,7 @@ for(const type of ['resize','orientationchange','blur','pagehide']) {
 test('a hidden page retires held input and reopening requires a new trusted gesture',()=>{
     const f=fixture();f.fire('pointerdown',f.sys);f.document.hidden=true;f.fire('visibilitychange',f.canvas);
     f.document.hidden=false;f.fire('visibilitychange',f.canvas);f.fire('pointerup',f.sys);f.fire('click',f.sys);noAction(f);
+    f.render();f.host.refresh();
     f.tap(f.sys);assert.deepEqual(f.counts.actions,[['system']]);
 });
 test('pointer ID, primary status, right button or different release control cannot consume a tap',()=>{
@@ -411,7 +422,8 @@ test('shared showLcd explicitly wins over a ready HD native ticket and blocks st
 test('header mode control can restore a classic LCD battle without changing any native state',()=>{
     const f=fixture();f.state.mode='classic';f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'lcd');
     assert.equal(f.headerMode.hidden,false);f.tap(f.headerMode);
-    assert.deepEqual(f.counts.modes,['hd']);assert.equal(f.host.debugSnapshot().presentation,'hd');
+    assert.deepEqual(f.counts.modes,['hd']);assert.equal(f.host.debugSnapshot().presentation,'lcd');
+    f.render();f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'hd');
     assert.equal(f.storage.get('baye/battleMode'),'classic');assert.equal(f.storage.get('baye/overworldMode'),'classic');noAction(f);
 });
 test('camera pan from an old opaque data world is not carried into a rebound native world',()=>{
@@ -419,4 +431,132 @@ test('camera pan from an old opaque data world is not carried into a rebound nat
     f.fire('pointermove',f.canvas,{clientX:350,clientY:200});f.fire('pointerup',f.canvas,{clientX:350,clientY:200});
     const old=f.host.debugSnapshot().camera.x;assert.ok(old>0);
     f.state.data={...f.raw};f.host.refresh();f.render();assert.notEqual(f.host.debugSnapshot().camera.x,old);noAction(f);
+});
+test('PICK actor255 and dead empty slots on both sides remain a legitimate native board',()=>{
+    const f=fixture();f.raw.g_GenPos[2].x=255;f.raw.g_GenPos[12].y=255;
+    const t=interactive(f);assert.equal(t.actor,255);assert.equal(t.native.units.length,20);
+    assert.equal(t.native.units[2].id,0);assert.equal(t.native.units[12].state,8);noAction(f);
+});
+test('actor255 is not a live actor for MOVE or ACTION even with a complete roster',()=>{
+    for(const kind of [2,3,4,5]){const f=fixture();f.raw.g_hdFightInputKind=kind;
+        if(kind===5)f.raw.g_FgtAtkRng.splice(0,3,3,0,0);unavailable(f);noAction(f);}
+});
+for(const field of ['key','stableKey','libraryGeneration','kind','seq','actor']){
+    test('render payload cannot borrow a stale shared owner '+field,()=>{
+        const f=fixture(),payload=f.renderPayload();payload.renderOwner[field]=typeof payload.renderOwner[field]==='number'?-1:'old';
+        f.counts.paints.length=0;f.shared.provider.render(payload);f.host.refresh();
+        assert.deepEqual(f.counts.paints,[]);assert.equal(f.host.debugSnapshot().presentation,'lcd');
+        f.tap(f.sys);noAction(f);
+    });
+}
+test('a render without any owner remains LCD and cannot reuse an earlier camera for input',()=>{
+    const f=fixture(),payload=f.renderPayload();delete payload.renderOwner;f.counts.paints.length=0;
+    f.shared.provider.render(payload);f.host.refresh();f.tap(f.canvas);f.tap(f.focus);
+    assert.deepEqual(f.counts.paints,[]);assert.equal(f.host.debugSnapshot().presentation,'lcd');noAction(f);
+});
+test('focus ACK requires a new full-owner render before pan or focus reuse',()=>{
+    const f=fixture(),payload=f.renderPayload();f.raw.g_FoucsX=5;f.counts.paints.length=0;
+    f.shared.provider.render(payload);f.host.refresh();f.tap(f.focus);assert.deepEqual(f.counts.paints,[]);noAction(f);
+    f.render();f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'hd');f.tap(f.sys);
+    assert.deepEqual(f.counts.actions,[['system']]);
+});
+test('equal primitive render owner cannot borrow the previous opaque native data object',()=>{
+    const f=fixture(),payload=f.renderPayload(),oldTicket=f.shared.getInputTicket();f.state.data={...f.raw};
+    f.shared.getInputTicket=()=>oldTicket;f.counts.paints.length=0;f.shared.provider.render(payload);f.host.refresh();
+    assert.deepEqual(f.counts.paints,[]);assert.equal(f.host.debugSnapshot().presentation,'lcd');noAction(f);
+});
+test('a previously rendered object stays bound to its old data even when both current tickets have equal keys',()=>{
+    const f=fixture(),payload=f.renderPayload();f.shared.provider.render(payload);const oldKey=f.host.readNativeTicket().key;
+    f.state.data={...f.raw};assert.equal(f.host.readNativeTicket().key,oldKey);
+    assert.equal(f.shared.getInputTicket().data,f.state.data);f.counts.paints.length=0;
+    f.shared.provider.render(payload);f.host.refresh();assert.deepEqual(f.counts.paints,[]);
+    assert.equal(f.host.debugSnapshot().presentation,'lcd');f.tap(f.sys);noAction(f);
+    f.render();f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'hd');
+});
+test('trusted recognized physical keys delegate once in HD and never use the direct engine sender',()=>{
+    const f=fixture();const event=f.fire('keydown',f.document.body,{key:'ArrowRight',keyCode:39,repeat:false});
+    assert.equal(event.prevented,true);assert.deepEqual(f.counts.actions,[['keyboard','ArrowRight']]);
+    assert.deepEqual(f.counts.keys,[]);assert.deepEqual(f.counts.writes,[]);
+});
+test('untrusted and repeated HD keys are swallowed without delegating an action',()=>{
+    for(const patch of [{isTrusted:false},{repeat:true}]){const f=fixture();
+        const e=f.fire('keydown',f.document.body,{key:'Enter',keyCode:13,repeat:false,...patch});assert.equal(e.prevented,true);noAction(f);}
+});
+test('LCD, foreign native owner, unknown keys and composition preserve the real page keyboard path',()=>{
+    for(const change of [f=>{f.state.mode='classic';f.host.refresh();},f=>{f.raw.g_hdReportActive=1;f.host.refresh();}]){
+        const f=fixture();change(f);const e=f.fire('keydown',f.document.body,{key:'Enter',keyCode:13});assert.equal(e.prevented,false);noAction(f);}
+    for(const patch of [{key:'Tab',keyCode:9},{key:'Enter',keyCode:13,isComposing:true}]){const f=fixture();
+        const e=f.fire('keydown',f.document.body,patch);assert.equal(e.prevented,false);noAction(f);}
+});
+test('an owner change after HD paint blocks recognized keys until a fresh shared render',()=>{
+    const f=fixture();f.raw.g_hdFightInputSeq++;const e=f.fire('keydown',f.document.body,{key:'Enter',keyCode:13});
+    assert.equal(e.prevented,true);assert.equal(f.host.debugSnapshot().presentation,'lcd');noAction(f);
+});
+test('the real two-item SKILL publication owns its IDs and names and remains touch actionable',()=>{
+    const f=fixture();f.nativeMenu(4,['谍报','践踏']);f.raw.g_hdSkillIds[1]=18;f.render();f.host.refresh();
+    const t=interactive(f);assert.equal(t.kind,4);assert.equal(t.native.skillActive,1);
+    assert.deepEqual(Array.from(t.native.skills.ids),[1,18]);assert.deepEqual(Array.from(t.native.skills.names),['谍报','践踏']);
+    assert.equal(f.host.debugSnapshot().presentation,'hd');
+    f.menuExit.setAttribute('data-hd-battle-menu','1');f.menuExit.removeAttribute('data-hd-battle-menu-exit');
+    f.tap(f.menuExit);assert.deepEqual(f.counts.actions,[['menu',1]]);assert.deepEqual(f.counts.keys,[]);
+    assert.deepEqual(f.counts.writes,[]);assert.equal(f.counts.serialized,0);
+});
+for(const [name,change] of [
+    ['inactive',f=>f.raw.g_hdSkillActive=0],['invalid active',f=>f.raw.g_hdSkillActive=2],
+    ['missing active',f=>delete f.raw.g_hdSkillActive],['zero count',f=>f.raw.g_hdSkillCount=0],
+    ['count differs from menu',f=>f.raw.g_hdSkillCount=1],['native capacity exceeded',f=>f.raw.g_hdSkillCount=11],
+    ['missing count',f=>delete f.raw.g_hdSkillCount],['wrong name stride',f=>f.raw.g_hdSkillNameLen=8],
+    ['missing ID storage',f=>delete f.raw.g_hdSkillIds],['short ID storage',f=>f.raw.g_hdSkillIds.length=1],
+    ['zero ID',f=>f.raw.g_hdSkillIds[1]=0],['sentinel ID',f=>f.raw.g_hdSkillIds[1]=65535],
+    ['fractional ID',f=>f.raw.g_hdSkillIds[1]=1.5],['missing native name bytes',f=>delete f.raw.g_hdSkillNameBytes],
+    ['short native name bytes',f=>f.raw.g_hdSkillNameBytes.length=15],
+    ['public active differs',f=>f.state.skillsOverride={active:0,count:2,ids:[1,2],names:['谍报','践踏']}],
+    ['public count differs',f=>f.state.skillsOverride={active:1,count:1,ids:[1,2],names:['谍报','践踏']}],
+    ['public IDs differ',f=>f.state.skillsOverride={active:1,count:2,ids:[1,3],names:['谍报','践踏']}],
+    ['public ID list short',f=>f.state.skillsOverride={active:1,count:2,ids:[1],names:['谍报','践踏']}],
+    ['public names differ',f=>f.state.skillsOverride={active:1,count:2,ids:[1,2],names:['谍报','别的技能']}],
+    ['public name empty',f=>f.state.skillsOverride={active:1,count:2,ids:[1,2],names:['谍报','']}],
+    ['public name list short',f=>f.state.skillsOverride={active:1,count:2,ids:[1,2],names:['谍报']}]
+]){
+    test('SKILL publication rejects '+name,()=>{const f=fixture();f.nativeMenu(4,['谍报','践踏']);change(f);
+        unavailable(f);f.host.refresh();f.tap(f.menuExit);noAction(f);});
+}
+test('SKILL-active cannot authorize any other native input kind',()=>{
+    for(const kind of [0,1,2,3,5,6,7,8,9,10]){const f=fixture();f.raw.g_hdSkillActive=1;f.raw.g_hdFightInputKind=kind;
+        unavailable(f);f.host.refresh();f.tap(f.sys);noAction(f);}
+});
+test('skill list identity and full name bytes retire a held control without changing the menu sequence',()=>{
+    for(const mutate of [f=>f.raw.g_hdSkillIds[1]=3,f=>f.raw.g_hdSkillNameBytes[15]=1,
+        f=>{f.state.menuNames[1]='新计谋';}]){
+        const f=fixture();f.nativeMenu(4,['谍报','践踏']);const before=interactive(f);
+        f.fire('pointerdown',f.menuExit);mutate(f);assert.notEqual(f.host.readNativeTicket()?.key,before.key);
+        f.fire('pointerup',f.menuExit);f.fire('click',f.menuExit);noAction(f);
+    }
+});
+test('a skills getter that replaces the owner cannot publish a mixed list',()=>{
+    const f=fixture();f.nativeMenu(4,['谍报','践踏']);let once=true;
+    f.state.skillsHook=()=>{if(once){once=false;f.raw.g_hdFightInputSeq++;}};unavailable(f);noAction(f);
+});
+test('a genuine skill-result animation still owns the LCD despite a valid SKILL list',()=>{
+    const f=fixture();f.nativeMenu(4,['谍报','践踏']);f.raw.g_hdSkillResultActive=1;unavailable(f);
+    f.host.refresh();assert.equal(f.host.debugSnapshot().presentation,'lcd');f.tap(f.menuExit);noAction(f);
+});
+test('the first physical Enter or Escape after native HELP/VIEW/report handoff reaches the LCD before the poll',()=>{
+    for(const change of [f=>{f.raw.g_hdFightInputKind=9;f.raw.g_hdFightWait=0;},
+        f=>{f.raw.g_hdFightInputKind=10;f.raw.g_hdFightWait=0;},f=>{f.raw.g_hdReportActive=1;}]){
+        for(const [key,keyCode] of [['Enter',13],['Escape',27]]){
+            const f=fixture();assert.equal(f.host.debugSnapshot().presentation,'hd');change(f);
+            const event=f.fire('keydown',f.document.body,{key,keyCode});
+            assert.equal(event.prevented,false);assert.equal(event.stopped,false);
+            assert.equal(f.host.debugSnapshot().presentation,'lcd');noAction(f);
+        }
+    }
+});
+test('shared LCD or classic handoff also passes the first physical key without waiting for refresh',()=>{
+    for(const change of [f=>f.state.showLcd=true,f=>f.state.mode='classic']){
+        const f=fixture();assert.equal(f.host.debugSnapshot().presentation,'hd');change(f);
+        const event=f.fire('keydown',f.document.body,{key:'Enter',keyCode:13});
+        assert.equal(event.prevented,false);assert.equal(event.stopped,false);
+        assert.equal(f.host.debugSnapshot().presentation,'lcd');noAction(f);
+    }
 });

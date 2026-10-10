@@ -27,6 +27,7 @@
     };
     var sysMenuBinding = null, modeEpoch = 0, pollId = 0, commandTimer = 0, terrainSession = 0;
     var mobileHost = null, mobileMode = 'auto', mobileLifecycleBound = false, mobileRendering = false;
+    var mobileRenderOwner = null;
 
     function el(id) { return document.getElementById(id); }
     function readStorage(key, fallback) {
@@ -341,6 +342,7 @@
     }
     function invalidateHdWork() {
         modeEpoch += 1;
+        mobileRenderOwner = null;
         clearTerrainPaint();
         finishRequest('scene-changed');
         if (state.loopId) { global.cancelAnimationFrame(state.loopId); state.loopId = 0; }
@@ -561,6 +563,9 @@
         if (global.BayeHdDialog && typeof BayeHdDialog.isBlockingKeyboard === 'function' &&
             BayeHdDialog.isBlockingKeyboard()) { return false; }
         if (!state.open || state.preview || !shouldShowHd()) { return false; }
+        // Native LCD owners keep their physical keyboard path. In particular,
+        // reports, HELP and VIEW must not be consumed by the HD input adapter.
+        if (mobileHost && !getInputTicket()) { return false; }
         if (typeof global.bayeInputIgnored === 'function' && global.bayeInputIgnored(event)) { return false; }
         var legacyKeys = { 13: 'Enter', 27: 'Escape', 32: ' ', 37: 'ArrowLeft', 38: 'ArrowUp', 39: 'ArrowRight', 40: 'ArrowDown', 72: 'h', 70: 'f', 83: 's' };
         var key = event.key || legacyKeys[event.keyCode] ||
@@ -655,11 +660,18 @@
         state.refreshing = true;
         try {
             if (state.preview || fightStrictActive()) {
+                var sampleOwner = mobileHost ? mobileTicket() : null;
                 var info = sampleFight();
+                var sampledOwner = mobileHost ? mobileTicket() : null;
+                if (mobileHost && (!sameMobileTicket(sampleOwner, sampledOwner, true) ||
+                    sampleOwner.presentation !== sampledOwner.presentation)) {
+                    mobileRenderOwner = null; finishRequest('render-owner-changed'); return;
+                }
                 state.units = info.units; state.tiles = info.tiles; state.terrain = info.terrain; state.focus = info.focus;
                 state.mapW = info.mapW; state.mapH = info.mapH; state.tileW = info.tileW || info.mapW;
                 state.viewOx = info.viewOx || 0; state.viewOy = info.viewOy || 0;
                 state.viewW = info.viewW || info.mapW; state.viewH = info.viewH || info.mapH;
+                mobileRenderOwner = sampledOwner;
             }
             var snap = inputSnapshot();
             // A renderer may retire stale requests, but cannot deliver keys.
@@ -1206,11 +1218,21 @@
     function draw() {
         if (mobileHost) {
             if (document.hidden || mobileRendering || !shouldShowHd() || typeof mobileHost.render !== 'function') { return; }
+            var renderOwner = mobileRenderOwner, currentOwner = mobileTicket();
+            if (!sameMobileTicket(renderOwner, currentOwner, true) || currentOwner.presentation !== 'hd' ||
+                renderOwner.presentation !== 'hd') { return; }
             mobileRendering = true;
             try {
                 var payload = JSON.parse(JSON.stringify(debugSnapshot()));
                 payload.terrainSnapshot = state.terrain ? Object.assign({}, state.terrain,
                     { tiles: (state.terrain.tiles || []).slice() }) : null;
+                payload.renderOwner = { key: renderOwner.key, stableKey: renderOwner.stableKey,
+                    libraryGeneration: renderOwner.libraryGeneration, kind: renderOwner.kind,
+                    seq: renderOwner.seq, actor: renderOwner.actor };
+                currentOwner = mobileTicket();
+                if (!sameMobileTicket(renderOwner, currentOwner, true) || currentOwner.presentation !== 'hd') {
+                    mobileRenderOwner = null; finishRequest('render-owner-changed'); return;
+                }
                 mobileHost.render(payload);
             }
             finally { mobileRendering = false; }

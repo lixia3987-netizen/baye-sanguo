@@ -7,7 +7,7 @@
         actorIndex:'g_hdFightActor', skip:'g_hdFightSkip', mapW:'g_MapWid', mapH:'g_MapHgt',
         bout:'g_FgtBoutCnt', boutMax:'g_FgtBoutMax', focusX:'g_FoucsX', focusY:'g_FoucsY'};
     var BLOCKERS = ['g_hdReportActive','g_hdHelpActive','g_hdViewActive','g_hdMiniMapActive',
-        'g_hdMovieActive','g_hdSpeActive','g_hdAttackActive','g_hdSkillActive','g_hdSkillResultActive',
+        'g_hdMovieActive','g_hdSpeActive','g_hdAttackActive','g_hdSkillResultActive',
         'g_hdMakerActive','g_hdRecordActive','g_hdQtyActive','g_hdResultOwnerKind','g_hdResultOwnerValid'];
     var ARMS = ['骑','步','弓','水','极','玄'];
     var STATES = ['正常','混乱','禁咒','定身','奇门','遁甲','石阵','潜踪','死亡'];
@@ -16,7 +16,7 @@
     function createController(environment) {
         var mounted=false, focused=true, pageActive=true, timer=null, refreshing=false, drawing=false;
         var arm=null, pointers=Object.create(null), blocked=false, camera=null, cameraData=null, lastFocus='', lastData=null, lastStable='', lastRender=null;
-        var last={active:false,presentation:'off',reason:'not-initialized',camera:null};
+        var last={active:false,presentation:'off',reason:'not-initialized',camera:null}, renderBindings=new WeakMap();
         function doc() { return environment.document; }
         function node(id) { return doc() && doc().getElementById(id); }
         function battle() { return environment.BayeHdBattle; }
@@ -84,11 +84,32 @@
             }
             var menuKind=[3,4,6,7,8].indexOf(kind)>=0, actorValid=[2,3,4,5].indexOf(kind)<0 ||
                 f.actorIndex<20 && units[f.actorIndex].id>0 && units[f.actorIndex].id<=200 && units[f.actorIndex].state!==8;
-            var ready=f.inputSeq>0 && actorValid && !invalidMask && !BLOCKERS.some(function(name){return blockers[name]!==0;}) &&
+            var skillActive=data.g_hdSkillActive, skills=null, skillReady=skillActive===0;
+            if(!uint(skillActive,1)){return null;}
+            // FgtGetJNIdx publishes the current SKILL list before ShowMenu;
+            // this flag owns that exact list, rather than an animation.
+            if(kind===4){
+                skillReady=false;
+                if(skillActive===1 && m.active===1 && m.context===3 && m.kind===4 && typeof hd.skills==='function'){
+                    var published=hd.skills(), count=data.g_hdSkillCount, nameLen=data.g_hdSkillNameLen, nativeIds=data.g_hdSkillIds;
+                    if(published && published.active===1 && uint(count,10) && count>0 && count===m.count &&
+                        published.count===count && nameLen===4 && nativeIds && nativeIds.length>=count &&
+                        Array.isArray(published.ids) && published.ids.length===count &&
+                        Array.isArray(published.names) && published.names.length===count){
+                        var ids=[], names=published.names.slice(), nameBytes=bytes(data.g_hdSkillNameBytes,count*8);
+                        skillReady=names.every(function(name,i){
+                            var id=nativeIds[i];ids.push(id);
+                            return uint(id,65533) && id>0 && published.ids[i]===id && typeof name==='string' && name.length>0 && name===m.names[i];
+                        });
+                        if(skillReady){skills={active:1,count:count,nameLen:nameLen,ids:ids,names:names,nameBytes:nameBytes};}
+                    }
+                }
+            }
+            var ready=f.inputSeq>0 && actorValid && !invalidMask && skillReady && !BLOCKERS.some(function(name){return blockers[name]!==0;}) &&
                 ([1,2,5].indexOf(kind)>=0 ? f.wait===1 && !m.active :
                     menuKind && f.wait===0 && m.active===1 && m.context===3 && m.kind===kind);
             return {identity:id,period:data.g_PIdx,detailGeneration:data.g_hdDetailGeneration,fight:f,menu:m,units:units,mask:mask,
-                invalidMask:invalidMask,blockers:blockers,presentation:ready?'hd':'lcd'};
+                invalidMask:invalidMask,blockers:blockers,skillActive:skillActive,skills:skills,presentation:ready?'hd':'lcd'};
         }
         function readNativeTicket() {
             if(!available()) { return null; }
@@ -132,7 +153,7 @@
             }return null;
         }
         function stop(e) {if(e.cancelable!==false){e.preventDefault();}if(e.stopImmediatePropagation){e.stopImmediatePropagation();}else if(e.stopPropagation){e.stopPropagation();}}
-        function inputTicket(hit) {var t=readNativeTicket();if(!t){return null;}return hit.type==='mode'?t:t.presentation==='hd' && battle() && battle().getInputTicket?battle().getInputTicket():null;}
+        function inputTicket(hit) {var t=readNativeTicket();if(!t){return null;}return hit.type==='mode'?t:t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t) && battle() && battle().getInputTicket?battle().getInputTicket():null;}
         function clampCamera(t) {if(!camera){return;}camera.x=Math.max(0,Math.min(camera.x,Math.max(0,t.native.fight.mapW-camera.cols)));camera.y=Math.max(0,Math.min(camera.y,Math.max(0,t.native.fight.mapH-camera.rows)));}
         function tile(x,y) {if(!camera){return null;}var c=Math.floor((x-camera.left)/camera.cell),r=Math.floor((y-camera.top)/camera.cell);return c>=0&&r>=0&&c<camera.cols&&r<camera.rows?{x:c+camera.x,y:r+camera.y}:null;}
         function down(e) {
@@ -186,14 +207,23 @@
         function sharedShowsHd() {
             var b=battle();return !!(b && typeof b.getLcdPresentation==='function' && b.getLcdPresentation()==='off');
         }
+        function renderMatches(snapshot,t) {
+            var owner=snapshot && snapshot.renderOwner, b=battle();
+            if(!t || t.presentation!=='hd' || !owner || !b || typeof b.getInputTicket!=='function'){return false;}
+            if(renderBindings.has(snapshot) && renderBindings.get(snapshot)!==t.data){return false;}
+            var names=['key','stableKey','libraryGeneration','kind','seq','actor'];
+            if(!names.every(function(name){return owner[name]===t[name];})){return false;}
+            return same(t,b.getInputTicket()) && same(t,readNativeTicket());
+        }
         function refresh() {
             if(refreshing || !mounted){return last;}refreshing=true;
             try{
                 var t=readNativeTicket(), b=battle(), changed=lastData && (!t || t.data!==lastData || t.stableKey!==lastStable);
                 if(changed){retire('native-owner-changed');}
                 lastData=t && t.data;lastStable=t?t.stableKey:'';
-                var presentation=t?(t.presentation==='hd' && sharedShowsHd()?'hd':'lcd'):'off';
+                var presentation=t?(t.presentation==='hd' && sharedShowsHd() && renderMatches(lastRender,t)?'hd':'lcd'):'off';
                 if(presentation!=='hd' && arm){retire('LCD-handoff');}
+                if(presentation!=='hd'){lastRender=null;}
                 paint(presentation);
                 last={active:!!t,presentation:presentation,reason:!t?'unavailable':t.presentation==='lcd'?'native-LCD':'',
                     personContext:null,inputKind:t && t.kind,inputSeq:t && t.seq,libraryGeneration:t && t.libraryGeneration,
@@ -204,8 +234,11 @@
         function render(snapshot) {
             if(drawing || !snapshot){return;}drawing=true;
             try{
-                lastRender=snapshot;var t=readNativeTicket(), canvas=node('hd-mobile-battle-canvas'), board=node('hd-mobile-battle-board');
-                if(!t || t.presentation!=='hd' || !canvas || !board || !sharedShowsHd()){return;}
+                var t=readNativeTicket(), canvas=node('hd-mobile-battle-canvas'), board=node('hd-mobile-battle-board');
+                if(!t || t.presentation!=='hd' || !canvas || !board || !sharedShowsHd() || !renderMatches(snapshot,t)){
+                    lastRender=null;if(t){paint('lcd');}if(arm){retire('render-owner-changed');}return;
+                }
+                renderBindings.set(snapshot,t.data);lastRender=snapshot;
                 paint('hd');var r=board.getBoundingClientRect();if(r.width<44 || r.height<44){return;}
                 var cols=Math.min(t.native.fight.mapW,Math.floor(r.width/44)),rows=Math.min(t.native.fight.mapH,Math.floor(r.height/44));
                 var cell=Math.floor(Math.min(r.width/cols,r.height/rows)), ox=Math.floor((r.width-cols*cell)/2),oy=Math.floor((r.height-rows*cell)/2);
@@ -238,7 +271,7 @@
                 var f=t.native.fight;ctx.strokeStyle='#f0c75a';ctx.lineWidth=2;ctx.strokeRect(ox+(f.focusX-camera.x)*cell+1,oy+(f.focusY-camera.y)*cell+1,cell-2,cell-2);
                 var u=(snapshot.unitList||[]).find(function(v){return v.x===f.focusX && v.y===f.focusY && v.state!==8;}),details=node('hd-mobile-battle-details');
                 if(details){details.textContent=u?(u.name+' · '+(ARMS[u.armType]||'兵')+'兵\n兵力 '+u.arms+' · HP '+u.hp+' · MP '+u.mp+'\n'+(STATES[u.state]||'未知')+' · '+(u.active===1?'已行动':'待行动')):'位置 '+f.focusX+','+f.focusY+'\n拖动查看战场 · 轻点选择';}
-                if(last){last.camera=Object.assign({},camera);}
+                if(last){last.camera=Object.assign({},camera);last.presentation='hd';}
             }finally{drawing=false;}
         }
         function init() {
@@ -247,6 +280,18 @@
             d.addEventListener('pointercancel',function(e){delete pointers[e.pointerId];blocked=Object.keys(pointers).length>0;retire('pointercancel');},true);
             d.addEventListener('lostpointercapture',function(e){if(arm && arm.id===e.pointerId){retire('lost-capture');}},true);
             d.addEventListener('click',function(e){if(action(e.target)){stop(e);}},true);
+            d.addEventListener('keydown',function(e){
+                if(last.presentation!=='hd'){return;}
+                var recognized=/^(ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Enter|Escape| |Spacebar|[hHfFsS0-9])$/.test(e.key||'') ||
+                    [13,27,32,37,38,39,40,72,70,83].indexOf(e.keyCode)>=0 || e.keyCode>=48 && e.keyCode<=57;
+                if(!recognized || e.isComposing){return;}
+                var t=readNativeTicket(), b=battle();
+                if(t && t.presentation==='lcd' || !sharedShowsHd()){refresh();return;}
+                if(e.isTrusted!==true || e.repeat){stop(e);return;}
+                if(!renderMatches(lastRender,t)){stop(e);refresh();return;}
+                if(b && typeof b.handleKey==='function'){b.handleKey(e);}
+                stop(e);
+            },true);
             d.addEventListener('scroll',function(){if(arm){retire('scroll');}},true);
             d.addEventListener('visibilitychange',function(){boundary('visibility');});
             ['resize','orientationchange'].forEach(function(name){environment.addEventListener(name,function(){boundary(name);});});
