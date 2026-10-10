@@ -11,6 +11,7 @@
     var mobileHost = null, mobileMode = 'auto', mobileIdentityApi = null;
     var mobileUnsubscribe = null, mobileBoundaryBound = false, startTimer = null;
     var mobileLibraryGeneration = null, mobileRetireReason = '';
+    var distributionFlow = null;
     var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var MOBILE_RAW_FIELDS = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq',
         'g_hdBattlePick', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq',
@@ -527,6 +528,7 @@
     }
 
     function invalidateMarchWork() {
+        distributionFlow = null;
         marchEpoch += 1;
         queueEpoch += 1;
         state.walkToken += 1;
@@ -604,11 +606,13 @@
                 finish();
                 if (thenEnter) {
                     var previousCommit = state.nativeMenuCommit;
+                    var distribution = distributionSelection(menu, index);
                     state.nativeMenuCommit = key;
                     // Read-only bridge getters may reenter a Mod callback. Check
                     // the same native owner again at the final send boundary.
-                    if (!engineSendKey(VK.ENTER, reason, function () { return ownsMenu(index); }) &&
-                        state.nativeMenuCommit === key) { state.nativeMenuCommit = previousCommit; }
+                    if (engineSendKey(VK.ENTER, reason, function () { return ownsMenu(index); })) {
+                        distributionFlow = distribution;
+                    } else if (state.nativeMenuCommit === key) { state.nativeMenuCommit = previousCommit; }
                 }
                 return;
             }
@@ -1094,6 +1098,7 @@
             var mobileCurrent = mobileInputTicket(reason);
             if (!mobileCurrent || mobileCurrent.data !== mobilePress.data || mobileCurrent.key !== mobilePress.key) { retireInteraction('send-owner-changed'); return false; }
         }
+        if (code === VK.EXIT && reason !== 'qty-cancel') { distributionFlow = null; }
         if (typeof sendKey === 'function') {
             sendKey(code);
             return true;
@@ -3168,6 +3173,116 @@
         return null;
     }
 
+    function nextDistributionSeq(seq) { return seq === 0xffffffff ? 1 : seq + 1; }
+
+    function distributionSelection(menu, index) {
+        // Semantics come from an actual original military-menu Enter followed
+        // by its exact native picker, never from a retained deepLabel.
+        var first = mobileInputTicket(), value = mobileNativeSnapshot();
+        if (!first || !value || first.ownerType !== 'city' || first.data !== value.data ||
+            first.menuSeq !== menu.seq || value.menu.seq !== menu.seq || value.menu.index !== index ||
+            value.qty.active || value.raw.g_hdReportActive || value.march.phase !== MARCH.IDLE &&
+            value.march.phase !== MARCH.DEPARTED) { return null; }
+        var actual = value.menu, ids = actualMenuIds(actual), flow = distributionFlow, result = null;
+        if (actual.kind === 2 && index === 2 && JSON.stringify(actual.names) ===
+            JSON.stringify(['侦察', '征兵', '分配', '掠夺', '出征'])) {
+            result = {stage: 'picker', data: value.data, generation: first.libraryGeneration,
+                cityIndex: first.cityIndex, detailGeneration: actual.detailGeneration,
+                pickerSeq: nextDistributionSeq(nextDistributionSeq(actual.seq)), qtyBaseline: value.qty.session};
+        } else if (actual.kind === 3 && ids && flow && flow.stage === 'picker' &&
+            flow.data === value.data && flow.generation === first.libraryGeneration &&
+            flow.cityIndex === first.cityIndex && flow.detailGeneration === actual.detailGeneration &&
+            flow.pickerSeq === actual.seq && flow.qtyBaseline === value.qty.session) {
+            var personId = ids[index], city = value.data.g_Cities && value.data.g_Cities[first.cityIndex],
+                person = value.data.g_Persons && value.data.g_Persons[personId];
+            if (!mobileInteger(personId, 199) || !person || !city ||
+                !mobileInteger(person.Arms, 65535) || !mobileInteger(city.MothballArms, 65535) ||
+                !mobileInteger(value.data.g_PlayerKing, 199) || city.Belong !== value.data.g_PlayerKing + 1 ||
+                person.Belong !== city.Belong) { return null; }
+            result = {stage: 'quantity', data: flow.data, generation: flow.generation,
+                cityIndex: flow.cityIndex, detailGeneration: flow.detailGeneration, menuSeq: actual.seq,
+                personId: personId, personName: actual.names[index], existingArms: person.Arms,
+                reserveArms: city.MothballArms, belong: city.Belong, qtyBaseline: value.qty.session,
+                pickerKey: JSON.stringify(actual), session: nextDistributionSeq(value.qty.session)};
+        }
+        var after = mobileInputTicket();
+        return result && after && first.data === after.data && first.key === after.key ? result : null;
+    }
+
+    function getQuantityPresentation() {
+        var flow = distributionFlow;
+        if (!flow || flow.stage !== 'quantity') { return null; }
+        syncQuantityWait(engineQty());
+        function read() {
+            var ticket = mobileInputTicket(), value = mobileNativeSnapshot();
+            if (!ticket || !value || ticket.ownerType !== 'qty' || ticket.data !== flow.data ||
+                value.data !== flow.data || ticket.libraryGeneration !== flow.generation ||
+                ticket.cityIndex !== flow.cityIndex || ticket.detailGeneration !== flow.detailGeneration ||
+                value.menu.active || value.menu.seq !== nextDistributionSeq(flow.menuSeq) ||
+                value.qty.session !== flow.session || value.qty.min !== 0 || value.qty.max < 1 ||
+                value.qty.max > flow.existingArms + flow.reserveArms || state.qtyInputClosed) { return null; }
+            var city = value.data.g_Cities && value.data.g_Cities[flow.cityIndex],
+                person = value.data.g_Persons && value.data.g_Persons[flow.personId];
+            if (!city || !person || city.Belong !== flow.belong || person.Belong !== flow.belong ||
+                city.MothballArms !== flow.reserveArms || person.Arms !== flow.existingArms ||
+                value.data.g_PlayerKing + 1 !== flow.belong) { return null; }
+            return {ticket: ticket, qty: value.qty};
+        }
+        var first = read(), second = read();
+        if (!first || !second || first.ticket.key !== second.ticket.key ||
+            JSON.stringify(first.qty) !== JSON.stringify(second.qty)) {
+            // A quantity key can temporarily leave C between input boundaries.
+            // It grants no presentation until ready, but is not a new session.
+            function pendingSource() {
+                var pending = mobileNativeSnapshot();
+                if (!pending || pending.data !== flow.data || pending.libraryGeneration !== flow.generation ||
+                    !shouldShowHd() || pending.march.mapCity !== flow.cityIndex + 1 || pending.march.pick ||
+                    pending.march.battlePick || pending.march.phase !== MARCH.IDLE && pending.march.phase !== MARCH.DEPARTED ||
+                    pending.raw.g_hdReportActive || pending.raw.g_hdHelpActive ||
+                    pending.menu.detailGeneration !== flow.detailGeneration) { return null; }
+                var q = pending.qty, menu = pending.menu, ended = !menu.active && menu.seq === nextDistributionSeq(flow.menuSeq);
+                if (!(q.active === 0 && q.session === flow.qtyBaseline &&
+                    (ended || menu.active === 1 && JSON.stringify(menu) === flow.pickerKey) ||
+                    q.active === 1 && q.ready === 0 && q.session === flow.session && ended)) { return null; }
+                return JSON.stringify([pending.raw, menu, pending.march, q]);
+            }
+            var pendingFirst = pendingSource(), pendingSecond = pendingSource();
+            if (!pendingFirst || pendingFirst !== pendingSecond) { distributionFlow = null; }
+            return null;
+        }
+        var q = second.qty, result = {kind: 'distribution', libraryGeneration: flow.generation,
+            cityIndex: flow.cityIndex, personId: flow.personId, personName: flow.personName,
+            existingArms: flow.existingArms, reserveArms: flow.reserveArms,
+            session: q.session, inputSeq: q.inputSeq, value: q.value, min: q.min, max: q.max,
+            key: second.ticket.key};
+        Object.defineProperty(result, 'data', {value: flow.data, enumerable: false});
+        return Object.freeze(result);
+    }
+
+    function finishDistributionQuantity() {
+        var flow = distributionFlow;
+        distributionFlow = flow && getQuantityPresentation() ? {stage: 'picker', data: flow.data,
+            generation: flow.generation, cityIndex: flow.cityIndex, detailGeneration: flow.detailGeneration,
+            pickerSeq: nextDistributionSeq(nextDistributionSeq(flow.menuSeq)), qtyBaseline: flow.session} : null;
+    }
+
+    function toggleQtyBound(session) {
+        var q = engineQty();
+        if (!mobileHost || !shouldShowHd() || !liveQty() || !q || q.protocol !== true || q.ready !== 1 ||
+            q.session !== Number(session) || q.min >= q.max || state.qtyCommitQueued || state.qtyAckFailed ||
+            state.sending || state.queue.length || state.activeQueueReason) { return false; }
+        return quantityKey(0x26);
+    }
+
+    function updateQuantityBound(button, q) {
+        if (!button) { return; }
+        button.hidden = !mobileHost || !q || q.active !== 1 || q.protocol !== true;
+        if (button.hidden) { return; }
+        button.setAttribute('data-hd-qty-session', String(q.session));
+        setText(button, q.value === q.max ? '最小' : '最大');
+        button.disabled = q.min >= q.max || q.ready !== 1 || state.qtyCommitQueued || state.qtyAckFailed;
+    }
+
     function syncQuantityWait(q) {
         if (!q || !Number(q.active)) { return; }
         if (q.protocol) {
@@ -3372,6 +3487,7 @@
             scheduleMarchWatch();
             return;
         }
+        finishDistributionQuantity();
         bayeQtyCloseInput(engineQty());
         engineSendKey(VK.ENTER, 'qty-ok');
         state.qtyInputClosed = true;
@@ -3420,6 +3536,7 @@
             render();
             return;
         }
+        finishDistributionQuantity();
         bayeQtyCloseInput(engineQty());
         engineSendKey(VK.EXIT, 'qty-cancel');
         state.qtyInputClosed = true;
@@ -4714,6 +4831,7 @@
             }).join(',');
         if (state.deepSig === sig && list.children.length) {
             if (mobileQty && liveQty) { setText(el('hd-city-qty-val'), liveQty.value); }
+            updateQuantityBound(el('hd-city-qty-bound'), liveQty);
             applyHighlight();
             return;
         }
@@ -4753,7 +4871,8 @@
                     q = baye.hd.qty();
                 }
             } catch (e) {}
-            bar.innerHTML = '<p class="hd-city-menu-qty-summary">' + (state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
+            var distribution = getQuantityPresentation();
+            bar.innerHTML = '<p class="hd-city-menu-qty-summary">' + (distribution ? '目标总兵力' : state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
                 (q.value !== '' && q.value != null ? q.value : '—') +
                 '</strong> · 可用按钮或数字键调整</p>' +
                 (state.qtyAckFailed ? '<p>数量调整未完成，请取消后重新输入。</p>' : '') +
@@ -4762,6 +4881,7 @@
                 '<button type="button" data-hd-qty="-1">−</button>' +
                 '<button type="button" data-hd-qty="1">+</button>' +
                 '<button type="button" data-hd-qty="10">+10</button>' +
+                (mobileHost ? '<button type="button" id="hd-city-qty-bound" data-hd-qty-bound>最大</button>' : '') +
                 '<button type="button" data-hd-digit="0">0</button>' +
                 '<button type="button" data-hd-digit="1">1</button>' +
                 '<button type="button" data-hd-digit="2">2</button>' +
@@ -4776,6 +4896,7 @@
                 (mobileHost ? '<button type="button" data-hd-qty-cancel>取消</button>' : '') +
                 '</div>';
             list.appendChild(bar);
+            updateQuantityBound(el('hd-city-qty-bound'), q);
             return;
         }
         var showMarchOk = (state.marchReady || freshMarchOk() || state.handoff) &&
@@ -6674,6 +6795,12 @@
                     commitQty();
                     return;
                 }
+                if (t.getAttribute && t.getAttribute('data-hd-qty-bound') != null) {
+                    ev.preventDefault();
+                    ev.stopPropagation();
+                    toggleQtyBound(t.getAttribute('data-hd-qty-session'));
+                    return;
+                }
                 if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {
                     ev.preventDefault();
                     ev.stopPropagation();
@@ -7163,6 +7290,8 @@
         getMarchTargetTicket: getMarchTargetTicket,
         getMarchDialogTicket: getMarchDialogTicket,
         getMarchPresentation: getMarchPresentation,
+        getQuantityPresentation: getQuantityPresentation,
+        toggleQtyBound: toggleQtyBound,
         getMode: getMenuMode,
         setMode: setMenuMode,
         syncMode: syncMode,

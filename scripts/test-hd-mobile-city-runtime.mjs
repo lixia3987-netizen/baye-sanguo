@@ -118,6 +118,8 @@ const worldSource = `(() => {
     queue:Array.from(d.g_PersonsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),
     config:{enable16bitConsumeMoney:Number(d.g_engineConfig.enable16bitConsumeMoney),checkRedundantOnAddPerson:Number(d.g_engineConfig.checkRedundantOnAddPerson),
       armsPerMoney:Number(d.g_engineConfig.armsPerMoney),armsPerDevotion:Number(d.g_engineConfig.armsPerDevotion),fixOverFlow16:Number(d.g_engineConfig.fixOverFlow16),
+      enableCustomRatio:Number(d.g_engineConfig.enableCustomRatio),ratioOfArmsToLevel:Number(d.g_engineConfig.ratioOfArmsToLevel),
+      ratioOfArmsToAge:Number(d.g_engineConfig.ratioOfArmsToAge),ratioOfArmsToIQ:Number(d.g_engineConfig.ratioOfArmsToIQ),ratioOfArmsToForce:Number(d.g_engineConfig.ratioOfArmsToForce),
       disableExpGrowing:Number(d.g_engineConfig.disableExpGrowing),maxLevel:Number(d.g_engineConfig.maxLevel),
       disableAllPersonReport:Number(d.g_engineConfig.disableAllPersonReport)},
     orders:Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>take(d.g_OrderQueue[i],['OrderId','City','Person','Object','TimeCount','Food']))};
@@ -174,17 +176,18 @@ async function unusedPort() {
 }
 
 export async function main(args=process.argv.slice(2)) {
-  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only'),recruitment=args.includes('--recruitment');
+  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only'),distribution=args.includes('--distribution'),recruitment=args.includes('--recruitment')||distribution;
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width='));
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
     args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
     marchFlags.length<=1&&(!marchFlags.length||marchOnly)&&[844,667].includes(marchWidth)&&
     args.filter(arg=>arg==='--recruitment').length<=1&&(!recruitment||![reportsOnly,portraitsOnly,battleOnly,marchOnly].some(Boolean))&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    args.filter(arg=>arg==='--distribution').length<=1&&!(distribution&&args.includes('--recruitment'))&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
@@ -193,6 +196,8 @@ export async function main(args=process.argv.slice(2)) {
     startedAt:new Date().toISOString(),ok:false,accepted:false,realDeviceAccepted:false,reportInteractionAccepted:false,recruitmentCommitted:false,battleAccepted:false,fullHdAccepted:false,
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
+  report.distribution=distribution;report.distributions=[];report.distributionAccepted=false;
+  if(distribution)report.scope='Original mobile HD CITY navigation and two genuine recruitment-to-distribution flows: cancellation, target total increase, reduction and zero return at 844x390/667x375; no native writes, month advance, real-device or full-HD claim';
   const frozen=new Map(),historical=new Map();let server,chrome,cdp,ownership,rootIdentity,interrupted=false;
   const freeze=rel=>{if(frozen.has(rel))return frozen.get(rel);const filename=path.resolve(root,rel);
     assert.ok(filename.startsWith(root+path.sep));const bytes=fs.readFileSync(filename),ref={path:rel,bytes:bytes.length,sha256:sha(bytes)};
@@ -535,7 +540,14 @@ export async function main(args=process.argv.slice(2)) {
     report.navigationMatrixAccepted=true;
     }
     await treat('public-treat-confirmed');await treat('public-treat-natural-owner-retirement',{naturalHeld:true});
-    if(recruitment){for(const [width,height]of [[844,390],[667,375]]){await metrics(width,height);await recruit('recruitment-'+width+'x'+height);}assert.equal(report.recruitments.length,2);report.recruitmentCommitted=true;}
+    if(recruitment){for(const [width,height]of [[844,390],[667,375]]){
+      await metrics(width,height);await recruit('recruitment-'+width+'x'+height);
+      if(distribution){const {runMobileDistributionChecks}=await import('./hd-mobile-distribution-runtime-checks.mjs');
+        await runMobileDistributionChecks({report,evaluate,until,checkpoint,ready,root,submenu,selectPerson,back,mapReturn,
+          visibleSelector,controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,
+          originalLibBytes:frozen.get('libs/dat-mod.lib').bytes,label:'distribution-'+width+'x'+height});}
+    }assert.equal(report.recruitments.length,2);report.recruitmentCommitted=true;
+      if(distribution){assert.equal(report.distributions.length,2);assert.ok(report.distributions.every(v=>v.accepted));report.distributionAccepted=true;}}
     const final=await checkpoint('final-mobile-HD-map');await until('final actual map',mapReadySource);prefsSame(final);
     report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
     if(!reportsOnly){assert.ok(report.trustedEvents.some(e=>e.trusted&&e.type==='touchcancel'));
@@ -545,6 +557,7 @@ export async function main(args=process.argv.slice(2)) {
     report.reportInteractionAccepted=true;report.ok=true;report.accepted=true;
     report.acceptedScope=reportsOnly?['Original public nonking Treat report-active money/Thew and post-retirement Devotion: strict full-world two-phase validation','One trusted current-report ACK; one naturally retired report with held-pointer release sending zero keys']:['Original genuine multi-city lord and native city entry','844x390 and 667x375 trusted four-category city menus','Actual person U16 owner list and quantity edit/cancel','Readonly status zero keys and single-owner Back','44px unobstructed touch targets; fitting content or measured genuine overflow scrolling','Touchcancel/multifinger/rotation/hidden/untrusted-click retirement','Independent mobile presentation mode; PC preferences unchanged','Two bounded nonking original Treat operations; one report ACK and one natural report retirement'];
     if(recruitment)report.acceptedScope.push('Two original recruitment commitments at 844x390 and 667x375: exact measured world, ROM Thew/financial gate, quantity fee, first native order slot, resident queue and continuing picker cancellation; no month advance or return-to-duty claim');
+    if(distribution)report.acceptedScope.push('Two original target-total troop distribution flows: current authenticated actor and reserve description; one cancelled edit and three commitments per viewport (increase, reduce to one, return to zero); native HELP bounds and exact full measured world with only actor Arms and city MothballArms changed');
 }
   const interrupt=()=>{interrupted=true;report.interrupted=true;cdp?.close();server?.closeAllConnections();};
   process.once('SIGINT',interrupt);process.once('SIGTERM',interrupt);
@@ -553,6 +566,7 @@ export async function main(args=process.argv.slice(2)) {
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(recruitment)freeze('scripts/hd-mobile-recruitment-runtime-oracle.mjs');
+    if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
     if(marchOnly){for(const f of ['scripts/hd-mobile-march-runtime-checks.mjs','scripts/hd-mobile-march-runtime-oracle.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','css/hd-mobile.css'])freeze(f);}
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}

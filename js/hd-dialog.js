@@ -891,10 +891,19 @@
         if (!(state.open && shouldShowHd())) {
             return;
         }
-        setText(el('hd-dialog-title'), state.title);
+        var quantity = state.kind === 'qty' ? readStandaloneQty() : null;
+        var distribution = quantityPresentation(quantity);
+        var root = el('hd-dialog');
+        if (root) { root.classList.toggle('has-mobile-quantity', !!mobileHost && state.kind === 'qty'); }
+        setText(el('hd-dialog-title'), distribution ? '分配兵力' : state.title);
         var body = el('hd-dialog-body');
         if (body) {
-            if (state.kind === 'view' && state.viewDetail) {
+            body.setAttribute('data-hd-quantity-purpose', distribution ? 'distribution' : '');
+            if (distribution) {
+                body.textContent = distribution.personName + ' · 现有兵力 ' + distribution.existingArms +
+                    ' · 城内预备兵 ' + distribution.reserveArms + '\n目标总兵力 ' + quantity.value +
+                    '（' + quantity.min + '–' + quantity.max + '）。\n调低会退回城内预备兵；这是分配后的总兵力。';
+            } else if (state.kind === 'view' && state.viewDetail) {
                 renderViewDetail(body, state.viewDetail);
             } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
                 renderHelpDetail(body, state.helpDetail);
@@ -997,6 +1006,17 @@
         var qty = el('hd-dialog-qty');
         if (qty) {
             qty.hidden = state.kind !== 'qty';
+            var bound = qty.querySelector && qty.querySelector('[data-hd-qty-bound]');
+            if (bound) {
+                bound.hidden = !mobileHost || !quantity || quantity.protocol !== true || quantity.active !== 1;
+                if (!bound.hidden) {
+                    bound.setAttribute('data-hd-qty-session', String(quantity.session));
+                    setText(bound, quantity.value === quantity.max ? '最小' : '最大');
+                    bound.disabled = quantity.min >= quantity.max || quantity.ready !== 1 ||
+                        state.qtyInputClosed || state.qtyCommitPending || state.qtyAckFailed ||
+                        state.qtySending || state.qtyQueue.length > 0;
+                }
+            }
             var digits = el('hd-dialog-qty-digits');
             if (digits && !digits.getAttribute('data-built')) {
                 digits.setAttribute('data-built', '1');
@@ -1075,6 +1095,15 @@
             }
         } catch (e) {}
         return false;
+    }
+
+    function quantityPresentation(q) {
+        if (!mobileHost || state.kind !== 'qty' || !q || !global.BayeHdCityMenu ||
+            typeof BayeHdCityMenu.getQuantityPresentation !== 'function') { return null; }
+        var first = BayeHdCityMenu.getQuantityPresentation(), second = BayeHdCityMenu.getQuantityPresentation();
+        return first && second && first.data === second.data && first.key === second.key &&
+            second.kind === 'distribution' && second.session === q.session && second.inputSeq === q.inputSeq &&
+            second.value === q.value && second.min === q.min && second.max === q.max ? second : null;
     }
 
     function cityMenuLeftoverQty() {
@@ -1601,6 +1630,16 @@
         catch (error) { return null; }
     }
 
+    function toggleQtyBound(session) {
+        var q = readStandaloneQty();
+        if (!mobileHost || !state.open || state.kind !== 'qty' || !shouldShowHd() ||
+            !q || q.protocol !== true || q.active !== 1 || q.ready !== 1 ||
+            q.session !== Number(session) || q.min >= q.max || state.qtyInputClosed ||
+            state.qtyCommitPending || state.qtyAckFailed || state.qtySending || state.qtyQueue.length ||
+            !global.BayeHdCityMenu || typeof BayeHdCityMenu.toggleQtyBound !== 'function') { return false; }
+        return BayeHdCityMenu.toggleQtyBound(session);
+    }
+
     function standaloneQty() {
         var q = readStandaloneQty();
         if (q && (!q.active || q.protocol && Number(q.session) !== state.qtyClosedSession)) {
@@ -1949,6 +1988,11 @@
                 if (t.getAttribute && t.getAttribute('data-hd-qty') != null) {
                     ev.preventDefault();
                     qtyStep(Number(t.getAttribute('data-hd-qty')));
+                    return;
+                }
+                if (t.getAttribute && t.getAttribute('data-hd-qty-bound') != null) {
+                    ev.preventDefault();
+                    toggleQtyBound(t.getAttribute('data-hd-qty-session'));
                     return;
                 }
                 if (t.getAttribute && t.getAttribute('data-hd-digit') != null) {

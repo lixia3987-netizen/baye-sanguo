@@ -67,7 +67,8 @@ function fixture({storageThrows = false, marchState = false} = {}) {
     env.window = env;
     const code=marchState?source.replace(/\}\)\(window\);\s*$/,`
         global.__marchTest={state:state,sync:syncMarchPhase,send:engineSendKey,cancelQty:cancelQty,
-            cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities};
+            cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities,
+            select:selectLiveMenu};
         render=function(){};applyDocAttr=function(){};scheduleMarchWatch=function(){};
     })(window);`):source;
     vm.runInNewContext(code, env, {filename:'js/hd-city-menu.js'});
@@ -958,7 +959,7 @@ for(const [width,height] of [[667,375],[844,390]]){
         assert.equal(dom.byId('hd-city-qty-val').parentElement,summary);
         assert.equal(dom.byId('hd-city-qty-val').textContent,'50');
         assert.equal(dom.list.scrollTop,0);assert.equal(descendantClass(dom.list,'hd-city-menu-wizard'),null);
-        assert.equal(controls.children.length,16);assert.ok(dom.find('data-hd-qty-ok'));assert.ok(dom.find('data-hd-qty-cancel'));
+        assert.equal(controls.children.length,17);assert.ok(dom.find('data-hd-qty-ok'));assert.ok(dom.find('data-hd-qty-cancel'));
         controls.scrollTop=70;dom.poll();assert.equal(controls.scrollTop,70);
         assert.equal(JSON.stringify(f.raw),before);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
     });
@@ -1022,4 +1023,229 @@ test('fixed-summary layout is mobile-scoped with a real button scroller and 44px
     assert.match(scroll,/overflow:\s*auto/);assert.match(scroll,/min-height:\s*0/);assert.match(scroll,/minmax\(44px, auto\)/);
     const buttons=rules.find(([_,selectors])=>selectors.includes('.hd-city-menu-qty button'))[2];
     assert.match(buttons,/min-height:\s*44px/);assert.match(buttons,/min-width:\s*44px/);
+});
+
+function distributionFixture({command='分配',personId=0,capacity=2000,deferQuantity=false}={}) {
+    const f=fixture({marchState:true});f.configure();f.state=f.internals.state;
+    f.raw.g_PlayerKing=0;
+    f.raw.g_Cities=Array.from({length:38},()=>({Belong:1,MothballArms:1958,Persons:2,PersonQueue:0}));
+    f.raw.g_Persons=Array.from({length:capacity},()=>({Belong:1,Arms:100}));
+    Object.assign(f.raw,{g_hdMenuKind:2,g_hdMenuSeq:11,g_hdMenuCount:5,g_hdMenuIndex:2,g_hdQtySession:20});
+    f.names.splice(0,f.names.length,'侦察','征兵',command,'掠夺','出征');
+    Object.assign(f.state,{open:true,layer:'deep',subKind:'junbei',cityIndex:0,deepKind:'person',deepLabel:command});
+    const menuRead=f.env.baye.hd.menuItems;
+    f.env.baye.hd.menuItems=()=>{const m=menuRead();if(m.kind===3)m.ids=[personId,19];return m;};
+    let selectedSeq=0;
+    f.publishQuantity=()=>{
+        Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuKind:0,g_hdMenuContext:0,g_hdMenuSeq:selectedSeq+1,
+            g_hdMenuCount:0,g_hdMenuIndex:0,g_hdQtyActive:1,g_hdQtyReady:1,g_hdQtySession:f.raw.g_hdQtySession+1,
+            g_hdQtyMin:0,g_hdQtyMax:1800,g_hdQtyValue:1800,g_hdQtyInputSeq:0,g_hdQtyStep:1,g_hdQtyLastKey:65535});
+        f.names.splice(0);
+    };
+    f.setAfterKey(key=>{
+        if(key===39&&f.raw.g_hdMenuKind===2){
+            Object.assign(f.raw,{g_hdMenuKind:3,g_hdMenuSeq:13,g_hdMenuCount:2,g_hdMenuIndex:0});
+            f.names.splice(0,f.names.length,'董卓','李儒');
+        }else if(key===39&&f.raw.g_hdMenuKind===3){
+            selectedSeq=f.raw.g_hdMenuSeq;
+            if(!deferQuantity)f.publishQuantity();
+        }else if(key===40&&f.raw.g_hdQtyActive){
+            Object.assign(f.raw,{g_hdMenuActive:1,g_hdMenuKind:3,g_hdMenuContext:1,g_hdMenuSeq:f.raw.g_hdMenuSeq+1,
+                g_hdMenuCount:2,g_hdMenuIndex:0,g_hdQtyActive:0,g_hdQtyReady:0});
+            f.names.splice(0,f.names.length,'董卓','李儒');
+        }
+    });
+    f.env.bayeQtyNativeClosed=()=>false;f.env.bayeQtyCloseInput=()=>{};
+    f.chooseCommand=()=>f.internals.select(2,true,'',f.env.baye.hd.menuItems());
+    f.choosePerson=()=>f.internals.select(0,true,'',f.env.baye.hd.menuItems());
+    f.enter=()=>{assert.equal(f.chooseCommand(),true);assert.equal(f.choosePerson(),true);};
+    return f;
+}
+
+test('distribution description follows actual original command/person Enters into one new quantity session',()=>{
+    const f=distributionFixture();assert.equal(f.api.getQuantityPresentation(),null);f.enter();
+    const p=f.api.getQuantityPresentation();assert.ok(p);assert.ok(Object.isFrozen(p));
+    assert.equal(p.kind,'distribution');assert.equal(p.personId,0);assert.equal(p.personName,'董卓');
+    assert.equal(p.existingArms,100);assert.equal(p.reserveArms,1958);assert.equal(p.cityIndex,0);
+    assert.equal(p.session,21);assert.equal(p.value,1800);assert.equal(p.max,1800);
+    assert.equal(p.data,f.env.baye.data);assert.equal(Object.keys(p).includes('data'),false);
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('a retained distribution label cannot label recruitment or an unobserved person selection',()=>{
+    const f=distributionFixture({command:'征兵'});f.state.deepLabel='分配';f.enter();
+    assert.equal(f.api.getQuantityPresentation(),null);
+    const orphan=distributionFixture();orphan.chooseCommand();orphan.raw.g_hdMenuSeq++;
+    orphan.choosePerson();assert.equal(orphan.api.getQuantityPresentation(),null);
+});
+for(const change of ['session','menu-seq','detail-generation','city','actor-arms','reserve','belong','data','library','hidden','classic','report','ready-race']){
+    test('distribution context retires on stale or incompatible source: '+change,()=>{
+        const f=distributionFixture();f.enter();assert.ok(f.api.getQuantityPresentation());
+        if(change==='session')f.raw.g_hdQtySession++;
+        if(change==='menu-seq')f.raw.g_hdMenuSeq++;
+        if(change==='detail-generation')f.raw.g_hdDetailGeneration++;
+        if(change==='city')f.raw.g_hdMapCity=2;
+        if(change==='actor-arms')f.raw.g_Persons[0].Arms++;
+        if(change==='reserve')f.raw.g_Cities[0].MothballArms++;
+        if(change==='belong')f.raw.g_Persons[0].Belong=2;
+        if(change==='data')f.env.baye.data={...f.raw};
+        if(change==='library')f.setIdentity({...f.identity(),generation:2});
+        if(change==='hidden')f.env.document.hidden=true;
+        if(change==='classic')f.api.setMode('classic');
+        if(change==='report')f.raw.g_hdReportActive=1;
+        if(change==='ready-race')f.setMenuHook(()=>{f.raw.g_hdQtyInputSeq++;});
+        assert.equal(f.api.getQuantityPresentation(),null);assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('native quantity ACK values including zero and U16 bounds retain the same selected actor',()=>{
+    const f=distributionFixture();f.raw.g_Persons[0].Arms=65535;f.raw.g_Cities[0].MothballArms=0;f.enter();
+    f.raw.g_hdQtyMax=65535;
+    for(const value of [65535,0,100]){f.raw.g_hdQtyValue=value;f.raw.g_hdQtyInputSeq++;
+        const p=f.api.getQuantityPresentation();assert.equal(p.value,value);assert.equal(p.existingArms,65535);assert.equal(p.reserveArms,0);}
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('a busy quantity cannot publish context but resumes only the same native session after its ACK',()=>{
+    const f=distributionFixture();f.enter();f.raw.g_hdQtyReady=0;
+    assert.equal(f.api.getQuantityPresentation(),null);f.raw.g_hdQtyReady=1;f.raw.g_hdQtyInputSeq++;
+    assert.ok(f.api.getQuantityPresentation());assert.deepEqual(f.keys,[39,39]);
+});
+for(const stage of ['same-picker','menu-ended']){
+    test('distribution context waits without a timer for its Enter to publish quantity: '+stage,()=>{
+        const f=distributionFixture({deferQuantity:true});f.enter();
+        if(stage==='menu-ended'){
+            Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuKind:0,g_hdMenuContext:0,g_hdMenuSeq:14,g_hdMenuCount:0,g_hdMenuIndex:0});
+            f.names.splice(0);
+        }
+        assert.equal(f.api.getQuantityPresentation(),null);
+        f.publishQuantity();assert.equal(f.api.getQuantityPresentation().personId,0);
+        assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('a different publication during the pending Enter cannot regain distribution context',()=>{
+    const f=distributionFixture({deferQuantity:true});f.enter();f.raw.g_hdMenuIndex=1;
+    assert.equal(f.api.getQuantityPresentation(),null);f.publishQuantity();
+    assert.equal(f.api.getQuantityPresentation(),null);assert.deepEqual(f.keys,[39,39]);
+});
+test('quantity cancellation returns to a fresh native picker; only its next selection gets new context',()=>{
+    const f=distributionFixture();f.enter();f.internals.cancelQty();assert.equal(f.api.getQuantityPresentation(),null);
+    assert.equal(f.choosePerson(),true);const p=f.api.getQuantityPresentation();assert.ok(p);assert.equal(p.session,22);
+    assert.deepEqual(f.keys,[39,39,40,39]);assert.deepEqual(f.writes,[]);
+});
+test('classic and PC presentation never acquire a retained mobile distribution description',()=>{
+    const f=distributionFixture();f.enter();f.api.setMode('classic');assert.equal(f.api.getQuantityPresentation(),null);
+    const pc=fixture({marchState:true});Object.assign(pc.internals.state,{deepLabel:'分配',deepKind:'person',layer:'deep',open:true});
+    assert.equal(pc.api.getQuantityPresentation(),null);assert.deepEqual(pc.keys,[]);
+});
+test('native bound button follows ACK values without replacing mobile controls or scroll',()=>{
+    const f=mobileMarchFixture(2),dom=marchDom(f);dom.poll();const button=dom.find('data-hd-qty-bound');
+    assert.equal(button.textContent,'最大');assert.equal(button.getAttribute('data-hd-qty-session'),'7');
+    const controls=descendantClass(dom.list,'hd-city-menu-qty-controls');controls.scrollTop=73;
+    f.raw.g_hdQtyValue=f.raw.g_hdQtyMax;dom.poll();assert.equal(button.textContent,'最小');assert.equal(controls.scrollTop,73);
+    f.raw.g_hdQtyReady=0;dom.poll();assert.equal(button.disabled,true);
+    assert.equal(dom.find('data-hd-qty-bound'),button);assert.deepEqual(f.keys,[]);
+});
+test('bound toggle sends the existing native HELP protocol once and waits for ACK',()=>{
+    const f=distributionFixture();f.enter();
+    const lcd=fs.readFileSync(new URL('../js/lcd.js',import.meta.url),'utf8');
+    const begin=lcd.indexOf('function bayeQtyAckState('),end=lcd.indexOf('function bayeQtyKeyboardCode(');
+    vm.runInNewContext(lcd.slice(begin,end),f.env);
+    f.setAfterKey(key=>{assert.equal(key,38);f.raw.g_hdQtyValue=f.raw.g_hdQtyValue===f.raw.g_hdQtyMax?0:f.raw.g_hdQtyMax;
+        f.raw.g_hdQtyInputSeq++;f.raw.g_hdQtyLastKey=key;});
+    assert.equal(f.api.toggleQtyBound(21),true);assert.equal(f.raw.g_hdQtyValue,0);
+    assert.equal(f.api.toggleQtyBound(21),true);assert.equal(f.raw.g_hdQtyValue,1800);
+    assert.deepEqual(f.keys,[39,39,38,38]);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['stale-session','busy','pending','closed','equal-bounds','classic','hidden','owner']){
+    test('bound toggle refuses an unavailable or stale quantity without input: '+change,()=>{
+        const f=distributionFixture();f.enter();
+        if(change==='stale-session')f.raw.g_hdQtySession++;
+        if(change==='busy')f.raw.g_hdQtyReady=0;
+        if(change==='pending')f.state.queue.push({code:38,reason:'qty-key'});
+        if(change==='closed')f.env.bayeQtyNativeClosed=()=>true;
+        if(change==='equal-bounds')f.raw.g_hdQtyMin=f.raw.g_hdQtyMax;
+        if(change==='classic')f.api.setMode('classic');
+        if(change==='hidden')f.env.document.hidden=true;
+        if(change==='owner')f.raw.g_hdMenuActive=1;
+        assert.equal(f.api.toggleQtyBound(21),false);assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+    });
+}
+
+function distributionDialog(f) {
+    const dom=marchDom(f), nodes={};
+    for(const id of ['hd-dialog','hd-dialog-title','hd-dialog-body','hd-dialog-caption','hd-dialog-range',
+        'hd-dialog-qty','hd-dialog-qty-digits','hd-dialog-probe','hd-dialog-bound']){
+        nodes[id]=f.env.document.createElement('div');nodes[id].style={};}
+    const listeners={};nodes['hd-dialog'].addEventListener=(type,fn)=>(listeners[type]||=[]).push(fn);
+    nodes['hd-dialog-bound'].setAttribute('data-hd-qty-bound','');
+    nodes['hd-dialog-qty'].querySelector=selector=>selector==='[data-hd-qty-bound]'?nodes['hd-dialog-bound']:null;
+    nodes['hd-dialog-bound'].parentNode=nodes['hd-dialog'];
+    const get=f.env.document.getElementById;
+    f.env.document.getElementById=id=>nodes[id]||get(id);
+    f.env.document.querySelector=selector=>selector==='[data-hd-qty-bound]'?nodes['hd-dialog-bound']:null;
+    Object.assign(f.raw,{g_hdSpeGeneration:1,g_hdHelpSeq:0});
+    const code=fs.readFileSync(new URL('../js/hd-dialog.js',import.meta.url),'utf8')
+        .replace(/\}\)\(window\);\s*$/, 'global.__distributionDialogState=state;\n})(window);');
+    vm.runInNewContext(code,f.env);
+    const api=f.env.BayeHdDialog;api.configureMobileHost({isAvailable:()=>true});api.start();
+    const paint=()=>api.openQty({min:f.raw.g_hdQtyMin,max:f.raw.g_hdQtyMax,init:f.raw.g_hdQtyValue,showLcd:false});
+    return {api,nodes,paint,state:f.env.__distributionDialogState,
+        click(target=nodes['hd-dialog-bound']){for(const fn of listeners.click||[])fn({target,preventDefault(){}});}};
+}
+test('real public distribution context paints the actor, reserve, final total and native bound in generic dialog',()=>{
+    const f=distributionFixture();f.enter();const h=distributionDialog(f);h.paint();
+    const body=h.nodes['hd-dialog-body'];assert.equal(h.nodes['hd-dialog-title'].textContent,'分配兵力');
+    assert.match(body.textContent,/董卓 · 现有兵力 100 · 城内预备兵 1958/);
+    assert.match(body.textContent,/目标总兵力 1800（0–1800）/);assert.match(body.textContent,/调低会退回城内预备兵/);
+    assert.equal(body.getAttribute('data-hd-quantity-purpose'),'distribution');
+    assert.equal(h.nodes['hd-dialog-bound'].textContent,'最小');assert.equal(h.nodes['hd-dialog-bound'].hidden,false);
+    assert.equal(h.nodes['hd-dialog'].classList.contains('has-mobile-quantity'),true);
+    f.raw.g_hdQtyValue=0;f.raw.g_hdQtyInputSeq++;h.paint();assert.match(body.textContent,/目标总兵力 0/);
+    assert.equal(h.nodes['hd-dialog-bound'].textContent,'最大');
+    f.raw.g_hdQtySession++;h.paint();assert.equal(h.nodes['hd-dialog-title'].textContent,'数量');
+    assert.equal(body.getAttribute('data-hd-quantity-purpose'),'');assert.doesNotMatch(body.textContent,/董卓|目标总兵力|预备兵/);
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+test('the actual generic-dialog bound button sends one HELP, updates from ACK and refuses a stale session',()=>{
+    const f=distributionFixture();f.enter();const h=distributionDialog(f),lcd=fs.readFileSync(new URL('../js/lcd.js',import.meta.url),'utf8');
+    vm.runInNewContext(lcd.slice(lcd.indexOf('function bayeQtyAckState('),lcd.indexOf('function bayeQtyKeyboardCode(')),f.env);
+    h.paint();f.setAfterKey(key=>{assert.equal(key,38);f.raw.g_hdQtyValue=0;f.raw.g_hdQtyInputSeq++;f.raw.g_hdQtyLastKey=key;});
+    h.click();assert.deepEqual(f.keys,[39,39,38]);h.paint();assert.equal(h.nodes['hd-dialog-bound'].textContent,'最大');
+    f.raw.g_hdQtySession++;h.click();assert.deepEqual(f.keys,[39,39,38]);assert.deepEqual(f.writes,[]);
+});
+for(const field of ['qtyQueue','qtySending','qtyCommitPending','qtyInputClosed','qtyAckFailed']){
+    test('generic-dialog bound refuses its own pending work: '+field,()=>{
+        const f=distributionFixture();f.enter();const h=distributionDialog(f);h.paint();
+        h.state[field]=field==='qtyQueue'?[{delta:-1}]:true;
+        let toggles=0;f.api.toggleQtyBound=()=>{toggles++;return true;};
+        h.click();assert.equal(toggles,0);assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('generic-dialog delta and bound share CITY ACK queue; bound cannot overtake the delta',()=>{
+    const f=distributionFixture();f.enter();const h=distributionDialog(f);h.paint();
+    const lcd=fs.readFileSync(new URL('../js/lcd.js',import.meta.url),'utf8');
+    Object.assign(f.env,{VK_UP:34,VK_DOWN:35,VK_LEFT:36,VK_RIGHT:37});f.raw.g_hdQtyCursor=3;
+    vm.runInNewContext(lcd.slice(lcd.indexOf('function bayeQtyStepKeys('),lcd.indexOf('function bayeQtyKeyboardCode(')),f.env);
+    const delta=f.env.document.createElement('button');delta.setAttribute('data-hd-qty','-1');delta.parentNode=h.nodes['hd-dialog'];
+    f.setAfterKey(key=>{
+        if(key===35){f.raw.g_hdQtyValue--;f.raw.g_hdQtyReady=0;}
+        else if(key===38){f.raw.g_hdQtyValue=f.raw.g_hdQtyMax;f.raw.g_hdQtyInputSeq++;f.raw.g_hdQtyLastKey=key;}
+        else assert.fail('unexpected quantity key '+key);
+    });
+    h.click(delta);assert.deepEqual(f.keys,[39,39,35]);
+    f.raw.g_hdQtyReady=1;h.click();assert.deepEqual(f.keys,[39,39,35]);
+    f.raw.g_hdQtyInputSeq++;f.raw.g_hdQtyLastKey=35;f.tick(100);
+    h.click();assert.deepEqual(f.keys,[39,39,35,38]);assert.deepEqual(f.writes,[]);
+});
+test('generic-dialog bound rendering never modifies the separate CITY button',()=>{
+    const f=distributionFixture();f.enter();const h=distributionDialog(f);
+    const cityBound=f.env.document.createElement('button');cityBound.textContent='CITY';
+    f.env.document.querySelector=selector=>selector==='[data-hd-qty-bound]'?cityBound:null;h.paint();
+    assert.equal(cityBound.textContent,'CITY');assert.equal(cityBound.getAttribute('data-hd-qty-session'),null);
+    assert.equal(h.nodes['hd-dialog-bound'].textContent,'最小');
+});
+test('mobile quantity summary stays fixed while its independent touch-sized button area can scroll',()=>{
+    const css=fs.readFileSync(new URL('../css/hd-mobile.css',import.meta.url),'utf8');
+    assert.match(css,/\.hd-mobile-page #hd-dialog\.has-mobile-quantity \.hd-mobile-report-content \{ flex: 0 0 auto;/);
+    assert.match(css,/\.hd-mobile-page #hd-dialog\.has-mobile-quantity #hd-dialog-qty \{[^}]*flex: 1 1 0;[^}]*min-height: 44px;[^}]*overflow: auto;/);
+    const mobile=fs.readFileSync(new URL('../m.html',import.meta.url),'utf8');assert.match(mobile,/data-hd-qty-bound hidden/);
+    assert.doesNotMatch(fs.readFileSync(new URL('../pc.html',import.meta.url),'utf8'),/data-hd-qty-bound/);
 });

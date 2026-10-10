@@ -305,8 +305,24 @@
 .hd-mobile-page [data-hd-menu-lcd],
 .hd-mobile-page [data-hd-dlg-lcd] { display: none !important; }
 .hd-mobile-page .hd-dialog-body { margin: 8px 0; font-size: 16px; overscroll-behavior: contain; touch-action: pan-y; }
+.hd-mobile-page #hd-dialog-body[data-hd-quantity-purpose="distribution"] {
+    white-space: pre-line;
+    font-size: 14px;
+    line-height: 20px;
+    margin-block: 4px;
+}
 .hd-mobile-page .hd-dialog-qty { flex: 0 0 auto; gap: 6px; margin: 4px 0 8px; }
 .hd-mobile-page .hd-dialog-qty-digits { display: contents; }
+.hd-mobile-page #hd-dialog.has-mobile-quantity .hd-mobile-report-content { flex: 0 0 auto; }
+.hd-mobile-page #hd-dialog.has-mobile-quantity .hd-dialog-body { overflow: visible; }
+.hd-mobile-page #hd-dialog.has-mobile-quantity #hd-dialog-qty {
+    flex: 1 1 0;
+    min-height: 44px;
+    overflow: auto;
+    align-content: flex-start;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
 .hd-mobile-page .hd-help-fields { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
 .hd-mobile-page .hd-help-name { font-size: 20px; }
 .hd-mobile-page .hd-help-summary { margin: 4px 0 8px; }

@@ -1,0 +1,1008 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "scope": "Original mobile HD CITY distribution in desktop Chrome landscape emulation",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "wholeNativeAbiAccepted": false,
+  "nativeBuildChanged": false,
+  "monthAdvanceAccepted": false,
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "runtime": {
+    "directory": "build/mobile-city-distribution-v1-20261011",
+    "phases": 60,
+    "nativeKeys": 175,
+    "nativeLcdTouches": 0,
+    "cityChecks": 82,
+    "returnChecks": 32,
+    "quantitySummaries": 32,
+    "negativeChecks": 14,
+    "sourceFiles": 64,
+    "sourceDrift": [],
+    "exceptions": [],
+    "cleanup": true,
+    "serverClosed": true
+  },
+  "distributions": [
+    {
+      "label": "distribution-844x390",
+      "viewport": [
+        844,
+        390
+      ],
+      "cityIndex": 10,
+      "personId": 26,
+      "personName": "侯成",
+      "accepted": true,
+      "cancelled": "cancel",
+      "operations": [
+        {
+          "kind": "increase",
+          "session": 7,
+          "quantity": 1078,
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "distributionAccepted": true,
+            "scope": "One original DistributeMake quantity confirmation; recorded worldSource fields only, no input or cancellation acceptance",
+            "cityIndex": 10,
+            "personId": 26,
+            "quantityMeaning": "target-total-arms",
+            "quantity": 1078,
+            "capacity": 1180,
+            "maximum": 1079,
+            "arms": {
+              "before": 100,
+              "after": 1078,
+              "delta": 978
+            },
+            "reserve": {
+              "before": 979,
+              "after": 1,
+              "uncast": 1,
+              "wrapped": false
+            },
+            "changed": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "inputAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Original standard LIB; scripted getMaxArms overrides are outside scope",
+              "Only recorded worldSource fields, not whole native memory",
+              "Trusted input/publication/retirement evidence is the caller responsibility"
+            ]
+          }
+        },
+        {
+          "kind": "reduce-to-one",
+          "session": 8,
+          "quantity": 1,
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "distributionAccepted": true,
+            "scope": "One original DistributeMake quantity confirmation; recorded worldSource fields only, no input or cancellation acceptance",
+            "cityIndex": 10,
+            "personId": 26,
+            "quantityMeaning": "target-total-arms",
+            "quantity": 1,
+            "capacity": 1180,
+            "maximum": 1079,
+            "arms": {
+              "before": 1078,
+              "after": 1,
+              "delta": -1077
+            },
+            "reserve": {
+              "before": 1,
+              "after": 1078,
+              "uncast": 1078,
+              "wrapped": false
+            },
+            "changed": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "inputAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Original standard LIB; scripted getMaxArms overrides are outside scope",
+              "Only recorded worldSource fields, not whole native memory",
+              "Trusted input/publication/retirement evidence is the caller responsibility"
+            ]
+          }
+        },
+        {
+          "kind": "return-to-zero",
+          "session": 9,
+          "quantity": 0,
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "distributionAccepted": true,
+            "scope": "One original DistributeMake quantity confirmation; recorded worldSource fields only, no input or cancellation acceptance",
+            "cityIndex": 10,
+            "personId": 26,
+            "quantityMeaning": "target-total-arms",
+            "quantity": 0,
+            "capacity": 1180,
+            "maximum": 1079,
+            "arms": {
+              "before": 1,
+              "after": 0,
+              "delta": -1
+            },
+            "reserve": {
+              "before": 1078,
+              "after": 1079,
+              "uncast": 1079,
+              "wrapped": false
+            },
+            "changed": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "inputAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Original standard LIB; scripted getMaxArms overrides are outside scope",
+              "Only recorded worldSource fields, not whole native memory",
+              "Trusted input/publication/retirement evidence is the caller responsibility"
+            ]
+          }
+        }
+      ],
+      "controlsPans": 0,
+      "returnedHud": {
+        "visible": true,
+        "status": "原版游戏",
+        "reason": "",
+        "cityIndex": 10,
+        "city": "长安",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "279",
+        "food": "1097",
+        "arms": "1079",
+        "ticket": {
+          "libraryGeneration": 2,
+          "generation": 3,
+          "speGeneration": 3,
+          "mapInputSeq": 19,
+          "mapCity": 11
+        }
+      },
+      "expectedHud": {
+        "city": "长安",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "279",
+        "food": "1097",
+        "arms": "1079"
+      }
+    },
+    {
+      "label": "distribution-667x375",
+      "viewport": [
+        667,
+        375
+      ],
+      "cityIndex": 10,
+      "personId": 25,
+      "personName": "李肃",
+      "accepted": true,
+      "cancelled": "cancel",
+      "operations": [
+        {
+          "kind": "increase",
+          "session": 12,
+          "quantity": 1499,
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "distributionAccepted": true,
+            "scope": "One original DistributeMake quantity confirmation; recorded worldSource fields only, no input or cancellation acceptance",
+            "cityIndex": 10,
+            "personId": 25,
+            "quantityMeaning": "target-total-arms",
+            "quantity": 1499,
+            "capacity": 1500,
+            "maximum": 1500,
+            "arms": {
+              "before": 100,
+              "after": 1499,
+              "delta": 1399
+            },
+            "reserve": {
+              "before": 2058,
+              "after": 659,
+              "uncast": 659,
+              "wrapped": false
+            },
+            "changed": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "inputAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Original standard LIB; scripted getMaxArms overrides are outside scope",
+              "Only recorded worldSource fields, not whole native memory",
+              "Trusted input/publication/retirement evidence is the caller responsibility"
+            ]
+          }
+        },
+        {
+          "kind": "reduce-to-one",
+          "session": 13,
+          "quantity": 1,
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "distributionAccepted": true,
+            "scope": "One original DistributeMake quantity confirmation; recorded worldSource fields only, no input or cancellation acceptance",
+            "cityIndex": 10,
+            "personId": 25,
+            "quantityMeaning": "target-total-arms",
+            "quantity": 1,
+            "capacity": 1500,
+            "maximum": 1500,
+            "arms": {
+              "before": 1499,
+              "after": 1,
+              "delta": -1498
+            },
+            "reserve": {
+              "before": 659,
+              "after": 2157,
+              "uncast": 2157,
+              "wrapped": false
+            },
+            "changed": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "inputAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Original standard LIB; scripted getMaxArms overrides are outside scope",
+              "Only recorded worldSource fields, not whole native memory",
+              "Trusted input/publication/retirement evidence is the caller responsibility"
+            ]
+          }
+        },
+        {
+          "kind": "return-to-zero",
+          "session": 14,
+          "quantity": 0,
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "distributionAccepted": true,
+            "scope": "One original DistributeMake quantity confirmation; recorded worldSource fields only, no input or cancellation acceptance",
+            "cityIndex": 10,
+            "personId": 25,
+            "quantityMeaning": "target-total-arms",
+            "quantity": 0,
+            "capacity": 1500,
+            "maximum": 1500,
+            "arms": {
+              "before": 1,
+              "after": 0,
+              "delta": -1
+            },
+            "reserve": {
+              "before": 2157,
+              "after": 2158,
+              "uncast": 2158,
+              "wrapped": false
+            },
+            "changed": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "inputAccepted": false,
+            "cancellationAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Original standard LIB; scripted getMaxArms overrides are outside scope",
+              "Only recorded worldSource fields, not whole native memory",
+              "Trusted input/publication/retirement evidence is the caller responsibility"
+            ]
+          }
+        }
+      ],
+      "controlsPans": 0,
+      "returnedHud": {
+        "visible": true,
+        "status": "原版游戏",
+        "reason": "",
+        "cityIndex": 10,
+        "city": "长安",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "182",
+        "food": "1097",
+        "arms": "2158",
+        "ticket": {
+          "libraryGeneration": 2,
+          "generation": 3,
+          "speGeneration": 3,
+          "mapInputSeq": 21,
+          "mapCity": 11
+        }
+      },
+      "expectedHud": {
+        "city": "长安",
+        "owner": "董卓",
+        "date": "190年1月",
+        "money": "182",
+        "food": "1097",
+        "arms": "2158"
+      }
+    }
+  ],
+  "recruitments": [
+    {
+      "label": "recruitment-844x390",
+      "actor": 23,
+      "quantity": 979,
+      "verdict": {
+        "ok": true,
+        "accepted": true,
+        "recruitmentAccepted": true,
+        "scope": "One positive ConscriptionMake submission, before any subsequent command or strategy month; recorded worldSource fields only",
+        "cityIndex": 10,
+        "personId": 23,
+        "quantity": 979,
+        "maximum": 980,
+        "orderIndex": 0,
+        "queueIndex": 55,
+        "order": {
+          "OrderId": 24,
+          "Person": 23,
+          "City": 10,
+          "TimeCount": 0
+        },
+        "stock": {
+          "before": 0,
+          "after": 979,
+          "applied": 979,
+          "saturated": false
+        },
+        "money": {
+          "before": 376,
+          "after": 279,
+          "cost": 97,
+          "minimum": 1,
+          "armsPerMoney": 10
+        },
+        "thew": {
+          "before": 100,
+          "after": 88,
+          "cost": 12
+        },
+        "uninitializedOrderMask": {
+          "orderIndex": 0,
+          "fields": [
+            "Object",
+            "Food"
+          ],
+          "actual": {
+            "Object": 65535,
+            "Food": 0
+          },
+          "semanticAcceptance": false
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighters": 600,
+          "fighterIndex": 30
+        },
+        "wholeNativeAbiAccepted": false,
+        "strategyMonthAccepted": false,
+        "limits": [
+          "Only recorded worldSource fields; unobserved native fields are outside this proof",
+          "Trusted quantity-owner confirmation and the next complete picker publication are caller evidence",
+          "New order uninitialized fields are preserved as observed bytes without business meaning"
+        ]
+      }
+    },
+    {
+      "label": "recruitment-667x375",
+      "actor": 24,
+      "quantity": 979,
+      "verdict": {
+        "ok": true,
+        "accepted": true,
+        "recruitmentAccepted": true,
+        "scope": "One positive ConscriptionMake submission, before any subsequent command or strategy month; recorded worldSource fields only",
+        "cityIndex": 10,
+        "personId": 24,
+        "quantity": 979,
+        "maximum": 980,
+        "orderIndex": 1,
+        "queueIndex": 55,
+        "order": {
+          "OrderId": 24,
+          "Person": 24,
+          "City": 10,
+          "TimeCount": 0
+        },
+        "stock": {
+          "before": 1079,
+          "after": 2058,
+          "applied": 979,
+          "saturated": false
+        },
+        "money": {
+          "before": 279,
+          "after": 182,
+          "cost": 97,
+          "minimum": 1,
+          "armsPerMoney": 10
+        },
+        "thew": {
+          "before": 100,
+          "after": 88,
+          "cost": 12
+        },
+        "uninitializedOrderMask": {
+          "orderIndex": 1,
+          "fields": [
+            "Object",
+            "Food"
+          ],
+          "actual": {
+            "Object": 65535,
+            "Food": 0
+          },
+          "semanticAcceptance": false
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orders": 200,
+          "fighters": 600,
+          "fighterIndex": 30
+        },
+        "wholeNativeAbiAccepted": false,
+        "strategyMonthAccepted": false,
+        "limits": [
+          "Only recorded worldSource fields; unobserved native fields are outside this proof",
+          "Trusted quantity-owner confirmation and the next complete picker publication are caller evidence",
+          "New order uninitialized fields are preserved as observed bytes without business meaning"
+        ]
+      }
+    }
+  ],
+  "tests": {
+    "modules": 72,
+    "tests": 2376,
+    "pass": 2376,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "log": "build/mobile-distribution-suite-20261011.log"
+  },
+  "ownedHistoricalRows": 16,
+  "userService": {
+    "before": {
+      "checkedAt": "2026-10-10T23:16:22.3457212Z",
+      "listenPort": 8080,
+      "identities": [
+        {
+          "ProcessId": 57860,
+          "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+          "CreationDateUtc": "2026-10-10T11:26:04.2797180Z"
+        }
+      ],
+      "httpStatus": 200
+    },
+    "after": {
+      "checkedAt": "2026-10-10T23:27:22.2732022Z",
+      "listenPort": 8080,
+      "identities": [
+        {
+          "ProcessId": 57860,
+          "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+          "CreationDateUtc": "2026-10-10T11:26:04.2797180Z"
+        }
+      ],
+      "httpStatus": 200
+    },
+    "unchanged": true
+  },
+  "failedRuns": [],
+  "limits": [
+    "Only recorded worldSource fields are compared; not whole native memory",
+    "No native state injection or automatic confirmation",
+    "Zero distribution is accepted; zero recruitment and full order queue have not been run",
+    "No strategy month, return-to-duty, battle/succession/save-load or real-device acceptance",
+    "The archive contains selected original evidence; browser profiles, other screenshots and full source/binary trees remain local or in Git"
+  ],
+  "portableClosedArchive": false,
+  "archive": {
+    "originalCount": 47,
+    "originalBytes": 103955040,
+    "archiveBytes": 7179683,
+    "originals": [
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/result.json",
+        "bytes": 100595659,
+        "sha256": "98ea6d89f85c742bef489d1600b9767a65e5e98f86621cd9a8bfb80f7aaa15ec",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/001-result.json.gz",
+        "archiveBytes": 5360362,
+        "archiveSha256": "f99d33becc9adf703ac8a35bc2537a4d817a9868bcc6749085bdc39563080140",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/executed-tool.mjs",
+        "bytes": 80761,
+        "sha256": "fb4be484eb17513b6eac89a02a261a684bdf7678d1a83fdc9a0210db6cd04448",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/002-executed-tool.mjs.gz",
+        "archiveBytes": 23129,
+        "archiveSha256": "6aa1c044fdc26c8117ccfb7863b2e6227775ab00d2c2712593d16897d110e02f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/source-verification.json",
+        "bytes": 10507,
+        "sha256": "d76674cacde5b4ba5b1087f8edb96e1b08d882a2834c5afa86e1a309fa6c57d4",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/003-source-verification.json.gz",
+        "archiveBytes": 3503,
+        "archiveSha256": "5bceb316f39f169f09a806fc622a941bbc04e5d4a920d1a0364f4c9856547b94",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/owned-process-samples.jsonl",
+        "bytes": 583962,
+        "sha256": "3cb0eddb2c85aadd23978269dc2caba0fbe6b39e739020169f2cd32fcdd7ab8a",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/004-owned-process-samples.jsonl.gz",
+        "archiveBytes": 7770,
+        "archiveSha256": "ad81eb5880e1dabc5705ab4471e010fbaee7614485e1a1a6332c574ed22edf90",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-cli-20261011.log",
+        "bytes": 3662,
+        "sha256": "b44fc9cf514a00f32ff97532764b0f540d270912945e46709704d957987af773",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/005-mobile-city-distribution-v1-cli-20261011.log.gz",
+        "archiveBytes": 759,
+        "archiveSha256": "9d245fba3d23a8666a5c6247713bcd3b6aa6d42c51b204d7ebf6791b00a1f019",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-844x390-cancelled-persons.png",
+        "bytes": 59655,
+        "sha256": "0941e795d2ef06398990eec68c3bce220767516171794304939dcf092595f835",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/006-distribution-844x390-cancelled-persons.png.gz",
+        "archiveBytes": 58580,
+        "archiveSha256": "db72c762eb1deee99f08ca3ff7418b4ce9df05ce99e6bc07a6926e37f0d898e2",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-844x390-increase-quantity.png",
+        "bytes": 60351,
+        "sha256": "b39f168f34af97facff66abbb8bfae1e83c023fafabf9e88302d2845d5d0e771",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/007-distribution-844x390-increase-quantity.png.gz",
+        "archiveBytes": 58882,
+        "archiveSha256": "5f3d0af092b9bbba675da6a548619bd1375c59fd447afb94f37631ef04f80aab",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-844x390-reduce-to-one-committed.png",
+        "bytes": 59655,
+        "sha256": "0941e795d2ef06398990eec68c3bce220767516171794304939dcf092595f835",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/008-distribution-844x390-reduce-to-one-committed.png.gz",
+        "archiveBytes": 58580,
+        "archiveSha256": "db72c762eb1deee99f08ca3ff7418b4ce9df05ce99e6bc07a6926e37f0d898e2",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-844x390-return-to-zero-quantity.png",
+        "bytes": 59443,
+        "sha256": "7ceffef45885ee0d003d48e7b9eae31499e6dc029ffec0e66c6216bc640719bd",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/009-distribution-844x390-return-to-zero-quantity.png.gz",
+        "archiveBytes": 57946,
+        "archiveSha256": "77acbe9b099878fe6c88d8b3cf5d8c29d058819d8c4b583db5d2d923f51e331d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-844x390-map.png",
+        "bytes": 582080,
+        "sha256": "9c1414c460d75d10f6628658955d52b3af2ee4e4b98a325fdb4f5f6e12448f60",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/010-distribution-844x390-map.png.gz",
+        "archiveBytes": 582234,
+        "archiveSha256": "cf307435ca914d75bb7d74539fdab643d0929812f7827d377b6b4e6b59759466",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-667x375-cancelled-persons.png",
+        "bytes": 54699,
+        "sha256": "6ae2ad4d1a24ab968d8ea5906e508782f7493431bd272e5c83b44a535d378757",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/011-distribution-667x375-cancelled-persons.png.gz",
+        "archiveBytes": 54103,
+        "archiveSha256": "94e293dc21b4e1ddc068628058f4f596589618275349e38f74dbd25185793e2f",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-667x375-increase-quantity.png",
+        "bytes": 59075,
+        "sha256": "4ab9100bd4e82fcff41b4084062d6fd4a6954a137215d2ccc1f0bddf2cdeda62",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/012-distribution-667x375-increase-quantity.png.gz",
+        "archiveBytes": 58327,
+        "archiveSha256": "b34dc31d0f5a4c3ea7defdbf1ebae312ee261f052c7b3857edcb04e4fcb970b5",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-667x375-reduce-to-one-committed.png",
+        "bytes": 54330,
+        "sha256": "14392c3ec3ece9adf763c7ad244e33c1835ef34c8555d49154473430438803d3",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/013-distribution-667x375-reduce-to-one-committed.png.gz",
+        "archiveBytes": 53731,
+        "archiveSha256": "90e92ba1de4dfeb924c0ba45fcca2b0ef51a13de4167c140a9e14d27d95b450a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-667x375-return-to-zero-quantity.png",
+        "bytes": 57936,
+        "sha256": "f87defad95973b544d762c423514d471bb5b82643b6f20d7099892d05ddbec60",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/014-distribution-667x375-return-to-zero-quantity.png.gz",
+        "archiveBytes": 57187,
+        "archiveSha256": "0aa8a5a88c50c092e2fe474b31f03cba74232e28399f8c3b68fba9d66fcc6413",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-city-distribution-v1-20261011/distribution-667x375-map.png",
+        "bytes": 449219,
+        "sha256": "93b2541becde004b948cfdad774dcc30b066c5ccdf6f4d5c27a17c2781db79f6",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/015-distribution-667x375-map.png.gz",
+        "archiveBytes": 449327,
+        "archiveSha256": "6b0dc502deffe507508381192655e4435a6407db10320a8ce3fdc7590d1d548a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-city-unit-v1.log",
+        "bytes": 18569,
+        "sha256": "a43d7e366f67cb6ec38446991bff7fca2b6ffedf4ddd7fa0c23a923c8cc0246f",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/016-mobile-distribution-city-unit-v1.log.gz",
+        "archiveBytes": 4694,
+        "archiveSha256": "d01bcd37c53533713c14e833b50679eaa7381e9312774305b8b9f51fe6a450da",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-city-unit-v2.log",
+        "bytes": 15904,
+        "sha256": "1104ff5cc7fdaf9bf93cbef2bb1d4c148477163f0b40768c97ba7932b006ad3b",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/017-mobile-distribution-city-unit-v2.log.gz",
+        "archiveBytes": 4135,
+        "archiveSha256": "c5d728d649f66a86011a833c255c39d1afcfb9a7591a1b34208bb952f40075dd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-focused-v1.log",
+        "bytes": 37622,
+        "sha256": "6a4b1c37b0b8da8d91b9fbb6a0569b539fb8f17434e6a983b27e91f0a052a25b",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/018-mobile-distribution-focused-v1.log.gz",
+        "archiveBytes": 10361,
+        "archiveSha256": "8f8f2b170be516be163ac9895efde545955602bcd16a9dea83e5cd6e85773466",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-focused-v2.log",
+        "bytes": 35560,
+        "sha256": "763e85736ef7eb3f31e340e67e95a4dec11717322d19020642323d309f03b037",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/019-mobile-distribution-focused-v2.log.gz",
+        "archiveBytes": 9950,
+        "archiveSha256": "c0db242a1aa472bad0f5c10b27391b9b082ad81a678376850c9d9abcf937f85d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-focused-v3.log",
+        "bytes": 38071,
+        "sha256": "822dcab7d47e081b1a750bb10ae8e3b428b8b1af98b88bb27d73037d2a3c4ec5",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/020-mobile-distribution-focused-v3.log.gz",
+        "archiveBytes": 10732,
+        "archiveSha256": "ab92a4f20b56f606df3182a43974e5431feac360fb6996fe8ab03f95808b52cf",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-focused-v4.log",
+        "bytes": 36449,
+        "sha256": "14a84ddb3d2e8763369e9ec98ff336d28c424d784f285a2ab2817a35689b9810",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/021-mobile-distribution-focused-v4.log.gz",
+        "archiveBytes": 10160,
+        "archiveSha256": "8abd56156c94810c19bf77d69ec028faed3d72fa358cd5a926b091fa869efff7",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-oracle-unit-tests-v1.log",
+        "bytes": 2788,
+        "sha256": "7fe9a9ca8e7393251e885f0eb6b75e480528bd7fce34a21aa248336215536c36",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/022-mobile-distribution-oracle-unit-tests-v1.log.gz",
+        "archiveBytes": 1176,
+        "archiveSha256": "6e537ea4d1e7ce7a338171fed7ed38ef67d7c4c1d4058620fc5b54dd71f74023",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-suite-20261011.log",
+        "bytes": 235969,
+        "sha256": "25cbbbb4474a6e4fb3bfe5cfedfb4e5abcbae5f7f6e22fdf24a4986eaa9d402d",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/023-mobile-distribution-suite-20261011.log.gz",
+        "archiveBytes": 67113,
+        "archiveSha256": "ecaa57b56c014029c8eca54ff413cd7718984d2092c5462086438b7f40aeb8fe",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-product-freeze-v1.json",
+        "bytes": 3414,
+        "sha256": "32aea5285ea334c2df85b4d40ef4df33243888c97c6d0b31ae8d1922464e5bbc",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/024-mobile-distribution-product-freeze-v1.json.gz",
+        "archiveBytes": 1693,
+        "archiveSha256": "639f24d3e0d50359c9600f865385607a8bcc0dd583e337c00a7400c9e86c303a",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-runtime-oracle-freeze-v1.json",
+        "bytes": 3878,
+        "sha256": "931a1285257ca8b7e86bfdcf9232e8aa735f03dfaf631fecb47afd18c5779ee8",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/025-mobile-distribution-runtime-oracle-freeze-v1.json.gz",
+        "archiveBytes": 1621,
+        "archiveSha256": "449d6971526b0483abd98972b8ea3cc3bed0b011285a092e2aab4f473a8fdbdd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-user-service-before-20261011.json",
+        "bytes": 285,
+        "sha256": "272fedf13dda3ff58feb9f07f5d44095dd5e8e1566d00bc88b357c23cce765d8",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/026-mobile-distribution-user-service-before-20261011.json.gz",
+        "archiveBytes": 225,
+        "archiveSha256": "cdf9876c3b000be0aa00e1a9b9078c0dbbcf28e603a5a42c8c859f6ea892b8fd",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-user-service-after-20261011.json",
+        "bytes": 421,
+        "sha256": "404da69bccf38e2ba313a43f8ba23e5020a395feb629678cf4f8a0edbcc0b8dd",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/027-mobile-distribution-user-service-after-20261011.json.gz",
+        "archiveBytes": 240,
+        "archiveSha256": "9db71502cf359241afeb58c064e419db73d77f4a2c5b5d0c18dbcd451437d438",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-owned-historical-after-20261011.json",
+        "bytes": 6133,
+        "sha256": "23c18dcbc1cacdbee76cca230b510b5267c169d94402a6bce64540ec70e42312",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/028-mobile-distribution-owned-historical-after-20261011.json.gz",
+        "archiveBytes": 579,
+        "archiveSha256": "4f7d1b1d656aec8877674868a377d0efb1644d404eec46924bfd2ab0bbcf44cc",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-independent-audit-20261011.txt",
+        "bytes": 13402,
+        "sha256": "2ab24afc152f615fde0028ccde64bc9ab22dc54b2352dd3dd1687da41a201924",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/029-mobile-distribution-independent-audit-20261011.txt.gz",
+        "archiveBytes": 5691,
+        "archiveSha256": "fe6eed5f4eb47a977bc5b1aad61d931eaf06492f7b7651843fc2a9a79c22e53d",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-product-audit-20261011.txt",
+        "bytes": 2824,
+        "sha256": "34977ede81d875deecb5e0d633d656250eee392fdf1b781dd4425a025bf03b15",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/030-mobile-distribution-product-audit-20261011.txt.gz",
+        "archiveBytes": 1556,
+        "archiveSha256": "a4b3be6b3dac9a709162e599f2839a0fcfe98dc5d734e6e8fb78f6056131ebe7",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-proof-helper-failure-20261011.json",
+        "bytes": 338,
+        "sha256": "0241b6567b05b72437527e9aa9670f676ed6d23a0dafa5a7bc526453ee755c1e",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/031-mobile-distribution-proof-helper-failure-20261011.json.gz",
+        "archiveBytes": 267,
+        "archiveSha256": "e602035b8df9c31fde5159bc741ba00da180b76362db5a6a4bfcdcc4859ca0b5",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/check-mobile-distribution-cleanup-failed-v1-20261011.ps1",
+        "bytes": 2818,
+        "sha256": "4b148da5a0dc3b222a6c6b50896047cca02e54c34a2189db2422ae3ff880f01a",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/032-check-mobile-distribution-cleanup-failed-v1-20261011.ps1.gz",
+        "archiveBytes": 1041,
+        "archiveSha256": "6a5d92fa47026c5d39ffa8ce0e7fa5d34bd3427c7187c471ffee9f93fae0bbc2",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/check-mobile-distribution-cleanup-20261011.ps1",
+        "bytes": 2883,
+        "sha256": "3dedee139722309f4f5ade757791bbb65bf449b81631e969de42b889481b1fee",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/033-check-mobile-distribution-cleanup-20261011.ps1.gz",
+        "archiveBytes": 1056,
+        "archiveSha256": "a3daecac375c736b37e99452c6a1e8a5cd162fd02c39bb8d84a305084f7994a9",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-cleanup-proof-v2-20261011.log",
+        "bytes": 85,
+        "sha256": "9b93a3ecaf45ca68394daf581bb3ad874ffc5d43481ab3b77bd972cb5eaec39b",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/034-mobile-distribution-cleanup-proof-v2-20261011.log.gz",
+        "archiveBytes": 99,
+        "archiveSha256": "4fb2d394a09553ba2a4acba9466ecb9ff163cb352214022be42196c1ca621089",
+        "roundTripExact": true
+      },
+      {
+        "original": "build/mobile-distribution-owned-history-input-20261011.json",
+        "bytes": 3538,
+        "sha256": "efef3c2fc83a2340f277a8262406de81505c400a1758054b8b064e5500e392e4",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/035-mobile-distribution-owned-history-input-20261011.json.gz",
+        "archiveBytes": 475,
+        "archiveSha256": "fc5c0ba268c4179667ac6eb889956baf4ef59b1537b996c8587868a8b675a931",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-city-runtime.mjs",
+        "bytes": 80761,
+        "sha256": "fb4be484eb17513b6eac89a02a261a684bdf7678d1a83fdc9a0210db6cd04448",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/036-test-hd-mobile-city-runtime.mjs.gz",
+        "archiveBytes": 23129,
+        "archiveSha256": "6aa1c044fdc26c8117ccfb7863b2e6227775ab00d2c2712593d16897d110e02f",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-distribution-runtime-checks.mjs",
+        "bytes": 14040,
+        "sha256": "43e1db5a01ac72b36502e2822c6a4dba4a7eb203d6f0e888b837dc33d5146c91",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/037-hd-mobile-distribution-runtime-checks.mjs.gz",
+        "archiveBytes": 4680,
+        "archiveSha256": "82e221de39761024693ce55f6bedb2272f951e8d61d6ed4dd9be4ebbb6c3e90a",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-distribution-runtime-oracle.mjs",
+        "bytes": 8661,
+        "sha256": "3ce270c05e03ecdda9fa96eda955317aae75428b5b6a28e021e6227c03ec7a34",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/038-hd-mobile-distribution-runtime-oracle.mjs.gz",
+        "archiveBytes": 3253,
+        "archiveSha256": "ccea08743eb3b168cb13e108574051d7e61d07081eabcef624303236dbf9d997",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-mobile-distribution-runtime-oracle.mjs",
+        "bytes": 7887,
+        "sha256": "f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/039-test-hd-mobile-distribution-runtime-oracle.mjs.gz",
+        "archiveBytes": 2535,
+        "archiveSha256": "7f6c1edfcd4ee0e1c8777d4ecc128235c0ab4fd48ed342eca017de76c80d1ba3",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/hd-mobile-quantity-runtime-checks.mjs",
+        "bytes": 2843,
+        "sha256": "a41277ae13c651e100d914e4ea917446ca678e45c43b35e1fcdaee34ff8ed3a8",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/040-hd-mobile-quantity-runtime-checks.mjs.gz",
+        "archiveBytes": 1322,
+        "archiveSha256": "2004088a842bfb0c47a842d6101fa278bbf849ceaa68672f6da5af383e235dd0",
+        "roundTripExact": true
+      },
+      {
+        "original": "scripts/test-hd-city-mobile-host.mjs",
+        "bytes": 89051,
+        "sha256": "dce9a6013a62ab3a6e6768b7e9f1a7767c01389f4195817ead64269f9de1886f",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/041-test-hd-city-mobile-host.mjs.gz",
+        "archiveBytes": 20452,
+        "archiveSha256": "ebe88ab92e20530f54c1fec499c8e925ad024a6c1c8d739bfc196706cfc8d7c9",
+        "roundTripExact": true
+      },
+      {
+        "original": "js/hd-city-menu.js",
+        "bytes": 339489,
+        "sha256": "3e8b72af84de6f26082c9aa5376ac6551a1e69f22b5d0171ef350a86d0db9f96",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/042-hd-city-menu.js.gz",
+        "archiveBytes": 69289,
+        "archiveSha256": "55291aa04d0115409c9659a1b38a099b749915841f2f1bcd5214289823d19e27",
+        "roundTripExact": true
+      },
+      {
+        "original": "js/hd-dialog.js",
+        "bytes": 106539,
+        "sha256": "5f8e9654509cf7fd809179293a20ef67e53a85c67079e91fa2eb6cbca180dca0",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/043-hd-dialog.js.gz",
+        "archiveBytes": 21997,
+        "archiveSha256": "464d08811687802b54bf53371af668f78c23234c43c3c3cc9a83b61d721eb429",
+        "roundTripExact": true
+      },
+      {
+        "original": "css/hd-mobile.css",
+        "bytes": 20407,
+        "sha256": "ccff3eada07da2ac29f07e6b14f6d16806cff827305f71edf2a9061552b33089",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/044-hd-mobile.css.gz",
+        "archiveBytes": 3691,
+        "archiveSha256": "9c7ae542337eaae289165d1c0103f91c8a463a92b19024a7e2a0825ee0c9601b",
+        "roundTripExact": true
+      },
+      {
+        "original": "m.html",
+        "bytes": 15358,
+        "sha256": "3dac9a4c72db8c8b20f7fe7a20e67d063999ecd1bf625cee3a41c250b7a67aea",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/045-m.html.gz",
+        "archiveBytes": 3970,
+        "archiveSha256": "48d7d65943bab5c832e4d0d43b5c932ddea468f151511ea439d04617501da858",
+        "roundTripExact": true
+      },
+      {
+        "original": "pc.html",
+        "bytes": 27409,
+        "sha256": "eb39e65169d31c77258c71ea8ec4055d83fc8871b4b22c0446ad5ab755f37681",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/046-pc.html.gz",
+        "archiveBytes": 6368,
+        "archiveSha256": "4636a5283d73a7d97a6e7d21df84279dd6269d305d4cdd8f30bbbac1d8660980",
+        "roundTripExact": true
+      },
+      {
+        "original": "package.json",
+        "bytes": 10650,
+        "sha256": "7a6f77fabaf65ae5e3e0e6dcb9e8dabd3ca30e8136031fd9670d90dc8aa469ed",
+        "archive": "docs/validation/m5-mobile-distribution-20261011/raw/047-package.json.gz",
+        "archiveBytes": 1713,
+        "archiveSha256": "e230683248a12d0b4c281b16d63bf8cf723fac37329ed8a1501dd2f2409c2672",
+        "roundTripExact": true
+      }
+    ]
+  }
+}

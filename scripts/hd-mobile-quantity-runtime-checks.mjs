@@ -16,7 +16,8 @@ export async function checkMobileQuantityPresentation(evaluate, label) {
     const hit=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2),text=n.textContent;
     return {qty:q,selector:'#'+n.id,text,geometry:{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height},clip,ancestors,
       unobstructed:hit===n||!!hit&&n.contains(hit),hit:hit&&(hit.id||hit.tagName),
-      matchesNative:n===city?text.trim()===String(q.value):text.includes('当前 '+q.value+'（'+q.min+'–'+q.max+'）。')};
+      matchesNative:n===city?text.trim()===String(q.value):
+        text.includes((n.getAttribute('data-hd-quantity-purpose')==='distribution'?'目标总兵力 ':'当前 ')+q.value+'（'+q.min+'–'+q.max+'）。')};
   })()`);
   assert.ok(evidence&&!evidence.missing,label+' has a visible current quantity summary');
   assert.ok(evidence.qty.active===1&&evidence.qty.protocol&&evidence.qty.ready===1,label+' has current native quantity ACK');
