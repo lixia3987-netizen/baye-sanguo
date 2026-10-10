@@ -83,15 +83,16 @@ function browser({ modules = ['overworld', 'battle'], hidden = false, classic = 
             clearRect() { stats.paints++; stats.labels = []; stats.text = []; stats.strokes = []; },
             fillText(text, x, y, maxWidth) { stats.labels.push(String(text));
                 stats.text.push({text:String(text),x,y,maxWidth,font:this.font,baseline:this.textBaseline,align:this.textAlign}); },
-            save() { stack.push({font:this.font,textAlign:this.textAlign,textBaseline:this.textBaseline,
+            save() { stats.saveCalls = (stats.saveCalls || 0) + 1; stack.push({font:this.font,textAlign:this.textAlign,textBaseline:this.textBaseline,
                 fillStyle:this.fillStyle,strokeStyle:this.strokeStyle,lineWidth:this.lineWidth,globalAlpha:this.globalAlpha,dash:[...dash]}); },
             restore() { const previous=stack.pop(); if(previous) {dash=previous.dash;delete previous.dash;Object.assign(this,previous);} },
             beginPath() { points = []; },
             moveTo(x, y) { points.push([x, y]); },
             lineTo(x, y) { points.push([x, y]); },
             setLineDash(value) { dash = Array.from(value); },
-            stroke() { stats.strokes.push({ points: points.map(point => [...point]), dash: [...dash],
+            stroke() { stats.strokeCalls = (stats.strokeCalls || 0) + 1; stats.strokes.push({ points: points.map(point => [...point]), dash: [...dash],
                 color: this.strokeStyle, alpha: this.globalAlpha, width: this.lineWidth }); },
+            drawImage() { stats.drawImages = (stats.drawImages || 0) + 1; },
             measureText: text => ({ width: String(text).length * 10 }),
             createLinearGradient: () => ({ addColorStop() {} })
         }, { get(target, key) { return key in target ? target[key] : (() => {}); } });
@@ -788,4 +789,76 @@ test('unit legend retains a complete canvas fallback when footer DOM geometry is
     h.document.getElementById('hd-battle').querySelectorAll=()=>[];
     h.document.getElementById('hd-battle-canvas').getBoundingClientRect=()=>({left:0,top:0,width:0,height:0});
     h.frame();assert.equal(assertUnitLegendClear(h).length,1);assert.deepEqual(h.sent,[]);
+});
+
+function counters(h) { return structuredClone(h.canvasStats.overworld); }
+function native(h) { return JSON.stringify({data:h.data,fight:h.fight,menu:h.menu,march:h.march,report:h.report}); }
+
+test('CSS-covered map performs zero heavy paint while native owner sampling and battle paint remain alive', () => {
+    const h = browser(); h.frame();
+    assert.equal(h.document.documentElement.getAttribute('data-baye-battle'),'hd');
+    const before = counters(h), battlePaints = h.canvasStats.battle.paints, keys = [...h.sent];
+    h.data.g_Cities[1].Belong = 1; h.data.g_MonthDate = 4;
+    const state = native(h); h.tick(200); h.frame(); h.frame();
+    assert.deepEqual(counters(h),before);
+    assert.ok(h.canvasStats.battle.paints > battlePaints);
+    assert.equal(h.world.getCities()[1].belong,1,'read-only world sampler still refreshes ownership');
+    assert.equal(h.world.getPhase(),'other');
+    assert.equal(h.frames.size,2,'painting gate does not suspend the owner sampler RAF');
+    assert.equal(native(h),state); assert.deepEqual(h.sent,keys);
+});
+
+test('covered resize/DPR/public redraws and tab resume cannot clear retained map backing pixels', () => {
+    const h = browser(); h.frame();
+    const canvas = h.document.getElementById('hd-overworld-canvas');
+    const dims = [canvas.width,canvas.height], before = counters(h), state = native(h), keys = [...h.sent];
+    h.context.devicePixelRatio = 2; h.resize();
+    h.world.panBy(10,10); h.world.setScale(1.1); h.world.debugPaintFeedback({selectedIndex:1});
+    h.setHidden(true); h.setHidden(false); h.frame();
+    assert.deepEqual([canvas.width,canvas.height],dims,'resize must not erase the hidden canvas');
+    assert.deepEqual(counters(h),before);
+    assert.equal(native(h),state); assert.deepEqual(h.sent,keys);
+});
+
+test('removing actual battle owner restores the next map frame and current DPR without a loop restart', () => {
+    const h = browser(); h.frame();
+    h.data.g_Cities[1].Belong = 1; h.data.g_MonthDate = 4; h.tick(200); h.frame();
+    const before = counters(h), keys = [...h.sent];
+    h.context.devicePixelRatio = 2; h.resize();
+    h.fight.active = 0; h.fight.over = 1; h.data.g_FgtOver = 1; h.march.pick = 1;
+    const state = native(h); h.battle.onEngineFight();
+    assert.equal(h.document.documentElement.getAttribute('data-baye-battle'),'off');
+    h.frame();
+    assert.equal(h.canvasStats.overworld.paints,before.paints+1);
+    assert.equal(h.document.getElementById('hd-overworld-canvas').width,3840);
+    assert.equal(h.world.getCities()[1].belong,1); assert.equal(h.world.getDateInfo().month,4);
+    assert.equal(native(h),state); assert.deepEqual(h.sent,keys);
+});
+
+test('real main-map hook paints fresh returned world immediately; classic battle backdrop remains visible', () => {
+    const h = browser(); h.frame();
+    h.battle.setMode('classic');
+    assert.equal(h.document.documentElement.getAttribute('data-baye-battle'),'off');
+    const before = h.canvasStats.overworld.paints; h.frame();
+    assert.equal(h.canvasStats.overworld.paints,before+1,'classic fight does not hide the world backdrop');
+    h.fight.active=0; h.fight.over=1; h.data.g_FgtOver=1; h.march.pick=1;
+    h.data.g_Cities[1].Belong=1; h.data.g_MonthDate=6;
+    const state=native(h), keys=[...h.sent], mapBefore=h.canvasStats.overworld.paints;
+    h.baye.callHook('didShowMainMap');
+    assert.equal(h.canvasStats.overworld.paints,mapBefore+1);
+    assert.equal(h.world.getCities()[1].belong,1); assert.equal(h.world.getDateInfo().month,6);
+    assert.equal(h.world.getPhase(),'map'); assert.equal(native(h),state); assert.deepEqual(h.sent,keys);
+});
+
+test('title/report previews and city popup keep their map backdrop; world classic mode still paints nothing', () => {
+    const h=browser({modules:['overworld']}); h.fight.active=0; h.march.pick=0;
+    h.menu.active=1; h.menu.context=4; h.menu.kind=1;
+    h.tick(200); const a=h.canvasStats.overworld.paints; h.frame();
+    assert.equal(h.world.getPhase(),'other'); assert.equal(h.canvasStats.overworld.paints,a+1);
+    h.menu.context=1; h.tick(200); const b=h.canvasStats.overworld.paints; h.frame();
+    assert.equal(h.world.getPhase(),'classic-menu'); assert.equal(h.canvasStats.overworld.paints,b+1);
+    h.report.active=1; h.tick(200); const c=h.canvasStats.overworld.paints; h.frame();
+    assert.equal(h.world.getPhase(),'other'); assert.equal(h.canvasStats.overworld.paints,c+1);
+    assert.deepEqual(h.sent,[]); h.world.setMode('classic'); const frozen=counters(h);h.frame();h.resize();
+    assert.deepEqual(counters(h),frozen);assert.equal(h.frames.size,0);assert.deepEqual(h.sent,[]);
 });

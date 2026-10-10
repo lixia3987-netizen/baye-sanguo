@@ -2019,8 +2019,15 @@
         state.hudRight.textContent = '己方 ' + counts.owned + '/' + n + ' 城  ·  ' + roadBit + '  ·  ' + extra;
     }
 
+    // This marker is the exact CSS owner which hides the entire world layer.
+    function battleCoversMapCanvas() {
+        return !!(document.documentElement &&
+            typeof document.documentElement.getAttribute === 'function' &&
+            document.documentElement.getAttribute('data-baye-battle') === 'hd');
+    }
+
     function draw() {
-        if (document.hidden || !state.ctx || !mapAuthorized()) {
+        if (document.hidden || !state.ctx || !mapAuthorized() || battleCoversMapCanvas()) {
             return;
         }
         syncCanvasSize();
@@ -3967,7 +3974,7 @@
     applyEarlyDocumentAttrs();
 
     global.addEventListener('resize', function () {
-        if (!document.hidden && state.mode === 'hd-map') {
+        if (!document.hidden && state.mode === 'hd-map' && !battleCoversMapCanvas()) {
             syncCanvasSize();
             clampCamera();
             draw();
