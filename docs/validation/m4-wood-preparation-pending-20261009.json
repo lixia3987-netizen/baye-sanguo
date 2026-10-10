@@ -1,6 +1,6 @@
 {
  "schemaVersion": 1,
- "recordedAt": "2026-10-09T16:17:46.121Z",
+ "recordedAt": "2026-10-10T11:34:05.205Z",
  "status": "pending",
  "accepted": false,
  "preparationAccepted": false,
@@ -83,14 +83,14 @@
   "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
  },
  "history": {
-  "actualFailedPreparations": 21,
-  "attempts": "v1..v8 and v10..v22",
+  "actualFailedPreparations": 22,
+  "attempts": "v1..v8 and v10..v23",
   "v9CandidateNotRun": true,
   "v8CompleteResultMissing": true,
   "pendingConfiguration": {
-   "path": "build/r21-validation-record-inputs-v16-pending.json",
-   "bytes": 22891,
-   "sha256": "5a709be1977734926e1f5233a2cd560a111c461b2bc157ff6d435faa5e295561"
+   "path": "build/r21-validation-record-inputs-v17-pending.json",
+   "bytes": 24367,
+   "sha256": "cbc0ae6e60f9c59d840023181f469dd2f2b6912e4616b0b8d7c26fad583682f6"
   },
   "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
   "requiredFailureIdsComplete": true,
@@ -113,8 +113,8 @@
    "reason": "Requires accepted terminal preparation; v17 failed and cannot authorize cast."
   },
   "latestAttempt": {
-   "id": "v22",
-   "status": "terminal-resupplied-driver-lcd-mode-wait-timeout",
+   "id": "v23",
+   "status": "terminal-natural-canvass-budget-exhausted",
    "exitCode": 1,
    "castAuthorized": false
   }
@@ -1651,6 +1651,1125 @@
    "scope": "Public HD city mode remained selected when retireToMap required classic LCD visibility; finally restored classic before the failure screenshot. The screenshot does not establish visibility during the failed wait."
   },
   "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false
+ },
+ "actualPreparationV23": {
+  "schemaVersion": 1,
+  "status": "pending",
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "hdAccepted": false,
+  "archiveClosed": false,
+  "actualFailureId": "prepare-v23-failure",
+  "actualFailureCountIncludingV23": 22,
+  "audit": {
+   "path": "build/r21-v23-terminal-independent-audit.json",
+   "bytes": 206460,
+   "sha256": "6f434f3f9b0d6f7d4d0c3b3b3d021bbd9b42723426c5f67d698e41125279c39b"
+  },
+  "refs": {
+   "result": {
+    "path": "build/r21-route-actual-v23/result.json",
+    "bytes": 153091946,
+    "sha256": "39cb1c5556a1ef2c2c6c5f2ce02e40c56c8ee9216fc9cf6731028071b50c7729"
+   },
+   "sidecar": {
+    "path": "build/r21-route-actual-v23/result.json.campaignObservations.ndjson",
+    "bytes": 236198563,
+    "sha256": "715512198c8faafc32eece2990eeea17940eeca78ff8f2254c0456c09e71f89c"
+   },
+   "runner": {
+    "path": "build/r21-route-driver-v23-final-v3.mjs",
+    "bytes": 352057,
+    "sha256": "dac98442aebc3a56f6479b1e159eba419ae8cc968590eef14c2ee27a82cc3050"
+   },
+   "wrapper": {
+    "path": "build/r21-run-route-v23-root.mjs",
+    "bytes": 4303,
+    "sha256": "0865edf391cd70cc9cf2f5cd11fa063085ebb71b95839bf5f3b6cce1948e9b8d"
+   },
+   "log": {
+    "path": "build/r21-route-actual-v23.log",
+    "bytes": 4855,
+    "sha256": "479d9acde175c56668a94c620a4fe23e76d7b2d05fa10a20eeed43fc5afdca6a"
+   },
+   "isolation": {
+    "path": "build/r21-route-actual-v23-isolation.json",
+    "bytes": 2977,
+    "sha256": "afef3511af3ff40171ecbf18deb0abd2a9a6a4b300a2617b65a3a14bcadeceda"
+   },
+   "sourceVerification": {
+    "path": "build/r21-route-actual-v23/source-verification.json",
+    "bytes": 417475,
+    "sha256": "6d40f530bfea653a95457b93f6e4232c82d2009fea2ce0b7cfabe294be62e00e"
+   },
+   "latestOriginalPair": [
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+    },
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+    }
+   ]
+  },
+  "counts": {
+   "months": 21,
+   "canvassOrders": 52,
+   "canvassMoney": 2600,
+   "canvassThew": 1040,
+   "governance": 16,
+   "governanceMoney": 0,
+   "governanceThew": 0,
+   "treats": 14,
+   "treatMoney": 1400,
+   "foodPlanEntries": 16,
+   "foodPurchases": 8,
+   "foodPurchased": 2940,
+   "foodMoney": 14700,
+   "ordinaryQuantities": 8,
+   "quantityAdjustmentKeys": 147,
+   "publicSavePairs": 36,
+   "uniqueSavePairs": 29,
+   "nativeSelections": 298,
+   "nativeSelectionArrowKeys": 1494,
+   "cityOwnerReceipts": 24,
+   "modeRetirements": 16,
+   "campaignReports": 8,
+   "abandonedDefenses": 2,
+   "engineKeys": 2532,
+   "requests": 226,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0,
+   "newCargo": 0,
+   "newMilitaryMove": 0,
+   "newRecruitment": 0,
+   "newDistribution": 0
+  },
+  "latestRecovery": {
+   "tag": "month-021-strengthened",
+   "date": {
+    "year": 235,
+    "month": 6
+   },
+   "originalPair": [
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+    },
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+    }
+   ],
+   "pendingOrders": [
+    {
+     "OrderId": 11,
+     "City": 16,
+     "Person": 20,
+     "Object": 51899,
+     "TimeCount": 0
+    }
+   ],
+   "scope": "Original235June raw pair only; actual fresh public LOAD/full ABI and current ownership would still be required before any continuation.",
+   "nativeCityFields": [
+    {
+     "i": 10,
+     "name": "长安",
+     "belong": 23,
+     "money": 8631,
+     "food": 29650,
+     "reserve": 0,
+     "queue": [
+      22,
+      63,
+      24,
+      54,
+      32,
+      55,
+      9,
+      41,
+      53
+     ],
+     "ownedQueue": [
+      22,
+      63,
+      24,
+      54,
+      32,
+      55
+     ],
+     "state": 3,
+     "satrapNativeId": 23,
+     "peopleDevotion": 73,
+     "avoidCalamity": 7,
+     "commerce": 7121,
+     "source": "Latest original native City37 bytes; not a fabricated extra current-world getter"
+    },
+    {
+     "i": 16,
+     "name": "许昌",
+     "belong": 1,
+     "money": 2533,
+     "food": 1161,
+     "reserve": 8680,
+     "queue": [
+      40,
+      0
+     ],
+     "ownedQueue": [
+      40,
+      0
+     ],
+     "state": 0,
+     "satrapNativeId": 1,
+     "peopleDevotion": 32,
+     "avoidCalamity": 1,
+     "commerce": 3392,
+     "source": "Latest original native City37 bytes; not a fabricated extra current-world getter"
+    },
+    {
+     "i": 20,
+     "name": "宛城",
+     "belong": 1,
+     "money": 4887,
+     "food": 2687,
+     "reserve": 0,
+     "queue": [
+      50,
+      52,
+      44,
+      38,
+      10,
+      11,
+      70,
+      69,
+      17,
+      8,
+      30,
+      45,
+      171
+     ],
+     "ownedQueue": [
+      50,
+      52,
+      44,
+      38,
+      10,
+      11,
+      70,
+      69,
+      17,
+      8,
+      30,
+      45
+     ],
+     "state": 0,
+     "satrapNativeId": 31,
+     "peopleDevotion": 35,
+     "avoidCalamity": 30,
+     "commerce": 686,
+     "source": "Latest original native City37 bytes; not a fabricated extra current-world getter"
+    }
+   ],
+   "retainedGuards": [
+    {
+     "personIndex": 45,
+     "name": "魏续",
+     "belong": 1,
+     "arms": 1349,
+     "devotion": 100
+    },
+    {
+     "personIndex": 30,
+     "name": "徐晃",
+     "belong": 1,
+     "arms": 1790,
+     "devotion": 100
+    },
+    {
+     "personIndex": 8,
+     "name": "夏侯德",
+     "belong": 1,
+     "arms": 1450,
+     "devotion": 100
+    },
+    {
+     "personIndex": 17,
+     "name": "曹洪",
+     "belong": 1,
+     "arms": 1530,
+     "devotion": 100
+    },
+    {
+     "personIndex": 69,
+     "name": "典满",
+     "belong": 1,
+     "arms": 1450,
+     "devotion": 100
+    },
+    {
+     "personIndex": 70,
+     "name": "郝昭",
+     "belong": 1,
+     "arms": 1630,
+     "devotion": 100
+    },
+    {
+     "personIndex": 11,
+     "name": "曹真",
+     "belong": 1,
+     "arms": 1570,
+     "devotion": 100
+    },
+    {
+     "personIndex": 10,
+     "name": "曹彰",
+     "belong": 1,
+     "arms": 1320,
+     "devotion": 100
+    },
+    {
+     "personIndex": 38,
+     "name": "张燕",
+     "belong": 1,
+     "arms": 1250,
+     "devotion": 100
+    }
+   ]
+  },
+  "candidates": [
+   {
+    "personIndex": 91,
+    "name": "蒋琬",
+    "belong": 2,
+    "level": 16,
+    "armType": 1,
+    "devotion": 81,
+    "iq": 89,
+    "character": 4,
+    "ownedAtOrigin": false,
+    "attempts": 3
+   },
+   {
+    "personIndex": 127,
+    "name": "严畯",
+    "belong": 3,
+    "level": 13,
+    "armType": 1,
+    "devotion": 78,
+    "iq": 75,
+    "character": 4,
+    "ownedAtOrigin": false,
+    "attempts": 42
+   },
+   {
+    "personIndex": 130,
+    "name": "张温",
+    "belong": 2,
+    "level": 20,
+    "armType": 1,
+    "devotion": 89,
+    "iq": 74,
+    "character": 0,
+    "ownedAtOrigin": false,
+    "attempts": 0
+   },
+   {
+    "personIndex": 131,
+    "name": "张休",
+    "belong": 3,
+    "level": 12,
+    "armType": 1,
+    "devotion": 80,
+    "iq": 80,
+    "character": 3,
+    "ownedAtOrigin": false,
+    "attempts": 7
+   }
+  ],
+  "summary": "v23 resumed original233Sept v22month003;21 real months/52 Canvass orders (91×3,131×7,127×42), no caster acquisition.16 governance/14 Treat/8 food purchases2940 for14700Money;36 full-ABI public save pairs and4278 NDJSON rows verified.9 inherited guards13339 remain owned at20. No new cargo/recruit/GetArmy/MOVE. Budget exhausted; prep/cast/HDfalse. Latest original235June month021-strengthened includes pending capital P20 Order11. City10 is now enemyBelong23 and cannot supply player funds.",
+  "source": {
+   "records": 1172,
+   "freshMatches": 1172,
+   "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "compiledModified": true
+  },
+  "cleanup": {
+   "historicalFinished": "2026-10-09T16:48:37.835Z",
+   "historical8080Pid": 105848,
+   "historicalHttpStatus": 200,
+   "currentObservationAt": "2026-10-10T11:32:09.2610201Z",
+   "currentObservationSeparate": true
+  },
+  "canonicalNote": "Do not call budget exhaustion a product defect or protectedTarget wording an acquisition. Latest235June pair contains pending capital P20 trade order; no synthetic saved-after state. R20installed/R21staged boundaries and archiveClosedfalse remain.",
+  "supplement": {
+   "path": "build/r21-v23-terminal-independent-audit-supplement.json",
+   "bytes": 8936,
+   "sha256": "b5245fe7792430ef997128dee98b7abee3f87203bc6a96ad6805d694784e7946"
+  },
+  "targetCounts": {
+   "91": 3,
+   "127": 42,
+   "131": 7
+  },
+  "scope": "Supersedes concise metadata only; main audit and v1 metadata bytes remain preserved.",
+  "metadata": {
+   "path": "build/r21-v23-root-merge-metadata-v2.json",
+   "bytes": 9825,
+   "sha256": "573f35e4f502ee867e431590ec52bbfbca8431e0097772017306b16bdd229c0e"
+  },
+  "staged": true,
+  "prepareOnly": true,
+  "woodHdAccepted": false,
+  "latestOriginalPublicSave": {
+   "tag": "month-021-strengthened",
+   "date": {
+    "year": 235,
+    "month": 6
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+    },
+    {
+     "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+    }
+   ],
+   "completeIndependentAbi": true,
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "pendingOrders": [
+    {
+     "OrderId": 11,
+     "City": 16,
+     "Person": 20,
+     "Object": 51899,
+     "TimeCount": 0
+    }
+   ],
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "v23-resume-maintained",
+    "date": {
+     "year": 233,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-resume-maintained-sango0.sav",
+      "bytes": 8221,
+      "sha256": "6b659cf57a3e23b4287b9d8be902d4e333c2dc2f8a7a17cda3cba35db2ce1bf2"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-resume-maintained-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8881e5e5311248c0fc20bb15051270ea661d185264de71a8a98ad3a2838261c4"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-001",
+    "date": {
+     "year": 233,
+     "month": 10
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-001-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0c15ac3d19da473be3556693138d3ba3053c49cdbbfb4e26cc6ec423f9b97ab5"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-001-sango1.sav",
+      "bytes": 4840,
+      "sha256": "27fed8b95f4200f754f9fb33b735d9faa7c1edbbf7dbe73ce55dcd05d1be45f7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-002",
+    "date": {
+     "year": 233,
+     "month": 11
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-002-sango0.sav",
+      "bytes": 8221,
+      "sha256": "bb4f549ef115194fd09d4585d24bcde859a2bd015c19a0306a91a30471df4bfa"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-002-sango1.sav",
+      "bytes": 4840,
+      "sha256": "bfa127d21400db1d18a184174f6429c962638b6c9f7cd3274225421fae5bb505"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-003",
+    "date": {
+     "year": 233,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e1436f95bfc6dbcec2288d67ef2037f94d0c972bf2d643c6fe4e0f71f7d02a96"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3a3145bb8c327bf4fb735a5641aed2b5c372bfa97103bbc52265d2c5bb0acb92"
+     }
+    ]
+   },
+   {
+    "tag": "month-003",
+    "date": {
+     "year": 233,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e1436f95bfc6dbcec2288d67ef2037f94d0c972bf2d643c6fe4e0f71f7d02a96"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3a3145bb8c327bf4fb735a5641aed2b5c372bfa97103bbc52265d2c5bb0acb92"
+     }
+    ]
+   },
+   {
+    "tag": "month-003-strengthened",
+    "date": {
+     "year": 233,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "70f7f97b6795448baf23502f76be255e7bcf720c09c8e487196945bbf6456352"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a377bbb77bdb6522765423b6de3498fbfdd26f37ca585c40f36f0f841007b2e7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-004",
+    "date": {
+     "year": 234,
+     "month": 1
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-004-sango0.sav",
+      "bytes": 8221,
+      "sha256": "7427abdcfbd9a8804fb9423b53c8c92efccd9db581bee7dd35715cb98515b563"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-004-sango1.sav",
+      "bytes": 4840,
+      "sha256": "db97bf998feea80dfe7427bc731f830dae04d3fa52357af8907a85b75b83e8f8"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-005",
+    "date": {
+     "year": 234,
+     "month": 2
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-005-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e7f3ff0d98b1cc1031d4ac149eef51024c658aca5dc1071239612b12b748ac4"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-005-sango1.sav",
+      "bytes": 4840,
+      "sha256": "36051d97ebaf7084c557495a683d04597d52ddec57c0075d7e2160662b54988f"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-006",
+    "date": {
+     "year": 234,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-006-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e3ea617b1b30e6b5afb17cf3d1def246f897f7f3d52d45294f1d65706e2887c0"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-006-sango1.sav",
+      "bytes": 4840,
+      "sha256": "326a2d5c22e0c50c280f28e1566ec544b4e7d1342949074368b0175747f00e0c"
+     }
+    ]
+   },
+   {
+    "tag": "month-006",
+    "date": {
+     "year": 234,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e3ea617b1b30e6b5afb17cf3d1def246f897f7f3d52d45294f1d65706e2887c0"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-sango1.sav",
+      "bytes": 4840,
+      "sha256": "326a2d5c22e0c50c280f28e1566ec544b4e7d1342949074368b0175747f00e0c"
+     }
+    ]
+   },
+   {
+    "tag": "month-006-strengthened",
+    "date": {
+     "year": 234,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "acabc5a2d05e09b70d9db9edcd1300fb6d4629e2f2ac1fedfc1ce41ced46e3f6"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9a798131a12c2c4f182ada9b95a5872f62aac730db16a060caeb3a90954f7de7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-007",
+    "date": {
+     "year": 234,
+     "month": 4
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-007-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e2e5e148b0998fe7b622ec71a57ca2465af34e8bcadbdb5a7df4d99a3136f5f7"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-007-sango1.sav",
+      "bytes": 4840,
+      "sha256": "06ea851169802620931f7315ef884af9caa7d9faababd9ed39b444b4b68dde09"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-008",
+    "date": {
+     "year": 234,
+     "month": 5
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-008-sango0.sav",
+      "bytes": 8221,
+      "sha256": "6f42fbba29ac6c64491a59c40b64df4a892cd866d612d73ba668dc4423a9f0a5"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-008-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b24c8988a04afb51df3c3bbbaa77869199b37bca0d03e676812f622830a758c6"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-009",
+    "date": {
+     "year": 234,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-009-sango0.sav",
+      "bytes": 8221,
+      "sha256": "f8c6c4957fb5c561040cc7c895a770b59e1ebc66722474218a2bbde38f9d6386"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-009-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b137bbe8229cd0a351ba6491a1ebaa3b8bba8f8cd1f3b3777d7ed256771a072e"
+     }
+    ]
+   },
+   {
+    "tag": "month-009",
+    "date": {
+     "year": 234,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-sango0.sav",
+      "bytes": 8221,
+      "sha256": "f8c6c4957fb5c561040cc7c895a770b59e1ebc66722474218a2bbde38f9d6386"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b137bbe8229cd0a351ba6491a1ebaa3b8bba8f8cd1f3b3777d7ed256771a072e"
+     }
+    ]
+   },
+   {
+    "tag": "month-009-strengthened",
+    "date": {
+     "year": 234,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "aafc7af9abcaf2a037e8fe6bab6c5e157652df6c17e56e447c7ac8a000c75cf1"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "68a9f2e323ccf4a9a931684332bebb9fb558786673a4b302595561f0c71e5156"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-010",
+    "date": {
+     "year": 234,
+     "month": 7
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-010-sango0.sav",
+      "bytes": 8221,
+      "sha256": "013ff9a79651cfa58e8984e6bf3273d5bb27398c409f28fde3d660fb25753f45"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-010-sango1.sav",
+      "bytes": 4840,
+      "sha256": "08ba74ef89c199e5a3864b67742472ea519c4b3227bdd4508b7b9e02d15236f9"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-011",
+    "date": {
+     "year": 234,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-011-sango0.sav",
+      "bytes": 8221,
+      "sha256": "aa59eee3ba3eb75a74287b32fd60e2cea3b2a092195365fe765cfc6e49948a91"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-011-sango1.sav",
+      "bytes": 4840,
+      "sha256": "d419934ed93715914fc18c3b9e391081b52417cb9f24e8a1c6d61986aa387120"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-012",
+    "date": {
+     "year": 234,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-012-sango0.sav",
+      "bytes": 8221,
+      "sha256": "9584d03f797fc27d8f0577d8d2e48637a6aa7a18fa74afc691407f406a1e5418"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-012-sango1.sav",
+      "bytes": 4840,
+      "sha256": "40de0245e3b4046736210337ce8d10bc2c4553234b01d9094f0163d292b136d8"
+     }
+    ]
+   },
+   {
+    "tag": "month-012",
+    "date": {
+     "year": 234,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-sango0.sav",
+      "bytes": 8221,
+      "sha256": "9584d03f797fc27d8f0577d8d2e48637a6aa7a18fa74afc691407f406a1e5418"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-sango1.sav",
+      "bytes": 4840,
+      "sha256": "40de0245e3b4046736210337ce8d10bc2c4553234b01d9094f0163d292b136d8"
+     }
+    ]
+   },
+   {
+    "tag": "month-012-strengthened",
+    "date": {
+     "year": 234,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b1b919b175ce8e1e935a6239bf7349a88e68fce83a896e8520d90ef53dbca74b"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "31316a9a83e92649415a799323d597fed1411c66e6feadc09de64ffade7d5cb4"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-013",
+    "date": {
+     "year": 234,
+     "month": 10
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-013-sango0.sav",
+      "bytes": 8221,
+      "sha256": "d2f05835f747c456aa0019801a309464b78263d008775beb96ca58cf3c955148"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-013-sango1.sav",
+      "bytes": 4840,
+      "sha256": "2abc88f777160101a170544af04ad27daeded014fe142e76bd679f1b6a81dcde"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-014",
+    "date": {
+     "year": 234,
+     "month": 11
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-014-sango0.sav",
+      "bytes": 8221,
+      "sha256": "8d45ded7a19840153cd824327cd372633235da2f42c36cea8012b6d4c8e4caa3"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-014-sango1.sav",
+      "bytes": 4840,
+      "sha256": "5fd5307ad70518fbd58d7ac7c3551b1caf7a04a924d3c7cb733ccfb15c25b5d2"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-015",
+    "date": {
+     "year": 234,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-015-sango0.sav",
+      "bytes": 8221,
+      "sha256": "bd6d9fc741ddc97633d30eb6e03889c21ea890e0f480c74cd49b06afca879fe6"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-015-sango1.sav",
+      "bytes": 4840,
+      "sha256": "ec736541c11093eeb127c0365716c1a423a40023c230afd6fee9df9c836a1ed8"
+     }
+    ]
+   },
+   {
+    "tag": "month-015",
+    "date": {
+     "year": 234,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-sango0.sav",
+      "bytes": 8221,
+      "sha256": "bd6d9fc741ddc97633d30eb6e03889c21ea890e0f480c74cd49b06afca879fe6"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-sango1.sav",
+      "bytes": 4840,
+      "sha256": "ec736541c11093eeb127c0365716c1a423a40023c230afd6fee9df9c836a1ed8"
+     }
+    ]
+   },
+   {
+    "tag": "month-015-strengthened",
+    "date": {
+     "year": 234,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "35be9827d819f077a16c47f731ab1323bf0cc1001a48754826a8f36a6b1da008"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3e2b2b510c7e49c1d225d11b4a8b3c183a9bca43c2fbdbdd8d0a1f0e325504c7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-016",
+    "date": {
+     "year": 235,
+     "month": 1
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-016-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b57380d60f2a235b6a7e4d377b0f21508538f5f925b25001d5d7b22325de4bd5"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-016-sango1.sav",
+      "bytes": 4840,
+      "sha256": "1a3d4c4494c1a5265472033d6020f73ba0cc855c1440b015ab74cbc332a8d4d8"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-017",
+    "date": {
+     "year": 235,
+     "month": 2
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-017-sango0.sav",
+      "bytes": 8221,
+      "sha256": "8cc09c9b20166de6a6a7c7ee62d329de2ad549bfe3dd521701589e16a42b060f"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-017-sango1.sav",
+      "bytes": 4840,
+      "sha256": "98868610455f268e202569cfd460ee62970cd79ba545818406b0269ac1e8e3ea"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-018",
+    "date": {
+     "year": 235,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-018-sango0.sav",
+      "bytes": 8221,
+      "sha256": "97d28e59f233df9171676b762c7fc28fce4fa1761b33d93151e20f0cf0143408"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-018-sango1.sav",
+      "bytes": 4840,
+      "sha256": "07fb9070e815a2825af7c9d34a455e886ee01263184803328c42408051fab7a6"
+     }
+    ]
+   },
+   {
+    "tag": "month-018",
+    "date": {
+     "year": 235,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-sango0.sav",
+      "bytes": 8221,
+      "sha256": "97d28e59f233df9171676b762c7fc28fce4fa1761b33d93151e20f0cf0143408"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-sango1.sav",
+      "bytes": 4840,
+      "sha256": "07fb9070e815a2825af7c9d34a455e886ee01263184803328c42408051fab7a6"
+     }
+    ]
+   },
+   {
+    "tag": "month-018-strengthened",
+    "date": {
+     "year": 235,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "755aae00480f8b6dc014df6666c2f4f937413806ce1485a044fafc671eaf2208"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b78ad3ab47fad1c5eb6e286766d418726e4210a52abe6718739d8d77d66234df"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-019",
+    "date": {
+     "year": 235,
+     "month": 4
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-019-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e9c6fe37d1ef7a4f6de0bfa65d0087bbc4c1dbf716390701d69c11416807f357"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-019-sango1.sav",
+      "bytes": 4840,
+      "sha256": "61f48316de16c4d5b95eb86203f7ac3acd316fcc906d9993f6afb63fcfca8ffc"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-020",
+    "date": {
+     "year": 235,
+     "month": 5
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-020-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5ba1c70ed8a4ce4c3b7cb925bd4539e5e9c916abf7490fcde850cf4e674b7bff"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-020-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9e489bcb38cf84f4589f93f7a2906884181dd80a4a2d7faff183d960e707e4d7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-021",
+    "date": {
+     "year": 235,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-021-sango0.sav",
+      "bytes": 8221,
+      "sha256": "70d4866a9afa75c66e83182cdd84c530ed3b31c79a0c861c2236743fc1eea02f"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-021-sango1.sav",
+      "bytes": 4840,
+      "sha256": "fd2bb70e2a44edee1afd07b2d207ff5740f933d7d4d75e5830137f2010ae1891"
+     }
+    ]
+   },
+   {
+    "tag": "month-021",
+    "date": {
+     "year": 235,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-sango0.sav",
+      "bytes": 8221,
+      "sha256": "70d4866a9afa75c66e83182cdd84c530ed3b31c79a0c861c2236743fc1eea02f"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-sango1.sav",
+      "bytes": 4840,
+      "sha256": "fd2bb70e2a44edee1afd07b2d207ff5740f933d7d4d75e5830137f2010ae1891"
+     }
+    ]
+   },
+   {
+    "tag": "month-021-strengthened",
+    "date": {
+     "year": 235,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+     }
+    ]
+   }
+  ],
+  "military": {
+   "retainedIds": [
+    45,
+    30,
+    8,
+    17,
+    69,
+    70,
+    11,
+    10,
+    38
+   ],
+   "totalArms": 13339,
+   "newMoves": 0,
+   "newRecruitment": 0,
+   "newGetArmy": 0,
+   "newCargo": 0,
+   "priorMilitaryOnly": true
+  },
+  "productionDefectDemonstrated": false,
   "castWrapperExecuted": false
  }
 }
