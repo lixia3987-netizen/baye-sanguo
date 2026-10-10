@@ -81,7 +81,7 @@ npm run build:wasm
 
 M3 存档 `0x95` 保留双文件槽位，保存完整 4000 字节道具队列、600 字节出征队列和 U32 自定义数据长度。读取先校验完整快照再提交；浏览器保存与导入使用 journal 保留旧完整槽，LIB 使用加载内容指纹校验。旧 `0x90`–`0x94` 仍可读取，但旧活动出征槽 `slot≥8` 缺少已保存将领数据，必须拒绝加载。协议细节见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。
 
-当前七个引擎入口（PC、四个经典手机页、地图编辑器和立绘导出页）的引擎、桥接与 WASM/map 缓存号为 `20261009y`；这项缓存一致性不代表移动高清界面已实现或验收。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
+当前七个引擎入口（PC、四个经典手机页、地图编辑器和立绘导出页）的引擎、桥接与 WASM/map 缓存号为 `20261010c`；这项缓存一致性不代表移动高清界面已实现或验收。修改产物时同步 HTML 的 `js/baye.js?ver=`、`Module.locateFile` 的 WASM 版本及相关脚本缓存号，成套安装 manifest 和产物；仅运行旧缓存号更新脚本并不能代替检查。`save-storage.js` 必须先于 `lcd.js` 加载，纯存档导出页不加载 LCD。
 
 人物列表属性观察另由 manifest 的 `hdPersonPropertiesProtocol` version 1 记录，见[人物属性契约](hd-details.md)。暂存人物验收使用 `npm run test:person-properties-runtime -- --staged --library standard --artifact-dir build/person-standard-staged`，Mod 将 `standard` 替换为 `sc-mod`；`--preflight-only` 只做静态 ROM/源码与成套产物校验。浏览器验收需要独立临时 profile，既有用户游戏页和 8080 服务保持不动。测试目录需要使用新路径，不能覆盖先前失败或通过结果。
 
@@ -119,3 +119,5 @@ cmake --build . -j"$(nproc)"
 | 许可证 | MIT，`vendor/iBaye/LICENSE` / `LICENSE.ENGINE` |
 
 HD 导出清单见 [wasm-hd-bridge.md](wasm-hd-bridge.md)。
+
+2026-10-10 安装补充：本次成套复制已验证的暂存产物，native source SHA-256 为 `8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0`。manifest 保留实际编译时的 `sourceRevision=a71b0836dc538dcefbb01950c31b46461f8b5726` 和 `engineSourceModified=true`，不改写为安装提交号。原版援兵17/29的两分辨率和精确缺图回退分别记录；这不代表其余计谋、完整四时期或移动HD已完成。

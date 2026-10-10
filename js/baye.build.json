@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
-  "engineSourceSha256": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
+  "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791515060,
+  "sourceDateEpoch": 1791523308,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -207,6 +207,25 @@
   },
   "hdSpeCompositionProtocol": {
     "version": 1,
+    "nestedOpaqueCoverage": {
+      "mode": 3,
+      "fields": [
+        "g_hdSpeSceneMode",
+        "g_hdSpeSceneX",
+        "g_hdSpeSceneY",
+        "g_hdSpeSceneWidth",
+        "g_hdSpeSceneHeight"
+      ],
+      "displayedFields": [
+        "g_hdSpeDisplaySceneMode",
+        "g_hdSpeDisplaySceneX",
+        "g_hdSpeDisplaySceneY",
+        "g_hdSpeDisplaySceneWidth",
+        "g_hdSpeDisplaySceneHeight"
+      ],
+      "establishment": "same-origin, fully opaque selected rectangles form a containment chain; only actual supported writes and controlled copies establish their current and displayed coverage",
+      "retirement": "uncontrolled drawing, unsupported paint, changed resources or nested owners permanently retire coverage; future dimensions cannot authorize an older displayed copy"
+    },
     "source": "actual ordinary picture draw observed before its matching native attack child",
     "background": "g_hdSpeBg and g_hdSpeDisplayBg complete resource identity and signed origin",
     "clears": [
@@ -429,7 +448,7 @@
     },
     "value": "exact unchanged FgtAtvShowNum argument; per-target arms result or original pre-clamp provender amount",
     "label": "actual complete consumed GBK bytes and native coordinates; 64-byte source and separate displayed buffer",
-    "scene": "owned BACKPIC or verified equal opaque movie rectangle; no unknown full-arena background inferred",
+    "scene": "owned BACKPIC, verified equal opaque rectangle, or actual-copy-established nested opaque coverage; no unknown full-arena background inferred",
     "display": "controlled actual movie, label and numeric writes snapshot published at timed LCD flush",
     "input": "no added skip or return; original movie, number and result waiting lifecycle",
     "custom": "presence captured in original showSkill and single willShowPKAnimation invocation",
@@ -451,15 +470,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 192446,
-      "sha256": "fd55a72ea966641204f032a9e68b11d45efb8c9afe0f258de841cb06194edf11"
+      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
     },
     "baye.wasm": {
-      "bytes": 4521847,
-      "sha256": "71ee6726687a5c5a5a1d9509010aef3ad82b8308b84c813374074777d7851572"
+      "bytes": 4535346,
+      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "1ddda3fdb2b858135a468fe118f2a4c5093839f29ec09ad7bf101378fb72b186"
+      "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
     }
   }
 }

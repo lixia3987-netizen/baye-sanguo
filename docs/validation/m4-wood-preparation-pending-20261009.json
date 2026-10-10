@@ -1005,14 +1005,21 @@
  "currentSourceTestReference": {
   "record": {
    "path": "docs/validation/m4-aid-native-20261009.json",
-   "bytes": 57327,
-   "sha256": "6505425f8f8421e6ee41a1d97b9d917800467624d8d9b388b06cd554bd4c59fe"
+   "bytes": 57038,
+   "sha256": "bc614f5a68361d2dc52c9009efff42126d82e1fca2219cd41045748374e35629"
   },
-  "tests": 1081,
-  "pass": 1081,
+  "runtimeRecord": {
+   "path": "docs/validation/m4-aid-runtime-20261010.json",
+   "bytes": 67539,
+   "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e"
+  },
+  "tests": 1108,
+  "pass": 1108,
   "fail": 0,
   "skipped": 0,
-  "scope": "Separate actual current-source fixture regression. Original09:00 WOOD1021 execution remains historical and unchanged;1081 does not accept a WOOD player cast."
+  "sourceRecords": 1266,
+  "uniqueModules": 50,
+  "scope": "Separate installed-current-source VM/compiled-C regression. Historical WOOD source checks and all failed preparation records remain unchanged; this AID acceptance does not accept WOOD preparation or a WOOD player cast."
  },
  "actualPreparationV21": {
   "status": "terminal-military-arrived-food-trade-cash-shortage",

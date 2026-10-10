@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
   "recordedAt": "2026-10-10T11:26:16.396Z",
-  "status": "native-fixtures-passed-player-cast-pending",
+  "status": "native-fixtures-and-limited-aid-player-runtime-passed",
   "recordedAgainst": "d3efa014ab07ef7dddb8a59ce59ebea93ede1428",
-  "accepted": false,
+  "accepted": true,
   "sourceChecksPassed": true,
   "nativeFixtureChecksPassed": true,
-  "actualPlayerCastPassed": false,
-  "preparationAccepted": false,
-  "hdAccepted": false,
+  "actualPlayerCastPassed": true,
+  "preparationAccepted": true,
+  "hdAccepted": true,
   "archiveClosed": false,
-  "scope": "Controlled compiled-C AID17/29/41 fixtures and separate actual campaign phases. Phase1 v4 accepts only actual134 ownership/residency plus its original save. Phase2 v4 verifies originalLOAD/MOVE134 arrival31 and six complete SEARCH months, but remains failed at a fresh incoming-defense owner after SEARCH7 was queued.188 remainsunowned; full preparation/player casting/HD and archive closure remain pending.",
+  "scope": "Historical native/fixture and preparation records below are unchanged. Current limited original P3/player9 AID17/29 runtime acceptance is in currentRuntimeAddendum; complete HD remains unfinished.",
   "nativeFixture": {
     "script": {
       "path": "scripts/test-hd-aid-engine.mjs",
@@ -188,10 +188,10 @@
     }
   },
   "remaining": [
-    "Actual188 ownership/residency through original SEARCH orders and normal months, with explicit incoming-defense handling protecting24/31;134 acquisition and MOVE31 are already separately verified.",
-    "Real player dispatch/AIM/casts for17 and29 with current MP/arm, movie/display/NUM/hold and outside-LCD observations",
-    "Classic/missing-image/visibility/resize/failure fallbacks in actual skill scenes",
-    "WOOD preparation/casting and other HD plan requirements remain open"
+    "Classic and visibility/hidden/resize skill scenes",
+    "Other skills and complete four-period player routes",
+    "Mobile and performance",
+    "WOOD6/7 qualified-caster preparation and actual casts; other HD checklist requirements"
   ],
   "evidenceStorage": {
     "productionTestTracked": true,
@@ -1843,5 +1843,60 @@
     "privateCleanup": true,
     "historicalUser8080Pid": 57860,
     "continuationBoundary": "Original phase2-month-007 pair is byte-verified and suitable only for root-authorized future publicLOAD+freshworld audit. Defense300vs5540 was observed after unsaved SEARCH7; no selected defenders or battle outcome is accepted. Must preserve incoming-defense handling and actual188ownership gates."
+  },
+  "currentRuntimeAddendum": {
+    "record": {
+      "path": "docs/validation/m4-aid-runtime-20261010.json",
+      "bytes": 67539,
+      "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e"
+    },
+    "scope": "Acceptance is limited to original LIB period3/player9, actual caster188 plus ally144 dispatch31 to32, friendly skills17/29, resource41/index0/range0..7, NUM15, completed hold and owner retirement.",
+    "installedHd1080": true,
+    "stagedHd720": true,
+    "stagedMissingPicture0Lcd1080": true,
+    "classicAccepted": false,
+    "wholeHdAccepted": false,
+    "portableClosedArchive": false
+  },
+  "currentInstalledSourceRegression": {
+    "execution": {
+      "path": "build/r25-installed-full-source-tests-v1-execution.json",
+      "bytes": 3564,
+      "sha256": "8a5569935d424824f5511f5004737352cf11d88f37dbec2f1517fef5399adc5e"
+    },
+    "runner": {
+      "path": "build/r25-run-source-tests-root-v1.mjs",
+      "bytes": 3253,
+      "sha256": "efb9fa45e99dfda55084ce46eeabac7461a5180ec7b07520d545bd33b963db75"
+    },
+    "log": {
+      "path": "build/r25-installed-full-source-tests-v1.log",
+      "bytes": 288244,
+      "sha256": "e87d9056779d5798b516d7f58e174b45a71a9631754954cec87afeac9d54320c"
+    },
+    "summary": {
+      "tests": 1108,
+      "pass": 1108,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "uniqueModules": 50,
+    "sources": {
+      "count": 1266,
+      "pre": {
+        "path": "build/r25-installed-full-source-tests-v1-sources-pre.json",
+        "bytes": 213923,
+        "sha256": "24a14a469043464ae04c0e2dbffd2d34447e58116a24fc36ad9665d48fa8e211"
+      },
+      "post": {
+        "path": "build/r25-installed-full-source-tests-v1-sources-post.json",
+        "bytes": 213923,
+        "sha256": "24a14a469043464ae04c0e2dbffd2d34447e58116a24fc36ad9665d48fa8e211"
+      },
+      "drift": []
+    },
+    "coverage": "VM/compiled-C/source checks; actual browser acceptance is separately bounded by actualModes."
   }
 }
