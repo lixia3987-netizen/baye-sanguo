@@ -374,7 +374,7 @@
         }
         // Identity metadata changed with this renderer. Retire cached JSON
         // without forcing unchanged terrain images to download again.
-        return ASSET_ROOT + rel + (/\.json$/.test(rel) ? '?ver=20261008l' : '');
+        return ASSET_ROOT + rel + (/\.json$/.test(rel) ? '?ver=20261010a' : '');
     }
 
     function loadAssets(done) {

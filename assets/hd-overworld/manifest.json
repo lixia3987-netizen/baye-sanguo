@@ -3,7 +3,7 @@
   "designWidth": 1920,
   "designHeight": 1080,
   "style": "modern-2d-strategy",
-  "version": "7",
+  "version": "8",
   "source": "wikimedia-china-lcc-topographic",
   "note": "Full uncropped China LCC plus southern ocean pad. Native city IDs, rules and geographical anchors unchanged. Environment stamps are decorative art, not engine terrain or movement. Keep this work on feature/hd-graphics.",
   "mapWidth": 3840,
@@ -17,7 +17,23 @@
     ],
     "roads": {
       "stroke": "roads/stroke.png",
-      "pass": "roads/pass.png"
+      "pass": "roads/bridge-crossing-v1.png",
+      "passArt": {
+        "pixelSize": [
+          1254,
+          1254
+        ],
+        "designCanvasSize": [
+          32,
+          32
+        ],
+        "anchor": "center-at-existing-road-curve-control",
+        "decorativeOnly": true,
+        "bytes": 1198185,
+        "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+        "provenance": "GENERATED-BRIDGE.json",
+        "note": "Decorative river-crossing marker only; no terrain, roads, native city coordinates, ownership, passability or input changes. The existing 32 design units scale with the 1920x1080 map canvas."
+      }
     },
     "cities": {
       "empty": "cities/fortified-city-v1.png",

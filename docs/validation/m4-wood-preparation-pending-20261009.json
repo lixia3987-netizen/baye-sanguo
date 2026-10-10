@@ -1005,8 +1005,8 @@
  "currentSourceTestReference": {
   "record": {
    "path": "docs/validation/m4-aid-native-20261009.json",
-   "bytes": 40941,
-   "sha256": "9a700b98f928d5c45a9df2fed9e640a14cd35ca984d610fabf0b2909984f5e40"
+   "bytes": 57327,
+   "sha256": "6505425f8f8421e6ee41a1d97b9d917800467624d8d9b388b06cd554bd4c59fe"
   },
   "tests": 1081,
   "pass": 1081,

@@ -10,7 +10,7 @@
   "preparationAccepted": false,
   "hdAccepted": false,
   "archiveClosed": false,
-  "scope": "Controlled compiled-C AID17/29/41 fixture coverage and separately retained original public campaign preparations. Failed v1/v2 remain failed. v4 accepts only actual Canvass134 ownership/residency and its unmodified public saved pair; MOVE134, SEARCH188, real player casting and HD runtime acceptance remain separate pending gates.",
+  "scope": "Controlled compiled-C AID17/29/41 fixtures and separate actual campaign phases. Phase1 v4 accepts only actual134 ownership/residency plus its original save. Phase2 v4 verifies originalLOAD/MOVE134 arrival31 and six complete SEARCH months, but remains failed at a fresh incoming-defense owner after SEARCH7 was queued.188 remainsunowned; full preparation/player casting/HD and archive closure remain pending.",
   "nativeFixture": {
     "script": {
       "path": "scripts/test-hd-aid-engine.mjs",
@@ -188,7 +188,7 @@
     }
   },
   "remaining": [
-    "Actual acquisition of134 followed by188 through original orders and normal months",
+    "Actual188 ownership/residency through original SEARCH orders and normal months, with explicit incoming-defense handling protecting24/31;134 acquisition and MOVE31 are already separately verified.",
     "Real player dispatch/AIM/casts for17 and29 with current MP/arm, movie/display/NUM/hold and outside-LCD observations",
     "Classic/missing-image/visibility/resize/failure fallbacks in actual skill scenes",
     "WOOD preparation/casting and other HD plan requirements remain open"
@@ -1269,5 +1269,579 @@
     ],
     "phase2Executed": false,
     "castExecuted": false
+  },
+  "actualPhase2V4": {
+    "schemaVersion": 1,
+    "status": "terminal-incoming-defense-stop",
+    "accepted": false,
+    "phaseAccepted": false,
+    "preparationAccepted": false,
+    "caster188Acquired": false,
+    "aidCastAccepted": false,
+    "hdAccepted": false,
+    "archiveClosed": false,
+    "limitedFlowVerified": true,
+    "audit": {
+      "path": "build/r22-aid-phase2-v4-terminal-independent-audit.json",
+      "bytes": 72759,
+      "sha256": "8d9366a1f034fe2412144313becc15160cf83775d596058f3908f8dc42c56784"
+    },
+    "refs": {
+      "result": {
+        "path": "build/r22-aid-phase2-actual-v4/result.json",
+        "bytes": 41082486,
+        "sha256": "038f3a0e245d93edd01b499cd81fc58b81e0a0218a9657dc22b617008638e8e4"
+      },
+      "sidecar": {
+        "path": "build/r22-aid-phase2-actual-v4/result.json.campaignObservations.ndjson",
+        "bytes": 29780449,
+        "sha256": "a0fe2ce6d51d0941567fe5690b21a5ea609b4c154a5570d014915e0fabba102b"
+      },
+      "runner": {
+        "path": "build/r22-aid-phase2-driver-v4.mjs",
+        "bytes": 117878,
+        "sha256": "8f0d0ecec741baf77f0d77a0b7283e92720c2eff7d3ad5da6211a32c73fa0bd5"
+      },
+      "wrapper": {
+        "path": "build/r22-run-aid-phase2-root-v4.mjs",
+        "bytes": 5047,
+        "sha256": "5a396b56380eb4d198b739f837bbda551b73e98db67e94bc80a2226c5de07172"
+      },
+      "isolation": {
+        "path": "build/r22-aid-phase2-actual-v4-isolation.json",
+        "bytes": 3199,
+        "sha256": "070db2f3aa89970a324ef80cbdf8615f1790de869d5f12819b7af81fcf4633f0"
+      },
+      "sourceVerification": {
+        "path": "build/r22-aid-phase2-actual-v4/source-verification.json",
+        "bytes": 417508,
+        "sha256": "27f588dce9a60704c849796fd7716e8e14a5d249d67db6a77c042ea5562f7c2c"
+      },
+      "sourceCheck": {
+        "path": "build/r22-aid-phase2-v4-current-source-freeze-check.json",
+        "bytes": 294116,
+        "sha256": "d3c5cb2d899cabbfc625b55e7e88a9384b110fe2746f256b7f62bfa6bf529b99"
+      },
+      "log": {
+        "path": "build/r22-aid-phase2-actual-v4.log",
+        "bytes": 1666,
+        "sha256": "af6a5dfba4e51c6818413a0a0a8aff0d4c5867122884e64b63c8646ad06ec5fa"
+      },
+      "latestOriginalPair": [
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango0.sav",
+          "bytes": 8221,
+          "sha256": "cf8b054496ea28ffe9c871dde9d41b7e204c3d385a00af3825003430a2ba920f"
+        },
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6bed6d230239f748447cf42d368b22989d298d096032ca275a2cf4db5cf25bf7"
+        }
+      ]
+    },
+    "counts": {
+      "normalMonths": 7,
+      "attemptedMonthInterrupted": 8,
+      "moveOrders": 1,
+      "moveArrivals": 1,
+      "moveThew": 8,
+      "moveMoney": 0,
+      "searchOrders": 7,
+      "completedSearchMonths": 6,
+      "queuedUncompletedSearchMonths": 1,
+      "searchMoney": 0,
+      "searchThew": 56,
+      "governance": 2,
+      "governanceMoney": 0,
+      "governanceThew": 0,
+      "governanceReturns": 3,
+      "thewRecoveryTreat": 0,
+      "canvass": 0,
+      "publicSavePairs": 9,
+      "sidecarRows": 316,
+      "sidecarBytes": 29780449,
+      "nativeSelections": 30,
+      "selectionArrowKeys": 36,
+      "moveArrowKeys": 2,
+      "selectedActionReportAcks": 9,
+      "governanceReportAcks": 2,
+      "engineInputs": 160,
+      "openingActiveInputs": 3,
+      "preparationSpeActiveInputs": 0,
+      "httpRequests": 98,
+      "httpErrors": 0,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0
+    },
+    "latestRecovery": {
+      "tag": "phase2-month-007",
+      "date": {
+        "year": 212,
+        "month": 5
+      },
+      "files": [
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango0.sav",
+          "bytes": 8221,
+          "sha256": "cf8b054496ea28ffe9c871dde9d41b7e204c3d385a00af3825003430a2ba920f"
+        },
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6bed6d230239f748447cf42d368b22989d298d096032ca275a2cf4db5cf25bf7"
+        }
+      ],
+      "fullAbi": {
+        "header": {
+          "period": 3,
+          "count": 200,
+          "king": 9,
+          "year": 212,
+          "month": 5
+        },
+        "people": 200,
+        "cities": 38,
+        "orders": 0,
+        "fighterBytes": 600,
+        "allCapturedPersonFieldsMatched": true,
+        "allResidentQueuesMatched": true,
+        "files": [
+          {
+            "path": "build/r22-aid-phase2-actual-v4/native-phase2-month-007-sango0.sav",
+            "bytes": 8221,
+            "sha256": "cf8b054496ea28ffe9c871dde9d41b7e204c3d385a00af3825003430a2ba920f"
+          },
+          {
+            "path": "build/r22-aid-phase2-actual-v4/native-phase2-month-007-sango1.sav",
+            "bytes": 4840,
+            "sha256": "6bed6d230239f748447cf42d368b22989d298d096032ca275a2cf4db5cf25bf7"
+          }
+        ]
+      },
+      "orders": [],
+      "person134": {
+        "personIndex": 134,
+        "nativeId": 135,
+        "name": "杨秋",
+        "belong": 10,
+        "oldBelong": 0,
+        "level": 3,
+        "experience": 0,
+        "iq": 56,
+        "force": 70,
+        "age": 47,
+        "devotion": 62,
+        "character": 0,
+        "thew": 72,
+        "arms": 1560,
+        "baseArm": 2,
+        "armType": 2,
+        "equip": [
+          0,
+          0
+        ]
+      },
+      "person188": {
+        "personIndex": 188,
+        "nativeId": 189,
+        "name": "南方小鬼",
+        "belong": 0,
+        "oldBelong": 0,
+        "level": 20,
+        "experience": 0,
+        "iq": 150,
+        "force": 150,
+        "age": 24,
+        "devotion": 0,
+        "character": 4,
+        "thew": 100,
+        "arms": 100,
+        "baseArm": 5,
+        "armType": 5,
+        "equip": [
+          0,
+          0
+        ]
+      },
+      "city24": {
+        "i": 24,
+        "name": "成都",
+        "belong": 10,
+        "money": 15083,
+        "food": 3828,
+        "reserve": 0,
+        "queue": [
+          151,
+          150,
+          9,
+          142,
+          160,
+          183,
+          186
+        ],
+        "ownedQueue": [
+          151,
+          150,
+          9,
+          142
+        ]
+      },
+      "city31": {
+        "i": 31,
+        "name": "巴郡",
+        "belong": 10,
+        "money": 9003,
+        "food": 1166,
+        "reserve": 0,
+        "queue": [
+          134,
+          144,
+          139,
+          148,
+          149,
+          153,
+          188
+        ],
+        "ownedQueue": [
+          134,
+          144,
+          139,
+          148,
+          149
+        ]
+      },
+      "boundary": "This original 212May checkpoint predates seventh SEARCH order and the current incoming-defense owner. No failed-after save is synthesized; LOAD must freshly compare all native bytes/actual world. Natural future defense/search outcome is unverified."
+    },
+    "defense": {
+      "label": "original month8",
+      "date": {
+        "year": 212,
+        "month": 5
+      },
+      "currentOwner": {
+        "active": 1,
+        "context": 5,
+        "kind": 2,
+        "seq": 128,
+        "itemLen": 8,
+        "count": 3,
+        "index": 0,
+        "names": [
+          "严颜",
+          "黄权",
+          "李恢"
+        ],
+        "packedNames": [
+          "严颜",
+          "黄权",
+          "李恢"
+        ],
+        "ids": [],
+        "idsValid": false,
+        "generation": 3,
+        "detailGeneration": 3
+      },
+      "incomingOrder": {
+        "OrderId": 27,
+        "City": 14,
+        "Person": 0,
+        "Object": 19,
+        "TimeCount": 0
+      },
+      "rawFighterTokens": [
+        9,
+        139,
+        136,
+        138,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "attackerCity": 14,
+      "defenderCity": 19,
+      "attacker": [
+        {
+          "personIndex": 8,
+          "nativeId": 9,
+          "name": "张鲁",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 75,
+          "force": 69,
+          "age": 49,
+          "devotion": 100,
+          "character": 1,
+          "thew": 100,
+          "arms": 1540,
+          "baseArm": 2,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 138,
+          "nativeId": 139,
+          "name": "阎圃",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 78,
+          "force": 56,
+          "age": 49,
+          "devotion": 78,
+          "character": 3,
+          "thew": 100,
+          "arms": 1440,
+          "baseArm": 2,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 135,
+          "nativeId": 136,
+          "name": "张卫",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 2,
+          "experience": 0,
+          "iq": 45,
+          "force": 77,
+          "age": 40,
+          "devotion": 84,
+          "character": 4,
+          "thew": 100,
+          "arms": 1420,
+          "baseArm": 0,
+          "armType": 0,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 137,
+          "nativeId": 138,
+          "name": "杨任",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 2,
+          "experience": 0,
+          "iq": 53,
+          "force": 41,
+          "age": 42,
+          "devotion": 88,
+          "character": 4,
+          "thew": 100,
+          "arms": 1140,
+          "baseArm": 2,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      ],
+      "attackerArms": 5540,
+      "defender": [
+        {
+          "personIndex": 140,
+          "nativeId": 141,
+          "name": "严颜",
+          "belong": 10,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 83,
+          "force": 89,
+          "age": 59,
+          "devotion": 86,
+          "character": 4,
+          "thew": 100,
+          "arms": 100,
+          "baseArm": 0,
+          "armType": 0,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 146,
+          "nativeId": 147,
+          "name": "黄权",
+          "belong": 10,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 70,
+          "force": 67,
+          "age": 45,
+          "devotion": 74,
+          "character": 3,
+          "thew": 100,
+          "arms": 100,
+          "baseArm": 1,
+          "armType": 1,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 147,
+          "nativeId": 148,
+          "name": "李恢",
+          "belong": 10,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 77,
+          "force": 41,
+          "age": 37,
+          "devotion": 72,
+          "character": 0,
+          "thew": 100,
+          "arms": 100,
+          "baseArm": 3,
+          "armType": 3,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      ],
+      "defenderArms": 300,
+      "city19": {
+        "i": 19,
+        "name": "梓潼",
+        "belong": 10,
+        "money": 5752,
+        "food": 534,
+        "reserve": 0,
+        "queue": [
+          140,
+          146,
+          147
+        ],
+        "ownedQueue": [
+          140,
+          146,
+          147
+        ]
+      },
+      "noDefenseSelectionOrBattle": true,
+      "keysWhenObserved": 160,
+      "keysAtTerminal": 160,
+      "staleFightFields": {
+        "active": 0,
+        "over": 2,
+        "wait": 0,
+        "phase": 0,
+        "aimType": 255,
+        "inputKind": 0,
+        "inputSeq": 11,
+        "actorIndex": 255,
+        "tip": "",
+        "skip": 4,
+        "result": "我军全军覆没",
+        "cityIndex": 19,
+        "mapW": 0,
+        "mapH": 0,
+        "bout": 0,
+        "boutMax": 30,
+        "focusX": 0,
+        "focusY": 0
+      },
+      "boundary": "Current context5 native defense menu and Order27/FIGHTERS are authoritative. Menu U16 IDs are invalid/empty here; defenders are independently mapped from actual city19 ownedQueue and matching names. Retained fight over2/skip4 are not a new battle result."
+    },
+    "terminal134": {
+      "personIndex": 134,
+      "nativeId": 135,
+      "name": "杨秋",
+      "belong": 10,
+      "oldBelong": 0,
+      "level": 3,
+      "experience": 0,
+      "iq": 56,
+      "force": 70,
+      "age": 47,
+      "devotion": 62,
+      "character": 0,
+      "thew": 64,
+      "arms": 1560,
+      "baseArm": 2,
+      "armType": 2,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "terminal188": {
+      "personIndex": 188,
+      "nativeId": 189,
+      "name": "南方小鬼",
+      "belong": 0,
+      "oldBelong": 0,
+      "level": 20,
+      "experience": 0,
+      "iq": 150,
+      "force": 150,
+      "age": 24,
+      "devotion": 0,
+      "character": 4,
+      "thew": 100,
+      "arms": 100,
+      "baseArm": 5,
+      "armType": 5,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "terminalCity31": {
+      "i": 31,
+      "name": "巴郡",
+      "belong": 10,
+      "money": 9003,
+      "food": 1166,
+      "reserve": 0,
+      "queue": [
+        134,
+        144,
+        139,
+        148,
+        149,
+        153,
+        188
+      ],
+      "ownedQueue": [
+        134,
+        144,
+        139,
+        148,
+        149
+      ]
+    },
+    "sourceRecords": 1172,
+    "sourceDrift": 0,
+    "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "compiledModified": true,
+    "privateCleanup": true,
+    "historicalUser8080Pid": 57860,
+    "continuationBoundary": "Original phase2-month-007 pair is byte-verified and suitable only for root-authorized future publicLOAD+freshworld audit. Defense300vs5540 was observed after unsaved SEARCH7; no selected defenders or battle outcome is accepted. Must preserve incoming-defense handling and actual188ownership gates."
   }
 }
