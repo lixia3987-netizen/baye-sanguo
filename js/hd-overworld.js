@@ -3762,9 +3762,11 @@
             if (!values.every(function (n) {
                 return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= 0 && n <= 4294967295;
             }) || !values[0] || !values[1] || values[12] || values[13] || values[14] || values[15]) { return null; }
-            var map = values[2] === 1 && values[3] === 0 && values[5] === 0 && values[8] === 0;
+            // DEPARTED (7) is the retained successful march result, not an input owner.
+            var idleMarch = values[5] === 0 || values[5] === 7;
+            var map = values[2] === 1 && values[3] === 0 && idleMarch && values[8] === 0;
             var target = values[2] === 1 && values[3] === 1 && values[5] === 4 && values[8] === 0;
-            var cityMenu = !state.mobile && values[2] === 0 && values[3] === 0 && values[5] === 0 &&
+            var cityMenu = !state.mobile && values[2] === 0 && values[3] === 0 && idleMarch &&
                 values[8] === 1 && values[9] === 1 && values[10] === 1 && state.phase === 'classic-menu';
             if (!map && !target && !cityMenu) { return null; }
             var identity = readIdentity();

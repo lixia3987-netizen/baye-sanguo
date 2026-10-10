@@ -720,7 +720,8 @@ function backHarness({retired = false} = {}) {
     Object.assign(h.raw, {g_hdDetailGeneration: 3, g_hdMapInputSeq: 2, g_hdMapCity: 0,
         g_hdMenuSeq: 9, g_hdMenuActive: retired ? 0 : 1, g_hdQtyActive: 0,
         g_hdReportActive: 0, g_hdHelpActive: 0, g_hdFightActive: 0,
-        g_hdMapPick: retired ? 1 : 0, g_hdBattlePick: 0, g_hdMarchPhase: 0});
+        g_hdMapPick: retired ? 1 : 0, g_hdBattlePick: 0, g_hdMarchPhase: 0,
+        g_hdMarchSession: 0, g_hdMarchInputSeq: 0});
     Object.assign(h.menu, {active: retired ? 0 : 1, detailGeneration: 3,
         idsValid: true, ids: [600, 601]});
     h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', '');
@@ -1360,12 +1361,12 @@ function personModeHarness() {
     h.context.localStorage = {getItem: key => storage.get(key) ?? null, setItem: (key, value) => storage.set(key, String(value))};
     Object.assign(h.hud.state, {subKind: 'neizheng', deepLabel: '搜寻'});
     Object.assign(h.report, {seq: 0}); Object.assign(h.help, {seq: 0}); Object.assign(h.qty, {session: 2});
-    const fight = {active: 0}, march = {phase: 0, session: 0, origin: 255, selected: 0,
+    const fight = {active: 0}, march = {phase: 0, session: 0, inputSeq: 0, origin: 255, selected: 0,
         mapCity: 1, mapInputSeq: 2, pick: 0, battlePick: 0};
     h.context.baye.hd.fight = () => fight; h.context.baye.hd.march = () => march;
     Object.assign(h.raw, {g_hdDetailGeneration: 3, g_hdMenuSeq: 9, g_hdMenuActive: 1,
         g_hdMenuContext: 1, g_hdMenuKind: 3, g_hdMapCity: 1, g_hdMapInputSeq: 2,
-        g_hdMapPick: 0, g_hdBattlePick: 0, g_hdMarchPhase: 0,
+        g_hdMapPick: 0, g_hdBattlePick: 0, g_hdMarchPhase: 0, g_hdMarchSession: 0, g_hdMarchInputSeq: 0,
         g_hdReportActive: 0, g_hdHelpActive: 0, g_hdQtyActive: 0, g_hdFightActive: 0});
     h.backButton = element('button'); h.backButton.setAttribute('data-hd-menu-back', ''); h.root.appendChild(h.backButton);
     h.context.BayeHdCityMenu.start();

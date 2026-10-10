@@ -5,14 +5,17 @@
     var ZERO = ['g_hdBattlePick', 'g_hdReportActive', 'g_hdQtyActive', 'g_hdFightActive', 'g_hdHelpActive',
         'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive', 'g_hdSkillActive', 'g_hdAttackActive',
         'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive',
-        'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid', 'g_hdMarchPhase'];
+        'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
     var EXIT_FIELDS = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq',
         'g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind',
         'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdReportInputSeq', 'g_hdQtySession',
-        'g_hdQtyInputSeq', 'g_hdFightInputSeq', 'g_hdRecordSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq'];
+        'g_hdQtyInputSeq', 'g_hdFightInputSeq', 'g_hdRecordSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq', 'g_hdMarchPhase'];
     var MAP_FIELDS = EXIT_FIELDS.concat(['g_hdReportSeq', 'g_hdHelpInputSeq']);
     function integer(n, min, max) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= min && n <= max; }
     function equal(a, b) { return !!a && !!b && Object.keys(a).length === Object.keys(b).length && Object.keys(a).every(function (k) { return a[k] === b[k]; }); }
+    // Native DEPARTED is terminal and remains 7 after battle settlement.
+    // It never substitutes for a fresh MAP or city-menu owner ticket.
+    function inactiveMarch(owner) { return owner.g_hdMarchPhase === 0 || owner.g_hdMarchPhase === 7; }
     function createController(environment) {
         var mounted = false, busy = false, timer = null, subscribed = false, arm = null, pendingExit = null;
         var active = false, centeredGeneration = null;
@@ -72,7 +75,7 @@
                     return value;
                 }
                 var owner = readOwner();
-                if (!owner || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 0 || owner.g_hdMenuActive !== 1 ||
+                if (!owner || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 0 || owner.g_hdMenuActive !== 1 || !inactiveMarch(owner) ||
                     owner.g_hdMenuContext !== 1 || !integer(owner.g_hdMenuKind, 1, 4) ||
                     !integer(owner.g_hdMapCity, 1, 38) || !integer(owner.g_hdMenuSeq, 1, 0xffffffff) ||
                     !integer(owner.g_hdDetailGeneration, 1, 0xffffffff) || !integer(owner.g_hdSpeGeneration, 1, 0xffffffff) ||
@@ -100,7 +103,7 @@
                     return value;
                 }
                 var owner = readOwner();
-                if (!owner || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 1 || owner.g_hdMenuActive !== 0 ||
+                if (!owner || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 1 || owner.g_hdMenuActive !== 0 || !inactiveMarch(owner) ||
                     !integer(owner.g_hdMapCity, 0, 38) || !integer(owner.g_hdMapInputSeq, 1, 0xffffffff) ||
                     !integer(owner.g_hdDetailGeneration, 1, 0xffffffff) || !integer(owner.g_hdSpeGeneration, 1, 0xffffffff) ||
                     !ZERO.every(function (key) { return owner[key] === 0; }) ||

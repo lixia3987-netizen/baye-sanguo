@@ -308,3 +308,67 @@ test('blank ground still retires on library, ready, menu, rotation and hidden tr
         assert.deepEqual(f.counts.keys, []);
     }
 });
+
+
+test('battle and settlement report retire before DEPARTED can restore the current strategy map', () => {
+    const f = fixture(); f.api.init();
+    Object.assign(f.data, {g_hdMarchPhase: 7, g_hdMarchSession: 1, g_hdMarchInputSeq: 16,
+        g_hdMapPick: 0, g_hdBattlePick: 1, g_hdFightActive: 1});
+    off(f); f.data.g_hdBattlePick = 0; f.data.g_hdFightActive = 0; f.data.g_hdReportActive = 1; off(f);
+    f.data.g_hdReportActive = 0; off(f); f.data.g_hdMapPick = 1;
+    const before = JSON.stringify(f.data);
+    assert.equal(f.api.refresh().active, true); assert.equal(f.api.snapshot().cityIndex, 16);
+    assert.equal(f.nodes.get('hd-mobile-hud').hidden, false);
+    assert.equal(JSON.stringify(f.data), before); assert.deepEqual(f.counts.keys, []);
+    const cancels = f.counts.sharedCancel; f.state.aligning = true; f.data.g_hdMapCity = 0;
+    assert.equal(f.api.refresh().active, true); assert.equal(f.api.snapshot().cityIndex, null);
+    assert.equal(f.nodes.get('hd-mobile-hud').hidden, true);
+    assert.equal(f.nodes.get('hd-mobile-map-focus').disabled, true);
+    assert.equal(f.counts.sharedCancel, cancels); assert.deepEqual(f.counts.keys, []);
+});
+test('DEPARTED never overrides a competing native owner on city or blank-ground MAP', () => {
+    for (const city of [0, 17]) for (const key of ['g_hdBattlePick', 'g_hdMenuActive', 'g_hdReportActive',
+        'g_hdQtyActive', 'g_hdFightActive', 'g_hdHelpActive', 'g_hdRecordActive', 'g_hdMovieActive',
+        'g_hdSpeActive', 'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive',
+        'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdGoodsActive', 'g_hdPersonPropertiesActive',
+        'g_hdResultOwnerKind', 'g_hdResultOwnerValid']) {
+        const f = fixture(); Object.assign(f.data, {g_hdMarchPhase: 7, g_hdMapCity: city, [key]: 1});
+        off(f); assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.centers, []);
+    }
+});
+test('all six active and unknown march phases block both MAP and header city EXIT', () => {
+    for (const phase of [1, 2, 3, 4, 5, 6, -1, 8, 255, 7.5, '7', undefined, NaN]) {
+        const f = fixture(); f.data.g_hdMarchPhase = phase; off(f);
+        f.menu(); assert.equal(f.api.snapshot().exitEnabled, false); f.releaseExit();
+        assert.deepEqual(f.counts.keys, []);
+    }
+});
+test('a retained terminal phase preserves only the separately verified current city-menu EXIT', () => {
+    const f = fixture(); f.data.g_hdMarchPhase = 7; f.api.init(); f.menu(); off(f);
+    assert.equal(f.api.snapshot().exitEnabled, true);
+    f.releaseExit(); f.releaseExit(); assert.deepEqual(f.counts.keys, [0x28]);
+    assert.equal(f.data.g_hdMarchPhase, 7);
+});
+test('terminal-to-idle handoff in shared or HUD getters rejects the otherwise valid old MAP reading', () => {
+    for (const getter of ['debugSnapshot', 'getCities', 'hud']) {
+        const f = fixture(); f.data.g_hdMarchPhase = 7; f.state.selectedIndex = 17;
+        if (getter === 'hud') {
+            const original = f.window.BayeHdMobile.refresh;
+            f.window.BayeHdMobile = {...f.window.BayeHdMobile, refresh: () => {
+                const value = original(); f.data.g_hdMarchPhase = 0; return value;
+            }};
+        } else {
+            const original = f.shared[getter]; f.shared[getter] = () => {
+                const value = original(); f.data.g_hdMarchPhase = 0; return value;
+            };
+        }
+        off(f); assert.deepEqual(f.counts.keys, []); assert.deepEqual(f.counts.centers, []);
+    }
+});
+test('DEPARTED MAP still retires on hidden, rotation, classic preference and unverified identity', () => {
+    for (const change of [f => f.visibility(true), f => f.resize(450, 800),
+        f => f.shared.setMode('classic'), f => f.identityChanged({sha256: 'f'.repeat(64)})]) {
+        const f = fixture(); f.data.g_hdMarchPhase = 7; f.api.init(); change(f); off(f);
+        assert.deepEqual(f.counts.keys, []); assert.equal(f.data.g_hdMarchPhase, 7);
+    }
+});

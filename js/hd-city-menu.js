@@ -93,7 +93,12 @@
     function mobileTicketFrom(value, reason) {
         if (!value) { return null; }
         var raw = value.raw, menu = value.menu, march = value.march, qty = value.qty;
-        var city = march.phase > MARCH.IDLE && march.session ? march.origin : march.mapCity - 1, ownerType = '';
+        if (march.phase < MARCH.IDLE || march.phase > MARCH.DEPARTED) { return null; }
+        // DEPARTED is retained after settlement. Normal CITY/qty uses the
+        // current map city; only the existing strategy handoff keeps its origin.
+        var activeMarch = march.phase >= MARCH.PERSONS && march.phase <= MARCH.ARMOUT;
+        var strategyMarch = /^strategy-end/.test(reason || '') && march.phase === MARCH.DEPARTED;
+        var city = (activeMarch || strategyMarch) && march.session ? march.origin : march.mapCity - 1, ownerType = '';
         if (city < 0 || city > 37 || reason !== 'open-city' && state.cityIndex >= 0 && state.cityIndex !== city) { return null; }
         if (raw.g_hdHelpActive) { return null; }
         if (raw.g_hdReportActive) {
@@ -103,10 +108,13 @@
             ownerType = 'march-report';
         } else if (qty.active === 1) {
             if (menu.active || qty.ready !== 1 || !qty.session || qty.min > qty.value || qty.value > qty.max ||
-                march.battlePick || march.phase !== MARCH.IDLE && !(march.phase === MARCH.FOOD && march.origin === city)) { return null; }
+                march.phase === MARCH.DEPARTED && march.pick !== 0 ||
+                march.battlePick || march.phase !== MARCH.IDLE && march.phase !== MARCH.DEPARTED &&
+                    !(march.phase === MARCH.FOOD && march.origin === city)) { return null; }
             ownerType = 'qty';
         } else if (menu.active === 1 && menu.context === 1 && menu.kind >= 1 && menu.kind <= 4 &&
-            !march.pick && !march.battlePick && (march.phase === MARCH.IDLE || march.phase === MARCH.PERSONS && march.origin === city)) {
+            !march.pick && !march.battlePick && (march.phase === MARCH.IDLE || march.phase === MARCH.DEPARTED ||
+                march.phase === MARCH.PERSONS && march.origin === city)) {
             ownerType = 'city';
         } else if (/^strategy-end/.test(reason || '') && !qty.active && !march.battlePick &&
             (menu.active === 1 && menu.context === 2 && mobileMenuComplete(menu) ||
@@ -5124,17 +5132,23 @@
                 var generation = detailNumber(d.g_hdDetailGeneration, 4294967295),
                     inputSeq = detailNumber(d.g_hdMapInputSeq, 4294967295),
                     menuSeq = detailNumber(d.g_hdMenuSeq, 4294967295),
-                    mapCity = detailNumber(d.g_hdMapCity, 255);
+                    mapCity = detailNumber(d.g_hdMapCity, 255), phase = d.g_hdMarchPhase,
+                    marchSession = detailNumber(d.g_hdMarchSession, 4294967295),
+                    marchInputSeq = detailNumber(d.g_hdMarchInputSeq, 4294967295);
                 if (!generation || !inputSeq || menuSeq == null || mapCity == null ||
-                    d.g_hdMapPick !== 1 || d.g_hdBattlePick !== 0 || d.g_hdMarchPhase !== MARCH.IDLE ||
+                    marchSession == null || marchInputSeq == null ||
+                    phase !== MARCH.IDLE && phase !== MARCH.DEPARTED ||
+                    d.g_hdMapPick !== 1 || d.g_hdBattlePick !== 0 ||
                     d.g_hdMenuActive !== 0 || d.g_hdQtyActive !== 0 || d.g_hdReportActive !== 0 ||
                     d.g_hdHelpActive !== 0 || d.g_hdFightActive !== 0 || d.g_asyncActionID !== 0) { return null; }
                 // A late getter may enter a new menu while this snapshot is read.
                 if (d.g_hdDetailGeneration !== generation || d.g_hdMapInputSeq !== inputSeq ||
-                    d.g_hdMenuSeq !== menuSeq || d.g_hdMapCity !== mapCity || d.g_hdMenuActive !== 0) {
+                    d.g_hdMenuSeq !== menuSeq || d.g_hdMapCity !== mapCity || d.g_hdMenuActive !== 0 ||
+                    d.g_hdMarchPhase !== phase || d.g_hdMarchSession !== marchSession ||
+                    d.g_hdMarchInputSeq !== marchInputSeq) {
                     return null;
                 }
-                return JSON.stringify([generation, inputSeq, menuSeq, mapCity]);
+                return JSON.stringify([generation, inputSeq, menuSeq, mapCity, phase, marchSession, marchInputSeq]);
             }
             var before = readOwner();
             if (!before) { return false; }
@@ -6576,7 +6590,9 @@
             if (!report || report.active !== 0 || detailNumber(report.seq, 4294967295) == null ||
                 !help || help.active !== 0 || detailNumber(help.seq, 4294967295) == null ||
                 !qty || qty.active !== 0 || detailNumber(qty.session, 4294967295) == null ||
-                !fight || fight.active !== 0 || !march || march.phase !== MARCH.IDLE ||
+                !fight || fight.active !== 0 || !march ||
+                march.phase !== MARCH.IDLE && march.phase !== MARCH.DEPARTED ||
+                detailNumber(march.session, 4294967295) == null || detailNumber(march.inputSeq, 4294967295) == null ||
                 march.pick !== 0 || march.battlePick !== 0 ||
                 detailNumber(march.mapCity, 255) == null || march.mapCity !== state.cityIndex + 1 ||
                 !detailNumber(march.mapInputSeq, 4294967295)) { return null; }
@@ -6596,11 +6612,13 @@
                 d.g_hdMenuActive !== 1 || d.g_hdMenuContext !== 1 || d.g_hdMenuKind !== 3 ||
                 d.g_hdMapCity !== march.mapCity || d.g_hdMapInputSeq !== march.mapInputSeq ||
                 d.g_hdReportActive !== 0 || d.g_hdHelpActive !== 0 || d.g_hdQtyActive !== 0 ||
-                d.g_hdFightActive !== 0 || d.g_hdMarchPhase !== MARCH.IDLE ||
+                d.g_hdFightActive !== 0 || d.g_hdMarchPhase !== march.phase ||
+                d.g_hdMarchSession !== march.session || d.g_hdMarchInputSeq !== march.inputSeq ||
                 d.g_hdMapPick !== 0 || d.g_hdBattlePick !== 0 ||
                 d.g_hdDetailGeneration !== menu.generation || d.g_hdMenuSeq !== menu.seq) { return null; }
             return JSON.stringify([menu.context, menu.kind, menu.seq, menu.generation, menu.detailGeneration,
-                menu.count, menu.names, ids, march.mapCity, march.mapInputSeq, report.seq, help.seq, qty.session]);
+                menu.count, menu.names, ids, march.mapCity, march.mapInputSeq, march.phase, march.session,
+                march.inputSeq, report.seq, help.seq, qty.session]);
         } catch (e) { return null; }
     }
 
@@ -6657,7 +6675,8 @@
             after.ownerType !== 'city' || after.menuContext !== 1 || after.menuKind !== 3 ||
             second.menu.generation !== second.menu.detailGeneration || second.qty.active ||
             second.raw.g_hdReportActive || second.raw.g_hdHelpActive ||
-            second.march.phase !== MARCH.IDLE || second.march.pick || second.march.battlePick ||
+            second.march.phase !== MARCH.IDLE && second.march.phase !== MARCH.DEPARTED ||
+            second.march.pick || second.march.battlePick ||
             !second.march.mapInputSeq) { return null; }
         return {owner: after, menu: second.menu};
     }

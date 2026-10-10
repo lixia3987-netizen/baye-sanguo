@@ -290,3 +290,65 @@ test('non-finite and zero rectangles, invalid coordinates and points outside the
         { clientX: -1, clientY: 100 }, { clientX: h.rect.width, clientY: 100 }]) assert.equal(h.api.point(point), null);
     assert.equal(h.api.hit({ x: NaN, y: 100 }), -1);
 });
+
+// Native baye_hd_march_end(1) retains phase7 after successful departure.
+// It grants no authority by itself: the actual MAP/menu owner remains required.
+test('terminal march7 with a current native MAP opens once only at fresh UP', () => {
+    for (const mobile of [true, false]) {
+        const h = harness({mobile,width:mobile?384:1920,height:mobile?216:1080}); h.raw.g_hdMarchPhase = 7;
+        h.fire('pointerdown'); assert.deepEqual(h.actions, []);
+        h.fire('pointerup'); h.fire('click'); assert.deepEqual(h.actions, [['open', 0]]);
+    }
+});
+
+test('MAP cannot borrow active march phases1..6 or unknown phase values', () => {
+    for (const phase of [1, 2, 3, 4, 5, 6, 8, 255, 4294967295, undefined, NaN, -1, 7.5, '7']) {
+        const h = harness(); h.raw.g_hdMarchPhase = phase; h.tap(); assert.deepEqual(h.actions, [], String(phase));
+    }
+});
+
+test('terminal march7 never grants input when pick, modal, library or lifecycle owner is unavailable', () => {
+    for (const field of ['g_hdMapPick', 'g_hdBattlePick', 'g_hdMenuActive', 'g_hdReportActive', 'g_hdHelpActive', 'g_hdQtyActive', 'g_hdFightActive']) {
+        const h = harness(); h.raw.g_hdMarchPhase = 7; h.raw[field] = field === 'g_hdMapPick' ? 0 : 1;
+        h.tap(); assert.deepEqual(h.actions, [], field);
+    }
+    for (const boundary of ['identity', 'mode', 'hidden', 'battle']) {
+        const h = harness(); h.raw.g_hdMarchPhase = 7;
+        if (boundary === 'identity') h.fixture.libraryAllowed = false;
+        if (boundary === 'mode') h.state.mode = 'classic';
+        if (boundary === 'hidden') h.hidden(true);
+        if (boundary === 'battle') h.fixture.battle = true;
+        h.tap(); assert.deepEqual(h.actions, [], boundary);
+    }
+});
+
+test('terminal7-to-idle0 and idle0-to-terminal7 changes reject the old pointer ticket', () => {
+    for (const [before, after] of [[7, 0], [0, 7]]) {
+        const h = harness(); h.raw.g_hdMarchPhase = before; h.fire('pointerdown'); h.raw.g_hdMarchPhase = after;
+        h.fire('pointerup'); h.fire('click'); assert.deepEqual(h.actions, []);
+        h.tap(); assert.deepEqual(h.actions, [['open', 0]], 'a new current ticket works');
+    }
+});
+
+test('march phase torn during either owner double read is rejected even when both phases are idle', () => {
+    for (const flipAt of [2, 4]) {
+        const h = harness(); h.raw.g_hdMarchPhase = 7; let reads = 0;
+        h.fixture.onAuthorize = () => { if (++reads === flipAt) h.raw.g_hdMarchPhase = 0; };
+        h.tap(); assert.deepEqual(h.actions, [], 'read ' + flipAt);
+    }
+});
+
+test('retained phase7 allows only the real desktop classic city root; mobile cannot borrow it', () => {
+    for (const mobile of [false, true]) for (const blank of [false, true]) {
+        const h = harness({mobile,width:1920,height:1080}); h.raw.g_hdMarchPhase = 7;
+        h.state.phase = 'classic-menu'; h.raw.g_hdMapPick = 0;
+        h.raw.g_hdMenuActive = 1; h.raw.g_hdMenuContext = 1; h.raw.g_hdMenuKind = 1;
+        h.tap(blank ? {clientX:1000,clientY:700,pointerType:'mouse'} : {pointerType:'mouse'});
+        assert.deepEqual(h.actions, mobile ? [] : blank ? [['leave']] : [['open', 0]]);
+    }
+    for (const [field,value] of [['g_hdMenuContext',2],['g_hdMenuKind',2],['g_hdMarchPhase',1],['g_hdBattlePick',1]]) {
+        const h = harness({mobile:false,width:1920,height:1080}); h.state.phase='classic-menu'; h.raw.g_hdMapPick=0;
+        Object.assign(h.raw,{g_hdMarchPhase:7,g_hdMenuActive:1,g_hdMenuContext:1,g_hdMenuKind:1});h.raw[field]=value;
+        h.tap();assert.deepEqual(h.actions,[],field);
+    }
+});

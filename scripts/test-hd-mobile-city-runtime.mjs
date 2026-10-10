@@ -489,7 +489,7 @@ export async function main(args=process.argv.slice(2)) {
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
-    if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs'])freeze(f);}
+    if(battleEffects){for(const f of ['scripts/hd-mobile-battle-effects-runtime-checks.mjs','scripts/hd-mobile-battle-skill-oracle.mjs','scripts/hd-mobile-battle-attack-oracle.mjs','assets/hd-spe/manifest.json'])freeze(f);}
     assert.equal(frozen.get('libs/dat-mod.lib').ref.sha256,ORIGINAL_SHA);assert.equal(frozen.get('libs/dat-mod.lib').ref.bytes,207195);
     server=http.createServer((req,res)=>{try{const url=new URL(req.url,'http://private'),rel=decodeURIComponent(url.pathname).replace(/^\/+/,''),filename=path.resolve(root,rel);
       const allowed=/^(?:js|css|assets|libs|fonts|vendor)\//.test(rel)||['m.html','favicon.png','manifest.json'].includes(rel);
@@ -573,18 +573,26 @@ export async function main(args=process.argv.slice(2)) {
       const context={report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
         readSource,worldSource,mapReadySource,sendCdp:(method,params)=>cdp.send(method,params),originalLibBytes:frozen.get('libs/dat-mod.lib').bytes};
       const controls=await runMobileBattleChecks(context);
-      if(battleEffects){const {runMobileBattleEffectsChecks}=await import('./hd-mobile-battle-effects-runtime-checks.mjs');await runMobileBattleEffectsChecks({...context,controls});}
+      if(battleEffects){const {runMobileBattleEffectsChecks}=await import('./hd-mobile-battle-effects-runtime-checks.mjs');await runMobileBattleEffectsChecks({...context,controls,effectManifest:JSON.parse(frozen.get('assets/hd-spe/manifest.json').bytes)});}
     }else if(portraitsOnly){
       const {runMobilePortraitChecks}=await import('./hd-mobile-portraits-runtime-checks.mjs');
       await runMobilePortraitChecks({report,evaluate,until,delay,checkpoint,key,metrics,touches,tap,buttonPoint,button,mark,presentationUnchanged,cityPoint,
         readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});
     }else await cityChecks();
   }catch(error){report.ok=false;report.accepted=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);
-    if(battleEffects&&cdp){try{report.effectTrace=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.trace');report.effectReports=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.reports');}catch{report.failureEffectsUnavailable=true;}}
+    if(battleEffects&&cdp){try{report.effectTrace=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.trace');report.effectReports=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.reports');
+      report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');}catch{report.failureEffectsUnavailable=true;}}
     if(portraitsOnly&&cdp){try{report.failurePortrait=await evaluate('window.BayeHdMobilePortraits&&BayeHdMobilePortraits.debugSnapshot()');}catch{report.failurePortraitUnavailable=true;}}
     if(cdp){try{await checkpoint('failure');}catch{report.failureCaptureUnavailable=true;}}
   }finally{
-    await sampleOwned('before-cleanup');cdp?.close();
+    await sampleOwned('before-cleanup');
+    if(cdp&&ownership?.rootVerified){
+      report.gracefulBrowserClose={requested:true};
+      try{await cdp.send('Browser.close');report.gracefulBrowserClose.responded=true;}
+      catch(error){report.gracefulBrowserClose.responseError=error.message;}
+      await delay(750);
+    }
+    cdp?.close();
     if(ownership?.rootVerified){try{const p=await cleanupOwnedChrome(ownership);report.cleanup=persistCleanup(p,ownership);if(!p.treeExited){report.ok=false;report.accepted=false;process.exitCode=1;}}
       catch{report.cleanup={treeExited:false,error:'Owned cleanup failed; private profile retained'};report.ok=false;report.accepted=false;process.exitCode=1;}}
     else if(chrome){report.cleanup={treeExited:false,error:'No verified owned browser basis; no broad stop attempted'};report.ok=false;report.accepted=false;process.exitCode=1;}

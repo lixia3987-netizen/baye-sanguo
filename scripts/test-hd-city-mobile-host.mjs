@@ -385,3 +385,108 @@ for(const pending of ['queue','sending','nativeMenuRequest','deepSelectionPendin
         assert.equal(state.open,true);assert.equal(state.deepLabel,'当前命令');
     });
 }
+
+
+function departedCurrentCityFixture(kind=1) {
+    const f=fixture();
+    Object.assign(f.raw,{g_hdMapCity:2,g_hdMenuKind:kind,g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16});
+    f.raw.g_Cities.push({Persons:0,PersonQueue:0,Belong:1,State:0}); f.configure(); return f;
+}
+test('retained DEPARTED CITY uses current mapCity, never the old march origin',()=>{
+    for(const kind of [1,2,3,4]){
+        const f=departedCurrentCityFixture(kind), before=JSON.stringify(f.raw), ticket=f.api.getInputTicket();
+        assert.equal(ticket.ownerType,'city');assert.equal(ticket.cityIndex,1);assert.equal(ticket.menuKind,kind);
+        assert.equal(ticket.session,1);assert.equal(ticket.inputSeq,16);assert.equal(ticket.data,f.env.baye.data);
+        assert.equal(JSON.stringify(f.raw),before);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('retained DEPARTED permits only a current bounded ready quantity owner',()=>{
+    const f=departedCurrentCityFixture();
+    Object.assign(f.raw,{g_hdMenuActive:0,g_hdQtyActive:1,g_hdQtySession:7,g_hdQtyInputSeq:2,
+        g_hdQtyReady:1,g_hdQtyMax:640,g_hdQtyValue:0});
+    const before=JSON.stringify(f.raw), ticket=f.api.getInputTicket();
+    assert.equal(ticket.ownerType,'qty');assert.equal(ticket.cityIndex,1);assert.equal(ticket.session,7);
+    assert.equal(ticket.inputSeq,2);assert.equal(JSON.stringify(f.raw),before);assert.deepEqual(f.keys,[]);
+    for(const [key,value] of [['g_hdMapPick',1],['g_hdBattlePick',1],['g_hdMenuActive',1],
+        ['g_hdQtyReady',0],['g_hdQtyValue',641],['g_hdQtySession',0]]){
+        const old=f.raw[key];f.raw[key]=value;assert.equal(f.api.getInputTicket(),null,key);f.raw[key]=old;
+    }
+});
+test('DEPARTED alone never authorizes a CITY, strategy menu, foreign owner or missing current city',()=>{
+    for(const change of [{g_hdMapPick:1},{g_hdMenuActive:0},{g_hdMenuContext:2},{g_hdMenuContext:3},
+        {g_hdMapCity:0},{g_hdReportActive:1},{g_hdHelpActive:1},{g_hdFightActive:1},
+        {g_hdSpeActive:1},{g_hdAttackActive:1},{g_hdSkillResultActive:1},{g_hdResultOwnerValid:1}]){
+        const f=departedCurrentCityFixture();Object.assign(f.raw,change);
+        assert.equal(f.api.getInputTicket(),null);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+    for(const phase of [8,255,7.5,'7',undefined,NaN]){
+        const f=departedCurrentCityFixture();f.raw.g_hdMarchPhase=phase;assert.equal(f.api.getInputTicket(),null);
+    }
+});
+test('terminal CITY double reads reject phase, session, input sequence and current-city changes',()=>{
+    for(const field of ['g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq','g_hdMapCity']){
+        const f=departedCurrentCityFixture();f.setMenuHook(()=>{f.raw[field]=field==='g_hdMarchPhase'?0:f.raw[field]+1;});
+        assert.equal(f.api.getInputTicket(),null);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('DEPARTED person mode resumes the full current picker at another city with zero keys',()=>{
+    const f=classicPersonFixture();
+    Object.assign(f.raw,{g_hdMapCity:2,g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16});
+    f.raw.g_Cities.push({Persons:0,PersonQueue:0,Belong:1,State:0});const before=JSON.stringify(f.raw);
+    f.api.setMode('hd');const snapshot=f.api.debugSnapshot(), ticket=f.api.getInputTicket();
+    assert.equal(snapshot.open,true);assert.equal(snapshot.cityIndex,1);assert.equal(snapshot.deepMenuOwner.seq,13);
+    assert.equal(snapshot.deepItems.length,4);assert.equal(ticket.cityIndex,1);assert.equal(ticket.menuKind,3);
+    assert.equal(f.api.retireInputPreservingOwner('portrait-fallback'),true);
+    assert.equal(JSON.stringify(f.raw),before);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('terminal person restoration rejects a phase or session handoff during publication',()=>{
+    for(const field of ['g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq']){
+        const f=classicPersonFixture();Object.assign(f.raw,{g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16});
+        f.setMenuHook(()=>{f.raw[field]=field==='g_hdMarchPhase'?0:f.raw[field]+1;});
+        f.api.setMode('hd');assert.equal(f.api.debugSnapshot().open,false);
+        const fresh=f.api.getInputTicket();
+        if(field==='g_hdMarchPhase'){assert.ok(fresh);assert.equal(f.raw.g_hdMarchPhase,0);assert.equal(fresh.session,1);assert.equal(fresh.inputSeq,16);}
+        else assert.equal(fresh,null);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+function isolatedCityFunction(name,context) {
+    const begin=source.indexOf('    function '+name+'('),end=source.indexOf('\n    function ',begin+20);
+    assert.ok(begin>=0&&end>begin);vm.runInNewContext(source.slice(begin,end),context);return context[name];
+}
+test('terminal strategy handoff keeps its real origin while ordinary CITY uses current map city',()=>{
+    const raw={g_hdHelpActive:0,g_hdReportActive:0},menu={active:0,context:0,kind:0,seq:9,detailGeneration:2};
+    const march={phase:7,session:1,origin:0,mapCity:2,pick:1,battlePick:0,mapInputSeq:4,inputSeq:16};
+    const context={MARCH:{IDLE:0,PERSONS:1,FOOD:2,TARGET_TIP:3,TARGET_PICK:4,REJECT:5,ARMOUT:6,DEPARTED:7},
+        state:{cityIndex:0},mobileMenuComplete(){return true;}};
+    const read=isolatedCityFunction('mobileTicketFrom',context), value={raw,menu,march,qty:{active:0},data:{},libraryGeneration:1};
+    const handoff=read(value,'strategy-end');assert.equal(handoff.ownerType,'strategy');assert.equal(handoff.cityIndex,0);
+    assert.equal(read(value),null);march.phase=8;assert.equal(read(value,'strategy-end'),null);
+});
+test('original active PERSONS and FOOD still bind their real march origin',()=>{
+    const f=fixture();f.configure();
+    Object.assign(f.raw,{g_hdMapCity:2,g_hdMarchSession:1,g_hdMarchInputSeq:8,g_hdMarchPhase:1,g_hdMenuKind:3});
+    assert.equal(f.api.getInputTicket().cityIndex,0);assert.equal(f.api.getInputTicket().ownerType,'city');
+    Object.assign(f.raw,{g_hdMarchPhase:2,g_hdMenuActive:0,g_hdQtyActive:1,g_hdQtySession:7,
+        g_hdQtyReady:1,g_hdQtyMin:1,g_hdQtyMax:640,g_hdQtyValue:50});
+    assert.equal(f.api.getInputTicket().cityIndex,0);assert.equal(f.api.getInputTicket().ownerType,'qty');
+    for(const phase of [3,4,5,6]){f.raw.g_hdMarchPhase=phase;assert.equal(f.api.getInputTicket(),null);}
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('retired MAP owner accepts terminal phase only without owners and fences phase/session across callbacks',()=>{
+    const data={g_hdDetailGeneration:2,g_hdMapInputSeq:4,g_hdMenuSeq:12,g_hdMapCity:0,g_hdMapPick:1,
+        g_hdBattlePick:0,g_hdMarchPhase:7,g_hdMarchSession:1,g_hdMarchInputSeq:16,g_hdMenuActive:0,
+        g_hdQtyActive:0,g_hdReportActive:0,g_hdHelpActive:0,g_hdFightActive:0,g_asyncActionID:0};
+    const native={data};
+    const context={window:{baye:native},baye:native,global:{},state:{queue:[],sending:false,handoff:false,confirmingTarget:false,nativeMenuRequest:null},
+        MARCH:{IDLE:0,DEPARTED:7},detailNumber(n,max){return typeof n==='number'&&Number.isInteger(n)&&n>=0&&n<=max?n:null;}};
+    const read=isolatedCityFunction('retiredCityMapOwner',context);assert.equal(read(),true);
+    for(const phase of [1,2,3,4,5,6,8,undefined]){data.g_hdMarchPhase=phase;assert.equal(read(),false);}data.g_hdMarchPhase=7;
+    for(const field of ['g_hdBattlePick','g_hdMenuActive','g_hdQtyActive','g_hdReportActive','g_hdHelpActive','g_hdFightActive','g_asyncActionID']){
+        data[field]=1;assert.equal(read(),false,field);data[field]=0;
+    }
+    for(const field of ['g_hdMarchPhase','g_hdMarchSession','g_hdMarchInputSeq']){
+        const old=data[field];context.global.BayeHdDialog={isOpen(){data[field]=field==='g_hdMarchPhase'?0:old+1;return false;}};
+        assert.equal(read(),false,field);data[field]=old;
+    }
+});

@@ -10,10 +10,10 @@
         'g_hdFightActive', 'g_hdHelpActive', 'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive',
         'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive',
         'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdGoodsActive', 'g_hdPersonPropertiesActive',
-        'g_hdResultOwnerKind', 'g_hdResultOwnerValid', 'g_hdMarchPhase'];
+        'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
     var TICKETS = ['g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_hdMapInputSeq',
         'g_hdMenuSeq', 'g_hdReportSeq', 'g_hdReportInputSeq', 'g_hdQtySession', 'g_hdQtyInputSeq',
-        'g_hdFightInputSeq', 'g_hdHelpInputSeq', 'g_hdRecordSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq'];
+        'g_hdFightInputSeq', 'g_hdHelpInputSeq', 'g_hdRecordSeq', 'g_hdMarchSession', 'g_hdMarchInputSeq', 'g_hdMarchPhase'];
 
     function integer(value, min, max) {
         return typeof value === 'number' && isFinite(value) && Math.floor(value) === value && value >= min && value <= max;
@@ -31,8 +31,11 @@
         var keys = Object.keys(a), other = Object.keys(b);
         return keys.length === other.length && keys.every(function (key) { return a[key] === b[key]; });
     }
+    // DEPARTED (7) is a retained terminal value, not an active march owner.
+    // Only the current MAP ticket and all other owner gates authorize the HUD.
     function mapOwner(owner) {
         return !!owner && owner.g_hdEngineReady === 1 && owner.g_hdMapPick === 1 &&
+            (owner.g_hdMarchPhase === 0 || owner.g_hdMarchPhase === 7) &&
             integer(owner.g_hdMapCity, 1, 38) && integer(owner.g_hdMapInputSeq, 1, 0xffffffff) &&
             integer(owner.g_hdDetailGeneration, 1, 0xffffffff) && integer(owner.g_hdSpeGeneration, 1, 0xffffffff) &&
             BLOCKERS.every(function (key) { return owner[key] === 0; }) &&

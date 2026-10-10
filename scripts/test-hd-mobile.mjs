@@ -202,3 +202,35 @@ test('pure model and sampler agree and preserve native data without input or wri
 test('missing UI nodes do not prevent safe sampling or create any nodes', () => {
     const f = fixture(); f.elements.clear(); assert.equal(f.api.init().visible, true); assert.equal(f.elements.size, 0);
 });
+
+
+test('retained native DEPARTED phase restores a fresh strategy-map HUD without clearing native fields', () => {
+    const f = fixture();
+    Object.assign(f.data, {g_hdMarchPhase: 7, g_hdMarchSession: 1, g_hdMarchInputSeq: 16, g_hdMapCity: 10});
+    const before = JSON.stringify(f.data), value = f.api.refresh();
+    assert.equal(value.visible, true); assert.equal(value.cityIndex, 9); assert.equal(value.city, '巴郡');
+    assert.equal(JSON.stringify(f.data), before); assert.equal(f.counts.input, 0);
+});
+test('DEPARTED is not map authority while battle, settlement report or a menu still owns the screen', () => {
+    const f = fixture(); f.data.g_hdMarchPhase = 7;
+    for (const key of ['g_hdBattlePick', 'g_hdMenuActive', 'g_hdReportActive', 'g_hdQtyActive',
+        'g_hdFightActive', 'g_hdHelpActive', 'g_hdRecordActive', 'g_hdMovieActive', 'g_hdSpeActive',
+        'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive',
+        'g_hdViewActive', 'g_hdMiniMapActive', 'g_hdGoodsActive', 'g_hdPersonPropertiesActive',
+        'g_hdResultOwnerKind', 'g_hdResultOwnerValid']) {
+        f.data[key] = 1; hidden(f); f.data[key] = 0;
+    }
+    f.data.g_hdMapPick = 0; hidden(f); f.data.g_hdMapPick = 1;
+    assert.equal(f.api.refresh().visible, true); assert.equal(f.counts.input, 0);
+});
+test('every active march phase and unknown phase remains a closed HUD owner', () => {
+    for (const phase of [1, 2, 3, 4, 5, 6, -1, 8, 255, 7.5, '7', undefined, NaN]) {
+        const f = fixture(); f.data.g_hdMarchPhase = phase; hidden(f);
+        assert.equal(f.counts.cityName, 0); assert.equal(f.counts.input, 0);
+    }
+});
+test('terminal-to-idle phase handoff during a name read cannot publish a mixed MAP ticket', () => {
+    const f = fixture(); f.data.g_hdMarchPhase = 7;
+    f.window.baye.getCityName = () => { f.data.g_hdMarchPhase = 0; return '许昌'; };
+    hidden(f); assert.equal(f.counts.input, 0);
+});

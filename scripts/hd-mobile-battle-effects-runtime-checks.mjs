@@ -5,10 +5,12 @@ import {verifyMobileSpySkill} from './hd-mobile-battle-skill-oracle.mjs';
 import {verifyMobileNonlethalAttack} from './hd-mobile-battle-attack-oracle.mjs';
 
 export async function runMobileBattleEffectsChecks(c) {
-  const {report,evaluate,until,delay,checkpoint,key,button,worldSource,mapReadySource,originalLibBytes,controls}=c;
+  const {report,evaluate,until,delay,checkpoint,key,button,tap,cityPoint,metrics,readSource,worldSource,mapReadySource,originalLibBytes,effectManifest,controls}=c;
   const {native,capture,ready,tileTap,menu,physicalKey}=controls;
   report.effectsAccepted=false;
   report.effectChecks=[];
+  report.effectsViewport=report.effectsCase==='hd-missing'?[667,375]:[844,390];
+  await metrics(...report.effectsViewport);await ready(1,'Current player PICK after effect viewport');
   // Read-only observers run after the real display callback. No native state,
   // clocks, RNG, input handlers or game getter results are changed.
   await evaluate(`(() => {
@@ -18,7 +20,8 @@ export async function runMobileBattleEffectsChecks(c) {
     const box=n=>{if(!n)return null;const r=n.getBoundingClientRect();let shown=r.width>0&&r.height>0;
       for(let q=n;q&&q.nodeType===1;q=q.parentElement){const s=getComputedStyle(q);if(q.hidden||s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)shown=false;}
       const top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
-      return {left:r.left,top:r.top,width:r.width,height:r.height,shown,hit:shown&&(top===n||n.contains(top))};};
+      return {left:r.left,top:r.top,width:r.width,height:r.height,shown,hit:shown&&(top===n||n.contains(top)),
+        backingWidth:n.width,backingHeight:n.height,pointerEvents:getComputedStyle(n).pointerEvents};};
     api.onLcdFlush=function(){try{return original.apply(this,arguments);}finally{
       const store=window.__mobileBattleEffects,d=baye.data;
       if(d.g_hdSpeActive||d.g_hdAttackActive||d.g_hdSkillResultActive||d.g_hdReportActive||d.g_hdResultOwnerKind){
@@ -33,7 +36,7 @@ export async function runMobileBattleEffectsChecks(c) {
               displayedFrames:ui.displayedFrames,sourceRect:ui.sourceRect,canvasW:ui.canvasW,canvasH:ui.canvasH,scale:ui.scale,ownerToken:ui.ownerToken,
               event:ui.event,flushKey:ui.flushKey,hdRegion:ui.hdRegion,outsideSource:ui.outsideSource},
             layers:{lcd:box(document.getElementById('lcd')),spe:box(document.getElementById('hd-spe-canvas')),
-              battle:box(document.getElementById('hd-battle')),body:document.body.getAttribute('data-hd-mobile-battle'),
+              battle:box(document.getElementById('hd-battle')),stage:box(document.getElementById('hd-mobile-stage')),body:document.body.getAttribute('data-hd-mobile-battle'),
               effect:document.body.getAttribute('data-hd-mobile-spe')},
             units:Array.from({length:20},(_,i)=>{const id=Number(d.g_FgtParam.GenArray[i]),p=d.g_GenPos[i];return {
               i,id,x:Number(p.x),y:Number(p.y),hp:Number(p.hp),mp:Number(p.mp),active:Number(p.active),state:Number(p.state),
@@ -101,10 +104,11 @@ export async function runMobileBattleEffectsChecks(c) {
       let shot=false;
       for(let sample=0;sample<1500;sample++){
         const status=await native();
-        if(!shot&&await evaluate('baye.hd.attack().active===true&&BayeHdSpe.isOpen()')){await checkpoint('battle-effects-player-attack-display');shot=true;}
+        if(!shot&&await evaluate(`baye.hd.attack().active===true&&${report.effectsCase==='hd-missing'?'BayeHdSpe.getLcdPresentation()==="lcd"':'BayeHdSpe.isOpen()'}`)){await checkpoint('battle-effects-player-attack-display');shot=true;}
         if(status.fight.inputKind===1&&status.fight.active===1&&!status.fight.over&&!status.report.active&&status.mobile.presentation==='hd')break;
         if(sample===1499)throw Error('Ordinary attack did not retire into actual player wait');await delay(30);
       }
+      assert.ok(shot,'Actual current attack display captured before native retirement');
       report.attack.after=await capture('battle-effects-player-attack-retired');report.attack.worldAfter=await evaluate(worldSource);
       const allTrace=await evaluate('__mobileBattleEffects.trace'),traces=allTrace.filter(t=>t.phase==='player-attack'&&t.attack.active===true&&t.attack.actorIndex===actor.i&&t.attack.targetIndex===target.i);
       assert.ok(traces.length,'Actual native attack session observed during LCD display');
@@ -121,7 +125,18 @@ export async function runMobileBattleEffectsChecks(c) {
       const displayed=traces.filter(t=>t.ui.open&&t.ui.source==='hd-assets'&&t.layers.spe.shown);
       if(report.effectsCase==='hd-missing'){
         assert.equal(displayed.length,0,'Controlled missing HD assets never display an old HD picture');
-        assert.ok(traces.some(t=>t.ui.mobilePresentation==='lcd'&&t.layers.lcd.hit),'Missing original attack assets expose the physical LCD');
+        const lcdSamples=traces.filter(t=>t.ui.mobilePresentation==='lcd'&&t.layers.lcd.hit);
+        assert.ok(lcdSamples.length,'Missing original attack assets expose the physical LCD');
+        for(const t of lcdSamples){const l=t.layers.lcd,s=t.layers.stage;
+          assert.equal(t.ui.open,false);assert.equal(t.layers.spe.shown,false);assert.equal(l.pointerEvents,'auto');
+          assert.ok(l.left>=s.left-1&&l.top>=s.top-1&&l.left+l.width<=s.left+s.width+1&&l.top+l.height<=s.top+s.height+1,'Physical LCD remains inside mobile stage');
+          assert.ok(Math.abs(l.width/l.height-l.backingWidth/l.backingHeight)<.003,'Physical LCD preserves its original aspect ratio');}
+        const a=traces[0].attack,entry=effectManifest.entries.find(e=>e.kind===3&&e.speId===a.speId&&e.resourceIndex===a.resourceIndex&&e.startFrm===a.startFrm&&e.endFrm===a.endFrm&&e.resourceFingerprint===a.resourceFingerprint);
+        assert.ok(entry,'Exact original attack manifest entry');
+        const used=new Set(entry.units.filter(u=>u.frame>=entry.startFrm&&u.frame<=entry.endFrm).map(u=>u.picIndex));
+        const paths=entry.pictures.filter(p=>used.has(p.picIndex)).map(p=>p.src);
+        report.attack.missingAssetRequests=report.requests.filter(r=>r.status===404&&r.controlled&&paths.includes(decodeURIComponent(new URL(r.url,'http://private').pathname).replace(/^\/+/,'')));
+        assert.ok(report.attack.missingAssetRequests.length,'Actual PNG request 404 belongs to this native attack segment');
       }else assert.ok(displayed.length,'Actual original ordinary attack shown with mobile HD assets');
       for(const t of displayed){assert.equal(t.layers.lcd.hit,false,'HD effect owns display');assert.ok(t.layers.spe.width>0&&t.layers.spe.height>0);
         assert.equal(t.ui.mobilePresentation,'hd');
@@ -153,13 +168,44 @@ export async function runMobileBattleEffectsChecks(c) {
   }
   report.battleCompletion.after=await capture('battle-effects-genuine-settlement-map');report.battleCompletion.worldAfter=await evaluate(worldSource);
   assert.equal(report.battleCompletion.after.fight.active,0);assert.equal(report.battleCompletion.after.report.active,0);
+  assert.equal(report.battleCompletion.after.nativeOver,2,'Actual whole-army retreat resolves as original LOSE');
+  assert.equal(report.battleCompletion.worldAfter.orders[report.battleMarchVerdict.orderIndex].OrderId,255,'The exact original march order slot retired');
+  assert.equal(report.battleCompletion.worldAfter.fighterIndex[report.battleMarchVerdict.slot],0,'The original army allocation was released');
   assert.ok(!report.battleCompletion.worldAfter.orders.some(o=>o.OrderId===27&&o.City===8&&o.Object===9),'Original processed march order retired');
   assert.equal(await evaluate('BayeHdSpe.isOpen()'),false,'Retired battle effects do not cover strategy map');
   report.effectChecks.push({label:'Real retreat settlement and strategy return',verdict:{accepted:true,successorChoices:report.battleCompletion.successorChoices.length}});
+  // A visible map is insufficient: use a current owned city and return through
+  // the actual native CITY owner after settlement, preserving the whole world.
+  const city=await evaluate('BayeHdOverworld.getCities().filter(c=>c.kind==="owned").map(c=>({index:c.index,name:c.name,kind:c.kind,belong:c.belong}))[0]');
+  assert.ok(city,'A genuine currently owned city remains after retreat');
+  report.postBattleMap={city,before:await evaluate(readSource),world:await evaluate(worldSource)};
+  await tap(await cityPoint(city));
+  await until('Post-battle genuine CITY root',`(() => {const m=baye.hd.menuItems();return m.active===1&&m.context===1&&m.kind===1&&BayeHdCityMenu.debugSnapshot().cityIndex===${city.index};})()`);
+  if(!await evaluate('BayeHdCityMenu.debugSnapshot().showHd'))await button('#hd-mobile-menu-mode');
+  await until('Post-battle mobile HD city shell','BayeHdMobileCity.isActive()&&BayeHdCityMenu.debugSnapshot().open&&BayeHdCityMenu.debugSnapshot().showHd');
+  report.postBattleMap.cityState=await checkpoint('battle-effects-post-settlement-city');
+  const statusKeys=await evaluate('__mobileMapKeys.length');
+  await button('#hd-city-menu [data-hd-root="3"]');
+  await until('Post-battle current city readonly status','BayeHdCityMenu.debugSnapshot().layer==="status"&&BayeHdCityMenu.debugSnapshot().cityDetails');
+  report.postBattleMap.statusState=await checkpoint('battle-effects-post-settlement-city-status');
+  await button('#hd-city-menu [data-hd-menu-back]');
+  await until('Post-battle readonly status returns to the same CITY root','BayeHdCityMenu.debugSnapshot().layer==="root"&&baye.hd.menuItems().active===1&&baye.hd.menuItems().context===1&&baye.hd.menuItems().kind===1');
+  assert.equal(await evaluate('__mobileMapKeys.length'),statusKeys,'Readonly status and local return send no native key');
+  const returnKeys=await evaluate('__mobileMapKeys.length');
+  await button('#hd-city-menu [data-hd-menu-back]');
+  await until('Post-battle city return restores current mobile map',mapReadySource);
+  report.postBattleMap.after=await checkpoint('battle-effects-post-settlement-map');
+  report.postBattleMap.worldAfter=await evaluate(worldSource);
+  assert.deepEqual(report.postBattleMap.worldAfter,report.postBattleMap.world,'Post-battle city navigation preserves the entire measured world');
+  assert.deepEqual(await evaluate(`__mobileMapKeys.slice(${returnKeys}).map(k=>k.code)`),[40],'Exactly one native EXIT returns from current city');
+  assert.equal(report.postBattleMap.after.touchCount,report.postBattleMap.before.touchCount,'Post-battle HD city navigation sends no LCD touch');
+  assert.equal(report.postBattleMap.after.hud.visible,true);assert.equal(report.postBattleMap.after.adapter.active,true);
+  for(const [field,value] of Object.entries(report.postBattleMap.after.expected))assert.equal(report.postBattleMap.after.hud[field],value,'Restored HUD equals current native '+field);
+  report.effectChecks.push({label:'Post-battle trusted owned-city entry and single native return',verdict:{accepted:true,cityIndex:city.index}});
   report.effectTrace=await evaluate('__mobileBattleEffects.trace');assert.equal(await evaluate('__mobileBattleEffects.overflow'),false);
   report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
   assert.equal(report.exceptions.length,0);
   report.effectsAccepted=true;report.ok=true;report.accepted=true;
   report.acceptedScope.push('Actual original 谍报 MP and exact natural outcome; ordinary attack damage bound to native session with '+(report.effectsCase==='hd-missing'?'controlled missing-asset physical LCD fallback':'mobile HD assets')+'; real retreat settlement and strategy return');
-  report.pendingScope=['Other mobile attack/skill families, missing-asset/classic/visibility matrices','Android/iOS actual devices and performance','Full mobile HD/march acceptance and four-period full campaigns'];
+  report.pendingScope=['Other mobile attack/skill families and remaining fallback matrices','Classic-mode effects and visibility transitions','Android/iOS actual devices and performance','Full mobile HD/march acceptance and four-period full campaigns'];
 }
