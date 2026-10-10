@@ -223,6 +223,30 @@
 }
 .hd-mobile-page .hd-city-menu-qty p { font-size: 16px; margin: 0 0 8px; }
 .hd-mobile-page .hd-city-menu-qty div { display: grid; grid-template-columns: repeat(5, minmax(44px, 1fr)); gap: 6px; }
+/* Quantity values remain visible while the buttons scroll within the stage. */
+.hd-mobile-page #hd-city-menu-deep.has-mobile-qty {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+}
+.hd-mobile-page #hd-city-menu-deep.has-mobile-qty > .hd-city-menu-qty {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: hidden;
+}
+.hd-mobile-page .has-mobile-qty .hd-city-menu-qty p { flex: 0 0 auto; line-height: 22px; }
+.hd-mobile-page .has-mobile-qty .hd-city-menu-qty-controls {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow: auto;
+    align-content: start;
+    grid-auto-rows: minmax(44px, auto);
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+}
 .hd-mobile-page .hd-city-menu-qty button,
 .hd-mobile-page .hd-dialog-qty button {
     box-sizing: border-box;

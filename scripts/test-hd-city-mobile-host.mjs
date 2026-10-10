@@ -615,6 +615,7 @@ test('terminal submitted mobile handoff requires the same actual strategy owner,
 
 function mobileMarchFixture(phase=4,{mobile=true}={}) {
     const f=fixture({marchState:true});if(mobile)f.configure();
+    f.env.bayeQtyNativeClosed=()=>false;
     Object.assign(f.raw,{g_PlayerKing:5,g_hdMapCity:9,g_hdMarchPhase:phase,g_hdMarchSession:12,g_hdMarchInputSeq:80,
         g_hdMarchOrigin:8,g_hdMarchSelected:2,g_hdMarchSeq:10,g_hdMarchCity:8,g_hdMarchObj:9,
         g_hdMenuKind:3,g_hdMenuActive:phase===1?1:0,g_hdMapPick:phase===4||phase===7?1:0,
@@ -641,24 +642,37 @@ function mobileMarchFixture(phase=4,{mobile=true}={}) {
 function marchDom(f) {
     function node(tagName) {
         const attrs={}, value={tagName:tagName.toUpperCase(),children:[],parentElement:null,
-            isConnected:false,hidden:false,textContent:'',className:'',
-            classList:{toggle(){},contains(){return false;}},
+            isConnected:false,hidden:false,textContent:'',className:'',scrollTop:0,
             setAttribute(name,item){attrs[name]=String(item);},getAttribute(name){return name in attrs?attrs[name]:null;},
             appendChild(child){child.parentElement=this;this.children.push(child);connect(child,this.isConnected);return child;}};
+        value.classList={contains(name){return value.className.split(/\s+/).includes(name);},
+            toggle(name,on){const names=new Set(value.className.split(/\s+/).filter(Boolean));
+                if(on)names.add(name);else names.delete(name);value.className=[...names].join(' ');}};
         Object.defineProperty(value,'innerHTML',{set(html){
             for(const child of this.children)connect(child,false);
-            this.children=[];
-            for(const match of String(html).matchAll(/<button\b([^>]*)>([\s\S]*?)<\/button>/g)){
-                const button=node('button');button.textContent=match[2];
-                for(const attr of match[1].matchAll(/(data-hd-[\w-]+)(?:="([^"]*)")?/g))button.setAttribute(attr[1],attr[2]||'');
-                button.disabled=/\bdisabled\b/.test(match[1]);this.appendChild(button);
+            this.children=[];this.textContent='';const stack=[this];
+            for(const token of String(html).match(/<[^>]+>|[^<]+/g)||[]){
+                if(/^<\//.test(token)){if(stack.length>1)stack.pop();continue;}
+                const tag=/^<([\w-]+)\b([^>]*)>/.exec(token);
+                if(!tag){stack.at(-1).textContent+=token;continue;}
+                const child=node(tag[1]);
+                for(const attr of tag[2].matchAll(/(data-hd-[\w-]+|class|id)(?:="([^"]*)")?/g)){
+                    child.setAttribute(attr[1],attr[2]||'');if(attr[1]==='class')child.className=attr[2]||'';
+                }
+                child.disabled=/\bdisabled\b/.test(tag[2]);stack.at(-1).appendChild(child);
+                if(!['br','img','input'].includes(tag[1]))stack.push(child);
             }
         }});
         return value;
     }
     function connect(value,on){value.isConnected=on;for(const child of value.children)connect(child,on);}
     const list=node('div');connect(list,true);
-    f.env.document.getElementById=id=>id==='hd-city-menu-deep'?list:null;
+    function byId(id,value=list){
+        if(value.getAttribute('id')===id)return value;
+        for(const child of value.children){const found=byId(id,child);if(found)return found;}
+        return null;
+    }
+    f.env.document.getElementById=id=>id==='hd-city-menu-deep'?list:byId(id);
     f.env.document.createElement=node;
     function find(attribute,value=list){
         if(value.getAttribute(attribute)!==null)return value;
@@ -666,7 +680,7 @@ function marchDom(f) {
         return null;
     }
     function poll(){f.internals.sync();f.internals.fill();}
-    return {list,find,poll};
+    return {list,find,poll,byId};
 }
 function advanceToTarget(f) {
     Object.assign(f.raw,{g_hdMarchPhase:4,g_hdReportActive:0,g_hdMapPick:1,g_hdBattlePick:1});
@@ -925,4 +939,87 @@ test('mobile quantities and unselected-person cancellation are explicit native o
     const quantity=mobileMarchFixture(2);quantity.env.bayeQtyCloseInput=()=>{};quantity.env.bayeQtyNativeClosed=()=>false;
     quantity.internals.cancelQty();assert.deepEqual(quantity.keys,[40]);assert.deepEqual(quantity.writes,[]);
     assert.ok(source.includes('data-hd-qty-cancel'));assert.ok(source.includes('data-hd-march-person-cancel'));
+});
+
+function descendantClass(root,name){
+    if(root.classList.contains(name))return root;
+    for(const child of root.children){const found=descendantClass(child,name);if(found)return found;}
+    return null;
+}
+for(const [width,height] of [[667,375],[844,390]]){
+    test('mobile FOOD keeps the native quantity summary outside its button scroller at '+width,()=>{
+        const f=mobileMarchFixture(2);f.env.innerWidth=width;f.env.innerHeight=height;
+        const dom=marchDom(f);dom.list.scrollTop=120;const before=JSON.stringify(f.raw);dom.poll();
+        const summary=descendantClass(dom.list,'hd-city-menu-qty-summary');
+        const controls=descendantClass(dom.list,'hd-city-menu-qty-controls');
+        assert.ok(dom.list.classList.contains('has-mobile-qty'));
+        assert.ok(summary&&controls);assert.equal(summary.parentElement,controls.parentElement);
+        assert.equal(summary.parentElement.children[0],summary);
+        assert.equal(dom.byId('hd-city-qty-val').parentElement,summary);
+        assert.equal(dom.byId('hd-city-qty-val').textContent,'50');
+        assert.equal(dom.list.scrollTop,0);assert.equal(descendantClass(dom.list,'hd-city-menu-wizard'),null);
+        assert.equal(controls.children.length,16);assert.ok(dom.find('data-hd-qty-ok'));assert.ok(dom.find('data-hd-qty-cancel'));
+        controls.scrollTop=70;dom.poll();assert.equal(controls.scrollTop,70);
+        assert.equal(JSON.stringify(f.raw),before);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('native quantity updates retain mobile button nodes and scroll without retaining an input ticket',()=>{
+    const f=mobileMarchFixture(2),dom=marchDom(f);dom.poll();
+    const controls=descendantClass(dom.list,'hd-city-menu-qty-controls'),cancel=dom.find('data-hd-qty-cancel');
+    controls.scrollTop=73;const ticket=f.api.getInputTicket();
+    for(const value of [51,60,640,1]){
+        f.raw.g_hdQtyValue=value;f.raw.g_hdQtyInputSeq++;
+        dom.poll();assert.equal(descendantClass(dom.list,'hd-city-menu-qty-controls'),controls);
+        assert.equal(dom.find('data-hd-qty-cancel'),cancel);assert.equal(cancel.isConnected,true);
+        assert.equal(controls.scrollTop,73);assert.equal(String(dom.byId('hd-city-qty-val').textContent),String(value));
+        assert.notEqual(f.api.getInputTicket().key,ticket.key);
+    }
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['session','bounds','ack-failure']){
+    test('mobile quantity rebuilds controls for a real '+change+' boundary',()=>{
+        const f=mobileMarchFixture(2),dom=marchDom(f);dom.poll();
+        const controls=descendantClass(dom.list,'hd-city-menu-qty-controls');controls.scrollTop=73;
+        if(change==='session')f.raw.g_hdQtySession++;
+        if(change==='bounds')f.raw.g_hdQtyMax=100;
+        if(change==='ack-failure')f.state.qtyAckFailed=true;
+        dom.poll();const fresh=descendantClass(dom.list,'hd-city-menu-qty-controls');
+        assert.notEqual(fresh,controls);assert.equal(controls.isConnected,false);assert.equal(fresh.scrollTop,0);
+        assert.ok(dom.byId('hd-city-qty-val'));assert.ok(dom.find('data-hd-qty-cancel'));
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('leaving FOOD removes the mobile quantity layout and disconnects its old controls',()=>{
+    const f=mobileMarchFixture(2),dom=marchDom(f);dom.poll();const cancel=dom.find('data-hd-qty-cancel');
+    Object.assign(f.raw,{g_hdQtyActive:0,g_hdMarchPhase:3,g_hdReportActive:1,g_hdReportKind:2,g_hdReportPerson:5});
+    f.raw.g_hdMarchInputSeq++;dom.poll();
+    assert.equal(dom.list.classList.contains('has-mobile-qty'),false);assert.equal(dom.byId('hd-city-qty-val'),null);
+    assert.equal(cancel.isConnected,false);assert.ok(dom.find('data-hd-march-continue'));
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('mobile fixed summary preserves zero and full U16 native quantities',()=>{
+    const f=mobileMarchFixture(2),dom=marchDom(f);
+    f.state.battleMake=false;f.state.wizardStep='none';f.raw.g_hdQtyMin=0;f.raw.g_hdQtyMax=65535;
+    for(const value of [0,65535]){f.raw.g_hdQtyValue=value;dom.poll();assert.equal(String(dom.byId('hd-city-qty-val').textContent),String(value));}
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('PC quantity rendering retains its wizard, outer scroll and value-change behavior',()=>{
+    const f=mobileMarchFixture(2,{mobile:false}),dom=marchDom(f);dom.list.scrollTop=120;dom.poll();
+    const controls=descendantClass(dom.list,'hd-city-menu-qty-controls');
+    assert.equal(dom.list.classList.contains('has-mobile-qty'),false);assert.equal(dom.list.scrollTop,120);
+    assert.ok(descendantClass(dom.list,'hd-city-menu-wizard'));assert.equal(dom.find('data-hd-qty-cancel'),null);
+    f.raw.g_hdQtyValue=51;dom.poll();assert.notEqual(descendantClass(dom.list,'hd-city-menu-qty-controls'),controls);
+    assert.equal(dom.byId('hd-city-qty-val').textContent,'51');assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('fixed-summary layout is mobile-scoped with a real button scroller and 44px controls',()=>{
+    const css=fs.readFileSync(new URL('../css/hd-mobile.css',import.meta.url),'utf8').replace(/\/\*[\s\S]*?\*\//g,'');
+    const rules=[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)];
+    const layout=rules.filter(([_,selectors])=>selectors.includes('has-mobile-qty'));
+    assert.equal(layout.length,4);
+    for(const [_,selectors] of layout)for(const selector of selectors.split(','))assert.ok(selector.trim().startsWith('.hd-mobile-page '));
+    const summary=layout.find(([_,selectors])=>selectors.includes(' p'))[2];assert.match(summary,/flex:\s*0 0 auto/);
+    const scroll=layout.find(([_,selectors])=>selectors.includes('.hd-city-menu-qty-controls'))[2];
+    assert.match(scroll,/overflow:\s*auto/);assert.match(scroll,/min-height:\s*0/);assert.match(scroll,/minmax\(44px, auto\)/);
+    const buttons=rules.find(([_,selectors])=>selectors.includes('.hd-city-menu-qty button'))[2];
+    assert.match(buttons,/min-height:\s*44px/);assert.match(buttons,/min-width:\s*44px/);
 });

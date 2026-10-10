@@ -1028,11 +1028,12 @@ test('SEARCH quantity takeover retains its own input and cannot confirm a held p
     Object.assign(h.qty, {active: 1, min: 0, max: 800, value: 100}); h.raw.g_hdQtyActive = 1;
     h.hud.renderPersonDetails(); assert.equal(h.hud.state.personDetail, null);
     // The inherited HUD mock deliberately rejects nonempty HTML. Capture only
-    // the real legacy quantity markup here; do not parse or simulate its controls.
+    // the real quantity summary/control markup here; do not simulate its controls.
     const create = h.document.createElement; let qtyMarkup = '';
     h.document.createElement = tag => new Proxy(create(tag), {set(node, key, value) {
-        if (key === 'innerHTML' && value !== '' && /^<p>数量 /.test(value)) {
-            assert.match(value, /^<p>数量 <strong id="hd-city-qty-val">100<\/strong>/);
+        if (key === 'innerHTML' && value !== '' && /^<p class="hd-city-menu-qty-summary">数量 /.test(value)) {
+            assert.match(value, /^<p class="hd-city-menu-qty-summary">数量 <strong id="hd-city-qty-val">100<\/strong>/);
+            assert.match(value, /<\/p><div class="hd-city-menu-qty-controls"><button/);
             assert.match(value, /data-hd-qty-ok/); qtyMarkup = value; node.textContent = ''; return true;
         }
         return Reflect.set(node, key, value);

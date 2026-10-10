@@ -1,6 +1,7 @@
 // Genuine UI scenario; the shared runner owns private HTTP/Chrome lifecycle.
 import assert from 'node:assert/strict';
 import {verifyMobileMarchSelection,verifyMobileMarchCancellation,verifyMobileHdMarch} from './hd-mobile-march-runtime-oracle.mjs';
+import {checkMobileQuantityPresentation} from './hd-mobile-quantity-runtime-checks.mjs';
 
 export async function runMobileMarchChecks(c) {
   const {report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,button,mark,
@@ -8,7 +9,7 @@ export async function runMobileMarchChecks(c) {
   const origin=8,target=9,width=report.marchWidth,height=width===667?375:390;
   const city=report.initialAllCities.find(v=>v.index===origin),destination=report.initialAllCities.find(v=>v.index===target);
   assert.ok(city&&city.name==='天水'&&city.kind==='owned');assert.ok(destination&&destination.kind!=='owned');
-  report.marchChecks=[];report.marchActions=[];report.marchCancellations=[];report.marchNegativeChecks=[];report.marchControlProbes=[];
+  report.marchChecks=[];report.marchActions=[];report.marchCancellations=[];report.marchNegativeChecks=[];report.marchControlProbes=[];report.quantityPresentation=[];report.quantityScrollChecks=[];
   report.marchScenario={origin,target,viewport:[width,height],input:'Trusted emulated touch on current HD controls only; public keys are confined to fresh-game startup'};
   await evaluate(`(() => {window.__mobileMarchKeyTrace=[];const previous=window.sendKey;
     window.sendKey=function(code){const d=baye.data;__mobileMarchKeyTrace.push({keyIndex:__mobileMapKeys.length,code,at:performance.now(),
@@ -22,10 +23,16 @@ export async function runMobileMarchChecks(c) {
     report.marchNegativeChecks.push({label,before:before.state,after:after.state,zeroInput:true});return after;};
   // Scroll only through genuine touch; never change scrollTop or manufacture a click.
   const reveal=async(selector,retiredSource)=>{
+    const publication=await until('Current march control is mounted in its visible owner '+selector,`(() => {
+      if(${retiredSource||'false'})return {retired:true};
+      const n=document.querySelector(${JSON.stringify(selector)});if(!n)return false;
+      for(let p=n;p&&p.nodeType===1;p=p.parentElement){const s=getComputedStyle(p);if(p.hidden||s.display==='none'||s.visibility==='hidden'||s.visibility==='collapse'||Number(s.opacity)===0)return false;}
+      const r=n.getBoundingClientRect();return r.width>0&&r.height>0&&{mounted:true};})()`,3_000);
+    if(publication.retired)return false;
     for(let attempt=0;attempt<14;attempt++){
       if(retiredSource&&await evaluate(retiredSource))return false;
       const p=await evaluate(`(() => {const n=document.querySelector(${JSON.stringify(selector)});if(!n)return null;
-        let visible=true;for(let q=n;q&&q.nodeType===1;q=q.parentElement){const s=getComputedStyle(q);if(q.hidden||s.display==='none'||s.visibility==='hidden')visible=false;}
+        let visible=true;for(let q=n;q&&q.nodeType===1;q=q.parentElement){const s=getComputedStyle(q);if(q.hidden||s.display==='none'||s.visibility==='hidden'||s.visibility==='collapse'||Number(s.opacity)===0)visible=false;}
         const r=n.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,t=document.elementFromPoint(x,y);
         const stage=document.getElementById('hd-mobile-stage').getBoundingClientRect(),clip={left:Math.max(stage.left,0),right:Math.min(stage.right,innerWidth),top:Math.max(stage.top,0),bottom:Math.min(stage.bottom,innerHeight)};
         for(let q=n.parentElement;q;q=q.parentElement){const s=getComputedStyle(q),a=q.getBoundingClientRect();
@@ -50,6 +57,7 @@ export async function runMobileMarchChecks(c) {
   const action=async(kind,selector,expect,{sameWorld=false,personId,group,holdMs=0}={})=>{
     await reveal(selector);const p=await buttonPoint(selector);assert.ok(p.width>=44&&p.height>=44,'At least 44px HD touch control '+selector);
     const before=await mark(),actualTarget=await pointTarget(p),item={kind,selector,target:actualTarget,point:p,source:'Trusted CDP DOWN/UP',before:before.state,worldBefore:before.world,personId};
+    if(before.state.march.phase===2)report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,kind+' current visible summary'));
     console.log('ACTION',kind,'phase',before.state.march.phase);
     report.marchActions.push(item);item.holdMs=holdMs;
     if(holdMs){await touches('touchStart',[p]);await delay(holdMs);await touches('touchEnd');await delay(150);}else await tap(p);
@@ -69,6 +77,29 @@ export async function runMobileMarchChecks(c) {
         root.querySelector('[data-hd-march-hint]')||root.querySelector('[data-hd-march-continue]'))return false;
       return {march:m,wizardStep:s.wizardStep,hint:s.marchHint||s.hint||'',reportContinue:false,priorReportHint:false};})()`);
     report.marchChecks.push({kind:'current-target-presentation',...current});
+  };
+  const scrollQuantity=async label=>{
+    report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,label+' before scroll'));
+    const probe=()=>evaluate(`(() => {const n=document.querySelector('#hd-city-menu-deep.has-mobile-qty .hd-city-menu-qty-controls');if(!n)return null;
+      const r=n.getBoundingClientRect();return {scrollTop:n.scrollTop,scrollHeight:n.scrollHeight,clientHeight:n.clientHeight,overflow:getComputedStyle(n).overflowY,
+        geometry:{left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}};})()`);
+    const initial=await probe();assert.ok(initial,'Current mobile quantity has a dedicated controls pane');
+    if(initial.scrollHeight<=initial.clientHeight+2){report.quantityScrollChecks.push({label,needed:false,initial});return;}
+    assert.ok(['auto','scroll'].includes(initial.overflow),'Quantity controls expose real scrolling');
+    await evaluate(`window.__quantityScrollNodes=[...document.querySelectorAll('#hd-city-menu-deep .hd-city-menu-qty-controls button')]`);
+    for(const direction of ['down','up']){
+      const geometry=await probe(),r=geometry.geometry,before=await mark(),down=direction==='down';
+      assert.ok(r.height>=44&&r.width>=44,'Quantity scroll pane can receive an actual gesture');
+      const x=r.right-5,y=r.top+r.height*(down?.8:.2),end=r.top+r.height*(down?.2:.8);
+      await touches('touchStart',[{x,y}]);for(let j=1;j<=6;j++)await touches('touchMove',[{x,y:y+(end-y)*j/6}]);await touches('touchEnd');
+      await noInput(before,label+' controls '+direction+' pan');
+      const after=await probe(),nodesPreserved=await evaluate(`(() => {const current=[...document.querySelectorAll('#hd-city-menu-deep .hd-city-menu-qty-controls button')];return current.length===__quantityScrollNodes.length&&current.every((n,i)=>n===__quantityScrollNodes[i]);})()`);
+      assert.ok(down?after.scrollTop>geometry.scrollTop:after.scrollTop<geometry.scrollTop,'Trusted gesture really scrolls quantity controls '+direction);
+      assert.equal(nodesPreserved,true,'Native quantity poll preserves current button DOM and scrolling');
+      const summary=await checkMobileQuantityPresentation(evaluate,label+' after '+direction+' scroll');report.quantityPresentation.push(summary);
+      report.quantityScrollChecks.push({label,direction,before:geometry,after,nodesPreserved,summary});
+    }
+    await checkpoint('march-food-scroll-'+width);
   };
   const continueReport=async(run,from,to,kind)=>{
     const retired=phaseSource(to),selector='#hd-city-menu [data-hd-march-continue]';
@@ -121,6 +152,7 @@ export async function runMobileMarchChecks(c) {
     await action('finish-persons','#hd-city-menu [data-hd-finish-persons]',phaseSource(2),{sameWorld:true,group:run.trustedActions});
     const food=await phase(2);assert.ok(food.state.qty.active===1&&food.state.qty.protocol&&food.state.qty.ready===1);
     assert.equal(food.state.qty.max,run.before.cities[origin].Food);assert.deepEqual(food.world,run.selections.at(-1).after);
+    report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,run.label+' food opened'));
     return food;
   };
   const cancel=async(run,stage,selector)=>{
@@ -161,9 +193,11 @@ export async function runMobileMarchChecks(c) {
   await choose(cancelledTarget);await cancel(cancelledTarget,'target','#hd-city-menu [data-hd-march-cancel]');
 
   const run=await start('HD dispatch');report.marchDispatch=run;await select(run,2);
+  await scrollQuantity('dispatch '+width);
   const q0=await evaluate('baye.hd.qty()');assert.ok(q0.value>1);
   const adjusted=await action('food-adjust','#hd-city-menu [data-hd-qty="-1"]',`baye.hd.qty().value===${q0.value-1}&&baye.hd.qty().ready===1`,{sameWorld:true,group:run.trustedActions});
   assert.ok(adjusted.item.keys.length>0&&adjusted.item.keys.every(k=>[34,35,36,37].includes(k)),'Native acknowledged quantity adjustment arrows only');
+  report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,'dispatch '+width+' after native quantity ACK'));
   run.qty=await evaluate('baye.hd.qty()');await record('food',run.phaseTrace);await checkpoint('march-food-'+width);
   await action('food-confirm','#hd-city-menu [data-hd-qty-ok]',phaseSource(3),{sameWorld:true,group:run.trustedActions});
   await record('target-tip',run.phaseTrace);await checkpoint('march-target-tip-'+width);

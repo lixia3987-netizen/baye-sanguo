@@ -10,6 +10,7 @@ import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {snapshotOwnedChrome, cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
 import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
+import {checkMobileQuantityPresentation} from './hd-mobile-quantity-runtime-checks.mjs';
 
 const ORIGINAL_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
 const MOBILE_PREF = 'baye/mobileOverworldMode', PC_PREF = 'baye/overworldMode';
@@ -116,6 +117,7 @@ const worldSource = `(() => {
     cities:Array.from({length:nc},(_,i)=>take(d.g_Cities[i],['Belong','SatrapId','State','AvoidCalamity','PeopleDevotion','Commerce','Money','Food','MothballArms','PersonQueue','Persons'])),
     queue:Array.from(d.g_PersonsQueue,Number),fighters:Array.from(d.FIGHTERS,Number),fighterIndex:Array.from(d.FIGHTERS_IDX,Number),
     config:{enable16bitConsumeMoney:Number(d.g_engineConfig.enable16bitConsumeMoney),checkRedundantOnAddPerson:Number(d.g_engineConfig.checkRedundantOnAddPerson),
+      armsPerMoney:Number(d.g_engineConfig.armsPerMoney),armsPerDevotion:Number(d.g_engineConfig.armsPerDevotion),fixOverFlow16:Number(d.g_engineConfig.fixOverFlow16),
       disableExpGrowing:Number(d.g_engineConfig.disableExpGrowing),maxLevel:Number(d.g_engineConfig.maxLevel),
       disableAllPersonReport:Number(d.g_engineConfig.disableAllPersonReport)},
     orders:Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>take(d.g_OrderQueue[i],['OrderId','City','Person','Object','TimeCount','Food']))};
@@ -172,21 +174,22 @@ async function unusedPort() {
 }
 
 export async function main(args=process.argv.slice(2)) {
-  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only');
+  const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only'),recruitment=args.includes('--recruitment');
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width='));
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
     args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
     marchFlags.length<=1&&(!marchFlags.length||marchOnly)&&[844,667].includes(marchWidth)&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    args.filter(arg=>arg==='--recruitment').length<=1&&(!recruitment||![reportsOnly,portraitsOnly,battleOnly,marchOnly].some(Boolean))&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
   const profile=path.join(out,'private-browser-profile');fs.mkdirSync(profile);
-  const report={schemaVersion:1,reportsOnly,portraitsOnly,battleOnly,battleEffects,marchOnly,marchWidth:marchOnly?marchWidth:null,marchAccepted:false,effectsCase:battleEffects?effectsCase:null,effectsAccepted:false,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:marchOnly?'Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim':battleOnly?'Original mobile battle with trusted emulated touch after a genuine fresh public march; no native writes, real-device or full-HD claim':portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
+  const report={schemaVersion:1,reportsOnly,portraitsOnly,battleOnly,battleEffects,marchOnly,recruitment,marchWidth:marchOnly?marchWidth:null,marchAccepted:false,effectsCase:battleEffects?effectsCase:null,effectsAccepted:false,portraitCase:portraitsOnly?portraitCase:null,navigationMatrixAccepted:false,scope:marchOnly?'Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim':battleOnly?'Original mobile battle with trusted emulated touch after a genuine fresh public march; no native writes, real-device or full-HD claim':portraitsOnly?'Original mobile native-owned person/report portraits, authentic reference/LCD fallback and late-image retirement; not real devices or battle':reportsOnly?'Original mobile public nonking Treat reports only: full-world two-phase effect, one trusted ACK and one natural retirement; navigation matrix not run':recruitment?'Original mobile HD CITY navigation, quantity cancellation, two Treats and two real recruitment commitments at 844x390/667x375; no month advance, real device or full-HD claim':'Original mobile HD CITY menus with trusted Chrome emulated touch, native ownership and bounded public Treat; not real Android/iOS, battle HD or all-command coverage',
     startedAt:new Date().toISOString(),ok:false,accepted:false,realDeviceAccepted:false,reportInteractionAccepted:false,recruitmentCommitted:false,battleAccepted:false,fullHdAccepted:false,
     artifacts:relative,profileRetained:true,directoriesDeleted:false,sourceFiles:[],requests:[],blockedExternal:[],console:[],exceptions:[],
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
@@ -267,10 +270,10 @@ export async function main(args=process.argv.slice(2)) {
     const VK={UP:0x22,DOWN:0x23,LEFT:0x24,RIGHT:0x25,ENTER:0x27,EXIT:0x28};
     const idle=`(() => {const s=BayeHdCityMenu.debugSnapshot();return !s.sending&&!s.queueLen&&!s.rootMenuPending;})()`;
     const cityNative=(kind)=>`(() => {const m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot();return m.active===1&&m.context===1&&m.kind===${kind}&&s.open&&s.cityIndex===${testCity.index}&&!s.sending&&!s.queueLen&&{menu:m,city:s};})()`;
-    report.cityChecks=[];report.returnChecks=[];report.negativeChecks=[];report.treatments=[];
+    report.cityChecks=[];report.returnChecks=[];report.negativeChecks=[];report.treatments=[];report.recruitments=[];report.quantityPresentation=[];
     const readKeys=start=>evaluate(`__mobileMapKeys.slice(${start})`);
     const ready=async()=>{await until('current native city shell idle',idle);await delay(180);return mark();};
-    const saveCheck=(type,before,after,keys,extra={})=>{const item={type,before:before.state,after:after.state,keys,...extra};report.cityChecks.push(item);return item;};
+    const saveCheck=(type,before,after,keys,extra={})=>{const item={type,before:before.state,after:after.state,worldBefore:before.world,worldAfter:after.world,keys,...extra};report.cityChecks.push(item);return item;};
     const worldSame=(before,after,label)=>assert.deepEqual(after.world,before.world,label+' preserves complete original world');
     const navigation=(keys,label)=>{const codes=keys.map(k=>k.code);assert.equal(codes.filter(c=>c===VK.ENTER).length,1,label+' one Enter');assert.ok(codes.every(c=>[VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER].includes(c)),label+' only native selection arrows and Enter');};
     const prefsSame=s=>{for(const key of ['baye/overworldMode','baye/cityMenuMode'])assert.equal(s.preferences[key],report.initialPcPreferences[key],'PC preference unchanged '+key);};
@@ -403,6 +406,7 @@ export async function main(args=process.argv.slice(2)) {
       const chosen=await selectPerson(actor,'征兵');
       const q=await until('genuine recruitment quantity',`(() => {const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();return q.active&&q.protocol&&q.ready===1&&q.session>0&&q.max>0&&BayeHdCityMenu.isQtyLive()&&!s.sending&&!s.queueLen&&q;})()`);
       const reached=await ready();navigation(await readKeys(chosen.before.state.keyCount),'Recruiter selection');worldSame(chosen.before,reached,'Opening original quantity');
+      report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,label+' opened'));
       await checkpoint(label+'-qty');
       const plus=q.value+q.step<=q.max;assert.ok(plus||q.value-q.step>=q.min,'Actual quantity has one valid original step');const selector=await visibleSelector([`#hd-dialog [data-hd-qty="${plus?1:-1}"]`,`#hd-city-menu [data-hd-qty="${plus?1:-1}"]`]),before=await ready();
       await touchButton(selector);
@@ -410,6 +414,7 @@ export async function main(args=process.argv.slice(2)) {
       const after=await ready(),keys=await readKeys(before.state.keyCount),expectedKey=plus?VK.UP:VK.DOWN;
       assert.deepEqual(keys.map(k=>k.code),[expectedKey]);assert.equal(receipt.inputSeq,q.inputSeq===0xffffffff?1:q.inputSeq+1);assert.equal(receipt.lastKey,expectedKey);
       assert.equal(receipt.value,plus?q.value+q.step:q.value-q.step);worldSame(before,after,'Quantity editing is not commitment');
+      report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,label+' edited before cancel'));
       saveCheck('quantity-edit',before,after,keys,{beforeQuantity:q,receipt,actor,selector});
       await back(label+' quantity cancel');await mapReturn(label+' cancelled quantity');
       assert.deepEqual(await evaluate(worldSource),picker.world,'Cancelled recruitment changes no money, troops, person or order');
@@ -433,10 +438,66 @@ export async function main(args=process.argv.slice(2)) {
       report.treatments.push({label,actor,before:picker.world,during:during.world,after:after.world,delta,finalDelta,nativeReport,begin:begin.state,retired:after.state,keys,naturalHeld});
       await mapReturn(label+' after report');
     };
+    const recruit=async label=>{
+      const {verifyMobileRecruitment}=await import('./hd-mobile-recruitment-runtime-oracle.mjs');
+      await root(2,'军备');const picker=await submenu('征兵');
+      const actor=picker.state.menu.ids.find(id=>id!==picker.world.king&&picker.world.people[id].Thew>=12);
+      assert.ok(Number.isInteger(actor)&&picker.world.cities[testCity.index].Money>=1,'Actual nonking recruiter with original ROM eligibility');
+      assert.ok(picker.world.orders.some(o=>o.OrderId===255),'Real recruitment requires a free native order slot');
+      const entry={label,viewport:picker.state.viewport,cityIndex:testCity.index,personId:actor,picker,steps:[]};report.recruitments.push(entry);
+      const chosen=await selectPerson(actor,'征兵');
+      const q=await until('genuine recruitment quantity ready',`(() => {const q=baye.hd.qty(),s=BayeHdCityMenu.debugSnapshot();return q.active===1&&q.protocol&&q.ready===1&&q.session>0&&q.max>1&&BayeHdCityMenu.isQtyLive()&&!s.sending&&!s.queueLen&&q;})()`);
+      const reached=await ready();entry.opened=reached;navigation(await readKeys(chosen.before.state.keyCount),'Recruiter selection for commitment');
+      worldSame(picker,reached,'Opening recruitment quantity');
+      const c=picker.world.cities[testCity.index],cfg=picker.world.config;
+      assert.equal(q.min,0);assert.equal(q.max,Math.min(c.PeopleDevotion*cfg.armsPerDevotion,c.Money*cfg.armsPerMoney,65534));
+      assert.equal(q.value,q.max,'Original recruitment starts at the actual maximum');assert.equal(q.step,1);
+      report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,label+' opened'));
+      const selector=await visibleSelector(['#hd-dialog [data-hd-qty="-1"]','#hd-city-menu [data-hd-qty="-1"]']),beforeEdit=await ready();
+      await touchButton(selector);
+      const receipt=await until('recruitment single quantity ACK',`(() => {const q=baye.hd.qty();return q.active===1&&q.ready===1&&q.session===${q.session}&&q.inputSeq!==${q.inputSeq}&&q;})()`);
+      const edited=await ready(),editKeys=await readKeys(beforeEdit.state.keyCount);
+      assert.deepEqual(editKeys.map(k=>k.code),[VK.DOWN]);assert.equal(receipt.value,q.value-1);
+      assert.equal(receipt.inputSeq,q.inputSeq===0xffffffff?1:q.inputSeq+1);assert.equal(receipt.lastKey,VK.DOWN);
+      worldSame(beforeEdit,edited,'Recruitment quantity edit does not commit');
+      entry.steps.push({selector,before:beforeEdit,after:edited,keys:editKeys,receipt});
+      report.quantityPresentation.push(await checkMobileQuantityPresentation(evaluate,label+' edited before confirm'));
+      await checkpoint(label+'-quantity');
+      const confirmSelector=await visibleSelector(['#hd-dialog [data-hd-dlg-ok]','#hd-city-menu [data-hd-qty-ok]']);
+      const confirmation=await ready(),point=await controlPoint(confirmSelector);entry.confirmation={selector:confirmSelector,point,before:confirmation};
+      worldSame(picker,confirmation,'Selecting and editing up to actual recruitment confirmation');
+      assert.equal(confirmation.state.qty.session,q.session);assert.equal(confirmation.state.qty.ready,1);assert.equal(confirmation.state.qty.value,receipt.value);
+      await tap(point);
+      // Qty end precedes business writes. Wait for the actual next native person publication and matching HD rows.
+      await until('committed recruitment publishes remaining native people',`(() => {
+        const q=baye.hd.qty(),m=baye.hd.menuItems(),s=BayeHdCityMenu.debugSnapshot(),o=s.deepMenuOwner,items=s.deepItems;
+        if(q.active!==0||q.ready!==0||m.active!==1||m.context!==1||m.kind!==3||!m.idsValid||m.seq===${picker.state.menu.seq}||m.ids.includes(${actor})||!m.ids.length||
+          !s.open||s.cityIndex!==${testCity.index}||s.layer!=='deep'||s.deepLabel!=='征兵'||s.sending||s.queueLen||!o||o.seq!==m.seq||o.context!==m.context||o.kind!==m.kind||o.detailGeneration!==m.detailGeneration||
+          !Array.isArray(items)||items.length!==m.ids.length||!m.ids.every((id,i)=>items.find(v=>v.i===i)?.pind===id))return false;
+        const c=baye.data.g_Cities[${testCity.index}],ids=Array.from(baye.data.g_PersonsQueue).slice(Number(c.PersonQueue),Number(c.PersonQueue)+Number(c.Persons));
+        return !ids.includes(${actor});})()`);
+      const committed=await ready(),keys=await readKeys(confirmation.state.keyCount);entry.confirmation.after=committed;entry.confirmation.keys=keys;
+      const owner=committed.state.cityUi.deepMenuOwner,menu=committed.state.menu;
+      assert.ok(committed.state.cityUi.cityIndex===testCity.index&&menu.active===1&&menu.context===1&&menu.kind===3&&menu.seq!==picker.state.menu.seq&&owner&&owner.seq===menu.seq&&owner.context===menu.context&&owner.kind===menu.kind&&owner.detailGeneration===menu.detailGeneration,'Current complete recruitment picker owns the committed sample');
+      assert.deepEqual(keys.map(k=>k.code),[VK.ENTER],'One trusted current quantity confirmation');
+      assert.equal(committed.state.touchCount,confirmation.state.touchCount,'No raw LCD touch leaks from confirmation');
+      assert.equal(committed.state.qty.session,q.session);assert.equal(committed.state.qty.lastKey,VK.ENTER);
+      assert.equal(committed.state.qty.inputSeq,receipt.inputSeq===0xffffffff?1:receipt.inputSeq+1);
+      const currentCity=committed.world.cities[testCity.index];
+      const ids=committed.world.queue.slice(currentCity.PersonQueue,currentCity.PersonQueue+currentCity.Persons).filter(id=>committed.world.people[id].Belong===currentCity.Belong);
+      assert.deepEqual(committed.state.menu.ids,ids,'Next picker contains exactly the remaining native residents');
+      entry.quantity=receipt.value;entry.before=confirmation.world;entry.after=committed.world;
+      entry.verdict=verifyMobileRecruitment({before:entry.before,after:entry.after,cityIndex:testCity.index,personId:actor,quantity:entry.quantity,libBytes:frozen.get('libs/dat-mod.lib').bytes});
+      report.recruitmentCommitted=true;
+      await checkpoint(label+'-committed-persons');
+      await back(label+' next recruiter cancel');await mapReturn(label+' committed recruitment return');
+      entry.returned=await mark();assert.deepEqual(entry.returned.world,entry.after,'Leaving the continuing recruitment loop preserves the committed world');
+      await checkpoint(label+'-map');
+    };
 
     const headerGeometry=async label=>{const rows=await evaluate(`(() => {const bar=document.getElementById('hd-mobile-bar');return [...bar.querySelectorAll('button')].map(n=>{let shown=true;for(let p=n;p&&p.nodeType===1;p=p.parentElement){const c=getComputedStyle(p);if(p.hidden||c.display==='none'||c.visibility==='hidden'||Number(c.opacity)===0)shown=false;}const r=n.getBoundingClientRect();return {id:n.id,shown:shown&&r.width>0&&r.height>0,disabled:n.disabled,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};});})()`);for(const r of rows.filter(r=>r.shown)){assert.ok(r.rect.width>=43.5&&r.rect.height>=43.5,'Every shown header button is >=44 CSS px '+r.id);assert.ok(r.rect.left>=-.5&&r.rect.right<=label[0]+.5&&r.rect.top>=-.5&&r.rect.bottom<=label[1]+.5,'Header button remains inside viewport '+r.id);}report.headerGeometry??=[];report.headerGeometry.push({viewport:label,rows});};
     const all=report.initialAllCities,world=await evaluate(worldSource);
-    const selected=all.find(c=>c.kind==='owned'&&world.cities[c.index].Money>=200&&world.queue.slice(world.cities[c.index].PersonQueue,world.cities[c.index].PersonQueue+world.cities[c.index].Persons).some(id=>id!==world.king&&world.people[id].Belong===world.king+1));
+    const selected=all.find(c=>c.kind==='owned'&&world.cities[c.index].Money>=(recruitment?202:200)&&world.queue.slice(world.cities[c.index].PersonQueue,world.cities[c.index].PersonQueue+world.cities[c.index].Persons).filter(id=>id!==world.king&&world.people[id].Belong===world.king+1&&(!recruitment||world.people[id].Thew>=12)).length>=(recruitment?2:1));
     assert.ok(selected,'Original selected lord has an actual owned city with nonking resident and 200 Treat cash');const testCity=selected;report.testCity=testCity;
     report.initialPcPreferences=(await evaluate(readSource)).preferences;
     if(!reportsOnly){
@@ -474,6 +535,7 @@ export async function main(args=process.argv.slice(2)) {
     report.navigationMatrixAccepted=true;
     }
     await treat('public-treat-confirmed');await treat('public-treat-natural-owner-retirement',{naturalHeld:true});
+    if(recruitment){for(const [width,height]of [[844,390],[667,375]]){await metrics(width,height);await recruit('recruitment-'+width+'x'+height);}assert.equal(report.recruitments.length,2);report.recruitmentCommitted=true;}
     const final=await checkpoint('final-mobile-HD-map');await until('final actual map',mapReadySource);prefsSame(final);
     report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
     if(!reportsOnly){assert.ok(report.trustedEvents.some(e=>e.trusted&&e.type==='touchcancel'));
@@ -482,13 +544,15 @@ export async function main(args=process.argv.slice(2)) {
     assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
     report.reportInteractionAccepted=true;report.ok=true;report.accepted=true;
     report.acceptedScope=reportsOnly?['Original public nonking Treat report-active money/Thew and post-retirement Devotion: strict full-world two-phase validation','One trusted current-report ACK; one naturally retired report with held-pointer release sending zero keys']:['Original genuine multi-city lord and native city entry','844x390 and 667x375 trusted four-category city menus','Actual person U16 owner list and quantity edit/cancel','Readonly status zero keys and single-owner Back','44px unobstructed touch targets; fitting content or measured genuine overflow scrolling','Touchcancel/multifinger/rotation/hidden/untrusted-click retirement','Independent mobile presentation mode; PC preferences unchanged','Two bounded nonking original Treat operations; one report ACK and one natural report retirement'];
+    if(recruitment)report.acceptedScope.push('Two original recruitment commitments at 844x390 and 667x375: exact measured world, ROM Thew/financial gate, quantity fee, first native order slot, resident queue and continuing picker cancellation; no month advance or return-to-duty claim');
 }
   const interrupt=()=>{interrupted=true;report.interrupted=true;cdp?.close();server?.closeAllConnections();};
   process.once('SIGINT',interrupt);process.once('SIGTERM',interrupt);
   try {
     assert.equal(typeof WebSocket,'function','Node 22+ built-in WebSocket is required');
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
-    for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
+    for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
+    if(recruitment)freeze('scripts/hd-mobile-recruitment-runtime-oracle.mjs');
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
     if(marchOnly){for(const f of ['scripts/hd-mobile-march-runtime-checks.mjs','scripts/hd-mobile-march-runtime-oracle.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','css/hd-mobile.css'])freeze(f);}
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
@@ -588,6 +652,7 @@ export async function main(args=process.argv.slice(2)) {
         readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});
     }else await cityChecks();
   }catch(error){report.ok=false;report.accepted=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);
+    if(recruitment&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failureRecruitmentInputsUnavailable=true;}}
     if(marchOnly&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.marchKeyTrace=await evaluate('window.__mobileMarchKeyTrace');report.failureWorld=await evaluate(worldSource);}catch{report.failureMarchInputsUnavailable=true;}}
     if(battleEffects&&cdp){try{report.effectTrace=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.trace');report.effectReports=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.reports');
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');}catch{report.failureEffectsUnavailable=true;}}

@@ -4686,7 +4686,15 @@
         applyDocAttr();
         var liveQty = engineQty();
         var march = engineMarch();
-        var sig = (showingQty() ? 'qty:' + (liveQty && liveQty.value) : state.deepKind + ':' + state.deepStep) +
+        var quantityVisible = showingQty(), mobileQty = !!mobileHost && quantityVisible;
+        // The summary stays outside the mobile button scroller. Entering this
+        // layout retires the previous list's scroll, not the player's next scroll.
+        if (mobileQty && !list.classList.contains('has-mobile-qty')) { list.scrollTop = 0; }
+        list.classList.toggle('has-mobile-qty', mobileQty);
+        var quantitySig = mobileQty && liveQty
+            ? [liveQty.session, liveQty.min, liveQty.max, !!state.qtyAckFailed].join(':')
+            : liveQty && liveQty.value;
+        var sig = (quantityVisible ? 'qty:' + quantitySig : state.deepKind + ':' + state.deepStep) +
             ':' + (state.pickedPersons || 0) +
             ':' + (mapPickActive() ? 'pick' : '') +
             ':' + ((freshMarchOk() || state.marchReady || state.handoff) ? 'ok' : '') +
@@ -4705,13 +4713,14 @@
                 return it.name;
             }).join(',');
         if (state.deepSig === sig && list.children.length) {
+            if (mobileQty && liveQty) { setText(el('hd-city-qty-val'), liveQty.value); }
             applyHighlight();
             return;
         }
         state.deepSig = sig;
         list.innerHTML = '';
         var i;
-        if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
+        if (!mobileQty && state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
             var shownStep = displayWizardStep();
             var qtySteps = document.createElement('div');
             qtySteps.className = 'hd-city-menu-wizard';
@@ -4744,11 +4753,11 @@
                     q = baye.hd.qty();
                 }
             } catch (e) {}
-            bar.innerHTML = '<p>' + (state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
+            bar.innerHTML = '<p class="hd-city-menu-qty-summary">' + (state.battleMake ? '随军粮草' : '数量') + ' <strong id="hd-city-qty-val">' +
                 (q.value !== '' && q.value != null ? q.value : '—') +
                 '</strong> · 可用按钮或数字键调整</p>' +
                 (state.qtyAckFailed ? '<p>数量调整未完成，请取消后重新输入。</p>' : '') +
-                '<div>' +
+                '<div class="hd-city-menu-qty-controls">' +
                 '<button type="button" data-hd-qty="-10">−10</button>' +
                 '<button type="button" data-hd-qty="-1">−</button>' +
                 '<button type="button" data-hd-qty="1">+</button>' +
