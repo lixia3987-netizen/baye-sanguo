@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "kind": "dingshen-spe-entry-source-spec",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "speId": 39,
+  "resourceIndex": 0,
+  "kindId": 2,
+  "startFrm": 0,
+  "endFrm": 7,
+  "skillId": 15,
+  "dingshenVersion": 1,
+  "opaqueCoverageVersion": 1,
+  "nativeFingerprint": "fnv1a32:6b0ebc5a:1084",
+  "nativeLength": 1084,
+  "skillRecordHex": "00030000000014646464640064646464646464646464646464646400505050505050",
+  "nativeFallback": {
+    "ifaceItemCount": 16,
+    "dJNSpeId": {
+      "nativeItem": 22,
+      "token": "FENG_SPE",
+      "value": 39
+    },
+    "dJNSpeSFrm": {
+      "nativeItem": 23,
+      "token": "0",
+      "value": 0
+    },
+    "dJNSpeEFrm": {
+      "nativeItem": 24,
+      "token": "7",
+      "value": 7
+    },
+    "dJNSpeSX": {
+      "nativeItem": 25,
+      "token": "33",
+      "value": 33
+    },
+    "dJNMode": {
+      "nativeItem": 26,
+      "token": "0",
+      "value": 0
+    }
+  },
+  "previousEntryCount": 51,
+  "previousEntriesSha256": "4f121697c82ef6ab35a280da702fddbb78150483605a6f27e924b1b6979ce07c",
+  "pictureSources": [
+    "assets/hd-spe/qimen-39/picture-0.png",
+    "assets/hd-spe/qimen-39/picture-1.png"
+  ],
+  "pictureSha256": [
+    "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+    "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2"
+  ],
+  "purpose": "Original enemy skill15/STATE_DS3/MP20, transient movie result only. Independent dingshenVersion1 marker reuses exact existing QIMEN39 RGB pictures. No numeric postlude/hold/label, no skill14/20 acceptance; preserve all prior51 entries. State3 immediately sets move=NO_MOV1; subsequent natural recovery is outside this static generator scope."
+}

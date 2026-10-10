@@ -1323,7 +1323,7 @@ function baye_bridge_init() {
         sceneNames.forEach(function (name) {
             if (d && (d['g_hdSpe' + name] != null || d['g_hdSpeDisplay' + name] != null)) scenePresent = true;
         });
-        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false;
+        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false;
         if (scenePresent) {
             function readScene(prefix) { return { mode: r.num(prefix + 'SceneMode', 3),
                 x: hdOrigin(r.num(prefix + 'SceneX', 65535)), y: hdOrigin(r.num(prefix + 'SceneY', 65535)),
@@ -1368,6 +1368,15 @@ function baye_bridge_init() {
                 values.ResourceFingerprint === 0x6b0ebc5a &&
                 r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
                 r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
+            // Independent immobilization15 movie source; no numeric owner is inferred.
+            dingshen = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
+                expected.actorIndex === actor && expected.targetIndex === target && actor != null && target != null && actor < 20 && target < 20 &&
+                skill === 15 && values.Id === 39 && values.Kind === 2 && values.ResourceIndex === 0 &&
+                count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
+                values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1084 &&
+                values.ResourceFingerprint === 0x6b0ebc5a &&
+                r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+                r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
         }
         var stable = r.stable(), current = stable && generation > 0 && eventId > 0 && values.ProtocolVersion === 2 &&
             values.Active === 1 && values.ProtocolValid === 1 &&
@@ -1400,7 +1409,7 @@ function baye_bridge_init() {
             }
             return established;
         }
-        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan || zhoufeng) && !background.valid &&
+        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan || zhoufeng || dingshen) && !background.valid &&
             equalOpaqueGeometry(scene, visible, clears, values.FrameIndex),
             shownEqualOpaque = shown && currentEqualOpaque && !displayBackground.valid &&
                 equalOpaqueGeometry(displayScene, displayVisible, displayClears, values.DisplayFrameIndex) &&

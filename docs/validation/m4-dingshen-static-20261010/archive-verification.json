@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-10T15:42:52.548Z",
+  "sourceValidationAccepted": true,
+  "canonical": {
+    "path": "docs/validation/m4-dingshen-static-20261010.json",
+    "bytes": 9028,
+    "sha256": "6d2be4954a6b792d58a047c4a63362e46fd6b92e2c4cc1f4aa9732ec2726b2e6"
+  },
+  "index": {
+    "path": "docs/validation/m4-dingshen-static-20261010/runtime-index.json",
+    "bytes": 21179,
+    "sha256": "e1b6c03df4f543aa54950d161f9a9ef8b0250485db6ebdb145d9a9258c0fe673"
+  },
+  "logicalFiles": 41,
+  "uniqueGzip": 40,
+  "allGzipRoundTripsAndOriginalBytesExact": true,
+  "all475RegressionSourcesStillMatch": true,
+  "docsPhysicalHistoryPrefixExact": true,
+  "docsHistoryMatchesGitAfterCrLfNormalization": true,
+  "engineLibNativeAndArtUnchanged": true,
+  "actual15Accepted": false,
+  "hdAccepted": false,
+  "fallbackRuntimeAccepted": false,
+  "wholeHdAccepted": false
+}

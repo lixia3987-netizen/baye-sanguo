@@ -236,7 +236,8 @@
         for (var i = 0; i < m.entries.length; i++) {
             var e = m.entries[i];
             if (Number(s.id) === 39 && (qimenSkill === 14 ? !e || e.zhoufengVersion !== 1 || e.skillId !== 14 :
-                qimenSkill !== 20 || !e || e.zhoufengVersion != null || e.skillId === 14)) continue;
+                qimenSkill === 15 ? !e || e.dingshenVersion !== 1 || e.skillId !== 15 :
+                qimenSkill !== 20 || !e || e.zhoufengVersion != null || e.dingshenVersion != null || e.skillId === 14 || e.skillId === 15)) continue;
             if (e && e.speId === s.id && e.resourceIndex === s.resourceIndex && e.kind === s.kind && e.startFrm === s.startFrm && e.endFrm === s.endFrm &&
                 e.count === s.count && e.picmax === s.picmax && e.resourceFingerprint === s.resourceFingerprint && e.resourceLength === s.resourceLength)
                 return e;
@@ -274,7 +275,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
-        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null) && !validOpaqueCoverageEntry(e)) return false;
+        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null) && !validOpaqueCoverageEntry(e)) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
@@ -437,7 +438,7 @@
         } catch (error) { return; }
         var selected = state.assets;
         state.manifest.entries.forEach(function (entry) {
-            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && (entry.skillResultVersion === 1 || entry.liuyanVersion === 1 || entry.zhoufengVersion === 1) || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry);
+            if (entry && (entry.kind === 3 && entry.compositionVersion === 1 || entry.kind === 2 && (entry.skillResultVersion === 1 || entry.liuyanVersion === 1 || entry.zhoufengVersion === 1 || entry.dingshenVersion === 1) || entry.kind === 4 && (entry.aiTargetVersion === 2 || entry.statusVersion === 1)) && valid(entry)) load(entry);
         });
         state.assets = selected;
     }
@@ -573,7 +574,7 @@
         if (entry.zhoufengVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillId !== 14 ||
             entry.kind !== 2 || entry.speId !== 39 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
             entry.startFrm !== 0 || entry.endFrm !== 7 || entry.resourceLength !== 1084 ||
-            entry.resourceFingerprint !== 'fnv1a32:6b0ebc5a:1084' || entry.skillIds != null || entry.aidVersion != null || entry.liuyanVersion != null ||
+            entry.resourceFingerprint !== 'fnv1a32:6b0ebc5a:1084' || entry.skillIds != null || entry.aidVersion != null || entry.liuyanVersion != null || entry.dingshenVersion != null ||
             entry.skillResultVersion != null || entry.skillNumber != null || entry.compositionVersion != null ||
             entry.aiTargetVersion != null || entry.statusVersion != null || entry.background != null || entry.number != null) return false;
         for (var p = 0; p < 2; p++) {
@@ -612,7 +613,51 @@
                 c.clearFrames.some(function (bit, i) { return bit !== current.clearFrames[i]; }))) return null;
         return { x: 48, y: 16, width: 64, height: 64 };
     }
+    function validDingshenEntry(entry) {
+        if (entry.dingshenVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillId !== 15 ||
+            entry.kind !== 2 || entry.speId !== 39 || entry.resourceIndex !== 0 || entry.count !== 8 || entry.picmax !== 2 ||
+            entry.startFrm !== 0 || entry.endFrm !== 7 || entry.resourceLength !== 1084 ||
+            entry.resourceFingerprint !== 'fnv1a32:6b0ebc5a:1084' || entry.skillIds != null || entry.aidVersion != null || entry.liuyanVersion != null || entry.zhoufengVersion != null ||
+            entry.skillResultVersion != null || entry.skillNumber != null || entry.compositionVersion != null ||
+            entry.aiTargetVersion != null || entry.statusVersion != null || entry.background != null || entry.number != null) return false;
+        for (var p = 0; p < 2; p++) {
+            var pic = entry.pictures.filter(function (v) { return v.picIndex === p; })[0];
+            if (!validPicture(pic) || pic.mask !== 0 || pic.nativeWidth !== 64 || pic.nativeHeight !== 64 ||
+                pic.logicalWidth !== 64 || pic.logicalHeight !== 64) return false;
+        }
+        return entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
+    }
+    function dingshenCoverage(s, entry, frames, clears) {
+        var c = s.display && s.display.composition, current = s.composition;
+        if (!validDingshenEntry(entry) || numericOwner(s) || held(s) || s.ownerType === 'result-lcd' ||
+            !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
+            c.valid !== true || current.valid !== true || c.mode !== 2 || current.mode !== 2 ||
+            [c, current].some(function (v) { return v.x !== 48 || v.y !== 16 || v.width !== 64 || v.height !== 64 || v.background && v.background.valid; }) ||
+            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || s.contextKnown !== true || s.skillId !== 15 ||
+            !integer(s.actorIndex) || s.actorIndex < 0 || s.actorIndex >= 20 ||
+            !integer(s.targetIndex) || s.targetIndex < 0 || s.targetIndex >= 20 ||
+            s.frameValid !== true || !integer(s.generation) || s.generation <= 0 || !integer(s.eventId) || s.eventId <= 0 ||
+            !integer(s.commitSeq) || s.commitSeq <= 0 || !integer(s.display.commitSeq) || s.display.commitSeq <= 0 ||
+            s.display.commitSeq > s.commitSeq || s.eventId !== s.display.eventId || s.generation !== s.display.generation ||
+            !integer(s.frameIndex) || s.frameIndex < 0 || s.frameIndex > 7 ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < 0 || s.display.frameIndex > s.frameIndex) return null;
+        function pastOnly(bits, frontier) {
+            if (!byteBits(bits)) return false;
+            for (var f = 0; f < 256; f++) if (bits[f >> 3] & (1 << (f & 7))) if (f > frontier) return false;
+            return true;
+        }
+        if (!pastOnly(s.display.visibleFrames, s.display.frameIndex) || !pastOnly(c.clearFrames, s.display.frameIndex) ||
+            !pastOnly(s.visibleFrames, s.frameIndex) || !pastOnly(current.clearFrames, s.frameIndex) ||
+            !s.display.visibleFrames.some(function (bit, i) { return bit || c.clearFrames[i]; }) ||
+            !s.visibleFrames.some(function (bit, i) { return bit || current.clearFrames[i]; }) ||
+            c.clearFrames.some(function (bit, i) { return (bit & ~current.clearFrames[i]) !== 0; }) ||
+            s.display.commitSeq === s.commitSeq && (s.display.frameIndex !== s.frameIndex ||
+                s.display.visibleFrames.some(function (bit, i) { return bit !== s.visibleFrames[i]; }) ||
+                c.clearFrames.some(function (bit, i) { return bit !== current.clearFrames[i]; }))) return null;
+        return { x: 48, y: 16, width: 64, height: 64 };
+    }
     function validOpaqueCoverageEntry(entry) {
+        if (entry.dingshenVersion != null) return validDingshenEntry(entry);
         if (entry.zhoufengVersion != null) return validZhoufengEntry(entry);
         if (entry.liuyanVersion != null || entry.speId === 40) return validLiuyanEntry(entry);
         if (entry.aidVersion != null || entry.speId === 41) return validAidEntry(entry);
@@ -634,6 +679,7 @@
             entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
     }
     function opaqueCoverage(s, entry, frames, clears) {
+        if (entry.dingshenVersion != null) return dingshenCoverage(s, entry, frames, clears);
         if (entry.zhoufengVersion != null) return zhoufengCoverage(s, entry, frames, clears);
         if (entry.liuyanVersion != null || entry.speId === 40) return liuyanCoverage(s, entry, frames, clears);
         if (entry.aidVersion != null || entry.speId === 41) return aidCoverage(s, entry, frames, clears);

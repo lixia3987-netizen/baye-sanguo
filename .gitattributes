@@ -53,3 +53,7 @@
 
 /docs/validation/m4-zhoufeng-runtime-20261010.json text eol=lf
 /docs/validation/m4-zhoufeng-runtime-20261010/*.json text eol=lf
+/scripts/specs/hd-spe-dingshen.json text eol=lf
+
+/docs/validation/m4-dingshen-static-20261010.json text eol=lf
+/docs/validation/m4-dingshen-static-20261010/*.json text eol=lf

@@ -26,7 +26,7 @@ const units=Array.from({length:8},(_,frame)=>{const o=6+frame*5;assert.deepEqual
 let at=46;const pictures=[];for(let i=0;i<2;i++){assert.deepEqual([b.readUInt16LE(at),b.readUInt16LE(at+2),b.readUInt16LE(at+4),b[at+6]],[64,64,1,0]);const[width,height]=image(spec.pictureSources[i],i);pictures.push({picIndex:i,src:spec.pictureSources[i],width,height,logicalWidth:64,logicalHeight:64,nativeWidth:64,nativeHeight:64,mask:0});at+=519;}assert.equal(at,b.length);
 const entry={speId:39,resourceIndex:0,kind:2,startFrm:0,endFrm:7,count:8,picmax:2,resourceFingerprint:fnv(b),resourceLength:b.length,units,pictures,opaqueCoverageVersion:1,zhoufengVersion:1,skillId:14};
 const old=base.entries.filter(e=>e.zhoufengVersion==null),existing=base.entries.filter(e=>e.zhoufengVersion!=null);assert.ok(existing.length<=1);if(existing.length)assert.deepEqual(existing[0],entry,'Refuse silently replacing a different curse14 entry');
-assert.equal(old.filter(e=>e.speId===39).length,1,'Retain original QIMEN20 entry');
+assert.equal(old.filter(e=>e.speId===39&&e.dingshenVersion==null&&e.skillId!==15).length,1,'Retain original QIMEN20 entry');
 const result={...base,entries:[...old,entry]};assert.deepEqual(result.entries.filter(e=>e.zhoufengVersion==null),old);
 const bytes=Buffer.from(JSON.stringify(result,null,2)+'\n');fs.writeFileSync(output,bytes,{flag:'wx'});
 console.log(JSON.stringify({path:path.relative(root,output).replaceAll('\\','/'),bytes:bytes.length,sha256:sha(bytes),entryCount:result.entries.length,unrelatedEntryCount:old.length,unrelatedDeepEqual:true,nativeParsed:true,actualPngCrc:true,productionEdited:false}));
