@@ -266,8 +266,9 @@ async function aiLoaded(changes) {
     const fixture = aiTargetFixture(); if (changes) changes(fixture);
     const h = harness({ spe: fixture.s, data: { g_scale: 1 } }); h.context.dynLib = fixture.lib.toString('hex');
     h.api.setManifest(fixture.m); h.api.start();
-    for (let i = 0; i < 30 && h.images.length < 2; i++) await settle();
-    assert.equal(h.images.length, 2, 'only native target slots7/8 are requested');
+    const deadline = performance.now() + 2000;
+    while (h.images.length < 2 && performance.now() < deadline) await new Promise(resolve => setTimeout(resolve, 1));
+    assert.equal(h.images.length, 2, 'only native target slots7/8 are requested: ' + JSON.stringify(h.api.debugSnapshot()));
     h.resolveImage(0); h.resolveImage(1); h.flush();
     return { h, fixture };
 }
@@ -1843,15 +1844,15 @@ test('ZHOUFENG14/39 selected originals and no-NUM source spec match actual LIB s
     assert.deepEqual(spec.pictureSources,f.entry.pictures.map(p=>p.src));
 });
 
-test('ZHOUFENG14 explicit context wins over legacy39 first-match and order, but20 keeps its old arena',async()=>{
+test('ZHOUFENG14 explicit context wins over shared39 first-match and20 independently preserves fullLCD',async()=>{
     const h=await zhoufengLoaded();assert.equal(h.fixture.m.entries[0].zhoufengVersion,undefined);
     h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);
     const reverse=structuredClone(h.fixture.m);reverse.entries.reverse();h.api.setManifest(reverse);
     for(let i=0;i<60;i++)await settle();
     h.images.forEach(image=>{if(image.naturalWidth!==1254){image.naturalWidth=1254;image.naturalHeight=1254;image.onload();}});
     h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);
-    const s=structuredClone(h.fixture.s);s.skillId=20;h.setSpe(s);h.flush();
-    assert.equal(h.api.debugSnapshot().source,'hd-assets');assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:15,y:16,width:130,height:64});
+    const s=structuredClone(h.fixture.s);s.skillId=20;s.targetIndex=3;h.setSpe(s);h.flush();
+    assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);
     for(const change of[s=>s.skillId=15,s=>s.contextKnown=false,s=>s.skillId=undefined]){
         const unknown=structuredClone(h.fixture.s);change(unknown);h.setSpe(unknown);h.events.length=0;h.flush();
         assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
@@ -1859,17 +1860,16 @@ test('ZHOUFENG14 explicit context wins over legacy39 first-match and order, but2
     assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
 });
 
-test('ZHOUFENG14 draft preserves authenticated old20 numeric postlude behavior',async()=>{
+test('QIMEN20 fabricated numeric postlude cannot reuse the old arena',async()=>{
     const f=zhoufengFixture(7),n=woodNumericFixture(6),label=n.result.label,digits=n.result.digits;
     const scene={...structuredClone(f.s.display),session:n.result.session,paintSeq:n.result.paintSeq};
     const result={...n.result,skillId:20,speId:39,resourceFingerprint:f.entry.resourceFingerprint,resourceLength:f.entry.resourceLength,
         x:48,y:16,number:{...f.legacy.skillNumber,valid:true},scene,display:{...structuredClone(scene),valid:true,label,digits}};
     const h=harness({data:{g_scale:1},spe:{active:0,generation:9},skillResult:result,resultOwner:n.top});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
-    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    for(let i=0;i<60;i++)await settle();
     h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
-    assert.equal(h.api.debugSnapshot().source,'hd-assets');
-    assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:15,y:16,width:130,height:64});
+    assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
     assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
 });
 
@@ -1946,9 +1946,9 @@ test('DINGSHEN15/39 precise dispatch is order-independent and preserves14 and20 
         for(let i=0;i<60;i++)await settle();
         h.images.forEach(image=>{if(image.naturalWidth!==1254){image.naturalWidth=1254;image.naturalHeight=1254;image.onload();}});
         for(const skillId of[15,14,20]){
-            h.setSpe({...structuredClone(h.fixture.s),skillId});h.events.length=0;h.flush();
+            h.setSpe({...structuredClone(h.fixture.s),skillId,targetIndex:skillId===20?3:10});h.events.length=0;h.flush();
             assert.equal(h.api.debugSnapshot().source,'hd-assets');
-            assert.deepEqual({...h.api.debugSnapshot().sourceRect},skillId===20?{x:15,y:16,width:130,height:64}:{x:0,y:0,width:160,height:96});
+            assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});
         }
     }
     assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
@@ -2142,4 +2142,168 @@ test('production SPE manifest authenticates actual LIB payload, complete native 
             }
         }
     }
+});
+
+// Independent QIMEN20 candidate consumer cases; static only, not gameplay acceptance.
+function qimenFixture(current=0,shown=current) {
+    const f=zhoufengFixture(current,shown),m=JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json',import.meta.url),'utf8')),
+        entry=m.entries.find(e=>e.qimenVersion===1),curse=m.entries.find(e=>e.zhoufengVersion===1),immobilization=m.entries.find(e=>e.dingshenVersion===1);
+    assert.ok(entry);assert.ok(curse);assert.ok(immobilization);assert.deepEqual(entry.units,f.units);
+    assert.equal(entry.resourceFingerprint,'fnv1a32:6b0ebc5a:1084');
+    return {...f,entry,curse,s:{...f.s,skillId:20,targetIndex:3},m:{...m,entries:[curse,immobilization,entry]}};
+}
+async function qimenLoaded(options={}) {
+    const f=qimenFixture(options.current??0,options.shown??options.current??0),h=harness({data:{g_scale:1},spe:f.s,...options.harness});
+    h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
+    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+    function resolve(i){const image=h.images[i],p=f.entry.pictures.find(p=>p.src===image.url);image.naturalWidth=p.width;image.naturalHeight=p.height;image.onload();}
+    if(!options.pending)h.images.forEach((_,i)=>resolve(i));return {...h,fixture:f,resolve};
+}
+test('QIMEN20/39 eight native slots use the fullLCD bounded square without NUM, HOLD or input',async()=>{
+    const h=await qimenLoaded();
+    for(let frame=0;frame<8;frame++){
+        h.setSpe(qimenFixture(frame).s);h.events.length=0;h.flush();const d=h.api.debugSnapshot();
+        assert.equal(d.source,'hd-assets');zhoufengFullLcd(h);assert.deepEqual({...d.hdRegion},{x:48,y:16,width:64,height:64});
+        assert.deepEqual([...d.displayedFrames],[frame]);const draw=h.hdDraws().at(-1);
+        assert.equal(draw.args[0].url,'assets/hd-spe/qimen-39/picture-'+frame%2+'.png');assert.deepEqual(draw.args.slice(1),[528,176,704,704]);
+        assert.equal(h.events.filter(e=>e.node==='hd-spe-canvas'&&['fillRect','fillText'].includes(e.operation)).length,0);
+    }
+    assert.equal(h.nodes.get('hd-spe-skip').hidden,true);assert.equal(h.nodes.get('hd-spe-return').hidden,true);
+    h.key();h.api.skip();assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
+test('QIMEN20/39 copied ticket cannot borrow a future frontier or unrelated owner',async()=>{
+    const h=await qimenLoaded({current:3,shown:0});assert.equal(h.api.debugSnapshot().source,'hd-assets');
+    assert.equal(h.hdDraws().at(-1).args[0].url,'assets/hd-spe/qimen-39/picture-0.png');
+    for(const change of[s=>s.display.composition.clearFrames=bitset(1),s=>s.display.visibleFrames=bitset(1),
+        s=>s.display.commitSeq=5,s=>s.display.frameIndex=4,s=>s.composition.clearFrames=bitset(4),
+        s=>s.display.eventId++,s=>s.display.generation++,s=>s.display.composition.valid=false,
+        s=>{s.display.visibleFrames=bitset();s.display.composition.clearFrames=bitset();}]){
+        const s=structuredClone(h.fixture.s);change(s);h.setSpe(s);h.events.length=0;h.flush();
+        assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
+    }
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
+test('QIMEN20/39 rejects unknown context, wrong geometry, frames and payload identity',async()=>{
+    const h=await qimenLoaded();
+    for(const change of[s=>s.contextKnown=false,s=>s.skillId=16,s=>s.actorIndex=20,s=>s.targetIndex=-1,
+        s=>s.keyflag=1,s=>s.skipEligible=true,s=>s.protocolValid=false,s=>s.composition.valid=false,
+        s=>s.composition.mode=3,s=>s.display.composition.mode=3,s=>s.display.composition.x=49,s=>s.composition.width=66,
+        s=>s.resourceFingerprint='fnv1a32:00000000:1084',s=>s.resourceLength=1085,s=>s.resourceIndex=1,
+        s=>s.startFrm=1,s=>s.endFrm=6,s=>s.count=7,s=>s.picmax=3,
+        s=>{s.visibleFrames=bitset();s.composition.clearFrames=bitset();}]){
+        const s=structuredClone(h.fixture.s);change(s);h.setSpe(s);h.events.length=0;h.flush();
+        assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
+    }
+});
+test('QIMEN20/39 absent or corrupt marker cannot fall through to14 or old20 arena',async()=>{
+    const h=await qimenLoaded();
+    for(const change of[e=>delete e.qimenVersion,e=>e.qimenVersion=2,e=>delete e.opaqueCoverageVersion,
+        e=>e.opaqueCoverageVersion=2,e=>e.skillId=14,e=>e.skillId=15,e=>e.skillIds=[14,15,20],
+        e=>e.zhoufengVersion=1,e=>e.dingshenVersion=1,e=>e.liuyanVersion=1,e=>e.aidVersion=1,e=>e.skillResultVersion=1,
+        e=>e.skillNumber={},e=>e.number={},e=>e.background={},e=>e.pictures[1].mask=1,
+        e=>e.units[3].x=1,e=>e.units[5].picIndex=0,e=>e.resourceFingerprint='fnv1a32:00000000:1084']){
+        const m=structuredClone(h.fixture.m);change(m.entries[2]);h.api.setManifest(m);h.events.length=0;h.flush();
+        assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
+    }
+    const m=structuredClone(h.fixture.m);m.entries=m.entries.slice(0,2);h.api.setManifest(m);h.events.length=0;h.flush();
+    assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);
+    h.context.dynLib='00';h.api.setManifest(h.fixture.m);h.flush();assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);
+});
+test('QIMEN20/39 precise dispatch is order-independent and preserves14 and20 rendering boundaries',async()=>{
+    const h=await qimenLoaded(),base=h.fixture.m.entries;
+    for(const order of[[0,1,2],[2,0,1],[1,2,0]]){
+        h.api.setManifest({...h.fixture.m,entries:order.map(i=>structuredClone(base[i]))});
+        for(let i=0;i<60;i++)await settle();
+        h.images.forEach(image=>{if(image.naturalWidth!==1254){image.naturalWidth=1254;image.naturalHeight=1254;image.onload();}});
+        for(const skillId of[15,14,20]){
+            h.setSpe({...structuredClone(h.fixture.s),skillId});h.events.length=0;h.flush();
+            assert.equal(h.api.debugSnapshot().source,'hd-assets');
+            assert.deepEqual({...h.api.debugSnapshot().sourceRect},{x:0,y:0,width:160,height:96});
+        }
+    }
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+});
+test('QIMEN20/39 fabricated NUM or HOLD cannot acquire state-only artwork',async()=>{
+    for(const phase of['numbers','hold']){
+        const f=qimenFixture(7),fake=skillFixture(),result={...fake.result,phase,skillId:20,speId:39,resourceLength:1084,
+            resourceFingerprint:f.entry.resourceFingerprint,count:8,picmax:2,startFrm:0,endFrm:7};
+        const h=harness({data:{g_scale:1},spe:{active:0,generation:9},skillResult:result,resultOwner:fake.top});
+        h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();h.flush();
+        assert.equal(h.api.debugSnapshot().source,'lcd');zhoufengFullLcd(h);assert.deepEqual(h.hdDraws(),[]);assert.deepEqual(h.keys,[]);
+    }
+});
+test('QIMEN20/39 classic, missing and retired images leave native pixels without new keys',async()=>{
+    const missing=await qimenLoaded({pending:true});missing.resolve(1);missing.images[0].onerror();missing.events.length=0;missing.flush();
+    assert.equal(missing.api.debugSnapshot().source,'lcd');zhoufengFullLcd(missing);assert.deepEqual(missing.hdDraws(),[]);
+    const retired=await qimenLoaded({pending:true});retired.setSpe({active:0});retired.api.onEngineSpe();retired.events.length=0;
+    retired.resolve(0);retired.resolve(1);assert.equal(retired.api.isOpen(),false);assert.deepEqual(retired.hdDraws(),[]);
+    for(const retire of[h=>h.setMode(false),h=>h.setHidden(true),h=>h.setReport(1)]){
+        const h=await qimenLoaded();h.events.length=0;retire(h);h.flush();
+        assert.equal(h.api.isOpen(),false);assert.deepEqual(h.hdDraws(),[]);assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+    }
+});
+test('QIMEN20/39 final paint fence restores LCD after a same-resource switch to14 or report',async()=>{
+    for(const retire of[h=>h.spe().skillId=14,h=>h.spe().display.eventId++,h=>h.setReport(1),h=>h.context.dynLib='00']){
+        const h=await qimenLoaded();let changed=false;
+        h.setDrawHook((node,op,args)=>{if(!changed&&node==='hd-spe-canvas'&&op==='drawImage'&&args[0]instanceof h.context.Image){changed=true;retire(h);}});
+        h.events.length=0;h.flush();h.setDrawHook(null);assert.equal(changed,true);assert.equal(h.api.debugSnapshot().source,'lcd');
+        const last=h.events.filter(e=>e.node==='hd-spe-canvas'&&e.operation==='drawImage').at(-1);
+        assert.equal(last.args[0]instanceof h.context.Image,false);assert.deepEqual(last.args.slice(1),[0,0,640,384,0,0,1760,1056]);assert.deepEqual(h.keys,[]);
+    }
+});
+test('QIMEN20/39 prewarm authenticates its marker before native movie and clear-only copy replays no art',async()=>{
+    const f=qimenFixture(),h=harness({data:{g_scale:1},spe:{active:0},fightActive:true});
+    h.context.dynLib=f.lib.toString('hex');h.api.setManifest({...f.m,entries:[f.entry]});h.api.start();
+    for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);assert.equal(h.api.isOpen(),false);
+    h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});
+    h.setSpe(f.s);h.flush();assert.equal(h.api.debugSnapshot().source,'hd-assets');
+    const bad=structuredClone(f.entry);delete bad.qimenVersion;
+    const rejected=harness({data:{g_scale:1},spe:{active:0},fightActive:true});rejected.context.dynLib=f.lib.toString('hex');rejected.api.setManifest({...f.m,entries:[bad]});rejected.api.start();
+    for(let i=0;i<60;i++)await settle();assert.equal(rejected.images.length,0);assert.equal(rejected.api.isOpen(),false);
+    const c=await qimenLoaded({current:3}),s=structuredClone(c.fixture.s);
+    s.visibleFrames=bitset();s.composition.clearFrames=bitset(0,1,2,3);s.display.visibleFrames=bitset();s.display.composition.clearFrames=bitset(0,1,2,3);
+    c.setSpe(s);c.events.length=0;c.flush();assert.equal(c.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(c);
+    assert.deepEqual([...c.api.debugSnapshot().displayedFrames],[]);assert.deepEqual(c.hdDraws(),[]);assert.deepEqual(c.keys,[]);
+});
+test('QIMEN20/39 actual rawABI public getter drives all8 slots and lagging copy in the production consumer',async()=>{
+    const seed=aidRawScenarios().find(s=>!s.numeric).rawGlobals;
+    for(const [current,shown]of[...Array.from({length:8},(_,f)=>[f,f]),[3,0]]){
+        const f=qimenFixture(current,shown),raw=structuredClone(seed);
+        Object.assign(raw,{g_hdSpeId:39,g_hdSpeSkillId:20,g_hdSpeTargetIndex:3,g_hdSpeResourceFingerprint:0x6b0ebc5a,g_hdSpeResourceLength:1084,
+            g_hdSpeFrameIndex:current,g_hdSpeCommitSeq:current+1,g_hdSpeDisplayFrameIndex:shown,g_hdSpeDisplayCommitSeq:shown+1});
+        for(const [p,frame]of[['g_hdSpe',current],['g_hdSpeDisplay',shown]])Object.assign(raw,{[p+'SceneMode']:2,[p+'SceneWidth']:64,
+            [p+'VisibleFrames']:bitset(frame),[p+'ClearFrames']:bitset(...Array.from({length:frame},(_,i)=>i))});
+        // The real no-NUM movie still has the transient SKILL result owner.
+        Object.assign(raw,{g_hdResultOwnerKind:2,g_hdResultOwnerValid:1,g_hdResultOwnerGeneration:7,g_hdResultOwnerSession:11,
+            g_hdSkillResultProtocolVersion:1,g_hdSkillResultActive:1,g_hdSkillResultPhase:1,g_hdSkillResultCustom:0,
+            g_hdSkillResultSourceValid:1,g_hdSkillResultGeneration:7,g_hdSkillResultSession:11,g_hdSkillResultSkillId:20,
+            g_hdSkillResultResultKind:2,g_hdSkillResultActorIndex:2,g_hdSkillResultTargetIndex:3,g_hdSkillResultValue:0,
+            g_hdSkillResultEventId:31,g_hdSkillResultCommitSeq:shown+1,g_hdSkillResultFrameIndex:shown,
+            g_hdSkillResultId:39,g_hdSkillResultResourceIndex:0,g_hdSkillResultCount:8,g_hdSkillResultPicmax:2,
+            g_hdSkillResultStartFrm:0,g_hdSkillResultEndFrm:7,g_hdSkillResultOriginX:48,g_hdSkillResultOriginY:16,
+            g_hdSkillResultResourceFingerprint:0x6b0ebc5a,g_hdSkillResultResourceLength:1084,
+            g_hdSkillResultSceneMode:2,g_hdSkillResultSceneX:48,g_hdSkillResultSceneY:16,g_hdSkillResultSceneWidth:64,g_hdSkillResultSceneHeight:64,
+            g_hdSkillResultVisibleFrames:bitset(shown),g_hdSkillResultClearFrames:bitset(...Array.from({length:shown},(_,i)=>i))});
+        const actual=readAidPublic(raw);assert.equal(actual.publicSpe.skillId,20);assert.equal(actual.publicSpe.display.composition.valid,true);
+        assert.equal(actual.publicSkillResult.active,true);assert.equal(actual.publicSkillResult.phase,'movie');
+        assert.equal(actual.publicSkillResult.value,0);assert.equal(actual.publicResultOwner.kind,2);assert.equal(actual.publicResultOwner.valid,true);
+        assert.deepEqual([actual.publicSkillResult.scene.generation,actual.publicSkillResult.scene.eventId,actual.publicSkillResult.scene.commitSeq,actual.publicSkillResult.scene.frameIndex],
+            [actual.publicSpe.display.generation,actual.publicSpe.display.eventId,actual.publicSpe.display.commitSeq,actual.publicSpe.display.frameIndex]);
+        const h=harness({data:{g_scale:1},spe:actual.publicSpe,skillResult:actual.publicSkillResult,resultOwner:actual.publicResultOwner});
+        h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
+        for(let i=0;i<60&&h.images.length<2;i++)await settle();assert.equal(h.images.length,2);
+        h.images.forEach(image=>{image.naturalWidth=1254;image.naturalHeight=1254;image.onload();});h.flush();
+        assert.equal(h.api.debugSnapshot().source,'hd-assets');zhoufengFullLcd(h);assert.deepEqual([...h.api.debugSnapshot().displayedFrames],[shown]);
+        assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
+    }
+});
+test('QIMEN20/39 independent source spec reuses exact original art without numeric metadata',()=>{
+    const f=qimenFixture(),spec=JSON.parse(readFileSync(new URL('../scripts/specs/hd-spe-qimen20.json',import.meta.url),'utf8')),
+        curse=JSON.parse(readFileSync(new URL('../scripts/specs/hd-spe-zhoufeng.json',import.meta.url),'utf8'));
+    assert.deepEqual([f.entry.speId,f.entry.skillId,f.entry.qimenVersion,f.entry.opaqueCoverageVersion],[39,20,1,1]);
+    assert.deepEqual([spec.speId,spec.skillId,spec.qimenVersion,spec.opaqueCoverageVersion],[39,20,1,1]);
+    for(const field of['zhoufengVersion','dingshenVersion','liuyanVersion','aidVersion','skillIds','skillResultVersion','skillNumber','number','background'])assert.equal(f.entry[field],undefined);
+    assert.deepEqual(spec.pictureSources,f.entry.pictures.map(p=>p.src));assert.deepEqual(spec.pictureSources,curse.pictureSources);
+    assert.deepEqual(spec.pictureSha256,curse.pictureSha256);
+    f.entry.pictures.forEach((p,i)=>assert.equal(createHash('sha256').update(readFileSync(new URL('../'+p.src,import.meta.url))).digest('hex'),spec.pictureSha256[i]));
 });

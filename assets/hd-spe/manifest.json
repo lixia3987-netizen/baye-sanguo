@@ -23601,20 +23601,9 @@
           "mask": 0
         }
       ],
-      "skillResultVersion": 1,
-      "skillNumber": {
-        "id": 15,
-        "resourceIndex": 0,
-        "pictureIndex": 0,
-        "nativeWidth": 12,
-        "nativeHeight": 16,
-        "count": 10,
-        "mask": 0,
-        "x": 0,
-        "y": 0,
-        "resourceLength": 327,
-        "resourceFingerprint": "fnv1a32:b37d7407:327"
-      }
+      "opaqueCoverageVersion": 1,
+      "qimenVersion": 1,
+      "skillId": 20
     },
     {
       "speId": 27,

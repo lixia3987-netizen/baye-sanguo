@@ -171,11 +171,14 @@ test('DINGSHEN end/reset cannot reuse a previous copied movie frame', () => {
     assert.deepEqual(plain(after.lastEnd), {eventId: 31, reason: 'complete', key: 255}); f.untouched();
 });
 
-test('DINGSHEN15 public context stays distinct from legitimate14 and rejects borrowed20 direct source', () => {
+test('DINGSHEN15 public context stays distinct from legitimate14/20 and rejects unsupported39 skills', () => {
     const d = readAidPublic(rawFor()); assert.equal(d.publicSpe.skillId, 15); assert.equal(d.publicSpe.composition.valid, true);
     const curse = rawFor(); curse.g_hdSpeSkillId = 14;
     const z = readAidPublic(curse); assert.equal(z.publicSpe.skillId, 14); assert.equal(z.publicSpe.composition.valid, true);
-    const numeric = rawFor(); numeric.g_hdSpeSkillId = 20; assertRejected(numeric);
+    const qimen = rawFor(); qimen.g_hdSpeSkillId = 20; qimen.g_hdSpeTargetIndex = 3;
+    const q = readAidPublic(qimen); assert.equal(q.publicSpe.skillId, 20); assert.equal(q.publicSpe.targetIndex, 3);
+    assert.equal(q.publicSpe.composition.valid, true); assert.equal(q.publicSpe.display.composition.valid, true);
+    const unsupported = rawFor(); unsupported.g_hdSpeSkillId = 13; assertRejected(unsupported);
 });
 
 test('DINGSHEN15 final fence refuses a switch to otherwise valid14 during the getter', () => {
