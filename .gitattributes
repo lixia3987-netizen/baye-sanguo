@@ -41,3 +41,5 @@
 /scripts/specs/hd-spe-liuyan.json text eol=lf
 /docs/validation/m4-liuyan-static-20261010.json text eol=lf
 /docs/validation/m4-liuyan-static-20261010/runtime-index.json text eol=lf
+/docs/validation/m4-liuyan-runtime-20261010.json text eol=lf
+/docs/validation/m4-liuyan-runtime-20261010/*.json text eol=lf

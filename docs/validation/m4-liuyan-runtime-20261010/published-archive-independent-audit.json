@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "auditOk": true,
+  "accepted": true,
+  "scope": "Read-only final published LIUYAN evidence archive integrity and bounded-acceptance audit; no browser/service or product edits",
+  "auditedAt": "2026-10-10T14:16:34.414Z",
+  "canonical": {
+    "path": "docs/validation/m4-liuyan-runtime-20261010.json",
+    "bytes": 32398,
+    "sha256": "34611117b36aae3c2116f7ab0dda2004b9e3d1619ed977579f73582063de1097"
+  },
+  "index": {
+    "path": "docs/validation/m4-liuyan-runtime-20261010/runtime-index.json",
+    "bytes": 88140,
+    "sha256": "7d8fff73edfbccc0cff1bc36d4f3d744ab4f0ec32f92b4cd41c63d7262fc7504"
+  },
+  "inventory": {
+    "path": "docs/validation/m4-liuyan-runtime-20261010/original-png-inventory.json",
+    "bytes": 28751,
+    "sha256": "90012f5cd9a1bdceb5259f669f67a31cbf486b29ecc2ffa1c02aa5979f5fd5c3"
+  },
+  "gaps": [],
+  "closure": {
+    "logicalRaw": 153,
+    "physicalGzip": 129,
+    "originalPng": 49,
+    "logicalRepresentativePng": 6,
+    "physicalRepresentativePng": 6,
+    "logicalInflatedBytes": 147299676,
+    "logicalOriginalAggregate": "1a9fcac2d3c349dad1c4c139e04770ffe05fdec0907aa203f1f32f7df2afea95",
+    "rawPngCrcVerified": 51,
+    "additionalRawArtPng": 2,
+    "canonicalExactReferences": 125,
+    "allGzipHashSizeAndOriginalByteEquality": true,
+    "allActualPngListed": true,
+    "allPreviewCopiesOriginalByteExact": true
+  },
+  "acceptedModes": [
+    {
+      "mode": "installed-hd1080",
+      "viewport": {
+        "width": 1920,
+        "height": 1080
+      },
+      "skillId": 16,
+      "sourceCount": 1222,
+      "result": {
+        "path": "build/r27-liuyan-actual-v1-installed1080/result.json",
+        "bytes": 19164917,
+        "sha256": "c1611e1f2f24999089955240e7645685923a5c85ed1e8230c3382990acc4b1ee"
+      },
+      "independentAudit": {
+        "path": "build/r27-liuyan-installed1080-terminal-independent-audit-v1.json",
+        "bytes": 25719,
+        "sha256": "15562d1426177953c538d3d07347b7b76c461edcfe47647c8c3e3f7f390b3f62"
+      }
+    }
+  ],
+  "failedRuns": [
+    {
+      "directory": "build/r27-liuyan-actual-v2-installed720",
+      "result": {
+        "path": "build/r27-liuyan-actual-v2-installed720/result.json",
+        "bytes": 3024620,
+        "sha256": "778d1f36d0771392dc26dad2d6dd90e3464e609587ec34f79fdc60f58effd51b"
+      },
+      "exitCode": 1,
+      "accepted": false,
+      "originalCleaned": true,
+      "originalCaptureCount": 0,
+      "supplementalCleanup": null
+    },
+    {
+      "directory": "build/r27-liuyan-actual-v3-missing1080",
+      "result": {
+        "path": "build/r27-liuyan-actual-v3-missing1080/result.json",
+        "bytes": 3015523,
+        "sha256": "7594214b8e5357045e07f9a5bdf1709bb5b5acc532a65cf118cb0fc7e6c46dee"
+      },
+      "exitCode": 1,
+      "accepted": false,
+      "originalCleaned": false,
+      "originalCaptureCount": 0,
+      "supplementalCleanup": {
+        "path": "build/r27-liuyan-actual-v3-missing1080-execution-root-v1.json",
+        "bytes": 1637,
+        "sha256": "589bcbbad3b446cdcefb8958ddbb6fa39fe7f8f798fa9d9b929b4200c4d17d31"
+      }
+    },
+    {
+      "directory": "build/r27-liuyan-actual-v4-installed720",
+      "result": {
+        "path": "build/r27-liuyan-actual-v4-installed720/result.json",
+        "bytes": 3024839,
+        "sha256": "b17a51005244d0bc185c2ea1034e8a61cdc0c29cb7703a5cc2031b424bffd15d"
+      },
+      "exitCode": 1,
+      "accepted": false,
+      "originalCleaned": false,
+      "originalCaptureCount": 0,
+      "supplementalCleanup": {
+        "path": "build/r27-liuyan-v4-orphan-renderer-cleanup-root-v1.json",
+        "bytes": 448,
+        "sha256": "5dcf2e8cbc6ce404c06b80ea2aede515b603d9770aa136ca8dedeb38d007818f"
+      }
+    }
+  ],
+  "priorRecords": [
+    {
+      "path": "docs/validation/m4-liuyan-static-20261010.json",
+      "bytes": 31996,
+      "sha256": "4e8ac42ac54be978300e8e0a8721e203ac77a6f77f0e4870407cded233be385d",
+      "byteEqualGitHead": true
+    },
+    {
+      "path": "docs/validation/m4-liuyan-static-20261010/runtime-index.json",
+      "bytes": 29217,
+      "sha256": "30381377eed6fed3a7492bbf20c06b9173b2eff4c074764651e9df14490e3fc8",
+      "byteEqualGitHead": true
+    },
+    {
+      "path": "docs/validation/m4-aid-runtime-20261010.json",
+      "bytes": 67539,
+      "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e",
+      "byteEqualGitHead": true
+    },
+    {
+      "path": "docs/validation/m4-aid-runtime-20261010/runtime-index.json",
+      "bytes": 71156,
+      "sha256": "b7f06c85d1d136dd99e036ef2f7d746e52b0c2f9372986ab382fac67df763d32",
+      "byteEqualGitHead": true
+    }
+  ],
+  "limits": [
+    "Only original installed1920x1080 skill16 actual accepted",
+    "Three Runtime.evaluate timeout attempts remain rejected;720/fallback/Classic/other skills pending",
+    "No concurrency/OOM/product-defect causal claim",
+    "Failed original cleanedfalse/profile retention is preserved; later evidence does not rewrite result",
+    "Evidence bytes are closed under the index, but no portable browser/profile replay package or whole-HD acceptance is claimed"
+  ],
+  "reader": "Sequential gzip inflate + exact local-original Buffer equality; SHA256+size for every logical entry/compressed file; independent PNG signature/chunk bounds/CRC/IEND; exact preview copies; actual terminal flags and Git HEAD prior bytes. No browser or service calls."
+}

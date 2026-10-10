@@ -1,0 +1,645 @@
+{
+  "schemaVersion": 1,
+  "portableClosedArchive": false,
+  "originalsDeleted": false,
+  "scope": "Every retained original PNG in the successful1080 and three failed actual directories is losslessly gzipped. Missing captures on failed attempts are not synthesized. Additional frame0/1 and supplied report/retired previews are raw byte copies. No portable browser/profile replay package is claimed.",
+  "files": [
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/02-actual-native-march-persons.png",
+      "bytes": 2142084,
+      "sha256": "b2e7ad17ed40aac895769d6255f5293e6d3a858dcb8a65653e9629a0f5f13370",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b2e7ad17ed40aac895769d6255f5293e6d3a858dcb8a65653e9629a0f5f13370.gz",
+        "bytes": 2142297,
+        "sha256": "c88b9f942f2902acc0c09c2031a27c7b66ccd85bf0b30039614e785b22cf55e5",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3086242,
+      "sha256": "7eb206b51c285952b25c59fce742ac9271b0b79e41df3f1e1f0399c85911a3c2",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7eb206b51c285952b25c59fce742ac9271b0b79e41df3f1e1f0399c85911a3c2.gz",
+        "bytes": 3087150,
+        "sha256": "1a1a75a605bd67cf8b67ca8cf7ccfa779306b385302059f21b2b05b118d6ebbf",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/03-original-dispatch-order.png",
+      "bytes": 2312735,
+      "sha256": "674d681636853b634ebf6ee770a61d4969c38eee1c3f9537124bdc52543b5058",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/674d681636853b634ebf6ee770a61d4969c38eee1c3f9537124bdc52543b5058.gz",
+        "bytes": 2313430,
+        "sha256": "39914e1b9dd5255f90072b30efe73a0aa0b5a5b6925fa16a7605ab0bfdeea09e",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/04-real-battle-caster.png",
+      "bytes": 182682,
+      "sha256": "2a9815b36ce98804789910a2d0ecd7f01a50a2c8eac41ae297cbbb368780d4e7",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/2a9815b36ce98804789910a2d0ecd7f01a50a2c8eac41ae297cbbb368780d4e7.gz",
+        "bytes": 172738,
+        "sha256": "fb208c47cc6d16d0a504b563a3d91d915e5549c813efa13ac5c439c3d814dfd3",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/05-liuyan-state-report-owners-retired.png",
+      "bytes": 264104,
+      "sha256": "b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0.gz",
+        "bytes": 258219,
+        "sha256": "7034b870497b23bb57ec4a669ef02b6e4f0fb610d1e53b4ec3187a81a19d26ff",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/28-explicit-end-turn-1.png",
+      "bytes": 276895,
+      "sha256": "492ee55d50366cf93c73e377af42b4710110e8e5f5624bdb2b30344cc682feab",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/492ee55d50366cf93c73e377af42b4710110e8e5f5624bdb2b30344cc682feab.gz",
+        "bytes": 271128,
+        "sha256": "f8e0d6dbde480351a21cefe028359081bf652f42095ebd4c0ce7315c6454c41e",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/28-explicit-end-turn-2.png",
+      "bytes": 263210,
+      "sha256": "6b4337afefc6cbfa60e3603340c6588cc2e6b4511800b9dd6cdb56616afa1b04",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/6b4337afefc6cbfa60e3603340c6588cc2e6b4511800b9dd6cdb56616afa1b04.gz",
+        "bytes": 257141,
+        "sha256": "1c017ef4076a11c2949925835929ee34595abb6145f327a79a5d8681d4a87ecb",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/28-explicit-end-turn-3.png",
+      "bytes": 264104,
+      "sha256": "ddec4650525d632ba5c67ac37e191a2a3d815f98058eca2147b4ca719d3793fb",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ddec4650525d632ba5c67ac37e191a2a3d815f98058eca2147b4ca719d3793fb.gz",
+        "bytes": 258156,
+        "sha256": "160e7046be9762b254f7f863a016562f3db1063926cb2c0f658a95bb0bbd27c2",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/actual-report-1.png",
+      "bytes": 248935,
+      "sha256": "ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ae3323472f54f1873dd4c764d2df57ab0af6a2c913fba1bf121d94fd5a432844.gz",
+        "bytes": 244464,
+        "sha256": "977ad335234e31a050ad4cd784a63ea138c8ae075054a426c0a84445dc42e990",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0000-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0001-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0002-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0002-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0002-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0003-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0003-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0003-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0004-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0004-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0004-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0005-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0005-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0005-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0006-movie-hd.png",
+      "bytes": 1304903,
+      "sha256": "4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/4965aa621e2d34be7b4cf6d45077c7ad99e10d5a0d5fd9e81e738d8e8a439a8f.gz",
+        "bytes": 1285819,
+        "sha256": "437c0303cee2107f4f3c45d8db437cc5b8cb862c051d139b36e4966ff1d5453c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0006-movie-lcd.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0006-movie-native.png",
+      "bytes": 5920,
+      "sha256": "7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7c7ad51ec3b9434ba49a9a27db3ce9d13a52240c7d0ed7c71b298f870f25da53.gz",
+        "bytes": 5852,
+        "sha256": "f6c5357f18da5489cb15455b328c6308df4e1f8c5d5a50b105ee42feb5fbbe50",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0007-movie-hd.png",
+      "bytes": 1295218,
+      "sha256": "1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1c5eaa5cd53c644190c3e287792350cfb2cf9d35601173c59e41611288d596f1.gz",
+        "bytes": 1276009,
+        "sha256": "1f64ef53bd810e868e87749fc2c592b411b47729bf2bc78ccf62f5c90ea53a75",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0007-movie-lcd.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/liuyan-0007-movie-native.png",
+      "bytes": 5905,
+      "sha256": "3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/3562024b25ed9a1c48fb307dede087b8c9d409300f17c2b74524bf326d147b6f.gz",
+        "bytes": 5843,
+        "sha256": "405bba10d58c2f70652328d1c2bb4350a58d67c92788b67c2508163bc3920a96",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "installed-hd1080",
+      "path": "build/r27-liuyan-actual-v1-installed1080/skill16-actual-confusion-1.png",
+      "bytes": 264104,
+      "sha256": "b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/b79ae7d2f3f343b243eeeba776345bd98f9f110c15dd35dbbe47b95a97f985f0.gz",
+        "bytes": 258219,
+        "sha256": "7034b870497b23bb57ec4a669ef02b6e4f0fb610d1e53b4ec3187a81a19d26ff",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v2-installed720",
+      "path": "build/r27-liuyan-actual-v2-installed720/02-actual-native-march-persons.png",
+      "bytes": 761875,
+      "sha256": "078b4558a5e867fbd03429df6f8c6f496d5410d929492bf6a714f72ca15655ae",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/078b4558a5e867fbd03429df6f8c6f496d5410d929492bf6a714f72ca15655ae.gz",
+        "bytes": 761568,
+        "sha256": "dc63c2890c0fd890429219830547c9e9f0aec134df69300affd3ed9fcca37855",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v2-installed720",
+      "path": "build/r27-liuyan-actual-v2-installed720/02-public-original-checkpoint-loaded.png",
+      "bytes": 1507084,
+      "sha256": "cd4499f4bed5d88bcc8bca331bfa2225d1382587c1f5e3380154a935fd70dde4",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/cd4499f4bed5d88bcc8bca331bfa2225d1382587c1f5e3380154a935fd70dde4.gz",
+        "bytes": 1507542,
+        "sha256": "207f5940537e43aea9e505c6a1fd313309de9a8c6016b166bd7d67b72530b407",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v2-installed720",
+      "path": "build/r27-liuyan-actual-v2-installed720/03-original-dispatch-order.png",
+      "bytes": 882294,
+      "sha256": "a7a5a5d724f22c410ca1a27d824ca5de6c01f5fee349882f41bf3e7036b5de42",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/a7a5a5d724f22c410ca1a27d824ca5de6c01f5fee349882f41bf3e7036b5de42.gz",
+        "bytes": 882568,
+        "sha256": "61a158d2a7e24a012b3455ae9d399c31ff078274dfcb3001a447b2dcd3dc8f10",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v2-installed720",
+      "path": "build/r27-liuyan-actual-v2-installed720/04-real-battle-caster.png",
+      "bytes": 163609,
+      "sha256": "07a0510faa6e719d9b6de220c1c0983eb62d8db6b61e62e3f0341a2f1bd15abf",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/07a0510faa6e719d9b6de220c1c0983eb62d8db6b61e62e3f0341a2f1bd15abf.gz",
+        "bytes": 161854,
+        "sha256": "2d9fa75ef20ae83f5b1aa430657a5041c77ab82181a348c82d11d426e2eabefd",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v2-installed720",
+      "path": "build/r27-liuyan-actual-v2-installed720/28-explicit-end-turn-1.png",
+      "bytes": 185016,
+      "sha256": "e361e0be0748c4f9310084c340b9fef6d64edd786bf65f0af6893c199dddee6d",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/e361e0be0748c4f9310084c340b9fef6d64edd786bf65f0af6893c199dddee6d.gz",
+        "bytes": 182870,
+        "sha256": "8c5f492e645d467e21c5ddf1454c489649a8ea2141b8d397c2a75aa03318c3c3",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v3-missing1080",
+      "path": "build/r27-liuyan-actual-v3-missing1080/02-actual-native-march-persons.png",
+      "bytes": 2200720,
+      "sha256": "9070502b2cd6f24c41a21baf773ffb14781ba20636d162ed4868e4efafcf72d7",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/9070502b2cd6f24c41a21baf773ffb14781ba20636d162ed4868e4efafcf72d7.gz",
+        "bytes": 2201393,
+        "sha256": "64ab931aa9027341698156fdda5344f1dbda111318d7265935afb44367e7d2cb",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v3-missing1080",
+      "path": "build/r27-liuyan-actual-v3-missing1080/02-public-original-checkpoint-loaded.png",
+      "bytes": 3085402,
+      "sha256": "ade1e105d85ea47c6cb5e7f2fa6cd6b9052651cf67fb018df387a5e2fd2752ed",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/ade1e105d85ea47c6cb5e7f2fa6cd6b9052651cf67fb018df387a5e2fd2752ed.gz",
+        "bytes": 3086310,
+        "sha256": "7a96379ed5164d4c21ff1791f137eecde9ab4103e55deae310f977c74355b1aa",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v3-missing1080",
+      "path": "build/r27-liuyan-actual-v3-missing1080/03-original-dispatch-order.png",
+      "bytes": 2312137,
+      "sha256": "365ab792dd5c0b20e6de52af29d76e90cdc6105d3e31828e187fc66449e74535",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/365ab792dd5c0b20e6de52af29d76e90cdc6105d3e31828e187fc66449e74535.gz",
+        "bytes": 2312832,
+        "sha256": "6e8c2705d25ee49598f71adc841fac7ae02027ea9e351c2a0cbe3cf79aba3a63",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v3-missing1080",
+      "path": "build/r27-liuyan-actual-v3-missing1080/04-real-battle-caster.png",
+      "bytes": 182742,
+      "sha256": "7ac3b04a2ee970c4c9c5c7a2f2cb52fcd50bb9e662a04839a9fd9f00d50e7585",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/7ac3b04a2ee970c4c9c5c7a2f2cb52fcd50bb9e662a04839a9fd9f00d50e7585.gz",
+        "bytes": 172902,
+        "sha256": "84be8506788bc8fef3f43cac9a9c64671073b54baa5569f80337f2fc2b62b8e6",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v3-missing1080",
+      "path": "build/r27-liuyan-actual-v3-missing1080/28-explicit-end-turn-1.png",
+      "bytes": 276879,
+      "sha256": "f0ed04d72c29c49f4b2a1d85ce5754d9bfe68c3b9c41310e9610c369d4c9dbff",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/f0ed04d72c29c49f4b2a1d85ce5754d9bfe68c3b9c41310e9610c369d4c9dbff.gz",
+        "bytes": 271139,
+        "sha256": "75a003efe12c8603bf3034a6458fc38eb0e4879438d863c1a1efbecf08a1cbea",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v4-installed720",
+      "path": "build/r27-liuyan-actual-v4-installed720/02-actual-native-march-persons.png",
+      "bytes": 816185,
+      "sha256": "fe3e33004ca9894c1b0e5266d75cfca178678cb6630f4968abc6a2eb23095024",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/fe3e33004ca9894c1b0e5266d75cfca178678cb6630f4968abc6a2eb23095024.gz",
+        "bytes": 816356,
+        "sha256": "a898e43f1342627f5700d3aa214612645b3330a8eb54515958033464de02e54c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v4-installed720",
+      "path": "build/r27-liuyan-actual-v4-installed720/02-public-original-checkpoint-loaded.png",
+      "bytes": 58817,
+      "sha256": "1a7e72979334ae1c64ff4c9196d29f046af3818d1f9ad788a48204a6159bdd43",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/1a7e72979334ae1c64ff4c9196d29f046af3818d1f9ad788a48204a6159bdd43.gz",
+        "bytes": 55205,
+        "sha256": "e414b15a6a2c29772f9ed539ee5a7c91b34d96d71ae6455b53d798b3fcc94a46",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v4-installed720",
+      "path": "build/r27-liuyan-actual-v4-installed720/03-original-dispatch-order.png",
+      "bytes": 882117,
+      "sha256": "d43cb925ad09029922c5a0152d218c56c6296cc6ffc51510c4eecfa8e436d536",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/d43cb925ad09029922c5a0152d218c56c6296cc6ffc51510c4eecfa8e436d536.gz",
+        "bytes": 882386,
+        "sha256": "45eec402209d4ccead98252c46d334cd526b91d680c4306cc9642b3b1282dc5f",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v4-installed720",
+      "path": "build/r27-liuyan-actual-v4-installed720/04-real-battle-caster.png",
+      "bytes": 163499,
+      "sha256": "95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/95b253f383e11c9f4fffd8e291a987363e251d4d06f67e12e75f07db7b4ee63d.gz",
+        "bytes": 161695,
+        "sha256": "8088a7e76b7d15defd416c4d196ddfe86d2f65cd62135183543a999df63f3233",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "mode": "failed:r27-liuyan-actual-v4-installed720",
+      "path": "build/r27-liuyan-actual-v4-installed720/28-explicit-end-turn-1.png",
+      "bytes": 192668,
+      "sha256": "bdd68edbd0bc9a8ee74d531fc6d4c38e0f95a390686501bf06a14816e6cc28e8",
+      "originalRetained": true,
+      "archive": {
+        "path": "docs/validation/m4-liuyan-runtime-20261010/raw/bdd68edbd0bc9a8ee74d531fc6d4c38e0f95a390686501bf06a14816e6cc28e8.gz",
+        "bytes": 190776,
+        "sha256": "67b0e591fadbdc18827d7b85d05aa6b5d7a2e2ae23fd473a6ec0ba52366c3e76",
+        "encoding": "gzip"
+      }
+    }
+  ]
+}
