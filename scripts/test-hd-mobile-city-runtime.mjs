@@ -178,8 +178,9 @@ async function unusedPort() {
 export async function main(args=process.argv.slice(2)) {
   const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only'),distribution=args.includes('--distribution'),recruitment=args.includes('--recruitment')||distribution;
   const previewOnly=args.includes('--preview-only');
+  const systemOnly=args.includes('--system-only'),systemFlags=args.filter(arg=>arg.startsWith('--system-width=')),systemWidth=Number(systemFlags[0]?.split('=')[1]||844);
   const equipmentOnly=args.includes('--equipment-only'),equipmentFlags=args.filter(arg=>arg.startsWith('--equipment-width=')),equipmentWidth=Number(equipmentFlags[0]?.split('=')[1]||844);
-  const worldSource=previewOnly||equipmentOnly?`(() => {const w=${baseWorldSource},d=baye.data;
+  const worldSource=previewOnly||equipmentOnly||systemOnly?`(() => {const w=${baseWorldSource},d=baye.data;
     const take=(o,fields)=>Object.fromEntries(fields.map(k=>{const v=Number(o[k]);if(!Number.isInteger(v))throw Error('Noninteger goods '+k);return [k,v];}));
     return {...w,cities:w.cities.map((c,i)=>({...c,...take(d.g_Cities[i],['Tools','ToolQueue'])})),
       goodsQueue:Array.from(d.g_GoodsQueue,Number),
@@ -187,7 +188,7 @@ export async function main(args=process.argv.slice(2)) {
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution','--preview-only','--equipment-only'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width='));
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
     args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
@@ -197,7 +198,9 @@ export async function main(args=process.argv.slice(2)) {
     args.filter(arg=>arg==='--preview-only').length<=1&&(!previewOnly||![reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
     args.filter(arg=>arg==='--equipment-only').length<=1&&equipmentFlags.length<=1&&(!equipmentFlags.length||equipmentOnly)&&[844,667].includes(equipmentWidth)&&
     (!equipmentOnly||![previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    args.filter(arg=>arg==='--system-only').length<=1&&systemFlags.length<=1&&(!systemFlags.length||systemOnly)&&[844,667].includes(systemWidth)&&
+    (!systemOnly||![equipmentOnly,previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--system-only [--system-width=844|667] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
@@ -209,6 +212,8 @@ export async function main(args=process.argv.slice(2)) {
   report.distribution=distribution;report.distributions=[];report.distributionAccepted=false;
   report.previewOnly=previewOnly;report.previewAccepted=false;report.previewChecks=[];
   report.equipmentOnly=equipmentOnly;report.equipmentWidth=equipmentOnly?equipmentWidth:null;report.equipmentAccepted=false;report.equipmentChecks=[];
+  report.systemOnly=systemOnly;report.systemWidth=systemOnly?systemWidth:null;report.systemAccepted=false;
+  if(systemOnly)report.scope='Original mobile HD title, period, ruler, system and local save/load through trusted touch; independent presentation, cancelled gestures and exact recorded world restored after reload. No real-device, cloud-save, complete-ABI or full-HD acceptance.';
   if(equipmentOnly)report.scope='Original mobile CITY actual confiscation and granting at the selected emulated width, with empty/full-equipment rejection, cancellation, actual report ownership and exact recorded world deltas; no native writes, real-device, all-tool-class or full-HD acceptance';
   if(previewOnly)report.scope='Original mobile CITY person and equipped-goods preview through trusted touch with actual native focus and property paging; exact recorded world including goods queue and resource fields; no equipment commitment, native writes, real-device or full-HD claim';
   if(distribution)report.scope='Original mobile HD CITY navigation and two genuine recruitment-to-distribution flows: cancellation, target total increase, reduction and zero return at 844x390/667x375; no native writes, month advance, real-device or full-HD claim';
@@ -619,6 +624,7 @@ export async function main(args=process.argv.slice(2)) {
     if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
     if(previewOnly||equipmentOnly)freeze('scripts/hd-mobile-preview-runtime-checks.mjs');
     if(equipmentOnly){freeze('scripts/hd-mobile-equipment-runtime-checks.mjs');freeze('scripts/hd-mobile-equipment-runtime-oracle.mjs');freeze('package.json');}
+    if(systemOnly){for(const f of ['scripts/hd-mobile-system-runtime-checks.mjs','scripts/hd-mobile-system-runtime-oracle.mjs','scripts/test-hd-mobile-system.mjs','scripts/test-hd-mobile-system-runtime-oracle.mjs','scripts/test-lcd-touch.mjs','package.json','pc.html','js/hd-system-ui.js','js/hd-mobile-system.js','css/hd-mobile.css','css/hd-system-ui.css','js/save-storage.js'])freeze(f);}
     if(portraitsOnly)freeze('scripts/hd-mobile-portraits-runtime-checks.mjs');
     if(marchOnly){for(const f of ['scripts/hd-mobile-march-runtime-checks.mjs','scripts/hd-mobile-march-runtime-oracle.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','css/hd-mobile.css'])freeze(f);}
     if(battleOnly){for(const f of ['scripts/hd-mobile-battle-runtime-checks.mjs','scripts/hd-mobile-battle-runtime-oracle.mjs','js/hd-battle.js','js/hd-mobile-battle.js','js/hd-battle-terrain.js','js/hd-battle-feedback.js'])freeze(f);}
@@ -665,7 +671,7 @@ export async function main(args=process.argv.slice(2)) {
     cdp.on('Fetch.requestPaused',e=>{const local=e.request.url.startsWith(origin+'/');if(!local)report.blockedExternal.push(e.request.url);
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
     await cdp.send('Runtime.enable');await cdp.send('Page.enable');await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
-    await metrics(844,390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+    await metrics(systemOnly?systemWidth:844,systemOnly&&systemWidth===667?375:390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
     report.earlyInputObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"for(const type of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointerup','pointercancel','click','keydown'])document.addEventListener(type,event=>{if(Array.isArray(window.__mobileMapEvents))window.__mobileMapEvents.push({type,trusted:event.isTrusted,target:event.target?.id||event.target?.tagName||null,key:event.key||null,pointerId:event.pointerId??null,at:performance.now()});},true);"});
     await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
     await until('original engine','window.baye&&baye.hd&&baye.hd.ready()',60000);
@@ -678,6 +684,15 @@ export async function main(args=process.argv.slice(2)) {
     for(let n=0;n<60;n++){if(await evaluate('baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
       const intro=await evaluate('baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)');if(intro)await key(0x27,'Public intro acknowledgement');else await delay(150);}
     await until('native title','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1');
+    if(systemOnly){
+      const {runMobileSystemChecks}=await import('./hd-mobile-system-runtime-checks.mjs');
+      await runMobileSystemChecks({report,evaluate,until,delay,checkpoint,metrics,touches,tap,buttonPoint,mark,worldSource,readSource,mapReadySource,assertHd,cdp,origin});
+      report.nativeKeys=[...report.systemPageInputs.flatMap(p=>p.keys),...await evaluate('__mobileMapKeys')];
+      report.nativeTouches=[...report.systemPageInputs.flatMap(p=>p.touches),...await evaluate('__mobileMapNativeTouches')];
+      report.trustedEvents=[...report.systemPageInputs.flatMap(p=>p.events),...await evaluate('__mobileMapEvents')];
+      assert.equal(report.nativeTouches.length,0);assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
+      report.systemAccepted=true;report.ok=true;report.accepted=true;return;
+    }
     await checkpoint('00-title-844');await key(0x27,'Start genuine new game');
     await until('native period','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===2');await key(0x27,'Select original first period');
     await until('native king list','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===3&&Number(baye.data.g_PIdx)===1&&baye.hd.kings().count>0');
@@ -718,6 +733,14 @@ export async function main(args=process.argv.slice(2)) {
         readSource,worldSource,mapReadySource,verifyMobileTreatWorld,sendCdp:(method,params)=>cdp.send(method,params)});
     }else await cityChecks();
   }catch(error){report.ok=false;report.accepted=false;report.error=error.stack||String(error);process.exitCode=1;console.error(report.error);
+    if(systemOnly&&cdp){try{
+      report.nativeKeys=[...(report.systemPageInputs||[]).flatMap(p=>p.keys),...await evaluate('window.__mobileMapKeys||[]')];
+      report.nativeTouches=[...(report.systemPageInputs||[]).flatMap(p=>p.touches),...await evaluate('window.__mobileMapNativeTouches||[]')];
+      report.trustedEvents=[...(report.systemPageInputs||[]).flatMap(p=>p.events),...await evaluate('window.__mobileMapEvents||[]')];
+      report.systemInputDiagnostics=[...(report.systemInputDiagnostics||[]),...await evaluate('window.__mobileSystemDiagnostics||[]')];
+      report.failureSystem=await evaluate('({host:window.BayeHdMobileSystem&&BayeHdMobileSystem.snapshot(),ui:window.BayeHdSystemUi&&BayeHdSystemUi.debugSnapshot(),menu:baye.hd.menuItems(),record:baye.hd.record()})');
+      report.failureWorld=await evaluate(`baye.getPersonCount()===200?${worldSource}:null`);
+    }catch{report.failureSystemInputsUnavailable=true;}}
     if((previewOnly||equipmentOnly)&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failurePreviewInputsUnavailable=true;}}
     if(recruitment&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failureRecruitmentInputsUnavailable=true;}}
     if(marchOnly&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.marchKeyTrace=await evaluate('window.__mobileMarchKeyTrace');report.failureWorld=await evaluate(worldSource);}catch{report.failureMarchInputsUnavailable=true;}}

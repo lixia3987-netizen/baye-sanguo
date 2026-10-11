@@ -6,6 +6,8 @@
 (function (global) {
     var STORAGE_KEY = 'baye/systemUiMode';
     var OVERWORLD_KEY = 'baye/overworldMode';
+    var MOBILE_STORAGE_KEY = 'baye/mobileSystemUiMode';
+    var mobileHost = null, mobileMode = 'hd', mobileListSignature = '', mobileListData = null;
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var TITLE = ['新君登基', '重返沙场', '制作群组', '解甲归田'];
     var PERIODS = ['董卓弄权', '曹操崛起', '赤壁之战', '三国鼎立'];
@@ -70,7 +72,19 @@
     }
 
     function getMode() {
+        if (isMobilePage()) { return normalizeMode(readStorage(MOBILE_STORAGE_KEY, mobileMode)); }
         return normalizeMode(readStorage(STORAGE_KEY, 'auto'));
+    }
+
+    function isMobilePage() {
+        return !!(document.body && document.body.classList && document.body.classList.contains('hd-mobile-page'));
+    }
+
+    function mobileTicket() {
+        try {
+            return mobileHost && mobileHost.isAvailable() === true && mobileHost.readInputTicket()
+                || null;
+        } catch (e) { return null; }
     }
 
     function overworldIsHd() {
@@ -81,6 +95,7 @@
     }
 
     function shouldShowHd() {
+        if (isMobilePage() && (!mobileHost || !mobileTicket())) { return false; }
         var mode = getMode();
         if (mode === 'classic') {
             return false;
@@ -176,6 +191,12 @@
     }
 
     function probeKings() {
+        if (isMobilePage()) {
+            var ticket = mobileTicket();
+            return ticket && ticket.owner.screen === 'king' ? ticket.owner.kings.map(function (k) {
+                return {id: k.id + 1, engineId: k.id, name: k.name, city: ''};
+            }) : [];
+        }
         var data = engineData();
         var list = [];
         var seen = {};
@@ -344,6 +365,15 @@
     }
 
     function inputOwner() {
+        if (isMobilePage()) {
+            var ticket = mobileTicket();
+            if (!ticket) { return null; }
+            var result = Object.assign({}, ticket.owner);
+            result.mobileData = ticket.data;
+            result.mobileGeneration = ticket.identity.generation;
+            result.mobileKey = ticket.owner.stableKey;
+            return result;
+        }
         if (fightActive() || makerActive()) { return null; }
         var record = liveRecord();
         if (record && Number(record.active) && Number(record.seq) &&
@@ -356,6 +386,7 @@
         var menu = liveMenu();
         if (!menu || !Number(menu.active) || !Number(menu.seq)) { return null; }
         var screen = Number(menu.context) === 2 && Number(menu.kind) === 1 ? 'insystem'
+            : Number(menu.context) === 2 && Number(menu.kind) === 2 ? 'insystem-confirm'
             : Number(menu.context) === 4 && Number(menu.kind) === 1 ? 'title'
             : Number(menu.context) === 4 && Number(menu.kind) === 2 ? 'period'
             : Number(menu.context) === 4 && Number(menu.kind) === 3 ? 'king' : '';
@@ -363,11 +394,12 @@
         var count = Number(menu.count), index = Number(menu.index);
         if (!(count > 0) || !(index >= 0 && index < count)) { return null; }
         return { type: 'menu', seq: Number(menu.seq), index: index, count: count,
-            context: Number(menu.context), kind: Number(menu.kind), screen: screen };
+            context: Number(menu.context), kind: Number(menu.kind), screen: screen, names: (menu.names || []).slice() };
     }
 
     function ownerToken(owner) {
-        return owner.type + ':' + owner.seq + ':' + (owner.mode || owner.context + ':' + owner.kind);
+        return owner.type + ':' + owner.seq + ':' + (owner.mode || owner.context + ':' + owner.kind) +
+            (owner.stableKey || owner.mobileKey ? ':' + (owner.stableKey || owner.mobileKey) : '');
     }
 
     function legacyInputBlocked() {
@@ -394,7 +426,8 @@
     }
 
     function sameOwner(a, b) {
-        return !!(a && b && ownerToken(a) === ownerToken(b));
+        return !!(a && b && ownerToken(a) === ownerToken(b) && (!isMobilePage() ||
+            a.mobileData === b.mobileData && a.mobileGeneration === b.mobileGeneration && a.mobileKey === b.mobileKey));
     }
 
     function failRequest(text, owner) {
@@ -470,14 +503,14 @@
                         return;
                     }
                     state.confirmedToken = ownerToken(owner);
-                    engineSendKey(VK.ENTER);
+                    engineSendKey(VK.ENTER, current);
                 }
                 refresh();
                 return;
             }
             request.expected = current.index + (current.index > index ? -1 : 1);
             request.waiting = true;
-            if (!engineSendKey(current.index > index ? VK.UP : VK.DOWN)) {
+            if (!engineSendKey(current.index > index ? VK.UP : VK.DOWN, current)) {
                 failRequest('当前引擎输入不可用，请返回后重试。', owner);
                 return;
             }
@@ -521,7 +554,12 @@
         return false;
     }
 
-    function engineSendKey(code) {
+    function engineSendKey(code, expectedOwner) {
+        if (isMobilePage()) {
+            var currentOwner = inputOwner();
+            if (!shouldShowHd() || !expectedOwner || !sameOwner(expectedOwner, currentOwner) ||
+                currentOwner.index !== expectedOwner.index) { return false; }
+        }
         if (makerActive()) return false;
         if (!inputOwner() && legacyInputBlocked()) {
             closeUi({ silent: true });
@@ -629,6 +667,7 @@
     }
 
     function inferScreen() {
+        if (isMobilePage()) { var mobileOwner = inputOwner(); return mobileOwner ? mobileOwner.screen : null; }
         if (fightActive()) {
             return null;
         }
@@ -660,6 +699,10 @@
 
     function applyChrome() {
         var show = state.open && shouldShowHd() && !makerActive();
+        if (isMobilePage()) {
+            var current = inputOwner();
+            show = show && !!current && current.screen === state.screen;
+        }
         document.documentElement.setAttribute('data-baye-system-ui', show ? 'hd' : 'off');
         document.documentElement.setAttribute('data-baye-system-ui-pref', getMode());
         if (document.body) {
@@ -678,9 +721,17 @@
             root.classList.toggle('is-open', show);
             root.setAttribute('aria-hidden', show ? 'false' : 'true');
         }
+        if (isMobilePage() && mobileHost && typeof mobileHost.onPresentation === 'function') {
+            mobileHost.onPresentation(!!show);
+        }
     }
 
     function currentItems() {
+        if (isMobilePage() && state.screen !== 'saveload') {
+            var mobileOwner = inputOwner();
+            return mobileOwner && mobileOwner.screen === state.screen ? mobileOwner.names.slice() : [];
+        }
+        if (state.screen === 'insystem-confirm') { var confirmMenu = liveMenu(); return confirmMenu && confirmMenu.names || []; }
         if (state.screen === 'period') {
             return PERIODS;
         }
@@ -718,6 +769,7 @@
             king: '选择君主',
             saveload: state.recordMode === 1 ? '存储进度' : '重返沙场',
             insystem: '系统指令'
+            , 'insystem-confirm': '结束游戏'
         }[state.screen] || '系统';
     }
 
@@ -739,6 +791,7 @@
         if (state.screen === 'insystem') {
             return '请选择下一步指令。';
         }
+        if (state.screen === 'insystem-confirm') { return '确认结束当前游戏，或返回继续。未保存的进度不会保留。'; }
         return '新君登基 / 重返沙场 / 制作群组 / 解甲归田 · 与引擎主菜单一致';
     }
 
@@ -747,7 +800,23 @@
         if (!list) {
             return;
         }
+        var initialMobileTicket = isMobilePage() ? mobileTicket() : null;
         var items = currentItems();
+        if (isMobilePage()) {
+            var finalMobileTicket = mobileTicket();
+            if (!initialMobileTicket || !finalMobileTicket || initialMobileTicket.data !== finalMobileTicket.data ||
+                initialMobileTicket.key !== finalMobileTicket.key) { closeUi({silent: true}); return; }
+            list._bayeMobileSystemTicket = finalMobileTicket;
+        }
+        if (isMobilePage()) {
+            var mobileOwner = inputOwner();
+            var signature = JSON.stringify([initialMobileTicket.key, mobileOwner && mobileOwner.mobileKey, mobileOwner && mobileOwner.index,
+                items, !!state.request, state.confirmedToken, state.exitedToken, state.retiredToken,
+                state.saves.map(function (s) { return [s.canLoad, s.error]; })]);
+            if (signature === mobileListSignature && mobileListData === initialMobileTicket.data && list.children.length === items.length) { return; }
+            mobileListSignature = signature;
+            mobileListData = initialMobileTicket.data;
+        }
         list.innerHTML = '';
         var i;
         if (!items.length) {
@@ -766,6 +835,7 @@
             btn.type = 'button';
             btn.className = 'hd-system-ui-item';
             btn.setAttribute('data-hd-sys', String(i));
+            if (isMobilePage()) { btn._bayeMobileSystemTicket = initialMobileTicket; }
             var owner = inputOwner();
             if (owner) { btn.setAttribute('data-hd-sys-owner', ownerToken(owner)); }
             var pending = !!state.request || !!(owner &&
@@ -783,7 +853,7 @@
             list.appendChild(btn);
         }
         var idle = list.querySelector('.hd-system-ui-item.is-idle');
-        if (idle && idle.scrollIntoView) {
+        if (idle && idle.scrollIntoView && !isMobilePage()) {
             try {
                 idle.scrollIntoView({ block: 'nearest', inline: 'nearest' });
             } catch (e) {
@@ -943,7 +1013,7 @@
             invalidateInput();
             state.exitedToken = token;
             state.hint = '';
-            engineSendKey(VK.EXIT);
+            if (!engineSendKey(VK.EXIT, owner)) { return false; }
             refresh();
             return true;
         }
@@ -1027,6 +1097,7 @@
         state.bound = true;
         var pressedOwner = '';
         root.addEventListener('pointerdown', function (ev) {
+            if (isMobilePage()) { return; }
             pressedOwner = '';
             var t = ev.target;
             while (t && t !== root) {
@@ -1038,6 +1109,7 @@
             }
         });
         root.addEventListener('click', function (ev) {
+            if (isMobilePage()) { return; }
             if (ev.target === root) {
                 return;
             }
@@ -1066,6 +1138,7 @@
             }
         });
         document.addEventListener('keydown', function (e) {
+            if (isMobilePage()) { return; }
             if (makerActive()) return;
             if (global.BayeHdSpe && typeof BayeHdSpe.isOpen === 'function' && BayeHdSpe.isOpen()) {
                 return;
@@ -1132,7 +1205,8 @@
 
     function setMode(value) {
         invalidateInput();
-        writeStorage(STORAGE_KEY, normalizeMode(value));
+        if (isMobilePage()) { mobileMode = normalizeMode(value); writeStorage(MOBILE_STORAGE_KEY, mobileMode); }
+        else { writeStorage(STORAGE_KEY, normalizeMode(value)); }
         if (getMode() === 'classic' && state.open) {
             closeUi({ silent: true });
         }
@@ -1142,12 +1216,15 @@
         if (global.BayeHdSpe && typeof BayeHdSpe.blit === 'function') BayeHdSpe.blit();
     }
 
-    var pollId = 0;
+    var pollId = 0, started = false;
 
     function start() {
         bindUi();
         bindToolbar();
         applyChrome();
+        if (started) { return; }
+        started = true;
+        if (isMobilePage()) { refresh(); return; }
         if (!pollId) {
             pollId = setInterval(function () {
                 if (!hdReady()) {
@@ -1178,6 +1255,27 @@
         getMode: getMode,
         setMode: setMode,
         shouldShowHd: shouldShowHd,
+        configureMobileHost: function (options) {
+            mobileHost = options && typeof options.isAvailable === 'function' && typeof options.readInputTicket === 'function' ? options : null;
+            invalidateInput(); mobileListSignature = ''; applyChrome();
+        },
+        applyMobilePage: function (options) { this.configureMobileHost(options); start(); },
+        refresh: refresh,
+        retireInteraction: function (reason, options) {
+            invalidateInput();
+            if (options && options.keepShell === true && isMobilePage() && inputOwner()) { render(); }
+            else { state.open = false; mobileListSignature = ''; applyChrome(); }
+        },
+        getInputTicket: mobileTicket,
+        chooseInput: function (index, ticket) {
+            var current = mobileTicket();
+            if (!isMobilePage() || !ticket || !current || ticket.data !== current.data || ticket.key !== current.key) { return false; }
+            return chooseNative(index, true, ownerToken(current.owner));
+        },
+        backInput: function (ticket) {
+            var current = mobileTicket();
+            return !!(isMobilePage() && ticket && current && ticket.data === current.data && ticket.key === current.key && back());
+        },
         isOpen: function () { return state.open; },
         close: closeUi,
         getScreen: function () { return state.screen; },
@@ -1245,7 +1343,8 @@
                 recordMode: state.recordMode,
                 recordSource: state.recordSource,
                 recordSeq: state.recordSeq,
-                input: inputOwner(),
+                input: (function () { var owner = inputOwner(); if (!owner) { return null; }
+                    var result = Object.assign({}, owner); delete result.mobileData; return result; })(),
                 pending: !!state.request,
                 hint: state.hint,
                 playerKing: playerKingId(),

@@ -113,8 +113,8 @@ test('mounting twice adds no duplicate input and destroy removes listeners',()=>
 test('page lock permits only the currently displayed mobile HD scroll surface', () => {
     const body = new Target(), classes = new Set();
     body.classList = {contains: value => classes.has(value)};
-    let battlePresentation = 'off';
-    body.getAttribute = name => name === 'data-hd-mobile-battle' ? battlePresentation : null;
+    let battlePresentation = 'off', systemPresentation = 'off';
+    body.getAttribute = name => name === 'data-hd-mobile-battle' ? battlePresentation : name === 'data-hd-mobile-system' ? systemPresentation : null;
     const context = vm.createContext({document: {body}, window: {scrollTo() {}}});
     const start = source.indexOf('function disablePageScroll()');
     const end = source.indexOf('\nfunction ', start + 1);
@@ -142,4 +142,14 @@ test('page lock permits only the currently displayed mobile HD scroll surface', 
     assert.equal(blocked({parentNode: battleSide}), true, 'LCD handoff revokes battle side permission');
     classes.clear(); battlePresentation = 'hd';
     assert.equal(blocked({parentNode: battleSide}), true, 'other pages cannot inherit mobile battle permission');
+    const systemList = {id: 'hd-system-ui', parentNode: body};
+    classes.add('hd-mobile-page');
+    assert.equal(blocked({parentNode: systemList}), true, 'inactive system keeps page lock');
+    systemPresentation = 'lcd';
+    assert.equal(blocked({parentNode: systemList}), true, 'classic system keeps page lock');
+    systemPresentation = 'hd';
+    assert.equal(blocked({parentNode: systemList}), false, 'current mobile HD system can scroll');
+    assert.equal(blocked({id: 'lcd', parentNode: body}), true, 'system permission never releases LCD or page');
+    classes.clear();
+    assert.equal(blocked({parentNode: systemList}), true, 'PC cannot inherit mobile system scroll permission');
 });
