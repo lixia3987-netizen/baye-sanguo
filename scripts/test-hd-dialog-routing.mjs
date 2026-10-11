@@ -848,3 +848,186 @@ test('a torn or unrelated CITY handoff does not suppress the current ordinary mo
         assert.deepEqual(h.sent,[]);assert.deepEqual(h.writes,[]);
     }
 });
+
+function mobileBattleDetailFixture(kind = 9) {
+    const h=harness(); h.available=true;
+    h.identity={status:'ready',generation:3,byteLength:207195,sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'};
+    h.context.BayeHdLibIdentity={read:()=>h.identity,isCurrent:i=>i===h.identity};
+    h.context.BayeHdBattle.shouldShowHd=()=>h.available;
+    Object.defineProperty(h.data,'toJSON',{value(){throw Error('opaque world serialized');}});
+    h.units=Array.from({length:20},(_,i)=>({i,id:0,x:0,y:0,state:8,hp:0,mp:0,arms:0}));
+    Object.assign(h.units[0],{id:1,x:0,y:0,state:0,hp:100,mp:50,arms:0});
+    Object.assign(h.units[1],{id:2,x:7,y:5,state:3,hp:90,mp:20,arms:65535});
+    Object.assign(h.units[10],{id:100,x:3,y:2,state:0,hp:80,mp:30,arms:600});
+    h.data.g_Persons=Array.from({length:200},()=>({Belong:1}));h.data.g_Persons[99].Belong=100;
+    h.kind=kind;
+    h.syncRaw=()=>{
+        const info=h.kind===9?h.help:h.view,prefix=h.kind===9?'g_hdHelp':'g_hdView';
+        const names=h.kind===9?{protocolVersion:'ProtocolVersion',active:'Active',complete:'Complete',seq:'Seq',generation:'Generation',
+            inputSeq:'InputSeq',kind:'Kind',person:'Person',slot:'Slot',x:'X',y:'Y',terrain:'Terrain',levelMax:'LevelMax'}:
+            {protocolVersion:'ProtocolVersion',active:'Active',complete:'Complete',custom:'Custom',seq:'Seq',generation:'Generation',inputSeq:'InputSeq',
+                force:'Force',pageStart:'PageStart',pageSize:'PageSize',totalCount:'TotalCount',rowCount:'RowCount',width:'MapWidth',height:'MapHeight',
+                days:'Days',playerMode:'PlayerMode',foodKnown:'FoodKnown',food:'Food',leaderPerson:'Leader'};
+        for(const [name,suffix] of Object.entries(names))h.data[prefix+suffix]=info[name];
+        if(h.kind===9){h.data.g_hdHelpFields=[...info.fields];h.data.g_hdHelpGbk=info.text;
+            for(const name of ['Name','Arm','State'])h.data['g_hdHelp'+name+'Gbk']=info[name.toLowerCase()];
+        }else{
+            for(const [suffix,name] of [['Slots','slot'],['Persons','personIndex'],['Arms','arms']])h.data['g_hdViewRow'+suffix]=info.rows.map(r=>r[name]);
+            h.data.g_hdViewRowNames=Array(info.rows.length*32).fill(0);h.data.g_hdViewRowText=Array(info.rows.length*64).fill(0);
+            h.data.g_hdViewPointCount=info.points.length;
+            for(const [suffix,name] of [['Slots','slot'],['Persons','personIndex'],['X','x'],['Y','y'],['State','state']])h.data['g_hdViewPoint'+suffix]=info.points.map(r=>r[name]);
+            for(const name of ['Title','Days','Positions','Faction','Food'])h.data['g_hdView'+name+'Gbk']=info[name==='Title'?'title':name.toLowerCase()+'Text'];
+        }
+    };
+    if(kind===9)detailedHelp(h,{slot:0,fields:[1,99,88,0,100,50,210,155,0,2]});
+    else detailedView(h,{totalCount:2,rows:[{slot:0,personIndex:0,name:'甲',text:'甲 0',arms:0},{slot:1,personIndex:1,name:'乙',text:'乙 65535',arms:65535}],
+        points:[{slot:0,personIndex:0,x:0,y:0,state:0},{slot:1,personIndex:1,x:7,y:5,state:3},{slot:10,personIndex:99,x:3,y:2,state:0}]});
+    h.syncRaw();
+    h.provider=()=>{
+        if(h.providerHook)h.providerHook();
+        const native={fight:{focusX:h.data.g_FoucsX,focusY:h.data.g_FoucsY,mapW:8,mapH:6},units:h.units,
+            menu:{active:h.menu.active},skillActive:0,detailGeneration:7,period:1,
+            blockers:{g_hdHelpActive:h.kind===9?1:0,g_hdViewActive:h.kind===10?1:0,g_hdReportActive:h.report.active||0}};
+        const t={key:JSON.stringify([h.kind,h.fight.inputSeq,native]),kind:h.kind,seq:h.fight.inputSeq,
+            libraryGeneration:3,native};Object.defineProperty(t,'data',{value:h.context.baye.data});return t;
+    };
+    h.context.BayeHdDialog.attachMobileBattleHost({isAvailable:()=>h.available,readTicket:h.provider});
+    h.context.BayeHdDialog.poll();h.writes.length=0;return h;
+}
+
+for (const kind of [9, 10]) {
+    test('mobile ' + (kind === 9 ? 'HELP' : 'VIEW') + ' keeps its battle owner across polls when the CITY host is unavailable', () => {
+        const h = mobileBattleDetailFixture(kind), d = h.context.BayeHdDialog;
+        h.context.BayeHdCityMenu.shouldShowHd = () => false;
+        Object.assign(h.context.__cityState, {open: true, battleMake: true});
+        h.march.phase = 7; h.report.text = '部队已出发';
+        d.configureMobileHost({isAvailable: () => true}); d.poll();
+        const ticket = d.getBattleInputTicket(), epoch = d.debugSnapshot().viewEpoch;
+        assert.ok(ticket); assert.equal(d.isOpen(), true); assert.equal(d.getBattleLcdPresentation(), 'off');
+        for (let i = 0; i < 5; i++) {
+            d.poll();
+            assert.equal(d.getBattleInputTicket().key, ticket.key);
+            assert.equal(d.debugSnapshot().viewEpoch, epoch);
+            assert.equal(d.debugSnapshot().leftoverHelp, false);
+            assert.equal(d.debugSnapshot().pass, false);
+        }
+        assert.equal(h.context.document.documentElement.getAttribute('data-baye-dialog'), 'hd');
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    });
+    test('mobile ' + (kind === 9 ? 'HELP' : 'VIEW') + ' still retires at battle lifecycle boundaries with both hosts mounted', () => {
+        for (const boundary of ['hidden', 'classic', 'unavailable']) {
+            const h = mobileBattleDetailFixture(kind), d = h.context.BayeHdDialog;
+            h.context.BayeHdCityMenu.shouldShowHd = () => false;
+            d.configureMobileHost({isAvailable: () => true}); d.poll();
+            const ticket = d.getBattleInputTicket(); assert.ok(ticket);
+            if (boundary === 'hidden') h.context.document.hidden = true;
+            if (boundary === 'classic') h.context.BayeHdBattle.shouldShowHd = () => false;
+            if (boundary === 'unavailable') h.available = false;
+            d.poll();
+            assert.equal(d.isOpen(), false, boundary);
+            assert.equal(d.getBattleInputTicket(), null, boundary);
+            assert.equal(d.dispatchBattleDetail(40, ticket), false, boundary);
+            assert.deepEqual(h.sent, [], boundary); assert.deepEqual(h.writes, [], boundary);
+        }
+    });
+}
+
+test('mobile HELP has an independent complete person ticket with slot zero and all native fields',()=>{
+    const h=mobileBattleDetailFixture(),d=h.context.BayeHdDialog,t=d.getBattleInputTicket();
+    assert.ok(t);assert.equal(t.ownerType,'battle-help');assert.equal(t.detail.person,0);assert.equal(t.data,h.context.baye.data);
+    assert.equal(t.detail.rows.length,9);assert.equal(t.detail.rows.at(-1)[1],0);
+    assert.equal(d.getInputTicket(),null);assert.equal(d.getBattleLcdPresentation(),'off');
+    assert.equal(d.dispatchBattleDetail(40,t),true);assert.equal(d.dispatchBattleDetail(40,t),false);
+    assert.deepEqual(h.sent,[40]);assert.deepEqual(h.writes,[]);
+});
+
+test('mobile terrain HELP reads only the current empty tile publication and never borrows person rows',()=>{
+    const h=mobileBattleDetailFixture(),d=h.context.BayeHdDialog;
+    Object.assign(h.help,{kind:2,person:65535,slot:255,x:2,y:1,terrain:0,fields:Array(10).fill(0),text:'平原|可通行'});
+    h.data.g_FoucsX=2;h.data.g_FoucsY=1;h.syncRaw();d.onEngineHelp();
+    const t=d.getBattleInputTicket();assert.ok(t);assert.equal(t.detail.kind,2);assert.equal(t.detail.rows,undefined);
+    assert.match(h.nodes['hd-dialog-body'].textContent,/平原/);assert.equal(d.dispatchBattleDetail(34,t),false);
+    assert.equal(d.dispatchBattleDetail(40,t),true);assert.deepEqual(h.sent,[40]);
+});
+
+for(const mutation of ['raw','partial','slot','hp','person','focus','blocker','menu','hidden','identity','library','data','torn']){
+    test('mobile battle detail refuses '+mutation+' without acknowledging the native wait',()=>{
+        const h=mobileBattleDetailFixture(),d=h.context.BayeHdDialog,t=d.getBattleInputTicket();assert.ok(t);
+        if(mutation==='raw')h.data.g_hdHelpSeq++;
+        if(mutation==='partial')h.help.complete=0;
+        if(mutation==='slot')h.help.slot=1;
+        if(mutation==='hp')h.units[0].hp--;
+        if(mutation==='person')h.help.person=200;
+        if(mutation==='focus')h.data.g_FoucsX=1;
+        if(mutation==='blocker')h.report.active=1;
+        if(mutation==='menu')h.menu.active=1;
+        if(mutation==='hidden')h.context.document.hidden=true;
+        if(mutation==='identity')h.identity={...h.identity,status:'loading'};
+        if(mutation==='library')h.identity={...h.identity,generation:4};
+        if(mutation==='data')h.context.baye.data={...h.data};
+        if(mutation==='torn')h.providerHook=()=>{h.units[0].hp++;};
+        assert.equal(d.getBattleInputTicket(),null);assert.equal(d.dispatchBattleDetail(40,t),false);assert.deepEqual(h.sent,[]);
+    });
+}
+
+test('mobile VIEW uses actual side slots, U16 arms, unknown enemy food and per-publication ACK',()=>{
+    const h=mobileBattleDetailFixture(10),d=h.context.BayeHdDialog,t=d.getBattleInputTicket();assert.ok(t);
+    assert.equal(t.detail.rows[1].arms,65535);assert.equal(d.dispatchBattleDetail(35,t),true);
+    assert.equal(d.dispatchBattleDetail(35,t),false);assert.deepEqual(h.sent,[35]);
+    Object.assign(h.view,{force:1,pageStart:0,totalCount:1,rowCount:1,foodKnown:0,food:0,leaderPerson:99,
+        foodText:'粮草：未知',rows:[{slot:10,personIndex:99,name:'敌将',text:'敌将 600',arms:600}]});
+    publishView(h);h.syncRaw();d.poll();const next=d.getBattleInputTicket();assert.ok(next);assert.notEqual(next.key,t.key);
+    assert.equal(next.detail.foodKnown,0);assert.match(h.nodes['hd-dialog-body'].textContent,/未知/);
+    assert.equal(d.dispatchBattleDetail(36,t),false);assert.equal(d.dispatchBattleDetail(36,next),true);
+    assert.deepEqual(h.sent,[35,36]);assert.deepEqual(h.writes,[]);
+});
+
+for(const mutation of ['row','point','count','raw-array','incomplete','custom','unknown-food'])test('mobile VIEW rejects '+mutation,()=>{
+    const h=mobileBattleDetailFixture(10),d=h.context.BayeHdDialog;
+    if(mutation==='row')h.view.rows[1].personIndex=2;
+    if(mutation==='point')h.view.points[2].x=4;
+    if(mutation==='count')h.view.totalCount=3;
+    if(mutation==='raw-array')h.data.g_hdViewRowArms[0]=1;
+    if(mutation==='incomplete')h.view.complete=0;
+    if(mutation==='custom')h.view.custom=1;
+    if(mutation==='unknown-food'){h.view.force=1;h.view.foodKnown=0;h.view.food=600;}
+    assert.equal(d.getBattleInputTicket(),null);assert.deepEqual(h.sent,[]);
+});
+
+async function portraitFixture(source) {
+    const h=mobileBattleDetailFixture();let resolve;
+    h.context.BayeHdPortraits={loadManifest:()=>new Promise(r=>{resolve=r;}),chooseSource:()=>Promise.resolve(source)};
+    const d=h.context.BayeHdDialog;d.retireInteraction();d.poll();
+    const img=h.nodes['hd-dialog-body'].querySelectorAll('.hd-battle-help-portrait')[0];assert.ok(img);
+    return {h,d,img,async ready(){resolve({entries:[]});for(let i=0;i<8;i++)await Promise.resolve();}};
+}
+const helpPortrait={mode:'hd',preview:false,url:'assets/hd-portraits/person0.png',entry:{personId:0,period:1,hd:'person0.png',ref:'refs/person0.png'}};
+
+test('mobile HELP portrait keeps manifest pending distinct from missing and paints only its actual person',async()=>{
+    const p=await portraitFixture(helpPortrait);assert.equal(p.d.debugSnapshot().battlePortrait.phase,'pending');
+    assert.equal(p.d.getBattleLcdPresentation(),'off');await p.ready();assert.equal(p.img.getAttribute('src'),helpPortrait.url);
+    p.img.naturalWidth=128;p.img.naturalHeight=128;p.img.onload();assert.equal(p.img.hidden,false);
+    assert.equal(p.d.debugSnapshot().battlePortrait.phase,'hd');assert.deepEqual(p.h.sent,[]);
+});
+
+test('mobile HELP actual HD image failure uses the authenticated ref then real LCD if ref fails',async()=>{
+    const p=await portraitFixture(helpPortrait);await p.ready();p.img.onerror();
+    assert.equal(p.img.getAttribute('src'),'assets/hd-portraits/refs/person0.png');p.img.onerror();
+    assert.equal(p.d.getBattleLcdPresentation(),'passthrough');assert.equal(p.d.debugSnapshot().battlePortrait.phase,'lcd');
+    assert.ok(p.d.getBattleInputTicket(),'same native detail remains observable while LCD is visible');assert.deepEqual(p.h.sent,[]);
+});
+
+test('mobile HELP missing portrait sources return the physical LCD without an automatic input',async()=>{
+    const p=await portraitFixture({mode:'lcd'});await p.ready();assert.equal(p.d.getBattleLcdPresentation(),'passthrough');assert.deepEqual(p.h.sent,[]);
+});
+
+test('mobile HELP late portrait completion cannot repaint after owner retirement',async()=>{
+    const p=await portraitFixture(helpPortrait);p.d.retireInteraction();await p.ready();
+    assert.equal(p.img.getAttribute('src'),null);assert.equal(p.d.debugSnapshot().battlePortrait.phase,'off');assert.deepEqual(p.h.sent,[]);
+});
+
+test('mobile HELP portrait rejects a source for another period or a preview identity',async()=>{
+    for(const src of [{...helpPortrait,entry:{...helpPortrait.entry,period:2}},{...helpPortrait,preview:true}]){
+        const p=await portraitFixture(src);await p.ready();assert.equal(p.d.getBattleLcdPresentation(),'passthrough');assert.deepEqual(p.h.sent,[]);
+    }
+});

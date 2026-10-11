@@ -131,6 +131,7 @@ function fixture() {
         retireInteraction(reason){counts.retired.push(reason);},retireInputPreservingOwner(reason){counts.retired.push(reason);return true;},
         cancelInteraction(reason){counts.retired.push(reason);},
         clickTile(x,y){counts.actions.push(['tile',x,y]);return {ok:true};},pickMenu(index){counts.actions.push(['menu',index]);return {ok:true};},
+        focusTile(x,y){counts.actions.push(['focus-tile',x,y]);return {ok:true};},
         openSystemMenu(){counts.actions.push(['system']);return {ok:true};},cancel(){counts.actions.push(['cancel']);return {ok:true};},
         returnFromHelp(){counts.actions.push(['return-help']);return {ok:true};},viewKey(code){counts.actions.push(['view',code]);return {ok:true};},
         handleKey(event){counts.actions.push(['keyboard',event.key]);return true;},
@@ -184,7 +185,7 @@ function fixture() {
         raw.g_hdMenuKind=kind;raw.g_hdMenuCount=names.length;raw.g_hdMenuIndex=0;state.menuNames=[...names];render();host.refresh();}
     render();counts.paints.length=counts.retired.length=counts.writes.length=0;
     return {host,window,document,raw,data,state,identity:patch=>{identity={...identity,...patch};},counts,storage,nodes,timers,listeners,
-        root,board,canvas,side,sys,cancel,mode,headerMode,focus,outside,lcd,list,title,menu,menuExit,shared,fire,globalEvent,nativeMenu,
+        root,board,canvas,side,sys,cancel,mode,headerMode,focus,outside,lcd,list,title,menu,menuExit,shared,fire,globalEvent,nativeMenu,element,
         tap(target=canvas,values={}){fire('pointerdown',target,values);fire('pointerup',target,values);fire('click',target,values);},
         render,renderPayload,
         clean(){counts.actions.length=counts.keys.length=counts.retired.length=counts.writes.length=0;}};
@@ -201,6 +202,93 @@ function noAction(f) {
     assert.deepEqual(f.counts.actions,[]); assert.deepEqual(f.counts.keys,[]);
     assert.deepEqual(f.counts.writes,[]); assert.equal(f.counts.serialized,0);
 }
+
+function detailOverlay(f,kind=9) {
+    const root=f.element('hd-dialog','DIV',f.document.body,{left:0,top:52,width:844,height:294});
+    const back=f.element('detail-back','BUTTON',root,{left:10,top:290,width:180,height:44});back.setAttribute('data-hd-dlg-back','');
+    const next=f.element('detail-next','BUTTON',root,{left:200,top:290,width:180,height:44});next.setAttribute('data-hd-view-key','35');
+    const detail={available:true,seq:3,retired:0,commit:'',provider:null};
+    const api={attachMobileBattleHost(provider){detail.provider=provider;},poll(){},retireInteraction(){detail.retired++;},
+        getBattleLcdPresentation(){return this.getBattleInputTicket()?'off':'passthrough';},
+        getBattleInputTicket(){const base=f.host.readNativeTicket();if(!base||!detail.available||f.state.mode==='classic'||base.kind!==kind)return null;
+            const t={key:base.key+':'+detail.seq,kind,seq:base.seq,detailSeq:detail.seq,generation:7,libraryGeneration:3,ownerType:kind===9?'battle-help':'battle-view'};
+            Object.defineProperty(t,'data',{value:base.data});return t;},
+        dispatchBattleDetail(code,expected){const t=this.getBattleInputTicket();if(!t||t.key!==expected.key||t.data!==expected.data||detail.commit===t.key)return false;
+            detail.commit=t.key;f.counts.keys.push(code);return true;}};
+    f.window.BayeHdDialog=api;
+    f.raw.g_hdFightInputKind=kind;f.raw.g_hdFightWait=1;f.raw.g_hdFightActor=255;
+    f.raw[kind===9?'g_hdHelpActive':'g_hdViewActive']=1;
+    f.host.refresh();return {root,back,next,detail,api};
+}
+
+test('mobile battle details use trusted independent navigation while the action ticket stays LCD',()=>{
+    const f=fixture(),d=detailOverlay(f,10);
+    assert.equal(f.shared.getInputTicket(),null);assert.equal(f.host.debugSnapshot().presentation,'lcd');
+    assert.equal(f.host.debugSnapshot().detailPresentation,'hd');assert.equal(f.host.ownsDetailSurface(),true);
+    f.tap(d.next);f.tap(d.next);assert.deepEqual(f.counts.keys,[35]);
+    d.detail.seq++;f.host.refresh();f.tap(d.back);assert.deepEqual(f.counts.keys,[35,40]);
+    assert.deepEqual(f.counts.actions,[]);assert.deepEqual(f.counts.writes,[]);
+});
+
+for(const reason of ['cancel','multi','scroll','resize','blur','hidden','classic','data','seq','geometry','untrusted']){
+    test('mobile detail press retires on '+reason+' without a key',()=>{
+        const f=fixture(),d=detailOverlay(f,10);f.fire('pointerdown',d.next);
+        if(reason==='cancel')f.fire('pointercancel',d.next);
+        if(reason==='multi')f.fire('pointerdown',f.outside,{pointerId:2,isPrimary:false});
+        if(reason==='scroll')f.fire('scroll',d.root);
+        if(reason==='resize')f.globalEvent('resize');
+        if(reason==='blur')f.globalEvent('blur');
+        if(reason==='hidden'){f.document.hidden=true;f.fire('visibilitychange',f.outside);}
+        if(reason==='classic')f.state.mode='classic';
+        if(reason==='data')f.state.data={...f.raw};
+        if(reason==='seq')d.detail.seq++;
+        if(reason==='geometry')d.next.rect.left++;
+        f.fire('pointerup',d.next,{isTrusted:reason!=='untrusted'});f.fire('click',d.next);noAction(f);
+    });
+}
+
+test('detail controls survive a same-owner poll but never take an incomplete publication',()=>{
+    const f=fixture(),d=detailOverlay(f);f.fire('pointerdown',d.back);f.host.refresh();f.fire('pointerup',d.back);
+    assert.deepEqual(f.counts.keys,[40]);f.clean();d.detail.available=false;f.host.refresh();
+    assert.equal(f.host.debugSnapshot().detailPresentation,'lcd');f.tap(d.back);noAction(f);
+});
+
+test('PICK empty and enemy taps focus the native cursor without selecting an action',()=>{
+    const f=fixture(),c=f.host.debugSnapshot().camera;
+    const x=5,y=16,point={clientX:c.left+(x-c.x+.5)*c.cell,clientY:c.top+(y-c.y+.5)*c.cell};
+    f.tap(f.canvas,point);assert.deepEqual(f.counts.actions,[['focus-tile',x,y]]);assert.deepEqual(f.counts.keys,[]);
+});
+
+test('HELP and VIEW footer only opens from original PICK MOVE AIM owners',()=>{
+    const f=fixture();const help=f.element('help','BUTTON',f.root,{left:10,top:346,width:100,height:44});help.setAttribute('data-hd-battle-help','');
+    f.tap(help);assert.deepEqual(f.counts.actions,[['keyboard','h']]);f.clean();f.nativeMenu(3);f.tap(help);noAction(f);
+});
+
+function realSharedBattle(f) {
+    const env=f.window;env.window=env;env.console={log(){},warn(){},error(){}};env.bayeInputIgnored=()=>false;
+    vm.runInNewContext(readFileSync(new URL('../js/hd-battle.js',import.meta.url),'utf8'),env,{filename:'real-hd-battle.js'});
+    const api=env.BayeHdBattle;api.applyMobilePage({isAvailable:()=>true,readTicket:f.host.readNativeTicket,render(){}});
+    api.onEngineFight();
+    return {api,step(){const tasks=[...f.timers];for(const [id,t] of tasks){if(t.ms===16){f.timers.delete(id);t.fn();}}}};
+}
+
+test('real shared PICK focus waits for each native Arrow ACK and never sends Enter',()=>{
+    const f=fixture(),g=realSharedBattle(f);assert.equal(g.api.focusTile(6,16).ok,true);
+    assert.deepEqual(f.counts.keys,[37]);g.step();assert.deepEqual(f.counts.keys,[37]);
+    f.raw.g_FoucsX=5;g.step();assert.deepEqual(f.counts.keys,[37,37]);
+    f.raw.g_FoucsX=6;g.step();g.step();assert.deepEqual(f.counts.keys,[37,37]);
+    assert.equal(g.api.debugSnapshot().transaction,null);
+});
+
+test('real shared focus retires without later arrows when mode or owner changes',()=>{
+    for(const change of ['retire','seq','data']){
+        const f=fixture(),g=realSharedBattle(f);assert.equal(g.api.focusTile(6,16).ok,true);
+        if(change==='retire')g.api.retireInteraction('blur');
+        if(change==='seq')f.raw.g_hdFightInputSeq++;
+        if(change==='data')f.state.data={...f.raw};
+        f.raw.g_FoucsX=5;g.step();assert.deepEqual(f.counts.keys,[37],change);
+    }
+});
 function unavailable(f) {
     const ticket=f.host.readNativeTicket();
     assert.ok(!ticket||ticket.presentation==='lcd','Incomplete/foreign owner cannot publish an HD action ticket');

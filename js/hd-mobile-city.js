@@ -267,6 +267,9 @@
             while (current) {
                 if (!button && current.tagName === 'BUTTON') { button = current; }
                 if (current === cityRoot || current === dialogRoot) {
+                    if (current === dialogRoot && environment.BayeHdMobileBattle &&
+                        typeof environment.BayeHdMobileBattle.ownsDetailSurface === 'function' &&
+                        environment.BayeHdMobileBattle.ownsDetailSurface()) { return null; }
                     return button || target === current ? {target: button || current, kind: current === cityRoot ? 'city' : 'dialog'} : null;
                 }
                 current = current.parentElement || current.parentNode;

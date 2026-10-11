@@ -441,9 +441,10 @@
             var direction = menu.index < transaction.target ? VK.DOWN : VK.UP;
             sendRequestKey(transaction, direction, { index: menu.index + (direction === VK.DOWN ? 1 : -1) }); return;
         }
-        if (transaction.type === 'tile') {
+        if (transaction.type === 'tile' || transaction.type === 'focus') {
             if (!snap.focus) { finishRequest('focus-unavailable'); return; }
             if (snap.focus.x === transaction.x && snap.focus.y === transaction.y) {
+                if (transaction.type === 'focus') { finishRequest('acknowledged'); refresh(); return; }
                 refresh();
                 if (!legalEnter({ x: transaction.x, y: transaction.y }, unitAt(transaction.x, transaction.y), snap.fight)) {
                     finishRequest('target-changed'); return;
@@ -510,6 +511,17 @@
                 (snap.kind === INPUT.MOVE ? '请选择移动范围内的格子。' : '请选择射程内的有效目标。'));
         }
         return beginRequest('tile', { x: x, y: y }, snap);
+    }
+    // Browsing an empty/enemy tile in PICK moves only the real C cursor. It
+    // deliberately cannot commit a selection, and uses the same per-arrow ACK.
+    function focusBattleTile(x, y) {
+        var snap = inputSnapshot();
+        if (!mobileHost || !snap.ready || snap.kind !== INPUT.PICK) { return reject('not-picking'); }
+        x = Number(x); y = Number(y);
+        if (!Number.isInteger(x) || !Number.isInteger(y) || x < 0 || y < 0 || x >= state.mapW || y >= state.mapH) {
+            return reject('outside-map');
+        }
+        return beginRequest('focus', { x: x, y: y }, snap);
     }
     function pickFightMenu(index) {
         var snap = inputSnapshot(), info = menuSnapshot(snap);
@@ -1451,7 +1463,7 @@
         pickMenuName: pickFightMenuName, pickMenu: pickFightMenu,
         forceShowFightMenu: function () { refresh(); return menuSnapshot(inputSnapshot()); },
         recoverMenu: function () { refresh(); return menuSnapshot(inputSnapshot()); },
-        legalEnter: legalEnter, dismissFightTip: dismissFightTip, openSystemMenu: toggleSystemMenu,
+        legalEnter: legalEnter, focusTile: focusBattleTile, dismissFightTip: dismissFightTip, openSystemMenu: toggleSystemMenu,
         cancel: cancelInput, handleKey: handleKey, returnFromHelp: returnFromHelp, viewKey: viewKey,
         onRetreatBlocked: function () { state.fightTip = '撤退操作未被引擎接受。'; applyChrome(); },
         debugBoxSlow: function () { return { supported: false }; },

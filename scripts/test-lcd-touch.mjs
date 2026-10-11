@@ -113,8 +113,8 @@ test('mounting twice adds no duplicate input and destroy removes listeners',()=>
 test('page lock permits only the currently displayed mobile HD scroll surface', () => {
     const body = new Target(), classes = new Set();
     body.classList = {contains: value => classes.has(value)};
-    let battlePresentation = 'off', systemPresentation = 'off';
-    body.getAttribute = name => name === 'data-hd-mobile-battle' ? battlePresentation : name === 'data-hd-mobile-system' ? systemPresentation : null;
+    let battlePresentation = 'off', systemPresentation = 'off', battleDetail = 'off';
+    body.getAttribute = name => name === 'data-hd-mobile-battle' ? battlePresentation : name === 'data-hd-mobile-system' ? systemPresentation : name === 'data-hd-mobile-battle-detail' ? battleDetail : null;
     const context = vm.createContext({document: {body}, window: {scrollTo() {}}});
     const start = source.indexOf('function disablePageScroll()');
     const end = source.indexOf('\nfunction ', start + 1);
@@ -158,4 +158,10 @@ test('page lock permits only the currently displayed mobile HD scroll surface', 
     assert.equal(blocked({id:'hd-mini-map-canvas',parentNode:body}),true,'overview drawing does not release page lock');
     assert.equal(blocked({id:'lcd',parentNode:body}),true,'overview never releases LCD lock');
     classes.delete('hd-mobile-page');assert.equal(blocked({parentNode:miniList}),true,'PC cannot inherit mobile overview scrolling');
+    battleDetail='hd';assert.equal(blocked({parentNode:dialog}),true,'PC cannot inherit mobile battle detail scrolling');
+    classes.add('hd-mobile-page');assert.equal(blocked({parentNode:dialog}),false,'current mobile battle detail can scroll');
+    assert.equal(blocked({id:'lcd',parentNode:body}),true,'battle detail never releases LCD lock');
+    assert.equal(blocked({id:'hd-mobile-battle-board',parentNode:body}),true,'battle detail never releases board lock');
+    battleDetail='lcd';assert.equal(blocked({parentNode:dialog}),true,'classic battle detail revokes dialog scrolling');
+    battleDetail='off';assert.equal(blocked({parentNode:dialog}),true,'retired battle detail revokes dialog scrolling');
 });

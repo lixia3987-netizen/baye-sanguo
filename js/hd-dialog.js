@@ -5,7 +5,8 @@
 (function (global) {
     var OVERWORLD_KEY = 'baye/overworldMode';
     var qtyEpoch = 0;
-    var mobileHost = null, started = false;
+    var mobileHost = null, mobileBattleHost = null, started = false;
+    var mobileBattleCommit = null, mobileBattleData = null, battlePortrait = {key: '', data: null, phase: 'off', serial: 0};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
 
     var state = {
@@ -64,7 +65,7 @@
     }
 
     function shouldShowHd() {
-        if (mobileHost && !mobileAvailable()) { return false; }
+        if (mobileHost && !(fightActive() && mobileBattleHost ? battleMobileAvailable() : mobileAvailable())) { return false; }
         if (fightActive()) {
             // A live battle owns its presentation mode. Falling back to the
             // city preference would keep HELP visible and swallow Enter/Esc
@@ -315,6 +316,10 @@
     }
 
     function viewKey(code, owner) {
+        if (mobileBattleHost && fightActive()) {
+            var mobile = getBattleInputTicket();
+            return !!(mobile && sameView(owner, mobile.detail.owner) && dispatchBattleDetail(code, mobile));
+        }
         var live = currentView();
         if (!live || !sameView(owner, live.owner) || sameView(state.viewCommit, live.owner) ||
             [VK.UP, VK.DOWN, VK.LEFT, VK.RIGHT, VK.ENTER, VK.EXIT].indexOf(code) < 0 ||
@@ -525,6 +530,7 @@
     }
 
     function returnFromBattleHelp() {
+        if (mobileBattleHost && fightActive()) { return dispatchBattleDetail(VK.EXIT, getBattleInputTicket()); }
         var owner = state.helpOwner;
         var help = readEngineHelp();
         if (document.hidden || !sameHelp(owner, readBattleHelp()) ||
@@ -740,7 +746,8 @@
     }
 
     function applyChrome() {
-        var show = state.open && !document.hidden && shouldShowHd() && (!mobileHost || !!getInputTicket());
+        var show = state.open && !document.hidden && shouldShowHd() &&
+            (fightActive() && mobileBattleHost ? !!getBattleInputTicket() && battlePortrait.phase !== 'lcd' : !mobileHost || !!getInputTicket());
         var hasContent = !!state.body || !!state.helpDetail || !!state.viewDetail;
         var pass = show && (
             (state.kind === 'report' && state.marchOwner && cityMenuOpen()) ||
@@ -805,6 +812,7 @@
             fields.appendChild(field);
         });
         body.appendChild(fields);
+        if (mobileBattleHost) { renderBattlePortrait(body); }
     }
 
     function renderViewDetail(body, detail) {
@@ -1061,10 +1069,15 @@
         var confirm = document.querySelector && document.querySelector('[data-hd-dlg-ok]');
         var back = document.querySelector && document.querySelector('[data-hd-dlg-back]');
         if (confirm) {
-            confirm.hidden = state.kind === 'successor' || state.kind === 'defenders';
+            confirm.hidden = state.kind === 'successor' || state.kind === 'defenders' ||
+                !!mobileBattleHost && fightActive() && (state.kind === 'help' || state.kind === 'view');
             setText(confirm, state.kind === 'view' ? '返回战场' : '确认');
         }
-        if (back) { back.hidden = state.kind === 'successor' || state.kind === 'defenders' || state.kind === 'view'; }
+        if (back) { back.hidden = state.kind === 'successor' || state.kind === 'defenders' ||
+            state.kind === 'view' && !(mobileBattleHost && fightActive());
+            if (mobileBattleHost && fightActive() && (state.kind === 'help' || state.kind === 'view')) { setText(back, '返回战场'); }
+        }
+        if (lcdButton && mobileBattleHost && fightActive()) { lcdButton.hidden = true; }
     }
 
     function mapPickActive() {
@@ -1421,17 +1434,19 @@
         var viewOwner = kind === 'view' ? meta.viewOwner || null : null;
         var viewDetail = kind === 'view' ? meta.viewDetail || null : null;
         var viewStamp = kind === 'view' ? meta.viewStamp || '' : '';
+        var detailData=mobileBattleHost && fightActive() && (kind==='help'||kind==='view') ? engineData() : null;
+        var dataChanged=!!detailData && detailData!==mobileBattleData;
         var viewEntering = !state.open || state.kind !== 'view' || !state.viewOwner || !viewOwner ||
             state.viewOwner.generation !== viewOwner.generation;
-        var viewChanged = !state.open || state.kind !== kind || !sameView(state.viewOwner, viewOwner) || state.viewStamp !== viewStamp;
-        var helpChanged = !state.open || state.kind !== kind || state.body !== (meta.body || '') ||
+        var viewChanged = dataChanged || !state.open || state.kind !== kind || !sameView(state.viewOwner, viewOwner) || state.viewStamp !== viewStamp;
+        var helpChanged = dataChanged || !state.open || state.kind !== kind || state.body !== (meta.body || '') ||
             (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) || state.helpStamp !== helpToken ||
             JSON.stringify(state.helpDetail) !== JSON.stringify(helpDetail);
         var reportOwner = kind === 'report' ? meta.reportOwner || null : null;
         var successorOwner = kind === 'successor' ? meta.successorOwner || readSuccessor() : null;
         var defenseOwner = kind === 'defenders' ? meta.defenseOwner || readDefenders() : null;
         var reportSeq = kind === 'report' ? Number(meta.reportSeq) || 0 : 0;
-        if (!state.open || state.kind !== kind || state.body !== (meta.body || '') ||
+        if (dataChanged || !state.open || state.kind !== kind || state.body !== (meta.body || '') ||
             (!sameMarch(state.marchOwner, marchOwner) && (state.marchOwner || marchOwner)) ||
             (!sameHelp(state.helpOwner, helpOwner) && (state.helpOwner || helpOwner)) ||
             state.helpStamp !== helpToken || JSON.stringify(state.helpDetail) !== JSON.stringify(helpDetail) ||
@@ -1448,6 +1463,7 @@
             invalidateDialogQty();
         }
         state.open = true;
+        mobileBattleData=detailData;
         state.kind = kind;
         if (kind === 'qty') { standaloneQty(); }
         state.marchOwner = marchOwner;
@@ -1495,6 +1511,8 @@
         stopSuccessorRequest();
         stopDefenseRequest();
         state.open = false;
+        mobileBattleData=null;
+        retireBattlePortrait();
         state.marchOwner = null;
         state.helpOwner = null;
         state.helpDetail = null;
@@ -1531,7 +1549,7 @@
     }
 
     function pollEngine() {
-        if (mobileHost && !mobileAvailable()) { retireInteraction(); return; }
+        if (mobileHost && !(fightActive() && mobileBattleHost ? battleMobileAvailable() : mobileAvailable())) { retireInteraction(); return; }
         if (yieldToMobileMarch()) { return; }
         if (document.hidden || !hdReady()) {
             if (state.open && (state.kind === 'help' || state.kind === 'view')) { closeDialog({ silent: true }); }
@@ -1944,6 +1962,8 @@
             }
         }, true);
         root.addEventListener('click', function (ev) {
+            // Mobile battle details are dispatched only by their trusted host.
+            if (mobileBattleHost && fightActive()) { return; }
             if (yieldToMobileMarch()) { return; }
             var t = ev.target;
             while (t && t !== root) {
@@ -2056,6 +2076,157 @@
         pollEngine();
     }
 
+    function battleMobileAvailable() {
+        try { return !!(mobileBattleHost && !document.hidden && mobileBattleHost.isAvailable() === true &&
+            global.BayeHdBattle && BayeHdBattle.shouldShowHd()); } catch (e) { return false; }
+    }
+    function sameBattleTicket(a, b) { return !!a && !!b && a.data === b.data && a.key === b.key; }
+    // Copy the publication bytes as well as the decoded bridge result. Neither
+    // the provider's opaque native object nor an inferred local page is used as
+    // a substitute for the current complete C publication.
+    function battleDetailSample(base) {
+        if (!base || !base.data || !base.native || [9, 10].indexOf(base.kind) < 0) { return null; }
+        var data = base.data, hd = global.baye && baye.hd, info, detail, raw = {}, fields, arrays = {};
+        var own = base.kind === 9 ? 'g_hdHelpActive' : 'g_hdViewActive';
+        if (base.native.menu.active !== 0 || base.native.skillActive !== 0 ||
+            Object.keys(base.native.blockers).some(function (name) { return base.native.blockers[name] !== (name === own ? 1 : 0); })) { return null; }
+        if (base.kind === 9) {
+            info = hd.help(); detail = nativeHelpDetail(info, {kind: 9, inputSeq: base.seq});
+            fields = {protocolVersion:'ProtocolVersion',active:'Active',complete:'Complete',seq:'Seq',generation:'Generation',
+                inputSeq:'InputSeq',kind:'Kind',person:'Person',slot:'Slot',x:'X',y:'Y',terrain:'Terrain',levelMax:'LevelMax'};
+        } else {
+            info = hd.view(); detail = nativeViewDetail(info);
+            fields = {protocolVersion:'ProtocolVersion',active:'Active',complete:'Complete',custom:'Custom',seq:'Seq',generation:'Generation',
+                inputSeq:'InputSeq',force:'Force',pageStart:'PageStart',pageSize:'PageSize',totalCount:'TotalCount',rowCount:'RowCount',
+                width:'MapWidth',height:'MapHeight',days:'Days',playerMode:'PlayerMode',foodKnown:'FoodKnown',food:'Food',leaderPerson:'Leader'};
+        }
+        if (!detail || info.generation !== base.native.detailGeneration || info.inputSeq !== base.seq) { return null; }
+        var prefix = base.kind === 9 ? 'g_hdHelp' : 'g_hdView';
+        Object.keys(fields).forEach(function (name) {
+            var n = data[prefix + fields[name]];
+            if (!helpInteger(n, 0, 0xffffffff) || info[name] !== n) { throw Error('detail raw mismatch'); }
+            raw[name] = n;
+        });
+        function copy(name, count, max) {
+            var source = data[name], out = [];
+            if (!source || typeof source === 'string' || source.length < count) { throw Error('detail short buffer'); }
+            for (var i = 0; i < count; i += 1) {
+                if (!helpInteger(source[i], 0, max || 255)) { throw Error('detail invalid buffer'); }
+                out.push(source[i]);
+            }
+            arrays[name] = out; return out;
+        }
+        function copyText(name, count) {
+            // DEFADD_GBKARR exposes a decoded string; multi-row buffers are
+            // DEFADD_U8ARR and still require every original byte above.
+            var value=data[name];
+            if(typeof value==='string'){
+                if(value.length>count){throw Error('detail long text');}arrays[name]=value;return;
+            }
+            copy(name,count);
+        }
+        if (base.kind === 9) {
+            var values = copy('g_hdHelpFields', 10, 65535);
+            if (JSON.stringify(values) !== JSON.stringify(info.fields)) { return null; }
+            if (typeof data.g_hdHelpGbk === 'string') { arrays.g_hdHelpGbk = data.g_hdHelpGbk; }
+            else { copy('g_hdHelpGbk', 1024); }
+            ['Name','Arm','State'].forEach(function (name) { copyText('g_hdHelp'+name+'Gbk', name === 'Arm' ? 16 : 32); });
+            if (info.x !== base.native.fight.focusX || info.y !== base.native.fight.focusY) { return null; }
+            if (detail.kind === 1) {
+                var unit = base.native.units[info.slot];
+                if (!unit || unit.id !== info.person + 1 || info.person > 199 || unit.state === 8 ||
+                    unit.x !== info.x || unit.y !== info.y || values[4] !== unit.hp || values[5] !== unit.mp || values[8] !== unit.arms) { return null; }
+            } else if (base.native.units.some(function (unit) { return unit.id > 0 && unit.id <= 200 && unit.state !== 8 && unit.x === info.x && unit.y === info.y; })) { return null; }
+        } else {
+            if (info.width !== base.native.fight.mapW || info.height !== base.native.fight.mapH) { return null; }
+            copy('g_hdViewRowSlots',info.rowCount); copy('g_hdViewRowPersons',info.rowCount,65535); copy('g_hdViewRowArms',info.rowCount,65535);
+            copy('g_hdViewRowNames',info.rowCount*32); copy('g_hdViewRowText',info.rowCount*64);
+            var count = data.g_hdViewPointCount;
+            if (!helpInteger(count,0,20) || count !== info.points.length) { return null; } raw.pointCount = count;
+            ['Slots','Persons','X','Y','State'].forEach(function (name) { copy('g_hdViewPoint'+name,count,name === 'Persons' ? 65535 : 255); });
+            ['Title','Days','Positions','Faction','Food'].forEach(function (name) { copyText('g_hdView'+name+'Gbk',64); });
+            if (info.rows.some(function (row, i) {
+                var unit = base.native.units[row.slot];
+                return !unit || row.personIndex > 199 || unit.id !== row.personIndex + 1 || row.arms !== unit.arms ||
+                    row.slot !== arrays.g_hdViewRowSlots[i] || row.personIndex !== arrays.g_hdViewRowPersons[i] || row.arms !== arrays.g_hdViewRowArms[i];
+            }) || info.points.some(function (point, i) {
+                var unit = base.native.units[point.slot];
+                return !unit || point.personIndex > 199 || unit.id !== point.personIndex + 1 || point.x !== unit.x || point.y !== unit.y || point.state !== unit.state ||
+                    ['slot','personIndex','x','y','state'].some(function (name, n) { return point[name] !== arrays['g_hdViewPoint'+['Slots','Persons','X','Y','State'][n]][i]; });
+            })) { return null; }
+            var side = base.native.units.slice(info.force*10,info.force*10+10), total = 0;
+            while (total < side.length && side[total].id !== 0) { total += 1; }
+            var leader = data.g_Persons && data.g_Persons[side[0].id-1], belong = leader && leader.Belong;
+            if (!helpInteger(belong,1,200)) { return null; } raw.leaderBelong=belong;
+            if (info.totalCount !== total || info.leaderPerson !== belong - 1 ||
+                info.points.length !== base.native.units.filter(function (u) { return u.id>0 && u.id<=200 && u.state!==8; }).length) { return null; }
+        }
+        return {info:info,detail:detail,raw:raw,arrays:arrays};
+    }
+    function getBattleInputTicket() {
+        if (!battleMobileAvailable() || !state.open || (state.kind !== 'help' && state.kind !== 'view')) { return null; }
+        try {
+            var identityApi=global.BayeHdLibIdentity, identity=identityApi && identityApi.read();
+            if(!identity || identity.status!=='ready' || identity.byteLength!==207195 ||
+                identity.sha256!=='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                !helpInteger(identity.generation,1,0xffffffff) || !identityApi.isCurrent(identity)){return null;}
+            var a = mobileBattleHost.readTicket(), first = battleDetailSample(a), z = mobileBattleHost.readTicket(), second = battleDetailSample(z);
+            if (!sameBattleTicket(a,z) || !first || !second || JSON.stringify(first) !== JSON.stringify(second) ||
+                !sameBattleTicket(z,mobileBattleHost.readTicket()) || !battleMobileAvailable() || a.libraryGeneration!==identity.generation ||
+                a.data!==baye.data || a.data!==mobileBattleData || !identityApi.isCurrent(identity) || JSON.stringify(identity)!==JSON.stringify(identityApi.read())) { return null; }
+            if (a.kind === 9 ? state.kind !== 'help' || !sameHelp(state.helpOwner,{kind:9,inputSeq:a.seq}) ||
+                state.helpStamp !== helpStamp(first.info) || state.body !== formatHelpBody(first.info.text) || JSON.stringify(state.helpDetail)!==JSON.stringify(first.detail) :
+                state.kind !== 'view' || !sameView(state.viewOwner,first.detail.owner) || state.viewStamp !== JSON.stringify(first.detail)) { return null; }
+            var t = {key:JSON.stringify([a.key,state.viewEpoch,first]), libraryGeneration:a.libraryGeneration,
+                ownerType:a.kind===9?'battle-help':'battle-view',kind:a.kind,seq:a.seq,detailSeq:first.info.seq,
+                generation:first.info.generation,period:a.native.period,detail:first.detail};
+            Object.defineProperty(t,'data',{value:a.data,enumerable:false}); return Object.freeze(t);
+        } catch (e) { return null; }
+    }
+    function dispatchBattleDetail(code, expected) {
+        var t = getBattleInputTicket();
+        if (!sameBattleTicket(expected,t) || !sameBattleTicket(t,getBattleInputTicket()) ||
+            (t.kind === 9 ? code !== VK.EXIT : [VK.UP,VK.DOWN,VK.LEFT,VK.RIGHT,VK.ENTER,VK.EXIT].indexOf(code)<0) ||
+            sameBattleTicket(mobileBattleCommit,t)) { return false; }
+        mobileBattleCommit=t;
+        try {
+            // No queue or retry: the next native inputSeq/publication is the ACK.
+            if (!sameBattleTicket(t,getBattleInputTicket())) { mobileBattleCommit=null; return false; }
+            if (typeof global.sendKey === 'function') { global.sendKey(code); }
+            else if (global.baye && typeof baye.sendKey === 'function') { baye.sendKey(code); }
+            else { mobileBattleCommit=null; return false; }
+            return true;
+        } catch (e) { return false; }
+    }
+    function retireBattlePortrait() {
+        battlePortrait.serial += 1; battlePortrait.key=''; battlePortrait.data=null; battlePortrait.phase='off';
+        var image=el('hd-battle-help-portrait'); if(image){image.onload=null;image.onerror=null;image.hidden=true;image.removeAttribute('src');}
+    }
+    function renderBattlePortrait(body) {
+        var t=getBattleInputTicket(), api=global.BayeHdPortraits;
+        if (!t || t.kind!==9 || t.detail.kind!==1 || !api || !api.loadManifest || !api.chooseSource) { return; }
+        if(battlePortrait.key===t.key && battlePortrait.data===t.data){return;}
+        retireBattlePortrait(); battlePortrait.key=t.key; battlePortrait.data=t.data; battlePortrait.phase='pending';
+        var serial=battlePortrait.serial, image=document.createElement('img');image.id='hd-battle-help-portrait';
+        image.className='hd-battle-help-portrait';image.hidden=true;image.alt=t.detail.name;body.insertBefore ? body.insertBefore(image,body.firstChild) : body.appendChild(image);
+        function current(){return serial===battlePortrait.serial && sameBattleTicket(t,getBattleInputTicket());}
+        function lcd(){if(current()){battlePortrait.phase='lcd';image.hidden=true;applyChrome();}}
+        function valid(src){return src && src.preview!==true && src.entry && src.entry.personId===t.detail.person && src.entry.period===t.period &&
+            (src.mode==='hd'||src.mode==='ref') && typeof src.url==='string' && /^assets\/hd-portraits\/(?!.*(?:\.\.|[\\:?#]))[^]+\.png$/.test(src.url) &&
+            src.url==='assets/hd-portraits/'+src.entry[src.mode==='hd'?'hd':'ref'];}
+        function load(src){
+            if(!current()){return;} if(!valid(src)){lcd();return;}
+            image.onload=function(){
+                if(!current() || image.getAttribute('src')!==src.url){return;}
+                if(image.currentSrc){try{if(image.currentSrc!==new global.URL(src.url,document.baseURI).href){return;}}catch(e){return;}}
+                if(!image.naturalWidth || !image.naturalHeight){image.onerror();return;}
+                image.hidden=false;battlePortrait.phase=src.mode;
+            };
+            image.onerror=function(){if(!current()){return;}if(src.mode==='hd' && src.entry.ref && src.entry.ref.indexOf('refs/')===0){load({mode:'ref',url:'assets/hd-portraits/'+src.entry.ref,entry:src.entry});}else{lcd();}};
+            image.setAttribute('src',src.url);
+        }
+        try{api.loadManifest().then(function(){return current()?api.chooseSource(t.detail.person,t.period):null;}).then(function(src){if(!current()){return;}if(src && src.mode==='lcd'){lcd();}else{load(src);}},lcd);}catch(e){lcd();}
+    }
     function mobileAvailable() {
         try {
             return !document.hidden && mobileHost && typeof mobileHost.isAvailable === 'function' &&
@@ -2067,6 +2238,7 @@
     // A visible owner can be observed again, but an old callback cannot resume.
     function retireInteraction() {
         state.pressedView = null;
+        mobileBattleCommit = null;
         closeDialog({ silent: true });
     }
 
@@ -2154,6 +2326,10 @@
     applyChrome();
 
     global.BayeHdDialog = {
+        attachMobileBattleHost: function (options) { mobileBattleHost=options || null; retireInteraction(); start(); },
+        getBattleInputTicket: getBattleInputTicket,
+        dispatchBattleDetail: dispatchBattleDetail,
+        getBattleLcdPresentation: function () { return getBattleInputTicket() && battlePortrait.phase!=='lcd' ? 'off' : 'passthrough'; },
         configureMobileHost: function (options) { mobileHost = options || {}; retireInteraction(); },
         retireInteraction: retireInteraction,
         getInputTicket: getInputTicket,
@@ -2211,6 +2387,10 @@
             return {
                 open: state.open,
                 kind: state.kind,
+                battleDetailOwner: (function(){var t=getBattleInputTicket();return t?{kind:t.kind,seq:t.seq,detailSeq:t.detailSeq,generation:t.generation,
+                    libraryGeneration:t.libraryGeneration,ownerType:t.ownerType}:null;})(),
+                battleDetailPending: sameBattleTicket(mobileBattleCommit,getBattleInputTicket()),
+                battlePortrait: {phase:battlePortrait.phase},
                 asyncId: info.id,
                 textLen: (info.text || '').length,
                 min: info.min,

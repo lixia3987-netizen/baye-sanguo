@@ -508,6 +508,51 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
     visibility: hidden !important;
     pointer-events: none !important;
 }
+/* HELP/VIEW has a separate read-only owner; it never enables battle actions. */
+.hd-mobile-page[data-hd-mobile-battle-detail="hd"] #hd-dialog {
+    display: flex !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    z-index: 82;
+}
+.hd-mobile-page[data-hd-mobile-battle-detail="hd"] #lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+.hd-mobile-page[data-hd-mobile-battle-detail="hd"] #hd-dialog .hd-dialog-stage {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: 100%;
+    padding: 8px 12px;
+}
+.hd-mobile-page[data-hd-mobile-battle-detail="hd"] #hd-dialog .hd-dialog-title { font-size: 20px; margin: 0 0 6px; }
+.hd-mobile-page[data-hd-mobile-battle-detail="hd"] #hd-dialog-body { min-height: 0; overflow: auto; touch-action: pan-y; }
+.hd-mobile-page .hd-battle-help-portrait { float: right; width: 118px; height: 150px; object-fit: contain; margin: 0 8px 6px 12px; pointer-events: none; }
+.hd-mobile-page .hd-battle-help-portrait[hidden] { display: none; }
+.hd-mobile-page .hd-help-fields { display: grid; margin: 8px 0; }
+.hd-mobile-page .hd-help-field { border: 1px solid #354254; border-radius: 6px; }
+.hd-mobile-page .hd-help-field dt { font-size: 12px; color: #b5bfcc; }
+.hd-mobile-page .hd-help-field dd { margin: 2px 0 0; }
+.hd-mobile-page .hd-situation { display: grid; grid-template-columns: minmax(0, 1fr) 220px; gap: 12px; }
+.hd-mobile-page .hd-situation h2 { font-size: 16px; margin: 0 0 4px; }
+.hd-mobile-page .hd-situation p { margin: 4px 0; }
+.hd-mobile-page .hd-situation-rows { display: grid; gap: 4px; }
+.hd-mobile-page .hd-situation-row { display: flex; justify-content: space-between; gap: 8px; padding: 6px 8px; background: #243143; border-radius: 5px; }
+.hd-mobile-page .hd-situation-map { position: relative; box-sizing: border-box; min-width: 0; width: 100%; max-width: 160px; max-height: 160px; background: #182433; border: 1px solid #52647b; }
+.hd-mobile-page .hd-situation-dot { position: absolute; width: 8px; height: 8px; transform: translate(-50%,-50%); border-radius: 50%; background: #72baff; }
+.hd-mobile-page .hd-situation-dot.is-enemy { background: #ff7b70; }
+.hd-mobile-page .hd-situation-dot.is-page { outline: 2px solid #f0ce73; }
+.hd-mobile-page .hd-situation-map-legend { font-size: 12px; }
+.hd-mobile-page .hd-situation-actions { position: sticky; bottom: 0; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 6px; padding: 6px 0 0; background: #17212e; }
+.hd-mobile-page .hd-situation-actions button { min-height: 44px; min-width: 44px; padding: 4px 8px; font-size: 14px; }
+@media (max-width: 700px) and (orientation: landscape) {
+    .hd-mobile-page .hd-situation { grid-template-columns: minmax(0,1fr) 180px; }
+    .hd-mobile-page .hd-situation-map { max-width: 150px; max-height: 150px; }
+    .hd-mobile-page .hd-help-field { padding: 4px 8px; }
+    .hd-mobile-page .hd-battle-help-portrait { width: 102px; height: 140px; }
+}
 .hd-mobile-page #hd-mobile-battle-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 192px;
