@@ -105,6 +105,10 @@ export async function runMobileBattleChecks(c) {
     const {runMobileBattleOverviewChecks}=await import('./hd-mobile-battle-overviews-runtime-checks.mjs');
     return runMobileBattleOverviewChecks({...c,native,capture,ready,tileTap,tilePoint,menu,physicalKey,lcdCenter,unchanged,initial});
   }
+  if(report.battleSceneOnly){
+    const {runMobileBattleSceneChecks}=await import('./hd-mobile-battle-scene-runtime-checks.mjs');
+    return runMobileBattleSceneChecks({...c,native,capture,ready,menu,initial});
+  }
   const beforeView=await native();await physicalKey('s',83);
   await until('actual VIEW published',"baye.hd.fight().inputKind===10&&baye.hd.view().active===1");
   await button('#hd-mobile-battle-toggle');

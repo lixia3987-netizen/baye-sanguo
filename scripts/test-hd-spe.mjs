@@ -297,9 +297,9 @@ function aiTargetFixture() {
         display: { generation: 9, eventId: 7, commitSeq: 1, frameIndex: 12, frameValid: true, visibleFrames: bitset(12), aiTarget: structuredClone(ai) } };
     return fixture;
 }
-async function aiLoaded(changes) {
+async function aiLoaded(changes, options = {}) {
     const fixture = aiTargetFixture(); if (changes) changes(fixture);
-    const h = harness({ spe: fixture.s, data: { g_scale: 1 } }); h.context.dynLib = fixture.lib.toString('hex');
+    const h = harness({ spe: fixture.s, data: { g_scale: 1 }, ...options }); h.context.dynLib = fixture.lib.toString('hex');
     h.api.setManifest(fixture.m); h.api.start();
     const deadline = performance.now() + 2000;
     while (h.images.length < 2 && performance.now() < deadline) await new Promise(resolve => setTimeout(resolve, 1));
@@ -2342,4 +2342,157 @@ test('QIMEN20/39 independent source spec reuses exact original art without numer
     assert.deepEqual(spec.pictureSources,f.entry.pictures.map(p=>p.src));assert.deepEqual(spec.pictureSources,curse.pictureSources);
     assert.deepEqual(spec.pictureSha256,curse.pictureSha256);
     f.entry.pictures.forEach((p,i)=>assert.equal(createHash('sha256').update(readFileSync(new URL('../'+p.src,import.meta.url))).digest('hex'),spec.pictureSha256[i]));
+});
+
+// The scene module has its own native-map oracle. These integration doubles
+// exercise only the SPE consumer's existing authentication and final fence.
+const sceneRanges = [
+    { name: 'AI target', reason: 0, presentation: 'ai-target', frames: [12] },
+    { name: 'level-up', reason: 1, presentation: 'status-effect', frames: [0] },
+    { name: 'death', reason: 2, presentation: 'status-effect', frames: [6] }
+];
+async function sceneLoaded(range = sceneRanges[0]) {
+    const prepare = f => {
+        if (range.reason) for (const value of [f.s.statusEffect, f.s.display.statusEffect]) value.subjectPerson = 5;
+        else for (const value of [f.s.aiTarget, f.s.display.aiTarget]) Object.assign(value, { actorPerson: 19, targetPerson: 5 });
+    };
+    const loaded = range.reason ? await statusLoaded(range.reason, prepare, { fightActive: true }) : await aiLoaded(prepare, { fightActive: true });
+    loaded.h.events.length = 0;
+    return loaded;
+}
+function sceneResult(request) {
+    const s = request.source, status = s.subjectIndex !== undefined;
+    return { source: 'hd-battle-scene', view: { x: s.mapSX, y: s.mapSY, cols: 10, rows: 6 },
+        region: { x: 528, y: 352, width: 176, height: 176 },
+        subject: { index: status ? s.subjectIndex : s.targetIndex, person: status ? s.subjectPerson : s.targetPerson,
+            x: status ? s.subjectX : s.targetX, y: status ? s.subjectY : s.targetY } };
+}
+function installScene(h, paint = sceneResult) {
+    const calls = [], environments = [];
+    const scene = { createController(environment) {
+        environments.push(environment);
+        return { paint(request) { calls.push(request); return paint(request); } };
+    } };
+    h.context.BayeHdBattleScene = scene;
+    return { calls, environments, scene };
+}
+function plain(value) { return JSON.parse(JSON.stringify(value)); }
+function assertNoScene(h) {
+    const debug = h.api.debugSnapshot();
+    assert.equal(debug.projectedScene, null);
+    assert.notEqual(debug.outsideSource, 'hd-battle-scene');
+    assert.notEqual(h.nodes.get('hd-spe').getAttribute('data-scene'), 'hd-battle');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+}
+for (const range of sceneRanges) test(`STACHG27 scene integration delegates certified ${range.name} without input or native writes`, async () => {
+    const { h, fixture } = await sceneLoaded(range), before = h.nativeSnapshot(), scene = installScene(h);
+    h.flush();
+    assert.equal(scene.calls.length, 1); assert.equal(scene.environments.length, 1);
+    const request = scene.calls[0], debug = h.api.debugSnapshot();
+    assert.equal(scene.environments[0].BayeHdSpe, h.api);
+    assert.equal(request.canvas, h.nodes.get('hd-spe-canvas'));
+    assert.equal(request.context, request.canvas.getContext('2d'));
+    assert.equal(request.data, h.context.baye.data);
+    assert.equal(request.source, range.reason ? request.event.display.statusEffect : request.event.display.aiTarget);
+    assert.deepEqual([request.event.generation, request.event.eventId, request.event.display.commitSeq], [9, 7, 1]);
+    assert.deepEqual(Array.from(request.frames), range.frames); assert.deepEqual(Array.from(request.clears), []);
+    assert.deepEqual(plain(request.entry), fixture.entry); assert.equal(request.assets.status, 'ready');
+    for (const frame of request.frames) assert.ok(h.images.includes(request.assets.images[request.entry.units[frame].picIndex]));
+    assert.equal(request.validateCurrent(), true);
+    assert.equal(debug.source, 'hd-assets'); assert.equal(debug.presentation, range.presentation);
+    assert.equal(debug.outsideSource, 'hd-battle-scene'); assert.deepEqual(plain(debug.projectedScene), sceneResult(request));
+    assert.equal(h.nodes.get('hd-spe').getAttribute('data-scene'), 'hd-battle');
+    assert.deepEqual(h.hdDraws(), [], 'the successful scene replaces the bounded-cell art path');
+    if (range.reason === 2) assert.equal(request.source.afterState, 8, 'native death is already state8 during its movie');
+    assert.equal(h.nativeSnapshot(), before); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    h.flush(); assert.equal(scene.environments.length, 1, 'one controller is reused only for the same module');
+});
+test('STACHG27 scene integration forwards copied frames/clears rather than future current state', async () => {
+    const { h, fixture } = await sceneLoaded(), scene = installScene(h);
+    h.setSpe({ ...fixture.s, frameIndex: 17, commitSeq: 2,
+        aiTarget: { ...fixture.s.aiTarget, clearFrames: bitset(12, 13, 14) } });
+    h.flush(); assert.equal(scene.calls.length, 1);
+    assert.deepEqual(Array.from(scene.calls[0].frames), [12]); assert.deepEqual(Array.from(scene.calls[0].clears), []);
+    const next = { ...fixture.s, frameIndex: 17, commitSeq: 2,
+        aiTarget: { ...fixture.s.aiTarget, clearFrames: bitset(12, 13, 14) },
+        display: { ...fixture.s.display, commitSeq: 2, frameIndex: 17, visibleFrames: bitset(16, 17),
+            aiTarget: { ...fixture.s.display.aiTarget, clearFrames: bitset(12, 13, 14) } } };
+    h.setSpe(next); h.flush(); assert.equal(scene.calls.length, 2);
+    assert.deepEqual(Array.from(scene.calls[1].frames), [16, 17]); assert.deepEqual(Array.from(scene.calls[1].clears), [12, 13, 14]);
+    assert.deepEqual(Array.from(h.api.debugSnapshot().displayedFrames), [16, 17]);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+for (const failure of ['null', 'throw', 'wrong-source']) test(`STACHG27 scene integration ${failure} restores LCD then preserves certified bounded art`, async () => {
+    for (const range of sceneRanges) {
+        const { h } = await sceneLoaded(range), before = h.nativeSnapshot(), scene = installScene(h, request => {
+            request.context.fillRect(1, 2, 3, 4);
+            if (failure === 'throw') throw new Error('scene unavailable after drawing');
+            return failure === 'null' ? null : { ...sceneResult(request), source: 'untrusted-scene' };
+        });
+        h.flush(); assert.equal(scene.calls.length, 1); assertNoScene(h);
+        const debug = h.api.debugSnapshot(), events = h.events.filter(e => e.node === 'hd-spe-canvas');
+        assert.equal(debug.source, 'hd-assets'); assert.equal(debug.presentation, range.presentation); assert.equal(debug.outsideSource, 'lcd');
+        assert.deepEqual(plain(debug.hdRegion), { x: 48, y: 32, width: 16, height: 16 });
+        const touched = events.findIndex(e => e.operation === 'fillRect' && e.args[0] === 1);
+        const restored = events.findIndex((e, i) => i > touched && e.operation === 'drawImage' && e.args.length === 9 && e.args[0].id?.startsWith('scratch-'));
+        assert.ok(touched >= 0 && restored > touched, 'a partial scene is removed with captured full LCD before bounded fallback');
+        assert.ok(h.hdDraws().length > 0); assert.equal(h.nativeSnapshot(), before);
+        assert.equal(events.filter(e => e.operation === 'save').length, events.filter(e => e.operation === 'restore').length);
+    }
+});
+test('STACHG27 scene integration controller creation failure retains the original LCD-backed path', async () => {
+    const { h } = await sceneLoaded(); let attempts = 0;
+    h.context.BayeHdBattleScene = { createController() { attempts++; throw new Error('module unavailable'); } };
+    h.flush(); assert.equal(attempts, 1); assertNoScene(h);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.ok(h.hdDraws().length > 0);
+});
+for (const [name, change] of [
+    ['unmatched fingerprint', s => { s.resourceFingerprint = 'fnv1a32:00000000:735'; }],
+    ['invalid protocol', s => { s.protocolValid = false; }],
+    ['missing copied owner', s => { s.display.aiTarget = null; }],
+    ['mismatched subject', s => { s.display.aiTarget.targetPerson++; }],
+    ['uncopied future frame', s => { s.display.visibleFrames = bitset(17); }],
+    ['uncertified gray base', s => { s.display.aiTarget.baseRgba[0] = 1; }],
+    ['foreign clear', s => { s.display.aiTarget.clearFrames = bitset(11); }]
+]) test(`STACHG27 scene integration never delegates ${name}`, async () => {
+    const { h, fixture } = await sceneLoaded(), scene = installScene(h), next = structuredClone(fixture.s);
+    change(next); h.setSpe(next); h.flush();
+    assert.equal(scene.calls.length, 0); assertNoScene(h); assert.equal(h.api.debugSnapshot().source, 'lcd');
+});
+test('STACHG27 scene integration waits for the new owner actual LCD flush', async () => {
+    const { h, fixture } = await sceneLoaded(), scene = installScene(h);
+    h.setSpe({ ...fixture.s, eventId: 8, display: { ...fixture.s.display, eventId: 8 } }); h.api.onEngineSpe();
+    assert.equal(scene.calls.length, 0); assertNoScene(h);
+    h.flush(); assert.equal(scene.calls.length, 1); assert.equal(scene.calls[0].event.eventId, 8);
+    assert.equal(h.api.debugSnapshot().outsideSource, 'hd-battle-scene');
+});
+test('STACHG27 scene integration rejects reentrant drift at the final pre-paint native read', async () => {
+    const { h, fixture } = await sceneLoaded(), scene = installScene(h); let changed = false;
+    h.setNativeReadHook(name => {
+        if (name === 'hd.report' && !changed && new Error().stack.includes('paintCertifiedCell')) {
+            changed = true; h.setSpe({ ...fixture.s, eventId: 8, display: { ...fixture.s.display, eventId: 8 } });
+        }
+    });
+    h.flush(); h.setNativeReadHook(null);
+    assert.equal(changed, true); assert.equal(scene.calls.length, 0); assertNoScene(h); assert.equal(h.api.debugSnapshot().source, 'lcd');
+});
+for (const name of ['event', 'commit', 'subject', 'data', 'library', 'scene-module']) test(`STACHG27 scene integration ${name} change during paint cannot expose projected pixels`, async () => {
+    const { h, fixture } = await sceneLoaded(), originalData = h.context.baye.data;
+    const scene = installScene(h, request => {
+        assert.equal(request.validateCurrent(), true); request.context.fillRect(1, 2, 3, 4);
+        const next = structuredClone(fixture.s);
+        if (name === 'event') { next.eventId++; next.display.eventId++; h.setSpe(next); }
+        if (name === 'commit') { next.commitSeq++; next.display.commitSeq++; h.setSpe(next); }
+        if (name === 'subject') { next.aiTarget.targetPerson++; next.display.aiTarget.targetPerson++; h.setSpe(next); }
+        if (name === 'data') Object.defineProperty(h.context.baye, 'data', { get: () => ({ g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 }) });
+        if (name === 'library') h.context.dynLib = bytes.toString('hex');
+        if (name === 'scene-module') h.context.BayeHdBattleScene = { createController() { throw new Error('new module'); } };
+        assert.equal(request.validateCurrent(), false);
+        return sceneResult(request);
+    });
+    h.flush(); assert.equal(scene.calls.length, 1); assert.equal(scene.calls[0].data, originalData); assertNoScene(h);
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.match(h.api.debugSnapshot().fallbackReason, /retired/);
+    assert.deepEqual(h.hdDraws(), [], 'no bounded or projected stale art is added after retirement');
+    const lastDraw = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+    assert.deepEqual(lastDraw.args.slice(1), [0, 0, 640, 384, 0, 0, 1760, 1056], 'even a successful stale painter is overwritten by full captured LCD');
 });

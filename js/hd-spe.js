@@ -4,7 +4,8 @@
         flushW: 0, flushH: 0, flushKey: '', renderKey: '', canvasW: 0, canvasH: 0, scale: 1, source: 'lcd', reason: '', frames: [],
         manifest: null, manifestGeneration: 0, manifestRequested: false, assets: null, cache: [], imageCache: {}, preparing: false, preparation: null,
         libGeneration: 0, libHash: null, libReason: 'lib-unavailable', returned: '', pressed: null,
-        callbackFlushKey: '', aiBase: null, aiRegion: null, opaqueRegion: null };
+        callbackFlushKey: '', aiBase: null, aiRegion: null, opaqueRegion: null, projectedScene: null, projectionFallbackReason: '' };
+    var battleSceneApi = null, battleSceneController = null;
     var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var mobileHost = null, mobileData = null, mobileGeneration = 0, mobilePresentation = 'off';
     function isMobilePage() { return !!(mobileHost || document.body && document.body.classList && document.body.classList.contains('hd-mobile-page')); }
@@ -174,6 +175,8 @@
         state.callbackFlushKey = '';
         state.aiRegion = null;
         state.opaqueRegion = null;
+        state.projectedScene = null;
+        state.projectionFallbackReason = '';
         state.renderKey = '';
         state.frames = [];
         state.source = 'lcd';
@@ -1047,12 +1050,55 @@
         baseCtx.putImageData(new global.ImageData(pixels, 16, 16), 0, 0);
         // Native snapshots and asset authorization can retire during a read.
         // The final observation must still own the actual captured LCD bytes.
-        verifyLib();
-        var allowed = !document.hidden && hd(4) && !report(), fresh = info();
-        if (!allowed || !fresh.active || !matches(fresh) || signature(fresh) !== ticket.signature || state.epoch !== ticket.epoch ||
-            state.manifestGeneration !== ticket.manifestGeneration || state.libGeneration !== ticket.libGeneration ||
-            state.libHash !== ticket.libHash || state.assets !== assets || state.callbackFlushKey !== stamp(fresh) ||
-            !validate(fresh, entry)) { state.reason = reason + '-retired'; return; }
+        function current() {
+            try {
+                verifyLib();
+                var allowed = !document.hidden && hd(4) && !report(), fresh = info();
+                return !!(allowed && fresh.active && matches(fresh) && signature(fresh) === ticket.signature && state.epoch === ticket.epoch &&
+                    state.manifestGeneration === ticket.manifestGeneration && state.libGeneration === ticket.libGeneration &&
+                    state.libHash === ticket.libHash && state.assets === assets && state.callbackFlushKey === stamp(fresh) &&
+                    validate(fresh, entry));
+            } catch (error) { return false; }
+        }
+        if (!current()) { state.reason = reason + '-retired'; return; }
+        // A separate read-only scene uses this movie's real native viewport.
+        // It cannot borrow an action ticket or move the operative battle camera.
+        var api = global.BayeHdBattleScene, data = global.baye && baye.data, bridge = global.baye && baye.hd;
+        if (api && typeof api.createController === 'function') {
+            var projected = null;
+            function sceneCurrent() {
+                if (global.BayeHdBattleScene !== api || !global.baye || baye.data !== data || baye.hd !== bridge || !current()) return false;
+                return global.BayeHdBattleScene === api && global.baye && baye.data === data && baye.hd === bridge;
+            }
+            ctx.save();
+            try {
+                if (battleSceneApi !== api || !battleSceneController) {
+                    battleSceneApi = api; battleSceneController = null; battleSceneController = api.createController(global);
+                }
+                if (battleSceneController && typeof battleSceneController.paint === 'function' && sceneCurrent())
+                    projected = battleSceneController.paint({ canvas: el('hd-spe-canvas'), context: ctx, event: s, source: region.source,
+                        frames: frames.slice(), clears: region.clears.slice(), entry: entry, assets: assets, validateCurrent: sceneCurrent, data: data });
+            } catch (error) { projected = null; }
+            ctx.restore();
+            var stillCurrent = sceneCurrent();
+            if (stillCurrent && projected && projected.source === 'hd-battle-scene') {
+                state.projectedScene = projected;
+                state.source = 'hd-assets'; state.reason = ''; state.frames = frames;
+                state.aiRegion = { x: region.x, y: region.y, width: 16, height: 16 };
+                return;
+            }
+            // Restore the captured LCD before taking the original bounded-cell
+            // fallback, including a painter that throws after touching canvas.
+            ctx.clearRect(0, 0, state.canvasW, state.canvasH);
+            ctx.imageSmoothingEnabled = false;
+            ctx.drawImage(state.scratch, 0, 0, state.flushW, state.flushH, 0, 0, state.canvasW, state.canvasH);
+            state.projectedScene = null;
+            if (battleSceneController && typeof battleSceneController.debugSnapshot === 'function') {
+                try { state.projectionFallbackReason = battleSceneController.debugSnapshot().reason || 'scene-unavailable'; }
+                catch (error) { state.projectionFallbackReason = 'scene-unavailable'; }
+            }
+            if (!stillCurrent) { state.source = 'lcd'; state.reason = reason + '-retired'; return; }
+        }
         var x = region.x * scale, y = region.y * scale, width = 16 * scale;
         ctx.save();
         try {
@@ -1132,6 +1178,8 @@
         state.frames = [];
         state.aiRegion = null;
         state.opaqueRegion = null;
+        state.projectedScene = null;
+        state.projectionFallbackReason = '';
         verifyLib();
         requestManifest();
         warmMaker();
@@ -1285,6 +1333,7 @@
         }
         else { verifyLib(); warmArena(); }
         root.setAttribute('data-source', state.source);
+        root.setAttribute('data-scene', state.projectedScene ? 'hd-battle' : 'lcd');
         var probe = el('hd-spe-probe');
         if (probe)
             probe.textContent = state.source === 'hd-assets' ? '高清素材 · 原生显示帧 ' + state.frames.join(',') : '原生 LCD 画面';
@@ -1393,7 +1442,7 @@
         applyMobilePage: function (options) { configureMobileHost(options); start(); }, retireInteraction: retireInteraction,
         getLcdPresentation: function () { return mobileHost ? mobilePresentation : state.open ? 'hd' : 'off'; }, onEngineSpe: sync, onLcdFlush: function (img, w, h) { var s = info(); sync(true); if (!show(s))
             return; capture(img, w, h, s); state.renderKey = ''; paint(s); if (mobileHost) sync(true); var root = el('hd-spe'); if (root)
-            root.setAttribute('data-source', state.source); }, blit: sync,
+            { root.setAttribute('data-source', state.source); root.setAttribute('data-scene', state.projectedScene ? 'hd-battle' : 'lcd'); } }, blit: sync,
         skip: skip, returnToTitle: returnToTitle, useClassic: classic, setManifest: setManifest, prepareStart: prepareStart, isHandling: function () { return mobileHost ? mobilePresentation === 'hd' : show(info()); }, isOpen: function () { return state.open; }, shouldShowHd: function () { return hd(1) || hd(2); },
         debugSnapshot: function () {
             var s = info();
@@ -1405,7 +1454,9 @@
                 ownerToken: event(s) + ':' + state.epoch,
                 maker: s.maker, attack: s.attack, skillResult: s.skillResult, resultOwner: s.resultOwner,
                 hdRegion: state.source === 'hd-assets' && state.opaqueRegion ? state.opaqueRegion : kind(s) === 4 && state.source === 'hd-assets' ? state.aiRegion : skillPostlude(s) && state.source === 'hd-assets' ? s.display.composition : null,
-                outsideSource: state.opaqueRegion || skillPostlude(s) || kind(s) === 4 ? 'lcd' : null,
+                projectedScene: state.source === 'hd-assets' ? state.projectedScene : null,
+                projectionFallbackReason: state.projectionFallbackReason,
+                outsideSource: state.source === 'hd-assets' && state.projectedScene ? 'hd-battle-scene' : state.opaqueRegion || skillPostlude(s) || kind(s) === 4 ? 'lcd' : null,
                 aiTarget: kind(s) === 4 && s.display ? s.display.aiTarget : null,
                 statusEffect: statusRange(s) && s.display ? s.display.statusEffect : null,
                 presentation: kind(s) === 4 ? (statusRange(s) ? 'status-effect' : 'ai-target') : s.ownerType === 'result-lcd' ? 'result-lcd' : skillPostlude(s) ? 'skill-postlude' : postlude(s) ? 'attack-postlude' : held(s) ? 'maker-hold' : 'spe', spe: s.nativeSpe || s };
