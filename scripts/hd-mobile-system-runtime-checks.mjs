@@ -13,7 +13,7 @@ export async function runMobileSystemChecks(ctx) {
     systemRect:(()=>{const r=document.getElementById('hd-system-ui').getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom};})()};})()`;
   const sample=()=>evaluate(sampleSource),keys=start=>evaluate(`__mobileMapKeys.slice(${start})`);
   const snapshot=async()=>({state:await sample(),world:await evaluate(`baye.getPersonCount()===200?${worldSource}:null`)});
-  report.systemChecks=[];report.systemScrollChecks=[];report.systemPageInputs=[];
+  report.systemChecks=[];report.systemScrollChecks=[];report.systemPageInputs=[];report.systemAnimationBoundaries=[];
   await evaluate(`(() => {window.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=${report.systemModeRepeat>0};window.__mobileSystemDiagnostics=[];const s=BayeHdSystemUi,retire=s.retireInteraction;
     const state=()=>{const t=BayeHdMobileSystem.readInputTicket(),n=document.getElementById('hd-mobile-system-mode'),r=n.getBoundingClientRect();
       return {at:performance.now(),mode:s.getMode(),key:t&&t.key,rect:[r.left,r.top,r.width,r.height],hidden:document.hidden,diagnostics:BayeHdMobileSystem.debugSnapshot().diagnostics};};
@@ -48,11 +48,29 @@ export async function runMobileSystemChecks(ctx) {
     }
     throw Error('Current system control did not become visible '+selector);
   };
-  const touch=async selector=>tap(await point(selector));
+  const touch=async selector=>{
+    const p=await point(selector),start=report.systemModeRepeat?await evaluate(`(() => {const t=BayeHdMobileSystem.readInputTicket();
+      return t&&{key:t.key,screen:t.owner.screen,seq:t.owner.seq,index:t.owner.index,speActive:t.raw.g_hdSpeActive,movieActive:t.raw.g_hdMovieActive};})()`):null;
+    if(!start||!['title','period'].includes(start.screen)||start.speActive!==1||report.systemAnimationBoundaries.some(v=>v.before.screen===start.screen))return tap(p);
+    const previous=await snapshot();await evaluate('window.__mobileSystemBoundaryButton=document.querySelector('+JSON.stringify(selector)+')');
+    await touches('touchStart',[{x:p.x,y:p.y}],0);
+    const down=await evaluate('BayeHdMobileSystem.debugSnapshot().diagnostics.last.down');
+    // Observe the original animation ending naturally while the real press is held.
+    // No flag, menu, world or input mailbox is changed by this observer.
+    await until('natural '+start.screen+' background animation end',`(() => {const t=BayeHdMobileSystem.readInputTicket();return t&&t.owner.screen===${JSON.stringify(start.screen)}&&t.owner.seq===${start.seq}&&t.owner.index===${start.index}&&t.raw.g_hdSpeActive===0;})()`,20000);
+    const end=await evaluate(`(() => {const t=BayeHdMobileSystem.readInputTicket();return {key:t.key,screen:t.owner.screen,seq:t.owner.seq,index:t.owner.index,
+      speActive:t.raw.g_hdSpeActive,movieActive:t.raw.g_hdMovieActive,nodeSame:__mobileSystemBoundaryButton===document.querySelector(${JSON.stringify(selector)}),connected:__mobileSystemBoundaryButton.isConnected};})()`);
+    const boundary={selector,before:start,after:end,down,rawBoundaryObserved:down.arm?.owner?.speActive===1&&end.speActive===0,accepted:false};report.systemAnimationBoundaries.push(boundary);
+    assert.equal(down.reason,'armed');
+    assert.equal(end.key,start.key,'Background SPE end preserves the current selector key');assert.equal(end.nodeSame,true,'Natural background SPE end preserves the held button');assert.equal(end.connected,true);
+    await noInput(previous,'held natural '+start.screen+' animation boundary');
+    await touches('touchEnd',[],0);await delay(150);return boundary;
+  };
   const selectionKeys=(owner,target)=>{assert.ok(owner&&Number.isInteger(owner.index)&&target>=0&&target<owner.count);return [...Array(Math.abs(target-owner.index)).fill(target<owner.index?VK.UP:VK.DOWN),VK.ENTER];};
-  const action=async(selector,screen,label,{exit=false}={})=>{const before=await snapshot();await touch(selector);await ready(screen);const after=await snapshot(),sent=await keys(before.state.keyCount),codes=sent.map(k=>k.code);
+  const action=async(selector,screen,label,{exit=false}={})=>{const before=await snapshot(),boundary=await touch(selector);await ready(screen);const after=await snapshot(),sent=await keys(before.state.keyCount),codes=sent.map(k=>k.code);
     if(exit)assert.deepEqual(codes,[VK.EXIT],label+' exactly one EXIT');else{const target=Number(/data-hd-sys="(\d+)"/.exec(selector)?.[1]);assert.deepEqual(codes,selectionKeys(before.state.system.input,target),label+' exact native focus keys and one ENTER');}
-    assert.equal(after.state.touchCount,before.state.touchCount);prefsSame(after.state);report.systemChecks.push({label,before,after,keys:sent});return after;};
+    assert.equal(after.state.touchCount,before.state.touchCount);prefsSame(after.state);if(boundary&&typeof boundary==='object'){boundary.accepted=true;boundary.keys=sent;boundary.label=label;}
+    report.systemChecks.push({label,before,after,keys:sent});return after;};
   const pair=()=>evaluate(`(() => {const paths=['baye//data//sango0.sav','baye//data//sango1.sav'],a=BayeSaveStorage.readFile(paths[0]),b=BayeSaveStorage.readFile(paths[1]);
     return {sav0:a,sav1:b,valid:BayeSaveStorage.validatePair(a,b),slot:BayeSaveStorage.inspectSlot(0),journal:localStorage.getItem('baye/save-transaction/0'),
       metadata:paths.map(p=>Object.fromEntries(['.lib','.name','.lib-id'].map(k=>[k,BayeSaveStorage.readMetadata(p+k)])))};})()`);
@@ -81,6 +99,14 @@ export async function runMobileSystemChecks(ctx) {
     await noInput(previous,'mode repeat '+cycle+' '+mode);
   }
   if(report.systemModeRepeat)await capture('02b-mode-repeat');
+  report.systemSelectorStress=[];
+  for(let cycle=0;cycle<Math.min(report.systemModeRepeat,6);cycle++){
+    await action(item(0),'period','selector repeat '+cycle+' new game');
+    report.systemSelectorStress.push({cycle,screen:'period',diagnostic:await evaluate('BayeHdMobileSystem.debugSnapshot()')});
+    await action(back,'title','selector repeat '+cycle+' cancel period',{exit:true});
+    report.systemSelectorStress.push({cycle,screen:'title',diagnostic:await evaluate('BayeHdMobileSystem.debugSnapshot()')});
+  }
+  if(report.systemSelectorStress.length)await capture('02c-selector-repeat');
   await action(item(1),'saveload','empty load open');assert.equal((await sample()).record.mode,2);assert.equal((await sample()).record.count,4);
   before=await snapshot();await tap(await point(item(0),true));await noInput(before,'empty save cannot load');await capture('03-empty-load');await action(back,'title','load cancel',{exit:true});
   await action(item(0),'period','new game open');await action(back,'title','period cancel',{exit:true});await action(item(0),'period','new game reopen');await action(item(0),'king','original period 1');
@@ -118,8 +144,9 @@ export async function runMobileSystemChecks(ctx) {
   await openSystem('system for end game');await action(item(2),'insystem-confirm','end game confirmation');await capture('09-end-confirm');await action(back,'insystem','end game cancel',{exit:true});await action(item(2),'insystem-confirm','end game confirmation reopen');await action(item(0),'title','confirm end game');
   report.systemPageInputs.push(await evaluate('({page:1,keys:__mobileMapKeys,touches:__mobileMapNativeTouches,events:__mobileMapEvents})'));
   report.systemInputDiagnostics=await evaluate('__mobileSystemDiagnostics');
+  report.systemListMutations=await evaluate('window.__mobileSystemMutations||[]');
   await cdp.send('Page.reload',{ignoreCache:true});await until('original engine after real reload','window.baye&&baye.hd&&baye.hd.ready()',60000);
-  await evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];const k=window.sendKey,t=window._bayeSendTouchEvent;
+  await evaluate(`(() => {window.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=${report.systemModeRepeat>0};window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];const k=window.sendKey,t=window._bayeSendTouchEvent;
     window.sendKey=function(code){__mobileMapKeys.push({code,page:2,at:performance.now()});return k.apply(this,arguments);};
     window._bayeSendTouchEvent=function observed(){__mobileMapNativeTouches.push({args:Array.from(arguments),page:2,at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observed;return r;};})()`);
   for(let n=0;n<60;n++){if(await evaluate('baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
@@ -132,6 +159,7 @@ export async function runMobileSystemChecks(ctx) {
   const nextSeq=seq=>seq===0xffffffff?1:seq+1;
   assert.equal(loaded.state.record.active,0);assert.equal(loaded.state.record.seq,nextSeq(nextSeq(beforeLoad.state.record.seq)));
   report.systemLoad={before:beforeLoad,after:loaded,oracle:verifyOriginalSavePair({...raw,world:loaded.world})};await capture('12-loaded-map');
+  report.systemAnimationBoundaryCoverage=Object.fromEntries(['title','period'].map(screen=>[screen,report.systemAnimationBoundaries.some(v=>v.before.screen===screen&&v.rawBoundaryObserved&&v.accepted)]));
   report.acceptedScope=['Original mobile HD native title/period/ruler/system/end confirmation and local record selectors at '+size.join('x'),
     'Native save to public slot, actual Treat mutation, normal end, real page reload and load restore of explicitly recorded world fields',
     'Original 0x95 two-file decode against saved and restored persistent fields; no RNG continuity or unused resident-queue-tail claim',

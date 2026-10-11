@@ -195,8 +195,8 @@ test('render binding rejects old nodes after opaque same-values data replacement
     const h=fixture(), old=h.button(0); h.rebind(); h.click(old); assert.deepEqual(h.keys,[]);
     h.refresh(); h.click(h.button(0)); assert.deepEqual(h.keys,[39]);
 });
-test('full raw ticket changes rebind buttons despite unchanged menu seq/stable owner', () => {
-    const h=fixture(), old=h.button(0), seq=h.data.g_hdMenuSeq; h.data.g_hdMovieActive=1; h.data.g_hdSpeActive=1;
+test('non-presentation raw ticket changes rebind buttons despite unchanged menu seq/stable owner', () => {
+    const h=fixture(), old=h.button(0), seq=h.data.g_hdMenuSeq; h.data.g_hdRecordSeq++;
     h.click(old); assert.deepEqual(h.keys,[]); h.refresh(); assert.equal(h.data.g_hdMenuSeq,seq);
     assert.notEqual(h.button(0),old); h.click(h.button(0)); assert.deepEqual(h.keys,[39]);
 });
@@ -367,7 +367,7 @@ for(const fault of ['no-arm','geometry','data','key','owner-unavailable','target
         const h=fixture({diagnostics:true}),b=h.mode;if(fault!=='no-arm')h.fire('pointerdown',b);
         if(fault==='geometry')b.rect.left+=.25;
         if(fault==='data')h.rebind();
-        if(fault==='key')h.data.g_hdSpeActive=1;
+        if(fault==='key')h.data.g_hdRecordSeq++;
         if(fault==='owner-unavailable')h.setReady(false);
         if(fault==='covered')h.setTop(h.outside);
         const target=fault==='target'?h.open:b;
@@ -386,7 +386,7 @@ for(const fault of ['untrusted','keyboard','expired','covered','data','key']){
         if(fault==='expired')h.tick(1001);
         if(fault==='covered')h.setTop(h.outside);
         if(fault==='data')h.rebind();
-        if(fault==='key')h.data.g_hdSpeActive=1;
+        if(fault==='key')h.data.g_hdRecordSeq++;
         h.fire('click',h.mode,fault==='untrusted'?{isTrusted:false}:fault==='keyboard'?{detail:0}:{});
         const d=h.api.debugSnapshot().diagnostics;
         assert.equal(d.last.click.reason,{untrusted:'untrusted',keyboard:'keyboard-click',expired:'grant-expired',covered:'not-visible',data:'owner-data-changed',key:'owner-key-changed'}[fault]);
@@ -399,7 +399,7 @@ for(const cause of ['scroll','resize','blur','pointercancel','multi','poll-key',
         if(cause==='scroll'||cause==='pointercancel')h.fire(cause,h.mode);
         if(cause==='resize'||cause==='blur')h.windowEvent(cause);
         if(cause==='multi')h.fire('pointerdown',h.outside,{pointerId:2,isPrimary:false});
-        if(cause==='poll-key')h.data.g_hdSpeActive=1;
+        if(cause==='poll-key')h.data.g_hdRecordSeq++;
         if(cause==='poll-data')h.rebind();
         if(cause.startsWith('poll'))for(const fn of h.intervals.values())fn();
         h.fire('pointerup',h.mode);h.fire('click',h.mode);const d=h.api.debugSnapshot().diagnostics;
@@ -409,3 +409,183 @@ for(const cause of ['scroll','resize','blur','pointercancel','multi','poll-key',
         if(cause==='poll-data')assert.equal(d.last.retire.checks.dataSame,false);
     });
 }
+
+test('returned title keeps the exact granted button across UP then same-ticket host polls',()=>{
+    const h=fixture({diagnostics:true});h.click(h.button(1));h.tick();
+    h.publish('load');h.refresh();h.click(h.back);h.publish('title');h.data.g_hdSpeActive=1;h.refresh();
+    const b=h.button(0),before=h.keys.length;h.fire('pointerdown',b);h.fire('pointerup',b);
+    const granted=h.api.debugSnapshot().diagnostics.last.up.grant.target.node;
+    for(let i=0;i<8;i++)for(const fn of h.intervals.values())fn();
+    assert.equal(h.button(0),b);h.fire('click',b);
+    const d=h.api.debugSnapshot().diagnostics;
+    assert.equal(d.last.click.reason,'authorized');assert.equal(d.last.click.actionTarget.node,granted);
+    assert.equal(d.last.click.checks.expectedTarget.node,granted);
+    assert.deepEqual(Array.from(d.last.click.checks.release.point),[b.rect.left+5,b.rect.top+5]);
+    assert.equal(d.render.last.status,'cache-hit');assert.equal(d.render.last.source,'mobile-host');
+    assert.equal(d.render.last.checks.keySame,true);assert.equal(d.render.last.checks.signatureSame,true);
+    assert.deepEqual(h.keys.slice(before),[39]);
+});
+
+test('native maker refresh between UP and CLICK records replaced buttons and preserves target rejection',()=>{
+    const h=fixture({diagnostics:true});h.data.g_hdSpeActive=1;h.refresh();const old=h.button(0);
+    h.fire('pointerdown',old);h.fire('pointerup',old);const before=h.api.debugSnapshot().diagnostics;
+    h.data.g_hdRecordSeq++;h.shared.onEngineMaker();const fresh=h.button(0);assert.notEqual(fresh,old);
+    // This callback bypasses the host poll: a granted old node remains, but
+    // the real full-key change must never authorize the replacement node.
+    h.fire('click',fresh);const d=h.api.debugSnapshot().diagnostics;
+    assert.equal(d.last.click.reason,'target-changed');assert.equal(d.last.click.checks.targetSame,false);
+    assert.equal(d.last.click.checks.expectedTarget.node,before.last.up.grant.target.node);
+    assert.equal(d.last.click.checks.expectedTarget.connected,false);
+    assert.equal(d.last.click.actionTarget.connected,true);
+    assert.notEqual(d.last.click.actionTarget.node,d.last.click.checks.expectedTarget.node);
+    assert.equal(d.last.click.actionTarget.item,'0');assert.equal(d.last.click.checks.expectedTarget.item,'0');
+    const rebuild=d.render.rebuildHistory.at(-1);
+    assert.equal(rebuild.source,'engine-maker');assert.equal(rebuild.checks.keySame,false);
+    assert.equal(rebuild.checks.dataSame,true);assert.equal(rebuild.checks.itemsSame,true);
+    assert.equal(rebuild.checks.indexSame,true);assert.equal(rebuild.checks.requestSame,true);
+    assert.equal(rebuild.speActive,1);assert.equal(d.last.click.render.rebuilds,d.render.rebuilds);
+    assert.equal('currentOwner' in d.last.click.checks,false);assert.deepEqual(h.keys,[]);
+});
+
+test('CLICK captures its consumed grant and both action nodes without reading a rejected native owner',()=>{
+    const h=fixture({diagnostics:true}),expected=h.button(0),wrong=h.button(1);
+    h.fire('pointerdown',expected);h.fire('pointerup',expected);
+    h.setMenuHook(()=>{throw Error('target rejection must short-circuit native reads');});h.fire('click',wrong);
+    const d=h.api.debugSnapshot().diagnostics,click=d.last.click;
+    assert.equal(click.reason,'target-changed');assert.equal(click.checks.expectedTarget.item,'0');
+    assert.equal(click.actionTarget.item,'1');assert.notEqual(click.actionTarget.node,click.checks.expectedTarget.node);
+    assert.deepEqual(Array.from(click.checks.release.point),[expected.rect.left+5,expected.rect.top+5]);
+    assert.deepEqual(Array.from(click.point),[wrong.rect.left+5,wrong.rect.top+5]);
+    assert.equal(d.grant,null);assert.equal('currentOwner' in click.checks,false);assert.deepEqual(h.keys,[]);
+});
+
+test('event child and resolved action use distinct diagnostic identities while the same button stays authorized',()=>{
+    const h=fixture({diagnostics:true}),b=h.button(0),child=h.env.document.createElement('span');
+    child.textContent='新君登基';child.rect={...b.rect};b.appendChild(child);
+    h.fire('pointerdown',child);h.fire('pointerup',child);h.fire('click',child);
+    const click=h.api.debugSnapshot().diagnostics.last.click;
+    assert.equal(click.reason,'authorized');assert.notEqual(click.eventTarget.node,click.actionTarget.node);
+    assert.equal(click.eventTarget.tag,'SPAN');assert.equal(click.actionTarget.tag,'BUTTON');
+    assert.equal(click.actionTarget.node,click.checks.expectedTarget.node);assert.deepEqual(h.keys,[39]);
+});
+
+for(const fault of ['opaque-data','child-count'])test('list rebuild diagnostic distinguishes '+fault+' from a changed full ticket',()=>{
+    const h=fixture({diagnostics:true});
+    if(fault==='opaque-data')h.rebind();else h.list.children.pop();
+    h.shared.onEngineMaker();const d=h.shared.getMobileRenderDiagnostics(),entry=d.rebuildHistory.at(-1);
+    assert.equal(entry.status,'rebuild');assert.equal(entry.checks.keySame,true);
+    assert.equal(entry.checks.signatureSame,true);
+    assert.equal(entry.checks.dataSame,fault!=='opaque-data');
+    assert.equal(entry.checks.childCountSame,fault!=='child-count');assert.deepEqual(h.keys,[]);
+});
+
+test('shared list diagnostics are dynamic, bounded, defensive and do not resample native getters',()=>{
+    const h=fixture();assert.equal(h.shared.getMobileRenderDiagnostics(),null);
+    h.env.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=true;
+    for(let i=0;i<24;i++){h.data.g_hdRecordSeq++;h.shared.onEngineMaker();}
+    const fail=()=>{throw Error('render diagnostics must not read native');};
+    h.setMenuHook(fail);h.env.baye.ensureData=fail;h.env.BayeHdLibIdentity.read=fail;
+    const d=h.shared.getMobileRenderDiagnostics();assert.equal(d.attempts,24);
+    assert.equal(d.rebuildHistory.length,8);assert.equal(d.last.source,'engine-maker');
+    assert.ok(JSON.stringify(d).length<12000);assert.equal(JSON.stringify(d).includes('stableKey'),false);
+    assert.equal(JSON.stringify(d).includes('circular'),false);
+    d.rebuildHistory.length=0;d.last.source='tampered';
+    assert.equal(h.shared.getMobileRenderDiagnostics().rebuildHistory.length,8);
+    assert.equal(h.shared.getMobileRenderDiagnostics().last.source,'engine-maker');
+    assert.doesNotThrow(()=>JSON.stringify(h.api.debugSnapshot().diagnostics));
+    h.env.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=false;assert.equal(h.shared.getMobileRenderDiagnostics(),null);
+});
+
+test('native maker diagnostic paths preserve getter counts, inputs and preferences with tracing enabled or disabled',()=>{
+    const run=diagnostics=>{const h=fixture({diagnostics});let calls=0;h.setMenuHook(()=>calls++);
+        const old=h.button(0);h.fire('pointerdown',old);h.fire('pointerup',old);
+        h.data.g_hdRecordSeq++;h.shared.onEngineMaker();h.fire('click',h.button(0));
+        h.api.debugSnapshot();h.shared.getMobileRenderDiagnostics();
+        return {calls,keys:h.keys,writes:h.writes,mode:h.shared.getMode()};};
+    assert.deepEqual(run(true),run(false));
+});
+
+for(const screen of ['title','period'])for(const field of ['g_hdSpeActive'])for(const from of [0,1])for(const when of ['down','up']){
+    test(`pictorial-key ${screen} ${field} ${from}->${1-from} after ${when} keeps the same selector button`,()=>{
+        const h=fixture({screen,diagnostics:true});h.data[field]=from;h.refresh();
+        const before=h.api.readInputTicket(),b=h.button(0),rebuilds=h.shared.getMobileRenderDiagnostics().rebuilds;
+        h.fire('pointerdown',b);if(when==='up')h.fire('pointerup',b);
+        h.data[field]=1-from;h.shared.onEngineMaker();
+        const after=h.api.readInputTicket();assert.equal(after.key,before.key);assert.equal(after.data,before.data);
+        assert.equal(before.raw[field],from);assert.equal(after.raw[field],1-from);
+        assert.equal(h.data[field],1-from);assert.equal(h.button(0),b);
+        assert.equal(h.shared.getMobileRenderDiagnostics().rebuilds,rebuilds);
+        if(when==='down')h.fire('pointerup',b);h.fire('click',b);
+        const d=h.api.debugSnapshot().diagnostics;
+        assert.equal(d.last.up.reason,'grant-created');assert.equal(d.last.click.reason,'authorized');
+        assert.equal(d.last.click.actionTarget.node,d.last.click.checks.expectedTarget.node);
+        assert.equal(d.last.click.checks.dataSame,true);assert.equal(d.last.click.checks.keySame,true);
+        assert.deepEqual(h.keys,[39]);assert.deepEqual(h.writes,[]);
+    });
+}
+
+for(const screen of ['title','period'])test(`pictorial-key ${screen} preserves raw flags while MovieActive still changes the full input key`,()=>{
+    const h=fixture({screen});const first=h.api.readInputTicket();
+    h.data.g_hdMovieActive=h.data.g_hdSpeActive=1;const next=h.api.readInputTicket();
+    assert.notEqual(next.key,first.key);assert.equal(next.owner.stableKey,first.owner.stableKey);
+    assert.equal(next.raw.g_hdMovieActive,1);assert.equal(next.raw.g_hdSpeActive,1);
+    assert.equal(first.raw.g_hdMovieActive,0);assert.equal(first.raw.g_hdSpeActive,0);
+    assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+});
+
+for(const screen of ['title','period'])for(const field of ['g_hdMovieActive','g_hdSpeActive'])test(`pictorial-key ${screen} retains full raw torn-read rejection for ${field}`,()=>{
+    const h=fixture({screen,diagnostics:true}),b=h.button(0);h.fire('pointerdown',b);
+    h.setMenuHook(()=>{h.data[field]=1-h.data[field];});
+    assert.equal(h.api.readInputTicket(),null);h.fire('pointerup',b);h.fire('click',b);
+    assert.deepEqual(h.keys,[]);assert.equal(h.api.debugSnapshot().diagnostics.last.up.reason,'current-owner-unavailable');
+});
+
+for(const screen of ['title','period'])for(const field of ['g_hdMovieActive','g_hdSpeActive'])for(const value of [-1,2,1.5,NaN]){
+    test(`pictorial-key ${screen} ${field} illegal ${value} cannot be normalized into authorization`,()=>{
+        const h=fixture({screen}),b=h.button(0);h.fire('pointerdown',b);h.data[field]=value;
+        assert.equal(h.api.readInputTicket(),null);h.fire('pointerup',b);h.fire('click',b);assert.deepEqual(h.keys,[]);
+    });
+}
+
+for(const screen of ['king','insystem','confirm','save','load'])for(const field of ['g_hdMovieActive','g_hdSpeActive']){
+    test(`pictorial-key scope excludes ${screen} when ${field} becomes active`,()=>{
+        const h=fixture({screen,diagnostics:true});h.fire('pointerdown',h.mode);
+        assert.equal(h.api.debugSnapshot().diagnostics.last.down.reason,'armed');h.data[field]=1;
+        assert.equal(h.api.readInputTicket(),null);h.fire('pointerup',h.mode);h.fire('click',h.mode);
+        assert.equal(h.shared.getMode(),'hd');assert.deepEqual(h.keys,[]);assert.deepEqual(h.writes,[]);
+    });
+}
+
+for(const field of ['g_hdMovieActive','g_hdSpeActive'])test(`pictorial-key scope excludes current MAP opener during ${field}`,()=>{
+    const h=fixture({screen:'map',diagnostics:true});h.fire('pointerdown',h.open);
+    assert.equal(h.api.debugSnapshot().diagnostics.last.down.reason,'armed');h.data[field]=1;
+    h.fire('pointerup',h.open);h.fire('click',h.open);assert.deepEqual(h.keys,[]);
+    assert.equal(h.api.debugSnapshot().diagnostics.last.up.reason,'current-owner-unavailable');
+});
+
+for(const screen of ['title','period'])for(const from of [0,1])for(const when of ['down','up']){
+    test(`pictorial-key ${screen} MovieActive ${from}->${1-from} after ${when} retains old target rejection`,()=>{
+        const h=fixture({screen,diagnostics:true});h.data.g_hdMovieActive=from;h.refresh();
+        const before=h.api.readInputTicket(),b=h.button(0);h.fire('pointerdown',b);if(when==='up')h.fire('pointerup',b);
+        h.data.g_hdMovieActive=1-from;h.shared.onEngineMaker();const after=h.api.readInputTicket();
+        assert.notEqual(after.key,before.key);assert.equal(after.data,before.data);assert.notEqual(h.button(0),b);
+        if(when==='down')h.fire('pointerup',b);h.fire('click',h.button(0));
+        assert.deepEqual(h.keys,[]);assert.equal(h.shared.getMobileRenderDiagnostics().rebuildHistory.at(-1).checks.keySame,false);
+    });
+}
+
+for(const field of RAW.filter(name=>name!=='g_hdSpeActive')){
+    test(`pictorial-key retains the existing strict fence for ${field}`,()=>{
+        const h=fixture({diagnostics:true}),b=h.button(0);h.fire('pointerdown',b);
+        assert.equal(h.api.debugSnapshot().diagnostics.last.down.reason,'armed');h.data[field]++;
+        h.fire('pointerup',b);h.fire('click',b);assert.deepEqual(h.keys,[]);
+        assert.notEqual(h.api.debugSnapshot().diagnostics.last.up.reason,'grant-created');
+    });
+}
+
+test('pictorial-key background normalization still rejects same-values opaque data replacement after release',()=>{
+    const h=fixture({diagnostics:true}),b=h.button(0);h.fire('pointerdown',b);h.fire('pointerup',b);
+    h.rebind();h.data.g_hdSpeActive=1;h.fire('click',b);
+    const click=h.api.debugSnapshot().diagnostics.last.click;
+    assert.equal(click.reason,'owner-data-changed');assert.equal(click.checks.keySame,true);assert.deepEqual(h.keys,[]);
+});

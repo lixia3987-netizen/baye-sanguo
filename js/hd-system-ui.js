@@ -8,6 +8,7 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var MOBILE_STORAGE_KEY = 'baye/mobileSystemUiMode';
     var mobileHost = null, mobileMode = 'hd', mobileListSignature = '', mobileListData = null;
+    var mobileListTrace = {attempts: 0, cacheHits: 0, rebuilds: 0, last: null, rebuildHistory: []};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, ENTER: 0x27, EXIT: 0x28 };
     var TITLE = ['新君登基', '重返沙场', '制作群组', '解甲归田'];
     var PERIODS = ['董卓弄权', '曹操崛起', '赤壁之战', '三国鼎立'];
@@ -795,7 +796,54 @@
         return '新君登基 / 重返沙场 / 制作群组 / 解甲归田 · 与引擎主菜单一致';
     }
 
-    function fillList() {
+    function mobileListTracing() {
+        try { return global.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS === true; } catch (e) { return false; }
+    }
+
+    function traceHash(text) {
+        if (typeof text !== 'string') { return null; }
+        var hash = 2166136261;
+        for (var i = 0; i < text.length; i++) { hash = Math.imul(hash ^ text.charCodeAt(i), 16777619); }
+        return ('00000000' + (hash >>> 0).toString(16)).slice(-8);
+    }
+
+    function traceMobileList(status, ticket, owner, parts, signature, childCount, source) {
+        if (!mobileListTracing()) { return; }
+        try {
+            // All values are from fillList's existing reads. No native resampling.
+            var previous = mobileListSignature ? JSON.parse(mobileListSignature) : null;
+            var checks = {signatureSame: signature === mobileListSignature, dataSame: mobileListData === ticket.data,
+                childCountSame: childCount === parts[3].length};
+            ['keySame', 'ownerSame', 'indexSame', 'itemsSame', 'requestSame', 'confirmedSame', 'exitedSame', 'retiredSame', 'savesSame']
+                .forEach(function (name, index) { checks[name] = previous ? JSON.stringify(previous[index]) === JSON.stringify(parts[index]) : null; });
+            var entry = {attempt: ++mobileListTrace.attempts, status: status, at: Date.now(), screen: state.screen,
+                source: typeof source === 'string' ? source.slice(0, 96) : 'render',
+                keyHash: traceHash(ticket.key), previousKeyHash: previous ? traceHash(previous[0]) : null,
+                signatureHash: traceHash(signature), previousSignatureHash: traceHash(mobileListSignature),
+                seq: owner && owner.seq, index: owner && owner.index, movieActive: ticket.raw.g_hdMovieActive,
+                speActive: ticket.raw.g_hdSpeActive, childCount: childCount, itemCount: parts[3].length, checks: checks};
+            mobileListTrace.last = entry;
+            if (status === 'cache-hit') { mobileListTrace.cacheHits++; }
+            else {
+                mobileListTrace.rebuilds++;
+                mobileListTrace.rebuildHistory.push(entry);
+                if (mobileListTrace.rebuildHistory.length > 8) { mobileListTrace.rebuildHistory.shift(); }
+            }
+        } catch (e) { /* Diagnostics never affect list rendering. */ }
+    }
+
+    function mobileRenderDiagnostics(compact) {
+        if (!mobileListTracing()) { return null; }
+        var last = mobileListTrace.last;
+        if (compact === true) {
+            return {attempts: mobileListTrace.attempts, cacheHits: mobileListTrace.cacheHits, rebuilds: mobileListTrace.rebuilds,
+                lastStatus: last && last.status, lastAt: last && last.at, keyHash: last && last.keyHash,
+                signatureHash: last && last.signatureHash};
+        }
+        return JSON.parse(JSON.stringify(mobileListTrace));
+    }
+
+    function fillList(source) {
         var list = el('hd-system-ui-list');
         if (!list) {
             return;
@@ -810,10 +858,14 @@
         }
         if (isMobilePage()) {
             var mobileOwner = inputOwner();
-            var signature = JSON.stringify([initialMobileTicket.key, mobileOwner && mobileOwner.mobileKey, mobileOwner && mobileOwner.index,
+            var parts = [initialMobileTicket.key, mobileOwner && mobileOwner.mobileKey, mobileOwner && mobileOwner.index,
                 items, !!state.request, state.confirmedToken, state.exitedToken, state.retiredToken,
-                state.saves.map(function (s) { return [s.canLoad, s.error]; })]);
-            if (signature === mobileListSignature && mobileListData === initialMobileTicket.data && list.children.length === items.length) { return; }
+                state.saves.map(function (s) { return [s.canLoad, s.error]; })];
+            var signature = JSON.stringify(parts), childCount = list.children.length;
+            if (signature === mobileListSignature && mobileListData === initialMobileTicket.data && childCount === items.length) {
+                traceMobileList('cache-hit', initialMobileTicket, mobileOwner, parts, signature, childCount, source); return;
+            }
+            traceMobileList('rebuild', initialMobileTicket, mobileOwner, parts, signature, childCount, source);
             mobileListSignature = signature;
             mobileListData = initialMobileTicket.data;
         }
@@ -862,14 +914,14 @@
         }
     }
 
-    function render() {
+    function render(source) {
         applyChrome();
         if (!(state.open && shouldShowHd())) {
             return;
         }
         setText(el('hd-system-ui-title'), screenTitle());
         setText(el('hd-system-ui-sub'), screenHint());
-        fillList();
+        fillList(source);
         var probe = el('hd-system-ui-probe');
         if (probe) { probe.hidden = !global.BAYE_HD_DEBUG; }
         setText(probe, 'screen=' + state.screen +
@@ -880,7 +932,7 @@
         syncToolbar();
     }
 
-    function refresh() {
+    function refresh(source) {
         if (makerActive()) {
             if (state.open) closeUi({ silent: true });
             return;
@@ -943,7 +995,7 @@
         if (!wasOpen) {
             console.log('[hd-system-ui] open', next);
         }
-        render();
+        render(typeof source === 'string' ? source : 'refresh');
     }
 
     function scheduleKingRefresh() {
@@ -1082,7 +1134,7 @@
             return;
         }
         if (shouldShowHd()) {
-            refresh();
+            refresh('hook:' + name);
         }
     }
 
@@ -1267,6 +1319,7 @@
             else { state.open = false; mobileListSignature = ''; applyChrome(); }
         },
         getInputTicket: mobileTicket,
+        getMobileRenderDiagnostics: mobileRenderDiagnostics,
         chooseInput: function (index, ticket) {
             var current = mobileTicket();
             if (!isMobilePage() || !ticket || !current || ticket.data !== current.data || ticket.key !== current.key) { return false; }
@@ -1327,7 +1380,7 @@
             return chooseNative(0, true);
         },
         onEngineHook: onEngineHook,
-        onEngineMaker: refresh,
+        onEngineMaker: function () { return refresh('engine-maker'); },
         start: start,
         applyPcPage: start,
         debugSnapshot: function () {

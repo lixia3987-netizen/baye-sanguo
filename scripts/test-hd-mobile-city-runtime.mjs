@@ -675,7 +675,20 @@ export async function main(args=process.argv.slice(2)) {
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
     await cdp.send('Runtime.enable');await cdp.send('Page.enable');await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
     await metrics(systemOnly?systemWidth:844,systemOnly&&systemWidth===667?375:390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
-    report.earlyInputObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:"for(const type of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointerup','pointercancel','click','keydown'])document.addEventListener(type,event=>{if(Array.isArray(window.__mobileMapEvents))window.__mobileMapEvents.push({type,trusted:event.isTrusted,target:event.target?.id||event.target?.tagName||null,key:event.key||null,pointerId:event.pointerId??null,at:performance.now()});},true);"});
+    report.earlyInputObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:`(() => {
+      const detailed=${systemOnly&&systemModeRepeat>0},nodes=new WeakMap();let serial=0;
+      const describe=n=>{if(!n)return null;if(!nodes.has(n))nodes.set(n,++serial);return {node:nodes.get(n),tag:n.tagName||n.nodeName,id:n.id||'',index:n.getAttribute?.('data-hd-sys')??null,text:(n.textContent||'').slice(0,48),connected:n.isConnected};};
+      for(const type of ['touchstart','touchmove','touchend','touchcancel','pointerdown','pointerup','pointercancel','click','keydown'])document.addEventListener(type,event=>{
+        if(Array.isArray(window.__mobileMapEvents))window.__mobileMapEvents.push({type,trusted:event.isTrusted,target:event.target?.id||event.target?.tagName||null,key:event.key||null,pointerId:event.pointerId??null,at:performance.now(),
+          ...(detailed?{point:[event.clientX??null,event.clientY??null],node:describe(event.target),path:event.composedPath().slice(0,5).map(describe)}:{})});
+      },true);
+      if(detailed){window.__mobileSystemMutations=[];document.addEventListener('DOMContentLoaded',()=>{
+        const list=document.getElementById('hd-system-ui-list');if(!list)return;
+        new MutationObserver(records=>{for(const r of records){window.__mobileSystemMutations.push({at:performance.now(),target:describe(r.target),removed:[...r.removedNodes].map(describe),added:[...r.addedNodes].map(describe)});}
+          if(window.__mobileSystemMutations.length>160)window.__mobileSystemMutations.splice(0,window.__mobileSystemMutations.length-160);
+        }).observe(list,{childList:true});
+      },{once:true});}
+    })();`});
     await cdp.send('Page.navigate',{url:origin+'/m.html#'+Math.floor(Date.now()/1000)});
     await until('original engine','window.baye&&baye.hd&&baye.hd.ready()',60000);
     await evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];
@@ -693,6 +706,7 @@ export async function main(args=process.argv.slice(2)) {
       report.nativeKeys=[...report.systemPageInputs.flatMap(p=>p.keys),...await evaluate('__mobileMapKeys')];
       report.nativeTouches=[...report.systemPageInputs.flatMap(p=>p.touches),...await evaluate('__mobileMapNativeTouches')];
       report.trustedEvents=[...report.systemPageInputs.flatMap(p=>p.events),...await evaluate('__mobileMapEvents')];
+      report.systemListMutations=[...(report.systemListMutations||[]),...await evaluate('window.__mobileSystemMutations||[]')];
       assert.equal(report.nativeTouches.length,0);assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
       report.systemAccepted=true;report.ok=true;report.accepted=true;return;
     }
@@ -741,6 +755,7 @@ export async function main(args=process.argv.slice(2)) {
       report.nativeTouches=[...(report.systemPageInputs||[]).flatMap(p=>p.touches),...await evaluate('window.__mobileMapNativeTouches||[]')];
       report.trustedEvents=[...(report.systemPageInputs||[]).flatMap(p=>p.events),...await evaluate('window.__mobileMapEvents||[]')];
       report.systemInputDiagnostics=[...(report.systemInputDiagnostics||[]),...await evaluate('window.__mobileSystemDiagnostics||[]')];
+      report.systemListMutations=[...(report.systemListMutations||[]),...await evaluate('window.__mobileSystemMutations||[]')];
       report.failureSystem=await evaluate('({host:window.BayeHdMobileSystem&&BayeHdMobileSystem.snapshot(),debug:window.BayeHdMobileSystem&&BayeHdMobileSystem.debugSnapshot(),ui:window.BayeHdSystemUi&&BayeHdSystemUi.debugSnapshot(),menu:baye.hd.menuItems(),record:baye.hd.record()})');
       report.failureWorld=await evaluate(`baye.getPersonCount()===200?${worldSource}:null`);
     }catch{report.failureSystemInputsUnavailable=true;}}

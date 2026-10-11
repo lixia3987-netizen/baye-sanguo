@@ -26,6 +26,7 @@
         // Opt-in diagnostics only retain primitive observations from the real
         // input checks. They never resample native state or authorize input.
         var traceLimit = 12, traceCount = 0, traces = [], lastTrace = {};
+        var traceNodes = new WeakMap(), traceNodeCount = 0;
         function tracing() { try { return environment.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS === true; } catch (e) { return false; } }
         function traceText(value) { return typeof value === 'string' ? value.slice(0, 96) : null; }
         function keySummary(ticket) {
@@ -36,19 +37,36 @@
                 type: ticket.owner.type, screen: ticket.owner.screen, seq: ticket.owner.seq, index: ticket.owner.index,
                 generation: ticket.identity.generation, movieActive: ticket.raw.g_hdMovieActive, speActive: ticket.raw.g_hdSpeActive};
         }
+        function nodeSummary(target) {
+            if (!target || typeof target !== 'object' && typeof target !== 'function') { return null; }
+            var serial = traceNodes.get(target);
+            if (!serial) { serial = ++traceNodeCount; traceNodes.set(target, serial); }
+            return {node: serial, tag: traceText(target.tagName), id: traceText(target.id || ''),
+                item: target.getAttribute ? traceText(target.getAttribute('data-hd-sys')) : null,
+                text: traceText(target.textContent), connected: target.isConnected !== false};
+        }
+        function renderSummary(compact) {
+            var s = shared();
+            return s && s.getMobileRenderDiagnostics ? s.getMobileRenderDiagnostics(compact) : null;
+        }
         function gestureSummary(value) {
             return value ? {kind: value.kind, pointerId: value.id == null ? null : value.id,
-                targetId: value.target.id || '', owner: keySummary(value.owner), rect: value.rect ? value.rect.slice() : null} : null;
+                targetId: value.target.id || '', target: nodeSummary(value.target), owner: keySummary(value.owner),
+                rect: value.rect ? value.rect.slice() : null, release: value.diagnosticRelease || null} : null;
         }
         function trace(type, reason, event, hit, probe) {
             if (!tracing()) { return; }
             try {
                 var entry = {number: ++traceCount, type: type, reason: traceText(reason), at: Date.now(), mode: last.mode,
                     targetId: traceText(hit && hit.target.id || event && event.target && event.target.id || ''), kind: hit && hit.kind || null,
+                    eventTarget: nodeSummary(event && event.target), actionTarget: nodeSummary(hit && hit.target),
+                    point: event ? [typeof event.clientX === 'number' && isFinite(event.clientX) ? event.clientX : null,
+                        typeof event.clientY === 'number' && isFinite(event.clientY) ? event.clientY : null] : null,
                     trusted: event ? event.isTrusted === true : null, primary: event ? event.isPrimary === true : null,
                     pointerId: event && uint(event.pointerId) ? event.pointerId : null, detail: event && uint(event.detail) ? event.detail : null,
                     blocked: blocked, pointerIDs: Object.keys(pointers).slice(0, 10), pointerCount: Object.keys(pointers).length,
                     arm: gestureSummary(arm), grant: gestureSummary(grant), checks: probe || null,
+                    render: renderSummary(true),
                     hidden: !!doc().hidden, viewport: [environment.innerWidth, environment.innerHeight],
                     fontsStatus: doc().fonts ? traceText(doc().fonts.status) : null};
                 traces.push(entry); if (traces.length > traceLimit) { traces.shift(); }
@@ -61,6 +79,7 @@
                 arm: gestureSummary(arm), grant: gestureSummary(grant), blocked: blocked,
                 pointerIDs: Object.keys(pointers).slice(0, 10), pointerCount: Object.keys(pointers).length,
                 last: lastTrace, events: traces};
+            diagnostics.render = renderSummary(false);
             // No ticket.data, DOM node or mutable internal diagnostic object is exposed.
             return Object.assign({}, last, {diagnostics: JSON.parse(signature(diagnostics))});
         }
@@ -158,7 +177,16 @@
                 if (!before || !after || !available() || hd.ready() !== true || baye.data !== data || signature(first) !== signature(latest) ||
                     signature(before) !== signature(after)) { return null; }
                 before.owner.stableKey = signature([first, before.owner.stableKey]);
-                return {data: data, identity: first, owner: before.owner, raw: before.raw, key: signature([first, before])};
+                var keyReading = before;
+                if (before.owner.type === 'menu' && (before.owner.screen === 'title' || before.owner.screen === 'period')) {
+                    // The pictorial selectors remain the same input owner while
+                    // their allowed background SPE flag alternates 0/1.
+                    // Preserve full raw values above for torn-read rejection and diagnostics.
+                    var keyRaw = Object.assign({}, before.raw);
+                    keyRaw.g_hdSpeActive = 0;
+                    keyReading = {raw: keyRaw, owner: before.owner};
+                }
+                return {data: data, identity: first, owner: before.owner, raw: before.raw, key: signature([first, keyReading])};
             } catch (e) { return null; }
         }
         function readInputTicket() { return sample(false); }
@@ -186,7 +214,7 @@
                 if (arm && !ownerMatches(arm.owner, actionTicket(arm.kind), probe)) { retire('owner-changed', true, probe); }
                 probe = {};
                 if (grant && !ownerMatches(grant.owner, actionTicket(grant.kind), probe)) { retire('owner-changed', true, probe); }
-                if (s && s.refresh) { s.refresh(); }
+                if (s && s.refresh) { s.refresh('mobile-host'); }
                 var next = readInputTicket();
                 probe = {};
                 if ((ticket || next) && !ownerMatches(ticket, next, probe)) { retire('torn-owner', true, probe); ticket = next; }
@@ -297,6 +325,8 @@
                 failed(ownerMatches(current.owner, (currentTicket = actionTicket(current.kind)), probe), ownerReason(current.owner, currentTicket), probe, 'ownerSame') ||
                 failed(rendered(hit, current.owner, probe), 'stale-render', probe, 'rendered'))) {
                 grant = {target: current.target, kind: current.kind, owner: current.owner, at: Date.now()};
+                if (tracing()) { grant.diagnosticRelease = {target: nodeSummary(current.target),
+                    rect: current.rect.slice(), point: [event.clientX, event.clientY]}; }
             }
             if (tracing()) { probe.currentRect = currentRect || null; }
             if (current || hit) { trace('up', probe.reason || 'grant-created', event, hit, probe); }
@@ -306,6 +336,8 @@
         function click(event) {
             var hit = action(event.target); if (!hit) { return; }
             stop(event); var current = grant, currentTicket, probe = {}; grant = null;
+            if (tracing()) { probe.expectedTarget = nodeSummary(current && current.target);
+                probe.release = current && current.diagnosticRelease || null; }
             if (failed(!!current, 'no-grant', probe, 'hadGrant') || failed(event.isTrusted === true, 'untrusted', probe, 'trusted') ||
                 failed(event.detail !== 0, 'keyboard-click', probe, 'detailValid') || failed(!blocked, 'blocked', probe, 'notBlocked') ||
                 failed(current.target === hit.target, 'target-changed', probe, 'targetSame') || failed(current.kind === hit.kind, 'action-changed', probe, 'kindSame') ||
