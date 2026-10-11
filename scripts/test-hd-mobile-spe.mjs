@@ -35,7 +35,7 @@ function fixture(which='aid17-first0',options={}) {
  c.window=c;vm.runInContext(source,c,{filename:'js/hd-spe.js'});const api=c.BayeHdSpe;
  const host={isAvailable:()=>available,readTicket(){if(ticketHook)ticketHook();return{data,key:ownerKey,libraryGeneration:identity.generation,presentation:'lcd',kind:0,seq:3,actor:0};},
   getMode:()=>mode,onPresentation:p=>presentations.push(p)};
- if(options.configure!==false)api.applyMobilePage(host);api.setManifest({...manifest,entries:manifest.entries.filter(e=>options.fire?e.fireVersion===1:e.speId===41)});
+ if(options.configure!==false)api.applyMobilePage(host);api.setManifest({...manifest,entries:manifest.entries.filter(e=>options.effect?e[options.effect+'Version']===1:e.speId===41)});
  function resolve(failed=false){for(const image of images){if(image.done)continue;image.done=true;const pic=manifest.entries.flatMap(e=>e.pictures).find(p=>p.src===image.url);assert.ok(pic);image.naturalWidth=pic.width;image.naturalHeight=pic.height;(failed?image.onerror:image.onload)();}}
  return {api,c,nodes,keys,writes,preferences,images,draws,presentations,polls,listeners,
   flush(){api.onLcdFlush({fixture:'current native LCD'},640,384);},resolve,
@@ -53,17 +53,20 @@ function fixture(which='aid17-first0',options={}) {
 }
 function hdFixture(name){const h=fixture(name);h.flush();h.resolve();assert.equal(h.api.getLcdPresentation(),'hd');return h;}
 // Controlled ABI inputs use real ROM identities; these are not C or browser captures.
-function fireFixture({hold=false,current=0,display=current}={}) {
+function opaqueSkillFixture(effect,{hold=false,current=0,display=current}={}) {
+ const {resourceId,skillId,width,length,fingerprint}=effect;
  const f=abiFixture();if(hold)f.hold();else f.movie(6,current,display);
- const offset=lib.readUInt32LE((35-1)*4),payload=lib.subarray(offset+14,offset+14+lib.readUInt32LE(offset+8));
+ const offset=lib.readUInt32LE((resourceId-1)*4),payload=lib.subarray(offset+14,offset+14+lib.readUInt32LE(offset+8));
  let hash=2166136261;for(const byte of payload)hash=Math.imul(hash^byte,16777619)>>>0;
- assert.equal(payload.length,1212);assert.equal(hash,0x0bf53f74);
- Object.assign(f.raw,{g_hdSpeId:35,g_hdSpeSkillId:5,g_hdSpeEndFrm:7,g_hdSpeResourceFingerprint:hash,g_hdSpeResourceLength:payload.length});
- for(const p of ['g_hdSpe','g_hdSpeDisplay'])Object.assign(f.raw,{[p+'SceneMode']:2,[p+'SceneWidth']:65});
- if(hold){Object.assign(f.raw,{g_hdSkillResultId:35,g_hdSkillResultSkillId:5,g_hdSkillResultResourceFingerprint:hash,g_hdSkillResultResourceLength:payload.length});
-  for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay'])Object.assign(f.raw,{[p+'SceneMode']:2,[p+'SceneWidth']:65});}
- f.untouched();return fixture(undefined,{fire:true,rawGlobals:structuredClone(f.raw)});
+ assert.equal(payload.length,length);assert.equal(hash,fingerprint);
+ Object.assign(f.raw,{g_hdSpeId:resourceId,g_hdSpeSkillId:skillId,g_hdSpeEndFrm:7,g_hdSpeResourceFingerprint:hash,g_hdSpeResourceLength:payload.length});
+ for(const p of ['g_hdSpe','g_hdSpeDisplay'])Object.assign(f.raw,{[p+'SceneMode']:2,[p+'SceneWidth']:width});
+ if(hold){Object.assign(f.raw,{g_hdSkillResultId:resourceId,g_hdSkillResultSkillId:skillId,g_hdSkillResultResourceFingerprint:hash,g_hdSkillResultResourceLength:payload.length});
+  for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay'])Object.assign(f.raw,{[p+'SceneMode']:2,[p+'SceneWidth']:width});}
+ f.untouched();return fixture(undefined,{effect:effect.name,rawGlobals:structuredClone(f.raw)});
 }
+const opaqueSkills=[{name:'fire',label:'FIRE5',resourceId:35,skillId:5,width:65,length:1212,fingerprint:0x0bf53f74,path:'fire-35'},
+ {name:'water',label:'WATER12',resourceId:36,skillId:12,width:64,length:1084,fingerprint:0x6d62e7a8,path:'water-36'}];
 function modeButtonFixture(effect) {
  const listeners={},nodes=new Map(),calls=[],raw={},positions=Array.from({length:20},()=>({x:0,y:0,move:0,active:0,state:8,hp:0,mp:0}));let mode='hd',top=null;
  const fields={active:'g_hdFightActive',over:'g_hdFightOver',wait:'g_hdFightWait',phase:'g_hdFightPhase',aimType:'g_hdFightAimType',inputKind:'g_hdFightInputKind',inputSeq:'g_hdFightInputSeq',actorIndex:'g_hdFightActor',skip:'g_hdFightSkip',mapW:'g_MapWid',mapH:'g_MapHgt',bout:'g_FgtBoutCnt',boutMax:'g_FgtBoutMax',focusX:'g_FoucsX',focusY:'g_FoucsY'};
@@ -109,22 +112,24 @@ export function runMobileSpeChecks(register=test){
  register('trusted mobile header and footer mode UP synchronously retire the current SPE before changing mode',()=>{for(const name of ['header','footer']){const h=hdFixture(),host=modeButtonFixture(h);host.click(host[name]);assert.equal(host.mode,'classic');assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);assert.ok(host.calls.indexOf('speRetire:mode')<host.calls.indexOf('setMode:classic'));host.click(host.header);assert.equal(host.mode,'hd');assert.equal(h.api.getLcdPresentation(),'off');h.api.blit();h.resolve();assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();}});
  register('cancelled, multiple-pointer, untrusted or changed-owner mobile mode gestures cannot switch or retire SPE',()=>{for(const why of ['cancel','multiple','untrusted','owner']){const h=hdFixture(),host=modeButtonFixture(h);host.fire('pointerdown',host.header,{isTrusted:why!=='untrusted'});if(why==='cancel')host.fire('pointercancel',host.header);if(why==='multiple')host.fire('pointerdown',host.header,{pointerId:2,isPrimary:false});if(why==='owner')host.raw.g_hdFightInputSeq++;host.fire('pointerup',host.header);assert.equal(host.mode,'hd');assert.ok(!host.calls.includes('speRetire:mode'));assert.equal(h.api.isOpen(),true);h.noInput();}});
 
- for(const [name,settings]of [['first movie',{}],['display lag',{current:3,display:0}],['final movie',{current:7}],['numeric hold',{hold:true}]])register('mobile FIRE5 '+name+' retains a full LCD base and the actual 65x64 copied window',()=>{
-  const h=fireFixture(settings);h.flush();h.resolve();const s=h.snapshot();
+ for(const effect of opaqueSkills){const make=settings=>opaqueSkillFixture(effect,settings),label='mobile '+effect.label;
+ for(const [name,settings]of [['first movie',{}],['display lag',{current:3,display:0}],['final movie',{current:7}],['numeric hold',{hold:true}]])register(label+' '+name+' retains a full LCD base and the actual '+effect.width+'x64 copied window',()=>{
+  const h=make(settings);h.flush();h.resolve();const s=h.snapshot();
   assert.equal(s.source,'hd-assets');assert.equal(h.api.getLcdPresentation(),'hd');
   assert.deepEqual(JSON.parse(JSON.stringify(s.sourceRect)),{x:0,y:0,width:160,height:96});
-  assert.deepEqual([s.hdRegion.x,s.hdRegion.y,s.hdRegion.width,s.hdRegion.height],[48,16,65,64]);
+  assert.deepEqual([s.hdRegion.x,s.hdRegion.y,s.hdRegion.width,s.hdRegion.height],[48,16,effect.width,64]);
   assert.equal(s.outsideSource,'lcd');assert.equal(s.skipVisible,false);
-  const images=h.draws.filter(d=>d.operation==='drawImage'&&d.args[0]?.url?.includes('/fire-35/'));
-  assert.ok(images.length);assert.deepEqual(images.at(-1).args.slice(1),[48*s.scale,16*s.scale,65*s.scale,64*s.scale]);
+  const images=h.draws.filter(d=>d.operation==='drawImage'&&d.args[0]?.url?.includes('/'+effect.path+'/'));
+  assert.ok(images.length);assert.deepEqual(images.at(-1).args.slice(1),[48*s.scale,16*s.scale,effect.width*s.scale,64*s.scale]);
   if(!settings.hold)assert.equal(h.draws.filter(d=>d.operation==='fillRect').length,0,'No invented dark surround in movie');h.noInput();
  });
- register('mobile FIRE5 decode alone cannot authorize its old framebuffer',()=>{const h=fireFixture();h.resolve();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
- register('mobile FIRE5 missing art keeps the physical LCD and never sends a skip',()=>{const h=fireFixture();h.flush();h.resolve(true);assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);assert.equal(h.api.skip(),false);h.noInput();});
- register('mobile FIRE5 same-value data replacement requires a fresh actual flush',()=>{const h=fireFixture();h.flush();h.resolve();h.rebind();assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'lcd');h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
- register('mobile FIRE5 classic mode retires the HD window and needs a new flush on return',()=>{const h=fireFixture({hold:true});h.flush();h.resolve();h.setMode('classic');assert.equal(h.api.isOpen(),false);h.setMode('hd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
- register('mobile FIRE5 report or native retirement prevents late art revival',()=>{for(const why of ['report','retire']){const h=fireFixture();h.flush();if(why==='report')h.setReport(1);else h.retireNative();h.resolve();assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();}});
- register('mobile FIRE5 unknown LIB never becomes a presentation authority',()=>{const h=fireFixture();h.flush();h.resolve();h.setIdentity({sha256:'0'.repeat(64)});assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();});
+ register(label+' decode alone cannot authorize its old framebuffer',()=>{const h=make();h.resolve();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
+ register(label+' missing art keeps the physical LCD and never sends a skip',()=>{const h=make();h.flush();h.resolve(true);assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);assert.equal(h.api.skip(),false);h.noInput();});
+ register(label+' same-value data replacement requires a fresh actual flush',()=>{const h=make();h.flush();h.resolve();h.rebind();assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'lcd');h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
+ register(label+' classic mode retires the HD window and needs a new flush on return',()=>{const h=make({hold:true});h.flush();h.resolve();h.setMode('classic');assert.equal(h.api.isOpen(),false);h.setMode('hd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
+ register(label+' report or native retirement prevents late art revival',()=>{for(const why of ['report','retire']){const h=make();h.flush();if(why==='report')h.setReport(1);else h.retireNative();h.resolve();assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();}});
+ register(label+' unknown LIB never becomes a presentation authority',()=>{const h=make();h.flush();h.resolve();h.setIdentity({sha256:'0'.repeat(64)});assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();});
+ }
 
 }
 runMobileSpeChecks();

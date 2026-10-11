@@ -281,13 +281,16 @@
         if (!m || !state.libHash || state.libHash !== m.libSha256 || !integer(scale) || scale < 1 || m.axScale !== scale)
             return null;
         var qimenSkill = Number(s.id) === 39 ? qimenSkillContext(s) : null,
-            fireSkill = Number(s.id) === 35 ? qimenSkillContext(s) : null;
+            fireSkill = Number(s.id) === 35 ? qimenSkillContext(s) : null,
+            waterSkill = Number(s.id) === 36 ? qimenSkillContext(s) : null;
         // An unproven FIRE5 context may retain LCD pixels, but cannot fall
         // through to the old shared-resource arena painter.
         if (Number(s.id) === 35 && Number(s.skillId) === 5 && fireSkill !== 5) return null;
+        if (Number(s.id) === 36 && Number(s.skillId) === 12 && waterSkill !== 12) return null;
         for (var i = 0; i < m.entries.length; i++) {
             var e = m.entries[i];
             if (Number(s.id) === 35 && (fireSkill === 5 ? !e || e.fireVersion !== 1 || e.skillId !== 5 : !e || e.fireVersion != null)) continue;
+            if (Number(s.id) === 36 && (waterSkill === 12 ? !e || e.waterVersion !== 1 || e.skillId !== 12 : !e || e.waterVersion != null)) continue;
             if (Number(s.id) === 39 && (qimenSkill === 14 ? !e || e.zhoufengVersion !== 1 || e.qimenVersion != null || e.skillId !== 14 :
                 qimenSkill === 15 ? !e || e.dingshenVersion !== 1 || e.qimenVersion != null || e.skillId !== 15 :
                 qimenSkill !== 20 || !e || e.qimenVersion !== 1 || e.skillId !== 20 || e.zhoufengVersion != null || e.dingshenVersion != null)) continue;
@@ -328,7 +331,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
-        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null || e.qimenVersion != null || e.fireVersion != null) && !validOpaqueCoverageEntry(e)) return false;
+        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null || e.qimenVersion != null || e.fireVersion != null || e.waterVersion != null) && !validOpaqueCoverageEntry(e)) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
@@ -758,7 +761,7 @@
             entry.skillResultVersion !== 1 || entry.kind !== 2 || entry.speId !== 35 || entry.resourceIndex !== 0 ||
             entry.count !== 8 || entry.picmax !== 2 || entry.startFrm !== 0 || entry.endFrm !== 7 ||
             entry.resourceLength !== 1212 || entry.resourceFingerprint !== 'fnv1a32:0bf53f74:1212' ||
-            entry.aidVersion != null || entry.liuyanVersion != null || entry.zhoufengVersion != null || entry.dingshenVersion != null || entry.qimenVersion != null ||
+            entry.aidVersion != null || entry.liuyanVersion != null || entry.zhoufengVersion != null || entry.dingshenVersion != null || entry.qimenVersion != null || entry.waterVersion != null ||
             entry.compositionVersion != null || entry.aiTargetVersion != null || entry.statusVersion != null ||
             entry.background != null || entry.number != null) return false;
         for (var p = 0; p < 2; p++) {
@@ -808,7 +811,63 @@
             numeric && (source.frameIndex !== 7 || s.display.frameIndex !== 7)) return null;
         return { x: 48, y: 16, width: 65, height: 64 };
     }
+    function validWaterEntry(entry) {
+        if (entry.waterVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillId !== 12 || entry.skillIds != null ||
+            entry.skillResultVersion !== 1 || entry.kind !== 2 || entry.speId !== 36 || entry.resourceIndex !== 0 ||
+            entry.count !== 8 || entry.picmax !== 2 || entry.startFrm !== 0 || entry.endFrm !== 7 ||
+            entry.resourceLength !== 1084 || entry.resourceFingerprint !== 'fnv1a32:6d62e7a8:1084' ||
+            entry.aidVersion != null || entry.liuyanVersion != null || entry.zhoufengVersion != null || entry.dingshenVersion != null || entry.qimenVersion != null || entry.fireVersion != null ||
+            entry.compositionVersion != null || entry.aiTargetVersion != null || entry.statusVersion != null ||
+            entry.background != null || entry.number != null) return false;
+        for (var p = 0; p < 2; p++) {
+            var pic = entry.pictures.filter(function (v) { return v.picIndex === p; })[0];
+            if (!validPicture(pic) || pic.mask !== 0 || pic.nativeWidth !== 64 || pic.nativeHeight !== 64 ||
+                pic.logicalWidth !== 64 || pic.logicalHeight !== 64) return false;
+        }
+        var number = entry.skillNumber;
+        return number && number.id === 15 && number.resourceIndex === 0 && number.pictureIndex === 0 &&
+            number.nativeWidth === 12 && number.nativeHeight === 16 && number.count === 10 && number.mask === 0 &&
+            number.x === 0 && number.y === 0 && number.resourceLength === 327 && number.resourceFingerprint === 'fnv1a32:b37d7407:327' &&
+            entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
+    }
+    function waterCoverage(s, entry, frames, clears) {
+        var numeric = skillPostlude(s), skill = numeric ? s.skillResult : s, source = numeric ? skill.scene : s,
+            c = s.display && s.display.composition, current = source && source.composition;
+        if (!validWaterEntry(entry) || !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
+            c.valid !== true || current.valid !== true || c.mode !== 2 || current.mode !== 2 ||
+            [c, current].some(function (v) { return v.x !== 48 || v.y !== 16 || v.width !== 64 || v.height !== 64 || v.background && v.background.valid; }) ||
+            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== 12 ||
+            !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
+            !integer(skill.targetIndex) || skill.targetIndex < 0 || skill.targetIndex >= 20 ||
+            !numeric && s.contextKnown !== true || numeric && (skill.active !== true || skill.sourceValid !== true || skill.custom !== false ||
+                (skill.phase !== 'numbers' && skill.phase !== 'hold') || skill.resultKind !== 1 || !integer(skill.value) || skill.value < 0 || skill.value > 65535 ||
+                !integer(skill.session) || skill.session <= 0 || source.session !== skill.session || s.display.session !== skill.session || source.generation !== skill.generation) ||
+            source.frameValid !== true || !integer(source.generation) || source.generation <= 0 ||
+            !integer(source.eventId) || source.eventId <= 0 || !integer(source.commitSeq) || source.commitSeq <= 0 ||
+            !integer(s.display.commitSeq) || s.display.commitSeq <= 0 || s.display.commitSeq > source.commitSeq ||
+            source.eventId !== s.display.eventId || source.generation !== s.display.generation ||
+            !integer(source.frameIndex) || source.frameIndex < 0 || source.frameIndex > 7 ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < 0 || s.display.frameIndex > source.frameIndex) return null;
+        function pastOnly(bits, frontier) {
+            if (!byteBits(bits)) return false;
+            for (var f = 0; f < 256; f++) if (bits[f >> 3] & (1 << (f & 7))) if (f > frontier) return false;
+            return true;
+        }
+        if (!pastOnly(s.display.visibleFrames, s.display.frameIndex) || !pastOnly(c.clearFrames, s.display.frameIndex) ||
+            !pastOnly(source.visibleFrames, source.frameIndex) || !pastOnly(current.clearFrames, source.frameIndex) ||
+            !s.display.visibleFrames.some(function (bit, i) { return bit || c.clearFrames[i]; }) ||
+            !source.visibleFrames.some(function (bit, i) { return bit || current.clearFrames[i]; }) ||
+            c.clearFrames.some(function (bit, i) { return (bit & ~current.clearFrames[i]) !== 0; }) ||
+            s.display.commitSeq === source.commitSeq && (s.display.frameIndex !== source.frameIndex ||
+                s.display.visibleFrames.some(function (bit, i) { return bit !== source.visibleFrames[i]; }) ||
+                c.clearFrames.some(function (bit, i) { return bit !== current.clearFrames[i]; })) ||
+            !((s.display.visibleFrames[s.display.frameIndex >> 3] | c.clearFrames[s.display.frameIndex >> 3]) & (1 << (s.display.frameIndex & 7))) ||
+            !((source.visibleFrames[source.frameIndex >> 3] | current.clearFrames[source.frameIndex >> 3]) & (1 << (source.frameIndex & 7))) ||
+            numeric && (source.frameIndex !== 7 || s.display.frameIndex !== 7)) return null;
+        return { x: 48, y: 16, width: 64, height: 64 };
+    }
     function validOpaqueCoverageEntry(entry) {
+        if (entry.waterVersion != null) return validWaterEntry(entry);
         if (entry.fireVersion != null) return validFireEntry(entry);
         if (entry.qimenVersion != null) return validQimenEntry(entry);
         if (entry.dingshenVersion != null) return validDingshenEntry(entry);
@@ -833,6 +892,7 @@
             entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
     }
     function opaqueCoverage(s, entry, frames, clears) {
+        if (entry.waterVersion != null) return waterCoverage(s, entry, frames, clears);
         if (entry.fireVersion != null) return fireCoverage(s, entry, frames, clears);
         if (entry.qimenVersion != null) return qimenCoverage(s, entry, frames, clears);
         if (entry.dingshenVersion != null) return dingshenCoverage(s, entry, frames, clears);
@@ -1214,7 +1274,7 @@
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
         var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 35 && (Number(s.skillId) === 5 || qimenSkillContext(s) === 5)))) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 35 && (Number(s.skillId) === 5 || qimenSkillContext(s) === 5) || Number(s.id) === 36 && (Number(s.skillId) === 12 || qimenSkillContext(s) === 12)))) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;

@@ -169,3 +169,85 @@ test('FIRE65 remains LCD on a late raw mutation or opaque data rebinding',()=>{
 for(const phase of [2,3])test('FIRE5 real saved final copy retains65window through NUM or HOLD phase '+phase,()=>{
  const f=fireMovieFixture();f.hold();f.raw.g_hdSkillResultPhase=phase;const s=f.baye.hd.skillResult();assert.equal(s.skillId,5);assert.equal(s.speId,35);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.deepEqual([s.display.composition.mode,s.display.composition.x,s.display.composition.y,s.display.composition.width,s.display.composition.height],[2,48,16,65,64]);assert.deepEqual(plain(s.display.digits).map(d=>d.digit),[2,4,0]);f.untouched();
 });
+
+// Reuse the read-only ABI harness, but decode WATER's independent ROM source.
+// These are controlled public snapshots, not proof of native skill success.
+const water=resource(36);
+function waterMovieFixture(){
+ const f=fireMovieFixture();
+ function movie(current=0,shown=current){
+  f.movie(12,current,shown);Object.assign(f.raw,{g_hdSpeId:36,g_hdSpeResourceFingerprint:fnv(water),g_hdSpeResourceLength:water.length,
+   g_hdSpeSceneWidth:64,g_hdSpeDisplaySceneWidth:64});
+ }
+ function hold(phase=3){
+  f.hold();Object.assign(f.raw,{g_hdSpeId:36,g_hdSpeSkillId:12,g_hdSpeResourceFingerprint:fnv(water),g_hdSpeResourceLength:water.length,
+   g_hdSpeSceneWidth:64,g_hdSpeDisplaySceneWidth:64,g_hdSkillResultPhase:phase,g_hdSkillResultSkillId:12,g_hdSkillResultId:36,
+   g_hdSkillResultResourceFingerprint:fnv(water),g_hdSkillResultResourceLength:water.length,
+   g_hdSkillResultSceneWidth:64,g_hdSkillResultDisplaySceneWidth:64});
+ }
+ return{...f,movie,hold};
+}
+function rejectWater(f){const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();}
+test('WATER12 exact ROM36 source has1084bytes two64opaque slots and8real20tick alternating units',()=>{
+ assert.equal(water.length,1084);assert.equal(fnv(water),0x6d62e7a8);assert.deepEqual([...water.subarray(2,6)],[8,2,0,7]);
+ for(let i=0;i<8;i++)assert.deepEqual([...water.subarray(6+5*i,11+5*i)],[0,0,20,20,i%2]);
+ let at=46;for(let i=0;i<2;i++){assert.equal(water.readUInt16LE(at),64);assert.equal(water.readUInt16LE(at+2),64);assert.equal(water[at+6],0);at+=7+8*64;}
+ assert.equal(at,water.length);
+});
+for(const frame of [0,3,7])test('WATER12 controlled raw current/display copy '+frame+' authenticates exact64square without getters or inputs',()=>{
+ const f=waterMovieFixture();f.movie(frame);const s=f.baye.hd.spe();
+ assert.equal(s.protocolVersion,2);assert.equal(s.id,36);assert.equal(s.skillId,12);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,64,64]);
+ assert.deepEqual(plain(s.display.visibleFrames),bits(frame));assert.deepEqual(plain(s.display.composition.clearFrames),bits(...Array.from({length:frame},(_,i)=>i)));f.untouched();
+});
+test('WATER12 displayed copy may lag current but each independently establishes its copied frontier',()=>{
+ const f=waterMovieFixture();f.movie(7,2);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.equal(s.commitSeq,8);assert.equal(s.display.commitSeq,3);assert.deepEqual(plain(s.display.composition.clearFrames),bits(0,1));f.untouched();
+});
+test('WATER12 clear-only frontier is authentic while missing that frontier is not',()=>{
+ const f=waterMovieFixture();f.movie(3);
+ for(const p of ['g_hdSpe','g_hdSpeDisplay']){f.raw[p+'VisibleFrames']=bits();f.raw[p+'ClearFrames']=bits(0,1,2,3);}
+ const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ f.raw.g_hdSpeClearFrames=bits(0,1,2);rejectWater(f);
+});
+for(const[label,change]of[
+ ['shared sea19 context',r=>r.g_hdSpeSkillId=19],['unrelated skill5',r=>r.g_hdSpeSkillId=5],['unknown context',r=>r.g_hdSpeContextKnown=0],
+ ['wrong resource',r=>r.g_hdSpeId=35],['wrong fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],['truncated source',r=>r.g_hdSpeResourceLength--],
+ ['inflated65 width',r=>r.g_hdSpeSceneWidth=65],['truncated63 width',r=>r.g_hdSpeSceneWidth=63],['nonnumeric width',r=>r.g_hdSpeSceneWidth='64'],
+ ['wrong origin',r=>r.g_hdSpeOriginX=47],['mode3 nested backdrop',r=>r.g_hdSpeSceneMode=3],['unknown actor',r=>r.g_hdSpeActorIndex=20],
+ ['unknown target',r=>r.g_hdSpeTargetIndex=20],['interactive keyflag',r=>r.g_hdSpeKeyflag=1],['nonpast current bit',r=>r.g_hdSpeVisibleFrames=bits(1)],
+ ['competing report',r=>r.g_hdReportActive=1],['unscaled screen',r=>r.g_scale=2],['partial ABI geometry',r=>delete r.g_hdSpeSceneWidth]
+])test('WATER12 raw ownership rejects '+label+' without native work',()=>{const f=waterMovieFixture();f.movie();change(f.raw);rejectWater(f);});
+for(const[label,change]of[
+ ['future commit',r=>r.g_hdSpeDisplayCommitSeq=9],['future copy',r=>r.g_hdSpeDisplayVisibleFrames=bits(3)],
+ ['future clear',r=>r.g_hdSpeDisplayClearFrames=bits(3)],['different event',r=>r.g_hdSpeDisplayEventId++],
+ ['different generation',r=>r.g_hdSpeDisplayGeneration++],['wrong64rectangle',r=>r.g_hdSpeDisplaySceneWidth=65],
+ ['frontier not established',r=>{r.g_hdSpeDisplayVisibleFrames=bits();r.g_hdSpeDisplayClearFrames=bits(0,1);}]
+])test('WATER12 displayed owner rejects '+label+' independently of valid current copy',()=>{
+ const f=waterMovieFixture();f.movie(7,2);change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+test('WATER12 equal current/display commit requires the same copied frames and clear history',()=>{
+ for(const change of [r=>r.g_hdSpeDisplayVisibleFrames=bits(2),r=>r.g_hdSpeDisplayClearFrames=bits(0)]){
+  const f=waterMovieFixture();f.movie(3);change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+ }
+});
+test('WATER12 late raw mutation and same-primitive opaque data rebind fail the public snapshot fence',()=>{
+ for(const rebind of [false,true]){const f=waterMovieFixture();f.movie();let once=false;
+  f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;if(rebind)f.replaceData();else f.raw.g_hdSpeSceneWidth=65;}});rejectWater(f);
+ }
+});
+for(const phase of [2,3])test('WATER12 raw NUM/HOLD phase '+phase+' binds realNUM15 and saved final64square to top session',()=>{
+ const f=waterMovieFixture();f.hold(phase);const s=f.baye.hd.skillResult();
+ assert.equal(s.skillId,12);assert.equal(s.speId,36);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);
+ assert.deepEqual([s.display.composition.mode,s.display.composition.x,s.display.composition.y,s.display.composition.width,s.display.composition.height],[2,48,16,64,64]);
+ assert.deepEqual(plain(s.display.digits).map(d=>[d.digit,d.x,d.y,d.firstY,d.drawCount]),[[2,55,49,56,8],[4,61,49,56,8],[0,67,49,56,8]]);
+ assert.equal(s.number.valid,true);assert.equal(s.number.id,15);f.untouched();
+});
+test('WATER12 raw HOLD rejects stale top session, forged NUM payload and late data binding',()=>{
+ for(const change of [r=>r.g_hdResultOwnerSession++,r=>r.g_hdSkillResultNumberResourceFingerprint^=1,r=>r.g_hdSkillResultDisplaySession++]){
+  const f=waterMovieFixture();f.hold();change(f.raw);const s=f.baye.hd.skillResult();
+  assert.ok(!s.sourceValid||!s.display.valid||!s.number.valid,'stale top or invalid saved numeric source cannot fully authenticate');f.untouched();
+ }
+ const f=waterMovieFixture();f.hold();let once=false;f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSkillResultDisplayDigitDrawCount'){once=true;f.replaceData();}});
+ const s=f.baye.hd.skillResult();assert.equal(once,true);assert.equal(s.sourceValid,false);f.untouched();
+});

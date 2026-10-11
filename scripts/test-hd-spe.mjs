@@ -2720,3 +2720,206 @@ for (const phase of [null, 'hold']) test('FIRE5 ' + (phase || 'movie') + ' final
         assert.equal(last.args[0] instanceof h.context.Image, false, 'stale art is overwritten by the captured completeLCD'); fireNoInput(h);
     }
 });
+
+// WATER12 fixtures decode the real resource36. They exercise display ownership
+// and drawing commands, not C execution, browser pixels or a successful cast.
+function waterFixture(current = 0, shown = current) {
+    const actual = actualMainFixture(36), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const entry = structuredClone(production.entries.find(e => e.waterVersion === 1 && e.skillId === 12));
+    assert.ok(entry, 'production WATER12 marker exists');
+    assert.deepEqual(entry.units, actual.units); assert.equal(entry.resourceFingerprint, actual.entry.resourceFingerprint);
+    const composition = frame => ({ protocolVersion: 1, valid: true, mode: 2, x: 48, y: 16, width: 64, height: 64,
+        background: null, clearFrames: bitset(...Array.from({ length: frame }, (_, i) => i)) });
+    const display = { generation: 9, eventId: 5, commitSeq: shown + 1, frameIndex: shown, frameValid: true,
+        visibleFrames: bitset(shown), composition: composition(shown) };
+    const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 48, y: 16, keyflag: 0, skipEligible: false,
+        contextKnown: true, skillId: 12, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
+        commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
+    return { ...actual, entry, s, m: { ...production, entries: [entry] } };
+}
+function waterNumericFixture(phase = 'numbers') {
+    const f = waterFixture(7), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
+        bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
+    const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
+    const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
+    const result = { protocolVersion: 1, active: true, phase, custom: false, sourceValid: true, generation: 9, session: 2,
+        skillId: 12, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
+        speId: 36, resourceIndex: 0, count: 8, picmax: 2, startFrm: 0, endFrm: 7, x: 48, y: 16,
+        resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
+        number: { ...f.entry.skillNumber, valid: true }, label, digits, scene,
+        display: { ...structuredClone(scene), valid: true, label, digits } };
+    return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
+}
+async function waterLoaded(options = {}) {
+    const f = options.phase ? waterNumericFixture(options.phase) : waterFixture(options.current ?? 0, options.shown ?? options.current ?? 0);
+    const h = harness({ data: { g_scale: 1 }, spe: options.phase ? { active: 0, generation: 9 } : f.s,
+        ...(options.phase ? { skillResult: f.result, resultOwner: f.top } : {}) });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h);
+    assert.equal(h.images.length, 2, 'both real opaque water slots, without a background asset');
+    function resolve(i) { const image = h.images[i], picture = f.entry.pictures.find(p => p.src === image.url);
+        image.naturalWidth = picture.width; image.naturalHeight = picture.height; image.onload(); }
+    if (!options.pending) h.images.forEach((_, i) => resolve(i));
+    return { ...h, fixture: f, resolve };
+}
+function waterBoundedDraws(h) {
+    const scale = 11, box = [48 * scale, 16 * scale, 64 * scale, 64 * scale];
+    fireFullLcd(h); assert.deepEqual({ ...h.api.debugSnapshot().hdRegion }, { x: 48, y: 16, width: 64, height: 64 });
+    assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'rect' && JSON.stringify(e.args) === JSON.stringify(box)));
+    for (const draw of h.hdDraws()) assert.deepEqual(draw.args.slice(1), box, 'replacement is only the authentic64square');
+    for (const e of h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect')) {
+        const [x, y, w, height] = e.args;
+        assert.ok(x >= box[0] && y >= box[1] && x + w <= box[0] + box[2] && y + height <= box[1] + box[3]);
+    }
+    fireNoInput(h);
+}
+test('WATER12 production specialization reuses realROM36 two slots and preserves the shared19 entry', () => {
+    const f = waterFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = m.entries.find(e => e.speId === 36 && e.waterVersion == null);
+    assert.ok(generic); assert.equal(m.entries.filter(e => e.waterVersion === 1).length, 1);
+    assert.deepEqual([f.entry.waterVersion, f.entry.opaqueCoverageVersion, f.entry.skillId, f.entry.skillResultVersion], [1, 1, 12, 1]);
+    assert.deepEqual([f.entry.speId, f.entry.resourceIndex, f.entry.kind, f.entry.startFrm, f.entry.endFrm, f.entry.count, f.entry.picmax], [36, 0, 2, 0, 7, 8, 2]);
+    assert.equal(f.entry.resourceLength, 1084); assert.equal(f.entry.resourceFingerprint, 'fnv1a32:6d62e7a8:1084');
+    assert.deepEqual(f.entry.units, generic.units); assert.deepEqual(f.entry.pictures, generic.pictures); assert.deepEqual(f.entry.skillNumber, generic.skillNumber);
+    assert.deepEqual(f.entry.units.map(u => [u.x, u.y, u.picIndex]), Array.from({ length: 8 }, (_, i) => [0, 0, i % 2]));
+    assert.deepEqual(f.pictures.map(p => [p.nativeWidth, p.nativeHeight, p.mask]), [[64, 64, 0], [64, 64, 0]]);
+});
+test('WATER12 first through final8 movie copies keep fullLCD outside only the authentic64window without dark fill', async () => {
+    const h = await waterLoaded();
+    for (let frame = 0; frame < 8; frame++) {
+        h.setSpe(waterFixture(frame).s); h.events.length = 0; h.flush(); const d = h.api.debugSnapshot();
+        assert.equal(d.source, 'hd-assets'); assert.equal(d.outsideSource, 'lcd'); assert.deepEqual([...d.displayedFrames], [frame]);
+        waterBoundedDraws(h); assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[frame % 2].src);
+        assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && ['fillRect', 'fillText'].includes(e.operation)).length, 0);
+    }
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true); h.key(); h.api.skip(); fireNoInput(h);
+});
+test('WATER12 exact entry wins production order while skill19 remains the existing130crop', async () => {
+    const f = waterFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = m.entries.find(e => e.speId === 36 && e.waterVersion == null);
+    for (const skillId of [12, 19]) {
+        const h = harness({ data: { g_scale: 1 }, spe: { ...f.s, skillId } }); h.context.dynLib = f.lib.toString('hex');
+        h.api.setManifest({ ...f.m, entries: [generic, f.entry] }); h.api.start(); await waitForIdentity(h);
+        assert.equal(h.images.length, 2); h.images.forEach(image => { const p = f.entry.pictures.find(p => p.src === image.url);
+            image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); });
+        h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+        if (skillId === 12) waterBoundedDraws(h);
+        else assert.deepEqual({ ...h.api.debugSnapshot().sourceRect }, { x: 15, y: 16, width: 130, height: 64 });
+        fireNoInput(h);
+    }
+});
+test('WATER12 displayed copy can lag and only uses its earlier slot and actual established clear frontier', async () => {
+    const h = await waterLoaded({ current: 7, shown: 2 });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [2]);
+    assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[0].src); waterBoundedDraws(h);
+    for (const change of [s => s.display.visibleFrames = bitset(3), s => s.display.composition.clearFrames = bitset(3),
+        s => s.display.commitSeq = 9, s => s.display.eventId++, s => s.display.generation++,
+        s => { s.display.visibleFrames = bitset(); s.display.composition.clearFrames = bitset(0, 1); }]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('WATER12 PC event change recaptures physicalLCD instead of relabeling previous event scratch', async () => {
+    const h = await waterLoaded(); h.flush(); const previous = h.api.debugSnapshot().flushKey, next = structuredClone(h.fixture.s);
+    next.eventId++; next.display.eventId++; h.setSpe(next); h.events.length = 0; h.api.onEngineSpe(); h.api.blit();
+    const capture = h.events.findIndex(e => e.operation === 'drawImage' && e.args[0] === h.nodes.get('lcd'));
+    const art = h.events.findIndex(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage' && e.args[0] instanceof h.context.Image);
+    assert.ok(capture >= 0 && art > capture, 'PC preserves its currentDOM capture contract before drawing new-owner art');
+    assert.notEqual(h.api.debugSnapshot().flushKey, previous); waterBoundedDraws(h);
+    h.events.length = 0; h.flush(); assert.ok(h.events.some(e => e.operation === 'putImageData' && e.args[0].fixture === 'native LCD'));
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); waterBoundedDraws(h); fireNoInput(h);
+});
+test('WATER12 same commit cannot claim different current/display clears and clear-only frontier restores the realLCD', async () => {
+    const h = await waterLoaded({ current: 3 }), s = structuredClone(h.fixture.s);
+    s.display.composition.clearFrames = bitset(0); h.setSpe(s); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    const clear = structuredClone(h.fixture.s);
+    for (const copy of [clear, clear.display]) { copy.visibleFrames = bitset(); copy.composition.clearFrames = bitset(0, 1, 2, 3); }
+    h.setSpe(clear); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    waterBoundedDraws(h); assert.deepEqual(h.hdDraws(), []); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], []);
+    assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect').length, 0);
+});
+for (const phase of ['numbers', 'hold']) test('WATER12 ' + phase + ' retains fullLCD and the actual label with6pixel NUM15 digit coordinates', async () => {
+    const h = await waterLoaded({ phase }), d = h.api.debugSnapshot(), scale = 11;
+    assert.equal(d.source, 'hd-assets'); assert.equal(d.presentation, 'skill-postlude'); assert.equal(d.spe.active, 0); waterBoundedDraws(h);
+    const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').slice(-25);
+    assert.deepEqual(texts[0].args, ['兵力减少', 55 * scale, 18 * scale, 48 * scale]);
+    assert.deepEqual(texts.slice(1).map(e => e.args), [2, 4, 0].flatMap((digit, i) =>
+        Array.from({ length: 8 }, (_, j) => [String(digit), (55 + 6 * i) * scale, (56 - j) * scale, 6 * scale])));
+    const count = h.events.length; h.advance(50_000); h.polls.forEach(p => p()); assert.equal(h.events.length, count); fireNoInput(h);
+});
+test('WATER12 HOLD final frame may be truly cleared without inventing retained water art', async () => {
+    const h = await waterLoaded({ phase: 'hold' }), r = structuredClone(h.fixture.result);
+    for (const copy of [r.scene, r.display]) { copy.visibleFrames = bitset(); copy.composition.clearFrames = bitset(0, 1, 2, 3, 4, 5, 6, 7); }
+    h.setSkillResult(r); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); waterBoundedDraws(h);
+    assert.deepEqual(h.hdDraws(), []); assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText' && e.args[0] === '兵力减少'));
+});
+test('WATER12 wrong context/resource/owner/frontier cannot borrow generic36 or crop completeLCD', async () => {
+    const h = await waterLoaded();
+    for (const change of [s => s.contextKnown = false, s => s.actorIndex = 20, s => s.targetIndex = 20,
+        s => s.keyflag = 1, s => s.skipEligible = true, s => s.protocolValid = false,
+        s => s.resourceFingerprint = 'fnv1a32:00000000:1084', s => s.resourceLength++, s => s.resourceIndex = 1,
+        s => s.composition.width = 65, s => s.display.composition.width = 63, s => s.display.composition.mode = 3,
+        s => s.display.composition.background = { valid: true }, s => s.display.composition.clearFrames = bitset(7),
+        s => { s.visibleFrames = bitset(); s.composition.clearFrames = bitset(); }]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('WATER12 missing or corrupt specialization leaves fullLCD even beside the retained shared36 entry', async () => {
+    const h = await waterLoaded(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = m.entries.find(e => e.speId === 36 && e.waterVersion == null);
+    for (const change of [e => delete e.waterVersion, e => e.waterVersion = 2, e => delete e.opaqueCoverageVersion,
+        e => e.skillId = 19, e => e.units[3].x = 1, e => e.units[5].picIndex = 0, e => e.pictures[1].logicalWidth = 65,
+        e => e.pictures[0].mask = 1, e => e.background = {}, e => e.skillNumber = {}]) {
+        const entry = structuredClone(h.fixture.entry); change(entry); h.api.setManifest({ ...h.fixture.m, entries: [generic, entry] });
+        h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    h.api.setManifest({ ...h.fixture.m, entries: [generic] }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+test('WATER12 numeric owner/session/source/final copy/NUM data stay exact through HOLD', async () => {
+    const h = await waterLoaded({ phase: 'hold' });
+    for (const change of [r => r.custom = true, r => r.sourceValid = false, r => r.session++, r => r.actorIndex = 20,
+        r => r.resultKind = 2, r => r.display.eventId++, r => r.display.composition.width = 65,
+        r => r.display.label.x = 100, r => r.display.digits[0].x = 110, r => r.number.resourceFingerprint = 'fnv1a32:00000000:327']) {
+        const r = structuredClone(h.fixture.result); change(r); h.setSkillResult(r); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    h.setSkillResult(h.fixture.result); h.setResultOwner({ ...h.fixture.top, session: 3 }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+for (const slot of [0, 1]) test('WATER12 missing picture' + slot + ' restores fullLCD and late decode cannot revive failed art', async () => {
+    const h = await waterLoaded({ pending: true }); h.resolve(1 - slot); h.images[slot].onerror(); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    h.resolve(slot); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+test('WATER12 pending/unknownLIB/classic/report/hidden/retired late image paths retain actualLCD and zero input', async () => {
+    const pending = await waterLoaded({ pending: true }); pending.events.length = 0; pending.flush();
+    assert.equal(pending.api.debugSnapshot().source, 'lcd'); fireFullLcd(pending);
+    const unknown = await waterLoaded(); unknown.context.dynLib = '00'; unknown.events.length = 0; unknown.flush();
+    assert.equal(unknown.api.debugSnapshot().source, 'lcd'); fireFullLcd(unknown); assert.deepEqual(unknown.hdDraws(), []);
+    const classic = await waterLoaded(); classic.setMode(false); classic.events.length = 0; classic.flush(); assert.equal(classic.api.isOpen(), false);
+    const report = await waterLoaded({ pending: true }); report.setReport(1); report.events.length = 0;
+    report.resolve(0); report.resolve(1); report.flush(); assert.equal(report.api.isOpen(), false); assert.deepEqual(report.hdDraws(), []);
+    const hidden = await waterLoaded({ pending: true }); hidden.setHidden(true); hidden.events.length = 0;
+    hidden.resolve(0); hidden.resolve(1); hidden.flush(); assert.equal(hidden.api.isOpen(), false); assert.deepEqual(hidden.hdDraws(), []);
+    hidden.setSpe({ active: 0 }); hidden.setHidden(false); hidden.events.length = 0; hidden.flush(); assert.equal(hidden.api.isOpen(), false);
+    const ended = await waterLoaded({ pending: true }); ended.setSpe({ active: 0 }); ended.api.onEngineSpe(); ended.events.length = 0;
+    ended.resolve(0); ended.resolve(1); ended.flush(); assert.equal(ended.api.isOpen(), false); assert.deepEqual(ended.hdDraws(), []);
+    for (const h of [pending, unknown, classic, report, hidden, ended]) fireNoInput(h);
+});
+for (const phase of [null, 'hold']) test('WATER12 ' + (phase || 'movie') + ' paint final fence overwrites stale art after data/owner/commit changes', async () => {
+    for (const change of [h => { if (phase) h.fixture.result.display.eventId++; else h.spe().display.eventId++; },
+        h => { if (phase) h.setResultOwner({ ...h.fixture.top, session: 3 }); else h.spe().display.commitSeq++; },
+        h => { const rebound = { g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 };
+            Object.defineProperty(h.context.baye, 'data', { configurable: true, get: () => rebound }); }]) {
+        const h = await waterLoaded({ phase }); let changed = false;
+        h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) { changed = true; change(h); } });
+        h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true);
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+        const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0] instanceof h.context.Image, false, 'complete capturedLCD overwrites stale water art'); fireNoInput(h);
+    }
+});
