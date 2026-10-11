@@ -61,6 +61,13 @@
 #define BAYE_HD_TRANSFER_REJECT 7
 #define BAYE_HD_TRANSFER_DEPARTURE_REPORT 8
 #define BAYE_HD_TRANSFER_DONE 9
+#define BAYE_HD_DIPLOMACY_VERSION 1
+#define BAYE_HD_DIPLOMACY_IDLE 0
+#define BAYE_HD_DIPLOMACY_ACTOR 1
+#define BAYE_HD_DIPLOMACY_TARGET 2
+#define BAYE_HD_DIPLOMACY_COMMIT 3
+#define BAYE_HD_DIPLOMACY_REJECT 4
+#define BAYE_HD_DIPLOMACY_DONE 5
 #define BAYE_HD_HELP_MAX 1024
 #define BAYE_HD_SKILL_MAX 10
 #define BAYE_HD_SKILL_NAME 8
@@ -353,6 +360,15 @@ void baye_hd_transfer_target(U32 session, U8 target, U8 distance);
 void baye_hd_transfer_commit(U32 session, U8 accepted);
 void baye_hd_transfer_end(U32 session);
 void baye_hd_transfer_retire(void);
+
+/* Read-only Make lineage; COMMIT is after costs and before the actual AddOrderHead. */
+U32 baye_hd_diplomacy_begin(U8 command, U8 origin);
+void baye_hd_diplomacy_phase(U32 session, U8 phase);
+void baye_hd_diplomacy_actor(U32 session, U16 actor);
+void baye_hd_diplomacy_target(U32 session, U16 target);
+void baye_hd_diplomacy_commit(U32 session, U8 accepted);
+void baye_hd_diplomacy_end(U32 session);
+void baye_hd_diplomacy_retire(void);
 void baye_hd_set_fight(U8 active, U8 over);
 void baye_hd_set_fight_wait(U8 wait);
 void baye_hd_set_fight_phase(U8 phase);

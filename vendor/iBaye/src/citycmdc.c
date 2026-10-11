@@ -577,11 +577,15 @@ FAR U8 AlienateMake(U8 city)
     PersonID pcode;
     PersonID pp;
     OrderType order;
+    U32 diplomacySession = baye_hd_diplomacy_begin(ALIENATE, city);
+    U8 orderAdded;
 
     if (!IsMoney(city,ALIENATE))
     {
         /*金钱不足*/
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
         ShowConstStrMsg(NOTE_STR8);
+        baye_hd_diplomacy_end(diplomacySession);
         return(1);
     }
 
@@ -589,26 +593,32 @@ FAR U8 AlienateMake(U8 city)
 
     do
     {
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_ACTOR);
         pcount = GetCityPersons(city,pqptr);
         if (!pcount)
         {
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
             ShowConstStrMsg(STR_NOPERSON);
             break;
         }
         pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
         if (0xffff != pcode)
         {
+            baye_hd_diplomacy_actor(diplomacySession, pqptr[pcode]);
             if (!IsManual(pqptr[pcode],ALIENATE))
             {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
                 ShowConstStrMsg(NOTE_STR9);
                 continue;
             }
 
             pp = pqptr[pcode];
             pcount = GetEnemyPersons(g_PlayerKing,pqptr);
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_TARGET);
             pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
             if (0xffff != pcode)
             {
+                baye_hd_diplomacy_target(diplomacySession, pqptr[pcode]);
                 if (g_engineConfig.fixAlienateComsumeThew) {
                     OrderConsumeThew(pp, ALIENATE);
                 } else {
@@ -621,9 +631,12 @@ FAR U8 AlienateMake(U8 city)
                 order.City = city;
                 order.Object = pqptr[pcode];
                 order.TimeCount = 10;
-                if (AddOrderHead(&order)) {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_COMMIT);
+                orderAdded = AddOrderHead(&order);
+                if (orderAdded) {
                     DelPerson(city,pp);
                 }
+                baye_hd_diplomacy_commit(diplomacySession, orderAdded);
             }
             else
             {
@@ -633,6 +646,7 @@ FAR U8 AlienateMake(U8 city)
         break;
     } while (1);
 
+    baye_hd_diplomacy_end(diplomacySession);
     return(1);
 }
 
@@ -656,11 +670,15 @@ FAR U8 CanvassMake(U8 city)
     PersonID pcode;
     PersonID pp;
     OrderType order;
+    U32 diplomacySession = baye_hd_diplomacy_begin(CANVASS, city);
+    U8 orderAdded;
 
     if (!IsMoney(city,CANVASS))
     {
         /*金钱不足*/
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
         ShowConstStrMsg(NOTE_STR8);
+        baye_hd_diplomacy_end(diplomacySession);
         return(1);
     }
 
@@ -668,9 +686,11 @@ FAR U8 CanvassMake(U8 city)
 
     do
     {
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_ACTOR);
         pcount = GetCityPersons(city,pqptr);
         if (!pcount)
         {
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
             ShowConstStrMsg(STR_NOPERSON);
             break;
         }
@@ -678,17 +698,21 @@ FAR U8 CanvassMake(U8 city)
         if (0xffff != pcode)
         {
             pp = pqptr[pcode];
+            baye_hd_diplomacy_actor(diplomacySession, pp);
             if (!IsManual(pp,CANVASS))
             {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
                 ShowConstStrMsg(NOTE_STR9);
                 continue;
             }
 
             pcount = GetEnemyPersons(g_PlayerKing,pqptr);
             ShowMapClear();
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_TARGET);
             pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
             if (0xffff != pcode)
             {
+                baye_hd_diplomacy_target(diplomacySession, pqptr[pcode]);
                 OrderConsumeThew(pp,CANVASS);
 
                 OrderConsumeMoney(city,CANVASS);
@@ -697,9 +721,12 @@ FAR U8 CanvassMake(U8 city)
                 order.City = city;
                 order.Object = pqptr[pcode];
                 order.TimeCount = 10;
-                if (AddOrderHead(&order)) {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_COMMIT);
+                orderAdded = AddOrderHead(&order);
+                if (orderAdded) {
                     DelPerson(city,pp);
                 }
+                baye_hd_diplomacy_commit(diplomacySession, orderAdded);
             }
             else
             {
@@ -709,6 +736,7 @@ FAR U8 CanvassMake(U8 city)
         break;
     } while (1);
 
+    baye_hd_diplomacy_end(diplomacySession);
     return(1);
 }
 
@@ -732,11 +760,15 @@ FAR U8 CounterespiongeMake(U8 city)
     PersonID pcode;
     PersonID pp;
     OrderType order;
+    U32 diplomacySession = baye_hd_diplomacy_begin(COUNTERESPIONAGE, city);
+    U8 orderAdded;
 
     if (!IsMoney(city,COUNTERESPIONAGE))
     {
         /*金钱不足*/
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
         ShowConstStrMsg(NOTE_STR8);
+        baye_hd_diplomacy_end(diplomacySession);
         return(1);
     }
 
@@ -744,9 +776,11 @@ FAR U8 CounterespiongeMake(U8 city)
 
     do
     {
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_ACTOR);
         pcount = GetCityPersons(city,pqptr);
         if (!pcount)
         {
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
             ShowConstStrMsg(STR_NOPERSON);
             break;
         }
@@ -755,8 +789,10 @@ FAR U8 CounterespiongeMake(U8 city)
         if (0xffff != pcode)
         {
             pp = pqptr[pcode];
+            baye_hd_diplomacy_actor(diplomacySession, pp);
             if (!IsManual(pp,COUNTERESPIONAGE))
             {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
                 ShowConstStrMsg(NOTE_STR9);
                 continue;
             }
@@ -769,9 +805,11 @@ FAR U8 CounterespiongeMake(U8 city)
                 break;
             }
             ShowMapClear();
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_TARGET);
             pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
             if (0xffff != pcode)
             {
+                baye_hd_diplomacy_target(diplomacySession, pqptr[pcode]);
                 OrderConsumeThew(pp,COUNTERESPIONAGE);
                 OrderConsumeMoney(city,COUNTERESPIONAGE);
                 order.OrderId = COUNTERESPIONAGE;
@@ -779,9 +817,12 @@ FAR U8 CounterespiongeMake(U8 city)
                 order.City = city;
                 order.Object = pqptr[pcode];
                 order.TimeCount = 10;
-                if (AddOrderHead(&order)) {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_COMMIT);
+                orderAdded = AddOrderHead(&order);
+                if (orderAdded) {
                     DelPerson(city,pp);
                 }
+                baye_hd_diplomacy_commit(diplomacySession, orderAdded);
             }
             else
             {
@@ -791,6 +832,7 @@ FAR U8 CounterespiongeMake(U8 city)
         break;
     } while (1);
 
+    baye_hd_diplomacy_end(diplomacySession);
     return(1);
 }
 
@@ -832,11 +874,15 @@ FAR U8 InduceMake(U8 city)
     PersonID pcode;
     PersonID pp;
     OrderType order;
+    U32 diplomacySession = baye_hd_diplomacy_begin(INDUCE, city);
+    U8 orderAdded;
 
     if (!IsMoney(city,INDUCE))
     {
         /*金钱不足*/
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
         ShowConstStrMsg(NOTE_STR8);
+        baye_hd_diplomacy_end(diplomacySession);
         return(1);
     }
 
@@ -844,9 +890,11 @@ FAR U8 InduceMake(U8 city)
 
     do
     {
+        baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_ACTOR);
         pcount = GetCityPersons(city,pqptr);
         if (!pcount)
         {
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
             ShowConstStrMsg(STR_NOPERSON);
             break;
         }
@@ -854,16 +902,20 @@ FAR U8 InduceMake(U8 city)
         if (0xffff != pcode)
         {
             pp = pqptr[pcode];
+            baye_hd_diplomacy_actor(diplomacySession, pp);
             if (!IsManual(pp,INDUCE))
             {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_REJECT);
                 ShowConstStrMsg(NOTE_STR9);
                 continue;
             }
 
             pcount = GetEnemyKing(g_PlayerKing,pqptr);
+            baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_TARGET);
             pcode = ShowPersonControl(pqptr,pcount,PID0,WK_SX + 4,WK_SY + 2,WK_EX - 4,WK_EY - 2);
             if (0xffff != pcode)
             {
+                baye_hd_diplomacy_target(diplomacySession, pqptr[pcode]);
                 OrderConsumeThew(pp,INDUCE);
 
                 OrderConsumeMoney(city,INDUCE);
@@ -872,9 +924,12 @@ FAR U8 InduceMake(U8 city)
                 order.City = city;
                 order.Object = pqptr[pcode];
                 order.TimeCount = 10;
-                if (AddOrderHead(&order)) {
+                baye_hd_diplomacy_phase(diplomacySession, BAYE_HD_DIPLOMACY_COMMIT);
+                orderAdded = AddOrderHead(&order);
+                if (orderAdded) {
                     DelPerson(city,pp);
                 }
+                baye_hd_diplomacy_commit(diplomacySession, orderAdded);
             }
             else
             {
@@ -884,6 +939,7 @@ FAR U8 InduceMake(U8 city)
         break;
     } while (1);
 
+    baye_hd_diplomacy_end(diplomacySession);
     return(1);
 }
 

@@ -139,6 +139,12 @@ U8 g_hdTransferOrigin = 0xff, g_hdTransferTarget = 0xff, g_hdTransferDistance = 
 U16 g_hdTransferPerson = 0xffff, g_hdTransferFood = 0, g_hdTransferMoney = 0, g_hdTransferArms = 0;
 U8 g_hdTransferCommitResult = 0;
 static U32 hdTransferGeneration = 0;
+U8 g_hdDiplomacyProtocolVersion = BAYE_HD_DIPLOMACY_VERSION;
+U8 g_hdDiplomacyActive = 0, g_hdDiplomacyCommand = 0, g_hdDiplomacyPhase = BAYE_HD_DIPLOMACY_IDLE;
+U32 g_hdDiplomacySession = 0, g_hdDiplomacyInputSeq = 0, g_hdDiplomacyGeneration = 0;
+U8 g_hdDiplomacyOrigin = 0xff, g_hdDiplomacyCommitResult = 0;
+U16 g_hdDiplomacyActor = 0xffff, g_hdDiplomacyTarget = 0xffff;
+U32 g_hdDiplomacyCommitSeq = 0;
 U8 g_hdFightSkip = 0;
 
 U8 g_hdHelpGbk[BAYE_HD_HELP_MAX];
@@ -1196,6 +1202,7 @@ void baye_hd_set_ready(U8 ready)
     baye_hd_set_fight(0, 0);
     baye_hd_march_end(0);
     baye_hd_transfer_retire();
+    baye_hd_diplomacy_retire();
     g_hdMarchOk = 0;
     g_hdMarchCity = g_hdMarchObj = g_hdMarchTime = 0;
     g_hdFightSkip = BAYE_HD_FIGHT_SKIP_NONE;
@@ -1573,6 +1580,78 @@ void baye_hd_transfer_retire(void)
     g_hdTransferPerson = 0xffff;
     g_hdTransferFood = g_hdTransferMoney = g_hdTransferArms = 0;
     g_hdTransferCommitResult = 0;
+}
+
+static U8 hd_diplomacy_owner(U32 session)
+{
+    return g_hdDiplomacyActive && session && session == g_hdDiplomacySession &&
+        g_hdDiplomacyGeneration && g_hdDiplomacyGeneration == g_hdDetailGeneration;
+}
+
+void baye_hd_diplomacy_phase(U32 session, U8 phase)
+{
+    if (!hd_diplomacy_owner(session) || phase > BAYE_HD_DIPLOMACY_DONE) return;
+    if (phase == BAYE_HD_DIPLOMACY_ACTOR) {
+        g_hdDiplomacyActor = g_hdDiplomacyTarget = 0xffff;
+    }
+    g_hdDiplomacyPhase = phase;
+    g_hdDiplomacyInputSeq = hd_next_input_seq(g_hdDiplomacyInputSeq);
+}
+
+U32 baye_hd_diplomacy_begin(U8 command, U8 origin)
+{
+    if ((command != ALIENATE && command != CANVASS && command != COUNTERESPIONAGE && command != INDUCE) ||
+        origin >= CITY_MAX || !g_hdDetailGeneration) return 0;
+    g_hdDiplomacySession = hd_next_input_seq(g_hdDiplomacySession);
+    g_hdDiplomacyGeneration = g_hdDetailGeneration;
+    g_hdDiplomacyActive = 1;
+    g_hdDiplomacyCommand = command;
+    g_hdDiplomacyOrigin = origin;
+    g_hdDiplomacyActor = g_hdDiplomacyTarget = 0xffff;
+    g_hdDiplomacyCommitResult = 0;
+    baye_hd_diplomacy_phase(g_hdDiplomacySession, BAYE_HD_DIPLOMACY_IDLE);
+    return g_hdDiplomacySession;
+}
+
+void baye_hd_diplomacy_actor(U32 session, U16 actor)
+{
+    if (hd_diplomacy_owner(session) && g_hdDiplomacyPhase == BAYE_HD_DIPLOMACY_ACTOR &&
+        actor != 0xffff && actor < GamGetPersonCount()) g_hdDiplomacyActor = actor;
+}
+
+void baye_hd_diplomacy_target(U32 session, U16 target)
+{
+    if (hd_diplomacy_owner(session) && g_hdDiplomacyPhase == BAYE_HD_DIPLOMACY_TARGET &&
+        target != 0xffff && target < GamGetPersonCount()) g_hdDiplomacyTarget = target;
+}
+
+void baye_hd_diplomacy_commit(U32 session, U8 accepted)
+{
+    if (!hd_diplomacy_owner(session) || g_hdDiplomacyPhase != BAYE_HD_DIPLOMACY_COMMIT ||
+        g_hdDiplomacyActor == 0xffff || g_hdDiplomacyTarget == 0xffff) return;
+    g_hdDiplomacyCommitSeq = hd_next_input_seq(g_hdDiplomacyCommitSeq);
+    /* This is the one real AddOrderHead return, after its original DelPerson branch. */
+    g_hdDiplomacyCommitResult = accepted ? 1 : 2;
+}
+
+void baye_hd_diplomacy_end(U32 session)
+{
+    if (!hd_diplomacy_owner(session)) return;
+    baye_hd_diplomacy_phase(session, BAYE_HD_DIPLOMACY_DONE);
+    g_hdDiplomacyActive = 0;
+}
+
+void baye_hd_diplomacy_retire(void)
+{
+    g_hdDiplomacyActive = 0;
+    g_hdDiplomacySession = hd_next_input_seq(g_hdDiplomacySession);
+    g_hdDiplomacyInputSeq = hd_next_input_seq(g_hdDiplomacyInputSeq);
+    g_hdDiplomacyGeneration = 0;
+    g_hdDiplomacyCommand = 0;
+    g_hdDiplomacyPhase = BAYE_HD_DIPLOMACY_IDLE;
+    g_hdDiplomacyOrigin = 0xff;
+    g_hdDiplomacyActor = g_hdDiplomacyTarget = 0xffff;
+    g_hdDiplomacyCommitResult = 0;
 }
 
 void baye_hd_set_fight(U8 active, U8 over)
@@ -3763,6 +3842,18 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdTransferDistance, U8);
     DEFADDF(g_hdTransferCommitSeq, U32);
     DEFADDF(g_hdTransferCommitResult, U8);
+    DEFADDF(g_hdDiplomacyProtocolVersion, U8);
+    DEFADDF(g_hdDiplomacyActive, U8);
+    DEFADDF(g_hdDiplomacyCommand, U8);
+    DEFADDF(g_hdDiplomacyPhase, U8);
+    DEFADDF(g_hdDiplomacySession, U32);
+    DEFADDF(g_hdDiplomacyInputSeq, U32);
+    DEFADDF(g_hdDiplomacyGeneration, U32);
+    DEFADDF(g_hdDiplomacyOrigin, U8);
+    DEFADDF(g_hdDiplomacyActor, U16);
+    DEFADDF(g_hdDiplomacyTarget, U16);
+    DEFADDF(g_hdDiplomacyCommitSeq, U32);
+    DEFADDF(g_hdDiplomacyCommitResult, U8);
     DEFADDF(g_hdFightSkip, U8);
     DEFADD_GBKARR(g_hdHelpGbk, sizeof(g_hdHelpGbk));
     DEFADDF(g_hdHelpSeq, U16);

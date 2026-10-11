@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "5b8345b1adaf4d00467e69a867d97be6ad960d00",
-  "engineSourceSha256": "9db61759be19881d93e5b88661c7cd062b50a565d6eb212e365d44ee99a5e706",
+  "sourceRevision": "2b61677ea7a34c9dc1fa70c5511a92495dda53e9",
+  "engineSourceSha256": "4c7c1beee20656f6a8dbf08c302c560990d4fa5beb30c16f63a79838ce2b06df",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791698630,
+  "sourceDateEpoch": 1791702613,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -47,6 +47,20 @@
       "g_hdTransferDistance",
       "g_hdTransferCommitSeq",
       "g_hdTransferCommitResult"
+    ],
+    "diplomacy": [
+      "g_hdDiplomacyProtocolVersion",
+      "g_hdDiplomacyActive",
+      "g_hdDiplomacyCommand",
+      "g_hdDiplomacyPhase",
+      "g_hdDiplomacySession",
+      "g_hdDiplomacyInputSeq",
+      "g_hdDiplomacyGeneration",
+      "g_hdDiplomacyOrigin",
+      "g_hdDiplomacyActor",
+      "g_hdDiplomacyTarget",
+      "g_hdDiplomacyCommitSeq",
+      "g_hdDiplomacyCommitResult"
     ],
     "report": [
       "g_hdReportActive",
@@ -111,6 +125,44 @@
     "commit": "monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added",
     "retirement": "DONE inactive retains last receipt; next begin clears values/result; reset retires the session",
     "input": "read-only; existing menu, quantity, report and map-input receipts remain authoritative"
+  },
+  "hdDiplomacyProtocol": {
+    "version": 1,
+    "publicApi": "baye.hd.diplomacy()",
+    "fields": [
+      "g_hdDiplomacyProtocolVersion",
+      "g_hdDiplomacyActive",
+      "g_hdDiplomacyCommand",
+      "g_hdDiplomacyPhase",
+      "g_hdDiplomacySession",
+      "g_hdDiplomacyInputSeq",
+      "g_hdDiplomacyGeneration",
+      "g_hdDiplomacyOrigin",
+      "g_hdDiplomacyActor",
+      "g_hdDiplomacyTarget",
+      "g_hdDiplomacyCommitSeq",
+      "g_hdDiplomacyCommitResult"
+    ],
+    "commands": {
+      "alienate": 15,
+      "canvass": 16,
+      "counterespionage": 17,
+      "induce": 19
+    },
+    "phases": {
+      "idle": 0,
+      "actor": 1,
+      "target": 2,
+      "commit": 3,
+      "reject": 4,
+      "done": 5
+    },
+    "owner": "independent session/inputSeq plus actual detail generation; all skip zero; stale suspended publishers cannot revive a retired owner",
+    "people": "actual returned U16 person IDs; actor and target65535 and origin255 are unpublished sentinels; actor selection resets both people each iteration",
+    "commit": "phase3 observes original debits before AddOrderHead; exactly one native result is recorded after original DelPerson. Result1 queued, result2 full queue, without rollback or an invented success report",
+    "cancellation": "target cancellation returns to a freshly published actor list; actor cancellation follows native command return; no added keys",
+    "retirement": "DONE inactive retains an audit receipt; next begin/reset/world commit invalidates previous session and clears people/result",
+    "input": "observation only; original PERSON and report native owner receipts remain authoritative; original costs, eligibility and monthly random outcomes are unchanged"
   },
   "hdSpeProtocol": {
     "version": 2,
@@ -530,15 +582,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 192446,
-      "sha256": "8fce68b52564c0f481ead756dcd33882d3a6a47910032ca28b3dd12b8e02a5f7"
+      "sha256": "53a04dd918abab1a48fe69cd2b872ac6d50f4a7a831f298a11c60efdba104b9a"
     },
     "baye.wasm": {
-      "bytes": 4544706,
-      "sha256": "7f20502ebbd2c7a81ae2b58eed1b3dfc85ed933b5dbc3c692ef71be45363536e"
+      "bytes": 4554589,
+      "sha256": "ded114411ecd931699fde904cf4fd79788f864a0b5605e12d842601cec433311"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "43292f0c13dfc35bf49c6394a3f59a11f74ef9aefd2d42a9e68e51bae64e831d"
+      "sha256": "e676596f51c35fbc26543f452a32b2edd5cd5622942f561d130ce9e095d5ab8e"
     }
   }
 }

@@ -2269,6 +2269,40 @@ function baye_bridge_init() {
                 inputSeq: hdReadNum(d, 'g_hdMarchInputSeq')
             };
         },
+        diplomacy: function () {
+            hdNote('hd.diplomacy', '');
+            try {
+                var d = baye.ensureData(), reader = hdObserverReader(d);
+                var detailGeneration = reader.num('g_hdDetailGeneration');
+                var fields = [
+                    ['protocolVersion', 'ProtocolVersion', 255], ['active', 'Active', 1],
+                    ['command', 'Command', 255], ['phase', 'Phase', 5],
+                    ['session', 'Session', 0xffffffff], ['inputSeq', 'InputSeq', 0xffffffff],
+                    ['generation', 'Generation', 0xffffffff], ['origin', 'Origin', 255],
+                    ['actor', 'Actor', 65535], ['target', 'Target', 65535],
+                    ['commitSeq', 'CommitSeq', 0xffffffff], ['commitResult', 'CommitResult', 2]
+                ];
+                var value = {}, i, cities = hdCityLimit(), persons = hdPersonLimit();
+                for (i = 0; i < fields.length; i++) value[fields[i][0]] = reader.num('g_hdDiplomacy' + fields[i][1], fields[i][2]);
+                if (!d || !detailGeneration || !cities || !persons || value.protocolVersion !== 1 ||
+                    fields.some(function (f) { return value[f[0]] == null; }) ||
+                    (value.origin !== 255 && value.origin >= cities) ||
+                    (value.actor !== 65535 && value.actor >= persons) ||
+                    (value.target !== 65535 && value.target >= persons)) return null;
+                var command = [15, 16, 17, 19].indexOf(value.command) >= 0;
+                if (value.active) {
+                    if (!command || value.origin === 255 || !value.session || !value.inputSeq ||
+                        value.generation !== detailGeneration || value.phase === 5) return null;
+                } else if (!((value.command === 0 && value.phase === 0 && value.origin === 255 &&
+                    value.generation === 0 && value.actor === 65535 && value.target === 65535 && !value.commitResult) ||
+                    (command && value.phase === 5 && value.origin !== 255 && value.session && value.inputSeq && value.generation))) return null;
+                if ((value.commitResult && (!value.commitSeq || value.actor === 65535 || value.target === 65535)) ||
+                    (value.phase === 1 && (value.actor !== 65535 || value.target !== 65535)) ||
+                    (value.phase === 2 && (value.actor === 65535 || value.target !== 65535)) ||
+                    (value.phase === 3 && (value.actor === 65535 || value.target === 65535))) return null;
+                return reader.stable() && baye.data === d ? value : null;
+            } catch (e) { return null; }
+        },
         transfer: function () {
             hdNote('hd.transfer', '');
             try {

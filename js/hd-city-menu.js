@@ -15,6 +15,9 @@
     var equipmentParent = null, equipmentGoods = null, mobileEquipmentFlow = null;
     var mobileTrade = null;
     var mobileTransfer = null;
+    var mobileDiplomacy = null;
+    var DIPLOMACY_FIELDS = ['ProtocolVersion','Active','Command','Phase','Session','InputSeq','Generation',
+        'Origin','Actor','Target','CommitSeq','CommitResult'];
     var TRANSFER_FIELDS = ['ProtocolVersion','Active','Command','Session','InputSeq','Phase','Origin','Target',
         'Person','Food','Money','Arms','Distance','CommitSeq','CommitResult'];
     var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
@@ -132,10 +135,13 @@
             var before = mobileRaw(base.data), menu = baye.hd.menuItems(), march = baye.hd.march(), qty = baye.hd.qty();
             var report = typeof baye.hd.report === 'function' ? baye.hd.report() : null;
             var transferBefore = transferRaw(base.data), transfer = readTransfer(base.data);
+            var diplomacyBefore = diplomacyRaw(base.data), diplomacy = readDiplomacy(base.data);
             var route = march && march.phase === MARCH.TARGET_PICK ? mobileMarchLinks(base.data, march.origin) : null;
             var after = mobileRaw(base.data), latest = mobileBase();
             if (JSON.stringify(before) !== JSON.stringify(after) ||
                 JSON.stringify(transferBefore) !== JSON.stringify(transferRaw(base.data)) ||
+                JSON.stringify(diplomacyBefore) !== JSON.stringify(diplomacyRaw(base.data)) ||
+                diplomacyBefore && !diplomacy ||
                 transferBefore && !transfer || !latest || latest.data !== base.data ||
                 latest.identity.generation !== base.identity.generation || latest.identity.sha256 !== base.identity.sha256 ||
                 !MOBILE_BLOCKERS.every(function (key) { return before[key] === 0; }) ||
@@ -160,11 +166,13 @@
                     report.inputSeq !== before.g_hdReportInputSeq || report.kind !== before.g_hdReportKind ||
                     report.person !== before.g_hdReportPerson || typeof report.text !== 'string' || !report.text)) { return null; }
             return {libraryGeneration: base.identity.generation, data: base.data, raw: before, menu: menu, march: march, qty: qty,
-                report: report, route: route, transfer: transfer};
+                report: report, route: route, transfer: transfer, diplomacy: diplomacy};
         } catch (e) { return null; }
     }
     function mobileTicketFrom(value, reason) {
         if (!value) { return null; }
+        if (value.diplomacy && value.diplomacy.active === 1) { return diplomacyTicketFrom(value); }
+        if (state.layer === 'deep' && state.deepKind === 'person-diplomacy') { return null; }
         if (value.transfer && value.transfer.active === 1) { return transferTicketFrom(value, reason); }
         if (state.layer === 'deep' && state.deepKind === 'person-trade' && !tradePaneOwner(value)) { return null; }
         var raw = value.raw, menu = value.menu, march = value.march, qty = value.qty;
@@ -214,7 +222,7 @@
             inputSeq: qty.active ? qty.inputSeq : march.inputSeq,
             phase: march.phase, origin: march.origin, selected: march.selected, mapInputSeq: march.mapInputSeq};
         if (ownerType === 'march-target') { ticket.targets = Object.freeze(value.route.targets.slice()); }
-        ticket.key = JSON.stringify([ticket.libraryGeneration, city, ownerType, raw, menu, march, qty, value.report, value.route]);
+        ticket.key = JSON.stringify([ticket.libraryGeneration, city, ownerType, raw, menu, march, qty, value.report, value.route, value.diplomacy]);
         Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
         return ticket;
     }
@@ -239,6 +247,163 @@
                     value.origin > 37 || value.phase < 1 || value.phase > 8)) { return null; }
             return value;
         } catch (e) { return null; }
+    }
+    function diplomacyRaw(data) {
+        if (data.g_hdDiplomacyProtocolVersion === undefined && data.g_hdDiplomacyActive === undefined) { return null; }
+        var raw = {};
+        DIPLOMACY_FIELDS.forEach(function (name) { raw[name.charAt(0).toLowerCase() + name.slice(1)] = data['g_hdDiplomacy' + name]; });
+        return raw;
+    }
+    function readDiplomacy(data) {
+        try {
+            var raw = diplomacyRaw(data), value = raw && baye.hd.diplomacy && baye.hd.diplomacy();
+            if (!raw || !value || value.protocolVersion !== 1 || value.active > 1 || value.phase > 5 ||
+                value.commitResult > 2 || !Object.keys(raw).every(function (name) {
+                    return mobileInteger(raw[name], 0xffffffff) && value[name] === raw[name];
+                }) || !mobileInteger(value.origin, 255) || !mobileInteger(value.actor, 65535) ||
+                !mobileInteger(value.target, 65535) || value.active &&
+                ([15,16,17,19].indexOf(value.command) < 0 || !value.session || !value.inputSeq ||
+                    value.generation !== data.g_hdDetailGeneration || value.origin > 37 || value.phase < 1 || value.phase > 4 ||
+                    value.phase === 1 && (value.actor !== 65535 || value.target !== 65535) ||
+                    value.phase === 2 && (value.actor > 199 || value.target !== 65535) ||
+                    value.phase === 3 && (value.actor > 199 || value.target > 199))) { return null; }
+            return value;
+        } catch (e) { return null; }
+    }
+    function diplomacyReading() {
+        if (!mobileHost) { return null; }
+        var a = mobileNativeSnapshot(), b = mobileNativeSnapshot();
+        if (!a || !b || !b.diplomacy || a.data !== b.data || a.libraryGeneration !== b.libraryGeneration ||
+            JSON.stringify([a.raw,a.menu,a.qty,a.report,a.march,a.diplomacy]) !==
+                JSON.stringify([b.raw,b.menu,b.qty,b.report,b.march,b.diplomacy])) { return null; }
+        return b;
+    }
+    function diplomacySameFlow(value) {
+        var d = value && value.diplomacy, flow = mobileDiplomacy;
+        return !!(flow && d && value.data === flow.data && value.libraryGeneration === flow.generation &&
+            d.generation === flow.detailGeneration && d.session === flow.session && d.command === flow.command &&
+            d.origin === flow.origin);
+    }
+    function diplomacyBound(value) {
+        return diplomacySameFlow(value) && state.open && state.layer === 'deep' &&
+            state.deepKind === 'person-diplomacy' && state.cityIndex === value.diplomacy.origin;
+    }
+    function diplomacyTicketFrom(value) {
+        if (!diplomacyBound(value)) { return null; }
+        var d = value.diplomacy, menu = value.menu;
+        if ([1,2].indexOf(d.phase) < 0 || value.transfer && value.transfer.active || value.raw.g_hdHelpActive ||
+            value.raw.g_hdReportActive || value.qty.active || value.march.pick || value.march.battlePick ||
+            [MARCH.IDLE,MARCH.DEPARTED].indexOf(value.march.phase) < 0 || value.march.mapCity !== d.origin + 1 ||
+            menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 || !mobileMenuComplete(menu) ||
+            !actualMenuIds(menu).every(function (id) { return mobileInteger(id,199); })) { return null; }
+        var ticket = {libraryGeneration: value.libraryGeneration, cityIndex: d.origin, ownerType: 'city',
+            menuContext: 1, menuKind: 3, menuSeq: menu.seq, detailGeneration: menu.detailGeneration,
+            session: d.session, inputSeq: d.inputSeq, phase: value.march.phase, origin: d.origin,
+            selected: value.march.selected, mapInputSeq: value.march.mapInputSeq,
+            diplomacyCommand: d.command, diplomacyPhase: d.phase, actor: d.actor, target: d.target};
+        ticket.key = JSON.stringify([value.libraryGeneration,value.raw,menu,value.march,value.qty,value.report,d]);
+        Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
+        return ticket;
+    }
+    function syncMobileDiplomacy() {
+        var value = diplomacyReading(), d = value && value.diplomacy;
+        if (!value || !d) { return false; }
+        if (!d.active) {
+            if (diplomacySameFlow(value) && d.phase === 5 && !value.menu.active &&
+                !value.qty.active && !value.raw.g_hdReportActive && value.march.pick === 1 &&
+                !value.march.battlePick && value.march.mapInputSeq !== mobileDiplomacy.mapInputSeq && retiredCityMapOwner()) {
+                if (diplomacyBound(value)) { closeMenu({silent: true, force: true}); }
+                else { mobileDiplomacy = null; }
+                return true;
+            }
+            return false;
+        }
+        if (value.transfer && value.transfer.active || value.march.battlePick ||
+            [MARCH.IDLE,MARCH.DEPARTED].indexOf(value.march.phase) < 0 || value.march.mapCity !== d.origin + 1) { return false; }
+        if (!mobileDiplomacy || value.data !== mobileDiplomacy.data || value.libraryGeneration !== mobileDiplomacy.generation ||
+            d.session !== mobileDiplomacy.session || d.command !== mobileDiplomacy.command ||
+            d.origin !== mobileDiplomacy.origin || d.generation !== mobileDiplomacy.detailGeneration) {
+            mobileDiplomacy = {data: value.data, generation: value.libraryGeneration, detailGeneration: d.generation,
+                session: d.session, command: d.command, origin: d.origin, inputSeq: d.inputSeq, phase: d.phase,
+                mapInputSeq: value.march.mapInputSeq, sent: ''};
+        }
+        var flow = mobileDiplomacy;
+        if (flow.inputSeq !== d.inputSeq || flow.phase !== d.phase) {
+            flow.inputSeq = d.inputSeq; flow.phase = d.phase; flow.sent = '';
+            state.deepSig = ''; state.deepSelectionPending = null;
+        }
+        if (!shouldShowHd()) { return true; }
+        state.open = true; state.layer = 'deep'; state.subKind = 'waijiao'; state.cityIndex = d.origin;
+        state.deepKind = 'person-diplomacy'; state.deepLabel = {15:'离间',16:'招揽',17:'策反',19:'劝降'}[d.command];
+        state.deepStep = d.phase === 2 ? 1 : 0; state.battleMake = false; state.campaignPick = false;
+        state.wizardStep = 'none'; state.marchReady = false;
+        return true;
+    }
+    function getDiplomacyPresentation() {
+        if (!mobileHost || !shouldShowHd()) { return null; }
+        var first = diplomacyReading(), second = diplomacyReading();
+        if (!first || !second || first.data !== second.data || !diplomacyBound(second) ||
+            JSON.stringify(first.diplomacy) !== JSON.stringify(second.diplomacy)) { return null; }
+        var d = second.diplomacy, ticket = diplomacyTicketFrom(second), role = d.phase === 1 ? 'actor' :
+            d.phase === 2 ? 'target' : d.phase === 3 ? 'commit' : d.phase === 4 ? 'reject' : 'done';
+        if ([1,2].indexOf(d.phase) >= 0 && !ticket) { return null; }
+        var commandName = {15:'离间',16:'招揽',17:'策反',19:'劝降'}[d.command];
+        var cost = diplomacyCosts(d.command, second.data);
+        var after = diplomacyReading();
+        if (!after || after.data !== second.data || after.libraryGeneration !== second.libraryGeneration ||
+            JSON.stringify([after.raw,after.menu,after.diplomacy]) !== JSON.stringify([second.raw,second.menu,second.diplomacy])) { return null; }
+        return Object.freeze({command: d.command, commandName: commandName, phase: d.phase, role: role,
+            origin: d.origin, session: d.session, inputSeq: d.inputSeq, generation: d.generation,
+            actor: d.actor, target: d.target, commitSeq: d.commitSeq, commitResult: d.commitResult,
+            menuSeq: second.menu.seq, index: ticket ? second.menu.index : null,
+            ids: Object.freeze(ticket ? actualMenuIds(second.menu).slice() : []),
+            moneyCost: cost ? cost.money : null, thewCost: cost ? cost.thew : null,
+            thewPayer: cost ? cost.payer : null,
+            note: cost ? '金钱 ' + cost.money + ' · 体力 ' + cost.thew +
+                (cost.payer === 'target' ? '（原版兼容：扣目标体力）' : cost.payer === 'actor' ? '（扣执行将领体力）' : '（按原版规则扣除）') : '费用由原版规则决定。',
+            title: commandName + (role === 'actor' ? ' · 选择己方将领' : role === 'target' ?
+                (d.command === 19 ? ' · 选择敌方君主' : ' · 选择敌方人物') : ' · 等待原版结果')});
+    }
+    function diplomacyCosts(command, data) {
+        try {
+            var hex = global.dynLib, config = data.g_engineConfig;
+            if (typeof hex !== 'string' || hex.length !== 207195 * 2 || !config ||
+                !mobileInteger(config.enable16bitConsumeMoney,1)) { return null; }
+            var money16 = config.enable16bitConsumeMoney, fix = config.fixAlienateComsumeThew;
+            function little(offset, size) {
+                if (!mobileInteger(offset,207195-size)) { throw new Error('cost bounds'); }
+                var out = 0;
+                for (var i=0;i<size;i++) {
+                    var byte = hex.slice((offset+i)*2,(offset+i+1)*2);
+                    if (!/^[0-9a-f]{2}$/i.test(byte)) { throw new Error('cost bytes'); }
+                    out += parseInt(byte,16)*Math.pow(256,i);
+                }
+                return out;
+            }
+            var base = little(4,4), length = little(base,4), count = little(base+6,2), fixed = little(base+8,4);
+            if (little(base+4,2)!==2 || count<=10 || base+length>207195) { return null; }
+            function cost(item, size) {
+                var offset = fixed ? 14+item*fixed : little(base+14+item*8,4);
+                var bytes = fixed || little(base+18+item*8,4);
+                if (offset<14 || offset+bytes>length || (command+1)*size>bytes) { throw new Error('cost item bounds'); }
+                return little(base+offset+command*size,size);
+            }
+            var thew = cost(9,1), money = cost(10,money16?2:1);
+            if (global.dynLib !== hex || data.g_engineConfig !== config || config.enable16bitConsumeMoney !== money16 ||
+                config.fixAlienateComsumeThew !== fix) { return null; }
+            return {thew: thew, money: money, payer: command!==15 || fix===1 ? 'actor' : fix===0 ? 'target' : null};
+        } catch (e) { return null; }
+    }
+    function backMobileDiplomacy() {
+        if (!mobileHost || state.deepKind !== 'person-diplomacy') { return false; }
+        var ticket = mobileInputTicket(), flow = mobileDiplomacy;
+        if (!ticket || !flow || !ticket.diplomacyCommand || state.nativeMenuRequest || state.queue.length || state.sending ||
+            flow.sent === ticket.key) { return true; }
+        flow.sent = ticket.key;
+        if (!engineSendKey(VK.EXIT, 'diplomacy-back', function () {
+            var current = mobileInputTicket(); return !!current && current.data === ticket.data && current.key === ticket.key;
+        })) { flow.sent = ''; }
+        return true;
     }
     function transferRoutes(data, origin) {
         // SearchRoad traverses only CITY_LINKR edges whose destination has the
@@ -500,6 +665,7 @@
             if (/library|configure/.test(String(reason || ''))) { mobileTransfer = null; }
         }
         if (/library|configure/.test(String(reason || ''))) { mobileTrade = null; }
+        if (/library|configure/.test(String(reason || ''))) { mobileDiplomacy = null; }
         // Retire work, not the evidence of a key already delivered to the
         // same native march. Reusing that inputSeq must never send it twice.
         var live = mobileHost ? currentMarch() : null;
@@ -1318,6 +1484,7 @@
     }
 
     function engineSendKey(code, reason, currentOwner) {
+        if (mobileHost && mobileDiplomacy && mobileDiplomacy.sent && reason !== 'diplomacy-back') { return false; }
         if (mobileHost && mobileEquipmentFlow) { return false; }
         if (mobileHost && mobileTrade && mobileTrade.wait) { return false; }
         if (mobileHost && state.goodsBackPending && reason !== 'back-deep') { return false; }
@@ -1365,10 +1532,12 @@
         }
         if (code === VK.EXIT && reason !== 'qty-cancel') { distributionFlow = null; }
         if (typeof sendKey === 'function') {
+            if (mobileHost && mobileDiplomacy && reason === 'diplomacy-person' && code === VK.ENTER) { mobileDiplomacy.sent = mobilePress.key; }
             sendKey(code);
             return true;
         }
         if (window.baye && typeof baye.sendKey === 'function') {
+            if (mobileHost && mobileDiplomacy && reason === 'diplomacy-person' && code === VK.ENTER) { mobileDiplomacy.sent = mobilePress.key; }
             baye.sendKey(code);
             return true;
         }
@@ -4140,15 +4309,19 @@
         var expected = state.deepKind === 'person-trade' && state.deepStep === 1 ? 5 :
             usesGoodsMenu(state.deepKind, state.deepStep) ? 4 : 3;
         if (kind !== expected) { return null; }
+        var diplomacy = state.deepKind === 'person-diplomacy' ? mobileInputTicket() : null;
+        if (state.deepKind === 'person-diplomacy' && (!diplomacy || !diplomacy.diplomacyCommand || kind !== 3)) { return null; }
         if (kind === 5 && !tradeExchangeOwner(mobileNativeSnapshot())) { return null; }
         if (state.deepKind === 'person-city') {
             var march = currentMarch();
             if (!march || Number(march.phase) !== MARCH.PERSONS) { return null; }
         }
         var generation = detailNumber(menu.detailGeneration, 4294967295);
+        var ownerKey = [marchEpoch, 1, kind, Number(menu.seq), menu.names, generation, actualMenuIds(menu)];
+        if (diplomacy) { ownerKey.push([diplomacy.diplomacyCommand,diplomacy.diplomacyPhase,
+            diplomacy.session,diplomacy.inputSeq,diplomacy.actor,diplomacy.target]); }
         return { context: 1, kind: kind, seq: Number(menu.seq), detailGeneration: generation,
-            key: JSON.stringify([marchEpoch, 1, kind, Number(menu.seq), menu.names,
-                generation, actualMenuIds(menu)]) };
+            key: JSON.stringify(ownerKey) };
     }
 
     function readyDeepMenuOwner(menu) {
@@ -4201,6 +4374,7 @@
     }
 
     function mobilePreviewContext(button) {
+        if (mobileDiplomacy && mobileDiplomacy.sent) { return null; }
         if (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait) { return null; }
         if (!mobileHost || !state.open || state.layer !== 'deep' || state.deepKind === 'person-city' ||
             state.battleMake || state.deepSelectionPending || state.sending || state.queue.length ||
@@ -5165,6 +5339,7 @@
     }
 
     function fillDeepList() {
+        syncMobileDiplomacy();
         syncMobileTransfer();
         if (fillTransferWait()) { return; }
         if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
@@ -5216,6 +5391,16 @@
         }
         state.deepSig = sig;
         list.innerHTML = '';
+        if (mobileHost && state.deepKind === 'person-diplomacy') {
+            var diplomacyPresentation = getDiplomacyPresentation();
+            if (diplomacyPresentation) {
+                var diplomacyHeading = document.createElement('p');
+                diplomacyHeading.className = 'hd-city-menu-info-note';
+                diplomacyHeading.setAttribute('data-hd-diplomacy-role', diplomacyPresentation.role);
+                diplomacyHeading.textContent = diplomacyPresentation.title + ' · ' + diplomacyPresentation.note;
+                list.appendChild(diplomacyHeading);
+            }
+        }
         var i;
         if (!mobileQty && state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
             var shownStep = displayWizardStep();
@@ -5521,6 +5706,7 @@
     }
 
     function render() {
+        syncMobileDiplomacy();
         syncMobileTransfer();
         syncMobileTrade();
         var root = el('hd-city-menu');
@@ -5760,6 +5946,7 @@
         invalidateQtyWork();
         mobileTrade = null;
         mobileTransfer = null;
+        mobileDiplomacy = null;
         state.open = false;
         state.layer = 'root';
         state.queue = [];
@@ -6351,6 +6538,11 @@
     }
 
     function back(pressedOwner) {
+        if (mobileHost && state.deepKind === 'person-diplomacy') {
+            var diplomacyBackOwner = cityBackPressOwner();
+            if (pressedOwner != null && pressedOwner !== diplomacyBackOwner) { return; }
+            backMobileDiplomacy(); return;
+        }
         if (mobileHost && mobileTransfer) { return cancelTransfer(); }
         if (mobileHost && (mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return; }
         if (!state.open) {
@@ -7242,6 +7434,7 @@
     }
 
     function chooseDeep(index, pressedOwner) {
+        if (mobileHost && state.deepKind === 'person-diplomacy' && mobileDiplomacy && mobileDiplomacy.sent) { return false; }
         if (mobileHost && (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return false; }
         var item = state.deepItems[index];
         var native = engineMenuItems();
@@ -7267,6 +7460,19 @@
                 return !!current && current.data === transferOwner.data && current.session === transferOwner.session &&
                     current.inputSeq === transferOwner.inputSeq && current.menuSeq === transferOwner.menuSeq &&
                     current.libraryGeneration === transferOwner.libraryGeneration && current.ownerType === 'transfer-person';
+            });
+        }
+        if (mobileHost && state.deepKind === 'person-diplomacy') {
+            var diplomacyOwner = mobileInputTicket();
+            if (!diplomacyOwner || !diplomacyOwner.diplomacyCommand || state.nativeMenuRequest ||
+                state.queue.length || state.sending) { return false; }
+            return selectLiveMenu(nativeIndex, true, 'diplomacy-person', native, function () {
+                var current = mobileInputTicket();
+                return !!current && current.data === diplomacyOwner.data && current.libraryGeneration === diplomacyOwner.libraryGeneration &&
+                    current.session === diplomacyOwner.session && current.inputSeq === diplomacyOwner.inputSeq &&
+                    current.menuSeq === diplomacyOwner.menuSeq && current.diplomacyCommand === diplomacyOwner.diplomacyCommand &&
+                    current.diplomacyPhase === diplomacyOwner.diplomacyPhase && current.actor === diplomacyOwner.actor &&
+                    current.target === diplomacyOwner.target;
             });
         }
         if (leftoverQtyFlag() && !liveGetFood()) {
@@ -8047,6 +8253,7 @@
     }
 
     function syncMode(resume) {
+        if (mobileHost && syncMobileDiplomacy() && mobileDiplomacy) { applyDocAttr(); render(); return; }
         if (mobileHost && syncMobileTransfer() && mobileTransfer) { applyDocAttr(); render(); return; }
         if (state.personModeResume && !shouldShowHd() &&
             (!personModeStateMatches(state.personModeResume) || personModeOwner() !== state.personModeResume.key)) {
@@ -8203,6 +8410,7 @@
                     state.deepKind === 'goods-person' ||
                     state.deepKind === 'person-qty' ||
                     state.deepKind === 'person-trade' ||
+                    state.deepKind === 'person-diplomacy' ||
                     state.deepKind === 'person-city' ||
                     mapPickActive() ||
                     state.marchReady) {
@@ -8231,6 +8439,7 @@
         getMarchPresentation: getMarchPresentation,
         getQuantityPresentation: getQuantityPresentation,
         getTradePresentation: getTradePresentation,
+        getDiplomacyPresentation: getDiplomacyPresentation,
         getTransferTargetTicket: getTransferTargetTicket,
         getTransferDialogTicket: getTransferDialogTicket,
         getTransferPresentation: getTransferPresentation,

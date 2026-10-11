@@ -52,6 +52,7 @@ const manifest = {
         menu: ['g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq'],
         march: ['g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchOrigin', 'g_hdMarchSelected', 'g_hdMarchInputSeq', 'g_hdMapInputSeq'],
         transfer: ['g_hdTransferProtocolVersion','g_hdTransferActive','g_hdTransferCommand','g_hdTransferSession','g_hdTransferInputSeq','g_hdTransferPhase','g_hdTransferOrigin','g_hdTransferTarget','g_hdTransferPerson','g_hdTransferFood','g_hdTransferMoney','g_hdTransferArms','g_hdTransferDistance','g_hdTransferCommitSeq','g_hdTransferCommitResult'],
+        diplomacy: ['g_hdDiplomacyProtocolVersion','g_hdDiplomacyActive','g_hdDiplomacyCommand','g_hdDiplomacyPhase','g_hdDiplomacySession','g_hdDiplomacyInputSeq','g_hdDiplomacyGeneration','g_hdDiplomacyOrigin','g_hdDiplomacyActor','g_hdDiplomacyTarget','g_hdDiplomacyCommitSeq','g_hdDiplomacyCommitResult'],
         report: ['g_hdReportActive', 'g_hdReportInputSeq'],
         record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
         qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
@@ -69,6 +70,19 @@ const manifest = {
         commit: 'monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added',
         retirement: 'DONE inactive retains last receipt; next begin clears values/result; reset retires the session',
         input: 'read-only; existing menu, quantity, report and map-input receipts remain authoritative'
+    },
+    hdDiplomacyProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.diplomacy()',
+        fields: ['g_hdDiplomacyProtocolVersion','g_hdDiplomacyActive','g_hdDiplomacyCommand','g_hdDiplomacyPhase','g_hdDiplomacySession','g_hdDiplomacyInputSeq','g_hdDiplomacyGeneration','g_hdDiplomacyOrigin','g_hdDiplomacyActor','g_hdDiplomacyTarget','g_hdDiplomacyCommitSeq','g_hdDiplomacyCommitResult'],
+        commands: { alienate: 15, canvass: 16, counterespionage: 17, induce: 19 },
+        phases: { idle: 0, actor: 1, target: 2, commit: 3, reject: 4, done: 5 },
+        owner: 'independent session/inputSeq plus actual detail generation; all skip zero; stale suspended publishers cannot revive a retired owner',
+        people: 'actual returned U16 person IDs; actor and target65535 and origin255 are unpublished sentinels; actor selection resets both people each iteration',
+        commit: 'phase3 observes original debits before AddOrderHead; exactly one native result is recorded after original DelPerson. Result1 queued, result2 full queue, without rollback or an invented success report',
+        cancellation: 'target cancellation returns to a freshly published actor list; actor cancellation follows native command return; no added keys',
+        retirement: 'DONE inactive retains an audit receipt; next begin/reset/world commit invalidates previous session and clears people/result',
+        input: 'observation only; original PERSON and report native owner receipts remain authoritative; original costs, eligibility and monthly random outcomes are unchanged'
     },
     hdSpeProtocol: {
         version: 2,

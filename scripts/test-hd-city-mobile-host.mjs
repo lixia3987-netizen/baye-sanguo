@@ -6,6 +6,7 @@ import vm from 'node:vm';
 // Controlled public bridge fixtures. No native C, browser, or OS execution.
 const source = fs.readFileSync(new URL('../js/hd-city-menu.js', import.meta.url), 'utf8');
 const tradeSource = process.env.BAYE_HD_TRADE_SOURCE ? fs.readFileSync(process.env.BAYE_HD_TRADE_SOURCE,'utf8') : source;
+const diplomacySource = process.env.BAYE_HD_DIPLOMACY_SOURCE ? fs.readFileSync(process.env.BAYE_HD_DIPLOMACY_SOURCE,'utf8') : source;
 const SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
 const originalLib = fs.readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
 const fields = ['g_hdEngineReady','g_hdMapPick','g_hdMapCity','g_hdMapInputSeq','g_hdBattlePick',
@@ -70,6 +71,7 @@ function fixture({storageThrows = false, marchState = false, sourceText = source
         global.__marchTest={state:state,sync:syncMarchPhase,send:engineSendKey,cancelQty:cancelQty,
             cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities,
             syncTransfer:typeof syncMobileTransfer==='function'?syncMobileTransfer:null,
+            syncDiplomacy:typeof syncMobileDiplomacy==='function'?syncMobileDiplomacy:null,
             continueTransfer:typeof continueTransfer==='function'?continueTransfer:null,chooseDeep:chooseDeep,
             select:selectLiveMenu,commitQty:commitQty,preview:typeof previewDeep==='function'?previewDeep:null,
             previewContext:typeof mobilePreviewContext==='function'?mobilePreviewContext:null,bind:bindUi,
@@ -234,7 +236,7 @@ test('mobile poll restores the complete deep layer after delayed picker publicat
         el(id){return nodes[id]||null;},setText(node,text){if(node)node.textContent=text;},
         shouldShowHd(){return true;},mobileShellReady(){return complete;},
         mobileBase(){return {identity:{generation:1}};},renderStickyBannerSlot:noOp,
-        applyDocAttr:noOp,retirePersonDetails:noOp,retireToolDetails:noOp,syncMobileTrade:noOp,syncMobileTransfer:noOp,
+        applyDocAttr:noOp,retirePersonDetails:noOp,retireToolDetails:noOp,syncMobileTrade:noOp,syncMobileTransfer:noOp,syncMobileDiplomacy:noOp,
         cityName(){return '真实城';},showingQty(){return false;},freshMarchOk(){return false;},
         usesMapCursor(){return false;},usesGoodsMenu(){return false;},
         fillDeepList(){deepRefreshes+=1;},preferEngineNames(items){return items;},
@@ -485,6 +487,7 @@ test('terminal person restoration rejects a phase or session handoff during publ
 });
 function isolatedCityFunction(name,context) {
     if(name==='syncMode'){context.syncMobileTrade=()=>false;context.mobileTrade=null;
+        context.syncMobileDiplomacy=()=>false;context.mobileDiplomacy=null;
         context.syncMobileTransfer=()=>false;context.mobileTransfer=null;if(!('mobileHost' in context))context.mobileHost=null;}
     const begin=source.indexOf('    function '+name+'('),end=source.indexOf('\n    function ',begin+20);
     assert.ok(begin>=0&&end>begin);vm.runInNewContext(source.slice(begin,end),context);return context[name];
@@ -2200,4 +2203,178 @@ test('trade MAP receipt keeps its original deadline while another overlay remain
     assert.equal(f.state.open,true);assert.equal(f.api.getInputTicket(),null);
     h.api.close({silent:true});f.tick(400);assert.equal(f.state.open,true,'an expired receipt cannot retire a later owner');
     assert.equal(f.api.getTradePresentation(),null);assert.deepEqual(f.keys,[...before,39]);assert.deepEqual(f.writes,[]);
+});
+
+function diplomacyFixture(command=15,{phase=1,seq=10,mobile=true}={}) {
+    const f=fixture({marchState:true,sourceText:diplomacySource});if(mobile)f.configure();f.state=f.internals.state;
+    const actor={names:['董卓','李儒','吕布'],ids:[0,19,20]}, target={names:['敌方甲','敌方乙'],ids:[45,62]};
+    const suffixes=['ProtocolVersion','Active','Command','Phase','Session','InputSeq','Generation','Origin','Actor','Target','CommitSeq','CommitResult'];
+    let ids=[],hook=null,deferred=null;
+    Object.assign(f.raw,{g_asyncActionID:0,g_hdMapInputSeq:4,g_hdMenuSeq:seq,g_hdMarchPhase:7,g_hdSpeGeneration:2,g_hdHelpSeq:0,
+        g_hdDiplomacyProtocolVersion:1,g_hdDiplomacyActive:1,g_hdDiplomacyCommand:command,g_hdDiplomacyPhase:phase,
+        g_hdDiplomacySession:12,g_hdDiplomacyInputSeq:80,g_hdDiplomacyGeneration:2,g_hdDiplomacyOrigin:0,
+        g_hdDiplomacyActor:phase===1?65535:19,g_hdDiplomacyTarget:phase===3?45:65535,
+        g_hdDiplomacyCommitSeq:0,g_hdDiplomacyCommitResult:0,
+        g_engineConfig:{enable16bitConsumeMoney:0,fixAlienateComsumeThew:0}});
+    f.env.bayeQtyNativeClosed=()=>false;f.env.bayeQtyCloseInput=()=>{};
+    f.env.baye.hd.diplomacy=()=>{const value={};for(const suffix of suffixes)
+        value[suffix[0].toLowerCase()+suffix.slice(1)]=f.raw['g_hdDiplomacy'+suffix];if(hook)hook(value);return value;};
+    f.setMenuHook(menu=>{menu.ids=ids.slice();menu.idsValid=menu.kind===3;});
+    const next=n=>n===0xffffffff?1:n+1;
+    function publish(stage,{menuSeq=f.raw.g_hdMenuSeq,index=0,complete=true,map=false}={}) {
+        const items=stage===1?actor:stage===2?target:{names:[],ids:[]};
+        f.names.splice(0,f.names.length,...items.names);ids=complete?items.ids.slice():[];
+        Object.assign(f.raw,{g_hdDiplomacyPhase:stage,g_hdDiplomacyActive:stage===5?0:1,
+            g_hdMenuActive:stage===1||stage===2?1:0,g_hdMenuContext:stage===1||stage===2?1:0,
+            g_hdMenuKind:stage===1||stage===2?3:0,g_hdMenuSeq:menuSeq,g_hdMenuCount:items.names.length,g_hdMenuIndex:index,
+            g_hdQtyActive:0,g_hdReportActive:stage===4?1:0,g_hdReportSeq:40,g_hdReportInputSeq:50,
+            g_hdReportKind:stage===4?1:0,g_hdReportPerson:65535,g_hdMapPick:map?1:0});
+        if(stage===1){f.raw.g_hdDiplomacyActor=65535;f.raw.g_hdDiplomacyTarget=65535;}
+        if(map)f.raw.g_hdMapInputSeq=next(f.raw.g_hdMapInputSeq);
+    }
+    function advance(stage,options={}) {f.raw.g_hdDiplomacyInputSeq=next(f.raw.g_hdDiplomacyInputSeq);
+        publish(stage,options);f.internals.syncDiplomacy();f.internals.fill();}
+    function later(fn){if(deferred)deferred(fn);else f.env.setTimeout(fn,60);}
+    function consume(key){
+        if(key===34||key===35){later(()=>{f.raw.g_hdMenuIndex+=key===34?-1:1;});return;}
+        const stage=f.raw.g_hdDiplomacyPhase,old=f.raw.g_hdMenuSeq,index=f.raw.g_hdMenuIndex;
+        if(key!==39&&key!==40)return;
+        Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuContext:0,g_hdMenuKind:0,g_hdMenuCount:0,g_hdMenuSeq:next(old)});
+        f.names.splice(0);ids=[];
+        if(stage===1&&key===39)later(()=>{f.raw.g_hdDiplomacyActor=actor.ids[index];advance(2,{menuSeq:next(next(old))});});
+        else if(stage===2&&key===40)later(()=>advance(1,{menuSeq:next(next(old))}));
+        else if(stage===2&&key===39)later(()=>{f.raw.g_hdDiplomacyTarget=target.ids[index];advance(3);
+            f.raw.g_hdDiplomacyCommitSeq=next(f.raw.g_hdDiplomacyCommitSeq);f.raw.g_hdDiplomacyCommitResult=1;advance(5,{map:true});});
+        else if(stage===1&&key===40)later(()=>advance(5,{map:true}));
+    }
+    publish(phase);Object.assign(f.state,{open:true,layer:'deep',cityIndex:0,subKind:'waijiao',deepKind:'person-diplomacy',
+        deepLabel:'',deepStep:0,battleMake:false,wizardStep:'none'});
+    f.internals.isolatePreview();const dom=marchDom(f,{rooted:true});f.internals.bind();f.setAfterKey(consume);
+    assert.equal(typeof f.internals.syncDiplomacy,'function','current diplomacy observation integration');
+    f.internals.syncDiplomacy();f.internals.fill();
+    function all(attr,value=dom.list,out=[]){if(value.getAttribute(attr)!==null)out.push(value);for(const child of value.children)all(attr,child,out);return out;}
+    function press(index){const button=all('data-hd-deep')[index];assert.ok(button,'complete current native PERSON button');
+        const event={target:button,detail:1,isPrimary:true,button:0,pointerId:7,preventDefault(){},stopPropagation(){}};
+        dom.root.emit('pointerdown',event);dom.root.emit('click',event);return button;}
+    return Object.assign(f,{dom,actor,target,publish,advance,all,press,next,consume,
+        setDiplomacyHook(fn){hook=fn;},setDeferred(fn){deferred=fn;},back(){f.internals.back(f.internals.backOwner());}});
+}
+for(const command of [15,16,17,19])test('diplomacy actor to target uses the actual two PERSON publications: '+command,()=>{
+    const f=diplomacyFixture(command),ticket=f.api.getInputTicket(),p=f.api.getDiplomacyPresentation();
+    assert.equal(ticket.ownerType,'city');assert.equal(ticket.diplomacyCommand,command);assert.equal(ticket.diplomacyPhase,1);
+    assert.equal(ticket.data,f.env.baye.data);assert.equal(Object.keys(ticket).includes('data'),false);
+    assert.equal(p.role,'actor');assert.deepEqual(Array.from(p.ids),f.actor.ids);assert.equal(p.moneyCost,50);
+    assert.equal(p.thewCost,command===19?10:20);assert.equal(p.thewPayer,command===15?'target':'actor');
+    const actorNode=f.all('data-hd-deep')[1];f.press(1);assert.deepEqual(f.keys,[35]);
+    f.tick(200);const target=f.api.getDiplomacyPresentation();
+    assert.deepEqual(f.keys,[35,39]);assert.equal(target.role,'target');assert.equal(target.actor,19);
+    assert.deepEqual(Array.from(target.ids),f.target.ids);assert.equal(target.menuSeq,f.next(f.next(10)));
+    assert.equal(f.dom.find('data-hd-diplomacy-role').getAttribute('data-hd-diplomacy-role'),'target');
+    assert.equal(actorNode.isConnected,false);assert.equal(f.state.deepStep,1);assert.deepEqual(f.writes,[]);
+});
+for(const [command,index] of [[16,1],[17,2],[19,4]])test('diplomacy nonfirst SUB command waits for real Arrow ACK before Enter and fresh ACTOR: '+command,()=>{
+    const f=diplomacyFixture();f.advance(5,{map:true});
+    const seq=f.next(f.raw.g_hdMenuSeq),labels=['离间','招揽','策反','反间','劝降'];
+    Object.assign(f.raw,{g_hdMapPick:0,g_hdMenuActive:1,g_hdMenuContext:1,g_hdMenuKind:2,
+        g_hdMenuSeq:seq,g_hdMenuIndex:0,g_hdMenuCount:labels.length});
+    f.names.splice(0,f.names.length,...labels);Object.assign(f.state,{open:true,layer:'sub',subKind:'waijiao',
+        cityIndex:0,deepKind:'',deepLabel:'',deepStep:0});
+    f.setAfterKey(key=>{
+        if(key===35){f.env.setTimeout(()=>{f.raw.g_hdMenuIndex++;},60);return;}
+        assert.equal(key,39);assert.equal(f.raw.g_hdMenuIndex,index,'Enter waits for actual selected SUB index');
+        Object.assign(f.raw,{g_hdMenuActive:0,g_hdMenuContext:0,g_hdMenuKind:0,g_hdMenuCount:0,g_hdMenuSeq:f.next(seq)});
+        f.names.splice(0);f.env.setTimeout(()=>{
+            Object.assign(f.raw,{g_hdDiplomacySession:f.next(f.raw.g_hdDiplomacySession),g_hdDiplomacyCommand:command});
+            f.advance(1,{menuSeq:f.next(f.next(seq))});
+        },60);
+    });
+    f.internals.chooseSub(index);assert.deepEqual(f.keys,[35]);
+    assert.notEqual(f.state.deepKind,'person-diplomacy','pending SUB is not an active diplomacy PERSON');
+    assert.equal(f.api.getInputTicket().menuKind,2);f.tick(1000);
+    assert.deepEqual(f.keys,[...Array(index).fill(35),39]);
+    const p=f.api.getDiplomacyPresentation();assert.ok(p);assert.equal(p.command,command);assert.equal(p.role,'actor');
+    assert.equal(p.index,0);assert.equal(f.state.deepKind,'person-diplomacy');assert.deepEqual(f.writes,[]);
+});
+for(const command of [15,16,17,19])test('diplomacy target cancellation waits for fresh ACTOR index0 with one Exit: '+command,()=>{
+    const f=diplomacyFixture(command);f.press(2);f.tick(400);const old=f.api.getInputTicket(),keys=f.keys.slice();
+    f.back();f.back();assert.equal(f.api.getInputTicket(),null);f.tick(200);
+    const current=f.api.getDiplomacyPresentation();assert.equal(current.role,'actor');assert.equal(current.index,0);
+    assert.equal(current.actor,65535);assert.equal(current.target,65535);assert.equal(current.session,old.session);
+    assert.notEqual(current.inputSeq,old.inputSeq);assert.equal(current.menuSeq,f.next(f.next(old.menuSeq)));
+    assert.deepEqual(Array.from(current.ids),f.actor.ids);assert.deepEqual(f.keys,[...keys,40]);assert.deepEqual(f.writes,[]);
+});
+for(const command of [15,16,17,19])test('diplomacy normal dispatch retires the old HD pane only on the real DONE and MAP: '+command,()=>{
+    const f=diplomacyFixture(command);f.press(0);f.tick(200);f.press(1);f.tick(400);
+    assert.deepEqual(f.keys,[39,35,39]);assert.equal(f.raw.g_hdDiplomacyCommitResult,1);
+    assert.equal(f.raw.g_hdReportActive,0);assert.equal(f.raw.g_hdMapPick,1);assert.equal(f.state.open,false);
+    assert.equal(f.api.getInputTicket(),null);assert.equal(f.api.getDiplomacyPresentation(),null);assert.deepEqual(f.writes,[]);
+});
+test('diplomacy actor cancellation returns to native MAP without an invented SUB or extra key',()=>{
+    const f=diplomacyFixture();f.back();f.back();f.tick(200);
+    assert.deepEqual(f.keys,[40]);assert.equal(f.state.open,false);assert.equal(f.raw.g_hdMapPick,1);assert.deepEqual(f.writes,[]);
+});
+for(const problem of ['missing-protocol','protocol','command18','phase','actor','generation','raw-mismatch','torn','half-ids','half-names',
+    'foreign-context','wrong-kind','menu-index','report','qty','help','battle','transfer','march','library','data'])test('diplomacy role authorization rejects '+problem,()=>{
+    const f=diplomacyFixture(),old=f.all('data-hd-deep')[0];
+    if(problem==='missing-protocol'){delete f.raw.g_hdDiplomacyProtocolVersion;delete f.env.baye.hd.diplomacy;}
+    if(problem==='protocol')f.raw.g_hdDiplomacyProtocolVersion=2;if(problem==='command18')f.raw.g_hdDiplomacyCommand=18;
+    if(problem==='phase')f.raw.g_hdDiplomacyPhase=6;if(problem==='actor')f.raw.g_hdDiplomacyActor=19;
+    if(problem==='generation')f.raw.g_hdDiplomacyGeneration++;
+    if(problem==='raw-mismatch')f.setDiplomacyHook(d=>{d.inputSeq++;});
+    if(problem==='torn')f.setDiplomacyHook(()=>{f.raw.g_hdDiplomacyInputSeq++;});
+    if(problem==='half-ids')f.setMenuHook(m=>{m.ids=[];m.idsValid=false;});
+    if(problem==='half-names')f.setMenuHook(m=>{m.names.pop();});
+    if(problem==='foreign-context')f.raw.g_hdMenuContext=2;if(problem==='wrong-kind')f.raw.g_hdMenuKind=4;
+    if(problem==='menu-index')f.raw.g_hdMenuIndex=9;if(problem==='report')f.raw.g_hdReportActive=1;
+    if(problem==='qty')f.raw.g_hdQtyActive=1;if(problem==='help')f.raw.g_hdHelpActive=1;
+    if(problem==='battle')f.raw.g_hdBattlePick=1;if(problem==='transfer')Object.assign(f.raw,{g_hdTransferProtocolVersion:1,g_hdTransferActive:1});
+    if(problem==='march')f.raw.g_hdMarchPhase=4;if(problem==='library')f.setIdentity({...f.identity(),sha256:'f'.repeat(64)});
+    if(problem==='data')f.env.baye.data={...f.raw};
+    assert.equal(f.api.getInputTicket(),null);const event={target:old,detail:1,preventDefault(){},stopPropagation(){}};
+    f.dom.root.emit('click',event);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['retire','hidden','classic','identity','inputSeq','data'])test('diplomacy Arrow queue stops after retirement at a real ACK boundary: '+change,()=>{
+    const f=diplomacyFixture();f.setAfterKey(key=>{if(key!==35)return;
+        f.env.setTimeout(()=>{f.raw.g_hdMenuIndex++;
+            if(change==='retire')f.api.retireInteraction('pointercancel');if(change==='hidden')f.env.document.hidden=true;
+            if(change==='classic')f.api.setMode('classic');if(change==='identity')f.setIdentity({...f.identity(),generation:2});
+            if(change==='inputSeq')f.raw.g_hdDiplomacyInputSeq++;if(change==='data')f.env.baye.data={...f.raw};},60);});
+    f.press(2);f.tick(600);assert.deepEqual(f.keys,[35]);assert.deepEqual(f.writes,[]);
+});
+test('diplomacy COMMIT and REJECT yield to the actual generic report without authorizing PERSON input',()=>{
+    for(const phase of [3,4]){
+        const f=diplomacyFixture(16,{phase});Object.assign(f.raw,{g_hdReportActive:1,g_hdReportKind:1,g_hdReportPerson:65535});
+        f.env.baye.hd.reportText=()=>f.env.baye.hd.report().text;
+        vm.runInNewContext(fs.readFileSync(new URL('../js/hd-dialog.js',import.meta.url),'utf8'),f.env);
+        const dialog=f.env.BayeHdDialog;dialog.configureMobileHost({isAvailable:()=>true});dialog.onEngineReport();dialog.poll();
+        assert.equal(f.api.getInputTicket(),null);assert.equal(dialog.isOpen(),true);assert.ok(dialog.getInputTicket());
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('diplomacy DONE keeps its retirement receipt while a prior report overlay closes asynchronously',()=>{
+    const f=diplomacyFixture();let open=true;f.env.BayeHdDialog={isOpen:()=>open};
+    f.advance(5,{map:true});assert.equal(f.state.open,true);assert.equal(f.api.getInputTicket(),null);
+    open=false;f.internals.syncDiplomacy();assert.equal(f.state.open,false);assert.deepEqual(f.keys,[]);
+});
+test('diplomacy same native role rebinds after classic and lifecycle retirement without replaying Enter',()=>{
+    const f=diplomacyFixture(19);f.press(0);f.tick(200);const before=f.api.getDiplomacyPresentation(),keys=f.keys.slice();
+    f.api.setMode('classic');assert.equal(f.api.getInputTicket(),null);f.api.retireInteraction('orientationchange');
+    f.api.setMode('hd');f.internals.fill();const after=f.api.getDiplomacyPresentation();
+    assert.equal(after.role,'target');assert.equal(after.session,before.session);assert.equal(after.inputSeq,before.inputSeq);
+    assert.equal(f.api.getInputTicket().diplomacyPhase,2);assert.deepEqual(f.keys,keys);assert.deepEqual(f.writes,[]);
+});
+test('diplomacy delivered dispatch retires its receipt on the real MAP while the HD pane is already classic',()=>{
+    const f=diplomacyFixture();f.press(0);f.tick(200);f.press(0);f.api.setMode('classic');
+    assert.equal(f.state.open,false);f.tick(200);assert.equal(f.raw.g_hdDiplomacyPhase,5);
+    assert.equal(f.raw.g_hdMapPick,1);assert.deepEqual(f.keys,[39,39]);
+    f.api.setMode('hd');Object.assign(f.raw,{g_hdMapPick:0,g_hdMenuActive:1,g_hdMenuContext:1,g_hdMenuKind:1,
+        g_hdMenuSeq:f.next(f.raw.g_hdMenuSeq),g_hdMenuCount:4,g_hdMenuIndex:0});
+    f.names.splice(0,f.names.length,'内政','外交','军备','状况');
+    Object.assign(f.state,{open:true,layer:'root',cityIndex:0,deepKind:''});
+    assert.ok(f.api.getInputTicket());assert.equal(f.internals.send(35,'city-root'),true);
+    assert.deepEqual(f.keys,[39,39,35]);assert.deepEqual(f.writes,[]);
+});
+test('diplomacy mobile extension neither claims PC input nor promotes the native empty counter-spy command',()=>{
+    const f=diplomacyFixture(15,{mobile:false});assert.equal(f.api.getInputTicket(),null);
+    assert.equal(f.api.getDiplomacyPresentation(),null);assert.equal(f.state.deepLabel,'');assert.deepEqual(f.keys,[]);
 });

@@ -125,7 +125,7 @@ const baseWorldSource = `(() => {
     orders:Array.from({length:Number(d.g_OrderQueue.length)},(_,i)=>take(d.g_OrderQueue[i],['OrderId','City','Person','Object','TimeCount','Food']))};
 })()`;
 const nativeWaitSource = `(() => {const d=baye.data;return {mapCity:Number(d.g_hdMapCity),mapPick:Number(d.g_hdMapPick),
-  cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety)},menu:baye.hd.menuItems(),march:baye.hd.march(),transfer:typeof baye.hd.transfer==='function'?baye.hd.transfer():null,report:baye.hd.report()};})()`;
+  cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety)},menu:baye.hd.menuItems(),march:baye.hd.march(),transfer:typeof baye.hd.transfer==='function'?baye.hd.transfer():null,diplomacy:typeof baye.hd.diplomacy==='function'?baye.hd.diplomacy():null,report:baye.hd.report()};})()`;
 const readSource = `(() => {
   const d=baye.data,map=window.BayeHdOverworld,rect=n=>{if(!n)return null;const r=n.getBoundingClientRect();return {left:r.left,top:r.top,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
   const shown=n=>{if(!n||n.hidden)return false;for(let q=n;q&&q.nodeType===1;q=q.parentElement){const s=getComputedStyle(q);if(q.hidden||s.display==='none'||s.visibility==='hidden'||Number(s.opacity)===0)return false;}const r=n.getBoundingClientRect();return r.width>0&&r.height>0;};
@@ -145,7 +145,7 @@ const readSource = `(() => {
     speUi:window.BayeHdSpe&&BayeHdSpe.debugSnapshot(),effectCanvas:{shown:shown(document.getElementById('hd-spe-canvas')),rect:rect(document.getElementById('hd-spe-canvas'))},
     battleCanvas:{shown:shown(document.getElementById('hd-mobile-battle-canvas')),rect:rect(document.getElementById('hd-mobile-battle-canvas'))},
     cityLayer:{shown:shown(cityLayer),rect:rect(cityLayer)},dialogLayer:{shown:shown(dialogLayer),rect:rect(dialogLayer)},
-    map:map&&map.debugSnapshot(),camera:map&&{...map.getCamera()},menu,march,transfer:typeof baye.hd.transfer==='function'?baye.hd.transfer():null,report:baye.hd.report(),mapCity:city,
+    map:map&&map.debugSnapshot(),camera:map&&{...map.getCamera()},menu,march,transfer:typeof baye.hd.transfer==='function'?baye.hd.transfer():null,diplomacy:typeof baye.hd.diplomacy==='function'?baye.hd.diplomacy():null,report:baye.hd.report(),mapCity:city,
     cursor:{x:Number(d.g_CityPos.setx),y:Number(d.g_CityPos.sety)},lcd:{shown:shown(lcd),hit:hit(lcd),rect:rect(lcd),rotation:lcdRotateMode,width:lcdWidth,height:lcdHeight},
     canvas:{shown:shown(canvas),rect:rect(canvas),width:canvas&&canvas.width,height:canvas&&canvas.height},stage:rect(stage),barHeight:bar?bar.getBoundingClientRect().height:0,
     mobilePreference:localStorage.getItem('${MOBILE_PREF}'),pcPreference:localStorage.getItem('${PC_PREF}'),
@@ -178,21 +178,22 @@ async function unusedPort() {
 export async function main(args=process.argv.slice(2)) {
   const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only'),distribution=args.includes('--distribution'),recruitment=args.includes('--recruitment')||distribution;
   const previewOnly=args.includes('--preview-only');
+  const diplomacyOnly=args.includes('--diplomacy-only'),diplomacyFlags=args.filter(arg=>arg.startsWith('--diplomacy-width=')),diplomacyWidth=Number(diplomacyFlags[0]?.split('=')[1]||844);
   const minimapOnly=args.includes('--minimap-only'),minimapFlags=args.filter(arg=>arg.startsWith('--minimap-width=')),minimapWidth=Number(minimapFlags[0]?.split('=')[1]||844);
   const tradeOnly=args.includes('--trade-only'),tradeFlags=args.filter(arg=>arg.startsWith('--trade-width=')),tradeWidth=Number(tradeFlags[0]?.split('=')[1]||844),staged=args.includes('--staged');
   const transferOnly=args.includes('--transfer-only'),transferFlags=args.filter(arg=>arg.startsWith('--transfer-width=')),transferWidth=Number(transferFlags[0]?.split('=')[1]||844);
   const systemOnly=args.includes('--system-only'),systemFlags=args.filter(arg=>arg.startsWith('--system-width=')),systemWidth=Number(systemFlags[0]?.split('=')[1]||844);
   const systemRepeatFlags=args.filter(arg=>arg.startsWith('--system-mode-repeat=')),systemModeRepeat=Number(systemRepeatFlags[0]?.split('=')[1]||0);
   const equipmentOnly=args.includes('--equipment-only'),equipmentFlags=args.filter(arg=>arg.startsWith('--equipment-width=')),equipmentWidth=Number(equipmentFlags[0]?.split('=')[1]||844);
-  const worldSource=previewOnly||equipmentOnly||systemOnly||tradeOnly||transferOnly||minimapOnly?`(() => {const w=${baseWorldSource},d=baye.data;
+  const worldSource=previewOnly||equipmentOnly||systemOnly||tradeOnly||transferOnly||minimapOnly||diplomacyOnly?`(() => {const w=${baseWorldSource},d=baye.data;
     const take=(o,fields)=>Object.fromEntries(fields.map(k=>{const v=Number(o[k]);if(!Number.isInteger(v))throw Error('Noninteger goods '+k);return [k,v];}));
-    return {...w,${transferOnly?`config:{...w.config,fixThewOverFlow:Number(d.g_engineConfig.fixThewOverFlow)},orders:w.orders.map((o,i)=>({...o,...take(d.g_OrderQueue[i],['Arms','Money','Consume'])})),`:''}cities:w.cities.map((c,i)=>({...c,...take(d.g_Cities[i],['Tools','ToolQueue'])})),
+    return {...w,${transferOnly||diplomacyOnly?`config:{...w.config,fixThewOverFlow:Number(d.g_engineConfig.fixThewOverFlow),...(${diplomacyOnly}?{fixAlienateComsumeThew:Number(d.g_engineConfig.fixAlienateComsumeThew)}:{})},orders:w.orders.map((o,i)=>({...o,...take(d.g_OrderQueue[i],['Arms','Money','Consume'])})),`:''}cities:w.cities.map((c,i)=>({...c,...take(d.g_Cities[i],['Tools','ToolQueue'])})),
       goodsQueue:Array.from(d.g_GoodsQueue,Number),
       tools:Array.from({length:Number(baye.getToolCount())},(_,i)=>take(d.g_Tools[i],['useflag','changeAttackRange','at','iq','move','arm']))};})()`:baseWorldSource;
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only','--trade-only','--transfer-only','--minimap-only','--staged'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat=')&&!arg.startsWith('--trade-width=')&&!arg.startsWith('--transfer-width=')&&!arg.startsWith('--minimap-width='));
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only','--trade-only','--transfer-only','--minimap-only','--diplomacy-only','--staged'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat=')&&!arg.startsWith('--trade-width=')&&!arg.startsWith('--transfer-width=')&&!arg.startsWith('--minimap-width=')&&!arg.startsWith('--diplomacy-width='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
     args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
@@ -211,8 +212,10 @@ export async function main(args=process.argv.slice(2)) {
     (!transferOnly||![tradeOnly,systemOnly,equipmentOnly,previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
     args.filter(arg=>arg==='--minimap-only').length<=1&&minimapFlags.length<=1&&(!minimapFlags.length||minimapOnly)&&[844,667].includes(minimapWidth)&&
     (!minimapOnly||![transferOnly,tradeOnly,systemOnly,equipmentOnly,previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment,staged].some(Boolean))&&
-    args.filter(arg=>arg==='--staged').length<=1&&(!staged||tradeOnly||transferOnly)&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--minimap-only [--minimap-width=844|667] | --transfer-only [--transfer-width=844|667] [--staged] | --trade-only [--trade-width=844|667] [--staged] | --system-only [--system-width=844|667] [--system-mode-repeat=0..100] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    args.filter(arg=>arg==='--diplomacy-only').length<=1&&diplomacyFlags.length<=1&&(!diplomacyFlags.length||diplomacyOnly)&&[844,667].includes(diplomacyWidth)&&
+    (!diplomacyOnly||![minimapOnly,transferOnly,tradeOnly,systemOnly,equipmentOnly,previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
+    args.filter(arg=>arg==='--staged').length<=1&&(!staged||tradeOnly||transferOnly||diplomacyOnly)&&
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--diplomacy-only [--diplomacy-width=844|667] [--staged] | --minimap-only [--minimap-width=844|667] | --transfer-only [--transfer-width=844|667] [--staged] | --trade-only [--trade-width=844|667] [--staged] | --system-only [--system-width=844|667] [--system-mode-repeat=0..100] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
@@ -223,6 +226,8 @@ export async function main(args=process.argv.slice(2)) {
     phases:[],actions:[],cities:[],inputs:[],ownershipSamples:'owned-process-samples.jsonl',user8080Accessed:false};
   report.minimapOnly=minimapOnly;report.minimapWidth=minimapOnly?minimapWidth:null;report.minimapChecks=[];report.minimapAccepted=false;
   if(minimapOnly)report.scope='Original mobile 38-city SEARCH overview through trusted touch, exact native data and readonly scrolling; no real-device or full-HD acceptance';
+  report.diplomacyOnly=diplomacyOnly;report.diplomacyWidth=diplomacyOnly?diplomacyWidth:null;report.diplomacyChecks=[];report.diplomacyAccepted=false;
+  if(diplomacyOnly)report.scope='Original mobile four diplomatic commands: actual native actor/target ownership, cancellation and dispatch. Monthly random outcomes, real devices and full HD remain unaccepted';
   report.distribution=distribution;report.distributions=[];report.distributionAccepted=false;
   report.previewOnly=previewOnly;report.previewAccepted=false;report.previewChecks=[];
   report.equipmentOnly=equipmentOnly;report.equipmentWidth=equipmentOnly?equipmentWidth:null;report.equipmentAccepted=false;report.equipmentChecks=[];
@@ -239,7 +244,7 @@ export async function main(args=process.argv.slice(2)) {
   const frozen=new Map(),historical=new Map();let server,chrome,cdp,ownership,rootIdentity,interrupted=false;
   const freeze=rel=>{if(frozen.has(rel))return frozen.get(rel);const filename=path.resolve(root,rel);
     assert.ok(filename.startsWith(root+path.sep));const bytes=fs.readFileSync(filename),ref={path:rel,bytes:bytes.length,sha256:sha(bytes)};
-    if(tradeOnly||transferOnly||minimapOnly){const folder=path.join(out,'frozen-sources');fs.mkdirSync(folder,{recursive:true});ref.frozenFile='frozen-sources/'+ref.sha256+path.extname(rel);
+    if(tradeOnly||transferOnly||minimapOnly||diplomacyOnly){const folder=path.join(out,'frozen-sources');fs.mkdirSync(folder,{recursive:true});ref.frozenFile='frozen-sources/'+ref.sha256+path.extname(rel);
       const destination=path.join(out,ref.frozenFile);if(!fs.existsSync(destination))fs.writeFileSync(destination,bytes,{flag:'wx'});}
     const item={bytes,ref};frozen.set(rel,item);report.sourceFiles.push(ref);return item;};
   const write=(name,value)=>writeJsonAtomicSync(path.join(out,name),value);
@@ -542,7 +547,9 @@ export async function main(args=process.argv.slice(2)) {
 
     const headerGeometry=async label=>{const rows=await evaluate(`(() => {const bar=document.getElementById('hd-mobile-bar');return [...bar.querySelectorAll('button')].map(n=>{let shown=true;for(let p=n;p&&p.nodeType===1;p=p.parentElement){const c=getComputedStyle(p);if(p.hidden||c.display==='none'||c.visibility==='hidden'||Number(c.opacity)===0)shown=false;}const r=n.getBoundingClientRect();return {id:n.id,shown:shown&&r.width>0&&r.height>0,disabled:n.disabled,rect:{left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height}};});})()`);for(const r of rows.filter(r=>r.shown)){assert.ok(r.rect.width>=43.5&&r.rect.height>=43.5,'Every shown header button is >=44 CSS px '+r.id);assert.ok(r.rect.left>=-.5&&r.rect.right<=label[0]+.5&&r.rect.top>=-.5&&r.rect.bottom<=label[1]+.5,'Header button remains inside viewport '+r.id);}report.headerGeometry??=[];report.headerGeometry.push({viewport:label,rows});};
     const all=report.initialAllCities,world=await evaluate(worldSource);
-    const selected=all.find(c=>c.kind==='owned'&&(transferOnly?c.index===10&&world.cities[c.index].Money>=20&&world.cities[c.index].Food>=2:
+    const selected=all.find(c=>c.kind==='owned'&&(diplomacyOnly?c.index===10&&world.cities[c.index].Money>=200&&world.orders.filter(o=>o.OrderId===255).length>=4&&
+      world.queue.slice(world.cities[c.index].PersonQueue,world.cities[c.index].PersonQueue+world.cities[c.index].Persons).filter(id=>id!==world.king&&world.people[id].Belong===world.king+1&&world.people[id].Thew>=20).length>=4:
+      transferOnly?c.index===10&&world.cities[c.index].Money>=20&&world.cities[c.index].Food>=2:
       tradeOnly?
       world.cities[c.index].Money>=10&&world.cities[c.index].Food>=2&&world.orders.filter(o=>o.OrderId===255).length>=2&&
         world.queue.slice(world.cities[c.index].PersonQueue,world.cities[c.index].PersonQueue+world.cities[c.index].Persons).filter(id=>id!==world.king&&world.people[id].Belong===world.king+1&&world.people[id].Thew>=12).length>=2:
@@ -551,6 +558,18 @@ export async function main(args=process.argv.slice(2)) {
       world.cities[c.index].Money>=(recruitment?202:200)&&world.queue.slice(world.cities[c.index].PersonQueue,world.cities[c.index].PersonQueue+world.cities[c.index].Persons).filter(id=>id!==world.king&&world.people[id].Belong===world.king+1&&(!recruitment||world.people[id].Thew>=12)).length>=(recruitment?2:1)));
     assert.ok(selected,previewOnly||equipmentOnly?'Original selected lord has an actual resident with two equipped tools':'Original selected lord has an actual owned city with nonking resident and 200 Treat cash');const testCity=selected;report.testCity=testCity;
     report.initialPcPreferences=(await evaluate(readSource)).preferences;
+    if(diplomacyOnly){
+      const {runMobileDiplomacyChecks}=await import('./hd-mobile-diplomacy-runtime-checks.mjs');
+      const size=[diplomacyWidth,diplomacyWidth===844?390:375];await metrics(...size);await headerGeometry(size);
+      await runMobileDiplomacyChecks({report,evaluate,until,delay,checkpoint,ready,root,submenu,revealSubmenu,selectPerson,back,mapReturn,
+        controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,metrics,cityPoint,worldSource,readSource,mapReadySource,
+        libBytes:frozen.get('libs/dat-mod.lib').bytes,label:'diplomacy-'+size.join('x')});
+      await until('final actual diplomacy map',mapReadySource);const final=await checkpoint('final-diplomacy-HD-map');prefsSame(final);
+      report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
+      assert.equal(report.nativeTouches.length,0);assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
+      assert.equal(report.diplomacyChecks.length,1);assert.ok(report.diplomacyChecks.every(v=>v.accepted));
+      report.diplomacyAccepted=true;report.ok=true;report.accepted=true;return;
+    }
     if(minimapOnly){
       const {runMobileMinimapChecks}=await import('./hd-mobile-minimap-runtime-checks.mjs');
       const size=[minimapWidth,minimapWidth===844?390:375];await metrics(...size);await headerGeometry(size);
@@ -683,6 +702,7 @@ export async function main(args=process.argv.slice(2)) {
     const tool=freeze('scripts/test-hd-mobile-city-runtime.mjs');fs.writeFileSync(path.join(out,'executed-tool.mjs'),tool.bytes,{flag:'wx'});
     for(const f of ['scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs','scripts/hd-mobile-quantity-runtime-checks.mjs','m.html','js/original-game.js','js/hd-mobile.js','js/hd-mobile-map.js','js/hd-mobile-city.js','js/hd-city-menu.js','js/hd-dialog.js','js/hd-overworld.js','js/lcd.js','libs/dat-mod.lib'])freeze(f);
     if(minimapOnly){for(const f of ['scripts/hd-mobile-minimap-runtime-checks.mjs','scripts/test-hd-minimap.mjs','scripts/test-hd-mobile-minimap.mjs','js/hd-minimap.js','js/hd-mobile-minimap.js','css/hd-minimap.css','css/hd-mobile.css','pc.html','package.json'])freeze(f);}
+    if(diplomacyOnly){for(const f of ['scripts/hd-mobile-diplomacy-runtime-checks.mjs','scripts/hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-runtime-oracle.mjs','scripts/test-hd-mobile-diplomacy-engine.mjs','js/bridge.js','js/hd-city-menu.js','js/hd-dialog.js','css/hd-mobile.css','scripts/write-wasm-manifest.mjs','package.json'])freeze(f);}
     if(recruitment)freeze('scripts/hd-mobile-recruitment-runtime-oracle.mjs');
     if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
     if(previewOnly||equipmentOnly)freeze('scripts/hd-mobile-preview-runtime-checks.mjs');
@@ -690,7 +710,7 @@ export async function main(args=process.argv.slice(2)) {
     if(transferOnly){for(const f of ['scripts/hd-mobile-recruitment-runtime-oracle.mjs','scripts/hd-mobile-transfer-runtime-checks.mjs','scripts/hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     if(tradeOnly){for(const f of ['scripts/hd-mobile-trade-runtime-checks.mjs','scripts/hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     const engineNames=['baye.js','baye.wasm','baye.wasm.map','baye.build.json'];
-    if(tradeOnly||transferOnly||minimapOnly){
+    if(tradeOnly||transferOnly||minimapOnly||diplomacyOnly){
       const prefix=staged?'build/wasm/src/':'js/',manifest=JSON.parse(freeze(prefix+'baye.build.json').bytes);
       for(const name of engineNames.slice(0,3)){const ref=freeze(prefix+name).ref;assert.equal(ref.bytes,manifest.artifacts[name].bytes);assert.equal(ref.sha256,manifest.artifacts[name].sha256);}
       report.engine={staged,prefix,manifest,files:engineNames.map(name=>freeze(prefix+name).ref)};
@@ -748,7 +768,7 @@ export async function main(args=process.argv.slice(2)) {
     cdp.on('Fetch.requestPaused',e=>{const local=e.request.url.startsWith(origin+'/');if(!local)report.blockedExternal.push(e.request.url);
       cdp.send(local?'Fetch.continueRequest':'Fetch.failRequest',local?{requestId:e.requestId}:{requestId:e.requestId,errorReason:'BlockedByClient'}).catch(()=>{});});
     await cdp.send('Runtime.enable');await cdp.send('Page.enable');await cdp.send('Fetch.enable',{patterns:[{urlPattern:'*'}]});
-    await metrics(minimapOnly?minimapWidth:transferOnly?transferWidth:tradeOnly?tradeWidth:systemOnly?systemWidth:844,(minimapOnly&&minimapWidth===667||transferOnly&&transferWidth===667||tradeOnly&&tradeWidth===667||systemOnly&&systemWidth===667)?375:390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
+    await metrics(diplomacyOnly?diplomacyWidth:minimapOnly?minimapWidth:transferOnly?transferWidth:tradeOnly?tradeWidth:systemOnly?systemWidth:844,(diplomacyOnly&&diplomacyWidth===667||minimapOnly&&minimapWidth===667||transferOnly&&transferWidth===667||tradeOnly&&tradeWidth===667||systemOnly&&systemWidth===667)?375:390);await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:2});
     report.earlyInputObserver=await cdp.send('Page.addScriptToEvaluateOnNewDocument',{source:`(() => {
       const detailed=${systemOnly&&systemModeRepeat>0},nodes=new WeakMap();let serial=0;
       const describe=n=>{if(!n)return null;if(!nodes.has(n))nodes.set(n,++serial);return {node:nodes.get(n),tag:n.tagName||n.nodeName,id:n.id||'',index:n.getAttribute?.('data-hd-sys')??null,text:(n.textContent||'').slice(0,48),connected:n.isConnected};};
@@ -833,7 +853,7 @@ export async function main(args=process.argv.slice(2)) {
       report.failureSystem=await evaluate('({host:window.BayeHdMobileSystem&&BayeHdMobileSystem.snapshot(),debug:window.BayeHdMobileSystem&&BayeHdMobileSystem.debugSnapshot(),ui:window.BayeHdSystemUi&&BayeHdSystemUi.debugSnapshot(),menu:baye.hd.menuItems(),record:baye.hd.record()})');
       report.failureWorld=await evaluate(`baye.getPersonCount()===200?${worldSource}:null`);
     }catch{report.failureSystemInputsUnavailable=true;}}
-    if((previewOnly||equipmentOnly||tradeOnly||transferOnly||minimapOnly)&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failurePreviewInputsUnavailable=true;}}
+    if((previewOnly||equipmentOnly||tradeOnly||transferOnly||minimapOnly||diplomacyOnly)&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failurePreviewInputsUnavailable=true;}}
     if(recruitment&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failureRecruitmentInputsUnavailable=true;}}
     if(marchOnly&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.marchKeyTrace=await evaluate('window.__mobileMarchKeyTrace');report.failureWorld=await evaluate(worldSource);}catch{report.failureMarchInputsUnavailable=true;}}
     if(battleEffects&&cdp){try{report.effectTrace=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.trace');report.effectReports=await evaluate('window.__mobileBattleEffects&&__mobileBattleEffects.reports');

@@ -66,7 +66,7 @@ const speObserverSource = observerFunctions(speHelpers);
 const globals = bridge.slice(0, bridge.indexOf('static void copy_gbk')).replace(/^#include[^\n]*\n/gm, '');
 const helpers = [
     'copy_gbk', 'baye_hd_person_properties_retire', 'hd_goods_clear', 'hd_menu_ids_clear', 'hd_help_detail_clear', 'hd_help_notify',
-    'hd_next_input_seq', 'baye_hd_transfer_retire', 'baye_hd_view_retire', 'baye_hd_mini_map_retire',
+    'hd_next_input_seq', 'baye_hd_diplomacy_retire', 'baye_hd_transfer_retire', 'baye_hd_view_retire', 'baye_hd_mini_map_retire',
     'baye_hd_begin_spe', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
     'baye_hd_take_fight_action', 'baye_hd_map_input_begin', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin',
     'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_begin', 'baye_hd_march_selected',

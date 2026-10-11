@@ -29,7 +29,7 @@ const constants=[header.split('\n').filter(l=>/^#define BAYE_HD_/.test(l)).join(
     read('baye/consdef.h').split('\n').filter(l=>/^#define\s+(GOODS_RESID|GOODS_NAME|STRING_CONST|GEN_HEADPIC1|IFACE_STRID|TACTIC_ICON)\b/.test(l)).join('\n'),
     read('baye/sconst.h').split('\n').filter(l=>/^#define\s+(GOODS_|ATRR_STR11|ATRR_STR70|STR_GAMEWON|STR_GAMELOST)\b/.test(l)||/^#define\s+GOODS_/.test(l)).join('\n')].join('\n');
 const globals=bridge.slice(bridge.indexOf('U8 g_hdEngineReady ='),bridge.indexOf('U8 g_hdSkillActive ='));
-const helpers=['copy_gbk','hd_next_input_seq','baye_hd_transfer_retire','baye_hd_view_retire','baye_hd_mini_map_retire',
+const helpers=['copy_gbk','hd_next_input_seq','baye_hd_diplomacy_retire','baye_hd_transfer_retire','baye_hd_view_retire','baye_hd_mini_map_retire',
     'baye_hd_person_properties_retire','hd_person_properties_owner','hd_person_properties_ticket','hd_person_properties_text',
     'baye_hd_person_properties_begin','baye_hd_person_properties_capture','baye_hd_person_properties_name',
     'baye_hd_person_properties_custom','baye_hd_person_properties_publish',
