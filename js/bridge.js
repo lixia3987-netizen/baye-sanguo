@@ -2269,6 +2269,29 @@ function baye_bridge_init() {
                 inputSeq: hdReadNum(d, 'g_hdMarchInputSeq')
             };
         },
+        battleNote: function () {
+            hdNote('hd.battleNote', '');
+            try {
+                var d = baye.ensureData(), reader = hdObserverReader(d);
+                var detailGeneration = reader.num('g_hdDetailGeneration');
+                var fields = [['protocolVersion', 'ProtocolVersion', 255], ['active', 'Active', 1],
+                    ['seq', 'Seq', 0xffffffff], ['generation', 'Generation', 0xffffffff],
+                    ['outcome', 'Outcome', 2], ['winner', 'Winner', 65535]];
+                var value = {}, persons = hdPersonLimit();
+                fields.forEach(function (f) { value[f[0]] = reader.num('g_hdBattleNote' + f[1], f[2]); });
+                var text = d && d.g_hdBattleNoteText;
+                if (!d || !detailGeneration || !persons || value.protocolVersion !== 1 ||
+                    fields.some(function (f) { return value[f[0]] == null; }) ||
+                    typeof text !== 'string' || text.length > 511) return null;
+                if (value.active) {
+                    if (!value.seq || value.generation !== detailGeneration || !text.length ||
+                        (value.outcome === 1 ? value.winner >= persons :
+                            value.outcome !== 2 || value.winner !== 65535)) return null;
+                } else if (value.outcome !== 0 || value.winner !== 65535 || text !== '') return null;
+                value.text = text;
+                return reader.stable() && d.g_hdBattleNoteText === text && baye.data === d ? value : null;
+            } catch (e) { return null; }
+        },
         diplomacy: function () {
             hdNote('hd.diplomacy', '');
             try {

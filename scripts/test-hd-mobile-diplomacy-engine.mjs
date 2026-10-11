@@ -62,7 +62,7 @@ const globals=bridge.slice(bridge.indexOf('U8 g_hdMenuGbk['),bridge.indexOf('U8 
 const orderType=/typedef struct OrderStruct[\s\S]*?\}OrderType;/.exec(read('baye/order.h'))[0];
 const constants=['baye/sconst.h','baye/consdef.h','baye/order.h','baye/attribute.h'].flatMap(name=>
  read(name).split('\n').filter(s=>/^#define\s+(ALIENATE|CANVASS|COUNTERESPIONAGE|INDUCE|ORDER_MAX|IFACE_CONID|STRING_CONST|STR_NOPERSON|NOTE_STR[89]|ADD16|ASC_WID|ASC_HGT|TACTIC_ICON|ATRR_STR6[012])\b/.test(s))).join('\n');
-const nativeFunctions=['hd_next_input_seq','baye_hd_person_properties_retire','hd_goods_clear','hd_menu_ids_clear',
+const nativeFunctions=['hd_next_input_seq', 'hd_battle_note_notify', 'baye_hd_battle_note_retire','baye_hd_person_properties_retire','hd_goods_clear','hd_menu_ids_clear',
  'hd_help_detail_clear','baye_hd_view_retire','baye_hd_mini_map_retire',
  'baye_hd_menu_scope','baye_hd_menu_scope_default','baye_hd_menu_begin','baye_hd_menu_end',
  'baye_hd_set_menu','baye_hd_set_menu_index','baye_hd_menu_ids',

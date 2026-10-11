@@ -48,6 +48,11 @@ U8 g_hdMenuContext = BAYE_HD_MENU_CONTEXT_NONE;
 U8 g_hdMenuKind = 0;
 U32 g_hdMenuSeq = 0;
 U32 g_hdDetailGeneration = 1;
+U8 g_hdBattleNoteProtocolVersion = BAYE_HD_BATTLE_NOTE_VERSION;
+U8 g_hdBattleNoteActive = 0, g_hdBattleNoteOutcome = 0;
+U16 g_hdBattleNoteWinner = 0xffff;
+U32 g_hdBattleNoteSeq = 0, g_hdBattleNoteGeneration = 0;
+U8 g_hdBattleNoteText[BAYE_HD_BATTLE_NOTE_TEXT_MAX];
 U16 g_hdMenuIds[BAYE_HD_DETAIL_IDS_MAX];
 U16 g_hdMenuIdsCount = 0;
 U8 g_hdMenuIdsKind = 0;
@@ -1160,6 +1165,73 @@ void baye_hd_successor_committed(U32 generation, U16 oldKing, U16 newKing)
     }, generation, oldKing, newKing, g_PlayerKing);
 }
 
+void baye_hd_battle_settled(U32 generation, U8 city, U8 mode, U8 over)
+{
+    U32 limit = GamGetPersonCount();
+    if (!generation || generation != g_hdDetailGeneration || city >= CITY_MAX ||
+        (mode != FGT_DF && mode != FGT_AT && mode != FGT_AUTO) ||
+        (over != FGT_WON && over != FGT_LOSE) || !limit ||
+        g_PlayerKing >= limit || g_PlayerKing >= PERSON_MAX) return;
+    /* Synchronous observation only: the original order is still in its slot. */
+    EM_ASM({
+        try {
+            if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' &&
+                typeof CustomEvent === 'function') {
+                window.dispatchEvent(new CustomEvent('baye-hd-battle-settled', {
+                    detail: {generation: $0, detailGeneration: $1, city: $2,
+                        mode: $3, over: $4, playerKing: $5}
+                }));
+            }
+        } catch (e) {}
+    }, generation, g_hdDetailGeneration, city, mode, over, g_PlayerKing);
+}
+
+static void hd_battle_note_notify(void)
+{
+    EM_ASM({
+        try {
+            if (typeof window !== 'undefined' && window.BayeHdBattleNote &&
+                typeof window.BayeHdBattleNote.onEngineNote === 'function')
+                window.BayeHdBattleNote.onEngineNote();
+        } catch (e) {}
+    });
+}
+
+void baye_hd_battle_note_retire(void)
+{
+    g_hdBattleNoteActive = 0;
+    g_hdBattleNoteSeq = hd_next_input_seq(g_hdBattleNoteSeq);
+    g_hdBattleNoteGeneration = g_hdDetailGeneration;
+    g_hdBattleNoteOutcome = 0;
+    g_hdBattleNoteWinner = 0xffff;
+    g_hdBattleNoteText[0] = 0;
+    hd_battle_note_notify();
+}
+
+U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text)
+{
+    U32 limit = GamGetPersonCount();
+    if (!g_hdDetailGeneration || !text || !text[0] ||
+        (outcome != 1 && outcome != 2) ||
+        (outcome == 1 && (!limit || winner >= limit || winner >= PERSON_MAX)) ||
+        (outcome == 2 && winner != 0xffff)) return 0;
+    copy_gbk(g_hdBattleNoteText, sizeof(g_hdBattleNoteText), text);
+    g_hdBattleNoteSeq = hd_next_input_seq(g_hdBattleNoteSeq);
+    g_hdBattleNoteGeneration = g_hdDetailGeneration;
+    g_hdBattleNoteOutcome = outcome;
+    g_hdBattleNoteWinner = winner;
+    g_hdBattleNoteActive = 1;
+    hd_battle_note_notify();
+    return g_hdBattleNoteSeq;
+}
+
+void baye_hd_battle_note_end(U32 generation, U32 seq)
+{
+    if (g_hdBattleNoteActive && generation && generation == g_hdDetailGeneration &&
+        generation == g_hdBattleNoteGeneration && seq && seq == g_hdBattleNoteSeq)
+        baye_hd_battle_note_retire();
+}
+
 static U8 hd_goods_owner(U32 generation, U32 seq)
 {
     return generation == g_hdDetailGeneration && seq == g_hdMenuSeq && g_hdMenuActive &&
@@ -1219,6 +1291,7 @@ void baye_hd_set_ready(U8 ready)
     /* A new LIB/game may share this browser. Invalidate old input tokens. */
     baye_hd_spe_invalidate();
     g_hdDetailGeneration = hd_next_input_seq(g_hdDetailGeneration);
+    baye_hd_battle_note_retire();
     hd_menu_ids_clear();
     hd_help_detail_clear();
     baye_hd_set_fight(0, 0);
@@ -3772,6 +3845,13 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMenuKind, U8);
     DEFADDF(g_hdMenuSeq, U32);
     DEFADDF(g_hdDetailGeneration, U32);
+    DEFADDF(g_hdBattleNoteProtocolVersion, U8);
+    DEFADDF(g_hdBattleNoteActive, U8);
+    DEFADDF(g_hdBattleNoteSeq, U32);
+    DEFADDF(g_hdBattleNoteGeneration, U32);
+    DEFADDF(g_hdBattleNoteOutcome, U8);
+    DEFADDF(g_hdBattleNoteWinner, U16);
+    DEFADD_GBKARR(g_hdBattleNoteText, sizeof(g_hdBattleNoteText));
     DEFADD_U16ARR(g_hdMenuIds, BAYE_HD_DETAIL_IDS_MAX);
     DEFADDF(g_hdMenuIdsCount, U16);
     DEFADDF(g_hdMenuIdsKind, U8);

@@ -8,6 +8,7 @@ import { basename, dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import test from 'node:test';
+import vm from 'node:vm';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const directory = join(root, 'vendor/iBaye/src');
@@ -707,6 +708,7 @@ typedef U8 SBUF[512];
 #define PID0 PID(0)
 #define TID(id) ((ToolID)(id))
 #define PERSON_COUNT 600
+#define PERSON_MAX PERSON_COUNT
 #define CITY_MAX 64
 #define FGT_WON 1
 #define FGT_LOSE 2
@@ -730,6 +732,24 @@ static PersonID cavpdb;
 static unsigned cavps,kingOverCalls,winNotes,lossNotes;
 static PersonID fallenKing;
 static U8 expectedOldBelong;
+static U32 g_hdDetailGeneration=7;
+static PersonID g_PlayerKing;
+static unsigned settlements;
+static U32 receiptGeneration,receiptMode,receiptOver,receiptKing;
+static PersonType settledPeople[PERSON_COUNT];
+static CityType settledCities[CITY_MAX];
+static PersonID settledQueue[PERSON_COUNT];
+static U32 GamGetPersonCount(void){return PERSON_COUNT;}
+static void settled(U32 gen,U32 detail,U8 city,U8 mode,U8 over,PersonID king){
+    assert(gen==g_hdDetailGeneration&&detail==gen&&city==1);
+    assert(g_Cities[1].Farming==950&&g_Cities[1].Commerce==1900&&g_Cities[1].Money==2850&&g_Cities[1].PeopleDevotion==90);
+    assert(g_Cities[1].Food==1000&&kingOverCalls==1);
+    receiptGeneration=gen;receiptMode=mode;receiptOver=over;receiptKing=king;++settlements;
+    memcpy(settledPeople,g_Persons,sizeof(g_Persons));memcpy(settledCities,g_Cities,sizeof(g_Cities));
+    memcpy(settledQueue,g_PersonsQueue,sizeof(g_PersonsQueue));
+}
+#define EM_ASM(code,...) settled(__VA_ARGS__)
+` + actualFunction('hd-bridge.c','baye_hd_battle_settled') + String.raw`
 static U8 DelPerson(U8 city,PersonID person);
 ` + actualFunction('cityedit.c', 'AddPerson') + '\n' + actualFunction('cityedit.c', 'DelPerson') + '\n' + actualFunction('cityedit.c', 'GetCityPersons') + String.raw`
 static U8 gam_rand(void) { return 99; }
@@ -741,13 +761,13 @@ static void ResLoadToMem(U8 resource,U8 id,U8* text) { (void)resource;(void)id;s
 static void GamMsgBox(U8* text,U8 delay) { (void)text;(void)delay; }
 static void ShowFightWinNote(PersonID king) { (void)king;assert(g_Cities[1].Belong==expectedOldBelong);++winNotes; }
 static void ShowFightLossNote(void) { ++lossNotes; }
-static void KingOverDeal(PersonID king) { fallenKing=king;++kingOverCalls; }
+static void KingOverDeal(PersonID king) { fallenKing=king;++kingOverCalls;g_PlayerKing=511;g_Persons[511].Devotion=100; }
 static U16 add_16(U16 a,U16 b) { return a+b; }
 ` + actualFunction('citycmdd.c', 'HoldCaptive') + '\n' + actualFunction('citycmdd.c', 'TheLoserDeal') + '\n' + actualFunction('citycmdd.c', 'BeOccupied') + '\n' + actualFunction('citycmdd.c', 'FightResultDeal') + String.raw`
 static void setup(void) {
     memset(g_Persons,0,sizeof(g_Persons));memset(g_Cities,0,sizeof(g_Cities));
     memset(g_PersonsQueue,0,sizeof(g_PersonsQueue));memset(&g_FgtParam,0,sizeof(g_FgtParam));
-    cavps=kingOverCalls=winNotes=lossNotes=0;
+    cavps=kingOverCalls=winNotes=lossNotes=settlements=0;g_PlayerKing=0;
     expectedOldBelong=7;g_Cities[1].Belong=7;
     g_Cities[1].Farming=1000;g_Cities[1].Commerce=2000;g_Cities[1].Money=3000;g_Cities[1].PeopleDevotion=100;
     g_FgtParam.MProvender=400;g_FgtParam.EProvender=600;g_FgtParam.Mode=FGT_AT;
@@ -770,6 +790,8 @@ int main(void) {
     assert(g_Persons[6].Belong==65535 && g_Persons[6].OldBelong==7 && g_Persons[6].Arms==0 && cavps==1);
     assert(g_Cities[1].Farming==950 && g_Cities[1].Commerce==1900 && g_Cities[1].Money==2850);
     assert(g_Cities[1].PeopleDevotion==90 && g_Cities[1].Food==1000);
+    assert(settlements==1&&receiptGeneration==7&&receiptMode==FGT_AT&&receiptOver==FGT_WON&&receiptKing==511);
+    assert(!memcmp(settledPeople,g_Persons,sizeof(g_Persons))&&!memcmp(settledCities,g_Cities,sizeof(g_Cities))&&!memcmp(settledQueue,g_PersonsQueue,sizeof(g_PersonsQueue)));
     setup();g_Persons[0].Belong=1;g_Persons[0].Arms=500;
     g_Persons[6].Belong=7;g_Persons[6].Arms=800;
     g_FgtParam.GenArray[0]=1;g_FgtParam.GenArray[10]=7;
@@ -778,7 +800,131 @@ int main(void) {
     assert(g_Persons[0].Belong==65535 && g_Persons[0].OldBelong==1 && g_Persons[0].Arms==0);
     assert(kingOverCalls==1 && fallenKing==0 && lossNotes==1 && winNotes==0);
     assert(g_Cities[1].Food==1000 && g_Cities[1].Persons==2);
+    assert(settlements==1&&receiptMode==FGT_AT&&receiptOver==FGT_LOSE&&receiptKing==511);
+    assert(!memcmp(settledPeople,g_Persons,sizeof(g_Persons))&&!memcmp(settledCities,g_Cities,sizeof(g_Cities))&&!memcmp(settledQueue,g_PersonsQueue,sizeof(g_PersonsQueue)));
+    baye_hd_battle_settled(0,1,FGT_DF,FGT_WON);baye_hd_battle_settled(6,1,FGT_DF,FGT_WON);
+    baye_hd_battle_settled(7,CITY_MAX,FGT_DF,FGT_WON);baye_hd_battle_settled(7,1,255,FGT_WON);
+    baye_hd_battle_settled(7,1,FGT_DF,0);g_PlayerKing=PERSON_MAX;baye_hd_battle_settled(7,1,FGT_DF,FGT_WON);
+    assert(settlements==1);
     puts("real victory/loss occupation, captive and resource settlement passed");
 }
 `);
+});
+
+
+test('real C battle notes publish after LCD text, retain original waits and retire only their own generation/seq', async () => {
+    const noteGlobals = bridge.slice(bridge.indexOf('U8 g_hdBattleNoteProtocolVersion ='),
+        bridge.indexOf('U16 g_hdMenuIds['));
+    await compile(String.raw`
+#include <assert.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+typedef uint8_t U8;typedef uint16_t U16;typedef uint32_t U32;typedef uint16_t PersonID;typedef U8 SBUF[512];
+#define FAR
+#define PERSON_MAX 600
+#define WK_SX 0
+#define WK_EX 159
+#define WK_SY 0
+#define WK_EY 95
+#define STRING_CONST 1
+#define STR_OURS 1
+#define STR_WON 2
+#define STR_LOST 3
+#define gam_strcat(a,b) strcat((char*)(a),(const char*)(b))
+#define gam_strlen(a) strlen((const char*)(a))
+` + constants + noteGlobals + String.raw`
+static U32 g_hdDetailGeneration=7;
+static PersonID g_PlayerKing=5;
+static struct {U8 responseNoteOfBettle;} g_engineConfig;
+static unsigned drawStage,waits,notifications;
+static U8 expectedOutcome,rebindDuringWait;
+static U16 expectedWinner;
+static U32 replacementSeq;
+static U8 drawn[512];
+static U8 measuredWorld[64],originalWorld[64];
+static U32 GamGetPersonCount(void){return PERSON_MAX;}
+static void notify(void){
+    ++notifications;
+    if(g_hdBattleNoteActive){assert(drawStage==2);assert(!strcmp((char*)g_hdBattleNoteText,(char*)drawn));}
+    else {assert(g_hdBattleNoteWinner==65535&&g_hdBattleNoteOutcome==0&&!g_hdBattleNoteText[0]);}
+    assert(!memcmp(measuredWorld,originalWorld,sizeof(measuredWorld)));
+}
+#define EM_ASM(...) notify()
+` + ['copy_gbk','hd_next_input_seq','hd_battle_note_notify','baye_hd_battle_note_retire',
+        'baye_hd_battle_note_begin','baye_hd_battle_note_end'].map(n=>actualFunction('hd-bridge.c',n)).join('\n') + String.raw`
+static void ShowFightNoteFace(U8 face){assert(face==(expectedOutcome==1?2:3));assert(!g_hdBattleNoteActive);drawStage=1;}
+static void ResLoadToMem(U8 resource,U8 id,U8* text){assert(resource==STRING_CONST);strcpy((char*)text,id==STR_OURS?"ours":id==STR_WON?"won":"lost");}
+static void GetPersonName(PersonID person,U8*text){assert(person==expectedWinner);strcpy((char*)text,"native-npc");}
+static void PlcMidShowStr(U16 x,U16 y,U8*text){(void)x;(void)y;assert(drawStage==1&&!g_hdBattleNoteActive);strcpy((char*)drawn,(char*)text);drawStage=2;}
+static void GamDelay(U16 ticks,U8 mode){
+    assert(ticks==300&&mode==g_engineConfig.responseNoteOfBettle);
+    assert(g_hdBattleNoteActive&&g_hdBattleNoteOutcome==expectedOutcome&&g_hdBattleNoteWinner==expectedWinner);
+    assert(g_hdBattleNoteGeneration==g_hdDetailGeneration&&g_hdBattleNoteSeq&&drawStage==2);++waits;
+    if(rebindDuringWait){++g_hdDetailGeneration;baye_hd_battle_note_retire();
+        replacementSeq=baye_hd_battle_note_begin(expectedOutcome,expectedWinner,drawn);assert(replacementSeq);}
+}
+` + actualFunction('citycmde.c','ShowFightWinNote') + '\n' + actualFunction('citycmde.c','ShowFightLossNote') + String.raw`
+int main(void){
+    memset(measuredWorld,0x63,sizeof(measuredWorld));memcpy(originalWorld,measuredWorld,sizeof(originalWorld));
+    expectedOutcome=1;expectedWinner=5;ShowFightWinNote(5);
+    assert(waits==1&&notifications==2&&!g_hdBattleNoteActive&&!strcmp((char*)drawn,"ourswon"));
+    expectedWinner=511;g_engineConfig.responseNoteOfBettle=1;ShowFightWinNote(511);
+    assert(waits==2&&notifications==4&&!g_hdBattleNoteActive&&!strcmp((char*)drawn,"native-npcwon"));
+    expectedOutcome=2;expectedWinner=65535;ShowFightLossNote();
+    assert(waits==3&&notifications==6&&!g_hdBattleNoteActive&&!strcmp((char*)drawn,"ourslost"));
+    unsigned n=notifications;U32 q=g_hdBattleNoteSeq;
+    assert(!baye_hd_battle_note_begin(0,0,drawn));assert(!baye_hd_battle_note_begin(1,600,drawn));
+    assert(!baye_hd_battle_note_begin(2,0,drawn));assert(!baye_hd_battle_note_begin(2,65535,NULL));
+    assert(!baye_hd_battle_note_begin(2,65535,(U8*)""));assert(n==notifications&&q==g_hdBattleNoteSeq);
+    g_hdBattleNoteSeq=0xffffffff;U32 token=baye_hd_battle_note_begin(2,65535,drawn);
+    assert(token==1);baye_hd_battle_note_end(6,token);baye_hd_battle_note_end(7,token+1);
+    assert(g_hdBattleNoteActive);baye_hd_battle_note_end(7,token);assert(!g_hdBattleNoteActive);
+    rebindDuringWait=1;ShowFightLossNote();
+    assert(g_hdBattleNoteActive&&g_hdBattleNoteSeq==replacementSeq&&g_hdBattleNoteGeneration==8);
+    baye_hd_battle_note_end(8,replacementSeq);assert(!g_hdBattleNoteActive);
+    assert(!memcmp(measuredWorld,originalWorld,sizeof(measuredWorld)));
+    puts("real note LCD/publication/wait/retirement and unchanged measured world passed");
+}
+`);
+});
+
+const battleNoteBridge = readFileSync(join(root, 'js/bridge.js'), 'utf8').replace(/\r\n/g,'\n');
+const battleNoteStart = battleNoteBridge.indexOf('        battleNote: function () {');
+assert.ok(battleNoteStart >= 0);
+const battleNoteGetter = battleNoteBridge.slice(battleNoteStart,
+    battleNoteBridge.indexOf('        diplomacy: function () {', battleNoteStart)).trim()
+    .replace(/^battleNote:\s*/, '').replace(/,$/, '');
+function noteFixture(persons = 200) {
+    const data = {g_hdDetailGeneration:7,g_hdBattleNoteProtocolVersion:1,g_hdBattleNoteActive:1,
+        g_hdBattleNoteSeq:2,g_hdBattleNoteGeneration:7,g_hdBattleNoteOutcome:1,g_hdBattleNoteWinner:0,
+        g_hdBattleNoteText:'原生胜利'};
+    const baye={data,ensureData(){return this.data;}};
+    const context=vm.createContext({baye,hdNote(){},hdPersonLimit(){return persons;}});
+    vm.runInContext(['hdIntegerValue','hdDetailNum','hdObserverReader']
+        .map(n=>actualFunction('../../../js/bridge.js',n)).join('\n')+
+        '\nthis.readNote=('+battleNoteGetter+');',context);
+    return {data,baye,read:()=>context.readNote()};
+}
+test('public battleNote preserves actual native text, zero-based winner and explicit loss sentinel',()=>{
+    const f=noteFixture();assert.equal(f.read().winner,0);assert.equal(f.read().text,'原生胜利');
+    Object.assign(f.data,{g_hdBattleNoteOutcome:2,g_hdBattleNoteWinner:65535});assert.equal(f.read().outcome,2);
+    Object.assign(f.data,{g_hdBattleNoteActive:0,g_hdBattleNoteOutcome:0,g_hdBattleNoteText:''});assert.equal(f.read().active,0);
+    const high=noteFixture(600);high.data.g_hdBattleNoteWinner=511;assert.equal(high.read().winner,511);
+});
+test('public battleNote refuses old ABI, malformed fields and invalid winner/outcome/text ownership',()=>{
+    for(const field of ['ProtocolVersion','Active','Seq','Generation','Outcome','Winner','Text']){
+        const f=noteFixture();delete f.data['g_hdBattleNote'+field];assert.equal(f.read(),null,field);}
+    for(const [name,value]of Object.entries({ProtocolVersion:2,Active:2,Seq:0,Generation:6,Outcome:0,Winner:200,Text:[],})){
+        const f=noteFixture();f.data['g_hdBattleNote'+name]=value;assert.equal(f.read(),null,name);}
+    for(const change of [{Outcome:2,Winner:0},{Active:0},{Text:''},{Text:'x'.repeat(512)},{Seq:NaN}]){
+        const f=noteFixture();for(const[k,v]of Object.entries(change))f.data['g_hdBattleNote'+k]=v;assert.equal(f.read(),null);}
+});
+test('public battleNote refuses torn text, torn scalars and same-shape data replacement',()=>{
+    for(const field of ['g_hdBattleNoteText','g_hdBattleNoteSeq']){
+        const f=noteFixture();let reads=0;const original=f.data[field];
+        Object.defineProperty(f.data,field,{get(){return reads++?field.endsWith('Text')?'different':3:original;}});
+        assert.equal(f.read(),null);}
+    const f=noteFixture();Object.defineProperty(f.data,'g_hdBattleNoteText',{get(){
+        f.baye.data={};return '原生胜利';}});assert.equal(f.read(),null);
 });

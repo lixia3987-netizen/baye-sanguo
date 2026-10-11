@@ -21,6 +21,7 @@
 #undef	CITYCMDE_C
 #define	CITYCMDE_C
 #include "baye/enghead.h"
+#include "hd-bridge.h"
 #include "baye/bind-objects.h"
 
 
@@ -280,6 +281,7 @@ FAR void ShowFightNote(PersonID ap,PersonID bc)
 FAR void ShowFightWinNote(PersonID wp)
 {
     SBUF str,buf;
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq;
 
     ShowFightNoteFace(2);
 
@@ -294,7 +296,9 @@ FAR void ShowFightWinNote(PersonID wp)
     ResLoadToMem(STRING_CONST,STR_WON,buf);
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
+    hdNoteSeq = baye_hd_battle_note_begin(1, wp, str);
     GamDelay(300, g_engineConfig.responseNoteOfBettle);
+    baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
 
 /******************************************************************************
@@ -313,6 +317,7 @@ FAR void ShowFightWinNote(PersonID wp)
 FAR void ShowFightLossNote(void)
 {
     SBUF str,buf;
+    U32 hdGeneration = g_hdDetailGeneration, hdNoteSeq;
 
     ShowFightNoteFace(3);
 
@@ -321,7 +326,9 @@ FAR void ShowFightLossNote(void)
     ResLoadToMem(STRING_CONST,STR_LOST,buf);
     gam_strcat(str,buf);
     PlcMidShowStr(WK_SX + (WK_EX  - WK_SX) / 2,WK_SY + (WK_EY - 84 - WK_SY) / 2 + 2 + 64 + 2,str);
+    hdNoteSeq = baye_hd_battle_note_begin(2, 0xffff, str);
     GamDelay(300, g_engineConfig.responseNoteOfBettle);
+    baye_hd_battle_note_end(hdGeneration, hdNoteSeq);
 }
 
 /******************************************************************************

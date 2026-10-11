@@ -6,6 +6,8 @@
 
 #define BAYE_HD_KING_MAX 128
 #define BAYE_HD_REPORT_MAX 1024
+#define BAYE_HD_BATTLE_NOTE_VERSION 1
+#define BAYE_HD_BATTLE_NOTE_TEXT_MAX 512
 #define BAYE_HD_MENU_MAX 16384
 #define BAYE_HD_NAME_SLOT 8
 #define BAYE_HD_FIGHT_RESULT_MAX 64
@@ -123,6 +125,15 @@ U16 baye_hd_person_arm(U16 person);
 void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 count);
 /* Synchronous read-only receipt after the real succession writes complete. */
 void baye_hd_successor_committed(U32 generation, U16 oldKing, U16 newKing);
+/* Completed settlement, before the caller retires its real order. */
+void baye_hd_battle_settled(U32 generation, U8 city, U8 mode, U8 over);
+extern U8 g_hdBattleNoteProtocolVersion, g_hdBattleNoteActive, g_hdBattleNoteOutcome;
+extern U16 g_hdBattleNoteWinner;
+extern U32 g_hdBattleNoteSeq, g_hdBattleNoteGeneration;
+extern U8 g_hdBattleNoteText[BAYE_HD_BATTLE_NOTE_TEXT_MAX];
+U32 baye_hd_battle_note_begin(U8 outcome, U16 winner, const U8* text);
+void baye_hd_battle_note_end(U32 generation, U32 seq);
+void baye_hd_battle_note_retire(void);
 void baye_hd_goods_begin(U32 generation, U32 seq, U16 index, U16 tool, U16 properties, U16 pageStart, U8 custom);
 void baye_hd_goods_capture(U32 generation, U32 seq, U16 tool, U16 property, const U8* text, U8 title);
 void baye_hd_goods_name(U32 generation, U32 seq, U16 tool, const U8* name);

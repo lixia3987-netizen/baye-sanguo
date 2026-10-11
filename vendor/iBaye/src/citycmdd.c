@@ -528,6 +528,7 @@ FAR U8 FightResultDeal(U8 city,U8 result)
     PersonID *ptr;
     PersonID *pqptr;
     CityType *cptr;
+    U32 hdGeneration = g_hdDetailGeneration;
 
     ptr = g_FgtParam.GenArray;
     pqptr = (PersonID*)SHARE_MEM;
@@ -610,6 +611,7 @@ FAR U8 FightResultDeal(U8 city,U8 result)
         cptr->Food = g_FgtParam.MProvender + g_FgtParam.EProvender;
     }
 
+    baye_hd_battle_settled(hdGeneration, city, g_FgtParam.Mode, result);
     return(0);
 }
 
