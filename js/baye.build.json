@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
-  "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+  "sourceRevision": "1082e79567df75fc6efe7c620b433f753f2a9ddf",
+  "engineSourceSha256": "df32b2f147e11ebbdc17c3dff1447f41c65762dad40951f221606b1164580066",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791523308,
+  "sourceDateEpoch": 1791696579,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -473,12 +473,12 @@
       "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
     },
     "baye.wasm": {
-      "bytes": 4535346,
-      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+      "bytes": 4535460,
+      "sha256": "af63a7b55015f2d58d8170f9cfcbd087c74026cd435b849406d6d0f3606a0806"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+      "sha256": "94ab2af9eaeaa24d237c1e4670a6638a1f6027309a2000471f851926538c2ea1"
     }
   }
 }

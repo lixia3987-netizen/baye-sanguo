@@ -893,16 +893,23 @@
         }
         var quantity = state.kind === 'qty' ? readStandaloneQty() : null;
         var distribution = quantityPresentation(quantity);
+        var trade = tradeQuantityPresentation(quantity);
         var root = el('hd-dialog');
         if (root) { root.classList.toggle('has-mobile-quantity', !!mobileHost && state.kind === 'qty'); }
-        setText(el('hd-dialog-title'), distribution ? '分配兵力' : state.title);
+        setText(el('hd-dialog-title'), distribution ? '分配兵力' : trade ?
+            (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title);
         var body = el('hd-dialog-body');
         if (body) {
-            body.setAttribute('data-hd-quantity-purpose', distribution ? 'distribution' : '');
+            body.setAttribute('data-hd-quantity-purpose', distribution ? 'distribution' : trade ? 'trade' : '');
             if (distribution) {
                 body.textContent = distribution.personName + ' · 现有兵力 ' + distribution.existingArms +
                     ' · 城内预备兵 ' + distribution.reserveArms + '\n目标总兵力 ' + quantity.value +
                     '（' + quantity.min + '–' + quantity.max + '）。\n调低会退回城内预备兵；这是分配后的总兵力。';
+            } else if (trade) {
+                body.textContent = trade.cityName + ' · ' + trade.personName + ' · ' + (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') +
+                    '\n城内钱 ' + trade.money + ' · 粮 ' + trade.food + ' · 每粮 ' + trade.unitPrice + ' 钱' +
+                    '\n当前 ' + quantity.value + '（' + quantity.min + '–' + quantity.max + '）。' +
+                    (state.qtyAckFailed ? '\n数量调整未完成，请取消后重新输入。' : '\n使用按钮调整数量；取消后可重新选择将领。');
             } else if (state.kind === 'view' && state.viewDetail) {
                 renderViewDetail(body, state.viewDetail);
             } else if (state.kind === 'help' && state.helpDetail && state.helpDetail.kind === 1) {
@@ -1103,6 +1110,17 @@
         var first = BayeHdCityMenu.getQuantityPresentation(), second = BayeHdCityMenu.getQuantityPresentation();
         return first && second && first.data === second.data && first.key === second.key &&
             second.kind === 'distribution' && second.session === q.session && second.inputSeq === q.inputSeq &&
+            second.value === q.value && second.min === q.min && second.max === q.max ? second : null;
+    }
+
+    function tradeQuantityPresentation(q) {
+        if (!mobileHost || state.kind !== 'qty' || !q || !global.BayeHdCityMenu ||
+            typeof BayeHdCityMenu.getTradePresentation !== 'function') { return null; }
+        var first = BayeHdCityMenu.getTradePresentation(), second = BayeHdCityMenu.getTradePresentation();
+        return first && second && first.data === second.data && first.key === second.key &&
+            second.kind === 'trade' && second.stage === 'quantity' &&
+            (second.direction === 'buy' || second.direction === 'sell') &&
+            second.session === q.session && second.inputSeq === q.inputSeq &&
             second.value === q.value && second.min === q.min && second.max === q.max ? second : null;
     }
 

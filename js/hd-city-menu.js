@@ -13,6 +13,7 @@
     var mobileLibraryGeneration = null, mobileRetireReason = '';
     var distributionFlow = null, goodsPersonSource = null;
     var equipmentParent = null, equipmentGoods = null, mobileEquipmentFlow = null;
+    var mobileTrade = null;
     var MOBILE_LIB_SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
     var MOBILE_RAW_FIELDS = ['g_hdEngineReady', 'g_hdMapPick', 'g_hdMapCity', 'g_hdMapInputSeq',
         'g_hdBattlePick', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq',
@@ -61,11 +62,12 @@
         return value;
     }
     function mobileMenuComplete(menu) {
-        if (!menu || menu.active !== 1 || !mobileInteger(menu.context, 255) || !mobileInteger(menu.kind, 4) ||
+        if (!menu || menu.active !== 1 || !mobileInteger(menu.context, 255) || !mobileInteger(menu.kind, 5) ||
             !mobileInteger(menu.seq, 0xffffffff) || !menu.seq || !mobileInteger(menu.count, 2000) || !menu.count ||
             !mobileInteger(menu.index, menu.count - 1) || !Array.isArray(menu.names) || menu.names.length !== menu.count ||
             !menu.names.every(function (name) { return typeof name === 'string' && name.length > 0; }) ||
             !mobileInteger(menu.detailGeneration, 0xffffffff) || !menu.detailGeneration) { return false; }
+        if (menu.kind === 5 && (menu.context !== 1 || menu.count !== 2)) { return false; }
         return (menu.kind !== 3 && menu.kind !== 4) || actualMenuIds(menu) !== null;
     }
     function mobileMarchLinks(data, origin) {
@@ -157,6 +159,7 @@
     }
     function mobileTicketFrom(value, reason) {
         if (!value) { return null; }
+        if (state.layer === 'deep' && state.deepKind === 'person-trade' && !tradePaneOwner(value)) { return null; }
         var raw = value.raw, menu = value.menu, march = value.march, qty = value.qty;
         if (march.phase < MARCH.IDLE || march.phase > MARCH.DEPARTED) { return null; }
         // DEPARTED is retained after settlement. Normal CITY/qty uses the
@@ -184,7 +187,8 @@
                 march.battlePick || march.phase !== MARCH.IDLE && march.phase !== MARCH.DEPARTED &&
                     !(march.phase === MARCH.FOOD && march.origin === city)) { return null; }
             ownerType = 'qty';
-        } else if (!strategyMarch && menu.active === 1 && menu.context === 1 && menu.kind >= 1 && menu.kind <= 4 &&
+        } else if (!strategyMarch && menu.active === 1 && menu.context === 1 &&
+            (menu.kind >= 1 && menu.kind <= 4 || menu.kind === 5 && tradeExchangeOwner(value)) &&
             !march.pick && !march.battlePick && (march.phase === MARCH.IDLE || march.phase === MARCH.DEPARTED ||
                 march.phase === MARCH.PERSONS && march.origin === city && menu.kind === 3)) {
             ownerType = 'city';
@@ -226,7 +230,8 @@
             return state.layer === 'deep' && state.deepKind === 'person-city';
         }
         return ticket.ownerType === 'city' && (state.layer === 'root' || state.layer === 'status' ? ticket.menuKind === 1 :
-            state.layer === 'sub' ? ticket.menuKind === 2 : ticket.menuKind === 3 || ticket.menuKind === 4);
+            state.layer === 'sub' ? ticket.menuKind === 2 : ticket.menuKind === 3 || ticket.menuKind === 4 ||
+                ticket.menuKind === 5 && state.deepKind === 'person-trade' && state.deepStep === 1);
     }
     function getMarchTargetTicket() {
         if (!mobileHost) { return null; }
@@ -257,6 +262,7 @@
                 '请重新选择目标', '确认部队出发', '部队已出发'][ticket.phase] || ''});
     }
     function retireInteraction(reason) {
+        if (/library|configure/.test(String(reason || ''))) { mobileTrade = null; }
         // Retire work, not the evidence of a key already delivered to the
         // same native march. Reusing that inputSeq must never send it twice.
         var live = mobileHost ? currentMarch() : null;
@@ -617,6 +623,8 @@
                     var distribution = distributionSelection(menu, index);
                     var goodsPerson = mobileGoodsPersonSelection(menu, index);
                     var equipment = mobileEquipmentSelection(menu, index, 'enter');
+                    var trade = tradeSelection(menu, index, 'enter');
+                    if (mobileHost && (state.deepKind === 'person-trade' || mobileTrade && menu.kind === 2) && !trade) { return; }
                     state.nativeMenuCommit = key;
                     // Read-only bridge getters may reenter a Mod callback. Check
                     // the same native owner again at the final send boundary.
@@ -626,6 +634,7 @@
                             goodsPersonSource = goodsPerson;
                         }
                         if (equipment) { beginMobileEquipmentFlow(equipment); }
+                        if (trade) { beginTradeTransition(trade); }
                     } else if (state.nativeMenuCommit === key) { state.nativeMenuCommit = previousCommit; }
                 }
                 return;
@@ -755,7 +764,8 @@
         if (state.layer === 'deep' && !showingQty() && usesGoodsMenu(state.deepKind, state.deepStep) &&
             !liveToolContext()) { fallback = true; }
         if (state.layer === 'deep' && personDeepKind(state.deepKind) &&
-            !usesGoodsMenu(state.deepKind, state.deepStep) && !showingQty()) {
+            !usesGoodsMenu(state.deepKind, state.deepStep) && !showingQty() &&
+            !(mobileHost && tradeExchangeOwner(mobileNativeSnapshot()))) {
             var personPage = livePersonPropertyContext();
             if (!personPage || !personPage.pageComplete) { fallback = true; }
         }
@@ -1071,6 +1081,7 @@
 
     function engineSendKey(code, reason, currentOwner) {
         if (mobileHost && mobileEquipmentFlow) { return false; }
+        if (mobileHost && mobileTrade && mobileTrade.wait) { return false; }
         if (mobileHost && state.goodsBackPending && reason !== 'back-deep') { return false; }
         var mobilePress = mobileHost ? mobileInputTicket(reason) : null;
         if (mobileHost && !mobilePress) { retireInteraction('send-unavailable'); return false; }
@@ -1303,7 +1314,8 @@
         var menu = engineMenuItems();
         if (menu.active != null) {
             if (!Number(menu.active) || Number(menu.context) !== 1 ||
-                [1, 2, 3, 4].indexOf(Number(menu.kind)) < 0) { return false; }
+                [1, 2, 3, 4].indexOf(Number(menu.kind)) < 0 &&
+                    !(Number(menu.kind) === 5 && mobileHost && tradeExchangeOwner(mobileNativeSnapshot()))) { return false; }
             return selectLiveMenu(target, thenEnter, reason || '', menu);
         }
         var keys = keysToIndex(target);
@@ -3505,9 +3517,15 @@
             scheduleMarchWatch();
             return;
         }
+        var tradeReceipt = tradeQuantityExit('enter');
+        if (mobileHost && state.deepKind === 'person-trade' && !tradeReceipt) { return; }
         finishDistributionQuantity();
         bayeQtyCloseInput(engineQty());
-        engineSendKey(VK.ENTER, 'qty-ok');
+        var sent = engineSendKey(VK.ENTER, 'qty-ok');
+        if (tradeReceipt) {
+            if (!sent) { return; }
+            beginTradeTransition(tradeReceipt);
+        }
         state.qtyInputClosed = true;
         invalidateQtyWork();
         var epoch = qtyEpoch;
@@ -3554,9 +3572,15 @@
             render();
             return;
         }
+        var tradeReceipt = tradeQuantityExit('exit');
+        if (mobileHost && state.deepKind === 'person-trade' && !tradeReceipt) { return; }
         finishDistributionQuantity();
         bayeQtyCloseInput(engineQty());
-        engineSendKey(VK.EXIT, 'qty-cancel');
+        var sent = engineSendKey(VK.EXIT, 'qty-cancel');
+        if (tradeReceipt) {
+            if (!sent) { return; }
+            beginTradeTransition(tradeReceipt);
+        }
         state.qtyInputClosed = true;
         var epoch = qtyEpoch;
         state.qtyDismissed = true;
@@ -3857,12 +3881,14 @@
 
     function deepMenuOwner(menu) {
         if (!menu || menu.active == null || !Number(menu.active) ||
-            Number(menu.context) !== 1 || [3, 4].indexOf(Number(menu.kind)) < 0 ||
+            Number(menu.context) !== 1 || [3, 4, 5].indexOf(Number(menu.kind)) < 0 ||
             !menu.names || !menu.names.length ||
             (Number(menu.count) && Number(menu.count) !== menu.names.length)) { return null; }
         var kind = Number(menu.kind);
-        var expected = usesGoodsMenu(state.deepKind, state.deepStep) ? 4 : 3;
+        var expected = state.deepKind === 'person-trade' && state.deepStep === 1 ? 5 :
+            usesGoodsMenu(state.deepKind, state.deepStep) ? 4 : 3;
         if (kind !== expected) { return null; }
+        if (kind === 5 && !tradeExchangeOwner(mobileNativeSnapshot())) { return null; }
         if (state.deepKind === 'person-city') {
             var march = currentMarch();
             if (!march || Number(march.phase) !== MARCH.PERSONS) { return null; }
@@ -3923,7 +3949,7 @@
     }
 
     function mobilePreviewContext(button) {
-        if (state.goodsBackPending || mobileEquipmentFlow) { return null; }
+        if (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait) { return null; }
         if (!mobileHost || !state.open || state.layer !== 'deep' || state.deepKind === 'person-city' ||
             state.battleMake || state.deepSelectionPending || state.sending || state.queue.length ||
             state.closingSub || state.walkBusy || state.handoff || state.personPagePending || state.toolPagePending ||
@@ -4854,6 +4880,7 @@
     }
 
     function fillDeepList() {
+        if (syncMobileTrade() && state.layer !== 'deep') { render(); return; }
         if (syncMobileEquipmentFlow() && state.layer !== 'deep') { render(); return; }
         var list = el('hd-city-menu-deep');
         if (!list) {
@@ -5082,7 +5109,7 @@
             list.appendChild(empty);
             return;
         }
-        var previewTicket = mobileHost && owner && actualMenuIds(deepMenu) && state.deepKind !== 'person-city' &&
+        var previewTicket = mobileHost && owner && (owner.kind === 3 || owner.kind === 4) && actualMenuIds(deepMenu) && state.deepKind !== 'person-city' &&
             !state.battleMake ? mobileInputTicket() : null;
         var allowPreview = previewTicket && previewTicket.ownerType === 'city' &&
             [MARCH.IDLE, MARCH.DEPARTED].indexOf(previewTicket.phase) >= 0;
@@ -5206,6 +5233,7 @@
     }
 
     function render() {
+        syncMobileTrade();
         var root = el('hd-city-menu');
         if (!root) {
             return;
@@ -5274,7 +5302,8 @@
                     ? '部队已出发'
                     : (usesMapCursor(state.deepKind, state.deepStep)
                             ? (mobileHost ? '选择目标城' : '目标城池（方向键对齐引擎光标）')
-                        : (usesGoodsMenu(state.deepKind, state.deepStep) ? '道具' : '人物')));
+                        : (state.deepKind === 'person-trade' && state.deepStep === 1 ? '买入 / 卖出' :
+                            usesGoodsMenu(state.deepKind, state.deepStep) ? '道具' : '人物')));
             if (state.wizardStep !== 'none' && WIZARD_LABEL[state.wizardStep]) {
                 var shownHint = displayWizardStep();
                 stepHint = '出征步骤 ' + (WIZARD_LABEL[shownHint] || WIZARD_LABEL[state.wizardStep]);
@@ -5440,6 +5469,7 @@
         }
         invalidateMarchWork();
         invalidateQtyWork();
+        mobileTrade = null;
         state.open = false;
         state.layer = 'root';
         state.queue = [];
@@ -5478,7 +5508,8 @@
                 var menu = engineMenuItems();
                 if (!menu || menu.active !== 1 || menu.context !== 1 ||
                     detailNumber(menu.seq, 4294967295) == null || !menu.seq ||
-                    detailNumber(menu.kind, 4) == null || !menu.kind) { return null; }
+                    detailNumber(menu.kind, 4) == null &&
+                        !(menu.kind === 5 && tradeExchangeOwner(mobileNativeSnapshot())) || !menu.kind) { return null; }
                 return JSON.stringify([marchEpoch, menu.context, menu.kind, menu.seq,
                     detailNumber(menu.detailGeneration, 4294967295), menu.names, actualMenuIds(menu)]);
             }
@@ -5554,6 +5585,202 @@
             return before === readOwner() && !state.queue.length && !state.sending &&
                 !state.handoff && !state.confirmingTarget && !state.nativeMenuRequest;
         } catch (e) { return false; }
+    }
+
+    function tradeFence(value, mapInputSeq) {
+        var m = value.march;
+        return JSON.stringify([value.libraryGeneration, m.mapCity, m.phase, m.session, m.inputSeq,
+            m.origin, m.selected, m.seq, m.ok, m.city, m.obj,
+            mapInputSeq == null ? m.mapInputSeq : mapInputSeq, value.raw.g_hdDetailGeneration]);
+    }
+
+    function tradeReading() {
+        if (!mobileHost || !shouldShowHd()) { return null; }
+        var first = mobileNativeSnapshot(), second = mobileNativeSnapshot();
+        if (!first || !second || first.data !== second.data ||
+            JSON.stringify([first.raw, first.menu, first.qty, first.report]) !==
+                JSON.stringify([second.raw, second.menu, second.qty, second.report]) ||
+            second.march.phase !== MARCH.IDLE && second.march.phase !== MARCH.DEPARTED ||
+            second.march.battlePick || second.raw.g_hdHelpActive || !second.march.mapInputSeq ||
+            second.menu.generation !== second.menu.detailGeneration) { return null; }
+        return second;
+    }
+
+    function tradeExchangeOwner(value) {
+        var t = mobileTrade, m = value && value.menu;
+        return !!(mobileHost && t && value && value.data === t.data && tradeFence(value) === t.fence &&
+            state.open && state.layer === 'deep' && state.deepKind === 'person-trade' && state.deepStep === 1 &&
+            !value.march.pick && !value.qty.active && !value.raw.g_hdReportActive &&
+            m.active === 1 && m.context === 1 && m.kind === 5 && m.count === 2 &&
+            mobileMenuComplete(m) && t.stage === 'exchange' && !t.wait && m.seq === t.menuSeq);
+    }
+
+    function tradePaneOwner(value) {
+        var t = mobileTrade, m = value && value.menu, q = value && value.qty;
+        if (!t || t.wait || !value || value.data !== t.data || tradeFence(value) !== t.fence || value.march.pick ||
+            value.raw.g_hdReportActive) { return false; }
+        return t.stage === 'quantity' ? !m.active && m.seq === t.menuSeq && q.active === 1 && q.session === t.qtySession :
+            !q.active && m.active === 1 && m.context === 1 && m.seq === t.menuSeq &&
+                m.kind === (t.stage === 'person' ? 3 : t.stage === 'exchange' ? 5 : 2) &&
+                (t.stage !== 'person' || tradePersonsComplete(m));
+    }
+
+    function tradeParent(menu, index) {
+        if (!mobileHost || state.layer !== 'sub' || state.subKind !== 'neizheng' || index !== 10) { return null; }
+        var live = tradeReading();
+        if (!live || live.march.pick || live.qty.active || live.raw.g_hdReportActive || live.menu.kind !== 2 ||
+            live.menu.context !== 1 || live.menu.seq !== menu.seq ||
+            live.menu.names[index] !== '交易' || JSON.stringify(live.menu.names) !== JSON.stringify(menu.names) ||
+            live.march.mapCity !== state.cityIndex + 1) { return null; }
+        return {data: live.data, fence: tradeFence(live), cityIndex: state.cityIndex,
+            mapInputSeq: live.march.mapInputSeq, stage: 'sub', menuSeq: menu.seq,
+            personId: null, personName: '', direction: null, qtySession: 0, wait: null};
+    }
+
+    function tradeSelection(menu, index, action) {
+        var t = mobileTrade, live = tradeReading();
+        if (!t || t.wait || !live || live.data !== t.data || tradeFence(live) !== t.fence ||
+            live.march.pick || live.qty.active || live.raw.g_hdReportActive ||
+            live.menu.context !== 1 || live.menu.seq !== menu.seq || live.menu.kind !== menu.kind ||
+            live.menu.index !== index || JSON.stringify([live.menu.names, actualMenuIds(live.menu)]) !==
+                JSON.stringify([menu.names, actualMenuIds(menu)]) || t.menuSeq !== menu.seq) { return null; }
+        var kind = menu.kind, to = '', ids = actualMenuIds(menu);
+        if (kind === 2 && t.stage === 'sub' && action === 'enter' && index === 10) { to = 'person'; }
+        else if (kind === 3 && t.stage === 'person' && tradePersonsComplete(menu)) { to = action === 'enter' ? 'exchange' : 'map'; }
+        else if (kind === 5 && t.stage === 'exchange' && tradeExchangeOwner(live)) { to = action === 'enter' ? 'qty' : 'person'; }
+        if (!to) { return null; }
+        return {to: to, seq: menu.seq, kind: kind, action: action, index: index,
+            names: menu.names.slice(), ids: ids && ids.slice(),
+            qtyBaseline: live.qty.session,
+            nextSeq: to === 'qty' || to === 'map' ? nextDistributionSeq(menu.seq) :
+                nextDistributionSeq(nextDistributionSeq(menu.seq)), deadline: Date.now() + 5000};
+    }
+
+    function beginTradeTransition(receipt) {
+        var t = mobileTrade;
+        if (!t) { return; }
+        if (receipt.kind === 3 && receipt.action === 'enter') {
+            t.personId = receipt.ids[receipt.index]; t.personName = receipt.names[receipt.index];
+            t.persons = {names: receipt.names, ids: receipt.ids};
+        }
+        if (receipt.kind === 5 && receipt.action === 'enter') { t.direction = receipt.index === 0 ? 'buy' : 'sell'; }
+        t.wait = receipt;
+        function poll() {
+            if (mobileTrade !== t || t.wait !== receipt) { return; }
+            if (syncMobileTrade()) { render(); }
+            if (mobileTrade === t && t.wait === receipt && shouldShowHd()) { setTimeout(poll, 40); }
+        }
+        setTimeout(poll, 40);
+    }
+
+    function syncMobileTrade() {
+        var t = mobileTrade;
+        if (!t || !mobileHost || !shouldShowHd()) { return false; }
+        var live = tradeReading(), w = t.wait;
+        if (!live) { return false; } // Partial native publication is LCD-only.
+        if (live.data !== t.data || tradeFence(live, t.mapInputSeq) !== t.fence) { mobileTrade = null; return false; }
+        var menu = live.menu, q = live.qty, raw = live.raw;
+        if (w && live.march.pick === 1 && live.march.mapInputSeq === nextDistributionSeq(t.mapInputSeq) &&
+            !menu.active && !menu.context && !menu.kind && menu.seq === w.nextSeq &&
+            !q.active && !raw.g_hdReportActive && !raw.g_hdGoodsActive && !raw.g_hdPersonPropertiesActive &&
+            (w.to === 'map' || w.to === 'qty')) {
+            // Native MAP may publish before the quantity shell/queue retires.
+            // Keep only this exact successor receipt, with its original bound,
+            // so a later read can close CITY without sending another key.
+            if (Date.now() > w.deadline) { mobileTrade = null; return false; }
+            if (!retiredCityMapOwner()) { return false; }
+            mobileTrade = null; closeMenu({silent: true}); state.deepKind = ''; state.deepLabel = '';
+            state.deepStep = 0; state.deepItems = []; state.closingSub = false; return true;
+        }
+        if (live.march.pick || live.march.mapInputSeq !== t.mapInputSeq) { mobileTrade = null; return false; }
+        if (!w) { return false; }
+        if (Date.now() > w.deadline) { mobileTrade = null; return false; }
+        if (raw.g_hdReportActive) {
+            // IsManual may reject an actor and reopen PERSON after its message.
+            if (w.kind === 3 && w.action === 'enter' && !menu.active && !q.active &&
+                menu.seq === nextDistributionSeq(w.seq) && live.report.kind === 1 && live.report.person === 65535) {
+                w.deadline = Date.now() + 5000; w.rejectedPerson = true;
+            }
+            return false;
+        }
+        var stage = '', expectedKind = w.to === 'person' || w.rejectedPerson ? 3 : w.to === 'exchange' ? 5 : 0;
+        if (expectedKind && menu.active === 1 && menu.context === 1 && menu.kind === expectedKind &&
+            menu.seq === w.nextSeq && menu.index === 0 && !q.active && mobileMenuComplete(menu) &&
+            (expectedKind !== 3 || tradePersonsComplete(menu) && (!t.persons ||
+                JSON.stringify([menu.names, actualMenuIds(menu)]) ===
+                    JSON.stringify([t.persons.names, t.persons.ids])))) { stage = expectedKind === 3 ? 'person' : 'exchange'; }
+        if (w.to === 'qty' && !menu.active && menu.seq === w.nextSeq && q.active === 1 && q.ready === 1 &&
+            q.session && q.session !== w.qtyBaseline && q.min === 1 && q.min <= q.value && q.value <= q.max) {
+            stage = 'quantity'; t.qtySession = q.session;
+        }
+        if (!stage) { return false; }
+        t.stage = stage; t.menuSeq = menu.seq; t.wait = null;
+        if (stage === 'person') { t.personId = null; t.personName = ''; t.direction = null; t.qtySession = 0; }
+        state.deepStep = stage === 'person' ? 0 : stage === 'exchange' ? 1 : 2;
+        state.deepSelectionPending = null; state.nativeMenuCommit = ''; state.idleIndex = menu.index;
+        state.deepSig = ''; state.deepMenuOwner = null;
+        return true;
+    }
+
+    function getTradePresentation() {
+        syncMobileTrade();
+        var t = mobileTrade, live = tradeReading();
+        if (!t || t.wait || !state.open || state.layer !== 'deep' || state.deepKind !== 'person-trade' ||
+            !live || live.data !== t.data || tradeFence(live) !== t.fence || live.march.pick || live.raw.g_hdReportActive) { return null; }
+        var m = live.menu, q = live.qty;
+        if (t.stage === 'quantity' ? m.active || m.seq !== t.menuSeq || q.active !== 1 || q.ready !== 1 ||
+            q.session !== t.qtySession || q.min !== 1 || q.value < q.min || q.value > q.max :
+            q.active || m.active !== 1 || m.context !== 1 || m.seq !== t.menuSeq ||
+            m.kind !== (t.stage === 'person' ? 3 : 5) || !mobileMenuComplete(m) ||
+            t.stage === 'person' && !tradePersonsComplete(m)) { return null; }
+        var resources = null;
+        if (t.stage === 'quantity') {
+            try {
+                var city = live.data.g_Cities && live.data.g_Cities[t.cityIndex];
+                var money = city && city.Money, food = city && city.Food, name = cityName(t.cityIndex);
+                var latest = tradeReading();
+                if (!city || !mobileInteger(money, 65535) || !mobileInteger(food, 65535) || !name || !latest ||
+                    latest.data !== live.data || JSON.stringify([latest.raw, latest.menu, latest.qty]) !==
+                        JSON.stringify([live.raw, m, q]) || live.data.g_Cities[t.cityIndex] !== city ||
+                    city.Money !== money || city.Food !== food || mobileTrade !== t ||
+                    q.max !== (t.direction === 'buy' ? Math.floor(money / 5) : food)) { return null; }
+                resources = {cityName: name, money: money, food: food, unitPrice: t.direction === 'buy' ? 5 : 2};
+            } catch (e) { return null; }
+        }
+        var value = {kind: 'trade', stage: t.stage, cityIndex: t.cityIndex, personId: t.personId,
+            personName: t.personName, direction: t.direction, menuSeq: m.seq,
+            session: t.stage === 'quantity' ? q.session : 0, inputSeq: t.stage === 'quantity' ? q.inputSeq : 0,
+            value: t.stage === 'quantity' ? q.value : null, min: t.stage === 'quantity' ? q.min : null,
+            max: t.stage === 'quantity' ? q.max : null,
+            cityName: resources && resources.cityName, money: resources && resources.money,
+            food: resources && resources.food, unitPrice: resources && resources.unitPrice,
+            key: JSON.stringify([live.libraryGeneration, live.raw, m, q, t.stage, t.personId, t.direction, resources])};
+        Object.defineProperty(value, 'data', {value: live.data, enumerable: false});
+        return Object.freeze(value);
+    }
+
+    function tradeQuantityExit(action) {
+        var p = getTradePresentation();
+        return p && p.stage === 'quantity' ? {to: action === 'enter' ? 'map' : 'person',
+            seq: p.menuSeq, nextSeq: action === 'enter' ? p.menuSeq : nextDistributionSeq(p.menuSeq),
+            kind: 0, action: action, deadline: Date.now() + 5000} : null;
+    }
+
+    function tradePersonsComplete(menu) {
+        var ids = actualMenuIds(menu);
+        return !!(ids && ids.length && ids.length <= 200 && ids.every(function (id, index) {
+            return mobileInteger(id, 199) && ids.indexOf(id) === index;
+        }));
+    }
+
+    function backMobileTrade(ownsBack) {
+        if (!mobileHost || state.deepKind !== 'person-trade') { return false; }
+        var live = tradeReading();
+        if (!mobileTrade || mobileTrade.wait || !live || state.queue.length || state.sending || state.nativeMenuRequest) { return true; }
+        var receipt = tradeSelection(live.menu, live.menu.index, 'exit');
+        if (!receipt) { return true; }
+        if (engineSendKey(VK.EXIT, 'back-deep', ownsBack)) { beginTradeTransition(receipt); }
+        return true;
     }
 
     function mobileGoodsFence(ticket) {
@@ -5834,7 +6061,7 @@
     }
 
     function back(pressedOwner) {
-        if (mobileHost && mobileEquipmentFlow) { return; }
+        if (mobileHost && (mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return; }
         if (!state.open) {
             return;
         }
@@ -5880,6 +6107,7 @@
         if (observedMenu.active != null && !backOwner) { return; }
         var ownsBack = backOwner == null ? null : function () { return cityBackMenuOwner() === backOwner; };
         if (state.layer === 'deep') {
+            if (backMobileTrade(ownsBack)) { return; }
             if (backMobileEquipment(ownsBack)) { return; }
             if (backMobileGoods(ownsBack)) { return; }
             if (engineInGetCitySet() || (state.campaignPick && mapPickActive())) {
@@ -6080,9 +6308,11 @@
         } else {
             equipmentParent = mobileEquipmentParent(menu, index);
             equipmentGoods = null;
+            mobileTrade = tradeParent(menu, index);
             if (!pickIndex(index, true)) { return; }
         }
         state.deepKind = deepKindFor(state.subKind, index);
+        if (mobileHost && mobileTrade) { state.deepKind = 'person-trade'; }
         if (mobileHost && equipmentParent && equipmentParent.command === 'largess') { state.deepKind = 'goods-person'; }
         state.deepLabel = names[index] || '';
         state.deepStep = 0;
@@ -6721,7 +6951,7 @@
     }
 
     function chooseDeep(index, pressedOwner) {
-        if (mobileHost && (state.goodsBackPending || mobileEquipmentFlow)) { return false; }
+        if (mobileHost && (state.goodsBackPending || mobileEquipmentFlow || mobileTrade && mobileTrade.wait)) { return false; }
         var item = state.deepItems[index];
         var native = engineMenuItems();
         var owner = native.active != null ? readyDeepMenuOwner(native) : null;
@@ -7458,7 +7688,7 @@
         else { writeStorage(STORAGE_KEY, mode); }
         state.mode = mode;
         var mobileRootResume = syncMode(resume);
-        var mobileResume = mobileHost && oldMode === 'classic' && mode !== 'classic'
+        var mobileResume = mobileHost && !mobileTrade && oldMode === 'classic' && mode !== 'classic'
             ? resumeMobilePersonMode() : null;
         if (!shouldShowHd()) {
             invalidateQtyWork();
@@ -7518,6 +7748,16 @@
         if (!shouldShowHd()) {
             state.open = false;
         } else {
+            syncMobileTrade();
+            if (mobileTrade && !mobileTrade.wait) {
+                var savedOpen = state.open;
+                state.open = true;
+                if (getTradePresentation()) {
+                    state.deepSig = ''; state.deepMenuOwner = null;
+                    applyDocAttr(); render(); return;
+                }
+                state.open = savedOpen;
+            }
             var rootOwner = mobileCityRootModeReading();
             // A completed march must not revive its old origin over the current
             // native CITY root. Opening uses the ordinary current-owner gates.
@@ -7611,6 +7851,7 @@
                     return;
                 }
                 if (retireMobileEquipmentMap()) { return; }
+                if (syncMobileTrade() && !state.open) { return; }
                 // A person-picker cancellation can return directly to GetCitySet
                 // without willCloseMenu. Retire only after the player's Back ACK.
                 if (state.closingSub && retiredCityMapOwner()) {
@@ -7645,6 +7886,7 @@
                     state.deepKind === 'person-goods' ||
                     state.deepKind === 'goods-person' ||
                     state.deepKind === 'person-qty' ||
+                    state.deepKind === 'person-trade' ||
                     state.deepKind === 'person-city' ||
                     mapPickActive() ||
                     state.marchReady) {
@@ -7672,6 +7914,7 @@
         getMarchDialogTicket: getMarchDialogTicket,
         getMarchPresentation: getMarchPresentation,
         getQuantityPresentation: getQuantityPresentation,
+        getTradePresentation: getTradePresentation,
         toggleQtyBound: toggleQtyBound,
         getMode: getMenuMode,
         setMode: setMenuMode,

@@ -68,7 +68,9 @@
 
 `fight.inputKind`：0 忙碌、1 选将、2 移动、3 行动菜单、4 计谋菜单、5 瞄准、6 系统菜单、7 撤退确认、8 设置菜单、9 帮助、10 形势图。`fight.inputSeq` 在进入和退出真实等待时变化，同一等待里的光标移动不改变序号；形势图翻页完成后会产生新的序号作为响应确认。`fight.actorIndex` 为战场将领数组的 0-based 下标，不是 PersonID。
 
-`menuItems().active` 只在真正菜单等待中为 1，`context` 为 0 无、1 城池、2 大地图系统、3 战场。城池 `kind=1/2/3/4` 表示根菜单/子菜单/人物/道具；战场 kind 与 inputKind 一致。人物和道具按 8 字节 GBK 槽打包，槽内允许 NUL，必须按 `itemLen × count` 复制，不能按首个 NUL 截断。文本缓冲在关闭后可以保留，输入必须同时校验 active、context、kind、seq。M3 增加的系统与战役归属见下节。
+`menuItems().active` 只在真正菜单等待中为 1，`context` 为 0 无、1 城池、2 大地图系统、3 战场。城池 `kind=1/2/3/4/5` 表示根菜单/子菜单/人物/道具/买卖类型；战场 kind 与 inputKind 一致。人物和道具按 8 字节 GBK 槽打包，槽内允许 NUL，必须按 `itemLen × count` 复制，不能按首个 NUL 截断。文本缓冲在关闭后可以保留，输入必须同时校验 active、context、kind、seq。M3 增加的系统与战役归属见下节。
+
+`CITY/EXCHANGE`（context=1/kind=5）只由 `ExchangeMake` 的真实买卖选择等待发布，包含原生两个文本项，不发布人物或道具 ID。原版移动 HD 沿当前内政“交易”→人物确认的归属接管；匿名菜单不因此获得授权。取消类型或数量后等待新 PERSON 且 index=0；正常数量确认后原生直接回地图，没有成功报告，不补发返回或确认。数量仍使用现有 session/inputSeq/lastKey/ready 回执。钱粮、体力、订单和离城队列按原版业务执行；零资源与满订单队列也保留原行为，不能解释为原子取消。此次 scope 标记不改变价格、消耗、存档或月末归队规则。
 
 `march.phase`：0 空闲、1 选将、2 粮草、3 目标提示、4 选城、5 拒绝提示、6 出发提示、7 已写入订单。每次进入 `BattleMake` 产生新 session，退出时结束等待；`march.inputSeq` 区分同一步骤的多次等待。行军成功必须是当前 session、新订单 seq、匹配 origin/目标的 `ok=1`，报告文字不能代替订单确认。
 

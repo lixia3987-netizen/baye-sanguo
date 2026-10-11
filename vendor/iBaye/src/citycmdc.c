@@ -21,6 +21,7 @@
 #undef	CITYCMDC_C
 #define	CITYCMDC_C
 #include "baye/enghead.h"
+#include "hd-bridge.h"
 
 /*FAR U8 AddPerson(U8 city,U8 person);
  FAR U8 DelPerson(U8 city,U8 person);
@@ -109,6 +110,7 @@ FAR U8 ExchangeMake(U8 city)
             } else {
                 pRect.ey = WK_SY + 10 + 4 + ((WK_EY - (WK_SY + 10 + 4)) / ASC_HGT) * ASC_HGT;
             }
+            baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY, BAYE_HD_MENU_EXCHANGE);
             pcount = PlcSplMenu(&pRect,0,mstr);
 
             if (0xffff == pcount)
