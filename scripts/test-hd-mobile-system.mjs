@@ -15,7 +15,7 @@ const RAW = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_
     'g_hdSkillActive', 'g_hdAttackActive', 'g_hdSkillResultActive', 'g_hdMakerActive', 'g_hdViewActive', 'g_hdMiniMapActive',
     'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
 
-function fixture({screen = 'title', acknowledge = true, mount = true, storageThrows = false} = {}) {
+function fixture({screen = 'title', acknowledge = true, mount = true, storageThrows = false, diagnostics = false} = {}) {
     const listeners = new Map(), windowListeners = new Map(), timers = new Map(), intervals = new Map(), subscribers = [];
     const nodes = new Map(), keys = [], writes = [];
     let clock = 0, timerId = 0, topOverride = null, menuHook = null, inspectHook = null, currentIdentity;
@@ -49,7 +49,7 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
     const mode = body.appendChild(new Element('hd-mobile-system-mode', 'button')), open = body.appendChild(new Element('hd-mobile-system-open', 'button'));
     mode.rect = {left: 600, top: 4, width: 90, height: 44}; open.rect = {left: 700, top: 4, width: 60, height: 44};
     const outside = body.appendChild(new Element('outside')); outside.rect = {left: 400, top: 300, width: 70, height: 44};
-    const document = {body, documentElement: html, hidden: false, getElementById: id => nodes.get(id) || null,
+    const document = {body, documentElement: html, hidden: false, fonts: {status:'loaded'}, getElementById: id => nodes.get(id) || null,
         createElement: tag => new Element('', tag), addEventListener(name, fn) { const list = listeners.get(name) || []; list.push(fn); listeners.set(name, list); },
         elementFromPoint(x, y) { return topOverride || [mode, open, back, ...list.children].find(n => !n.hidden && x >= n.rect.left && x < n.rect.left + n.rect.width && y >= n.rect.top && y < n.rect.top + n.rect.height) || outside; }};
     const values = {'baye/systemUiMode': 'classic', 'baye/overworldMode': 'classic', 'baye/mobileOverworldMode': 'hd-map'};
@@ -74,7 +74,7 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
         }
     }
     publish(screen);
-    const env = {document, localStorage: storage, innerWidth: 844, innerHeight: 390, console: {log() {}, warn() {}},
+    const env = {document, localStorage: storage, innerWidth: 844, innerHeight: 390, BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS:diagnostics, console: {log() {}, warn() {}},
         Date: class extends Date { static now() { return clock; } },
         setTimeout(fn, delay = 0) { const id = ++timerId; timers.set(id, {fn, at: clock + delay}); return id; }, clearTimeout: id => timers.delete(id),
         setInterval(fn) { const id = ++timerId; intervals.set(id, fn); return id; }, clearInterval: id => intervals.delete(id),
@@ -294,3 +294,118 @@ test('init is idempotent, hidden pauses polling and pagehide has no input',()=>{
     h.env.document.hidden=true; h.fire('visibilitychange'); assert.equal(h.intervals.size,0); assert.deepEqual(h.keys,[]);
 });
 
+test('diagnostics are dynamically opt-in and do not change the normal snapshot contract',()=>{
+    const h=fixture(); assert.equal('diagnostics' in h.api.debugSnapshot(),false);
+    h.env.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=true;
+    assert.equal(h.api.debugSnapshot().diagnostics.total,0);
+    h.fire('pointerdown',h.mode);let d=h.api.debugSnapshot().diagnostics;
+    assert.equal(d.arm.kind,'mode');assert.equal(d.last.down.reason,'armed');
+    assert.equal(d.last.down.checks.dataSame,true);assert.equal(d.last.down.checks.keySame,true);
+    h.fire('pointerup',h.mode);d=h.api.debugSnapshot().diagnostics;
+    assert.equal(d.arm,null);assert.equal(d.grant.kind,'mode');assert.equal(d.last.up.reason,'grant-created');
+    assert.equal(d.last.up.checks.geometrySame,true);assert.equal(d.last.up.checks.visible,true);
+    h.fire('click',h.mode);d=h.api.debugSnapshot().diagnostics;
+    assert.equal(d.last.click.reason,'authorized');assert.equal(d.last.retire.reason,'mode-change');
+    assert.equal(d.last.click.checks.dataSame,true);assert.equal(d.last.click.checks.keySame,true);
+    assert.equal(d.last.down.fontsStatus,'loaded');assert.equal(h.api.snapshot().mode,'classic');
+    assert.equal('diagnostics' in h.api.snapshot(),false);assert.deepEqual(h.keys,[]);
+    h.env.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=false;
+    assert.equal('diagnostics' in h.api.debugSnapshot(),false);
+});
+test('20 diagnostic HD/classic cycles remain bounded, serializable and input-free across real poll callbacks',()=>{
+    const h=fixture({diagnostics:true});
+    for(let i=0;i<40;i++){
+        h.fire('pointerdown',h.mode);
+        for(const fn of h.intervals.values())fn();
+        h.fire('pointerup',h.mode);h.fire('click',h.mode);
+        assert.equal(h.api.snapshot().mode,i%2?'hd':'classic');
+    }
+    const snap=h.api.debugSnapshot(),d=snap.diagnostics;
+    assert.equal(d.total,160);assert.equal(d.events.length,12);assert.equal(d.limit,12);
+    assert.equal(d.last.up.reason,'grant-created');assert.equal(d.last.click.reason,'authorized');
+    assert.equal(d.arm,null);assert.equal(d.grant,null);assert.deepEqual(Array.from(d.pointerIDs),[]);
+    assert.ok(JSON.stringify(d).length<24000);assert.doesNotThrow(()=>JSON.stringify(snap));
+    assert.equal(JSON.stringify(d).includes('stableKey'),false);assert.equal(JSON.stringify(d).includes('circular'),false);
+    d.events.length=0;d.last.click.reason='tampered';
+    assert.equal(h.api.debugSnapshot().diagnostics.events.length,12);
+    assert.equal(h.api.debugSnapshot().diagnostics.last.click.reason,'authorized');assert.deepEqual(h.keys,[]);
+});
+test('diagnostic enabled and disabled paths make the same native getter calls, keys and preference writes',()=>{
+    const run=diagnostics=>{const h=fixture({diagnostics});let calls=0;h.setMenuHook(()=>calls++);
+        for(let i=0;i<4;i++){h.fire('pointerdown',h.mode);for(const fn of h.intervals.values())fn();h.fire('pointerup',h.mode);h.fire('click',h.mode);}
+        h.click(h.button(1));h.tick();return {calls,keys:h.keys,writes:h.writes,mode:h.shared.getMode()};};
+    assert.deepEqual(run(true),run(false));
+});
+test('diagnostic snapshot does not resample native getters and never retains opaque event data',()=>{
+    const h=fixture({diagnostics:true});h.fire('pointerdown',h.mode);h.fire('pointerup',h.mode);
+    h.fire('click',h.mode,{detail:h.data});
+    const fail=()=>{throw Error('diagnostic must not read native');};
+    h.env.baye.ensureData=fail;h.env.baye.hd.ready=fail;h.env.baye.hd.menuItems=fail;h.env.BayeHdLibIdentity.read=fail;
+    const d=h.api.debugSnapshot().diagnostics;
+    assert.equal(d.last.click.detail,null);assert.equal(d.last.click.reason,'authorized');
+    assert.doesNotThrow(()=>JSON.stringify(d));assert.deepEqual(h.keys,[]);
+});
+for(const fault of ['untrusted','wrong-button','invalid-pointer','disabled','small','covered','stale-render']){
+    test('diagnostic DOWN records exact rejection: '+fault,()=>{
+        const h=fixture({diagnostics:true}),b=fault==='stale-render'?h.button(0):h.mode;let extra={};
+        if(fault==='untrusted')extra.isTrusted=false;
+        if(fault==='wrong-button')extra.button=2;
+        if(fault==='invalid-pointer')extra.pointerId=-1;
+        if(fault==='disabled')b.disabled=true;
+        if(fault==='small')b.rect.width=43;
+        if(fault==='covered')h.setTop(h.outside);
+        if(fault==='stale-render')h.data.g_hdMenuSeq++;
+        h.fire('pointerdown',b,extra);const d=h.api.debugSnapshot().diagnostics;
+        const reason={untrusted:'untrusted','wrong-button':'wrong-button','invalid-pointer':'invalid-pointer-id',disabled:'not-visible',small:'not-visible',covered:'not-visible','stale-render':'stale-render'}[fault];
+        assert.equal(d.last.down.reason,reason);assert.equal(d.arm,null);assert.deepEqual(h.keys,[]);
+        if(fault==='covered')assert.equal(d.last.down.checks.visibilityReason,'target-covered');
+        if(fault==='small')assert.equal(d.last.down.checks.visibilityReason,'target-too-small');
+    });
+}
+for(const fault of ['no-arm','geometry','data','key','owner-unavailable','target','covered','untrusted']){
+    test('diagnostic UP preserves precise cause after a subsequent no-grant click: '+fault,()=>{
+        const h=fixture({diagnostics:true}),b=h.mode;if(fault!=='no-arm')h.fire('pointerdown',b);
+        if(fault==='geometry')b.rect.left+=.25;
+        if(fault==='data')h.rebind();
+        if(fault==='key')h.data.g_hdSpeActive=1;
+        if(fault==='owner-unavailable')h.setReady(false);
+        if(fault==='covered')h.setTop(h.outside);
+        const target=fault==='target'?h.open:b;
+        h.fire('pointerup',target,fault==='untrusted'?{isTrusted:false}:{});h.fire('click',target);
+        const d=h.api.debugSnapshot().diagnostics;
+        assert.equal(d.last.up.reason,{'no-arm':'no-arm',geometry:'geometry-changed',data:'owner-data-changed',key:'owner-key-changed','owner-unavailable':'current-owner-unavailable',target:'target-changed',covered:'not-visible',untrusted:'untrusted'}[fault]);
+        assert.equal(d.last.click.reason,'no-grant');assert.deepEqual(h.keys,[]);
+        if(fault==='geometry')assert.equal(d.last.up.checks.geometrySame,false);
+        if(fault==='data'){assert.equal(d.last.up.checks.dataSame,false);assert.equal(d.last.up.checks.keySame,true);}
+        if(fault==='key'){assert.equal(d.last.up.checks.dataSame,true);assert.equal(d.last.up.checks.keySame,false);}
+    });
+}
+for(const fault of ['untrusted','keyboard','expired','covered','data','key']){
+    test('diagnostic CLICK distinguishes the authorized-grant rejection: '+fault,()=>{
+        const h=fixture({diagnostics:true});h.fire('pointerdown',h.mode);h.fire('pointerup',h.mode);
+        if(fault==='expired')h.tick(1001);
+        if(fault==='covered')h.setTop(h.outside);
+        if(fault==='data')h.rebind();
+        if(fault==='key')h.data.g_hdSpeActive=1;
+        h.fire('click',h.mode,fault==='untrusted'?{isTrusted:false}:fault==='keyboard'?{detail:0}:{});
+        const d=h.api.debugSnapshot().diagnostics;
+        assert.equal(d.last.click.reason,{untrusted:'untrusted',keyboard:'keyboard-click',expired:'grant-expired',covered:'not-visible',data:'owner-data-changed',key:'owner-key-changed'}[fault]);
+        assert.equal(d.last.up.reason,'grant-created');assert.equal(h.shared.getMode(),'hd');assert.deepEqual(h.keys,[]);
+    });
+}
+for(const cause of ['scroll','resize','blur','pointercancel','multi','poll-key','poll-data']){
+    test('diagnostic retirement records the actual boundary or sampled mismatch: '+cause,()=>{
+        const h=fixture({diagnostics:true});h.fire('pointerdown',h.mode);
+        if(cause==='scroll'||cause==='pointercancel')h.fire(cause,h.mode);
+        if(cause==='resize'||cause==='blur')h.windowEvent(cause);
+        if(cause==='multi')h.fire('pointerdown',h.outside,{pointerId:2,isPrimary:false});
+        if(cause==='poll-key')h.data.g_hdSpeActive=1;
+        if(cause==='poll-data')h.rebind();
+        if(cause.startsWith('poll'))for(const fn of h.intervals.values())fn();
+        h.fire('pointerup',h.mode);h.fire('click',h.mode);const d=h.api.debugSnapshot().diagnostics;
+        assert.equal(d.last.retire.reason,{'scroll':'scroll',resize:'resize',blur:'blur',pointercancel:'pointer-cancel',multi:'multiple-pointers','poll-key':'owner-changed','poll-data':'owner-changed'}[cause]);
+        assert.equal(d.last.up.reason,'no-arm');assert.equal(d.last.click.reason,'no-grant');assert.deepEqual(h.keys,[]);
+        if(cause==='poll-key')assert.equal(d.last.retire.checks.keySame,false);
+        if(cause==='poll-data')assert.equal(d.last.retire.checks.dataSame,false);
+    });
+}

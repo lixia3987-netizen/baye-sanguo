@@ -23,6 +23,64 @@
         var mounted = false, reading = false, timer = null, focused = true, pageActive = true;
         var arm = null, grant = null, pointers = Object.create(null), blocked = false, openedMap = null;
         var last = {active: false, available: false, mode: 'hd', screen: '', lcdPresentation: 'off', owner: null, pending: false, reason: 'not-initialized'};
+        // Opt-in diagnostics only retain primitive observations from the real
+        // input checks. They never resample native state or authorize input.
+        var traceLimit = 12, traceCount = 0, traces = [], lastTrace = {};
+        function tracing() { try { return environment.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS === true; } catch (e) { return false; } }
+        function traceText(value) { return typeof value === 'string' ? value.slice(0, 96) : null; }
+        function keySummary(ticket) {
+            if (!ticket) { return null; }
+            var key = ticket.key, hash = 2166136261;
+            for (var i = 0; i < key.length; i++) { hash = Math.imul(hash ^ key.charCodeAt(i), 16777619); }
+            return {keyHash: ('00000000' + (hash >>> 0).toString(16)).slice(-8), keyLength: key.length,
+                type: ticket.owner.type, screen: ticket.owner.screen, seq: ticket.owner.seq, index: ticket.owner.index,
+                generation: ticket.identity.generation, movieActive: ticket.raw.g_hdMovieActive, speActive: ticket.raw.g_hdSpeActive};
+        }
+        function gestureSummary(value) {
+            return value ? {kind: value.kind, pointerId: value.id == null ? null : value.id,
+                targetId: value.target.id || '', owner: keySummary(value.owner), rect: value.rect ? value.rect.slice() : null} : null;
+        }
+        function trace(type, reason, event, hit, probe) {
+            if (!tracing()) { return; }
+            try {
+                var entry = {number: ++traceCount, type: type, reason: traceText(reason), at: Date.now(), mode: last.mode,
+                    targetId: traceText(hit && hit.target.id || event && event.target && event.target.id || ''), kind: hit && hit.kind || null,
+                    trusted: event ? event.isTrusted === true : null, primary: event ? event.isPrimary === true : null,
+                    pointerId: event && uint(event.pointerId) ? event.pointerId : null, detail: event && uint(event.detail) ? event.detail : null,
+                    blocked: blocked, pointerIDs: Object.keys(pointers).slice(0, 10), pointerCount: Object.keys(pointers).length,
+                    arm: gestureSummary(arm), grant: gestureSummary(grant), checks: probe || null,
+                    hidden: !!doc().hidden, viewport: [environment.innerWidth, environment.innerHeight],
+                    fontsStatus: doc().fonts ? traceText(doc().fonts.status) : null};
+                traces.push(entry); if (traces.length > traceLimit) { traces.shift(); }
+                if (['down', 'up', 'click', 'retire'].indexOf(type) >= 0) { lastTrace[type] = entry; }
+            } catch (e) { /* A diagnostic failure must not affect the input path. */ }
+        }
+        function debugSnapshot() {
+            if (!tracing()) { return last; }
+            var diagnostics = {enabled: true, limit: traceLimit, total: traceCount, observationsOnly: true,
+                arm: gestureSummary(arm), grant: gestureSummary(grant), blocked: blocked,
+                pointerIDs: Object.keys(pointers).slice(0, 10), pointerCount: Object.keys(pointers).length,
+                last: lastTrace, events: traces};
+            // No ticket.data, DOM node or mutable internal diagnostic object is exposed.
+            return Object.assign({}, last, {diagnostics: JSON.parse(signature(diagnostics))});
+        }
+        function failed(ok, reason, probe, field) {
+            if (tracing()) { probe[field || reason] = !!ok; }
+            if (!ok) { probe.reason = reason; }
+            return !ok;
+        }
+        function ownerMatches(expected, current, probe) {
+            if (tracing()) {
+                probe.expectedOwner = keySummary(expected); probe.currentOwner = keySummary(current);
+                probe.dataSame = !!expected && !!current && expected.data === current.data;
+                probe.keySame = !!expected && !!current && expected.key === current.key;
+            }
+            return same(expected, current);
+        }
+        function ownerReason(expected, current) {
+            return !current ? 'current-owner-unavailable' : !expected ? 'expected-owner-unavailable'
+                : expected.data !== current.data ? 'owner-data-changed' : 'owner-key-changed';
+        }
         function doc() { return environment.document; }
         function node(id) { return doc() && doc().getElementById(id); }
         function shared() { return environment.BayeHdSystemUi; }
@@ -115,7 +173,8 @@
             if (toggle) { toggle.hidden = !ticket; toggle.disabled = !ticket; toggle.textContent = mode() === 'classic' ? 'HD系统' : '经典系统'; }
             if (open) { open.hidden = !map || map.owner.type !== 'map'; open.disabled = !map || map.owner.type !== 'map' || same(openedMap, map); }
         }
-        function retire(reason, close) {
+        function retire(reason, close, probe, event) {
+            trace('retire', reason, event, null, probe);
             arm = grant = null;
             var s = shared(); if (s && s.retireInteraction) { s.retireInteraction(reason, {keepShell: close !== true}); }
         }
@@ -123,12 +182,14 @@
             if (reading) { return last; }
             reading = true;
             try {
-                var ticket = readInputTicket(), s = shared();
-                if (arm && !same(arm.owner, actionTicket(arm.kind))) { retire('owner-changed', true); }
-                if (grant && !same(grant.owner, actionTicket(grant.kind))) { retire('owner-changed', true); }
+                var ticket = readInputTicket(), s = shared(), probe = {};
+                if (arm && !ownerMatches(arm.owner, actionTicket(arm.kind), probe)) { retire('owner-changed', true, probe); }
+                probe = {};
+                if (grant && !ownerMatches(grant.owner, actionTicket(grant.kind), probe)) { retire('owner-changed', true, probe); }
                 if (s && s.refresh) { s.refresh(); }
                 var next = readInputTicket();
-                if ((ticket || next) && !same(ticket, next)) { retire('torn-owner', true); ticket = next; }
+                probe = {};
+                if ((ticket || next) && !ownerMatches(ticket, next, probe)) { retire('torn-owner', true, probe); ticket = next; }
                 var active = !!ticket && !!(s && s.isOpen && s.isOpen() && s.shouldShowHd && s.shouldShowHd());
                 paint(active);
                 if (openedMap && !same(openedMap, sample(true))) { openedMap = null; }
@@ -162,60 +223,96 @@
                 (!shared() || !shared().isOpen() || !shared().shouldShowHd())) { return null; }
             return value;
         }
-        function rendered(hit, ticket) {
+        function rendered(hit, ticket, probe) {
             if (hit.kind === 'mode' || hit.kind === 'open') { return true; }
             var binding = hit.kind === 'choose' ? hit.target._bayeMobileSystemTicket : node('hd-system-ui-list')._bayeMobileSystemTicket;
+            if (probe && tracing()) { probe.renderDataSame = !!binding && binding.data === ticket.data; probe.renderKeySame = !!binding && binding.key === ticket.key; }
             return same(binding, ticket);
         }
         function rect(target) { var r = target.getBoundingClientRect(); return [r.left, r.top, r.width, r.height, environment.innerWidth, environment.innerHeight]; }
-        function visible(target, event) {
-            if (!target || target.disabled || target.isConnected === false || !target.getBoundingClientRect) { return false; }
+        function visible(target, event, probe) {
+            function finish(value, reason) {
+                if (probe && tracing()) { probe.visible = value; probe.visibilityReason = reason; }
+                return value;
+            }
+            if (!target) { return finish(false, 'no-target'); }
+            if (target.disabled) { return finish(false, 'target-disabled'); }
+            if (target.isConnected === false || !target.getBoundingClientRect) { return finish(false, 'target-detached'); }
             var r = target.getBoundingClientRect(), x = event.clientX, y = event.clientY;
-            if (![r.left, r.top, r.width, r.height, x, y].every(function (n) { return typeof n === 'number' && isFinite(n); }) ||
-                r.width < 44 || r.height < 44 || x < r.left || y < r.top || x >= r.left + r.width || y >= r.top + r.height) { return false; }
+            if (probe && tracing()) { probe.hitRect = [r.left, r.top, r.width, r.height]; probe.point = [x, y]; }
+            if (![r.left, r.top, r.width, r.height, x, y].every(function (n) { return typeof n === 'number' && isFinite(n); })) { return finish(false, 'geometry-invalid'); }
+            if (r.width < 44 || r.height < 44) { return finish(false, 'target-too-small'); }
+            if (x < r.left || y < r.top || x >= r.left + r.width || y >= r.top + r.height) { return finish(false, 'outside-target'); }
             var current = target;
             while (current && current.nodeType === 1) {
-                if (current.hidden) { return false; }
+                if (current.hidden) { return finish(false, 'ancestor-hidden'); }
                 var style = environment.getComputedStyle && environment.getComputedStyle(current);
-                if (style && (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0)) { return false; }
+                if (style && (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0)) { return finish(false, 'ancestor-style-hidden'); }
                 current = current.parentElement || current.parentNode;
             }
             var top = doc().elementFromPoint && doc().elementFromPoint(x, y);
-            return !doc().elementFromPoint || top === target || target.contains && target.contains(top);
+            var unobstructed = !doc().elementFromPoint || top === target || target.contains && target.contains(top);
+            return finish(unobstructed, unobstructed ? 'hit-tested' : 'target-covered');
         }
         function stop(event) { event.preventDefault(); if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); } else { event.stopPropagation(); } }
         function down(event) {
-            if (event.isTrusted !== true) { if (action(event.target)) { stop(event); } return; }
+            if (event.isTrusted !== true) { var untrusted = action(event.target); if (untrusted) { trace('down', 'untrusted', event, untrusted); stop(event); } return; }
             pointers[event.pointerId] = true; grant = null;
             if (Object.keys(pointers).length > 1 || event.isPrimary === false) { blocked = true; retire('multiple-pointers'); }
             var hit = action(event.target);
             if (!hit) { return; }
-            var ticket = actionTicket(hit.kind);
-            if (blocked || event.isPrimary !== true || !uint(event.pointerId) || event.button != null && event.button !== 0 ||
-                !visible(hit.target, event) || !ticket || !rendered(hit, ticket) || !same(ticket, actionTicket(hit.kind))) { stop(event); return; }
+            var ticket = actionTicket(hit.kind), currentTicket, probe = {};
+            if (failed(!blocked, 'blocked', probe, 'notBlocked') || failed(event.isPrimary === true, 'not-primary', probe, 'primary') ||
+                failed(uint(event.pointerId), 'invalid-pointer-id', probe, 'pointerIdValid') ||
+                failed(!(event.button != null && event.button !== 0), 'wrong-button', probe, 'buttonValid') ||
+                failed(visible(hit.target, event, probe), 'not-visible', probe) || failed(!!ticket, 'owner-unavailable', probe, 'ownerAvailable') ||
+                failed(rendered(hit, ticket, probe), 'stale-render', probe, 'rendered') ||
+                failed(ownerMatches(ticket, (currentTicket = actionTicket(hit.kind)), probe), ownerReason(ticket, currentTicket), probe, 'ownerSame')) {
+                trace('down', probe.reason, event, hit, probe); stop(event); return;
+            }
             arm = {target: hit.target, kind: hit.kind, owner: ticket, id: event.pointerId,
                 x: event.clientX, y: event.clientY, rect: rect(hit.target)};
+            trace('down', 'armed', event, hit, probe);
         }
         function move(event) {
-            if (arm && arm.id === event.pointerId && (Math.hypot(event.clientX - arm.x, event.clientY - arm.y) > 10 ||
-                signature(arm.rect) !== signature(rect(arm.target)) || !same(arm.owner, actionTicket(arm.kind)))) { retire('drag-or-owner-change'); }
+            var probe = {}, currentRect, currentTicket;
+            if (arm && arm.id === event.pointerId && (
+                failed(!(Math.hypot(event.clientX - arm.x, event.clientY - arm.y) > 10), 'moved-too-far', probe, 'movementValid') ||
+                failed(signature(arm.rect) === signature(currentRect = rect(arm.target)), 'geometry-changed', probe, 'geometrySame') ||
+                failed(ownerMatches(arm.owner, (currentTicket = actionTicket(arm.kind)), probe), ownerReason(arm.owner, currentTicket), probe, 'ownerSame'))) {
+                if (tracing()) { probe.currentRect = currentRect || null; }
+                retire('drag-or-owner-change', false, probe, event);
+            }
         }
         function up(event) {
-            var current = arm, hit = action(event.target); arm = null;
-            if (current && current.id === event.pointerId && event.isTrusted === true && event.isPrimary === true && !blocked &&
-                hit && hit.target === current.target && hit.kind === current.kind && visible(hit.target, event) &&
-                Math.hypot(event.clientX - current.x, event.clientY - current.y) <= 10 && signature(current.rect) === signature(rect(current.target)) &&
-                same(current.owner, actionTicket(current.kind)) && rendered(hit, current.owner)) {
+            var current = arm, hit = action(event.target), probe = {}, currentRect, currentTicket; arm = null;
+            if (tracing()) { probe.expectedRect = current ? current.rect.slice() : null; }
+            if (!(failed(!!current, 'no-arm', probe, 'hadArm') || failed(current.id === event.pointerId, 'pointer-id-changed', probe, 'pointerIdSame') ||
+                failed(event.isTrusted === true, 'untrusted', probe, 'trusted') || failed(event.isPrimary === true, 'not-primary', probe, 'primary') ||
+                failed(!blocked, 'blocked', probe, 'notBlocked') || failed(!!hit, 'no-action', probe, 'hasAction') ||
+                failed(hit.target === current.target, 'target-changed', probe, 'targetSame') || failed(hit.kind === current.kind, 'action-changed', probe, 'kindSame') ||
+                failed(visible(hit.target, event, probe), 'not-visible', probe) ||
+                failed(Math.hypot(event.clientX - current.x, event.clientY - current.y) <= 10, 'moved-too-far', probe, 'movementValid') ||
+                failed(signature(current.rect) === signature(currentRect = rect(current.target)), 'geometry-changed', probe, 'geometrySame') ||
+                failed(ownerMatches(current.owner, (currentTicket = actionTicket(current.kind)), probe), ownerReason(current.owner, currentTicket), probe, 'ownerSame') ||
+                failed(rendered(hit, current.owner, probe), 'stale-render', probe, 'rendered'))) {
                 grant = {target: current.target, kind: current.kind, owner: current.owner, at: Date.now()};
             }
+            if (tracing()) { probe.currentRect = currentRect || null; }
+            if (current || hit) { trace('up', probe.reason || 'grant-created', event, hit, probe); }
             delete pointers[event.pointerId]; if (!Object.keys(pointers).length) { blocked = false; }
         }
-        function cancel(event) { retire('pointer-cancel'); delete pointers[event.pointerId]; if (!Object.keys(pointers).length) { blocked = false; } }
+        function cancel(event) { retire('pointer-cancel', false, null, event); delete pointers[event.pointerId]; if (!Object.keys(pointers).length) { blocked = false; } }
         function click(event) {
             var hit = action(event.target); if (!hit) { return; }
-            stop(event); var current = grant; grant = null;
-            if (!current || event.isTrusted !== true || event.detail === 0 || blocked || current.target !== hit.target || current.kind !== hit.kind ||
-                Date.now() - current.at > 1000 || !visible(hit.target, event) || !same(current.owner, actionTicket(hit.kind)) || !rendered(hit, current.owner)) { return; }
+            stop(event); var current = grant, currentTicket, probe = {}; grant = null;
+            if (failed(!!current, 'no-grant', probe, 'hadGrant') || failed(event.isTrusted === true, 'untrusted', probe, 'trusted') ||
+                failed(event.detail !== 0, 'keyboard-click', probe, 'detailValid') || failed(!blocked, 'blocked', probe, 'notBlocked') ||
+                failed(current.target === hit.target, 'target-changed', probe, 'targetSame') || failed(current.kind === hit.kind, 'action-changed', probe, 'kindSame') ||
+                failed(!(Date.now() - current.at > 1000), 'grant-expired', probe, 'ageValid') || failed(visible(hit.target, event, probe), 'not-visible', probe) ||
+                failed(ownerMatches(current.owner, (currentTicket = actionTicket(hit.kind)), probe), ownerReason(current.owner, currentTicket), probe, 'ownerSame') ||
+                failed(rendered(hit, current.owner, probe), 'stale-render', probe, 'rendered')) { trace('click', probe.reason, event, hit, probe); return; }
+            trace('click', 'authorized', event, hit, probe);
             var s = shared();
             if (hit.kind === 'mode') { retire('mode-change'); s.setMode(mode() === 'classic' ? 'hd' : 'classic'); }
             else if (hit.kind === 'choose') { s.chooseInput(Number(hit.target.getAttribute('data-hd-sys')), current.owner); }
@@ -255,7 +352,7 @@
             var api = environment.BayeHdLibIdentity; if (api && api.subscribe) { api.subscribe(function () { boundary('library-change'); }); }
             startTimer(); return refresh();
         }
-        return {init: init, refresh: refresh, snapshot: function () { return last; }, debugSnapshot: function () { return last; },
+        return {init: init, refresh: refresh, snapshot: function () { return last; }, debugSnapshot: debugSnapshot,
             readInputTicket: readInputTicket, retireInteraction: boundary};
     }
     var controller = createController(global);

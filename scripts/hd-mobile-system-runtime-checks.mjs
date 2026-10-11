@@ -14,9 +14,9 @@ export async function runMobileSystemChecks(ctx) {
   const sample=()=>evaluate(sampleSource),keys=start=>evaluate(`__mobileMapKeys.slice(${start})`);
   const snapshot=async()=>({state:await sample(),world:await evaluate(`baye.getPersonCount()===200?${worldSource}:null`)});
   report.systemChecks=[];report.systemScrollChecks=[];report.systemPageInputs=[];
-  await evaluate(`(() => {window.__mobileSystemDiagnostics=[];const s=BayeHdSystemUi,retire=s.retireInteraction;
+  await evaluate(`(() => {window.BAYE_HD_MOBILE_SYSTEM_DIAGNOSTICS=${report.systemModeRepeat>0};window.__mobileSystemDiagnostics=[];const s=BayeHdSystemUi,retire=s.retireInteraction;
     const state=()=>{const t=BayeHdMobileSystem.readInputTicket(),n=document.getElementById('hd-mobile-system-mode'),r=n.getBoundingClientRect();
-      return {at:performance.now(),mode:s.getMode(),key:t&&t.key,rect:[r.left,r.top,r.width,r.height],hidden:document.hidden};};
+      return {at:performance.now(),mode:s.getMode(),key:t&&t.key,rect:[r.left,r.top,r.width,r.height],hidden:document.hidden,diagnostics:BayeHdMobileSystem.debugSnapshot().diagnostics};};
     s.retireInteraction=function(reason,options){__mobileSystemDiagnostics.push({type:'retire',reason,...state()});return retire.apply(this,arguments);};
     for(const type of ['pointerdown','pointerup','click','scroll'])document.addEventListener(type,e=>{
       if(type==='scroll'||e.target.id==='hd-mobile-system-mode'||e.target.id==='hd-mobile-system-open')
@@ -70,6 +70,17 @@ export async function runMobileSystemChecks(ctx) {
   await until('visible system','!document.hidden');await touches('touchEnd');await ready('title');await noInput(before,'hidden held release');
   before=await snapshot();await tap(await buttonPoint('#hd-mobile-system-mode'));await until('classic system preference',`BayeHdMobileSystem.snapshot().mode==='classic'`);await noInput(before,'independent classic system switch');
   await tap(await buttonPoint('#hd-mobile-system-mode'));await ready('title');await noInput(before,'independent HD system restore');
+  report.systemModeStress=[];
+  for(let cycle=0;cycle<report.systemModeRepeat;cycle++)for(const mode of ['classic','hd']){
+    const previous=await snapshot(),holdMs=[10,50,90,130,170,250][(cycle*2+(mode==='hd'?1:0))%6],target=await buttonPoint('#hd-mobile-system-mode');
+    await touches('touchStart',[{x:target.x,y:target.y}],0);await delay(holdMs);await touches('touchEnd',[],0);await delay(160);
+    const observed=await sample(),diagnostic=await evaluate('BayeHdMobileSystem.debugSnapshot()');
+    report.systemModeStress.push({cycle,mode,holdMs,actualMode:observed.systemHost.mode,diagnostic});
+    assert.equal(observed.systemHost.mode,mode,'Trusted mode stress '+cycle+' '+mode+' '+JSON.stringify(diagnostic));
+    if(mode==='hd')await ready('title');else assert.equal(observed.systemHost.active,false);
+    await noInput(previous,'mode repeat '+cycle+' '+mode);
+  }
+  if(report.systemModeRepeat)await capture('02b-mode-repeat');
   await action(item(1),'saveload','empty load open');assert.equal((await sample()).record.mode,2);assert.equal((await sample()).record.count,4);
   before=await snapshot();await tap(await point(item(0),true));await noInput(before,'empty save cannot load');await capture('03-empty-load');await action(back,'title','load cancel',{exit:true});
   await action(item(0),'period','new game open');await action(back,'title','period cancel',{exit:true});await action(item(0),'period','new game reopen');await action(item(0),'king','original period 1');

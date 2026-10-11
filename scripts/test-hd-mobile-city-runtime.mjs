@@ -179,6 +179,7 @@ export async function main(args=process.argv.slice(2)) {
   const reportsOnly=args.includes('--reports-only'),portraitsOnly=args.includes('--portraits-only'),battleEffects=args.includes('--battle-effects'),battleOnly=args.includes('--battle-only')||battleEffects,marchOnly=args.includes('--march-only'),distribution=args.includes('--distribution'),recruitment=args.includes('--recruitment')||distribution;
   const previewOnly=args.includes('--preview-only');
   const systemOnly=args.includes('--system-only'),systemFlags=args.filter(arg=>arg.startsWith('--system-width=')),systemWidth=Number(systemFlags[0]?.split('=')[1]||844);
+  const systemRepeatFlags=args.filter(arg=>arg.startsWith('--system-mode-repeat=')),systemModeRepeat=Number(systemRepeatFlags[0]?.split('=')[1]||0);
   const equipmentOnly=args.includes('--equipment-only'),equipmentFlags=args.filter(arg=>arg.startsWith('--equipment-width=')),equipmentWidth=Number(equipmentFlags[0]?.split('=')[1]||844);
   const worldSource=previewOnly||equipmentOnly||systemOnly?`(() => {const w=${baseWorldSource},d=baye.data;
     const take=(o,fields)=>Object.fromEntries(fields.map(k=>{const v=Number(o[k]);if(!Number.isInteger(v))throw Error('Noninteger goods '+k);return [k,v];}));
@@ -188,7 +189,7 @@ export async function main(args=process.argv.slice(2)) {
   const caseFlags=args.filter(arg=>arg.startsWith('--portrait-case=')),portraitCase=caseFlags[0]?.split('=')[1]||'normal';
   const effectFlags=args.filter(arg=>arg.startsWith('--battle-effects-case=')),effectsCase=effectFlags[0]?.split('=')[1]||'normal';
   const marchFlags=args.filter(arg=>arg.startsWith('--march-width=')),marchWidth=Number(marchFlags[0]?.split('=')[1]||844);
-  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width='));
+  const options=args.filter(arg=>!['--reports-only','--portraits-only','--battle-only','--battle-effects','--march-only','--recruitment','--distribution','--preview-only','--equipment-only','--system-only'].includes(arg)&&!arg.startsWith('--portrait-case=')&&!arg.startsWith('--battle-effects-case=')&&!arg.startsWith('--march-width=')&&!arg.startsWith('--equipment-width=')&&!arg.startsWith('--system-width=')&&!arg.startsWith('--system-mode-repeat='));
   assert.ok(args.filter(arg=>arg==='--reports-only').length<=1&&args.filter(arg=>arg==='--portraits-only').length<=1&&
     args.filter(arg=>arg==='--battle-only'||arg==='--battle-effects').length<=1&&args.filter(arg=>arg==='--march-only').length<=1&&[reportsOnly,portraitsOnly,battleOnly,marchOnly].filter(Boolean).length<=1&&caseFlags.length<=1&&(!caseFlags.length||portraitsOnly)&&['normal','hd-missing','all-missing','delayed'].includes(portraitCase)&&
     effectFlags.length<=1&&(!effectFlags.length||battleEffects)&&['normal','hd-missing'].includes(effectsCase)&&
@@ -199,8 +200,9 @@ export async function main(args=process.argv.slice(2)) {
     args.filter(arg=>arg==='--equipment-only').length<=1&&equipmentFlags.length<=1&&(!equipmentFlags.length||equipmentOnly)&&[844,667].includes(equipmentWidth)&&
     (!equipmentOnly||![previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
     args.filter(arg=>arg==='--system-only').length<=1&&systemFlags.length<=1&&(!systemFlags.length||systemOnly)&&[844,667].includes(systemWidth)&&
+    systemRepeatFlags.length<=1&&systemRepeatFlags.every(v=>/^--system-mode-repeat=(?:0|[1-9]\d{0,2})$/.test(v))&&(!systemRepeatFlags.length||systemOnly)&&Number.isInteger(systemModeRepeat)&&systemModeRepeat>=0&&systemModeRepeat<=100&&
     (!systemOnly||![equipmentOnly,previewOnly,reportsOnly,portraitsOnly,battleOnly,marchOnly,recruitment].some(Boolean))&&
-    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--system-only [--system-width=844|667] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
+    (options.length===0||options.length===2&&options[0]==='--artifact-dir'),'Usage: node scripts/test-hd-mobile-city-runtime.mjs [--system-only [--system-width=844|667] [--system-mode-repeat=0..100] | --equipment-only [--equipment-width=844|667] | --preview-only | --distribution | --recruitment | --reports-only | --march-only [--march-width=844|667] | --battle-only | --battle-effects [--battle-effects-case=normal|hd-missing] | --portraits-only [--portrait-case=normal|hd-missing|all-missing|delayed]] [--artifact-dir build/new-directory]');
   const root=process.cwd(),relative=options[1]||'build/mobile-city-runtime-'+Date.now(),out=path.resolve(root,relative);
   assert.ok(out.startsWith(path.join(root,'build')+path.sep),'Artifacts must stay in a fresh build subdirectory');
   assert.ok(!fs.existsSync(out),'Preserve prior evidence: artifact directory must not already exist');fs.mkdirSync(out,{recursive:true});
@@ -213,6 +215,7 @@ export async function main(args=process.argv.slice(2)) {
   report.previewOnly=previewOnly;report.previewAccepted=false;report.previewChecks=[];
   report.equipmentOnly=equipmentOnly;report.equipmentWidth=equipmentOnly?equipmentWidth:null;report.equipmentAccepted=false;report.equipmentChecks=[];
   report.systemOnly=systemOnly;report.systemWidth=systemOnly?systemWidth:null;report.systemAccepted=false;
+  report.systemModeRepeat=systemOnly?systemModeRepeat:0;
   if(systemOnly)report.scope='Original mobile HD title, period, ruler, system and local save/load through trusted touch; independent presentation, cancelled gestures and exact recorded world restored after reload. No real-device, cloud-save, complete-ABI or full-HD acceptance.';
   if(equipmentOnly)report.scope='Original mobile CITY actual confiscation and granting at the selected emulated width, with empty/full-equipment rejection, cancellation, actual report ownership and exact recorded world deltas; no native writes, real-device, all-tool-class or full-HD acceptance';
   if(previewOnly)report.scope='Original mobile CITY person and equipped-goods preview through trusted touch with actual native focus and property paging; exact recorded world including goods queue and resource fields; no equipment commitment, native writes, real-device or full-HD claim';
@@ -245,8 +248,8 @@ export async function main(args=process.argv.slice(2)) {
   const key=async(code,reason)=>{report.inputs.push({type:'public native key',code,reason});await evaluate('sendKey('+code+')');await delay(160);};
   const metrics=async(width,height)=>{report.inputs.push({type:'CDP viewport',width,height});await cdp.send('Emulation.setDeviceMetricsOverride',{
     width,height,deviceScaleFactor:1,mobile:true,screenOrientation:{type:width>height?'landscapePrimary':'portraitPrimary',angle:width>height?90:0}});await delay(250);};
-  const touches=async(type,points=[])=>{report.inputs.push({type:'trusted CDP '+type,points});await cdp.send('Input.dispatchTouchEvent',{
-    type,touchPoints:points.map(p=>({x:p.x,y:p.y,id:p.id??1,radiusX:1,radiusY:1}))});await delay(90);};
+  const touches=async(type,points=[],settleMs=90)=>{report.inputs.push({type:'trusted CDP '+type,points});await cdp.send('Input.dispatchTouchEvent',{
+    type,touchPoints:points.map(p=>({x:p.x,y:p.y,id:p.id??1,radiusX:1,radiusY:1}))});if(settleMs)await delay(settleMs);};
   const tap=async(point,jitter=false)=>{await touches('touchStart',[{x:point.x,y:point.y}]);
     if(jitter)await touches('touchMove',[{x:point.x+2,y:point.y+1}]);await touches('touchEnd');await delay(150);};
   const buttonPoint=async selector=>{
@@ -738,7 +741,7 @@ export async function main(args=process.argv.slice(2)) {
       report.nativeTouches=[...(report.systemPageInputs||[]).flatMap(p=>p.touches),...await evaluate('window.__mobileMapNativeTouches||[]')];
       report.trustedEvents=[...(report.systemPageInputs||[]).flatMap(p=>p.events),...await evaluate('window.__mobileMapEvents||[]')];
       report.systemInputDiagnostics=[...(report.systemInputDiagnostics||[]),...await evaluate('window.__mobileSystemDiagnostics||[]')];
-      report.failureSystem=await evaluate('({host:window.BayeHdMobileSystem&&BayeHdMobileSystem.snapshot(),ui:window.BayeHdSystemUi&&BayeHdSystemUi.debugSnapshot(),menu:baye.hd.menuItems(),record:baye.hd.record()})');
+      report.failureSystem=await evaluate('({host:window.BayeHdMobileSystem&&BayeHdMobileSystem.snapshot(),debug:window.BayeHdMobileSystem&&BayeHdMobileSystem.debugSnapshot(),ui:window.BayeHdSystemUi&&BayeHdSystemUi.debugSnapshot(),menu:baye.hd.menuItems(),record:baye.hd.record()})');
       report.failureWorld=await evaluate(`baye.getPersonCount()===200?${worldSource}:null`);
     }catch{report.failureSystemInputsUnavailable=true;}}
     if((previewOnly||equipmentOnly)&&cdp){try{report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');report.failureWorld=await evaluate(worldSource);}catch{report.failurePreviewInputsUnavailable=true;}}
