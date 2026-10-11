@@ -35,6 +35,8 @@
     // Only the current MAP ticket and all other owner gates authorize the HUD.
     function mapOwner(owner) {
         return !!owner && owner.g_hdEngineReady === 1 && owner.g_hdMapPick === 1 &&
+            (owner.g_hdTransferProtocolVersion === undefined && owner.g_hdTransferActive === undefined ||
+                owner.g_hdTransferProtocolVersion === 1 && owner.g_hdTransferActive === 0) &&
             (owner.g_hdMarchPhase === 0 || owner.g_hdMarchPhase === 7) &&
             integer(owner.g_hdMapCity, 1, 38) && integer(owner.g_hdMapInputSeq, 1, 0xffffffff) &&
             integer(owner.g_hdDetailGeneration, 1, 0xffffffff) && integer(owner.g_hdSpeGeneration, 1, 0xffffffff) &&
@@ -43,7 +45,8 @@
     }
     function fence(data) {
         if (!data) { return null; }
-        var owner = {g_hdEngineReady: data.g_hdEngineReady, g_hdMapPick: data.g_hdMapPick, g_hdMapCity: data.g_hdMapCity};
+        var owner = {g_hdEngineReady: data.g_hdEngineReady, g_hdMapPick: data.g_hdMapPick, g_hdMapCity: data.g_hdMapCity,
+            g_hdTransferProtocolVersion: data.g_hdTransferProtocolVersion, g_hdTransferActive: data.g_hdTransferActive};
         BLOCKERS.concat(TICKETS).forEach(function (key) { owner[key] = data[key]; });
         return owner;
     }

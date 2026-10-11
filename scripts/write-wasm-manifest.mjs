@@ -51,9 +51,24 @@ const manifest = {
         fight: ['g_hdFightInputKind', 'g_hdFightInputSeq', 'g_hdFightActor'],
         menu: ['g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq'],
         march: ['g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchOrigin', 'g_hdMarchSelected', 'g_hdMarchInputSeq', 'g_hdMapInputSeq'],
+        transfer: ['g_hdTransferProtocolVersion','g_hdTransferActive','g_hdTransferCommand','g_hdTransferSession','g_hdTransferInputSeq','g_hdTransferPhase','g_hdTransferOrigin','g_hdTransferTarget','g_hdTransferPerson','g_hdTransferFood','g_hdTransferMoney','g_hdTransferArms','g_hdTransferDistance','g_hdTransferCommitSeq','g_hdTransferCommitResult'],
         report: ['g_hdReportActive', 'g_hdReportInputSeq'],
         record: ['g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount', 'g_hdRecordSeq'],
         qty: ['g_hdQtyActive', 'g_hdQtySession', 'g_hdQtyInputSeq', 'g_hdQtyLastKey', 'g_hdQtyCursor', 'g_hdQtyStep', 'g_hdQtyReady']
+    },
+    hdTransferProtocol: {
+        version: 1,
+        publicApi: 'baye.hd.transfer()',
+        fields: ['g_hdTransferProtocolVersion','g_hdTransferActive','g_hdTransferCommand','g_hdTransferSession','g_hdTransferInputSeq','g_hdTransferPhase','g_hdTransferOrigin','g_hdTransferTarget','g_hdTransferPerson','g_hdTransferFood','g_hdTransferMoney','g_hdTransferArms','g_hdTransferDistance','g_hdTransferCommitSeq','g_hdTransferCommitResult'],
+        commands: { transportation: 13, move: 14 },
+        phases: { idle: 0, person: 1, food: 2, money: 3, arms: 4, targetTip: 5, targetPick: 6,
+            reject: 7, departureReport: 8, done: 9 },
+        owner: 'independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers',
+        values: 'only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known',
+        departure: 'report8 observes native Thew/cargo debits before the original single AddOrderHead and DelPerson',
+        commit: 'monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added',
+        retirement: 'DONE inactive retains last receipt; next begin clears values/result; reset retires the session',
+        input: 'read-only; existing menu, quantity, report and map-input receipts remain authoritative'
     },
     hdSpeProtocol: {
         version: 2,

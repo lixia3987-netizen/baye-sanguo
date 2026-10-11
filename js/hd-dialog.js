@@ -203,7 +203,14 @@
         if (!mobileHost || !mobileAvailable()) { return null; }
         try {
             var city = global.BayeHdCityMenu;
-            if (!city || typeof city.getMarchDialogTicket !== 'function') { return null; }
+            if (!city) { return null; }
+            if (typeof city.getTransferDialogTicket === 'function') {
+                var transferFirst = city.getTransferDialogTicket(), transferSecond = city.getTransferDialogTicket();
+                if (transferFirst && transferSecond && transferFirst.data === transferSecond.data &&
+                    transferFirst.key === transferSecond.key &&
+                    ['transfer-qty', 'transfer-report'].indexOf(transferFirst.ownerType) >= 0) { return transferFirst; }
+            }
+            if (typeof city.getMarchDialogTicket !== 'function') { return null; }
             var first = city.getMarchDialogTicket(), second = city.getMarchDialogTicket();
             return first && second && first.data && first.data === second.data &&
                 first.key === second.key && typeof first.key === 'string' && first.key &&

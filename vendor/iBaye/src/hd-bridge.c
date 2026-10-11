@@ -132,6 +132,13 @@ U8 g_hdMarchPhase = BAYE_HD_MARCH_IDLE;
 U8 g_hdMarchOrigin = 0xff;
 U8 g_hdMarchSelected = 0;
 U32 g_hdMarchInputSeq = 0;
+U8 g_hdTransferProtocolVersion = BAYE_HD_TRANSFER_VERSION;
+U8 g_hdTransferActive = 0, g_hdTransferCommand = 0, g_hdTransferPhase = BAYE_HD_TRANSFER_IDLE;
+U32 g_hdTransferSession = 0, g_hdTransferInputSeq = 0, g_hdTransferCommitSeq = 0;
+U8 g_hdTransferOrigin = 0xff, g_hdTransferTarget = 0xff, g_hdTransferDistance = 0xff;
+U16 g_hdTransferPerson = 0xffff, g_hdTransferFood = 0, g_hdTransferMoney = 0, g_hdTransferArms = 0;
+U8 g_hdTransferCommitResult = 0;
+static U32 hdTransferGeneration = 0;
 U8 g_hdFightSkip = 0;
 
 U8 g_hdHelpGbk[BAYE_HD_HELP_MAX];
@@ -1188,6 +1195,7 @@ void baye_hd_set_ready(U8 ready)
     hd_help_detail_clear();
     baye_hd_set_fight(0, 0);
     baye_hd_march_end(0);
+    baye_hd_transfer_retire();
     g_hdMarchOk = 0;
     g_hdMarchCity = g_hdMarchObj = g_hdMarchTime = 0;
     g_hdFightSkip = BAYE_HD_FIGHT_SKIP_NONE;
@@ -1487,6 +1495,84 @@ void baye_hd_march_end(U8 departed)
         g_hdMarchSelected = 0;
     }
     baye_hd_march_phase(departed ? BAYE_HD_MARCH_DEPARTED : BAYE_HD_MARCH_IDLE);
+}
+
+static U8 hd_transfer_owner(U32 session)
+{
+    return g_hdTransferActive && session && session == g_hdTransferSession &&
+        hdTransferGeneration == g_hdDetailGeneration;
+}
+
+void baye_hd_transfer_phase(U32 session, U8 phase)
+{
+    if (!hd_transfer_owner(session) || phase > BAYE_HD_TRANSFER_DONE) return;
+    g_hdTransferPhase = phase;
+    g_hdTransferInputSeq = hd_next_input_seq(g_hdTransferInputSeq);
+}
+
+U32 baye_hd_transfer_begin(U8 command, U8 origin)
+{
+    if ((command != TRANSPORTATION && command != MOVE) || origin >= CITY_MAX) return 0;
+    g_hdTransferSession = hd_next_input_seq(g_hdTransferSession);
+    hdTransferGeneration = g_hdDetailGeneration;
+    g_hdTransferActive = 1;
+    g_hdTransferCommand = command;
+    g_hdTransferOrigin = origin;
+    g_hdTransferTarget = g_hdTransferDistance = 0xff;
+    g_hdTransferPerson = 0xffff;
+    g_hdTransferFood = g_hdTransferMoney = g_hdTransferArms = 0;
+    g_hdTransferCommitResult = 0;
+    baye_hd_transfer_phase(g_hdTransferSession, BAYE_HD_TRANSFER_IDLE);
+    return g_hdTransferSession;
+}
+
+void baye_hd_transfer_person(U32 session, U16 person)
+{
+    if (hd_transfer_owner(session) && person < PERSON_COUNT) g_hdTransferPerson = person;
+}
+
+void baye_hd_transfer_amount(U32 session, U8 phase, U16 value)
+{
+    if (!hd_transfer_owner(session) || g_hdTransferCommand != TRANSPORTATION || value == 0xffff) return;
+    if (phase == BAYE_HD_TRANSFER_FOOD) g_hdTransferFood = value;
+    else if (phase == BAYE_HD_TRANSFER_MONEY) g_hdTransferMoney = value;
+    else if (phase == BAYE_HD_TRANSFER_ARMS) g_hdTransferArms = value;
+}
+
+void baye_hd_transfer_target(U32 session, U8 target, U8 distance)
+{
+    if (!hd_transfer_owner(session) || target >= CITY_MAX) return;
+    g_hdTransferTarget = target;
+    g_hdTransferDistance = distance;
+}
+
+void baye_hd_transfer_commit(U32 session, U8 accepted)
+{
+    if (!hd_transfer_owner(session)) return;
+    g_hdTransferCommitSeq = hd_next_input_seq(g_hdTransferCommitSeq);
+    /* 2 means the actual AddOrderHead returned 0, including an existing hook rejection. */
+    g_hdTransferCommitResult = accepted ? 1 : 2;
+}
+
+void baye_hd_transfer_end(U32 session)
+{
+    if (!hd_transfer_owner(session)) return;
+    baye_hd_transfer_phase(session, BAYE_HD_TRANSFER_DONE);
+    g_hdTransferActive = 0;
+}
+
+void baye_hd_transfer_retire(void)
+{
+    g_hdTransferActive = 0;
+    g_hdTransferSession = hd_next_input_seq(g_hdTransferSession);
+    g_hdTransferInputSeq = hd_next_input_seq(g_hdTransferInputSeq);
+    hdTransferGeneration = 0;
+    g_hdTransferCommand = 0;
+    g_hdTransferPhase = BAYE_HD_TRANSFER_IDLE;
+    g_hdTransferOrigin = g_hdTransferTarget = g_hdTransferDistance = 0xff;
+    g_hdTransferPerson = 0xffff;
+    g_hdTransferFood = g_hdTransferMoney = g_hdTransferArms = 0;
+    g_hdTransferCommitResult = 0;
 }
 
 void baye_hd_set_fight(U8 active, U8 over)
@@ -3662,6 +3748,21 @@ void baye_hd_bind(ObjectDef* def)
     DEFADDF(g_hdMarchOrigin, U8);
     DEFADDF(g_hdMarchSelected, U8);
     DEFADDF(g_hdMarchInputSeq, U32);
+    DEFADDF(g_hdTransferProtocolVersion, U8);
+    DEFADDF(g_hdTransferActive, U8);
+    DEFADDF(g_hdTransferCommand, U8);
+    DEFADDF(g_hdTransferSession, U32);
+    DEFADDF(g_hdTransferInputSeq, U32);
+    DEFADDF(g_hdTransferPhase, U8);
+    DEFADDF(g_hdTransferOrigin, U8);
+    DEFADDF(g_hdTransferTarget, U8);
+    DEFADDF(g_hdTransferPerson, U16);
+    DEFADDF(g_hdTransferFood, U16);
+    DEFADDF(g_hdTransferMoney, U16);
+    DEFADDF(g_hdTransferArms, U16);
+    DEFADDF(g_hdTransferDistance, U8);
+    DEFADDF(g_hdTransferCommitSeq, U32);
+    DEFADDF(g_hdTransferCommitResult, U8);
     DEFADDF(g_hdFightSkip, U8);
     DEFADD_GBKARR(g_hdHelpGbk, sizeof(g_hdHelpGbk));
     DEFADDF(g_hdHelpSeq, U16);

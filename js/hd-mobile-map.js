@@ -46,6 +46,7 @@
             if (body && body.classList) {
                 body.classList.toggle('hd-mobile-map-on', value.active);
                 body.classList.toggle('hd-mobile-march-target-on', value.active && value.ownerType === 'march-target');
+                body.classList.toggle('hd-mobile-transfer-target-on', value.active && value.ownerType === 'transfer-target');
             }
             if (layer) { layer.hidden = !value.active; }
             var toggle = node('hd-mobile-map-mode'), focus = node('hd-mobile-map-focus'), exit = node('hd-mobile-exit');
@@ -76,10 +77,12 @@
                     if (!data) { return null; }
                     var value = {};
                     ZERO.concat(EXIT_FIELDS).forEach(function (key) { value[key] = data[key]; });
+                    value.g_hdTransferActive = data.g_hdTransferActive;
                     return value;
                 }
                 var owner = readOwner();
-                if (!owner || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 0 || owner.g_hdMenuActive !== 1 || !inactiveMarch(owner) ||
+                if (!owner || data.g_hdTransferActive !== undefined && data.g_hdTransferActive !== 0 ||
+                    owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 0 || owner.g_hdMenuActive !== 1 || !inactiveMarch(owner) ||
                     owner.g_hdMenuContext !== 1 || !integer(owner.g_hdMenuKind, 1, 4) ||
                     !integer(owner.g_hdMapCity, 1, 38) || !integer(owner.g_hdMenuSeq, 1, 0xffffffff) ||
                     !integer(owner.g_hdDetailGeneration, 1, 0xffffffff) || !integer(owner.g_hdSpeGeneration, 1, 0xffffffff) ||
@@ -104,10 +107,12 @@
                     if (!data) { return null; }
                     var value = {};
                     ZERO.concat(MAP_FIELDS).forEach(function (key) { value[key] = data[key]; });
+                    value.g_hdTransferActive = data.g_hdTransferActive;
                     return value;
                 }
                 var owner = readOwner();
-                if (!owner || owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 1 || owner.g_hdMenuActive !== 0 || !inactiveMarch(owner) ||
+                if (!owner || data.g_hdTransferActive !== undefined && data.g_hdTransferActive !== 0 ||
+                    owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 1 || owner.g_hdMenuActive !== 0 || !inactiveMarch(owner) ||
                     !integer(owner.g_hdMapCity, 0, 38) || !integer(owner.g_hdMapInputSeq, 1, 0xffffffff) ||
                     !integer(owner.g_hdDetailGeneration, 1, 0xffffffff) || !integer(owner.g_hdSpeGeneration, 1, 0xffffffff) ||
                     !ZERO.every(function (key) { return owner[key] === 0; }) ||
@@ -167,6 +172,41 @@
                 return {identity: firstIdentity, owner: owner, data: data, ticket: first, signature: signature};
             } catch (e) { return null; }
         }
+        function readTransferTarget() {
+            if (hidden() || !landscape()) { return null; }
+            try {
+                var id = identity(), baye = environment.baye, city = environment.BayeHdCityMenu;
+                if (!id || !baye || !baye.hd || baye.hd.ready() !== true || !city ||
+                    ['getTransferTargetTicket','selectTransferTarget','confirmTransferTarget','cancelTransfer'].some(function (name) {
+                        return typeof city[name] !== 'function';
+                    })) { return null; }
+                var data = typeof baye.ensureData === 'function' ? baye.ensureData() : baye.data;
+                var first = city.getTransferTargetTicket();
+                function shape(ticket) {
+                    return ticket && ticket.data === data && ticket.ownerType === 'transfer-target' &&
+                        ticket.libraryGeneration === id.generation && ticket.phase === 6 &&
+                        integer(ticket.cityIndex, 0, 37) && [13,14].indexOf(ticket.command) >= 0 &&
+                        integer(ticket.session, 1, 0xffffffff) && integer(ticket.inputSeq, 1, 0xffffffff) &&
+                        Array.isArray(ticket.targets) && ticket.targets.length <= 37 &&
+                        ticket.targets.every(function (n, i, all) { return integer(n, 0, 37) && n !== ticket.cityIndex && all.indexOf(n) === i; }) &&
+                        typeof ticket.key === 'string' && ticket.key ? JSON.stringify([ticket.key, ticket.libraryGeneration,
+                            ticket.ownerType, ticket.cityIndex, ticket.command, ticket.session, ticket.inputSeq, ticket.mapInputSeq, ticket.targets]) : null;
+                }
+                var signature = shape(first), owner = {};
+                if (!data || !signature || data.g_hdTransferActive !== 1 || data.g_hdTransferPhase !== 6 ||
+                    data.g_hdTransferProtocolVersion !== 1 || data.g_hdTransferCommand !== first.command ||
+                    data.g_hdTransferSession !== first.session || data.g_hdTransferInputSeq !== first.inputSeq ||
+                    data.g_hdTransferOrigin !== first.cityIndex || data.g_hdMapInputSeq !== first.mapInputSeq) { return null; }
+                ZERO.concat(MAP_FIELDS).forEach(function (key) { owner[key] = data[key]; });
+                if (owner.g_hdEngineReady !== 1 || owner.g_hdMapPick !== 1 || owner.g_hdMenuActive !== 0 ||
+                    !inactiveMarch(owner) || !ZERO.every(function (key) { return owner[key] === 0; }) ||
+                    !MAP_FIELDS.every(function (key) { return integer(owner[key], 0, 0xffffffff); })) { return null; }
+                if (signature !== shape(city.getTransferTargetTicket()) || baye.data !== data ||
+                    !equal(id, identity()) || hidden() || !landscape() || baye.hd.ready() !== true ||
+                    !Object.keys(owner).every(function (key) { return data[key] === owner[key]; })) { return null; }
+                return {identity:id, data:data, ticket:first, signature:signature, owner:owner};
+            } catch (e) { return null; }
+        }
         function sameMarchTarget(a, b) {
             return !!a && !!b && a.data === b.data && a.signature === b.signature &&
                 equal(a.identity, b.identity) && equal(a.owner, b.owner);
@@ -187,19 +227,20 @@
                 var isLandscape = landscape(), currentMode = mode(), shared = map(), hud = null, sharedState = null, next = false,
                     tipText = '', mapToken = null, targetToken = null, targetPresentation = null, nextType = null;
                 if (!hidden() && isLandscape && currentMode === 'hd-map' && shared && typeof shared.debugSnapshot === 'function') {
-                    targetToken = readMarchTarget();
+                    targetToken = readTransferTarget() || readMarchTarget();
                     if (targetToken) {
                         // Clear the ordinary-city HUD; it does not authorize target selection.
                         if (environment.BayeHdMobile && typeof environment.BayeHdMobile.refresh === 'function') { environment.BayeHdMobile.refresh(); }
                         sharedState = shared.debugSnapshot();
-                        if (environment.BayeHdCityMenu && typeof environment.BayeHdCityMenu.getMarchPresentation === 'function') {
-                            targetPresentation = environment.BayeHdCityMenu.getMarchPresentation();
+                        var transferTarget = targetToken.ticket.ownerType === 'transfer-target';
+                        if (environment.BayeHdCityMenu && typeof environment.BayeHdCityMenu[transferTarget ? 'getTransferPresentation' : 'getMarchPresentation'] === 'function') {
+                            targetPresentation = environment.BayeHdCityMenu[transferTarget ? 'getTransferPresentation' : 'getMarchPresentation']();
                         }
-                        next = !!(sameMarchTarget(targetToken, readMarchTarget()) && sharedState.presentationReady === true &&
+                        next = !!(sameMarchTarget(targetToken, transferTarget ? readTransferTarget() : readMarchTarget()) && sharedState.presentationReady === true &&
                             sharedState.mode === 'hd-map' && sharedState.phase === 'map');
                         if (next) {
-                            nextType = 'march-target';
-                            tipText = '点相邻敌城选择目标 · 在侧栏确认出征';
+                            nextType = transferTarget ? 'transfer-target' : 'march-target';
+                            tipText = transferTarget ? '点同势力城选择目标 · 在侧栏确认' : '点相邻敌城选择目标 · 在侧栏确认出征';
                         }
                     } else if (environment.BayeHdMobile && typeof environment.BayeHdMobile.refresh === 'function') {
                         mapToken = readMap();
@@ -223,14 +264,15 @@
                     }
                 }
                 var exitToken = readExit();
-                function currentSurface() { return nextType === 'march-target' ? sameMarchTarget(targetToken, readMarchTarget()) : sameMap(mapToken, readMap()); }
+                function currentSurface() { return nextType === 'transfer-target' ? sameMarchTarget(targetToken, readTransferTarget()) :
+                    nextType === 'march-target' ? sameMarchTarget(targetToken, readMarchTarget()) : sameMap(mapToken, readMap()); }
                 if (next && !currentSurface()) { next = false; nextType = null; }
                 // A target picker never inherits an armed generic city EXIT. Its
                 // explicit sidebar cancel owns cancellation of the current march.
-                if (!exitToken || nextType === 'march-target') { arm = null; }
+                if (!exitToken || nextType === 'march-target' || nextType === 'transfer-target') { arm = null; }
                 if ((next !== active || nextType !== activeType) && !cancel()) { next = false; nextType = null; }
                 active = next; activeType = next ? nextType : null;
-                if (active && nextType === 'march-target' && typeof shared.centerOnCity === 'function') {
+                if (active && (nextType === 'march-target' || nextType === 'transfer-target') && typeof shared.centerOnCity === 'function') {
                     var centerKey = targetToken.identity.generation + ':' + targetToken.ticket.session + ':' + targetToken.ticket.cityIndex;
                     if (centeredMarch !== centerKey) {
                         shared.centerOnCity(targetToken.ticket.cityIndex);
@@ -245,8 +287,8 @@
                 if (active && !currentSurface()) { cancel(); active = false; activeType = null; }
                 if (pendingExit && !sameExit(pendingExit, exitToken)) { pendingExit = null; }
                 var canExit = !!exitToken && !pendingExit && environment.VK_EXIT === 0x28 && typeof environment.sendKey === 'function';
-                var isTarget = active && activeType === 'march-target';
-                var presentationCurrent = isTarget && targetPresentation && targetPresentation.phase === 4 &&
+                var isTarget = active && (activeType === 'march-target' || activeType === 'transfer-target');
+                var presentationCurrent = isTarget && targetPresentation && targetPresentation.phase === (activeType === 'transfer-target' ? 6 : 4) &&
                     targetPresentation.session === targetToken.ticket.session && targetPresentation.inputSeq === targetToken.ticket.inputSeq &&
                     targetPresentation.origin === targetToken.ticket.cityIndex;
                 last = Object.freeze({active: active, ownerType: activeType, mode: currentMode, landscape: isLandscape,
@@ -254,6 +296,9 @@
                     libraryGeneration: active ? (isTarget ? targetToken : mapToken).identity.generation : null,
                     marchSession: isTarget ? targetToken.ticket.session : null, marchInputSeq: isTarget ? targetToken.ticket.inputSeq : null,
                     marchSelected: isTarget ? targetToken.ticket.selected : null,
+                    transferSession: activeType === 'transfer-target' ? targetToken.ticket.session : null,
+                    transferInputSeq: activeType === 'transfer-target' ? targetToken.ticket.inputSeq : null,
+                    transferCommand: activeType === 'transfer-target' ? targetToken.ticket.command : null,
                     targets: Object.freeze(isTarget ? targetToken.ticket.targets.slice() : []),
                     pendingTarget: presentationCurrent && integer(targetPresentation.pendingTarget, 0, 37) &&
                         targetToken.ticket.targets.indexOf(targetPresentation.pendingTarget) !== -1 ? targetPresentation.pendingTarget : null,

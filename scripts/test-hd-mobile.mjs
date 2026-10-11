@@ -62,6 +62,26 @@ function hidden(f) {
     return value;
 }
 
+test('transfer target MAP never publishes ordinary city HUD, and actual retirement restores it', () => {
+    const f = fixture();
+    f.data.g_hdTransferProtocolVersion = 1; f.data.g_hdTransferActive = 1;
+    hidden(f); assert.equal(f.counts.input, 0);
+    f.data.g_hdTransferActive = 0;
+    assert.equal(f.api.refresh().visible, true);
+});
+for (const [version, active] of [[1, undefined], [undefined, 0], [0, 0], [2, 0], [1, NaN], [1, null], [1, '0'], [1, 2]]) {
+    test('incomplete or invalid transfer protocol cannot authorize ordinary HUD '+String(version)+'/'+String(active), () => {
+        const f = fixture(); f.data.g_hdTransferProtocolVersion = version; f.data.g_hdTransferActive = active;
+        hidden(f); assert.equal(f.counts.input, 0);
+    });
+}
+test('transfer becomes active during a city-name read and retires the stale ordinary HUD', () => {
+    const f = fixture(); f.data.g_hdTransferProtocolVersion = 1; f.data.g_hdTransferActive = 0;
+    const read = f.window.baye.getCityName;
+    f.window.baye.getCityName = index => {const name = read(index); f.data.g_hdTransferActive = 1; return name;};
+    hidden(f); assert.equal(f.counts.input, 0);
+});
+
 test('verified original dictionary current map uses one-based city/owner and actual reserve troops', () => {
     assert.equal(dictionary.length, 207195);
     assert.equal(createHash('sha256').update(dictionary).digest('hex'), sha);

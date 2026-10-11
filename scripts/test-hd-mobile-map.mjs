@@ -98,6 +98,66 @@ function fixture() {
 function off(f) { assert.equal(f.api.refresh().active, false); assert.equal(f.nodes.get('hd-overworld').hidden, true);
     assert.equal(f.document.body.classList.contains('hd-mobile-map-on'), false); }
 
+function transferMapFixture(command=13) {
+    const f=fixture();Object.assign(f.data,{g_hdTransferProtocolVersion:1,g_hdTransferActive:1,g_hdTransferCommand:command,
+        g_hdTransferPhase:6,g_hdTransferSession:31,g_hdTransferInputSeq:19,g_hdTransferOrigin:16});
+    const target={targets:[17,25,30],pendingTarget:null,confirmingTarget:false,status:'选择目标城'};
+    const city={getTransferTargetTicket(){const value={libraryGeneration:2,ownerType:'transfer-target',cityIndex:16,
+        command:f.data.g_hdTransferCommand,session:f.data.g_hdTransferSession,inputSeq:f.data.g_hdTransferInputSeq,
+        phase:f.data.g_hdTransferPhase,mapInputSeq:f.data.g_hdMapInputSeq,targets:target.targets.slice()};
+        value.key=JSON.stringify([value,f.data.g_hdTransferActive]);Object.defineProperty(value,'data',{value:f.window.baye.data});return value;},
+        getTransferPresentation(){return {...target,phase:6,session:31,inputSeq:19,origin:16};},
+        selectTransferTarget(){throw Error('adapter must not select');},confirmTransferTarget(){throw Error('adapter must not confirm');},
+        cancelTransfer(){throw Error('adapter must not cancel');}};
+    f.window.BayeHdCityMenu=city;return Object.assign(f,{city,target});
+}
+for(const command of [13,14])test('transfer target uses its own current protocol owner, not battle phase4 or ordinary MAP HUD: '+command,()=>{
+    const f=transferMapFixture(command),before=JSON.stringify(f.data),s=f.api.init();
+    assert.equal(s.active,true);assert.equal(s.ownerType,'transfer-target');assert.equal(s.transferCommand,command);
+    assert.equal(s.transferSession,31);assert.deepEqual(Array.from(s.targets),[17,25,30]);assert.equal(s.exitEnabled,false);
+    assert.equal(f.document.body.classList.contains('hd-mobile-transfer-target-on'),true);
+    assert.equal(f.document.body.classList.contains('hd-mobile-march-target-on'),false);
+    assert.equal(f.nodes.get('hd-mobile-exit').disabled,true);assert.deepEqual(f.counts.centers,[16]);
+    assert.equal(JSON.stringify(f.data),before);assert.deepEqual(f.counts.keys,[]);
+    f.api.refresh();assert.deepEqual(f.counts.centers,[16]);
+});
+test('transfer target diagnostics do not authorize stale selection or send an action',()=>{
+    const f=transferMapFixture();f.target.pendingTarget=30;f.target.status='已选择';f.api.init();
+    assert.equal(f.api.snapshot().pendingTarget,30);assert.equal(f.api.snapshot().status,'已选择');
+    f.city.getTransferPresentation=()=>({phase:6,session:99,inputSeq:19,origin:16,pendingTarget:30,status:'旧'});
+    f.api.refresh();assert.equal(f.api.snapshot().active,true);assert.equal(f.api.snapshot().pendingTarget,null);
+    assert.equal(f.api.snapshot().status,'');assert.deepEqual(f.counts.keys,[]);
+});
+for(const field of ['getTransferTargetTicket','selectTransferTarget','confirmTransferTarget','cancelTransfer'])test('transfer target requires complete shared API '+field,()=>{
+    const f=transferMapFixture();delete f.city[field];off(f);assert.deepEqual(f.counts.keys,[]);
+});
+for(const change of ['protocol','inactive','phase','command','origin','map-seq','data','identity','torn','menu','report','battle','classic','hidden','portrait'])test('transfer map rejects '+change,()=>{
+    const f=transferMapFixture();
+    if(change==='protocol')f.data.g_hdTransferProtocolVersion=2;
+    if(change==='inactive')f.data.g_hdTransferActive=0;
+    if(change==='phase')f.data.g_hdTransferPhase=5;
+    if(change==='command')f.data.g_hdTransferCommand=27;
+    if(change==='origin')f.data.g_hdTransferOrigin=17;
+    if(change==='map-seq'){const original=f.city.getTransferTargetTicket;f.city.getTransferTargetTicket=()=>({...original(),mapInputSeq:1});}
+    if(change==='data'){const original=f.city.getTransferTargetTicket;f.city.getTransferTargetTicket=()=>{const t=original();f.window.baye.data={...f.data};return t;};}
+    if(change==='identity')f.setIdentity({generation:3});
+    if(change==='torn'){const original=f.city.getTransferTargetTicket;f.city.getTransferTargetTicket=()=>{const t=original();f.data.g_hdTransferInputSeq++;return t;};}
+    if(change==='menu')f.data.g_hdMenuActive=1;
+    if(change==='report')f.data.g_hdReportActive=1;
+    if(change==='battle')f.data.g_hdBattlePick=1;
+    if(change==='classic')f.shared.setMode('classic');
+    if(change==='hidden')f.document.hidden=true;
+    if(change==='portrait'){f.window.innerWidth=390;f.window.innerHeight=844;}
+    // Inactive protocol cannot retain its former target ticket; a genuine new
+    // ordinary MAP can appear only after the native owner itself has retired.
+    if(change==='inactive')f.data.g_hdMapPick=0;
+    off(f);assert.deepEqual(f.counts.keys,[]);
+});
+test('active transfer without a target proof can never use ordinary MAP or header city EXIT',()=>{
+    const f=fixture();f.api.init();f.data.g_hdTransferActive=1;off(f);f.menu();
+    assert.equal(f.api.snapshot().exitEnabled,false);f.releaseExit();assert.deepEqual(f.counts.keys,[]);
+});
+
 test('mounts shared implementation once and centers the current strict HUD city once per LIB generation', () => {
     const f = fixture(); assert.equal(f.api.init().active, true); f.api.init(); f.api.refresh();
     assert.equal(f.counts.mount, 1); assert.equal(f.counts.start, 1); assert.deepEqual(f.counts.centers, [16]);

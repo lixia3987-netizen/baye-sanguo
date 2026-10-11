@@ -49,12 +49,18 @@
 | `g_hdMenuActive` / `Context` / `Kind` / `Seq` | u8 / u8 / u8 / u32 | 菜单真实生命周期与上下文；关闭后旧 bytes 不代表可操作菜单 |
 | `g_hdMarchPhase` / `Session` / `Origin` / `Selected` / `InputSeq` | u8 / u16 / u8 / u8 / u32 | 出征步骤、当前出征会话、0-based 出发城（空闲 255）、已选人数及阻塞输入序号 |
 | `g_hdMapInputSeq` | u32 | 每次真正进入 `GetCitySet` 的输入序号；同一次等待中的光标移动不改变它 |
+| `g_hdTransferProtocolVersion` / `Active` / `Command` | u8 | 独立输送/移动协议 version 1、活动标志与命令 13/14 |
+| `g_hdTransferSession` / `InputSeq` | u32 | 命令会话与真实等待序号；回绕跳过 0 |
+| `g_hdTransferPhase` / `Origin` / `Target` | u8 | 独立阶段及 0-based 城号；未定城号为 255 |
+| `g_hdTransferPerson` / `Food` / `Money` / `Arms` | u16 | 原生实际返回的人物与货物数量；未定人物为 65535 |
+| `g_hdTransferDistance` | u8 | 原生 `SearchRoad` 返回距离；未定为 255 |
+| `g_hdTransferCommitSeq` / `CommitResult` | u32 / u8 | 单调提交回执序号；0 无结果、1 实际入队成功、2 实际入队失败 |
 | `g_hdReportActive` / `InputSeq` | u8 / u32 | 报告真实等待的归属与输入序号；正文 seq 变化不等于可确认 |
 | `g_hdRecordActive` / `Mode` / `Index` / `Count` / `Seq` | u8 / u8 / u8 / u8 / u32 | 原生存读档等待：mode 1 保存、2 读取；下标更新不重开等待 |
 
 原有 `g_FightMap` / `g_FightMapData` / `g_MapWid` / `g_MapHgt` / `g_GenPos` / `g_FgtParam.GenArray` / `g_FgtOver` 仍可用。
 
-当前 manifest 的 `hdInputProtocol.version=3` 共记录 27 个生命周期字段：fight 3、menu 4、march 6、report 2、record 5、qty 7。M3 的 version 2 记录前五组共 20 个字段。它们用于判断当前输入归属；不能用缓存正文、旧菜单名或旧异步调用编号代替。
+当前 manifest 的 `hdInputProtocol.version=3` 记录 42 个字段：fight 3、menu 4、march 6、transfer 15、report 2、record 5、qty 7；独立 transfer 协议另记为 `hdTransferProtocol.version=1`。此前 version 3 的 27 字段及 M3 version 2 的 20 字段记录为历史范围。它们用于判断当前输入归属；不能用缓存正文、旧菜单名或旧异步调用编号代替。
 
 ## M4 数量输入确认
 
@@ -63,6 +69,26 @@
 `cursor` 沿用原生 `bit` 的视觉位置，方向键步长为 `step`；原生数字键仍按既有 `10^bit` 规则替换数字。前端不修改数量或游戏资源。按钮与实体键盘通过同一数量队列输入，确认等待之前的按键全部收到回执；取消、会话切换、新世界和模式切换使旧操作失效，超时不重发未确认的按键。ENTER、EXIT 和原生触摸确认/取消关闭数量等待，世界提交更新数量会话令牌，旧 C 调用不能重新发布已失效的数量镜像。
 
 `bayeSendKey` 只将消息加入原生队列，入队时 `ready` 可以仍为 1。共享的已发送按键记录跨弹窗和模式的异步令牌保留；重新打开同一数量会话时，先等待旧按键的真实回执，再根据最新光标规划。确认也经过此等待，不能领取旧的同码按键回执。取消或确认后，已关闭的同一会话在 C 尚未退出期间继续拦截游戏键，避免落入下一层经典界面；编辑器、输入法和 SPE 原有键盘归属保持。
+
+## 输送与移动的独立观察协议
+
+原版内政“输送”为 command 13，“移动”为 command 14；两者使用 `baye.hd.transfer()`，不复用出征的 `march` 状态。每次调用生成新的 U32 session；每次实际阻塞等待前推进 phase 与 inputSeq，均回绕跳过 0。观察者还绑定当前 `g_hdDetailGeneration`，新 LIB、reset 或 `world_commit` 会退休会话，旧 C 栈不能继续发布。
+
+| phase | 含义 |
+|-------|------|
+| 0 IDLE | 会话开始或已复位 |
+| 1 PERSON | 实际人物选择 |
+| 2 FOOD / 3 MONEY / 4 ARMS | 输送的粮、钱、预备兵数量等待 |
+| 5 TARGET_TIP / 6 TARGET_PICK | 目标提示及原生 `GetCitySet` 选城 |
+| 7 REJECT | 原生拒绝提示 |
+| 8 DEPARTURE_REPORT | 已扣体力/货物，正在原生出发报告中；尚未写订单 |
+| 9 DONE | 命令已结束，active=0，保留最后回执 |
+
+人物、数量、目标与距离只记录原生实际返回值，不能以目标字段替代合法性判定。数量、人物菜单、报告和地图仍分别校验自身的 session/seq、完整名单或 mapInputSeq；transfer.inputSeq 不代替这些按键回执。移动先选目标，再在同一 session 内连续选人；新一次 PERSON 等待保留上次人物，直到原生确认新选择才更新。
+
+输送在 phase 8 报告前扣除体力和出发城的粮、钱、预备兵；移动在该报告前扣体力。报告返回后才调用原来的 `AddOrderHead` 一次，成功才 `DelPerson`；CommitSeq 更新并记录这次真实返回值。队列满等失败不会新增回滚，已扣资源与仍在城人物按原业务保留。DONE 保留最后货物、目标和结果，下一次 begin 清这些值但不回退单调序号；reset 退休并清结果。无协议、缺字段、非法值或双读不稳定时 JS getter 返回 null，不能当作已完成。
+
+标准 LIB 的移动体力表值为 0、输送为 8；`fixThewOverFlow=1` 的移动按 MOVE 表扣 0，兼容分支 `fixThewOverFlow=0` 仍按 TRANSPORTATION 扣 8，保留原生 U8 算术。此次只增加观察，不修订该业务、零资源、满订单或月末运输规则。实际 staged 844 与安装后 844/667 的取消、选城、数量和入队范围见[移动输送/移动验收](validation/m5-mobile-transfer-20261011.md)；不包含月末送达/损失、真机或完整移动 HD 验收。
 
 ## M2 输入生命周期
 
@@ -84,7 +110,7 @@
 
 系统与战役人物菜单的 5 秒期限是每步未收到预期 ACK 的等待上限。只有实际预期下标确认才刷新期限；系统菜单另有 60 秒总限，战役人物菜单按真实候选数设置有界总限。超时取消请求，不重发未确认按键，也不自动选择下一人。
 
-`baye_hd_world_commit()` 只在新游戏初始化完成或两个存档文件全部验证并提交后调用。它清除旧战斗结果、出征阶段及输入令牌，保留刚提交的城市、人物、订单等世界数据；读取失败不触发此清理。
+`baye_hd_world_commit()` 只在新游戏初始化完成或两个存档文件全部验证并提交后调用。它清除旧战斗结果、出征阶段、独立 transfer 会话及输入令牌，保留刚提交的城市、人物、订单等世界数据；读取失败不触发此清理。
 
 `report.active` 由 `GamMsgBox` / `ShowGReport` 在真正进入等待时 begin、返回时 end；`inputSeq` 每次进入、退出或恢复外层等待都更新。报告正文的 `seq` 与输入的 `inputSeq` 分工不同。最多保存 16 层等待正文、person 和 kind，内层结束后恢复外层正文并生成新的输入序号，内层按钮不能继续确认外层。`GamMsgBox(delay=0)` 和禁用的武将报告没有输入等待。战斗提示的 `GamDelay(300, responseNoteOfBettle)` 保持经典规则，默认纯定时提示不能被伪造的确认按钮跳过。
 
@@ -129,6 +155,7 @@
 - `FgtGetJNIdx` → `g_hdSkill*` + 立刻 `baye_hd_set_menu`（不 stub `fightChooseSkill`）
 - `GamMsgBox` / `ShowGReport` 真实等待前后 → `baye_hd_report_begin/end`
 - `GamRecordMan` 打开、光标更新、返回 → `baye_hd_record_begin/index/end`
+- `TransportationMake` / `MoveMake` 真实等待、原生返回与唯一 `AddOrderHead` 结果 → 独立 `baye_hd_transfer_*` 观察；reset / 世界提交调用真实 `baye_hd_transfer_retire`
 
 ## JS 助手（`js/bridge.js`）
 
@@ -141,6 +168,7 @@ baye.hd.kings()      // { count, index, currentId, kings:[{id,name}] }
 baye.hd.menuItems()  // { active, context, kind, seq, itemLen, count, index, names:[] }
 baye.hd.qty()        // { active, value, min, max }
 baye.hd.march()      // { phase, session, origin, selected, inputSeq, mapInputSeq, pick, battlePick, mapCity, ok, city, obj, time, seq }
+baye.hd.transfer()   // null 或 { protocolVersion, active, command, session, inputSeq, phase, origin, target, person, food, money, arms, distance, commitSeq, commitResult }
 baye.hd.fight()      // { inputKind, inputSeq, actorIndex, active, over, wait, phase, aimType, tip, skip, result, mapW, mapH, bout, boutMax, focusX, focusY }
 baye.hd.help()       // { active, seq, text }
 baye.hd.movie()      // { active, id }
@@ -155,8 +183,8 @@ baye.lastHdCall      // 最近一次 HD 桥调用（崩溃 onerror / unhandledre
 
 - `baye.hd.ready()`：heap + `_bayeHdReady()`。所有 HD `setInterval` / overworld rAF 在 false 时停轮询
 - OOB / `Module.onAbort` / `window.onerror` 会 `console.error('[hd-bridge] lastHdCall', JSON)`；alert **一定**带 `lastHdCall`（没有则 `(none)`）和 stack
-- `pc.html` `<head>` 最先装 onerror + `Module.locateFile`，`baye.wasm?ver=` 与 `baye.js?ver=` 同号 `20261008h`，避免旧胶水配新 wasm
-- `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本；原生 loader/WASM 缓存号为 `20261008h`；本批 HD 前端、详情 CSS、身份模块和 IndexedDB SDK 为 `20261008i`，详见 [实际 LIB 身份](hd-lib-identity.md)
+- 七个现有引擎入口的 `baye.js`、WASM/map 缓存同为 `20261011b`，bridge 为 `20261011a`；PC/手机共用 CITY 为 `20261011r`、dialog 为 `20261011f`，避免新观察桥配旧引擎。安装保留实际 StageOnly manifest 来源，见[构建与安装](wasm-build.md)
+- `pc.html` / `choose.html` 带 `Cache-Control: no-store` + `Pragma: no-cache`；页角 `#baye-build-badge` 显示运行时版本。实际原版 LIB 与能力仍独立校验，见[实际 LIB 身份](hd-lib-identity.md)
 
 - `getPersonName` / `getCityName` / `getToolName` / `getSkillName` / `getPersonNameByID`：index `<0` / `≥max` / `≥0xfffe`（队列空槽 `0xffff`）直接空串，不进 `ResLoadToMem`
 - `ensureData` / `hd.report` / `hd.cityLinks` / keepalive 指针：lib 或 heap 未就绪则 no-op

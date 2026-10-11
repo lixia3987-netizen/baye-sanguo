@@ -255,6 +255,7 @@
     function mapInputAuthorized() {
         if (!mapAuthorized() || miniMapActive()) { return false; }
         var data = engineData(), positions = data && data.g_CityPositions;
+        if (data && data.g_hdTransferActive !== undefined && data.g_hdTransferActive !== 0 && !transferMapTicket()) { return false; }
         var matching = cityCount() === state.cities.length && !!positions;
         for (var i = 0; matching && i < state.cities.length; i++) {
             var city = state.cities[i], pos = positions[city.index];
@@ -1051,6 +1052,9 @@
                 }
                 // Reports and succession run between battle exit and the next
                 // real GetCitySet. A populated world alone is not a map wait.
+                if (data.g_hdTransferActive !== undefined && Number(data.g_hdTransferActive)) {
+                    return transferMapTicket() ? 'map' : 'other';
+                }
                 return Number(march.pick) ? 'map' : 'other';
             }
         } catch (eInput) {}
@@ -2075,7 +2079,7 @@
     function sampleEngine() {
         var inferred = inferPhase();
         if (inferred !== state.phase) {
-            if (!(state.phase === 'classic-menu' && inferred === 'map')) {
+            if (!(state.phase === 'classic-menu' && inferred === 'map' && !transferMapTicket())) {
                 state.phase = inferred;
             }
         }
@@ -3661,6 +3665,20 @@
         return null;
     }
 
+    function transferMapTicket() {
+        if (!state.mobile) { return null; }
+        try {
+            var city = global.BayeHdCityMenu, ticket = city && city.getTransferTargetTicket && city.getTransferTargetTicket();
+            return ticket && ticket.ownerType === 'transfer-target' && ticket.phase === 6 && ticket.data === engineData() ? ticket : null;
+        } catch (e) { return null; }
+    }
+    function transferTapCity(index) {
+        if (!mapInputAuthorized()) { return false; }
+        var ticket = transferMapTicket();
+        return !!ticket && ticket.targets.indexOf(index) >= 0 &&
+            BayeHdCityMenu.selectTransferTarget(index, ticket);
+    }
+
     function battleMakePending() {
         if (cityMenuMarching()) {
             return true;
@@ -3691,6 +3709,7 @@
 
     function openClassicCity(index) {
         if (!mapInputAuthorized()) { return false; }
+        if (transferMapTicket()) { return transferTapCity(index); }
         if (fightLive()) {
             console.warn('[hd-overworld] blocked openCity during fight');
             return;
@@ -3749,7 +3768,7 @@
             return;
         }
         state.inputBound = true;
-        var pressed = Object.create(null), blocked = false;
+        var pressed = Object.create(null), blocked = false, inputData = null, inputDataGeneration = 0;
         var ownerFields = ['g_hdDetailGeneration', 'g_hdMapInputSeq', 'g_hdMapPick', 'g_hdBattlePick',
             'g_hdMapCity', 'g_hdMarchPhase', 'g_hdMarchSession', 'g_hdMarchInputSeq',
             'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind', 'g_hdMenuSeq',
@@ -3759,21 +3778,30 @@
                 !mapInputAuthorized()) { return null; }
             var data = engineData();
             if (!data) { return null; }
+            if (data !== inputData) { inputData = data; inputDataGeneration++; }
             var values = ownerFields.map(function (name) { return data[name]; });
             if (!values.every(function (n) {
                 return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n >= 0 && n <= 4294967295;
             }) || !values[0] || !values[1] || values[12] || values[13] || values[14] || values[15]) { return null; }
             // DEPARTED (7) is the retained successful march result, not an input owner.
             var idleMarch = values[5] === 0 || values[5] === 7;
-            var map = values[2] === 1 && values[3] === 0 && idleMarch && values[8] === 0;
+            var transfer = transferMapTicket(), activeTransfer = data.g_hdTransferActive;
+            var map = values[2] === 1 && values[3] === 0 && idleMarch && values[8] === 0 &&
+                (activeTransfer === undefined || activeTransfer === 0);
+            var transferTarget = !!transfer && activeTransfer === 1 && values[2] === 1 && values[3] === 0 &&
+                idleMarch && values[8] === 0;
             var target = values[2] === 1 && values[3] === 1 && values[5] === 4 && values[8] === 0;
             var cityMenu = !state.mobile && values[2] === 0 && values[3] === 0 && idleMarch &&
                 values[8] === 1 && values[9] === 1 && values[10] === 1 && state.phase === 'classic-menu';
-            if (!map && !target && !cityMenu) { return null; }
+            if (!map && !target && !cityMenu && !transferTarget) { return null; }
             var identity = readIdentity();
             if (!libraryAllowed(identity) || !mapInputAuthorized() || engineData() !== data ||
+                data.g_hdTransferActive !== activeTransfer ||
                 !ownerFields.every(function (name, i) { return data[name] === values[i]; })) { return null; }
-            return JSON.stringify([identity.generation, identity.sha256, state.assetGeneration, state.phase, values]);
+            var transferAgain = transferTarget ? transferMapTicket() : null;
+            if (transferTarget && (!transferAgain || transferAgain.data !== transfer.data || transferAgain.key !== transfer.key)) { return null; }
+            return JSON.stringify([inputDataGeneration, identity.generation, identity.sha256, state.assetGeneration, state.phase,
+                values, activeTransfer, transferAgain && transferAgain.key]);
         }
         function geometry() {
             var rect = state.canvas.getBoundingClientRect();
@@ -3830,6 +3858,12 @@
         function handleMapTap(ev) {
             if (state.mode !== 'hd-map' || !mapAuthorized()) {
                 return false;
+            }
+            if (transferMapTicket()) {
+                var transferPoint = eventToDesign(ev), transferIndex = transferPoint ? hitCity(transferPoint) : -1;
+                ev.preventDefault();
+                if (transferIndex >= 0) { transferTapCity(transferIndex); }
+                return true;
             }
             if (state.phase === 'classic-menu') {
                 var pickPt = eventToDesign(ev);

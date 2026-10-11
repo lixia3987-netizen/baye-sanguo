@@ -2269,6 +2269,39 @@ function baye_bridge_init() {
                 inputSeq: hdReadNum(d, 'g_hdMarchInputSeq')
             };
         },
+        transfer: function () {
+            hdNote('hd.transfer', '');
+            try {
+                var d = baye.ensureData(), reader = hdObserverReader(d);
+                var generation = reader.num('g_hdDetailGeneration');
+                var fields = [
+                    ['protocolVersion', 'ProtocolVersion', 255], ['active', 'Active', 1],
+                    ['command', 'Command', 255], ['session', 'Session', 0xffffffff],
+                    ['inputSeq', 'InputSeq', 0xffffffff], ['phase', 'Phase', 9],
+                    ['origin', 'Origin', 255], ['target', 'Target', 255], ['person', 'Person', 65535],
+                    ['food', 'Food', 65535], ['money', 'Money', 65535], ['arms', 'Arms', 65535],
+                    ['distance', 'Distance', 255], ['commitSeq', 'CommitSeq', 0xffffffff],
+                    ['commitResult', 'CommitResult', 2]
+                ];
+                var value = {}, i, cities = hdCityLimit(), persons = hdPersonLimit();
+                for (i = 0; i < fields.length; i++) value[fields[i][0]] = reader.num('g_hdTransfer' + fields[i][1], fields[i][2]);
+                if (!d || !(generation > 0) || !cities || !persons || value.protocolVersion !== 1 ||
+                    fields.some(function (f) { return value[f[0]] == null; }) ||
+                    (value.origin !== 255 && value.origin >= cities) ||
+                    (value.target !== 255 && value.target >= cities) ||
+                    (value.person !== 65535 && value.person >= persons)) return null;
+                if (value.active) {
+                    if ((value.command !== 13 && value.command !== 14) || value.origin === 255 ||
+                        !value.session || !value.inputSeq || value.phase === 9) return null;
+                } else if (!((value.command === 0 && value.phase === 0 && value.origin === 255) ||
+                    ((value.command === 13 || value.command === 14) && value.phase === 9 &&
+                    value.origin !== 255 && value.session && value.inputSeq))) return null;
+                if ((value.commitResult && !value.commitSeq) ||
+                    (value.command === 14 && (value.food || value.money || value.arms)) ||
+                    (value.phase === 8 && (value.person === 65535 || value.target === 255 || value.distance === 255))) return null;
+                return reader.stable() && baye.data === d ? value : null;
+            } catch (e) { return null; }
+        },
         qty: function () {
             hdNote('hd.qty', '');
             var d = baye.ensureData();

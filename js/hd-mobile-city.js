@@ -47,6 +47,19 @@
         function nativeReading(data, hd) {
             var raw = {};
             RAW.concat(BLOCKERS).forEach(function (field) { raw[field] = data[field]; });
+            var transfer = null;
+            if (data.g_hdTransferProtocolVersion !== undefined || data.g_hdTransferActive !== undefined) {
+                if (typeof hd.transfer !== 'function') { return null; }
+                transfer = copy(hd.transfer());
+                if (!transfer || transfer.protocolVersion !== 1) { return null; }
+                var transferNames = ['ProtocolVersion','Active','Command','Session','InputSeq','Phase','Origin','Target',
+                    'Person','Food','Money','Arms','Distance','CommitSeq','CommitResult'];
+                if (!transferNames.every(function (name) {
+                    var value = data['g_hdTransfer' + name], key = name.charAt(0).toLowerCase() + name.slice(1);
+                    raw['g_hdTransfer' + name] = value;
+                    return uint(value) && transfer[key] === value;
+                })) { return null; }
+            }
             if (!RAW.every(function (field) { return uint(raw[field]); }) ||
                 !BLOCKERS.every(function (field) { return raw[field] === 0; }) || raw.g_hdEngineReady !== 1 ||
                 !raw.g_hdDetailGeneration || !raw.g_hdMapInputSeq || raw.g_hdMapCity > 38) { return null; }
@@ -68,7 +81,7 @@
                 report.kind !== raw.g_hdReportKind || report.person !== raw.g_hdReportPerson || typeof report.text !== 'string' || !report.text)) { return null; }
             if (help.active && (help.seq !== raw.g_hdHelpSeq || help.inputSeq !== raw.g_hdHelpInputSeq ||
                 help.detailGeneration !== raw.g_hdDetailGeneration)) { return null; }
-            return {raw: raw, menu: menu, qty: qty, report: report, help: help};
+            return {raw: raw, menu: menu, qty: qty, report: report, help: help, transfer: transfer};
         }
         function sample() {
             if (!available()) { return null; }

@@ -69,6 +69,8 @@ function fixture({storageThrows = false, marchState = false, sourceText = source
     const code=marchState?sourceText.replace(/\}\)\(window\);\s*$/,`
         global.__marchTest={state:state,sync:syncMarchPhase,send:engineSendKey,cancelQty:cancelQty,
             cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities,
+            syncTransfer:typeof syncMobileTransfer==='function'?syncMobileTransfer:null,
+            continueTransfer:typeof continueTransfer==='function'?continueTransfer:null,chooseDeep:chooseDeep,
             select:selectLiveMenu,commitQty:commitQty,preview:typeof previewDeep==='function'?previewDeep:null,
             previewContext:typeof mobilePreviewContext==='function'?mobilePreviewContext:null,bind:bindUi,
              back:back,backOwner:cityBackPressOwner,
@@ -232,7 +234,7 @@ test('mobile poll restores the complete deep layer after delayed picker publicat
         el(id){return nodes[id]||null;},setText(node,text){if(node)node.textContent=text;},
         shouldShowHd(){return true;},mobileShellReady(){return complete;},
         mobileBase(){return {identity:{generation:1}};},renderStickyBannerSlot:noOp,
-        applyDocAttr:noOp,retirePersonDetails:noOp,retireToolDetails:noOp,syncMobileTrade:noOp,
+        applyDocAttr:noOp,retirePersonDetails:noOp,retireToolDetails:noOp,syncMobileTrade:noOp,syncMobileTransfer:noOp,
         cityName(){return '真实城';},showingQty(){return false;},freshMarchOk(){return false;},
         usesMapCursor(){return false;},usesGoodsMenu(){return false;},
         fillDeepList(){deepRefreshes+=1;},preferEngineNames(items){return items;},
@@ -482,7 +484,8 @@ test('terminal person restoration rejects a phase or session handoff during publ
     }
 });
 function isolatedCityFunction(name,context) {
-    if(name==='syncMode'){context.syncMobileTrade=()=>false;context.mobileTrade=null;}
+    if(name==='syncMode'){context.syncMobileTrade=()=>false;context.mobileTrade=null;
+        context.syncMobileTransfer=()=>false;context.mobileTransfer=null;if(!('mobileHost' in context))context.mobileHost=null;}
     const begin=source.indexOf('    function '+name+'('),end=source.indexOf('\n    function ',begin+20);
     assert.ok(begin>=0&&end>begin);vm.runInNewContext(source.slice(begin,end),context);return context[name];
 }
@@ -1734,6 +1737,183 @@ test('mobile detail scroll retires only for an actual owner or native identity c
     pane.scrollTop=120;f.internals.resetDetailScroll(pane,'owner2',4,19);assert.equal(pane.scrollTop,0);
     pane.scrollTop=120;f.setIdentity({...f.identity(),generation:2});f.internals.resetDetailScroll(pane,'owner2',4,19);
     assert.equal(pane.scrollTop,0);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+
+// Native transfer protocol fixtures are independent of BattleMake/MARCH.
+// The real standard CITY_LINKR bytes determine every selectable destination.
+function transferFixture(command=13,phase=1,{sourceText=source}={}) {
+    const f=fixture({marchState:true,sourceText});f.configure();f.state=f.internals.state;
+    const names=['董卓','李儒','吕布'];let ids=[0,19,20],transferHook=null;
+    Object.assign(f.raw,{g_PlayerKing:0,g_asyncActionID:0,g_hdHelpSeq:0,g_hdMarchPhase:7,
+        g_hdTransferProtocolVersion:1,g_hdTransferActive:1,g_hdTransferCommand:command,g_hdTransferSession:17,
+        g_hdTransferInputSeq:80,g_hdTransferPhase:phase,g_hdTransferOrigin:0,g_hdTransferTarget:255,
+        g_hdTransferPerson:command===14&&[5,6].includes(phase)?65535:19,g_hdTransferFood:2,g_hdTransferMoney:2,g_hdTransferArms:2,
+        g_hdTransferDistance:255,g_hdTransferCommitSeq:0,g_hdTransferCommitResult:0});
+    f.raw.g_Cities=Array.from({length:38},()=>({Belong:1,State:0,Persons:3,PersonQueue:0,Food:100,Money:200,MothballArms:300}));
+    f.raw.g_CityPos={setx:0,sety:0};f.env.baye.hdCityLimit=()=>38;
+    f.env.BayeHdOverworld.getCities=()=>Array.from({length:38},(_,index)=>({index,engX:index%10,engY:Math.floor(index/10)}));
+    f.env.baye.hd.transfer=()=>{const value={};for(const suffix of ['ProtocolVersion','Active','Command','Session','InputSeq','Phase','Origin','Target',
+        'Person','Food','Money','Arms','Distance','CommitSeq','CommitResult'])value[suffix[0].toLowerCase()+suffix.slice(1)]=f.raw['g_hdTransfer'+suffix];
+        if(transferHook)transferHook(value);return value;};
+    f.setMenuHook(menu=>{menu.ids=ids.slice();menu.idsValid=menu.kind===3;});
+    f.env.bayeQtyNativeClosed=()=>false;f.env.bayeQtyCloseInput=()=>{};
+    function publish(nextPhase,{active=1}={}) {
+        Object.assign(f.raw,{g_hdTransferPhase:nextPhase,g_hdTransferActive:active,
+            g_hdMapPick:nextPhase===6||nextPhase===9?1:0,g_hdBattlePick:0,
+            g_hdMenuActive:nextPhase===1?1:0,g_hdMenuContext:nextPhase===1?1:0,g_hdMenuKind:nextPhase===1?3:0,
+            g_hdMenuCount:nextPhase===1?names.length:0,g_hdMenuIndex:0,g_hdQtyActive:nextPhase>=2&&nextPhase<=4?1:0,
+            g_hdReportActive:[5,7,8].includes(nextPhase)?1:0,g_hdReportSeq:20,g_hdReportInputSeq:30,
+            g_hdReportKind:nextPhase===7?1:2,g_hdReportPerson:nextPhase===7?65535:nextPhase===5&&command===14?0:f.raw.g_hdTransferPerson});
+        f.names.splice(0,f.names.length,...(nextPhase===1?names:[]));
+        if(nextPhase>=2&&nextPhase<=4)Object.assign(f.raw,{g_hdQtyReady:1,g_hdQtySession:f.raw.g_hdQtySession+1,
+            g_hdQtyInputSeq:0,g_hdQtyLastKey:65535,g_hdQtyMin:0,g_hdQtyMax:{2:100,3:200,4:300}[nextPhase],
+            g_hdQtyValue:{2:100,3:200,4:300}[nextPhase]});
+    }
+    function advance(nextPhase,options){f.raw.g_hdTransferInputSeq++;f.raw.g_hdMenuSeq++;publish(nextPhase,options);f.internals.syncTransfer();f.internals.fill();}
+    publish(phase);f.internals.isolatePreview();const dom=marchDom(f,{rooted:true});f.internals.bind();
+    assert.equal(f.internals.syncTransfer(),true);f.internals.fill();
+    return Object.assign(f,{dom,publish,advance,setTransferHook(fn){transferHook=fn;},setIds(value){ids=value;}});
+}
+for(const command of [13,14])test('transfer original protocol adopts a real PERSON picker without a BattleMake owner: '+command,()=>{
+    const f=transferFixture(command),t=f.api.getInputTicket();
+    assert.equal(t.ownerType,'transfer-person');assert.equal(t.command,command);assert.equal(t.phase,1);
+    assert.equal(f.state.deepKind,'person-transfer');assert.equal(f.state.deepLabel,command===13?'输送':'移动');
+    assert.equal(t.data,f.env.baye.data);assert.equal(Object.keys(t).includes('data'),false);
+    assert.equal(f.raw.g_hdMarchPhase,7);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+for(const phase of [2,3,4])test('transfer real CITY/mobile-host exclusively presents quantity phase '+phase,()=>{
+    const f=transferFixture(13,phase),host=tradeMobileHost(f),t=f.api.getInputTicket();
+    assert.equal(t.ownerType,'transfer-qty');assert.equal(f.api.getTransferDialogTicket().key,t.key);
+    assert.equal(f.api.getLcdPresentation(),'off');assert.equal(host.refresh().cityVisible,true);
+    assert.equal(host.readInputTicket('city').ticket.ownerType,'transfer-qty');
+    assert.equal(f.dom.byId('hd-city-qty-val').textContent,String(f.raw.g_hdQtyValue));
+    assert.equal(f.api.getTransferPresentation().title,{2:'输送粮草',3:'输送金钱',4:'输送后备兵'}[phase]);
+    f.raw.g_hdQtyMax--;assert.equal(f.api.getInputTicket(),null);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+for(const command of [13,14])for(const phase of [5,7,8])test('transfer current native report and single acknowledgement: '+command+'/'+phase,()=>{
+    const f=transferFixture(command,phase),host=tradeMobileHost(f);
+    assert.equal(f.api.getInputTicket().ownerType,'transfer-report');assert.equal(host.refresh().cityVisible,true);
+    assert.ok(f.dom.find('data-hd-transfer-continue'));assert.equal(f.internals.continueTransfer(),true);
+    assert.equal(f.internals.continueTransfer(),false);assert.deepEqual(f.keys,[39]);assert.deepEqual(f.writes,[]);
+});
+test('transfer full-order MSGBOX during phase8 remains a real report, never a fabricated departure',()=>{
+    const f=transferFixture(13,8);Object.assign(f.raw,{g_hdReportKind:1,g_hdReportPerson:65535});
+    assert.equal(f.api.getInputTicket().ownerType,'transfer-report');assert.equal(f.api.getTransferPresentation().commitResult,0);
+    f.raw.g_hdReportPerson=19;assert.equal(f.api.getInputTicket(),null);
+});
+test('a later full-order MSGBOX in the same departure phase has its own actual report receipt',()=>{
+    const f=transferFixture(13,8);assert.equal(f.internals.continueTransfer(),true);
+    Object.assign(f.raw,{g_hdReportKind:1,g_hdReportPerson:65535,
+        g_hdReportSeq:f.raw.g_hdReportSeq+2,g_hdReportInputSeq:f.raw.g_hdReportInputSeq+2});
+    assert.equal(f.internals.continueTransfer(),true);assert.equal(f.internals.continueTransfer(),false);
+    assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
+});
+for(const phase of [2,3,4,5,7,8])test('real CITY and generic dialog yield to the same complete transfer owner at phase '+phase,()=>{
+    const f=transferFixture(13,phase);f.env.baye.hd.reportText=()=>f.env.baye.hd.report().text;
+    vm.runInNewContext(fs.readFileSync(new URL('../js/hd-dialog.js',import.meta.url),'utf8'),f.env,{filename:'js/hd-dialog.js'});
+    const dialog=f.env.BayeHdDialog;dialog.configureMobileHost({isAvailable:()=>true});
+    if(phase<=4)assert.equal(dialog.openQty({min:0,max:f.raw.g_hdQtyMax,init:f.raw.g_hdQtyValue}),false);
+    else dialog.onEngineReport();
+    dialog.poll();assert.ok(f.api.getTransferDialogTicket());assert.equal(dialog.isOpen(),false);
+    assert.equal(dialog.getInputTicket(),null);assert.equal(dialog.isActive(),false);
+    assert.equal(f.api.getLcdPresentation(),'off');assert.equal(tradeMobileHost(f).refresh().cityVisible,true);
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('MOVE selects only through real Arrow ACKs and resumes the fresh PERSON after departure',()=>{
+    const f=transferFixture(14,1);f.setAfterKey(key=>{
+        if(key===35)f.env.setTimeout(()=>{f.raw.g_hdMenuIndex++;},60);
+        if(key===39)f.env.setTimeout(()=>{f.raw.g_hdTransferPerson=19;f.advance(8);},60);
+    });
+    f.internals.chooseDeep(1);assert.deepEqual(f.keys,[35]);f.tick(600);
+    assert.deepEqual(f.keys,[35,39]);assert.equal(f.api.getInputTicket().ownerType,'transfer-report');
+    f.setAfterKey(key=>{if(key===39)f.env.setTimeout(()=>{
+        f.advance(1);f.setIds([0,20]);f.names.splice(0,f.names.length,'董卓','吕布');f.raw.g_hdMenuCount=2;
+        f.internals.fill();},60);});
+    assert.equal(f.internals.continueTransfer(),true);f.tick(200);
+    assert.equal(f.api.getInputTicket().ownerType,'transfer-person');assert.deepEqual(Array.from(f.env.baye.hd.menuItems().ids),[0,20]);
+    assert.deepEqual(f.keys,[35,39,39]);assert.deepEqual(f.writes,[]);
+});
+test('MOVE PERSON selection cannot continue after an Arrow ACK retires its current owner',()=>{
+    const f=transferFixture(14,1);f.setAfterKey(key=>{if(key===35){f.raw.g_hdMenuIndex++;f.api.retireInteraction('blur');}});
+    f.internals.chooseDeep(2);f.tick(1000);assert.deepEqual(f.keys,[35]);assert.deepEqual(f.writes,[]);
+});
+for(const command of [13,14])test('transfer target derives same-faction connected destinations and does not send a key on selection: '+command,()=>{
+    const f=transferFixture(command,6),t=f.api.getTransferTargetTicket(),before=JSON.stringify(f.raw);
+    assert.ok(t.targets.length>0);assert.ok(!t.targets.includes(0));
+    const addr=originalLib.readUInt32LE(58*4),direct=Array.from(originalLib.subarray(addr+14,addr+22)).filter(id=>id>=1&&id<=38).map(id=>id-1);
+    assert.ok(t.targets.some(id=>!direct.includes(id)),'connected paths include a nonadjacent friendly city');
+    assert.equal(f.api.selectTransferTarget(t.targets[0],t),true);assert.equal(JSON.stringify(f.raw),before);
+    assert.equal(f.api.getTransferPresentation().pendingTarget,t.targets[0]);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    f.internals.fill();const current=f.dom.find('data-hd-transfer-cancel');f.internals.fill();f.internals.fill();
+    assert.equal(f.dom.find('data-hd-transfer-cancel'),current,'poll preserves same-owner buttons');
+});
+test('transfer target cannot select origin, enemy, isolated city, old data or old ticket',()=>{
+    for(const kind of ['origin','enemy','isolated','data','seq','generation']){
+        const f=transferFixture(13,6),old=f.api.getTransferTargetTicket(),index=old.targets[0];
+        if(kind==='enemy')f.raw.g_Cities[index].Belong=2;
+        if(kind==='isolated')for(let i=1;i<38;i++)f.raw.g_Cities[i].Belong=2;
+        if(kind==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('write');}});
+        if(kind==='seq')f.raw.g_hdTransferInputSeq++;
+        if(kind==='generation')f.setIdentity({...f.identity(),generation:2});
+        assert.equal(f.api.selectTransferTarget(kind==='origin'?0:index,old),false,kind);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('transfer target final ENTER follows each actual cursor ACK and fires once',()=>{
+    const f=transferFixture(13,6),ticket=f.api.getTransferTargetTicket(),index=ticket.targets[0],to={x:index%10,y:Math.floor(index/10)};
+    f.setAfterKey(code=>{if(code===39)return;const pos=f.raw.g_CityPos;
+        if(code===34)pos.sety--;if(code===35)pos.sety++;if(code===36)pos.setx--;if(code===37)pos.setx++;
+        f.raw.g_hdMapCity=pos.setx===to.x&&pos.sety===to.y?index+1:0;});
+    f.api.selectTransferTarget(index,ticket);assert.equal(f.api.confirmTransferTarget(index,ticket),true);f.tick(4000);
+    assert.equal(f.keys.filter(key=>key===39).length,1);assert.equal(f.keys.at(-1),39);
+    assert.equal(f.api.confirmTransferTarget(index),false);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['hidden','classic','retire','data','inputSeq','targetBelong'])test('transfer cursor queue stops at an actual ACK boundary: '+change,()=>{
+    const f=transferFixture(14,6),ticket=f.api.getTransferTargetTicket(),index=ticket.targets[0];
+    f.setAfterKey(code=>{if(code===39)return;f.raw.g_CityPos.setx++;
+        if(change==='hidden')f.env.document.hidden=true;
+        if(change==='classic')f.api.setMode('classic');
+        if(change==='retire')f.api.retireInteraction('pointercancel');
+        if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+        if(change==='inputSeq')f.raw.g_hdTransferInputSeq++;
+        if(change==='targetBelong')f.raw.g_Cities[index].Belong=2;});
+    f.api.selectTransferTarget(index,ticket);f.api.confirmTransferTarget(index,ticket);f.tick(9000);
+    assert.equal(f.keys.length,1);assert.ok(!f.keys.includes(39));assert.deepEqual(f.writes,[]);
+});
+for(const change of ['protocol','phase','command','rawMismatch','torn','menu','qty','report','battle','library'])test('transfer current owner rejects '+change,()=>{
+    const f=transferFixture(13,6);
+    if(change==='protocol')f.raw.g_hdTransferProtocolVersion=2;
+    if(change==='phase')f.raw.g_hdTransferPhase=10;
+    if(change==='command')f.raw.g_hdTransferCommand=27;
+    if(change==='rawMismatch')f.setTransferHook(value=>value.origin=1);
+    if(change==='torn')f.setTransferHook(()=>f.raw.g_hdTransferInputSeq++);
+    if(change==='menu')f.raw.g_hdMenuActive=1;
+    if(change==='qty')f.raw.g_hdQtyActive=1;
+    if(change==='report')f.raw.g_hdReportActive=1;
+    if(change==='battle')f.raw.g_hdBattlePick=1;
+    if(change==='library')f.setIdentity({...f.identity(),sha256:'f'.repeat(64)});
+    assert.equal(f.api.getTransferTargetTicket(),null);assert.equal(f.api.selectTransferTarget(1),false);
+    assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('transfer cancellation keeps native rollback authoritative for all three quantities and target',()=>{
+    const f=transferFixture(13,6);f.setAfterKey(key=>{if(key===40)f.env.setTimeout(()=>f.advance(f.raw.g_hdTransferPhase===6?4:f.raw.g_hdTransferPhase-1),60);});
+    f.api.cancelTransfer();f.tick(80);assert.equal(f.api.getTransferPresentation().phase,4);
+    f.api.cancelTransfer();f.tick(80);assert.equal(f.api.getTransferPresentation().phase,3);
+    f.api.cancelTransfer();f.tick(80);assert.equal(f.api.getTransferPresentation().phase,2);
+    f.api.cancelTransfer();f.tick(80);assert.equal(f.api.getTransferPresentation().phase,1);
+    assert.deepEqual(f.keys,[40,40,40,40]);assert.deepEqual(f.writes,[]);
+});
+test('transfer DONE retires only after fresh MAP and generic overlay retirement without another key',()=>{
+    const f=transferFixture(13,8);let open=true;f.env.BayeHdDialog={isOpen:()=>open};
+    f.advance(9,{active:0});f.raw.g_hdMapInputSeq++;f.internals.syncTransfer();
+    assert.equal(f.state.open,true);assert.equal(f.api.getInputTicket(),null);
+    open=false;f.internals.syncTransfer();assert.equal(f.state.open,false);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+});
+test('transfer mode and lifecycle restoration observes the fresh native phase without replaying delivered input',()=>{
+    const f=transferFixture(14,8);assert.equal(f.internals.continueTransfer(),true);
+    f.api.retireInteraction('blur');f.api.setMode('classic');assert.equal(f.api.getInputTicket(),null);
+    f.api.setMode('hd');f.internals.syncTransfer();assert.equal(f.internals.continueTransfer(),false);
+    f.advance(1);assert.equal(f.api.getInputTicket().ownerType,'transfer-person');assert.deepEqual(f.keys,[39]);assert.deepEqual(f.writes,[]);
 });
 
 // ExchangeMake's actual PERSON -> dedicated EXCHANGE -> GetFood lifecycle.

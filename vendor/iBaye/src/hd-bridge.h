@@ -50,6 +50,17 @@
 #define BAYE_HD_MARCH_REJECT_REPORT 5
 #define BAYE_HD_MARCH_ARMOUT_REPORT 6
 #define BAYE_HD_MARCH_DEPARTED 7
+#define BAYE_HD_TRANSFER_VERSION 1
+#define BAYE_HD_TRANSFER_IDLE 0
+#define BAYE_HD_TRANSFER_PERSON 1
+#define BAYE_HD_TRANSFER_FOOD 2
+#define BAYE_HD_TRANSFER_MONEY 3
+#define BAYE_HD_TRANSFER_ARMS 4
+#define BAYE_HD_TRANSFER_TARGET_TIP 5
+#define BAYE_HD_TRANSFER_TARGET_PICK 6
+#define BAYE_HD_TRANSFER_REJECT 7
+#define BAYE_HD_TRANSFER_DEPARTURE_REPORT 8
+#define BAYE_HD_TRANSFER_DONE 9
 #define BAYE_HD_HELP_MAX 1024
 #define BAYE_HD_SKILL_MAX 10
 #define BAYE_HD_SKILL_NAME 8
@@ -333,6 +344,15 @@ void baye_hd_march_begin(U8 city);
 void baye_hd_march_phase(U8 phase);
 void baye_hd_march_selected(U8 count);
 void baye_hd_march_end(U8 departed);
+/* Read-only command13/14 observations; a stale suspended native call cannot publish. */
+U32 baye_hd_transfer_begin(U8 command, U8 origin);
+void baye_hd_transfer_phase(U32 session, U8 phase);
+void baye_hd_transfer_person(U32 session, U16 person);
+void baye_hd_transfer_amount(U32 session, U8 phase, U16 value);
+void baye_hd_transfer_target(U32 session, U8 target, U8 distance);
+void baye_hd_transfer_commit(U32 session, U8 accepted);
+void baye_hd_transfer_end(U32 session);
+void baye_hd_transfer_retire(void);
 void baye_hd_set_fight(U8 active, U8 over);
 void baye_hd_set_fight_wait(U8 wait);
 void baye_hd_set_fight_phase(U8 phase);

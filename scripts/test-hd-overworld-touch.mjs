@@ -8,7 +8,7 @@ import test from 'node:test';
 const source = readFileSync(new URL('../js/hd-overworld.js', import.meta.url), 'utf8');
 const instrumented = source.replace(/\}\)\(window\);\s*$/, `
     global.__touch = {state: state, bind: bindInput, hit: hitCity, point: eventToDesign,
-        reset: resetPan, sync: syncCanvasSize,
+        reset: resetPan, sync: syncCanvasSize, inferPhase: inferPhase, sample: sampleEngine,
         size: function () { return { width: DESIGN_W, height: DESIGN_H }; },
         dimensions: function (w, h) { DESIGN_W = w; DESIGN_H = h; },
         configure: function () {
@@ -32,6 +32,7 @@ const instrumented = source.replace(/\}\)\(window\);\s*$/, `
             leaveClassicMenu = function () { global.recordAction('leave'); };
             clampCamera = function () {};
             draw = function () {};
+            sampleCities = applyChrome = function () {};
             state.mode = 'hd-map'; state.phase = 'map'; state.canvas = global.canvas;
             state.ctx = global.canvasContext;
             state.cities = global.fixture.cities; state.assetGeneration = 1;
@@ -95,9 +96,49 @@ function harness({ mobile = true, width = 384, height = 216, stageWidth = width,
         for (const callback of docHandlers.get('visibilitychange') || []) callback();
     }
     function tap(options = {}) { fire('pointerdown', options); fire('pointerup', options); fire('click', options); }
-    return { api, shared: context.BayeHdOverworld, state: api.state, fixture, raw, canvas, document, rect, stageRect, transforms,
+    return { api, shared: context.BayeHdOverworld, environment:context, state: api.state, fixture, raw, canvas, document, rect, stageRect, transforms,
         actions, fire, tap, lifecycle, hidden, captured };
 }
+
+function transferTouch() {
+    const h=harness();Object.assign(h.raw,{g_hdTransferActive:1,g_hdTransferPhase:6,g_hdTransferSession:31,g_hdTransferInputSeq:19});
+    h.environment.BayeHdCityMenu={getTransferTargetTicket(){
+        if(h.fixture.raw.g_hdTransferActive!==1||h.fixture.raw.g_hdTransferPhase!==6)return null;
+        return {data:h.fixture.raw,ownerType:'transfer-target',phase:6,targets:[0],
+            key:JSON.stringify([h.fixture.raw.g_hdTransferPhase,h.fixture.raw.g_hdTransferSession,h.fixture.raw.g_hdTransferInputSeq])};},
+        selectTransferTarget(index,ticket){assert.equal(ticket.data,h.fixture.raw);h.actions.push(['transfer',index]);return true;}};
+    return h;
+}
+test('only an authenticated mobile transfer target releases the prior CITY presentation to MAP',()=>{
+    const h=transferTouch();h.environment.baye={hd:{menuItems:()=>({active:0}),
+        march:()=>({mapInputSeq:12,pick:1}),report:()=>({active:0})}};
+    h.state.phase='classic-menu';h.api.sample();assert.equal(h.state.phase,'map');
+    h.fixture.mobile=false;h.state.mobile=false;h.state.phase='classic-menu';h.api.sample();
+    assert.equal(h.state.phase,'other','PC preserves the native LCD transfer route');
+    h.state.mobile=true;h.raw.g_hdTransferPhase=8;h.api.sample();assert.equal(h.state.phase,'other');
+    h.raw.g_hdTransferActive=0;h.state.phase='classic-menu';h.api.sample();
+    assert.equal(h.state.phase,'classic-menu','ordinary CITY handoff rule stays intact');
+});
+test('current transfer target DOWN/UP selects once without opening CITY or confirming a command',()=>{
+    const h=transferTouch();h.fire('pointerdown');assert.deepEqual(h.actions,[]);h.fire('pointerup');h.fire('click');
+    assert.deepEqual(h.actions,[['transfer',0]]);
+});
+for(const change of ['phase','session','inputSeq','active','data','cancel','second-finger','hidden','geometry'])test('transfer target gesture cannot survive '+change,()=>{
+    const h=transferTouch();h.fire('pointerdown');
+    if(change==='phase')h.raw.g_hdTransferPhase=8;
+    if(change==='session')h.raw.g_hdTransferSession++;
+    if(change==='inputSeq')h.raw.g_hdTransferInputSeq++;
+    if(change==='active')h.raw.g_hdTransferActive=0;
+    if(change==='data')h.fixture.raw={...h.raw};
+    if(change==='cancel')h.fire('pointercancel');
+    if(change==='second-finger')h.fire('pointerdown',{pointerId:2,isPrimary:false});
+    if(change==='hidden')h.hidden(true);
+    if(change==='geometry')h.rect.width++;
+    h.fire('pointerup');h.fire('click');assert.deepEqual(h.actions,[]);
+});
+test('active transfer without an authenticated target cannot masquerade as normal MAP',()=>{
+    const h=harness();h.raw.g_hdTransferActive=1;h.tap();assert.deepEqual(h.actions,[]);
+});
 
 test('a current native MAP DOWN/UP opens once; no action at DOWN or compatibility click', () => {
     const h = harness(); h.fire('pointerdown'); assert.deepEqual(h.actions, []);

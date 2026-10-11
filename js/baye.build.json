@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "1082e79567df75fc6efe7c620b433f753f2a9ddf",
-  "engineSourceSha256": "df32b2f147e11ebbdc17c3dff1447f41c65762dad40951f221606b1164580066",
+  "sourceRevision": "5b8345b1adaf4d00467e69a867d97be6ad960d00",
+  "engineSourceSha256": "9db61759be19881d93e5b88661c7cd062b50a565d6eb212e365d44ee99a5e706",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791696579,
+  "sourceDateEpoch": 1791698630,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -31,6 +31,23 @@
       "g_hdMarchInputSeq",
       "g_hdMapInputSeq"
     ],
+    "transfer": [
+      "g_hdTransferProtocolVersion",
+      "g_hdTransferActive",
+      "g_hdTransferCommand",
+      "g_hdTransferSession",
+      "g_hdTransferInputSeq",
+      "g_hdTransferPhase",
+      "g_hdTransferOrigin",
+      "g_hdTransferTarget",
+      "g_hdTransferPerson",
+      "g_hdTransferFood",
+      "g_hdTransferMoney",
+      "g_hdTransferArms",
+      "g_hdTransferDistance",
+      "g_hdTransferCommitSeq",
+      "g_hdTransferCommitResult"
+    ],
     "report": [
       "g_hdReportActive",
       "g_hdReportInputSeq"
@@ -51,6 +68,49 @@
       "g_hdQtyStep",
       "g_hdQtyReady"
     ]
+  },
+  "hdTransferProtocol": {
+    "version": 1,
+    "publicApi": "baye.hd.transfer()",
+    "fields": [
+      "g_hdTransferProtocolVersion",
+      "g_hdTransferActive",
+      "g_hdTransferCommand",
+      "g_hdTransferSession",
+      "g_hdTransferInputSeq",
+      "g_hdTransferPhase",
+      "g_hdTransferOrigin",
+      "g_hdTransferTarget",
+      "g_hdTransferPerson",
+      "g_hdTransferFood",
+      "g_hdTransferMoney",
+      "g_hdTransferArms",
+      "g_hdTransferDistance",
+      "g_hdTransferCommitSeq",
+      "g_hdTransferCommitResult"
+    ],
+    "commands": {
+      "transportation": 13,
+      "move": 14
+    },
+    "phases": {
+      "idle": 0,
+      "person": 1,
+      "food": 2,
+      "money": 3,
+      "arms": 4,
+      "targetTip": 5,
+      "targetPick": 6,
+      "reject": 7,
+      "departureReport": 8,
+      "done": 9
+    },
+    "owner": "independent U32 session/inputSeq; zero skipped; detail-generation reset invalidates suspended publishers",
+    "values": "only actual returned person/amount/target values; 255 city/distance and 65535 person mean not yet known",
+    "departure": "report8 observes native Thew/cargo debits before the original single AddOrderHead and DelPerson",
+    "commit": "monotonic CommitSeq; result1 actual AddOrderHead success, result2 actual rejection/full queue; no rollback added",
+    "retirement": "DONE inactive retains last receipt; next begin clears values/result; reset retires the session",
+    "input": "read-only; existing menu, quantity, report and map-input receipts remain authoritative"
   },
   "hdSpeProtocol": {
     "version": 2,
@@ -470,15 +530,15 @@
   "artifacts": {
     "baye.js": {
       "bytes": 192446,
-      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+      "sha256": "8fce68b52564c0f481ead756dcd33882d3a6a47910032ca28b3dd12b8e02a5f7"
     },
     "baye.wasm": {
-      "bytes": 4535460,
-      "sha256": "af63a7b55015f2d58d8170f9cfcbd087c74026cd435b849406d6d0f3606a0806"
+      "bytes": 4544706,
+      "sha256": "7f20502ebbd2c7a81ae2b58eed1b3dfc85ed933b5dbc3c692ef71be45363536e"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "94ab2af9eaeaa24d237c1e4670a6638a1f6027309a2000471f851926538c2ea1"
+      "sha256": "43292f0c13dfc35bf49c6394a3f59a11f74ef9aefd2d42a9e68e51bae64e831d"
     }
   }
 }

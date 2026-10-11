@@ -66,7 +66,7 @@ const speObserverSource = observerFunctions(speHelpers);
 const globals = bridge.slice(0, bridge.indexOf('static void copy_gbk')).replace(/^#include[^\n]*\n/gm, '');
 const helpers = [
     'copy_gbk', 'baye_hd_person_properties_retire', 'hd_goods_clear', 'hd_menu_ids_clear', 'hd_help_detail_clear', 'hd_help_notify',
-    'hd_next_input_seq', 'baye_hd_view_retire', 'baye_hd_mini_map_retire',
+    'hd_next_input_seq', 'baye_hd_transfer_retire', 'baye_hd_view_retire', 'baye_hd_mini_map_retire',
     'baye_hd_begin_spe', 'baye_hd_fight_actor', 'baye_hd_fight_input_begin', 'baye_hd_fight_input_end',
     'baye_hd_take_fight_action', 'baye_hd_map_input_begin', 'baye_hd_menu_scope', 'baye_hd_menu_scope_default', 'baye_hd_menu_begin',
     'baye_hd_menu_end', 'baye_hd_march_phase', 'baye_hd_march_begin', 'baye_hd_march_selected',
@@ -682,7 +682,7 @@ int main(void) {
 `);
 });
 
-test('real C world commit clears old battle and march mirrors while preserving every persistent game field', async () => {
+test('real C world commit clears old battle, march and transfer mirrors while preserving every persistent game field', async () => {
     await compile(common + String.raw`
 static U8 world[2048];
 static PersonID g_PlayerKing;
@@ -694,10 +694,17 @@ int main(void) {
     g_PlayerKing=599;g_YearDate=190;g_MonthDate=1;g_FgtOver=1;
     g_hdEngineReady=1;baye_hd_set_fight(0,1);g_hdFightSkip=BAYE_HD_FIGHT_SKIP_EMPTY;
     baye_hd_march_begin(8);baye_hd_set_march(8,9,1,1);baye_hd_march_end(1);
+    /* Seed a live transfer receipt, then exercise the actual world-reset dependency. */
+    g_hdTransferActive=1;g_hdTransferCommand=13;g_hdTransferSession=77;g_hdTransferInputSeq=22;
+    g_hdTransferPhase=BAYE_HD_TRANSFER_DEPARTURE_REPORT;g_hdTransferOrigin=8;g_hdTransferTarget=9;
+    g_hdTransferPerson=12;g_hdTransferFood=100;g_hdTransferMoney=50;g_hdTransferArms=25;
+    g_hdTransferDistance=1;g_hdTransferCommitSeq=4;g_hdTransferCommitResult=1;
+    hdTransferGeneration=g_hdDetailGeneration;
     g_hdMapPick=g_hdBattlePick=g_hdQtyActive=g_hdHelpActive=g_hdSkillActive=1;g_hdMapCity=10;
     baye_hd_record_begin(2,3,4);
     baye_hd_set_report((const U8*)"old result",256,BAYE_HD_REPORT_GREPORT);baye_hd_report_begin(BAYE_HD_REPORT_GREPORT);
     U32 fight=g_hdFightInputSeq,march=g_hdMarchInputSeq,report=g_hdReportInputSeq,record=g_hdRecordSeq;
+    U32 transfer=g_hdTransferSession,transferInput=g_hdTransferInputSeq;
     baye_hd_world_commit();
     assert(g_hdEngineReady && !g_hdFightActive && !g_hdFightOver && !g_hdFightResultGbk[0] && !g_hdFightTipGbk[0]);
     assert(g_hdFightInputKind==BAYE_HD_FIGHT_INPUT_BUSY && g_hdFightActor==255 && g_hdFightInputSeq!=fight);
@@ -706,6 +713,11 @@ int main(void) {
     assert(!g_hdMapPick && !g_hdBattlePick && !g_hdMapCity && !g_hdQtyActive && !g_hdHelpActive && !g_hdSkillActive);
     assert(!g_hdReportActive && !g_hdReportGbk[0] && g_hdReportKind==BAYE_HD_REPORT_NONE && g_hdReportPerson==65535 && g_hdReportInputSeq!=report);
     assert(!g_hdRecordActive && g_hdRecordSeq!=record);
+    assert(!g_hdTransferActive && !g_hdTransferCommand && g_hdTransferPhase==BAYE_HD_TRANSFER_IDLE);
+    assert(g_hdTransferSession!=transfer && g_hdTransferInputSeq!=transferInput && !hdTransferGeneration);
+    assert(g_hdTransferOrigin==255 && g_hdTransferTarget==255 && g_hdTransferDistance==255 && g_hdTransferPerson==65535);
+    assert(!g_hdTransferFood && !g_hdTransferMoney && !g_hdTransferArms && !g_hdTransferCommitResult);
+    assert(g_hdTransferCommitSeq==4); /* sequence is monotonic even when the old receipt is retired */
     assert(g_PlayerKing==599 && g_YearDate==190 && g_MonthDate==1 && g_FgtOver==1 && memcmp(world,before,sizeof(world))==0);
     puts("committed new/loaded world clears HD mirrors without changing native world or battle result passed");
 }
