@@ -71,6 +71,8 @@ function fixture({storageThrows = false, marchState = false} = {}) {
             select:selectLiveMenu,preview:typeof previewDeep==='function'?previewDeep:null,
             previewContext:typeof mobilePreviewContext==='function'?mobilePreviewContext:null,bind:bindUi,
              back:back,backOwner:cityBackPressOwner,
+             chooseSub:chooseSub,equipmentFlow(){return typeof mobileEquipmentFlow==='undefined'?null:mobileEquipmentFlow;},
+             personKind:typeof personDeepKind==='function'?personDeepKind:null,usesGoods:usesGoodsMenu,
              pageTool:pageTool,setToolContext(value){liveToolContext=function(){return value;};renderToolDetails=function(){};},
             resetDetailScroll:typeof resetMobileDetailScroll==='function'?resetMobileDetailScroll:null,
             isolatePreview(){renderPersonDetails=function(){};renderToolDetails=function(){};}};
@@ -408,6 +410,8 @@ for(const pending of ['queue','sending','nativeMenuRequest','deepSelectionPendin
         const context={state,mobileHost:{},JSON,usesGoodsMenu(){return false;},
             mobilePersonModeReading(){reads+=1;throw Error('in-flight owner must not be read for recovery');},
             retireInteraction(){retired+=1;state.queue=[];state.sending=false;state.deepMenuOwner=null;}};
+        const personKind=source.match(/function personDeepKind\(kind\) \{[^\n]+\}/);
+        if(personKind)vm.runInNewContext(personKind[0],context);
         vm.runInNewContext(source.slice(begin,end),context);
         assert.equal(context.retireInputPreservingOwner('boundary'),false);
         assert.equal(retired,1);assert.equal(reads,0);assert.equal(state.deepMenuOwner,null);
@@ -1427,6 +1431,216 @@ for(const kind of [3,4]){
         for(let i=0;i<4;i++)f.internals.fill();assert.equal(f.all('data-hd-deep-preview')[1],button);
         f.click(button);f.tick(40);f.internals.fill();assert.equal(f.all('data-hd-deep-preview')[1],button);
         assert.equal(f.all('data-hd-deep')[1],main);assert.deepEqual(f.keys,[0x23]);
+    });
+}
+
+function equipmentFixture(command='largess',{empty=false,phase=0}={}) {
+    const f=previewFixture(3,{phase}),subNames=['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
+    f.raw.g_asyncActionID=0;
+    f.env.bayeQtyNativeClosed=()=>f.raw.g_hdQtyActive===0;
+    const people={names:['董卓','李儒','吕布'],ids:[0,19,20]},inventory={names:['七星刀'],ids:[1]};
+    function publish(kind,seq,index=0,list=null){
+        const values=list||(kind===2?{names:subNames,ids:[]}:kind===3?people:kind===4?inventory:{names:[],ids:[]});
+        f.names.splice(0,f.names.length,...values.names);f.ids.splice(0,f.ids.length,...values.ids);
+        Object.assign(f.raw,{g_hdMenuActive:kind?1:0,g_hdMenuContext:kind?1:0,g_hdMenuKind:kind,
+            g_hdMenuSeq:seq,g_hdMenuCount:values.names.length,g_hdMenuIndex:index});
+    }
+    let reportSeq=0;
+    function report(kind,person,text){Object.assign(f.raw,{g_hdReportActive:1,g_hdReportKind:kind,
+        g_hdReportPerson:person,g_hdReportSeq:++reportSeq,g_hdReportInputSeq:reportSeq});
+        f.setReportHook(value=>{value.text=text;});}
+    function endReport(){f.raw.g_hdReportActive=0;}
+    function map(seq){publish(0,seq);Object.assign(f.raw,{g_hdMapPick:1,g_hdBattlePick:0,
+        g_hdMapInputSeq:f.raw.g_hdMapInputSeq===0xffffffff?1:f.raw.g_hdMapInputSeq+1,
+        g_hdGoodsActive:0,g_hdPersonPropertiesActive:0});}
+    publish(2,10,command==='largess'?8:9);
+    Object.assign(f.state,{layer:'sub',deepKind:'',deepStep:0,subKind:'neizheng',deepLabel:''});
+    f.setAfterKey(key=>{if(key===39){publish(0,11);f.env.setTimeout(()=>{
+        if(empty)report(1,65535,'城中无道具');else publish(command==='largess'?4:3,12);
+    },60);}});
+    f.internals.chooseSub(command==='largess'?8:9);f.tick(80);f.internals.fill();
+    function main(index){const button=f.all('data-hd-deep')[index];assert.ok(button,'current native item exists');
+        f.dom.root.emit('pointerdown',f.event(button));f.click(button);}
+    return Object.assign(f,{publish,map,people,inventory,report,endReport,main,
+        back(){f.internals.back(f.internals.backOwner());}});
+}
+
+test('mobile equipment empty initial inventory report retires to actual MAP with no extra EXIT',()=>{
+    const f=equipmentFixture('largess',{empty:true});assert.equal(f.state.deepKind,'goods-person');
+    assert.ok(f.internals.equipmentFlow());assert.equal(f.api.getInputTicket(),null);
+    f.tick(12000);assert.ok(f.internals.equipmentFlow());assert.deepEqual(f.keys,[39]);
+    f.endReport();f.map(11);f.tick(40);
+    assert.equal(f.state.open,false);assert.equal(f.state.layer,'root');assert.equal(f.state.deepKind,'');
+    assert.equal(f.internals.equipmentFlow(),null);assert.deepEqual(f.keys,[39]);assert.deepEqual(f.writes,[]);
+});
+test('mobile equipment reward GOODS Enter observes fresh PERSON and enables native person detail/preview routing',()=>{
+    const f=equipmentFixture();assert.equal(f.state.deepKind,'goods-person');assert.equal(f.state.deepStep,0);
+    f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),60);}});
+    f.main(0);assert.equal(f.state.deepStep,0);f.tick(80);f.internals.fill();
+    assert.equal(f.state.deepStep,1);assert.equal(f.state.deepMenuOwner.kind,3);assert.equal(f.state.deepMenuOwner.seq,14);
+    assert.equal(f.internals.personKind(f.state.deepKind),true);assert.equal(f.internals.usesGoods(f.state.deepKind,1),false);
+    assert.deepEqual(Array.from(f.state.deepItems,p=>p.pind),[0,19,20]);
+    f.setAfterKey(key=>{if(key===35)f.raw.g_hdMenuIndex++;});f.press(1);f.tick(40);
+    assert.deepEqual(f.keys,[39,39,35]);assert.equal(f.raw.g_hdMenuIndex,1);assert.deepEqual(f.writes,[]);
+});
+test('mobile equipment pending Enter rejects preview, another main choice, back and property input until actual publication',()=>{
+    const f=equipmentFixture(),preview=f.all('data-hd-deep-preview')[0];
+    f.setAfterKey(()=>{});f.main(0);assert.ok(f.internals.equipmentFlow());
+    f.dom.root.emit('pointerdown',f.event(preview));f.click(preview);f.main(0);f.back();
+    f.internals.setToolContext({pageOwnerKey:'current-tool',snapshotKey:'current-snapshot',
+        pageStart:0,pageEnd:1,propertyCount:5});
+    assert.equal(f.internals.pageTool('next','current-tool'),false);
+    assert.equal(f.internals.send(35,'equipment-pending'),false);f.tick(80);
+    assert.deepEqual(f.keys,[39,39]);assert.ok(f.internals.equipmentFlow());assert.deepEqual(f.writes,[]);
+});
+test('mobile equipment waits for complete fresh PERSON publication without treating its old names as current',()=>{
+    const f=equipmentFixture();let complete=false;
+    f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>{
+        f.publish(3,14);f.setMenuHook(menu=>{menu.ids=complete?f.ids.slice():[];menu.idsValid=complete;});
+    },60);}});
+    f.main(0);f.tick(80);assert.equal(f.state.deepStep,0);assert.ok(f.internals.equipmentFlow());
+    assert.equal(f.api.getInputTicket(),null);assert.deepEqual(f.keys,[39,39]);
+    complete=true;f.tick(40);f.internals.fill();assert.equal(f.state.deepStep,1);
+    assert.equal(f.state.deepMenuOwner.seq,14);assert.deepEqual(f.keys,[39,39]);
+});
+for(const seq of [0xfffffffe,0xffffffff])test('mobile equipment Enter follows nonzero U32 sequence across wrap: '+seq,()=>{
+    const f=equipmentFixture(),next=value=>value===0xffffffff?1:value+1;
+    f.publish(4,seq);f.internals.fill();f.setAfterKey(key=>{if(key===39){
+        f.publish(0,next(seq));f.env.setTimeout(()=>f.publish(3,next(next(seq))),60);}});
+    f.main(0);f.tick(80);f.internals.fill();assert.equal(f.state.deepStep,1);
+    assert.equal(f.state.deepMenuOwner.seq,next(next(seq)));assert.deepEqual(f.keys,[39,39]);
+});
+test('mobile equipment reward PERSON cancel restores fresh inventory then final GOODS EXIT retires to actual MAP',()=>{
+    const f=equipmentFixture();f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),60);}});
+    f.main(0);f.tick(80);f.internals.fill();
+    f.setAfterKey(key=>{if(key===40){f.publish(0,15);f.env.setTimeout(()=>f.publish(4,16),60);}});
+    f.back();f.tick(80);f.internals.fill();assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.kind,4);
+    f.setAfterKey(key=>{if(key===40){f.publish(0,17);f.env.setTimeout(()=>f.map(17),60);}});
+    f.back();f.tick(80);assert.equal(f.state.open,false);assert.equal(f.state.layer,'root');
+    assert.equal(f.state.deepMenuOwner,null);assert.deepEqual(f.keys,[39,39,40,40]);
+});
+test('mobile equipment FULLGOODS report returns fresh PERSON index0 and keeps the selected tool for another actor',()=>{
+    const f=equipmentFixture();f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),60);}});
+    f.main(0);f.tick(80);f.internals.fill();f.raw.g_hdMenuIndex=2;f.internals.fill();
+    f.setAfterKey(key=>{if(key===39){f.publish(0,15);f.env.setTimeout(()=>f.report(1,65535,'道具已满'),60);}});
+    f.main(2);f.tick(80);assert.ok(f.internals.equipmentFlow());assert.equal(f.api.getInputTicket(),null);
+    f.endReport();f.publish(3,16,0);f.tick(40);f.internals.fill();
+    assert.equal(f.state.deepStep,1);assert.equal(f.state.idleIndex,0);assert.equal(f.state.deepMenuOwner.seq,16);
+    f.setAfterKey(key=>{if(key===40){f.publish(0,17);f.env.setTimeout(()=>f.publish(4,18),60);}});
+    f.back();f.tick(80);assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.kind,4);
+    assert.deepEqual(f.keys,[39,39,39,40]);assert.deepEqual(f.writes,[]);
+});
+test('mobile equipment successful reward accepts changed native inventory after its actual person report',()=>{
+    const f=equipmentFixture();f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),60);}});
+    f.main(0);f.tick(80);f.internals.fill();f.raw.g_hdMenuIndex=1;f.internals.fill();
+    f.setAfterKey(key=>{if(key===39){f.publish(0,15);f.env.setTimeout(()=>f.report(2,19,'谢主公赏赐'),60);}});
+    f.main(1);f.tick(80);assert.ok(f.internals.equipmentFlow());
+    f.endReport();f.publish(4,16,0,{names:['赤兔'],ids:[22]});f.tick(40);f.internals.fill();
+    assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.kind,4);
+    assert.deepEqual(Array.from(f.state.deepItems,p=>p.toolIndex),[22]);assert.deepEqual(f.keys,[39,39,39]);
+});
+test('mobile equipment successful last reward permits person report then empty-inventory MSGBOX then actual MAP',()=>{
+    const f=equipmentFixture();f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(3,14),60);}});
+    f.main(0);f.tick(80);f.internals.fill();f.raw.g_hdMenuIndex=1;f.internals.fill();
+    f.setAfterKey(key=>{if(key===39){f.publish(0,15);f.env.setTimeout(()=>f.report(2,19,'谢主公赏赐'),60);}});
+    f.main(1);f.tick(80);f.tick(6000);assert.ok(f.internals.equipmentFlow());
+    f.endReport();f.report(1,65535,'城中无道具');f.tick(6000);assert.ok(f.internals.equipmentFlow());
+    f.endReport();f.map(15);f.tick(40);
+    assert.equal(f.state.open,false);assert.equal(f.state.layer,'root');assert.equal(f.state.deepKind,'');
+    assert.deepEqual(f.keys,[39,39,39]);
+});
+for(const phase of [0,7])test('mobile equipment final confiscate PERSON EXIT retires actual MAP phase '+phase+' with one EXIT',()=>{
+    const f=equipmentFixture('confiscate',{phase});f.setAfterKey(key=>{if(key===40){
+        f.publish(0,13);f.env.setTimeout(()=>f.map(13),60);}});
+    f.back();f.tick(80);f.internals.fill();assert.equal(f.state.open,false);assert.equal(f.state.layer,'root');
+    assert.equal(f.state.deepKind,'');assert.equal(f.state.deepMenuOwner,null);
+    assert.deepEqual(f.keys,[39,40]);assert.deepEqual(f.writes,[]);
+});
+test('mobile equipment genuine MAP still retires after host clears its report-wait work',()=>{
+    const f=equipmentFixture('largess',{empty:true});f.api.retireInteraction('owner-change');
+    assert.equal(f.internals.equipmentFlow(),null);f.endReport();f.map(11);f.internals.fill();
+    assert.equal(f.state.open,false);assert.equal(f.state.deepMenuOwner,null);assert.deepEqual(f.keys,[39]);
+});
+for(const change of ['map-pick','battle-pick','phase','map-seq','menu-seq','menu-context','menu-kind',
+    'data','library','generation','city','report','help','qty','fight','goods','person','async']){
+    test('mobile equipment MAP retirement refuses stale or competing '+change,()=>{
+        const f=equipmentFixture('largess',{empty:true});f.endReport();f.map(11);
+        if(change==='map-pick')f.raw.g_hdMapPick=0;
+        if(change==='battle-pick')f.raw.g_hdBattlePick=1;
+        if(change==='phase')f.raw.g_hdMarchPhase=4;
+        if(change==='map-seq')f.raw.g_hdMapInputSeq++;
+        if(change==='menu-seq')f.raw.g_hdMenuSeq++;
+        if(change==='menu-context')f.raw.g_hdMenuContext=1;
+        if(change==='menu-kind')f.raw.g_hdMenuKind=4;
+        if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+        if(change==='library')f.setIdentity({...f.identity(),generation:2});
+        if(change==='generation')f.raw.g_hdDetailGeneration++;
+        if(change==='city')f.raw.g_hdMapCity=2;
+        if(change==='report')f.report(1,65535,'仍在报告');
+        if(change==='help')f.raw.g_hdHelpActive=1;
+        if(change==='qty')f.raw.g_hdQtyActive=1;
+        if(change==='fight')f.raw.g_hdFightActive=1;
+        if(change==='goods')f.raw.g_hdGoodsActive=1;
+        if(change==='person')f.raw.g_hdPersonPropertiesActive=1;
+        if(change==='async')f.raw.g_asyncActionID=1;
+        f.internals.fill();assert.equal(f.state.open,true);assert.deepEqual(f.keys,[39]);assert.deepEqual(f.writes,[]);
+    });
+}
+for(const king of [true,false])test('mobile equipment confiscate commit returns same PERSON after '+(king?'king without report':'actual actor report'),()=>{
+    const f=equipmentFixture('confiscate');f.raw.g_hdMenuIndex=king?0:2;f.internals.fill();
+    f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(4,14,0,{names:['七星刀'],ids:[1]}),60);}});
+    f.main(king?0:2);f.tick(80);f.internals.fill();assert.equal(f.state.deepStep,1);
+    f.setAfterKey(key=>{if(key===39){f.publish(0,15);f.env.setTimeout(()=>{
+        if(king)f.publish(3,16,0);else f.report(2,20,'请主公三思');},60);}});
+    f.main(0);f.tick(80);
+    if(!king){assert.ok(f.internals.equipmentFlow());f.endReport();f.publish(3,16,2);f.tick(40);}
+    f.internals.fill();assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.kind,3);
+    assert.equal(f.state.idleIndex,king?0:2);assert.deepEqual(f.keys,[39,39,39]);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['index','ids','names','seq','generation'])test('mobile equipment confiscate commit refuses an unrelated return PERSON: '+change,()=>{
+    const f=equipmentFixture('confiscate');f.raw.g_hdMenuIndex=2;f.internals.fill();
+    f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>f.publish(4,14),60);}});
+    f.main(2);f.tick(80);f.internals.fill();
+    f.setAfterKey(key=>{if(key===39){f.publish(0,15);f.env.setTimeout(()=>{
+        f.publish(3,16,2);
+        if(change==='index')f.raw.g_hdMenuIndex=0;
+        if(change==='ids')f.ids[2]=21;
+        if(change==='names')f.names[2]='另一个人物';
+        if(change==='seq')f.raw.g_hdMenuSeq=18;
+        if(change==='generation')f.raw.g_hdDetailGeneration++;
+    },60);}});
+    f.main(0);f.tick(80);assert.equal(f.internals.equipmentFlow(),null);
+    assert.equal(f.state.deepStep,1);assert.deepEqual(f.keys,[39,39,39]);assert.deepEqual(f.writes,[]);
+});
+test('mobile equipment changes do not replace the PC reward goods route',()=>{
+    const f=previewFixture(4,{mobile:false});
+    Object.assign(f.state,{layer:'sub',deepKind:'',deepStep:0,subKind:'neizheng',deepLabel:''});
+    const names=['开垦','招商','搜寻','治理','出巡','招降','处斩','流放','赏赐','没收','交易','宴请','输送','移动'];
+    f.names.splice(0,f.names.length,...names);Object.assign(f.raw,{g_hdMenuKind:2,g_hdMenuCount:names.length,g_hdMenuIndex:8});
+    f.internals.chooseSub(8);assert.equal(f.state.deepKind,'goods');assert.equal(f.internals.equipmentFlow(),null);
+    assert.deepEqual(f.keys,[39]);assert.deepEqual(f.writes,[]);
+});
+for(const change of ['seq','ids-incomplete','data','library','generation','city','report-person','report-kind','help','qty','fight','hidden','classic','retire']){
+    test('mobile equipment reward handoff rejects stale or competing '+change,()=>{
+        const f=equipmentFixture();f.setAfterKey(key=>{if(key===39){f.publish(0,13);f.env.setTimeout(()=>{
+            f.publish(3,14);
+            if(change==='seq')f.raw.g_hdMenuSeq=16;
+            if(change==='ids-incomplete')f.setMenuHook(menu=>{menu.ids=f.ids.slice();menu.idsValid=false;});
+            if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+            if(change==='library')f.setIdentity({...f.identity(),generation:2});
+            if(change==='generation')f.raw.g_hdDetailGeneration++;
+            if(change==='city')f.raw.g_hdMapCity=2;
+            if(change==='report-person'){f.publish(0,13);f.report(2,20,'无关人物报告');}
+            if(change==='report-kind'){f.publish(0,13);f.report(3,65535,'未知报告');}
+            if(change==='help')f.raw.g_hdHelpActive=1;
+            if(change==='qty')f.raw.g_hdQtyActive=1;
+            if(change==='fight')f.raw.g_hdFightActive=1;
+            if(change==='hidden')f.env.document.hidden=true;
+            if(change==='classic')f.api.setMode('classic');
+            if(change==='retire')f.api.retireInteraction('equipment-retire');
+        },60);}});
+        f.main(0);f.tick(5200);assert.equal(f.internals.equipmentFlow(),null);
+        assert.notEqual(f.state.deepStep,1);assert.deepEqual(f.keys,[39,39]);assert.deepEqual(f.writes,[]);
     });
 }
 for(const change of ['cancel','retire','hidden','portrait','classic','unavailable','library','data','seq','index','target-id','target-name',

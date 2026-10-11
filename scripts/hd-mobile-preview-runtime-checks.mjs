@@ -1,17 +1,16 @@
 // Genuine original CITY previews. Every game input comes from a current visible trusted touch.
 import assert from 'node:assert/strict';
 
-export async function runMobilePreviewChecks(ctx) {
+export async function createMobileDetailRuntimeDriver(ctx,entry) {
   const {report,evaluate,until,checkpoint,ready,root,submenu,selectPerson,back,mapReturn,
     controlPoint,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,label}=ctx;
-  const entry={label,cityIndex:testCity.index,checks:[],scrollChecks:[],accepted:false};
-  report.previewChecks.push(entry);entry.baseline=await mark();
   let phase=0;
   const snap=suffix=>checkpoint(label+'-'+String(++phase).padStart(2,'0')+'-'+suffix);
   const sample=async()=>{
     const measured=await ready();
     const attributes=await evaluate('({person:baye.hd.personProperties(),goods:baye.hd.goods()})');
-    worldSame(entry.baseline,measured,'Every read-only preview and property page');
+    if(ctx.checkWorld)ctx.checkWorld(measured);
+    else worldSame(entry.baseline,measured,'Every read-only preview and property page');
     assert.equal(measured.state.touchCount,entry.baseline.state.touchCount,'No LCD touch leakage');
     return {...measured,attributes};
   };
@@ -72,7 +71,7 @@ export async function runMobilePreviewChecks(ctx) {
     for(const k of ['pageStart','pageEnd'])assert.equal(u[k],n[k]);
     for(let i=0;i<n.propertyCount;i++){
       const p=n.properties[i],v=u.properties[i];assert.equal(v.captured,p.captured);
-      if(p.captured){assert.equal(v.title,p.title||'属性 '+(i+1)+'（标题为空）');assert.equal(v.value,p.value||'（空）');}
+      if(p.captured){assert.equal(v.title,kind===3?p.title:p.title||'属性 '+(i+1)+'（标题为空）');assert.equal(v.value,kind===3?p.value:p.value||'（空）');}
       if(kind===3){assert.equal(v.current,p.captured&&p.titlePaintSeq===n.paintSeq&&p.valuePaintSeq===n.paintSeq);}
     }
     const dom=await evaluate(`(() => {const kind=${kind},root=document.getElementById(kind===3?'hd-city-menu-person-properties-fields':'hd-city-menu-tool-fields');
@@ -81,8 +80,8 @@ export async function runMobilePreviewChecks(ctx) {
           [...root.querySelector('.hd-city-menu-info-group').querySelectorAll('.hd-city-menu-stat')].map((r,index)=>({index,title:r.querySelector('span')?.textContent,value:r.querySelector('strong')?.textContent}))};})()`);
     assert.equal(dom.name,n.name);assert.ok(dom.text);
     if(kind===3){assert.equal(n.pageComplete,1);assert.equal(dom.rows.length,n.propertyCount);
-      for(let i=n.pageStart;i<n.pageEnd;i++){assert.equal(dom.rows[i].title,n.properties[i].title);assert.equal(dom.rows[i].value,n.properties[i].value);assert.equal(dom.rows[i].current,'1');}}
-    else {assert.equal(dom.rows.length,n.propertyCount);for(const p of n.properties.filter(p=>p.captured)){assert.equal(dom.rows[p.index].title,p.title);assert.equal(dom.rows[p.index].value,p.value,'Captured goods value rendered on its actual property row');}}
+      for(let i=n.pageStart;i<n.pageEnd;i++){assert.equal(dom.rows[i].title,n.properties[i].title||'（空标题）');assert.equal(dom.rows[i].value,n.properties[i].value||'（空）');assert.equal(dom.rows[i].current,'1');}}
+    else {assert.equal(dom.rows.length,n.propertyCount);for(const p of n.properties.filter(p=>p.captured)){assert.equal(dom.rows[p.index].title,u.properties[p.index].title);assert.equal(dom.rows[p.index].value,u.properties[p.index].value,'Captured goods value rendered on its actual property row');}}
     return {sample:s,dom};
   };
   const preview=async(kind,index)=>{
@@ -125,6 +124,15 @@ export async function runMobilePreviewChecks(ctx) {
     entry.checks.push({kind:'complete-properties',menuKind:kind,attributes:current});await snap((kind===3?'person':'tool')+'-'+(kind===3?current.person:current.tool)+'-all-properties');
     if(current.pageStart>0)await page(kind,'prev');
   };
+  return {sample,reveal,attributes,preview,page,allPages,snap,ownerSame};
+}
+
+export async function runMobilePreviewChecks(ctx) {
+  const {report,evaluate,until,ready,root,submenu,selectPerson,back,mapReturn,
+    controlPoint,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,label}=ctx;
+  const entry={label,cityIndex:testCity.index,checks:[],scrollChecks:[],accepted:false};
+  report.previewChecks.push(entry);entry.baseline=await mark();
+  const {sample,reveal,preview,allPages,snap}=await createMobileDetailRuntimeDriver(ctx,entry);
   await root(0,'内政');const picker=await submenu('搜寻');assert.ok(picker.state.menu.ids.length>=2);
   const equipped=picker.state.menu.ids.find(id=>picker.world.people[id].Tool1>0&&picker.world.people[id].Tool2>0);
   assert.ok(Number.isInteger(equipped),'Fresh resident has two actual equipped tools; no initial equipment compaction');
