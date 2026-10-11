@@ -68,7 +68,12 @@ function fixture({storageThrows = false, marchState = false} = {}) {
     const code=marchState?source.replace(/\}\)\(window\);\s*$/,`
         global.__marchTest={state:state,sync:syncMarchPhase,send:engineSendKey,cancelQty:cancelQty,
             cancelPersons:cancelUnselectedMarch,fill:fillDeepList,render:render,other:otherCities,
-            select:selectLiveMenu};
+            select:selectLiveMenu,preview:typeof previewDeep==='function'?previewDeep:null,
+            previewContext:typeof mobilePreviewContext==='function'?mobilePreviewContext:null,bind:bindUi,
+             back:back,backOwner:cityBackPressOwner,
+             pageTool:pageTool,setToolContext(value){liveToolContext=function(){return value;};renderToolDetails=function(){};},
+            resetDetailScroll:typeof resetMobileDetailScroll==='function'?resetMobileDetailScroll:null,
+            isolatePreview(){renderPersonDetails=function(){};renderToolDetails=function(){};}};
         render=function(){};applyDocAttr=function(){};scheduleMarchWatch=function(){};
     })(window);`):source;
     vm.runInNewContext(code, env, {filename:'js/hd-city-menu.js'});
@@ -640,12 +645,15 @@ function mobileMarchFixture(phase=4,{mobile=true}={}) {
 
 // Controlled DOM nodes exercise the actual fillDeepList/syncMarchPhase bodies.
 // Replacing innerHTML disconnects old buttons just as it does in a browser.
-function marchDom(f) {
+function marchDom(f, {rooted=false}={}) {
     function node(tagName) {
-        const attrs={}, value={tagName:tagName.toUpperCase(),children:[],parentElement:null,
+        const attrs={}, listeners={}, value={tagName:tagName.toUpperCase(),children:[],parentElement:null,parentNode:null,
             isConnected:false,hidden:false,textContent:'',className:'',scrollTop:0,
             setAttribute(name,item){attrs[name]=String(item);},getAttribute(name){return name in attrs?attrs[name]:null;},
-            appendChild(child){child.parentElement=this;this.children.push(child);connect(child,this.isConnected);return child;}};
+            addEventListener(type,fn){(listeners[type]||=[]).push(fn);},
+            emit(type,event){for(const fn of listeners[type]||[])fn(event);},
+            contains(child){while(child){if(child===this)return true;child=child.parentNode;}return false;},
+            appendChild(child){child.parentElement=child.parentNode=this;this.children.push(child);connect(child,this.isConnected);return child;}};
         value.classList={contains(name){return value.className.split(/\s+/).includes(name);},
             toggle(name,on){const names=new Set(value.className.split(/\s+/).filter(Boolean));
                 if(on)names.add(name);else names.delete(name);value.className=[...names].join(' ');}};
@@ -667,13 +675,13 @@ function marchDom(f) {
         return value;
     }
     function connect(value,on){value.isConnected=on;for(const child of value.children)connect(child,on);}
-    const list=node('div');connect(list,true);
+    const root=node('section'),list=node('div');if(rooted)root.appendChild(list);connect(rooted?root:list,true);
     function byId(id,value=list){
         if(value.getAttribute('id')===id)return value;
         for(const child of value.children){const found=byId(id,child);if(found)return found;}
         return null;
     }
-    f.env.document.getElementById=id=>id==='hd-city-menu-deep'?list:byId(id);
+    f.env.document.getElementById=id=>id==='hd-city-menu'&&rooted?root:id==='hd-city-menu-deep'?list:byId(id);
     f.env.document.createElement=node;
     function find(attribute,value=list){
         if(value.getAttribute(attribute)!==null)return value;
@@ -681,7 +689,7 @@ function marchDom(f) {
         return null;
     }
     function poll(){f.internals.sync();f.internals.fill();}
-    return {list,find,poll,byId};
+    return {root,list,find,poll,byId};
 }
 function advanceToTarget(f) {
     Object.assign(f.raw,{g_hdMarchPhase:4,g_hdReportActive:0,g_hdMapPick:1,g_hdBattlePick:1});
@@ -1248,4 +1256,266 @@ test('mobile quantity summary stays fixed while its independent touch-sized butt
     assert.match(css,/\.hd-mobile-page #hd-dialog\.has-mobile-quantity #hd-dialog-qty \{[^}]*flex: 1 1 0;[^}]*min-height: 44px;[^}]*overflow: auto;/);
     const mobile=fs.readFileSync(new URL('../m.html',import.meta.url),'utf8');assert.match(mobile,/data-hd-qty-bound hidden/);
     assert.doesNotMatch(fs.readFileSync(new URL('../pc.html',import.meta.url),'utf8'),/data-hd-qty-bound/);
+});
+function previewFixture(kind=3,{mobile=true,phase=0}={}) {
+    const f=fixture({marchState:true});if(mobile)f.configure();else f.stored.set('baye/cityMenuMode','hd');
+    Object.assign(f.raw,{g_hdMenuKind:kind,g_hdMenuCount:3,g_hdMenuIndex:0,g_hdMarchPhase:phase});
+    f.names.splice(0,f.names.length,...(kind===3?['董卓','李儒','吕布']:['方天画戟','赤兔','七星刀']));
+    const ids=kind===3?[0,19,20]:[0,22,1];
+    f.setMenuHook(menu=>{menu.ids=ids.slice();});
+    f.state=f.internals.state;
+    Object.assign(f.state,{open:true,layer:'deep',cityIndex:0,subKind:'neizheng',deepKind:kind===3?'person-goods':'goods',
+        deepStep:0,deepLabel:'没收',battleMake:false,wizardStep:'none'});
+    // Isolate focus routing from already covered statistics/property renderers.
+    f.internals.isolatePreview();
+    const dom=marchDom(f,{rooted:true});f.internals.fill();f.internals.bind();
+    function all(attr,value=dom.list,out=[]){if(value.getAttribute(attr)!==null)out.push(value);
+        for(const child of value.children)all(attr,child,out);return out;}
+    function event(target,extra={}){return {target,detail:1,isPrimary:true,button:0,pointerId:7,
+        preventDefault(){},stopPropagation(){},...extra};}
+    function down(index,extra={}){const button=all('data-hd-deep-preview')[index];dom.root.emit('pointerdown',event(button,extra));return button;}
+    function click(button){dom.root.emit('click',event(button));}
+    function press(index){const button=down(index);click(button);return button;}
+    f.setAfterKey(key=>{if(key===0x23)f.raw.g_hdMenuIndex++;else if(key===0x22)f.raw.g_hdMenuIndex--;});
+    return Object.assign(f,{dom,ids,all,event,down,click,press});
+}
+
+function goodsReturnFixture({mobile=true,phase=0,personSeq=3}={}) {
+    const f=previewFixture(3,{mobile,phase});
+    const persons={names:f.names.slice(),ids:f.ids.slice()};
+    function publish(kind,seq,index=0) {
+        const values=kind===3?persons:kind===4?{names:['方天画戟','赤兔'],ids:[0,22]}:{names:[],ids:[]};
+        f.names.splice(0,f.names.length,...values.names);f.ids.splice(0,f.ids.length,...values.ids);
+        Object.assign(f.raw,{g_hdMenuActive:kind?1:0,g_hdMenuContext:kind?1:0,g_hdMenuKind:kind,
+            g_hdMenuSeq:seq,g_hdMenuCount:values.names.length,g_hdMenuIndex:index});
+    }
+    const next=seq=>seq===0xffffffff?1:seq+1,goodsSeq=next(next(personSeq)),returnSeq=next(next(goodsSeq));
+    f.raw.g_hdMenuSeq=personSeq;f.raw.g_hdMenuIndex=2;f.internals.fill();
+    f.setAfterKey(key=>{if(key===0x27){publish(0,next(personSeq));f.env.setTimeout(()=>publish(4,goodsSeq),60);}});
+    const main=f.all('data-hd-deep')[2];f.dom.root.emit('pointerdown',f.event(main));f.click(main);
+    assert.deepEqual(f.keys,[0x27]);f.tick(80);f.internals.fill();
+    assert.equal(f.state.deepStep,1);assert.equal(f.raw.g_hdMenuKind,4);
+    const goodsButtons=f.all('data-hd-deep-preview').slice();
+    let returnAction=()=>publish(3,returnSeq,2), exits=0;
+    f.setAfterKey(key=>{if(key===0x28){exits++;publish(0,next(goodsSeq));f.env.setTimeout(()=>returnAction(),60);}});
+    return Object.assign(f,{publish,persons,goodsButtons,back(){f.internals.back(f.internals.backOwner());},
+        setReturn(fn){returnAction=fn;},exits(){return exits;}});
+}
+
+test('mobile GOODS cancel waits the fresh native PERSON publication then restores the same command',()=>{
+    const f=goodsReturnFixture();f.back();assert.deepEqual(f.keys,[0x27,0x28]);
+    assert.equal(f.state.layer,'deep');assert.equal(f.state.deepStep,1);assert.ok(f.state.goodsBackPending);
+    f.tick(40);assert.equal(f.raw.g_hdMenuActive,0);assert.equal(f.state.deepStep,1);
+    f.tick(40);f.internals.fill();
+    assert.equal(f.state.layer,'deep');assert.equal(f.state.deepKind,'person-goods');assert.equal(f.state.deepStep,0);
+    assert.equal(f.state.deepLabel,'没收');assert.equal(f.state.idleIndex,2);
+    assert.equal(f.state.deepMenuOwner.kind,3);assert.equal(f.state.deepMenuOwner.seq,7);
+    assert.deepEqual(Array.from(f.state.deepItems,person=>person.pind),[0,19,20]);
+    assert.equal(f.state.goodsBackPending,null);assert.deepEqual(f.keys,[0x27,0x28]);assert.deepEqual(f.writes,[]);
+});
+for(const personSeq of [0xfffffffc,0xfffffffd]){
+    test('mobile GOODS return follows native U32 nonzero menu sequence across wrap: '+personSeq,()=>{
+        const f=goodsReturnFixture({personSeq});f.back();f.tick(80);
+        assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.seq,personSeq===0xfffffffc?1:2);
+        assert.deepEqual(f.keys,[0x27,0x28]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('mobile GOODS return waits complete U16 PERSON identities after native begin publication',()=>{
+    const f=goodsReturnFixture();f.setReturn(()=>{
+        f.publish(3,7,2);f.setMenuHook(menu=>{menu.ids=[];menu.idsValid=false;});
+        f.env.setTimeout(()=>f.setMenuHook(menu=>{menu.ids=f.ids.slice();}),100);
+    });
+    f.back();f.tick(80);assert.equal(f.state.deepStep,1);assert.ok(f.state.goodsBackPending);
+    f.tick(100);assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.seq,7);
+    assert.deepEqual(f.keys,[0x27,0x28]);
+});
+test('mobile GOODS cancel is single EXIT while waiting and its old goods buttons cannot send',()=>{
+    const f=goodsReturnFixture();f.back();f.back();
+    const old=f.goodsButtons[1];f.dom.root.emit('pointerdown',f.event(old));f.click(old);f.tick(80);
+    f.dom.root.emit('pointerdown',f.event(old));f.click(old);
+    assert.deepEqual(f.keys,[0x27,0x28]);assert.equal(f.exits(),1);assert.deepEqual(f.writes,[]);
+});
+test('mobile GOODS pending EXIT blocks current preview, confirmation and property paging before native consumes it',()=>{
+    const f=goodsReturnFixture();f.setAfterKey(()=>{});f.back();
+    assert.ok(f.state.goodsBackPending);assert.equal(f.raw.g_hdMenuKind,4);
+    f.press(1);
+    const main=f.all('data-hd-deep')[0];f.dom.root.emit('pointerdown',f.event(main));f.click(main);
+    f.internals.setToolContext({pageOwnerKey:'current-goods-page',snapshotKey:'current-goods-fields',
+        pageStart:0,pageEnd:1,propertyCount:5});
+    assert.equal(f.internals.pageTool('next','current-goods-page'),false);
+    assert.equal(f.state.nativeMenuRequest,null);assert.equal(f.state.toolPagePending,null);
+    assert.deepEqual(f.keys,[0x27,0x28]);f.api.retireInteraction('cancel-wait');
+    assert.equal(f.state.goodsBackPending,null);assert.deepEqual(f.writes,[]);
+});
+test('mobile returned PERSON Back keeps the original parent layer and sends only another EXIT',()=>{
+    const f=goodsReturnFixture();f.back();f.tick(80);f.internals.fill();
+    f.setAfterKey(()=>{});f.back();f.tick(100);
+    assert.equal(f.state.layer,'sub');assert.equal(f.state.deepKind,'');
+    assert.deepEqual(f.keys,[0x27,0x28,0x28]);assert.deepEqual(f.writes,[]);
+});
+test('mobile GOODS return source survives harmless gesture retirement before the actual cancel',()=>{
+    const f=goodsReturnFixture();f.api.retireInteraction('scroll');f.internals.fill();f.back();f.tick(80);
+    assert.equal(f.state.layer,'deep');assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.kind,3);
+    assert.deepEqual(f.keys,[0x27,0x28]);
+});
+test('mobile GOODS return also supports retained terminal March phase7 without authorizing an active march',()=>{
+    const f=goodsReturnFixture({phase:7});f.back();f.tick(80);
+    assert.equal(f.state.deepStep,0);assert.equal(f.state.deepMenuOwner.seq,7);assert.deepEqual(f.keys,[0x27,0x28]);
+});
+for(const change of ['seq','ids','names','actor-index','actor-id','invalid-ids','generation','library','data','city',
+    'report','help','qty','fight','march','hidden','classic','retire','timeout']){
+    test('mobile GOODS cancel refuses an unrelated or retired PERSON publication: '+change,()=>{
+        const f=goodsReturnFixture();
+        f.setReturn(()=>{
+            f.publish(3,7,2);
+            if(change==='seq')f.raw.g_hdMenuSeq=9;
+            if(change==='ids')f.ids[0]=1;
+            if(change==='names')f.names[0]='其他人物';
+            if(change==='actor-index')f.raw.g_hdMenuIndex=1;
+            if(change==='actor-id')f.ids[2]=21;
+            if(change==='invalid-ids')f.setMenuHook(menu=>{menu.ids=f.ids.slice();menu.idsValid=false;});
+            if(change==='generation')f.raw.g_hdDetailGeneration++;
+            if(change==='library')f.setIdentity({...f.identity(),generation:2});
+            if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+            if(change==='city')f.raw.g_hdMapCity=2;
+            if(change==='report')f.raw.g_hdReportActive=1;
+            if(change==='help')f.raw.g_hdHelpActive=1;
+            if(change==='qty')f.raw.g_hdQtyActive=1;
+            if(change==='fight')f.raw.g_hdFightActive=1;
+            if(change==='march')f.raw.g_hdMarchPhase=1;
+            if(change==='hidden')f.env.document.hidden=true;
+            if(change==='classic')f.api.setMode('classic');
+            if(change==='retire')f.api.retireInteraction('return-retired');
+        });
+        if(change==='timeout')f.setReturn(()=>f.publish(0,6));
+        f.back();f.tick(5200);
+        assert.notEqual(f.state.deepStep,0);assert.equal(f.state.goodsBackPending,null);
+        assert.ok(!f.state.deepMenuOwner || f.state.deepMenuOwner.kind!==3);
+        assert.deepEqual(f.keys,[0x27,0x28]);assert.deepEqual(f.writes,[]);
+    });
+}
+test('PC GOODS cancellation retains the existing parent navigation behavior',()=>{
+    const f=goodsReturnFixture({mobile:false});f.back();f.tick(80);
+    assert.equal(f.state.layer,'sub');assert.equal(f.state.deepKind,'');assert.deepEqual(f.keys,[0x27,0x28]);
+});
+
+for(const kind of [3,4]){
+    test('mobile 查看 '+kind+' renders exact native identity and keeps the original confirmation button',()=>{
+        const f=previewFixture(kind),buttons=f.all('data-hd-deep-preview'),main=f.all('data-hd-deep');
+        assert.equal(buttons.length,3);assert.equal(main.length,3);
+        for(let i=0;i<3;i++){assert.equal(buttons[i].textContent,'查看');assert.equal(buttons[i].disabled,undefined);
+            assert.equal(buttons[i].getAttribute('aria-label'),'查看 · '+f.names[i]);
+            assert.equal(buttons[i].getAttribute(kind===3?'data-hd-deep-pind':'data-hd-deep-tool'),String(f.ids[i]));
+            assert.equal(main[i].textContent,f.names[i]);}
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+    test('mobile 查看 '+kind+' waits actual native arrow ACK and never sends Enter or predicts selection',()=>{
+        const f=previewFixture(kind);f.setAfterKey(()=>{});f.press(2);
+        assert.deepEqual(f.keys,[0x23]);assert.equal(f.raw.g_hdMenuIndex,0);assert.equal(f.state.idleIndex,0);
+        f.tick(200);assert.deepEqual(f.keys,[0x23]);
+        f.raw.g_hdMenuIndex=1;f.tick(40);assert.deepEqual(f.keys,[0x23,0x23]);assert.equal(f.raw.g_hdMenuIndex,1);
+        f.raw.g_hdMenuIndex=2;f.tick(40);assert.equal(f.state.nativeMenuRequest,null);
+        assert.equal(f.state.idleIndex,0);f.internals.fill();assert.equal(f.state.idleIndex,2);
+        f.press(0);assert.deepEqual(f.keys,[0x23,0x23,0x22]);assert.deepEqual(f.writes,[]);
+    });
+    test('mobile 查看 '+kind+' current item is enabled and emits zero keys',()=>{
+        const f=previewFixture(kind);f.press(0);assert.equal(f.state.nativeMenuRequest,null);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+    test('mobile 查看 '+kind+' preserves row nodes across current-owner polls and index ACK',()=>{
+        const f=previewFixture(kind),button=f.down(1),main=f.all('data-hd-deep')[1];
+        for(let i=0;i<4;i++)f.internals.fill();assert.equal(f.all('data-hd-deep-preview')[1],button);
+        f.click(button);f.tick(40);f.internals.fill();assert.equal(f.all('data-hd-deep-preview')[1],button);
+        assert.equal(f.all('data-hd-deep')[1],main);assert.deepEqual(f.keys,[0x23]);
+    });
+}
+for(const change of ['cancel','retire','hidden','portrait','classic','unavailable','library','data','seq','index','target-id','target-name',
+    'generation','report','help','qty','fight','old-dom','queue','page-pending','native-request','wrong-button','nonprimary']){
+    test('mobile 查看 refuses a stale or competing press: '+change,()=>{
+        const f=previewFixture(),button=f.down(2);
+        if(change==='cancel')f.dom.root.emit('pointercancel',f.event(button));
+        if(change==='retire')f.api.retireInteraction('preview-test');
+        if(change==='hidden')f.env.document.hidden=true;
+        if(change==='portrait')f.env.innerWidth=390;
+        if(change==='classic')f.api.setMode('classic');
+        if(change==='unavailable')f.setAvailable(false);
+        if(change==='library')f.setIdentity({...f.identity(),generation:2});
+        if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+        if(change==='seq')f.raw.g_hdMenuSeq++;
+        if(change==='index')f.raw.g_hdMenuIndex=1;
+        if(change==='target-id')f.ids[2]=21;
+        if(change==='target-name')f.names[2]='另一人物';
+        if(change==='generation')f.raw.g_hdDetailGeneration++;
+        if(change==='report')f.raw.g_hdReportActive=1;
+        if(change==='help')f.raw.g_hdHelpActive=1;
+        if(change==='qty')f.raw.g_hdQtyActive=1;
+        if(change==='fight')f.raw.g_hdFightActive=1;
+        if(change==='old-dom'){f.state.deepSig='';f.internals.fill();}
+        if(change==='queue')f.state.queue.push({code:40});
+        if(change==='page-pending')f.state.personPagePending={};
+        if(change==='native-request')f.state.nativeMenuRequest={key:'busy'};
+        if(change==='wrong-button')f.click(f.all('data-hd-deep-preview')[1]);
+        else if(change==='nonprimary'){f.down(2,{isPrimary:false});f.click(button);}
+        else f.click(button);
+        assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
+    });
+}
+for(const change of ['retire','data','library','seq','target-id','report','hidden','classic','queue']){
+    test('mobile 查看 stops in-flight focus arrows after '+change,()=>{
+        const f=previewFixture();f.press(2);assert.deepEqual(f.keys,[0x23]);
+        if(change==='retire')f.api.retireInteraction('mid-arrow');
+        if(change==='data')f.env.baye.data=new Proxy({...f.raw},{set(){throw Error('native write');}});
+        if(change==='library')f.setIdentity({...f.identity(),generation:2});
+        if(change==='seq')f.raw.g_hdMenuSeq++;
+        if(change==='target-id')f.ids[2]=21;
+        if(change==='report')f.raw.g_hdReportActive=1;
+        if(change==='hidden')f.env.document.hidden=true;
+        if(change==='classic')f.api.setMode('classic');
+        if(change==='queue')f.state.queue.push({code:40});
+        f.tick(10000);assert.deepEqual(f.keys,[0x23]);assert.equal(f.state.nativeMenuRequest,null);assert.deepEqual(f.writes,[]);
+    });
+}
+test('mobile 查看 rejects a click without a current press and never takes over a PC or MARCH list',()=>{
+    const f=previewFixture();f.click(f.all('data-hd-deep-preview')[1]);assert.deepEqual(f.keys,[]);
+    const pc=previewFixture(3,{mobile:false});assert.equal(pc.all('data-hd-deep-preview').length,0);
+    const march=mobileMarchFixture(1),dom=marchDom(march);dom.poll();assert.equal(dom.find('data-hd-deep-preview'),null);
+    f.state.deepKind='person-city';f.click(f.down(1));assert.deepEqual(f.keys,[]);
+});
+test('mobile 查看 leaves the actual main button Enter semantics unchanged',()=>{
+    for(const kind of [3,4]){
+        const f=previewFixture(kind),button=f.all('data-hd-deep')[0];
+        f.dom.root.emit('pointerdown',f.event(button));f.dom.root.emit('click',f.event(button));
+        assert.deepEqual(f.keys,[0x27]);assert.deepEqual(f.writes,[]);
+    }
+});
+test('mobile 查看 times out without repeating a direction or sending Enter when native focus never acknowledges',()=>{
+    const f=previewFixture();f.setAfterKey(()=>{});f.press(2);f.tick(10000);
+    assert.deepEqual(f.keys,[0x23]);assert.equal(f.state.nativeMenuRequest,null);assert.deepEqual(f.writes,[]);
+});
+test('mobile 查看 accepts an ordinary current CITY at terminal phase7 without taking the old MARCH owner',()=>{
+    const f=previewFixture(3,{phase:7});f.press(1);f.tick(40);
+    assert.deepEqual(f.keys,[0x23]);assert.equal(f.raw.g_hdMenuIndex,1);assert.equal(f.state.nativeMenuRequest,null);
+    assert.deepEqual(f.writes,[]);
+});
+for(const kind of [3,4]){
+    test('mobile 查看 '+kind+' binds full U16 IDs without truncation and rejects incomplete identity',()=>{
+        const f=previewFixture(kind);f.ids[2]=512;f.state.deepSig='';f.internals.fill();const b=f.down(2);
+        assert.equal(b.getAttribute(kind===3?'data-hd-deep-pind':'data-hd-deep-tool'),'512');
+        f.ids[2]=0;f.click(b);assert.deepEqual(f.keys,[]);
+        for(const invalid of ['missing','length','reserved']){
+            f.setMenuHook(m=>{m.ids=f.ids.slice();if(invalid==='missing')m.idsValid=false;
+                if(invalid==='length')m.ids.pop();if(invalid==='reserved')m.ids[2]=65535;});
+            f.click(f.down(1));assert.deepEqual(f.keys,[]);
+        }
+    });
+}
+test('mobile detail scroll retires only for an actual owner or native identity change, not same-owner polls or pages',()=>{
+    const f=previewFixture(),pane={scrollTop:120};
+    f.internals.resetDetailScroll(pane,'owner',3,0);assert.equal(pane.scrollTop,0);
+    pane.scrollTop=120;for(let i=0;i<5;i++)f.internals.resetDetailScroll(pane,'owner',3,0);
+    assert.equal(pane.scrollTop,120);f.internals.resetDetailScroll(pane,'owner',3,19);assert.equal(pane.scrollTop,0);
+    pane.scrollTop=120;f.internals.resetDetailScroll(pane,'owner2',3,19);assert.equal(pane.scrollTop,0);
+    pane.scrollTop=120;f.internals.resetDetailScroll(pane,'owner2',4,19);assert.equal(pane.scrollTop,0);
+    pane.scrollTop=120;f.setIdentity({...f.identity(),generation:2});f.internals.resetDetailScroll(pane,'owner2',4,19);
+    assert.equal(pane.scrollTop,0);assert.deepEqual(f.keys,[]);assert.deepEqual(f.writes,[]);
 });
