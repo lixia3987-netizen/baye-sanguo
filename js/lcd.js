@@ -726,6 +726,8 @@ function disablePageScroll() {
         while (target && target !== body) {
             if (body.classList && ((target.id === 'hd-city-menu' && body.classList.contains('hd-mobile-city-on')) ||
                 (target.id === 'hd-dialog' && body.classList.contains('hd-mobile-dialog-on')) ||
+                (target.id === 'hd-mini-map-cities' && body.classList.contains('hd-mobile-page') &&
+                    body.classList.contains('hd-mobile-minimap-on')) ||
                 (target.id === 'hd-system-ui' && body.classList.contains('hd-mobile-page') &&
                     body.getAttribute('data-hd-mobile-system') === 'hd') ||
                 (target.id === 'hd-mobile-battle-side' && body.classList.contains('hd-mobile-page') &&

@@ -152,4 +152,10 @@ test('page lock permits only the currently displayed mobile HD scroll surface', 
     assert.equal(blocked({id: 'lcd', parentNode: body}), true, 'system permission never releases LCD or page');
     classes.clear();
     assert.equal(blocked({parentNode: systemList}), true, 'PC cannot inherit mobile system scroll permission');
+    const miniList={id:'hd-mini-map-cities',parentNode:body};
+    classes.add('hd-mobile-page');assert.equal(blocked({parentNode:miniList}),true,'inactive overview keeps page lock');
+    classes.add('hd-mobile-minimap-on');assert.equal(blocked({parentNode:miniList}),false,'current original overview city rows can scroll');
+    assert.equal(blocked({id:'hd-mini-map-canvas',parentNode:body}),true,'overview drawing does not release page lock');
+    assert.equal(blocked({id:'lcd',parentNode:body}),true,'overview never releases LCD lock');
+    classes.delete('hd-mobile-page');assert.equal(blocked({parentNode:miniList}),true,'PC cannot inherit mobile overview scrolling');
 });

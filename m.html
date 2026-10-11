@@ -25,7 +25,8 @@
         <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261011a" />
         <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261010c" />
         <link rel="stylesheet" type="text/css" href="css/hd-dialog.css?ver=20261008k" />
-        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011l" />
+        <link rel="stylesheet" type="text/css" href="css/hd-minimap.css?ver=20261008k" />
+        <link rel="stylesheet" type="text/css" href="css/hd-mobile.css?ver=20261011m" />
         <link rel="icon" href="favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
         <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -91,10 +92,26 @@
                 <button id="hd-mobile-system-mode" type="button" hidden>经典系统</button>
                 <button id="hd-mobile-system-open" type="button" hidden>系统</button>
                 <button id="hd-mobile-map-focus" type="button" disabled>定位</button>
+                <button id="hd-mobile-map-overview" type="button" disabled>概览</button>
                 <button id="hd-mobile-exit" type="button" disabled>返回</button>
             </div>
         </header>
         <main id="hd-mobile-stage" aria-label="原版游戏触控画面">
+            <div id="hd-mini-map" class="hd-mini-map" hidden aria-hidden="true">
+                <section class="hd-mini-map-stage" role="dialog" aria-modal="true" aria-labelledby="hd-mini-map-title">
+                    <h2 id="hd-mini-map-title">地图概览</h2>
+                    <p id="hd-mini-map-summary" class="hd-mini-map-summary"></p>
+                    <div id="hd-mini-map-content" class="hd-mini-map-content">
+                        <canvas id="hd-mini-map-canvas" class="hd-mini-map-canvas" aria-label="全图城池位置"></canvas>
+                        <ul id="hd-mini-map-cities" class="hd-mini-map-cities" aria-label="全部城池"></ul>
+                    </div>
+                    <p id="hd-mini-map-fallback" class="hd-mini-map-fallback" hidden>当前小地图使用经典画面，返回后继续游戏。</p>
+                    <div class="hd-mini-map-footer">
+                        <button id="hd-mini-map-return" type="button">返回地图</button>
+                        <button id="hd-mini-map-classic" type="button" hidden>经典画面</button>
+                    </div>
+                </section>
+            </div>
             <canvas id="lcd" width="160" height="96">然而你的浏览器并不支持HTML5</canvas>
             <section id="hd-system-ui" class="hd-system-ui" aria-hidden="true" hidden>
                 <div class="hd-system-ui-stage" role="dialog" aria-labelledby="hd-system-ui-title">
@@ -199,14 +216,16 @@
 <script src="js/bridge.js?ver=20261011a"></script>
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
-<script src="js/lcd.js?ver=20261011d"></script>
+<script src="js/lcd.js?ver=20261011e"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-system-ui.js?ver=20261011b"></script>
 <script src="js/hd-mobile-system.js?ver=20261011d"></script>
 <script src="js/hd-mobile.js?ver=20261011c"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
 <script src="js/hd-overworld.js?ver=20261011d"></script>
-<script src="js/hd-mobile-map.js?ver=20261011e"></script>
+<script src="js/hd-mobile-map.js?ver=20261011f"></script>
+<script src="js/hd-minimap.js?ver=20261011a"></script>
+<script src="js/hd-mobile-minimap.js?ver=20261011a"></script>
 <script src="js/hd-city-menu.js?ver=20261011r"></script>
 <script src="js/hd-dialog.js?ver=20261011f"></script>
 <script src="js/hd-mobile-city.js?ver=20261011c"></script>
@@ -257,6 +276,7 @@ Module.postRun = function (){
     reloadLCD();
     BayeHdMobile.init();
     BayeHdMobileMap.init();
+    BayeHdMobileMiniMap.init();
     BayeHdMobileCity.init();
     BayeHdMobilePortraits.init();
     BayeHdMobileBattle.init();

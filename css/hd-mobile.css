@@ -1,4 +1,31 @@
 /* Original mobile touch surface. The fixed bar never changes LCD geometry. */
+.hd-mobile-page #hd-mini-map { position: absolute; inset: 0; padding: 0; z-index: 95; }
+.hd-mobile-page #hd-mini-map .hd-mini-map-stage {
+    box-sizing: border-box; width: 100%; height: 100%; max-height: none;
+    min-height: 0; padding: 8px 12px; border-radius: 0; box-shadow: none;
+}
+.hd-mobile-page #hd-mini-map h2 { flex: 0 0 auto; font-size: 20px; line-height: 24px; }
+.hd-mobile-page #hd-mini-map-summary { flex: 0 0 auto; margin: 2px 0 6px; font-size: 12px; line-height: 16px; }
+.hd-mobile-page #hd-mini-map-content {
+    flex: 1 1 0; min-height: 0; height: auto;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 12px;
+}
+.hd-mobile-page #hd-mini-map-cities {
+    min-height: 0; grid-template-columns: 1fr; gap: 2px;
+    overflow: auto; overscroll-behavior: contain; touch-action: pan-y;
+}
+.hd-mobile-page #hd-mini-map-cities li { min-height: 30px; padding: 1px 8px; font-size: 14px; }
+.hd-mobile-page #hd-mini-map-cities small { font-size: 12px; }
+.hd-mobile-page #hd-mini-map .hd-mini-map-footer { flex: 0 0 44px; padding-top: 6px; justify-content: flex-end; }
+.hd-mobile-page #hd-mini-map-return { min-height: 44px; touch-action: manipulation; }
+.hd-mobile-page #hd-mini-map-classic { display: none !important; }
+html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
+    visibility: hidden !important; pointer-events: none !important;
+}
+@media (orientation: portrait) {
+    .hd-mobile-page #hd-mini-map { display: none !important; }
+    .hd-mobile-page.hd-mobile-minimap-on #lcd { visibility: visible !important; pointer-events: auto !important; }
+}
 /* System selectors use their own mobile shell; no PC fixed-size stylesheet. */
 .hd-mobile-page #hd-system-ui { display: none; position: absolute; inset: 0; z-index: 110; background: #111923; }
 .hd-mobile-page[data-hd-mobile-system="hd"] #hd-system-ui.is-open { display: block; }

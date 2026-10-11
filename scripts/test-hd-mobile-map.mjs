@@ -6,6 +6,23 @@ import {readFileSync} from 'node:fs';
 const source = readFileSync(new URL('../js/hd-mobile-map.js', import.meta.url), 'utf8');
 const hudSource = readFileSync(new URL('../js/hd-mobile.js', import.meta.url), 'utf8');
 const sha = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
+test('ordinary MAP export keeps the data reference opaque and rejects target owners', () => {
+    const f=fixture();f.api.init();const first=f.api.getInputTicket();
+    assert.equal(first.ownerType,'map');assert.equal(first.data,f.data);assert.ok(Object.isFrozen(first));
+    assert.equal(Object.keys(first).includes('data'),false);assert.equal(JSON.stringify(first).includes('g_Cities'),false);
+    assert.equal(f.api.getInputTicket().key,first.key);
+    f.data.g_hdMapInputSeq++;assert.notEqual(f.api.getInputTicket().key,first.key);
+    f.data.g_hdTransferProtocolVersion=1;f.data.g_hdTransferActive=1;assert.equal(f.api.getInputTicket(),null);
+    f.data.g_hdTransferActive=0;f.march();assert.equal(f.api.getInputTicket(),null);
+    assert.deepEqual(f.counts.keys,[]);
+});
+test('ordinary MAP export refuses torn native counters and same-value data rebinding stays distinguishable', () => {
+    const f=fixture();const first=f.api.getInputTicket();
+    f.window.baye.data={...f.data};const rebound=f.api.getInputTicket();
+    assert.equal(rebound.key,first.key);assert.notEqual(rebound.data,first.data);
+    let seq=8;Object.defineProperty(f.window.baye.data,'g_hdMapInputSeq',{get(){return seq++;}});
+    assert.equal(f.api.getInputTicket(),null);assert.deepEqual(f.counts.keys,[]);
+});
 function fixture() {
     const listeners = new Map(), globalListeners = new Map(), timers = new Map(), subscribers = [];
     const counts = {mount: 0, start: 0, sharedCancel: 0, nativeCancel: 0, centers: [], keys: [], debug: 0};

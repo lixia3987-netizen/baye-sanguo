@@ -389,9 +389,18 @@
             }
             refresh(); start(); return last;
         }
-        return Object.freeze({init: init, refresh: refresh, snapshot: function () { return last; }});
+        function getInputTicket() {
+            if (mode() !== 'hd-map') { return null; }
+            var value = readMap();
+            if (!value || !sameMap(value, readMap())) { return null; }
+            var ticket = {libraryGeneration: value.identity.generation, ownerType: 'map',
+                key: JSON.stringify([value.identity, value.owner])};
+            Object.defineProperty(ticket, 'data', {value: value.data, enumerable: false});
+            return Object.freeze(ticket);
+        }
+        return Object.freeze({init: init, refresh: refresh, getInputTicket: getInputTicket, snapshot: function () { return last; }});
     }
     var controller = createController(global);
     global.BayeHdMobileMap = Object.freeze({init: controller.init, refresh: controller.refresh,
-        snapshot: controller.snapshot, createController: createController});
+        snapshot: controller.snapshot, getInputTicket: controller.getInputTicket, createController: createController});
 })(window);
