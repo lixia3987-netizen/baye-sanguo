@@ -17,6 +17,20 @@ export const campaignSystemOpenDiagnosticSource=`(() => {const b=document.getEle
     openButton:b?{hidden:b.hidden,disabled:b.disabled,display:s.display,visibility:s.visibility,rect:{left:r.left,top:r.top,width:r.width,height:r.height,right:r.right,bottom:r.bottom},hit:hit===b||b.contains(hit),hitTarget:hit&&(hit.id||hit.tagName)}:null,
     keyCount:__mobileMapKeys.length,touchCount:__mobileMapNativeTouches.length,eventCount:__mobileMapEvents.length,events:__mobileMapEvents.slice(-20)};})()`;
 
+export function campaignPreloadSampleSource(readSource) {
+  return `(() => {const data=baye.data,identity=()=>BayeHdLibIdentity.read(),valid=i=>i&&i.status==='ready'&&i.sha256==='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e'&&i.byteLength===207195&&Number.isInteger(i.generation)&&i.generation>0;
+    const before={...identity()};if(!valid(before)||!baye.hd.ready())throw Error('Preload sample requires current original identity');
+    const take=()=>{const n=${campaignNativeSource},m=n.menu,r=n.record,o=n.system.input;let scope;
+      if(m.active===1&&m.context===4&&m.kind===1&&r.active===0&&n.system.screen==='title'&&o&&o.type==='menu'&&o.context===4&&o.kind===1&&o.seq===m.seq&&o.index===m.index&&o.count===m.count)scope='unloaded-title';
+      else if(r.active===1&&r.mode===2&&r.count===4&&Number.isInteger(r.index)&&r.index>=0&&r.index<4&&m.active===0&&n.system.screen==='saveload'&&o&&o.type==='record'&&o.mode===2&&o.seq===r.seq&&o.index===r.index&&o.count===4)scope='unloaded-load-selector';
+      else throw Error('Preload sample requires actual TITLE or LOAD selector');
+      if(!Number.isInteger(n.detailGeneration)||n.detailGeneration<=0||!Number.isInteger(o.seq)||o.seq<=0||!Number.isInteger(o.count)||o.count<=0||!Number.isInteger(o.index)||o.index<0||o.index>=o.count||n.fight.active!==0||n.report.active!==0||n.march.pick!==0||n.march.battlePick!==0||Number(data.g_hdMapPick)!==0||Number(data.g_hdBattlePick)!==0||n.systemHost.active!==true||n.system.open!==true||n.system.showHd!==true||n.system.pending||!n.system.input)throw Error('Preload sample has competing or incomplete owner');
+      return {native:n,scope,key:JSON.stringify({menu:m,record:r,report:n.report,fight:n.fight,march:n.march,detailGeneration:n.detailGeneration})};};
+    const a=take(),state=${readSource},b=take(),after=identity();
+    if(data!==baye.data||!baye.hd.ready()||!valid(after)||before.generation!==after.generation||!valid(state.identity)||state.identity.generation!==after.generation||a.scope!==b.scope||a.key!==b.key)throw Error('Preload sample owner changed');
+    return {state,native:b.native,sampleScope:b.scope,worldSampled:false};})()`;
+}
+
 export function campaignObserverSource(worldSource) {
   return `(() => {
     const store=window.__mobileCampaign={reports:[],commits:[],keys:[],overflow:false};
@@ -56,16 +70,19 @@ export async function runMobileCampaignChecks(c) {
     readSource,worldSource,mapReadySource,readKeys,sendCdp,native,capture,ready,menu}=c;
   const size=[report.campaignWidth,report.campaignWidth===667?375:390],K={UP:34,DOWN:35,ENTER:39,EXIT:40};
   const sampleSource=`({state:${readSource},world:${worldSource},native:${campaignNativeSource}})`;
-  const sample=()=>evaluate(sampleSource),codes=async offset=>(await readKeys(offset)).map(k=>k.code);
+  const sample=()=>evaluate(sampleSource),preloadSample=()=>evaluate(campaignPreloadSampleSource(readSource)),codes=async offset=>(await readKeys(offset)).map(k=>k.code);
   report.campaignAccepted=false;report.successionOutcomeAccepted=false;report.campaignChecks=[];
-  report.campaignCurrentPage=1;report.campaignPageInputs=[];report.campaignScope={realDeviceAccepted:false,fullHdAccepted:false,randomMonthAccepted:false,rngContinuityAccepted:false};
+  report.campaignCurrentPage=1;report.campaignPageInputs=[];report.campaignPageObservations=[];report.campaignScope={realDeviceAccepted:false,fullHdAccepted:false,randomMonthAccepted:false,rngContinuityAccepted:false};
   const checkpointSample=async label=>{const s=await sample();report.campaignChecks.push({label,page:report.campaignCurrentPage,...s});await checkpoint('campaign-'+size[0]+'-'+label);return s;};
   const unchanged=async(before,label)=>{await delay(160);const after=await sample();assert.deepEqual(after.world,before.world,label+' world');
     assert.deepEqual(after.native.menu,before.native.menu,label+' current menu');assert.deepEqual(after.native.report,before.native.report,label+' current report');
     assert.deepEqual(await codes(before.state.keyCount),[],label+' zero native keys');assert.equal(after.state.touchCount,before.state.touchCount,label+' zero LCD touches');return after;};
+  const unchangedPreload=async(before,label)=>{await delay(160);const after=await preloadSample();
+    assert.deepEqual(after.native.menu,before.native.menu,label+' current unloaded menu');assert.deepEqual(after.native.record,before.native.record,label+' current unloaded record');assert.deepEqual(after.native.report,before.native.report,label+' current report');
+    assert.deepEqual(await codes(before.state.keyCount),[],label+' zero native keys');assert.equal(after.state.touchCount,before.state.touchCount,label+' zero LCD touches');return after;};
   // Every dispatched action uses an actual visible 44px DOM control and CDP touch.
   report.campaignScrolls=[];report.campaignCandidateGeometry=[];report.campaignNegatives=[];
-  const point=async(selector)=>{
+  const point=async(selector,{preload=false}={})=>{
     let g;for(let attempt=0;attempt<16;attempt++){
       g=await evaluate(campaignGeometrySource(selector));
       if(g?.shown&&g.visible&&!g.disabled&&g.hit){assert.ok(g.width>=43.5&&g.height>=43.5,'44px current campaign control '+selector);return g;}
@@ -75,12 +92,12 @@ export async function runMobileCampaignChecks(c) {
       if(g.visible&&!g.hit)throw Error('Current campaign control is covered at its actual visible center: '+JSON.stringify(g));
       const down=g.rect.bottom>g.clip.bottom+.5,deficit=down?g.rect.bottom-g.clip.bottom:g.clip.top-g.rect.top,available=g.clip.bottom-g.clip.top-32;
       assert.ok(deficit>0&&available>=16,'Measured clipped edge determines a finite real touch pan');
-      const before=await sample(),amount=Math.min(Math.max(16,deficit+12),available),x=g.clip.right-12,y=down?g.clip.bottom-16:g.clip.top+16,delta=(down?-1:1)*amount;
+      const before=await (preload?preloadSample():sample()),amount=Math.min(Math.max(16,deficit+12),available),x=g.clip.right-12,y=down?g.clip.bottom-16:g.clip.top+16,delta=(down?-1:1)*amount;
       await touches('touchStart',[{x,y}]);for(let j=1;j<=6;j++)await touches('touchMove',[{x,y:y+delta*j/6}]);await touches('touchEnd');
-      const after=await unchanged(before,'Campaign readonly list pan');report.campaignScrolls.push({selector,before:g,pan:{x,y,delta},after:await evaluate(campaignGeometrySource(selector)),worldBefore:before.world,worldAfter:after.world});
+      const after=await (preload?unchangedPreload(before,'Campaign unloaded list pan'):unchanged(before,'Campaign readonly list pan'));report.campaignScrolls.push({selector,before:g,pan:{x,y,delta},after:await evaluate(campaignGeometrySource(selector)),...(preload?{worldSampled:false,nativeBefore:before.native,nativeAfter:after.native}:{worldBefore:before.world,worldAfter:after.world})});
     }throw Error('Campaign control never became fully visible '+selector+': '+JSON.stringify(g));
   };
-  const press=async(selector)=>tap(await point(selector));
+  const press=async(selector,options)=>tap(await point(selector,typeof options==='object'?options:{}));
   const exactSelection=(owner,target)=>[...Array(Math.abs(target-owner.index)).fill(target<owner.index?K.UP:K.DOWN),K.ENTER];
   const pcPreferencesSource="Object.fromEntries(['baye/overworldMode','baye/cityMenuMode','baye/battleMode','baye/systemUiMode'].map(k=>[k,localStorage.getItem(k)]))";
   report.campaignPcPreferencesBefore=await evaluate(pcPreferencesSource);
@@ -141,7 +158,7 @@ export async function runMobileCampaignChecks(c) {
   assert.equal((await sample()).state.touchCount,beforeChoice.state.touchCount,'HD successor sends no native LCD touch');
   const trusted=await evaluate(`__mobileMapEvents.slice(${eventsStart})`);assert.ok(trusted.some(e=>e.trusted===true&&e.type==='pointerdown'),'Actual trusted HD successor DOWN observed');
   await until('Synchronous original successor commit observed',`__mobileCampaign.commits.some(s=>s.receipt.generation===${picker.native.detailGeneration}&&s.receipt.oldKing===${picker.world.king}&&s.receipt.newKing===${chosenId}&&s.receipt.playerKing===${chosenId})`,30000);
-  const observations=await evaluate('__mobileCampaign');assert.equal(observations.overflow,false);assert.equal(observations.error,undefined);
+  const observations=await evaluate('__mobileCampaign');assert.equal(observations.overflow,false);assert.equal(observations.error,undefined);report.campaignObservationsAtPlayerCommit=observations;
   const playerCommits=observations.commits.filter(s=>s.receipt.generation===picker.native.detailGeneration&&s.receipt.oldKing===picker.world.king&&s.receipt.newKing===chosenId&&s.receipt.playerKing===chosenId);
   assert.equal(playerCommits.length,1,'One generation/oldKing/newKing/playerKing-bound actual player succession completion');
   const confirmations=observations.keys.filter(s=>s.code===K.ENTER);assert.equal(confirmations.length,1,'One observed current successor confirmation');
@@ -172,7 +189,8 @@ export async function runMobileCampaignChecks(c) {
   const exitStart=cityAfter.state.keyCount;await button('#hd-city-menu [data-hd-menu-back]');await until('Inherited CITY single EXIT returns MAP',mapReadySource);
   assert.deepEqual(await codes(exitStart),[K.EXIT]);assert.deepEqual((await sample()).world,returned.world);await checkpointSample('03-post-inheritance-operation-map');
   await saveReloadLoad({sample,point,press,checkpointSample,codes,choice,returned});
-  report.campaignObservations=observations;report.campaignPageInputs.push(await evaluate('({page:2,keys:__mobileMapKeys,touches:__mobileMapNativeTouches,events:__mobileMapEvents})'));
+  const page2Observer=await evaluate('window.__mobileCampaign||null');if(page2Observer)report.campaignPageObservations.push({page:2,observer:page2Observer});
+  report.campaignPageInputs.push(await evaluate('({page:2,keys:__mobileMapKeys,touches:__mobileMapNativeTouches,events:__mobileMapEvents})'));
   report.nativeKeys=report.campaignPageInputs.flatMap(p=>p.keys);report.nativeTouches=report.campaignPageInputs.flatMap(p=>p.touches);report.trustedEvents=report.campaignPageInputs.flatMap(p=>p.events);
   assert.equal(report.nativeTouches.length,0,'Entire measured mobile campaign uses no native LCD touch');assert.equal(report.exceptions.length,0);
   report.campaignPcPreferencesAfter=await evaluate(pcPreferencesSource);assert.deepEqual(report.campaignPcPreferencesAfter,report.campaignPcPreferencesBefore,'Mobile campaign preserves all four independent PC preferences');
@@ -188,8 +206,8 @@ export async function runMobileCampaignChecks(c) {
     const systemReady=screen=>until('Actual HD system '+screen,`(() => {const s=BayeHdSystemUi.debugSnapshot(),h=BayeHdMobileSystem.snapshot();return h.active&&s.open&&s.showHd&&!s.pending&&s.screen===${JSON.stringify(screen)}&&s.input;})()`);
     const pair=()=>evaluate(`(() => {const paths=['baye//data//sango0.sav','baye//data//sango1.sav'],sav0=BayeSaveStorage.readFile(paths[0]),sav1=BayeSaveStorage.readFile(paths[1]);return {sav0,sav1,
       valid:BayeSaveStorage.validatePair(sav0,sav1),slot:BayeSaveStorage.inspectSlot(0),journal:localStorage.getItem('baye/save-transaction/0'),metadata:paths.map(p=>Object.fromEntries(['.lib','.name','.lib-id'].map(k=>[k,BayeSaveStorage.readMetadata(p+k)])))};})()`);
-    const systemAction=async(selector,screen,{exit=false}={})=>{const before=await sample();await press(selector,'#hd-system-ui-list');await systemReady(screen);const after=await sample();
-      assert.deepEqual(after.world,before.world,'System navigation preserves inherited world');const index=Number(/data-hd-sys="(\d+)"/.exec(selector)?.[1]);
+    const systemAction=async(selector,screen,{exit=false,preload=false}={})=>{const read=preload?preloadSample:sample,before=await read();await press(selector,{preload});await systemReady(screen);const after=await read();
+      if(!preload)assert.deepEqual(after.world,before.world,'System navigation preserves inherited world');const index=Number(/data-hd-sys="(\d+)"/.exec(selector)?.[1]);
       assert.deepEqual(await codes(before.state.keyCount),exit?[K.EXIT]:exactSelection(before.native.system.input,index));return after;};
     const openSystem=async()=>{
       // Opt-in primitive diagnostics do not retry or authorize the real click.
@@ -227,15 +245,16 @@ export async function runMobileCampaignChecks(c) {
     report.campaignMutation={city,actor,during,after:changed};await checkpointSample('05-genuine-mutated-map');
     await openSystem();await systemAction(item(2),'insystem-confirm');await systemAction(item(0),'title');
     report.campaignPageInputs.push(await evaluate('({page:1,keys:__mobileMapKeys,touches:__mobileMapNativeTouches,events:__mobileMapEvents})'));
+    const page1Observer=await evaluate('window.__mobileCampaign||null');report.campaignPageObservations.push({page:1,observer:page1Observer});report.campaignObservations=page1Observer;
     report.campaignCurrentPage=2;await sendCdp('Page.reload',{ignoreCache:true});await until('Reloaded original engine ready','window.baye&&baye.hd&&baye.hd.ready()',60000);
     await evaluate(`(() => {window.__mobileMapKeys=[];window.__mobileMapNativeTouches=[];window.__mobileMapEvents=[];const k=window.sendKey,t=window._bayeSendTouchEvent;
       window.sendKey=function(code){__mobileMapKeys.push({code,page:2,at:performance.now()});return k.apply(this,arguments);};
       window._bayeSendTouchEvent=function observed(){__mobileMapNativeTouches.push({args:Array.from(arguments),page:2,at:performance.now()});const r=t.apply(this,arguments);window._bayeSendTouchEvent=observed;return r;};})()`);
     for(let i=0;i<60;i++){if(await evaluate('baye.hd.menuItems().active===1&&baye.hd.menuItems().context===4&&baye.hd.menuItems().kind===1'))break;
       if(await evaluate('baye.hd.movie().active||(baye.hd.spe().active&&baye.hd.spe().kind===1)')){await c.key(K.ENTER,'Public original intro ACK after campaign reload');}else await delay(150);}
-    await systemReady('title');assert.deepEqual(await pair(),raw);await checkpointSample('06-reloaded-title');
-    await systemAction(item(1),'saveload');const beforeLoad=await sample();assert.equal(beforeLoad.native.record.mode,2);assert.equal(beforeLoad.native.record.count,4);
-    await press(item(0),'#hd-system-ui-list');await until('Real refreshed inherited world LOAD',mapReadySource);const loaded=await sample();
+    await systemReady('title');assert.deepEqual(await pair(),raw);const title=await preloadSample();report.campaignChecks.push({label:'06-reloaded-title',page:report.campaignCurrentPage,...title});await checkpoint('campaign-'+size[0]+'-06-reloaded-title');
+    await systemAction(item(1),'saveload',{preload:true});const beforeLoad=await preloadSample();assert.equal(beforeLoad.native.record.mode,2);assert.equal(beforeLoad.native.record.count,4);
+    await press(item(0),{preload:true});await until('Real refreshed inherited world LOAD',mapReadySource);const loaded=await sample();
     assert.deepEqual(await codes(beforeLoad.state.keyCount),exactSelection(beforeLoad.native.system.input,0));assert.deepEqual(loaded.world,saved.world,'Complete recorded inherited world restored by actual native LOAD');assert.deepEqual(await pair(),raw);
     const next=n=>n===0xffffffff?1:n+1;assert.equal(loaded.native.record.active,0);assert.equal(loaded.native.record.seq,next(next(beforeLoad.native.record.seq)));
     for(const [field,value]of Object.entries(loaded.state.expected))assert.equal(loaded.state.hud[field],value,'Loaded HUD '+field);

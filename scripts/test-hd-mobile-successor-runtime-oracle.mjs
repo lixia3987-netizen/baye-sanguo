@@ -1,5 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import vm from 'node:vm';
+import {campaignPreloadSampleSource} from './hd-mobile-campaign-runtime-checks.mjs';
 import {mobileSuccessorCandidateIds,verifyMobileSuccessorChoice,verifyMobileSuccessorReport,verifyMobileSuccessorSettlement,verifyMobileSuccessorBattleContext,verifyMobileSuccessorReturn} from './hd-mobile-successor-runtime-oracle.mjs';
 
 function fixture() {
@@ -128,3 +130,27 @@ for(const [label,mutate,verify]of [
   ['terminal candidate loses ownership',f=>{f.returned.people[65].Belong=6;},verifyMobileSuccessorReturn],
   ['terminal inherited city loses ownership',f=>{f.returned.cities[3].Belong=6;},verifyMobileSuccessorReturn]
 ])test('Reject full succession '+label,()=>{const f=completeFixture();mutate(f);assert.throws(()=>verify(f));});
+
+// A reloaded title has no active 200-person world. This path must never probe it.
+function preloadFixture(load=false) {
+  const identity={status:'ready',sha256:'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e',byteLength:207195,generation:2};
+  const menu={active:load?0:1,context:load?0:4,kind:load?0:1,seq:2,index:0,count:load?0:4};
+  const record={active:load?1:0,mode:load?2:0,count:load?4:0,index:0,seq:3};
+  const input=load?{type:'record',mode:2,count:4,index:0,seq:3}:{type:'menu',context:4,kind:1,count:4,index:0,seq:2};
+  const data={g_hdMapPick:0,g_hdBattlePick:0,g_hdDetailGeneration:2,g_FgtParam:{Mode:0,CityIndex:0,MProvender:0,EProvender:0,GenArray:Array(20).fill(0)},g_GenPos:Array.from({length:20},()=>({x:0,y:0,hp:0,mp:0,move:0,active:0,state:0}))};
+  let worldReads=0;Object.defineProperty(data,'g_Persons',{get(){worldReads++;throw Error('Unloaded people must not be sampled');}});
+  const env={baye:{data,getPersonCount:()=>0,hd:{ready:()=>true,menuItems:()=>menu,report:()=>({active:0,seq:1}),fight:()=>({active:0}),record:()=>record,march:()=>({pick:0,battlePick:0})}},
+    BayeHdLibIdentity:{read:()=>identity},BayeHdDialog:{debugSnapshot:()=>({})},BayeHdMobileCity:{snapshot:()=>({})},
+    BayeHdSystemUi:{debugSnapshot:()=>({screen:load?'saveload':'title',open:true,showHd:true,pending:false,input})},BayeHdMobileSystem:{snapshot:()=>({active:true})},__mobileMapKeys:[],__mobileMapNativeTouches:[]};
+  env.window=env;
+  return {env,data,menu,record,input,identity,worldReads:()=>worldReads,run:(read='({identity:BayeHdLibIdentity.read(),keyCount:0,touchCount:0})')=>vm.runInNewContext(campaignPreloadSampleSource(read),env)};
+}
+test('Reloaded TITLE with personCount zero samples native/state without touching people',()=>{const f=preloadFixture(),s=f.run();assert.equal(f.env.baye.getPersonCount(),0);assert.equal(s.sampleScope,'unloaded-title');assert.equal(s.worldSampled,false);assert.equal('world' in s,false);assert.equal(f.worldReads(),0);});
+test('LOAD record mode2/count4 samples only its authenticated current selector',()=>{const f=preloadFixture(true),s=f.run();assert.equal(s.sampleScope,'unloaded-load-selector');assert.equal(s.native.record.mode,2);assert.equal(f.worldReads(),0);});
+test('An active MAP cannot use the unloaded sampling exception',()=>{const f=preloadFixture();f.data.g_hdMapPick=1;assert.throws(()=>f.run(),/competing/);f.menu.active=0;assert.throws(()=>f.run(),/TITLE or LOAD/);});
+for(const [field,value]of [['status','pending'],['sha256','wrong'],['byteLength',414390],['generation',0]])test('Preload rejects noncurrent original identity '+field,()=>{const f=preloadFixture();f.identity[field]=value;assert.throws(()=>f.run(),/original identity/);});
+test('SAVE mode and wrong LOAD count cannot bypass active world sampling',()=>{const f=preloadFixture(true);f.record.mode=1;assert.throws(()=>f.run(),/TITLE or LOAD/);f.record.mode=2;f.record.count=3;assert.throws(()=>f.run(),/TITLE or LOAD/);});
+test('Preload requires same current system input owner and ready shell',()=>{const f=preloadFixture();f.input.seq++;assert.throws(()=>f.run(),/TITLE or LOAD/);f.input.seq--;f.env.BayeHdMobileSystem.snapshot=()=>({active:false});assert.throws(()=>f.run(),/competing/);});
+test('Preload rejects a data rebind during state sampling even with identical primitive owner',()=>{const f=preloadFixture();assert.throws(()=>f.run('(() => {baye.data={...baye.data};return {identity:BayeHdLibIdentity.read()};})()'),/owner changed/);});
+test('Preload rejects menu publication race during state sampling',()=>{const f=preloadFixture();f.env.fixtureMenu=f.menu;f.env.fixtureInput=f.input;assert.throws(()=>f.run('(() => {fixtureMenu.seq++;fixtureInput.seq++;return {identity:BayeHdLibIdentity.read()};})()'),/owner changed/);});
+test('Preload rejects library generation race and busy report',()=>{const f=preloadFixture();f.env.fixtureIdentity=f.identity;assert.throws(()=>f.run('(() => {fixtureIdentity.generation++;return {identity:BayeHdLibIdentity.read()};})()'),/owner changed/);const g=preloadFixture();g.env.baye.hd.report=()=>({active:1});assert.throws(()=>g.run(),/competing/);});

@@ -366,8 +366,11 @@
         function init() {
             if (mounted) { return refresh(); } mounted = true;
             var s = shared(); if (s && s.applyMobilePage) { s.applyMobilePage({isAvailable: available, readInputTicket: readInputTicket, onPresentation: paint}); }
+            // Observe the complete pointer stream before another mobile host
+            // consumes a document-capture release. Unrelated controls never
+            // authorize system input, but their UP/CANCEL must retire each ID.
             ['pointerdown', 'pointermove', 'pointerup', 'pointercancel'].forEach(function (name, index) {
-                doc().addEventListener(name, [down, move, up, cancel][index], true);
+                environment.addEventListener(name, [down, move, up, cancel][index], true);
             });
             doc().addEventListener('click', click, true);
             doc().addEventListener('scroll', function () { retire('scroll'); }, true);

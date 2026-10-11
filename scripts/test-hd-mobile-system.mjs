@@ -6,7 +6,7 @@ import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
 
 const sharedSource = readFileSync(new URL('../js/hd-system-ui.js', import.meta.url), 'utf8');
-const hostSource = readFileSync(new URL('../js/hd-mobile-system.js', import.meta.url), 'utf8');
+const hostSource = readFileSync(process.env.BAYE_HD_MOBILE_SYSTEM_SOURCE || new URL('../js/hd-mobile-system.js', import.meta.url), 'utf8');
 const SHA = '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e';
 const RAW = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_hdMenuActive', 'g_hdMenuContext', 'g_hdMenuKind',
     'g_hdMenuSeq', 'g_hdMenuCount', 'g_hdMenuIndex', 'g_hdRecordActive', 'g_hdRecordMode', 'g_hdRecordIndex', 'g_hdRecordCount',
@@ -16,7 +16,7 @@ const RAW = ['g_hdEngineReady', 'g_hdDetailGeneration', 'g_hdSpeGeneration', 'g_
     'g_hdGoodsActive', 'g_hdPersonPropertiesActive', 'g_hdResultOwnerKind', 'g_hdResultOwnerValid'];
 
 function fixture({screen = 'title', acknowledge = true, mount = true, storageThrows = false, diagnostics = false} = {}) {
-    const listeners = new Map(), windowListeners = new Map(), timers = new Map(), intervals = new Map(), subscribers = [];
+    const listeners = new Map(), windowListeners = new Map(), windowCaptureListeners = new Map(), timers = new Map(), intervals = new Map(), subscribers = [];
     const nodes = new Map(), keys = [], writes = [];
     let clock = 0, timerId = 0, topOverride = null, menuHook = null, inspectHook = null, currentIdentity;
     class Element {
@@ -78,7 +78,8 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
         Date: class extends Date { static now() { return clock; } },
         setTimeout(fn, delay = 0) { const id = ++timerId; timers.set(id, {fn, at: clock + delay}); return id; }, clearTimeout: id => timers.delete(id),
         setInterval(fn) { const id = ++timerId; intervals.set(id, fn); return id; }, clearInterval: id => intervals.delete(id),
-        addEventListener(name, fn) { const list = windowListeners.get(name) || []; list.push(fn); windowListeners.set(name, list); },
+        addEventListener(name, fn, capture) { const target = capture === true ? windowCaptureListeners : windowListeners;
+            const list = target.get(name) || []; list.push(fn); target.set(name, list); },
         getComputedStyle: node => node.style, matchMedia: () => ({matches: env.innerWidth > env.innerHeight}),
         mobileTouch: {cancel() {}}, BayeHdOverworld: {getMode: () => values['baye/mobileOverworldMode']},
         BayeHdLibIdentity: {read: () => currentIdentity, isCurrent: candidate => candidate === currentIdentity, subscribe: fn => subscribers.push(fn)},
@@ -103,7 +104,8 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
         const r = target.rect, e = {type, target, isTrusted: true, pointerId: 1, isPrimary: true, button: 0, detail: 1,
             clientX: r.left + 5, clientY: r.top + 5, defaultPrevented: false,
             preventDefault() { this.defaultPrevented = true; }, stopPropagation() { this.stopped = true; }, stopImmediatePropagation() { this.stopped = true; }, ...extra};
-        for (const fn of listeners.get(type) || []) { fn(e); if (e.stopped) break; }
+        for (const fn of windowCaptureListeners.get(type) || []) { fn(e); if (e.stopped) break; }
+        if (!e.stopped) for (const fn of listeners.get(type) || []) { fn(e); if (e.stopped) break; }
         if (!e.stopped) for (const fn of root.events.get(type) || []) fn(e);
         return e;
     }
@@ -114,7 +116,7 @@ function fixture({screen = 'title', acknowledge = true, mount = true, storageThr
     } clock = end; refresh(); }
     return {env, api, shared, nodes, root, list, back, mode, open, outside, keys, writes, values, slots, kings, get data() { return data; },
         publish, refresh, click, fire, tick, timers, intervals,
-        windowEvent(name) { (windowListeners.get(name) || []).forEach(fn => fn()); },
+        windowEvent(name) { [...(windowCaptureListeners.get(name) || []), ...(windowListeners.get(name) || [])].forEach(fn => fn()); },
         identity(value) { currentIdentity = {...currentIdentity, ...value}; subscribers.forEach(fn => fn(currentIdentity)); },
         rebind() { data = {...data}; data.circular = data; }, setReady(value) { ready = value; },
         setMenuHook(fn) { menuHook = fn; }, setInspectHook(fn) { inspectHook = fn; }, setTop(value) { topOverride = value; },
@@ -265,6 +267,82 @@ test('MAP trusted DOWN survives actual timer polls before UP/click sends one EXI
     for(let i=0;i<5;i++) for(const callback of h.intervals.values()) callback();
     h.fire('pointerup',h.open); h.fire('click',h.open); assert.deepEqual(h.keys,[40]);
     for(const callback of h.intervals.values()) callback(); h.click(h.open); assert.deepEqual(h.keys,[40]);
+});
+for (const phase of [0,7]) {
+    test(`window pointer capture pairs earlier document-consumed battle releases before MAP phase ${phase} system entry`,()=>{
+        const h=fixture({screen:'map',mount:false,diagnostics:true}); let consumed=0;
+        // A preceding mobile battle footer consumer sees DOWN but consumes
+        // its successful UP at document capture. Window capture runs first.
+        h.env.document.addEventListener('pointerup',event=>{
+            if(event.target===h.outside){consumed++;event.stopImmediatePropagation();}
+        },true);
+        h.api.init();h.data.g_hdMarchPhase=phase;h.refresh();
+        for(const pointerId of [4,5,6]){
+            h.fire('pointerdown',h.outside,{pointerId});
+            h.fire('pointerup',h.outside,{pointerId});
+        }
+        assert.equal(consumed,3);assert.deepEqual(h.keys,[]);
+        let d=h.api.debugSnapshot().diagnostics;
+        assert.deepEqual(Array.from(d.pointerIDs),[]);assert.equal(d.blocked,false);
+        h.fire('pointerdown',h.open,{pointerId:21});
+        for(const callback of h.intervals.values())callback();
+        h.fire('pointerup',h.open,{pointerId:21});h.fire('click',h.open);
+        assert.deepEqual(h.keys,[40]);h.click(h.open);assert.deepEqual(h.keys,[40]);
+        d=h.api.debugSnapshot().diagnostics;assert.equal(d.pointerCount,0);assert.equal(d.blocked,false);
+    });
+}
+test('window pointer capture observes CANCEL consumed by an earlier document host',()=>{
+    const h=fixture({screen:'map',mount:false,diagnostics:true});let consumed=0;
+    h.env.document.addEventListener('pointercancel',event=>{
+        if(event.target===h.outside){consumed++;event.stopImmediatePropagation();}
+    },true);
+    h.api.init();h.fire('pointerdown',h.outside,{pointerId:4});
+    h.fire('pointercancel',h.outside,{pointerId:4});
+    assert.equal(consumed,1);assert.equal(h.api.debugSnapshot().diagnostics.pointerCount,0);
+    h.click(h.open);assert.deepEqual(h.keys,[40]);
+});
+test('window pointer capture rejects a real second pointer even when document host consumes its DOWN and UP',()=>{
+    const h=fixture({screen:'map',mount:false,diagnostics:true});let consumed=0;
+    for(const type of ['pointerdown','pointerup'])h.env.document.addEventListener(type,event=>{
+        if(event.target===h.outside){consumed++;event.stopImmediatePropagation();}
+    },true);
+    h.api.init();h.fire('pointerdown',h.open,{pointerId:21});
+    h.fire('pointerdown',h.outside,{pointerId:22,isPrimary:false});
+    assert.equal(h.api.debugSnapshot().diagnostics.blocked,true);
+    h.fire('pointerup',h.outside,{pointerId:22,isPrimary:false});
+    assert.equal(h.api.debugSnapshot().diagnostics.pointerCount,1);
+    h.fire('pointerup',h.open,{pointerId:21});h.fire('click',h.open);
+    assert.equal(consumed,2);assert.deepEqual(h.keys,[]);
+    assert.equal(h.api.debugSnapshot().diagnostics.pointerCount,0);
+    h.fire('pointerdown',h.open,{pointerId:23});h.fire('pointerup',h.open,{pointerId:23});h.fire('click',h.open);
+    assert.deepEqual(h.keys,[40]);
+});
+test('hidden boundary does not clear an actually held foreign pointer to authorize system entry',()=>{
+    const h=fixture({screen:'map',mount:false,diagnostics:true});
+    h.env.document.addEventListener('pointerup',event=>{
+        if(event.target===h.outside)event.stopImmediatePropagation();
+    },true);
+    h.api.init();h.fire('pointerdown',h.outside,{pointerId:4});
+    h.env.document.hidden=true;h.fire('visibilitychange');
+    h.env.document.hidden=false;h.fire('visibilitychange');
+    assert.equal(h.api.debugSnapshot().diagnostics.pointerCount,1);
+    h.fire('pointerdown',h.open,{pointerId:21,isPrimary:false});
+    h.fire('pointerup',h.open,{pointerId:21,isPrimary:false});h.fire('click',h.open);
+    assert.deepEqual(h.keys,[]);assert.equal(h.api.debugSnapshot().diagnostics.pointerCount,1);
+    h.fire('pointerup',h.outside,{pointerId:4});
+    assert.equal(h.api.debugSnapshot().diagnostics.pointerCount,0);
+    h.click(h.open);assert.deepEqual(h.keys,[40]);
+});
+test('window capture still rejects MAP owner replacement between trusted DOWN and UP',()=>{
+    const h=fixture({screen:'map',mount:false,diagnostics:true});
+    h.env.document.addEventListener('pointerup',event=>{
+        if(event.target===h.outside)event.stopImmediatePropagation();
+    },true);
+    h.api.init();h.fire('pointerdown',h.outside,{pointerId:4});h.fire('pointerup',h.outside,{pointerId:4});
+    h.fire('pointerdown',h.open,{pointerId:21});h.rebind();
+    h.fire('pointerup',h.open,{pointerId:21});h.fire('click',h.open);
+    assert.deepEqual(h.keys,[]);assert.equal(h.api.debugSnapshot().diagnostics.last.up.reason,'owner-data-changed');
+    h.click(h.open);assert.deepEqual(h.keys,[40]);
 });
 for(const change of ['map-seq','map-city','data','native-menu','report']) {
     test(`MAP timer polling rejects armed system entry after ${change} changes`,()=>{
