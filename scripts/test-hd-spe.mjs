@@ -1346,9 +1346,9 @@ test('negative and edge origins are clipped using native logical positions, with
     assert.deepEqual(h.nativeWrites, []);
 });
 
-test('actual FIRE origin stays 33 logical pixels inside the fixed native battle arena and LCD crop starts at 15,16', async () => {
+test('legacy shared35 without a FIRE5 marker keeps its old33pixel arena offset and15,16 LCD crop', async () => {
     const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
-    const entry = m.entries.find(e => e.speId === 35 && e.kind === 2);
+    const entry = m.entries.find(e => e.speId === 35 && e.kind === 2 && e.fireVersion == null);
     assert.ok(entry);
     const h = harness({ data: { g_scale: m.axScale }, spe: { id: entry.speId, kind: entry.kind,
         x: 48, y: 16, resourceIndex: entry.resourceIndex, count: entry.count, picmax: entry.picmax,
@@ -2495,4 +2495,228 @@ for (const name of ['event', 'commit', 'subject', 'data', 'library', 'scene-modu
     assert.deepEqual(h.hdDraws(), [], 'no bounded or projected stale art is added after retirement');
     const lastDraw = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
     assert.deepEqual(lastDraw.args.slice(1), [0, 0, 640, 384, 0, 0, 1760, 1056], 'even a successful stale painter is overwritten by full captured LCD');
+});
+
+// FIRE5 is a display-boundary fixture, not a successful native cast. Decode
+// its units/slots from the real ROM; do not repurpose the generic skillId1
+// postlude above or count these command records as pixel/browser acceptance.
+function fireFixture(current = 0, shown = current) {
+    const actual = actualMainFixture(35), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const entry = structuredClone(production.entries.find(e => e.fireVersion === 1 && e.skillId === 5));
+    assert.ok(entry, 'production FIRE5 marker exists');
+    assert.deepEqual(entry.units, actual.units); assert.equal(entry.resourceFingerprint, actual.entry.resourceFingerprint);
+    const composition = frame => ({ protocolVersion: 1, valid: true, mode: 2, x: 48, y: 16, width: 65, height: 64,
+        background: null, clearFrames: bitset(...Array.from({ length: frame }, (_, i) => i)) });
+    const display = { generation: 9, eventId: 5, commitSeq: shown + 1, frameIndex: shown, frameValid: true,
+        visibleFrames: bitset(shown), composition: composition(shown) };
+    const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 48, y: 16, keyflag: 0, skipEligible: false,
+        contextKnown: true, skillId: 5, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
+        commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
+    return { ...actual, entry, s, m: { ...production, entries: [entry] } };
+}
+function fireNumericFixture(phase = 'numbers') {
+    const f = fireFixture(7), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
+        bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
+    const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
+    const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
+    const result = { protocolVersion: 1, active: true, phase, custom: false, sourceValid: true, generation: 9, session: 2,
+        skillId: 5, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
+        speId: 35, resourceIndex: 0, count: 8, picmax: 2, startFrm: 0, endFrm: 7, x: 48, y: 16,
+        resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
+        number: { ...f.entry.skillNumber, valid: true }, label, digits, scene,
+        display: { ...structuredClone(scene), valid: true, label, digits } };
+    return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
+}
+async function fireLoaded(options = {}) {
+    const f = options.phase ? fireNumericFixture(options.phase) : fireFixture(options.current ?? 0, options.shown ?? options.current ?? 0);
+    const h = harness({ data: { g_scale: 1 }, spe: options.phase ? { active: 0, generation: 9 } : f.s,
+        ...(options.phase ? { skillResult: f.result, resultOwner: f.top } : {}), ...options.harness });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start();
+    await waitForIdentity(h); assert.equal(h.images.length, 2, 'exactly both real fire slots, without synthetic background');
+    function resolve(i) { const image = h.images[i], picture = f.entry.pictures.find(p => p.src === image.url);
+        image.naturalWidth = picture.width; image.naturalHeight = picture.height; image.onload(); }
+    if (!options.pending) h.images.forEach((_, i) => resolve(i));
+    return { ...h, fixture: f, resolve };
+}
+function fireFullLcd(h) {
+    assert.deepEqual({ ...h.api.debugSnapshot().sourceRect }, { x: 0, y: 0, width: 160, height: 96 });
+    const fullDraw = h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage' &&
+        !(e.args[0] instanceof h.context.Image) && JSON.stringify(e.args.slice(1)) === JSON.stringify([0, 0, 640, 384, 0, 0, 1760, 1056]));
+    assert.ok(fullDraw || !h.api.isOpen(), 'completeLCD draw records or a retired overlay restoring physical LCD; not a pixel-equivalence assertion');
+}
+function fireNoInput(h) { assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []); }
+function fireBoundedDraws(h) {
+    const scale = 11, box = [48 * scale, 16 * scale, 65 * scale, 64 * scale];
+    fireFullLcd(h); assert.deepEqual({ ...h.api.debugSnapshot().hdRegion }, { x: 48, y: 16, width: 65, height: 64 });
+    assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'rect' && JSON.stringify(e.args) === JSON.stringify(box)));
+    for (const draw of h.hdDraws()) assert.deepEqual(draw.args.slice(1), box, 'only the actual opaque65x64 slot is replaced');
+    for (const draw of h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect')) {
+        const [x, y, w, height] = draw.args;
+        assert.ok(x >= box[0] && y >= box[1] && x + w <= box[0] + box[2] && y + height <= box[1] + box[3],
+            'numeric/label erase records never extend beyond the certified window');
+    }
+    fireNoInput(h);
+}
+test('FIRE5 production entry is an exact realROM65x64 two-slot specialization while shared35 remains unchanged', () => {
+    const f = fireFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = m.entries.find(e => e.speId === 35 && e.fireVersion == null);
+    assert.ok(generic); assert.equal(m.entries.filter(e => e.fireVersion === 1).length, 1);
+    assert.deepEqual([f.entry.fireVersion, f.entry.opaqueCoverageVersion, f.entry.skillId, f.entry.skillResultVersion], [1, 1, 5, 1]);
+    assert.deepEqual([f.entry.speId, f.entry.resourceIndex, f.entry.kind, f.entry.startFrm, f.entry.endFrm, f.entry.count, f.entry.picmax], [35, 0, 2, 0, 7, 8, 2]);
+    assert.equal(f.entry.resourceLength, 1212); assert.equal(f.entry.resourceFingerprint, 'fnv1a32:0bf53f74:1212');
+    assert.deepEqual(f.entry.units, generic.units); assert.deepEqual(f.entry.pictures, generic.pictures);
+    assert.deepEqual(f.entry.skillNumber, generic.skillNumber);
+    assert.deepEqual(f.entry.units.map(u => [u.x, u.y, u.picIndex]), Array.from({ length: 8 }, (_, i) => [0, 0, i % 2]));
+    assert.deepEqual(f.pictures.map(p => [p.nativeWidth, p.nativeHeight, p.mask]), [[65, 64, 0], [65, 64, 0]]);
+});
+test('FIRE5 all8 copied movie frames retain completeLCD and paint only their real alternating opaque slot without dark scenery', async () => {
+    const h = await fireLoaded();
+    for (let frame = 0; frame < 8; frame++) {
+        h.setSpe(fireFixture(frame).s); h.events.length = 0; h.flush();
+        const d = h.api.debugSnapshot(); assert.equal(d.source, 'hd-assets'); assert.equal(d.outsideSource, 'lcd');
+        assert.deepEqual([...d.displayedFrames], [frame]); fireBoundedDraws(h);
+        assert.equal(h.hdDraws().at(-1).args[0].url, 'assets/hd-spe/fire-35/picture-' + frame % 2 + '.png');
+        assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && ['fillRect', 'fillText'].includes(e.operation)).length, 0);
+    }
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true); assert.equal(h.nodes.get('hd-spe-return').hidden, true);
+    h.key(); h.api.skip(); fireNoInput(h);
+});
+test('FIRE5 selects its exact marker even after the retained generic35 in production order', async () => {
+    const h = await fireLoaded(), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = production.entries.find(e => e.speId === 35 && e.fireVersion == null), before = h.images.length;
+    h.api.setManifest({ ...h.fixture.m, entries: [generic, h.fixture.entry] });
+    assert.equal(h.images.length, before + 2);
+    for (const image of h.images.slice(before)) { const p = h.fixture.entry.pictures.find(p => p.src === image.url);
+        image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); }
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); fireBoundedDraws(h);
+});
+for (const skillId of [11, 18]) test('FIRE5 specialization preserves the explicit legacy shared35 path for skill' + skillId, async () => {
+    const f = fireFixture(), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = production.entries.find(e => e.speId === 35 && e.fireVersion == null);
+    const h = harness({ data: { g_scale: 1 }, spe: { ...f.s, skillId } }); h.context.dynLib = f.lib.toString('hex');
+    h.api.setManifest({ ...f.m, entries: [f.entry, generic] }); h.api.start(); await waitForIdentity(h);
+    assert.equal(h.images.length, 2); h.images.forEach(image => { const p = generic.pictures.find(p => p.src === image.url);
+        image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); });
+    h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual({ ...h.api.debugSnapshot().sourceRect }, { x: 15, y: 16, width: 130, height: 64 }); fireNoInput(h);
+});
+test('FIRE5 lagging displayed copy uses its earlier slot and clear history, never the current future frontier', async () => {
+    const h = await fireLoaded({ current: 3, shown: 0 });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [0]);
+    assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[0].src); fireBoundedDraws(h);
+    for (const change of [s => s.display.composition.clearFrames = bitset(1), s => s.display.visibleFrames = bitset(1),
+        s => s.display.commitSeq = 5, s => s.display.frameIndex = 4, s => s.composition.clearFrames = bitset(4),
+        s => s.display.eventId++, s => s.display.generation++]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('FIRE5 clear-only copied window restores the realLCD with no invented fill or unseen art', async () => {
+    const h = await fireLoaded({ current: 3 }), s = structuredClone(h.fixture.s);
+    s.visibleFrames = bitset(); s.composition.clearFrames = bitset(0, 1, 2, 3);
+    s.display.visibleFrames = bitset(); s.display.composition.clearFrames = bitset(0, 1, 2, 3);
+    h.setSpe(s); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); fireBoundedDraws(h);
+    assert.deepEqual(h.hdDraws(), []); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], []);
+    assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect').length, 0);
+});
+for (const phase of ['numbers', 'hold']) test('FIRE5 ' + phase + ' uses fullLCD, final movie slot, actual label and6pixel numeral advances', async () => {
+    const h = await fireLoaded({ phase }), d = h.api.debugSnapshot(), scale = 11;
+    assert.equal(d.source, 'hd-assets'); assert.equal(d.presentation, 'skill-postlude'); assert.equal(d.spe.active, 0);
+    fireBoundedDraws(h); assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[1].src);
+    const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').slice(-25);
+    assert.deepEqual(texts[0].args, ['兵力减少', 55 * scale, 18 * scale, 48 * scale]);
+    assert.deepEqual(texts.slice(1).map(e => e.args), [2, 4, 0].flatMap((digit, i) =>
+        Array.from({ length: 8 }, (_, j) => [String(digit), (55 + 6 * i) * scale, (56 - j) * scale, 6 * scale])));
+    const paints = h.events.length; h.advance(50_000); h.polls.forEach(p => p());
+    assert.equal(h.events.length, paints, 'wall clock does not fabricate animation or numeric poses'); fireNoInput(h);
+});
+test('FIRE5 HOLD accepts the real final7 clear-only copy without inventing retained final art', async () => {
+    const h = await fireLoaded({ phase: 'hold' }), result = structuredClone(h.fixture.result);
+    for (const copy of [result.scene, result.display]) { copy.visibleFrames = bitset(); copy.composition.clearFrames = bitset(0, 1, 2, 3, 4, 5, 6, 7); }
+    h.setSkillResult(result); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    fireBoundedDraws(h); assert.deepEqual(h.hdDraws(), []); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], []);
+    assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText' && e.args[0] === '兵力减少')); fireNoInput(h);
+});
+test('FIRE5 rejects unknown context, wrong owner, payload, rectangle, mode and nonpast frame bits to fullLCD', async () => {
+    const h = await fireLoaded(), original = h.fixture.s;
+    const changes = [s => s.contextKnown = false, s => s.actorIndex = -1, s => s.actorIndex = 20, s => s.targetIndex = 20,
+        s => s.keyflag = 1, s => s.skipEligible = true, s => s.protocolValid = false, s => s.frameValid = false,
+        s => s.resourceIndex = 1, s => s.resourceLength++, s => s.resourceFingerprint = 'fnv1a32:00000000:1212',
+        s => s.startFrm = 1, s => s.endFrm = 6, s => s.composition = null, s => s.composition.valid = false,
+        s => s.display.composition.valid = false, s => s.composition.mode = 3, s => s.display.composition.mode = 3,
+        s => s.display.composition.x = 49, s => s.display.composition.y = 15, s => s.display.composition.width = 64,
+        s => s.display.composition.height = 63, s => s.display.composition.background = { valid: true },
+        s => s.display.commitSeq = 0, s => s.display.commitSeq = 2, s => s.display.visibleFrames = bitset(8),
+        s => s.composition.clearFrames = Array(31).fill(0), s => s.display.composition.clearFrames = bitset(7),
+        s => { s.visibleFrames = bitset(); s.composition.clearFrames = bitset(); },
+        s => { s.display.visibleFrames = bitset(); s.display.composition.clearFrames = bitset(); }];
+    for (const change of changes) {
+        const s = structuredClone(original); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('FIRE5 missing or corrupt marker cannot borrow the retained legacy35 entry or crop away the LCD', async () => {
+    const h = await fireLoaded(), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const generic = production.entries.find(e => e.speId === 35 && e.fireVersion == null);
+    for (const change of [e => delete e.fireVersion, e => e.fireVersion = 2, e => delete e.opaqueCoverageVersion,
+        e => e.opaqueCoverageVersion = 2, e => e.skillId = 11, e => e.units[3].x = 1, e => e.units[5].picIndex = 0,
+        e => e.pictures[1].logicalWidth = 64, e => e.pictures[0].mask = 1, e => e.compositionVersion = 1,
+        e => e.aiTargetVersion = 2, e => e.background = {}, e => e.skillNumber = {}]) {
+        const entry = structuredClone(h.fixture.entry); change(entry); h.api.setManifest({ ...h.fixture.m, entries: [generic, entry] });
+        h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    h.api.setManifest({ ...h.fixture.m, entries: [generic] }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+test('FIRE5 numeric source, top owner, final copy, label and digits must remain current and bounded', async () => {
+    const h = await fireLoaded({ phase: 'hold' }), f = h.fixture;
+    for (const change of [r => r.custom = true, r => r.sourceValid = false, r => r.actorIndex = 20, r => r.resultKind = 2,
+        r => r.scene.composition.mode = 3, r => r.display.composition.width = 64, r => r.display.eventId++,
+        r => r.display.label.x = 100, r => r.display.digits[0].x = 110,
+        r => r.number.resourceFingerprint = 'fnv1a32:00000000:327']) {
+        const r = structuredClone(f.result); change(r); h.setSkillResult(r); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    h.setSkillResult(f.result); h.setResultOwner({ ...f.top, session: 3 }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+for (const slot of [0, 1]) test('FIRE5 missing native art slot' + slot + ' leaves fullLCD and late success cannot revive failed authorization', async () => {
+    const h = await fireLoaded({ pending: true }); h.resolve(1 - slot); h.images[slot].onerror();
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    h.resolve(slot); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+test('FIRE5 pending, unknownLIB and classic paths retain fullLCD; report and late retired decode never paint', async () => {
+    const pending = await fireLoaded({ pending: true }); pending.events.length = 0; pending.flush();
+    assert.equal(pending.api.debugSnapshot().source, 'lcd'); fireFullLcd(pending); assert.deepEqual(pending.hdDraws(), []);
+    const unknown = await fireLoaded(); unknown.context.dynLib = '00'; unknown.events.length = 0; unknown.flush();
+    assert.equal(unknown.api.debugSnapshot().source, 'lcd'); fireFullLcd(unknown); assert.deepEqual(unknown.hdDraws(), []);
+    const classic = await fireLoaded(); classic.setMode(false); classic.events.length = 0; classic.flush();
+    assert.equal(classic.api.isOpen(), false); assert.deepEqual(classic.hdDraws(), []);
+    const report = await fireLoaded({ pending: true }); report.setReport(1); report.events.length = 0;
+    report.resolve(0); report.resolve(1); report.flush(); assert.equal(report.api.isOpen(), false); assert.deepEqual(report.hdDraws(), []);
+    const ended = await fireLoaded({ pending: true }); ended.setSpe({ active: 0 }); ended.api.onEngineSpe(); ended.events.length = 0;
+    ended.resolve(0); ended.resolve(1); ended.flush(); assert.equal(ended.api.isOpen(), false); assert.deepEqual(ended.hdDraws(), []);
+    for (const h of [pending, unknown, classic, report, ended]) fireNoInput(h);
+});
+test('FIRE5 hidden pending owner cannot be repainted by decode before a fresh current native flush', async () => {
+    const h = await fireLoaded({ pending: true }); h.setHidden(true); h.events.length = 0; h.resolve(0); h.resolve(1); h.flush();
+    assert.deepEqual(h.hdDraws(), []); assert.equal(h.api.isOpen(), false);
+    h.setSpe({ active: 0 }); h.setHidden(false); h.events.length = 0; h.flush();
+    assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+for (const phase of [null, 'hold']) test('FIRE5 ' + (phase || 'movie') + ' final fence restores completeLCD after data/owner/commit drift during a paint', async () => {
+    for (const change of [h => { if (phase) h.fixture.result.display.eventId++; else h.spe().display.eventId++; },
+        h => { if (phase) h.setResultOwner({ ...h.fixture.top, session: 3 }); else h.spe().display.commitSeq++; },
+        h => { const rebound = { g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 };
+            Object.defineProperty(h.context.baye, 'data', { configurable: true, get: () => rebound }); }]) {
+        const h = await fireLoaded({ phase }); let changed = false;
+        h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) { changed = true; change(h); } });
+        h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true);
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+        const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0] instanceof h.context.Image, false, 'stale art is overwritten by the captured completeLCD'); fireNoInput(h);
+    }
 });

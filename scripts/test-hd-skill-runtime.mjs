@@ -4,31 +4,67 @@
  *   CHROME=/usr/bin/chromium node scripts/test-hd-skill-runtime.mjs --staged
  *   node scripts/test-hd-skill-runtime.mjs --artifact-dir build/r10-skill-runtime
  * --staged serves build/wasm/src/baye.{js,wasm,wasm.map} without replacing js/.
- * Uses a temporary browser profile; it never edits portraits, saves or game assets.
+ * Uses a retained private profile and verified owned-tree cleanup; never edits game assets.
  */
 import assert from 'node:assert/strict';
 import http from 'node:http';
 import net from 'node:net';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
-import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import {snapshotOwnedChrome,cleanupOwnedChrome} from './hd-runtime-owned-chrome.mjs';
+import {writeJsonAtomicSync} from './hd-runtime-json.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const staged = process.argv.includes('--staged');
-const artifactFlag = process.argv.indexOf('--artifact-dir');
-const artifactDir = path.resolve(artifactFlag >= 0 ? process.argv[artifactFlag + 1] : path.join(root, 'build/r10-skill-runtime'));
+const allowedFlags=new Set(['--staged','--720','--classic','--missing-assets','--preflight-only']);
+const seenFlags=new Set();
+for(let i=2;i<process.argv.length;i++){
+ const flag=process.argv[i];assert.ok(!seenFlags.has(flag),'Duplicate option: '+flag);seenFlags.add(flag);
+ if(flag==='--artifact-dir'){assert.ok(process.argv[i+1]&&!process.argv[i+1].startsWith('--'),'Missing --artifact-dir value');i++;}
+ else assert.ok(allowedFlags.has(flag),'Unknown option: '+flag);
+}
+const staged=seenFlags.has('--staged'),classic=seenFlags.has('--classic'),missingAssets=seenFlags.has('--missing-assets'),preflightOnly=seenFlags.has('--preflight-only');
+assert.ok(!(classic&&missingAssets),'Choose classic or missing-assets independently');
+const artifactFlag=process.argv.indexOf('--artifact-dir');
+const artifactDir=path.resolve(artifactFlag>=0?process.argv[artifactFlag+1]:path.join(root,'build/r10-skill-runtime'));
+assert.ok(artifactDir.startsWith(path.join(root,'build')+path.sep),'Evidence must use a fresh subdirectory of this repository build/');
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
     '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
-    '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream' };
-const report = { staged, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
+    '.wasm': 'application/wasm', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.lib': 'application/octet-stream', '.ttf':'font/ttf', '.woff':'font/woff', '.woff2':'font/woff2' };
+const report = { staged, classic, missingAssets, preflightOnly, startedAt: new Date().toISOString(), phases: [], console: [], exceptions: [], dialogs: [], blocked: [], requests: [], inputs: [] };
 const servedAssets = new Map();
 const viewport=process.argv.includes('--720')?{width:1280,height:720}:{width:1920,height:1080};
 const nativeMovies=new Map();let nativeLib,fireEntry,font;
-const targetName=()=>path.relative(root,fileURLToPath(import.meta.url));
+// Persistent evidence contains command lines only for independently verified owned processes.
+const identity = p => ({ProcessId:p.ProcessId, ParentProcessId:p.ParentProcessId,
+  CreationDate:p.CreationDate, ExecutablePath:p.ExecutablePath});
+function persistOwnership(s, sameRoot) {
+  return {schemaVersion:s.schemaVersion,rootPid:s.rootPid,profile:s.profile,sampledAt:s.sampledAt,
+    rootVerified:s.rootVerified && sameRoot,sameRoot,owned:sameRoot && s.rootVerified ? s.owned : [],
+    excludedIdentities:s.excluded.map(identity),profileMatchIdentities:s.profileMatches.map(identity)};
+}
+function persistCleanup(p, basis) {
+  const recorded = q => basis.owned.some(o => o.ProcessId===q.ProcessId && o.CreationDate===q.CreationDate &&
+    o.ExecutablePath===q.ExecutablePath && o.CommandLine===q.CommandLine);
+  return {schemaVersion:p.schemaVersion,rootPid:p.rootPid,profile:p.profile,treeExited:p.treeExited,
+    directoriesDeleted:p.directoriesDeleted,errors:p.errors,stopEvents:p.stopEvents,recordedOwned:basis.owned,
+    samples:p.samples.map(s=>({stage:s.stage,sampledAt:s.sampledAt,owned:s.processes.filter(recorded),
+      unrelatedCount:s.processes.filter(q=>!recorded(q)).length})),
+    recheck:p.recheck && {targets:p.recheck.targets.map(identity),absent:p.recheck.absent.map(identity),
+      refused:p.recheck.refused.map(q=>({recorded:identity(q.recorded),current:identity(q.current),reason:q.reason}))},
+    exitVerification:p.exitVerification && {treeExited:p.exitVerification.treeExited,
+      survivingRecorded:p.exitVerification.survivingRecorded.map(identity),
+      rootDescendants:p.exitVerification.rootDescendants.map(identity),profileMatches:p.exitVerification.profileMatches.map(identity)}};
+}
+let sampleOwned=async()=>{};
+function writeEvidencePng(name,data){const filename=path.join(artifactDir,name);if(fs.existsSync(filename))assert.deepEqual(fs.readFileSync(filename),data,'Existing evidence PNG must be byte-identical');else fs.writeFileSync(filename,data,{flag:'wx'});}
+function childExited(child){return child.exitCode!==null||child.signalCode!==null;}
+async function readCdpTargets(port){return new Promise((resolve,reject)=>{const req=http.get('http://127.0.0.1:'+port+'/json/list',res=>{let body='';res.setEncoding('utf8');res.on('data',part=>{body+=part;if(body.length>1024*1024)req.destroy(Error('CDP endpoint bound exceeded'));});res.on('end',()=>{try{assert.equal(res.statusCode,200);const list=JSON.parse(body);assert.ok(Array.isArray(list));resolve(list);}catch(e){reject(e);}});});req.setTimeout(1000,()=>req.destroy(Error('CDP endpoint timeout')));req.on('error',reject);});}
+
+const targetName=()=>path.relative(root,fileURLToPath(import.meta.url)).replaceAll('\\','/');
 const productionDirectories=['js','css','assets','vendor/iBaye/src'];
 function walk(directory){return fs.readdirSync(directory,{withFileTypes:true}).flatMap(item=>item.isDirectory()?walk(path.join(directory,item.name)):[path.join(directory,item.name)]);}
 const fnv=bytes=>{let h=2166136261;for(const b of bytes)h=Math.imul(h^b,16777619)>>>0;return 'fnv1a32:'+h.toString(16).padStart(8,'0')+':'+bytes.length;};
@@ -76,7 +112,7 @@ function freezeAsset(rel) {
 function prepareServedAssets() {
  report.sources={};
  for(const dir of productionDirectories)for(const filename of walk(path.join(root,dir)))freezeAsset(path.relative(root,filename).replaceAll('\\','/'));
- freezeAsset('scripts/write-wasm-manifest.mjs');nativeLib=freezeAsset('libs/dat-mod.lib').data;
+ for(const name of ['scripts/write-wasm-manifest.mjs',targetName(),'scripts/hd-runtime-owned-chrome.mjs','scripts/hd-runtime-json.mjs'])freezeAsset(name);nativeLib=freezeAsset('libs/dat-mod.lib').data;
  assert.equal(report.sources['libs/dat-mod.lib'].sha256,'3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e');
  report.tool={source:targetName(),sha256:crypto.createHash('sha256').update(fs.readFileSync(fileURLToPath(import.meta.url))).digest('hex')};
  for(const name of ['baye.js','baye.wasm','baye.wasm.map','baye.build.json']){
@@ -85,7 +121,7 @@ function prepareServedAssets() {
  const manifest=JSON.parse(freezeAsset('assets/hd-spe/manifest.json').data.toString('utf8'));
  assert.equal(manifest.libSha256,report.sources['libs/dat-mod.lib'].sha256);assert.equal(manifest.axScale,1);
  for(const e of manifest.entries)for(const p of [...e.pictures,e.background].filter(Boolean))if(p.src)freezeAsset(p.src);
- freezeAsset('pc.html');fireEntry=manifest.entries.find(e=>e.speId===35&&e.kind===2&&e.resourceIndex===0&&e.startFrm===0&&e.endFrm===7);assert.ok(fireEntry);assert.equal(fireEntry.skillResultVersion,1);
+ freezeAsset('pc.html');fireEntry=manifest.entries.find(e=>e.speId===35&&e.kind===2&&e.resourceIndex===0&&e.startFrm===0&&e.endFrm===7&&e.fireVersion===1);assert.ok(fireEntry,'Exact FIRE5 entry exists independently of generic35');assert.equal(fireEntry.skillResultVersion,1);assert.equal(fireEntry.opaqueCoverageVersion,1);assert.equal(fireEntry.skillId,5);
  const movie=nativeMovie(35);assert.equal(fireEntry.resourceFingerprint,movie.fingerprint);assert.equal(fireEntry.resourceLength,movie.length);assert.equal(fireEntry.count,movie.count);assert.equal(fireEntry.picmax,movie.picmax);
  assert.equal(fireEntry.units.length,movie.count);assert.equal(fireEntry.pictures.length,movie.picmax);
  fireEntry.units.forEach((u,i)=>{const r=movie.units[i];assert.deepEqual({frame:u.frame,x:u.x,y:u.y,picIndex:u.picIndex},{frame:i,x:r.x,y:r.y,picIndex:r.picIndex});});
@@ -105,32 +141,18 @@ function prepareServedAssets() {
 }
 
 async function startServer() {
-    const server = http.createServer((req, res) => {
-        try {
-            const url = new URL(req.url, 'http://localhost');
-            const rel = decodeURIComponent(url.pathname).replace(/^\/+/, '') || 'pc.html';
-            const snapshot = servedAssets.get(rel);
-            if (snapshot) {
-                report.requests.push({ url: url.pathname, status: 200, ...snapshot.metadata });
-                res.writeHead(200, { 'Content-Type': mime[path.extname(rel)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-                res.end(snapshot.data);
-                return;
-            }
-            const base = staged && /^js\/baye\.(js|wasm|wasm\.map)$/.test(rel) ? path.join(root, 'build/wasm/src') : root;
-            const filename = path.resolve(base, base === root ? rel : path.basename(rel));
-            if (!filename.startsWith(base + path.sep)) { res.writeHead(403).end(); return; }
-            fs.readFile(filename, (err, data) => {
-                if (err) { report.requests.push({ url: url.pathname, status: 404 }); res.writeHead(404).end(); return; }
-                if (/baye\.(js|wasm|wasm\.map)$/.test(filename) || /\.lib$/.test(filename)) {
-                    report.requests.push({ url: url.pathname, status: 200, source: path.relative(root, filename), bytes: data.length });
-                }
-                res.writeHead(200, { 'Content-Type': mime[path.extname(filename)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
-                res.end(data);
-            });
-        } catch { res.writeHead(400).end(); }
-    });
-    await new Promise((resolve, reject) => { server.once('error', reject); server.listen(0, '127.0.0.1', resolve); });
-    return server;
+ const missing=new Set(missingAssets?fireEntry.pictures.map(p=>p.src):[]);
+ const server=http.createServer((req,res)=>{
+  try{
+   const url=new URL(req.url,'http://localhost'),rel=decodeURIComponent(url.pathname).replace(/^\/+/, '')||'pc.html';
+   if(missing.has(rel)){report.requests.push({url:url.pathname,status:404,expected:true,reason:'requested FIRE asset fallback',source:rel});res.writeHead(404,{'Cache-Control':'no-store'}).end();return;}
+   const snapshot=servedAssets.get(rel);
+   if(!snapshot){report.requests.push({url:url.pathname,status:404,expected:false,reason:'not in frozen source allowlist'});res.writeHead(404,{'Cache-Control':'no-store'}).end();return;}
+   report.requests.push({url:url.pathname,status:200,...snapshot.metadata});
+   res.writeHead(200,{'Content-Type':mime[path.extname(rel)]||'application/octet-stream','Cache-Control':'no-store'});res.end(snapshot.data);
+  }catch{res.writeHead(400).end();}
+ });
+ await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(0,'127.0.0.1',resolve);});return server;
 }
 
 async function unusedPort() {
@@ -220,7 +242,7 @@ async function checkpoint(cdp, name) {
     report.phases.push({ name, ...state });
     console.log('PASS', name);
     const image = await cdp.send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync(path.join(artifactDir, name + '.png'), Buffer.from(image.data, 'base64'));
+    writeEvidencePng(name+'.png',Buffer.from(image.data,'base64'));await sampleOwned('checkpoint:'+name);
     return state;
 }
 
@@ -253,7 +275,7 @@ async function click(cdp, selector) {
 
 
 // Presentation wrappers observe original callbacks and deliver only player keys.
-const speObserverSource='('+function(){
+const speObserverSource='('+function(expectedClassic){
  window.__speSamples=[];window.__skillCaptures=[];window.__speEngineKeys=[];window.__speObserverErrors=[];window.__spePhase='opening';window.__skillDrawLog=[];
  let api=null,originalKey=null,lastFire=null;const held=new Set();
  for(const name of ['clearRect','drawImage','fillRect','fillText','rect','clip']){const original=CanvasRenderingContext2D.prototype[name];CanvasRenderingContext2D.prototype[name]=function(){const result=original.apply(this,arguments);if(this.canvas&&this.canvas.id==='hd-spe-canvas'){const args=Array.from(arguments);if(name==='clearRect'&&args[0]===0&&args[1]===0&&args[2]===this.canvas.width&&args[3]===this.canvas.height)window.__skillDrawLog=[];let op={type:name,args,fillStyle:this.fillStyle,font:this.font};if(name==='drawImage'){const source=args.shift();op.src=source.src?new URL(source.src,location.href).pathname.replace(/^\//,''):null;op.args=args;op.naturalWidth=source.naturalWidth||source.width;op.naturalHeight=source.naturalHeight||source.height;}if(name==='fillText'){op.text=String(args.shift());op.args=args;}window.__skillDrawLog.push(op);}return result;};}
@@ -261,24 +283,25 @@ const speObserverSource='('+function(){
  function capture(stage,img,w,h,callbackBefore,callbackAfter){try{
   if(!window.baye||!baye.hd||!baye.hd.ready())return;
   const s=snapshot(),spe=s.spe,result=s.result,ui=api&&api.debugSnapshot();window.__speSamples.push({stage,phase:window.__spePhase,at:performance.now(),spe,result,top:s.top,ui});
-  if(spe.active&&spe.id===35&&spe.kind===2)lastFire={generation:spe.generation,eventId:spe.eventId,actorIndex:spe.actorIndex,targetIndex:spe.targetIndex,skillId:spe.skillId};
-  const isFire=result.active&&result.speId===35,key=result.generation+':'+result.session;
+  if(spe.active&&spe.id===35&&spe.kind===2&&spe.contextKnown&&spe.skillId===5)lastFire={generation:spe.generation,eventId:spe.eventId,actorIndex:spe.actorIndex,targetIndex:spe.targetIndex,skillId:spe.skillId};
+  const isFire=result.active&&result.speId===35&&result.skillId===5,key=result.generation+':'+result.session;
   const readback=stage==='lifecycle'&&isFire&&result.phase==='hold'&&result.display&&result.display.valid&&!held.has(key);
   if(readback){const lcd=document.getElementById('lcd');img=lcd.getContext('2d').getImageData(0,0,lcd.width,lcd.height);w=lcd.width;h=lcd.height;held.add(key);}
   if((stage==='lcd-flush'||readback)&&img&&(isFire||lastFire)){
-   const before=snapshot(),native=document.createElement('canvas'),hd=document.getElementById('hd-spe-canvas');native.width=w||img.width;native.height=h||img.height;native.getContext('2d').putImageData(img,0,0);
+   const before=snapshot(),native=document.createElement('canvas'),hd=document.getElementById('hd-spe-canvas'),lcd=document.getElementById('lcd'),shown=ui.open?hd:lcd;native.width=w||img.width;native.height=h||img.height;native.getContext('2d').putImageData(img,0,0);
    const base64=data=>{let text='';for(const byte of data)text+=String.fromCharCode(byte);return btoa(text);};
-   const rect=ui.sourceRect;let hdLogicalRgba=null;if(hd&&ui.open&&rect&&hd.width===rect.width*ui.scale&&hd.height===rect.height*ui.scale){const data=hd.getContext('2d').getImageData(0,0,hd.width,hd.height).data,logical=[];for(let y=0;y<rect.height;y++)for(let x=0;x<rect.width;x++){const offset=(Math.floor((y+.5)*ui.scale)*hd.width+Math.floor((x+.5)*ui.scale))*4;for(let channel=0;channel<4;channel++)logical.push(data[offset+channel]);}hdLogicalRgba=base64(logical);}
-   const node=document.getElementById('hd-spe'),r=hd&&hd.getBoundingClientRect(),style=hd&&getComputedStyle(hd),rootStyle=node&&getComputedStyle(node),top=r&&document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);
-   const dom=r&&{x:r.x,y:r.y,width:r.width,height:r.height,visible:!!(r.width&&r.height&&style.visibility==='visible'&&style.display!=='none'&&rootStyle.visibility==='visible'&&rootStyle.display!=='none'),inViewport:r.x>=0&&r.y>=0&&r.right<=innerWidth+.5&&r.bottom<=innerHeight+.5,stackOwned:!!(top&&node.contains(top)),top:top&&{id:top.id,className:top.className}};
-   const nativeUrl=native.toDataURL('image/png'),hdUrl=hd&&ui.open&&hd.toDataURL('image/png'),after=snapshot();
-   window.__skillCaptures.push({stage:readback?'held-lcd-readback':'lcd-flush',rawSource:readback?'canvas-readback-normalized':'lcd-callback-image-data',at:performance.now(),callbackBefore,callbackAfter,before,after,spe,result,top:s.top,ui,dom,lastFire,lastFight:s.fight,hidden:document.hidden,mode:BayeHdBattle.getMode(),drawing:{scale:Number(baye.data.g_scale),flip:Number(baye.data.g_FlipDrawing),paint:Number(baye.data.g_paintColor),palette0:Number(baye.data.g_paintPalette[0]),palette255:Number(baye.data.g_paintPalette[255])},nativeWidth:native.width,nativeHeight:native.height,nativeRgba:base64(img.data),hdLogicalRgba,nativeUrl,hdUrl,drawLog:window.__skillDrawLog.slice()});
+   const rect=ui.open?ui.sourceRect:{x:0,y:0,width:160,height:96};let hdLogicalRgba=null;
+   if(shown&&rect){const data=shown.getContext('2d').getImageData(0,0,shown.width,shown.height).data,logical=[],sx=shown.width/rect.width,sy=shown.height/rect.height;for(let y=0;y<rect.height;y++)for(let x=0;x<rect.width;x++){const offset=(Math.min(shown.height-1,Math.floor((y+.5)*sy))*shown.width+Math.min(shown.width-1,Math.floor((x+.5)*sx)))*4;for(let channel=0;channel<4;channel++)logical.push(data[offset+channel]);}hdLogicalRgba=base64(logical);}
+   const node=ui.open?document.getElementById('hd-spe'):lcd,r=shown&&shown.getBoundingClientRect(),top=r&&document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);let chainVisible=true;for(let p=shown;p;p=p.parentElement){const style=getComputedStyle(p);if(p.hidden||style.visibility!=='visible'||style.display==='none'||Number(style.opacity)===0)chainVisible=false;}
+   const dom=r&&{x:r.x,y:r.y,width:r.width,height:r.height,visible:!!(r.width&&r.height&&chainVisible),inViewport:r.x>=0&&r.y>=0&&r.right<=innerWidth+.5&&r.bottom<=innerHeight+.5,stackOwned:!!(top&&(top===shown||node&&node.contains(top))),top:top&&{id:top.id,className:top.className}};
+   const nativeUrl=native.toDataURL('image/png'),hdUrl=shown&&shown.toDataURL('image/png'),after=snapshot();
+   window.__skillCaptures.push({stage:readback?'held-lcd-readback':'lcd-flush',rawSource:readback?'canvas-readback-normalized':'lcd-callback-image-data',at:performance.now(),callbackBefore,callbackAfter,before,after,spe,result,top:s.top,ui,dom,lastFire,lastFight:s.fight,hidden:document.hidden,expectedClassic,displayedCanvas:shown&&shown.id,mode:BayeHdBattle.getMode(),drawing:{scale:Number(baye.data.g_scale),flip:Number(baye.data.g_FlipDrawing),paint:Number(baye.data.g_paintColor),palette0:Number(baye.data.g_paintPalette[0]),palette255:Number(baye.data.g_paintPalette[255])},nativeWidth:native.width,nativeHeight:native.height,nativeRgba:base64(img.data),hdLogicalRgba,nativeUrl,hdUrl,drawLog:window.__skillDrawLog.slice()});
   }
   if(!spe.active&&!result.active&&s.fight.inputKind===1)lastFire=null;
   if(window.__skillCaptures.length>2000||window.__speSamples.length>20000)throw Error('Read-only capture limit');
  }catch(e){window.__speObserverErrors.push(String(e));}}
  Object.defineProperty(window,'BayeHdSpe',{configurable:true,get(){return api;},set(value){api=value;for(const name of ['onEngineSpe','onLcdFlush']){const original=api[name];api[name]=function(){const before=snapshot(),result=original.apply(this,arguments),after=snapshot();capture(name==='onLcdFlush'?'lcd-flush':'lifecycle',name==='onLcdFlush'?arguments[0]:null,arguments[1],arguments[2],before,after);return result;};}if(!originalKey&&typeof window.sendKey==='function'){originalKey=window.sendKey;window.sendKey=function(code){const s=snapshot();window.__speEngineKeys.push({code,at:performance.now(),phase:window.__spePhase,generation:s&&s.spe.generation,eventId:s&&s.spe.eventId,kind:s&&s.spe.kind,speActive:s&&s.spe.active,resultActive:s&&s.result.active,resultSession:s&&s.result.session,resultPhase:s&&s.result.phase});return originalKey.apply(this,arguments);};}}});
-}.toString()+')();';
+}.toString()+')('+JSON.stringify(classic)+');';
 
 function assertDisplayRecords(records) {
     assert.ok(Array.isArray(records), 'Real SPE observations were captured');
@@ -522,8 +545,8 @@ async function attemptFire(cdp,actor) {
     await menuChoice(cdp,name,4);
     const options=await evaluate(cdp,skillOptionsExpression);
     report.fireOptions??=[];report.fireOptions.push({actor:actor.name,options});
-    for(const skill of options.filter(s=>s.available&&s.speId===35)) {
-        const before=await evaluate(cdp,battleStateExpression),mp=before.units.find(u=>u.i===actor.i).mp;
+    for(const skill of options.filter(s=>s.available&&s.id===5&&s.speId===35)) {
+        assert.equal(skill.useMp,15);const before=await evaluate(cdp,battleStateExpression),mp=before.units.find(u=>u.i===actor.i).mp;
         await menuChoice(cdp,skill.name);
         await waitFor(cdp,'actual fire targeting','!BayeHdBattle.debugSnapshot().transaction && [1,5].includes(baye.hd.fight().inputKind)');
         let target=null;
@@ -535,14 +558,19 @@ async function attemptFire(cdp,actor) {
                 await action(cdp,'cancel-fire-no-legal-target','BayeHdBattle.cancel()');await waitBattle(cdp,3,'actual no-target return');
                 await menuChoice(cdp,name,4);continue;
             }
-            const result=await action(cdp,'confirm-real-fire-'+skill.name+'-'+target.name,`BayeHdBattle.clickTile(${target.x},${target.y})`);
-            assert.equal(result.ok,true);
+            if(classic){
+                await evaluate(cdp,"BayeHdBattle.setMode('classic')");report.inputs.push({type:'presentation-mode',mode:'classic',nativeWrites:false});
+                // Native directions move within one FgtGetFoucs input owner;
+                // inputSeq changes only when that owner begins or ends.
+                for(let n=0;n<512;n++){const f=await evaluate(cdp,'baye.hd.fight()');assert.equal(f.inputKind,5,'Only real FIRE AIM can receive the classic player confirmation');if(f.focusX===target.x&&f.focusY===target.y)break;const code=f.focusX<target.x?'ArrowRight':f.focusX>target.x?'ArrowLeft':f.focusY<target.y?'ArrowDown':'ArrowUp',nx=f.focusX+(code==='ArrowRight'?1:code==='ArrowLeft'?-1:0),ny=f.focusY+(code==='ArrowDown'?1:code==='ArrowUp'?-1:0);await key(cdp,code);await waitFor(cdp,'one classic AIM cursor ACK','(()=>{const f=baye.hd.fight();return f.inputKind===5&&f.inputSeq==='+f.inputSeq+'&&f.actorIndex==='+f.actorIndex+'&&f.focusX==='+nx+'&&f.focusY==='+ny+'})()');if(n===511)throw Error('Classic AIM cursor bound');}
+                const aim=await evaluate(cdp,'baye.hd.fight()');assert.deepEqual([aim.focusX,aim.focusY],[target.x,target.y]);await key(cdp,'Enter');
+            }else{const result=await action(cdp,'confirm-real-fire-'+skill.name+'-'+target.name,'BayeHdBattle.clickTile('+target.x+','+target.y+')');assert.equal(result.ok,true);}
         }
         await waitActionResolved(cdp,'actual fire action resolves');
         const after=await evaluate(cdp,battleStateExpression),caster=after.units.find(u=>u.i===actor.i);
         assert.ok(caster,'actual fire caster still exists for MP verification');
         assert.equal(mp-caster.mp,skill.useMp,'Fire consumes the real LIB MP cost');
-        const resultOwner=await evaluate(cdp,'baye.hd.skillResult()');
+        const resultOwner=await evaluate(cdp,'baye.hd.skillResult()');if(classic)await evaluate(cdp,"BayeHdBattle.setMode('hd')");
         report.fireAttempts??=[];report.fireAttempts.push({actor,skill,target,before,after,resultOwnerAfter:resultOwner});
         await checkpoint(cdp,'30-real-fire-attempt-'+report.fireAttempts.length);
         return true;
@@ -564,7 +592,7 @@ async function battleSmoke(cdp) {
     for(let step=0;step<36;step++) {
         const evidence=await collectSpe(cdp);
         const fire=evidence.samples.filter(r=>r.stage==='lcd-flush'&&r.spe.active&&r.spe.kind===2&&r.spe.id===35&&r.spe.display.frameValid);
-        if(await evaluate(cdp,"window.__skillCaptures.some(c=>c.result&&c.result.active&&c.result.speId===35&&c.result.phase==='hold'&&c.result.display.valid&&c.result.display.digits.length&&c.result.display.digits.every(d=>d.drawCount===8))"))break;
+        if(await evaluate(cdp,"window.__skillCaptures.some(c=>c.result&&c.result.active&&c.result.speId===35&&c.result.skillId===5&&c.result.phase==='hold'&&c.result.display.valid&&c.result.display.digits.length&&c.result.display.digits.every(d=>d.drawCount===8))"))break;
         const current=await evaluate(cdp,battleStateExpression);
         if(current.fight.over)break;
         const actor=current.units.filter(u=>u.side==='player'&&u.active===0&&![8,1,6].includes(u.state)&&u.arms>0)
@@ -622,106 +650,108 @@ function sha(bytes){return crypto.createHash('sha256').update(bytes).digest('hex
 function frames(bits){return Array.from({length:256},(_,i)=>i).filter(i=>bits[i>>3]&(1<<(i&7)));}
 function assertHdGeometry(c,expected,label,post){
  const scale=c.ui.scale,ops=c.drawLog.filter(o=>o.type==='fillRect'||o.type==='fillText'||o.type==='drawImage'&&o.src);let index=0;
- const consume=(type,args,text=null,src=null)=>{const op=ops[index++];assert.equal(op?.type,type,'HD draw order comes from actual visible/clear/label/digit metadata');assert.deepEqual(op.args,args,'Each HD operation occupies the actual native logical rectangle');if(text!==null)assert.equal(op.text,text);if(src!==null)assert.equal(op.src,src);return op;};
- if(!post)consume('fillRect',[0,0,130*scale,64*scale]);
- else for(const frame of frames(expected.clears)){const u=fireEntry.units[frame],p=fireEntry.pictures[u.picIndex];consume('fillRect',[(48+u.x-15)*scale,u.y*scale,p.logicalWidth*scale,p.logicalHeight*scale]);}
- for(const frame of frames(expected.visible)){const u=fireEntry.units[frame],p=fireEntry.pictures[u.picIndex],op=consume('drawImage',[(48+u.x-15)*scale,u.y*scale,p.logicalWidth*scale,p.logicalHeight*scale],null,p.src);assert.deepEqual([op.naturalWidth,op.naturalHeight],[p.width,p.height]);}
+ const consume=(type,args,text=null,src=null)=>{const op=ops[index++];assert.equal(op?.type,type,'Actual copy/label/digit draw order');assert.deepEqual(op.args,args,'Certified native logical rectangle');if(text!==null)assert.equal(op.text,text);if(src!==null)assert.equal(op.src,src);return op;};
+ for(const frame of frames(expected.visible)){const u=fireEntry.units[frame],p=fireEntry.pictures[u.picIndex],op=consume('drawImage',[(48+u.x)*scale,(16+u.y)*scale,p.logicalWidth*scale,p.logicalHeight*scale],null,p.src);assert.deepEqual([op.naturalWidth,op.naturalHeight],[p.width,p.height]);}
+ const rects=c.drawLog.filter(o=>o.type==='rect'),expectedRects=[[48*scale,16*scale,65*scale,64*scale]];
  if(post){
-  const rects=c.drawLog.filter(o=>o.type==='rect'),expectedRects=[[33*scale,0,65*scale,64*scale]];
-  if(label){const box=[40*scale,2*scale,label.bytes.length*6*scale,12*scale];consume('fillRect',box);const op=consume('fillText',box.slice(0,3),c.result.display.label.text);assert.match(op.font,new RegExp('^'+12*scale+'px '));expectedRects.push(box);}
-  for(const p of c.result.display.digits)for(let draw=0;draw<p.drawCount;draw++){const box=[(p.x-15)*scale,(p.firstY-draw-16)*scale,12*scale,16*scale];consume('fillRect',box);const op=consume('fillText',[box[0],box[1],6*scale],String(p.digit));assert.equal(op.font,'bold '+16*scale+'px Georgia, serif');expectedRects.push(box);}
-  assert.deepEqual(rects.map(o=>o.args),expectedRects,'Every label/digit is clipped inside its own true native box and the certified effect window');
+  if(label){const box=[55*scale,18*scale,label.bytes.length*6*scale,12*scale];consume('fillRect',box);const op=consume('fillText',box.slice(0,3),c.result.display.label.text);assert.match(op.font,new RegExp('^'+12*scale+'px '));expectedRects.push(box);}
+  for(const p of c.result.display.digits)for(let draw=0;draw<p.drawCount;draw++){const box=[p.x*scale,(p.firstY-draw)*scale,12*scale,16*scale];consume('fillRect',box);const op=consume('fillText',[box[0],box[1],6*scale],String(p.digit));assert.equal(op.font,'bold '+16*scale+'px Georgia, serif');expectedRects.push(box);}
  }
- assert.equal(index,ops.length,'No unobserved scene, label or numeric draw is added');
+ assert.deepEqual(rects.map(o=>o.args),expectedRects,'Only the exact opaque window and actual label/NUM footprints are clipped');
+ assert.equal(index,ops.length,'No invented background or extra label/NUM draws');
+ for(const op of c.drawLog.filter(o=>o.type==='fillRect')){const [x,y,w,h]=op.args;assert.ok(x>=48*scale&&y>=16*scale&&x+w<=113*scale&&y+h<=80*scale,'No neutral fill outside the true FIRE window');}
+ const clears=c.drawLog.filter(o=>o.type==='clearRect');for(const op of clears){const [x,y,w,h]=op.args;assert.ok(x===0&&y===0&&w===c.ui.canvasW&&h===c.ui.canvasH||x>=48*scale&&y>=16*scale&&x+w<=113*scale&&y+h<=80*scale,'Clear footprint is full-canvas initialization or certified native window only');}
 }
+
 function verifySkillCaptures(captures){
- const selected=captures.filter(c=>c.spe.active&&c.spe.id===35&&c.spe.kind===2||c.result.active&&c.result.speId===35&&c.result.display&&c.result.display.valid);
- assert.ok(selected.length,'The actual game produced default FIRE');const events=new Map(),verified=[];let labels=0,numbers=0,holds=0,movieHd=0,postHd=0,actualCallbacks=0;
- for(const c of selected){assert.deepEqual(c.after,c.before,'Reading pixels and PNG preserves all native owner/display snapshots');if(c.callbackBefore)assert.deepEqual(c.callbackAfter,c.callbackBefore,'Production presentation callback makes no native owner/field writes');
+ const selected=captures.filter(c=>c.spe.active&&c.spe.id===35&&c.spe.kind===2&&c.spe.contextKnown===true&&c.spe.skillId===5||c.result.active&&c.result.speId===35&&c.result.skillId===5&&c.result.display&&c.result.display.valid);
+ assert.ok(selected.length,'Actual standard-LIB FIRE5 was naturally produced');
+ const events=new Map(),verified=[];let labels=0,numbers=0,holds=0,movieHd=0,postHd=0,actualCallbacks=0,fallbackReadbacks=0,outsidePixelComparisons=0;
+ const normalizedPixel=(raw,offset)=>{const p=Buffer.from(raw.subarray(offset,offset+4));if(p[3]===0)p.fill(0);return p;};
+ for(const c of selected){
+  assert.deepEqual(c.after,c.before,'Reading pixels and PNG preserves native owner/display');if(c.callbackBefore)assert.deepEqual(c.callbackAfter,c.callbackBefore,'Presentation callback writes no native owner/field');
   const post=!c.spe.active&&c.result.active,r=c.result,s=c.spe,d=post?r.display:s.display;if(!d||!d.frameValid)continue;
-  const event=post?d.eventId:s.eventId,generation=post?r.generation:s.generation,key=generation+':'+event,x=post?r.x:s.x,y=post?r.y:s.y,movie=nativeMovie(35),region={x:48,y:16,width:65,height:64};assert.deepEqual([x,y],[48,16]);assert.deepEqual([movie.count,movie.picmax],[8,2]);
+  const event=post?d.eventId:s.eventId,generation=post?r.generation:s.generation,key=generation+':'+event,x=post?r.x:s.x,y=post?r.y:s.y,movie=nativeMovie(35),region={x:48,y:16,width:65,height:64};
+  assert.deepEqual([x,y],[48,16]);assert.deepEqual([movie.count,movie.picmax,movie.fingerprint,movie.length],[8,2,'fnv1a32:0bf53f74:1212',1212]);
   assert.equal(c.nativeWidth,160);assert.equal(c.nativeHeight,96);assert.deepEqual([c.drawing.scale,c.drawing.flip,c.drawing.paint,c.drawing.palette0,c.drawing.palette255],[1,0,255,0x00ffffff,0xff000000]);
   const raw=Buffer.from(c.nativeRgba,'base64');assert.equal(raw.length,160*96*4);
-  if(!events.has(key)){assert.equal(c.rawSource,'lcd-callback-image-data','Each event begins with actual timer callback ImageData');events.set(key,{records:movieOracle(movie,0,7,x,y),outside:raw,actor:post?r.actorIndex:s.actorIndex,target:post?r.targetIndex:s.targetIndex});}
+  if(!events.has(key)){assert.equal(c.rawSource,'lcd-callback-image-data','Each event begins with a real native timer ImageData callback');events.set(key,{records:movieOracle(movie,0,7,x,y),outside:raw,actor:post?r.actorIndex:s.actorIndex,target:post?r.targetIndex:s.targetIndex});}
   const state=events.get(key),expected=state.records[d.commitSeq-1];assert.ok(expected);assert.equal(d.frameIndex,expected.frame);assert.deepEqual(Buffer.from(d.visibleFrames),expected.visible);assert.deepEqual(Buffer.from(d.composition.clearFrames),expected.clears);
+  assert.equal(d.composition.valid,true);assert.equal(d.composition.mode,2);assert.deepEqual([d.composition.x,d.composition.y,d.composition.width,d.composition.height],[48,16,65,64]);
   const pixels=Buffer.from(expected.pixels);let label=null;
-  if(post){assert.equal(r.protocolVersion,1);assert.equal(r.sourceValid,true);assert.equal(r.custom,false);assert.equal(r.skipEligible,false);assert.equal(r.returnEligible,false);assert.equal(r.resourceFingerprint,movie.fingerprint);assert.equal(r.resourceLength,movie.length);assert.equal(r.startFrm,0);assert.equal(r.endFrm,7);assert.equal(r.scene.composition.mode,2);assert.equal(d.composition.valid,true);assert.deepEqual([d.composition.x,d.composition.y,d.composition.width,d.composition.height],[48,16,65,64]);assert.equal(c.top.kind,2);assert.equal(c.top.active,true);assert.equal(c.top.valid,true);assert.equal(c.top.session,r.session);assert.equal(c.top.generation,r.generation);assert.equal(d.session,r.session);assert.equal(d.generation,r.generation);assert.equal(c.spe.active,0);assert.equal(c.ui.presentation,'skill-postlude');assert.equal(c.ui.outsideSource,'lcd');assert.equal(c.ui.source,'hd-assets','Every actual supported label/number/hold readback is HD inside its native window');assert.ok(c.ui.hdRegion&&c.ui.hdRegion.mode===2);assert.equal(c.ui.skipVisible,false);
+  if(post){
+   assert.equal(r.protocolVersion,1);assert.equal(r.skillId,5);assert.equal(r.sourceValid,true);assert.equal(r.custom,false);assert.equal(r.skipEligible,false);assert.equal(r.returnEligible,false);assert.equal(r.resourceFingerprint,movie.fingerprint);assert.equal(r.resourceLength,movie.length);assert.equal(r.startFrm,0);assert.equal(r.endFrm,7);assert.equal(r.scene.composition.mode,2);
+   assert.equal(c.top.kind,2);assert.equal(c.top.active,true);assert.equal(c.top.valid,true);assert.equal(c.top.session,r.session);assert.equal(c.top.generation,r.generation);assert.equal(d.session,r.session);assert.equal(d.generation,r.generation);assert.equal(c.spe.active,0);
    if(d.label.claimed){label=nativeLabel(r.resultKind);assert.equal(d.label.valid,true);assert.deepEqual(Buffer.from(d.label.bytes).subarray(0,d.label.length),label.bytes);assert.equal(d.label.length,label.bytes.length);assert.equal(d.label.text,new TextDecoder('gbk',{fatal:true}).decode(label.bytes));assert.deepEqual([d.label.x,d.label.y],[55,18]);drawLabel(pixels,label.bytes,55,18);labels++;}else assert.equal(d.digits.length,0);
    const num=nativePicture(nativeItem(15),0,true),decimal=String(r.value);assert.equal(r.number.resourceFingerprint,fnv(nativeItem(15)));assert.deepEqual([num.width,num.height,num.count,num.mask],[12,16,10,0]);assert.ok(d.digits.length<=decimal.length);
    for(let i=0;i<d.digits.length;i++){const p=d.digits[i];assert.equal(p.digit,Number(decimal[i]));assert.equal(p.x,55+6*i);assert.equal(p.firstY,56);assert.equal(p.y,57-p.drawCount);assert.ok(p.drawCount>0&&p.drawCount<=8);for(let draw=0;draw<p.drawCount;draw++)nativePaint(pixels,160,96,num,p.x,p.firstY-draw,p.digit);}
-   if(d.digits.length)numbers++;if(r.phase==='hold'&&d.digits.length===decimal.length&&d.digits.every(p=>p.drawCount===8))holds++;postHd++;
-  }else{assert.equal(s.protocolValid,true);assert.equal(s.skipEligible,false);assert.equal(s.resourceFingerprint,movie.fingerprint);assert.equal(s.resourceLength,movie.length);if(c.ui.source==='hd-assets')movieHd++;}
+   if(d.digits.length)numbers++;if(r.phase==='hold'&&d.digits.length===decimal.length&&d.digits.every(p=>p.drawCount===8))holds++;
+  }else{assert.equal(s.protocolValid,true);assert.equal(s.contextKnown,true);assert.equal(s.skillId,5);assert.equal(s.skipEligible,false);assert.equal(s.resourceFingerprint,movie.fingerprint);assert.equal(s.resourceLength,movie.length);}
   const normalized=c.rawSource==='canvas-readback-normalized',full=Buffer.from(state.outside);if(normalized)for(let i=0;i<full.length;i+=4)if(full[i+3]===0)full.fill(0,i,i+4);
   for(let yy=region.y;yy<region.y+region.height;yy++)for(let xx=region.x;xx<region.x+region.width;xx++){const i=yy*160+xx;full.writeUInt32LE(pixels[i]?0xff000000:normalized?0:0x00ffffff,i*4);}
-  assert.deepEqual(raw,full,'Full actual 160x96 LCD matches independent SPE planes, GBK font, opaque NUM15 six-pixel advances and complete upward footprints; outside actual window stays unchanged');
-  assert.ok(c.ui.open&&c.dom.visible&&c.dom.inViewport&&c.dom.stackOwned,'Actual presentation canvas appears above the battle board');assert.deepEqual(c.ui.sourceRect,{x:15,y:16,width:130,height:64});assert.ok(c.nativeFile&&c.hdFile);
-  if(c.ui.source==='hd-assets'){
-   assertHdGeometry(c,expected,label,post);
-   const scale=c.ui.scale,images=c.drawLog.filter(o=>o.type==='drawImage'&&o.src),live=frames(expected.visible);assert.deepEqual(images.map(o=>o.src),live.map(f=>fireEntry.pictures[movie.units[f].picIndex].src));
-   images.forEach((o,i)=>{const p=fireEntry.pictures[movie.units[live[i]].picIndex];assert.deepEqual(o.args,[33*scale,0,65*scale,64*scale]);assert.deepEqual([o.naturalWidth,o.naturalHeight],[p.width,p.height]);});
-   if(post){assert.ok(c.drawLog.some(o=>o.type==='rect'&&JSON.stringify(o.args)===JSON.stringify([33*scale,0,65*scale,64*scale])),'HD effect is clipped to the certified window');const texts=c.drawLog.filter(o=>o.type==='fillText'),expectedTexts=[];if(label)expectedTexts.push(d.label.text);for(const p of d.digits)for(let draw=0;draw<p.drawCount;draw++)expectedTexts.push(String(p.digit));assert.deepEqual(texts.map(o=>o.text),expectedTexts,'Only actual consumed label and displayed numeric history are replayed');let n=0;if(label){assert.deepEqual(texts[n++].args,[40*scale,2*scale,label.bytes.length*6*scale]);}for(const p of d.digits)for(let draw=0;draw<p.drawCount;draw++)assert.deepEqual(texts[n++].args,[(p.x-15)*scale,(p.firstY-draw-16)*scale,6*scale]);
-    const shown=Buffer.from(c.hdLogicalRgba,'base64');assert.equal(shown.length,130*64*4);let outside=0;for(let yy=0;yy<64;yy++)for(let xx=0;xx<130;xx++){const nx=15+xx,ny=16+yy;if(nx>=48&&nx<113&&ny>=16&&ny<80)continue;const off=(ny*160+nx)*4,target=(yy*130+xx)*4,expect=Buffer.from(raw.subarray(off,off+4));if(expect[3]===0)expect.fill(0);assert.deepEqual(shown.subarray(target,target+4),expect,'Every logical pixel outside the HD window is the actual LCD');outside++;}assert.equal(outside,4160);
-   }
+  assert.deepEqual(raw,full,'Full actual 160x96 LCD matches independent native SPE/font/NUM planes and unchanged surrounding pixels');
+  assert.ok(c.dom.visible&&c.dom.inViewport&&c.dom.stackOwned,'Actual presentation canvas is visible and hit-owned');assert.ok(c.nativeFile&&c.hdFile);
+  const shown=Buffer.from(c.hdLogicalRgba||'','base64');assert.equal(shown.length,160*96*4,'Readback contains the complete160x96 presentation');
+  const fallback=classic||missingAssets;
+  if(fallback){
+   if(classic){assert.equal(c.mode,'classic');assert.equal(c.ui.open,false);assert.equal(c.displayedCanvas,'lcd');}
+   else{assert.equal(c.ui.open,true);assert.equal(c.ui.source,'lcd');assert.deepEqual(c.ui.sourceRect,{x:0,y:0,width:160,height:96});assert.equal(c.displayedCanvas,'hd-spe-canvas');}
+   for(let i=0;i<raw.length;i+=4)assert.deepEqual(shown.subarray(i,i+4),normalizedPixel(raw,i),'Fallback fullLCD pixel equals actual native output');fallbackReadbacks++;
+  }else{
+   assert.equal(c.ui.open,true);assert.equal(c.ui.source,'hd-assets');assert.equal(c.ui.outsideSource,'lcd');assert.deepEqual(c.ui.sourceRect,{x:0,y:0,width:160,height:96});assert.equal(c.ui.skipVisible,false);
+   assert.deepEqual([c.ui.hdRegion.x,c.ui.hdRegion.y,c.ui.hdRegion.width,c.ui.hdRegion.height],[48,16,65,64]);assertHdGeometry(c,expected,label,post);
+   if(post){assert.equal(c.ui.presentation,'skill-postlude');postHd++;}else movieHd++;
+   let outside=0;for(let yy=0;yy<96;yy++)for(let xx=0;xx<160;xx++){if(xx>=48&&xx<113&&yy>=16&&yy<80)continue;const offset=(yy*160+xx)*4;assert.deepEqual(shown.subarray(offset,offset+4),normalizedPixel(raw,offset),'All11200 logical pixels outside FIRE use actualLCD');outside++;}assert.equal(outside,11200);outsidePixelComparisons+=outside;
   }
-  if(c.rawSource==='lcd-callback-image-data')actualCallbacks++;verified.push({generation,eventId:event,session:r.session,phase:post?r.phase:'movie',paintSeq:d.paintSeq,commitSeq:d.commitSeq,frameIndex:d.frameIndex,source:c.ui.source,visible:frames(expected.visible),clear:frames(expected.clears),label:post?d.label:null,digits:post?d.digits:[],nativeFile:c.nativeFile,hdFile:c.hdFile,nativeRawSource:c.rawSource,nativeRgbaSha256:sha(raw),independentExpectedSha256:sha(full)});
+  if(c.rawSource==='lcd-callback-image-data')actualCallbacks++;
+  verified.push({generation,eventId:event,session:r.session,phase:post?r.phase:'movie',paintSeq:d.paintSeq,commitSeq:d.commitSeq,frameIndex:d.frameIndex,source:fallback?'lcd':c.ui.source,displayedCanvas:c.displayedCanvas,visible:frames(expected.visible),clear:frames(expected.clears),label:post?d.label:null,digits:post?d.digits:[],nativeFile:c.nativeFile,hdFile:c.hdFile,nativeRawSource:c.rawSource,nativeRgbaSha256:sha(raw),independentExpectedSha256:sha(full)});
  }
- assert.ok(movieHd>=2,'Multiple actual FIRE movie display frames render HD');assert.ok(labels&&numbers&&holds&&postHd&&actualCallbacks,'Actual consumed label, actual numeric callbacks and final native hold all occurred');
- const matched=report.fireAttempts?.find(a=>verified.some(v=>events.get(v.generation+':'+v.eventId)?.actor===a.actor.i&&events.get(v.generation+':'+v.eventId)?.target===a.target?.i&&(!a.resultOwnerAfter||a.resultOwnerAfter.session===v.session)));assert.ok(matched,'A real player-confirmed fire action matches the observed actor, target and actual result session');
- const nativeResult=selected.find(c=>c.result.active&&c.result.speId===35&&c.result.actorIndex===matched.actor.i&&c.result.targetIndex===matched.target.i&&(!matched.resultOwnerAfter||c.result.session===matched.resultOwnerAfter.session)&&['numbers','hold'].includes(c.result.phase)&&c.result.display?.valid&&c.result.display.digits.length)?.result;assert.ok(nativeResult);const before=matched.before.units.find(u=>u.i===matched.target.i)?.arms,after=matched.after.units.find(u=>u.i===matched.target.i)?.arms||0;if(nativeResult.resultKind===1)assert.equal(nativeResult.value,before-after,'Applied native result value matches troop delta; delta never supplies the displayed value');
- report.nativePixelOracle={actualLcdCallbacks:actualCallbacks,events:events.size,movieHd,postHd,labels,numericReadbacks:numbers,completedHoldReadbacks:holds,verified};report.scope={accepted:'One actual standard-LIB default FIRE35 action including real font label, NUM15 history and original native result wait. HD effect pictures occupy the actual opaque65x64window; the result label/numeric/hold presenter preserves surrounding actualLCD. The existing movie presenter uses neutral artwork surround, not an authenticated full-arena replacement.',notRun:'Other skills, custom hooks, unknown LIB, noMovie/map-edge fallback, AOE, mobile or performance; C/JS suites cover some boundaries separately',legacyEvidence:'Old spe-runtime file names containing native-frame were HD canvas exports and are not used as native-pixel evidence here'};report.hdAccepted=true;
+ assert.ok(labels&&numbers&&holds&&actualCallbacks,'Real label, native NUM callbacks and final wait were all observed');if(classic||missingAssets)assert.ok(fallbackReadbacks>=2);else assert.ok(movieHd>=2&&postHd,'Movie and real numeric/hold use HD in the true window');
+ const copies=(report.speObservations||[]).filter(c=>c.spe.active&&c.spe.kind===2&&c.spe.id===35&&c.spe.skillId===5&&c.spe.frameValid&&c.spe.contextKnown),copyFrames=new Set(copies.map(c=>c.spe.frameIndex));assert.deepEqual([...copyFrames].sort((a,b)=>a-b),[0,1,2,3,4,5,6,7],'All eight genuine source copies were observed; LCD callbacks may coalesce');
+ const matched=report.fireAttempts?.find(a=>a.skill.id===5&&verified.some(v=>events.get(v.generation+':'+v.eventId)?.actor===a.actor.i&&events.get(v.generation+':'+v.eventId)?.target===a.target?.i&&(!a.resultOwnerAfter||a.resultOwnerAfter.session===v.session)));assert.ok(matched,'A real public player-confirmed FIRE5 matches actor/target/result session');
+ const nativeResult=selected.find(c=>c.result.active&&c.result.skillId===5&&c.result.speId===35&&c.result.actorIndex===matched.actor.i&&c.result.targetIndex===matched.target.i&&(!matched.resultOwnerAfter||c.result.session===matched.resultOwnerAfter.session)&&['numbers','hold'].includes(c.result.phase)&&c.result.display?.valid&&c.result.display.digits.length)?.result;assert.ok(nativeResult);
+ const before=matched.before.units.find(u=>u.i===matched.target.i)?.arms,after=matched.after.units.find(u=>u.i===matched.target.i)?.arms||0;if(nativeResult.resultKind===1)assert.equal(nativeResult.value,before-after,'Applied native result matches actual troop delta; displayed value is never synthesized from it');
+ if(missingAssets)assert.ok(report.requests.some(r=>r.status===404&&r.expected&&fireEntry.pictures.some(p=>'/'+p.src===r.url)),'Requested FIRE picture actually returned404');
+ report.nativePixelOracle={actualLcdCallbacks:actualCallbacks,events:events.size,sourceCopies:copyFrames.size,movieHd,postHd,labels,numericReadbacks:numbers,completedHoldReadbacks:holds,fallbackReadbacks,outsidePixelsPerHdReadback:11200,outsidePixelComparisons,verified};
+ report.scope={accepted:'One actual original-LIB FIRE5/SPE35 action, all eight source copies, measured native LCD callbacks, real GBK label/NUM15 histories and native wait. '+(classic||missingAssets?'The complete actual160x96 LCD is physically presented.':'The complete160x96 LCD is retained with only the authenticated opaque65x64 window replaced; all11200 outside logical pixels match actualLCD.'),notRun:'Other shared35 skills11/18, custom/unknownLIB gameplay, mobile, performance and every physical animation frame. Coalesced LCD callbacks are not claimed as full-frame capture.',publicInput:'Public legal shared UI commands and genuine CDP keys; no native world/RNG writes or forced outcome.'};
+ report.actualCastAccepted=true;report.hdAccepted=!classic&&!missingAssets;report.fallbackAccepted=classic||missingAssets;
 }
-async function saveSkillEvidence(cdp){const raw=await evaluate(cdp,'({captures:window.__skillCaptures,errors:window.__speObserverErrors,keys:window.__speEngineKeys,samples:window.__speSamples})');
- for(let i=0;i<raw.captures.length;i++){const c=raw.captures[i],stem='fire-'+String(i).padStart(3,'0')+'-'+(c.result.phase||'movie');for(const[type,url]of[['lcd',c.nativeUrl],['hd',c.hdUrl]])if(url){const data=Buffer.from(url.split(',')[1],'base64'),name=stem+'-'+type+'.png';fs.writeFileSync(path.join(artifactDir,name),data);c[type==='lcd'?'nativeFile':'hdFile']={file:name,bytes:data.length,sha256:sha(data)};}delete c.nativeUrl;delete c.hdUrl;}
- report.skillCaptures=raw.captures;report.observerErrors=raw.errors;
- for(const[name,data]of[['native-skill-captures',raw.captures],['observer-errors',raw.errors],['engine-inputs',raw.keys],['spe-observations',raw.samples]])fs.writeFileSync(path.join(artifactDir,name+'.json'),JSON.stringify(data,null,2)+'\n');
- assert.deepEqual(raw.errors,[],'Read-only presentation observer has no errors');
+
+async function saveSkillEvidence(cdp){if(report.evidenceSaved)return;const raw=await evaluate(cdp,'({captures:window.__skillCaptures,errors:window.__speObserverErrors,keys:window.__speEngineKeys,samples:window.__speSamples})');
+ for(let i=0;i<raw.captures.length;i++){const c=raw.captures[i],stem='fire-'+String(i).padStart(3,'0')+'-'+(c.result.phase||'movie');for(const[type,url]of[['lcd',c.nativeUrl],['hd',c.hdUrl]])if(url){const data=Buffer.from(url.split(',')[1],'base64'),name=stem+'-'+type+'.png';writeEvidencePng(name,data);c[type==='lcd'?'nativeFile':'hdFile']={file:name,bytes:data.length,sha256:sha(data)};}delete c.nativeUrl;delete c.hdUrl;}
+ report.skillCaptures=raw.captures;report.observerErrors=raw.errors;report.engineInputs=raw.keys;report.speObservations=raw.samples;
+ for(const[name,data]of[['native-skill-captures',raw.captures],['observer-errors',raw.errors],['engine-inputs',raw.keys],['spe-observations',raw.samples]])writeJsonAtomicSync(path.join(artifactDir,name+'.json'),data);
+ report.evidenceSaved=true;await sampleOwned('saved-fire-evidence');assert.deepEqual(raw.errors,[],'Read-only presentation observer has no errors');
 }
 
 
 async function main() {
-    assert.ok(!fs.existsSync(path.join(artifactDir,'result.json')),'Use a fresh artifact directory; prior success/failure evidence is preserved');
-    fs.mkdirSync(artifactDir, { recursive: true });
-    let server, chrome, cdp, chromeError, profile;
-    const interrupt = () => {
-        report.interrupted = true;
-        if (cdp) cdp.close();
-        if (chrome && chrome.exitCode === null) chrome.kill('SIGTERM');
-        if (server) server.closeAllConnections();
-    };
-    process.once('SIGINT', interrupt);
-    process.once('SIGTERM', interrupt);
+    assert.ok(!fs.existsSync(artifactDir),'Use a fresh artifact directory; preserve all previous evidence');
+    fs.mkdirSync(path.dirname(artifactDir),{recursive:true});fs.mkdirSync(artifactDir);
+    let server,chrome,cdp,chromeError,profile,ownership=null,rootIdentity=null;
+    const historical=new Map();
+    sampleOwned=async label=>{if(!chrome)return;try{const s=await snapshotOwnedChrome(chrome.pid,profile),r=s.owned.find(p=>p.ProcessId===chrome.pid),sameRoot=!rootIdentity||!!r&&r.CreationDate===rootIdentity.CreationDate&&r.ExecutablePath===rootIdentity.ExecutablePath&&r.CommandLine===rootIdentity.CommandLine;fs.appendFileSync(path.join(artifactDir,'owned-process-samples.jsonl'),JSON.stringify({label,at:new Date().toISOString(),...persistOwnership(s,sameRoot)})+'\n');if(s.rootVerified&&sameRoot){ownership=s;rootIdentity||=r;for(const p of s.owned)historical.set(p.ProcessId+'|'+p.CreationDate,identity(p));}}catch{fs.appendFileSync(path.join(artifactDir,'owned-process-samples.jsonl'),JSON.stringify({label,at:new Date().toISOString(),error:'Owned sampling failed; previous verified basis retained'})+'\n');}};
+    const interrupt=()=>{report.interrupted=true;cdp?.close();};
+    process.once('SIGINT',interrupt);process.once('SIGTERM',interrupt);
     try {
         prepareServedAssets();
-        assert.equal(typeof WebSocket,'function','Node 22+ built-in WebSocket is available');
+        for(const[name,rel]of[['executed-tool.mjs',targetName()],['executed-owned-chrome.mjs','scripts/hd-runtime-owned-chrome.mjs'],['executed-json-writer.mjs','scripts/hd-runtime-json.mjs']])fs.writeFileSync(path.join(artifactDir,name),servedAssets.get(rel).data,{flag:'wx'});
         console.log('Frozen',Object.keys(report.sources).length,'sources; native',report.nativeSourceCheck.aggregate,'; runner',report.tool.sha256);
-        profile=fs.mkdtempSync(path.join(os.tmpdir(),'baye-skill-runtime-'));
-        server = await startServer();
-        const origin = 'http://127.0.0.1:' + server.address().port;
-        const debugPort = await unusedPort();
+        if(preflightOnly){report.ok=true;report.preflight={accepted:true,browserLaunched:false,httpStarted:false,inputSent:false};return;}
+        assert.equal(typeof WebSocket,'function','Node 22+ built-in WebSocket is available');
+        profile=path.join(artifactDir,'private-browser-profile');fs.mkdirSync(profile);
+        server=await startServer();const origin='http://127.0.0.1:'+server.address().port,debugPort=await unusedPort();
         assert.notEqual(server.address().port,8080);assert.notEqual(debugPort,8080);
-        const candidates = ['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
-            '/usr/bin/chromium', '/usr/bin/google-chrome', '/usr/bin/chromium-browser'];
-        const binary = process.env.CHROME || candidates.find((filename) => fs.existsSync(filename));
-        assert.ok(binary, 'Set CHROME to a Chromium/Chrome executable');
-        chrome = spawn(binary, ['--headless=new', '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
-            '--disable-background-networking','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows', '--window-size='+viewport.width+','+viewport.height, '--remote-debugging-port=' + debugPort,
-            '--user-data-dir=' + profile, 'about:blank'], { stdio: 'ignore' });
+        const candidates=['C:/Program Files/Google/Chrome/Application/chrome.exe','C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe','/usr/bin/chromium','/usr/bin/google-chrome','/usr/bin/chromium-browser'];
+        const binary=process.env.CHROME||candidates.find(filename=>fs.existsSync(filename));assert.ok(binary,'Set CHROME to a Chromium/Chrome executable');
+        chrome=spawn(binary,['--headless=new','--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--disable-background-networking','--disable-background-timer-throttling','--disable-renderer-backgrounding','--disable-backgrounding-occluded-windows','--window-size='+viewport.width+','+viewport.height,'--remote-debugging-port='+debugPort,'--user-data-dir='+profile,'about:blank'],{stdio:'ignore',windowsHide:true});
         report.isolation={httpPort:server.address().port,debugPort,profile,chromePid:chrome.pid,user8080Touched:false};
-        chrome.on('error', (error) => { chromeError = error; });
-        let target;
-        const deadline = Date.now() + 15000;
-        while (Date.now() < deadline) {
-            if (chromeError) throw chromeError;
-            if (chrome.exitCode !== null) throw new Error('Chrome exited with ' + chrome.exitCode);
-            try {
-                const list = await fetch('http://127.0.0.1:' + debugPort + '/json/list', { signal: AbortSignal.timeout(1000) }).then((res) => res.json());
-                target = list.find((item) => item.type === 'page');
-                if (target) break;
-            } catch {}
-            await delay(100);
-        }
-        assert.ok(target, 'Chrome DevTools started');
-        cdp = await connectCdp(target.webSocketDebuggerUrl);
+        chrome.on('error',error=>{chromeError=error;});chrome.on('exit',(code,signal)=>{report.chromeExit={code,signal};});
+        let target;const deadline=Date.now()+15000;
+        while(Date.now()<deadline){if(chromeError)throw chromeError;if(childExited(chrome))throw Error('Private Chrome exited');try{target=(await readCdpTargets(debugPort)).find(item=>item.type==='page');if(target)break;}catch(e){report.chromeEndpointProbeError={message:e.message,code:e.code||null,childExit:report.chromeExit||null};}await delay(100);}
+        assert.ok(target,'Private Chrome target '+JSON.stringify(report.chromeEndpointProbeError||null));
+        await sampleOwned('launch-before-page');assert.ok(ownership?.rootVerified,'PID birth/executable/exact private profile verified before page');report.rootBirth=rootIdentity.CreationDate;
+        cdp=await connectCdp(target.webSocketDebuggerUrl);
         cdp.on('Runtime.consoleAPICalled', (event) => {
             report.console.push({ type: event.type, text: event.args.map((arg) => arg.value ?? arg.description ?? '').join(' ') });
             if (report.console.length > 100) report.console.shift();
@@ -767,35 +797,28 @@ async function main() {
             try { await saveSkillEvidence(cdp); } catch(e) { report.evidenceError=e.stack||String(e); }
             try {
                 const screenshot = await cdp.send('Page.captureScreenshot', { format: 'png' });
-                fs.writeFileSync(path.join(artifactDir, 'failure.png'), Buffer.from(screenshot.data, 'base64'));
+                writeEvidencePng('failure.png',Buffer.from(screenshot.data,'base64'));
             } catch {}
         }
         console.error(report.error);
         process.exitCode = 1;
     } finally {
-        process.removeListener('SIGINT', interrupt);
-        process.removeListener('SIGTERM', interrupt);
-        if (cdp) cdp.close();
-        if (chrome && chrome.exitCode === null) {
-            const stopped = new Promise((resolve) => chrome.once('exit', resolve));
-            chrome.kill('SIGTERM');
-            await Promise.race([stopped, delay(1500)]);
-            if (chrome.exitCode === null) { chrome.kill('SIGKILL'); await Promise.race([stopped, delay(1500)]); }
-        }
-        if (server) await new Promise((resolve) => server.close(resolve));
-        if(profile){assert.equal(path.dirname(path.resolve(profile)),path.resolve(os.tmpdir()));assert.ok(path.basename(profile).startsWith('baye-skill-runtime-'));try{fs.rmSync(profile,{recursive:true,force:true,maxRetries:5,retryDelay:100});}catch(e){report.ok=false;report.cleanupError=e.stack||String(e);process.exitCode=1;}}
+        process.removeListener('SIGINT',interrupt);process.removeListener('SIGTERM',interrupt);
+        await sampleOwned('before-cleanup');
+        if(cdp&&ownership?.rootVerified){try{await cdp.send('Browser.close');report.gracefulBrowserClose=true;}catch{report.gracefulBrowserClose=false;}await delay(750);}cdp?.close();
+        if(ownership?.rootVerified){try{const p=await cleanupOwnedChrome(ownership);report.cleanup=persistCleanup(p,ownership);if(!p.treeExited){report.ok=false;process.exitCode=1;}}catch{report.cleanup={treeExited:false,error:'Owned cleanup failed; private profile retained'};report.ok=false;process.exitCode=1;}}
+        else if(chrome){report.cleanup={treeExited:false,error:'No verified ownership basis; broad stop refused'};report.ok=false;process.exitCode=1;}
+        if(server){server.closeAllConnections();await new Promise(resolve=>server.close(resolve));}
+        report.historicalRecordedIdentities=[...historical.values()];report.profileRetained=!!profile&&fs.existsSync(profile);report.directoriesDeleted=false;
         const sources=Object.entries(report.sources||{}).map(([name,m])=>{const f=path.join(root,m.source),exists=fs.existsSync(f),after=exists?sha(fs.readFileSync(f)):null;return {path:name,...m,actualSha256:after,match:exists&&after===m.sha256};});
         const added=productionDirectories.flatMap(dir=>walk(path.join(root,dir))).map(f=>path.relative(root,f).replaceAll('\\','/')).filter(name=>!servedAssets.has(name));
         const drift=sources.filter(s=>!s.match),runnerMatch=!!report.tool&&sha(fs.readFileSync(fileURLToPath(import.meta.url)))===report.tool.sha256;
-        report.sourceVerification={ok:drift.length===0&&added.length===0&&runnerMatch,count:sources.length,drift,added,runnerMatch,sources};if(!report.sourceVerification.ok){report.ok=false;report.freezeFailure='Frozen source/runner drift, missing file or added production file';process.exitCode=1;}
-        report.isolation={...report.isolation,user8080Touched:false,profile:profile||null,cleaned:!profile||!fs.existsSync(profile)};
-        fs.writeFileSync(path.join(artifactDir,'source-verification.json'),JSON.stringify(report.sourceVerification,null,2)+'\n');
-        fs.writeFileSync(path.join(artifactDir,'browser-console.json'),JSON.stringify({console:report.console,exceptions:report.exceptions,dialogs:report.dialogs},null,2)+'\n');
-        report.finishedAt = new Date().toISOString();
-        report.hdAccepted=report.ok===true&&report.hdAccepted===true;
-        fs.writeFileSync(path.join(artifactDir, 'result.json'), JSON.stringify(report, null, 2) + '\n');
-        console.log('Artifacts:', artifactDir);
-        if (report.ok) console.log('Real FIRE label/number/hold, native-pixel and bounded HD-window acceptance passed');
+        report.sourceVerification={ok:drift.length===0&&added.length===0&&runnerMatch,count:sources.length,drift,added,runnerMatch,sources};
+        report.isolation={...report.isolation,user8080Touched:false,profile:profile||null,cleaned:!chrome||report.cleanup?.treeExited===true,chromeExited:!chrome||report.cleanup?.treeExited===true,httpClosed:!server||!server.listening,profileRetained:report.profileRetained,directoriesDeleted:false};
+        if(!report.sourceVerification.ok||!report.isolation.cleaned||!report.isolation.httpClosed){report.ok=false;process.exitCode=1;}
+        report.finishedAt=new Date().toISOString();report.actualCastAccepted=report.ok===true&&report.actualCastAccepted===true;report.hdAccepted=report.ok===true&&report.hdAccepted===true;report.fallbackAccepted=report.ok===true&&report.fallbackAccepted===true;report.accepted=report.ok===true&&(preflightOnly||report.actualCastAccepted&&(report.hdAccepted||report.fallbackAccepted));
+        for(const[name,value]of[['source-verification.json',report.sourceVerification],['browser-console.json',{console:report.console,exceptions:report.exceptions,dialogs:report.dialogs}],['result.json',report]])writeJsonAtomicSync(path.join(artifactDir,name),value);
+        console.log('Artifacts:',artifactDir);console.log('Finished',JSON.stringify({ok:report.ok,accepted:report.accepted,actualCastAccepted:report.actualCastAccepted,hdAccepted:report.hdAccepted,fallbackAccepted:report.fallbackAccepted,sources:sources.length}));
     }
 }
 

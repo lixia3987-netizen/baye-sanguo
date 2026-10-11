@@ -1323,7 +1323,7 @@ function baye_bridge_init() {
         sceneNames.forEach(function (name) {
             if (d && (d['g_hdSpe' + name] != null || d['g_hdSpeDisplay' + name] != null)) scenePresent = true;
         });
-        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false, qimen = false;
+        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false, qimen = false, fire = false;
         if (scenePresent) {
             function readScene(prefix) { return { mode: r.num(prefix + 'SceneMode', 3),
                 x: hdOrigin(r.num(prefix + 'SceneX', 65535)), y: hdOrigin(r.num(prefix + 'SceneY', 65535)),
@@ -1336,6 +1336,16 @@ function baye_bridge_init() {
                 values.Id === 37 && values.Kind === 2 && values.ResourceIndex === 0 && count === 8 && values.Picmax === 2 &&
                 start === 0 && (skill === 6 && end === 7 || skill === 7 && end === 0) &&
                 values.Keyflag === 0 && values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength > 0 &&
+                r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+                r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
+            // FIRE5 owns its actual copied65 window. The shared FIRE resource
+            // does not authorize skills11/18 or invent a 130px arena backdrop.
+            fire = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
+                expected.actorIndex === actor && expected.targetIndex === target && actor != null && target != null && actor < 20 && target < 20 &&
+                skill === 5 && values.Id === 35 && values.Kind === 2 && values.ResourceIndex === 0 &&
+                count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
+                values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1212 &&
+                values.ResourceFingerprint === 0x0bf53f74 &&
                 r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
                 r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
             // Equal opaque AID owns its real copied64 square, independently of
@@ -1408,20 +1418,20 @@ function baye_bridge_init() {
                 (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
                     displayScene.width === scene.width && displayVisible.every(function (bit, i) { return bit === visible[i]; }) &&
                     displayClears.every(function (bit, i) { return bit === clears[i]; }));
-        function equalOpaqueGeometry(c, live, erased, frontier) {
-            if (!c || c.mode !== 2 || c.x !== 48 || c.y !== 16 || c.width !== 64 || c.height !== 64 ||
+        function equalOpaqueGeometry(c, live, erased, frontier, width) {
+            if (!c || c.mode !== 2 || c.x !== 48 || c.y !== 16 || c.width !== width || c.height !== 64 ||
                 frontier < 0 || frontier > 7 || !hdRangeBits(live, count, start, end) || !hdRangeBits(erased, count, start, end)) return false;
             var established = false;
             for (var frame = 0; frame < 256; frame++) if ((live[frame >> 3] | erased[frame >> 3]) & (1 << (frame & 7))) {
                 if (frame > frontier) return false;
                 established = true;
             }
-            return established;
+            return established && (!fire || ((live[frontier >> 3] | erased[frontier >> 3]) & (1 << (frontier & 7))) !== 0);
         }
-        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan || zhoufeng || dingshen || qimen) && !background.valid &&
-            equalOpaqueGeometry(scene, visible, clears, values.FrameIndex),
+        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan || zhoufeng || dingshen || qimen || fire) && !background.valid &&
+            equalOpaqueGeometry(scene, visible, clears, values.FrameIndex, fire ? 65 : 64),
             shownEqualOpaque = shown && currentEqualOpaque && !displayBackground.valid &&
-                equalOpaqueGeometry(displayScene, displayVisible, displayClears, values.DisplayFrameIndex) &&
+                equalOpaqueGeometry(displayScene, displayVisible, displayClears, values.DisplayFrameIndex, fire ? 65 : 64) &&
                 values.DisplayCommitSeq > 0 && values.DisplayCommitSeq <= values.CommitSeq && values.DisplayFrameIndex <= values.FrameIndex &&
                 displayClears.every(function (bit, i) { return (bit & ~clears[i]) === 0; }) &&
                 (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
