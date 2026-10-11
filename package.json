@@ -44,6 +44,8 @@
     "test:opening-runtime": "node scripts/test-hd-opening-runtime.mjs",
     "test:lib-identity": "node --test scripts/test-hd-lib-identity.mjs scripts/test-hd-overworld-identity.mjs",
     "test:city-hud": "node --test scripts/test-hd-ownership.mjs scripts/test-hd-city-hud.mjs",
+    "test:person-equipment-runtime": "node scripts/test-hd-person-equipment-runtime.mjs",
+    "test:person-equipment-mobile-runtime": "node scripts/test-hd-mobile-city-runtime.mjs --preview-only",
     "test:idb-mod-compat": "node --test scripts/test-hd-idb-mod-compat.mjs",
     "test:library-runtime": "node scripts/test-hd-runtime.mjs --library-identity",
     "test:details": "node --test scripts/test-hd-details-engine.mjs scripts/test-hd-details-bridge.mjs",

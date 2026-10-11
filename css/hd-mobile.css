@@ -283,6 +283,13 @@ html[data-baye-mini-map-lcd="0"] .hd-mobile-page.hd-mobile-minimap-on #lcd {
 }
 .hd-mobile-page .hd-city-menu-person-name,
 .hd-mobile-page .hd-city-menu-tool-name { font-size: 20px; }
+.hd-mobile-page .hd-city-menu-equipment-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 12px;
+}
+.hd-mobile-page .hd-city-menu-equipment-card { padding: 10px; }
+.hd-mobile-page .hd-city-menu-equipment-card h3 { font-size: 15px; }
 .hd-mobile-page .hd-city-menu-tool-controls button,
 .hd-mobile-page .hd-city-menu-person-property-controls button {
     box-sizing: border-box;

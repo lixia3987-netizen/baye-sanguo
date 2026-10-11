@@ -644,14 +644,16 @@ export async function main(args=process.argv.slice(2)) {
       for(const [width,height]of [[844,390],[667,375]]){
         await metrics(width,height);await headerGeometry([width,height]);
         await runMobilePreviewChecks({report,evaluate,until,delay,checkpoint,ready,root,submenu,selectPerson,back,mapReturn,
-          controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,label:'preview-'+width+'x'+height});
+          controlPoint,tap,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,equipmentCards:true,
+          libBytes:frozen.get('libs/dat-mod.lib').bytes,label:'preview-'+width+'x'+height});
       }
-      assert.equal(report.previewChecks.length,2);assert.ok(report.previewChecks.every(v=>v.accepted));
+      assert.equal(report.previewChecks.length,2);assert.ok(report.previewChecks.every(v=>v.accepted&&v.equipmentCards?.length===3&&v.equipmentCards.every(c=>c.accepted)));
       const final=await checkpoint('final-preview-HD-map');await until('final actual preview map',mapReadySource);prefsSame(final);
       report.nativeKeys=await evaluate('__mobileMapKeys');report.nativeTouches=await evaluate('__mobileMapNativeTouches');report.trustedEvents=await evaluate('__mobileMapEvents');
       assert.equal(report.nativeTouches.length,0);assert.deepEqual(report.requests.filter(r=>r.status!==200),[]);assert.equal(report.exceptions.length,0);
       report.previewAccepted=true;report.ok=true;report.accepted=true;
       report.acceptedScope=['Original mobile person and equipped-goods focus-only preview at 844x390 and 667x375',
+        'Current person read-only equipment cards: actual double/single/empty equipment, names and six fields checked against original ROM with genuinely visible rows and zero card-native input',
         'Only current native arrows for preview, zero Enter; person and goods attributes follow the actual native index and explicit property page',
         'All recorded world fields including equipment, all city goods metadata, full goods queue discovery bits and tool resource fields remain unchanged',
         '44px controls and actual clipped scrolling, exact single-owner cancellation and returned HUD; no equipment commitment or real-device/full-HD acceptance'];
@@ -722,6 +724,12 @@ export async function main(args=process.argv.slice(2)) {
     if(recruitment)freeze('scripts/hd-mobile-recruitment-runtime-oracle.mjs');
     if(distribution){freeze('scripts/hd-mobile-distribution-runtime-checks.mjs');freeze('scripts/hd-mobile-distribution-runtime-oracle.mjs');}
     if(previewOnly||equipmentOnly)freeze('scripts/hd-mobile-preview-runtime-checks.mjs');
+    if(previewOnly){
+      for(const f of ['scripts/hd-person-equipment-runtime-checks.mjs','css/hd-city-menu.css','css/hd-mobile.css','js/bridge.js','pc.html','package.json'])freeze(f);
+      for(const [file,name]of [['scripts/hd-person-equipment-runtime-checks.mjs','executed-equipment-helper.mjs'],['scripts/hd-mobile-preview-runtime-checks.mjs','executed-preview-helper.mjs']]){
+        fs.writeFileSync(path.join(out,name),frozen.get(file).bytes,{flag:'wx'});
+      }
+    }
     if(equipmentOnly){freeze('scripts/hd-mobile-equipment-runtime-checks.mjs');freeze('scripts/hd-mobile-equipment-runtime-oracle.mjs');freeze('package.json');}
     if(transferOnly){for(const f of ['scripts/hd-mobile-recruitment-runtime-oracle.mjs','scripts/hd-mobile-transfer-runtime-checks.mjs','scripts/hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-runtime-oracle.mjs','scripts/test-hd-mobile-transfer-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}
     if(tradeOnly){for(const f of ['scripts/hd-mobile-trade-runtime-checks.mjs','scripts/hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-runtime-oracle.mjs','scripts/test-hd-mobile-trade-engine.mjs','vendor/iBaye/src/citycmdc.c','vendor/iBaye/src/hd-bridge.h','package.json'])freeze(f);}

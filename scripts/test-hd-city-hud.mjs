@@ -1601,3 +1601,247 @@ test('a retired custom person owner or report takeover hides both property and f
         assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []);
     }
 });
+
+// Equipment-card fixtures use the original packed GOODS table and current
+// full PERSON IDs. Legacy large-library/name-only fixtures above stay intact.
+function originalEquipmentFixture() {
+    const bytes = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url));
+    assert.equal(bytes.length, 207195);
+    function name(resource, index) {
+        const base = bytes.readUInt32LE((resource - 1) * 4), row = base + 14 + index * 8;
+        const offset = bytes.readUInt32LE(row), length = bytes.readUInt32LE(row + 4);
+        return new TextDecoder('gbk').decode(bytes.subarray(base + offset, base + offset + length)).replace(/\0.*$/s, '');
+    }
+    const base = bytes.readUInt32LE((66 - 1) * 4);
+    assert.equal(bytes.readUInt16LE(base + 4), 66);
+    assert.equal(bytes.readUInt32LE(base + 8), 33 * 66);
+    return { personName: id => name(62, id), tools: Array.from({length: 33}, (_, index) => {
+        const p = base + 14 + index * 66;
+        return {index, name: name(73, index), standard: true, generation: 3,
+            useFlag: bytes[p + 1], changeAttackRange: bytes[p + 32], attack: bytes[p + 62],
+            iq: bytes[p + 63], move: bytes[p + 64], arm: bytes[p + 65]};
+    }) };
+}
+function equipmentHarness(slots = [1, 23]) {
+    const h = harness(), original = originalEquipmentFixture();
+    h.tools = original.tools; h.personId = 20;
+    h.context.baye.getPersonCount = () => 200;
+    h.context.baye.getToolCount = () => h.tools.length;
+    h.context.baye.getToolName = id => { h.toolCalls.push(id); return h.tools[id]?.name ?? ''; };
+    h.context.baye.hd.toolDetails = id => { h.detailCalls.push(id); return h.tools[id] ? plain(h.tools[id]) : null; };
+    h.context.baye.hd.personProperties = () => null;
+    h.detailCalls = [];
+    h.people[20] = h.person;
+    h.people[19] = {...h.person, Equip: [0, 0], Tool1: 0, Tool2: 0};
+    h.person.Equip = slots.slice(); h.person.Tool1 = slots[0]; h.person.Tool2 = slots[1];
+    h.person.Belong = 1; h.people[19].Belong = 1;
+    h.city.Belong = 1; h.city.SatrapId = 20; h.raw.g_PlayerKing = 0;
+    h.queue.splice(7, 2, 20, 19);
+    for (const id of [0, 19, 20]) h.names.set(id, original.personName(id));
+    Object.assign(h.menu, {idsValid: true, ids: [20, 19], generation: 3, detailGeneration: 3,
+        itemLen: 8, names: [h.names.get(20), h.names.get(19)], packedNames: [h.names.get(20), h.names.get(19)]});
+    h.raw.g_hdDetailGeneration = 3;
+    h.identity = {status: 'ready', sha256: standardHash, byteLength: 207195, generation: 1};
+    h.setIdentity(h.identity);
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu);
+    h.renderEquipment = () => h.hud.renderPersonDetails();
+    return h;
+}
+function equipmentCards(h) { return plain(h.hud.state.personDetail?.equipment ?? []); }
+function visibleEquipmentNodes(h) {
+    const pane = h.document.getElementById('hd-city-menu-person-details');
+    return pane && !pane.hidden ? pane.querySelectorAll('.hd-city-menu-equipment-card') : [];
+}
+function assertNoEquipmentInput(h) { assert.deepEqual(h.keys, []); assert.deepEqual(h.writes, []); }
+function assertEquipmentAbsent(h) {
+    assert.deepEqual(equipmentCards(h), []); assert.equal(visibleEquipmentNodes(h).length, 0); assertNoEquipmentInput(h);
+}
+
+test('equipment cards copy both actual original slots, all six tool fields and names without changing native fields', () => {
+    const h = equipmentHarness(), before = plain(h.raw); h.renderEquipment();
+    assert.equal(h.hud.state.personDetail.personIndex, 20); assert.equal(h.hud.state.personDetail.name, '吕布');
+    const cards = equipmentCards(h);
+    assert.deepEqual(cards.map(c => [c.slot, c.toolIndex, c.name, c.generation, c.source]),
+        [[0, 0, '方天画戟', 3, 'standard-tool-details'], [1, 22, '赤兔', 3, 'standard-tool-details']]);
+    assert.deepEqual(cards[0].properties, {useFlag: 0, attack: 10, iq: 0, move: 0, arm: 0, changeAttackRange: 0});
+    assert.deepEqual(cards[1].properties, {useFlag: 0, attack: 0, iq: 0, move: 3, arm: 0, changeAttackRange: 0});
+    assert.deepEqual(cards[0].rows.map(r => [r.field, r.label, r.value]), [
+        ['useFlag', '用法', '装备'], ['attack', '武力加成', '10'], ['iq', '智力加成', '0'],
+        ['move', '移动加成', '0'], ['arm', '兵种变化', '无'], ['changeAttackRange', '攻击范围', '不改变']]);
+    assert.deepEqual(plain(h.raw), before); assertNoEquipmentInput(h);
+    const nodes = visibleEquipmentNodes(h); assert.equal(nodes.length, 2);
+    assert.equal(nodes[0].tagName, 'ARTICLE'); assert.equal(nodes[0].children[0].textContent, '装备一 · 方天画戟');
+    assert.equal(nodes[1].children[0].textContent, '装备二 · 赤兔');
+    assert.equal(nodes[0].querySelectorAll('[data-hd-equipment-field]').length, 6);
+    assert.equal(nodes.flatMap(n => n.querySelectorAll('button')).length, 0);
+    assert.equal(nodes.flatMap(n => n.querySelectorAll('input')).length, 0);
+    const originalRows = rows(plain(h.hud.state.personDetail));
+    assert.equal(originalRows.装备一, '方天画戟（编号 1）'); assert.equal(originalRows.装备二, '赤兔（编号 23）');
+});
+for (const [slots, expected] of [[[1, 0], [[0, 0]]], [[0, 23], [[1, 22]]], [[0, 0], []]]) {
+    test('equipment cards retain the actual slot position for ' + slots.join('/'), () => {
+        const h = equipmentHarness(slots); h.renderEquipment();
+        assert.deepEqual(equipmentCards(h).map(c => [c.slot, c.toolIndex]), expected);
+        assert.equal(visibleEquipmentNodes(h).length, expected.length); assertNoEquipmentInput(h);
+        assert.equal(rows(plain(h.hud.state.personDetail))[slots[0] ? '装备二' : '装备一'], '无');
+    });
+}
+test('actual original conversion items retain use, arm and range semantics rather than index-derived labels', () => {
+    const h = equipmentHarness([31, 33]);
+    h.renderEquipment();
+    assert.deepEqual(equipmentCards(h).map(c => c.rows.filter(r => ['useFlag', 'arm'].includes(r.field)).map(r => r.value)),
+        [['使用', '极兵'], ['使用', '水军']]);
+    h.person.Equip = [32, 0]; h.renderEquipment();
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, '玄兵');
+    // These represent well-formed bridge values, exercising the documented raw
+    // range/arm mapping even where the current original table has zero range flags.
+    h.tools[31].arm = 9; h.tools[31].changeAttackRange = 1; h.renderEquipment();
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, '玄兵');
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'changeAttackRange').value, '改变（以战场为准）');
+    for (const [arm, expected] of ['无', '水军', '玄兵', '极兵', '骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'].entries()) {
+        h.tools[31].arm = arm; h.renderEquipment();
+        assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, expected);
+    }
+    h.tools[31].arm = 255; h.tools[31].changeAttackRange = 255; h.renderEquipment();
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'arm').value, '原始码 255');
+    assert.equal(equipmentCards(h)[0].rows.find(r => r.field === 'changeAttackRange').value, '改变（以战场为准）');
+    assertNoEquipmentInput(h);
+});
+test('equipment-card cache refreshes live tool values and slots while preserving the portrait and native names', () => {
+    const h = equipmentHarness(); h.renderEquipment();
+    const slot = h.document.getElementById('hd-city-menu-person-portrait'), figure = element('figure'); slot.appendChild(figure);
+    h.tools[0].attack = 11; h.renderEquipment(); assert.equal(equipmentCards(h)[0].properties.attack, 11);
+    h.person.Equip = [2, 0]; h.renderEquipment();
+    assert.deepEqual(equipmentCards(h).map(c => c.name), ['七星刀']); assert.equal(figure.parentElement, slot);
+    assert.equal(rows(plain(h.hud.state.personDetail)).装备一, '七星刀（编号 2）'); assertNoEquipmentInput(h);
+});
+test('the real standard population capacity may exceed the 200 current people without hiding valid equipment', () => {
+    const h = equipmentHarness(); h.people.length = 2000; h.renderEquipment();
+    assert.equal(equipmentCards(h).length, 2); assertNoEquipmentInput(h);
+});
+for (const [label, change] of [
+    ['pending LIB', h => h.setIdentity({...h.identity, status: 'pending'})],
+    ['custom LIB', h => h.setIdentity({...h.identity, sha256: 'custom'})],
+    ['wrong LIB byte length', h => h.setIdentity({...h.identity, byteLength: 207194})],
+    ['non-current LIB', h => h.setIdentity(h.identity, false)],
+    ['non-original population', h => { h.context.baye.getPersonCount = () => 786; }],
+    ['not-ready bridge', h => { h.context.baye.hd.ready = () => false; }],
+    ['custom person hook', h => { h.context.baye.hooks = {getPersonPropertyValue() { throw Error('must not execute'); }}; }],
+    ['custom tool hook', h => { h.context.baye.hooks = {getToolPropertyTitle() { throw Error('must not execute'); }}; }],
+    ['zero tool count', h => { h.context.baye.getToolCount = () => 0; }],
+    ['out-of-range slot', h => { h.person.Equip = [1, 34]; }],
+    ['fractional slot', h => { h.person.Equip = [1, 1.5]; }],
+    ['missing slot', h => { h.person.Equip = [1]; }],
+    ['unproven native IDs', h => { h.menu.idsValid = false; }],
+    ['incomplete packed names', h => { h.menu.packedNames.pop(); }],
+    ['missing item length', h => { delete h.menu.itemLen; }],
+    ['mismatched generation', h => { h.menu.generation = 4; }],
+    ['wrong full menu count', h => { h.menu.count = 3; }],
+    ['missing tool getter', h => { h.context.baye.hd.toolDetails = undefined; }],
+    ['missing second tool', h => { h.tools[22] = null; }],
+]) {
+    test('equipment cards fail closed for ' + label + ' without removing original name rows', () => {
+        const h = equipmentHarness(); change(h); h.renderEquipment(); assertEquipmentAbsent(h);
+        if (h.hud.state.personDetail) assert.equal(rows(plain(h.hud.state.personDetail)).装备一,
+            label === 'zero tool count' ? '道具编号 1（名称未读取）' : '方天画戟（编号 1）');
+    });
+}
+for (const [field, value] of [['standard', false], ['index', 1], ['generation', 4], ['name', ''], ['name', '-'],
+    ['useFlag', 2], ['attack', -1], ['iq', 256], ['move', 0.5], ['arm', '2'], ['changeAttackRange', null]]) {
+    test('one invalid equipped tool ' + field + '=' + String(value) + ' suppresses the entire pair', () => {
+        const h = equipmentHarness(); h.tools[22][field] = value; h.renderEquipment(); assertEquipmentAbsent(h);
+    });
+}
+for (const [label, change] of [
+    ['LIB generation', h => h.setIdentity({...h.identity, generation: 2})],
+    ['detail generation', h => { h.raw.g_hdDetailGeneration++; }],
+    ['menu sequence', h => { h.menu.seq++; }],
+    ['menu focus', h => { h.menu.index = 1; }],
+    ['full IDs order', h => { h.menu.ids.reverse(); }],
+    ['packed name', h => { h.menu.packedNames[0] += '变'; }],
+    ['slot replacement', h => { h.person.Equip[1] = 2; }],
+    ['tool count', h => { h.tools.pop(); }],
+    ['data identity', h => { h.context.baye.data = new Proxy(h.raw, {}); }],
+    ['bridge identity', h => { h.context.baye = {...h.context.baye}; }],
+    ['HD API identity', h => { h.context.baye.hd = {...h.context.baye.hd}; }],
+    ['tool getter identity', h => { h.context.baye.hd.toolDetails = id => plain(h.tools[id]); }],
+    ['getter reentry', h => h.hud.renderPersonDetails()],
+]) {
+    test('read-only tool getter reentry on ' + label + ' never publishes mixed equipment', () => {
+        const h = equipmentHarness(); let first = true;
+        const original = h.context.baye.hd.toolDetails;
+        h.context.baye.hd.toolDetails = id => {
+            const tool = original(id);
+            if (first) { first = false; change(h); }
+            return tool;
+        };
+        h.renderEquipment(); assertEquipmentAbsent(h);
+    });
+}
+test('two same-owner reads must agree on every equipped tool field, including a missing second read', () => {
+    for (const field of ['name', 'useFlag', 'attack', 'iq', 'move', 'arm', 'changeAttackRange', 'missing']) {
+        const h = equipmentHarness(); let reads = 0;
+        h.context.baye.hd.toolDetails = id => {
+            const value = plain(h.tools[id]);
+            if (id === 22 && ++reads === 2) {
+                if (field === 'missing') return null;
+                value[field] = field === 'name' ? '另一工具' : field === 'useFlag' ? 1 : value[field] + 1;
+            }
+            return value;
+        };
+        h.renderEquipment(); assertEquipmentAbsent(h);
+    }
+});
+test('custom-native person properties expose no standard equipment cards even under a verified original LIB', () => {
+    const h = equipmentHarness(), name = h.names.get(20);
+    h.context.baye.hd.personProperties = () => ({protocolVersion: 1, active: 1, complete: 1, pageComplete: 1,
+        custom: 1, generation: 3, detailGeneration: 3, context: 1, kind: 3, menuSeq: h.menu.seq,
+        paintSeq: 40, index: 0, person: 20, propertyCount: 1, pageIndex: 0, pageStart: 0, pageEnd: 1, name,
+        properties: [{index: 0, title: '自定义装备规则', value: '仅原生', captured: true,
+            titleCaptured: true, valueCaptured: true, titlePaintSeq: 40, valuePaintSeq: 40}]});
+    h.renderEquipment();
+    assert.equal(h.hud.state.personDetail.corePresentation, 'custom-native');
+    assertEquipmentAbsent(h); assert.equal(h.detailCalls.length, 0);
+});
+test('a tool snapshot exception and a report takeover retire cards rather than preserving an earlier pair', () => {
+    for (const kind of ['exception', 'report']) {
+        const h = equipmentHarness(); h.renderEquipment(); assert.equal(equipmentCards(h).length, 2);
+        h.context.baye.hd.toolDetails = () => { if (kind === 'exception') throw Error('read unavailable'); h.report.active = 1; return plain(h.tools[0]); };
+        h.renderEquipment(); assertEquipmentAbsent(h);
+    }
+});
+
+test('zero-based person zero and a fresh native highlight never inherit another person\'s equipment', () => {
+    const h = equipmentHarness(); h.people[0] = {...h.person, Equip: [2, 0]};
+    h.menu.ids = [0, 19]; h.menu.names[0] = h.names.get(0); h.menu.packedNames[0] = h.names.get(0); h.queue[7] = 0;
+    h.hud.state.deepMenuOwner = h.hud.deepMenuOwner(h.menu); h.renderEquipment();
+    assert.equal(h.hud.state.personDetail.personIndex, 0); assert.equal(equipmentCards(h)[0].name, '七星刀');
+    h.menu.index = 1; h.renderEquipment(); assert.equal(h.hud.state.personDetail.personIndex, 19); assertEquipmentAbsent(h);
+    h.menu.index = 0; h.renderEquipment(); assert.equal(equipmentCards(h)[0].toolIndex, 1); assertNoEquipmentInput(h);
+});
+test('equipment sampling keeps circular opaque native data out of diagnostic serialization', () => {
+    const h = equipmentHarness(); h.raw.self = h.raw;
+    h.raw.toJSON = () => { throw Error('native data must not be serialized'); };
+    h.renderEquipment(); assert.equal(equipmentCards(h).length, 2);
+    assert.doesNotThrow(() => JSON.stringify(h.context.BayeHdCityMenu.debugSnapshot())); assertNoEquipmentInput(h);
+});
+test('a menu getter changing the other equipment slot after its first read rejects the whole group', () => {
+    const h = equipmentHarness(); let changed = false;
+    h.context.baye.hd.menuItems = () => {
+        if (!changed && /\bsample\b/.test(new Error().stack)) { changed = true; h.person.Equip[1] = 2; }
+        return h.menu;
+    };
+    h.renderEquipment(); assert.equal(changed, true); assertEquipmentAbsent(h);
+});
+test('a lazy tool name getter cannot replace another equipped slot during the snapshot', () => {
+    const h = equipmentHarness(); let changed = false;
+    h.context.baye.hd.toolDetails = id => {
+        const value = {...h.tools[id]};
+        Object.defineProperty(value, 'name', {enumerable: true, get() {
+            if (!changed) { changed = true; h.person.Equip[1] = 2; }
+            return h.tools[id].name;
+        }});
+        return value;
+    };
+    h.renderEquipment(); assert.equal(changed, true); assertEquipmentAbsent(h);
+});

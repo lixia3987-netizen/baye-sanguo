@@ -4623,6 +4623,7 @@
         row.appendChild(name);
         row.appendChild(number);
         box.appendChild(row);
+        return row;
     }
 
     function appendHudGroups(box, groups) {
@@ -4774,6 +4775,128 @@
         return pane;
     }
 
+    var personEquipmentReading = false, personEquipmentEpoch = 0;
+
+    function personEquipmentMenuKey(menu, owner, index, personId) {
+        var ids = actualMenuIds(menu), current = deepMenuOwner(menu);
+        if (!ids || !current || current.kind !== 3 || current.key !== owner.key ||
+            menu.active !== 1 || menu.context !== 1 || menu.kind !== 3 || menu.index !== index ||
+            ids[index] !== personId || !detailNumber(menu.seq, 4294967295) ||
+            !detailNumber(menu.itemLen, 64) || menu.generation !== owner.detailGeneration ||
+            menu.detailGeneration !== owner.detailGeneration || !owner.detailGeneration ||
+            !ids.every(function (id) { return id < 200; }) ||
+            !Array.isArray(menu.packedNames) || menu.packedNames.length !== ids.length ||
+            !menu.names.every(function (name) { return typeof name === 'string' && !!name; }) ||
+            !menu.packedNames.every(function (name) { return typeof name === 'string' && !!name; })) { return null; }
+        return JSON.stringify([menu.active, menu.context, menu.kind, menu.seq, menu.itemLen,
+            menu.count, menu.index, menu.generation, menu.detailGeneration, ids, menu.names, menu.packedNames]);
+    }
+
+    // Equipment cards are copies of current standard-LIB fields, never inferred
+    // from names or from a previous tool picker. Recheck both slots together so
+    // a name/tool getter cannot attach another person's equipment to this pane.
+    function readPersonEquipment(menu, owner, index, personId) {
+        if (personEquipmentReading) { personEquipmentEpoch += 1; return []; }
+        var token = ++personEquipmentEpoch;
+        personEquipmentReading = true;
+        try {
+            var menuKey = personEquipmentMenuKey(menu, owner, index, personId);
+            if (!menuKey || detailNumber(personId, 199) == null) { return []; }
+            function sample() {
+                var api = global.BayeHdLibIdentity, bridge = global.baye, hd = bridge && bridge.hd;
+                if (!api || typeof api.read !== 'function' || typeof api.isCurrent !== 'function' ||
+                    !hd || typeof hd.ready !== 'function' || !hd.ready() ||
+                    typeof hd.toolDetails !== 'function' || typeof bridge.getToolCount !== 'function' ||
+                    typeof bridge.getPersonCount !== 'function' || bridge.getPersonCount() !== 200 ||
+                    !state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
+                    state.sending || state.queue.length || state.nativeMenuRequest || state.deepSelectionPending ||
+                    state.closingSub || showingQty() || detailOverlayActive() ||
+                    state.personProperties && state.personProperties.custom ||
+                    !state.deepMenuOwner || state.deepMenuOwner.key !== owner.key ||
+                    !standardHudLabels(['getPersonPropertyTitle', 'getPersonPropertyValue',
+                        'getToolPropertyTitle', 'getToolPropertyValue'])) { return null; }
+                var identity = api.read(), data = typeof bridge.ensureData === 'function' ? bridge.ensureData() : bridge.data;
+                var count = detailNumber(bridge.getToolCount(), 2000), generation = data &&
+                    detailNumber(data.g_hdDetailGeneration, 4294967295);
+                if (!identity || identity.status !== 'ready' || identity.sha256 !== MOBILE_LIB_SHA ||
+                    identity.byteLength !== 207195 || !detailNumber(identity.generation, 4294967295) ||
+                    !api.isCurrent(identity) || !data || bridge.data !== data || !count ||
+                    generation !== owner.detailGeneration || !data.g_Persons || !data.g_Persons[personId]) { return null; }
+                var equip = data.g_Persons[personId].Equip;
+                var slots = equip && [detailNumber(equip[0], 65535), detailNumber(equip[1], 65535)];
+                if (!slots || slots.some(function (id) { return id == null || id > count; })) { return null; }
+                var currentMenu = hd.menuItems();
+                if (personEquipmentMenuKey(currentMenu, owner, index, personId) !== menuKey ||
+                    global.baye !== bridge || bridge.hd !== hd || bridge.data !== data ||
+                    global.BayeHdLibIdentity !== api || !api.isCurrent(identity) ||
+                    data.g_hdDetailGeneration !== generation || token !== personEquipmentEpoch ||
+                    data.g_Persons[personId].Equip[0] !== slots[0] || data.g_Persons[personId].Equip[1] !== slots[1]) { return null; }
+                return {api: api, identity: identity, bridge: bridge, hd: hd, data: data,
+                    toolDetails: hd.toolDetails, toolCount: bridge.getToolCount,
+                    personCount: bridge.getPersonCount, toolName: bridge.getToolName,
+                    key: JSON.stringify([identity.status, identity.sha256, identity.byteLength,
+                        identity.generation, generation, count, slots, marchEpoch, state.personPaneEpoch]),
+                    generation: generation, slots: slots};
+            }
+            function same(a, b) {
+                return !!(a && b && a.key === b.key && a.api === b.api && a.bridge === b.bridge &&
+                    a.hd === b.hd && a.data === b.data && a.toolDetails === b.toolDetails &&
+                    a.toolCount === b.toolCount && a.personCount === b.personCount && a.toolName === b.toolName);
+            }
+            function readTools(base) {
+                var result = [];
+                for (var slot = 0; slot < 2; slot++) {
+                    if (!base.slots[slot]) { continue; }
+                    var toolIndex = base.slots[slot] - 1, tool = base.hd.toolDetails(toolIndex), name = tool && tool.name;
+                    if (!tool || tool.standard !== true || tool.index !== toolIndex || tool.generation !== base.generation ||
+                        typeof name !== 'string' || !name || name === '-') { return null; }
+                    var values = {}, fields = ['useFlag', 'attack', 'iq', 'move', 'arm', 'changeAttackRange'];
+                    for (var i = 0; i < fields.length; i++) {
+                        var field = fields[i], value = detailNumber(tool[field], field === 'useFlag' ? 1 : 255);
+                        if (value == null) { return null; }
+                        values[field] = value;
+                    }
+                    var rows = standardToolRows(values).map(function (row, i) {
+                        return {field: fields[i], label: row[0], value: row[1]};
+                    });
+                    rows.push({field: 'changeAttackRange', label: '攻击范围',
+                        value: values.changeAttackRange ? '改变（以战场为准）' : '不改变'});
+                    result.push({slot: slot, toolIndex: toolIndex, name: name, rows: rows,
+                        properties: values, generation: base.generation, source: 'standard-tool-details'});
+                }
+                return result;
+            }
+            var before = sample();
+            if (!before) { return []; }
+            var first = readTools(before), middle = sample();
+            if (!first || !same(before, middle)) { return []; }
+            var second = readTools(middle), after = sample();
+            return second && same(before, after) && token === personEquipmentEpoch &&
+                JSON.stringify(first) === JSON.stringify(second) ? first : [];
+        } catch (e) { return []; }
+        finally { personEquipmentReading = false; }
+    }
+
+    function appendPersonEquipment(fields, equipment) {
+        if (!equipment.length) { return; }
+        var grid = document.createElement('div');
+        grid.className = 'hd-city-menu-equipment-grid';
+        equipment.forEach(function (tool) {
+            var card = document.createElement('article');
+            card.className = 'hd-city-menu-equipment-card';
+            card.setAttribute('data-hd-equipment-slot', String(tool.slot));
+            card.setAttribute('data-hd-equipment-tool', String(tool.toolIndex));
+            var heading = document.createElement('h3');
+            heading.textContent = (tool.slot ? '装备二' : '装备一') + ' · ' + tool.name;
+            card.appendChild(heading);
+            tool.rows.forEach(function (row) {
+                appendStat(card, row.label, row.value).setAttribute('data-hd-equipment-field', row.field);
+            });
+            grid.appendChild(card);
+        });
+        fields.appendChild(grid);
+    }
+
     function renderPersonDetails() {
         if (!state.open || state.layer !== 'deep' || document.hidden || !shouldShowHd() ||
             !personDeepKind(state.deepKind) || usesGoodsMenu(state.deepKind, state.deepStep) ||
@@ -4803,11 +4926,13 @@
         // Without native person IDs, identical names make reordering ambiguous.
         // Keep the native buttons usable, but do not attach inferred statistics.
         var unique = menu.names.every(function (name, i) { return menu.names.indexOf(name) === i; });
+        var detailBaye = global.baye, detailHd = detailBaye && detailBaye.hd, detailData = engineData();
         var details = item && (item.nativeId || unique) && item.pind != null ? personDetails(item.pind, item.name) : null;
         // Read-only bridge/name getters can still reenter a Mod callback. Do
         // not publish a person sampled under a menu that has since retired.
         var afterMenu = engineMenuItems(), afterOwner = deepMenuOwner(afterMenu);
-        if (!afterOwner || afterOwner.key !== owner.key || hudNumber(afterMenu, 'index') !== index || detailOverlayActive()) {
+        if (!afterOwner || afterOwner.key !== owner.key || hudNumber(afterMenu, 'index') !== index || detailOverlayActive() ||
+            global.baye !== detailBaye || detailBaye.hd !== detailHd || engineData() !== detailData) {
             retirePersonDetails();
             return;
         }
@@ -4827,10 +4952,22 @@
             properties.nativeIndex === index && properties.personIndex === details.personIndex &&
             properties.generation === owner.detailGeneration && properties.detailGeneration === owner.detailGeneration);
         var presentation = customProperties ? 'custom-native' : 'default';
+        var equipment = details && !customProperties ? readPersonEquipment(menu, owner, index, details.personIndex) : [];
+        var equipmentMenu = engineMenuItems(), equipmentOwner = deepMenuOwner(equipmentMenu);
+        if (!equipmentOwner || equipmentOwner.key !== owner.key || equipmentMenu.index !== index || detailOverlayActive() ||
+            global.baye !== detailBaye || detailBaye.hd !== detailHd || engineData() !== detailData ||
+            !state.open || state.layer !== 'deep' || state.sending || state.queue.length || state.nativeMenuRequest ||
+            state.deepSelectionPending || state.closingSub || document.hidden || !shouldShowHd()) {
+            retirePersonDetails();
+            return;
+        }
         // Keep the raw fifteen fields in the diagnostic snapshot. A current
         // custom native table can assign them different player-facing meaning.
-        if (state.personDetail) { state.personDetail.corePresentation = presentation; }
-        var signature = JSON.stringify([owner.key, index, details, presentation]);
+        if (state.personDetail) {
+            state.personDetail.corePresentation = presentation;
+            state.personDetail.equipment = equipment;
+        }
+        var signature = JSON.stringify([owner.key, index, details, presentation, equipment]);
         fields.setAttribute('data-hd-person-core-presentation', presentation);
         if (state.personDetailSig === signature && fields.children.length) { return; }
         state.personDetailSig = signature;
@@ -4855,6 +4992,7 @@
             return;
         }
         appendHudGroups(fields, details.groups);
+        appendPersonEquipment(fields, equipment);
         var note = document.createElement('p');
         note.className = 'hd-city-menu-info-note';
         note.textContent = details.note;
@@ -5146,13 +5284,8 @@
         return pane;
     }
 
-    function standardToolProperties(context) {
-        if (context.custom || context.propertyCount !== 5 ||
-            !standardHudLabels(['getToolPropertyTitle', 'getToolPropertyValue'])) { return null; }
-        var tool;
-        try { tool = baye.hd && typeof baye.hd.toolDetails === 'function' ? baye.hd.toolDetails(context.tool) : null; }
-        catch (e) { return null; }
-        if (!tool || tool.standard !== true || tool.index !== context.tool || tool.generation !== context.generation ||
+    function standardToolRows(tool) {
+        if (!tool ||
             ['attack', 'iq', 'move', 'arm'].some(function (key) { return detailNumber(tool[key], 255) == null; }) ||
             detailNumber(tool.useFlag, 1) == null) { return null; }
         var arms = ['骑兵', '步兵', '弓箭兵', '水军', '极兵', '玄兵'];
@@ -5163,6 +5296,16 @@
         var rangeFlag = detailNumber(tool.changeAttackRange, 255);
         if (rangeFlag != null) { properties.rangeFlag = rangeFlag; }
         return properties;
+    }
+
+    function standardToolProperties(context) {
+        if (context.custom || context.propertyCount !== 5 ||
+            !standardHudLabels(['getToolPropertyTitle', 'getToolPropertyValue'])) { return null; }
+        var tool;
+        try { tool = baye.hd && typeof baye.hd.toolDetails === 'function' ? baye.hd.toolDetails(context.tool) : null; }
+        catch (e) { return null; }
+        return tool && tool.standard === true && tool.index === context.tool && tool.generation === context.generation
+            ? standardToolRows(tool) : null;
     }
 
     function renderToolDetails() {

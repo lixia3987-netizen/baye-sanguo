@@ -441,6 +441,39 @@ html[data-baye-city-menu-map-pick="1"] .hd-city-menu-footer button {
     min-width: 0;
 }
 
+.hd-city-menu-equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.hd-city-menu-equipment-card {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #56616f;
+    border-radius: 8px;
+    background: #232c39;
+}
+
+.hd-city-menu-equipment-card h3 {
+    margin: 0 0 10px;
+    color: #f0c75a;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.hd-city-menu-equipment-card .hd-city-menu-stat {
+    gap: 12px;
+    align-items: start;
+}
+
+.hd-city-menu-equipment-card .hd-city-menu-stat strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
 .hd-city-menu-person-details .hd-city-menu-info-group + .hd-city-menu-info-group,
 .hd-city-menu-tool-details .hd-city-menu-info-group + .hd-city-menu-info-group {
     margin-top: 16px;

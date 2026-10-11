@@ -45,13 +45,26 @@ export async function createMobileDetailRuntimeDriver(ctx,entry) {
       if(!down&&g.rect.top>=g.clip.top){entry.geometryFailures??=[];entry.geometryFailures.push(g);throw Error('No scroll around unrelated obstruction '+selector);}
       const before=await sample(),r=g.scroller.rect,top=Math.max(r.top,g.clip.top),bottom=Math.min(r.bottom,g.clip.bottom);
       assert.ok(bottom-top>=44,'Real preview scroll area is tall enough for a trusted pan');
-      const x=Math.min(r.right,g.clip.right)-12,y=top+(bottom-top)*(down?.8:.2),end=top+(bottom-top)*(down?.2:.8);
+      // A longer detail pane can place its not-yet-stuck paging toolbar at
+      // the old pan's starting point. Begin in a real noninteractive band so
+      // browser focus scrolling cannot alternate around that toolbar.
+      const x=Math.min(r.right,g.clip.right)-12;
+      const band=await evaluate(`(() => {
+        const p=document.getElementById(${JSON.stringify(g.scroller.id)}),x=${x};let bands=[[${top},${bottom}]];
+        for(const n of p.querySelectorAll('button,a,input,select,textarea,[role="button"]')){
+          const s=getComputedStyle(n),r=n.getBoundingClientRect();
+          if(n.hidden||s.display==='none'||s.visibility==='hidden'||r.width<=0||r.height<=0||x<r.left||x>r.right)continue;
+          bands=bands.flatMap(([a,b])=>r.bottom+8<=a||r.top-8>=b?[[a,b]]:[[a,Math.min(b,r.top-8)],[Math.max(a,r.bottom+8),b]].filter(([c,d])=>d>c));
+        }
+        bands.sort((a,b)=>(b[1]-b[0])-(a[1]-a[0]));return bands[0];})()`);
+      assert.ok(band&&band[1]-band[0]>=44,'Actual detail pane has a noninteractive trusted-pan band');
+      const y=band[0]+(band[1]-band[0])*(down?.8:.2),end=band[0]+(band[1]-band[0])*(down?.2:.8);
       assert.equal(await evaluate(`(() => {const p=document.getElementById(${JSON.stringify(g.scroller.id)}),h=document.elementFromPoint(${x},${y});return !!p&&(h===p||p.contains(h));})()`),true);
       await touches('touchStart',[{x,y}]);for(let i=1;i<=6;i++)await touches('touchMove',[{x,y:y+(end-y)*i/6}]);await touches('touchEnd');
       const after=await sample(),keys=await readKeys(before.state.keyCount),scrollTop=await evaluate(`document.getElementById(${JSON.stringify(g.scroller.id)}).scrollTop`);
       assert.deepEqual(keys,[],'Content pan never selects, pages or confirms');assert.deepEqual(after.native,before.native,'Content pan preserves the native owner and cursor');
       assert.notEqual(scrollTop,g.scroller.scrollTop,'Actual trusted pan moves the scroller');
-      entry.scrollChecks.push({selector,geometry:g,before,after,scrollTop,keys});
+      entry.scrollChecks.push({selector,geometry:g,panBand:band,before,after,scrollTop,keys});
     }
     throw Error('Preview control remains clipped after bounded actual pans '+selector);
   };
@@ -132,7 +145,8 @@ export async function runMobilePreviewChecks(ctx) {
     controlPoint,touchButton,touches,readKeys,navigation,worldSame,testCity,mark,label}=ctx;
   const entry={label,cityIndex:testCity.index,checks:[],scrollChecks:[],accepted:false};
   report.previewChecks.push(entry);entry.baseline=await mark();
-  const {sample,reveal,preview,allPages,snap}=await createMobileDetailRuntimeDriver(ctx,entry);
+  const driver=await createMobileDetailRuntimeDriver(ctx,entry);
+  const {sample,reveal,preview,allPages,snap}=driver;
   await root(0,'内政');const picker=await submenu('搜寻');assert.ok(picker.state.menu.ids.length>=2);
   const equipped=picker.state.menu.ids.find(id=>picker.world.people[id].Tool1>0&&picker.world.people[id].Tool2>0);
   assert.ok(Number.isInteger(equipped),'Fresh resident has two actual equipped tools; no initial equipment compaction');
@@ -146,7 +160,18 @@ export async function runMobilePreviewChecks(ctx) {
     const after=await sample(),keys=await readKeys(before.state.keyCount);assert.deepEqual(keys,[]);assert.deepEqual(after.native,before.native);
     entry.checks.push({kind:'negative-'+mode,before,after,keys});
   }
-  await preview(3,target);await allPages(3);await preview(3,other);
+  await preview(3,target);await allPages(3);
+  if(ctx.equipmentCards){
+    const {checkPersonEquipmentCards}=await import('./hd-person-equipment-runtime-checks.mjs');
+    await checkPersonEquipmentCards(ctx,driver,entry,equipped);
+    const single=picker.state.menu.ids.find(id=>[picker.world.people[id].Tool1,picker.world.people[id].Tool2].filter(Boolean).length===1);
+    const empty=picker.state.menu.ids.find(id=>picker.world.people[id].Tool1===0&&picker.world.people[id].Tool2===0);
+    assert.ok(Number.isInteger(single)&&Number.isInteger(empty),'Actual single and empty equipment residents');
+    for(const personId of [single,empty]){
+      await preview(3,picker.state.menu.ids.indexOf(personId));await checkPersonEquipmentCards(ctx,driver,entry,personId);
+    }
+  }
+  await preview(3,other);
   await back(label+' searched person cancel');await mapReturn(label+' searched person return');
   await root(0,'内政');const confiscate=await submenu('没收');
   assert.ok(confiscate.world.people[equipped].Tool1>0&&confiscate.world.people[equipped].Tool2>0);
