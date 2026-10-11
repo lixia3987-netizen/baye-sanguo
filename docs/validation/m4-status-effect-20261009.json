@@ -1,0 +1,1465 @@
+{
+  "schemaVersion": 1,
+  "batch": "R20 native upgrade and battlefield departure status effects",
+  "date": "2026-10-09",
+  "branch": "feature/hd-graphics",
+  "baseRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+  "globalHdComplete": false,
+  "scope": {
+    "accepted": "Standard LIB STACHG27/index0/kind4/keyflag0 units0..5 upgrade and6..11 battlefield departure, actual native transitions, original timer/erase/report ownership, certified16x16 HD cell only; outside is complete current160x96 LCD.",
+    "limitations": [
+      "Departure state8 is battlefield retreat/incapacitation; it is not evidence of permanent death or complete succession.",
+      "Actual browser phases/subjects are recorded per run. Initialization phase2, level-cap no-increase and U8 wrap are actual compiled-C checks, not claimed as browser events.",
+      "Native supplies before-transition facts and first-draw indexed/RGBA base. Browser independently reads current subjects, actual palette and full LCD outside from first actual callback onward; no separate browser pre-draw whole-screen capture is claimed.",
+      "HD artwork is a visual replacement, not native pixel equivalence. Full native LCD and all physical HD outside pixels are checked independently.",
+      "Raw native PNG transparency shown against a tool preview background is not the live canvas CSS background. The unchanged canvas background is #e6edd4; no product readability defect is inferred from black tool previews. Pixel equivalence and visual readability are distinct, and retired full-page screenshots are not animation-time full-page evidence.",
+      "PC1080p/720p standard scale1 LIB only. Other28 attack combinations, remaining skills, complete HUD, river decoration, succession, four-period/Mod campaign-save matrix, fixed-device performance, real mobile and cloud remain pending."
+    ]
+  },
+  "protocols": {
+    "spe": 2,
+    "composition": 1,
+    "attack": 1,
+    "skillResult": 1,
+    "aiTarget": 2,
+    "statusEffect": 1,
+    "commandsAdded": 0,
+    "hooksAdded": 0,
+    "rngWritesAdded": 0,
+    "gameWaitChanges": 0
+  },
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "manifest": {
+    "path": "assets/hd-spe/manifest.json",
+    "bytes": 574770,
+    "sha256": "7c007fb69ba7570556def13288cb72981c08eff32e67f7a8345eaa41bd29e99b",
+    "entries": 46,
+    "prior44ObjectsUnchanged": true
+  },
+  "art": {
+    "generator": "Codex built-in imagegen",
+    "record": {
+      "path": "assets/hd-spe/GENERATED-STATUS.json",
+      "bytes": 28747,
+      "sha256": "8f3af5beaa2b76041838ee5197bf411e939ef077e1c25899d41b0c8a45d7e161"
+    },
+    "originals": [
+      {
+        "path": "assets/hd-spe/status-27/picture-0.png",
+        "bytes": 1843610,
+        "sha256": "fdcaf55ec82b8a15adc390b7fb4cb064334f29414d18f8b4d4bd7a9bddc26799"
+      },
+      {
+        "path": "assets/hd-spe/status-27/picture-1.png",
+        "bytes": 1776296,
+        "sha256": "d7615a3b3b2f7949c125b84a241457cd239e29ee3c7e256eab5c83e05f5ccddf"
+      },
+      {
+        "path": "assets/hd-spe/status-27/picture-2.png",
+        "bytes": 1504433,
+        "sha256": "3846968a244b05c1b23b4be5ab2994bd8d22bc6d6976850c7481bc33fb35a90e"
+      },
+      {
+        "path": "assets/hd-spe/status-27/picture-3.png",
+        "bytes": 1447872,
+        "sha256": "fef88652f602129a630e3363b64bc22798ec278c05043b591ae204a63775adc8"
+      },
+      {
+        "path": "assets/hd-spe/status-27/picture-4.png",
+        "bytes": 1655444,
+        "sha256": "ee7bc405ed03f6fab2ea045be436f0afcdcca7907bdccd406134eb68bc89b9aa"
+      },
+      {
+        "path": "assets/hd-spe/status-27/picture-5.png",
+        "bytes": 1880804,
+        "sha256": "11f039188a39bbf21764a3e0aa6a28decd49386fab6e33ccd353174f5b9e1c6f"
+      },
+      {
+        "path": "assets/hd-spe/status-27/picture-6.png",
+        "bytes": 1453440,
+        "sha256": "948d58e29ef4d13075f1652d9b34ebf8ff4a87bd262d779137c3829487dfa2ed"
+      }
+    ],
+    "processing": "Original PNG bytes and alpha copied unchanged; no crop/resize/recolor/reencoding.",
+    "independentReview": {
+      "path": "build/r20-status-art-independent-review.json",
+      "bytes": 44707,
+      "sha256": "c553ebee4bca3858f66e8349bb86fbac2277b080595c1de33aba75a81c59634a",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/c553ebee4bca3858f66e8349bb86fbac2277b080595c1de33aba75a81c59634a.gz",
+      "storedSha256": "1ad25a44a6dfc3a2d2e82ff56cb5eaa40ff4afe9f546c8c9f2e6488475071271",
+      "encoding": "gzip-original-bytes"
+    },
+    "prior5135BinaryAudit": {
+      "path": "build/r20-prior-binary-preservation.json",
+      "bytes": 3112354,
+      "sha256": "f7925f1f7b2cea00ec3d345c833e554772c87a286b22a70de895322d46ca9555",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/f7925f1f7b2cea00ec3d345c833e554772c87a286b22a70de895322d46ca9555.gz",
+      "storedSha256": "de164cc173f90150782b10ab496901594caf0da127b53be1dd7cf470dc721c9b",
+      "encoding": "gzip-original-bytes"
+    }
+  },
+  "engine": {
+    "compiledRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+    "sourceModified": true,
+    "sourceDateEpoch": 1791515060,
+    "nativeFiles": 128,
+    "nativeAggregate": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
+    "emscripten": "3.1.51",
+    "cmake": "cmake version 3.31.6",
+    "quartet": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "fd55a72ea966641204f032a9e68b11d45efb8c9afe0f258de841cb06194edf11",
+        "stageInstalledByteExact": true
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4521847,
+        "sha256": "71ee6726687a5c5a5a1d9509010aef3ad82b8308b84c813374074777d7851572",
+        "stageInstalledByteExact": true
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "1ddda3fdb2b858135a468fe118f2a4c5093839f29ec09ad7bf101378fb72b186",
+        "stageInstalledByteExact": true
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 15801,
+        "sha256": "1cefbf6bda96f024cc932b6c605a183b7070cd7e68bed028390e8f4aa9e1f5f3",
+        "stageInstalledByteExact": true
+      }
+    ],
+    "installation": {
+      "path": "build/r20-installed-quartet-verification.json",
+      "bytes": 1835,
+      "sha256": "8f5a88abd3a19a0c6be8bd4271375d5d7cdbc6fed304324d07b20b704f47f641",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/8f5a88abd3a19a0c6be8bd4271375d5d7cdbc6fed304324d07b20b704f47f641.gz",
+      "storedSha256": "e532519d4f3030a9280e4b5398c17ba76b822bdb8a223aa8e312ed2f6ae4cbc9",
+      "encoding": "gzip-original-bytes"
+    },
+    "originals": {
+      "path": "build/r20-final-engine-originals-v2/index.json",
+      "bytes": 33910,
+      "sha256": "78c8a4a7ca0ad7073fdb80acd6b3111e0185d974c2914922ee6473adc7975781",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/78c8a4a7ca0ad7073fdb80acd6b3111e0185d974c2914922ee6473adc7975781.gz",
+      "storedSha256": "7f69fb62b219b059a5b24afafd0e1b288869a4f23c1fd2524ee4cb804761c393",
+      "encoding": "gzip-original-bytes"
+    },
+    "initialDiscardFixCandidate": {
+      "path": "build/r20-final-engine-originals/index.json",
+      "bytes": 33514,
+      "sha256": "0b02d266c54646335beccfc9bf45c8d06d503ba903e66f154310765071385451",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/0b02d266c54646335beccfc9bf45c8d06d503ba903e66f154310765071385451.gz",
+      "storedSha256": "6cf47a77b3842da550b530a9f31aeedb3146bfad13f749eccb1b462b72797d04",
+      "encoding": "gzip-original-bytes"
+    },
+    "publishingCommitNotRelabelled": true,
+    "workingRawBytesAndGitTextNormalizationSeparate": true,
+    "cacheVersion": "20261009ab"
+  },
+  "validation": {
+    "fullTests": {
+      "tests": 956,
+      "pass": 956,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "concurrency": 4,
+      "execution": {
+        "path": "build/r20-all-tests-execution-v1.json",
+        "bytes": 2506,
+        "sha256": "38d94ff2aa2c390bcf07586c3cd53c6f1581c380b9dd6cb457d719359167bc34",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/38d94ff2aa2c390bcf07586c3cd53c6f1581c380b9dd6cb457d719359167bc34.gz",
+        "storedSha256": "8d571ce4022e6beb4c41d59cf4fa2c9c639de7318b0380c4076cd2bdc1c71b06",
+        "encoding": "gzip-original-bytes"
+      },
+      "log": {
+        "path": "build/r20-all-tests-final-v1.log",
+        "bytes": 116312,
+        "sha256": "21115bd7a89217b3238ef8ceabc25615eb5475178701a4c96db387c34f0df92c",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/21115bd7a89217b3238ef8ceabc25615eb5475178701a4c96db387c34f0df92c.gz",
+        "storedSha256": "ddfb86f5656653006f95aa0e2fcbe00345c9573171c9480f185b37be8fe224eb",
+        "encoding": "gzip-original-bytes"
+      },
+      "executedOnce": true,
+      "testSourceSnapshot": {
+        "path": "build/r20-test-source-post-execution-v1/index.json",
+        "bytes": 11940,
+        "sha256": "2490d924842d0dccd36d7f7a329747f493e2d340c35a177ffbfe02e85e4d27e4",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/2490d924842d0dccd36d7f7a329747f493e2d340c35a177ffbfe02e85e4d27e4.gz",
+        "storedSha256": "b2da451de314c60088130f9ccddb89906d64b3bef6000a4f3321e390316afbca",
+        "encoding": "gzip-original-bytes"
+      },
+      "snapshotBoundary": "Post-execution source capture, independently matches final44 test files; it is not a second test execution or instrumented pre-execution snapshot."
+    },
+    "native": {
+      "tests": 270,
+      "added": 36,
+      "proof": {
+        "path": "build/r20-status-native-freeze.json",
+        "bytes": 49930,
+        "sha256": "888da90304f0a0f1628e035c8c991d764df383024be57cf889cf9dcd8283c6d6",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/888da90304f0a0f1628e035c8c991d764df383024be57cf889cf9dcd8283c6d6.gz",
+        "storedSha256": "802bdc6fbb50c735405754da0785098370a2a647195c697c7fe8ffc9e01ed875",
+        "encoding": "gzip-original-bytes"
+      }
+    },
+    "bridge": {
+      "tests": 146,
+      "added": 22,
+      "proof": {
+        "path": "build/r20-status-bridge-freeze.json",
+        "bytes": 3174,
+        "sha256": "2e306f4840e28b1ded3ce1bb38b08208be654874f277bd92387126b4f0a72124",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/2e306f4840e28b1ded3ce1bb38b08208be654874f277bd92387126b4f0a72124.gz",
+        "storedSha256": "2b87d9686733ca199440695107eab7afcd12f14c36d224b12aab8dcdb8616d1e",
+        "encoding": "gzip-original-bytes"
+      }
+    },
+    "renderer": {
+      "tests": 69,
+      "added": 12,
+      "proof": {
+        "path": "build/r20-status-renderer-freeze.json",
+        "bytes": 3521,
+        "sha256": "4cdb033d6c28e2de450a7b3dfafee6f065029f58817faa31856815a29aacecc8",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/4cdb033d6c28e2de450a7b3dfafee6f065029f58817faa31856815a29aacecc8.gz",
+        "storedSha256": "f44138c540f363adb937b00122d59e3ef24d35a5b9f29345d049f1c0d8f65215",
+        "encoding": "gzip-original-bytes"
+      }
+    },
+    "actualRuntime": [
+      {
+        "directory": "build/r20-status-stage-1080-v3",
+        "result": {
+          "path": "build/r20-status-stage-1080-v3/result.json",
+          "bytes": 3365088,
+          "sha256": "0d92eb911d831b308e93e8babab2a3a6ecfef8383d4413b927c9610e6fcc2011",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/0d92eb911d831b308e93e8babab2a3a6ecfef8383d4413b927c9610e6fcc2011.gz",
+          "storedSha256": "06f241e16a0324e8e79059dd8f2755c494f1eb8c36307c236adedfb76fc466ae",
+          "encoding": "gzip-original-bytes"
+        },
+        "executedHarness": {
+          "source": "scripts/test-hd-status-effect-runtime.mjs",
+          "bytes": 71678,
+          "sha256": "66d805d10b1d249eeb456bd60de19dcfa10510e861ff332163390828b3cd8c0a"
+        },
+        "staged": true,
+        "classic": false,
+        "missing": false,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "protectLord": true,
+        "actualMovementPolicies": {
+          "protect-lord": 10
+        },
+        "actualStatusFacts": [
+          {
+            "event": "3:9",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 1,
+            "subjectPerson": 58,
+            "subjectName": "庞德",
+            "x": 4,
+            "y": 17,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 83,
+            "afterHp": 83,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:12",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 3,
+            "subjectPerson": 61,
+            "subjectName": "李堪",
+            "x": 5,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:15",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 5,
+            "subjectPerson": 63,
+            "subjectName": "梁兴",
+            "x": 6,
+            "y": 14,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 65,
+            "afterHp": 65,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:20",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 4,
+            "subjectPerson": 62,
+            "subjectName": "张横",
+            "x": 4,
+            "y": 15,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 79,
+            "afterHp": 79,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:25",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 2,
+            "subjectPerson": 60,
+            "subjectName": "程银",
+            "x": 3,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 75,
+            "afterHp": 75,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:26",
+            "reason": 1,
+            "phase": 1,
+            "subjectIndex": 11,
+            "subjectPerson": 11,
+            "subjectName": "王匡",
+            "x": 4,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 2,
+            "beforeExperience": 108,
+            "afterExperience": 8,
+            "beforeState": 0,
+            "afterState": 0,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 800,
+            "afterArms": 800
+          }
+        ],
+        "maxTurns": 20,
+        "actualTurns": 10,
+        "checkpoints": 15,
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 1,
+            "actualLcdCallbacks": 6,
+            "finalFrame": 5,
+            "finalObserved": true
+          },
+          "2": {
+            "name": "departure",
+            "events": 5,
+            "actualLcdCallbacks": 30,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "hdAccepted": true,
+        "fallbackAccepted": false,
+        "sources": 1162,
+        "isolation": {
+          "httpPort": 3613,
+          "debugPort": 3614,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-BV1uvj",
+          "chromePid": 187632,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        },
+        "actualFont": {
+          "loaded": true,
+          "check": true,
+          "source": {
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          },
+          "httpStatus": 200
+        },
+        "retirementScene": "hd-battle",
+        "inputDuringStatusOrAi": 0
+      },
+      {
+        "directory": "build/r20-status-installed-1080-v1",
+        "result": {
+          "path": "build/r20-status-installed-1080-v1/result.json",
+          "bytes": 3698169,
+          "sha256": "1ddc9c51c2643847ce7c637f46dcec99bd15e7823d1384262e09ca7c82b22afc",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/1ddc9c51c2643847ce7c637f46dcec99bd15e7823d1384262e09ca7c82b22afc.gz",
+          "storedSha256": "054e538567f77423916a51143a0b01062b7b95ca89c6eeef10a1f5e77702b000",
+          "encoding": "gzip-original-bytes"
+        },
+        "executedHarness": {
+          "source": "scripts/test-hd-status-effect-runtime.mjs",
+          "bytes": 71678,
+          "sha256": "66d805d10b1d249eeb456bd60de19dcfa10510e861ff332163390828b3cd8c0a"
+        },
+        "staged": false,
+        "classic": false,
+        "missing": false,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "protectLord": true,
+        "actualMovementPolicies": {
+          "protect-lord": 14
+        },
+        "actualStatusFacts": [
+          {
+            "event": "3:7",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 5,
+            "subjectPerson": 63,
+            "subjectName": "梁兴",
+            "x": 6,
+            "y": 14,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 65,
+            "afterHp": 65,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:10",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 1,
+            "subjectPerson": 58,
+            "subjectName": "庞德",
+            "x": 4,
+            "y": 17,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 83,
+            "afterHp": 83,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:13",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 3,
+            "subjectPerson": 61,
+            "subjectName": "李堪",
+            "x": 5,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:20",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 4,
+            "subjectPerson": 62,
+            "subjectName": "张横",
+            "x": 4,
+            "y": 15,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 79,
+            "afterHp": 79,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:27",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 2,
+            "subjectPerson": 60,
+            "subjectName": "程银",
+            "x": 3,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 75,
+            "afterHp": 75,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:28",
+            "reason": 1,
+            "phase": 1,
+            "subjectIndex": 11,
+            "subjectPerson": 85,
+            "subjectName": "方悦",
+            "x": 4,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 2,
+            "beforeExperience": 108,
+            "afterExperience": 8,
+            "beforeState": 0,
+            "afterState": 0,
+            "beforeHp": 69,
+            "afterHp": 69,
+            "beforeArms": 800,
+            "afterArms": 800
+          }
+        ],
+        "maxTurns": 20,
+        "actualTurns": 14,
+        "checkpoints": 15,
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 1,
+            "actualLcdCallbacks": 6,
+            "finalFrame": 5,
+            "finalObserved": true
+          },
+          "2": {
+            "name": "departure",
+            "events": 5,
+            "actualLcdCallbacks": 30,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "hdAccepted": true,
+        "fallbackAccepted": false,
+        "sources": 1162,
+        "isolation": {
+          "httpPort": 14919,
+          "debugPort": 14920,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-V2O50a",
+          "chromePid": 163052,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        },
+        "actualFont": {
+          "loaded": true,
+          "check": true,
+          "source": {
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          },
+          "httpStatus": 200
+        },
+        "retirementScene": "hd-battle",
+        "inputDuringStatusOrAi": 0
+      },
+      {
+        "directory": "build/r20-status-installed-720-v1",
+        "result": {
+          "path": "build/r20-status-installed-720-v1/result.json",
+          "bytes": 4257054,
+          "sha256": "ea73d5ce24c59dd4896a87ad8efa0c10a3828b19503d228379e0328754a19ba1",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/ea73d5ce24c59dd4896a87ad8efa0c10a3828b19503d228379e0328754a19ba1.gz",
+          "storedSha256": "2e041e6a9a7f7f46da2baec4fad64565c0ec41ce68ff774222aa2d7ddf47b196",
+          "encoding": "gzip-original-bytes"
+        },
+        "executedHarness": {
+          "source": "scripts/test-hd-status-effect-runtime.mjs",
+          "bytes": 71678,
+          "sha256": "66d805d10b1d249eeb456bd60de19dcfa10510e861ff332163390828b3cd8c0a"
+        },
+        "staged": false,
+        "classic": false,
+        "missing": false,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "protectLord": true,
+        "actualMovementPolicies": {
+          "protect-lord": 13,
+          "approach-current-highest-experience-enemy": 6
+        },
+        "actualStatusFacts": [
+          {
+            "event": "3:7",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 5,
+            "subjectPerson": 63,
+            "subjectName": "梁兴",
+            "x": 6,
+            "y": 14,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 65,
+            "afterHp": 65,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:10",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 1,
+            "subjectPerson": 58,
+            "subjectName": "庞德",
+            "x": 4,
+            "y": 17,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 83,
+            "afterHp": 83,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:13",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 3,
+            "subjectPerson": 61,
+            "subjectName": "李堪",
+            "x": 5,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:18",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 4,
+            "subjectPerson": 62,
+            "subjectName": "张横",
+            "x": 4,
+            "y": 15,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 79,
+            "afterHp": 79,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:25",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 2,
+            "subjectPerson": 60,
+            "subjectName": "程银",
+            "x": 3,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 75,
+            "afterHp": 75,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:28",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 0,
+            "subjectPerson": 5,
+            "subjectName": "马腾",
+            "x": 2,
+            "y": 21,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 85,
+            "afterHp": 85,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:29",
+            "reason": 1,
+            "phase": 1,
+            "subjectIndex": 11,
+            "subjectPerson": 85,
+            "subjectName": "方悦",
+            "x": 3,
+            "y": 21,
+            "beforeLevel": 1,
+            "afterLevel": 2,
+            "beforeExperience": 109,
+            "afterExperience": 9,
+            "beforeState": 0,
+            "afterState": 0,
+            "beforeHp": 69,
+            "afterHp": 69,
+            "beforeArms": 800,
+            "afterArms": 800
+          }
+        ],
+        "maxTurns": 20,
+        "actualTurns": 19,
+        "checkpoints": 15,
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 1,
+            "actualLcdCallbacks": 6,
+            "finalFrame": 5,
+            "finalObserved": true
+          },
+          "2": {
+            "name": "departure",
+            "events": 6,
+            "actualLcdCallbacks": 36,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "hdAccepted": true,
+        "fallbackAccepted": false,
+        "sources": 1162,
+        "isolation": {
+          "httpPort": 5005,
+          "debugPort": 5006,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-QWmFd9",
+          "chromePid": 189928,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        },
+        "actualFont": {
+          "loaded": true,
+          "check": true,
+          "source": {
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          },
+          "httpStatus": 200
+        },
+        "retirementScene": "hd-world-map",
+        "inputDuringStatusOrAi": 0
+      },
+      {
+        "directory": "build/r20-status-installed-classic-v2",
+        "result": {
+          "path": "build/r20-status-installed-classic-v2/result.json",
+          "bytes": 3905147,
+          "sha256": "177dec947a12c7750a3096bbdc899e6b1f5e2703f5098af63de544713188578e",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/177dec947a12c7750a3096bbdc899e6b1f5e2703f5098af63de544713188578e.gz",
+          "storedSha256": "e44c5ea1629d794e038dc4ad544029ce4f17efc8bf52ac94dfd3bc5a17856f43",
+          "encoding": "gzip-original-bytes"
+        },
+        "executedHarness": {
+          "source": "scripts/test-hd-status-effect-runtime.mjs",
+          "bytes": 74725,
+          "sha256": "94c6e7359919f11b0e9b964cb1851ba8bf2575d014c6907900a988be53d6208c"
+        },
+        "staged": false,
+        "classic": true,
+        "missing": false,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "protectLord": true,
+        "actualMovementPolicies": {
+          "protect-lord": 14
+        },
+        "actualStatusFacts": [
+          {
+            "event": "3:7",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 5,
+            "subjectPerson": 63,
+            "subjectName": "梁兴",
+            "x": 6,
+            "y": 14,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 65,
+            "afterHp": 65,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:10",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 1,
+            "subjectPerson": 58,
+            "subjectName": "庞德",
+            "x": 4,
+            "y": 17,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 83,
+            "afterHp": 83,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:13",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 3,
+            "subjectPerson": 61,
+            "subjectName": "李堪",
+            "x": 5,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:20",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 4,
+            "subjectPerson": 62,
+            "subjectName": "张横",
+            "x": 4,
+            "y": 15,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 79,
+            "afterHp": 79,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:27",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 2,
+            "subjectPerson": 60,
+            "subjectName": "程银",
+            "x": 3,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 75,
+            "afterHp": 75,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:28",
+            "reason": 1,
+            "phase": 1,
+            "subjectIndex": 11,
+            "subjectPerson": 85,
+            "subjectName": "方悦",
+            "x": 4,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 2,
+            "beforeExperience": 108,
+            "afterExperience": 8,
+            "beforeState": 0,
+            "afterState": 0,
+            "beforeHp": 69,
+            "afterHp": 69,
+            "beforeArms": 800,
+            "afterArms": 800
+          }
+        ],
+        "maxTurns": 20,
+        "actualTurns": 14,
+        "checkpoints": 15,
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 1,
+            "actualLcdCallbacks": 6,
+            "finalFrame": 5,
+            "finalObserved": true
+          },
+          "2": {
+            "name": "departure",
+            "events": 5,
+            "actualLcdCallbacks": 30,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "hdAccepted": false,
+        "fallbackAccepted": true,
+        "sources": 1162,
+        "isolation": {
+          "httpPort": 10957,
+          "debugPort": 10958,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-BNDVql",
+          "chromePid": 195172,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        },
+        "actualFont": {
+          "loaded": true,
+          "check": true,
+          "source": {
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          },
+          "httpStatus": 200
+        },
+        "retirementScene": "classic-lcd",
+        "inputDuringStatusOrAi": 0
+      },
+      {
+        "directory": "build/r20-status-installed-missing2-v1",
+        "result": {
+          "path": "build/r20-status-installed-missing2-v1/result.json",
+          "bytes": 3365848,
+          "sha256": "7e71f08c6a4a368732e687c0b2e3d78e5d889fc80b7426327fe92a9f65c05cc1",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/7e71f08c6a4a368732e687c0b2e3d78e5d889fc80b7426327fe92a9f65c05cc1.gz",
+          "storedSha256": "ea0a0577f31a6e272256b4c3accba6a7162a13734d609925301d31ad5a280eb9",
+          "encoding": "gzip-original-bytes"
+        },
+        "executedHarness": {
+          "source": "scripts/test-hd-status-effect-runtime.mjs",
+          "bytes": 74725,
+          "sha256": "94c6e7359919f11b0e9b964cb1851ba8bf2575d014c6907900a988be53d6208c"
+        },
+        "staged": false,
+        "classic": false,
+        "missing": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "protectLord": true,
+        "actualMovementPolicies": {
+          "protect-lord": 10
+        },
+        "actualStatusFacts": [
+          {
+            "event": "3:9",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 1,
+            "subjectPerson": 58,
+            "subjectName": "庞德",
+            "x": 4,
+            "y": 17,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 83,
+            "afterHp": 83,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:12",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 3,
+            "subjectPerson": 61,
+            "subjectName": "李堪",
+            "x": 5,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:15",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 5,
+            "subjectPerson": 63,
+            "subjectName": "梁兴",
+            "x": 6,
+            "y": 14,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 65,
+            "afterHp": 65,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:20",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 4,
+            "subjectPerson": 62,
+            "subjectName": "张横",
+            "x": 4,
+            "y": 15,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 79,
+            "afterHp": 79,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:25",
+            "reason": 2,
+            "phase": 1,
+            "subjectIndex": 2,
+            "subjectPerson": 60,
+            "subjectName": "程银",
+            "x": 3,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 1,
+            "beforeExperience": 0,
+            "afterExperience": 0,
+            "beforeState": 0,
+            "afterState": 8,
+            "beforeHp": 75,
+            "afterHp": 75,
+            "beforeArms": 0,
+            "afterArms": 0
+          },
+          {
+            "event": "3:26",
+            "reason": 1,
+            "phase": 1,
+            "subjectIndex": 11,
+            "subjectPerson": 11,
+            "subjectName": "王匡",
+            "x": 4,
+            "y": 16,
+            "beforeLevel": 1,
+            "afterLevel": 2,
+            "beforeExperience": 108,
+            "afterExperience": 8,
+            "beforeState": 0,
+            "afterState": 0,
+            "beforeHp": 52,
+            "afterHp": 52,
+            "beforeArms": 800,
+            "afterArms": 800
+          }
+        ],
+        "maxTurns": 20,
+        "actualTurns": 10,
+        "checkpoints": 15,
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 1,
+            "actualLcdCallbacks": 6,
+            "finalFrame": 5,
+            "finalObserved": true
+          },
+          "2": {
+            "name": "departure",
+            "events": 5,
+            "actualLcdCallbacks": 30,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "hdAccepted": false,
+        "fallbackAccepted": true,
+        "sources": 1162,
+        "isolation": {
+          "httpPort": 6863,
+          "debugPort": 6864,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-9O7mOv",
+          "chromePid": 88448,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        },
+        "actualFont": {
+          "loaded": true,
+          "check": true,
+          "source": {
+            "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+            "bytes": 8261128,
+            "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+          },
+          "httpStatus": 200
+        },
+        "retirementScene": "hd-battle",
+        "inputDuringStatusOrAi": 0
+      }
+    ],
+    "independentAudit": {
+      "proof": {
+        "path": "build/r20-status-independent-runtime-audit.json",
+        "bytes": 222655,
+        "sha256": "e9504c043832d231d84f41b26463533bbb9398ce0be7da64e57532921afa2e95",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/e9504c043832d231d84f41b26463533bbb9398ce0be7da64e57532921afa2e95.gz",
+        "storedSha256": "b7b82ff9e74bbb9dc5979af008b7a695c88d098c6253eb021556d257e199fe4d",
+        "encoding": "gzip-original-bytes"
+      },
+      "summary": {
+        "runs": 5,
+        "hd": 114,
+        "callbacks": 186,
+        "integrityFailures": 0
+      }
+    },
+    "auditSourcePeer": {
+      "path": "build/r20-status-runtime-audit-source-peer-review-v2.json",
+      "bytes": 2850,
+      "sha256": "1fb71b8519aff41fcedaf0c4a6fa4e645ae51a06a34ac070ef25a3705fb2e954",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/1fb71b8519aff41fcedaf0c4a6fa4e645ae51a06a34ac070ef25a3705fb2e954.gz",
+      "storedSha256": "5cd78097fe2221dffcbb7c8db0c0403c7105c6b8b3282193f2d88637721f2131",
+      "encoding": "gzip-original-bytes"
+    },
+    "fallbackVisualBoundary": {
+      "path": "build/r20-status-installed-missing2-v1-audit.json",
+      "bytes": 183298,
+      "sha256": "e11c0399d9b49431db6c1e3f2b71ff9f8702bf35290e5b8b309fe91109197f9b",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/e11c0399d9b49431db6c1e3f2b71ff9f8702bf35290e5b8b309fe91109197f9b.gz",
+      "storedSha256": "f221ceea0663d602256a4883af262e08ee72800c4e6c58193b9408afe26ebe97",
+      "encoding": "gzip-original-bytes"
+    },
+    "installedCoreIndependentAudit": {
+      "path": "build/r20-core-installed-v2-independent-audit.json",
+      "bytes": 7148,
+      "sha256": "ce14bf0697941776aafa7a8e57f29762e224fb76585d8647deaa63e98013b654",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/ce14bf0697941776aafa7a8e57f29762e224fb76585d8647deaa63e98013b654.gz",
+      "storedSha256": "49804e0f329f5313616d968c77bff298703c4855c09f5f35cb7bcf50c3a2c754",
+      "encoding": "gzip-original-bytes"
+    },
+    "coreEnvironmentFailure": {
+      "result": {
+        "path": "build/r20-core-installed-v1/result.json",
+        "bytes": 22987,
+        "sha256": "a7a9c892e05d5a839343860bfe46180b4f38fb3cb668e936d8676cbf79c1ab6b",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/a7a9c892e05d5a839343860bfe46180b4f38fb3cb668e936d8676cbf79c1ab6b.gz",
+        "storedSha256": "7dccaf0ad82cf1c2aa5faf2bec33cabdef80a941d5eb49a7c9cd36a839a23502",
+        "encoding": "gzip-original-bytes"
+      },
+      "log": {
+        "path": "build/r20-core-installed-v1.log",
+        "bytes": 305,
+        "sha256": "f8e2c30184726275393f4fdef32fd24f79ad992ac81fb7971d0bef58c3faf1eb",
+        "stored": "docs/validation/m4-status-effect-20261009/raw/f8e2c30184726275393f4fdef32fd24f79ad992ac81fb7971d0bef58c3faf1eb.gz",
+        "storedSha256": "697f28b821e3aca3c1c5507ff9d2f57d4f423ce3f51c83f7b60b4a43807aaa34",
+        "encoding": "gzip-original-bytes"
+      },
+      "accepted": false,
+      "cause": "CHROME executable environment path was missing. No browser or gameplay ran. New v2 supplies the explicit path; original failure is preserved."
+    },
+    "oldAiRegression": {
+      "path": "build/r20-ai-target-stage-regression-audit.json",
+      "bytes": 376889,
+      "sha256": "a2bd8ff7efaf78a57705f5e19f5428b392d932ede2106a825554d073f76941e9",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/a2bd8ff7efaf78a57705f5e19f5428b392d932ede2106a825554d073f76941e9.gz",
+      "storedSha256": "ea42972ada3c142018c5a25465bb54f57ba173da9c5a3877a0acc922bf4b3951",
+      "encoding": "gzip-original-bytes"
+    },
+    "core": [
+      {
+        "directory": "build/r20-core-stage-v1",
+        "result": {
+          "path": "build/r20-core-stage-v1/result.json",
+          "bytes": 783468,
+          "sha256": "87249c32cd552299e6e7e921b662553948fa99db94a2f354768e24113b53f39b",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/87249c32cd552299e6e7e921b662553948fa99db94a2f354768e24113b53f39b.gz",
+          "storedSha256": "6ddc32aea36ba9828bbbbf1f819c9da35f7f6034185893b1c2720ef32f5677b5",
+          "encoding": "gzip-original-bytes"
+        },
+        "checkpoints": 14,
+        "sourceBoundary": "29 actually served frozen files; not the full1162 status-source fence. Short run exited before exact own PID/ports live sampling; no fabricated live sample."
+      },
+      {
+        "directory": "build/r20-core-installed-v2",
+        "result": {
+          "path": "build/r20-core-installed-v2/result.json",
+          "bytes": 783385,
+          "sha256": "5d3b805881583437c3da107c3cf9a7d485eac272e3f229f142c6d7f4113e8f6c",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/5d3b805881583437c3da107c3cf9a7d485eac272e3f229f142c6d7f4113e8f6c.gz",
+          "storedSha256": "a7a2e9f02bd885542a682dd59f43a4fc601a28267e34d9040ebe84a0e9e30803",
+          "encoding": "gzip-original-bytes"
+        },
+        "checkpoints": 14,
+        "sourceBoundary": "Use the separate installed core isolation proof and its actual served-source scope."
+      }
+    ],
+    "failedActualRuns": [
+      {
+        "directory": "build/r20-status-stage-1080-v1",
+        "result": {
+          "path": "build/r20-status-stage-1080-v1/result.json",
+          "bytes": 2376747,
+          "sha256": "89245cbbddafe09c52b9275e271129183a58c855bc0ed5fbba8c25c46bfc7989",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/89245cbbddafe09c52b9275e271129183a58c855bc0ed5fbba8c25c46bfc7989.gz",
+          "storedSha256": "020fa19469eaf82fdae0be2373a2abea6ac000aaecbd780ee5b8cd75a0e80bf3",
+          "encoding": "gzip-original-bytes"
+        },
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 0,
+            "actualLcdCallbacks": 0,
+            "finalFrame": 5,
+            "finalObserved": false
+          },
+          "2": {
+            "name": "departure",
+            "events": 3,
+            "actualLcdCallbacks": 18,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "error": "AssertionError [ERR_ASSERTION]: Both genuine upgrade and departure must have multiple actual LCD callbacks, not a partial pass\n    at verifyCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-status-effect-runtime.mjs:448:89)\n    at saveEvidence (file:///F:/project/baye-sanguo/scripts/test-hd-status-effect-runtime.mjs:464:64)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-status-effect-runtime.mjs:544:2)",
+        "accepted": false,
+        "sourceVerification": true,
+        "isolation": {
+          "httpPort": 11760,
+          "debugPort": 11761,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-kZxAml",
+          "chromePid": 127444,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        }
+      },
+      {
+        "directory": "build/r20-status-stage-1080-v2",
+        "result": {
+          "path": "build/r20-status-stage-1080-v2/result.json",
+          "bytes": 4026243,
+          "sha256": "90b087e2cf2187b0fa4d7f8a636507cfbe5665591f3dee4d89708d8e347f5026",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/90b087e2cf2187b0fa4d7f8a636507cfbe5665591f3dee4d89708d8e347f5026.gz",
+          "storedSha256": "04f7079440e683d0926bcd88aeff4c4985d9a2457d423210d77507e992299c10",
+          "encoding": "gzip-original-bytes"
+        },
+        "coverage": {
+          "1": {
+            "name": "upgrade",
+            "events": 0,
+            "actualLcdCallbacks": 0,
+            "finalFrame": 5,
+            "finalObserved": false
+          },
+          "2": {
+            "name": "departure",
+            "events": 5,
+            "actualLcdCallbacks": 30,
+            "finalFrame": 11,
+            "finalObserved": true
+          }
+        },
+        "error": "AssertionError [ERR_ASSERTION]: Both genuine upgrade and departure must have multiple actual LCD callbacks, not a partial pass\n    at verifyCaptures (file:///F:/project/baye-sanguo/scripts/test-hd-status-effect-runtime.mjs:449:89)\n    at saveEvidence (file:///F:/project/baye-sanguo/scripts/test-hd-status-effect-runtime.mjs:465:64)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-status-effect-runtime.mjs:580:2)",
+        "accepted": false,
+        "sourceVerification": true,
+        "isolation": {
+          "httpPort": 5954,
+          "debugPort": 5955,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-status-effect-runtime-Rfem0q",
+          "chromePid": 42776,
+          "user8080Touched": false,
+          "cleaned": true,
+          "chromeExited": true,
+          "httpClosed": true
+        }
+      },
+      {
+        "directory": "build/r20-status-installed-classic-v1",
+        "result": {
+          "path": "build/r20-status-installed-classic-v1/result.json",
+          "bytes": 1891192,
+          "sha256": "1bf48b8368ec0d00718699c60bf600982d2a8963b90fe2107b867dbe61bd29c3",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/1bf48b8368ec0d00718699c60bf600982d2a8963b90fe2107b867dbe61bd29c3.gz",
+          "storedSha256": "aabac514c0b7bd9b73a88727efb85776511a3886a4b6fe8ca5067dafba56e607",
+          "encoding": "gzip-original-bytes"
+        },
+        "accepted": false,
+        "actualStatusCallbacks": 0,
+        "cause": "Classic-to-HD test operation ran before the polling renderer reopened and refreshed its complete current unit list; the public click rejected stale cached active1 while native lord active0. Final classic-only readonly readiness gate waits for current native/HD list agreement before one click; no product or rule change.",
+        "review": {
+          "path": "build/r20-status-classic-v1-private-failure-review.json",
+          "bytes": 6896,
+          "sha256": "59f54c4d3bf214d2c3fd69149f6d2f45a7e79c68bacd01080fcb3307dcf1ce45",
+          "stored": "docs/validation/m4-status-effect-20261009/raw/59f54c4d3bf214d2c3fd69149f6d2f45a7e79c68bacd01080fcb3307dcf1ce45.gz",
+          "storedSha256": "72e6232951409a2b5781146f96925b0a6eabc775b5ff224af06c9053b9cef940",
+          "encoding": "gzip-original-bytes"
+        }
+      }
+    ],
+    "finalClassicOnlyHarnessDelta": {
+      "path": "build/r20-status-classic-readiness-peer-review-v4.json",
+      "bytes": 2352,
+      "sha256": "89d99f6e2a847dbc72eef6af99380251d7d64c2b662d8f64225a3b8b8e82824e",
+      "stored": "docs/validation/m4-status-effect-20261009/raw/89d99f6e2a847dbc72eef6af99380251d7d64c2b662d8f64225a3b8b8e82824e.gz",
+      "storedSha256": "07bc74b4a964bbc7242e6bbaf3a87aba0c6fe514bccd2ce1a2102fe6e261c019",
+      "encoding": "gzip-original-bytes"
+    }
+  },
+  "reproducibility": {
+    "runner": {
+      "path": "scripts/test-hd-status-effect-runtime.mjs",
+      "bytes": 74725,
+      "sha256": "94c6e7359919f11b0e9b964cb1851ba8bf2575d014c6907900a988be53d6208c"
+    },
+    "command": "npm run test:status-effect-runtime -- --protect-lord --max-turns 20 --artifact-dir build/<fresh-directory>",
+    "policy": "Public UI selection, fresh native225-byte MOVE mask/full-owner fence and normal rest/end-turn only. Initially move lord away; conditionally approach the actual highest-experience enemy after five allies actually depart and an80+XP enemy is observed. Per-run actual policy counts distinguish implementation from executed branches. No unit, XP, HP, arms, state or random seed writes. Default protection false preserves natural original route."
+  },
+  "evidenceArchive": {
+    "index": {
+      "path": "docs/validation/m4-status-effect-20261009/runtime-index.json",
+      "bytes": 810499,
+      "sha256": "718718edd2da69893af640fa97ec548813f3f877da425f5b7d772a27492afecc"
+    },
+    "summary": {
+      "logicalPreserved": 1052,
+      "logicalPng": 512,
+      "omittedPreparatoryPng": 113,
+      "physical": 769,
+      "originalBytes": 527558328,
+      "preservedBytes": 73087597,
+      "restorationFailures": 0
+    },
+    "allPreservedBytesRestoredExact": true,
+    "pngSelection": "All actual status/AI callback native+HD PNGs, failure originals, native references and selected full-page preparations are preserved unchanged. Omitted intermediate preparation pages are individually listed with size/SHA/reason; originals remain locally unchanged.",
+    "closedSnapshotBoundary": "Any later build files or edits require a distinct supplement; this index is a closed snapshot, not a claim about future artifacts."
+  },
+  "next": "Continue remaining actual skill/resource mapping and graphics, then wider combat/HUD/campaign/device coverage; the overallHD goal remains active."
+}

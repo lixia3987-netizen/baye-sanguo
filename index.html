@@ -4,6 +4,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>三国霸业</title>
         <link rel="stylesheet" type="text/css" href="css/baye.css" />
+        <link rel="stylesheet" type="text/css" href="css/hd-graphics.css" />
+        <link rel="stylesheet" type="text/css" href="css/hd-overworld.css" />
         <link rel="icon" href="favicon.png">
         <link rel="manifest" href="manifest.json">
         <link rel="apple-touch-icon" href="favicon.png">
@@ -22,8 +24,26 @@
           s.parentNode.insertBefore(hm, s);
         })();
         </script>
+        <script>
+            (function () {
+                try {
+                    if (localStorage.getItem('baye/lcdTheme') === 'hd') {
+                        document.documentElement.setAttribute('data-baye-theme', 'hd');
+                    }
+                    document.documentElement.setAttribute(
+                        'data-baye-overworld',
+                        localStorage.getItem('baye/overworldMode') === 'hd-map' ? 'hd-map' : 'classic'
+                    );
+                } catch (e) {}
+            })();
+        </script>
         <script src="js/jquery.min.js"></script>
-        <script src="js/lcd.js?ver=20260329"></script>
+        <script src="js/save-storage.js?ver=20261008h"></script>
+        <script src="js/original-game.js?ver=20261010b"></script>
+        <script src="js/lcd.js?ver=20261011b"></script>
+        <script src="js/hd-graphics.js?ver=20260918"></script>
+        <script src="js/hd-lib-identity.js?ver=20261008i"></script>
+        <script src="js/hd-overworld.js?ver=20261011c"></script>
         <style>
             .index-tip {
                 color: red;
@@ -38,10 +58,7 @@
     </head>
     <body >
         <div class="container" style="margin-top:2px">
-            <button class="btn menu" type="button" onclick="location='choose.html';">选择版本</button>
-        </div>
-        <div class="container" style="margin-top:2px">
-            <button class="btn menu" type="button" onclick="redirect()">进入游戏</button>
+            <button class="btn menu" type="button" onclick="redirect()">进入原版游戏</button>
         </div>
         <div class="container" style="margin-top:10px">
             <button class="btn menu" type="button" onclick="location='online-save.html';">存档管理(新)</button>
@@ -73,6 +90,35 @@
                 </select>
             </div>
             <div class="config-item">
+                PC 画质缩放:
+                <select id="lcd-scale-select">
+                    <option value="1">经典 1×（480×288，默认）</option>
+                    <option value="2">清晰 2×（960×576，锐利放大）</option>
+                </select>
+            </div>
+            <div class="config-item">
+                缩放滤镜:
+                <select id="lcd-filter-select">
+                    <option value="crisp">锐利（邻近取样，默认）</option>
+                    <option value="smooth">平滑（双线性）</option>
+                </select>
+            </div>
+            <div class="config-item">
+                外壳主题:
+                <select id="lcd-theme-select">
+                    <option value="classic">经典（默认）</option>
+                    <option value="hd">HD 外壳（仅页面框，不改游戏图）</option>
+                </select>
+            </div>
+            <div class="config-item">
+                大地图:
+                <select id="overworld-mode-select">
+                    <option value="classic">经典 LCD（默认）</option>
+                    <option value="hd-map">HD 策略地图（pc.html 1080p 壳）</option>
+                </select>
+            </div>
+            <p class="hd-graphics-note">画质缩放作用于电脑键盘版。横屏触控版已加入原版城市资料栏、高清地图、城池菜单和战场操作，支持拖动、定位、人员选择、数量操作，以及部分战斗效果；尚未覆盖的界面继续使用原版画面，其它手机页沿用经典布局。手机和电脑各自保存地图与菜单显示偏好，可在游戏内切换经典／高清。完整移动高清仍在完善。查看 <a href="docs/hd-graphics.md">开发进度</a> 与 <a href="docs/hd-overworld-spec.md">地图说明</a>。</p>
+            <div class="config-item">
                 交流QQ群: 526266208<br>
             </div>
         </div>
@@ -87,6 +133,24 @@
                     bind("#mode-select", "baye/mpage");
                     bind("#resolution-select", "baye/resolution");
                     bind("#device-select", "baye/uiKind");
+
+                    function bindHd(id, key, fallback) {
+                        var current = window.localStorage[key];
+                        $(id).val(current || fallback);
+                        $(id).change(function () {
+                            window.localStorage[key] = $(this).val();
+                        });
+                    }
+                    bindHd("#lcd-scale-select", "baye/lcdCssScale", "1");
+                    bindHd("#lcd-filter-select", "baye/lcdFilter", "crisp");
+                    bindHd("#lcd-theme-select", "baye/lcdTheme", "classic");
+                    bindHd("#overworld-mode-select", "baye/overworldMode", "classic");
+                    if (window.BayeHd) {
+                        BayeHd.applyTheme();
+                        $("#lcd-theme-select").change(function () {
+                            BayeHd.setTheme($(this).val());
+                        });
+                    }
                 });
             </script>
     </body>

@@ -1,0 +1,435 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-10-08T22:52:34.193431+00:00",
+  "status": "PASS-final-product-and-documentation-gate",
+  "materialIssues": [],
+  "scope": "Read-only final R16 documentation/product metadata gate. No browser, full-suite rerun, product edits or archive rewrite. Raw gzip and full retained/omitted archive audit are separately owned by battle peer.",
+  "reviewedTop": {
+    "path": "docs/validation/m4-qimen-20261009.json",
+    "bytes": 49549,
+    "sha256": "71aa8717f4bf738468bca7cf84b43303a26f645f95c9dd52d9db267a039b4995"
+  },
+  "reviewedDocuments": [
+    {
+      "path": "docs/hd-development-plan.md",
+      "bytes": 56277,
+      "sha256": "d2a40931d597a0f9bfb3e6934b01e0db122a7716d78ed98f75651b554b1b586a",
+      "reviewedLines": [
+        366,
+        370
+      ]
+    },
+    {
+      "path": "docs/hd-remaining-work.md",
+      "bytes": 54854,
+      "sha256": "150c44b629af1e50e710b741d2cb71547bb0bda2efeaa52f779da73a688b8c04",
+      "reviewedLines": [
+        251,
+        261
+      ]
+    },
+    {
+      "path": "docs/hd-spe-spec.md",
+      "bytes": 24724,
+      "sha256": "ae0923f75eb1505bebeb5eebcac83500257b2182ae6949380654af4560be176a",
+      "reviewedLines": [
+        148,
+        154
+      ]
+    }
+  ],
+  "authoritativeIndependentActualProof": {
+    "path": "build/r16-qimen-final-independent-review-v6.json",
+    "bytes": 27731,
+    "sha256": "651652928198d10f9392ecb48a6be8f6ffd0015bc5a52c4f9a86a860ec088caf"
+  },
+  "metadataReferences": {
+    "count": 35,
+    "allLocalSourceHashesAndSizesMatch": true,
+    "references": [
+      {
+        "path": "assets/hd-spe/qimen-39/picture-0.png",
+        "bytes": 2458901,
+        "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+        "field": "top.changes.originalBuiltinPngs[0]",
+        "match": true
+      },
+      {
+        "path": "assets/hd-spe/qimen-39/picture-1.png",
+        "bytes": 2485449,
+        "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2",
+        "field": "top.changes.originalBuiltinPngs[1]",
+        "match": true
+      },
+      {
+        "path": "assets/hd-spe/GENERATED-QIMEN.json",
+        "bytes": 23960,
+        "sha256": "c6f7a0bd458058a6c2d8e874f1ba7d449b2f529e92db2fcae5fbb6332f8e1226",
+        "field": "top.changes.promptSet",
+        "match": true
+      },
+      {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 553949,
+        "sha256": "b8a43ea2110486b92d375f072c50e5c60cd61ec075d322841f03a0b3908080fb",
+        "field": "top.changes.manifest",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-art-review.json",
+        "bytes": 12618,
+        "sha256": "f3e22e6c322a74b95385eca87afa89318511a31ed4413fbcc238a6fd3806871c",
+        "field": "top.staticReviews[0]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-install-proof.json",
+        "bytes": 1865,
+        "sha256": "f2d205c1e7838ec53def6bcbf65d9ffd04754edae5428e853be0998d172a022a",
+        "field": "top.staticReviews[1]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-renderer-harness.json",
+        "bytes": 8711,
+        "sha256": "1588484f69f0c2fdbed082bc14b1bf60e37bfb39a332da0e39289c47ea40801c",
+        "field": "top.staticReviews[2]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-v5-source-fix-proof.json",
+        "bytes": 982,
+        "sha256": "451033dc6e83cbb5f841537ffa86e1861a5407db730307f4721b476fd8cf987b",
+        "field": "top.staticReviews[3]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-helper-fix-source-review.json",
+        "bytes": 2074,
+        "sha256": "f47e80ff253e59db6fa90f9b725711695cfefb9bdff24145e3ec4b858547ff62",
+        "field": "top.staticReviews[4]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-post-acquisition-source-review.json",
+        "bytes": 6670,
+        "sha256": "67a07e51ae36d5689145a143bf62e2a7a6355205defd1344db2b191eef9a285e",
+        "field": "top.staticReviews[5]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-march-wait-source-proof.json",
+        "bytes": 1994,
+        "sha256": "d1b82a9924e8c42b8fcb32844aaacc214e2be72cec5d5828a558233a41b41029",
+        "field": "top.staticReviews[6]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-final-source-peer-review-v6.json",
+        "bytes": 3525,
+        "sha256": "d9443af451c8d4c0f21cd07913be976ea9973c7b1f4d04a2e332a7d9ae4b05e2",
+        "field": "top.staticReviews[7]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-post-acquisition-source-review-1530.json",
+        "bytes": 4888,
+        "sha256": "9361baaad4f91bd604c5da1262bd21fdfcece1bddb08047a9d17af95aa94aaa0",
+        "field": "top.staticReviews[8]",
+        "match": true
+      },
+      {
+        "path": "build/r16-product-preservation-proof.json",
+        "bytes": 578372,
+        "sha256": "4f2e5cbffeb0bd191601c603e1651ee8aa2c620f45836ca7468a1ace1f388948",
+        "field": "top.staticReviews[9]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-final-telemetry-tail-proof.json",
+        "bytes": 674,
+        "sha256": "8514fbd1a469f9f59f93725140c94170ab2c70351e71caa8af3e28a6a543b50a",
+        "field": "top.staticReviews[10]",
+        "match": true
+      },
+      {
+        "path": "build/r16-all-tests-v1.log",
+        "bytes": 87880,
+        "sha256": "d37298ccb56e27845b8baff5de7f2e5d10a6566f8a4d4bcecedb9b34d910b83d",
+        "field": "top.tests.log",
+        "match": true
+      },
+      {
+        "path": "scripts/test-hd-qimen-runtime.mjs",
+        "bytes": 124471,
+        "sha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+        "field": "top.driver.published",
+        "match": true
+      },
+      {
+        "path": "docs/validation/m4-qimen-20261009/route-plan.json",
+        "bytes": 11627,
+        "sha256": "fa797bb0fb181338eafdc7acc589e5c9ae9749575cecc490acb605f819d9a3df",
+        "field": "top.driver.requiredTrackedInputPlans[0]",
+        "match": true
+      },
+      {
+        "path": "docs/validation/m4-qimen-20261009/search-contract.json",
+        "bytes": 11551,
+        "sha256": "644af0beac307c852d4f8239cc477e006251bdcddb16641493e1ed7e24b5cba3",
+        "field": "top.driver.requiredTrackedInputPlans[1]",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v1/result.json",
+        "bytes": 2234740,
+        "sha256": "77aa2f3dee686f0e793e06a5bac27cedb0c445aa848e665b6efd0b7dfa1e570f",
+        "field": "top.actualRuns[0].result",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v1/runtime-validation-audit.json",
+        "bytes": 6413,
+        "sha256": "0f8895d68a05dd295ea6398d3eb2cf1771bd9021bf57cd0602950588bfc3b4a3",
+        "field": "top.actualRuns[0].runtimeAudit",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v2/result.json",
+        "bytes": 6263571,
+        "sha256": "ff14b1448378255cd1748d116e727666e499b813f99ac454d87fbd0ee7322b69",
+        "field": "top.actualRuns[1].result",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v2/runtime-validation-audit.json",
+        "bytes": 12972,
+        "sha256": "7556d9b3b45fdf8d104442f9979ae645e25e3a974a261dd857927ac5483fa576",
+        "field": "top.actualRuns[1].runtimeAudit",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v3/result.json",
+        "bytes": 86229561,
+        "sha256": "71aeb0cd65d9fc3525ab95e066d4ad27921db486ee8a075c5542f43858fed27d",
+        "field": "top.actualRuns[2].result",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v3/runtime-validation-audit.json",
+        "bytes": 107423,
+        "sha256": "005894fbf471b6cfc60a01272986b041207e906b8babaa1366e1d2a684cee456",
+        "field": "top.actualRuns[2].runtimeAudit",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v4/result.json",
+        "bytes": 64181985,
+        "sha256": "6d248051ca7ffacafa7f7d616f06b4795b85d127567fdf67c665205ce9778992",
+        "field": "top.actualRuns[3].result",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v4/runtime-validation-audit.json",
+        "bytes": 83556,
+        "sha256": "084dab48aa4b40a1a476ea3434f05ab2a53727b008bd4a431edbbe0399f1328c",
+        "field": "top.actualRuns[3].runtimeAudit",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v5/result.json",
+        "bytes": 50893668,
+        "sha256": "f0a5645937915650c94c19889fe9a74a954b34506df574458b7e074ea02f1079",
+        "field": "top.actualRuns[4].result",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v5/runtime-validation-audit.json",
+        "bytes": 71428,
+        "sha256": "a81b4e904b9c38797c759ea0b120b836ee053eb48cc27105c5482e7a271c1b61",
+        "field": "top.actualRuns[4].runtimeAudit",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v6/result.json",
+        "bytes": 75858162,
+        "sha256": "d3006918647910ace7cc29955af6a55471232b89443ea3bf4b59acfde17c3f00",
+        "field": "top.actualRuns[5].result",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-hd-installed-v6/runtime-validation-audit.json",
+        "bytes": 104434,
+        "sha256": "a3551db4654fd97fac4fbba16c72cabd14a94ed024acf5eb23d99433a914dc6f",
+        "field": "top.actualRuns[5].runtimeAudit",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-gameplay-review-v6.json",
+        "bytes": 211309,
+        "sha256": "687650ced4083eeadf4e01bf90f43686a431419f4c7c9eedc20c68ef385de9b6",
+        "field": "top.accepted.gameplayIndependent",
+        "match": true
+      },
+      {
+        "path": "build/r16-qimen-final-independent-review-v6.json",
+        "bytes": 27731,
+        "sha256": "651652928198d10f9392ecb48a6be8f6ffd0015bc5a52c4f9a86a860ec088caf",
+        "field": "top.accepted.renderingIndependent",
+        "match": true
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 6763,
+        "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8",
+        "field": "top.provenance.buildManifest",
+        "match": true
+      },
+      {
+        "path": "docs/validation/m4-qimen-20261009/runtime-index.json",
+        "bytes": 595509,
+        "sha256": "5cf197bc77f911b1bbf31a30ddf68ad7dcc5e193d613d2f9690a2230efd2047e",
+        "field": "top.archive.index",
+        "match": true
+      }
+    ]
+  },
+  "sectionLinks": [
+    {
+      "document": "docs/hd-development-plan.md",
+      "target": "validation/m4-qimen-20261009.json",
+      "exists": true
+    },
+    {
+      "document": "docs/hd-remaining-work.md",
+      "target": "../assets/hd-spe/GENERATED-QIMEN.json",
+      "exists": true
+    },
+    {
+      "document": "docs/hd-remaining-work.md",
+      "target": "validation/m4-qimen-20261009.json",
+      "exists": true
+    },
+    {
+      "document": "docs/hd-remaining-work.md",
+      "target": "validation/m4-qimen-20261009/runtime-index.json",
+      "exists": true
+    },
+    {
+      "document": "docs/hd-spe-spec.md",
+      "target": "validation/m4-qimen-20261009.json",
+      "exists": true
+    }
+  ],
+  "checks": {
+    "artCalls": 4,
+    "artAccepted": 2,
+    "artRejected": 2,
+    "originalFinalPngBytesEqualBuiltinSources": true,
+    "oldManifestEntries": 42,
+    "currentManifestEntries": 43,
+    "old42EntriesDeepEqual": true,
+    "manifestGlobalFieldsUnchanged": true,
+    "resource39": {
+      "kind": 2,
+      "range": [
+        0,
+        7
+      ],
+      "count": 8,
+      "picmax": 2,
+      "nativeOpaqueWindow": [
+        48,
+        16,
+        64,
+        64
+      ],
+      "delay": [
+        25,
+        25
+      ],
+      "fingerprint": "fnv1a32:6b0ebc5a:1084"
+    },
+    "fivePriorFailuresSeparatedFromV6Acceptance": true,
+    "failureBoundary": "v1 SEARCH LCD/HD driver wait; v2 strategy classic/HD driver wait; v3 natural refusal/budget; v4 undefined driver helper after actual acquisition; v5 new person owner ACK gap after first genuine selection. Each had zero dispatch/cast and is not rendered HD acceptance.",
+    "finalActual": {
+      "attempt": 6,
+      "logicalPoints": 276,
+      "uiInputs": 650,
+      "nativeKeys": 706,
+      "searchOrders": 80,
+      "strategyMonths": 10,
+      "selectedPlayerCast": 1,
+      "rawSkillCaptures": 11,
+      "selectedNativeMovieCallbacks": 8,
+      "selectedFull160x96NativeOracles": 8,
+      "selectedHdReadbacks": 8,
+      "mp": [
+        82,
+        62
+      ],
+      "targetTroops": [
+        100,
+        100
+      ],
+      "targetState": [
+        0,
+        4
+      ],
+      "numericCallbacks": 0,
+      "heldReadbacks": 0,
+      "actualReport": "刘琦 陷入了 奇门 状态",
+      "ownerRetired": true
+    },
+    "observerTail": {
+      "external": 938,
+      "finalResult": 940,
+      "exactPrefixAlreadyIndependentlyVerified": true,
+      "extra": 2,
+      "extraRecordsInactiveAndNotSelectedMovie": true
+    },
+    "source": {
+      "count": 1149,
+      "drift": 0,
+      "added": 0,
+      "executedAndPublishedDriver": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+      "nativeCount": 128,
+      "compiledSourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+      "engineSourceModified": true,
+      "nativeRebuiltInBatch": false,
+      "quartetMatchesIndependentActualProof": true
+    },
+    "tests": {
+      "passed": 692,
+      "failed": 0,
+      "skipped": 0,
+      "scope": "Actual full-suite log metadata checked; driver repairs separately syntax/preflight/actual private run accepted."
+    },
+    "archiveWording": {
+      "explicitSelectivePngRetention": true,
+      "allSelectedNativeAndHdMoviePngsRetained": true,
+      "omittedPngsHaveNoTelemetryRecoveryClaim": true,
+      "counts": {
+        "logicalRaw": 181,
+        "physicalRaw": 149,
+        "logicalPng": 253,
+        "physicalPng": 225,
+        "omittedImages": 826
+      },
+      "fullArchiveByteRoundtripNotRepeatedInThisGate": true
+    },
+    "remaining": {
+      "globalHdComplete": false,
+      "shared39Skills14And15NotActualAccepted": true,
+      "r17SearchHdPlanOnly": true,
+      "ordinary28AndOtherCampaignModDeviceCloudScopesRemain": true
+    }
+  },
+  "limits": [
+    "No new runtime or visual checks in this docs-only gate; exact original PNG view and full selected pixel proof remain in the referenced independent v6 review.",
+    "No assertion that all 11 raw captures are pixel-oracle accepted: only 8 selected actual movie callbacks are.",
+    "Full160x96 native oracle outside the 64x64 effect compares with first actual callback baseline; HD canvas is the existing130x64 stage and not the full native screen.",
+    "Unknown Mod and shared39 skills14/15 are outside actual acceptance.",
+    "R17 SEARCH remains current production LCD and local read-only planning only."
+  ]
+}

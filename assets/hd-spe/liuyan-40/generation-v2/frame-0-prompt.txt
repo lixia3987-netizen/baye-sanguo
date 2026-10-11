@@ -1,0 +1,8 @@
+Use case: text-localization / precise-object-edit.
+Edit input image 1 only. It is the actual v1 high-resolution frame 0. Input image 2 is the original native pixel reference for the same frame.
+Change ONLY the text INSIDE the existing top central pale speech bubble. Replace its currently blank interior with exactly this black Chinese dialogue, in one horizontal line: 在那?
+Exact text (verbatim): "在那?"
+The exact character sequence is Chinese 在, Chinese 那, then the ASCII question mark ?. Exactly two Chinese characters and one question mark.
+Render the exact text large, crisp, dark black, centered comfortably within the ivory bubble. Keep the correct strokes and character order. Do not leave the bubble blank. Do not render !!. Do not add or replace any word or punctuation. No additional dialogue, no translation, no caption outside this bubble.
+Preserve the bubble outline, tail, location and size. Preserve EVERYTHING ELSE as closely to the edit target as possible: the two opposed helmeted ancient Chinese soldiers, identities, faces, expressions, gaze, torso/arm/leg/foot poses, exact double spear positions and orientations, armour, cloth, boots, mountain setting, all foreground rocks, background details, lighting, muted dark-gold/grey-green palette, paint texture, image dimensions, square framing and safe margins. No walking or attack changes, no extra people or objects. The only intended modification is the bubble interior text.
+Keep this a full opaque square illustration, with its complete painted background and no transparency. No cropping, no decorative border, no watermark, no added effects.

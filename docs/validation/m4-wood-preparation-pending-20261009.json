@@ -1,0 +1,2782 @@
+{
+ "schemaVersion": 1,
+ "recordedAt": "2026-10-10T11:34:05.205Z",
+ "status": "pending",
+ "accepted": false,
+ "preparationAccepted": false,
+ "woodAccepted": false,
+ "woodHdAccepted": false,
+ "archiveClosed": false,
+ "scope": "R21 WOOD preparation progress and retained failed attempt only; not a final WOOD acceptance record.",
+ "sourceSupport": {
+  "commit": "cce8905449e8a34474f57b4dd289ff73820b7655",
+  "scope": "Source commit; compiled identity below is unchanged."
+ },
+ "compiledEngine": {
+  "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+  "modified": true,
+  "nativeFiles": 128,
+  "native128AggregateSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+  "scope": "Actual staged engine identity from the recorded run; never relabeled to the current source-support HEAD."
+ },
+ "existingFullSuite": {
+  "execution": {
+   "path": "build/r21-all-tests-execution-v3.json",
+   "bytes": 2586,
+   "sha256": "a951b88b4ee1fae4c19a4b2e24d943890bd042f697a56fe20fb5e2676dfa252a"
+  },
+  "log": {
+   "path": "build/r21-all-tests-final-v3.log",
+   "bytes": 123048,
+   "sha256": "d4fc916a2a54fea2d690929e52c1d8639682a9231060438f8de8579f5e5d1688"
+  },
+  "startedAt": "2026-10-09T09:00:16.148Z",
+  "finishedAt": "2026-10-09T09:00:35.381Z",
+  "summary": {
+   "tests": 1021,
+   "pass": 1021,
+   "fail": 0,
+   "cancelled": 0,
+   "skipped": 0,
+   "todo": 0
+  },
+  "exitCode": 0,
+  "newSuiteRunForThisRecord": false,
+  "scope": "Actual1021/1021 execution at2026-10-09T09:00 remains bound to its original46-test/source tuple. Later SHA checks/commits are not a new full run or a relabeling of the compiled engine."
+ },
+ "actualPreparationV15": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "counts": {
+   "actualMonths": 12,
+   "canvassOrders": 0
+  },
+  "finiteCivicResults": {
+   "governance": 10,
+   "treat": 26,
+   "moneySpent": 2600,
+   "governor50Devotion": [
+    72,
+    98
+   ]
+  },
+  "lastOriginalPublicSave": {
+   "tag": "month-012",
+   "date": {
+    "year": 230,
+    "month": 4
+   }
+  },
+  "blocker": {
+   "cityIndex": 16,
+   "currentOwnedQueue": [
+    40,
+    0
+   ],
+   "reason": "No distinct nonking, nonretained trader for the next capital food purchase."
+  },
+  "independentAudit": {
+   "path": "build/r21-v15-terminal-independent-audit.json",
+   "bytes": 58410,
+   "sha256": "64ec83a32b96eb01f495e531b9720eeb677e18dcfe8ee81192a490818815ab8e"
+  },
+  "scope": "Historical rejected preparation; exact prior detail remains in Git and the workspace audit."
+ },
+ "history": {
+  "actualFailedPreparations": 22,
+  "attempts": "v1..v8 and v10..v23",
+  "v9CandidateNotRun": true,
+  "v8CompleteResultMissing": true,
+  "pendingConfiguration": {
+   "path": "build/r21-validation-record-inputs-v17-pending.json",
+   "bytes": 24367,
+   "sha256": "cbc0ae6e60f9c59d840023181f469dd2f2b6912e4616b0b8d7c26fad583682f6"
+  },
+  "scope": "Previous failures and lost v8 raw timeline remain rejected; this record does not overwrite any earlier evidence.",
+  "requiredFailureIdsComplete": true,
+  "castWrapper": {
+   "executed": false,
+   "source": {
+    "path": "build/r21-run-cast-v7-from-v19.mjs",
+    "bytes": 7797,
+    "sha256": "f7480866b9369b4c170e427e7fb91f46a7bc2c197c90b2a76ca1f215d55bf72c"
+   },
+   "reason": "Requires accepted terminal preparation; v19 protected-city defense was lost, so no acceptance reader or cast was run."
+  },
+  "previousCastWrapper": {
+   "executed": false,
+   "source": {
+    "path": "build/r21-run-cast-v7-from-v17.mjs",
+    "bytes": 7797,
+    "sha256": "c137d27451aa47b27059b0f1da265fad8b14a74e88a786e2efa7c7c5dbface78"
+   },
+   "reason": "Requires accepted terminal preparation; v17 failed and cannot authorize cast."
+  },
+  "latestAttempt": {
+   "id": "v23",
+   "status": "terminal-natural-canvass-budget-exhausted",
+   "exitCode": 1,
+   "castAuthorized": false
+  }
+ },
+ "artifactBoundary": {
+  "rawArchivedInRepository": false,
+  "workspaceBuildReferencesArePortable": false,
+  "meaning": "Build references identify retained workspace bytes by path/size/SHA. No closed repository archive exists; committing this small record does not archive those raw dependencies.",
+  "finalRecord": "docs/validation/m4-wood-20261009.json is not created or replaced by this pending record."
+ },
+ "remaining": [
+  "Qualified actual owned caster and complete preparation/save",
+  "Both actual player skills6/7 and independent64→66/direct-copy/native-pixel/NUM/label/hold HD acceptance",
+  "Required installed/classic/missing-image scopes and final cleanup",
+  "Closed original-byte runtime/native/art archive and final validation record"
+ ],
+ "actualPreparationV16": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "resume": {
+   "directory": "build/r21-route-actual-v15",
+   "checkpointTag": "month-012"
+  },
+  "result": {
+   "path": "build/r21-route-actual-v16/result.json",
+   "bytes": 8111814,
+   "sha256": "a27dc25d425c6bb850a9fbaa6b4859f32ede04cbe6ada224a46649680e0f2cdb"
+  },
+  "independentAudit": {
+   "path": "build/r21-v16-terminal-independent-audit.json",
+   "bytes": 11007,
+   "sha256": "2d6fd1c0a130a8ca8c61614d69673f17314d81421cdf6a6072e4ae2cf08ec935"
+  },
+  "counts": {
+   "inlineCampaignObservations": 43,
+   "quantityDoubleReadSingleEnterAcks": 2,
+   "actualMonths": 0,
+   "canvassOrders": 0,
+   "woodAttempts": 0
+  },
+  "finiteDistribution": {
+   "capitalReserve": [
+    10010,
+    8680
+   ],
+   "person40Arms": [
+    100,
+    1430
+   ],
+   "scope": "Actual public distribution completed but was not saved."
+  },
+  "blocker": "cityScreenPos(16) was read after classic map presentation retired its city metadata; null.index threw before target selection or a worker MOVE14 order.",
+  "sourceCount": 1169,
+  "sourceDrift": 0,
+  "cleanupVerified": true
+ },
+ "actualPreparationV17": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "resume": {
+   "directory": "build/r21-route-actual-v15",
+   "checkpointTag": "month-012"
+  },
+  "result": {
+   "path": "build/r21-route-actual-v17/result.json",
+   "bytes": 81461714,
+   "sha256": "700996f1eb5dc82f3e7e025c9e433b368ba82c9d9ab646cc8b919b8f0ce8b8d5"
+  },
+  "campaignObservations": {
+   "path": "build/r21-route-actual-v17/result.json.campaignObservations.ndjson",
+   "bytes": 87702847,
+   "sha256": "894d7e78f94ea6095640252575a5d37908fe6cf1d5c168015625809c977a197c",
+   "count": 1652,
+   "fullyDrainedCountBytesShaVerified": true
+  },
+  "log": {
+   "path": "build/r21-route-actual-v17.log",
+   "bytes": 2276,
+   "sha256": "bd6064226a39f0d9511b891d95fb9844295dc1a16d9a82a6db0c35adfaaa39e5"
+  },
+  "executedDriver": {
+   "path": "build/r21-route-driver-v17.mjs",
+   "bytes": 231575,
+   "sha256": "3ffdbf53229479d0392d7024ea34a4f557eca7028759820520c7b275f6551f45"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v17-root.mjs",
+   "bytes": 2918,
+   "sha256": "2076cf999080b4fa138b1ffd501cda564d86134b44d274f6ce84ff80b9e5e974"
+  },
+  "sourceVerification": {
+   "path": "build/r21-route-actual-v17/source-verification.json",
+   "bytes": 416470,
+   "sha256": "2cfce0a2c6d7ca02983ea3b5c9a38f0087717005db22e8b2c91cad9b0c7c22ab",
+   "count": 1169,
+   "drift": 0,
+   "added": 0,
+   "currentBytesMatch": true
+  },
+  "isolation": {
+   "path": "build/r21-route-actual-v17-isolation.json",
+   "bytes": 2156,
+   "sha256": "f06d4b3806431de75f8cc38ed8df90ddbe22d2118320d884fa09327550eada1b"
+  },
+  "independentAudit": {
+   "path": "build/r21-v17-terminal-independent-audit.json",
+   "bytes": 86053,
+   "sha256": "3f1c54ef466946d71bc52f03abbd81ef16859aa08b63d8d9bbde1178b158effe"
+  },
+  "counts": {
+   "actualMonths": 14,
+   "canvassOrders": 16,
+   "governance": 12,
+   "treat": 5,
+   "publicNativeCheckpoints": 9,
+   "quantityDoubleReadSingleEnterAcks": 20,
+   "woodAttempts": 0
+  },
+  "finiteResults": {
+   "workerMove": {
+    "personIndex": 20,
+    "sourceCity": 20,
+    "targetCity": 16,
+    "order": 14,
+    "nativeDistance": 3,
+    "actualArrival": {
+     "year": 230,
+     "month": 5
+    },
+    "sourceQueueRemovalAndCapitalAddPersonVerified": true
+   },
+   "food": {
+    "purchases": 3,
+    "quantity": 2014,
+    "moneySpent": 10070
+   },
+   "governance": {
+    "completed": 12,
+    "moneySpent": 0
+   },
+   "treat": {
+    "completed": 5,
+    "moneySpent": 500,
+    "governor50Devotion": [
+     98,
+     100
+    ],
+    "worker52Devotion": [
+     0,
+     3
+    ]
+   },
+   "scope": "Only these actual public input/owner/world mutations and saves passed; overall preparation and WOOD remain rejected."
+  },
+  "lastOriginalPublicSave": {
+   "tag": "month-012-strengthened",
+   "date": {
+    "year": 231,
+    "month": 4
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v17/native-month-012-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "20a1aedbeddff90022407482744c896bfba1a24b4697710bed8374a0adb87151"
+    },
+    {
+     "path": "build/r21-route-actual-v17/native-month-012-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "2f039d4c1433c34c9dfc355d8946ae6ae3001f19fcd51c5aa208a5984ba45617"
+    }
+   ],
+   "abiVerified": {
+    "allCapturedPersonFields": 200,
+    "citiesAndResidentQueues": 38,
+    "activeOrders": true,
+    "fighterBytes": 600
+   },
+   "scope": "Latest original public pair is231April month012-strengthened; it is not a saved231June failure world."
+  },
+  "blocker": {
+   "date": {
+    "year": 231,
+    "month": 6
+   },
+   "message": "Retained defender45 no longer in the source owned queue",
+   "source20OwnedQueue": [
+    44,
+    52,
+    50
+   ],
+   "unownedResident171": true,
+   "capital16OwnedQueue": [
+    20,
+    40,
+    0
+   ],
+   "guard45": {
+    "name": "魏续",
+    "belong": 2,
+    "arms": 1349,
+    "devotion": 59,
+    "residentCity": 24
+   },
+   "observedTransition": {
+    "before": {
+     "year": 231,
+     "month": 5
+    },
+    "after": {
+     "year": 231,
+     "month": 6
+    },
+    "beforeBelong": 1,
+    "afterBelong": 2,
+    "beforeDevotion": 88,
+    "afterDevotion": 59
+   },
+   "scope": "Affiliation and residency change are observed. No player Canvass/MOVE order of45 was recorded; no death or exact enemy command/cause is claimed."
+  },
+  "cleanup": {
+   "privateRunnerPid": 205180,
+   "privateChromePid": 210176,
+   "httpPort": 7143,
+   "cdpPort": 7144,
+   "profileGone": true,
+   "privateListenersGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200
+  }
+ },
+ "installedEngineScope": "Installed engine remains the previous accepted R20 tuple. R21 quartet is staged only; no R21 installed or WOOD HD claim.",
+ "actualPreparationV18": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "resume": {
+   "directory": "build/r21-route-actual-v17",
+   "checkpointTag": "month-012",
+   "date": {
+    "year": 231,
+    "month": 4
+   },
+   "originalPublicSaveFiles": [
+    {
+     "path": "build/r21-route-actual-v17/native-month-012-sango0.sav",
+     "bytes": 8221,
+     "sha256": "0b170f18484312cb325fba0db4fa43a3e971cf1417524fb4bc901df385a6e474"
+    },
+    {
+     "path": "build/r21-route-actual-v17/native-month-012-sango1.sav",
+     "bytes": 4840,
+     "sha256": "2ff737d52cbe5a6119629c3f7d5cfa24cb26c7b547cf68f6a750544cd193dcce"
+    }
+   ]
+  },
+  "result": {
+   "path": "build/r21-route-actual-v18/result.json",
+   "bytes": 12356002,
+   "sha256": "bdd2698eddcc38d71d330f6bd24576fcca60c35445e74bb3062c6eebdf72cc10"
+  },
+  "log": {
+   "path": "build/r21-route-actual-v18.log",
+   "bytes": 1003,
+   "sha256": "fad7d96f52aeffa9109c20ccedb8fafea8474216e312574ca59a2759297a1c72"
+  },
+  "executedDriver": {
+   "path": "build/r21-route-driver-v18.mjs",
+   "bytes": 255398,
+   "sha256": "bb1a220f5bb0b840c1f795ce3512edbbb48741caa851382c7ed2e5a35bb20e59"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v18-root.mjs",
+   "bytes": 2918,
+   "sha256": "c81be43842a428a2fd98050a098ba3a229bc385b4ea252af356e0475c0228c7d"
+  },
+  "isolation": {
+   "path": "build/r21-route-actual-v18-isolation.json",
+   "bytes": 2159,
+   "sha256": "12031aed14fe045ba80ed4d54a76f7c88eb56a8e95edcb06768d845175864814"
+  },
+  "sourceVerification": {
+   "path": "build/r21-route-actual-v18/source-verification.json",
+   "bytes": 416470,
+   "sha256": "fc8370fec0e6f81b60cc8f88ab7e535d0302cdb8d38ea12182e55bca8c3a66cf",
+   "count": 1169,
+   "drift": 0,
+   "added": 0
+  },
+  "independentAudit": {
+   "path": "build/r21-v18-terminal-independent-audit.json",
+   "bytes": 26201,
+   "sha256": "7378b0c389e590ce700d264c3fd7108ee1f01aedefe0dc96ced312987fd8cbc4"
+  },
+  "counts": {
+   "inlineCampaignObservations": 69,
+   "quantityDoubleReadSingleEnterAcks": 3,
+   "queuedTransports": 1,
+   "actualMonths": 1,
+   "recordedDeliveryReports": 0,
+   "treat": 0,
+   "canvassOrders": 0,
+   "newPublicNativeSavePairs": 0,
+   "woodAttempts": 0
+  },
+  "finiteTransport": {
+   "sourceCity": 16,
+   "targetCity": 20,
+   "personIndex": 20,
+   "order": 13,
+   "slot": 0,
+   "nativeDistance": 3,
+   "food": 0,
+   "money": 1000,
+   "arms": 0,
+   "sourceMoney": [
+    10821,
+    9821
+   ],
+   "targetMoneyBeforeAndAfterMonth": [
+    856,
+    1856
+   ],
+   "actualReturnedToSource": true,
+   "actualOrderRetired": true,
+   "scope": "Original public inputs, cargo order, one strategy month, net Money and AddPerson/order retirement were independently verified. These month-end effects do not replace the missing pre-ConditionUpdate delivery/loss report and ACK."
+  },
+  "blocker": {
+   "line": 1523,
+   "recordedCampaignReportsKeyPresent": false,
+   "reason": "Classic mode does not open the HD report dialog. The driver observed only matching HD-dialog reports; the actual native report ended without a retained delivery snapshot or ACK. Overall transport evidence and preparation remain rejected."
+  },
+  "cleanup": {
+   "privateRunnerPid": 217072,
+   "privateChromePid": 220404,
+   "httpPort": 11934,
+   "cdpPort": 11935,
+   "profileGone": true,
+   "privateListenersGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200
+  },
+  "scope": "Historical rejected v18 attempt. No new save, Treat, Canvass, WOOD cast or installed-engine acceptance."
+ },
+ "actualPreparationV19": {
+  "status": "terminal-failed",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "resume": {
+   "directory": "build/r21-route-actual-v17",
+   "tag": "month-012",
+   "date": {
+    "year": 231,
+    "month": 4
+   },
+   "originalPublicSave": true
+  },
+  "counts": {
+   "campaignObservations": 4984,
+   "months": 22,
+   "canvassOrders": 32,
+   "treats": 67,
+   "initialMaintenanceTreats": 58,
+   "treatMoneySpent": 6700,
+   "initialMaintenanceMoneySpent": 5800,
+   "nativeSelections": 374,
+   "ordinaryQuantityConfirmations": 30,
+   "cargoQuantityConfirmations": 3,
+   "publicSavePairs": 16,
+   "defenses": 2,
+   "engineKeys": 3140,
+   "harnessInputs": 2804,
+   "phases": 97,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0,
+   "woodAttempts": 0
+  },
+  "finiteTransport": {
+   "source": 16,
+   "target": 20,
+   "carrier": 20,
+   "money": 1000,
+   "food": 0,
+   "arms": 0,
+   "nativeReport": {
+    "text": "物资运送完毕。",
+    "seq": 4,
+    "active": 1,
+    "inputSeq": 7,
+    "kind": 2,
+    "person": 20
+   },
+   "reportKeys": [
+    39
+   ],
+   "preConditionMoney": [
+    856,
+    1856
+   ],
+   "carrierNotYetReturnedAtReport": true,
+   "cargoStillSlot0AtReport": true,
+   "fullOwnerDoubleRead": true,
+   "carrierReturned": true,
+   "cargoRetired": true,
+   "deliveryReportAccepted": true
+  },
+  "finiteLoyaltyMaintenance": {
+   "initialTreats": 58,
+   "initialMoneySpent": 5800,
+   "initialPerPerson": [
+    {
+     "id": 45,
+     "count": 12,
+     "initial": 88,
+     "final": 100
+    },
+    {
+     "id": 40,
+     "count": 28,
+     "initial": 72,
+     "final": 100
+    },
+    {
+     "id": 20,
+     "count": 18,
+     "initial": 82,
+     "final": 100
+    }
+   ],
+   "totalTreats": 67,
+   "totalMoneySpent": 6700,
+   "scope": "Actual retained guard45, capital guard40 and trader20 reached Dev100 through public Treat reports; this does not strengthen battle troops."
+  },
+  "latestOriginalPublicSave": {
+   "tag": "month-021-strengthened",
+   "date": {
+    "year": 233,
+    "month": 1
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v19/native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "9c3e4b41d9b34ed5739d83a2308445c15b48d9b2096d66709d30eaf6fb66b785"
+    },
+    {
+     "path": "build/r21-route-actual-v19/native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "f86cf789a3f771a168b0d701051148f35030a8b79a6acb67d6072b0db8ae2bf2"
+    }
+   ],
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "completeIndependentAbi": true
+  },
+  "defenses": {
+   "city1": {
+    "abandoned": true,
+    "outcome": 2
+   },
+   "city20": {
+    "abandoned": false,
+    "defender": {
+     "personIndex": 45,
+     "name": "魏续",
+     "arms": 1349
+    },
+    "enemyPeople": [
+     138,
+     109,
+     119,
+     126
+    ],
+    "enemyArms": 9110,
+    "outcome": 2
+   }
+  },
+  "blocker": {
+   "classification": "Actual local defense loss; strict protected-city survival gate rejected preparation. No WOOD event was attempted.",
+   "date": {
+    "year": 233,
+    "month": 2
+   },
+   "originCity": 20,
+   "originBelong": 3,
+   "guardBelong": 65535,
+   "guardArms": 0,
+   "guardBattleState": 8,
+   "unsavedFailureWorld": true,
+   "actualAcquisitionPresent": false,
+   "publicFinalSavePresent": false,
+   "scope": "Protected target means city20 in this assertion, not a captured qualified caster. State8 records battle incapacity, not proof of permanent death."
+  },
+  "sourceVerification": {
+   "proof": {
+    "path": "build/r21-route-actual-v19/source-verification.json",
+    "bytes": 417475,
+    "sha256": "5a5c853a17c18728d89860fe0241840387011f281c0a9249f71893558afc9e13"
+   },
+   "count": 1172,
+   "drift": 0,
+   "added": 0,
+   "allRawBytesMatchedAtAudit": "2026-10-09T14:32:40.587Z",
+   "native128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "compiledModified": true,
+   "scope": "Historical execution/audit tuple, before later AID source integration; never relabelled as a newer source or installed engine."
+  },
+  "result": {
+   "path": "build/r21-route-actual-v19/result.json",
+   "bytes": 174327330,
+   "sha256": "c1ceb26000671b9eee772f7accbb62980a3b801e3e22e3b2f2634f3127b46b70"
+  },
+  "sidecar": {
+   "path": "build/r21-route-actual-v19/result.json.campaignObservations.ndjson",
+   "bytes": 262824969,
+   "sha256": "e4bedf93ac1bb9b75af43f214daa68e3f001328632dc94ef0ef8e1a267f089e1",
+   "records": 4984,
+   "fullyStreamVerified": true
+  },
+  "log": {
+   "path": "build/r21-route-actual-v19.log",
+   "bytes": 4043,
+   "sha256": "82d88fb390b4a3d2119317ddacea019d99ae9a5708f4303e6a9abf27d0b210ac"
+  },
+  "runner": {
+   "path": "build/r21-route-driver-v19.mjs",
+   "bytes": 259347,
+   "sha256": "d81ae9d96dc98abe82c084cc009c0bbe27313af38ffc610d7ef0107554323fd4"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v19-root.mjs",
+   "bytes": 2918,
+   "sha256": "4805032f288fed87fd087a64a37e6ff580d987fb2a7af91b614571866e49f5aa"
+  },
+  "isolationProof": {
+   "path": "build/r21-route-actual-v19-isolation.json",
+   "bytes": 2156,
+   "sha256": "14fa470fae46b633fd9b31a5a0198ce80b6b6b78d90495c5a59d14786d9df4ef"
+  },
+  "independentAudit": {
+   "path": "build/r21-v19-terminal-independent-audit.json",
+   "bytes": 168071,
+   "sha256": "ef8cabfa7c8a55424199642153b0a1c45ee747f706350d1fbea04dfdefc86f83"
+  },
+  "cleanup": {
+   "privateChromeExited": true,
+   "privateHttpClosed": true,
+   "profileGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200,
+   "user8080Touched": false
+  },
+  "castWrapperExecuted": false,
+  "acceptanceReaderExecuted": false,
+  "scope": "Finite transportation, loyalty maintenance,22months/32Canvass/16public save pairs passed independently. Actual source-city defense loss rejects overall preparation and WOOD; no skill was attempted and no R21 quartet was installed. Raw workspace evidence remains unarchived."
+ },
+ "actualPreparationV20": {
+  "status": "terminal-pending-military-supply",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "woodHdAccepted": false,
+  "resume": {
+   "directory": "build/r21-route-actual-v19",
+   "tag": "month-018-strengthened",
+   "date": {
+    "year": 232,
+    "month": 10
+   },
+   "originalPair": true
+  },
+  "actual": {
+   "governanceOrders": 1,
+   "donorTreats": 155,
+   "treatMoney": 15500,
+   "monthlyTreatCounts": [
+    100,
+    55
+   ],
+   "normalMonths": 2,
+   "finishedDate": {
+    "year": 232,
+    "month": 12
+   },
+   "recruitmentOrders": 13,
+   "recruitedArms": 11290,
+   "recruitment": [
+    {
+     "cityIndex": 9,
+     "worker": 24,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 32,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 54,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 64,
+     "arms": 880
+    },
+    {
+     "cityIndex": 10,
+     "worker": 9,
+     "arms": 1260
+    },
+    {
+     "cityIndex": 10,
+     "worker": 41,
+     "arms": 1260
+    },
+    {
+     "cityIndex": 9,
+     "worker": 24,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 32,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 54,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 55,
+     "arms": 880
+    },
+    {
+     "cityIndex": 9,
+     "worker": 64,
+     "arms": 410
+    },
+    {
+     "cityIndex": 10,
+     "worker": 9,
+     "arms": 1260
+    },
+    {
+     "cityIndex": 10,
+     "worker": 41,
+     "arms": 60
+    }
+   ],
+   "allocations": 8,
+   "allocatedArms": 11990,
+   "allocatedPeople": [
+    {
+     "cityIndex": 9,
+     "personIndex": 30,
+     "arms": 1790
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 8,
+     "arms": 1450
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 17,
+     "arms": 1530
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 69,
+     "arms": 1450
+    },
+    {
+     "cityIndex": 9,
+     "personIndex": 70,
+     "arms": 1630
+    },
+    {
+     "cityIndex": 10,
+     "personIndex": 11,
+     "arms": 1570
+    },
+    {
+     "cityIndex": 10,
+     "personIndex": 10,
+     "arms": 1320
+    },
+    {
+     "cityIndex": 10,
+     "personIndex": 38,
+     "arms": 1250
+    }
+   ],
+   "moveOrders": 0,
+   "arrivals": 0,
+   "canvassOrders": 0
+  },
+  "food": {
+   "actualTargetFood": 1139,
+   "preMoveRequired": 1407,
+   "plannedArrivedArmy": 13339,
+   "actualIncomingAllocatedArms": 11990,
+   "monthlyBudget": 266,
+   "battleFoodPerDay": 38,
+   "battleBoutBudget": 30,
+   "scope": "Conservative harness floor rejects movement; this is not a native hard requirement. Eight allocated units remain in actual donor cities; planned13339 is not an arrived army or a victory.",
+   "requiredFloorIsHarnessBudget": true
+  },
+  "latestOriginalPublicSave": {
+   "tag": "v20-military-pending",
+   "date": {
+    "year": 232,
+    "month": 12
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v20/native-v20-military-pending-sango0.sav",
+     "bytes": 8221,
+     "sha256": "c5f7352b2823bcd66a1ee46a5e48970948bc0d773a54e0f5bafcf358c11c3839"
+    },
+    {
+     "path": "build/r21-route-actual-v20/native-v20-military-pending-sango1.sav",
+     "bytes": 4840,
+     "sha256": "b1ceaab515789169b5f2c2daf0c91e3cb1d54537da89468925c9ca1f5fa576b7"
+    }
+   ],
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "completeIndependentAbi": true,
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "resume-strengthened",
+    "date": {
+     "year": 232,
+     "month": 10
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-resume-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "da9362d0c0a39784bcfef5f1fc8acfb471f6bf15adab56d2fb23b8633807dae4"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-resume-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b76ed640c23aa08e006e1c352ad0cc18d1542dfabb102a1367aac8fd9e540d97"
+     }
+    ]
+   },
+   {
+    "tag": "v20-assembly-month-01",
+    "date": {
+     "year": 232,
+     "month": 11
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-01-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b10297363d7395a6abff1a5c95ad5cfb7b55a8792db48fba36d10b9ee5108cb0"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-01-sango1.sav",
+      "bytes": 4840,
+      "sha256": "bd2749ae81c565e1afce9e5bf403a711b19a12478c843bf187c93ca32fe3bd22"
+     }
+    ]
+   },
+   {
+    "tag": "v20-assembly-month-02",
+    "date": {
+     "year": 232,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-02-sango0.sav",
+      "bytes": 8221,
+      "sha256": "82b24251b05529edd1cec7b8303c49ff66745aac8a5146044182a5bdf1d76f15"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-v20-assembly-month-02-sango1.sav",
+      "bytes": 4840,
+      "sha256": "757f24f8f86e58f55e4dfca7acc566304fac0d8118fcef65a06b8272fcd40de0"
+     }
+    ]
+   },
+   {
+    "tag": "v20-military-pending",
+    "date": {
+     "year": 232,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v20/native-v20-military-pending-sango0.sav",
+      "bytes": 8221,
+      "sha256": "c5f7352b2823bcd66a1ee46a5e48970948bc0d773a54e0f5bafcf358c11c3839"
+     },
+     {
+      "path": "build/r21-route-actual-v20/native-v20-military-pending-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b1ceaab515789169b5f2c2daf0c91e3cb1d54537da89468925c9ca1f5fa576b7"
+     }
+    ]
+   }
+  ],
+  "sourceVerification": {
+   "count": 1172,
+   "drift": 0,
+   "added": 0,
+   "runnerMatch": true,
+   "proof": {
+    "path": "build/r21-route-actual-v20/source-verification.json",
+    "bytes": 417528,
+    "sha256": "abbca4f6c7a8cb1fa4656aa3126195409345a49db86af5411d142fb0fb27b41b"
+   },
+   "native128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "scope": "Exact current production source and staged native quartet for this actual run; no engine rebuild/install or real WOOD cast."
+  },
+  "result": {
+   "path": "build/r21-route-actual-v20/result.json",
+   "bytes": 141204488,
+   "sha256": "7e6d811008341cc379d3d2af14974251ee5025b7a04a3956e8e2c4958582f19b"
+  },
+  "log": {
+   "path": "build/r21-route-actual-v20.log",
+   "bytes": 1328,
+   "sha256": "7c54aa3167dce5aaf8976a6043aa62e5ba6ea67020d6a9e97e3e04ba5f47ca24"
+  },
+  "isolationProof": {
+   "path": "build/r21-route-actual-v20-isolation.json",
+   "bytes": 2602,
+   "sha256": "0f83d08038b0e168c048cc5d0c7f475e9009e0991951fe5a39dc0f75b6ee587f"
+  },
+  "runner": {
+   "path": "build/r21-route-driver-v20-final.mjs",
+   "bytes": 291293,
+   "sha256": "51861dbffe9855e7b56fdfffcdb500f595a6fcd1f1a9e0f558b3e950e82e30f4"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v20-root.mjs",
+   "bytes": 3804,
+   "sha256": "92c75b0b293b0479f043c5989f226e16680632a2f9a6c413de89f1cc7cb856b6"
+  },
+  "independentAudit": {
+   "path": "build/r21-v20-terminal-independent-audit.json",
+   "bytes": 83237,
+   "sha256": "3c384fb98f327f2a5b59fcf792b20b549670f463e1463d92ba316d2e7c07d301"
+  },
+  "cleanup": {
+   "privateChromeExited": true,
+   "privateHttpClosed": true,
+   "profileGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200,
+   "user8080Touched": false
+  },
+  "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false,
+  "scope": "155 actual donor Treat,13 actual recruit orders and8 native GetArmy allocations are preserved progress. Missing recipient Food stops before any MOVE; no qualified caster, military arrival, WOOD cast or HD acceptance is implied. Continue with real resource transport from this exact completed public232Dec pair.",
+  "independentAuditAddendum": {
+   "path": "build/r21-v20-terminal-independent-audit-addendum.json",
+   "bytes": 1783,
+   "sha256": "e7d6b787e34afa9049a7115c14d3cb4267d24297b59c6de884344295e2310bfd"
+  }
+ },
+ "currentSourceTestReference": {
+  "record": {
+   "path": "docs/validation/m4-aid-native-20261009.json",
+   "bytes": 57038,
+   "sha256": "bc614f5a68361d2dc52c9009efff42126d82e1fca2219cd41045748374e35629"
+  },
+  "runtimeRecord": {
+   "path": "docs/validation/m4-aid-runtime-20261010.json",
+   "bytes": 67539,
+   "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e"
+  },
+  "tests": 1108,
+  "pass": 1108,
+  "fail": 0,
+  "skipped": 0,
+  "sourceRecords": 1266,
+  "uniqueModules": 50,
+  "scope": "Separate installed-current-source VM/compiled-C regression. Historical WOOD source checks and all failed preparation records remain unchanged; this AID acceptance does not accept WOOD preparation or a WOOD player cast."
+ },
+ "actualPreparationV21": {
+  "status": "terminal-military-arrived-food-trade-cash-shortage",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "woodHdAccepted": false,
+  "resume": {
+   "directory": "build/r21-route-actual-v20",
+   "tag": "v20-military-pending",
+   "date": {
+    "year": 232,
+    "month": 12
+   },
+   "originalPair": true
+  },
+  "actualCounts": {
+   "sidecarRows": 1148,
+   "months": 6,
+   "canvassOrders": 7,
+   "treats": 1,
+   "treatMoneySpent": 100,
+   "previousTreatsNotRepeated": 155,
+   "previousRecruitOrdersNotRepeated": 13,
+   "previousGetArmyAllocationsNotRepeated": 8,
+   "newCargoOrders": 1,
+   "cargoFood": 914,
+   "cargoMoney": 0,
+   "cargoQuantityConfirmations": 3,
+   "cargoQuantityAdjustmentKeys": 20,
+   "ordinaryQuantityConfirmations": 12,
+   "militaryMoves": 8,
+   "militaryArrivals": 8,
+   "arrivingArms": 11990,
+   "publicSavePairs": 5,
+   "campaignReports": 1,
+   "governance": 4,
+   "engineKeys": 744,
+   "harnessInputs": 646,
+   "nativeSelections": 70,
+   "nativeSelectionSteps": 363,
+   "phases": 21,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0,
+   "woodAttempts": 0
+  },
+  "military": {
+   "assemblyAccepted": true,
+   "fullPreparationAccepted": false,
+   "arrivalDate": {
+    "year": 233,
+    "month": 2
+   },
+   "moveOrders": 8,
+   "actualArrivals": 8,
+   "incomingArms": 11990,
+   "originalGuardArms": 1349,
+   "totalProtectedArms": 13339,
+   "retainedIds": [
+    45,
+    30,
+    8,
+    17,
+    69,
+    70,
+    11,
+    10,
+    38
+   ],
+   "arrivalFood": 1761,
+   "conservativeArrivalFloor": 1407,
+   "priorV20ActionsNotRepeated": {
+    "treats": 155,
+    "recruitOrders": 13,
+    "allocations": 8,
+    "scope": "Prior military assembly was reused before supply/MOVE. Later ordinary monthly maintenance did issue11 real GetArmy confirmations at unchanged current quantities; this field does not claim zero later GetArmy operations."
+   },
+   "scope": "Eight actual native MOVE orders retired through AddPerson at city20; incoming11990 plus existing1349 form total13339. This finite military substep does not qualify a caster or accept a WOOD cast."
+  },
+  "cargo": {
+   "source": 10,
+   "target": 20,
+   "carrier": 9,
+   "food": 914,
+   "money": 0,
+   "delivered": true,
+   "originalDeliveryReport": true,
+   "singlePhysicalEnter": true,
+   "exactPreConditionBalances": true,
+   "actualCarrierReturned": true,
+   "order13Retired": true,
+   "scope": "Actual native selected quantities, destination cursor, payload and delivery report are retained in the result and independently audited. Month-end Food alone is not the delivery proof."
+  },
+  "failedFoodTrade": {
+   "number": 6,
+   "city": 20,
+   "date": {
+    "year": 233,
+    "month": 6
+   },
+   "beforeMoney": 1393,
+   "beforeFood": 922,
+   "actualArms": 13339,
+   "requiredFood": 1305,
+   "wanted": 383,
+   "moneyReserve": 500,
+   "cost": 2415,
+   "purchased": null,
+   "complete": false,
+   "moneyShortfall": 1022
+  },
+  "latestOriginalPublicSave": {
+   "tag": "month-006",
+   "date": {
+    "year": 233,
+    "month": 6
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v21/native-month-006-sango0.sav",
+     "bytes": 8221,
+     "sha256": "df7c5d379584ff2000542b0149285ad73203607b2b1653a07242ddccb835cbca"
+    },
+    {
+     "path": "build/r21-route-actual-v21/native-month-006-sango1.sav",
+     "bytes": 4840,
+     "sha256": "58e48779b95766be99ba20385f70128bc06601875c385d0ff2b6ebc389ea5648"
+    }
+   ],
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "completeIndependentAbi": true,
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "v21-military-supply-delivered",
+    "date": {
+     "year": 233,
+     "month": 1
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-supply-delivered-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5a52ea6853d9ac66d825e0245ee0f57cbc07c03581ae5c97fd0b3031ca2b3def"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-supply-delivered-sango1.sav",
+      "bytes": 4840,
+      "sha256": "52f4987a13a938aa4ea3d93fc010bc6264690a77c26e07a466bc7b4a49618a18"
+     }
+    ]
+   },
+   {
+    "tag": "v21-military-arrived",
+    "date": {
+     "year": 233,
+     "month": 2
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-arrived-sango0.sav",
+      "bytes": 8221,
+      "sha256": "2f538b6d8257c0ff37bdcbbffc703c6c5ba9aa255c939b140af8b07c3e7a98c6"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-v21-military-arrived-sango1.sav",
+      "bytes": 4840,
+      "sha256": "23410a3efbea5793b6eba99ef185fa1c7cba0241a84612c110b893895e6dd45d"
+     }
+    ]
+   },
+   {
+    "tag": "month-003",
+    "date": {
+     "year": 233,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ce4a9be3cb235f60864c017507486934326c4d50dbd07f2216e2555ab0df8604"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4296f5fa8498230bc5f3c5d9d18202da95bfd13c15f8fb484933f83efc44485d"
+     }
+    ]
+   },
+   {
+    "tag": "month-003-strengthened",
+    "date": {
+     "year": 233,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "3291054e1f2dffdcd3419fdfc00944f179e26f078f08c1bf3c69d09bd8948227"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-month-003-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4d34fbd1f28aea2a86fbc8684a6fc532fed855de9f94ba396ecb4f2836a2c796"
+     }
+    ]
+   },
+   {
+    "tag": "month-006",
+    "date": {
+     "year": 233,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v21/native-month-006-sango0.sav",
+      "bytes": 8221,
+      "sha256": "df7c5d379584ff2000542b0149285ad73203607b2b1653a07242ddccb835cbca"
+     },
+     {
+      "path": "build/r21-route-actual-v21/native-month-006-sango1.sav",
+      "bytes": 4840,
+      "sha256": "58e48779b95766be99ba20385f70128bc06601875c385d0ff2b6ebc389ea5648"
+     }
+    ]
+   }
+  ],
+  "nextCargoFacts": {
+   "sourceCity": 10,
+   "sourceBelong": 1,
+   "sourceMoney": 30000,
+   "sourceFood": 27960,
+   "possibleCarrierIds": [
+    9,
+    41
+   ],
+   "retainedGovernor": 53,
+   "destinationCity": 20,
+   "destinationMoney": 1393,
+   "destinationFood": 922,
+   "excludedFormerDonorCity9Belong": 23,
+   "scope": "Original latest saved facts only. Fresh public load/current ownership, governor, Thew, slots, source reserves and cargo limits must be rechecked; no future transport success or tax/harvest credit."
+  },
+  "sourceVerification": {
+   "count": 1172,
+   "drift": 0,
+   "added": 0,
+   "native128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "proof": {
+    "path": "build/r21-route-actual-v21/source-verification.json",
+    "bytes": 417520,
+    "sha256": "d560f8d710055f085043b9b425da3cf6d9302bd8c0ecbcb0c4309d970c9f3969"
+   },
+   "scope": "Actual executed frozen tuple, not engine installation or player WOOD acceptance."
+  },
+  "result": {
+   "path": "build/r21-route-actual-v21/result.json",
+   "bytes": 52364787,
+   "sha256": "c667b642f3e23c8471e41650632eb78882edc0b9d66dd19e2d36cbe45879a7db"
+  },
+  "log": {
+   "path": "build/r21-route-actual-v21.log",
+   "bytes": 1739,
+   "sha256": "c63ca208ec20339c13a2be9b88f343530ee09e46c84382c5377a31563ba5a2d1"
+  },
+  "isolationProof": {
+   "path": "build/r21-route-actual-v21-isolation.json",
+   "bytes": 2759,
+   "sha256": "2331b411ebcfee47f0fe7226d612f3081cb7118c8cb1fae849f7a76d93cdfa2d"
+  },
+  "runner": {
+   "path": "build/r21-route-driver-v21-pending-final.mjs",
+   "bytes": 326693,
+   "sha256": "e97721901452d96447773a30153ff2e0c18ebb0a786b1adc70087c418b91be92"
+  },
+  "wrapper": {
+   "path": "build/r21-run-route-v21-root.mjs",
+   "bytes": 3965,
+   "sha256": "56b2c22470f89104a1b1d5ce895c8c5074ccde423aa050bc98588c691dfd0f84"
+  },
+  "independentAudit": {
+   "path": "build/r21-v21-terminal-independent-audit.json",
+   "bytes": 67661,
+   "sha256": "fc30373b6e64bda554ea43ac4fa3cb92014be2ec064eb943298ff7c9e29b32be"
+  },
+  "sourcePeer": {
+   "path": "build/r21-v21-pending-source-peer-review-validation.json",
+   "bytes": 5557,
+   "sha256": "2431894d28ad580b22bd29b4279ebb66589fdc35e4de52e291b7c19a95c2aa39"
+  },
+  "cleanup": {
+   "privateChromeExited": true,
+   "privateHttpClosed": true,
+   "profileGone": true,
+   "user8080Pid": 105848,
+   "user8080HttpStatus": 200,
+   "user8080Touched": false
+  },
+  "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false,
+  "scope": "Actual military supply/arrival succeeded. Six normal months and seven Canvass orders did not acquire the candidate; food-trade plus cash reserve gate stops before the failing purchase. Latest233Jun original pair preserves all nine guards and exact failure world for genuine resupply continuation, with no repeated completed military preparation.",
+  "independentAuditAddendum": {
+   "path": "build/r21-v21-terminal-independent-audit-addendum.json",
+   "bytes": 6490,
+   "sha256": "31b4e1c44ea1538c2bc7347749064e96aa8f3cabde6ebe578408bd99739de26b"
+  },
+  "ordinaryMaintenance": {
+   "getArmyConfirmations": 11,
+   "city20Confirmations": 9,
+   "city16Confirmations": 2,
+   "actualQuantitiesEqualPriorArms": true,
+   "addedArms": 0,
+   "reserveSpent": 0,
+   "scope": "Eleven actual native confirmations occurred after arrival during month003 maintenance. Independent full-world comparisons prove they did not change troop quantities or spend reserves."
+  }
+ },
+ "actualPreparationV22": {
+  "schemaVersion": 1,
+  "status": "terminal-resupplied-driver-lcd-mode-wait-timeout",
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "hdAccepted": false,
+  "archiveClosed": false,
+  "actualFailureId": "prepare-v22-failure",
+  "actualFailureCountIncludingV22": 21,
+  "audit": {
+   "path": "build/r21-v22-terminal-independent-audit.json",
+   "bytes": 41816,
+   "sha256": "6afa2e3cffa014f12968483a9d3c6884e0276535070e8dcfcb48f816d4ed1318"
+  },
+  "refs": {
+   "result": {
+    "path": "build/r21-route-actual-v22/result.json",
+    "bytes": 16168420,
+    "sha256": "de31a144d9ca973d66b47e68930e3055fb595fa5de80798534d8f10ed4b3849e"
+   },
+   "sidecar": {
+    "path": "build/r21-route-actual-v22/result.json.campaignObservations.ndjson",
+    "bytes": 23565072,
+    "sha256": "9798fdddd7c2791ac9c60e2789c2e048c48d54fae2d1beb8f61b1c1a7d2af81b"
+   },
+   "runner": {
+    "path": "build/r21-route-driver-v22-final-v2.mjs",
+    "bytes": 342786,
+    "sha256": "02fca3b1d114b419942977597c28592021780683239e8542da1601d04a40409f"
+   },
+   "wrapper": {
+    "path": "build/r21-run-route-v22-root.mjs",
+    "bytes": 4139,
+    "sha256": "0e0e9b6d1d5a2c65c76ac758ea95335b7fc7f21deb11bdda3ffe500534e230c1"
+   },
+   "log": {
+    "path": "build/r21-route-actual-v22.log",
+    "bytes": 1543,
+    "sha256": "3615dce074159950fb1ded5a10a682b4473498e92d962704622efdeb6a6c5583"
+   },
+   "isolation": {
+    "path": "build/r21-route-actual-v22-isolation.json",
+    "bytes": 2967,
+    "sha256": "87707082c0e5485cb85d8c9d3a9581284a1e64813a74102ca6e1b4dcc489962e"
+   },
+   "sourceVerification": {
+    "path": "build/r21-route-actual-v22/source-verification.json",
+    "bytes": 417475,
+    "sha256": "be9c197ea645adbc6983f8671e877641fdbc478a74f3fbd4c0bc13eea534b791"
+   },
+   "latestOriginalPair": [
+    {
+     "path": "build\\r21-route-actual-v22\\native-month-003-sango0.sav",
+     "bytes": 8221,
+     "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+    },
+    {
+     "path": "build\\r21-route-actual-v22\\native-month-003-sango1.sav",
+     "bytes": 4840,
+     "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+    }
+   ]
+  },
+  "summary": "v22 resumed v21 month006233June original pair. Actual Food7249/Money5000 cargo carrier9 from10→20 delivered under current native before-Condition report and single Enter;8 prior military arrivals inherited only.3 actual months/3Canvass/1governance/1Treat/7public save tags. Guard9 retain13339; target91 stillenemy. Capital Food726 purchase and Order11 succeeded after latest233Sept month003 save, then driver HD-mode→classic-LCD retirement wait timed out; classic restored only finally. Overall preparation/WOOD/HDfalse;1172source0drift/native8ca/stagedcompiled a71b modifiedtrue/privatecleanup/8080PID105848 preserved.",
+  "source": {
+   "records": 1172,
+   "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "compiledModified": true
+  },
+  "inheritedMilitaryOnly": {
+   "movesFromPriorV21": 8,
+   "newMovesV22": 0,
+   "newRecruitV22": 0,
+   "newDistributionV22": 0
+  },
+  "limitedPass": {
+   "resupplyFood": 7249,
+   "resupplyMoney": 5000,
+   "months": 3,
+   "canvassOrders": 3,
+   "governance": 1,
+   "treats": 1,
+   "foodTrade": 726,
+   "publicSavePairs": 7,
+   "sidecarRows": 432
+  },
+  "recoveryBoundary": "Latest original month003 pair is before the final capital food trade. Do not treat failureWorld as saved bytes or repeat delivered cargo; any future resume must validate original pair/current native load.",
+  "canonicalNote": "Keep partial validation and overall pending; no production defect demonstrated by this driver mode mismatch. Do not attribute prior v21 eight MOVE to v22.",
+  "exitCode": 1,
+  "staged": true,
+  "prepareOnly": true,
+  "woodHdAccepted": false,
+  "metadata": {
+   "path": "build/r21-v22-root-merge-metadata.json",
+   "bytes": 3867,
+   "sha256": "ca8bd6d275d537ff1b4f745d14a1a954b03a708b9e4cde20a0e4226dee4502d2"
+  },
+  "counts": {
+   "observations": 432,
+   "observationBytes": 23565072,
+   "months": 3,
+   "canvassOrders": 3,
+   "governanceOrders": 1,
+   "treats": 1,
+   "treatMoney": 100,
+   "newMilitaryMoves": 0,
+   "newMilitaryRecruitOrders": 0,
+   "newMilitaryDistributions": 0,
+   "cargoOrders": 1,
+   "cargoQuantities": 3,
+   "cargoAdjustmentKeys": 38,
+   "ordinaryQuantities": 1,
+   "publicSavePairs": 7,
+   "uniqueSavePairs": 3,
+   "engineKeys": 262,
+   "requestCount": 81,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0
+  },
+  "diagnosis": {
+   "path": "build/r21-v22-failure-retirement-diagnosis.json",
+   "bytes": 10844,
+   "sha256": "d30e1f86743b16c444167f304c7a10dc813bbc084b55d6002e113d87c788d283"
+  },
+  "latestOriginalPublicSave": {
+   "tag": "month-003",
+   "date": {
+    "year": 233,
+    "month": 9
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v22/native-month-003-sango0.sav",
+     "bytes": 8221,
+     "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+    },
+    {
+     "path": "build/r21-route-actual-v22/native-month-003-sango1.sav",
+     "bytes": 4840,
+     "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+    }
+   ],
+   "completeIndependentAbi": true,
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "includesFinal726FoodTrade": false,
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "v22-month-001",
+    "date": {
+     "year": 233,
+     "month": 7
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-001-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ac7971038640115def12a87567576c74a537b16e953370824885204188e94b49"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-001-sango1.sav",
+      "bytes": 4840,
+      "sha256": "56da7307890a994aaffc478bd4b39d653de129493da62968d7f2e7d124c634ed"
+     }
+    ]
+   },
+   {
+    "tag": "v22-after-load-governance",
+    "date": {
+     "year": 233,
+     "month": 7
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-after-load-governance-sango0.sav",
+      "bytes": 8221,
+      "sha256": "ac7971038640115def12a87567576c74a537b16e953370824885204188e94b49"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-after-load-governance-sango1.sav",
+      "bytes": 4840,
+      "sha256": "56da7307890a994aaffc478bd4b39d653de129493da62968d7f2e7d124c634ed"
+     }
+    ]
+   },
+   {
+    "tag": "v22-month-002",
+    "date": {
+     "year": 233,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-002-sango0.sav",
+      "bytes": 8221,
+      "sha256": "25bd1fbdf174b3f47498cc23e1b35d161b887c5b25aebb0a03587916e6ad1954"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-002-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a558019720190df6f3a5a8ac33c8aa8b04232deb60eb58768a86099acd3facdb"
+     }
+    ]
+   },
+   {
+    "tag": "v22-resupply-delivered",
+    "date": {
+     "year": 233,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-delivered-sango0.sav",
+      "bytes": 8221,
+      "sha256": "25bd1fbdf174b3f47498cc23e1b35d161b887c5b25aebb0a03587916e6ad1954"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-delivered-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a558019720190df6f3a5a8ac33c8aa8b04232deb60eb58768a86099acd3facdb"
+     }
+    ]
+   },
+   {
+    "tag": "v22-resupply-ready",
+    "date": {
+     "year": 233,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-ready-sango0.sav",
+      "bytes": 8221,
+      "sha256": "25bd1fbdf174b3f47498cc23e1b35d161b887c5b25aebb0a03587916e6ad1954"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-resupply-ready-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a558019720190df6f3a5a8ac33c8aa8b04232deb60eb58768a86099acd3facdb"
+     }
+    ]
+   },
+   {
+    "tag": "v22-month-003",
+    "date": {
+     "year": 233,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-v22-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+     }
+    ]
+   },
+   {
+    "tag": "month-003",
+    "date": {
+     "year": 233,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v22/native-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0d3dde8a4913872b5375b4f9ef3d50192bbc65662ac2fa5e7c7cbe435427f22b"
+     },
+     {
+      "path": "build/r21-route-actual-v22/native-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "c336681bf2cbe1ee69625076bdfab60dd7f064bc2146d497fa74d9235c8ea433"
+     }
+    ]
+   }
+  ],
+  "military": {
+   "retainedIds": [
+    45,
+    30,
+    8,
+    17,
+    69,
+    70,
+    11,
+    10,
+    38
+   ],
+   "totalArms": 13339,
+   "newMoves": 0,
+   "newRecruitment": 0,
+   "newGetArmy": 0,
+   "priorMilitaryOnly": true
+  },
+  "driverFailure": {
+   "reason": "Error: Timed out waiting for actual classic LCD visible and on top\n    at waitFor (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:182:11)\n    at async retireToMap (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:358:347)\n    at async strengthenProtectedCities (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:1852:620)\n    at async prepareCaster (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:366:1828)\n    at async smoke (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:369:209)\n    at async main (file:///F:/project/baye-sanguo/build/r21-route-driver-v22-final-v2.mjs:2244:14)",
+   "productionDefectDemonstrated": false,
+   "scope": "Public HD city mode remained selected when retireToMap required classic LCD visibility; finally restored classic before the failure screenshot. The screenshot does not establish visibility during the failed wait."
+  },
+  "acceptanceReaderExecuted": false,
+  "castWrapperExecuted": false
+ },
+ "actualPreparationV23": {
+  "schemaVersion": 1,
+  "status": "pending",
+  "accepted": false,
+  "preparationAccepted": false,
+  "woodAccepted": false,
+  "hdAccepted": false,
+  "archiveClosed": false,
+  "actualFailureId": "prepare-v23-failure",
+  "actualFailureCountIncludingV23": 22,
+  "audit": {
+   "path": "build/r21-v23-terminal-independent-audit.json",
+   "bytes": 206460,
+   "sha256": "6f434f3f9b0d6f7d4d0c3b3b3d021bbd9b42723426c5f67d698e41125279c39b"
+  },
+  "refs": {
+   "result": {
+    "path": "build/r21-route-actual-v23/result.json",
+    "bytes": 153091946,
+    "sha256": "39cb1c5556a1ef2c2c6c5f2ce02e40c56c8ee9216fc9cf6731028071b50c7729"
+   },
+   "sidecar": {
+    "path": "build/r21-route-actual-v23/result.json.campaignObservations.ndjson",
+    "bytes": 236198563,
+    "sha256": "715512198c8faafc32eece2990eeea17940eeca78ff8f2254c0456c09e71f89c"
+   },
+   "runner": {
+    "path": "build/r21-route-driver-v23-final-v3.mjs",
+    "bytes": 352057,
+    "sha256": "dac98442aebc3a56f6479b1e159eba419ae8cc968590eef14c2ee27a82cc3050"
+   },
+   "wrapper": {
+    "path": "build/r21-run-route-v23-root.mjs",
+    "bytes": 4303,
+    "sha256": "0865edf391cd70cc9cf2f5cd11fa063085ebb71b95839bf5f3b6cce1948e9b8d"
+   },
+   "log": {
+    "path": "build/r21-route-actual-v23.log",
+    "bytes": 4855,
+    "sha256": "479d9acde175c56668a94c620a4fe23e76d7b2d05fa10a20eeed43fc5afdca6a"
+   },
+   "isolation": {
+    "path": "build/r21-route-actual-v23-isolation.json",
+    "bytes": 2977,
+    "sha256": "afef3511af3ff40171ecbf18deb0abd2a9a6a4b300a2617b65a3a14bcadeceda"
+   },
+   "sourceVerification": {
+    "path": "build/r21-route-actual-v23/source-verification.json",
+    "bytes": 417475,
+    "sha256": "6d40f530bfea653a95457b93f6e4232c82d2009fea2ce0b7cfabe294be62e00e"
+   },
+   "latestOriginalPair": [
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+    },
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+    }
+   ]
+  },
+  "counts": {
+   "months": 21,
+   "canvassOrders": 52,
+   "canvassMoney": 2600,
+   "canvassThew": 1040,
+   "governance": 16,
+   "governanceMoney": 0,
+   "governanceThew": 0,
+   "treats": 14,
+   "treatMoney": 1400,
+   "foodPlanEntries": 16,
+   "foodPurchases": 8,
+   "foodPurchased": 2940,
+   "foodMoney": 14700,
+   "ordinaryQuantities": 8,
+   "quantityAdjustmentKeys": 147,
+   "publicSavePairs": 36,
+   "uniqueSavePairs": 29,
+   "nativeSelections": 298,
+   "nativeSelectionArrowKeys": 1494,
+   "cityOwnerReceipts": 24,
+   "modeRetirements": 16,
+   "campaignReports": 8,
+   "abandonedDefenses": 2,
+   "engineKeys": 2532,
+   "requests": 226,
+   "exceptions": 0,
+   "dialogs": 0,
+   "observerErrors": 0,
+   "httpErrors": 0,
+   "newCargo": 0,
+   "newMilitaryMove": 0,
+   "newRecruitment": 0,
+   "newDistribution": 0
+  },
+  "latestRecovery": {
+   "tag": "month-021-strengthened",
+   "date": {
+    "year": 235,
+    "month": 6
+   },
+   "originalPair": [
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+    },
+    {
+     "path": "build\\r21-route-actual-v23\\native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+    }
+   ],
+   "pendingOrders": [
+    {
+     "OrderId": 11,
+     "City": 16,
+     "Person": 20,
+     "Object": 51899,
+     "TimeCount": 0
+    }
+   ],
+   "scope": "Original235June raw pair only; actual fresh public LOAD/full ABI and current ownership would still be required before any continuation.",
+   "nativeCityFields": [
+    {
+     "i": 10,
+     "name": "长安",
+     "belong": 23,
+     "money": 8631,
+     "food": 29650,
+     "reserve": 0,
+     "queue": [
+      22,
+      63,
+      24,
+      54,
+      32,
+      55,
+      9,
+      41,
+      53
+     ],
+     "ownedQueue": [
+      22,
+      63,
+      24,
+      54,
+      32,
+      55
+     ],
+     "state": 3,
+     "satrapNativeId": 23,
+     "peopleDevotion": 73,
+     "avoidCalamity": 7,
+     "commerce": 7121,
+     "source": "Latest original native City37 bytes; not a fabricated extra current-world getter"
+    },
+    {
+     "i": 16,
+     "name": "许昌",
+     "belong": 1,
+     "money": 2533,
+     "food": 1161,
+     "reserve": 8680,
+     "queue": [
+      40,
+      0
+     ],
+     "ownedQueue": [
+      40,
+      0
+     ],
+     "state": 0,
+     "satrapNativeId": 1,
+     "peopleDevotion": 32,
+     "avoidCalamity": 1,
+     "commerce": 3392,
+     "source": "Latest original native City37 bytes; not a fabricated extra current-world getter"
+    },
+    {
+     "i": 20,
+     "name": "宛城",
+     "belong": 1,
+     "money": 4887,
+     "food": 2687,
+     "reserve": 0,
+     "queue": [
+      50,
+      52,
+      44,
+      38,
+      10,
+      11,
+      70,
+      69,
+      17,
+      8,
+      30,
+      45,
+      171
+     ],
+     "ownedQueue": [
+      50,
+      52,
+      44,
+      38,
+      10,
+      11,
+      70,
+      69,
+      17,
+      8,
+      30,
+      45
+     ],
+     "state": 0,
+     "satrapNativeId": 31,
+     "peopleDevotion": 35,
+     "avoidCalamity": 30,
+     "commerce": 686,
+     "source": "Latest original native City37 bytes; not a fabricated extra current-world getter"
+    }
+   ],
+   "retainedGuards": [
+    {
+     "personIndex": 45,
+     "name": "魏续",
+     "belong": 1,
+     "arms": 1349,
+     "devotion": 100
+    },
+    {
+     "personIndex": 30,
+     "name": "徐晃",
+     "belong": 1,
+     "arms": 1790,
+     "devotion": 100
+    },
+    {
+     "personIndex": 8,
+     "name": "夏侯德",
+     "belong": 1,
+     "arms": 1450,
+     "devotion": 100
+    },
+    {
+     "personIndex": 17,
+     "name": "曹洪",
+     "belong": 1,
+     "arms": 1530,
+     "devotion": 100
+    },
+    {
+     "personIndex": 69,
+     "name": "典满",
+     "belong": 1,
+     "arms": 1450,
+     "devotion": 100
+    },
+    {
+     "personIndex": 70,
+     "name": "郝昭",
+     "belong": 1,
+     "arms": 1630,
+     "devotion": 100
+    },
+    {
+     "personIndex": 11,
+     "name": "曹真",
+     "belong": 1,
+     "arms": 1570,
+     "devotion": 100
+    },
+    {
+     "personIndex": 10,
+     "name": "曹彰",
+     "belong": 1,
+     "arms": 1320,
+     "devotion": 100
+    },
+    {
+     "personIndex": 38,
+     "name": "张燕",
+     "belong": 1,
+     "arms": 1250,
+     "devotion": 100
+    }
+   ]
+  },
+  "candidates": [
+   {
+    "personIndex": 91,
+    "name": "蒋琬",
+    "belong": 2,
+    "level": 16,
+    "armType": 1,
+    "devotion": 81,
+    "iq": 89,
+    "character": 4,
+    "ownedAtOrigin": false,
+    "attempts": 3
+   },
+   {
+    "personIndex": 127,
+    "name": "严畯",
+    "belong": 3,
+    "level": 13,
+    "armType": 1,
+    "devotion": 78,
+    "iq": 75,
+    "character": 4,
+    "ownedAtOrigin": false,
+    "attempts": 42
+   },
+   {
+    "personIndex": 130,
+    "name": "张温",
+    "belong": 2,
+    "level": 20,
+    "armType": 1,
+    "devotion": 89,
+    "iq": 74,
+    "character": 0,
+    "ownedAtOrigin": false,
+    "attempts": 0
+   },
+   {
+    "personIndex": 131,
+    "name": "张休",
+    "belong": 3,
+    "level": 12,
+    "armType": 1,
+    "devotion": 80,
+    "iq": 80,
+    "character": 3,
+    "ownedAtOrigin": false,
+    "attempts": 7
+   }
+  ],
+  "summary": "v23 resumed original233Sept v22month003;21 real months/52 Canvass orders (91×3,131×7,127×42), no caster acquisition.16 governance/14 Treat/8 food purchases2940 for14700Money;36 full-ABI public save pairs and4278 NDJSON rows verified.9 inherited guards13339 remain owned at20. No new cargo/recruit/GetArmy/MOVE. Budget exhausted; prep/cast/HDfalse. Latest original235June month021-strengthened includes pending capital P20 Order11. City10 is now enemyBelong23 and cannot supply player funds.",
+  "source": {
+   "records": 1172,
+   "freshMatches": 1172,
+   "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "compiledModified": true
+  },
+  "cleanup": {
+   "historicalFinished": "2026-10-09T16:48:37.835Z",
+   "historical8080Pid": 105848,
+   "historicalHttpStatus": 200,
+   "currentObservationAt": "2026-10-10T11:32:09.2610201Z",
+   "currentObservationSeparate": true
+  },
+  "canonicalNote": "Do not call budget exhaustion a product defect or protectedTarget wording an acquisition. Latest235June pair contains pending capital P20 trade order; no synthetic saved-after state. R20installed/R21staged boundaries and archiveClosedfalse remain.",
+  "supplement": {
+   "path": "build/r21-v23-terminal-independent-audit-supplement.json",
+   "bytes": 8936,
+   "sha256": "b5245fe7792430ef997128dee98b7abee3f87203bc6a96ad6805d694784e7946"
+  },
+  "targetCounts": {
+   "91": 3,
+   "127": 42,
+   "131": 7
+  },
+  "scope": "Supersedes concise metadata only; main audit and v1 metadata bytes remain preserved.",
+  "metadata": {
+   "path": "build/r21-v23-root-merge-metadata-v2.json",
+   "bytes": 9825,
+   "sha256": "573f35e4f502ee867e431590ec52bbfbca8431e0097772017306b16bdd229c0e"
+  },
+  "staged": true,
+  "prepareOnly": true,
+  "woodHdAccepted": false,
+  "latestOriginalPublicSave": {
+   "tag": "month-021-strengthened",
+   "date": {
+    "year": 235,
+    "month": 6
+   },
+   "files": [
+    {
+     "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango0.sav",
+     "bytes": 8221,
+     "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+    },
+    {
+     "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango1.sav",
+     "bytes": 4840,
+     "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+    }
+   ],
+   "completeIndependentAbi": true,
+   "people": 200,
+   "cities": 38,
+   "fighterBytes": 600,
+   "pendingOrders": [
+    {
+     "OrderId": 11,
+     "City": 16,
+     "Person": 20,
+     "Object": 51899,
+     "TimeCount": 0
+    }
+   ],
+   "stillPending": true
+  },
+  "savedPairs": [
+   {
+    "tag": "v23-resume-maintained",
+    "date": {
+     "year": 233,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-resume-maintained-sango0.sav",
+      "bytes": 8221,
+      "sha256": "6b659cf57a3e23b4287b9d8be902d4e333c2dc2f8a7a17cda3cba35db2ce1bf2"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-resume-maintained-sango1.sav",
+      "bytes": 4840,
+      "sha256": "8881e5e5311248c0fc20bb15051270ea661d185264de71a8a98ad3a2838261c4"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-001",
+    "date": {
+     "year": 233,
+     "month": 10
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-001-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0c15ac3d19da473be3556693138d3ba3053c49cdbbfb4e26cc6ec423f9b97ab5"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-001-sango1.sav",
+      "bytes": 4840,
+      "sha256": "27fed8b95f4200f754f9fb33b735d9faa7c1edbbf7dbe73ce55dcd05d1be45f7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-002",
+    "date": {
+     "year": 233,
+     "month": 11
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-002-sango0.sav",
+      "bytes": 8221,
+      "sha256": "bb4f549ef115194fd09d4585d24bcde859a2bd015c19a0306a91a30471df4bfa"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-002-sango1.sav",
+      "bytes": 4840,
+      "sha256": "bfa127d21400db1d18a184174f6429c962638b6c9f7cd3274225421fae5bb505"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-003",
+    "date": {
+     "year": 233,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e1436f95bfc6dbcec2288d67ef2037f94d0c972bf2d643c6fe4e0f71f7d02a96"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3a3145bb8c327bf4fb735a5641aed2b5c372bfa97103bbc52265d2c5bb0acb92"
+     }
+    ]
+   },
+   {
+    "tag": "month-003",
+    "date": {
+     "year": 233,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e1436f95bfc6dbcec2288d67ef2037f94d0c972bf2d643c6fe4e0f71f7d02a96"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3a3145bb8c327bf4fb735a5641aed2b5c372bfa97103bbc52265d2c5bb0acb92"
+     }
+    ]
+   },
+   {
+    "tag": "month-003-strengthened",
+    "date": {
+     "year": 233,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "70f7f97b6795448baf23502f76be255e7bcf720c09c8e487196945bbf6456352"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-003-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "a377bbb77bdb6522765423b6de3498fbfdd26f37ca585c40f36f0f841007b2e7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-004",
+    "date": {
+     "year": 234,
+     "month": 1
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-004-sango0.sav",
+      "bytes": 8221,
+      "sha256": "7427abdcfbd9a8804fb9423b53c8c92efccd9db581bee7dd35715cb98515b563"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-004-sango1.sav",
+      "bytes": 4840,
+      "sha256": "db97bf998feea80dfe7427bc731f830dae04d3fa52357af8907a85b75b83e8f8"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-005",
+    "date": {
+     "year": 234,
+     "month": 2
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-005-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5e7f3ff0d98b1cc1031d4ac149eef51024c658aca5dc1071239612b12b748ac4"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-005-sango1.sav",
+      "bytes": 4840,
+      "sha256": "36051d97ebaf7084c557495a683d04597d52ddec57c0075d7e2160662b54988f"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-006",
+    "date": {
+     "year": 234,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-006-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e3ea617b1b30e6b5afb17cf3d1def246f897f7f3d52d45294f1d65706e2887c0"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-006-sango1.sav",
+      "bytes": 4840,
+      "sha256": "326a2d5c22e0c50c280f28e1566ec544b4e7d1342949074368b0175747f00e0c"
+     }
+    ]
+   },
+   {
+    "tag": "month-006",
+    "date": {
+     "year": 234,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e3ea617b1b30e6b5afb17cf3d1def246f897f7f3d52d45294f1d65706e2887c0"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-sango1.sav",
+      "bytes": 4840,
+      "sha256": "326a2d5c22e0c50c280f28e1566ec544b4e7d1342949074368b0175747f00e0c"
+     }
+    ]
+   },
+   {
+    "tag": "month-006-strengthened",
+    "date": {
+     "year": 234,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "acabc5a2d05e09b70d9db9edcd1300fb6d4629e2f2ac1fedfc1ce41ced46e3f6"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-006-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9a798131a12c2c4f182ada9b95a5872f62aac730db16a060caeb3a90954f7de7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-007",
+    "date": {
+     "year": 234,
+     "month": 4
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-007-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e2e5e148b0998fe7b622ec71a57ca2465af34e8bcadbdb5a7df4d99a3136f5f7"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-007-sango1.sav",
+      "bytes": 4840,
+      "sha256": "06ea851169802620931f7315ef884af9caa7d9faababd9ed39b444b4b68dde09"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-008",
+    "date": {
+     "year": 234,
+     "month": 5
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-008-sango0.sav",
+      "bytes": 8221,
+      "sha256": "6f42fbba29ac6c64491a59c40b64df4a892cd866d612d73ba668dc4423a9f0a5"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-008-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b24c8988a04afb51df3c3bbbaa77869199b37bca0d03e676812f622830a758c6"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-009",
+    "date": {
+     "year": 234,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-009-sango0.sav",
+      "bytes": 8221,
+      "sha256": "f8c6c4957fb5c561040cc7c895a770b59e1ebc66722474218a2bbde38f9d6386"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-009-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b137bbe8229cd0a351ba6491a1ebaa3b8bba8f8cd1f3b3777d7ed256771a072e"
+     }
+    ]
+   },
+   {
+    "tag": "month-009",
+    "date": {
+     "year": 234,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-sango0.sav",
+      "bytes": 8221,
+      "sha256": "f8c6c4957fb5c561040cc7c895a770b59e1ebc66722474218a2bbde38f9d6386"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b137bbe8229cd0a351ba6491a1ebaa3b8bba8f8cd1f3b3777d7ed256771a072e"
+     }
+    ]
+   },
+   {
+    "tag": "month-009-strengthened",
+    "date": {
+     "year": 234,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "aafc7af9abcaf2a037e8fe6bab6c5e157652df6c17e56e447c7ac8a000c75cf1"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-009-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "68a9f2e323ccf4a9a931684332bebb9fb558786673a4b302595561f0c71e5156"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-010",
+    "date": {
+     "year": 234,
+     "month": 7
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-010-sango0.sav",
+      "bytes": 8221,
+      "sha256": "013ff9a79651cfa58e8984e6bf3273d5bb27398c409f28fde3d660fb25753f45"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-010-sango1.sav",
+      "bytes": 4840,
+      "sha256": "08ba74ef89c199e5a3864b67742472ea519c4b3227bdd4508b7b9e02d15236f9"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-011",
+    "date": {
+     "year": 234,
+     "month": 8
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-011-sango0.sav",
+      "bytes": 8221,
+      "sha256": "aa59eee3ba3eb75a74287b32fd60e2cea3b2a092195365fe765cfc6e49948a91"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-011-sango1.sav",
+      "bytes": 4840,
+      "sha256": "d419934ed93715914fc18c3b9e391081b52417cb9f24e8a1c6d61986aa387120"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-012",
+    "date": {
+     "year": 234,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-012-sango0.sav",
+      "bytes": 8221,
+      "sha256": "9584d03f797fc27d8f0577d8d2e48637a6aa7a18fa74afc691407f406a1e5418"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-012-sango1.sav",
+      "bytes": 4840,
+      "sha256": "40de0245e3b4046736210337ce8d10bc2c4553234b01d9094f0163d292b136d8"
+     }
+    ]
+   },
+   {
+    "tag": "month-012",
+    "date": {
+     "year": 234,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-sango0.sav",
+      "bytes": 8221,
+      "sha256": "9584d03f797fc27d8f0577d8d2e48637a6aa7a18fa74afc691407f406a1e5418"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-sango1.sav",
+      "bytes": 4840,
+      "sha256": "40de0245e3b4046736210337ce8d10bc2c4553234b01d9094f0163d292b136d8"
+     }
+    ]
+   },
+   {
+    "tag": "month-012-strengthened",
+    "date": {
+     "year": 234,
+     "month": 9
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b1b919b175ce8e1e935a6239bf7349a88e68fce83a896e8520d90ef53dbca74b"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-012-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "31316a9a83e92649415a799323d597fed1411c66e6feadc09de64ffade7d5cb4"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-013",
+    "date": {
+     "year": 234,
+     "month": 10
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-013-sango0.sav",
+      "bytes": 8221,
+      "sha256": "d2f05835f747c456aa0019801a309464b78263d008775beb96ca58cf3c955148"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-013-sango1.sav",
+      "bytes": 4840,
+      "sha256": "2abc88f777160101a170544af04ad27daeded014fe142e76bd679f1b6a81dcde"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-014",
+    "date": {
+     "year": 234,
+     "month": 11
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-014-sango0.sav",
+      "bytes": 8221,
+      "sha256": "8d45ded7a19840153cd824327cd372633235da2f42c36cea8012b6d4c8e4caa3"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-014-sango1.sav",
+      "bytes": 4840,
+      "sha256": "5fd5307ad70518fbd58d7ac7c3551b1caf7a04a924d3c7cb733ccfb15c25b5d2"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-015",
+    "date": {
+     "year": 234,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-015-sango0.sav",
+      "bytes": 8221,
+      "sha256": "bd6d9fc741ddc97633d30eb6e03889c21ea890e0f480c74cd49b06afca879fe6"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-015-sango1.sav",
+      "bytes": 4840,
+      "sha256": "ec736541c11093eeb127c0365716c1a423a40023c230afd6fee9df9c836a1ed8"
+     }
+    ]
+   },
+   {
+    "tag": "month-015",
+    "date": {
+     "year": 234,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-sango0.sav",
+      "bytes": 8221,
+      "sha256": "bd6d9fc741ddc97633d30eb6e03889c21ea890e0f480c74cd49b06afca879fe6"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-sango1.sav",
+      "bytes": 4840,
+      "sha256": "ec736541c11093eeb127c0365716c1a423a40023c230afd6fee9df9c836a1ed8"
+     }
+    ]
+   },
+   {
+    "tag": "month-015-strengthened",
+    "date": {
+     "year": 234,
+     "month": 12
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "35be9827d819f077a16c47f731ab1323bf0cc1001a48754826a8f36a6b1da008"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-015-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "3e2b2b510c7e49c1d225d11b4a8b3c183a9bca43c2fbdbdd8d0a1f0e325504c7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-016",
+    "date": {
+     "year": 235,
+     "month": 1
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-016-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b57380d60f2a235b6a7e4d377b0f21508538f5f925b25001d5d7b22325de4bd5"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-016-sango1.sav",
+      "bytes": 4840,
+      "sha256": "1a3d4c4494c1a5265472033d6020f73ba0cc855c1440b015ab74cbc332a8d4d8"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-017",
+    "date": {
+     "year": 235,
+     "month": 2
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-017-sango0.sav",
+      "bytes": 8221,
+      "sha256": "8cc09c9b20166de6a6a7c7ee62d329de2ad549bfe3dd521701589e16a42b060f"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-017-sango1.sav",
+      "bytes": 4840,
+      "sha256": "98868610455f268e202569cfd460ee62970cd79ba545818406b0269ac1e8e3ea"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-018",
+    "date": {
+     "year": 235,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-018-sango0.sav",
+      "bytes": 8221,
+      "sha256": "97d28e59f233df9171676b762c7fc28fce4fa1761b33d93151e20f0cf0143408"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-018-sango1.sav",
+      "bytes": 4840,
+      "sha256": "07fb9070e815a2825af7c9d34a455e886ee01263184803328c42408051fab7a6"
+     }
+    ]
+   },
+   {
+    "tag": "month-018",
+    "date": {
+     "year": 235,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-sango0.sav",
+      "bytes": 8221,
+      "sha256": "97d28e59f233df9171676b762c7fc28fce4fa1761b33d93151e20f0cf0143408"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-sango1.sav",
+      "bytes": 4840,
+      "sha256": "07fb9070e815a2825af7c9d34a455e886ee01263184803328c42408051fab7a6"
+     }
+    ]
+   },
+   {
+    "tag": "month-018-strengthened",
+    "date": {
+     "year": 235,
+     "month": 3
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "755aae00480f8b6dc014df6666c2f4f937413806ce1485a044fafc671eaf2208"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-018-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "b78ad3ab47fad1c5eb6e286766d418726e4210a52abe6718739d8d77d66234df"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-019",
+    "date": {
+     "year": 235,
+     "month": 4
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-019-sango0.sav",
+      "bytes": 8221,
+      "sha256": "e9c6fe37d1ef7a4f6de0bfa65d0087bbc4c1dbf716390701d69c11416807f357"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-019-sango1.sav",
+      "bytes": 4840,
+      "sha256": "61f48316de16c4d5b95eb86203f7ac3acd316fcc906d9993f6afb63fcfca8ffc"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-020",
+    "date": {
+     "year": 235,
+     "month": 5
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-020-sango0.sav",
+      "bytes": 8221,
+      "sha256": "5ba1c70ed8a4ce4c3b7cb925bd4539e5e9c916abf7490fcde850cf4e674b7bff"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-020-sango1.sav",
+      "bytes": 4840,
+      "sha256": "9e489bcb38cf84f4589f93f7a2906884181dd80a4a2d7faff183d960e707e4d7"
+     }
+    ]
+   },
+   {
+    "tag": "v23-month-021",
+    "date": {
+     "year": 235,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-021-sango0.sav",
+      "bytes": 8221,
+      "sha256": "70d4866a9afa75c66e83182cdd84c530ed3b31c79a0c861c2236743fc1eea02f"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-v23-month-021-sango1.sav",
+      "bytes": 4840,
+      "sha256": "fd2bb70e2a44edee1afd07b2d207ff5740f933d7d4d75e5830137f2010ae1891"
+     }
+    ]
+   },
+   {
+    "tag": "month-021",
+    "date": {
+     "year": 235,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-sango0.sav",
+      "bytes": 8221,
+      "sha256": "70d4866a9afa75c66e83182cdd84c530ed3b31c79a0c861c2236743fc1eea02f"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-sango1.sav",
+      "bytes": 4840,
+      "sha256": "fd2bb70e2a44edee1afd07b2d207ff5740f933d7d4d75e5830137f2010ae1891"
+     }
+    ]
+   },
+   {
+    "tag": "month-021-strengthened",
+    "date": {
+     "year": 235,
+     "month": 6
+    },
+    "files": [
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango0.sav",
+      "bytes": 8221,
+      "sha256": "3cae0aa7994c8a7659318739f2d47791646e16998dfa98905de03a6d57d3f8da"
+     },
+     {
+      "path": "build/r21-route-actual-v23/native-month-021-strengthened-sango1.sav",
+      "bytes": 4840,
+      "sha256": "920f97fdae78e2243a332894a10c464567caf7146f9e3ad2acb083d2226cc45d"
+     }
+    ]
+   }
+  ],
+  "military": {
+   "retainedIds": [
+    45,
+    30,
+    8,
+    17,
+    69,
+    70,
+    11,
+    10,
+    38
+   ],
+   "totalArms": 13339,
+   "newMoves": 0,
+   "newRecruitment": 0,
+   "newGetArmy": 0,
+   "newCargo": 0,
+   "priorMilitaryOnly": true
+  },
+  "productionDefectDemonstrated": false,
+  "castWrapperExecuted": false
+ }
+}

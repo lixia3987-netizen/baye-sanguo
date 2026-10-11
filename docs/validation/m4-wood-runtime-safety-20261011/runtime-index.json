@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "kind": "R34 maintained safety static raw inventory",
+  "scope": "Original-game maintained WOOD runtime safety tools: static regression and no-browser preflight only; actual WOOD6/7 remains pending.",
+  "canonicalPath": "docs/validation/m4-wood-runtime-safety-20261011.json",
+  "portableClosedArchive": false,
+  "byteClosedExplicitAllowlist": true,
+  "rawBytePolicy": "gzip original raw bytes without JSON/source normalization; content-addressed aliases retain every original path/size/SHA; every gzip roundtrip checked",
+  "totals": {
+    "logicalFiles": 30,
+    "uniqueGzipFiles": 29,
+    "logicalOriginalBytes": 3015572,
+    "uniqueGzipBytes": 617077
+  },
+  "rawEntries": [
+    {
+      "path": "build/r34-publish-maintained-safety-static-root-v1.mjs",
+      "bytes": 19378,
+      "sha256": "e87bb99577d2cbaa2bfe02cdbfbd47e0bff99d1dd7aa83a2d397fb6b640f8c14",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/e87bb99577d2cbaa2bfe02cdbfbd47e0bff99d1dd7aa83a2d397fb6b640f8c14.gz",
+        "bytes": 7078,
+        "sha256": "27473cad69f52348b9d6d9466146814b4ea12475a8e6a067e0022e537afd0ece",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-maintained-safety-validation-independent-audit-v1.json",
+      "bytes": 13253,
+      "sha256": "2302f822da888a0d50304cc2f1a1a21f9f6c93545542a172982122749fd532e5",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/2302f822da888a0d50304cc2f1a1a21f9f6c93545542a172982122749fd532e5.gz",
+        "bytes": 4755,
+        "sha256": "cbce0bc6cce561634f0e05bf739b149361626a5d60ef114268d5480cad1f9d4e",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-full-source-tests-v2-execution.json",
+      "bytes": 3853,
+      "sha256": "9c4d6f7793553f9c975e5f034f52a4ff561aea9c2be4c6bffd97bbee3a0746f1",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/9c4d6f7793553f9c975e5f034f52a4ff561aea9c2be4c6bffd97bbee3a0746f1.gz",
+        "bytes": 1180,
+        "sha256": "0b26718e824be2059e86118f00ab9a44ecf3bae44e808e0add0cd35cb6a9338a",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-full-source-tests-v2.log",
+      "bytes": 334955,
+      "sha256": "65ba9b92b1680e0ec4ffc52e6f2ab20b559bd2483e97b49bb70a2fee76b8c0d1",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/65ba9b92b1680e0ec4ffc52e6f2ab20b559bd2483e97b49bb70a2fee76b8c0d1.gz",
+        "bytes": 58912,
+        "sha256": "3c0ffa68ddd19b8bcd46cecb6baf5a5e607ed5253ba804e21a25668a151066a6",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-full-source-tests-v2-sources-pre.json",
+      "bytes": 78932,
+      "sha256": "5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663.gz",
+        "bytes": 25464,
+        "sha256": "1a5d1643f334ca2a7dd0070e062d4008c0a7de78d132875996c80108df9ad6ba",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-full-source-tests-v2-sources-post.json",
+      "bytes": 78932,
+      "sha256": "5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/5324303dd3648d91979e47045188cc54ada7775a7a8dc537dd21be4d99a52663.gz",
+        "bytes": 25464,
+        "sha256": "1a5d1643f334ca2a7dd0070e062d4008c0a7de78d132875996c80108df9ad6ba",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "scripts/test-hd-wood-runtime.mjs",
+      "bytes": 162582,
+      "sha256": "37803de71277b7dd9105d0d5dbb8b2488711991c79e3bb8f07e74d8e38f77568",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/37803de71277b7dd9105d0d5dbb8b2488711991c79e3bb8f07e74d8e38f77568.gz",
+        "bytes": 46025,
+        "sha256": "40d2988792f181262629a2af478ecba40df3ea81b5421c14e4d5c876b86d0c4a",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-safety-tracked-delta-v1.json",
+      "bytes": 17496,
+      "sha256": "b7bbc7b85f2bbd7201302401394b6a63cbf068b0a0595b471cc534b2331ad5c8",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/b7bbc7b85f2bbd7201302401394b6a63cbf068b0a0595b471cc534b2331ad5c8.gz",
+        "bytes": 4674,
+        "sha256": "b72257c836caa7089506f35b5c27849785c3612a0500ef7727c333cbdc84d5ef",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-safety-tracked-integration-proof-v1.json",
+      "bytes": 3902,
+      "sha256": "fe6e546304b6cbb00b6d51fa712954bddf4b7fe113d3848c788058506e922a93",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/fe6e546304b6cbb00b6d51fa712954bddf4b7fe113d3848c788058506e922a93.gz",
+        "bytes": 1784,
+        "sha256": "592b40f606f6149839731a6b7bd8e0851532810e16dac8cfb64e1f1668f95d93",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-before-safety-v1.mjs",
+      "bytes": 158973,
+      "sha256": "fc0f2f06c1de06f6a6de2002376c8737d7c368496c45cc4e826c04be56b4ec13",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/fc0f2f06c1de06f6a6de2002376c8737d7c368496c45cc4e826c04be56b4ec13.gz",
+        "bytes": 44931,
+        "sha256": "04f40bc2fa73b6faa1507d030f7c533a0a70c18f3b797935ad0a6cffa23bb93b",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+        "bytes": 4452,
+        "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "scripts/test-hd-runtime-owned-chrome.mjs",
+      "bytes": 8131,
+      "sha256": "9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3.gz",
+        "bytes": 2363,
+        "sha256": "712a9a57e1ff9ba735c2371cc99a7159712c204f12d57fa90070e9901e78e625",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+        "bytes": 2550,
+        "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "scripts/test-hd-runtime-json.mjs",
+      "bytes": 9752,
+      "sha256": "8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636.gz",
+        "bytes": 3064,
+        "sha256": "94154ec82bcea6f8231e089b36cc5308231e6669ea77a795e683e7c341296e41",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-maintained-wood-readonly-preflight-root-v1/result.json",
+      "bytes": 775611,
+      "sha256": "60c90d2c79211b47368abe96bc3f99a59321a8f89b8eab58c9f5bd421445cf4f",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/60c90d2c79211b47368abe96bc3f99a59321a8f89b8eab58c9f5bd421445cf4f.gz",
+        "bytes": 142695,
+        "sha256": "9cbe701408aaace48cac0b44d0a481e81a09bc9abb8e9c5cf2e66bcc7d337f0c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-maintained-wood-readonly-preflight-root-v1/source-verification.json",
+      "bytes": 430204,
+      "sha256": "86990d1f90b4a12c672e833afe846d075d8b7516f37b2406ccbc7ea6c5288fa1",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/86990d1f90b4a12c672e833afe846d075d8b7516f37b2406ccbc7ea6c5288fa1.gz",
+        "bytes": 68612,
+        "sha256": "67be7997562b84fed3c6d202f0373f6570a341699d1eb5629fed13b976145be1",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-maintained-wood-readonly-preflight-root-v1/browser-console.json",
+      "bytes": 57,
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+        "bytes": 62,
+        "sha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-npm-test-root-v1.log",
+      "bytes": 398244,
+      "sha256": "a0e0c9f0a341f2be75f0b7abe5c782df88b57b4dfda5153721caad7690a1e744",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/a0e0c9f0a341f2be75f0b7abe5c782df88b57b4dfda5153721caad7690a1e744.gz",
+        "bytes": 59414,
+        "sha256": "6df9418522f3d56a5547208f64b7348381238174f46fed3c2e51eae8960c1dbe",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-test-hd-wood-runtime-candidate-v1.mjs",
+      "bytes": 385384,
+      "sha256": "10b96322b09f2ec55d11520598034c603982540f84d5c8a0001bd915bb894be8",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/10b96322b09f2ec55d11520598034c603982540f84d5c8a0001bd915bb894be8.gz",
+        "bytes": 99180,
+        "sha256": "3432db686f4a2b2b21dc9319a0fc9cbfcffd80190e11e56a032d76efca2c1a9c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-candidate-freeze-v1.json",
+      "bytes": 3493,
+      "sha256": "1a0c8c6df9b56d490b3e798b01426a1483b6b510c29b4306bb54bd3a6a8a0cd4",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/1a0c8c6df9b56d490b3e798b01426a1483b6b510c29b4306bb54bd3a6a8a0cd4.gz",
+        "bytes": 1439,
+        "sha256": "772712b4520b4cfe3c5969612cf7a58ef35bef95534aa5d5edfcb830df47a92c",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-ownership-delta-v1.json",
+      "bytes": 16583,
+      "sha256": "cee32e0245b81d426449bde076e4ce7eb13d10ed8503439a8b24dc74ec02d725",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/cee32e0245b81d426449bde076e4ce7eb13d10ed8503439a8b24dc74ec02d725.gz",
+        "bytes": 4597,
+        "sha256": "dbcc97d37f0a94b84546013d1266e4eaaff4f9b1af11ba6e8d14cc09d5bf88e1",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-ownership-pure-selftests-v1.mjs",
+      "bytes": 8458,
+      "sha256": "4b301534fe54b5d30e2283f8ec454ec5d6b061051c9541681d6f23385469494c",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/4b301534fe54b5d30e2283f8ec454ec5d6b061051c9541681d6f23385469494c.gz",
+        "bytes": 3039,
+        "sha256": "687c7421311139c9d92bb8b6edd278d1183a00d411a9eb4d902fc1c53423ceb8",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-ownership-pure-selftest-proof-v1.json",
+      "bytes": 3114,
+      "sha256": "7dcf5efc66170801237346bd8486c4edbcf8b2634e51e49f0c918569c8e1cde7",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/7dcf5efc66170801237346bd8486c4edbcf8b2634e51e49f0c918569c8e1cde7.gz",
+        "bytes": 1170,
+        "sha256": "56664566f1f0fca076a8219b204ae55a6c6d034d62d739fb2a183d357132f51b",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-ownership-pure-first-failure-v1.json",
+      "bytes": 615,
+      "sha256": "ccd104a7a0ff78afe011e485fa0ca2f2b5fbe28f0af79ccc25ce85b7b4848e0e",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/ccd104a7a0ff78afe011e485fa0ca2f2b5fbe28f0af79ccc25ce85b7b4848e0e.gz",
+        "bytes": 351,
+        "sha256": "d13c382aa5b897f53b8d365936d3a399a34bd402eaf0b7bc5fea577d3da0dc08",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-runtime-root-handoff-v1.json",
+      "bytes": 5618,
+      "sha256": "2cd4087d38dde6f98fc114e3642a7f380cf2613e4bf9607fb9553b53d1c844ff",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/2cd4087d38dde6f98fc114e3642a7f380cf2613e4bf9607fb9553b53d1c844ff.gz",
+        "bytes": 2405,
+        "sha256": "8efc274366af5d295ff191b0ae216c992d22fb660862d6b64848bcdf9108c2e8",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-safe-candidate-independent-review-v1.json",
+      "bytes": 7133,
+      "sha256": "e700420e2e7f6d7df72675cf28566272ef37e9824613f6f8121f869a6d175b9b",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/e700420e2e7f6d7df72675cf28566272ef37e9824613f6f8121f869a6d175b9b.gz",
+        "bytes": 2821,
+        "sha256": "4b7d49d3bc806903ad523053ee0745c9aa5bdbb120a8241d67c48be729673316",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-v25-legal-route-review-v1.json",
+      "bytes": 16791,
+      "sha256": "f8a86967170a5d6497a1356eeeaab1c809b6ba8d462ec62667e2852375e458af",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/f8a86967170a5d6497a1356eeeaab1c809b6ba8d462ec62667e2852375e458af.gz",
+        "bytes": 6177,
+        "sha256": "9f914a54b058a9a14c8e4c9561214cbfd972e738e72f3aadfa091f251951eb01",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-driver-safety-gap-review-v1.json",
+      "bytes": 10707,
+      "sha256": "0b52d889e189aa330dc9dc45954cd447c848261ac738f8ceee67e6f30916b5ae",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/0b52d889e189aa330dc9dc45954cd447c848261ac738f8ceee67e6f30916b5ae.gz",
+        "bytes": 3998,
+        "sha256": "655cc3adcb74b87bd08942f2da770e664689574273d15836481d7f1f3ebc9206",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-wood-renderer-and-native-gap-review-v1.json",
+      "bytes": 22595,
+      "sha256": "5c8001d1f46cac2b7cbcf014206bfb2859ac43f3b07fad398893970f3d03fcbf",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/5c8001d1f46cac2b7cbcf014206bfb2859ac43f3b07fad398893970f3d03fcbf.gz",
+        "bytes": 6457,
+        "sha256": "6bf87886193f5272cca51fc04cf0da60491e92c661e8f145065a23bfd9bf5dda",
+        "encoding": "gzip"
+      }
+    },
+    {
+      "path": "build/r34-publish-maintained-safety-static-root-v2.mjs",
+      "bytes": 20310,
+      "sha256": "49d5db6cea6c27f50d459401e3a03da7e55166a723ac561ec107cdc066f99b49",
+      "archive": {
+        "path": "docs/validation/m4-wood-runtime-safety-20261011/raw/49d5db6cea6c27f50d459401e3a03da7e55166a723ac561ec107cdc066f99b49.gz",
+        "bytes": 7428,
+        "sha256": "03706f3dd00cd49893d65f5941f8dee3975d26169d93d137d5ae8768ae27c804",
+        "encoding": "gzip"
+      }
+    }
+  ],
+  "limitations": [
+    "This is static safety regression and no-browser preflight evidence, not actual WOOD preparation, caster qualification, player casting or HD/fallback acceptance.",
+    "No process/port/user8080 checks were performed by the publisher. Preflight cleanup flags describe a no-launch branch, not real OS cleanup coverage.",
+    "The reviewed V25-derived candidate is separate from the maintained runtime; its business changes were not promoted by the 15 safety edits.",
+    "Only the explicit raw-file allowlist is byte closed. Source inventories, candidate imports, historical route results/save pairs and native/compiler binary references are not recursively archived or portable.",
+    "No browser profile, user native save, campaign result, 146-pair inventory or actual campaign directory is read or archived."
+  ]
+}

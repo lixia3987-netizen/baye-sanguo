@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "generated-original-integrated",
+  "generatedAt": "2026-10-10",
+  "tool": "Codex built-in image_gen.imagegen",
+  "transparentBackground": true,
+  "prompt": "Use case: historical-scene.\nAsset type: one standalone transparent PNG river-crossing marker for a late Eastern Han / Three Kingdoms strategy world map, displayed at only 32 screen pixels.\nPrimary request: one small, low, straight wooden plank bridge with a broad simple deck, two understated wooden side rails, and a few sturdy square posts. The entire bridge is visible as a compact readable silhouette, viewed slightly from above in a restrained three-quarter perspective. The bridge runs diagonally across the canvas from lower left to upper right. Quiet weathered warm-brown timber and small beige-gray stone abutments at the two ends.\nStyle: delicate dark ink contours and soft traditional Chinese watercolor shading, matching a muted topographic watercolor map with warm neutral stone buildings and weathered timber. Broad simple forms readable at 32 pixels, restrained texture. A low practical historic crossing, no roof, towers or ornate architecture.\nComposition: one isolated object centered on a square canvas, occupying roughly 80 percent of its width, with clear transparent padding on every edge. Both ends, rails and supports fully visible. Keep an open transparent area beneath the span and avoid a bulky terrain base.\nBackdrop: genuinely transparent alpha outside the bridge; no river, water, banks, ground tile, landscape, paper sheet, solid backdrop, badge, circle, border or detached shadow.\nConstraints: bridge only, no people, soldiers, animals, boats, trees, vegetation, flags, text, letters, signage, emblems, logos, watermark, checkerboard pattern, fantasy architecture, photorealism or glossy 3D plastic.",
+  "source": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-35e44fdc-b0ba-4c5b-a7d4-ebd95b3739a4.png",
+  "candidate": "build/r23-overworld-pass-art-v1/bridge-crossing-v1.png",
+  "bytes": 1198185,
+  "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+  "validation": {
+    "format": "PNG",
+    "mode": "RGBA",
+    "size": [
+      1254,
+      1254
+    ],
+    "alphaExtrema": [
+      0,
+      255
+    ],
+    "transparentPixels": 1170264,
+    "partialAlphaPixels": 401811,
+    "opaquePixels": 441,
+    "alphaAbove16Bounds": [
+      39,
+      272,
+      1237,
+      1045
+    ],
+    "postProcessing": false,
+    "fullResolutionVisuallyInspected": true,
+    "inspectionScope": "Original generation and full-resolution review. Game screenshots and runtime acceptance are recorded separately."
+  },
+  "scope": "R08 decorative river-crossing art. The generated PNG is integrated byte-for-byte at the existing road-curve control point. The old pass.png is retained; native coordinates, road detection, input and movement rules are unchanged.",
+  "integration": {
+    "target": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+    "manifestVersion": "8",
+    "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+    "bytes": 1198185,
+    "retainedLegacy": "roads/pass.png",
+    "drawFootprint": "32x32 design-canvas units, centered at unchanged curve control",
+    "runtimeEvidence": "../../docs/validation/m4-bridge-crossing-20261010.json",
+    "originalBytesUnmodified": true
+  }
+}

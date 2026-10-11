@@ -1,0 +1,372 @@
+{
+  "scope": "Read-only exhaustive current native 12x12 GB2312 glyph comparison against actual SPE40 bubble bitplane crops. No OCR, no generated-art edit or regeneration.",
+  "fontSource": {
+    "path": "vendor/iBaye/src/platform/js/font.bin.c",
+    "bytes": 1003524,
+    "sha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401"
+  },
+  "decodedFont": {
+    "bytes": 163840,
+    "sha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+    "glyphDataBytes": 18,
+    "grid": [
+      12,
+      12
+    ],
+    "addressFormula": "(94*(high-0xa1)+(low-0xa1))*18",
+    "source": "vendor/iBaye/src/comOut.c:535..592"
+  },
+  "validDecodedNonemptyGlyphs": 8616,
+  "glyphs": [
+    {
+      "frame": 0,
+      "glyph": 0,
+      "source": "build/r25-native-liuyan-40/picture-0.bin",
+      "rect": {
+        "x": 21,
+        "y": 10,
+        "width": 7,
+        "height": 8
+      },
+      "bitRows": [
+        "0001000",
+        "0111111",
+        "0001000",
+        "0010100",
+        "0111111",
+        "1010100",
+        "0010100",
+        "0011111"
+      ],
+      "directTrimmedExact": [],
+      "hypotheticalTrimmedNearestExact": [],
+      "bestHypotheticalTrimmedNearest": {
+        "mismatchedPixels": 9,
+        "candidates": [
+          {
+            "text": "茌",
+            "gbHex": "dcdd",
+            "offset": 100908,
+            "originalBounds": {
+              "w": 11,
+              "h": 12
+            },
+            "mismatchedPixels": 9
+          }
+        ]
+      },
+      "hypotheticalScalingIsHistoricalRenderingProof": false
+    },
+    {
+      "frame": 0,
+      "glyph": 1,
+      "source": "build/r25-native-liuyan-40/picture-0.bin",
+      "rect": {
+        "x": 29,
+        "y": 10,
+        "width": 8,
+        "height": 8
+      },
+      "bitRows": [
+        "11110111",
+        "01010101",
+        "11110110",
+        "01010110",
+        "11110101",
+        "01010111",
+        "10110100",
+        "10000100"
+      ],
+      "directTrimmedExact": [],
+      "hypotheticalTrimmedNearestExact": [],
+      "bestHypotheticalTrimmedNearest": {
+        "mismatchedPixels": 13,
+        "candidates": [
+          {
+            "text": "",
+            "gbHex": "aae3",
+            "offset": 16416,
+            "originalBounds": {
+              "w": 12,
+              "h": 12
+            },
+            "mismatchedPixels": 13
+          }
+        ]
+      },
+      "hypotheticalScalingIsHistoricalRenderingProof": false
+    },
+    {
+      "frame": 0,
+      "glyph": 2,
+      "source": "build/r25-native-liuyan-40/picture-0.bin",
+      "rect": {
+        "x": 38,
+        "y": 10,
+        "width": 4,
+        "height": 7
+      },
+      "bitRows": [
+        "1111",
+        "1001",
+        "0011",
+        "0110",
+        "0000",
+        "0110",
+        "0110"
+      ],
+      "directTrimmedExact": [],
+      "hypotheticalTrimmedNearestExact": [],
+      "bestHypotheticalTrimmedNearest": {
+        "mismatchedPixels": 4,
+        "candidates": [
+          {
+            "text": "",
+            "gbHex": "fadb",
+            "offset": 151632,
+            "originalBounds": {
+              "w": 6,
+              "h": 9
+            },
+            "mismatchedPixels": 4
+          }
+        ]
+      },
+      "hypotheticalScalingIsHistoricalRenderingProof": false
+    },
+    {
+      "frame": 1,
+      "glyph": 0,
+      "source": "build/r25-native-liuyan-40/picture-1.bin",
+      "rect": {
+        "x": 22,
+        "y": 10,
+        "width": 8,
+        "height": 8
+      },
+      "bitRows": [
+        "10111111",
+        "00000001",
+        "01011101",
+        "11010101",
+        "01011101",
+        "10000001",
+        "10000001",
+        "10000111"
+      ],
+      "directTrimmedExact": [],
+      "hypotheticalTrimmedNearestExact": [],
+      "bestHypotheticalTrimmedNearest": {
+        "mismatchedPixels": 16,
+        "candidates": [
+          {
+            "text": "画",
+            "gbHex": "bbad",
+            "offset": 44208,
+            "originalBounds": {
+              "w": 11,
+              "h": 11
+            },
+            "mismatchedPixels": 16
+          },
+          {
+            "text": "恧",
+            "gbHex": "eda4",
+            "offset": 128646,
+            "originalBounds": {
+              "w": 11,
+              "h": 11
+            },
+            "mismatchedPixels": 16
+          }
+        ]
+      },
+      "hypotheticalScalingIsHistoricalRenderingProof": false
+    },
+    {
+      "frame": 1,
+      "glyph": 1,
+      "source": "build/r25-native-liuyan-40/picture-1.bin",
+      "rect": {
+        "x": 31,
+        "y": 10,
+        "width": 8,
+        "height": 8
+      },
+      "bitRows": [
+        "10001000",
+        "01111110",
+        "11001010",
+        "01010010",
+        "01010010",
+        "01010100",
+        "10100000",
+        "10011111"
+      ],
+      "directTrimmedExact": [],
+      "hypotheticalTrimmedNearestExact": [],
+      "bestHypotheticalTrimmedNearest": {
+        "mismatchedPixels": 17,
+        "candidates": [
+          {
+            "text": "",
+            "gbHex": "adc9",
+            "offset": 21024,
+            "originalBounds": {
+              "w": 12,
+              "h": 12
+            },
+            "mismatchedPixels": 17
+          }
+        ]
+      },
+      "hypotheticalScalingIsHistoricalRenderingProof": false
+    },
+    {
+      "frame": 1,
+      "glyph": 2,
+      "source": "build/r25-native-liuyan-40/picture-1.bin",
+      "rect": {
+        "x": 40,
+        "y": 14,
+        "width": 3,
+        "height": 3
+      },
+      "bitRows": [
+        "111",
+        "101",
+        "111"
+      ],
+      "directTrimmedExact": [],
+      "hypotheticalTrimmedNearestExact": [
+        {
+          "text": "",
+          "gbHex": "ace5",
+          "offset": 19836,
+          "originalBounds": {
+            "w": 12,
+            "h": 12
+          },
+          "mismatchedPixels": 0
+        },
+        {
+          "text": "熙",
+          "gbHex": "cef5",
+          "offset": 77652,
+          "originalBounds": {
+            "w": 11,
+            "h": 11
+          },
+          "mismatchedPixels": 0
+        },
+        {
+          "text": "酝",
+          "gbHex": "d4cd",
+          "offset": 87084,
+          "originalBounds": {
+            "w": 11,
+            "h": 11
+          },
+          "mismatchedPixels": 0
+        },
+        {
+          "text": "囵",
+          "gbHex": "e0f0",
+          "offset": 108018,
+          "originalBounds": {
+            "w": 9,
+            "h": 11
+          },
+          "mismatchedPixels": 0
+        },
+        {
+          "text": "",
+          "gbHex": "fada",
+          "offset": 151614,
+          "originalBounds": {
+            "w": 6,
+            "h": 10
+          },
+          "mismatchedPixels": 0
+        },
+        {
+          "text": "",
+          "gbHex": "fbde",
+          "offset": 153378,
+          "originalBounds": {
+            "w": 5,
+            "h": 12
+          },
+          "mismatchedPixels": 0
+        }
+      ],
+      "bestHypotheticalTrimmedNearest": {
+        "mismatchedPixels": 0,
+        "candidates": [
+          {
+            "text": "",
+            "gbHex": "ace5",
+            "offset": 19836,
+            "originalBounds": {
+              "w": 12,
+              "h": 12
+            },
+            "mismatchedPixels": 0
+          },
+          {
+            "text": "熙",
+            "gbHex": "cef5",
+            "offset": 77652,
+            "originalBounds": {
+              "w": 11,
+              "h": 11
+            },
+            "mismatchedPixels": 0
+          },
+          {
+            "text": "酝",
+            "gbHex": "d4cd",
+            "offset": 87084,
+            "originalBounds": {
+              "w": 11,
+              "h": 11
+            },
+            "mismatchedPixels": 0
+          },
+          {
+            "text": "囵",
+            "gbHex": "e0f0",
+            "offset": 108018,
+            "originalBounds": {
+              "w": 9,
+              "h": 11
+            },
+            "mismatchedPixels": 0
+          },
+          {
+            "text": "",
+            "gbHex": "fada",
+            "offset": 151614,
+            "originalBounds": {
+              "w": 6,
+              "h": 10
+            },
+            "mismatchedPixels": 0
+          },
+          {
+            "text": "",
+            "gbHex": "fbde",
+            "offset": 153378,
+            "originalBounds": {
+              "w": 5,
+              "h": 12
+            },
+            "mismatchedPixels": 0
+          }
+        ]
+      },
+      "hypotheticalScalingIsHistoricalRenderingProof": false
+    }
+  ],
+  "conclusion": "Only zero-difference direct matches would establish a native font identity. Hypothetical nearest-scaled matches are diagnostic only; no changed image is written."
+}

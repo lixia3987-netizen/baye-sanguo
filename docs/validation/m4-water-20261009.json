@@ -1,0 +1,630 @@
+{
+  "schemaVersion": 1,
+  "localDate": "2026-10-09",
+  "status": "standard-player-water36-HD-accepted",
+  "scope": "Only standard LIB resource36/index0 kind2 range0..7, actual player skill12 水淹. Other spell/state families, other LIBs and mobile remain open.",
+  "changes": {
+    "originalBuiltinPngs": [
+      {
+        "path": "assets/hd-spe/water-36/picture-0.png",
+        "originalPath": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-04f3869f-f28f-444a-9372-1bf764edd07d.png",
+        "bytes": 3234799,
+        "sha256": "04841954d326f0fea99a634e5d01050936aff28c72c61316d27cc59b10f4e4bb",
+        "width": 1254,
+        "height": 1254,
+        "byteExact": true
+      },
+      {
+        "path": "assets/hd-spe/water-36/picture-1.png",
+        "originalPath": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-93ba7878-bcee-4392-989b-6723cca48612.png",
+        "bytes": 3423919,
+        "sha256": "554cd385f3b3e822d412796121b765c184904b0c855a151081d4ecc184983ff7",
+        "width": 1254,
+        "height": 1254,
+        "byteExact": true
+      }
+    ],
+    "generationMode": "Built-in style transfer from actual native bitmaps; two original opaque PNG outputs, no external CLI/API fallback.",
+    "promptSet": {
+      "path": "assets/hd-spe/GENERATED-WATER.json",
+      "bytes": 22015,
+      "sha256": "285d7dd9e27e22a9c3de6d795f0e1c6af7456dc9f4e835bb260774c3e9ac0ca3"
+    },
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 551901,
+      "sha256": "9aa89592486210db467dfb7d3c714df7b8a1e19e09d1e87f497d13b9ac482ac0"
+    },
+    "oldEntryCount": 41,
+    "newEntryCount": 42,
+    "oldEntriesPreserved": true,
+    "cacheVersion": "20261009v",
+    "nativeModified": false,
+    "frontendJsCssModified": false
+  },
+  "staticReviews": [
+    {
+      "path": "build/r15-water-art-review.json",
+      "bytes": 6846,
+      "sha256": "9e6bacbef2ab8657e2f05665d7992294775340650ca9f80fb8b86e1b09e63dea",
+      "result": "PASS"
+    },
+    {
+      "path": "build/r15-water-install-review.json",
+      "bytes": 5916,
+      "sha256": "3a05abc2146f9104e3dfae460577d734782f097abec48c2bcab9d99d2ecbe9c4",
+      "result": "PASS-static-original-install-review-runtime-pending"
+    }
+  ],
+  "tests": {
+    "passed": 692,
+    "failed": 0,
+    "skipped": 0,
+    "parallelProcesses": 4,
+    "log": {
+      "path": "build/r15-all-tests-v1.log",
+      "bytes": 87856,
+      "sha256": "3b60ae627ac9894ff75cd1d3fffebdb89d8c0b260341886cd713869f55ada359"
+    }
+  },
+  "runtimeDriverPublication": {
+    "schemaVersion": 1,
+    "result": "PASS-exact-one-trailing-space-cleanup-no-execution-change",
+    "executedOriginal": {
+      "path": "build/r15-water-runtime-final-c5a444.mjs",
+      "bytes": 112188,
+      "sha256": "c5a444a4a3a38e1c5318880bf731438d313782e3d7a686576b8132d9096eb510",
+      "backupTiming": "Saved after the completed actual run; never claimed as a pre-run backup"
+    },
+    "published": {
+      "path": "scripts/test-hd-water-runtime.mjs",
+      "bytes": 112187,
+      "sha256": "fd4d7a77577d73e5c13dc07c44af669a5cf9e1d63424219e0f54519cf82d47bb"
+    },
+    "difference": {
+      "line": 868,
+      "removedBytes": 1,
+      "before": "...Math.abs(p.y-u.y))); SPACE NEWLINE",
+      "after": "...Math.abs(p.y-u.y))); NEWLINE",
+      "byteEqualAfterRemovingTrailingSpaces": true,
+      "logicAndPixelOracleChanged": false
+    },
+    "acceptedActualRun": {
+      "path": "build/r15-water-hd-installed-v1/result.json",
+      "runnerSha256": "c5a444a4a3a38e1c5318880bf731438d313782e3d7a686576b8132d9096eb510",
+      "sha256": "ff4104c9ee93d03b38f54a747ffeae5cefdc1360d2f8f9d3f387c89ec7a0e865"
+    },
+    "publishedReadOnlyPreflight": {
+      "path": "build/r15-water-published-readonly-preflight-v1/result.json",
+      "sha256": "efc1910d59ff4e5ab8056c61e0a1b3d118da86a4a99652778b104639707678c7",
+      "ok": true,
+      "sourceCount": 1145,
+      "drift": 0,
+      "added": 0,
+      "syntaxCheck": true,
+      "browserStarted": false,
+      "actualCastRun": false
+    },
+    "scope": "Actual browser cast accepted the c5 original. Published fd4 differs by exactly one removed trailing space, with no behavior change; syntax and readonly preflight rerun. No new gameplay trial is claimed.",
+    "proof": {
+      "path": "build/r15-water-format-cleanup-proof.json",
+      "bytes": 1634,
+      "sha256": "f731316a1aef3a83b538c58e8b59a85f65c11bb3b0fd22f510b8ab1b3ecd235d"
+    }
+  },
+  "actualRuns": {
+    "failedFirstLcd": {
+      "result": {
+        "path": "build/r15-water-lcd-cast-v1/result.json",
+        "bytes": 17378475,
+        "sha256": "5f87749dc33c91e8ed115e763ed02f62a82a94592c904c402efaee7622f53601"
+      },
+      "independentRuntimeAudit": {
+        "path": "build/r15-water-lcd-cast-v1/runtime-validation-audit.json",
+        "bytes": 563014,
+        "sha256": "d3520ab5afc6024e8b91267cea84a6a77be370d6b4eae068bc4f2189ae65e73e"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "startedAt": "2026-10-08T20:08:47.742Z",
+      "finishedAt": "2026-10-08T20:12:02.233Z",
+      "error": "AssertionError [ERR_ASSERTION]: Actual caster alive; death is not repaired\n    at battleSmoke (file:///F:/project/baye-sanguo/build/r15-test-hd-water-runtime-candidate.mjs:849:10)\n    at async marchSmoke (file:///F:/project/baye-sanguo/build/r15-test-hd-water-runtime-candidate.mjs:699:5)\n    at async smoke (file:///F:/project/baye-sanguo/build/r15-test-hd-water-runtime-candidate.mjs:392:5)\n    at async main (file:///F:/project/baye-sanguo/build/r15-test-hd-water-runtime-candidate.mjs:1029:9)",
+      "route": {
+        "period": 3,
+        "lord": {
+          "id": 9,
+          "name": "刘璋"
+        },
+        "originCity": 19,
+        "destination": 14,
+        "casterPerson": 147,
+        "marchPersonIds": [
+          147,
+          140
+        ]
+      },
+      "checkpoints": 22,
+      "actualInputs": 242,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "originalPreparation": {
+        "requested": 800,
+        "recruited": 720,
+        "distributed": 800,
+        "moneyBefore": 74,
+        "moneyAfterRecruitment": 2,
+        "moneyAfterDistribution": 2,
+        "reserveBefore": 0,
+        "reserveAfterRecruitment": 720,
+        "reserveAfterDistribution": 20
+      },
+      "casterAtEntry": {
+        "i": 0,
+        "id": 148,
+        "personIndex": 147,
+        "name": "李恢",
+        "side": "player",
+        "x": 4,
+        "y": 29,
+        "hp": 56,
+        "mp": 65,
+        "move": 5,
+        "active": 0,
+        "state": 0,
+        "belong": 10,
+        "arms": 800,
+        "iq": 77,
+        "armType": 3,
+        "terrain": 1
+      },
+      "casterAfterValidation": {
+        "i": 0,
+        "id": 148,
+        "personIndex": 147,
+        "name": "李恢",
+        "side": "player",
+        "x": 8,
+        "y": 23,
+        "hp": 56,
+        "mp": 65,
+        "move": 5,
+        "active": 1,
+        "state": 8,
+        "belong": 10,
+        "arms": 0,
+        "iq": 77,
+        "armType": 3,
+        "terrain": 1
+      },
+      "casts": [],
+      "originalPixelOracle": null,
+      "sourceVerification": {
+        "ok": true,
+        "count": 1139,
+        "runnerMatch": true,
+        "drift": [],
+        "added": []
+      },
+      "nativeSource": {
+        "count": 128,
+        "aggregate": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f"
+      },
+      "engineBuild": {
+        "sourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+        "engineSourceSha256": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+        "engineSourceModified": true,
+        "quartet": [
+          {
+            "source": "js\\baye.js",
+            "bytes": 192446,
+            "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60"
+          },
+          {
+            "source": "js\\baye.wasm",
+            "bytes": 4439355,
+            "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e"
+          },
+          {
+            "source": "js\\baye.wasm.map",
+            "bytes": 29805,
+            "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4"
+          },
+          {
+            "source": "js\\baye.build.json",
+            "bytes": 6763,
+            "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8"
+          }
+        ]
+      },
+      "isolation": {
+        "httpPort": 1041,
+        "debugPort": 1043,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-MBJiBt",
+        "chromePid": 160740,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "scope": "This actual scenario failed before a player water cast; no movie, label, numeric hold or HD gameplay accepted."
+    },
+    "strictInstalledHd": {
+      "result": {
+        "path": "build/r15-water-hd-installed-v1/result.json",
+        "bytes": 17162196,
+        "sha256": "ff4104c9ee93d03b38f54a747ffeae5cefdc1360d2f8f9d3f387c89ec7a0e865"
+      },
+      "independentRuntimeAudit": {
+        "path": "build/r15-water-hd-installed-v1/runtime-validation-audit.json",
+        "bytes": 102764,
+        "sha256": "796aa3c6b94fdca13ec033a07dca529b7abc00a251453ad767d0e4793f842890"
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "startedAt": "2026-10-08T20:29:37.357Z",
+      "finishedAt": "2026-10-08T20:31:26.958Z",
+      "error": null,
+      "route": {
+        "period": 3,
+        "lord": {
+          "id": 0,
+          "name": "韩玄"
+        },
+        "originCity": 33,
+        "destination": 36,
+        "casterPerson": 14,
+        "marchPersonIds": [
+          14,
+          0,
+          11
+        ]
+      },
+      "checkpoints": 20,
+      "actualInputs": 190,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "originalPreparation": {
+        "requested": 800,
+        "recruited": 800,
+        "distributed": 800,
+        "moneyBefore": 90,
+        "moneyAfterRecruitment": 10,
+        "moneyAfterDistribution": 10,
+        "reserveBefore": 0,
+        "reserveAfterRecruitment": 800,
+        "reserveAfterDistribution": 100
+      },
+      "casterAtEntry": {
+        "i": 0,
+        "id": 15,
+        "personIndex": 14,
+        "name": "王朗",
+        "side": "player",
+        "x": 16,
+        "y": 2,
+        "hp": 56,
+        "mp": 66,
+        "move": 5,
+        "active": 0,
+        "state": 0,
+        "belong": 1,
+        "arms": 800,
+        "iq": 78,
+        "armType": 3,
+        "terrain": 7
+      },
+      "casterAfterValidation": {
+        "i": 0,
+        "id": 15,
+        "personIndex": 14,
+        "name": "王朗",
+        "side": "player",
+        "x": 16,
+        "y": 7,
+        "hp": 56,
+        "mp": 46,
+        "move": 5,
+        "active": 1,
+        "state": 0,
+        "belong": 1,
+        "arms": 800,
+        "iq": 78,
+        "armType": 3,
+        "terrain": 7
+      },
+      "casts": [
+        {
+          "actor": {
+            "i": 0,
+            "id": 15,
+            "personIndex": 14,
+            "name": "王朗",
+            "side": "player",
+            "x": 16,
+            "y": 7,
+            "hp": 56,
+            "mp": 66,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "belong": 1,
+            "arms": 800,
+            "iq": 78,
+            "armType": 3,
+            "terrain": 7
+          },
+          "target": {
+            "i": 11,
+            "id": 18,
+            "personIndex": 17,
+            "name": "陈应",
+            "side": "enemy",
+            "x": 16,
+            "y": 8,
+            "state": 0,
+            "belong": 3,
+            "arms": 800,
+            "armType": 3,
+            "terrain": 7
+          },
+          "nativeAimProof": {
+            "fight": {
+              "active": 1,
+              "over": 0,
+              "wait": 1,
+              "phase": 3,
+              "aimType": 1,
+              "inputKind": 5,
+              "inputSeq": 115,
+              "actorIndex": 0,
+              "tip": "",
+              "skip": 0,
+              "result": "",
+              "cityIndex": 36,
+              "mapW": 32,
+              "mapH": 32,
+              "bout": 5,
+              "boutMax": 30,
+              "focusX": 16,
+              "focusY": 7
+            },
+            "generation": 3,
+            "casterId": 15,
+            "casterMp": 66,
+            "casterState": 0,
+            "casterActive": 0,
+            "casterTerrain": 7,
+            "weather": 4,
+            "targetId": 18,
+            "x": 16,
+            "y": 8,
+            "state": 0,
+            "terrain": 7,
+            "arm": 3,
+            "size": 9,
+            "originX": 12,
+            "originY": 3,
+            "values": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              2,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              1,
+              1,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "succeeded": true,
+          "actualMpCost": 20,
+          "actualTargetArmsBefore": 800,
+          "actualTargetArmsAfter": 400,
+          "targetAfter": {
+            "i": 11,
+            "id": 18,
+            "personIndex": 17,
+            "name": "陈应",
+            "side": "enemy",
+            "x": 16,
+            "y": 8,
+            "hp": 71,
+            "mp": 22,
+            "move": 5,
+            "active": 0,
+            "state": 0,
+            "belong": 3,
+            "arms": 400,
+            "iq": 22,
+            "armType": 3,
+            "terrain": 7
+          },
+          "movieEvents": [
+            8
+          ]
+        }
+      ],
+      "originalPixelOracle": {
+        "actualLcdCallbacks": 28,
+        "events": 1,
+        "movieReadbacks": 8,
+        "postReadbacks": 21,
+        "movieHd": 8,
+        "postHd": 21,
+        "labels": 21,
+        "numericReadbacks": 20,
+        "completedHoldReadbacks": 1
+      },
+      "sourceVerification": {
+        "ok": true,
+        "count": 1145,
+        "runnerMatch": true,
+        "drift": [],
+        "added": []
+      },
+      "nativeSource": {
+        "count": 128,
+        "aggregate": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f"
+      },
+      "engineBuild": {
+        "sourceRevision": "9ca9c40855ddc545667179abfc094a5203cb6036",
+        "engineSourceSha256": "56b01e4becf3c06e6b4cc154dfa6585e37a2c9aa91cd3ada744420c72228e02f",
+        "engineSourceModified": true,
+        "quartet": [
+          {
+            "source": "js\\baye.js",
+            "bytes": 192446,
+            "sha256": "71e906da1485bebb598607d1e3899dbc240bb936615b57770c3e09ddecd96f60"
+          },
+          {
+            "source": "js\\baye.wasm",
+            "bytes": 4439355,
+            "sha256": "bd708dd8c7561c383c05ea0ca88c8164b5aa6d467f5ad5f42dcb19b965d3973e"
+          },
+          {
+            "source": "js\\baye.wasm.map",
+            "bytes": 29805,
+            "sha256": "e2364dd054be4665e48ac96601046b9f06d5a01a808d547ca200514c2fa797a4"
+          },
+          {
+            "source": "js\\baye.build.json",
+            "bytes": 6763,
+            "sha256": "59191e60421006bf3c43a4fb51f9e5f22494d47ff3533fa985f6f96c58971dc8"
+          }
+        ]
+      },
+      "isolation": {
+        "httpPort": 4221,
+        "debugPort": 4222,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-skill-runtime-ESxiZE",
+        "chromePid": 163856,
+        "user8080Touched": false,
+        "cleaned": true
+      },
+      "scope": {
+        "accepted": "One actual standard-LIB P3 HanXuan/ChangSha33 to GuiYang36 navy WangLang14 skill12 water action on a current enemy river7 tile, original MP20/random outcome, WATER36 timer frames, real font label, NUM15 history and original numeric wait. All160x96 native source pixels are independently checked. LCD fallback does not complete HD art.",
+        "notRun": "Other skills, custom hooks, noMovie, mobile or performance; static river coordinates never authorize a target"
+      }
+    }
+  },
+  "routeAdjustment": {
+    "failedLcdAnalysis": {
+      "path": "build/r15-water-lcd-route-audit.json",
+      "bytes": 23662,
+      "sha256": "5fc7c3c211f705592ed94a929ff1bb84fd1d0d5a510ef17b68fb3e6091c5f21b"
+    },
+    "newActualRomPlan": {
+      "path": "build/r15-water-guiyang-route-plan.json",
+      "bytes": 14016,
+      "sha256": "2b52de7c64cdc08435b9801faf7c9f395fe815f5e261ff3231bf5ac303a0665d"
+    },
+    "reason": "First actual Hanzhong route had only a small river ring; actor moved two tiles per turn over actual plain and died before legal AIM. New Guiyang route has 958 river tiles, current armies/targets still independently required."
+  },
+  "independentRuntimeReviews": [
+    {
+      "path": "build/r15-water-final-source-review.json",
+      "bytes": 5984,
+      "sha256": "8c0c0dc797c15da41f5aba35d8bf7bdd019ecf94ef94c3adc37b093db68b343f",
+      "result": "PASS"
+    },
+    {
+      "path": "build/r15-water-final-independent-review.json",
+      "bytes": 30245,
+      "sha256": "60cc6807185dc70a6c0af99e33c3d6ec6dc3c9ec2d464cdc2304533c4892e0d1",
+      "result": "PASS"
+    }
+  ],
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-water-20261009/runtime-index.json",
+      "bytes": 80144,
+      "sha256": "111ed42717f77053c99e15a83d642a4eaa13411100c8c199d048d991abc1d7fc"
+    },
+    "counts": {
+      "logicalRaw": 57,
+      "physicalRaw": 52,
+      "logicalPng": 91,
+      "physicalPng": 74,
+      "localOnlyUnselectedPng": 16
+    },
+    "roundTripByteExact": true
+  },
+  "remaining": [
+    "Other 28 ordinary attack combinations need actual player playback acceptance.",
+    "Other spell resources and state27 need assets and native-event validation.",
+    "Remaining HUD/search/river-crossing art, succession, full four-period/Mod campaigns, performance, mobile landscape and real cloud accounts retain their existing scope."
+  ],
+  "goalComplete": false
+}

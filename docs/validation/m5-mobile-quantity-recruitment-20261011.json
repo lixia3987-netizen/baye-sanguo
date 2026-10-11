@@ -1,0 +1,4538 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "createdAt": "2026-10-10T23:08:24.168Z",
+  "baseCommit": "ad01e531589e8cd0b4eccaf71c9c0c9fe60ac76d",
+  "status": "Original mobile quantity summary and two positive recruitment commitments accepted in bounded desktop Chrome emulation",
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "fullNativeAbiAccepted": false,
+  "portableClosedArchive": false,
+  "nativeBuildChanged": false,
+  "changes": [
+    "Keep mobile food quantity summary outside an independently scrollable 44px button grid",
+    "Reuse buttons and scroll through same native quantity session value updates; retire controls at real session/bounds/phase changes",
+    "Keep PC quantity behavior and refresh mobile CSS/shared CITY script cache keys",
+    "Opt-in original CITY recruitment scenario and pure original-LIB effect oracle; retain measured navigation worlds",
+    "Wait for actual visible DOM publication before revealing current march controls"
+  ],
+  "staticRegression": {
+    "modules": 71,
+    "tests": 2287,
+    "passed": 2287,
+    "failed": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 24007.2243,
+    "concurrency": 4,
+    "clang": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "firstRun": {
+      "passed": 2286,
+      "failed": 1,
+      "note": "Existing SEARCH strict HTML fixture did not recognize the new quantity classes; only fixture recognition updated, product bytes unchanged"
+    }
+  },
+  "controlledRegression": {
+    "cityMobileHost": {
+      "passed": 147,
+      "newCases": 10
+    },
+    "cityHudFixture": {
+      "passed": 129
+    },
+    "recruitmentOracle": {
+      "passed": 80
+    },
+    "oldSourceNegative": {
+      "selected": 2,
+      "passed": 0,
+      "failed": 2,
+      "scope": "Two new FOOD structure tests against exact HEAD CITY bytes"
+    },
+    "initialFixtureCorrections": "New FOOD mocks needed the existing read-only bayeQtyNativeClosed helper and comment-free CSS parsing; one recruitment fixture initially changed the wrong city. Original records retained."
+  },
+  "runtime": [
+    {
+      "name": "march-667",
+      "result": "build/mobile-qty-march-667-v2-20261011/result.json",
+      "startedAt": "2026-10-10T22:55:54.704Z",
+      "finishedAt": "2026-10-10T22:57:12.675Z",
+      "scope": "Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim",
+      "acceptedScope": [
+        "Original P1 Ma Teng HD march 8→9 at 667×375 via trusted controls",
+        "Two exact native cancellation paths; selected queue, grain, money and orders",
+        "Current target selection without native movement, explicit acknowledged confirmation and genuine strategy handoff"
+      ],
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": true,
+      "navigationMatrixAccepted": false,
+      "reportInteractionAccepted": false,
+      "recruitmentCommitted": false,
+      "sourceCount": 138,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-667",
+        "march-cancel-food-667",
+        "march-cancel-target-667",
+        "march-food-scroll-667",
+        "march-food-667",
+        "march-target-tip-667",
+        "march-target-667",
+        "march-classic-target-667",
+        "march-target-selected-667",
+        "march-armout-667",
+        "march-departed-667",
+        "march-genuine-battle-667"
+      ],
+      "nativeKeyCount": 56,
+      "nativeLcdTouchCount": 0,
+      "historicalIdentityCount": 12,
+      "treeExited": true,
+      "serverClosed": true,
+      "quantityPresentation": [
+        {
+          "label": "food cancellation food opened",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 3,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "cancel-food current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 3,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "target cancellation food opened",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "food-confirm current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "HD dispatch food opened",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "dispatch 667 before scroll",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "dispatch 667 after down scroll",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "dispatch 667 after up scroll",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "food-adjust current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "dispatch 667 after native quantity ACK",
+          "qty": {
+            "active": 1,
+            "value": 504,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "504",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "food-confirm current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 504,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "504",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 110,
+            "bottom": 321
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 211,
+              "clientHeight": 211,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        }
+      ],
+      "marchVerdict": {
+        "ok": true,
+        "measuredWorldAccepted": true,
+        "scope": "Original P1 Ma Teng source8 -> enemy9; ordered selection/cancellation and measured HD march trace",
+        "origin": 8,
+        "target": 9,
+        "orderIndex": 170,
+        "slot": 0,
+        "distance": 1,
+        "selectionEvidence": "actual-ordered-person-IDs",
+        "selectedPersonIds": [
+          5,
+          58
+        ],
+        "tokens": [
+          6,
+          59,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "food": {
+          "confirmed": 504,
+          "before": 505,
+          "after": 1
+        },
+        "money": {
+          "cost": 0,
+          "before": 237,
+          "after": 237
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orderRows": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30
+        },
+        "limits": [
+          "Recorded worldSource fields only, not full native ABI",
+          "A pure checker cannot establish that fixtures are actual browser observations",
+          "Caller retains trusted CDP action, visible current selector/owner/geometry and source/cleanup evidence",
+          "No strategy month, battle result, natural release, real device or whole HD acceptance"
+        ],
+        "hdMarchTraceAccepted": true,
+        "wholeHdAccepted": false,
+        "fullHdAccepted": false,
+        "fullNativeAbiAccepted": false,
+        "actualInputProvenance": "caller-retained-original-trusted-trace",
+        "libraryGeneration": 2,
+        "marchSession": 3,
+        "phases": [
+          "persons",
+          "food",
+          "target-tip",
+          "target",
+          "target-selected",
+          "armout",
+          "departed"
+        ],
+        "input": {
+          "actionCount": 14,
+          "selectionActions": 2,
+          "ackTargetTip": 1,
+          "ackArmout": 1,
+          "nativeLcdTouches": 0
+        }
+      },
+      "cancellations": [
+        {
+          "stage": "food",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "food",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        },
+        {
+          "stage": "target",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "target",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        }
+      ],
+      "quantityScrollChecks": [
+        {
+          "label": "dispatch 667",
+          "direction": "down",
+          "before": {
+            "scrollTop": 0,
+            "scrollHeight": 194,
+            "clientHeight": 181,
+            "overflow": "auto",
+            "geometry": {
+              "left": 14,
+              "right": 653,
+              "top": 140,
+              "bottom": 321,
+              "width": 639,
+              "height": 181
+            }
+          },
+          "after": {
+            "scrollTop": 13,
+            "scrollHeight": 194,
+            "clientHeight": 181,
+            "overflow": "auto",
+            "geometry": {
+              "left": 14,
+              "right": 653,
+              "top": 140,
+              "bottom": 321,
+              "width": 639,
+              "height": 181
+            }
+          },
+          "nodesPreserved": true,
+          "summary": {
+            "label": "dispatch 667 after down scroll",
+            "qty": {
+              "active": 1,
+              "value": 505,
+              "min": 1,
+              "max": 505,
+              "protocol": true,
+              "session": 5,
+              "inputSeq": 0,
+              "lastKey": 65535,
+              "cursor": 2,
+              "step": 1,
+              "ready": 1
+            },
+            "selector": "#hd-city-qty-val",
+            "text": "505",
+            "geometry": {
+              "left": 82.328125,
+              "right": 109.703125,
+              "top": 110,
+              "bottom": 131,
+              "width": 27.375,
+              "height": 21
+            },
+            "clip": {
+              "left": 14,
+              "right": 653,
+              "top": 110,
+              "bottom": 321
+            },
+            "ancestors": [
+              {
+                "id": "",
+                "classes": "hd-city-menu-qty-summary",
+                "scrollTop": 0,
+                "scrollHeight": 22,
+                "clientHeight": 22,
+                "overflowY": "visible"
+              },
+              {
+                "id": "",
+                "classes": "hd-city-menu-qty",
+                "scrollTop": 0,
+                "scrollHeight": 211,
+                "clientHeight": 211,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "hd-city-menu-deep",
+                "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+                "scrollTop": 0,
+                "scrollHeight": 211,
+                "clientHeight": 211,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "hd-city-menu-person-layout",
+                "classes": "hd-city-menu-person-layout",
+                "scrollTop": 0,
+                "scrollHeight": 0,
+                "clientHeight": 0,
+                "overflowY": "visible"
+              },
+              {
+                "id": "",
+                "classes": "hd-city-menu-stage",
+                "scrollTop": 0,
+                "scrollHeight": 323,
+                "clientHeight": 323,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "hd-city-menu",
+                "classes": "hd-city-menu is-open is-sub",
+                "scrollTop": 0,
+                "scrollHeight": 323,
+                "clientHeight": 323,
+                "overflowY": "visible"
+              },
+              {
+                "id": "hd-mobile-stage",
+                "classes": "",
+                "scrollTop": 0,
+                "scrollHeight": 323,
+                "clientHeight": 323,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "",
+                "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+                "scrollTop": 0,
+                "scrollHeight": 375,
+                "clientHeight": 375,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "",
+                "classes": "",
+                "scrollTop": 0,
+                "scrollHeight": 375,
+                "clientHeight": 375,
+                "overflowY": "visible"
+              }
+            ],
+            "unobstructed": true,
+            "hit": "hd-city-qty-val",
+            "matchesNative": true
+          }
+        },
+        {
+          "label": "dispatch 667",
+          "direction": "up",
+          "before": {
+            "scrollTop": 13,
+            "scrollHeight": 194,
+            "clientHeight": 181,
+            "overflow": "auto",
+            "geometry": {
+              "left": 14,
+              "right": 653,
+              "top": 140,
+              "bottom": 321,
+              "width": 639,
+              "height": 181
+            }
+          },
+          "after": {
+            "scrollTop": 0,
+            "scrollHeight": 194,
+            "clientHeight": 181,
+            "overflow": "auto",
+            "geometry": {
+              "left": 14,
+              "right": 653,
+              "top": 140,
+              "bottom": 321,
+              "width": 639,
+              "height": 181
+            }
+          },
+          "nodesPreserved": true,
+          "summary": {
+            "label": "dispatch 667 after up scroll",
+            "qty": {
+              "active": 1,
+              "value": 505,
+              "min": 1,
+              "max": 505,
+              "protocol": true,
+              "session": 5,
+              "inputSeq": 0,
+              "lastKey": 65535,
+              "cursor": 2,
+              "step": 1,
+              "ready": 1
+            },
+            "selector": "#hd-city-qty-val",
+            "text": "505",
+            "geometry": {
+              "left": 82.328125,
+              "right": 109.703125,
+              "top": 110,
+              "bottom": 131,
+              "width": 27.375,
+              "height": 21
+            },
+            "clip": {
+              "left": 14,
+              "right": 653,
+              "top": 110,
+              "bottom": 321
+            },
+            "ancestors": [
+              {
+                "id": "",
+                "classes": "hd-city-menu-qty-summary",
+                "scrollTop": 0,
+                "scrollHeight": 22,
+                "clientHeight": 22,
+                "overflowY": "visible"
+              },
+              {
+                "id": "",
+                "classes": "hd-city-menu-qty",
+                "scrollTop": 0,
+                "scrollHeight": 211,
+                "clientHeight": 211,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "hd-city-menu-deep",
+                "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+                "scrollTop": 0,
+                "scrollHeight": 211,
+                "clientHeight": 211,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "hd-city-menu-person-layout",
+                "classes": "hd-city-menu-person-layout",
+                "scrollTop": 0,
+                "scrollHeight": 0,
+                "clientHeight": 0,
+                "overflowY": "visible"
+              },
+              {
+                "id": "",
+                "classes": "hd-city-menu-stage",
+                "scrollTop": 0,
+                "scrollHeight": 323,
+                "clientHeight": 323,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "hd-city-menu",
+                "classes": "hd-city-menu is-open is-sub",
+                "scrollTop": 0,
+                "scrollHeight": 323,
+                "clientHeight": 323,
+                "overflowY": "visible"
+              },
+              {
+                "id": "hd-mobile-stage",
+                "classes": "",
+                "scrollTop": 0,
+                "scrollHeight": 323,
+                "clientHeight": 323,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "",
+                "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+                "scrollTop": 0,
+                "scrollHeight": 375,
+                "clientHeight": 375,
+                "overflowY": "hidden"
+              },
+              {
+                "id": "",
+                "classes": "",
+                "scrollTop": 0,
+                "scrollHeight": 375,
+                "clientHeight": 375,
+                "overflowY": "visible"
+              }
+            ],
+            "unobstructed": true,
+            "hit": "hd-city-qty-val",
+            "matchesNative": true
+          }
+        }
+      ],
+      "negativeCount": 45,
+      "strategyHandoff": {
+        "keys": [
+          40,
+          39
+        ],
+        "battle": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 5,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 4,
+          "focusY": 16
+        },
+        "hdBattle": true
+      }
+    },
+    {
+      "name": "march-844",
+      "result": "build/mobile-qty-march-844-v1-20261011/result.json",
+      "startedAt": "2026-10-10T22:58:56.701Z",
+      "finishedAt": "2026-10-10T23:00:11.266Z",
+      "scope": "Original mobile HD march through trusted controls with exact measured selection, cancellation and dispatch; no native writes, real-device or full-HD claim",
+      "acceptedScope": [
+        "Original P1 Ma Teng HD march 8→9 at 844×390 via trusted controls",
+        "Two exact native cancellation paths; selected queue, grain, money and orders",
+        "Current target selection without native movement, explicit acknowledged confirmation and genuine strategy handoff"
+      ],
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": true,
+      "navigationMatrixAccepted": false,
+      "reportInteractionAccepted": false,
+      "recruitmentCommitted": false,
+      "sourceCount": 138,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "phases": [
+        "00-title-844",
+        "march-city-844",
+        "march-cancel-food-844",
+        "march-cancel-target-844",
+        "march-food-844",
+        "march-target-tip-844",
+        "march-target-844",
+        "march-classic-target-844",
+        "march-target-selected-844",
+        "march-armout-844",
+        "march-departed-844",
+        "march-genuine-battle-844"
+      ],
+      "nativeKeyCount": 56,
+      "nativeLcdTouchCount": 0,
+      "historicalIdentityCount": 12,
+      "treeExited": true,
+      "serverClosed": true,
+      "quantityPresentation": [
+        {
+          "label": "food cancellation food opened",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 3,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "cancel-food current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 3,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "target cancellation food opened",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "food-confirm current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "HD dispatch food opened",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "dispatch 844 before scroll",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "food-adjust current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 505,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "505",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "dispatch 844 after native quantity ACK",
+          "qty": {
+            "active": 1,
+            "value": 504,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "504",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        },
+        {
+          "label": "food-confirm current visible summary",
+          "qty": {
+            "active": 1,
+            "value": 504,
+            "min": 1,
+            "max": 505,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-city-qty-val",
+          "text": "504",
+          "geometry": {
+            "left": 82.328125,
+            "right": 109.703125,
+            "top": 110,
+            "bottom": 131,
+            "width": 27.375,
+            "height": 21
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 110,
+            "bottom": 336
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty-summary",
+              "scrollTop": 0,
+              "scrollHeight": 22,
+              "clientHeight": 22,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-deep",
+              "classes": "hd-city-menu-sublist hd-city-menu-deep has-mobile-qty",
+              "scrollTop": 0,
+              "scrollHeight": 226,
+              "clientHeight": 226,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu-person-layout",
+              "classes": "hd-city-menu-person-layout",
+              "scrollTop": 0,
+              "scrollHeight": 0,
+              "clientHeight": 0,
+              "overflowY": "visible"
+            },
+            {
+              "id": "",
+              "classes": "hd-city-menu-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-city-menu",
+              "classes": "hd-city-menu is-open is-sub",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on hd-mobile-city-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-city-qty-val",
+          "matchesNative": true
+        }
+      ],
+      "marchVerdict": {
+        "ok": true,
+        "measuredWorldAccepted": true,
+        "scope": "Original P1 Ma Teng source8 -> enemy9; ordered selection/cancellation and measured HD march trace",
+        "origin": 8,
+        "target": 9,
+        "orderIndex": 170,
+        "slot": 0,
+        "distance": 1,
+        "selectionEvidence": "actual-ordered-person-IDs",
+        "selectedPersonIds": [
+          5,
+          58
+        ],
+        "tokens": [
+          6,
+          59,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "food": {
+          "confirmed": 504,
+          "before": 505,
+          "after": 1
+        },
+        "money": {
+          "cost": 0,
+          "before": 237,
+          "after": 237
+        },
+        "checked": {
+          "people": 200,
+          "cities": 38,
+          "queue": 2000,
+          "orderRows": 200,
+          "fighterBytes": 600,
+          "fighterFlags": 30
+        },
+        "limits": [
+          "Recorded worldSource fields only, not full native ABI",
+          "A pure checker cannot establish that fixtures are actual browser observations",
+          "Caller retains trusted CDP action, visible current selector/owner/geometry and source/cleanup evidence",
+          "No strategy month, battle result, natural release, real device or whole HD acceptance"
+        ],
+        "hdMarchTraceAccepted": true,
+        "wholeHdAccepted": false,
+        "fullHdAccepted": false,
+        "fullNativeAbiAccepted": false,
+        "actualInputProvenance": "caller-retained-original-trusted-trace",
+        "libraryGeneration": 2,
+        "marchSession": 3,
+        "phases": [
+          "persons",
+          "food",
+          "target-tip",
+          "target",
+          "target-selected",
+          "armout",
+          "departed"
+        ],
+        "input": {
+          "actionCount": 14,
+          "selectionActions": 2,
+          "ackTargetTip": 1,
+          "ackArmout": 1,
+          "nativeLcdTouches": 0
+        }
+      },
+      "cancellations": [
+        {
+          "stage": "food",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "food",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        },
+        {
+          "stage": "target",
+          "verdict": {
+            "ok": true,
+            "cancellationAccepted": true,
+            "measuredWorldAccepted": true,
+            "cancelStage": "target",
+            "origin": 8,
+            "selectedPersonIds": [
+              5,
+              58
+            ],
+            "checkRedundantOnAddPerson": 0,
+            "restoredResidentQueue": [
+              5,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66
+            ],
+            "queueMayReorder": true,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "scope": "Measured native cancellation; caller separately binds its actual EXIT touch and stage"
+          }
+        }
+      ],
+      "quantityScrollChecks": [
+        {
+          "label": "dispatch 844",
+          "needed": false,
+          "initial": {
+            "scrollTop": 0,
+            "scrollHeight": 196,
+            "clientHeight": 196,
+            "overflow": "auto",
+            "geometry": {
+              "left": 14,
+              "right": 830,
+              "top": 140,
+              "bottom": 336,
+              "width": 816,
+              "height": 196
+            }
+          }
+        }
+      ],
+      "negativeCount": 39,
+      "strategyHandoff": {
+        "keys": [
+          40,
+          39
+        ],
+        "battle": {
+          "active": 1,
+          "over": 0,
+          "wait": 1,
+          "phase": 1,
+          "aimType": 255,
+          "inputKind": 1,
+          "inputSeq": 5,
+          "actorIndex": 255,
+          "tip": "",
+          "skip": 0,
+          "result": "",
+          "cityIndex": 9,
+          "mapW": 32,
+          "mapH": 32,
+          "bout": 1,
+          "boutMax": 30,
+          "focusX": 4,
+          "focusY": 16
+        },
+        "hdBattle": true
+      }
+    },
+    {
+      "name": "city-recruitment",
+      "result": "build/mobile-city-recruitment-v1-20261011/result.json",
+      "startedAt": "2026-10-10T23:01:14.321Z",
+      "finishedAt": "2026-10-10T23:03:15.078Z",
+      "scope": "Original mobile HD CITY navigation, quantity cancellation, two Treats and two real recruitment commitments at 844x390/667x375; no month advance, real device or full-HD claim",
+      "acceptedScope": [
+        "Original genuine multi-city lord and native city entry",
+        "844x390 and 667x375 trusted four-category city menus",
+        "Actual person U16 owner list and quantity edit/cancel",
+        "Readonly status zero keys and single-owner Back",
+        "44px unobstructed touch targets; fitting content or measured genuine overflow scrolling",
+        "Touchcancel/multifinger/rotation/hidden/untrusted-click retirement",
+        "Independent mobile presentation mode; PC preferences unchanged",
+        "Two bounded nonking original Treat operations; one report ACK and one natural report retirement",
+        "Two original recruitment commitments at 844x390 and 667x375: exact measured world, ROM Thew/financial gate, quantity fee, first native order slot, resident queue and continuing picker cancellation; no month advance or return-to-duty claim"
+      ],
+      "ok": true,
+      "accepted": true,
+      "marchAccepted": false,
+      "navigationMatrixAccepted": true,
+      "reportInteractionAccepted": true,
+      "recruitmentCommitted": true,
+      "sourceCount": 61,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "phases": [
+        "00-title-844",
+        "entry-for-内政-0",
+        "844x390-内政",
+        "entry-for-外交-4",
+        "844x390-外交",
+        "entry-for-军备-8",
+        "844x390-军备",
+        "entry-for-状况-12",
+        "status-14",
+        "entry-for-内政-16",
+        "844x390-person",
+        "entry-for-军备-20",
+        "844x390-qty",
+        "entry-for-内政-26",
+        "667x375-内政",
+        "entry-for-外交-30",
+        "667x375-外交",
+        "entry-for-军备-34",
+        "667x375-军备",
+        "entry-for-状况-38",
+        "status-40",
+        "entry-for-内政-42",
+        "667x375-person",
+        "entry-for-军备-46",
+        "667x375-qty",
+        "negative-current-root",
+        "root-gesture-portrait",
+        "mode-current-root",
+        "classic-city",
+        "entry-for-内政-56",
+        "public-treat-confirmed-report",
+        "entry-for-内政-60",
+        "public-treat-natural-owner-retirement-report",
+        "entry-for-军备-64",
+        "recruitment-844x390-quantity",
+        "recruitment-844x390-committed-persons",
+        "recruitment-844x390-map",
+        "entry-for-军备-68",
+        "recruitment-667x375-quantity",
+        "recruitment-667x375-committed-persons",
+        "recruitment-667x375-map",
+        "final-mobile-HD-map"
+      ],
+      "nativeKeyCount": 131,
+      "nativeLcdTouchCount": 0,
+      "historicalIdentityCount": 16,
+      "treeExited": true,
+      "serverClosed": true,
+      "quantityPresentation": [
+        {
+          "label": "844x390 opened",
+          "qty": {
+            "active": 1,
+            "value": 980,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 3,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 980（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 830,
+            "top": 98,
+            "bottom": 239,
+            "width": 816,
+            "height": 141
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 90,
+            "bottom": 247
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 157,
+              "clientHeight": 157,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-empty-text is-open is-qty",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "844x390 edited before cancel",
+          "qty": {
+            "active": 1,
+            "value": 979,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 3,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 979（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 830,
+            "top": 98,
+            "bottom": 239,
+            "width": 816,
+            "height": 141
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 90,
+            "bottom": 247
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 157,
+              "clientHeight": 157,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-empty-text is-open is-qty",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "667x375 opened",
+          "qty": {
+            "active": 1,
+            "value": 980,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 980（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 653,
+            "top": 98,
+            "bottom": 174,
+            "width": 639,
+            "height": 76
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 90,
+            "bottom": 182
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 92,
+              "clientHeight": 92,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-empty-text is-open is-qty",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "667x375 edited before cancel",
+          "qty": {
+            "active": 1,
+            "value": 979,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 4,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 979（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 653,
+            "top": 98,
+            "bottom": 174,
+            "width": 639,
+            "height": 76
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 90,
+            "bottom": 182
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 92,
+              "clientHeight": 92,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-empty-text is-open is-qty",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on baye-hd-overworld-preview",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "recruitment-844x390 opened",
+          "qty": {
+            "active": 1,
+            "value": 980,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 980（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 830,
+            "top": 98,
+            "bottom": 239,
+            "width": 816,
+            "height": 141
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 90,
+            "bottom": 247
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 157,
+              "clientHeight": 157,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-open is-qty is-empty-text",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-overworld-preview baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "recruitment-844x390 edited before confirm",
+          "qty": {
+            "active": 1,
+            "value": 979,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 5,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 979（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 830,
+            "top": 98,
+            "bottom": 239,
+            "width": 816,
+            "height": 141
+          },
+          "clip": {
+            "left": 14,
+            "right": 830,
+            "top": 90,
+            "bottom": 247
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 157,
+              "clientHeight": 157,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-open is-qty is-empty-text",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 338,
+              "clientHeight": 338,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-overworld-preview baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 390,
+              "clientHeight": 390,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "recruitment-667x375 opened",
+          "qty": {
+            "active": 1,
+            "value": 980,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 6,
+            "inputSeq": 0,
+            "lastKey": 65535,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 980（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 653,
+            "top": 98,
+            "bottom": 174,
+            "width": 639,
+            "height": 76
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 90,
+            "bottom": 182
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 92,
+              "clientHeight": 92,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-empty-text is-open is-qty",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-overworld-preview baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        },
+        {
+          "label": "recruitment-667x375 edited before confirm",
+          "qty": {
+            "active": 1,
+            "value": 979,
+            "min": 0,
+            "max": 980,
+            "protocol": true,
+            "session": 6,
+            "inputSeq": 1,
+            "lastKey": 35,
+            "cursor": 2,
+            "step": 1,
+            "ready": 1
+          },
+          "selector": "#hd-dialog-body",
+          "text": "当前 979（0–980）。使用按钮或方向键调整数量，也可按 0–9 输入数字。",
+          "geometry": {
+            "left": 14,
+            "right": 653,
+            "top": 98,
+            "bottom": 174,
+            "width": 639,
+            "height": 76
+          },
+          "clip": {
+            "left": 14,
+            "right": 653,
+            "top": 90,
+            "bottom": 182
+          },
+          "ancestors": [
+            {
+              "id": "",
+              "classes": "hd-mobile-report-content",
+              "scrollTop": 0,
+              "scrollHeight": 92,
+              "clientHeight": 92,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-dialog-stage",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "hd-dialog",
+              "classes": "hd-dialog is-empty-text is-open is-qty",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "visible"
+            },
+            {
+              "id": "hd-mobile-stage",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 323,
+              "clientHeight": 323,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "hd-mobile-page baye-hd-overworld-on baye-hd-city-menu-on baye-hd-overworld-preview baye-hd-dialog-on baye-hd-dialog-empty-text hd-mobile-dialog-on",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "hidden"
+            },
+            {
+              "id": "",
+              "classes": "",
+              "scrollTop": 0,
+              "scrollHeight": 375,
+              "clientHeight": 375,
+              "overflowY": "visible"
+            }
+          ],
+          "unobstructed": true,
+          "hit": "hd-dialog-body",
+          "matchesNative": true
+        }
+      ],
+      "cityChecks": 72,
+      "returnChecks": 28,
+      "negativeChecks": 13,
+      "recruitments": [
+        {
+          "label": "recruitment-844x390",
+          "viewport": [
+            844,
+            390
+          ],
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "recruitmentAccepted": true,
+            "scope": "One positive ConscriptionMake submission, before any subsequent command or strategy month; recorded worldSource fields only",
+            "cityIndex": 10,
+            "personId": 23,
+            "quantity": 979,
+            "maximum": 980,
+            "orderIndex": 0,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 24,
+              "Person": 23,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "stock": {
+              "before": 0,
+              "after": 979,
+              "applied": 979,
+              "saturated": false
+            },
+            "money": {
+              "before": 376,
+              "after": 279,
+              "cost": 97,
+              "minimum": 1,
+              "armsPerMoney": 10
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 65535,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Only recorded worldSource fields; unobserved native fields are outside this proof",
+              "Trusted quantity-owner confirmation and the next complete picker publication are caller evidence",
+              "New order uninitialized fields are preserved as observed bytes without business meaning"
+            ]
+          },
+          "confirmationSelector": "#hd-dialog [data-hd-dlg-ok]",
+          "keys": [
+            {
+              "code": 39,
+              "at": 104645.70000000298
+            }
+          ]
+        },
+        {
+          "label": "recruitment-667x375",
+          "viewport": [
+            667,
+            375
+          ],
+          "verdict": {
+            "ok": true,
+            "accepted": true,
+            "recruitmentAccepted": true,
+            "scope": "One positive ConscriptionMake submission, before any subsequent command or strategy month; recorded worldSource fields only",
+            "cityIndex": 10,
+            "personId": 24,
+            "quantity": 979,
+            "maximum": 980,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 24,
+              "Person": 24,
+              "City": 10,
+              "TimeCount": 0
+            },
+            "stock": {
+              "before": 979,
+              "after": 1958,
+              "applied": 979,
+              "saturated": false
+            },
+            "money": {
+              "before": 279,
+              "after": 182,
+              "cost": 97,
+              "minimum": 1,
+              "armsPerMoney": 10
+            },
+            "thew": {
+              "before": 100,
+              "after": 88,
+              "cost": 12
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Object",
+                "Food"
+              ],
+              "actual": {
+                "Object": 65535,
+                "Food": 0
+              },
+              "semanticAcceptance": false
+            },
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "wholeNativeAbiAccepted": false,
+            "strategyMonthAccepted": false,
+            "limits": [
+              "Only recorded worldSource fields; unobserved native fields are outside this proof",
+              "Trusted quantity-owner confirmation and the next complete picker publication are caller evidence",
+              "New order uninitialized fields are preserved as observed bytes without business meaning"
+            ]
+          },
+          "confirmationSelector": "#hd-dialog [data-hd-dlg-ok]",
+          "keys": [
+            {
+              "code": 39,
+              "at": 113561.60000000894
+            }
+          ]
+        }
+      ],
+      "treatments": [
+        {
+          "label": "public-treat-confirmed",
+          "actor": 23,
+          "naturalHeld": false,
+          "delta": {
+            "phase": "report",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 576,
+              "after": 476
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 87,
+              "after": 87
+            }
+          },
+          "finalDelta": {
+            "phase": "retired",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 576,
+              "after": 476
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 87,
+              "after": 88
+            }
+          },
+          "keys": [
+            {
+              "code": 39,
+              "at": 87581.20000000298
+            }
+          ]
+        },
+        {
+          "label": "public-treat-natural-owner-retirement",
+          "actor": 23,
+          "naturalHeld": true,
+          "delta": {
+            "phase": "report",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 476,
+              "after": 376
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 88,
+              "after": 88
+            }
+          },
+          "finalDelta": {
+            "phase": "retired",
+            "cityIndex": 10,
+            "personIndex": 23,
+            "money": {
+              "before": 476,
+              "after": 376
+            },
+            "thew": {
+              "before": 100,
+              "after": 100
+            },
+            "devotion": {
+              "before": 88,
+              "after": 89
+            }
+          },
+          "keys": []
+        }
+      ]
+    }
+  ],
+  "failedAttempts": [
+    {
+      "result": "build/mobile-qty-march-667-v1-20261011/result.json",
+      "accepted": false,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "AssertionError [ERR_ASSERTION]: Current control can be revealed #hd-city-menu [data-hd-root=\"2\"]\n    at reveal (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:43:14)\n    at async action (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:52:5)\n    at async start (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:127:72)\n    at async runMobileMarchChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-march-runtime-checks.mjs:189:13)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:637:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:680:86",
+      "note": "Native root published before visible root button mounting; actual zero geometry was rejected. Runner now waits for visible current control publication; product unchanged. Failed scenario snapshot reconstructed and exact recorded SHA/length verified."
+    }
+  ],
+  "sourceVerification": {
+    "marchFilesEach": 138,
+    "marchFilesExactlyEqual": true,
+    "allAcceptedRunsCurrentBytesAndShaMatch": true,
+    "sharedSourcesExactlyEqual": true,
+    "uniqueFiles": 142
+  },
+  "userService": {
+    "before": {
+      "checkedAt": "2026-10-10T22:49:11.7629436Z",
+      "ProcessId": 57860,
+      "CreationDate": "2026-10-10T11:26:04.2797180Z",
+      "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "after": {
+      "checkedAt": "2026-10-10T23:04:00.0503549Z",
+      "ProcessId": 57860,
+      "CreationDate": "2026-10-10T11:26:04.2797180Z",
+      "ExecutablePath": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    }
+  },
+  "historicalProcessVerification": {
+    "proof": "build/mobile-quantity-recruitment-owned-historical-after-20261011.json",
+    "checkedAt": "2026-10-10T23:04:33.5276083Z",
+    "identities": 51,
+    "allExactIdentitiesAbsent": true,
+    "readOnly": true
+  },
+  "evidenceLimitations": [
+    "All recorded worldSource fields only, not the whole native ABI",
+    "CITY navigation/cancel checks now retain full before/after worlds; march negative/pan rows retain states and runtime full-world assertions, with aggregate scroll world also independently recomputed",
+    "New recruitment order Object/Food and any optionally observed Arms/Money/Consume are native uninitialized stack fields: limited one-slot mask, no fabricated semantic values",
+    "Positive recruitment only, no strategy month/return-to-duty, zero quantity or real full-queue acceptance",
+    "Selected originals archived; private profiles, other images and complete production/historical source trees remain local"
+  ],
+  "pendingScope": [
+    "Other original cities/periods, rejection/report families, zero/full-queue actual behavior and remaining city commands",
+    "Complete mobile battle outcome, succession, save/reload, other attacks/skills and pixel/frame matrices",
+    "Android/iOS real devices, safe areas/browser bars, performance and complete HD"
+  ],
+  "archive": [
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-result.json.gz",
+      "bytes": 43328329,
+      "sha256": "7b1ad52ef5cca1fa6d68573640dde72709ec5fbbd0b486c10cdc144212597cb0",
+      "gzipBytes": 2574222,
+      "gzipSha256": "0a824ede5478a7594a629b80881b2fa787635dcca5d5759adc16f6c9f16d9459",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-source-verification.json.gz",
+      "bytes": 26466,
+      "sha256": "1dd5883cab71436bbab9362f0d65f382bf7e1c0144363329a9766f85a78e3d9e",
+      "gzipBytes": 8800,
+      "gzipSha256": "b45d613831568d5e1bc23740ba58281ef0345b00a33f4f809ecc755bbf3b5a91",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-owned-process-samples.jsonl.gz",
+      "bytes": 142888,
+      "sha256": "6567ef7fd6df3126e4f33728de516de57df44ce44970ce8d7a9f3f200d26c223",
+      "gzipBytes": 3077,
+      "gzipSha256": "a56c1cbcb51decada9ebd063c4438f6d91ad0a36e7e57d0893afe99477f9e2f2",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-executed-tool.mjs.gz",
+      "bytes": 78765,
+      "sha256": "11690868e7190fe9340bf78254ae86cb2250420fa73039a4601a3afff44fc123",
+      "gzipBytes": 22630,
+      "gzipSha256": "0d58dc35df59b2afc08506f1880851347c1a17204cceb2c428bb3c39880f9031",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-cli.log.gz",
+      "bytes": 2228,
+      "sha256": "2876cd1967f9b9f31ebdb270ffdbf9b5afd4ca10dd2a1c1c854e7f4a62b017dd",
+      "gzipBytes": 476,
+      "gzipSha256": "4ec3ae14be9c279e8d83cda558f4cc32a32854d209e4606e4c544aff246814a8",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-result.json.gz",
+      "bytes": 42492062,
+      "sha256": "326440f9eb14271d57a0c9f28b5053d4bfb115609fd031f3bcb352882773d07d",
+      "gzipBytes": 2486130,
+      "gzipSha256": "4a5611674c38322236845196ac558abd67d523b5c49d394005267b9f5e2e0dd8",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-source-verification.json.gz",
+      "bytes": 26466,
+      "sha256": "1dd5883cab71436bbab9362f0d65f382bf7e1c0144363329a9766f85a78e3d9e",
+      "gzipBytes": 8800,
+      "gzipSha256": "b45d613831568d5e1bc23740ba58281ef0345b00a33f4f809ecc755bbf3b5a91",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-owned-process-samples.jsonl.gz",
+      "bytes": 135040,
+      "sha256": "d143e9ff915241cc498bdca32e6cb1d45d03e9efd3ee2680960942e5ca82c5c2",
+      "gzipBytes": 2997,
+      "gzipSha256": "e5303dd84012e790ab9630ff7ef78733c6ca7d0953ebe28d738086f7edea0a9a",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-executed-tool.mjs.gz",
+      "bytes": 78765,
+      "sha256": "11690868e7190fe9340bf78254ae86cb2250420fa73039a4601a3afff44fc123",
+      "gzipBytes": 22630,
+      "gzipSha256": "0d58dc35df59b2afc08506f1880851347c1a17204cceb2c428bb3c39880f9031",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-cli.log.gz",
+      "bytes": 2176,
+      "sha256": "b334a492560c99c7a00734affd99fd02b227d7c1ccbf3a5099485189ffea4633",
+      "gzipBytes": 453,
+      "gzipSha256": "905c294c06c860e1978de6b7cdbc8d998a9cd0133c4a1f1ff185ffc119b722cf",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-result.json.gz",
+      "bytes": 59990257,
+      "sha256": "f7a8783878ff3ff66b3a5031947758cda7cc6af5ddc26c29c7ced14dee9158e0",
+      "gzipBytes": 3321005,
+      "gzipSha256": "b637f408cbadbd2669d744973224c96eb3e83b4f2a1777bbd605c541592ca8e0",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-source-verification.json.gz",
+      "bytes": 9957,
+      "sha256": "4032fb14e9b3118f971e8eb798674e896d0247eb2f6157c7793abccaf8d239ad",
+      "gzipBytes": 3352,
+      "gzipSha256": "9eb168ac8fe78aee7346427d00ad6a2643a4fc2daeb863376cfab1b302f0734c",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-owned-process-samples.jsonl.gz",
+      "bytes": 422320,
+      "sha256": "926ae10c5f32c3ac25ce2b49ca5179cb47f659feba3e10e49cbb8cb627b2561c",
+      "gzipBytes": 6198,
+      "gzipSha256": "94f23540fda77c10c62c3f5339530c45b548f80fb477e5310a15835cac7e3a61",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-executed-tool.mjs.gz",
+      "bytes": 78765,
+      "sha256": "11690868e7190fe9340bf78254ae86cb2250420fa73039a4601a3afff44fc123",
+      "gzipBytes": 22630,
+      "gzipSha256": "0d58dc35df59b2afc08506f1880851347c1a17204cceb2c428bb3c39880f9031",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-cli.log.gz",
+      "bytes": 2145,
+      "sha256": "45d727fbe396537d7be2d0829b4299cd026f864fa9ab29109f4966893417dadb",
+      "gzipBytes": 597,
+      "gzipSha256": "facd4d2a9f1bc2a6620bc101f82c5d8190f17937d651384a5b52c7184c62109f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v1-20261011/result.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/failed-march-667-v1-result.json.gz",
+      "bytes": 20656766,
+      "sha256": "5659ec67f4a5613ed9e48daabca2a5da85b9ce9db408c3c9db4ca0bb684857da",
+      "gzipBytes": 1182314,
+      "gzipSha256": "716affb140a769cea0d36699dcfc9ea41c3d7951be45d5ccb9fdd45e7181156b",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v1-20261011/source-verification.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/failed-march-667-v1-source-verification.json.gz",
+      "bytes": 10310,
+      "sha256": "09f78f3a6c4b8d5d54a720d6063730b26b9247e410cfc7d16eb5b31efa3a8ed1",
+      "gzipBytes": 3454,
+      "gzipSha256": "43fc9f242dc9a7238381eddd60f9c8bf9f88d1102bc6e06acdea45915e3b63ed",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v1-20261011/owned-process-samples.jsonl",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/failed-march-667-v1-owned-process-samples.jsonl.gz",
+      "bytes": 71067,
+      "sha256": "277a348bd4552f082a7b0bee26276192dfc505131350e66d4a198a8fff01a895",
+      "gzipBytes": 2309,
+      "gzipSha256": "340c93a162e8f8c212489af3248c45321f4e30713e56549a4b0dd611f33edc2b",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v1-20261011/executed-tool.mjs",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/failed-march-667-v1-executed-tool.mjs.gz",
+      "bytes": 78123,
+      "sha256": "b89cb3e565d13c6c87e5f5bf9d7fb7e3d436a46371e939898a2e548a0af37572",
+      "gzipBytes": 22483,
+      "gzipSha256": "a57fcde5528b503e47a71c96d830749f8176fdaada8c1954c9d47b09e1de0e9b",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v1-20261011/failure.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/failed-march-667-v1-failure.png.gz",
+      "bytes": 47755,
+      "sha256": "ce70ae30fd7bea9c49aafdbbf92ce4c5557174625fa035ea132420032c70156a",
+      "gzipBytes": 47209,
+      "gzipSha256": "614cbc5c02f9dec438402343a81e4f0514a3593582d25653b401bb54743d455e",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v1-cli-20261011.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/failed-march-667-v1-cli.log.gz",
+      "bytes": 2627,
+      "sha256": "8a5d12119970de076679711a79145f0fc5e7bf95f3299ca523f1cb2ca5955330",
+      "gzipBytes": 587,
+      "gzipSha256": "cff2a302f2dbd843d2f5db5d3e5901162aa9076ac2fd445750aeb2506654d2cf",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/march-food-667.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-food.png.gz",
+      "bytes": 46175,
+      "sha256": "c78d6309d966bc7956909547d74fe8f648462bc0a47fc89824ca808212644fc3",
+      "gzipBytes": 45077,
+      "gzipSha256": "1e87abe0da8b95f89c15b4abc1761e6f69de8473529618e5775faaa3228330b3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/march-target-selected-667.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-target-selected.png.gz",
+      "bytes": 308352,
+      "sha256": "14a72eb7375516833aa26dc28736546709f8466d9924eab593feff8966e30498",
+      "gzipBytes": 308392,
+      "gzipSha256": "42c9473cb7fbc27a76e490b28fea81c362f4ae347e17c8ce4f6fc12db139d009",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/march-genuine-battle-667.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-genuine-battle.png.gz",
+      "bytes": 52863,
+      "sha256": "df80f68913afb070166872ed4eccb2b37b5ad7ab4a02496e91d8db75aa3a4f40",
+      "gzipBytes": 50984,
+      "gzipSha256": "4aa2716b3873ca399be3b8df3267ca4b5eb2ce8e5779986ab1652a04c120ffea",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/march-food-844.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-food.png.gz",
+      "bytes": 51340,
+      "sha256": "0413811cb203c87d3c05a2df92687c095518c99b6244cb0c550e01f4a414bcfe",
+      "gzipBytes": 50104,
+      "gzipSha256": "bc6d06a3da1b2b739acaaa943ce2121f5780b6e4c4748596eb0c2e98780959fc",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/march-target-selected-844.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-target-selected.png.gz",
+      "bytes": 406718,
+      "sha256": "6a20673d76bb63e0af90ee0082820663a1a7bd29d862e8053b17731cf17e3701",
+      "gzipBytes": 406802,
+      "gzipSha256": "ce81899ebff761892ff065357a5a72fc2d07828db64e0b6661f4bcbc2e7629e0",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-844-v1-20261011/march-genuine-battle-844.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-844-genuine-battle.png.gz",
+      "bytes": 61771,
+      "sha256": "8649a87ac82eebc48c1267b1a59360e8d57ff53e2e82ef24f31ad2559555ceac",
+      "gzipBytes": 59837,
+      "gzipSha256": "ba99b059abc361a8a9aedaede0897bf1be230121200cf6bb113d01a4d4d1bba0",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-667-v2-20261011/march-food-scroll-667.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/march-667-food-scroll.png.gz",
+      "bytes": 46203,
+      "sha256": "e47441371f1f1dbeae2f335c1119a1df99389a772b17eb8f262c521222ea2666",
+      "gzipBytes": 45124,
+      "gzipSha256": "4669a82a2d70738b1d4a1e458e6d82f2e914c01ed9c3c5488bba0150e2d3b09f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/844x390-qty.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-844x390-qty.png.gz",
+      "bytes": 60435,
+      "sha256": "1e1730934d7c92098e265d4f7217c0387a7db85fef26f2c0bde507dff4262edf",
+      "gzipBytes": 58546,
+      "gzipSha256": "b4995c77b1a8e29f93be7f23cdfcc988a3725907731121bf4aac7c2b02e48f7f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/667x375-qty.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-667x375-qty.png.gz",
+      "bytes": 54569,
+      "sha256": "1071bc66307090bd941d7ba01a5b1d5ad2d583e5f1bd70937330c40cae484b53",
+      "gzipBytes": 53545,
+      "gzipSha256": "8d0a50f52af2756d6cc4ba73550568d04cb058cf060fd370d53529c6efb86cf3",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/public-treat-confirmed-report.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-public-treat-confirmed-report.png.gz",
+      "bytes": 39738,
+      "sha256": "f4067d450ad0f8e4674558161207ed8005a40bb03775c1cc44bbb0f9bd3b2777",
+      "gzipBytes": 37175,
+      "gzipSha256": "3cf033823a1ab4b4f364ee3a3db9b6c562ac46e7e6b73a5e1108f59a50aeb8b7",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/public-treat-natural-owner-retirement-report.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-public-treat-natural-owner-retirement-report.png.gz",
+      "bytes": 39738,
+      "sha256": "f4067d450ad0f8e4674558161207ed8005a40bb03775c1cc44bbb0f9bd3b2777",
+      "gzipBytes": 37175,
+      "gzipSha256": "3cf033823a1ab4b4f364ee3a3db9b6c562ac46e7e6b73a5e1108f59a50aeb8b7",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/final-mobile-HD-map.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-final-mobile-HD-map.png.gz",
+      "bytes": 449369,
+      "sha256": "3f7e4571881383b4f8262f0f02acdb9d80d2101cd3c79d4cab34d0e03e333556",
+      "gzipBytes": 449496,
+      "gzipSha256": "1b9913b141ee2d896116ddf985f06acf801643c266452e65fe66f6d192fafaa0",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/recruitment-844x390-quantity.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-844x390-quantity.png.gz",
+      "bytes": 60350,
+      "sha256": "bc433258121f3a8219eeece09382531833a7f34f139717f885b58b553094fade",
+      "gzipBytes": 58507,
+      "gzipSha256": "2e36d1fc8f4f1e860ee659b1a71c2e14c5790f10b4417c177c3e4fcc8912f068",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/recruitment-844x390-committed-persons.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-844x390-committed-persons.png.gz",
+      "bytes": 62874,
+      "sha256": "bd0f54e13e7e4d384ffc667d16da664db35dc5b2716c318368112987d4f36a7f",
+      "gzipBytes": 61737,
+      "gzipSha256": "9a53b63b746052db5ed13bef73cdf7380c15037bda65d3e7321f58e29cc20a06",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/recruitment-844x390-map.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-844x390-map.png.gz",
+      "bytes": 582258,
+      "sha256": "d0dd5cf71b88bb024cfffd4673bf939fbe472bd655539a16e23e2aaf7048abd4",
+      "gzipBytes": 582405,
+      "gzipSha256": "1f1c299675ce6b52cc8981d8c7e55d65c00bb1ca23797a8949498f63fc5a9fd7",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/recruitment-667x375-quantity.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-667x375-quantity.png.gz",
+      "bytes": 54451,
+      "sha256": "1e6901712c172b9ef58c62b23fac0666ac35da6d39b299225e9e58f00ff89210",
+      "gzipBytes": 53411,
+      "gzipSha256": "e03a9a52405af2c17edb7b463b5fa6588c132e29ee1fefe35e2f60461f331d1d",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/recruitment-667x375-committed-persons.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-667x375-committed-persons.png.gz",
+      "bytes": 50514,
+      "sha256": "914ad39df25d27df034c9a7c1b89abdf65f33a1e1ae55aa3ec1fd2880af72b62",
+      "gzipBytes": 49540,
+      "gzipSha256": "fedbe107bd3d201a3b08f55fcb99b0b0b47d65e72454296cb6b1b9e3fe78136b",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-city-recruitment-v1-20261011/recruitment-667x375-map.png",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/city-recruitment-667x375-map.png.gz",
+      "bytes": 449243,
+      "sha256": "a5acacaa199ab7c3cb0c9581e389f80aafd909b92bbc6088134781fae8401f3a",
+      "gzipBytes": 449370,
+      "gzipSha256": "2556338a2f1447170ab2d6dfd2234dc5c600fe74cce1d6b9d1debbf31f331411",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-quantity-recruitment-suite-20261011.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-quantity-recruitment-suite-20261011.log.gz",
+      "bytes": 549721,
+      "sha256": "7bdac1f954794ebbe681eec4626484f8df010ce093343fcbeeb195815c83f29e",
+      "gzipBytes": 90703,
+      "gzipSha256": "c1fd62f002a70a62816b2ff479fd489d0bd6103ac2a6a827ebfcaf3f25d2490e",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-quantity-recruitment-suite-v2-20261011.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-quantity-recruitment-suite-v2-20261011.log.gz",
+      "bytes": 546910,
+      "sha256": "61df040bc3bdcfb31465f77a1d13e979ac9d284abec6b0c167ba6914a332dd6c",
+      "gzipBytes": 90052,
+      "gzipSha256": "c218122cb269d8193ebdf07e915465395e53e44be9fe057ce9f3658e89807a53",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-fixed-summary-focused-v2.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-fixed-summary-focused-v2.log.gz",
+      "bytes": 32467,
+      "sha256": "3cd9be7c335a3d4821ce2340c28445291ac335fd3c907febc0d82ab06602b6e2",
+      "gzipBytes": 4891,
+      "gzipSha256": "86147830dee8e44c6bf4fb8bdbe4990cd505547d85302f0c3bfcf8c2399923ce",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-fixed-summary-old-source-negative-v1.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-fixed-summary-old-source-negative-v1.log.gz",
+      "bytes": 2244,
+      "sha256": "42a4eaf60be08f0be0d6c9805d19133b796fecb1ac6c5ddaa6fdb83561628917",
+      "gzipBytes": 664,
+      "gzipSha256": "88601b5fae483f16adf14df32bbbbae90447c89afbb9a6052d636e3b3bdcc230",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-fixed-summary-before-v1.js",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-fixed-summary-before-v1.js.gz",
+      "bytes": 329962,
+      "sha256": "5033e960f725c8517bff75534c7d61b75c65096fbd98927cff4a7ae6bfe9aa0a",
+      "gzipBytes": 66976,
+      "gzipSha256": "213258e8e837a4dfaab09ca45374b68c4f23ed1eb04976002bc7dfc669ca29e9",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/test-mobile-qty-fixed-summary-old-source-v1.mjs",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/test-mobile-qty-fixed-summary-old-source-v1.mjs.gz",
+      "bytes": 72601,
+      "sha256": "111d0e0525663fe765c92d402e9a1d309c577a25a6229e9f4aa56d214246c9ae",
+      "gzipBytes": 17096,
+      "gzipSha256": "00dcce0d8ffe98014405dac170484995395dd77d2b014682ffef38f1d40bab33",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-fixed-summary-freeze-v1.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-fixed-summary-freeze-v1.json.gz",
+      "bytes": 3821,
+      "sha256": "afb96153fadbff44279462cd3c30113faad1133189e26a79132211ef07fa0e62",
+      "gzipBytes": 1725,
+      "gzipSha256": "70c1ebe5e0f73807a5d535a96ce7139afaf3274d25c1517051707e75a2013ddd",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-city-hud-fixture-v1.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-city-hud-fixture-v1.log.gz",
+      "bytes": 33134,
+      "sha256": "823e8860980de2052d719b82a6e8fbdc17204e55166ec8a261f73f68c0989237",
+      "gzipBytes": 5544,
+      "gzipSha256": "d773454aa931e05606dc5cdbb595f1a446e9aac210af77cc06094bcf1cc7e933",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-city-hud-fixture-freeze-v1.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-city-hud-fixture-freeze-v1.json.gz",
+      "bytes": 1274,
+      "sha256": "5ceeb9ae3d637a74e76131009c951a8c9b0a3cb5d6eab067452df158ca894a53",
+      "gzipBytes": 687,
+      "gzipSha256": "03cab6445ea0b9d7dc8c7e7cab73f6015a91a55f776c56253410f726b9e0481f",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-recruitment-runtime-oracle-freeze-v1.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-recruitment-runtime-oracle-freeze-v1.json.gz",
+      "bytes": 3728,
+      "sha256": "d53cca959253e2778d66f1622280c8edcd82e6d10589acc407905530ddef3de5",
+      "gzipBytes": 1600,
+      "gzipSha256": "fc28795c46e240e53fd6659e102df8018d463e3638aaf846d31bc1bf90aed44a",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-recruitment-oracle-unit-tests-v1.log",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-recruitment-oracle-unit-tests-v1.log.gz",
+      "bytes": 4657,
+      "sha256": "71951c00721ee3f99f0df367b84d4edfa7f743aa16928878b12bea5e987901a7",
+      "gzipBytes": 1805,
+      "gzipSha256": "878fb2d49475e1cc3c2bfbf2587546da7380d9c5aac6cc6600b0dbd7e7ac8899",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-recruitment-oracle-first-check-v1.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-recruitment-oracle-first-check-v1.json.gz",
+      "bytes": 381,
+      "sha256": "278cc9a93860b0ef9ae54e91a254b5307383b8c299933c25d45d742bde3ad0c0",
+      "gzipBytes": 258,
+      "gzipSha256": "29e7122f75998a941cb690eb49ebad8bb90750b7324c730cae8e2e7c72db35eb",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-qty-march-first-failure-scenario-20261011.mjs",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-qty-march-first-failure-scenario-20261011.mjs.gz",
+      "bytes": 26873,
+      "sha256": "96d3da5d07cb7f6ef93f00ea161bdab38b5f2effc440a957d2af142b4edb82b2",
+      "gzipBytes": 7727,
+      "gzipSha256": "dbac21219c6845c6968c95723faf082b5b422e3d7ff39aa294ee74ba38f2b275",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-quantity-recruit-user-service-before-20261011-v2.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-quantity-recruit-user-service-before-20261011-v2.json.gz",
+      "bytes": 209,
+      "sha256": "10a79d726c2d4603514e41a9ff2087f428f94ba7f4bc1a79b596b10bf9b5e7f9",
+      "gzipBytes": 181,
+      "gzipSha256": "0617a73bef16091b75a5b958758a8a04c79c07e08f41241f252920ef1099bb53",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-quantity-recruit-user-service-after-20261011.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-quantity-recruit-user-service-after-20261011.json.gz",
+      "bytes": 209,
+      "sha256": "e45e1c928ecdd9e93cc2d15a0703568e314b438f8d7847d38ee8172b806c7e81",
+      "gzipBytes": 180,
+      "gzipSha256": "93dca8401be3f6c932453653675d4d9d350ce768cabc443d3cc547953769d12e",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-quantity-recruitment-owned-historical-after-20261011.json",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-quantity-recruitment-owned-historical-after-20261011.json.gz",
+      "bytes": 17798,
+      "sha256": "86d3d6359d8fbb236b2d7e34b030c87a954d12b4c4b516459cbc47a365d0288c",
+      "gzipBytes": 1248,
+      "gzipSha256": "b0da0e993f0ce9f8a926efb0d64bc3d998b7017c4350ea30b873c23aae967b97",
+      "roundTripExact": true
+    },
+    {
+      "source": "build/mobile-quantity-recruitment-independent-audit-20261011.txt",
+      "archived": "docs/validation/m5-mobile-quantity-recruitment-20261011/raw/mobile-quantity-recruitment-independent-audit-20261011.txt.gz",
+      "bytes": 17388,
+      "sha256": "f4b280c725b1c4e295196f95caf938ac0cb0d2200b98b244f551e34e47186406",
+      "gzipBytes": 7287,
+      "gzipSha256": "4c15675d00739b24f7622599d504f35dad4475890c1367ee568b4935570c3b83",
+      "roundTripExact": true
+    }
+  ]
+}

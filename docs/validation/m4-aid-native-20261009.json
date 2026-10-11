@@ -1,0 +1,1902 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-10T11:26:16.396Z",
+  "status": "native-fixtures-and-limited-aid-player-runtime-passed",
+  "recordedAgainst": "d3efa014ab07ef7dddb8a59ce59ebea93ede1428",
+  "accepted": true,
+  "sourceChecksPassed": true,
+  "nativeFixtureChecksPassed": true,
+  "actualPlayerCastPassed": true,
+  "preparationAccepted": true,
+  "hdAccepted": true,
+  "archiveClosed": false,
+  "scope": "Historical native/fixture and preparation records below are unchanged. Current limited original P3/player9 AID17/29 runtime acceptance is in currentRuntimeAddendum; complete HD remains unfinished.",
+  "nativeFixture": {
+    "script": {
+      "path": "scripts/test-hd-aid-engine.mjs",
+      "bytes": 31366,
+      "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+    },
+    "cases": [
+      {
+        "skill": 17,
+        "requested": 800,
+        "initial": 100,
+        "capacity": 900,
+        "applied": 800
+      },
+      {
+        "skill": 17,
+        "requested": 800,
+        "initial": 790,
+        "capacity": 800,
+        "applied": 10
+      },
+      {
+        "skill": 17,
+        "requested": 800,
+        "initial": 800,
+        "capacity": 800,
+        "applied": 0
+      },
+      {
+        "skill": 29,
+        "requested": 1800,
+        "initial": 100,
+        "capacity": 1900,
+        "applied": 1800
+      },
+      {
+        "skill": 29,
+        "requested": 1800,
+        "initial": 1790,
+        "capacity": 1800,
+        "applied": 10
+      },
+      {
+        "skill": 29,
+        "requested": 1800,
+        "initial": 1800,
+        "capacity": 1800,
+        "applied": 0
+      }
+    ],
+    "actualFunctions": [
+      "CountSklHurt",
+      "CountOverAdd",
+      "FgtJNAction",
+      "_CommonJNAction",
+      "PlcMovie",
+      "FgtAtvShowNum",
+      "GamStrShowS",
+      "GamDelay"
+    ],
+    "checked": [
+      "Unmodified actual LIB17/29 powers800/1800 and MP15/30",
+      "Eight real41 movie copies and displayed scene64x64 at48,16",
+      "Full160x96 raw-pixel comparison with an independent ROM/frame/font/NUM15 oracle",
+      "Actual applied gain and NUM15, including positive request clamped to0",
+      "50 native timer messages in the numeric hold with0 key reads",
+      "Native scope and displayed result retire at return"
+    ],
+    "controlledBoundaries": [
+      "Attributes/capacity and successfully selected friendly target3-to4 are fixture inputs",
+      "Random success and message delivery are controlled; no public player AIM, recruitment or naturally successful cast",
+      "Experience calculation is a fixture; no actual game-world or full WASM/browser acceptance"
+    ],
+    "history": "Earlier build candidate native execution used initial0 for the full-gain boundary. Its six-pass record remains immutable; the persistent test uses initial100 for that case and was actually compiled/executed within the1081 run."
+  },
+  "fullRegression": {
+    "tests": 1081,
+    "pass": 1081,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "uniqueModules": 49,
+    "uniqueSourceFiles": 1251,
+    "sourceDrift": 0,
+    "startedAt": "2026-10-09T15:14:12.690Z",
+    "finishedAt": "2026-10-09T15:14:32.011Z",
+    "execution": {
+      "path": "build/r22-full-source-tests-v3-execution.json",
+      "bytes": 3529,
+      "sha256": "362a3d950720e532cd8197ba59d062cce80686edc1f9794072a5ec02c3c167e4"
+    },
+    "peer": {
+      "path": "build/r22-full-source-tests-v3-independent-audit.json",
+      "bytes": 8858,
+      "sha256": "ebd62581a845cef498485b2272de40e69c87d85db9931dac6b4dbc6a3d390067"
+    },
+    "packageScope": "The tested working package retains the pre-existing test:wood-runtime auxiliary command. The staged package omits only that still-pending command; main/test:aid/test:aid-engine commands are identical."
+  },
+  "actualPreparationV1": {
+    "status": "failed-native-civic-condition",
+    "accepted": false,
+    "phaseAccepted": false,
+    "preparationAccepted": false,
+    "hdAccepted": false,
+    "orders": 2,
+    "envoys": [
+      150,
+      151
+    ],
+    "target134StillBelong": 8,
+    "normalMonths": 1,
+    "finishedDate": {
+      "year": 208,
+      "month": 2
+    },
+    "stoppingCity": 24,
+    "nativeCityState": 3,
+    "initialOwned": [
+      9,
+      142,
+      150,
+      151
+    ],
+    "initialWildInSameResidentQueue": [
+      160,
+      183,
+      186
+    ],
+    "checkpoint": {
+      "tag": "initial",
+      "date": {
+        "year": 208,
+        "month": 1
+      },
+      "allPeople": 200,
+      "allCities": 38,
+      "files": [
+        {
+          "path": "build/r22-aid-prepare-actual-v1/native-initial-sango0.sav",
+          "bytes": 8221,
+          "sha256": "0a213e1ad9d50df0f5cdda93c27ce2f5b1cb67e3cf458ef269bdf8f31df8e744"
+        },
+        {
+          "path": "build/r22-aid-prepare-actual-v1/native-initial-sango1.sav",
+          "bytes": 4840,
+          "sha256": "030dd061d414adb92ca385b18353cdbc042e70cebf956065a7ba120278e14eec"
+        }
+      ]
+    },
+    "sourceCount": 1169,
+    "sourceDrift": 0,
+    "isolation": {
+      "privateExited": true,
+      "user8080Pid": 105848,
+      "user8080HttpStatus": 200
+    },
+    "scope": "Preparation stops on actual civic state3. Initial208Jan public saved bytes remain resumable; observed208Feb is not a saved checkpoint. No acquired134/188 or casting/HD acceptance. Old static plan queue-as-owned assumption is superseded by actual Belong-filtered facts.",
+    "next": "Use original208Jan checkpoint with public governance before further normal months; new driver remains distinct from the failed run."
+  },
+  "numericClarification": "Requested0 skips the native number branch. Both AID skills request positive800/1800; when capacity clamps the applied result to0, the native NUM0 and50-timer hold still run. The original1075 peer wording addendum is a clarification, not a product defect.",
+  "engine": {
+    "rebuiltInThisBatch": false,
+    "installedChanged": false,
+    "stagedInstalled": false,
+    "installed": {
+      "sourceRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+      "engineSourceSha256": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
+      "engineSourceModified": true
+    },
+    "staged": {
+      "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+      "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "engineSourceModified": true
+    }
+  },
+  "remaining": [
+    "Classic and visibility/hidden/resize skill scenes",
+    "Other skills and complete four-period player routes",
+    "Mobile and performance",
+    "WOOD6/7 qualified-caster preparation and actual casts; other HD checklist requirements"
+  ],
+  "evidenceStorage": {
+    "productionTestTracked": true,
+    "buildReferencesWorkspaceOnly": true,
+    "portableClosedArchive": false,
+    "sourceByteScope": "References authenticate the actual tested working bytes. Git source-text newline normalization is separate from native/build artifact identities; no old proof or execution is relabeled."
+  },
+  "references": [
+    {
+      "path": "scripts/test-hd-aid-engine.mjs",
+      "bytes": 31366,
+      "sha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b"
+    },
+    {
+      "path": "build/r22-aid-persistent-candidate-source-proof.json",
+      "bytes": 13806,
+      "sha256": "88317cde71840b12742341aa859cfa18bf2756295630af20f9a96f0cc55031c4"
+    },
+    {
+      "path": "build/r22-native-test-promotion-root-proof-v1.json",
+      "bytes": 609,
+      "sha256": "5541c6028c02a2efa7e0882c37c613643e04c650f1c2456b20e5e1a8b88af1d2"
+    },
+    {
+      "path": "build/r22-native-package-staged-candidate.json",
+      "bytes": 7019,
+      "sha256": "3472edff31c917fb9b697cf3313519a4c2e1e3f26548d709cfeec8b81609f359"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-execution.json",
+      "bytes": 3529,
+      "sha256": "362a3d950720e532cd8197ba59d062cce80686edc1f9794072a5ec02c3c167e4"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3.log",
+      "bytes": 281637,
+      "sha256": "b3d5759f036f7b036f98ca0abf8461428995aacbd2aefadf6c420c9fa4591092"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-sources-pre.json",
+      "bytes": 211716,
+      "sha256": "fb5e1177521fd47a88909b280b7fb82addb4ac30bec8c8f0b75e4b18c564a051"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-sources-post.json",
+      "bytes": 211716,
+      "sha256": "fb5e1177521fd47a88909b280b7fb82addb4ac30bec8c8f0b75e4b18c564a051"
+    },
+    {
+      "path": "build/r22-full-source-tests-v3-independent-audit.json",
+      "bytes": 8858,
+      "sha256": "ebd62581a845cef498485b2272de40e69c87d85db9931dac6b4dbc6a3d390067"
+    },
+    {
+      "path": "build/r22-aid-native-execution-v1.json",
+      "bytes": 1284,
+      "sha256": "d81fec36038bafe4334073068718f30e4cc5f9ac410e4de72a1f8020253e9689"
+    },
+    {
+      "path": "build/r22-aid-native-execution-v1.log",
+      "bytes": 1679,
+      "sha256": "d2637d6c9616ae1486a7c5ca67c6a3f8de135c35a1a8d8342b9e107921898185"
+    },
+    {
+      "path": "build/r22-test-hd-aid-engine-candidate-v2.mjs",
+      "bytes": 35635,
+      "sha256": "b1fa3413b120122fae492f02aac3d7cfeeb576c87799e124b02e186a83dfa68f"
+    },
+    {
+      "path": "build/r22-full-source-tests-independent-audit-addendum.json",
+      "bytes": 1191,
+      "sha256": "e118b8e438d45f93ee20660cfa5afb93e01831857738dbbd621867b8913079cf"
+    },
+    {
+      "path": "build/r22-aid-prepare-driver-v1.mjs",
+      "bytes": 70733,
+      "sha256": "2a00ece1c70bf41aa16295b94bc13638af586e845bf166ebc2fb1fa9cc1e05cf"
+    },
+    {
+      "path": "build/r22-aid-prepare-driver-v1-freeze.json",
+      "bytes": 7516,
+      "sha256": "84452be7bc135b0a506f673e2154a19118d8b1be2fd6a23e8726681713f67c8b"
+    },
+    {
+      "path": "build/r22-aid-phase1-source-peer-review.json",
+      "bytes": 5521,
+      "sha256": "c58a26b234a2e804b403af07bb1653737f6b36b40ca47774a53171cf0f68deef"
+    },
+    {
+      "path": "build/r22-aid-phase1-failure-root-audit-v1.json",
+      "bytes": 2655,
+      "sha256": "87fbb57a3df5023e29a7de43d020c783114f0363d309795f09b0abab527345d0"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/result.json",
+      "bytes": 23141371,
+      "sha256": "add01a7dd67d23d84e28c2f60d740fafa3885775c5602e8da5b0d0ca9da6214f"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/source-verification.json",
+      "bytes": 416379,
+      "sha256": "62bd8666db6d5c8cd4a1124b986dcf1b13d24aed92263715b5f2330262ff9f32"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/browser-console.json",
+      "bytes": 10227,
+      "sha256": "bd1226ac282232a38cc21935c7c5f3da588e17178a3609613dea4b9b7f08e520"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1-isolation.json",
+      "bytes": 2427,
+      "sha256": "193ec966218599b10fabf1747ed318b6977801ffb1835a84eea249aa6b9176c4"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1.log",
+      "bytes": 900,
+      "sha256": "4089b1e405c4e946141f42f9e3aaf29602930794d1892fe886f1e9f0b20fe8e4"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/native-initial-sango0.sav",
+      "bytes": 8221,
+      "sha256": "0a213e1ad9d50df0f5cdda93c27ce2f5b1cb67e3cf458ef269bdf8f31df8e744"
+    },
+    {
+      "path": "build/r22-aid-prepare-actual-v1/native-initial-sango1.sav",
+      "bytes": 4840,
+      "sha256": "030dd061d414adb92ca385b18353cdbc042e70cebf956065a7ba120278e14eec"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 140039,
+      "sha256": "0a08077367f696ce67f49bbed527afb5a8c0adf263c296136e1ad691b94db15c"
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 80136,
+      "sha256": "73a494feb57b355eb9acf3a05c86cfc6810e6f801c1dd0ef66a40b1bdc2c120b"
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 581090,
+      "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 15801,
+      "sha256": "1cefbf6bda96f024cc932b6c605a183b7070cd7e68bed028390e8f4aa9e1f5f3"
+    },
+    {
+      "path": "build/wasm/src/baye.build.json",
+      "bytes": 16650,
+      "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+    }
+  ],
+  "actualPreparationV2": {
+    "schemaVersion": 1,
+    "kind": "actualPreparationV2",
+    "ok": false,
+    "accepted": false,
+    "phaseAccepted": false,
+    "preparationAccepted": false,
+    "hdAccepted": false,
+    "phase": "canvass",
+    "artifactDirectory": "build/r22-aid-prepare-actual-v2",
+    "runner": {
+      "source": "build/r22-aid-prepare-driver-v2-final.mjs",
+      "bytes": 81767,
+      "sha256": "ce816d0928c35b24ace09db3899824f13b89cfa8584e13802a23d99306da86ea"
+    },
+    "refs": [
+      {
+        "path": "build/r22-aid-prepare-actual-v2/result.json",
+        "bytes": 130007283,
+        "sha256": "193dedf8ee9dd851692f1343770f543095930d5dcfa664311ce8d11dd7b4824a"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2/source-verification.json",
+        "bytes": 417495,
+        "sha256": "7d2d0e447f536339facfadc3b18d1582fcd2cde0251d28e2dfe6cb88abbd4f72"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2/browser-console.json",
+        "bytes": 10260,
+        "sha256": "16516b77c5661102c67a1f321e81aec9cd488ed3325a4fc170dab731598d4ded"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2.log",
+        "bytes": 2798,
+        "sha256": "01fe704ece99f9f27e19e79fbfec9f74d5c642de9fbee439436c3288664eec64"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2-isolation.json",
+        "bytes": 2652,
+        "sha256": "fd201a8b212467e95d8c7d532d3e15daf6c1cfd1cd2d14668a6098ff37457d77"
+      },
+      {
+        "path": "build/r22-aid-prepare-driver-v2-final.mjs",
+        "bytes": 81767,
+        "sha256": "ce816d0928c35b24ace09db3899824f13b89cfa8584e13802a23d99306da86ea"
+      },
+      {
+        "path": "build/r22-run-aid-phase1-root-v2.mjs",
+        "bytes": 3849,
+        "sha256": "96c8caa82001bb3ee9c528fc32e8b257b41b3697366c5015681cdb360b1f2df1"
+      },
+      {
+        "path": "build/r22-aid-prepare-preflight-root-v2/result.json",
+        "bytes": 843509,
+        "sha256": "3d2432d2e7c54ca78164f90b29e927bc2840381c6767e26a7afcf03869860c9d"
+      },
+      {
+        "path": "build/r21-write-large-json-v2.mjs",
+        "bytes": 7162,
+        "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+      },
+      {
+        "path": "build/r22-aid-prepare-actual-v2/result.json.campaignObservations.ndjson",
+        "bytes": 102462440,
+        "sha256": "625efcb6da149fd6b464e65837e3b334705813c3f6fa9645e50ce120ab0f9fb7"
+      }
+    ],
+    "audit": {
+      "path": "build/r22-aid-prepare-actual-v2-independent-audit.json",
+      "bytes": 40264,
+      "sha256": "25dc6c5a7aedede507bba2d8c82135795192168900d389e430296ea8daf94598"
+    },
+    "actual": {
+      "months": 24,
+      "canvassOrders": 27,
+      "envoyCounts": {
+        "9": 9,
+        "150": 9,
+        "151": 9
+      },
+      "governance": 10,
+      "governanceCounts": {
+        "24": 6,
+        "31": 4
+      },
+      "publicSavePairs": 24,
+      "nativeSaveFiles": 48,
+      "phases": 76,
+      "engineInputs": 523,
+      "costStops": 24,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0,
+      "httpErrors": 0,
+      "campaignObservationRecords": 1081
+    },
+    "dates": {
+      "before": {
+        "year": 208,
+        "month": 1
+      },
+      "after": {
+        "year": 210,
+        "month": 1
+      }
+    },
+    "envoys": [
+      {
+        "personIndex": 9,
+        "name": "刘璋",
+        "iq": 49,
+        "thewAtEnd": 16,
+        "actualCanvassOrders": 9
+      },
+      {
+        "personIndex": 150,
+        "name": "张松",
+        "iq": 88,
+        "thewAtEnd": 16,
+        "actualCanvassOrders": 9
+      },
+      {
+        "personIndex": 151,
+        "name": "法正",
+        "iq": 93,
+        "thewAtEnd": 16,
+        "actualCanvassOrders": 9
+      }
+    ],
+    "governanceCounts": {
+      "24": 6,
+      "31": 4
+    },
+    "target": {
+      "personIndex": 134,
+      "oldBelong": 0,
+      "belong": 5,
+      "level": 2,
+      "force": 70,
+      "iq": 56,
+      "devotion": 88,
+      "character": 0,
+      "experience": 0,
+      "thew": 100,
+      "baseArm": 2,
+      "arms": 1460,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 45
+    },
+    "caster188": {
+      "personIndex": 188,
+      "oldBelong": 0,
+      "belong": 0,
+      "level": 20,
+      "force": 150,
+      "iq": 150,
+      "devotion": 0,
+      "character": 4,
+      "experience": 0,
+      "thew": 100,
+      "baseArm": 5,
+      "arms": 100,
+      "equip": [
+        0,
+        0
+      ],
+      "age": 22
+    },
+    "targetOwnershipChange": {
+      "actualReceiptMonth": 8,
+      "date": {
+        "year": 208,
+        "month": 9
+      },
+      "beforeBelong": 8,
+      "afterBelong": 5,
+      "causation": "Only observed ownership change; not attributed to a scripted recruitment or inferred capture"
+    },
+    "protectedCities": [
+      {
+        "i": 24,
+        "state": 3,
+        "belong": 10,
+        "satrapId": 10,
+        "farming": 1902,
+        "commerce": 2461,
+        "peopleDevotion": 64,
+        "avoidCalamity": 56,
+        "money": 8763,
+        "food": 2183,
+        "reserve": 0,
+        "queue": [
+          150,
+          151,
+          9,
+          142,
+          160,
+          183,
+          186
+        ],
+        "ownedQueue": [
+          150,
+          151,
+          9,
+          142
+        ],
+        "name": "成都"
+      },
+      {
+        "i": 31,
+        "state": 0,
+        "belong": 10,
+        "satrapId": 140,
+        "farming": 803,
+        "commerce": 1040,
+        "peopleDevotion": 54,
+        "avoidCalamity": 58,
+        "money": 4275,
+        "food": 770,
+        "reserve": 0,
+        "queue": [
+          144,
+          139,
+          148,
+          149,
+          153,
+          188
+        ],
+        "ownedQueue": [
+          144,
+          139,
+          148,
+          149
+        ],
+        "name": "巴郡"
+      }
+    ],
+    "latestCheckpoint": {
+      "tag": "month-024",
+      "header": {
+        "version": 149,
+        "period": 3,
+        "count": 200,
+        "king": 9,
+        "year": 210,
+        "month": 1
+      },
+      "files": [
+        {
+          "path": "build/r22-aid-prepare-actual-v2/native-month-024-sango0.sav",
+          "bytes": 8221,
+          "sha256": "ad68859c3c70aba2accb28c2c080afb34a711654c5566c34511a14ee1a237500"
+        },
+        {
+          "path": "build/r22-aid-prepare-actual-v2/native-month-024-sango1.sav",
+          "bytes": 4840,
+          "sha256": "c9b9bb1ff3a3172b3c7a35172a014bbb9530abfe9e5b9b02ca9700c7ab5ac6b1"
+        }
+      ],
+      "scope": "Verified original month-024 pair may resume phase1 only. YangQiu134 not owned, so it is NOT a phase2 accepted preparation input; resume must use public import/LOAD and current civic/food checks.",
+      "requiresGovernance24": true,
+      "state24": 3,
+      "verifiedNativePeople": 200,
+      "verifiedNativeCities": 38,
+      "verifiedFighterBytes": 600
+    },
+    "sourceVerification": {
+      "count": 1172,
+      "uniquePaths": 1172,
+      "originalDrift": 0,
+      "originalAdded": 0,
+      "currentFileRehashDrift": 0,
+      "runnerMatch": true,
+      "runner": {
+        "source": "build/r22-aid-prepare-driver-v2-final.mjs",
+        "bytes": 81767,
+        "sha256": "ce816d0928c35b24ace09db3899824f13b89cfa8584e13802a23d99306da86ea"
+      },
+      "lib": {
+        "preferred": "libs/dat-mod.lib",
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "byteLength": 207195,
+        "generation": 2,
+        "nativeGeneration": 3
+      },
+      "native": {
+        "count": 128,
+        "aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0"
+      },
+      "servedCore": [
+        {
+          "path": "js/bridge.js",
+          "source": "js/bridge.js",
+          "bytes": 140039,
+          "sha256": "0a08077367f696ce67f49bbed527afb5a8c0adf263c296136e1ad691b94db15c"
+        },
+        {
+          "path": "js/hd-spe.js",
+          "source": "js/hd-spe.js",
+          "bytes": 80136,
+          "sha256": "73a494feb57b355eb9acf3a05c86cfc6810e6f801c1dd0ef66a40b1bdc2c120b"
+        },
+        {
+          "path": "assets/hd-spe/manifest.json",
+          "source": "assets/hd-spe/manifest.json",
+          "bytes": 581090,
+          "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+        }
+      ],
+      "scope": "1172 collector paths plus independent128 native aggregate; not unrelated repo files or installed-engine acceptance"
+    },
+    "sourceRevision": {
+      "revision": "a130813679921357294fe214f683b3b297f10238",
+      "modified": true,
+      "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+    },
+    "staged": true,
+    "compiledEngine": {
+      "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+      "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+      "engineSourceModified": true,
+      "artifacts": {
+        "baye.js": {
+          "bytes": 192446,
+          "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+        },
+        "baye.wasm": {
+          "bytes": 4535346,
+          "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+        },
+        "baye.wasm.map": {
+          "bytes": 29983,
+          "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e"
+        }
+      }
+    },
+    "cleanup": {
+      "cleaned": true,
+      "rootIsolation": {
+        "path": "build/r22-aid-prepare-actual-v2-isolation.json",
+        "bytes": 2652,
+        "sha256": "fd201a8b212467e95d8c7d532d3e15daf6c1cfd1cd2d14668a6098ff37457d77"
+      },
+      "independentOsRead": {
+        "at": "2026-10-09T15:37:18.4686227Z",
+        "method": "Read-only Get-NetTCPConnection / Get-Process / Test-Path / HTTP GET",
+        "privatePorts": [
+          13207,
+          13208
+        ],
+        "privatePortsListening": false,
+        "privatePids": [
+          18192,
+          225708
+        ],
+        "privatePidsRunning": false,
+        "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-aid-preparation-rvM8P0",
+        "profileExists": false,
+        "user8080": {
+          "pid": 105848,
+          "httpStatus": 200
+        }
+      }
+    },
+    "failureBoundary": "24-month finite natural Canvass budget exhausted; target134 notowned. No MOVE/SEARCH188/cast/HD runtime accepted.",
+    "allRawRetained": true,
+    "limitations": [
+      "Finite natural Canvass budget exhausted; no134 acquisition, MOVE, SEARCH188, dispatch, skill17/29 cast, movie/NUM/hold or HD acceptance.",
+      "Both target ownership and roster are read as full U16 actual native facts; wild raw queue IDs are not owned.",
+      "Native save parsing independently checked all200 people/38 cities/queues/active orders/600fighter bytes at all24 checkpoints.",
+      "Whole sidecar hash/size/count and valid JSON records verified; no claim that every screenshot was visually reviewed.",
+      "Inactive fight.over2/skip4 at terminal is stale metadata, not evidence of a new protected-city battle failure."
+    ],
+    "mergeMetadata": {
+      "path": "build/r22-aid-actualPreparationV2-root-merge.json",
+      "bytes": 11269,
+      "sha256": "eb3cbb852a53ff78a6d4fdc31d5f006faf1cd5fbfe720388027a27dd6507c25a"
+    }
+  },
+  "actualPreparationV4": {
+    "schemaVersion": 1,
+    "status": "phase1-accepted",
+    "accepted": true,
+    "scope": "Actual Canvass134/P3LiuZhang9/city24 and exact bole-owned native save only",
+    "phaseAccepted": true,
+    "preparationAccepted": false,
+    "caster188Acquired": false,
+    "aidCastAccepted": false,
+    "hdAccepted": false,
+    "archiveClosed": false,
+    "audit": {
+      "path": "build/r22-aid-phase1-v4-terminal-independent-audit.json",
+      "bytes": 112030,
+      "sha256": "86db50d3eeadfdd7db8e7379941425ae109f2cd13e5f0faea7d18db08f1ca245"
+    },
+    "refs": {
+      "result": {
+        "path": "build/r22-aid-prepare-actual-v4/result.json",
+        "bytes": 207732144,
+        "sha256": "99af9bb49a4d0e264afc9e373aa3288db6b424a5351435067b169cacff15b58d"
+      },
+      "sidecar": {
+        "path": "build/r22-aid-prepare-actual-v4/result.json.campaignObservations.ndjson",
+        "bytes": 210733168,
+        "sha256": "2bb05beb5d006baded5b5b4f9a6e3acc1568d402b3f5fbb3d49dd14623c979ef"
+      },
+      "runner": {
+        "path": "build/r22-aid-prepare-driver-v4-final.mjs",
+        "bytes": 93106,
+        "sha256": "2aa34bcf2171b9c676cca0a64ce3910aaa543fc93914d520b06f0a418fd42d8f"
+      },
+      "wrapper": {
+        "path": "build/r22-run-aid-phase1-root-v4.mjs",
+        "bytes": 3979,
+        "sha256": "5d0301b2b720010432a7cbef74fd3c1e3edd1a17c3952787fb8d15242d21aaa9"
+      },
+      "isolation": {
+        "path": "build/r22-aid-prepare-actual-v4-isolation.json",
+        "bytes": 2795,
+        "sha256": "39ec04e075fe531a272622b4eab644a6994a580d501cabba7c8e515123a321f1"
+      },
+      "sourceVerification": {
+        "path": "build/r22-aid-prepare-actual-v4/source-verification.json",
+        "bytes": 417504,
+        "sha256": "c9fd1e2fa7b80291d571305bb233d83c7717c45b8b9df8a92568695c9ecff9b9"
+      },
+      "log": {
+        "path": "build/r22-aid-prepare-actual-v4.log",
+        "bytes": 3137,
+        "sha256": "4aac553743f4863097d18ad71c09fc3c9c3ee25193ea9a2c8146ba27c2a769ba"
+      },
+      "originalBoleOwnedPair": [
+        {
+          "path": "build\\r22-aid-prepare-actual-v4\\native-bole-owned-sango0.sav",
+          "bytes": 8221,
+          "sha256": "b0f78d1ff33f7c4b2db8d6d6e9fcb9a2c6960317ade22889b7d54d248a6ac9ec"
+        },
+        {
+          "path": "build\\r22-aid-prepare-actual-v4\\native-bole-owned-sango1.sav",
+          "bytes": 4840,
+          "sha256": "aec01394d42ce55ebcffa4e357d8e12812c8ca2f3d57d10a7fa41b8545c869a5"
+        }
+      ]
+    },
+    "counts": {
+      "months": 21,
+      "canvass": 57,
+      "kingEnvoyOrders": 21,
+      "treats": 19,
+      "kingNoReportTreats": 7,
+      "nonKingReportTreats": 12,
+      "governance": 10,
+      "savePairs": 22,
+      "sidecarRows": 2220
+    },
+    "actual134": {
+      "personIndex": 134,
+      "nativeId": 135,
+      "name": "杨秋",
+      "belong": 10,
+      "oldBelong": 0,
+      "level": 3,
+      "experience": 0,
+      "iq": 56,
+      "force": 70,
+      "age": 46,
+      "devotion": 62,
+      "character": 0,
+      "thew": 100,
+      "arms": 1560,
+      "baseArm": 2,
+      "armType": 2,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "date": {
+      "year": 211,
+      "month": 10
+    },
+    "ownedCity24": true,
+    "sourceRecords": 1172,
+    "sourceDrift": 0,
+    "privateCleanup": true,
+    "user8080Pid": 105848,
+    "phase2InputBoundary": "This independently accepted terminal/cleaned phase1 bole-owned exact original pair is eligible for root-authorized phase2 input. Future driver source/preflight/realLOAD/MOVE134/SEARCH188 remain separate gates; no automatic phase2 authorization or caster/cast/HD acceptance.",
+    "metadata": {
+      "path": "build/r22-aid-phase1-v4-root-merge-metadata.json",
+      "bytes": 3415,
+      "sha256": "509472d02132cdc92f56115c5ab3f60456148913ecd5d2e42b4f782cc412465d"
+    },
+    "actualPhase": "canvass-only",
+    "savedPairs": [
+      {
+        "tag": "month-001",
+        "date": {
+          "year": 210,
+          "month": 2
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-001-sango0.sav",
+            "bytes": 8221,
+            "sha256": "a810c744f23cadba7f139276a4a874efd1098b3251fb12666fda9040b4b972f2"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-001-sango1.sav",
+            "bytes": 4840,
+            "sha256": "6ea6dcb90feba03700a67d1a3acd90a17ba7da0794c7212ce297bf1207f27f97"
+          }
+        ]
+      },
+      {
+        "tag": "month-002",
+        "date": {
+          "year": 210,
+          "month": 3
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-002-sango0.sav",
+            "bytes": 8221,
+            "sha256": "e5954d45bd5411dbbf9c6bb42fa66c61c2f18000a46ddf03ed452311326d6335"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-002-sango1.sav",
+            "bytes": 4840,
+            "sha256": "10ce8d46ed7ba4b4f2379341aa9049e550295b7c378b587b13f3e78e33a1cd04"
+          }
+        ]
+      },
+      {
+        "tag": "month-003",
+        "date": {
+          "year": 210,
+          "month": 4
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-003-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b947cf02338bfb4d58aaad34ff8004bd6038152a121d2f8367b32a6aa447d261"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-003-sango1.sav",
+            "bytes": 4840,
+            "sha256": "1c5fc8d7c812134cd8b88f235ac43190e918866bb2dcdecf722c13e37fb522b6"
+          }
+        ]
+      },
+      {
+        "tag": "month-004",
+        "date": {
+          "year": 210,
+          "month": 5
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-004-sango0.sav",
+            "bytes": 8221,
+            "sha256": "834e19a3a39cf438a8e5f413ef4985b2b716880be33a7e8605afbafc80f6ec48"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-004-sango1.sav",
+            "bytes": 4840,
+            "sha256": "4defdd61b61dd545776afde43249ae10f127b1bcda44d2ad51d60b0eed368854"
+          }
+        ]
+      },
+      {
+        "tag": "month-005",
+        "date": {
+          "year": 210,
+          "month": 6
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-005-sango0.sav",
+            "bytes": 8221,
+            "sha256": "7b1abb7e84d51af62e6fcaae5facb92b10f630d434488a87eb3ab00ffe0f2610"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-005-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a3eecceee989cfdb6517c8ea06983fafaaad0c2e3431eb8cc819d34e8500b5d6"
+          }
+        ]
+      },
+      {
+        "tag": "month-006",
+        "date": {
+          "year": 210,
+          "month": 7
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-006-sango0.sav",
+            "bytes": 8221,
+            "sha256": "66326b936d56cff2057fc441b1f122b2e44aee1517944ad6ad10b7d330b9625e"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-006-sango1.sav",
+            "bytes": 4840,
+            "sha256": "ead07f9029ba7fd7fbd76dbff2b78f3c7257e0c967184d94c798786ac27e8ace"
+          }
+        ]
+      },
+      {
+        "tag": "month-007",
+        "date": {
+          "year": 210,
+          "month": 8
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-007-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b6f5b295891bfa6633ed58d861a1cf6e998e15169cf4a2ec200060cbb96a8ad4"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-007-sango1.sav",
+            "bytes": 4840,
+            "sha256": "29c55804e6194d6a9972a9c642babeb942cae947d548db549a910ac4234f374b"
+          }
+        ]
+      },
+      {
+        "tag": "month-008",
+        "date": {
+          "year": 210,
+          "month": 9
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-008-sango0.sav",
+            "bytes": 8221,
+            "sha256": "bd3d515ca4d3c039e78547639c458f61f04ae137c0d6cebdf3ab76fa1fb466dc"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-008-sango1.sav",
+            "bytes": 4840,
+            "sha256": "432ca4cafb490d585a106a91d5c22ebb72bd827bb179cfde437dc27627580fb2"
+          }
+        ]
+      },
+      {
+        "tag": "month-009",
+        "date": {
+          "year": 210,
+          "month": 10
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-009-sango0.sav",
+            "bytes": 8221,
+            "sha256": "2eed2e64162e36aeadbf5825f705bedf1b83fff9223249fc6c9abd10bcaa38bb"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-009-sango1.sav",
+            "bytes": 4840,
+            "sha256": "fb25e4baa319870493d52b9968b96901607c351abbe467c8c44570ff70bdef7d"
+          }
+        ]
+      },
+      {
+        "tag": "month-010",
+        "date": {
+          "year": 210,
+          "month": 11
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-010-sango0.sav",
+            "bytes": 8221,
+            "sha256": "1ed0a8d4b9acdd158cfbe98cd27e0cdc1cb66f91a9455196b6cdb987d20b4d75"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-010-sango1.sav",
+            "bytes": 4840,
+            "sha256": "ebc3998f0f36a85d118e8502ad03ae3d5dc0bdad0ce7ed92cf12cd4455bb35a9"
+          }
+        ]
+      },
+      {
+        "tag": "month-011",
+        "date": {
+          "year": 210,
+          "month": 12
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-011-sango0.sav",
+            "bytes": 8221,
+            "sha256": "bf7e478b3530bf654e61c677b9af6efd512dcd98b5df3abf661848c950748f75"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-011-sango1.sav",
+            "bytes": 4840,
+            "sha256": "a0c8b9e0e07e9fc588c6fc7c6d8c88345a633c4e76678c9ab7cdd6e1d673b238"
+          }
+        ]
+      },
+      {
+        "tag": "month-012",
+        "date": {
+          "year": 211,
+          "month": 1
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-012-sango0.sav",
+            "bytes": 8221,
+            "sha256": "acf71d75a610f64ce9fabb1660b9aae41ee87bacda8de0b8e5fc29e01a307595"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-012-sango1.sav",
+            "bytes": 4840,
+            "sha256": "5465f591f7152794460b4075caec3d177a106b361da5b0bc63b7e0d777eac928"
+          }
+        ]
+      },
+      {
+        "tag": "month-013",
+        "date": {
+          "year": 211,
+          "month": 2
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-013-sango0.sav",
+            "bytes": 8221,
+            "sha256": "963852aecc3f16f4a38075332c286844663ed3a40dd7de8d72f70029b11bbb2f"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-013-sango1.sav",
+            "bytes": 4840,
+            "sha256": "fe00fe1718e6ce789d500e4291405eb8ed7ee552cdf7a155613cbfa98b539dc0"
+          }
+        ]
+      },
+      {
+        "tag": "month-014",
+        "date": {
+          "year": 211,
+          "month": 3
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-014-sango0.sav",
+            "bytes": 8221,
+            "sha256": "c073e665cd95ad8fce002cd50a0c062a0791932a12444aba0f107284f44ab730"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-014-sango1.sav",
+            "bytes": 4840,
+            "sha256": "5b9b2fca0b79e90d2d84313f2a0640febd0458eb0592c1b2c042f5a11b4da59e"
+          }
+        ]
+      },
+      {
+        "tag": "month-015",
+        "date": {
+          "year": 211,
+          "month": 4
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-015-sango0.sav",
+            "bytes": 8221,
+            "sha256": "0c68a8cf2a6c81060366d8c73d085671795afc3a96ea4f6f4562c46fd49a8785"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-015-sango1.sav",
+            "bytes": 4840,
+            "sha256": "09662d73686fcae1bc3de7ea28a449af805784366bdee7fcd1518ce9ed9acf7a"
+          }
+        ]
+      },
+      {
+        "tag": "month-016",
+        "date": {
+          "year": 211,
+          "month": 5
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-016-sango0.sav",
+            "bytes": 8221,
+            "sha256": "7be636b2a2b2c0e8d80d80f499382974e75b6d04284a3794aaa2691699b6c68d"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-016-sango1.sav",
+            "bytes": 4840,
+            "sha256": "3a8879fc14129d50d391eab96a1890b134e9b92297e3f7833b593218b4db26aa"
+          }
+        ]
+      },
+      {
+        "tag": "month-017",
+        "date": {
+          "year": 211,
+          "month": 6
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-017-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b206e3493193e4a0facbfa4b821e45f4d9aa684df85bfd86adf960b99a274456"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-017-sango1.sav",
+            "bytes": 4840,
+            "sha256": "80cce9de15e6e4e20bcdf52741fbf5acbb9d0be9cc8c29abae73d94ef7804b90"
+          }
+        ]
+      },
+      {
+        "tag": "month-018",
+        "date": {
+          "year": 211,
+          "month": 7
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-018-sango0.sav",
+            "bytes": 8221,
+            "sha256": "9bc46110c468356abe4ae4bb9e78360f86b70fa9f8ec13ec46d0f057152c4b8a"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-018-sango1.sav",
+            "bytes": 4840,
+            "sha256": "0e96e990aa49ed049529cc6a0e66168f95db3c9e20038598a15d3321d6b8945a"
+          }
+        ]
+      },
+      {
+        "tag": "month-019",
+        "date": {
+          "year": 211,
+          "month": 8
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-019-sango0.sav",
+            "bytes": 8221,
+            "sha256": "f16e6c71fbc55b2669f2c3058746affd91819e680564d42cbb00e9f06764e451"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-019-sango1.sav",
+            "bytes": 4840,
+            "sha256": "8881567a4c450631281dd95c4259e281e718e14ab8fe29956f5f698772165ec7"
+          }
+        ]
+      },
+      {
+        "tag": "month-020",
+        "date": {
+          "year": 211,
+          "month": 9
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-020-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b458ae58d1bd066d5e1ec08ccb45b2ae3ee003b9591d077711c4f7eb964ce7a7"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-020-sango1.sav",
+            "bytes": 4840,
+            "sha256": "074467d33e691de62ef6220b3692d50d0b96b455048ef21b6404e6a6b67b6ee9"
+          }
+        ]
+      },
+      {
+        "tag": "month-021",
+        "date": {
+          "year": 211,
+          "month": 10
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-021-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b7aa21cecb3ca62d7ac490e0119d06816d683435561f913248df0dbff8ba4e20"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-month-021-sango1.sav",
+            "bytes": 4840,
+            "sha256": "13c3fd8e4832ced147606221516dc7d8e56e634922867a0cdcd21c04d9456644"
+          }
+        ]
+      },
+      {
+        "tag": "bole-owned",
+        "date": {
+          "year": 211,
+          "month": 10
+        },
+        "files": [
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-bole-owned-sango0.sav",
+            "bytes": 8221,
+            "sha256": "b0f78d1ff33f7c4b2db8d6d6e9fcb9a2c6960317ade22889b7d54d248a6ac9ec"
+          },
+          {
+            "path": "build/r22-aid-prepare-actual-v4/native-bole-owned-sango1.sav",
+            "bytes": 4840,
+            "sha256": "aec01394d42ce55ebcffa4e357d8e12812c8ca2f3d57d10a7fa41b8545c869a5"
+          }
+        ]
+      }
+    ],
+    "phase2Executed": false,
+    "castExecuted": false
+  },
+  "actualPhase2V4": {
+    "schemaVersion": 1,
+    "status": "terminal-incoming-defense-stop",
+    "accepted": false,
+    "phaseAccepted": false,
+    "preparationAccepted": false,
+    "caster188Acquired": false,
+    "aidCastAccepted": false,
+    "hdAccepted": false,
+    "archiveClosed": false,
+    "limitedFlowVerified": true,
+    "audit": {
+      "path": "build/r22-aid-phase2-v4-terminal-independent-audit.json",
+      "bytes": 72759,
+      "sha256": "8d9366a1f034fe2412144313becc15160cf83775d596058f3908f8dc42c56784"
+    },
+    "refs": {
+      "result": {
+        "path": "build/r22-aid-phase2-actual-v4/result.json",
+        "bytes": 41082486,
+        "sha256": "038f3a0e245d93edd01b499cd81fc58b81e0a0218a9657dc22b617008638e8e4"
+      },
+      "sidecar": {
+        "path": "build/r22-aid-phase2-actual-v4/result.json.campaignObservations.ndjson",
+        "bytes": 29780449,
+        "sha256": "a0fe2ce6d51d0941567fe5690b21a5ea609b4c154a5570d014915e0fabba102b"
+      },
+      "runner": {
+        "path": "build/r22-aid-phase2-driver-v4.mjs",
+        "bytes": 117878,
+        "sha256": "8f0d0ecec741baf77f0d77a0b7283e92720c2eff7d3ad5da6211a32c73fa0bd5"
+      },
+      "wrapper": {
+        "path": "build/r22-run-aid-phase2-root-v4.mjs",
+        "bytes": 5047,
+        "sha256": "5a396b56380eb4d198b739f837bbda551b73e98db67e94bc80a2226c5de07172"
+      },
+      "isolation": {
+        "path": "build/r22-aid-phase2-actual-v4-isolation.json",
+        "bytes": 3199,
+        "sha256": "070db2f3aa89970a324ef80cbdf8615f1790de869d5f12819b7af81fcf4633f0"
+      },
+      "sourceVerification": {
+        "path": "build/r22-aid-phase2-actual-v4/source-verification.json",
+        "bytes": 417508,
+        "sha256": "27f588dce9a60704c849796fd7716e8e14a5d249d67db6a77c042ea5562f7c2c"
+      },
+      "sourceCheck": {
+        "path": "build/r22-aid-phase2-v4-current-source-freeze-check.json",
+        "bytes": 294116,
+        "sha256": "d3c5cb2d899cabbfc625b55e7e88a9384b110fe2746f256b7f62bfa6bf529b99"
+      },
+      "log": {
+        "path": "build/r22-aid-phase2-actual-v4.log",
+        "bytes": 1666,
+        "sha256": "af6a5dfba4e51c6818413a0a0a8aff0d4c5867122884e64b63c8646ad06ec5fa"
+      },
+      "latestOriginalPair": [
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango0.sav",
+          "bytes": 8221,
+          "sha256": "cf8b054496ea28ffe9c871dde9d41b7e204c3d385a00af3825003430a2ba920f"
+        },
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6bed6d230239f748447cf42d368b22989d298d096032ca275a2cf4db5cf25bf7"
+        }
+      ]
+    },
+    "counts": {
+      "normalMonths": 7,
+      "attemptedMonthInterrupted": 8,
+      "moveOrders": 1,
+      "moveArrivals": 1,
+      "moveThew": 8,
+      "moveMoney": 0,
+      "searchOrders": 7,
+      "completedSearchMonths": 6,
+      "queuedUncompletedSearchMonths": 1,
+      "searchMoney": 0,
+      "searchThew": 56,
+      "governance": 2,
+      "governanceMoney": 0,
+      "governanceThew": 0,
+      "governanceReturns": 3,
+      "thewRecoveryTreat": 0,
+      "canvass": 0,
+      "publicSavePairs": 9,
+      "sidecarRows": 316,
+      "sidecarBytes": 29780449,
+      "nativeSelections": 30,
+      "selectionArrowKeys": 36,
+      "moveArrowKeys": 2,
+      "selectedActionReportAcks": 9,
+      "governanceReportAcks": 2,
+      "engineInputs": 160,
+      "openingActiveInputs": 3,
+      "preparationSpeActiveInputs": 0,
+      "httpRequests": 98,
+      "httpErrors": 0,
+      "exceptions": 0,
+      "dialogs": 0,
+      "observerErrors": 0
+    },
+    "latestRecovery": {
+      "tag": "phase2-month-007",
+      "date": {
+        "year": 212,
+        "month": 5
+      },
+      "files": [
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango0.sav",
+          "bytes": 8221,
+          "sha256": "cf8b054496ea28ffe9c871dde9d41b7e204c3d385a00af3825003430a2ba920f"
+        },
+        {
+          "path": "build\\r22-aid-phase2-actual-v4\\native-phase2-month-007-sango1.sav",
+          "bytes": 4840,
+          "sha256": "6bed6d230239f748447cf42d368b22989d298d096032ca275a2cf4db5cf25bf7"
+        }
+      ],
+      "fullAbi": {
+        "header": {
+          "period": 3,
+          "count": 200,
+          "king": 9,
+          "year": 212,
+          "month": 5
+        },
+        "people": 200,
+        "cities": 38,
+        "orders": 0,
+        "fighterBytes": 600,
+        "allCapturedPersonFieldsMatched": true,
+        "allResidentQueuesMatched": true,
+        "files": [
+          {
+            "path": "build/r22-aid-phase2-actual-v4/native-phase2-month-007-sango0.sav",
+            "bytes": 8221,
+            "sha256": "cf8b054496ea28ffe9c871dde9d41b7e204c3d385a00af3825003430a2ba920f"
+          },
+          {
+            "path": "build/r22-aid-phase2-actual-v4/native-phase2-month-007-sango1.sav",
+            "bytes": 4840,
+            "sha256": "6bed6d230239f748447cf42d368b22989d298d096032ca275a2cf4db5cf25bf7"
+          }
+        ]
+      },
+      "orders": [],
+      "person134": {
+        "personIndex": 134,
+        "nativeId": 135,
+        "name": "杨秋",
+        "belong": 10,
+        "oldBelong": 0,
+        "level": 3,
+        "experience": 0,
+        "iq": 56,
+        "force": 70,
+        "age": 47,
+        "devotion": 62,
+        "character": 0,
+        "thew": 72,
+        "arms": 1560,
+        "baseArm": 2,
+        "armType": 2,
+        "equip": [
+          0,
+          0
+        ]
+      },
+      "person188": {
+        "personIndex": 188,
+        "nativeId": 189,
+        "name": "南方小鬼",
+        "belong": 0,
+        "oldBelong": 0,
+        "level": 20,
+        "experience": 0,
+        "iq": 150,
+        "force": 150,
+        "age": 24,
+        "devotion": 0,
+        "character": 4,
+        "thew": 100,
+        "arms": 100,
+        "baseArm": 5,
+        "armType": 5,
+        "equip": [
+          0,
+          0
+        ]
+      },
+      "city24": {
+        "i": 24,
+        "name": "成都",
+        "belong": 10,
+        "money": 15083,
+        "food": 3828,
+        "reserve": 0,
+        "queue": [
+          151,
+          150,
+          9,
+          142,
+          160,
+          183,
+          186
+        ],
+        "ownedQueue": [
+          151,
+          150,
+          9,
+          142
+        ]
+      },
+      "city31": {
+        "i": 31,
+        "name": "巴郡",
+        "belong": 10,
+        "money": 9003,
+        "food": 1166,
+        "reserve": 0,
+        "queue": [
+          134,
+          144,
+          139,
+          148,
+          149,
+          153,
+          188
+        ],
+        "ownedQueue": [
+          134,
+          144,
+          139,
+          148,
+          149
+        ]
+      },
+      "boundary": "This original 212May checkpoint predates seventh SEARCH order and the current incoming-defense owner. No failed-after save is synthesized; LOAD must freshly compare all native bytes/actual world. Natural future defense/search outcome is unverified."
+    },
+    "defense": {
+      "label": "original month8",
+      "date": {
+        "year": 212,
+        "month": 5
+      },
+      "currentOwner": {
+        "active": 1,
+        "context": 5,
+        "kind": 2,
+        "seq": 128,
+        "itemLen": 8,
+        "count": 3,
+        "index": 0,
+        "names": [
+          "严颜",
+          "黄权",
+          "李恢"
+        ],
+        "packedNames": [
+          "严颜",
+          "黄权",
+          "李恢"
+        ],
+        "ids": [],
+        "idsValid": false,
+        "generation": 3,
+        "detailGeneration": 3
+      },
+      "incomingOrder": {
+        "OrderId": 27,
+        "City": 14,
+        "Person": 0,
+        "Object": 19,
+        "TimeCount": 0
+      },
+      "rawFighterTokens": [
+        9,
+        139,
+        136,
+        138,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "attackerCity": 14,
+      "defenderCity": 19,
+      "attacker": [
+        {
+          "personIndex": 8,
+          "nativeId": 9,
+          "name": "张鲁",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 75,
+          "force": 69,
+          "age": 49,
+          "devotion": 100,
+          "character": 1,
+          "thew": 100,
+          "arms": 1540,
+          "baseArm": 2,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 138,
+          "nativeId": 139,
+          "name": "阎圃",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 78,
+          "force": 56,
+          "age": 49,
+          "devotion": 78,
+          "character": 3,
+          "thew": 100,
+          "arms": 1440,
+          "baseArm": 2,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 135,
+          "nativeId": 136,
+          "name": "张卫",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 2,
+          "experience": 0,
+          "iq": 45,
+          "force": 77,
+          "age": 40,
+          "devotion": 84,
+          "character": 4,
+          "thew": 100,
+          "arms": 1420,
+          "baseArm": 0,
+          "armType": 0,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 137,
+          "nativeId": 138,
+          "name": "杨任",
+          "belong": 9,
+          "oldBelong": 0,
+          "level": 2,
+          "experience": 0,
+          "iq": 53,
+          "force": 41,
+          "age": 42,
+          "devotion": 88,
+          "character": 4,
+          "thew": 100,
+          "arms": 1140,
+          "baseArm": 2,
+          "armType": 2,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      ],
+      "attackerArms": 5540,
+      "defender": [
+        {
+          "personIndex": 140,
+          "nativeId": 141,
+          "name": "严颜",
+          "belong": 10,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 83,
+          "force": 89,
+          "age": 59,
+          "devotion": 86,
+          "character": 4,
+          "thew": 100,
+          "arms": 100,
+          "baseArm": 0,
+          "armType": 0,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 146,
+          "nativeId": 147,
+          "name": "黄权",
+          "belong": 10,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 70,
+          "force": 67,
+          "age": 45,
+          "devotion": 74,
+          "character": 3,
+          "thew": 100,
+          "arms": 100,
+          "baseArm": 1,
+          "armType": 1,
+          "equip": [
+            0,
+            0
+          ]
+        },
+        {
+          "personIndex": 147,
+          "nativeId": 148,
+          "name": "李恢",
+          "belong": 10,
+          "oldBelong": 0,
+          "level": 1,
+          "experience": 0,
+          "iq": 77,
+          "force": 41,
+          "age": 37,
+          "devotion": 72,
+          "character": 0,
+          "thew": 100,
+          "arms": 100,
+          "baseArm": 3,
+          "armType": 3,
+          "equip": [
+            0,
+            0
+          ]
+        }
+      ],
+      "defenderArms": 300,
+      "city19": {
+        "i": 19,
+        "name": "梓潼",
+        "belong": 10,
+        "money": 5752,
+        "food": 534,
+        "reserve": 0,
+        "queue": [
+          140,
+          146,
+          147
+        ],
+        "ownedQueue": [
+          140,
+          146,
+          147
+        ]
+      },
+      "noDefenseSelectionOrBattle": true,
+      "keysWhenObserved": 160,
+      "keysAtTerminal": 160,
+      "staleFightFields": {
+        "active": 0,
+        "over": 2,
+        "wait": 0,
+        "phase": 0,
+        "aimType": 255,
+        "inputKind": 0,
+        "inputSeq": 11,
+        "actorIndex": 255,
+        "tip": "",
+        "skip": 4,
+        "result": "我军全军覆没",
+        "cityIndex": 19,
+        "mapW": 0,
+        "mapH": 0,
+        "bout": 0,
+        "boutMax": 30,
+        "focusX": 0,
+        "focusY": 0
+      },
+      "boundary": "Current context5 native defense menu and Order27/FIGHTERS are authoritative. Menu U16 IDs are invalid/empty here; defenders are independently mapped from actual city19 ownedQueue and matching names. Retained fight over2/skip4 are not a new battle result."
+    },
+    "terminal134": {
+      "personIndex": 134,
+      "nativeId": 135,
+      "name": "杨秋",
+      "belong": 10,
+      "oldBelong": 0,
+      "level": 3,
+      "experience": 0,
+      "iq": 56,
+      "force": 70,
+      "age": 47,
+      "devotion": 62,
+      "character": 0,
+      "thew": 64,
+      "arms": 1560,
+      "baseArm": 2,
+      "armType": 2,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "terminal188": {
+      "personIndex": 188,
+      "nativeId": 189,
+      "name": "南方小鬼",
+      "belong": 0,
+      "oldBelong": 0,
+      "level": 20,
+      "experience": 0,
+      "iq": 150,
+      "force": 150,
+      "age": 24,
+      "devotion": 0,
+      "character": 4,
+      "thew": 100,
+      "arms": 100,
+      "baseArm": 5,
+      "armType": 5,
+      "equip": [
+        0,
+        0
+      ]
+    },
+    "terminalCity31": {
+      "i": 31,
+      "name": "巴郡",
+      "belong": 10,
+      "money": 9003,
+      "food": 1166,
+      "reserve": 0,
+      "queue": [
+        134,
+        144,
+        139,
+        148,
+        149,
+        153,
+        188
+      ],
+      "ownedQueue": [
+        134,
+        144,
+        139,
+        148,
+        149
+      ]
+    },
+    "sourceRecords": 1172,
+    "sourceDrift": 0,
+    "nativeAggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "compiledRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "compiledModified": true,
+    "privateCleanup": true,
+    "historicalUser8080Pid": 57860,
+    "continuationBoundary": "Original phase2-month-007 pair is byte-verified and suitable only for root-authorized future publicLOAD+freshworld audit. Defense300vs5540 was observed after unsaved SEARCH7; no selected defenders or battle outcome is accepted. Must preserve incoming-defense handling and actual188ownership gates."
+  },
+  "currentRuntimeAddendum": {
+    "record": {
+      "path": "docs/validation/m4-aid-runtime-20261010.json",
+      "bytes": 67539,
+      "sha256": "b052f46a45581f8204d083e8b24a65b32e3e89cdf73c16ef3e7a52f1cbbf9c9e"
+    },
+    "scope": "Acceptance is limited to original LIB period3/player9, actual caster188 plus ally144 dispatch31 to32, friendly skills17/29, resource41/index0/range0..7, NUM15, completed hold and owner retirement.",
+    "installedHd1080": true,
+    "stagedHd720": true,
+    "stagedMissingPicture0Lcd1080": true,
+    "classicAccepted": false,
+    "wholeHdAccepted": false,
+    "portableClosedArchive": false
+  },
+  "currentInstalledSourceRegression": {
+    "execution": {
+      "path": "build/r25-installed-full-source-tests-v1-execution.json",
+      "bytes": 3564,
+      "sha256": "8a5569935d424824f5511f5004737352cf11d88f37dbec2f1517fef5399adc5e"
+    },
+    "runner": {
+      "path": "build/r25-run-source-tests-root-v1.mjs",
+      "bytes": 3253,
+      "sha256": "efb9fa45e99dfda55084ce46eeabac7461a5180ec7b07520d545bd33b963db75"
+    },
+    "log": {
+      "path": "build/r25-installed-full-source-tests-v1.log",
+      "bytes": 288244,
+      "sha256": "e87d9056779d5798b516d7f58e174b45a71a9631754954cec87afeac9d54320c"
+    },
+    "summary": {
+      "tests": 1108,
+      "pass": 1108,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "uniqueModules": 50,
+    "sources": {
+      "count": 1266,
+      "pre": {
+        "path": "build/r25-installed-full-source-tests-v1-sources-pre.json",
+        "bytes": 213923,
+        "sha256": "24a14a469043464ae04c0e2dbffd2d34447e58116a24fc36ad9665d48fa8e211"
+      },
+      "post": {
+        "path": "build/r25-installed-full-source-tests-v1-sources-post.json",
+        "bytes": 213923,
+        "sha256": "24a14a469043464ae04c0e2dbffd2d34447e58116a24fc36ad9665d48fa8e211"
+      },
+      "drift": []
+    },
+    "coverage": "VM/compiled-C/source checks; actual browser acceptance is separately bounded by actualModes."
+  }
+}

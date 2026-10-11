@@ -1,0 +1,411 @@
+{
+  "version": 1,
+  "status": "readonly-next-batch-plan-not-browser-acceptance",
+  "createdAt": "2026-10-08T20:33:24.887Z",
+  "head": "ff56cf38b4b823c6848caa2172184fd11358f448",
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "priority": "FENG39 via skill20 奇门, after genuinely recruiting XuShu in P2 XiangYang. Same opaque state-movie shape as STONE42; friendly target avoids an enemy river/pursuit window. Recruitment remains a real random prerequisite, not presumed ownership.",
+  "currentWaterArmy": {
+    "casterPerson": 14,
+    "name": "王朗",
+    "period": 3,
+    "rawLevel": 1,
+    "defaultNavyRow": [
+      12,
+      13,
+      11
+    ],
+    "maxLevelDefault": 20,
+    "defaultMenuCountFormula": "floor(3*Level/21)+1",
+    "availableAtRawLevel1": [
+      12
+    ],
+    "later": [
+      {
+        "skill": 13,
+        "name": "撞击",
+        "speId": 38,
+        "minimumLevel": 7,
+        "requirements": "Both caster and enemy river7, weather1..4, actual MP30, native cardinal-neighbor AIM; cannot pretend skill is available now."
+      },
+      {
+        "skill": 11,
+        "name": "火箭",
+        "speId": 35,
+        "minimumLevel": 14,
+        "requirements": "MP25; weather1..3; target village/city/tent. Uses delivered FIRE images but real grain-loss numeric prelude precedes movie and has no certified scene; not a new unHD family or complete-HD result acceptance."
+      }
+    ]
+  },
+  "preferred": {
+    "period": 2,
+    "year": 198,
+    "lord": {
+      "personIndex": 12,
+      "nativeId": 13,
+      "name": "刘表",
+      "rawBelong": 13,
+      "level": 1,
+      "force": 22,
+      "iq": 71,
+      "rawArm": 2,
+      "recordHex": "0d000d00011647640400000200000000000038"
+    },
+    "origin": {
+      "cityIndex": 26,
+      "name": "襄阳",
+      "rawBelong": 13,
+      "rawMoney": 307,
+      "rawQueue": [
+        12,
+        110,
+        111,
+        112,
+        113,
+        114,
+        115,
+        116,
+        119,
+        122,
+        123,
+        150,
+        152,
+        170,
+        171
+      ],
+      "recordHex": "1b0d0000003219180c561acc0a28224da60700669803003301060300008c000f0011000000"
+    },
+    "caster": {
+      "personIndex": 171,
+      "nativeId": 172,
+      "name": "徐庶",
+      "rawBelong": 0,
+      "level": 1,
+      "force": 78,
+      "iq": 97,
+      "rawArm": 2,
+      "recordHex": "ac000000014e61000300000200000000000012"
+    },
+    "casterPrerequisite": {
+      "currentlyUnowned": true,
+      "resource63ConditionHex": "b400001b",
+      "bole": 0,
+      "searcher": {
+        "personIndex": 110,
+        "nativeId": 111,
+        "name": "蒯良",
+        "rawBelong": 13,
+        "level": 1,
+        "force": 20,
+        "iq": 93,
+        "rawArm": 2,
+        "recordHex": "6f000d0001145d58030000020000000000002b"
+      },
+      "path": "Actual 内政/搜寻 by 蒯良, original end-strategy/order execution, real reports and readonly Belong/queue observation until 徐庶 is genuinely allied. SearchDrv chooses random branch/person and may fail or find someone else; retain failure, no seed/world/automatic ownership fabrication."
+    },
+    "targetAlly": {
+      "personIndex": 115,
+      "nativeId": 116,
+      "name": "刘琦",
+      "rawBelong": 13,
+      "level": 1,
+      "force": 47,
+      "iq": 44,
+      "rawArm": 0,
+      "recordHex": "74000d00012f2c510300000000000000000018"
+    },
+    "dispatch": {
+      "destinationCity": 20,
+      "name": "宛城",
+      "rawBelong": 8,
+      "originNativeLinks": [
+        21,
+        0,
+        28,
+        34,
+        0,
+        33,
+        0,
+        0
+      ],
+      "targetNativeLinks": [
+        11,
+        0,
+        22,
+        0,
+        27,
+        0,
+        0,
+        15
+      ],
+      "way": 4,
+      "mapId": 111,
+      "path": "Real recruitment/distribution as necessary, current allied IDs: select 徐庶 first and 刘琦 second, original food/target/receipt/end-strategy. Fresh current march and actual battle map decide; static link does not bypass native road/food checks."
+    },
+    "firstTurnOpportunity": {
+      "source": "Actual dFgtIntPos item4 / FgtGetBaseXY and map111 raw tiles",
+      "casterStaticSpawn": {
+        "x": 16,
+        "y": 29,
+        "raw": 1
+      },
+      "secondAllyStaticSpawn": {
+        "x": 16,
+        "y": 30,
+        "raw": 1
+      },
+      "note": "When selected in that actual dispatch order, they are orthogonally adjacent on plains. Caster can legally stay and target the actual allied tile before enemy pursuit; recheck actual slots/coordinates/state/native AIM, never force the static positions."
+    },
+    "skill": {
+      "id": 20,
+      "name": "奇门",
+      "recordHex": "01040000000014646464640064646464646464646464646464646464505050505050",
+      "aim": 1,
+      "state": 4,
+      "power": 0,
+      "destroy": 0,
+      "useMp": 20,
+      "weather": [
+        100,
+        100,
+        100,
+        100,
+        0
+      ],
+      "targetTerrain": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "actorTerrain": [
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100,
+        100
+      ],
+      "targetArm": [
+        80,
+        80,
+        80,
+        80,
+        80,
+        80
+      ]
+    },
+    "special": {
+      "resourceId": 14,
+      "zeroBasedItem": 1,
+      "personIndex": 171,
+      "value": 20
+    },
+    "nativeAim": {
+      "resourceId": 13,
+      "zeroBasedItem": 0,
+      "offset": 1539,
+      "size": 9,
+      "strict1Count": 24,
+      "center": 2,
+      "adjacentAllyIncluded": true,
+      "noSelfClaim": "Center byte2 is not a strict1 target"
+    },
+    "success": "Original MP20 subtraction occurs before random success; target ally canny affects real probability. Natural failure is preserved. Need target current state0 -> STATE_QM4, same actual ally ID and full report, troops unchanged; do not assert move1."
+  },
+  "movie": {
+    "id": 39,
+    "resourceIndex": 0,
+    "kind": 2,
+    "startFrm": 0,
+    "endFrm": 7,
+    "count": 8,
+    "picmax": 2,
+    "resourceLength": 1084,
+    "resourceFingerprint": "fnv1a32:6b0ebc5a:1084",
+    "sha256": "f498fcdb94bcf5e5b6993c923cf3c3faad4c4c447fe3694e4459cde67c93be73",
+    "originAt160x96": {
+      "x": 48,
+      "y": 16
+    },
+    "keyflag": 0,
+    "backgroundMode": 0,
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "cdelay": 25,
+        "ndelay": 25,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "length": 519,
+        "rawSlotSha256": "f8496023f2a4c2ee1d88ecba86192ca338bba8f0d0a59f09250e870ebbc293ed"
+      },
+      {
+        "picIndex": 1,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "length": 519,
+        "rawSlotSha256": "9a00a09f3b654c8cbc5bc4822fd92fde9abb2e72822b93efdd08a355fa8e9093"
+      }
+    ],
+    "sharedNativeUsers": [
+      {
+        "skill": 14,
+        "name": "咒封",
+        "state": 2
+      },
+      {
+        "skill": 15,
+        "name": "定身",
+        "state": 3
+      },
+      {
+        "skill": 20,
+        "name": "奇门",
+        "state": 4
+      }
+    ],
+    "artScope": "Two genuine new opaque64x64 HD picture slots. Bind full actual LIB SHA/FNV/slot identity and native display live/clear; no generated image yet."
+  },
+  "resultContract": {
+    "power": 0,
+    "destroy": 0,
+    "noNumbers": true,
+    "noNumericLabel": true,
+    "noFiftyTickNumericHold": true,
+    "lifecycle": "Original CommonJN movie -> skill-result end -> real showStateChanged report -> normal command result/EXP. Verify no NUM15 attribution/old invalid archived digits, actual report owner and one player report acknowledgement.",
+    "nativeNoChanges": "Current observer already accepts these matching opaque same-bbox units; retain strict default palette/flip/scale/custom retirement. No C modification proposed.",
+    "frontend": "Add exact kind2/resource39/range0..7/slot metadata+two pictures; reuse authenticated movie/state-report path. No invented damage, result timer or skill20 movement/stat text beyond native state."
+  },
+  "alternative": {
+    "skill": 13,
+    "name": "撞击",
+    "movie38": {
+      "count": 15,
+      "picmax": 4,
+      "range": [
+        0,
+        14
+      ],
+      "mask": "All four mask1, differing rectangles",
+      "background": "Actual BACKPIC16 mode1 required; existing backdrop art can be reused only when the native observer proves this actual draw/clear composition."
+    },
+    "reasonDeferred": "王朗 rawlevel1 lacks skill13; real level7 path is longer. Skill postlude renderer presently authenticates opaque mode2 only, so mode1 complete-HD labels/numbers need separate presenter work. Cannot borrow WATER36 art/events."
+  },
+  "fallbackRisks": [
+    "徐庶 initial Belong0: never call him already owned; genuine search/order success may require multiple player-driven months and changes the world naturally.",
+    "Weather5 blocks skill20; actual caster river7 also blocks, though planned initial tiles are plain.",
+    "Target STATE_QM4 already present would skip a new state-change report; select fresh actual state0 target.",
+    "All raw money/level/spawn facts are static ROM preflight, not actual browser reads.",
+    "Other FENG users14/15 remain wired only after exact manifest; no browser acceptance is claimed for them or for all shared-resource skills."
+  ],
+  "sources": [
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtPkAi.c",
+      "sha256": "fe04316ff69e71a4913b7781d00fab0ce9475b24bdd050ada475bf3c8432d477"
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdb.c",
+      "sha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2"
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "sha256": "d0ba467a2cdc0cdbfa69fdd77c25ea5d72fe255c9135420485ee2a53c14cc83b"
+    }
+  ],
+  "notDone": [
+    "No browser or real search/dispatch/cast.",
+    "No asset generation or production/native/manifest edit.",
+    "No assertion that current WATER run exposes skill13/11."
+  ]
+}

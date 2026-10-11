@@ -1,0 +1,195 @@
+/* HD 大地图表现壳。所有规则都挂在 data-baye-overworld=hd-map 下，经典模式零影响。 */
+
+html {
+    --baye-overworld-bg: #0e1116;
+}
+
+.hd-overworld {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    align-items: center;
+    justify-content: center;
+    background: var(--baye-overworld-bg);
+    pointer-events: none;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on {
+    overflow: hidden;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on .hd-overworld {
+    display: flex;
+    pointer-events: auto;
+}
+
+.hd-overworld-stage {
+    position: relative;
+    width: min(100vw, calc(100vh * 1920 / 1080));
+    height: min(100vh, calc(100vw * 1080 / 1920));
+    background: var(--baye-overworld-bg);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* P3：沿用系统指针。cursor.png 会叠在 OS 光标上；cursor_hover.png 像禁止符。 */
+#hd-overworld-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: grab;
+    touch-action: none;
+    overscroll-behavior: none;
+}
+
+#hd-overworld-canvas.hd-panning {
+    cursor: grabbing;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-menu #hd-overworld-canvas,
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-aligning #hd-overworld-canvas {
+    cursor: default;
+}
+
+.hd-overworld-hud {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 0 20px;
+    pointer-events: none;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    color: #f2f4f7;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+}
+
+.hd-overworld-hud-left,
+.hd-overworld-hud-right {
+    font-size: 16px;
+    line-height: 1.3;
+    max-width: 46%;
+}
+
+.hd-overworld-hud-left {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.hd-overworld-hud-right {
+    text-align: right;
+    font-size: 15px;
+    color: #d5dbe6;
+}
+
+.hd-overworld-legend {
+    display: none;
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    max-width: calc(100% - 36px);
+    padding: 10px 14px;
+    border: 1px solid rgba(213, 219, 230, 0.2);
+    border-radius: 8px;
+    background: rgba(14, 17, 22, 0.88);
+    color: #e3e6eb;
+    font: 14px/1.4 BayeUI, "Noto Sans CJK SC", "Microsoft YaHei", sans-serif;
+    pointer-events: none;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-map .hd-overworld-legend {
+    display: flex;
+}
+
+.hd-overworld-legend-item,
+.hd-overworld-legend-road {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.hd-overworld-legend-item::before {
+    content: "";
+    width: 14px;
+    height: 14px;
+    flex: none;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    background: var(--city-swatch, #8a8f98);
+}
+
+.hd-overworld-legend-road {
+    color: #c6bda9;
+}
+
+.hd-overworld-legend-road::before {
+    content: "";
+    width: 26px;
+    flex: none;
+    border-top: 2px dashed #ad9978;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar {
+    position: fixed;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    /* Settings stay above the map/LCD, below the active native menu owner. */
+    z-index: 56;
+    pointer-events: auto;
+    max-width: calc(100vw - 24px);
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: rgba(14, 17, 22, 0.92);
+    color: #eee;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar .baye-hd-hint {
+    color: #b7bec9;
+}
+
+/* 大地图期：藏起经典 LCD，引擎仍继续刷帧 */
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-map .container.js-baye-pc-lcd {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* 城池菜单期：弹出经典 LCD */
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-menu .container.js-baye-pc-lcd {
+    position: fixed;
+    left: 50%;
+    top: 56%;
+    transform: translate(-50%, -50%);
+    z-index: 55;
+    visibility: visible;
+    pointer-events: auto;
+    box-shadow: 0 0 0 6px #1b1f27, 0 16px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* 标题 / 选君主等：缩到右下角对照，键盘仍可用 */
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-preview .container.js-baye-pc-lcd {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    width: 240px !important;
+    z-index: 55;
+    visibility: visible;
+    pointer-events: auto;
+    box-shadow: 0 0 0 4px #1b1f27, 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on .js-baye-pc-chrome {
+    visibility: hidden;
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar {
+    visibility: visible;
+}

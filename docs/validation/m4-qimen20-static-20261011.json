@@ -1,0 +1,811 @@
+{
+  "schemaVersion": 1,
+  "kind": "Original QIMEN20 static integration validation",
+  "status": "static-accepted-runtime-pending",
+  "accepted": true,
+  "staticAccepted": true,
+  "preparationAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdReplacementAccepted": false,
+  "naturalReleaseAccepted": false,
+  "portableClosedArchive": false,
+  "nativeContract": {
+    "skillId": 20,
+    "aim": 1,
+    "mp": 20,
+    "state": 4,
+    "resultKind": 2,
+    "value": 0,
+    "speId": 39,
+    "fingerprint": "fnv1a32:6b0ebc5a:1084",
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7
+    ],
+    "clearTicks": 25,
+    "nextTicks": 25,
+    "fullLcd": {
+      "x": 0,
+      "y": 0,
+      "width": 160,
+      "height": 96
+    },
+    "window": {
+      "x": 48,
+      "y": 16,
+      "width": 64,
+      "height": 64
+    },
+    "numericResult": false,
+    "numericHold": false
+  },
+  "sourceReview": {
+    "path": "build/r34-qimen20-source-independent-review-v1.json",
+    "bytes": 18274,
+    "sha256": "4a94e849cfa994c7ba077e9b0eb542307c67baa395a4111aa8ea62e92dc3964c",
+    "archive": {
+      "path": "docs/validation/m4-qimen20-static-20261011/raw/4a94e849cfa994c7ba077e9b0eb542307c67baa395a4111aa8ea62e92dc3964c.gz",
+      "bytes": 5879,
+      "sha256": "d4cdf8238b8125670c146db3cd9cb4f19d6e4440bd2254707211c3951968fc89",
+      "encoding": "gzip"
+    }
+  },
+  "installedSourceReview": {
+    "path": "build/r35-qimen20-installed-source-independent-review-v2.json",
+    "bytes": 11915,
+    "sha256": "295db5a2122ef1202fac692e6eb317189dd9bf9b0e45ae1017b0171c9b4a48ae",
+    "archive": {
+      "path": "docs/validation/m4-qimen20-static-20261011/raw/295db5a2122ef1202fac692e6eb317189dd9bf9b0e45ae1017b0171c9b4a48ae.gz",
+      "bytes": 3005,
+      "sha256": "14f5e0ff9ee776940b4a3adb97eba00e71c6eb72b77b44ac6e6a4a635e7d69dd",
+      "encoding": "gzip"
+    }
+  },
+  "candidateFreeze": {
+    "path": "build/r34-qimen20-candidate-freeze-v2.json",
+    "bytes": 5312,
+    "sha256": "9b4dc58b9f60a7ee667ca2998adab763c2406dd8498c8f5ff355f60f45a57037",
+    "archive": {
+      "path": "docs/validation/m4-qimen20-static-20261011/raw/9b4dc58b9f60a7ee667ca2998adab763c2406dd8498c8f5ff355f60f45a57037.gz",
+      "bytes": 1954,
+      "sha256": "a96b86a2f2186dcdb7d46eb40ba565a09bbd7d4d69b8dd9d8ced32bdb7d015b1",
+      "encoding": "gzip"
+    }
+  },
+  "promotion": {
+    "plan": {
+      "path": "build/r34-qimen20-promotion-plan-v2.json",
+      "bytes": 10728,
+      "sha256": "bab849bb0e919ab69122f831e745013082f62f702875c35440cee4fb3b53a40d",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/bab849bb0e919ab69122f831e745013082f62f702875c35440cee4fb3b53a40d.gz",
+        "bytes": 2945,
+        "sha256": "c0e875b76bbae591eed11441a2370fd88934eb333071d0941eb865eba2ee104f",
+        "encoding": "gzip"
+      }
+    },
+    "delta": {
+      "path": "build/r34-qimen20-promotion-delta-v2.json",
+      "bytes": 10543,
+      "sha256": "272599e45bde5047c18b275ae874494ae967a97f762627cf14bde89246c6e3a8",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/272599e45bde5047c18b275ae874494ae967a97f762627cf14bde89246c6e3a8.gz",
+        "bytes": 1864,
+        "sha256": "5e71ebd04bf396054eb0dfef9d54999eb8ab1392d6b2603503d4db50e04ff9b9",
+        "encoding": "gzip"
+      }
+    },
+    "script": {
+      "path": "build/r34-promote-qimen20-maintained-candidate-v2.mjs",
+      "bytes": 3691,
+      "sha256": "c92a2cbb4f4205b5dfef1947c3ebd08157d41f6ea9b4f450e0cd7c9b6db57646",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/c92a2cbb4f4205b5dfef1947c3ebd08157d41f6ea9b4f450e0cd7c9b6db57646.gz",
+        "bytes": 1588,
+        "sha256": "0d0042498d721202b43476551d189bb6e148e4372eb5c1280edd5f9240cf486e",
+        "encoding": "gzip"
+      }
+    },
+    "draftProof": {
+      "path": "build/r34-qimen20-promotion-draft-proof-v2.json",
+      "bytes": 800,
+      "sha256": "de8dd5ff1783a98a0883976fa851de785cfebc4016b4fb04030567099ac9e2b7",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/de8dd5ff1783a98a0883976fa851de785cfebc4016b4fb04030567099ac9e2b7.gz",
+        "bytes": 424,
+        "sha256": "4fc5310dba685d18bcb8df7e70e22fecde783fb3fe9328c8a3694bbd7f4abfcb",
+        "encoding": "gzip"
+      }
+    },
+    "targets": [
+      {
+        "path": "js/bridge.js",
+        "bytes": 144208,
+        "sha256": "ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8.gz",
+          "bytes": 26901,
+          "sha256": "cb3ec223328f2478baa7f977dbeef3895bf29487302fa12fd631b3bbb255856a",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "js/hd-spe.js",
+        "bytes": 97217,
+        "sha256": "2b190fe4f6296932a25165d85128cdc6dc2d6f3f1f4d9d3d8a7388dbdfdc7794",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/2b190fe4f6296932a25165d85128cdc6dc2d6f3f1f4d9d3d8a7388dbdfdc7794.gz",
+          "bytes": 18074,
+          "sha256": "0ed92f299b44a637e3df5336fa8678d7cf55784c81acc220ccc3b673d8c25c3e",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 586171,
+        "sha256": "0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb.gz",
+          "bytes": 14447,
+          "sha256": "ab02b6ce8089da5f5d969473b287607576fdc0d55e9c06f8c75970ff11a44016",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/specs/hd-spe-qimen20.json",
+        "bytes": 1922,
+        "sha256": "2a5b54cf4e6fa9b50f74d6dbc70873dd08945b1a18ad035d988202b0c011cd43",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/2a5b54cf4e6fa9b50f74d6dbc70873dd08945b1a18ad035d988202b0c011cd43.gz",
+          "bytes": 954,
+          "sha256": "6a89f25a5629f2eb8d9752eb424e718d9b6725f8ad12327b86a155c4855742c1",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/generate-hd-spe-qimen20-entry.mjs",
+        "bytes": 7535,
+        "sha256": "7637bd91e4ead769fc024bd0e85e88b73be8cb4e4688670b42988b7d2e2b9c73",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/7637bd91e4ead769fc024bd0e85e88b73be8cb4e4688670b42988b7d2e2b9c73.gz",
+          "bytes": 3221,
+          "sha256": "af3775e5de8f24095270f23b742e7f07b2ee728a797562f8e703282511085a39",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/test-hd-qimen20-bridge.mjs",
+        "bytes": 12411,
+        "sha256": "2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f.gz",
+          "bytes": 3396,
+          "sha256": "ac3abd8172b41025c953d1892f0f003c7964c5e7565ae627aaa8501763063fa6",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "scripts/test-hd-spe.mjs",
+        "bytes": 189232,
+        "sha256": "ec8612cbac5dc4d1092f48bb0b1245453bc823f2502acb4ca269491c0a2590d7",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/ec8612cbac5dc4d1092f48bb0b1245453bc823f2502acb4ca269491c0a2590d7.gz",
+          "bytes": 34138,
+          "sha256": "3590e336ec201ee552967d7cb601346b527075682ca7ae88aca9e9622dd01980",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "package.json",
+        "bytes": 8453,
+        "sha256": "bd93de32a7fe960e3dc7b489fb79cce2b340a7acde664b64715c23d26f0c34f0",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/bd93de32a7fe960e3dc7b489fb79cce2b340a7acde664b64715c23d26f0c34f0.gz",
+          "bytes": 1481,
+          "sha256": "0e660e79c787ad49697f91c70da8aa3855acab3fa94955e4d2b821a3eae11693",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "designer.html",
+        "bytes": 3140,
+        "sha256": "618b43e6b5feebbe4aa2c562a5a2ae8ae23ccdf2bff69bf680a69032e173a594",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/618b43e6b5feebbe4aa2c562a5a2ae8ae23ccdf2bff69bf680a69032e173a594.gz",
+          "bytes": 1239,
+          "sha256": "4877a26c15e5d693362aaa309f16dafc3f2d4c4f6d016986b98a8f329ed587ed",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "hd-portrait-dump.html",
+        "bytes": 3400,
+        "sha256": "273553b85f680c8598ac79d40649ac1081680393d1b92cc1c49db561b9245801",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/273553b85f680c8598ac79d40649ac1081680393d1b92cc1c49db561b9245801.gz",
+          "bytes": 1579,
+          "sha256": "2d319d2964f0ba042fe247ca9b632dbb54e100bae751792f6efb1205de37156d",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "m-ges.html",
+        "bytes": 6952,
+        "sha256": "2f67b9c8feb0a3197decf8d399cb43342d377cd96ae5eac4e203734c9ac6df67",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/2f67b9c8feb0a3197decf8d399cb43342d377cd96ae5eac4e203734c9ac6df67.gz",
+          "bytes": 2532,
+          "sha256": "d89a8f30bdb6918c184fea213f3ff0afff661ef739379686517d9bc0a5925212",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "m-ktouch.html",
+        "bytes": 6454,
+        "sha256": "3dd699fbe99e098f8caab0157ff32e8b33006f97163c0c88752b26c8a2f4c03f",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/3dd699fbe99e098f8caab0157ff32e8b33006f97163c0c88752b26c8a2f4c03f.gz",
+          "bytes": 1866,
+          "sha256": "95155c43b98f64e6e94bddd70ceb97fcae0454c1b536ab3f8752a87989156527",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "m-old.html",
+        "bytes": 6508,
+        "sha256": "7ccbf654c7f0214637040e20d9bae485a2112b915082acd97083adfa320a673e",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/7ccbf654c7f0214637040e20d9bae485a2112b915082acd97083adfa320a673e.gz",
+          "bytes": 1866,
+          "sha256": "b9195decc2c196ff86d67529446ab927a71f21deaab680a50a36a96d2dda5d43",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "m.html",
+        "bytes": 5292,
+        "sha256": "0403fe9a0b75f50b24c6b4dcc591e420d0cd8cb640d5ea1111c7bc370c02acaf",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/0403fe9a0b75f50b24c6b4dcc591e420d0cd8cb640d5ea1111c7bc370c02acaf.gz",
+          "bytes": 1990,
+          "sha256": "37efc28a72a0fbd9f3e9cbce27f749e2b6c6599363cbb37f6e031b7248e2f61e",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "pc.html",
+        "bytes": 27413,
+        "sha256": "fe90779269742cefd456ed7cf8515ab8dd01b199996b00ea260373fb1f3f7d68",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/fe90779269742cefd456ed7cf8515ab8dd01b199996b00ea260373fb1f3f7d68.gz",
+          "bytes": 6359,
+          "sha256": "9545ec13884ffe885e7cc6e69003ec3ed94af8e943a8c82a307f47db605b1d3f",
+          "encoding": "gzip"
+        }
+      }
+    ],
+    "currentTargetsExactReviewedDraftExceptRecordedHarnessOnlyChanges": true,
+    "harnessFollowups": {
+      "eofTrim": {
+        "path": "build/r35-hd-spe-test-eof-trim-root-v1.json",
+        "bytes": 347,
+        "sha256": "d69af3ff0f3d74199619cbb00cf895ded44c4a2b18b8f4cb0f20a508b70dde4f",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/d69af3ff0f3d74199619cbb00cf895ded44c4a2b18b8f4cb0f20a508b70dde4f.gz",
+          "bytes": 249,
+          "sha256": "4ae906496a28e78bc3d863c70a24635dec045601de1ae52ad6074921a476c140",
+          "encoding": "gzip"
+        }
+      },
+      "eofBefore": {
+        "path": "build/r35-hd-spe-test-before-eof-trim-root-v1.mjs",
+        "bytes": 189099,
+        "sha256": "a92e52ca24a60f38e6ba2801e50940bc5ddf8bdb838aa59e33272c3aaa415dac",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/a92e52ca24a60f38e6ba2801e50940bc5ddf8bdb838aa59e33272c3aaa415dac.gz",
+          "bytes": 34071,
+          "sha256": "aff364b12309b506191784bc19826e37aa7ae72f7519afa15bd61961222675e9",
+          "encoding": "gzip"
+        }
+      },
+      "readiness": {
+        "path": "build/r35-hd-spe-test-ready-wait-root-v1.json",
+        "bytes": 978,
+        "sha256": "8ec49630d6e1f97140f5b99201106d1bd4166db7178b1f7681c65945c66c59ba",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/8ec49630d6e1f97140f5b99201106d1bd4166db7178b1f7681c65945c66c59ba.gz",
+          "bytes": 551,
+          "sha256": "7e075c90282fa7aabb2ad902befd847ced5f75b40f83014483ef47eac408c4fe",
+          "encoding": "gzip"
+        }
+      },
+      "readinessBefore": {
+        "path": "build/r35-hd-spe-test-before-ready-wait-root-v1.mjs",
+        "bytes": 189097,
+        "sha256": "d61bbcff3ef0f77db21b2e6e1edd3e1747a22b324b29e6b278d6d39d8f897c9a",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/d61bbcff3ef0f77db21b2e6e1edd3e1747a22b324b29e6b278d6d39d8f897c9a.gz",
+          "bytes": 34070,
+          "sha256": "0d449448055cf006a7c2d3bb3a4508874b5230ebc2322b6faf05202b55ffb70e",
+          "encoding": "gzip"
+        }
+      },
+      "onlyBoundedImageWaitAndEofChanged": true
+    },
+    "other51OrderedEntriesPreserved": true,
+    "manifestEntryCount": 52,
+    "inPlaceUpgradeIndex": 42,
+    "dingshenTestUpdate": {
+      "before": {
+        "path": "build/r35-dingshen-bridge-before-qimen20-root-v1.mjs",
+        "bytes": 12524,
+        "sha256": "6e1f5bd328f005501ca875846541c1400d5c70ef7151586931d98df301c45ea7",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/6e1f5bd328f005501ca875846541c1400d5c70ef7151586931d98df301c45ea7.gz",
+          "bytes": 3383,
+          "sha256": "93837110b769244ff54a9161723df5e807b64889f575b8d6bb6992a932a00b76",
+          "encoding": "gzip"
+        }
+      },
+      "after": {
+        "path": "scripts/test-hd-dingshen-bridge.mjs",
+        "bytes": 12851,
+        "sha256": "d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8.gz",
+          "bytes": 3430,
+          "sha256": "dd8d05b3ba97269b9368b410db033047015d69ebe4d0780854d3666c317cf55f",
+          "encoding": "gzip"
+        }
+      },
+      "singleExactBlockChangeVerified": true,
+      "reason": "New legitimate20 direct composition makes the old blanket20-rejection assertion obsolete;15/14 remain valid and unsupported13 remains rejected."
+    }
+  },
+  "staticCandidateExecution": {
+    "execution": {
+      "path": "build/r35-qimen-static-root-v1-execution.json",
+      "bytes": 13809,
+      "sha256": "70edda656db50264d711de7b9c6150a87b4111e6280faa2e2464422f070a37d0",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/70edda656db50264d711de7b9c6150a87b4111e6280faa2e2464422f070a37d0.gz",
+        "bytes": 2211,
+        "sha256": "f1f2584011dc0f01ad84129c129e00679099fc40acf08b41b76a1334d7eba741",
+        "encoding": "gzip"
+      }
+    },
+    "bridge": 49,
+    "consumer": 130,
+    "syntax": 5,
+    "machineReproduction": {
+      "path": "build/r35-qimen20-manifest-reproduced-root-v1.json",
+      "bytes": 586171,
+      "sha256": "0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb.gz",
+        "bytes": 14447,
+        "sha256": "ab02b6ce8089da5f5d969473b287607576fdc0d55e9c06f8c75970ff11a44016",
+        "encoding": "gzip"
+      }
+    },
+    "candidateReproductionBytesExact": true,
+    "maintainedReproduction": {
+      "path": "build/r35-qimen20-maintained-reproduced-root-v1.json",
+      "bytes": 586171,
+      "sha256": "0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/0033b2fd76b34677e04f79486a15bce6d02c12d7074950c8ae120340251d54bb.gz",
+        "bytes": 14447,
+        "sha256": "ab02b6ce8089da5f5d969473b287607576fdc0d55e9c06f8c75970ff11a44016",
+        "encoding": "gzip"
+      }
+    },
+    "maintainedReproductionBytesExact": true,
+    "negativeBaselines": [
+      {
+        "log": {
+          "path": "build/r35-qimen-static-root-v1-old-bridge-negative.log",
+          "bytes": 1067,
+          "sha256": "2f89e7d7d693d188076f646a9e0956371440d5b1873edd9f87a5862004bef569",
+          "archive": {
+            "path": "docs/validation/m4-qimen20-static-20261011/raw/2f89e7d7d693d188076f646a9e0956371440d5b1873edd9f87a5862004bef569.gz",
+            "bytes": 568,
+            "sha256": "90928caab4a197ac69814313350514c0b56bb6d31174c9ade9bd45e567014ef2",
+            "encoding": "gzip"
+          }
+        },
+        "expectedFailure": true,
+        "reason": "Old bridge composition.valid false versus expected true."
+      },
+      {
+        "log": {
+          "path": "build/r35-qimen-static-root-v1-old-consumer-negative.log",
+          "bytes": 1263,
+          "sha256": "3980708a951e97a3d95b8ff1d6253cb6cd15d633f02ab31c62bd487a99133e2f",
+          "archive": {
+            "path": "docs/validation/m4-qimen20-static-20261011/raw/3980708a951e97a3d95b8ff1d6253cb6cd15d633f02ab31c62bd487a99133e2f.gz",
+            "bytes": 631,
+            "sha256": "ff434cee5520ffefdfda06a702fd6f739609dfd4d9a7e9838e802944e8de4970",
+            "encoding": "gzip"
+          }
+        },
+        "expectedFailure": true,
+        "reason": "Old renderer crops to130x64 at15,16 rather than complete160x96."
+      }
+    ],
+    "darkFillBoundary": "Candidate eight-frame draw-log checks assert no HD fillRect/fillText. Old renderer negative stops first on crop assertion; its dark-fill assertion was not reached."
+  },
+  "fullRegression": {
+    "execution": {
+      "path": "build/r35-qimen-full-source-tests-v4-execution.json",
+      "bytes": 3977,
+      "sha256": "fdf783ca2d3a02060c3cacbba00cedae37feec7b57c511915b016659ae99bd1b"
+    },
+    "log": {
+      "path": "build/r35-qimen-full-source-tests-v4.log",
+      "bytes": 354414,
+      "sha256": "1262db7e3ba52ebd2ec9c7e89f9c34eced83140d5d6f45fb75984874b2cf9c78"
+    },
+    "sources": {
+      "count": 484,
+      "pre": {
+        "path": "build/r35-qimen-full-source-tests-v4-sources-pre.json",
+        "bytes": 79744,
+        "sha256": "2709626b77b550d3227f1fc5c17b3643aa5c9ecb9e564a92418667d22c0b4061"
+      },
+      "post": {
+        "path": "build/r35-qimen-full-source-tests-v4-sources-post.json",
+        "bytes": 79744,
+        "sha256": "2709626b77b550d3227f1fc5c17b3643aa5c9ecb9e564a92418667d22c0b4061"
+      },
+      "drift": 0,
+      "added": 0,
+      "currentBytesChecked": true
+    },
+    "summary": {
+      "tests": 1424,
+      "pass": 1424,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "exitCode": 0,
+    "scope": "Full current57-module source regression after independent original QIMEN20 fullLCD/opaque-window integration. Offline VM and compiled C tests only; no actual QIMEN20/WOOD6/7 player cast, HD pixels, runtime fallback or whole-HD acceptance. Prior default-CC environment failure remains preserved separately.",
+    "wrapper": {
+      "path": "build/r35-run-source-tests-root-v4.mjs",
+      "bytes": 3593,
+      "sha256": "04156c429a413259b9dc025217b36182b4220260ba2d898494ad656088b2b387",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/04156c429a413259b9dc025217b36182b4220260ba2d898494ad656088b2b387.gz",
+        "bytes": 1653,
+        "sha256": "c50d984aaf8fc524403c6a8a357ee6e5a69e4026fb031a58b9c08a4f02dbbccf",
+        "encoding": "gzip"
+      }
+    },
+    "moduleCount": 57,
+    "accepted": true
+  },
+  "historicalFullRegressions": [
+    {
+      "execution": {
+        "path": "build/r35-qimen-full-source-tests-v1-execution.json",
+        "bytes": 3977,
+        "sha256": "ee9e98102b11db44b5e22c4237551aade3e5fc3cabbc84afdc6cd25854b0b76d"
+      },
+      "log": {
+        "path": "build/r35-qimen-full-source-tests-v1.log",
+        "bytes": 355322,
+        "sha256": "c8b5fc7b52bf9df6077a1e99a9c859a9a6a3bcdd4bce5c945710349a2561c6d8"
+      },
+      "sources": {
+        "count": 484,
+        "pre": {
+          "path": "build/r35-qimen-full-source-tests-v1-sources-pre.json",
+          "bytes": 79744,
+          "sha256": "805a0efdf962d82b802dca921afa175426442461016589ce17d7e7774bdb350b"
+        },
+        "post": {
+          "path": "build/r35-qimen-full-source-tests-v1-sources-post.json",
+          "bytes": 79744,
+          "sha256": "805a0efdf962d82b802dca921afa175426442461016589ce17d7e7774bdb350b"
+        },
+        "drift": 0,
+        "added": 0,
+        "currentBytesChecked": false
+      },
+      "summary": {
+        "tests": 1424,
+        "pass": 1423,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 1,
+      "scope": "Full current57-module source regression after independent original QIMEN20 fullLCD/opaque-window integration. Offline VM and compiled C tests only; no actual QIMEN20/WOOD6/7 player cast, HD pixels, runtime fallback or whole-HD acceptance. Prior default-CC environment failure remains preserved separately.",
+      "wrapper": {
+        "path": "build/r35-run-source-tests-root-v1.mjs",
+        "bytes": 3593,
+        "sha256": "3364210bc8699946966f30db79e906ade94143d1828c08d28120b0dde8c77a56",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/3364210bc8699946966f30db79e906ade94143d1828c08d28120b0dde8c77a56.gz",
+          "bytes": 1653,
+          "sha256": "b2176d2c0e9ff6106f32023ab49412da296febb43b2eb5c86c5aa52c9821441f",
+          "encoding": "gzip"
+        }
+      },
+      "accepted": false,
+      "reason": "One obsolete DINGSHEN bridge test expected skill20 direct composition rejection. Original1423pass/1fail retained; this is a source-regression attempt, not a real campaign/runtime failure."
+    },
+    {
+      "execution": {
+        "path": "build/r35-qimen-full-source-tests-v2-execution.json",
+        "bytes": 3977,
+        "sha256": "0b60223e3fd1a1277f8707249097e3e44af99109874ff202ba71e0b373b128f3"
+      },
+      "log": {
+        "path": "build/r35-qimen-full-source-tests-v2.log",
+        "bytes": 354429,
+        "sha256": "68955eaccb070a589e87b5923498bcab44c512b79cf67a3e537f6132ddcaec5a"
+      },
+      "sources": {
+        "count": 484,
+        "pre": {
+          "path": "build/r35-qimen-full-source-tests-v2-sources-pre.json",
+          "bytes": 79744,
+          "sha256": "1f9b26055d3c239dd43c31f28801f3a9bb5d59df54810a13af79e019f4152a88"
+        },
+        "post": {
+          "path": "build/r35-qimen-full-source-tests-v2-sources-post.json",
+          "bytes": 79744,
+          "sha256": "1f9b26055d3c239dd43c31f28801f3a9bb5d59df54810a13af79e019f4152a88"
+        },
+        "drift": 0,
+        "added": 0,
+        "currentBytesChecked": false
+      },
+      "summary": {
+        "tests": 1424,
+        "pass": 1424,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 0,
+      "scope": "Full current57-module source regression after independent original QIMEN20 fullLCD/opaque-window integration. Offline VM and compiled C tests only; no actual QIMEN20/WOOD6/7 player cast, HD pixels, runtime fallback or whole-HD acceptance. Prior default-CC environment failure remains preserved separately.",
+      "wrapper": {
+        "path": "build/r35-run-source-tests-root-v2.mjs",
+        "bytes": 3593,
+        "sha256": "a7992bec712242475b2f93699ae340bd0f1534fc6cf48761e2e82573c3006fb1",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/a7992bec712242475b2f93699ae340bd0f1534fc6cf48761e2e82573c3006fb1.gz",
+          "bytes": 1653,
+          "sha256": "79a73c35aafcbb29ba5263d3fc70fadd4b8a935514d80f1b5385196b0a9ddf6e",
+          "encoding": "gzip"
+        }
+      },
+      "accepted": true,
+      "currentSourceBytesExact": false,
+      "reason": "1424pass before exact EOF trim and bounded AI readiness follow-up; not relabeled as current tuple."
+    },
+    {
+      "execution": {
+        "path": "build/r35-qimen-full-source-tests-v3-execution.json",
+        "bytes": 3977,
+        "sha256": "4a955363dc5d01cc6140001aa396e88d4a38fab9f69cd545d4d603f9f819004e"
+      },
+      "log": {
+        "path": "build/r35-qimen-full-source-tests-v3.log",
+        "bytes": 355054,
+        "sha256": "9d74a8802068a3c12776c1ac748e40b6bcae770a8b1715a0393afe4084bfaf2a"
+      },
+      "sources": {
+        "count": 484,
+        "pre": {
+          "path": "build/r35-qimen-full-source-tests-v3-sources-pre.json",
+          "bytes": 79744,
+          "sha256": "492e5682486bdb50cd2c18833759ce22d2f8f1efd4c75e6f1081f0b53270740b"
+        },
+        "post": {
+          "path": "build/r35-qimen-full-source-tests-v3-sources-post.json",
+          "bytes": 79744,
+          "sha256": "492e5682486bdb50cd2c18833759ce22d2f8f1efd4c75e6f1081f0b53270740b"
+        },
+        "drift": 0,
+        "added": 0,
+        "currentBytesChecked": false
+      },
+      "summary": {
+        "tests": 1424,
+        "pass": 1423,
+        "fail": 1,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "exitCode": 1,
+      "scope": "Full current57-module source regression after independent original QIMEN20 fullLCD/opaque-window integration. Offline VM and compiled C tests only; no actual QIMEN20/WOOD6/7 player cast, HD pixels, runtime fallback or whole-HD acceptance. Prior default-CC environment failure remains preserved separately.",
+      "wrapper": {
+        "path": "build/r35-run-source-tests-root-v3.mjs",
+        "bytes": 3593,
+        "sha256": "20cbd5c7eaf31837648f8d4380fbb2a2f18ac346eabc21b49be8ffd3caed804f",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/20cbd5c7eaf31837648f8d4380fbb2a2f18ac346eabc21b49be8ffd3caed804f.gz",
+          "bytes": 1654,
+          "sha256": "829455f7aa149df00276e84087068c0c8c1196f59f2c447896c1b72a287aba53",
+          "encoding": "gzip"
+        }
+      },
+      "accepted": false,
+      "reason": "One AI protocol2 VM image-readiness assertion saw0 rather than2 after30 setImmediate rounds; original1423pass/1fail retained. No actual game failure is claimed."
+    }
+  ],
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-qimen20-static-20261011/runtime-index.json",
+      "bytes": 51238,
+      "sha256": "313f1929578f0e32ab6b9d18d54990e842536a658d92ded4313dcd73a3665d1c"
+    },
+    "logicalEntries": 96,
+    "uniqueGzip": 67,
+    "logicalRawBytes": 7151441,
+    "gzipBytes": 666770,
+    "deduplicatedByRawSha256": true,
+    "rawBytesUnmodified": true,
+    "gzipRoundtripVerified": true,
+    "explicitAllowlistOnly": true,
+    "excluded": [
+      "Actual campaign/save pairs/runtime captures",
+      "Any user storage or browser profile",
+      "Whole build directory",
+      "Old engine/native128/raw asset families beyond explicit files"
+    ]
+  },
+  "externalHistoricalReferences": {
+    "refOnly": true,
+    "portableClosed": false,
+    "base": {
+      "bridge": {
+        "path": "js/bridge.js",
+        "bytes": 145896,
+        "sha256": "6bdee30bc8995ada436a3365f29d61c3758c2034be18fb783f53794d209a391e"
+      },
+      "spe": {
+        "path": "js/hd-spe.js",
+        "bytes": 94351,
+        "sha256": "98d672f2c1f4465f6402ac5328dba795cb0ce777f06e66cea4d015f2c80c6f86"
+      },
+      "manifest": {
+        "path": "assets/hd-spe/manifest.json",
+        "bytes": 586439,
+        "sha256": "bec59fa2b68528db579a445b13d584e2de1d9dcb6f56c6e7153af15775de8020"
+      }
+    },
+    "nativeAndOriginalArt": {
+      "files": [
+        {
+          "path": "vendor/iBaye/src/FightSub.c",
+          "bytes": 36284,
+          "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540"
+        },
+        {
+          "path": "vendor/iBaye/src/hd-bridge.c",
+          "bytes": 187342,
+          "sha256": "1070c0a62747dc2aeb646afba4d1b7561565ec547658b72af6324fede8f9439f"
+        },
+        {
+          "path": "vendor/iBaye/src/data/pconst.h",
+          "bytes": 1761,
+          "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0"
+        },
+        {
+          "path": "vendor/iBaye/src/baye/consdef.h",
+          "bytes": 6048,
+          "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f"
+        }
+      ],
+      "library": {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "skillRecordHex": "01040000000014646464640064646464646464646464646464646464505050505050",
+      "packedLayout": "aim/state/U16 power/U16 destroy/MP/weather/eland/oland/earm",
+      "contractFacts": [
+        "Original SKILLEF20 is friendly aim1/state4/power0/destroy0/MP20; native slot is zero-based19.",
+        "_CommonJNAction sets target state before movie, starts transient SKILL MOVIE resultKind ARMS_GAIN2/value0, and uses source-authenticated skill/actor/target movie context.",
+        "Only nonzero arms enters label/NUM/HOLD/GamDelay; original20 has zero power, so it does not authorize numeric postlude or fifty-tick result hold.",
+        "Actual SPE39 contains two opaque64x64 pictures and eight alternating origin0,0 units with clear/next25 ticks.",
+        "IFACE count16 lacks optional items22..26; actual native defaults select39/0..7/SX33/mode0, producing origin48,16.",
+        "Native skill source-valid rejects custom/observed animation hooks, nested source and unsupported drawing. hd_skill_movie_shape requires source-valid before setting native compositionValid; JS trusts that authenticated composition rather than inferring aim/state from resourceId."
+      ],
+      "sourceLines": {
+        "commonAction": {
+          "path": "vendor/iBaye/src/FightSub.c",
+          "line": 291
+        },
+        "movieOnlyNumericBranch": {
+          "path": "vendor/iBaye/src/FightSub.c",
+          "line": 324
+        },
+        "transientResult": {
+          "path": "vendor/iBaye/src/hd-bridge.c",
+          "line": 1993
+        },
+        "authenticatedMovieShape": {
+          "path": "vendor/iBaye/src/hd-bridge.c",
+          "line": 2045
+        }
+      }
+    },
+    "pictures": [
+      {
+        "path": "assets/hd-spe/qimen-39/picture-0.png",
+        "bytes": 2458901,
+        "sha256": "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882"
+      },
+      {
+        "path": "assets/hd-spe/qimen-39/picture-1.png",
+        "bytes": 2485449,
+        "sha256": "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2"
+      }
+    ],
+    "note": "Old base source refs retain historical paths and hashes; those paths now contain promoted bytes. Full old raw source/library/native/art originals are not claimed present in this limited archive. Deltas preserve the stated LF source boundary; full source snapshots are archived as inventories, not every inventoried file byte."
+  },
+  "remaining": [
+    "Actual original friendly20 AIM, MP−20, natural state4, eight native copies and full-pixel HD/outside-LCD verification.",
+    "Classic/missing/other-size actual matrix and report/retirement inputs.",
+    "Natural state release, remaining battle effects and whole-HD acceptance."
+  ],
+  "provenance": {
+    "publisher": {
+      "path": "build/r35-publish-qimen20-static-candidate-v3.mjs",
+      "bytes": 23111,
+      "sha256": "f9329be1d5173a2d5b539e54525256f2bed3ada954ead413d005d387ff4c3b77",
+      "archive": {
+        "path": "docs/validation/m4-qimen20-static-20261011/raw/f9329be1d5173a2d5b539e54525256f2bed3ada954ead413d005d387ff4c3b77.gz",
+        "bytes": 7520,
+        "sha256": "3454843ebbd179cae469bec179501d6be23c12ef3bf1e17af10bc45db6985f1a",
+        "encoding": "gzip"
+      }
+    },
+    "previousUnexecutedPublishers": [
+      {
+        "path": "build/r35-publish-qimen20-static-candidate-v1.mjs",
+        "bytes": 18349,
+        "sha256": "1298f080d9e40381caf1c10fa21615f78bffae95dd7e1f6dcd1874cbf7d0c7bf",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/1298f080d9e40381caf1c10fa21615f78bffae95dd7e1f6dcd1874cbf7d0c7bf.gz",
+          "bytes": 6436,
+          "sha256": "b9126505ae18496ecb6d1b25e0f162c044cd60d9796bff42ef081831508871b8",
+          "encoding": "gzip"
+        }
+      },
+      {
+        "path": "build/r35-publish-qimen20-static-candidate-v2.mjs",
+        "bytes": 22384,
+        "sha256": "5976a9b2a4835193ea2ddb005dd9e0f23dc38586f994ec7dfb403f3a25e897f9",
+        "archive": {
+          "path": "docs/validation/m4-qimen20-static-20261011/raw/5976a9b2a4835193ea2ddb005dd9e0f23dc38586f994ec7dfb403f3a25e897f9.gz",
+          "bytes": 7363,
+          "sha256": "09325f16125171fd5915795020af609f8257f77cdf0ea7c31796c514e43c52a0",
+          "encoding": "gzip"
+        }
+      }
+    ],
+    "fileOnly": true,
+    "browserRunByPublisher": false,
+    "testRunByPublisher": false,
+    "osProcessAccess": false,
+    "trackedProductionEditedByPublisher": false
+  }
+}

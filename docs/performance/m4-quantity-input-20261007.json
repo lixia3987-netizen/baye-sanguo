@@ -1,0 +1,2085 @@
+{
+  "schemaVersion": 1,
+  "baselineCommit": "fe1eb426ff2c1fe4c9badb30860b8228fe23f0b8",
+  "measurementToolCommit": "43a388c",
+  "measurement": "trusted click handler to next animation frame observing native value and empty input queue",
+  "observation": "read-only 4ms native receipt observer; preserved sendKey this and return; 12 alternating -1/+1 samples per run",
+  "scope": "headless Chrome, GPU disabled, 1920x1080 DPR1, original dictionary LIB, same cloud host; frontend and engine both changed",
+  "conclusion": "Native key count drops from three to one. Both final-run medians improve, but final run 2 has a 259.5ms sample; p95 below 100ms is not established across runs.",
+  "runs": [
+    {
+      "label": "before-v1",
+      "evidenceDirectory": "build/m4-qty-before-v1",
+      "startedAt": "2026-10-07T14:30:52.756Z",
+      "finishedAt": "2026-10-07T14:31:21.753Z",
+      "checkpoints": 13,
+      "sources": {
+        "engine": {
+          "baye.js": {
+            "source": "build/m4-qty-baseline/baye.js",
+            "bytes": 191660,
+            "sha256": "31d1de2c9fc8e928f73a64f98ac1b02da135f8c7d085a15ec38e368df5e832de"
+          },
+          "baye.wasm": {
+            "source": "build/m4-qty-baseline/baye.wasm",
+            "bytes": 4211905,
+            "sha256": "f68ed710074eedd16fe6ae3059879a17783c085c754e0bd459a3a3f17222a253"
+          },
+          "baye.wasm.map": {
+            "source": "build/m4-qty-baseline/baye.wasm.map",
+            "bytes": 29629,
+            "sha256": "d2bdeb4195f876558a8388fba3d78422e45a8b51191b7304f17dbe749ed075fc"
+          },
+          "baye.build.json": {
+            "source": "build/m4-qty-baseline/baye.build.json",
+            "bytes": 1697,
+            "sha256": "2efb996af3c1513c518685762ab7b63a78436a0b88df6d0e7a9642803688e1aa"
+          }
+        },
+        "inputs": {
+          "lcd.js": {
+            "source": "build/m4-qty-baseline/lcd.js",
+            "bytes": 23344,
+            "sha256": "9d72b57cbbc69c71f8d42669c44ab71a3a1a2720d024718dc35b2e580b773210"
+          },
+          "hd-city-menu.js": {
+            "source": "build/m4-qty-baseline/hd-city-menu.js",
+            "bytes": 223183,
+            "sha256": "f793075cd41017ec73ced367380371feb727b21ab682b779c7fe1942f96b32c3"
+          },
+          "hd-dialog.js": {
+            "source": "build/m4-qty-baseline/hd-dialog.js",
+            "bytes": 64280,
+            "sha256": "4002ba0715d86bbbd95667847d9f2df2acb003ed014d5057a9eb77ac584d6bc0"
+          },
+          "bridge.js": {
+            "source": "build/m4-qty-baseline/bridge.js",
+            "bytes": 50328,
+            "sha256": "385fa2574308014cb248f304216636d08c3eebeffcfc429656862ccdd4f6fee7"
+          }
+        },
+        "renderers": {
+          "hd-overworld.js": {
+            "source": "js/hd-overworld.js",
+            "bytes": 139928,
+            "sha256": "0d0df9aaa0d3b2b41c5575c66c421b5918d647456de852f2c46ec13708df8b8e"
+          },
+          "hd-battle.js": {
+            "source": "js/hd-battle.js",
+            "bytes": 53055,
+            "sha256": "f48fa90bffa85392ab4061eb06b919142e8525aad8917b55bfc3c5f30e055a26"
+          }
+        }
+      },
+      "engineManifest": {
+        "schemaVersion": 1,
+        "sourceRevision": "9fe7d703d05b3b6a9314ef420a6d4894525cc69b",
+        "engineSourceSha256": "01347db7b0ebb0d30289c7cdcfb0da226b9722414fdb38a265cc7540dd00199e",
+        "engineSourceModified": true,
+        "emscriptenVersion": "3.1.51",
+        "cmakeVersion": "cmake version 3.31.6",
+        "sourceDateEpoch": 1790218347,
+        "hdMenuProtocol": {
+          "nativeFallback": 254,
+          "controlField": "g_hdFightMenuControl"
+        },
+        "hdInputProtocol": {
+          "version": 2,
+          "fight": [
+            "g_hdFightInputKind",
+            "g_hdFightInputSeq",
+            "g_hdFightActor"
+          ],
+          "menu": [
+            "g_hdMenuActive",
+            "g_hdMenuContext",
+            "g_hdMenuKind",
+            "g_hdMenuSeq"
+          ],
+          "march": [
+            "g_hdMarchPhase",
+            "g_hdMarchSession",
+            "g_hdMarchOrigin",
+            "g_hdMarchSelected",
+            "g_hdMarchInputSeq",
+            "g_hdMapInputSeq"
+          ],
+          "report": [
+            "g_hdReportActive",
+            "g_hdReportInputSeq"
+          ],
+          "record": [
+            "g_hdRecordActive",
+            "g_hdRecordMode",
+            "g_hdRecordIndex",
+            "g_hdRecordCount",
+            "g_hdRecordSeq"
+          ]
+        },
+        "saveProtocol": {
+          "version": 149,
+          "legacyVersions": [
+            144,
+            145,
+            146,
+            147,
+            148
+          ],
+          "filesPerSlot": 2,
+          "fightersBytes": 600,
+          "goodsQueueBytes": 4000
+        },
+        "artifacts": {
+          "baye.js": {
+            "bytes": 191660,
+            "sha256": "31d1de2c9fc8e928f73a64f98ac1b02da135f8c7d085a15ec38e368df5e832de"
+          },
+          "baye.wasm": {
+            "bytes": 4211905,
+            "sha256": "f68ed710074eedd16fe6ae3059879a17783c085c754e0bd459a3a3f17222a253"
+          },
+          "baye.wasm.map": {
+            "bytes": 29629,
+            "sha256": "d2bdeb4195f876558a8388fba3d78422e45a8b51191b7304f17dbe749ed075fc"
+          }
+        }
+      },
+      "environment": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1
+        },
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "hardwareConcurrency": 5,
+        "deviceMemoryGiB": 16,
+        "resourceVersion": "20261007e",
+        "visibility": "visible",
+        "period": 1,
+        "cityCount": 38,
+        "personCount": 200,
+        "lib": "libs/dat-mod.lib",
+        "wasmHeapBytes": 67108864,
+        "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "browser": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/151.0.7922.173",
+        "revision": "@a96602f30358e9b5d256a0464e7e4d4bec223004",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "jsVersion": "15.1.206.23"
+      },
+      "host": {
+        "platform": "linux",
+        "arch": "x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "availableParallelism": 4,
+        "totalMemoryBytes": 18882699264
+      },
+      "latencyMs": {
+        "count": 12,
+        "min": 329,
+        "p50": 365.5,
+        "p95": 496.09999999403954,
+        "max": 496.09999999403954
+      },
+      "nativeKeyAckMs": null,
+      "breakdownMs": {
+        "clickToFirstDispatch": {
+          "count": 12,
+          "min": 45.39999997615814,
+          "p50": 59.39999997615814,
+          "p95": 75.59999999403954,
+          "max": 75.59999999403954
+        },
+        "firstDispatchToLastNativeAck": null,
+        "lastNativeAckToQueueIdle": null,
+        "queueIdleToObservedFrame": {
+          "count": 12,
+          "min": 2.2999999821186066,
+          "p50": 3.9000000059604645,
+          "p95": 30,
+          "max": 30
+        },
+        "clickToFirstNativeValueChange": {
+          "count": 12,
+          "min": 262.09999999403954,
+          "p50": 341.89999997615814,
+          "p95": 428,
+          "max": 428
+        }
+      },
+      "samples": [
+        {
+          "durationMs": 365.5,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 59.400000005960464,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 174.0,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 276.5,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 59.400000005960464,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 17.099999994039536,
+            "clickToFirstNativeValueChange": 321.2000000178814
+          }
+        },
+        {
+          "durationMs": 365.90000000596046,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 49.599999994039536,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 152.69999998807907,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 255.40000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 49.599999994039536,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 20.5,
+            "clickToFirstNativeValueChange": 281.2999999821186
+          }
+        },
+        {
+          "durationMs": 496.09999999403954,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 45.39999997615814,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 134.19999998807907,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 382,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 45.39999997615814,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 26.30000001192093,
+            "clickToFirstNativeValueChange": 428
+          }
+        },
+        {
+          "durationMs": 382.09999999403954,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 65.80000001192093,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 208.09999999403954,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 305.90000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 65.80000001192093,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 3.2999999821186066,
+            "clickToFirstNativeValueChange": 346.80000001192093
+          }
+        },
+        {
+          "durationMs": 348.09999999403954,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 55.599999994039536,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 150.0,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 235.90000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 55.599999994039536,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 16,
+            "clickToFirstNativeValueChange": 262.09999999403954
+          }
+        },
+        {
+          "durationMs": 459.40000000596046,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 57.19999998807907,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 284.5,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 375.69999998807907,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 57.19999998807907,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 3.9000000059604645,
+            "clickToFirstNativeValueChange": 407.59999999403954
+          }
+        },
+        {
+          "durationMs": 329,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 56.0,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 150.10000002384186,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 255.0,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 56,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.399999976158142,
+            "clickToFirstNativeValueChange": 281.30000001192093
+          }
+        },
+        {
+          "durationMs": 363.09999999403954,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 59.39999997615814,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 163,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 289.89999997615814,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 59.39999997615814,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.300000011920929,
+            "clickToFirstNativeValueChange": 341.89999997615814
+          }
+        },
+        {
+          "durationMs": 397.7999999821186,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 75.59999999403954,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 180.7999999821186,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 299.09999999403954,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 75.59999999403954,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 20.5,
+            "clickToFirstNativeValueChange": 346.5
+          }
+        },
+        {
+          "durationMs": 364,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 64.90000000596046,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 153.30000001192093,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 269.59999999403954,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 64.90000000596046,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.2999999821186066,
+            "clickToFirstNativeValueChange": 348.2000000178814
+          }
+        },
+        {
+          "durationMs": 331.59999999403954,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 64.59999999403954,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 148.69999998807907,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 235.40000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 64.59999999403954,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 30,
+            "clickToFirstNativeValueChange": 299.19999998807907
+          }
+        },
+        {
+          "durationMs": 373.19999998807907,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 66.59999999403954,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 178.40000000596046,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 301.5,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 66.59999999403954,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.399999976158142,
+            "clickToFirstNativeValueChange": 346.5
+          }
+        }
+      ]
+    },
+    {
+      "label": "before-v3",
+      "evidenceDirectory": "build/m4-qty-before-v3",
+      "startedAt": "2026-10-07T14:36:00.404Z",
+      "finishedAt": "2026-10-07T14:36:33.524Z",
+      "checkpoints": 15,
+      "sources": {
+        "engine": {
+          "baye.js": {
+            "source": "build/m4-qty-baseline/baye.js",
+            "bytes": 191660,
+            "sha256": "31d1de2c9fc8e928f73a64f98ac1b02da135f8c7d085a15ec38e368df5e832de"
+          },
+          "baye.wasm": {
+            "source": "build/m4-qty-baseline/baye.wasm",
+            "bytes": 4211905,
+            "sha256": "f68ed710074eedd16fe6ae3059879a17783c085c754e0bd459a3a3f17222a253"
+          },
+          "baye.wasm.map": {
+            "source": "build/m4-qty-baseline/baye.wasm.map",
+            "bytes": 29629,
+            "sha256": "d2bdeb4195f876558a8388fba3d78422e45a8b51191b7304f17dbe749ed075fc"
+          },
+          "baye.build.json": {
+            "source": "build/m4-qty-baseline/baye.build.json",
+            "bytes": 1697,
+            "sha256": "2efb996af3c1513c518685762ab7b63a78436a0b88df6d0e7a9642803688e1aa"
+          }
+        },
+        "inputs": {
+          "lcd.js": {
+            "source": "build/m4-qty-baseline/lcd.js",
+            "bytes": 23344,
+            "sha256": "9d72b57cbbc69c71f8d42669c44ab71a3a1a2720d024718dc35b2e580b773210"
+          },
+          "hd-city-menu.js": {
+            "source": "build/m4-qty-baseline/hd-city-menu.js",
+            "bytes": 223183,
+            "sha256": "f793075cd41017ec73ced367380371feb727b21ab682b779c7fe1942f96b32c3"
+          },
+          "hd-dialog.js": {
+            "source": "build/m4-qty-baseline/hd-dialog.js",
+            "bytes": 64280,
+            "sha256": "4002ba0715d86bbbd95667847d9f2df2acb003ed014d5057a9eb77ac584d6bc0"
+          },
+          "bridge.js": {
+            "source": "build/m4-qty-baseline/bridge.js",
+            "bytes": 50328,
+            "sha256": "385fa2574308014cb248f304216636d08c3eebeffcfc429656862ccdd4f6fee7"
+          }
+        },
+        "renderers": {
+          "hd-overworld.js": {
+            "source": "js/hd-overworld.js",
+            "bytes": 139928,
+            "sha256": "0d0df9aaa0d3b2b41c5575c66c421b5918d647456de852f2c46ec13708df8b8e"
+          },
+          "hd-battle.js": {
+            "source": "js/hd-battle.js",
+            "bytes": 53055,
+            "sha256": "5c606a86443cedb5b50d12b271b7a0369761e0946c3fefba346ee29f291eb6e3"
+          }
+        }
+      },
+      "engineManifest": {
+        "schemaVersion": 1,
+        "sourceRevision": "9fe7d703d05b3b6a9314ef420a6d4894525cc69b",
+        "engineSourceSha256": "01347db7b0ebb0d30289c7cdcfb0da226b9722414fdb38a265cc7540dd00199e",
+        "engineSourceModified": true,
+        "emscriptenVersion": "3.1.51",
+        "cmakeVersion": "cmake version 3.31.6",
+        "sourceDateEpoch": 1790218347,
+        "hdMenuProtocol": {
+          "nativeFallback": 254,
+          "controlField": "g_hdFightMenuControl"
+        },
+        "hdInputProtocol": {
+          "version": 2,
+          "fight": [
+            "g_hdFightInputKind",
+            "g_hdFightInputSeq",
+            "g_hdFightActor"
+          ],
+          "menu": [
+            "g_hdMenuActive",
+            "g_hdMenuContext",
+            "g_hdMenuKind",
+            "g_hdMenuSeq"
+          ],
+          "march": [
+            "g_hdMarchPhase",
+            "g_hdMarchSession",
+            "g_hdMarchOrigin",
+            "g_hdMarchSelected",
+            "g_hdMarchInputSeq",
+            "g_hdMapInputSeq"
+          ],
+          "report": [
+            "g_hdReportActive",
+            "g_hdReportInputSeq"
+          ],
+          "record": [
+            "g_hdRecordActive",
+            "g_hdRecordMode",
+            "g_hdRecordIndex",
+            "g_hdRecordCount",
+            "g_hdRecordSeq"
+          ]
+        },
+        "saveProtocol": {
+          "version": 149,
+          "legacyVersions": [
+            144,
+            145,
+            146,
+            147,
+            148
+          ],
+          "filesPerSlot": 2,
+          "fightersBytes": 600,
+          "goodsQueueBytes": 4000
+        },
+        "artifacts": {
+          "baye.js": {
+            "bytes": 191660,
+            "sha256": "31d1de2c9fc8e928f73a64f98ac1b02da135f8c7d085a15ec38e368df5e832de"
+          },
+          "baye.wasm": {
+            "bytes": 4211905,
+            "sha256": "f68ed710074eedd16fe6ae3059879a17783c085c754e0bd459a3a3f17222a253"
+          },
+          "baye.wasm.map": {
+            "bytes": 29629,
+            "sha256": "d2bdeb4195f876558a8388fba3d78422e45a8b51191b7304f17dbe749ed075fc"
+          }
+        }
+      },
+      "environment": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1
+        },
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "hardwareConcurrency": 5,
+        "deviceMemoryGiB": 16,
+        "resourceVersion": "20261007f",
+        "visibility": "visible",
+        "period": 1,
+        "cityCount": 38,
+        "personCount": 200,
+        "lib": "libs/dat-mod.lib",
+        "wasmHeapBytes": 67108864,
+        "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "browser": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/151.0.7922.173",
+        "revision": "@a96602f30358e9b5d256a0464e7e4d4bec223004",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "jsVersion": "15.1.206.23"
+      },
+      "host": {
+        "platform": "linux",
+        "arch": "x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "availableParallelism": 4,
+        "totalMemoryBytes": 18882699264
+      },
+      "latencyMs": {
+        "count": 12,
+        "min": 311.40000000596046,
+        "p50": 352.80000001192093,
+        "p95": 420.59999999403954,
+        "max": 420.59999999403954
+      },
+      "nativeKeyAckMs": null,
+      "breakdownMs": {
+        "clickToFirstDispatch": {
+          "count": 12,
+          "min": 46.599999994039536,
+          "p50": 56.599999994039536,
+          "p95": 113.2000000178814,
+          "max": 113.2000000178814
+        },
+        "firstDispatchToLastNativeAck": null,
+        "lastNativeAckToQueueIdle": null,
+        "queueIdleToObservedFrame": {
+          "count": 12,
+          "min": 2.4000000059604645,
+          "p50": 3.4000000059604645,
+          "p95": 24,
+          "max": 24
+        },
+        "clickToFirstNativeValueChange": {
+          "count": 12,
+          "min": 274.2000000178814,
+          "p50": 297.69999998807907,
+          "p95": 369.5,
+          "max": 369.5
+        }
+      },
+      "samples": [
+        {
+          "durationMs": 324,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 56.20000001788139,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 148.90000000596046,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 232.60000002384186,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 56.20000001788139,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 17.299999982118607,
+            "clickToFirstNativeValueChange": 274.2000000178814
+          }
+        },
+        {
+          "durationMs": 314.7000000178814,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 51.0,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 141.09999999403954,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 233.90000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 51,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 3.100000023841858,
+            "clickToFirstNativeValueChange": 284.90000000596046
+          }
+        },
+        {
+          "durationMs": 352.80000001192093,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 60.099999994039536,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 157.30000001192093,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 246.40000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 60.099999994039536,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 4.9000000059604645,
+            "clickToFirstNativeValueChange": 293.30000001192093
+          }
+        },
+        {
+          "durationMs": 362.40000000596046,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 57.099999994039536,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 172.40000000596046,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 262.30000001192093,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 57.099999994039536,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 16.900000005960464,
+            "clickToFirstNativeValueChange": 308
+          }
+        },
+        {
+          "durationMs": 332.69999998807907,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 54.19999998807907,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 168.89999997615814,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 256.0,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 54.19999998807907,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 3.4000000059604645,
+            "clickToFirstNativeValueChange": 300.7999999821186
+          }
+        },
+        {
+          "durationMs": 356.60000002384186,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 52.30000001192093,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 162.90000000596046,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 289.90000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 52.30000001192093,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.9000000059604645,
+            "clickToFirstNativeValueChange": 335
+          }
+        },
+        {
+          "durationMs": 311.40000000596046,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 57.900000005960464,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 138.80000001192093,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 237.0,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 57.900000005960464,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.5,
+            "clickToFirstNativeValueChange": 284.90000000596046
+          }
+        },
+        {
+          "durationMs": 420.59999999403954,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 113.2000000178814,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 216.5,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 337.90000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 113.2000000178814,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.699999988079071,
+            "clickToFirstNativeValueChange": 369.5
+          }
+        },
+        {
+          "durationMs": 362.59999999403954,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 58.900000005960464,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 168.0,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 256.40000000596046,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 58.900000005960464,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 24,
+            "clickToFirstNativeValueChange": 297.69999998807907
+          }
+        },
+        {
+          "durationMs": 377,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 58.69999998807907,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 182.7999999821186,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 282.7999999821186,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 58.69999998807907,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 21.200000017881393,
+            "clickToFirstNativeValueChange": 322.69999998807907
+          }
+        },
+        {
+          "durationMs": 314.80000001192093,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 46.599999994039536,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 159.59999999403954,
+              "ackMs": null
+            },
+            {
+              "code": 35,
+              "dispatchMs": 246.80000001192093,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 46.599999994039536,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 3.9000000059604645,
+            "clickToFirstNativeValueChange": 297
+          }
+        },
+        {
+          "durationMs": 378.19999998807907,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 37,
+              "dispatchMs": 56.599999994039536,
+              "ackMs": null
+            },
+            {
+              "code": 37,
+              "dispatchMs": 168.2999999821186,
+              "ackMs": null
+            },
+            {
+              "code": 34,
+              "dispatchMs": 300.09999999403954,
+              "ackMs": null
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 56.599999994039536,
+            "firstDispatchToLastNativeAck": null,
+            "lastNativeAckToQueueIdle": null,
+            "queueIdleToObservedFrame": 2.4000000059604645,
+            "clickToFirstNativeValueChange": 335.5
+          }
+        }
+      ]
+    },
+    {
+      "label": "after-v3",
+      "evidenceDirectory": "build/m4-qty-after-v3",
+      "startedAt": "2026-10-07T14:42:38.241Z",
+      "finishedAt": "2026-10-07T14:43:07.594Z",
+      "checkpoints": 15,
+      "sources": {
+        "engine": {
+          "baye.js": {
+            "source": "js/baye.js",
+            "bytes": 191660,
+            "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+          },
+          "baye.wasm": {
+            "source": "js/baye.wasm",
+            "bytes": 4214737,
+            "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+          },
+          "baye.wasm.map": {
+            "source": "js/baye.wasm.map",
+            "bytes": 29629,
+            "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+          },
+          "baye.build.json": {
+            "source": "js/baye.build.json",
+            "bytes": 1878,
+            "sha256": "e572f346ae7c13a44388f712885ac398f060a6bc6e85ed5819dcf173ca972038"
+          }
+        },
+        "inputs": {
+          "lcd.js": {
+            "source": "js/lcd.js",
+            "bytes": 28854,
+            "sha256": "5c07100a6cfba25199cb7222d1de79dfc86853eecab2a23febdc63615c845951"
+          },
+          "hd-city-menu.js": {
+            "source": "js/hd-city-menu.js",
+            "bytes": 227184,
+            "sha256": "402ae43a8b1f98a97ef6428943928def86c4fed9231eeddc3dfb1cf463bed255"
+          },
+          "hd-dialog.js": {
+            "source": "js/hd-dialog.js",
+            "bytes": 70925,
+            "sha256": "6bfc554bc2068d992f8711e7d1f8d002513c0acc372cfb31516fb879c1ccac1a"
+          },
+          "bridge.js": {
+            "source": "js/bridge.js",
+            "bytes": 50896,
+            "sha256": "60508bd6eb5bfcd79f7787aebc9b7b82e00f90ff1830d527d937fbea6160c3ac"
+          }
+        },
+        "renderers": {
+          "hd-overworld.js": {
+            "source": "js/hd-overworld.js",
+            "bytes": 139928,
+            "sha256": "0d0df9aaa0d3b2b41c5575c66c421b5918d647456de852f2c46ec13708df8b8e"
+          },
+          "hd-battle.js": {
+            "source": "js/hd-battle.js",
+            "bytes": 53055,
+            "sha256": "5c606a86443cedb5b50d12b271b7a0369761e0946c3fefba346ee29f291eb6e3"
+          }
+        }
+      },
+      "engineManifest": {
+        "schemaVersion": 1,
+        "sourceRevision": "fe1eb426ff2c1fe4c9badb30860b8228fe23f0b8",
+        "engineSourceSha256": "a7161879af333e617f4347dba8f9cabec5831adcd54ee64b558a57822c74848d",
+        "engineSourceModified": true,
+        "emscriptenVersion": "3.1.51",
+        "cmakeVersion": "cmake version 3.31.6",
+        "sourceDateEpoch": 1791382657,
+        "hdMenuProtocol": {
+          "nativeFallback": 254,
+          "controlField": "g_hdFightMenuControl"
+        },
+        "hdInputProtocol": {
+          "version": 3,
+          "fight": [
+            "g_hdFightInputKind",
+            "g_hdFightInputSeq",
+            "g_hdFightActor"
+          ],
+          "menu": [
+            "g_hdMenuActive",
+            "g_hdMenuContext",
+            "g_hdMenuKind",
+            "g_hdMenuSeq"
+          ],
+          "march": [
+            "g_hdMarchPhase",
+            "g_hdMarchSession",
+            "g_hdMarchOrigin",
+            "g_hdMarchSelected",
+            "g_hdMarchInputSeq",
+            "g_hdMapInputSeq"
+          ],
+          "report": [
+            "g_hdReportActive",
+            "g_hdReportInputSeq"
+          ],
+          "record": [
+            "g_hdRecordActive",
+            "g_hdRecordMode",
+            "g_hdRecordIndex",
+            "g_hdRecordCount",
+            "g_hdRecordSeq"
+          ],
+          "qty": [
+            "g_hdQtyActive",
+            "g_hdQtySession",
+            "g_hdQtyInputSeq",
+            "g_hdQtyLastKey",
+            "g_hdQtyCursor",
+            "g_hdQtyStep",
+            "g_hdQtyReady"
+          ]
+        },
+        "saveProtocol": {
+          "version": 149,
+          "legacyVersions": [
+            144,
+            145,
+            146,
+            147,
+            148
+          ],
+          "filesPerSlot": 2,
+          "fightersBytes": 600,
+          "goodsQueueBytes": 4000
+        },
+        "artifacts": {
+          "baye.js": {
+            "bytes": 191660,
+            "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+          },
+          "baye.wasm": {
+            "bytes": 4214737,
+            "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+          },
+          "baye.wasm.map": {
+            "bytes": 29629,
+            "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+          }
+        }
+      },
+      "environment": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1
+        },
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "hardwareConcurrency": 5,
+        "deviceMemoryGiB": 16,
+        "resourceVersion": "20261007f",
+        "visibility": "visible",
+        "period": 1,
+        "cityCount": 38,
+        "personCount": 200,
+        "lib": "libs/dat-mod.lib",
+        "wasmHeapBytes": 67108864,
+        "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "browser": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/151.0.7922.173",
+        "revision": "@a96602f30358e9b5d256a0464e7e4d4bec223004",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "jsVersion": "15.1.206.23"
+      },
+      "host": {
+        "platform": "linux",
+        "arch": "x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "availableParallelism": 4,
+        "totalMemoryBytes": 18882699264
+      },
+      "latencyMs": {
+        "count": 12,
+        "min": 58.89999997615814,
+        "p50": 71.19999998807907,
+        "p95": 78.19999998807907,
+        "max": 78.19999998807907
+      },
+      "nativeKeyAckMs": {
+        "count": 12,
+        "min": 29.400000005960464,
+        "p50": 35.599999994039536,
+        "p95": 45.5,
+        "max": 45.5
+      },
+      "breakdownMs": {
+        "clickToFirstDispatch": {
+          "count": 12,
+          "min": 2.4000000059604645,
+          "p50": 3.2999999821186066,
+          "p95": 4,
+          "max": 4
+        },
+        "firstDispatchToLastNativeAck": {
+          "count": 12,
+          "min": 29.400000005960464,
+          "p50": 35.599999994039536,
+          "p95": 45.5,
+          "max": 45.5
+        },
+        "lastNativeAckToQueueIdle": {
+          "count": 12,
+          "min": 23,
+          "p50": 25.19999998807907,
+          "p95": 33.5,
+          "max": 33.5
+        },
+        "queueIdleToObservedFrame": {
+          "count": 12,
+          "min": 2,
+          "p50": 2.600000023841858,
+          "p95": 4,
+          "max": 4
+        },
+        "clickToFirstNativeValueChange": {
+          "count": 12,
+          "min": 32.599999994039536,
+          "p50": 39.599999994039536,
+          "p95": 49.39999997615814,
+          "max": 49.39999997615814
+        }
+      },
+      "samples": [
+        {
+          "durationMs": 74.2999999821186,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 4.0,
+              "ackMs": 35.599999994039536
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 4,
+            "firstDispatchToLastNativeAck": 35.599999994039536,
+            "lastNativeAckToQueueIdle": 31.30000001192093,
+            "queueIdleToObservedFrame": 3.399999976158142,
+            "clickToFirstNativeValueChange": 39.599999994039536
+          }
+        },
+        {
+          "durationMs": 78.19999998807907,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.899999976158142,
+              "ackMs": 45.5
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.899999976158142,
+            "firstDispatchToLastNativeAck": 45.5,
+            "lastNativeAckToQueueIdle": 25.400000005960464,
+            "queueIdleToObservedFrame": 3.4000000059604645,
+            "clickToFirstNativeValueChange": 49.39999997615814
+          }
+        },
+        {
+          "durationMs": 68,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.2999999821186066,
+              "ackMs": 37.900000005960464
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.2999999821186066,
+            "firstDispatchToLastNativeAck": 37.900000005960464,
+            "lastNativeAckToQueueIdle": 23.700000017881393,
+            "queueIdleToObservedFrame": 3.0999999940395355,
+            "clickToFirstNativeValueChange": 41.19999998807907
+          }
+        },
+        {
+          "durationMs": 77.60000002384186,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 2.7000000178813934,
+              "ackMs": 39.0
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 2.7000000178813934,
+            "firstDispatchToLastNativeAck": 39,
+            "lastNativeAckToQueueIdle": 33.5,
+            "queueIdleToObservedFrame": 2.4000000059604645,
+            "clickToFirstNativeValueChange": 41.70000001788139
+          }
+        },
+        {
+          "durationMs": 73.5,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.5,
+              "ackMs": 36.19999998807907
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.5,
+            "firstDispatchToLastNativeAck": 36.19999998807907,
+            "lastNativeAckToQueueIdle": 30.400000005960464,
+            "queueIdleToObservedFrame": 3.4000000059604645,
+            "clickToFirstNativeValueChange": 39.69999998807907
+          }
+        },
+        {
+          "durationMs": 60.30000001192093,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.300000011920929,
+              "ackMs": 30.80000001192093
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.300000011920929,
+            "firstDispatchToLastNativeAck": 30.80000001192093,
+            "lastNativeAckToQueueIdle": 23.599999994039536,
+            "queueIdleToObservedFrame": 2.5999999940395355,
+            "clickToFirstNativeValueChange": 34.10000002384186
+          }
+        },
+        {
+          "durationMs": 58.89999997615814,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.199999988079071,
+              "ackMs": 29.400000005960464
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.199999988079071,
+            "firstDispatchToLastNativeAck": 29.400000005960464,
+            "lastNativeAckToQueueIdle": 23.900000005960464,
+            "queueIdleToObservedFrame": 2.399999976158142,
+            "clickToFirstNativeValueChange": 32.599999994039536
+          }
+        },
+        {
+          "durationMs": 71.19999998807907,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 2.4000000059604645,
+              "ackMs": 31.299999982118607
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 2.4000000059604645,
+            "firstDispatchToLastNativeAck": 31.299999982118607,
+            "lastNativeAckToQueueIdle": 33.5,
+            "queueIdleToObservedFrame": 4,
+            "clickToFirstNativeValueChange": 33.69999998807907
+          }
+        },
+        {
+          "durationMs": 72.5,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.699999988079071,
+              "ackMs": 41.0
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.699999988079071,
+            "firstDispatchToLastNativeAck": 41,
+            "lastNativeAckToQueueIdle": 25.19999998807907,
+            "queueIdleToObservedFrame": 2.600000023841858,
+            "clickToFirstNativeValueChange": 44.69999998807907
+          }
+        },
+        {
+          "durationMs": 60.89999997615814,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.199999988079071,
+              "ackMs": 31.900000005960464
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.199999988079071,
+            "firstDispatchToLastNativeAck": 31.900000005960464,
+            "lastNativeAckToQueueIdle": 23,
+            "queueIdleToObservedFrame": 2.7999999821186066,
+            "clickToFirstNativeValueChange": 35.099999994039536
+          }
+        },
+        {
+          "durationMs": 61.400000005960464,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 2.5,
+              "ackMs": 33.599999994039536
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 2.5,
+            "firstDispatchToLastNativeAck": 33.599999994039536,
+            "lastNativeAckToQueueIdle": 23.30000001192093,
+            "queueIdleToObservedFrame": 2,
+            "clickToFirstNativeValueChange": 36.099999994039536
+          }
+        },
+        {
+          "durationMs": 72.60000002384186,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.600000023841858,
+              "ackMs": 38.89999997615814
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.600000023841858,
+            "firstDispatchToLastNativeAck": 38.89999997615814,
+            "lastNativeAckToQueueIdle": 27.900000005960464,
+            "queueIdleToObservedFrame": 2.2000000178813934,
+            "clickToFirstNativeValueChange": 42.5
+          }
+        }
+      ]
+    },
+    {
+      "label": "after-v4",
+      "evidenceDirectory": "build/m4-qty-after-v4",
+      "startedAt": "2026-10-07T14:44:10.620Z",
+      "finishedAt": "2026-10-07T14:44:40.704Z",
+      "checkpoints": 15,
+      "sources": {
+        "engine": {
+          "baye.js": {
+            "source": "js/baye.js",
+            "bytes": 191660,
+            "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+          },
+          "baye.wasm": {
+            "source": "js/baye.wasm",
+            "bytes": 4214737,
+            "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+          },
+          "baye.wasm.map": {
+            "source": "js/baye.wasm.map",
+            "bytes": 29629,
+            "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+          },
+          "baye.build.json": {
+            "source": "js/baye.build.json",
+            "bytes": 1878,
+            "sha256": "e572f346ae7c13a44388f712885ac398f060a6bc6e85ed5819dcf173ca972038"
+          }
+        },
+        "inputs": {
+          "lcd.js": {
+            "source": "js/lcd.js",
+            "bytes": 28854,
+            "sha256": "5c07100a6cfba25199cb7222d1de79dfc86853eecab2a23febdc63615c845951"
+          },
+          "hd-city-menu.js": {
+            "source": "js/hd-city-menu.js",
+            "bytes": 227184,
+            "sha256": "402ae43a8b1f98a97ef6428943928def86c4fed9231eeddc3dfb1cf463bed255"
+          },
+          "hd-dialog.js": {
+            "source": "js/hd-dialog.js",
+            "bytes": 70925,
+            "sha256": "6bfc554bc2068d992f8711e7d1f8d002513c0acc372cfb31516fb879c1ccac1a"
+          },
+          "bridge.js": {
+            "source": "js/bridge.js",
+            "bytes": 50896,
+            "sha256": "60508bd6eb5bfcd79f7787aebc9b7b82e00f90ff1830d527d937fbea6160c3ac"
+          }
+        },
+        "renderers": {
+          "hd-overworld.js": {
+            "source": "js/hd-overworld.js",
+            "bytes": 139928,
+            "sha256": "0d0df9aaa0d3b2b41c5575c66c421b5918d647456de852f2c46ec13708df8b8e"
+          },
+          "hd-battle.js": {
+            "source": "js/hd-battle.js",
+            "bytes": 53055,
+            "sha256": "5c606a86443cedb5b50d12b271b7a0369761e0946c3fefba346ee29f291eb6e3"
+          }
+        }
+      },
+      "engineManifest": {
+        "schemaVersion": 1,
+        "sourceRevision": "fe1eb426ff2c1fe4c9badb30860b8228fe23f0b8",
+        "engineSourceSha256": "a7161879af333e617f4347dba8f9cabec5831adcd54ee64b558a57822c74848d",
+        "engineSourceModified": true,
+        "emscriptenVersion": "3.1.51",
+        "cmakeVersion": "cmake version 3.31.6",
+        "sourceDateEpoch": 1791382657,
+        "hdMenuProtocol": {
+          "nativeFallback": 254,
+          "controlField": "g_hdFightMenuControl"
+        },
+        "hdInputProtocol": {
+          "version": 3,
+          "fight": [
+            "g_hdFightInputKind",
+            "g_hdFightInputSeq",
+            "g_hdFightActor"
+          ],
+          "menu": [
+            "g_hdMenuActive",
+            "g_hdMenuContext",
+            "g_hdMenuKind",
+            "g_hdMenuSeq"
+          ],
+          "march": [
+            "g_hdMarchPhase",
+            "g_hdMarchSession",
+            "g_hdMarchOrigin",
+            "g_hdMarchSelected",
+            "g_hdMarchInputSeq",
+            "g_hdMapInputSeq"
+          ],
+          "report": [
+            "g_hdReportActive",
+            "g_hdReportInputSeq"
+          ],
+          "record": [
+            "g_hdRecordActive",
+            "g_hdRecordMode",
+            "g_hdRecordIndex",
+            "g_hdRecordCount",
+            "g_hdRecordSeq"
+          ],
+          "qty": [
+            "g_hdQtyActive",
+            "g_hdQtySession",
+            "g_hdQtyInputSeq",
+            "g_hdQtyLastKey",
+            "g_hdQtyCursor",
+            "g_hdQtyStep",
+            "g_hdQtyReady"
+          ]
+        },
+        "saveProtocol": {
+          "version": 149,
+          "legacyVersions": [
+            144,
+            145,
+            146,
+            147,
+            148
+          ],
+          "filesPerSlot": 2,
+          "fightersBytes": 600,
+          "goodsQueueBytes": 4000
+        },
+        "artifacts": {
+          "baye.js": {
+            "bytes": 191660,
+            "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+          },
+          "baye.wasm": {
+            "bytes": 4214737,
+            "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+          },
+          "baye.wasm.map": {
+            "bytes": 29629,
+            "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+          }
+        }
+      },
+      "environment": {
+        "viewport": {
+          "width": 1920,
+          "height": 1080,
+          "dpr": 1
+        },
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "hardwareConcurrency": 5,
+        "deviceMemoryGiB": 16,
+        "resourceVersion": "20261007f",
+        "visibility": "visible",
+        "period": 1,
+        "cityCount": 38,
+        "personCount": 200,
+        "lib": "libs/dat-mod.lib",
+        "wasmHeapBytes": 67108864,
+        "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      "browser": {
+        "protocolVersion": "1.3",
+        "product": "Chrome/151.0.7922.173",
+        "revision": "@a96602f30358e9b5d256a0464e7e4d4bec223004",
+        "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/151.0.0.0 Safari/537.36",
+        "jsVersion": "15.1.206.23"
+      },
+      "host": {
+        "platform": "linux",
+        "arch": "x64",
+        "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+        "availableParallelism": 4,
+        "totalMemoryBytes": 18882699264
+      },
+      "latencyMs": {
+        "count": 12,
+        "min": 59.20000001788139,
+        "p50": 65.10000002384186,
+        "p95": 259.5,
+        "max": 259.5
+      },
+      "nativeKeyAckMs": {
+        "count": 12,
+        "min": 30.899999976158142,
+        "p50": 32.900000005960464,
+        "p95": 203,
+        "max": 203
+      },
+      "breakdownMs": {
+        "clickToFirstDispatch": {
+          "count": 12,
+          "min": 2.899999976158142,
+          "p50": 3.5999999940395355,
+          "p95": 8,
+          "max": 8
+        },
+        "firstDispatchToLastNativeAck": {
+          "count": 12,
+          "min": 30.899999976158142,
+          "p50": 32.900000005960464,
+          "p95": 203,
+          "max": 203
+        },
+        "lastNativeAckToQueueIdle": {
+          "count": 12,
+          "min": 12,
+          "p50": 24.5,
+          "p95": 50.79999998211861,
+          "max": 50.79999998211861
+        },
+        "queueIdleToObservedFrame": {
+          "count": 12,
+          "min": 1.899999976158142,
+          "p50": 2.199999988079071,
+          "p95": 38.80000001192093,
+          "max": 38.80000001192093
+        },
+        "clickToFirstNativeValueChange": {
+          "count": 12,
+          "min": 34,
+          "p50": 37.20000001788139,
+          "p95": 206.09999999403954,
+          "max": 206.09999999403954
+        }
+      },
+      "samples": [
+        {
+          "durationMs": 68.59999999403954,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.800000011920929,
+              "ackMs": 38.0
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.800000011920929,
+            "firstDispatchToLastNativeAck": 38,
+            "lastNativeAckToQueueIdle": 24.599999994039536,
+            "queueIdleToObservedFrame": 2.199999988079071,
+            "clickToFirstNativeValueChange": 41.80000001192093
+          }
+        },
+        {
+          "durationMs": 66.60000002384186,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.100000023841858,
+              "ackMs": 34.69999998807907
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.100000023841858,
+            "firstDispatchToLastNativeAck": 34.69999998807907,
+            "lastNativeAckToQueueIdle": 26.69999998807907,
+            "queueIdleToObservedFrame": 2.100000023841858,
+            "clickToFirstNativeValueChange": 37.80000001192093
+          }
+        },
+        {
+          "durationMs": 63.10000002384186,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.100000023841858,
+              "ackMs": 30.899999976158142
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.100000023841858,
+            "firstDispatchToLastNativeAck": 30.899999976158142,
+            "lastNativeAckToQueueIdle": 27.100000023841858,
+            "queueIdleToObservedFrame": 2,
+            "clickToFirstNativeValueChange": 34
+          }
+        },
+        {
+          "durationMs": 66.09999999403954,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.9000000059604645,
+              "ackMs": 34.89999997615814
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.9000000059604645,
+            "firstDispatchToLastNativeAck": 34.89999997615814,
+            "lastNativeAckToQueueIdle": 23.900000005960464,
+            "queueIdleToObservedFrame": 3.4000000059604645,
+            "clickToFirstNativeValueChange": 38.79999998211861
+          }
+        },
+        {
+          "durationMs": 63.69999998807907,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 4.5,
+              "ackMs": 32.69999998807907
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 4.5,
+            "firstDispatchToLastNativeAck": 32.69999998807907,
+            "lastNativeAckToQueueIdle": 24.30000001192093,
+            "queueIdleToObservedFrame": 2.199999988079071,
+            "clickToFirstNativeValueChange": 37.19999998807907
+          }
+        },
+        {
+          "durationMs": 59.20000001788139,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.5,
+              "ackMs": 32.900000005960464
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.5,
+            "firstDispatchToLastNativeAck": 32.900000005960464,
+            "lastNativeAckToQueueIdle": 20.900000005960464,
+            "queueIdleToObservedFrame": 1.9000000059604645,
+            "clickToFirstNativeValueChange": 36.400000005960464
+          }
+        },
+        {
+          "durationMs": 61.39999997615814,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 2.899999976158142,
+              "ackMs": 32.80000001192093
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 2.899999976158142,
+            "firstDispatchToLastNativeAck": 32.80000001192093,
+            "lastNativeAckToQueueIdle": 23.80000001192093,
+            "queueIdleToObservedFrame": 1.899999976158142,
+            "clickToFirstNativeValueChange": 35.69999998807907
+          }
+        },
+        {
+          "durationMs": 65.10000002384186,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 5.4000000059604645,
+              "ackMs": 31.80000001192093
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 5.4000000059604645,
+            "firstDispatchToLastNativeAck": 31.80000001192093,
+            "lastNativeAckToQueueIdle": 25.099999994039536,
+            "queueIdleToObservedFrame": 2.800000011920929,
+            "clickToFirstNativeValueChange": 37.20000001788139
+          }
+        },
+        {
+          "durationMs": 111.59999999403954,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.5999999940395355,
+              "ackMs": 57.19999998807907
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.5999999940395355,
+            "firstDispatchToLastNativeAck": 57.19999998807907,
+            "lastNativeAckToQueueIdle": 12,
+            "queueIdleToObservedFrame": 38.80000001192093,
+            "clickToFirstNativeValueChange": 60.79999998211861
+          }
+        },
+        {
+          "durationMs": 63.5,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 3.5999999940395355,
+              "ackMs": 32.79999998211861
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.5999999940395355,
+            "firstDispatchToLastNativeAck": 32.79999998211861,
+            "lastNativeAckToQueueIdle": 24.5,
+            "queueIdleToObservedFrame": 2.600000023841858,
+            "clickToFirstNativeValueChange": 36.39999997615814
+          }
+        },
+        {
+          "durationMs": 259.5,
+          "trusted": true,
+          "expected": 959,
+          "actual": 959,
+          "keys": [
+            {
+              "code": 35,
+              "dispatchMs": 3.0999999940395355,
+              "ackMs": 203.0
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 3.0999999940395355,
+            "firstDispatchToLastNativeAck": 203,
+            "lastNativeAckToQueueIdle": 50.79999998211861,
+            "queueIdleToObservedFrame": 2.600000023841858,
+            "clickToFirstNativeValueChange": 206.09999999403954
+          }
+        },
+        {
+          "durationMs": 81.80000001192093,
+          "trusted": true,
+          "expected": 960,
+          "actual": 960,
+          "keys": [
+            {
+              "code": 34,
+              "dispatchMs": 8.0,
+              "ackMs": 43.80000001192093
+            }
+          ],
+          "breakdownMs": {
+            "clickToFirstDispatch": 8,
+            "firstDispatchToLastNativeAck": 43.80000001192093,
+            "lastNativeAckToQueueIdle": 27.69999998807907,
+            "queueIdleToObservedFrame": 2.300000011920929,
+            "clickToFirstNativeValueChange": 51.80000001192093
+          }
+        }
+      ]
+    }
+  ]
+}

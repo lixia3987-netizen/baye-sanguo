@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>武将立绘素材预览</title>
+    <link rel="stylesheet" href="css/hd-portraits.css">
+    <style>body{background:#17202b;color:#eee;font-family:system-ui,"Microsoft YaHei",sans-serif;margin:24px}#status{max-width:720px;line-height:1.6}.hd-portrait{position:static!important;margin-top:24px;max-width:480px;width:100%}</style>
+</head>
+<body data-hd-portrait-manual="1">
+    <p id="status" aria-live="polite">正在检查立绘素材…</p>
+    <p><a href="assets/hd-portraits/review.html">查看完整试点素材对照</a></p>
+    <figure id="hd-portrait" class="hd-portrait" hidden data-hd-portrait="off">
+        <img id="hd-portrait-img" alt="">
+        <figcaption id="hd-portrait-cap"></figcaption>
+    </figure>
+    <script src="js/hd-lib-identity.js?ver=20261008i"></script>
+    <script src="js/hd-portraits.js?ver=20261008j"></script>
+    <script>
+    (async function () {
+        var errors = [], query = new URLSearchParams(location.search);
+        var personId = query.has('personId') ? Number(query.get('personId')) : 5;
+        var period = query.has('period') ? Number(query.get('period')) : 1;
+        var expected = query.get('expect') || 'auto', contains = query.get('contains') || '';
+        var minWidth = Number(query.get('minWidth')) || 0;
+        var chosenUrl = '', actualMode = null, name = '';
+        function check(condition, message) { if (!condition) errors.push(message); }
+        function waitImage(img) {
+            if (!img || !img.getAttribute('src') || img.complete) return Promise.resolve(img);
+            return new Promise(function (resolve) {
+                img.addEventListener('load', function () { resolve(img); }, { once: true });
+                img.addEventListener('error', function () { resolve(img); }, { once: true });
+            });
+        }
+        function finish() {
+            window.__hdPortraitSmoke = { ok: errors.length === 0, previewOnly: true,
+                personId: personId, period: period, name: name, expect: expected, actualMode: actualMode,
+                url: chosenUrl, errors: errors };
+            document.getElementById('status').textContent = errors.length
+                ? '素材检查未通过：' + errors.join('；')
+                : '素材检查通过：时期 ' + period + ' · ' + name + ' · ' + actualMode + '。此页只检查图片加载；实际游戏身份由原生流程验收。';
+        }
+        try {
+            check(Number.isInteger(personId) && personId >= 0 && personId <= 65533, '人物编号无效');
+            check(Number.isInteger(period) && period >= 1 && period <= 4, '时期无效');
+            check(['auto', 'hd', 'ref', 'lcd'].indexOf(expected) >= 0, 'expect 无效');
+            if (errors.length) { finish(); return; }
+            var manifest = await BayeHdPortraits.loadManifest();
+            if (!manifest) throw new Error('立绘索引未就绪');
+            var entry = manifest.entries.find(function (e) { return !e.missing && e.personId === personId && e.period === period; });
+            if (entry) name = entry.name;
+            else {
+                var response = await fetch('assets/hd-portraits/refs/index.json', { cache: 'no-store' });
+                if (!response.ok) throw new Error('原生参考索引未就绪');
+                var refs = await response.json();
+                check(refs.libSha256 === manifest.libSha256, '原生参考来源与试点索引不一致');
+                var nativePeriod = refs.periods.find(function (p) { return p.period === period; });
+                var person = nativePeriod && nativePeriod.people.find(function (p) { return !p.skipped && p.id === personId; });
+                if (!person) throw new Error('索引中没有该人物与时期');
+                name = person.name;
+            }
+            var source = await BayeHdPortraits.chooseSource(personId, period);
+            actualMode = source.mode; chosenUrl = source.url || '';
+            if (expected !== 'auto') check(actualMode === expected, '期望 ' + expected + '，实际 ' + actualMode);
+            if (actualMode !== 'lcd') check(source.preview === true, '预览模式未明确标记');
+            var identity = BayeHdLibIdentity.read();
+            check(identity.status === 'unavailable' && identity.sha256 === null, '素材预览不得伪造运行库身份');
+            check(!contains || chosenUrl.indexOf(contains) >= 0, '图片路径与 contains 不匹配');
+            await BayeHdPortraits.applyView({ context: 'map-king', personId: personId, period: period, name: name });
+            var root = document.getElementById('hd-portrait'), img = await waitImage(document.getElementById('hd-portrait-img'));
+            if (actualMode === 'lcd') check(root.hidden && root.getAttribute('data-hd-portrait') === 'off', '缺图未隐藏槽位');
+            else {
+                check(!root.hidden && root.getAttribute('data-hd-portrait') === actualMode, '显示模式不匹配');
+                check(root.getAttribute('data-person-id') === String(personId) && root.getAttribute('data-period') === String(period), '图片人物与时期不匹配');
+                check(img && img.naturalWidth > 8 && img.naturalHeight > 8, '图片未完成解码');
+                if (actualMode === 'hd') check(img.naturalWidth > 100 && img.naturalHeight > 100, '高清成品尺寸不足');
+                if (minWidth) check(img.naturalWidth >= minWidth, '图片小于要求宽度');
+            }
+        } catch (error) { errors.push(error && error.message || String(error)); }
+        finish();
+    })();
+    </script>
+</body>
+</html>

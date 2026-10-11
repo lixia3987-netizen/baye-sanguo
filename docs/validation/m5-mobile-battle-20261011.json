@@ -1,0 +1,878 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "scope": "Original mobile landscape battle, bounded native movement/menu/rest/LCD/turn evidence",
+  "status": "partial",
+  "portableClosedArchive": false,
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "acceptedScope": [
+    "Fresh original P1 马腾 actual public march into enemy 河内; march remains LCD and not HD accepted",
+    "Trusted battle touch at 844x390 and 667x375; current native MOVE, rollback, SKILL list/cancel and single general rest",
+    "Native SYSTEM/RETREAT cancellation and SETTINGS open/cancel, one explicit army end then native AI control flow and exactly one next bout; no AI damage claim",
+    "HELP/VIEW display and retire through actual native LCD touch; genuine physical SEARCH routes once",
+    "Classic and HD restoration zero keys, native masks and >=44px geometry, touchcancel/multiple pointers/held rotation and actual hidden-tab retirement"
+  ],
+  "pendingScope": [
+    "Normal attack damage and skill MP/effect",
+    "Report/animation LCD interaction and setting changes",
+    "Battle completion and strategy return",
+    "Android/iOS actual devices and performance",
+    "Full mobile HD/march acceptance"
+  ],
+  "runtime": {
+    "ok": true,
+    "accepted": true,
+    "localArtifacts": "build/mobile-battle-first6-actual-20261011",
+    "phaseCount": 15,
+    "checkCount": 32,
+    "actionCount": 13,
+    "rawResult": {
+      "path": "build/mobile-battle-first6-actual-20261011/result.json",
+      "bytes": 3897449,
+      "sha256": "c6a781b2a0515e93bd3f369d9d05b60d51bf80ef77887dd3534efd0eb635dc93",
+      "archive": {
+        "path": "docs/validation/m5-mobile-battle-20261011/raw/battle-result.json.gz",
+        "bytes": 268667,
+        "sha256": "14ab907bfae35d723f0e590e4fb6fc2651fabbe61331c06218cc78a4e89bfcff"
+      }
+    },
+    "executedTool": {
+      "original": {
+        "path": "build/mobile-battle-first6-actual-20261011/executed-tool.mjs",
+        "bytes": 65921,
+        "sha256": "790c01dc3a7b603ca55f001a8b8dabe2794bd97a7a7229889b262ae71ce7d017"
+      },
+      "gzip": {
+        "path": "docs/validation/m5-mobile-battle-20261011/raw/executed-tool.mjs.gz",
+        "bytes": 20065,
+        "sha256": "1728d4718bedde2e608d3cfca78a93180591f6f23dbd41145bdb20136b2aa39c"
+      }
+    },
+    "scenarioArchives": [
+      {
+        "original": {
+          "path": "scripts/hd-mobile-battle-runtime-checks.mjs",
+          "bytes": 21338,
+          "sha256": "0775bde5afb2e849ecd9a4bcd5e446b3c8ff1bf0a47466800c920e93e0414941"
+        },
+        "gzip": {
+          "path": "docs/validation/m5-mobile-battle-20261011/raw/hd-mobile-battle-runtime-checks.mjs.gz",
+          "bytes": 6869,
+          "sha256": "15ad472a0c132b71917619da44cc5451dccb3de1f230962063932af82b6644e1"
+        }
+      },
+      {
+        "original": {
+          "path": "scripts/hd-mobile-battle-runtime-oracle.mjs",
+          "bytes": 13848,
+          "sha256": "118a59737fad7b4b395bdea00fc91fa62df010f3330fbaee18e6034262d92bed"
+        },
+        "gzip": {
+          "path": "docs/validation/m5-mobile-battle-20261011/raw/hd-mobile-battle-runtime-oracle.mjs.gz",
+          "bytes": 5172,
+          "sha256": "e2a27bc0016e07fb26e5e1c795c632641ec6f4a4d8d0eab42168bb064b9032a7"
+        }
+      }
+    ],
+    "screenshots": [
+      {
+        "path": "docs/validation/m5-mobile-battle-20261011/screenshots/battle-HD-844.png",
+        "bytes": 71197,
+        "sha256": "285a4ea6f95bca2866ef76959755afd13762e8b554c828aba16c96d8d77df68b"
+      },
+      {
+        "path": "docs/validation/m5-mobile-battle-20261011/screenshots/battle-04-native-skills.png",
+        "bytes": 64413,
+        "sha256": "60f76a16a1beed0b793bd98ee2b92ab068e42f98cd2b1af045adb837fa0485d3"
+      },
+      {
+        "path": "docs/validation/m5-mobile-battle-20261011/screenshots/battle-03-real-action.png",
+        "bytes": 66466,
+        "sha256": "00bf04f19261f8ee723d240d15e35c74bc988d84d7243792e5543e39bc6bb9b5"
+      },
+      {
+        "path": "docs/validation/m5-mobile-battle-20261011/screenshots/battle-help-native-LCD.png",
+        "bytes": 24965,
+        "sha256": "d2866eb4b021f4bcd042c5d24f274ad8ffe206e15e5bcf4179177ce18c43fb55"
+      },
+      {
+        "path": "docs/validation/m5-mobile-battle-20261011/screenshots/battle-view-native-LCD.png",
+        "bytes": 26683,
+        "sha256": "adea9ab6dab71d1c114d7f6fbb51e1c32d5edcfb358226946572ab8ac341b3cc"
+      },
+      {
+        "path": "docs/validation/m5-mobile-battle-20261011/screenshots/battle-08-natural-AI-next-player.png",
+        "bytes": 60638,
+        "sha256": "cdc1111e3e3c704539a639bae95afc8160784d937c82518ab9f6b77c312c83e6"
+      }
+    ],
+    "sourceFiles": [
+      {
+        "path": "scripts/test-hd-mobile-city-runtime.mjs",
+        "bytes": 65921,
+        "sha256": "790c01dc3a7b603ca55f001a8b8dabe2794bd97a7a7229889b262ae71ce7d017"
+      },
+      {
+        "path": "scripts/hd-runtime-owned-chrome.mjs",
+        "bytes": 13354,
+        "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+      },
+      {
+        "path": "scripts/hd-runtime-json.mjs",
+        "bytes": 7162,
+        "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+      },
+      {
+        "path": "m.html",
+        "bytes": 14768,
+        "sha256": "11b7767c2633a62f0ceaf9d1a10714069c50bc188c7ebec3a436c42a35cdb4e7"
+      },
+      {
+        "path": "js/original-game.js",
+        "bytes": 7437,
+        "sha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 9728,
+        "sha256": "69e7d99702d9af12eaf3687f92f6d59dc55baa8252a458b4d3f72957420220c7"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 18561,
+        "sha256": "8babb010711d22d29deea6ec718d4ed83b538569674a7b668787223be71325e9"
+      },
+      {
+        "path": "js/hd-mobile-city.js",
+        "bytes": 30789,
+        "sha256": "3db2e95f89f21aeaa9952d8902c47cc4e325f9cf4ff2e6332f2ad46de7a55a28"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 311818,
+        "sha256": "c2e1b30ddf79440c80ee361d23725e38083ac4a6813f4ee7442df26ff18f90f3"
+      },
+      {
+        "path": "js/hd-dialog.js",
+        "bytes": 102125,
+        "sha256": "c3cbb2d78fea9e4d3f25fe65d2b6bfda8cec946f9854c6b40020d42146f65380"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 168802,
+        "sha256": "99dc69bf05702d700811ece731e84a26e555d851a13462b739e93550ad973745"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 34597,
+        "sha256": "53dbd1c86247efa0f7d59ce11751d41d3b4d4080cffd8f06006349a61443acca"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "scripts/hd-mobile-battle-runtime-checks.mjs",
+        "bytes": 21338,
+        "sha256": "0775bde5afb2e849ecd9a4bcd5e446b3c8ff1bf0a47466800c920e93e0414941"
+      },
+      {
+        "path": "scripts/hd-mobile-battle-runtime-oracle.mjs",
+        "bytes": 13848,
+        "sha256": "118a59737fad7b4b395bdea00fc91fa62df010f3330fbaee18e6034262d92bed"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 80131,
+        "sha256": "8a8dd2243ac76ab69e7b9060cb6104c6260b73bb0d47d1f8ab10b4eb06170a7d"
+      },
+      {
+        "path": "js/hd-mobile-battle.js",
+        "bytes": 26350,
+        "sha256": "9b3d25841185824c7ce8fb68377ace6787db6f376d80140782729da84f5d5300"
+      },
+      {
+        "path": "js/hd-battle-terrain.js",
+        "bytes": 12641,
+        "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467"
+      },
+      {
+        "path": "js/hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 2869,
+        "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 4893,
+        "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 14183,
+        "sha256": "3fc256cf6fa34756987f993d208948008f39d14faf7588de4618857c0ca6b485"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 9772,
+        "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 15296,
+        "sha256": "157bbba7aef4a47226240b7a8b2248130d35c8c92d3a6aa0761878d0a6a74c29"
+      },
+      {
+        "path": "js/jquery.min.js",
+        "bytes": 92629,
+        "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4"
+      },
+      {
+        "path": "js/encoding-indexes.js",
+        "bytes": 145824,
+        "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738"
+      },
+      {
+        "path": "js/encoding.js",
+        "bytes": 101260,
+        "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d"
+      },
+      {
+        "path": "js/sprintf.js",
+        "bytes": 9783,
+        "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c"
+      },
+      {
+        "path": "js/lzma_worker-min.js",
+        "bytes": 23963,
+        "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523"
+      },
+      {
+        "path": "js/base64.js",
+        "bytes": 3334,
+        "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42"
+      },
+      {
+        "path": "js/idbkvstore.min.js",
+        "bytes": 16578,
+        "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 144208,
+        "sha256": "ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8"
+      },
+      {
+        "path": "js/save-storage.js",
+        "bytes": 11899,
+        "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5822,
+        "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf"
+      },
+      {
+        "path": "js/hd-overworld-layers.js",
+        "bytes": 5717,
+        "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 30421,
+        "sha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 24241,
+        "sha256": "cd33628dd9e2a7c4436ed88d121727c8e539f46cabe35ff3ab5973d5b6206076"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 8741,
+        "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 224423,
+        "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": "assets/hd-overworld/manifest.json",
+        "bytes": 8120,
+        "sha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94"
+      },
+      {
+        "path": "assets/hd-overworld/palette/factions.json",
+        "bytes": 479,
+        "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098"
+      },
+      {
+        "path": "assets/hd-overworld/roads/adjacency.json",
+        "bytes": 925,
+        "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad"
+      },
+      {
+        "path": "assets/hd-overworld/china-lcc-cities.json",
+        "bytes": 13172,
+        "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/base_plains.jpg",
+        "bytes": 2538377,
+        "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/overlay_rivers.png",
+        "bytes": 93336,
+        "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+        "bytes": 911013,
+        "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+        "bytes": 1540805,
+        "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f"
+      },
+      {
+        "path": "assets/hd-overworld/cities/fortified-city-v1.png",
+        "bytes": 972200,
+        "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db"
+      },
+      {
+        "path": "assets/hd-overworld/ui/cursor.png",
+        "bytes": 777,
+        "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994"
+      },
+      {
+        "path": "assets/hd-overworld/ui/cursor_hover.png",
+        "bytes": 3060,
+        "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604"
+      },
+      {
+        "path": "assets/hd-overworld/roads/stroke.png",
+        "bytes": 108,
+        "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c"
+      },
+      {
+        "path": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+        "bytes": 1198185,
+        "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      }
+    ],
+    "sourceDrift": [],
+    "trustedCanvasPointerDown": 5,
+    "keyCount": 69,
+    "lcdTouchCount": 4,
+    "visibility": {
+      "hidden": {
+        "hidden": true,
+        "visibility": "hidden"
+      },
+      "restored": {
+        "hidden": false,
+        "visibility": "visible"
+      }
+    },
+    "cleanup": {
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "user8080Accessed": false
+    },
+    "exceptions": []
+  },
+  "nativeEffects": {
+    "march": {
+      "ok": true,
+      "measuredWorldAccepted": true,
+      "scope": "Measured public-march and single-rest effects; no HD MARCH, battle-win or full-native-ABI acceptance",
+      "origin": 8,
+      "target": 9,
+      "orderIndex": 170,
+      "slot": 0,
+      "distance": 1,
+      "selectionEvidence": "actual-ordered-person-IDs",
+      "selectedPersonIds": [
+        5,
+        58,
+        60,
+        61,
+        62,
+        63,
+        65,
+        66
+      ],
+      "tokens": [
+        6,
+        59,
+        61,
+        62,
+        63,
+        64,
+        66,
+        67,
+        0,
+        0
+      ],
+      "food": {
+        "confirmed": 505,
+        "before": 505,
+        "after": 0
+      },
+      "money": {
+        "cost": 0,
+        "before": 237,
+        "after": 237
+      },
+      "checked": {
+        "people": 200,
+        "cities": 38,
+        "queue": 2000,
+        "orderRows": 200,
+        "fighterBytes": 600,
+        "fighterFlags": 30
+      },
+      "limits": [
+        "Only worldSource recorded fields; unobserved OrderType Arms/Money/Consume are not claimed byte-exact",
+        "No strategy month, battle result or HD MARCH acceptance"
+      ]
+    },
+    "rest": {
+      "ok": true,
+      "restAccepted": true,
+      "actorIndex": 0,
+      "personId": 5,
+      "maxmp": 41,
+      "mp": {
+        "before": 41,
+        "after": 41
+      },
+      "active": {
+        "before": 0,
+        "after": 1
+      },
+      "bout": 1,
+      "scope": "Single actual CMD_REST measured unit/food invariants; no AI turn or skill-effect acceptance"
+    },
+    "oneExplicitArmyEnd": {
+      "beforeBout": 1,
+      "afterBout": 2,
+      "scope": "Native AI control flow only; no attack/damage acceptance"
+    }
+  },
+  "cityRegression": {
+    "ok": true,
+    "accepted": true,
+    "phaseCount": 34,
+    "cityChecks": 64,
+    "rawResult": {
+      "path": "build/mobile-battle-city-regression-20261011/result.json",
+      "bytes": 18397011,
+      "sha256": "1065616fd72fc7eac6d0571130317eccef9d5dec341b3a8623e3aa75acd8d057",
+      "archive": {
+        "path": "docs/validation/m5-mobile-battle-20261011/raw/city-result.json.gz",
+        "bytes": 1547578,
+        "sha256": "7dc4bb0d5bdc0404373666bc94616b0191c0c75c8c20c3f8dda0348d48dcf2c8"
+      }
+    },
+    "sourceFiles": [
+      {
+        "path": "scripts/test-hd-mobile-city-runtime.mjs",
+        "bytes": 65821,
+        "sha256": "03660319f611492c7103a3284cab7b53d3965bd260d0c35d5cfb99e0512afec2"
+      },
+      {
+        "path": "scripts/hd-runtime-owned-chrome.mjs",
+        "bytes": 13354,
+        "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+      },
+      {
+        "path": "scripts/hd-runtime-json.mjs",
+        "bytes": 7162,
+        "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+      },
+      {
+        "path": "m.html",
+        "bytes": 14768,
+        "sha256": "11b7767c2633a62f0ceaf9d1a10714069c50bc188c7ebec3a436c42a35cdb4e7"
+      },
+      {
+        "path": "js/original-game.js",
+        "bytes": 7437,
+        "sha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34"
+      },
+      {
+        "path": "js/hd-mobile.js",
+        "bytes": 9728,
+        "sha256": "69e7d99702d9af12eaf3687f92f6d59dc55baa8252a458b4d3f72957420220c7"
+      },
+      {
+        "path": "js/hd-mobile-map.js",
+        "bytes": 18561,
+        "sha256": "8babb010711d22d29deea6ec718d4ed83b538569674a7b668787223be71325e9"
+      },
+      {
+        "path": "js/hd-mobile-city.js",
+        "bytes": 30789,
+        "sha256": "3db2e95f89f21aeaa9952d8902c47cc4e325f9cf4ff2e6332f2ad46de7a55a28"
+      },
+      {
+        "path": "js/hd-city-menu.js",
+        "bytes": 311818,
+        "sha256": "c2e1b30ddf79440c80ee361d23725e38083ac4a6813f4ee7442df26ff18f90f3"
+      },
+      {
+        "path": "js/hd-dialog.js",
+        "bytes": 102125,
+        "sha256": "c3cbb2d78fea9e4d3f25fe65d2b6bfda8cec946f9854c6b40020d42146f65380"
+      },
+      {
+        "path": "js/hd-overworld.js",
+        "bytes": 168802,
+        "sha256": "99dc69bf05702d700811ece731e84a26e555d851a13462b739e93550ad973745"
+      },
+      {
+        "path": "js/lcd.js",
+        "bytes": 34597,
+        "sha256": "53dbd1c86247efa0f7d59ce11751d41d3b4d4080cffd8f06006349a61443acca"
+      },
+      {
+        "path": "libs/dat-mod.lib",
+        "bytes": 207195,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+      },
+      {
+        "path": "css/baye.css",
+        "bytes": 2869,
+        "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83"
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "bytes": 4893,
+        "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1"
+      },
+      {
+        "path": "css/hd-city-menu.css",
+        "bytes": 14183,
+        "sha256": "3fc256cf6fa34756987f993d208948008f39d14faf7588de4618857c0ca6b485"
+      },
+      {
+        "path": "css/hd-dialog.css",
+        "bytes": 9772,
+        "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e"
+      },
+      {
+        "path": "css/hd-mobile.css",
+        "bytes": 15296,
+        "sha256": "157bbba7aef4a47226240b7a8b2248130d35c8c92d3a6aa0761878d0a6a74c29"
+      },
+      {
+        "path": "js/jquery.min.js",
+        "bytes": 92629,
+        "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4"
+      },
+      {
+        "path": "js/encoding-indexes.js",
+        "bytes": 145824,
+        "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738"
+      },
+      {
+        "path": "js/encoding.js",
+        "bytes": 101260,
+        "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d"
+      },
+      {
+        "path": "js/sprintf.js",
+        "bytes": 9783,
+        "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c"
+      },
+      {
+        "path": "js/lzma_worker-min.js",
+        "bytes": 23963,
+        "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523"
+      },
+      {
+        "path": "js/base64.js",
+        "bytes": 3334,
+        "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42"
+      },
+      {
+        "path": "js/idbkvstore.min.js",
+        "bytes": 16578,
+        "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60"
+      },
+      {
+        "path": "js/bridge.js",
+        "bytes": 144208,
+        "sha256": "ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8"
+      },
+      {
+        "path": "js/save-storage.js",
+        "bytes": 11899,
+        "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e"
+      },
+      {
+        "path": "js/hd-lib-identity.js",
+        "bytes": 5822,
+        "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf"
+      },
+      {
+        "path": "js/hd-overworld-layers.js",
+        "bytes": 5717,
+        "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a"
+      },
+      {
+        "path": "js/hd-portraits.js",
+        "bytes": 30421,
+        "sha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c"
+      },
+      {
+        "path": "js/hd-mobile-portraits.js",
+        "bytes": 24241,
+        "sha256": "cd33628dd9e2a7c4436ed88d121727c8e539f46cabe35ff3ab5973d5b6206076"
+      },
+      {
+        "path": "js/hd-battle-terrain.js",
+        "bytes": 12641,
+        "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467"
+      },
+      {
+        "path": "js/hd-battle-feedback.js",
+        "bytes": 12212,
+        "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+      },
+      {
+        "path": "js/hd-battle.js",
+        "bytes": 80131,
+        "sha256": "8a8dd2243ac76ab69e7b9060cb6104c6260b73bb0d47d1f8ab10b4eb06170a7d"
+      },
+      {
+        "path": "js/hd-mobile-battle.js",
+        "bytes": 26350,
+        "sha256": "9b3d25841185824c7ce8fb68377ace6787db6f376d80140782729da84f5d5300"
+      },
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+      },
+      {
+        "path": "assets/hd-portraits/manifest.json",
+        "bytes": 8741,
+        "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894"
+      },
+      {
+        "path": "assets/hd-portraits/refs/index.json",
+        "bytes": 224423,
+        "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f"
+      },
+      {
+        "path": "favicon.png",
+        "bytes": 7349,
+        "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+      },
+      {
+        "path": "assets/hd-overworld/manifest.json",
+        "bytes": 8120,
+        "sha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94"
+      },
+      {
+        "path": "assets/hd-overworld/palette/factions.json",
+        "bytes": 479,
+        "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098"
+      },
+      {
+        "path": "assets/hd-overworld/roads/adjacency.json",
+        "bytes": 925,
+        "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad"
+      },
+      {
+        "path": "assets/hd-overworld/china-lcc-cities.json",
+        "bytes": 13172,
+        "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/base_plains.jpg",
+        "bytes": 2538377,
+        "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/overlay_rivers.png",
+        "bytes": 93336,
+        "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+        "bytes": 911013,
+        "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46"
+      },
+      {
+        "path": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+        "bytes": 1540805,
+        "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f"
+      },
+      {
+        "path": "assets/hd-overworld/cities/fortified-city-v1.png",
+        "bytes": 972200,
+        "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db"
+      },
+      {
+        "path": "assets/hd-overworld/ui/cursor.png",
+        "bytes": 777,
+        "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994"
+      },
+      {
+        "path": "assets/hd-overworld/ui/cursor_hover.png",
+        "bytes": 3060,
+        "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604"
+      },
+      {
+        "path": "assets/hd-overworld/roads/stroke.png",
+        "bytes": 108,
+        "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c"
+      },
+      {
+        "path": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+        "bytes": 1198185,
+        "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88"
+      },
+      {
+        "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+        "bytes": 8261128,
+        "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+      },
+      {
+        "path": "assets/hd-portraits/refs/period-1/23-李傕.png",
+        "bytes": 527,
+        "sha256": "e223a38181e9ba0494a226b9d13e2cce714912f24a770a624efccc6d419afca9"
+      }
+    ],
+    "sourceDrift": [],
+    "exceptions": [],
+    "treeExited": true,
+    "serverClosed": true,
+    "returns": 26,
+    "negativeCases": 13,
+    "treatments": 2
+  },
+  "commonProductSources": {
+    "count": 51,
+    "mismatches": []
+  },
+  "previousLocalAttempts": [
+    {
+      "result": {
+        "path": "build/mobile-battle-first3-actual-20261011/result.json",
+        "bytes": 2147567,
+        "sha256": "c79b495144d8e2a5299956a6e91c7160ec2007a9f293ffdf6adb253a734bae11"
+      },
+      "ok": false,
+      "accepted": false,
+      "error": "Error: Timed out native SKILL menu",
+      "treeExited": true,
+      "serverClosed": true,
+      "preservedLocally": true
+    },
+    {
+      "result": {
+        "path": "build/mobile-battle-first4-actual-20261011/result.json",
+        "bytes": 3162629,
+        "sha256": "32cca22ada5e7220f496c25727e6a25adf1aea7318b74ab4fc736f2037993ec6"
+      },
+      "ok": false,
+      "accepted": false,
+      "error": "AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:",
+      "treeExited": true,
+      "serverClosed": true,
+      "preservedLocally": true
+    },
+    {
+      "result": {
+        "path": "build/mobile-battle-first5-actual-20261011/result.json",
+        "bytes": 3904189,
+        "sha256": "2b5e929a0e191f7e6f9c031a6c1deff4d5c0b6f31a5c0ced1711c94904a4b025"
+      },
+      "ok": true,
+      "accepted": true,
+      "error": null,
+      "treeExited": true,
+      "serverClosed": true,
+      "preservedLocally": true
+    }
+  ],
+  "tests": {
+    "modules": 67,
+    "total": 2001,
+    "pass": 2001,
+    "fail": 0,
+    "skipped": 0,
+    "concurrency": 4,
+    "compiler": "repository local clang",
+    "durationMs": 22378.8247,
+    "log": {
+      "path": "build/mobile-battle-runtime-final-tests-20261011.log",
+      "bytes": 208454,
+      "sha256": "b0521717d5eea003197641d6123a416cc41acc1ea051f014f50b396dc1991089",
+      "archive": {
+        "path": "docs/validation/m5-mobile-battle-20261011/raw/full-tests.log.gz",
+        "bytes": 58727,
+        "sha256": "e71a4a1399704a87ade0f85da46463a83a26febb21f274848199593f6c443f14"
+      }
+    },
+    "replayOracleTests": 7,
+    "sourceFiles": [
+      {
+        "path": "package.json",
+        "bytes": 9926,
+        "sha256": "77a6324b6250222d1a899fd3b7748b592b97f1a622f8f8eacd5822f2def38e11"
+      },
+      {
+        "path": "scripts/test-hd-mobile-battle-runtime-oracle.mjs",
+        "bytes": 4501,
+        "sha256": "dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625"
+      }
+    ]
+  },
+  "limits": [
+    "Complete original report compressed; screenshots are selected, local private profiles stay local",
+    "No portable closed source/browser/trace archive claim",
+    "Only sampled world/order fields; no full native struct byte-exact claim",
+    "LCD march bootstrap is not HD march acceptance",
+    "No attack damage, skill effect, actual setting changes, battle victory/completion, strategy return or actual devices accepted"
+  ]
+}

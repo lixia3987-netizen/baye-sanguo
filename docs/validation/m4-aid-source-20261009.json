@@ -1,0 +1,286 @@
+{
+ "schemaVersion": 1,
+ "recordedAt": "2026-10-09T14:48:32.048Z",
+ "status": "source-integrated-actual-pending",
+ "accepted": false,
+ "actualCastAccepted": false,
+ "actualHdAccepted": false,
+ "archiveClosed": false,
+ "sourceChecksPassed": true,
+ "scope": "R22 AID41 source integration and offline regression execution only. This is not the final player-cast, runtime-pixel or whole-HD acceptance record.",
+ "sourceBaselineRevision": "59e530db42f4340fe9e2a3b92c95b1904e04f095",
+ "recordedAgainstRevision": "23de0c18880fd4675dda637e99835397f359fe23",
+ "skills": [
+  {
+   "id": 17,
+   "name": "援兵",
+   "mp": 15,
+   "requestedArmsGain": 800
+  },
+  {
+   "id": 29,
+   "name": "援军",
+   "mp": 30,
+   "requestedArmsGain": 1800
+  }
+ ],
+ "resource": {
+  "speId": 41,
+  "resourceIndex": 0,
+  "kind": 2,
+  "startFrm": 0,
+  "endFrm": 7,
+  "count": 8,
+  "picmax": 2,
+  "bytes": 1084,
+  "fingerprint": "fnv1a32:1d4637e9:1084",
+  "compositionMode": 2,
+  "origin": [
+   48,
+   16
+  ],
+  "window": [
+   64,
+   64
+  ],
+  "lcd": [
+   160,
+   96
+  ],
+  "keyflag": 0,
+  "background": false
+ },
+ "authorization": "One shared aidVersion1 entry binds skillIds17/29. Bridge independently verifies actual current/display context, resource and copied coverage. Renderer uses the complete LCD and only the certified64 square; ARMS_GAIN2, including0, requires the original saved final copy and NUM15/GBK label. No input, state mutation or new native ABI is added.",
+ "sourceFiles": [
+  {
+   "path": "js/bridge.js",
+   "bytes": 140039,
+   "sha256": "0a08077367f696ce67f49bbed527afb5a8c0adf263c296136e1ad691b94db15c"
+  },
+  {
+   "path": "js/hd-spe.js",
+   "bytes": 80136,
+   "sha256": "73a494feb57b355eb9acf3a05c86cfc6810e6f801c1dd0ef66a40b1bdc2c120b"
+  },
+  {
+   "path": "assets/hd-spe/manifest.json",
+   "bytes": 581090,
+   "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+  },
+  {
+   "path": "scripts/hd-aid-native-test-fixture.mjs",
+   "bytes": 9706,
+   "sha256": "518d591652dd1eac264c0f335dd71e686fc4f749121da03408062703b94388e1"
+  },
+  {
+   "path": "scripts/test-hd-aid-bridge.mjs",
+   "bytes": 5926,
+   "sha256": "eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086"
+  },
+  {
+   "path": "scripts/test-hd-aid.mjs",
+   "bytes": 30351,
+   "sha256": "b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3"
+  },
+  {
+   "path": "scripts/generate-hd-spe-aid-entry.mjs",
+   "bytes": 5200,
+   "sha256": "143655351f80d47ddeba8397f9cecc7b9d4470894bd12f80ae8c35e1513110ec"
+  },
+  {
+   "path": "scripts/specs/hd-spe-aid.json",
+   "bytes": 1051,
+   "sha256": "c4210ebda4be885f7add97c9eb7065b918c83fc5f73d36491719e0eee76ef63b"
+  }
+ ],
+ "assets": {
+  "provenance": {
+   "path": "assets/hd-spe/GENERATED-AID.json",
+   "bytes": 53754,
+   "sha256": "93b64b02f5840dba3734e5c9550008bbb04173e250742a2ffe1f780aae750e44"
+  },
+  "pictures": [
+   {
+    "path": "assets/hd-spe/aid-41/picture-0.png",
+    "bytes": 3203857,
+    "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+   },
+   {
+    "path": "assets/hd-spe/aid-41/picture-1.png",
+    "bytes": 2868208,
+    "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+   }
+  ],
+  "scope": "Original asset-only provenance remains historical and byte-exact. This separate record describes later source integration; static artwork review is not playback acceptance."
+ },
+ "manifest": {
+  "entries": 49,
+  "previousEntries": 48,
+  "previousObjectsUnchanged": true,
+  "regenerationSpec": {
+   "path": "scripts/specs/hd-spe-aid.json",
+   "bytes": 1051,
+   "sha256": "c4210ebda4be885f7add97c9eb7065b918c83fc5f73d36491719e0eee76ef63b"
+  },
+  "generator": {
+   "path": "scripts/generate-hd-spe-aid-entry.mjs",
+   "bytes": 5200,
+   "sha256": "143655351f80d47ddeba8397f9cecc7b9d4470894bd12f80ae8c35e1513110ec"
+  },
+  "regenerated": {
+   "path": "build/r22-manifest-root-regen-v1.json",
+   "bytes": 581090,
+   "sha256": "59e56b6dda3750994f1bad5db32b012573e7eddc07608d5e668d65203e6880af"
+  },
+  "regeneratedByteExact": true,
+  "generatorBoundary": "Default output is build/hd-spe-aid-manifest.json; no overwrite or production output. All unrelated base objects are preserved, including future entries; changed or duplicate41 is rejected."
+ },
+ "checks": {
+  "focused": {
+   "execution": {
+    "path": "build/r22-focused-source-tests-v1-execution.json",
+    "bytes": 1579,
+    "sha256": "479ebfff848910de1bb7e450a0df19e0bfa771082df55617cb63f490c629d998"
+   },
+   "summaryAudit": {
+    "path": "build/r22-focused-source-tests-v1-summary-audit.json",
+    "bytes": 1535,
+    "sha256": "028d62a9732df3548882aab937e3b6c4417de6940de6ce06da215dea6380b097"
+   },
+   "log": {
+    "path": "build/r22-focused-source-tests-v1.log",
+    "bytes": 4224,
+    "sha256": "1cb2b63acf5881b01d1b8b46f2ffa016b352dba91d15f0e54e54a20b519084c6"
+   },
+   "summary": {
+    "tests": 54,
+    "pass": 54,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+   },
+   "testChildExitCode": 0,
+   "recordingWrapperExitCode": 1,
+   "recordingError": "Original Node spec summary was missed by the v1 TAP parser. Original54 successful tests were independently parsed without rerun; original null-summary execution remains retained."
+  },
+  "full": {
+   "execution": {
+    "path": "build/r22-full-source-tests-v2-execution.json",
+    "bytes": 3491,
+    "sha256": "386a7e90ddf6e926715ddf7d5c57908114799df32a7dae14785a9acf8a7d0d09"
+   },
+   "startedAt": "2026-10-09T14:41:03.964Z",
+   "finishedAt": "2026-10-09T14:41:25.225Z",
+   "modules": 48,
+   "summary": {
+    "tests": 1075,
+    "pass": 1075,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0
+   },
+   "exitCode": 0,
+   "node": "v24.14.0",
+   "compiler": {
+    "path": "F:/project/baye-sanguo/build/toolchain/emsdk/upstream/bin/clang.exe",
+    "bytes": 75238912,
+    "sha256": "bbe1455a704cd779edf71fb8003920d7033c5ea042dbd7be23c4aa192d126cee"
+   },
+   "log": {
+    "path": "build/r22-full-source-tests-v2.log",
+    "bytes": 280066,
+    "sha256": "91530cf76e3274aaf2d924a801767533563135188ffe261b5e2598e5b74236af"
+   },
+   "sources": {
+    "count": 1251,
+    "pre": {
+     "path": "build/r22-full-source-tests-v2-sources-pre.json",
+     "bytes": 211717,
+     "sha256": "7606a7ec1d71abbfc0fb57d8541712369ace7ff70f0d2531f76ba20296eb96ca"
+    },
+    "post": {
+     "path": "build/r22-full-source-tests-v2-sources-post.json",
+     "bytes": 211717,
+     "sha256": "7606a7ec1d71abbfc0fb57d8541712369ace7ff70f0d2531f76ba20296eb96ca"
+    },
+    "drift": [],
+    "records": 1251,
+    "uniquePaths": 1250,
+    "duplicatePath": "scripts/write-wasm-manifest.mjs",
+    "scope": "The original pre/post inventories retain one identical slash-normalized duplicate. All1250 unique file bytes match; no conflicting duplicate or test-module duplication."
+   }
+  },
+  "newUniqueTests": {
+   "bridge": 38,
+   "consumer": 10,
+   "joint": 6,
+   "total": 54
+  },
+  "priorWood22AndSpe82RegistrationsUnchanged": true,
+  "independentReview": {
+   "path": "build/r22-full-source-tests-independent-audit.json",
+   "bytes": 8394,
+   "sha256": "121b25ae854f67fc17937635868b5cd8dbfd90f18972ea60c0abe97191634ad8"
+  }
+ },
+ "package": {
+  "testedWorkingPackage": {
+   "path": "package.json",
+   "bytes": 6954,
+   "sha256": "ed2d88dd4204344a3d00bd20f72c01019faa33164c3fb96c0b27bfad1148eed1"
+  },
+  "proposedCommittedPackage": {
+   "path": "build/r22-package-staged-candidate.json",
+   "bytes": 6888,
+   "sha256": "12edbf535bd68e2e2953620f1c073f6e3d678d097582d69ccdc91096f79c1bd5"
+  },
+  "mainTestCommandsIdentical": true,
+  "scope": "The working package retains an earlier inactive test:wood-runtime auxiliary command. That unrelated uncommitted command is excluded from this source commit; the executed main test command is identical."
+ },
+ "engine": {
+  "rebuilt": false,
+  "installed": false,
+  "native128RawBytesUnchanged": true,
+  "currentNative128Aggregate": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+  "originalSourceIndex": {
+   "path": "build/r21-final-engine-originals-v1/index.json",
+   "bytes": 33910,
+   "sha256": "0b842d88f63c98c6bede2517e5e0cc3781b487a1593a70475f2a858feec68254"
+  },
+  "staged": {
+   "manifest": {
+    "path": "build/wasm/src/baye.build.json",
+    "bytes": 16650,
+    "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a"
+   },
+   "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+   "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+   "engineSourceModified": true
+  },
+  "currentlyInstalled": {
+   "manifest": {
+    "path": "js/baye.build.json",
+    "bytes": 15801,
+    "sha256": "1cefbf6bda96f024cc932b6c605a183b7070cd7e68bed028390e8f4aa9e1f5f3"
+   },
+   "sourceRevision": "523fa9360e64f9923231dd4ede6d759c1d987fff",
+   "engineSourceSha256": "1f2b1744a4c7a7497fd54d336350b059a91f421679ce804f127f422aa5f7fc11",
+   "engineSourceModified": true
+  },
+  "scope": "R21 staged and previous R20 installed identities are unchanged. JavaScript/art/test commits do not relabel either compiled source revision."
+ },
+ "remaining": [
+  "Actual public acquisition of a qualified owned caster and original preparation saves",
+  "Both original skills17/29 with friendly target, actual MP debit, native capacity-clamped Arms delta and natural failure preservation",
+  "Actual LCD callbacks/pixels, two artwork slots,64-square bounds, NUM15/label/hold, retirement and zero automatic movie/result input",
+  "Required desktop resolutions and classic/missing-image/unknown-library runtime fallback",
+  "Closed original-byte runtime evidence archive and final acceptance record; other HD requirements remain open"
+ ],
+ "artifactBoundary": {
+  "rawRuntimeArchived": false,
+  "workspaceBuildReferencesArePortable": false,
+  "meaning": "Build references identify exact retained workspace logs, source hashes and candidate proofs. This small source record does not archive those raw dependencies. Source hashes describe actual Windows working bytes, not a claim that Git checkout line endings are identical."
+ }
+}

@@ -1,0 +1,3932 @@
+{
+  "schemaVersion": 1,
+  "status": "FAIL",
+  "reviewedAt": "2026-10-08T22:46:09.759Z",
+  "frozenIndex": {
+    "path": "docs/validation/m4-qimen-20261009/runtime-index.json",
+    "bytes": 595509,
+    "sha256": "5cf197bc77f911b1bbf31a30ddf68ad7dcc5e193d613d2f9690a2230efd2047e"
+  },
+  "declaredCounts": {
+    "logicalRaw": 181,
+    "physicalRaw": 149,
+    "logicalPng": 253,
+    "physicalPng": 225,
+    "omittedImages": 826
+  },
+  "independentCounts": {
+    "logicalRaw": 181,
+    "physicalRaw": 149,
+    "logicalPng": 253,
+    "physicalPng": 225,
+    "omittedImages": 826,
+    "retainedRecordByteComparisons": 434,
+    "allOriginalRawAndSelectedPngVerified": false
+  },
+  "findings": [
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 3,
+        "path": "build/r16-qimen-hd-installed-v3/search-month-11 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 111,
+        "body": "城中找到 徐庶"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 3,
+        "path": "build/r16-qimen-hd-installed-v3/search-month-11 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 171,
+        "body": "什么鸡鸣狗盗之徒，也想让我为你效力？"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 3,
+        "path": "build/r16-qimen-hd-installed-v3/search-month-12 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 111,
+        "body": "城中找到 徐庶"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 3,
+        "path": "build/r16-qimen-hd-installed-v3/search-month-12 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 171,
+        "body": "比在下高明之士众多，明公何必舍良才择朽木？"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 4,
+        "path": "build/r16-qimen-hd-installed-v4/search-month-9 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 150,
+        "body": "城中找到 徐庶"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 4,
+        "path": "build/r16-qimen-hd-installed-v4/search-month-9 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 171,
+        "body": "某愿效死忠。"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 5,
+        "path": "build/r16-qimen-hd-installed-v5/search-month-7 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 119,
+        "body": "城中找到 徐庶"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 5,
+        "path": "build/r16-qimen-hd-installed-v5/search-month-7 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 171,
+        "body": "某愿效死忠。"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 6,
+        "path": "build/r16-qimen-hd-installed-v6/search-month-10 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 111,
+        "body": "城中找到 徐庶"
+      }
+    },
+    {
+      "label": "critical-XuShu-original-report-retained",
+      "detail": {
+        "attempt": 6,
+        "path": "build/r16-qimen-hd-installed-v6/search-month-10 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+        "nativePerson": 171,
+        "body": "某虽不才，愿为主公效劳。"
+      }
+    }
+  ],
+  "archiveScope": "Full original raw private attempt reports, inputs, worlds and frame telemetry plus explicitly selected original PNGs, native references, static reviews and tests. v1/v2 failure PNGs all kept; v3 onward retains each month first SEARCH actor and first order/execution report, every XuShu report, final report, every other checkpoint and all native/HD movie captures. Unselected repetitive SEARCH PNGs remain local with explicit original hashes.",
+  "transformation": "Raw reports/scripts/logs only gzip; original PNGs byte-exact copied. All archive roundtrips verified. No asset transformations or deletions.",
+  "actualAttempts": [
+    {
+      "attempt": 1,
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v1/result.json",
+        "bytes": 2234740,
+        "sha256": "77aa2f3dee686f0e793e06a5bac27cedb0c445aa848e665b6efd0b7dfa1e570f"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "searchOrders": 0,
+      "months": 0,
+      "actualOwnedAcquisition": false,
+      "selectedPeople": [],
+      "dispatch": false,
+      "playerCastAttempts": 0,
+      "sourceRecords": 1149,
+      "runnerSha256": "c616e6f298ba3bcc9df497bac7ce38b807d4613bebb118133b39a7e971d58099",
+      "rawComplete": true,
+      "error": "Error: Timed out waiting for actual 搜寻 native IDs\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:229:11)\n    at async enterSearchPicker (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:729:19)\n    at async searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:784:9)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:820:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1176:9)"
+    },
+    {
+      "attempt": 2,
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v2/result.json",
+        "bytes": 6263571,
+        "sha256": "ff14b1448378255cd1748d116e727666e499b813f99ac454d87fbd0ee7322b69"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "searchOrders": 8,
+      "months": 0,
+      "actualOwnedAcquisition": false,
+      "selectedPeople": [],
+      "dispatch": false,
+      "playerCastAttempts": 0,
+      "sourceRecords": 1149,
+      "runnerSha256": "8492b3eb31afc75171ab0c15abbcb43de299387977f0eb2b4135a9dbf4cc0295",
+      "rawComplete": true,
+      "error": "Error: Timed out waiting for current original strategy menu\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:229:11)\n    at async executeSearchMonth (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:810:17)\n    at async searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:844:24)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:869:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1225:9)"
+    },
+    {
+      "attempt": 3,
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v3/result.json",
+        "bytes": 86229561,
+        "sha256": "71aeb0cd65d9fc3525ab95e066d4ad27921db486ee8a075c5542f43858fed27d"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "searchOrders": 96,
+      "months": 12,
+      "actualOwnedAcquisition": false,
+      "selectedPeople": [],
+      "dispatch": false,
+      "playerCastAttempts": 0,
+      "sourceRecords": 1149,
+      "runnerSha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "rawComplete": true,
+      "error": "AssertionError [ERR_ASSERTION]: Natural SEARCH budget ended before actual XuShu acquisition; preserve this private game failure\n    at searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:861:12)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:879:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1235:9)"
+    },
+    {
+      "attempt": 4,
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v4/result.json",
+        "bytes": 64181985,
+        "sha256": "6d248051ca7ffacafa7f7d616f06b4795b85d127567fdf67c665205ce9778992"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "searchOrders": 72,
+      "months": 9,
+      "actualOwnedAcquisition": true,
+      "selectedPeople": [],
+      "dispatch": false,
+      "playerCastAttempts": 0,
+      "sourceRecords": 1149,
+      "runnerSha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "rawComplete": true,
+      "error": "ReferenceError: assertActualLoadedLibrary is not defined\n    at searchForActualCaster (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:862:5)\n    at async marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:879:5)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1235:9)"
+    },
+    {
+      "attempt": 5,
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v5/result.json",
+        "bytes": 50893668,
+        "sha256": "f0a5645937915650c94c19889fe9a74a954b34506df574458b7e074ea02f1079"
+      },
+      "ok": false,
+      "hdAccepted": false,
+      "searchOrders": 56,
+      "months": 7,
+      "actualOwnedAcquisition": true,
+      "selectedPeople": [
+        171
+      ],
+      "dispatch": false,
+      "playerCastAttempts": 0,
+      "sourceRecords": 1149,
+      "runnerSha256": "3522e81eecef4bee7692052d49abdfe115ea7df083f4e70c3da616ad5ee2c64c",
+      "rawComplete": true,
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nundefined !== 115\n\n    at marchSmoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:896:48)\n    at async smoke (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:405:5)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-qimen-runtime.mjs:1235:9)"
+    },
+    {
+      "attempt": 6,
+      "result": {
+        "path": "build/r16-qimen-hd-installed-v6/result.json",
+        "bytes": 75858162,
+        "sha256": "d3006918647910ace7cc29955af6a55471232b89443ea3bf4b59acfde17c3f00"
+      },
+      "ok": true,
+      "hdAccepted": true,
+      "searchOrders": 80,
+      "months": 10,
+      "actualOwnedAcquisition": true,
+      "selectedPeople": [
+        171,
+        115
+      ],
+      "dispatch": true,
+      "playerCastAttempts": 1,
+      "sourceRecords": 1149,
+      "runnerSha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+      "rawComplete": true,
+      "error": null
+    }
+  ],
+  "selectedPlayerMovieOriginals": [
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-000-movie-lcd.png",
+      "frame": 0,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-000-movie-hd.png",
+      "frame": 0,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-001-movie-lcd.png",
+      "frame": 1,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-001-movie-hd.png",
+      "frame": 1,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-002-movie-lcd.png",
+      "frame": 2,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-002-movie-hd.png",
+      "frame": 2,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-003-movie-lcd.png",
+      "frame": 3,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-003-movie-hd.png",
+      "frame": 3,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-004-movie-lcd.png",
+      "frame": 4,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-004-movie-hd.png",
+      "frame": 4,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-005-movie-lcd.png",
+      "frame": 5,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-005-movie-hd.png",
+      "frame": 5,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-006-movie-lcd.png",
+      "frame": 6,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-006-movie-hd.png",
+      "frame": 6,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-007-movie-lcd.png",
+      "frame": 7,
+      "type": "actual-native-lcd",
+      "retained": true,
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed"
+    },
+    {
+      "path": "build/r16-qimen-hd-installed-v6/qimen-007-movie-hd.png",
+      "frame": 7,
+      "type": "actual-HD",
+      "retained": true,
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a"
+    }
+  ],
+  "criticalXuShuReportOriginals": [
+    {
+      "attempt": 3,
+      "label": "search-month-11 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 111,
+      "body": "城中找到 徐庶",
+      "path": "build/r16-qimen-hd-installed-v3/search-month-11 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 3,
+      "label": "search-month-11 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 171,
+      "body": "什么鸡鸣狗盗之徒，也想让我为你效力？",
+      "path": "build/r16-qimen-hd-installed-v3/search-month-11 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 3,
+      "label": "search-month-12 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 111,
+      "body": "城中找到 徐庶",
+      "path": "build/r16-qimen-hd-installed-v3/search-month-12 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 3,
+      "label": "search-month-12 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 171,
+      "body": "比在下高明之士众多，明公何必舍良才择朽木？",
+      "path": "build/r16-qimen-hd-installed-v3/search-month-12 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 4,
+      "label": "search-month-9 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 150,
+      "body": "城中找到 徐庶",
+      "path": "build/r16-qimen-hd-installed-v4/search-month-9 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 4,
+      "label": "search-month-9 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 171,
+      "body": "某愿效死忠。",
+      "path": "build/r16-qimen-hd-installed-v4/search-month-9 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 5,
+      "label": "search-month-7 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 119,
+      "body": "城中找到 徐庶",
+      "path": "build/r16-qimen-hd-installed-v5/search-month-7 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 5,
+      "label": "search-month-7 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 171,
+      "body": "某愿效死忠。",
+      "path": "build/r16-qimen-hd-installed-v5/search-month-7 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 6,
+      "label": "search-month-10 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 111,
+      "body": "城中找到 徐庶",
+      "path": "build/r16-qimen-hd-installed-v6/search-month-10 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    },
+    {
+      "attempt": 6,
+      "label": "search-month-10 original ComputerTactic/PolicyExec/ConditionUpdate",
+      "nativePerson": 171,
+      "body": "某虽不才，愿为主公效劳。",
+      "path": "build/r16-qimen-hd-installed-v6/search-month-10 original ComputerTactic/PolicyExec/ConditionUpdate.png",
+      "retained": false
+    }
+  ],
+  "independentlyEqualRetainedRecords": [
+    {
+      "source": "build/r16-all-tests-v1.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d37298ccb56e27845b8baff5de7f2e5d10a6566f8a4d4bcecedb9b34d910b83d-r16-all-tests-v1.log.gz",
+      "sha256": "d37298ccb56e27845b8baff5de7f2e5d10a6566f8a4d4bcecedb9b34d910b83d",
+      "bytes": 87880,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-archive-qimen.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/fa7ccb82071cf6738880c04e7017c3fd6dac7dacbf807a514de843c551df2226-r16-archive-qimen.cjs.gz",
+      "sha256": "fa7ccb82071cf6738880c04e7017c3fd6dac7dacbf807a514de843c551df2226",
+      "bytes": 4715,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-audit-qimen-v1.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/830435b39a06efe74ed30b2af94cb55e64153917e51a9bc72d47ad0869129cc1-r16-audit-qimen-v1.mjs.gz",
+      "sha256": "830435b39a06efe74ed30b2af94cb55e64153917e51a9bc72d47ad0869129cc1",
+      "bytes": 3770,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-audit-qimen-v2.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/64e230c06bde9d034979ea0be29a54df4fbae465e8463a7a07b01d549b80ad5e-r16-audit-qimen-v2.mjs.gz",
+      "sha256": "64e230c06bde9d034979ea0be29a54df4fbae465e8463a7a07b01d549b80ad5e",
+      "bytes": 5202,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-audit-qimen-v3.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/68faf21b5f39d79e4fca9ef9b165d53b5376499757f902213986f87a39092f30-r16-audit-qimen-v3.mjs.gz",
+      "sha256": "68faf21b5f39d79e4fca9ef9b165d53b5376499757f902213986f87a39092f30",
+      "bytes": 7905,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-audit-qimen-v4.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/bf4b09a890d8c26a30a01d20e86659601e2f454cad6a993d704578691584aa07-r16-audit-qimen-v4.mjs.gz",
+      "sha256": "bf4b09a890d8c26a30a01d20e86659601e2f454cad6a993d704578691584aa07",
+      "bytes": 8384,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-audit-qimen-v5.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/95cb33520f6db85ac4351719d28be1c3fac02e80939aa5015733f237987a634f-r16-audit-qimen-v5.mjs.gz",
+      "sha256": "95cb33520f6db85ac4351719d28be1c3fac02e80939aa5015733f237987a634f",
+      "bytes": 10604,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-audit-qimen-v6.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/eeb5f8bcf22a0368edb90964215f198c3072b4cfc3addab9f1a51502c51b14e8-r16-audit-qimen-v6.mjs.gz",
+      "sha256": "eeb5f8bcf22a0368edb90964215f198c3072b4cfc3addab9f1a51502c51b14e8",
+      "bytes": 14034,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-check-current-qimen.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/dfb8edd60d9b9789eb233ad54d6f064df442a9f51ccb1e70836fab38a292c340-r16-check-current-qimen.cjs.gz",
+      "sha256": "dfb8edd60d9b9789eb233ad54d6f064df442a9f51ccb1e70836fab38a292c340",
+      "bytes": 2220,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-derive-qimen-v4-audit.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/71e31889d07fe1ef011e9e489b3e47d9b8d6b90753a030f9f51ce777e0fe9f8f-r16-derive-qimen-v4-audit.mjs.gz",
+      "sha256": "71e31889d07fe1ef011e9e489b3e47d9b8d6b90753a030f9f51ce777e0fe9f8f",
+      "bytes": 4147,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-derive-qimen-v5-audit.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/b0fbf526451816392c3124a8b5d79d063d804fb8afa1aaca946409eb3064c89a-r16-derive-qimen-v5-audit.mjs.gz",
+      "sha256": "b0fbf526451816392c3124a8b5d79d063d804fb8afa1aaca946409eb3064c89a",
+      "bytes": 6575,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-finalize-qimen-docs.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/2fdbc76c49711fe7323129dc4ce1483b977dc2e22ed3920379ad74d38cf11f83-r16-finalize-qimen-docs.cjs.gz",
+      "sha256": "2fdbc76c49711fe7323129dc4ce1483b977dc2e22ed3920379ad74d38cf11f83",
+      "bytes": 18158,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-fix-qimen-search-picker.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/df3a3cc46a2674e2a0482089e936b3c56f7cf2af9fbe1d1a4b5c3df6fdaff4d4-r16-fix-qimen-search-picker.mjs.gz",
+      "sha256": "df3a3cc46a2674e2a0482089e936b3c56f7cf2af9fbe1d1a4b5c3df6fdaff4d4",
+      "bytes": 2508,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-fix-qimen-system-mode.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/63dff5acb45e1a68bf18df195869c02fd50d0f932b50a9700c3eaf08900059d4-r16-fix-qimen-system-mode.mjs.gz",
+      "sha256": "63dff5acb45e1a68bf18df195869c02fd50d0f932b50a9700c3eaf08900059d4",
+      "bytes": 2787,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-install-qimen.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/3ea37500cc17dfc0ca12fadf1d9c5466d0a94e069adbd057e33c58176aa92497-r16-install-qimen.cjs.gz",
+      "sha256": "3ea37500cc17dfc0ca12fadf1d9c5466d0a94e069adbd057e33c58176aa92497",
+      "bytes": 5912,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-next-skill-plan-v2.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/49dab657f8e6fc668c01746d2b5850cdca1d4d0d7d4649cb11c79c0cc9951618-r16-next-skill-plan-v2.json.gz",
+      "sha256": "49dab657f8e6fc668c01746d2b5850cdca1d4d0d7d4649cb11c79c0cc9951618",
+      "bytes": 10005,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-next-skill-plan.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/fa797bb0fb181338eafdc7acc589e5c9ae9749575cecc490acb605f819d9a3df-r16-next-skill-plan.json.gz",
+      "sha256": "fa797bb0fb181338eafdc7acc589e5c9ae9749575cecc490acb605f819d9a3df",
+      "bytes": 11627,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-prepare-qimen-candidate.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e5959f596f561f240af63463ef4f8c1b7bb4b136b4635992d16cb2cee4a3e35e-r16-prepare-qimen-candidate.mjs.gz",
+      "sha256": "e5959f596f561f240af63463ef4f8c1b7bb4b136b4635992d16cb2cee4a3e35e",
+      "bytes": 19735,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-product-preservation-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/4f2e5cbffeb0bd191601c603e1651ee8aa2c620f45836ca7468a1ace1f388948-r16-product-preservation-proof.json.gz",
+      "sha256": "4f2e5cbffeb0bd191601c603e1651ee8aa2c620f45836ca7468a1ace1f388948",
+      "bytes": 578372,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-publish-qimen-runner.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9556592bf396d2d769dfde7d8c805e66284ca729f0541066a0755150f9877a30-r16-publish-qimen-runner.cjs.gz",
+      "sha256": "9556592bf396d2d769dfde7d8c805e66284ca729f0541066a0755150f9877a30",
+      "bytes": 2362,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-art-review.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f3e22e6c322a74b95385eca87afa89318511a31ed4413fbcc238a6fd3806871c-r16-qimen-art-review.json.gz",
+      "sha256": "f3e22e6c322a74b95385eca87afa89318511a31ed4413fbcc238a6fd3806871c",
+      "bytes": 12618,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-peer-review.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e7db6d645b9e90eb5fbde665a253896aec406836a5834af240f4e6e34a0330af-r16-qimen-candidate-peer-review.json.gz",
+      "sha256": "e7db6d645b9e90eb5fbde665a253896aec406836a5834af240f4e6e34a0330af",
+      "bytes": 6817,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-pre-first-preflight-2ed59629.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/2ed59629420734d1a211a8e967c3b72e3986caf13f2b748981b77a4d48eabdc5-r16-qimen-candidate-pre-first-preflight-2ed59629.mjs.gz",
+      "sha256": "2ed59629420734d1a211a8e967c3b72e3986caf13f2b748981b77a4d48eabdc5",
+      "bytes": 108429,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-pre-second-preflight-9a1650a7.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9a1650a7cef43fc8b5a4220063b3cc65f3b3bff1be75f8e871b7805532b8b89f-r16-qimen-candidate-pre-second-preflight-9a1650a7.mjs.gz",
+      "sha256": "9a1650a7cef43fc8b5a4220063b3cc65f3b3bff1be75f8e871b7805532b8b89f",
+      "bytes": 117388,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v2-readonly-preflight-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/b3692b74731a7cbbaf44e5440236e590dd72c3d98624bccbadfa0401e6962113-r16-qimen-candidate-v2-readonly-preflight-console.log.gz",
+      "sha256": "b3692b74731a7cbbaf44e5440236e590dd72c3d98624bccbadfa0401e6962113",
+      "bytes": 335,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v3-readonly-preflight-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/49e848a46a126aca73066c98e6e35d47c00a13c3911004c2ae99bceecafdca8a-r16-qimen-candidate-v3-readonly-preflight-console.log.gz",
+      "sha256": "49e848a46a126aca73066c98e6e35d47c00a13c3911004c2ae99bceecafdca8a",
+      "bytes": 335,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-independent-review-v2.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/43e8007db234f43bf5644f8bf81e28ee786dd8ecc7a0b923990724841fed2bf8-r16-qimen-final-independent-review-v2.json.gz",
+      "sha256": "43e8007db234f43bf5644f8bf81e28ee786dd8ecc7a0b923990724841fed2bf8",
+      "bytes": 14876,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-independent-review-v3.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/61aa6fa18229777265a1c528f673e32fbd5caf78eb6c5c711b7162fccb784190-r16-qimen-final-independent-review-v3.json.gz",
+      "sha256": "61aa6fa18229777265a1c528f673e32fbd5caf78eb6c5c711b7162fccb784190",
+      "bytes": 41008,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-independent-review-v4.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a6e4dec2e583a9de364604c0c5a4b6bb78ea62d8a5fc5c24d5a628b0c702942e-r16-qimen-final-independent-review-v4.json.gz",
+      "sha256": "a6e4dec2e583a9de364604c0c5a4b6bb78ea62d8a5fc5c24d5a628b0c702942e",
+      "bytes": 15077,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-independent-review-v5.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/3d4b92cd24f0cbc5edf000085face722386f35073841610ff55b57ec2e55a050-r16-qimen-final-independent-review-v5.json.gz",
+      "sha256": "3d4b92cd24f0cbc5edf000085face722386f35073841610ff55b57ec2e55a050",
+      "bytes": 8493,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-independent-review-v6.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/651652928198d10f9392ecb48a6be8f6ffd0015bc5a52c4f9a86a860ec088caf-r16-qimen-final-independent-review-v6.json.gz",
+      "sha256": "651652928198d10f9392ecb48a6be8f6ffd0015bc5a52c4f9a86a860ec088caf",
+      "bytes": 27731,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-readonly-preflight-v1-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/022d0f81b4801145e78358b7f0a38fd5dc82461e56f3cf119d83b4a805ced8ea-r16-qimen-final-readonly-preflight-v1-console.log.gz",
+      "sha256": "022d0f81b4801145e78358b7f0a38fd5dc82461e56f3cf119d83b4a805ced8ea",
+      "bytes": 331,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-source-peer-review-v2.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e4d5fde35ae409785763023b7ea8d06166d120028aa7c14c1dde70af77627b09-r16-qimen-final-source-peer-review-v2.json.gz",
+      "sha256": "e4d5fde35ae409785763023b7ea8d06166d120028aa7c14c1dde70af77627b09",
+      "bytes": 4465,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-source-peer-review-v3.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/435f8a8f2f79518acfde6b5d7dc5e0f7f5140922cb4ab1532ac5e8f0ec8d3282-r16-qimen-final-source-peer-review-v3.json.gz",
+      "sha256": "435f8a8f2f79518acfde6b5d7dc5e0f7f5140922cb4ab1532ac5e8f0ec8d3282",
+      "bytes": 3908,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-source-peer-review-v6.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d9443af451c8d4c0f21cd07913be976ea9973c7b1f4d04a2e332a7d9ae4b05e2-r16-qimen-final-source-peer-review-v6.json.gz",
+      "sha256": "d9443af451c8d4c0f21cd07913be976ea9973c7b1f4d04a2e332a7d9ae4b05e2",
+      "bytes": 3525,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-source-peer-review.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/5b05783b0be25dc5820b3a7a42dc11c54ce4549a749de9107bcbf89cc8054f09-r16-qimen-final-source-peer-review.json.gz",
+      "sha256": "5b05783b0be25dc5820b3a7a42dc11c54ce4549a749de9107bcbf89cc8054f09",
+      "bytes": 3254,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-telemetry-tail-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/8514fbd1a469f9f59f93725140c94170ab2c70351e71caa8af3e28a6a543b50a-r16-qimen-final-telemetry-tail-proof.json.gz",
+      "sha256": "8514fbd1a469f9f59f93725140c94170ab2c70351e71caa8af3e28a6a543b50a",
+      "bytes": 674,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v2-readonly-preflight-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/7fc1b2303d8c71dcfc89819b57bf1d869419bb5b1d64944276c42869767c0ebe-r16-qimen-final-v2-readonly-preflight-console.log.gz",
+      "sha256": "7fc1b2303d8c71dcfc89819b57bf1d869419bb5b1d64944276c42869767c0ebe",
+      "bytes": 331,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v3-mode-route-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/440089b22170ff1c5bd3db90bb7d777ebd95500c1e81ecc6a1d968511ebcb8ba-r16-qimen-final-v3-mode-route-proof.json.gz",
+      "sha256": "440089b22170ff1c5bd3db90bb7d777ebd95500c1e81ecc6a1d968511ebcb8ba",
+      "bytes": 5743,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v3-readonly-preflight-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d999281f7ed3692aaa1ce76425d5a7a87b33522c1c8d72aacdfedd832713cbc9-r16-qimen-final-v3-readonly-preflight-console.log.gz",
+      "sha256": "d999281f7ed3692aaa1ce76425d5a7a87b33522c1c8d72aacdfedd832713cbc9",
+      "bytes": 331,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v1.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e789755a5626855e6384ed36a8c320f96011cb74a434c8df24e16c5c733c097d-r16-qimen-gameplay-review-v1.json.gz",
+      "sha256": "e789755a5626855e6384ed36a8c320f96011cb74a434c8df24e16c5c733c097d",
+      "bytes": 17247,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v2.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/3babca8106830b2510f9a874f1604480902b8c317f753c0f120db842ab6a767f-r16-qimen-gameplay-review-v2.json.gz",
+      "sha256": "3babca8106830b2510f9a874f1604480902b8c317f753c0f120db842ab6a767f",
+      "bytes": 34408,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v3.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9a954219a24c084117da52665d6f2e12db6d8ece4ceb5c58337c8e5853d679eb-r16-qimen-gameplay-review-v3.json.gz",
+      "sha256": "9a954219a24c084117da52665d6f2e12db6d8ece4ceb5c58337c8e5853d679eb",
+      "bytes": 287846,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v4-cleanup.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/3d5911d1db7cff6f616eef471bd81371080e85fa224a74b2ff962ad5009e651d-r16-qimen-gameplay-review-v4-cleanup.json.gz",
+      "sha256": "3d5911d1db7cff6f616eef471bd81371080e85fa224a74b2ff962ad5009e651d",
+      "bytes": 332,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v4.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/7fe323610cdebdedb7a437e5f1d3f798c706aabf5a9907faa4f313988ae8f343-r16-qimen-gameplay-review-v4.json.gz",
+      "sha256": "7fe323610cdebdedb7a437e5f1d3f798c706aabf5a9907faa4f313988ae8f343",
+      "bytes": 188511,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v5.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f57d18e94aea6bb79cd0ca85f2dff74c17590313f7ebf1b69467564b950ca0ba-r16-qimen-gameplay-review-v5.json.gz",
+      "sha256": "f57d18e94aea6bb79cd0ca85f2dff74c17590313f7ebf1b69467564b950ca0ba",
+      "bytes": 132420,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-gameplay-review-v6.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/687650ced4083eeadf4e01bf90f43686a431419f4c7c9eedc20c68ef385de9b6-r16-qimen-gameplay-review-v6.json.gz",
+      "sha256": "687650ced4083eeadf4e01bf90f43686a431419f4c7c9eedc20c68ef385de9b6",
+      "bytes": 211309,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/8cab83555b2fa52c206bd8a799fc11959aeb386a5a9849bf22e4688494f29e95-r16-qimen-hd-installed-v1-console.log.gz",
+      "sha256": "8cab83555b2fa52c206bd8a799fc11959aeb386a5a9849bf22e4688494f29e95",
+      "bytes": 976,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/db138ee7a5e59d04fd4823f66bc96b4900f703ac62a6201d460a80b8fc1a430a-r16-qimen-hd-installed-v2-console.log.gz",
+      "sha256": "db138ee7a5e59d04fd4823f66bc96b4900f703ac62a6201d460a80b8fc1a430a",
+      "bytes": 1472,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/8b705922f3e6e899f2ff1f295e7422f32c908f65461ba5d51c9987c07d267820-r16-qimen-hd-installed-v3-console.log.gz",
+      "sha256": "8b705922f3e6e899f2ff1f295e7422f32c908f65461ba5d51c9987c07d267820",
+      "bytes": 9912,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/dd55ddc8aa285953ea0b12f6e08bb1c67f2f899e7f704e12ce6632c5f12bfe3d-r16-qimen-hd-installed-v4-console.log.gz",
+      "sha256": "dd55ddc8aa285953ea0b12f6e08bb1c67f2f899e7f704e12ce6632c5f12bfe3d",
+      "bytes": 7569,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/cba8230f57a4b0d57d92713c495aefb17184b4a3c5ae2e0820b4c756c90e02b0-r16-qimen-hd-installed-v5-console.log.gz",
+      "sha256": "cba8230f57a4b0d57d92713c495aefb17184b4a3c5ae2e0820b4c756c90e02b0",
+      "bytes": 6023,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/2d43367a4c2de557468f1c917317abe34d3ae09cb18e904926c06032f0886ca9-r16-qimen-hd-installed-v6-console.log.gz",
+      "sha256": "2d43367a4c2de557468f1c917317abe34d3ae09cb18e904926c06032f0886ca9",
+      "bytes": 8243,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-wiring-plan.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e7f324fe55f6c09e7e4e4814b64222ed613c625ecda8f8680b56bd35c2ad65f0-r16-qimen-hd-wiring-plan.json.gz",
+      "sha256": "e7f324fe55f6c09e7e4e4814b64222ed613c625ecda8f8680b56bd35c2ad65f0",
+      "bytes": 17520,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-helper-fix-source-review.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f47e80ff253e59db6fa90f9b725711695cfefb9bdff24145e3ec4b858547ff62-r16-qimen-helper-fix-source-review.json.gz",
+      "sha256": "f47e80ff253e59db6fa90f9b725711695cfefb9bdff24145e3ec4b858547ff62",
+      "bytes": 2074,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-install-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f2d205c1e7838ec53def6bcbf65d9ffd04754edae5428e853be0998d172a022a-r16-qimen-install-proof.json.gz",
+      "sha256": "f2d205c1e7838ec53def6bcbf65d9ffd04754edae5428e853be0998d172a022a",
+      "bytes": 1865,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-march-wait-proof.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/41954f5e1dcbb62400dcad63a41310b214ff64f725d90f97cd2bf605fb2692b7-r16-qimen-march-wait-proof.cjs.gz",
+      "sha256": "41954f5e1dcbb62400dcad63a41310b214ff64f725d90f97cd2bf605fb2692b7",
+      "bytes": 2497,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-march-wait-source-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d1b82a9924e8c42b8fcb32844aaacc214e2be72cec5d5828a558233a41b41029-r16-qimen-march-wait-source-proof.json.gz",
+      "sha256": "d1b82a9924e8c42b8fcb32844aaacc214e2be72cec5d5828a558233a41b41029",
+      "bytes": 1994,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-native-picker-fragment.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/c4a29a3be84ca28078fdb9c5fd250c7d9d3609977c5e247e242dba6ea7a3fc11-r16-qimen-native-picker-fragment.mjs.gz",
+      "sha256": "c4a29a3be84ca28078fdb9c5fd250c7d9d3609977c5e247e242dba6ea7a3fc11",
+      "bytes": 5322,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-picture0-correction-prompt.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a1e838a183964a84544bf7d61bb60167613ddc3d868e6bb125f8c1e382f50a01-r16-qimen-picture0-correction-prompt.json.gz",
+      "sha256": "a1e838a183964a84544bf7d61bb60167613ddc3d868e6bb125f8c1e382f50a01",
+      "bytes": 1838,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-picture0-correction2-prompt.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/cd2598b440dd16bba83e1940f2876238e0b4ca65ef16ce6f991fbf17913aaae1-r16-qimen-picture0-correction2-prompt.json.gz",
+      "sha256": "cd2598b440dd16bba83e1940f2876238e0b4ca65ef16ce6f991fbf17913aaae1",
+      "bytes": 1822,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-picture0-prompt.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/fbded9829cbe97b30d9400b7c88963900ca9b2bd6ff69b04765e5b08320eb1fa-r16-qimen-picture0-prompt.json.gz",
+      "sha256": "fbded9829cbe97b30d9400b7c88963900ca9b2bd6ff69b04765e5b08320eb1fa",
+      "bytes": 2798,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-picture1-prompt.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9312a87675d8ad497ef82723bc5a7f90022d2209d786eeeffbf7b0c0458e21f7-r16-qimen-picture1-prompt.json.gz",
+      "sha256": "9312a87675d8ad497ef82723bc5a7f90022d2209d786eeeffbf7b0c0458e21f7",
+      "bytes": 2253,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-post-acquisition-ast-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/5fd392edd0a0fd7f0422fc5a54598ed146c4054d7ce5f535aff6303a742ff845-r16-qimen-post-acquisition-ast-audit.json.gz",
+      "sha256": "5fd392edd0a0fd7f0422fc5a54598ed146c4054d7ce5f535aff6303a742ff845",
+      "bytes": 1627,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-post-acquisition-source-review-1530.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9361baaad4f91bd604c5da1262bd21fdfcece1bddb08047a9d17af95aa94aaa0-r16-qimen-post-acquisition-source-review-1530.json.gz",
+      "sha256": "9361baaad4f91bd604c5da1262bd21fdfcece1bddb08047a9d17af95aa94aaa0",
+      "bytes": 4888,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-post-acquisition-source-review.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/67a07e51ae36d5689145a143bf62e2a7a6355205defd1344db2b191eef9a285e-r16-qimen-post-acquisition-source-review.json.gz",
+      "sha256": "67a07e51ae36d5689145a143bf62e2a7a6355205defd1344db2b191eef9a285e",
+      "bytes": 6670,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-publication-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/225449172dbb0c7b44e9232712a5341730b4dd9aed5a25b59aac552508b59664-r16-qimen-publication-proof.json.gz",
+      "sha256": "225449172dbb0c7b44e9232712a5341730b4dd9aed5a25b59aac552508b59664",
+      "bytes": 1103,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v1-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/29243dc418a1d4d1685b4e775f99996f5247ce78fbda83d85f9249cef632a3ac-r16-qimen-readonly-preflight-v1-console.log.gz",
+      "sha256": "29243dc418a1d4d1685b4e775f99996f5247ce78fbda83d85f9249cef632a3ac",
+      "bytes": 883,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v2-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/50e20c66850b6df2c25338e2fa69ea589aafc90d5f77248828e8ddb97f6677ea-r16-qimen-readonly-preflight-v2-console.log.gz",
+      "sha256": "50e20c66850b6df2c25338e2fa69ea589aafc90d5f77248828e8ddb97f6677ea",
+      "bytes": 754,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v3-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/691bdb3f7c4c5a228778db7d5402f28765c3df39439946e2b989183e111ebe25-r16-qimen-readonly-preflight-v3-console.log.gz",
+      "sha256": "691bdb3f7c4c5a228778db7d5402f28765c3df39439946e2b989183e111ebe25",
+      "bytes": 325,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-renderer-harness.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1588484f69f0c2fdbed082bc14b1bf60e37bfb39a332da0e39289c47ea40801c-r16-qimen-renderer-harness.json.gz",
+      "sha256": "1588484f69f0c2fdbed082bc14b1bf60e37bfb39a332da0e39289c47ea40801c",
+      "bytes": 8711,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-candidate-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/4d0c51e236550cb3fd7dd30de5eea6d5a6c7465dbaa81c436a2fd88cc3f5c3c2-r16-qimen-runtime-candidate-proof.json.gz",
+      "sha256": "4d0c51e236550cb3fd7dd30de5eea6d5a6c7465dbaa81c436a2fd88cc3f5c3c2",
+      "bytes": 6168,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-candidate-v2-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/6f060f5cee7284cafe1799083a55a1dd51319a55ec140b967d5252248125367e-r16-qimen-runtime-candidate-v2-proof.json.gz",
+      "sha256": "6f060f5cee7284cafe1799083a55a1dd51319a55ec140b967d5252248125367e",
+      "bytes": 2933,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-executed-v1-c616e6f2.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/c616e6f298ba3bcc9df497bac7ce38b807d4613bebb118133b39a7e971d58099-r16-qimen-runtime-executed-v1-c616e6f2.mjs.gz",
+      "sha256": "c616e6f298ba3bcc9df497bac7ce38b807d4613bebb118133b39a7e971d58099",
+      "bytes": 117480,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-executed-v2-8492b3eb.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/8492b3eb31afc75171ab0c15abbcb43de299387977f0eb2b4135a9dbf4cc0295-r16-qimen-runtime-executed-v2-8492b3eb.mjs.gz",
+      "sha256": "8492b3eb31afc75171ab0c15abbcb43de299387977f0eb2b4135a9dbf4cc0295",
+      "bytes": 122763,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-executed-v3-fb6eef14.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1-r16-qimen-runtime-executed-v3-fb6eef14.mjs.gz",
+      "sha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "bytes": 124067,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-executed-v4-fb6eef14.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1-r16-qimen-runtime-executed-v4-fb6eef14.mjs.gz",
+      "sha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "bytes": 124067,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-executed-v5-3522e81e.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/3522e81eecef4bee7692052d49abdfe115ea7df083f4e70c3da616ad5ee2c64c-r16-qimen-runtime-executed-v5-3522e81e.mjs.gz",
+      "sha256": "3522e81eecef4bee7692052d49abdfe115ea7df083f4e70c3da616ad5ee2c64c",
+      "bytes": 124058,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-runtime-executed-v6-1530b29d.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb-r16-qimen-runtime-executed-v6-1530b29d.mjs.gz",
+      "sha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+      "bytes": 124471,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-save-reuse-plan.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/10c859bd1f47be7bddfbf55cafe8ee4cc4d7069bf7f70e97f32e060fd2f3813c-r16-qimen-save-reuse-plan.json.gz",
+      "sha256": "10c859bd1f47be7bddfbf55cafe8ee4cc4d7069bf7f70e97f32e060fd2f3813c",
+      "bytes": 6804,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-search-contract.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/644af0beac307c852d4f8239cc477e006251bdcddb16641493e1ed7e24b5cba3-r16-qimen-search-contract.json.gz",
+      "sha256": "644af0beac307c852d4f8239cc477e006251bdcddb16641493e1ed7e24b5cba3",
+      "bytes": 11551,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-search-runtime-fragment.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/03b825124330389c6681258dc02224ab2ab7d0f3c0b9b60861f10417f0c3e727-r16-qimen-search-runtime-fragment.mjs.gz",
+      "sha256": "03b825124330389c6681258dc02224ab2ab7d0f3c0b9b60861f10417f0c3e727",
+      "bytes": 15507,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-system-mode-fragment.txt",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e7b24055fa7efb96af0028bf8e52f5a844360d3b717c96f803ab4c65966640fd-r16-qimen-system-mode-fragment.txt.gz",
+      "sha256": "e7b24055fa7efb96af0028bf8e52f5a844360d3b717c96f803ab4c65966640fd",
+      "bytes": 1304,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v1-independent-review.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1e8f59219bb4b7f3e586fc99f9e1bcc867bb6d9d7e34a86475cc708c5577c4ab-r16-qimen-v1-independent-review.json.gz",
+      "sha256": "1e8f59219bb4b7f3e586fc99f9e1bcc867bb6d9d7e34a86475cc708c5577c4ab",
+      "bytes": 7970,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v4-budget-readonly-preflight-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/66164b67932c35c2510a86c10e3af108749deaf4ec74d9c5fe8ee7a7375850a8-r16-qimen-v4-budget-readonly-preflight-console.log.gz",
+      "sha256": "66164b67932c35c2510a86c10e3af108749deaf4ec74d9c5fe8ee7a7375850a8",
+      "bytes": 332,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v5-budget-readonly-preflight-console.log",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/ea60ed5b2d8b757e92e163fb2fbcc9f9f615ab2d033d7f5f8a1ef1bd375050f8-r16-qimen-v5-budget-readonly-preflight-console.log.gz",
+      "sha256": "ea60ed5b2d8b757e92e163fb2fbcc9f9f615ab2d033d7f5f8a1ef1bd375050f8",
+      "bytes": 332,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v5-source-fix-proof.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/451033dc6e83cbb5f841537ffa86e1861a5407db730307f4721b476fd8cf987b-r16-qimen-v5-source-fix-proof.json.gz",
+      "sha256": "451033dc6e83cbb5f841537ffa86e1861a5407db730307f4721b476fd8cf987b",
+      "bytes": 982,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-repair-picker-generator.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/36f47bf57906ccb814f4d202d455c813673325f11322bcd03c74353d3f617112-r16-repair-picker-generator.mjs.gz",
+      "sha256": "36f47bf57906ccb814f4d202d455c813673325f11322bcd03c74353d3f617112",
+      "bytes": 594,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-review-qimen-helper-fix.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f00fdf94a250645ceb7897c6c155d159ae0dabf1e205451e07d830ee8e97de47-r16-review-qimen-helper-fix.mjs.gz",
+      "sha256": "f00fdf94a250645ceb7897c6c155d159ae0dabf1e205451e07d830ee8e97de47",
+      "bytes": 3323,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-run-all-v1.cmd",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/5a6fe8ffa99a7118d1daf62da57ca6947e8b28a7695a4c887e45c3f720529233-r16-run-all-v1.cmd.gz",
+      "sha256": "5a6fe8ffa99a7118d1daf62da57ca6947e8b28a7695a4c887e45c3f720529233",
+      "bytes": 1575,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-stone-source-f1e11ec5.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f1e11ec58838efbcc257d994a3f544fbaed6a2cda00b28ba9d6aaf0725dd095c-r16-stone-source-f1e11ec5.mjs.gz",
+      "sha256": "f1e11ec58838efbcc257d994a3f544fbaed6a2cda00b28ba9d6aaf0725dd095c",
+      "bytes": 97162,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-test-hd-qimen-runtime-candidate-v2.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/8492b3eb31afc75171ab0c15abbcb43de299387977f0eb2b4135a9dbf4cc0295-r16-test-hd-qimen-runtime-candidate-v2.mjs.gz",
+      "sha256": "8492b3eb31afc75171ab0c15abbcb43de299387977f0eb2b4135a9dbf4cc0295",
+      "bytes": 122763,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-test-hd-qimen-runtime-candidate-v3.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1-r16-test-hd-qimen-runtime-candidate-v3.mjs.gz",
+      "sha256": "fb6eef148963840c03a5055754a0e84da27832bc5216895a782fb2d80fb806a1",
+      "bytes": 124067,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-test-hd-qimen-runtime-candidate.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/639d427f16558350adef26a57752ddb9cf49ec78a07a472e5e9b6ee1a28b92da-r16-test-hd-qimen-runtime-candidate.mjs.gz",
+      "sha256": "639d427f16558350adef26a57752ddb9cf49ec78a07a472e5e9b6ee1a28b92da",
+      "bytes": 117418,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-update-qimen-doc-generator.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/ae7d97137b7457a832535f8964bfe8f12601f53e67de8730c31728d1a4b2c92a-r16-update-qimen-doc-generator.cjs.gz",
+      "sha256": "ae7d97137b7457a832535f8964bfe8f12601f53e67de8730c31728d1a4b2c92a",
+      "bytes": 2548,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-verify-preservation.cjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/df475424c1bd30c34db17fd09bad0e54f482f1cf6ce6dba4126fb9291820c549-r16-verify-preservation.cjs.gz",
+      "sha256": "df475424c1bd30c34db17fd09bad0e54f482f1cf6ce6dba4126fb9291820c549",
+      "bytes": 3336,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-write-qimen-candidate-proof.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a289149e8c6e2b13907913d6e2f29e83390504531dd58a79d6d73429846a2206-r16-write-qimen-candidate-proof.mjs.gz",
+      "sha256": "a289149e8c6e2b13907913d6e2f29e83390504531dd58a79d6d73429846a2206",
+      "bytes": 5495,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-write-qimen-v2-proof.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a26ac6ed3d09f07b3fde0711e8c0bb5d539aac5be4ed7720a59a033eb9204860-r16-write-qimen-v2-proof.mjs.gz",
+      "sha256": "a26ac6ed3d09f07b3fde0711e8c0bb5d539aac5be4ed7720a59a033eb9204860",
+      "bytes": 4377,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-write-qimen-v3-proof.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/6bdd8b731535dcf8faafaa70576dc70732613e6408e3f6d91706d8f5d51797e0-r16-write-qimen-v3-proof.mjs.gz",
+      "sha256": "6bdd8b731535dcf8faafaa70576dc70732613e6408e3f6d91706d8f5d51797e0",
+      "bytes": 5193,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "scripts/test-hd-qimen-runtime.mjs",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb-test-hd-qimen-runtime.mjs.gz",
+      "sha256": "1530b29dd86b1c20c9be0b1a4d1b02a5dfbbdc6d3d0d2cee0b39bbec09f945fb",
+      "bytes": 124471,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v2-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v2-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/b4dad27abc41e2eccdd34570fc2d954e6e40041df942e451c160e6f6c8852d6a-result.json.gz",
+      "sha256": "b4dad27abc41e2eccdd34570fc2d954e6e40041df942e451c160e6f6c8852d6a",
+      "bytes": 730458,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v2-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v3-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v3-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/09b7de14c699dbbe29440b348fc185d20bb03657004b381496bd5f7febb39f4c-result.json.gz",
+      "sha256": "09b7de14c699dbbe29440b348fc185d20bb03657004b381496bd5f7febb39f4c",
+      "bytes": 730458,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-candidate-v3-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-readonly-preflight-v1/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-readonly-preflight-v1/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/73581d252fc7ed22bb7779f5cb501c77eaa725d04bd276de44042ff315cfba44-result.json.gz",
+      "sha256": "73581d252fc7ed22bb7779f5cb501c77eaa725d04bd276de44042ff315cfba44",
+      "bytes": 730443,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-readonly-preflight-v1/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v2-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v2-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1dd3789b9a0884f3a317bd71f6786dcf4aafec7400ff6f61739edf0f95d11ee4-result.json.gz",
+      "sha256": "1dd3789b9a0884f3a317bd71f6786dcf4aafec7400ff6f61739edf0f95d11ee4",
+      "bytes": 730443,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v2-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v3-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v3-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/5c1f659a2357fbfe22b82420f3a8e75e54bd46d5056442e2f72c2cd5d5661bc1-result.json.gz",
+      "sha256": "5c1f659a2357fbfe22b82420f3a8e75e54bd46d5056442e2f72c2cd5d5661bc1",
+      "bytes": 730443,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-final-v3-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/56975157f6795eddb30cdc849714d021f2ec2e54b5885d2ded91df795114df4e-browser-console.json.gz",
+      "sha256": "56975157f6795eddb30cdc849714d021f2ec2e54b5885d2ded91df795114df4e",
+      "bytes": 9248,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/engine-inputs.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/c556ea79b868880f7faeeadd136ec2086b635bfc6ffa3fbf22fe23fb42719cff-engine-inputs.json.gz",
+      "sha256": "c556ea79b868880f7faeeadd136ec2086b635bfc6ffa3fbf22fe23fb42719cff",
+      "bytes": 5580,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/native-skill-captures.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/observer-errors.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/77aa2f3dee686f0e793e06a5bac27cedb0c445aa848e665b6efd0b7dfa1e570f-result.json.gz",
+      "sha256": "77aa2f3dee686f0e793e06a5bac27cedb0c445aa848e665b6efd0b7dfa1e570f",
+      "bytes": 2234740,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/runtime-validation-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/0f8895d68a05dd295ea6398d3eb2cf1771bd9021bf57cd0602950588bfc3b4a3-runtime-validation-audit.json.gz",
+      "sha256": "0f8895d68a05dd295ea6398d3eb2cf1771bd9021bf57cd0602950588bfc3b4a3",
+      "bytes": 6413,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/spe-observations.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1b041e09b86d7f5eb41511476ddd3166402ec744eee41be0d4d1b48430833315-spe-observations.json.gz",
+      "sha256": "1b041e09b86d7f5eb41511476ddd3166402ec744eee41be0d4d1b48430833315",
+      "bytes": 1003674,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e130e07e4df7bbcd2010170e853179dd31f616ddb7149b918b9ff9c0640a2a4e-browser-console.json.gz",
+      "sha256": "e130e07e4df7bbcd2010170e853179dd31f616ddb7149b918b9ff9c0640a2a4e",
+      "bytes": 9328,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/engine-inputs.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/81c0d85e5fda4f4699625b436a0a12a264acb5b31788eea33b16440634af0faa-engine-inputs.json.gz",
+      "sha256": "81c0d85e5fda4f4699625b436a0a12a264acb5b31788eea33b16440634af0faa",
+      "bytes": 13651,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/native-skill-captures.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/observer-errors.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/ff14b1448378255cd1748d116e727666e499b813f99ac454d87fbd0ee7322b69-result.json.gz",
+      "sha256": "ff14b1448378255cd1748d116e727666e499b813f99ac454d87fbd0ee7322b69",
+      "bytes": 6263571,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/runtime-validation-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/7556d9b3b45fdf8d104442f9979ae645e25e3a974a261dd857927ac5483fa576-runtime-validation-audit.json.gz",
+      "sha256": "7556d9b3b45fdf8d104442f9979ae645e25e3a974a261dd857927ac5483fa576",
+      "bytes": 12972,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/spe-observations.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/cf6a499bb3014381e7d82bfbead5cbd0bd797a78135634046e9f3d705f8ec8a4-spe-observations.json.gz",
+      "sha256": "cf6a499bb3014381e7d82bfbead5cbd0bd797a78135634046e9f3d705f8ec8a4",
+      "bytes": 1698456,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/b96faf03bc1cf5d39e44f86c7dd0fac10d7a5b8cbea6da98401d86f27f491304-browser-console.json.gz",
+      "sha256": "b96faf03bc1cf5d39e44f86c7dd0fac10d7a5b8cbea6da98401d86f27f491304",
+      "bytes": 10001,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/engine-inputs.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/b1009a6f98550230524a7ced48963cd49f5d6ab78743ff0ff98aa7677354cc8e-engine-inputs.json.gz",
+      "sha256": "b1009a6f98550230524a7ced48963cd49f5d6ab78743ff0ff98aa7677354cc8e",
+      "bytes": 173157,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/native-skill-captures.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/observer-errors.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/71aeb0cd65d9fc3525ab95e066d4ad27921db486ee8a075c5542f43858fed27d-result.json.gz",
+      "sha256": "71aeb0cd65d9fc3525ab95e066d4ad27921db486ee8a075c5542f43858fed27d",
+      "bytes": 86229561,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/runtime-validation-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/005894fbf471b6cfc60a01272986b041207e906b8babaa1366e1d2a684cee456-runtime-validation-audit.json.gz",
+      "sha256": "005894fbf471b6cfc60a01272986b041207e906b8babaa1366e1d2a684cee456",
+      "bytes": 107423,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/spe-observations.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/7c5d499bd58484789f333e8430cedf2b5dfb106cce1e5f01f4ad266605b0e794-spe-observations.json.gz",
+      "sha256": "7c5d499bd58484789f333e8430cedf2b5dfb106cce1e5f01f4ad266605b0e794",
+      "bytes": 19242900,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/4f8dc42cfc4b2ab83bcb5a3759600bbb7cc6c7d94b89e5e9a62d8fc75ed1e52e-browser-console.json.gz",
+      "sha256": "4f8dc42cfc4b2ab83bcb5a3759600bbb7cc6c7d94b89e5e9a62d8fc75ed1e52e",
+      "bytes": 9971,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/engine-inputs.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/22ff6bee4a0d34f984c34b7c15600a3ff10491a7a37bea13a15b3cb44bb1c157-engine-inputs.json.gz",
+      "sha256": "22ff6bee4a0d34f984c34b7c15600a3ff10491a7a37bea13a15b3cb44bb1c157",
+      "bytes": 130488,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/native-skill-captures.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/observer-errors.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/6d248051ca7ffacafa7f7d616f06b4795b85d127567fdf67c665205ce9778992-result.json.gz",
+      "sha256": "6d248051ca7ffacafa7f7d616f06b4795b85d127567fdf67c665205ce9778992",
+      "bytes": 64181985,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/runtime-validation-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/084dab48aa4b40a1a476ea3434f05ab2a53727b008bd4a431edbbe0399f1328c-runtime-validation-audit.json.gz",
+      "sha256": "084dab48aa4b40a1a476ea3434f05ab2a53727b008bd4a431edbbe0399f1328c",
+      "bytes": 83556,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/spe-observations.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/ce8780fc189fc8da35f24c5504c7564a0acd7d0236874766262b9a1604780c5e-spe-observations.json.gz",
+      "sha256": "ce8780fc189fc8da35f24c5504c7564a0acd7d0236874766262b9a1604780c5e",
+      "bytes": 14571745,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/69afbc343bf666bd26ac078850fa1f167ac3cac86091811d0907e7d4a6d07d93-browser-console.json.gz",
+      "sha256": "69afbc343bf666bd26ac078850fa1f167ac3cac86091811d0907e7d4a6d07d93",
+      "bytes": 10065,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/engine-inputs.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/9abdcec2ae7f843cf5dd7be15439e08f2a27492d8c28e2f1dbb2e5b321c12486-engine-inputs.json.gz",
+      "sha256": "9abdcec2ae7f843cf5dd7be15439e08f2a27492d8c28e2f1dbb2e5b321c12486",
+      "bytes": 114437,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/native-skill-captures.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-native-skill-captures.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/observer-errors.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/f0a5645937915650c94c19889fe9a74a954b34506df574458b7e074ea02f1079-result.json.gz",
+      "sha256": "f0a5645937915650c94c19889fe9a74a954b34506df574458b7e074ea02f1079",
+      "bytes": 50893668,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/runtime-validation-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a81b4e904b9c38797c759ea0b120b836ee053eb48cc27105c5482e7a271c1b61-runtime-validation-audit.json.gz",
+      "sha256": "a81b4e904b9c38797c759ea0b120b836ee053eb48cc27105c5482e7a271c1b61",
+      "bytes": 71428,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/spe-observations.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/1df5298e61f9b35074a8e3a528c8c7a31808c0467b20d37f8cb247d938017393-spe-observations.json.gz",
+      "sha256": "1df5298e61f9b35074a8e3a528c8c7a31808c0467b20d37f8cb247d938017393",
+      "bytes": 12468067,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/e2ad4db0b337064647cbd655264a0a03316b9b8285ce5a782bbd6562f9fa3be1-browser-console.json.gz",
+      "sha256": "e2ad4db0b337064647cbd655264a0a03316b9b8285ce5a782bbd6562f9fa3be1",
+      "bytes": 10093,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/engine-inputs.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d1eba6c6b8020baae5c5eb876f327c8402a6b39b208350f8083a70349e9bcebc-engine-inputs.json.gz",
+      "sha256": "d1eba6c6b8020baae5c5eb876f327c8402a6b39b208350f8083a70349e9bcebc",
+      "bytes": 158414,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/native-skill-captures.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/b15fbb9a887a634daebc85e00514bb67f5685dcd89a36b1243343d889677f569-native-skill-captures.json.gz",
+      "sha256": "b15fbb9a887a634daebc85e00514bb67f5685dcd89a36b1243343d889677f569",
+      "bytes": 2083062,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/observer-errors.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 3,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/d3006918647910ace7cc29955af6a55471232b89443ea3bf4b59acfde17c3f00-result.json.gz",
+      "sha256": "d3006918647910ace7cc29955af6a55471232b89443ea3bf4b59acfde17c3f00",
+      "bytes": 75858162,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/runtime-validation-audit.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a3551db4654fd97fac4fbba16c72cabd14a94ed024acf5eb23d99433a914dc6f-runtime-validation-audit.json.gz",
+      "sha256": "a3551db4654fd97fac4fbba16c72cabd14a94ed024acf5eb23d99433a914dc6f",
+      "bytes": 104434,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/spe-observations.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/7f2c38611722667814e5c1fa687a352b4346d345d7630e5fb691a119ae0bc25a-spe-observations.json.gz",
+      "sha256": "7f2c38611722667814e5c1fa687a352b4346d345d7630e5fb691a119ae0bc25a",
+      "bytes": 18102138,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v1/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v1/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/7f086ad35823d43bdec9c3292ce95774b785c3681b025154750f2508ccce7ce5-result.json.gz",
+      "sha256": "7f086ad35823d43bdec9c3292ce95774b785c3681b025154750f2508ccce7ce5",
+      "bytes": 689813,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v1/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/19386d9b2d52389c0f743ea2e44c542200f9f5051e90b66c3239ce16cef0ee60-source-verification.json.gz",
+      "sha256": "19386d9b2d52389c0f743ea2e44c542200f9f5051e90b66c3239ce16cef0ee60",
+      "bytes": 405116,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v2/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v2/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/ae9d6b3daafe6df139dffb9f5246690a04bfcfc575afc988e0b7072917044a29-result.json.gz",
+      "sha256": "ae9d6b3daafe6df139dffb9f5246690a04bfcfc575afc988e0b7072917044a29",
+      "bytes": 691941,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v2/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/cc235ea524ac04673731c4145733e773d5983322691b9b0d2538a60aa2d45249-source-verification.json.gz",
+      "sha256": "cc235ea524ac04673731c4145733e773d5983322691b9b0d2538a60aa2d45249",
+      "bytes": 406462,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v3/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v3/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/0b6ab71eff5c14a54dde19998e190eb38527e7e3066cf5f1640d7b6becb0ffa3-result.json.gz",
+      "sha256": "0b6ab71eff5c14a54dde19998e190eb38527e7e3066cf5f1640d7b6becb0ffa3",
+      "bytes": 730270,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-readonly-preflight-v3/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/cba4887393dae6a1cf075692ab630f608cd1e368ade0dceeccb49c2947d6b337-source-verification.json.gz",
+      "sha256": "cba4887393dae6a1cf075692ab630f608cd1e368ade0dceeccb49c2947d6b337",
+      "bytes": 409614,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v4-budget-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v4-budget-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/a9e824baffc7f993f0b1e7b59622c153d0073b6208e2e173ec94b22a89137e71-result.json.gz",
+      "sha256": "a9e824baffc7f993f0b1e7b59622c153d0073b6208e2e173ec94b22a89137e71",
+      "bytes": 730442,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v4-budget-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v5-budget-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v5-budget-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/57ee9ac668d2ab1ef9922447cdbc8e46506ab82615c25b99b6323c950c32ca3c-result.json.gz",
+      "sha256": "57ee9ac668d2ab1ef9922447cdbc8e46506ab82615c25b99b6323c950c32ca3c",
+      "bytes": 730442,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v5-budget-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v6-budget-readonly-preflight/browser-console.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8-browser-console.json.gz",
+      "sha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 57,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v6-budget-readonly-preflight/result.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/755161d475b02b86e32757917c7835feb6543bbc01c544389808db877a3f37fd-result.json.gz",
+      "sha256": "755161d475b02b86e32757917c7835feb6543bbc01c544389808db877a3f37fd",
+      "bytes": 730442,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-v6-budget-readonly-preflight/source-verification.json",
+      "archivedPath": "docs/validation/m4-qimen-20261009/raw/47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254-source-verification.json.gz",
+      "sha256": "47b8f65aee9ba199f6ba882fc87c4dae3d1c4dd3bbfeafa54b7239212e166254",
+      "bytes": 409688,
+      "kind": "raw",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/01-native-opening-frames.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "bytes": 2352106,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/02-opening-ended-cleanly.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "bytes": 88734,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/03-real-map.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6.png",
+      "sha256": "787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6",
+      "bytes": 71097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/06-hd-city.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/eab849a85d5c6f6d8d448445a4f62e42ed8ab6d7cf45e7c2423990ec77c63991.png",
+      "sha256": "eab849a85d5c6f6d8d448445a4f62e42ed8ab6d7cf45e7c2423990ec77c63991",
+      "bytes": 2185176,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v1/failure.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a6c5150819a9a8286eeaf033f648f8177163d56022b7de744e31c8b5c0132031.png",
+      "sha256": "a6c5150819a9a8286eeaf033f648f8177163d56022b7de744e31c8b5c0132031",
+      "bytes": 2332539,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/01-native-opening-frames.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "bytes": 2352106,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/02-opening-ended-cleanly.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "bytes": 88734,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/03-real-map.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6.png",
+      "sha256": "787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6",
+      "bytes": 71097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/06-hd-city.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7157ef51d60fe2c05773d46cc57d8ef41adedfac2a265bcbc8097f53310b46fb.png",
+      "sha256": "7157ef51d60fe2c05773d46cc57d8ef41adedfac2a265bcbc8097f53310b46fb",
+      "bytes": 2185298,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/failure.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/05873aaa441c9e961603da3f656d104eafb5d096cc2a0a32a14d2a4ba9ea7902.png",
+      "sha256": "05873aaa441c9e961603da3f656d104eafb5d096cc2a0a32a14d2a4ba9ea7902",
+      "bytes": 3081030,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a241bee187438da436712496263894a35800c58627eccbb760bed94552bd92af.png",
+      "sha256": "a241bee187438da436712496263894a35800c58627eccbb760bed94552bd92af",
+      "bytes": 2332399,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-2-actual-lcd-person-113.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/07bd782fa665eb09ac5bb9752b2db24ef6c86f20a1bad5fb64024e723c65bbe3.png",
+      "sha256": "07bd782fa665eb09ac5bb9752b2db24ef6c86f20a1bad5fb64024e723c65bbe3",
+      "bytes": 2332594,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-3-actual-lcd-person-119.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0b5905f000daf67ced3ffeb420ea3d47a898fd69d6f67788a3908569dee5a282.png",
+      "sha256": "0b5905f000daf67ced3ffeb420ea3d47a898fd69d6f67788a3908569dee5a282",
+      "bytes": 2332255,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-4-actual-lcd-person-111.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/1cc7c4745553568f566163224f17f29244515cb5a31baf14fa20d61e025734ea.png",
+      "sha256": "1cc7c4745553568f566163224f17f29244515cb5a31baf14fa20d61e025734ea",
+      "bytes": 2332402,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-5-actual-lcd-person-112.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/b9a629b019a10192e273e286bf98dd6ee6d7a76cf04d551aacb18ef6a581a2f7.png",
+      "sha256": "b9a629b019a10192e273e286bf98dd6ee6d7a76cf04d551aacb18ef6a581a2f7",
+      "bytes": 2332378,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-6-actual-lcd-person-116.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/f6bc14a17e241ebea9c8b92167c2de0a56d1649f8bafe95bfe13d1f2ab342311.png",
+      "sha256": "f6bc14a17e241ebea9c8b92167c2de0a56d1649f8bafe95bfe13d1f2ab342311",
+      "bytes": 2332998,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-7-actual-lcd-person-114.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ebe2cca92e4866a831df1fba3c01a5dfa8349847df4703d771a37b4497a6fc98.png",
+      "sha256": "ebe2cca92e4866a831df1fba3c01a5dfa8349847df4703d771a37b4497a6fc98",
+      "bytes": 2332614,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-1-8-actual-lcd-person-122.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/46d8b074308327cc9e298fd5afa14a9150f1368b254c1dbed4695464ecab939c.png",
+      "sha256": "46d8b074308327cc9e298fd5afa14a9150f1368b254c1dbed4695464ecab939c",
+      "bytes": 2332818,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/45d0d648e8e7ce5da32cd2b41ab912efac058a70c1c7bd5c936526e16ba337a9.png",
+      "sha256": "45d0d648e8e7ce5da32cd2b41ab912efac058a70c1c7bd5c936526e16ba337a9",
+      "bytes": 1661164,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-2.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c8a3c7d547b08a1ce1cefceb667409abe7b8066090add30ba1e07b5cb8e7c95c.png",
+      "sha256": "c8a3c7d547b08a1ce1cefceb667409abe7b8066090add30ba1e07b5cb8e7c95c",
+      "bytes": 1630113,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-3.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c4cba59c53c82ffb56a4a22517c4f54e9976cd4347a9f34484f6fc5125c41ade.png",
+      "sha256": "c4cba59c53c82ffb56a4a22517c4f54e9976cd4347a9f34484f6fc5125c41ade",
+      "bytes": 1628739,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-4.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/20810527d59655a7176dce3d4dfa4fc847a0d8b70faead4c50329540ea8fcb51.png",
+      "sha256": "20810527d59655a7176dce3d4dfa4fc847a0d8b70faead4c50329540ea8fcb51",
+      "bytes": 1630257,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-5.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/730d619a6e889ab5394b138063e93f5d2b2678a3be0b6449fd622899ae3411b6.png",
+      "sha256": "730d619a6e889ab5394b138063e93f5d2b2678a3be0b6449fd622899ae3411b6",
+      "bytes": 1627675,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-6.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/15f937297507d8ea715ffa8945779d1deec62c5fa8ec2e2bbd79f31e312a4b1f.png",
+      "sha256": "15f937297507d8ea715ffa8945779d1deec62c5fa8ec2e2bbd79f31e312a4b1f",
+      "bytes": 1663245,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-7.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/f8e4f086d48d3c08ece8135098bd77576b0685c409fb9a18df7d2fb5b67bf37f.png",
+      "sha256": "f8e4f086d48d3c08ece8135098bd77576b0685c409fb9a18df7d2fb5b67bf37f",
+      "bytes": 1628525,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v2/search-report-8.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a5efb4eeba3d828926940ced608b3ef330b5228e98f1772ae3c90a420dc81126.png",
+      "sha256": "a5efb4eeba3d828926940ced608b3ef330b5228e98f1772ae3c90a420dc81126",
+      "bytes": 1630096,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/01-native-opening-frames.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "bytes": 2352106,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/02-opening-ended-cleanly.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "bytes": 88734,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/03-real-map.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6.png",
+      "sha256": "787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6",
+      "bytes": 71097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/06-hd-city.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/85414070417f9de3e21799b2da6b99c46f1e5ce578dd24e393b39f204d525453.png",
+      "sha256": "85414070417f9de3e21799b2da6b99c46f1e5ce578dd24e393b39f204d525453",
+      "bytes": 2185499,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/failure.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/bcd9b20f220efed28974d21c54288bb2d99ec33fec7a7535b29ea43766903446.png",
+      "sha256": "bcd9b20f220efed28974d21c54288bb2d99ec33fec7a7535b29ea43766903446",
+      "bytes": 3030298,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-1-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/51dccac21e554ebc89e10e2bba518ec608ee3cc3e700f9051f2602ff130b55bb.png",
+      "sha256": "51dccac21e554ebc89e10e2bba518ec608ee3cc3e700f9051f2602ff130b55bb",
+      "bytes": 2332409,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-10-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/136e9bbd78f1ff7240f7bf466a5d3a50f4d28f2bc9e333f4f93dddf274d123fa.png",
+      "sha256": "136e9bbd78f1ff7240f7bf466a5d3a50f4d28f2bc9e333f4f93dddf274d123fa",
+      "bytes": 2332245,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-11-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/338b8b87145cebb745d1334cf023127e91f6143492f45e4ceef3fa43dfe1a51a.png",
+      "sha256": "338b8b87145cebb745d1334cf023127e91f6143492f45e4ceef3fa43dfe1a51a",
+      "bytes": 2331674,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-12-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c38b21b760255b000fb6e97b2293c5cd6c58bcc2e9189149463a7a3ec49e203d.png",
+      "sha256": "c38b21b760255b000fb6e97b2293c5cd6c58bcc2e9189149463a7a3ec49e203d",
+      "bytes": 2331869,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-2-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/18dc270450636bee6d8ef967b432a24045dbd5fe3abdf08fc2937d0a0363a34b.png",
+      "sha256": "18dc270450636bee6d8ef967b432a24045dbd5fe3abdf08fc2937d0a0363a34b",
+      "bytes": 2332414,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-3-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/5500d94df22cec971f3a1bcc6d74759a25722b65bcfd9670c2df0ea530ebf97f.png",
+      "sha256": "5500d94df22cec971f3a1bcc6d74759a25722b65bcfd9670c2df0ea530ebf97f",
+      "bytes": 2332888,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-4-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9a4283038f452459dda989035be0ee6c0cb319a280693b653c7bbcf6e9d352d6.png",
+      "sha256": "9a4283038f452459dda989035be0ee6c0cb319a280693b653c7bbcf6e9d352d6",
+      "bytes": 2333048,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-5-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/748297df5f9eee58c3e64a46e6a02fb957e69de772bc1d9f1a2f57f911e7dbd7.png",
+      "sha256": "748297df5f9eee58c3e64a46e6a02fb957e69de772bc1d9f1a2f57f911e7dbd7",
+      "bytes": 2332922,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-6-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c667448d41e860890e113586757e0d646a9d6a107e28ee5288c2b2e3115e3a0c.png",
+      "sha256": "c667448d41e860890e113586757e0d646a9d6a107e28ee5288c2b2e3115e3a0c",
+      "bytes": 2331907,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-7-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/1da8a2d34045a41a2ed5d3556081cf103a36c807ca299a1dc0a90be83a1cb621.png",
+      "sha256": "1da8a2d34045a41a2ed5d3556081cf103a36c807ca299a1dc0a90be83a1cb621",
+      "bytes": 2331954,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-8-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/51aa7b2c981f8fadf2a7e5f9c00f06468e3e2b30c6c4fe2e4594d34e406130f5.png",
+      "sha256": "51aa7b2c981f8fadf2a7e5f9c00f06468e3e2b30c6c4fe2e4594d34e406130f5",
+      "bytes": 2332032,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-9-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7d6dd7b564dfce6d0b0b089d75a6bd9142c7fa48339cadfacc9c17a3eb59184e.png",
+      "sha256": "7d6dd7b564dfce6d0b0b089d75a6bd9142c7fa48339cadfacc9c17a3eb59184e",
+      "bytes": 2331904,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-1-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8c31b07e5abd62a797013a3ed9d25d3920c384a31cd21e8d0b33d9662e8bf16d.png",
+      "sha256": "8c31b07e5abd62a797013a3ed9d25d3920c384a31cd21e8d0b33d9662e8bf16d",
+      "bytes": 3032303,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-10-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/defd55360a805b2f7f75dc15b05515dc9bdf9262914f0331f69a7dd6212c4876.png",
+      "sha256": "defd55360a805b2f7f75dc15b05515dc9bdf9262914f0331f69a7dd6212c4876",
+      "bytes": 3031130,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-11-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/bab578f4624fe0e9d7af70ec212c0941546f3dee97ae8db9a851790894d1519c.png",
+      "sha256": "bab578f4624fe0e9d7af70ec212c0941546f3dee97ae8db9a851790894d1519c",
+      "bytes": 3031130,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-12-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/013e62c8dc9de5e69fbd0fa878d72789feccdd554dec22678fb674d4e658ac8e.png",
+      "sha256": "013e62c8dc9de5e69fbd0fa878d72789feccdd554dec22678fb674d4e658ac8e",
+      "bytes": 3031052,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-2-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/4bd8cfcb02256ef13a6bcb20d1c523bf572f83a99424c6a2dee53b2e4d5bec72.png",
+      "sha256": "4bd8cfcb02256ef13a6bcb20d1c523bf572f83a99424c6a2dee53b2e4d5bec72",
+      "bytes": 3032602,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-3-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c510a77a3b77e92f8afb9104803a04f9bfcf83fbae3af09536b50db6b97e2ec3.png",
+      "sha256": "c510a77a3b77e92f8afb9104803a04f9bfcf83fbae3af09536b50db6b97e2ec3",
+      "bytes": 3031646,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-4-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/96cb978afc3f7691927fc9c302421a48f8f3424631bb93956dd59a2783b2a5cf.png",
+      "sha256": "96cb978afc3f7691927fc9c302421a48f8f3424631bb93956dd59a2783b2a5cf",
+      "bytes": 3032573,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-5-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/df7c6e10a0021479bbc666a4c83b052ac615bcfd534f18ace0f94221aa775165.png",
+      "sha256": "df7c6e10a0021479bbc666a4c83b052ac615bcfd534f18ace0f94221aa775165",
+      "bytes": 3031113,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-6-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2dd6a97e4818a0a6de0d9494319b98a1fab8b439db8d30da706a6b319cb11e40.png",
+      "sha256": "2dd6a97e4818a0a6de0d9494319b98a1fab8b439db8d30da706a6b319cb11e40",
+      "bytes": 3030686,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-7-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/f5199a34b58dd71f5154f2e7b1bd896ee2c4c284fec1d15cf6cbf3124f00adfd.png",
+      "sha256": "f5199a34b58dd71f5154f2e7b1bd896ee2c4c284fec1d15cf6cbf3124f00adfd",
+      "bytes": 3030585,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-8-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/61874713b9bec9aeb74f445dc46518d2a671c9823ed8a095510f2fd00868fca8.png",
+      "sha256": "61874713b9bec9aeb74f445dc46518d2a671c9823ed8a095510f2fd00868fca8",
+      "bytes": 3030350,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-month-9-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/38df33dd62ebf8c3e21a4c98dfc7e5d22f830c7ba28a7df74de34baf0cfd9ce1.png",
+      "sha256": "38df33dd62ebf8c3e21a4c98dfc7e5d22f830c7ba28a7df74de34baf0cfd9ce1",
+      "bytes": 3030430,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7190b29589471bb0e786b351af99c4aca5642d7323fe9bf9442247aaa7eb0943.png",
+      "sha256": "7190b29589471bb0e786b351af99c4aca5642d7323fe9bf9442247aaa7eb0943",
+      "bytes": 1627716,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-105.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6fbcc65f5d8ab6c53d400c640ffde7e46a0a3783f172152ebbb772b15cbef8af.png",
+      "sha256": "6fbcc65f5d8ab6c53d400c640ffde7e46a0a3783f172152ebbb772b15cbef8af",
+      "bytes": 1626883,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-113.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/d7c2e18d2b747185331eb8ade3f6ebe2cd827f53a5272af67340e85e190b3d3e.png",
+      "sha256": "d7c2e18d2b747185331eb8ade3f6ebe2cd827f53a5272af67340e85e190b3d3e",
+      "bytes": 2278648,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-123.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/20eec4c3f639a25cc50420651d23293a0d42ae5cd23266ceffb37bf8fee58aa8.png",
+      "sha256": "20eec4c3f639a25cc50420651d23293a0d42ae5cd23266ceffb37bf8fee58aa8",
+      "bytes": 1629173,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-131.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/4430a9eb25d298b13a23c9d6e9ee9c860829f27b8e4b5a7ff92f0eae32d61ccd.png",
+      "sha256": "4430a9eb25d298b13a23c9d6e9ee9c860829f27b8e4b5a7ff92f0eae32d61ccd",
+      "bytes": 2322202,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-140.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/bc7e032bf0eaa0e6420130e4225ccf722430dde9e49c34bbbcbfdc01e291f317.png",
+      "sha256": "bc7e032bf0eaa0e6420130e4225ccf722430dde9e49c34bbbcbfdc01e291f317",
+      "bytes": 1629063,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-148.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c300566de54927df78fc2a969c2e430f41b3d012e78a6b87a725b993771d26e6.png",
+      "sha256": "c300566de54927df78fc2a969c2e430f41b3d012e78a6b87a725b993771d26e6",
+      "bytes": 2322164,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-157.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/aa22682b6964759b2b21fc0d37a27a27eaab4a693bf0c2f6cf58ea66c0a20998.png",
+      "sha256": "aa22682b6964759b2b21fc0d37a27a27eaab4a693bf0c2f6cf58ea66c0a20998",
+      "bytes": 1627476,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-165.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6bfb32efbfab80ac42ef24ef83497b64deb257121b936e74967b874799e5ba59.png",
+      "sha256": "6bfb32efbfab80ac42ef24ef83497b64deb257121b936e74967b874799e5ba59",
+      "bytes": 2322284,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-17.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/997155e4d0c040c34be844d6e2cb5048f57457bfeaea28ec19de1a55f94d9cee.png",
+      "sha256": "997155e4d0c040c34be844d6e2cb5048f57457bfeaea28ec19de1a55f94d9cee",
+      "bytes": 1661796,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-173.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/90b2c598d68584bee86c5037ff20bd6402ac97dea08d01a7084c6662dcf31bd0.png",
+      "sha256": "90b2c598d68584bee86c5037ff20bd6402ac97dea08d01a7084c6662dcf31bd0",
+      "bytes": 1627408,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-181.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/bfcfbb3fab6e6f4e9ee649acde997e4c26c4b5402f48dd90c112c1671cb9c4fa.png",
+      "sha256": "bfcfbb3fab6e6f4e9ee649acde997e4c26c4b5402f48dd90c112c1671cb9c4fa",
+      "bytes": 2280123,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-186.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/d4e888c60cc31cb8aec39953b3ccd9f454d9a46fc1f5121fd68ad077bedb18f5.png",
+      "sha256": "d4e888c60cc31cb8aec39953b3ccd9f454d9a46fc1f5121fd68ad077bedb18f5",
+      "bytes": 2279147,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-187.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a7598be9ee04103041338d8549669d892e0da3611de145a98d4fa06bde0fffca.png",
+      "sha256": "a7598be9ee04103041338d8549669d892e0da3611de145a98d4fa06bde0fffca",
+      "bytes": 2286184,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-190.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/f07d19b85d9d4d15a465c76ff7eca69a31bbed275d4b7b38a69570b3c996eba1.png",
+      "sha256": "f07d19b85d9d4d15a465c76ff7eca69a31bbed275d4b7b38a69570b3c996eba1",
+      "bytes": 1661466,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-198.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6844ae0d13520491515f4ae15c30692239ffe878618c0587cdd3d9f566105880.png",
+      "sha256": "6844ae0d13520491515f4ae15c30692239ffe878618c0587cdd3d9f566105880",
+      "bytes": 2279530,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-203.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/603e2909e228db4e0a45f0ea395266ca157614c7accd3cb2b0f89dc0ce8c637b.png",
+      "sha256": "603e2909e228db4e0a45f0ea395266ca157614c7accd3cb2b0f89dc0ce8c637b",
+      "bytes": 2279636,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-204.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2fdce892e0bdcfedd866e113f4141e52bb77f59111d0b77944b735fd4418efc4.png",
+      "sha256": "2fdce892e0bdcfedd866e113f4141e52bb77f59111d0b77944b735fd4418efc4",
+      "bytes": 2286404,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-207.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/360ed052d4c11c7ec4f39306304207d579bb5eb26261adc709bb0b79350cd6a0.png",
+      "sha256": "360ed052d4c11c7ec4f39306304207d579bb5eb26261adc709bb0b79350cd6a0",
+      "bytes": 2280302,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-25.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/fc77f0cec5ad5724fa087da4d29c38388f54b50839af106fd7880768a55a07ba.png",
+      "sha256": "fc77f0cec5ad5724fa087da4d29c38388f54b50839af106fd7880768a55a07ba",
+      "bytes": 2323451,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-35.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0cddf343d6c88d229c6cfc66d39786f2f5a93455777781a9de8ec506a27e44ca.png",
+      "sha256": "0cddf343d6c88d229c6cfc66d39786f2f5a93455777781a9de8ec506a27e44ca",
+      "bytes": 1627581,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-43.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e865632ced5a620a309d7ee3296fe0149be33dcf4903a589b29057718d81b9fd.png",
+      "sha256": "e865632ced5a620a309d7ee3296fe0149be33dcf4903a589b29057718d81b9fd",
+      "bytes": 2281124,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-52.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9b34da026ee475b338aaf7277e596968f407732471c33cfae31895b1cd9644a6.png",
+      "sha256": "9b34da026ee475b338aaf7277e596968f407732471c33cfae31895b1cd9644a6",
+      "bytes": 1629515,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-60.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/752ce422bec53834764ee82b6778721d53862cfdd96cc5c8461818cf30b67feb.png",
+      "sha256": "752ce422bec53834764ee82b6778721d53862cfdd96cc5c8461818cf30b67feb",
+      "bytes": 2280001,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-69.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2823836e8076c63cbb2cb5cea9433ca5503fdd53fd17b3f3d1d081da5d5a078d.png",
+      "sha256": "2823836e8076c63cbb2cb5cea9433ca5503fdd53fd17b3f3d1d081da5d5a078d",
+      "bytes": 1629613,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-77.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/d9e829a7687a638673cf133b85c77fe57b5f645d90ff2d0e1e4e68fd75323718.png",
+      "sha256": "d9e829a7687a638673cf133b85c77fe57b5f645d90ff2d0e1e4e68fd75323718",
+      "bytes": 2323541,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-88.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/28cc1a30f83de33b1fa57f48e89a2bb04109f2bc7e4c7a5a089922ea29516ac8.png",
+      "sha256": "28cc1a30f83de33b1fa57f48e89a2bb04109f2bc7e4c7a5a089922ea29516ac8",
+      "bytes": 1627771,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-9.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c443a130914a97eff27ab917f08245b4c986c4c8db32fa283c40c38a288ee4d4.png",
+      "sha256": "c443a130914a97eff27ab917f08245b4c986c4c8db32fa283c40c38a288ee4d4",
+      "bytes": 2280711,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v3/search-report-96.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/5f4dc3a93aee2e387eb45999d975a19a62862e921791e46dfc7a60867d0cae8a.png",
+      "sha256": "5f4dc3a93aee2e387eb45999d975a19a62862e921791e46dfc7a60867d0cae8a",
+      "bytes": 2278221,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/01-native-opening-frames.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "bytes": 2352106,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/02-opening-ended-cleanly.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "bytes": 88734,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/03-real-map.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6.png",
+      "sha256": "787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6",
+      "bytes": 71097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/06-hd-city.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8094057cd02808f0883016ba3ade664d2792a1d40a69505c2e28fb048fb22023.png",
+      "sha256": "8094057cd02808f0883016ba3ade664d2792a1d40a69505c2e28fb048fb22023",
+      "bytes": 2233231,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/failure.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/bf6de0fa4fcc8928678f715f46e49704192c012d7f107153786c29e82c061d71.png",
+      "sha256": "bf6de0fa4fcc8928678f715f46e49704192c012d7f107153786c29e82c061d71",
+      "bytes": 3032098,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-1-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ebedb280e2d9f81a926c53b2646f8826b4f740e2197b9e8a6b6e588efcf699e6.png",
+      "sha256": "ebedb280e2d9f81a926c53b2646f8826b4f740e2197b9e8a6b6e588efcf699e6",
+      "bytes": 2332452,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-2-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ed9d21ef7bb7a9af9df96a241f80c860b2a83387e73f8c7317d5c4e914a132f1.png",
+      "sha256": "ed9d21ef7bb7a9af9df96a241f80c860b2a83387e73f8c7317d5c4e914a132f1",
+      "bytes": 2332457,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-3-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/881d70c99f90799611e495d34f96383adf6b9144d2149bd1840b73b47e57ed45.png",
+      "sha256": "881d70c99f90799611e495d34f96383adf6b9144d2149bd1840b73b47e57ed45",
+      "bytes": 2332614,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-4-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c551439b340da1feb432680cc1898d623c45783e2786dfbab00c6ff8930f2684.png",
+      "sha256": "c551439b340da1feb432680cc1898d623c45783e2786dfbab00c6ff8930f2684",
+      "bytes": 2332513,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-5-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9cebb747b375301e03acaf1de9f3738b93818c502d1fa812e19739320ab0df56.png",
+      "sha256": "9cebb747b375301e03acaf1de9f3738b93818c502d1fa812e19739320ab0df56",
+      "bytes": 2332385,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-6-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e4eeeda9166d01996b813c5849a3b677395a67689fa054b5a42f812f33626580.png",
+      "sha256": "e4eeeda9166d01996b813c5849a3b677395a67689fa054b5a42f812f33626580",
+      "bytes": 2332813,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-7-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af6351c9d66c7ea8d9030c3a963b50873e700431b8873652a188087468c80af8.png",
+      "sha256": "af6351c9d66c7ea8d9030c3a963b50873e700431b8873652a188087468c80af8",
+      "bytes": 2332670,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-8-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/16416c9f89fda6b4325c8d79a4fd65cb3ff576df9825b1f2402ddec9d1ab2cca.png",
+      "sha256": "16416c9f89fda6b4325c8d79a4fd65cb3ff576df9825b1f2402ddec9d1ab2cca",
+      "bytes": 2332618,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-9-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/3393ea0300442ddb5c85e85fce73be55c0d358d01ec105bbfc3f49ffb9d6c5d7.png",
+      "sha256": "3393ea0300442ddb5c85e85fce73be55c0d358d01ec105bbfc3f49ffb9d6c5d7",
+      "bytes": 2332553,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-1-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7344398f90b176ef02fd59daf3fba184dd9aed61d2d198f1e5eccff0e8c01ec4.png",
+      "sha256": "7344398f90b176ef02fd59daf3fba184dd9aed61d2d198f1e5eccff0e8c01ec4",
+      "bytes": 3031924,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-2-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/849d1e4b6c35fc5d6ee21b75fdfa0a780f1eab4d2d3b14ca0da543c02d34abe5.png",
+      "sha256": "849d1e4b6c35fc5d6ee21b75fdfa0a780f1eab4d2d3b14ca0da543c02d34abe5",
+      "bytes": 3032503,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-3-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/42a571ad917b14bb427e0d40374f30e788f593a7826d34130d57a4920cbbc1ca.png",
+      "sha256": "42a571ad917b14bb427e0d40374f30e788f593a7826d34130d57a4920cbbc1ca",
+      "bytes": 3031542,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-4-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/548ec52f4ed62b0ac4154d3abe582e1c1a603fc246cfec14ef78ab72c830b25d.png",
+      "sha256": "548ec52f4ed62b0ac4154d3abe582e1c1a603fc246cfec14ef78ab72c830b25d",
+      "bytes": 3031836,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-5-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/046e92957447b4a35541a8f26ee4248abc4eaf3ae1c6b94eda4b0b67bf1bd6ec.png",
+      "sha256": "046e92957447b4a35541a8f26ee4248abc4eaf3ae1c6b94eda4b0b67bf1bd6ec",
+      "bytes": 3031886,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-6-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/b121495b78e888a105eb12808ccb659fb48023382e41c9d5224989e9cdc10dcf.png",
+      "sha256": "b121495b78e888a105eb12808ccb659fb48023382e41c9d5224989e9cdc10dcf",
+      "bytes": 3032119,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-7-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/bdf35a40243dd9d17ddf7afa3d840749017eeef42db7521684d00c82e70090ac.png",
+      "sha256": "bdf35a40243dd9d17ddf7afa3d840749017eeef42db7521684d00c82e70090ac",
+      "bytes": 3032781,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-8-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e46ec0f61eb28d97a82679184d826801df91c84cb88d3dca0a6b737e6da0cabe.png",
+      "sha256": "e46ec0f61eb28d97a82679184d826801df91c84cb88d3dca0a6b737e6da0cabe",
+      "bytes": 3032795,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-month-9-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8e9af83a294f7ebbceb3ade3a499a9730e680f1c8140af0085417248c91802ec.png",
+      "sha256": "8e9af83a294f7ebbceb3ade3a499a9730e680f1c8140af0085417248c91802ec",
+      "bytes": 3032040,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/314cb7b1bbe5a361c65f9de4342c7435ba2d9db771f24fb3da8a7db096bb0813.png",
+      "sha256": "314cb7b1bbe5a361c65f9de4342c7435ba2d9db771f24fb3da8a7db096bb0813",
+      "bytes": 1661632,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-107.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/b1ffc1a9903a098acd53c062b364041d77f32a5e7bc8d2342f133d67333984d4.png",
+      "sha256": "b1ffc1a9903a098acd53c062b364041d77f32a5e7bc8d2342f133d67333984d4",
+      "bytes": 1627683,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-115.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/eaa3494880ea89afc55e99cf9ebfc1d4f71964ae1fde32367bf8ec951c4166f4.png",
+      "sha256": "eaa3494880ea89afc55e99cf9ebfc1d4f71964ae1fde32367bf8ec951c4166f4",
+      "bytes": 2324843,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-124.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/51eaa0160f9dc69ad13c663a1388d6822ff5bab4a5d0e96e4a59971613fa2d67.png",
+      "sha256": "51eaa0160f9dc69ad13c663a1388d6822ff5bab4a5d0e96e4a59971613fa2d67",
+      "bytes": 1628232,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-132.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/dbaa25d8d8ffc85fe078b9618a03be90ba5619a7afeb1c723f51800eed2806ea.png",
+      "sha256": "dbaa25d8d8ffc85fe078b9618a03be90ba5619a7afeb1c723f51800eed2806ea",
+      "bytes": 2281724,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-140.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/45292dd334b3fc758d547ecd0037eb5ab4f86300e6baf36778a5c0acc1f1e7d1.png",
+      "sha256": "45292dd334b3fc758d547ecd0037eb5ab4f86300e6baf36778a5c0acc1f1e7d1",
+      "bytes": 1627966,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-148.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a37c2863a875de2712593498201e80ad609f09451351e30147cea2d751ad5ef8.png",
+      "sha256": "a37c2863a875de2712593498201e80ad609f09451351e30147cea2d751ad5ef8",
+      "bytes": 2281090,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-151.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ddced749e721093a2b3c3512e536529d7075fd9ad64bde1b9c3daf3c74a24cf1.png",
+      "sha256": "ddced749e721093a2b3c3512e536529d7075fd9ad64bde1b9c3daf3c74a24cf1",
+      "bytes": 2281109,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-152.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/50ff6de6a14a15a83b8b25dd3e20f15a3e05a9f198760107770c3f7ddf510ceb.png",
+      "sha256": "50ff6de6a14a15a83b8b25dd3e20f15a3e05a9f198760107770c3f7ddf510ceb",
+      "bytes": 2280757,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-157.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/95fba10c1227a13bec0dd1b0f0034614d9f3da1954378b27133d65dba053f9a1.png",
+      "sha256": "95fba10c1227a13bec0dd1b0f0034614d9f3da1954378b27133d65dba053f9a1",
+      "bytes": 2328276,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-17.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/02f9c03b777af6ad87e3ec87aaf3b36b8a6f0f394caeecbb066b8ef532725212.png",
+      "sha256": "02f9c03b777af6ad87e3ec87aaf3b36b8a6f0f394caeecbb066b8ef532725212",
+      "bytes": 1661347,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-25.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/21124db40c11fcb01025ad3358c7451cddb75dd0edfb530079bbee93ea3eba3c.png",
+      "sha256": "21124db40c11fcb01025ad3358c7451cddb75dd0edfb530079bbee93ea3eba3c",
+      "bytes": 2323977,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-34.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6f6eb5958e088e1b7973990a5bad9809ce8750ced41d26091fc04e1fc9a84517.png",
+      "sha256": "6f6eb5958e088e1b7973990a5bad9809ce8750ced41d26091fc04e1fc9a84517",
+      "bytes": 1627434,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-42.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ed104e7a029e2dcd7f74543e8aef10cf9f37ce6b6d54f5796d1b0a01faaf9015.png",
+      "sha256": "ed104e7a029e2dcd7f74543e8aef10cf9f37ce6b6d54f5796d1b0a01faaf9015",
+      "bytes": 2280193,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-54.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a47afa7337cb565cf706026591b3454ba94713f04cca957923d54f4259128abf.png",
+      "sha256": "a47afa7337cb565cf706026591b3454ba94713f04cca957923d54f4259128abf",
+      "bytes": 1627796,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-62.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/995fa03cf20c5a8b972966bb47518c810ee77dc5171c1c79b10aef1ec9058d72.png",
+      "sha256": "995fa03cf20c5a8b972966bb47518c810ee77dc5171c1c79b10aef1ec9058d72",
+      "bytes": 2280617,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-71.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c53be6e0f9f96b5de64cc902da04149d4994013c0cd3a4f83ba92e7a002bdec9.png",
+      "sha256": "c53be6e0f9f96b5de64cc902da04149d4994013c0cd3a4f83ba92e7a002bdec9",
+      "bytes": 1629395,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-79.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/1d940b971c853e0db6790de17279f5de31528eabc1fc24f4c6d1253bac06b515.png",
+      "sha256": "1d940b971c853e0db6790de17279f5de31528eabc1fc24f4c6d1253bac06b515",
+      "bytes": 2323416,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-89.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/34c6c24deca91d08612e0d7a1134ebf8a54ddc078495db72d1e20ed0d2784ef7.png",
+      "sha256": "34c6c24deca91d08612e0d7a1134ebf8a54ddc078495db72d1e20ed0d2784ef7",
+      "bytes": 1628108,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-9.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8debf931d0b29b13a25d8afc50607fbe17680d30ab1d81895e452082e6797c56.png",
+      "sha256": "8debf931d0b29b13a25d8afc50607fbe17680d30ab1d81895e452082e6797c56",
+      "bytes": 2323754,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v4/search-report-97.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8c6905a9acf825ac843bfc9c62a2c13b88df7418fb4b08cb12f611d637f2e747.png",
+      "sha256": "8c6905a9acf825ac843bfc9c62a2c13b88df7418fb4b08cb12f611d637f2e747",
+      "bytes": 2324524,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/01-native-opening-frames.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "bytes": 2352106,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/02-opening-ended-cleanly.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "bytes": 88734,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/03-real-map.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6.png",
+      "sha256": "787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6",
+      "bytes": 71097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/06-hd-city.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ba3a0444df3324980c44a51f47b23f5ecfe0dd3f98e01dca546b1671d0fb7de8.png",
+      "sha256": "ba3a0444df3324980c44a51f47b23f5ecfe0dd3f98e01dca546b1671d0fb7de8",
+      "bytes": 2185274,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/06a-real-enlisted-city-reserves.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/b551797bc640d077bd9c24d235bb395a88adaf5ed2c60a555dadc90b93b5cde9.png",
+      "sha256": "b551797bc640d077bd9c24d235bb395a88adaf5ed2c60a555dadc90b93b5cde9",
+      "bytes": 2099495,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/06b-real-distributed-caster-troops.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/59e8b1bcc8ff6579addb77f71ee8cda6204019ab7ac4d946e85c7808af6443cf.png",
+      "sha256": "59e8b1bcc8ff6579addb77f71ee8cda6204019ab7ac4d946e85c7808af6443cf",
+      "bytes": 2099509,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/07-march-persons.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/755fa3cf0c3efa60a93ca77d0e016cff359f688d5348b413c1f1b9e0283d67bd.png",
+      "sha256": "755fa3cf0c3efa60a93ca77d0e016cff359f688d5348b413c1f1b9e0283d67bd",
+      "bytes": 2139721,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/failure.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/4c3852d9252dcfa0ba18891216d4214c6771bba25fd143b3a2d3d97da894718c.png",
+      "sha256": "4c3852d9252dcfa0ba18891216d4214c6771bba25fd143b3a2d3d97da894718c",
+      "bytes": 2102613,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-1-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/268b767bf8b01d029671d0191846c3fe806c68b96d575d9586b07f03655459ac.png",
+      "sha256": "268b767bf8b01d029671d0191846c3fe806c68b96d575d9586b07f03655459ac",
+      "bytes": 2332550,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-2-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9835ab815c08f669937612ab65f7d15a43ced628dcb6ac9423a704f568ba1dda.png",
+      "sha256": "9835ab815c08f669937612ab65f7d15a43ced628dcb6ac9423a704f568ba1dda",
+      "bytes": 2332747,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-3-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0a0a42158123ce01e6542efbe63e852ade97704a88e9ae1442168ec8fc1de98d.png",
+      "sha256": "0a0a42158123ce01e6542efbe63e852ade97704a88e9ae1442168ec8fc1de98d",
+      "bytes": 2332468,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-4-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0ff2afe55621947bbc659f3f148a616c57524e41dae29b9cab45af1577e61313.png",
+      "sha256": "0ff2afe55621947bbc659f3f148a616c57524e41dae29b9cab45af1577e61313",
+      "bytes": 2332340,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-5-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6af0686d55e730a8c85be242d6755c244d27b49677e2fa4613f19261845f5ce4.png",
+      "sha256": "6af0686d55e730a8c85be242d6755c244d27b49677e2fa4613f19261845f5ce4",
+      "bytes": 2333097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-6-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a3c1ac0e5bfb8f185519f5ebbbf3b7268f66df423860b90e4ffb9cdee5d9e3ad.png",
+      "sha256": "a3c1ac0e5bfb8f185519f5ebbbf3b7268f66df423860b90e4ffb9cdee5d9e3ad",
+      "bytes": 2332980,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-7-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/90228956fb0d4462b8be83f3c5ad7aec6b99699a01b068c9e166607a91b6ae56.png",
+      "sha256": "90228956fb0d4462b8be83f3c5ad7aec6b99699a01b068c9e166607a91b6ae56",
+      "bytes": 2332614,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-actual-owned-XuShu.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/b684140adb23eb9b3d3519cb306b3c245f26a348ce08d90da1ebc23c9f2e4a53.png",
+      "sha256": "b684140adb23eb9b3d3519cb306b3c245f26a348ce08d90da1ebc23c9f2e4a53",
+      "bytes": 3032346,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-1-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/22de83b01d3c146678733c453aff49be8e219ea2017cd44eb8b28f12867f8c98.png",
+      "sha256": "22de83b01d3c146678733c453aff49be8e219ea2017cd44eb8b28f12867f8c98",
+      "bytes": 3031672,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-2-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/1cda751d720b3141804ed9a35d17e2356b522a2ae783ab10db5e638758bbd120.png",
+      "sha256": "1cda751d720b3141804ed9a35d17e2356b522a2ae783ab10db5e638758bbd120",
+      "bytes": 3032061,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-3-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9d9bdb7a97e5b31751fe327fb6f9196b6bc0a82490344e8fe0cc0098939d6058.png",
+      "sha256": "9d9bdb7a97e5b31751fe327fb6f9196b6bc0a82490344e8fe0cc0098939d6058",
+      "bytes": 3032171,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-4-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/22cee7cc816c669bc474a961d4062b448c9415de4f920756e949d72626f976ba.png",
+      "sha256": "22cee7cc816c669bc474a961d4062b448c9415de4f920756e949d72626f976ba",
+      "bytes": 3031932,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-5-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2aa46ebb2064280faebed862ac80e0876f8b07ce296c0528d4c7638dbf93f1b4.png",
+      "sha256": "2aa46ebb2064280faebed862ac80e0876f8b07ce296c0528d4c7638dbf93f1b4",
+      "bytes": 3032138,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-6-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8e2a5df8fbf6523f1a61242e0c31cc2faaf365f8451cdaea743a013632c47a15.png",
+      "sha256": "8e2a5df8fbf6523f1a61242e0c31cc2faaf365f8451cdaea743a013632c47a15",
+      "bytes": 3032025,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-month-7-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e012ed65e9fe6d94bb769f02e229532db1cbd3f6e4307cd7c1f0bbd6cf09e6fd.png",
+      "sha256": "e012ed65e9fe6d94bb769f02e229532db1cbd3f6e4307cd7c1f0bbd6cf09e6fd",
+      "bytes": 3032306,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/16843061bcefbc61cbc1b1729c3dece5591423d66cd5bc92d7c11d30e7fefafb.png",
+      "sha256": "16843061bcefbc61cbc1b1729c3dece5591423d66cd5bc92d7c11d30e7fefafb",
+      "bytes": 1629455,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-101.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/69b5f4a82d3c4b7c203787fbba36a3e5288f1ed0611ad629089018fc74811b38.png",
+      "sha256": "69b5f4a82d3c4b7c203787fbba36a3e5288f1ed0611ad629089018fc74811b38",
+      "bytes": 1627550,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-109.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/866dca9090c0508cd6df98f8663fcf7d19578a3c6dd3222cb2700ace97e7449f.png",
+      "sha256": "866dca9090c0508cd6df98f8663fcf7d19578a3c6dd3222cb2700ace97e7449f",
+      "bytes": 2279776,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-112.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/329d4440d8c443ee3c53f121d7d3a85f52967713a0fc195a34bc9c07212c300f.png",
+      "sha256": "329d4440d8c443ee3c53f121d7d3a85f52967713a0fc195a34bc9c07212c300f",
+      "bytes": 2281397,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-113.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/4ecd927affc177c79b6d36e3b702254d5e937bce1e66197bc7c8f709e15d2f8d.png",
+      "sha256": "4ecd927affc177c79b6d36e3b702254d5e937bce1e66197bc7c8f709e15d2f8d",
+      "bytes": 2280589,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-119.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/34b317a0068970a6538703d5db34ec6229d0d0bc23923b3058f53f91e5a3e86c.png",
+      "sha256": "34b317a0068970a6538703d5db34ec6229d0d0bc23923b3058f53f91e5a3e86c",
+      "bytes": 2284227,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-18.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/5128db46ae889d9f6a75e0ff5e0751207dddc9b65f924402a6c1f93dcf4966ac.png",
+      "sha256": "5128db46ae889d9f6a75e0ff5e0751207dddc9b65f924402a6c1f93dcf4966ac",
+      "bytes": 1629567,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-26.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/215358733585039cf5fb2cf9310d801bd297b064f4cad4ff70f9fbc9c64a75ff.png",
+      "sha256": "215358733585039cf5fb2cf9310d801bd297b064f4cad4ff70f9fbc9c64a75ff",
+      "bytes": 2279937,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-34.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/00ab772a4784287d85d6abe9ca04d9ea0b241e2e6b199170bbe4df8b2c17c3d2.png",
+      "sha256": "00ab772a4784287d85d6abe9ca04d9ea0b241e2e6b199170bbe4df8b2c17c3d2",
+      "bytes": 1627361,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-42.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/612fdc6da099d85a9a721c976c87705ee52ce76fa2321dd3f40db69654d45a82.png",
+      "sha256": "612fdc6da099d85a9a721c976c87705ee52ce76fa2321dd3f40db69654d45a82",
+      "bytes": 2280939,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-50.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/f88e82ab29aaae4b414c0356a9fa20c34b3aef325d3f717b1e16ef53bdb03293.png",
+      "sha256": "f88e82ab29aaae4b414c0356a9fa20c34b3aef325d3f717b1e16ef53bdb03293",
+      "bytes": 1661798,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-58.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a11099225165c6e38e7b8007dee0fc35b85b8b008bf9bbf0f6db51efb7ae9844.png",
+      "sha256": "a11099225165c6e38e7b8007dee0fc35b85b8b008bf9bbf0f6db51efb7ae9844",
+      "bytes": 2323507,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-66.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/5be49b0936bc1755eb25fbdf5ebe0c479280e8aaf1b1285e0ca5f64a018fd6d5.png",
+      "sha256": "5be49b0936bc1755eb25fbdf5ebe0c479280e8aaf1b1285e0ca5f64a018fd6d5",
+      "bytes": 1627322,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-74.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6beee16d928255bbdec88329e526b156ee0a20af565151cd1200d98e37b3933b.png",
+      "sha256": "6beee16d928255bbdec88329e526b156ee0a20af565151cd1200d98e37b3933b",
+      "bytes": 2281109,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-84.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a84285687a7f52314b5c43ba43cc8e5e4c6df4c1b8abc3009db62ecc8e42d481.png",
+      "sha256": "a84285687a7f52314b5c43ba43cc8e5e4c6df4c1b8abc3009db62ecc8e42d481",
+      "bytes": 1629638,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-9.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/850aae9cd9c6ad2c17c07a9c3d78ebc21fa9df92c0e3cd7dd5f09890e15000ca.png",
+      "sha256": "850aae9cd9c6ad2c17c07a9c3d78ebc21fa9df92c0e3cd7dd5f09890e15000ca",
+      "bytes": 2280905,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v5/search-report-92.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/80113887b5cd2b5e21080490c189b264c1edf2f194fbbd7eb0ea2b8913b70edd.png",
+      "sha256": "80113887b5cd2b5e21080490c189b264c1edf2f194fbbd7eb0ea2b8913b70edd",
+      "bytes": 2324706,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/01-native-opening-frames.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75.png",
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "bytes": 2352106,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/02-opening-ended-cleanly.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572.png",
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "bytes": 88734,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/03-real-map.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6.png",
+      "sha256": "787dbc20c46b97343850327c9ee8b733631810d666beaa54dc85b20ab2e24ff6",
+      "bytes": 71097,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/06-hd-city.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/985a28bd0567c986bf9431f6b2e620e333f05f057744bdc3cb01908bf0ff041f.png",
+      "sha256": "985a28bd0567c986bf9431f6b2e620e333f05f057744bdc3cb01908bf0ff041f",
+      "bytes": 2233169,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/06a-real-enlisted-city-reserves.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/222b8484dc2c2f8cc05dd4934c67029e93be4e5c50e34a09b90abec5ce74c4b9.png",
+      "sha256": "222b8484dc2c2f8cc05dd4934c67029e93be4e5c50e34a09b90abec5ce74c4b9",
+      "bytes": 2103651,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/06b-real-distributed-caster-troops.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a4c73dbec60a2d3772f29d3dc919cc8568beb5f064b6d521a15f6f1ded5a7e43.png",
+      "sha256": "a4c73dbec60a2d3772f29d3dc919cc8568beb5f064b6d521a15f6f1ded5a7e43",
+      "bytes": 2165155,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/07-march-persons.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c334d370212b34e7c4417ed8e07cb58490407265348ff051388e3259755a5fc3.png",
+      "sha256": "c334d370212b34e7c4417ed8e07cb58490407265348ff051388e3259755a5fc3",
+      "bytes": 2139094,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/08-march-persons-picked.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0caea70ccc44a36dd17c868b3f003efdb73c505d2cae027866c7c13bc8f2586a.png",
+      "sha256": "0caea70ccc44a36dd17c868b3f003efdb73c505d2cae027866c7c13bc8f2586a",
+      "bytes": 2110658,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/09-march-food.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0b8a15535580e1aeb33ed51538d86214abb3f7080496c542759fd75804917f0a.png",
+      "sha256": "0b8a15535580e1aeb33ed51538d86214abb3f7080496c542759fd75804917f0a",
+      "bytes": 1644182,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/10-march-target-instruction.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/4a4a614ca202f01bdbe27edd6ad3dd11c89a851008f544b0b9a5d7785199c4a3.png",
+      "sha256": "4a4a614ca202f01bdbe27edd6ad3dd11c89a851008f544b0b9a5d7785199c4a3",
+      "bytes": 2298504,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/11-march-target.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/71af3af1d1dd8b799cc6ad88db3692cb245a7a5862d354f3df19e4034557f1ce.png",
+      "sha256": "71af3af1d1dd8b799cc6ad88db3692cb245a7a5862d354f3df19e4034557f1ce",
+      "bytes": 2793803,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/12-march-departure-report.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e5f99f2f4af33e5836384b13949e78f5f2dc19bde58d9374705c68724cf39b33.png",
+      "sha256": "e5f99f2f4af33e5836384b13949e78f5f2dc19bde58d9374705c68724cf39b33",
+      "bytes": 2351516,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/13-march-order-ack.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/3a94905a6587d269947ba78395a40fa35bbbba4c209122e5ed00042c4f8cbda5.png",
+      "sha256": "3a94905a6587d269947ba78395a40fa35bbbba4c209122e5ed00042c4f8cbda5",
+      "bytes": 2340821,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/14-battle-ready.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9d344baf955ad5fe5a40b4efae10ccaa81e3456e3a8ce093271507acbfbbe899.png",
+      "sha256": "9d344baf955ad5fe5a40b4efae10ccaa81e3456e3a8ce093271507acbfbbe899",
+      "bytes": 146515,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/actual-report-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a2b467e99ca4e581665f808520c100211572b300efd71074e397994d159f0232.png",
+      "sha256": "a2b467e99ca4e581665f808520c100211572b300efd71074e397994d159f0232",
+      "bytes": 149575,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/baseline-actual-caster-qimen-menu.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/338b35e572bc09b2701dd54f861d1e37a7b70dbb4b9feac19d905285fa0b94cd.png",
+      "sha256": "338b35e572bc09b2701dd54f861d1e37a7b70dbb4b9feac19d905285fa0b94cd",
+      "bytes": 164765,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-000-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a.png",
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a",
+      "bytes": 1739884,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-000-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f.png",
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f",
+      "bytes": 5797,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-001-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a.png",
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a",
+      "bytes": 1771046,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-001-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed.png",
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed",
+      "bytes": 5755,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-002-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a.png",
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a",
+      "bytes": 1739884,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-002-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f.png",
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f",
+      "bytes": 5797,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-003-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a.png",
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a",
+      "bytes": 1771046,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-003-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed.png",
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed",
+      "bytes": 5755,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-004-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a.png",
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a",
+      "bytes": 1739884,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-004-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f.png",
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f",
+      "bytes": 5797,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-005-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a.png",
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a",
+      "bytes": 1771046,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-005-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed.png",
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed",
+      "bytes": 5755,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-006-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a.png",
+      "sha256": "2c11469be1d94b562edee476e4aa5c4bdb32916bc87f5c6fff30b820f4231d3a",
+      "bytes": 1739884,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-006-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f.png",
+      "sha256": "cf083509eea9fbc945d5909502bd2f75b717aca36767c06bb686fbbcd7be693f",
+      "bytes": 5797,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-007-movie-hd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a.png",
+      "sha256": "70418d9f0ef8c30b9bc53e70be642b7c86949ebf2fde0516adefb5f5b60c9e2a",
+      "bytes": 1771046,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-007-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed.png",
+      "sha256": "187d5e7f5409b26d57574e66cac58afbf9a4c871980c84f170a034a1d2c068ed",
+      "bytes": 5755,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-008-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/91949bb454745de6b81415c375f5e18d588496c8c82682e2a4c5a5f9ba9a940e.png",
+      "sha256": "91949bb454745de6b81415c375f5e18d588496c8c82682e2a4c5a5f9ba9a940e",
+      "bytes": 5067,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-009-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/3d84f3e76faa146250b24eb14c713793e4b587309bfa2f1f27873b56096338f7.png",
+      "sha256": "3d84f3e76faa146250b24eb14c713793e4b587309bfa2f1f27873b56096338f7",
+      "bytes": 4139,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen-010-movie-lcd.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6dbd6d2921bd5adf0d5307c7a29a337933adade72fd55e2c7e8513b765c51b2a.png",
+      "sha256": "6dbd6d2921bd5adf0d5307c7a29a337933adade72fd55e2c7e8513b765c51b2a",
+      "bytes": 4273,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen20-native-owner-retired-no-number-wait.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/03ef4e90b2e6424122e43bf8bdf787dd9f7758b453b25604dfc01a8d83859b72.png",
+      "sha256": "03ef4e90b2e6424122e43bf8bdf787dd9f7758b453b25604dfc01a8d83859b72",
+      "bytes": 146177,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/qimen20-real-state4-report.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/03ef4e90b2e6424122e43bf8bdf787dd9f7758b453b25604dfc01a8d83859b72.png",
+      "sha256": "03ef4e90b2e6424122e43bf8bdf787dd9f7758b453b25604dfc01a8d83859b72",
+      "bytes": 146177,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-1-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/04098a4e6eefb6eb946b8d63619e7b47c41697e51b460ad40d0588c47fcebe25.png",
+      "sha256": "04098a4e6eefb6eb946b8d63619e7b47c41697e51b460ad40d0588c47fcebe25",
+      "bytes": 2332543,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-10-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c64708143713e1f62f277617d41ca91332206f539a2034012a6c50e75f5b0bb0.png",
+      "sha256": "c64708143713e1f62f277617d41ca91332206f539a2034012a6c50e75f5b0bb0",
+      "bytes": 2332781,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-2-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7382e53e3df947578ff3989ddd8f8b41acd48ae1ac5ecf8f0fa9cfe059208bcb.png",
+      "sha256": "7382e53e3df947578ff3989ddd8f8b41acd48ae1ac5ecf8f0fa9cfe059208bcb",
+      "bytes": 2332439,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-3-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/852aefa6e08e2fcc2481036daecd7a8ddfedd30f7b529dd5845a7b2a5ab53cc2.png",
+      "sha256": "852aefa6e08e2fcc2481036daecd7a8ddfedd30f7b529dd5845a7b2a5ab53cc2",
+      "bytes": 2332477,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-4-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/b23f8a21c3c7ea64a1d881b6c9b2e139e088505f53ac6ca718dc74eca3bda121.png",
+      "sha256": "b23f8a21c3c7ea64a1d881b6c9b2e139e088505f53ac6ca718dc74eca3bda121",
+      "bytes": 2332395,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-5-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/44825401fae9849269784dec4f6cd45c2defc1ba8f0a0439d038ecd0cc60ea0a.png",
+      "sha256": "44825401fae9849269784dec4f6cd45c2defc1ba8f0a0439d038ecd0cc60ea0a",
+      "bytes": 2332401,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-6-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/02cd9f99021ced872e1435f07cb9cc9edab122d773b4fbefb26024ec415a6c93.png",
+      "sha256": "02cd9f99021ced872e1435f07cb9cc9edab122d773b4fbefb26024ec415a6c93",
+      "bytes": 2332634,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-7-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/da2c9375f6e73f75910dec373ddf28ed012c25a18af4351d5f7992b23226cac1.png",
+      "sha256": "da2c9375f6e73f75910dec373ddf28ed012c25a18af4351d5f7992b23226cac1",
+      "bytes": 2332344,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-8-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/50ec90bcd97e1385caa3466be4bc5da7036243eae01868229161749abe0dfb10.png",
+      "sha256": "50ec90bcd97e1385caa3466be4bc5da7036243eae01868229161749abe0dfb10",
+      "bytes": 2332580,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-9-1-actual-lcd-person-110.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/1c1d87e32bb8128d6f3ed57f8c2d0b6b9ae2508e406b7efd7fbc4d5789741e4a.png",
+      "sha256": "1c1d87e32bb8128d6f3ed57f8c2d0b6b9ae2508e406b7efd7fbc4d5789741e4a",
+      "bytes": 2332326,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-actual-owned-XuShu.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/5622f4190fc1a41bd18a500f82987af3419a80ebf53a69ac4407fc22dce00b3c.png",
+      "sha256": "5622f4190fc1a41bd18a500f82987af3419a80ebf53a69ac4407fc22dce00b3c",
+      "bytes": 3031934,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-1-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/9e71c57ffc6c105aa9b5e438d60af77c560fc1308bc405b63f1b00fd7c10a570.png",
+      "sha256": "9e71c57ffc6c105aa9b5e438d60af77c560fc1308bc405b63f1b00fd7c10a570",
+      "bytes": 3032511,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-10-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/3c4cabfeb5aafdb1fa2ebcdafb4602ce33dd714afc199f630e04b1eb4fd165d1.png",
+      "sha256": "3c4cabfeb5aafdb1fa2ebcdafb4602ce33dd714afc199f630e04b1eb4fd165d1",
+      "bytes": 3031920,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-2-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e93f1f16d8620e7ae83548d3a9b2c29c41c10bc55892aa88f59c064590a4bab5.png",
+      "sha256": "e93f1f16d8620e7ae83548d3a9b2c29c41c10bc55892aa88f59c064590a4bab5",
+      "bytes": 3032640,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-3-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/75b8ec2d6d290efb44c15c87c74728bf87be42962d88dac997d303d1510d977e.png",
+      "sha256": "75b8ec2d6d290efb44c15c87c74728bf87be42962d88dac997d303d1510d977e",
+      "bytes": 3032226,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-4-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ec09c8a497fcc3745f1873a03b49b99baa6c4046e1bad19172af69c05a287806.png",
+      "sha256": "ec09c8a497fcc3745f1873a03b49b99baa6c4046e1bad19172af69c05a287806",
+      "bytes": 3032463,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-5-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/ed62dab0413686c2381537aa9ba9fe1efd296d9456123c4fb03980cb4bdeb764.png",
+      "sha256": "ed62dab0413686c2381537aa9ba9fe1efd296d9456123c4fb03980cb4bdeb764",
+      "bytes": 3031681,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-6-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/625f40c578a3d8b3a2b1884524e823ba52d5b4b915fd2b9b74aaf0f03f68a935.png",
+      "sha256": "625f40c578a3d8b3a2b1884524e823ba52d5b4b915fd2b9b74aaf0f03f68a935",
+      "bytes": 3032067,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-7-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/e4b2d1c8432195915318c8f1fdd676e6354cf254ac3e88baf37cd88b7673a009.png",
+      "sha256": "e4b2d1c8432195915318c8f1fdd676e6354cf254ac3e88baf37cd88b7673a009",
+      "bytes": 3031940,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-8-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c94eb9854eb6ccd5ca7e8aa08e74c5e2c4bdad04fa49929f1d5585d54f465673.png",
+      "sha256": "c94eb9854eb6ccd5ca7e8aa08e74c5e2c4bdad04fa49929f1d5585d54f465673",
+      "bytes": 3032045,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-month-9-original-world.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0b19a634f3e4953ece765266ac7a155e4f03dcb9b2d56192e38ccb99a5db9499.png",
+      "sha256": "0b19a634f3e4953ece765266ac7a155e4f03dcb9b2d56192e38ccb99a5db9499",
+      "bytes": 3032122,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/42fdd2cc2934fd2ced626ae1ac954e66fa570db8fc86a10c6a0c6c43691876ee.png",
+      "sha256": "42fdd2cc2934fd2ced626ae1ac954e66fa570db8fc86a10c6a0c6c43691876ee",
+      "bytes": 1661920,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-100.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/3c1b1d5e4402baf2a53d21fd862cbb659d53af1b751894ffaf7ef6fcd1833b5d.png",
+      "sha256": "3c1b1d5e4402baf2a53d21fd862cbb659d53af1b751894ffaf7ef6fcd1833b5d",
+      "bytes": 1628015,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-108.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/21e3e78168a294cda53fa4c184f8a9039c03396c5aa89bdbb4a59ccd8ddeb84e.png",
+      "sha256": "21e3e78168a294cda53fa4c184f8a9039c03396c5aa89bdbb4a59ccd8ddeb84e",
+      "bytes": 2323968,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-116.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/c93a58123ddf269a71ef762fc5fdfb5df0888991c840f77de773f25651dfb184.png",
+      "sha256": "c93a58123ddf269a71ef762fc5fdfb5df0888991c840f77de773f25651dfb184",
+      "bytes": 1627746,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-124.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/5588f465064d57575c08492f2781f7f5db549026e885883168d81671f23c1057.png",
+      "sha256": "5588f465064d57575c08492f2781f7f5db549026e885883168d81671f23c1057",
+      "bytes": 2323664,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-135.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8c40377e7a5a40567dc39765bff5245511f5e1234f7847dbf64e5b6326d23dc8.png",
+      "sha256": "8c40377e7a5a40567dc39765bff5245511f5e1234f7847dbf64e5b6326d23dc8",
+      "bytes": 1629789,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-143.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/a1b370cbf85b6bb1ded9f9eefea13bdaa8c0ffee3eada5e5e9901ce12748c2bd.png",
+      "sha256": "a1b370cbf85b6bb1ded9f9eefea13bdaa8c0ffee3eada5e5e9901ce12748c2bd",
+      "bytes": 2323564,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-151.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7768dc2248b6b72071818fec7e6805be03c2b6f81bc9198a482695506f388f88.png",
+      "sha256": "7768dc2248b6b72071818fec7e6805be03c2b6f81bc9198a482695506f388f88",
+      "bytes": 1629444,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-159.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7e437067127fc670430c725c1d1fc05831428f769f194af2c5de3b7dd8949c6f.png",
+      "sha256": "7e437067127fc670430c725c1d1fc05831428f769f194af2c5de3b7dd8949c6f",
+      "bytes": 2325063,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-162.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/df158107c1ddbf42d907568b0a9aabec14c4f1e741f875b357be36f637c5eb6d.png",
+      "sha256": "df158107c1ddbf42d907568b0a9aabec14c4f1e741f875b357be36f637c5eb6d",
+      "bytes": 2281307,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-163.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/8351887e63b4acf5cfbf936a52a516d9f831dff76c0d52ea3e360b7c4b6939f3.png",
+      "sha256": "8351887e63b4acf5cfbf936a52a516d9f831dff76c0d52ea3e360b7c4b6939f3",
+      "bytes": 2283218,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-167.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/7963bed50971f70006ba41ba0ad78af2ee51ac5a3304f58653e168bb11684239.png",
+      "sha256": "7963bed50971f70006ba41ba0ad78af2ee51ac5a3304f58653e168bb11684239",
+      "bytes": 2281311,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-18.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/dc79b63d186cfba01867133fca987abeeb2cb1c1e8f6022d46c64f139397dd89.png",
+      "sha256": "dc79b63d186cfba01867133fca987abeeb2cb1c1e8f6022d46c64f139397dd89",
+      "bytes": 1627270,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-26.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/89ade787fa325b9138874537a4189e30ccbd774b8c424138332839ed67672dc4.png",
+      "sha256": "89ade787fa325b9138874537a4189e30ccbd774b8c424138332839ed67672dc4",
+      "bytes": 2280025,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-34.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/032f86b5eab05f983a8bcb8667473778b609f6150192b3234e8d817dfceaebaa.png",
+      "sha256": "032f86b5eab05f983a8bcb8667473778b609f6150192b3234e8d817dfceaebaa",
+      "bytes": 1627523,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-42.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/63ebdbd2643f6d0e99e3e67d9d8ba4c041c8b5e01c5befefbeb4bc01cd3f4699.png",
+      "sha256": "63ebdbd2643f6d0e99e3e67d9d8ba4c041c8b5e01c5befefbeb4bc01cd3f4699",
+      "bytes": 2280516,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-50.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/6017b165b00c7fd0f597c27130187e433f047faa5b71e33a54a88e46a49ca4b5.png",
+      "sha256": "6017b165b00c7fd0f597c27130187e433f047faa5b71e33a54a88e46a49ca4b5",
+      "bytes": 1629378,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-58.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/4776f98217671b8e991dcbef24e8b0d86d347620421d670604ba0ac0919e93ef.png",
+      "sha256": "4776f98217671b8e991dcbef24e8b0d86d347620421d670604ba0ac0919e93ef",
+      "bytes": 2323472,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-66.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/99796d9758e2979586756d6e8d3ac589a35e0461bd9d1387894235a8fe4d51fb.png",
+      "sha256": "99796d9758e2979586756d6e8d3ac589a35e0461bd9d1387894235a8fe4d51fb",
+      "bytes": 1627874,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-74.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/0d28ffd23d4712b2b77d4d44966ee4ebbf3b1845d6ea7bca1f2d4adbd2831742.png",
+      "sha256": "0d28ffd23d4712b2b77d4d44966ee4ebbf3b1845d6ea7bca1f2d4adbd2831742",
+      "bytes": 2323308,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-83.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/abe1c3bb879eb169385216d07de125f17d0996142943ba8d2a8cac814b7f09c2.png",
+      "sha256": "abe1c3bb879eb169385216d07de125f17d0996142943ba8d2a8cac814b7f09c2",
+      "bytes": 1629544,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-9.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/446f082f4a7f14a257b08bfa5fb3c4e459eba07c87fed761a765bf25edbbcbac.png",
+      "sha256": "446f082f4a7f14a257b08bfa5fb3c4e459eba07c87fed761a765bf25edbbcbac",
+      "bytes": 2324975,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-hd-installed-v6/search-report-91.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/fdd8ae08c2c1c3655d826cac498506ce5d70c7a7d2b93b850adb26cc14b7aaa7.png",
+      "sha256": "fdd8ae08c2c1c3655d826cac498506ce5d70c7a7d2b93b850adb26cc14b7aaa7",
+      "bytes": 2323537,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-native/QIMEN39-picture-0-packed-cells-x8.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/2fe63335b0f14813ed5423ac4bc29068c675016f308c2a1538a24ad488b83843.png",
+      "sha256": "2fe63335b0f14813ed5423ac4bc29068c675016f308c2a1538a24ad488b83843",
+      "bytes": 3193,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-native/QIMEN39-picture-0.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/63d81433bdfc9d22fb82bfd84f79fae2d59b491e35125d5c23435281707cc1ad.png",
+      "sha256": "63d81433bdfc9d22fb82bfd84f79fae2d59b491e35125d5c23435281707cc1ad",
+      "bytes": 946,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-native/QIMEN39-picture-1-packed-cells-x8.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/fed9545906b6369d6c57a473e00dec50c085e85e183d16681fdf79c5c543217c.png",
+      "sha256": "fed9545906b6369d6c57a473e00dec50c085e85e183d16681fdf79c5c543217c",
+      "bytes": 3155,
+      "kind": "images",
+      "independentlyEqual": true
+    },
+    {
+      "source": "build/r16-qimen-native/QIMEN39-picture-1.png",
+      "archivedPath": "docs/validation/m4-qimen-20261009/images/78ea86290bf979d18e4fb8d3e1c9bc292d23b949ee6fb09144df8e78bd29de56.png",
+      "sha256": "78ea86290bf979d18e4fb8d3e1c9bc292d23b949ee6fb09144df8e78bd29de56",
+      "bytes": 917,
+      "kind": "images",
+      "independentlyEqual": true
+    }
+  ],
+  "omittedImagePolicy": {
+    "all826OriginalsStillLocalAndRehashed": true,
+    "allRuntimePngSourcesExplicitlyRetainedOrOmitted": true,
+    "omissionReasonsExplicitlyNotRecoverableFromCommittedRaw": true,
+    "noImageEditsReencodesOrDeletesByReviewer": true,
+    "notClaimed": "Omitted local repetitive PNGs are not claimed to be part of the committed archive. All original input/world/menu/frame data remain in full raw gzip records."
+  },
+  "boundaries": {
+    "v6AcceptedOnly": "One standard player skill20 QIMEN39,8actual native-LCD+8HD selectedmovie originals. Other3retiredLCD callbackpairs are preserved but are not numeric hold or extraHD accepted frames.",
+    "earlierFailures": "v1/v2/v4/v5 harness failures andv3 natural search budget failure remain failed; acquisition/recruitment alone are not cast/HD acceptance.",
+    "reviewerStartedBrowser": false,
+    "reviewerEditedProductionOrOriginalArchive": false,
+    "tool": "Independent Node SHA256+gzip decoding+Buffer.equals over each indexed original and retained archive; no reliance on declared byteExactVerified alone.",
+    "trackedAuditWorkflow": "This ignored review is a candidate for root byte-exact copying to archive-review.json. It does not mutate the already-frozen runtime-index or create a self-referential gzip entry."
+  }
+}

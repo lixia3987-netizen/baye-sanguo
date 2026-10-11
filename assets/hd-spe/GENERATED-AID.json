@@ -1,0 +1,1090 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-09T13:45:35.639Z",
+  "scope": "AID41 two selected original builtin PNGs and complete retained generation chain. Static artwork complete only; no manifest, engine, runtime or full-HD acceptance.",
+  "generator": {
+    "name": "Codex builtin image_gen.imagegen",
+    "skill": "C:/Users/75112/.codex/skills/.system/imagegen/SKILL.md",
+    "calls": 8,
+    "selectedFinalOutputs": 2,
+    "retainedNonfinalOutputs": 6,
+    "wholeFrameRejectedOutputs": 5,
+    "partialSuccessfulSupersededOutputs": 1,
+    "automaticRetries": false,
+    "paidCliOrExternalGenerator": false
+  },
+  "library": {
+    "path": "libs/dat-mod.lib",
+    "bytes": 207195,
+    "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+  },
+  "nativeMovie": {
+    "resourceId": 41,
+    "index": 0,
+    "resourceIndex": 0,
+    "resourceBase": 77897,
+    "relativeOffset": 14,
+    "absoluteOffset": 77911,
+    "bytes": 1084,
+    "sha256": "830de80f9cc5eac7fee252b1d4d56497d6e01e1d479ae5fde2efbbc885fc8145",
+    "fingerprint": "fnv1a32:1d4637e9:1084",
+    "header": [
+      0,
+      16,
+      8,
+      2,
+      0,
+      7
+    ],
+    "units": [
+      {
+        "frame": 0,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 1,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 2,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 3,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 4,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 5,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      },
+      {
+        "frame": 6,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 0
+      },
+      {
+        "frame": 7,
+        "x": 0,
+        "y": 0,
+        "clearDelay": 20,
+        "nextDelay": 20,
+        "picIndex": 1
+      }
+    ],
+    "pictures": [
+      {
+        "picIndex": 0,
+        "offset": 46,
+        "absoluteOffset": 77957,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "bytes": 519,
+        "sha256": "3ecd8c004c02485e7531ed25ad32b05c8c41fbd18103556edb4b3a09fa5c6945"
+      },
+      {
+        "picIndex": 1,
+        "offset": 565,
+        "absoluteOffset": 78476,
+        "width": 64,
+        "height": 64,
+        "count": 1,
+        "mask": 0,
+        "bytes": 519,
+        "sha256": "2e25969f024ee409a9e7cc31bce9cff9f46227241500a895e1be2e00a639d930"
+      }
+    ],
+    "origin": [
+      48,
+      16
+    ],
+    "keyflag": 0,
+    "kind": 2,
+    "background16": false,
+    "logicalFrames": 8,
+    "actualCallbackCount": "Must observe actual LCD commits; native timer coalescing means eight units are not a promise of eight callbacks.",
+    "rawPayloadHex": "0010080200070000141400000014140100001414000000141401000014140000001414010000141400000014140140004000010000ffffffffffffffff80000000000000018000000000000001800000000000000180000000000000018000000000000001800000000000000180000000000000018000000000000001800000000000000180000000000000ff8000000000000195800000000060022fc1c0000000900415a2a00000010b881bd450000002155055b87800000409a0abf0540000f810c0d7e0aa000f502180a9c1550015a101415180aa802bc20286a381556045800d054181aab18b080a0fff80f55b1600101dc3802aac2c002aaa3fe0d5787e11477d43902bbc61008bab87ffd5ed7ff912df0f9568d82b562dbe3bb875b147851b7879f3db622f3fb4a09fdd67c15dd5f8573fcc7fc3bcc6f60225fc9995cfcd9307f9ff93289ffb362c9da71e111275c715ffc6ba21fc7b880ef1e357424e353d0b07fdb7f2ffda7857fd8f5fe378f5fffeffbff67583ff65ff0fe4cefbfe4cef7b8bf4dfff7f4dffe07dfffe7f87ffe69ffbd6fbfdc56fbffff7ecbfb03ecbfbde2fdffafffdffafcfddb1887ffb1881cfb9fbfe6f17bfef997de7b167ee7b1f3687cf75e7dcf75e4327e39bccbe39b7c107bbef9143beea8007bc773183c7730007b04be80380a7a007b0ff540340ee0007b1ff8003007b0007b0078003007b0005b0070003003d0007b0058003001b8001a805c002801d0001b8068003800000018005c00000000001ffffffffffffffff40004000010000ffffffffffffffff80000000000000018000000000000001800000000000000180000000000000018000000000000001800000000000000180000000000000018000000000000001800000000000000180000000000000ff8000000000000195800000000060022fc1c0000000900415a2a00000010b881bd450000002155055b87800000409a0abf0540000f810c0d7e0aa000f502180a9c1550015a101415180aa802bc20286a381556045800d054181aab18b080a0f8b80f55b1600101d05802aac2c002aaa0b80d5785811477d41802bafb0008aab839055f86141705f059868effe8aa8be2b9435f1550551785d8a1be2e182a0a0bb9d65c1cf25e0575f9a3bc7756ec603bfb51f9f31dd8307f5a08f33f2a6262aabf11627fd4c47157faa8a449afa080bbf91557f19f10d05ddd55193895d3055fffa8abff2bef0aaeffe05de357f5845c5fe4360ffd9a2e38bb702ff933b45d715abfbdfd37faaba03d7bfe1fff9d55f55ecef715befffffabb7bc0fb2feeaaaabed53ff7fd7c05405fa1ffec62a8888a9851bc5eff84055018819fb9ec48280218039f73dd405010180f32f8e6802000181e450efb800000181c868f3d000a00192f814c168000001bd5000c038000001fe6000c01c00000180e000c01c00000181c000c00c000001816000c006000001816000a00700000181a000e000000001ffffffffffffffff",
+    "sameSourceBytesFreshlyVerified": true,
+    "maskSemantics": "mask0 opaque monochrome original picture. Original 64x64 bitmaps are reference evidence, never enlarged as production HD artwork."
+  },
+  "skills": [
+    {
+      "id": 17,
+      "name": "援兵",
+      "aim": 1,
+      "state": 0,
+      "power": 800,
+      "destroy": 0,
+      "useMp": 15,
+      "source": {
+        "resourceId": 10,
+        "resourceIndex": 0,
+        "resourceBase": 21795,
+        "relativeOffset": 14,
+        "absoluteOffset": 21809,
+        "bytes": 1020,
+        "sha256": "e7b985522749ad938a4b117accb4dab1a8601bd4fa9d40736d2c8a2c8bd3f2ed",
+        "recordOffset": 544,
+        "recordBytes": 34,
+        "recordSha256": "0597eddb21c715c8edbd58917e9a4c0ffc2a8541f653684a3ee355ec5035b1bb",
+        "rawHex": "0100200300000f646464640064646464646464646464646464646464646464646464"
+      },
+      "actualMapping": {
+        "speId": 41,
+        "startFrm": 0,
+        "endFrm": 7,
+        "offsetX": 33,
+        "backgroundMode": 0,
+        "source": "source defaults retained; standard IFACE resource has only16 items, no optional mapping overrides"
+      }
+    },
+    {
+      "id": 29,
+      "name": "援军",
+      "aim": 1,
+      "state": 0,
+      "power": 1800,
+      "destroy": 0,
+      "useMp": 30,
+      "source": {
+        "resourceId": 10,
+        "resourceIndex": 0,
+        "resourceBase": 21795,
+        "relativeOffset": 14,
+        "absoluteOffset": 21809,
+        "bytes": 1020,
+        "sha256": "e7b985522749ad938a4b117accb4dab1a8601bd4fa9d40736d2c8a2c8bd3f2ed",
+        "recordOffset": 952,
+        "recordBytes": 34,
+        "recordSha256": "7594e1e88d78938386a9c2c5e4e4224942c7ad061e5bd020e0acbed180ebdb33",
+        "rawHex": "0100080700001e646464640064646464646464646464646464646464646464646464"
+      },
+      "actualMapping": {
+        "speId": 41,
+        "startFrm": 0,
+        "endFrm": 7,
+        "offsetX": 33,
+        "backgroundMode": 0,
+        "source": "source defaults retained; standard IFACE resource has only16 items, no optional mapping overrides"
+      }
+    }
+  ],
+  "nativeEffectBoundary": {
+    "requestedGain": {
+      "17": 800,
+      "29": 1800
+    },
+    "target": "One actual selected friendly target authorized by original native range and owner. Not all-allies/AOE.",
+    "capacity": "Actual gain is original capacity-limited delta; do not claim universal800 or fixed capacity.",
+    "mp": "Original MP15/30 debit and success/failure follow native code; no execution observed in this art record.",
+    "number15": "Real NUM15 prewarm/label/digit/hold integration still pending; zero capped gain may still have native numeric0.",
+    "movie": "Eight logical units0..7 alternate pictures0/1 at x0,y0,clearDelay20,nextDelay20. Actual LCD callback count requires future runtime observation; original movie at48,16,kind2,keyflag0, no BACKPIC16."
+  },
+  "nativeReferenceFiles": [
+    {
+      "path": "build/r21-next-skill-native/resource-41-picture-0-4x.png",
+      "bytes": 3756,
+      "sha256": "15e78a0c30d7df4d4e39170e1ed43b0cb2e1189469a76a80d113a66538a01d5c",
+      "role": "Native inspection magnification only",
+      "attachedToolReference": false
+    },
+    {
+      "path": "build/r21-next-skill-native/resource-41-picture-1-4x.png",
+      "bytes": 3566,
+      "sha256": "e12c880f66960e6a852c53b803f44e1ac6a67fa15ab919ae5c5d5f61ed3529d9",
+      "role": "Native inspection magnification only",
+      "attachedToolReference": false
+    }
+  ],
+  "nativeBoundaryPlan": {
+    "path": "build/r22-aid-native-boundary-plan.json",
+    "bytes": 15473,
+    "sha256": "44de165f51709a8b4088834e416f47c4c50deabd3eb6b5dcde89a94e7458a280"
+  },
+  "selectedAssets": [
+    {
+      "picture": 0,
+      "version": "v2",
+      "generationCall": 2,
+      "path": "assets/hd-spe/aid-41/picture-0.png",
+      "bytes": 3203857,
+      "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57",
+      "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-b847014e-7775-49b5-a1f9-3ee9d39175e1.png",
+      "originalSourceMetadata": {
+        "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-b847014e-7775-49b5-a1f9-3ee9d39175e1.png",
+        "bytes": 3203857,
+        "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+      },
+      "originalByteExact": true,
+      "png": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": 2,
+        "compression": 0,
+        "filter": 0,
+        "interlace": 0,
+        "mode": "RGB",
+        "opaque": true,
+        "alphaChannel": false,
+        "transparencyChunk": false,
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "crcChecked": true,
+        "inflatedScanlineBytes": 4718802,
+        "scanlineFiltersValid": true,
+        "chunks": [
+          {
+            "type": "IHDR",
+            "bytes": 13,
+            "crcChecked": true
+          },
+          {
+            "type": "caBX",
+            "bytes": 21881,
+            "crcChecked": true
+          },
+          {
+            "type": "IDAT",
+            "bytes": 3181907,
+            "crcChecked": true
+          },
+          {
+            "type": "IEND",
+            "bytes": 0,
+            "crcChecked": true
+          }
+        ]
+      },
+      "role": "First phase: three screen-right forward boots",
+      "destinationApplied": true,
+      "sourceCandidate": {
+        "path": "build/r22-aid-candidates/v2/picture-0.png",
+        "bytes": 3203857,
+        "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+      },
+      "saved": {
+        "path": "assets/hd-spe/aid-41/picture-0.png",
+        "bytes": 3203857,
+        "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+      }
+    },
+    {
+      "picture": 1,
+      "version": "v6",
+      "generationCall": 8,
+      "path": "assets/hd-spe/aid-41/picture-1.png",
+      "bytes": 2868208,
+      "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed",
+      "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-dd1edab0-2da9-4d1e-9ad8-a6758a2230f7.png",
+      "originalSourceMetadata": {
+        "path": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-dd1edab0-2da9-4d1e-9ad8-a6758a2230f7.png",
+        "bytes": 2868208,
+        "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+      },
+      "originalByteExact": true,
+      "png": {
+        "width": 1254,
+        "height": 1254,
+        "bitDepth": 8,
+        "colorType": 2,
+        "compression": 0,
+        "filter": 0,
+        "interlace": 0,
+        "mode": "RGB",
+        "opaque": true,
+        "alphaChannel": false,
+        "transparencyChunk": false,
+        "opaquePixels": 1572516,
+        "nonOpaquePixels": 0,
+        "crcChecked": true,
+        "inflatedScanlineBytes": 4718802,
+        "scanlineFiltersValid": true,
+        "chunks": [
+          {
+            "type": "IHDR",
+            "bytes": 13,
+            "crcChecked": true
+          },
+          {
+            "type": "caBX",
+            "bytes": 21881,
+            "crcChecked": true
+          },
+          {
+            "type": "IDAT",
+            "bytes": 2846258,
+            "crcChecked": true
+          },
+          {
+            "type": "IEND",
+            "bytes": 0,
+            "crcChecked": true
+          }
+        ]
+      },
+      "role": "Opposite phase: three screen-left forward boots",
+      "destinationApplied": true,
+      "sourceCandidate": {
+        "path": "build/r22-aid-candidates/v6/picture-1.png",
+        "bytes": 2868208,
+        "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+      },
+      "saved": {
+        "path": "assets/hd-spe/aid-41/picture-1.png",
+        "bytes": 2868208,
+        "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+      }
+    }
+  ],
+  "generationCalls": [
+    {
+      "call": 1,
+      "picture": 0,
+      "version": "v1",
+      "tool": "Codex builtin image_gen.imagegen",
+      "mode": "generate",
+      "transparent_background": false,
+      "exactPrompt": "Create one square, opaque, richly detailed HD illustration for a Three Kingdoms historical strategy game's reinforcements skill, animation picture 0. The original 64 by 64 monochrome resource shows spear-bearing infantry advancing in front of rocky mountains; preserve that readable small-window idea while creating high-quality new art. Use a grounded painterly-realistic game-cinematic style, natural muted earth, dark iron, faded red-brown fabric, pale gray-blue daylight, consistent with realistic rugged Chinese mountain battlefield art. Composition: exactly three distinct full-body ancient Han Chinese infantrymen cross a broad stony mountain pass toward the lower right, seen from a modestly elevated three-quarter angle; the foremost soldier occupies the center-right, second lower-left, third slightly behind in the middle. Their whole bodies, boots, plain rounded helmets, lamellar cuirasses and long wooden spears must remain inside the image with breathing room, no cropping at edges. The rear mountain silhouettes and dusty pale sky occupy the upper third, a pass with gravel and sparse grass fills the lower two thirds. All three carry clearly separated long spears angled gently up toward the right with simple metal spearheads, hands grip shafts convincingly; no weapons intersect faces or fused limbs. Pose A of a two-frame walk: lead soldier plants left foot forward, right foot trailing, front elbow slightly bent; the other two are offset in stride. Readable confident marching formation, the reinforcements arriving rather than attacking anyone. Keep equipment historically plausible, generic and unmarked. Sharp soldiers against a slightly quieter but fully painted background, crisp material detail that still reads in a tiny bounded game window. Even neutral daylight, no dramatic magic or lighting effects. Complete filled square image, fully opaque background, no border, no frame, no text, no labels, no numbers, no heraldry, no logos, no game UI, no transparent areas. This is a single animation picture, not a sprite sheet or collage.",
+      "promptSource": {
+        "path": "build/r22-aid-candidates/generation-inputs.json",
+        "key": "frame0Prompt"
+      },
+      "orderedInputs": [],
+      "inputRecordingBoundary": "Original call was generate; no attached image reference is recorded. Native references were human inspection evidence and are not claimed as attached tool inputs.",
+      "output": {
+        "path": "build/r22-aid-candidates/v1/picture-0.png",
+        "bytes": 3391789,
+        "sha256": "12a74edc8e0d5dc908579dca8943f939e108736fb1056a3daa7e6716be06d381",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-3614228f-ecd7-4142-83d4-bb711b96688e.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-3614228f-ecd7-4142-83d4-bb711b96688e.png",
+          "bytes": 3391789,
+          "sha256": "12a74edc8e0d5dc908579dca8943f939e108736fb1056a3daa7e6716be06d381"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 3369839,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "judgment": {
+        "status": "rejected-retained",
+        "reason": "Leftmost spear butt cropped; superseded by picture0 v2."
+      },
+      "originalReview": "Retained original candidate; left spear butt cropped. Superseded by v2 for this composition."
+    },
+    {
+      "call": 2,
+      "picture": 0,
+      "version": "v2",
+      "tool": "Codex builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Make a minimal local correction to this exact image. Preserve the entire composition, the same three soldiers and all their identities, armor, faces, bodies, walking poses, mountain landscape, lighting, painterly-realistic detail, and square image. The wooden butt of the leftmost soldier's spear is currently cut off by the left edge. Shorten only that spear's rear wooden extension slightly so its rounded butt ends visibly inside the frame with a small margin; preserve its existing tip, angle and hand grips. Do not change the other two spears. Keep the entire scene fully opaque. No text, border, labels, logos, added characters or UI.",
+      "promptSource": {
+        "path": "build/r22-aid-candidates/generation-inputs.json",
+        "key": "frame0CorrectionPrompt"
+      },
+      "orderedInputs": [
+        {
+          "path": "build/r22-aid-candidates/v1/picture-0.png",
+          "bytes": 3391789,
+          "sha256": "12a74edc8e0d5dc908579dca8943f939e108736fb1056a3daa7e6716be06d381",
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v1/picture-0.png",
+          "role": "sole image edit target; previously generated candidate"
+        }
+      ],
+      "inputRecordingBoundary": "Sole image reference recorded by original generation provenance.",
+      "output": {
+        "path": "build/r22-aid-candidates/v2/picture-0.png",
+        "bytes": 3203857,
+        "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-b847014e-7775-49b5-a1f9-3ee9d39175e1.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-b847014e-7775-49b5-a1f9-3ee9d39175e1.png",
+          "bytes": 3203857,
+          "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 3181907,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "judgment": {
+        "status": "selected-final-static-art",
+        "reason": "Complete three-soldier composition, full spears/boots and accepted first walking phase."
+      },
+      "originalReview": "Three soldiers, distinct full spears and boots, coherent mountain-pass scene. Art candidate only."
+    },
+    {
+      "call": 3,
+      "picture": 1,
+      "version": "v1",
+      "tool": "Codex builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Edit the provided picture into animation picture 1 of the exact same reinforcements scene. Preserve the square image size, camera, opaque background, mountain silhouettes, terrain, lighting, palette, and the identities and exact equipment of the same three soldiers. Change only the soldiers' walking phase and a little immediate foot dust: lead soldier now plants the right foot forward with the left foot trailing, move the elbows and long spear naturally by a small amount for the opposite step; the other two soldiers also switch to the opposite stride. Keep the same three positions and scale with only minimal natural forward movement. Preserve every whole body, boot, helmet and entire spear inside the picture with breathing room. Convincing anatomy and hand grips, distinct separate silhouettes. No new people, weapons, symbols, effects, text, borders or UI. Retain the same painterly-realistic historical game-art finish and completely opaque background. It is the alternating second picture of a simple marching loop, not a different shot.",
+      "promptSource": {
+        "path": "build/r22-aid-candidates/generation-inputs.json",
+        "key": "frame1Prompt"
+      },
+      "orderedInputs": [
+        {
+          "path": "build/r22-aid-candidates/v2/picture-0.png",
+          "bytes": 3203857,
+          "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57",
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v2/picture-0.png",
+          "role": "sole image edit target; previously generated candidate"
+        }
+      ],
+      "inputRecordingBoundary": "Sole image reference recorded by original generation provenance.",
+      "output": {
+        "path": "build/r22-aid-candidates/v1/picture-1.png",
+        "bytes": 3135412,
+        "sha256": "5355c3e6cd64732cf0c807707b7852ce3f461570333fdcb700ce177f165cac1a",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-ce0eb407-2628-4f3a-93e7-cbdd24a7aeaa.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-ce0eb407-2628-4f3a-93e7-cbdd24a7aeaa.png",
+          "bytes": 3135412,
+          "sha256": "5355c3e6cd64732cf0c807707b7852ce3f461570333fdcb700ce177f165cac1a"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 3113462,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "judgment": {
+        "status": "rejected-retained",
+        "reason": "Alternate stride not achieved; foreground feet retained original phase."
+      },
+      "originalReview": "Equipment and background coherent, but foreground soldiers retain same forward leg. Alternate stride unresolved."
+    },
+    {
+      "call": 4,
+      "picture": 1,
+      "version": "v2",
+      "tool": "Codex builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Create the ALTERNATE WALKING PHASE of the supplied image, not a new shot. Keep the exact same square opaque Three Kingdoms mountain-pass scene, camera, all background mountains and rocks, three soldiers, faces, equipment, armor, material detail, color and daylight. Their present poses all have the boot on the viewer's RIGHT planted furthest forward. SWAP THE LEGS for all three soldiers: the leg and boot on the viewer's LEFT must now be clearly extended forward toward the bottom of the image, while the leg on the viewer's RIGHT bends and trails behind, with its boot placed higher in the image. This visible left/right reversal of the stepping boots is the essential edit. Keep each body and head nearly in the same center and same scale, adjust elbows and long spears just a little to balance the opposite step, preserve convincing anatomy and hand grips. Preserve exactly three soldiers and three long spears. Keep every entire spear and both boots inside the image; the wooden butt of the leftmost spear must end visibly inside the left edge. Only tiny changes to foot dust. Do not add anything, no UI, text, numbers, labels, borders, magic or extra characters. Preserve the original fully opaque painterly-realistic historical game-art finish and unchanged landscape.",
+      "promptSource": {
+        "path": "build/r22-aid-candidates/generation-inputs.json",
+        "key": "frame1CorrectionPrompt"
+      },
+      "orderedInputs": [
+        {
+          "path": "build/r22-aid-candidates/v2/picture-0.png",
+          "bytes": 3203857,
+          "sha256": "ec5c1bba0e7ddf9c8c7bb048fc04483502a53fdb032cb1bb07345c548e36bb57",
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v2/picture-0.png",
+          "role": "sole image edit target; previously generated candidate"
+        }
+      ],
+      "inputRecordingBoundary": "Sole image reference recorded by original generation provenance.",
+      "output": {
+        "path": "build/r22-aid-candidates/v2/picture-1.png",
+        "bytes": 3025318,
+        "sha256": "03e46cea2202687bcd83bfa88f7da12c85d4a0db648326a95a2c6560912fa470",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-fe55792d-2a2b-42de-92d4-19ffe679e1df.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e2-c940-7931-9e13-0a495970c85f/exec-fe55792d-2a2b-42de-92d4-19ffe679e1df.png",
+          "bytes": 3025318,
+          "sha256": "03e46cea2202687bcd83bfa88f7da12c85d4a0db648326a95a2c6560912fa470"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 3003368,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "judgment": {
+        "status": "rejected-retained",
+        "reason": "Explicit three-soldier opposite step still not achieved."
+      },
+      "originalReview": "Explicit opposite-stride request still not fully satisfied by foreground legs. Retained candidate, not selected for integration."
+    },
+    {
+      "call": 5,
+      "picture": 1,
+      "version": "v3",
+      "tool": "builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Use case: precise-object-edit. Edit target: the sole attached image, current AID41 picture-1. Preserve its opaque square historical painting and all upper-body/background composition.\n\n以当前picture-1为唯一编辑底图，仅纠正三人的下半身行军相位。保持镜头、山谷、城楼、旗帜、岩石、三人数量与身份、头脸、盔甲、上半身中心、长矛及握持角度不变，不镜像整图。现图三人都是画面右侧靴子在前；需要让画面左侧腿明确向前承重，右侧膝盖弯曲、脚跟抬起向后。位置是近似定位，不要把脚机械贴到坐标：前景右侧大兵只编辑x650–980/y820–1190区域，把当前右前靴约(880,1150)改为退后的脚，抬至约(860,1010)；把当前左后靴约(700,1010)改成向前落地的靴，落在约(735,1150)。左侧兵只编辑x130–320/y820–1140区域，把当前约(255,1090)的右前靴退后至约(275,990)，左脚由约(170,1005)向前落在约(195,1110)。后排中兵只编辑x420–570/y670–920区域，把当前约(530,875)的右前靴退后至约(535,790)，左脚由约(440,805)向前落在约(465,890)。每人恰好两条相连且自然弯曲的腿、两只完整靴子，调整相应裙甲褶皱和接触阴影；不要仅伸长原来的前脚，不要用换装备、改肘部或抬起同一只前靴代替换步。保持所有靴子和完整长矛在图内，左侧长矛木柄末端仍留边距。无新增人物、文字、标志、边框或特效；保持原来的不透明历史绘画风格。\n\nPerform only this explicit three-region leg-phase correction. Keep exactly three soldiers, exactly two connected legs and two complete boots per soldier. Do not mirror the full image, change weapons, add figures, add text/UI, or merely lift the same currently leading foot. The three viewer-left boots must now read as the clearly forward weight-bearing feet; viewer-right boots must recede with bent knees/raised heels. Keep the full weapons and feet inside the frame. Output remains fully opaque.",
+      "orderedInputs": [
+        {
+          "path": "F:/project/baye-sanguo/build/r22-aid-candidates/v2/picture-1.png",
+          "role": "sole edit target; preserve identity/style/background, edit only three lower-body ROIs",
+          "bytes": 3025318,
+          "sha256": "03e46cea2202687bcd83bfa88f7da12c85d4a0db648326a95a2c6560912fa470",
+          "width": 1254,
+          "height": 1254,
+          "actuallyViewed": true,
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v2/picture-1.png"
+        }
+      ],
+      "output": {
+        "path": "build/r22-aid-candidates/v3/picture-1.png",
+        "bytes": 3015739,
+        "sha256": "3b3efb21b26e3c77d9d837deda1a4019b62be0fea1439ab8af6ce2c3fdbd5286",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-ca5f7762-6553-4378-951f-cdda90f55609.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-ca5f7762-6553-4378-951f-cdda90f55609.png",
+          "bytes": 3015739,
+          "sha256": "3b3efb21b26e3c77d9d837deda1a4019b62be0fea1439ab8af6ce2c3fdbd5286"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 2993789,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "generationInputRecord": {
+        "path": "build/r22-aid-candidates/v3/generation-inputs.json",
+        "bytes": 2864,
+        "sha256": "5a422378d5d880be10addb35d6683ec5781628fb3a66874166f7d757fb895b72"
+      },
+      "generationProvenanceRecord": {
+        "path": "build/r22-aid-candidates/v3/generation-provenance.json",
+        "bytes": 3226,
+        "sha256": "199aa3d76d412aa88753fab22834a0882d1ce73a78eea82c1bc8ed792f67d509"
+      },
+      "taskInfo": "functions.exec cell1675; exec-ca5f7762-6553-4378-951f-cdda90f55609",
+      "judgment": {
+        "status": "rejected-retained",
+        "reason": "Left soldier corrected; foreground and rear remained old phase. Full alternate frame rejected."
+      }
+    },
+    {
+      "call": 6,
+      "picture": 1,
+      "version": "v4",
+      "tool": "builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Use case: precise-object-edit. The ONLY input is the current AID41 picture-1 v3, and it is the sole edit target. Make ONE localized correction to the foreground-right LARGEST soldier's lower body only. Preserve the entire image composition and opaque square historical-painting style.\n\n只编辑前景右侧最大士兵的两腿、靴子及相连裙甲，约x650–980/y820–1200这一处区域。现在他画面右边大靴在前、画面左边靴在后，必须明确交换前后承重关系：把原左后靴约(690,1040)变成向前伸出的承重落地大靴，落在约(720,1160)，画面左边这只靴必须明显比右边靴更低、更靠近镜头；把原右前大靴约(850,1150)变成退后的弯腿抬脚，靴约(860,1010)，右膝弯曲、脚跟抬起。坐标只用于定位和构图理解，不要机械粘贴靴子。用自然相连的两条腿和两只完整靴子，随之调整这一人的裙甲褶皱与足部接触阴影。不要仅改变原前靴角度或继续伸长原前腿，必须清楚成为画面左侧脚在前、右侧脚在后。\n\n严格锁定另外两名士兵完全不动，包括左侧已经换步的士兵和后排中兵；不要尝试修后排兵。锁定三人的头脸、盔甲上身、上半身位置、手臂、长矛和握持角度。锁定山谷、城楼、旗帜、岩石、镜头、光线和全部其它区域。不要镜像整图，不增加或删除人物，不增加第三条腿或悬空/断裂靴子，不新增道具、文字、UI、标志、边框或特效。人物脚部和完整长矛都留在图内。保留全图不透明RGB质感。",
+      "orderedInputs": [
+        {
+          "path": "F:/project/baye-sanguo/build/r22-aid-candidates/v3/picture-1.png",
+          "role": "sole edit target; only foreground-largest lower-body ROI may change",
+          "bytes": 3015739,
+          "sha256": "3b3efb21b26e3c77d9d837deda1a4019b62be0fea1439ab8af6ce2c3fdbd5286",
+          "width": 1254,
+          "height": 1254,
+          "actuallyViewed": true,
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v3/picture-1.png"
+        }
+      ],
+      "output": {
+        "path": "build/r22-aid-candidates/v4/picture-1.png",
+        "bytes": 2897912,
+        "sha256": "ad13e353a899871e65079aa31f74309d24f6318eb8931a2ed3c9d8cd1880f062",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-2d21b080-33ba-4623-bcf5-716818d87eb2.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-2d21b080-33ba-4623-bcf5-716818d87eb2.png",
+          "bytes": 2897912,
+          "sha256": "ad13e353a899871e65079aa31f74309d24f6318eb8931a2ed3c9d8cd1880f062"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 23654,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 2874189,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "generationInputRecord": {
+        "path": "build/r22-aid-candidates/v4/generation-inputs.json",
+        "bytes": 2466,
+        "sha256": "b53b73a32af1066ba8369cb26257736a8802839293a3bc2ae7f5f609edfe2864"
+      },
+      "generationProvenanceRecord": {
+        "path": "build/r22-aid-candidates/v4/generation-provenance.json",
+        "bytes": 2731,
+        "sha256": "0ca5d9cc8a7e746183b02aeb5344a78c7072c0d9087edb893317d5120c956759"
+      },
+      "taskInfo": "functions.exec cell1690; exec-2d21b080-33ba-4623-bcf5-716818d87eb2",
+      "judgment": {
+        "status": "rejected-retained",
+        "reason": "Foreground still had screen-right front grounded boot. Bend/angle change did not establish opposite stride."
+      }
+    },
+    {
+      "call": 7,
+      "picture": 1,
+      "version": "v5",
+      "tool": "builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Use case: precise-object-edit. Sole input image is the current AID41 picture-1 v4; edit this image only. Redraw ONLY the entire lower body, from hips/waist armor downward, of the largest soldier in the foreground-right. Preserve his upper-body center, face, helmet, torso armor, arms, hands and spear. Preserve the other two soldiers and all background elements.\n\n重新绘制前景最大兵的整个下半身为相反步态。他的解剖右腿（画面左侧、目前弯曲在后的腿）现在跨到身体前方、膝盖朝镜头、胫骨向下，右靴成为最靠近镜头且落地的前脚，位于躯干中线左下方；解剖左腿（画面右侧、目前落地的粗大前腿）现在伸到身体后方，膝弯曲、靴子明显悬空且更高、更远。必须完全移除原有右侧前伸粗腿/落地大靴，替换为后摆腿；不能仅弯曲原来后腿。允许髋与裙甲相应转动。自然完整两腿两靴，重心落在新的画面左前腿。\n\nThe visible result must read unmistakably as the opposite stride: foreground soldier's screen-left boot is the grounded nearest-camera foot; his screen-right boot is airborne behind him, noticeably higher and farther away. Replace the old screen-right forward thick leg and grounded boot rather than retaining them. Allow a small pelvis rotation and coordinated waist/skirt-armor folds to make the new stance anatomically coherent. This is a complete lower-body re-pose, not a boot-angle change.\n\nLock both smaller soldiers completely, including their legs. Do not fix the rear soldier in this image. Lock the mountain pass, fortress, flags, rocks, framing, lighting, color/material style and all three identities. Do not mirror the whole image. Exactly three soldiers, each with two naturally connected legs/two complete boots; no detached limbs or extra feet. No new props, text, UI, logos, borders or effects. Keep complete weapons and all boots inside the frame. Output remains the original fully opaque square historical painting.",
+      "orderedInputs": [
+        {
+          "path": "F:/project/baye-sanguo/build/r22-aid-candidates/v4/picture-1.png",
+          "role": "sole edit target; foreground largest soldier hips/skirt/knees/boots may be redrawn; all other subjects/background fixed",
+          "bytes": 2897912,
+          "sha256": "ad13e353a899871e65079aa31f74309d24f6318eb8931a2ed3c9d8cd1880f062",
+          "width": 1254,
+          "height": 1254,
+          "actuallyViewed": true,
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v4/picture-1.png"
+        }
+      ],
+      "output": {
+        "path": "build/r22-aid-candidates/v5/picture-1.png",
+        "bytes": 2916689,
+        "sha256": "b65a214a3c1ca1ad0fac8410389a18e2149fd53777b670e76c4c5c0b50587aac",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-64e23c1b-9507-401f-aace-13337dfb7e03.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-64e23c1b-9507-401f-aace-13337dfb7e03.png",
+          "bytes": 2916689,
+          "sha256": "b65a214a3c1ca1ad0fac8410389a18e2149fd53777b670e76c4c5c0b50587aac"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 2894739,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "generationInputRecord": {
+        "path": "build/r22-aid-candidates/v5/generation-inputs.json",
+        "bytes": 2807,
+        "sha256": "7d798efcda3a6f4293085fadc9cc03a709a7edb26a8358b2745048670a4349c7"
+      },
+      "generationProvenanceRecord": {
+        "path": "build/r22-aid-candidates/v5/generation-provenance.json",
+        "bytes": 3201,
+        "sha256": "b27093f278aa40c8e55cc4342a58c66496733f8b053bfd0a29c3c7be28f5a92f"
+      },
+      "taskInfo": "functions.exec cell1701; exec-64e23c1b-9507-401f-aace-13337dfb7e03",
+      "judgment": {
+        "status": "superseded-partial-success-retained",
+        "reason": "Foreground complete lower-body correction passed and left soldier remained corrected; rear retained old phase, so not accepted as final loop frame."
+      }
+    },
+    {
+      "call": 8,
+      "picture": 1,
+      "version": "v6",
+      "tool": "builtin image_gen.imagegen",
+      "mode": "edit",
+      "transparent_background": false,
+      "exactPrompt": "Use case: precise-object-edit. Sole input image is current AID41 picture-1 v5; it is the only edit target. Redraw ONLY the whole lower body (hips, skirt armor, both knees and both boots) of the REAR-CENTER SMALLER SOLDIER standing between the left soldier and the large foreground-right soldier. Do not edit either foreground soldier. The rear-center soldier is the man farther up the path, whose boots are near the middle of the image beneath his short skirt armor.\n\n只重新摆后排中间那名较小士兵腰以下的整个下半身，使他走出与当前相反的步态。该后排兵现在是画面右侧腿向前、右侧大靴低伸在前；必须完全移除这条旧的右侧前落地腿和大靴，替换为后摆弯腿、脚跟抬起且靴子明显悬空更高更远。让他的画面左侧腿从后方跨到身体前方，膝盖朝镜头、胫骨向下，左侧靴子成为最近镜头、较低且明确落地承重的前脚。允许这名后排兵的髋部与裙甲随新姿态小幅转动，重心落在新的画面左前腿。自然完整两条相连的腿、两只完整靴子。不能仅弯曲原来的后腿或调整同一只前靴角度，必须明确换成画面左脚在前、画面右脚后摆抬起。\n\nThe result must show an unambiguous opposite stride for this REAR-CENTER soldier only: screen-left boot grounded forward and lower/nearer, screen-right boot airborne behind, higher and farther. Rebuild his entire lower-body pose as needed rather than retaining the original right-side leading leg. Preserve his head/face/helmet, upper-body center, armor above the waist, arms/hands and spear precisely in composition and identity. Keep the large foreground-right soldier and the left soldier completely unchanged, including their successfully corrected left-leading legs. Lock the mountain pass, fortress/flags, rocks, camera/framing, light and all background. Do not mirror the image, enlarge or move the rear soldier into the foreground, or add people/limbs/props/text/UI/logos/borders/effects. Exactly three soldiers, two boots per soldier, and all complete spears/feet remain inside frame. Maintain fully opaque square historical painting style and the accepted charcoal/bronze material palette.",
+      "orderedInputs": [
+        {
+          "path": "F:/project/baye-sanguo/build/r22-aid-candidates/v5/picture-1.png",
+          "role": "sole edit target; only rear-center smaller soldier hips/skirt/knees/boots may change; foreground two corrected soldiers locked",
+          "bytes": 2916689,
+          "sha256": "b65a214a3c1ca1ad0fac8410389a18e2149fd53777b670e76c4c5c0b50587aac",
+          "width": 1254,
+          "height": 1254,
+          "actuallyViewed": true,
+          "absolutePath": "F:/project/baye-sanguo/build/r22-aid-candidates/v5/picture-1.png"
+        }
+      ],
+      "output": {
+        "path": "build/r22-aid-candidates/v6/picture-1.png",
+        "bytes": 2868208,
+        "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed",
+        "originalSource": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-dd1edab0-2da9-4d1e-9ad8-a6758a2230f7.png",
+        "originalSourceMetadata": {
+          "path": "C:/Users/75112/.codex/generated_images/01a116e3-623c-7513-a5e0-580eb72033be/exec-dd1edab0-2da9-4d1e-9ad8-a6758a2230f7.png",
+          "bytes": 2868208,
+          "sha256": "3d3d7353f870fcffb85e54fe767c3d37f48fb53ed65ecd59eb907992e2f616ed"
+        },
+        "originalByteExact": true,
+        "png": {
+          "width": 1254,
+          "height": 1254,
+          "bitDepth": 8,
+          "colorType": 2,
+          "compression": 0,
+          "filter": 0,
+          "interlace": 0,
+          "mode": "RGB",
+          "opaque": true,
+          "alphaChannel": false,
+          "transparencyChunk": false,
+          "opaquePixels": 1572516,
+          "nonOpaquePixels": 0,
+          "crcChecked": true,
+          "inflatedScanlineBytes": 4718802,
+          "scanlineFiltersValid": true,
+          "chunks": [
+            {
+              "type": "IHDR",
+              "bytes": 13,
+              "crcChecked": true
+            },
+            {
+              "type": "caBX",
+              "bytes": 21881,
+              "crcChecked": true
+            },
+            {
+              "type": "IDAT",
+              "bytes": 2846258,
+              "crcChecked": true
+            },
+            {
+              "type": "IEND",
+              "bytes": 0,
+              "crcChecked": true
+            }
+          ]
+        }
+      },
+      "generationInputRecord": {
+        "path": "build/r22-aid-candidates/v6/generation-inputs.json",
+        "bytes": 3033,
+        "sha256": "8d1885943c93c9ef895ebea99348f2c6eb76ac70ee0b0cb3240cda6b8c1512a3"
+      },
+      "generationProvenanceRecord": {
+        "path": "build/r22-aid-candidates/v6/generation-provenance.json",
+        "bytes": 3426,
+        "sha256": "4dfccc82ebfa2c881a2ab80014b988044fe23fb33d7996791e92ba335698f73c"
+      },
+      "taskInfo": "functions.exec cell1705; exec-dd1edab0-2da9-4d1e-9ad8-a6758a2230f7",
+      "judgment": {
+        "status": "selected-final-static-art",
+        "reason": "All three screen-left boots forward/grounded and screen-right boots raised behind; distinguishable opposite phase to selected picture0."
+      }
+    }
+  ],
+  "visualReview": {
+    "independentReview": {
+      "path": "build/r22-aid-candidates/v6/visual-review.json",
+      "bytes": 2455,
+      "sha256": "4cbe55459b8177ae8d787831d0b7f9b56ac3a4d90b8efe4a0825dbab742ec6ae"
+    },
+    "staticPairConclusion": "Selected picture0 has screen-right forward boots for all three soldiers; selected picture1 has screen-left forward boots. Same three identities, armor, full spears, opaque mountain-pass camera and composition remain coherent.",
+    "rootIndependentReview": {
+      "actuallyViewed": true,
+      "reportedBy": "/root",
+      "images": [
+        "build/r21-next-skill-native/resource-41-picture-0-4x.png",
+        "build/r21-next-skill-native/resource-41-picture-1-4x.png",
+        "build/r22-aid-candidates/v2/picture-0.png",
+        "build/r22-aid-candidates/v5/picture-1.png",
+        "build/r22-aid-candidates/v6/picture-1.png"
+      ],
+      "conclusion": "All three v6 viewer-left front grounded feet and viewer-right raised trailing feet; selected v2 picture0 is the opposite phase. Soldier identities/faces/armor/full spears/whole boots/opaque mountain-pass composition accepted as a static pair, without runtime or pixel-lock acceptance."
+    },
+    "limitations": "Actual visual views of selected originals and native references; no claim all unselected versions were re-viewed in this final metadata pass. No gameplay, continuous playback, native pixel identity, or per-pixel invariant claim.",
+    "rootFormatVerification": {
+      "path": "build/r22-aid-root-static-pair-review.json",
+      "bytes": 1822,
+      "sha256": "de465b622fdf0b4c42fb7f3cccf2c77daff305aa6cbc62924c711c6d15daa8ed",
+      "scope": "Independent root PNG CRC/scanline/RGB and actual view; static pair only."
+    }
+  },
+  "processing": {
+    "copies": "All eight retained output files byte-identical to their tool originals; both selected originals rechecked fresh.",
+    "cropped": false,
+    "resized": false,
+    "reencoded": false,
+    "postprocessed": false,
+    "productionWrittenByThisTask": false,
+    "pngMetadata": "All eight PNG signatures, all chunk CRCs, exact end-of-file, IHDR RGB8/no tRNS, zlib scanline byte count and filter values verified. RGB/no transparency is fully opaque; this is format integrity plus actual visual review, not pixel-exact art/native comparison.",
+    "repositoryCopies": "Root copied the two selected tool-original PNGs byte-exact into assets/hd-spe/aid-41; no image processing."
+  },
+  "acceptance": {
+    "staticPairAccepted": true,
+    "manifestApplied": false,
+    "engineIntegrated": false,
+    "productionIntegrated": false,
+    "actualPreparationAccepted": false,
+    "actualCastAccepted": false,
+    "actualHdAccepted": false,
+    "fullHdGoalComplete": false,
+    "assetsStoredInRepository": true
+  },
+  "retention": "All v1..v6 candidates and original tool files retained. Five whole-frame rejects and one partial successful superseded output remain nonfinal; generation prompts are requests, not proof of successful edits.",
+  "recordedAt": "2026-10-09T13:48:18.605Z",
+  "baseRevision": "d7fe2cfc562fae2b32b3f4aa397c1fd176987477",
+  "retentionBoundary": "Full prompts, input/output metadata and native movie bytes are contained in this record. Rejected image originals and build review files remain retained local workspace evidence; those paths are not a closed portable runtime archive."
+}

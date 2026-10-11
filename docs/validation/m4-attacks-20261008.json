@@ -1,0 +1,761 @@
+{
+  "date": "2026-10-08",
+  "baseCommit": "7516faed6ac032c4976f4f672f4affaa67af0665",
+  "scope": "R01/R02 standard ordinary attack observation + one delivered HD interval21/item0/9..17 (bow vs infantry); full HD goal remains active.",
+  "delivered": {
+    "speId": 21,
+    "resourceIndex": 0,
+    "startFrm": 9,
+    "endFrm": 17,
+    "nativeCount": 54,
+    "nativePicmax": 18,
+    "requiredPictureSlots": [
+      0,
+      1,
+      2,
+      3,
+      6,
+      7,
+      16,
+      17
+    ],
+    "backgroundId": 16,
+    "numberId": 15,
+    "manifest": {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 31236,
+      "sha256": "827013d43b236faf41fe5b4a6475529c9dda90609862a003830e840f6f312fc1"
+    },
+    "resourceFingerprint": "fnv1a32:5a4c8036:4630",
+    "unusedSlots": "Full native metadata preserved; unused ten slots explicitly src/width/height=null. Neighboring five defender ranges retain LCD, not accepted HD."
+  },
+  "generated": {
+    "tool": "image_gen.imagegen",
+    "mode": "builtin",
+    "foregroundTargetGroups": 51,
+    "acceptedForegroundGroups": 15,
+    "pendingForegroundGroups": 36,
+    "calls": 22,
+    "acceptedCalls": 15,
+    "rejected": 6,
+    "noOutputFailures": 1,
+    "backdrop": {
+      "calls": 1,
+      "accepted": 1
+    },
+    "postProcessing": false,
+    "provenance": [
+      "assets/hd-spe/GENERATED-ATTACKS.json",
+      "assets/hd-spe/GENERATED-ATTACKS.md",
+      "assets/hd-spe/GENERATED-ATTACK-BACKDROP.json",
+      "assets/hd-spe/GENERATED-ATTACK-BACKDROP.md"
+    ],
+    "unreferencedReadyArt": "Seven accepted foreground groups are saved for subsequent range integration; asset existence is not browser HD acceptance.",
+    "alpha": "46 native mask1 /5 mask0 group target. Accepted transparent figures contain actual alpha0 outside and mainly252-253 interiors; original soft alpha kept. Opaque arrow/backdrop fields have slight tonal variation.",
+    "inputsAndRejectedOutputs": "docs/validation/m4-attacks-20261008/native-input-index.json"
+  },
+  "native": {
+    "changedFiles": [
+      "vendor/iBaye/src/FightSub.c",
+      "vendor/iBaye/src/PublicFun.c",
+      "vendor/iBaye/src/hd-bridge.c",
+      "vendor/iBaye/src/hd-bridge.h",
+      "vendor/iBaye/src/platform/common/sys.c"
+    ],
+    "protocols": {
+      "spe": 2,
+      "composition": 1,
+      "attack": 1
+    },
+    "readonlyGetter": "baye.hd.attack()",
+    "sourceRevision": "7516faed6ac032c4976f4f672f4affaa67af0665",
+    "sourceModified": true,
+    "sourceHash": "90fa73dcf61a0529fb42a4c00ad8d3db60a35e784a200e26081038eba12fd8e0",
+    "nativeFiles": 128,
+    "background": "Actual PlcRPicShowEx draw before child; true resource identity/signed origin.",
+    "clears": "Cumulative real erased footprints and live bits copied by actual SysCopyScreen; timed LCD flush publishes.",
+    "damage": "Actual CountPlusSub result; decimal glyph index/firstY/drawCount observed from true NUM15 opaque writes. Public SPE remains0 during numbers and hold.",
+    "gameplay": "CountAtkHurt/CountPlusSub/EXP, delays, key flags and original input branches unchanged; no new skip/return or JS animation clock.",
+    "retirement": "Native reset, unknown/custom hooks, nested or uncontrolled surfaces, flip/paint/palette mismatch remain neutral/LCD.",
+    "stagedArtifacts": [
+      {
+        "path": "build/wasm/src/baye.js",
+        "bytes": 192446,
+        "sha256": "05e3a27eeb54cf9cd41752a3a5ee4646ca8ce3ff4b0ac8230f95e75c5e806843"
+      },
+      {
+        "path": "build/wasm/src/baye.wasm",
+        "bytes": 4387094,
+        "sha256": "41d613b016336725390971a8b2401c02e199c0beae6209f35ed3b044c2eba204"
+      },
+      {
+        "path": "build/wasm/src/baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "ff994f367203f3f5111426afdad0a8fed089d2be8163e7a59cbd0e391c3e6239"
+      },
+      {
+        "path": "build/wasm/src/baye.build.json",
+        "bytes": 5591,
+        "sha256": "4d4c25669afa589b1578d5a000df7bd29a346cde388f4dd3694d4b4755211200"
+      }
+    ],
+    "installed": {
+      "installedAt": "2026-10-08T11:19:32.5863904Z",
+      "files": [
+        {
+          "name": "baye.js",
+          "bytes": 192446,
+          "sha256": "05e3a27eeb54cf9cd41752a3a5ee4646ca8ce3ff4b0ac8230f95e75c5e806843",
+          "source": "build\\wasm\\src\\baye.js",
+          "installed": "js\\baye.js",
+          "byteEqual": true
+        },
+        {
+          "name": "baye.wasm",
+          "bytes": 4387094,
+          "sha256": "41d613b016336725390971a8b2401c02e199c0beae6209f35ed3b044c2eba204",
+          "source": "build\\wasm\\src\\baye.wasm",
+          "installed": "js\\baye.wasm",
+          "byteEqual": true
+        },
+        {
+          "name": "baye.wasm.map",
+          "bytes": 29805,
+          "sha256": "ff994f367203f3f5111426afdad0a8fed089d2be8163e7a59cbd0e391c3e6239",
+          "source": "build\\wasm\\src\\baye.wasm.map",
+          "installed": "js\\baye.wasm.map",
+          "byteEqual": true
+        },
+        {
+          "name": "baye.build.json",
+          "bytes": 5591,
+          "sha256": "4d4c25669afa589b1578d5a000df7bd29a346cde388f4dd3694d4b4755211200",
+          "source": "build\\wasm\\src\\baye.build.json",
+          "installed": "js\\baye.build.json",
+          "byteEqual": true
+        }
+      ]
+    },
+    "priorPngAndLibExactRawPreserved": 890,
+    "sourceProof": "docs/validation/m4-attacks-20261008/raw/r09-source-proof.json.gz"
+  },
+  "validation": {
+    "unit": {
+      "passed": 618,
+      "failed": 0,
+      "skipped": 0,
+      "includesActualC": true,
+      "attackC": 65,
+      "attackBridge": 16,
+      "speFrontend": 37,
+      "log": "docs/validation/m4-attacks-20261008/raw/r09-all-tests.log.gz"
+    },
+    "offline": "All37 native caller intervals/360 logical commits independently replayed and compared to the fresh native audit; not37 browser attacks.",
+    "actualPixelScope": "8320 arena pixels independently reconstructed from packed LIB plus native displayed clear/live/digit history;7040 outside pixels compared to first actual copied frame of that event.",
+    "captureScope": "Actual callback ImageData and separate explicitly labelled native hold readbacks; before/after actual native display stamps equal. Native bitmap oracle is distinct from HD geometry/draw-log checks.",
+    "runs": [
+      {
+        "role": "First strict1080; initial runner bb9ad; later runner fixes recorded separately",
+        "source": "build/r09-attack-staged-hd/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-attack-staged-hd__result.json.gz",
+        "staged": true,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "browser": {
+          "Browser": "Chrome/154.0.8037.98",
+          "Protocol-Version": "1.3",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "V8-Version": "15.4.80.20",
+          "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+          "webSocketDebuggerUrl": "ws://127.0.0.1:3139/devtools/browser/8a1b7d69-e91b-4713-8754-345478d73fd9"
+        },
+        "checkpoints": 15,
+        "hdAccepted": true,
+        "runner": {
+          "source": "scripts\\test-hd-attack-runtime.mjs",
+          "sha256": "bb9ad57ac12a7dc55ab0deb011eee09a9d7603b3b76e6817e12f3db6b69d827a"
+        },
+        "sourceVerification": {
+          "count": 1113,
+          "drift": [],
+          "runnerMatch": true
+        },
+        "actualHurt": {
+          "source": "native attack.hurt; troop delta is verification only",
+          "actor": 3,
+          "target": 11,
+          "hurt": 14,
+          "session": 1
+        },
+        "nativePixelOracle": {
+          "actualLcdCallbacks": 20,
+          "pixelReadbacks": 21,
+          "events": 1,
+          "numericReadbacks": 15,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 21,
+          "lcdReadbacks": 0
+        },
+        "intervals": [
+          "21:9:17"
+        ],
+        "exceptions": 0,
+        "dialogs": 0,
+        "isolation": {
+          "user8080Touched": false,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-pa4dJC",
+          "origin": "http://127.0.0.1:3138",
+          "debugPort": 3139,
+          "cleaned": true
+        }
+      },
+      {
+        "role": "Final runner strict1280x720/DPR1",
+        "source": "build/r09-attack-staged-hd-720/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-attack-staged-hd-720__result.json.gz",
+        "staged": true,
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "browser": {
+          "Browser": "Chrome/154.0.8037.98",
+          "Protocol-Version": "1.3",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "V8-Version": "15.4.80.20",
+          "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+          "webSocketDebuggerUrl": "ws://127.0.0.1:2838/devtools/browser/7af75459-1bed-4b09-bd6b-cbac23260940"
+        },
+        "checkpoints": 16,
+        "hdAccepted": true,
+        "runner": {
+          "source": "scripts\\test-hd-attack-runtime.mjs",
+          "sha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549"
+        },
+        "sourceVerification": {
+          "count": 1113,
+          "drift": [],
+          "runnerMatch": true
+        },
+        "actualHurt": {
+          "source": "native attack.hurt; troop delta is verification only",
+          "actor": 3,
+          "target": 10,
+          "hurt": 14,
+          "session": 1
+        },
+        "nativePixelOracle": {
+          "actualLcdCallbacks": 18,
+          "pixelReadbacks": 19,
+          "events": 1,
+          "numericReadbacks": 13,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 19,
+          "lcdReadbacks": 0
+        },
+        "intervals": [
+          "21:9:17"
+        ],
+        "exceptions": 0,
+        "dialogs": 0,
+        "isolation": {
+          "user8080Touched": false,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-86IfQD",
+          "origin": "http://127.0.0.1:2837",
+          "debugPort": 2838,
+          "cleaned": true
+        }
+      },
+      {
+        "role": "Final installed strict1920x1080/DPR1",
+        "source": "build/r09-attack-installed-hd/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-attack-installed-hd__result.json.gz",
+        "staged": false,
+        "viewport": {
+          "width": 1920,
+          "height": 1080
+        },
+        "browser": {
+          "Browser": "Chrome/154.0.8037.98",
+          "Protocol-Version": "1.3",
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "V8-Version": "15.4.80.20",
+          "WebKit-Version": "537.36 (@b859317bf11f6be47f9b7799ec690a0a42a1fb33)",
+          "webSocketDebuggerUrl": "ws://127.0.0.1:13493/devtools/browser/68a61d54-24b3-4da3-9a86-95806d35bcec"
+        },
+        "checkpoints": 15,
+        "hdAccepted": true,
+        "runner": {
+          "source": "scripts\\test-hd-attack-runtime.mjs",
+          "sha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549"
+        },
+        "sourceVerification": {
+          "count": 1113,
+          "drift": [],
+          "runnerMatch": true
+        },
+        "actualHurt": {
+          "source": "native attack.hurt; troop delta is verification only",
+          "actor": 3,
+          "target": 11,
+          "hurt": 14,
+          "session": 1
+        },
+        "nativePixelOracle": {
+          "actualLcdCallbacks": 16,
+          "pixelReadbacks": 17,
+          "events": 1,
+          "numericReadbacks": 12,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 17,
+          "lcdReadbacks": 0
+        },
+        "intervals": [
+          "21:9:17"
+        ],
+        "exceptions": 0,
+        "dialogs": 0,
+        "isolation": {
+          "user8080Touched": false,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-attack-runtime-egqzdp",
+          "origin": "http://127.0.0.1:13492",
+          "debugPort": 13493,
+          "cleaned": true
+        }
+      },
+      {
+        "role": "Complete existing MAIN cold/skip/visibility/failure/unknown LIB regression",
+        "source": "build/r09-opening-staged-regression/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-opening-staged-regression__result.json.gz",
+        "staged": true,
+        "browser": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/154.0.8037.98",
+          "revision": "@b859317bf11f6be47f9b7799ec690a0a42a1fb33",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "jsVersion": "15.4.80.20"
+        },
+        "checkpoints": 15,
+        "hdAccepted": true,
+        "runner": {
+          "bytes": 51431,
+          "sha256": "adbd321948f1c8a62a382a0e5c5e3d382207915a863a9d18141c4654317cc7e6"
+        },
+        "sourceVerification": {
+          "ok": true,
+          "count": 969,
+          "runnerMatch": true,
+          "added": [],
+          "drift": []
+        },
+        "exceptions": 0,
+        "dialogs": 0,
+        "isolation": {
+          "httpPort": 2731,
+          "unknownHttpPort": 2732,
+          "debugPort": 2733,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-opening-runtime-BZjill",
+          "chromePid": 142144,
+          "user8080Touched": false,
+          "cleaned": true
+        }
+      },
+      {
+        "role": "Complete existing MAKER seven-scene regression",
+        "source": "build/r09-maker-staged-regression-v3/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-maker-staged-regression-v3__result.json.gz",
+        "staged": true,
+        "browser": {
+          "protocolVersion": "1.3",
+          "product": "Chrome/154.0.8037.98",
+          "revision": "@b859317bf11f6be47f9b7799ec690a0a42a1fb33",
+          "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/154.0.0.0 Safari/537.36",
+          "jsVersion": "15.4.80.20"
+        },
+        "checkpoints": 30,
+        "hdAccepted": true,
+        "runner": {
+          "bytes": 54273,
+          "sha256": "28d7010418ca26a41e3485f11feb237dbebba05e18009673d2fba06870d5e073"
+        },
+        "sourceVerification": {
+          "ok": true,
+          "count": 969,
+          "runnerMatch": true,
+          "added": [],
+          "drift": []
+        },
+        "exceptions": 0,
+        "dialogs": 0,
+        "isolation": {
+          "httpPort": 7966,
+          "unknownHttpPort": 7967,
+          "debugPort": 7968,
+          "profile": "C:\\Users\\75112\\AppData\\Local\\Temp\\baye-maker-runtime-0VRHmW",
+          "chromePid": 145688,
+          "user8080Touched": false,
+          "cleaned": true
+        }
+      },
+      {
+        "role": "Real core flow, correct explicit Windows Chrome path",
+        "source": "build/r09-core-staged-regression-v2/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-core-staged-regression-v2__result.json.gz",
+        "staged": true,
+        "checkpoints": 14,
+        "exceptions": 0,
+        "dialogs": 0
+      },
+      {
+        "role": "Installed real core flow",
+        "source": "build/r09-core-installed-regression/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-core-installed-regression__result.json.gz",
+        "staged": false,
+        "checkpoints": 14,
+        "exceptions": 0,
+        "dialogs": 0
+      },
+      {
+        "role": "Real ordinary attack and fourth-attempt FIRE35",
+        "source": "build/r09-spe-staged-regression/result.json",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-spe-staged-regression__result.json.gz",
+        "staged": true,
+        "checkpoints": 22,
+        "exceptions": 0,
+        "dialogs": 0
+      }
+    ],
+    "fallback": {
+      "rows": [
+        {
+          "scenario": "404",
+          "artifactDir": "F:\\project\\baye-sanguo\\build\\r09-attack-staged-404-v2",
+          "ok": true,
+          "hdAccepted": false,
+          "checkpoints": 15,
+          "actualLcdCallbacks": 16,
+          "pixelReadbacks": 17,
+          "numericReadbacks": 12,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 0,
+          "lcdReadbacks": 17,
+          "gameplayIntervals": [
+            "21:9:17"
+          ],
+          "actor": "李堪",
+          "target": "王匡",
+          "hurt": 14,
+          "zeroNativeKeysDuringAttack": true,
+          "zeroNativeKeysDuringPresentation": true,
+          "visibilityMethod": null,
+          "exceptions": 0,
+          "observerErrors": 0,
+          "dialogs": 0,
+          "source": {
+            "count": 1113,
+            "drift": [],
+            "runnerMatch": true
+          },
+          "sourceMapsEqual": true,
+          "runnerSha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549",
+          "cleaned": true
+        },
+        {
+          "scenario": "late",
+          "artifactDir": "F:\\project\\baye-sanguo\\build\\r09-attack-staged-late-v3",
+          "ok": true,
+          "hdAccepted": false,
+          "checkpoints": 16,
+          "actualLcdCallbacks": 17,
+          "pixelReadbacks": 18,
+          "numericReadbacks": 13,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 0,
+          "lcdReadbacks": 18,
+          "gameplayIntervals": [
+            "21:9:17"
+          ],
+          "actor": "李堪",
+          "target": "王匡",
+          "hurt": 14,
+          "zeroNativeKeysDuringAttack": true,
+          "zeroNativeKeysDuringPresentation": true,
+          "visibilityMethod": null,
+          "exceptions": 0,
+          "observerErrors": 0,
+          "dialogs": 0,
+          "source": {
+            "count": 1113,
+            "drift": [],
+            "runnerMatch": true
+          },
+          "sourceMapsEqual": true,
+          "runnerSha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549",
+          "cleaned": true
+        },
+        {
+          "scenario": "classic",
+          "artifactDir": "F:\\project\\baye-sanguo\\build\\r09-attack-staged-classic-v2",
+          "ok": true,
+          "hdAccepted": true,
+          "checkpoints": 16,
+          "actualLcdCallbacks": 16,
+          "pixelReadbacks": 19,
+          "numericReadbacks": 14,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 18,
+          "lcdReadbacks": 0,
+          "gameplayIntervals": [
+            "21:9:17"
+          ],
+          "actor": "李堪",
+          "target": "王匡",
+          "hurt": 14,
+          "zeroNativeKeysDuringAttack": true,
+          "zeroNativeKeysDuringPresentation": true,
+          "visibilityMethod": null,
+          "exceptions": 0,
+          "observerErrors": 0,
+          "dialogs": 0,
+          "source": {
+            "count": 1113,
+            "drift": [],
+            "runnerMatch": true
+          },
+          "sourceMapsEqual": true,
+          "runnerSha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549",
+          "cleaned": true
+        },
+        {
+          "scenario": "hidden",
+          "artifactDir": "F:\\project\\baye-sanguo\\build\\r09-attack-staged-hidden-v2",
+          "ok": true,
+          "hdAccepted": true,
+          "checkpoints": 15,
+          "actualLcdCallbacks": 17,
+          "pixelReadbacks": 20,
+          "numericReadbacks": 15,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 18,
+          "lcdReadbacks": 0,
+          "gameplayIntervals": [
+            "21:9:17"
+          ],
+          "actor": "李堪",
+          "target": "王匡",
+          "hurt": 14,
+          "zeroNativeKeysDuringAttack": true,
+          "zeroNativeKeysDuringPresentation": true,
+          "visibilityMethod": "actual-private-tab-activation",
+          "exceptions": 0,
+          "observerErrors": 0,
+          "dialogs": 0,
+          "source": {
+            "count": 1113,
+            "drift": [],
+            "runnerMatch": true
+          },
+          "sourceMapsEqual": true,
+          "runnerSha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549",
+          "cleaned": true
+        },
+        {
+          "scenario": "resize",
+          "artifactDir": "F:\\project\\baye-sanguo\\build\\r09-attack-staged-resize",
+          "ok": true,
+          "hdAccepted": true,
+          "checkpoints": 15,
+          "actualLcdCallbacks": 18,
+          "pixelReadbacks": 21,
+          "numericReadbacks": 15,
+          "completedHoldReadbacks": 1,
+          "hdReadbacks": 21,
+          "lcdReadbacks": 0,
+          "gameplayIntervals": [
+            "21:9:17"
+          ],
+          "actor": "李堪",
+          "target": "王匡",
+          "hurt": 14,
+          "zeroNativeKeysDuringAttack": true,
+          "zeroNativeKeysDuringPresentation": true,
+          "visibilityMethod": null,
+          "exceptions": 0,
+          "observerErrors": 0,
+          "dialogs": 0,
+          "source": {
+            "count": 1113,
+            "drift": [],
+            "runnerMatch": true
+          },
+          "sourceMapsEqual": true,
+          "runnerSha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549",
+          "cleaned": true
+        }
+      ],
+      "files": [
+        {
+          "path": "scripts/test-hd-attack-runtime.mjs",
+          "bytes": 84976,
+          "sha256": "60f814954c00948255cc048a42283dc9361188e2c25ad08242a04337098fc549",
+          "crlf": false
+        },
+        {
+          "path": "scripts/test-hd-spe-runtime.mjs",
+          "bytes": 46226,
+          "sha256": "6ca52672bfe6f9a92a6e98d801cf29994a20ea945e3f3fcedf0d8750d0c953d5",
+          "crlf": false
+        }
+      ],
+      "coverage": "One legitimate standard-LIB bow attack interval 21:9:17 across five fresh games; other ordinary-attack intervals, unknown LIB and custom hooks are not accepted by these browser runs. 404/late are strict LCD-fallback acceptance rather than HD acceptance.",
+      "preservedFailures": [
+        "build/r09-attack-staged-late (actual cavalry interval differed; real oracle passed, selected gate failed)",
+        "build/r09-attack-staged-classic (runner incorrectly queried id=container; real LCD top=lcd)"
+      ],
+      "user8080": {
+        "owningProcess": 105848,
+        "untouched": true
+      }
+    },
+    "regressionFire": {
+      "observed": true,
+      "hdAssetsObserved": true,
+      "displayedCommits": 8,
+      "events": [
+        14
+      ],
+      "hdVisibleFrames": [
+        {
+          "eventId": 14,
+          "commitSeq": 2,
+          "frames": [
+            1
+          ]
+        },
+        {
+          "eventId": 14,
+          "commitSeq": 3,
+          "frames": [
+            2
+          ]
+        },
+        {
+          "eventId": 14,
+          "commitSeq": 4,
+          "frames": [
+            3
+          ]
+        },
+        {
+          "eventId": 14,
+          "commitSeq": 5,
+          "frames": [
+            4
+          ]
+        },
+        {
+          "eventId": 14,
+          "commitSeq": 6,
+          "frames": [
+            5
+          ]
+        },
+        {
+          "eventId": 14,
+          "commitSeq": 7,
+          "frames": [
+            6
+          ]
+        },
+        {
+          "eventId": 14,
+          "commitSeq": 8,
+          "frames": [
+            7
+          ]
+        }
+      ],
+      "reason": "actual-native-fire-displays"
+    },
+    "makerNaturalHoldMs": 54168.10000000894,
+    "failedRuns": [
+      {
+        "source": "build/r09-all-tests-before-fixture-fix.log",
+        "cause": "Old details/overview actual-C fixtures missed the new real attack-retire dependency; fixtures linked the real function, with no no-op or skips.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-all-tests-before-fixture-fix.log.gz"
+      },
+      {
+        "source": "build/r09-all-tests-process-failure.log",
+        "cause": "One portraits test-file process failed without an assertion diagnostic:574/575. Unchanged focused45/45 and subsequent full618/618 passed; cause not established.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-all-tests-process-failure.log.gz"
+      },
+      {
+        "source": "build/r09-attack-staged-observer/result.json",
+        "cause": "Verifier incorrectly expected boolean false for the legacy public SPE U8 active=0. Actual attack reached numbers; corrected strict expected0, original output preserved.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-attack-staged-observer__result.json.gz"
+      },
+      {
+        "source": "build/r09-maker-staged-regression/result.json",
+        "cause": "Legacy whole-display assertion did not allow additive composition. Corrected projection of all six original stamp fields plus explicit neutral composition assertions.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-maker-staged-regression__result.json.gz"
+      },
+      {
+        "source": "build/r09-maker-staged-regression-v2/result.json",
+        "cause": "One later saved-source lookup still compared the whole object; same narrow projection applied, full v3 passed.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-maker-staged-regression-v2__result.json.gz"
+      },
+      {
+        "source": "build/r09-core-staged-regression/result.json",
+        "cause": "Old runner did not autodiscover Windows Chrome; explicit existing executable used for v2.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-core-staged-regression__result.json.gz"
+      },
+      {
+        "source": "build/r09-attack-staged-late/result.json",
+        "cause": "Real RNG route attacked with a nonselected family. Required selected gate failed honestly; legitimate planner now chooses actual effective arms/range, with no state writes.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-attack-staged-late__result.json.gz"
+      },
+      {
+        "source": "build/r09-attack-staged-classic/result.json",
+        "cause": "Runner queried nonexistent container id instead of actual closest LCD class; fixed selector retains visibility/stack assertions.",
+        "archived": "docs/validation/m4-attacks-20261008/raw/r09-attack-staged-classic__result.json.gz"
+      }
+    ]
+  },
+  "visual": {
+    "review": "docs/validation/m4-attacks-20261008/attack-first-visual-review.json",
+    "scope": "Independently viewed42 native/HD1080 callback/hold PNGs; root also viewed720 first-frame and completed14.",
+    "result": "Whole soldiers/weapons/projectiles; no blocking opaque-arrow patch/clear seam; damage14 readable and unoccluded.",
+    "numericHistory": "Native12x16 opaque digit box,6px advance and8 upward draws leave bottom-row trails. Georgia HD gold horizontal remnants are an art interpretation, not native/HD pixel equality."
+  },
+  "evidence": {
+    "nativeIndex": "docs/validation/m4-attacks-20261008/native-input-index.json",
+    "runtimeIndex": "docs/validation/m4-attacks-20261008/runtime-index.json",
+    "rawFiles": 187,
+    "pngLogicalPaths": 2839,
+    "pngRetainedLogical": 2001,
+    "pngOmittedLogical": 838,
+    "gzip": "Every stored raw gzip roundtrip equals its indexed original captured bytes; every retained PNG is an original byte copy.",
+    "restoration": "Runtime image selection initially missed the native-index archivedPath field;216 reference copies were restored from unchanged originals and603 native mappings rechecked before commit. Final native archive has no missing PNG."
+  },
+  "archiveReview": {
+    "independentReadOnlyCheck": true,
+    "uniqueArchivedPng": 976,
+    "rawGzip": 214,
+    "allSavedHashesAndPointersValid": true,
+    "historicalSnapshots": "The archived restoration report preserves the original restored216 event; later recheck is restored0. Archived source-proof differs from the later recheck only in capturedAt. Archive indexes describe original captured bytes, not mutable build files after reruns."
+  },
+  "limits": [
+    "Only21:9:17 delivered HD;36 other intervals still pending actual HD integration/playback.",
+    "36 of51 foreground groups remain unmade at this commit;7 completed art groups are not connected yet.",
+    "No actual unknown-LIB/custom attack browser run; actualC/custom and general MAIN/MAKER unknownLIB coverage are separate.",
+    "No full four-period/Mod campaign, full succession, fixed-device performance acceptance, Android/iOS or cloud-account acceptance added."
+  ],
+  "service": {
+    "url": "http://localhost:8080/pc",
+    "userTabNavigatedOrReloaded": false,
+    "privateBrowserProfilesCleaned": true
+  },
+  "goalComplete": false
+}

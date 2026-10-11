@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "record": "LIUYAN R28 diagnostic evidence",
+  "recordDate": "2026-10-10",
+  "status": "diagnostic-complete-not-accepted",
+  "diagnosticOnly": true,
+  "accepted": false,
+  "hdAccepted": false,
+  "causeEstablished": false,
+  "fixEstablished": false,
+  "scope": {
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    },
+    "mode": "Installed original P3/player9; approved caster188 pair, actual publicLOAD and31→32 dispatch, two enemy turns.",
+    "completedTurns": 2,
+    "boutTransitions": [
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "liuyanSkill16Attempts": 0,
+    "liuyanMovies": 0,
+    "notAccepted": [
+      "720 LIUYAN casting/HD",
+      "Missing-art fallback",
+      "Original three timeout cause or fix",
+      "Performance",
+      "Other skills or viewports"
+    ]
+  },
+  "execution": {
+    "sourceRevision": {
+      "revision": "04f0895334daeb3f2bcbf54c206e5a08f226b774",
+      "modified": false,
+      "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726"
+    },
+    "tool": {
+      "originalPath": "build/r28-test-hd-liuyan-diagnostic-v5.mjs",
+      "bytes": 108210,
+      "sha256": "42eb3c8e7d500c32711d301dec8db84193784e9e53b0043d9ea97ff136285b2d",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/42eb3c8e7d500c32711d301dec8db84193784e9e53b0043d9ea97ff136285b2d.gz",
+      "gzipBytes": 33237,
+      "gzipSha256": "e655d0c0f7003d70b92ac33e4046c98a35d9139444c2931717c7b37d8c93f7da"
+    },
+    "nativeSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "compiledParent": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceModified": true,
+    "sourceCount": 1224,
+    "sourceDrift": 0,
+    "sourceAdded": 0,
+    "sourceVerification": {
+      "originalPath": "build/r28-liuyan-diagnostic-actual-v1-installed720/source-verification.json",
+      "bytes": 436014,
+      "sha256": "9931765f57a696515e436421b6b1ad8529ae402e07604acbd782bdb4e800986a",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/9931765f57a696515e436421b6b1ad8529ae402e07604acbd782bdb4e800986a.gz",
+      "gzipBytes": 69779,
+      "gzipSha256": "f56bc3794e638dca37d00fe443bba5ae5748065991c21ca09fbbb85bb26f9e3e"
+    },
+    "rootSession": 12330,
+    "exitCode": 1,
+    "termination": "Planned R28_DIAGNOSTIC_TWO_TURNS_COMPLETE sentinel; original result remains ok=false.",
+    "result": {
+      "originalPath": "build/r28-liuyan-diagnostic-actual-v1-installed720/result.json",
+      "bytes": 8271254,
+      "sha256": "fdd0334d278e319493692412abc61acec02be90a6e7f11e6a51be4dce1fee495",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/fdd0334d278e319493692412abc61acec02be90a6e7f11e6a51be4dce1fee495.gz",
+      "gzipBytes": 362971,
+      "gzipSha256": "cde23e2240748888f47bb9d4d2eed51e25f1acf769b0c087bd37fed9da549f88"
+    },
+    "terminalLog": {
+      "originalPath": "build/r28-liuyan-diagnostic-actual-v1-installed720-terminal.log",
+      "bytes": 1005,
+      "sha256": "8a08c3dfe6a85e264ed117925d7dd352289800ae1d5ba963b3df881c34d7c25f",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/8a08c3dfe6a85e264ed117925d7dd352289800ae1d5ba963b3df881c34d7c25f.gz",
+      "gzipBytes": 507,
+      "gzipSha256": "292b396d904098dfe31fe2795cf3b2138a661fac91677fea314302a00eecab98"
+    }
+  },
+  "observations": {
+    "wal": {
+      "originalPath": "build/r28-liuyan-diagnostic-actual-v1-installed720/cdp-request-wal.jsonl",
+      "bytes": 1170376,
+      "sha256": "0457ec822edfa66286763025f168dfee0c4081dfca2fda6f1bf75b35c518be82",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/0457ec822edfa66286763025f168dfee0c4081dfca2fda6f1bf75b35c518be82.gz",
+      "gzipBytes": 71396,
+      "gzipSha256": "2355d8e145272ab73e5ce3f65c8f2788a6c50b364e3cfcc451845dc9339f2fb9"
+    },
+    "sends": 1926,
+    "responses": 1926,
+    "timeouts": 0,
+    "lateReplies": 0,
+    "cdpErrors": 0,
+    "nativeKeyCalls": 78,
+    "endTurnKeyInputSeqs": [
+      27,
+      51
+    ],
+    "failedRouteAfterSentinelNewGameInputs": 0,
+    "observerErrors": 0,
+    "uncaughtExceptions": 0,
+    "unexpectedDialogs": 0,
+    "scope": "No timeout occurred in this instrumented run. No claim about recurrence, causality or prior failure resolution."
+  },
+  "profile": {
+    "evidence": {
+      "originalPath": "build/r28-liuyan-diagnostic-actual-v1-installed720/cpu-profile.json",
+      "bytes": 3731485,
+      "sha256": "e95b736b16badd35e3bfa9f86da7396b156f6e892a829e819dee28608951cf91",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/e95b736b16badd35e3bfa9f86da7396b156f6e892a829e819dee28608951cf91.gz",
+      "gzipBytes": 368197,
+      "gzipSha256": "18099416ef20ddad057d9455996b994bacf92b8df1d0e7a55613e0b130a0e7f2"
+    },
+    "durationUs": 180988404,
+    "samples": 120687,
+    "hotspots": [
+      {
+        "function": "stroke",
+        "sampledSelfUs": 76649711,
+        "shareOfProfileDurationPercent": 42.35,
+        "callChain": [
+          "stroke",
+          "drawCities",
+          "draw",
+          "loop",
+          "(anonymous)",
+          "(root)"
+        ]
+      },
+      {
+        "function": "save",
+        "sampledSelfUs": 45171488,
+        "shareOfProfileDurationPercent": 24.96,
+        "callChain": [
+          "save",
+          "paint",
+          "apply",
+          "draw",
+          "paintEnvironment",
+          "drawTerrain",
+          "draw",
+          "loop",
+          "(anonymous)",
+          "(root)"
+        ]
+      }
+    ],
+    "interpretation": "Canvas stroke and save under overworld draw/loop are leads for the next narrowly scoped diagnostic. Debugger/Profiler/stamps may change timing and compilation; this is not a performance baseline or proof of a native infinite loop."
+  },
+  "cleanup": {
+    "originalResult": {
+      "chromeExited": false,
+      "treeExited": false,
+      "httpClosed": true,
+      "cleaned": false,
+      "profileIntentionallyRetained": true,
+      "reason": "Original helper-v2 CIM samples failed closed on PowerShell progress CLIXML; no owned basis was accepted by the runner."
+    },
+    "firstSupplement": {
+      "evidence": {
+        "originalPath": "build/r28-liuyan-actual-v1-manual-cleanup-root-v1.json",
+        "bytes": 9070,
+        "sha256": "25e090a07fbabcd860955c24307ae58b61c97b91e25df119d43e5a10063e560e",
+        "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/25e090a07fbabcd860955c24307ae58b61c97b91e25df119d43e5a10063e560e.gz",
+        "gzipBytes": 1028,
+        "gzipSha256": "9575b4da0c9ae09fa5e3e0f754658f9952766875471bc1e576974ff35dcda6c9"
+      },
+      "treeExited": false,
+      "ownedAfter": 8,
+      "reason": "PowerShell5 ConvertFrom-Json array wrapping produced one nested array target and no real stop target; this failed record is preserved."
+    },
+    "secondSupplement": {
+      "evidence": {
+        "originalPath": "build/r28-liuyan-actual-v1-manual-cleanup-root-v2.json",
+        "bytes": 5881,
+        "sha256": "78dc411305957d600a2a291ca7a8fd0906b6ceef7158cae5017b035f57a45c13",
+        "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/78dc411305957d600a2a291ca7a8fd0906b6ceef7158cae5017b035f57a45c13.gz",
+        "gzipBytes": 1055,
+        "gzipSha256": "34d4e28251d939c10b86f0383cf394f2313e7cc6ef0146942b28b45ff0130cb8"
+      },
+      "helper": {
+        "originalPath": "build/r28-owned-chrome-tree-v4.mjs",
+        "bytes": 13354,
+        "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+        "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+        "gzipBytes": 4452,
+        "gzipSha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+      },
+      "treeExited": true,
+      "ownedAfter": 0,
+      "survivingRecorded": 0,
+      "rootDescendants": 0,
+      "profileMatches": 0,
+      "stopRequested": 4,
+      "stopErrorsProcessAlreadyGone": 4,
+      "reason": "Only original PID/birth/executable/command-line identities, then handle birth, were rechecked. Later OS sample recorded the tree gone. This supplement does not overwrite the original result."
+    },
+    "basis": {
+      "originalPath": "build/r28-liuyan-actual-v1-manual-owned-basis-root-v1.json",
+      "bytes": 23849,
+      "sha256": "d3e1202b62bf5a7b141fcbd1c459f53822f8afad290f955729e2d99a3b618875",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/d3e1202b62bf5a7b141fcbd1c459f53822f8afad290f955729e2d99a3b618875.gz",
+      "gzipBytes": 1701,
+      "gzipSha256": "b09192b77fc5e1afba8b8681ed91de54136e3a16d5fb6296c224f4eb872fb68a"
+    },
+    "directoriesDeleted": false,
+    "profileArchived": false,
+    "profileRetained": true,
+    "priorRetainedProfilesUntouched": true,
+    "networkBoundary": "Original server httpClosed=true; this record does not claim an independently repeated TCP-listener or user8080 HTTP check."
+  },
+  "preflight": {
+    "evidence": {
+      "originalPath": "build/r28-liuyan-diagnostic-preflight-root-v3/result.json",
+      "bytes": 878173,
+      "sha256": "a17eb2744ebb0b219059639a1c68bf6ae5f95b028d2b6ec5b0a510f3ad7ffb34",
+      "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/a17eb2744ebb0b219059639a1c68bf6ae5f95b028d2b6ec5b0a510f3ad7ffb34.gz",
+      "gzipBytes": 151598,
+      "gzipSha256": "b95c7da60c1072862abb8327f4685e31450ed04f27dca21a69e37afdf8cdb421"
+    },
+    "readonly": true,
+    "ok": true,
+    "sourceCount": 1224,
+    "scope": "Source/ABI preflight only; not gameplay acceptance."
+  },
+  "independentAudit": {
+    "originalPath": "build/r28-liuyan-diagnostic-terminal-independent-audit-v1.json",
+    "bytes": 13108,
+    "sha256": "6c59cab7337d58ac3f99e24da07b9fbfb675cfc2e5f0024a95ce11b3ad59c383",
+    "archivePath": "docs/validation/m4-liuyan-diagnostic-20261010/raw/6c59cab7337d58ac3f99e24da07b9fbfb675cfc2e5f0024a95ce11b3ad59c383.gz",
+    "gzipBytes": 3513,
+    "gzipSha256": "697e173ef9f193a4cc57fc1d35c303c4b23ca0d178d8095329262e897c375537"
+  },
+  "archive": {
+    "index": {
+      "path": "docs/validation/m4-liuyan-diagnostic-20261010/runtime-index.json",
+      "bytes": 18836,
+      "sha256": "b3ebf88bf2ea7ff081520d2208d248800cb2fd9633050c8a49e8356ad0659bce"
+    },
+    "logicalFiles": 37,
+    "gzipFiles": 36,
+    "logicalRawBytes": 19588853,
+    "gzipBytes": 4853635,
+    "screenshots": 6,
+    "roundtripVerified": true,
+    "portableClosedArchive": false,
+    "privateBrowserProfileExcluded": true,
+    "predecessorDraftSourcesNotExhaustivelyArchived": true
+  },
+  "history": {
+    "previousRuntimeRecord": "docs/validation/m4-liuyan-runtime-20261010.json",
+    "preserved": "Previous installed1080 acceptance and three failed720/missing runs are not modified by this diagnostic-only record."
+  },
+  "remaining": [
+    "Locate/confirm original timeout with scoped diagnostic evidence before attributing cause or claiming a fix.",
+    "LIUYAN installed720 and exact missing-picture runtime acceptance remain pending."
+  ]
+}

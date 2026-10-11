@@ -1,0 +1,32 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in",
+  "callOrdinal": 1,
+  "requestPath": "frame-0-request.json",
+  "promptPath": "frame-0-prompt.txt",
+  "returnedKeys": [
+    "image_url",
+    "output_hint"
+  ],
+  "image_url": {
+    "encoding": "data:image/png;base64",
+    "length": 4150890,
+    "payloadPreservedAsExactOriginalPng": true,
+    "source": "C:/Users/75112/.codex/generated_images/01a116ec-089f-7872-8df1-b03c949b16d2/exec-2c8234be-8dc7-416b-9966-d14d20068413.png",
+    "destination": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-0.png",
+    "bytes": 3113150,
+    "sha256": "195f64b59ce6a1036a4ca7c636e678e7451987b1fefe478b7b638388008fd3e6",
+    "width": 1254,
+    "height": 1254,
+    "colorType": 2
+  },
+  "output_hint": "Generated images are saved to C:\\Users\\75112\\.codex\\generated_images\\01a116ec-089f-7872-8df1-b03c949b16d2 as C:\\Users\\75112\\.codex\\generated_images\\01a116ec-089f-7872-8df1-b03c949b16d2\\exec-2c8234be-8dc7-416b-9966-d14d20068413.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+  "postprocessing": "None. Raw original PNG copied byte-for-byte; original tool path retained.",
+  "qa": {
+    "actualViewed": true,
+    "composition": "Two helmeted opposing infantry soldiers with long spears and mountain backdrop; square opaque painted scene.",
+    "nativeGlyphs": "FAIL: upper speech bubble is entirely blank. No native lettering or punctuation rendered.",
+    "accepted": false,
+    "runtimeAccepted": false
+  }
+}

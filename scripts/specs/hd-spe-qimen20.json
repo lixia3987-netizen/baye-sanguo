@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "kind": "qimen20-spe-entry-source-spec",
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "speId": 39,
+  "resourceIndex": 0,
+  "kindId": 2,
+  "startFrm": 0,
+  "endFrm": 7,
+  "skillId": 20,
+  "opaqueCoverageVersion": 1,
+  "nativeFingerprint": "fnv1a32:6b0ebc5a:1084",
+  "nativeLength": 1084,
+  "skillRecordHex": "01040000000014646464640064646464646464646464646464646464505050505050",
+  "nativeFallback": {
+    "ifaceItemCount": 16,
+    "dJNSpeId": {
+      "nativeItem": 22,
+      "token": "FENG_SPE",
+      "value": 39
+    },
+    "dJNSpeSFrm": {
+      "nativeItem": 23,
+      "token": "0",
+      "value": 0
+    },
+    "dJNSpeEFrm": {
+      "nativeItem": 24,
+      "token": "7",
+      "value": 7
+    },
+    "dJNSpeSX": {
+      "nativeItem": 25,
+      "token": "33",
+      "value": 33
+    },
+    "dJNMode": {
+      "nativeItem": 26,
+      "token": "0",
+      "value": 0
+    }
+  },
+  "pictureSources": [
+    "assets/hd-spe/qimen-39/picture-0.png",
+    "assets/hd-spe/qimen-39/picture-1.png"
+  ],
+  "pictureSha256": [
+    "d60197c99c9f62329f29de0adcead993d929994373c6566b2af4556096c10882",
+    "8851ef77671c7de2da944d625e0ac0765ce42e8768ddd2b216c1f971c50db4d2"
+  ],
+  "purpose": "Original friendly skill20/STATE_QM4/MP20; transient SKILL movie resultKind2/value0 only. Independent qimenVersion1 authenticates opaque64 composition over complete160x96 LCD. Reuse original two RGB pictures; replace the old QIMEN entry in place, preserving the other51 and top-level fields. No numeric postlude/hold/label, no14/15 acceptance; natural state recovery is outside this static scope.",
+  "qimenVersion": 1,
+  "entryCount": 52,
+  "upgradeEntryIndex": 42,
+  "previousEntrySha256": "5910f1368df41887bab397fe72c4bae843f745424126fcc1550869b481d2f809",
+  "unrelatedEntryCount": 51,
+  "unrelatedEntriesSha256": "c2419e9d63609c41435a7750f63072acb30b15c2edb4d78026e4d7f5b2f79169"
+}

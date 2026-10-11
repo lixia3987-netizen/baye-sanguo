@@ -96,11 +96,24 @@
     </body>
 
 </html>
-<script src="js/idbkvstore.min.js?ver=20260329"></script>
+<script src="js/idbkvstore.min.js?ver=20261008i"></script>
 <script src="js/tappy.js"></script>
-<script src="js/bridge.js?ver=20260329"></script>
-<script src="js/lcd.js?ver=20260329"></script>
-<script src="js/baye.js?ver=20260329"></script>
+<script src="js/bridge.js?ver=20261010g"></script>
+<script src="js/save-storage.js?ver=20261008h"></script>
+<script src="js/original-game.js?ver=20261010b"></script>
+<script src="js/lcd.js?ver=20261011b"></script>
+<script>
+    window.BAYE_ASSET_VER = '20261010c';
+    window.Module = window.Module || {};
+    window.Module.locateFile = function (path, prefix) {
+        prefix = prefix || 'js/';
+        if (/\.(wasm|map)$/.test(path)) {
+            return prefix + path + '?ver=' + window.BAYE_ASSET_VER;
+        }
+        return prefix + path;
+    };
+</script>
+<script src="js/baye.js?ver=20261010c"></script>
 <script>
 Module.postRun = function (){
     (function (){
