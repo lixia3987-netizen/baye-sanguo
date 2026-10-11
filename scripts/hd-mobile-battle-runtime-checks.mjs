@@ -78,7 +78,7 @@ export async function runMobileBattleChecks(c) {
     await key(K.EXIT,'Return through genuine strategy menu');await delay(250);}
   await until('real strategy function menu','baye.hd.menuItems().active===1&&baye.hd.menuItems().context===2');
   assert.equal(await evaluate('baye.hd.menuItems().names[0]'),'策略结束');await publicMenu(0,'End one strategy phase');
-  await ready(1,'actual first mobile battle PICK');const initial=await capture('battle-01-fresh-pick-'+(report.battleOverviewsOnly?report.battleOverviewsWidth:844));
+  await ready(1,'actual first mobile battle PICK');const initial=await capture('battle-01-fresh-pick-'+(report.campaignOnly?report.campaignWidth:report.battleOverviewsOnly?report.battleOverviewsWidth:844));
   assert.equal(initial.mobile.presentation,'hd');assert.equal(initial.canvas.hit,true);assert.ok(initial.mobile.camera.cell>=44);
   assert.ok(initial.units.some(u=>u.side==='player')&&initial.units.some(u=>u.side==='enemy'));
   await unchanged(initial,'Idle actual mobile battle');
@@ -97,6 +97,10 @@ export async function runMobileBattleChecks(c) {
       await touches('touchStart',[{x,y}]);for(let j=1;j<=5;j++)await touches('touchMove',[{x,y:y+end*j/5}]);await touches('touchEnd');await unchanged(before,'Scroll current native battle menu');}
     assert.ok(probe.visible&&probe.height>=44&&probe.width>=44,'Current battle menu is visible and at least 44px');
     const before=await native();await button(`#hd-battle-menu [data-hd-battle-menu="${index}"]`);report.battleActions.push({label,type:'trusted native-menu touch',index,names:before.menu.names,before:before.fight,after:(await native()).fight});};
+  if(report.campaignOnly){
+    const {runMobileCampaignChecks}=await import('./hd-mobile-campaign-runtime-checks.mjs');
+    return runMobileCampaignChecks({...c,native,capture,ready,tileTap,tilePoint,menu,physicalKey,lcdCenter,unchanged,initial});
+  }
   if(report.battleOverviewsOnly){
     const {runMobileBattleOverviewChecks}=await import('./hd-mobile-battle-overviews-runtime-checks.mjs');
     return runMobileBattleOverviewChecks({...c,native,capture,ready,tileTap,tilePoint,menu,physicalKey,lcdCenter,unchanged,initial});

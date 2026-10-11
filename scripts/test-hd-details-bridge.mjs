@@ -334,3 +334,70 @@ test('person page paint and owner counters preserve high unsigned bits through t
     const v=h.read();assert.equal(v.active,1);assert.equal(v.pageComplete,1);assert.equal(v.paintSeq,0x80000000);
     assert.equal(v.generation,0x80000000);assert.equal(v.properties[0].valuePaintSeq,0x80000000);h.untouched();
 });
+
+
+test('exact CAMPAIGN successor and defender menus expose original zero/high U16 IDs and full native labels',()=>{
+    for(const kind of [1,2]){
+        const h=fixture(),lookups=[];h.menu(kind,[0,699]);h.raw.g_hdMenuContext=5;
+        h.baye.getPersonName=id=>{lookups.push(id);return id===0?'actual person zero':'actual high person';};
+        const m=plain(h.baye.hd.menuItems());assert.equal(m.idsValid,true);assert.deepEqual(m.ids,[0,699]);
+        assert.deepEqual(m.names,['actual person zero','actual high person']);assert.deepEqual(m.packedNames,['same','same']);
+        assert.equal(m.context,5);assert.equal(m.kind,kind);assert.equal(m.generation,7);assert.equal(m.seq,12);
+        h.raw.g_hdMenuIndex=1;assert.equal(h.baye.hd.menuItems().index,1);assert.deepEqual(lookups,[0,699]);
+        assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
+    }
+});
+test('kind 1/2 outside exact CAMPAIGN context never authorizes person IDs or replays name getters',()=>{
+    for(const kind of [1,2])for(const context of [0,1,2,3,4,6,255]){
+        const h=fixture();h.menu(kind,[0,699]);h.raw.g_hdMenuContext=context;
+        h.baye.getPersonName=()=>{throw Error('unproven person lookup');};
+        const m=plain(h.baye.hd.menuItems());assert.equal(m.idsValid,false);assert.deepEqual(m.ids,[]);
+        assert.deepEqual(m.names,m.packedNames);assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
+    }
+});
+test('campaign IDs require complete typed owner, index, ID metadata and every packed byte',()=>{
+    const cases=[['g_hdMenuActive',0],['g_hdMenuContext','5'],['g_hdMenuKind','1'],['g_hdMenuSeq',0],
+        ['g_hdMenuItemLen',0],['g_hdMenuItemLen',65],['g_hdMenuCount',0],['g_hdMenuIndex',2],['g_hdMenuIndex',null],
+        ['g_hdDetailGeneration',0],['g_hdMenuIdsCount',1],['g_hdMenuIdsKind',2],['g_hdMenuIdsSeq',13],
+        ['g_hdMenuIdsGeneration',8],['g_hdMenuIds',[0,786]],['g_hdMenuIds',[0,'699']],['g_hdMenuIds',[0]],
+        ['g_hdMenuBytes',new Uint8Array(15)],['g_hdMenuBytes',[...new Uint8Array(15),null]]];
+    for(const [field,value]of cases){const h=fixture();h.menu(1,[0,699]);h.raw.g_hdMenuContext=5;h.raw[field]=value;
+        const m=plain(h.baye.hd.menuItems());assert.equal(m.idsValid,false,field);assert.deepEqual(m.ids,[],field);}
+});
+test('each campaign owner field changed by a native name getter retires the entire ID observation',()=>{
+    const changes={g_hdMenuActive:0,g_hdMenuContext:1,g_hdMenuKind:2,g_hdMenuSeq:13,g_hdMenuItemLen:7,
+        g_hdMenuCount:1,g_hdMenuIndex:1,g_hdDetailGeneration:8,g_hdMenuIdsCount:1,g_hdMenuIdsKind:2,
+        g_hdMenuIdsGeneration:8,g_hdMenuIdsSeq:13};
+    for(const [field,value]of Object.entries(changes)){
+        const h=fixture();h.menu(1,[0,699]);h.raw.g_hdMenuContext=5;
+        h.baye.getPersonName=id=>{h.raw[field]=value;return 'current-'+id;};
+        const m=plain(h.baye.hd.menuItems());assert.equal(m.idsValid,false,field);assert.deepEqual(m.ids,[],field);
+        assert.deepEqual(m.names,m.packedNames);assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
+    }
+});
+test('campaign complete IDs and raw packed-name padding are reread, even when decoded names would be unchanged',()=>{
+    for(const mutate of [h=>{h.raw.g_hdMenuIds[1]=600;},h=>{h.raw.g_hdMenuBytes[15]=32;},
+        h=>{h.raw.g_hdMenuBytes[0]=120;}]){
+        const h=fixture();h.menu(2,[0,699]);h.raw.g_hdMenuContext=5;h.baye.getPersonName=id=>{mutate(h);return 'full-'+id;};
+        const m=plain(h.baye.hd.menuItems());assert.equal(m.idsValid,false);assert.deepEqual(m.ids,[]);assert.deepEqual(m.names,m.packedNames);
+    }
+});
+test('same numeric campaign ticket on a replacement native data object cannot reuse previously read IDs',()=>{
+    const h=fixture();h.menu(1,[0,699]);h.raw.g_hdMenuContext=5;
+    h.baye.getPersonName=id=>{h.baye.data={...h.raw};return 'full-'+id;};
+    const m=plain(h.baye.hd.menuItems());assert.equal(m.idsValid,false);assert.deepEqual(m.ids,[]);
+    assert.deepEqual(m.names,m.packedNames);assert.deepEqual(h.writes,[]);assert.deepEqual(h.keys,[]);
+});
+test('actual successor completion JavaScript dispatches the four-field read-only receipt synchronously',()=>{
+    const native=readFileSync(new URL('../vendor/iBaye/src/hd-bridge.c',import.meta.url),'utf8').replace(/\r/g,'');
+    const start=native.indexOf('void baye_hd_successor_committed('),end=native.indexOf('\n}\n',start);
+    const fn=native.slice(start,end+2),body=/EM_ASM\(\{([\s\S]*?)\n    \}, generation, oldKing, newKing, g_PlayerKing\);/.exec(fn);
+    assert.ok(body,'production synchronous event body exists');
+    const calls=[],world=Object.freeze({king:66,belong:67,devotion:100}),context=vm.createContext({
+        $0:7,$1:5,$2:66,$3:66,world,CustomEvent:class{constructor(type,options){this.type=type;this.detail=options.detail;}},
+        window:{dispatchEvent(event){calls.push({type:event.type,detail:plain(event.detail),world});}},
+        _bayeSendKey(){throw Error('receipt cannot send input');},setTimeout(){throw Error('receipt cannot yield');}});
+    vm.runInContext(body[1],context);assert.deepEqual(calls,[{type:'baye-hd-successor-committed',
+        detail:{generation:7,oldKing:5,newKing:66,playerKing:66},world}]);
+    assert.deepEqual(world,{king:66,belong:67,devotion:100});
+});

@@ -121,6 +121,8 @@ const U8* baye_hd_tool_data(void);
 U8 baye_hd_tool_read(U16 index, void* output);
 U16 baye_hd_person_arm(U16 person);
 void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 count);
+/* Synchronous read-only receipt after the real succession writes complete. */
+void baye_hd_successor_committed(U32 generation, U16 oldKing, U16 newKing);
 void baye_hd_goods_begin(U32 generation, U32 seq, U16 index, U16 tool, U16 properties, U16 pageStart, U8 custom);
 void baye_hd_goods_capture(U32 generation, U32 seq, U16 tool, U16 property, const U8* text, U8 title);
 void baye_hd_goods_name(U32 generation, U32 seq, U16 tool, const U8* name);

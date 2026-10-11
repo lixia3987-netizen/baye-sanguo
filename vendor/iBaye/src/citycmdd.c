@@ -812,6 +812,7 @@ FAR void KingOverDeal(PersonID king)
     PersonID *pqptr;
     PersonID pcode;
     U32 ccount,pcount;
+    U32 hdGeneration = g_hdDetailGeneration;
 
     KingDeadNote(king);
     cqptr = SHARE_MEM;
@@ -852,6 +853,7 @@ FAR void KingOverDeal(PersonID king)
             {
                 g_Persons[pqptr[i]].Belong = pqptr[pcode] + 1;
             }
+            baye_hd_successor_committed(hdGeneration, king, pqptr[pcode]);
         }
         else
         {

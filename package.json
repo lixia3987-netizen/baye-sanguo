@@ -98,6 +98,7 @@
     "test:mobile-spe": "node --test scripts/test-hd-mobile-spe.mjs",
     "test:mobile-battle-effects-runtime": "node scripts/test-hd-mobile-city-runtime.mjs --battle-effects",
     "test:mobile-successor-runtime-oracle": "node --test scripts/test-hd-mobile-successor-runtime-oracle.mjs",
+    "test:mobile-campaign-runtime": "node scripts/test-hd-mobile-city-runtime.mjs --campaign-only",
     "test:mobile-march-runtime": "node scripts/test-hd-mobile-city-runtime.mjs --march-only",
     "test:mobile-march-runtime-oracle": "node --test scripts/test-hd-mobile-march-runtime-oracle.mjs",
     "test:mobile-trade": "node --test scripts/test-hd-mobile-trade-engine.mjs scripts/test-hd-mobile-trade-runtime-oracle.mjs scripts/test-hd-city-mobile-host.mjs scripts/test-hd-dialog-routing.mjs",

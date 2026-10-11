@@ -6,7 +6,8 @@
     var OVERWORLD_KEY = 'baye/overworldMode';
     var qtyEpoch = 0;
     var mobileHost = null, mobileBattleHost = null, started = false;
-    var mobileBattleCommit = null, mobileBattleData = null, battlePortrait = {key: '', data: null, phase: 'off', serial: 0};
+    var mobileBattleCommit = null, mobileBattleData = null, mobileCampaignData = null,
+        battlePortrait = {key: '', data: null, phase: 'off', serial: 0};
     var VK = { UP: 0x22, DOWN: 0x23, LEFT: 0x24, RIGHT: 0x25, HELP: 0x26, ENTER: 0x27, EXIT: 0x28, SEARCH: 0x33 };
 
     var state = {
@@ -365,6 +366,7 @@
 
     function readCampaignPersons(kind) {
         try {
+            if (mobileHost) { return readMobileCampaignPersons(kind); }
             var menu = global.baye && baye.hd && baye.hd.menuItems && baye.hd.menuItems();
             if (!menu || !Number(menu.active) || Number(menu.context) !== 5 || Number(menu.kind) !== kind ||
                 !Number(menu.seq) || !menu.names || !menu.names.length) { return null; }
@@ -373,6 +375,65 @@
             if (!isFinite(index) || index < 0 || index >= menu.names.length) { return null; }
             return { context: 5, kind: kind, seq: Number(menu.seq), index: index, names: menu.names.slice(),
                 signature: menu.names.join('\u0000') };
+        } catch (e) { return null; }
+    }
+
+    function readMobileCampaignPersons(kind) {
+        try {
+            var api = global.BayeHdLibIdentity, identity = api && api.read(), data = engineData();
+            if (!mobileAvailable() || fightActive() || !data || !identity || identity.status !== 'ready' ||
+                identity.sha256 !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' ||
+                identity.byteLength !== 207195 || !helpInteger(identity.generation, 1, 0xffffffff) || !api.isCurrent(identity)) { return null; }
+            function sample() {
+                var menu = baye.hd.menuItems(), names = ['Active','Context','Kind','Seq','ItemLen','Count','Index'], raw = {};
+                names.forEach(function (name) { raw[name] = data['g_hdMenu' + name]; });
+                ['Generation','Seq','Kind','Count'].forEach(function (name) { raw['Ids' + name] = data['g_hdMenuIds' + name]; });
+                raw.detailGeneration = data.g_hdDetailGeneration;
+                var blockers = ['g_hdFightActive','g_hdRecordActive','g_hdMovieActive','g_hdSpeActive',
+                    'g_hdSkillActive','g_hdAttackActive','g_hdSkillResultActive','g_hdMakerActive','g_hdMiniMapActive',
+                    'g_hdViewActive','g_hdResultOwnerKind','g_hdResultOwnerValid','g_hdReportActive','g_hdQtyActive',
+                    'g_hdHelpActive','g_hdMapPick','g_hdBattlePick'];
+                blockers.forEach(function (field) { raw[field] = data[field]; });
+                ['g_hdTransferActive','g_hdDiplomacyActive'].forEach(function (field) {
+                    if (data[field] !== undefined) { raw[field] = data[field]; blockers.push(field); }
+                });
+                raw.g_hdMarchPhase = data.g_hdMarchPhase;
+                if (!menu || raw.Active !== 1 || raw.Context !== 5 || raw.Kind !== kind ||
+                    !blockers.every(function (field) { return raw[field] === 0; }) ||
+                    [0, 7].indexOf(raw.g_hdMarchPhase) < 0 ||
+                    !helpInteger(raw.Seq, 1, 0xffffffff) || !helpInteger(raw.Count, 1, 200) ||
+                    !helpInteger(raw.Index, 0, raw.Count - 1) || !helpInteger(raw.ItemLen, 1, 64) ||
+                    !helpInteger(raw.detailGeneration, 1, 0xffffffff) || raw.IdsGeneration !== raw.detailGeneration ||
+                    raw.IdsSeq !== raw.Seq || raw.IdsKind !== kind || raw.IdsCount !== raw.Count ||
+                    menu.active !== raw.Active || menu.context !== raw.Context || menu.kind !== raw.Kind ||
+                    menu.seq !== raw.Seq || menu.count !== raw.Count || menu.index !== raw.Index || menu.itemLen !== raw.ItemLen ||
+                    menu.detailGeneration !== raw.detailGeneration || menu.generation !== raw.detailGeneration || menu.idsValid !== true ||
+                    !Array.isArray(menu.ids) || menu.ids.length !== raw.Count ||
+                    !Array.isArray(menu.names) || menu.names.length !== raw.Count ||
+                    !Array.isArray(menu.packedNames) || menu.packedNames.length !== raw.Count ||
+                    !menu.names.every(function (n) { return typeof n === 'string' && n.trim(); }) ||
+                    !menu.packedNames.every(function (n) { return typeof n === 'string' && n.trim(); }) ||
+                    !data.g_hdMenuIds || data.g_hdMenuIds.length < raw.Count || !data.g_hdMenuBytes ||
+                    data.g_hdMenuBytes.length < raw.Count * raw.ItemLen) { return null; }
+                var ids = menu.ids.slice(), bytes = [], seen = {};
+                if (!ids.every(function (id, index) {
+                    if (!helpInteger(id, 0, 199) || seen[id] || data.g_hdMenuIds[index] !== id) { return false; }
+                    seen[id] = true; return true;
+                })) { return null; }
+                for (var i = 0; i < raw.Count * raw.ItemLen; i++) {
+                    var byte = data.g_hdMenuBytes[i]; if (!helpInteger(byte, 0, 255)) { return null; } bytes.push(byte);
+                }
+                return {context: 5, kind: kind, seq: raw.Seq, index: raw.Index, count: raw.Count,
+                    generation: raw.detailGeneration, libraryGeneration: identity.generation, ids: ids,
+                    names: menu.names.slice(), packedNames: menu.packedNames.slice(), raw: raw, bytes: bytes};
+            }
+            var first = sample(), second = sample(), latest = api.read();
+            if (!first || !second || JSON.stringify(first) !== JSON.stringify(second) || baye.data !== data ||
+                !mobileAvailable() || !api.isCurrent(identity) || !api.isCurrent(latest) ||
+                JSON.stringify(identity) !== JSON.stringify(latest)) { return null; }
+            second.signature = JSON.stringify([second.libraryGeneration, second.generation, second.ids, second.names, second.packedNames, second.bytes]);
+            Object.defineProperty(second, 'data', {value: data});
+            return second;
         } catch (e) { return null; }
     }
 
@@ -389,21 +450,36 @@
         }
         owner.selected = [];
         owner.selectedNames = [];
-        var arr = params && params.GenArray;
+        var arr = params && params.GenArray, selectedRaw = [], seenSelected = {};
         for (var i = 0; arr && i < 10; i += 1) {
             var id = readNumber(arr, i);
+            if (mobileHost && !helpInteger(id, 0, 200)) { return null; }
+            selectedRaw.push(id);
             if (!id || id >= 0xfffe) { continue; }
+            if (mobileHost && seenSelected[id]) { return null; }
+            seenSelected[id] = true;
             owner.selected.push(id);
             var name = '';
             try { name = baye.getPersonName(id - 1) || ''; } catch (e) {}
             owner.selectedNames.push(name);
+        }
+        if (mobileHost) {
+            var after = readCampaignPersons(2);
+            if (!helpInteger(owner.cityIndex, 0, 37) || !arr || owner.selectedNames.some(function (name) { return typeof name !== 'string' || !name; }) ||
+                owner.data !== engineData() || !after || owner.data !== after.data || owner.seq !== after.seq ||
+                owner.index !== after.index || owner.signature !== after.signature ||
+                readNumber(engineData().g_FgtParam, 'CityIndex') !== owner.cityIndex ||
+                JSON.stringify(selectedRaw) !== JSON.stringify(Array.prototype.slice.call(engineData().g_FgtParam.GenArray, 0, 10))) { return null; }
         }
         return owner;
     }
 
     function sameCampaignPersons(a, b) {
         return !!(a && b && a.context === b.context && a.kind === b.kind &&
-            a.seq === b.seq && a.signature === b.signature && a.cityIndex === b.cityIndex);
+            a.seq === b.seq && a.signature === b.signature && a.cityIndex === b.cityIndex &&
+            (!mobileHost || a.data === b.data && a.libraryGeneration === b.libraryGeneration && a.generation === b.generation &&
+                (a.kind !== 2 || JSON.stringify(a.selected) === JSON.stringify(b.selected) &&
+                    JSON.stringify(a.selectedNames) === JSON.stringify(b.selectedNames))));
     }
 
     function sameSuccessor(a, b) {
@@ -499,8 +575,20 @@
     }
 
     function defenseToken(owner) {
-        return owner ? JSON.stringify([state.viewEpoch, owner.context, owner.kind,
-            owner.seq, owner.cityIndex, owner.names]) : '';
+        if (!owner) { return ''; }
+        var values = [state.viewEpoch, owner.context, owner.kind, owner.seq, owner.cityIndex, owner.names];
+        if (mobileHost) { values.push(owner.signature); }
+        return JSON.stringify(values);
+    }
+
+    function ownedCampaignButton(target, defense, finish) {
+        if (!mobileHost) { return true; }
+        var live = defense ? readDefenders() : readSuccessor(), ticket = getInputTicket();
+        var index = Number(target.getAttribute(defense ? 'data-hd-defender-index' : 'data-hd-successor-index'));
+        return !!(ticket && live && live.data === mobileCampaignData && target._hdCampaignData === live.data &&
+            target.getAttribute('data-hd-campaign-owner') === defenseToken(live) &&
+            (finish || helpInteger(index, 0, live.names.length - 1) &&
+                Number(target.getAttribute('data-hd-campaign-person')) === live.ids[index]));
     }
 
     function ownedDefenseButton(target, finish) {
@@ -508,7 +596,7 @@
         if (!state.open || state.kind !== 'defenders' || !shouldShowHd() ||
             !sameCampaignPersons(state.defenseOwner, live) ||
             target.getAttribute('data-hd-defenders-owner') !== defenseToken(live) ||
-            Number(target.getAttribute('data-hd-defender-seq')) !== live.seq) { return false; }
+            Number(target.getAttribute('data-hd-defender-seq')) !== live.seq || !ownedCampaignButton(target, true, finish)) { return false; }
         if (finish) { return true; }
         var index = Number(target.getAttribute('data-hd-defender-index'));
         return isFinite(index) && Math.floor(index) === index && index >= 0 && index < live.names.length &&
@@ -911,6 +999,8 @@
         var trade = tradeQuantityPresentation(quantity);
         var root = el('hd-dialog');
         if (root) { root.classList.toggle('has-mobile-quantity', !!mobileHost && state.kind === 'qty'); }
+        if (root) { root.setAttribute('data-hd-mobile-campaign', mobileHost &&
+            (state.kind === 'successor' || state.kind === 'defenders') ? state.kind : ''); }
         setText(el('hd-dialog-title'), distribution ? '分配兵力' : trade ?
             (trade.direction === 'buy' ? '买入粮草' : '卖出粮草') : state.title);
         var body = el('hd-dialog-body');
@@ -947,6 +1037,11 @@
                         button.setAttribute('data-hd-menu-context', '5');
                         button.setAttribute('data-hd-menu-kind', '2');
                         button.setAttribute('data-hd-defenders-owner', defenseToken(state.defenseOwner));
+                        if (mobileHost) {
+                            button.setAttribute('data-hd-campaign-owner', defenseToken(state.defenseOwner));
+                            button.setAttribute('data-hd-campaign-person', String(state.defenseOwner.ids[index]));
+                            button._hdCampaignData = mobileCampaignData;
+                        }
                         button.textContent = name;
                         defenders.appendChild(button);
                     });
@@ -955,9 +1050,11 @@
                     finish.setAttribute('data-hd-defenders-finish', '');
                     finish.setAttribute('data-hd-defender-seq', String(state.defenseOwner.seq));
                     finish.setAttribute('data-hd-defenders-owner', defenseToken(state.defenseOwner));
+                    if (mobileHost) { finish.setAttribute('data-hd-campaign-owner', defenseToken(state.defenseOwner)); finish._hdCampaignData = mobileCampaignData; }
                     finish.textContent = '完成选将';
-                    defenders.appendChild(finish);
+                    if (!mobileHost) { defenders.appendChild(finish); }
                     body.appendChild(defenders);
+                    if (mobileHost) { body.appendChild(finish); }
                 }
                 var selectedNode = body.querySelector && body.querySelector('[data-hd-defenders-selected]');
                 setText(selectedNode, state.defenseOwner.selected.length ?
@@ -976,6 +1073,11 @@
                         button.type = 'button';
                         button.setAttribute('data-hd-successor-index', String(index));
                         button.setAttribute('data-hd-successor-seq', String(state.successorOwner.seq));
+                        if (mobileHost) {
+                            button.setAttribute('data-hd-campaign-owner', defenseToken(state.successorOwner));
+                            button.setAttribute('data-hd-campaign-person', String(state.successorOwner.ids[index]));
+                            button._hdCampaignData = mobileCampaignData;
+                        }
                         button.textContent = name;
                         choices.appendChild(button);
                     });
@@ -1435,7 +1537,8 @@
         var viewDetail = kind === 'view' ? meta.viewDetail || null : null;
         var viewStamp = kind === 'view' ? meta.viewStamp || '' : '';
         var detailData=mobileBattleHost && fightActive() && (kind==='help'||kind==='view') ? engineData() : null;
-        var dataChanged=!!detailData && detailData!==mobileBattleData;
+        var campaignData = mobileHost && (kind === 'successor' || kind === 'defenders') ? engineData() : null;
+        var dataChanged=!!detailData && detailData!==mobileBattleData || !!campaignData && campaignData!==mobileCampaignData;
         var viewEntering = !state.open || state.kind !== 'view' || !state.viewOwner || !viewOwner ||
             state.viewOwner.generation !== viewOwner.generation;
         var viewChanged = dataChanged || !state.open || state.kind !== kind || !sameView(state.viewOwner, viewOwner) || state.viewStamp !== viewStamp;
@@ -1464,6 +1567,7 @@
         }
         state.open = true;
         mobileBattleData=detailData;
+        mobileCampaignData=campaignData;
         state.kind = kind;
         if (kind === 'qty') { standaloneQty(); }
         state.marchOwner = marchOwner;
@@ -1512,6 +1616,7 @@
         stopDefenseRequest();
         state.open = false;
         mobileBattleData=null;
+        mobileCampaignData=null;
         retireBattlePortrait();
         state.marchOwner = null;
         state.helpOwner = null;
@@ -1988,7 +2093,7 @@
                     state.pressedView = null;
                     if (successorPressed && successorPressed.target === t &&
                         successorPressed.epoch !== state.viewEpoch) { return; }
-                    if (state.successorOwner && Number(t.getAttribute('data-hd-successor-seq')) === state.successorOwner.seq) {
+                    if (state.successorOwner && Number(t.getAttribute('data-hd-successor-seq')) === state.successorOwner.seq && ownedCampaignButton(t, false, false)) {
                         chooseSuccessor(Number(t.getAttribute('data-hd-successor-index')));
                     }
                     return;
@@ -2242,6 +2347,17 @@
         closeDialog({ silent: true });
     }
 
+    // A cancelled list gesture retires queued keys, not the current native wait
+    // or its scroll position. Page/mode boundaries still use retireInteraction.
+    function retireCampaignInput() {
+        var before = getInputTicket();
+        if (!before || (state.kind !== 'successor' && state.kind !== 'defenders')) { return false; }
+        state.pressedView = null;
+        stopSuccessorRequest(); stopDefenseRequest();
+        var after = getInputTicket();
+        return !!after && before.data === after.data && before.key === after.key;
+    }
+
     function getInputTicket() {
         if (!mobileHost || !mobileAvailable() || !state.open || fightActive() || mobileCityMarchOwner()) { return null; }
         try {
@@ -2288,7 +2404,9 @@
             } else if (state.kind === 'successor' || state.kind === 'defenders') {
                 var persons = state.kind === 'successor' ? readSuccessor() : readDefenders();
                 var previous = state.kind === 'successor' ? state.successorOwner : state.defenseOwner;
-                if (!persons || !sameCampaignPersons(previous, persons) || data.g_hdMenuActive !== 1 ||
+                if (!persons || data !== mobileCampaignData || persons.data !== data ||
+                    data.g_hdReportActive !== 0 || data.g_hdQtyActive !== 0 || data.g_hdHelpActive !== 0 ||
+                    !sameCampaignPersons(previous, persons) || data.g_hdMenuActive !== 1 ||
                     persons.seq !== data.g_hdMenuSeq || persons.names.length !== data.g_hdMenuCount ||
                     persons.names.some(function (name) { return typeof name !== 'string' || !name.trim(); })) { return null; }
                 owner = persons;
@@ -2304,6 +2422,10 @@
                 JSON.stringify(identity) !== JSON.stringify(identityAfter)) { return null; }
             var ticket = { key: JSON.stringify([identity.generation, state.viewEpoch, state.kind, raw, owner]),
                 libraryGeneration: identity.generation, ownerType: state.kind };
+            if (state.kind === 'successor' || state.kind === 'defenders') {
+                ticket.menuContext = 5; ticket.menuKind = owner.kind; ticket.menuSeq = owner.seq;
+                ticket.detailGeneration = owner.generation;
+            }
             Object.defineProperty(ticket, 'data', {value: data, enumerable: false});
             return Object.freeze(ticket);
         } catch (e) { return null; }
@@ -2332,6 +2454,7 @@
         getBattleLcdPresentation: function () { return getBattleInputTicket() && battlePortrait.phase!=='lcd' ? 'off' : 'passthrough'; },
         configureMobileHost: function (options) { mobileHost = options || {}; retireInteraction(); },
         retireInteraction: retireInteraction,
+        retireCampaignInput: retireCampaignInput,
         getInputTicket: getInputTicket,
         isActive: function () { return !!getInputTicket(); },
         getLcdPresentation: function () { return getInputTicket() ? 'off' : 'passthrough'; },

@@ -225,6 +225,11 @@ static void GamGetMsg(GMType*m){assert(messageIndex<300);m->type=VM_CHAR_FUN;
     else if(scenario==7){int page=messageIndex<19?messageIndex:19;
         assert(g_hdMenuIdsCount==2&&g_hdMenuIds[0]==699&&g_hdMenuIds[1]==600&&g_hdMenuIndex==0&&g_hdMenuSeq==expectedMenuSeq);
         assert(personColumnStart==page&&personColumnCalls==page+1);m->param=messageIndex==20?VK_EXIT:VK_RIGHT;}
+    else if(scenario==8){assert(g_hdMenuContext==BAYE_HD_MENU_CONTEXT_CAMPAIGN);
+        assert(g_hdMenuKind==BAYE_HD_MENU_SUCCESSOR||g_hdMenuKind==BAYE_HD_CAMPAIGN_DEFENDERS);
+        assert(g_hdMenuIdsKind==g_hdMenuKind&&g_hdMenuIdsCount==2&&g_hdMenuIds[0]==0&&g_hdMenuIds[1]==699);
+        assert(g_hdMenuIdsGeneration==g_hdDetailGeneration&&g_hdMenuIdsSeq==g_hdMenuSeq);
+        assert(g_hdMenuIndex==(messageIndex?1:0));m->param=messageIndex?VK_ENTER:VK_DOWN;}
     else assert(0);messageIndex++;}
 static U8 GamDelay(U16 ticks,U8 flag){assert(ticks==0&&flag==2);delayCalls++;
     if(delayMode==1){assert(g_hdHelpActive&&g_hdHelpKind==BAYE_HD_HELP_PERSON&&g_hdHelpComplete);
@@ -305,6 +310,31 @@ static void helpOwner(void){prepare();delayMode=6;FgtShowHlp();assert(g_hdHelpAc
 static void personPicker(void){prepare();scenario=4;messageIndex=0;PersonID list[]={699,600};
     baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY,BAYE_HD_MENU_PERSON);baye_hd_menu_begin();
     assert(ShowPersonControlInner(list,2,0,0,0,80,80)==0xffff);baye_hd_menu_end();assert(!g_hdMenuIdsCount);}
+static void campaignPicker(U8 kind){prepare();scenario=8;messageIndex=0;PersonID list[]={0,699};
+    baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CAMPAIGN,kind);baye_hd_menu_begin();
+    assert(ShowPersonControlInner(list,2,0,0,0,80,80)==1);assert(messageIndex==2);
+    assert(list[g_hdMenuIndex]==699);baye_hd_menu_end();assert(!g_hdMenuIdsCount&&!g_hdMenuActive);
+    assert(g_hdMenuContext==BAYE_HD_MENU_CONTEXT_NONE&&!g_hdMenuKind);}
+static void campaignIdsScope(void){U8 packed[16]={0};PersonID list[]={0,699};
+    for(U8 kind=1;kind<=2;kind++)for(U8 context=0;context<=6;context++){
+        prepare();baye_hd_menu_scope(context,kind);baye_hd_menu_begin();baye_hd_set_menu(packed,8,2,0);
+        U32 generation=g_hdDetailGeneration,seq=g_hdMenuSeq;
+        baye_hd_menu_ids(generation,seq,kind,list,2);
+        assert(g_hdMenuIdsCount==(context==BAYE_HD_MENU_CONTEXT_CAMPAIGN?2:0));
+        baye_hd_menu_end();assert(!g_hdMenuIdsCount);
+    }
+    for(U8 kind=1;kind<=2;kind++)for(U8 bad=0;bad<6;bad++){
+        prepare();baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CAMPAIGN,kind);baye_hd_menu_begin();baye_hd_set_menu(packed,8,2,0);
+        U32 generation=g_hdDetailGeneration,seq=g_hdMenuSeq;PersonID ids[]={0,699};
+        if(bad==4)ids[1]=700;if(bad==5)ids[1]=0xffff;
+        baye_hd_menu_ids(generation-(bad==0),seq-(bad==1),bad==2?3:kind,ids,bad==3?1:2);
+        assert(!g_hdMenuIdsCount);baye_hd_menu_end();
+    }
+    prepare();baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CAMPAIGN,BAYE_HD_MENU_SUCCESSOR);baye_hd_menu_begin();
+    baye_hd_set_menu(packed,8,2,0);U32 generation=g_hdDetailGeneration,seq=g_hdMenuSeq;
+    baye_hd_menu_ids(generation,seq,BAYE_HD_MENU_SUCCESSOR,list,2);assert(g_hdMenuIdsCount==2);
+    baye_hd_world_commit();assert(!g_hdMenuIdsCount&&g_hdDetailGeneration!=generation);
+    baye_hd_menu_ids(generation,seq,BAYE_HD_MENU_SUCCESSOR,list,2);assert(!g_hdMenuIdsCount);}
 static void malformedCapture(void){prepare();U8 packed[16]={0};U16 list[]={2};
     baye_hd_menu_scope(BAYE_HD_MENU_CONTEXT_CITY,BAYE_HD_MENU_GOODS);baye_hd_menu_begin();baye_hd_set_menu(packed,16,1,0);
     U32 generation=g_hdDetailGeneration,seq=g_hdMenuSeq;baye_hd_menu_ids(generation,seq,BAYE_HD_MENU_GOODS,list,1);
@@ -351,7 +381,8 @@ int main(int argc,char**argv){assert(argc>=2);switch(atoi(argv[1])){
     case 12:assert(argc==4);realLibrary(argv[2],(U16)atoi(argv[3]));break;
     case 13:personPicker();break;case 14:malformedCapture();break;
     case 15:manyGoodsPages();break;case 16:noProgressGoodsPage();break;case 17:manyPersonPages();break;
-    case 18:toolFields();break;default:assert(0);}
+    case 18:toolFields();break;case 19:campaignPicker(BAYE_HD_MENU_SUCCESSOR);break;
+    case 20:campaignPicker(BAYE_HD_CAMPAIGN_DEFENDERS);break;case 21:campaignIdsScope();break;default:assert(0);}
     puts("actual native details fixture passed");return 0;}
 `;
 
@@ -381,7 +412,10 @@ for(const [id,name] of [
     [15,'actual native goods picker traverses all 255 single-column pages and ignores an extra Right on the last page'],
     [16,'actual native zero-column goods page stops repeated Right without redrawing or changing Enter selection'],
     [17,'actual person picker survives 20 property pages and preserves U16 identities, row and input sequence'],
-    [18,'actual tool field export reads current validated bytes without hooks or resource writes']
+    [18,'actual tool field export reads current validated bytes without hooks or resource writes'],
+    [19,'actual successor picker publishes zero and high U16 IDs, Arrow ACK and selected list index'],
+    [20,'actual defenders picker publishes zero and high U16 IDs without changing native selection semantics'],
+    [21,'campaign person IDs reject wrong context, stale generation/seq/kind/count and invalid IDs; reset retires them']
 ])test(name,async()=>{const result=await run(await executable(),[String(id)],{timeout:20000});assert.match(result.stdout,/actual native details fixture passed/);});
 for(const [file,count] of [['dat-mod.lib',33],['sc-mod.lib',101]])test(`actual ${file} tool count/last record uses the compiled 66-byte native ABI`,async()=>{
     const result=await run(await executable(),['12',join(root,'libs',file),String(count)],{timeout:20000});assert.match(result.stdout,/actual native details fixture passed/);

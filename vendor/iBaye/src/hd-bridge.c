@@ -1126,7 +1126,10 @@ void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 coun
     U32 i, limit = kind == BAYE_HD_MENU_GOODS ? baye_hd_tool_count() : GamGetPersonCount();
     if (generation != g_hdDetailGeneration || seq != g_hdMenuSeq || !g_hdMenuActive ||
         kind != g_hdMenuKind || !ids || !count || count > BAYE_HD_DETAIL_IDS_MAX ||
-        count != g_hdMenuCount || !limit || (kind != BAYE_HD_MENU_PERSON && kind != BAYE_HD_MENU_GOODS)) return;
+        count != g_hdMenuCount || !limit ||
+        (kind != BAYE_HD_MENU_PERSON && kind != BAYE_HD_MENU_GOODS &&
+         !(g_hdMenuContext == BAYE_HD_MENU_CONTEXT_CAMPAIGN &&
+           (kind == BAYE_HD_MENU_SUCCESSOR || kind == BAYE_HD_CAMPAIGN_DEFENDERS)))) return;
     for (i = 0; i < count; ++i) if (ids[i] >= limit || ids[i] >= BAYE_HD_DETAIL_IDS_MAX) return;
     if (hdPersonPaint.ticket && (kind != BAYE_HD_MENU_PERSON || count != hdPersonPaint.count ||
         memcmp(ids, hdPersonPaint.ids, count * sizeof(*ids)))) baye_hd_person_properties_retire();
@@ -1136,6 +1139,25 @@ void baye_hd_menu_ids(U32 generation, U32 seq, U8 kind, const U16* ids, U32 coun
     memcpy(g_hdMenuIds, ids, count * sizeof(*ids));
     g_hdMenuIdsCount = (U16)count; g_hdMenuIdsKind = kind;
     g_hdMenuIdsGeneration = generation; g_hdMenuIdsSeq = seq;
+}
+
+void baye_hd_successor_committed(U32 generation, U16 oldKing, U16 newKing)
+{
+    U32 limit = GamGetPersonCount();
+    if (!generation || generation != g_hdDetailGeneration || !limit ||
+        oldKing >= limit || newKing >= limit || oldKing >= PERSON_MAX || newKing >= PERSON_MAX) return;
+    /* Observe the completed C writes before the caller continues settlement.
+     * No input, yield, business mutation or replacement of the native result. */
+    EM_ASM({
+        try {
+            if (typeof window !== 'undefined' && typeof window.dispatchEvent === 'function' &&
+                typeof CustomEvent === 'function') {
+                window.dispatchEvent(new CustomEvent('baye-hd-successor-committed', {
+                    detail: {generation: $0, oldKing: $1, newKing: $2, playerKing: $3}
+                }));
+            }
+        } catch (e) {}
+    }, generation, oldKing, newKing, g_PlayerKing);
 }
 
 static U8 hd_goods_owner(U32 generation, U32 seq)

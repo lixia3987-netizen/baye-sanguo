@@ -74,6 +74,34 @@
                 !menu.names.every(function (name) { return typeof name === 'string' && name.length > 0; }) ||
                 ([3, 4].indexOf(menu.kind) >= 0 && (menu.idsValid !== true || !Array.isArray(menu.ids) ||
                     menu.ids.length !== menu.count || !menu.ids.every(function (id) { return uint(id, 65534); }))))) { return null; }
+            if (menu.active && menu.context === 5 && (menu.kind === 1 || menu.kind === 2)) {
+                ['ItemLen','IdsGeneration','IdsSeq','IdsKind','IdsCount'].forEach(function (name) { raw['g_hdMenu' + name] = data['g_hdMenu' + name]; });
+                if (!uint(menu.count, 200) || !menu.count || !uint(menu.seq) || !menu.seq ||
+                    !uint(raw.g_hdMenuItemLen, 64) || !raw.g_hdMenuItemLen || menu.itemLen !== raw.g_hdMenuItemLen ||
+                    menu.generation !== raw.g_hdDetailGeneration || menu.idsValid !== true ||
+                    raw.g_hdMenuIdsGeneration !== raw.g_hdDetailGeneration || raw.g_hdMenuIdsSeq !== menu.seq ||
+                    raw.g_hdMenuIdsKind !== menu.kind || raw.g_hdMenuIdsCount !== menu.count ||
+                    !Array.isArray(menu.ids) || menu.ids.length !== menu.count ||
+                    !Array.isArray(menu.packedNames) || menu.packedNames.length !== menu.count ||
+                    !menu.packedNames.every(function (name) { return typeof name === 'string' && !!name.trim(); }) ||
+                    !data.g_hdMenuIds || data.g_hdMenuIds.length < menu.count || !data.g_hdMenuBytes ||
+                    data.g_hdMenuBytes.length < menu.count * menu.itemLen || raw.g_hdMapPick !== 0 || raw.g_hdBattlePick !== 0 ||
+                    raw.g_hdReportActive !== 0 || raw.g_hdQtyActive !== 0 || raw.g_hdHelpActive !== 0 ||
+                    [0, 7].indexOf(raw.g_hdMarchPhase) < 0 || transfer && transfer.active) { return null; }
+                var seen = {}, ids = [], bytes = [];
+                if (!menu.ids.every(function (id, index) {
+                    if (!uint(id, 199) || seen[id] || data.g_hdMenuIds[index] !== id) { return false; }
+                    seen[id] = true; ids.push(id); return true;
+                })) { return null; }
+                for (var i = 0; i < menu.count * menu.itemLen; i++) {
+                    var byte = data.g_hdMenuBytes[i]; if (!uint(byte, 255)) { return null; } bytes.push(byte);
+                }
+                raw.campaignIds = ids; raw.campaignBytes = bytes;
+                if (data.g_hdDiplomacyActive !== undefined) {
+                    raw.g_hdDiplomacyActive = data.g_hdDiplomacyActive;
+                    if (raw.g_hdDiplomacyActive !== 0) { return null; }
+                }
+            }
             if (qty.active && (qty.protocol !== true || !qty.session || qty.session !== raw.g_hdQtySession ||
                 qty.inputSeq !== raw.g_hdQtyInputSeq || qty.value !== raw.g_hdQtyValue || qty.min !== raw.g_hdQtyMin ||
                 qty.max !== raw.g_hdQtyMax || qty.ready !== raw.g_hdQtyReady || qty.min > qty.value || qty.value > qty.max)) { return null; }
@@ -163,7 +191,14 @@
         function retire(reason, force, keepShell) {
             var hadInput = !!(arm || grant || keyboard);
             arm = grant = keyboard = null;
+            var d = dialog();
+            // A consumed click can still own an Arrow ACK queue. Scrolling
+            // blank list space must cancel that queue even without an arm.
+            if (reason === 'scroll' && d && typeof d.retireCampaignInput === 'function' &&
+                d.retireCampaignInput() === true) { return true; }
             if (hadInput || force) {
+                if (['scroll','move-or-owner-change','pointer-cancel','invalid-release','lost-capture','multiple-pointers','invalid-pointer'].indexOf(reason) >= 0 &&
+                    d && typeof d.retireCampaignInput === 'function' && d.retireCampaignInput() === true) { return true; }
                 if (keepShell || lcdFallback) {
                     // Ordinary city retirement also clears its deep owner;
                     // the preserving API rebinds only a fresh identical native

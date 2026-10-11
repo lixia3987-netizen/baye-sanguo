@@ -6,6 +6,7 @@ import test from 'node:test';
 import vm from 'node:vm';
 
 function element(tagName = 'DIV') {
+    tagName = String(tagName).toUpperCase();
     const attrs = new Map(), listeners = new Map(), classes = new Set();
     let text = '';
     return { tagName, attrs, listeners, style: {}, parentElement: null, parentNode: null, children: [],
@@ -765,6 +766,218 @@ function mobileReportFixture() {
     h.context.BayeHdDialog.configureMobileHost({isAvailable: () => h.available});
     h.observe(); h.sent.length = 0; h.writes.length = 0;
     return h;
+}
+
+function mobileCampaignFixture(kind = 1, ids = [0, 130, 199]) {
+    const h = mobileReportFixture(), d = h.context.BayeHdDialog;
+    h.showHd = true;
+    h.context.BayeHdCityMenu.shouldShowHd = () => h.showHd;
+    h.report.active = 0; h.data.g_hdReportActive = 0;
+    for (const field of ['g_hdSpeActive','g_hdSkillActive','g_hdAttackActive','g_hdSkillResultActive',
+        'g_hdMakerActive','g_hdMiniMapActive','g_hdViewActive','g_hdResultOwnerKind','g_hdResultOwnerValid',
+        'g_hdBattlePick']) h.data[field] = 0;
+    Object.assign(h.data, {g_hdMapInputSeq: 8, g_hdMapCity: 17});
+    h.data.g_FgtParam = {CityIndex: 16, GenArray: Array(20).fill(0)};
+    h.context.baye.getPersonName = id => '人物' + id;
+    h.publish = (nextIds = ids, index = 0, seq = 31) => {
+        Object.assign(h.menu, {active: 1, context: 5, kind, seq, index, count: nextIds.length,
+            itemLen: 8, generation: 4, detailGeneration: 4, idsValid: true,
+            ids: [...nextIds], names: nextIds.map(id => '人物' + id), packedNames: nextIds.map(id => '原名' + id)});
+        Object.assign(h.data, {g_hdMenuActive: 1, g_hdMenuContext: 5, g_hdMenuKind: kind, g_hdMenuSeq: seq,
+            g_hdMenuIndex: index, g_hdMenuCount: nextIds.length, g_hdMenuItemLen: 8,
+            g_hdMenuIdsGeneration: 4, g_hdMenuIdsSeq: seq, g_hdMenuIdsKind: kind, g_hdMenuIdsCount: nextIds.length,
+            g_hdMenuIds: [...nextIds], g_hdMenuBytes: nextIds.flatMap(id => [id, 0, 0, 0, 0, 0, 0, 0])});
+        d.poll();
+    };
+    h.publish(); h.sent.length = h.writes.length = 0;
+    h.candidate = (index = 0) => h.nodes['hd-dialog-body'].querySelectorAll(kind === 1 ?
+        '[data-hd-successor-index]' : '[data-hd-defender-index]')[index];
+    h.choose = index => h.click(kind === 1 ? 'data-hd-successor-index' : 'data-hd-defender-index', h.candidate(index));
+    h.arrowAck = () => h.onSend(code => {
+        if (code === 0x22 || code === 0x23) {
+            h.menu.index += code === 0x23 ? 1 : -1; h.data.g_hdMenuIndex = h.menu.index;
+            d.poll();
+        }
+    });
+    return h;
+}
+
+for (const kind of [1, 2]) {
+    test('mobile campaign kind ' + kind + ' binds native IDs including zero and confirms after exact Arrow ACK', () => {
+        const h = mobileCampaignFixture(kind), d = h.context.BayeHdDialog;
+        assert.equal(d.isActive(), true); assert.equal(d.getInputTicket().menuContext, 5);
+        assert.equal(d.getInputTicket().menuKind, kind); assert.equal(d.getLcdPresentation(), 'off');
+        assert.deepEqual(Array.from((kind === 1 ? h.snapshot().successorOwner : h.snapshot().defenseOwner).ids), [0,130,199]);
+        h.arrowAck(); h.choose(2); h.timers(); h.choose(2);
+        assert.deepEqual(h.sent, [0x23,0x23,0x27]); assert.deepEqual(h.writes, []);
+    });
+    test('mobile campaign kind ' + kind + ' polling preserves candidate nodes and input token', () => {
+        const h = mobileCampaignFixture(kind), d = h.context.BayeHdDialog;
+        const node = h.candidate(), key = d.getInputTicket().key;
+        d.poll(); d.poll(); assert.equal(h.candidate(), node); assert.equal(d.getInputTicket().key, key);
+        h.choose(0); assert.deepEqual(h.sent, [0x27]); assert.deepEqual(h.writes, []);
+    });
+    for (const [label, mutate] of [
+        ['missing ID ticket', h => h.menu.idsValid = false],
+        ['wrong context', h => { h.menu.context = h.data.g_hdMenuContext = 1; }],
+        ['wrong ID generation', h => h.data.g_hdMenuIdsGeneration++],
+        ['wrong ID seq', h => h.data.g_hdMenuIdsSeq++],
+        ['wrong ID kind', h => h.data.g_hdMenuIdsKind = 3],
+        ['wrong ID count', h => h.data.g_hdMenuIdsCount--],
+        ['duplicate IDs', h => {h.menu.ids[1] = h.data.g_hdMenuIds[1] = 0;}],
+        ['out of standard person range', h => {h.menu.ids[1] = h.data.g_hdMenuIds[1] = 200;}],
+        ['partial packed names', h => h.menu.packedNames.pop()],
+        ['partial raw names', h => h.data.g_hdMenuBytes.pop()],
+        ['wrong raw ID', h => h.data.g_hdMenuIds[1]++],
+        ['data replacement', h => h.context.baye.data = {...h.data}],
+        ['library rollover', h => h.identity.generation++],
+        ['classic mode', h => h.showHd = false],
+        ['hidden', h => h.context.document.hidden = true],
+        ['portrait', h => h.available = false],
+        ['competing report', h => h.data.g_hdReportActive = 1],
+        ['competing attack', h => h.data.g_hdAttackActive = 1],
+        ['competing transfer', h => h.data.g_hdTransferActive = 1],
+        ['active march', h => h.data.g_hdMarchPhase = 4]
+    ]) test('mobile campaign kind ' + kind + ' rejects ' + label + ' without keys', () => {
+        const h = mobileCampaignFixture(kind), old = h.candidate(1); mutate(h);
+        assert.equal(h.context.BayeHdDialog.getInputTicket(), null);
+        h.click('data-hd-successor-index', old); h.timers();
+        assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+    });
+    test('mobile campaign kind ' + kind + ' rejects a torn ID publication even if the primitive owner is unchanged', () => {
+        const h = mobileCampaignFixture(kind); let n = 0;
+        const getter = h.context.baye.hd.menuItems;
+        h.context.baye.hd.menuItems = () => { h.data.g_hdMenuBytes[0] = ++n % 2; return getter(); };
+        assert.equal(h.context.BayeHdDialog.getInputTicket(), null); h.choose(1); h.timers();
+        assert.deepEqual(h.sent, []);
+    });
+    test('mobile campaign kind ' + kind + ' retirement cancels an unacknowledged Arrow with no delayed Enter', () => {
+        const h = mobileCampaignFixture(kind), d = h.context.BayeHdDialog, old = h.candidate(2);
+        h.choose(2); assert.deepEqual(h.sent, [0x23]);
+        assert.equal(d.retireCampaignInput(), true); h.menu.index = h.data.g_hdMenuIndex = 1;
+        h.timers(); assert.deepEqual(h.sent, [0x23]); assert.equal(h.candidate(2), old);
+        d.retireInteraction(); h.click('data-hd-successor-index', old); h.timers(); assert.deepEqual(h.sent, [0x23]);
+    });
+    test('mobile campaign kind ' + kind + ' rejects an unexpected Arrow ACK and cannot commit a new seq', () => {
+        const h = mobileCampaignFixture(kind); h.choose(2);
+        h.menu.index = h.data.g_hdMenuIndex = 2; h.timers(); assert.deepEqual(h.sent, [0x23]);
+        h.publish([0,130,199], 0, 33); h.click('data-hd-successor-index', h.candidate(2));
+        assert.deepEqual(h.sent, [0x23,0x23]);
+    });
+}
+test('mobile successor Back never emits EXIT and old candidate cannot select a new owner', () => {
+    const h = mobileCampaignFixture(), old = h.candidate(0);
+    h.click('data-hd-dlg-back'); h.key(27); assert.deepEqual(h.sent, []);
+    h.publish([130,199], 0, 33); h.click('data-hd-successor-index', old);
+    assert.deepEqual(h.sent, []); assert.equal(h.context.BayeHdDialog.isActive(), true);
+});
+test('mobile defenders immediately observe the shrinking real roster and finish exactly once', () => {
+    const h = mobileCampaignFixture(2), d = h.context.BayeHdDialog, old = h.candidate(0);
+    h.onSend(code => { if (code === 0x27) { h.data.g_FgtParam.GenArray[0] = 1; h.publish([130,199],0,33); } });
+    h.choose(0); assert.deepEqual(h.sent, [0x27]);
+    assert.deepEqual(Array.from(h.snapshot().defenseOwner.ids), [130,199]);
+    assert.deepEqual(Array.from(h.snapshot().defenseOwner.selected), [1]);
+    h.click('data-hd-defender-index', old); assert.deepEqual(h.sent, [0x27]);
+    const finish = h.nodes['hd-dialog-body'].querySelectorAll('[data-hd-defenders-finish]')[0];
+    h.click('data-hd-defenders-finish', finish); h.click('data-hd-defenders-finish', finish);
+    assert.deepEqual(h.sent, [0x27,0x28]); assert.deepEqual(h.writes, []); assert.equal(d.isActive(), true);
+});
+test('mobile defenders may finish with no selection, but stale or torn selected units are rejected', () => {
+    const h = mobileCampaignFixture(2);
+    const finish = h.nodes['hd-dialog-body'].querySelectorAll('[data-hd-defenders-finish]')[0];
+    h.click('data-hd-defenders-finish', finish); assert.deepEqual(h.sent, [0x28]);
+    const invalid = mobileCampaignFixture(2); invalid.data.g_FgtParam.GenArray[0] = 201;
+    assert.equal(invalid.context.BayeHdDialog.getInputTicket(), null);
+    const torn = mobileCampaignFixture(2); torn.data.g_FgtParam.GenArray[0] = 1;
+    torn.context.baye.getPersonName = () => { torn.data.g_FgtParam.GenArray[0] = 2; return '人物0'; };
+    assert.equal(torn.context.BayeHdDialog.getInputTicket(), null);
+});
+test('mobile defenders cannot continue queued movement after the native selected army changes without a new roster', () => {
+    const h = mobileCampaignFixture(2); h.choose(2);
+    h.data.g_FgtParam.GenArray[0] = 1; h.menu.index = h.data.g_hdMenuIndex = 1;
+    h.timers(); assert.deepEqual(h.sent, [0x23]); assert.equal(h.context.BayeHdDialog.getInputTicket(), null);
+});
+
+function campaignWithMobileHost(kind = 1) {
+    const h = mobileCampaignFixture(kind), document = h.context.document, handlers = new Map();
+    for (const field of ['g_hdReportKind','g_hdReportPerson','g_hdQtyValue','g_hdQtyMin','g_hdQtyMax','g_hdQtyReady']) h.data[field] = 0;
+    const add = document.addEventListener;
+    document.addEventListener = (type, fn, capture) => {
+        add(type, fn, capture); if (!handlers.has(type)) handlers.set(type, []); handlers.get(type).push(fn);
+    };
+    const body = h.nodes['hd-dialog-body'], root = h.nodes['hd-dialog'];
+    root.appendChild(body); document.body.appendChild(root);
+    document.elementFromPoint = () => h.top;
+    vm.runInContext(readFileSync(new URL('../js/hd-mobile-city.js', import.meta.url), 'utf8'), h.context,
+        {filename: 'js/hd-mobile-city.js'});
+    const host = h.context.BayeHdMobileCity; host.init(); h.context.BayeHdDialog.poll(); host.refresh();
+    h.host = host;
+    h.fire = (type, target = h.candidate(), changes = {}) => {
+        h.top = target;
+        target.getBoundingClientRect = () => ({left: 100, top: 100, width: 100, height: 44});
+        const event = {type, target, pointerId: 1, isPrimary: true, isTrusted: true, button: 0, detail: 1,
+            clientX: 150, clientY: 122, preventDefault() {this.defaultPrevented = true;},
+            stopPropagation() {this.stopped = true;}, stopImmediatePropagation() {this.stopped = true;}, ...changes};
+        for (const fn of handlers.get(type) || []) {fn(event); if(event.stopped) break;}
+        if (!event.stopped && type === 'click') for (const fn of root.listeners.get('click') || []) fn(event);
+        return event;
+    };
+    h.tap = (target = h.candidate(), changes = {}) => {
+        h.fire('pointerdown', target, changes); h.fire('pointerup', target, changes); h.fire('click', target, changes);
+    };
+    h.sent.length = h.writes.length = 0;
+    return h;
+}
+for (const kind of [1,2]) {
+    test('real mobile host and campaign dialog kind ' + kind + ' require trusted DOWN-UP before one native choice', () => {
+        const h = campaignWithMobileHost(kind);
+        assert.equal(h.host.snapshot().dialogVisible, true); assert.ok(h.host.readInputTicket('dialog'));
+        h.fire('click'); h.tap(h.candidate(), {isTrusted:false}); assert.deepEqual(h.sent, []);
+        h.tap(); h.fire('click'); assert.deepEqual(h.sent, [0x27]); assert.deepEqual(h.writes, []);
+    });
+    for (const cause of ['pointercancel','scroll','multitouch','hidden','portrait','identity','data','new-seq']) {
+        test('real mobile campaign kind ' + kind + ' rejects stale release across ' + cause, () => {
+            const h = campaignWithMobileHost(kind), node = h.candidate();
+            h.fire('pointerdown', node);
+            if (cause === 'pointercancel') h.fire('pointercancel', node);
+            if (cause === 'scroll') h.fire('scroll', node);
+            if (cause === 'multitouch') h.fire('pointerdown', node, {pointerId:2,isPrimary:false});
+            if (cause === 'hidden') { h.context.document.hidden = true; h.fire('visibilitychange', node); }
+            if (cause === 'portrait') { h.context.innerWidth = 390; h.context.innerHeight = 844; h.host.refresh(); }
+            if (cause === 'identity') { h.identity.generation++; h.host.refresh(); }
+            if (cause === 'data') h.context.baye.data = {...h.data};
+            if (cause === 'new-seq') h.publish([0,130,199],0,33);
+            h.fire('pointerup', node); h.fire('click', node); h.timers();
+            assert.deepEqual(h.sent, []); assert.deepEqual(h.writes, []);
+            if (cause === 'scroll' || cause === 'pointercancel') {
+                assert.equal(h.candidate(), node, 'same-owner scroll/cancel keeps the native list DOM');
+                assert.equal(h.context.BayeHdDialog.isActive(), true);
+            }
+        });
+    }
+    test('real mobile campaign kind ' + kind + ' scroll preserves list position and a later fresh touch still works', () => {
+        const h = campaignWithMobileHost(kind), node = h.candidate(), list = node.parentNode;
+        list.scrollTop = 420; h.fire('pointerdown',node); h.fire('pointermove',node,{clientY:150}); h.fire('scroll',node);
+        h.fire('pointerup',node); h.fire('click',node); h.context.BayeHdDialog.poll(); h.host.refresh();
+        assert.equal(list.scrollTop,420); assert.equal(h.candidate(),node); assert.deepEqual(h.sent,[]);
+        h.tap(node); assert.deepEqual(h.sent,[0x27]); assert.deepEqual(h.writes,[]);
+    });
+    test('real mobile campaign kind ' + kind + ' blank list scroll stops a consumed-click Arrow queue before its ACK', () => {
+        const h = campaignWithMobileHost(kind), node = h.candidate(2), list = node.parentNode;
+        h.tap(node); assert.deepEqual(h.sent, [0x23]);
+        assert.ok(kind === 1 ? h.snapshot().successorRequest : h.snapshot().defenseRequest);
+        list.scrollTop = 120;
+        // The original click has consumed the release grant. Blank space is
+        // not a button, so this new pan cannot create a host action arm.
+        h.fire('pointerdown', list); h.fire('pointermove', list, {clientY:150}); h.fire('scroll', list);
+        h.menu.index = h.data.g_hdMenuIndex = 1; h.timers();
+        h.fire('pointerup', list); h.fire('click', list);
+        h.context.BayeHdDialog.poll(); h.host.refresh();
+        assert.deepEqual(h.sent, [0x23]); assert.equal(list.scrollTop, 120);
+        assert.equal(h.candidate(2), node); assert.equal(h.context.BayeHdDialog.isActive(), true);
+        assert.equal(kind === 1 ? h.snapshot().successorRequest : h.snapshot().defenseRequest, null);
+        assert.deepEqual(h.writes, []);
+    });
 }
 test('mobile report requires a complete current original owner and confirms exactly once', () => {
     const h = mobileReportFixture(), dialog = h.context.BayeHdDialog;

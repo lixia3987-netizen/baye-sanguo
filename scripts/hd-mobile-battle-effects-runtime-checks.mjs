@@ -170,6 +170,10 @@ export async function runMobileBattleEffectsChecks(c) {
       assert.deepEqual(live.menu,m,'The same published successor menu still owns this choice');
       assert.equal(live.report.active,0);assert.deepEqual(worldAgain,before,'Current native candidates remain unchanged before selection');
       assert.equal(verdict.chosenIndex,0,'Original KingOverDeal starts the untouched picker at row zero');
+      // This older effect scenario explicitly retains its classic picker
+      // coverage. The separate campaign scenario accepts the full HD result.
+      const restoreCampaignHd=await evaluate("BayeHdCityMenu.getMode()!=='classic'");
+      if(restoreCampaignHd){await button('#hd-mobile-menu-mode');await until('Explicit classic successor picker',"BayeHdCityMenu.getMode()==='classic'&&document.documentElement.getAttribute('data-baye-dialog')!=='hd'");}
       // Native ShowPersonControl: menu origin (4,2), top padding 1+ASC_HGT
       // with ASC_HGT=12. Pixel (32,21) is inside the first visible name row.
       const point=await evaluate(`(() => {const l=document.getElementById('lcd'),r=l.getBoundingClientRect();
@@ -177,13 +181,14 @@ export async function runMobileBattleEffectsChecks(c) {
         const p={x:r.left+32.5/160*r.width,y:r.top+21.5/96*r.height};
         if(document.elementFromPoint(p.x,p.y)!==l)throw Error('Current successor LCD row is not the touch owner');return p;})()`);
       report.battleCompletion.successorChoices.push({menu:m,world:before,...verdict,
-        identitySource:'Original GetKingPersons/GetCityPersons order, independently reconstructed from the current world; campaign menus do not publish idsValid',
+        identitySource:'Direct native candidate IDs, independently checked against original GetKingPersons/GetCityPersons order and current native names',
         input:'Trusted LCD first-row DOWN/UP',point,nativePixel:{x:32,y:21}});
       const inputStart=live.keys,touchStart=live.touches;
       await tap(point);
       await until('Actual displayed successor choice retires',`(() => {const m=baye.hd.menuItems();return Number(baye.data.g_PlayerKing)===${verdict.chosenId}&&(!m.active||m.seq!==${m.seq}||m.context!==5||m.kind!==1);})()`);
       assert.deepEqual(await evaluate(`__mobileMapKeys.slice(${inputStart}).map(k=>k.code)`),[],'Current successor LCD touch sends no synthetic native key');
       assert.deepEqual(await evaluate(`__mobileMapNativeTouches.slice(${touchStart}).map(t=>t.args)`),[[1,32,21],[2,32,21]],'One trusted LCD DOWN/UP confirms exactly the current first successor row');
+      if(restoreCampaignHd){await button('#hd-mobile-menu-mode');await until('Restore original HD menu preference',"BayeHdCityMenu.getMode()!=='classic'");}
     }
     if(s.fight.active===0&&!s.report.active&&await evaluate(mapReadySource))break;
     if(n===1799)throw Error('Actual battle settlement did not return to strategy map');await delay(50);

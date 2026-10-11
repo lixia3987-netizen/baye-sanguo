@@ -2682,78 +2682,74 @@ function baye_bridge_init() {
         },
         menuItems: function () {
             hdNote('hd.menuItems', '');
-            var d = baye.ensureData();
-            var itemLen = hdReadNum(d, 'g_hdMenuItemLen');
-            var count = hdReadNum(d, 'g_hdMenuCount');
-            if (itemLen > 64) {
-                itemLen = 64;
-            }
-            if (count > 2000) {
-                count = 2000;
-            }
-            var names = [];
-            var i;
+            var d = baye.ensureData(), reader = hdObserverReader(d);
+            var owner = {
+                active: reader.num('g_hdMenuActive', 1), context: reader.num('g_hdMenuContext', 255),
+                kind: reader.num('g_hdMenuKind', 255), seq: reader.num('g_hdMenuSeq'),
+                itemLen: reader.num('g_hdMenuItemLen', 64), count: reader.num('g_hdMenuCount', 2000),
+                index: reader.num('g_hdMenuIndex', 2000), generation: reader.num('g_hdDetailGeneration'),
+                idsCount: reader.num('g_hdMenuIdsCount', 2000), idsKind: reader.num('g_hdMenuIdsKind', 255),
+                idsGeneration: reader.num('g_hdMenuIdsGeneration'), idsSeq: reader.num('g_hdMenuIdsSeq')
+            };
+            // Keep legacy text observations available without granting an ID ticket.
+            var itemLen = Math.min(64, hdReadNum(d, 'g_hdMenuItemLen')),
+                count = Math.min(2000, hdReadNum(d, 'g_hdMenuCount')), names = [], i;
             if (itemLen && count && d && d.g_hdMenuBytes) {
-                for (i = 0; i < count; i++) {
-                    names.push(hdDecodeSlice(d.g_hdMenuBytes, i * itemLen, itemLen));
-                }
+                for (i = 0; i < count; i++) names.push(hdDecodeSlice(d.g_hdMenuBytes, i * itemLen, itemLen));
             } else if (d && typeof d.g_hdMenuGbk === 'string' && count) {
-                var raw = d.g_hdMenuGbk;
-                var step = Math.max(1, Math.floor(raw.length / count));
-                for (i = 0; i < count; i++) {
-                    names.push(raw.slice(i * step, (i + 1) * step).replace(/\s+$/g, ''));
-                }
+                var raw = d.g_hdMenuGbk, step = Math.max(1, Math.floor(raw.length / count));
+                for (i = 0; i < count; i++) names.push(raw.slice(i * step, (i + 1) * step).replace(/\s+$/g, ''));
             }
-            var kind = hdReadNum(d, 'g_hdMenuKind'), seq = hdReadNum(d, 'g_hdMenuSeq'),
-                generation = hdDetailNum(d, 'g_hdDetailGeneration'), ids = [],
-                limit = kind === 3 ? hdPersonLimit() : kind === 4 ? baye.getToolCount() : 0;
-            var idsValid = hdReadNum(d, 'g_hdMenuActive') === 1 && (kind === 3 || kind === 4) &&
-                count > 0 && count === names.length && count === hdDetailNum(d, 'g_hdMenuIdsCount', 2000) &&
-                generation > 0 && generation === hdDetailNum(d, 'g_hdMenuIdsGeneration') &&
-                seq > 0 && seq === hdDetailNum(d, 'g_hdMenuIdsSeq') && kind === hdDetailNum(d, 'g_hdMenuIdsKind', 4);
+            var kind = hdReadNum(d, 'g_hdMenuKind'), context = hdReadNum(d, 'g_hdMenuContext'),
+                seq = hdReadNum(d, 'g_hdMenuSeq'), generation = hdDetailNum(d, 'g_hdDetailGeneration'), ids = [];
+            var personMenu = kind === 3 || context === 5 && (kind === 1 || kind === 2),
+                limit = personMenu ? hdPersonLimit() : kind === 4 ? baye.getToolCount() : 0;
+            var idsValid = owner.active === 1 && (personMenu || kind === 4) &&
+                owner.context === context && owner.kind === kind && owner.seq === seq &&
+                owner.itemLen > 0 && owner.itemLen === itemLen && owner.count === count && count > 0 &&
+                owner.index != null && owner.index < count && count === names.length && count === owner.idsCount &&
+                owner.generation > 0 && owner.generation === generation && generation === owner.idsGeneration &&
+                seq > 0 && seq === owner.idsSeq && kind === owner.idsKind && limit > 0;
             if (idsValid) {
-                for (i = 0; i < count; i++) {
-                    var id = hdDetailNum(d && d.g_hdMenuIds, i, limit - 1);
-                    if (id == null) { idsValid = false; break; }
-                    ids.push(id);
+                ids = reader.array('g_hdMenuIds', count, limit - 1);
+                var bytes = reader.array('g_hdMenuBytes', itemLen * count, 255);
+                idsValid = ids.every(function (id) { return id != null; }) && bytes.every(function (byte) { return byte != null; });
+                if (idsValid) {
+                    names = [];
+                    for (i = 0; i < count; i++) names.push(hdDecodeSlice(bytes, i * itemLen, itemLen));
                 }
             }
-            if (!idsValid) { ids = []; }
+            if (!idsValid) ids = [];
             var packedNames = names.slice();
-            // Fixed native eight-byte observation slots can cut a GBK name in
-            // half. Resolve the full native label only after the actual IDs
-            // are proven; never recover identity by comparing names.
+            // Names never establish identity. Resolve native full names only for
+            // a complete current PERSON/GOODS or exact CAMPAIGN person ID ticket.
             if (idsValid) {
-                var nameKey = JSON.stringify([generation, seq, kind, ids, packedNames]);
+                var nameKey = JSON.stringify([generation, seq, context, kind, itemLen, ids, packedNames]);
                 if (!hdMenuNamesCache || hdMenuNamesCache.key !== nameKey) {
                     var fullNames = packedNames.slice();
                     for (i = 0; i < ids.length; i++) {
                         var fullName = '';
-                        try { fullName = kind === 3 ? baye.getPersonName(ids[i]) : baye.getToolName(ids[i]); } catch (e) {}
-                        if (typeof fullName === 'string' && fullName && fullName !== '-') { fullNames[i] = fullName; }
+                        try { fullName = personMenu ? baye.getPersonName(ids[i]) : baye.getToolName(ids[i]); } catch (e) {}
+                        if (typeof fullName === 'string' && fullName && fullName !== '-') fullNames[i] = fullName;
                     }
                     hdMenuNamesCache = {key: nameKey, names: fullNames};
                 }
-                if (generation === hdDetailNum(d, 'g_hdDetailGeneration') &&
-                    seq === hdDetailNum(d, 'g_hdMenuSeq') && kind === hdDetailNum(d, 'g_hdMenuKind', 4) &&
-                    hdDetailNum(d, 'g_hdMenuActive', 1) === 1 &&
-                    generation === hdDetailNum(d, 'g_hdMenuIdsGeneration') &&
-                    seq === hdDetailNum(d, 'g_hdMenuIdsSeq') &&
-                    count === hdDetailNum(d, 'g_hdMenuCount', 2000) && count === hdDetailNum(d, 'g_hdMenuIdsCount', 2000) &&
-                    kind === hdDetailNum(d, 'g_hdMenuIdsKind', 4) && ids.every(function (id, position) {
-                        return id === hdDetailNum(d && d.g_hdMenuIds, position, limit - 1);
-                    })) {
+                if (baye.data === d && reader.stable() && baye.data === d &&
+                    owner.active === hdDetailNum(d, 'g_hdMenuActive', 1) &&
+                    owner.context === hdDetailNum(d, 'g_hdMenuContext', 255) &&
+                    owner.kind === hdDetailNum(d, 'g_hdMenuKind', 255) &&
+                    owner.seq === hdDetailNum(d, 'g_hdMenuSeq') &&
+                    owner.itemLen === hdDetailNum(d, 'g_hdMenuItemLen', 64) &&
+                    owner.count === hdDetailNum(d, 'g_hdMenuCount', 2000) &&
+                    owner.index === hdDetailNum(d, 'g_hdMenuIndex', 2000) &&
+                    owner.generation === hdDetailNum(d, 'g_hdDetailGeneration') && baye.data === d) {
                     names = hdMenuNamesCache.names.slice();
                 } else { idsValid = false; ids = []; hdMenuNamesCache = null; }
             } else { hdMenuNamesCache = null; }
             return {
-                active: hdReadNum(d, 'g_hdMenuActive'),
-                context: hdReadNum(d, 'g_hdMenuContext'),
-                kind: kind,
-                seq: seq,
-                itemLen: itemLen,
-                count: count,
-                index: hdReadNum(d, 'g_hdMenuIndex'),
+                active: owner.active == null ? hdReadNum(d, 'g_hdMenuActive') : owner.active,
+                context: context, kind: kind, seq: seq, itemLen: itemLen, count: count,
+                index: owner.index == null ? hdReadNum(d, 'g_hdMenuIndex') : owner.index,
                 names: names, packedNames: packedNames, ids: ids, idsValid: !!idsValid,
                 generation: generation, detailGeneration: generation
             };

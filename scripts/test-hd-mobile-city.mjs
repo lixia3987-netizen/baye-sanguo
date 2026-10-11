@@ -61,8 +61,9 @@ function fixture({realCity = false} = {}) {
         if (state.menuHook) state.menuHook();
         const d = window.baye.data;
         return {active: d.g_hdMenuActive, context: d.g_hdMenuContext, kind: d.g_hdMenuKind, seq: d.g_hdMenuSeq,
-            detailGeneration: d.g_hdDetailGeneration, count: d.g_hdMenuCount, index: d.g_hdMenuIndex,
-            names: [...state.names], ids: [...state.ids], idsValid: state.idsValid};
+            generation: d.g_hdDetailGeneration, detailGeneration: d.g_hdDetailGeneration,
+            itemLen: d.g_hdMenuItemLen, count: d.g_hdMenuCount, index: d.g_hdMenuIndex,
+            names: [...state.names], packedNames: [...(state.packedNames || state.names)], ids: [...state.ids], idsValid: state.idsValid};
     }
     function qty() {
         const d = window.baye.data;
@@ -195,6 +196,61 @@ function fixture({realCity = false} = {}) {
             host.refresh();
         }};
 }
+
+function campaignFixture(kind = 1) {
+    const f = fixture(); f.dialog(kind === 1 ? 'successor' : 'defenders');
+    Object.assign(f.data, {g_hdMenuActive: 1, g_hdMenuContext: 5, g_hdMenuKind: kind,
+        g_hdMenuCount: 3, g_hdMenuIndex: 0, g_hdMenuItemLen: 8, g_hdMenuIdsGeneration: 4,
+        g_hdMenuIdsSeq: 12, g_hdMenuIdsKind: kind, g_hdMenuIdsCount: 3,
+        g_hdMenuIds: [0,130,199], g_hdMenuBytes: [0,130,199].flatMap(id => [id,0,0,0,0,0,0,0])});
+    f.state.ids = [0,130,199]; f.state.names = ['人物0','人物130','人物199'];
+    f.state.packedNames = ['原名0','原名130','原名199']; f.host.refresh();
+    return f;
+}
+for (const kind of [1,2]) {
+    test('mobile host admits only the complete campaign kind ' + kind + ' mirrored candidate ticket', () => {
+        const f = campaignFixture(kind);
+        assert.equal(f.host.snapshot().dialogVisible, true);
+        assert.ok(f.host.readInputTicket('dialog')); f.tap(f.dialogButton);
+        assert.deepEqual(f.counts.clicks, ['dialog-button']); assert.equal(f.counts.serializedData, 0);
+    });
+    for (const [label, mutate] of [
+        ['missing IDs', f => f.state.idsValid = false],
+        ['ID metadata seq', f => f.data.g_hdMenuIdsSeq++],
+        ['ID metadata generation', f => f.data.g_hdMenuIdsGeneration++],
+        ['ID metadata kind', f => f.data.g_hdMenuIdsKind = 3],
+        ['ID metadata count', f => f.data.g_hdMenuIdsCount--],
+        ['duplicate ID', f => f.state.ids[1] = f.data.g_hdMenuIds[1] = 0],
+        ['sentinel ID', f => f.state.ids[1] = f.data.g_hdMenuIds[1] = 65535],
+        ['raw ID mismatch', f => f.data.g_hdMenuIds[1]++],
+        ['partial names', f => f.state.packedNames.pop()],
+        ['partial bytes', f => f.data.g_hdMenuBytes.pop()],
+        ['map input', f => f.data.g_hdMapPick = 1],
+        ['report takeover', f => f.data.g_hdReportActive = 1],
+        ['active march', f => f.data.g_hdMarchPhase = 4],
+        ['active diplomacy', f => f.data.g_hdDiplomacyActive = 1]
+    ]) test('mobile host campaign kind ' + kind + ' rejects ' + label + ' before shared click', () => {
+        const f = campaignFixture(kind); mutate(f); f.host.refresh();
+        assert.equal(f.host.readInputTicket('dialog'), null); f.tap(f.dialogButton);
+        assert.deepEqual(f.counts.clicks, []); assert.equal(f.counts.serializedData, 0);
+    });
+    for (const [label, mutate] of [
+        ['packed bytes', f => f.data.g_hdMenuBytes[0]++],
+        ['packed label', f => f.state.packedNames[0] += '新'],
+        ['ID with same name', f => {f.data.g_hdMenuIds[0] = f.state.ids[0] = 1;}],
+        ['same primitive data replacement', f => f.window.baye.data = {...f.data}]
+    ]) test('mobile host campaign kind ' + kind + ' rejects old DOWN after ' + label, () => {
+        const f = campaignFixture(kind); f.fire('pointerdown', f.dialogButton); mutate(f);
+        f.fire('pointerup', f.dialogButton); f.fire('click', f.dialogButton);
+        assert.deepEqual(f.counts.clicks, []);
+    });
+}
+test('campaign host requires a stable full packed mirror across both getter samples', () => {
+    const f = campaignFixture(); let reads = 0;
+    f.state.menuHook = () => { f.data.g_hdMenuBytes[0] = ++reads % 2; };
+    assert.equal(f.host.readInputTicket('dialog'), null); f.tap(f.dialogButton);
+    assert.deepEqual(f.counts.clicks, []);
+});
 
 test('initialization is idempotent and configures city before dialog', () => {
     const f = fixture(); f.host.init(); f.host.init();

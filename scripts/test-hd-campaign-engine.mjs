@@ -358,6 +358,8 @@ static void GamGetMsg(GMType* msg) {
     for(U32 i=0;i<count;++i) {
         U8 name[16]={0};GetPersonName(candidates[i],name);
         assert(strcmp((char*)&g_hdMenuGbk[i*BAYE_HD_NAME_SLOT],(char*)name)==0);
+        assert(g_hdMenuIdsCount==count&&g_hdMenuIds[i]==candidates[i]);
+        assert(g_hdMenuIdsGeneration==g_hdDetailGeneration&&g_hdMenuIdsSeq==g_hdMenuSeq&&g_hdMenuIdsKind==BAYE_HD_CAMPAIGN_DEFENDERS);
     }
     if(previousSeq!=g_hdMenuSeq) {
         assert(pendingIndex<0 && g_hdMenuIndex==0);previousSeq=g_hdMenuSeq;++menus;
@@ -517,15 +519,20 @@ int main(void) {
 
 test('real C player succession preserves campaign ownership, retries cancellation and appoints only the chosen candidate', async () => {
     const scopes = ['baye_hd_menu_scope', 'baye_hd_menu_scope_default',
-        'baye_hd_menu_begin', 'baye_hd_menu_end'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
+        'baye_hd_menu_begin', 'baye_hd_menu_end', 'baye_hd_successor_committed'].map((name) => actualFunction('hd-bridge.c', name)).join('\n');
     await compile(common + String.raw`
 #define STR_MAKENEWKING 10
+#define PERSON_MAX 2000
+static U32 GamGetPersonCount(void) { return sizeof(g_Persons)/sizeof(g_Persons[0]); }
+static void observeCompleted(U32 generation,U16 oldKing,U16 newKing,U16 playerKing);
+#define EM_ASM(...) observeCompleted(generation,oldKing,newKing,g_PlayerKing)
 static U8 hdMenuNextContext,hdMenuNextKind,g_hdMenuActive,g_hdMenuContext,g_hdMenuKind;
 static U32 g_hdMenuSeq;
 static void baye_hd_fight_input_begin(U8 kind) { (void)kind; }
 static void baye_hd_fight_input_end(void) {}
 ` + scopes + String.raw`
-static unsigned scrolling=7, chooseCalls, deathNotes, newNotes, extinctNotes;
+static unsigned scrolling=7, chooseCalls, deathNotes, newNotes, extinctNotes, committedNotes, staleAtNote;
+static City noteCities[CITY_MAX];static Person notePeople[600];
 static unsigned kingdomCityCount=2, kingdomPersonCount=3;
 static PersonID candidates[3]={2,256,599};
 static U8 selectedContext,selectedKind;
@@ -544,7 +551,20 @@ static void KingDeadNote(PersonID king) { assert(king==7);++deathNotes; }
 static U32 GetKingCitys(PersonID king,U8* cities) { assert(king==7);cities[0]=0;cities[1]=1;return kingdomCityCount; }
 static U32 GetKingPersons(PersonID king,PersonID* people) { assert(king==7);memcpy(people,candidates,sizeof(candidates));return kingdomPersonCount; }
 static void ShowConstStrMsg(U8 text) { assert(text==STR_MAKENEWKING); }
-static void NewKingNote(PersonID king) { appointed=king;++newNotes; }
+static void NewKingNote(PersonID king) {
+    appointed=king;++newNotes;memcpy(noteCities,g_Cities,sizeof(noteCities));memcpy(notePeople,g_Persons,sizeof(notePeople));
+    if(staleAtNote)++g_hdDetailGeneration;
+}
+static void observeCompleted(U32 generation,U16 oldKing,U16 newKing,U16 playerKing) {
+    assert(generation==g_hdDetailGeneration&&oldKing==7&&newKing==appointed&&playerKing==g_PlayerKing);
+    assert(!g_hdMenuActive&&g_Cities[0].Belong==newKing+1&&g_Cities[1].Belong==newKing+1);
+    assert(g_Persons[2].Belong==newKing+1&&g_Persons[256].Belong==newKing+1&&g_Persons[599].Belong==newKing+1);
+    assert(g_Persons[newKing].Devotion==100);
+    noteCities[0].Belong=noteCities[1].Belong=newKing+1;
+    notePeople[2].Belong=notePeople[256].Belong=notePeople[599].Belong=newKing+1;notePeople[newKing].Devotion=100;
+    assert(!memcmp(noteCities,g_Cities,sizeof(noteCities))&&!memcmp(notePeople,g_Persons,sizeof(notePeople)));
+    ++committedNotes;
+}
 static void WeightOverNote(PersonID king) { assert(king==7);++extinctNotes; }
 ` + actualFunction('citycmdd.c', 'KingOverDeal') + String.raw`
 int main(void) {
@@ -552,7 +572,7 @@ int main(void) {
     g_Cities[0].Belong=g_Cities[1].Belong=8;
     g_Persons[2].Belong=g_Persons[256].Belong=g_Persons[599].Belong=8;
     KingOverDeal(7);
-    assert(chooseCalls==2 && g_PlayerKing==599 && appointed==599 && deathNotes==1 && newNotes==1);
+    assert(chooseCalls==2 && g_PlayerKing==599 && appointed==599 && deathNotes==1 && newNotes==1 && committedNotes==1);
     assert(selectedContext==BAYE_HD_MENU_CONTEXT_CAMPAIGN && selectedKind==BAYE_HD_MENU_SUCCESSOR);
     assert(!g_hdMenuActive && g_hdMenuContext==0 && scrolling==7);
     assert(g_Cities[0].Belong==600 && g_Cities[1].Belong==600);
@@ -560,13 +580,20 @@ int main(void) {
     assert(g_Persons[599].Devotion==100 && g_Persons[2].Devotion==0);
     g_PlayerKing=99;chooseCalls=0;g_Persons[2].IQ=30;g_Persons[256].IQ=99;g_Persons[599].IQ=60;
     KingOverDeal(7);
-    assert(chooseCalls==0 && g_PlayerKing==99 && appointed==256); /* classic AI rule unchanged */
+    assert(chooseCalls==0 && g_PlayerKing==99 && appointed==256 && committedNotes==2); /* classic AI rule unchanged */
     kingdomPersonCount=0;
     KingOverDeal(7);
     assert(extinctNotes==1 && g_Cities[0].Belong==0 && g_Cities[1].Belong==0);
     kingdomCityCount=0;
     KingOverDeal(7);
-    assert(extinctNotes==2);
+    assert(extinctNotes==2&&committedNotes==2);
+    U32 generation=g_hdDetailGeneration;
+    baye_hd_successor_committed(0,7,599);baye_hd_successor_committed(generation-1,7,599);
+    baye_hd_successor_committed(generation,600,599);baye_hd_successor_committed(generation,7,65535);
+    assert(committedNotes==2);
+    kingdomCityCount=2;kingdomPersonCount=3;g_PlayerKing=7;chooseCalls=0;staleAtNote=1;
+    KingOverDeal(7);assert(committedNotes==2&&g_PlayerKing==599&&g_Persons[599].Devotion==100);
+    assert(g_hdDetailGeneration!=generation); /* old C stack cannot notify a replacement world */
     /* An ordinary city picker still receives its own default scope. */
     baye_hd_menu_scope_default(BAYE_HD_MENU_CONTEXT_CITY,BAYE_HD_MENU_PERSON);
     baye_hd_menu_begin();assert(g_hdMenuContext==BAYE_HD_MENU_CONTEXT_CITY && g_hdMenuKind==BAYE_HD_MENU_PERSON);

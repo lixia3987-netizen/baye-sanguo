@@ -1,0 +1,279 @@
+{
+  "at": "2026-10-11T08:44:42.934Z",
+  "compression": "gzip",
+  "roundtripVerified": true,
+  "files": [
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/00-title-844.png",
+      "bytes": 30705,
+      "sha256": "04e003558dd21ac9d5ebec1e39d5fc7c2b61cd84e07101fad962be30a63f5eea",
+      "file": "raw/ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7.gz",
+      "archiveBytes": 29146,
+      "archiveSha256": "ea3ffdf17985467afb9d74968e3a4fcc75f1c3dabacb81f8bffc3d4191ac64a7"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/battle-01-fresh-pick-667-hd-mobile-battle-canvas.png",
+      "bytes": 48029,
+      "sha256": "43bd16be5053f1ccb0d66af94a414f5baa8bab32d65d2bbace959fa9f2726470",
+      "file": "raw/e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92.gz",
+      "archiveBytes": 44263,
+      "archiveSha256": "e2785a5a369ce85ca4a4a1f5813120c94c8b3b469e95988514a737c1453aab92"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/battle-01-fresh-pick-667.png",
+      "bytes": 63035,
+      "sha256": "9aebbc081edfa40e54c60bf37d0f6d25d114753b899816c7ef2e6f5de04f2cd3",
+      "file": "raw/7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a.gz",
+      "archiveBytes": 61802,
+      "archiveSha256": "7fe626d61252f30d742a0f6269c06bd2a156e58f8f6339048e8d80b5a621f38a"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/failure-hd-overworld-canvas.png",
+      "bytes": 559110,
+      "sha256": "9cca65261bf1aec71e76e731e3c5a6c3a3e69e7f536c7ded3fd5cff37f183a2c",
+      "file": "raw/d870bb95f880950d22c2b277ca9ad425abababd821f695bd543a933099b63e3b.gz",
+      "archiveBytes": 559299,
+      "archiveSha256": "d870bb95f880950d22c2b277ca9ad425abababd821f695bd543a933099b63e3b"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/failure.png",
+      "bytes": 448913,
+      "sha256": "c8bbf728bdb826077851e096e54de88195554d78c9292f469937a2100f4c2175",
+      "file": "raw/8307ba0a18afe7183aeb7372a874143e1ec7a58e588700d27e3746fc55c055c6.gz",
+      "archiveBytes": 448978,
+      "archiveSha256": "8307ba0a18afe7183aeb7372a874143e1ec7a58e588700d27e3746fc55c055c6"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/owned-process-samples.jsonl",
+      "bytes": 55706,
+      "sha256": "31c732fafee90f92de4cebc442712dfe0eedd72af28ac4c34f4f2bd1a0f6570e",
+      "file": "raw/136dc05a7885617a9b5a43ea56bb84e12f9b8826865b92056b20a4c8b2c70405.gz",
+      "archiveBytes": 2157,
+      "archiveSha256": "136dc05a7885617a9b5a43ea56bb84e12f9b8826865b92056b20a4c8b2c70405"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/result.json",
+      "bytes": 2725066,
+      "sha256": "77ec2ea2ee0da2f344649c6b597f41479ca579fbfa09d422bafb00f645241060",
+      "file": "raw/a8bb7b89db73ed4bf30daa1d1a7af70cea654da52e1a37b336e24813f2053339.gz",
+      "archiveBytes": 152348,
+      "archiveSha256": "a8bb7b89db73ed4bf30daa1d1a7af70cea654da52e1a37b336e24813f2053339"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1/source-verification.json",
+      "bytes": 79066,
+      "sha256": "8fe6bd2f0817c8aa5d0485e1f6e930a5e3debf8ac45239e1885da694f3318ed2",
+      "file": "raw/a925cf2ed3f8f70acf73bdc5896347c47d976d2af489e3ae68177e7b9017fcac.gz",
+      "archiveBytes": 17309,
+      "archiveSha256": "a925cf2ed3f8f70acf73bdc5896347c47d976d2af489e3ae68177e7b9017fcac"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-667-v1.log",
+      "bytes": 1051,
+      "sha256": "70651c0be824b8b9bc07746cecc960ae0979627d9ffb5ef8a382b83919038cce",
+      "file": "raw/bc61a893720522497d1c4ea9d5fd96c1593823b90f325e5ef17d2720597edd00.gz",
+      "archiveBytes": 384,
+      "archiveSha256": "bc61a893720522497d1c4ea9d5fd96c1593823b90f325e5ef17d2720597edd00"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/00-title-844.png",
+      "bytes": 33878,
+      "sha256": "692e465725f1ac27baf8ae5d41d5d6308517adbc85a0f7b5f61f384918d07f6f",
+      "file": "raw/d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b.gz",
+      "archiveBytes": 31771,
+      "archiveSha256": "d3264070f0e75d8e98831d45e18925242e34302f2961479ce03596abca01731b"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/battle-01-fresh-pick-844-hd-mobile-battle-canvas.png",
+      "bytes": 56534,
+      "sha256": "fb08cc8de0802f278c50e14bc82b2c16e2f9ee328c6a3dc306df5d444a57c2bf",
+      "file": "raw/45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85.gz",
+      "archiveBytes": 53423,
+      "archiveSha256": "45b136d27c593ee0180f6db8550778618b5317ff6cb3be4029937e649a597d85"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/battle-01-fresh-pick-844.png",
+      "bytes": 72638,
+      "sha256": "e7df073a165e690e6fdfea44d55517a1949f31f1111c26e0bebd3ef1b8f35331",
+      "file": "raw/12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9.gz",
+      "archiveBytes": 70811,
+      "archiveSha256": "12a9d044a35a415640e1809977bb58e4f30b39be3f9c055ad15851e80cf3caf9"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/campaign-844-01-inherited-map-hd-overworld-canvas.png",
+      "bytes": 726883,
+      "sha256": "3e9e3c63e68deb4905405fd46dd266e8ea0757637ef919572e409a4a49fa7c14",
+      "file": "raw/b963b422eddd3285683616530dc4d602b0328b3c35b7e8899247fe29455c4ab1.gz",
+      "archiveBytes": 727126,
+      "archiveSha256": "b963b422eddd3285683616530dc4d602b0328b3c35b7e8899247fe29455c4ab1"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/campaign-844-01-inherited-map.png",
+      "bytes": 579372,
+      "sha256": "346a12744b3e3a113713330d5919b8080d8c6b02ce9f2a8799f6a58010536e9f",
+      "file": "raw/34ac730a8cda8722468493e96f986f32922abdc95e6afe25dfd670f951e6362d.gz",
+      "archiveBytes": 579565,
+      "archiveSha256": "34ac730a8cda8722468493e96f986f32922abdc95e6afe25dfd670f951e6362d"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/campaign-844-02-inherited-city-status.png",
+      "bytes": 65229,
+      "sha256": "b1b901c6de2d7b428609d692df0cfb0ed8e531cfd4378a2c3011b28a1bc586ad",
+      "file": "raw/dd754bd78d6d2c4f91f73bdafca4a8644a4ae480f7b6f4ffaf893f13344ad028.gz",
+      "archiveBytes": 64070,
+      "archiveSha256": "dd754bd78d6d2c4f91f73bdafca4a8644a4ae480f7b6f4ffaf893f13344ad028"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/campaign-844-03-post-inheritance-operation-map-hd-overworld-canvas.png",
+      "bytes": 676514,
+      "sha256": "3faf5dc84190228827f563e476e61e4293648b2dcc63fe230e3ac3ae34a1819a",
+      "file": "raw/f3f189fb7e84db7f853edce92de8bf5f80571c9895c9aa7ee742f483009e61d5.gz",
+      "archiveBytes": 676742,
+      "archiveSha256": "f3f189fb7e84db7f853edce92de8bf5f80571c9895c9aa7ee742f483009e61d5"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/campaign-844-03-post-inheritance-operation-map.png",
+      "bytes": 520715,
+      "sha256": "25132ed3b9b47115d0b9d64d1752fd07a415672b84f04c1d0bf391496f9152e8",
+      "file": "raw/ecb0bd2dc5a5f6133b786dd4dde440a26aeb7ecbeff3f36ca675dd1017d67dff.gz",
+      "archiveBytes": 520849,
+      "archiveSha256": "ecb0bd2dc5a5f6133b786dd4dde440a26aeb7ecbeff3f36ca675dd1017d67dff"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/failure-hd-overworld-canvas.png",
+      "bytes": 677128,
+      "sha256": "d71f768fcfc95185578e675e1c0567572af35e86bf57550169da5d9afd947f0d",
+      "file": "raw/72e553687a148a783a86e76ee07a0f99a72c488cd9e36ae976570f468f35a704.gz",
+      "archiveBytes": 677356,
+      "archiveSha256": "72e553687a148a783a86e76ee07a0f99a72c488cd9e36ae976570f468f35a704"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/failure.png",
+      "bytes": 520927,
+      "sha256": "266fa068dfdb828c8001c66ccbc00a4d1db6ceaeaec32a1a2cae00df7f4c1714",
+      "file": "raw/c0b62d788a72c44202bf8acb7a35dbb085b300ee6628e627f41f9900f0e554cc.gz",
+      "archiveBytes": 521056,
+      "archiveSha256": "c0b62d788a72c44202bf8acb7a35dbb085b300ee6628e627f41f9900f0e554cc"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/owned-process-samples.jsonl",
+      "bytes": 80730,
+      "sha256": "486511e86b476164104b01b0e629be32bc46dc756056adefd76218a48b88a0d5",
+      "file": "raw/071581c949114b74724f58b25906b16a0926799f4edb296dee8a0d0c6b89ac24.gz",
+      "archiveBytes": 2488,
+      "archiveSha256": "071581c949114b74724f58b25906b16a0926799f4edb296dee8a0d0c6b89ac24"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/result.json",
+      "bytes": 11458922,
+      "sha256": "8e09afd8f37d6bb6b3105ae41d8329892de326ceca22717c95a028a5c6f689cb",
+      "file": "raw/f1ea63c411c30617c2d0c65f5e6867b300aaa66d05fa11610b4e1a341b6a639c.gz",
+      "archiveBytes": 611568,
+      "archiveSha256": "f1ea63c411c30617c2d0c65f5e6867b300aaa66d05fa11610b4e1a341b6a639c"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1/source-verification.json",
+      "bytes": 79355,
+      "sha256": "e7da1f65baf1124935bc2387eb548234595e248e5f00389f0726caa607558fa5",
+      "file": "raw/e81de6b0244aa24d0136bc38490e89da3d4d0ec99875e5cef1ea89bfa633bf57.gz",
+      "archiveBytes": 17395,
+      "archiveSha256": "e81de6b0244aa24d0136bc38490e89da3d4d0ec99875e5cef1ea89bfa633bf57"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-844-v1.log",
+      "bytes": 1867,
+      "sha256": "84f45e0b3a76cabd5165903e9d25f52af81c3d58d431edeb180502fc9c115778",
+      "file": "raw/2a038a2f257abd4daeb0bce35ca27d113e622ffabd68c91f3c571258279c1da6.gz",
+      "archiveBytes": 470,
+      "archiveSha256": "2a038a2f257abd4daeb0bce35ca27d113e622ffabd68c91f3c571258279c1da6"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/final-suite-v1/result.json",
+      "bytes": 63079,
+      "sha256": "e8cfb6ce9041de0aa4033421827aef62ec506a45af90a89faf46960c9036c1f4",
+      "file": "raw/e93fb4be6fd893777c36f9e4733a2ffdb64f84df84d6ca30b35316894ede4088.gz",
+      "archiveBytes": 13245,
+      "archiveSha256": "e93fb4be6fd893777c36f9e4733a2ffdb64f84df84d6ca30b35316894ede4088"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/final-suite-v1/test-output.log",
+      "bytes": 345272,
+      "sha256": "4c2a9f1eb21689a0599abad8f959100d3dd6d12874602c5b48c814c400d96bb7",
+      "file": "raw/ac1c36809654cb6c81ee55e787f8fbf9ed26c95f3181434723fe9816a73432d8.gz",
+      "archiveBytes": 90968,
+      "archiveSha256": "ac1c36809654cb6c81ee55e787f8fbf9ed26c95f3181434723fe9816a73432d8"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/staged-build.log",
+      "bytes": 3122,
+      "sha256": "b6f0eec213580776a4c30abebbdf0b23f5a1a70c09d355bda141f1bd3c4872c3",
+      "file": "raw/181cebce49b07f270b6803811eee7527946ad1d4279b2f3e5625278cc4152f26.gz",
+      "archiveBytes": 976,
+      "archiveSha256": "181cebce49b07f270b6803811eee7527946ad1d4279b2f3e5625278cc4152f26"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/stage-build-verification.json",
+      "bytes": 44417,
+      "sha256": "d31d2417a459e417328b7687eba8c56273aa344a9da4bcdd4094841d7898aad9",
+      "file": "raw/ca425091e34b992f0ab2d5fea5245783e21c406f46041e24747b4c59862a3746.gz",
+      "archiveBytes": 12692,
+      "archiveSha256": "ca425091e34b992f0ab2d5fea5245783e21c406f46041e24747b4c59862a3746"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/installed-build-verification.json",
+      "bytes": 777,
+      "sha256": "2f990e6a68f92c1330f3c90b42fb2028e0475cd7e2cca4854bccac63f801174d",
+      "file": "raw/99c1c98af23d360dcae8ce4001714342e7f624a0f35d508f53f41e2481783aba.gz",
+      "archiveBytes": 408,
+      "archiveSha256": "99c1c98af23d360dcae8ce4001714342e7f624a0f35d508f53f41e2481783aba"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/user8080-before.json",
+      "bytes": 183,
+      "sha256": "75575e56292e31407ccc8672f7617de9022899aa7f051e260a9692cba97cdfee",
+      "file": "raw/80e90ca6fcc57a4eb97e68bfd21ccf959643f1c3966c4897674e96526ca7ace6.gz",
+      "archiveBytes": 160,
+      "archiveSha256": "80e90ca6fcc57a4eb97e68bfd21ccf959643f1c3966c4897674e96526ca7ace6"
+    },
+    {
+      "source": "build/mobile-campaign-validation-20261011/cleanup-user8080-verification.json",
+      "bytes": 811,
+      "sha256": "6054805c958ba2f290902e8c5efea8065d4403bfce573bed6aef2641d6334071",
+      "file": "raw/d87b042aff90131596e17756c2e48c8c5f04c64779b546a2014e5030df7c8a7d.gz",
+      "archiveBytes": 377,
+      "archiveSha256": "d87b042aff90131596e17756c2e48c8c5f04c64779b546a2014e5030df7c8a7d"
+    },
+    {
+      "source": "build/mobile-campaign-ids-focused-v1-20261011.log",
+      "bytes": 7305,
+      "sha256": "d3547039b5ec69c754be030b71c4657cfafec501c9e627e2ba10b59cf7a51d6e",
+      "file": "raw/da4ae28b57329f6d85898aa8651e51a93db4410c5fb4978cdcea9f54303c2477.gz",
+      "archiveBytes": 3013,
+      "archiveSha256": "da4ae28b57329f6d85898aa8651e51a93db4410c5fb4978cdcea9f54303c2477"
+    },
+    {
+      "source": "build/mobile-campaign-ids-native-bridge-freeze-v1-20261011.json",
+      "bytes": 2872,
+      "sha256": "959724b7705773b551d0a9fb98e99805bfaf906183f996317bb2085741adf8ec",
+      "file": "raw/f40970a6871e77633bdc4f201991c38b090259878c854f205c198b63c066fd12.gz",
+      "archiveBytes": 1356,
+      "archiveSha256": "f40970a6871e77633bdc4f201991c38b090259878c854f205c198b63c066fd12"
+    },
+    {
+      "source": "build/mobile-campaign-runtime-source-freeze-v1-20261011.json",
+      "bytes": 11949,
+      "sha256": "a1b18befe7a8cb36d934075ff6e2678293f26672eeceb8ce919582bd49475405",
+      "file": "raw/deee36b7df9f48fda2be695fa4777357ae425e19c63c2a955eed266b11791535.gz",
+      "archiveBytes": 2792,
+      "archiveSha256": "deee36b7df9f48fda2be695fa4777357ae425e19c63c2a955eed266b11791535"
+    },
+    {
+      "source": "build/mobile-campaign-runtime-source-freeze-v2-20261011.json",
+      "bytes": 4069,
+      "sha256": "be6d820c5c1e08fa3db65b6195365bc2b00f7a423826d74e84d2d6377016fbe7",
+      "file": "raw/518136b5a15f999357aae37a9d770de6974df0ea140679be4bce0a5b1dea9c78.gz",
+      "archiveBytes": 1675,
+      "archiveSha256": "518136b5a15f999357aae37a9d770de6974df0ea140679be4bce0a5b1dea9c78"
+    }
+  ]
+}

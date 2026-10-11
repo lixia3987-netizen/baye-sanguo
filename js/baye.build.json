@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
-  "sourceRevision": "2b61677ea7a34c9dc1fa70c5511a92495dda53e9",
-  "engineSourceSha256": "4c7c1beee20656f6a8dbf08c302c560990d4fa5beb30c16f63a79838ce2b06df",
+  "sourceRevision": "7460dc05156d6f8deaf8f40e7201a2c3bafd9c88",
+  "engineSourceSha256": "13b9747ce357ea08a42c7742318a5e7601863e05d294487108499e53c7389315",
   "engineSourceModified": true,
   "emscriptenVersion": "3.1.51",
   "cmakeVersion": "cmake version 3.31.6",
-  "sourceDateEpoch": 1791702613,
+  "sourceDateEpoch": 1791706153,
   "hdMenuProtocol": {
     "nativeFallback": 254,
     "controlField": "g_hdFightMenuControl"
@@ -192,6 +192,17 @@
       "g_hdMenuIdsSeq",
       "g_hdMenuIdsGeneration"
     ],
+    "menuIdKinds": {
+      "person": 3,
+      "goods": 4,
+      "campaign": {
+        "context": 5,
+        "successor": 1,
+        "defenders": 2
+      }
+    },
+    "menuIdentity": "current data, generation, context, kind, sequence, count, index, packed names and complete zero-based native ID list; never inferred from names",
+    "successorReceipt": "synchronous baye-hd-successor-committed after native loyalty and ownership updates; read-only, before subsequent battle food and monthly processing",
     "goods": [
       "g_hdGoodsGeneration",
       "g_hdGoodsMenuSeq",
@@ -581,16 +592,16 @@
   },
   "artifacts": {
     "baye.js": {
-      "bytes": 192446,
-      "sha256": "53a04dd918abab1a48fe69cd2b872ac6d50f4a7a831f298a11c60efdba104b9a"
+      "bytes": 192766,
+      "sha256": "c7b3f940a22d9aacb03e04ad1da4f293751822d9e4bfc35e1f0e72dd33f00651"
     },
     "baye.wasm": {
-      "bytes": 4554589,
-      "sha256": "ded114411ecd931699fde904cf4fd79788f864a0b5605e12d842601cec433311"
+      "bytes": 4556377,
+      "sha256": "2b6f779d0c1597d5f648c1f6cc183ed7ad728e29e4009fb200e46de37066a0f6"
     },
     "baye.wasm.map": {
       "bytes": 29983,
-      "sha256": "e676596f51c35fbc26543f452a32b2edd5cd5622942f561d130ce9e095d5ab8e"
+      "sha256": "ab888c41526b347cd1186c3c82f69314621aa4e7680d36bc83065eb9278b2cf5"
     }
   }
 }
