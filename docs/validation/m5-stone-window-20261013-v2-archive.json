@@ -1,0 +1,3189 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-13T01:06:46.914Z",
+  "product": "STONE23/SPE42",
+  "config": {
+    "path": "build/stone-window-20261013/publication-inputs-v2.json",
+    "bytes": 2204,
+    "sha256": "94da6c53c2deaaea1ec30107e7130995f86fb53c120d816a59f93c0a5f11f51f"
+  },
+  "scope": "Original STONE23 state-only current terminal attempts, full raw results/observations/owned history/source and suite proofs; selected first/last movie, report, retired and failure PNGs. Profiles excluded. Historical records only explicit canonical references. Source copies and physical readback counts remain separate.",
+  "entries": [
+    {
+      "source": "assets/hd-spe/manifest.json",
+      "file": "m5-stone-window-20261013-v2/e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a.gz",
+      "rawBytes": 592203,
+      "rawSha256": "e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a",
+      "bytes": 14605,
+      "sha256": "53685db511c5a63e8fe57f552623880d862a966b4633368c7018b1c687e0d2a8"
+    },
+    {
+      "source": "assets/hd-spe/stone-42/picture-0.png",
+      "file": "m5-stone-window-20261013-v2/c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8.gz",
+      "rawBytes": 2914976,
+      "rawSha256": "c074fa8e3afcdb1f7c73e8947ab63ee2ee09feb14a9d5c409a16e3c419848ea8",
+      "bytes": 2860643,
+      "sha256": "a2aad9b6009071c88d7a25a5214168a07055b55adbd6c29165775a2fa8947119"
+    },
+    {
+      "source": "assets/hd-spe/stone-42/picture-1.png",
+      "file": "m5-stone-window-20261013-v2/c2b96ca68161bd441d4ed445fa70e6c4cdc57567154234be33763e1ab14c6026.gz",
+      "rawBytes": 2801968,
+      "rawSha256": "c2b96ca68161bd441d4ed445fa70e6c4cdc57567154234be33763e1ab14c6026",
+      "bytes": 2749039,
+      "sha256": "649092e98997242c0c1a187ba07143f8267c021b9584d211f5c95029466f9df2"
+    },
+    {
+      "source": "build/stone-window-20261013/archive-executed-v1.mjs",
+      "file": "m5-stone-window-20261013-v2/8e70ce6e4db970e52eb2a770450f9c94b4d1109f0f0aee765dbacae50c75ec91.gz",
+      "rawBytes": 15274,
+      "rawSha256": "8e70ce6e4db970e52eb2a770450f9c94b4d1109f0f0aee765dbacae50c75ec91",
+      "bytes": 5467,
+      "sha256": "2c4b6d5a1a7b2b9e89e03b98f0a052337da6859749c855380ee413271a596353"
+    },
+    {
+      "source": "build/stone-window-20261013/archive.mjs",
+      "file": "m5-stone-window-20261013-v2/8fa305c281789583942400e930fc78a94f4940b46e962c2e0e74052ed79ff197.gz",
+      "rawBytes": 15277,
+      "rawSha256": "8fa305c281789583942400e930fc78a94f4940b46e962c2e0e74052ed79ff197",
+      "bytes": 5471,
+      "sha256": "2aec0dca8522e1cb3e351f69832f88846023cee8d446ee2fcd5c80f29c11a7f0"
+    },
+    {
+      "source": "build/stone-window-20261013/cleanup-verification-v1.json",
+      "file": "m5-stone-window-20261013-v2/fc889f12e7bc9fcee6f781f039d6372cf9758e419b203a0523888536bb04a077.gz",
+      "rawBytes": 10591,
+      "rawSha256": "fc889f12e7bc9fcee6f781f039d6372cf9758e419b203a0523888536bb04a077",
+      "bytes": 956,
+      "sha256": "68d840c36c3e9d92241e9afa33aaa187fb31d3e12ebf3e6e3dfa6431dacd8b16"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c.h",
+      "file": "m5-stone-window-20261013-v2/0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c.gz",
+      "rawBytes": 5664,
+      "rawSha256": "0297cacec1a946df1320da29337e078151bd26e663ebfec52c204522c41eaf0c",
+      "bytes": 1698,
+      "sha256": "20e9ac28f4b962808833155f692398afcdaf61081543aeb7dcc249de05c1d982"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a.c",
+      "file": "m5-stone-window-20261013-v2/0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a.gz",
+      "rawBytes": 4189,
+      "rawSha256": "0628ef2aec01f810c45402ff59da3f189b3ce4e0c3f56a2a87bbf54c23c4665a",
+      "bytes": 1647,
+      "sha256": "8cd6db2fc2bc991cc9b5e2a5e68f5118ff67e9049012af268bbc65fb206df13a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/062a9bec31e03689818522deefde2fd3737833307e6fce26bcd250362df225d7.mjs",
+      "file": "m5-stone-window-20261013-v2/062a9bec31e03689818522deefde2fd3737833307e6fce26bcd250362df225d7.gz",
+      "rawBytes": 20618,
+      "rawSha256": "062a9bec31e03689818522deefde2fd3737833307e6fce26bcd250362df225d7",
+      "bytes": 5963,
+      "sha256": "158a803455d4870ab1cf59e6b3d3dea56e2e23ff028b5631f02f277ea6f6afe6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc.h",
+      "file": "m5-stone-window-20261013-v2/06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc.gz",
+      "rawBytes": 485,
+      "rawSha256": "06814531dee9c7fdc908e8da4fe9b72cfdd84bb926179a7d686c0918709728cc",
+      "bytes": 241,
+      "sha256": "5d93dde77f8f4a13e2195da4e1fa3cdd2c453c98517854384c0f0ccd31f824d3"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/06b353156743a17c5a66d87eab8da0a61e872ea83c779d5110d9909a8903d846.mjs",
+      "file": "m5-stone-window-20261013-v2/06b353156743a17c5a66d87eab8da0a61e872ea83c779d5110d9909a8903d846.gz",
+      "rawBytes": 79747,
+      "rawSha256": "06b353156743a17c5a66d87eab8da0a61e872ea83c779d5110d9909a8903d846",
+      "bytes": 18715,
+      "sha256": "52a38a871ddb680f266d4117eca5e82b1a0d229470900eea6740d2746554357e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624.mjs",
+      "file": "m5-stone-window-20261013-v2/06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624.gz",
+      "rawBytes": 23444,
+      "rawSha256": "06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624",
+      "bytes": 7282,
+      "sha256": "d43f94f3d05cbd28fab0a9c1aebfab51f8907b62c9c400408c284f45153d630f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e.h",
+      "file": "m5-stone-window-20261013-v2/08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e.gz",
+      "rawBytes": 985,
+      "rawSha256": "08d87377aa8b7a64dd7f5f3c0b8ee2b36b2bcbb6e3568148ee8ae021527d299e",
+      "bytes": 490,
+      "sha256": "36fd9c8a59579399566c9938e8b0d097bac822893c5c8f43a09dca7cbcef3eb6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/09f1a089c859044a0729dac52427476c71f0ed6ffdbe50548013160c071ef922.mjs",
+      "file": "m5-stone-window-20261013-v2/09f1a089c859044a0729dac52427476c71f0ed6ffdbe50548013160c071ef922.gz",
+      "rawBytes": 33151,
+      "rawSha256": "09f1a089c859044a0729dac52427476c71f0ed6ffdbe50548013160c071ef922",
+      "bytes": 9053,
+      "sha256": "c985f2cd3eaaa02787cc3657bb73f53213f835807a55e17e9a3925c7b151c0dc"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1.mjs",
+      "file": "m5-stone-window-20261013-v2/0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1.gz",
+      "rawBytes": 33802,
+      "rawSha256": "0c09d3c767907f33aa7880d80546f36d4a2a91ccb9dbb7df783bc22fb5285aa1",
+      "bytes": 8464,
+      "sha256": "80b9e044f57a359cb9c22414654b49ce0e5c6c846e38657fd6d1a571de74827c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0c1e3bd9ccdb0e5aa2e07877e73a26e14f674391c5d8c8af6ff47f6f38b7f55a.mjs",
+      "file": "m5-stone-window-20261013-v2/0c1e3bd9ccdb0e5aa2e07877e73a26e14f674391c5d8c8af6ff47f6f38b7f55a.gz",
+      "rawBytes": 19755,
+      "rawSha256": "0c1e3bd9ccdb0e5aa2e07877e73a26e14f674391c5d8c8af6ff47f6f38b7f55a",
+      "bytes": 5722,
+      "sha256": "0a1f8ee8a3b3870627d24f171ed19c7f891acd3b325d490c88ec034e9b7b5ca9"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0c488978e4d9c1916f34f6e0570a67f34fe2c003adca90a2dc80d2494b7c82c7.mjs",
+      "file": "m5-stone-window-20261013-v2/0c488978e4d9c1916f34f6e0570a67f34fe2c003adca90a2dc80d2494b7c82c7.gz",
+      "rawBytes": 41507,
+      "rawSha256": "0c488978e4d9c1916f34f6e0570a67f34fe2c003adca90a2dc80d2494b7c82c7",
+      "bytes": 9653,
+      "sha256": "fcedd01eda04dc8aa4d78dcaecba70b8c73f8bd97dd8dd17f97b056695382d8f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea.h",
+      "file": "m5-stone-window-20261013-v2/0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea.gz",
+      "rawBytes": 4101,
+      "rawSha256": "0d7c01759b7a514df544f336adc276c5b891362bfff0f63dc7e516473730f8ea",
+      "bytes": 997,
+      "sha256": "9c48846a754330d480210de434ccb3f3e1dd79ddcea636ce3a50ec4a0b4ffa25"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd.c",
+      "file": "m5-stone-window-20261013-v2/0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd.gz",
+      "rawBytes": 3616965,
+      "rawSha256": "0e395fe309f7f77e05ca9f2baeb26af4668f2059add614f746427c1a344a54fd",
+      "bytes": 443875,
+      "sha256": "c5e724abac27a138a8d30cf93f21d982ce224c691954999c8ce88334d044578f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0f51df6f9b7eaca9f1fdc4ca88b250d3407f737fffdb6827024eb9b1e3bd6da4.mjs",
+      "file": "m5-stone-window-20261013-v2/0f51df6f9b7eaca9f1fdc4ca88b250d3407f737fffdb6827024eb9b1e3bd6da4.gz",
+      "rawBytes": 1228,
+      "rawSha256": "0f51df6f9b7eaca9f1fdc4ca88b250d3407f737fffdb6827024eb9b1e3bd6da4",
+      "bytes": 479,
+      "sha256": "21451b13ad7a6d30fb807cde795d9a94bdfc3208e4e5afc88ed7890bdde8b2af"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/0f626b93d1bd3ac58d697009334884cae570ff89b65f8af17e4ad7e149a5eb0f.mjs",
+      "file": "m5-stone-window-20261013-v2/0f626b93d1bd3ac58d697009334884cae570ff89b65f8af17e4ad7e149a5eb0f.gz",
+      "rawBytes": 21932,
+      "rawSha256": "0f626b93d1bd3ac58d697009334884cae570ff89b65f8af17e4ad7e149a5eb0f",
+      "bytes": 7268,
+      "sha256": "fa8dc27097d5e78d93ab12c437e026d2780e0342574fa817943a743a732f92e2"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540.c",
+      "file": "m5-stone-window-20261013-v2/11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540.gz",
+      "rawBytes": 36284,
+      "rawSha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "bytes": 9089,
+      "sha256": "761608bfeddb36a9bf65e75ec4a11542f5399948da8736f5784eee98065e72dc"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686.c",
+      "file": "m5-stone-window-20261013-v2/1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686.gz",
+      "rawBytes": 116,
+      "rawSha256": "1221725af5030bdf12fd9fe71186c22d2bddc52fb22a7b239ef16871206af686",
+      "bytes": 117,
+      "sha256": "dea8e17e9cf31fd3e91fd4a501dccd7d1ce8e30aa12067b719cdbafab273e359"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1.c",
+      "file": "m5-stone-window-20261013-v2/13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1.gz",
+      "rawBytes": 39212,
+      "rawSha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "bytes": 7203,
+      "sha256": "b7fe1789ffb7c4ed96790cab81e198a2a23780114b2b9c9bd8bde5391e22c1a1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd.c",
+      "file": "m5-stone-window-20261013-v2/144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd.gz",
+      "rawBytes": 11703,
+      "rawSha256": "144c73f1b8981440e93ee18b551bbaad5154e8add19a3a9dae64bede9565c4dd",
+      "bytes": 2831,
+      "sha256": "b524841fad7d0d03e9b57349c2e8186e7fcede48277645da0533c177bbf9d789"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa.h",
+      "file": "m5-stone-window-20261013-v2/14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa.gz",
+      "rawBytes": 500,
+      "rawSha256": "14ecc77ffd79dbc1f5a288f3ee3d5752b935326eb16d8588de7983460d43fbaa",
+      "bytes": 305,
+      "sha256": "3b52c87f705d7b6543a9f60961f28c30c3a6b5d5b8a60c36b41ac658e4087352"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61.c",
+      "file": "m5-stone-window-20261013-v2/178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61.gz",
+      "rawBytes": 1797,
+      "rawSha256": "178ee07a04887470fd0b74365a69074d326312f488866f858a58e8e6e76add61",
+      "bytes": 602,
+      "sha256": "a0d428040aaf8ed9d0ad93cd483e6606455894c46a793a9b7db3d583d322e648"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78.c",
+      "file": "m5-stone-window-20261013-v2/19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78.gz",
+      "rawBytes": 45067,
+      "rawSha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78",
+      "bytes": 9110,
+      "sha256": "b0582ae72a66d7894a715e2a5f3fabcfa087bc58a5cf65ff576e53e9e69a8a1a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404.js",
+      "file": "m5-stone-window-20261013-v2/1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404.gz",
+      "rawBytes": 123112,
+      "rawSha256": "1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404",
+      "bytes": 21053,
+      "sha256": "080c5a8e8898ad0f79966ed8e728df2c90cf481e8b5a1e91e146cbac38453d52"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72.h",
+      "file": "m5-stone-window-20261013-v2/1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72.gz",
+      "rawBytes": 2138,
+      "rawSha256": "1b65f4e94177654a0d4e41168e03d43d0cbf614e21d8a8dc6608709c5168ad72",
+      "bytes": 1101,
+      "sha256": "94d8374bbb48a8d58a2b05d656dea8cbca4dbce2fbeb5ed2c8e20cb14b1d3a2c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/201fba2943add0ffc673246456b06d4aa0daa3ad302aaa19e0ca887c95a14849.mjs",
+      "file": "m5-stone-window-20261013-v2/201fba2943add0ffc673246456b06d4aa0daa3ad302aaa19e0ca887c95a14849.gz",
+      "rawBytes": 25243,
+      "rawSha256": "201fba2943add0ffc673246456b06d4aa0daa3ad302aaa19e0ca887c95a14849",
+      "bytes": 9146,
+      "sha256": "16572d268b6c45fb62fea3d86ad58090a3d9b32b7968aff72d812ae31c36ec1e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/204c7d23fdcb44ad170498101f6629ffbcacec8b9d7a16d63b57cfc1aefb0411.mjs",
+      "file": "m5-stone-window-20261013-v2/204c7d23fdcb44ad170498101f6629ffbcacec8b9d7a16d63b57cfc1aefb0411.gz",
+      "rawBytes": 35770,
+      "rawSha256": "204c7d23fdcb44ad170498101f6629ffbcacec8b9d7a16d63b57cfc1aefb0411",
+      "bytes": 11959,
+      "sha256": "49ceacab37a02a6146f582bcfd83f4285f4d03e6072502b8df7ace5cf3bc34f4"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2098538af65f1839c8d7d29a70b4d526975ae88273194569cd111d334e392545.mjs",
+      "file": "m5-stone-window-20261013-v2/2098538af65f1839c8d7d29a70b4d526975ae88273194569cd111d334e392545.gz",
+      "rawBytes": 25396,
+      "rawSha256": "2098538af65f1839c8d7d29a70b4d526975ae88273194569cd111d334e392545",
+      "bytes": 7815,
+      "sha256": "5e53e6db738236b906cae9b27f76a35e887fcbb714e96654a8cca0a8b555ee82"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29.js",
+      "file": "m5-stone-window-20261013-v2/2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29.gz",
+      "rawBytes": 155237,
+      "rawSha256": "2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29",
+      "bytes": 28595,
+      "sha256": "f5ec374b00a39042e1ede0f99d72973bfad50373bb4557c6b8f7ff6a71ba50a1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2213b5e8eb7b91bb9735efecf9dccc279557284a26a9e60734148eb08e40c142.mjs",
+      "file": "m5-stone-window-20261013-v2/2213b5e8eb7b91bb9735efecf9dccc279557284a26a9e60734148eb08e40c142.gz",
+      "rawBytes": 10545,
+      "rawSha256": "2213b5e8eb7b91bb9735efecf9dccc279557284a26a9e60734148eb08e40c142",
+      "bytes": 3603,
+      "sha256": "e323bd2de8f6fc92f4660616e7f60c52d434ae0c5d9327fd97a780fe8cae6ce6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e.py",
+      "file": "m5-stone-window-20261013-v2/22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e.gz",
+      "rawBytes": 294,
+      "rawSha256": "22cca9b9dc421b4ef7761263d4a9cac3ab57a7afa87e9d958ba5921b44c4c84e",
+      "bytes": 195,
+      "sha256": "111c7db9c7a1faa4dc018694211a95e7f0eda2d7a1cb902aaee7d4accd6bd58f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7.mjs",
+      "file": "m5-stone-window-20261013-v2/238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7.gz",
+      "rawBytes": 11652,
+      "rawSha256": "238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7",
+      "bytes": 3376,
+      "sha256": "07af48ab985cd5571ab4d16d90d0c6e6b1305fac5fe03c46d914386b3e748f0e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140.h",
+      "file": "m5-stone-window-20261013-v2/24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140.gz",
+      "rawBytes": 1991,
+      "rawSha256": "24913a23d310da0ca33c23eab4afafe91c0dce4e94e9d639ee8ee84419cb6140",
+      "bytes": 875,
+      "sha256": "0f23dbfb78325f7cbba51065a4df2d619944b0105ef34aff7431f61470d82ca1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/24c379d3f5a9312047529a987bfbf013d5b53caf8283f87a2458fa25ddf1c425.mjs",
+      "file": "m5-stone-window-20261013-v2/24c379d3f5a9312047529a987bfbf013d5b53caf8283f87a2458fa25ddf1c425.gz",
+      "rawBytes": 15109,
+      "rawSha256": "24c379d3f5a9312047529a987bfbf013d5b53caf8283f87a2458fa25ddf1c425",
+      "bytes": 4712,
+      "sha256": "eed1414d9d3238e70a4ece762d9fb950b08563484162819ef94651d96ab7d912"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8.h",
+      "file": "m5-stone-window-20261013-v2/26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8.gz",
+      "rawBytes": 6103,
+      "rawSha256": "26f724d97874aee3fde77ad7b14818df6234a9e2e2c4b75912f2c577a9d85ce8",
+      "bytes": 1847,
+      "sha256": "35cf0c932eb36086de5cc4495103c3ce41a29f4fad31732f90b4a1b2e1ddb02b"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e.c",
+      "file": "m5-stone-window-20261013-v2/26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e.gz",
+      "rawBytes": 38292,
+      "rawSha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "bytes": 7763,
+      "sha256": "228fd73e25bb6614a24f38c0640bb73b0a64c681f9c15769c29b7a447b57b0ae"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4.h",
+      "file": "m5-stone-window-20261013-v2/2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4.gz",
+      "rawBytes": 2916,
+      "rawSha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "bytes": 1093,
+      "sha256": "80332e1e4c6febbb0f2f690ca01b0961717230974f290d422013b5fae2a96bfc"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c.c",
+      "file": "m5-stone-window-20261013-v2/2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c.gz",
+      "rawBytes": 27,
+      "rawSha256": "2a99e1ddebabf86de81ee7c8aadfffa83dff8b9fa6437556baffe165b839675c",
+      "bytes": 47,
+      "sha256": "c18903daf93f5f71658bff20b3a8f7c42dfe4e58ba7111b6978bed32ecd9e658"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401.c",
+      "file": "m5-stone-window-20261013-v2/2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401.gz",
+      "rawBytes": 1003524,
+      "rawSha256": "2aa93cfab9744f94dd7f5b1825b5d6f4582eafed487264daccc6e3316c833401",
+      "bytes": 173448,
+      "sha256": "7660e285af334ce8bb95adf55c2a893e400c61c53244ebde5541a513ec15f101"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f.mjs",
+      "file": "m5-stone-window-20261013-v2/2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f.gz",
+      "rawBytes": 12411,
+      "rawSha256": "2ab90e194d31fbead83dacae65479158e0f5f226c5e018220f8f8c5dd695325f",
+      "bytes": 3396,
+      "sha256": "ac3abd8172b41025c953d1892f0f003c7964c5e7565ae627aaa8501763063fa6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac.c",
+      "file": "m5-stone-window-20261013-v2/2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac.gz",
+      "rawBytes": 6742,
+      "rawSha256": "2be0f448b277612de225eef280ffa2275f99120adeb86c60ce441e1e6266e0ac",
+      "bytes": 2239,
+      "sha256": "f3f0471b5ff97b86a72c90bb82745d74ca66bcbf20b6bcbbf998cea627e4474d"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873.c",
+      "file": "m5-stone-window-20261013-v2/2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873.gz",
+      "rawBytes": 15921,
+      "rawSha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "bytes": 3549,
+      "sha256": "56577571beaf995d00138553b6f6481e51af4fbd1837ff7172062f0f13fb0809"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a.c",
+      "file": "m5-stone-window-20261013-v2/2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a.gz",
+      "rawBytes": 4662,
+      "rawSha256": "2e9fecc824d977a794ebd0097df79a0908e2639645456cb530900c3a542bce2a",
+      "bytes": 1039,
+      "sha256": "46796a81357f9b061b45b808412b9cb1b85eafab388f297b3380f64476bd22a5"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b.mjs",
+      "file": "m5-stone-window-20261013-v2/2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b.gz",
+      "rawBytes": 13781,
+      "rawSha256": "2ff5f4da9af912aaacca0363daf83b9b839349d778fa995a1ca26b237ef8598b",
+      "bytes": 4360,
+      "sha256": "161535df6619e3dbe6fff69e8d5178a9b98e7972081a232d4f4c48d0e357950e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8.bin",
+      "file": "m5-stone-window-20261013-v2/31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8.gz",
+      "rawBytes": 163840,
+      "rawSha256": "31197c48c77e82bc244b17f44e405a3a055df8162af06fadd7271cc1990cc6b8",
+      "bytes": 114546,
+      "sha256": "b14b956a14a5518a30a0bcf8a3f9516023bc6bb4dbe915097a9ceff385f09295"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf.h",
+      "file": "m5-stone-window-20261013-v2/31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf.gz",
+      "rawBytes": 4695,
+      "rawSha256": "31762024f8a641d8ae74858d4788c8f74a5a94b4e2ae227d4953ab32b0463bbf",
+      "bytes": 1638,
+      "sha256": "0e364f144a12e4a2981546def53a5c94fee75030ffb9e55d1f6ffab7b7ec9309"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/31caee3c0fc611679e3afe9519c630cb3eeb4badc3807ad768e6e4489e8d913b.mjs",
+      "file": "m5-stone-window-20261013-v2/31caee3c0fc611679e3afe9519c630cb3eeb4badc3807ad768e6e4489e8d913b.gz",
+      "rawBytes": 12886,
+      "rawSha256": "31caee3c0fc611679e3afe9519c630cb3eeb4badc3807ad768e6e4489e8d913b",
+      "bytes": 3346,
+      "sha256": "55eb850c67770a1d67a9dc395605ee20a975327d06173093c144409460bbfbb2"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/32219fd08fa41fbf12dac5c2d0e4d7c933828bfa582183b366214bd429152e30.mjs",
+      "file": "m5-stone-window-20261013-v2/32219fd08fa41fbf12dac5c2d0e4d7c933828bfa582183b366214bd429152e30.gz",
+      "rawBytes": 5863,
+      "rawSha256": "32219fd08fa41fbf12dac5c2d0e4d7c933828bfa582183b366214bd429152e30",
+      "bytes": 1935,
+      "sha256": "b2a80bdd9f48833ac8a8144af943ebdb7fad074bda22de5abf0081cbb7085e78"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71.c",
+      "file": "m5-stone-window-20261013-v2/34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71.gz",
+      "rawBytes": 1274,
+      "rawSha256": "34bf9e67c2acc86024b048ab419cae1345fb3f082cd09194fef9cc71f8bacf71",
+      "bytes": 497,
+      "sha256": "ac36d68b10abbdd0c0b1621c4dc0cdb398144c6affb2ecc1742e5128f12c46c3"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/370d329e255095ad18c115cc26229c2b5a51f008bc9b02f6b88e6fa4b862705c.mjs",
+      "file": "m5-stone-window-20261013-v2/370d329e255095ad18c115cc26229c2b5a51f008bc9b02f6b88e6fa4b862705c.gz",
+      "rawBytes": 28079,
+      "rawSha256": "370d329e255095ad18c115cc26229c2b5a51f008bc9b02f6b88e6fa4b862705c",
+      "bytes": 6568,
+      "sha256": "96f5bf3d7b452e0394dd1d4747d5b784f9db96c7b07e14968de78f3c896d3a67"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21.mjs",
+      "file": "m5-stone-window-20261013-v2/38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21.gz",
+      "rawBytes": 30861,
+      "rawSha256": "38b3b3f6d92dc6bccf7d4246861f1cb3608896a50c7c43407d2b031cd4f17f21",
+      "bytes": 8320,
+      "sha256": "078522bca7682b61c91612ca51ccb8b666e1da4eefb65c17ae0eeb9f0e3f182a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe.h",
+      "file": "m5-stone-window-20261013-v2/39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe.gz",
+      "rawBytes": 1158,
+      "rawSha256": "39cf8eeec6a93ce0e8ff1fa5915e18b537a743e16a4db24d3b6c03c37414fbbe",
+      "bytes": 561,
+      "sha256": "975219bef276a3e075cac2118ec51d1fa5402971324244869f44b992d2daa0d6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/3b4f07c0560056f0f8d6105635f141d2951804101ac1e58bda957bccc18fbd96.mjs",
+      "file": "m5-stone-window-20261013-v2/3b4f07c0560056f0f8d6105635f141d2951804101ac1e58bda957bccc18fbd96.gz",
+      "rawBytes": 36778,
+      "rawSha256": "3b4f07c0560056f0f8d6105635f141d2951804101ac1e58bda957bccc18fbd96",
+      "bytes": 10297,
+      "sha256": "9a843155f81e75f41f74a40587d61054b1b5c5b3c3e2bd8d5b217b0fcd6151fb"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7.c",
+      "file": "m5-stone-window-20261013-v2/3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7.gz",
+      "rawBytes": 179,
+      "rawSha256": "3c22ecda2786a740d71285c3995e71ea34efa5cbbf4773679cc9fb3393b566f7",
+      "bytes": 150,
+      "sha256": "df8f21a08bf12df8777a68c637ed6c6f9d8660c23310fcfd96a908497c6e1006"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8.c",
+      "file": "m5-stone-window-20261013-v2/3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8.gz",
+      "rawBytes": 242,
+      "rawSha256": "3d224ec37575c1e42c641d9b9778c95a5c978c4fa168e75f07b3c09ee5c637a8",
+      "bytes": 187,
+      "sha256": "dfe7b706dc5bf249ec815aa6b3a0270720a09417821750b53941f650625aadef"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/3dae2a152d084bd9c2d5c90bc0021e90543476169c7ba98d00c943d3cc762e7d.mjs",
+      "file": "m5-stone-window-20261013-v2/3dae2a152d084bd9c2d5c90bc0021e90543476169c7ba98d00c943d3cc762e7d.gz",
+      "rawBytes": 25997,
+      "rawSha256": "3dae2a152d084bd9c2d5c90bc0021e90543476169c7ba98d00c943d3cc762e7d",
+      "bytes": 7513,
+      "sha256": "a9759508ec09c5cd9aca71e12f98813454b91e2d8a289ed7a1165bc9fe4c35d7"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "file": "m5-stone-window-20261013-v2/3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659.gz",
+      "rawBytes": 42,
+      "rawSha256": "3eed4275f65a88f1a263908eceb38a217de99a20c77940f84df5d720262e0659",
+      "bytes": 62,
+      "sha256": "2089eb525dfb95d34a20270b13f6f3856e6a71cb13251f2266a38adaf35a3aa8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114.H",
+      "file": "m5-stone-window-20261013-v2/406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114.gz",
+      "rawBytes": 1207,
+      "rawSha256": "406d82e291826c5fe57c0a58709bd1a680c2df196f66da715746e71bebd23114",
+      "bytes": 624,
+      "sha256": "9b7b0876afad1b3b4d958132f531f78b32a181191c416903de2e7ae1827bd1e2"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf.m",
+      "file": "m5-stone-window-20261013-v2/40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf.gz",
+      "rawBytes": 866,
+      "rawSha256": "40a868092936414ba1cd1f46b8df1d2d25925e9fd47d00b9c886d4fe6550becf",
+      "bytes": 357,
+      "sha256": "859c5815475045935db0868f38937112797bb27085aa3ffbaa79a0685447e8c6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508.c",
+      "file": "m5-stone-window-20261013-v2/4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508.gz",
+      "rawBytes": 4162,
+      "rawSha256": "4168c5379cfb2de7166b3b38d394da414658a92543898ef7fa53128dc1242508",
+      "bytes": 1910,
+      "sha256": "c106a8d97535e1429c939ade816ed98d4a4b5d39d35398bbb2faa00f275e8747"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1.c",
+      "file": "m5-stone-window-20261013-v2/418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1.gz",
+      "rawBytes": 1053,
+      "rawSha256": "418b2bf28e1614071d50b94529eb81491a527de1949889b8bcc375ad1dacabb1",
+      "bytes": 573,
+      "sha256": "269cee5d4004d507cd279b0e14d986ec9ada8b1694b55f811071a5901912c25f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98.c",
+      "file": "m5-stone-window-20261013-v2/41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98.gz",
+      "rawBytes": 117817,
+      "rawSha256": "41f36a07c5a5d492cb295a2fdbe09a6cacfe2f131204200de5c24525e1e63d98",
+      "bytes": 4056,
+      "sha256": "aa624567d91d32f7fab4613e5b66027c745ef6f49c678c5d86f0ca27866e7dfd"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff.sh",
+      "file": "m5-stone-window-20261013-v2/424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff.gz",
+      "rawBytes": 61,
+      "rawSha256": "424b16e7c02736592de76b063754587b75043de76acaa4be5a6ecbdcda1c35ff",
+      "bytes": 76,
+      "sha256": "ced6acabefcf95d189218ac9a29356768b83ad9b5b4904e9a9d99dca88babf6d"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "file": "m5-stone-window-20261013-v2/43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75.gz",
+      "rawBytes": 44,
+      "rawSha256": "43a42f00cd2feb5fce11b989928b5c5225afd9ebee795815531a6dd4044a7b75",
+      "bytes": 64,
+      "sha256": "77bdfff0e9d8822cfb8c00077bef765f1a4814f3f020367dd9ed8d3777dbd395"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/44cdf69d84384258d9501bc8833a16fd97c190de53c9008d368537dcfc4bcda7.mjs",
+      "file": "m5-stone-window-20261013-v2/44cdf69d84384258d9501bc8833a16fd97c190de53c9008d368537dcfc4bcda7.gz",
+      "rawBytes": 8294,
+      "rawSha256": "44cdf69d84384258d9501bc8833a16fd97c190de53c9008d368537dcfc4bcda7",
+      "bytes": 2946,
+      "sha256": "072357b68e495365b5121d72b56c5f0ad42c0a8f48c2d929db532de87b0ec77c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df.h",
+      "file": "m5-stone-window-20261013-v2/44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df.gz",
+      "rawBytes": 1524,
+      "rawSha256": "44fa9cbcb5f09d849798377cd06bd5c96c0a1a8be03adc7795c4c2d37d82f1df",
+      "bytes": 561,
+      "sha256": "8a7469410469596502154091689e21ed054d227354b5e65f36f8a9bac21f2f38"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/456ea7b29a6f56adb3c19a4faa6384b2c8289bd425d9ce43d7fd5321c8f89a19.mjs",
+      "file": "m5-stone-window-20261013-v2/456ea7b29a6f56adb3c19a4faa6384b2c8289bd425d9ce43d7fd5321c8f89a19.gz",
+      "rawBytes": 10276,
+      "rawSha256": "456ea7b29a6f56adb3c19a4faa6384b2c8289bd425d9ce43d7fd5321c8f89a19",
+      "bytes": 2689,
+      "sha256": "f094696539607063067e2bef74779b2fb12abfdb10e6ca844f3a16f8a2c06b95"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac.c",
+      "file": "m5-stone-window-20261013-v2/472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac.gz",
+      "rawBytes": 1181340,
+      "rawSha256": "472b305c00f2cb0e7eb3c6bd47b8f388ececb73825a6167a58d121a661cb92ac",
+      "bytes": 174624,
+      "sha256": "81cf8d302d31816d89538877aae0ff019e651b9d3afece3314a16e9748114de8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4a0f8e947f20754629026cf4438a5301f781c1b95195a687bec03e0a0e04f55b.mjs",
+      "file": "m5-stone-window-20261013-v2/4a0f8e947f20754629026cf4438a5301f781c1b95195a687bec03e0a0e04f55b.gz",
+      "rawBytes": 52950,
+      "rawSha256": "4a0f8e947f20754629026cf4438a5301f781c1b95195a687bec03e0a0e04f55b",
+      "bytes": 13841,
+      "sha256": "d5206381453aa6f77b71c918af920bf0c732c7a2aa99ffec5887a9b3aa96025c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39.c",
+      "file": "m5-stone-window-20261013-v2/4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39.gz",
+      "rawBytes": 47517,
+      "rawSha256": "4a6e0c4ab37dbb7692b693e1e063785ab17e21ed9cf9a0abbaf28baea58fef39",
+      "bytes": 11022,
+      "sha256": "eedc93b559edb2289c4c3060a72f230b099dfd0111b750a87df1dbccf2d68bbb"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4b27eac7a7b6c6241961ed95c9ddf6ee4057762f0e49617fd1df9ba3c252756c.mjs",
+      "file": "m5-stone-window-20261013-v2/4b27eac7a7b6c6241961ed95c9ddf6ee4057762f0e49617fd1df9ba3c252756c.gz",
+      "rawBytes": 25507,
+      "rawSha256": "4b27eac7a7b6c6241961ed95c9ddf6ee4057762f0e49617fd1df9ba3c252756c",
+      "bytes": 8238,
+      "sha256": "eb1cf63916149deaac1b99870df26a7c4edcca19872e36c6192aa43ea643712b"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca.h",
+      "file": "m5-stone-window-20261013-v2/4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca.gz",
+      "rawBytes": 2593,
+      "rawSha256": "4b58a4ab85ccd50fcbb9576a79150384576f33a0f08fb9f2188a7d369ca731ca",
+      "bytes": 911,
+      "sha256": "cc95b3dd14792128614f1413deb724102f41f4d0277a95501e4985b135de8d2a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f.h",
+      "file": "m5-stone-window-20261013-v2/4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f.gz",
+      "rawBytes": 6048,
+      "rawSha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "bytes": 2101,
+      "sha256": "2f0ae144273654ccbc5be8a99e74948b05d32cb062fef74649ba7d96abf5ba8d"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/4e11919a57b579554c7dc94e0913b6b43112054cdb8189524877e14e0c7eb7b3.mjs",
+      "file": "m5-stone-window-20261013-v2/4e11919a57b579554c7dc94e0913b6b43112054cdb8189524877e14e0c7eb7b3.gz",
+      "rawBytes": 9065,
+      "rawSha256": "4e11919a57b579554c7dc94e0913b6b43112054cdb8189524877e14e0c7eb7b3",
+      "bytes": 3384,
+      "sha256": "75023d6eb32ec18f803ffdf82fe05f9b5c97571df22dad3f7f2f815f4e43bebc"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4.mjs",
+      "file": "m5-stone-window-20261013-v2/50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4.gz",
+      "rawBytes": 22014,
+      "rawSha256": "50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4",
+      "bytes": 6201,
+      "sha256": "660a88beb7f69f16cc0b10beacd814e469baa49c29bbb801422753a33713b856"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0.h",
+      "file": "m5-stone-window-20261013-v2/50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0.gz",
+      "rawBytes": 17046,
+      "rawSha256": "50f6721caa322e9d62ff04cff14e0892ef51d3d087f9c7c30805fc5d05f3b0f0",
+      "bytes": 3014,
+      "sha256": "13e9e2e0c81cadf85c8cc8508866e88c35ad54c1e83351db44b613f762bb33fe"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5130b2fb026d642988159c0032ef4caccd7065222f935b0f8c9059618880bb2b.mjs",
+      "file": "m5-stone-window-20261013-v2/5130b2fb026d642988159c0032ef4caccd7065222f935b0f8c9059618880bb2b.gz",
+      "rawBytes": 23099,
+      "rawSha256": "5130b2fb026d642988159c0032ef4caccd7065222f935b0f8c9059618880bb2b",
+      "bytes": 7247,
+      "sha256": "9b2467fd26d12b9cffd66f8121e8b667c029414004a47857ac2987ed9703b733"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d.h",
+      "file": "m5-stone-window-20261013-v2/518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d.gz",
+      "rawBytes": 8930,
+      "rawSha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "bytes": 3259,
+      "sha256": "d7eb18942091bd31d6ef8f5820b3a89b20bf46ed7afd22b25da467a18ff9ccc0"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4.c",
+      "file": "m5-stone-window-20261013-v2/5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4.gz",
+      "rawBytes": 850,
+      "rawSha256": "5196931a8e2edd7b7ef889d69ef56b998f43189a31f8a66f5f97c613b302a4b4",
+      "bytes": 294,
+      "sha256": "c4f200c1205460c6e8fc04c6ca06eb9080805cb0b6ed4cdfcb8d857096fbe137"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220.mjs",
+      "file": "m5-stone-window-20261013-v2/52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220.gz",
+      "rawBytes": 18225,
+      "rawSha256": "52722555428d52f7e13baba00a8d2d1716417bdd59d031fbf02af831bb295220",
+      "bytes": 5998,
+      "sha256": "1e6b86678461b4feb6a055094fdcebe934c93be17121aadbe079dc0167f7b9ea"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/528b41533393e0826d0cce781813c34aa2af1a222c6175f15cab396185498af8.mjs",
+      "file": "m5-stone-window-20261013-v2/528b41533393e0826d0cce781813c34aa2af1a222c6175f15cab396185498af8.gz",
+      "rawBytes": 117178,
+      "rawSha256": "528b41533393e0826d0cce781813c34aa2af1a222c6175f15cab396185498af8",
+      "bytes": 29936,
+      "sha256": "197e9273c74032a3e4a6817991c85da863498188d98e15cc4644f34739a481ab"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/52b6a65d7031487e024c0ef6ec6a0addab58243bf6a574a0fedb599b5825fbf3.mjs",
+      "file": "m5-stone-window-20261013-v2/52b6a65d7031487e024c0ef6ec6a0addab58243bf6a574a0fedb599b5825fbf3.gz",
+      "rawBytes": 15532,
+      "rawSha256": "52b6a65d7031487e024c0ef6ec6a0addab58243bf6a574a0fedb599b5825fbf3",
+      "bytes": 4982,
+      "sha256": "4022d504ef8bbdba119e7b6ab1a48065e439f06dde0cdaa75b87525bef60e556"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73.h",
+      "file": "m5-stone-window-20261013-v2/559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73.gz",
+      "rawBytes": 1559,
+      "rawSha256": "559aa49aa660246a5d96fe9a64662b0f6f1871813373e9fdff62d22ed3980a73",
+      "bytes": 599,
+      "sha256": "17303df2d543bfcac6c055773a4885b64365c13a1c7a0b7e822a0308dde554bc"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/56516f62f4100805f8aed656e5e936b27b83148437d58459f04b9da054a44cfc.mjs",
+      "file": "m5-stone-window-20261013-v2/56516f62f4100805f8aed656e5e936b27b83148437d58459f04b9da054a44cfc.gz",
+      "rawBytes": 54641,
+      "rawSha256": "56516f62f4100805f8aed656e5e936b27b83148437d58459f04b9da054a44cfc",
+      "bytes": 12557,
+      "sha256": "5b3144d0401e61f52d0ee20afec8bd129ae0844982f98ea74c6e8ec4c883d93a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "file": "m5-stone-window-20261013-v2/581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea.gz",
+      "rawBytes": 62,
+      "rawSha256": "581f2140b0df4bbd58b0adeaaef8081a3af8e13296773c805babe762e81caaea",
+      "bytes": 65,
+      "sha256": "d6dc08356665fcefffa0c630918c4a00fbf741bc7be09d3bfd86debd24207756"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b.mjs",
+      "file": "m5-stone-window-20261013-v2/59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b.gz",
+      "rawBytes": 31366,
+      "rawSha256": "59757f0bff704853188ff6543486b978348dfc9bd34e4760699e5c5716d3f98b",
+      "bytes": 11379,
+      "sha256": "8afb4a705a2ea003e759a70e1d3b0c5dd4bb9590ab1446a15c70e183240c4636"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d.h",
+      "file": "m5-stone-window-20261013-v2/5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d.gz",
+      "rawBytes": 3328,
+      "rawSha256": "5a8c179010b55f08220822ef4577c3606fbcebf46c72bb9bcbdee9bb8c08f11d",
+      "bytes": 1236,
+      "sha256": "55bc9b63439d432f3ee416226b48b707aa35d41fa49a57ee6950613cab12e8a0"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc.H",
+      "file": "m5-stone-window-20261013-v2/5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc.gz",
+      "rawBytes": 2468,
+      "rawSha256": "5b2fd90a56b079f78361f2957d7a68791ec17afee70ed630cbc441a3aa2abacc",
+      "bytes": 797,
+      "sha256": "3678140b641b21c4f8cd204a0f5cdbe1f6216b148cbf57aa6232bf10b712fa15"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5d49e39740e49feda1846c70e951412405e8984aaaf6642239d5a647a947396d.mjs",
+      "file": "m5-stone-window-20261013-v2/5d49e39740e49feda1846c70e951412405e8984aaaf6642239d5a647a947396d.gz",
+      "rawBytes": 22045,
+      "rawSha256": "5d49e39740e49feda1846c70e951412405e8984aaaf6642239d5a647a947396d",
+      "bytes": 7413,
+      "sha256": "9d4e6b8f3a2bbdb8016d4e21f8a41d17436744998fa07fef3c41c4ae185b03b8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac.c",
+      "file": "m5-stone-window-20261013-v2/5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac.gz",
+      "rawBytes": 1904,
+      "rawSha256": "5e1ff9b0f798c966051d50f7238af6b4ba584b69a1decfbd573b184a13a295ac",
+      "bytes": 933,
+      "sha256": "8ae33097dd266072f1fbbc4cfc2814f538208abb60922e0f54499bd9ed4b8faf"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5e5dca6cfa1a04f9582d01800a5c0db471204df70578b159fe6ed1d8864c1209.mjs",
+      "file": "m5-stone-window-20261013-v2/5e5dca6cfa1a04f9582d01800a5c0db471204df70578b159fe6ed1d8864c1209.gz",
+      "rawBytes": 27304,
+      "rawSha256": "5e5dca6cfa1a04f9582d01800a5c0db471204df70578b159fe6ed1d8864c1209",
+      "bytes": 7223,
+      "sha256": "a884a1af56b0b5a743057181289ac07ddce28831a84c81b3ed14aa9a6b639ed9"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd.h",
+      "file": "m5-stone-window-20261013-v2/5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd.gz",
+      "rawBytes": 4158,
+      "rawSha256": "5e6375353a92465f6364e74ac02036d2cdb717fa693d20dd058a2d05382815fd",
+      "bytes": 1740,
+      "sha256": "1b801940ff80a4f640e62753cdb707b185620439d0c13827fa416e4d8ec1a26e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b.c",
+      "file": "m5-stone-window-20261013-v2/6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b.gz",
+      "rawBytes": 135,
+      "rawSha256": "6363b3c737304dce00a3a99f97146409e01442a83572b41e286afd41cf47c61b",
+      "bytes": 110,
+      "sha256": "ac6409127f78b56abd238b29a9471457ce2a6935ca0a3b17801ff6990c67b670"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7.mjs",
+      "file": "m5-stone-window-20261013-v2/63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7.gz",
+      "rawBytes": 45205,
+      "rawSha256": "63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7",
+      "bytes": 14855,
+      "sha256": "e351e25ba33415cd76596416d4c10e7c43c6e689dbcfb2c47c9f0f4beb1112cb"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/63f05c704fe44a7717e7899046c57cc663737bdf3280039adf5ef68ae77daea4.mjs",
+      "file": "m5-stone-window-20261013-v2/63f05c704fe44a7717e7899046c57cc663737bdf3280039adf5ef68ae77daea4.gz",
+      "rawBytes": 29952,
+      "rawSha256": "63f05c704fe44a7717e7899046c57cc663737bdf3280039adf5ef68ae77daea4",
+      "bytes": 7539,
+      "sha256": "70dd04497747d836add7f5a2257b74e76ad08b60b1573e6cc2f6d9560396c462"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d.h",
+      "file": "m5-stone-window-20261013-v2/670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d.gz",
+      "rawBytes": 200,
+      "rawSha256": "670352bd8cd66fe6add1457ff0be3244b73362a5d65159cce31af0068788d06d",
+      "bytes": 117,
+      "sha256": "2027d2df316336008d8d377c4756b47e72dfc0ef06fc63cae15a7aaee59e5745"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6c14c8e1d6abab815f8f9ea3d367d4e27b3d210ba8ddeeec0bbd5d82e062c415.mjs",
+      "file": "m5-stone-window-20261013-v2/6c14c8e1d6abab815f8f9ea3d367d4e27b3d210ba8ddeeec0bbd5d82e062c415.gz",
+      "rawBytes": 20759,
+      "rawSha256": "6c14c8e1d6abab815f8f9ea3d367d4e27b3d210ba8ddeeec0bbd5d82e062c415",
+      "bytes": 5100,
+      "sha256": "f3d013f2c77c264ed15f22e115d040ba3615d116d13df1a4ee2d5b4ef840ff32"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6d7f52c66bd3c229f271b81a257f8795400a434771caed9ba89eba1e868cc3d7.mjs",
+      "file": "m5-stone-window-20261013-v2/6d7f52c66bd3c229f271b81a257f8795400a434771caed9ba89eba1e868cc3d7.gz",
+      "rawBytes": 177204,
+      "rawSha256": "6d7f52c66bd3c229f271b81a257f8795400a434771caed9ba89eba1e868cc3d7",
+      "bytes": 37770,
+      "sha256": "f70a11a3fa318028b1ec5f8c6535cd38faec1b0f381e78ac82148588225c8e5e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953.c",
+      "file": "m5-stone-window-20261013-v2/6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953.gz",
+      "rawBytes": 44229,
+      "rawSha256": "6dd4a12278e5d942d1651c0fce3ccdff1298884f2d075ff6ac2a440e001ea953",
+      "bytes": 10757,
+      "sha256": "ad464f6782e325aa7b815706dce874e3a7e264ff108d904eb6897fd6861051fd"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6de44861ab96e969b564322cfe757f9fb63e49125244bc0219e53d07c1a57cbb.mjs",
+      "file": "m5-stone-window-20261013-v2/6de44861ab96e969b564322cfe757f9fb63e49125244bc0219e53d07c1a57cbb.gz",
+      "rawBytes": 51020,
+      "rawSha256": "6de44861ab96e969b564322cfe757f9fb63e49125244bc0219e53d07c1a57cbb",
+      "bytes": 11874,
+      "sha256": "90055fc305bd7a454407a87a3c011a2ee7dcc7feb9f6d782530b8d1095204c3b"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c.c",
+      "file": "m5-stone-window-20261013-v2/6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c.gz",
+      "rawBytes": 1038,
+      "rawSha256": "6eb836b814535ce725f6d30328801c626a8aff24a634d67a15f217414585281c",
+      "bytes": 651,
+      "sha256": "cb822bbbf66a975e722fd54c209b79b10301e751347fc0fdbfe7b8ace326c7c4"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd.c",
+      "file": "m5-stone-window-20261013-v2/6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd.gz",
+      "rawBytes": 3892,
+      "rawSha256": "6ee82d074ad54932fa2cfa0d2fca736e7d9aaaaba56d120a207e59f9e775d1fd",
+      "bytes": 1245,
+      "sha256": "1da6f20dff9d638b692b5ce3d36b6368b6d8afde0074614eeea6097cfc086735"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f.json",
+      "file": "m5-stone-window-20261013-v2/707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f.gz",
+      "rawBytes": 3368,
+      "rawSha256": "707a93d1cbb678c3a294530e04d037bd8ab982df16fd97b5789d1dceb81c979f",
+      "bytes": 1087,
+      "sha256": "0d1d42f531e085d3655926312244469a8a843695551ae0007b99a832b62c9012"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca.mjs",
+      "file": "m5-stone-window-20261013-v2/71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca.gz",
+      "rawBytes": 5067,
+      "rawSha256": "71554a62e0dd111a25b36356649209f15deef66ec06999e39db66842b4368bca",
+      "bytes": 1949,
+      "sha256": "84dc0501e6e96a8744d309c30bed29d14876d5f394248a9e34d053d4278e3027"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c.c",
+      "file": "m5-stone-window-20261013-v2/71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c.gz",
+      "rawBytes": 33782,
+      "rawSha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "bytes": 8911,
+      "sha256": "554cba931e9ff51fa407b76c0bbd67528c20f23361d17d7f9a1d701e4379b5fb"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68.txt",
+      "file": "m5-stone-window-20261013-v2/738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68.gz",
+      "rawBytes": 82,
+      "rawSha256": "738e9b562afe6edf56f61008dec9c024afde18fc159a92f5a916fa468b006a68",
+      "bytes": 99,
+      "sha256": "e4edbf63545e7b259cca92f4522a88388854980bc0d2ad5655d633c0c4df6b02"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca.c",
+      "file": "m5-stone-window-20261013-v2/74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca.gz",
+      "rawBytes": 39495,
+      "rawSha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "bytes": 4952,
+      "sha256": "6a444457c7980ba2e5669945b3f97bbb03f0dcfce9fce0aaf9b03ca966fc4635"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff.py",
+      "file": "m5-stone-window-20261013-v2/790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff.gz",
+      "rawBytes": 416,
+      "rawSha256": "790c2319b5f1c8f0e9eccce38f042a1b3273243255cf3cc029c1dce5d27d75ff",
+      "bytes": 309,
+      "sha256": "8dec10f2f3b597b48233f0c59ffd441bda275902aea1bf0006460bd4c8a1da85"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26.mjs",
+      "file": "m5-stone-window-20261013-v2/79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26.gz",
+      "rawBytes": 9738,
+      "rawSha256": "79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26",
+      "bytes": 3293,
+      "sha256": "18958448974586c0b187b9a03abe469d301eeac9d69f21513623942426e75a48"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6.h",
+      "file": "m5-stone-window-20261013-v2/7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6.gz",
+      "rawBytes": 70791,
+      "rawSha256": "7a2094f32ee2d4a3d91c0a93a26c9ac1c9b28a6f03c67871f1c98826c23138d6",
+      "bytes": 18496,
+      "sha256": "c1bfdbd44a7a953f297ba0b8a5cdef1647a9ec20221f75f74d27167ba435d247"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7c39262d2d237df3dae6e2d6eb87022e700967d79b7efd517bd9149ea7d59130.mjs",
+      "file": "m5-stone-window-20261013-v2/7c39262d2d237df3dae6e2d6eb87022e700967d79b7efd517bd9149ea7d59130.gz",
+      "rawBytes": 16562,
+      "rawSha256": "7c39262d2d237df3dae6e2d6eb87022e700967d79b7efd517bd9149ea7d59130",
+      "bytes": 4389,
+      "sha256": "efc47d78a0ef0982a1319ab49a8188ff84ad9a17b3956edadd32fbd42914358b"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7c6a3ec836ed381d794b9075edeefba876abcd343600feabde0473a80ccd94ef.mjs",
+      "file": "m5-stone-window-20261013-v2/7c6a3ec836ed381d794b9075edeefba876abcd343600feabde0473a80ccd94ef.gz",
+      "rawBytes": 16397,
+      "rawSha256": "7c6a3ec836ed381d794b9075edeefba876abcd343600feabde0473a80ccd94ef",
+      "bytes": 4681,
+      "sha256": "cdf4d62e03f34c6189954e6496fcd04dcc0968fec00a8338b8ec5f3a455825da"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923.c",
+      "file": "m5-stone-window-20261013-v2/7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923.gz",
+      "rawBytes": 4119,
+      "rawSha256": "7caa7682cf028494fe6c8903e98da5a0e59a09bd4708c4678ca467facd2d3923",
+      "bytes": 964,
+      "sha256": "ac76efd2c08c5a03d20600f5398b3dfc7a8dd099645980abb406c43326ecd614"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f.c",
+      "file": "m5-stone-window-20261013-v2/7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f.gz",
+      "rawBytes": 3616965,
+      "rawSha256": "7ccb54b27689be0156dd16b3bc52ee5598b03ed68a0b2bacdc17e44d4d6c9c5f",
+      "bytes": 453010,
+      "sha256": "61341f26aee8308f779525c5c4e18cbd79e04e770c0342fb9498adff06e50cb0"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514.m",
+      "file": "m5-stone-window-20261013-v2/7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514.gz",
+      "rawBytes": 1937,
+      "rawSha256": "7d206c7cd634eaa8df52ff5365cac48986ebbd228654561d4024b3ddbb273514",
+      "bytes": 578,
+      "sha256": "32d0d3ee036d42a166d95a8b8acd946eb56ea58fc25e58a9677d67e854d694ea"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/7f5a358f15c1a8b9ea45b08e7110011e473086a86d24c3308e8e99ff1c7be68a.mjs",
+      "file": "m5-stone-window-20261013-v2/7f5a358f15c1a8b9ea45b08e7110011e473086a86d24c3308e8e99ff1c7be68a.gz",
+      "rawBytes": 7909,
+      "rawSha256": "7f5a358f15c1a8b9ea45b08e7110011e473086a86d24c3308e8e99ff1c7be68a",
+      "bytes": 2267,
+      "sha256": "0d7e7f755dcb232e600d7eb45b96d266e158ea95070d7aae79d022cb4a278ec6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c.h",
+      "file": "m5-stone-window-20261013-v2/8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c.gz",
+      "rawBytes": 2021,
+      "rawSha256": "8087cddb33f00059bdc5dc91edc2731eeccf8aa6d3062e78137177006153cd5c",
+      "bytes": 855,
+      "sha256": "a6e09b8c01ed135f56996ea1b02917122e7081940d82e1a626a0d28cbf994a8e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/814a920369df4645908f526251e0f2b8d4303971fbeb5bcc2c4a360e6036c045.mjs",
+      "file": "m5-stone-window-20261013-v2/814a920369df4645908f526251e0f2b8d4303971fbeb5bcc2c4a360e6036c045.gz",
+      "rawBytes": 20173,
+      "rawSha256": "814a920369df4645908f526251e0f2b8d4303971fbeb5bcc2c4a360e6036c045",
+      "bytes": 6477,
+      "sha256": "892b20d77134f99e0b7a086400f139fa6e22ec9c7e42e724ec88cb7921d8277e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4.c",
+      "file": "m5-stone-window-20261013-v2/81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4.gz",
+      "rawBytes": 32,
+      "rawSha256": "81c45d0a607ce2322ff97f7af64a969c5c90245b8e881d53c78015d3e9dccbd4",
+      "bytes": 52,
+      "sha256": "6cb79097822624d14cdea993f12b60a91bec82ece331997289d5da3e1e20aa25"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576.asm",
+      "file": "m5-stone-window-20261013-v2/8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576.gz",
+      "rawBytes": 9186,
+      "rawSha256": "8266529c1802f7fdc68368de9051ce448dbd5cf1d101a40bb4ac9b4f1fd53576",
+      "bytes": 1864,
+      "sha256": "346024567d1561dc36232dce9caf08c4d6b3011737b3c9c5abc2ad61e6722b77"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/83cfd042523cd26be58703710e62bcf3df21890ef9c24de25368b87c01ee814f.mjs",
+      "file": "m5-stone-window-20261013-v2/83cfd042523cd26be58703710e62bcf3df21890ef9c24de25368b87c01ee814f.gz",
+      "rawBytes": 14977,
+      "rawSha256": "83cfd042523cd26be58703710e62bcf3df21890ef9c24de25368b87c01ee814f",
+      "bytes": 4838,
+      "sha256": "a982e5898afe4603482a98242d55be9992c7dc5bd883bf3efff33397ab7707e1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/85a7b2e3dd2aec8697063930a5154e5f15a7939bc01bbc9276a9490c8ca59c96.mjs",
+      "file": "m5-stone-window-20261013-v2/85a7b2e3dd2aec8697063930a5154e5f15a7939bc01bbc9276a9490c8ca59c96.gz",
+      "rawBytes": 15035,
+      "rawSha256": "85a7b2e3dd2aec8697063930a5154e5f15a7939bc01bbc9276a9490c8ca59c96",
+      "bytes": 5287,
+      "sha256": "bbbf88a6cc071a2e2776ee97e837e97eab6cdab53ff28f9e47601041ed1025b8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da.c",
+      "file": "m5-stone-window-20261013-v2/85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da.gz",
+      "rawBytes": 33667,
+      "rawSha256": "85c2fe87c5481e2a5686afdbb067d40c31ba9b126df7e816550e0a2d5c4aa1da",
+      "bytes": 3103,
+      "sha256": "d94f3b7a0b205071fa892243baa868167cece470c30787ef80cac829055985de"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0.h",
+      "file": "m5-stone-window-20261013-v2/87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0.gz",
+      "rawBytes": 1761,
+      "rawSha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "bytes": 888,
+      "sha256": "c1f69ad489372140011d683fa8d94019a1c4da6fa8a36bb8a5f5bf5c0254bcae"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f.mjs",
+      "file": "m5-stone-window-20261013-v2/87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f.gz",
+      "rawBytes": 123784,
+      "rawSha256": "87fb2c079be01f91d9f7ad2a5096bc93b6fb379b4a41d5b7ac9f055c2844389f",
+      "bytes": 26711,
+      "sha256": "9c2259230e902350e555ce7a2d9803f82c0f958ed2d8f41578a3fb578093e7a9"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d.mjs",
+      "file": "m5-stone-window-20261013-v2/8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d.gz",
+      "rawBytes": 13258,
+      "rawSha256": "8aeb78829ca8d587999e8749c102d5ff4f458113c1c6ab95dfad730385dc180d",
+      "bytes": 4034,
+      "sha256": "20d5c404674a66b9cd127ca06bcdcba09d8d0acb177071464a76202e77c37ade"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187.h",
+      "file": "m5-stone-window-20261013-v2/8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187.gz",
+      "rawBytes": 557,
+      "rawSha256": "8c9f4787141902500964db74838da356a4f4974d2764d31a416ffbed56a9a187",
+      "bytes": 345,
+      "sha256": "f3fb3e8b36ca55af5ec1dbb160d49781d6b9d6badda9c17a20260329e5b7c61c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868.h",
+      "file": "m5-stone-window-20261013-v2/8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868.gz",
+      "rawBytes": 370,
+      "rawSha256": "8d7cbe6bfa9386653952018498400771145967f6ac7993329e8a0208139e8868",
+      "bytes": 169,
+      "sha256": "2649169eec2b4dad9501119f7ca92356902e2a7a077a636b19c7e6bbc045efc6"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc.h",
+      "file": "m5-stone-window-20261013-v2/8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc.gz",
+      "rawBytes": 522,
+      "rawSha256": "8dc8fff499f615a7e476039a26d4c5e6fa7d09f292b4b6c34cf15c8525f2eefc",
+      "bytes": 253,
+      "sha256": "b302151214c2232e945452aaf36f0a5c6d928b469970a7ccbf55e7bcfb271f71"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344.h",
+      "file": "m5-stone-window-20261013-v2/8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344.gz",
+      "rawBytes": 1185,
+      "rawSha256": "8eb1ea26ed86fe5c89cabaa51b3fe7256a0402b4e02c2dea20037b4a26013344",
+      "bytes": 513,
+      "sha256": "6a75e9748d01811665431852a02778dbca802e1357985d561c82476fffbf462c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636.mjs",
+      "file": "m5-stone-window-20261013-v2/8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636.gz",
+      "rawBytes": 9752,
+      "rawSha256": "8f47578067ed5c16c5dee507982309f37a55378f3d23b6d0bc97c33018e18636",
+      "bytes": 3064,
+      "sha256": "94154ec82bcea6f8231e089b36cc5308231e6669ea77a795e683e7c341296e41"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf.mjs",
+      "file": "m5-stone-window-20261013-v2/90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf.gz",
+      "rawBytes": 254890,
+      "rawSha256": "90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf",
+      "bytes": 44304,
+      "sha256": "bd3b74203185c6eb54742003b120e62ce158273cf79c5727e6ed179638f568a1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c.h",
+      "file": "m5-stone-window-20261013-v2/9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c.gz",
+      "rawBytes": 3820,
+      "rawSha256": "9514b6b2ab0fc8f23206f63112a22a3510d6c44d75072ea15d35d7e7e06fb99c",
+      "bytes": 1139,
+      "sha256": "8dc3f19065eb1108d3bff8953c69ad6e6ccf1befc9b794607d346e39e047d7c5"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b.h",
+      "file": "m5-stone-window-20261013-v2/959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b.gz",
+      "rawBytes": 5109,
+      "rawSha256": "959e9f5a547cccfec3c22f937e0ddda159bc0fc1396d843d469adc938f9b6c4b",
+      "bytes": 1939,
+      "sha256": "37c0db3a2912d508aaeb55ecaedfca3fac4e434b874d2b09be59ea520f9ce4aa"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4.md",
+      "file": "m5-stone-window-20261013-v2/983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4.gz",
+      "rawBytes": 495,
+      "rawSha256": "983f464754b303e90c426f9b46bfdc919bfae4ef00a1228387ce1809c811afb4",
+      "bytes": 374,
+      "sha256": "51f5973d8c025414f1f3a9dfa156001cd09bdc84fa2c3eb15b9850f7c183479b"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4.mjs",
+      "file": "m5-stone-window-20261013-v2/9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4.gz",
+      "rawBytes": 11518,
+      "rawSha256": "9bbafef2fa2c5b25b3038ab80a234d7a1cd0401178f90553faa89cce3a34c6b4",
+      "bytes": 3196,
+      "sha256": "dd2418d64a4b5a36a0ecbaa3cd8f591ef566156c68cc7808b50932873d1990a8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3.mjs",
+      "file": "m5-stone-window-20261013-v2/9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3.gz",
+      "rawBytes": 8131,
+      "rawSha256": "9c64f1dbe043528933f142b0d2c4147164d683824735496287c2a05b28d619b3",
+      "bytes": 2363,
+      "sha256": "712a9a57e1ff9ba735c2371cc99a7159712c204f12d57fa90070e9901e78e625"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9c7b4b6265fd3c633c476546053019528e6d6ed535dae44bf47b23f01b9f0e9a.mjs",
+      "file": "m5-stone-window-20261013-v2/9c7b4b6265fd3c633c476546053019528e6d6ed535dae44bf47b23f01b9f0e9a.gz",
+      "rawBytes": 21975,
+      "rawSha256": "9c7b4b6265fd3c633c476546053019528e6d6ed535dae44bf47b23f01b9f0e9a",
+      "bytes": 6503,
+      "sha256": "26f4a39d7c6c3335c5a714169cd12cbf9c1eefbd7e00ba027f5166008a2383c1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986.h",
+      "file": "m5-stone-window-20261013-v2/9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986.gz",
+      "rawBytes": 9611,
+      "rawSha256": "9e29ed26693478b1c15a67120ab31b0431529c17e3ce229533a9116f71c0e986",
+      "bytes": 3161,
+      "sha256": "818a314797e13be1fa172ea6d6081ab6a0c00ba8679a6eba9dd232f41715dceb"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d.h",
+      "file": "m5-stone-window-20261013-v2/9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d.gz",
+      "rawBytes": 702,
+      "rawSha256": "9e2cee95cb8077bf5b2f762b3371593f8171e962697357aee65ee6c41b2cfa7d",
+      "bytes": 389,
+      "sha256": "f517a5e7b81d4be82e28c508b6efc5322b8fcda79366f93838da2264d3cc7bea"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0.c",
+      "file": "m5-stone-window-20261013-v2/9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0.gz",
+      "rawBytes": 17734,
+      "rawSha256": "9ef402cb86d923aaaa8707c3eb5d11f6a99b260c6d5c6af436d6cfeecc1802e0",
+      "bytes": 2932,
+      "sha256": "81e8a65c2a0bd71aca5677919bc9f8c7961b6819cdd72684926edaf8697c6276"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a30159e164ed7fbb15ff374fbcbd2dc17988ad9a7a94a14df9fb24e60c1574bc.mjs",
+      "file": "m5-stone-window-20261013-v2/a30159e164ed7fbb15ff374fbcbd2dc17988ad9a7a94a14df9fb24e60c1574bc.gz",
+      "rawBytes": 17036,
+      "rawSha256": "a30159e164ed7fbb15ff374fbcbd2dc17988ad9a7a94a14df9fb24e60c1574bc",
+      "bytes": 5091,
+      "sha256": "110630eebb1820e5cef48d907463fcf7f9e4e2bdb9043e5a83a8da810ffb8fae"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96.H",
+      "file": "m5-stone-window-20261013-v2/a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96.gz",
+      "rawBytes": 19,
+      "rawSha256": "a343edc8c1e6c8c5f6f4b671549f99aebdda0335ee4de152f64bceddbc1ada96",
+      "bytes": 39,
+      "sha256": "75e46ca9514d444fef8775004a5c27f12fa2578ad61c54f53af0c3915c76f34a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c.h",
+      "file": "m5-stone-window-20261013-v2/a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c.gz",
+      "rawBytes": 267,
+      "rawSha256": "a50509995a968d9dd3be674383a4c06b43896755c40f31545c1db6741bef6a0c",
+      "bytes": 170,
+      "sha256": "fc0534e1feb2da3dc8bb9b573ea11f222f8bb11700921ac65d95cb6a33de06a1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673.c",
+      "file": "m5-stone-window-20261013-v2/a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673.gz",
+      "rawBytes": 229,
+      "rawSha256": "a59a28df85f123b09a33fbe32a8325c89724bece163d0f32bad59d567d719673",
+      "bytes": 177,
+      "sha256": "7f48a8446bfdd17f0c889f9ae05cd9aa8671fe2e00756e24593b3e99d4f655af"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0.mjs",
+      "file": "m5-stone-window-20261013-v2/a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0.gz",
+      "rawBytes": 9974,
+      "rawSha256": "a5a18405000819ea05998a72834562f61ee2768ac84f2346942be013c0bdeac0",
+      "bytes": 3304,
+      "sha256": "da6f2ba304da9f8f264f14eaefb622c2ab26195c54a2cfc59b42bb1bffa02907"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a607f0505cf3ffcee54e70617c3261ecc4e7b03e06460fab20d858a02e96e57d.mjs",
+      "file": "m5-stone-window-20261013-v2/a607f0505cf3ffcee54e70617c3261ecc4e7b03e06460fab20d858a02e96e57d.gz",
+      "rawBytes": 17770,
+      "rawSha256": "a607f0505cf3ffcee54e70617c3261ecc4e7b03e06460fab20d858a02e96e57d",
+      "bytes": 5315,
+      "sha256": "eb1d8b9bd768d20c47b985bd571449da1cdc25c268ee8c5c868d6497bb1349c7"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a6ed8bccf3035badb446d973220d74a7f8c90fd3cedf1eda157c3689c19607ea.mjs",
+      "file": "m5-stone-window-20261013-v2/a6ed8bccf3035badb446d973220d74a7f8c90fd3cedf1eda157c3689c19607ea.gz",
+      "rawBytes": 15815,
+      "rawSha256": "a6ed8bccf3035badb446d973220d74a7f8c90fd3cedf1eda157c3689c19607ea",
+      "bytes": 4800,
+      "sha256": "3d0b9501f39013f554309c03d3b9349cefbc9fe81e7c03e78f8be9e35238c40f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279.c",
+      "file": "m5-stone-window-20261013-v2/a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279.gz",
+      "rawBytes": 9789,
+      "rawSha256": "a9871dcac52f41cbf0ccf84e23f3d1bfc6e34bac470b86dc079bd9bdd9e26279",
+      "bytes": 2565,
+      "sha256": "3b5c9900eee4f6c62b566b7d84e17364ce3d3eef8240254891f9490687937208"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524.c",
+      "file": "m5-stone-window-20261013-v2/a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524.gz",
+      "rawBytes": 1046,
+      "rawSha256": "a98768003fe8031cd0aebba35fac57ecf70b83cd997a5a1f203a9d65f193f524",
+      "bytes": 494,
+      "sha256": "623c31cc9e1a79ebaa1fbde2c119ae56ede0e9af2ff3d637ec2a3e88819757a3"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/aa24b518066a29cd1b5434987292155e18c8339c3915c2499c2d245714589ebe.mjs",
+      "file": "m5-stone-window-20261013-v2/aa24b518066a29cd1b5434987292155e18c8339c3915c2499c2d245714589ebe.gz",
+      "rawBytes": 15116,
+      "rawSha256": "aa24b518066a29cd1b5434987292155e18c8339c3915c2499c2d245714589ebe",
+      "bytes": 4433,
+      "sha256": "9ad5056a9b8261adfcda1fec66faa864adab954fb32e55411282d39075a2ef19"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/aa8349aee6f820541d2ba4347b454a119488bc4d5eed826974eb0ef12cfb789b.mjs",
+      "file": "m5-stone-window-20261013-v2/aa8349aee6f820541d2ba4347b454a119488bc4d5eed826974eb0ef12cfb789b.gz",
+      "rawBytes": 13121,
+      "rawSha256": "aa8349aee6f820541d2ba4347b454a119488bc4d5eed826974eb0ef12cfb789b",
+      "bytes": 4327,
+      "sha256": "52b46f864b0078f4bbffd9e1bdff742be623e35e8690827fdeb7d75ecb975583"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "file": "m5-stone-window-20261013-v2/ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca.gz",
+      "rawBytes": 293,
+      "rawSha256": "ad97ddb3cda2a9c9291fb23e3cdde7081a53468b817def0a0dce73871b5e80ca",
+      "bytes": 156,
+      "sha256": "1583214e8f5fe6fbe4f93dff5787a4b42d3e3f4cbdeb8e8b74eef8efc6b88b37"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ae57080f597f4d8393718e515de836098908a9f4dc5535a6342b589448858ed4.mjs",
+      "file": "m5-stone-window-20261013-v2/ae57080f597f4d8393718e515de836098908a9f4dc5535a6342b589448858ed4.gz",
+      "rawBytes": 51589,
+      "rawSha256": "ae57080f597f4d8393718e515de836098908a9f4dc5535a6342b589448858ed4",
+      "bytes": 13616,
+      "sha256": "e15a9b4d47c9fcd679ec9345ec5ec1c0c411c3e18e91a3ed6e5ab5ff55b3e816"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ae7e4e98a9f842ca7d162b7310c7fc470ec0d775b3e92daa7d7deb2d38bdf2eb.mjs",
+      "file": "m5-stone-window-20261013-v2/ae7e4e98a9f842ca7d162b7310c7fc470ec0d775b3e92daa7d7deb2d38bdf2eb.gz",
+      "rawBytes": 27081,
+      "rawSha256": "ae7e4e98a9f842ca7d162b7310c7fc470ec0d775b3e92daa7d7deb2d38bdf2eb",
+      "bytes": 9693,
+      "sha256": "ba3e4d4e5c5f69643dad84073efd139c6c000445747140986c1b7d75be6f81a3"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6.c",
+      "file": "m5-stone-window-20261013-v2/aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6.gz",
+      "rawBytes": 1727,
+      "rawSha256": "aebe3e47d705a370633eb0f14bf0d5600cfb61d5ee8d94fe2336f727dfe88cd6",
+      "bytes": 574,
+      "sha256": "54d0d15607663cd79c17fb7938ef0f11aa3223301d06096753519f541f7d9ced"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b000548c675f530bce5dffebb10c9a3ac2ce6a11af488cdda3b4a240ebd66c27.mjs",
+      "file": "m5-stone-window-20261013-v2/b000548c675f530bce5dffebb10c9a3ac2ce6a11af488cdda3b4a240ebd66c27.gz",
+      "rawBytes": 15876,
+      "rawSha256": "b000548c675f530bce5dffebb10c9a3ac2ce6a11af488cdda3b4a240ebd66c27",
+      "bytes": 4934,
+      "sha256": "8fc744ec15e5866f5b0ab5746f9255d6492e2ac65d16cad9227140ae1cb71d2c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f.mjs",
+      "file": "m5-stone-window-20261013-v2/b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f.gz",
+      "rawBytes": 50865,
+      "rawSha256": "b0c719632013200dc197fd02e59f5ebfaec5de0fa26cb70c998c7851d7fe346f",
+      "bytes": 12344,
+      "sha256": "c5577703fe957565aa3377ab161736b2281175403bf484c33e4020f29029531e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63.c",
+      "file": "m5-stone-window-20261013-v2/b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63.gz",
+      "rawBytes": 12480,
+      "rawSha256": "b1da1afc587b0e32938d65cc31ebaf61c1bc36e8434b51435a22f80941f52e63",
+      "bytes": 4122,
+      "sha256": "4f34a578ca89f17b918e302f4501fa7666e5d401e0279319c3efd1c1ac917139"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0.mjs",
+      "file": "m5-stone-window-20261013-v2/b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0.gz",
+      "rawBytes": 31206,
+      "rawSha256": "b2311e1fc944fdd46f5ec6f9c4f21c23df44534092640720ade972c2cb19d1e0",
+      "bytes": 7155,
+      "sha256": "a80e181be9e9a0542fef140262df1c5e10a29d97de1b8d888b4a14136070bd9c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952.c",
+      "file": "m5-stone-window-20261013-v2/b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952.gz",
+      "rawBytes": 7932,
+      "rawSha256": "b256123404c245685a627140ac701468110bc658ed95c628ee97d99f90d1d952",
+      "bytes": 2969,
+      "sha256": "c49e8a772e64136a2519ec8adc20efd621cc2b96080858616d2b8a8288eb175c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3.mjs",
+      "file": "m5-stone-window-20261013-v2/b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3.gz",
+      "rawBytes": 30351,
+      "rawSha256": "b293ee07257764ad735a057481b8a5af0a5fb41096faecb19f3326a14ba8c0b3",
+      "bytes": 9445,
+      "sha256": "c749dd59a55cc96a83ee3ca260f1a435996b89fd973cc4f8b7fc9cf4648ac9d1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526.mjs",
+      "file": "m5-stone-window-20261013-v2/b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526.gz",
+      "rawBytes": 31190,
+      "rawSha256": "b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526",
+      "bytes": 7447,
+      "sha256": "1204b461c1130ba8ee8380efe90a376ca374fb8b4609217c1f8f9514dac9425a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759.c",
+      "file": "m5-stone-window-20261013-v2/b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759.gz",
+      "rawBytes": 7078,
+      "rawSha256": "b5f67e6918048f8418fac117307c76d7fd01699a3249cef3b4dc2ebf74455759",
+      "bytes": 1523,
+      "sha256": "02e9aac6c941f15412064011b1095c644f042ceaf3b2664e22b2cc43f5cff675"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446.h",
+      "file": "m5-stone-window-20261013-v2/bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446.gz",
+      "rawBytes": 451,
+      "rawSha256": "bc4460738004f5c5fb6e2595e13a21e849e85c2051a72a4d5434694f66e56446",
+      "bytes": 305,
+      "sha256": "0eea4a490c7ca8160696134b896eddb175fcda4e6171fe33da07a1643b02c19f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495.c",
+      "file": "m5-stone-window-20261013-v2/bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495.gz",
+      "rawBytes": 3231,
+      "rawSha256": "bd42a8d0c410b5fdbed54214680639d562d74606cb56b876c3ae14a407b90495",
+      "bytes": 1105,
+      "sha256": "f622d18723fd4daf74b29c468fdb47e102199a6d5c4d4bf0fc7af78900b0df73"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/bd5841c8dae6ea35954945c5f775891e0e6ae2837bd57dda2fb4bbefdb9b4b71.mjs",
+      "file": "m5-stone-window-20261013-v2/bd5841c8dae6ea35954945c5f775891e0e6ae2837bd57dda2fb4bbefdb9b4b71.gz",
+      "rawBytes": 23773,
+      "rawSha256": "bd5841c8dae6ea35954945c5f775891e0e6ae2837bd57dda2fb4bbefdb9b4b71",
+      "bytes": 6621,
+      "sha256": "b1e89dfb8e916961547590a590b5c410c70f9cc40d7d528b0496c0e8d19be04d"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e.c",
+      "file": "m5-stone-window-20261013-v2/bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e.gz",
+      "rawBytes": 26196,
+      "rawSha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "bytes": 5489,
+      "sha256": "573346a566ba207015a5a7943130863487c055d7e014c8e7b22fb1495e9bc882"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18.c",
+      "file": "m5-stone-window-20261013-v2/be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18.gz",
+      "rawBytes": 312,
+      "rawSha256": "be27ecaf6a9163255c164f299644bf446449e3a5ab1cc73b0d36c509b5850e18",
+      "bytes": 217,
+      "sha256": "535eee8cab68f0626e60f9b3f4e1b844604d40440f50e326410ee4ff8318add2"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/bf7e3a21dd9bc909035969a9cd192cbe5b47b8337494f11d13b66d05696042cc.mjs",
+      "file": "m5-stone-window-20261013-v2/bf7e3a21dd9bc909035969a9cd192cbe5b47b8337494f11d13b66d05696042cc.gz",
+      "rawBytes": 14174,
+      "rawSha256": "bf7e3a21dd9bc909035969a9cd192cbe5b47b8337494f11d13b66d05696042cc",
+      "bytes": 3959,
+      "sha256": "b9ab9d8de3548068b786cf28ffce25c1f52acc0a031114fd87edf6c6ee0cef82"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b.h",
+      "file": "m5-stone-window-20261013-v2/c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b.gz",
+      "rawBytes": 4001,
+      "rawSha256": "c0f725381458319310c136f52238af07e87f431c4dda5f8fb5a390d94377965b",
+      "bytes": 1062,
+      "sha256": "a8cfd38c56c9412669711a87d11c78972d1062dfb05ba6920ae8a367b9bc4095"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae.c",
+      "file": "m5-stone-window-20261013-v2/c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae.gz",
+      "rawBytes": 3616965,
+      "rawSha256": "c148af90be086b12307333b7b776c264de221015d0447790b0e305c9e3edfeae",
+      "bytes": 504608,
+      "sha256": "911fc74d84204530fa8b79b18e415566421858f073c2c81be0f14ef72ef1db73"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d.c",
+      "file": "m5-stone-window-20261013-v2/c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d.gz",
+      "rawBytes": 117817,
+      "rawSha256": "c1b598a6c3ad3a6acb17262b7c69059f554a03868bdd030b71a5e103a374679d",
+      "bytes": 5127,
+      "sha256": "32492deffa58a908a162533a64321f894f6c2217433e68be25778101c860def5"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774.txt",
+      "file": "m5-stone-window-20261013-v2/c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774.gz",
+      "rawBytes": 3097,
+      "rawSha256": "c2df0e8ae429c580952cfadee94121e877f13fa233bb00fa140d45c6bbd77774",
+      "bytes": 1029,
+      "sha256": "8e88ec9296fd4c4d44785bb5f4dcf06db97327738ebbbbc41b66fc5d8940864e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79.c",
+      "file": "m5-stone-window-20261013-v2/c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79.gz",
+      "rawBytes": 1173,
+      "rawSha256": "c3293ef5f5534379d7dadab9416b91c360a85756df39d21545de0cf843552c79",
+      "bytes": 480,
+      "sha256": "8acce48abcfeb884daf3611f7aa7ef3e8c84662999848bd2371aeaa16863f79a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4.html",
+      "file": "m5-stone-window-20261013-v2/c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4.gz",
+      "rawBytes": 18450,
+      "rawSha256": "c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4",
+      "bytes": 4469,
+      "sha256": "27d7f6410c6a5afa62b8eefdd1460fbe3295a757edf288c29ade1a2d38c73c8e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab.orig",
+      "file": "m5-stone-window-20261013-v2/c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab.gz",
+      "rawBytes": 196890,
+      "rawSha256": "c5b33922146e1631b5ab1c8429ca3c6cb3b80b26152747e391438409ec0f82ab",
+      "bytes": 87553,
+      "sha256": "a58b669ddf0a360b07da5e8514c8f0c40f124e364bafa8fc8ddea6f053cea2ee"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a.c",
+      "file": "m5-stone-window-20261013-v2/c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a.gz",
+      "rawBytes": 42650,
+      "rawSha256": "c686d600d6cef87f4f3b2f64440200237ca8c4e011483067a2d7f7c4945b729a",
+      "bytes": 7149,
+      "sha256": "44c0dcf5bdff479aa70823dc093002688ccd3b5440272cb37e3b107a2819f6db"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2.mjs",
+      "file": "m5-stone-window-20261013-v2/c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2.gz",
+      "rawBytes": 11712,
+      "rawSha256": "c8bcd549dba0a019414738e49b172a06909323d494f08428414181255dfa63b2",
+      "bytes": 3218,
+      "sha256": "084c01a5ced5bed545a76284806e46bdb5c96f218294ab9edb319f4c54ba58f3"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059.c",
+      "file": "m5-stone-window-20261013-v2/ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059.gz",
+      "rawBytes": 327452,
+      "rawSha256": "ca1b75188e37a253a9281433797901db9d04ca90c1e45f9c038de86339651059",
+      "bytes": 56204,
+      "sha256": "c7243623f4986937a9994a7df8c2509e92c049e4d5e0cef1411497039e91da81"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c.c",
+      "file": "m5-stone-window-20261013-v2/ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c.gz",
+      "rawBytes": 15103,
+      "rawSha256": "ca4eb47cbbaff90475724d05aa2f26f22e35347c845e7cca909c8c6a14ff681c",
+      "bytes": 4425,
+      "sha256": "45a5fda7717f0c0077c981cf2a37ddfe343a1bbb15710ebadd91c366d18a35ab"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ca7c56aa0f7d41f94f19588182dad68950b3a5ec2a0e49bdffb341fdf71a27b9.mjs",
+      "file": "m5-stone-window-20261013-v2/ca7c56aa0f7d41f94f19588182dad68950b3a5ec2a0e49bdffb341fdf71a27b9.gz",
+      "rawBytes": 23274,
+      "rawSha256": "ca7c56aa0f7d41f94f19588182dad68950b3a5ec2a0e49bdffb341fdf71a27b9",
+      "bytes": 6517,
+      "sha256": "9eaabeddf582c2081d78d79f3d21227301ce251d8c1f2a70f7a671976bd7aece"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa.c",
+      "file": "m5-stone-window-20261013-v2/ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa.gz",
+      "rawBytes": 199154,
+      "rawSha256": "ca9e6e0f1d384d2725f1fb9a18dcdbd911c887b9e9fe253e0ea7b86b8937fffa",
+      "bytes": 34227,
+      "sha256": "2ba034f442339fb43eebbbd31b14b048ec11c7529918ce63270a5d0166e93e81"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236.c",
+      "file": "m5-stone-window-20261013-v2/cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236.gz",
+      "rawBytes": 6575,
+      "rawSha256": "cb11fb0418e30bbc8bad77b12eba3fd2129ad5b80a608d5649e10743efbd8236",
+      "bytes": 1732,
+      "sha256": "cb355f7e24f1f25416e080303ef2a633843202ea7370ebaa378e50d6efb1dbd8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f.c",
+      "file": "m5-stone-window-20261013-v2/cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f.gz",
+      "rawBytes": 27302,
+      "rawSha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "bytes": 6571,
+      "sha256": "6235f8653acbccf738f43a8bf39fe44723008f63ab5d2892e29ba40e3c96d840"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86.mjs",
+      "file": "m5-stone-window-20261013-v2/cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86.gz",
+      "rawBytes": 28588,
+      "rawSha256": "cdba0aae82e2cf05b88e5b5386250943fd525f8865e26b4be79613acb4537b86",
+      "bytes": 7437,
+      "sha256": "3bdc2b46de1dc070528b8f3e7704205b2a3a02d61de43e213c071a8047d84014"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d.c",
+      "file": "m5-stone-window-20261013-v2/ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d.gz",
+      "rawBytes": 41528,
+      "rawSha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "bytes": 7378,
+      "sha256": "03678e3556931499120b602251729446de7a2888e9528257f7b91fa8ed1af78d"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163.h",
+      "file": "m5-stone-window-20261013-v2/d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163.gz",
+      "rawBytes": 2184,
+      "rawSha256": "d00055e81b0fa66c05d0eecbae888832026cc8b6d5eebe0e15090dda25bc5163",
+      "bytes": 847,
+      "sha256": "7d39f193f65b9999cab5052f37b9c202260fea47dee59ed8672ad04c8d394c75"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e.c",
+      "file": "m5-stone-window-20261013-v2/d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e.gz",
+      "rawBytes": 58254,
+      "rawSha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "bytes": 11239,
+      "sha256": "bcb435edb2ffd15052b9fc8f7074c02622adf4c4ded2b211f0d5fd3abf0980ef"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8.mjs",
+      "file": "m5-stone-window-20261013-v2/d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8.gz",
+      "rawBytes": 12851,
+      "rawSha256": "d3c0f95f0b1d79294be678550ea85364601f3cd1903a7d316b9a09bfd16195d8",
+      "bytes": 3430,
+      "sha256": "dd8d05b3ba97269b9368b410db033047015d69ebe4d0780854d3666c317cf55f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34.h",
+      "file": "m5-stone-window-20261013-v2/d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34.gz",
+      "rawBytes": 183,
+      "rawSha256": "d60ce596bc67e076cb6a2c3553d941ea32106ecfbf08a0b64718a9e1466f7a34",
+      "bytes": 143,
+      "sha256": "70cc7d576930edab0cf438f83173f4f4a7f930e0e071decfcd3b6b8eca583745"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09.h",
+      "file": "m5-stone-window-20261013-v2/d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09.gz",
+      "rawBytes": 8365,
+      "rawSha256": "d623b9651cf213ed9cb88271db35b2c5d1258b2893b5529d2e5d80e906b9ae09",
+      "bytes": 1945,
+      "sha256": "ac703d643755c10aa69bd8d8fc45f3a3942b5123688255575b8881bcd2c8264f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6.c",
+      "file": "m5-stone-window-20261013-v2/d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6.gz",
+      "rawBytes": 827,
+      "rawSha256": "d6ee8b107092d9da73c7134e327b86b00a5df209745c47866408a061e2fb09a6",
+      "bytes": 409,
+      "sha256": "52870ef35af976820b8fcb01be3389a4a103e16291f150604093ca82aafd13b4"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f.c",
+      "file": "m5-stone-window-20261013-v2/d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f.gz",
+      "rawBytes": 21378,
+      "rawSha256": "d859adade1ae666fa8826170b497095c754b4ffe9bf5feece9b79cfe8cdb046f",
+      "bytes": 4681,
+      "sha256": "0dbb709217b8648f3b7295b02bc00523deafe926b03ef6b657ea142eebf9e005"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded.h",
+      "file": "m5-stone-window-20261013-v2/da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded.gz",
+      "rawBytes": 21754,
+      "rawSha256": "da6bb3a56241a806a7b36a7e627ce87243b00c08f03117d6ee66950b63e22ded",
+      "bytes": 6244,
+      "sha256": "bd2e66cd2e9f7804141ecc4d6bf89f369dc499151a2866aec87ad6013f70c26d"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85.c",
+      "file": "m5-stone-window-20261013-v2/da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85.gz",
+      "rawBytes": 24,
+      "rawSha256": "da9a32a673d1146f77059f39f2d22100d12ba0903a991d08c9d5e2050ac78b85",
+      "bytes": 44,
+      "sha256": "70917755ed4b33ea05388a7ff34ededc94797d3355892a002659da2d71c497e2"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5.c",
+      "file": "m5-stone-window-20261013-v2/daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5.gz",
+      "rawBytes": 424,
+      "rawSha256": "daaf04221635a0b84965e4ff6692b29d62813eec2dc628de5b02c41cfadb90f5",
+      "bytes": 228,
+      "sha256": "85878443a9d4916e52b99abdcdd53c83c30533a20e1ac14da6558f1b82e725d5"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625.mjs",
+      "file": "m5-stone-window-20261013-v2/dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625.gz",
+      "rawBytes": 4501,
+      "rawSha256": "dac040e50d0ec1f13cb53eda977360a2f448b2c0d2ba790a5e297e0a32999625",
+      "bytes": 1628,
+      "sha256": "0ae6d83ea7321d370ed715b4f5731bb647f635de365839a5bf4473586b0205d1"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023.html",
+      "file": "m5-stone-window-20261013-v2/dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023.gz",
+      "rawBytes": 27342,
+      "rawSha256": "dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023",
+      "bytes": 6448,
+      "sha256": "f1ea4698ce8872a261d7b9d3f5472b9f3f46d5e88a7697a8292c9266cf168209"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/df3528d0a30710b67e7f41e6c1e2371f5d876a3e2c522f8b28f6affecbd590e2.mjs",
+      "file": "m5-stone-window-20261013-v2/df3528d0a30710b67e7f41e6c1e2371f5d876a3e2c522f8b28f6affecbd590e2.gz",
+      "rawBytes": 10599,
+      "rawSha256": "df3528d0a30710b67e7f41e6c1e2371f5d876a3e2c522f8b28f6affecbd590e2",
+      "bytes": 3359,
+      "sha256": "19f4047ca9c6731ac59463972b0971efd40da1875f504133321722b682be1c64"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/df5dfd21eae3dd40bf50511d6bd584752dbeec16bb5fbc310822240b0e6df388.mjs",
+      "file": "m5-stone-window-20261013-v2/df5dfd21eae3dd40bf50511d6bd584752dbeec16bb5fbc310822240b0e6df388.gz",
+      "rawBytes": 15937,
+      "rawSha256": "df5dfd21eae3dd40bf50511d6bd584752dbeec16bb5fbc310822240b0e6df388",
+      "bytes": 4596,
+      "sha256": "5c437551a95d8f12abe0f9e877a4c1200f23b71140bae2b62d97bdde77e6cc02"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "file": "m5-stone-window-20261013-v2/dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1.gz",
+      "rawBytes": 1091,
+      "rawSha256": "dfaa406839c79e2d8d4fbac8476e5a674d74e473171b2db2b35330abd5b4e4f1",
+      "bytes": 671,
+      "sha256": "76934265ed5bab8036f60e8bf4eb75a3658f7b8fa9b33e7c4318bdd785b0c242"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c.c",
+      "file": "m5-stone-window-20261013-v2/e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c.gz",
+      "rawBytes": 9424,
+      "rawSha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "bytes": 2346,
+      "sha256": "b86e36b686f9556d37426f4c3d453519c04fc1f5083200b0bbecd499a927fe8c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/e10f848e6b700eb7a4074b44c20e9812c6a0388c745b8ff3729df07a61a3e398.mjs",
+      "file": "m5-stone-window-20261013-v2/e10f848e6b700eb7a4074b44c20e9812c6a0388c745b8ff3729df07a61a3e398.gz",
+      "rawBytes": 13399,
+      "rawSha256": "e10f848e6b700eb7a4074b44c20e9812c6a0388c745b8ff3729df07a61a3e398",
+      "bytes": 4320,
+      "sha256": "8f1bb5e4120d8e92722d287598f84053ca7e9dea8b38cdc637f9e31e5dbfa7fb"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/e15195ed60983a3d7da88c7239a83656df5b776defee46b09d24347d23af2c7f.mjs",
+      "file": "m5-stone-window-20261013-v2/e15195ed60983a3d7da88c7239a83656df5b776defee46b09d24347d23af2c7f.gz",
+      "rawBytes": 35459,
+      "rawSha256": "e15195ed60983a3d7da88c7239a83656df5b776defee46b09d24347d23af2c7f",
+      "bytes": 10724,
+      "sha256": "12e62fef0b44b9ce268be85c503b6ab654712355c3cc7dc44a0f74fafac43940"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2.c",
+      "file": "m5-stone-window-20261013-v2/e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2.gz",
+      "rawBytes": 34493,
+      "rawSha256": "e3e250015642f58ebaa90eefd395d990102eb35f57195712c6dcf0f62cc6a3d2",
+      "bytes": 5221,
+      "sha256": "b0fb41917a161ea2535e30c75abca34dc6211cf88a3bbd2f6f814f671bfef238"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/e6f84bd3c3f790b537d8fdad7f026a427a4749de8d4168cb0382f25a2ef09f7d.mjs",
+      "file": "m5-stone-window-20261013-v2/e6f84bd3c3f790b537d8fdad7f026a427a4749de8d4168cb0382f25a2ef09f7d.gz",
+      "rawBytes": 46239,
+      "rawSha256": "e6f84bd3c3f790b537d8fdad7f026a427a4749de8d4168cb0382f25a2ef09f7d",
+      "bytes": 10905,
+      "sha256": "3db74df3e851d2882111c6d7e067199f409af9dc806106019d516aa6d11bf75b"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a.json",
+      "file": "m5-stone-window-20261013-v2/e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a.gz",
+      "rawBytes": 592203,
+      "rawSha256": "e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a",
+      "bytes": 14605,
+      "sha256": "53685db511c5a63e8fe57f552623880d862a966b4633368c7018b1c687e0d2a8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ea7856cd928a54a00e2d293e88f51bcb3e723c65179cefef91af7c74ca03f1f5.mjs",
+      "file": "m5-stone-window-20261013-v2/ea7856cd928a54a00e2d293e88f51bcb3e723c65179cefef91af7c74ca03f1f5.gz",
+      "rawBytes": 57400,
+      "rawSha256": "ea7856cd928a54a00e2d293e88f51bcb3e723c65179cefef91af7c74ca03f1f5",
+      "bytes": 15028,
+      "sha256": "eac01481564d3a63d23602eebf2faccc4d6888e9d30b51457ef17634d8787df8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086.mjs",
+      "file": "m5-stone-window-20261013-v2/eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086.gz",
+      "rawBytes": 5926,
+      "rawSha256": "eac5b3323f325bb03865302018c9985262539efcea66646802ab06f585771086",
+      "bytes": 1958,
+      "sha256": "6fa0187dad004876cacf20d5998a894a2097e6950bc5a3c0984761e8e19c1282"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30.h",
+      "file": "m5-stone-window-20261013-v2/ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30.gz",
+      "rawBytes": 2251,
+      "rawSha256": "ec95aca0c0c660bf33c47a2cc83800e798c36a9917feece3c525799829b02f30",
+      "bytes": 1011,
+      "sha256": "071b2f7a82b048c6bb3278c11b2724241ce544100e01a124581f94b9452b61ca"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5.h",
+      "file": "m5-stone-window-20261013-v2/ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5.gz",
+      "rawBytes": 19624,
+      "rawSha256": "ece9eefc752a28cc7484a4db53ce4b5350bfd380c081efa484b7906b751431b5",
+      "bytes": 5156,
+      "sha256": "fb30b488bc990b2863bdf4ebb870cde00fcd94b1774d5ec8f0f1ae80a9995b10"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e.mjs",
+      "file": "m5-stone-window-20261013-v2/ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e.gz",
+      "rawBytes": 11775,
+      "rawSha256": "ecec9a42d240468b163a90280ae02145ca871dce4bed3dd191281ba5f7add95e",
+      "bytes": 4125,
+      "sha256": "e8f03e4c298552b232b7f328daee03d1bcc601263342b39a5ed383894a8ec1f8"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e.h",
+      "file": "m5-stone-window-20261013-v2/ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e.gz",
+      "rawBytes": 286,
+      "rawSha256": "ef0514bd86b77f5fe66ff1ad9fd942f96f8d43a633411a941185f8a79e75261e",
+      "bytes": 126,
+      "sha256": "43bab15ae8397acdd4d836b3ef76fd019fb89f966df4c437b37e5999ffeb0c02"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f1556dd2ad61317ad003ea0fa97a3b05fc95bd8c0d1eaec7dc87b24777da422e.mjs",
+      "file": "m5-stone-window-20261013-v2/f1556dd2ad61317ad003ea0fa97a3b05fc95bd8c0d1eaec7dc87b24777da422e.gz",
+      "rawBytes": 13312,
+      "rawSha256": "f1556dd2ad61317ad003ea0fa97a3b05fc95bd8c0d1eaec7dc87b24777da422e",
+      "bytes": 3480,
+      "sha256": "9db99ef78161031649cc2c275f5d6f2f6203709608a3224d9d75df7328b35493"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5.md",
+      "file": "m5-stone-window-20261013-v2/f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5.gz",
+      "rawBytes": 2077,
+      "rawSha256": "f2118aec512cce49a04f6083d6ed764562d0067d8bc364b3173c5d11ca473ae5",
+      "bytes": 1105,
+      "sha256": "9cab2157b3a6b2b361a9810cfa21e4cd025aa3984e9a5d4c8627c8e7c83d4b9f"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246.c",
+      "file": "m5-stone-window-20261013-v2/f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246.gz",
+      "rawBytes": 4213,
+      "rawSha256": "f294a2225bf729a49a1e0120087ec977d588fe015419b111e7981e9bddcc8246",
+      "bytes": 1268,
+      "sha256": "56074aae57c001fc9568e36ad075f3f91f0a97eec9d1919fcf518fc2727035e7"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f35f5e5cb559251e58389f272a4288d1e4d6fb08050e9adcb6cfa9075ce09bf1.mjs",
+      "file": "m5-stone-window-20261013-v2/f35f5e5cb559251e58389f272a4288d1e4d6fb08050e9adcb6cfa9075ce09bf1.gz",
+      "rawBytes": 36168,
+      "rawSha256": "f35f5e5cb559251e58389f272a4288d1e4d6fb08050e9adcb6cfa9075ce09bf1",
+      "bytes": 10652,
+      "sha256": "06984e55c681976212207f18883ac02e6fd593026ba262d6acc757ed34113160"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f466aadae5111556065dcd8104785dcec1e7c3f4f958b1eef14f32cd220d4453.mjs",
+      "file": "m5-stone-window-20261013-v2/f466aadae5111556065dcd8104785dcec1e7c3f4f958b1eef14f32cd220d4453.gz",
+      "rawBytes": 43315,
+      "rawSha256": "f466aadae5111556065dcd8104785dcec1e7c3f4f958b1eef14f32cd220d4453",
+      "bytes": 9713,
+      "sha256": "0f29b0711dfc4113083742b83e83f42ff1cfdaef045de2d80db4f8436eb3baff"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1.mjs",
+      "file": "m5-stone-window-20261013-v2/f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1.gz",
+      "rawBytes": 22278,
+      "rawSha256": "f6adef043c8e8ce941afb80743f3abbd43946c532875b1b89ea53461f09085b1",
+      "bytes": 6149,
+      "sha256": "266a603d5ca4cd584f52f20ce910715523d5be6e3288da4689142aeff2a8df6a"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8.mjs",
+      "file": "m5-stone-window-20261013-v2/f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8.gz",
+      "rawBytes": 14199,
+      "rawSha256": "f70be0b45d3320dcbd5f9fe7b99fa1d2b81023bf3ea85968729cfb2aa1bccba8",
+      "bytes": 4166,
+      "sha256": "6a9e84c32531d0ef38d95deea5f533e17ca9a7a9dd9159ad4416092e76349b0e"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260.c",
+      "file": "m5-stone-window-20261013-v2/f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260.gz",
+      "rawBytes": 3616965,
+      "rawSha256": "f7114e49e490b4a7e0ee96e2a88138bfb8f923058fbc1a33e8bb8408a6309260",
+      "bytes": 494640,
+      "sha256": "5021d2032b5424fbc99d82cfa9d2d5d2de81da6673fe192f20fb4b3038ff17c7"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8.h",
+      "file": "m5-stone-window-20261013-v2/f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8.gz",
+      "rawBytes": 873,
+      "rawSha256": "f8acc5e1e85d2c126e6a5da4a0033651337dbe487ae6439db01d714d142cfce8",
+      "bytes": 423,
+      "sha256": "ceab678de721746df07e3bffdb752767d267b6e2f2423d35e61b07663ca66004"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b.mjs",
+      "file": "m5-stone-window-20261013-v2/f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b.gz",
+      "rawBytes": 7887,
+      "rawSha256": "f9b6e675d704caa312ed96fe0c648fbc051e2b5c87175271bfbcec19573dcd7b",
+      "bytes": 2535,
+      "sha256": "7f6c1edfcd4ee0e1c8777d4ecc128235c0ab4fd48ed342eca017de76c80d1ba3"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/fb14d448aeab44571c24ef8129f8c39918909764509c1f96cbbc42d53ec168aa.mjs",
+      "file": "m5-stone-window-20261013-v2/fb14d448aeab44571c24ef8129f8c39918909764509c1f96cbbc42d53ec168aa.gz",
+      "rawBytes": 12889,
+      "rawSha256": "fb14d448aeab44571c24ef8129f8c39918909764509c1f96cbbc42d53ec168aa",
+      "bytes": 3851,
+      "sha256": "3f587c097334de3424fff568db9167497c03243974ca8d996d7b30c34a96b8d0"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/frozen-sources/fff214f761e76957647a5a9231529cc88e8ced682b71c04e47ddc56710883266.mjs",
+      "file": "m5-stone-window-20261013-v2/fff214f761e76957647a5a9231529cc88e8ced682b71c04e47ddc56710883266.gz",
+      "rawBytes": 19450,
+      "rawSha256": "fff214f761e76957647a5a9231529cc88e8ced682b71c04e47ddc56710883266",
+      "bytes": 5574,
+      "sha256": "26cbe98b331cdfcad421753094953fe80b6ec216f76100dffa28f3f0ae2e89aa"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/result.json",
+      "file": "m5-stone-window-20261013-v2/d62addf54ecf56e429f0c851cec82dc79c9f9e362437c6bbf55e0b018cbcb0f1.gz",
+      "rawBytes": 61191,
+      "rawSha256": "d62addf54ecf56e429f0c851cec82dc79c9f9e362437c6bbf55e0b018cbcb0f1",
+      "bytes": 12842,
+      "sha256": "99e60501a7421a3470f2eb15d06785c35049fe6fe4053c2b6819c8c77680cab4"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite-v2/test-output.log",
+      "file": "m5-stone-window-20261013-v2/f1fc52ae2c77435afe39015ccdf450161ac43c69cd122aeceb89479f2899a07c.gz",
+      "rawBytes": 396552,
+      "rawSha256": "f1fc52ae2c77435afe39015ccdf450161ac43c69cd122aeceb89479f2899a07c",
+      "bytes": 103442,
+      "sha256": "a7e3270a1d51e810e157667c12d88d7487445bdea56ed3ff155d2268ef4bf40c"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite/result.json",
+      "file": "m5-stone-window-20261013-v2/82f8eb62d7d9842436b626e84be76956ef2236f5f74cf68ed68adfb73d18c5bc.gz",
+      "rawBytes": 61191,
+      "rawSha256": "82f8eb62d7d9842436b626e84be76956ef2236f5f74cf68ed68adfb73d18c5bc",
+      "bytes": 12840,
+      "sha256": "e7ef52df95159eaae8aec6cb9312eeac30a81862996fa8814d5a78425a6e8df0"
+    },
+    {
+      "source": "build/stone-window-20261013/final-suite/test-output.log",
+      "file": "m5-stone-window-20261013-v2/280fb810749c0803c068c2960888ea97bee8c4236491c546174f04eed0fba5d1.gz",
+      "rawBytes": 396538,
+      "rawSha256": "280fb810749c0803c068c2960888ea97bee8c4236491c546174f04eed0fba5d1",
+      "bytes": 103337,
+      "sha256": "896c7e214f7f6f7ba9d971bcffcf6dbf4b2b6818ae97cf886482127315404642"
+    },
+    {
+      "source": "build/stone-window-20261013/freeze-product.mjs",
+      "file": "m5-stone-window-20261013-v2/0f7a1efce8fd88951a62271978e0267d0dcdf670fbae5ae518d593693e392b04.gz",
+      "rawBytes": 2446,
+      "rawSha256": "0f7a1efce8fd88951a62271978e0267d0dcdf670fbae5ae518d593693e392b04",
+      "bytes": 1038,
+      "sha256": "3373d23abc4a0d4547383b1c7ac59d0c9dbbfe03436c24f9ca591c36d08de276"
+    },
+    {
+      "source": "build/stone-window-20261013/frontend-first-v1.log",
+      "file": "m5-stone-window-20261013-v2/eddb26ec44488baca674a3c9975dab311495bee6564853019dd054dbfc68939b.gz",
+      "rawBytes": 893,
+      "rawSha256": "eddb26ec44488baca674a3c9975dab311495bee6564853019dd054dbfc68939b",
+      "bytes": 495,
+      "sha256": "c3acca42714cd513e80df7a3a3bc9772c22b1e6afb8c7c5de430f8ce3e4df092"
+    },
+    {
+      "source": "build/stone-window-20261013/frontend-full-v2.log",
+      "file": "m5-stone-window-20261013-v2/86ed284df8463292e5efa3da7a58a8567b0981b72d7e908636051ec6f924df6a.gz",
+      "rawBytes": 22736,
+      "rawSha256": "86ed284df8463292e5efa3da7a58a8567b0981b72d7e908636051ec6f924df6a",
+      "bytes": 7062,
+      "sha256": "b445cedb8ef5ee5ff20b4d937be6f8f564e970c7fbcc3df5427aee000b8615b5"
+    },
+    {
+      "source": "build/stone-window-20261013/independent-review-v1.json",
+      "file": "m5-stone-window-20261013-v2/730d608cd10fc2fd2cafd30e5c69eea754e37dac930ab12ed72d81635eb6073f.gz",
+      "rawBytes": 47439,
+      "rawSha256": "730d608cd10fc2fd2cafd30e5c69eea754e37dac930ab12ed72d81635eb6073f",
+      "bytes": 8234,
+      "sha256": "00053ce2933f0ec603d5a4d7491e5eae0b86ae87e9d05d4057b4f2bdfd22c8c5"
+    },
+    {
+      "source": "build/stone-window-20261013/mobile-entry-v1.log",
+      "file": "m5-stone-window-20261013-v2/123e5b070f033fddbd0057d6cdbcb64e73f78d91b60ba84d11b5872e67405be9.gz",
+      "rawBytes": 7118,
+      "rawSha256": "123e5b070f033fddbd0057d6cdbcb64e73f78d91b60ba84d11b5872e67405be9",
+      "bytes": 2318,
+      "sha256": "c7aba63b030274416688b12210ca57746be5c5031e0952af64cfcb7f9c6f3799"
+    },
+    {
+      "source": "build/stone-window-20261013/native-fixtures-v1.log",
+      "file": "m5-stone-window-20261013-v2/ff90d866a2749298dcff84b0d002c36717d14a8abcc475101618888168ee5a4d.gz",
+      "rawBytes": 3776,
+      "rawSha256": "ff90d866a2749298dcff84b0d002c36717d14a8abcc475101618888168ee5a4d",
+      "bytes": 1334,
+      "sha256": "1b2618a317ad57c0ab00ae2367fe1f90a5839f0247eb2b1669961775747f5df0"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1.log",
+      "file": "m5-stone-window-20261013-v2/487935c1a5a8131c21e20b562e32e663007c79c0a8de6f674be0d930117326e9.gz",
+      "rawBytes": 1274,
+      "rawSha256": "487935c1a5a8131c21e20b562e32e663007c79c0a8de6f674be0d930117326e9",
+      "bytes": 694,
+      "sha256": "f18248b3bcb512513d963471b51b87b5084a0b18257ecc57ff4ae50b1daf0414"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/12-march-departure-report.png",
+      "file": "m5-stone-window-20261013-v2/e8dd083138c93421dec3bcd228861c3c9199e164b3629eb34d9562fac35895a5.gz",
+      "rawBytes": 2315329,
+      "rawSha256": "e8dd083138c93421dec3bcd228861c3c9199e164b3629eb34d9562fac35895a5",
+      "bytes": 2316057,
+      "sha256": "1fddc89abd640529ba8cbbe596dd69dcadc02950fe332dce7c940e36e3ed1bd7"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/actual-report-1.png",
+      "file": "m5-stone-window-20261013-v2/a1ea190bdee4dfd439365aaa1e1a350fd6784818d2c76c9db2381e4fd117fdab.gz",
+      "rawBytes": 181553,
+      "rawSha256": "a1ea190bdee4dfd439365aaa1e1a350fd6784818d2c76c9db2381e4fd117fdab",
+      "bytes": 174001,
+      "sha256": "103fd8d3efc4f85f2552cab257179538babe57f9d7cd2064cfd109aa924c5fa3"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/f3bb191c625d928c2696b82abdea827f35e5c4847d6c7a11abe1a67d72b8a299.gz",
+      "rawBytes": 11663,
+      "rawSha256": "f3bb191c625d928c2696b82abdea827f35e5c4847d6c7a11abe1a67d72b8a299",
+      "bytes": 1399,
+      "sha256": "e2644b8c2b6da4bcae9ad1e8fad326d30a66bb124c210ab2335f1c86c1e39c6a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/engine-inputs.json",
+      "file": "m5-stone-window-20261013-v2/73a6815814f82fd09df58f8fcc8e1e21932a0802356a1cc5fdb727f70aa82d13.gz",
+      "rawBytes": 78290,
+      "rawSha256": "73a6815814f82fd09df58f8fcc8e1e21932a0802356a1cc5fdb727f70aa82d13",
+      "bytes": 1849,
+      "sha256": "1bc78cc25529dcaf3eb24ae9ed0502b16756998e7e6b8bce42e62d5eba24432f"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/db5b07eeba26fb512aecdec95723601bf47e95976ea145844db1188ba35790c2.gz",
+      "rawBytes": 115910,
+      "rawSha256": "db5b07eeba26fb512aecdec95723601bf47e95976ea145844db1188ba35790c2",
+      "bytes": 34927,
+      "sha256": "dff6f31f65b2ea742afb8d6adb00f264d117e570fdc9b231d05575226f09b4a5"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/failure.png",
+      "file": "m5-stone-window-20261013-v2/49072a2cb3ad4289a73e638e0805613fe8982705c273c7c9bee72c1beb7b9d59.gz",
+      "rawBytes": 171642,
+      "rawSha256": "49072a2cb3ad4289a73e638e0805613fe8982705c273c7c9bee72c1beb7b9d59",
+      "bytes": 161347,
+      "sha256": "5c46538c7becd1bb0293e3184867fd54dac37df2cdc68c3a0276a988b243eef4"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/native-skill-captures.json",
+      "file": "m5-stone-window-20261013-v2/cd1dadaa7676f062f3d7a38411488548ac9e2791c5137dff78c109eb2ba701e2.gz",
+      "rawBytes": 3036502,
+      "rawSha256": "cd1dadaa7676f062f3d7a38411488548ac9e2791c5137dff78c109eb2ba701e2",
+      "bytes": 229893,
+      "sha256": "b1bca1f46165476043c0f0acd65052b81498151aff3d698e4cd29d8fd2b346a8"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/observer-errors.json",
+      "file": "m5-stone-window-20261013-v2/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "rawBytes": 3,
+      "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 23,
+      "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/owned-process-samples.jsonl",
+      "file": "m5-stone-window-20261013-v2/6d1b8121007575b66aa017dee2a98e22df173c7a5cc82f6185b209e408ea9343.gz",
+      "rawBytes": 29537,
+      "rawSha256": "6d1b8121007575b66aa017dee2a98e22df173c7a5cc82f6185b209e408ea9343",
+      "bytes": 1899,
+      "sha256": "b3690b0c5c4e63b5ee512f06683a3d53cf415d0e900dacc12a7a0377d2db656a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/result.json",
+      "file": "m5-stone-window-20261013-v2/927da5dd7d71d707d693755f448b21ec437bbabd45188335b04f8c1712d4b4dc.gz",
+      "rawBytes": 13948268,
+      "rawSha256": "927da5dd7d71d707d693755f448b21ec437bbabd45188335b04f8c1712d4b4dc",
+      "bytes": 644028,
+      "sha256": "fb7fa6a4e8b2fd216d4e3c036f7e91639b2e177c8f556135c456d9a51832e5b7"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/122e14408fa497d8e8aa561186cff8280eb774d21f447185690afbd55f0ca788.gz",
+      "rawBytes": 432664,
+      "rawSha256": "122e14408fa497d8e8aa561186cff8280eb774d21f447185690afbd55f0ca788",
+      "bytes": 69001,
+      "sha256": "3e5d4d4c8a83441774f1c17e4b3775573ea7d567c0814bde19fd0019964c35ac"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/spe-observations.json",
+      "file": "m5-stone-window-20261013-v2/8c058579ecbfa760c0313d5df6fe5b589ea201efdd58100463de9ae52dea5bf1.gz",
+      "rawBytes": 6980475,
+      "rawSha256": "8c058579ecbfa760c0313d5df6fe5b589ea201efdd58100463de9ae52dea5bf1",
+      "bytes": 69802,
+      "sha256": "6f776a8891cdd6f54a812c4a6751aa7fb02cf659a564799d5b4466f09e4daefa"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/stone-000-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/5fc92cffef684ec543267defea2067148ecbe02b700fefc4b40b96179614ef86.gz",
+      "rawBytes": 1288537,
+      "rawSha256": "5fc92cffef684ec543267defea2067148ecbe02b700fefc4b40b96179614ef86",
+      "bytes": 1270329,
+      "sha256": "8ac1e8a97dd904156b98dc7675bd1829aa0f747e9bbcb4e128c07f264625f1be"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/stone-000-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/9ba81fc7cb2d98a412a0a5f138f247cf3a3411aafb1d0268b8762057e0035c7f.gz",
+      "rawBytes": 6053,
+      "rawSha256": "9ba81fc7cb2d98a412a0a5f138f247cf3a3411aafb1d0268b8762057e0035c7f",
+      "bytes": 6056,
+      "sha256": "a914bad00d130d97fe93af0592f20350931cf753bb24076e0d1c17f461a1239d"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/stone-007-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/16d89bd08dfc60ec86c7a5f354534ee9b7ce5e6c19540ef541bc42b6dfa79ddc.gz",
+      "rawBytes": 1275904,
+      "rawSha256": "16d89bd08dfc60ec86c7a5f354534ee9b7ce5e6c19540ef541bc42b6dfa79ddc",
+      "bytes": 1257732,
+      "sha256": "9da304d7d93dfd592dc0ac75b84c71ecf653ef63da78eb393d0a8e098ccb1bb8"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/stone-007-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/ae6dd608715d167668cc9e73996dba60a57b996139b0bb9858f23b761d733d16.gz",
+      "rawBytes": 6073,
+      "rawSha256": "ae6dd608715d167668cc9e73996dba60a57b996139b0bb9858f23b761d733d16",
+      "bytes": 6085,
+      "sha256": "633d0597c5396ad5c49837dce9c4b5a4be5510e590301bc72fd7d3dead89afbd"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/stone23-native-owner-retired-no-number-wait.png",
+      "file": "m5-stone-window-20261013-v2/49072a2cb3ad4289a73e638e0805613fe8982705c273c7c9bee72c1beb7b9d59.gz",
+      "rawBytes": 171642,
+      "rawSha256": "49072a2cb3ad4289a73e638e0805613fe8982705c273c7c9bee72c1beb7b9d59",
+      "bytes": 161347,
+      "sha256": "5c46538c7becd1bb0293e3184867fd54dac37df2cdc68c3a0276a988b243eef4"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v1/stone23-real-state6-report.png",
+      "file": "m5-stone-window-20261013-v2/49072a2cb3ad4289a73e638e0805613fe8982705c273c7c9bee72c1beb7b9d59.gz",
+      "rawBytes": 171642,
+      "rawSha256": "49072a2cb3ad4289a73e638e0805613fe8982705c273c7c9bee72c1beb7b9d59",
+      "bytes": 161347,
+      "sha256": "5c46538c7becd1bb0293e3184867fd54dac37df2cdc68c3a0276a988b243eef4"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2.log",
+      "file": "m5-stone-window-20261013-v2/b73db264343b01df600d97b34e78a224ac3da307f5ea8e7f48aa33a725067041.gz",
+      "rawBytes": 940,
+      "rawSha256": "b73db264343b01df600d97b34e78a224ac3da307f5ea8e7f48aa33a725067041",
+      "bytes": 500,
+      "sha256": "0e3d38ce54bbb05a6f6b6003ee19657c171ae02bab7eacf5e3dc3105631ba535"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/12-march-departure-report.png",
+      "file": "m5-stone-window-20261013-v2/bfd18a1fb625b7ca1e95de5fc793dc23ee24d799da4d2d4b465ea73721f28fc6.gz",
+      "rawBytes": 2353108,
+      "rawSha256": "bfd18a1fb625b7ca1e95de5fc793dc23ee24d799da4d2d4b465ea73721f28fc6",
+      "bytes": 2353798,
+      "sha256": "200a5d7b67e3e760ff82cf51a818bb73c9e1fa02d6ce7c5fc2a0695657ba5a48"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/actual-report-1.png",
+      "file": "m5-stone-window-20261013-v2/2175bff479134c9c467f8ab3145b961ed5afa527b00c47acde0bb8987fab8786.gz",
+      "rawBytes": 190699,
+      "rawSha256": "2175bff479134c9c467f8ab3145b961ed5afa527b00c47acde0bb8987fab8786",
+      "bytes": 183214,
+      "sha256": "68ba3b2738569b60dd5ae743ce8065dbfa063bf5c662e019ccc2816678698b4c"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/c70eb29951d0b060ffb84f7582060a1ba81deeb73b9cc1ce554f8f9eab2dc6d6.gz",
+      "rawBytes": 11675,
+      "rawSha256": "c70eb29951d0b060ffb84f7582060a1ba81deeb73b9cc1ce554f8f9eab2dc6d6",
+      "bytes": 1384,
+      "sha256": "87760b44b03b382e8e4cbcc6579ede3d7cce3546b9768715edb6f9090dfc53e8"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/engine-inputs.json",
+      "file": "m5-stone-window-20261013-v2/2cf75e6c8fecae22cf12ea6e6b3246a5748eb8313cb5dea05b90a0dd2aa5c97b.gz",
+      "rawBytes": 104070,
+      "rawSha256": "2cf75e6c8fecae22cf12ea6e6b3246a5748eb8313cb5dea05b90a0dd2aa5c97b",
+      "bytes": 2320,
+      "sha256": "3918dd4391fdf2913cd000d00a490b787e837f89cafbf7013bd62f5d9d173013"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/native-skill-captures.json",
+      "file": "m5-stone-window-20261013-v2/26cb6e751e69fe1a3e54543aea8e73a934bc2665fea1222239ae05c8db777811.gz",
+      "rawBytes": 3037043,
+      "rawSha256": "26cb6e751e69fe1a3e54543aea8e73a934bc2665fea1222239ae05c8db777811",
+      "bytes": 225341,
+      "sha256": "2f0a747888eae7dcce02a033aaa2b69d15f62a0e78c089104d6bff8d7f867218"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/observer-errors.json",
+      "file": "m5-stone-window-20261013-v2/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "rawBytes": 3,
+      "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 23,
+      "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/owned-process-samples.jsonl",
+      "file": "m5-stone-window-20261013-v2/42b69cacc794865b78bfecad39aee4cefd735e8fab95c4400b14ee009feb0c17.gz",
+      "rawBytes": 29517,
+      "rawSha256": "42b69cacc794865b78bfecad39aee4cefd735e8fab95c4400b14ee009feb0c17",
+      "bytes": 1898,
+      "sha256": "9a687fe7976a57c904aa5b969e5868607d59811b1d2299cf188f1545eae76821"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/result.json",
+      "file": "m5-stone-window-20261013-v2/a1d4db9a2c321b87aacc07827905f38cd7819b0cdefc51e2c89839262598705d.gz",
+      "rawBytes": 19478562,
+      "rawSha256": "a1d4db9a2c321b87aacc07827905f38cd7819b0cdefc51e2c89839262598705d",
+      "bytes": 770100,
+      "sha256": "65f2ffb07ecca59c3912044a780ecf61bcbaf078983996239f98b80aaf70e4ae"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7.gz",
+      "rawBytes": 433570,
+      "rawSha256": "a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7",
+      "bytes": 69214,
+      "sha256": "455263d577fe04512a5079ee59528ffa141b96de219a1989b6e4200d3aae7a7a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/spe-observations.json",
+      "file": "m5-stone-window-20261013-v2/bde2abb312212c49817cf11ad47b0071ce83b69482452c15fd8e5401cfb23f40.gz",
+      "rawBytes": 11839623,
+      "rawSha256": "bde2abb312212c49817cf11ad47b0071ce83b69482452c15fd8e5401cfb23f40",
+      "bytes": 155929,
+      "sha256": "88436223ed88e83cbc0a6b2992f03ac8962c1753fcf18bbb08739f5390ea3bb4"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/stone-000-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/b3a1870bbb4e40fee4211d30b20a36004fb7361e4505d2082bb92b5405aa7f33.gz",
+      "rawBytes": 1287630,
+      "rawSha256": "b3a1870bbb4e40fee4211d30b20a36004fb7361e4505d2082bb92b5405aa7f33",
+      "bytes": 1269160,
+      "sha256": "5463da48e74a6036ff54f5f697314cd9d0876ebf107e468872f409ec833af328"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/stone-000-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/2151bfa707f58589b69b97b1216b434492b13d7fb44ab3a4634068c5d9c30ee2.gz",
+      "rawBytes": 5840,
+      "rawSha256": "2151bfa707f58589b69b97b1216b434492b13d7fb44ab3a4634068c5d9c30ee2",
+      "bytes": 5859,
+      "sha256": "1087fa88a3f511915526a9d321a7af69192dfd0e553084b07db6de4ec7d4d2d9"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/stone-007-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/efffe3b1c88ac80700be5e9b838a01071e675e9692478797ec457fe06bf10c56.gz",
+      "rawBytes": 1274981,
+      "rawSha256": "efffe3b1c88ac80700be5e9b838a01071e675e9692478797ec457fe06bf10c56",
+      "bytes": 1256701,
+      "sha256": "7c35f8a934abf94193a057a320f55766b2983f23a88fae2e8335ae84ae722c37"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/stone-007-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/39eb419e87a655f90f5b3ea35bbdbf3f7be19488e8e18049fa30f964917b285a.gz",
+      "rawBytes": 5837,
+      "rawSha256": "39eb419e87a655f90f5b3ea35bbdbf3f7be19488e8e18049fa30f964917b285a",
+      "bytes": 5860,
+      "sha256": "e31c14183e518d8766a01969209749ce0f9e2b3a5e42f7881ee0d0564fd1b118"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/stone23-native-owner-retired-no-number-wait.png",
+      "file": "m5-stone-window-20261013-v2/cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b.gz",
+      "rawBytes": 180696,
+      "rawSha256": "cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b",
+      "bytes": 170809,
+      "sha256": "d498e10f1078b5e884ebb4eac8b2fba77206d4f235e9f2a423303ca3e20c374a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-1080-v2/stone23-real-state6-report.png",
+      "file": "m5-stone-window-20261013-v2/cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b.gz",
+      "rawBytes": 180696,
+      "rawSha256": "cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b",
+      "bytes": 170809,
+      "sha256": "d498e10f1078b5e884ebb4eac8b2fba77206d4f235e9f2a423303ca3e20c374a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1.log",
+      "file": "m5-stone-window-20261013-v2/04d6dba7f910a50804639b2f9f7c59095b6ae3cb05dc17ab4273bea2b5411ead.gz",
+      "rawBytes": 939,
+      "rawSha256": "04d6dba7f910a50804639b2f9f7c59095b6ae3cb05dc17ab4273bea2b5411ead",
+      "bytes": 499,
+      "sha256": "3c1729bce511caa16ccf16e693d97ff8e9195e3ffafcc7e66df75666a91fbfd4"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/12-march-departure-report.png",
+      "file": "m5-stone-window-20261013-v2/b607041280f8517b970cdc13033d329d6649709a9d74799ce409471b368aa120.gz",
+      "rawBytes": 940300,
+      "rawSha256": "b607041280f8517b970cdc13033d329d6649709a9d74799ce409471b368aa120",
+      "bytes": 940583,
+      "sha256": "965e36206f28d4033df5ba769026ca1b2076500e86bb4b45d3165fed47608acb"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/actual-report-1.png",
+      "file": "m5-stone-window-20261013-v2/1722693774e1eb2c70592b2d3fb426ee4e2ad4580ad7f1f9c050a758f497b0bd.gz",
+      "rawBytes": 156799,
+      "rawSha256": "1722693774e1eb2c70592b2d3fb426ee4e2ad4580ad7f1f9c050a758f497b0bd",
+      "bytes": 155701,
+      "sha256": "58b71c4c7413d603fcf81eade33e8789a7dcde77bfbec1a1434f0c7530a3b8dd"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/07abdd66bfc10810bf001f48cfc4b1f42269dae26ca578993c89d0fd8c8db3e9.gz",
+      "rawBytes": 11663,
+      "rawSha256": "07abdd66bfc10810bf001f48cfc4b1f42269dae26ca578993c89d0fd8c8db3e9",
+      "bytes": 1404,
+      "sha256": "df6dac661e8e93bd50964ea1f505c43fb929b68df46cc45120a824389d725884"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/engine-inputs.json",
+      "file": "m5-stone-window-20261013-v2/08b3ac392132bde920a2f43830a6428862d69fd07fd72a79480816fc5cb042ff.gz",
+      "rawBytes": 103914,
+      "rawSha256": "08b3ac392132bde920a2f43830a6428862d69fd07fd72a79480816fc5cb042ff",
+      "bytes": 2318,
+      "sha256": "3528e97e01c378f015871d0eb8a773eef392708e0fabc8692396c6fa128984c7"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/native-skill-captures.json",
+      "file": "m5-stone-window-20261013-v2/ca321386caa29ea83dd2de18eae37ac22a1d5e12b38fc1f10f75b4cb6448ff56.gz",
+      "rawBytes": 3036921,
+      "rawSha256": "ca321386caa29ea83dd2de18eae37ac22a1d5e12b38fc1f10f75b4cb6448ff56",
+      "bytes": 223812,
+      "sha256": "d95200fb1b393ea86d5f72ba2edde80d2fe024f1e961143783cf5671cd343870"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/observer-errors.json",
+      "file": "m5-stone-window-20261013-v2/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "rawBytes": 3,
+      "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 23,
+      "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/owned-process-samples.jsonl",
+      "file": "m5-stone-window-20261013-v2/a44f7063edc9b3ad18839ef99da452a99e7a80e5d854e037600574ae91845cad.gz",
+      "rawBytes": 29499,
+      "rawSha256": "a44f7063edc9b3ad18839ef99da452a99e7a80e5d854e037600574ae91845cad",
+      "bytes": 1895,
+      "sha256": "8b1bb000c0d992f6b0cfb5e400049ca4306101058a12920bbc58b4f997ada065"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/result.json",
+      "file": "m5-stone-window-20261013-v2/219d1f7bf871afbb96752e655f93f8f591669f9be1551b7efbbdb97282948d72.gz",
+      "rawBytes": 19453175,
+      "rawSha256": "219d1f7bf871afbb96752e655f93f8f591669f9be1551b7efbbdb97282948d72",
+      "bytes": 771149,
+      "sha256": "eb8ca061d7665db47edb9659c52a9a2d709eb7f6e9321e4c8f62c4afa6fb49f4"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7.gz",
+      "rawBytes": 433570,
+      "rawSha256": "a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7",
+      "bytes": 69214,
+      "sha256": "455263d577fe04512a5079ee59528ffa141b96de219a1989b6e4200d3aae7a7a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/spe-observations.json",
+      "file": "m5-stone-window-20261013-v2/ef7a94e3ce6686f7d2f404881f6b8d3ada48fff693c4b5847e82600aec71e80b.gz",
+      "rawBytes": 11844635,
+      "rawSha256": "ef7a94e3ce6686f7d2f404881f6b8d3ada48fff693c4b5847e82600aec71e80b",
+      "bytes": 156410,
+      "sha256": "f348439fdb0767eca8dbdb7933fe9e6dcd09ea0b3b14411a8389728863d8dd88"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/stone-000-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/0a68ea23a63a992ec935fb8adc9897315e3835c28f3403a41122f091052a3390.gz",
+      "rawBytes": 1287173,
+      "rawSha256": "0a68ea23a63a992ec935fb8adc9897315e3835c28f3403a41122f091052a3390",
+      "bytes": 1269095,
+      "sha256": "c4ca20806df50774dcb5897154041c27620a1b31ff6a2ddc0ed4b7ffbeb72134"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/stone-000-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/cf1960e5c0aed76d8e06dc9b47214b6f829d9d55796697380018f276061a4e3e.gz",
+      "rawBytes": 5695,
+      "rawSha256": "cf1960e5c0aed76d8e06dc9b47214b6f829d9d55796697380018f276061a4e3e",
+      "bytes": 5709,
+      "sha256": "66e6f659f3d5fd634a3035f9e18cd4906e1710a45506db36332f6a676274ba6d"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/stone-007-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/eaca0fce760109f18d86983a5387db0442ed237da3d29ab9da1456035be681e4.gz",
+      "rawBytes": 1274672,
+      "rawSha256": "eaca0fce760109f18d86983a5387db0442ed237da3d29ab9da1456035be681e4",
+      "bytes": 1256264,
+      "sha256": "30b55de0b8c2903e07cc7cc3ac6d333239c9a8b148e07cdf1511108fbb514b97"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/stone-007-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/f2cc5d093925f5d21c055ff4ea8bc3ddd4637a2dd9ca2d8368c4a614899ac713.gz",
+      "rawBytes": 5690,
+      "rawSha256": "f2cc5d093925f5d21c055ff4ea8bc3ddd4637a2dd9ca2d8368c4a614899ac713",
+      "bytes": 5713,
+      "sha256": "a43958ae5760489fac8550e9f6ba87b587067f288561cc6addf740eced7bd3ed"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/stone23-native-owner-retired-no-number-wait.png",
+      "file": "m5-stone-window-20261013-v2/7ee64ddc5044b685ba056661ca1eba648ff2a159e39de0c353eaa423fc005360.gz",
+      "rawBytes": 158237,
+      "rawSha256": "7ee64ddc5044b685ba056661ca1eba648ff2a159e39de0c353eaa423fc005360",
+      "bytes": 156413,
+      "sha256": "cda839b3434c84a6c3213c4f499a3b0c29e2ca5dcc3f80615917d694e69e7dc0"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-720-v1/stone23-real-state6-report.png",
+      "file": "m5-stone-window-20261013-v2/7ee64ddc5044b685ba056661ca1eba648ff2a159e39de0c353eaa423fc005360.gz",
+      "rawBytes": 158237,
+      "rawSha256": "7ee64ddc5044b685ba056661ca1eba648ff2a159e39de0c353eaa423fc005360",
+      "bytes": 156413,
+      "sha256": "cda839b3434c84a6c3213c4f499a3b0c29e2ca5dcc3f80615917d694e69e7dc0"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1.log",
+      "file": "m5-stone-window-20261013-v2/f86f4105aa358af714d52700b9eb2a4d9b9aba5742c8cd4edf0cd9bfa6b210d7.gz",
+      "rawBytes": 1011,
+      "rawSha256": "f86f4105aa358af714d52700b9eb2a4d9b9aba5742c8cd4edf0cd9bfa6b210d7",
+      "bytes": 526,
+      "sha256": "b6b1d8c0af041f53ac0665ee0de0b8e1986f6cd6ae25ab0304c88894e3daedff"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/12-march-departure-report.png",
+      "file": "m5-stone-window-20261013-v2/e52670c365027ca3e2a835d2695cd4ed6b94595be7742d1ca56d4976def42ba6.gz",
+      "rawBytes": 2330108,
+      "rawSha256": "e52670c365027ca3e2a835d2695cd4ed6b94595be7742d1ca56d4976def42ba6",
+      "bytes": 2330827,
+      "sha256": "d1fb9c90241d1947b493c38d29270d5a8b339fdc824491a1349c62b88d1364a5"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/actual-report-1.png",
+      "file": "m5-stone-window-20261013-v2/163cb3c39ef407513548b099663e078423068e0f6215dbb84488ca6ec8f84adf.gz",
+      "rawBytes": 3080959,
+      "rawSha256": "163cb3c39ef407513548b099663e078423068e0f6215dbb84488ca6ec8f84adf",
+      "bytes": 3081884,
+      "sha256": "f4f96af56a0f72f1b292c7824bffe81aaf10f231e223f1cd64c3d88e860a9724"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/bd27b77117523bcb3239da8f295c43a7eee363fe8eb27dae92ad1717a7aa272c.gz",
+      "rawBytes": 11751,
+      "rawSha256": "bd27b77117523bcb3239da8f295c43a7eee363fe8eb27dae92ad1717a7aa272c",
+      "bytes": 1356,
+      "sha256": "c0c5eead452519117c155fc136e1d510c421d44d1ffa09e9cd6d517fba0ad398"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/engine-inputs.json",
+      "file": "m5-stone-window-20261013-v2/e2328def60763713ca746a76edef9aafe0ebc3dd3a5d640d504f5249b48d36fe.gz",
+      "rawBytes": 128491,
+      "rawSha256": "e2328def60763713ca746a76edef9aafe0ebc3dd3a5d640d504f5249b48d36fe",
+      "bytes": 2769,
+      "sha256": "6c49b861d80bc85a066017069065d149b51949ed7a772f7b4a39e8fbf0d191dd"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/native-skill-captures.json",
+      "file": "m5-stone-window-20261013-v2/fd5b507856eac74a5cdfe400ad6cd56aebe345c4d526bf09d4d2474130c51a59.gz",
+      "rawBytes": 3023073,
+      "rawSha256": "fd5b507856eac74a5cdfe400ad6cd56aebe345c4d526bf09d4d2474130c51a59",
+      "bytes": 113942,
+      "sha256": "3fa68cd48370c7aff792d0044216cc4620eb10aa8595a31c65cfd52e3e860f65"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/observer-errors.json",
+      "file": "m5-stone-window-20261013-v2/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "rawBytes": 3,
+      "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 23,
+      "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/owned-process-samples.jsonl",
+      "file": "m5-stone-window-20261013-v2/cab556579249e8e6d85b8f2312833766af94fb2bff66d5879436292d78176f3f.gz",
+      "rawBytes": 29683,
+      "rawSha256": "cab556579249e8e6d85b8f2312833766af94fb2bff66d5879436292d78176f3f",
+      "bytes": 1905,
+      "sha256": "ef43f6dd5415ffa627cc8905fa0aed411f556072a4594eddc204a44d76cd606e"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/result.json",
+      "file": "m5-stone-window-20261013-v2/ea83b459b117f3885e1625f994c0304c94eb8ce8b3376667a3eb548be98458db.gz",
+      "rawBytes": 26491163,
+      "rawSha256": "ea83b459b117f3885e1625f994c0304c94eb8ce8b3376667a3eb548be98458db",
+      "bytes": 865860,
+      "sha256": "8187f64d12ae8c66f390be0b204531d88ca8a648a44720609a2209f07f41b229"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7.gz",
+      "rawBytes": 433570,
+      "rawSha256": "a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7",
+      "bytes": 69214,
+      "sha256": "455263d577fe04512a5079ee59528ffa141b96de219a1989b6e4200d3aae7a7a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/spe-observations.json",
+      "file": "m5-stone-window-20261013-v2/6c3da3ba2b7a41845ef4983c9f5e6af83c4eca7dd107db87c8ec73dde90ada17.gz",
+      "rawBytes": 17971839,
+      "rawSha256": "6c3da3ba2b7a41845ef4983c9f5e6af83c4eca7dd107db87c8ec73dde90ada17",
+      "bytes": 277682,
+      "sha256": "04502d4f8c8675dba0f5233ab18c44bf03d28c0967641393c8881b76fbb8a78c"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone-000-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/fbf0596d76f5dc465a8ed7e2cc648dd8159935198a2397eafa2febd7504ab4d7.gz",
+      "rawBytes": 5616,
+      "rawSha256": "fbf0596d76f5dc465a8ed7e2cc648dd8159935198a2397eafa2febd7504ab4d7",
+      "bytes": 5637,
+      "sha256": "d0a3261abe1abc372f1cf02c5aef3b84ae6069fc5c865481ccb0bb53595513fa"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone-000-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/fbf0596d76f5dc465a8ed7e2cc648dd8159935198a2397eafa2febd7504ab4d7.gz",
+      "rawBytes": 5616,
+      "rawSha256": "fbf0596d76f5dc465a8ed7e2cc648dd8159935198a2397eafa2febd7504ab4d7",
+      "bytes": 5637,
+      "sha256": "d0a3261abe1abc372f1cf02c5aef3b84ae6069fc5c865481ccb0bb53595513fa"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone-007-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/e702a14fdeec1d23cee2afdee8cd1c04b3d844345a641fce0973d01013984485.gz",
+      "rawBytes": 5638,
+      "rawSha256": "e702a14fdeec1d23cee2afdee8cd1c04b3d844345a641fce0973d01013984485",
+      "bytes": 5647,
+      "sha256": "3643bfe051a97e77097f58e312d826011d2565d0efb64a7ddb3db467f989ba82"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone-007-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/e702a14fdeec1d23cee2afdee8cd1c04b3d844345a641fce0973d01013984485.gz",
+      "rawBytes": 5638,
+      "rawSha256": "e702a14fdeec1d23cee2afdee8cd1c04b3d844345a641fce0973d01013984485",
+      "bytes": 5647,
+      "sha256": "3643bfe051a97e77097f58e312d826011d2565d0efb64a7ddb3db467f989ba82"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone23-native-owner-retired-no-number-wait.png",
+      "file": "m5-stone-window-20261013-v2/8f78bb20f285ae21d245c92ccd2e8d82b4574c61107ded75a7ad14f98ff50485.gz",
+      "rawBytes": 179169,
+      "rawSha256": "8f78bb20f285ae21d245c92ccd2e8d82b4574c61107ded75a7ad14f98ff50485",
+      "bytes": 169371,
+      "sha256": "5c50742a1a8e468512c774f5c4655609ae62aa014322a4565f1e74d29cb66019"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone23-natural-random-failure-1.png",
+      "file": "m5-stone-window-20261013-v2/ba15e2facd5cf4220293ea594ce39d7123c441e0929102cd5ef1c9d67fc888a1.gz",
+      "rawBytes": 181478,
+      "rawSha256": "ba15e2facd5cf4220293ea594ce39d7123c441e0929102cd5ef1c9d67fc888a1",
+      "bytes": 173370,
+      "sha256": "e5b5d99611872ceeb69f687f894518ca63ee721fde8013c43a0923bdd3c40f0b"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-classic-v1/stone23-real-state6-report.png",
+      "file": "m5-stone-window-20261013-v2/8f78bb20f285ae21d245c92ccd2e8d82b4574c61107ded75a7ad14f98ff50485.gz",
+      "rawBytes": 179169,
+      "rawSha256": "8f78bb20f285ae21d245c92ccd2e8d82b4574c61107ded75a7ad14f98ff50485",
+      "bytes": 169371,
+      "sha256": "5c50742a1a8e468512c774f5c4655609ae62aa014322a4565f1e74d29cb66019"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1.log",
+      "file": "m5-stone-window-20261013-v2/9bd77947bf1b1e4ec48e88c357a444a1ff988bcf766dea5ca4f8a0b4d51e745c.gz",
+      "rawBytes": 943,
+      "rawSha256": "9bd77947bf1b1e4ec48e88c357a444a1ff988bcf766dea5ca4f8a0b4d51e745c",
+      "bytes": 502,
+      "sha256": "193acf8eb63b79f756b9e78e5ceb1efa17b95483d0b1b0fdab3fde147798868c"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/12-march-departure-report.png",
+      "file": "m5-stone-window-20261013-v2/0b453dff07ee866d9261022d473858c4d29015d742d4a00d6dbb79818636e6c2.gz",
+      "rawBytes": 2330145,
+      "rawSha256": "0b453dff07ee866d9261022d473858c4d29015d742d4a00d6dbb79818636e6c2",
+      "bytes": 2330864,
+      "sha256": "3ff9a5a1554171063e4516663c0029d55ef8a15a2678f0e093b092a72d7b325f"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/actual-report-1.png",
+      "file": "m5-stone-window-20261013-v2/2175bff479134c9c467f8ab3145b961ed5afa527b00c47acde0bb8987fab8786.gz",
+      "rawBytes": 190699,
+      "rawSha256": "2175bff479134c9c467f8ab3145b961ed5afa527b00c47acde0bb8987fab8786",
+      "bytes": 183214,
+      "sha256": "68ba3b2738569b60dd5ae743ce8065dbfa063bf5c662e019ccc2816678698b4c"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/f3bb191c625d928c2696b82abdea827f35e5c4847d6c7a11abe1a67d72b8a299.gz",
+      "rawBytes": 11663,
+      "rawSha256": "f3bb191c625d928c2696b82abdea827f35e5c4847d6c7a11abe1a67d72b8a299",
+      "bytes": 1399,
+      "sha256": "e2644b8c2b6da4bcae9ad1e8fad326d30a66bb124c210ab2335f1c86c1e39c6a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/engine-inputs.json",
+      "file": "m5-stone-window-20261013-v2/2c587b5d96c3f9ea54315a998ea9d52ec65eaa2e6ab019381fda010ea8159874.gz",
+      "rawBytes": 104051,
+      "rawSha256": "2c587b5d96c3f9ea54315a998ea9d52ec65eaa2e6ab019381fda010ea8159874",
+      "bytes": 2278,
+      "sha256": "1c1156fb5acbdd31dcb378e21f6d7e62af6fd27c80ef890eec09134b3ff3ef93"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/native-skill-captures.json",
+      "file": "m5-stone-window-20261013-v2/bec8f7f948c6175732cd4c687d4ec59d9e23d8f4bf290418878957e53eacadf8.gz",
+      "rawBytes": 3024027,
+      "rawSha256": "bec8f7f948c6175732cd4c687d4ec59d9e23d8f4bf290418878957e53eacadf8",
+      "bytes": 112801,
+      "sha256": "4db4ce0802c491bee0386a8b430eaf80ef981e01ab68f69ece206dc30d3fc8ae"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/observer-errors.json",
+      "file": "m5-stone-window-20261013-v2/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570.gz",
+      "rawBytes": 3,
+      "rawSha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "bytes": 23,
+      "sha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/owned-process-samples.jsonl",
+      "file": "m5-stone-window-20261013-v2/2ac81869cad63d2c736a4ebed7455c3560eb3aa0b75a6eaedd99742ac929195a.gz",
+      "rawBytes": 29626,
+      "rawSha256": "2ac81869cad63d2c736a4ebed7455c3560eb3aa0b75a6eaedd99742ac929195a",
+      "bytes": 1899,
+      "sha256": "bdd4bd50fbd773706abb0284e73aaf895bab27ffba20be603cc8ac7571193bea"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/result.json",
+      "file": "m5-stone-window-20261013-v2/281deeaadbabbd4aa9fbd9d2d298442c37be5a5b2b4359a10b8af857e84135df.gz",
+      "rawBytes": 19190624,
+      "rawSha256": "281deeaadbabbd4aa9fbd9d2d298442c37be5a5b2b4359a10b8af857e84135df",
+      "bytes": 659409,
+      "sha256": "058977d04f9147a38ee4a2a562101a383f04986dae910303fb7ec5cc824ec772"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7.gz",
+      "rawBytes": 433570,
+      "rawSha256": "a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7",
+      "bytes": 69214,
+      "sha256": "455263d577fe04512a5079ee59528ffa141b96de219a1989b6e4200d3aae7a7a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/spe-observations.json",
+      "file": "m5-stone-window-20261013-v2/5f1951a8f5f37346601c6f19c0348a8eda702c55d9d900635ef5a8cb09f8b9cd.gz",
+      "rawBytes": 11622030,
+      "rawSha256": "5f1951a8f5f37346601c6f19c0348a8eda702c55d9d900635ef5a8cb09f8b9cd",
+      "bytes": 153645,
+      "sha256": "ba5045825f7f2a22dfdfb244d45a858911ba29e85517a1ab1d916f21755413b8"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/stone-000-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/0b3750559bb110b1345ea05003287b87ca4dce0a3fd0ef1f02631faaa47cc646.gz",
+      "rawBytes": 52775,
+      "rawSha256": "0b3750559bb110b1345ea05003287b87ca4dce0a3fd0ef1f02631faaa47cc646",
+      "bytes": 29616,
+      "sha256": "122d6a890198b5ebf37b0de89624f030f65b196cae97a225b56ddf506a8e6a26"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/stone-000-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/de62c8e4533dcbdcc976e6f676e465caa85d6a5cc2cd4d4862df50bbbae4d631.gz",
+      "rawBytes": 5851,
+      "rawSha256": "de62c8e4533dcbdcc976e6f676e465caa85d6a5cc2cd4d4862df50bbbae4d631",
+      "bytes": 5872,
+      "sha256": "dcd288011cda8dc4fab997a89ebe344e5e6ccb24db4de027df5709da09d7e659"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/stone-007-movie-hd.png",
+      "file": "m5-stone-window-20261013-v2/13162d9a14461da02e04d97577c614f4659d6759ddec722533bee4a0d8bc7ec2.gz",
+      "rawBytes": 52872,
+      "rawSha256": "13162d9a14461da02e04d97577c614f4659d6759ddec722533bee4a0d8bc7ec2",
+      "bytes": 29790,
+      "sha256": "3800dd2c25c10a09f729b2520a3716f5d2de89f75f27353862bdc0efdb81a499"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/stone-007-movie-lcd.png",
+      "file": "m5-stone-window-20261013-v2/c5f3e847a405ce25b9c060e21e45c08e5f94f202ec4bfeeeb4e9b0902b0d5005.gz",
+      "rawBytes": 5862,
+      "rawSha256": "c5f3e847a405ce25b9c060e21e45c08e5f94f202ec4bfeeeb4e9b0902b0d5005",
+      "bytes": 5885,
+      "sha256": "70782aece3450ba0fe84b92287dca02e70286fc73943f1e9fad2cd395e091fc1"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/stone23-native-owner-retired-no-number-wait.png",
+      "file": "m5-stone-window-20261013-v2/cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b.gz",
+      "rawBytes": 180696,
+      "rawSha256": "cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b",
+      "bytes": 170809,
+      "sha256": "d498e10f1078b5e884ebb4eac8b2fba77206d4f235e9f2a423303ca3e20c374a"
+    },
+    {
+      "source": "build/stone-window-20261013/pc-missing-v1/stone23-real-state6-report.png",
+      "file": "m5-stone-window-20261013-v2/cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b.gz",
+      "rawBytes": 180696,
+      "rawSha256": "cd770cdcfd69ee0a6b30bbaca6ad5c8a2b90b809fc4f83a004440f5a0acda81b",
+      "bytes": 170809,
+      "sha256": "d498e10f1078b5e884ebb4eac8b2fba77206d4f235e9f2a423303ca3e20c374a"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1.log",
+      "file": "m5-stone-window-20261013-v2/77d42904d47c663b82c2030ff6f955795aad782d9c7648bdddbf28a6277352ea.gz",
+      "rawBytes": 368,
+      "rawSha256": "77d42904d47c663b82c2030ff6f955795aad782d9c7648bdddbf28a6277352ea",
+      "bytes": 273,
+      "sha256": "aac79ef117102d7fc3ae099ced0ebd79eef89b53459b59e3d1b6fd1db5aced06"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+      "rawBytes": 57,
+      "rawSha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 62,
+      "sha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/db5b07eeba26fb512aecdec95723601bf47e95976ea145844db1188ba35790c2.gz",
+      "rawBytes": 115910,
+      "rawSha256": "db5b07eeba26fb512aecdec95723601bf47e95976ea145844db1188ba35790c2",
+      "bytes": 34927,
+      "sha256": "dff6f31f65b2ea742afb8d6adb00f264d117e570fdc9b231d05575226f09b4a5"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1/result.json",
+      "file": "m5-stone-window-20261013-v2/ade1353ed60d86c8abb07fa2330d5fd1aecb795000da782055eaafda50b4713f.gz",
+      "rawBytes": 781828,
+      "rawSha256": "ade1353ed60d86c8abb07fa2330d5fd1aecb795000da782055eaafda50b4713f",
+      "bytes": 142098,
+      "sha256": "dcb797fbe5280ac0e4fc7750c999ddc0839049ddb14ffdb89f197c82ba5464fc"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v1/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/122e14408fa497d8e8aa561186cff8280eb774d21f447185690afbd55f0ca788.gz",
+      "rawBytes": 432664,
+      "rawSha256": "122e14408fa497d8e8aa561186cff8280eb774d21f447185690afbd55f0ca788",
+      "bytes": 69001,
+      "sha256": "3e5d4d4c8a83441774f1c17e4b3775573ea7d567c0814bde19fd0019964c35ac"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2.log",
+      "file": "m5-stone-window-20261013-v2/fda3d1a148c3d05e0d957c8e49190f5eae8ce64a38eb5d795f3a79ddbe3ead6b.gz",
+      "rawBytes": 368,
+      "rawSha256": "fda3d1a148c3d05e0d957c8e49190f5eae8ce64a38eb5d795f3a79ddbe3ead6b",
+      "bytes": 272,
+      "sha256": "6215a917945913bb11f9c9d871259da4f7093804001e731402f6b84b50b7efdd"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2/browser-console.json",
+      "file": "m5-stone-window-20261013-v2/94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8.gz",
+      "rawBytes": 57,
+      "rawSha256": "94d28aec8f978482e41c3f44fb0c5527e0205691e5b2400df3d9b84155492cf8",
+      "bytes": 62,
+      "sha256": "c60d00d2ef6f8356932d247ac3ec484516d01b489f5f78c4e3927fbc9eaa7537"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2/executed-json-writer.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2/executed-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2/executed-tool.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2/result.json",
+      "file": "m5-stone-window-20261013-v2/6b540bb811d38f08b56ac62bbd6f9e0dea41e5ca6003cc5391d65ccb571d1016.gz",
+      "rawBytes": 783313,
+      "rawSha256": "6b540bb811d38f08b56ac62bbd6f9e0dea41e5ca6003cc5391d65ccb571d1016",
+      "bytes": 142864,
+      "sha256": "f7e54a72c9a14ba9b5633e68d0f289ce4b5a57dcfcf56676b90b065ebbca4849"
+    },
+    {
+      "source": "build/stone-window-20261013/preflight-v2/source-verification.json",
+      "file": "m5-stone-window-20261013-v2/a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7.gz",
+      "rawBytes": 433570,
+      "rawSha256": "a58bd079dcf2f96eac222b74de73a15cc666fd8813aaa3eb9efa055f934107e7",
+      "bytes": 69214,
+      "sha256": "455263d577fe04512a5079ee59528ffa141b96de219a1989b6e4200d3aae7a7a"
+    },
+    {
+      "source": "build/stone-window-20261013/prepare-publication.mjs",
+      "file": "m5-stone-window-20261013-v2/f7342aa08d5994999e58c2d4d78842c688fe2f75976199eaa6f389c5c42fb44e.gz",
+      "rawBytes": 4310,
+      "rawSha256": "f7342aa08d5994999e58c2d4d78842c688fe2f75976199eaa6f389c5c42fb44e",
+      "bytes": 1905,
+      "sha256": "708797818827061d572548c224c4129db0f6cead5b9ea3e2f04e5daa86aa1f84"
+    },
+    {
+      "source": "build/stone-window-20261013/product-06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624.mjs",
+      "file": "m5-stone-window-20261013-v2/06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624.gz",
+      "rawBytes": 23444,
+      "rawSha256": "06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624",
+      "bytes": 7282,
+      "sha256": "d43f94f3d05cbd28fab0a9c1aebfab51f8907b62c9c400408c284f45153d630f"
+    },
+    {
+      "source": "build/stone-window-20261013/product-1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404.js",
+      "file": "m5-stone-window-20261013-v2/1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404.gz",
+      "rawBytes": 123112,
+      "rawSha256": "1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404",
+      "bytes": 21053,
+      "sha256": "080c5a8e8898ad0f79966ed8e728df2c90cf481e8b5a1e91e146cbac38453d52"
+    },
+    {
+      "source": "build/stone-window-20261013/product-2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29.js",
+      "file": "m5-stone-window-20261013-v2/2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29.gz",
+      "rawBytes": 155237,
+      "rawSha256": "2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29",
+      "bytes": 28595,
+      "sha256": "f5ec374b00a39042e1ede0f99d72973bfad50373bb4557c6b8f7ff6a71ba50a1"
+    },
+    {
+      "source": "build/stone-window-20261013/product-63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7.mjs",
+      "file": "m5-stone-window-20261013-v2/63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7.gz",
+      "rawBytes": 45205,
+      "rawSha256": "63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7",
+      "bytes": 14855,
+      "sha256": "e351e25ba33415cd76596416d4c10e7c43c6e689dbcfb2c47c9f0f4beb1112cb"
+    },
+    {
+      "source": "build/stone-window-20261013/product-90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf.mjs",
+      "file": "m5-stone-window-20261013-v2/90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf.gz",
+      "rawBytes": 254890,
+      "rawSha256": "90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf",
+      "bytes": 44304,
+      "sha256": "bd3b74203185c6eb54742003b120e62ce158273cf79c5727e6ed179638f568a1"
+    },
+    {
+      "source": "build/stone-window-20261013/product-b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526.mjs",
+      "file": "m5-stone-window-20261013-v2/b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526.gz",
+      "rawBytes": 31190,
+      "rawSha256": "b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526",
+      "bytes": 7447,
+      "sha256": "1204b461c1130ba8ee8380efe90a376ca374fb8b4609217c1f8f9514dac9425a"
+    },
+    {
+      "source": "build/stone-window-20261013/product-c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4.html",
+      "file": "m5-stone-window-20261013-v2/c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4.gz",
+      "rawBytes": 18450,
+      "rawSha256": "c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4",
+      "bytes": 4469,
+      "sha256": "27d7f6410c6a5afa62b8eefdd1460fbe3295a757edf288c29ade1a2d38c73c8e"
+    },
+    {
+      "source": "build/stone-window-20261013/product-dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023.html",
+      "file": "m5-stone-window-20261013-v2/dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023.gz",
+      "rawBytes": 27342,
+      "rawSha256": "dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023",
+      "bytes": 6448,
+      "sha256": "f1ea4698ce8872a261d7b9d3f5472b9f3f46d5e88a7697a8292c9266cf168209"
+    },
+    {
+      "source": "build/stone-window-20261013/product-e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a.json",
+      "file": "m5-stone-window-20261013-v2/e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a.gz",
+      "rawBytes": 592203,
+      "rawSha256": "e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a",
+      "bytes": 14605,
+      "sha256": "53685db511c5a63e8fe57f552623880d862a966b4633368c7018b1c687e0d2a8"
+    },
+    {
+      "source": "build/stone-window-20261013/product-freeze-v1.json",
+      "file": "m5-stone-window-20261013-v2/67dedbce4e68f0e860e15b631276db3d07d35482ccdf2e6972d985958270b3ba.gz",
+      "rawBytes": 4671,
+      "rawSha256": "67dedbce4e68f0e860e15b631276db3d07d35482ccdf2e6972d985958270b3ba",
+      "bytes": 1267,
+      "sha256": "db3d26f08e25c5d312628dd1d71b57130bc78a3d6fe66fa3ee53a73b2a662ff2"
+    },
+    {
+      "source": "build/stone-window-20261013/publication-inputs-v1.json",
+      "file": "m5-stone-window-20261013-v2/a070a412e19d846b0d5aac64a38d47e06afa84d3ba0eb9880eb55ec0accde443.gz",
+      "rawBytes": 2014,
+      "rawSha256": "a070a412e19d846b0d5aac64a38d47e06afa84d3ba0eb9880eb55ec0accde443",
+      "bytes": 798,
+      "sha256": "35edda71268db0869d579011b20abe0e7bc95e0e5bcd32193831acba4aa043e2"
+    },
+    {
+      "source": "build/stone-window-20261013/publication-inputs-v2.json",
+      "file": "m5-stone-window-20261013-v2/94da6c53c2deaaea1ec30107e7130995f86fb53c120d816a59f93c0a5f11f51f.gz",
+      "rawBytes": 2204,
+      "rawSha256": "94da6c53c2deaaea1ec30107e7130995f86fb53c120d816a59f93c0a5f11f51f",
+      "bytes": 857,
+      "sha256": "b4aa4a94000bfbd135e54bfb7b72e5da5dbe91dfc0a93cd67eb0a6a68a65505e"
+    },
+    {
+      "source": "build/stone-window-20261013/publication-tool-correction-v1.json",
+      "file": "m5-stone-window-20261013-v2/8f60ad737e655f0929a26e145a1c1afbbb85bfffd1dcc8be153acbb8023c96e2.gz",
+      "rawBytes": 1248,
+      "rawSha256": "8f60ad737e655f0929a26e145a1c1afbbb85bfffd1dcc8be153acbb8023c96e2",
+      "bytes": 694,
+      "sha256": "db98015147b8e758d99cedfa10924a705549bff3a8c161de18af2fb6c6fd5561"
+    },
+    {
+      "source": "build/stone-window-20261013/publication-tool-correction-v2.json",
+      "file": "m5-stone-window-20261013-v2/2a9e6edf0dd470d96be272b797ea9cfce1e8775057d14d38c68208d529f2e03d.gz",
+      "rawBytes": 2318,
+      "rawSha256": "2a9e6edf0dd470d96be272b797ea9cfce1e8775057d14d38c68208d529f2e03d",
+      "bytes": 1111,
+      "sha256": "6926b538abca44fdf9e3d7dcf219910e7a5eaf16e3be0eba94dfab14bcf285cd"
+    },
+    {
+      "source": "build/stone-window-20261013/root-executions.json",
+      "file": "m5-stone-window-20261013-v2/0773f0b5ea4f6107d5ce7751ee86eef361b44ca6235bf2f089a542c4bfb0a2b0.gz",
+      "rawBytes": 4052,
+      "rawSha256": "0773f0b5ea4f6107d5ce7751ee86eef361b44ca6235bf2f089a542c4bfb0a2b0",
+      "bytes": 817,
+      "sha256": "2fbcdbb3eae04641c8cd3694cfcf1e5a6aa5d43bb89e41a89b4958bacb43cb5e"
+    },
+    {
+      "source": "build/stone-window-20261013/root-review-v1.json",
+      "file": "m5-stone-window-20261013-v2/f11977d459cd0c73363dcecb66f062bc64596402f8db728fa8d132d0fbf2d5d3.gz",
+      "rawBytes": 11652,
+      "rawSha256": "f11977d459cd0c73363dcecb66f062bc64596402f8db728fa8d132d0fbf2d5d3",
+      "bytes": 3034,
+      "sha256": "da07c13dce23185bc6f6790463d174d2f5d92c06ca686bdba5e9a5d80d2b65b9"
+    },
+    {
+      "source": "build/stone-window-20261013/run-final-suite.mjs",
+      "file": "m5-stone-window-20261013-v2/35e1c64a0c4761df8c04542bb7d8088eaf4b0ceb7993fdc4b4347194fecae169.gz",
+      "rawBytes": 2276,
+      "rawSha256": "35e1c64a0c4761df8c04542bb7d8088eaf4b0ceb7993fdc4b4347194fecae169",
+      "bytes": 1128,
+      "sha256": "95faa53a83b08203554d7e9d1276a6bd370451e464af7299c4941e848cca4368"
+    },
+    {
+      "source": "build/stone-window-20261013/runner-correction-v1.json",
+      "file": "m5-stone-window-20261013-v2/6f225154e257cb50a72dfe503e2012f0e26f2d9ed4b92f8687369e9fb77e1249.gz",
+      "rawBytes": 6970,
+      "rawSha256": "6f225154e257cb50a72dfe503e2012f0e26f2d9ed4b92f8687369e9fb77e1249",
+      "bytes": 2640,
+      "sha256": "9366709d9e26da6b055bfc59f009c39bcc1cfa765f4468f4ce31d39638f3328c"
+    },
+    {
+      "source": "build/stone-window-20261013/runtime-executed-v1.mjs",
+      "file": "m5-stone-window-20261013-v2/db5b07eeba26fb512aecdec95723601bf47e95976ea145844db1188ba35790c2.gz",
+      "rawBytes": 115910,
+      "rawSha256": "db5b07eeba26fb512aecdec95723601bf47e95976ea145844db1188ba35790c2",
+      "bytes": 34927,
+      "sha256": "dff6f31f65b2ea742afb8d6adb00f264d117e570fdc9b231d05575226f09b4a5"
+    },
+    {
+      "source": "build/stone-window-20261013/runtime-executed-v2.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    },
+    {
+      "source": "build/stone-window-20261013/user-server-before.json",
+      "file": "m5-stone-window-20261013-v2/d508a6a3d4cc8f99ec7f88928d6d09b408959e34200553f33c1ef4f85ed00db6.gz",
+      "rawBytes": 118,
+      "rawSha256": "d508a6a3d4cc8f99ec7f88928d6d09b408959e34200553f33c1ef4f85ed00db6",
+      "bytes": 121,
+      "sha256": "0a23ac515415d5adf05d5546b322273def2c834792088151fd0ab00febbe23b7"
+    },
+    {
+      "source": "build/stone-window-20261013/verify-cleanup.ps1",
+      "file": "m5-stone-window-20261013-v2/618140de1bbdace3b791edeb8136e69949e945e460722ad5bf96b0d6700f2ef1.gz",
+      "rawBytes": 3364,
+      "rawSha256": "618140de1bbdace3b791edeb8136e69949e945e460722ad5bf96b0d6700f2ef1",
+      "bytes": 1233,
+      "sha256": "06fd286ccc84e9327d0331e17c862b2d9ef1c9e39902370df7474ba77651d57f"
+    },
+    {
+      "source": "build/stone-window-20261013/write-docs-executed-v1.mjs",
+      "file": "m5-stone-window-20261013-v2/f5d07f46f19ecfdb3dc3d79f0407c40f036194587f66d3927dc1901512376942.gz",
+      "rawBytes": 39509,
+      "rawSha256": "f5d07f46f19ecfdb3dc3d79f0407c40f036194587f66d3927dc1901512376942",
+      "bytes": 14705,
+      "sha256": "a0f3011ac90949b04486eeec7b6ada8e524f3170af835c84be2efbe5e2ef7f02"
+    },
+    {
+      "source": "build/stone-window-20261013/write-docs.mjs",
+      "file": "m5-stone-window-20261013-v2/cfe596722172ec712de3d6b39fb44253783a4b9577ea095e6236aba402f791cc.gz",
+      "rawBytes": 40454,
+      "rawSha256": "cfe596722172ec712de3d6b39fb44253783a4b9577ea095e6236aba402f791cc",
+      "bytes": 15034,
+      "sha256": "59a78e6cb657f844252bf7046a017285c30e205f11f4f38311f5a1161962b49b"
+    },
+    {
+      "source": "build/stone23-bridge-first-20261013.log",
+      "file": "m5-stone-window-20261013-v2/4712d78a61c39b5c6a329335070368970cd8a01e2c5d0c494a6b8823bb6fb242.gz",
+      "rawBytes": 13127,
+      "rawSha256": "4712d78a61c39b5c6a329335070368970cd8a01e2c5d0c494a6b8823bb6fb242",
+      "bytes": 2690,
+      "sha256": "1fd610b5d22b72de4db663f53c602fec6c367c67d10a57adc0682a3b9d6e122e"
+    },
+    {
+      "source": "docs/validation/m4-stone-20261009.json",
+      "file": "m5-stone-window-20261013-v2/64a559e0e6c7edcd5e8ad2256c18a86f086ee378146adcd3caab4bb1b694b242.gz",
+      "rawBytes": 200057,
+      "rawSha256": "64a559e0e6c7edcd5e8ad2256c18a86f086ee378146adcd3caab4bb1b694b242",
+      "bytes": 20507,
+      "sha256": "9a1dee5f08e33e0c31e4a4f3f8e87da6397fc49cb8734fb456a7d115fdd45832"
+    },
+    {
+      "source": "docs/validation/m5-stone-window-20261013-archive.json",
+      "file": "m5-stone-window-20261013-v2/4ef130ca568b254f7896677d387989a53e4d5f38cb27084ef777f6b06d3961de.gz",
+      "rawBytes": 179438,
+      "rawSha256": "4ef130ca568b254f7896677d387989a53e4d5f38cb27084ef777f6b06d3961de",
+      "bytes": 33966,
+      "sha256": "172661f5640b8f0cabbff10f7e6fa9fd678c8daf77c3d0df8e72524829ea2e91"
+    },
+    {
+      "source": "js/bridge.js",
+      "file": "m5-stone-window-20261013-v2/2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29.gz",
+      "rawBytes": 155237,
+      "rawSha256": "2099acba012472d20ea506a67b22a88a2dfc9dd58654328342fa353b319f4c29",
+      "bytes": 28595,
+      "sha256": "f5ec374b00a39042e1ede0f99d72973bfad50373bb4557c6b8f7ff6a71ba50a1"
+    },
+    {
+      "source": "js/hd-spe.js",
+      "file": "m5-stone-window-20261013-v2/1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404.gz",
+      "rawBytes": 123112,
+      "rawSha256": "1b386770a785fa4c90cbb00e92648074740a48118ed4b50d0e937a5ac5b6b404",
+      "bytes": 21053,
+      "sha256": "080c5a8e8898ad0f79966ed8e728df2c90cf481e8b5a1e91e146cbac38453d52"
+    },
+    {
+      "source": "m.html",
+      "file": "m5-stone-window-20261013-v2/c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4.gz",
+      "rawBytes": 18450,
+      "rawSha256": "c3a7372a7d594e9ce758abc0737dd731ba71a3594005979e2c18fa85950040a4",
+      "bytes": 4469,
+      "sha256": "27d7f6410c6a5afa62b8eefdd1460fbe3295a757edf288c29ade1a2d38c73c8e"
+    },
+    {
+      "source": "pc.html",
+      "file": "m5-stone-window-20261013-v2/dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023.gz",
+      "rawBytes": 27342,
+      "rawSha256": "dd3a599f9eced50995b96d5f07495a71ae5e45699929cfc9bda8181997c94023",
+      "bytes": 6448,
+      "sha256": "f1ea4698ce8872a261d7b9d3f5472b9f3f46d5e88a7697a8292c9266cf168209"
+    },
+    {
+      "source": "scripts/hd-runtime-json.mjs",
+      "file": "m5-stone-window-20261013-v2/ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833.gz",
+      "rawBytes": 7162,
+      "rawSha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833",
+      "bytes": 2550,
+      "sha256": "969e4453b46cb7b1b8406df0e45455cc693f1319b014dbf146492a41408b2706"
+    },
+    {
+      "source": "scripts/hd-runtime-owned-chrome.mjs",
+      "file": "m5-stone-window-20261013-v2/1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0.gz",
+      "rawBytes": 13354,
+      "rawSha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0",
+      "bytes": 4452,
+      "sha256": "2fe894aca71de9dc2eddc5cf1fe2e0e64afa425663a03aaaec6663240952edbc"
+    },
+    {
+      "source": "scripts/test-hd-mobile-spe.mjs",
+      "file": "m5-stone-window-20261013-v2/06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624.gz",
+      "rawBytes": 23444,
+      "rawSha256": "06c9a99bca1046549ba24b8037205ed0d30e4ecd81ddae6e0f6bfe5f2a6e6624",
+      "bytes": 7282,
+      "sha256": "d43f94f3d05cbd28fab0a9c1aebfab51f8907b62c9c400408c284f45153d630f"
+    },
+    {
+      "source": "scripts/test-hd-skill-bridge.mjs",
+      "file": "m5-stone-window-20261013-v2/b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526.gz",
+      "rawBytes": 31190,
+      "rawSha256": "b332dc4d161062e99075701ec85ad91953d5434b7ce8af16c9ecc598ab136526",
+      "bytes": 7447,
+      "sha256": "1204b461c1130ba8ee8380efe90a376ca374fb8b4609217c1f8f9514dac9425a"
+    },
+    {
+      "source": "scripts/test-hd-skill-engine.mjs",
+      "file": "m5-stone-window-20261013-v2/63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7.gz",
+      "rawBytes": 45205,
+      "rawSha256": "63a8f35db8a26cab324cc1dee5303181991cded895c810a1f8685f3676392cc7",
+      "bytes": 14855,
+      "sha256": "e351e25ba33415cd76596416d4c10e7c43c6e689dbcfb2c47c9f0f4beb1112cb"
+    },
+    {
+      "source": "scripts/test-hd-spe.mjs",
+      "file": "m5-stone-window-20261013-v2/90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf.gz",
+      "rawBytes": 254890,
+      "rawSha256": "90542ba79b2c3b10ac20834a328c396b7af73ceb0f782e7b957f497c1c77dfdf",
+      "bytes": 44304,
+      "sha256": "bd3b74203185c6eb54742003b120e62ce158273cf79c5727e6ed179638f568a1"
+    },
+    {
+      "source": "scripts/test-hd-stone-runtime.mjs",
+      "file": "m5-stone-window-20261013-v2/3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26.gz",
+      "rawBytes": 116094,
+      "rawSha256": "3f4f5fe0ef04f2179ab5eb31dae529b1c4ca9b94f0acbe4af1921fc9b958ab26",
+      "bytes": 35028,
+      "sha256": "1ab186ed7231f311a2e2a69a9ff28dea2881ad6bf8a57b6fc7dbe2ac7f92a3be"
+    }
+  ]
+}

@@ -204,7 +204,7 @@ static U8*boundSuccess;
 #define gam_drawpic(id,ind,x,y,flag) PlcRPicShowEx(id,0,(ind)+1,x,y,flag)
 static int gam_rand(void){return 0;}
 static void BuiltAtkAttr(U8 side,U8 index){assert(side<2&&index<FGTA_MAX);g_GenAtt[side]=(JLATT){.level=&levels[index],.arms=&troops[index],.generalIndex=index,.canny=80};}
-static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);*arms=fixtureHurt;*prov=fixtureProv;*state=g_GenPos[g_GenAtt[1].generalIndex].state;}
+static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
 static U16 PlcArmsMax(PersonID id){assert(id<FGTA_MAX);return ceiling;}
 static U32 FgtGetExp(U16 value){return value/10;}
 static U16 CountAtkHurt(void){return fixtureHurt;}
@@ -233,12 +233,13 @@ int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U1
     BuiltAtkAttr(0,3);BuiltAtkAttr(1,10);SKILLEF*skl=FgtGetJNPtr(5);skl->aim=0;skl->state=0;
     /* Keep the shared WOOD fixture's original setup and skill selector intact. */
     if(mode==91||mode==92){skl=FgtGetJNPtr(12);assert(skl->aim==0&&skl->state==0&&skl->useMp==20);}
-    if(mode==1||mode==92)coalesce=1;if(mode==4)g_LookMovie=0;if(mode==10)reenterNotify=1;if(mode==13){c_Sx=55;c_Sy=18;c_Ex=66;c_Ey=30;}if(mode==14)dJNSpeId[4]=0;
+    if(mode==93||mode==94){skl=FgtGetJNPtr(23);assert(skl->aim==0&&skl->state==6&&skl->useMp==20);assert(!fixtureHurt&&!fixtureProv);}
+    if(mode==1||mode==92||mode==94)coalesce=1;if(mode==4)g_LookMovie=0;if(mode==10)reenterNotify=1;if(mode==13){c_Sx=55;c_Sy=18;c_Ex=66;c_Ey=30;}if(mode==14)dJNSpeId[4]=0;
     if(mode==16){skl->aim=2;g_FgtParam.GenArray[11]=12;g_FgtParam.GenArray[12]=13;g_FgtParam.GenArray[13]=14;g_GenPos[13].state=STATE_SW;g_FgtParam.GenArray[14]=15;g_GenPos[14].x=20;}
     if(mode==17){skl->aim=1;troops[10]=290;}
     if(mode==18)queuedKey=39;
     if(mode==22){skl=FgtGetJNPtr(1);skl->aim=0;skl->state=0;}
-    FGTCMD cmd={.param=(U16)((mode==91||mode==92)?12:(mode==22?1:5)),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
+    FGTCMD cmd={.param=(U16)((mode==93||mode==94)?23:((mode==91||mode==92)?12:(mode==22?1:5))),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
     if(isLcdDirty)timed_flush_lcd();record(3);
     if(mode==10){assert(g_hdSkillResultActive&&g_hdSkillResultSession==newerOwner&&!g_hdSkillResultSourceValid);baye_hd_skill_end(newerOwner);}else assert(!g_hdSkillResultActive&&!g_hdSkillResultDisplayValid);
     assert(!g_hdSpeActive&&hookCount==finalHookCount);assert(hookCount==((mode==16||mode==20||mode==21)?2:1));assert(skillHookCount==(mode==12?1:0));
@@ -257,6 +258,25 @@ async function runSkill(mode=0,hurt=123,prov=0){const f=await skillFixture(),out
 test('actual FIRE caller owns all eight real SPE35 copies and complete 65x64 opaque window',async()=>{
     const rows=await runSkill(),copies=rows.filter(r=>r.kind===1&&r.values.g_hdSpeId===35),expected=movieOracle(35,0,7,48,16);assert.equal(copies.length,expected.length);assert.equal(copies.length,8);
     for(let i=0;i<copies.length;i++){const v=copies[i].values,e=expected[i];assert.equal(v.g_hdSpeKind,2);assert.equal(v.g_hdSpeSkillId,5);assert.equal(v.g_hdSpeFrameIndex,e.frame);assert.equal(v.g_hdSpeCommitSeq,i+1);assert.equal(v.g_hdSpeProtocolValid,1);assert.equal(v.g_hdSpeCompositionValid,1);assert.equal(v.g_hdSkillResultSceneMode,2);assert.deepEqual([v.g_hdSkillResultSceneX,v.g_hdSkillResultSceneY,v.g_hdSkillResultSceneWidth,v.g_hdSkillResultSceneHeight],[48,16,65,64]);assert.equal(v.g_hdSkillResultBgValid,0);assert.deepEqual(Buffer.from(v.g_hdSpeVisibleFrames),e.visible);assert.deepEqual(Buffer.from(v.g_hdSpeClearFrames),e.cleared);assert.deepEqual(copies[i].pixels,e.pixels);}
+});
+
+// The combat calculator is a controlled boundary, as in the other caller
+// fixtures. The original STONE ROM, movie timer, copy/clear and state-report
+// caller execute unchanged; this is not a successful player-cast claim.
+for(const mode of [93,94])test('actual STONE23 caller preserves complete LCD outside eight opaque64 copies'+(mode===94?' with coalesced callbacks':''),async()=>{
+ const rows=await runSkill(mode,0,0),copies=rows.filter(r=>r.kind===1&&r.values.g_hdSpeId===42),expected=movieOracle(42,0,7,48,16);
+ assert.equal(copies.length,8);assert.equal(expected.length,8);
+ for(let i=0;i<copies.length;i++){
+  const v=copies[i].values,e=expected[i];
+  assert.deepEqual([v.g_hdSpeKind,v.g_hdSpeSkillId,v.g_hdSpeResourceFingerprint,v.g_hdSpeResourceLength],[2,23,0x0e6f8d97,1084]);
+  assert.deepEqual([v.g_hdSpeFrameIndex,v.g_hdSpeCommitSeq,v.g_hdSpeCompositionValid],[e.frame,i+1,1]);
+  assert.deepEqual([v.g_hdSkillResultSceneMode,v.g_hdSkillResultSceneX,v.g_hdSkillResultSceneY,v.g_hdSkillResultSceneWidth,v.g_hdSkillResultSceneHeight],[2,48,16,64,64]);
+  assert.deepEqual(Buffer.from(v.g_hdSpeVisibleFrames),e.visible);assert.deepEqual(Buffer.from(v.g_hdSpeClearFrames),e.cleared);
+  assert.deepEqual(copies[i].pixels,e.pixels,'Original movie and every surrounding LCD pixel agree with independent ROM decoding');
+ }
+ assert.equal(rows.some(r=>r.values.g_hdSkillResultPhase===2||r.values.g_hdSkillResultPhase===3),false,'State-only STONE never publishes NUM/HOLD');
+ assert.ok(rows.some(r=>r.kind===6),'Original state message reaches the report boundary');
+ assert.equal(rows.at(-1).values.g_hdSkillResultActive,0);assert.equal(rows.at(-1).values.g_hdSpeActive,0);
 });
 
 const stringEnum=new Map();let enumIndex=0;

@@ -2923,3 +2923,152 @@ for (const phase of [null, 'hold']) test('WATER12 ' + (phase || 'movie') + ' pai
         assert.equal(last.args[0] instanceof h.context.Image, false, 'complete capturedLCD overwrites stale water art'); fireNoInput(h);
     }
 });
+// STONE23 is state-only in the original ROM. These VM drawing records do not
+// claim native execution, browser pixels, a damage result or NUM/HOLD support.
+function stoneFixture(current = 0, shown = current) {
+    const actual = actualMainFixture(42), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const entry = structuredClone(production.entries.find(e => e.stoneVersion === 1 && e.skillId === 23));
+    assert.ok(entry, 'production STONE23 marker exists');
+    assert.deepEqual(entry.units, actual.units); assert.equal(entry.resourceFingerprint, actual.entry.resourceFingerprint);
+    const composition = frame => ({ protocolVersion: 1, valid: true, mode: 2, x: 48, y: 16, width: 64, height: 64,
+        background: null, clearFrames: bitset(...Array.from({ length: frame }, (_, i) => i)) });
+    const display = { generation: 9, eventId: 5, commitSeq: shown + 1, frameIndex: shown, frameValid: true,
+        visibleFrames: bitset(shown), composition: composition(shown) };
+    const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 48, y: 16, keyflag: 0, skipEligible: false,
+        contextKnown: true, skillId: 23, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
+        commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
+    return { ...actual, entry, s, m: { ...production, entries: [entry] } };
+}
+async function stoneLoaded(options = {}) {
+    const f = stoneFixture(options.current ?? 0, options.shown ?? options.current ?? 0);
+    const h = harness({ data: { g_scale: 1 }, spe: f.s });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h);
+    assert.equal(h.images.length, 2, 'only the two reused native stone slots, no invented background or number');
+    function resolve(i) { const image = h.images[i], picture = f.entry.pictures.find(p => p.src === image.url);
+        image.naturalWidth = picture.width; image.naturalHeight = picture.height; image.onload(); }
+    if (!options.pending) h.images.forEach((_, i) => resolve(i));
+    return { ...h, fixture: f, resolve };
+}
+test('STONE23 production state-only entry reuses exact ROM42 and the two existing opaque pictures', () => {
+    const f = stoneFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const legacy = m.entries.find(e => e.speId === 42 && e.stoneVersion == null);
+    assert.ok(legacy); assert.equal(m.entries.filter(e => e.stoneVersion != null).length, 1);
+    assert.deepEqual([f.entry.stoneVersion, f.entry.opaqueCoverageVersion, f.entry.skillId], [1, 1, 23]);
+    assert.deepEqual([f.entry.speId, f.entry.resourceIndex, f.entry.kind, f.entry.startFrm, f.entry.endFrm, f.entry.count, f.entry.picmax], [42, 0, 2, 0, 7, 8, 2]);
+    assert.equal(f.entry.resourceFingerprint, 'fnv1a32:0e6f8d97:1084'); assert.equal(f.entry.resourceLength, 1084);
+    assert.deepEqual(f.entry.units, legacy.units); assert.deepEqual(f.entry.pictures, legacy.pictures);
+    assert.equal(f.entry.skillResultVersion, undefined); assert.equal(f.entry.skillNumber, undefined);
+    assert.deepEqual(f.pictures.map(p => [p.nativeWidth, p.nativeHeight, p.mask]), [[64, 64, 0], [64, 64, 0]]);
+    for (const p of f.entry.pictures) checkPictureAlpha(decodePng(readFileSync(new URL('../' + p.src, import.meta.url))), 0);
+});
+test('STONE23 first through final eight copies retain full LCD outside the actual 64square with zero input', async () => {
+    const h = await stoneLoaded(), initial = h.nativeSnapshot();
+    for (let frame = 0; frame < 8; frame++) {
+        h.setSpe(stoneFixture(frame).s); h.events.length = 0; h.flush(); const d = h.api.debugSnapshot();
+        assert.equal(d.source, 'hd-assets'); assert.equal(d.outsideSource, 'lcd'); assert.deepEqual([...d.displayedFrames], [frame]);
+        waterBoundedDraws(h); assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[frame % 2].src);
+        assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && ['fillRect', 'fillText'].includes(e.operation)).length, 0);
+    }
+    h.setSpe(h.fixture.s); assert.equal(h.nativeSnapshot(), initial);
+    assert.equal(h.nodes.get('hd-spe-skip').hidden, true); h.key(); h.api.skip(); fireNoInput(h);
+});
+test('STONE23 selects the appended specialization after the preserved legacy42 entry', async () => {
+    const h = await stoneLoaded(), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const before = h.images.length; h.api.setManifest(production); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd', 'new manifest epoch waits for actual stone decode'); fireFullLcd(h);
+    const pending = h.images.slice(before).filter(image => h.fixture.entry.pictures.some(p => p.src === image.url));
+    assert.equal(pending.length, 2, 'both stone slots requested again; unrelated Maker prewarm is not this owner');
+    for (const image of pending) { const p = h.fixture.entry.pictures.find(p => p.src === image.url);
+        image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); }
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); waterBoundedDraws(h);
+});
+test('STONE23 lagging displayed copy uses only its earlier slot and established clear frontier', async () => {
+    const h = await stoneLoaded({ current: 7, shown: 2 });
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [2]);
+    assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[0].src); waterBoundedDraws(h);
+    for (const change of [s => s.display.visibleFrames = bitset(3), s => s.display.composition.clearFrames = bitset(3),
+        s => s.display.commitSeq = 9, s => s.display.eventId++, s => s.display.generation++,
+        s => { s.display.visibleFrames = bitset(); s.display.composition.clearFrames = bitset(0, 1); },
+        s => { s.visibleFrames = bitset(); s.composition.clearFrames = bitset(0, 1); }]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('STONE23 clear-only actual frontier restores native LCD without fill or retained invented art', async () => {
+    const h = await stoneLoaded({ current: 7 }), clear = structuredClone(h.fixture.s);
+    for (const copy of [clear, clear.display]) { copy.visibleFrames = bitset(); copy.composition.clearFrames = bitset(0, 1, 2, 3, 4, 5, 6, 7); }
+    h.setSpe(clear); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    waterBoundedDraws(h); assert.deepEqual(h.hdDraws(), []); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], []);
+    assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect').length, 0);
+    clear.display.composition.clearFrames = bitset(0); h.setSpe(clear); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+});
+test('STONE23 rejects unknown or mismatched context and malformed current display to complete LCD', async () => {
+    const h = await stoneLoaded();
+    for (const change of [s => s.contextKnown = false, s => s.skillId = 13, s => s.actorIndex = 20, s => s.targetIndex = 20,
+        s => s.keyflag = 1, s => s.skipEligible = true, s => s.protocolValid = false,
+        s => s.resourceFingerprint = 'fnv1a32:00000000:1084', s => s.resourceLength++, s => s.resourceIndex = 1,
+        s => s.composition.width = 65, s => s.display.composition.width = 63, s => s.display.composition.mode = 3,
+        s => s.display.composition.background = { valid: true }, s => s.display.composition.clearFrames = bitset(7),
+        s => { s.visibleFrames = bitset(); s.composition.clearFrames = bitset(); }]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('STONE23 missing corrupt or numeric specialization cannot borrow retained generic42', async () => {
+    const h = await stoneLoaded(), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const legacy = production.entries.find(e => e.speId === 42 && e.stoneVersion == null);
+    for (const change of [e => delete e.stoneVersion, e => e.stoneVersion = 2, e => delete e.opaqueCoverageVersion,
+        e => e.skillId = 13, e => e.units[3].x = 1, e => e.units[5].picIndex = 0, e => e.pictures[1].logicalWidth = 65,
+        e => e.pictures[0].mask = 1, e => e.background = {}, e => e.skillResultVersion = 1,
+        e => e.skillNumber = legacy.skillNumber, e => e.waterVersion = 1]) {
+        const entry = structuredClone(h.fixture.entry); change(entry); h.api.setManifest({ ...h.fixture.m, entries: [legacy, entry] });
+        h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    h.api.setManifest({ ...h.fixture.m, entries: [legacy] }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+for (const phase of ['numbers', 'hold']) test('STONE23 rejects synthetic ' + phase + ' because original stone has no numeric postlude', async () => {
+    const f = stoneFixture(7), numberFixture = waterNumericFixture(phase), result = structuredClone(numberFixture.result);
+    Object.assign(result, { speId: 42, skillId: 23, value: 0, resourceFingerprint: f.entry.resourceFingerprint, resourceLength: f.entry.resourceLength });
+    const h = harness({ data: { g_scale: 1 }, spe: { active: 0, generation: 9 }, skillResult: result, resultOwner: numberFixture.top });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h); h.events.length = 0; h.flush();
+    assert.notEqual(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual(h.hdDraws(), []); fireFullLcd(h); fireNoInput(h);
+});
+for (const slot of [0, 1]) test('STONE23 missing picture' + slot + ' retains full LCD and cannot be revived by a late decode', async () => {
+    const h = await stoneLoaded({ pending: true }); h.resolve(1 - slot); h.images[slot].onerror(); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    h.resolve(slot); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+});
+test('STONE23 pending unknown LIB classic hidden report and ended-owner late decode never replace actual LCD', async () => {
+    const pending = await stoneLoaded({ pending: true }); pending.events.length = 0; pending.flush();
+    assert.equal(pending.api.debugSnapshot().source, 'lcd'); fireFullLcd(pending);
+    const unknown = await stoneLoaded(); unknown.context.dynLib = '00'; unknown.events.length = 0; unknown.flush();
+    assert.equal(unknown.api.debugSnapshot().source, 'lcd'); fireFullLcd(unknown); assert.deepEqual(unknown.hdDraws(), []);
+    const classic = await stoneLoaded(); classic.setMode(false); classic.events.length = 0; classic.flush(); assert.equal(classic.api.isOpen(), false);
+    const report = await stoneLoaded({ pending: true }); report.setReport(1); report.events.length = 0;
+    report.resolve(0); report.resolve(1); report.flush(); assert.equal(report.api.isOpen(), false); assert.deepEqual(report.hdDraws(), []);
+    const hidden = await stoneLoaded({ pending: true }); hidden.setHidden(true); hidden.events.length = 0;
+    hidden.resolve(0); hidden.resolve(1); hidden.flush(); assert.equal(hidden.api.isOpen(), false); assert.deepEqual(hidden.hdDraws(), []);
+    hidden.setSpe({ active: 0 }); hidden.setHidden(false); hidden.events.length = 0; hidden.flush(); assert.equal(hidden.api.isOpen(), false);
+    const ended = await stoneLoaded({ pending: true }); ended.setSpe({ active: 0 }); ended.api.onEngineSpe(); ended.events.length = 0;
+    ended.resolve(0); ended.resolve(1); ended.flush(); assert.equal(ended.api.isOpen(), false); assert.deepEqual(ended.hdDraws(), []);
+    for (const h of [pending, unknown, classic, report, hidden, ended]) fireNoInput(h);
+});
+test('STONE23 report takes over an already painted state-only movie without an automatic acknowledgement', async () => {
+    const h = await stoneLoaded({ current: 7 }); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    h.events.length = 0; h.setReport(1); h.flush(); assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+test('STONE23 paint final fence restores complete LCD after data event commit or identity drift', async () => {
+    for (const change of [h => h.spe().display.eventId++, h => h.spe().display.commitSeq++,
+        h => { Object.defineProperty(h.context.baye, 'data', { configurable: true, get: () => ({ g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 }) }); },
+        h => { h.context.dynLib = '00'; }]) {
+        const h = await stoneLoaded(); let changed = false;
+        h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) { changed = true; change(h); } });
+        h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+        const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0] instanceof h.context.Image, false, 'captured complete LCD overwrites any stale stone art'); fireNoInput(h);
+    }
+});

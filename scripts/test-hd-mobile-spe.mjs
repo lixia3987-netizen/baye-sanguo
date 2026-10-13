@@ -66,7 +66,8 @@ function opaqueSkillFixture(effect,{hold=false,current=0,display=current}={}) {
  f.untouched();return fixture(undefined,{effect:effect.name,rawGlobals:structuredClone(f.raw)});
 }
 const opaqueSkills=[{name:'fire',label:'FIRE5',resourceId:35,skillId:5,width:65,length:1212,fingerprint:0x0bf53f74,path:'fire-35'},
- {name:'water',label:'WATER12',resourceId:36,skillId:12,width:64,length:1084,fingerprint:0x6d62e7a8,path:'water-36'}];
+ {name:'water',label:'WATER12',resourceId:36,skillId:12,width:64,length:1084,fingerprint:0x6d62e7a8,path:'water-36'},
+ {name:'stone',label:'STONE23',resourceId:42,skillId:23,width:64,length:1084,fingerprint:0x0e6f8d97,path:'stone-42',stateOnly:true}];
 function modeButtonFixture(effect) {
  const listeners={},nodes=new Map(),calls=[],raw={},positions=Array.from({length:20},()=>({x:0,y:0,move:0,active:0,state:8,hp:0,mp:0}));let mode='hd',top=null;
  const fields={active:'g_hdFightActive',over:'g_hdFightOver',wait:'g_hdFightWait',phase:'g_hdFightPhase',aimType:'g_hdFightAimType',inputKind:'g_hdFightInputKind',inputSeq:'g_hdFightInputSeq',actorIndex:'g_hdFightActor',skip:'g_hdFightSkip',mapW:'g_MapWid',mapH:'g_MapHgt',bout:'g_FgtBoutCnt',boutMax:'g_FgtBoutMax',focusX:'g_FoucsX',focusY:'g_FoucsY'};
@@ -113,7 +114,7 @@ export function runMobileSpeChecks(register=test){
  register('cancelled, multiple-pointer, untrusted or changed-owner mobile mode gestures cannot switch or retire SPE',()=>{for(const why of ['cancel','multiple','untrusted','owner']){const h=hdFixture(),host=modeButtonFixture(h);host.fire('pointerdown',host.header,{isTrusted:why!=='untrusted'});if(why==='cancel')host.fire('pointercancel',host.header);if(why==='multiple')host.fire('pointerdown',host.header,{pointerId:2,isPrimary:false});if(why==='owner')host.raw.g_hdFightInputSeq++;host.fire('pointerup',host.header);assert.equal(host.mode,'hd');assert.ok(!host.calls.includes('speRetire:mode'));assert.equal(h.api.isOpen(),true);h.noInput();}});
 
  for(const effect of opaqueSkills){const make=settings=>opaqueSkillFixture(effect,settings),label='mobile '+effect.label;
- for(const [name,settings]of [['first movie',{}],['display lag',{current:3,display:0}],['final movie',{current:7}],['numeric hold',{hold:true}]])register(label+' '+name+' retains a full LCD base and the actual '+effect.width+'x64 copied window',()=>{
+ for(const [name,settings]of [['first movie',{}],['display lag',{current:3,display:0}],['final movie',{current:7}],...effect.stateOnly?[]:[['numeric hold',{hold:true}]]])register(label+' '+name+' retains a full LCD base and the actual '+effect.width+'x64 copied window',()=>{
   const h=make(settings);h.flush();h.resolve();const s=h.snapshot();
   assert.equal(s.source,'hd-assets');assert.equal(h.api.getLcdPresentation(),'hd');
   assert.deepEqual(JSON.parse(JSON.stringify(s.sourceRect)),{x:0,y:0,width:160,height:96});
@@ -126,7 +127,7 @@ export function runMobileSpeChecks(register=test){
  register(label+' decode alone cannot authorize its old framebuffer',()=>{const h=make();h.resolve();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
  register(label+' missing art keeps the physical LCD and never sends a skip',()=>{const h=make();h.flush();h.resolve(true);assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);assert.equal(h.api.skip(),false);h.noInput();});
  register(label+' same-value data replacement requires a fresh actual flush',()=>{const h=make();h.flush();h.resolve();h.rebind();assert.equal(h.api.isOpen(),false);assert.equal(h.api.getLcdPresentation(),'lcd');h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
- register(label+' classic mode retires the HD window and needs a new flush on return',()=>{const h=make({hold:true});h.flush();h.resolve();h.setMode('classic');assert.equal(h.api.isOpen(),false);h.setMode('hd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
+ register(label+' classic mode retires the HD window and needs a new flush on return',()=>{const h=make({hold:!effect.stateOnly});h.flush();h.resolve();h.setMode('classic');assert.equal(h.api.isOpen(),false);h.setMode('hd');assert.equal(h.api.isOpen(),false);h.flush();assert.equal(h.api.getLcdPresentation(),'hd');h.noInput();});
  register(label+' report or native retirement prevents late art revival',()=>{for(const why of ['report','retire']){const h=make();h.flush();if(why==='report')h.setReport(1);else h.retireNative();h.resolve();assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();}});
  register(label+' unknown LIB never becomes a presentation authority',()=>{const h=make();h.flush();h.resolve();h.setIdentity({sha256:'0'.repeat(64)});assert.equal(h.api.getLcdPresentation(),'off');assert.equal(h.api.isOpen(),false);h.noInput();});
  }

@@ -251,3 +251,50 @@ test('WATER12 raw HOLD rejects stale top session, forged NUM payload and late da
  const f=waterMovieFixture();f.hold();let once=false;f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSkillResultDisplayDigitDrawCount'){once=true;f.replaceData();}});
  const s=f.baye.hd.skillResult();assert.equal(once,true);assert.equal(s.sourceValid,false);f.untouched();
 });
+
+// STONE is decoded independently; matching WATER geometry is not authority.
+const stone=resource(42);
+function stoneMovieFixture(){
+ const f=waterMovieFixture();
+ const bind=()=>Object.assign(f.raw,{g_hdSpeId:42,g_hdSpeSkillId:23,g_hdSpeResourceFingerprint:fnv(stone),g_hdSpeResourceLength:stone.length});
+ return {...f,movie(current=0,shown=current){f.movie(current,shown);bind();},hold(phase=3){f.hold(phase);bind();
+  Object.assign(f.raw,{g_hdSkillResultSkillId:23,g_hdSkillResultId:42,g_hdSkillResultResourceFingerprint:fnv(stone),g_hdSkillResultResourceLength:stone.length});}};
+}
+test('STONE23 original ROM42 owns eight alternating opaque64 copies, independently of WATER36',()=>{
+ assert.equal(stone.length,1084);assert.equal(fnv(stone),0x0e6f8d97);assert.notDeepEqual(stone,water);
+ assert.deepEqual([...stone.subarray(2,6)],[8,2,0,7]);
+ for(let i=0;i<8;i++)assert.deepEqual([...stone.subarray(6+i*5,11+i*5)],[0,0,20,20,i%2]);
+ let offset=46;for(let i=0;i<2;i++){assert.deepEqual([stone.readUInt16LE(offset),stone.readUInt16LE(offset+2),stone[offset+6]],[64,64,0]);offset+=519;}
+ assert.equal(offset,stone.length);
+});
+for(let frame=0;frame<8;frame++)test('STONE23 authentic copied frontier '+frame+' publishes only its actual64square',()=>{
+ const f=stoneMovieFixture();f.movie(frame);const s=f.baye.hd.spe();
+ assert.deepEqual([s.id,s.skillId,s.contextKnown,s.composition.valid,s.display.composition.valid],[42,23,true,true,true]);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,64,64]);
+ assert.deepEqual(plain(s.display.visibleFrames),bits(frame));f.untouched();
+});
+test('STONE23 current and displayed copies authenticate their own frontier and clear history',()=>{
+ const f=stoneMovieFixture();f.movie(7,2);let s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ f.raw.g_hdSpeDisplayClearFrames=bits(0,1,3);s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+for(const [label,change] of [
+ ['WATER context',r=>r.g_hdSpeSkillId=12],['other STONE context',r=>r.g_hdSpeSkillId=13],['unknown context',r=>r.g_hdSpeContextKnown=0],
+ ['WATER source',r=>r.g_hdSpeId=36],['WATER fingerprint',r=>r.g_hdSpeResourceFingerprint=fnv(water)],['wrong index',r=>r.g_hdSpeResourceIndex=1],
+ ['wrong length',r=>r.g_hdSpeResourceLength--],['wide window',r=>r.g_hdSpeSceneWidth=65],['short window',r=>r.g_hdSpeSceneHeight=63],
+ ['invented backdrop',r=>r.g_hdSpeSceneMode=1],['wrong origin',r=>r.g_hdSpeOriginX=47],['missing target',r=>r.g_hdSpeTargetIndex=20],
+ ['missing actor',r=>r.g_hdSpeActorIndex=20],['interactive movie',r=>r.g_hdSpeKeyflag=1],['scale2',r=>r.g_scale=2],
+ ['wrong LCD',r=>r.g_screenHeight=97],['wrong range',r=>r.g_hdSpeEndFrm=6],['future bits',r=>r.g_hdSpeVisibleFrames=bits(1)],
+ ['missing frontier',r=>r.g_hdSpeVisibleFrames=bits()],['report',r=>r.g_hdReportActive=1],['help',r=>r.g_hdHelpActive=1],['quantity',r=>r.g_hdQtyActive=1]
+])test('STONE23 refuses '+label+' without changing native state',()=>{
+ const f=stoneMovieFixture();f.movie();change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+test('STONE23 state report retires its copied window without borrowing the generic42 composition',()=>{
+ const f=stoneMovieFixture();f.movie(7);assert.equal(f.baye.hd.spe().display.composition.valid,true);
+ f.raw.g_hdReportActive=1;const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
+});
+test('STONE23 late mutation or same-value data rebinding cannot authenticate stale copied pixels',()=>{
+ for(const rebind of [false,true]){const f=stoneMovieFixture();f.movie();let once=false;
+  f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;if(rebind)f.replaceData();else f.raw.g_hdSpeSceneWidth=65;}});
+  const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
+ }
+});

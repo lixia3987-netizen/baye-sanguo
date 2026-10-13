@@ -1323,7 +1323,7 @@ function baye_bridge_init() {
         sceneNames.forEach(function (name) {
             if (d && (d['g_hdSpe' + name] != null || d['g_hdSpeDisplay' + name] != null)) scenePresent = true;
         });
-        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false, qimen = false, fire = false, water = false;
+        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false, qimen = false, fire = false, water = false, stone = false;
         if (scenePresent) {
             function readScene(prefix) { return { mode: r.num(prefix + 'SceneMode', 3),
                 x: hdOrigin(r.num(prefix + 'SceneX', 65535)), y: hdOrigin(r.num(prefix + 'SceneY', 65535)),
@@ -1356,6 +1356,16 @@ function baye_bridge_init() {
                 count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
                 values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1084 &&
                 values.ResourceFingerprint === 0x6d62e7a8 &&
+                r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+                r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
+            // STONE23 has its own original copied64 source. A matching window
+            // alone cannot authorize another skill or another resource.
+            stone = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
+                expected.actorIndex === actor && expected.targetIndex === target && actor != null && target != null && actor < 20 && target < 20 &&
+                skill === 23 && values.Id === 42 && values.Kind === 2 && values.ResourceIndex === 0 &&
+                count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
+                values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1084 &&
+                values.ResourceFingerprint === 0x0e6f8d97 &&
                 r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
                 r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
             // Equal opaque AID owns its real copied64 square, independently of
@@ -1436,9 +1446,9 @@ function baye_bridge_init() {
                 if (frame > frontier) return false;
                 established = true;
             }
-            return established && (!(fire || water) || ((live[frontier >> 3] | erased[frontier >> 3]) & (1 << (frontier & 7))) !== 0);
+            return established && (!(fire || water || stone) || ((live[frontier >> 3] | erased[frontier >> 3]) & (1 << (frontier & 7))) !== 0);
         }
-        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan || zhoufeng || dingshen || qimen || fire || water) && !background.valid &&
+        var currentEqualOpaque = current && currentValid === 1 && (aid || liuyan || zhoufeng || dingshen || qimen || fire || water || stone) && !background.valid &&
             equalOpaqueGeometry(scene, visible, clears, values.FrameIndex, fire ? 65 : 64),
             shownEqualOpaque = shown && currentEqualOpaque && !displayBackground.valid &&
                 equalOpaqueGeometry(displayScene, displayVisible, displayClears, values.DisplayFrameIndex, fire ? 65 : 64) &&
