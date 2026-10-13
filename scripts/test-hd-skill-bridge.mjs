@@ -90,8 +90,8 @@ test('native result stack keeps an overwritten real parent active for LCD, witho
     delete f.raw.g_hdResultOwnerGeneration;assert.equal(f.baye.hd.resultOwner().active,false);neutral(f.baye.hd.skillResult());f.untouched();
 });
 
-// FIRE5 is an exact opaque65x64 source. The retained generic35 entry belongs to
-// other skills; these synthetic owner tests never claim an actual game cast.
+// Original FIRE5/11/18 share an exact opaque65x64 source. These synthetic
+// owner tests never claim an actual game cast or authorize unknown contexts.
 const fireHeader=readFileSync(new URL('../vendor/iBaye/src/hd-bridge.h',import.meta.url),'utf8');
 const fireConstants=Object.fromEntries([...fireHeader.matchAll(/^#define\s+([A-Z_][A-Z_0-9]*)\s+(\d+)\b/gm)].map(m=>[m[1],+m[2]]));
 const bits=(...list)=>{const b=Array(32).fill(0);for(const n of list)b[n>>3]|=1<<(n&7);return b;};
@@ -153,7 +153,7 @@ test('FIRE displayed commit may truly lag current source without borrowing futur
  const f=fireMovieFixture();f.movie(5,7,2);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);assert.equal(s.display.commitSeq,3);assert.equal(s.commitSeq,8);assert.deepEqual(plain(s.display.composition.clearFrames),bits(0,1));f.untouched();
 });
 for(const [label,change]of[
- ['shared35 skill11',r=>r.g_hdSpeSkillId=11],['shared35 skill18',r=>r.g_hdSpeSkillId=18],['other skill14',r=>r.g_hdSpeSkillId=14],['other skill15',r=>r.g_hdSpeSkillId=15],
+ ['unrelated skill10',r=>r.g_hdSpeSkillId=10],['unrelated skill22',r=>r.g_hdSpeSkillId=22],['other skill14',r=>r.g_hdSpeSkillId=14],['other skill15',r=>r.g_hdSpeSkillId=15],
  ['custom context',r=>r.g_hdSpeContextKnown=0],['wrong movie',r=>r.g_hdSpeId=36],['fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],['resource length',r=>r.g_hdSpeResourceLength--],
  ['truncated64 source',r=>r.g_hdSpeSceneWidth=64],['invented66 source',r=>r.g_hdSpeSceneWidth=66],['noninteger geometry',r=>r.g_hdSpeSceneWidth='65'],['height',r=>r.g_hdSpeSceneHeight=63],
  ['origin',r=>r.g_hdSpeOriginX=47],['scene origin',r=>r.g_hdSpeSceneY=15],['keyflag',r=>r.g_hdSpeKeyflag=1],['drawing scale',r=>r.g_scale=2],['screen width',r=>r.g_screenWidth=161],
@@ -211,7 +211,7 @@ test('WATER12 clear-only frontier is authentic while missing that frontier is no
  f.raw.g_hdSpeClearFrames=bits(0,1,2);rejectWater(f);
 });
 for(const[label,change]of[
- ['shared sea19 context',r=>r.g_hdSpeSkillId=19],['unrelated skill5',r=>r.g_hdSpeSkillId=5],['unknown context',r=>r.g_hdSpeContextKnown=0],
+ ['unrelated skill18',r=>r.g_hdSpeSkillId=18],['unrelated skill5',r=>r.g_hdSpeSkillId=5],['unknown context',r=>r.g_hdSpeContextKnown=0],
  ['wrong resource',r=>r.g_hdSpeId=35],['wrong fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],['truncated source',r=>r.g_hdSpeResourceLength--],
  ['inflated65 width',r=>r.g_hdSpeSceneWidth=65],['truncated63 width',r=>r.g_hdSpeSceneWidth=63],['nonnumeric width',r=>r.g_hdSpeSceneWidth='64'],
  ['wrong origin',r=>r.g_hdSpeOriginX=47],['mode3 nested backdrop',r=>r.g_hdSpeSceneMode=3],['unknown actor',r=>r.g_hdSpeActorIndex=20],
@@ -297,4 +297,59 @@ test('STONE23 late mutation or same-value data rebinding cannot authenticate sta
   f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;if(rebind)f.replaceData();else f.raw.g_hdSpeSceneWidth=65;}});
   const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();
  }
+});
+
+// Shared caller expansion retains exact resource ownership. Skill11's earlier
+// food-loss numbers have no movie source; its later movie has value0/no NUM.
+function sharedCallerFixture(skillId){
+ const f=skillId===19?waterMovieFixture():fireMovieFixture();
+ const bind=()=>{f.raw.g_hdSpeSkillId=skillId;f.raw.g_hdSkillResultSkillId=skillId;};
+ return {...f,movie(current=0,shown=current){if(skillId===19)f.movie(current,shown);else f.movie(skillId,current,shown);bind();},hold(phase=3){f.hold(phase);bind();f.raw.g_hdSkillResultPhase=phase;}};
+}
+for(const skillId of [11,18,19])for(let frame=0;frame<8;frame++)test('shared original skill'+skillId+' authenticates source/display copy'+frame+' only for its exact resource',()=>{
+ const f=sharedCallerFixture(skillId);f.movie(frame);const s=f.baye.hd.spe(),width=skillId===19?64:65;
+ assert.equal(s.skillId,skillId);assert.equal(s.id,skillId===19?36:35);assert.equal(s.contextKnown,true);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+ assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[2,48,16,width,64]);
+ assert.deepEqual(plain(s.display.visibleFrames),bits(frame));assert.deepEqual(plain(s.display.composition.clearFrames),bits(...Array.from({length:frame},(_,i)=>i)));f.untouched();
+});
+for(const skillId of [11,18,19])test('shared original skill'+skillId+' keeps separate current/display clear frontiers',()=>{
+ const f=sharedCallerFixture(skillId);f.movie(7,2);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);assert.equal(s.commitSeq,8);assert.equal(s.display.commitSeq,3);assert.deepEqual(plain(s.display.composition.clearFrames),bits(0,1));f.untouched();
+});
+for(const skillId of [11,18,19])for(const[label,change]of[
+ ['unknown context',r=>r.g_hdSpeContextKnown=0],['unknown skill',r=>r.g_hdSpeSkillId=65535],
+ ['cross-resource skill',r=>r.g_hdSpeSkillId=skillId===19?18:19],['competing report',r=>r.g_hdReportActive=1],
+ ['missing helper owner',r=>r.g_hdHelpActive=1],['quantity owner',r=>r.g_hdQtyActive=1]
+])test('shared original skill'+skillId+' rejects '+label+' without reading gameplay getters or writing',()=>{
+ const f=sharedCallerFixture(skillId);f.movie();change(f.raw);if(skillId===19)rejectWater(f);else rejectFire(f);
+});
+for(const skillId of [11,18,19])test('shared original skill'+skillId+' rejects a stale displayed event and opaque data rebind',()=>{
+ const f=sharedCallerFixture(skillId);f.movie(7,2);f.raw.g_hdSpeDisplayEventId++;
+ const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();
+ const rebound=sharedCallerFixture(skillId);rebound.movie();let once=false;
+ rebound.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSpeStatusProtocolVersion'){once=true;rebound.replaceData();}});
+ if(skillId===19)rejectWater(rebound);else rejectFire(rebound);assert.equal(once,true);
+});
+for(const skillId of [18,19])for(const phase of [2,3])test('shared damaging skill'+skillId+' NUM/HOLD phase'+phase+' binds its own final movie and NUM15',()=>{
+ const f=sharedCallerFixture(skillId);f.hold(phase);const s=f.baye.hd.skillResult();assert.equal(s.skillId,skillId);assert.equal(s.speId,skillId===19?36:35);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);
+ assert.equal(s.number.valid,true);assert.equal(s.number.id,15);assert.deepEqual(plain(s.display.digits).map(d=>d.digit),[2,4,0]);f.untouched();
+});
+for(const skillId of [18,19])test('shared damaging skill'+skillId+' cannot reuse another target session',()=>{
+ const f=sharedCallerFixture(skillId);f.hold();f.raw.g_hdSkillResultDisplaySession--;
+ const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,false);f.untouched();
+});
+test('WATER19 numeric snapshot retains the opaque data-reference final fence',()=>{
+ const f=sharedCallerFixture(19);f.hold();let once=false;f.onRead((p,k)=>{if(!once&&p===''&&k==='g_hdSkillResultDisplayDigitDrawCount'){once=true;f.replaceData();}});
+ assert.equal(f.baye.hd.skillResult().sourceValid,false);assert.equal(once,true);f.untouched();
+});
+test('FIRE11 prior provender numbers remain factual but cannot borrow a later FIRE movie scene',()=>{
+ const f=sharedCallerFixture(11);f.hold(2);Object.assign(f.raw,{g_hdSkillResultResultKind:3,g_hdSkillResultValue:150,g_hdSkillResultSourceValid:0,g_hdSkillResultEventId:0,g_hdSkillResultId:0,g_hdSkillResultSceneMode:0});
+ const s=f.baye.hd.skillResult();assert.equal(s.active,true);assert.equal(s.skillId,11);assert.equal(s.resultKind,3);assert.equal(s.value,150);unsafe(s);f.untouched();
+});
+test('FIRE11 actual zero-value movie does not infer late numeric payload from its food-loss prelude',()=>{
+ const f=sharedCallerFixture(11);f.hold(1);Object.assign(f.raw,{g_hdSpeActive:1,g_hdSkillResultValue:0,g_hdSkillResultNumberValid:0});
+ for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){
+  Object.assign(f.raw,{[p+'DigitCount']:0,[p+'LabelValid']:0,[p+'LabelLength']:0});f.raw[p+'LabelGbk'].fill(0);
+  for(const n of ['Index','X','Y','FirstY','DrawCount'])f.raw[p+'Digit'+n].fill(0);
+ }
+ const s=f.baye.hd.skillResult();assert.equal(s.active,true);assert.equal(s.phase,'movie');assert.equal(s.skillId,11);assert.equal(s.resultKind,1);assert.equal(s.value,0);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.number.valid,false);assert.equal(s.label.valid,false);assert.deepEqual(plain(s.digits),[]);assert.deepEqual(plain(s.display.digits),[]);f.untouched();
 });

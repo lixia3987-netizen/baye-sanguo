@@ -933,35 +933,33 @@ test('in-place art metadata changes during a wood draw revoke the decoded resour
 });
 
 function skillFixture() {
-    const fixture=actualMainFixture(35), entry=fixture.entry;
-    entry.kind=2;entry.skillResultVersion=1;entry.skillNumber=attackFixture().entry.number;
-    const label={claimed:true,valid:true,x:55,y:18,length:8,text:'兵力减少',bytes:[...Buffer.from('b1f8c1a6bcf5c9d9','hex'),...Array(56).fill(0)]};
-    const digit={digit:2,x:55,y:49,firstY:56,drawCount:8};
-    const composition={protocolVersion:1,valid:true,mode:2,x:48,y:16,width:65,height:64,background:null,clearFrames:bitset(0,1,2,3,4,5,6)};
-    const display={generation:9,session:2,eventId:5,commitSeq:8,frameIndex:7,frameValid:true,valid:true,paintSeq:10,visibleFrames:bitset(7),composition,label,digits:[digit]};
-    const result={protocolVersion:1,active:true,phase:'numbers',custom:false,sourceValid:true,generation:9,session:2,skillId:1,resultKind:1,value:240,paintSeq:10,
-        speId:35,resourceIndex:0,count:entry.count,picmax:entry.picmax,startFrm:entry.startFrm,endFrm:entry.endFrm,x:48,y:16,
-        resourceLength:entry.resourceLength,resourceFingerprint:entry.resourceFingerprint,number:{...entry.skillNumber,valid:true},label,digits:[digit],scene:display,display};
-    const top={active:true,valid:true,kind:2,generation:9,session:2};
-    return{...fixture,result,top};
+    // The original generic skill1/resource35 combination is not a real caller.
+    // Keep the partial-digit postlude checks on the authenticated FIRE5 owner.
+    const f = fireNumericFixture();
+    f.result.digits = [f.result.digits[0]];
+    f.result.display.digits = f.result.digits;
+    return f;
 }
 async function skillLoaded(options={}) {
     const f=skillFixture(),h=harness({data:{g_scale:1},spe:{active:0,generation:9},skillResult:f.result,resultOwner:f.top,...options});
     h.context.dynLib=f.lib.toString('hex');h.api.setManifest(f.m);h.api.start();
     const deadline=Date.now()+2000;while(!h.images.length&&Date.now()<deadline)await settle();
-    assert.equal(h.images.length,2);if(!options.pendingImage)h.images.forEach((_,i)=>h.resolveImage(i));
+    assert.equal(h.images.length,2);if(!options.pendingImage)h.images.forEach(image=>{
+        const picture=f.entry.pictures.find(p=>p.src===image.url);
+        assert.ok(picture);image.naturalWidth=picture.width;image.naturalHeight=picture.height;image.onload();
+    });
     return{...h,fixture:f};
 }
-test('skill postlude draws its authenticated opaque window, actual label then displayed digit history, retaining LCD outside',async()=>{
-    const h=await skillLoaded(),s=h.api.debugSnapshot(),scale=14;
+test('FIRE5 postlude draws its authenticated opaque window, actual label then displayed digit history, retaining fullLCD outside',async()=>{
+    const h=await skillLoaded(),s=h.api.debugSnapshot(),scale=11;
     assert.equal(s.presentation,'skill-postlude');assert.equal(s.source,'hd-assets');assert.equal(s.spe.active,0);assert.equal(s.outsideSource,'lcd');assert.equal(s.hdRegion.width,65);
     const drawing=h.events.filter(e=>e.node==='hd-spe-canvas');
     const clip=drawing.findLast(e=>e.operation==='rect'&&e.args[2]===65*scale&&e.args[3]===64*scale);
-    assert.deepEqual(clip.args,[33*scale,0,65*scale,64*scale]);
-    assert.deepEqual(h.hdDraws().at(-1).args.slice(1),[33*scale,0,65*scale,64*scale]);
+    assert.deepEqual(clip.args,[48*scale,16*scale,65*scale,64*scale]);
+    assert.deepEqual(h.hdDraws().at(-1).args.slice(1),[48*scale,16*scale,65*scale,64*scale]);
     const texts=drawing.filter(e=>e.operation==='fillText').slice(-9);
-    assert.deepEqual(texts[0].args,['兵力减少',40*scale,2*scale,48*scale]);
-    assert.deepEqual(texts.slice(1).map(e=>e.args),Array.from({length:8},(_,i)=>['2',40*scale,(40-i)*scale,6*scale]));
+    assert.deepEqual(texts[0].args,['兵力减少',55*scale,18*scale,48*scale]);
+    assert.deepEqual(texts.slice(1).map(e=>e.args),Array.from({length:8},(_,i)=>['2',55*scale,(56-i)*scale,6*scale]));
     assert.equal(h.nodes.get('hd-spe-skip').hidden,true);assert.equal(h.nodes.get('hd-spe-return').hidden,true);h.key();h.api.skip();assert.deepEqual(h.keys,[]);assert.deepEqual(h.nativeWrites,[]);
     const before=h.events.length;h.advance(50000);h.polls.forEach(p=>p());assert.equal(h.events.length,before);
 });
@@ -1346,30 +1344,17 @@ test('negative and edge origins are clipped using native logical positions, with
     assert.deepEqual(h.nativeWrites, []);
 });
 
-test('legacy shared35 without a FIRE5 marker keeps its old33pixel arena offset and15,16 LCD crop', async () => {
+test('retained generic35 cannot authorize an unknown skill or context and preserves fullLCD', async () => {
     const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
     const entry = m.entries.find(e => e.speId === 35 && e.kind === 2 && e.fireVersion == null);
     assert.ok(entry);
-    const h = harness({ data: { g_scale: m.axScale }, spe: { id: entry.speId, kind: entry.kind,
-        x: 48, y: 16, resourceIndex: entry.resourceIndex, count: entry.count, picmax: entry.picmax,
-        startFrm: entry.startFrm, endFrm: entry.endFrm, resourceFingerprint: entry.resourceFingerprint,
-        resourceLength: entry.resourceLength, keyflag: 0, skipEligible: false } });
-    h.context.dynLib = readFileSync(new URL('../libs/dat-mod.lib', import.meta.url)).toString('hex');
-    h.api.setManifest(m); h.api.start();
-    const isFire = image => entry.pictures.some(picture => picture.src === image.url), deadline = Date.now() + 2_000;
-    while (h.images.filter(isFire).length < entry.picmax && Date.now() < deadline) await new Promise(resolve => setTimeout(resolve, 10));
-    const fireImages = h.images.filter(isFire);
-    assert.equal(fireImages.length, entry.picmax, 'the attack loads its two native slots independently of the warm credit sheet');
-    for (let i = 0; i < entry.picmax; i++) {
-        fireImages[i].naturalWidth = entry.pictures[i].width; fireImages[i].naturalHeight = entry.pictures[i].height;
-        fireImages[i].onload();
+    const f = fireFixture();
+    for (const context of [{ contextKnown: false, skillId: 11 }, { contextKnown: true, skillId: 1 }]) {
+        const h = harness({ data: { g_scale: 1 }, spe: { ...f.s, ...context } });
+        h.context.dynLib = f.lib.toString('hex'); h.api.setManifest({ ...m, entries: [entry] }); h.api.start();
+        await waitForIdentity(h); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
     }
-    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); h.events.length = 0; h.flush();
-    const lcd = h.events.find(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage' && e.args.length === 9);
-    assert.deepEqual(lcd.args.slice(1, 5), [60, 64, 520, 256], '640×384 real LCD crop represents native centered 15,16,130,64');
-    const scale = h.api.debugSnapshot().scale;
-    assert.deepEqual(h.hdDraws().at(-1).args.slice(1), [33 * scale, 0, 65 * scale, 64 * scale]);
-    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
 });
 
 test('PNG pixel validation reconstructs all five filters and distinguishes opaque, transparent and empty art', () => {
@@ -2500,9 +2485,9 @@ for (const name of ['event', 'commit', 'subject', 'data', 'library', 'scene-modu
 // FIRE5 is a display-boundary fixture, not a successful native cast. Decode
 // its units/slots from the real ROM; do not repurpose the generic skillId1
 // postlude above or count these command records as pixel/browser acceptance.
-function fireFixture(current = 0, shown = current) {
+function fireFixture(current = 0, shown = current, skillId = 5) {
     const actual = actualMainFixture(35), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
-    const entry = structuredClone(production.entries.find(e => e.fireVersion === 1 && e.skillId === 5));
+    const entry = structuredClone(production.entries.find(e => e.fireVersion === 1 && e.skillId === skillId));
     assert.ok(entry, 'production FIRE5 marker exists');
     assert.deepEqual(entry.units, actual.units); assert.equal(entry.resourceFingerprint, actual.entry.resourceFingerprint);
     const composition = frame => ({ protocolVersion: 1, valid: true, mode: 2, x: 48, y: 16, width: 65, height: 64,
@@ -2510,17 +2495,17 @@ function fireFixture(current = 0, shown = current) {
     const display = { generation: 9, eventId: 5, commitSeq: shown + 1, frameIndex: shown, frameValid: true,
         visibleFrames: bitset(shown), composition: composition(shown) };
     const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 48, y: 16, keyflag: 0, skipEligible: false,
-        contextKnown: true, skillId: 5, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
+        contextKnown: true, skillId, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
         commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
     return { ...actual, entry, s, m: { ...production, entries: [entry] } };
 }
-function fireNumericFixture(phase = 'numbers') {
-    const f = fireFixture(7), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
+function fireNumericFixture(phase = 'numbers', skillId = 5) {
+    const f = fireFixture(7, 7, skillId), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
         bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
     const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
     const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
     const result = { protocolVersion: 1, active: true, phase, custom: false, sourceValid: true, generation: 9, session: 2,
-        skillId: 5, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
+        skillId, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
         speId: 35, resourceIndex: 0, count: 8, picmax: 2, startFrm: 0, endFrm: 7, x: 48, y: 16,
         resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
         number: { ...f.entry.skillNumber, valid: true }, label, digits, scene,
@@ -2528,7 +2513,7 @@ function fireNumericFixture(phase = 'numbers') {
     return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
 }
 async function fireLoaded(options = {}) {
-    const f = options.phase ? fireNumericFixture(options.phase) : fireFixture(options.current ?? 0, options.shown ?? options.current ?? 0);
+    const f = options.phase ? fireNumericFixture(options.phase, options.skillId ?? 5) : fireFixture(options.current ?? 0, options.shown ?? options.current ?? 0, options.skillId ?? 5);
     const h = harness({ data: { g_scale: 1 }, spe: options.phase ? { active: 0, generation: 9 } : f.s,
         ...(options.phase ? { skillResult: f.result, resultOwner: f.top } : {}), ...options.harness });
     h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start();
@@ -2560,7 +2545,7 @@ function fireBoundedDraws(h) {
 test('FIRE5 production entry is an exact realROM65x64 two-slot specialization while shared35 remains unchanged', () => {
     const f = fireFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
     const generic = m.entries.find(e => e.speId === 35 && e.fireVersion == null);
-    assert.ok(generic); assert.equal(m.entries.filter(e => e.fireVersion === 1).length, 1);
+    assert.ok(generic); assert.deepEqual(m.entries.filter(e => e.fireVersion === 1).map(e => e.skillId), [5, 11, 18]);
     assert.deepEqual([f.entry.fireVersion, f.entry.opaqueCoverageVersion, f.entry.skillId, f.entry.skillResultVersion], [1, 1, 5, 1]);
     assert.deepEqual([f.entry.speId, f.entry.resourceIndex, f.entry.kind, f.entry.startFrm, f.entry.endFrm, f.entry.count, f.entry.picmax], [35, 0, 2, 0, 7, 8, 2]);
     assert.equal(f.entry.resourceLength, 1212); assert.equal(f.entry.resourceFingerprint, 'fnv1a32:0bf53f74:1212');
@@ -2590,15 +2575,14 @@ test('FIRE5 selects its exact marker even after the retained generic35 in produc
         image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); }
     h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); fireBoundedDraws(h);
 });
-for (const skillId of [11, 18]) test('FIRE5 specialization preserves the explicit legacy shared35 path for skill' + skillId, async () => {
-    const f = fireFixture(), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
-    const generic = production.entries.find(e => e.speId === 35 && e.fireVersion == null);
-    const h = harness({ data: { g_scale: 1 }, spe: { ...f.s, skillId } }); h.context.dynLib = f.lib.toString('hex');
-    h.api.setManifest({ ...f.m, entries: [f.entry, generic] }); h.api.start(); await waitForIdentity(h);
-    assert.equal(h.images.length, 2); h.images.forEach(image => { const p = generic.pictures.find(p => p.src === image.url);
+for (const skillId of [11, 18]) test('FIRE shared caller' + skillId + ' selects its own appended entry after preserved generic35', async () => {
+    const f = fireFixture(0, 0, skillId), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const h = harness({ data: { g_scale: 1 }, spe: f.s }); h.context.dynLib = f.lib.toString('hex');
+    h.api.setManifest(production); h.api.start(); await waitForIdentity(h);
+    const images = h.images.filter(image => f.entry.pictures.some(p => p.src === image.url));
+    assert.equal(images.length, 2); images.forEach(image => { const p = f.entry.pictures.find(p => p.src === image.url);
         image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); });
-    h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
-    assert.deepEqual({ ...h.api.debugSnapshot().sourceRect }, { x: 15, y: 16, width: 130, height: 64 }); fireNoInput(h);
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); fireBoundedDraws(h);
 });
 test('FIRE5 lagging displayed copy uses its earlier slot and clear history, never the current future frontier', async () => {
     const h = await fireLoaded({ current: 3, shown: 0 });
@@ -2723,9 +2707,9 @@ for (const phase of [null, 'hold']) test('FIRE5 ' + (phase || 'movie') + ' final
 
 // WATER12 fixtures decode the real resource36. They exercise display ownership
 // and drawing commands, not C execution, browser pixels or a successful cast.
-function waterFixture(current = 0, shown = current) {
+function waterFixture(current = 0, shown = current, skillId = 12) {
     const actual = actualMainFixture(36), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
-    const entry = structuredClone(production.entries.find(e => e.waterVersion === 1 && e.skillId === 12));
+    const entry = structuredClone(production.entries.find(e => e.waterVersion === 1 && e.skillId === skillId));
     assert.ok(entry, 'production WATER12 marker exists');
     assert.deepEqual(entry.units, actual.units); assert.equal(entry.resourceFingerprint, actual.entry.resourceFingerprint);
     const composition = frame => ({ protocolVersion: 1, valid: true, mode: 2, x: 48, y: 16, width: 64, height: 64,
@@ -2733,17 +2717,17 @@ function waterFixture(current = 0, shown = current) {
     const display = { generation: 9, eventId: 5, commitSeq: shown + 1, frameIndex: shown, frameValid: true,
         visibleFrames: bitset(shown), composition: composition(shown) };
     const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 48, y: 16, keyflag: 0, skipEligible: false,
-        contextKnown: true, skillId: 12, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
+        contextKnown: true, skillId, actorIndex: 2, targetIndex: 10, frameIndex: current, frameValid: true,
         commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
     return { ...actual, entry, s, m: { ...production, entries: [entry] } };
 }
-function waterNumericFixture(phase = 'numbers') {
-    const f = waterFixture(7), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
+function waterNumericFixture(phase = 'numbers', skillId = 12) {
+    const f = waterFixture(7, 7, skillId), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
         bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
     const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
     const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
     const result = { protocolVersion: 1, active: true, phase, custom: false, sourceValid: true, generation: 9, session: 2,
-        skillId: 12, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
+        skillId, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
         speId: 36, resourceIndex: 0, count: 8, picmax: 2, startFrm: 0, endFrm: 7, x: 48, y: 16,
         resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
         number: { ...f.entry.skillNumber, valid: true }, label, digits, scene,
@@ -2751,7 +2735,7 @@ function waterNumericFixture(phase = 'numbers') {
     return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
 }
 async function waterLoaded(options = {}) {
-    const f = options.phase ? waterNumericFixture(options.phase) : waterFixture(options.current ?? 0, options.shown ?? options.current ?? 0);
+    const f = options.phase ? waterNumericFixture(options.phase, options.skillId ?? 12) : waterFixture(options.current ?? 0, options.shown ?? options.current ?? 0, options.skillId ?? 12);
     const h = harness({ data: { g_scale: 1 }, spe: options.phase ? { active: 0, generation: 9 } : f.s,
         ...(options.phase ? { skillResult: f.result, resultOwner: f.top } : {}) });
     h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h);
@@ -2772,10 +2756,10 @@ function waterBoundedDraws(h) {
     }
     fireNoInput(h);
 }
-test('WATER12 production specialization reuses realROM36 two slots and preserves the shared19 entry', () => {
+test('WATER12 production specialization reuses realROM36 two slots and retains the historical generic entry', () => {
     const f = waterFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
     const generic = m.entries.find(e => e.speId === 36 && e.waterVersion == null);
-    assert.ok(generic); assert.equal(m.entries.filter(e => e.waterVersion === 1).length, 1);
+    assert.ok(generic); assert.deepEqual(m.entries.filter(e => e.waterVersion === 1).map(e => e.skillId), [12, 19]);
     assert.deepEqual([f.entry.waterVersion, f.entry.opaqueCoverageVersion, f.entry.skillId, f.entry.skillResultVersion], [1, 1, 12, 1]);
     assert.deepEqual([f.entry.speId, f.entry.resourceIndex, f.entry.kind, f.entry.startFrm, f.entry.endFrm, f.entry.count, f.entry.picmax], [36, 0, 2, 0, 7, 8, 2]);
     assert.equal(f.entry.resourceLength, 1084); assert.equal(f.entry.resourceFingerprint, 'fnv1a32:6d62e7a8:1084');
@@ -2793,17 +2777,16 @@ test('WATER12 first through final8 movie copies keep fullLCD outside only the au
     }
     assert.equal(h.nodes.get('hd-spe-skip').hidden, true); h.key(); h.api.skip(); fireNoInput(h);
 });
-test('WATER12 exact entry wins production order while skill19 remains the existing130crop', async () => {
+test('WATER12 and WATER19 exact entries win production order and preserve fullLCD', async () => {
     const f = waterFixture(), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
     const generic = m.entries.find(e => e.speId === 36 && e.waterVersion == null);
     for (const skillId of [12, 19]) {
         const h = harness({ data: { g_scale: 1 }, spe: { ...f.s, skillId } }); h.context.dynLib = f.lib.toString('hex');
-        h.api.setManifest({ ...f.m, entries: [generic, f.entry] }); h.api.start(); await waitForIdentity(h);
+        h.api.setManifest({ ...m, entries: m.entries.filter(e => e.speId === 36) }); h.api.start(); await waitForIdentity(h);
         assert.equal(h.images.length, 2); h.images.forEach(image => { const p = f.entry.pictures.find(p => p.src === image.url);
             image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); });
         h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
-        if (skillId === 12) waterBoundedDraws(h);
-        else assert.deepEqual({ ...h.api.debugSnapshot().sourceRect }, { x: 15, y: 16, width: 130, height: 64 });
+        waterBoundedDraws(h);
         fireNoInput(h);
     }
 });
@@ -3071,4 +3054,118 @@ test('STONE23 paint final fence restores complete LCD after data event commit or
         const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
         assert.equal(last.args[0] instanceof h.context.Image, false, 'captured complete LCD overwrites any stale stone art'); fireNoInput(h);
     }
+});
+// Shared original callers retain independent skill identities even though their
+// certified source pictures are reused. These remain controlled drawing checks.
+const sharedWindowCallers = [{ skillId: 11, family: 'fire', movieOnly: true },
+    { skillId: 18, family: 'fire' }, { skillId: 19, family: 'water' }];
+function sharedWindowFixture(caller, current = 0, shown = current) {
+    return caller.family === 'fire' ? fireFixture(current, shown, caller.skillId) : waterFixture(current, shown, caller.skillId);
+}
+function sharedWindowLoaded(caller, options = {}) {
+    return caller.family === 'fire' ? fireLoaded({ ...options, skillId: caller.skillId }) : waterLoaded({ ...options, skillId: caller.skillId });
+}
+function sharedWindowBounds(caller, h) { return caller.family === 'fire' ? fireBoundedDraws(h) : waterBoundedDraws(h); }
+test('shared FIRE11 FIRE18 WATER19 append only three exact clones after all55 historical entries', () => {
+    const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    assert.equal(m.entries.length, 58);
+    const historical = JSON.stringify({ ...m, entries: m.entries.slice(0, 55) }, null, 2) + '\n';
+    assert.equal(createHash('sha256').update(historical).digest('hex'), 'e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a');
+    assert.deepEqual(m.entries.slice(55).map(e => [e.speId, e.skillId]), [[35, 11], [35, 18], [36, 19]]);
+    for (const e of m.entries.slice(55)) {
+        const baseId = e.fireVersion ? 5 : 12, original = m.entries.find(v => v.speId === e.speId && v.skillId === baseId);
+        assert.deepEqual({ ...e, skillId: baseId }, original, 'Only the exact skillId changes; slots, NUM and native identities are reused');
+    }
+});
+for (const caller of sharedWindowCallers) {
+    const label = caller.family.toUpperCase() + caller.skillId;
+    test(label + ' all8 movie copies preserve fullLCD and draw only the real alternating window', async () => {
+        const h = await sharedWindowLoaded(caller);
+        for (let frame = 0; frame < 8; frame++) {
+            h.setSpe(sharedWindowFixture(caller, frame).s); h.events.length = 0; h.flush();
+            assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+            assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [frame]); sharedWindowBounds(caller, h);
+            assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[frame % 2].src);
+            assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && ['fillRect', 'fillText'].includes(e.operation)).length, 0);
+        }
+    });
+    test(label + ' lagged display and final clear frontier never draw future or retained imaginary slots', async () => {
+        const h = await sharedWindowLoaded(caller, { current: 3, shown: 0 }); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [0]); sharedWindowBounds(caller, h);
+        const cleared = sharedWindowFixture(caller, 7).s;
+        cleared.visibleFrames = bitset(); cleared.composition.clearFrames = bitset(0,1,2,3,4,5,6,7);
+        cleared.display.visibleFrames = bitset(); cleared.display.composition.clearFrames = bitset(0,1,2,3,4,5,6,7);
+        h.setSpe(cleared); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+        assert.deepEqual(h.hdDraws(), []); fireFullLcd(h); fireNoInput(h);
+    });
+    test(label + ' cannot borrow its sibling marker, historical generic entry, or unknown caller context', async () => {
+        const h = await sharedWindowLoaded(caller), f = h.fixture;
+        const generic = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8')).entries.find(e => e.speId === f.entry.speId && e.opaqueCoverageVersion == null);
+        for (const mutation of [e => e.skillId = caller.family === 'fire' ? 5 : 12,
+            e => e.skillId = 1, e => delete e.opaqueCoverageVersion, e => e[caller.family + 'Version'] = 2]) {
+            const entry = structuredClone(f.entry); mutation(entry); h.api.setManifest({ ...f.m, entries: [generic, entry] });
+            h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+        }
+        h.api.setManifest(f.m);
+        for (const mutation of [s => s.contextKnown = false, s => s.skillId = 1, s => s.skillId = caller.family === 'fire' ? 19 : 18]) {
+            const s = structuredClone(f.s); mutation(s); h.setSpe(s); h.events.length = 0; h.flush();
+            assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+        }
+        fireNoInput(h);
+    });
+    test(label + ' paint fence rejects same-resource skill, actor, target and opaque-data changes', async () => {
+        for (const change of [h => h.spe().skillId = caller.family === 'fire' ? 5 : 12,
+            h => h.spe().actorIndex++, h => h.spe().targetIndex++,
+            h => Object.defineProperty(h.context.baye, 'data', { configurable: true, get: () => ({ g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 }) })]) {
+            const h = await sharedWindowLoaded(caller); let changed = false;
+            h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) { changed = true; change(h); } });
+            h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true);
+            assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+            const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+            assert.equal(last.args[0] instanceof h.context.Image, false); fireNoInput(h);
+        }
+    });
+    test(label + ' missing art and report retirement cannot be revived by a late decode', async () => {
+        for (const why of ['missing', 'report', 'ended']) {
+            const h = await sharedWindowLoaded(caller, { pending: true });
+            if (why === 'missing') h.images[0].onerror();
+            else if (why === 'report') h.setReport(1);
+            else { h.setSpe({ active: 0 }); h.api.onEngineSpe(); }
+            h.resolve(0); h.resolve(1); h.events.length = 0; h.flush();
+            assert.notEqual(h.api.debugSnapshot().source, 'hd-assets', why); assert.deepEqual(h.hdDraws(), [], why); fireNoInput(h);
+        }
+    });
+}
+for (const caller of sharedWindowCallers.filter(c => !c.movieOnly)) {
+    for (const phase of ['numbers', 'hold']) test(caller.family.toUpperCase() + caller.skillId + ' ' + phase + ' binds real scene NUM15 label and6pixel digit history', async () => {
+        const h = await sharedWindowLoaded(caller, { phase }); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); sharedWindowBounds(caller, h);
+        const digits = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText' && /^[0-9]$/.test(e.args[0]));
+        assert.equal(digits.length, 24); assert.deepEqual([...new Set(digits.map(e => e.args[1]))], [55*11,61*11,67*11]);
+        fireNoInput(h);
+    });
+    test(caller.family.toUpperCase() + caller.skillId + ' numeric session cannot reuse another actor target skill or source during paint', async () => {
+        for (const change of [h => h.fixture.result.skillId = caller.family === 'fire' ? 11 : 12,
+            h => h.fixture.result.actorIndex++, h => h.fixture.result.targetIndex++, h => h.fixture.result.display.eventId++,
+            h => h.setResultOwner({ ...h.fixture.top, session: h.fixture.top.session + 1 })]) {
+            const h = await sharedWindowLoaded(caller, { phase: 'hold' }); let changed = false;
+            h.setDrawHook((node, op, args) => { if (!changed && node === 'hd-spe-canvas' && op === 'drawImage' && args[0] instanceof h.context.Image) { changed = true; change(h); } });
+            h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true);
+            assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); fireNoInput(h);
+        }
+    });
+}
+for (const phase of ['numbers', 'hold']) test('FIRE11 pre-movie provisions-loss ' + phase + ' stays full nativeLCD and never borrows a movie session', async () => {
+    const f = fireNumericFixture(phase, 11);
+    Object.assign(f.result, { resultKind: 3, sourceValid: false, speId: 0 });
+    const h = harness({ data: { g_scale: 1 }, spe: { active: 0, generation: 9 }, skillResult: f.result, resultOwner: f.top });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h);
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+test('FIRE11 zero-arms movie retires without inventing a late NUM HOLD or acknowledgement', async () => {
+    const h = await fireLoaded({ skillId: 11, current: 7 }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); fireBoundedDraws(h);
+    h.setSpe({ active: 0 }); h.setSkillResult({ active: false }); h.setResultOwner({ active: false, valid: false, kind: 0 });
+    h.api.onEngineSpe(); h.events.length = 0; h.flush();
+    assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
 });

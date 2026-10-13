@@ -1338,21 +1338,21 @@ function baye_bridge_init() {
                 values.Keyflag === 0 && values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength > 0 &&
                 r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
                 r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
-            // FIRE5 owns its actual copied65 window. The shared FIRE resource
-            // does not authorize skills11/18 or invent a 130px arena backdrop.
+            // The original FIRE callers5/11/18 own the same copied65 window.
+            // Their exact contexts do not invent a 130px arena backdrop.
             fire = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
                 expected.actorIndex === actor && expected.targetIndex === target && actor != null && target != null && actor < 20 && target < 20 &&
-                skill === 5 && values.Id === 35 && values.Kind === 2 && values.ResourceIndex === 0 &&
+                (skill === 5 || skill === 11 || skill === 18) && values.Id === 35 && values.Kind === 2 && values.ResourceIndex === 0 &&
                 count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
                 values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1212 &&
                 values.ResourceFingerprint === 0x0bf53f74 &&
                 r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
                 r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
-            // WATER12 owns its actual copied64 window. The shared WATER resource
-            // does not authorize skill19 or invent a 130px arena backdrop.
+            // Original WATER12/19 own the same actual copied64 window;
+            // no unknown context or invented 130px arena backdrop is accepted.
             water = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
                 expected.actorIndex === actor && expected.targetIndex === target && actor != null && target != null && actor < 20 && target < 20 &&
-                skill === 12 && values.Id === 36 && values.Kind === 2 && values.ResourceIndex === 0 &&
+                (skill === 12 || skill === 19) && values.Id === 36 && values.Kind === 2 && values.ResourceIndex === 0 &&
                 count === 8 && values.Picmax === 2 && start === 0 && end === 7 && values.Keyflag === 0 &&
                 values.OriginX === 48 && values.OriginY === 16 && values.ResourceLength === 1084 &&
                 values.ResourceFingerprint === 0x6d62e7a8 &&
@@ -1922,7 +1922,7 @@ function baye_bridge_init() {
             displayDigits.values.every(function (digit, i) {
                 var now = currentDigits.values[i]; return now && now.digit === digit.digit && now.x === digit.x && now.firstY === digit.firstY && now.drawCount >= digit.drawCount;
             });
-        if ((current.composition.mode === 3 || current.composition.mode === 2 && v.Id === 36 && v.SkillId === 12) &&
+        if ((current.composition.mode === 3 || current.composition.mode === 2 && v.Id === 36 && (v.SkillId === 12 || v.SkillId === 19)) &&
             (!hdEngineReady() || baye.ensureData() !== d || !r.stable())) return neutral;
         current.frameValid = current.composition.valid = source; current.label = currentLabel;
         display.frameValid = display.composition.valid = display.valid = shown; display.label = displayLabel; display.digits = displayDigits.values;

@@ -15,7 +15,7 @@ import test,{after} from 'node:test';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),run=promisify(execFile),temporary=[];
 const read=file=>readFileSync(join(root,'vendor/iBaye/src',file),'utf8').replace(/\r\n/g,'\n');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-const nativeSourceFiles=['FightSub.c','PublicFun.c','hd-bridge.c','hd-bridge.h','platform/common/sys.c','comOut.c','comIn.c','datman.c','gamEng.c','baye/consdef.h','baye/fight.h','baye/graph.h','baye/datman.h','baye/paccount.h','baye/comm.h','inc/dictsys.h','data/pstring.h','platform/js/font.bin.c','platform/js/fsys.c'];
+const nativeSourceFiles=['FightSub.c','FgtCount.c','PublicFun.c','hd-bridge.c','hd-bridge.h','platform/common/sys.c','comOut.c','comIn.c','datman.c','gamEng.c','baye/consdef.h','baye/fight.h','baye/graph.h','baye/datman.h','baye/paccount.h','baye/comm.h','inc/dictsys.h','data/pstring.h','platform/js/font.bin.c','platform/js/fsys.c'];
 const nativeSourceTuple=Object.fromEntries(nativeSourceFiles.map(file=>[file,sha(readFileSync(join(root,'vendor/iBaye/src',file)))]));
 function signature(name){return new RegExp('^(?:(?:static|inline|FAR|const)\\s+)*(?:[A-Za-z_]\\w*)[\\t *]+'+name+'\\([^;]*?\\)\\s*\\{','m');}
 function actual(file,name){const source=read(file),m=signature(name).exec(source);assert.ok(m,`actual ${file}::${name}`);const end=source.indexOf('\n}',m.index);assert.ok(end>m.index);return source.slice(m.index,end+2);}
@@ -144,13 +144,13 @@ static U8*gam_fload(U8*bank,U32 offset,NativeFile*f){assert(offset<f->length);re
 static void gamTraceP(U16 id){(void)id;}
 `+'\n'+helpers.functions+'\n'+nativeFunctions('datman.c',['GetResStartAddr','GetResItem','ResGetItemLen','ResLoadToCon','ResLoadToMem']).prototypes+'\n'+nativeFunctions('datman.c',['GetResStartAddr','GetResItem','ResGetItemLen','ResLoadToCon','ResLoadToMem']).functions+'\n'+publicFunctions.prototypes+String.raw`
 static FILE*trace;static U8 displayedPixels[160*96];
-static int reenterNotify;static U32 newerOwner;
+static int reenterNotify,captureSharedPhases,sharedNumbersNotified;static U32 newerOwner;
 static void word(U32 v){U8 b[4]={(U8)v,(U8)(v>>8),(U8)(v>>16),(U8)(v>>24)};assert(fwrite(b,1,4,trace)==4);}
 static void record(U32 kind){word(kind);
 `+traceWrites+String.raw`
     assert(fwrite(kind==4?(const void*)displayedPixels:(const void*)scr_buffer,1,160*96,trace)==160*96);
 }
-static void fixtureNotify(void){if(reenterNotify){reenterNotify=0;newerOwner=baye_hd_skill_begin(6,4,11,BAYE_HD_SKILL_ARMS_LOSS,0);}}
+static void fixtureNotify(void){if(captureSharedPhases&&!sharedNumbersNotified&&g_hdSkillResultActive&&g_hdSkillResultResultKind==BAYE_HD_SKILL_PROVENDER_LOSS&&g_hdSkillResultPhase==BAYE_HD_SKILL_NUMBERS){sharedNumbersNotified=1;record(10);}if(reenterNotify){reenterNotify=0;newerOwner=baye_hd_skill_begin(6,4,11,BAYE_HD_SKILL_ARMS_LOSS,0);}}
 static void SysCopyScreen(U8*screen);
 static void copied(U8*screen){SysCopyScreen(screen);record(1);}
 static void callback(char*rgba){(void)rgba;memcpy(displayedPixels,scr_buffer,sizeof(displayedPixels));record(2);}
@@ -186,7 +186,7 @@ static void GamGetMsg(GMType*m){assert(++messages<20000);
 }
 `+'\n'+actual('comIn.c','GamDelay')+'\n'+publicFunctions.functions+'\n'+textGlobals+'\n'+textFunctions.prototypes+'\n'+textFunctions.functions+'\n'+['SKILLEF','JLATT','FGTCMD'].map(t=>type('baye/fight.h',t)).join('\n')+String.raw`
 static JLATT g_GenAtt[2];
-static U8 levels[FGTA_MAX],g_LookMovie=1,g_engineDebug=0;static U16 troops[FGTA_MAX],g_EneTmpProv;
+static U8 levels[FGTA_MAX],g_LookMovie=1,g_engineDebug=0,g_FgtWeather=1;static U16 troops[FGTA_MAX],g_EneTmpProv;
 static U8 shared[1024];
 #define SHARE_MEM shared
 static U8*boundSuccess;
@@ -194,6 +194,8 @@ static U8*boundSuccess;
 #undef CALL_HOOK_S
 #define IF_HAS_HOOK(name) if(mode==12&&!strcmp(name,"showSkill"))
 #define BIND_U8(v) ((void)(v))
+#define BIND_U16(v) ((void)(v))
+#define HOOK_RETURN() return
 #define BIND_IDX(n,v) ((void)(n),(void)(v))
 #define BIND_U16EX(n,v) ((void)(n),(void)(v))
 #define BIND_U8EX(n,v) (boundSuccess=(v))
@@ -203,8 +205,10 @@ static U8*boundSuccess;
 #define gam_itoa(v,p,r) snprintf((char*)(p),10,"%u",(unsigned)(v))
 #define gam_drawpic(id,ind,x,y,flag) PlcRPicShowEx(id,0,(ind)+1,x,y,flag)
 static int gam_rand(void){return 0;}
-static void BuiltAtkAttr(U8 side,U8 index){assert(side<2&&index<FGTA_MAX);g_GenAtt[side]=(JLATT){.level=&levels[index],.arms=&troops[index],.generalIndex=index,.canny=80};}
-static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
+static void BuiltAtkAttr(U8 side,U8 index){assert(side<2&&index<FGTA_MAX);g_GenAtt[side]=(JLATT){.level=&levels[index],.arms=&troops[index],.generalIndex=index,.canny=80,.ter=(U8)(side==1?(mode==95||mode==99?5:mode==97||mode==101?7:0):0),.armsType=0};}
+SKILLEF *FgtGetJNPtr(SkillID param);
+`+'\n'+actual('FgtCount.c','CountSklHurt').replace('CountSklHurt(','NativeCountSklHurt(')+String.raw`
+static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);if(mode>=95&&mode<=101){NativeCountSklHurt(skill,arms,prov,origin,state);return;}*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
 static U16 PlcArmsMax(PersonID id){assert(id<FGTA_MAX);return ceiling;}
 static U32 FgtGetExp(U16 value){return value/10;}
 static U16 CountAtkHurt(void){return fixtureHurt;}
@@ -223,7 +227,7 @@ static I32 call_hook_a_observed(const char*name,void*context,U8*present){(void)c
 static I32 call_hook_a(const char*name,void*context){(void)context;assert(!strcmp(name,"didShowPKAnimation"));finalHookCount++;return 0;}
 `+'\n'+read('data/pstring.h')+'\n'+['CountPlusSub','CountOverAdd'].map(n=>actual('FgtCount.c',n)).join('\n')+'\n'+actual('gamEng.c','add_16')+'\n'+read('FightSub.c').slice(read('FightSub.c').indexOf('static U8 dJNSpeId['),read('FightSub.c').indexOf('void FgtInitArmsJNNum('))+'\n'+read('FightSub.c').split('\n').find(l=>l.startsWith('const U8 FgtSpeFrm[]'))+'\n'+['FgtGetJNPtr','FgtLoadToMem2','TransIdxToGen1','FgtAtvShowNum','_CommonJNAction','FgtJNAction','FgtAtkAction'].map(n=>actual('FightSub.c',n)).join('\n')+String.raw`
 static void nestedResult(void){if(mode==20)_CommonJNAction(5,0,3,11,11,0);else{BuiltAtkAttr(0,3);BuiltAtkAttr(1,11);FgtAtkAction(11);}}
-int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U16)atoi(argv[2]);fixtureProv=(U16)atoi(argv[3]);
+int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U16)atoi(argv[2]);fixtureProv=(U16)atoi(argv[3]);captureSharedPhases=(mode==95||mode==99);
     FILE*f=fopen(argv[5],"rb");assert(f);fseek(f,0,SEEK_END);romFile.length=(U32)ftell(f);rewind(f);g_CBnkPtr=malloc(romFile.length);assert(fread(g_CBnkPtr,1,romFile.length,f)==romFile.length);fclose(f);romFile.bytes=g_CBnkPtr;romFile.position=romFile.length;
     f=fopen(argv[6],"rb");assert(f);fontFile.length=163840;fontFile.bytes=malloc(fontFile.length);assert(fread(fontFile.bytes,1,fontFile.length,f)==fontFile.length);fclose(f);
     assert(sizeof(RCHEAD)==14&&sizeof(RIDX)==8&&sizeof(SPERES)==6&&sizeof(SPEUNIT)==5&&sizeof(PictureHeadType)==7);
@@ -234,17 +238,21 @@ int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U1
     /* Keep the shared WOOD fixture's original setup and skill selector intact. */
     if(mode==91||mode==92){skl=FgtGetJNPtr(12);assert(skl->aim==0&&skl->state==0&&skl->useMp==20);}
     if(mode==93||mode==94){skl=FgtGetJNPtr(23);assert(skl->aim==0&&skl->state==6&&skl->useMp==20);assert(!fixtureHurt&&!fixtureProv);}
-    if(mode==1||mode==92||mode==94)coalesce=1;if(mode==4)g_LookMovie=0;if(mode==10)reenterNotify=1;if(mode==13){c_Sx=55;c_Sy=18;c_Ex=66;c_Ey=30;}if(mode==14)dJNSpeId[4]=0;
+    U16 sharedSkill=(mode>=95&&mode<=101)?((mode==95||mode==99)?11:((mode==97||mode==101)?19:18)):0;
+    if(sharedSkill){skl=FgtGetJNPtr(sharedSkill);assert(skl->aim==0&&skl->state==0);assert(skl->power==(sharedSkill==11?0:1200));assert(skl->destroy==(sharedSkill==11?150:0));assert(skl->useMp==(sharedSkill==11?25:30));troops[10]=troops[11]=1500;g_FgtParam.GenArray[11]=12;}
+    if(mode==1||mode==92||mode==94||mode==99||mode==100||mode==101)coalesce=1;if(mode==4)g_LookMovie=0;if(mode==10)reenterNotify=1;if(mode==13){c_Sx=55;c_Sy=18;c_Ex=66;c_Ey=30;}if(mode==14)dJNSpeId[4]=0;
     if(mode==16){skl->aim=2;g_FgtParam.GenArray[11]=12;g_FgtParam.GenArray[12]=13;g_FgtParam.GenArray[13]=14;g_GenPos[13].state=STATE_SW;g_FgtParam.GenArray[14]=15;g_GenPos[14].x=20;}
     if(mode==17){skl->aim=1;troops[10]=290;}
     if(mode==18)queuedKey=39;
     if(mode==22){skl=FgtGetJNPtr(1);skl->aim=0;skl->state=0;}
-    FGTCMD cmd={.param=(U16)((mode==93||mode==94)?23:((mode==91||mode==92)?12:(mode==22?1:5))),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
+    FGTCMD cmd={.param=(U16)(sharedSkill?sharedSkill:((mode==93||mode==94)?23:((mode==91||mode==92)?12:(mode==22?1:5)))),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
+    if(mode==98){record(9);assert(!g_hdSkillResultActive&&!g_hdSpeActive);BuiltAtkAttr(0,3);BuiltAtkAttr(1,11);cmd.aIdx=11;FgtJNAction(&cmd);}
     if(isLcdDirty)timed_flush_lcd();record(3);
     if(mode==10){assert(g_hdSkillResultActive&&g_hdSkillResultSession==newerOwner&&!g_hdSkillResultSourceValid);baye_hd_skill_end(newerOwner);}else assert(!g_hdSkillResultActive&&!g_hdSkillResultDisplayValid);
-    assert(!g_hdSpeActive&&hookCount==finalHookCount);assert(hookCount==((mode==16||mode==20||mode==21)?2:1));assert(skillHookCount==(mode==12?1:0));
-    assert(g_GenPos[3].mp==99-skl->useMp);assert(g_FgtParam.EProvender==(fixtureProv>50?0:50-fixtureProv));
-    assert(troops[10]==(mode==17?(fixtureHurt>10?300:290+fixtureHurt):(fixtureHurt>200?0:200-fixtureHurt)));
+    assert(!g_hdSpeActive&&hookCount==finalHookCount);assert(hookCount==((mode==16||mode==20||mode==21||mode==98)?2:1));assert(skillHookCount==(mode==12?1:0));
+    assert(g_GenPos[3].mp==99-skl->useMp*(mode==98?2:1));assert(g_FgtParam.EProvender==(fixtureProv>50?0:50-fixtureProv));
+    /* Shared18 grass0 and Shared19 sunny1 each apply the actual ROM80% factor. */
+    if(sharedSkill){assert(troops[10]==(sharedSkill==11?1500:540));assert(troops[11]==(mode==98?540:1500));assert(g_GenPos[10].state==0&&g_GenPos[11].state==0);}else assert(troops[10]==(mode==17?(fixtureHurt>10?300:290+fixtureHurt):(fixtureHurt>200?0:200-fixtureHurt)));
     if(mode==16){assert(troops[11]==(fixtureHurt>200?0:200-fixtureHurt));assert(troops[12]==200&&troops[13]==200&&troops[14]==200);}
     if(mode==20||mode==21)assert(troops[11]==(fixtureHurt>200?0:200-fixtureHurt));
     if(mode==18)assert(keyReads==1&&!queuedKey&&g_hdSpeEndReason==BAYE_HD_SPE_END_COMPLETE);
@@ -322,3 +330,45 @@ test('actual queued Enter cannot skip the FIRE movie or its original result wait
 test('actual nested same-kind Common wait restores the real outer scope without reviving overwritten result metadata',async()=>{const rows=await runSkill(20),restored=rows.find(r=>r.kind===8);assert.ok(restored);assert.equal(restored.values.g_hdResultOwnerKind,2);assert.equal(restored.values.g_hdResultOwnerValid,0,'outer native wait remains known but its overwritten detail does not');assert.equal(restored.values.g_hdSkillResultActive,0);assert.equal(restored.values.g_hdSkillResultSourceValid,0);assert.notEqual(restored.values.g_hdResultOwnerSession,restored.values.g_hdSkillResultSession);assert.equal(rows.filter(r=>r.kind===1).length,16);assert.equal(rows.at(-1).values.g_hdResultOwnerKind,0);});
 test('actual nested ordinary attack owns its inner wait and restores the retired outer skill for LCD fallback',async()=>{const rows=await runSkill(21),inner=rows.filter(r=>r.values.g_hdResultOwnerKind===1),restored=rows.find(r=>r.kind===8);assert.ok(inner.length);assert.ok(inner.some(r=>r.values.g_hdResultOwnerValid===1));assert.ok(restored);assert.equal(restored.values.g_hdResultOwnerKind,2);assert.equal(restored.values.g_hdResultOwnerValid,1,'still-live native outer skill wait preserves its factual LCD owner');assert.equal(restored.values.g_hdSkillResultActive,1);assert.equal(restored.values.g_hdSkillResultSourceValid,0);assert.equal(restored.values.g_hdSkillResultDisplayValid,0);assert.equal(restored.values.g_hdResultOwnerSession,restored.values.g_hdSkillResultSession);assert.equal(rows.at(-1).values.g_hdResultOwnerKind,0);});
 test('actual skill caller with dJNMode1 captures real BACKPIC16 rather than inventing a FIRE backdrop',async()=>{const rows=await runSkill(22),expected=movieOracle(19,11,21,15,16,true),copies=rows.filter(r=>r.kind===1);assert.equal(copies.length,expected.length);for(let i=0;i<copies.length;i++){assert.equal(copies[i].values.g_hdSkillResultBgId,16);assert.equal(copies[i].values.g_hdSkillResultBgValid,1);assert.equal(copies[i].values.g_hdSkillResultSceneMode,1);assert.deepEqual(copies[i].pixels,expected[i].pixels);}verifyResultPixels(rows,123,{skillId:1,speId:19,start:11,end:21,x:15,y:16,background:true});});
+
+// New shared callers use the actual packed ROM SKILLEF and the production
+// CountSklHurt formula, plus unchanged FgtJNAction/Common/movie/NUM code. Target
+// attributes, success RNG, UI delivery and combat setup remain controlled C
+// boundaries. These are protocol tests, not successful public player casts.
+
+// Independent decoding of the controlled environment: sunny1, own grass0,
+// target city5 for11 / grass0 for18 / river7 for19, target cavalry0. Each native
+// U16 compound multiplication rounds as float32 and then truncates to U16.
+function sharedSkillFormula(skillId){
+ const b=resource(10).subarray((skillId-1)*34,skillId*34),terrain=skillId===11?5:skillId===19?7:0;
+ const factors=[b[7],b[28],b[12+terrain],b[20]];
+ const scale=n=>factors.reduce((v,k)=>Math.trunc(Math.fround(v*Math.fround(k/100))),n);
+ return {arms:scale(b.readUInt16LE(2)),prov:scale(b.readUInt16LE(4))};
+}
+for(const [mode,skillId,speId,coalesced]of [[95,11,35,false],[99,11,35,true],[96,18,35,false],[100,18,35,true],[97,19,36,false],[101,19,36,true]])test('original shared skill'+skillId+' production formula/caller preserves eight real copies'+(coalesced?' with coalesced LCD callbacks':''),async()=>{
+ const expectedDamage=sharedSkillFormula(skillId);
+ const rows=await runSkill(mode,expectedDamage.arms,expectedDamage.prov),copies=rows.filter(r=>r.kind===1&&r.values.g_hdSpeId===speId),expected=movieOracle(speId,0,7,48,16),width=speId===35?65:64;
+ assert.equal(copies.length,8);assert.equal(expected.length,8);
+ for(let i=0;i<copies.length;i++){
+  const v=copies[i].values,e=expected[i];assert.equal(v.g_hdSpeSkillId,skillId);assert.equal(v.g_hdSpeKind,2);assert.equal(v.g_hdSpeFrameIndex,i);assert.equal(v.g_hdSpeCommitSeq,i+1);assert.equal(v.g_hdSpeCompositionValid,1);
+  assert.deepEqual([v.g_hdSkillResultSceneMode,v.g_hdSkillResultSceneX,v.g_hdSkillResultSceneY,v.g_hdSkillResultSceneWidth,v.g_hdSkillResultSceneHeight],[2,48,16,width,64]);assert.equal(v.g_hdSkillResultBgValid,0);
+  assert.deepEqual(Buffer.from(v.g_hdSpeVisibleFrames),e.visible);assert.deepEqual(Buffer.from(v.g_hdSpeClearFrames),e.cleared);assert.deepEqual(copies[i].pixels,e.pixels,'Every original copy and the full LCD outside its real opaque window');
+ }
+ if(skillId===11){
+  const firstMovie=rows.indexOf(copies[0]),prelude=rows.slice(0,firstMovie),held=prelude.filter(r=>r.kind===4);assert.equal(held.length,1);
+  const food=held[0].values;assert.deepEqual([food.g_hdSkillResultSkillId,food.g_hdSkillResultResultKind,food.g_hdSkillResultValue],[11,3,150]);assert.equal(food.g_hdSkillResultPhase,3);assert.equal(food.g_hdSkillResultSourceValid,0);assert.equal(food.g_hdSkillResultDisplayValid,0);assert.equal(food.g_hdSkillResultEventId,0);assert.equal(food.g_hdSkillResultSceneMode,0);
+  const numbers=prelude.find(r=>r.kind===10&&r.values.g_hdSkillResultPhase===2);assert.ok(numbers,'Actual native numbers notification precedes HOLD even when LCD callbacks coalesce');assert.ok(prelude.indexOf(numbers)<prelude.indexOf(held[0]));assert.equal(numbers.values.g_hdSkillResultSourceValid,0);assert.equal(numbers.values.g_hdSkillResultValue,expectedDamage.prov);
+  const movieSession=copies[0].values.g_hdSkillResultSession;assert.notEqual(movieSession,food.g_hdSkillResultSession,'Separate original food/movie sessions');
+  for(const r of rows.slice(firstMovie)){assert.equal(r.values.g_hdSkillResultSkillId,11);assert.equal(r.values.g_hdSkillResultResultKind,1);assert.equal(r.values.g_hdSkillResultValue,0);assert.equal(r.values.g_hdSkillResultSession,movieSession);assert.equal(r.values.g_hdSkillResultDigitCount,0);assert.equal(r.values.g_hdSkillResultLabelLength,0);assert.equal(r.values.g_hdSkillResultPhase===2||r.values.g_hdSkillResultPhase===3,false,'No invented late NUM/HOLD after the zero-power movie');}
+ }else verifyResultPixels(rows,expectedDamage.arms,{skillId,speId,windowWidth:width,coalesced});
+ assert.equal(rows.at(-1).values.g_hdSkillResultActive,0);assert.equal(rows.at(-1).values.g_hdSpeActive,0);assert.equal(rows.at(-1).values.g_hdResultOwnerKind,0);
+});
+test('two independent original FIRE18 commands retire the first target session before the next begins',async()=>{
+ const damage=sharedSkillFormula(18).arms,rows=await runSkill(98,damage,0),held=rows.filter(r=>r.kind===4),between=rows.find(r=>r.kind===9),copies=rows.filter(r=>r.kind===1&&r.values.g_hdSpeId===35);
+ assert.equal(held.length,2);assert.equal(copies.length,16);assert.ok(between);assert.equal(between.values.g_hdSkillResultActive,0);assert.equal(between.values.g_hdSpeActive,0);assert.equal(between.values.g_hdResultOwnerKind,0);
+ assert.deepEqual(held.map(r=>[r.values.g_hdSkillResultSkillId,r.values.g_hdSkillResultActorIndex,r.values.g_hdSkillResultTargetIndex,r.values.g_hdSkillResultValue]),[[18,3,10,damage],[18,3,11,damage]]);
+ assert.notEqual(held[0].values.g_hdSkillResultSession,held[1].values.g_hdSkillResultSession);
+ const next=rows.slice(rows.indexOf(between)+1),current=held[1].values.g_hdSkillResultSession;
+ for(const r of next.filter(r=>r.values.g_hdSkillResultActive)){assert.equal(r.values.g_hdSkillResultSession,current);assert.equal(r.values.g_hdSkillResultTargetIndex,11);if(r.values.g_hdSkillResultDisplayValid)assert.equal(r.values.g_hdSkillResultDisplaySession,current);}
+ assert.deepEqual(copies.slice(8).map(r=>r.values.g_hdSpeCommitSeq),[1,2,3,4,5,6,7,8]);assert.equal(rows.at(-1).values.g_hdSkillResultActive,0);
+});

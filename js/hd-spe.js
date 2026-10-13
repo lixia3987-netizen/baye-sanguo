@@ -284,17 +284,17 @@
             fireSkill = Number(s.id) === 35 ? qimenSkillContext(s) : null,
             waterSkill = Number(s.id) === 36 ? qimenSkillContext(s) : null,
             stoneSkill = Number(s.id) === 42 ? qimenSkillContext(s) : null;
-        // An unproven FIRE5 context may retain LCD pixels, but cannot fall
-        // through to the old shared-resource arena painter.
-        if (Number(s.id) === 35 && Number(s.skillId) === 5 && fireSkill !== 5) return null;
-        if (Number(s.id) === 36 && Number(s.skillId) === 12 && waterSkill !== 12) return null;
+        // Shared original resources require their exact actual skill context.
+        // Unknown or mismatched callers retain the complete native LCD.
+        if (Number(s.id) === 35 && [5, 11, 18].indexOf(fireSkill) < 0) return null;
+        if (Number(s.id) === 36 && [12, 19].indexOf(waterSkill) < 0) return null;
         // STONE has one original caller: skill23. Unknown context cannot borrow
         // the retained generic42 arena entry.
         if (Number(s.id) === 42 && stoneSkill !== 23) return null;
         for (var i = 0; i < m.entries.length; i++) {
             var e = m.entries[i];
-            if (Number(s.id) === 35 && (fireSkill === 5 ? !e || e.fireVersion !== 1 || e.skillId !== 5 : !e || e.fireVersion != null)) continue;
-            if (Number(s.id) === 36 && (waterSkill === 12 ? !e || e.waterVersion !== 1 || e.skillId !== 12 : !e || e.waterVersion != null)) continue;
+            if (Number(s.id) === 35 && (!e || e.fireVersion !== 1 || e.skillId !== fireSkill)) continue;
+            if (Number(s.id) === 36 && (!e || e.waterVersion !== 1 || e.skillId !== waterSkill)) continue;
             if (Number(s.id) === 42 && (!e || e.stoneVersion !== 1 || e.skillId !== 23)) continue;
             if (Number(s.id) === 39 && (qimenSkill === 14 ? !e || e.zhoufengVersion !== 1 || e.qimenVersion != null || e.skillId !== 14 :
                 qimenSkill === 15 ? !e || e.dingshenVersion !== 1 || e.qimenVersion != null || e.skillId !== 15 :
@@ -762,7 +762,7 @@
         return { x: 48, y: 16, width: 64, height: 64 };
     }
     function validFireEntry(entry) {
-        if (entry.fireVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillId !== 5 || entry.skillIds != null ||
+        if (entry.fireVersion !== 1 || entry.opaqueCoverageVersion !== 1 || [5, 11, 18].indexOf(entry.skillId) < 0 || entry.skillIds != null ||
             entry.skillResultVersion !== 1 || entry.kind !== 2 || entry.speId !== 35 || entry.resourceIndex !== 0 ||
             entry.count !== 8 || entry.picmax !== 2 || entry.startFrm !== 0 || entry.endFrm !== 7 ||
             entry.resourceLength !== 1212 || entry.resourceFingerprint !== 'fnv1a32:0bf53f74:1212' ||
@@ -786,7 +786,7 @@
         if (!validFireEntry(entry) || !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
             c.valid !== true || current.valid !== true || c.mode !== 2 || current.mode !== 2 ||
             [c, current].some(function (v) { return v.x !== 48 || v.y !== 16 || v.width !== 65 || v.height !== 64 || v.background && v.background.valid; }) ||
-            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== 5 ||
+            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== entry.skillId ||
             !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
             !integer(skill.targetIndex) || skill.targetIndex < 0 || skill.targetIndex >= 20 ||
             !numeric && s.contextKnown !== true || numeric && (skill.active !== true || skill.sourceValid !== true || skill.custom !== false ||
@@ -817,7 +817,7 @@
         return { x: 48, y: 16, width: 65, height: 64 };
     }
     function validWaterEntry(entry) {
-        if (entry.waterVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.skillId !== 12 || entry.skillIds != null ||
+        if (entry.waterVersion !== 1 || entry.opaqueCoverageVersion !== 1 || [12, 19].indexOf(entry.skillId) < 0 || entry.skillIds != null ||
             entry.skillResultVersion !== 1 || entry.kind !== 2 || entry.speId !== 36 || entry.resourceIndex !== 0 ||
             entry.count !== 8 || entry.picmax !== 2 || entry.startFrm !== 0 || entry.endFrm !== 7 ||
             entry.resourceLength !== 1084 || entry.resourceFingerprint !== 'fnv1a32:6d62e7a8:1084' ||
@@ -841,7 +841,7 @@
         if (!validWaterEntry(entry) || !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
             c.valid !== true || current.valid !== true || c.mode !== 2 || current.mode !== 2 ||
             [c, current].some(function (v) { return v.x !== 48 || v.y !== 16 || v.width !== 64 || v.height !== 64 || v.background && v.background.valid; }) ||
-            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== 12 ||
+            s.x !== 48 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== entry.skillId ||
             !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
             !integer(skill.targetIndex) || skill.targetIndex < 0 || skill.targetIndex >= 20 ||
             !numeric && s.contextKnown !== true || numeric && (skill.active !== true || skill.sourceValid !== true || skill.custom !== false ||
@@ -1327,7 +1327,7 @@
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
         var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 && (Number(s.skillId) === 5 || qimenSkillContext(s) === 5) || Number(s.id) === 36 && (Number(s.skillId) === 12 || qimenSkillContext(s) === 12)))) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36))) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;
