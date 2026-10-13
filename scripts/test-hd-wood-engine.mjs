@@ -34,8 +34,9 @@ function loadFixture(skill) {
         `SKILLEF*skl=FgtGetJNPtr(${skill});assert(skl->aim==0&&skl->state==0);`);
       c = c.replace('mode==22?1:5', `mode==22?1:${skill}`);
       c = c.replace('if(mode==14)dJNSpeId[4]=0;', `if(mode==14)dJNSpeId[${skill - 1}]=0;`);
-      c = c.replace('static void copied(U8*screen){SysCopyScreen(screen);record(1);}',
-        'static void copied(U8*screen){record(9);SysCopyScreen(screen);record(1);}');
+      const copyMarker = 'static void copied(U8*screen){';
+      assert.ok(c.includes(copyMarker), 'Shared fixture has its pre-copy observation boundary');
+      c = c.replace(copyMarker, copyMarker + 'record(9);');
       c = c.replace('hd_skill_resource_shape(&hdScope, srsptr);', 'hd_skill_resource_shape(&hdScope, srsptr);record(10);');
       const setup = '    BuiltAtkAttr(0,3);BuiltAtkAttr(1,10);SKILLEF*skl=';
       assert.ok(c.includes(setup));

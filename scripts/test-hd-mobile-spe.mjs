@@ -35,8 +35,8 @@ function fixture(which='aid17-first0',options={}) {
  c.window=c;vm.runInContext(source,c,{filename:'js/hd-spe.js'});const api=c.BayeHdSpe;
  const host={isAvailable:()=>available,readTicket(){if(ticketHook)ticketHook();return{data,key:ownerKey,libraryGeneration:identity.generation,presentation:'lcd',kind:0,seq:3,actor:0};},
   getMode:()=>mode,onPresentation:p=>presentations.push(p)};
- if(options.configure!==false)api.applyMobilePage(host);api.setManifest({...manifest,entries:manifest.entries.filter(e=>options.effect?e[options.effect+'Version']===1:e.speId===41)});
- function resolve(failed=false){for(const image of images){if(image.done)continue;image.done=true;const pic=manifest.entries.flatMap(e=>e.pictures).find(p=>p.src===image.url);assert.ok(pic);image.naturalWidth=pic.width;image.naturalHeight=pic.height;(failed?image.onerror:image.onload)();}}
+ if(options.configure!==false)api.applyMobilePage(host);api.setManifest({...manifest,entries:options.entries===undefined?manifest.entries.filter(e=>options.effect?e[options.effect+'Version']===1:e.speId===41):options.entries});
+ function resolve(failed=false){for(const image of images){if(image.done)continue;image.done=true;const pic=manifest.entries.flatMap(e=>[...e.pictures,e.background].filter(Boolean)).find(p=>p.src===image.url);assert.ok(pic);image.naturalWidth=pic.width;image.naturalHeight=pic.height;((typeof failed==='function'?failed(image):failed)?image.onerror:image.onload)();}}
  return {api,c,nodes,keys,writes,preferences,images,draws,presentations,polls,listeners,
   flush(){api.onLcdFlush({fixture:'current native LCD'},640,384);},resolve,
   snapshot:()=>api.debugSnapshot(),
@@ -45,6 +45,7 @@ function fixture(which='aid17-first0',options={}) {
   setReport(v){report=v;api.onEngineSpe();},setReady(v){ready=v;api.blit();},
   setIdentity(change){identity={...identity,...change};for(const fn of listeners.get('identity')||[])fn();},
   rebind(){raw=structuredClone(raw);data=readonly(raw);api.blit();},
+   changeRaw(change){change(raw);published=readAidPublic(raw);api.blit();},
   retireNative(){published={...published,publicSpe:{...published.publicSpe,active:0},publicSkillResult:{active:false},publicResultOwner:{active:false}};api.blit();},
   setKind(k){published.publicSpe={...published.publicSpe,kind:k};api.blit();},
   torn(){let i=0;ticketHook=()=>{ownerKey='owner-'+(++i);};api.blit();},
@@ -87,6 +88,92 @@ function modeButtonFixture(effect) {
  function fire(type,target,extra={}){top=target;const event={target,pointerId:1,isPrimary:true,isTrusted:true,button:0,clientX:30,clientY:30,preventDefault(){},stopImmediatePropagation(){},...extra};for(const fn of listeners[type]||[])fn(event);}
  return {calls,header,footer,raw,fire,click(target){fire('pointerdown',target);fire('pointerup',target);},get mode(){return mode;}};
 }
+// Army-skill fixtures below publish controlled ABI values from real ROM timer
+// records. They exercise the actual bridge and mobile presenter, not game outcomes.
+const armySkillCases=[{skillId:1,speId:19,start:11,end:21},{skillId:2,speId:19,start:11,end:21},
+ {skillId:3,speId:19,start:11,end:21},{skillId:4,speId:19,start:11,end:21},
+ {skillId:8,speId:20,start:10,end:20},{skillId:9,speId:21,start:9,end:17},{skillId:10,speId:21,start:9,end:17}];
+const oldKind3Sha='13481c3a80cc4b77810db4f05332ccc7d3651bc1f2ee1fac34e568e550436047';
+function armyResource(id,index=0){
+ const at=lib.readUInt32LE((id-1)*4),count=lib.readUInt16LE(at+6),fixed=lib.readUInt32LE(at+8),length=lib.readUInt32LE(at);
+ assert.ok(index>=0&&index<count);const offset=fixed?14+index*fixed:count===1?14:lib.readUInt32LE(at+14+index*8),bytes=fixed||(count===1?length-14:lib.readUInt32LE(at+18+index*8));return lib.subarray(at+offset,at+offset+bytes);
+}
+function armyFnv(bytes){let h=2166136261;for(const byte of bytes)h=Math.imul(h^byte,16777619)>>>0;return h;}
+function armyBits(frames){const a=Array(32).fill(0);for(const frame of frames)a[frame>>3]|=1<<(frame&7);return a;}
+function armyMovie(which){
+ const bytes=armyResource(which.speId),units=Array.from({length:bytes[2]},(_,frame)=>{const at=6+frame*5;return{frame,x:bytes[at],y:bytes[at+1],cdelay:bytes[at+2],ndelay:bytes[at+3],picIndex:bytes[at+4]};}),pictures=[];
+ let at=6+units.length*5;for(let picIndex=0;picIndex<bytes[3];picIndex++){const width=bytes.readUInt16LE(at),height=bytes.readUInt16LE(at+2),count=bytes.readUInt16LE(at+4),mask=bytes[at+6];pictures.push({picIndex,width,height,count,mask});at+=7+Math.ceil(width/8)*height*(mask+1);}
+ assert.equal(at,bytes.length);return{bytes,units,pictures,count:units.length,picmax:bytes[3],fingerprint:armyFnv(bytes)};
+}
+function armyTimerRecords(which,movie=armyMovie(which)){
+ const units=movie.units.slice(which.start,which.end+1),copy=units.map(u=>u.cdelay),next=units.map(u=>u.ndelay),records=[],erased=new Set();let frontier=0,lastPainted=0,clear=true,show=true;
+ for(let tick=0;tick<100000;tick++){
+  for(let i=0;i<=frontier;i++){if(copy[i]===1){erased.add(which.start+i);clear=true;}if(copy[i])copy[i]--;}
+  if(clear||show){records.push({frame:which.start+frontier,commitSeq:records.length+1,visible:Array.from({length:frontier+1},(_,i)=>which.start+i).filter(f=>copy[f-which.start]>0),clears:[...erased].sort((a,b)=>a-b)});clear=show=false;lastPainted=frontier;}
+  if(next[frontier])next[frontier]--;while(next[frontier]<=1&&frontier+which.start<which.end){frontier++;show=true;}
+  if(frontier+which.start>=which.end&&copy.every(v=>v<=1)){assert.ok(lastPainted<=frontier);return records;}
+ }
+ throw Error('Real army movie timer bound');
+}
+function armyEntry(which){
+ const entries=manifest.entries.filter(e=>e.armySkillVersion===1&&e.skillId===which.skillId);assert.equal(entries.length,1,'Exactly one actually published army entry for skill'+which.skillId);return entries[0];
+}
+function armySkillFixture(which,{phase='movie',commit=0,display=commit,mutateRaw=null,entries}={}){
+ const movie=armyMovie(which),records=armyTimerRecords(which,movie),current=records[commit],shown=records[display];assert.ok(current&&shown&&display<=commit);
+ const f=abiFixture();f.hold();const raw=f.raw,background=armyResource(16);
+ function scene(prefix,r){Object.assign(raw,{[prefix+'SceneMode']:1,[prefix+'SceneX']:15,[prefix+'SceneY']:16,[prefix+'SceneWidth']:130,[prefix+'SceneHeight']:64,[prefix+'VisibleFrames']:armyBits(r.visible),[prefix+'ClearFrames']:armyBits(r.clears)});}
+ function backdrop(prefix){f.picture(prefix,16,background);raw[prefix+'OriginX']=15;raw[prefix+'OriginY']=16;}
+ Object.assign(raw,{g_hdSpeActive:phase==='movie'?1:0,g_hdSpeId:which.speId,g_hdSpeKind:2,g_hdSpeCount:movie.count,g_hdSpePicmax:movie.picmax,g_hdSpeStartFrm:which.start,g_hdSpeEndFrm:which.end,g_hdSpeOriginX:15,g_hdSpeOriginY:16,
+  g_hdSpeSkillId:which.skillId,g_hdSpeResourceLength:movie.bytes.length,g_hdSpeResourceFingerprint:movie.fingerprint,g_hdSpeCommitSeq:current.commitSeq,g_hdSpeFrameIndex:current.frame,
+  g_hdSpeDisplayCommitSeq:shown.commitSeq,g_hdSpeDisplayFrameIndex:shown.frame,g_hdSpeCompositionValid:1,g_hdSpeDisplayCompositionValid:1,
+  g_hdSkillResultSkillId:which.skillId,g_hdSkillResultId:which.speId,g_hdSkillResultResourceLength:movie.bytes.length,g_hdSkillResultResourceFingerprint:movie.fingerprint,
+  g_hdSkillResultCount:movie.count,g_hdSkillResultPicmax:movie.picmax,g_hdSkillResultStartFrm:which.start,g_hdSkillResultEndFrm:which.end,g_hdSkillResultOriginX:15,g_hdSkillResultOriginY:16,
+  g_hdSkillResultPhase:phase==='movie'?1:phase==='numbers'?2:3,g_hdSkillResultValue:phase==='movie'?0:240,
+  g_hdSkillResultCommitSeq:current.commitSeq,g_hdSkillResultFrameIndex:current.frame,g_hdSkillResultDisplayCommitSeq:shown.commitSeq,g_hdSkillResultDisplayFrameIndex:shown.frame});
+ scene('g_hdSpe',current);scene('g_hdSpeDisplay',shown);scene('g_hdSkillResult',current);scene('g_hdSkillResultDisplay',shown);
+ for(const prefix of ['g_hdSpeBg','g_hdSpeDisplayBg','g_hdSkillResultBg','g_hdSkillResultDisplayBg'])backdrop(prefix);
+ if(phase==='movie'){for(const prefix of ['g_hdSkillResult','g_hdSkillResultDisplay'])Object.assign(raw,{[prefix+'LabelValid']:0,[prefix+'LabelLength']:0,[prefix+'DigitCount']:0});}
+ if(phase==='numbers'){for(const prefix of ['g_hdSkillResult','g_hdSkillResultDisplay']){raw[prefix+'DigitDrawCount'][2]=3;raw[prefix+'DigitY'][2]=54;}}
+ if(mutateRaw)mutateRaw(raw);f.untouched();const h=fixture(undefined,{effect:'armySkill',rawGlobals:structuredClone(raw),entries});return{h,movie,records,current,shown,entry:()=>armyEntry(which)};
+}
+function assertArmyPaint(f,phase){
+ const {h,shown}=f,e=f.entry(),s=h.snapshot();assert.equal(h.api.getLcdPresentation(),'hd');assert.equal(s.source,'hd-assets');assert.equal(s.mobileHost,true);
+ assert.deepEqual(JSON.parse(JSON.stringify(s.sourceRect)),{x:0,y:0,width:160,height:96});assert.deepEqual([s.hdRegion.x,s.hdRegion.y,s.hdRegion.width,s.hdRegion.height],[15,16,130,64]);assert.equal(160*96-130*64,7040);assert.equal(s.outsideSource,'lcd');assert.equal(s.skipVisible,false);
+ assert.deepEqual(Array.from(s.displayedFrames),shown.visible);const expected=[{src:e.background.src,rect:[15*s.scale,16*s.scale,130*s.scale,64*s.scale]},...shown.visible.map(frame=>{const u=f.movie.units[frame],p=e.pictures.find(p=>p.picIndex===u.picIndex);assert.ok(p?.src);return{src:p.src,rect:[(15+u.x)*s.scale,(16+u.y)*s.scale,p.logicalWidth*s.scale,p.logicalHeight*s.scale]};})];
+ const images=h.draws.filter(d=>d.operation==='drawImage'&&d.args[0]?.url),last=images.slice(-expected.length);assert.equal(last.length,expected.length);assert.deepEqual(last.map(d=>({src:d.args[0].url,rect:d.args.slice(1)})),expected,'Actual native display bitmap determines background and transparent foreground draw order');
+ for(const d of h.draws.filter(d=>d.operation==='fillRect')){const [x,y,w,z]=d.args;assert.ok(x>=15*s.scale&&y>=16*s.scale&&x+w<=145*s.scale&&y+z<=80*s.scale,'No invented fill on the7040 outside LCD pixels');}
+ assert.ok(h.draws.some(d=>d.operation==='drawImage'&&!d.args[0]?.url&&d.args.slice(-4).every(Number.isFinite)),'Full flushed native framebuffer is retained');
+ if(phase==='numbers'||phase==='hold'){assert.equal(s.presentation,'skill-postlude');assert.equal(s.skillResult.resultKind,1);assert.equal(s.skillResult.value,240);const text=h.draws.filter(d=>d.operation==='fillText').map(d=>d.args[0]);assert.ok(text.includes('兵力减少'));for(const digit of ['2','4','0'])assert.ok(text.includes(digit));}
+ h.noInput();
+}
+
+function runArmyMobileSpeChecks(register){
+ register('mobile army skills use seven separate actual-ROM entries without changing old kind3 entries',()=>{
+  assert.equal(manifest.entries.filter(e=>e.armySkillVersion===1).length,7);assert.equal(manifest.entries.filter(e=>e.kind===3).length,37);assert.equal(createHash('sha256').update(JSON.stringify(manifest.entries.filter(e=>e.kind===3))).digest('hex'),oldKind3Sha);
+  for(const which of armySkillCases){const e=armyEntry(which),m=armyMovie(which),b=armyResource(16);assert.deepEqual([e.kind,e.speId,e.resourceIndex,e.startFrm,e.endFrm,e.compositionVersion,e.opaqueCoverageVersion,e.skillResultVersion],[2,which.speId,0,which.start,which.end,1,1,1]);assert.equal(e.units.length,m.count);assert.equal(e.count,m.count);assert.equal(e.picmax,m.picmax);assert.equal(e.resourceLength,m.bytes.length);assert.equal(e.resourceFingerprint,'fnv1a32:'+m.fingerprint.toString(16).padStart(8,'0')+':'+m.bytes.length);
+   assert.deepEqual([e.background.id,e.background.resourceIndex,e.background.nativeWidth,e.background.nativeHeight,e.background.mask,e.background.x,e.background.y,e.background.resourceLength],[16,0,130,64,0,15,16,b.length]);assert.equal(e.background.resourceFingerprint,'fnv1a32:'+armyFnv(b).toString(16).padStart(8,'0')+':'+b.length);assert.equal(e.skillNumber.id,15);
+   for(let frame=which.start;frame<=which.end;frame++){const u=m.units[frame];assert.deepEqual({frame:e.units[frame].frame,x:e.units[frame].x,y:e.units[frame].y,picIndex:e.units[frame].picIndex},u&&{frame:u.frame,x:u.x,y:u.y,picIndex:u.picIndex});const p=e.pictures.find(p=>p.picIndex===u.picIndex),r=m.pictures[u.picIndex];assert.ok(p?.src);assert.deepEqual([p.nativeWidth,p.nativeHeight,p.mask],[r.width,r.height,r.mask]);}
+  }
+ });
+ for(const which of armySkillCases){const title='mobile army skill'+which.skillId+' SPE'+which.speId;
+  for(const phase of ['first movie','overlap movie','final movie','numbers','hold'])register(title+' '+phase+' preserves full LCD and certified background/foreground',()=>{
+   const records=armyTimerRecords(which),index=phase==='first movie'?0:phase==='overlap movie'?records.findIndex(r=>r.visible.length>1):records.length-1;assert.ok(index>=0);const p=phase==='numbers'||phase==='hold'?phase:'movie',f=armySkillFixture(which,{phase:p,commit:index});f.h.flush();f.h.resolve();assertArmyPaint(f,p);
+  });
+  register(title+' real display lag cannot paint a later copied frame',()=>{const records=armyTimerRecords(which),f=armySkillFixture(which,{commit:Math.min(3,records.length-1),display:0});f.h.flush();f.h.resolve();assertArmyPaint(f,'movie');assert.equal(f.shown.frame,which.start);});
+  register(title+' wrong caller, unknown context, crop or background stays full physical LCD',()=>{
+   for(const mutateRaw of [r=>r.g_hdSpeSkillId=5,r=>r.g_hdSpeContextKnown=0,r=>r.g_hdSpeActorIndex=20,r=>r.g_hdSpeBgWidth=129,r=>r.g_hdSpeDisplayBgOriginX=16,r=>r.g_hdSpeSceneWidth=64,r=>r.g_hdSpeEndFrm=which.end+1]){const f=armySkillFixture(which,{mutateRaw});f.h.flush();f.h.resolve();assert.notEqual(f.h.api.getLcdPresentation(),'hd');assert.equal(f.h.api.isOpen(),false);f.h.noInput();}
+  });
+  register(title+' mismatched result session and late completion cannot revive a retired hold',()=>{const records=armyTimerRecords(which),f=armySkillFixture(which,{phase:'hold',commit:records.length-1});f.h.flush();f.h.changeRaw(r=>r.g_hdSkillResultDisplaySession++);f.h.resolve();assert.notEqual(f.h.api.getLcdPresentation(),'hd');assert.equal(f.h.api.isOpen(),false);f.h.noInput();});
+  register(title+' coherent new result session requires its own current LCD flush',()=>{const records=armyTimerRecords(which),f=armySkillFixture(which,{phase:'hold',commit:records.length-1});f.h.flush();f.h.resolve();f.h.changeRaw(r=>{r.g_hdSkillResultSession++;r.g_hdSkillResultDisplaySession++;r.g_hdResultOwnerSession++;});assert.equal(f.h.api.isOpen(),false);f.h.flush();f.h.resolve();assertArmyPaint(f,'hold');});
+  register(title+' opaque data rebinding cannot reuse the old native framebuffer',()=>{const f=armySkillFixture(which);f.h.flush();f.h.resolve();f.h.rebind();assert.equal(f.h.api.isOpen(),false);f.h.flush();assertArmyPaint(f,'movie');});
+  register(title+' missing transparent art or opaque background does not cover physical LCD',()=>{for(const part of ['background','foreground']){const f=armySkillFixture(which),e=f.entry();f.h.flush();f.h.resolve(image=>part==='background'?image.url===e.background.src:image.url!==e.background.src);assert.equal(f.h.api.getLcdPresentation(),'lcd');assert.equal(f.h.api.isOpen(),false);assert.equal(f.h.api.skip(),false);f.h.noInput();}});
+  register(title+' classic mode restores LCD and needs a fresh flush before HD returns',()=>{const f=armySkillFixture(which);f.h.flush();f.h.resolve();f.h.setMode('classic');assert.equal(f.h.api.getLcdPresentation(),'off');assert.equal(f.h.api.isOpen(),false);f.h.setMode('hd');assert.equal(f.h.api.isOpen(),false);f.h.flush();assertArmyPaint(f,'movie');});
+  register(title+' native report or retirement rejects delayed image completion with zero keys',()=>{for(const why of ['report','retire']){const f=armySkillFixture(which);f.h.flush();why==='report'?f.h.setReport(1):f.h.retireNative();f.h.resolve();assert.equal(f.h.api.isOpen(),false);assert.equal(f.h.api.getLcdPresentation(),'off');f.h.noInput();}});
+  register(title+' pending or unknown LIB never authorizes a copied composition',()=>{for(const change of [{status:'pending'},{sha256:'0'.repeat(64)},{byteLength:207196}]){const f=armySkillFixture(which);f.h.flush();f.h.resolve();f.h.setIdentity(change);assert.equal(f.h.api.getLcdPresentation(),'off');assert.equal(f.h.api.isOpen(),false);f.h.noInput();}});
+  register(title+' decoding without a native flush is not HD acceptance',()=>{const f=armySkillFixture(which);f.h.resolve();assert.equal(f.h.api.isOpen(),false);f.h.flush();assertArmyPaint(f,'movie');});
+ }
+}
+
 export function runMobileSpeChecks(register=test){
  register('mobile public AID movie uses the current native commit with an LCD-only battle base ticket',()=>{const h=hdFixture();assert.equal(h.snapshot().source,'hd-assets');assert.equal(h.snapshot().mobileHost,true);assert.equal(h.api.isOpen(),true);assert.equal(h.api.isHandling(),true);h.noInput();});
  register('mobile asset loading keeps the physical LCD touchable and does not open a copied-LCD overlay',()=>{const h=fixture();h.flush();assert.equal(h.api.getLcdPresentation(),'lcd');assert.equal(h.api.isOpen(),false);assert.equal(h.nodes.get('hd-spe').style.pointerEvents,'none');assert.equal(h.api.isHandling(),false);h.noInput();});
@@ -150,5 +237,6 @@ export function runMobileSpeChecks(register=test){
   h.flush();h.resolve();assert.notEqual(h.api.getLcdPresentation(),'hd');assert.equal(h.api.isOpen(),false);h.noInput();
  });
 
+ runArmyMobileSpeChecks(register);
 }
 runMobileSpeChecks();

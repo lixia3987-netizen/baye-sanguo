@@ -1303,6 +1303,29 @@ function baye_bridge_init() {
             width = Math.max(width, i % 2 ? 66 : 64);
         return width > 0 && c.width === width && (skillId === 6 || frame === 0 && width === 64);
     }
+    // Original army skills share attack art, but their kind2 caller/range and
+    // actual BACKPIC16 are independent of the ordinary kind3 attack contract.
+    function hdArmySkillSource(skill, id, index, count, pictures, start, end, x, y, length, fingerprint) {
+        var spec = skill >= 1 && skill <= 4 ? [19, 66, 19, 11, 21, 6115, 0xf0c01d45] :
+            skill === 8 ? [20, 60, 18, 10, 20, 5014, 0x28294325] :
+            skill === 9 || skill === 10 ? [21, 54, 18, 9, 17, 4630, 0x5a4c8036] : null;
+        return !!spec && id === spec[0] && index === 0 && count === spec[1] && pictures === spec[2] &&
+            start === spec[3] && end === spec[4] && x === 15 && y === 16 && length === spec[5] && fingerprint === spec[6];
+    }
+    function hdArmyBackground(c, background) {
+        return !!c && c.mode === 1 && c.x === 15 && c.y === 16 && c.width === 130 && c.height === 64 &&
+            background && background.valid && background.id === 16 && background.resourceIndex === 0 &&
+            background.pictureIndex === 0 && background.nativeWidth === 130 && background.nativeHeight === 64 &&
+            background.count === 1 && background.mask === 0 && background.x === 15 && background.y === 16 &&
+            background.resourceLength === 1095 && background.resourceFingerprint === 'fnv1a32:3bf544d6:1095';
+    }
+    function hdArmyFrames(live, erased, frontier, count, start, end) {
+        if (!Number.isInteger(frontier) || frontier < start || frontier > end ||
+            !hdRangeBits(live, count, start, frontier) || !hdRangeBits(erased, count, start, frontier)) return false;
+        // A copied frame can be clear-only. Its established frontier is still
+        // present in the union; no future or unrelated-range bits are allowed.
+        return ((live[frontier >> 3] | erased[frontier >> 3]) & (1 << (frontier & 7))) !== 0;
+    }
     function hdSpeComposition(d, expected) {
         var r = hdObserverReader(d), version = r.num('g_hdSpeCompositionVersion', 255);
         var neutral = { protocolVersion: version, valid: false, background: null, clearFrames: [] };
@@ -1323,7 +1346,7 @@ function baye_bridge_init() {
         sceneNames.forEach(function (name) {
             if (d && (d['g_hdSpe' + name] != null || d['g_hdSpeDisplay' + name] != null)) scenePresent = true;
         });
-        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false, qimen = false, fire = false, water = false, stone = false;
+        var scene = null, displayScene = null, wood = false, aid = false, liuyan = false, zhoufeng = false, dingshen = false, qimen = false, fire = false, water = false, stone = false, army = false;
         if (scenePresent) {
             function readScene(prefix) { return { mode: r.num(prefix + 'SceneMode', 3),
                 x: hdOrigin(r.num(prefix + 'SceneX', 65535)), y: hdOrigin(r.num(prefix + 'SceneY', 65535)),
@@ -1331,6 +1354,13 @@ function baye_bridge_init() {
             scene = readScene('g_hdSpe'); displayScene = readScene('g_hdSpeDisplay');
             var known = r.num('g_hdSpeContextKnown', 1), skill = r.num('g_hdSpeSkillId', 65535),
                 actor = r.num('g_hdSpeActorIndex', 255), target = r.num('g_hdSpeTargetIndex', 255);
+            army = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
+                expected.actorIndex === actor && expected.targetIndex === target && actor != null && target != null && actor < 20 && target < 20 &&
+                values.Kind === 2 && values.Keyflag === 0 &&
+                hdArmySkillSource(skill, values.Id, values.ResourceIndex, count, values.Picmax, start, end,
+                    hdOrigin(values.OriginX), hdOrigin(values.OriginY), values.ResourceLength, values.ResourceFingerprint) &&
+                r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+                r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
             wood = known === 1 && expected && expected.contextKnown === true && expected.skillId === skill &&
                 expected.actorIndex === actor && expected.targetIndex === target && actor < 20 && target < 20 &&
                 values.Id === 37 && values.Kind === 2 && values.ResourceIndex === 0 && count === 8 && values.Picmax === 2 &&
@@ -1457,6 +1487,17 @@ function baye_bridge_init() {
                 (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
                     displayVisible.every(function (bit, i) { return bit === visible[i]; }) &&
                     displayClears.every(function (bit, i) { return bit === clears[i]; }));
+        var armyResource = values.Kind === 2 && (values.Id === 19 || values.Id === 20 || values.Id === 21),
+            currentArmy = current && currentValid === 1 && army && hdArmyBackground(scene, background) &&
+                hdArmyFrames(visible, clears, values.FrameIndex, count, start, end),
+            shownArmy = shown && currentArmy && hdArmyBackground(displayScene, displayBackground) &&
+                JSON.stringify(displayBackground) === JSON.stringify(background) &&
+                hdArmyFrames(displayVisible, displayClears, values.DisplayFrameIndex, count, start, end) &&
+                values.DisplayCommitSeq > 0 && values.DisplayCommitSeq <= values.CommitSeq && values.DisplayFrameIndex <= values.FrameIndex &&
+                displayClears.every(function (bit, i) { return (bit & ~clears[i]) === 0; }) &&
+                (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
+                    displayVisible.every(function (bit, i) { return bit === visible[i]; }) &&
+                    displayClears.every(function (bit, i) { return bit === clears[i]; }));
         function output(valid, bg, bits, geometry) {
             var result = { protocolVersion: version, valid: valid, background: stable ? bg : null, clearFrames: stable ? bits : [] };
             if (scenePresent) { result.mode = stable && geometry ? geometry.mode : null;
@@ -1464,8 +1505,8 @@ function baye_bridge_init() {
                 result.width = stable && geometry ? geometry.width : null; result.height = stable && geometry ? geometry.height : null; }
             return result;
         }
-        return { current: output(currentEqualOpaque || currentWood || current && currentValid === 1 && (!scene || scene.mode !== 3) && background.valid && hdRangeBits(clears, count, start, end), background, clears, scene),
-            display: output(shownEqualOpaque || shownWood || shown && (!displayScene || displayScene.mode !== 3) && displayBackground.valid && hdRangeBits(displayClears, count, start, end), displayBackground, displayClears, displayScene),
+        return { current: output(currentEqualOpaque || currentWood || currentArmy || !armyResource && current && currentValid === 1 && (!scene || scene.mode !== 3) && background.valid && hdRangeBits(clears, count, start, end), background, clears, scene),
+            display: output(shownEqualOpaque || shownWood || shownArmy || !armyResource && shown && (!displayScene || displayScene.mode !== 3) && displayBackground.valid && hdRangeBits(displayClears, count, start, end), displayBackground, displayClears, displayScene),
             fence: function () { return r.stable() && (!scenePresent || hdEngineReady() && baye.ensureData() === d); } };
     }
     // AI target hints own only their real before-draw cell and copied frame.
@@ -1884,8 +1925,16 @@ function baye_bridge_init() {
             return c.width > 0 && c.height > 0 && c.x >= 0 && c.y >= 0 && c.x + c.width <= 160 && c.y + c.height <= 96 &&
                 x >= c.x && y >= c.y && x + width <= c.x + c.width && y + height <= c.y + c.height;
         }
+        var armyResource = v.Id === 19 || v.Id === 20 || v.Id === 21;
+        var army = !armyResource || v.ResultKind === 1 &&
+            hdArmySkillSource(v.SkillId, v.Id, v.ResourceIndex, v.Count, v.Picmax, v.StartFrm, v.EndFrm,
+                hdOrigin(v.OriginX), hdOrigin(v.OriginY), v.ResourceLength, v.ResourceFingerprint) &&
+            r.num('g_scale', 65535) === 1 && r.num('g_screenWidth', 65535) === 160 && r.num('g_screenHeight', 65535) === 96 &&
+            r.num('g_hdReportActive', 1) === 0 && r.num('g_hdHelpActive', 1) === 0 && r.num('g_hdQtyActive', 1) === 0;
         function composition(s) {
             var c = s.composition;
+            if (armyResource && (!army || !hdArmyBackground(c, c.background) ||
+                !hdArmyFrames(s.visibleFrames, c.clearFrames, s.frameIndex, v.Count, v.StartFrm, v.EndFrm))) return false;
             return (c.mode === 1 && c.background.valid && c.x === c.background.x && c.y === c.background.y &&
                 c.width === c.background.nativeWidth && c.height === c.background.nativeHeight || c.mode === 2 ||
                 c.mode === 3 && v.Id === 37 && v.ResourceIndex === 0 && v.SkillId === 6 && v.Count === 8 && v.Picmax === 2 &&
@@ -1895,12 +1944,14 @@ function baye_bridge_init() {
                 inside(c, c.x, c.y, c.width, c.height) && hdRangeBits(s.visibleFrames, v.Count, v.StartFrm, v.EndFrm) &&
                 hdRangeBits(c.clearFrames, v.Count, v.StartFrm, v.EndFrm);
         }
-        function validLabel(l, c) { return !l.claimed || l.valid && inside(c, l.x, l.y, l.length * 6, 12); }
+        function validLabel(l, c) { return !l.claimed || l.valid && (!armyResource || l.x === 55 && l.y === 18) && inside(c, l.x, l.y, l.length * 6, 12); }
         function validDigits(ds, l, c) {
             var decimal = String(v.Value);
-            return ds.unused && ds.values.length <= decimal.length && (!ds.values.length || number.valid && number.count === 10 && number.mask === 0 && l.valid) &&
+            return (!armyResource || !ds.values.length || number.id === 15 && number.resourceIndex === 0 && number.pictureIndex === 0 &&
+                number.nativeWidth === 12 && number.nativeHeight === 16 && number.resourceLength === 327 &&
+                number.resourceFingerprint === 'fnv1a32:b37d7407:327') && ds.unused && ds.values.length <= decimal.length && (!ds.values.length || number.valid && number.count === 10 && number.mask === 0 && l.valid) &&
                 ds.values.every(function (digit, i) {
-                    return digit.digit === decimal.charCodeAt(i) - 48 && digit.drawCount > 0 && digit.drawCount <= Math.floor(number.nativeHeight / 2) &&
+                    return (!armyResource || digit.x === 55 + i * 6 && digit.firstY === 56) && digit.digit === decimal.charCodeAt(i) - 48 && digit.drawCount > 0 && digit.drawCount <= Math.floor(number.nativeHeight / 2) &&
                         digit.y === digit.firstY - digit.drawCount + 1 && inside(c, digit.x, digit.firstY, number.nativeWidth, number.nativeHeight) &&
                         inside(c, digit.x, digit.y, number.nativeWidth, number.nativeHeight);
                 });
@@ -1922,7 +1973,7 @@ function baye_bridge_init() {
             displayDigits.values.every(function (digit, i) {
                 var now = currentDigits.values[i]; return now && now.digit === digit.digit && now.x === digit.x && now.firstY === digit.firstY && now.drawCount >= digit.drawCount;
             });
-        if ((current.composition.mode === 3 || current.composition.mode === 2 && v.Id === 36 && (v.SkillId === 12 || v.SkillId === 19)) &&
+        if ((armyResource || current.composition.mode === 3 || current.composition.mode === 2 && v.Id === 36 && (v.SkillId === 12 || v.SkillId === 19)) &&
             (!hdEngineReady() || baye.ensureData() !== d || !r.stable())) return neutral;
         current.frameValid = current.composition.valid = source; current.label = currentLabel;
         display.frameValid = display.composition.valid = display.valid = shown; display.label = displayLabel; display.digits = displayDigits.values;

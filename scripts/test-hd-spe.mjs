@@ -3068,11 +3068,11 @@ function sharedWindowLoaded(caller, options = {}) {
 function sharedWindowBounds(caller, h) { return caller.family === 'fire' ? fireBoundedDraws(h) : waterBoundedDraws(h); }
 test('shared FIRE11 FIRE18 WATER19 append only three exact clones after all55 historical entries', () => {
     const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
-    assert.equal(m.entries.length, 58);
+    assert.ok(m.entries.length >= 58);
     const historical = JSON.stringify({ ...m, entries: m.entries.slice(0, 55) }, null, 2) + '\n';
     assert.equal(createHash('sha256').update(historical).digest('hex'), 'e849c09b84c64214dbc2762e19611e842006dd2609828cebb0ab73e39c546b0a');
-    assert.deepEqual(m.entries.slice(55).map(e => [e.speId, e.skillId]), [[35, 11], [35, 18], [36, 19]]);
-    for (const e of m.entries.slice(55)) {
+    assert.deepEqual(m.entries.slice(55, 58).map(e => [e.speId, e.skillId]), [[35, 11], [35, 18], [36, 19]]);
+    for (const e of m.entries.slice(55, 58)) {
         const baseId = e.fireVersion ? 5 : 12, original = m.entries.find(v => v.speId === e.speId && v.skillId === baseId);
         assert.deepEqual({ ...e, skillId: baseId }, original, 'Only the exact skillId changes; slots, NUM and native identities are reused');
     }
@@ -3168,4 +3168,218 @@ test('FIRE11 zero-arms movie retires without inventing a late NUM HOLD or acknow
     h.setSpe({ active: 0 }); h.setSkillResult({ active: false }); h.setResultOwner({ active: false, valid: false, kind: 0 });
     h.api.onEngineSpe(); h.events.length = 0; h.flush();
     assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+
+// These seven fixtures are controlled renderer snapshots, not legal gameplay
+// casts. Native geometry/slots are independently decoded from the original ROM.
+const armyCallers = [{ skillId: 1, speId: 19, start: 11, end: 21 },
+    { skillId: 2, speId: 19, start: 11, end: 21 }, { skillId: 3, speId: 19, start: 11, end: 21 },
+    { skillId: 4, speId: 19, start: 11, end: 21 }, { skillId: 8, speId: 20, start: 10, end: 20 },
+    { skillId: 9, speId: 21, start: 9, end: 17 }, { skillId: 10, speId: 21, start: 9, end: 17 }];
+function armyFixture(caller, current = caller.start, shown = current) {
+    const actual = actualMainFixture(caller.speId), production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const entry = structuredClone(production.entries.find(e => e.armySkillVersion === 1 && e.skillId === caller.skillId));
+    assert.ok(entry, 'independent kind2 skill entry exists'); assert.deepEqual(entry.units, actual.units);
+    assert.equal(entry.resourceFingerprint, actual.entry.resourceFingerprint); assert.equal(entry.resourceLength, actual.entry.resourceLength);
+    const composition = frame => ({ protocolVersion: 1, valid: true, mode: 1, x: 15, y: 16, width: 130, height: 64,
+        background: { ...entry.background, valid: true }, clearFrames: bitset(...Array.from({ length: frame - caller.start }, (_, i) => caller.start + i)) });
+    const display = { generation: 9, eventId: 5, commitSeq: shown - caller.start + 1, frameIndex: shown, frameValid: true,
+        visibleFrames: bitset(shown), composition: composition(shown) };
+    const s = { ...actual.s, kind: 2, generation: 9, eventId: 5, x: 15, y: 16, keyflag: 0, skipEligible: false,
+        contextKnown: true, skillId: caller.skillId, actorIndex: 2, targetIndex: 10, startFrm: caller.start, endFrm: caller.end,
+        frameIndex: current, frameValid: true, commitSeq: current - caller.start + 1, visibleFrames: bitset(current), composition: composition(current), display };
+    return { ...actual, entry, s, m: { ...production, entries: [entry] } };
+}
+function armyNumericFixture(caller, phase = 'numbers') {
+    const f = armyFixture(caller, caller.end), label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
+        bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
+    const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
+    const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
+    const result = { protocolVersion: 1, active: true, phase, custom: false, sourceValid: true, generation: 9, session: 2,
+        skillId: caller.skillId, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
+        speId: caller.speId, resourceIndex: 0, count: f.entry.count, picmax: f.entry.picmax, startFrm: caller.start, endFrm: caller.end, x: 15, y: 16,
+        resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
+        number: { ...f.entry.skillNumber, valid: true }, label, digits, scene,
+        display: { ...structuredClone(scene), valid: true, label, digits } };
+    return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
+}
+async function armyLoaded(caller = armyCallers[0], options = {}) {
+    const f = options.phase ? armyNumericFixture(caller, options.phase) : armyFixture(caller, options.current ?? caller.start, options.shown ?? options.current ?? caller.start);
+    const h = harness({ data: { g_scale: 1 }, spe: options.phase ? { active: 0, generation: 9 } : f.s,
+        ...(options.phase ? { skillResult: f.result, resultOwner: f.top } : {}), ...options.harness });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h);
+    const required = new Set(f.entry.units.slice(caller.start, caller.end + 1).map(u => u.picIndex));
+    assert.equal(h.images.length, required.size + 1, 'only actual range slots plus real BACKPIC16 are requested');
+    function resolve(i) { const image = h.images[i], p = [...f.entry.pictures, f.entry.background].find(p => p.src === image.url);
+        assert.ok(p); image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); }
+    if (!options.pending) h.images.forEach((_, i) => resolve(i));
+    return { ...h, fixture: f, resolve, resolveAll: () => h.images.forEach((_, i) => resolve(i)) };
+}
+function armyBounded(h) {
+    fireFullLcd(h); fireNoInput(h);
+    assert.deepEqual({ ...h.api.debugSnapshot().hdRegion }, { x: 15, y: 16, width: 130, height: 64 });
+    const box = [15 * 11, 16 * 11, 130 * 11, 64 * 11];
+    assert.ok(h.events.some(e => e.node === 'hd-spe-canvas' && e.operation === 'rect' && JSON.stringify(e.args) === JSON.stringify(box)));
+    for (const op of h.events.filter(e => e.node === 'hd-spe-canvas' && (e.operation === 'fillRect' || e.operation === 'drawImage' && e.args[0] instanceof h.context.Image))) {
+        const args = op.operation === 'drawImage' ? op.args.slice(1) : op.args, [x, y, w, height] = args;
+        assert.ok(x >= box[0] && y >= box[1] && x + w <= box[0] + box[2] && y + height <= box[1] + box[3],
+            'background, erased rectangles and actual units stay inside the certified130x64 window');
+    }
+}
+test('army skills append seven entries after all58 byte-identical historical entries and reuse actual slots including infantry frame20', () => {
+    const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    assert.equal(m.entries.length, 65);
+    const prior = JSON.stringify({ ...m, entries: m.entries.slice(0, 58) }, null, 2) + '\n';
+    assert.equal(createHash('sha256').update(prior).digest('hex'), 'c3072f85dd77166e1ead87970fc7624d6a789dbdee59018d641fa92b0e8535a6');
+    assert.deepEqual(m.entries.slice(58).map(e => [e.skillId, e.speId, e.startFrm, e.endFrm]), armyCallers.map(c => [c.skillId, c.speId, c.start, c.end]));
+    for (const caller of armyCallers) {
+        const f = armyFixture(caller), e = f.entry;
+        assert.deepEqual([e.kind, e.armySkillVersion, e.opaqueCoverageVersion, e.compositionVersion, e.skillResultVersion], [2, 1, 1, 1, 1]);
+        assert.deepEqual(e.skillNumber, e.number); assert.equal(e.number.id, 15); assert.equal(e.background.id, 16);
+        for (const u of e.units.slice(caller.start, caller.end + 1)) {
+            const p = e.pictures[u.picIndex], original = m.entries.find(v => v.kind === 3 && v.speId === e.speId && v.pictures[u.picIndex].src === p.src);
+            assert.ok(original, 'each required PNG is reused from the same native ordinary-attack resource');
+            assert.deepEqual(p, original.pictures[u.picIndex]); assert.ok(p.src);
+        }
+        const bg = decodePng(readFileSync(new URL('../' + e.background.src, import.meta.url)));
+        assert.equal(bg.width, e.background.width); assert.equal(bg.height, e.background.height); checkPictureAlpha(bg, 0);
+    }
+    const infantry = armyFixture(armyCallers[4]); assert.equal(infantry.entry.units[20].picIndex, 9);
+    assert.ok(infantry.entry.pictures[9].src, 'native end20 is preserved rather than truncated to ordinary end19');
+});
+for (const caller of armyCallers) {
+    const title = 'army skill' + caller.skillId;
+    test(title + ' every actual movie frame composes fullLCD BACKPIC then real clears and ascending live units', async () => {
+        const h = await armyLoaded(caller);
+        for (let frame = caller.start; frame <= caller.end; frame++) {
+            h.setSpe(armyFixture(caller, frame).s); h.events.length = 0; h.flush();
+            assert.equal(h.api.debugSnapshot().source, 'hd-assets'); armyBounded(h);
+            const draws = h.hdDraws(); assert.equal(draws.length, 2); assert.equal(draws[0].args[0].url, h.fixture.entry.background.src);
+            assert.deepEqual(draws[0].args.slice(1), [15 * 11, 16 * 11, 130 * 11, 64 * 11]);
+            const u = h.fixture.entry.units[frame], p = h.fixture.entry.pictures[u.picIndex];
+            assert.equal(draws[1].args[0].url, p.src);
+            assert.deepEqual(draws[1].args.slice(1), [(15 + u.x) * 11, (16 + u.y) * 11, p.logicalWidth * 11, p.logicalHeight * 11]);
+            const erases = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect');
+            assert.equal(erases.length, frame - caller.start);
+            assert.ok(erases.every(e => h.events.indexOf(e) > h.events.indexOf(draws[0]) && h.events.indexOf(e) < h.events.indexOf(draws[1])), 'native erased boxes occur between single BACKPIC and live sprites');
+            assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').length, 0);
+        }
+        const count = h.events.length; h.advance(50_000); h.polls.forEach(p => p());
+        assert.equal(h.events.length, count, 'clock never creates another movie copy'); fireNoInput(h);
+    });
+    for (const phase of ['numbers', 'hold']) test(title + ' ' + phase + ' retains the true final movie BACKPIC and actual NUM15 label history', async () => {
+        const h = await armyLoaded(caller, { phase }); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.api.debugSnapshot().presentation, 'skill-postlude'); armyBounded(h);
+        const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText');
+        assert.deepEqual(texts[0].args, ['兵力减少', 55 * 11, 18 * 11, 48 * 11]);
+        assert.deepEqual(texts.slice(1).map(e => e.args), [2, 4, 0].flatMap((digit, i) => Array.from({ length: 8 }, (_, j) => [String(digit), (55 + 6 * i) * 11, (56 - j) * 11, 6 * 11])));
+        assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [caller.end]); fireNoInput(h);
+    });
+    test(title + ' unknown or wrong actual caller cannot borrow kind3 even with an exact resource payload', async () => {
+        const h = await armyLoaded(caller), m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+        for (const change of [s => s.contextKnown = false, s => s.skillId = 13, s => s.skillId = 24]) {
+            const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.api.setManifest(m); h.events.length = 0; h.flush();
+            assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+        }
+        h.setSpe(h.fixture.s); h.api.setManifest({ ...h.fixture.m, entries: m.entries.filter(e => e.kind === 3 && e.speId === caller.speId) });
+        h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+    });
+}
+test('army displayed lag remains on its copied frontier while future, outside-range and torn clear histories use fullLCD', async () => {
+    const caller = armyCallers[0], h = await armyLoaded(caller, { current: 15, shown: 11 });
+    h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); armyBounded(h);
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [11]); assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[10].src);
+    for (const change of [s => s.display.composition.clearFrames = bitset(12), s => s.display.visibleFrames = bitset(12),
+        s => s.display.commitSeq = 99, s => s.display.frameIndex = 16, s => s.display.eventId++, s => s.display.generation++,
+        s => s.composition.clearFrames = bitset(16), s => s.display.visibleFrames = bitset(10),
+        s => { s.visibleFrames = bitset(); s.composition.clearFrames = bitset(); }, s => s.display.composition.background = null]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('army clear-only final copy retains exactly one BACKPIC and neutral erased footprints without inventing an unseen sprite', async () => {
+    const caller = armyCallers[4], h = await armyLoaded(caller, { phase: 'hold' }), r = structuredClone(h.fixture.result);
+    for (const copy of [r.scene, r.display]) { copy.visibleFrames = bitset(); copy.composition.clearFrames = bitset(...Array.from({ length: 11 }, (_, i) => i + 10)); }
+    h.setSkillResult(r); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); armyBounded(h);
+    assert.equal(h.hdDraws().length, 1); assert.equal(h.hdDraws()[0].args[0].url, h.fixture.entry.background.src);
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], []);
+});
+test('army current BACKPIC metadata and origin must match both displayed and current mode1 tickets', async () => {
+    const h = await armyLoaded();
+    for (const change of [s => s.composition.mode = 2, s => s.display.composition.mode = 0,
+        s => s.composition.background.valid = false, s => s.display.composition.background.id = 15,
+        s => s.display.composition.background.resourceFingerprint = 'fnv1a32:00000000:1095',
+        s => s.display.composition.width = 129, s => s.composition.x = 16, s => s.x = 16,
+        s => s.actorIndex = 20, s => s.targetIndex = -1, s => s.keyflag = 1, s => s.skipEligible = true]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('army malformed entry flags, required unit geometry, slot identity, background or NUM cannot fall back to a generic arena', async () => {
+    const h = await armyLoaded();
+    for (const change of [e => delete e.armySkillVersion, e => delete e.opaqueCoverageVersion, e => e.armySkillVersion = 2,
+        e => e.skillId = 8, e => e.compositionVersion = 2, e => e.kind = 3, e => e.fireVersion = 1,
+        e => e.units[12].x++, e => e.pictures[10].nativeSlotSha256 = '0'.repeat(64), e => e.pictures[10].mask = 0,
+        e => e.background = null, e => e.background.nativeWidth = 129, e => e.skillNumber.id = 16, e => e.number.resourceLength++]) {
+        const e = structuredClone(h.fixture.entry); change(e); h.api.setManifest({ ...h.fixture.m, entries: [e] }); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('army numeric owner rejects cross-session nested sources, wrong roles, fabricated NUM and incomplete final copies', async () => {
+    const h = await armyLoaded(armyCallers[5], { phase: 'hold' });
+    for (const change of [r => r.custom = true, r => r.sourceValid = false, r => r.resultKind = 3, r => r.session++,
+        r => r.scene.session++, r => r.actorIndex = 20, r => r.targetIndex = 20, r => r.display.eventId++,
+        r => r.scene.frameIndex--, r => r.display.frameIndex--, r => r.number.resourceFingerprint = 'fnv1a32:00000000:327',
+        r => r.display.label.x = 140, r => r.display.digits[0].x = 140]) {
+        const r = structuredClone(h.fixture.result); change(r); h.setSkillResult(r); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    h.setSkillResult(h.fixture.result); h.setResultOwner({ ...h.fixture.top, session: 3 }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+for (const missing of ['background', 'sprite']) test('army missing ' + missing + ' and late decode retain complete physicalLCD rather than partialHD', async () => {
+    const h = await armyLoaded(armyCallers[4], { pending: true });
+    const failed = h.images.findIndex(i => missing === 'background' ? i.url === h.fixture.entry.background.src : i.url === h.fixture.entry.pictures[9].src);
+    assert.ok(failed >= 0); h.images[failed].onerror(); h.resolveAll(); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+for (const why of ['pending', 'unknownLIB', 'classic', 'report', 'hidden', 'ended']) test('army ' + why + ' boundary does not paint late art or issue native input', async () => {
+    const h = await armyLoaded(armyCallers[0], { pending: true });
+    if (why === 'unknownLIB') h.context.dynLib = '00';
+    else if (why === 'classic') h.setMode(false);
+    else if (why === 'report') h.setReport(1);
+    else if (why === 'hidden') h.setHidden(true);
+    else if (why === 'ended') { h.setSpe({ active: 0 }); h.api.onEngineSpe(); }
+    if (why !== 'pending') h.resolveAll(); h.events.length = 0; h.flush();
+    assert.notEqual(h.api.debugSnapshot().source, 'hd-assets'); assert.deepEqual(h.hdDraws(), []); fireFullLcd(h); fireNoInput(h);
+});
+for (const phase of [null, 'hold']) test('army ' + (phase || 'movie') + ' final paint fence restores fullLCD after same-value data, role, commit or owner replacement', async () => {
+    for (const mutation of ['data', 'actor', 'target', 'commit', 'owner', 'library']) {
+        const h = await armyLoaded(armyCallers[0], { phase }); let changed = false;
+        h.setDrawHook((node, op, args) => {
+            if (changed || node !== 'hd-spe-canvas' || op !== 'drawImage' || !(args[0] instanceof h.context.Image)) return;
+            changed = true;
+            if (mutation === 'data') { const rebound = { g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 };
+                Object.defineProperty(h.context.baye, 'data', { configurable: true, get: () => rebound }); }
+            else if (mutation === 'library') h.context.dynLib = bytes.toString('hex');
+            else if (phase) {
+                if (mutation === 'actor') h.fixture.result.actorIndex++;
+                if (mutation === 'target') h.fixture.result.targetIndex++;
+                if (mutation === 'commit') h.fixture.result.display.commitSeq++;
+                if (mutation === 'owner') h.setResultOwner({ ...h.fixture.top, session: 3 });
+            } else {
+                if (mutation === 'actor') h.spe().actorIndex++;
+                if (mutation === 'target') h.spe().targetIndex++;
+                if (mutation === 'commit') h.spe().display.commitSeq++;
+                if (mutation === 'owner') h.spe().display.eventId++;
+            }
+        });
+        h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true);
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+        const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0] instanceof h.context.Image, false, 'a stale completed paint is overwritten with complete capturedLCD'); fireNoInput(h);
+    }
 });

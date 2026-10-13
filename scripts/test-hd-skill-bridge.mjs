@@ -353,3 +353,81 @@ test('FIRE11 actual zero-value movie does not infer late numeric payload from it
  }
  const s=f.baye.hd.skillResult();assert.equal(s.active,true);assert.equal(s.phase,'movie');assert.equal(s.skillId,11);assert.equal(s.resultKind,1);assert.equal(s.value,0);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.number.valid,false);assert.equal(s.label.valid,false);assert.deepEqual(plain(s.digits),[]);assert.deepEqual(plain(s.display.digits),[]);f.untouched();
 });
+
+// Each army skill owns its real mode1 BACKPIC/range, independently of kind3
+// attack art. Synthetic observers establish protocol boundaries, not casts.
+const armySpecs=[
+ [1,19,11,21,66,19,6115,0xf0c01d45],[2,19,11,21,66,19,6115,0xf0c01d45],
+ [3,19,11,21,66,19,6115,0xf0c01d45],[4,19,11,21,66,19,6115,0xf0c01d45],
+ [8,20,10,20,60,18,5014,0x28294325],[9,21,9,17,54,18,4630,0x5a4c8036],
+ [10,21,9,17,54,18,4630,0x5a4c8036]
+];
+const armyBg=resource(16);
+function armyMovieFixture(skill=1){
+ const f=fireMovieFixture(),spec=armySpecs.find(s=>s[0]===skill),[id,speId,start,end,count,picmax,length,fingerprint]=spec,bytes=resource(speId);
+ function background(prefix){f.picture(prefix,16,armyBg);Object.assign(f.raw,{[prefix+'OriginX']:15,[prefix+'OriginY']:16});}
+ function movie(current=start,display=current){
+  f.movie(id);Object.assign(f.raw,{g_hdSpeId:speId,g_hdSpeCount:count,g_hdSpePicmax:picmax,g_hdSpeStartFrm:start,g_hdSpeEndFrm:end,
+   g_hdSpeOriginX:15,g_hdSpeOriginY:16,g_hdSpeResourceLength:length,g_hdSpeResourceFingerprint:fingerprint,
+   g_hdSpeFrameIndex:current,g_hdSpeCommitSeq:current-start+1,g_hdSpeDisplayFrameIndex:display,g_hdSpeDisplayCommitSeq:display-start+1});
+  for(const[p,frame]of [['g_hdSpe',current],['g_hdSpeDisplay',display]]){
+   Object.assign(f.raw,{[p+'SceneMode']:1,[p+'SceneX']:15,[p+'SceneY']:16,[p+'SceneWidth']:130,[p+'SceneHeight']:64,
+    [p+'VisibleFrames']:bits(frame),[p+'ClearFrames']:bits(...Array.from({length:frame-start},(_,i)=>start+i))});background(p+'Bg');
+  }
+ }
+ function hold(phase=3){
+  f.hold();movie(end);Object.assign(f.raw,{g_hdSpeActive:0,g_hdSkillResultPhase:phase,g_hdSkillResultSkillId:id,
+   g_hdSkillResultId:speId,g_hdSkillResultCount:count,g_hdSkillResultPicmax:picmax,g_hdSkillResultStartFrm:start,g_hdSkillResultEndFrm:end,
+   g_hdSkillResultOriginX:15,g_hdSkillResultOriginY:16,g_hdSkillResultResourceLength:length,g_hdSkillResultResourceFingerprint:fingerprint,
+   g_hdSkillResultFrameIndex:end,g_hdSkillResultCommitSeq:end-start+1,g_hdSkillResultDisplayFrameIndex:end,g_hdSkillResultDisplayCommitSeq:end-start+1});
+  for(const p of ['g_hdSkillResult','g_hdSkillResultDisplay']){
+   Object.assign(f.raw,{[p+'SceneMode']:1,[p+'SceneX']:15,[p+'SceneY']:16,[p+'SceneWidth']:130,[p+'SceneHeight']:64,
+    [p+'VisibleFrames']:bits(end),[p+'ClearFrames']:bits(...Array.from({length:end-start},(_,i)=>start+i))});background(p+'Bg');
+  }
+ }
+ return{...f,movie,hold,spec,bytes};
+}
+function rejectArmy(f){const s=f.baye.hd.spe();assert.equal(s.composition.valid,false);assert.equal(s.display.composition.valid,false);f.untouched();}
+test('army skill contracts decode exact original movies and the real BACKPIC16',()=>{
+ for(const[,id,start,end,count,picmax,length,hash]of armySpecs){const b=resource(id);assert.equal(b.length,length);assert.equal(fnv(b),hash);assert.equal(b[2],count);assert.equal(b[3],picmax);assert.ok(start<=end&&end<count);}
+ assert.deepEqual([armyBg.length,fnv(armyBg),armyBg.readUInt16LE(0),armyBg.readUInt16LE(2),armyBg.readUInt16LE(4),armyBg[6]],[1095,0x3bf544d6,130,64,1,0]);
+});
+for(const[skill,,start,end]of armySpecs){
+ test('army skill'+skill+' independently accepts its first copy and lagged displayed BACKPIC16',()=>{
+  const f=armyMovieFixture(skill);f.movie(start);let s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+  f.movie(end,start);s=f.baye.hd.spe();assert.equal(s.skillId,skill);assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);
+  assert.deepEqual([s.composition.mode,s.composition.x,s.composition.y,s.composition.width,s.composition.height],[1,15,16,130,64]);assert.equal(s.composition.background.id,16);f.untouched();
+ });
+ test('army skill'+skill+' retains its real final scene and NUM15 through HOLD',()=>{
+  const f=armyMovieFixture(skill);f.hold();const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.skillId,skill);
+  assert.equal(s.scene.frameIndex,end);assert.equal(s.resultKind,1);assert.deepEqual([s.scene.composition.mode,s.scene.composition.x,s.scene.composition.y,s.scene.composition.width,s.scene.composition.height],[1,15,16,130,64]);assert.equal(s.number.id,15);assert.deepEqual(plain(s.digits).map(d=>d.digit),[2,4,0]);f.untouched();
+ });
+}
+for(const[label,change]of[
+ ['unknown context',r=>r.g_hdSpeContextKnown=0],['unrelated caller',r=>r.g_hdSpeSkillId=5],['wrong resource for caller',r=>r.g_hdSpeId=20],
+ ['unknown actor',r=>r.g_hdSpeActorIndex=255],['unknown target',r=>r.g_hdSpeTargetIndex=20],['resource fingerprint',r=>r.g_hdSpeResourceFingerprint^=1],
+ ['resource length',r=>r.g_hdSpeResourceLength--],['resource index',r=>r.g_hdSpeResourceIndex=1],['resource count',r=>r.g_hdSpeCount--],['picture count',r=>r.g_hdSpePicmax--],
+ ['incorrect caller range',r=>r.g_hdSpeEndFrm--],['wrong movie origin',r=>r.g_hdSpeOriginX=48],['invented opaque mode',r=>r.g_hdSpeSceneMode=2],
+ ['truncated backdrop',r=>r.g_hdSpeSceneWidth=129],['missing backdrop',r=>r.g_hdSpeBgValid=0],['different backdrop',r=>r.g_hdSpeBgId=17],
+ ['backdrop fingerprint',r=>r.g_hdSpeBgResourceFingerprint^=1],['backdrop mask',r=>r.g_hdSpeBgMask=1],['backdrop placement',r=>r.g_hdSpeBgOriginX=14],
+ ['future live copy',r=>r.g_hdSpeVisibleFrames=bits(12)],['earlier unrelated clear',r=>r.g_hdSpeClearFrames=bits(10)],['unestablished frontier',r=>r.g_hdSpeVisibleFrames.fill(0)],
+ ['scale',r=>r.g_scale=2],['screen height',r=>r.g_screenHeight=97],['competing report',r=>r.g_hdReportActive=1],['competing help',r=>r.g_hdHelpActive=1],['competing quantity',r=>r.g_hdQtyActive=1]
+])test('army skill source rejects '+label+' without authorizing kind2 generic attack composition',()=>{const f=armyMovieFixture();f.movie();change(f.raw);rejectArmy(f);});
+for(const[label,change]of[
+ ['different backdrop',r=>r.g_hdSpeDisplayBgResourceFingerprint^=1],['future commit',r=>r.g_hdSpeDisplayCommitSeq=99],
+ ['future frame',r=>{r.g_hdSpeDisplayFrameIndex=22;r.g_hdSpeDisplayVisibleFrames=bits(22);}],['future clear',r=>r.g_hdSpeDisplayClearFrames=bits(22)],
+ ['same commit different copied state',r=>r.g_hdSpeDisplayClearFrames=bits(11)],['different event',r=>r.g_hdSpeDisplayEventId++]
+])test('army skill display independently rejects '+label,()=>{const f=armyMovieFixture();f.movie();change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();});
+test('army skill8 preserves its actual end20 and rejects the ordinary attack end19',()=>{const f=armyMovieFixture(8);f.movie(20);assert.equal(f.baye.hd.spe().composition.valid,true);f.raw.g_hdSpeEndFrm=19;rejectArmy(f);});
+test('army clear-only final copy remains established without reviving its erased picture',()=>{const f=armyMovieFixture();f.movie(21);for(const p of ['g_hdSpe','g_hdSpeDisplay']){f.raw[p+'VisibleFrames']=bits();f.raw[p+'ClearFrames']=bits(...Array.from({length:11},(_,i)=>11+i));}const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);assert.deepEqual(plain(s.visibleFrames),bits());f.untouched();});
+test('ordinary kind3 attack retains its existing BACKPIC contract without borrowing skill context',()=>{const f=armyMovieFixture();f.movie();f.raw.g_hdSpeKind=3;f.raw.g_hdSpeContextKnown=0;const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,true);f.untouched();});
+for(const[label,change]of[
+ ['wrong caller',r=>r.g_hdSkillResultSkillId=8],['wrong final range',r=>r.g_hdSkillResultEndFrm=20],['wrong background',r=>r.g_hdSkillResultBgResourceFingerprint^=1],
+ ['wrong result kind',r=>r.g_hdSkillResultResultKind=2],['wrong NUM resource',r=>r.g_hdSkillResultNumberId=14],['wrong NUM bytes',r=>r.g_hdSkillResultNumberResourceFingerprint^=1],
+ ['shifted native label',r=>r.g_hdSkillResultLabelX=54],['shifted native digits',r=>r.g_hdSkillResultDigitX[0]=54],['future saved clear',r=>r.g_hdSkillResultClearFrames=bits(22)],
+ ['another top session',r=>r.g_hdResultOwnerSession++],['competing report',r=>r.g_hdReportActive=1]
+])test('army NUM/HOLD rejects '+label,()=>{const f=armyMovieFixture();f.hold();change(f.raw);unsafe(f.baye.hd.skillResult());f.untouched();});
+test('army skill still authenticates its actual NUM phase before complete HOLD',()=>{const f=armyMovieFixture(10);f.hold(2);assert.equal(f.baye.hd.skillResult().sourceValid,true);f.untouched();});
+test('army movie and saved numeric owners reject same-value opaque data rebinding',()=>{
+ for(const postlude of [false,true]){const f=armyMovieFixture();postlude?f.hold():f.movie();let once=false;f.onRead((p,k)=>{if(!once&&(postlude?p==='.g_hdSkillResultDisplayDigitDrawCount'&&k==='9':p===''&&k==='g_hdSpeStatusProtocolVersion')){once=true;f.replaceData();}});if(postlude)neutral(f.baye.hd.skillResult());else rejectArmy(f);assert.equal(once,true);f.untouched();}
+});

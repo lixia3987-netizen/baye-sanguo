@@ -263,6 +263,13 @@
             }
         return out;
     }
+    // Exact original-LIB caller ranges. Ordinary attacks use separate kind3 entries.
+    var ARMY_SKILLS = { 1: 19, 2: 19, 3: 19, 4: 19, 8: 20, 9: 21, 10: 21 };
+    var ARMY_SOURCES = {
+        19: {"start":11,"end":21,"count":66,"picmax":19,"length":6115,"fingerprint":"fnv1a32:f0c01d45:6115","units":[[85,15,10],[1,10,0],[1,10,1],[1,10,2],[10,10,6],[18,10,4],[28,10,3],[38,10,6],[48,10,0],[58,6,5],[93,17,9]],"slots":[[0,31,36,1,"afd08102982bc6ced01fac4cf8148117e6d17af416ee0816f7efdc6494d05eea"],[1,25,36,1,"9e5dc933c05d13cda6ae08fbd5ac56c98372b4345562ef25c1d000f4a4c1add8"],[2,30,38,1,"170ecda2d2285c84d5c13f55d29f440d1fc25ba997f267625f07ca226af11432"],[3,36,35,1,"8c8804f30b8c819dea844d6ecb82216ad191aab99fc41f69ffa54ca1c156c473"],[4,36,35,1,"3b66430379642d15a0eea08ba53e2fd40400b0be77c70b00ce5192d748f71aac"],[5,34,41,1,"544a0b9b8c430583fb680c5cbef39c570f6be14c5d6e9e8d18ded01911e6ac78"],[6,36,35,1,"4d8c4788ca52140eab3635a6706b1f0174c67a3fd2e61fa82520ddccd710ea00"],[9,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[10,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"]]},
+        20: {"start":10,"end":20,"count":60,"picmax":18,"length":5014,"fingerprint":"fnv1a32:28294325:5014","units":[[85,14,7],[3,15,0],[15,15,1],[21,15,2],[27,15,1],[33,15,2],[39,15,1],[45,15,0],[52,15,3],[95,16,6],[85,14,9]],"slots":[[0,29,28,1,"61e6310f51f085507eb3e6118b273f4d95c817480787a8cf538e28784f6f2d03"],[1,25,28,1,"f22074e3a0df2003943a78592522c323802adc640f0168f2b951dc9e41599469"],[2,21,28,1,"a3ec31824b5e55bfc9bff8605ac89ec85f7e687dd04d4b4eb4daf2e51a38876b"],[3,32,31,1,"86d64258c80677a869c67eac371f105b3c65146c019db9399a828db93c6caae7"],[6,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[7,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"],[9,23,29,1,"40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"]]},
+        21: {"start":9,"end":17,"count":54,"picmax":18,"length":4630,"fingerprint":"fnv1a32:5a4c8036:4630","units":[[85,15,7],[5,15,0],[5,14,1],[5,14,2],[5,15,3],[45,20,16],[55,5,16],[75,24,17],[95,15,6]],"slots":[[0,23,29,1,"5e885a7d45643b91a7455a3c40ee77bb98cb0c7e0c49519e9715cb6148fddf89"],[1,28,31,1,"2fa8200e3ea8077415bb2e5493ba2aa599f286bccc659b5790e28bcf4089a582"],[2,27,31,1,"63121e1f5581c872709283379febd349a9a38747ff1a550bbe89bb031ba58cce"],[3,28,29,1,"ea3d1e6e62d494ea5026430c4bdcd960c2d40b2dbd75765dbec41bb1bc6b7a11"],[6,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[7,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"],[16,10,5,0,"acd0ad2f807dfc6c0cebddaeb27062d70e4d621149b69c40765457e44ccac7e2"],[17,9,5,0,"ea54359f0805b683940c5ed397e59665e3e52a4006b60365f80beb844a50fb50"]]}
+    };
     function qimenSkillContext(s) {
         if (skillPostlude(s)) return s.skillResult && s.skillResult.skillId;
         return s.contextKnown === true ? s.skillId : null;
@@ -283,7 +290,9 @@
         var qimenSkill = Number(s.id) === 39 ? qimenSkillContext(s) : null,
             fireSkill = Number(s.id) === 35 ? qimenSkillContext(s) : null,
             waterSkill = Number(s.id) === 36 ? qimenSkillContext(s) : null,
-            stoneSkill = Number(s.id) === 42 ? qimenSkillContext(s) : null;
+            stoneSkill = Number(s.id) === 42 ? qimenSkillContext(s) : null,
+            armyResource = kind(s) === 2 && [19, 20, 21].indexOf(Number(s.id)) >= 0,
+            armySkill = armyResource ? qimenSkillContext(s) : null;
         // Shared original resources require their exact actual skill context.
         // Unknown or mismatched callers retain the complete native LCD.
         if (Number(s.id) === 35 && [5, 11, 18].indexOf(fireSkill) < 0) return null;
@@ -291,8 +300,10 @@
         // STONE has one original caller: skill23. Unknown context cannot borrow
         // the retained generic42 arena entry.
         if (Number(s.id) === 42 && stoneSkill !== 23) return null;
+        if (armyResource && ARMY_SKILLS[armySkill] !== Number(s.id)) return null;
         for (var i = 0; i < m.entries.length; i++) {
             var e = m.entries[i];
+            if (armyResource && (!e || e.armySkillVersion !== 1 || e.skillId !== armySkill)) continue;
             if (Number(s.id) === 35 && (!e || e.fireVersion !== 1 || e.skillId !== fireSkill)) continue;
             if (Number(s.id) === 36 && (!e || e.waterVersion !== 1 || e.skillId !== waterSkill)) continue;
             if (Number(s.id) === 42 && (!e || e.stoneVersion !== 1 || e.skillId !== 23)) continue;
@@ -336,7 +347,7 @@
             if (e.compositionVersion !== 1 || !validPicture(e.background) || !validSource(e.background) || !validSource(e.number)) return false;
         }
         if (e.skillResultVersion != null && (e.skillResultVersion !== 1 || !validSource(e.skillNumber))) return false;
-        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null || e.qimenVersion != null || e.fireVersion != null || e.waterVersion != null || e.stoneVersion != null) && !validOpaqueCoverageEntry(e)) return false;
+        if ((e.opaqueCoverageVersion != null || e.speId === 37 || e.speId === 40 || e.speId === 41 || e.aidVersion != null || e.liuyanVersion != null || e.zhoufengVersion != null || e.dingshenVersion != null || e.qimenVersion != null || e.fireVersion != null || e.waterVersion != null || e.stoneVersion != null || e.armySkillVersion != null) && !validOpaqueCoverageEntry(e)) return false;
         if (e.aiTargetVersion != null && !validAiEntry(e)) return false;
         if (e.statusVersion != null && !validStatusEntry(e)) return false;
         return true;
@@ -917,7 +928,69 @@
             !((s.visibleFrames[s.frameIndex >> 3] | current.clearFrames[s.frameIndex >> 3]) & (1 << (s.frameIndex & 7)))) return null;
         return { x: 48, y: 16, width: 64, height: 64 };
     }
+    function validArmyNumber(number) {
+        return validSource(number) && number.id === 15 && number.resourceIndex === 0 && number.pictureIndex === 0 &&
+            number.nativeWidth === 12 && number.nativeHeight === 16 && number.count === 10 && number.mask === 0 &&
+            number.x === 0 && number.y === 0 && number.resourceLength === 327 && number.resourceFingerprint === 'fnv1a32:b37d7407:327';
+    }
+    function validArmyEntry(entry) {
+        var id = ARMY_SKILLS[entry.skillId], spec = ARMY_SOURCES[id], background = entry.background;
+        if (state.libHash !== '3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e' || !spec || entry.armySkillVersion !== 1 || entry.opaqueCoverageVersion !== 1 || entry.compositionVersion !== 1 ||
+            entry.skillResultVersion !== 1 || entry.kind !== 2 || entry.speId !== id || entry.resourceIndex !== 0 ||
+            entry.startFrm !== spec.start || entry.endFrm !== spec.end || entry.count !== spec.count || entry.picmax !== spec.picmax ||
+            entry.resourceLength !== spec.length || entry.resourceFingerprint !== spec.fingerprint || entry.skillIds != null ||
+            entry.fireVersion != null || entry.waterVersion != null || entry.stoneVersion != null || entry.aidVersion != null || entry.liuyanVersion != null ||
+            entry.zhoufengVersion != null || entry.dingshenVersion != null || entry.qimenVersion != null || entry.aiTargetVersion != null || entry.statusVersion != null ||
+            !validPicture(background) || !validSource(background) || background.id !== 16 || background.resourceIndex !== 0 || background.pictureIndex !== 0 ||
+            background.nativeWidth !== 130 || background.nativeHeight !== 64 || background.logicalWidth !== 130 || background.logicalHeight !== 64 ||
+            background.count !== 1 || background.mask !== 0 || background.x !== 15 || background.y !== 16 ||
+            background.resourceLength !== 1095 || background.resourceFingerprint !== 'fnv1a32:3bf544d6:1095' ||
+            !validArmyNumber(entry.number) || !validArmyNumber(entry.skillNumber)) return false;
+        return spec.units.every(function (tuple, index) {
+            var u = entry.units[spec.start + index];
+            return u && u.frame === spec.start + index && u.x === tuple[0] && u.y === tuple[1] && u.picIndex === tuple[2];
+        }) && spec.slots.every(function (tuple) {
+            var p = entry.pictures.filter(function (picture) { return picture.picIndex === tuple[0]; })[0];
+            return validPicture(p) && p.nativeWidth === tuple[1] && p.nativeHeight === tuple[2] && p.mask === tuple[3] &&
+                p.logicalWidth === tuple[1] && p.logicalHeight === tuple[2] && p.nativeSlotSha256 === tuple[4];
+        });
+    }
+    function armyCoverage(s, entry, frames, clears) {
+        var numeric = skillPostlude(s), skill = numeric ? s.skillResult : s, source = numeric ? skill.scene : s,
+            c = s.display && s.display.composition, current = source && source.composition, spec = ARMY_SOURCES[entry.speId];
+        if (!validArmyEntry(entry) || !c || !current || c.protocolVersion !== 1 || current.protocolVersion !== 1 ||
+            c.valid !== true || current.valid !== true || c.mode !== 1 || current.mode !== 1 ||
+            [c, current].some(function (v) { return v.x !== 15 || v.y !== 16 || v.width !== 130 || v.height !== 64 || !sameSource(entry.background, v.background); }) ||
+            s.x !== 15 || s.y !== 16 || s.keyflag !== 0 || s.skipEligible !== false || skill.skillId !== entry.skillId ||
+            !integer(skill.actorIndex) || skill.actorIndex < 0 || skill.actorIndex >= 20 ||
+            !integer(skill.targetIndex) || skill.targetIndex < 0 || skill.targetIndex >= 20 ||
+            !numeric && s.contextKnown !== true || numeric && (skill.active !== true || skill.sourceValid !== true || skill.custom !== false ||
+                (skill.phase !== 'numbers' && skill.phase !== 'hold') || skill.resultKind !== 1 || !integer(skill.value) || skill.value < 0 || skill.value > 65535 ||
+                !integer(skill.session) || skill.session <= 0 || source.session !== skill.session || s.display.session !== skill.session || source.generation !== skill.generation) ||
+            source.frameValid !== true || !integer(source.generation) || source.generation <= 0 ||
+            !integer(source.eventId) || source.eventId <= 0 || !integer(source.commitSeq) || source.commitSeq <= 0 ||
+            !integer(s.display.commitSeq) || s.display.commitSeq <= 0 || s.display.commitSeq > source.commitSeq ||
+            source.eventId !== s.display.eventId || source.generation !== s.display.generation ||
+            !integer(source.frameIndex) || source.frameIndex < spec.start || source.frameIndex > spec.end ||
+            !integer(s.display.frameIndex) || s.display.frameIndex < spec.start || s.display.frameIndex > source.frameIndex) return null;
+        function pastOnly(bits, frontier) {
+            if (!byteBits(bits)) return false;
+            for (var f = 0; f < 256; f++) if (bits[f >> 3] & (1 << (f & 7))) if (f < spec.start || f > frontier) return false;
+            return true;
+        }
+        if (!pastOnly(s.display.visibleFrames, s.display.frameIndex) || !pastOnly(c.clearFrames, s.display.frameIndex) ||
+            !pastOnly(source.visibleFrames, source.frameIndex) || !pastOnly(current.clearFrames, source.frameIndex) ||
+            c.clearFrames.some(function (bit, i) { return (bit & ~current.clearFrames[i]) !== 0; }) ||
+            s.display.commitSeq === source.commitSeq && (s.display.frameIndex !== source.frameIndex ||
+                s.display.visibleFrames.some(function (bit, i) { return bit !== source.visibleFrames[i]; }) ||
+                c.clearFrames.some(function (bit, i) { return bit !== current.clearFrames[i]; })) ||
+            !((s.display.visibleFrames[s.display.frameIndex >> 3] | c.clearFrames[s.display.frameIndex >> 3]) & (1 << (s.display.frameIndex & 7))) ||
+            !((source.visibleFrames[source.frameIndex >> 3] | current.clearFrames[source.frameIndex >> 3]) & (1 << (source.frameIndex & 7))) ||
+            numeric && (source.frameIndex !== spec.end || s.display.frameIndex !== spec.end)) return null;
+        return { x: 15, y: 16, width: 130, height: 64 };
+    }
     function validOpaqueCoverageEntry(entry) {
+        if (entry.armySkillVersion != null) return validArmyEntry(entry);
         if (entry.stoneVersion != null) return validStoneEntry(entry);
         if (entry.waterVersion != null) return validWaterEntry(entry);
         if (entry.fireVersion != null) return validFireEntry(entry);
@@ -944,6 +1017,7 @@
             entry.units.every(function (u, i) { return u.frame === i && u.x === 0 && u.y === 0 && u.picIndex === i % 2; });
     }
     function opaqueCoverage(s, entry, frames, clears) {
+        if (entry.armySkillVersion != null) return armyCoverage(s, entry, frames, clears);
         if (entry.stoneVersion != null) return stoneCoverage(s, entry, frames, clears);
         if (entry.waterVersion != null) return waterCoverage(s, entry, frames, clears);
         if (entry.fireVersion != null) return fireCoverage(s, entry, frames, clears);
@@ -1019,8 +1093,16 @@
             // Only this region was established by real opaque draws/clears.
             // WOOD's first64 copy still leaves its right2 on the LCD.
             ctx.clearRect((region.x - sx) * scale, (region.y - sy) * scale, region.width * scale, region.height * scale);
+            if (entry.armySkillVersion === 1) {
+                var background = entry.background; ctx.imageSmoothingEnabled = true;
+                ctx.drawImage(assets.images.background, (background.x - sx) * scale, (background.y - sy) * scale,
+                    background.logicalWidth * scale, background.logicalHeight * scale);
+            }
             clears.forEach(function (frame) { var u = entry.units[frame], p = entry.pictures.filter(function (v) { return v.picIndex === u.picIndex; })[0];
-                ctx.clearRect((s.x + u.x - sx) * scale, (s.y + u.y - sy) * scale, p.logicalWidth * scale, p.logicalHeight * scale); });
+                // BACKPIC was copied only once by native. An erased sprite is
+                // a neutral box, never a second copy of the background.
+                if (entry.armySkillVersion === 1) ctx.fillRect((s.x + u.x - sx) * scale, (s.y + u.y - sy) * scale, p.logicalWidth * scale, p.logicalHeight * scale);
+                else ctx.clearRect((s.x + u.x - sx) * scale, (s.y + u.y - sy) * scale, p.logicalWidth * scale, p.logicalHeight * scale); });
             ctx.imageSmoothingEnabled = true;
             frames.forEach(function (frame) { var u = entry.units[frame], p = entry.pictures.filter(function (v) { return v.picIndex === u.picIndex; })[0];
                 ctx.drawImage(assets.images[u.picIndex], (s.x + u.x - sx) * scale, (s.y + u.y - sy) * scale, p.logicalWidth * scale, p.logicalHeight * scale); });
@@ -1327,7 +1409,7 @@
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
         var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36))) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36 || Number(s.id) === 19 || Number(s.id) === 20 || Number(s.id) === 21))) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;
