@@ -264,11 +264,12 @@
         return out;
     }
     // Exact original-LIB caller ranges. Ordinary attacks use separate kind3 entries.
-    var ARMY_SKILLS = { 1: 19, 2: 19, 3: 19, 4: 19, 8: 20, 9: 21, 10: 21 };
+    var ARMY_SKILLS = { 1: 19, 2: 19, 3: 19, 4: 19, 8: 20, 9: 21, 10: 21, 13: 38 };
     var ARMY_SOURCES = {
         19: {"start":11,"end":21,"count":66,"picmax":19,"length":6115,"fingerprint":"fnv1a32:f0c01d45:6115","units":[[85,15,10],[1,10,0],[1,10,1],[1,10,2],[10,10,6],[18,10,4],[28,10,3],[38,10,6],[48,10,0],[58,6,5],[93,17,9]],"slots":[[0,31,36,1,"afd08102982bc6ced01fac4cf8148117e6d17af416ee0816f7efdc6494d05eea"],[1,25,36,1,"9e5dc933c05d13cda6ae08fbd5ac56c98372b4345562ef25c1d000f4a4c1add8"],[2,30,38,1,"170ecda2d2285c84d5c13f55d29f440d1fc25ba997f267625f07ca226af11432"],[3,36,35,1,"8c8804f30b8c819dea844d6ecb82216ad191aab99fc41f69ffa54ca1c156c473"],[4,36,35,1,"3b66430379642d15a0eea08ba53e2fd40400b0be77c70b00ce5192d748f71aac"],[5,34,41,1,"544a0b9b8c430583fb680c5cbef39c570f6be14c5d6e9e8d18ded01911e6ac78"],[6,36,35,1,"4d8c4788ca52140eab3635a6706b1f0174c67a3fd2e61fa82520ddccd710ea00"],[9,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[10,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"]]},
         20: {"start":10,"end":20,"count":60,"picmax":18,"length":5014,"fingerprint":"fnv1a32:28294325:5014","units":[[85,14,7],[3,15,0],[15,15,1],[21,15,2],[27,15,1],[33,15,2],[39,15,1],[45,15,0],[52,15,3],[95,16,6],[85,14,9]],"slots":[[0,29,28,1,"61e6310f51f085507eb3e6118b273f4d95c817480787a8cf538e28784f6f2d03"],[1,25,28,1,"f22074e3a0df2003943a78592522c323802adc640f0168f2b951dc9e41599469"],[2,21,28,1,"a3ec31824b5e55bfc9bff8605ac89ec85f7e687dd04d4b4eb4daf2e51a38876b"],[3,32,31,1,"86d64258c80677a869c67eac371f105b3c65146c019db9399a828db93c6caae7"],[6,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[7,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"],[9,23,29,1,"40d42a1b6f32e19fb2704fab06b9a7c1c5a50ac09f771c8b92913dca59041af7"]]},
-        21: {"start":9,"end":17,"count":54,"picmax":18,"length":4630,"fingerprint":"fnv1a32:5a4c8036:4630","units":[[85,15,7],[5,15,0],[5,14,1],[5,14,2],[5,15,3],[45,20,16],[55,5,16],[75,24,17],[95,15,6]],"slots":[[0,23,29,1,"5e885a7d45643b91a7455a3c40ee77bb98cb0c7e0c49519e9715cb6148fddf89"],[1,28,31,1,"2fa8200e3ea8077415bb2e5493ba2aa599f286bccc659b5790e28bcf4089a582"],[2,27,31,1,"63121e1f5581c872709283379febd349a9a38747ff1a550bbe89bb031ba58cce"],[3,28,29,1,"ea3d1e6e62d494ea5026430c4bdcd960c2d40b2dbd75765dbec41bb1bc6b7a11"],[6,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[7,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"],[16,10,5,0,"acd0ad2f807dfc6c0cebddaeb27062d70e4d621149b69c40765457e44ccac7e2"],[17,9,5,0,"ea54359f0805b683940c5ed397e59665e3e52a4006b60365f80beb844a50fb50"]]}
+        21: {"start":9,"end":17,"count":54,"picmax":18,"length":4630,"fingerprint":"fnv1a32:5a4c8036:4630","units":[[85,15,7],[5,15,0],[5,14,1],[5,14,2],[5,15,3],[45,20,16],[55,5,16],[75,24,17],[95,15,6]],"slots":[[0,23,29,1,"5e885a7d45643b91a7455a3c40ee77bb98cb0c7e0c49519e9715cb6148fddf89"],[1,28,31,1,"2fa8200e3ea8077415bb2e5493ba2aa599f286bccc659b5790e28bcf4089a582"],[2,27,31,1,"63121e1f5581c872709283379febd349a9a38747ff1a550bbe89bb031ba58cce"],[3,28,29,1,"ea3d1e6e62d494ea5026430c4bdcd960c2d40b2dbd75765dbec41bb1bc6b7a11"],[6,26,32,1,"0ca4a625b7ba146bd842c2d45adc90293b287afec11e96069572451b01fdc3f8"],[7,29,28,1,"67ab9b8fd439886a40c8b5493fa850959b136824070748188131ac35b2ad38ff"],[16,10,5,0,"acd0ad2f807dfc6c0cebddaeb27062d70e4d621149b69c40765457e44ccac7e2"],[17,9,5,0,"ea54359f0805b683940c5ed397e59665e3e52a4006b60365f80beb844a50fb50"]]},
+        38: {"start":0,"end":14,"count":15,"picmax":4,"length":1251,"fingerprint":"fnv1a32:d85d421b:1251","units":[[86,14,1],[4,14,0],[10,14,0],[16,14,0],[22,14,0],[28,14,0],[34,14,0],[40,14,0],[46,14,0],[52,14,0],[58,14,0],[64,14,0],[70,14,0],[82,16,2],[70,6,3]],"slots":[[0,32,32,1,"b3c9ce5ddd56123cf82f7f5325ea659e931111ec06ff22e14a0f987fe972086e"],[1,32,32,1,"aa62f3b38a3e6800d0d04cdfdb452bb1385c08855cbbb8e679b006b13a6d8470"],[2,23,21,1,"1473e6b7e74f8cbf71131c91a8abddb80872d76500b4eee1a69e09fe2971508b"],[3,46,42,1,"ed15c80dc2aaef5b16e043d5b1f0b8c084defeec564bf6c01e60e6d76ecb5f58"]]}
     };
     function qimenSkillContext(s) {
         if (skillPostlude(s)) return s.skillResult && s.skillResult.skillId;
@@ -291,7 +292,7 @@
             fireSkill = Number(s.id) === 35 ? qimenSkillContext(s) : null,
             waterSkill = Number(s.id) === 36 ? qimenSkillContext(s) : null,
             stoneSkill = Number(s.id) === 42 ? qimenSkillContext(s) : null,
-            armyResource = kind(s) === 2 && [19, 20, 21].indexOf(Number(s.id)) >= 0,
+            armyResource = kind(s) === 2 && [19, 20, 21, 38].indexOf(Number(s.id)) >= 0,
             armySkill = armyResource ? qimenSkillContext(s) : null;
         // Shared original resources require their exact actual skill context.
         // Unknown or mismatched callers retain the complete native LCD.
@@ -1409,7 +1410,7 @@
             resultScene && resultScene.valid === true && resultScene.mode === 2 && resultScene.x >= 15 && resultScene.y >= 16 &&
             resultScene.x + resultScene.width <= 145 && resultScene.y + resultScene.height <= 80;
         var declared = match(s), opaqueEntry = declared && declared.opaqueCoverageVersion != null;
-        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36 || Number(s.id) === 19 || Number(s.id) === 20 || Number(s.id) === 21))) {
+        if (baseline && k !== 1 && k !== 4 && s.ownerType !== 'result-lcd' && resultArena && !opaqueEntry && !(k === 2 && (Number(s.id) === 37 || Number(s.id) === 40 || Number(s.id) === 41 || Number(s.id) === 39 || Number(s.id) === 42 || Number(s.id) === 35 || Number(s.id) === 36 || Number(s.id) === 19 || Number(s.id) === 20 || Number(s.id) === 21 || Number(s.id) === 38))) {
             // FGT_SPESX/Y center the native arena. An individual effect's
             // origin can be offset inside it and must not move the LCD crop.
             sx = (size.width - 130) / 2;

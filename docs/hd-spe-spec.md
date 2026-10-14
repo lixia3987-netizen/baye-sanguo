@@ -1,6 +1,6 @@
 # HD SPE 原生帧与素材协议
 
-更新：2026-10-09。引擎继续用 `PlcMovie` 决定播放、叠图、清除和结束；前端依据实际 LCD 显示提交选择高清图片槽。没有独立的 JavaScript 播放时钟，不计算伤害或命中。分支为 `feature/hd-graphics`。
+更新：2026-10-14。引擎继续用 `PlcMovie` 决定播放、叠图、清除和结束；前端依据实际 LCD 显示提交选择高清图片槽。没有独立的 JavaScript 播放时钟，不计算伤害或命中。分支为 `feature/hd-graphics`。
 
 ## 原生资源与播放
 
@@ -49,7 +49,7 @@ SPE 在 LIB 内，`ResLoadToCon(speid,index+1,g_CBnkPtr)` 的 index 是原生 0-
 
 高清画布先画统一中性底色，再按实际 **display.visibleFrames** 升序合成对应图片。mask=0 使用不透明图片；mask=1 使用真实透明图片。不能把透明新素材盖在尚有旧点阵的 LCD 上。entry缓存绑定完整元数据；相同源文件和完整图像尺寸/掩码元数据可以在不同攻击范围间共享一次图像解码。两层缓存均绑定manifest代次与实际LIB代次/hash，事件结束只退休显示；缓存完成回调重新读取当前原生事件与display，不携带旧帧绘制。换库或换manifest使旧缓存失效。
 
-资源未覆盖、校验等待、未知 LIB、无 digest、旧桥、缺图或尺寸不符、keyflag 保留背景位、复杂 mask、翻转/特殊画色均保持原生 LCD。非 160×96 配置暂用实际屏幕尺寸的完整 LCD 回退。历史未接入的共享资源路径仍可能使用居中130×64、起点15,16的裁剪；本批兵种计谋1／2／3／4／8／9／10保留完整160×96原生LCD底图，只在已认证BACKPIC16的130×64@15,16内合成。FIRE／WATER等独立窗口亦保留全LCD底图，各自范围见下文。改变尺寸或 scale 必须使绘制缓存失效。
+资源未覆盖、校验等待、未知 LIB、无 digest、旧桥、缺图或尺寸不符、keyflag 保留背景位、复杂 mask、翻转/特殊画色均保持原生 LCD。非 160×96 配置暂用实际屏幕尺寸的完整 LCD 回退。历史未接入的共享资源路径仍可能使用居中130×64、起点15,16的裁剪；已接入的兵种计谋1／2／3／4／8／9／10及撞击13保留完整160×96原生LCD底图，只在已认证BACKPIC16的130×64@15,16内合成。FIRE／WATER等独立窗口亦保留全LCD底图，各自范围见下文。改变尺寸或 scale 必须使绘制缓存失效。
 
 已交付标准库FIRE35：index0/kind2/0..7/count8/picmax2/fingerprint `fnv1a32:0bf53f74:1212`；完整MAIN3：index0/kind1/0..8/count9/picmax7/fingerprint `fnv1a32:a5a91c68:11380`；以及MAKER6：index0/kind1/0..95/count96/picmax1/fingerprint `fnv1a32:b961053e:2413`。MAIN五张不透明背景与两张透明标题覆盖七槽；九个时间单元的图片序列是0,1,2,3,4,0,5,6,6，最后同一标题清除并不是第八张新美术。MAKER一张不透明署名页按原生159×96映射，96个单元从y=95滚到0。实际timer可合并短帧，不能要求每单元都产生独立LCD提交。兵种攻击、其余计谋及状态美术仍在 [剩余清单](hd-remaining-work.md)。
 
@@ -144,6 +144,18 @@ SPE v2 保持原义，独立 composition v1 在 `composition` 与 `display.compo
 电影与NUM／HOLD分别校验当前／显示完整签名、BACKPIC身份、真实帧范围／清除前沿、actor／target、结果会话、原版LIB、素材代次及opaque data引用，绘制前后复核。只有真实ARMS_LOSS1与有效NUM15来源才重放已有数字轨迹，不计算伤害或创建数字阶段；技能4的真实状态报告另接管并退休电影显示。未知／错误context、跨技能／会话、嵌套失效、报告、缺背景／前景、经典或库／数据漂移均回退完整LCD，禁止借旧130像素裁剪或kind3授权，无新增输入／等待。
 
 当前技能1／9各自PC1080／720高清、精确缺BACKPIC16背景及经典LCD四场实际接受；每场MP15、伤兵／NUM／完整HOLD及退休一致，高清窗口外7040逻辑RGBA像素／回退全15360像素核对。原生最终复制计数为1的11和9的9，实际观察态、LCD回调与读回另计；短延迟合并不虚构漏采物理帧。2／3／4／8／10仅受控验证。89模块串行4809／4809通过、227份冻结来源运行期间无漂移，九产品与native128聚合保持，无新native构建；旧失败与离线诊断保持原范围，13撞击、WOOD6／7合法实跑、手机实际施放／真机及性能继续待，完整HD仍partial。运行器支持1新局及9历史双档公开导入，征兵／分配沿原生上限，详见[限定实战](validation/m5-army-skills-20261013.md)。
+
+## 2026-10-14：撞击13源码与受控检查点
+
+原版撞击13追加独立armySkillVersion1／opaqueCoverageVersion1／compositionVersion1／skillResultVersion1及skillId13清单项，绑定SPE38/index0/kind2/0..14、15单位／4槽、1251bytes／`fnv1a32:d85d421b:1251`。原65项、顺序、顶层保持，追加后manifest66；旧kind3普通攻击及前批七兵种计谋分别保留原授权。四张内置生成器原始透明PNG未经缩放、裁剪或再编码接入，分别绑定32×32、32×32、23×21、46×42的真实mask1槽，两个同尺寸槽的位图身份不同，不能混用；完整输出／字节／SHA与QA说明见[JSON](../assets/hd-spe/GENERATED-IMPACT.json)和[生成说明](../assets/hd-spe/GENERATED-IMPACT.md)。
+
+原生有BACKPIC16，电影起点15,16，mode1不透明范围130×64。画布保留完整160×96当前LCD，只在认证窗口内依次绘制一次背景、真实累计清除中性矩形、display.visibleFrames升序图层及原生标签／NUM15不透明轨迹，窗口外7040逻辑像素继续取LCD；实际读回一致性仍待实战。SPE38的15个时间单元按原生计时产生19次提交，其中14／16／17／18／19为不引入新时间单元的只清除提交；没有独立frame12提交，12可在frame13的可见集合内。末commit19／frame14为visible[14]、clear0..13。该数字属于原生／受控计时合同，不冒称19次浏览器回调、独立截图或物理帧验收。
+
+SKILLEF原版aim0、state0、power1000、destroy0、UseMp30；仅当前真实成功ARMS_LOSS1与有效NUM15／label／HOLD票据可显示结果后缀，伤害沿实际天气、双方地形、目标兵种及兵量上限，不计算或注入游戏结果。当前／显示、BACKPIC、完整帧／清除前沿、actor／target、session、库／素材代次及opaque data引用均保留绘前／绘后复核；未知／错误38上下文、跨技能、嵌套、报告、缺图、经典或失效来源全部回完整LCD，禁止借旧130像素裁剪，无新输入／独立时钟或等待。
+
+新增114项受控验证（25前端／42桥／9编译C／38移动VM）；89模块串行4923／4923终态0，失败／取消／跳过／todo均0，232份冻结执行来源无漂移。15份产品／素材及128份native来源聚合保持，无新native构建。`actualCastAccepted=false`，本批尚未启动HTTP／Chrome，1080／720高清、精确缺图与经典LCD四场全部pending。手机fixture是受控VM，不是真机或手机浏览器施放。
+
+四时期新局己方水军均Level1，原版maxLevel20下至少Level7才从水军普通表[12,13,11]取得13；需合法升级／旧档准备，当前MP≥30、实际GetArmType3、双方实时terrain7和原生敌方AIM／天气均可用。静态地图河格不能代替真实双水地形和自然成功。旧1／9八场、4809项及其失败记录保持历史范围；WOOD6／7、其余28攻击组合、自然状态解除、四时期完整流程、真机、性能、RNG及真实云账号继续待验，原版唯一入口／暂停版本切换保持，完整HD仍partial。见[撞击源码检查点](validation/m5-impact-skill-source-20261014.md)。
 
 ## 验证范围
 

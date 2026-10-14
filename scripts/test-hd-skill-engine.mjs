@@ -15,7 +15,7 @@ import test,{after} from 'node:test';
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..'),run=promisify(execFile),temporary=[];
 const read=file=>readFileSync(join(root,'vendor/iBaye/src',file),'utf8').replace(/\r\n/g,'\n');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-const nativeSourceFiles=['FightSub.c','FgtCount.c','PublicFun.c','hd-bridge.c','hd-bridge.h','platform/common/sys.c','comOut.c','comIn.c','datman.c','gamEng.c','baye/consdef.h','baye/fight.h','baye/graph.h','baye/datman.h','baye/paccount.h','baye/comm.h','inc/dictsys.h','data/pstring.h','platform/js/font.bin.c','platform/js/fsys.c'];
+const nativeSourceFiles=['FightSub.c','FgtCount.c','FgtPkAi.c','PublicFun.c','hd-bridge.c','hd-bridge.h','platform/common/sys.c','comOut.c','comIn.c','datman.c','gamEng.c','baye/consdef.h','baye/fight.h','baye/graph.h','baye/datman.h','baye/paccount.h','baye/comm.h','inc/dictsys.h','data/pstring.h','platform/js/font.bin.c','platform/js/fsys.c'];
 const nativeSourceTuple=Object.fromEntries(nativeSourceFiles.map(file=>[file,sha(readFileSync(join(root,'vendor/iBaye/src',file)))]));
 function signature(name){return new RegExp('^(?:(?:static|inline|FAR|const)\\s+)*(?:[A-Za-z_]\\w*)[\\t *]+'+name+'\\([^;]*?\\)\\s*\\{','m');}
 function actual(file,name){const source=read(file),m=signature(name).exec(source);assert.ok(m,`actual ${file}::${name}`);const end=source.indexOf('\n}',m.index);assert.ok(end>m.index);return source.slice(m.index,end+2);}
@@ -195,7 +195,7 @@ static U8*boundSuccess;
 #define IF_HAS_HOOK(name) if(mode==12&&!strcmp(name,"showSkill"))
 #define BIND_U8(v) ((void)(v))
 #define BIND_U16(v) ((void)(v))
-#define HOOK_RETURN() return
+#define HOOK_RETURN(...) return __VA_ARGS__
 #define BIND_IDX(n,v) ((void)(n),(void)(v))
 #define BIND_U16EX(n,v) ((void)(n),(void)(v))
 #define BIND_U8EX(n,v) (boundSuccess=(v))
@@ -205,15 +205,16 @@ static U8*boundSuccess;
 #define gam_itoa(v,p,r) snprintf((char*)(p),10,"%u",(unsigned)(v))
 #define gam_drawpic(id,ind,x,y,flag) PlcRPicShowEx(id,0,(ind)+1,x,y,flag)
 static int gam_rand(void){return 0;}
-static void BuiltAtkAttr(U8 side,U8 index){assert(side<2&&index<FGTA_MAX);g_GenAtt[side]=(JLATT){.level=&levels[index],.arms=&troops[index],.generalIndex=index,.canny=80,.ter=(U8)(side==1?(mode==104?4:mode==95||mode==99?5:mode==97||mode==101?7:0):0),.armsType=(U8)(side==1&&mode>=102&&mode<=110?1:0)};}
+static void BuiltAtkAttr(U8 side,U8 index){assert(side<2&&index<FGTA_MAX);g_GenAtt[side]=(JLATT){.level=&levels[index],.arms=&troops[index],.generalIndex=index,.canny=80,.ter=(U8)(mode>=111&&mode<=119?((mode==117&&side==0)||(mode==118&&side==1)?0:7):(side==1?(mode==104?4:mode==95||mode==99?5:mode==97||mode==101?7:0):0)),.armsType=(U8)(mode>=111&&mode<=119?(side==0?3:mode==119?1:3):(side==1&&mode>=102&&mode<=110?1:0))};}
 SKILLEF *FgtGetJNPtr(SkillID param);
 `+'\n'+actual('FgtCount.c','CountSklHurt').replace('CountSklHurt(','NativeCountSklHurt(')+String.raw`
-static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);if(mode>=95&&mode<=110){NativeCountSklHurt(skill,arms,prov,origin,state);return;}*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
+static void CountSklHurt(SkillID skill,U16*arms,U16*prov,U8 origin,U8*state){assert(skill&&origin<FGTA_MAX);if(mode>=95&&mode<=119){NativeCountSklHurt(skill,arms,prov,origin,state);return;}*arms=fixtureHurt;*prov=fixtureProv;*state=(mode==93||mode==94)?6:g_GenPos[g_GenAtt[1].generalIndex].state;}
 static U16 PlcArmsMax(PersonID id){assert(id<FGTA_MAX);return ceiling;}
 static U32 FgtGetExp(U16 value){return value/10;}
 static U16 CountAtkHurt(void){return fixtureHurt;}
 static void FgtShowSNum2(U8 sign,U8 index,U16 value){assert((sign=='-'||sign=='+')&&index<FGTA_MAX);assert(value<=fixtureHurt||value==fixtureProv);record(7);}
-static U8 FgtGetGenTer(U8 index){assert(index<FGTA_MAX);return 0;}
+static U8 FgtGetGenTer(U8 index){assert(index<FGTA_MAX);if(mode>=111&&mode<=119)return((mode==117&&index==3)||(mode==118&&index==10))?0:7;return 0;}
+static U8 GetArmType(PersonType*person){return person->ArmsType;} /* Unequipped fixture persons: no equipment override. */
 static bool FgtChkAkRng(U8 x,U8 y){return x<10&&y<10;}
 static U8 FgtJNChkAim(SkillID skill,U8 same,U8 aim,U8 actor){assert(skill&&actor<FGTA_MAX);return!same&&aim!=12;}
 static void FgtSetFocus(U8 index){assert(index==3);}
@@ -225,7 +226,7 @@ static void PlcGraMsgBox(const U8*text,U8 delay,U8 portrait){(void)portrait;GamM
 static void ShowGReport(PersonID index,const U8*text){(void)index;GamMsgBox(text,1);}
 static I32 call_hook_a_observed(const char*name,void*context,U8*present){(void)context;assert(!strcmp(name,"willShowPKAnimation"));hookCount++;if(present)*present=(U8)(mode==2||mode==3);return mode==3?0:-1;}
 static I32 call_hook_a(const char*name,void*context){(void)context;assert(!strcmp(name,"didShowPKAnimation"));finalHookCount++;return 0;}
-`+'\n'+read('data/pstring.h')+'\n'+['CountPlusSub','CountOverAdd'].map(n=>actual('FgtCount.c',n)).join('\n')+'\n'+actual('gamEng.c','add_16')+'\n'+read('FightSub.c').slice(read('FightSub.c').indexOf('static U8 dJNSpeId['),read('FightSub.c').indexOf('void FgtInitArmsJNNum('))+'\n'+read('FightSub.c').split('\n').find(l=>l.startsWith('const U8 FgtSpeFrm[]'))+'\n'+['FgtGetJNPtr','FgtLoadToMem2','TransIdxToGen1','FgtAtvShowNum','_CommonJNAction','FgtJNAction','FgtAtkAction'].map(n=>actual('FightSub.c',n)).join('\n')+String.raw`
+`+'\n'+read('data/pstring.h')+'\n'+actual('FgtPkAi.c','FgtCanUse').replace('FgtCanUse(','NativeFgtCanUse(')+'\n'+actual('FgtPkAi.c','FgtJNChkAim').replace('FgtJNChkAim(','NativeFgtJNChkAim(')+'\n'+['CountPlusSub','CountOverAdd'].map(n=>actual('FgtCount.c',n)).join('\n')+'\n'+actual('gamEng.c','add_16')+'\n'+read('FightSub.c').slice(read('FightSub.c').indexOf('static U8 dJNSpeId['),read('FightSub.c').indexOf('void FgtInitArmsJNNum('))+'\n'+read('FightSub.c').split('\n').find(l=>l.startsWith('const U8 FgtSpeFrm[]'))+'\n'+['FgtGetJNPtr','FgtLoadToMem2','TransIdxToGen1','FgtAtvShowNum','_CommonJNAction','FgtJNAction','FgtAtkAction'].map(n=>actual('FightSub.c',n)).join('\n')+String.raw`
 static void nestedResult(void){if(mode==20)_CommonJNAction(5,0,3,11,11,0);else{BuiltAtkAttr(0,3);BuiltAtkAttr(1,11);FgtAtkAction(11);}}
 int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U16)atoi(argv[2]);fixtureProv=(U16)atoi(argv[3]);captureSharedPhases=(mode==95||mode==99);
     FILE*f=fopen(argv[5],"rb");assert(f);fseek(f,0,SEEK_END);romFile.length=(U32)ftell(f);rewind(f);g_CBnkPtr=malloc(romFile.length);assert(fread(g_CBnkPtr,1,romFile.length,f)==romFile.length);fclose(f);romFile.bytes=g_CBnkPtr;romFile.position=romFile.length;
@@ -243,19 +244,26 @@ int main(int argc,char**argv){assert(argc==7);mode=atoi(argv[1]);fixtureHurt=(U1
     static const U16 armySkills[]={1,2,3,4,8,9,10,8,4};
     U16 armySkill=(mode>=102&&mode<=110)?armySkills[mode-102]:0;
     if(armySkill){skl=FgtGetJNPtr(armySkill);assert(skl->aim==0&&skl->state==(armySkill==4?1:0)&&skl->destroy==0);troops[10]=troops[11]=1500;g_FgtParam.GenArray[11]=12;}
-    if(mode==1||mode==92||mode==94||mode==99||mode==100||mode==101||mode==109)coalesce=1;if(mode==4)g_LookMovie=0;if(mode==10)reenterNotify=1;if(mode==13){c_Sx=55;c_Sy=18;c_Ex=66;c_Ey=30;}if(mode==14)dJNSpeId[4]=0;
+    U16 impactSkill=(mode>=111&&mode<=119)?13:0;
+    if(impactSkill){skl=FgtGetJNPtr(13);assert(skl->aim==0&&skl->state==0&&skl->power==1000&&skl->destroy==0&&skl->useMp==30);g_FgtWeather=(mode>=111&&mode<=114)?(U8)(mode-110):(mode==116?5:1);troops[10]=1500;g_Persons[3].ArmsType=3;g_Persons[3].Level=levels[3]=7;g_Persons[10].ArmsType=(mode==119?1:3);
+        U8 use=NativeFgtCanUse(13,3),aim=NativeFgtJNChkAim(13,0,10,3);assert(!NativeFgtJNChkAim(13,1,10,3));
+        if(mode==116||mode==117||mode==118){assert((mode==116?use==dFgtWhrErr:mode==117?use==dFgtEthErr:!use&&!aim));assert(g_GenPos[3].mp==99&&troops[10]==1500&&g_GenPos[10].state==0&&!g_hdSkillResultActive&&!g_hdSpeActive);record(12);fclose(trace);puts("actual native skill engine passed");return 0;}
+        assert(!use&&aim&&g_GenAtt[0].ter==7&&g_GenAtt[1].ter==7);
+    }
+    if(mode==1||mode==92||mode==94||mode==99||mode==100||mode==101||mode==109||mode==115)coalesce=1;if(mode==4)g_LookMovie=0;if(mode==10)reenterNotify=1;if(mode==13){c_Sx=55;c_Sy=18;c_Ex=66;c_Ey=30;}if(mode==14)dJNSpeId[4]=0;
     if(mode==16){skl->aim=2;g_FgtParam.GenArray[11]=12;g_FgtParam.GenArray[12]=13;g_FgtParam.GenArray[13]=14;g_GenPos[13].state=STATE_SW;g_FgtParam.GenArray[14]=15;g_GenPos[14].x=20;}
     if(mode==17){skl->aim=1;troops[10]=290;}
     if(mode==18)queuedKey=39;
     if(mode==22){skl=FgtGetJNPtr(1);skl->aim=0;skl->state=0;}
-    FGTCMD cmd={.param=(U16)(armySkill?armySkill:(sharedSkill?sharedSkill:((mode==93||mode==94)?23:((mode==91||mode==92)?12:(mode==22?1:5))))),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
+    FGTCMD cmd={.param=(U16)(impactSkill?impactSkill:(armySkill?armySkill:(sharedSkill?sharedSkill:((mode==93||mode==94)?23:((mode==91||mode==92)?12:(mode==22?1:5)))))),.sIdx=3,.aIdx=10};FgtJNAction(&cmd);
     if(mode==98||mode==110){record(9);assert(!g_hdSkillResultActive&&!g_hdSpeActive);BuiltAtkAttr(0,3);BuiltAtkAttr(1,11);cmd.aIdx=11;FgtJNAction(&cmd);}
     if(isLcdDirty)timed_flush_lcd();record(3);
     if(mode==10){assert(g_hdSkillResultActive&&g_hdSkillResultSession==newerOwner&&!g_hdSkillResultSourceValid);baye_hd_skill_end(newerOwner);}else assert(!g_hdSkillResultActive&&!g_hdSkillResultDisplayValid);
     assert(!g_hdSpeActive&&hookCount==finalHookCount);assert(hookCount==((mode==16||mode==20||mode==21||mode==98||mode==110)?2:1));assert(skillHookCount==(mode==12?1:0));
     assert(g_GenPos[3].mp==99-skl->useMp*((mode==98||mode==110)?2:1));assert(g_FgtParam.EProvender==(fixtureProv>50?0:50-fixtureProv));
     /* Shared18 grass0 and Shared19 sunny1 each apply the actual ROM80% factor. */
-    if(armySkill){assert(fixtureHurt<1500&&troops[10]==1500-fixtureHurt);assert(troops[11]==(mode==110?1500-fixtureHurt:1500));assert(g_GenPos[10].state==(armySkill==4?1:0));assert(g_GenPos[11].state==(mode==110?1:0));}
+    if(impactSkill){assert(fixtureHurt==(mode==119?1000:800)&&troops[10]==1500-fixtureHurt&&g_GenPos[10].state==0);}
+    else if(armySkill){assert(fixtureHurt<1500&&troops[10]==1500-fixtureHurt);assert(troops[11]==(mode==110?1500-fixtureHurt:1500));assert(g_GenPos[10].state==(armySkill==4?1:0));assert(g_GenPos[11].state==(mode==110?1:0));}
     else if(sharedSkill){assert(troops[10]==(sharedSkill==11?1500:540));assert(troops[11]==(mode==98?540:1500));assert(g_GenPos[10].state==0&&g_GenPos[11].state==0);}else assert(troops[10]==(mode==17?(fixtureHurt>10?300:290+fixtureHurt):(fixtureHurt>200?0:200-fixtureHurt)));
     if(mode==16){assert(troops[11]==(fixtureHurt>200?0:200-fixtureHurt));assert(troops[12]==200&&troops[13]==200&&troops[14]==200);}
     if(mode==20||mode==21)assert(troops[11]==(fixtureHurt>200?0:200-fixtureHurt));
@@ -410,4 +418,26 @@ test('two original army skill4 commands keep separate state, movie, NUM/HOLD and
  assert.deepEqual(held.map(r=>[r.values.g_hdSkillResultSkillId,r.values.g_hdSkillResultActorIndex,r.values.g_hdSkillResultTargetIndex,r.values.g_hdSkillResultValue]),[[4,3,10,damage],[4,3,11,damage]]);
  const second=rows.slice(rows.indexOf(between)+1);for(const r of second.filter(r=>r.values.g_hdSkillResultActive)){assert.equal(r.values.g_hdSkillResultSession,held[1].values.g_hdSkillResultSession);assert.equal(r.values.g_hdSkillResultTargetIndex,11);if(r.values.g_hdSkillResultDisplayValid)assert.equal(r.values.g_hdSkillResultDisplaySession,held[1].values.g_hdSkillResultSession);}
  assert.equal(copies[per].values.g_hdSpeCommitSeq,1);assert.equal(rows.at(-1).values.g_hdSkillResultActive,0);
+});
+
+// Real original IMPACT13 caller and eligibility functions. Setup, natural
+// success RNG and UI/timers are controlled boundaries, not a playable cast.
+for(const[mode,weather,targetArm,coalesced]of [[111,1,3,false],[112,2,3,false],[113,3,3,false],[114,4,3,false],[115,1,3,true],[119,1,1,false]])test('original IMPACT13 real dual-water caller/weather'+weather+'/targetArm'+targetArm+(coalesced?' with coalesced callbacks':''),async()=>{
+ const skill=resource(10).subarray(12*34,13*34),damage=[skill[7+weather-1],skill[28+targetArm],skill[12+7],skill[20+7]].reduce((n,k)=>Math.trunc(Math.fround(n*Math.fround(k/100))),skill.readUInt16LE(2));
+ assert.equal(damage,targetArm===3?800:1000);const rows=await runSkill(mode,damage,0),copies=rows.filter(r=>r.kind===1&&r.values.g_hdSpeId===38),expected=movieOracle(38,0,14,15,16,true);
+ assert.equal(copies.length,expected.length);assert.equal(expected.at(-1).frame,14);
+ for(let i=0;i<copies.length;i++){
+  const v=copies[i].values,e=expected[i];assert.deepEqual([v.g_hdSpeId,v.g_hdSpeKind,v.g_hdSpeSkillId,v.g_hdSpeResourceFingerprint,v.g_hdSpeResourceLength],[38,2,13,0xd85d421b,1251]);
+  assert.deepEqual([v.g_hdSpeCount,v.g_hdSpePicmax,v.g_hdSpeStartFrm,v.g_hdSpeEndFrm,v.g_hdSpeOriginX,v.g_hdSpeOriginY],[15,4,0,14,15,16]);
+  assert.deepEqual([v.g_hdSpeFrameIndex,v.g_hdSpeCommitSeq,v.g_hdSpeCompositionValid],[e.frame,i+1,1]);
+  assert.deepEqual([v.g_hdSkillResultSceneMode,v.g_hdSkillResultSceneX,v.g_hdSkillResultSceneY,v.g_hdSkillResultSceneWidth,v.g_hdSkillResultSceneHeight],[1,15,16,130,64]);
+  assert.deepEqual([v.g_hdSkillResultBgId,v.g_hdSkillResultBgValid,v.g_hdSkillResultBgResourceFingerprint,v.g_hdSkillResultBgResourceLength],[16,1,0x3bf544d6,1095]);
+  assert.deepEqual(Buffer.from(v.g_hdSpeVisibleFrames),e.visible);assert.deepEqual(Buffer.from(v.g_hdSpeClearFrames),e.cleared);assert.deepEqual(copies[i].pixels,e.pixels,'All native masked draws/clears and LCD outside match the independent ROM decoder');
+ }
+ for(let frame=0;frame<15;frame++)assert.ok(copies.some(r=>(r.values.g_hdSpeVisibleFrames[frame>>3]|r.values.g_hdSpeClearFrames[frame>>3])&(1<<(frame&7))),'Every one of15 actual units is established');
+ verifyResultPixels(rows,damage,{skillId:13,speId:38,start:0,end:14,x:15,y:16,background:true,coalesced});
+ assert.equal(rows.filter(r=>r.kind===6).length,0,'Original state0 nonlethal impact has no invented state report');assert.equal(rows.at(-1).values.g_hdSkillResultActive,0);assert.equal(rows.at(-1).values.g_hdResultOwnerKind,0);
+});
+for(const[mode,label]of [[116,'weather5'],[117,'caster outside water'],[118,'target outside water']])test('original IMPACT13 eligibility rejects '+label+' before a command or MP debit',async()=>{
+ const rows=await runSkill(mode,0,0);assert.equal(rows.length,1);assert.equal(rows[0].kind,12);assert.equal(rows[0].values.g_hdSkillResultActive,0);assert.equal(rows[0].values.g_hdSpeActive,0);assert.equal(rows[0].values.g_hdResultOwnerKind,0);
 });

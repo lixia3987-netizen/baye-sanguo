@@ -1303,12 +1303,13 @@ function baye_bridge_init() {
             width = Math.max(width, i % 2 ? 66 : 64);
         return width > 0 && c.width === width && (skillId === 6 || frame === 0 && width === 64);
     }
-    // Original army skills share attack art, but their kind2 caller/range and
+    // Original army/impact skills have independent kind2 caller/range and
     // actual BACKPIC16 are independent of the ordinary kind3 attack contract.
     function hdArmySkillSource(skill, id, index, count, pictures, start, end, x, y, length, fingerprint) {
         var spec = skill >= 1 && skill <= 4 ? [19, 66, 19, 11, 21, 6115, 0xf0c01d45] :
             skill === 8 ? [20, 60, 18, 10, 20, 5014, 0x28294325] :
-            skill === 9 || skill === 10 ? [21, 54, 18, 9, 17, 4630, 0x5a4c8036] : null;
+            skill === 9 || skill === 10 ? [21, 54, 18, 9, 17, 4630, 0x5a4c8036] :
+            skill === 13 ? [38, 15, 4, 0, 14, 1251, 0xd85d421b] : null;
         return !!spec && id === spec[0] && index === 0 && count === spec[1] && pictures === spec[2] &&
             start === spec[3] && end === spec[4] && x === 15 && y === 16 && length === spec[5] && fingerprint === spec[6];
     }
@@ -1487,7 +1488,7 @@ function baye_bridge_init() {
                 (values.DisplayCommitSeq !== values.CommitSeq || values.DisplayFrameIndex === values.FrameIndex &&
                     displayVisible.every(function (bit, i) { return bit === visible[i]; }) &&
                     displayClears.every(function (bit, i) { return bit === clears[i]; }));
-        var armyResource = values.Kind === 2 && (values.Id === 19 || values.Id === 20 || values.Id === 21),
+        var armyResource = values.Kind === 2 && (values.Id === 19 || values.Id === 20 || values.Id === 21 || values.Id === 38),
             currentArmy = current && currentValid === 1 && army && hdArmyBackground(scene, background) &&
                 hdArmyFrames(visible, clears, values.FrameIndex, count, start, end),
             shownArmy = shown && currentArmy && hdArmyBackground(displayScene, displayBackground) &&
@@ -1925,7 +1926,7 @@ function baye_bridge_init() {
             return c.width > 0 && c.height > 0 && c.x >= 0 && c.y >= 0 && c.x + c.width <= 160 && c.y + c.height <= 96 &&
                 x >= c.x && y >= c.y && x + width <= c.x + c.width && y + height <= c.y + c.height;
         }
-        var armyResource = v.Id === 19 || v.Id === 20 || v.Id === 21;
+        var armyResource = v.Id === 19 || v.Id === 20 || v.Id === 21 || v.Id === 38;
         var army = !armyResource || v.ResultKind === 1 &&
             hdArmySkillSource(v.SkillId, v.Id, v.ResourceIndex, v.Count, v.Picmax, v.StartFrm, v.EndFrm,
                 hdOrigin(v.OriginX), hdOrigin(v.OriginY), v.ResourceLength, v.ResourceFingerprint) &&

@@ -30458,6 +30458,208 @@
         "resourceLength": 327,
         "resourceFingerprint": "fnv1a32:b37d7407:327"
       }
+    },
+    {
+      "speId": 38,
+      "resourceIndex": 0,
+      "kind": 2,
+      "startFrm": 0,
+      "endFrm": 14,
+      "count": 15,
+      "picmax": 4,
+      "resourceFingerprint": "fnv1a32:d85d421b:1251",
+      "resourceLength": 1251,
+      "units": [
+        {
+          "frame": 0,
+          "x": 86,
+          "y": 14,
+          "picIndex": 1
+        },
+        {
+          "frame": 1,
+          "x": 4,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 2,
+          "x": 10,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 3,
+          "x": 16,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 4,
+          "x": 22,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 5,
+          "x": 28,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 6,
+          "x": 34,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 7,
+          "x": 40,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 8,
+          "x": 46,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 9,
+          "x": 52,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 10,
+          "x": 58,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 11,
+          "x": 64,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 12,
+          "x": 70,
+          "y": 14,
+          "picIndex": 0
+        },
+        {
+          "frame": 13,
+          "x": 82,
+          "y": 16,
+          "picIndex": 2
+        },
+        {
+          "frame": 14,
+          "x": 70,
+          "y": 6,
+          "picIndex": 3
+        }
+      ],
+      "pictures": [
+        {
+          "picIndex": 0,
+          "src": "assets/hd-spe/impact-38/picture-0.png",
+          "width": 1254,
+          "height": 1254,
+          "nativeWidth": 32,
+          "nativeHeight": 32,
+          "logicalWidth": 32,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "b3c9ce5ddd56123cf82f7f5325ea659e931111ec06ff22e14a0f987fe972086e"
+        },
+        {
+          "picIndex": 1,
+          "src": "assets/hd-spe/impact-38/picture-1.png",
+          "width": 1254,
+          "height": 1254,
+          "nativeWidth": 32,
+          "nativeHeight": 32,
+          "logicalWidth": 32,
+          "logicalHeight": 32,
+          "mask": 1,
+          "nativeSlotSha256": "aa62f3b38a3e6800d0d04cdfdb452bb1385c08855cbbb8e679b006b13a6d8470"
+        },
+        {
+          "picIndex": 2,
+          "src": "assets/hd-spe/impact-38/picture-2.png",
+          "width": 1314,
+          "height": 1197,
+          "nativeWidth": 23,
+          "nativeHeight": 21,
+          "logicalWidth": 23,
+          "logicalHeight": 21,
+          "mask": 1,
+          "nativeSlotSha256": "1473e6b7e74f8cbf71131c91a8abddb80872d76500b4eee1a69e09fe2971508b"
+        },
+        {
+          "picIndex": 3,
+          "src": "assets/hd-spe/impact-38/picture-3.png",
+          "width": 1313,
+          "height": 1198,
+          "nativeWidth": 46,
+          "nativeHeight": 42,
+          "logicalWidth": 46,
+          "logicalHeight": 42,
+          "mask": 1,
+          "nativeSlotSha256": "ed15c80dc2aaef5b16e043d5b1f0b8c084defeec564bf6c01e60e6d76ecb5f58"
+        }
+      ],
+      "compositionVersion": 1,
+      "background": {
+        "id": 16,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 130,
+        "nativeHeight": 64,
+        "count": 1,
+        "mask": 0,
+        "x": 15,
+        "y": 16,
+        "resourceLength": 1095,
+        "resourceFingerprint": "fnv1a32:3bf544d6:1095",
+        "src": "assets/hd-spe/attacks/backdrop-16/picture-0.png",
+        "width": 1787,
+        "height": 880,
+        "logicalWidth": 130,
+        "logicalHeight": 64
+      },
+      "number": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      },
+      "armySkillVersion": 1,
+      "opaqueCoverageVersion": 1,
+      "skillResultVersion": 1,
+      "skillId": 13,
+      "skillNumber": {
+        "id": 15,
+        "resourceIndex": 0,
+        "pictureIndex": 0,
+        "nativeWidth": 12,
+        "nativeHeight": 16,
+        "count": 10,
+        "mask": 0,
+        "x": 0,
+        "y": 0,
+        "resourceLength": 327,
+        "resourceFingerprint": "fnv1a32:b37d7407:327"
+      }
     }
   ]
 }

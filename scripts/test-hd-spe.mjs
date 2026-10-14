@@ -3228,10 +3228,10 @@ function armyBounded(h) {
 }
 test('army skills append seven entries after all58 byte-identical historical entries and reuse actual slots including infantry frame20', () => {
     const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
-    assert.equal(m.entries.length, 65);
+    assert.ok(m.entries.length >= 65);
     const prior = JSON.stringify({ ...m, entries: m.entries.slice(0, 58) }, null, 2) + '\n';
     assert.equal(createHash('sha256').update(prior).digest('hex'), 'c3072f85dd77166e1ead87970fc7624d6a789dbdee59018d641fa92b0e8535a6');
-    assert.deepEqual(m.entries.slice(58).map(e => [e.skillId, e.speId, e.startFrm, e.endFrm]), armyCallers.map(c => [c.skillId, c.speId, c.start, c.end]));
+    assert.deepEqual(m.entries.slice(58, 65).map(e => [e.skillId, e.speId, e.startFrm, e.endFrm]), armyCallers.map(c => [c.skillId, c.speId, c.start, c.end]));
     for (const caller of armyCallers) {
         const f = armyFixture(caller), e = f.entry;
         assert.deepEqual([e.kind, e.armySkillVersion, e.opaqueCoverageVersion, e.compositionVersion, e.skillResultVersion], [2, 1, 1, 1, 1]);
@@ -3382,4 +3382,206 @@ for (const phase of [null, 'hold']) test('army ' + (phase || 'movie') + ' final 
         const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
         assert.equal(last.args[0] instanceof h.context.Image, false, 'a stale completed paint is overwritten with complete capturedLCD'); fireNoInput(h);
     }
+});
+
+// IMPACT13 uses real ROM timing, not one invented callback per time unit.
+// This simulator follows PublicFun.c PlcMovie only to build controlled copies;
+// it does not drive native C or assert that a browser/cast has been exercised.
+const impactCaller = { skillId: 13, speId: 38, start: 0, end: 14 };
+function impactTimerRecords() {
+    const f = actualMainFixture(38), p = f.lib.readUInt32LE(37 * 4), length = f.lib.readUInt32LE(p + 8), raw = f.lib.subarray(p + 14, p + 14 + length);
+    const clearTimers = f.units.map((_, i) => raw[6 + i * 5 + 2]), nextTimers = f.units.map((_, i) => raw[6 + i * 5 + 3]);
+    let frontier = 0, introduced = 0, clear = true, show = true;
+    const visible = new Set(), erased = new Set(), copies = [];
+    for (let tick = 0; tick < 1_000; tick++) {
+        for (let i = 0; i <= frontier; i++) {
+            if (clearTimers[i] === 1) { visible.delete(i); erased.add(i); clear = true; }
+            if (clearTimers[i] !== 0) clearTimers[i]--;
+        }
+        if (clear) for (let i = 0; i <= introduced; i++) if (clearTimers[i] !== 0) visible.add(i);
+        if (show) { for (let i = introduced + 1; i <= frontier; i++) if (clearTimers[i] !== 0) visible.add(i); introduced = frontier; }
+        if (clear || show) {
+            copies.push({ commitSeq: copies.length + 1, frameIndex: frontier, visible: [...visible].sort((a, b) => a - b), clear: [...erased].sort((a, b) => a - b) });
+            clear = show = false;
+        }
+        if (nextTimers[frontier] >= 1) nextTimers[frontier]--;
+        while (nextTimers[frontier] <= 1 && frontier < 14) { frontier++; show = true; }
+        if (frontier >= 14 && clearTimers.every(value => value <= 1)) return { ...f, raw, copies };
+    }
+    assert.fail('bounded native timing fixture must end');
+}
+function impactFixture(options = {}) {
+    const timeline = impactTimerRecords(), current = timeline.copies[(options.current ?? 1) - 1], shown = timeline.copies[(options.shown ?? options.current ?? 1) - 1];
+    assert.ok(current && shown);
+    const f = armyFixture(impactCaller, current.frameIndex, shown.frameIndex);
+    f.s.commitSeq = current.commitSeq; f.s.visibleFrames = bitset(...current.visible); f.s.composition.clearFrames = bitset(...current.clear);
+    Object.assign(f.s.display, { commitSeq: shown.commitSeq, visibleFrames: bitset(...shown.visible) }); f.s.display.composition.clearFrames = bitset(...shown.clear);
+    if (options.phase) {
+        const numeric = armyNumericFixture(impactCaller, options.phase), final = impactFixture({ current: 19 }), scene = { ...structuredClone(final.s.display), session: 2, paintSeq: 10 };
+        numeric.result.scene = scene; numeric.result.display = { ...structuredClone(scene), valid: true, label: numeric.result.label, digits: numeric.result.digits };
+        return { ...numeric, s: final.s, timeline };
+    }
+    return { ...f, timeline };
+}
+async function impactLoaded(options = {}) {
+    const f = impactFixture(options), h = harness({ data: { g_scale: 1 }, spe: options.phase ? { active: 0, generation: 9 } : f.s,
+        ...(options.phase ? { skillResult: f.result, resultOwner: f.top } : {}), ...options.harness });
+    h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start(); await waitForIdentity(h);
+    assert.equal(h.images.length, 5, 'four distinct native mask1 slots plus BACKPIC16');
+    function resolve(i) { const image = h.images[i], p = [...f.entry.pictures, f.entry.background].find(p => p.src === image.url);
+        assert.ok(p); image.naturalWidth = p.width; image.naturalHeight = p.height; image.onload(); }
+    if (!options.pending) h.images.forEach((_, i) => resolve(i));
+    return { ...h, fixture: f, resolve, resolveAll: () => h.images.forEach((_, i) => resolve(i)) };
+}
+test('IMPACT13 appends one real four-slot entry after65 unchanged entries without reusing different naval bitmaps', () => {
+    const m = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8')), f = impactFixture();
+    assert.equal(m.entries.length, 66);
+    assert.equal(createHash('sha256').update(JSON.stringify({ ...m, entries: m.entries.slice(0, 65) }, null, 2) + '\n').digest('hex'),
+        '4a29f6c43eede8e9dbf1d5bf451e970ab28ea93c1b7339063fa4bdb4a49add82');
+    assert.deepEqual([m.entries[65].skillId, m.entries[65].speId, m.entries[65].kind, m.entries[65].startFrm, m.entries[65].endFrm], [13, 38, 2, 0, 14]);
+    assert.deepEqual(f.entry.units, f.timeline.units); assert.equal(f.entry.resourceFingerprint, 'fnv1a32:d85d421b:1251');
+    let at = 6 + 15 * 5;
+    for (let i = 0; i < 4; i++) {
+        const width = f.timeline.raw.readUInt16LE(at), height = f.timeline.raw.readUInt16LE(at + 2), mask = f.timeline.raw[at + 6], end = at + 7 + Math.ceil(width / 8) * height * (mask + 1);
+        const p = f.entry.pictures[i]; assert.deepEqual([p.nativeWidth, p.nativeHeight, p.mask], [width, height, mask]);
+        assert.equal(p.nativeSlotSha256, createHash('sha256').update(f.timeline.raw.subarray(at, end)).digest('hex'));
+        const decoded = decodePng(readFileSync(new URL('../' + p.src, import.meta.url))); checkPictureAlpha(decoded, 1);
+        assert.deepEqual([decoded.width, decoded.height], [p.width, p.height]);
+        assert.equal(m.entries.filter(e => e.kind === 3).some(e => e.pictures.some(q => q.src && q.nativeSlotSha256 === p.nativeSlotSha256)), false,
+            'none of the new four native slots has an identical ordinary-attack source'); at = end;
+    }
+    assert.equal(at, 1251); assert.notEqual(f.entry.pictures[0].nativeSlotSha256, f.entry.pictures[1].nativeSlotSha256);
+    const r = f.lib.readUInt32LE(9 * 4), skl = f.lib.subarray(r + 14 + 12 * 34, r + 14 + 13 * 34);
+    assert.deepEqual([skl[0], skl[1], skl.readUInt16LE(2), skl.readUInt16LE(4), skl[6]], [0, 0, 1000, 0, 30],
+        'realROM qualification contract only; this renderer test does not perform an MP debit or a native cast');
+});
+test('IMPACT13 real15-unit timing builds19 controlled copies including clear-only commits and no isolated frame12 copy', () => {
+    const f = impactTimerRecords(); assert.equal(f.copies.length, 19);
+    assert.deepEqual(f.copies.map(c => c.frameIndex), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 13, 14, 14, 14, 14, 14]);
+    assert.deepEqual(f.copies[12].visible, [0, 8, 9, 10, 11, 12, 13]);
+    assert.deepEqual(f.copies[18], { commitSeq: 19, frameIndex: 14, visible: [14], clear: Array.from({ length: 14 }, (_, i) => i) });
+});
+test('IMPACT13 all19 native-timed controlled copies preserve fullLCD and order BACKPIC, actual clears and actual ascending sprites', async () => {
+    const h = await impactLoaded();
+    for (const record of h.fixture.timeline.copies) {
+        h.setSpe(impactFixture({ current: record.commitSeq }).s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); armyBounded(h);
+        assert.deepEqual([...h.api.debugSnapshot().displayedFrames], record.visible);
+        const draws = h.hdDraws(); assert.equal(draws.length, record.visible.length + 1);
+        assert.equal(draws[0].args[0].url, h.fixture.entry.background.src);
+        const erases = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillRect');
+        assert.equal(erases.length, record.clear.length);
+        for (let i = 0; i < record.clear.length; i++) { const u = h.fixture.entry.units[record.clear[i]], p = h.fixture.entry.pictures[u.picIndex];
+            assert.deepEqual(erases[i].args, [(15 + u.x) * 11, (16 + u.y) * 11, p.logicalWidth * 11, p.logicalHeight * 11]);
+            assert.ok(h.events.indexOf(erases[i]) > h.events.indexOf(draws[0]) && h.events.indexOf(erases[i]) < h.events.indexOf(draws[1])); }
+        for (let i = 0; i < record.visible.length; i++) { const u = h.fixture.entry.units[record.visible[i]], p = h.fixture.entry.pictures[u.picIndex];
+            assert.equal(draws[i + 1].args[0].url, p.src);
+            assert.deepEqual(draws[i + 1].args.slice(1), [(15 + u.x) * 11, (16 + u.y) * 11, p.logicalWidth * 11, p.logicalHeight * 11]); }
+        assert.equal(h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText').length, 0);
+    }
+    const count = h.events.length; h.advance(50_000); h.polls.forEach(p => p()); assert.equal(h.events.length, count); fireNoInput(h);
+});
+test('IMPACT13 lagging copied ship positions never borrow current-final sprites or erase history', async () => {
+    const h = await impactLoaded({ current: 19, shown: 1 }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets'); armyBounded(h);
+    assert.deepEqual([...h.api.debugSnapshot().displayedFrames], [0]); assert.equal(h.hdDraws().at(-1).args[0].url, h.fixture.entry.pictures[1].src);
+    for (const change of [s => s.display.visibleFrames = bitset(14), s => s.display.composition.clearFrames = bitset(1),
+        s => s.display.commitSeq = 20, s => s.display.eventId++, s => s.display.generation++, s => s.display.composition.background.valid = false]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+});
+for (const phase of ['numbers', 'hold']) test('IMPACT13 ' + phase + ' binds copied final19/frame14 plus actual label and NUM15 histories', async () => {
+    const h = await impactLoaded({ phase }); h.events.length = 0; h.flush(); assert.equal(h.api.debugSnapshot().source, 'hd-assets'); armyBounded(h);
+    assert.equal(h.fixture.result.scene.commitSeq, 19); assert.equal(h.fixture.result.scene.frameIndex, 14);
+    const texts = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'fillText');
+    assert.deepEqual(texts[0].args, ['兵力减少', 55 * 11, 18 * 11, 48 * 11]);
+    assert.deepEqual(texts.slice(1).map(e => e.args), [2, 4, 0].flatMap((digit, i) => Array.from({ length: 8 }, (_, j) => [String(digit), (55 + 6 * i) * 11, (56 - j) * 11, 6 * 11])));
+    fireNoInput(h);
+});
+test('IMPACT13 wrong or unknown caller, legacy kind and unrelated resource cannot authorize the retained130 crop', async () => {
+    const h = await impactLoaded();
+    for (const change of [s => s.contextKnown = false, s => s.skillId = 1, s => s.skillId = 12, s => s.skillId = 24,
+        s => s.id = 22, s => s.kind = 3, s => s.protocolValid = false, s => s.frameValid = false]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.notEqual(h.api.debugSnapshot().source, 'hd-assets', change.toString()); assert.deepEqual(h.hdDraws(), []);
+        if (s.kind === 2 && s.id === 38) fireFullLcd(h);
+    }
+    fireNoInput(h);
+});
+test('IMPACT13 invalid caller range, slot swap, geometry, FNV, background and marker all retain fullLCD', async () => {
+    const h = await impactLoaded();
+    for (const change of [e => delete e.armySkillVersion, e => e.armySkillVersion = 2, e => delete e.opaqueCoverageVersion,
+        e => e.skillId = 24, e => e.startFrm = 1, e => e.endFrm = 13, e => e.resourceFingerprint = 'fnv1a32:00000000:1251',
+        e => e.units[12].x++, e => e.units[14].picIndex = 0, e => e.pictures[0].nativeSlotSha256 = e.pictures[1].nativeSlotSha256,
+        e => e.pictures[2].nativeWidth = 24, e => e.pictures[3].mask = 0, e => e.background.id = 15, e => e.skillNumber.id = 16]) {
+        const e = structuredClone(h.fixture.entry); change(e); h.api.setManifest({ ...h.fixture.m, entries: [e] }); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('IMPACT13 future or malformed frontier and competing displayed background cannot establish opaque coverage', async () => {
+    const h = await impactLoaded({ current: 8 });
+    for (const change of [s => s.display.visibleFrames = bitset(15), s => s.composition.clearFrames = bitset(14),
+        s => s.display.composition.clearFrames = bitset(7), s => s.composition.clearFrames = Array(31).fill(0),
+        s => s.display.composition.width = 129, s => s.composition.mode = 2, s => s.display.composition.background = null,
+        s => { s.visibleFrames = bitset(); s.composition.clearFrames = bitset(); }]) {
+        const s = structuredClone(h.fixture.s); change(s); h.setSpe(s); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+});
+test('IMPACT13 NUM/HOLD cannot borrow a different result kind, session, roles, source, incomplete final scene or NUM15', async () => {
+    const h = await impactLoaded({ phase: 'hold' });
+    for (const change of [r => r.resultKind = 2, r => r.resultKind = 3, r => r.session++, r => r.scene.session++,
+        r => r.custom = true, r => r.sourceValid = false, r => r.skillId = 24, r => r.actorIndex = 20, r => r.targetIndex = -1,
+        r => r.scene.frameIndex = 13, r => r.display.frameIndex = 13, r => r.display.eventId++, r => r.display.composition.background.count = 2,
+        r => r.number.id = 16, r => r.display.label.x = 140, r => r.display.digits[0].x = 140]) {
+        const r = structuredClone(h.fixture.result); change(r); h.setSkillResult(r); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd', change.toString()); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    }
+    fireNoInput(h);
+});
+test('IMPACT13 overwritten result owner keeps realLCD while a fully ended owner adds no acknowledgement', async () => {
+    const h = await impactLoaded({ phase: 'hold' }); h.setResultOwner({ ...h.fixture.top, session: 3 }); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []);
+    h.setResultOwner({ active: false, valid: false, kind: 0 }); h.setSkillResult({ active: false }); h.api.onEngineSpe(); h.events.length = 0; h.flush();
+    assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+for (const slot of [0, 1, 2, 3, 'background']) test('IMPACT13 missing ' + slot + ' restores completeLCD and late load cannot revive failed artwork', async () => {
+    const h = await impactLoaded({ pending: true }), src = slot === 'background' ? h.fixture.entry.background.src : h.fixture.entry.pictures[slot].src;
+    const failed = h.images.findIndex(i => i.url === src); assert.ok(failed >= 0); h.images[failed].onerror(); h.resolveAll(); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
+});
+for (const why of ['pending', 'unknownLIB', 'classic', 'report', 'hidden', 'ended']) test('IMPACT13 ' + why + ' lifecycle rejects late images with no keys or native writes', async () => {
+    const h = await impactLoaded({ pending: true });
+    if (why === 'unknownLIB') h.context.dynLib = '00'; else if (why === 'classic') h.setMode(false); else if (why === 'report') h.setReport(1);
+    else if (why === 'hidden') h.setHidden(true); else if (why === 'ended') { h.setSpe({ active: 0 }); h.api.onEngineSpe(); }
+    if (why !== 'pending') h.resolveAll(); h.events.length = 0; h.flush(); assert.notEqual(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual(h.hdDraws(), []); fireFullLcd(h); fireNoInput(h);
+});
+for (const phase of [null, 'hold']) test('IMPACT13 ' + (phase || 'movie') + ' final fence restores full capturedLCD after data, roles, commit, owner or LIB reentrancy', async () => {
+    for (const mutation of ['data', 'actor', 'target', 'commit', 'owner', 'library']) {
+        const h = await impactLoaded({ phase }); let changed = false;
+        h.setDrawHook((node, op, args) => {
+            if (changed || node !== 'hd-spe-canvas' || op !== 'drawImage' || !(args[0] instanceof h.context.Image)) return;
+            changed = true;
+            if (mutation === 'data') { const rebound = { g_scale: 1, g_screenWidth: 160, g_screenHeight: 96 };
+                Object.defineProperty(h.context.baye, 'data', { configurable: true, get: () => rebound }); }
+            else if (mutation === 'library') h.context.dynLib = bytes.toString('hex');
+            else if (phase) {
+                if (mutation === 'actor') h.fixture.result.actorIndex++; if (mutation === 'target') h.fixture.result.targetIndex++;
+                if (mutation === 'commit') h.fixture.result.display.commitSeq++; if (mutation === 'owner') h.setResultOwner({ ...h.fixture.top, session: 3 });
+            } else {
+                if (mutation === 'actor') h.spe().actorIndex++; if (mutation === 'target') h.spe().targetIndex++;
+                if (mutation === 'commit') h.spe().display.commitSeq++; if (mutation === 'owner') h.spe().display.eventId++;
+            }
+        });
+        h.events.length = 0; h.flush(); h.setDrawHook(null); assert.equal(changed, true); assert.equal(h.api.debugSnapshot().source, 'lcd'); fireFullLcd(h);
+        const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+        assert.equal(last.args[0] instanceof h.context.Image, false, 'stale partialHD is overwritten after final owner/data fence'); fireNoInput(h);
+    }
+});
+test('IMPACT13 pending old manifest callbacks cannot paint after manifest replacement and native retirement', async () => {
+    const h = await impactLoaded({ pending: true }); h.api.setManifest({ ...h.fixture.m, entries: [] }); h.setSpe({ active: 0 }); h.api.onEngineSpe();
+    h.events.length = 0; h.resolveAll(); h.flush(); assert.equal(h.api.isOpen(), false); assert.deepEqual(h.hdDraws(), []); fireNoInput(h);
 });

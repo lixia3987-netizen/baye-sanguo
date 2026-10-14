@@ -360,7 +360,7 @@ const armySpecs=[
  [1,19,11,21,66,19,6115,0xf0c01d45],[2,19,11,21,66,19,6115,0xf0c01d45],
  [3,19,11,21,66,19,6115,0xf0c01d45],[4,19,11,21,66,19,6115,0xf0c01d45],
  [8,20,10,20,60,18,5014,0x28294325],[9,21,9,17,54,18,4630,0x5a4c8036],
- [10,21,9,17,54,18,4630,0x5a4c8036]
+ [10,21,9,17,54,18,4630,0x5a4c8036],[13,38,0,14,15,4,1251,0xd85d421b]
 ];
 const armyBg=resource(16);
 function armyMovieFixture(skill=1){
@@ -430,4 +430,36 @@ for(const[label,change]of[
 test('army skill still authenticates its actual NUM phase before complete HOLD',()=>{const f=armyMovieFixture(10);f.hold(2);assert.equal(f.baye.hd.skillResult().sourceValid,true);f.untouched();});
 test('army movie and saved numeric owners reject same-value opaque data rebinding',()=>{
  for(const postlude of [false,true]){const f=armyMovieFixture();postlude?f.hold():f.movie();let once=false;f.onRead((p,k)=>{if(!once&&(postlude?p==='.g_hdSkillResultDisplayDigitDrawCount'&&k==='9':p===''&&k==='g_hdSpeStatusProtocolVersion')){once=true;f.replaceData();}});if(postlude)neutral(f.baye.hd.skillResult());else rejectArmy(f);assert.equal(once,true);f.untouched();}
+});
+
+// IMPACT13 is an independent original masked movie, not generic attack38.
+test('IMPACT13 ROM is15 timed units and four independent masked pictures',()=>{
+ const b=resource(38),skill=resource(10).subarray(12*34,13*34);assert.equal(b.length,1251);assert.equal(fnv(b),0xd85d421b);assert.deepEqual([...b.subarray(2,6)],[15,4,0,14]);
+ assert.equal(skill.toString('hex'),'0000e80300001e646464640000000000000000640000000000000064646464506464');
+ assert.deepEqual([skill[0],skill[1],skill.readUInt16LE(2),skill.readUInt16LE(4),skill[6]],[0,0,1000,0,30]);
+ assert.deepEqual([...skill.subarray(7,12)],[100,100,100,100,0]);assert.deepEqual([...skill.subarray(12,20)],[0,0,0,0,0,0,0,100]);assert.deepEqual([...skill.subarray(20,28)],[0,0,0,0,0,0,0,100]);
+ let at=81;for(const[w,h]of [[32,32],[32,32],[23,21],[46,42]]){assert.deepEqual([b.readUInt16LE(at),b.readUInt16LE(at+2),b.readUInt16LE(at+4),b[at+6]],[w,h,1,1]);at+=7+Math.ceil(w/8)*h*2;}assert.equal(at,b.length);
+ for(let i=0;i<15;i++)assert.ok(b[10+i*5]<4);assert.deepEqual([...b.subarray(6,11)],[86,14,43,1,1]);assert.deepEqual([...b.subarray(76,81)],[70,6,30,30,3]);
+});
+for(const[label,change]of[
+ ['unknown context',r=>r.g_hdSpeContextKnown=0],['wrong skill',r=>r.g_hdSpeSkillId=1],['wrong id',r=>r.g_hdSpeId=19],['wrong resource index',r=>r.g_hdSpeResourceIndex=1],
+ ['wrong FNV',r=>r.g_hdSpeResourceFingerprint^=1],['wrong length',r=>r.g_hdSpeResourceLength++],['wrong count',r=>r.g_hdSpeCount=14],['wrong slot count',r=>r.g_hdSpePicmax=3],
+ ['wrong start',r=>r.g_hdSpeStartFrm=1],['wrong end',r=>r.g_hdSpeEndFrm=13],['unknown actor',r=>r.g_hdSpeActorIndex=255],['unknown target',r=>r.g_hdSpeTargetIndex=255],
+ ['opaque rather than BACKPIC mode',r=>r.g_hdSpeSceneMode=2],['wrong background',r=>r.g_hdSpeBgResourceFingerprint^=1],['missing background',r=>r.g_hdSpeBgValid=0],
+ ['future visible',r=>r.g_hdSpeVisibleFrames=bits(1)],['future clear',r=>r.g_hdSpeClearFrames=bits(1)],['missing established frontier',r=>r.g_hdSpeVisibleFrames=bits()],
+ ['competing report',r=>r.g_hdReportActive=1],['competing help',r=>r.g_hdHelpActive=1],['competing quantity',r=>r.g_hdQtyActive=1]
+])test('IMPACT13 source rejects '+label+' without generic38 authorization',()=>{const f=armyMovieFixture(13);f.movie();change(f.raw);rejectArmy(f);});
+for(const[label,change]of[
+ ['different background',r=>r.g_hdSpeDisplayBgResourceFingerprint^=1],['different generation',r=>r.g_hdSpeDisplayGeneration++],['different event',r=>r.g_hdSpeDisplayEventId++],
+ ['future frontier',r=>{r.g_hdSpeDisplayFrameIndex=15;r.g_hdSpeDisplayVisibleFrames=bits(15);}],['same commit different clear',r=>r.g_hdSpeDisplayClearFrames=bits(0)]
+])test('IMPACT13 rejects '+label+' only for the displayed copy',()=>{const f=armyMovieFixture(13);f.movie();change(f.raw);const s=f.baye.hd.spe();assert.equal(s.composition.valid,true);assert.equal(s.display.composition.valid,false);f.untouched();});
+for(const phase of [2,3])test('IMPACT13 true NUM/HOLD phase'+phase+' keeps its own full BACKPIC scene',()=>{const f=armyMovieFixture(13);f.hold(phase);const s=f.baye.hd.skillResult();assert.equal(s.skillId,13);assert.equal(s.sourceValid,true);assert.equal(s.display.valid,true);assert.equal(s.resultKind,1);assert.equal(s.scene.frameIndex,14);assert.equal(s.number.id,15);f.untouched();});
+for(const[label,change]of[
+ ['wrong skill',r=>r.g_hdSkillResultSkillId=1],['wrong resource',r=>r.g_hdSkillResultId=19],['wrong movie hash',r=>r.g_hdSkillResultResourceFingerprint^=1],
+ ['wrong background',r=>r.g_hdSkillResultBgId=17],['gain result',r=>r.g_hdSkillResultResultKind=2],['other top owner session',r=>r.g_hdResultOwnerSession++],
+ ['future cleared frame',r=>r.g_hdSkillResultClearFrames=bits(15)],['wrong NUM plane',r=>r.g_hdSkillResultNumberResourceFingerprint^=1],['competing report',r=>r.g_hdReportActive=1]
+])test('IMPACT13 numeric source rejects '+label,()=>{const f=armyMovieFixture(13);f.hold();change(f.raw);unsafe(f.baye.hd.skillResult());f.untouched();});
+test('IMPACT13 displayed postlude cannot mix another result session',()=>{const f=armyMovieFixture(13);f.hold();f.raw.g_hdSkillResultDisplaySession++;const s=f.baye.hd.skillResult();assert.equal(s.sourceValid,true);assert.equal(s.display.valid,false);f.untouched();});
+test('IMPACT13 movie and NUM snapshots reject late opaque data substitution',()=>{
+ for(const postlude of [false,true]){const f=armyMovieFixture(13);postlude?f.hold():f.movie();let once=false;f.onRead((p,k)=>{if(!once&&(postlude?p==='.g_hdSkillResultDisplayDigitDrawCount'&&k==='9':p===''&&k==='g_hdSpeStatusProtocolVersion')){once=true;f.replaceData();}});postlude?neutral(f.baye.hd.skillResult()):rejectArmy(f);assert.equal(once,true);f.untouched();}
 });
