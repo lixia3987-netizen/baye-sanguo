@@ -1,0 +1,1944 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-08",
+  "branch": "feature/hd-graphics",
+  "parentCommit": "7060090",
+  "scope": "R08 PC environment art and real 38-city input, including native-close double EXIT fix",
+  "status": "passed-with-explicit-remaining-scope",
+  "summary": {
+    "unitTests": {
+      "total": 480,
+      "passed": 480,
+      "failed": 0,
+      "skipped": 0,
+      "log": "docs/validation/m4-overworld-20261008/unit-tests.log",
+      "sha256": "18f42064548446c20b7e4dbda8ccfcafc8a3c2395578f9d5c434c21980c10acf"
+    },
+    "layerTests": 16,
+    "environmentIntegrationTests": 12,
+    "cityEntryCases": 10,
+    "defaultCheckpoints": 85,
+    "allLordCheckpoints": 109,
+    "coreCheckpoints": 27,
+    "miniAndGoodsCheckpoints": 23,
+    "cityPointerVisitsDefault": 76,
+    "cityPointerVisitsAllLords": 100,
+    "distinctOwnedRoots": 25,
+    "actualNewGameLords": 18,
+    "period": 1,
+    "unownedCities": 13,
+    "uncaughtExceptions": 0,
+    "sourceDrift": 0
+  },
+  "environment": {
+    "coordinateSystem": "china-lcc-raster-padded-v1",
+    "sourceRaster": [
+      3840,
+      3309
+    ],
+    "world": [
+      3840,
+      4000
+    ],
+    "riverPng": [
+      1920,
+      1655
+    ],
+    "riverOpacity": 0.12,
+    "mountainInstances": 10,
+    "forestInstances": 14,
+    "generatedPngSize": [
+      1254,
+      1254
+    ],
+    "originalPngsPreserved": true,
+    "prompts": "assets/hd-overworld/GENERATED-ART.md",
+    "all24SpritesReviewedAgainstBaseCoast": true,
+    "mainAndMiniSharedPainter": true
+  },
+  "nativeBuild": {
+    "changed": false,
+    "note": "C sources and installed engine four files unchanged from parent 7060090. No new WASM build claimed; existing manifest preserves the 9aeb796 plus modified 128-source build provenance.",
+    "files": {
+      "js/baye.js": {
+        "source": "js/baye.js",
+        "bytes": 192329,
+        "sha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed",
+        "currentSha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed",
+        "match": true
+      },
+      "js/baye.wasm": {
+        "source": "js/baye.wasm",
+        "bytes": 4332180,
+        "sha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22",
+        "currentSha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22",
+        "match": true
+      },
+      "js/baye.wasm.map": {
+        "source": "js/baye.wasm.map",
+        "bytes": 29805,
+        "sha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab",
+        "currentSha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab",
+        "match": true
+      },
+      "js/baye.build.json": {
+        "source": "js/baye.build.json",
+        "bytes": 3688,
+        "sha256": "0c759cfedb03a4026b8d23925addc4f861b3aae4b48f54674a83ffab55c0dc03",
+        "currentSha256": "0c759cfedb03a4026b8d23925addc4f861b3aae4b48f54674a83ffab55c0dc03",
+        "match": true
+      }
+    }
+  },
+  "limitations": [
+    "Full city matrix is standard LIB period 1; four-period and complete actual Mod battles remain R11.",
+    "Only 25 native-owned city roots are legal in period 1; 13 unowned cities are validated as selections with zero keys/cursor writes. No fake ownership or conquest fixture.",
+    "Zoom 0.5/2.2 uses the public presentation API because no zoom UI exists; camera dragging and city entry use actual trusted pointer dispatch.",
+    "All stamp positions and landmark ROIs are decorative/manual image placement, not surveyed geography, ecology, engine terrain or reachability.",
+    "Existing roads/pass.png remains older placeholder art; decorative roads and crossing markers are never march permissions.",
+    "Full performance/GC/memory traces, real mobile devices, remaining portrait/SPE art, succession and real cloud account flows remain in the HD worklist."
+  ],
+  "counterexample": {
+    "sourceReport": "build/m4-overworld-baseline-lords-v3/result.json",
+    "reportSha256": "4a5a72f88e9285f83a80be8b3a414d5e3c6f06fd44cc3c4b033292b106ce98a6",
+    "renderer": {
+      "source": "js/hd-overworld.js",
+      "bytes": 154838,
+      "sha256": "ba3185098346c93d56057094ae243fca2c8b1c94b511a2d842ff61fd0290be05"
+    },
+    "error": "Error: Timed out: current native map waiting and HD hits\n    at waitFor (file:///F:/project/baye-sanguo/scripts/test-hd-overworld-runtime.mjs:118:121)\n    at async visit (file:///F:/project/baye-sanguo/scripts/test-hd-overworld-runtime.mjs:224:63)\n    at async acceptance (file:///F:/project/baye-sanguo/scripts/test-hd-overworld-runtime.mjs:316:74)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-overworld-runtime.mjs:350:9)",
+    "state": {
+      "hidden": false,
+      "identity": {
+        "status": "ready",
+        "generation": 2,
+        "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+        "byteLength": 207195,
+        "reason": ""
+      },
+      "period": 1,
+      "king": 5,
+      "cursor": {
+        "x": 1,
+        "y": 0
+      },
+      "mapCity": 0,
+      "menu": {
+        "active": 1,
+        "context": 2,
+        "kind": 1,
+        "seq": 11,
+        "itemLen": 8,
+        "count": 3,
+        "index": 0,
+        "names": [
+          "策略结束",
+          "存储进度",
+          "结束游戏"
+        ],
+        "packedNames": [
+          "策略结束",
+          "存储进度",
+          "结束游戏"
+        ],
+        "ids": [],
+        "idsValid": false,
+        "generation": 3,
+        "detailGeneration": 3
+      },
+      "march": {
+        "pick": 0,
+        "battlePick": 0,
+        "mapCity": 1,
+        "mapInputSeq": 2,
+        "ok": 0,
+        "city": 0,
+        "obj": 0,
+        "time": 0,
+        "seq": 0,
+        "phase": 0,
+        "session": 0,
+        "origin": 255,
+        "selected": 0,
+        "inputSeq": 2
+      },
+      "map": {
+        "mode": "hd-map",
+        "libraryIdentity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "presentationReady": true,
+        "presentationReason": "",
+        "assetGeneration": 5,
+        "phase": "other",
+        "aligning": false,
+        "hitsEnabled": false,
+        "battleMakePending": false,
+        "engineGetCitySet": false,
+        "holdMenu": false,
+        "lastAlignWhy": null,
+        "cityMenuMarching": false,
+        "functionMenu": true,
+        "cityMenuShell": false,
+        "pan": {
+          "on": false,
+          "moved": false,
+          "suppressClick": false,
+          "tapHandled": false
+        },
+        "selectedIndex": 0,
+        "hoverIndex": -1,
+        "focusCity": 0,
+        "cursorPolicy": "os-pointer",
+        "enterFx": {
+          "index": 0,
+          "start": 1791430772556,
+          "duration": 150
+        },
+        "dateInfo": {
+          "year": 190,
+          "month": 1,
+          "yearPath": "g_YearDate",
+          "monthPath": "g_MonthDate",
+          "source": "probe"
+        },
+        "learnedCursor": null,
+        "haveCityPos": true,
+        "engineCursorIndex": 0,
+        "cityPos": {
+          "x": 1,
+          "y": 0
+        },
+        "mapCity": 0,
+        "mapPick": 0,
+        "cursorInView": true,
+        "alignLog": null,
+        "alignSnapRetry": false,
+        "hint": "已回到大地图。点城打开经典菜单。",
+        "playerKingRaw": 5,
+        "playerBelong": 6,
+        "yearDate": 190,
+        "monthDate": 1,
+        "cityX": 0,
+        "cityY": 0,
+        "focusX": 0,
+        "focusY": 0,
+        "ownedCount": 3,
+        "cityTotal": 38,
+        "owned": [
+          {
+            "i": 0,
+            "name": "西凉",
+            "belong": 6
+          },
+          {
+            "i": 3,
+            "name": "安定",
+            "belong": 6
+          },
+          {
+            "i": 8,
+            "name": "天水",
+            "belong": 6
+          }
+        ],
+        "layout": "china-lcc",
+        "camera": {
+          "x": 1443.538,
+          "y": 1004.856,
+          "scale": 0.85,
+          "mapW": 3840,
+          "mapH": 4000,
+          "minX": 0,
+          "minY": 0,
+          "maxX": 1581.1764705882351,
+          "maxY": 2729.4117647058824,
+          "inited": true
+        },
+        "environmentLayers": {
+          "coordinateSystem": null,
+          "descriptorCount": 0,
+          "drawn": 0,
+          "skipped": 0,
+          "operations": []
+        },
+        "roads": {
+          "source": "lcc-neighbors",
+          "edges": 71,
+          "passes": 1,
+          "isolated": []
+        }
+      },
+      "city": {
+        "pref": "hd",
+        "showHd": true,
+        "open": false,
+        "layer": "root",
+        "subKind": "",
+        "cityIndex": -1,
+        "cityName": "",
+        "titleText": "城池",
+        "idleIndex": 0,
+        "idleKeys": [
+          "index",
+          "itemLen",
+          "itemCount"
+        ],
+        "lastHook": "onMenuIdle",
+        "showLcd": false,
+        "cityLcdMode": "passthrough",
+        "probedCityKeys": [],
+        "deepKind": "",
+        "deepLabel": "",
+        "deepCount": 0,
+        "deepItems": [],
+        "deepMenuOwner": null,
+        "cityDetails": null,
+        "personDetail": null,
+        "toolDetail": null,
+        "toolPagePending": null,
+        "pickedPersons": 0,
+        "dismissedObj": false,
+        "marchReady": false,
+        "marching": false,
+        "leftoverAfterFight": false,
+        "sawFightThisMarch": false,
+        "fightEndedThisMarch": false,
+        "campaignPick": false,
+        "battleMake": false,
+        "handoff": false,
+        "handoffAt": 0,
+        "handoffStatus": "",
+        "handoffExitCount": 0,
+        "handoffEnterCount": 0,
+        "lastHandoffExitAt": 0,
+        "lastFuncMenuIdle": 1791430798445,
+        "personExitSent": false,
+        "finishPersonsBusy": false,
+        "personExitTries": 0,
+        "lastExit": "",
+        "engineHelpOpen": false,
+        "overlayRetry": 0,
+        "finishVisibleRetry": 0,
+        "pickedPersonNames": [],
+        "leftoverOverlay": {
+          "open": false,
+          "kind": "report",
+          "pe": "none",
+          "help": false,
+          "farm": false,
+          "blocking": false,
+          "engineHelp": false,
+          "qtyActive": 0,
+          "body": ""
+        },
+        "engineLeftBattleMake": false,
+        "engineStillInPersonPick": false,
+        "liveJunbeiMenu": false,
+        "qtyActive": 0,
+        "lastBlockedExit": "",
+        "lastBlockedEnter": "",
+        "lastPickEnterAt": 0,
+        "holdEnterForFood": false,
+        "queueLen": 0,
+        "sending": false,
+        "enginePersons": 0,
+        "enginePersonNames": [],
+        "enginePersonsAtFinish": 0,
+        "enginePersonsAtPickStart": 0,
+        "marchHint": "",
+        "holdExit": false,
+        "holdMenu": false,
+        "acceptMarchOk": false,
+        "freshMarch": false,
+        "consumedMarchSeq": 0,
+        "sawMarchCleared": false,
+        "walkBusy": false,
+        "pendingTarget": null,
+        "wizardStep": "none",
+        "wizardLabel": "",
+        "sawQtyThisMarch": false,
+        "sawGetFoodUi": false,
+        "foodConfirmed": false,
+        "leftoverPick": false,
+        "liveMarch": false,
+        "stickyBanner": false,
+        "lastBannerLog": null,
+        "battlePick": false,
+        "openedCity": -1,
+        "marchDest": {
+          "city": 0,
+          "obj": 0,
+          "ok": false,
+          "real": false
+        },
+        "leftoverEngineSub": "",
+        "leftoverQty": false,
+        "liveQty": false,
+        "liveGetFood": false,
+        "latentGetFood": false,
+        "realm": {
+          "playerKing": 5,
+          "playerBelong": 6,
+          "playerName": "马腾",
+          "ownedCount": 3,
+          "total": 38,
+          "cities": [
+            {
+              "i": 0,
+              "name": "西凉",
+              "belong": 6,
+              "owner": "马腾",
+              "owned": true,
+              "ownership": {
+                "kind": "owned",
+                "value": 6,
+                "personIndex": 5,
+                "name": "马腾",
+                "label": "马腾"
+              }
+            },
+            {
+              "i": 1,
+              "name": "北平",
+              "belong": 17,
+              "owner": "公孙瓒",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 17,
+                "personIndex": 16,
+                "name": "公孙瓒",
+                "label": "公孙瓒"
+              }
+            },
+            {
+              "i": 2,
+              "name": "襄平",
+              "belong": 18,
+              "owner": "公孙度",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 18,
+                "personIndex": 17,
+                "name": "公孙度",
+                "label": "公孙度"
+              }
+            },
+            {
+              "i": 3,
+              "name": "安定",
+              "belong": 6,
+              "owner": "马腾",
+              "owned": true,
+              "ownership": {
+                "kind": "owned",
+                "value": 6,
+                "personIndex": 5,
+                "name": "马腾",
+                "label": "马腾"
+              }
+            },
+            {
+              "i": 4,
+              "name": "晋阳",
+              "belong": 10,
+              "owner": "张杨",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 10,
+                "personIndex": 9,
+                "name": "张杨",
+                "label": "张杨"
+              }
+            },
+            {
+              "i": 5,
+              "name": "平原",
+              "belong": 14,
+              "owner": "刘备",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 14,
+                "personIndex": 13,
+                "name": "刘备",
+                "label": "刘备"
+              }
+            },
+            {
+              "i": 6,
+              "name": "南皮",
+              "belong": 3,
+              "owner": "袁绍",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 3,
+                "personIndex": 2,
+                "name": "袁绍",
+                "label": "袁绍"
+              }
+            },
+            {
+              "i": 7,
+              "name": "北海",
+              "belong": 8,
+              "owner": "孔融",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 8,
+                "personIndex": 7,
+                "name": "孔融",
+                "label": "孔融"
+              }
+            },
+            {
+              "i": 8,
+              "name": "天水",
+              "belong": 6,
+              "owner": "马腾",
+              "owned": true,
+              "ownership": {
+                "kind": "owned",
+                "value": 6,
+                "personIndex": 5,
+                "name": "马腾",
+                "label": "马腾"
+              }
+            },
+            {
+              "i": 9,
+              "name": "河内",
+              "belong": 12,
+              "owner": "王匡",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 12,
+                "personIndex": 11,
+                "name": "王匡",
+                "label": "王匡"
+              }
+            },
+            {
+              "i": 10,
+              "name": "长安",
+              "belong": 1,
+              "owner": "董卓",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 1,
+                "personIndex": 0,
+                "name": "董卓",
+                "label": "董卓"
+              }
+            },
+            {
+              "i": 11,
+              "name": "邺",
+              "belong": 11,
+              "owner": "韩馥",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 11,
+                "personIndex": 10,
+                "name": "韩馥",
+                "label": "韩馥"
+              }
+            },
+            {
+              "i": 12,
+              "name": "濮阳",
+              "belong": 2,
+              "owner": "曹操",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 2,
+                "personIndex": 1,
+                "name": "曹操",
+                "label": "曹操"
+              }
+            },
+            {
+              "i": 13,
+              "name": "徐州",
+              "belong": 7,
+              "owner": "陶谦",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 7,
+                "personIndex": 6,
+                "name": "陶谦",
+                "label": "陶谦"
+              }
+            },
+            {
+              "i": 14,
+              "name": "汉中",
+              "belong": 19,
+              "owner": "张鲁",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 19,
+                "personIndex": 18,
+                "name": "张鲁",
+                "label": "张鲁"
+              }
+            },
+            {
+              "i": 15,
+              "name": "洛阳",
+              "belong": 1,
+              "owner": "董卓",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 1,
+                "personIndex": 0,
+                "name": "董卓",
+                "label": "董卓"
+              }
+            },
+            {
+              "i": 16,
+              "name": "许昌",
+              "belong": 9,
+              "owner": "刘岱",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 9,
+                "personIndex": 8,
+                "name": "刘岱",
+                "label": "刘岱"
+              }
+            },
+            {
+              "i": 17,
+              "name": "小沛",
+              "belong": 7,
+              "owner": "陶谦",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 7,
+                "personIndex": 6,
+                "name": "陶谦",
+                "label": "陶谦"
+              }
+            },
+            {
+              "i": 18,
+              "name": "下邳",
+              "belong": 7,
+              "owner": "陶谦",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 7,
+                "personIndex": 6,
+                "name": "陶谦",
+                "label": "陶谦"
+              }
+            },
+            {
+              "i": 19,
+              "name": "梓潼",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 20,
+              "name": "宛城",
+              "belong": 1,
+              "owner": "董卓",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 1,
+                "personIndex": 0,
+                "name": "董卓",
+                "label": "董卓"
+              }
+            },
+            {
+              "i": 21,
+              "name": "寿春",
+              "belong": 4,
+              "owner": "袁术",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 4,
+                "personIndex": 3,
+                "name": "袁术",
+                "label": "袁术"
+              }
+            },
+            {
+              "i": 22,
+              "name": "建业",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 23,
+              "name": "吴",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 24,
+              "name": "成都",
+              "belong": 16,
+              "owner": "刘焉",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 16,
+                "personIndex": 15,
+                "name": "刘焉",
+                "label": "刘焉"
+              }
+            },
+            {
+              "i": 25,
+              "name": "棉竹",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 26,
+              "name": "襄阳",
+              "belong": 15,
+              "owner": "刘表",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 15,
+                "personIndex": 14,
+                "name": "刘表",
+                "label": "刘表"
+              }
+            },
+            {
+              "i": 27,
+              "name": "江夏",
+              "belong": 15,
+              "owner": "刘表",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 15,
+                "personIndex": 14,
+                "name": "刘表",
+                "label": "刘表"
+              }
+            },
+            {
+              "i": 28,
+              "name": "庐江",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 29,
+              "name": "会稽",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 30,
+              "name": "云南",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 31,
+              "name": "巴郡",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 32,
+              "name": "武陵",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 33,
+              "name": "长沙",
+              "belong": 5,
+              "owner": "孙坚",
+              "owned": false,
+              "ownership": {
+                "kind": "owned",
+                "value": 5,
+                "personIndex": 4,
+                "name": "孙坚",
+                "label": "孙坚"
+              }
+            },
+            {
+              "i": 34,
+              "name": "柴桑",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 35,
+              "name": "零陵",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 36,
+              "name": "桂阳",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            },
+            {
+              "i": 37,
+              "name": "建宁",
+              "belong": 0,
+              "owner": "",
+              "owned": false,
+              "ownership": {
+                "kind": "unowned",
+                "value": 0,
+                "personIndex": null,
+                "name": "",
+                "label": "无主城"
+              }
+            }
+          ]
+        },
+        "waitingGetFood": false,
+        "foodRecovered": false,
+        "foodRecoverEnter": false,
+        "foodRecoverNeeded": false,
+        "foodGaveUp": false,
+        "foodAttempt": 0,
+        "qtyBeforePersonExit": null,
+        "engineInGetCitySet": false,
+        "confirmingTarget": false,
+        "enginePhase": "none",
+        "displayWizard": "none",
+        "mapCity": 0,
+        "debug": "pick=0 battlePick=0 dest=0 mapCity=0(西凉) phase=none qty=0 min=0 max=0 queue=0 pex=0 hold=0 leftoverPick=0 persons=0 lastExit=— help=0/report qtyA=0 ui=none",
+        "qtyDismissed": false,
+        "qtyAckFailed": false,
+        "qtyAckError": "",
+        "reportAtMarchStart": "",
+        "march": {
+          "pick": 0,
+          "battlePick": 0,
+          "mapCity": 1,
+          "mapInputSeq": 2,
+          "ok": 0,
+          "city": 0,
+          "obj": 0,
+          "time": 0,
+          "seq": 0,
+          "phase": 0,
+          "session": 0,
+          "origin": 255,
+          "selected": 0,
+          "inputSeq": 2
+        },
+        "qty": {
+          "active": 0,
+          "value": 0,
+          "min": 0,
+          "max": 0,
+          "protocol": true,
+          "session": 2,
+          "inputSeq": 0,
+          "lastKey": 65535,
+          "cursor": 0,
+          "step": 1,
+          "ready": 0
+        },
+        "lastStep4": {
+          "t": 1791430772098,
+          "ev": "reset-new-game",
+          "skip": "didOpenNewGame",
+          "wizard": "none",
+          "pick": false,
+          "ok": false,
+          "seq": 0,
+          "mapCity": -1,
+          "cursor": {
+            "x": 1,
+            "y": 0
+          },
+          "qtyActive": false,
+          "leftoverQty": false,
+          "liveQty": false,
+          "report": "",
+          "dismissedObj": false,
+          "personExit": false,
+          "walkBusy": false,
+          "pending": null,
+          "token": 2,
+          "phase": "none",
+          "inCitySet": false,
+          "liveFood": false,
+          "origin": -1,
+          "originRetry": null
+        },
+        "step4Trace": [
+          {
+            "t": 1791430772098,
+            "ev": "reset-new-game",
+            "skip": "didOpenNewGame",
+            "wizard": "none",
+            "pick": false,
+            "ok": false,
+            "seq": 0,
+            "mapCity": -1,
+            "cursor": {
+              "x": 1,
+              "y": 0
+            },
+            "qtyActive": false,
+            "leftoverQty": false,
+            "liveQty": false,
+            "report": "",
+            "dismissedObj": false,
+            "personExit": false,
+            "walkBusy": false,
+            "pending": null,
+            "token": 1,
+            "phase": "none",
+            "inCitySet": false,
+            "liveFood": false,
+            "origin": -1,
+            "originRetry": null
+          },
+          {
+            "t": 1791430772098,
+            "ev": "reset-new-game",
+            "skip": "didOpenNewGame",
+            "wizard": "none",
+            "pick": false,
+            "ok": false,
+            "seq": 0,
+            "mapCity": -1,
+            "cursor": {
+              "x": 1,
+              "y": 0
+            },
+            "qtyActive": false,
+            "leftoverQty": false,
+            "liveQty": false,
+            "report": "",
+            "dismissedObj": false,
+            "personExit": false,
+            "walkBusy": false,
+            "pending": null,
+            "token": 2,
+            "phase": "none",
+            "inCitySet": false,
+            "liveFood": false,
+            "origin": -1,
+            "originRetry": null
+          }
+        ],
+        "marchOriginIndex": null,
+        "originRetryTried": false,
+        "originRetryBusy": false,
+        "originRetryFrom": null,
+        "originRetryTo": null,
+        "preferredOrigin": 8,
+        "originLinks": []
+      },
+      "keys": 7,
+      "pointers": 3,
+      "draws": 1567,
+      "year": 190,
+      "month": 1
+    },
+    "lastClosingKeys": [
+      {
+        "code": 40,
+        "at": 1787.1000000089407,
+        "stack": "Error\n    at window.sendKey (<anonymous>:4:124)\n    at engineSendKey (http://127.0.0.1:10500/js/hd-overworld.js?ver=20261008l:2259:13)\n    at Object.leaveClassicMenu [as leaveMenu] (http://127.0.0.1:10500/js/hd-overworld.js?ver=20261008l:3050:13)\n    at closeMenu (http://127.0.0.1:10500/js/hd-city-menu.js?ver=20261008j:4592:29)\n    at back (http://127.0.0.1:10500/js/hd-city-menu.js?ver=20261008j:4659:9)\n    at HTMLDivElement.<anonymous> (http://127.0.0.1:10500/js/hd-city-menu.js?ver=20261008j:5847:21)"
+      },
+      {
+        "code": 40,
+        "at": 1804.6000000089407,
+        "stack": "Error\n    at window.sendKey (<anonymous>:4:124)\n    at engineSendKey (http://127.0.0.1:10500/js/hd-overworld.js?ver=20261008l:2259:13)\n    at leaveClassicMenu (http://127.0.0.1:10500/js/hd-overworld.js?ver=20261008l:3050:13)\n    at onHook (http://127.0.0.1:10500/js/hd-overworld.js?ver=20261008l:1180:17)\n    at baye.callHook (http://127.0.0.1:10500/js/hd-overworld.js?ver=20261008l:1248:17)\n    at 2664048 (http://127.0.0.1:10500/js/baye.js?ver=20261008k:656:337)\n    at runEmAsmFunction (http://127.0.0.1:10500/js/baye.js?ver=20261008k:829:31)\n    at _emscripten_asm_const_int (http://127.0.0.1:10500/js/baye.js?ver=20261008k:832:14)\n    at baye.wasm.call_hook_s_observed (http://127.0.0.1:10500/js/baye.wasm?ver=20261008k:wasm-function[745]:0x195efd)\n    at baye.wasm.call_hook_a_observed (http://127.0.0.1:10500/js/baye.wasm?ver=20261008k:wasm-function[747]:0x196399)"
+      }
+    ],
+    "diagnosis": "One actual city back emitted EXIT, then willCloseMenu emitted a second EXIT while OrderMenu was still active, escaping GetCitySet into strategy-end. Observer now retires presentation without another key; all final owned returns assert trace exactly [40]."
+  },
+  "sourceVerification": {
+    "js/base64.js": {
+      "source": "js/base64.js",
+      "bytes": 3334,
+      "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42",
+      "currentSha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42",
+      "match": true
+    },
+    "js/base64.min.js": {
+      "source": "js/base64.min.js",
+      "bytes": 3826,
+      "sha256": "4e4b133053d69f2cf1b9cf9201b76dcf64d33b3f0770a0ef17299ee55a17322e",
+      "currentSha256": "4e4b133053d69f2cf1b9cf9201b76dcf64d33b3f0770a0ef17299ee55a17322e",
+      "match": true
+    },
+    "js/baye.build.json": {
+      "source": "js/baye.build.json",
+      "bytes": 3688,
+      "sha256": "0c759cfedb03a4026b8d23925addc4f861b3aae4b48f54674a83ffab55c0dc03",
+      "currentSha256": "0c759cfedb03a4026b8d23925addc4f861b3aae4b48f54674a83ffab55c0dc03",
+      "match": true
+    },
+    "js/baye.js": {
+      "source": "js/baye.js",
+      "bytes": 192329,
+      "sha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed",
+      "currentSha256": "90198b0f94f33ba38c3a8dc1164b25a7dd5fcea65f3ad794088570c8c627f9ed",
+      "match": true
+    },
+    "js/baye.wasm": {
+      "source": "js/baye.wasm",
+      "bytes": 4332180,
+      "sha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22",
+      "currentSha256": "dcc2fd86f25b98d9432f5b3f931bb11e2aee6c93d49c64341759e41723721a22",
+      "match": true
+    },
+    "js/baye.wasm.map": {
+      "source": "js/baye.wasm.map",
+      "bytes": 29805,
+      "sha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab",
+      "currentSha256": "76d249cfc99515556d04e31c3cf150608428a4d33710025091ad95eeb08939ab",
+      "match": true
+    },
+    "js/bridge.js": {
+      "source": "js/bridge.js",
+      "bytes": 69641,
+      "sha256": "e4e9b1618bfc580c3147de49e6c632574ee8e1d92033e48e0f1d49855fabb4d6",
+      "currentSha256": "e4e9b1618bfc580c3147de49e6c632574ee8e1d92033e48e0f1d49855fabb4d6",
+      "match": true
+    },
+    "js/demos.js": {
+      "source": "js/demos.js",
+      "bytes": 18466,
+      "sha256": "4ae8ef25df25c55abae92335dc65564aec3d3aab4a463687ea33a9afd08c7233",
+      "currentSha256": "4ae8ef25df25c55abae92335dc65564aec3d3aab4a463687ea33a9afd08c7233",
+      "match": true
+    },
+    "js/encoding-indexes.js": {
+      "source": "js/encoding-indexes.js",
+      "bytes": 145824,
+      "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738",
+      "currentSha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738",
+      "match": true
+    },
+    "js/encoding.js": {
+      "source": "js/encoding.js",
+      "bytes": 101260,
+      "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d",
+      "currentSha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d",
+      "match": true
+    },
+    "js/examples.js": {
+      "source": "js/examples.js",
+      "bytes": 19918,
+      "sha256": "3aa9501a211a80d3199a1c88589ef24af0f6d1f829f4ded1245eb9488bf6dc7b",
+      "currentSha256": "3aa9501a211a80d3199a1c88589ef24af0f6d1f829f4ded1245eb9488bf6dc7b",
+      "match": true
+    },
+    "js/hd-battle-feedback.js": {
+      "source": "js/hd-battle-feedback.js",
+      "bytes": 12212,
+      "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f",
+      "currentSha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f",
+      "match": true
+    },
+    "js/hd-battle-terrain.js": {
+      "source": "js/hd-battle-terrain.js",
+      "bytes": 12641,
+      "sha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467",
+      "currentSha256": "657abe5362c1cf810ddef66583bca90e86432bc3ffe8a5fc5c1c1d5f02885467",
+      "match": true
+    },
+    "js/hd-battle.js": {
+      "source": "js/hd-battle.js",
+      "bytes": 70580,
+      "sha256": "cde85b839f430c616695ba090a3a7a692a813537f22d74ced5d459f2f2cbdfd3",
+      "currentSha256": "cde85b839f430c616695ba090a3a7a692a813537f22d74ced5d459f2f2cbdfd3",
+      "match": true
+    },
+    "js/hd-city-menu.js": {
+      "source": "js/hd-city-menu.js",
+      "bytes": 259165,
+      "sha256": "6a026039b8ccee1aa76cec3f36295f36f9c28c541427fcd7e30b76d203c462bd",
+      "currentSha256": "6a026039b8ccee1aa76cec3f36295f36f9c28c541427fcd7e30b76d203c462bd",
+      "match": true
+    },
+    "js/hd-dialog.js": {
+      "source": "js/hd-dialog.js",
+      "bytes": 94482,
+      "sha256": "a10292085f9d537340ebb740a8197b46c230f70a14c7a45bf471f93362acb50c",
+      "currentSha256": "a10292085f9d537340ebb740a8197b46c230f70a14c7a45bf471f93362acb50c",
+      "match": true
+    },
+    "js/hd-graphics.js": {
+      "source": "js/hd-graphics.js",
+      "bytes": 6565,
+      "sha256": "0677f1a631fa21f350b9b9cda772a8b52530e9ce9e8934af212d56aed92724d6",
+      "currentSha256": "0677f1a631fa21f350b9b9cda772a8b52530e9ce9e8934af212d56aed92724d6",
+      "match": true
+    },
+    "js/hd-lib-identity.js": {
+      "source": "js/hd-lib-identity.js",
+      "bytes": 5822,
+      "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf",
+      "currentSha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf",
+      "match": true
+    },
+    "js/hd-minimap.js": {
+      "source": "js/hd-minimap.js",
+      "bytes": 10515,
+      "sha256": "09b9ee056da12ff895ff0bfef5f40d650ab0e2b5aa4fe7e75c390f1daae8a09a",
+      "currentSha256": "09b9ee056da12ff895ff0bfef5f40d650ab0e2b5aa4fe7e75c390f1daae8a09a",
+      "match": true
+    },
+    "js/hd-overworld-layers.js": {
+      "source": "js/hd-overworld-layers.js",
+      "bytes": 5717,
+      "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a",
+      "currentSha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a",
+      "match": true
+    },
+    "js/hd-overworld-probe.js": {
+      "source": "js/hd-overworld-probe.js",
+      "bytes": 11956,
+      "sha256": "a11350d0b52118c41835d6d7dda8c1143efceffc386ba715c15822fa6fd20f31",
+      "currentSha256": "a11350d0b52118c41835d6d7dda8c1143efceffc386ba715c15822fa6fd20f31",
+      "match": true
+    },
+    "js/hd-overworld.js": {
+      "source": "js/hd-overworld.js",
+      "bytes": 155248,
+      "sha256": "404a2640d4780e7263861ebf7e806488e556231872766d47f28f95cab752d7a8",
+      "currentSha256": "404a2640d4780e7263861ebf7e806488e556231872766d47f28f95cab752d7a8",
+      "match": true
+    },
+    "js/hd-portrait-dump.js": {
+      "source": "js/hd-portrait-dump.js",
+      "bytes": 19519,
+      "sha256": "46090d861a92bb3357bf79bdcba9cc6f380985360ff03ae37083f003a53cab1e",
+      "currentSha256": "46090d861a92bb3357bf79bdcba9cc6f380985360ff03ae37083f003a53cab1e",
+      "match": true
+    },
+    "js/hd-portraits.js": {
+      "source": "js/hd-portraits.js",
+      "bytes": 30421,
+      "sha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c",
+      "currentSha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c",
+      "match": true
+    },
+    "js/hd-spe.js": {
+      "source": "js/hd-spe.js",
+      "bytes": 19641,
+      "sha256": "55394c651905c1982f303968b5e4b8c0cfe2e573b509070d71f6d3b6202bf453",
+      "currentSha256": "55394c651905c1982f303968b5e4b8c0cfe2e573b509070d71f6d3b6202bf453",
+      "match": true
+    },
+    "js/hd-system-ui.js": {
+      "source": "js/hd-system-ui.js",
+      "bytes": 44664,
+      "sha256": "058b91879840b0a94430fe9fb3f81be834fd3230e038d138d03066952fd9a488",
+      "currentSha256": "058b91879840b0a94430fe9fb3f81be834fd3230e038d138d03066952fd9a488",
+      "match": true
+    },
+    "js/idbkvstore.min.js": {
+      "source": "js/idbkvstore.min.js",
+      "bytes": 16578,
+      "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60",
+      "currentSha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60",
+      "match": true
+    },
+    "js/intro.min.js": {
+      "source": "js/intro.min.js",
+      "bytes": 22681,
+      "sha256": "79ebf487a19800b08bfa8c3625976f18d4cdcde3715a72494d5b60713aaf52a8",
+      "currentSha256": "79ebf487a19800b08bfa8c3625976f18d4cdcde3715a72494d5b60713aaf52a8",
+      "match": true
+    },
+    "js/jquery.min.js": {
+      "source": "js/jquery.min.js",
+      "bytes": 92629,
+      "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4",
+      "currentSha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4",
+      "match": true
+    },
+    "js/jquery.touchSwipe.min.js": {
+      "source": "js/jquery.touchSwipe.min.js",
+      "bytes": 20412,
+      "sha256": "a10d7edb8fd307f469beaaa75a725e4bdae24a1b867f5bc7960f01e25c99d8e1",
+      "currentSha256": "a10d7edb8fd307f469beaaa75a725e4bdae24a1b867f5bc7960f01e25c99d8e1",
+      "match": true
+    },
+    "js/jszip.min.js": {
+      "source": "js/jszip.min.js",
+      "bytes": 100723,
+      "sha256": "40f82e20e98cdef9fd312359ad50b4bac0b37b79e33d3c5fa85c129f87114bd9",
+      "currentSha256": "40f82e20e98cdef9fd312359ad50b4bac0b37b79e33d3c5fa85c129f87114bd9",
+      "match": true
+    },
+    "js/lcd.js": {
+      "source": "js/lcd.js",
+      "bytes": 28854,
+      "sha256": "5c07100a6cfba25199cb7222d1de79dfc86853eecab2a23febdc63615c845951",
+      "currentSha256": "5c07100a6cfba25199cb7222d1de79dfc86853eecab2a23febdc63615c845951",
+      "match": true
+    },
+    "js/lcd_mt.js": {
+      "source": "js/lcd_mt.js",
+      "bytes": 17002,
+      "sha256": "db30104258a2bdebad28b7412992d95c58495ba0cebbc78b7eaf49acd53824ad",
+      "currentSha256": "db30104258a2bdebad28b7412992d95c58495ba0cebbc78b7eaf49acd53824ad",
+      "match": true
+    },
+    "js/lzma_worker-min.js": {
+      "source": "js/lzma_worker-min.js",
+      "bytes": 23963,
+      "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523",
+      "currentSha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523",
+      "match": true
+    },
+    "js/mtower.js": {
+      "source": "js/mtower.js",
+      "bytes": 1051518,
+      "sha256": "a056d12a957e3671a8c14ef59dc807a0ca5c6ba94ccc9a2244e6d025177b77bc",
+      "currentSha256": "a056d12a957e3671a8c14ef59dc807a0ca5c6ba94ccc9a2244e6d025177b77bc",
+      "match": true
+    },
+    "js/save-storage.js": {
+      "source": "js/save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "currentSha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e",
+      "match": true
+    },
+    "js/spin.min.js": {
+      "source": "js/spin.min.js",
+      "bytes": 4277,
+      "sha256": "3e27aa13441d103329a705eb4f349942bead5855f75b92a4c91572175ccddde8",
+      "currentSha256": "3e27aa13441d103329a705eb4f349942bead5855f75b92a4c91572175ccddde8",
+      "match": true
+    },
+    "js/sprintf.js": {
+      "source": "js/sprintf.js",
+      "bytes": 9783,
+      "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c",
+      "currentSha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c",
+      "match": true
+    },
+    "js/tappy.js": {
+      "source": "js/tappy.js",
+      "bytes": 3014,
+      "sha256": "84eb82432b2b3eb18569196f9296501285d6aed025a2ee2b5c6bd649d329c7ce",
+      "currentSha256": "84eb82432b2b3eb18569196f9296501285d6aed025a2ee2b5c6bd649d329c7ce",
+      "match": true
+    },
+    "css/baye.css": {
+      "source": "css/baye.css",
+      "bytes": 2869,
+      "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83",
+      "currentSha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83",
+      "match": true
+    },
+    "css/flex.css": {
+      "source": "css/flex.css",
+      "bytes": 11011,
+      "sha256": "4c101c7dff025fcb2639aecd0a4b628239e0c22fc3ce521bb59eda341e3fd83b",
+      "currentSha256": "4c101c7dff025fcb2639aecd0a4b628239e0c22fc3ce521bb59eda341e3fd83b",
+      "match": true
+    },
+    "css/hd-battle.css": {
+      "source": "css/hd-battle.css",
+      "bytes": 5985,
+      "sha256": "44f704d2fd74309cd9e6053f79e30f707b6252ea09f9bc6ef1c659855fc2c4b6",
+      "currentSha256": "44f704d2fd74309cd9e6053f79e30f707b6252ea09f9bc6ef1c659855fc2c4b6",
+      "match": true
+    },
+    "css/hd-city-menu.css": {
+      "source": "css/hd-city-menu.css",
+      "bytes": 13148,
+      "sha256": "fb5b341e6b9c32a9f38f2a1fe327da9180b3ae6873915e69baca9b556e159e74",
+      "currentSha256": "fb5b341e6b9c32a9f38f2a1fe327da9180b3ae6873915e69baca9b556e159e74",
+      "match": true
+    },
+    "css/hd-dialog.css": {
+      "source": "css/hd-dialog.css",
+      "bytes": 9772,
+      "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e",
+      "currentSha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e",
+      "match": true
+    },
+    "css/hd-graphics.css": {
+      "source": "css/hd-graphics.css",
+      "bytes": 3025,
+      "sha256": "a72abb6fe25dee4c6f4f09f3dfd1ccd6c1f5eaf7a722460a78d08544f5dc3507",
+      "currentSha256": "a72abb6fe25dee4c6f4f09f3dfd1ccd6c1f5eaf7a722460a78d08544f5dc3507",
+      "match": true
+    },
+    "css/hd-minimap.css": {
+      "source": "css/hd-minimap.css",
+      "bytes": 2911,
+      "sha256": "ab56c2fc9fa522c2d63de3b7beb3aef1ce43897de17666d0a83ef0e4e1f48a46",
+      "currentSha256": "ab56c2fc9fa522c2d63de3b7beb3aef1ce43897de17666d0a83ef0e4e1f48a46",
+      "match": true
+    },
+    "css/hd-overworld.css": {
+      "source": "css/hd-overworld.css",
+      "bytes": 4893,
+      "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1",
+      "currentSha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1",
+      "match": true
+    },
+    "css/hd-portraits.css": {
+      "source": "css/hd-portraits.css",
+      "bytes": 1468,
+      "sha256": "0f81311067dade4d1e5515db40432d224cfe4071737794e89cd9bf7248b39799",
+      "currentSha256": "0f81311067dade4d1e5515db40432d224cfe4071737794e89cd9bf7248b39799",
+      "match": true
+    },
+    "css/hd-spe.css": {
+      "source": "css/hd-spe.css",
+      "bytes": 2709,
+      "sha256": "8cd63f1e6b75182f9b55d31fdb33953fbff6b3b168d029a66e667cb895b5b84f",
+      "currentSha256": "8cd63f1e6b75182f9b55d31fdb33953fbff6b3b168d029a66e667cb895b5b84f",
+      "match": true
+    },
+    "css/hd-system-ui.css": {
+      "source": "css/hd-system-ui.css",
+      "bytes": 3417,
+      "sha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+      "currentSha256": "001d37af3a53b7af9a17c4235cdecca8554c27c9249f3f983a235ca1f71cb833",
+      "match": true
+    },
+    "pc.html": {
+      "source": "pc.html",
+      "bytes": 25619,
+      "sha256": "0bf94943b0202a1b4b007650f6edc12d288390edb2501a40ea0b83e719f4418f",
+      "currentSha256": "0bf94943b0202a1b4b007650f6edc12d288390edb2501a40ea0b83e719f4418f",
+      "match": true
+    },
+    "libs/dat-mod.lib": {
+      "source": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "currentSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "match": true
+    },
+    "assets/hd-overworld/china-lcc-cities.json": {
+      "source": "assets/hd-overworld/china-lcc-cities.json",
+      "bytes": 13172,
+      "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a",
+      "currentSha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a",
+      "match": true
+    },
+    "assets/hd-overworld/cities/fortified-city-v1.png": {
+      "source": "assets/hd-overworld/cities/fortified-city-v1.png",
+      "bytes": 972200,
+      "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db",
+      "currentSha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db",
+      "match": true
+    },
+    "assets/hd-overworld/cities/marker_empty.png": {
+      "source": "assets/hd-overworld/cities/marker_empty.png",
+      "bytes": 4286,
+      "sha256": "5ce998dc0225b0067664ea1208ecffc1ae3ae0fce96259a716157c848a707bff",
+      "currentSha256": "5ce998dc0225b0067664ea1208ecffc1ae3ae0fce96259a716157c848a707bff",
+      "match": true
+    },
+    "assets/hd-overworld/cities/marker_neutral.png": {
+      "source": "assets/hd-overworld/cities/marker_neutral.png",
+      "bytes": 4725,
+      "sha256": "93d9e81130daee0768f9ca8cb33fe377eaf3150de9d5e0366fc270837f4dd79b",
+      "currentSha256": "93d9e81130daee0768f9ca8cb33fe377eaf3150de9d5e0366fc270837f4dd79b",
+      "match": true
+    },
+    "assets/hd-overworld/cities/marker_owned.png": {
+      "source": "assets/hd-overworld/cities/marker_owned.png",
+      "bytes": 4589,
+      "sha256": "6bacd47b9bb9ea0099ff0f8702d3d3ffa8e6e7ba988d6285f074d40792c8a282",
+      "currentSha256": "6bacd47b9bb9ea0099ff0f8702d3d3ffa8e6e7ba988d6285f074d40792c8a282",
+      "match": true
+    },
+    "assets/hd-overworld/cities/marker_selected.png": {
+      "source": "assets/hd-overworld/cities/marker_selected.png",
+      "bytes": 7316,
+      "sha256": "d9dd764c18e3dfb7286a0456839375daadad5082e97d5f31ed7fdac482ca4785",
+      "currentSha256": "d9dd764c18e3dfb7286a0456839375daadad5082e97d5f31ed7fdac482ca4785",
+      "match": true
+    },
+    "assets/hd-overworld/GENERATED-ART.md": {
+      "source": "assets/hd-overworld/GENERATED-ART.md",
+      "bytes": 8991,
+      "sha256": "068a69d9979e73b19030d3d0b28749d2f901b97cc14b78dcccd3707bd0805e9f",
+      "currentSha256": "068a69d9979e73b19030d3d0b28749d2f901b97cc14b78dcccd3707bd0805e9f",
+      "match": true
+    },
+    "assets/hd-overworld/GEOGRAPHY.md": {
+      "source": "assets/hd-overworld/GEOGRAPHY.md",
+      "bytes": 4984,
+      "sha256": "d20e27a1fedce04e69084b853e034f609647c1903a4883e09685e3ff92d90dbb",
+      "currentSha256": "d20e27a1fedce04e69084b853e034f609647c1903a4883e09685e3ff92d90dbb",
+      "match": true
+    },
+    "assets/hd-overworld/jianan-cities.json": {
+      "source": "assets/hd-overworld/jianan-cities.json",
+      "bytes": 12624,
+      "sha256": "be5032bb1f6f81137b18f990528f89124d80fc1d5f1d93dabac72896c3ed893e",
+      "currentSha256": "be5032bb1f6f81137b18f990528f89124d80fc1d5f1d93dabac72896c3ed893e",
+      "match": true
+    },
+    "assets/hd-overworld/manifest.json": {
+      "source": "assets/hd-overworld/manifest.json",
+      "bytes": 7143,
+      "sha256": "c88469943c9e5fa6b9673d8504800da5195bc63c0ea3d04c40e1b71ec5bf3342",
+      "currentSha256": "c88469943c9e5fa6b9673d8504800da5195bc63c0ea3d04c40e1b71ec5bf3342",
+      "match": true
+    },
+    "assets/hd-overworld/palette/factions.json": {
+      "source": "assets/hd-overworld/palette/factions.json",
+      "bytes": 479,
+      "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098",
+      "currentSha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098",
+      "match": true
+    },
+    "assets/hd-overworld/README.md": {
+      "source": "assets/hd-overworld/README.md",
+      "bytes": 3668,
+      "sha256": "77a8283a6af95f255600c9f755bef0bce431a96b0e3956a77f2d5ae95c48e507",
+      "currentSha256": "77a8283a6af95f255600c9f755bef0bce431a96b0e3956a77f2d5ae95c48e507",
+      "match": true
+    },
+    "assets/hd-overworld/roads/adjacency.json": {
+      "source": "assets/hd-overworld/roads/adjacency.json",
+      "bytes": 925,
+      "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad",
+      "currentSha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad",
+      "match": true
+    },
+    "assets/hd-overworld/roads/pass.png": {
+      "source": "assets/hd-overworld/roads/pass.png",
+      "bytes": 490,
+      "sha256": "4594a8563568608329a2a19c7b4224247956d0249cb7ebc5aad5a27a366de64a",
+      "currentSha256": "4594a8563568608329a2a19c7b4224247956d0249cb7ebc5aad5a27a366de64a",
+      "match": true
+    },
+    "assets/hd-overworld/roads/stroke.png": {
+      "source": "assets/hd-overworld/roads/stroke.png",
+      "bytes": 108,
+      "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c",
+      "currentSha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c",
+      "match": true
+    },
+    "assets/hd-overworld/terrain/base_plains.jpg": {
+      "source": "assets/hd-overworld/terrain/base_plains.jpg",
+      "bytes": 2538377,
+      "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445",
+      "currentSha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445",
+      "match": true
+    },
+    "assets/hd-overworld/terrain/forest-cluster-v1.png": {
+      "source": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+      "bytes": 1540805,
+      "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f",
+      "currentSha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f",
+      "match": true
+    },
+    "assets/hd-overworld/terrain/mountain-cluster-v1.png": {
+      "source": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+      "bytes": 911013,
+      "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46",
+      "currentSha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46",
+      "match": true
+    },
+    "assets/hd-overworld/terrain/overlay_forest.png": {
+      "source": "assets/hd-overworld/terrain/overlay_forest.png",
+      "bytes": 72,
+      "sha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+      "currentSha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+      "match": true
+    },
+    "assets/hd-overworld/terrain/overlay_mountains.png": {
+      "source": "assets/hd-overworld/terrain/overlay_mountains.png",
+      "bytes": 72,
+      "sha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+      "currentSha256": "a54ddc4b657b5217f40ee975d30077fa269b6628960cf372a159d634f3e84c1e",
+      "match": true
+    },
+    "assets/hd-overworld/terrain/overlay_rivers.png": {
+      "source": "assets/hd-overworld/terrain/overlay_rivers.png",
+      "bytes": 93336,
+      "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7",
+      "currentSha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7",
+      "match": true
+    },
+    "assets/hd-overworld/ui/cursor.png": {
+      "source": "assets/hd-overworld/ui/cursor.png",
+      "bytes": 777,
+      "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994",
+      "currentSha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994",
+      "match": true
+    },
+    "assets/hd-overworld/ui/cursor_hover.png": {
+      "source": "assets/hd-overworld/ui/cursor_hover.png",
+      "bytes": 3060,
+      "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604",
+      "currentSha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604",
+      "match": true
+    },
+    "qr.png": {
+      "source": "qr.png",
+      "bytes": 19141,
+      "sha256": "2dcdbc804e603ce37be3f81b932291b5ff5ca7b70f6349f4cff32fcd64343c10",
+      "currentSha256": "2dcdbc804e603ce37be3f81b932291b5ff5ca7b70f6349f4cff32fcd64343c10",
+      "match": true
+    },
+    "fonts/HarmonyOS_Sans_SC_Regular.ttf": {
+      "source": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+      "currentSha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1",
+      "match": true
+    },
+    "assets/hd-portraits/manifest.json": {
+      "source": "assets/hd-portraits/manifest.json",
+      "bytes": 8741,
+      "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894",
+      "currentSha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894",
+      "match": true
+    },
+    "assets/hd-portraits/refs/index.json": {
+      "source": "assets/hd-portraits/refs/index.json",
+      "bytes": 224423,
+      "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f",
+      "currentSha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f",
+      "match": true
+    },
+    "favicon.png": {
+      "source": "favicon.png",
+      "bytes": 7349,
+      "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22",
+      "currentSha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22",
+      "match": true
+    },
+    "assets/hd-portraits/hd/hd_p1_0001_曹操.png": {
+      "source": "assets/hd-portraits/hd/hd_p1_0001_曹操.png",
+      "bytes": 1227801,
+      "sha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895",
+      "currentSha256": "e75fdd2ebeec7464e85291c99cd48cd2602d96f52963205899fc16e40fd11895",
+      "match": true
+    },
+    "assets/hd-portraits/hd/hd_p1_0005_马腾.png": {
+      "source": "assets/hd-portraits/hd/hd_p1_0005_马腾.png",
+      "bytes": 1577920,
+      "sha256": "dd470ee27ffaafd446cf4e79554379190d19cc23579aae215cd5d8b7a0181d1c",
+      "currentSha256": "dd470ee27ffaafd446cf4e79554379190d19cc23579aae215cd5d8b7a0181d1c",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/16-公孙瓒.png": {
+      "source": "assets/hd-portraits/refs/period-1/16-公孙瓒.png",
+      "bytes": 529,
+      "sha256": "82c610557e699c40bf9912a227d51b562113e595203c013bb3d1e42f30ccc443",
+      "currentSha256": "82c610557e699c40bf9912a227d51b562113e595203c013bb3d1e42f30ccc443",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/17-公孙度.png": {
+      "source": "assets/hd-portraits/refs/period-1/17-公孙度.png",
+      "bytes": 468,
+      "sha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074",
+      "currentSha256": "2f5220bac717965d31d966a823009a3a28fb412f006b040b775524a524129074",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/9-张杨.png": {
+      "source": "assets/hd-portraits/refs/period-1/9-张杨.png",
+      "bytes": 470,
+      "sha256": "1ced3f865d19d659ec7e7e6dc7349825468c5f7a90ce87cc36ed60f00de00c9a",
+      "currentSha256": "1ced3f865d19d659ec7e7e6dc7349825468c5f7a90ce87cc36ed60f00de00c9a",
+      "match": true
+    },
+    "assets/hd-portraits/hd/hd_p1_0013_刘备.png": {
+      "source": "assets/hd-portraits/hd/hd_p1_0013_刘备.png",
+      "bytes": 1891484,
+      "sha256": "7a6a7b2698676a40ca89cd724a7c9ae95d3e6b8b1fdbae121ac07e676507449b",
+      "currentSha256": "7a6a7b2698676a40ca89cd724a7c9ae95d3e6b8b1fdbae121ac07e676507449b",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/2-袁绍.png": {
+      "source": "assets/hd-portraits/refs/period-1/2-袁绍.png",
+      "bytes": 514,
+      "sha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9",
+      "currentSha256": "5115f9e266089b9e039399d4b0bd3b7294623817922eeb65902b4f532f6455e9",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/7-孔融.png": {
+      "source": "assets/hd-portraits/refs/period-1/7-孔融.png",
+      "bytes": 497,
+      "sha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127",
+      "currentSha256": "70f85de7b37d47ac84a8b093d2262ae56145d646c4286853d093a4f1cf7ea127",
+      "match": true
+    },
+    "assets/hd-portraits/hd/hd_p1_0011_王匡.png": {
+      "source": "assets/hd-portraits/hd/hd_p1_0011_王匡.png",
+      "bytes": 1675176,
+      "sha256": "4aa7721b2a7b49d0f47059e9b2238ad84303a9a4ff562027615dfcf4b21f7f46",
+      "currentSha256": "4aa7721b2a7b49d0f47059e9b2238ad84303a9a4ff562027615dfcf4b21f7f46",
+      "match": true
+    },
+    "assets/hd-portraits/hd/hd_p1_0000_董卓.png": {
+      "source": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+      "bytes": 1607223,
+      "sha256": "1de400c70f00b1cd2ca6ccb0d9574cbe3d5a169cc42778895bce8432c8689b26",
+      "currentSha256": "1de400c70f00b1cd2ca6ccb0d9574cbe3d5a169cc42778895bce8432c8689b26",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/10-韩馥.png": {
+      "source": "assets/hd-portraits/refs/period-1/10-韩馥.png",
+      "bytes": 429,
+      "sha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb",
+      "currentSha256": "444de590738cc01b30dbea88c5497149e4557958083d1bdebaca9680868114cb",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/6-陶谦.png": {
+      "source": "assets/hd-portraits/refs/period-1/6-陶谦.png",
+      "bytes": 517,
+      "sha256": "6fcda7a832e1aa18a0eeb42503f77e31d64d8f2e46daeda31bbc34de57564a2b",
+      "currentSha256": "6fcda7a832e1aa18a0eeb42503f77e31d64d8f2e46daeda31bbc34de57564a2b",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/18-张鲁.png": {
+      "source": "assets/hd-portraits/refs/period-1/18-张鲁.png",
+      "bytes": 449,
+      "sha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9",
+      "currentSha256": "e4ddebd6dd0f6efe87159641eee1890b1f31f074fd51520912dd9fde424fd4c9",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/8-刘岱.png": {
+      "source": "assets/hd-portraits/refs/period-1/8-刘岱.png",
+      "bytes": 474,
+      "sha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5",
+      "currentSha256": "f641049cb4a0e4a8b4c8cdaf3e4725987e078340aa0eee496afb7d5c1ea3e7e5",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/3-袁术.png": {
+      "source": "assets/hd-portraits/refs/period-1/3-袁术.png",
+      "bytes": 465,
+      "sha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e",
+      "currentSha256": "8536007513d1ef5fc709c48d37ecbae9232368ec93bab90e3d943540126ee68e",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/15-刘焉.png": {
+      "source": "assets/hd-portraits/refs/period-1/15-刘焉.png",
+      "bytes": 455,
+      "sha256": "78998110f2a6d9c5cfa037d0ebc806e2677ab47d452a8c9da8437a087dc4b2a7",
+      "currentSha256": "78998110f2a6d9c5cfa037d0ebc806e2677ab47d452a8c9da8437a087dc4b2a7",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/14-刘表.png": {
+      "source": "assets/hd-portraits/refs/period-1/14-刘表.png",
+      "bytes": 475,
+      "sha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1",
+      "currentSha256": "f25593edf4908a66d120e1117a59ac29b5dbaf4276271d22e8ad116f7a34fec1",
+      "match": true
+    },
+    "assets/hd-portraits/refs/period-1/4-孙坚.png": {
+      "source": "assets/hd-portraits/refs/period-1/4-孙坚.png",
+      "bytes": 508,
+      "sha256": "7989d3d7aa6f58aacce7afcd4c5597f11556faac8ef6c45912a421846db108e6",
+      "currentSha256": "7989d3d7aa6f58aacce7afcd4c5597f11556faac8ef6c45912a421846db108e6",
+      "match": true
+    },
+    "runner": {
+      "bytes": 42584,
+      "sha256": "3a27660e6ddcf18b95dbaa6bfc9aa3953ef4777368e4689038951e027f424d64",
+      "currentSha256": "3a27660e6ddcf18b95dbaa6bfc9aa3953ef4777368e4689038951e027f424d64",
+      "match": true
+    }
+  },
+  "screenshots": [
+    {
+      "path": "docs/validation/m4-overworld-20261008/map-1080p.png",
+      "source": "build/m4-overworld-final-default-v2/01-standard-native-map.png",
+      "bytes": 3082539,
+      "sha256": "da2e6d5229e7cb29daa8fdf1f7eb6de0852108565403f644fd895ae8211400b9"
+    },
+    {
+      "path": "docs/validation/m4-overworld-20261008/map-720p.png",
+      "source": "build/m4-overworld-final-default-v2/1280x720-restored.png",
+      "bytes": 1507395,
+      "sha256": "173786a8bfd773cbe30600f9dbad60051cea099a65231273fc783d50fb76d6d7"
+    },
+    {
+      "path": "docs/validation/m4-overworld-20261008/hainan-southern-ocean.png",
+      "source": "build/m4-overworld-final-default-v2/camera-05-south-and-ocean-pad.png",
+      "bytes": 2485041,
+      "sha256": "e3c13a3d476cf94ca4099ae11e7ee2bf9fd17292e12255d9d829d45cfc521e52"
+    },
+    {
+      "path": "docs/validation/m4-overworld-20261008/mini-map-1080p.png",
+      "source": "build/m4-overworld-mini-final/00-mini-map-1080p-hd.png",
+      "bytes": 1950103,
+      "sha256": "2fbc3c0bedf1fbb17dd78fb11e6381dd046d2aa239f9b50556b286e4100c12a9"
+    },
+    {
+      "path": "docs/validation/m4-overworld-20261008/zhangyang-jinyang-root.png",
+      "source": "build/m4-overworld-final-all-lords-v2/lord-9-city-04-root.png",
+      "bytes": 2232112,
+      "sha256": "7831e4561b6b902adcb4afa815344e1d7df6c619c5f80106fa8bd632e0151337"
+    },
+    {
+      "path": "docs/validation/m4-overworld-20261008/before-fix-double-exit.png",
+      "source": "build/m4-overworld-baseline-lords-v3/failure.png",
+      "bytes": 3038875,
+      "sha256": "9ed19763e508d22da23318eef3344fd62e893963786b529b806903eea2895436"
+    }
+  ],
+  "reports": {
+    "default": {
+      "ok": true,
+      "startedAt": "2026-10-08T04:03:43.085Z",
+      "finishedAt": "2026-10-08T04:04:51.302Z",
+      "checkpoints": 85,
+      "cityPointerVisits": 76,
+      "actualNewGameLords": 1,
+      "coverage": {
+        "pointerCities1080": 38,
+        "pointerCities720": 38,
+        "distinctOwnedRoots": 1,
+        "nonOwnedSelections": 74,
+        "actualTabHiding": true,
+        "cameraBounds": true,
+        "zoom": [
+          0.5,
+          2.2
+        ]
+      },
+      "uncaughtExceptions": 0,
+      "sourceDrift": [],
+      "rawReport": {
+        "path": "docs/validation/m4-overworld-20261008/runtime-default.json.gz",
+        "encoding": "gzip of complete original JSON bytes",
+        "bytes": 3307522,
+        "sha256": "127d20e04e01226f5f9c59a407798009773f300c8b69d40dba223739dd8856d5",
+        "gzipBytes": 332484,
+        "gzipSha256": "481b193359be00811c207a30def63aea7c12fe141d0f77ac35783596df800afe"
+      }
+    },
+    "allLords": {
+      "ok": true,
+      "startedAt": "2026-10-08T04:03:43.292Z",
+      "finishedAt": "2026-10-08T04:06:01.865Z",
+      "checkpoints": 109,
+      "cityPointerVisits": 100,
+      "actualNewGameLords": 18,
+      "coverage": {
+        "pointerCities1080": 38,
+        "pointerCities720": 38,
+        "distinctOwnedRoots": 25,
+        "nonOwnedSelections": 74,
+        "actualTabHiding": true,
+        "cameraBounds": true,
+        "zoom": [
+          0.5,
+          2.2
+        ]
+      },
+      "allLordRootIndices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        20,
+        21,
+        24,
+        26,
+        27,
+        33
+      ],
+      "uncaughtExceptions": 0,
+      "sourceDrift": [],
+      "rawReport": {
+        "path": "docs/validation/m4-overworld-20261008/runtime-allLords.json.gz",
+        "encoding": "gzip of complete original JSON bytes",
+        "bytes": 5179936,
+        "sha256": "303d5298b28c653ff0ee8639958a1629e4b1c8f30f740ae461c4edd49b7a32b1",
+        "gzipBytes": 510073,
+        "gzipSha256": "522432b94f57adee0c74e28d4910e17ef3b2abef13ca2de777dee0209027e081"
+      }
+    },
+    "core": {
+      "ok": true,
+      "startedAt": "2026-10-08T03:52:54.238Z",
+      "finishedAt": "2026-10-08T03:53:21.630Z",
+      "checkpoints": 27,
+      "uncaughtExceptions": 0,
+      "rawReport": {
+        "path": "docs/validation/m4-overworld-20261008/runtime-core.json.gz",
+        "encoding": "gzip of complete original JSON bytes",
+        "bytes": 1552915,
+        "sha256": "6863c406e6ebb9da36400963b784f463ae8baea9bbfacece41b320ff68e81397",
+        "gzipBytes": 135437,
+        "gzipSha256": "43e3bca383110c8c036493057e5c582a81c039d177123b070547c524f2fcf495"
+      }
+    },
+    "mini": {
+      "ok": true,
+      "startedAt": "2026-10-08T03:52:32.274Z",
+      "finishedAt": "2026-10-08T03:52:56.754Z",
+      "checkpoints": 23,
+      "uncaughtExceptions": 0,
+      "rawReport": {
+        "path": "docs/validation/m4-overworld-20261008/runtime-mini.json.gz",
+        "encoding": "gzip of complete original JSON bytes",
+        "bytes": 1937364,
+        "sha256": "577fc1cbeeeeed57cdab6720a9aee124ad5a4e1940df1539829014bc5cf86c3e",
+        "gzipBytes": 161212,
+        "gzipSha256": "10b33973c897c9a061bb236bce995dd66bb1d070b1743477d5cd6851d806df28"
+      }
+    }
+  },
+  "reportStorage": "All four complete original runtime result JSON files are preserved byte-for-byte in gzip artifacts. Decompression equality was verified; this index summarizes results and binds raw hashes without duplicate large native snapshots.",
+  "unitSourceHashes": {
+    "package.json": "e1b9c0885c7225854d28b49dd2ef26bbc9ad68b3169b899c373c111e1d4f20a9",
+    "scripts/test-hd-city-entry.mjs": "79eb2555ccd8d28a5d50bbe0f2d295a2201a743a67ec5db755d09e7309b50c26",
+    "scripts/test-hd-overworld-layers.mjs": "238a47836804d8a32b4c46ca315fc161e2cb0774448a4d3fa1db463cfbc06de7",
+    "scripts/test-hd-overworld-environment.mjs": "50dd3db1d7713af0fad2fa0ecd50ff2b1d1cb8c7934dad72cbded59aecfab5c4"
+  },
+  "finalWhitespaceCorrection": "The final v2 map runs include GENERATED-ART.md with its sole trailing blank line removed. Raw prompt text and original image bytes are unchanged; all 99 final hashes match the committed source candidates."
+}

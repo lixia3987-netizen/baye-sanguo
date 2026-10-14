@@ -1,0 +1,37 @@
+{
+  "tool": "image_gen.imagegen",
+  "mode": "built-in edit",
+  "version": 2,
+  "callOrdinalWithinVersion": 2,
+  "request": {
+    "transparent_background": false,
+    "prompt": "Use case: text-localization / precise-object-edit.\nEdit input image 1 only. It is the actual v1 high-resolution frame 1. Input image 2 is the original native pixel reference for the same frame.\nChange ONLY the text INSIDE the existing top central pale speech bubble. Replace its current incorrect two exclamation marks with exactly this black Chinese dialogue, in one horizontal line: 河北\nExact text (verbatim): \"河北\"\nThe exact character sequence is Chinese 河 then Chinese 北. Exactly two Chinese characters. There is no punctuation.\nRender the exact text large, crisp, dark black, centered comfortably within the ivory bubble. Keep the correct strokes and character order. Do not leave the bubble blank. Do not render !!. Do not add or replace any word or punctuation. No additional dialogue, no translation, no caption outside this bubble.\nPreserve the bubble outline, tail, location and size. Preserve EVERYTHING ELSE as closely to the edit target as possible: the two opposed helmeted ancient Chinese soldiers, identities, faces, expressions, gaze, torso/arm/leg/foot poses, exact double spear positions and orientations, armour, cloth, boots, mountain setting, all foreground rocks, background details, lighting, muted dark-gold/grey-green palette, paint texture, image dimensions, square framing and safe margins. No walking or attack changes, no extra people or objects. The only intended modification is the bubble interior text.\nKeep this a full opaque square illustration, with its complete painted background and no transparency. No cropping, no decorative border, no watermark, no added effects.",
+    "referenced_image_paths": [
+      "F:/project/baye-sanguo/build/r25-liuyan-40-art-v1/picture-1.png",
+      "F:/project/baye-sanguo/build/r25-native-liuyan-40/picture-1-nearest-4x.png"
+    ]
+  },
+  "references": [
+    {
+      "path": "build/r25-liuyan-40-art-v1/picture-1.png",
+      "role": "Edit target. Exact v1 generated frame; preserve everything except interior dialogue.",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v1\\picture-1.png",
+      "bytes": 2793104,
+      "sha256": "add4e62a629b6b89aeb2fd69f124414b0f85f94fe8582388687551c70f7f8674"
+    },
+    {
+      "path": "build/r25-native-liuyan-40/picture-1-nearest-4x.png",
+      "role": "Original native reference for frame composition and bubble position. Text transcription has separately been explicitly confirmed by the human-directed root visual review.",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-native-liuyan-40\\picture-1-nearest-4x.png",
+      "bytes": 3430,
+      "sha256": "59aed732456cbaf0483e1f17d96527b4ba7bbb1df0c9caa33e62c7833367c726"
+    }
+  ],
+  "textAuthority": {
+    "verbatim": "河北",
+    "kind": "Root actual visual transcription of the original native 4x image",
+    "fontMatchProven": false,
+    "previousFontComparison": "../r25-liuyan-40-art-v1/native-font-exact-comparison.json"
+  },
+  "scope": "Raw v2 revision only; v1 rejected originals retained; no production integration or runtime claim"
+}

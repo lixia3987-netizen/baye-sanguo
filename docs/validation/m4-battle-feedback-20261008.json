@@ -1,0 +1,498 @@
+{
+  "date": "2026-10-08",
+  "scope": "PC native battle range feedback; standard dictionary LIB, period 1, Ma Teng",
+  "environment": {
+    "platform": "Windows",
+    "node": "24.14.0",
+    "browser": "Chrome 154.0.8037.98",
+    "mode": "headless, temporary isolated browser profile",
+    "viewports": [
+      [
+        1920,
+        1080
+      ],
+      [
+        1280,
+        720
+      ]
+    ]
+  },
+  "javascript": {
+    "filesPassed": 15,
+    "nodeTestsPassed": 159,
+    "failed": 0,
+    "skipped": 0,
+    "feedbackCases": 13,
+    "commandCases": 37,
+    "renderCases": 31,
+    "log": "build/m4-feedback-validation/js-tests.log",
+    "nativeOracle": "Source-derived C expressions and macros with simulated U8 assignment, not compiled C execution"
+  },
+  "battle": {
+    "ok": true,
+    "checkpoints": 49,
+    "userInputs": 163,
+    "engineInputs": 291,
+    "battleKeys": 260,
+    "exceptions": 0,
+    "dialogs": 0,
+    "map": {
+      "width": 32,
+      "height": 32
+    },
+    "feedbackChecks": 18,
+    "activeChecks": 11,
+    "inactiveChecks": 7,
+    "visibleCellComparisons": 2082,
+    "cellCountMeaning": "Sum of per-check comparisons; repeated native cells are counted repeatedly, not unique map coverage",
+    "checks": [
+      {
+        "label": "MOVE initial",
+        "kind": "move",
+        "inputSeq": 7,
+        "actorIndex": 0,
+        "checkedCells": 198,
+        "inRangeCells": 8,
+        "focus": {
+          "x": 4,
+          "y": 16,
+          "status": "in",
+          "raw": 0,
+          "index": 64,
+          "label": "可移动 · 原地",
+          "targetIndex": null
+        },
+        "rangedUnits": []
+      },
+      {
+        "label": "MOVE blocked focus",
+        "kind": "move",
+        "inputSeq": 7,
+        "actorIndex": 0,
+        "checkedCells": 252,
+        "inRangeCells": 8,
+        "focus": {
+          "x": 0,
+          "y": 11,
+          "status": "out",
+          "raw": null,
+          "index": null,
+          "label": "不可移动",
+          "targetIndex": null
+        },
+        "rangedUnits": []
+      },
+      {
+        "label": "MOVE allowed focus",
+        "kind": "move",
+        "inputSeq": 7,
+        "actorIndex": 0,
+        "checkedCells": 198,
+        "inRangeCells": 8,
+        "focus": {
+          "x": 4,
+          "y": 16,
+          "status": "in",
+          "raw": 0,
+          "index": 64,
+          "label": "可移动 · 原地",
+          "targetIndex": null
+        },
+        "rangedUnits": []
+      },
+      {
+        "label": "MOVE 720p",
+        "kind": "move",
+        "inputSeq": 7,
+        "actorIndex": 0,
+        "checkedCells": 198,
+        "inRangeCells": 8,
+        "focus": {
+          "x": 4,
+          "y": 16,
+          "status": "in",
+          "raw": 0,
+          "index": 64,
+          "label": "可移动 · 原地",
+          "targetIndex": null
+        },
+        "rangedUnits": []
+      },
+      {
+        "label": "canceled MOVE",
+        "active": false,
+        "reason": "not-range-input"
+      },
+      {
+        "label": "HELP overlay",
+        "active": false,
+        "reason": "not-range-input"
+      },
+      {
+        "label": "VIEW overlay",
+        "active": false,
+        "reason": "not-range-input"
+      },
+      {
+        "label": "SYSTEM menu",
+        "active": false,
+        "reason": "native-owner"
+      },
+      {
+        "label": "CLASSIC mode",
+        "active": false,
+        "reason": "not-visible"
+      },
+      {
+        "label": "restored HD SYSTEM menu",
+        "active": false,
+        "reason": "not-visible"
+      },
+      {
+        "label": "ACTION menu after move",
+        "active": false,
+        "reason": "native-owner"
+      },
+      {
+        "label": "SKILL range 践踏",
+        "kind": "skill",
+        "inputSeq": 72,
+        "actorIndex": 1,
+        "checkedCells": 198,
+        "inRangeCells": 8,
+        "focus": {
+          "x": 7,
+          "y": 17,
+          "status": "out",
+          "raw": 2,
+          "index": 40,
+          "label": "不在计谋射程内",
+          "targetIndex": null
+        },
+        "rangedUnits": []
+      },
+      {
+        "label": "SKILL range 火攻",
+        "kind": "skill",
+        "inputSeq": 92,
+        "actorIndex": 2,
+        "checkedCells": 187,
+        "inRangeCells": 24,
+        "focus": {
+          "x": 6,
+          "y": 16,
+          "status": "out",
+          "raw": 2,
+          "index": 40,
+          "label": "不在计谋射程内",
+          "targetIndex": null
+        },
+        "rangedUnits": [
+          0,
+          1,
+          3,
+          4,
+          5
+        ]
+      },
+      {
+        "label": "SKILL range 飞矢",
+        "kind": "skill",
+        "inputSeq": 112,
+        "actorIndex": 3,
+        "checkedCells": 187,
+        "inRangeCells": 12,
+        "focus": {
+          "x": 8,
+          "y": 16,
+          "status": "out",
+          "raw": 2,
+          "index": 40,
+          "label": "不在计谋射程内",
+          "targetIndex": null
+        },
+        "rangedUnits": []
+      },
+      {
+        "label": "SKILL range 火攻",
+        "kind": "skill",
+        "inputSeq": 132,
+        "actorIndex": 4,
+        "checkedCells": 187,
+        "inRangeCells": 24,
+        "focus": {
+          "x": 7,
+          "y": 15,
+          "status": "out",
+          "raw": 2,
+          "index": 40,
+          "label": "不在计谋射程内",
+          "targetIndex": null
+        },
+        "rangedUnits": [
+          1,
+          2,
+          3,
+          5
+        ]
+      },
+      {
+        "label": "SKILL range 火攻",
+        "kind": "skill",
+        "inputSeq": 152,
+        "actorIndex": 5,
+        "checkedCells": 187,
+        "inRangeCells": 24,
+        "focus": {
+          "x": 9,
+          "y": 14,
+          "status": "out",
+          "raw": 2,
+          "index": 40,
+          "label": "不在计谋射程内",
+          "targetIndex": null
+        },
+        "rangedUnits": [
+          3,
+          4
+        ]
+      },
+      {
+        "label": "SKILL range 践踏",
+        "kind": "skill",
+        "inputSeq": 178,
+        "actorIndex": 0,
+        "checkedCells": 150,
+        "inRangeCells": 8,
+        "focus": {
+          "x": 6,
+          "y": 17,
+          "status": "out",
+          "raw": 2,
+          "index": 40,
+          "label": "不在计谋射程内",
+          "targetIndex": null
+        },
+        "rangedUnits": [
+          1,
+          2
+        ]
+      },
+      {
+        "label": "29-attack-target-preview",
+        "kind": "attack",
+        "inputSeq": 256,
+        "actorIndex": 1,
+        "checkedCells": 140,
+        "inRangeCells": 4,
+        "focus": {
+          "x": 12,
+          "y": 16,
+          "status": "in",
+          "raw": 1,
+          "index": 13,
+          "label": "射程内敌将",
+          "targetIndex": 11
+        },
+        "rangedUnits": [
+          11
+        ]
+      }
+    ],
+    "attack": {
+      "actor": "庞德",
+      "target": "方悦",
+      "targetTroopsBefore": 800,
+      "targetTroopsAfter": 742
+    },
+    "skill": {
+      "actor": "马腾",
+      "id": 30,
+      "name": "谍报",
+      "mpBefore": 41,
+      "mpAfter": 31,
+      "useMp": 10,
+      "effects": [
+        {
+          "field": "food.knownEnemy",
+          "before": 0,
+          "after": 1384
+        }
+      ]
+    },
+    "artifactDirectory": "build/m4-feedback-battle-final-v2"
+  },
+  "core": {
+    "ok": true,
+    "checkpoints": 14,
+    "exceptions": 0,
+    "dialogs": 0,
+    "artifactDirectory": "build/m4-feedback-runtime-final"
+  },
+  "sources": {
+    "baye.js": {
+      "source": "js\\baye.js",
+      "bytes": 191660,
+      "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+    },
+    "baye.wasm": {
+      "source": "js\\baye.wasm",
+      "bytes": 4214737,
+      "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+    },
+    "baye.wasm.map": {
+      "source": "js\\baye.wasm.map",
+      "bytes": 29629,
+      "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+    },
+    "baye.build.json": {
+      "source": "js\\baye.build.json",
+      "bytes": 1878,
+      "sha256": "e572f346ae7c13a44388f712885ac398f060a6bc6e85ed5819dcf173ca972038"
+    },
+    "hd-battle.js": {
+      "source": "js\\hd-battle.js",
+      "bytes": 66858,
+      "sha256": "24924218c2c2ca971a73f665fe5b894eca191193f326625defdc11a68f6ccd1a"
+    },
+    "hd-battle-terrain.js": {
+      "source": "js\\hd-battle-terrain.js",
+      "bytes": 15066,
+      "sha256": "6b834b4dab0e5949fd2e4113a5cebfe779b8b74162eb73cfa97bbecab571de52"
+    },
+    "hd-battle-feedback.js": {
+      "source": "js\\hd-battle-feedback.js",
+      "bytes": 12212,
+      "sha256": "ff9f026ad86b50174b7f2f4e0b5b1b91fa9f2b0800a7a515ce2e8663ac23f90f"
+    }
+  },
+  "engineManifest": {
+    "schemaVersion": 1,
+    "sourceRevision": "fe1eb426ff2c1fe4c9badb30860b8228fe23f0b8",
+    "engineSourceSha256": "a7161879af333e617f4347dba8f9cabec5831adcd54ee64b558a57822c74848d",
+    "engineSourceModified": true,
+    "emscriptenVersion": "3.1.51",
+    "cmakeVersion": "cmake version 3.31.6",
+    "sourceDateEpoch": 1791382657,
+    "hdMenuProtocol": {
+      "nativeFallback": 254,
+      "controlField": "g_hdFightMenuControl"
+    },
+    "hdInputProtocol": {
+      "version": 3,
+      "fight": [
+        "g_hdFightInputKind",
+        "g_hdFightInputSeq",
+        "g_hdFightActor"
+      ],
+      "menu": [
+        "g_hdMenuActive",
+        "g_hdMenuContext",
+        "g_hdMenuKind",
+        "g_hdMenuSeq"
+      ],
+      "march": [
+        "g_hdMarchPhase",
+        "g_hdMarchSession",
+        "g_hdMarchOrigin",
+        "g_hdMarchSelected",
+        "g_hdMarchInputSeq",
+        "g_hdMapInputSeq"
+      ],
+      "report": [
+        "g_hdReportActive",
+        "g_hdReportInputSeq"
+      ],
+      "record": [
+        "g_hdRecordActive",
+        "g_hdRecordMode",
+        "g_hdRecordIndex",
+        "g_hdRecordCount",
+        "g_hdRecordSeq"
+      ],
+      "qty": [
+        "g_hdQtyActive",
+        "g_hdQtySession",
+        "g_hdQtyInputSeq",
+        "g_hdQtyLastKey",
+        "g_hdQtyCursor",
+        "g_hdQtyStep",
+        "g_hdQtyReady"
+      ]
+    },
+    "saveProtocol": {
+      "version": 149,
+      "legacyVersions": [
+        144,
+        145,
+        146,
+        147,
+        148
+      ],
+      "filesPerSlot": 2,
+      "fightersBytes": 600,
+      "goodsQueueBytes": 4000
+    },
+    "artifacts": {
+      "baye.js": {
+        "bytes": 191660,
+        "sha256": "339a536d7dc202bccf8aed66919d7992220d2b1d28171baad218e73f0415b81c"
+      },
+      "baye.wasm": {
+        "bytes": 4214737,
+        "sha256": "349b38dad16ce9c0f5e241ba742a456e0fb93319cb2e227915f697baac76ea28"
+      },
+      "baye.wasm.map": {
+        "bytes": 29629,
+        "sha256": "cff29395a02ab13bf792682880aa19c5e47bae673d0dee5eec9053ccfbd55865"
+      }
+    }
+  },
+  "screenshotsReviewed": [
+    {
+      "path": "build/m4-feedback-battle-final-v2/16-move-range-1080p.png",
+      "sha256": "3ce70d374384d94cb5f9f58e5a30447cf12c2650ee412079ab95adb89e23c6f1"
+    },
+    {
+      "path": "build/m4-feedback-battle-final-v2/16-move-range-720p.png",
+      "sha256": "6a63fcf9e6684ef0612eab3308507a8589a35544ee86f08ab105a754141bd3b8"
+    },
+    {
+      "path": "build/m4-feedback-battle-final-v2/16-move-blocked-focus.png",
+      "sha256": "4137a17058eed276c1c6f0aa6c778987e4a09564471b87581389b685324148dd"
+    },
+    {
+      "path": "build/m4-feedback-battle-final-v2/29-attack-target-preview.png",
+      "sha256": "7ca0f219e2fc3bb5ceb6d1480410ec49142d56d734d248f8f70ef123dda6dbad"
+    },
+    {
+      "path": "build/m4-feedback-battle-final-v2/30-skill-range-1-1.png",
+      "sha256": "264dc49c54e7a14878e0a23f04971ddbd3f6838173f3f02ded1a2b23117d9c6a"
+    },
+    {
+      "path": "build/m4-feedback-battle-final-v2/30-skill-range-5-2.png",
+      "sha256": "0e5f955df5685ce83d6c4f3c20b95505db8248a8cd15cf38de05b11e4ef74ba7"
+    }
+  ],
+  "evidenceLimits": [
+    "Feedback comparisons read the current debug model and native mask; Canvas painting is supported separately by render tests and reviewed screenshots.",
+    "Zero-input checks cover idle rendering and viewport repaint after explicit cursor-navigation keys have completed. Real player actions are counted separately.",
+    "Full native battle snapshot is unchanged during the existing idle check; range cursor/viewport tests additionally compare all unit fields.",
+    "Purple skill range and in-range friendly markers were checked in real battle, but selected targeted skills were canceled when no eligible target existed. The confirmed effect was non-targeted intelligence skill 30.",
+    "SPE remains enlarged native LCD imagery; no HD animation assets or event/frame protocol were replaced.",
+    "No full campaign/save loop, other periods, real Mod battle, mobile acceptance or new FPS/input-latency measurement in this batch."
+  ],
+  "blockedCRegression": {
+    "reason": "cc/gcc/clang unavailable on current Windows PATH",
+    "notCountedAsPassed": [
+      "scripts/test-hd-battle-mode.mjs",
+      "scripts/test-hd-engine-protocol.mjs",
+      "scripts/test-hd-campaign-engine.mjs",
+      "scripts/test-hd-save-transaction.mjs"
+    ]
+  },
+  "priorAttempt": {
+    "artifactDirectory": "build/m4-feedback-battle-final",
+    "result": "Stopped after successful MOVE range/720p checks because new test caller passed null instead of the helper inactive state. Corrected test parameter; full rerun passed."
+  }
+}

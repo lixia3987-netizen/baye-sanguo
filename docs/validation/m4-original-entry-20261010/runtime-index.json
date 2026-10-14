@@ -1,0 +1,954 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-10-10T12:18:28.283Z",
+  "scope": "Exact executed reports and runner bytes; all entry screenshots and one current HD map image archived. Other map screenshots remain local and are listed by hash.",
+  "entries": [
+    {
+      "original": {
+        "path": "build/r24-full-source-tests-v1-execution.json",
+        "bytes": 3501,
+        "sha256": "5bc5c0691b0e074c31a3e1303f81d69cf34bd94608bac022270e412511d7caa4"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-full-source-tests-v1-execution.json.gz",
+        "bytes": 1069,
+        "sha256": "a5a601d6bfb25b73a58f52610cfbc7453c7cc149d27e3e5f501553daa25dd6dc"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-full-source-tests-v1.log",
+        "bytes": 288208,
+        "sha256": "f789face37b3ac0c0e7bc5d165978a5676318f0e2c6d2c8e95867ce9c70cb279"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-full-source-tests-v1.log.gz",
+        "bytes": 52234,
+        "sha256": "22ac714a33935a872fd931dd4817af1ca58af32af1ba928dd0018cd230410386"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-full-source-tests-v1-sources-pre.json",
+        "bytes": 213759,
+        "sha256": "a48271436fc672f67f49139f82eccc1ce94dcbd91ddc29bb7fc335316a849297"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-full-source-tests-v1-sources-pre.json.gz",
+        "bytes": 55444,
+        "sha256": "d57db32500010160d67de50b08cb7dcb68ce3e59c18da061d56bfe6e9c9e9cc9"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-full-source-tests-v1-sources-post.json",
+        "bytes": 213759,
+        "sha256": "a48271436fc672f67f49139f82eccc1ce94dcbd91ddc29bb7fc335316a849297"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-full-source-tests-v1-sources-post.json.gz",
+        "bytes": 55444,
+        "sha256": "d57db32500010160d67de50b08cb7dcb68ce3e59c18da061d56bfe6e9c9e9cc9"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-run-source-tests-root-v1.mjs",
+        "bytes": 3210,
+        "sha256": "b230ddbf0c7123b307ae437dc472c97d75d35eb7a4f681e3e0ee6dcd74926300"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-run-source-tests-root-v1.mjs.gz",
+        "bytes": 1448,
+        "sha256": "3b9eaab6d32686c92d98002a8d56af92ad8c95b1d25d6fe7a1791e7ff0b6ba59"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/original-game-focused-tests-v2.json",
+        "bytes": 4364,
+        "sha256": "9bf0e5639aa01a44f1e6072e1f65343bafd2771529690c8b4acce47a5faa4cec"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__original-game-focused-tests-v2.json.gz",
+        "bytes": 1222,
+        "sha256": "99919ef7ff30ccbf5e4dbcdc47d214e4a34d93777e7163ba7fb9e368713f8f48"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/original-game-focused-tests-v2.log",
+        "bytes": 10170,
+        "sha256": "84ef25d1c907de9cf8d76fc7afaa6dd0a23f54c10da71ed3462383921ea24c42"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__original-game-focused-tests-v2.log.gz",
+        "bytes": 2080,
+        "sha256": "48b81cb5227db6ed2d6ff8cd4df72467983c4ea131bd8ca6ddbd132c3e839a5d"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-source-independent-review.json",
+        "bytes": 5981,
+        "sha256": "eae7d994d2caf387a5076fef3f2303d15fbaaf3d44a3e063ca4e76a97efc7852"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-source-independent-review.json.gz",
+        "bytes": 2649,
+        "sha256": "657f9e39709f89629b04514db92587c8cc5a49b997a48bec98aefb08759d338e"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-maintained-preflight-root-v1/result.json",
+        "bytes": 11382,
+        "sha256": "736b3581e4b291c58a77b0e01f160aa3d5ee7f24ea4c6f35f8283b4cd835bb41"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-maintained-preflight-root-v1__result.json.gz",
+        "bytes": 3807,
+        "sha256": "bc8d549912c779aba030476d48fff2b1c2601ae229af287c49801abed4d94626"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-maintained-preflight-root-v1/source-verification.json",
+        "bytes": 16379,
+        "sha256": "2be928a101e3fb433b47e879c7df7cb22055530832ec9d684b2128934c4acb54"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-maintained-preflight-root-v1__source-verification.json.gz",
+        "bytes": 3697,
+        "sha256": "a9b82bd12b094d38e05126fc623fd0bb707b14b77872484849d694b32dcbc801"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "scripts/test-original-game-runtime.mjs",
+        "bytes": 22981,
+        "sha256": "a9c0549c387a654848159a65926dfd376a31835e43673a7cb25e35ce2caa9454"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/scripts__test-original-game-runtime.mjs.gz",
+        "bytes": 8353,
+        "sha256": "6b60365850c9332e9690c9a5bbbff448efe0d654c58f22d19726ebef045faba0"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-run-original-entry-root-v1.mjs",
+        "bytes": 3051,
+        "sha256": "6e8d1408115f34adf4dd0b1345aee8f812aa88fc3242b6c408df464e123b869c"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-run-original-entry-root-v1.mjs.gz",
+        "bytes": 1443,
+        "sha256": "c2197eadbc2bedc83f75926209469199accf55f9188ad704c627b4a034b038f2"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/result.json",
+        "bytes": 694213,
+        "sha256": "fb3679fd065ab38b06453c19cabdc7614b02daa0f55759cdb74029f4971905ad"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-actual-v1__result.json.gz",
+        "bytes": 26326,
+        "sha256": "5fbb8a39b48e0a3ffab50cb797b66b4e103551eab982183496c7a756d2856c24"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/source-verification.json",
+        "bytes": 18657,
+        "sha256": "655537cd6acba40cc36ada70992284e737f99aa2b2fafad9c65b512a0a072842"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-actual-v1__source-verification.json.gz",
+        "bytes": 4217,
+        "sha256": "11783a2ac5f1c7475413fc74206935c1090c24d59d6418a2a574672d34ef9e53"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/isolation.json",
+        "bytes": 409,
+        "sha256": "6f098d35ccbdd42b4993a89e57fa21f3adbe6824353569bb98f9b84ba22e3ced"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-actual-v1__isolation.json.gz",
+        "bytes": 244,
+        "sha256": "9b023dbceb55bc364c0daf83de381c1fbf87e68508128a1e24349de84bd49b19"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1-isolation-root.json",
+        "bytes": 3187,
+        "sha256": "1404e2846cf1ff5035c65572d0a9ef06ae7c6cd1a2be06433977367339e8c906"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-actual-v1-isolation-root.json.gz",
+        "bytes": 1194,
+        "sha256": "555e1b2bfcafa50ee945eaaa2dab429b713727df05602756bfea694f9349a14d"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1.log",
+        "bytes": 155,
+        "sha256": "a5b2a33df886319a13e4eb9f170e22df12fce8ed68c4ea37ce5b4a946d0d83a7"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-actual-v1.log.gz",
+        "bytes": 148,
+        "sha256": "2430ec082a182a688d60ed1ef5527d2b140cf09de5cb58460d08a400aa870a89"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "scripts/test-hd-overworld-runtime.mjs",
+        "bytes": 58335,
+        "sha256": "d8c4db269f589af9fa4158e89f34e814cc3fbfbfdc053c404264fce59d96cdd5"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/scripts__test-hd-overworld-runtime.mjs.gz",
+        "bytes": 18051,
+        "sha256": "4f35f7aba66e07303fe55fb7aa6144583d09a2e99bc5fc4f4828a5a3f88a0e60"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-run-overworld-root-v1.mjs",
+        "bytes": 3473,
+        "sha256": "1d1133260581191e3a54131495471e8c60fb8b6adbecb3f3aa6f1afa31f57944"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-run-overworld-root-v1.mjs.gz",
+        "bytes": 1693,
+        "sha256": "80b61c7a72496694d0b78cb101a8ba3828b3b00b2fdb4a8ee6f06d156e7b7c89"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-overworld-original-entry-bridge-v1/result.json",
+        "bytes": 4702573,
+        "sha256": "1740d550e9b3af6b2462e2f3197be00eaa587bfd80624291d855bbc3757f4459"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-overworld-original-entry-bridge-v1__result.json.gz",
+        "bytes": 382450,
+        "sha256": "97800006462d00ee35a3e0cd5427590e2695141251bfccb23eb2b2ad2c3c677e"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-overworld-original-entry-bridge-v1/source-verification.json",
+        "bytes": 24807,
+        "sha256": "3d600bf2367f3be567993aae19128767abe5e2e2174d0c26003f7e59af163c3f"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-overworld-original-entry-bridge-v1__source-verification.json.gz",
+        "bytes": 5347,
+        "sha256": "214c0d02d12a25271c2f4b8921c3f890189b2e115c77a4bc8cd64433582bffc8"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-overworld-original-entry-bridge-v1/isolation.json",
+        "bytes": 503,
+        "sha256": "9e0a47511ed41fbe8f8a3560df4fde44904a781ca1d6bfa1cfc8cc47951393b5"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-overworld-original-entry-bridge-v1__isolation.json.gz",
+        "bytes": 296,
+        "sha256": "ed8b7b25c33f325fdfcc87c0fe603310b21a8ba7609316aa601a2e20d3d9a339"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-overworld-original-entry-bridge-v1-isolation-root.json",
+        "bytes": 4408,
+        "sha256": "16b43db1b95ca834c7365ff024e95c198b57765b912913b2c5458e3af2767a3d"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-overworld-original-entry-bridge-v1-isolation-root.json.gz",
+        "bytes": 1760,
+        "sha256": "594af8632dba502e769a43d977dd3854eec52de7b23f7ce6d3472805f14f96c5"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-overworld-original-entry-bridge-v1.log",
+        "bytes": 2941,
+        "sha256": "8262fed7ba9fd8044d01a8ff42aa6de3bd0b25b4d981a5f78ff1237703ed9bae"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-overworld-original-entry-bridge-v1.log.gz",
+        "bytes": 527,
+        "sha256": "7f0a5b20baf4eb61f547e9d115d10b8e637c7b2a9b275370e8767add98781e12"
+      },
+      "encoding": "gzip"
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-runtime-source-peer-review-v1.json",
+        "bytes": 4275,
+        "sha256": "5f5853758cec66e422df7be7faa86be41828991230237bf6cd66759b7376586d"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/build__r24-original-entry-runtime-source-peer-review-v1.json.gz",
+        "bytes": 1906,
+        "sha256": "6270705b769699216887cd70373bc350990cbdac8a850c1bcc1e9feb28176cc2"
+      },
+      "encoding": "gzip"
+    }
+  ],
+  "images": [
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/download-404-retry-failure.png",
+        "bytes": 66533,
+        "sha256": "1cbe4072d28a35ad0fb6558a1df7fbbc7b27a5c7bcafab572d0678ae6c7b2618"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/download-404-retry-failure.png",
+        "bytes": 66533,
+        "sha256": "1cbe4072d28a35ad0fb6558a1df7fbbc7b27a5c7bcafab572d0678ae6c7b2618"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/download-404-retry-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/download-404-retry-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/first-no-path.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/first-no-path.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/old-sc-cache-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/old-sc-cache-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/same-path-wrong-cache-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/same-path-wrong-cache-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/verified-cache-offline-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/verified-cache-offline-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/wrong-SHA-retry-failure.png",
+        "bytes": 66506,
+        "sha256": "e28543efea761cbcbb7fedcb82f3a1c653c126238ea0beb5dccce2ea6c2a11cb"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/wrong-SHA-retry-failure.png",
+        "bytes": 66506,
+        "sha256": "e28543efea761cbcbb7fedcb82f3a1c653c126238ea0beb5dccce2ea6c2a11cb"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-original-entry-actual-v1/wrong-SHA-retry-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/wrong-SHA-retry-success.png",
+        "bytes": 63318,
+        "sha256": "50e313227c327202c27e76b640677a8fa361319558caf533cf18160ac8e9d285"
+      }
+    },
+    {
+      "original": {
+        "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-12-root.png",
+        "bytes": 2233152,
+        "sha256": "c053b048b2b1a4ce846ef50302685dd8afb3f7a37de20e83e079954a286c974a"
+      },
+      "archived": {
+        "path": "docs/validation/m4-original-entry-20261010/original-hd-city-root-1080.png",
+        "bytes": 2233152,
+        "sha256": "c053b048b2b1a4ce846ef50302685dd8afb3f7a37de20e83e079954a286c974a"
+      }
+    }
+  ],
+  "omittedMapImages": [
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/01-standard-native-map.png",
+      "bytes": 3095686,
+      "sha256": "1443cb14b95d6984bab7c8b82a047ab00896da23cc9503e24eb21728bfd23251"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-design32-full.png",
+      "bytes": 1404048,
+      "sha256": "1e95b8572edcc6ede9615b1679e4cabf228c5363a06ee22f9e3ea9aeec60936a"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-design32-roi.png",
+      "bytes": 3741,
+      "sha256": "312d4f261fa502fb8778d635ee005d0222c59ebadd82c9be47580fe1586aeacf"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-panned-full.png",
+      "bytes": 1437302,
+      "sha256": "914c0cfaa0813f899a759fc9ee4f936397f07e5b415e233154da2f07bfe956c4"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-panned-roi.png",
+      "bytes": 3740,
+      "sha256": "f26b7d06009698cbb540efa8169b8c218be5a86f9d190c4c4161e1fa178976fe"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-restored-full.png",
+      "bytes": 1507294,
+      "sha256": "b0d4800ee95bb2ea7ce20168194bed4ef2138ca2fe7a8205bce2af8db73e8772"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-restored-roi.png",
+      "bytes": 3825,
+      "sha256": "f529f702ea0f7480dc09b12441e3c381630627956cbc985a09fe2dc62fd87b98"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-restored.png",
+      "bytes": 1507365,
+      "sha256": "3a0e31923105fba9ffd74c7fcf7ca018e4e196df1c62bbf50a3aa3d9b00ebd4d"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-zoomed-full.png",
+      "bytes": 1283171,
+      "sha256": "24aa0e34d19c0efc8437b4e7568228c3198cf1fca42f555575b6042a95817b76"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-bridge-zoomed-roi.png",
+      "bytes": 3578,
+      "sha256": "c14ba10c1e7743dafd9508228fcaf41822018b6769088afe48a91bed8af0fc6e"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-00-selected.png",
+      "bytes": 1508157,
+      "sha256": "7db0fb80550fc621688f970e9c496c660beb3073c9328ef6792d8f3fa468a431"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-01-selected.png",
+      "bytes": 1508544,
+      "sha256": "3bc604af4a58d976bc2b2d683d503ae273221b10bbbf3aa910fd715e8ab59492"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-02-selected.png",
+      "bytes": 1381326,
+      "sha256": "8e5129a9a8ef155a85dae12387b0aa4e3fba09994bb38679601788b1e7286661"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-03-selected.png",
+      "bytes": 1381173,
+      "sha256": "97473c81f01cf9f5a0543bd582215b90336fdbf962f9a7e3034fd35cf132eb8c"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-04-selected.png",
+      "bytes": 1380742,
+      "sha256": "8f62201ce74be915cfd4be8f0057cdced4c3d2e66f6a23ad9334cf8d7c981ede"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-05-selected.png",
+      "bytes": 1382022,
+      "sha256": "962da869e24358f93f3288248fdc9087d19838a798c372348aa4b729c22044f7"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-06-selected.png",
+      "bytes": 1382694,
+      "sha256": "ee5e79e6ad3c4db98f0355502d4ebe11dca16148ccdb5fecaba49c499225674f"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-07-selected.png",
+      "bytes": 1382276,
+      "sha256": "139da19fc838da1dca9eba814061befc92aecd31546c08ed86a52dc834c42111"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-08-selected.png",
+      "bytes": 1568702,
+      "sha256": "6cc20afc2220fffd78552328030b61ccd083b51f1be7a46acdf6cfd3f5485224"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-09-selected.png",
+      "bytes": 1568722,
+      "sha256": "bda8e7823568600e875a1b4e89adb4568f5729eb0b47c55fae57d580769f91d3"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-10-selected.png",
+      "bytes": 1568800,
+      "sha256": "718c2f8fdb4db57ce3ed31a45723328336faa39436dea6f6a5ac01dee41150c8"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-11-selected.png",
+      "bytes": 1569725,
+      "sha256": "ae87f754d1f3146b8b5be6ad5032933480e2a4f3e297a18886d6e01a32411f79"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-12-root.png",
+      "bytes": 843469,
+      "sha256": "e8c17eb47d597926d4750473451b4ed445f75fe1b0dd51e27c543510fcd8d1b6"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-13-selected.png",
+      "bytes": 1569814,
+      "sha256": "554f2b4a37c2b2919a0e3b12d9f2b2f55504718c7d1f1f13014af98205208f0c"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-14-selected.png",
+      "bytes": 1568637,
+      "sha256": "1471bdb716a89cc4ab98d44517064c151ff6cb6a94e1c646d9acb83a60bbf638"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-15-selected.png",
+      "bytes": 1569117,
+      "sha256": "eade9b73b759ddb7dbcad7d28c35525741741144e8af1916e3ebfbe8bd9234f1"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-16-selected.png",
+      "bytes": 1569762,
+      "sha256": "e81a2d153e0670ad23e0af185bb7a3d002036fcfdcf2a7ffb941c2a9ea2916e1"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-17-selected.png",
+      "bytes": 1569708,
+      "sha256": "cf39e114c0867b1b848651fa1f07b7989743d8161098f79f2023a11efc323cca"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-18-selected.png",
+      "bytes": 1570123,
+      "sha256": "8efa8452a9fc703a957d2461fd8d9f8968ce025466fc70067f0ac080480ce02b"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-19-selected.png",
+      "bytes": 1568716,
+      "sha256": "5b0e6b8e2944f25e2487319d10b9690bb14ad1ff1a06984c910857db2428f6ee"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-20-selected.png",
+      "bytes": 1569629,
+      "sha256": "02cc7eaa1ed0bc22dfbc67df3065a5efac29bc5631f3a64800f867c4252f9495"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-21-selected.png",
+      "bytes": 1569713,
+      "sha256": "cbfb7dd29cfb2e8617a4d35ed9c963b389dde97fd681f2a1defd09c5022312d0"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-22-selected.png",
+      "bytes": 1569287,
+      "sha256": "74739fe534d8d7345001312a8414bcd0b1ff20f014cd91d88e0b8f2d59a684fa"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-23-selected.png",
+      "bytes": 1569419,
+      "sha256": "f85dea42c060189b5e616236e3fd1edb236be0f0aaad15bb9676818a84c6b257"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-24-selected.png",
+      "bytes": 1735053,
+      "sha256": "5665e4a178a9396547960917219b28a080f417ad6572343810952cde6e412078"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-25-selected.png",
+      "bytes": 1735018,
+      "sha256": "fba6970a701baaecb8c40564685c8392c95205075839408f8492bebbbba316a9"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-26-selected.png",
+      "bytes": 1735151,
+      "sha256": "dcc527689ad7c6e7f77ec51e24b0e42bb7005bf0d4ba01749dc74f580b847c45"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-27-selected.png",
+      "bytes": 1734890,
+      "sha256": "46c5565a0c92dd74fad1aabdf0ab90fc3ed43656c7e3f54385580249e6f5856b"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-28-selected.png",
+      "bytes": 1734759,
+      "sha256": "8194f140f7e54b417e324fe2090e875df259a9404242ed9cd3bcbb5938501788"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-29-selected.png",
+      "bytes": 1546892,
+      "sha256": "55ce039404219e10dc1ff570a8d9a278ec8e46060931f42e5f8635da33e6e8bb"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-30-selected.png",
+      "bytes": 1546267,
+      "sha256": "97ce9fd67ef555baf6e858663f841363c66dc6607480b08342f303d78f3104f5"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-31-selected.png",
+      "bytes": 1546274,
+      "sha256": "8739867a7a3188e96550c2599f8b4f453126ace6db1d738754794a874678b850"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-32-selected.png",
+      "bytes": 1546905,
+      "sha256": "b757b48d66d7e1ac6c92c43c872565a7b02074427168f67a2de50195e2fd17f3"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-33-selected.png",
+      "bytes": 1547387,
+      "sha256": "0f0e5e3bbe4beb053756f025be15a54327b8ed0afa8e40424c17801c2676c654"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-34-selected.png",
+      "bytes": 1546547,
+      "sha256": "425e4153d12bad08b0fd314a9a45367ba15b759e1c3275563c1ca8b421a83f17"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-35-selected.png",
+      "bytes": 1546908,
+      "sha256": "ab0526aab3076e1d1c4da9a3a98da01eef9e1f7b443def60869f35a0f75b3bdf"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-36-selected.png",
+      "bytes": 1546827,
+      "sha256": "dc0fa112090afe6ecc0bb52576ea99bfd21418646033a90008f6dd89cc2a2951"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-city-37-selected.png",
+      "bytes": 1707701,
+      "sha256": "847931d0d0435952b3c40cd4e32d89a1af74868a829390c32abd4525d9afa1db"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1280x720-restored.png",
+      "bytes": 1507271,
+      "sha256": "1355c33c57a61528491b99565a7d2b160caa2062347abbb28fe4b1fbb98fe704"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-design32-full.png",
+      "bytes": 2960580,
+      "sha256": "c637992b69d4884e7582a3501db03691ff6517630868cdb2d341aaa52c6aff0d"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-design32-roi.png",
+      "bytes": 5681,
+      "sha256": "66db3c22bad5702e789e16842291bd98d7962f5c1afa4136921334bf6ba23e87"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-panned-full.png",
+      "bytes": 2936740,
+      "sha256": "237a80b0890f391cb3ce0c950626d77a1beb1b5d4d08ad2fb8a37a79b92a8a56"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-panned-roi.png",
+      "bytes": 5681,
+      "sha256": "66db3c22bad5702e789e16842291bd98d7962f5c1afa4136921334bf6ba23e87"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-restored-full.png",
+      "bytes": 3096417,
+      "sha256": "668ce52211092ace9e5012c2e5d8192cd6a672f1cdb9c2274b3df44e5894b629"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-restored-roi.png",
+      "bytes": 5716,
+      "sha256": "f5953a3f6b20a957923c2e6d0384dfde6635a5a394349c6b99f786b060189ca8"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-restored.png",
+      "bytes": 3096260,
+      "sha256": "28db0777301964e594533ccc89f7eb3fcbd41f8e6cff731f270feb562785f792"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-zoomed-full.png",
+      "bytes": 2537883,
+      "sha256": "f57d538a716d78a025f9006d7af2d5e9334f443d875da29bb8e15f1a8b11f7f8"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-bridge-zoomed-roi.png",
+      "bytes": 5361,
+      "sha256": "d1164fc75c869c8a40c1f00c67f1f7628ddd2ea1fe49f4d43c3a18afe6b732f8"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-00-selected.png",
+      "bytes": 3098639,
+      "sha256": "9d9fecf936b0eada592407286c7e33d54badbbd4ffdc1cfc634729c8f25369c7"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-01-selected.png",
+      "bytes": 3098862,
+      "sha256": "6184ac1d7c99ba311170445d5dbd3121988ea30c9463cd68555d493d5a4fb995"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-02-selected.png",
+      "bytes": 3097059,
+      "sha256": "d9dd8c5e14e3e4255a3fe26c21a4b0b92c38e62eafb7f422d1321cc460c32492"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-03-selected.png",
+      "bytes": 3098180,
+      "sha256": "1ab5105567711dfcc78bfb70c35234b38b5fc703b0b5ff07ff45b0818a2ed446"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-04-selected.png",
+      "bytes": 3096934,
+      "sha256": "2b010b4206572b09bdb83be206a43552f290c9aa631f5bb8f38420593666fdcc"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-05-selected.png",
+      "bytes": 3099688,
+      "sha256": "d98ffebf987a7922f264883931bccdc36ee75df65451738ea08f9813d1b1e836"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-06-selected.png",
+      "bytes": 3100654,
+      "sha256": "22e3207fd67cf1f388fd596cc40ee7e12d9989be30088ca92358956e4d01900c"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-07-selected.png",
+      "bytes": 3099151,
+      "sha256": "aac2d64f21e4dbb7acab6f27e822dbe4e153978edda2b03632c230ee60104317"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-08-selected.png",
+      "bytes": 3097432,
+      "sha256": "dac8e081c01b5b68d61ce212521713ae767a49fe8eb0884de6bd2123456a715f"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-09-selected.png",
+      "bytes": 3097293,
+      "sha256": "247e435cdaa63ba59470e2dc9ec85ddd08858a803e585e91268a148678f58d06"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-10-selected.png",
+      "bytes": 3098383,
+      "sha256": "00d818e7796999d6cf07794e6e84fab41d4cdc12a1957a6882ed661e35f5b6a6"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-11-selected.png",
+      "bytes": 3098444,
+      "sha256": "beeb93ca4d4fb69790ced5531c3ad0e4ef3787c0978eedfb0fba6ecde7402992"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-13-selected.png",
+      "bytes": 3099249,
+      "sha256": "18d922febcf93f0e8e3512fc4fa5608f1ee0caf044137631483c1cb38aa499ad"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-14-selected.png",
+      "bytes": 3096842,
+      "sha256": "8d721d475de50e3405df5ac14df4d68fd76a0f5afda122b67934ddc4f46d10fa"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-15-selected.png",
+      "bytes": 3097595,
+      "sha256": "2484d0aa8b8d9886998592800ab9da3e570814bbfbfe2a4fd9d6a6c32f541abd"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-16-selected.png",
+      "bytes": 3099140,
+      "sha256": "24851b491036c9db6be82f82ccaa69ec707e2e35e6fabf2c9b8ae0665dc60b13"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-17-selected.png",
+      "bytes": 3099375,
+      "sha256": "b7c9675b41f18d13572c27381fd6662cde64191d3231e1326d5991d1a66f1603"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-18-selected.png",
+      "bytes": 3100377,
+      "sha256": "822de5642c1fbfd52505ae4358edd5af3b5b64f7f93311535b4418edfec24bbf"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-19-selected.png",
+      "bytes": 3097733,
+      "sha256": "5302476e88bb25c9b2443ba5b0445e32946e71fab7cfb3093e3510678983b8af"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-20-selected.png",
+      "bytes": 3099203,
+      "sha256": "3cb38d450f7281dda496960ae0fe56391071d382e4f2ef1b68b67b9427a90df2"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-21-selected.png",
+      "bytes": 3099673,
+      "sha256": "1b0f8ad0f29e17a8f3e4e9cb0ebe6f87f95a02931aa79a1cc6cbe7e3f4e1c85a"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-22-selected.png",
+      "bytes": 3097895,
+      "sha256": "7761c744d3cd60afda324e548e31439815473fcf2a19f30f51657786be98162b"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-23-selected.png",
+      "bytes": 3098563,
+      "sha256": "46f0226194505da41121c0c057849615ff480248985ab3748332cdefa535a4b2"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-24-selected.png",
+      "bytes": 3098149,
+      "sha256": "ce35ff46a4400b8a66867ebc74bda5032809a0f2507771fa14a2a9f0146ffee5"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-25-selected.png",
+      "bytes": 3096771,
+      "sha256": "85fb7a92b301c9b7737613b870fd2d8a4e7f063459c2d268b5ebe70fc4cd8b74"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-26-selected.png",
+      "bytes": 3097886,
+      "sha256": "fd5d21d73a0bf97a75c2313b65b3d28bc7b404663fca7de28e082908f8ac2b1a"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-27-selected.png",
+      "bytes": 3097395,
+      "sha256": "458ba81ade3aff1dd8d011f034fab882acf3c5b68c261c56a9b193761189c889"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-28-selected.png",
+      "bytes": 3097430,
+      "sha256": "6259ebbaf48c52c4e1b64bcc1fc9e7717108983ee4798cc661e6f8e008ca26f8"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-29-selected.png",
+      "bytes": 3096921,
+      "sha256": "b86901aaeb529dd5de2945a259e56d9b942241e45083002cb05d9bc9a2931481"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-30-selected.png",
+      "bytes": 3678040,
+      "sha256": "b72e076746e7e0839f208881ae7798ef4f52a85eab86cf8ada9801b2fe070c8d"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-31-selected.png",
+      "bytes": 3677796,
+      "sha256": "a92adde35bd3e292ebef1b39698b08706f299aad9cfb64bf12a125bf7a3ddff6"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-32-selected.png",
+      "bytes": 3678816,
+      "sha256": "49789049f2c900050760e056dc4b2fec4809b6f1f2fa7871cd2e41e5516b8bb9"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-33-selected.png",
+      "bytes": 3680873,
+      "sha256": "06ec18d77a69f29a374d970fb41f1456d3590b2490c6bf9f0326280c47190f0c"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-34-selected.png",
+      "bytes": 3408747,
+      "sha256": "3023fec2e3d9f28f488feec1e29f3b3d8676d3f87240192d8a9164f5314124d0"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-35-selected.png",
+      "bytes": 3408797,
+      "sha256": "230b205331498fcfb7b93a471cc2abc163bf5897dd0cb34156ed31e1d9511ca7"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-36-selected.png",
+      "bytes": 3409676,
+      "sha256": "01371ad4ea296f08d7aa18a1b84ea95dee6260828e497a038e3e31c855a2f03e"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-city-37-selected.png",
+      "bytes": 3408969,
+      "sha256": "c059e05db73b610beb8c77532e015ae6dc06cdaf090f9c5d82f56066da620adf"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/1920x1080-restored.png",
+      "bytes": 3095732,
+      "sha256": "768111c1a899c1f3599363455d2b840cbd852bb4f8c6b9adb60a5d498de5550d"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/camera-05-south-and-ocean-pad.png",
+      "bytes": 2485041,
+      "sha256": "e3c13a3d476cf94ca4099ae11e7ee2bf9fd17292e12255d9d829d45cfc521e52"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/camera-22-east.png",
+      "bytes": 2031380,
+      "sha256": "af707e249b9c36849b71f5f6fadeea8821c1230cdc6ef9b289395b09a69b5228"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/camera-max-max.png",
+      "bytes": 720745,
+      "sha256": "627e8aa48e5836f94ed755024cb7d1bf8fe91899828305267f05ddf657e6bd23"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/camera-max-min.png",
+      "bytes": 2879435,
+      "sha256": "8d116af6a3b198fee1aa91f57d70517ccef80f19b300c9b3ac027339164b9ebe"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/camera-min-max.png",
+      "bytes": 903234,
+      "sha256": "327a85fbf493297636eb87646424e1b3014bde5a429fbe7a1582eb4a3a66a2e6"
+    },
+    {
+      "path": "build/r24-overworld-original-entry-bridge-v1/camera-min-min.png",
+      "bytes": 2852206,
+      "sha256": "acb9f91e2f6470a13a63c240eb4c23ae70af0d195fff8708ef7f1500b03b0fe8"
+    }
+  ]
+}

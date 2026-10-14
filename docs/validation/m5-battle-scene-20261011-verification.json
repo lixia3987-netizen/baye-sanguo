@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-11T11:00:40.847Z",
+  "ok": true,
+  "archiveSha256": "fc72837513e7e9a674fc2de15d809f84afa6c1d53f571cbbc9a0b0ee8375360a",
+  "entries": 111,
+  "blobs": 91,
+  "rawBytes": 342951738,
+  "roundTrips": true,
+  "finalSuite": {
+    "modules": 89,
+    "counts": {
+      "tests": 4207,
+      "suites": 0,
+      "pass": 4207,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "sources": 230,
+    "currentSourceMismatches": []
+  },
+  "nativeBuildChanged": false,
+  "nativeSources": 128,
+  "nativeSha256": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+  "installed": [
+    {
+      "path": "js/baye.js",
+      "bytes": 193321,
+      "sha256": "86baead056252a5f631445c8c18e6372abf56ac8d9d090c10f2b7f0c5f7caed2"
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4561352,
+      "sha256": "08d733567e29716cfc8249a9365aa2f923b6c064e407d3d655cedecb48456de5"
+    },
+    {
+      "path": "js/baye.wasm.map",
+      "bytes": 29983,
+      "sha256": "ddc5651cee33ea5a550b6522a2321b48e1a3bab3a21bb290f54d07b1e8321646"
+    },
+    {
+      "path": "js/baye.build.json",
+      "bytes": 21284,
+      "sha256": "aea1f7845131ecdcc7f6f19a767ddf4408fb2a3758b1a1de0aa8ab977b5e9233"
+    }
+  ]
+}

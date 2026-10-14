@@ -1,0 +1,344 @@
+{
+  "libSha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+  "designWidth": 1920,
+  "designHeight": 1080,
+  "style": "modern-2d-strategy",
+  "version": "8",
+  "source": "wikimedia-china-lcc-topographic",
+  "note": "Full uncropped China LCC plus southern ocean pad. Native city IDs, rules and geographical anchors unchanged. Environment stamps are decorative art, not engine terrain or movement. Keep this work on feature/hd-graphics.",
+  "mapWidth": 3840,
+  "mapHeight": 4000,
+  "layers": {
+    "terrain": [
+      "terrain/base_plains.jpg",
+      "terrain/overlay_rivers.png",
+      "terrain/mountain-cluster-v1.png",
+      "terrain/forest-cluster-v1.png"
+    ],
+    "roads": {
+      "stroke": "roads/stroke.png",
+      "pass": "roads/bridge-crossing-v1.png",
+      "passArt": {
+        "pixelSize": [
+          1254,
+          1254
+        ],
+        "designCanvasSize": [
+          32,
+          32
+        ],
+        "anchor": "center-at-existing-road-curve-control",
+        "decorativeOnly": true,
+        "bytes": 1198185,
+        "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88",
+        "provenance": "GENERATED-BRIDGE.json",
+        "note": "Decorative river-crossing marker only; no terrain, roads, native city coordinates, ownership, passability or input changes. The existing 32 design units scale with the 1920x1080 map canvas."
+      }
+    },
+    "cities": {
+      "empty": "cities/fortified-city-v1.png",
+      "neutral": "cities/fortified-city-v1.png",
+      "owned": "cities/fortified-city-v1.png"
+    },
+    "ui": {
+      "cursor": "ui/cursor.png",
+      "cursorHover": "ui/cursor_hover.png"
+    },
+    "palette": "palette/factions.json",
+    "cityArt": {
+      "pixelSize": [
+        1254,
+        1254
+      ],
+      "maxScreenSize": 64,
+      "anchorOffsetY": -8,
+      "provenance": "GENERATED-ART.md"
+    },
+    "environment": {
+      "coordinateSystem": "china-lcc-raster-padded-v1",
+      "source": "wikimedia-china-lcc-topographic",
+      "mapSize": [
+        3840,
+        4000
+      ],
+      "rasterSize": [
+        3840,
+        3309
+      ],
+      "note": "Explicit source raster bounds; river ends at y=3309. Hand-placed stamps illustrate the existing terrain and do not replace the engine grid. Original generated PNGs retained unchanged.",
+      "landmarks": [
+        {
+          "id": "hainan",
+          "rect": [
+            2370,
+            3010,
+            220,
+            210
+          ]
+        },
+        {
+          "id": "southern-ocean",
+          "rect": [
+            2760,
+            3710,
+            340,
+            240
+          ]
+        }
+      ],
+      "landmarkNote": "Manually inspected source-image regions for camera coverage, not precise geographic surveys.",
+      "layers": [
+        {
+          "id": "rivers",
+          "path": "terrain/overlay_rivers.png",
+          "kind": "raster",
+          "pixelSize": [
+            1920,
+            1655
+          ],
+          "worldRect": [
+            0,
+            0,
+            3840,
+            3309
+          ],
+          "draw": true,
+          "opacity": 0.12,
+          "provenance": "reference/LICENSE.txt"
+        },
+        {
+          "id": "mountains",
+          "path": "terrain/mountain-cluster-v1.png",
+          "kind": "stamps",
+          "pixelSize": [
+            1254,
+            1254
+          ],
+          "worldRect": [
+            0,
+            0,
+            3840,
+            3309
+          ],
+          "draw": true,
+          "opacity": 0.66,
+          "provenance": "GENERATED-ART.md",
+          "instances": [
+            {
+              "rect": [
+                880,
+                1170,
+                240,
+                240
+              ]
+            },
+            {
+              "rect": [
+                1280,
+                1200,
+                250,
+                250
+              ]
+            },
+            {
+              "rect": [
+                1730,
+                1390,
+                210,
+                210
+              ]
+            },
+            {
+              "rect": [
+                2050,
+                1650,
+                210,
+                210
+              ]
+            },
+            {
+              "rect": [
+                1910,
+                1930,
+                240,
+                240
+              ]
+            },
+            {
+              "rect": [
+                1710,
+                2350,
+                230,
+                230
+              ]
+            },
+            {
+              "rect": [
+                2240,
+                2350,
+                210,
+                210
+              ]
+            },
+            {
+              "rect": [
+                2680,
+                2010,
+                190,
+                190
+              ]
+            },
+            {
+              "rect": [
+                2830,
+                2330,
+                180,
+                180
+              ]
+            },
+            {
+              "rect": [
+                3150,
+                980,
+                200,
+                200
+              ]
+            }
+          ]
+        },
+        {
+          "id": "forest",
+          "path": "terrain/forest-cluster-v1.png",
+          "kind": "stamps",
+          "pixelSize": [
+            1254,
+            1254
+          ],
+          "worldRect": [
+            0,
+            0,
+            3840,
+            3309
+          ],
+          "draw": true,
+          "opacity": 0.62,
+          "provenance": "GENERATED-ART.md",
+          "instances": [
+            {
+              "rect": [
+                2220,
+                2070,
+                170,
+                170
+              ]
+            },
+            {
+              "rect": [
+                2430,
+                2180,
+                190,
+                190
+              ]
+            },
+            {
+              "rect": [
+                2630,
+                2260,
+                170,
+                170
+              ]
+            },
+            {
+              "rect": [
+                2740,
+                2470,
+                160,
+                160
+              ]
+            },
+            {
+              "rect": [
+                2960,
+                2260,
+                160,
+                160
+              ]
+            },
+            {
+              "rect": [
+                2480,
+                2660,
+                170,
+                170
+              ]
+            },
+            {
+              "rect": [
+                2270,
+                2750,
+                180,
+                180
+              ]
+            },
+            {
+              "rect": [
+                2140,
+                2500,
+                170,
+                170
+              ]
+            },
+            {
+              "rect": [
+                2000,
+                2620,
+                180,
+                180
+              ]
+            },
+            {
+              "rect": [
+                2930,
+                1880,
+                150,
+                150
+              ]
+            },
+            {
+              "rect": [
+                3170,
+                700,
+                160,
+                160
+              ]
+            },
+            {
+              "rect": [
+                3310,
+                530,
+                190,
+                190
+              ]
+            },
+            {
+              "rect": [
+                1620,
+                2570,
+                170,
+                170
+              ]
+            },
+            {
+              "rect": [
+                2400,
+                2780,
+                150,
+                150
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

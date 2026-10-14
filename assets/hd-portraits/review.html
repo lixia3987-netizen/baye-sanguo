@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>三国霸业 · 试点立绘对照</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, "Microsoft YaHei", sans-serif; background: #151a20; color: #e9e5da; }
+    body { margin: 0; padding: 28px; }
+    main { max-width: 1440px; margin: auto; }
+    h1 { font-size: 26px; margin: 0 0 12px; }
+    p { color: #b9bdc5; line-height: 1.6; }
+    a { color: #ddbf7f; }
+    label, select { font-size: 16px; }
+    select { background: #252c34; color: #eee; border: 1px solid #68717d; padding: 10px; border-radius: 6px; margin-left: 8px; }
+    #count { margin-left: 16px; color: #b9bdc5; }
+    article { background: #20262e; border: 1px solid #39424e; border-radius: 10px; padding: 18px; margin-top: 22px; }
+    h2 { margin: 0 0 16px; font-size: 20px; }
+    h2 small { font-size: 14px; color: #b9bdc5; margin-left: 12px; font-weight: normal; }
+    .images { display: grid; grid-template-columns: 90px minmax(180px, 1fr) minmax(240px, 2fr); gap: 20px; align-items: start; }
+    figure { margin: 0; }
+    figcaption { margin-bottom: 9px; font-size: 14px; color: #c9c2b2; }
+    img { display: block; width: 100%; height: auto; border-radius: 4px; background: #101419; }
+    .native { width: 72px; height: 72px; image-rendering: pixelated; border-radius: 0; }
+    .dimensions { font-size: 12px; color: #9ba4b0; margin-top: 8px; min-height: 18px; }
+    .absent { font-size: 14px; color: #aaa; padding: 20px 0; }
+    .failed { color: #efad9f; }
+    @media (max-width: 760px) { body { padding: 16px; } .images { grid-template-columns: 80px 1fr; gap: 16px; } .current { grid-column: 1 / -1; } #count { display: block; margin: 12px 0 0; } h2 small { display: block; margin: 8px 0 0; } }
+  </style>
+</head>
+<body>
+<main>
+  <h1>试点立绘素材对照</h1>
+  <p>逐项核对当前时期原生头像、已接受的时期一画风与当前高清成品。原生参考按像素显示；高清图使用完整原始 PNG。</p>
+  <p>生成记录：<a href="GENERATED-PERIOD-2.md">曹操崛起</a> · <a href="GENERATED-PERIOD-3.md">赤壁之战</a> · <a href="GENERATED-PERIOD-4.md">三足鼎立</a>。实际游戏身份与回退见 <a href="../../docs/validation/m4-portraits-20261008.json">本批验收记录</a>。</p>
+  <label for="period">时期<select id="period"><option value="all">全部试点</option><option value="1">1 · 董卓弄权</option><option value="2">2 · 曹操崛起</option><option value="3">3 · 赤壁之战</option><option value="4">4 · 三足鼎立</option></select></label><span id="count" aria-live="polite">正在读取索引…</span>
+  <section id="gallery"></section>
+</main>
+<script>
+  const gallery = document.getElementById('gallery');
+  const periodFilter = document.getElementById('period');
+  const count = document.getElementById('count');
+  const periodNames = ['董卓弄权', '曹操崛起', '赤壁之战', '三足鼎立'];
+  let entries = [];
+  function picture(path, label, native = false) {
+    const figure = document.createElement('figure');
+    const caption = document.createElement('figcaption');
+    caption.textContent = label; figure.append(caption);
+    if (!path) { const absent = document.createElement('div'); absent.className = 'absent'; absent.textContent = '此人物没有时期一高清参考'; figure.append(absent); return figure; }
+    const img = document.createElement('img'); img.alt = label; img.loading = 'lazy';
+    if (native) img.className = 'native';
+    const dimensions = document.createElement('div'); dimensions.className = 'dimensions';
+    img.addEventListener('load', () => { dimensions.textContent = img.naturalWidth + ' × ' + img.naturalHeight; });
+    img.addEventListener('error', () => { dimensions.textContent = '文件尚未提供'; dimensions.classList.add('failed'); });
+    img.src = path; figure.append(img, dimensions); return figure;
+  }
+  function render() {
+    gallery.replaceChildren();
+    const selected = entries.filter(e => periodFilter.value === 'all' || e.period === Number(periodFilter.value));
+    count.textContent = selected.length + ' 个试点组合';
+    for (const entry of selected) {
+      const card = document.createElement('article');
+      const title = document.createElement('h2'); title.textContent = entry.name;
+      const identity = document.createElement('small'); identity.textContent = periodNames[entry.period - 1] + ' · 时期 ' + entry.period + ' · 人物 ' + entry.personId;
+      title.append(identity); card.append(title);
+      const images = document.createElement('div'); images.className = 'images';
+      const style = entries.find(e => e.period === 1 && e.name === entry.name);
+      images.append(picture(entry.ref, '当前时期原生参考', true), picture(style?.hd, '已接受的时期一画风'));
+      const current = picture(entry.hd, '当前时期高清成品'); current.className = 'current'; images.append(current);
+      card.append(images); gallery.append(card);
+    }
+  }
+  fetch('manifest.json', { cache: 'no-store' }).then(response => { if (!response.ok) throw new Error('索引读取失败'); return response.json(); }).then(manifest => {
+    entries = manifest.entries.filter(e => !e.missing).sort((a, b) => a.period - b.period || a.personId - b.personId);
+    periodFilter.addEventListener('change', render); render();
+  }).catch(error => { count.textContent = error.message; count.classList.add('failed'); });
+</script>
+</body>
+</html>

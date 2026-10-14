@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "verifiedAt": "2026-10-10T15:33:50.156Z",
+  "accepted": true,
+  "logicalFiles": 280,
+  "uniqueGzip": 192,
+  "selectedPng": 24,
+  "allGzipRoundTripsExact": true,
+  "allPreviewCopiesExact": true,
+  "docsPhysicalHistoryPrefixExact": true,
+  "docsHistoryMatchesGitAfterCrLfNormalization": true,
+  "productProvenanceUnchanged": true,
+  "wholeHdAccepted": false,
+  "priorReader": "build/r30-verify-installed-runtime-archive-root-v1.mjs",
+  "priorReaderCorrection": "v1 compared physical CRLF hashes against Git LF bytes; v2 checks each domain independently."
+}

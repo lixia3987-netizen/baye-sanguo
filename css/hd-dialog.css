@@ -1,0 +1,424 @@
+/* HD 报告 / 数量 / 帮助。经典模式无可见效果。 */
+
+.hd-dialog {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 76;
+    align-items: center;
+    justify-content: center;
+    background: rgba(8, 10, 16, 0.55);
+    pointer-events: none;
+}
+
+.hd-dialog.is-open {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 32px;
+    pointer-events: auto;
+}
+
+.hd-dialog:not(.is-open),
+html[data-baye-dialog="off"] .hd-dialog {
+    pointer-events: none !important;
+}
+
+/* GetCitySet 期间、残留「部队已出发」：全屏壳不得挡住点城 / 招商。 */
+html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open,
+html[data-baye-dialog-pass="1"] .hd-dialog.is-open {
+    pointer-events: none;
+    background: transparent;
+}
+
+html[data-baye-city-menu-map-pick="1"] .hd-dialog.is-open .hd-dialog-stage,
+html[data-baye-dialog-pass="1"] .hd-dialog.is-open .hd-dialog-stage {
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.hd-dialog-stage {
+    width: min(720px, calc(100vw - 48px));
+    min-height: 220px;
+    max-height: calc(100vh - 64px);
+    padding: 26px 28px 20px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(32, 38, 52, 0.98), rgba(16, 20, 28, 0.98));
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08), 0 20px 48px rgba(0, 0, 0, 0.45);
+    color: #f3f6fb;
+    font-family: BayeUI, "Noto Sans CJK SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.hd-dialog-title {
+    font-size: 30px;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+    flex-shrink: 0;
+}
+
+.hd-dialog-body {
+    margin: 16px 0 10px;
+    font-size: 18px;
+    line-height: 1.55;
+    white-space: pre-wrap;
+    overflow: auto;
+    min-height: 0;
+    overflow-wrap: anywhere;
+    flex: 1 1 auto;
+}
+
+.hd-help-name {
+    margin: 0;
+    font-size: 27px;
+    line-height: 1.3;
+    color: #f0d99f;
+    overflow-wrap: anywhere;
+}
+
+.hd-help-summary {
+    margin: 8px 0 18px;
+    color: #b9c9d9;
+}
+
+.hd-help-fields {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    white-space: normal;
+}
+
+.hd-help-field {
+    padding: 10px 14px;
+    border: 1px solid rgba(240, 217, 159, 0.14);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.035);
+    min-width: 0;
+}
+
+.hd-help-field dt {
+    color: #aab8c7;
+    font-size: 14px;
+}
+
+.hd-help-field dd {
+    margin: 3px 0 0;
+    font-size: 24px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+    .hd-help-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .hd-help-name { font-size: 23px; }
+    .hd-help-field dd { font-size: 21px; }
+}
+
+.hd-dialog.is-empty-text .hd-dialog-body {
+    color: #c5cdd8;
+    font-size: 17px;
+    padding: 14px 16px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px dashed rgba(240, 199, 90, 0.35);
+}
+
+.hd-dialog-caption {
+    margin: 4px 0 12px;
+    font-size: 13px;
+    color: #f0c75a;
+    letter-spacing: 0.04em;
+}
+
+.hd-dialog-caption[hidden] {
+    display: none !important;
+}
+
+.hd-dialog.is-open:not(.is-qty) .hd-dialog-stage {
+    min-height: 260px;
+}
+
+.hd-dialog-range {
+    font-size: 14px;
+    color: #c5cdd8;
+    margin-bottom: 10px;
+}
+
+.hd-dialog-qty {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 8px 0 16px;
+}
+
+.hd-dialog-qty[hidden],
+.hd-dialog-range[hidden] {
+    display: none !important;
+}
+
+.hd-dialog-qty button,
+.hd-dialog-footer button {
+    appearance: none;
+    border: 0;
+    border-radius: 10px;
+    min-height: 44px;
+    padding: 0 16px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #f3f6fb;
+    background: #3a4252;
+}
+
+.hd-dialog-qty button {
+    min-width: 64px;
+    background: #2c4a3a;
+    font-size: 20px;
+}
+
+.hd-dialog-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.hd-dialog.is-qty .hd-dialog-footer button[data-hd-dlg-ok] {
+    min-height: 48px;
+    font-size: 18px;
+    font-weight: 700;
+    background: #f0c75a;
+    color: #1b1f27;
+}
+
+.hd-dialog-footer button[data-hd-dlg-ok] {
+    background: #3d6a4a;
+}
+
+.hd-dialog-footer button[data-hd-dlg-back] {
+    background: #8a4b32;
+}
+
+.hd-dialog-probe {
+    margin-top: 10px;
+    font-size: 12px;
+    color: #8b93a1;
+}
+
+html[data-baye-dialog="hd"] body.baye-hd-dialog-lcd .container.js-baye-pc-lcd {
+    visibility: visible;
+    pointer-events: auto;
+    position: fixed;
+    left: 50%;
+    right: auto;
+    bottom: 24px;
+    top: auto;
+    transform: translateX(-50%);
+    width: 520px !important;
+    z-index: 78;
+    box-shadow: 0 0 0 5px #141820, 0 18px 48px rgba(0, 0, 0, 0.55);
+}
+
+html[data-baye-dialog="hd"] body.baye-hd-dialog-help .container.js-baye-pc-lcd,
+html[data-baye-dialog="hd"] body.baye-hd-dialog-empty-text .container.js-baye-pc-lcd {
+    width: 560px !important;
+}
+
+/* The current help view chooses its LCD visibility. A battle HELP wait alone
+ * does not override a complete structured page or its explicit player toggle. */
+html[data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-help:not(.baye-hd-dialog-lcd) .container.js-baye-pc-lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Current battle HELP/VIEW keeps its optional native frame above the board,
+ * beside the HD fields. The dialog scrim and controls remain the upper layer. */
+html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-help.baye-hd-dialog-lcd .container.js-baye-pc-lcd {
+    z-index: 85;
+    left: auto;
+    right: 24px;
+    bottom: 72px;
+    transform: none;
+    width: 320px !important;
+}
+
+@media (min-width: 1100px) and (max-width: 1439px) {
+    html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-help.baye-hd-dialog-lcd .hd-dialog.is-open {
+        justify-content: flex-start;
+        padding-left: 280px;
+        padding-right: 368px;
+    }
+}
+
+.hd-dialog.is-view .hd-dialog-stage {
+    width: min(1040px, calc(100vw - 48px));
+    padding: 22px 24px 18px;
+}
+
+.hd-dialog.is-view .hd-dialog-title {
+    font-size: 27px;
+}
+
+.hd-dialog.is-view .hd-dialog-body {
+    margin: 12px 0;
+    line-height: 1.4;
+    white-space: normal;
+}
+
+.hd-situation {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 28px;
+}
+
+.hd-situation h2 {
+    margin: 0 0 6px;
+    color: #f0d99f;
+    font-size: 23px;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.hd-situation-summary,
+.hd-situation-page,
+.hd-situation-map-legend {
+    margin: 0 0 8px;
+    color: #b9c9d9;
+    font-size: 13px;
+}
+
+.hd-situation-food {
+    margin: 0 0 10px;
+    font-size: 17px;
+}
+
+.hd-situation-food[data-hd-view-food-known="0"] {
+    color: #aab1be;
+}
+
+.hd-situation-rows {
+    display: grid;
+    gap: 4px;
+}
+
+.hd-situation-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 28px;
+    padding: 4px 10px;
+    border: 1px solid rgba(240, 217, 159, 0.14);
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.035);
+    font-size: 14px;
+}
+
+.hd-situation-name {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.hd-situation-arms {
+    flex-shrink: 0;
+    color: #f0d99f;
+    font-variant-numeric: tabular-nums;
+}
+
+.hd-situation-map {
+    position: relative;
+    width: min(100%, 320px);
+    max-height: 320px;
+    overflow: hidden;
+    margin: 12px auto;
+    border: 1px solid #566174;
+    border-radius: 8px;
+    background-color: #151e27;
+    background-image: linear-gradient(rgba(129, 154, 173, 0.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(129, 154, 173, 0.10) 1px, transparent 1px);
+    background-size: 12.5% 12.5%;
+    box-shadow: inset 0 0 28px rgba(0, 0, 0, 0.28);
+}
+
+.hd-situation-dot {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 1px solid #d5e6ef;
+    border-radius: 2px;
+    transform: translate(-50%, -50%);
+    background: #559ec5;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hd-situation-dot.is-enemy {
+    background: #ce766a;
+    border-color: #ffccc4;
+}
+
+.hd-situation-dot.is-page {
+    outline: 2px solid #e8c75a;
+    outline-offset: 2px;
+    z-index: 1;
+}
+
+.hd-situation-map-legend {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.hd-situation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.hd-situation-actions button {
+    appearance: none;
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid #49566d;
+    border-radius: 8px;
+    background: #28364a;
+    color: #f3f6fb;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.hd-situation-actions button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+html[data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-view:not(.baye-hd-dialog-lcd) .container.js-baye-pc-lcd {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+html[data-baye-battle="hd"][data-baye-battle-input="help"][data-baye-dialog="hd"][data-baye-dialog-pass="0"] body.baye-hd-dialog-view.baye-hd-dialog-lcd .container.js-baye-pc-lcd {
+    z-index: 85;
+    left: auto;
+    right: 24px;
+    bottom: 72px;
+    transform: none;
+    width: 320px !important;
+}
+
+@media (min-width: 1100px) and (max-width: 1439px) {
+    html[data-baye-battle="hd"][data-baye-battle-input="help"] body.baye-hd-dialog-view.baye-hd-dialog-lcd .hd-dialog.is-view {
+        justify-content: flex-start;
+        padding-left: 24px;
+        padding-right: 368px;
+    }
+}
+
+@media (max-width: 899px) {
+    .hd-situation {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+}

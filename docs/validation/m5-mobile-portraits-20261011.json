@@ -1,0 +1,2030 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "scope": "Original mobile landscape current native person picker and person reports; existing original HD/reference assets only",
+  "status": "partial-mobile-HD",
+  "portraitMatrixAccepted": true,
+  "fullHdAccepted": false,
+  "realDeviceAccepted": false,
+  "recruitmentCommitted": false,
+  "portableClosedArchive": false,
+  "viewports": [
+    [
+      844,
+      390
+    ],
+    [
+      667,
+      375
+    ]
+  ],
+  "reportViewport": [
+    844,
+    390
+  ],
+  "actors": [
+    {
+      "id": 0,
+      "name": "董卓",
+      "normal": "hd"
+    },
+    {
+      "id": 19,
+      "name": "李儒",
+      "normal": "ref"
+    },
+    {
+      "id": 20,
+      "name": "吕布",
+      "normal": "hd",
+      "report": true
+    }
+  ],
+  "automated": {
+    "modules": 64,
+    "total": 1811,
+    "pass": 1811,
+    "fail": 0,
+    "skipped": 0,
+    "concurrency": 4,
+    "compiler": "build/toolchain/emsdk/upstream/bin/clang.exe",
+    "log": {
+      "path": "build/mobile-portraits-full-regression-final.log",
+      "bytes": 191989,
+      "sha256": "98e8e821c7920fe7d3d2e098a5b89cb338b6ae573af3e7194255441c49415b66"
+    }
+  },
+  "runs": [
+    {
+      "case": "normal",
+      "accepted": true,
+      "phases": [
+        {
+          "name": "00-title-844",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "00-title-844.png",
+            "bytes": 28243,
+            "sha256": "8725b41a10090b8078bc8948b82fcac11471671b2ee9288362a413e5d3bb9ee2"
+          }
+        },
+        {
+          "name": "01-Dong-Zhuo-hd",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "01-Dong-Zhuo-hd.png",
+            "bytes": 115067,
+            "sha256": "6c067e7f32689b3b7e5523cdb7ead84cf7af0dda703136c2f19c1298a5ba390d"
+          }
+        },
+        {
+          "name": "02-Li-Ru-authentic-ref",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "02-Li-Ru-authentic-ref.png",
+            "bytes": 48459,
+            "sha256": "13592e338f0191da65204c01c6e93284aa4946f989cd3553c6baa575a8b63730"
+          }
+        },
+        {
+          "name": "person-844x390",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "person-844x390.png",
+            "bytes": 115067,
+            "sha256": "6c067e7f32689b3b7e5523cdb7ead84cf7af0dda703136c2f19c1298a5ba390d"
+          }
+        },
+        {
+          "name": "person-667x375",
+          "viewport": [
+            667,
+            375
+          ],
+          "screenshot": {
+            "file": "person-667x375.png",
+            "bytes": 110607,
+            "sha256": "b21b48d0831b92bff56a400263f99cc6d33f1528f0dcad00ccb04faf01fdd3f8"
+          }
+        },
+        {
+          "name": "portrait-orientation-LCD",
+          "viewport": [
+            375,
+            667
+          ],
+          "screenshot": {
+            "file": "portrait-orientation-LCD.png",
+            "bytes": 4688,
+            "sha256": "7de28be3a7118ac7a815c6db64035af17554317070a73248f224ad77dd3d1a1c"
+          }
+        },
+        {
+          "name": "03-real-Lu-Bu-hd-report",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "03-real-Lu-Bu-hd-report.png",
+            "bytes": 61738,
+            "sha256": "6eceb695abffcdd9ff903650e7406acd726f8fc0e6f6d66ae6af876a58ff73b9"
+          }
+        },
+        {
+          "name": "04-final-original-HD-map",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "04-final-original-HD-map.png",
+            "bytes": 568999,
+            "sha256": "817923546d4980560ef6ea5c94549aec34c7db296cdd1f4902045162d3324fd9"
+          }
+        }
+      ],
+      "checks": [
+        {
+          "label": "submenu-pan-0",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "current-native-zero-ID-portrait-load",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "01-Dong-Zhuo-hd",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "hd",
+            "sourceMode": "hd",
+            "src": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+            "currentSrc": "http://127.0.0.1:1249/assets/hd-portraits/hd/hd_p1_0000_%E8%91%A3%E5%8D%93.png",
+            "decoded": [
+              1280,
+              720
+            ],
+            "caption": "董卓",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "native-highlight-19",
+          "worldUnchanged": true,
+          "keys": [
+            35
+          ]
+        },
+        {
+          "label": "02-Li-Ru-authentic-ref",
+          "portrait": {
+            "personId": 19,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/19-李儒.png",
+            "currentSrc": "http://127.0.0.1:1249/assets/hd-portraits/refs/period-1/19-%E6%9D%8E%E5%84%92.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "李儒",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "2e007a20edce3b37518568deb9aff59a9095f2ff194c721ee0eb58ef62dfb48d",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "native-highlight-0",
+          "worldUnchanged": true,
+          "keys": [
+            34
+          ]
+        },
+        {
+          "label": "844-portrait-layout",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "person-844x390",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "hd",
+            "sourceMode": "hd",
+            "src": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+            "currentSrc": "http://127.0.0.1:1249/assets/hd-portraits/hd/hd_p1_0000_%E8%91%A3%E5%8D%93.png",
+            "decoded": [
+              1280,
+              720
+            ],
+            "caption": "董卓",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "844-portrait-details-scroll",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "667-portrait-layout",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "667-restore-portrait-scroll-top-0",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "667-restore-portrait-scroll-top-1",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "person-667x375",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "hd",
+            "sourceMode": "hd",
+            "src": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+            "currentSrc": "http://127.0.0.1:1249/assets/hd-portraits/hd/hd_p1_0000_%E8%91%A3%E5%8D%93.png",
+            "decoded": [
+              1280,
+              720
+            ],
+            "caption": "董卓",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 324.625,
+              "right": 639.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 315.359375,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 317.625,
+              "right": 646.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 329.359375,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "667-portrait-details-scroll",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "held-back-rotate-zero-key",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "landscape-portrait-restores-current-owner",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "classic-portrait-retirement",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "HD-portrait-current-owner-restoration",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "real-hidden-retires-held-portrait-owner",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "hidden-restoration-old-release-zero-key",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "native-highlight-20",
+          "worldUnchanged": true,
+          "keys": [
+            35,
+            35
+          ]
+        },
+        {
+          "label": "03-real-Lu-Bu-hd-report",
+          "portrait": {
+            "personId": 20,
+            "period": 1,
+            "context": "dialog",
+            "mode": "hd",
+            "sourceMode": "hd",
+            "src": "assets/hd-portraits/hd/hd_p1_0020_吕布.png",
+            "currentSrc": "http://127.0.0.1:1249/assets/hd-portraits/hd/hd_p1_0020_%E5%90%95%E5%B8%83.png",
+            "decoded": [
+              1280,
+              720
+            ],
+            "caption": "吕布",
+            "parent": "hd-dialog-portrait",
+            "currentOwnerKeySha256": "f4d6957734ea163406efd4dc89ea49c61917c1292da0c2dbe4a450978c783911",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 21,
+              "right": 155,
+              "top": 105,
+              "bottom": 247,
+              "width": 134,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 14,
+              "right": 162,
+              "top": 98,
+              "bottom": 276,
+              "width": 148,
+              "height": 178
+            }
+          }
+        }
+      ],
+      "verifiedMissingTargets": [],
+      "delayedRequestObserved": false,
+      "visibility": {
+        "hidden": {
+          "hidden": true,
+          "visibility": "hidden"
+        },
+        "restored": {
+          "hidden": false,
+          "visibility": "visible"
+        }
+      },
+      "treat": {
+        "actor": 20,
+        "city": 15,
+        "native": {
+          "text": "主公恩情，永铭于心……",
+          "seq": 1,
+          "active": 1,
+          "inputSeq": 3,
+          "kind": 2,
+          "person": 20
+        },
+        "delta": {
+          "phase": "report",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 95
+          }
+        },
+        "finalDelta": {
+          "phase": "retired",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 96
+          }
+        },
+        "keys": [
+          {
+            "code": 39,
+            "at": 19815.5
+          }
+        ]
+      },
+      "exceptions": 0,
+      "sourceDrift": [],
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true,
+        "profileRetained": true,
+        "directoriesDeleted": false
+      },
+      "raw": {
+        "path": "build/mobile-portraits-final-normal/result.json",
+        "bytes": 1133429,
+        "sha256": "af5f3e5f053ed97da2979b609e6974eed21463f47b7725c47532cf2197d72e41"
+      },
+      "log": {
+        "path": "build/mobile-portraits-final-normal.log",
+        "bytes": 487,
+        "sha256": "1dc01685ce3558893041cbfe163405e16a3c832a53598d4a1cb09b86cb169d41"
+      },
+      "sourceVerification": {
+        "path": "build/mobile-portraits-final-normal/source-verification.json",
+        "bytes": 8836,
+        "sha256": "2fd0c3bdcad48c2c1a4641ac9b2f2bd74c24486b6b72a8fa0c7dcc97f57af6ae"
+      }
+    },
+    {
+      "case": "hd-missing",
+      "accepted": true,
+      "phases": [
+        {
+          "name": "00-title-844",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "00-title-844.png",
+            "bytes": 28209,
+            "sha256": "5f3e621ac86281c0fb94750bedfaf1a86ef47a27ea16a630c2a2a4e731b75f1d"
+          }
+        },
+        {
+          "name": "01-Dong-Zhuo-ref",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "01-Dong-Zhuo-ref.png",
+            "bytes": 47957,
+            "sha256": "dfcd56f328e9d9e180f65cbaf82c171c173cda28bc0ace3c51b629b9d1507e53"
+          }
+        },
+        {
+          "name": "02-Li-Ru-authentic-ref",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "02-Li-Ru-authentic-ref.png",
+            "bytes": 48460,
+            "sha256": "174d026245a53daf2edf6f7fda65f3c74cd3844b93bc19d26e73ea0fe174d787"
+          }
+        },
+        {
+          "name": "person-844x390",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "person-844x390.png",
+            "bytes": 47955,
+            "sha256": "8f0b538968f2180dd188a216f199e407dfbf7ccd5e71640cc733647ddc1453d7"
+          }
+        },
+        {
+          "name": "person-667x375",
+          "viewport": [
+            667,
+            375
+          ],
+          "screenshot": {
+            "file": "person-667x375.png",
+            "bytes": 43748,
+            "sha256": "e3b07fa26a8c04b3e2d3741b3d1505444dc3333d8ed320b8d9d550400c768d1b"
+          }
+        },
+        {
+          "name": "portrait-orientation-LCD",
+          "viewport": [
+            375,
+            667
+          ],
+          "screenshot": {
+            "file": "portrait-orientation-LCD.png",
+            "bytes": 4688,
+            "sha256": "7de28be3a7118ac7a815c6db64035af17554317070a73248f224ad77dd3d1a1c"
+          }
+        },
+        {
+          "name": "03-real-Lu-Bu-ref-report",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "03-real-Lu-Bu-ref-report.png",
+            "bytes": 38829,
+            "sha256": "2867220c007db5a96e39366063b01521e0a2bc02c86c392f402429510b60c6a7"
+          }
+        },
+        {
+          "name": "04-final-original-HD-map",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "04-final-original-HD-map.png",
+            "bytes": 568990,
+            "sha256": "2b9b566eaf25a8e8df7c33787b94b409bbd4135ab6d5394691016b368dae575d"
+          }
+        }
+      ],
+      "checks": [
+        {
+          "label": "submenu-pan-0",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "current-native-zero-ID-portrait-load",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "01-Dong-Zhuo-ref",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/0-董卓.png",
+            "currentSrc": "http://127.0.0.1:9988/assets/hd-portraits/refs/period-1/0-%E8%91%A3%E5%8D%93.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "董卓",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "native-highlight-19",
+          "worldUnchanged": true,
+          "keys": [
+            35
+          ]
+        },
+        {
+          "label": "02-Li-Ru-authentic-ref",
+          "portrait": {
+            "personId": 19,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/19-李儒.png",
+            "currentSrc": "http://127.0.0.1:9988/assets/hd-portraits/refs/period-1/19-%E6%9D%8E%E5%84%92.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "李儒",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "2e007a20edce3b37518568deb9aff59a9095f2ff194c721ee0eb58ef62dfb48d",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "native-highlight-0",
+          "worldUnchanged": true,
+          "keys": [
+            34
+          ]
+        },
+        {
+          "label": "844-portrait-layout",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "person-844x390",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/0-董卓.png",
+            "currentSrc": "http://127.0.0.1:9988/assets/hd-portraits/refs/period-1/0-%E8%91%A3%E5%8D%93.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "董卓",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "844-portrait-details-scroll",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "667-portrait-layout",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "667-restore-portrait-scroll-top-0",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "667-restore-portrait-scroll-top-1",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "person-667x375",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/0-董卓.png",
+            "currentSrc": "http://127.0.0.1:9988/assets/hd-portraits/refs/period-1/0-%E8%91%A3%E5%8D%93.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "董卓",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 324.625,
+              "right": 639.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 315.359375,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 317.625,
+              "right": 646.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 329.359375,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "667-portrait-details-scroll",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "held-back-rotate-zero-key",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "landscape-portrait-restores-current-owner",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "classic-portrait-retirement",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "HD-portrait-current-owner-restoration",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "real-hidden-retires-held-portrait-owner",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "hidden-restoration-old-release-zero-key",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "native-highlight-20",
+          "worldUnchanged": true,
+          "keys": [
+            35,
+            35
+          ]
+        },
+        {
+          "label": "03-real-Lu-Bu-ref-report",
+          "portrait": {
+            "personId": 20,
+            "period": 1,
+            "context": "dialog",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/20-吕布.png",
+            "currentSrc": "http://127.0.0.1:9988/assets/hd-portraits/refs/period-1/20-%E5%90%95%E5%B8%83.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "吕布",
+            "parent": "hd-dialog-portrait",
+            "currentOwnerKeySha256": "60d60531647fd47f4f104c8f001254d2be5237a1ea741cb68efde8688fe9c4b7",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 21,
+              "right": 155,
+              "top": 105,
+              "bottom": 247,
+              "width": 134,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 14,
+              "right": 162,
+              "top": 98,
+              "bottom": 276,
+              "width": 148,
+              "height": 178
+            }
+          }
+        }
+      ],
+      "verifiedMissingTargets": [
+        "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+        "assets/hd-portraits/hd/hd_p1_0020_吕布.png"
+      ],
+      "delayedRequestObserved": false,
+      "visibility": {
+        "hidden": {
+          "hidden": true,
+          "visibility": "hidden"
+        },
+        "restored": {
+          "hidden": false,
+          "visibility": "visible"
+        }
+      },
+      "treat": {
+        "actor": 20,
+        "city": 15,
+        "native": {
+          "text": "主公恩情，永铭于心……",
+          "seq": 1,
+          "active": 1,
+          "inputSeq": 3,
+          "kind": 2,
+          "person": 20
+        },
+        "delta": {
+          "phase": "report",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 95
+          }
+        },
+        "finalDelta": {
+          "phase": "retired",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 96
+          }
+        },
+        "keys": [
+          {
+            "code": 39,
+            "at": 19168.20000000298
+          }
+        ]
+      },
+      "exceptions": 0,
+      "sourceDrift": [],
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true,
+        "profileRetained": true,
+        "directoriesDeleted": false
+      },
+      "raw": {
+        "path": "build/mobile-portraits-final-hd-missing/result.json",
+        "bytes": 1144192,
+        "sha256": "ff6a9352d6f2ac2efeb323c66f8080f43343b7aae2fe0d9ed125f95c9827abd6"
+      },
+      "log": {
+        "path": "build/mobile-portraits-final-hd-missing.log",
+        "bytes": 495,
+        "sha256": "3afa2337f36063b20d9fe3aa824d6d11ed59ea205ff88eb1dcf7d4921036db63"
+      },
+      "sourceVerification": {
+        "path": "build/mobile-portraits-final-hd-missing/source-verification.json",
+        "bytes": 9197,
+        "sha256": "8e6b37d089bb2a0d0c03674f7522d5f172b5b247e39a93f019385fec5dab60d4"
+      }
+    },
+    {
+      "case": "all-missing",
+      "accepted": true,
+      "phases": [
+        {
+          "name": "00-title-844",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "00-title-844.png",
+            "bytes": 28243,
+            "sha256": "8725b41a10090b8078bc8948b82fcac11471671b2ee9288362a413e5d3bb9ee2"
+          }
+        },
+        {
+          "name": "01-missing-real-LCD",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "01-missing-real-LCD.png",
+            "bytes": 26759,
+            "sha256": "8999e16ed92940ba59368b6b24f041c7bdb43ae2de2715a8ec1f22c412ee32a1"
+          }
+        },
+        {
+          "name": "02-ref-after-missing-owner-change",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "02-ref-after-missing-owner-change.png",
+            "bytes": 48459,
+            "sha256": "13592e338f0191da65204c01c6e93284aa4946f989cd3553c6baa575a8b63730"
+          }
+        },
+        {
+          "name": "03-real-Lu-Bu-lcd-report",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "03-real-Lu-Bu-lcd-report.png",
+            "bytes": 27745,
+            "sha256": "344fcc122c654d926ac858a20fe1ef8fcf9f1f2def23d061f2b4c367b0862d93"
+          }
+        },
+        {
+          "name": "04-final-original-HD-map",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "04-final-original-HD-map.png",
+            "bytes": 569031,
+            "sha256": "d1006d5e9f4098d7d8b37a05a1f89538bfcb247d329804ab66096d87ddea90d2"
+          }
+        }
+      ],
+      "checks": [
+        {
+          "label": "submenu-pan-0",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "both-missing-full-world-and-owner",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "01-missing-real-LCD",
+          "portrait": {
+            "personId": 0,
+            "period": 1,
+            "context": "city",
+            "mode": "off",
+            "sourceMode": "lcd",
+            "src": null,
+            "currentSrc": "",
+            "decoded": [
+              0,
+              0
+            ],
+            "caption": "",
+            "parent": "",
+            "currentOwnerKeySha256": "538227c31af8083d1144a97b70a3d8814567d95ae1f7f6c9383b51e2eff4a5cf",
+            "fallbackActive": true,
+            "fallbackOwner": {
+              "kind": "city",
+              "period": 1,
+              "personId": 0
+            },
+            "imageRect": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": 0,
+              "height": 0
+            },
+            "figureRect": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": 0,
+              "height": 0
+            }
+          }
+        },
+        {
+          "label": "missing-latch-stays-stable",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "native-highlight-19",
+          "worldUnchanged": true,
+          "keys": [
+            35
+          ]
+        },
+        {
+          "label": "02-ref-after-missing-owner-change",
+          "portrait": {
+            "personId": 19,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/19-李儒.png",
+            "currentSrc": "http://127.0.0.1:10625/assets/hd-portraits/refs/period-1/19-%E6%9D%8E%E5%84%92.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "李儒",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "2e007a20edce3b37518568deb9aff59a9095f2ff194c721ee0eb58ef62dfb48d",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "native-highlight-20",
+          "worldUnchanged": true,
+          "keys": [
+            35
+          ]
+        },
+        {
+          "label": "report-both-missing-stable-LCD",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "03-real-Lu-Bu-lcd-report",
+          "portrait": {
+            "personId": 20,
+            "period": 1,
+            "context": "dialog",
+            "mode": "off",
+            "sourceMode": "lcd",
+            "src": null,
+            "currentSrc": "",
+            "decoded": [
+              0,
+              0
+            ],
+            "caption": "",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "9c0f26d70ccbf267090318c99e2354edd587538ac79ec4bf7f8311d8073ba178",
+            "fallbackActive": true,
+            "fallbackOwner": {
+              "kind": "dialog",
+              "period": 1,
+              "personId": 20
+            },
+            "imageRect": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": 0,
+              "height": 0
+            },
+            "figureRect": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0,
+              "width": 0,
+              "height": 0
+            }
+          }
+        },
+        {
+          "label": "native-LCD-return-20",
+          "worldUnchanged": true,
+          "keys": [
+            40
+          ]
+        }
+      ],
+      "verifiedMissingTargets": [
+        "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+        "assets/hd-portraits/hd/hd_p1_0020_吕布.png",
+        "assets/hd-portraits/refs/period-1/0-董卓.png",
+        "assets/hd-portraits/refs/period-1/20-吕布.png"
+      ],
+      "delayedRequestObserved": false,
+      "treat": {
+        "actor": 20,
+        "city": 15,
+        "native": {
+          "text": "主公恩情，永铭于心……",
+          "seq": 1,
+          "active": 1,
+          "inputSeq": 3,
+          "kind": 2,
+          "person": 20
+        },
+        "delta": {
+          "phase": "report",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 95
+          }
+        },
+        "finalDelta": {
+          "phase": "retired",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 96
+          }
+        },
+        "keys": [
+          {
+            "code": 39,
+            "at": 9480.5
+          }
+        ]
+      },
+      "exceptions": 0,
+      "sourceDrift": [],
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true,
+        "profileRetained": true,
+        "directoriesDeleted": false
+      },
+      "raw": {
+        "path": "build/mobile-portraits-final2-all-missing/result.json",
+        "bytes": 958113,
+        "sha256": "65abf0013f77c0be80f3bf70e5eec0aef67a9266d8415862bcfb9911c49e9bd9"
+      },
+      "log": {
+        "path": "build/mobile-portraits-final2-all-missing.log",
+        "bytes": 391,
+        "sha256": "5ec5bfc0c11f5d762682178fb4262b7699720449e00beb5252d30a67d4c95378"
+      },
+      "sourceVerification": {
+        "path": "build/mobile-portraits-final2-all-missing/source-verification.json",
+        "bytes": 9197,
+        "sha256": "8e6b37d089bb2a0d0c03674f7522d5f172b5b247e39a93f019385fec5dab60d4"
+      }
+    },
+    {
+      "case": "delayed",
+      "accepted": true,
+      "phases": [
+        {
+          "name": "00-title-844",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "00-title-844.png",
+            "bytes": 28243,
+            "sha256": "8725b41a10090b8078bc8948b82fcac11471671b2ee9288362a413e5d3bb9ee2"
+          }
+        },
+        {
+          "name": "01-ref-before-old-HD-load",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "01-ref-before-old-HD-load.png",
+            "bytes": 48459,
+            "sha256": "13592e338f0191da65204c01c6e93284aa4946f989cd3553c6baa575a8b63730"
+          }
+        },
+        {
+          "name": "02-ref-after-old-HD-load",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "02-ref-after-old-HD-load.png",
+            "bytes": 48459,
+            "sha256": "13592e338f0191da65204c01c6e93284aa4946f989cd3553c6baa575a8b63730"
+          }
+        },
+        {
+          "name": "03-real-Lu-Bu-hd-report",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "03-real-Lu-Bu-hd-report.png",
+            "bytes": 61738,
+            "sha256": "6eceb695abffcdd9ff903650e7406acd726f8fc0e6f6d66ae6af876a58ff73b9"
+          }
+        },
+        {
+          "name": "04-final-original-HD-map",
+          "viewport": [
+            844,
+            390
+          ],
+          "screenshot": {
+            "file": "04-final-original-HD-map.png",
+            "bytes": 569032,
+            "sha256": "e0be76168a1d720c3233d2a300b9024d7788e823f37c953870e690b15bd22cc0"
+          }
+        }
+      ],
+      "checks": [
+        {
+          "label": "submenu-pan-0",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "native-highlight-19",
+          "worldUnchanged": true,
+          "keys": [
+            35
+          ]
+        },
+        {
+          "label": "01-ref-before-old-HD-load",
+          "portrait": {
+            "personId": 19,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/19-李儒.png",
+            "currentSrc": "http://127.0.0.1:10226/assets/hd-portraits/refs/period-1/19-%E6%9D%8E%E5%84%92.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "李儒",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "2e007a20edce3b37518568deb9aff59a9095f2ff194c721ee0eb58ef62dfb48d",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "old-HD-completion-cannot-replace-current-person",
+          "zeroKeys": true,
+          "worldUnchanged": true
+        },
+        {
+          "label": "02-ref-after-old-HD-load",
+          "portrait": {
+            "personId": 19,
+            "period": 1,
+            "context": "city",
+            "mode": "ref",
+            "sourceMode": "ref",
+            "src": "assets/hd-portraits/refs/period-1/19-李儒.png",
+            "currentSrc": "http://127.0.0.1:10226/assets/hd-portraits/refs/period-1/19-%E6%9D%8E%E5%84%92.png",
+            "decoded": [
+              24,
+              24
+            ],
+            "caption": "李儒",
+            "parent": "hd-city-menu-person-portrait",
+            "currentOwnerKeySha256": "2e007a20edce3b37518568deb9aff59a9095f2ff194c721ee0eb58ef62dfb48d",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 406.953125,
+              "right": 816.984375,
+              "top": 125,
+              "bottom": 267,
+              "width": 410.03125,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 399.953125,
+              "right": 823.984375,
+              "top": 118,
+              "bottom": 296,
+              "width": 424.03125,
+              "height": 178
+            }
+          }
+        },
+        {
+          "label": "native-highlight-20",
+          "worldUnchanged": true,
+          "keys": [
+            35
+          ]
+        },
+        {
+          "label": "03-real-Lu-Bu-hd-report",
+          "portrait": {
+            "personId": 20,
+            "period": 1,
+            "context": "dialog",
+            "mode": "hd",
+            "sourceMode": "hd",
+            "src": "assets/hd-portraits/hd/hd_p1_0020_吕布.png",
+            "currentSrc": "http://127.0.0.1:10226/assets/hd-portraits/hd/hd_p1_0020_%E5%90%95%E5%B8%83.png",
+            "decoded": [
+              1280,
+              720
+            ],
+            "caption": "吕布",
+            "parent": "hd-dialog-portrait",
+            "currentOwnerKeySha256": "9c0f26d70ccbf267090318c99e2354edd587538ac79ec4bf7f8311d8073ba178",
+            "fallbackActive": false,
+            "fallbackOwner": null,
+            "imageRect": {
+              "left": 21,
+              "right": 155,
+              "top": 105,
+              "bottom": 247,
+              "width": 134,
+              "height": 142
+            },
+            "figureRect": {
+              "left": 14,
+              "right": 162,
+              "top": 98,
+              "bottom": 276,
+              "width": 148,
+              "height": 178
+            }
+          }
+        }
+      ],
+      "verifiedMissingTargets": [],
+      "delayedRequestObserved": true,
+      "treat": {
+        "actor": 20,
+        "city": 15,
+        "native": {
+          "text": "主公恩情，永铭于心……",
+          "seq": 1,
+          "active": 1,
+          "inputSeq": 3,
+          "kind": 2,
+          "person": 20
+        },
+        "delta": {
+          "phase": "report",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 95
+          }
+        },
+        "finalDelta": {
+          "phase": "retired",
+          "cityIndex": 15,
+          "personIndex": 20,
+          "money": {
+            "before": 517,
+            "after": 417
+          },
+          "thew": {
+            "before": 100,
+            "after": 100
+          },
+          "devotion": {
+            "before": 95,
+            "after": 96
+          }
+        },
+        "keys": [
+          {
+            "code": 39,
+            "at": 14400.59999999404
+          }
+        ]
+      },
+      "exceptions": 0,
+      "sourceDrift": [],
+      "cleanup": {
+        "treeExited": true,
+        "serverClosed": true,
+        "profileRetained": true,
+        "directoriesDeleted": false
+      },
+      "raw": {
+        "path": "build/mobile-portraits-final2-delayed/result.json",
+        "bytes": 955682,
+        "sha256": "fefe339d6e1e9d5aeea3bb57c81a7af174ab95c82e9fd87917608605f621d04b"
+      },
+      "log": {
+        "path": "build/mobile-portraits-final2-delayed.log",
+        "bytes": 379,
+        "sha256": "a271d2b322a7214f10d2d5e15b3a135ee381f0b0a3520f1ab2467689c76385c6"
+      },
+      "sourceVerification": {
+        "path": "build/mobile-portraits-final2-delayed/source-verification.json",
+        "bytes": 8836,
+        "sha256": "2fd0c3bdcad48c2c1a4641ac9b2f2bd74c24486b6b72a8fa0c7dcc97f57af6ae"
+      }
+    }
+  ],
+  "cityRegression": {
+    "accepted": true,
+    "phases": 34,
+    "cityChecks": 64,
+    "returns": 26,
+    "negative": 14,
+    "treatments": 2,
+    "raw": {
+      "path": "build/mobile-portraits-final-city/result.json",
+      "bytes": 13597629,
+      "sha256": "bff085d24f8c8d94b40a9eb31211901c2ed20a109299bfd66a2a3cc8eb8f428b"
+    },
+    "log": {
+      "path": "build/mobile-portraits-final-city.log",
+      "bytes": 1629,
+      "sha256": "f53a37f07a2a510a1f42a8c3fd8104088a38ec1acc50a5ac083b38cd26f04aff"
+    },
+    "cleanup": {
+      "treeExited": true,
+      "serverClosed": true,
+      "profileRetained": true,
+      "directoriesDeleted": false
+    }
+  },
+  "sources": [
+    {
+      "path": "scripts/test-hd-mobile-city-runtime.mjs",
+      "bytes": 63481,
+      "sha256": "1adb79d908fc6fa9ac11ca86eb48ae222747ff47748c4e8a641ba106fa368813"
+    },
+    {
+      "path": "scripts/hd-runtime-owned-chrome.mjs",
+      "bytes": 13354,
+      "sha256": "1accd3307d480da768ab2985a613f4fadaec9ee3a5e9f8cdcaff4e7abe3550d0"
+    },
+    {
+      "path": "scripts/hd-runtime-json.mjs",
+      "bytes": 7162,
+      "sha256": "ac7336ab918985830bc613f46bf411d913618ee4929de2cb1915aeef11a55833"
+    },
+    {
+      "path": "m.html",
+      "bytes": 12498,
+      "sha256": "d80fe5f2570aa7f8857d43271f6c19c1bbc376c9a539939d08e18d42980fc60d"
+    },
+    {
+      "path": "js/original-game.js",
+      "bytes": 7437,
+      "sha256": "1ce5174f232eb007f92596ef4107f3e9ba23305e13eae621427f5fd72c545e34"
+    },
+    {
+      "path": "js/hd-mobile.js",
+      "bytes": 9728,
+      "sha256": "69e7d99702d9af12eaf3687f92f6d59dc55baa8252a458b4d3f72957420220c7"
+    },
+    {
+      "path": "js/hd-mobile-map.js",
+      "bytes": 18561,
+      "sha256": "8babb010711d22d29deea6ec718d4ed83b538569674a7b668787223be71325e9"
+    },
+    {
+      "path": "js/hd-mobile-city.js",
+      "bytes": 30789,
+      "sha256": "3db2e95f89f21aeaa9952d8902c47cc4e325f9cf4ff2e6332f2ad46de7a55a28"
+    },
+    {
+      "path": "js/hd-city-menu.js",
+      "bytes": 311818,
+      "sha256": "c2e1b30ddf79440c80ee361d23725e38083ac4a6813f4ee7442df26ff18f90f3"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 102125,
+      "sha256": "c3cbb2d78fea9e4d3f25fe65d2b6bfda8cec946f9854c6b40020d42146f65380"
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 168802,
+      "sha256": "99dc69bf05702d700811ece731e84a26e555d851a13462b739e93550ad973745"
+    },
+    {
+      "path": "js/lcd.js",
+      "bytes": 34418,
+      "sha256": "b10f9a41d9718784e321d789a29b81a62429e31b753e51f7c4cab14afa690169"
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    {
+      "path": "scripts/hd-mobile-portraits-runtime-checks.mjs",
+      "bytes": 19188,
+      "sha256": "9fbf0c1b40e3d391bb7968a1d15ee57b8487dd558ab2d12e4c8b01badbec89a8"
+    },
+    {
+      "path": "css/baye.css",
+      "bytes": 2869,
+      "sha256": "1cd06ece53807cba09a191d21da367bbe33deec393eb0f98b668e2e8d59e4c83"
+    },
+    {
+      "path": "css/hd-overworld.css",
+      "bytes": 4893,
+      "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1"
+    },
+    {
+      "path": "css/hd-city-menu.css",
+      "bytes": 14183,
+      "sha256": "3fc256cf6fa34756987f993d208948008f39d14faf7588de4618857c0ca6b485"
+    },
+    {
+      "path": "css/hd-dialog.css",
+      "bytes": 9772,
+      "sha256": "3ae9cdfa2da38d1fa38c4513d985468e13fe35e324c3865c57e0ecd1f8e70d9e"
+    },
+    {
+      "path": "css/hd-mobile.css",
+      "bytes": 10184,
+      "sha256": "1276a3110df445a7c27791e16d2bbb0a383c5b0ef79065d84f7c8ba3eda06d85"
+    },
+    {
+      "path": "js/jquery.min.js",
+      "bytes": 92629,
+      "sha256": "c12f6098e641aaca96c60215800f18f5671039aecf812217fab3c0d152f6adb4"
+    },
+    {
+      "path": "js/encoding-indexes.js",
+      "bytes": 145824,
+      "sha256": "3108a91b9d49db07b9b930f261d6ac5727eead44a388720c5366dde8ba30f738"
+    },
+    {
+      "path": "js/encoding.js",
+      "bytes": 101260,
+      "sha256": "4c9320d536c1aad92679ded7eabd2f6b70b1244a31d1104a97a94dbe7fa4b15d"
+    },
+    {
+      "path": "js/sprintf.js",
+      "bytes": 9783,
+      "sha256": "85b3777bbfaf4f74c81135ef0264e6413dce8e2dbe8999b0c29f83c42723972c"
+    },
+    {
+      "path": "js/lzma_worker-min.js",
+      "bytes": 23963,
+      "sha256": "e2189cb40141f598298a0810e19e4133aa5e8ab62a0a1295a5944ce5d3064523"
+    },
+    {
+      "path": "js/base64.js",
+      "bytes": 3334,
+      "sha256": "bb8dcdd0ad8e9c2315aa81eff98b0687c500adc3a08ab24a2c36e11e8ed92a42"
+    },
+    {
+      "path": "js/idbkvstore.min.js",
+      "bytes": 16578,
+      "sha256": "d41e42cb680355a626e536ca8ace12fc4c3eb3d22b3dd581f51e48a1aa3aed60"
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 144208,
+      "sha256": "ce727505885ae5f3adf43a3ce7de95320d5c52c237fba904c3b7152b1e08ffd8"
+    },
+    {
+      "path": "js/save-storage.js",
+      "bytes": 11899,
+      "sha256": "39f2c4d23fa2227e81755a09622735f80574500e9282c3f86abb8893cf962d9e"
+    },
+    {
+      "path": "js/hd-lib-identity.js",
+      "bytes": 5822,
+      "sha256": "b32f1bc26cfe1d41f064fb250b8c6c4978aa8ac7c5c8ad2ecc4ac5df14e42aaf"
+    },
+    {
+      "path": "js/hd-overworld-layers.js",
+      "bytes": 5717,
+      "sha256": "c1146dd116191c4bc450c8e581b77d1239d036608ad56a664192d527dc6e773a"
+    },
+    {
+      "path": "js/hd-portraits.js",
+      "bytes": 30421,
+      "sha256": "ef3e2f9ab47b45232b7ff216d1a1f5298fb834c204eb7c987f2ce20fb12fbc6c"
+    },
+    {
+      "path": "js/hd-mobile-portraits.js",
+      "bytes": 24241,
+      "sha256": "cd33628dd9e2a7c4436ed88d121727c8e539f46cabe35ff3ab5973d5b6206076"
+    },
+    {
+      "path": "js/baye.js",
+      "bytes": 192446,
+      "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643"
+    },
+    {
+      "path": "js/baye.wasm",
+      "bytes": 4535346,
+      "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e"
+    },
+    {
+      "path": "assets/hd-portraits/manifest.json",
+      "bytes": 8741,
+      "sha256": "bda8f663852c256f8221fbd63721b5a6ddd27743d1d24a23798e92e9fa6e5894"
+    },
+    {
+      "path": "assets/hd-portraits/refs/index.json",
+      "bytes": 224423,
+      "sha256": "546a3ea06bf14cc0a14729b710ca7cfcca00a8f384e415b23e5a02cec2b3ed6f"
+    },
+    {
+      "path": "favicon.png",
+      "bytes": 7349,
+      "sha256": "1e1da0ffbc40e9d93e6010cd1a01f96375c217782cc3a2a071e053cfd26a1d22"
+    },
+    {
+      "path": "assets/hd-overworld/manifest.json",
+      "bytes": 8120,
+      "sha256": "a33ee40f0e75524e0adaac2b06047f57631c6861753795647790ea1df0879f94"
+    },
+    {
+      "path": "assets/hd-overworld/palette/factions.json",
+      "bytes": 479,
+      "sha256": "547c38d5a8ad90084f99eccdeb8a0eb4a77b499297bd075995469c073ae56098"
+    },
+    {
+      "path": "assets/hd-overworld/roads/adjacency.json",
+      "bytes": 925,
+      "sha256": "db0808fcb101d9d0439c54f4dd054325315b07e05713824fb7875ef78f0ddfad"
+    },
+    {
+      "path": "assets/hd-overworld/china-lcc-cities.json",
+      "bytes": 13172,
+      "sha256": "6c429b8d0009c7c78e0bc478e9ba4539ada4b0c60c87e2d1c56813d56a4de73a"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/base_plains.jpg",
+      "bytes": 2538377,
+      "sha256": "522f661bfdcc5ecc54be83c081e446dfbe5caaf554fe8ef08f15a07a8f61c445"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/overlay_rivers.png",
+      "bytes": 93336,
+      "sha256": "17690a7d137c018774fec999d8143fc1f0719166a3ac3d2dc6c4d8e3de9214d7"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/mountain-cluster-v1.png",
+      "bytes": 911013,
+      "sha256": "05cc208ef6c6fee6c95551ddf2f9ed1bf43b5cf0ab7ce7c368de0f2085e1ec46"
+    },
+    {
+      "path": "assets/hd-overworld/terrain/forest-cluster-v1.png",
+      "bytes": 1540805,
+      "sha256": "978ce9bcd48053ca77da87ffaa92efd6ec06ed626aa3f2ee9e95585a6f52d85f"
+    },
+    {
+      "path": "assets/hd-overworld/cities/fortified-city-v1.png",
+      "bytes": 972200,
+      "sha256": "c5ad664a4be45b0aa955d05bbd75948b03d1c2386ba5435d1da76ea40c99c4db"
+    },
+    {
+      "path": "assets/hd-overworld/ui/cursor.png",
+      "bytes": 777,
+      "sha256": "1ce09a744160b991ed1ce62dce95240b4107d3f74f6beeb6f8257c92f0fec994"
+    },
+    {
+      "path": "assets/hd-overworld/ui/cursor_hover.png",
+      "bytes": 3060,
+      "sha256": "3b45532f02cb5de846bf3df8bdaf87dfc661d9ab76130468471314b03d614604"
+    },
+    {
+      "path": "assets/hd-overworld/roads/stroke.png",
+      "bytes": 108,
+      "sha256": "6a25048f9f5c15dcc8f6e537c3f3d8cddb7b2fca135252ae29e8bd30a4deba4c"
+    },
+    {
+      "path": "assets/hd-overworld/roads/bridge-crossing-v1.png",
+      "bytes": 1198185,
+      "sha256": "110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88"
+    },
+    {
+      "path": "fonts/HarmonyOS_Sans_SC_Regular.ttf",
+      "bytes": 8261128,
+      "sha256": "297b088424be212207df2ce8b98e335468b782aa6b96832af0b8b773d711e2b1"
+    },
+    {
+      "path": "assets/hd-portraits/hd/hd_p1_0000_董卓.png",
+      "bytes": 1607223,
+      "sha256": "1de400c70f00b1cd2ca6ccb0d9574cbe3d5a169cc42778895bce8432c8689b26"
+    },
+    {
+      "path": "assets/hd-portraits/refs/period-1/19-李儒.png",
+      "bytes": 486,
+      "sha256": "d41813a0446a3a5ab4bfa15067543675eb204f9f9e7fa9e898de2490eca9524e"
+    },
+    {
+      "path": "assets/hd-portraits/hd/hd_p1_0020_吕布.png",
+      "bytes": 1717569,
+      "sha256": "e63384b470a20f841f7399f616fdb1b4d15a7672a5de956081d172788027e2a3"
+    },
+    {
+      "path": "assets/hd-portraits/refs/period-1/0-董卓.png",
+      "bytes": 513,
+      "sha256": "8df590f9451a40d51f3ac004fbd5f3e714a0980e16cec586068cca2af310fb43"
+    },
+    {
+      "path": "assets/hd-portraits/refs/period-1/20-吕布.png",
+      "bytes": 453,
+      "sha256": "12638f011a2ef8b510f86140291fbf6a4884e14a08d3722deb3b8274c53d8a16"
+    },
+    {
+      "path": "assets/hd-portraits/refs/period-1/23-李傕.png",
+      "bytes": 527,
+      "sha256": "e223a38181e9ba0494a226b9d13e2cce714912f24a770a624efccc6d419afca9"
+    }
+  ],
+  "native": {
+    "changed": false,
+    "artifacts": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "60a58264f004e9408670da2e39186b43ec8facd1f510f9c307c598dd3c90c643",
+        "unchangedFromParent": true
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4535346,
+        "sha256": "c6937b94bbd23e993ff2230d728130c220eda9d75219d539a338b14ec13e229e",
+        "unchangedFromParent": true
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "6f9dc867298d7214d4ea5bd78f505cca366528a3f318eae4e9f4191d86f5392e",
+        "unchangedFromParent": true
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 16650,
+        "sha256": "880e757096550c591c3764411a5a6568e2809ecd5db50cfd048a7ad0dae4676a",
+        "unchangedFromParent": true
+      }
+    ],
+    "sourceRevision": "a71b0836dc538dcefbb01950c31b46461f8b5726",
+    "engineSourceSha256": "8ca341d5540039f3e91f751f5f636bc44c902592ad3bea4ea0089c163c9b17a0",
+    "engineSourceModified": true,
+    "newBuild": false
+  },
+  "pictures": [
+    {
+      "path": "docs/validation/m5-mobile-portraits-20261011/normal-person-667x375.png",
+      "bytes": 110607,
+      "sha256": "b21b48d0831b92bff56a400263f99cc6d33f1528f0dcad00ccb04faf01fdd3f8"
+    },
+    {
+      "path": "docs/validation/m5-mobile-portraits-20261011/normal-03-real-Lu-Bu-hd-report.png",
+      "bytes": 61738,
+      "sha256": "6eceb695abffcdd9ff903650e7406acd726f8fc0e6f6d66ae6af876a58ff73b9"
+    },
+    {
+      "path": "docs/validation/m5-mobile-portraits-20261011/all-missing-01-missing-real-LCD.png",
+      "bytes": 26759,
+      "sha256": "8999e16ed92940ba59368b6b24f041c7bdb43ae2de2715a8ec1f22c412ee32a1"
+    },
+    {
+      "path": "docs/validation/m5-mobile-portraits-20261011/all-missing-03-real-Lu-Bu-lcd-report.png",
+      "bytes": 27745,
+      "sha256": "344fcc122c654d926ac858a20fe1ef8fcf9f1f2def23d061f2b4c367b0862d93"
+    },
+    {
+      "path": "docs/validation/m5-mobile-portraits-20261011/hd-missing-03-real-Lu-Bu-ref-report.png",
+      "bytes": 38829,
+      "sha256": "2867220c007db5a96e39366063b01521e0a2bc02c86c392f402429510b60c6a7"
+    }
+  ],
+  "earlier": [
+    {
+      "raw": {
+        "path": "build/mobile-portraits-actual-v1-normal/result.json",
+        "bytes": 790721,
+        "sha256": "32b92a434efa5447f14f75d2b9d5112abfa0bd27eee36fd418725eff81d79c33"
+      },
+      "error": "AssertionError [ERR_ASSERTION]: Actual original Luoyang ordered resident IDs\n+ actual - expected\n... Skipped lines\n\n  [\n    0,\n    19,\n    20,\n    21,\n...\n    31,\n-   116,\n-   152\n  ]\n\n    at picker (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:49:12)\n    at async runMobilePortraitChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:71:14)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:555:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:576:86",
+      "treeExited": true,
+      "sourceDrift": []
+    },
+    {
+      "raw": {
+        "path": "build/mobile-portraits-actual-v2-normal/result.json",
+        "bytes": 1061223,
+        "sha256": "0de8f0d268287c77266db4bfb2b5ae12d5ad87ab6b0cdedfcc39e40a005a52df"
+      },
+      "error": "Error: Timed out actual city 0 hd decoded portrait\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:190:78)\n    at async runMobilePortraitChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:105:41)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:555:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:576:86",
+      "treeExited": true,
+      "sourceDrift": []
+    },
+    {
+      "raw": {
+        "path": "build/mobile-portraits-actual-v5-all-missing/result.json",
+        "bytes": 788276,
+        "sha256": "c076084ca4e8c3f48e9c2289b4a1bc473db185f5fb8cae51dc505655b9e02fa8"
+      },
+      "error": "Error: Timed out both images missing exposes actual LCD\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:190:78)\n    at async runMobilePortraitChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:95:13)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:555:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:577:86",
+      "treeExited": true,
+      "sourceDrift": []
+    },
+    {
+      "raw": {
+        "path": "build/mobile-portraits-final-all-missing/result.json",
+        "bytes": 967983,
+        "sha256": "9960fd4a36c7a1429e2725a4decc613980eee69856b42ebb9103c5721a921865"
+      },
+      "error": "Error: Timed out visible unobstructed mobile control #hd-city-menu [data-hd-menu-back]\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:190:78)\n    at async buttonPoint (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:225:16)\n    at async control (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:24:42)\n    at async press (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:25:35)\n    at async returnMap (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:86:33)\n    at async runMobilePortraitChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-portraits-runtime-checks.mjs:165:3)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:555:7)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:577:86",
+      "treeExited": true,
+      "sourceDrift": []
+    },
+    {
+      "raw": {
+        "path": "build/mobile-portraits-final-delayed/result.json",
+        "bytes": 957232,
+        "sha256": "5fcb14030d0f8fd4aa2aebe53b2d6d649a6bf65eea7254215e7eb6f263e455c9"
+      },
+      "reason": "Game checks passed; immediate exit proof conservatively rejected temporary updater descendants. Later read-only exit proof succeeded; original result stays false.",
+      "deferredExit": {
+        "path": "build/mobile-portraits-final-delayed/deferred-exit-proof.json",
+        "bytes": 302,
+        "sha256": "41046442d50e53028c440597d92ae19fbbf35d5da7788d507b550600480b587f"
+      },
+      "treeExitedInitially": false,
+      "sourceDrift": []
+    }
+  ],
+  "userService": {
+    "port": 8080,
+    "pid": 57860,
+    "httpStatus": 200,
+    "restarted": false,
+    "userStorageTouched": false
+  },
+  "pending": [
+    "Mobile MARCH, map-king/battle and other portrait contexts",
+    "Mobile HD battle layout and native-owned touch commands",
+    "Actual Android/iOS, safe area, browser chrome and fixed-device performance",
+    "Committed recruitment, all city commands and complete mobile campaign/save/load"
+  ],
+  "evidenceNote": "Four fresh private-profile runs and default city regression all bind current product hashes. Native highlight-only arrows are public engine input; HD menu/report actions use trusted CDP touch. In both-images-missing case the real LCD is visible and native Enter selects/acknowledges the real Lu Bu report. Raw reports, executed tools and private profiles remain local; curated JSON and selected screenshots are not a portable closed archive."
+}

@@ -1,0 +1,894 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-667-v1/executed-tool.mjs",
+      "bytes": 116357,
+      "sha256": "ae0efb38d3db5b1bed8916c7e76811bce2e6fda016b3863c106eeeba523e6f82",
+      "file": "raw/f24580747d03c2d9eaa767946d8621e946fa1d6daa9e773f3382b8936b16c0dc.gz",
+      "archiveBytes": 29752,
+      "archiveSha256": "f24580747d03c2d9eaa767946d8621e946fa1d6daa9e773f3382b8936b16c0dc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-667-v1/owned-process-samples.jsonl",
+      "bytes": 51425,
+      "sha256": "03b02e5559885bb631a90a08553a9e7b67b9f1ee9d8f65c839c3775f613a7006",
+      "file": "raw/fbff3db0fa858739d7fca3288ddc6c62de0686e0da1cadeefada174be7faa51a.gz",
+      "archiveBytes": 2125,
+      "archiveSha256": "fbff3db0fa858739d7fca3288ddc6c62de0686e0da1cadeefada174be7faa51a"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-667-v1/result.json",
+      "bytes": 2046728,
+      "sha256": "af805f96f403747439d9b99c9fd36fc6fceeba97d4bce999b913779c2c010c9d",
+      "file": "raw/84e41dc3d4434d67869265315c1513a895feafc70edb25979310f057cecfbf78.gz",
+      "archiveBytes": 318712,
+      "archiveSha256": "84e41dc3d4434d67869265315c1513a895feafc70edb25979310f057cecfbf78"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-667-v1/scene-0.png",
+      "bytes": 238260,
+      "sha256": "605f50adaf0b518ab53c64e38838724833c22e5f1418536add81cf3270a2248e",
+      "file": "raw/77c742575ca9b26d0d6d45e321acbb1e0b7ba1ffb61c223a249d942a8de2301f.gz",
+      "archiveBytes": 222919,
+      "archiveSha256": "77c742575ca9b26d0d6d45e321acbb1e0b7ba1ffb61c223a249d942a8de2301f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-667-v1/source-verification.json",
+      "bytes": 27175,
+      "sha256": "9b005e928d6aac78466ba69129654d6900677e192025472febaa2c7300c10fb3",
+      "file": "raw/65c85b42a82d50662158d43101b41be1a19c06d608a0c63bdee571dc90b86600.gz",
+      "archiveBytes": 8985,
+      "archiveSha256": "65c85b42a82d50662158d43101b41be1a19c06d608a0c63bdee571dc90b86600"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-844-v2/executed-tool.mjs",
+      "bytes": 116357,
+      "sha256": "ae0efb38d3db5b1bed8916c7e76811bce2e6fda016b3863c106eeeba523e6f82",
+      "file": "raw/f24580747d03c2d9eaa767946d8621e946fa1d6daa9e773f3382b8936b16c0dc.gz",
+      "archiveBytes": 29752,
+      "archiveSha256": "f24580747d03c2d9eaa767946d8621e946fa1d6daa9e773f3382b8936b16c0dc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-844-v2/owned-process-samples.jsonl",
+      "bytes": 51358,
+      "sha256": "106c111267e5ce27d86249cd525311c99ed5293ffa059869de7dae4e2caf838a",
+      "file": "raw/22bcb610a8f48eca7986de1d7fdbf5c397bc028e91214e7bbc6caa93744c0151.gz",
+      "archiveBytes": 2116,
+      "archiveSha256": "22bcb610a8f48eca7986de1d7fdbf5c397bc028e91214e7bbc6caa93744c0151"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-844-v2/result.json",
+      "bytes": 2049935,
+      "sha256": "446f3162a9a08cc5feb5a7ccf13bc3724567f13228c4a9844d584ef61bdd26c2",
+      "file": "raw/ecc5559cfca1be0130a2acd4491214dda74f9b52fd0ef86ecdedec91735e4c37.gz",
+      "archiveBytes": 318694,
+      "archiveSha256": "ecc5559cfca1be0130a2acd4491214dda74f9b52fd0ef86ecdedec91735e4c37"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-844-v2/scene-0.png",
+      "bytes": 238260,
+      "sha256": "605f50adaf0b518ab53c64e38838724833c22e5f1418536add81cf3270a2248e",
+      "file": "raw/77c742575ca9b26d0d6d45e321acbb1e0b7ba1ffb61c223a249d942a8de2301f.gz",
+      "archiveBytes": 222919,
+      "archiveSha256": "77c742575ca9b26d0d6d45e321acbb1e0b7ba1ffb61c223a249d942a8de2301f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-844-v2/source-verification.json",
+      "bytes": 27175,
+      "sha256": "010c3e258567b640cc87bd047104ad92f4a31681e8e868bc6f5417ef0da38197",
+      "file": "raw/a50a6b09d362bbf7e34ec4b992c8b521b7d9002bfff965e0502cd20cd09c8fb8.gz",
+      "archiveBytes": 8985,
+      "archiveSha256": "a50a6b09d362bbf7e34ec4b992c8b521b7d9002bfff965e0502cd20cd09c8fb8"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-v1/executed-scene-checks.mjs",
+      "bytes": 8334,
+      "sha256": "d1d04b3c2b92b09178c8120588b73b67dadf188aa51cf8723ba97916978dd0e4",
+      "file": "raw/1fe59aa59519e58d33a5b25dba3cf41a8fe759fe8a8ff2bbf4f7b1b2d0bbb0fd.gz",
+      "archiveBytes": 3239,
+      "archiveSha256": "1fe59aa59519e58d33a5b25dba3cf41a8fe759fe8a8ff2bbf4f7b1b2d0bbb0fd"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-v1/executed-tool.mjs",
+      "bytes": 115966,
+      "sha256": "8e36e6bc1a4d45a7c3ecfe032b7a5448df5bd229e80d9b0b08c78d5c3b2d5022",
+      "file": "raw/baaa887902fc182927f471068ddcbbbdbe4f0876e5bc58f69723eed6400d8859.gz",
+      "archiveBytes": 29669,
+      "archiveSha256": "baaa887902fc182927f471068ddcbbbdbe4f0876e5bc58f69723eed6400d8859"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-v1/failure.png",
+      "bytes": 579259,
+      "sha256": "78a3451f41614993e8b52ee1918a1a37ee7ea6570ccb0bc3cdc5f9e99eb66f3f",
+      "file": "raw/cd1fc46e4879180102e0abe933ed7426e22c3948d483e0240e131cfecc453904.gz",
+      "archiveBytes": 579446,
+      "archiveSha256": "cd1fc46e4879180102e0abe933ed7426e22c3948d483e0240e131cfecc453904"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-v1/owned-process-samples.jsonl",
+      "bytes": 51157,
+      "sha256": "6a878a1e7e608ae74b857ef956d5be143dda7c4ca4a8792bc442f65475b43202",
+      "file": "raw/aed93faf026950a456ecd4124ecc2323fe5dc847274e4947416a7d32f33a54a5.gz",
+      "archiveBytes": 2110,
+      "archiveSha256": "aed93faf026950a456ecd4124ecc2323fe5dc847274e4947416a7d32f33a54a5"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-v1/result.json",
+      "bytes": 1334665,
+      "sha256": "eae98143f534fcb220acad76611ad166f52ca38eaac6732284dd1d4b20be48d3",
+      "file": "raw/95fde05a05b4259d512f89fc07446d03e46ac8a19082251a67f18ed7c8e49578.gz",
+      "archiveBytes": 75126,
+      "archiveSha256": "95fde05a05b4259d512f89fc07446d03e46ac8a19082251a67f18ed7c8e49578"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/mobile-v1/source-verification.json",
+      "bytes": 27175,
+      "sha256": "36819799408fb81564bae73a120c1ecd8136d91d5e3b1a506d2e1973b1c50c26",
+      "file": "raw/6e9154d045bb9d553500043d71550905373f0ac4f123b9f8a34888893a4cd9a6.gz",
+      "archiveBytes": 8987,
+      "archiveSha256": "6e9154d045bb9d553500043d71550905373f0ac4f123b9f8a34888893a4cd9a6"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/14-battle-ready.png",
+      "bytes": 315872,
+      "sha256": "96d67d502f20764a9cb6ad8690f59f22e5bcc73b650bf4eacd4b5f1dbd19de8e",
+      "file": "raw/c341faa871a141f0f9ad78d19534eb9ed6f5c198e5aa86723e093b47db21886f.gz",
+      "archiveBytes": 309837,
+      "archiveSha256": "c341faa871a141f0f9ad78d19534eb9ed6f5c198e5aa86723e093b47db21886f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/15-ai-target-retired-real-player-input.png",
+      "bytes": 306005,
+      "sha256": "376acb76818a4cdd3266e27a723b822356dd12cf3bd132781ac184493d89d84a",
+      "file": "raw/ae99f615b3952d827709c623207543de0b9ad18637b3187b794a3fee9c7970ff.gz",
+      "archiveBytes": 298224,
+      "archiveSha256": "ae99f615b3952d827709c623207543de0b9ad18637b3187b794a3fee9c7970ff"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-000-hd.png",
+      "bytes": 249292,
+      "sha256": "a4c953912d5b0925ea92cb19f6cc258c85f0bedefcefd5ab751c219497de737e",
+      "file": "raw/7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53.gz",
+      "archiveBytes": 235983,
+      "archiveSha256": "7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-000-lcd.png",
+      "bytes": 6419,
+      "sha256": "60c04ea05a314537c554e515592bd4a6b77b7c5d54a348b258e859b395bce304",
+      "file": "raw/23d288757ca4aa4c3edd95e53c780f804f1debec462783a6f454f5cd16c7cfe2.gz",
+      "archiveBytes": 6225,
+      "archiveSha256": "23d288757ca4aa4c3edd95e53c780f804f1debec462783a6f454f5cd16c7cfe2"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-001-hd.png",
+      "bytes": 250125,
+      "sha256": "8b2f2c2bc18824b3a07289a3e55ff905246e74ffaa10804008b62b93634ae313",
+      "file": "raw/18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc.gz",
+      "archiveBytes": 236832,
+      "archiveSha256": "18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-001-lcd.png",
+      "bytes": 6350,
+      "sha256": "8d067a22ea1111afe31b0103aca074e3cc066d1cdb5faa7668b28b1f13f380b5",
+      "file": "raw/8dff337c6f098a1b88e5b42c8913d9221c890552fa1f82d291cfe496d8e5e65e.gz",
+      "archiveBytes": 6156,
+      "archiveSha256": "8dff337c6f098a1b88e5b42c8913d9221c890552fa1f82d291cfe496d8e5e65e"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-002-hd.png",
+      "bytes": 249292,
+      "sha256": "a4c953912d5b0925ea92cb19f6cc258c85f0bedefcefd5ab751c219497de737e",
+      "file": "raw/7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53.gz",
+      "archiveBytes": 235983,
+      "archiveSha256": "7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-002-lcd.png",
+      "bytes": 6353,
+      "sha256": "9796cf049de02a29159238b2962aa301dabc7ee3f067a49ba06bfa13a91ad2b7",
+      "file": "raw/48483e16f226d157b8fdfc267f982f0f5f34752a2eb68fbabc1c598b0b4c01d4.gz",
+      "archiveBytes": 6140,
+      "archiveSha256": "48483e16f226d157b8fdfc267f982f0f5f34752a2eb68fbabc1c598b0b4c01d4"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-003-hd.png",
+      "bytes": 250125,
+      "sha256": "8b2f2c2bc18824b3a07289a3e55ff905246e74ffaa10804008b62b93634ae313",
+      "file": "raw/18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc.gz",
+      "archiveBytes": 236832,
+      "archiveSha256": "18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-003-lcd.png",
+      "bytes": 6350,
+      "sha256": "8d067a22ea1111afe31b0103aca074e3cc066d1cdb5faa7668b28b1f13f380b5",
+      "file": "raw/8dff337c6f098a1b88e5b42c8913d9221c890552fa1f82d291cfe496d8e5e65e.gz",
+      "archiveBytes": 6156,
+      "archiveSha256": "8dff337c6f098a1b88e5b42c8913d9221c890552fa1f82d291cfe496d8e5e65e"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-004-hd.png",
+      "bytes": 256743,
+      "sha256": "d01d51c72a83d977b4bb06f7ba1007a38edbbfa5adef1fa75a1d23f1f0badafd",
+      "file": "raw/5d2b7081e7107450ae221c707014fab1f8243c20266c0493c5beeab519d63247.gz",
+      "archiveBytes": 243268,
+      "archiveSha256": "5d2b7081e7107450ae221c707014fab1f8243c20266c0493c5beeab519d63247"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/ai-target-004-lcd.png",
+      "bytes": 6376,
+      "sha256": "cfb7d49ca9cbecb5b27a7de264cedba49b1aa3f5ba19806fd0778408c88f42eb",
+      "file": "raw/4bb640eb18a0aace3dc5fa297222a02a7c821e679103d3beb105e3d9343760a3.gz",
+      "archiveBytes": 6176,
+      "archiveSha256": "4bb640eb18a0aace3dc5fa297222a02a7c821e679103d3beb105e3d9343760a3"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/browser-console.json",
+      "bytes": 10590,
+      "sha256": "8faf53b3400bbaafaf4ed93b8e9a3eef058f9a109cf23c36de86750f5f1991a9",
+      "file": "raw/1aa45db9d37d94d882cd781d225566b298ddf4c7266bcd9dce2d404335263cfc.gz",
+      "archiveBytes": 1569,
+      "archiveSha256": "1aa45db9d37d94d882cd781d225566b298ddf4c7266bcd9dce2d404335263cfc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/engine-inputs.json",
+      "bytes": 195597,
+      "sha256": "19dbeed62158d577177350ba687471c0a1855f98a3b3cd364d4c66d3f8d029f6",
+      "file": "raw/c1b4a0b5257331f87ba871f189b0ce922c27bcfbbbd64ca6c28718ce055b7da2.gz",
+      "archiveBytes": 2667,
+      "archiveSha256": "c1b4a0b5257331f87ba871f189b0ce922c27bcfbbbd64ca6c28718ce055b7da2"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/executed-scene-oracle-tests.mjs",
+      "bytes": 11674,
+      "sha256": "297cf6958f24eef1b78adba67bfed8540b2a3fe120bcfa4adcaa75ceff68d4b0",
+      "file": "raw/e9373e609ec0d0d518fc250b0b6f57fb1f28fe7036533c1d9095f09553341ee4.gz",
+      "archiveBytes": 3896,
+      "archiveSha256": "e9373e609ec0d0d518fc250b0b6f57fb1f28fe7036533c1d9095f09553341ee4"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/executed-scene-oracle.mjs",
+      "bytes": 11107,
+      "sha256": "492724478f1b9f5f979d3254e2b5ed1f33fab09f311c62f949b2f1e6e0c459d6",
+      "file": "raw/43c6261f4aa5a13a0e8ce275f7ce97d4f250dbbd1aa7c8d43456f11549dead25.gz",
+      "archiveBytes": 4251,
+      "archiveSha256": "43c6261f4aa5a13a0e8ce275f7ce97d4f250dbbd1aa7c8d43456f11549dead25"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/executed-tool.mjs",
+      "bytes": 61406,
+      "sha256": "ac611555fdf83496551dab32ab99c7cbff5a004cb245c2a54ca692d4f14d7eb9",
+      "file": "raw/c0ee3e8c0fcc1b675135a9a8d45b8e62f88f95e43c9635eda6419b3fabc6caa7.gz",
+      "archiveBytes": 20143,
+      "archiveSha256": "c0ee3e8c0fcc1b675135a9a8d45b8e62f88f95e43c9635eda6419b3fabc6caa7"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/failure-observations.json",
+      "bytes": 106988710,
+      "sha256": "cb1ad359f2ba6b34fb0a49ad8f54efc885e0d49efeac9bccea9d299616c55ef5",
+      "file": "raw/5b3a908214b3a1f674a835b332a9edcaa7cd85ca40692ab002b37d79c34f13cc.gz",
+      "archiveBytes": 4061099,
+      "archiveSha256": "5b3a908214b3a1f674a835b332a9edcaa7cd85ca40692ab002b37d79c34f13cc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/failure.png",
+      "bytes": 306005,
+      "sha256": "376acb76818a4cdd3266e27a723b822356dd12cf3bd132781ac184493d89d84a",
+      "file": "raw/ae99f615b3952d827709c623207543de0b9ad18637b3187b794a3fee9c7970ff.gz",
+      "archiveBytes": 298224,
+      "archiveSha256": "ae99f615b3952d827709c623207543de0b9ad18637b3187b794a3fee9c7970ff"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/native-target-captures.json",
+      "bytes": 103677008,
+      "sha256": "a09cefae50476c6b5f4d4f85888f6885b3836f13aaafae960bc4738706ceea97",
+      "file": "raw/9b05750afc991c17fb4e0b8ba0f10fe3a383dd7f07455cb7fe5b2e467bde117f.gz",
+      "archiveBytes": 2797605,
+      "archiveSha256": "9b05750afc991c17fb4e0b8ba0f10fe3a383dd7f07455cb7fe5b2e467bde117f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "file": "raw/858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/owned-process-samples.jsonl",
+      "bytes": 191877,
+      "sha256": "fa28e48ac1ce9ccb8f82c92955fc103b6e6caaef9292bb8eb18366e479e49e15",
+      "file": "raw/9aa92f0ecad58b93e5a9515bbc39f6c8625a9e6724fad737f6613ea67f66ca60.gz",
+      "archiveBytes": 3571,
+      "archiveSha256": "9aa92f0ecad58b93e5a9515bbc39f6c8625a9e6724fad737f6613ea67f66ca60"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/public-input-calls.json",
+      "bytes": 436231,
+      "sha256": "64a097986b99f24949e8ce3acb93158b8d920af17fe89c1fd78f528499f7aaa6",
+      "file": "raw/6ecefb3093fd6a33588f682ac0194f332870df3e4615826fd5d966d7a4c9a983.gz",
+      "archiveBytes": 4253,
+      "archiveSha256": "6ecefb3093fd6a33588f682ac0194f332870df3e4615826fd5d966d7a4c9a983"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/result.json",
+      "bytes": 2074165,
+      "sha256": "0da25409aaa579b97edb44331d025cb4301049032db7dfffd1c393b7fd881215",
+      "file": "raw/63ec0931a469e9a81a825394219ff5760b40626d2734e4d9ca5eff4e8322246e.gz",
+      "archiveBytes": 255916,
+      "archiveSha256": "63ec0931a469e9a81a825394219ff5760b40626d2734e4d9ca5eff4e8322246e"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/retired-player-hd-battle.png",
+      "bytes": 503792,
+      "sha256": "e7be32a2d81ee63a90bda812067f1c25e545e1b439915706dd17e920c3c83aab",
+      "file": "raw/5ade0416415e25a51d105d17758e725d492069220c75858446f5a7925e132331.gz",
+      "archiveBytes": 487777,
+      "archiveSha256": "5ade0416415e25a51d105d17758e725d492069220c75858446f5a7925e132331"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/source-verification.json",
+      "bytes": 434290,
+      "sha256": "7816a8d837266b3f673a5b442d7bf2345e907aebb186e568c8d77db72a1b31ae",
+      "file": "raw/fc4d4ab1c1dd088975020ede6a48e7346193166aace8a5da709ab2d7b8fcef4b.gz",
+      "archiveBytes": 69339,
+      "archiveSha256": "fc4d4ab1c1dd088975020ede6a48e7346193166aace8a5da709ab2d7b8fcef4b"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v1/spe-observations.json",
+      "bytes": 597120,
+      "sha256": "27bfa11e087ff0e08e2907a2d61cfd80de57a94770b8252569a81461ec4cfee7",
+      "file": "raw/787573891190b49dc5f4b346b5beb74e52e3126d30df6a085e22c14d14e93ffd.gz",
+      "archiveBytes": 16014,
+      "archiveSha256": "787573891190b49dc5f4b346b5beb74e52e3126d30df6a085e22c14d14e93ffd"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/14-battle-ready.png",
+      "bytes": 315872,
+      "sha256": "96d67d502f20764a9cb6ad8690f59f22e5bcc73b650bf4eacd4b5f1dbd19de8e",
+      "file": "raw/c341faa871a141f0f9ad78d19534eb9ed6f5c198e5aa86723e093b47db21886f.gz",
+      "archiveBytes": 309837,
+      "archiveSha256": "c341faa871a141f0f9ad78d19534eb9ed6f5c198e5aa86723e093b47db21886f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/15-ai-target-retired-real-player-input.png",
+      "bytes": 306005,
+      "sha256": "376acb76818a4cdd3266e27a723b822356dd12cf3bd132781ac184493d89d84a",
+      "file": "raw/ae99f615b3952d827709c623207543de0b9ad18637b3187b794a3fee9c7970ff.gz",
+      "archiveBytes": 298224,
+      "archiveSha256": "ae99f615b3952d827709c623207543de0b9ad18637b3187b794a3fee9c7970ff"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-000-hd.png",
+      "bytes": 249292,
+      "sha256": "a4c953912d5b0925ea92cb19f6cc258c85f0bedefcefd5ab751c219497de737e",
+      "file": "raw/7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53.gz",
+      "archiveBytes": 235983,
+      "archiveSha256": "7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-000-lcd.png",
+      "bytes": 6385,
+      "sha256": "63d093b8f87d4dc58f78b27b93e5fab921153dc2c7545d14f37385d58c5aee2b",
+      "file": "raw/99a6e048cd55e22907022c298da3c3ef4e94f71066032915d134410e6f2aab19.gz",
+      "archiveBytes": 6159,
+      "archiveSha256": "99a6e048cd55e22907022c298da3c3ef4e94f71066032915d134410e6f2aab19"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-001-hd.png",
+      "bytes": 250125,
+      "sha256": "8b2f2c2bc18824b3a07289a3e55ff905246e74ffaa10804008b62b93634ae313",
+      "file": "raw/18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc.gz",
+      "archiveBytes": 236832,
+      "archiveSha256": "18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-001-lcd.png",
+      "bytes": 6317,
+      "sha256": "0e4f2a3fde8756c0d1ca3e0fcb75566494924b7fd5f1bfb2b68d91aa6507ecaa",
+      "file": "raw/052964a600b46e87f7f51572732604e63bd8327af39ce79f0dff05940fbf9c1c.gz",
+      "archiveBytes": 6070,
+      "archiveSha256": "052964a600b46e87f7f51572732604e63bd8327af39ce79f0dff05940fbf9c1c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-002-hd.png",
+      "bytes": 249292,
+      "sha256": "a4c953912d5b0925ea92cb19f6cc258c85f0bedefcefd5ab751c219497de737e",
+      "file": "raw/7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53.gz",
+      "archiveBytes": 235983,
+      "archiveSha256": "7f13010975a196aa96c0d96bf6f1758c1e4efd6f61f87c3b4ce12700ce3cde53"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-002-lcd.png",
+      "bytes": 6320,
+      "sha256": "5afed21aa7ee32539d204a50b53143c5359462ceb4d2c034c2c7242ec75817dc",
+      "file": "raw/474bb80d51b30e089a51ab136861dee9df59d3e8834a7ebc291e8a35d2c4dca8.gz",
+      "archiveBytes": 6072,
+      "archiveSha256": "474bb80d51b30e089a51ab136861dee9df59d3e8834a7ebc291e8a35d2c4dca8"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-003-hd.png",
+      "bytes": 250125,
+      "sha256": "8b2f2c2bc18824b3a07289a3e55ff905246e74ffaa10804008b62b93634ae313",
+      "file": "raw/18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc.gz",
+      "archiveBytes": 236832,
+      "archiveSha256": "18f7b6ca4d9ee8abae894e1ee297aa1f53d28005cf220928177a18ff73aae6cc"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-003-lcd.png",
+      "bytes": 6317,
+      "sha256": "0e4f2a3fde8756c0d1ca3e0fcb75566494924b7fd5f1bfb2b68d91aa6507ecaa",
+      "file": "raw/052964a600b46e87f7f51572732604e63bd8327af39ce79f0dff05940fbf9c1c.gz",
+      "archiveBytes": 6070,
+      "archiveSha256": "052964a600b46e87f7f51572732604e63bd8327af39ce79f0dff05940fbf9c1c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-004-hd.png",
+      "bytes": 256743,
+      "sha256": "d01d51c72a83d977b4bb06f7ba1007a38edbbfa5adef1fa75a1d23f1f0badafd",
+      "file": "raw/5d2b7081e7107450ae221c707014fab1f8243c20266c0493c5beeab519d63247.gz",
+      "archiveBytes": 243268,
+      "archiveSha256": "5d2b7081e7107450ae221c707014fab1f8243c20266c0493c5beeab519d63247"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/ai-target-004-lcd.png",
+      "bytes": 6343,
+      "sha256": "f93b47c62d3873b56946eb1245656db26d3091eb759bced414daa61d4838684b",
+      "file": "raw/929ca759f100b59117d0973e3009e5bcf2008f47f5d692352b7a97ec0a8ca8dd.gz",
+      "archiveBytes": 6143,
+      "archiveSha256": "929ca759f100b59117d0973e3009e5bcf2008f47f5d692352b7a97ec0a8ca8dd"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/browser-console.json",
+      "bytes": 10695,
+      "sha256": "d465b279075e90a76b2544d95d2979f4257984d6df270481af867c47bcc94a69",
+      "file": "raw/d686fbc199491df28679e6eeabb5cd91c47e0430e29893dd10c0acc23c9c5863.gz",
+      "archiveBytes": 1566,
+      "archiveSha256": "d686fbc199491df28679e6eeabb5cd91c47e0430e29893dd10c0acc23c9c5863"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/engine-inputs.json",
+      "bytes": 195579,
+      "sha256": "83be75ec74faad2177879b16b61f837a9cb592e2c2ec3b246ff1ff9821d388d1",
+      "file": "raw/8bed3d22711c7c60b6cd6f15a20ec4485d458c4f4cd6fbf498f66585c6d8ef49.gz",
+      "archiveBytes": 2668,
+      "archiveSha256": "8bed3d22711c7c60b6cd6f15a20ec4485d458c4f4cd6fbf498f66585c6d8ef49"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/native-target-captures.json",
+      "bytes": 103676988,
+      "sha256": "515fcd7b467272ac7dfb927c8897ebe4ce1df9f55b47f013b8e237023e16bf58",
+      "file": "raw/6cb501cde6c59badb0ffcb434b990dd1daf1465fda2a12d76e0639be5ce0eb8c.gz",
+      "archiveBytes": 2797576,
+      "archiveSha256": "6cb501cde6c59badb0ffcb434b990dd1daf1465fda2a12d76e0639be5ce0eb8c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "file": "raw/858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/owned-process-samples.jsonl",
+      "bytes": 199359,
+      "sha256": "973603316d5b42968464fbdcacc4212bcfa88c33db9c25eb61262c4c76d7e1b2",
+      "file": "raw/3f5f580d35a43a8881b23e86f9af5fd345b6d845f17e00b0357e0bff3fb0853c.gz",
+      "archiveBytes": 3872,
+      "archiveSha256": "3f5f580d35a43a8881b23e86f9af5fd345b6d845f17e00b0357e0bff3fb0853c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/public-input-calls.json",
+      "bytes": 436224,
+      "sha256": "0d84cbf246e73d1c513b1bea29ad320826f6085f4403e67f301c15b9fe7c37fd",
+      "file": "raw/18573c94bf390d4eb7bfe8b7c7f6f4927ae4b47ec68da3efbc5230151c7f2b57.gz",
+      "archiveBytes": 4241,
+      "archiveSha256": "18573c94bf390d4eb7bfe8b7c7f6f4927ae4b47ec68da3efbc5230151c7f2b57"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/result.json",
+      "bytes": 2042928,
+      "sha256": "c12bd9d750764251af351e908665258627a27c8900e4739ec01c61a7343f0ae9",
+      "file": "raw/9aa4178be470d98941d5a86193ebc86b51728fcd596ec46878055c5afe64f47b.gz",
+      "archiveBytes": 250703,
+      "archiveSha256": "9aa4178be470d98941d5a86193ebc86b51728fcd596ec46878055c5afe64f47b"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/retired-player-hd-battle.png",
+      "bytes": 503792,
+      "sha256": "e7be32a2d81ee63a90bda812067f1c25e545e1b439915706dd17e920c3c83aab",
+      "file": "raw/5ade0416415e25a51d105d17758e725d492069220c75858446f5a7925e132331.gz",
+      "archiveBytes": 487777,
+      "archiveSha256": "5ade0416415e25a51d105d17758e725d492069220c75858446f5a7925e132331"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/source-verification.json",
+      "bytes": 434290,
+      "sha256": "a0dc0a23b37c86e6bc0f0d8070159cbb1e525e84136c90f01c250a78ad998926",
+      "file": "raw/aaa555de34333e2d257ebf5c8b2b2465bccbe9fbc9fe05ffb1deee12a617da9c.gz",
+      "archiveBytes": 69339,
+      "archiveSha256": "aaa555de34333e2d257ebf5c8b2b2465bccbe9fbc9fe05ffb1deee12a617da9c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-1080-v2/spe-observations.json",
+      "bytes": 597132,
+      "sha256": "174c19c05b3b7ab0ad44155f8bbf6f3d3633fdcae0cbc46741c92c136fc38d9f",
+      "file": "raw/5c5b8ded983f79174e6a56b84118921f3b37e0fe28ddfda9f6306e3ff33d3292.gz",
+      "archiveBytes": 16030,
+      "archiveSha256": "5c5b8ded983f79174e6a56b84118921f3b37e0fe28ddfda9f6306e3ff33d3292"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/14-battle-ready.png",
+      "bytes": 224050,
+      "sha256": "506c1c10ae08c19704e7e5fb505a59ce1406e4bd421cb3fb5fd727a37e229fe6",
+      "file": "raw/f145d0fa48aa19b2ceeabc5d7a23aa02177a1725b11302e647aaa56ff4cce516.gz",
+      "archiveBytes": 221993,
+      "archiveSha256": "f145d0fa48aa19b2ceeabc5d7a23aa02177a1725b11302e647aaa56ff4cce516"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/15-ai-target-retired-real-player-input.png",
+      "bytes": 220331,
+      "sha256": "a392ee7fa4d18f61b1346e54b8b938aa3243b5a296b6d563deebc5c5f61a1e0c",
+      "file": "raw/c8ed553769ccf8d28caa22800e9d45108eccc5a4881aba1b713dcdc2ae65adfb.gz",
+      "archiveBytes": 218092,
+      "archiveSha256": "c8ed553769ccf8d28caa22800e9d45108eccc5a4881aba1b713dcdc2ae65adfb"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-000-hd.png",
+      "bytes": 52332,
+      "sha256": "5842158a3172b5c474d4dd274907b329490523c993bc41fd123c0c417705f7ae",
+      "file": "raw/bd71ac5b15da07f09a84150dcfc0e7768be146415f281df0de1af9225d97dc71.gz",
+      "archiveBytes": 28734,
+      "archiveSha256": "bd71ac5b15da07f09a84150dcfc0e7768be146415f281df0de1af9225d97dc71"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-000-lcd.png",
+      "bytes": 5781,
+      "sha256": "3fbd5b944f6f2e55c92e098fbd9ab946aff95e6bcf25c1c2e09c4ae32d484962",
+      "file": "raw/99dc01e1160e908906e15b52a2960f63ebe4b00ca410fef0d3dd237f26a534a3.gz",
+      "archiveBytes": 5726,
+      "archiveSha256": "99dc01e1160e908906e15b52a2960f63ebe4b00ca410fef0d3dd237f26a534a3"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-001-hd.png",
+      "bytes": 52079,
+      "sha256": "d5602e7c58c2ab94c7234cc962bab0920a4250a7b3a8f76f395811abad3e6764",
+      "file": "raw/59be068b57946c4c8842c09bbdadaba68b3b23b6171d0ed14ca13248d304c8ac.gz",
+      "archiveBytes": 28394,
+      "archiveSha256": "59be068b57946c4c8842c09bbdadaba68b3b23b6171d0ed14ca13248d304c8ac"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-001-lcd.png",
+      "bytes": 5665,
+      "sha256": "9a257cb41f9f5a77d57764291dcbec52fc3066ea04a48e3d7c2c96290863e18c",
+      "file": "raw/e9f68e136bfa457ada95a3d65e9591399e5aa87cda224ad2d1fda4b67742afb1.gz",
+      "archiveBytes": 5621,
+      "archiveSha256": "e9f68e136bfa457ada95a3d65e9591399e5aa87cda224ad2d1fda4b67742afb1"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-002-hd.png",
+      "bytes": 52074,
+      "sha256": "9e24f2cfd05975b8bc0532029d123cf7453c2aa6619b440b218611be7a85a1bc",
+      "file": "raw/5b459b1dca93218b9afa7dc6d24d0b0207bf931551f89849115ae06273b1e0b9.gz",
+      "archiveBytes": 28452,
+      "archiveSha256": "5b459b1dca93218b9afa7dc6d24d0b0207bf931551f89849115ae06273b1e0b9"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-002-lcd.png",
+      "bytes": 5656,
+      "sha256": "ce06d7b69a2bf830862c181cdf90a3999e6e40543ae2548cb7a3051638878076",
+      "file": "raw/84be8a7ba0c7d74330a655f7b330a6f6c36020ee0654ffaa174fc2f5e1218333.gz",
+      "archiveBytes": 5612,
+      "archiveSha256": "84be8a7ba0c7d74330a655f7b330a6f6c36020ee0654ffaa174fc2f5e1218333"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-003-hd.png",
+      "bytes": 52079,
+      "sha256": "d5602e7c58c2ab94c7234cc962bab0920a4250a7b3a8f76f395811abad3e6764",
+      "file": "raw/59be068b57946c4c8842c09bbdadaba68b3b23b6171d0ed14ca13248d304c8ac.gz",
+      "archiveBytes": 28394,
+      "archiveSha256": "59be068b57946c4c8842c09bbdadaba68b3b23b6171d0ed14ca13248d304c8ac"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-003-lcd.png",
+      "bytes": 5665,
+      "sha256": "9a257cb41f9f5a77d57764291dcbec52fc3066ea04a48e3d7c2c96290863e18c",
+      "file": "raw/e9f68e136bfa457ada95a3d65e9591399e5aa87cda224ad2d1fda4b67742afb1.gz",
+      "archiveBytes": 5621,
+      "archiveSha256": "e9f68e136bfa457ada95a3d65e9591399e5aa87cda224ad2d1fda4b67742afb1"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-004-hd.png",
+      "bytes": 52138,
+      "sha256": "12b3d82a142c919ccc57c2ab8a0560e135dfd2a77361d59c01996f2d5cac38ae",
+      "file": "raw/7c52c9776556f8cbac914f9ebbdd2560b4206e40eb6ceb4cf2e615043ae3ac34.gz",
+      "archiveBytes": 28471,
+      "archiveSha256": "7c52c9776556f8cbac914f9ebbdd2560b4206e40eb6ceb4cf2e615043ae3ac34"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/ai-target-004-lcd.png",
+      "bytes": 5686,
+      "sha256": "483b5bde6852c62970ffda3159742278c2cc7a80dbdeb92b2a94c7f3416b418e",
+      "file": "raw/49b0840fb8a4d5cab451cedee683943508d9b06966bcb4b5d7c7d97082e9f83f.gz",
+      "archiveBytes": 5624,
+      "archiveSha256": "49b0840fb8a4d5cab451cedee683943508d9b06966bcb4b5d7c7d97082e9f83f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/browser-console.json",
+      "bytes": 10590,
+      "sha256": "8a71603ede16f3d2d93489424f1362646fea7d32dab8918fc3c9e636c0f520e0",
+      "file": "raw/513acd7bc05f40a3080c57dc7f1baeefcbdec5a77bc5e243138354b1dd39475d.gz",
+      "archiveBytes": 1563,
+      "archiveSha256": "513acd7bc05f40a3080c57dc7f1baeefcbdec5a77bc5e243138354b1dd39475d"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/engine-inputs.json",
+      "bytes": 176040,
+      "sha256": "709f65aa7d366ba9b186ddc155b2dcba63bb69d1171bdcfdb7a7e6626e594d6f",
+      "file": "raw/8bdfd1f1d6fe3f9ea63667152d52b4cdf31db025e080bb556ca38be7de01be69.gz",
+      "archiveBytes": 2502,
+      "archiveSha256": "8bdfd1f1d6fe3f9ea63667152d52b4cdf31db025e080bb556ca38be7de01be69"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/native-target-captures.json",
+      "bytes": 2461954,
+      "sha256": "05f25b67d2cb27f7430d83a967f75fc4552d35ebd8e24a5ca9e2a62e9df90516",
+      "file": "raw/e169ca2959331b200f681b6b80bc0391875a8118fbb4a8ebe274a4900f007020.gz",
+      "archiveBytes": 85987,
+      "archiveSha256": "e169ca2959331b200f681b6b80bc0391875a8118fbb4a8ebe274a4900f007020"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/observer-errors.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "file": "raw/858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a.gz",
+      "archiveBytes": 23,
+      "archiveSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/owned-process-samples.jsonl",
+      "bytes": 202121,
+      "sha256": "8271baa75767fb9a26cdbf57a54da826d9f775c63befafa0e9b5c0988d455588",
+      "file": "raw/e49144c262b7b606c4c9498cbf862c9128a548393fcb81cf2c1479716d835a6c.gz",
+      "archiveBytes": 3883,
+      "archiveSha256": "e49144c262b7b606c4c9498cbf862c9128a548393fcb81cf2c1479716d835a6c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/public-input-calls.json",
+      "bytes": 392589,
+      "sha256": "96e828f8a352a1dc47c41ac0223e5aa0b4c5c2bc6361e84d126c737083589b19",
+      "file": "raw/dd550af6d1933b7bf6eef618e3148d1e3d35fd7da1aaf8af74ceba4e051683a4.gz",
+      "archiveBytes": 3909,
+      "archiveSha256": "dd550af6d1933b7bf6eef618e3148d1e3d35fd7da1aaf8af74ceba4e051683a4"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/result.json",
+      "bytes": 1996688,
+      "sha256": "466e8dea6da5dc1e49626bb77aa503ee7ef890903dfad72be74bc3a6fea6e134",
+      "file": "raw/b6b7791e686a087d9bda50d486539475b45fc1d87b27960a018862daf988c17c.gz",
+      "archiveBytes": 248900,
+      "archiveSha256": "b6b7791e686a087d9bda50d486539475b45fc1d87b27960a018862daf988c17c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/retired-player-hd-battle.png",
+      "bytes": 508407,
+      "sha256": "0e985ce3627f7b7208b37a9bd9db32610c7f0af8d8ccfeaa6af60386eee0659c",
+      "file": "raw/65bba7b06d79a21ffba305a2cf9c7c03fb4ceb2d2617482d3d1441c0fc2c508f.gz",
+      "archiveBytes": 492220,
+      "archiveSha256": "65bba7b06d79a21ffba305a2cf9c7c03fb4ceb2d2617482d3d1441c0fc2c508f"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/source-verification.json",
+      "bytes": 434290,
+      "sha256": "a0dc0a23b37c86e6bc0f0d8070159cbb1e525e84136c90f01c250a78ad998926",
+      "file": "raw/aaa555de34333e2d257ebf5c8b2b2465bccbe9fbc9fe05ffb1deee12a617da9c.gz",
+      "archiveBytes": 69339,
+      "archiveSha256": "aaa555de34333e2d257ebf5c8b2b2465bccbe9fbc9fe05ffb1deee12a617da9c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pc-720-missing-v1/spe-observations.json",
+      "bytes": 592389,
+      "sha256": "78d207b06ec5638c3c5d284f61b9212c6a8395371e485d1f4dac11f5b3d3958d",
+      "file": "raw/9179a512a2108a27fa08cfcb3d04f2a77d8d8e0ae8b6c808c8e8d13254e8e9fb.gz",
+      "archiveBytes": 16508,
+      "archiveSha256": "9179a512a2108a27fa08cfcb3d04f2a77d8d8e0ae8b6c808c8e8d13254e8e9fb"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/suite-v1/result.json",
+      "bytes": 61999,
+      "sha256": "212802286311a85f19433daae32ea092c14d5a15b2901c293281ed371e36ab63",
+      "file": "raw/3fc1709b9098b86827f059477fdde23eaccaed2a0e5549ea97fb54098fdc44ea.gz",
+      "archiveBytes": 12977,
+      "archiveSha256": "3fc1709b9098b86827f059477fdde23eaccaed2a0e5549ea97fb54098fdc44ea"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/suite-v1/test-output.log",
+      "bytes": 372242,
+      "sha256": "01e275b98e62987ad5f3992a1ce48758a7e4c360044180162248d8961bbfa2b7",
+      "file": "raw/d622e50f06cf0fe4d6cbd4715dd2fffc8eff97d43241746070cad0a2db88135b.gz",
+      "archiveBytes": 98480,
+      "archiveSha256": "d622e50f06cf0fe4d6cbd4715dd2fffc8eff97d43241746070cad0a2db88135b"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/suite-v2/result.json",
+      "bytes": 61999,
+      "sha256": "25a7aa9c9ae66490b00783cab05e861d855051829586f25d482997a533f662e5",
+      "file": "raw/72ac7585e9557ccdb723bff415faa169fe119b18354578fdaf57dc572b45f733.gz",
+      "archiveBytes": 12975,
+      "archiveSha256": "72ac7585e9557ccdb723bff415faa169fe119b18354578fdaf57dc572b45f733"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/suite-v2/test-output.log",
+      "bytes": 372693,
+      "sha256": "0fa430ac3b3a6549f6a0a13007ff5b3620d656884e15dbb3cb21decf31094436",
+      "file": "raw/4507ce29fd93e6809923664de49d58e491a08d4ea893991c2c9a3fb866128211.gz",
+      "archiveBytes": 98840,
+      "archiveSha256": "4507ce29fd93e6809923664de49d58e491a08d4ea893991c2c9a3fb866128211"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/archive-runtime.mjs",
+      "bytes": 5338,
+      "sha256": "9495660e1c7b135905838613bba90f211c5bc2b14d147e382985ab07c3289cce",
+      "file": "raw/cea2fc3bf9a245de52b637ed3525bda954f5ba607f953ae8427f023adb8c4d34.gz",
+      "archiveBytes": 2274,
+      "archiveSha256": "cea2fc3bf9a245de52b637ed3525bda954f5ba607f953ae8427f023adb8c4d34"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/cleanup-user8080-verification.json",
+      "bytes": 572,
+      "sha256": "0abff5edbf97219d388bdc501294e4b0074a46800c49d8d58b6ef51070dca654",
+      "file": "raw/19cefdd502103dda1d3ced2aa401fdd6bc9503f8d1fea5bd1556953e628f2d08.gz",
+      "archiveBytes": 325,
+      "archiveSha256": "19cefdd502103dda1d3ced2aa401fdd6bc9503f8d1fea5bd1556953e628f2d08"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/independent-mobile-review.json",
+      "bytes": 14331,
+      "sha256": "a731a6bf0cc7adb61cba50dca16b0e61f27275f55fac52d3256eb375db576c8b",
+      "file": "raw/221d505e85e8853434443e6e4f7cddac3e658ad4be9db3fb6421ed0d9880a38d.gz",
+      "archiveBytes": 3544,
+      "archiveSha256": "221d505e85e8853434443e6e4f7cddac3e658ad4be9db3fb6421ed0d9880a38d"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pixel-failure-review.json",
+      "bytes": 5263,
+      "sha256": "dad06d85d354f409a6424576f78d8bc957eccbfb292c8c7b78d997720ba29218",
+      "file": "raw/e78f9665a3d78d615e850cad786455df3fbae2a938673a60d34703b3cf7a012d.gz",
+      "archiveBytes": 1531,
+      "archiveSha256": "e78f9665a3d78d615e850cad786455df3fbae2a938673a60d34703b3cf7a012d"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/pixel-integer-fix-review.json",
+      "bytes": 9504,
+      "sha256": "86068c7cd628886910a6100ab6388b3552273e8cff5f0e539f318ea598455cca",
+      "file": "raw/cff63f39afda6093ca4b4f7a89e31befb9bad210f6edf68c34ec893bb578c49c.gz",
+      "archiveBytes": 1768,
+      "archiveSha256": "cff63f39afda6093ca4b4f7a89e31befb9bad210f6edf68c34ec893bb578c49c"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/run-final-suite.mjs",
+      "bytes": 2276,
+      "sha256": "35e1c64a0c4761df8c04542bb7d8088eaf4b0ceb7993fdc4b4347194fecae169",
+      "file": "raw/95faa53a83b08203554d7e9d1276a6bd370451e464af7299c4941e848cca4368.gz",
+      "archiveBytes": 1128,
+      "archiveSha256": "95faa53a83b08203554d7e9d1276a6bd370451e464af7299c4941e848cca4368"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/update-docs.mjs",
+      "bytes": 2718,
+      "sha256": "40a623166cf6df253b5f0a393ba42f12afbc8a6e1f086712c23cd0405847d2d4",
+      "file": "raw/6590df3cf441c3e7081b06c4857acf08e3c352e72a252d3a41de933da9034d62.gz",
+      "archiveBytes": 1514,
+      "archiveSha256": "6590df3cf441c3e7081b06c4857acf08e3c352e72a252d3a41de933da9034d62"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/verify-archive.mjs",
+      "bytes": 2260,
+      "sha256": "86489109184f088d3eec72146ffc50aaf99ce5029857443cf4aaee59e712e351",
+      "file": "raw/1b0f58f327ea4648c576569882a659aae97e3731486d27b96fbfe2156d8d55a0.gz",
+      "archiveBytes": 987,
+      "archiveSha256": "1b0f58f327ea4648c576569882a659aae97e3731486d27b96fbfe2156d8d55a0"
+    },
+    {
+      "source": "build/hd-battle-scene-20261011/verify-cleanup.ps1",
+      "bytes": 2812,
+      "sha256": "12a9dea34bb11b6c511622825417f29e10d3531a7b756a70ba55fd0cdea0efea",
+      "file": "raw/5541fd68af53bfdb3db85d698080c6d4e32251e97c341104599fad9d38b45bb7.gz",
+      "archiveBytes": 1158,
+      "archiveSha256": "5541fd68af53bfdb3db85d698080c6d4e32251e97c341104599fad9d38b45bb7"
+    },
+    {
+      "source": "build/hd-battle-scene-focused-tests.log",
+      "bytes": 23107,
+      "sha256": "e175da2fd1b694aec461e5cf67a699051303013b404574fbfaa467c9a0ff72aa",
+      "file": "raw/b3b66d0832c43f799b1e36889fd9b112eff5130d5b95b49d7612ed2f1da26774.gz",
+      "archiveBytes": 7505,
+      "archiveSha256": "b3b66d0832c43f799b1e36889fd9b112eff5130d5b95b49d7612ed2f1da26774"
+    },
+    {
+      "source": "build/hd-battle-scene-mobile-667-v1.log",
+      "bytes": 271,
+      "sha256": "532bb77fb67f194cc801b832014db5dcbbab927e2a1c6bf323327abb7750c001",
+      "file": "raw/20b8e724fab8b0e5d9dc167603922e0ffd2dff2e0d1e2bb2deca885fd00f5d6e.gz",
+      "archiveBytes": 185,
+      "archiveSha256": "20b8e724fab8b0e5d9dc167603922e0ffd2dff2e0d1e2bb2deca885fd00f5d6e"
+    },
+    {
+      "source": "build/hd-battle-scene-mobile-844-v2.log",
+      "bytes": 271,
+      "sha256": "82020a337a635f8a804b844244788ed853d78a75f049764b738f26a0f4c71081",
+      "file": "raw/e77b1be208a0409a78e0cb65b4bc19756fb65b73b37e6ec5e66d53bec26058ad.gz",
+      "archiveBytes": 180,
+      "archiveSha256": "e77b1be208a0409a78e0cb65b4bc19756fb65b73b37e6ec5e66d53bec26058ad"
+    },
+    {
+      "source": "build/hd-battle-scene-mobile-v1.log",
+      "bytes": 1200,
+      "sha256": "ba26724947f5dcb99e4acc2e0ff723c8aed17e20545a5e37d0c2e6216bdc43e0",
+      "file": "raw/92260cbc2205efb67194ce61b7bf9207ddca3d3a7293f02ce4dbb8f2a35124ac.gz",
+      "archiveBytes": 383,
+      "archiveSha256": "92260cbc2205efb67194ce61b7bf9207ddca3d3a7293f02ce4dbb8f2a35124ac"
+    },
+    {
+      "source": "build/hd-battle-scene-oracle-tests-v2.log",
+      "bytes": 2976,
+      "sha256": "26fbd198fe278ba08a270d68c7dffab0bcdb4409d2b190016aea4bb7dfeadaaf",
+      "file": "raw/c87bd54cc44d36c6b48ccc37fb2bf028879a3d58ffadad25905e87a9c7446f4e.gz",
+      "archiveBytes": 1259,
+      "archiveSha256": "c87bd54cc44d36c6b48ccc37fb2bf028879a3d58ffadad25905e87a9c7446f4e"
+    },
+    {
+      "source": "build/hd-battle-scene-oracle-tests.log",
+      "bytes": 2603,
+      "sha256": "7af43e4cfff3f9506fc31179348df07fcebb332ed7cea59313ac5d23265109b5",
+      "file": "raw/3a630e3351ccc28ab9358ad8f48d4f3001c91d64e73b374f5dd2e6258337be24.gz",
+      "archiveBytes": 1097,
+      "archiveSha256": "3a630e3351ccc28ab9358ad8f48d4f3001c91d64e73b374f5dd2e6258337be24"
+    },
+    {
+      "source": "build/hd-battle-scene-pc-1080-v1.log",
+      "bytes": 1666,
+      "sha256": "aedbb59f32aca1a1f08642fc8468fb96ea3e859049aada71b642447da2a31190",
+      "file": "raw/1a94c393d5a4f38efcbbda9b0b79ab9b70faad4d81bb5e391ceff5312d258be3.gz",
+      "archiveBytes": 746,
+      "archiveSha256": "1a94c393d5a4f38efcbbda9b0b79ab9b70faad4d81bb5e391ceff5312d258be3"
+    },
+    {
+      "source": "build/hd-battle-scene-pc-1080-v2.log",
+      "bytes": 972,
+      "sha256": "9c9aaf39b6ce3bdec4638c762cb97082bd0c2b6b4a9bb0fb572a27c7ed06bfe3",
+      "file": "raw/61888f000329f3b4d85f3230e3d1f797e4edf320cb2f050e935f8e7041226878.gz",
+      "archiveBytes": 490,
+      "archiveSha256": "61888f000329f3b4d85f3230e3d1f797e4edf320cb2f050e935f8e7041226878"
+    },
+    {
+      "source": "build/hd-battle-scene-pc-720-missing-v1.log",
+      "bytes": 923,
+      "sha256": "9b0df7de1191e7c9d9d22cabd57abcdceef2258263639a99e6d794cc9a1d3669",
+      "file": "raw/23a553e3f2b38464f89ac150a416d24d0fd7e3f93ec3836b6ae6d2c6ddfb7687.gz",
+      "archiveBytes": 486,
+      "archiveSha256": "23a553e3f2b38464f89ac150a416d24d0fd7e3f93ec3836b6ae6d2c6ddfb7687"
+    },
+    {
+      "source": "build/hd-battle-scene-suite-v1.log",
+      "bytes": 273,
+      "sha256": "9d0a314aeabde80a2563fdc7ff35c53f39146e6266957e4be5ea00902312f9f3",
+      "file": "raw/8fde64e715a23c76446437e6db23802338c9884749bf306d78aab1d0706f2c05.gz",
+      "archiveBytes": 208,
+      "archiveSha256": "8fde64e715a23c76446437e6db23802338c9884749bf306d78aab1d0706f2c05"
+    },
+    {
+      "source": "build/hd-battle-scene-suite-v2.log",
+      "bytes": 273,
+      "sha256": "f843a523969996337346c6fb3076a141df1af88e0718ffb5d95b0b2ed7551592",
+      "file": "raw/b97e22fcbf1abcd6c95a9f702e41dc6a2bbf9b9a4ea762244633e0f6619684e1.gz",
+      "archiveBytes": 207,
+      "archiveSha256": "b97e22fcbf1abcd6c95a9f702e41dc6a2bbf9b9a4ea762244633e0f6619684e1"
+    }
+  ],
+  "archiveFiles": 91
+}

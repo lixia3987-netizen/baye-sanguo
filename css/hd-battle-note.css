@@ -1,0 +1,40 @@
+#hd-battle-note {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 28px;
+    color: #f4e7c9;
+    background: radial-gradient(ellipse at center, #26303c, #101721 75%);
+    pointer-events: none;
+    font-family: system-ui, "Microsoft YaHei", sans-serif;
+}
+#hd-battle-note[hidden] { display: none !important; }
+#hd-battle-note .hd-battle-note-panel {
+    box-sizing: border-box;
+    max-width: 760px;
+    width: 100%;
+    border-block: 2px solid #bfa16a;
+    padding: 30px 24px;
+    text-align: center;
+}
+#hd-battle-note-text {
+    margin: 0;
+    font-size: clamp(24px, 3vw, 42px);
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+/* Keep the real canvas hit box and its existing input gates. The read-only
+   panel covers its pixels without changing the original delay's input. */
+body[data-hd-battle-note="hd"] #lcd { opacity: 0 !important; }
+.hd-mobile-page #hd-battle-note { position: absolute; padding: 16px; }
+.hd-mobile-page #hd-battle-note .hd-battle-note-panel { max-width: 600px; padding: 20px 16px; }
+.hd-mobile-page #hd-battle-note-text { font-size: clamp(24px, 4vw, 34px); }
+@media (orientation: portrait) {
+    .hd-mobile-page #hd-battle-note { display: none !important; }
+    .hd-mobile-page[data-hd-battle-note="hd"] #lcd { opacity: 1 !important; }
+}

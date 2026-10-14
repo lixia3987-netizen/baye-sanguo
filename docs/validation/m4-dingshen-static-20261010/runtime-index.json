@@ -1,0 +1,503 @@
+{
+  "schemaVersion": 1,
+  "scope": "Original skill15 static-source validation evidence only",
+  "portableClosedArchive": false,
+  "originalsDeleted": false,
+  "logicalFiles": 41,
+  "uniqueGzip": 40,
+  "rawEntries": [
+    {
+      "path": "build/r31-dingshen-full-source-tests-v1-execution.json",
+      "bytes": 3697,
+      "sha256": "ad1a56d103dc805946b930f8ba82e7166bc7ec137538862a535fd6f68d3d7fc4",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/ad1a56d103dc805946b930f8ba82e7166bc7ec137538862a535fd6f68d3d7fc4.gz",
+        "bytes": 1122,
+        "sha256": "63da072155d6f87ae14ddb8fb7c7615c80b4c3e2290d1a26974eaf5a4ad5bd3b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-full-source-tests-v1.log",
+      "bytes": 327710,
+      "sha256": "d81737ae6bab6c39967183fc4a565c092c622a3735dde776fa5a8e1fb01ddfd2",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/d81737ae6bab6c39967183fc4a565c092c622a3735dde776fa5a8e1fb01ddfd2.gz",
+        "bytes": 57618,
+        "sha256": "5023264822cf245a88077c7fa672541c6ba2fdfffafcd9778607bfe04370a9e9",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-full-source-tests-v1-sources-pre.json",
+      "bytes": 78297,
+      "sha256": "44311b68b22e34e25b0b69ebb118918e56d06edec8ba5b5670f18f9211670382",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/44311b68b22e34e25b0b69ebb118918e56d06edec8ba5b5670f18f9211670382.gz",
+        "bytes": 25267,
+        "sha256": "d27efc7a7a2a1e2f1126a7b4684fe8804ed26b51906d4fa140eeff1b93380a57",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-full-source-tests-v1-sources-post.json",
+      "bytes": 78297,
+      "sha256": "44311b68b22e34e25b0b69ebb118918e56d06edec8ba5b5670f18f9211670382",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/44311b68b22e34e25b0b69ebb118918e56d06edec8ba5b5670f18f9211670382.gz",
+        "bytes": 25267,
+        "sha256": "d27efc7a7a2a1e2f1126a7b4684fe8804ed26b51906d4fa140eeff1b93380a57",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-run-source-tests-root-v1.mjs",
+      "bytes": 3482,
+      "sha256": "757e352995b64446f58735aa0c4e1fe8bec1631f1ec0e13b6bc62227edf9f277",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/757e352995b64446f58735aa0c4e1fe8bec1631f1ec0e13b6bc62227edf9f277.gz",
+        "bytes": 1573,
+        "sha256": "d5ed8ef716d6d54dd1c0e9be6d1bf2cbea804a4fa22f20ab6219a5b4842a7904",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-prior-bridge-baseline-v1-execution.json",
+      "bytes": 2115,
+      "sha256": "e3b7f05890dbb9966d13834ab09af91c09df1e00664dd7256fd8c7fdea66a6d4",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/e3b7f05890dbb9966d13834ab09af91c09df1e00664dd7256fd8c7fdea66a6d4.gz",
+        "bytes": 928,
+        "sha256": "423d33c75a87b45f42c2e1d7fa6c1f8615abd8efbee66a500a00f496ccd247ad",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-prior-bridge-baseline-v1.log",
+      "bytes": 18585,
+      "sha256": "e3585167b3aa1293ff7c83d2228cf62814189b5b82920d4a8a521472418603ef",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/e3585167b3aa1293ff7c83d2228cf62814189b5b82920d4a8a521472418603ef.gz",
+        "bytes": 2239,
+        "sha256": "c31a06b846c11729e88e7254ab6f9223d66fb32a722c7359445cbfb13e70a2d2",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-prior-bridge-baseline-v1-tree/js/bridge.js",
+      "bytes": 142206,
+      "sha256": "716b2858328a4409c38b2c96184c4779aaf11ad6563be1b86bf628c3c3781071",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/716b2858328a4409c38b2c96184c4779aaf11ad6563be1b86bf628c3c3781071.gz",
+        "bytes": 26785,
+        "sha256": "7380e681ebc5febe7473b418b42d1687add240b3ac58fd16b520c375f2701b54",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-check-dingshen-baseline-root-v1.mjs",
+      "bytes": 2279,
+      "sha256": "b11cd20cff773c9eed20bd3f1a9169e51a194eba74d49155286700a95c258a08",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/b11cd20cff773c9eed20bd3f1a9169e51a194eba74d49155286700a95c258a08.gz",
+        "bytes": 1132,
+        "sha256": "7b15f8ce3af2da55f2901e13049d08812406fb85b3a18085aa37ce69ff0118e7",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-skill15-original-design-root-v2.json",
+      "bytes": 4849,
+      "sha256": "8e6d88ec7148298469a9a7d2de702e7a6583c0f959e2333fc3bd7dc1e51173f7",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/8e6d88ec7148298469a9a7d2de702e7a6583c0f959e2333fc3bd7dc1e51173f7.gz",
+        "bytes": 1349,
+        "sha256": "1533cab905c179c6e19aec15906d7a419fc0ada7b5d4dea756d54141505f5f8e",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-skill15-state-menu-independent-augmentation-v1.json",
+      "bytes": 11792,
+      "sha256": "3da0447e49b0b55c5c7be681a65fd978576f89f0f147dab416a49909768e7e5c",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/3da0447e49b0b55c5c7be681a65fd978576f89f0f147dab416a49909768e7e5c.gz",
+        "bytes": 3396,
+        "sha256": "7263ed29f4d599cda47c795375529edbcbd74cc3fb1141ae8170d1903a35e1fb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-current-source-independent-review-v2.json",
+      "bytes": 7296,
+      "sha256": "f508fd7f5ec9bb828526f54df7f27767958fc6517a7836172513811073583408",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/f508fd7f5ec9bb828526f54df7f27767958fc6517a7836172513811073583408.gz",
+        "bytes": 3049,
+        "sha256": "4a8e7e72987f62dbb55756b97186a56c0c1d020b933ea2e77dd4c80942c061eb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-full-source-tests-independent-audit-v1.json",
+      "bytes": 9410,
+      "sha256": "e29b17f3dc87c0999fadbd72a0a6fc70e582f2be869045df4a6f9647f97b058f",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/e29b17f3dc87c0999fadbd72a0a6fc70e582f2be869045df4a6f9647f97b058f.gz",
+        "bytes": 3065,
+        "sha256": "94de8899464d06516cd98f27208b56b491d5ea3268921896e6631ef3bd1a86ca",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-generator-static-proof-v1.json",
+      "bytes": 1526,
+      "sha256": "eeb19214a60d286ceff9c0732fbc7961a2bd1b5dbf630309e8e6a9d7330ab8ab",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/eeb19214a60d286ceff9c0732fbc7961a2bd1b5dbf630309e8e6a9d7330ab8ab.gz",
+        "bytes": 700,
+        "sha256": "e953acdfeef9dd06dca29f66b0bc09ff341b604d80b134de656d3502d0a6997c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-tests-freeze-v1.json",
+      "bytes": 2675,
+      "sha256": "cfca665922a3e2c35423b78dc2cba5abaaf82996ddc010be9f289032b066b7cb",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/cfca665922a3e2c35423b78dc2cba5abaaf82996ddc010be9f289032b066b7cb.gz",
+        "bytes": 1273,
+        "sha256": "033b81a96cd6a703005a44075f3892ba14c0489f31d19600a98f21dacf21ac6b",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-spe-test-v1.log",
+      "bytes": 13929,
+      "sha256": "63695bc2ad0f3b8d960336d4bd58165ffea9a571eb27548ea40d7741648d2bfc",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/63695bc2ad0f3b8d960336d4bd58165ffea9a571eb27548ea40d7741648d2bfc.gz",
+        "bytes": 5022,
+        "sha256": "d3b9920d3c6c41ecfc56a8fc7ae60a614fdd900b8a8ee96843f0590eaece050f",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-product-root-v1/proof.json",
+      "bytes": 2976,
+      "sha256": "3d62e347d07215c059c3ca5bd4c438244521663421d4b7fd8b722ccc01a40d77",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/3d62e347d07215c059c3ca5bd4c438244521663421d4b7fd8b722ccc01a40d77.gz",
+        "bytes": 1063,
+        "sha256": "7ed397a14f555d769e8622538ed219ac512795abbda1571214904a6b2ea22556",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-manifest-install-root-v1.json",
+      "bytes": 447,
+      "sha256": "917d52afd49085fcde3645aa4af541860e482282a707f2b8c151984ca429470f",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/917d52afd49085fcde3645aa4af541860e482282a707f2b8c151984ca429470f.gz",
+        "bytes": 309,
+        "sha256": "54b3422cdc90aee388ec43fffb8aa1fba501495ab6c2cb50bf2ded19738b6dad",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "build/r31-dingshen-doc-candidates-v1/draft-proof.json",
+      "bytes": 1822,
+      "sha256": "e5f64af60380d0f6960b4e4f17d66da9a0aaedb1143536f2e4119b065a510568",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/e5f64af60380d0f6960b4e4f17d66da9a0aaedb1143536f2e4119b065a510568.gz",
+        "bytes": 636,
+        "sha256": "1cd64d562779febb3f1e6f459b590da28a4ab8eae1763d811bc59c1daf32ee70",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/bridge.js",
+      "bytes": 145896,
+      "sha256": "6bdee30bc8995ada436a3365f29d61c3758c2034be18fb783f53794d209a391e",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/6bdee30bc8995ada436a3365f29d61c3758c2034be18fb783f53794d209a391e.gz",
+        "bytes": 26914,
+        "sha256": "4ab6e31cc76ee22eacb15162481d8ca0779b938fc6f17b513f3df2ddfbf11a37",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 94351,
+      "sha256": "98d672f2c1f4465f6402ac5328dba795cb0ce777f06e66cea4d015f2c80c6f86",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/98d672f2c1f4465f6402ac5328dba795cb0ce777f06e66cea4d015f2c80c6f86.gz",
+        "bytes": 17924,
+        "sha256": "6a190d0bddb543d7b86656e0b05f4ed12099f0b518d23cee1e8fb0edf3ed09de",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 586439,
+      "sha256": "bec59fa2b68528db579a445b13d584e2de1d9dcb6f56c6e7153af15775de8020",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/bec59fa2b68528db579a445b13d584e2de1d9dcb6f56c6e7153af15775de8020.gz",
+        "bytes": 14441,
+        "sha256": "b0f36fd810da251d2913e2934dd391eb1da9c94e2bdc4c680aada31ff9786a90",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "scripts/test-hd-dingshen-bridge.mjs",
+      "bytes": 12524,
+      "sha256": "6e1f5bd328f005501ca875846541c1400d5c70ef7151586931d98df301c45ea7",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/6e1f5bd328f005501ca875846541c1400d5c70ef7151586931d98df301c45ea7.gz",
+        "bytes": 3383,
+        "sha256": "93837110b769244ff54a9161723df5e807b64889f575b8d6bb6992a932a00b76",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 176465,
+      "sha256": "661041cf834dd104ee2d5ac709b6ff1f595500c488e75a42dbbbdb82fffdd848",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/661041cf834dd104ee2d5ac709b6ff1f595500c488e75a42dbbbdb82fffdd848.gz",
+        "bytes": 33689,
+        "sha256": "741259804f1725727fd4bf8c3a048e976fa0ba6400950442e463abf6d658c092",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "scripts/generate-hd-spe-dingshen-entry.mjs",
+      "bytes": 7270,
+      "sha256": "2108b7ed14febbe22838b1896a622ae41337087117dae60233f4da382265a64f",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/2108b7ed14febbe22838b1896a622ae41337087117dae60233f4da382265a64f.gz",
+        "bytes": 3172,
+        "sha256": "539d7ece7c906b9b2cc30b74688f59236b256528281f3d038edc107c43138b06",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "scripts/generate-hd-spe-zhoufeng-entry.mjs",
+      "bytes": 5032,
+      "sha256": "01e5a04833fc20b59dcdd9b341cdac753e8144e665c48dd171d8b9d68ac3e1ed",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/01e5a04833fc20b59dcdd9b341cdac753e8144e665c48dd171d8b9d68ac3e1ed.gz",
+        "bytes": 2178,
+        "sha256": "91c36c3787efc0fb37bd32f3c1f4fcd4b5e785dfe63611f5219dece910b4d0ca",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "scripts/specs/hd-spe-dingshen.json",
+      "bytes": 1730,
+      "sha256": "4cb91f3adbb22543ae7dc8ffc4711d0f31dadb3985473aeb62c775d5b26d4ea9",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/4cb91f3adbb22543ae7dc8ffc4711d0f31dadb3985473aeb62c775d5b26d4ea9.gz",
+        "bytes": 857,
+        "sha256": "9649132571ec6662c60bb3e3cbdd9ffd6b03b7cb6be2302c5eb1ee841f511ead",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "package.json",
+      "bytes": 7924,
+      "sha256": "cb9be801ae370de792be30110850180f1d7e593d855b4d6fc2fc252dfdf74d4e",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/cb9be801ae370de792be30110850180f1d7e593d855b4d6fc2fc252dfdf74d4e.gz",
+        "bytes": 1401,
+        "sha256": "27a0621f28ee9fcab1ca109420418636d74f3895f6f2aef22439d6d9a78fcada",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "designer.html",
+      "bytes": 3140,
+      "sha256": "84b55ae7f48ec0f951ab411a8134db23d28c706eb30249e31843b5b7d9615f63",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/84b55ae7f48ec0f951ab411a8134db23d28c706eb30249e31843b5b7d9615f63.gz",
+        "bytes": 1239,
+        "sha256": "aa64d3b8f4c83ca6e95d2b403e11271b5d4b46a9696d92271454fa26f9b447b1",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "hd-portrait-dump.html",
+      "bytes": 3400,
+      "sha256": "0a9b74f3b0723698c70708ddda3c5a5889526fb9e1902590e22e887bdb0d69f1",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/0a9b74f3b0723698c70708ddda3c5a5889526fb9e1902590e22e887bdb0d69f1.gz",
+        "bytes": 1579,
+        "sha256": "12ccbd19564f9b65642e32738dc03289565acfa5b76ba6c4107927795265acac",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "m-ges.html",
+      "bytes": 6952,
+      "sha256": "f65fc30c82e802bd8343ebf774898fb67b388aa414ea2f671933ddc341af6b8e",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/f65fc30c82e802bd8343ebf774898fb67b388aa414ea2f671933ddc341af6b8e.gz",
+        "bytes": 2532,
+        "sha256": "bcc02dc231471cfd979d6bdd7a1c3c7a0741a9bfeae651aa17010d518a239589",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "m-ktouch.html",
+      "bytes": 6454,
+      "sha256": "fb0583c4bbc92198ff30f392cd03b314e9a0c28928aecbf97ada5ea5d6b171b7",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/fb0583c4bbc92198ff30f392cd03b314e9a0c28928aecbf97ada5ea5d6b171b7.gz",
+        "bytes": 1866,
+        "sha256": "66d82e5b7d2645baa4fe27609a86ee4ca6177fddb09f3dd47adf5fad734d58eb",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "m-old.html",
+      "bytes": 6508,
+      "sha256": "8ba3d1468095fd491019b19d78243d9ba1e426a2b99a4a55f9cd454890eeb55c",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/8ba3d1468095fd491019b19d78243d9ba1e426a2b99a4a55f9cd454890eeb55c.gz",
+        "bytes": 1866,
+        "sha256": "401ceae9a9c3fae77553f6ffa5bea7fe98c1c99934f3a1d7a00c454500c9a440",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "m.html",
+      "bytes": 5292,
+      "sha256": "f5538935d03b6f36907075ecca8eec11ca0b2931fa110d0aa7d2c71252bb4fe3",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/f5538935d03b6f36907075ecca8eec11ca0b2931fa110d0aa7d2c71252bb4fe3.gz",
+        "bytes": 1991,
+        "sha256": "eb66b64fa3ff4c90fab37e80ff865dcb7cba971a8834d0d86afc2831162cc09c",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "pc.html",
+      "bytes": 27413,
+      "sha256": "9777c89807e06c6d4cddc7bc934d27477ab8bd7bed776c983b7872f265bda87a",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/9777c89807e06c6d4cddc7bc934d27477ab8bd7bed776c983b7872f265bda87a.gz",
+        "bytes": 6359,
+        "sha256": "194a8b1251f86ee7e60dd2fe29886439c9759af82a657af51c683b234445ecd5",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e.gz",
+        "bytes": 85983,
+        "sha256": "91b23dccece50c3f83bf0d613622b8b328bb4a128c805fa9f779249d0d61c441",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540.gz",
+        "bytes": 9089,
+        "sha256": "761608bfeddb36a9bf65e75ec4a11542f5399948da8736f5784eee98065e72dc",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/Fight.c",
+      "bytes": 58254,
+      "sha256": "d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/d1ae94ecc4ad92243712c2231745ed73311caaee0ff99ecbe619137d4235704e.gz",
+        "bytes": 11239,
+        "sha256": "bcb435edb2ffd15052b9fc8f7074c02622adf4c4ded2b211f0d5fd3abf0980ef",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f.gz",
+        "bytes": 6571,
+        "sha256": "6235f8653acbccf738f43a8bf39fe44723008f63ab5d2892e29ba40e3c96d840",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0.gz",
+        "bytes": 888,
+        "sha256": "c1f69ad489372140011d683fa8d94019a1c4da6fa8a36bb8a5f5bf5c0254bcae",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "archive": {
+        "path": "docs/validation/m4-dingshen-static-20261010/raw/4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f.gz",
+        "bytes": 2101,
+        "sha256": "2f0ae144273654ccbc5be8a99e74948b05d32cb062fef74649ba7d96abf5ba8d",
+        "encoding": "gzip"
+      },
+      "gzipRoundTripVerified": true
+    }
+  ],
+  "note": "Original paths and physical working-tree byte hashes are retained. Gzip aliases deduplicate identical content. This is not player-cast evidence or a complete portable checkout."
+}

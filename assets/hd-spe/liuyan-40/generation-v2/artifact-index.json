@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "scope": "Raw v2 generation files only; no runtime or commit claim",
+  "files": [
+    {
+      "path": "build/r25-liuyan-40-art-v2/frame-0-prompt.txt",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-0-prompt.txt",
+      "bytes": 1629,
+      "sha256": "c08841e9aa9e0ee1e95b9cb945d272d4681453154d1d45ee9b0b59af3d2b3c2a"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/frame-0-request.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-0-request.json",
+      "bytes": 3256,
+      "sha256": "d79f9a82befe5905b86b60cdc92191af722ff3d9669b0cb32d0bc968f7a92bbf"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/frame-0-tool-result-and-review.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-0-tool-result-and-review.json",
+      "bytes": 1728,
+      "sha256": "d0737f0a854decfc560946b1fdd9629171bfc8338366108aecd3658f7c09079f"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/frame-1-prompt.txt",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-1-prompt.txt",
+      "bytes": 1617,
+      "sha256": "a962c8dac0b6da2b3dd0c4499e49f320a1cd40677cd7b69e43f6208358299110"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/frame-1-request.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-1-request.json",
+      "bytes": 3243,
+      "sha256": "ea55e4d79e75c72adee42c163f2daeb2002848dbbca97d1caeeafcccbfb76698"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/frame-1-tool-result-and-review.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\frame-1-tool-result-and-review.json",
+      "bytes": 1805,
+      "sha256": "4fe84e633e6c30408f6354a951f875fcddef94700e53fd881a63eed78a3fb32e"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/picture-0.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\picture-0.png",
+      "bytes": 2737107,
+      "sha256": "42d31384a20fa9117743930161109659e627ca8d5ea7ef1e40d3cbab8d4a7fab"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/picture-1.png",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\picture-1.png",
+      "bytes": 2664650,
+      "sha256": "99cff3c830e53031a7aee0cc09c8e33fcba3337147c6d4c3e8d17004e3b27a3d"
+    },
+    {
+      "path": "build/r25-liuyan-40-art-v2/review.json",
+      "absolutePath": "F:\\project\\baye-sanguo\\build\\r25-liuyan-40-art-v2\\review.json",
+      "bytes": 5961,
+      "sha256": "3083d59d2ac472945ba37b8f517700f8a7594d0050bd3ca539599775add13c36"
+    }
+  ],
+  "totalBytes": 5420996
+}

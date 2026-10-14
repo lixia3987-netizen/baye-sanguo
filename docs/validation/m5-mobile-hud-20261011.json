@@ -1,0 +1,929 @@
+{
+  "scope": "Original mobile read-only HUD and trusted Chrome emulated touch; not complete mobile HD or real Android/iOS",
+  "startedAt": "2026-10-10T18:30:38.356Z",
+  "finishedAt": "2026-10-10T18:30:46.900Z",
+  "ok": true,
+  "driver": "scripts/test-hd-mobile-runtime.mjs",
+  "localRawResult": "build/mobile-precommit-runtime-1791657038356/result.json",
+  "phases": [
+    {
+      "name": "title-844",
+      "state": {
+        "hud": {
+          "visible": false,
+          "status": "原版游戏",
+          "reason": "not-map",
+          "cityIndex": null,
+          "city": "",
+          "owner": "",
+          "date": "",
+          "money": "",
+          "food": "",
+          "arms": "",
+          "ticket": null
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "menu": {
+          "active": 1,
+          "context": 4,
+          "kind": 1,
+          "seq": 2,
+          "itemLen": 0,
+          "count": 4,
+          "index": 0,
+          "names": [
+            "",
+            "",
+            "",
+            ""
+          ],
+          "packedNames": [
+            "",
+            "",
+            "",
+            ""
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 2,
+          "detailGeneration": 2
+        },
+        "mapCity": 0,
+        "mapPick": 0,
+        "year": 0,
+        "month": 1,
+        "rotation": 0,
+        "lcd": [
+          160,
+          96
+        ],
+        "rect": {
+          "left": 140.328125,
+          "top": 52,
+          "width": 563.328125,
+          "height": 338,
+          "right": 703.65625,
+          "bottom": 390
+        },
+        "stage": {
+          "left": 0,
+          "top": 52,
+          "width": 844,
+          "height": 338,
+          "right": 844,
+          "bottom": 390
+        },
+        "viewport": [
+          844,
+          390
+        ],
+        "barHeight": 52,
+        "inputs": [],
+        "keys": [
+          39
+        ],
+        "trusted": []
+      }
+    },
+    {
+      "name": "map-844",
+      "state": {
+        "hud": {
+          "visible": true,
+          "status": "原版游戏",
+          "reason": "",
+          "cityIndex": 12,
+          "city": "濮阳",
+          "owner": "曹操",
+          "date": "190年1月",
+          "money": "135",
+          "food": "309",
+          "arms": "0",
+          "ticket": {
+            "libraryGeneration": 2,
+            "generation": 3,
+            "speGeneration": 3,
+            "mapInputSeq": 1,
+            "mapCity": 13
+          }
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "menu": {
+          "active": 0,
+          "context": 0,
+          "kind": 0,
+          "seq": 8,
+          "itemLen": 8,
+          "count": 18,
+          "index": 10,
+          "names": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "packedNames": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "mapCity": 13,
+        "mapPick": 1,
+        "year": 190,
+        "month": 1,
+        "rotation": 0,
+        "lcd": [
+          160,
+          96
+        ],
+        "rect": {
+          "left": 140.328125,
+          "top": 52,
+          "width": 563.328125,
+          "height": 338,
+          "right": 703.65625,
+          "bottom": 390
+        },
+        "stage": {
+          "left": 0,
+          "top": 52,
+          "width": 844,
+          "height": 338,
+          "right": 844,
+          "bottom": 390
+        },
+        "viewport": [
+          844,
+          390
+        ],
+        "barHeight": 52,
+        "inputs": [],
+        "keys": [
+          39,
+          39,
+          39,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          39
+        ],
+        "trusted": []
+      }
+    },
+    {
+      "name": "map-667",
+      "state": {
+        "hud": {
+          "visible": true,
+          "status": "原版游戏",
+          "reason": "",
+          "cityIndex": 12,
+          "city": "濮阳",
+          "owner": "曹操",
+          "date": "190年1月",
+          "money": "135",
+          "food": "309",
+          "arms": "0",
+          "ticket": {
+            "libraryGeneration": 2,
+            "generation": 3,
+            "speGeneration": 3,
+            "mapInputSeq": 1,
+            "mapCity": 13
+          }
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "menu": {
+          "active": 0,
+          "context": 0,
+          "kind": 0,
+          "seq": 8,
+          "itemLen": 8,
+          "count": 18,
+          "index": 10,
+          "names": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "packedNames": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "mapCity": 13,
+        "mapPick": 1,
+        "year": 190,
+        "month": 1,
+        "rotation": 0,
+        "lcd": [
+          160,
+          96
+        ],
+        "rect": {
+          "left": 64.328125,
+          "top": 52,
+          "width": 538.328125,
+          "height": 323,
+          "right": 602.65625,
+          "bottom": 375
+        },
+        "stage": {
+          "left": 0,
+          "top": 52,
+          "width": 667,
+          "height": 323,
+          "right": 667,
+          "bottom": 375
+        },
+        "viewport": [
+          667,
+          375
+        ],
+        "barHeight": 52,
+        "inputs": [],
+        "keys": [
+          39,
+          39,
+          39,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          39
+        ],
+        "trusted": [
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchmove",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchcancel",
+            "trusted": true,
+            "target": "lcd"
+          }
+        ]
+      }
+    },
+    {
+      "name": "portrait-after-active-rotation",
+      "state": {
+        "hud": {
+          "visible": true,
+          "status": "原版游戏",
+          "reason": "",
+          "cityIndex": 12,
+          "city": "濮阳",
+          "owner": "曹操",
+          "date": "190年1月",
+          "money": "135",
+          "food": "309",
+          "arms": "0",
+          "ticket": {
+            "libraryGeneration": 2,
+            "generation": 3,
+            "speGeneration": 3,
+            "mapInputSeq": 1,
+            "mapCity": 13
+          }
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "menu": {
+          "active": 0,
+          "context": 0,
+          "kind": 0,
+          "seq": 8,
+          "itemLen": 8,
+          "count": 18,
+          "index": 10,
+          "names": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "packedNames": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "mapCity": 13,
+        "mapPick": 1,
+        "year": 190,
+        "month": 1,
+        "rotation": 2,
+        "lcd": [
+          160,
+          96
+        ],
+        "rect": {
+          "left": 0,
+          "top": 21,
+          "width": 375,
+          "height": 625,
+          "right": 375,
+          "bottom": 646
+        },
+        "stage": {
+          "left": 0,
+          "top": 0,
+          "width": 375,
+          "height": 667,
+          "right": 375,
+          "bottom": 667
+        },
+        "viewport": [
+          375,
+          667
+        ],
+        "barHeight": 0,
+        "inputs": [
+          [
+            1,
+            40,
+            52
+          ],
+          [
+            4,
+            40,
+            52
+          ]
+        ],
+        "keys": [
+          39,
+          39,
+          39,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          39
+        ],
+        "trusted": [
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchmove",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchcancel",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": "lcd"
+          }
+        ]
+      }
+    },
+    {
+      "name": "map-restored",
+      "state": {
+        "hud": {
+          "visible": true,
+          "status": "原版游戏",
+          "reason": "",
+          "cityIndex": 12,
+          "city": "濮阳",
+          "owner": "曹操",
+          "date": "190年1月",
+          "money": "135",
+          "food": "309",
+          "arms": "0",
+          "ticket": {
+            "libraryGeneration": 2,
+            "generation": 3,
+            "speGeneration": 3,
+            "mapInputSeq": 1,
+            "mapCity": 13
+          }
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "menu": {
+          "active": 0,
+          "context": 0,
+          "kind": 0,
+          "seq": 8,
+          "itemLen": 8,
+          "count": 18,
+          "index": 10,
+          "names": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "packedNames": [
+            "马腾",
+            "公孙瓒",
+            "公孙度",
+            "张杨",
+            "刘备",
+            "袁绍",
+            "孔融",
+            "王匡",
+            "董卓",
+            "韩馥",
+            "曹操",
+            "陶谦",
+            "张鲁",
+            "刘岱",
+            "袁术",
+            "刘焉",
+            "刘表",
+            "孙坚"
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "mapCity": 13,
+        "mapPick": 1,
+        "year": 190,
+        "month": 1,
+        "rotation": 0,
+        "lcd": [
+          160,
+          96
+        ],
+        "rect": {
+          "left": 140.328125,
+          "top": 52,
+          "width": 563.328125,
+          "height": 338,
+          "right": 703.65625,
+          "bottom": 390
+        },
+        "stage": {
+          "left": 0,
+          "top": 52,
+          "width": 844,
+          "height": 338,
+          "right": 844,
+          "bottom": 390
+        },
+        "viewport": [
+          844,
+          390
+        ],
+        "barHeight": 52,
+        "inputs": [
+          [
+            1,
+            40,
+            52
+          ],
+          [
+            4,
+            40,
+            52
+          ]
+        ],
+        "keys": [
+          39,
+          39,
+          39,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          39
+        ],
+        "trusted": [
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchmove",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchcancel",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": "lcd"
+          }
+        ]
+      }
+    },
+    {
+      "name": "city-menu",
+      "state": {
+        "hud": {
+          "visible": false,
+          "status": "原版游戏",
+          "reason": "not-map",
+          "cityIndex": null,
+          "city": "",
+          "owner": "",
+          "date": "",
+          "money": "",
+          "food": "",
+          "arms": "",
+          "ticket": null
+        },
+        "identity": {
+          "status": "ready",
+          "generation": 2,
+          "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+          "byteLength": 207195,
+          "reason": ""
+        },
+        "menu": {
+          "active": 1,
+          "context": 1,
+          "kind": 1,
+          "seq": 9,
+          "itemLen": 4,
+          "count": 4,
+          "index": 0,
+          "names": [
+            "内政",
+            "外交",
+            "军备",
+            "状况"
+          ],
+          "packedNames": [
+            "内政",
+            "外交",
+            "军备",
+            "状况"
+          ],
+          "ids": [],
+          "idsValid": false,
+          "generation": 3,
+          "detailGeneration": 3
+        },
+        "mapCity": 13,
+        "mapPick": 0,
+        "year": 190,
+        "month": 1,
+        "rotation": 0,
+        "lcd": [
+          160,
+          96
+        ],
+        "rect": {
+          "left": 140.328125,
+          "top": 52,
+          "width": 563.328125,
+          "height": 338,
+          "right": 703.65625,
+          "bottom": 390
+        },
+        "stage": {
+          "left": 0,
+          "top": 52,
+          "width": 844,
+          "height": 338,
+          "right": 844,
+          "bottom": 390
+        },
+        "viewport": [
+          844,
+          390
+        ],
+        "barHeight": 52,
+        "inputs": [
+          [
+            1,
+            40,
+            52
+          ],
+          [
+            4,
+            40,
+            52
+          ]
+        ],
+        "keys": [
+          39,
+          39,
+          39,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          35,
+          39,
+          39
+        ],
+        "trusted": [
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": ""
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchmove",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchcancel",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchstart",
+            "trusted": true,
+            "target": "lcd"
+          },
+          {
+            "type": "touchend",
+            "trusted": true,
+            "target": "lcd"
+          }
+        ]
+      }
+    }
+  ],
+  "requestCount": 20,
+  "unexpectedRequests": [],
+  "exceptionCount": 0,
+  "sourceDrift": [],
+  "cleanup": {
+    "treeExited": true,
+    "serverClosed": true,
+    "profileRetained": true
+  },
+  "regression": {
+    "files": 59,
+    "tests": 1512,
+    "pass": 1512,
+    "fail": 0,
+    "skipped": 0,
+    "concurrency": 4,
+    "log": "build/mobile-precommit-tests-limited-20261011.log"
+  },
+  "images": [
+    {
+      "path": "m5-mobile-hud-20261011/map-667.png",
+      "bytes": 27321,
+      "sha256": "281a72583694b21576958061343714ca8839e3abb6e3770f8c180d109c3cb820"
+    },
+    {
+      "path": "m5-mobile-hud-20261011/city-menu.png",
+      "bytes": 27471,
+      "sha256": "a5a4bc17b26854c249095eeb2f1d952378dc6176d4b5f8e17ff78bf21fb56941"
+    },
+    {
+      "path": "m5-mobile-hud-20261011/portrait-after-active-rotation.png",
+      "bytes": 6692,
+      "sha256": "4d26bfa97aa8a25fa1e051264cb7430a3d816b09268a94131195cb484e590664"
+    }
+  ],
+  "limitations": [
+    "Chrome device emulation only",
+    "Game surface remains original LCD",
+    "No real Android/iOS, complete mobile HD, save/battle/performance acceptance"
+  ]
+}

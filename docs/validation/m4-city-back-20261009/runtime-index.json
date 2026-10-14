@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-09",
+  "scope": "Two distinct actual private P4 city-only attempts: initial ACK/UI failure and final success. All available original JSON and PNG are preserved byte exact; hashes record frozen served production, not an archive of every production source byte.",
+  "raw": [
+    {
+      "source": "build/r14-city-back-installed-v1/browser-console.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/8a3aacc901ac1e3dec63b89d18b50074e98579ad963f03d0389b526e571b7c37-browser-console.json.gz",
+      "bytes": 10778,
+      "sha256": "8a3aacc901ac1e3dec63b89d18b50074e98579ad963f03d0389b526e571b7c37",
+      "storedBytes": 1455,
+      "storedSha256": "5dce7eaf15bd103a009aee72ad1afadcfef4d65841fe30498fa687ba80bc5e0a"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/engine-inputs.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/a44cce7fbbe0fb9f32b49a67a9ee2775a8b16ae4775d3e3976c7926d7e110350-engine-inputs.json.gz",
+      "bytes": 35488,
+      "sha256": "a44cce7fbbe0fb9f32b49a67a9ee2775a8b16ae4775d3e3976c7926d7e110350",
+      "storedBytes": 1322,
+      "storedSha256": "ec1751c4cac9993227f4ac2584855a5a28330638b2cbe9d2d3067c31f279b419"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/native-menu-reads.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/5b350b0159562feb4d0aac2f00b9b5cbdd4382934b67860bf70ca5967b60df83-native-menu-reads.json.gz",
+      "bytes": 16069,
+      "sha256": "5b350b0159562feb4d0aac2f00b9b5cbdd4382934b67860bf70ca5967b60df83",
+      "storedBytes": 857,
+      "storedSha256": "568e346710b89fdc7cfb0b75f0e8c849683e533a596204319708f0582a9c2a45"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/observer-errors.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "storedBytes": 23,
+      "storedSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/result.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/e73fc4c001b82c1010d9d63e5a876c47739992b51ebbfb33cf02e227ae7b995d-result.json.gz",
+      "bytes": 4081771,
+      "sha256": "e73fc4c001b82c1010d9d63e5a876c47739992b51ebbfb33cf02e227ae7b995d",
+      "storedBytes": 256257,
+      "storedSha256": "0161d549c3ef83389a094c0c92029853b28ba8b504037a97a51c09cd914e4873"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/runtime-failure-audit.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/308d487db5e2e6a9e881a1fc790f373218e74368354d74e52cd5eeef5dcd239b-runtime-failure-audit.json.gz",
+      "bytes": 16400,
+      "sha256": "308d487db5e2e6a9e881a1fc790f373218e74368354d74e52cd5eeef5dcd239b",
+      "storedBytes": 3391,
+      "storedSha256": "9c262deaea4e8381ec92d3d244e2b37eab40bb3b221982c7ab3aa287ec182879"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/runtime-source.mjs",
+      "path": "docs/validation/m4-city-back-20261009/raw/6ebc662972e1c3fe23af40e93d6d2695b5e794398832749a57b5a3e0d47a7bfd-runtime-source.mjs.gz",
+      "bytes": 63142,
+      "sha256": "6ebc662972e1c3fe23af40e93d6d2695b5e794398832749a57b5a3e0d47a7bfd",
+      "storedBytes": 18690,
+      "storedSha256": "70aa8a58a140c042271f32d359c1fc5d04601c67e730f2fd71232292a2e3cf77"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/source-verification.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/ff78ec9a54ee51d7d9c14015eeaa66aca188f1fb0eca11340cf6928ddd4ceada-source-verification.json.gz",
+      "bytes": 406255,
+      "sha256": "ff78ec9a54ee51d7d9c14015eeaa66aca188f1fb0eca11340cf6928ddd4ceada",
+      "storedBytes": 64663,
+      "storedSha256": "e5aac3afbdff043479968612a238f84ea6ab3efcdfaae76d5072a91679a98be6"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/spe-observations.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/88e1e7ff0d73c93372c4538926fbf25bcee860b194933d6ef7231820a96502ae-spe-observations.json.gz",
+      "bytes": 1536679,
+      "sha256": "88e1e7ff0d73c93372c4538926fbf25bcee860b194933d6ef7231820a96502ae",
+      "storedBytes": 18673,
+      "storedSha256": "5657edc80a028c3f24e60084ca9f9978bfeff8d58ba63df470540520e2e9375d"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/browser-console.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/7e232fd5b3872717780d75482fdffda4d68bda51cc44235d4a7f58f0f38f2369-browser-console.json.gz",
+      "bytes": 11638,
+      "sha256": "7e232fd5b3872717780d75482fdffda4d68bda51cc44235d4a7f58f0f38f2369",
+      "storedBytes": 1245,
+      "storedSha256": "a4a4770d8e9dc35494ee8209680724db23fbe29afe7f79e2c7ca790a220aa769"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/engine-inputs.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/582a18244cb8c6c15b86c5933c2d0d0f818132c3c532b379095daa711d727373-engine-inputs.json.gz",
+      "bytes": 42667,
+      "sha256": "582a18244cb8c6c15b86c5933c2d0d0f818132c3c532b379095daa711d727373",
+      "storedBytes": 1468,
+      "storedSha256": "5e949320df08e8fd1e286bac5c514a6426c5ddb528bc148a09874ea52e65b0ea"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/native-menu-reads.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/ac24b166e67a6da0333f654a43ae67315c0d7ce01e1bdad71e76dc1b471d6581-native-menu-reads.json.gz",
+      "bytes": 19932,
+      "sha256": "ac24b166e67a6da0333f654a43ae67315c0d7ce01e1bdad71e76dc1b471d6581",
+      "storedBytes": 965,
+      "storedSha256": "b99f3b8d175fb54e74efcd60c9c0d6c2b7159a9a4cf15c38fde7e4620fb592aa"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/observer-errors.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570-observer-errors.json.gz",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "storedBytes": 23,
+      "storedSha256": "858ce9c035384bc4f31d7895b470bc72809b733274d960eabeca130df6c3bb1a"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/result.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/dff1c6c150b6fe905d4b727c96ca127c02992dc1b30468afec42500fbbc00c98-result.json.gz",
+      "bytes": 5165829,
+      "sha256": "dff1c6c150b6fe905d4b727c96ca127c02992dc1b30468afec42500fbbc00c98",
+      "storedBytes": 300386,
+      "storedSha256": "6666a00ac7cfc6b46437249b44660cadb5ff8762324e7c33f53117ae7b1ad379"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/runtime-source.mjs",
+      "path": "docs/validation/m4-city-back-20261009/raw/6ebc662972e1c3fe23af40e93d6d2695b5e794398832749a57b5a3e0d47a7bfd-runtime-source.mjs.gz",
+      "bytes": 63142,
+      "sha256": "6ebc662972e1c3fe23af40e93d6d2695b5e794398832749a57b5a3e0d47a7bfd",
+      "storedBytes": 18690,
+      "storedSha256": "70aa8a58a140c042271f32d359c1fc5d04601c67e730f2fd71232292a2e3cf77"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/runtime-validation-audit.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/2c39f0a7084b4f4da9d8fdfe638ae6a36160cab813c7ac8f66ae5fdcadb655ba-runtime-validation-audit.json.gz",
+      "bytes": 27823,
+      "sha256": "2c39f0a7084b4f4da9d8fdfe638ae6a36160cab813c7ac8f66ae5fdcadb655ba",
+      "storedBytes": 4543,
+      "storedSha256": "e02b17a26253ed224e57ec39325687f368ed1fdbc7a4b5bea6f267a6d0647ec7"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/source-verification.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/c64e72bbb1d270dcd8a0da32f49a35a7f58e26e9f7ecdb2ea21ff96a83b52ef5-source-verification.json.gz",
+      "bytes": 406255,
+      "sha256": "c64e72bbb1d270dcd8a0da32f49a35a7f58e26e9f7ecdb2ea21ff96a83b52ef5",
+      "storedBytes": 64662,
+      "storedSha256": "f38d2f69a17ed12ebad039ac5fceeb675e359d79fa609787b05f099b404ced8c"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/spe-observations.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/5ab098c4a0aafe2221e27657995645329d4b2931cfdbb35f83ddfca2ad080e39-spe-observations.json.gz",
+      "bytes": 1668119,
+      "sha256": "5ab098c4a0aafe2221e27657995645329d4b2931cfdbb35f83ddfca2ad080e39",
+      "storedBytes": 19892,
+      "storedSha256": "7c03b2920d7a7756698cce82935752fbecbe8f7bd49bd2378d98b832b9915b21"
+    },
+    {
+      "source": "build/r14-city-back-focused.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/73cbef383da082075f6cd09069a042ff4263ec92c90c0643f464423d44a3cdc0-r14-city-back-focused.log.gz",
+      "bytes": 10513,
+      "sha256": "73cbef383da082075f6cd09069a042ff4263ec92c90c0643f464423d44a3cdc0",
+      "storedBytes": 4142,
+      "storedSha256": "96937de7001ff7420c4abb3e1849c4a10ab771c2ff20c3a578013f81f8d98a01"
+    },
+    {
+      "source": "build/r14-all-tests.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/0d27e05b318899c78e6f111fe4ef5165006a570769c0bc2a395581daafc011f2-r14-all-tests.log.gz",
+      "bytes": 89130,
+      "sha256": "0d27e05b318899c78e6f111fe4ef5165006a570769c0bc2a395581daafc011f2",
+      "storedBytes": 28382,
+      "storedSha256": "4f152c8364ecb1c3b4b3416cc31798c548230f8a24f5cb4b806adc65fcaf8ce3"
+    },
+    {
+      "source": "build/r14-city-back-owner-review.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/bae71663cbe38718d2ecc5ffbdb29fea126756c2739e78d2c5eee5b87550ebd8-r14-city-back-owner-review.json.gz",
+      "bytes": 4679,
+      "sha256": "bae71663cbe38718d2ecc5ffbdb29fea126756c2739e78d2c5eee5b87550ebd8",
+      "storedBytes": 1829,
+      "storedSha256": "4ad5e7e960cd5db22a1a70c12e56043a7c3aa9564e87709339a836e798476e40"
+    },
+    {
+      "source": "build/r14-city-back-review.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/d5fc0f518d0efaa065eb63ba7c4d7ff93e0a090c3200dd6830b9b498a0abedcd-r14-city-back-review.json.gz",
+      "bytes": 4097,
+      "sha256": "d5fc0f518d0efaa065eb63ba7c4d7ff93e0a090c3200dd6830b9b498a0abedcd",
+      "storedBytes": 2028,
+      "storedSha256": "20dfc5c2532fd659a2b28b35a520e7f30c6b8632ac8d6088930696cddd8fa392"
+    },
+    {
+      "source": "build/r13-retired-city-back-risk.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/e61d4b99efe7dadb3b4550fe0d4797f84af23389f791ef7e33397c9e169cc77d-r13-retired-city-back-risk.json.gz",
+      "bytes": 4724,
+      "sha256": "e61d4b99efe7dadb3b4550fe0d4797f84af23389f791ef7e33397c9e169cc77d",
+      "storedBytes": 1908,
+      "storedSha256": "dba00b4973e483a34bfd883db1d2a3d3143ff587856680d84953491d759cf0bb"
+    },
+    {
+      "source": "build/r14-city-back-fix-plan.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/f337c7ad7c676f06d4159a5f3210c3976f4acb64fb5fce99a85e4c1f66a49bc0-r14-city-back-fix-plan.json.gz",
+      "bytes": 9048,
+      "sha256": "f337c7ad7c676f06d4159a5f3210c3976f4acb64fb5fce99a85e4c1f66a49bc0",
+      "storedBytes": 3785,
+      "storedSha256": "12fdbf6b3576c18e226893a829fd16d7851f7cb809ae65fe10e5d70b0e5db6e3"
+    },
+    {
+      "source": "build/r14-retired-map-owner-peer-plan.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/b9db2a916a0f93a83556178d767c78dd12eb4cc5632d84efdfcc8b9f2c171027-r14-retired-map-owner-peer-plan.json.gz",
+      "bytes": 8856,
+      "sha256": "b9db2a916a0f93a83556178d767c78dd12eb4cc5632d84efdfcc8b9f2c171027",
+      "storedBytes": 3699,
+      "storedSha256": "e38ba23485d18a5295ce12d61052b92af1c7e7f1b4a7d6739a7668f3a7c7c476"
+    },
+    {
+      "source": "build/r14-city-back-promoted-preflight.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/b1c5bf3337abfa2d53c76a6a1a5ff986ea13e63b0cc5ae8c0478d62132f356ec-r14-city-back-promoted-preflight.json.gz",
+      "bytes": 1249,
+      "sha256": "b1c5bf3337abfa2d53c76a6a1a5ff986ea13e63b0cc5ae8c0478d62132f356ec",
+      "storedBytes": 627,
+      "storedSha256": "f58f8c2d5ca47cb2cf77769d58f976529f6425bbe9360143c0a29b8ba426bc44"
+    },
+    {
+      "source": "build/r14-city-back-review-v2.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/8f32148145bd172be690027c348f32990cf2fc8f4cbf8551c18657d8d9827689-r14-city-back-review-v2.json.gz",
+      "bytes": 2481,
+      "sha256": "8f32148145bd172be690027c348f32990cf2fc8f4cbf8551c18657d8d9827689",
+      "storedBytes": 1275,
+      "storedSha256": "1ed2e1272007ab2a21ccfd10c13809aa92656c22f593d1bdb57a571af09960cf"
+    },
+    {
+      "source": "build/r14-city-back-focused-v2.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/5f419e3456176f4e66f00f94de30d8dc6e2e7a1fa64e795ec4276332089fdbb2-r14-city-back-focused-v2.log.gz",
+      "bytes": 10623,
+      "sha256": "5f419e3456176f4e66f00f94de30d8dc6e2e7a1fa64e795ec4276332089fdbb2",
+      "storedBytes": 4178,
+      "storedSha256": "0a4b11754a5223e088c74bc6596297aefbb7ef0ff6fd913363bd36e8635fcc6a"
+    },
+    {
+      "source": "build/r14-city-back-focused-v3.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/9dc54ba7540f016bdf4a5a7765a614bc2f16319c464cd7d4e1eaf936b1776738-r14-city-back-focused-v3.log.gz",
+      "bytes": 12893,
+      "sha256": "9dc54ba7540f016bdf4a5a7765a614bc2f16319c464cd7d4e1eaf936b1776738",
+      "storedBytes": 5033,
+      "storedSha256": "880290bf453948b5b16eaddcceea45b419a0c616ee6779f843ba0253109a1013"
+    },
+    {
+      "source": "build/r14-all-tests-v2.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/69462aedd8906f21146e3b1c911dd1d07bc9e0bc5d90fad1b17f6cb08686decc-r14-all-tests-v2.log.gz",
+      "bytes": 90018,
+      "sha256": "69462aedd8906f21146e3b1c911dd1d07bc9e0bc5d90fad1b17f6cb08686decc",
+      "storedBytes": 28770,
+      "storedSha256": "37c6abe7a668baedb8c12768d66fb99a6eb5acd578e461a9fa8a45c2912f5360"
+    },
+    {
+      "source": "build/r14-all-tests-v3.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/5917ebc8b233bc7bbf826486b10c424a19e82e4265a1462a32c8da79822cf14b-r14-all-tests-v3.log.gz",
+      "bytes": 104986,
+      "sha256": "5917ebc8b233bc7bbf826486b10c424a19e82e4265a1462a32c8da79822cf14b",
+      "storedBytes": 31079,
+      "storedSha256": "2fd8ee93356d9588752bdc3c6439c85492b5144808c6346dd7bd875384953bb5"
+    },
+    {
+      "source": "build/r14-all-tests-v4.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/43d7a5ea839d2f0e2036ca3e7532b29f80757e7bf20dc245a19a8af37cc63a0a-r14-all-tests-v4.log.gz",
+      "bytes": 87875,
+      "sha256": "43d7a5ea839d2f0e2036ca3e7532b29f80757e7bf20dc245a19a8af37cc63a0a",
+      "storedBytes": 28004,
+      "storedSha256": "f114bcf1a45c87d42bcf112cda5b3838b03ee007d5b80599f39e786abc5d9955"
+    },
+    {
+      "source": "build/r14-spe-isolated.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/e737a713aeb98de127b5a7d137263a7e3a115c5a8d852ab6bad35f0f21d20da3-r14-spe-isolated.log.gz",
+      "bytes": 5282,
+      "sha256": "e737a713aeb98de127b5a7d137263a7e3a115c5a8d852ab6bad35f0f21d20da3",
+      "storedBytes": 2314,
+      "storedSha256": "b691d8bdddbb707ed46361e0a3f5cd7990f421facd3dcce7c72d2dec1984d7fc"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1-console.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/d4f3d5d15b52db75a576c6faef49a31e7d076a076a3a27724dd123bc15e1e806-r14-city-back-installed-v1-console.log.gz",
+      "bytes": 1439,
+      "sha256": "d4f3d5d15b52db75a576c6faef49a31e7d076a076a3a27724dd123bc15e1e806",
+      "storedBytes": 597,
+      "storedSha256": "c4449fd680027d887d4de2c10b116d1b3b50a964d5566e003006d7428178785e"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2-console.log",
+      "path": "docs/validation/m4-city-back-20261009/raw/6190c6d278c8b441ce1ebac51e8179106a12d7ba3d56b00c6e3e77c803ea1f3a-r14-city-back-installed-v2-console.log.gz",
+      "bytes": 944,
+      "sha256": "6190c6d278c8b441ce1ebac51e8179106a12d7ba3d56b00c6e3e77c803ea1f3a",
+      "storedBytes": 492,
+      "storedSha256": "40213214ca4f5f8f9b67958a2e63f20bd0519f4434748cc9d58885b1eac4bc2c"
+    },
+    {
+      "source": "build/r14-city-back-source-audit.json",
+      "path": "docs/validation/m4-city-back-20261009/raw/b1648d76a5d1a2331c126faa8b69b823f52b67b1a334d0b03243c3e0fd6bb89d-r14-city-back-source-audit.json.gz",
+      "bytes": 24550,
+      "sha256": "b1648d76a5d1a2331c126faa8b69b823f52b67b1a334d0b03243c3e0fd6bb89d",
+      "storedBytes": 7223,
+      "storedSha256": "2f43c0432c8890968089e380a9fe9017a60363115ff001e9406a0f60cb379074"
+    },
+    {
+      "source": "build/r14-city-back-source-audit.cjs",
+      "path": "docs/validation/m4-city-back-20261009/raw/344aaee3ce1c3014a9b071b7a0bdc2e9e3d22f197d09446158b6144d53ec84a7-r14-city-back-source-audit.cjs.gz",
+      "bytes": 2615,
+      "sha256": "344aaee3ce1c3014a9b071b7a0bdc2e9e3d22f197d09446158b6144d53ec84a7",
+      "storedBytes": 1087,
+      "storedSha256": "bdb9ed9688357534c5d2c1fcb92b480ea66547db8e2caf133957fea5f9d8d283"
+    },
+    {
+      "source": "build/r14-archive-city-back.cjs",
+      "path": "docs/validation/m4-city-back-20261009/raw/62fd41507929c0a562f3cd9861ef73be2d75ca98c4318ecd6370fb026e06dc1b-r14-archive-city-back.cjs.gz",
+      "bytes": 7937,
+      "sha256": "62fd41507929c0a562f3cd9861ef73be2d75ca98c4318ecd6370fb026e06dc1b",
+      "storedBytes": 3131,
+      "storedSha256": "0450d04d18cee444db7376e959809a2ef8fa50971ea5ca28a24816c68bb6263f"
+    }
+  ],
+  "images": [
+    {
+      "source": "build/r14-city-back-installed-v1/01-native-opening-frames.png",
+      "path": "docs/validation/m4-city-back-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75-01-native-opening-frames.png",
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "storedBytes": 2352106,
+      "storedSha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/02-opening-ended-cleanly.png",
+      "path": "docs/validation/m4-city-back-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572-02-opening-ended-cleanly.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "storedBytes": 88734,
+      "storedSha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/03-real-map.png",
+      "path": "docs/validation/m4-city-back-20261009/images/9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090-03-real-map.png",
+      "bytes": 71847,
+      "sha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "storedBytes": 71847,
+      "storedSha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/04-current-native-city-root.png",
+      "path": "docs/validation/m4-city-back-20261009/images/c868436d433b32a00fe388180a2ee17e937ee93d7204f6d05a146f076cf1fee6-04-current-native-city-root.png",
+      "bytes": 2235237,
+      "sha256": "c868436d433b32a00fe388180a2ee17e937ee93d7204f6d05a146f076cf1fee6",
+      "storedBytes": 2235237,
+      "storedSha256": "c868436d433b32a00fe388180a2ee17e937ee93d7204f6d05a146f076cf1fee6"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/05-current-native-military-submenu.png",
+      "path": "docs/validation/m4-city-back-20261009/images/37579242e0a9f8ad93c2f29747bcb28fceba7a65dd67555eb3fe9765ab58fdfa-05-current-native-military-submenu.png",
+      "bytes": 2304203,
+      "sha256": "37579242e0a9f8ad93c2f29747bcb28fceba7a65dd67555eb3fe9765ab58fdfa",
+      "storedBytes": 2304203,
+      "storedSha256": "37579242e0a9f8ad93c2f29747bcb28fceba7a65dd67555eb3fe9765ab58fdfa"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/06a-real-enlisted-city-reserves.png",
+      "path": "docs/validation/m4-city-back-20261009/images/ccdfaf2c9dbb61e9c77f9cdc06ac40769a3673c45a66f9f7d01337e71e754664-06a-real-enlisted-city-reserves.png",
+      "bytes": 2356238,
+      "sha256": "ccdfaf2c9dbb61e9c77f9cdc06ac40769a3673c45a66f9f7d01337e71e754664",
+      "storedBytes": 2356238,
+      "storedSha256": "ccdfaf2c9dbb61e9c77f9cdc06ac40769a3673c45a66f9f7d01337e71e754664"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/06b-real-distributed-caster-troops.png",
+      "path": "docs/validation/m4-city-back-20261009/images/b1fd4b9b37ddc28119b7cc0b2e33c606eeafd215f0b6fcefc62f43844c168fd5-06b-real-distributed-caster-troops.png",
+      "bytes": 2225032,
+      "sha256": "b1fd4b9b37ddc28119b7cc0b2e33c606eeafd215f0b6fcefc62f43844c168fd5",
+      "storedBytes": 2225032,
+      "storedSha256": "b1fd4b9b37ddc28119b7cc0b2e33c606eeafd215f0b6fcefc62f43844c168fd5"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/07-exhausted-native-map-stale-conscription-before-back.png",
+      "path": "docs/validation/m4-city-back-20261009/images/035075a77fac0dbaee7a2eb06674cd1446accbf4aba13f91e0a580d1783e0800-07-exhausted-native-map-stale-conscription-before-back.png",
+      "bytes": 2356545,
+      "sha256": "035075a77fac0dbaee7a2eb06674cd1446accbf4aba13f91e0a580d1783e0800",
+      "storedBytes": 2356545,
+      "storedSha256": "035075a77fac0dbaee7a2eb06674cd1446accbf4aba13f91e0a580d1783e0800"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/08-stale-conscription-user-back-zero-keys.png",
+      "path": "docs/validation/m4-city-back-20261009/images/271746c2d9d9cad7fcf480f73731656ffd0e95fd4f03f0227db6d6a0d7184564-08-stale-conscription-user-back-zero-keys.png",
+      "bytes": 3032518,
+      "sha256": "271746c2d9d9cad7fcf480f73731656ffd0e95fd4f03f0227db6d6a0d7184564",
+      "storedBytes": 3032518,
+      "storedSha256": "271746c2d9d9cad7fcf480f73731656ffd0e95fd4f03f0227db6d6a0d7184564"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/10-active-native-distribution-picker-before-back.png",
+      "path": "docs/validation/m4-city-back-20261009/images/d8ca5c70721334dccc9b5e133a4dee3bf30e0d981ba30874245f9ae862b52b4c-10-active-native-distribution-picker-before-back.png",
+      "bytes": 2224951,
+      "sha256": "d8ca5c70721334dccc9b5e133a4dee3bf30e0d981ba30874245f9ae862b52b4c",
+      "storedBytes": 2224951,
+      "storedSha256": "d8ca5c70721334dccc9b5e133a4dee3bf30e0d981ba30874245f9ae862b52b4c"
+    },
+    {
+      "source": "build/r14-city-back-installed-v1/failure.png",
+      "path": "docs/validation/m4-city-back-20261009/images/f02ee1bd7e82b2280449e4294823f6610d78ececfe018ccab7d26f5187682e5c-failure.png",
+      "bytes": 2293247,
+      "sha256": "f02ee1bd7e82b2280449e4294823f6610d78ececfe018ccab7d26f5187682e5c",
+      "storedBytes": 2293247,
+      "storedSha256": "f02ee1bd7e82b2280449e4294823f6610d78ececfe018ccab7d26f5187682e5c"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/01-native-opening-frames.png",
+      "path": "docs/validation/m4-city-back-20261009/images/af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75-01-native-opening-frames.png",
+      "bytes": 2352106,
+      "sha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75",
+      "storedBytes": 2352106,
+      "storedSha256": "af2bfe0a97c70612ba162a8c6a8315ce41259bd008ccb7ea996338db9a0d0e75"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/02-opening-ended-cleanly.png",
+      "path": "docs/validation/m4-city-back-20261009/images/855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572-02-opening-ended-cleanly.png",
+      "bytes": 88734,
+      "sha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572",
+      "storedBytes": 88734,
+      "storedSha256": "855621f9a8b988c2889228bfc36544e014ccb43556c3aae70ba66ada31ea9572"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/03-real-map.png",
+      "path": "docs/validation/m4-city-back-20261009/images/9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090-03-real-map.png",
+      "bytes": 71847,
+      "sha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090",
+      "storedBytes": 71847,
+      "storedSha256": "9970b0dafbb0d20e8b6c67300acb69f547978f39a148fc103b292ad32e2fd090"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/04-current-native-city-root.png",
+      "path": "docs/validation/m4-city-back-20261009/images/7a364fdeb42f39f3af341340bf7f3753af8ae14f8b812c8c94b597ec74037855-04-current-native-city-root.png",
+      "bytes": 2186442,
+      "sha256": "7a364fdeb42f39f3af341340bf7f3753af8ae14f8b812c8c94b597ec74037855",
+      "storedBytes": 2186442,
+      "storedSha256": "7a364fdeb42f39f3af341340bf7f3753af8ae14f8b812c8c94b597ec74037855"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/05-current-native-military-submenu.png",
+      "path": "docs/validation/m4-city-back-20261009/images/03d9781567a705a80f0eb9307008e8d22777c9d41594b95ca7b675b7e1e63aba-05-current-native-military-submenu.png",
+      "bytes": 2304215,
+      "sha256": "03d9781567a705a80f0eb9307008e8d22777c9d41594b95ca7b675b7e1e63aba",
+      "storedBytes": 2304215,
+      "storedSha256": "03d9781567a705a80f0eb9307008e8d22777c9d41594b95ca7b675b7e1e63aba"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/06a-real-enlisted-city-reserves.png",
+      "path": "docs/validation/m4-city-back-20261009/images/10cb72e6c9159047d29b4aa7532f7e5f5c781f918b525ad9c8f6ffb685fae286-06a-real-enlisted-city-reserves.png",
+      "bytes": 2355888,
+      "sha256": "10cb72e6c9159047d29b4aa7532f7e5f5c781f918b525ad9c8f6ffb685fae286",
+      "storedBytes": 2355888,
+      "storedSha256": "10cb72e6c9159047d29b4aa7532f7e5f5c781f918b525ad9c8f6ffb685fae286"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/06b-real-distributed-caster-troops.png",
+      "path": "docs/validation/m4-city-back-20261009/images/9001f431f1b78cc3993cbd63bfbcbb99434f2d5ab9259ee257316306ae6a510e-06b-real-distributed-caster-troops.png",
+      "bytes": 2182835,
+      "sha256": "9001f431f1b78cc3993cbd63bfbcbb99434f2d5ab9259ee257316306ae6a510e",
+      "storedBytes": 2182835,
+      "storedSha256": "9001f431f1b78cc3993cbd63bfbcbb99434f2d5ab9259ee257316306ae6a510e"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/07-exhausted-native-map-stale-conscription-before-back.png",
+      "path": "docs/validation/m4-city-back-20261009/images/f75c973ad1333cc18f2a56bd4636078d0d38bfbd81c3a12e7df54494ada0478b-07-exhausted-native-map-stale-conscription-before-back.png",
+      "bytes": 2356022,
+      "sha256": "f75c973ad1333cc18f2a56bd4636078d0d38bfbd81c3a12e7df54494ada0478b",
+      "storedBytes": 2356022,
+      "storedSha256": "f75c973ad1333cc18f2a56bd4636078d0d38bfbd81c3a12e7df54494ada0478b"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/08-stale-conscription-user-back-zero-keys.png",
+      "path": "docs/validation/m4-city-back-20261009/images/2d903742a5dcfef871e4e16843ba35f4e7057b931b5c7eb15bfa24a4e720d55a-08-stale-conscription-user-back-zero-keys.png",
+      "bytes": 3032451,
+      "sha256": "2d903742a5dcfef871e4e16843ba35f4e7057b931b5c7eb15bfa24a4e720d55a",
+      "storedBytes": 3032451,
+      "storedSha256": "2d903742a5dcfef871e4e16843ba35f4e7057b931b5c7eb15bfa24a4e720d55a"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/10-active-native-distribution-picker-before-back.png",
+      "path": "docs/validation/m4-city-back-20261009/images/47fccdbaefbe99c435e9fc8642cffc44f7ae058ee8a4a54425508e45063b9c7a-10-active-native-distribution-picker-before-back.png",
+      "bytes": 2224680,
+      "sha256": "47fccdbaefbe99c435e9fc8642cffc44f7ae058ee8a4a54425508e45063b9c7a",
+      "storedBytes": 2224680,
+      "storedSha256": "47fccdbaefbe99c435e9fc8642cffc44f7ae058ee8a4a54425508e45063b9c7a"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/11-active-person-picker-back-one-exit.png",
+      "path": "docs/validation/m4-city-back-20261009/images/e77365cc3072fc0d7eb472f2bcff6f93e234a5e454c367689e988f84ebac71f9-11-active-person-picker-back-one-exit.png",
+      "bytes": 3032749,
+      "sha256": "e77365cc3072fc0d7eb472f2bcff6f93e234a5e454c367689e988f84ebac71f9",
+      "storedBytes": 3032749,
+      "storedSha256": "e77365cc3072fc0d7eb472f2bcff6f93e234a5e454c367689e988f84ebac71f9"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/12-distribution-back-fresh-military-submenu.png",
+      "path": "docs/validation/m4-city-back-20261009/images/ef43607fcff01c65803c64f58a003f55130f35fdd703ab34bd0f4a77d4c1172a-12-distribution-back-fresh-military-submenu.png",
+      "bytes": 2304234,
+      "sha256": "ef43607fcff01c65803c64f58a003f55130f35fdd703ab34bd0f4a77d4c1172a",
+      "storedBytes": 2304234,
+      "storedSha256": "ef43607fcff01c65803c64f58a003f55130f35fdd703ab34bd0f4a77d4c1172a"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/13-military-submenu-back-current-root.png",
+      "path": "docs/validation/m4-city-back-20261009/images/23e1c4b5f1876417091ec78af21d6d4043aaef9f52e6c53e59e24e593f6718e6-13-military-submenu-back-current-root.png",
+      "bytes": 2234279,
+      "sha256": "23e1c4b5f1876417091ec78af21d6d4043aaef9f52e6c53e59e24e593f6718e6",
+      "storedBytes": 2234279,
+      "storedSha256": "23e1c4b5f1876417091ec78af21d6d4043aaef9f52e6c53e59e24e593f6718e6"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/14-current-root-back-native-map.png",
+      "path": "docs/validation/m4-city-back-20261009/images/0561a858d39b7752cabe0554012931552971cd8a3f29529d406cc9a16d38d7ca-14-current-root-back-native-map.png",
+      "bytes": 3032406,
+      "sha256": "0561a858d39b7752cabe0554012931552971cd8a3f29529d406cc9a16d38d7ca",
+      "storedBytes": 3032406,
+      "storedSha256": "0561a858d39b7752cabe0554012931552971cd8a3f29529d406cc9a16d38d7ca"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/15-final-fresh-native-root-reentry.png",
+      "path": "docs/validation/m4-city-back-20261009/images/585df9ad44d6105efbdbddd72ad098a8205b920346b400f67d1ce2b6f6f8fa00-15-final-fresh-native-root-reentry.png",
+      "bytes": 2235094,
+      "sha256": "585df9ad44d6105efbdbddd72ad098a8205b920346b400f67d1ce2b6f6f8fa00",
+      "storedBytes": 2235094,
+      "storedSha256": "585df9ad44d6105efbdbddd72ad098a8205b920346b400f67d1ce2b6f6f8fa00"
+    },
+    {
+      "source": "build/r14-city-back-installed-v2/16-final-native-map-owner.png",
+      "path": "docs/validation/m4-city-back-20261009/images/50adee87c652a013c8fd56be5c17e840aada6b1016def1d7c82597ae61a287e3-16-final-native-map-owner.png",
+      "bytes": 3032026,
+      "sha256": "50adee87c652a013c8fd56be5c17e840aada6b1016def1d7c82597ae61a287e3",
+      "storedBytes": 3032026,
+      "storedSha256": "50adee87c652a013c8fd56be5c17e840aada6b1016def1d7c82597ae61a287e3"
+    }
+  ],
+  "previousArchiveVariants": [
+    {
+      "path": "docs/validation/m4-city-back-20261009/raw/1865b831f4f5526493b1e76c2824d2be392deac15d6ee87f9ec2518725afaa2d-r14-archive-city-back.cjs.gz",
+      "bytes": 6659,
+      "sha256": "1865b831f4f5526493b1e76c2824d2be392deac15d6ee87f9ec2518725afaa2d",
+      "storedBytes": 2703,
+      "storedSha256": "706adf989b60d35654b333a3c9ca4b5cda03f4020c5938fe07a80f2ea1cfeb24",
+      "scope": "Earlier archive-builder snapshot retained as original gzip; not a new runtime or test result."
+    }
+  ],
+  "counts": {
+    "raw": 38,
+    "png": 27,
+    "physicalRaw": 37,
+    "physicalPng": 24,
+    "distinctPngBytes": 24
+  },
+  "runs": [
+    {
+      "directory": "build/r14-city-back-installed-v1",
+      "raw": 9,
+      "png": 11
+    },
+    {
+      "directory": "build/r14-city-back-installed-v2",
+      "raw": 9,
+      "png": 16
+    }
+  ],
+  "result": {
+    "source": "build/r14-city-back-installed-v2/result.json",
+    "path": "docs/validation/m4-city-back-20261009/raw/dff1c6c150b6fe905d4b727c96ca127c02992dc1b30468afec42500fbbc00c98-result.json.gz",
+    "bytes": 5165829,
+    "sha256": "dff1c6c150b6fe905d4b727c96ca127c02992dc1b30468afec42500fbbc00c98",
+    "storedBytes": 300386,
+    "storedSha256": "6666a00ac7cfc6b46437249b44660cadb5ff8762324e7c33f53117ae7b1ad379"
+  },
+  "byteVerification": "Every PNG copied unchanged; every gzip decompresses byte exactly to the source. No image transformation or invented missing capture."
+}

@@ -1,0 +1,3333 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-11",
+  "accepted": true,
+  "globalHdComplete": false,
+  "realDeviceAccepted": false,
+  "monthlyOutcomesAccepted": false,
+  "defaultParallelSuiteAccepted": false,
+  "scope": "Original era1 Dong Zhuo, ChangAn10: mobile ALIENATE15/CANVASS16/COUNTERESPIONAGE17/INDUCE19 actor and enemy target lineage, 8 cancellations and4 actual dispatches per viewport, before month processing.",
+  "implementation": {
+    "originalLibrary": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "nativeProtocol": {
+      "version": 1,
+      "publicApi": "baye.hd.diplomacy()",
+      "fields": [
+        "g_hdDiplomacyProtocolVersion",
+        "g_hdDiplomacyActive",
+        "g_hdDiplomacyCommand",
+        "g_hdDiplomacyPhase",
+        "g_hdDiplomacySession",
+        "g_hdDiplomacyInputSeq",
+        "g_hdDiplomacyGeneration",
+        "g_hdDiplomacyOrigin",
+        "g_hdDiplomacyActor",
+        "g_hdDiplomacyTarget",
+        "g_hdDiplomacyCommitSeq",
+        "g_hdDiplomacyCommitResult"
+      ],
+      "commands": {
+        "alienate": 15,
+        "canvass": 16,
+        "counterespionage": 17,
+        "induce": 19
+      },
+      "phases": {
+        "idle": 0,
+        "actor": 1,
+        "target": 2,
+        "commit": 3,
+        "reject": 4,
+        "done": 5
+      },
+      "owner": "independent session/inputSeq plus actual detail generation; all skip zero; stale suspended publishers cannot revive a retired owner",
+      "people": "actual returned U16 person IDs; actor and target65535 and origin255 are unpublished sentinels; actor selection resets both people each iteration",
+      "commit": "phase3 observes original debits before AddOrderHead; exactly one native result is recorded after original DelPerson. Result1 queued, result2 full queue, without rollback or an invented success report",
+      "cancellation": "target cancellation returns to a freshly published actor list; actor cancellation follows native command return; no added keys",
+      "retirement": "DONE inactive retains an audit receipt; next begin/reset/world commit invalidates previous session and clears people/result",
+      "input": "observation only; original PERSON and report native owner receipts remain authoritative; original costs, eligibility and monthly random outcomes are unchanged"
+    },
+    "frontend": "Independent actor/target session and inputSeq, data/LIB/detail generation and exact current native PERSON list; no invented report or additional return key",
+    "preservedRules": "Original money/thew, eligibility, queue-full partial debit and monthly behavior. Alienate default charges enemy target Thew. Counter-spy18 remains original empty implementation."
+  },
+  "tests": {
+    "full": {
+      "log": {
+        "path": "build/mobile-diplomacy-validation-20261011/final-suite-v2/full-suite-serial-v2.log",
+        "bytes": 328665,
+        "sha256": "227f3b88ca3e35834a3ce684da184e49af7b4e30472503992f000449d097a119"
+      },
+      "modules": 83,
+      "testConcurrency": 1,
+      "node": "v24.14.0",
+      "tests": 3533,
+      "pass": 3533,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0,
+      "duration_ms": 66627.6802
+    },
+    "sourceManifest": {
+      "path": "build/mobile-diplomacy-validation-20261011/final-suite-v2/final-test-sources.json",
+      "bytes": 25661,
+      "sha256": "83968fc94f26d7af033bcb1c938cd04a3f72bd7adea2dbbd8002c03350afe3f2"
+    },
+    "focused": {
+      "nativeAndOracle": 131,
+      "frontendAndDialog": 541,
+      "countsOverlapFullSuite": true
+    },
+    "negativeBaseline": "Four actor-to-target cases fail against previous HEAD; three nonfirst-submenu cases fail against pre-fix frontend; exact sources and logs archived."
+  },
+  "engine": {
+    "newBuild": true,
+    "stagedThenExactFourFileInstall": true,
+    "sourceRevision": "2b61677ea7a34c9dc1fa70c5511a92495dda53e9",
+    "engineSourceModified": true,
+    "sourceTree": {
+      "verified": true,
+      "count": 128,
+      "sha256": "4c7c1beee20656f6a8dbf08c302c560990d4fa5beb30c16f63a79838ce2b06df"
+    },
+    "files": [
+      {
+        "path": "js/baye.js",
+        "bytes": 192446,
+        "sha256": "53a04dd918abab1a48fe69cd2b872ac6d50f4a7a831f298a11c60efdba104b9a",
+        "frozenFile": "frozen-sources/53a04dd918abab1a48fe69cd2b872ac6d50f4a7a831f298a11c60efdba104b9a.js"
+      },
+      {
+        "path": "js/baye.wasm",
+        "bytes": 4554589,
+        "sha256": "ded114411ecd931699fde904cf4fd79788f864a0b5605e12d842601cec433311",
+        "frozenFile": "frozen-sources/ded114411ecd931699fde904cf4fd79788f864a0b5605e12d842601cec433311.wasm"
+      },
+      {
+        "path": "js/baye.wasm.map",
+        "bytes": 29983,
+        "sha256": "e676596f51c35fbc26543f452a32b2edd5cd5622942f561d130ce9e095d5ab8e",
+        "frozenFile": "frozen-sources/e676596f51c35fbc26543f452a32b2edd5cd5622942f561d130ce9e095d5ab8e.map"
+      },
+      {
+        "path": "js/baye.build.json",
+        "bytes": 20780,
+        "sha256": "1f37c35f686d8fe5b368b13d0ee0857cf5bba3d98821d2474218329751c38a61",
+        "frozenFile": "frozen-sources/1f37c35f686d8fe5b368b13d0ee0857cf5bba3d98821d2474218329751c38a61.json"
+      }
+    ]
+  },
+  "runtime": [
+    {
+      "directory": "build/mobile-diplomacy-staged-844-v1-20261011",
+      "staged": true,
+      "viewport": [
+        844,
+        390
+      ],
+      "ok": false,
+      "accepted": false,
+      "phases": 5,
+      "nativeKeys": 22,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "Error: Timed out complete current 离间 target PERSON\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:254:78)\n    at async picker (file:///F:/project/baye-sanguo/scripts/hd-mobile-diplomacy-runtime-checks.mjs:20:3)\n    at async actorToTarget (file:///F:/project/baye-sanguo/scripts/hd-mobile-diplomacy-runtime-checks.mjs:56:15)\n    at async runMobileDiplomacyChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-diplomacy-runtime-checks.mjs:70:3)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:564:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:845:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:886:86",
+      "result": {
+        "path": "build/mobile-diplomacy-staged-844-v1-20261011/result.json",
+        "bytes": 7344309,
+        "sha256": "e1c55fd774549ff32a2300a77f7f761eb0ff26b4492c3193ec6c922efa21b14b"
+      },
+      "operations": [],
+      "cancellations": [
+        {
+          "kind": "actor",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        }
+      ],
+      "scrollChecks": 0
+    },
+    {
+      "directory": "build/mobile-diplomacy-staged-844-v2-20261011",
+      "staged": true,
+      "viewport": [
+        844,
+        390
+      ],
+      "ok": false,
+      "accepted": false,
+      "phases": 9,
+      "nativeKeys": 29,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": "Error: Timed out actual 招揽 person picker\n    at until (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:254:78)\n    at async submenu (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:409:7)\n    at async open (file:///F:/project/baye-sanguo/scripts/hd-mobile-diplomacy-runtime-checks.mjs:53:48)\n    at async runMobileDiplomacyChecks (file:///F:/project/baye-sanguo/scripts/hd-mobile-diplomacy-runtime-checks.mjs:67:3)\n    at async cityChecks (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:564:7)\n    at async main (file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:845:11)\n    at async file:///F:/project/baye-sanguo/scripts/test-hd-mobile-city-runtime.mjs:886:86",
+      "result": {
+        "path": "build/mobile-diplomacy-staged-844-v2-20261011/result.json",
+        "bytes": 14640358,
+        "sha256": "de74f29169f0c488c9a243f96edac8488fededa8c1f73a2f64d83cd3bf84ecc3"
+      },
+      "operations": [
+        {
+          "command": 15,
+          "name": "离间",
+          "actor": 23,
+          "actorName": "李傕",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "actors": [
+              23,
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 56,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 0,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "money": {
+              "before": 576,
+              "after": 526,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 56,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 0,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 15,
+              "Person": 23,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "526",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 3,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 15,
+            "phase": 5,
+            "session": 4,
+            "inputSeq": 12,
+            "generation": 3,
+            "origin": 10,
+            "actor": 23,
+            "target": 56,
+            "commitSeq": 1,
+            "commitResult": 1
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "actor",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        }
+      ],
+      "scrollChecks": 0
+    },
+    {
+      "directory": "build/mobile-diplomacy-staged-844-v3-20261011",
+      "staged": true,
+      "viewport": [
+        844,
+        390
+      ],
+      "ok": true,
+      "accepted": true,
+      "phases": 26,
+      "nativeKeys": 78,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "path": "build/mobile-diplomacy-staged-844-v3-20261011/result.json",
+        "bytes": 46934596,
+        "sha256": "1166458f2115c70ca505413f1f6ccc2dd3b2573eda327089e4074ff78a0dd9b9"
+      },
+      "operations": [
+        {
+          "command": 15,
+          "name": "离间",
+          "actor": 23,
+          "actorName": "李傕",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "actors": [
+              23,
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 56,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 0,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "money": {
+              "before": 576,
+              "after": 526,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 56,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 0,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 15,
+              "Person": 23,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "526",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 3,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 15,
+            "phase": 5,
+            "session": 4,
+            "inputSeq": 12,
+            "generation": 3,
+            "origin": 10,
+            "actor": 23,
+            "target": 56,
+            "commitSeq": 1,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 16,
+          "name": "招揽",
+          "actor": 24,
+          "actorName": "郭汜",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 16,
+            "cityIndex": 10,
+            "personId": 24,
+            "targetId": 56,
+            "actors": [
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 24,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 1,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 16,
+            "cityIndex": 10,
+            "personId": 24,
+            "targetId": 56,
+            "money": {
+              "before": 526,
+              "after": 476,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 24,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 16,
+              "Person": 24,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "476",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 5,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 16,
+            "phase": 5,
+            "session": 6,
+            "inputSeq": 22,
+            "generation": 3,
+            "origin": 10,
+            "actor": 24,
+            "target": 56,
+            "commitSeq": 2,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 17,
+          "name": "策反",
+          "actor": 25,
+          "actorName": "李肃",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 17,
+            "cityIndex": 10,
+            "personId": 25,
+            "targetId": 56,
+            "actors": [
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              64,
+              71,
+              72,
+              96
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 25,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 2,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 17,
+            "cityIndex": 10,
+            "personId": 25,
+            "targetId": 56,
+            "money": {
+              "before": 476,
+              "after": 426,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 25,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 2,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 17,
+              "Person": 25,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 2,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "426",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 7,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 17,
+            "phase": 5,
+            "session": 8,
+            "inputSeq": 32,
+            "generation": 3,
+            "origin": 10,
+            "actor": 25,
+            "target": 56,
+            "commitSeq": 3,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 19,
+          "name": "劝降",
+          "actor": 26,
+          "actorName": "侯成",
+          "target": 5,
+          "targetName": "马腾",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 19,
+            "cityIndex": 10,
+            "personId": 26,
+            "targetId": 5,
+            "actors": [
+              26
+            ],
+            "targets": [
+              5,
+              16,
+              17,
+              9,
+              13,
+              2,
+              7,
+              11,
+              10,
+              1,
+              6,
+              18,
+              8,
+              3,
+              15,
+              14,
+              4
+            ],
+            "moneyCost": 50,
+            "guardThew": 10,
+            "thewCost": 10,
+            "chargedPersonId": 26,
+            "thewBefore": 100,
+            "thewAfter": 90,
+            "orderIndex": 3,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 19,
+            "cityIndex": 10,
+            "personId": 26,
+            "targetId": 5,
+            "money": {
+              "before": 426,
+              "after": 376,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 26,
+              "before": 100,
+              "after": 90,
+              "cost": 10,
+              "actorGuard": 10
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 3,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 19,
+              "Person": 26,
+              "City": 10,
+              "Object": 5,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 3,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "376",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 9,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 19,
+            "phase": 5,
+            "session": 10,
+            "inputSeq": 42,
+            "generation": 3,
+            "origin": 10,
+            "actor": 26,
+            "target": 5,
+            "commitSeq": 4,
+            "commitResult": 1
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "actor",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 16,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 16,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 17,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 17,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 19,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 19,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        }
+      ],
+      "scrollChecks": 0
+    },
+    {
+      "directory": "build/mobile-diplomacy-installed-844-v1-20261011",
+      "staged": false,
+      "viewport": [
+        844,
+        390
+      ],
+      "ok": true,
+      "accepted": true,
+      "phases": 26,
+      "nativeKeys": 78,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "path": "build/mobile-diplomacy-installed-844-v1-20261011/result.json",
+        "bytes": 46936914,
+        "sha256": "d86282c1128cbb86c0834708a725417c2c684ef12e4db91211747677b73ec0aa"
+      },
+      "operations": [
+        {
+          "command": 15,
+          "name": "离间",
+          "actor": 23,
+          "actorName": "李傕",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "actors": [
+              23,
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 56,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 0,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "money": {
+              "before": 576,
+              "after": 526,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 56,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 0,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 15,
+              "Person": 23,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "526",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 3,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 15,
+            "phase": 5,
+            "session": 4,
+            "inputSeq": 12,
+            "generation": 3,
+            "origin": 10,
+            "actor": 23,
+            "target": 56,
+            "commitSeq": 1,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 16,
+          "name": "招揽",
+          "actor": 24,
+          "actorName": "郭汜",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 16,
+            "cityIndex": 10,
+            "personId": 24,
+            "targetId": 56,
+            "actors": [
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 24,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 1,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 16,
+            "cityIndex": 10,
+            "personId": 24,
+            "targetId": 56,
+            "money": {
+              "before": 526,
+              "after": 476,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 24,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 16,
+              "Person": 24,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "476",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 5,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 16,
+            "phase": 5,
+            "session": 6,
+            "inputSeq": 22,
+            "generation": 3,
+            "origin": 10,
+            "actor": 24,
+            "target": 56,
+            "commitSeq": 2,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 17,
+          "name": "策反",
+          "actor": 25,
+          "actorName": "李肃",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 17,
+            "cityIndex": 10,
+            "personId": 25,
+            "targetId": 56,
+            "actors": [
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              64,
+              71,
+              72,
+              96
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 25,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 2,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 17,
+            "cityIndex": 10,
+            "personId": 25,
+            "targetId": 56,
+            "money": {
+              "before": 476,
+              "after": 426,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 25,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 2,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 17,
+              "Person": 25,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 2,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "426",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 7,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 17,
+            "phase": 5,
+            "session": 8,
+            "inputSeq": 32,
+            "generation": 3,
+            "origin": 10,
+            "actor": 25,
+            "target": 56,
+            "commitSeq": 3,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 19,
+          "name": "劝降",
+          "actor": 26,
+          "actorName": "侯成",
+          "target": 5,
+          "targetName": "马腾",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 19,
+            "cityIndex": 10,
+            "personId": 26,
+            "targetId": 5,
+            "actors": [
+              26
+            ],
+            "targets": [
+              5,
+              16,
+              17,
+              9,
+              13,
+              2,
+              7,
+              11,
+              10,
+              1,
+              6,
+              18,
+              8,
+              3,
+              15,
+              14,
+              4
+            ],
+            "moneyCost": 50,
+            "guardThew": 10,
+            "thewCost": 10,
+            "chargedPersonId": 26,
+            "thewBefore": 100,
+            "thewAfter": 90,
+            "orderIndex": 3,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 19,
+            "cityIndex": 10,
+            "personId": 26,
+            "targetId": 5,
+            "money": {
+              "before": 426,
+              "after": 376,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 26,
+              "before": 100,
+              "after": 90,
+              "cost": 10,
+              "actorGuard": 10
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 3,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 19,
+              "Person": 26,
+              "City": 10,
+              "Object": 5,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 3,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "376",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 9,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 19,
+            "phase": 5,
+            "session": 10,
+            "inputSeq": 42,
+            "generation": 3,
+            "origin": 10,
+            "actor": 26,
+            "target": 5,
+            "commitSeq": 4,
+            "commitResult": 1
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "actor",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 16,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 16,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 17,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 17,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 19,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 19,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        }
+      ],
+      "scrollChecks": 0
+    },
+    {
+      "directory": "build/mobile-diplomacy-installed-667-v1-20261011",
+      "staged": false,
+      "viewport": [
+        667,
+        375
+      ],
+      "ok": true,
+      "accepted": true,
+      "phases": 26,
+      "nativeKeys": 78,
+      "nativeTouches": 0,
+      "sources": 199,
+      "sourceDrift": [],
+      "exceptions": 0,
+      "treeExited": true,
+      "serverClosed": true,
+      "error": null,
+      "result": {
+        "path": "build/mobile-diplomacy-installed-667-v1-20261011/result.json",
+        "bytes": 46947356,
+        "sha256": "6e7c0e5c0bad3098f197b5dc1356672ccbdd606024b385f35449eebc69e0dfdb"
+      },
+      "operations": [
+        {
+          "command": 15,
+          "name": "离间",
+          "actor": 23,
+          "actorName": "李傕",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "actors": [
+              23,
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 56,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 0,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 15,
+            "cityIndex": 10,
+            "personId": 23,
+            "targetId": 56,
+            "money": {
+              "before": 576,
+              "after": 526,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 56,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 0,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 15,
+              "Person": 23,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 0,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "526",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 3,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 15,
+            "phase": 5,
+            "session": 4,
+            "inputSeq": 12,
+            "generation": 3,
+            "origin": 10,
+            "actor": 23,
+            "target": 56,
+            "commitSeq": 1,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 16,
+          "name": "招揽",
+          "actor": 24,
+          "actorName": "郭汜",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 16,
+            "cityIndex": 10,
+            "personId": 24,
+            "targetId": 56,
+            "actors": [
+              24,
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              57,
+              99,
+              100,
+              101,
+              102,
+              103,
+              104,
+              64,
+              78,
+              79,
+              80,
+              89,
+              90,
+              38,
+              39,
+              40,
+              41,
+              42,
+              43,
+              44,
+              45,
+              73,
+              74,
+              58,
+              60,
+              61,
+              62,
+              63,
+              65,
+              66,
+              85,
+              81,
+              82,
+              83,
+              84,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              67,
+              68,
+              70,
+              105,
+              106,
+              107,
+              108,
+              75,
+              76,
+              77,
+              71,
+              72,
+              46,
+              47,
+              49,
+              97,
+              98,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              50,
+              51,
+              52,
+              53
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 24,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 1,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 16,
+            "cityIndex": 10,
+            "personId": 24,
+            "targetId": 56,
+            "money": {
+              "before": 526,
+              "after": 476,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 24,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 1,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 16,
+              "Person": 24,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 1,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "476",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 5,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 16,
+            "phase": 5,
+            "session": 6,
+            "inputSeq": 22,
+            "generation": 3,
+            "origin": 10,
+            "actor": 24,
+            "target": 56,
+            "commitSeq": 2,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 17,
+          "name": "策反",
+          "actor": 25,
+          "actorName": "李肃",
+          "target": 56,
+          "targetName": "韩遂",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 17,
+            "cityIndex": 10,
+            "personId": 25,
+            "targetId": 56,
+            "actors": [
+              25,
+              26
+            ],
+            "targets": [
+              56,
+              64,
+              71,
+              72,
+              96
+            ],
+            "moneyCost": 50,
+            "guardThew": 20,
+            "thewCost": 20,
+            "chargedPersonId": 25,
+            "thewBefore": 100,
+            "thewAfter": 80,
+            "orderIndex": 2,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 17,
+            "cityIndex": 10,
+            "personId": 25,
+            "targetId": 56,
+            "money": {
+              "before": 476,
+              "after": 426,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 25,
+              "before": 100,
+              "after": 80,
+              "cost": 20,
+              "actorGuard": 20
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 2,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 17,
+              "Person": 25,
+              "City": 10,
+              "Object": 56,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 2,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "426",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 7,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 17,
+            "phase": 5,
+            "session": 8,
+            "inputSeq": 32,
+            "generation": 3,
+            "origin": 10,
+            "actor": 25,
+            "target": 56,
+            "commitSeq": 3,
+            "commitResult": 1
+          }
+        },
+        {
+          "command": 19,
+          "name": "劝降",
+          "actor": 26,
+          "actorName": "侯成",
+          "target": 5,
+          "targetName": "马腾",
+          "keys": [
+            39
+          ],
+          "limit": {
+            "command": 19,
+            "cityIndex": 10,
+            "personId": 26,
+            "targetId": 5,
+            "actors": [
+              26
+            ],
+            "targets": [
+              5,
+              16,
+              17,
+              9,
+              13,
+              2,
+              7,
+              11,
+              10,
+              1,
+              6,
+              18,
+              8,
+              3,
+              15,
+              14,
+              4
+            ],
+            "moneyCost": 50,
+            "guardThew": 10,
+            "thewCost": 10,
+            "chargedPersonId": 26,
+            "thewBefore": 100,
+            "thewAfter": 90,
+            "orderIndex": 3,
+            "fullOrders": false,
+            "timeCount": 10,
+            "timeCountIsMonthAcceptance": false,
+            "publicInputAccepted": false
+          },
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "phase": "queued",
+            "command": 19,
+            "cityIndex": 10,
+            "personId": 26,
+            "targetId": 5,
+            "money": {
+              "before": 426,
+              "after": 376,
+              "cost": 50
+            },
+            "thew": {
+              "chargedPersonId": 26,
+              "before": 100,
+              "after": 90,
+              "cost": 10,
+              "actorGuard": 10
+            },
+            "fixAlienateComsumeThew": 0,
+            "fixOverFlow16": 0,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false,
+            "successReportExpected": false,
+            "limits": [
+              "Measured world fields only; caller proves native original identity/no hooks/current menu and trusted inputs",
+              "No successful GReport in these four Make functions",
+              "TimeCount10 is recorded order metadata, not proof of ten months or a random outcome",
+              "New stack order cargo/Consume are nonsemantic only in the explicit new-slot mask"
+            ],
+            "dispatchAccepted": true,
+            "partialMutationAccepted": false,
+            "orderIndex": 3,
+            "queueIndex": 55,
+            "order": {
+              "OrderId": 19,
+              "Person": 26,
+              "City": 10,
+              "Object": 5,
+              "TimeCount": 10
+            },
+            "uninitializedOrderMask": {
+              "orderIndex": 3,
+              "fields": [
+                "Arms",
+                "Food",
+                "Money",
+                "Consume"
+              ],
+              "actual": {
+                "Arms": 46728,
+                "Food": 57,
+                "Money": 46712,
+                "Consume": 57
+              },
+              "semanticAcceptance": false
+            }
+          },
+          "returnedHud": {
+            "visible": true,
+            "status": "原版游戏",
+            "reason": "",
+            "cityIndex": 10,
+            "city": "长安",
+            "owner": "董卓",
+            "date": "190年1月",
+            "money": "376",
+            "food": "1097",
+            "arms": "0",
+            "ticket": {
+              "libraryGeneration": 2,
+              "generation": 3,
+              "speGeneration": 3,
+              "mapInputSeq": 9,
+              "mapCity": 11
+            }
+          },
+          "receipt": {
+            "protocolVersion": 1,
+            "active": 0,
+            "command": 19,
+            "phase": 5,
+            "session": 10,
+            "inputSeq": 42,
+            "generation": 3,
+            "origin": 10,
+            "actor": 26,
+            "target": 5,
+            "commitSeq": 4,
+            "commitResult": 1
+          }
+        }
+      ],
+      "cancellations": [
+        {
+          "kind": "actor",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 15,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 16,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 16,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 17,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 17,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "actor",
+          "command": 19,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        },
+        {
+          "kind": "target",
+          "command": 19,
+          "keys": [
+            40
+          ],
+          "oracle": {
+            "ok": true,
+            "accepted": true,
+            "cancellationWorldUnchanged": true,
+            "dispatchAccepted": false,
+            "checked": {
+              "people": 200,
+              "cities": 38,
+              "queue": 2000,
+              "orders": 200,
+              "fighters": 600,
+              "fighterIndex": 30
+            },
+            "publicInputAccepted": false,
+            "monthEffectsAccepted": false,
+            "wholeNativeAbiAccepted": false,
+            "fullHdAccepted": false
+          }
+        }
+      ],
+      "scrollChecks": 0
+    }
+  ],
+  "installedSourcesByteEqual": true,
+  "visualInspection": {
+    "viewports": [
+      [
+        844,
+        390
+      ],
+      [
+        667,
+        375
+      ]
+    ],
+    "scope": "Actual target picker and returned MAP screenshots plus runtime 44px/clipping/hit checks; Chrome mobile touch emulation only"
+  },
+  "cleanup": {
+    "at": "2026-10-11T07:37:06.4642601+00:00",
+    "runs": [
+      "build/mobile-diplomacy-staged-844-v1-20261011",
+      "build/mobile-diplomacy-staged-844-v2-20261011",
+      "build/mobile-diplomacy-staged-844-v3-20261011",
+      "build/mobile-diplomacy-installed-844-v1-20261011",
+      "build/mobile-diplomacy-installed-667-v1-20261011"
+    ],
+    "recordedIdentities": 72,
+    "survivingRecorded": [],
+    "pidReusedByOtherProcess": [
+      {
+        "pid": 134548,
+        "recordedBirth": "2026-10-11T07:26:21.014461Z",
+        "currentBirth": "2026-10-11T15:27:31.319487+08:00"
+      }
+    ],
+    "privateListeners": [],
+    "allRuntimeCleanupPassed": true,
+    "user8080Before": {
+      "at": "2026-10-11T15:16:03.9724031+08:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.279718Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080After": {
+      "at": "2026-10-11T07:37:06.4020590+00:00",
+      "pid": 57860,
+      "birth": "2026-10-10T11:26:04.2797180Z",
+      "exe": "C:\\Program Files\\nodejs\\node.exe",
+      "httpStatus": 200
+    },
+    "user8080Unchanged": true
+  },
+  "archive": {
+    "manifest": "m5-mobile-diplomacy-20261011-archive.json",
+    "logicalFiles": 1332,
+    "uniqueGzipFiles": 417,
+    "gzipBytes": 65574557,
+    "roundTripExact": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "Two staged runs rejected and preserved: helper used a20-item debug summary as the full69-person list; then nonfirst SUB selection prematurely changed person ownership before its Arrow ACK and ENTER. Fixed helper uses full DOM/native/presentation; product waits for actual active diplomacy.",
+    "Normal dispatch and cancellation accepted; queue-full/rejection/corruption are controlled C/JS cases, not real browser scenarios.",
+    "Monthly random diplomatic effects, returning actors, battle HELP/VIEW, all campaigns/save/RNG/cloud, real phones and performance remain pending. Full HD remains partial."
+  ]
+}
