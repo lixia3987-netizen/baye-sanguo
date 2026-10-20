@@ -97,3 +97,7 @@
 /scripts/fixtures/hd-impact-canvass-v10-native-names.json -text
 /scripts/fixtures/hd-impact-canvass-v10-recorded-provenance.json -text
 /scripts/fixtures/hd-impact-canvass-v11-first-saved-dispatch.json -text
+
+# Preserve complete Impact13 ticket fixtures and validation source bytes.
+/scripts/hd-impact-runtime-ticket.mjs -text
+/scripts/test-hd-impact-runtime-ticket.mjs -text
