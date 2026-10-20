@@ -312,3 +312,10 @@ SKILLEF原版aim0、state0、power1000、destroy0、UseMp30；仅当前真实成
 [原版首都实际买粮检查点](validation/m5-impact-plunder-preparation-20261020-capital-food-20261021.md)记录了 v7 未付款／无 SAVE 的真实失败和 v8 一次成功支付。v8 在当前数量态以仅显示模式切换解除 HD 覆盖层，完整双 ticket 保持 world／owner／身份／引用／键计数一致，随后原版 classic LCD 单39确认。实际72粮／360钱／12体力的完整原始交易公式与唯一双 SAVE（impact-capital-paid-food-040，237年1月、slot0）通过逐字段复核；旧 Gov0保留、40真实处于 Trade11 slot1，未观察返城且没有策略月或战斗。
 
 本项只接受 foodCheckpointAccepted，不扩展为 SPE 帧、撞击施法、双水域资格、HD／回退矩阵、RNG连续、完整原生 ABI 或整体HD验收。准备／招揽取得／cast／HD／globalHdComplete 继续 false；后续只允许以已付款新 SAVE 延续，不重放买粮，不预记后续 Canvass 成功。此前91模块5130项为既存真实记录，本批只复核当前241来源字节且未重跑。原版唯一入口、暂停版本切换、素材及 native 构建保持。
+
+
+### 2026-10-21：招揽姓名合同与撞击验收边界
+
+[Canvass姓名修正记录](validation/m5-impact-plunder-preparation-20261020-canvass-names-20261021.md)保留v10真实付款派遣后因姓名验证失败的原件：活动TARGET.names来自完整ROM姓名，packedNames来自原版7字节复制和GBK替换解码；raw v2分开严格校验两者，新增precommit读取合同，并在原始ACTOR／TARGET／DONE完整三票上重算通过。208项build测试及真实三票文件复核没有执行新游戏输入，也不把失败workflow转为成功或计入旧91模块5130测试。当前241来源仅字节复核一致，正式产品源码与原版入口保持。
+
+唯一真实SAVE仍在该招揽派遣前，已付订单未持久化；0策略月／0取得武将／0撞击cast。recovery6只允许保留capital既有72粮支付及Gov0／Trade1的新隔离重试，不借用未保存failureworld，不认同局或RNG连续，不预记v11。SPE帧、双水域资格、player／AI施法、HD／fallback矩阵、完整ABI和全局HD仍未接受。

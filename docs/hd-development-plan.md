@@ -598,3 +598,12 @@ AID 第二阶段 v4 从第一阶段实际取得杨秋134的211年10月原生双�
 已补充[首都实际买粮检查点](validation/m5-impact-plunder-preparation-20261020-capital-food-20261021.md)。v7 在数量已到72、最终确认前被 HD 覆盖层的 LCD 可见门停止，未付款、未生成 SAVE，失败源码、运行和清理记录完整保留。v8 仅将当前数量展示交给 classic LCD，核对前后完整 world／owner／身份／引用／键计数 ticket 完全相等与零新增键，再经原版键盘路径单39确认：首都16实际支付360钱购买72粮，钱5679→5319、粮159→231，人物40体力100→88。旧治理 Gov4（slot0／城16／人物20／Time0）原始字段保留，新 Trade11（slot1／人物40／Time0）真实待执行；君主0仍驻城，城20九名守将未变。40尚未返城，不能计作全守将驻留或返城前防御通过。
 
 仅 foodCheckpointAccepted=true。唯一真实新存档 impact-capital-paid-food-040 为237年1月、slot0，双 SAVE 8221／4840字节，完整已测原始交易公式及 packed 人物／城市／订单／队列等字段复核通过。后续仅从该已付款 SAVE 延续，不得重放买粮；本批策略月、招揽、新掠夺、新军、战斗与撞击施放均未执行。准备／取得合格武将／撞击cast／HD／完整HD继续待验，117／136／城12仍归属2。原版唯一入口、暂停版本切换及既有素材保持，无新 native 构建或产品源码变更。此前91模块串行5130／5130是既存真实执行，本批只重新核对241来源字节，未重跑测试。归档只闭合明确名单，旧完整产品、January历史和大档依赖 b91cf74，portableClosedArchive=false；不纳入后续 Canvass。
+
+
+### 2026-10-21：Canvass 名单姓名验证修正与失败实战保留
+
+新增[招揽姓名验证修正记录](validation/m5-impact-plunder-preparation-20261020-canvass-names-20261021.md)。v9只在静态审查中被七城现金预算范围错误阻断，未执行游戏；独立新v10已在原版真实完成首单城7／人物28→129的最终确认，钱29950→29900、体力100→80，slot2为Order16／Time10。ACTOR／TARGET／DONE三张完整票据和真实单键记录、完整raw费用／订单／DelPerson变化复核，旧Gov0与Trade1所有原始字段保留。随后旧验证器把packedNames错误地与完整姓名比较而失败：活动TARGET.names是“带来洞主／金环三结”，packedNames为原版7字节复制所得“带来洞�／金环三�”。不能把活动names说成被截断，也不能将这次workflow重标成功。
+
+新rawCanvass v2分别严格验证ROM完整姓名与原版8字节槽／最多复制7字节／非fatal GBK的packed姓名，新增确认前precommit校验；188与208是两次分别真实执行的build测试记录，208包括真实三票来源重开及修正合同重算，未新增游戏输入，不能相加或并入既有5130。旧91模块串行5130项为既存记录，本批只重新核对当前241来源字节。正式scripts／package／native与原版唯一入口保持。
+
+实战v10仍exit1／okfalse：仅有派遣前impact-canvass-paid-input的真实双SAVE，付款后SAVE为0、策略月为0、取得武将为0，准备／cast／HD／完整HD仍待验。最新真实SAVE保留capital已付72粮与完整Gov0／Trade1，保存态28仍体力100、城7钱29950；失败后的已付招揽不在任何SAVE，不能衔接、补造存档或当成已恢复订单。recovery6／rootproof6只允许从最新真实派遣前SAVE新开隔离重试，无RNG或同局连续主张；后续v11尚未验收，本批排除。新旧sango1仅seed字节不同，所有已测world相同不代表RNG连续。
