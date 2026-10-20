@@ -101,3 +101,5 @@
 # Preserve complete Impact13 ticket fixtures and validation source bytes.
 /scripts/hd-impact-runtime-ticket.mjs -text
 /scripts/test-hd-impact-runtime-ticket.mjs -text
+/scripts/hd-impact-move-path.mjs -text
+/scripts/test-hd-impact-move-path.mjs -text
