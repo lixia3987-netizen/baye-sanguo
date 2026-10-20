@@ -81,8 +81,11 @@
 /scripts/hd-impact-diplomacy-runtime-oracle.mjs -text
 /scripts/test-hd-impact-diplomacy-runtime-oracle.mjs -text
 /scripts/fixtures/hd-impact-induce-loaded-world.json -text
+/scripts/hd-impact-plunder-runtime-oracle.mjs -text
+/scripts/test-hd-impact-plunder-runtime-oracle.mjs -text
 
 # Keep the impact checkpoint indexes and parts byte-stable across checkouts.
 /docs/validation/m5-impact-skill-source-20261014*.json text eol=lf
 /docs/validation/m5-impact-preparation-load-20261014*.json text eol=lf
 /docs/validation/m5-impact-diplomacy-preparation-20261014*.json text eol=lf
+/docs/validation/m5-impact-plunder-preparation-20261020*.json text eol=lf
