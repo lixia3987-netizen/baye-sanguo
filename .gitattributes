@@ -89,3 +89,11 @@
 /docs/validation/m5-impact-preparation-load-20261014*.json text eol=lf
 /docs/validation/m5-impact-diplomacy-preparation-20261014*.json text eol=lf
 /docs/validation/m5-impact-plunder-preparation-20261020*.json text eol=lf
+
+# Preserve raw Canvass original-name and recorded fixture byte contracts.
+/scripts/hd-impact-canvass-runtime-oracle.mjs -text
+/scripts/test-hd-impact-canvass-runtime-oracle.mjs -text
+/scripts/fixtures/hd-impact-canvass-january-v6-controlled-world.json -text
+/scripts/fixtures/hd-impact-canvass-v10-native-names.json -text
+/scripts/fixtures/hd-impact-canvass-v10-recorded-provenance.json -text
+/scripts/fixtures/hd-impact-canvass-v11-first-saved-dispatch.json -text
