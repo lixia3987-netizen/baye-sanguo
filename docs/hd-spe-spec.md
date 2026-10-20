@@ -319,3 +319,10 @@ SKILLEF原版aim0、state0、power1000、destroy0、UseMp30；仅当前真实成
 [Canvass姓名修正记录](validation/m5-impact-plunder-preparation-20261020-canvass-names-20261021.md)保留v10真实付款派遣后因姓名验证失败的原件：活动TARGET.names来自完整ROM姓名，packedNames来自原版7字节复制和GBK替换解码；raw v2分开严格校验两者，新增precommit读取合同，并在原始ACTOR／TARGET／DONE完整三票上重算通过。208项build测试及真实三票文件复核没有执行新游戏输入，也不把失败workflow转为成功或计入旧91模块5130测试。当前241来源仅字节复核一致，正式产品源码与原版入口保持。
 
 唯一真实SAVE仍在该招揽派遣前，已付订单未持久化；0策略月／0取得武将／0撞击cast。recovery6只允许保留capital既有72粮支付及Gov0／Trade1的新隔离重试，不借用未保存failureworld，不认同局或RNG连续，不预记v11。SPE帧、双水域资格、player／AI施法、HD／fallback矩阵、完整ABI和全局HD仍未接受。
+
+
+### 2026-10-21：潘浚129取得与施法验收边界
+
+[十单招揽／单月取得实战](validation/m5-impact-plunder-preparation-20261020-canvass-acquisition-20261021.md)记录新隔离v11的10次真实Order16派遣、12组真实packed双SAVE与237-1→237-2一个自然月。最终129潘浚实际为城6所属1的驻城水军3／Lv7／兵1810，取得子范围通过；最终SAVE、月后完整world与只读effective-arm前后票据一致，旧Gov／Trade自然退役，所有活动订单为0。
+
+这不接受完整准备、MP／菜单13、双水域／战场位置、玩家／AI施法、SPE帧或HD矩阵。没有防御发生，before-combat见证保持false；不归因到某一招揽随机分支，不声称RNG连续。旧5130与188／208记录未重跑或累加；runtime1330严格一致，旧formal241 manifests快照只是历史证据，无runtime豁免。施法准备与正式测试工具迁入另批。
