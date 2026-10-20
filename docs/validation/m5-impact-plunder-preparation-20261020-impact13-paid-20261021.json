@@ -1,0 +1,697 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact13-paid-maintenance-and-failed-resume-history",
+  "publicationDate": "2026-10-21",
+  "publicationTimezone": "Asia/Shanghai",
+  "status": "two-real-paid-trades-persisted-still-pending-no-month-preparation-cast-hd-pending",
+  "originalOnly": true,
+  "newProductionSourceChanges": false,
+  "actualPaidMaintenanceAccepted": true,
+  "paidMaintenanceOnlyAccepted": true,
+  "actualPreparationAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "fullHdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false,
+  "guardReturnBeforeCombatObserved": false,
+  "dependencies": {
+    "baseCommit": "2349c7cb496a98b582a0c1556fc1a8d6316ec988",
+    "parentAcquisitionCommit": "3b6464e89c40d090703622db7a1c94bebfb224f9",
+    "committedExternalReferences": [
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-formalization-20261021.json",
+        "bytes": 14478,
+        "sha256": "486a15aeedbf413f637753ce08c53646e4726c35316951415d5ca41969437bb0"
+      },
+      {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-canvass-formalization-20261021-archive.json",
+        "bytes": 127383,
+        "sha256": "2dda66a4f3a171cc19e73ca7da91453872000592177491c669ef486a3e1ceade"
+      }
+    ],
+    "currentRuntimeTuplesReadAsDependencies": true,
+    "old391MBActualNotDuplicated": true,
+    "scope": "Prior formal5339/current product/native/history/acquisition archives remain dependencies. Only explicitly named new V3/V4/V5 sources, raw reports, SAVE files, tests, root audits and planning metadata are closed here; full historical/runtime portability is not claimed."
+  },
+  "recordedRuns": [
+    {
+      "version": 3,
+      "rootReceipt": {
+        "path": "build/impact-skill-20261014/impact13-paid-v3-terminal-receipt-v1.json",
+        "bytes": 6848,
+        "sha256": "f6f395dc56f3c587bde0ef2c083a6d7228534d4513bee9289780a9517d641aee"
+      },
+      "sourceRunAccepted": false,
+      "partialCapitalMaintenanceAccepted": true,
+      "actualPaidMaintenanceAccepted": false,
+      "terminal": {
+        "sessionId": 36976,
+        "chunk": "d58ddc",
+        "exitCode": 1
+      },
+      "capitalPaid": {
+        "cityIndex": 16,
+        "personId": 20,
+        "food": 230,
+        "moneyCost": 1150,
+        "thewCost": 12,
+        "moneyAfter": 4169,
+        "foodAfter": 231,
+        "thewAfter": 88
+      },
+      "publicSaves": [
+        {
+          "tag": "impact13-129-acquired-input",
+          "slot": 0,
+          "date": [
+            237,
+            2
+          ],
+          "pair": [
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v3/native-impact13-129-acquired-input-sango0.sav",
+              "bytes": 8221,
+              "sha256": "f6af79ff649de9a6243eae505cf3a7e5f895752a93538540124eb2b7ff94af02"
+            },
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v3/native-impact13-129-acquired-input-sango1.sav",
+              "bytes": 4840,
+              "sha256": "cc784740e006f690ff67a0d8f5dd21092a2f03429bd2b02cf25f6494cddc5056"
+            }
+          ],
+          "worldJsonSha256": "7e79a02418820ed9f4a11000584c48ca9ba4181e53d4e2be0041222e13c943a2",
+          "completePackedFieldsRecomputed": true
+        },
+        {
+          "tag": "impact13-129-food-16",
+          "slot": 0,
+          "date": [
+            237,
+            2
+          ],
+          "pair": [
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v3/native-impact13-129-food-16-sango0.sav",
+              "bytes": 8221,
+              "sha256": "6908524375b562505efb42f3f51ab8ebb5af724c09757a0fd3f40f3636193424"
+            },
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v3/native-impact13-129-food-16-sango1.sav",
+              "bytes": 4840,
+              "sha256": "0ee22070906c795a9a549bb6ee876dacdeb558350d11b883bab64683754fdabb"
+            }
+          ],
+          "worldJsonSha256": "8558355e7cca5b62ff96d69308b380c71aa711ce7543942e2a453e6fc9d3cfa7",
+          "completePackedFieldsRecomputed": true
+        }
+      ],
+      "normalMonths": 0,
+      "city20PaymentObserved": false
+    },
+    {
+      "version": 4,
+      "rootReceipt": {
+        "path": "build/impact-skill-20261014/impact13-paid-v4-terminal-receipt-v1.json",
+        "bytes": 5743,
+        "sha256": "f5e8474dc142aad13aaf19064a96820679e642f26e9173cc19370a7f3437c6a7"
+      },
+      "sourceRunAccepted": false,
+      "actualPublicLoadMeasuredInputAccepted": true,
+      "terminal": {
+        "sessionId": 72401,
+        "chunk": "6b8388",
+        "exitCode": 1
+      },
+      "newTradeCount": 0,
+      "newPublicSaveCount": 0,
+      "normalMonths": 0,
+      "fullWaitingPairs": 50,
+      "completeTickets": 100,
+      "diagnostic": {
+        "path": "build/impact-skill-20261014/impact13-paid-v4-display-failure-diagnostic-v1.json",
+        "bytes": 4483,
+        "sha256": "33a14238b41a6b515942eeed315dbe3c3302c23cc9467d261791692b5a1d5206"
+      },
+      "reusedPidIdentitiesLeftUntouched": [
+        {
+          "ProcessId": 73420,
+          "ParentProcessId": 23864,
+          "CreationDate": "2026-10-20T18:00:47.9632350Z",
+          "ExecutablePath": "C:\\Users\\75112\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe"
+        }
+      ]
+    },
+    {
+      "version": 5,
+      "rootReceipt": {
+        "path": "build/impact-skill-20261014/impact13-paid-v5-terminal-receipt-v1.json",
+        "bytes": 9812,
+        "sha256": "0136abd387c2c9ebd7747012d871e044d789e50c3a6bacb111e30aab27034e21"
+      },
+      "sourceRunAccepted": true,
+      "paidMaintenanceOnlyAccepted": true,
+      "terminal": {
+        "sessionId": 25760,
+        "chunk": "1147f1",
+        "exitCode": 0
+      },
+      "newTrade": {
+        "cityIndex": 20,
+        "personId": 50,
+        "food": 153,
+        "moneyCost": 765,
+        "thewCost": 12,
+        "rawQueueIndex": 86,
+        "orderSlot": 1,
+        "moneyAfter": 91,
+        "foodAfter": 267,
+        "thewAfter": 44
+      },
+      "publicSaves": [
+        {
+          "tag": "impact13-129-resumed-capital-paid",
+          "slot": 0,
+          "date": [
+            237,
+            2
+          ],
+          "pair": [
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/native-impact13-129-resumed-capital-paid-sango0.sav",
+              "bytes": 8221,
+              "sha256": "6908524375b562505efb42f3f51ab8ebb5af724c09757a0fd3f40f3636193424"
+            },
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/native-impact13-129-resumed-capital-paid-sango1.sav",
+              "bytes": 4840,
+              "sha256": "fabe0e6c5d0cc5ab43e2eee25b357b94e28e00c65b529095d2af20c5612b01b9"
+            }
+          ],
+          "worldJsonSha256": "8558355e7cca5b62ff96d69308b380c71aa711ce7543942e2a453e6fc9d3cfa7",
+          "completePackedFieldsRecomputed": true
+        },
+        {
+          "tag": "impact13-129-food-20",
+          "slot": 0,
+          "date": [
+            237,
+            2
+          ],
+          "pair": [
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/native-impact13-129-food-20-sango0.sav",
+              "bytes": 8221,
+              "sha256": "11f293d14c2fc00d162418664a0626994330f7ee6e571eaa94703bbcad65b3ef"
+            },
+            {
+              "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/native-impact13-129-food-20-sango1.sav",
+              "bytes": 4840,
+              "sha256": "939b64c09725abe290c8b85ce8ad63e1076791e11255d88215f9fa220aa7f2c3"
+            }
+          ],
+          "worldJsonSha256": "c259fd374f2bdcffdc529a684c0def8b68d3e5d6b4185a7d5468280f490bd1a5",
+          "completePackedFieldsRecomputed": true
+        }
+      ],
+      "normalMonths": 0,
+      "modeAnchoredCompleteReadPairs": 80
+    }
+  ],
+  "latestGenuineSave": {
+    "tag": "impact13-129-food-20",
+    "slot": 0,
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/native-impact13-129-food-20-sango0.sav",
+        "bytes": 8221,
+        "sha256": "11f293d14c2fc00d162418664a0626994330f7ee6e571eaa94703bbcad65b3ef"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/native-impact13-129-food-20-sango1.sav",
+        "bytes": 4840,
+        "sha256": "939b64c09725abe290c8b85ce8ad63e1076791e11255d88215f9fa220aa7f2c3"
+      }
+    ],
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-paid-v5-latest-saved-world-v1.json",
+      "bytes": 78028,
+      "sha256": "c259fd374f2bdcffdc529a684c0def8b68d3e5d6b4185a7d5468280f490bd1a5"
+    },
+    "worldJsonSha256": "c259fd374f2bdcffdc529a684c0def8b68d3e5d6b4185a7d5468280f490bd1a5",
+    "date": [
+      237,
+      2
+    ],
+    "restorationOnlyFromThisLatestPersistedWorld": true,
+    "noReplayOfEitherPaidTrade": true
+  },
+  "finalPending": {
+    "activeOrderCount": 2,
+    "activeOrders": [
+      {
+        "slot": 0,
+        "OrderId": 11,
+        "Person": 20,
+        "City": 16,
+        "Object": 51899,
+        "Arms": 725,
+        "Food": 0,
+        "Money": 57344,
+        "Consume": 187,
+        "TimeCount": 0
+      },
+      {
+        "slot": 1,
+        "OrderId": 11,
+        "Person": 50,
+        "City": 20,
+        "Object": 51899,
+        "Arms": 725,
+        "Food": 0,
+        "Money": 57344,
+        "Consume": 187,
+        "TimeCount": 0
+      }
+    ],
+    "allOwnedFoodBudgetsSatisfied": true,
+    "foodBudgets": [
+      {
+        "cityIndex": 4,
+        "State": 0,
+        "money": 30000,
+        "food": 6629,
+        "totalArms": 200,
+        "ratio": 50,
+        "monthly": 4,
+        "required": 5,
+        "deficit": 0,
+        "fedIds": [
+          33,
+          29
+        ]
+      },
+      {
+        "cityIndex": 5,
+        "State": 4,
+        "money": 15817,
+        "food": 2455,
+        "totalArms": 300,
+        "ratio": 50,
+        "monthly": 6,
+        "required": 7,
+        "deficit": 0,
+        "fedIds": [
+          59,
+          7,
+          62
+        ]
+      },
+      {
+        "cityIndex": 6,
+        "State": 0,
+        "money": 29850,
+        "food": 9871,
+        "totalArms": 2210,
+        "ratio": 50,
+        "monthly": 44,
+        "required": 45,
+        "deficit": 0,
+        "fedIds": [
+          51,
+          129,
+          36,
+          5,
+          21
+        ]
+      },
+      {
+        "cityIndex": 7,
+        "State": 0,
+        "money": 29750,
+        "food": 16099,
+        "totalArms": 600,
+        "ratio": 50,
+        "monthly": 12,
+        "required": 13,
+        "deficit": 0,
+        "fedIds": [
+          68,
+          48,
+          6,
+          28,
+          12,
+          25,
+          27
+        ]
+      },
+      {
+        "cityIndex": 13,
+        "State": 0,
+        "money": 29850,
+        "food": 7150,
+        "totalArms": 500,
+        "ratio": 50,
+        "monthly": 10,
+        "required": 11,
+        "deficit": 0,
+        "fedIds": [
+          60,
+          43,
+          37,
+          23,
+          39
+        ]
+      },
+      {
+        "cityIndex": 16,
+        "State": 0,
+        "money": 4169,
+        "food": 231,
+        "totalArms": 11500,
+        "ratio": 50,
+        "monthly": 230,
+        "required": 231,
+        "deficit": 0,
+        "fedIds": [
+          40,
+          0,
+          20
+        ]
+      },
+      {
+        "cityIndex": 20,
+        "State": 0,
+        "money": 91,
+        "food": 267,
+        "totalArms": 13339,
+        "ratio": 50,
+        "monthly": 266,
+        "required": 267,
+        "deficit": 0,
+        "fedIds": [
+          44,
+          52,
+          38,
+          10,
+          11,
+          70,
+          69,
+          17,
+          8,
+          30,
+          45,
+          50
+        ]
+      }
+    ],
+    "kingAndGuardsUnchangedResident": true,
+    "qualifiedNavy129OwnedResident": true,
+    "city5State4Preserved": true,
+    "capitalRepaymentObserved": false,
+    "newGovernanceCount": 0,
+    "newTreatCount": 0,
+    "normalMonths": 0,
+    "tradeOrderReturnObserved": false,
+    "beforeCombatObserved": false,
+    "wholePreparationBattleReady": false
+  },
+  "rawEvidence": {
+    "v3": {
+      "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v3/raw-paid-trade-16.json",
+      "bytes": 21322770,
+      "sha256": "9dcfac8c90815282b5881caad46bd4b05913ff248f2dfc13029511d908a60449"
+    },
+    "v5": {
+      "path": "build/impact-skill-20261014/impact13-qualified-prepare-actual-v5/raw-paid-trade-20.json",
+      "bytes": 19030651,
+      "sha256": "8aa8da0fa7b79dd5dda558ab33f4e760f89e015ee51005e9c18d901636052f61"
+    },
+    "completeRawFormulasRecomputed": true,
+    "rawDiskDeepEqualReport": true,
+    "genuinePackedSavePairsRecomputedAcrossV3AndV5": 4,
+    "allActualPerKeySlicesReopened": true,
+    "rootVerifierReceiptsRecomputedAndDeepEqual": true
+  },
+  "sources": {
+    "logicalByRun": {
+      "v3": 1374,
+      "v4": 1388,
+      "v5": 1399
+    },
+    "allCurrentExact": true,
+    "sourceDriftExceptions": [],
+    "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+    "nativeFiles": 128,
+    "originalLibrary": {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e"
+    },
+    "threeCandidateDeltasForwardInverseByteExact": true,
+    "sourceAndProductMutationByPublisher": false
+  },
+  "sourceStages": [
+    {
+      "version": 3,
+      "proof": {
+        "path": "build/impact-skill-20261014/impact13-v3-source-stage-root-proof-v1.json",
+        "bytes": 2170,
+        "sha256": "92c9beeec37c0f942149b21c2c0a8e3cef4ffd841c1d74e5d00915025788b8ca"
+      },
+      "count": 1374,
+      "tests": null,
+      "cases": [
+        {
+          "dir": "build/impact-skill-20261014/impact13-qualified-preflight-v3",
+          "log": {
+            "path": "build/impact-skill-20261014/impact13-qualified-preflight-v3.log",
+            "bytes": 387,
+            "sha256": "09d24cf753db1c0c8df0f28a17bba7443ad09e2b11dae6b52a8a48e8ae94a633"
+          },
+          "terminalChunkId": "236365",
+          "exitCode": 0,
+          "ok": true,
+          "result": {
+            "path": "build/impact-skill-20261014/impact13-qualified-preflight-v3/result.json",
+            "bytes": 1101066,
+            "sha256": "ec804cb64649dafc06f9739ff20e5ff528098c0c506647049f890eee9ba6bb51"
+          }
+        },
+        {
+          "dir": "build/impact-skill-20261014/impact13-qualified-cast-negative-v3",
+          "log": {
+            "path": "build/impact-skill-20261014/impact13-qualified-cast-negative-v3.log",
+            "bytes": 940,
+            "sha256": "a2498a5a17406a25032741631ec07f707fb3170a21bff7136d5e580272a9ba8c"
+          },
+          "terminalChunkId": "248c3a",
+          "exitCode": 1,
+          "ok": false,
+          "result": {
+            "path": "build/impact-skill-20261014/impact13-qualified-cast-negative-v3/result.json",
+            "bytes": 1101313,
+            "sha256": "46052f2b78ce4217f1fd675440cc6d6a89c220f2902a42f8fb8201df3b085925"
+          }
+        }
+      ]
+    },
+    {
+      "version": 4,
+      "proof": {
+        "path": "build/impact-skill-20261014/impact13-v4-source-stage-root-proof-v1.json",
+        "bytes": 3155,
+        "sha256": "e9b5696b2f7f2673d3a28c7e28048a7f80e47d7320d1f7999c21bc39d23afda9"
+      },
+      "count": 1388,
+      "tests": {
+        "tests": 46,
+        "suites": 0,
+        "pass": 46,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "cases": [
+        {
+          "dir": "build/impact-skill-20261014/impact13-qualified-preflight-v4",
+          "log": {
+            "path": "build/impact-skill-20261014/impact13-qualified-preflight-v4.log",
+            "bytes": 387,
+            "sha256": "50a49ba1318bc0d77c810991c86e8f0ecd2e5c89185242b058f5d9863324744c"
+          },
+          "terminalChunkId": "3aac8d",
+          "exitCode": 0,
+          "ok": true,
+          "result": {
+            "path": "build/impact-skill-20261014/impact13-qualified-preflight-v4/result.json",
+            "bytes": 1331230,
+            "sha256": "73ef8d87a477d35269b7246b0bf26f5c45373117198ec57ec61c9d15e34b069e"
+          }
+        },
+        {
+          "dir": "build/impact-skill-20261014/impact13-qualified-cast-negative-v4",
+          "log": {
+            "path": "build/impact-skill-20261014/impact13-qualified-cast-negative-v4.log",
+            "bytes": 940,
+            "sha256": "e883ff95b4bab011e9acc16409d78241afa5fc4be0af8d6248c40794432fae3f"
+          },
+          "terminalChunkId": "817f31",
+          "exitCode": 1,
+          "ok": false,
+          "result": {
+            "path": "build/impact-skill-20261014/impact13-qualified-cast-negative-v4/result.json",
+            "bytes": 1331450,
+            "sha256": "92468d8115f9f61b554b1922a7ffcce0c94e0f7fda2511f96fd9ca7230c55413"
+          }
+        }
+      ]
+    },
+    {
+      "version": 5,
+      "proof": {
+        "path": "build/impact-skill-20261014/impact13-v5-source-stage-root-proof-v1.json",
+        "bytes": 3351,
+        "sha256": "0e73fde8feb02db05e00a9dfa50e04959be2416b4d6334fc444fc881ae2e8c8b"
+      },
+      "count": 1399,
+      "tests": {
+        "tests": 53,
+        "suites": 0,
+        "pass": 53,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 0
+      },
+      "cases": [
+        {
+          "dir": "build/impact-skill-20261014/impact13-qualified-preflight-v5",
+          "log": {
+            "path": "build/impact-skill-20261014/impact13-qualified-preflight-v5.log",
+            "bytes": 387,
+            "sha256": "9d171c9e0697f6ef83840ec8f103a6237d70ec8a0cf77bed4109a99bae29156e"
+          },
+          "terminalChunkId": "b38383",
+          "exitCode": 0,
+          "ok": true,
+          "result": {
+            "path": "build/impact-skill-20261014/impact13-qualified-preflight-v5/result.json",
+            "bytes": 1340220,
+            "sha256": "19773019bfe2cb61b0dfeca5c0d6278d329966cfc1a2dfecaf25bd3bb70c885f"
+          }
+        },
+        {
+          "dir": "build/impact-skill-20261014/impact13-qualified-cast-negative-v5",
+          "log": {
+            "path": "build/impact-skill-20261014/impact13-qualified-cast-negative-v5.log",
+            "bytes": 940,
+            "sha256": "a42c5dff6f2c58fe5d9d0948b5f683eae9c0dcdd79562b2b458823d374b3556f"
+          },
+          "terminalChunkId": "e03f4f",
+          "exitCode": 1,
+          "ok": false,
+          "result": {
+            "path": "build/impact-skill-20261014/impact13-qualified-cast-negative-v5/result.json",
+            "bytes": 1340440,
+            "sha256": "53b87e33ff8b575bed973d97e3843ba97526e819ad1fd66c785ccc243902b5e5"
+          }
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "registered5339Rerun": false,
+    "build46And53Separate": true,
+    "countsMustNotBeSummed": true,
+    "newGameInputAcceptedByTests": false
+  },
+  "sourceAdvice": {
+    "original": {
+      "path": "build/impact-skill-20261014/city5-pingyuan-rebellion-source-advice-v1.json",
+      "bytes": 10145,
+      "sha256": "c84d1653738aa61a9c270b7999728f66c4bcd07f20371d216c4345806de49a81"
+    },
+    "correction": {
+      "path": "build/impact-skill-20261014/city5-pingyuan-rebellion-source-advice-v2.json",
+      "bytes": 12893,
+      "sha256": "98524d514639edca18ffef940829169a46a65983a8eecefa884457ba21eaba74"
+    },
+    "originalRetainedUnchanged": true,
+    "withdrawnClaims": [
+      "Current State4 necessarily causes next normal month army/resource losses",
+      "True governance is intrinsically required before any Policy/month in this exact native loop"
+    ],
+    "actualNextAIObserved": false
+  },
+  "isolation": {
+    "historicalIdentityCounts": [
+      15,
+      11,
+      11
+    ],
+    "matchingHistoricalLiveIdentities": 0,
+    "privateListeners": 0,
+    "user8080Unchanged": true,
+    "profilesRetained": true,
+    "v4ReusedPidIdentitiesLeftUntouched": [
+      {
+        "ProcessId": 73420,
+        "ParentProcessId": 23864,
+        "CreationDate": "2026-10-20T18:00:47.9632350Z",
+        "ExecutablePath": "C:\\Users\\75112\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe"
+      }
+    ],
+    "publisherPerformedOsQuery": false
+  },
+  "nextBattleSourceAdvice": {
+    "files": [
+      {
+        "path": "build/impact-skill-20261014/impact13-paid-v5-next-battle-source-advice-v1.json",
+        "bytes": 26982,
+        "sha256": "660116477fe9bcff7fc9cb860d48bead0c33fd0e90d268f3e978262405ec945d"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-paid-v5-next-battle-source-advice-v1.md",
+        "bytes": 5562,
+        "sha256": "94705c2d6ac2dc6feebfe5939d1b5f5f76e21fa741799587cb5db20c0bf92e4f"
+      }
+    ],
+    "sourceOnly": true,
+    "newRunner": false,
+    "newActualAccepted": false
+  },
+  "plannedDocumentation": {
+    "patch": {
+      "path": "build/impact-skill-20261014/impact13-paid-maintenance-planning-docs-patch-v1.json",
+      "bytes": 8406,
+      "sha256": "2c94fe0301a0b678f4a6fae49f9ba3fa8d9087150c6c9da4ce8a43a400bdd7e4"
+    },
+    "officialDocsWrittenByPublisher": false
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-paid-20261021-archive.json",
+    "bytes": 44045,
+    "sha256": "1e52c675841dcbc7d715e5c42004ebaae74eb2df261179384b476e64c7a2a2f3",
+    "namedFiles": 194,
+    "uniqueBlobs": 137,
+    "parts": 2,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "limits": [
+    "V3 workflow remains failed (36976/d58ddc/exit1). Only the capital16/person20 Food230 first-payment-and-genuine-SAVE subrange is accepted; actualPaidMaintenanceAccepted=false in V3.",
+    "V4 workflow remains failed (72401/6b8388/exit1). All100 complete waiting tickets were already pairwise equal; it only reloaded V3post16. No new payment/SAVE/Gov/Treat/month occurred. Its global cached MAP requirement before HD presentation was an unsupported availability assumption; original SOURCE_PASS and later diagnostic are both retained.",
+    "V5 (25760/1147f1/exit0) freshly loads only the last genuine V3post16 pair, pays only remaining city20/person50 Food153 once, saves original resumed input and final paid world, and preserves capital payment without replay. Pair seed/ABI/RNG continuity is not accepted.",
+    "The accepted sub-scope is paid maintenance only. Both native Trade11 orders remain pending, zero new strategy months, no natural return or beforeBattle/defense witness, no governance/Treat/new army/march/MP/skill13/player-AI cast/HD/full/global acceptance.",
+    "Complete raw world formula and oldslot0 all fields, five opaque copied fields only on the newly created Trade slot, full raw resident queue including duplicates/tail, actual LCD/quantity/payment keys, public SAVE packed fields and mode-aware complete A=B/nonphase anchors are independently recomputed by the three root-executed verifiers and reopened here against their exact archived proofs.",
+    "V3/V4/V5 current runtime source tuples1374/1388/1399 are strictly rehashed with no exception; native128 aggregate and originalLIB are unchanged. Full current runtime/product input portability is outside this named archive.",
+    "Source-advice v1 incorrectly treated existing city5State4 as necessarily surviving into the next environment pass and forcing governance. Correctionv2 preserves v1 and pins unconditional native ComputerTactic State reset before owner skip. This is source-only logic, never an observed nextAI/defense/month result. City5State4 stays unchanged in the paid-only SAVE.",
+    "Separate controlled/recorded stability tests46 and53, three positive source preflights and explicit hard-closed cast negatives do not accept actual gameplay. They are not added to each other or earlier registered92-module5339, which is historical and not rerun here. V5 intentionally retains the inherited negative diagnostic literal mentioningv4.",
+    "Cleanup preserves15/11/11 historical identities with zero matching live identities/private listeners and unchanged8080. V4 records one new audit pwsh identity reusing a PID and left untouched; no zero-PID-reuse claim. Profiles intentionally remain.",
+    "Defaultdry/unique--write/WX/nooverwrite/newstem/safe paths/fullgzip-base64 raw SHA roundtrip/target30MiB/hard<50MiB/canonical-last apply. Publisher performs no CLI/tests/OS/browser/game/Git and never writes the four existing planning docs.",
+    "Only explicitly named files are archive-closed. Earlier large product/source/history/acquisition evidence remains committed dependencies; portableClosedArchive=false."
+  ]
+}
