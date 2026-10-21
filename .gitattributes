@@ -151,3 +151,10 @@
 /scripts/fixtures/hd-impact-v23-november-input-v1.json -text
 /scripts/hd-impact-v24-month-window.mjs -text
 /scripts/test-hd-impact-v24-month-window.mjs -text
+
+# Preserve pending-only qualification sources and controlled historical fixture bytes.
+/scripts/hd-impact-v25-pending-resume.mjs -text
+/scripts/test-hd-impact-v25-pending-resume.mjs -text
+/scripts/fixtures/hd-impact-v25-january-paid-pending-world.json -text
+/scripts/fixtures/hd-impact-v25-january-original-month-raw.json -text
+/scripts/fixtures/hd-impact-v25-january-pending-provenance.json -text
