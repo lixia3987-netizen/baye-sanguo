@@ -106,3 +106,11 @@
 /scripts/test-hd-overworld-native-date.mjs -text
 /scripts/hd-impact-city-entry.mjs -text
 /scripts/test-hd-impact-city-entry.mjs -text
+/scripts/hd-mobile-defender-runtime-oracle.mjs text eol=lf
+/scripts/hd-mobile-defender-settlement-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-mobile-defender-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-mobile-defender-settlement-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-mobile-defender-final-selection.mjs text eol=lf
+/scripts/test-hd-impact-defender-legacy-residents.mjs text eol=lf
+/scripts/fixtures/hd-impact-v13-dispatched-world.json -text
+/scripts/fixtures/hd-impact-v13-dispatched-world-provenance.json -text

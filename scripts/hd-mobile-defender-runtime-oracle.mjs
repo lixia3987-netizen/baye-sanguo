@@ -10,7 +10,7 @@ export const mobileDefenderContract = Object.freeze({
     'vendor/iBaye/src/showface.c:852-859,872-873,923-943',
     'vendor/iBaye/src/Fight.c:79-105,920-931,1050-1093,1431-1474',
     'vendor/iBaye/src/FgtCount.c:85-109,119-145','vendor/iBaye/src/hd-bridge.c:1468-1497,1679-1685'],
-  scope:'Direct defender IDs, one exact DelPerson selection and explicit EXIT to the first unmodified defensive PICK; no battle outcome, random-month, RNG or complete ABI claim'
+  scope:'Direct defender IDs and exact DelPerson selections; explicit EXIT or natural exhausted/ten-choice entry to the first unmodified defensive PICK; no battle outcome, random-month, RNG or complete ABI claim'
 });
 const PERSON_FIELDS=['Belong','OldBelong','Level','Experience','IQ','Force','Age','Devotion','Character','Thew','Arms','ArmsType','Tool1','Tool2'];
 const CITY_FIELDS=['State','Belong','SatrapId','FarmingLimit','Farming','CommerceLimit','Commerce','PeopleDevotion','AvoidCalamity','PopulationLimit','Population','Money','Food','MothballArms','PersonQueue','Persons','ToolQueue','Tools'];
@@ -48,7 +48,8 @@ function worldShape(w){
     for(let j=0;j<c.Persons;j++){
       const q=c.PersonQueue+j,id=uint(w.queue[q],199,'Resident ID');
       assert.ok(!usedPositions.has(q),'City active queue ranges do not overlap');
-      assert.ok(!residentIds.has(id),'Active residents do not duplicate an ID');usedPositions.add(q);residentIds.add(id);
+      // Original saves may retain a person ID in different city ranges.
+      usedPositions.add(q);residentIds.add(id);
     }
   }
   assert.ok(Array.isArray(w.orders)&&w.orders.length===200,'All 200 order rows required');
@@ -105,7 +106,7 @@ function picker(world,native,names){
   assert.ok(m.seq>0,'Live menu sequence');assert.equal(m.generation,native.detailGeneration,'Menu generation is current');assert.equal(m.detailGeneration,native.detailGeneration,'Menu detail generation is current');
   assert.equal(m.itemLen,8,'Original native person-name slots are eight bytes');assert.equal(native.report.active,0,'No competing native report');assert.equal(native.fight.active,0,'GamFight has not started');
   const f=formation(world,native);assert.ok(f.selectedIds.length<10,'A live picker has fewer than ten already selected defenders');
-  for(const id of f.selectedIds)assert.ok(!shape.residentIds.has(id),'Selected defender is already removed from all active resident ranges');
+  for(const id of f.selectedIds)assert.ok(!world.queue.slice(world.cities[native.battle.cityIndex].PersonQueue,world.cities[native.battle.cityIndex].PersonQueue+world.cities[native.battle.cityIndex].Persons).includes(id),'Selected defender is removed from this defended city; unrelated legacy city entries remain');
   const candidateIds=residents(world,native.battle.cityIndex);assert.ok(candidateIds.length>0,'Only a nonempty real resident picker is live');
   assert.equal(m.count,candidateIds.length,'The full remaining in-service resident list is published');uint(m.index,candidateIds.length-1,'Current menu index');
   assert.equal(m.idsValid,true,'Current native direct-ID owner is authenticated');array(m.ids,candidateIds.length,199,'Direct menu IDs');exact(m.ids,candidateIds,'Direct IDs equal GetCityPersons resident order');
@@ -120,22 +121,26 @@ function picker(world,native,names){
 }
 export function verifyMobileDefenderPicker({world,native,names}){return picker(world,native,names);}
 
-export function verifyMobileDefenderSelection({before,after,chosenIndex}){
+// Last selected row always performs exactly one original DelPerson. This
+// common transition does not accept a battle, an EXIT, or arbitrary menu drift.
+function selectedDefenderTransition(before,after,chosenIndex){
   assert.ok(before&&after,'Before and after samples required');
   const p=picker(before.world,before.native,before.native?.menu?.names);uint(chosenIndex,p.candidateIds.length-1,'Chosen actual row');
   worldShape(after.world);nativeShape(after.native);const chosenId=p.candidateIds[chosenIndex],expected=structuredClone(before.world),c=expected.cities[p.cityIndex];
   const absolute=c.PersonQueue+before.world.queue.slice(c.PersonQueue,c.PersonQueue+c.Persons).indexOf(chosenId);
   assert.ok(absolute>=c.PersonQueue&&absolute<c.PersonQueue+c.Persons,'Actual chosen resident is present');
-  // DelPerson shifts only through slot198, retains slot199, and leaves 200..1999 untouched.
   for(let i=absolute;i<199;i++)expected.queue[i]=before.world.queue[i+1];c.Persons--;
   for(let i=p.cityIndex+1;i<38;i++){assert.ok(expected.cities[i].PersonQueue>0,'Later city offset cannot underflow in this original scenario');expected.cities[i].PersonQueue--;}
   exact(after.world,expected,'One native DelPerson changes only the exact full queue/city offsets');
   const expectedBattle=structuredClone(before.native.battle);expectedBattle.genArray[p.selectedIds.length]=chosenId+1;
-  exact(after.native.battle,expectedBattle,'One defender appends token ID+1 without mutating any other battle field');
   assert.equal(after.native.detailGeneration,before.native.detailGeneration,'Selection stays in the same library/detail generation');
   assert.equal(after.native.touches,before.native.touches,'HD selection does not inject native LCD touches');
   assert.equal(after.native.keys-before.native.keys,Math.abs(chosenIndex-before.native.menu.index)+1,'Exactly the necessary focus arrows and one ENTER were observed');
-  const remaining=residents(after.world,p.cityIndex),selectedIds=[...p.selectedIds,chosenId];
+  return {p,chosenId,expectedBattle,absolute,remaining:residents(after.world,p.cityIndex),selectedIds:[...p.selectedIds,chosenId]};
+}
+export function verifyMobileDefenderSelection({before,after,chosenIndex}){
+  const {p,chosenId,expectedBattle,absolute,remaining,selectedIds}=selectedDefenderTransition(before,after,chosenIndex);
+  exact(after.native.battle,expectedBattle,'One defender appends token ID+1 without mutating any other battle field');
   let freshPicker=null;
   if(selectedIds.length<10&&remaining.length>0){
     freshPicker=picker(after.world,after.native,after.native.menu.names);
@@ -153,17 +158,13 @@ export function verifyMobileDefenderSelection({before,after,chosenIndex}){
     actualInputAccepted:false,battleAccepted:false};
 }
 
-export function verifyMobileDefenderBattle({before,after}){
-  assert.ok(before&&after,'Finish and first PICK samples required');
-  const p=picker(before.world,before.native,before.native?.menu?.names);worldShape(after.world);nativeShape(after.native);
-  assert.ok(p.selectedIds.length>=1&&p.selectedIds.length<10,'Explicit EXIT scope has at least one selected defender and a remaining live picker');
+// Shared ordinary first PICK checks. Callers separately prove the exact
+// strategic-world transition, input count and source-specific menu lifecycle.
+function firstDefensivePick(before,after,p,expectedFormation){
   const b=after.native.battle,f=after.native.fight,m=after.native.menu;
   assert.equal(after.native.detailGeneration,before.native.detailGeneration,'Same current detail generation');
-  assert.equal(after.native.keys,before.native.keys+1,'Exactly one finish key before the first PICK');
   assert.equal(after.native.touches,before.native.touches,'No native LCD touch during finish');
   assert.equal(m.active,0);assert.equal(m.context,0);assert.equal(m.kind,0);assert.equal(m.idsValid,false);exact(m.ids,[],'Retired defender IDs');
-  // ShowPersonControl end, GamFight reset set_fight(0), then set_fight(1) each end menu.
-  assert.equal(m.seq,next(next(next(before.native.menu.seq))),'Exact no-extra-report explicit EXIT to GamFight menu retirement');
   assert.equal(after.native.report.active,0,'First PICK is not an initialization report');
   assert.equal(f.active,1);assert.equal(f.over,0);assert.equal(f.wait,1);assert.equal(f.phase,1);assert.equal(f.inputKind,1);assert.equal(f.actorIndex,255);
   assert.ok(uint(f.inputSeq,0xffffffff,'PICK input sequence')>0,'Current PICK owner');assert.equal(f.bout,1,'Only the first player PICK before any AI turn is accepted');
@@ -171,7 +172,7 @@ export function verifyMobileDefenderBattle({before,after}){
   assert.ok(uint(f.mapW,255,'Map width')>0&&uint(f.mapH,255,'Map height')>0,'Actual battle geometry');
   assert.equal(b.over,0);assert.equal(b.mainGenIndex,10,'Defense commander is the attacking first enemy slot');
   assert.equal(b.cityIndex,p.cityIndex);assert.equal(b.playerFood,before.native.battle.playerFood);assert.equal(b.enemyFood,before.native.battle.enemyFood);
-  exact(b.genArray,before.native.battle.genArray,'Final formation preserves selected defenders and all ten incoming enemy slots');
+  exact(b.genArray,expectedFormation,'Final formation preserves selected defenders and all ten incoming enemy slots');
   incoming(after.world,after.native);
   for(const [slot,token]of b.genArray.entries()){
     const pos=b.positions[slot];assert.equal(pos.active,0,'Initial bout restores every slot to WAIT');
@@ -183,11 +184,40 @@ export function verifyMobileDefenderBattle({before,after}){
     assert.ok(hp>0,'Zero-HP initialization death is outside this battle-entry scope');assert.equal(pos.hp,hp,'Initial HP follows native integer CountBaseAttr');
     assert.equal(pos.state,0,'Occupied initial slot is normal before any action');assert.ok(pos.x<f.mapW&&pos.y<f.mapH,'Actual initial unit lies inside the native map');
   }
+}
+export function verifyMobileDefenderBattle({before,after}){
+  assert.ok(before&&after,'Finish and first PICK samples required');
+  const p=picker(before.world,before.native,before.native?.menu?.names);worldShape(after.world);nativeShape(after.native);
+  assert.ok(p.selectedIds.length>=1&&p.selectedIds.length<10,'Explicit EXIT scope has at least one selected defender and a remaining live picker');
+  assert.equal(after.native.keys,before.native.keys+1,'Exactly one finish key before the first PICK');
+  // ShowPersonControl end, GamFight reset set_fight(0), then set_fight(1) each end menu.
+  assert.equal(after.native.menu.seq,next(next(next(before.native.menu.seq))),'Exact no-extra-report explicit EXIT to GamFight menu retirement');
+  firstDefensivePick(before,after,p,before.native.battle.genArray);
   exact(after.world,before.world,'Explicit finish/ordinary first defensive PICK does not mutate the complete measured strategic world');
+  const b=after.native.battle,f=after.native.fight;
   return {accepted:true,stage:'first-defensive-pick',cityIndex:p.cityIndex,selectedIds:p.selectedIds,
     enemyTokens:b.genArray.slice(10),orderIndex:p.orderIndex,armySlot:p.armySlot,mainGenIndex:10,firstBout:1,
     measuredWorldUnchanged:true,retainedFightSkip:f.skip,actualInputAccepted:false,battleOutcomeAccepted:false,
     notCovered:['Trusted UI/current opaque data/source provenance are checked by the actual caller',
       'RNG state, unused native globals, MP/move and map-position initialization formulas',
       'Initialization upgrades/deaths, zero/exhausted/ten-choice battle entry, AI turns, battle result and monthly settlement']};
+}
+
+export function verifyMobileDefenderFinalSelection({before,after,chosenIndex}){
+  const {p,chosenId,expectedBattle,absolute,remaining,selectedIds}=selectedDefenderTransition(before,after,chosenIndex);
+  const filledTen=selectedIds.length===10;
+  assert.ok(filledTen||remaining.length===0,'Only the tenth defender or exhaustion of actual in-service residents may enter GamFight without EXIT');
+  // BattleDrv's next empty ShowPersonControl still performs begin/end before
+  // its pcount==0 inner return. A full ten-choice loop skips that extra call.
+  // Last end + empty begin/end + GamFight set_fight(0/1) =5; ten-choice =3.
+  const increments=filledTen?3:5;let seq=before.native.menu.seq;for(let i=0;i<increments;i++)seq=next(seq);
+  assert.equal(after.native.menu.seq,seq,'Exact natural final-selection menu retirement, including skip-zero U32 wrap');
+  firstDefensivePick(before,after,p,expectedBattle.genArray);
+  return {accepted:true,stage:'final-selection-first-defensive-pick',cityIndex:p.cityIndex,chosenIndex,chosenId,
+    selectedIds,remainingIds:remaining,absoluteQueueIndex:absolute,termination:filledTen?'ten-selected':'resident-exhausted',menuSequenceIncrements:increments,
+    enemyTokens:after.native.battle.genArray.slice(10),orderIndex:p.orderIndex,armySlot:p.armySlot,mainGenIndex:10,firstBout:1,
+    measuredWorldOnlyLastDelPerson:true,retainedFightSkip:after.native.fight.skip,actualInputAccepted:false,battleOutcomeAccepted:false,
+    notCovered:['Trusted UI/current opaque data/source provenance are checked by the actual caller',
+      'RNG state, unused native globals, MP/move and map-position initialization formulas',
+      'Initialization upgrades/deaths, zero-defender automatic battle, AI turns, battle result and monthly settlement']};
 }

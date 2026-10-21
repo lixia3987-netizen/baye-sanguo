@@ -121,7 +121,7 @@ const pickerRejects=[
  ['unreleased army flag',f=>{f.world.fighterIndex[3]=1;}],['wrong final enemy zero slot',f=>{f.world.fighters[78]=1;}],
  ['one-based fighter offset error',f=>{f.world.fighters[60]=37;}],['invalid army slot',f=>{f.world.orders[170].Person=30;}],
  ['truncated world queue',f=>{f.world.queue.pop();}],['sparse measured queue',f=>{delete f.world.queue[1900];}],
- ['sparse fighters',f=>{delete f.world.fighters[599];}],['duplicate active resident',f=>{f.world.queue[5]=27;}],
+ ['sparse fighters',f=>{delete f.world.fighters[599];}],['out of range active resident',f=>{f.world.queue[5]=200;}],
  ['overlapping resident ranges',f=>{f.world.cities[2].PersonQueue=4;}],['missing full city field',f=>{delete f.world.cities[1].FarmingLimit;}],
  ['missing full order field',f=>{delete f.world.orders[199].Consume;}],['missing full person field',f=>{delete f.world.people[199].Thew;}],
  ['missing actual main commander',f=>{delete f.native.battle.mainGenIndex;}],['only nineteen position slots',f=>{f.native.battle.positions.pop();}],

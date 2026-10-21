@@ -29,7 +29,7 @@ function shape(w){
   for(const [i,c]of w.cities.entries()){
     for(const k of CITY)uint(c?.[k],['Population','PopulationLimit'].includes(k)?0xffffffff:65535,'City '+i+' '+k);
     uint(c.Belong,200,'City faction');assert.ok(c.PersonQueue+c.Persons<=200,'Active residents in first 200 slots');
-    for(let j=c.PersonQueue;j<c.PersonQueue+c.Persons;j++){const p=uint(w.queue[j],199,'Resident PID');assert.ok(!slots.has(j)&&!ids.has(p),'Unique active residents');slots.add(j);ids.add(p);}
+    for(let j=c.PersonQueue;j<c.PersonQueue+c.Persons;j++){const p=uint(w.queue[j],199,'Resident PID');assert.ok(!slots.has(j),'Active city queue positions do not overlap');slots.add(j);ids.add(p);}
   }
   assert.ok(Array.isArray(w.orders)&&w.orders.length===200,'All 200 complete orders');for(const [i,o]of w.orders.entries())for(const k of ORDER)uint(o?.[k],['OrderId','City','Consume','TimeCount'].includes(k)?255:65535,'Order '+i+' '+k);
   array(w.fighters,600,255,'Fighter bytes');array(w.fighterIndex,30,255,'Fighter allocation');array(w.goodsQueue,2000,65535,'Goods queue');

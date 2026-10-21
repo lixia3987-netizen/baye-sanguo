@@ -129,3 +129,12 @@ test('Captured king extinction without current successor trace is explicitly rej
 test('IQ99 may be captured when no old-faction city remains and nonzero fallback roll is possible',()=>{const x=args();x.before.world.cities[1].Belong=0;x.before.world.people[0].Belong=0;x.before.world.people[29].IQ=99;x.after.world=expected(x.before);assert.equal(verify(x).accepted,true);});
 test('Death-disabled no-city fallback may capture even IQ255',()=>{const x=args();x.before.world.config.disableFightToDeath=1;x.before.world.cities[1].Belong=0;x.before.world.people[0].Belong=0;x.before.world.people[29].IQ=255;x.after.world=expected(x.before);assert.equal(verify(x).accepted,true);});
 test('IQ99 always retains a possible escape roll when an old-faction city exists',()=>{const x=args(2,['escape']);x.before.world.people[29].IQ=99;x.after.world.people[29].IQ=99;assert.equal(verify(x).accepted,true);});
+
+test('unrelated legacy cross-city resident IDs survive exact defense settlement',()=>{
+ for(const over of [1,2]){const before=fixture(over),w=before.world;
+  Object.assign(w.cities[3],{PersonQueue:3,Persons:1});Object.assign(w.cities[4],{PersonQueue:4,Persons:1});w.queue[3]=70;w.queue[4]=70;for(let i=5;i<38;i++)w.cities[i].PersonQueue=5;
+  const x={before,after:{world:expected(before),native:clone(before.native)},receipt:{generation:3,detailGeneration:3,city:0,mode:0,over,playerKing:0}};
+  assert.equal(verify(x).accepted,true);const q=x.after.world.queue;assert.equal(q[x.after.world.cities[3].PersonQueue],70);assert.equal(q[x.after.world.cities[4].PersonQueue],70);
+  x.after.world.unrelatedUnexpected=1;assert.throws(()=>verify(x),/fields|differs/);
+ }
+});
