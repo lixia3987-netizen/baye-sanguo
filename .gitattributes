@@ -116,3 +116,6 @@
 /scripts/fixtures/hd-impact-v13-dispatched-world-provenance.json -text
 /scripts/hd-impact-river-approach.mjs text eol=lf
 /scripts/test-hd-impact-river-approach.mjs text eol=lf
+/scripts/fixtures/hd-impact-v15-west-river-move.json -text
+/scripts/hd-impact-river-route.mjs text eol=lf
+/scripts/test-hd-impact-river-route.mjs text eol=lf
