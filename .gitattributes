@@ -1,4 +1,8 @@
 # Build provenance hashes the generated artifacts' exact bytes.
+/.gitattributes text eol=lf
+/package.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261022*.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261022*.md text eol=lf
 /js/baye.js text eol=lf
 /js/baye.wasm.map text eol=lf
 /js/baye.build.json text eol=lf
@@ -127,3 +131,23 @@
 /scripts/fixtures/hd-impact-v17-june-army-world-provenance.json text eol=lf
 /scripts/hd-impact-route112-final-aim.mjs text eol=lf
 /scripts/test-hd-impact-route112-final-aim.mjs text eol=lf
+
+# Preserve original acquisition validation modules, tests and fixture exact bytes.
+/scripts/hd-impact-v23-acquisition-plan.mjs -text
+/scripts/hd-impact-v23-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v23-canvass16-natural-return.mjs -text
+/scripts/hd-impact-v23-json-normalize.mjs -text
+/scripts/hd-impact-v23-world-dictionary.mjs -text
+/scripts/hd-impact-v24-final-report-storage.mjs -text
+/scripts/hd-impact-v24-observation-row-stream.mjs -text
+/scripts/test-hd-impact-v23-acquisition-plan.mjs -text
+/scripts/test-hd-impact-v23-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v23-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v23-json-normalize.mjs -text
+/scripts/test-hd-impact-v23-world-dictionary.mjs -text
+/scripts/test-hd-impact-v24-final-report-storage.mjs -text
+/scripts/test-hd-impact-v24-observation-row-stream.mjs -text
+/scripts/test-hd-impact-v24-selected-row-terminal-integrity.mjs -text
+/scripts/fixtures/hd-impact-v23-november-input-v1.json -text
+/scripts/hd-impact-v24-month-window.mjs -text
+/scripts/test-hd-impact-v24-month-window.mjs -text
