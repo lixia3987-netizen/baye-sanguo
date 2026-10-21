@@ -158,3 +158,8 @@
 /scripts/fixtures/hd-impact-v25-january-paid-pending-world.json -text
 /scripts/fixtures/hd-impact-v25-january-original-month-raw.json -text
 /scripts/fixtures/hd-impact-v25-january-pending-provenance.json -text
+
+# Preserve raw Buy11 verification and controlled historical fixture bytes.
+/scripts/hd-impact-v26-raw-buy11-oracle.mjs -text
+/scripts/test-hd-impact-v26-raw-buy11-oracle.mjs -text
+/scripts/fixtures/hd-impact-v26-february-buy11-world.json -text
