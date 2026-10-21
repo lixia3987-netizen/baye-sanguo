@@ -1,0 +1,804 @@
+{
+  "schemaVersion": 1,
+  "kind": "original-impact13-saved-policy-drain-and-new-genuine-2374-settlement",
+  "publicationDate": "2026-10-21",
+  "originalOnly": true,
+  "newProductionSourceChanges": false,
+  "sourceRunAccepted": true,
+  "policyDrainAccepted": true,
+  "publicSaveCount": 2,
+  "latestDate": [
+    237,
+    4
+  ],
+  "latestActiveOrders": [],
+  "latestCaster": {
+    "person": {
+      "OldBelong": 0,
+      "Belong": 1,
+      "Level": 7,
+      "Force": 39,
+      "IQ": 72,
+      "Devotion": 71,
+      "Character": 2,
+      "Experience": 0,
+      "Thew": 100,
+      "ArmsType": 3,
+      "Arms": 1810,
+      "Tool1": 0,
+      "Tool2": 0,
+      "Age": 63
+    },
+    "residentCities": [
+      6
+    ]
+  },
+  "savedGuardOutcomes": {
+    "4": {
+      "belong": 1,
+      "people": [
+        {
+          "id": 33,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 92,
+            "IQ": 69,
+            "Devotion": 84,
+            "Character": 4,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 0,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 70
+          },
+          "residentCities": [
+            4
+          ]
+        },
+        {
+          "id": 29,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 50,
+            "IQ": 77,
+            "Devotion": 87,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 1,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 74
+          },
+          "residentCities": [
+            4
+          ]
+        }
+      ]
+    },
+    "6": {
+      "belong": 1,
+      "people": [
+        {
+          "id": 51,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 52,
+            "IQ": 60,
+            "Devotion": 80,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 3,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 78
+          },
+          "residentCities": [
+            6
+          ]
+        },
+        {
+          "id": 36,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 40,
+            "IQ": 43,
+            "Devotion": 70,
+            "Character": 1,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 32
+          },
+          "residentCities": [
+            6
+          ]
+        },
+        {
+          "id": 5,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 1,
+            "IQ": 1,
+            "Devotion": 70,
+            "Character": 3,
+            "Experience": 0,
+            "Thew": 92,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 57
+          },
+          "residentCities": [
+            6
+          ]
+        },
+        {
+          "id": 21,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 77,
+            "IQ": 70,
+            "Devotion": 73,
+            "Character": 3,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 2,
+            "Arms": 100,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 78
+          },
+          "residentCities": [
+            6
+          ]
+        }
+      ]
+    },
+    "16": {
+      "belong": 1,
+      "people": [
+        {
+          "id": 0,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 52,
+            "IQ": 77,
+            "Devotion": 100,
+            "Character": 3,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 0,
+            "Arms": 1390,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 50
+          },
+          "residentCities": [
+            16
+          ]
+        },
+        {
+          "id": 40,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 54,
+            "IQ": 79,
+            "Devotion": 100,
+            "Character": 3,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 1,
+            "Arms": 1430,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 66
+          },
+          "residentCities": [
+            16
+          ]
+        }
+      ]
+    },
+    "20": {
+      "belong": 1,
+      "people": [
+        {
+          "id": 30,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 86,
+            "IQ": 83,
+            "Devotion": 100,
+            "Character": 3,
+            "Experience": 7,
+            "Thew": 100,
+            "ArmsType": 0,
+            "Arms": 1790,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 68
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 45,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 84,
+            "IQ": 48,
+            "Devotion": 100,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 3,
+            "Arms": 1349,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 81
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 8,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 71,
+            "IQ": 64,
+            "Devotion": 100,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 2,
+            "Arms": 1450,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 54
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 17,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 80,
+            "IQ": 63,
+            "Devotion": 100,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 2,
+            "Arms": 1530,
+            "Tool1": 0,
+            "Tool2": 29,
+            "Age": 68
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 69,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 83,
+            "IQ": 52,
+            "Devotion": 100,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 2,
+            "Arms": 1450,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 56
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 70,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 79,
+            "IQ": 74,
+            "Devotion": 100,
+            "Character": 3,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 1,
+            "Arms": 1630,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 61
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 11,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 68,
+            "IQ": 79,
+            "Devotion": 100,
+            "Character": 4,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 0,
+            "Arms": 1570,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 52
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 10,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 90,
+            "IQ": 32,
+            "Devotion": 100,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 0,
+            "Arms": 1320,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 47
+          },
+          "residentCities": [
+            20
+          ]
+        },
+        {
+          "id": 38,
+          "person": {
+            "OldBelong": 0,
+            "Belong": 1,
+            "Level": 1,
+            "Force": 77,
+            "IQ": 38,
+            "Devotion": 100,
+            "Character": 0,
+            "Experience": 0,
+            "Thew": 100,
+            "ArmsType": 3,
+            "Arms": 1250,
+            "Tool1": 0,
+            "Tool2": 0,
+            "Age": 50
+          },
+          "residentCities": [
+            20
+          ]
+        }
+      ]
+    }
+  },
+  "guardPreservationAccepted": false,
+  "naturalWorldChanges": [
+    {
+      "cityIndex": 4,
+      "before": {
+        "belong": 1,
+        "food": 6168,
+        "money": 30000
+      },
+      "after": {
+        "belong": 1,
+        "food": 6164,
+        "money": 30000
+      }
+    },
+    {
+      "cityIndex": 5,
+      "before": {
+        "belong": 1,
+        "food": 2449,
+        "money": 16145
+      },
+      "after": {
+        "belong": 1,
+        "food": 2443,
+        "money": 16145
+      }
+    },
+    {
+      "cityIndex": 6,
+      "before": {
+        "belong": 1,
+        "food": 9442,
+        "money": 30000
+      },
+      "after": {
+        "belong": 1,
+        "food": 9398,
+        "money": 30000
+      }
+    },
+    {
+      "cityIndex": 7,
+      "before": {
+        "belong": 1,
+        "food": 16087,
+        "money": 30000
+      },
+      "after": {
+        "belong": 1,
+        "food": 16075,
+        "money": 30000
+      }
+    },
+    {
+      "cityIndex": 13,
+      "before": {
+        "belong": 1,
+        "food": 7140,
+        "money": 30000
+      },
+      "after": {
+        "belong": 1,
+        "food": 7130,
+        "money": 30000
+      }
+    },
+    {
+      "cityIndex": 16,
+      "before": {
+        "belong": 1,
+        "food": 267,
+        "money": 4535
+      },
+      "after": {
+        "belong": 1,
+        "food": 37,
+        "money": 4535
+      }
+    },
+    {
+      "cityIndex": 20,
+      "before": {
+        "belong": 1,
+        "food": 1,
+        "money": 176
+      },
+      "after": {
+        "belong": 1,
+        "food": 380,
+        "money": 434
+      }
+    }
+  ],
+  "normalMonths": 1,
+  "newPayments": 0,
+  "newPlunders": 0,
+  "newMarches": 0,
+  "allThreePriorOrderIdOnlyRetirementsAccepted": true,
+  "tradeActor20Returned": true,
+  "plunderActor44Returned": true,
+  "beforeCombatReadonlyCallbackAccepted": true,
+  "actualOwnBattlePICKObserved": true,
+  "legalRetreatConfirmed": true,
+  "actualDefenderInputCount": 0,
+  "defenseRuntimeAccepted": false,
+  "actualCastOccurred": false,
+  "actualCastAccepted": false,
+  "actualPreparationAccepted": false,
+  "hdAccepted": false,
+  "hd1080VisualAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false,
+  "sameRunContinuationAccepted": false,
+  "sourceCount": 1261,
+  "normalizedPhysicalSources": 1257,
+  "sourceCurrentExact": true,
+  "nativeSourceCount": 128,
+  "nativeAggregate": "713f2425551f3fbf3b9f0f892eeada969161c070c465e159f4126f1dd1944d9d",
+  "engineSidecar": {
+    "persisted": 21,
+    "final": 21,
+    "appended": 0
+  },
+  "speSidecar": {
+    "persisted": 57,
+    "final": 57,
+    "appended": 0
+  },
+  "cleanupAccepted": true,
+  "newCurrentFreezeAndFreshLoadRequired": true,
+  "acceptedScope": "Only source-bound resume of saved0/1/170 Policy, own offensive firstPICK/one lawful retreat, one natural month, and whole genuine ordinaryMAP public SAVE. No current actual defender input, defense runtime, skill13 or HD/global acceptance.",
+  "rootIndependentVerification": {
+    "terminal": {
+      "chunkId": "add664",
+      "exitCode": 0
+    },
+    "checkedAt": "2026-10-21T02:16:53.511Z",
+    "verifier": {
+      "path": "build/impact-skill-20261014/verify-impact13-battle-v14-terminal-v1.mjs",
+      "bytes": 14989,
+      "sha256": "15f45247c70f77fae21a1f62c7f7745448eb974009606e813d1c87d9794c08b1"
+    },
+    "freeze": {
+      "path": "build/impact-skill-20261014/impact13-battle-v14-terminal-verifier-freeze-v1.json",
+      "bytes": 4451,
+      "sha256": "8b3e2e0a4adad06708ecbc148cdadf7a01785360441c0bad066912c08ce7746d"
+    },
+    "log": {
+      "path": "build/impact-skill-20261014/verify-impact13-battle-v14-terminal-v1.log",
+      "bytes": 796,
+      "sha256": "36c34190530dac3ef1bb9ae52945c8249270d099ef71ff258fcb8470a7af9e5d"
+    },
+    "sourcePeer": {
+      "path": "build/impact-skill-20261014/impact13-v14-terminal-verifier-source-peer-v1.json",
+      "bytes": 2955,
+      "sha256": "5921c8a3a0ed7b6e653968161be14e00e43dd3e9d8135f9ad50301d0717386e4"
+    }
+  },
+  "inputProvenance": {
+    "rootProof": {
+      "path": "build/impact-skill-20261014/impact13-battle-v13-terminal-receipt-v2.json",
+      "bytes": 11747,
+      "sha256": "c63a3256482fdd4b9f89b6cecb130fe0af300a772683d55f00012762464e7797"
+    },
+    "priorFailedV13RemainsFailed": true,
+    "onlyLatestSavedV13DispatchLoaded": true,
+    "priorUnsavedV13WorldRestored": false,
+    "priorTradePlunderMarchNotRepeated": true,
+    "priorLargeArchive": {
+      "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-city-entry-20261021.json",
+      "bytes": 15461,
+      "sha256": "b8a3e5c7e7814cd34c3826dfec127ff87a54476f598bc320214c7080478d3de3"
+    }
+  },
+  "formalValidation": {
+    "moduleCommit": "9542ef98cb72b30823b72703e678a6775001c5bd",
+    "pushVerification": {
+      "path": "build/impact-skill-20261014/impact13-v14-defender-module-push-verification-v1.json",
+      "bytes": 419,
+      "sha256": "db55dfef7610c7e966324a2c68fc1c9babf84c48ba04aa228a0f124b84a82307"
+    },
+    "tests": 259,
+    "pass": 259,
+    "fail": 0,
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-v14-defender-formal-tests-v1.log",
+      "bytes": 16923,
+      "sha256": "df2804c246cf82b6efe469a4c996d76415dd837d8b86b8c93c90c328daef1e1d"
+    },
+    "actualDefenderInputCount": 0,
+    "defenseRuntimeAccepted": false,
+    "controlledNativeModelsAreNotActualDefense": true,
+    "noAdditionalLegacy8AddedTo259": true,
+    "noFullSuiteRerunClaim": true
+  },
+  "cleanup": {
+    "external": {
+      "path": "build/impact-skill-20261014/impact13-battle-v14-external-cleanup-v1.json",
+      "bytes": 3557,
+      "sha256": "c570d6cd2ceb933a325ae7b9a591cc9525254f5aa3995b69f73a748f78238c21"
+    },
+    "union": {
+      "path": "build/impact-skill-20261014/impact13-battle-v14-owned-union-v1.json",
+      "bytes": 3237,
+      "sha256": "db85982044994468b9ea71372dabac14a8f5eb8737e237ead2302da0b31d3b77"
+    },
+    "samples": {
+      "path": "build/impact-skill-20261014/impact13-battle-actual-v14/owned-process-samples.jsonl",
+      "bytes": 30081,
+      "sha256": "f1e4c693ca743932edf146faccd12acd018a8cc271eea072f61de4cbd3783b23"
+    },
+    "user8080Before": {
+      "path": "build/impact-skill-20261014/impact13-battle-v14-user8080-before-v1.json",
+      "bytes": 137,
+      "sha256": "8b49fa130953145d0d4b686b38fe8a863fe5a9143ee77ff543a86db5ca8896de"
+    },
+    "reportedIdentities": 11,
+    "matchingLiveIdentities": 0,
+    "privateListeners": 0,
+    "user8080Preserved": true,
+    "profileRetainedAndExcluded": true,
+    "rootEvidenceOnly": true
+  },
+  "continuation": {
+    "onlyLatestTag": "impact13-129-v14-policy-settled",
+    "date": [
+      237,
+      4
+    ],
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v14/native-impact13-129-v14-policy-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "93b26ffb2e8fee6ff7bab9beff52b9c691c2511b7a6fc8926202aede29cbd17a"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v14/native-impact13-129-v14-policy-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "ff77d4865481003f5bf28d81aa98390339717285be4145479d880f46726279ad"
+      }
+    ],
+    "casterResidentCities": [
+      6
+    ],
+    "activeOrders": [],
+    "older2373DispatchPairMayReplaceIt": false,
+    "priorPendingPolicyMayBeReplayed": false,
+    "newCurrentFreezeAndFreshLoadRequired": true,
+    "newStrategyOrMarchNotAuthorizedByThisArchive": true
+  },
+  "nextSourceOnlyAdvice": {
+    "pin": {
+      "path": "build/impact-skill-20261014/impact13-v14-next-route-source-advice-v1.json",
+      "bytes": 5818,
+      "sha256": "0efc725451781df63ccb877bf99a899e75e2c69067bd39d94ce92fcaa2854bf0"
+    },
+    "status": "SOURCE_ONLY",
+    "authoredBeforeIndependentTerminalProof": true,
+    "historicalV10Map112FirstPICKIsHintOnly": true,
+    "priorCurrentArmyCompositionGuaranteesFutureEnemies": false,
+    "aiMaySendThreeOfCurrentFourAndLeaveSingleCastle": true,
+    "requiredBeforeAnyFutureBattle": "Fresh original supply, direct route, army, native water/path/owner/weather/MP and mobile enemy conditions. Current capital food37 is below its next-month reserve; no repeated Plunder is needed by this source-only advice. No new route has been executed."
+  },
+  "plannedDocumentation": {
+    "writer": {
+      "path": "build/impact-skill-20261014/update-policy-resume-progress-docs-v1.mjs",
+      "bytes": 2467,
+      "sha256": "8794aa2da004efece34523453e368b13e9ec9ea5e8d3e27059f60c43653b0467"
+    },
+    "existingDocsWrittenByArchiveBuilder": false
+  },
+  "limits": {
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false,
+    "completeProductTreeEmbedded": false,
+    "allTransitiveHistoricalBuildDependenciesEmbedded": false,
+    "priorV13Result414MBEmbeddedAgain": false,
+    "fullCurrentV14ResultEmbedded": true,
+    "actualDefenseTested": false,
+    "actualSkill13Tested": false,
+    "fourDisplayMatrixAccepted": false,
+    "fullPreparationAccepted": false,
+    "wholeNativeAbiRestorationAccepted": false,
+    "nonserializedQueueTailContinuationAccepted": false,
+    "rngContinuityAccepted": false,
+    "sameRunContinuationAccepted": false,
+    "testCountsMustNotBeAdded": true
+  },
+  "dependencyCommit": "2f4b683fd56a4a0c81c90e94503f851beae0b321",
+  "publicationParent": "9542ef98cb72b30823b72703e678a6775001c5bd",
+  "latestActualRootProof": {
+    "path": "build/impact-skill-20261014/impact13-battle-v14-terminal-receipt-v1.json",
+    "bytes": 16551,
+    "sha256": "d14c27b3b6922abaf10f3c7b3092e2a22be5070f911af87bc25cb07cac33973d"
+  },
+  "latestGenuineSave": {
+    "tag": "impact13-129-v14-policy-settled",
+    "slot": 0,
+    "pair": [
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v14/native-impact13-129-v14-policy-settled-sango0.sav",
+        "bytes": 8221,
+        "sha256": "93b26ffb2e8fee6ff7bab9beff52b9c691c2511b7a6fc8926202aede29cbd17a"
+      },
+      {
+        "path": "build/impact-skill-20261014/impact13-battle-actual-v14/native-impact13-129-v14-policy-settled-sango1.sav",
+        "bytes": 4840,
+        "sha256": "ff77d4865481003f5bf28d81aa98390339717285be4145479d880f46726279ad"
+      }
+    ],
+    "world": {
+      "path": "build/impact-skill-20261014/impact13-battle-v14-latest-genuine-saved-world-v1.json",
+      "bytes": 77872,
+      "sha256": "368ef41608d25324915ae98731cb78df06861a573f142d03014dbca5a631b099"
+    },
+    "worldJsonSha256": "368ef41608d25324915ae98731cb78df06861a573f142d03014dbca5a631b099"
+  },
+  "testEvidence": {
+    "formal": {
+      "terminal": {
+        "chunkId": "3e5936",
+        "exitCode": 0
+      },
+      "tests": 259,
+      "pass": 259,
+      "fail": 0,
+      "log": {
+        "path": "build/impact-skill-20261014/impact13-v14-defender-formal-tests-v1.log",
+        "bytes": 16923,
+        "sha256": "df2804c246cf82b6efe469a4c996d76415dd837d8b86b8c93c90c328daef1e1d"
+      },
+      "controlledOnly": true,
+      "actualDefenderInputCredit": false,
+      "actualCastCredit": false
+    },
+    "countsMustNotBeAdded": true,
+    "noFullSuiteRerunClaim": true
+  },
+  "archive": {
+    "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-policy-resume-20261021-archive.json",
+    "bytes": 15920,
+    "sha256": "78ea3598b2200fb13a11b751918dab07e8a2208ae497219c5c3a467871fc3b09",
+    "namedFiles": 67,
+    "uniqueBlobs": 64,
+    "parts": 1,
+    "namedFileArchiveClosed": true,
+    "portableClosedArchive": false
+  },
+  "externalDependencies": [
+    {
+      "kind": "previous-V13-large-evidence-and-source-history",
+      "dependencyCommit": "2f4b683fd56a4a0c81c90e94503f851beae0b321",
+      "canonical": {
+        "path": "docs/validation/m5-impact-plunder-preparation-20261020-impact13-city-entry-20261021.json",
+        "bytes": 15461,
+        "sha256": "b8a3e5c7e7814cd34c3826dfec127ff87a54476f598bc320214c7080478d3de3"
+      },
+      "result414MBReembedded": false,
+      "explanation": "The prior city-entry archive owns the complete V13 failure/result and saved input provenance. This batch links that existing committed archive; it does not duplicate its414MB result."
+    },
+    {
+      "kind": "complete-product-native-runtime-tree-and-transitive-build-imports",
+      "closed": false,
+      "explanation": "Current V14 source-verification and core source/binder/formal defenses are embedded. The complete production/native/resource tree and every older transitive build dependency remain outside; portableClosedArchive=false."
+    },
+    {
+      "kind": "private-browser-profile",
+      "included": false,
+      "explanation": "Retained in place; excluded from all named archive inputs."
+    }
+  ]
+}
