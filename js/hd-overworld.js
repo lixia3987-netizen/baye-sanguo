@@ -1865,6 +1865,10 @@
         }
     }
 
+    function validDateInteger(value, min, max) {
+        return typeof value === 'number' && isFinite(value) && Math.floor(value) === value && value >= min && value <= max;
+    }
+
     function readNestedNumber(obj, names) {
         if (!obj) {
             return null;
@@ -1908,24 +1912,38 @@
         }
         if ((!year || !month) && global.BayeHdOverworldProbe && typeof BayeHdOverworldProbe.guessDate === 'function') {
             var guess = BayeHdOverworldProbe.guessDate(data);
-            if (!year && guess.year && guess.year.value >= 184 && guess.year.value <= 220) {
+            if (!year && guess.year && validDateInteger(guess.year.value, 184, 220)) {
                 year = guess.year;
             }
             if (!month && guess.month) {
                 month = guess.month;
             }
         }
-        if (year && year.value >= 184 && year.value <= 220) {
+        if (year && validDateInteger(year.value, 184, 220)) {
             info.year = year.value;
             info.yearPath = year.name || year.path;
             info.source = 'probe';
         }
-        if (month && month.value >= 1 && month.value <= 12) {
+        if (month && validDateInteger(month.value, 1, 12)) {
             info.month = month.value;
             info.monthPath = month.name || month.path;
             if (info.source === 'none') {
                 info.source = 'probe';
             }
+        }
+        // Canonical original-game fields are U16 year and month1..12. The
+        // narrow184..220 range above remains only an alias/probe heuristic.
+        var nativeYear = readNumber(data, 'g_YearDate');
+        var nativeMonth = readNumber(data, 'g_MonthDate');
+        if (validDateInteger(nativeYear, 1, 65535)) {
+            info.year = nativeYear;
+            info.yearPath = 'g_YearDate';
+            info.source = 'native';
+        }
+        if (validDateInteger(nativeMonth, 1, 12)) {
+            info.month = nativeMonth;
+            info.monthPath = 'g_MonthDate';
+            if (info.source === 'none') { info.source = 'native'; }
         }
         state.dateInfo = info;
         return info;
