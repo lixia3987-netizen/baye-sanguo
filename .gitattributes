@@ -104,3 +104,5 @@
 /scripts/hd-impact-move-path.mjs -text
 /scripts/test-hd-impact-move-path.mjs -text
 /scripts/test-hd-overworld-native-date.mjs -text
+/scripts/hd-impact-city-entry.mjs -text
+/scripts/test-hd-impact-city-entry.mjs -text
