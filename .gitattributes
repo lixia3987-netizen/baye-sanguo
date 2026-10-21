@@ -119,3 +119,5 @@
 /scripts/fixtures/hd-impact-v15-west-river-move.json -text
 /scripts/hd-impact-river-route.mjs text eol=lf
 /scripts/test-hd-impact-river-route.mjs text eol=lf
+/scripts/hd-impact-final-aim.mjs text eol=lf
+/scripts/test-hd-impact-final-aim.mjs text eol=lf

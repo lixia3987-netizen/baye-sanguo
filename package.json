@@ -121,7 +121,8 @@
     "test:mobile-defender-combat-runtime": "node scripts/test-hd-mobile-city-runtime.mjs --defender-combat",
     "test:impact-diplomacy": "node --test scripts/test-hd-impact-diplomacy-runtime-oracle.mjs",
     "test:impact-plunder": "node --test scripts/test-hd-impact-plunder-runtime-oracle.mjs",
-    "test:impact-canvass": "node --test scripts/test-hd-impact-canvass-runtime-oracle.mjs"
+    "test:impact-canvass": "node --test scripts/test-hd-impact-canvass-runtime-oracle.mjs",
+    "test:impact-final-aim": "node --test scripts/test-hd-impact-final-aim.mjs"
   },
   "devDependencies": {
     "serve": "14.2.5"
