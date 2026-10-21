@@ -121,3 +121,9 @@
 /scripts/test-hd-impact-river-route.mjs text eol=lf
 /scripts/hd-impact-final-aim.mjs text eol=lf
 /scripts/test-hd-impact-final-aim.mjs text eol=lf
+/scripts/hd-impact-army-runtime-oracle.mjs text eol=lf
+/scripts/test-hd-impact-army-runtime-oracle.mjs text eol=lf
+/scripts/fixtures/hd-impact-v17-june-army-world.json -text
+/scripts/fixtures/hd-impact-v17-june-army-world-provenance.json text eol=lf
+/scripts/hd-impact-route112-final-aim.mjs text eol=lf
+/scripts/test-hd-impact-route112-final-aim.mjs text eol=lf

@@ -122,7 +122,9 @@
     "test:impact-diplomacy": "node --test scripts/test-hd-impact-diplomacy-runtime-oracle.mjs",
     "test:impact-plunder": "node --test scripts/test-hd-impact-plunder-runtime-oracle.mjs",
     "test:impact-canvass": "node --test scripts/test-hd-impact-canvass-runtime-oracle.mjs",
-    "test:impact-final-aim": "node --test scripts/test-hd-impact-final-aim.mjs"
+    "test:impact-final-aim": "node --test scripts/test-hd-impact-final-aim.mjs",
+    "test:impact-army": "node --test scripts/test-hd-impact-army-runtime-oracle.mjs",
+    "test:impact-route112": "node --test scripts/test-hd-impact-route112-final-aim.mjs"
   },
   "devDependencies": {
     "serve": "14.2.5"
