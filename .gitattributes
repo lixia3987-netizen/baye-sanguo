@@ -114,3 +114,5 @@
 /scripts/test-hd-impact-defender-legacy-residents.mjs text eol=lf
 /scripts/fixtures/hd-impact-v13-dispatched-world.json -text
 /scripts/fixtures/hd-impact-v13-dispatched-world-provenance.json -text
+/scripts/hd-impact-river-approach.mjs text eol=lf
+/scripts/test-hd-impact-river-approach.mjs text eol=lf
