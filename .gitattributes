@@ -163,3 +163,13 @@
 /scripts/hd-impact-v26-raw-buy11-oracle.mjs -text
 /scripts/test-hd-impact-v26-raw-buy11-oracle.mjs -text
 /scripts/fixtures/hd-impact-v26-february-buy11-world.json -text
+
+# Preserve scoped V27 Canvass validators, May fixture and controlled provenance bytes.
+/scripts/hd-impact-v27-acquisition-plan.mjs -text
+/scripts/hd-impact-v27-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v27-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v27-acquisition-plan.mjs -text
+/scripts/test-hd-impact-v27-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v27-canvass16-natural-return.mjs -text
+/scripts/fixtures/hd-impact-v27-may-canvass-world.json -text
+/scripts/fixtures/hd-impact-v27-canvass-provenance.json -text
