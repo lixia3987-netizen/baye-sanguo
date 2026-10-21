@@ -179,3 +179,15 @@
 /scripts/test-hd-impact-v28-acquisition-plan.mjs -text
 /scripts/fixtures/hd-impact-v28-august-canvass-world.json -text
 /scripts/fixtures/hd-impact-v28-canvass-provenance.json -text
+
+# Preserve scoped V29 Treat, recovery, acquisition policy and historical controlled provenance bytes.
+/scripts/hd-impact-v29-treat12-world-oracle.mjs -text
+/scripts/hd-impact-v29-november-recovery-plan.mjs -text
+/scripts/hd-impact-v29-acquisition-policy.mjs -text
+/scripts/test-hd-impact-v29-treat12-world-oracle.mjs -text
+/scripts/test-hd-impact-v29-november-recovery-plan.mjs -text
+/scripts/test-hd-impact-v29-acquisition-policy.mjs -text
+/scripts/fixtures/hd-impact-v29-treat12-august-world.json -text
+/scripts/fixtures/hd-impact-v29-november-recovery-world.json -text
+/scripts/fixtures/impact13-v29-treat12-world-oracle-source-provenance.json -text
+/scripts/fixtures/impact13-v29-november-recovery-policy-source-provenance.json -text

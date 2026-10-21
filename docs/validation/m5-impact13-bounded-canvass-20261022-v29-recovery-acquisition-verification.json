@@ -1,0 +1,211 @@
+{
+  "schemaVersion": 1,
+  "kind": "ROOT closed V29 recovery acquisition publication verification",
+  "accepted": true,
+  "actual": {
+    "sessionId": 84120,
+    "chunkId": "1cc90b",
+    "exitCode": 0
+  },
+  "independent": {
+    "sessionId": 21976,
+    "chunkId": "aa028a",
+    "exitCode": 0
+  },
+  "formalTests": {
+    "sessionId": null,
+    "chunkId": "b6ef53",
+    "exitCode": 0,
+    "cases": 132,
+    "caseGroups": [
+      77,
+      39,
+      16
+    ],
+    "sameCasesRerun": true,
+    "additionalDistinctCases": 0,
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-v29-formal-validation-tests-root-v1.log",
+      "bytes": 10158,
+      "sha256": "064967e40fe0a2dbdcc2b79ec8db5c18f2ea880a2aa906ab71beb9ec21c94661"
+    }
+  },
+  "existingContracts": {
+    "sessionId": 44848,
+    "chunkId": "a3d79b",
+    "exitCode": 0,
+    "cases": 522,
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-v29-existing-acquisition-contracts-root-v1.log",
+      "bytes": 40179,
+      "sha256": "71acba31b1b278ac30d08b15a0b1d2cbe8c7026a6047dce596ffd3e3727367bb"
+    },
+    "historicalFullSuiteRerun": false,
+    "globalDistinctTotalClaimed": false
+  },
+  "archiveBuild": {
+    "sessionId": 86984,
+    "chunkId": "796135",
+    "exitCode": 0,
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-recovery29-publication-build-root-v1.log",
+      "bytes": 2455,
+      "sha256": "2b691384f3fec20e07574461eeab1f7c726690f9f199cd92e3394d4ee1ff00c0"
+    }
+  },
+  "archiveReadback": {
+    "sessionId": 97130,
+    "chunkId": "f6a678",
+    "exitCode": 0,
+    "log": {
+      "path": "build/impact-skill-20261014/impact13-recovery29-publication-independent-root-v1.log",
+      "bytes": 916,
+      "sha256": "22867544093e9dc38fffced9e4bbb890e17a1854567ccd3438a5ee1399f10b82"
+    },
+    "report": {
+      "ok": true,
+      "rawEvidenceValidation": {
+        "wholeRowFootersAccepted": true,
+        "rawWorldDictionariesAccepted": true,
+        "everyPublicPackedPairAccepted": true,
+        "rowStreams": 57,
+        "rowCount": 6954,
+        "rawDictionaries": 50,
+        "decodedPublicPairs": 24,
+        "wholeArrayMaterialized": false,
+        "businessOrActualCreditGranted": false
+      },
+      "canonical": {
+        "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition.json",
+        "bytes": 1167279,
+        "sha256": "f123866ea9073db5126e8232df6c04e3c023efb127b0c74780b77e4632d10053"
+      },
+      "namedFiles": 455,
+      "uniqueBlobs": 371,
+      "parts": 5,
+      "allRawRoundtripsExact": true,
+      "allNamedBlobsClosed": true,
+      "noUnreferencedBlobs": true,
+      "rawResultsEmbeddedOnce": [
+        {
+          "id": "v29",
+          "path": "build/impact-skill-20261014/impact13-battle-actual-v29/result.json",
+          "bytes": 90838,
+          "sha256": "834e4db5b1fb9568f3d054f2dbdd081a7a26128e7730887f4df06ff3f1112530"
+        }
+      ],
+      "latestPairsPackedAccepted": true,
+      "currentNamedDiskReopened": true,
+      "portableClosedArchive": false
+    }
+  },
+  "canonical": {
+    "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition.json",
+    "bytes": 1167279,
+    "sha256": "f123866ea9073db5126e8232df6c04e3c023efb127b0c74780b77e4632d10053"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition.md",
+    "bytes": 5994,
+    "sha256": "5268b0b7d9d61710858fad16aff66d1edd8731aa6e250d287cf7661f3322afb3"
+  },
+  "archiveIndex": {
+    "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition-archive.json",
+    "bytes": 179716,
+    "sha256": "c53d2e2446d2d4ea21368e513b3a2a0f429fdcab2df25e37682505b600ab0dc2"
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition-archive-part001.json",
+      "bytes": 24134672,
+      "sha256": "b145fd6c4106e1d467f65dbad91342bc5c5654aea168e992edeb2140bc7c1584"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition-archive-part002.json",
+      "bytes": 22841356,
+      "sha256": "1b502c99b075d11f61943cf2d0e69362a4fd52d908493397b56a8d3528f3937c"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition-archive-part003.json",
+      "bytes": 28344243,
+      "sha256": "20f6de533ab219862283dace93c92371b53e861fe3e1331e4e35bfe4ea42586d"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition-archive-part004.json",
+      "bytes": 29282048,
+      "sha256": "b7104624bb87084ced6fed7ed6447fffbf8674ae3843f0927493ad54dc077e53"
+    },
+    {
+      "path": "docs/validation/m5-impact13-bounded-canvass-20261022-v29-recovery-acquisition-archive-part005.json",
+      "bytes": 5432780,
+      "sha256": "3e992ac8292863cc235817068842b76d74aaa697b7bb059430c7d06c4c58b7cb"
+    }
+  ],
+  "independentReceipt": {
+    "path": "build/impact-skill-20261014/impact13-battle-v29-terminal-receipt-v1.json",
+    "bytes": 326981,
+    "sha256": "7ff781daa094699dd24322e0f4e796b65d13638b27fe9b402f029680eccc1767"
+  },
+  "latestWorld": {
+    "path": "build/impact-skill-20261014/impact13-battle-v29-latest-genuine-saved-world-v1.json",
+    "bytes": 77919,
+    "sha256": "b620e8fc2b28d267639d0c5d68721ff1e1e6aa14b389745f0f2864ca00b4b9a1"
+  },
+  "registration": {
+    "path": "build/impact-skill-20261014/impact13-v29-treat-recovery-formal-registration-proof-v1.json",
+    "bytes": 30000,
+    "sha256": "8a0ac1a3ab32b436c86f52fa3e369bdbee65f27a4db877b7ef3cce7eabeb1259"
+  },
+  "registrationConfigurationSnapshots": {
+    "packageBefore": {
+      "path": "build/impact-skill-20261014/impact13-v29-treat-recovery-registration-package-before-v1.json",
+      "bytes": 16172,
+      "sha256": "3d5e0682ce91df8ea96cd9ed588f69136a344902219865c17a58929edb819274"
+    },
+    "attributesBefore": {
+      "path": "build/impact-skill-20261014/impact13-v29-treat-recovery-registration-attributes-before-v1.txt",
+      "bytes": 9462,
+      "sha256": "768578e166201223fa589ec02082524a4d9d52b7cc1e7864447708babf6174c6"
+    },
+    "packageAfter": {
+      "path": "build/impact-skill-20261014/impact13-v29-treat-recovery-registration-package-after-v1.json",
+      "bytes": 16484,
+      "sha256": "2446b8b15baed8a40e4d7f8ee5f3f27abbb21183f36353a66b0fc4c8e25efc08"
+    },
+    "attributesAfter": {
+      "path": "build/impact-skill-20261014/impact13-v29-treat-recovery-registration-attributes-after-v1.txt",
+      "bytes": 10201,
+      "sha256": "96849cf4e6a2924b619a25211541cd77b4f50c4eec20d1e3dd2826a3104a28b4"
+    }
+  },
+  "reportClaimsReopened": {
+    "latestWorldPinExact": true,
+    "storedFields": 54,
+    "actualDefenders": 0,
+    "cleanupIdentities": 11,
+    "cleanupSamples": 3,
+    "user8080Unchanged": true,
+    "user8080Before": {
+      "schemaVersion": 1,
+      "recordedAt": "2026-10-21T22:57:16.3283191Z",
+      "listeners": [],
+      "identities": [],
+      "readOnly": true,
+      "user8080Touched": false,
+      "scope": "Current port8080 listener and exact process birth/executable baseline only. No service, browser or game started or changed."
+    },
+    "formalFilesAndAfterConfigurationExact": true,
+    "tenUniquelyVerifiedNaturalFailures": true,
+    "sourceFreezeChangesScope": "No direct writes or repairs to engine state, world, people or RNG. Money, stamina, loyalty, queue, resource and calendar changes are the genuine outcomes of original public game commands."
+  },
+  "sourceRunAccepted": true,
+  "actualTreatExecutionAccepted": true,
+  "actualAcquisitionAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "allCurrentSourcesReverifiedAfterRegistration": false,
+  "scope": "All fifteen independent stages passed before formal registration. Same132 formal rerun and complete archive readback are CLOSED. Registration BEFORE/AFTER snapshots bridge package/attributes; no current all-source rerun after registration, new full-suite acceptance, cast credit or HD completion is inferred. Push/ref equality is recorded separately after the commit exists."
+}
