@@ -173,3 +173,9 @@
 /scripts/test-hd-impact-v27-canvass16-natural-return.mjs -text
 /scripts/fixtures/hd-impact-v27-may-canvass-world.json -text
 /scripts/fixtures/hd-impact-v27-canvass-provenance.json -text
+
+# Preserve scoped V28 source-residue planner, August fixture and controlled provenance bytes.
+/scripts/hd-impact-v28-acquisition-plan.mjs -text
+/scripts/test-hd-impact-v28-acquisition-plan.mjs -text
+/scripts/fixtures/hd-impact-v28-august-canvass-world.json -text
+/scripts/fixtures/hd-impact-v28-canvass-provenance.json -text
