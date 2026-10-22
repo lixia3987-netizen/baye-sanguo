@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "kind": "V31 Canvass16 return necessary-source-gate correction source provenance",
+  "author": "v31_return_audit",
+  "sourceOnlyAccepted": true,
+  "repositoryModulesExecuted": false,
+  "testsExecuted": false,
+  "gameExecuted": false,
+  "rootExecutionRequired": true,
+  "parentModule": {
+    "path": "build/impact-skill-20261014/hd-impact-v31-canvass16-natural-return-v1.mjs",
+    "bytes": 13976,
+    "sha256": "c399882f3c584c7077722aa8362c64bd1e2bea2b647c74fea852b5f8e717c471"
+  },
+  "module": {
+    "path": "build/impact-skill-20261014/hd-impact-v31-canvass16-natural-return-v2.mjs",
+    "bytes": 14276,
+    "sha256": "2b7bbe508ddcb11d09938953470bde9898372bc5913010701215d67d2744f440"
+  },
+  "parentTest": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v31-canvass16-natural-return-v2.mjs",
+    "bytes": 12133,
+    "sha256": "8cd960415fe2bf069048d648b4cf6456f45eb22ae4fbeeb684d92d643bcfca55"
+  },
+  "test": {
+    "path": "build/impact-skill-20261014/test-hd-impact-v31-canvass16-natural-return-v3.mjs",
+    "bytes": 15220,
+    "sha256": "117d6f1f00988aec255edb240e4030781c28d56cc6417282135902c107fe947f"
+  },
+  "nativeSources": [
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1"
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d"
+    }
+  ],
+  "nativeSourceRanges": [
+    "citycmd.c:673-745 CanvassDrv",
+    "attribute.h:33-37 character IDs",
+    "attribute.h:51-55 character thresholds"
+  ],
+  "exactModuleLineEdits": [
+    {
+      "oneBasedLine": 1,
+      "from": "/** Pure V31 scoped original Canvass16 adjacent-return model, exact business copy of V27. No I/O or native/game calls.",
+      "to": "/** Pure V31 original Canvass16 adjacent-return model V2: source-impossible success branches rejected. No I/O or native/game calls."
+    },
+    {
+      "oneBasedLine": 15,
+      "from": "const safety=()=>({actualInputAccepted:false,sourceFreezeAccepted:false,wholeNativeAbiRestorationAccepted:false,nonserializedQueueTailRestorationAccepted:false,acquisitionAccepted:false,actualPreparationAccepted:false,actualCastAccepted:false,actualMovieAccepted:false,actualPixelAccepted:false,classicNativePixelAccepted:false,hd720VisualAccepted:false,hd1080VisualAccepted:false,hdAccepted:false,globalHdComplete:false});",
+      "to": "const safety=()=>({actualInputAccepted:false,sourceFreezeAccepted:false,wholeNativeAbiRestorationAccepted:false,nonserializedQueueTailRestorationAccepted:false,acquisitionAccepted:false,actualAcquisitionAccepted:false,actualPreparationAccepted:false,actualCastAccepted:false,actualMovieAccepted:false,actualPixelAccepted:false,classicNativePixelAccepted:false,hd720VisualAccepted:false,hd1080VisualAccepted:false,hdAccepted:false,globalHdComplete:false});"
+    },
+    {
+      "oneBasedLine": 31,
+      "from": " const failure=add(before,city,actor);failure.orders[orderIndex].OrderId=255;const failureMatches=JSON.stringify(after)===JSON.stringify(failure);const targetCity=rawPersonCity(before,target);let successMatches=false;if(targetCity!==255&&after.people[target].Devotion>=40&&after.people[target].Devotion<=79){let success=del(before,targetCity,target);success=add(success,city,target);success.people[target].Belong=before.people[actor].Belong;success.people[target].Devotion=after.people[target].Devotion;success=add(success,city,actor);success.orders[orderIndex].OrderId=255;successMatches=JSON.stringify(after)===JSON.stringify(success);}",
+      "to": " const failure=add(before,city,actor);failure.orders[orderIndex].OrderId=255;const failureMatches=JSON.stringify(after)===JSON.stringify(failure);const targetCity=rawPersonCity(before,target),staticRandomGates=describeV23Canvass16NativeRandomGates({actor:before.people[actor],target:before.people[target]}),sourceSuccessBranchPossible=staticRandomGates.sourceAllowedValueCountsOutOf100.every(n=>n>0);let successMatches=false;if(sourceSuccessBranchPossible&&targetCity!==255&&after.people[target].Devotion>=40&&after.people[target].Devotion<=79){let success=del(before,targetCity,target);success=add(success,city,target);success.people[target].Belong=before.people[actor].Belong;success.people[target].Devotion=after.people[target].Devotion;success=add(success,city,actor);success.orders[orderIndex].OrderId=255;successMatches=JSON.stringify(after)===JSON.stringify(success);}"
+    },
+    {
+      "oneBasedLine": 33,
+      "from": " return{ok:true,accepted:true,completeAdjacentNativeReturnAccepted:true,allCallbacksReadonly:true,callbackCount:observer.samples.length,orderSlot:orderIndex,order:clone(order),cityIndex:city,personId:actor,targetId:target,callbackOrdinal:current.ordinal,nextCallbackOrdinal:next.ordinal,nativeOutcome,nativeBranchUniquelyDetermined:nativeOutcome!=='indeterminate',completeFailureTransitionMatches:failureMatches,completeSuccessTransitionMatches:successMatches,nativeSuccessBranchObserved:nativeOutcome==='success',targetAlreadyOwnedBeforeDriver,targetAcquiredAtNativeReturn,actorReturnedAtNativeReturn:true,targetFirstRawCityBeforeDriver:targetCity,targetDevotionAtReturn:after.people[target].Devotion,targetBelongBeforeDriver:before.people[target].Belong,targetBelongAtReturn:after.people[target].Belong,actorBelongAtReturn:after.people[actor].Belong,rawOriginIdsAtReturn:after.queue.slice(after.cities[city].PersonQueue,after.cities[city].PersonQueue+after.cities[city].Persons),staticRandomGates:describeV23Canvass16NativeRandomGates({actor:before.people[actor],target:before.people[target]}),nativeRandomValuesReconstructed:false,unrelatedAiMakeWorldGapPredicted:false,postMonthAffiliationUsedToInferSuccess:false,uninitializedOrderFieldsChangedByDriver:false,queue200to1999Unchanged:true,...safety(),scope:'One complete immediate original CanvassDrv then DelOrder transition at an explicit slot in a multi-order batch. Every callback remains readonly/-1. Repeated own target is legal under original C, but does not acquire a person again. If both full branches are observationally equal no success is inferred. No month/SAVE/RNG/classic/cast credit.'};",
+      "to": " return{ok:true,accepted:true,completeAdjacentNativeReturnAccepted:true,allCallbacksReadonly:true,callbackCount:observer.samples.length,orderSlot:orderIndex,order:clone(order),cityIndex:city,personId:actor,targetId:target,callbackOrdinal:current.ordinal,nextCallbackOrdinal:next.ordinal,nativeOutcome,nativeBranchUniquelyDetermined:nativeOutcome!=='indeterminate',completeFailureTransitionMatches:failureMatches,completeSuccessTransitionMatches:successMatches,nativeSuccessBranchObserved:nativeOutcome==='success',targetAlreadyOwnedBeforeDriver,targetAcquiredAtNativeReturn,actorReturnedAtNativeReturn:true,targetFirstRawCityBeforeDriver:targetCity,targetDevotionAtReturn:after.people[target].Devotion,targetBelongBeforeDriver:before.people[target].Belong,targetBelongAtReturn:after.people[target].Belong,actorBelongAtReturn:after.people[actor].Belong,rawOriginIdsAtReturn:after.queue.slice(after.cities[city].PersonQueue,after.cities[city].PersonQueue+after.cities[city].Persons),staticRandomGates,sourceSuccessBranchPossible,sourceNecessaryGatesCheckedAgainstCurrentCallback:true,nativeRandomValuesReconstructed:false,unrelatedAiMakeWorldGapPredicted:false,postMonthAffiliationUsedToInferSuccess:false,uninitializedOrderFieldsChangedByDriver:false,queue200to1999Unchanged:true,...safety(),scope:'One complete immediate original CanvassDrv then DelOrder transition at an explicit slot in a multi-order batch. Every callback remains readonly/-1. Repeated own target is legal under original C, but does not acquire a person again. If both full branches are observationally equal no success is inferred. No month/SAVE/RNG/classic/cast credit.'};"
+    },
+    {
+      "oneBasedLine": 36,
+      "from": "// V27 names are aliases only; the original full readonly/adjacent-world algorithm above is unchanged.",
+      "to": "// V27 names remain aliases; V2 preserves the full readonly/adjacent-world algorithm and adds necessary current-callback source gates."
+    }
+  ],
+  "allOtherModuleLinesUnchanged": true,
+  "semanticChanges": [
+    "Explicit actualAcquisitionAccepted:false joins existing safety flags; source checker cannot grant actual acquisition.",
+    "Compute source necessary residue counts from current callback actor/target before driver. Success shape may match only if each rand%100 gate has at least one admissible residue.",
+    "Devotion>=100 forbids success shape but permits exact failure; no actual random value, probability, or continuity is reconstructed.",
+    "Keep original unsigned U8 IQ difference and character thresholds [15,40,30,20,5].",
+    "Full adjacent callback A=B, context, async32, metadata, native hook absence, slot, opaque order and all unknown-world fields remain exact."
+  ],
+  "testCorrections": [
+    "Previous already-owned default fixture actually put target in same origin, making both branches observationally equal. Revised positive already-owned relocation fixture uses origin7/actor28 and existing targetcity6, requires success but acquisition false.",
+    "Same-origin identical success/failure fixture now explicitly requires indeterminate, no unique branch, no observed success and no acquisition."
+  ],
+  "controlledCases": {
+    "addedNecessarySourceCases": 7,
+    "preserved": 33,
+    "expected": 40,
+    "names": [
+      "\"Adjacent original failure advanced target 6/36→114\"",
+      "\"Adjacent original success advanced target 6/36→114\"",
+      "\"Adjacent original failure advanced target 6/5→125\"",
+      "\"Adjacent original success advanced target 6/5→125\"",
+      "\"Adjacent original failure advanced target 6/51→26\"",
+      "\"Adjacent original success advanced target 6/51→26\"",
+      "\"Adjacent original failure advanced target 7/28→168\"",
+      "\"Adjacent original success advanced target 7/28→168\"",
+      "\"Adjacent original failure advanced target 13/43→131\"",
+      "\"Adjacent original success advanced target 13/43→131\"",
+      "\"Already acquired nonnavy target can be revisited by later queued original order\"",
+      "\"Same-origin already acquired target may be observationally indeterminate\"",
+      "\"Missing later callback never substitutes final target ownership\"",
+      "\"Target absent at actual driver is failed not an RNG prediction\"",
+      "\"Complete callback fence rejects returnMinusOne\"",
+      "\"Complete callback fence rejects readonlyAequalsB\"",
+      "\"Complete callback fence rejects context\"",
+      "\"Complete callback fence rejects async32\"",
+      "\"Complete callback fence rejects asyncAfter\"",
+      "\"Complete callback fence rejects identity\"",
+      "\"Complete callback fence rejects hook\"",
+      "\"Complete callback fence rejects uniqueSlot\"",
+      "\"Whole adjacent world rejects opaqueOrder\"",
+      "\"Whole adjacent world rejects unknownWorld\"",
+      "\"Whole adjacent world rejects targetArmy\"",
+      "\"Whole adjacent world rejects actorArmy\"",
+      "\"Whole adjacent world rejects unrelatedFood\"",
+      "\"Whole adjacent world rejects queueTail200\"",
+      "\"Whole adjacent world rejects goodsTail\"",
+      "\"Whole adjacent world rejects date\"",
+      "\"Supply-first later Canvass slot remains explicit 1\"",
+      "\"Supply-first later Canvass slot remains explicit 9\"",
+      "\"Supply-first later Canvass slot remains explicit 169\"",
+      "'Devotion100 current callback cannot admit a complete success-shaped transition'",
+      "'Devotion255 current callback cannot admit a complete success-shaped transition'",
+      "'Devotion99 is necessary-gate possible without predicting RNG success'",
+      "'Devotion100 source-impossible success still permits complete actual failure shape'",
+      "'Queued lower Devotion cannot override current callback Devotion100'",
+      "'Current lower Devotion can admit branch despite queued Devotion100'",
+      "'U8 IQ subtraction retains original wrap and cannot be replaced by signed difference'"
+    ],
+    "executionByAuthor": false
+  },
+  "freshActualAcceptance": false,
+  "actualAcquisitionAccepted": false,
+  "actualPreparationAccepted": false,
+  "actualCastAccepted": false,
+  "classicNativePixelAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

@@ -200,3 +200,17 @@
 /scripts/fixtures/hd-impact-v30-december-search-world.json -text
 /scripts/fixtures/impact13-v30-search3-world-oracle-source-provenance.json -text
 /scripts/fixtures/impact13-v30-search3-natural-return-source-provenance.json -text
+
+# Preserve scoped V31 original Buy/Canvass/Give validation and controlled source provenance bytes.
+/scripts/hd-impact-v31-acquisition-policy.mjs -text
+/scripts/hd-impact-v31-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v31-canvass16-natural-return.mjs -text
+/scripts/hd-impact-v31-water-token-give-oracle.mjs -text
+/scripts/test-hd-impact-v31-acquisition-policy.mjs -text
+/scripts/test-hd-impact-v31-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v31-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v31-water-token-give-oracle.mjs -text
+/scripts/fixtures/hd-impact-v31-january-acquisition-world.json -text
+/scripts/fixtures/impact13-v31-january-buy-advanced-canvass-source-provenance.json -text
+/scripts/fixtures/impact13-v31-canvass-return-necessary-gates-source-provenance.json -text
+/scripts/fixtures/impact13-v31-water-token-give-source-provenance.json -text
