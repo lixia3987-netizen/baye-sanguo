@@ -390,3 +390,26 @@
 /docs/validation/m5-wood67-target-walk-20261024-v40*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-target-walk-20261024-v40*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-target-walk-20261024-v40*.gz -text
+
+# Current original WOOD route/action and Buy continuation evidence, byte exact.
+/scripts/hd-wood-native-route.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-native-route.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-native-action.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-native-action.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-buy-continuation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-buy-continuation.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-buy-runtime.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-buy-runtime.mjs -text whitespace=cr-at-eol
+/scripts/fixtures/hd-wood-buy-continuation.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-september-source-20261024-v41*.gz -text
+/docs/validation/m5-wood67-september-source-20261024-v41*.sav -text
+/docs/validation/m5-wood67-september-source-20261024-v41*.png -text
+/docs/validation/m5-wood67-classic-20261024-v41*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v41*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v41*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v41*.gz -text
+/docs/validation/m5-wood67-classic-20261024-v41*.sav -text
+/docs/validation/m5-wood67-classic-20261024-v41*.png -text
