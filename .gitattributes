@@ -292,6 +292,7 @@
 /docs/validation/m5-impact13-classic-north-20261023-v35.md -text whitespace=cr-at-eol
 
 # Keep WOOD source contracts and executed V36 preparation provenance byte-exact.
+/scripts/hd-wood-runtime-oracle.mjs -text whitespace=cr-at-eol
 /scripts/hd-wood-evidence-contract.mjs -text whitespace=cr-at-eol
 /scripts/test-hd-wood-runtime-oracle.mjs -text whitespace=cr-at-eol
 /scripts/hd-impact-v36-*.mjs -text whitespace=cr-at-eol
@@ -308,3 +309,10 @@
 /docs/validation/m5-wood67-v36-stopped-20261023*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-v36-stopped-20261023*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-v36-stopped-20261023*.sav -text
+
+# Keep V37 real WOOD HD reads, repaired-oracle evidence and June saves byte-exact.
+/docs/validation/m5-wood67-hd-20261024-v37*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd-20261024-v37*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd-20261024-v37*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd-20261024-v37*.sav -text
+/docs/validation/m5-wood67-hd-20261024-v37*.png -text

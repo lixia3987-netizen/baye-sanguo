@@ -137,7 +137,7 @@ export const woodObserverSource = '(' + function () {
         if (!keyInstalled && typeof window.sendKey === 'function') {
             keyInstalled = true; const original = window.sendKey;
             window.sendKey = function (code) {
-                const s = snap(); keys.push({ code, at: performance.now(), phase: window.__spePhase, generation: s && s.spe.generation, eventId: s && s.spe.eventId, kind: s && s.spe.kind, speId: s && s.spe.id, speActive: s && s.spe.active, resultActive: s && s.result.active, resultSession: s && s.result.session, resultPhase: s && s.result.phase, resultSpeId: s && s.result.speId });
+                const s = snap(); keys.push({ code, at: performance.now(), phase: window.__spePhase, generation: s && s.spe.generation, eventId: s && s.spe.eventId, kind: s && s.spe.kind, speId: s && s.spe.id, speActive: s && s.spe.active, resultActive: s && s.result.active, resultSession: s && s.result.session, resultPhase: s && s.result.phase, resultSpeId: s && s.result.speId, inputKind: s && s.fight.inputKind, actorIndex: s && s.fight.actorIndex, focusX: s && s.fight.focusX, focusY: s && s.fight.focusY, fight: s && copy(s.fight), report: s ? copy(baye.hd.report()) : null });
                 return original.apply(this, arguments);
             };
         }
@@ -337,7 +337,7 @@ export function verifyWoodCaptures(report, { library, font, assets, artifactDir,
                 // Check representative interior source pixels against the independently
                 // decoded opaque original. Text/NUM footprints are excluded because
                 // native text is intentionally replaced by HD typography.
-                const live = bits(expected.visible), source = live.length ? art[m.units[live.at(-1)].picIndex] : null;
+                const live = bits(Array.from(expected.visible)), source = live.length ? art[m.units[live.at(-1)].picIndex] : null;
                 let artSamples = 0;
                 if (source) for (const [fx, fy] of [[.2, .25], [.5, .5], [.8, .75]]) {
                     const logicalWidth = source === art[1] ? 66 : 64, x = 48 + Math.floor(logicalWidth * fx), y = 16 + Math.floor(64 * fy);
@@ -370,8 +370,8 @@ function verifyDraws(c, expected, entry, label, post) {
     const consume = (type, args, text, src) => { const o = actual[i++]; assert.equal(o && o.type, type); assert.deepEqual(o.args, args); if (text != null) assert.equal(o.text, text); if (src != null) assert.equal(o.src, src); return o; };
     const expectedRects = [[48 * scale, 16 * scale, expected.width * scale, 64 * scale]];
     const cleared = c.drawLog.filter(o => o.type === 'clearRect');
-    assert.deepEqual(cleared.map(o => o.args), [[0, 0, W * scale, H * scale], [48 * scale, 16 * scale, expected.width * scale, 64 * scale], ...bits(expected.clears).map(f => [48 * scale, 16 * scale, (f % 2 ? 66 : 64) * scale, 64 * scale])], 'Actual initialized clip clear then original accumulated clear footprints');
-    for (const frame of bits(expected.visible)) { const p = entry.pictures[frame % 2], o = consume('drawImage', [48 * scale, 16 * scale, p.logicalWidth * scale, 64 * scale], null, p.src); assert.deepEqual([o.naturalWidth, o.naturalHeight], [p.width, p.height]); }
+    assert.deepEqual(cleared.map(o => o.args), [[0, 0, W * scale, H * scale], [48 * scale, 16 * scale, expected.width * scale, 64 * scale], ...bits(Array.from(expected.clears)).map(f => [48 * scale, 16 * scale, (f % 2 ? 66 : 64) * scale, 64 * scale])], 'Actual initialized clip clear then original accumulated clear footprints');
+    for (const frame of bits(Array.from(expected.visible))) { const p = entry.pictures[frame % 2], o = consume('drawImage', [48 * scale, 16 * scale, p.logicalWidth * scale, 64 * scale], null, p.src); assert.deepEqual([o.naturalWidth, o.naturalHeight], [p.width, p.height]); }
     if (post) {
         if (label) { const box = [55 * scale, 18 * scale, label.bytes.length * 6 * scale, 12 * scale]; consume('fillRect', box); consume('fillText', box.slice(0, 3), c.result.display.label.text); expectedRects.push(box); }
         for (const p of c.result.display.digits) for (let draw = 0; draw < p.drawCount; draw++) { const box = [p.x * scale, (p.firstY - draw) * scale, 12 * scale, 16 * scale]; consume('fillRect', box); const o = consume('fillText', [box[0], box[1], 6 * scale], String(p.digit)); assert.equal(o.font, 'bold ' + 16 * scale + 'px Georgia, serif'); expectedRects.push(box); }
