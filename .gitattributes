@@ -413,3 +413,27 @@
 /docs/validation/m5-wood67-classic-20261024-v41*.gz -text
 /docs/validation/m5-wood67-classic-20261024-v41*.sav -text
 /docs/validation/m5-wood67-classic-20261024-v41*.png -text
+
+# Original paid and queued Buy11 prefix, retained after the V41 UI-contract stop.
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.gz -text
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.sav -text
+/docs/validation/m5-wood67-buy-paid-20261024-v41*.png -text
+
+# Corrected direct Buy MAP return and fresh paid-resume evidence.
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.gz -text
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.sav -text
+/docs/validation/m5-wood67-buy-map-resume-source-20261024-v42*.png -text
+
+# Corrected direct Buy MAP return and fresh paid-resume evidence.
+/docs/validation/m5-wood67-classic-20261024-v42*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v42*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v42*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v42*.gz -text
+/docs/validation/m5-wood67-classic-20261024-v42*.sav -text
+/docs/validation/m5-wood67-classic-20261024-v42*.png -text
