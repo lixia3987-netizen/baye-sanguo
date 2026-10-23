@@ -284,3 +284,9 @@
 /docs/validation/m5-aid-installed720-20261023/*.json -text whitespace=cr-at-eol
 /docs/validation/m5-aid-installed720-20261023/*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-aid-installed720-20261023.md text eol=lf
+
+# Preserve the exact V35 closed-run archive, latest SAVE and root PNG supplement.
+/docs/validation/m5-impact13-classic-north-20261023-v35*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-classic-north-20261023-v35*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-classic-north-20261023-v35*.sav -text
+/docs/validation/m5-impact13-classic-north-20261023-v35.md -text whitespace=cr-at-eol
