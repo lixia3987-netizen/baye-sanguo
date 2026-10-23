@@ -302,3 +302,9 @@
 /docs/validation/m5-wood67-preparation-20261023-v36/*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-preparation-20261023-v36/*.gz -text
 /docs/validation/m5-wood67-preparation-20261023-v36/objects/*.gz -text
+
+# Preserve stopped V36 raw observations and the newest genuine May save pair.
+/docs/validation/m5-wood67-v36-stopped-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-v36-stopped-20261023*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-v36-stopped-20261023*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-v36-stopped-20261023*.sav -text

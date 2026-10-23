@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "sourceRunAccepted": false,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-v36-stopped-20261023.json",
+    "bytes": 17269,
+    "sha256": "474b4ffdd877b767d3b65b7542f921a58810b1243ef73170c82bdf72566d68d4"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-v36-stopped-20261023.md",
+    "bytes": 1419,
+    "sha256": "ccfbca593581bf1d6c72874bb18bcfc59908fe6d23a816b42a6093fbbd412039"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-v36-stopped-20261023-archive.json",
+    "bytes": 33222,
+    "sha256": "afeabcfe8a7a0467aa539c04188c8a0aa382f2e502f9d110f72db667712b6de8"
+  },
+  "parts": [
+    {
+      "path": "docs/validation/m5-wood67-v36-stopped-20261023-archive-part001.json",
+      "bytes": 8119921,
+      "sha256": "51d7f53656c06568fd3e724f7cd07529c50d59f8ad9a9577cfb0fe4cdc3ccd9e"
+    },
+    {
+      "path": "docs/validation/m5-wood67-v36-stopped-20261023-archive-part002.json",
+      "bytes": 4351357,
+      "sha256": "73ee4ed6627f36be73e712b98fdbcb17c4293d43b2b39163d7ec3d7be22a2d8e"
+    }
+  ],
+  "uniqueBlobsVerified": 83,
+  "namedPinsVerified": 90,
+  "allPartsReadFromDisk": true,
+  "allBlobsGunzippedAndRehashed": true,
+  "latestWorld": {
+    "path": "docs/validation/m5-wood67-v36-stopped-20261023-latest-world.json",
+    "bytes": 147927,
+    "sha256": "042d5f1e713fc38a9838a1e596bd417c8613a1624b81b7fc6e1ea1f8aeb3c50a"
+  },
+  "latestPair": [
+    {
+      "path": "docs/validation/m5-wood67-v36-stopped-20261023-sango0.sav",
+      "bytes": 8221,
+      "sha256": "d3d30df00f1733d0917714eed4b87a0b4a022a9d2868632140d433dc42e19fbe"
+    },
+    {
+      "path": "docs/validation/m5-wood67-v36-stopped-20261023-sango1.sav",
+      "bytes": 4840,
+      "sha256": "124a845b8a5ead99432b3945b1aa1471b803af378785236dea12293a9b59baa0"
+    }
+  ],
+  "actualPlunderAccepted": false,
+  "actualMarchAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false
+}
