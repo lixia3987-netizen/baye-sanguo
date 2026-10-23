@@ -34,13 +34,56 @@ html[data-baye-lcd-scale="2"] body {
 }
 
 .baye-hd-toolbar {
-    display: flex;
-    flex-wrap: wrap;
+    position: relative;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
     margin: 0 0 12px 0;
     font-size: 13px;
     line-height: 1.4;
+}
+
+.baye-hd-settings-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    z-index: 100;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 6px;
+    width: min(720px, calc(100vw - 48px));
+    max-height: calc(100vh - 96px);
+    max-height: calc(100dvh - 96px);
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 16px;
+    border: 1px solid #aaa;
+    border-radius: 10px;
+    background: #f4f4f4;
+    color: #222;
+    box-shadow: 0 12px 32px #0005;
+}
+
+.baye-hd-settings-panel[hidden] {
+    display: none !important;
+}
+
+.baye-hd-toolbar [data-hd-settings-toggle] {
+    min-width: 104px;
+    min-height: 40px;
+    padding: 8px 14px;
+    font-weight: 600;
+}
+
+.baye-hd-settings-panel button {
+    min-height: 36px;
+}
+
+.baye-hd-toolbar button:focus-visible {
+    outline: 3px solid #edbd54;
+    outline-offset: 3px;
 }
 
 .baye-hd-toolbar .baye-hd-label {
@@ -87,6 +130,13 @@ body.baye-theme-hd {
 html[data-baye-theme="hd"] .baye-hd-toolbar .baye-hd-hint,
 body.baye-theme-hd .baye-hd-toolbar .baye-hd-hint {
     color: #aaa;
+}
+
+html[data-baye-theme="hd"] .baye-hd-settings-panel,
+body.baye-theme-hd .baye-hd-settings-panel {
+    border-color: #596579;
+    background: #1b2330;
+    color: #eee;
 }
 
 html[data-baye-theme="hd"] .baye-hd-toolbar button,

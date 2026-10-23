@@ -151,7 +151,84 @@
         applyPcPage();
     }
 
-    var toolbarBound = false;
+    var toolbarBound = false, settingsKeys = {};
+
+    function settingsElements() {
+        var toolbar = document.getElementById('baye-hd-toolbar');
+        return { toolbar: toolbar,
+            toggle: toolbar && toolbar.querySelector('[data-hd-settings-toggle]'),
+            panel: document.getElementById('baye-hd-settings-panel') };
+    }
+
+    function setSettingsOpen(open, restoreFocus) {
+        var ui = settingsElements();
+        if (!ui.toggle || !ui.panel) { return; }
+        ui.panel.hidden = !open;
+        ui.toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (!open && restoreFocus && typeof ui.toggle.focus === 'function') {
+            ui.toggle.focus({ preventScroll: true });
+        }
+    }
+
+    function contains(node, target) {
+        if (!node || !target) { return false; }
+        for (var current = target; current; current = current.parentNode) {
+            if (current === node) { return true; }
+        }
+        return false;
+    }
+
+    function settingsKey(event) {
+        var ui = settingsElements();
+        if (!ui.toolbar || !ui.panel || !ui.toggle) { return; }
+        var inside = contains(ui.toolbar, event.target), open = !ui.panel.hidden;
+        var token = event.code || String(event.keyCode || event.key), held = !!settingsKeys[token];
+        if (!open && !held) { return; }
+        if (event.type === 'keydown') { settingsKeys[token] = true; }
+        else if (event.type === 'keyup') { delete settingsKeys[token]; }
+        // Run before the HD battle/window and classic/document keyboard paths.
+        // Leave native button activation intact, but never forward display
+        // settings keys to the current game input owner.
+        event.stopPropagation();
+        if (event.stopImmediatePropagation) { event.stopImmediatePropagation(); }
+        var key = event.key || ({ 9: 'Tab', 27: 'Escape' })[event.keyCode];
+        if (event.type === 'keydown' && key === 'Escape' && open) {
+            event.preventDefault();
+            setSettingsOpen(false, true);
+        } else if (event.type === 'keydown' && key === 'Tab' && open) {
+            var controls = [ui.toggle], buttons = ui.panel.querySelectorAll('button');
+            for (var i = 0; i < buttons.length; i++) {
+                if (!buttons[i].disabled && !buttons[i].hidden) { controls.push(buttons[i]); }
+            }
+            var index = controls.indexOf(document.activeElement);
+            if (index < 0 || event.shiftKey && index === 0 || !event.shiftKey && index === controls.length - 1) {
+                event.preventDefault();
+                controls[event.shiftKey ? controls.length - 1 : 0].focus({ preventScroll: true });
+            }
+        } else if (event.type === 'keydown' && !inside) {
+            event.preventDefault();
+        }
+    }
+
+    // Register at script load, before the other PC overlays install their
+    // window capture listeners. Mobile has no settings toolbar.
+    if (typeof global.addEventListener === 'function') {
+        global.addEventListener('keydown', settingsKey, true);
+        global.addEventListener('keyup', settingsKey, true);
+        global.addEventListener('pointerdown', function (event) {
+            var ui = settingsElements();
+            if (ui.panel && !ui.panel.hidden && !contains(ui.toolbar, event.target)) {
+                setSettingsOpen(false, contains(ui.panel, document.activeElement));
+            }
+        }, true);
+        global.addEventListener('blur', function () { settingsKeys = {}; setSettingsOpen(false, false); });
+        global.addEventListener('pagehide', function () { settingsKeys = {}; setSettingsOpen(false, false); });
+    }
+    if (typeof document.addEventListener === 'function') {
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) { settingsKeys = {}; setSettingsOpen(false, false); }
+        });
+    }
 
     function bindToolbar() {
         var toolbar = document.getElementById('baye-hd-toolbar');
@@ -172,6 +249,11 @@
             if (!btn) {
                 return;
             }
+            if (btn.hasAttribute('data-hd-settings-toggle')) {
+                var panel = document.getElementById('baye-hd-settings-panel');
+                if (panel) { setSettingsOpen(panel.hidden, false); }
+                return;
+            }
             if (btn.getAttribute('data-hd-scale')) {
                 setScale(btn.getAttribute('data-hd-scale'));
             } else if (btn.getAttribute('data-hd-filter')) {
@@ -179,6 +261,13 @@
             } else if (btn.getAttribute('data-hd-theme')) {
                 setTheme(btn.getAttribute('data-hd-theme'));
             }
+            var help = btn.hasAttribute('data-hd-settings-help');
+            setSettingsOpen(false, !help);
+            // H/S request a native help publication asynchronously. Release the
+            // retired settings control now; the real dialog takes focus only
+            // after its own publication has rendered.
+            if (help && contains(toolbar, document.activeElement) &&
+                typeof document.activeElement.blur === 'function') { document.activeElement.blur(); }
         });
     }
 

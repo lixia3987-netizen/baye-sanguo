@@ -1,5 +1,11 @@
 # HD 剩余工作与验收清单
 
+2026-10-23 最新[PC显示设置与顶部HUD](validation/m5-display-settings-20261023.md)：固定顶部工具栏改为紧凑入口与可展开面板，18项原行为保持；关闭后普通键盘恢复，帮助／查找仅在真实原生发布后交接焦点。1080p、720p、1024×768真实原版浏览器专项通过，显示设置零游戏按键且已采世界字段不变。明确指定本机Clang后，122文件6595／6595全套通过；首轮默认cc缺失失败独立保留。整体HD仍partial，239-3战役后续须先按[只读续接审计](validation/m5-impact13-continuation-20261023.md)取得合法走廊，不能直接把城7高级非水军迁到城6或宣布完成赏赐。
+
+2026-10-23 最新[原版掠夺前缀、招揽与三月存档](validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition.md)：正式迁入五个纯验证模块、五个测试及四份历史fixture／来源记录，仅20处路径适配；源307项与正式副本同307项新鲜通过，新增不同案例0。本轮未启动游戏，重新核验2026-10-22保存的V32目录实跑；其实际执行候选为V32b，原执行工具终端收据不可取得，不补造session／chunk／exit。原始十次招揽、一次掠夺、一次月结和13组公开双SAVE均保留，原生相邻回调证明最后一次招揽使131归属3→1、返城7；源result的actualAcquisitionAccepted=false原样保留，独立高级候选招揽判定另列，不等同水军整备完成。
+
+唯一续接点为impact13-129-v32-month1-policy-settled／239-3／slot0，活动订单0。131为Lv17非水军、兵2920、双装备空，转换后源MP84尚非实际战场MP；城6水战兵符尚未赏赐，当前合格水军为空。城20现粮380／钱1335／严格最低267，七城当前供粮通过，后续仍须重核灾情与每笔指令条件。下一步从本档合法同城后验证一次原版兵符赏赐，再推进撞击；本批无新cast、经典LCD或HD像素接受，整体HD保持partial。历史来源与当前后续PC改动分开核验，旧binder逻辑解码结果按保存证据沿用，未重新解压历史大档案。
+
 2026-10-22 最新[原版买粮、招揽与兵符准备](validation/m5-impact13-bounded-canvass-20261022-v31-buy-acquisition.md)：从V30最新一月真实双SAVE继续，本轮买粮1次、招揽10次、赏赐尝试0次、自然月结1次及13组公开双SAVE。16阶段独立终审通过，actualBuyDispatchAccepted=true；actualBuyNaturalReturnsAccepted=true；actualCanvassDispatchAccepted=true；actualAdvancedTargetAcquired=false；actualAcquisitionAccepted=false；actualGiveExecutionAccepted=false。本轮有界原版获取准备流程已独立接受。
 
 唯一续接点为impact13-129-v31-month1-policy-settled／239-2／slot0，活动订单0。下次策略END前，须先修复当前供给：城20粮1／严格最低267／缺266，钱1077。未来收入、运输和新将不能视作已到账粮钱。当前保存尚无合格的高级己方水军施术者，须继续原版合法获取或同城兵符转兵种。城6仍持有发现标记水战兵符，只有合法同城、空装备、等级与源MP合格的新将才可使用。正式150项重跑同33＋37＋40＋40案例，新增不同案例0；792项既有合同另列。所有原始回调、存档和失败前缀保留；本批无撞击、经典LCD或HD像素验收信用，整体HD仍partial。

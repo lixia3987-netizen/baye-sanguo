@@ -8,8 +8,8 @@
     <link rel="icon" href="favicon.png">
     <link rel="stylesheet" type="text/css" href="css/flex.css?ver=20260920h"/>
     <link rel="stylesheet" type="text/css" href="css/baye.css?ver=20260920h"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20260920h"/>
-    <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261008i"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-graphics.css?ver=20261023a"/>
+    <link rel="stylesheet" type="text/css" href="css/hd-overworld.css?ver=20261023a"/>
     <link rel="stylesheet" type="text/css" href="css/hd-city-menu.css?ver=20261011a"/>
     <link rel="stylesheet" type="text/css" href="css/hd-battle.css?ver=20261008j"/>
     <link rel="stylesheet" type="text/css" href="css/hd-system-ui.css?ver=20261008h"/>
@@ -216,7 +216,7 @@
     </section>
 </div>
 <div id="hd-dialog" class="hd-dialog" aria-hidden="true">
-    <div class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title">
+    <div id="hd-dialog-stage" class="hd-dialog-stage" role="dialog" aria-labelledby="hd-dialog-title" tabindex="-1">
         <div id="hd-dialog-title" class="hd-dialog-title">报告</div>
         <div id="hd-dialog-body" class="hd-dialog-body"></div>
         <div id="hd-dialog-caption" class="hd-dialog-caption">↓ 下方放大的经典屏是引擎原文</div>
@@ -243,7 +243,9 @@
 <p></p>
 <div layout="row center-center">
     <div class="js-baye-pc-chrome">
-        <div id="baye-hd-toolbar" class="baye-hd-toolbar" role="group" aria-label="画质">
+        <div id="baye-hd-toolbar" class="baye-hd-toolbar" role="group" aria-label="显示设置">
+            <button type="button" data-hd-settings-toggle aria-expanded="false" aria-controls="baye-hd-settings-panel">显示设置</button>
+            <div id="baye-hd-settings-panel" class="baye-hd-settings-panel" role="group" aria-label="显示选项" hidden>
             <span class="baye-hd-label">画质</span>
             <button type="button" data-hd-scale="1">经典 1×</button>
             <button type="button" data-hd-scale="2">清晰 2×</button>
@@ -268,9 +270,10 @@
             <button type="button" data-hd-system-ui="hd" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('hd')">HD 界面</button>
             <button type="button" data-hd-system-ui="classic" onclick="if(window.BayeHdSystemUi)BayeHdSystemUi.setMode('classic')">经典界面</button>
             <span class="baye-hd-sep" aria-hidden="true"></span>
-            <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openHelp()">帮助 HD</button>
-            <button type="button" onclick="if(window.BayeHdDialog)BayeHdDialog.openSearch()">查找 HD</button>
+            <button type="button" data-hd-settings-help="help" onclick="if(window.BayeHdDialog)BayeHdDialog.openHelp({focus:true})">帮助 HD</button>
+            <button type="button" data-hd-settings-help="search" onclick="if(window.BayeHdDialog)BayeHdDialog.openSearch({focus:true})">查找 HD</button>
             <span class="baye-hd-hint">方向键选择，回车确认；可用“经典 LCD”查看原画面。</span>
+            </div>
         </div>
         <div layout="row center-stretch">
             <div class="baye-hd-help" layout="column center-left" style="font-size:14px;line-height:140%">
@@ -304,7 +307,7 @@
 <script src="js/save-storage.js?ver=20261008h"></script>
 <script src="js/original-game.js?ver=20261010b"></script>
 <script src="js/lcd.js?ver=20261011f"></script>
-<script src="js/hd-graphics.js?ver=20260923j"></script>
+<script src="js/hd-graphics.js?ver=20261023a"></script>
 <script src="js/hd-lib-identity.js?ver=20261008i"></script>
 <script src="js/hd-overworld-probe.js?ver=20260923j"></script>
 <script src="js/hd-overworld-layers.js?ver=20261008l"></script>
@@ -315,7 +318,7 @@
     <script src="js/hd-battle-feedback.js?ver=20261008a"></script>
     <script src="js/hd-battle.js?ver=20261011c"></script>
     <script src="js/hd-system-ui.js?ver=20261011b"></script>
-<script src="js/hd-dialog.js?ver=20261011j"></script>
+<script src="js/hd-dialog.js?ver=20261023a"></script>
 <script src="js/hd-battle-scene.js?ver=20261011a"></script>
 <script src="js/hd-spe.js?ver=20261014a"></script>
 <script src="js/hd-battle-note.js?ver=20261011b"></script>

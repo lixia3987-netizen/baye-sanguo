@@ -72,7 +72,8 @@ html[data-baye-overworld="hd-map"] body.baye-hd-overworld-aligning #hd-overworld
 .hd-overworld-hud-right {
     font-size: 16px;
     line-height: 1.3;
-    max-width: 46%;
+    /* The center disclosure has its own space at every stage width. */
+    max-width: calc(50% - 88px);
 }
 
 .hd-overworld-hud-left {
@@ -145,11 +146,21 @@ html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar {
     z-index: 56;
     pointer-events: auto;
     max-width: calc(100vw - 24px);
-    padding: 8px 12px;
+    padding: 0;
     border-radius: 8px;
     background: rgba(14, 17, 22, 0.92);
     color: #eee;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-settings-panel {
+    position: fixed;
+    left: 50%;
+    top: calc(100% + 8px);
+    transform: translateX(-50%);
+    border-color: #596579;
+    background: #1b2330;
+    color: #eee;
 }
 
 html[data-baye-overworld="hd-map"] body.baye-hd-overworld-on #baye-hd-toolbar .baye-hd-hint {

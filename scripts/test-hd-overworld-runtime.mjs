@@ -7,6 +7,7 @@
  * --bridge-art validates actual naturally derived bridge draws and HTTP bytes at both viewports.
  * --missing-bridge-asset serves only the new bridge PNG as an intentional 404.
  * --bridge-only runs bridge/classic/hidden/pan/zoom checks and skips the 38-city traversal.
+ * --display-settings-only checks PC settings layout, keyboard ownership and world invariance.
  * Without these flags the original complete acceptance flow remains in use.
  * --staged serves the four build/wasm/src loader artifacts without installing.
  * Only trusted pointer/key events change native state. setScale is explicitly
@@ -29,6 +30,8 @@ const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const staged=process.argv.includes('--staged'),allLords=process.argv.includes('--all-lords');
 const missingBridgeAsset=process.argv.includes('--missing-bridge-asset'),bridgeOnly=process.argv.includes('--bridge-only');
 const bridgeArt=process.argv.includes('--bridge-art')||missingBridgeAsset||bridgeOnly;
+const displaySettingsOnly=process.argv.includes('--display-settings-only');
+assert.ok(!displaySettingsOnly||(!allLords&&!bridgeArt),'settings acceptance is a separate scope');
 const bridgePath='/assets/hd-overworld/roads/bridge-crossing-v1.png';
 const bridgeSha='110a48d457f5af9be4f51d156f2841eab1dc7e524232d5592ab7bbe1c64f1e88';
 assert.ok(!bridgeOnly||!allLords,'--bridge-only cannot claim --all-lords coverage');
@@ -41,7 +44,7 @@ const standardSha='3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a2747279
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const snapshots=new Map();
-const report={startedAt:new Date().toISOString(),staged,allLords,probeLordId,bridgeArt,bridgeOnly,missingBridgeAsset,bridgeChecks:[],actions:[],sessions:[],cities:[],phases:[],
+const report={startedAt:new Date().toISOString(),staged,allLords,probeLordId,bridgeArt,bridgeOnly,displaySettingsOnly,missingBridgeAsset,bridgeChecks:[],actions:[],sessions:[],cities:[],phases:[],
     sources:{},requests:[],console:[],exceptions:[],dialogs:[],blocked:[],zoomInput:'presentation-only BayeHdOverworld.setScale; native keys must remain zero'};
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8',
     '.json':'application/json; charset=utf-8','.wasm':'application/wasm','.png':'image/png','.jpg':'image/jpeg',
@@ -257,12 +260,17 @@ const nativeExpression=`(() => {const d=baye.data;return {cursor:{x:Number(d.g_C
     king:Number(d.g_PlayerKing),cities:Array.from({length:38},(_,i)=>Number(d.g_Cities[i].Belong))}})()`;
 async function checkpoint(cdp,name,extra={}){const state=await evaluate(cdp,stateExpression);auditEnvironment(state,name);report.phases.push({...extra,name,state});
     const image=await cdp.send('Page.captureScreenshot',{format:'png'});fs.writeFileSync(path.join(artifactDir,name+'.png'),Buffer.from(image.data,'base64'),{flag:'wx'});console.log('PASS',name);return state;}
-async function key(cdp,name){const codes={Enter:13,Escape:27,ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39};
-    assert.ok(codes[name]);for(const type of ['keyDown','keyUp'])await cdp.send('Input.dispatchKeyEvent',{type,key:name,code:name,windowsVirtualKeyCode:codes[name],nativeVirtualKeyCode:codes[name]});await delay(170);}
+async function key(cdp,name){const codes={Enter:13,Escape:27,Tab:9,Space:32,ArrowUp:38,ArrowDown:40,ArrowLeft:37,ArrowRight:39};
+    assert.ok(codes[name]);for(const type of ['keyDown','keyUp'])await cdp.send('Input.dispatchKeyEvent',{type,key:name==='Space'?' ':name,code:name,windowsVirtualKeyCode:codes[name],nativeVirtualKeyCode:codes[name],
+        ...(type==='keyDown'&&(name==='Enter'||name==='Space')?{text:name==='Enter'?'\r':' '}:{} )});await delay(170);}
 async function pointer(cdp,x,y){await cdp.send('Input.dispatchMouseEvent',{type:'mouseMoved',x,y});
     await cdp.send('Input.dispatchMouseEvent',{type:'mousePressed',x,y,button:'left',buttons:1,clickCount:1});
     await cdp.send('Input.dispatchMouseEvent',{type:'mouseReleased',x,y,button:'left',buttons:0,clickCount:1});await delay(160);}
-async function button(cdp,selector){const point=await evaluate(cdp,`(() => {const n=[...document.querySelectorAll(${JSON.stringify(selector)})].find(n=>{
+async function button(cdp,selector){
+    // Settings controls keep their original selectors inside the collapsible panel.
+    const needsPanel=await evaluate(cdp,`(() => {const n=document.querySelector(${JSON.stringify(selector)}),p=document.getElementById('baye-hd-settings-panel');return !!(n&&p&&p.contains(n)&&p.hidden);})()`);
+    if(needsPanel)await button(cdp,'[data-hd-settings-toggle]');
+    const point=await evaluate(cdp,`(() => {const n=[...document.querySelectorAll(${JSON.stringify(selector)})].find(n=>{
         const r=n.getBoundingClientRect(),s=getComputedStyle(n);return r.width>0&&r.height>0&&s.display!=='none'&&s.visibility!=='hidden';});
         if(!n)return null;const r=n.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2,top=document.elementFromPoint(x,y);
         return {x,y,hit:top===n||n.contains(top),top:top&&(top.id||top.tagName),width:r.width,height:r.height};})()`);
@@ -456,7 +464,105 @@ function auditEnvironment(state,label){
     for(const e of expected)if(!report.environment.seen.includes(e.id))report.environment.seen.push(e.id);
     report.environment.samples.push({label,camera:c,coordinateSystem:actual.coordinateSystem,drawn:actual.drawn,skipped:actual.skipped,ids:expected.map(e=>e.id)});
 }
+const settingsLayoutExpression=`(() => {
+    const toolbar=document.getElementById('baye-hd-toolbar'),toggle=toolbar.querySelector('[data-hd-settings-toggle]'),panel=document.getElementById('baye-hd-settings-panel');
+    const rect=r=>({left:r.left,top:r.top,right:r.right,bottom:r.bottom,width:r.width,height:r.height});
+    const visible=n=>{const r=n.getBoundingClientRect(),s=getComputedStyle(n);return !!(r.width&&r.height&&s.display!=='none'&&s.visibility!=='hidden');};
+    const textRects=[];
+    for(const n of document.querySelectorAll('.hd-overworld-hud-left,.hd-overworld-hud-right')){
+        if(!visible(n))continue;const walker=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);
+        while(walker.nextNode()){const t=walker.currentNode;if(!t.textContent.trim())continue;
+            const range=document.createRange();range.selectNodeContents(t);
+            for(const r of range.getClientRects())if(r.width&&r.height)textRects.push({text:t.textContent,...rect(r)});
+        }
+    }
+    const buttons=[...panel.querySelectorAll('button')].map(n=>{const r=n.getBoundingClientRect(),top=document.elementFromPoint(r.left+r.width/2,r.top+r.height/2);
+        return {text:n.textContent.trim(),...rect(r),visible:visible(n),topmost:top===n||n.contains(top)};});
+    return {viewport:{width:innerWidth,height:innerHeight},toggle:{...rect(toggle.getBoundingClientRect()),visible:visible(toggle),expanded:toggle.getAttribute('aria-expanded')},
+        panel:{...rect(panel.getBoundingClientRect()),hidden:panel.hidden},textRects,buttons,focusInside:toolbar.contains(document.activeElement),focusOnToggle:document.activeElement===toggle};
+})()`;
+function assertSettingsLayout(layout,open){
+    assert.equal(layout.toggle.visible,true,'visible settings entry');
+    assert.equal(layout.toggle.expanded,String(open),'accessible expanded state');
+    assert.equal(layout.panel.hidden,!open,'panel visibility matches expanded state');
+    const within=r=>r.left>=-.5&&r.top>=-.5&&r.right<=layout.viewport.width+.5&&r.bottom<=layout.viewport.height+.5;
+    assert.ok(within(layout.toggle),'settings entry within viewport');
+    if(open){assert.ok(within(layout.panel),'settings panel within viewport');
+        assert.ok(layout.buttons.length>=18,'all original display/help/search options retained');
+        for(const b of layout.buttons)assert.ok(b.visible&&b.topmost&&within(b),'reachable settings option '+b.text);
+    }else for(const r of layout.textRects){
+        assert.ok(within(r),'actual HUD text within viewport: '+r.text);
+        const t=layout.toggle;
+        assert.ok(Math.min(r.right,t.right)-Math.max(r.left,t.left)<=0||Math.min(r.bottom,t.bottom)-Math.max(r.top,t.top)<=0,'HUD text clear of settings entry: '+r.text);
+    }
+}
+async function displaySettingsAcceptance(cdp,initial){
+    const before=await evaluate(cdp,bridgeWorldExpression),keys=await evaluate(cdp,'window.__r08Keys.length');
+    report.displaySettings={scope:'Real period1 LIB/WASM, trusted pointer/keyboard; exact equality of all bridgeWorldExpression fields, no native game inputs during settings checks. No RNG/config/whole-memory claim.',viewports:[],beforeWorldSha256:sha(Buffer.from(JSON.stringify(before)))};
+    for(const [width,height] of [[1920,1080],[1280,720],[1024,768]]){
+        await resize(cdp,width,height);await mapReady(cdp);
+        const city=initial.cities.find(c=>c.kind==='neutral');assert.ok(city);
+        const p=await placeCity(cdp,city.index);await cdp.send('Input.dispatchMouseEvent',{type:'mouseMoved',x:p.clientX,y:p.clientY});
+        await waitFor(cdp,'native city hover text',`BayeHdOverworld.debugSnapshot().hoverIndex===${city.index}`);
+        const closed=await evaluate(cdp,settingsLayoutExpression);assertSettingsLayout(closed,false);
+        await checkpoint(cdp,width+'x'+height+'-settings-closed');
+        await button(cdp,'[data-hd-settings-toggle]');
+        const opened=await evaluate(cdp,settingsLayoutExpression);assertSettingsLayout(opened,true);
+        await checkpoint(cdp,width+'x'+height+'-settings-open');
+        await key(cdp,'Escape');let escaped=await evaluate(cdp,settingsLayoutExpression);assertSettingsLayout(escaped,false);assert.equal(escaped.focusOnToggle,true,'Escape restores entry focus');
+        // Enter and Space must retain native button activation without leaking game keys.
+        await key(cdp,'Enter');assertSettingsLayout(await evaluate(cdp,settingsLayoutExpression),true);
+        await key(cdp,'Escape');await key(cdp,'Space');assertSettingsLayout(await evaluate(cdp,settingsLayoutExpression),true);
+        const tabCount=opened.buttons.length+2;
+        for(let i=0;i<tabCount;i++){await key(cdp,'Tab');assert.equal((await evaluate(cdp,settingsLayoutExpression)).focusInside,true,'Tab stays within open settings');}
+        await key(cdp,'ArrowDown');await key(cdp,'Escape');
+        for(const [selector,field,value] of [['[data-hd-scale="2"]','scale','2'],['[data-hd-scale="1"]','scale','1'],
+            ['[data-hd-filter="smooth"]','filter','smooth'],['[data-hd-filter="crisp"]','filter','crisp'],
+            ['[data-hd-theme="hd"]','theme','hd'],['[data-hd-theme="classic"]','theme','classic']]){
+            await button(cdp,selector);assert.equal(await evaluate(cdp,`BayeHd.getSettings().${field}`),value);
+            assertSettingsLayout(await evaluate(cdp,settingsLayoutExpression),false);
+        }
+        for(const [attribute,controller,values] of [['city-menu','BayeHdCityMenu',['auto','classic','hd']],
+            ['battle','BayeHdBattle',['classic','auto']],['system-ui','BayeHdSystemUi',['auto','hd','classic']]]){
+            for(const value of values){await button(cdp,`[data-hd-${attribute}="${value}"]`);
+                assert.equal(await evaluate(cdp,`${controller}.getMode()`),value);}
+        }
+        await button(cdp,'[data-hd-overworld="classic"]');assert.equal(await evaluate(cdp,'BayeHdOverworld.getMode()'),'classic');
+        await button(cdp,'[data-hd-overworld="hd-map"]');await mapReady(cdp);
+        assertSettingsLayout(await evaluate(cdp,settingsLayoutExpression),false);
+        assert.equal(await evaluate(cdp,'window.__r08Keys.length'),keys,'display settings send zero native keys');
+        assert.deepEqual(await evaluate(cdp,bridgeWorldExpression),before,'all sampled native world fields unchanged');
+        report.displaySettings.viewports.push({width,height,closed,opened,tabSteps:tabCount,gameKeys:0,worldUnchanged:true});
+    }
+    report.displaySettings.afterWorldSha256=sha(Buffer.from(JSON.stringify(await evaluate(cdp,bridgeWorldExpression))));
+    assert.equal(report.displaySettings.afterWorldSha256,report.displaySettings.beforeWorldSha256);
+    // Help/Search retain their original explicit native requests. They are
+    // separate from the zero-game-input display-preference checks above.
+    await button(cdp,'[data-hd-settings-toggle]');
+    for(let i=0;i<24&&!await evaluate(cdp,`document.activeElement.matches('[data-hd-settings-help="help"]')`);i++)await key(cdp,'Tab');
+    assert.equal(await evaluate(cdp,`document.activeElement.matches('[data-hd-settings-help="help"]')`),true);
+    await cdp.send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',text:'\r',windowsVirtualKeyCode:13});
+    await waitFor(cdp,'real native help with focus',`BayeHdDialog.isOpen()&&baye.hd.help().active&&document.activeElement.id==='hd-dialog-stage'`);
+    await cdp.send('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',text:'\r',windowsVirtualKeyCode:13,autoRepeat:true});
+    await cdp.send('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await delay(150);
+    assert.equal(await evaluate(cdp,'window.__r08Keys.length'),keys+1,'held Enter never confirms the newly opened help');
+    await checkpoint(cdp,'native-help-keyboard-handoff');await key(cdp,'Escape');await mapReady(cdp);
+    assert.equal(await evaluate(cdp,'window.__r08Keys.length'),keys+2,'help receives exactly its request and explicit Exit');
+    await button(cdp,'[data-hd-settings-help="search"]');
+    await waitFor(cdp,'original native map search publication',`baye.hd.miniMap().active`);
+    await checkpoint(cdp,'native-search-handoff');await key(cdp,'Escape');await mapReady(cdp);
+    assert.equal(await evaluate(cdp,'window.__r08Keys.length'),keys+4,'search receives exactly its request and explicit Exit');
+    const afterHelp=await evaluate(cdp,bridgeWorldExpression);
+    for(const field of ['period','king','year','month','people','cities','personQueue','orders','fighters'])assert.deepEqual(afterHelp[field],before[field],'help/search preserves '+field);
+    await button(cdp,'[data-hd-settings-toggle]');await key(cdp,'Escape');
+    await key(cdp,'ArrowRight');
+    assert.equal(await evaluate(cdp,'window.__r08Keys.length'),keys+5,'normal game arrows resume even when the closed entry retains focus');
+    assert.equal(await evaluate(cdp,'window.__r08Keys.at(-1).code'),0x25);
+    report.displaySettings.nativeHandoff={helpAndSearchKeys:4,closedEntryGameRecoveryKeys:1,heldEnterLeakedKeys:0,businessWorldUnchanged:true};
+    report.coverage={displaySettingsOnly:true,viewports:report.displaySettings.viewports.length,displayPreferenceGameKeys:0,settingsWorldUnchanged:true,nativeHelpAndSearch:true,closedEntryGameKeyboardRecovered:true,full38CityTraversal:false};
+}
 async function acceptance(cdp,origin){const initial=await boot(cdp,origin,probeLordId==null?null:Number(probeLordId));await checkpoint(cdp,'01-standard-native-map');
+    if(displaySettingsOnly){await displaySettingsAcceptance(cdp,initial);return;}
     if(probeLordId!=null){for(const city of initial.cities.filter(c=>c.kind==='owned'))await visit(cdp,city,'probe-lord-'+probeLordId+'-city-'+city.index);
         report.coverage={probeOnly:true,ownedRoots:report.cities.length};return;}
     if(bridgeOnly){for(const [width,height] of [[1920,1080],[1280,720]]){await resize(cdp,width,height);await mapReady(cdp);await bridgeAcceptance(cdp,width+'x'+height);}

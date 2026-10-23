@@ -1,0 +1,375 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-23",
+  "scope": "PC first-period original-LIB display settings; separate fresh private game, never loaded or advanced the 239-3 campaign SAVE",
+  "fullRegression": {
+    "summary": {
+      "tests": 6595,
+      "pass": 6595,
+      "fail": 0,
+      "cancelled": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "registeredTestFiles": 122,
+    "command": "CC=build/toolchain/emsdk/upstream/bin/clang.exe node --test --test-concurrency=1 <all package.json scripts.test files>",
+    "compilerVersion": "clang version 18.0.0git (https://github.com/llvm/llvm-project f2464ca317bfeeedddb7cbdea3c2c8ec487890bb)\nTarget: x86_64-pc-windows-msvc\nThread model: posix\nInstalledDir: F:\\project\\baye-sanguo\\build\\toolchain\\emsdk\\upstream\\bin\n",
+    "compiler": {
+      "path": "build/toolchain/emsdk/upstream/bin/clang.exe",
+      "bytes": 75238912,
+      "sha256": "bbe1455a704cd779edf71fb8003920d7033c5ea042dbd7be23c4aa192d126cee"
+    }
+  },
+  "browserCommand": "node scripts/test-hd-overworld-runtime.mjs --display-settings-only --artifact-dir <fresh build directory>",
+  "browserCoverage": {
+    "displaySettingsOnly": true,
+    "viewports": 3,
+    "displayPreferenceGameKeys": 0,
+    "settingsWorldUnchanged": true,
+    "nativeHelpAndSearch": true,
+    "closedEntryGameKeyboardRecovered": true,
+    "full38CityTraversal": false
+  },
+  "nativeHandoff": {
+    "helpAndSearchKeys": 4,
+    "closedEntryGameRecoveryKeys": 1,
+    "heldEnterLeakedKeys": 0,
+    "businessWorldUnchanged": true
+  },
+  "sourceDrift": [],
+  "sampledWorldContract": "Exact bridgeWorldExpression fields only; display preferences send zero game keys. Help/Search request+Exit four keys and one final game-arrow recovery key are separately counted. No RNG/config/whole-memory claim.",
+  "baseline": {
+    "ref": "37b10dcecca90cbc244fbef3daa3eeaec60284ac",
+    "hudOverlapReproduced": true,
+    "viewports": [
+      {
+        "width": 1920,
+        "height": 1080,
+        "toolbar": {
+          "left": 480,
+          "top": 8,
+          "right": 1440,
+          "bottom": 108.796875
+        },
+        "overlaps": [
+          {
+            "text": "己方 1/38 城  ·  71 条装饰道路/1 过河标记  ·  悬停 西凉（马腾）  ·  拖动平移。点己方城打开经典菜单；可切回经典 LCD。",
+            "width": 332.296875,
+            "height": 20
+          }
+        ]
+      },
+      {
+        "width": 1280,
+        "height": 720,
+        "toolbar": {
+          "left": 320,
+          "top": 8,
+          "right": 960,
+          "bottom": 142.796875
+        },
+        "overlaps": [
+          {
+            "text": "己方 1/38 城  ·  71 条装饰道路/1 过河标记  ·  悬停 西凉（马腾）  ·  拖动平移。点己方城打开经典菜单；可切回经典 LCD。",
+            "width": 265.0625,
+            "height": 19.5
+          }
+        ]
+      },
+      {
+        "width": 1024,
+        "height": 768,
+        "toolbar": {
+          "left": 256,
+          "top": 8,
+          "right": 768,
+          "bottom": 142.796875
+        },
+        "overlaps": [
+          {
+            "text": "己方 1/38 城  ·  71 条装饰道路/1 过河标记  ·  悬停 西凉（马腾）  ·  拖动平移。点己方城打开经典菜单；可切回经典 LCD。",
+            "width": 209.0625,
+            "height": 20
+          },
+          {
+            "text": "己方 1/38 城  ·  71 条装饰道路/1 过河标记  ·  悬停 西凉（马腾）  ·  拖动平移。点己方城打开经典菜单；可切回经典 LCD。",
+            "width": 111.25,
+            "height": 19.796875
+          }
+        ]
+      }
+    ],
+    "historicalSources": [
+      {
+        "path": "pc.html",
+        "gitRef": "37b10dcecca90cbc244fbef3daa3eeaec60284ac",
+        "bytes": 27342,
+        "sha256": "8a154265dff09e04512a877ea6005bd7a32ad12879edc5ff3b1ac9b2d062960f",
+        "servedSnapshot": {
+          "path": "build/display-settings-before-20261023/pc.html",
+          "bytes": 27342,
+          "sha256": "8a154265dff09e04512a877ea6005bd7a32ad12879edc5ff3b1ac9b2d062960f"
+        }
+      },
+      {
+        "path": "js/hd-graphics.js",
+        "gitRef": "37b10dcecca90cbc244fbef3daa3eeaec60284ac",
+        "bytes": 6565,
+        "sha256": "0677f1a631fa21f350b9b9cda772a8b52530e9ce9e8934af212d56aed92724d6",
+        "servedSnapshot": {
+          "path": "build/display-settings-before-20261023/js/hd-graphics.js",
+          "bytes": 6565,
+          "sha256": "0677f1a631fa21f350b9b9cda772a8b52530e9ce9e8934af212d56aed92724d6"
+        }
+      },
+      {
+        "path": "js/hd-dialog.js",
+        "gitRef": "37b10dcecca90cbc244fbef3daa3eeaec60284ac",
+        "bytes": 132981,
+        "sha256": "5adaef93ae804a910d54aa2166033845eb9a9c6520a6a8ff0c4010e6656a6a80",
+        "servedSnapshot": {
+          "path": "build/display-settings-before-20261023/js/hd-dialog.js",
+          "bytes": 132981,
+          "sha256": "5adaef93ae804a910d54aa2166033845eb9a9c6520a6a8ff0c4010e6656a6a80"
+        }
+      },
+      {
+        "path": "css/hd-graphics.css",
+        "gitRef": "37b10dcecca90cbc244fbef3daa3eeaec60284ac",
+        "bytes": 3025,
+        "sha256": "a72abb6fe25dee4c6f4f09f3dfd1ccd6c1f5eaf7a722460a78d08544f5dc3507",
+        "servedSnapshot": {
+          "path": "build/display-settings-before-20261023/css/hd-graphics.css",
+          "bytes": 3025,
+          "sha256": "a72abb6fe25dee4c6f4f09f3dfd1ccd6c1f5eaf7a722460a78d08544f5dc3507"
+        }
+      },
+      {
+        "path": "css/hd-overworld.css",
+        "gitRef": "37b10dcecca90cbc244fbef3daa3eeaec60284ac",
+        "bytes": 4893,
+        "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1",
+        "servedSnapshot": {
+          "path": "build/display-settings-before-20261023/css/hd-overworld.css",
+          "bytes": 4893,
+          "sha256": "f73d215b252bbb3fca714d0dea03ba99e6597fb358293d1049e92effe14997d1"
+        }
+      }
+    ]
+  },
+  "currentSources": [
+    {
+      "path": "pc.html",
+      "bytes": 27750,
+      "sha256": "afaee3d921c629fe201eb614d88fb210f2d0635b3e20c19c3625da78c5021a42"
+    },
+    {
+      "path": "js/hd-graphics.js",
+      "bytes": 11177,
+      "sha256": "f40858de52d530ecd272a346c345c38fe4f1573ce0ce0facf09f7caaa488f1b2"
+    },
+    {
+      "path": "js/hd-dialog.js",
+      "bytes": 133841,
+      "sha256": "d5df932466662bdbfe20804ef8f129a231452f8776c903d543e626bf78b55692"
+    },
+    {
+      "path": "css/hd-graphics.css",
+      "bytes": 4107,
+      "sha256": "157385e2d4ed3fb2d36a3b6bc137e3c231bb8bfc83eda44250f1a4b782377a81"
+    },
+    {
+      "path": "css/hd-overworld.css",
+      "bytes": 5226,
+      "sha256": "db8749a3d84a664f565b6b138ed6d84a9fa432118fce25d3c1d9d3490052eb38"
+    },
+    {
+      "path": "scripts/test-hd-overworld-runtime.mjs",
+      "bytes": 68559,
+      "sha256": "d79eeb1bfc609d08f5a37f947076818f8846a41ad0bde19221162e04ded00f10"
+    },
+    {
+      "path": "scripts/test-hd-qimen-runtime.mjs",
+      "bytes": 124805,
+      "sha256": "e9040cd49ea05d6910aacb19a5f6a08be00b044f1e0668d3b0e299cbafb46f8b"
+    },
+    {
+      "path": "scripts/test-hd-display-settings.mjs",
+      "bytes": 10071,
+      "sha256": "97a9c8588653fb7b7159e91c3bb72a64d61c63c6bc513091573558f022039fe0"
+    }
+  ],
+  "files": [
+    {
+      "source": {
+        "path": "build/display-settings-20261023-final1/result.json",
+        "bytes": 519199,
+        "sha256": "c9e294b6f2efacdda11cc498787bc8f2975c4f33504695453f007d893abdae53"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/after-result.json",
+        "bytes": 519199,
+        "sha256": "c9e294b6f2efacdda11cc498787bc8f2975c4f33504695453f007d893abdae53"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-before-v2/result.json",
+        "bytes": 284922,
+        "sha256": "1cd43b69d1e90e5c35d7855804089ffe4c6e8a4b64120e55ba38a70ebf9fbfff"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/before-result.json",
+        "bytes": 284922,
+        "sha256": "1cd43b69d1e90e5c35d7855804089ffe4c6e8a4b64120e55ba38a70ebf9fbfff"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-final1/source-verification.json",
+        "bytes": 27900,
+        "sha256": "ea80fa652510f6307c33739e96dfdb23de04970e5791d375eea6398b7fc05303"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/after-source-verification.json",
+        "bytes": 27900,
+        "sha256": "ea80fa652510f6307c33739e96dfdb23de04970e5791d375eea6398b7fc05303"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-before-v2/source-verification.json",
+        "bytes": 28094,
+        "sha256": "83579e45aa01ca2d2248990e8087fb956ed4760469dd56a65d7a6bbcde4daab3"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/before-source-verification.json",
+        "bytes": 28094,
+        "sha256": "83579e45aa01ca2d2248990e8087fb956ed4760469dd56a65d7a6bbcde4daab3"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-final1/isolation.json",
+        "bytes": 505,
+        "sha256": "4e9253aa13ef008cee93fdebe857e430fa761771883acdfc4909a4f1bba3b560"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/after-isolation.json",
+        "bytes": 505,
+        "sha256": "4e9253aa13ef008cee93fdebe857e430fa761771883acdfc4909a4f1bba3b560"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-before-v2/isolation.json",
+        "bytes": 503,
+        "sha256": "38e1a7dbe811815676379fb74dc09fa269fa979c409ccecb1917377497cf4ee3"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/before-isolation.json",
+        "bytes": 503,
+        "sha256": "38e1a7dbe811815676379fb74dc09fa269fa979c409ccecb1917377497cf4ee3"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-before-v2/1280x720-before.png",
+        "bytes": 1508098,
+        "sha256": "703fb2eb0afb7be5fb1949d46633c151cfd1da573d696fb24fbc68c53caf7d8d"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/before-720.png",
+        "bytes": 1508098,
+        "sha256": "703fb2eb0afb7be5fb1949d46633c151cfd1da573d696fb24fbc68c53caf7d8d"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-final1/1280x720-settings-closed.png",
+        "bytes": 1568873,
+        "sha256": "8f06b2a390e06dc026d595d2413af90a8ea5d3c01116c1ba9573d574bee45a83"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/after-720-closed.png",
+        "bytes": 1568873,
+        "sha256": "8f06b2a390e06dc026d595d2413af90a8ea5d3c01116c1ba9573d574bee45a83"
+      }
+    },
+    {
+      "source": {
+        "path": "build/display-settings-20261023-final1/1280x720-settings-open.png",
+        "bytes": 1395079,
+        "sha256": "fd35e6ca7db51acca94de79e45786a2360411f0dfb3ab3a1776484662f45b689"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/after-720-open.png",
+        "bytes": 1395079,
+        "sha256": "fd35e6ca7db51acca94de79e45786a2360411f0dfb3ab3a1776484662f45b689"
+      }
+    },
+    {
+      "source": {
+        "path": "build/hd-full-suite-20261023-clang.log",
+        "bytes": 1399201,
+        "sha256": "4068e8b5453b40eac1239b42604a2fd9c208024b739c03d85db85594fa159cbd"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/full-suite.log",
+        "bytes": 1399201,
+        "sha256": "4068e8b5453b40eac1239b42604a2fd9c208024b739c03d85db85594fa159cbd"
+      }
+    },
+    {
+      "source": {
+        "path": "build/observe-display-settings-before-20261023-v2.mjs",
+        "bytes": 64169,
+        "sha256": "ce695811334c44e4bf175b0d1957f177e3d059cad8a3fa8c0c9ee8075d9d7840"
+      },
+      "published": {
+        "path": "docs/validation/m5-display-settings-20261023/executed-baseline-observer.mjs",
+        "bytes": 64169,
+        "sha256": "ce695811334c44e4bf175b0d1957f177e3d059cad8a3fa8c0c9ee8075d9d7840"
+      }
+    }
+  ],
+  "retainedLocalFailures": [
+    {
+      "kind": "First UI injection used CDP keyDown without text; browser default activation was not dispatched. Runner corrected, no product claim from this attempt.",
+      "file": {
+        "path": "build/display-settings-20261023-run1/result.json",
+        "bytes": 280489,
+        "sha256": "19e1b0f38f3486d697bd8169e7347c7a7cb02ef391c0db8952f98c2f9b75faa2"
+      }
+    },
+    {
+      "kind": "First baseline observer did not normalize Windows root separators; static requests refused before game initialization. V2 corrected only root normalization.",
+      "file": {
+        "path": "build/display-settings-20261023-before/result.json",
+        "bytes": 72517,
+        "sha256": "c22a74fc35abe39dbdc6330173a550b164eea55acc6b1634c592663fe054c729"
+      }
+    },
+    {
+      "kind": "Initial full suite default CC executable absent; all 447 errors were spawn cc ENOENT. Retried all registered tests with existing Clang.",
+      "summary": {
+        "tests": 6595,
+        "pass": 6148,
+        "fail": 447
+      },
+      "file": {
+        "path": "build/hd-full-suite-20261023.log",
+        "bytes": 1691845,
+        "sha256": "a86a826bbc581195284b77dec33bb39d9d2b59331cc08f61050d7610a9177594"
+      }
+    }
+  ],
+  "limits": [
+    "No full 38-city campaign traversal",
+    "No new impact cast/classic LCD acceptance",
+    "No real mobile-device/performance/cloud acceptance",
+    "Historical V32 game evidence is published separately"
+  ],
+  "portableClosedArchive": false,
+  "reason": "Current successful UI browser records, source verification, full regression log and representative screenshots are copied exactly. Earlier failed attempts and temporary profiles are local evidence paths, not a recursively closed archive."
+}

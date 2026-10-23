@@ -214,3 +214,42 @@
 /scripts/fixtures/impact13-v31-january-buy-advanced-canvass-source-provenance.json -text
 /scripts/fixtures/impact13-v31-canvass-return-necessary-gates-source-provenance.json -text
 /scripts/fixtures/impact13-v31-water-token-give-source-provenance.json -text
+
+# Preserve scoped V32 February Plunder/Canvass/causal Give validation and controlled source provenance bytes.
+/scripts/hd-impact-v32-acquisition-policy.mjs -text
+/scripts/hd-impact-v32-canvass16-make-oracle.mjs -text
+/scripts/hd-impact-v32-canvass16-natural-return.mjs -text
+/scripts/hd-impact-v32-water-token-give-oracle.mjs -text
+/scripts/hd-impact-v32-conditional-plunder-prefix.mjs -text
+/scripts/test-hd-impact-v32-acquisition-policy.mjs -text
+/scripts/test-hd-impact-v32-canvass16-make-oracle.mjs -text
+/scripts/test-hd-impact-v32-canvass16-natural-return.mjs -text
+/scripts/test-hd-impact-v32-water-token-give-oracle.mjs -text
+/scripts/test-hd-impact-v32-conditional-plunder-prefix.mjs -text
+/scripts/fixtures/hd-impact-v32-february-acquisition-world.json -text
+# This original provenance record intentionally retains its CRLF bytes.
+/scripts/fixtures/impact13-v32-acquisition-and-causal-give-source-provenance.json -text whitespace=cr-at-eol
+/scripts/fixtures/impact13-v32-conditional-plunder-prefix-source-provenance.json -text
+/scripts/fixtures/impact13-v32-give-hooks-fence-source-adaptation.json -text
+
+# PC display-settings runtime evidence records these exact LF source bytes.
+/pc.html text eol=lf
+/js/hd-graphics.js text eol=lf
+/js/hd-dialog.js text eol=lf
+/css/hd-graphics.css text eol=lf
+/css/hd-overworld.css text eol=lf
+/scripts/test-hd-overworld-runtime.mjs text eol=lf
+/scripts/test-hd-qimen-runtime.mjs text eol=lf
+/scripts/test-hd-display-settings.mjs text eol=lf
+/docs/validation/m5-display-settings-20261023/*.json text eol=lf
+/docs/validation/m5-display-settings-20261023/*.md text eol=lf
+/docs/validation/m5-display-settings-20261023/*.log -text whitespace=cr-at-eol
+/docs/validation/m5-display-settings-20261023/*.mjs text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023*.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023*.md text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023*.sav -text
+
+# Preserve compact V32 saved-evidence publication and latest original checkpoint.
+/docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition*.json text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition.md text eol=lf
+/docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition-sango*.sav -text

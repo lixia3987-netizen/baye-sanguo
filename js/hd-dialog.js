@@ -4,7 +4,7 @@
  */
 (function (global) {
     var OVERWORLD_KEY = 'baye/overworldMode';
-    var qtyEpoch = 0;
+    var qtyEpoch = 0, helpFocusRequest = null;
     var mobileHost = null, mobileBattleHost = null, started = false;
     var mobileBattleCommit = null, mobileBattleData = null, mobileCampaignData = null,
         battlePortrait = {key: '', data: null, phase: 'off', serial: 0};
@@ -633,19 +633,24 @@
         return !!(result && result.ok);
     }
 
-    function requestHelp(code, title) {
+    function requestHelp(code, title, options) {
         if (document.hidden || !hdReady()) { return false; }
+        helpFocusRequest = options && options.focus ? { source: document.activeElement, until: Date.now() + 2000 } : null;
+        var accepted;
         if (fightActive()) {
-            if (!global.BayeHdBattle || typeof BayeHdBattle.handleKey !== 'function') { return false; }
+            if (!global.BayeHdBattle || typeof BayeHdBattle.handleKey !== 'function') { helpFocusRequest = null; return false; }
             // Toolbar clicks use the same guarded controller path as H/S.
-            return BayeHdBattle.handleKey({ key: code === VK.HELP ? 'h' : 's',
+            accepted = BayeHdBattle.handleKey({ key: code === VK.HELP ? 'h' : 's',
                 keyCode: code === VK.HELP ? 72 : 83, target: document.body,
                 preventDefault: function () {}, stopPropagation: function () {},
                 stopImmediatePropagation: function () {} });
+        } else {
+            // In person/property menus these keys page the list. Only an actual
+            // native help publication can open a help panel after this key.
+            accepted = engineSendKey(code);
         }
-        // In person/property menus these keys page the list. Only an actual
-        // native help publication can open a help panel after this key.
-        return engineSendKey(code);
+        if (!accepted) { helpFocusRequest = null; }
+        return accepted;
     }
 
     function looksLikeSpeech(text) {
@@ -1599,6 +1604,15 @@
         }
         state.asyncId = meta.asyncId != null ? meta.asyncId : 0;
         render();
+        if (kind === 'help' && helpFocusRequest) {
+            var focusRequest = helpFocusRequest, stage = el('hd-dialog-stage');
+            helpFocusRequest = null;
+            if (stage && typeof stage.focus === 'function' && !document.hidden &&
+                Date.now() <= focusRequest.until && shouldShowHd() &&
+                (document.activeElement === document.body || document.activeElement === focusRequest.source)) {
+                stage.focus({ preventScroll: true });
+            }
+        }
         return true;
     }
 
@@ -2471,11 +2485,11 @@
             meta.showLcd = true;
             return openDialog(meta);
         },
-        openHelp: function () {
-            return requestHelp(VK.HELP, '帮助');
+        openHelp: function (options) {
+            return requestHelp(VK.HELP, '帮助', options);
         },
-        openSearch: function () {
-            return requestHelp(VK.SEARCH, '查找');
+        openSearch: function (options) {
+            return requestHelp(VK.SEARCH, '查找', options);
         },
         close: closeDialog,
         closeQty: closeQtyDialog,

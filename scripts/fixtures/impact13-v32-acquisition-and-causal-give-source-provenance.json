@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "kind": "V32 February bounded acquisition and complete native causal Give source proposals",
+  "sourceOnlyAccepted": true,
+  "repositoryModulesExecuted": false,
+  "testsExecutedByAuthor": false,
+  "gameExecuted": false,
+  "trackedFilesModifiedByAuthor": false,
+  "rootExecutionRequired": true,
+  "adoptedModules": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-acquisition-policy-v1.mjs",
+      "bytes": 18391,
+      "sha256": "42cfa940c289764547dccb93c51e0c82ef557688beeba085fd50cb7b2ad9af3c"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-canvass16-make-oracle-v1.mjs",
+      "bytes": 24395,
+      "sha256": "ccdf067db55296b94cb8479cb1bb3421a4d9b3984984c6a50e4f67301dac3f1a"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-canvass16-natural-return-v1.mjs",
+      "bytes": 14276,
+      "sha256": "a69b3935182894985f5fe68d3fd47ecb93d7b084bfcfc8b6065f6e1a66434d48"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-water-token-give-oracle-v2.mjs",
+      "bytes": 14198,
+      "sha256": "b484c070f3659b789d2d14b770de6999f48fb2e5340eccc4bd7eb49662eaf188"
+    }
+  ],
+  "adoptedTests": [
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-acquisition-policy-v1.mjs",
+      "bytes": 5963,
+      "sha256": "1c0c0b74e498e6dce3b28aa76390346a08c0fbb35b51d2c46ac4591ae7b8fa11"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-canvass16-make-oracle-v2.mjs",
+      "bytes": 15058,
+      "sha256": "8ef2ff992c2b89b97e66162f61681ef09ac43d6e722b38c2dee55411d8c5734d"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-canvass16-natural-return-v1.mjs",
+      "bytes": 15222,
+      "sha256": "80613be3cec20c7281e668fd36389d34ff80b129211e1a376e329764b94ae634"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-water-token-give-oracle-v3.mjs",
+      "bytes": 11511,
+      "sha256": "22cef519f7f910f5c322bd85dcb0dd2c016a39d75f8de43de8e9b6765ec106b4"
+    }
+  ],
+  "controlledGroupCounts": [
+    15,
+    37,
+    40,
+    52
+  ],
+  "sourceControlledCases": 144,
+  "fixture": {
+    "path": "build/impact-skill-20261014/hd-impact-v32-february-acquisition-world-v1.json",
+    "bytes": 77973,
+    "sha256": "6b8cd48c5cc7460d34bdf737cf67f3896a7ac7c9588652890825e818183afada"
+  },
+  "genuineSourceWorld": {
+    "path": "build/impact-skill-20261014/impact13-battle-v31-latest-genuine-saved-world-v1.json",
+    "bytes": 77973,
+    "sha256": "6b8cd48c5cc7460d34bdf737cf67f3896a7ac7c9588652890825e818183afada"
+  },
+  "genuineSourceReceipt": {
+    "path": "build/impact-skill-20261014/impact13-battle-v31-terminal-receipt-v1.json",
+    "bytes": 261206,
+    "sha256": "673d215a356a782d9f22674e404d2c6e2e0c08accb242408133ce7c85121168f"
+  },
+  "historicalSources": [
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-acquisition-policy-v2.mjs",
+      "bytes": 21173,
+      "sha256": "fe4e5a495b4947f45554457e4be24ae40fcc6872d7207c63139f5e9d7c875b8d"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-canvass16-make-oracle-v1.mjs",
+      "bytes": 24395,
+      "sha256": "8b25b2b63e00d5aca505ac67ff055a0c3b22656ac900c10fcc54c410d37089f4"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-canvass16-natural-return-v2.mjs",
+      "bytes": 14276,
+      "sha256": "2b7bbe508ddcb11d09938953470bde9898372bc5913010701215d67d2744f440"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v31-water-token-give-oracle-v1.mjs",
+      "bytes": 11181,
+      "sha256": "94aa5abe7310499b0fa69bae27200816856c9f61372c6d7a2764a83b79975881"
+    }
+  ],
+  "policyChanges": [
+    "Same original maximum-weight selected assignment/source residue totals and cap2 including129; equal-score dispatch now non-city6 beforecity6 so a later original success may end a repeatedly targeted person at the water-token city. No RNG or final location guarantee.",
+    "Remove original January Buy-only APIs and import; explicit February scope Buy0/Plunder1. Conditional unsafe-current-food END admission belongs only to separately tested prefix module.",
+    "All original complete unknown-world, raw resident repeats, actor eligibility, military, maxlevel, money and native MP math preserved."
+  ],
+  "makeAndReturnChanges": "Namespace/import/fixture only. Original complete unfiltered native menus and current-callback residue/adjacent-return checker preserved.",
+  "giveChanges": [
+    "Exact original Largess9 two-world-phase conversion/inventory/Devotion model unchanged; fixed settled dateMarch2393.",
+    "All player queuedOrder16 returns are independently recomputed from supplied complete February queuedWorld+readonly observer and deepEqual to every supplied return. No summaries/missing/reordered/forged rows.",
+    "Causal samePID first genuine acquisition at any owned city plus strictly ordered uniquely determined owned relocations must endcity6. No second acquisition inferred.",
+    "Current owned locations must be exactly city6 once. Enemy stale physical raw duplicate slots remain measured and unchanged, rather than globally deduplicated."
+  ],
+  "controlledCorrections": [
+    "MAKE testV1 carried January date assertion; V2 only fixes date2392 and genuine V31 provenance caption,37cases unchanged.",
+    "Give testV2 duplicate-in-city6 negative wrote114 overexisting114 slot. V3 selects a non114 original slot before inserting duplicate;52cases unchanged."
+  ],
+  "preservedUnadopted": [
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-canvass16-make-oracle-v1.mjs",
+      "bytes": 15058,
+      "sha256": "99c947887ef5df8e97fcf269724393e4dcd404ac85094ca35b05b7d9a96c8742"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v32-water-token-give-oracle-v1.mjs",
+      "bytes": 11178,
+      "sha256": "411a8e15dbec42f1e0891f9dbe5f8248663afc9b98ddfa3596b2b175a651bcac"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-water-token-give-oracle-v1.mjs",
+      "bytes": 6151,
+      "sha256": "aef60e845e887102d618360ac7c8b12cbcded4b7c55ebe4517239ca2e395bee4"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v32-water-token-give-oracle-v2.mjs",
+      "bytes": 11392,
+      "sha256": "ac0c5d07e1b382ec5460a85b309bf1cbb76064b2ff7d15c0496ee943914e586a"
+    }
+  ],
+  "rootChecksSeparate": {
+    "path": "build/impact-skill-20261014/impact13-v32-root-source-contracts-v1.json",
+    "bytes": 5534,
+    "sha256": "b34433a2c9a33a195e7d9e2a90249ca1a877adc5a30d73fbce82515e2383c6ac"
+  },
+  "actualInputAccepted": false,
+  "actualGiveExecutionAccepted": false,
+  "actualAcquisitionAccepted": false,
+  "actualCastAccepted": false,
+  "hdAccepted": false,
+  "globalHdComplete": false,
+  "rngContinuityAccepted": false
+}

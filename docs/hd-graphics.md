@@ -1,5 +1,7 @@
 # 画质优化计划（HD 分支）
 
+2026-10-23：PC画质与模式选项现集中在“显示设置”入口，展开后选择，Escape或外点收起。地图HUD保留独立空间，帮助／查找继续请求原生界面；[三尺寸实测与回归](validation/m5-display-settings-20261023.md)记录当前范围。下文v1管线保持历史说明。
+
 第 1–7 节保留 **v1 LCD 放大阶段**的渲染管线与约束。当前 HD 分支已引入 `vendor/iBaye`、重编 WASM、状态桥接和独立 HD 菜单；历史 v1 的“不改 WASM”不再描述整个分支。继续开发的阶段与验收见 [hd-development-plan.md](hd-development-plan.md)。
 
 下一产品轨道是 **1080p 现代 2D 策略大地图**（不是把 LCD 再放大一档）。已锁定规格、架构与素材清单见 **[hd-overworld-spec.md](hd-overworld-spec.md)**。经典 LCD 仍可切换保留。

@@ -266,6 +266,11 @@ async function key(cdp, name) {
 }
 
 async function click(cdp, selector) {
+    const needsSettings = await evaluate(cdp, `(() => {
+        const node=document.querySelector(${JSON.stringify(selector)}),panel=document.getElementById('baye-hd-settings-panel');
+        return !!(node&&panel&&panel.contains(node)&&panel.hidden);
+    })()`);
+    if (needsSettings) await click(cdp, '[data-hd-settings-toggle]');
     report.inputs.push({ type:"click", selector, at:new Date().toISOString() });
     const point = await evaluate(cdp, `(() => {
         const node = document.querySelector(${JSON.stringify(selector)});
