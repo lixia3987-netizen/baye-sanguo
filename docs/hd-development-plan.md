@@ -1,5 +1,7 @@
 # 三国霸业 HD 开发计划
 
+2026-10-23 最新[WOOD6／7准备与路线合同](validation/m5-wood67-preparation-20261023-v36.md)：正式登记五月条件Plunder前缀、131／7→1／541粮出征、map110原生MOVE／最终AIM三个纯模块，并将WOOD前后快照generation绑定实际AIM。不同新增136项，130登记文件全套6931／6931通过，含Clang实际C编译；56份有界归档及六对迁移等价回读通过。本批没有新游戏、资源到账或WOOD施放信用，当前仍从下述五月真实双SAVE继续；城20粮1仍不安全，必须实见原生掠夺返回后再接受供粮。下一候选补两种WOOD独立电影与PC1080高清实证，整体HD保持partial。
+
 2026-10-23 最新[撞击13北向经典LCD实战](validation/m5-impact13-classic-north-20261023-v35.md)：V35只从V34已付款四月双SAVE继续，零新增买粮或付款，实际携421粮由6→12／Way0／map112出征。原Buy先自然返回；撞击MP68→38、敌军1840→840，32份完整经典LCD读回、NUM／HOLD及真实AIM的generation独审通过，15阶段终审、564来源与native128保持。全部即时机器证据和实采PNG已作有界归档，64张原PNG另经[独立解码](validation/m5-impact13-classic-north-20261023-v35-root-png-review.json)核对983040像素；仅接受当前PC1080经典LCD子范围，本批HD与全局接受仍false。原控制器fallbackAccepted／v34ContinuationAccepted的false原样保留，独立技能接受另列。
 
 当前唯一主活动输入为impact13-129-v35-north-route-settled／239-5／slot0，订单0。129退却后被俘，Belong65535、原始城12、0兵／EXP8，不能恢复四月1910兵或称作安全返城。城20现粮1、钱570，按13339军数下一月严格最低267粮；缺266粮的买价1330钱已超过现金，尚未执行的掠夺／运输／收入不能视作到账。张休131仍唯一己方驻城7、Lv17步兵1、2920兵、双装备空、体力100，静态具备WOOD6／7；下一步审查本地Plunder26实际返回的供粮前缀，再由7→1准备原生山地菜单／MOVE／AIM实证。WOOD尚无真实施放，整体HD保持partial。

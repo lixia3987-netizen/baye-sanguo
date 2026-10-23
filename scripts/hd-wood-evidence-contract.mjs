@@ -17,6 +17,10 @@ export function woodAttemptFacts(attempt, skill) {
     assert.ok(attempt && attempt.succeeded === true && attempt.proof && attempt.before && attempt.after);
     const p = attempt.proof, actor = attempt.actor, target = attempt.target;
     integer(p.generation, 1, 0xffffffff, 'Actual AIM generation');
+    for (const [name, snapshot] of [['before', attempt.before], ['after', attempt.after]]) {
+        integer(snapshot.generation, 1, 0xffffffff, 'Actual ' + name + ' generation');
+        assert.equal(snapshot.generation, p.generation, 'Actual ' + name + ' belongs to this AIM generation');
+    }
     integer(actor.i, 0, 9, 'Player actor slot'); integer(target.i, 10, 19, 'Enemy target slot');
     same([p.casterId, p.targetId, p.x, p.y], [actor.id, target.id, target.x, target.y]);
     const a0 = unit(attempt.before.units, actor.i, actor.id), a1 = unit(attempt.after.units, actor.i, actor.id);

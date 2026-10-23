@@ -54,7 +54,7 @@ function fixture(skill=6) {
     const actorUnit={...actor,personIndex:188,state:0,hp:100,mp:100,move:5,arms:1500,active:0};
     const targetUnit={...target,personIndex:45,state:0,hp:100,mp:70,move:4,arms:1200,active:0};
     const attempt={succeeded:true,skill:{id:skill},actor,target,proof:{generation,casterId:189,targetId:46,x:9,y:8,casterMp:100},movieEvents:[eventId],
-        before:{units:[actorUnit,targetUnit]},after:{units:[{...actorUnit,mp:100-(skill===6?20:25)},{...targetUnit,arms:1100}]}};
+        before:{generation,units:[actorUnit,targetUnit]},after:{generation,units:[{...actorUnit,mp:100-(skill===6?20:25)},{...targetUnit,arms:1100}]}};
     const captures=timelines.get(skill).map((t,n)=>{
         const scene={generation,eventId,commitSeq:n+1,frameIndex:t.frame,frameValid:true,visibleFrames:Array.from(t.visible),composition:{width:t.width,clearFrames:Array.from(t.clears)}};
         const units=Array.from({length:20},(_,i)=>({i,id:0}));units[0]={...actorUnit,mp:attempt.after.units[0].mp};units[10]=clone(targetUnit);
@@ -73,6 +73,18 @@ pass('Fallingstone selected interval requires only its one true64 copy',()=>{con
 for(const [name,indices]of [['missing first copy',[1,2,3,4,5,6,7]],['missing middle copy',[0,1,2,4,5,6,7]],['final copy alone',[7]],['duplicate final cannot substitute for missing',[7,7,7,7,7,7,7,7]]])reject(name,()=>verifyWoodCopyCompleteness(indices.map(i=>good.captures[i]),good.attempt,6,timelines.get(6)));
 reject('Unknown copied commit',()=>{const f=fixture();f.captures[7].spe.display.commitSeq=9;bind(f.captures[7]);verifyWoodCopyCompleteness(f.captures,f.attempt,6,timelines.get(6));});
 reject('Movie generation cannot borrow another attempt',()=>{const f=fixture();f.captures[0].spe.generation++;bind(f.captures[0]);validateWoodCaptureBinding(f.captures[0],f.attempt,6);});
+for (const skill of [6, 7]) {
+    for (const [name, change] of [
+        ['proof-only generation', a => a.proof.generation += 1000],
+        ['before-only generation', a => a.before.generation += 1000],
+        ['after-only generation', a => a.after.generation += 1000],
+        ['missing before generation', a => delete a.before.generation],
+        ['missing after generation', a => delete a.after.generation],
+    ]) reject('WOOD' + skill + ' rejects ' + name, () => {
+        const f = fixture(skill); change(f.attempt);
+        validateWoodCaptureBinding(f.captures[0], f.attempt, skill);
+    });
+}
 reject('Metadata cannot detach from callback snapshot',()=>{const f=fixture();f.captures[0].callbackAfter.spe.eventId++;validateWoodCaptureBinding(f.captures[0],f.attempt,6);});
 reject('Missing callback snapshot',()=>{const f=fixture();delete f.captures[0].callbackBefore;validateWoodCaptureBinding(f.captures[0],f.attempt,6);});
 reject('Actual units cannot detach from snapshot roster',()=>{const f=fixture();f.captures[0].before.units[10].arms--;validateWoodCaptureBinding(f.captures[0],f.attempt,6);});

@@ -1,0 +1,269 @@
+{
+  "schemaVersion": 1,
+  "kind": "V36 original WOOD source/preparation contracts; controlled and full-regression evidence only",
+  "scope": {
+    "gameStarted": false,
+    "newNativeInput": false,
+    "actualPaymentAccepted": false,
+    "actualPlunderAccepted": false,
+    "actualSupplyIncomeAccepted": false,
+    "actualMarchAccepted": false,
+    "actualBattleMpObserved": false,
+    "actualPreparationAccepted": false,
+    "actualCastAccepted": false,
+    "classicNativePixelAccepted": false,
+    "hdAccepted": false,
+    "globalHdComplete": false,
+    "rngContinuityAccepted": false
+  },
+  "counts": {
+    "prefix": 70,
+    "route": 29,
+    "march": 27,
+    "newGeneration": 10,
+    "differentNew": 136,
+    "previousWoodSameCases": 40,
+    "targetedCases": 176,
+    "registeredFiles": 130,
+    "fullTests": 6931,
+    "fullPass": 6931
+  },
+  "fullRegression": {
+    "command": "npm test",
+    "log": {
+      "path": "build/hd-full-suite-20261023-v36b.log",
+      "bytes": 594320,
+      "sha256": "e305ac478fe8ece8a24c248cacbc398bafb832b28eb49d820e6a0ab784ec997f"
+    },
+    "terminal": {
+      "sessionId": 90741,
+      "chunkId": "0a7579",
+      "exitCode": 0
+    },
+    "tests": 6931,
+    "pass": 6931,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 0,
+    "durationMs": 199227.8585,
+    "CC": "F:\\project\\baye-sanguo\\build\\toolchain\\emsdk\\upstream\\bin\\clang.exe",
+    "nativeCActuallyCompiled": true,
+    "terminalProvenance": "Root-reported closed tool completion; complete original log footer independently read back."
+  },
+  "historicalFullRegression": {
+    "command": "npm test",
+    "log": {
+      "path": "build/hd-full-suite-20261023-v36.log",
+      "bytes": 594304,
+      "sha256": "e8ba7f5a5f97c70ab2afecbd5493e8d3271918e2ba0c4071de6782a14791b092"
+    },
+    "terminal": {
+      "sessionId": 87216,
+      "chunkId": "4d9878",
+      "exitCode": 0
+    },
+    "tests": 6931,
+    "pass": 6931,
+    "fail": 0,
+    "durationMs": 199107.6921,
+    "scope": "Before the sole EOF byte adaptation, same tests and functionality; original run preserved separately and not added to current count."
+  },
+  "eofAdaptation": {
+    "onlyDifference": true,
+    "byteOffset": 4960,
+    "beforeHex": "0a0a",
+    "afterHex": "0d0a",
+    "allNonemptyLinesUnchanged": true,
+    "priorFormal": {
+      "path": "build/v36-formal-march-test-before-eof-fix.mjs",
+      "bytes": 4962,
+      "sha256": "5995c576ba79c434fc3f14473e829f4c71195223ef6986c64bfca194968c6cd8"
+    },
+    "currentFormal": {
+      "path": "scripts/test-hd-impact-v36-wood-march.mjs",
+      "bytes": 4962,
+      "sha256": "b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909"
+    },
+    "reason": "git diff --cached --check rejected one extra EOF blank line. This is a formatting check, not a game failure or new feature."
+  },
+  "targeted": [
+    {
+      "command": "npm run test:wood-north-preparation",
+      "terminal": {
+        "sessionId": null,
+        "chunkId": "5b229d",
+        "exitCode": 0
+      },
+      "tests": 176,
+      "pass": 176,
+      "fail": 0,
+      "skipped": 0,
+      "rawLogAvailable": false,
+      "beforeEofAdaptation": true,
+      "provenance": "Terminal-only root execution before the EOF adaptation; no original log is manufactured and no rerun was performed for this publication."
+    },
+    {
+      "command": "node --test --test-concurrency=1 scripts/test-hd-wood-runtime-oracle.mjs scripts/test-hd-impact-v36-conditional-plunder-prefix.mjs scripts/test-hd-impact-v36-wood-route.mjs scripts/test-hd-impact-v36-wood-march.mjs",
+      "log": {
+        "path": "build/v36-formal-independent-targeted-v1.txt",
+        "bytes": 12350,
+        "sha256": "2c5d1f1e7f8c63a2d98f4ac67d50fc1f89f095d82e1cf3d74c7c64794856c560"
+      },
+      "tests": 176,
+      "pass": 176,
+      "fail": 0,
+      "differentNewCases": 0,
+      "beforeEofAdaptation": true,
+      "provenance": "Separate actual independent rerun of the same176 cases before EOF adaptation; archived original log. Original v1 review stays historical, current v2 byte review is separate."
+    },
+    {
+      "command": "node --test scripts/test-hd-wood-runtime-oracle.mjs",
+      "terminal": {
+        "sessionId": null,
+        "chunkId": "319905",
+        "exitCode": 0
+      },
+      "tests": 50,
+      "oldCases": 40,
+      "newCases": 10,
+      "rawLogAvailable": false,
+      "provenance": "Terminal-only root item; all50 cases also occur inside the archived full log. Counts are not added again."
+    }
+  ],
+  "state": {
+    "inputTag": "impact13-129-v35-north-route-settled",
+    "date": [
+      239,
+      5
+    ],
+    "period": 4,
+    "playerKing": 0,
+    "captured129": {
+      "belong": 65535,
+      "arms": 0
+    },
+    "caster131": {
+      "city": 7,
+      "level": 17,
+      "effectiveArmSource": 1,
+      "arms": 2920,
+      "thew": 100,
+      "expectedOrdinaryMenu": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "actualBattleMpObserved": false,
+      "sourceMpFormulaOnly": 84
+    },
+    "city20": {
+      "food": 1,
+      "money": 570,
+      "actualSafe": false
+    },
+    "conditionalPlunder": {
+      "person": 44,
+      "order": 26,
+      "thewCost": 12,
+      "moneyCost": 0,
+      "forecastFoodGain": 645,
+      "forecastMoneyGain": 258,
+      "forecastEndFood": 646,
+      "forecastEndMoney": 828,
+      "actualIncomeObserved": false
+    },
+    "march": {
+      "origin": 7,
+      "destination": 1,
+      "mapId": 110,
+      "nativeWay": 3,
+      "nativeId": 132,
+      "cargo": 541,
+      "maxBouts": 30,
+      "timeCount": 2
+    }
+  },
+  "sourceBoundary": "Formal8 and six exact build candidates are read back after the closed full run. This is not a separate full product pre-run freeze; actual browser/game execution needs its own freeze.",
+  "formalSources": [
+    {
+      "path": "scripts/hd-impact-v36-conditional-plunder-prefix.mjs",
+      "bytes": 21459,
+      "sha256": "03b773f135d759e0c4c789857cccf588b6cd2623ee3e73aeace61eaafef251e9"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-conditional-plunder-prefix.mjs",
+      "bytes": 16326,
+      "sha256": "e5e4ad062b99f0a6a06935b413b24dff8de8dca20fc7d5a5a83f23fdd81c9075"
+    },
+    {
+      "path": "scripts/hd-impact-v36-wood-route.mjs",
+      "bytes": 16732,
+      "sha256": "b17fc01755860be7280247edb67b0501754537d8b1eb6e2e66c0f6d3095caf46"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-wood-route.mjs",
+      "bytes": 16668,
+      "sha256": "759ade7ea9cb8eb8c97254566d5cb5b7d64753613ce49f92ff51bdf19eb67cdd"
+    },
+    {
+      "path": "scripts/hd-impact-v36-wood-march.mjs",
+      "bytes": 6527,
+      "sha256": "e36012b7e1d870421923a6a1a64c3bbe27a03e7c6ff5a6ba5293dbb2ad136acf"
+    },
+    {
+      "path": "scripts/test-hd-impact-v36-wood-march.mjs",
+      "bytes": 4962,
+      "sha256": "b37c9d8a0ad196cc5ef918b478fc091137aa9d7c66d2e1e5045698b00a3a2909"
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4"
+    },
+    {
+      "path": "scripts/test-hd-wood-runtime-oracle.mjs",
+      "bytes": 12401,
+      "sha256": "f1d864b491a82af7cdbfa2154b11a1cac0f597b41a5847fa87140ee69f78b12d"
+    }
+  ],
+  "migrationPairs": 6,
+  "migrationEquivalent": true,
+  "archive": {
+    "index": {
+      "path": "docs/validation/m5-wood67-preparation-20261023-v36/runtime-index.json",
+      "bytes": 30805,
+      "sha256": "10d254c6506ce0576984361ef307bcf562f1582c09d5496ee0c4f9ebbe7b7c01"
+    },
+    "allowlist": {
+      "path": "docs/validation/m5-wood67-preparation-20261023-v36/allowlist.json",
+      "bytes": 28362,
+      "sha256": "125545c9df895ffd507dfe64716bdd31d8ae5ec13e21d9d4d8c2e7de6a58c612"
+    },
+    "receipt": {
+      "path": "docs/validation/m5-wood67-preparation-20261023-v36/receipt.json",
+      "bytes": 36912,
+      "sha256": "c21c3dbc99df5885a8679e8e35db1574ee1538f2bd0cd27d1cd4de353ec7ee99"
+    },
+    "reader": {
+      "path": "docs/validation/m5-wood67-preparation-20261023-v36/verify-archive.mjs",
+      "bytes": 3605,
+      "sha256": "2b8936e3d90592dce0258d6180a5e455f37b25fb83df2c5f4e99538953432386"
+    },
+    "logicalRecords": 56,
+    "uniqueObjects": 56,
+    "compressedBytes": 619900,
+    "portableClosedArchive": false
+  },
+  "firstFailure": {
+    "terminalChunk": "daf525",
+    "exitCode": 1,
+    "tests": 26,
+    "pass": 25,
+    "fail": 1,
+    "reason": "Controlled terrain-pair helper omitted diagonal cells; exact first source/test snapshots and metadata retained. Not a game failure.",
+    "finalRouteCases": 29
+  },
+  "nextRequired": "Current public LOAD, original Plunder payment and exact adjacent natural return before any income credit; nativeMarch/Way3, real6/7 menus and effective-arm getters, current MOVE/AIM/MP, separate37kind2 intervals, complete LCD/HD/NUM/HOLD and exact cleanup remain actual-run obligations."
+}
