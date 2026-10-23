@@ -324,3 +324,11 @@
 /docs/validation/m5-wood67-june-preparation-20261024-v38*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-june-preparation-20261024-v38*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-june-preparation-20261024-v38*.gz -text
+
+# Preserve V38 real WOOD HD720 captures, failed attempt and July saves byte-exact.
+/docs/validation/m5-wood67-hd720-20261024-v38*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd720-20261024-v38*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd720-20261024-v38*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-hd720-20261024-v38*.sav -text
+/docs/validation/m5-wood67-hd720-20261024-v38*.png -text
+/docs/validation/m5-wood67-hd720-20261024-v38*.gz -text
