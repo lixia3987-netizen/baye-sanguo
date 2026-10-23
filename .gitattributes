@@ -332,3 +332,7 @@
 /docs/validation/m5-wood67-hd720-20261024-v38*.sav -text
 /docs/validation/m5-wood67-hd720-20261024-v38*.png -text
 /docs/validation/m5-wood67-hd720-20261024-v38*.gz -text
+
+# Neutral original-WOOD classic presentation contract and controlled cases.
+/scripts/hd-wood-classic-presentation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-classic-presentation.mjs -text whitespace=cr-at-eol
