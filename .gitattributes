@@ -370,3 +370,15 @@
 /docs/validation/m5-wood67-recruitment-source-20261024-v40*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-recruitment-source-20261024-v40*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-recruitment-source-20261024-v40*.gz -text
+
+# Exact required WOOD picture failure evidence and native LCD fallback.
+/scripts/hd-wood-missing-picture.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-missing-picture.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-picture-source-20261024-v40*.gz -text
+/docs/validation/m5-wood67-missing-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-missing-20261024-v40*.gz -text
