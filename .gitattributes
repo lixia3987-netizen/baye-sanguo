@@ -253,3 +253,20 @@
 /docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition*.json text eol=lf
 /docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition.md text eol=lf
 /docs/validation/m5-impact13-bounded-canvass-20261023-v32-prefix-acquisition-sango*.sav -text
+
+# Preserve executed AID evidence and V33 continuation source pins byte for byte.
+/scripts/hd-aid-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-aid-runtime.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-aid-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v33-city6-readiness.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v33-city6-readiness.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v33-water-token-give-oracle.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v33-water-token-give-oracle.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-aid-classic-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-aid-classic-20261023/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-city6-20261023-v33*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-city6-20261023-v33*.sav -text
+/docs/validation/m5-impact13-city6-20261023-v33/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-city6-20261023-v33.md text eol=lf
+/docs/validation/m5-hd-regression-20261023-v33/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-continuation-20261023-v34-plan.json -text whitespace=cr-at-eol

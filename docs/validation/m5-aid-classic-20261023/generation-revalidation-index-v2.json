@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-10-23T13:44:21.290Z",
+  "kind": "append-only-generation-binding-revalidation-v2",
+  "parentIndexUnmodified": {
+    "path": "docs/validation/m5-aid-classic-20261023/runtime-index.json",
+    "bytes": 89290,
+    "sha256": "7b28acaad5b63fc2a815155db1d00f1dad2932ff8c52f135d11714c311595401"
+  },
+  "parentSummaryUnmodified": {
+    "path": "docs/validation/m5-aid-classic-20261023.json",
+    "bytes": 14587,
+    "sha256": "a6dbedaed43bdeabe4997690792862e4284a5d9f9095cfdac9340a1085898780"
+  },
+  "originalExecutedToolAndOracleHashes": [
+    {
+      "id": 17,
+      "result": {
+        "path": "build/aid-classic-20261023/classic-17-v1/result.json",
+        "bytes": 27743133,
+        "sha256": "86a98229fbda7dafeb2bfeddf755001e010d5dd2e6319990c226aadfc367cc04"
+      },
+      "executedOracle": {
+        "bytes": 50408,
+        "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda"
+      }
+    },
+    {
+      "id": 29,
+      "result": {
+        "path": "build/aid-classic-20261023/classic-29-v1/result.json",
+        "bytes": 29816229,
+        "sha256": "7a65a96a12458a4f638a37feba72b5642eee427acea3e0ffda223af3b65efc61"
+      },
+      "executedOracle": {
+        "bytes": 50408,
+        "sha256": "d2a59079417b5af056bab796385165a2bf9231ed393f95c0b9a80fdd89b22cda"
+      }
+    }
+  ],
+  "files": [
+    {
+      "original": "scripts/hd-aid-runtime-oracle.mjs",
+      "bytes": 50538,
+      "sha256": "3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48",
+      "archive": "raw/3aabc6ee0486955226dfd631c750466492203a927a45c258ffa2ad1372843c48.gz",
+      "archiveBytes": 15484,
+      "archiveSha256": "30c2724fd2edbac6d3b147bd7ece46249a058ca480777c91d4bfdf33ed49dd03",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "scripts/test-hd-aid-runtime-oracle.mjs",
+      "bytes": 9648,
+      "sha256": "15a1cceb0e9d2c69f6b783f369d1d7c1efde818b7a43d2ee67eaaead27f533a3",
+      "archive": "raw/15a1cceb0e9d2c69f6b783f369d1d7c1efde818b7a43d2ee67eaaead27f533a3.gz",
+      "archiveBytes": 3844,
+      "archiveSha256": "cf0600e380564da6428bb9a2aba0cbcb197e216a83b399f828c4126a4e3c4cfc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/oracle-tests-generation-v2.log",
+      "bytes": 1387,
+      "sha256": "b11d08cf339c27bcf4da03d8dbe55ada04e1ef1984bb3b7fea68ff734b730e6b",
+      "archive": "raw/b11d08cf339c27bcf4da03d8dbe55ada04e1ef1984bb3b7fea68ff734b730e6b.gz",
+      "archiveBytes": 585,
+      "archiveSha256": "63a4e16fceca522437c72248a66b34dab015d3e2d5e706b574d24784138f05fc",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/generation-revalidation-v2.mjs",
+      "bytes": 4831,
+      "sha256": "b744944d7933ab8c1f62fa4497bae73690da34e09ed61ff5a1140002286dd7c5",
+      "archive": "raw/b744944d7933ab8c1f62fa4497bae73690da34e09ed61ff5a1140002286dd7c5.gz",
+      "archiveBytes": 2045,
+      "archiveSha256": "56497b85a1555a5f75fe56798b66fa0874061a63cc63770f198ad1c7fdf60013",
+      "encoding": "gzip-original-bytes"
+    },
+    {
+      "original": "build/aid-classic-20261023/generation-revalidation-v2.json",
+      "bytes": 2893,
+      "sha256": "c20fb3f4d0a1ad97fa58837d14a04ccde2e9a55e13a134b665095db60ba4fedc",
+      "archive": "raw/c20fb3f4d0a1ad97fa58837d14a04ccde2e9a55e13a134b665095db60ba4fedc.gz",
+      "archiveBytes": 1122,
+      "archiveSha256": "9690b3df28d16751798969cb8d510292c93746d136964aba4868bcb814131b53",
+      "encoding": "gzip-original-bytes"
+    }
+  ],
+  "scope": "Five new supplemental objects only. Original186-record/85-object index, sourceBoundary, results and executed-source pins remain byte-identical; this index adds the revised oracle/test and read-only revalidation, without native gameplay/HD credit."
+}

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "V33 independent written publication readback supplement",
+  "readbackTerminal": {
+    "sessionId": null,
+    "chunkId": "6c7646",
+    "exitCode": 0
+  },
+  "facts": {
+    "schemaVersion": 1,
+    "kind": "V33 written compact archive and publication independent readback",
+    "accepted": true,
+    "canonical": {
+      "path": "docs/validation/m5-impact13-city6-20261023-v33.json",
+      "bytes": 63889,
+      "sha256": "ef3658440d10052fb56ce07ec65fe61115c69ea4ceb429f2fac57d4712fb65b6"
+    },
+    "markdown": {
+      "path": "docs/validation/m5-impact13-city6-20261023-v33.md",
+      "bytes": 4210,
+      "sha256": "99442d803f7f178c1a52f56c636ae6f64ec79fc207266d0dc896678900c4aebe"
+    },
+    "archiveIndex": {
+      "path": "docs/validation/m5-impact13-city6-20261023-v33-archive.json",
+      "bytes": 184596,
+      "sha256": "af095dc18a4de0cd573c5a76f4e3ccd32abacbe5417a1debfa6ca3022ce0467d"
+    },
+    "parts": [
+      {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-archive-part001.json",
+        "bytes": 8376254,
+        "sha256": "e9137b6daa9c702039d25aaa5789dbecf160ee4455a3ce8421397bd398683e6f"
+      },
+      {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-archive-part002.json",
+        "bytes": 8195364,
+        "sha256": "f6efc5b004a50b2bbe91df181fa877a9e75df35a7101e0b28ffe5d2bec241cf2"
+      },
+      {
+        "path": "docs/validation/m5-impact13-city6-20261023-v33-archive-part003.json",
+        "bytes": 7945609,
+        "sha256": "706c3dc388b895c2552e9201874b6b0bfbd7834ac76a1e7abf84f7a41540af8f"
+      }
+    ],
+    "namedFiles": 396,
+    "uniqueBlobs": 386,
+    "allWrittenGzipBlobsFullyReadBack": true,
+    "rawBytes": 206780357,
+    "gzipBytes": 18286089,
+    "allOriginalByteAndShaMatches": true,
+    "latestPairAndPublishedWorldReverified": true,
+    "oldArchivesTraversed": false,
+    "newGameRuns": 0,
+    "actualCastAccepted": false,
+    "hdAccepted": false
+  },
+  "reader": {
+    "path": "build/impact-skill-20261014/verify-impact13-v33-publication-v1.mjs",
+    "bytes": 4167,
+    "sha256": "914fab3436e0cbcc9501e564699b937386bf38b28a99bb33e11abb6c64b8e88b",
+    "encoding": "gzip+base64",
+    "gzipBytes": 1786,
+    "gzipSha256": "0e2258d055d4d31bc3603101783097c3096819cc7139fe297aadd254752bc184",
+    "data": "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"
+  },
+  "scope": "New file-only written-archive readback after publication. Every396 named file and386 unique compressed blob is fully compared to original bytes; all external pinned dependencies are rehashed. No game, process, old archive traversal or new cast/HD credit."
+}
