@@ -382,3 +382,9 @@
 /docs/validation/m5-wood67-missing-20261024-v40*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-missing-20261024-v40*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-missing-20261024-v40*.gz -text
+
+# Complete original March target-walk receipts; no cursor teleport.
+/docs/validation/m5-wood67-target-walk-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-target-walk-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-target-walk-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-target-walk-20261024-v40*.gz -text
