@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "kind": "Bounded V38 source-preparation originals; no runtime or PNG archive",
+  "rawBundle": {
+    "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-raw.json.gz",
+    "bytes": 92113,
+    "sha256": "987243ab0f4cf89eb7254258c319d57a14362d4ee4c4448ccff22a658b0f187b",
+    "decodedBytes": 304801,
+    "decodedSha256": "5f562ea630632021f6f9606b46b4cca081791119d35314c2c03e57c5cf083811"
+  },
+  "files": [
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/design-and-current-source-qualification.json",
+      "bytes": 8634,
+      "sha256": "0471cf5355138717cb5a0fd8a27210e761be38da3e83dd8622993d186c6501b6"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/final-build-receipt.json",
+      "bytes": 1534,
+      "sha256": "23fbe23d77c750183800ff744df12d6b92b9fc398434e7eae5d49a91851298e4"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/final-build-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/final-build-stdout.txt",
+      "bytes": 14849,
+      "sha256": "c956fa85ab1a48172f511a0934853848a2ee1819126b14fc176513b6244a7ad5"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/final84-build-receipt.json",
+      "bytes": 1338,
+      "sha256": "8caaf3211299a2c5b98ef7ff1de605059dedaf52b21c6db2d55a09a56ab3e698"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/final84-build-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/final84-build-stdout.txt",
+      "bytes": 15099,
+      "sha256": "feaa1450b2b18a8dbec5c704487f8b807eca96562c57bbb7bc22b8a98f9ca25a"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/first-green83-test-before-async-ABI.mjs",
+      "bytes": 19259,
+      "sha256": "579d0624ff262baa0417378a9d6f0d8b63f81089a2f8049b77370484fee12f70"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/first-hd-impact-v38-june-wood-march-v1.mjs",
+      "bytes": 19644,
+      "sha256": "ffc466d9cc9dd53510531c91d60f94a3738573f5c98f55d39facc05697536f3e"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/first-receipt.json",
+      "bytes": 1309,
+      "sha256": "7315cf9f2a88428d6ec68e67bacff2670d7a6c1b115558322788b658f837d6dd"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/first-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/first-stdout.txt",
+      "bytes": 15628,
+      "sha256": "568031e0514c70ea00f7bf60d60b1a61e9063398106bcb1b42bc1f0c8a5860c8"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/first-test-hd-impact-v38-june-wood-march-v1.mjs",
+      "bytes": 19260,
+      "sha256": "80c9c60182866f48d95c92a45bef034009618d136e23cd6b0c427e84afe89f7b"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/formal-migration-receipt.json",
+      "bytes": 2250,
+      "sha256": "562c72ce4012f6c14e924aea3cf212239948a9ce32c8e184ef983c1964489d3d"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/formal84-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-controlled-v1/formal84-stdout.txt",
+      "bytes": 15096,
+      "sha256": "a01c7c1fc9f6d744fb2ca9a9dbcb232b13ff1078c2500eca15735b7b045c4c7e"
+    },
+    {
+      "path": "build/impact-skill-20261014/review-v38-wood-continuation-source-v1.mjs",
+      "bytes": 7916,
+      "sha256": "0abcfb061e6fd17665ddd18f7c1a2f15cd7b005c52db619f7bfa272767ffc2f2"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-wood-continuation-source-independent-v1.json",
+      "bytes": 9727,
+      "sha256": "42f5c13b2cb32b0f348387ebe1736a8f6223f9c9f1ab30fcec26263eb91969ff"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-source-independent-targeted-stdout.txt",
+      "bytes": 1160,
+      "sha256": "e2c5df7a76908a35cf48a5f1b3940dce6c93a4802b21d3502f6a9acc78dd67da"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-source-independent-targeted-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v38-june-wood-march-v1.mjs",
+      "bytes": 19888,
+      "sha256": "876553a3865306ddabb99834fe8c1aff97d9205dd7111dcca89d1ec310745ef0"
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-impact-v38-june-wood-march-v1.mjs",
+      "bytes": 20373,
+      "sha256": "ede6e8ca338f04bed258d589569fa3e29c0b4dd0e52b57b094fc75ff84d23d4d"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v38-root-full-regression-v1.json",
+      "bytes": 1460,
+      "sha256": "a706b4e1e7152b74efdb7524e879a2bb5d4a4e7a8e9b199d21b011bd5c9c680a"
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-wood67-june-preparation-v38-v1.mjs",
+      "bytes": 14916,
+      "sha256": "fbf0fcfd817d4101a15f03088ff1507d8be368ef89647756193e71716f0f0df7"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-source-publication-controlled-v1/first-writer-before-log-format-fix.mjs",
+      "bytes": 14727,
+      "sha256": "898205912078be58cc53550a355f8a7dfdf97fe8fd52c7f568358c762ac8ab58"
+    },
+    {
+      "path": "build/impact-skill-20261014/v38-source-publication-controlled-v1/first-log-format-failure.json",
+      "bytes": 598,
+      "sha256": "0548ab89941684aaa999e3e9c520866cc0b1bbcf30ab8ccb8fa8a4964055dc31"
+    }
+  ],
+  "controlledImmediateFiles": 16,
+  "controlledImmediateRawBytes": 133900,
+  "independentReviewFiles": 4,
+  "fullLog": {
+    "original": {
+      "path": "build/hd-full-suite-20261024-v38.log",
+      "bytes": 603886,
+      "sha256": "bd5f795982eef31291c0a5ca49fba12edbe79d56e1e1a47565b01b4282416927"
+    },
+    "publishedGzip": {
+      "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-full-suite.log.gz",
+      "bytes": 153926,
+      "sha256": "945460f1241f2ab08950b2e5943aef387a1dc074b2db63d5b886fbe0d6d2d329"
+    }
+  },
+  "formalSourceStorage": "Current formal source/test and package are in Git, verified by exact matching-checkout pins; no complete source tree or toolchain is embedded.",
+  "oldArchivesTraversed": false,
+  "runtimePngCopied": false,
+  "sourceOnly": true,
+  "portableClosedArchive": false,
+  "matchingCheckoutRequired": true,
+  "newBrowserRuns": 0,
+  "newGameInputs": 0
+}

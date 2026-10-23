@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "accepted": true,
+  "sourceOnly": true,
+  "publication": {
+    "path": "docs/validation/m5-wood67-june-preparation-20261024-v38.json",
+    "bytes": 6866,
+    "sha256": "225f1813f71a1e43836161c9afe96f59b11b086d8db7809006a026be64d22351"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-archive.json",
+    "bytes": 7066,
+    "sha256": "bf229737c9e4e47bd146fdad9bfb4f2dd332ab06275b19509f2f54dc4aedbb12"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-june-preparation-20261024-v38-reader.mjs",
+    "bytes": 4561,
+    "sha256": "9d552c9d74e079f8a8c1a38b546848d65bbf854e3d0ccedbe81a2cb00bd929b2"
+  },
+  "rawLogicalFiles": 26,
+  "allArchivedRawBytesReadBack": true,
+  "currentFormalAndPackagePinsExact": true,
+  "fullOriginalLogInflatedAndShaMatched": true,
+  "originalJuneFourPiecePackedProofAccepted": true,
+  "buildFormalNonImportBodyEqual": true,
+  "registeredFiles": 131,
+  "tests": 7052,
+  "newRegisteredDifferentCases": 84,
+  "actualPreparationAccepted": false,
+  "actualCastAccepted": false,
+  "hd720Accepted": false,
+  "newGameInputs": 0,
+  "newBrowserRuns": 0,
+  "portableClosedArchive": false
+}

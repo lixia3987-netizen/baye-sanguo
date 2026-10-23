@@ -293,6 +293,8 @@
 
 # Keep WOOD source contracts and executed V36 preparation provenance byte-exact.
 /scripts/hd-wood-runtime-oracle.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-original-continuation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-original-continuation.mjs -text whitespace=cr-at-eol
 /scripts/hd-wood-evidence-contract.mjs -text whitespace=cr-at-eol
 /scripts/test-hd-wood-runtime-oracle.mjs -text whitespace=cr-at-eol
 /scripts/hd-impact-v36-*.mjs -text whitespace=cr-at-eol
@@ -316,3 +318,9 @@
 /docs/validation/m5-wood67-hd-20261024-v37*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-hd-20261024-v37*.sav -text
 /docs/validation/m5-wood67-hd-20261024-v37*.png -text
+
+# Source-only no-Plunder continuation records and compressed raw logs.
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-june-preparation-20261024-v38*.gz -text
