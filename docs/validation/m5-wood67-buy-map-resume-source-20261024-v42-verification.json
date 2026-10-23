@@ -1,0 +1,23 @@
+{
+  "acceptedForSourcePublication": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-buy-map-resume-source-20261024-v42.json",
+    "bytes": 42976,
+    "sha256": "f22edf9799daf26de78f1514f22e74a8bb24ac88f008c92f53de7177e9bbae2f"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-buy-map-resume-source-20261024-v42.md",
+    "bytes": 2688,
+    "sha256": "df3505d42a150ca3c50547f39ef0551fc38904aa53dade29a34a2a5091212ae2"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-buy-map-resume-source-20261024-v42-verify.mjs",
+    "bytes": 8936,
+    "sha256": "f00f263b2745b94624c5575c8c90dbb33f755af9e731d9245605385b6ac011f8"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-buy-map-resume-source-20261024-v42-archive.json",
+    "bytes": 16565,
+    "sha256": "baae5dff082c6cab730d46e1eb41c5fefd19394b0a9abf7f3ee4450874338ceb"
+  }
+}
