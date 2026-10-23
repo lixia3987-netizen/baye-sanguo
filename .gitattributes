@@ -437,3 +437,11 @@
 /docs/validation/m5-wood67-classic-20261024-v42*.gz -text
 /docs/validation/m5-wood67-classic-20261024-v42*.sav -text
 /docs/validation/m5-wood67-classic-20261024-v42*.png -text
+
+# Maker return pointer cancellation across real page and viewport boundaries.
+/js/hd-spe.js -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.json -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.md -text whitespace=cr-at-eol
+/docs/validation/m5-spe-return-boundary-20261024-v43*.gz -text
+/docs/validation/m5-spe-return-boundary-20261024-v43*.png -text

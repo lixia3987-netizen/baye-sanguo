@@ -1694,6 +1694,17 @@
                     if (held(s)) returnToTitle(event(s) + ':' + state.epoch); else skip();
             }, true);
             document.addEventListener('visibilitychange', sync);
+            // A page boundary cancels only the pending pointer. The held native
+            // owner and a later current pointer/keyboard activation stay valid.
+            function cancelReturnPress() { state.pressed = null; }
+            if (global.addEventListener) {
+                ['blur', 'pagehide', 'resize', 'orientationchange'].forEach(function (name) {
+                    global.addEventListener(name, cancelReturnPress);
+                });
+            }
+            if (global.visualViewport && global.visualViewport.addEventListener) {
+                global.visualViewport.addEventListener('resize', cancelReturnPress);
+            }
         }
         requestManifest();
         sync();

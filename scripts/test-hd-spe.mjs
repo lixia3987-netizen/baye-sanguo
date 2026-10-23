@@ -141,6 +141,9 @@ function harness(options = {}) {
     let openingHd = options.storage?.['baye/systemUiMode'] !== 'classic', battleHd = true;
     const events = [], images = [], keys = [], nativeWrites = [], listeners = new Map(), polls = [], nodes = new Map();
     const nativeReads = [], timers = new Map(), preferences = new Map(Object.entries(options.storage || {}));
+    const windowListeners = new Map(), viewportListeners = new Map();
+    function listen(map, name, fn) { (map.get(name) || map.set(name, []).get(name)).push(fn); }
+    function dispatch(map, name) { for (const fn of map.get(name) || []) fn({ type: name }); }
     let nativeReadable = !options.preMain, timerId = 0, now = 1_000, nativeReadHook = null, drawHook = null;
     function readNative(name, value) { nativeReads.push(name); if (!nativeReadable) throw new Error('premature native access: ' + name); if (nativeReadHook) nativeReadHook(name); return value; }
     class Clock extends Date { static now() { return now; } }
@@ -192,6 +195,8 @@ function harness(options = {}) {
         localStorage: { getItem: key => preferences.get(key) ?? null, setItem() { throw new Error('mode API should own preference'); } },
         BayeHdSystemUi: { shouldShowHd: () => openingHd, setMode: mode => { openingHd = mode !== 'classic'; } },
         BayeHdBattle: { shouldShowHd: () => battleHd, setMode: mode => { battleHd = mode !== 'classic'; } },
+        addEventListener: (name, fn) => listen(windowListeners, name, fn),
+        visualViewport: { addEventListener: (name, fn) => listen(viewportListeners, name, fn) },
         sendKey: key => keys.push(key), setInterval: fn => { polls.push(fn); return polls.length; },
         setTimeout: (fn, delay = 0) => { const id = ++timerId; timers.set(id, { fn, at: now + Math.max(0, delay) }); return id; },
         clearTimeout: id => timers.delete(id),
@@ -211,6 +216,7 @@ function harness(options = {}) {
         setAttack: value => { attack = value; },
         setSkillResult: value => { skillResult = value; },
         setResultOwner: value => { resultOwner = value; },
+        windowEvent: name => dispatch(windowListeners, name), viewportEvent: name => dispatch(viewportListeners, name),
         setHidden(value) { hidden = value; for (const fn of listeners.get('visibilitychange') || []) fn(); },
         setReport(value) { report.active = value; api.onEngineSpe(); },
         setMode(value) { openingHd = battleHd = value; api.onEngineSpe(); },
@@ -1227,6 +1233,36 @@ test('Maker return requires the displayed native session and presentation epoch 
     h.key({ isComposing: true }); h.key({ target: { tagName: 'INPUT' } }); h.key({ repeat: true });
     assert.deepEqual(h.keys, [39]); h.key(); assert.deepEqual(h.keys, [39, 39]);
 });
+
+// Presentation boundaries retire a pointer press, not its held native Maker.
+for (const boundary of ['blur', 'pagehide', 'resize', 'orientationchange', 'visualViewport.resize']) {
+    test('Maker return clears only the old pointer across ' + boundary, async () => {
+        function cross(h) {
+            if (boundary === 'visualViewport.resize') h.viewportEvent('resize');
+            else h.windowEvent(boundary);
+        }
+        const h = await makerHold(), before = h.api.debugSnapshot();
+        const nativeBefore = h.nativeSnapshot(), drawsBefore = h.events.length;
+        assert.equal(before.presentation, 'maker-hold'); assert.equal(before.spe.active, 0);
+        h.pointerDownReturn(); cross(h);
+        assert.deepEqual(h.api.debugSnapshot(), before, 'same held owner, token, source and presentation');
+        assert.equal(h.events.length, drawsBefore, 'the boundary does not redraw or restart the movie');
+        assert.equal(h.nativeSnapshot(), nativeBefore, 'the boundary does not change native state');
+        h.click('[data-hd-spe-return]', 1);
+        assert.deepEqual(h.keys, [], 'an old pointer cannot acknowledge the held owner after the boundary');
+        h.pointerDownReturn(); h.click('[data-hd-spe-return]', 1);
+        h.click('[data-hd-spe-return]', 1);
+        assert.deepEqual(h.keys, [39], 'one fresh current pointer still sends exactly one Enter');
+        assert.deepEqual(h.nativeWrites, []); assert.equal(h.nativeSnapshot(), nativeBefore);
+
+        const keyboard = await makerHold(), current = keyboard.api.debugSnapshot();
+        keyboard.pointerDownReturn(); cross(keyboard);
+        keyboard.click('[data-hd-spe-return]', 0); keyboard.click('[data-hd-spe-return]', 0);
+        assert.equal(keyboard.api.debugSnapshot().ownerToken, current.ownerToken);
+        assert.deepEqual(keyboard.keys, [39], 'keyboard activation uses the current owner exactly once');
+        assert.deepEqual(keyboard.nativeWrites, []);
+    });
+}
 
 test('Maker hold resource retirement, reports, reset and late images cannot revive old HD or leak return input', async () => {
     const ready = await makerHold();
