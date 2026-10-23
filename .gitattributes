@@ -270,3 +270,17 @@
 /docs/validation/m5-impact13-city6-20261023-v33.md text eol=lf
 /docs/validation/m5-hd-regression-20261023-v33/*.json -text whitespace=cr-at-eol
 /docs/validation/m5-impact13-continuation-20261023-v34-plan.json -text whitespace=cr-at-eol
+
+# Preserve scoped V34 preparation and north-route source provenance.
+/scripts/hd-impact-v34-preparation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v34-preparation.mjs -text whitespace=cr-at-eol
+/scripts/hd-impact-v34-north-route.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-impact-v34-north-route.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-v34-source-20261023/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-v34-paid-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-impact13-v34-paid-20261023*.sav -text
+/docs/validation/m5-impact13-v34-paid-20261023.md text eol=lf
+/docs/validation/m5-aid-installed720-20261023*.json -text whitespace=cr-at-eol
+/docs/validation/m5-aid-installed720-20261023/*.json -text whitespace=cr-at-eol
+/docs/validation/m5-aid-installed720-20261023/*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-aid-installed720-20261023.md text eol=lf
