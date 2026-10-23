@@ -344,3 +344,10 @@
 /docs/validation/m5-wood67-july-preparation-20261024-v39*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-july-preparation-20261024-v39*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-july-preparation-20261024-v39*.gz -text
+
+# Exact original V39 classic-attempt evidence, including failed casts and August SAVE.
+/docs/validation/m5-wood67-classic-20261024-v39*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v39*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v39*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-classic-20261024-v39*.sav -text
+/docs/validation/m5-wood67-classic-20261024-v39*.png -text
