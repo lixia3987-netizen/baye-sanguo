@@ -358,3 +358,15 @@
 /docs/validation/m5-wood67-exactmissing-source-20261024-v40*.mjs -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-exactmissing-source-20261024-v40*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-exactmissing-source-20261024-v40*.gz -text
+
+# Original recruitment, full readonly-return contracts and their source-only evidence.
+/scripts/hd-wood-recruitment-hooks.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-recruitment-hooks.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-recruitment-preparation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-recruitment-preparation.mjs -text whitespace=cr-at-eol
+/scripts/hd-wood-recruitment-runtime.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-recruitment-runtime.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-recruitment-source-20261024-v40*.gz -text

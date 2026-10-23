@@ -1,0 +1,876 @@
+{
+  "schemaVersion": 1,
+  "kind": "Source-only recruitment preparation original sources, failure prefixes and logs",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 21770,
+      "sha256": "9ccc92b63aceafcc5f71c42a505e7456a4a1c6e021e4d7bacbd48e05fe74aaed",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "assets/hd-spe/manifest.json",
+      "bytes": 711999,
+      "sha256": "fc85e2c6d89462906d64bd6e66c1a1a219cef9c93b0e05bb7aba6976c6a052cf",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/audit-wood-recruitment-native-boundaries-independent-v1.mjs",
+      "bytes": 8145,
+      "sha256": "d18e3d6cfc23f64a15ba80771693563d4ed4af1b857a9eb5e8e70bde11c3e5c8",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/finalize-wood67-recruitment-full-regression-v1.mjs",
+      "bytes": 4497,
+      "sha256": "da8f7dbc945f608f354544c7f6f3651d4793afbf5ea354c4c9ae29d2841c8195",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-impact-v40-latest-v39-august-input-v1.mjs",
+      "bytes": 6282,
+      "sha256": "27211a683cf0a70685b2bb02b04b55d556a744e2e52f8ee9e88053fdc927df1b",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-six-recruitment-prototype-v1.mjs",
+      "bytes": 11203,
+      "sha256": "0c1874cf534de65cddbb7024c681c0265b1439cd48b49e3f53a8337b570cb262",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-v39-ticket-observer-v1.mjs",
+      "bytes": 1833,
+      "sha256": "64e0cd4dab788920d164012714457badd487ecf7123aff653e13ab45f592085d",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/hd-wood-v40-ticket-observer-v1.mjs",
+      "bytes": 893,
+      "sha256": "ce169b4fcde3770c1bda14e31ad34bee9cd707f85bc72b8036e5aa9ee38be71e",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/prepare-wood67-recruitment-source-v40-inputs-v1.mjs",
+      "bytes": 6798,
+      "sha256": "cf3411f27c87080fa0be2c58b79b0a1beca7d741ed7e9e041be1f51c775c8a27",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/publish-wood67-recruitment-source-v40-v1.mjs",
+      "bytes": 17385,
+      "sha256": "a63ccd264a6c1ec71568ab05807002551f7b81ddbef86d7f41e58c1e31251306",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood-recruitment-runtime-controlled-v1.mjs",
+      "bytes": 2405,
+      "sha256": "46fa636a2c4f12d609c4c2c2902e46c7e68e584e9dddcb3be7119ff810ccee9c",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood-recruitment-runtime-controlled-v2.mjs",
+      "bytes": 2492,
+      "sha256": "7d0e1b802257afdf17d70683ee57bb465471e4633f88be5223351a5db21b4cc1",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/record-wood-recruitment-runtime-controlled-v3.mjs",
+      "bytes": 2492,
+      "sha256": "acab679990c39ab89be280ddb5d4a885f0000d8a48e7f42c960f0696a2704213",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/register-wood-recruitment-formal-v1.mjs",
+      "bytes": 2660,
+      "sha256": "87657fe1280ce7c9bb52ec18cb3addb3306ebb5201ea866fc9e0fa21e78b156a",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood-recruitment-final-independent-v1.mjs",
+      "bytes": 7569,
+      "sha256": "5250c81aa42d6c056d0cf1803e7c1b299e3e15dc436a15f6fdc5eb1caebb0012",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/review-wood-v40-current-input-observer-independent-v1.mjs",
+      "bytes": 9530,
+      "sha256": "effcfe4cb9c5d5bcd5e724474ea4ee405b7ff9987bbef4632dd337f2841224db",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-wood-recruitment-preparation-controlled-v1.mjs",
+      "bytes": 2750,
+      "sha256": "96de14d58af9fb860ebe2e0d3fae7fdabf15e86a0280bfc7e22ae019dea87086",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/run-wood-recruitment-preparation-controlled-v2.mjs",
+      "bytes": 2750,
+      "sha256": "8ecfb709903392c6468647753380f15ab8ef0be99fe1b5294158caa47c41a014",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/test-hd-wood-six-recruitment-prototype-v1.mjs",
+      "bytes": 9219,
+      "sha256": "7c1ae8b49fadd742f81ce557c41d1d07178e656b848bdcacf0cf51e2cb4d7976",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/test-wood-v40-current-input-observer-v1.mjs",
+      "bytes": 6491,
+      "sha256": "c41002e7f30294a3bd13f35f61f66b8d7da8a13a9c7a8a2e1819f16e51227680",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v40-current-input-observer-controlled-v1/receipt.json",
+      "bytes": 4383,
+      "sha256": "9984a6dff2788276269cf62e3113ea60309814079feffe74c494c29c165aab9f",
+      "roles": [
+        "twenty-pure-input-observer-controls-not-new-formal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/v40-current-input-observer-independent-v1/receipt.json",
+      "bytes": 10499,
+      "sha256": "3e09515f91e883b4acbeacc931e98631f6319cc5808bff7a5ef3ece64a6adb40",
+      "roles": [
+        "ten-independent-pure-vm-controls-not-new-formal"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-final-independent-v1.json",
+      "bytes": 5697,
+      "sha256": "9f7aa5ef4966f3bdb69b4d84e64e57020bd870d98c16d025b0d3a41d80c23fea",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-hook-independent-static-v1.json",
+      "bytes": 2002,
+      "sha256": "ff7a7f442bd883290a2662b66f8b4ed7394ac8222d72a511f1029148f85a8075",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-native-boundaries-independent-v1.json",
+      "bytes": 12682,
+      "sha256": "0bc0716f722890399b6f090eba967ae213463d2e5277a8a3554902d7ece8887e",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/correction-targeted-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/correction-targeted-tap.txt",
+      "bytes": 364,
+      "sha256": "8b798b3157c620ca325d60fae30bfd7a399f7dcb9852b841c8fe3f6f3bf432dc",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/final-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/final-tap.txt",
+      "bytes": 12546,
+      "sha256": "aa681387ec7fa4d37ba7ff8b4b2dc5ea03714ee32dbe8ec654c26f8c701e5426",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/first-extended-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/first-extended-tap.txt",
+      "bytes": 5794,
+      "sha256": "8fbc846e044952e5221e73c09b09965480fe5b019a532e201660ce90a168f785",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/model.mjs",
+      "bytes": 26876,
+      "sha256": "c651e1c658319148c52d4063a47282629e356e6340afcfdbc133a63ead7a6b99",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/receipt.json",
+      "bytes": 5055,
+      "sha256": "3f7d4a3b694f82cda065ed2d5004300c07c73e94d62556ecd8954d1fc3589dac",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v1/test.mjs",
+      "bytes": 24887,
+      "sha256": "9e0080e23dcc78a460c053dcf488edb6222614892244eaf2d8181e68b3077137",
+      "roles": [
+        "historical-core-fixture-index-failure-and-70-pass-prefix"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/api-and-scope.json",
+      "bytes": 5373,
+      "sha256": "e95cf8b75bcb87ea7b7e5c834a7815d61e5d81e687ca50a227723f408163e63f",
+      "roles": [
+        "final-73-source-snapshots-api-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/final-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "final-73-source-snapshots-api-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/final-tap.txt",
+      "bytes": 13237,
+      "sha256": "7c2edbf1c8884c45c4b2cc68faf3ad1e87eb48a40132a2f17d10c4e7ac498b53",
+      "roles": [
+        "final-73-source-snapshots-api-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/model.mjs",
+      "bytes": 27102,
+      "sha256": "c816542a18ac5879ede35af455fe9c92993285b62a57f73fcda8db41fb9ad0f5",
+      "roles": [
+        "final-73-source-snapshots-api-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/receipt.json",
+      "bytes": 5055,
+      "sha256": "6641d93773ca1b7f16680e685600376bb2632554807bd007e65bace19ef54361",
+      "roles": [
+        "final-73-source-snapshots-api-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-preparation-controlled-v2/test.mjs",
+      "bytes": 26794,
+      "sha256": "f98bc26c4086b1955307a4f1393df9b850d38689a58cd6aad4ab8f056c6e4b79",
+      "roles": [
+        "final-73-source-snapshots-api-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v1/receipt.json",
+      "bytes": 2667,
+      "sha256": "aee6a46b482007aed641ab30fdc2ea091cacf818874a794c61f76c1c50d93994",
+      "roles": [
+        "historical-runtime-79-of-80-and-developing-source-pins"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v1/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "historical-runtime-79-of-80-and-developing-source-pins"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v1/stdout.txt",
+      "bytes": 17702,
+      "sha256": "df28ed13d9deac55f8382fc74ee46b3018275e1c9d4a9b5f28d4d279e95be141",
+      "roles": [
+        "historical-runtime-79-of-80-and-developing-source-pins"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/hd-wood-recruitment-preparation.mjs",
+      "bytes": 26876,
+      "sha256": "c651e1c658319148c52d4063a47282629e356e6340afcfdbc133a63ead7a6b99",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/receipt.json",
+      "bytes": 2667,
+      "sha256": "a323b462794d1899a19aa22159b538d12919b205516b9790330a64d6e80495fc",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/stdout.txt",
+      "bytes": 17891,
+      "sha256": "9ba1e69fc3fb6ca26d503419b662417c382a9797331e5bf3d49111b46fab02af",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v2/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 26589,
+      "sha256": "124dc60f88a51db0e604b2d6d781a9a7f1de9c9edf17f706329ea833739446a4",
+      "roles": [
+        "historical-85-before-sustained-pollution-improvement"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/hd-wood-recruitment-preparation.mjs",
+      "bytes": 27102,
+      "sha256": "c816542a18ac5879ede35af455fe9c92993285b62a57f73fcda8db41fb9ad0f5",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/receipt.json",
+      "bytes": 2667,
+      "sha256": "eb706f8ddc90cdf804f98dfecbd55f096e5719bc08e498dfe721e3999ded7ee0",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/stdout.txt",
+      "bytes": 17888,
+      "sha256": "09e41a3cc05475fc2e38050e4dd478a30a4d035b485ab24f805f5b05565758a2",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-recruitment-runtime-controlled-v3/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 26836,
+      "sha256": "826e462d957e7f26d3c3039530c7872e793fc2d897694254c34c4abbf20d3b71",
+      "roles": [
+        "final-85-snapshots-original-target-log"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-six-recruitment-contract-design-v1.json",
+      "bytes": 8976,
+      "sha256": "02b4e3e9bbe075dad1d38df255fe0fe6ff94bc437cc91772dc8277593fa389ed",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-six-recruitment-contract-design-v1.md",
+      "bytes": 10902,
+      "sha256": "ae6dcaaa5d34d94c67719b1b200bc07e66842eaeed3e4184d77934e2ec6329f6",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood-six-recruitment-prototype-controlled-v1.json",
+      "bytes": 6743,
+      "sha256": "338482c0f84acd79fac8db4f3d15742be75555d951bbc5b12e0af54185afbf52",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-recruitment-root-full-regression-v1-before.json",
+      "bytes": 7516,
+      "sha256": "53a340df675fa10ca50605efea18974187cb27d9eda0f7469be0bbcbfe21be6a",
+      "roles": [
+        "explicit-source-and-controls-support"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-recruitment-root-full-regression-v1.json",
+      "bytes": 8499,
+      "sha256": "29d4c0d780643024e26bfc565f568ee036709f4a9b3624b63ec20a79093c3856",
+      "roles": [
+        "root-closed-full-regression-receipt"
+      ]
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-recruitment-source-publication-inputs-v1.json",
+      "bytes": 48394,
+      "sha256": "43f9c89a018bd24a38e1b9900b4b0b059933fbd158267a07739618a7dde50a89"
+    },
+    {
+      "path": "build/impact-skill-20261014/wood67-v40-root-full-regression-v1.json",
+      "bytes": 4273,
+      "sha256": "4d62bd52e2955b7761727164ebbc56c5e22221d777eb9201a5669f85ea6933a9",
+      "roles": [
+        "historical-7186-full-receipt-only"
+      ]
+    },
+    {
+      "path": "build/wood67-runtime-candidate-v39.mjs",
+      "bytes": 647992,
+      "sha256": "efd7953c63eae92fff6f8bf5a15a46d041e3fe0bd2c8c64d69cf45a46d427721",
+      "roles": [
+        "metadata-expression-diagnostic-input-only-not-executed"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-latest-world.json",
+      "bytes": 147947,
+      "sha256": "22f5aebeb64c34bb384c3aa471b5e024dccebbb28d5a1625c60e261de1cd186b",
+      "roles": [
+        "only-four-current-August-input-files",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango0.sav",
+      "bytes": 8221,
+      "sha256": "b09b2d6c5ffe776f4fe210a7413bc4a050d8b9b2f0d99ded450fe810cf9891a1",
+      "roles": [
+        "only-four-current-August-input-files",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39-sango1.sav",
+      "bytes": 4840,
+      "sha256": "4867fd2aa7fce30cd81eb8640d69ff267196ffe6442279cb069d9dbb58c6b49e",
+      "roles": [
+        "only-four-current-August-input-files",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "docs/validation/m5-wood67-classic-20261024-v39.json",
+      "bytes": 16564,
+      "sha256": "79883e209c4be66a0ec253a1617ffb6e0601cd44b4ff225c9618c95462a0b650",
+      "roles": [
+        "only-four-current-August-input-files"
+      ]
+    },
+    {
+      "path": "js/hd-battle.js",
+      "bytes": 80899,
+      "sha256": "9c5857cdfe69386247be584e38084a6539302ef558c5f5f2fdc915f668d4d9b2",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "js/hd-overworld.js",
+      "bytes": 172137,
+      "sha256": "9eb1001bc785b7a7ff7160883905b8ada6f50de8aa7e60b65773cb0e98a39ed2",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "js/hd-spe.js",
+      "bytes": 133919,
+      "sha256": "87f75a370068751352dfec8ebbf47712c28a4bf2f1109d34cf12871250743c3f",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "libs/dat-mod.lib",
+      "bytes": 207195,
+      "sha256": "3bd20146084054163d045c90987c756a6a210664e78253cc56bc4a274727903e",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "package.json",
+      "bytes": 20118,
+      "sha256": "f8731de4624d9dfa4cb0c4292dda0568bfcdb2f58201e6641726686be57659a3",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-impact-v32-conditional-plunder-prefix.mjs",
+      "bytes": 26243,
+      "sha256": "790c3b5dd1d24e984dd9bf6c0ccef2f6a4e22141cc4171fdf2da04c2c0d28013",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-mobile-system-runtime-oracle.mjs",
+      "bytes": 10021,
+      "sha256": "d79dfa24d2ecc2fe7ffc879c90f6d868a310df2bb95ed6eafa75dd1c6c69f5fe",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-classic-presentation.mjs",
+      "bytes": 1965,
+      "sha256": "c605dbfe8013c4a82ce5a4ce388c70ba08810f21ae96f908ca3b52afe4299986",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-evidence-contract.mjs",
+      "bytes": 10750,
+      "sha256": "d364e8725ae93b0bb5f341116c10916333b982f84c814781707c87ede50b1ad4",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-hooks.mjs",
+      "bytes": 5591,
+      "sha256": "8a663db5c1f775fe5cede82163d4ac79861f6fb2b099634aad718f67f3f4c2fc",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-preparation.mjs",
+      "bytes": 27102,
+      "sha256": "c816542a18ac5879ede35af455fe9c92993285b62a57f73fcda8db41fb9ad0f5",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-recruitment-runtime.mjs",
+      "bytes": 16527,
+      "sha256": "0ffd126775312cab0aa3ebfd1c8ff7148e13b75125f21092e2edfa55a2b355d6",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-runtime-oracle.mjs",
+      "bytes": 49408,
+      "sha256": "f29c4ba0306d94ac62094f2ae7fe928c15e33988afa42f558b3baa2821882e3e",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/hd-wood-supplied-continuation.mjs",
+      "bytes": 26600,
+      "sha256": "2f566cc472aadbac18f15e2d7b294143f552a3da74685daa2ef188060bfbca2f",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-spe.mjs",
+      "bytes": 303084,
+      "sha256": "b05cb961cd891d56a3e9cd85977839c7285c0fe4660a1f8f3d48beb8ef51a09b",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-classic-presentation.mjs",
+      "bytes": 6847,
+      "sha256": "447ac822361e3a24863e1f0deceb12c892f48e44248ac0e3444a8863047cc3b2",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-hooks.mjs",
+      "bytes": 8160,
+      "sha256": "612539477d0bf9404aabde4e517e0801a24443fea075e32d771e7a8db33cef88",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-preparation.mjs",
+      "bytes": 26794,
+      "sha256": "f98bc26c4086b1955307a4f1393df9b850d38689a58cd6aad4ab8f056c6e4b79",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-recruitment-runtime.mjs",
+      "bytes": 26836,
+      "sha256": "826e462d957e7f26d3c3039530c7872e793fc2d897694254c34c4abbf20d3b71",
+      "roles": [
+        "current-full-regression-source",
+        "current-target-source"
+      ]
+    },
+    {
+      "path": "scripts/test-hd-wood-supplied-continuation.mjs",
+      "bytes": 22834,
+      "sha256": "dd11b1eb06332a0045cd2b986c0afbfeec47fae3c76c804347d6819ae9e9fa14",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/attribute.h",
+      "bytes": 8930,
+      "sha256": "518e992c33776582dbd2ab6d87d5598b7be5596b035c40c9bdc99c25502e958d",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/consdef.h",
+      "bytes": 6048,
+      "sha256": "4cc96d32139aa34731d1f0640e627e5caa7f65eb49a5ab5bf70856a2a04c7c4f",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/baye/order.h",
+      "bytes": 2916,
+      "sha256": "2825fbb6e484ba066b00330a40c9d5e73d04e752c7aad37712bf611efe7ba5a4",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmd.c",
+      "bytes": 39212,
+      "sha256": "13a7e83113d453cfc19ba3b5a85332a6339374bfb23be1803288d10390bf30e1",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdc.c",
+      "bytes": 39495,
+      "sha256": "74529416177f245338c69a65f7abe2a18e876f5be66b9d6b028b465633b3cbca",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmdd.c",
+      "bytes": 38292,
+      "sha256": "26f81aec86f174c9e6d37f2ec01e1c21488e7305a16a3e4c8211564277469a7e",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/citycmde.c",
+      "bytes": 15921,
+      "sha256": "2d536e93f0599dd8836eff0f91f8c0ed61565b6e8f31ca01addc4c19fda0f873",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/cityedit.c",
+      "bytes": 41528,
+      "sha256": "ce8883f9c71c4332b4cd15c3e1157f36eb132b25e92c9c52d7a73aacef68fc6d",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/data/pconst.h",
+      "bytes": 1761,
+      "sha256": "87e904379b5aa4dd2a8174ad045c4ac2e7b0ab084b452bd831e1e10906d923d0",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/datman.c",
+      "bytes": 9424,
+      "sha256": "e089ce9010148da6854dae7de0090866052fd3a77a64fbf267c42a4b530cf96c",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FgtCount.c",
+      "bytes": 27302,
+      "sha256": "cc47dbc43f588a5b00ba5151923c3ff5490ffc054aeb01cd919b7fcbc5b5fb5f",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/FightSub.c",
+      "bytes": 36284,
+      "sha256": "11973343edf26a279e38a635bb60ad4cc9f068a7f48f2d0824a30506d0c3b540",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/infdeal.c",
+      "bytes": 26196,
+      "sha256": "bd90e0126b73f814c49c6e3a18fe597fa4422c7f09355806399b0f28b651158e",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/PublicFun.c",
+      "bytes": 33782,
+      "sha256": "71a731d636195de59355a6d5b3c3a0f31bdf7636275e8789faa1a3650abeb51c",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    },
+    {
+      "path": "vendor/iBaye/src/tactic.c",
+      "bytes": 45067,
+      "sha256": "19a5626bdc9917b4ad9e0fab9051bcd7b07de19873570f26c21e2c1279f4db78",
+      "roles": [
+        "current-full-regression-source"
+      ]
+    }
+  ],
+  "rawBundle": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40-raw.json.gz",
+    "bytes": 1188451,
+    "sha256": "e2d6e4fd37e26c9f8443e05cf9edeedbd6ac8d131e1ca189087934cea4bc35c8"
+  },
+  "rawPayload": {
+    "bytes": 4979602,
+    "sha256": "26e9249fbf0a1e4a24a1996673d424e9d770b7572281e7ce2d1c85e5c7ebec23"
+  },
+  "fullLog": {
+    "path": "build/hd-full-suite-20261024-recruitment-v40.log",
+    "bytes": 630241,
+    "sha256": "24ce2ee0746535f648ea31fb01433f84cd3d42754b9e48865e3785e04889ceee"
+  },
+  "fullLogGzip": {
+    "path": "docs/validation/m5-wood67-recruitment-source-20261024-v40-full-suite.log.gz",
+    "bytes": 160989,
+    "sha256": "09e0734460816cffdd7c5e9b774a32e14c4f0aeec1cd707abe72eaa155d1eca5"
+  },
+  "bounds": {
+    "originalFileBytes": 4194304,
+    "rawPayloadBytes": 16777216,
+    "gzipBytes": 4194304,
+    "maximumRecords": 192
+  },
+  "oldArchivesTraversed": false,
+  "oldActualPartsRead": false,
+  "matchingCheckoutRequired": true,
+  "portableClosedRuntimeArchive": false
+}
