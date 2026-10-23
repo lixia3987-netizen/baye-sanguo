@@ -351,3 +351,10 @@
 /docs/validation/m5-wood67-classic-20261024-v39*.md -text whitespace=cr-at-eol
 /docs/validation/m5-wood67-classic-20261024-v39*.sav -text
 /docs/validation/m5-wood67-classic-20261024-v39*.png -text
+
+# Exact source-only WOOD missing-picture test matrix and its validation records.
+/scripts/test-hd-spe.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-exactmissing-source-20261024-v40*.gz -text

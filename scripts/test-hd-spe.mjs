@@ -764,13 +764,15 @@ function woodFixture(skillId = 6, current = 0, shown = current) {
         frameIndex: current, commitSeq: current + 1, visibleFrames: bitset(current), composition: composition(current), display };
     return { ...actual, entry, s, m: { ...actual.m, entries: [entry] } };
 }
-function woodNumericFixture(skillId = 6) {
+function woodNumericFixture(skillId = 6, phase = 'hold') {
+    assert.ok(phase === 'numbers' || phase === 'hold');
     const f = woodFixture(skillId, skillId === 6 ? 7 : 0);
     const label = { claimed: true, valid: true, x: 55, y: 18, length: 8, text: '兵力减少',
         bytes: [...Buffer.from('b1f8c1a6bcf5c9d9', 'hex'), ...Array(56).fill(0)] };
     const digits = [2, 4, 0].map((digit, i) => ({ digit, x: 55 + i * 6, y: 49, firstY: 56, drawCount: 8 }));
+    if (phase === 'numbers') Object.assign(digits.at(-1), { y: 53, drawCount: 4 });
     const scene = { ...structuredClone(f.s.display), session: 2, paintSeq: 10 };
-    const result = { protocolVersion: 1, active: true, phase: 'hold', custom: false, sourceValid: true,
+    const result = { protocolVersion: 1, active: true, phase, custom: false, sourceValid: true,
         generation: 9, session: 2, skillId, resultKind: 1, actorIndex: 2, targetIndex: 10, value: 240, paintSeq: 10,
         speId: 37, resourceIndex: 0, count: 8, picmax: 2, startFrm: 0, endFrm: skillId === 6 ? 7 : 0,
         x: 48, y: 16, resourceLength: f.entry.resourceLength, resourceFingerprint: f.entry.resourceFingerprint,
@@ -779,7 +781,7 @@ function woodNumericFixture(skillId = 6) {
     return { ...f, result, top: { active: true, valid: true, kind: 2, generation: 9, session: 2 } };
 }
 async function woodLoaded(options = {}) {
-    const f = options.postlude ? woodNumericFixture(options.skillId || 6) : woodFixture(options.skillId || 6, options.current || 0, options.shown ?? options.current ?? 0);
+    const f = options.postlude ? woodNumericFixture(options.skillId || 6, options.phase || 'hold') : woodFixture(options.skillId || 6, options.current || 0, options.shown ?? options.current ?? 0);
     const h = harness({ data: { g_scale: 1 }, spe: options.postlude ? { active: 0, generation: 9 } : f.s,
         ...(options.postlude ? { skillResult: f.result, resultOwner: f.top } : {}), ...options.harness });
     h.context.dynLib = f.lib.toString('hex'); h.api.setManifest(f.m); h.api.start();
@@ -879,6 +881,63 @@ test('missing wide wood art uses the complete actual LCD in the movie and final6
         assert.deepEqual(h.hdDraws(), []); assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
     }
 });
+
+// The existing wide6 movie/hold case above is retained. These are its missing
+// required-image/phase combinations, including an in-flight NUM15 digit.
+const missingWoodCases = [
+    { skillId: 6, slot: 0, phase: 'movie' },
+    { skillId: 6, slot: 0, phase: 'numbers' },
+    { skillId: 6, slot: 0, phase: 'hold' },
+    { skillId: 6, slot: 1, phase: 'numbers' },
+    { skillId: 7, slot: 0, phase: 'movie' },
+    { skillId: 7, slot: 0, phase: 'numbers' },
+    { skillId: 7, slot: 0, phase: 'hold' }
+];
+for (const { skillId, slot, phase } of missingWoodCases) test('WOOD' + skillId + ' missing required picture' + slot + ' ' + phase + ' stays fullLCD after failed and late image load', async () => {
+    const h = await woodLoaded({ skillId, pendingImage: true, postlude: phase !== 'movie', phase });
+    const src = h.fixture.entry.pictures[slot].src, failed = h.images.findIndex(image => image.url === src);
+    assert.ok(failed >= 0, 'The missing image must actually be required and requested');
+    h.images[failed].onerror();
+    for (let i = 0; i < h.images.length; i++) if (i !== failed) h.resolve(i);
+    h.events.length = 0; h.flush();
+    const s = h.api.debugSnapshot();
+    assert.equal(s.source, 'lcd'); assert.equal(s.fallbackReason, 'asset-load-failed');
+    assert.deepEqual({ ...s.sourceRect }, { x: 0, y: 0, width: 160, height: 96 });
+    assert.deepEqual(h.hdDraws(), []);
+    const last = h.events.filter(e => e.node === 'hd-spe-canvas' && e.operation === 'drawImage').at(-1);
+    assert.ok(last); assert.equal(last.args[0] instanceof h.context.Image, false);
+    assert.deepEqual(last.args.slice(1), [0, 0, 640, 384, 0, 0, 1760, 1056]);
+    h.resolve(failed); h.events.length = 0; h.flush();
+    assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.deepEqual(h.hdDraws(), []);
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+
+test('falling-stone in-flight NUM needs only picture0 and never requests unused wide picture1', async () => {
+    const h = await woodLoaded({ skillId: 7, postlude: true, phase: 'numbers' });
+    assert.equal(h.fixture.result.phase, 'numbers');
+    assert.deepEqual(h.fixture.result.display.digits.at(-1), { digit: 0, x: 67, y: 53, firstY: 56, drawCount: 4 });
+    assert.equal(h.fixture.entry.pictures[1].src, null); assert.equal(h.images.length, 1);
+    assert.equal(h.images[0].url, h.fixture.entry.pictures[0].src);
+    assert.equal(h.api.debugSnapshot().source, 'hd-assets');
+    assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+});
+
+test('WOOD6 and7 reject even authenticated BACKPIC16 as an invented background without requesting it', async () => {
+    const production = JSON.parse(readFileSync(new URL('../assets/hd-spe/manifest.json', import.meta.url), 'utf8'));
+    const background = production.entries.find(e => e.background && e.background.id === 16).background;
+    assert.deepEqual([background.id, background.nativeWidth, background.nativeHeight], [16, 130, 64]);
+    for (const skillId of [6, 7]) {
+        const h = await woodLoaded({ skillId }), requested = h.images.length;
+        assert.equal(h.api.debugSnapshot().source, 'hd-assets'); assert.equal(h.fixture.entry.background, undefined);
+        const m = structuredClone(h.fixture.m); m.entries[0].background = structuredClone(background);
+        h.api.setManifest(m); h.events.length = 0; h.flush();
+        assert.equal(h.api.debugSnapshot().source, 'lcd'); assert.deepEqual(h.hdDraws(), []);
+        assert.equal(h.images.length, requested, 'An invalid WOOD background cannot request a new Image');
+        assert.ok(h.images.every(image => image.url !== background.src));
+        assert.deepEqual(h.keys, []); assert.deepEqual(h.nativeWrites, []);
+    }
+});
+
 test('overlapping live wood slots retain the real ascending native order after clear rectangles', async () => {
     const h = await woodLoaded({ current: 1 }), s = structuredClone(h.fixture.s);
     s.visibleFrames = s.display.visibleFrames = bitset(0, 1); h.setSpe(s); h.events.length = 0; h.flush();
