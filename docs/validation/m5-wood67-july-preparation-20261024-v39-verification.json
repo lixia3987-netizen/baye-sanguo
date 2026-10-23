@@ -1,0 +1,24 @@
+{
+  "accepted": true,
+  "sourceOnly": true,
+  "canonical": {
+    "path": "docs/validation/m5-wood67-july-preparation-20261024-v39.json",
+    "bytes": 7437,
+    "sha256": "df88ba4f5bf83d90d799906345716f812c19eae6069014ff7f4b58a405904ef0"
+  },
+  "markdown": {
+    "path": "docs/validation/m5-wood67-july-preparation-20261024-v39.md",
+    "bytes": 1850,
+    "sha256": "4921340e8e85db9e651b0100f788033f55140e392a505a10832fd79083215e1d"
+  },
+  "reader": {
+    "path": "docs/validation/m5-wood67-july-preparation-20261024-v39-verify.mjs",
+    "bytes": 4470,
+    "sha256": "d183eac290d6d263376a1592e15a8d4f0c0e0cbac6a9ec75cd7d3ff89bf9066f"
+  },
+  "archive": {
+    "path": "docs/validation/m5-wood67-july-preparation-20261024-v39-archive.json",
+    "bytes": 13602,
+    "sha256": "c42b4fe2a438662f3ab0c667682dc311ae41cebb6b40bd4f743c721a357758a3"
+  }
+}

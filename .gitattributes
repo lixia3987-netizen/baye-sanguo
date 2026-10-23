@@ -336,3 +336,11 @@
 # Neutral original-WOOD classic presentation contract and controlled cases.
 /scripts/hd-wood-classic-presentation.mjs -text whitespace=cr-at-eol
 /scripts/test-hd-wood-classic-presentation.mjs -text whitespace=cr-at-eol
+
+# Current original supply-before-WOOD contract and source-only July qualification.
+/scripts/hd-wood-supplied-continuation.mjs -text whitespace=cr-at-eol
+/scripts/test-hd-wood-supplied-continuation.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.json -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.md -text whitespace=cr-at-eol
+/docs/validation/m5-wood67-july-preparation-20261024-v39*.gz -text
