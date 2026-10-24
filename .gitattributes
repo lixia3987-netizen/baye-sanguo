@@ -570,3 +570,15 @@
 /docs/validation/m5-wood-city4-recovery-20261024-v57*.png -text
 /docs/hd-development-plan.md text eol=lf
 /docs/hd-remaining-work.md text eol=lf
+
+# Dispatched city4 END input and source contracts.
+/scripts/hd-wood-city4-end-input.mjs text eol=lf
+/scripts/test-hd-wood-city4-end-input.mjs text eol=lf
+
+# Conditional city4 END source contracts and inert controller design.
+/docs/validation/m5-city4-conditional-end-source-20261024-v58*.json -text whitespace=cr-at-eol
+/docs/validation/m5-city4-conditional-end-source-20261024-v58*.mjs -text whitespace=cr-at-eol
+/docs/validation/m5-city4-conditional-end-source-20261024-v58*.md -text whitespace=cr-at-eol
+/docs/validation/m5-city4-conditional-end-source-20261024-v58*.gz -text
+/docs/validation/m5-city4-conditional-end-source-20261024-v58*.sav -text
+/docs/validation/m5-city4-conditional-end-source-20261024-v58*.png -text
